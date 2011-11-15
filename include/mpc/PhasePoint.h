@@ -3,7 +3,7 @@
 
 #include "ThreeVector.h"
 #include <limits>
-
+namespace mpc {
 class PhasePoint {
 public:
 	Hep3Vector a, b;
@@ -40,8 +40,8 @@ public:
 	}
 
 	PhasePoint abs() const {
-		Hep3Vector abs_a( fabs(a.x()), fabs(a.y()), fabs(a.z()) );
-		Hep3Vector abs_b( fabs(b.x()), fabs(b.y()), fabs(b.z()) );
+		Hep3Vector abs_a(fabs(a.x()), fabs(a.y()), fabs(a.z()));
+		Hep3Vector abs_b(fabs(b.x()), fabs(b.y()), fabs(b.z()));
 		return PhasePoint(abs_a, abs_b);
 	}
 
@@ -56,5 +56,6 @@ public:
 		return m;
 	}
 };
+} // namespace mpc
 
 #endif /* PHASEPOINT_H_ */

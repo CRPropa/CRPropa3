@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "DeflectionCK.h"
+#include "mpc/DeflectionCK.h"
 
 
 TEST(testDeflectionCK, cashKarpCoefficients) {
@@ -8,19 +8,19 @@ TEST(testDeflectionCK, cashKarpCoefficients) {
 
 	sum = 0;
 	for (size_t i=0; i<6; i++)
-		sum += cash_karp_b[i];
+		sum += mpc::cash_karp_b[i];
 	EXPECT_DOUBLE_EQ(1, sum);
 
 	sum = 0;
 	for (size_t i=0; i<6; i++)
-		sum += cash_karp_bs[i];
+		sum += mpc::cash_karp_bs[i];
 	EXPECT_DOUBLE_EQ(1, sum);
 
 	for (size_t j=0; j<6; j++) {
 		sum = 0;
 		for (size_t i=0; i<5; i++)
-			sum += cash_karp_a[i+j*5];
-		EXPECT_DOUBLE_EQ(cash_karp_c[j], sum);
+			sum += mpc::cash_karp_a[i+j*5];
+		EXPECT_DOUBLE_EQ(mpc::cash_karp_c[j], sum);
 	}
 
 }

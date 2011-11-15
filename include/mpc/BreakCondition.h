@@ -7,7 +7,7 @@
 
 #ifndef BREAKCONDITION_H_
 #define BREAKCONDITION_H_
-
+namespace mpc {
 class MaximumTrajectoryLength {
 public:
 	double maxLength;
@@ -16,9 +16,9 @@ public:
 		this->maxLength = maxLength;
 	}
 
-	void apply(Particle &particle) {
-		if (particle.getTrajectoryLength() >= maxLength)
-			particle.setStatus(1);
+	void apply(Candidate &candidate) {
+		if (candidate.getTrajectoryLength() >= maxLength)
+			candidate.setStatus(Candidate::AboveMaxTime);
 	}
 };
 
@@ -30,11 +30,11 @@ public:
 		this->minEnergy = minEnergy;
 	}
 
-	void apply(Particle &particle) {
-		if (particle.getEnergy() <= minEnergy)
-			particle.setStatus(1);
+	void apply(Candidate &candidate) {
+		if (candidate.current.getEnergy() <= minEnergy)
+			candidate.setStatus(Candidate::BelowEnergyThreshold);
 	}
 };
-
+} // namespace mpc
 
 #endif /* BREAKCONDITION_H_ */

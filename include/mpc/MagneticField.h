@@ -3,7 +3,7 @@
 #define MAGNETICFIELD_H_
 
 #include "ThreeVector.h"
-
+namespace mpc {
 class MagneticField {
 public:
 	virtual Hep3Vector getField(const Hep3Vector &position) const = 0;
@@ -23,5 +23,6 @@ public:
 private:
 	Hep3Vector value;
 };
+} // namespace mpc
 
 #endif /* MAGNETICFIELD_H_ */

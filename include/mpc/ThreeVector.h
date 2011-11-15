@@ -27,6 +27,8 @@
 
 #include <iostream>
 
+namespace mpc {
+
 class HepRotation;
 class HepEulerAngles;
 class HepAxisAngle;
@@ -439,6 +441,8 @@ inline double operator *(const Hep3Vector &, const Hep3Vector &);
 inline Hep3Vector operator *(const Hep3Vector &, double a);
 inline Hep3Vector operator *(double a, const Hep3Vector &);
 // Scaling of 3-vectors with a real number
+
+} // namespace mpc
 
 #include "ThreeVector.icc"
 

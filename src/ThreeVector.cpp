@@ -14,12 +14,13 @@
 #pragma implementation
 #endif
 
-#include "ThreeVector.h"
-#include "PhysicalConstants.h"
+#include "mpc/ThreeVector.h"
+#include "mpc/PhysicalConstants.h"
 
 #include <cmath>
 #include <iostream>
 
+namespace mpc {
 void Hep3Vector::setMag(double ma) {
   double factor = mag();
   if (factor == 0) {
@@ -165,10 +166,10 @@ double Hep3Vector::howNear(const Hep3Vector & v ) const {
 
 double Hep3Vector::deltaPhi  (const Hep3Vector & v2) const {
   double dphi = v2.getPhi() - getPhi();
-  if ( dphi > ::pi ) {
-    dphi -= ::twopi;
-  } else if ( dphi <= -::pi ) {
-    dphi += ::twopi;
+  if ( dphi > pi ) {
+    dphi -= twopi;
+  } else if ( dphi <= -pi ) {
+    dphi += twopi;
   }
   return dphi;
 } /* deltaPhi */
@@ -248,7 +249,7 @@ void Hep3Vector::setCylTheta (double theta) {
       dz = fabs(dz);
       return;
     }
-    if (theta == ::pi) {
+    if (theta == pi) {
       dz = -fabs(dz);
       return;
     }
@@ -259,14 +260,14 @@ void Hep3Vector::setCylTheta (double theta) {
     dz = 0;
     return;
   }
-  if ( (theta < 0) || (theta > ::pi) ) {
+  if ( (theta < 0) || (theta > pi) ) {
 	  std::cerr <<
       "Setting Cyl theta of a vector based on a value not in [0, PI]" << std::endl;
         // No special return needed if warning is ignored.
   }
   double phi (getPhi());
   double rho = getRho();
-  if ( (theta == 0) || (theta == ::pi) ) {
+  if ( (theta == 0) || (theta == pi) ) {
 	  std::cerr <<
       "Attempt to set cylindrical theta to 0 or PI "
       "while keeping rho fixed -- infinite Z will be computed" << std::endl;
@@ -300,7 +301,7 @@ void Hep3Vector::setCylEta (double eta) {
       dz = fabs(dz);
       return;
     }
-    if (theta == ::pi) {
+    if (theta == pi) {
       dz = -fabs(dz);
       return;
     }
@@ -346,3 +347,5 @@ Hep3Vector & Hep3Vector::operator/= (double c) {
 }
 
 double Hep3Vector::tolerance = Hep3Vector::ToleranceTicks * 2.22045e-16;
+
+} // namespace mpc

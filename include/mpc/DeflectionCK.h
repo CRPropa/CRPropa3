@@ -6,8 +6,8 @@
 #include "ThreeVector.h"
 #include "MagneticField.h"
 #include "PhasePoint.h"
-
-
+#include "Units.h"
+namespace mpc {
 /**
  * @class LorentzF
  * @brief Time-derivative of phase-point (position, momentum) -> (velocity, force)
@@ -51,11 +51,11 @@ public:
 		this->tolerance = tolerance;
 	}
 
-	void apply(Particle &particle, MagneticField &field) {
+	void apply(Candidate &candidate, MagneticField &field) {
 
-		PhasePoint yIn(particle.getPosition(), particle.getMomentum()), yOut, yErr, yScale;
-		LorentzF dydt(&particle, &field);
-		double hNext = particle.getNextStep()/c_light, hTry, r;
+		PhasePoint yIn(candidate.current.getPosition(), candidate.current.getMomentum()), yOut, yErr, yScale;
+		LorentzF dydt(&candidate.current, &field);
+		double hNext = candidate.getNextStep()/c_light, hTry, r;
 
 		// phase-point to compare with error for step size control
 		yScale = (yIn.abs() + dydt(0., yIn).abs() * hNext) * tolerance;
@@ -100,13 +100,14 @@ public:
 		}
 		while (r > 1);
 
-		particle.setPosition(yOut.a);
-		particle.setDirection(yOut.b.unit());
-		particle.setStep(hTry*c_light);
-		particle.setNextStep(hNext*c_light);
+		candidate.current.setPosition(yOut.a);
+		candidate.current.setDirection(yOut.b.unit());
+		candidate.setLastStep(hTry*c_light);
+		candidate.setNextStep(hNext*c_light);
 	}
 
 };
+} // namespace mpc
 
 #endif /* DEFLECTION_H_ */
 

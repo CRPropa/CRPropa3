@@ -44,6 +44,7 @@
 #ifndef HEP_SYSTEM_OF_UNITS_H
 #define HEP_SYSTEM_OF_UNITS_H
 
+namespace mpc {
 //
 // Length [L]
 //
@@ -284,5 +285,7 @@ static const double lux = lumen / meter2;
 static const double perCent = 0.01;
 static const double perThousand = 0.001;
 static const double perMillion = 0.000001;
+
+} // namespace mpc
 
 #endif /* HEP_SYSTEM_OF_UNITS_H */

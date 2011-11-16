@@ -25,68 +25,8 @@ public:
 	void step(double t, const Y &initial, Y &result, double stepsize, F &f);
 	void step(double t, const Y &initial, Y &result, Y &error, double stepsize,
 			F &f);
-	void setA(const std::string &str);
-	void setB(const std::string &str);
-	void setBs(const std::string &str);
-	void setC(const std::string &str);
 	void loadCashKarp();
 };
-
-template<class Y>
-inline void ExplicitRungeKutta<Y>::setA(const std::string &str) {
-	std::istringstream ss(str);
-	int i = 0;
-	int v;
-	while ((ss >> v) && i < (s * s)) {
-		a.push_back(v);
-		i++;
-	}
-
-	if (i != (s * s))
-		throw std::runtime_error("wrong number of values for a");
-}
-
-template<class Y>
-inline void ExplicitRungeKutta<Y>::setB(const std::string &str) {
-	std::stringstream ss(str);
-	int i = 0;
-	double v;
-	while (ss >> v && i < s) {
-		b.push_back(v);
-		i++;
-	}
-
-	if (i != s)
-		throw std::runtime_error("wrong number of values for b");
-}
-
-template<class Y>
-inline void ExplicitRungeKutta<Y>::setBs(const std::string &str) {
-	std::stringstream ss(str);
-	int i = 0;
-	double v;
-	while (ss >> v && i < s) {
-		bs.push_back(v);
-		i++;
-	}
-
-	if (i != s)
-		throw std::runtime_error("wrong number of values for b");
-}
-
-template<class Y>
-inline void ExplicitRungeKutta<Y>::setC(const std::string &str) {
-	std::stringstream ss(str);
-	int i = 0;
-	double v;
-	while (ss >> v && i < s) {
-		c.push_back(v);
-		i++;
-	}
-
-	if (i != s)
-		throw std::runtime_error("wrong number of values for c");
-}
 
 template<class Y>
 inline void ExplicitRungeKutta<Y>::step(double t, const Y &y, Y &result,

@@ -2,7 +2,6 @@
 #define PHASEPOINT_H_
 
 #include "ThreeVector.h"
-#include <limits>
 
 class PhasePoint {
 public:
@@ -43,17 +42,6 @@ public:
 		Hep3Vector abs_a( fabs(a.x()), fabs(a.y()), fabs(a.z()) );
 		Hep3Vector abs_b( fabs(b.x()), fabs(b.y()), fabs(b.z()) );
 		return PhasePoint(abs_a, abs_b);
-	}
-
-	double getMaxRatio(const PhasePoint &rel) {
-		double m = -std::numeric_limits<double>::infinity();
-		m = std::max(m, fabs(a.x() / rel.a.x()));
-		m = std::max(m, fabs(a.y() / rel.a.y()));
-		m = std::max(m, fabs(a.z() / rel.a.z()));
-		m = std::max(m, fabs(b.x() / rel.b.x()));
-		m = std::max(m, fabs(b.y() / rel.b.y()));
-		m = std::max(m, fabs(b.z() / rel.b.z()));
-		return m;
 	}
 };
 

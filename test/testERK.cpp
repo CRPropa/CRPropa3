@@ -3,41 +3,58 @@
 #include "PhasePoint.h"
 #include <iostream>
 
-const double GM = 6.674e-11*5.974e24;
-const double vr = 3075;
-const double radius = 42157e3;
+TEST(testDeflectionCK, cashKarpCoefficients) {
+	// Runge-Kutta coefficients have to add up to 1 in every row of the Butcher table
+	double sum;
+
+	sum = 0;
+	for (size_t i = 0; i < 6; i++)
+		sum += cash_karp_b[i];
+	EXPECT_DOUBLE_EQ(1, sum);
+
+	sum = 0;
+	for (size_t i = 0; i < 6; i++)
+		sum += cash_karp_bs[i];
+	EXPECT_DOUBLE_EQ(1, sum);
+
+	for (size_t j = 0; j < 6; j++) {
+		sum = 0;
+		for (size_t i = 0; i < 5; i++)
+			sum += cash_karp_a[i + j * 5];
+		EXPECT_DOUBLE_EQ(cash_karp_c[j], sum);
+	}
+}
 
 class CentralPotential: public ExplicitRungeKutta<PhasePoint>::F {
 public:
-
 	PhasePoint operator()(double t, const PhasePoint &v) {
-		Hep3Vector acceleration = - v.a.unit() * GM / v.a.mag2();
+		double GM = 3.986004418e14; // gravitational constant * mass of earth
+		Hep3Vector acceleration = -v.a.unit() * GM / v.a.mag2();
 		return PhasePoint(v.b, acceleration);
 	}
 };
 
-//TEST(erkTest, cashCarpCoefficients) {
-//	for (size_t i=0; i<6, i++) {
-//		cash_karp_a[i];
-//	}
-//}
-
-TEST(erkTest, position) {
-	PhasePoint p(Hep3Vector(radius,0,0), Hep3Vector(0,vr,0)), pOut, pErr;
+TEST(erkTest, geoStationaryOrbit) {
+	double siderialDay = 86164.0954; // siderial day in seconds
+	double GM = 3.986004418e14; // gravitational constant * mass of earth
+	double f = 2*3.14159/siderialDay; // angular frequency
+	double r = pow(GM/(f*f), 1./3.); // radius
+	double v = r*f; // radial velocity
 	ExplicitRungeKutta<PhasePoint> erk;
 	erk.loadCashKarp();
-	CentralPotential f;
-	for (size_t i = 0; i<24; i++) {
-		pErr.a = Hep3Vector(0,0,0);
-		erk.step(0, p, pOut, pErr, 1, f); // step of 1 second
-		std::cout << pErr.a/1000 << ", " << pErr.b << std::endl;
-		p = pOut;
+	PhasePoint y(Hep3Vector(r, 0, 0), Hep3Vector(0, v, 0)), yOut, yErr;
+	CentralPotential dydt;
+
+	double step = 100; // time step in seconds
+	for (size_t i = 0; i < int(siderialDay/step); i++) {
+		erk.step(0, y, yOut, yErr, step, dydt); // step of 1 second
+		y = yOut;
+		std::cout << y.a.x() << "," << y.a.y() << "," << y.a.z() << std::endl;
+//		std::cout << y.a << ", " << y.b << std::endl;
 	}
-	std::cout << p.a/1000 << ", " << p.b << std::endl;
 }
 
-
 int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

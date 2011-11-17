@@ -446,4 +446,5 @@ inline Hep3Vector operator *(double a, const Hep3Vector &);
 
 #include "ThreeVector.icc"
 
+
 #endif /* HEP_THREEVECTOR_H */

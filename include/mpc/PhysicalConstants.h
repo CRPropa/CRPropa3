@@ -41,7 +41,6 @@
 
 #include "mpc/SystemOfUnits.h"
 
-namespace mpc{
 
 //
 //
@@ -129,7 +128,6 @@ static const double kGasThreshold = 10. * mg / cm3;
 //
 static const double universe_mean_density = 1.e-25 * g / cm3;
 
-} // namespace mpc
 
 #endif /* HEP_PHYSICAL_CONSTANTS_H */
 

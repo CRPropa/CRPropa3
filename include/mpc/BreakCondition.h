@@ -1,13 +1,11 @@
-/*
- * BreakCondition.h
- *
- *  Created on: Nov 11, 2011
- *      Author: walz
- */
-
 #ifndef BREAKCONDITION_H_
 #define BREAKCONDITION_H_
+
+#include "mpc/Candidate.h"
+#include "mpc/Particle.h"
+
 namespace mpc {
+
 class MaximumTrajectoryLength {
 public:
 	double maxLength;
@@ -18,7 +16,7 @@ public:
 
 	void apply(Candidate &candidate) {
 		if (candidate.getTrajectoryLength() >= maxLength)
-			candidate.setStatus(Candidate::AboveMaxTime);
+			candidate.setStatus(Candidate::ReachedMaxTime);
 	}
 };
 

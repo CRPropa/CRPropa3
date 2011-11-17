@@ -28,3 +28,24 @@ add_test(test1 testParticle)
 add_executable(testDeflectionCK test/testDeflectionCK.cpp)
 target_link_libraries(testDeflectionCK libppropa ${GTEST_BOTH_LIBRARIES} pthread)
 add_test(test2 testDeflectionCK)
+
+#INCLUDE (Python.cmake)
+#include_directories(${PYTHON_INCLUDE_PATH})
+
+#FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
+#message("Includes: ${MPC_INCLUDES}")
+#SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py PROPERTIES GENERATED true )
+#ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py
+#                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/genbindings.py ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py ${CMAKE_SOURCE_DIR}/include ${MPC_INCLUDES}
+#                DEPENDS ${CMAKE_SOURCE_DIR}/python/genbindings.py ${MPC_INCLUDES} )
+
+
+#SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc.cpp PROPERTIES GENERATED true )
+#ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc.cpp
+#                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py > ${CMAKE_CURRENT_BINARY_DIR}/mpc.cpp
+#                DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py )
+                
+#add_library(mpc_python MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc.cpp)
+#set_target_properties(mpc_python PROPERTIES PREFIX "")
+#set_target_properties(mpc_python PROPERTIES OUTPUT_NAME "mpc") 
+#target_link_libraries(mpc_python libppropa ${PYTHON_LIBRARIES})

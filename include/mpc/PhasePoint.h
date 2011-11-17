@@ -1,9 +1,12 @@
 #ifndef PHASEPOINT_H_
 #define PHASEPOINT_H_
 
-#include "ThreeVector.h"
+#include "mpc/ThreeVector.h"
+
 #include <limits>
+
 namespace mpc {
+
 class PhasePoint {
 public:
 	Hep3Vector a, b;

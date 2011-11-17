@@ -16,6 +16,7 @@ public:
 		ObserverNotReachable
 	};
 
+	Particle last;
 	Particle current;
 	Particle initial;
 	Candidate *parent;
@@ -23,6 +24,7 @@ public:
 	Candidate();
 
 	double getTrajectoryLength() const;
+	void setTrajectoryLength(double a);
 
 	double getLastStep() const;
 	void setLastStep(double lstep);
@@ -40,7 +42,6 @@ private:
 
 Candidate::Candidate() :
 		parent(0), age(0), lastStep(0), nextStep(0), status(Active) {
-
 }
 
 double Candidate::getTrajectoryLength() const {
@@ -57,6 +58,10 @@ double Candidate::getNextStep() const {
 
 Candidate::Status Candidate::getStatus() const {
 	return status;
+}
+
+void Candidate::setTrajectoryLength(double a) {
+	age = a;
 }
 
 void Candidate::setLastStep(double lstep) {

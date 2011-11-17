@@ -12,7 +12,9 @@
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
+
 namespace mpc {
+
 template<class Y>
 class ExplicitRungeKutta {
 public:
@@ -105,6 +107,7 @@ inline void ExplicitRungeKutta<Y>::loadCashKarp() {
 	bs.assign(cash_karp_bs, cash_karp_bs + 6);
 	c.assign(cash_karp_c, cash_karp_c + 6);
 }
+
 } // namespace mpc
 
 #endif /* EXPLICITRUNGEKUTTA_H_ */

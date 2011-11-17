@@ -1,7 +1,10 @@
 #include "gtest/gtest.h"
-#include "ExplicitRungeKutta.h"
-#include "PhasePoint.h"
+#include "mpc/ExplicitRungeKutta.h"
+#include "mpc/PhasePoint.h"
 #include <iostream>
+
+
+namespace mpc {
 
 TEST(testERK, cashKarpCoefficients) {
 	// Runge-Kutta coefficients have to add up to 1 in every row of the Butcher table
@@ -58,3 +61,5 @@ int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
+
+} // namespace mpc

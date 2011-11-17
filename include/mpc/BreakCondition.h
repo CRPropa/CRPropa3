@@ -33,6 +33,7 @@ public:
 			candidate.setStatus(Candidate::BelowEnergyThreshold);
 	}
 };
+
 } // namespace mpc
 
 #endif /* BREAKCONDITION_H_ */

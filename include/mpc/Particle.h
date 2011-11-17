@@ -21,8 +21,8 @@ public:
 	double getEnergy() const;
 	void setEnergy(double newEnergy);
 
-	void setPosition(const Hep3Vector &pos);
 	const Hep3Vector &getPosition() const;
+	void setPosition(const Hep3Vector &pos);
 
 	const Hep3Vector &getDirection() const;
 	void setDirection(const Hep3Vector &dir);
@@ -36,7 +36,7 @@ public:
 	Type getType();
 	void setType(Type t);
 
-	// convinience
+	// convenience
 	double getLorentzFactor() const;
 	Hep3Vector getVelocity() const;
 	Hep3Vector getMomentum() const;

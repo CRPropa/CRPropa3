@@ -58,10 +58,9 @@ public:
 	}
 
 	void apply(Candidate &candidate, MagneticField &field) {
-
 		PhasePoint yIn(candidate.current.getPosition(),
 				candidate.current.getMomentum()), yOut, yErr, yScale;
-		LorentzF dydt(&candidate.current, &field);
+		LorentzForce dydt(&candidate.current, &field);
 		double hNext = candidate.getNextStep() / c_light, hTry, r;
 
 		// phase-point to compare with error for step size control
@@ -98,10 +97,10 @@ public:
 			}
 
 			// for efficient integration try to keep r close to one
-			nextStep *= 0.95 * pow(r, -0.2);
+			hNext *= 0.95 * pow(r, -0.2);
 			// limit step change
-			nextStep = std::max(nextStep, 0.1 * step);
-			nextStep = std::min(nextStep, 5 * step);
+			hNext = std::max(hNext, 0.1 * hTry);
+			hNext = std::min(hNext, 5 * hTry);
 		} while (r > 1);
 
 		candidate.current.setPosition(yOut.a);

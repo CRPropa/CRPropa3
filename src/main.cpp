@@ -26,7 +26,7 @@ int main() {
 	mpc::Candidate candidate;
 	candidate.current = initial;
 	candidate.initial = initial;
-	candidate.setNextStep(0.05 * mpc::Mpc);
+	candidate.setNextStep(0.05 * Mpc);
 
 	mpc::HomogeneousMagneticField field(mpc::Hep3Vector(0., 0., 1e-13)); // 1nG perpendicular to p
 	mpc::DeflectionCK deflection(mpc::DeflectionCK::WorstOffender, 5e-5);
@@ -34,10 +34,6 @@ int main() {
 	mpc::MaximumTrajectoryLength maxTrajLength(10 * Mpc);
 
 	for (int i = 0; i < 800; i++) {
-//		std::cout << "step:  " << particle.getStep()
-//			<< ", position (Mpc):  " << particle.getPositionMpc()
-//			<< ", momentum (EeV/c):  " << particle.getMomentum() / EeV
-//			<< ", check  " << particle.getDirection().mag() << std::endl;
 		std::cout << candidate.getNextStep() / Mpc << ", ";
 		std::cout << candidate.current.getPosition().x() / Mpc << ","
 				<< candidate.current.getPosition().y() / Mpc << ","

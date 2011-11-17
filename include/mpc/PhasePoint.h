@@ -48,6 +48,7 @@ public:
 		return PhasePoint(abs_a, abs_b);
 	}
 };
+
 } // namespace mpc
 
 #endif /* PHASEPOINT_H_ */

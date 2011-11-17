@@ -3,7 +3,7 @@
 #include "PhasePoint.h"
 #include <iostream>
 
-TEST(testDeflectionCK, cashKarpCoefficients) {
+TEST(testERK, cashKarpCoefficients) {
 	// Runge-Kutta coefficients have to add up to 1 in every row of the Butcher table
 	double sum;
 

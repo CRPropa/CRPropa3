@@ -15,7 +15,7 @@
 // ------------------
 
 // x, y, z
-
+namespace mpc {
 inline double & Hep3Vector::operator[](int i) {
 	return operator()(i);
 }
@@ -343,3 +343,4 @@ inline Hep3Vector Hep3Vector::orthogonal() const {
 	}
 }
 
+} // namespace mpc

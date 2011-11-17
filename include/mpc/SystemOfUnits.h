@@ -64,6 +64,8 @@ static const double kilometer2 = kilometer * kilometer;
 static const double kilometer3 = kilometer * kilometer * kilometer;
 
 static const double parsec = 3.0856775807e+16 * meter;
+static const double kiloparsec = 1000. * parsec;
+static const double megaparsec = 1000. * kiloparsecparsec;
 
 static const double micrometer = 1.e-6 * meter;
 static const double nanometer = 1.e-9 * meter;
@@ -97,7 +99,8 @@ static const double km2 = kilometer2;
 static const double km3 = kilometer3;
 
 static const double pc = parsec;
-static const double Mpc = 1.e6 * parsec;
+static const double kpc = kiloparsec;
+static const double Mpc = megaparsec;
 
 //
 // Angle

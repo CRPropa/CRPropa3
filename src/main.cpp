@@ -1,37 +1,51 @@
+#include "mpc/Particle.h"
+#include "mpc/DeflectionCK.h"
+#include "mpc/BreakCondition.h"
+#include "mpc/ThreeVector.h"
 
-#include "Particle.h"
-#include "DeflectionCK.h"
-#include "BreakCondition.h"
+class Feature {
+
+};
+
+class Propagation {
+public:
+};
+
+using mpc::Mpc;
 
 int main() {
+	Propagation propa;
 
-	Particle particle;
-	particle.setChargeMassNumber(1,1);
-	particle.setStepMpc(0.05);
-	particle.setNextStepMpc(0.05);
-	particle.setPositionMpc(Hep3Vector(-1.08,0.,0.));
-	particle.setDirection(Hep3Vector(0.,1.,0.));
-	particle.setEnergyEeV(1);
+	mpc::Particle initial;
+	initial.setPosition(mpc::Hep3Vector(-1.08, 0., 0.) * Mpc);
+	initial.setChargeNumber(1);
+	initial.setMass(1 * mpc::amu);
+	initial.setDirection(mpc::Hep3Vector(0., 1., 0.));
+	initial.setEnergy(1 * mpc::EeV);
 
-	HomogeneousMagneticField field(Hep3Vector(0., 0., 1e-13)); // 1nG perpendicular to p
-	DeflectionCK deflection(DeflectionCK::WorstOffender, 5e-5);
+	mpc::Candidate candidate;
+	candidate.current = initial;
+	candidate.initial = initial;
+	candidate.setNextStep(0.05 * mpc::Mpc);
 
-	MaximumTrajectoryLength maxTrajLength(10*Mpc);
+	mpc::HomogeneousMagneticField field(mpc::Hep3Vector(0., 0., 1e-13)); // 1nG perpendicular to p
+	mpc::DeflectionCK deflection(mpc::DeflectionCK::WorstOffender, 5e-5);
+
+	mpc::MaximumTrajectoryLength maxTrajLength(10 * Mpc);
 
 	for (int i = 0; i < 800; i++) {
 //		std::cout << "step:  " << particle.getStep()
 //			<< ", position (Mpc):  " << particle.getPositionMpc()
 //			<< ", momentum (EeV/c):  " << particle.getMomentum() / EeV
 //			<< ", check  " << particle.getDirection().mag() << std::endl;
-		std::cout << particle.getStepMpc() << ", ";
-		std::cout << particle.getPositionMpc().x() << ","
-				  << particle.getPositionMpc().y() << ","
-				  << particle.getPositionMpc().z() << std::endl;
-		deflection.apply(particle, field);
-		maxTrajLength.apply(particle);
+		std::cout << candidate.getNextStep() / Mpc << ", ";
+		std::cout << candidate.current.getPosition().x() / Mpc << ","
+				<< candidate.current.getPosition().y() / Mpc << ","
+				<< candidate.current.getPosition().z() / Mpc << std::endl;
+		deflection.apply(candidate, field);
+		maxTrajLength.apply(candidate);
 	}
 
 	return 0;
 }
-
 

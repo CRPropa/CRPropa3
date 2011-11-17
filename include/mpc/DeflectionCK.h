@@ -1,15 +1,18 @@
 #ifndef DEFLECTION_H_
 #define DEFLECTION_H_
 
-#include "Particle.h"
-#include "ExplicitRungeKutta.h"
-#include "ThreeVector.h"
-#include "MagneticField.h"
-#include "PhasePoint.h"
-#include <limits>
+#include "mpc/Particle.h"
+#include "mpc/Candidate.h"
+#include "mpc/ExplicitRungeKutta.h"
+#include "mpc/ThreeVector.h"
+#include "mpc/MagneticField.h"
+#include "mpc/PhasePoint.h"
+#include "mpc/Units.h"
+
+namespace mpc {
 
 /**
- * @class LorentzF
+ * @class LorentzForce
  * @brief Time-derivative in SI-units of phase-point
  * (position, momentum) -> (velocity, force)
  * of a highly relativistic charged particle in magnetic field.
@@ -27,7 +30,8 @@ public:
 	PhasePoint operator()(double t, const PhasePoint &v) {
 		Hep3Vector velocity = v.b.unit() * c_light;
 		Hep3Vector B = field->getField(v.a);
-		Hep3Vector force = (double) particle->getCharge() * velocity.cross(B);
+		Hep3Vector force = (double) particle->getChargeNumber() * eplus
+				* velocity.cross(B);
 		return PhasePoint(velocity, force);
 	}
 };
@@ -53,18 +57,21 @@ public:
 		this->tolerance = tolerance;
 	}
 
-	void apply(Particle &particle, MagneticField &field) {
-		LorentzForce dydt(&particle, &field);
-		PhasePoint yIn(particle.getPosition(), particle.getMomentum());
-		PhasePoint yOut, yErr, yScale;
-		double nextStep = particle.getNextStep() / c_light;
-		double step, r;
+	void apply(Candidate &candidate, MagneticField &field) {
 
-		yScale = (yIn.abs() + dydt(0., yIn).abs() * nextStep) * tolerance;
+		PhasePoint yIn(candidate.current.getPosition(),
+				candidate.current.getMomentum()), yOut, yErr, yScale;
+		LorentzF dydt(&candidate.current, &field);
+		double hNext = candidate.getNextStep() / c_light, hTry, r;
+
+		// phase-point to compare with error for step size control
+		yScale = (yIn.abs() + dydt(0., yIn).abs() * hNext) * tolerance;
 
 		do {
-			step = nextStep;
-			erk.step(0, yIn, yOut, yErr, step, dydt);
+			hTry = hNext;
+			erk.step(0, yIn, yOut, yErr, hTry, dydt);
+
+//			erk.step(0, yIn, yOut, hTry);
 
 			if (controlType == NoStepSizeControl) {
 				// no step size control
@@ -97,13 +104,15 @@ public:
 			nextStep = std::min(nextStep, 5 * step);
 		} while (r > 1);
 
-		particle.setPosition(yOut.a);
-		particle.setDirection(yOut.b.unit());
-		particle.setStep(step * c_light);
-		particle.setNextStep(nextStep * c_light);
+		candidate.current.setPosition(yOut.a);
+		candidate.current.setDirection(yOut.b.unit());
+		candidate.setLastStep(hTry * c_light);
+		candidate.setNextStep(hNext * c_light);
 	}
 
 };
+
+} /* namespace mpc */
 
 #endif /* DEFLECTION_H_ */
 

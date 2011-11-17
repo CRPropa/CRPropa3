@@ -1,7 +1,11 @@
 #ifndef PHASEPOINT_H_
 #define PHASEPOINT_H_
 
-#include "ThreeVector.h"
+#include "mpc/ThreeVector.h"
+
+#include <limits>
+
+namespace mpc {
 
 class PhasePoint {
 public:
@@ -44,5 +48,6 @@ public:
 		return PhasePoint(abs_a, abs_b);
 	}
 };
+} // namespace mpc
 
 #endif /* PHASEPOINT_H_ */

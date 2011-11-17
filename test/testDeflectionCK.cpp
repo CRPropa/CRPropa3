@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
-#include "DeflectionCK.h"
+#include "mpc/DeflectionCK.h"
+
 
 
 //TEST(testDeflectionCK, noBfield) {

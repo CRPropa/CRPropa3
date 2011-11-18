@@ -23,7 +23,7 @@ add_executable(mpc
     src/main.cpp
 )
 
-TARGET_LINK_LIBRARIES(mpc ${GADGET_LIBS} libmpc)
+TARGET_LINK_LIBRARIES(mpc ${GADGET_LIBS} libmpc glut GLU)
 
 # gtest
 enable_testing()

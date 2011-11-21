@@ -1,26 +1,28 @@
 #ifndef MAGNETICFIELD_H_
 #define MAGNETICFIELD_H_
 
-#include "mpc/ThreeVector.h"
+#include "mpc/Vector3.h"
 #include "mpc/Units.h"
 
-namespace mpc{
+namespace mpc {
 
 class MagneticField {
 public:
-	virtual Hep3Vector getField(const Hep3Vector &position) const = 0;
+	virtual ~MagneticField() {
+	}
+	virtual Vector3 getField(const Vector3 &position) const = 0;
 };
 
 class HomogeneousMagneticField: public MagneticField {
 public:
-	HomogeneousMagneticField(const Hep3Vector &value) :
+	HomogeneousMagneticField(const Vector3 &value) :
 			value(value) {
 	}
-	Hep3Vector getField(const Hep3Vector &position) const {
+	Vector3 getField(const Vector3 &position) const {
 		return value;
 	}
 private:
-	Hep3Vector value;
+	Vector3 value;
 };
 
 } // namespace mpc

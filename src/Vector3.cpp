@@ -14,14 +14,14 @@
 #pragma implementation
 #endif
 
-#include "mpc/ThreeVector.h"
+#include "mpc/Vector3.h"
 #include "mpc/PhysicalConstants.h"
 
 #include <cmath>
 #include <iostream>
 
 namespace mpc {
-void Hep3Vector::setMag(double ma) {
+void Vector3::setMag(double ma) {
   double factor = mag();
   if (factor == 0) {
     std::cerr << "Hep3Vector::setMag : zero vector can't be stretched" << std::endl;
@@ -33,7 +33,7 @@ void Hep3Vector::setMag(double ma) {
   }
 }
 
-double Hep3Vector::operator () (int i) const {
+double Vector3::operator () (int i) const {
   switch(i) {
   case X:
     return x();
@@ -48,7 +48,7 @@ double Hep3Vector::operator () (int i) const {
   return 0.;
 }
 
-double & Hep3Vector::operator () (int i) {
+double & Vector3::operator () (int i) {
   static double dummy;
   switch(i) {
   case X:
@@ -65,7 +65,7 @@ double & Hep3Vector::operator () (int i) {
   }
 }
 
-Hep3Vector & Hep3Vector::rotateUz(const Hep3Vector& NewUzVector) {
+Vector3 & Vector3::rotateUz(const Vector3& NewUzVector) {
   // NewUzVector must be normalized !
 
   double u1 = NewUzVector.x();
@@ -85,7 +85,7 @@ Hep3Vector & Hep3Vector::rotateUz(const Hep3Vector& NewUzVector) {
   return *this;
 }
 
-double Hep3Vector::pseudoRapidity() const {
+double Vector3::pseudoRapidity() const {
   double m = mag();
   if ( m==  0   ) return  0.0;   
   if ( m==  z() ) return  1.0E72;
@@ -93,11 +93,11 @@ double Hep3Vector::pseudoRapidity() const {
   return 0.5*log( (m+z())/(m-z()) );
 }
 
-std::ostream & operator<< (std::ostream & os, const Hep3Vector & v) {
+std::ostream & operator<< (std::ostream & os, const Vector3 & v) {
   return os << "(" << v.x() << "," << v.y() << "," << v.z() << ")";
 }
 
-std::istream & operator>>(std::istream & is, Hep3Vector & v) {
+std::istream & operator>>(std::istream & is, Vector3 & v) {
   double x, y, z;
   is >> x;
   is >> y;
@@ -106,9 +106,9 @@ std::istream & operator>>(std::istream & is, Hep3Vector & v) {
   return  is;
 }  // operator>>()
 
-const Hep3Vector HepXHat(1.0, 0.0, 0.0);
-const Hep3Vector HepYHat(0.0, 1.0, 0.0);
-const Hep3Vector HepZHat(0.0, 0.0, 1.0);
+const Vector3 HepXHat(1.0, 0.0, 0.0);
+const Vector3 HepYHat(0.0, 1.0, 0.0);
+const Vector3 HepZHat(0.0, 0.0, 1.0);
 
 //-------------------
 //
@@ -116,7 +116,7 @@ const Hep3Vector HepZHat(0.0, 0.0, 1.0);
 //
 //-------------------
 
-Hep3Vector & Hep3Vector::rotateX (double phi) {
+Vector3 & Vector3::rotateX (double phi) {
   double sinphi = sin(phi);
   double cosphi = cos(phi);
   double ty;
@@ -126,7 +126,7 @@ Hep3Vector & Hep3Vector::rotateX (double phi) {
   return *this;
 } /* rotateX */
 
-Hep3Vector & Hep3Vector::rotateY (double phi) {
+Vector3 & Vector3::rotateY (double phi) {
   double sinphi = sin(phi);
   double cosphi = cos(phi);
   double tz;
@@ -136,7 +136,7 @@ Hep3Vector & Hep3Vector::rotateY (double phi) {
   return *this;
 } /* rotateY */
 
-Hep3Vector & Hep3Vector::rotateZ (double phi) {
+Vector3 & Vector3::rotateZ (double phi) {
   double sinphi = sin(phi);
   double cosphi = cos(phi);
   double tx;
@@ -146,12 +146,12 @@ Hep3Vector & Hep3Vector::rotateZ (double phi) {
   return *this;
 } /* rotateZ */
 
-bool Hep3Vector::isNear(const Hep3Vector & v, double epsilon) const {
+bool Vector3::isNear(const Vector3 & v, double epsilon) const {
   double limit = dot(v)*epsilon*epsilon;
   return ( (*this - v).mag2() <= limit );
 } /* isNear() */
 
-double Hep3Vector::howNear(const Hep3Vector & v ) const {
+double Vector3::howNear(const Vector3 & v ) const {
   // | V1 - V2 | **2  / V1 dot V2, up to 1
   double d   = (*this - v).mag2();
   double vdv = dot(v);
@@ -164,7 +164,7 @@ double Hep3Vector::howNear(const Hep3Vector & v ) const {
   }
 } /* howNear */
 
-double Hep3Vector::deltaPhi  (const Hep3Vector & v2) const {
+double Vector3::deltaPhi  (const Vector3 & v2) const {
   double dphi = v2.getPhi() - getPhi();
   if ( dphi > pi ) {
     dphi -= twopi;
@@ -174,13 +174,13 @@ double Hep3Vector::deltaPhi  (const Hep3Vector & v2) const {
   return dphi;
 } /* deltaPhi */
 
-double Hep3Vector::deltaR ( const Hep3Vector & v ) const {
+double Vector3::deltaR ( const Vector3 & v ) const {
   double a = eta() - v.eta();
   double b = deltaPhi(v); 
   return sqrt ( a*a + b*b );
 } /* deltaR */
 
-double Hep3Vector::cosTheta(const Hep3Vector & q) const {
+double Vector3::cosTheta(const Vector3 & q) const {
   double arg;
   double ptot2 = mag2()*q.mag2();
   if(ptot2 <= 0) {
@@ -193,7 +193,7 @@ double Hep3Vector::cosTheta(const Hep3Vector & q) const {
   return arg;
 }
 
-double Hep3Vector::cos2Theta(const Hep3Vector & q) const {
+double Vector3::cos2Theta(const Vector3 & q) const {
   double arg;
   double ptot2 = mag2();
   double qtot2 = q.mag2();
@@ -209,7 +209,7 @@ double Hep3Vector::cos2Theta(const Hep3Vector & q) const {
  return arg;
 }
 
-void Hep3Vector::setEta (double eta) {
+void Vector3::setEta (double eta) {
   double phi = 0;
   double r;
   if ( (dx == 0) && (dy == 0) ) {
@@ -235,7 +235,7 @@ void Hep3Vector::setEta (double eta) {
   return;
 }
 
-void Hep3Vector::setCylTheta (double theta) {
+void Vector3::setCylTheta (double theta) {
 
   // In cylindrical coords, set theta while keeping rho and phi fixed
 
@@ -280,7 +280,7 @@ void Hep3Vector::setCylTheta (double theta) {
 
 } /* setCylTheta */
 
-void Hep3Vector::setCylEta (double eta) {
+void Vector3::setCylEta (double eta) {
 
   // In cylindrical coords, set eta while keeping rho and phi fixed
 
@@ -321,19 +321,19 @@ void Hep3Vector::setCylEta (double eta) {
 } /* setCylEta */
 
 
-Hep3Vector operator/  ( const Hep3Vector & v1, double c ) {
+Vector3 operator/  ( const Vector3 & v1, double c ) {
   if (c == 0) {
 	  std::cerr <<
       "Attempt to divide vector by 0 -- "
       "will produce infinities and/or NANs" << std::endl;
   } 
   double   oneOverC = 1.0/c;
-  return Hep3Vector  (  v1.x() * oneOverC,
+  return Vector3  (  v1.x() * oneOverC,
                         v1.y() * oneOverC,
                         v1.z() * oneOverC );
 } /* v / c */
 
-Hep3Vector & Hep3Vector::operator/= (double c) {
+Vector3 & Vector3::operator/= (double c) {
   if (c == 0) {
 	  std::cerr <<
       "Attempt to do vector /= 0 -- "
@@ -346,6 +346,6 @@ Hep3Vector & Hep3Vector::operator/= (double c) {
   return *this;
 }
 
-double Hep3Vector::tolerance = Hep3Vector::ToleranceTicks * 2.22045e-16;
+double Vector3::tolerance = Vector3::ToleranceTicks * 2.22045e-16;
 
 } // namespace mpc

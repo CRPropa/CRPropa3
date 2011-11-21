@@ -1,17 +1,20 @@
 #ifndef SPHMAGNETICFIELD_H_
 #define SPHMAGNETICFIELD_H_
 
-#include "mpc/ThreeVector.h"
+#include "mpc/Vector3.h"
 #include "mpc/Units.h"
+#include "mpc/MagneticField.h"
+
 #include "gadget/MagneticField.hpp"
 #include "gadget/SmoothParticle.hpp"
+
 #include <memory>
 
-namespace mpc{
+namespace mpc {
 
-class SampledSphMagneticField: public MagneticField {
+class SphMagneticField: public MagneticField {
 public:
-	SampledSphMagneticField(Hep3Vector &originKpc, double &sizeKpc,
+	SphMagneticField(Vector3 &originKpc, double &sizeKpc,
 			double &gridStepSizeKpc, std::string &sphFileName) {
 		this->originKpc = originKpc;
 		this->sizeKpc = sizeKpc;
@@ -19,28 +22,31 @@ public:
 		this->sphFileName;
 		initialize();
 	}
-	~SampledSphMagneticField() {
+	~SphMagneticField() {
 	}
-	Hep3Vector getField(Hep3Vector position) const {
+	Vector3 getField(Vector3 position) const {
 		Vector3f r = Vector3f(position.x(), position.y(), position.z());
-		Vector3f b = sampledMagneticField->getField(r / kpc);
-		Hep3Vector bField = Hep3Vector(b.x, b.y, b.z) * gauss;
+		Vector3f b = magneticField->getField(r / kpc);
+		Vector3 bField = Vector3(b.x, b.y, b.z) * gauss;
 		return bField;
 	}
 private:
-	Hep3Vector originKpc;
+	Vector3 originKpc;
 	double sizeKpc;
 	double gridStepSizeKpc;
 	std::string sphFileName;
-	std::auto_ptr<SampledMagneticField> sampledMagneticField;
+	std::auto_ptr< ::MagneticField > magneticField;
 
 	void initialize() {
 		std::cout << "[SampledSphMagneticField] initializing field from "
 				<< sphFileName << std::endl;
 		Vector3f orig = Vector3f(originKpc.x(), originKpc.y(), originKpc.z());
-		sampledMagneticField.reset(new SampledMagneticField(orig, sizeKpc));
-		sampledMagneticField.init(gridStepSizeKpc);
-		sampledMagneticField.load(sphFileName);
+
+		SampledMagneticField * sampled = new SampledMagneticField(orig,
+				sizeKpc);
+		sampled->init(gridStepSizeKpc);
+		sampled->load(sphFileName);
+		magneticField.reset(sampled);
 	}
 };
 

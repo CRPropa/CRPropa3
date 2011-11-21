@@ -1,12 +1,12 @@
-#include "mpc/Particle.h"
+#include "mpc/ParticleState.h"
 #include "gtest/gtest.h"
 
 using mpc::Mpc;
 using mpc::EeV;
 
 TEST(particleTest, position) {
-	mpc::Particle particle;
-	mpc::Hep3Vector v(1, 3, 5);
+	mpc::ParticleState particle;
+	mpc::Vector3 v(1, 3, 5);
 	particle.setPosition(v * Mpc);
 
 	EXPECT_DOUBLE_EQ(particle.getPosition().getX() / Mpc, 1);
@@ -19,8 +19,8 @@ TEST(particleTest, position) {
 }
 
 TEST(particleTest, direction) {
-	mpc::Particle particle;
-	mpc::Hep3Vector v(1, 2, 3);
+	mpc::ParticleState particle;
+	mpc::Vector3 v(1, 2, 3);
 	particle.setDirection(v);
 	particle.setEnergy(10 * EeV);
 
@@ -34,7 +34,7 @@ TEST(particleTest, direction) {
 }
 
 TEST(particleTest, proton) {
-	mpc::Particle particle;
+	mpc::ParticleState particle;
 	particle.setChargeNumber(1);
 	particle.setMass(1 * mpc::amu);
 

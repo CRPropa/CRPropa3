@@ -1,7 +1,7 @@
 #ifndef CANDIDATE_H_
 #define CANDIDATE_H_
 
-#include "mpc/Particle.h"
+#include "mpc/ParticleState.h"
 
 namespace mpc {
 
@@ -13,12 +13,13 @@ public:
 		ReachedMaxTime,
 		BelowEnergyThreshold,
 		Decayed,
-		ObserverNotReachable
+		ObserverNotReachable,
+		UserDefined
 	};
 
-	Particle last;
-	Particle current;
-	Particle initial;
+	ParticleState next;
+	ParticleState last;
+	ParticleState initial;
 	Candidate *parent;
 
 	Candidate();

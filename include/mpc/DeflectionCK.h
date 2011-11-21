@@ -1,10 +1,10 @@
 #ifndef DEFLECTION_H_
 #define DEFLECTION_H_
 
-#include "mpc/Particle.h"
+#include "mpc/ParticleState.h"
 #include "mpc/Candidate.h"
 #include "mpc/ExplicitRungeKutta.h"
-#include "mpc/ThreeVector.h"
+#include "mpc/Vector3.h"
 #include "mpc/MagneticField.h"
 #include "mpc/PhasePoint.h"
 #include "mpc/Units.h"
@@ -19,18 +19,18 @@ namespace mpc {
  */
 class LorentzForce: public ExplicitRungeKutta<PhasePoint>::F {
 public:
-	Particle *particle;
+	ParticleState *particle;
 	MagneticField *field;
 
-	LorentzForce(Particle *particle, MagneticField *field) {
+	LorentzForce(ParticleState *particle, MagneticField *field) {
 		this->particle = particle;
 		this->field = field;
 	}
 
 	PhasePoint operator()(double t, const PhasePoint &v) {
-		Hep3Vector velocity = v.b.unit() * c_light;
-		Hep3Vector B = field->getField(v.a);
-		Hep3Vector force = (double) particle->getChargeNumber() * eplus
+		Vector3 velocity = v.b.unit() * c_light;
+		Vector3 B = field->getField(v.a);
+		Vector3 force = (double) particle->getChargeNumber() * eplus
 				* velocity.cross(B);
 		return PhasePoint(velocity, force);
 	}
@@ -58,9 +58,9 @@ public:
 	}
 
 	void apply(Candidate &candidate, MagneticField &field) {
-		PhasePoint yIn(candidate.current.getPosition(),
-				candidate.current.getMomentum()), yOut, yErr, yScale;
-		LorentzForce dydt(&candidate.current, &field);
+		PhasePoint yIn(candidate.next.getPosition(),
+				candidate.next.getMomentum()), yOut, yErr, yScale;
+		LorentzForce dydt(&candidate.next, &field);
 		double hNext = candidate.getNextStep() / c_light, hTry, r;
 
 		// phase-point to compare with error for step size control
@@ -103,8 +103,8 @@ public:
 			hNext = std::min(hNext, 5 * hTry);
 		} while (r > 1);
 
-		candidate.current.setPosition(yOut.a);
-		candidate.current.setDirection(yOut.b.unit());
+		candidate.next.setPosition(yOut.a);
+		candidate.next.setDirection(yOut.b.unit());
 		candidate.setLastStep(hTry * c_light);
 		candidate.setNextStep(hNext * c_light);
 	}

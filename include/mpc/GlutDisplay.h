@@ -13,11 +13,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+
 #include "mpc/Candidate.h"
 
 namespace mpc {
 
-std::vector<Particle> states;
+std::vector<ParticleState> states;
 
 /* Viewer state */
 float sphi = 90.0, stheta = 45.0, sdepth = 10;
@@ -59,8 +60,8 @@ void mouseMove(int x, int y) {
 
 void drawTrajectoryPoints() {
 	glColor3f(1., 1., 1.);
-	for (std::vector<Particle>::size_type i = 0; i < states.size(); i++) {
-		Hep3Vector pos = states[i].getPosition() / Mpc;
+	for (std::vector<ParticleState>::size_type i = 0; i < states.size(); i++) {
+		Vector3 pos = states[i].getPosition() / Mpc;
 		glPushMatrix();
 		glTranslatef(pos.x(), pos.y(), pos.z());
 		glutSolidSphere(0.015, 10, 5);
@@ -111,7 +112,7 @@ void init() {
 	glutMotionFunc(mouseMove);
 }
 
-class GlutDisplay {
+class GlutDisplay: public Feature {
 public:
 	int counter;
 	int refresh;
@@ -122,15 +123,16 @@ public:
 		init();
 	}
 
-	void apply(Candidate &candidate) {
+	void apply(Candidate &candidate, size_t priority) {
 		if (counter % refresh == 0) {
-			states.push_back(candidate.current);
-			std::cout << candidate.current.getPosition() << std::endl;
+			states.push_back(candidate.next);
+			std::cout << candidate.next.getPosition() << std::endl;
 			// mark the current window to be redisplayed
 			glutPostRedisplay();
 			continueDisplay = 1;
 			while (continueDisplay == 1) {
 				glutMainLoopEvent();
+				continueDisplay =0;
 			}
 		}
 		counter += 1;

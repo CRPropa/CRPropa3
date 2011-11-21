@@ -32,7 +32,7 @@ class CentralPotential: public ExplicitRungeKutta<PhasePoint>::F {
 public:
 	PhasePoint operator()(double t, const PhasePoint &v) {
 		double GM = 3.986004418e14; // gravitational constant * mass of earth
-		Hep3Vector acceleration = -v.a.unit() * GM / v.a.mag2();
+		Vector3 acceleration = -v.a.unit() * GM / v.a.mag2();
 		return PhasePoint(v.b, acceleration);
 	}
 };
@@ -45,7 +45,7 @@ TEST(erkTest, geoStationaryOrbit) {
 	double v = r*f; // radial velocity
 	ExplicitRungeKutta<PhasePoint> erk;
 	erk.loadCashKarp();
-	PhasePoint y(Hep3Vector(r, 0, 0), Hep3Vector(0, v, 0)), yOut, yErr;
+	PhasePoint y(Vector3(r, 0, 0), Vector3(0, v, 0)), yOut, yErr;
 	CentralPotential dydt;
 
 	double step = 100; // time step in seconds

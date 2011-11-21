@@ -4,7 +4,7 @@ project(ModularPropagationCode)
 include_directories(include)
 #lib
 add_library(libmpc
-    src/ThreeVector.cpp
+    src/Vector3.cpp src/SphMagneticField.cpp
 )
 
 find_program(GADGET_CONFIG_COMMAND "gadget-config") 
@@ -28,16 +28,16 @@ TARGET_LINK_LIBRARIES(mpc ${GADGET_LIBS} libmpc glut GLU)
 # gtest
 enable_testing()
 find_package(GTest REQUIRED)
-include_directories(src ${GTEST_INCLUDE_DIRS})
+include_directories(src ${GTEST_INCLUDE_DIRS} libmpc)
 
 # test 1
 add_executable(testParticle test/testParticle.cpp)
-target_link_libraries(testParticle ${GTEST_BOTH_LIBRARIES} pthread)
+target_link_libraries(testParticle ${GTEST_BOTH_LIBRARIES} pthread libmpc)
 add_test(test1 testParticle)
 
 # test 2
-add_executable(testERK test/testERK.cpp src/ThreeVector.cpp)
-target_link_libraries(testERK ${GTEST_BOTH_LIBRARIES} pthread)
+add_executable(testERK test/testERK.cpp)
+target_link_libraries(testERK ${GTEST_BOTH_LIBRARIES} pthread libmpc)
 add_test(test2 testERK)
 
 

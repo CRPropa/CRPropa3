@@ -2,11 +2,12 @@
 #define BREAKCONDITION_H_
 
 #include "mpc/Candidate.h"
-#include "mpc/Particle.h"
+#include "mpc/ParticleState.h"
+#include "mpc/Propagator.h"
 
 namespace mpc {
 
-class MaximumTrajectoryLength {
+class MaximumTrajectoryLength: public Feature {
 public:
 	double maxLength;
 
@@ -14,13 +15,13 @@ public:
 		this->maxLength = maxLength;
 	}
 
-	void apply(Candidate &candidate) {
+	void apply(Candidate &candidate, size_t priority) {
 		if (candidate.getTrajectoryLength() >= maxLength)
 			candidate.setStatus(Candidate::ReachedMaxTime);
 	}
 };
 
-class MinimumEnergy {
+class MinimumEnergy: public Feature {
 public:
 	double minEnergy;
 
@@ -28,8 +29,8 @@ public:
 		this->minEnergy = minEnergy;
 	}
 
-	void apply(Candidate &candidate) {
-		if (candidate.current.getEnergy() <= minEnergy)
+	void apply(Candidate &candidate, size_t priority) {
+		if (candidate.next.getEnergy() <= minEnergy)
 			candidate.setStatus(Candidate::BelowEnergyThreshold);
 	}
 };

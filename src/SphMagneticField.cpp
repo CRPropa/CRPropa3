@@ -1,9 +1,12 @@
-#include "MagneticField.h"
+#include "mpc/SphMagneticField.h"
+
 #include <stdint.h>
 #include <sstream>
 #include <unistd.h>
 
-SampledSphMagneticField::SampledSphMagneticField(Hep3Vector &origin, double &size,
+namespace mpc {
+#if 0
+SphMagneticField::SphMagneticField(Vector3 &origin, double &size,
 		double &stepSize, std::string &sphFileName) {
 	this->origin = origin;
 	this->size = size;
@@ -11,10 +14,10 @@ SampledSphMagneticField::SampledSphMagneticField(Hep3Vector &origin, double &siz
 	initialize(sphFileName);
 }
 
-SampledSphMagneticField::~SampledSphMagneticField() {
+SphMagneticField::~SphMagneticField() {
 }
 
-void SampledSphMagneticField::initialize(std::string sphFileName) {
+void SphMagneticField::initialize(std::string sphFileName) {
 	std::cout << "[TSphMagField] initializing field" << std::endl;
 	Vector3f originKpc = Vector3f(_fOriginKpc.x(), _fOriginKpc.y(),
 			_fOriginKpc.z());
@@ -46,7 +49,7 @@ void SampledSphMagneticField::initialize(std::string sphFileName) {
 	}
 }
 
-void TSphMagField::createDirectField() {
+void SphMagneticField::createDirectField() {
 	std::cout << "[TSphMagField] initializing SPH field" << std::endl;
 	Vector3f originKpc = Vector3f(_fOriginKpc.x(), _fOriginKpc.y(),
 			_fOriginKpc.z());
@@ -56,20 +59,18 @@ void TSphMagField::createDirectField() {
 	_fDirectMagneticField->load(_fSmoothParticles);
 }
 
-TVector3D TSphMagField::getField(TVector3D position) const {
+Vector3 SphMagneticField::getField(Vector3 position) const {
 	Vector3f r = Vector3f(position.x(), position.y(), position.z());
 	Vector3f b;
 	if (_fFieldType == "Direct") {
-		b = _fDirectMagneticField->getField(r/kpc);
+		b = _fDirectMagneticField->getField(r / kpc);
 	} else {
-		b = _fSampledMagneticField->getField(r/kpc);
+		b = _fSampledMagneticField->getField(r / kpc);
 	}
 	// SPH field strength is in Gauss
-	TVector3D bField = TVector3D(b.x, b.y, b.z) * gauss;
+	Vector3 bField = Vector3(b.x, b.y, b.z) * gauss;
 //	std::cout << "[TSphMagField] field strength at " << position/Mpc << " Mpc, " << bField.mag() / gauss << " Gauss" << std::endl;
 	return bField;
 }
-
-
-
-
+#endif
+}

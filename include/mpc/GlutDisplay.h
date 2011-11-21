@@ -78,7 +78,7 @@ void displayCallback(void) {
 	glTranslatef(0.0, 0.0, -sdepth);
 	glRotatef(-stheta, 1.0, 0.0, 0.0);
 	glRotatef(sphi, 0.0, 0.0, 1.0);
-	glutSwapBuffers();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	drawTrajectoryPoints();
 	glutSwapBuffers();

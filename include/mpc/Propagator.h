@@ -1,15 +1,12 @@
-/*
- * Propagator.h
- *
- *  Created on: 18.11.2011
- *      Author: gmueller
- */
-
 #ifndef PROPAGATOR_H_
 #define PROPAGATOR_H_
 
 #include <list>
 #include <typeinfo>
+#include <assert.h>
+
+#include "mpc/SharedPointer.h"
+#include "mpc/Candidate.h"
 
 namespace mpc {
 
@@ -34,13 +31,18 @@ public:
 	virtual ~Feature() {
 	}
 
+	virtual std::string description() const {
+		const std::type_info &info = typeid(*this);
+		return info.name();
+	}
+
 	virtual void apply(Candidate &c, size_t priority) = 0;
 };
 
 class Propagator {
 	struct FeatureEntry {
 		size_t priority;
-		Feature *feature;
+		shared_ptr<Feature> feature;
 		bool operator<(FeatureEntry const& rhs) const {
 			return (priority < rhs.priority);
 		}
@@ -62,14 +64,14 @@ class Propagator {
 			}
 		}
 
-		if (integratorCount > 0) {
+		if (integratorCount > 1) {
 			std::cerr << "Warning: more than one integration feature present."
 					<< std::endl;
 		}
 	}
 public:
 
-	void add(size_t priority, Feature *feature) {
+	void add(size_t priority, shared_ptr<Feature> feature) {
 		FeatureEntry entry;
 		entry.priority = priority;
 		entry.feature = feature;
@@ -106,7 +108,7 @@ public:
 		}
 
 		std::list<FeatureEntry>::iterator iEndEntry = endFeatures.begin();
-		while (iEndEntry != startFeatures.end()) {
+		while (iEndEntry != endFeatures.end()) {
 			FeatureEntry &entry = *iEndEntry;
 			iEndEntry++;
 
@@ -121,8 +123,14 @@ public:
 			iEntry++;
 
 			std::cout << entry.priority << " -> "
-					<< typeid(*entry.feature).name() << std::endl;
+					<< entry.feature->description() << std::endl;
 		}
+	}
+
+	void clear() {
+		startFeatures.clear();
+		mainFeatures.clear();
+		endFeatures.clear();
 	}
 };
 

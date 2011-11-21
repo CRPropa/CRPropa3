@@ -105,8 +105,8 @@ public:
 
 		candidate.next.setPosition(yOut.a);
 		candidate.next.setDirection(yOut.b.unit());
-		candidate.setLastStep(hTry * c_light);
-		candidate.setNextStep(hNext * c_light);
+		candidate.setLastStepSize(hTry * c_light);
+		candidate.setNextStepSize(hNext * c_light);
 	}
 
 };

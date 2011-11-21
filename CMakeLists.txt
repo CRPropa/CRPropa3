@@ -4,7 +4,7 @@ project(ModularPropagationCode)
 include_directories(include)
 #lib
 add_library(libmpc
-    src/Vector3.cpp src/SphMagneticField.cpp
+    src/Candidate.cpp src/GlutDisplay.cpp src/Vector3.cpp src/ParticleState.cpp src/SphMagneticField.cpp 
 )
 
 find_program(GADGET_CONFIG_COMMAND "gadget-config") 

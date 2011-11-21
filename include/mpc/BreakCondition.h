@@ -5,6 +5,8 @@
 #include "mpc/ParticleState.h"
 #include "mpc/Propagator.h"
 
+#include <sstream>
+
 namespace mpc {
 
 class MaximumTrajectoryLength: public Feature {
@@ -19,6 +21,12 @@ public:
 		if (candidate.getTrajectoryLength() >= maxLength)
 			candidate.setStatus(Candidate::ReachedMaxTime);
 	}
+
+	std::string description() const {
+		std::stringstream s;
+		s << "MaximumTrajectoryLength " << maxLength;
+		return s.str();
+	}
 };
 
 class MinimumEnergy: public Feature {
@@ -32,6 +40,12 @@ public:
 	void apply(Candidate &candidate, size_t priority) {
 		if (candidate.next.getEnergy() <= minEnergy)
 			candidate.setStatus(Candidate::BelowEnergyThreshold);
+	}
+
+	std::string description() const {
+		std::stringstream s;
+		s << "MinimumEnergy " << minEnergy;
+		return s.str();
 	}
 };
 

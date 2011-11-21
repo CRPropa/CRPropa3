@@ -2,8 +2,9 @@
 #include "mpc/DeflectionCK.h"
 #include "mpc/BreakCondition.h"
 #include "mpc/Propagator.h"
-#include "mpc/BreakCondition.h"
 #include "mpc/GlutDisplay.h"
+#include "mpc/ParticleState.h"
+#include "mpc/SharedPointer.h"
 
 using mpc::Mpc;
 
@@ -17,24 +18,24 @@ public:
 
 	}
 
-	virtual void apply(mpc::Candidate &candidate, size_t priority) {
+	void apply(mpc::Candidate &candidate, size_t priority) {
 		deflection.apply(candidate, field);
+	}
+
+	std::string description() const {
+		return "SimpleField";
 	}
 };
 
 int main() {
-	mpc::Propagator propa;
+	mpc::Propagator propagator;
 
-	mpc::MaximumTrajectoryLength maxLen(100 * Mpc);
-	propa.add(mpc::Priority::AfterIntegration, &maxLen);
+	propagator.add(mpc::Priority::AfterIntegration,
+			new mpc::MaximumTrajectoryLength(100 * Mpc));
+	propagator.add(mpc::Priority::Integration, new SimpleField);
+	propagator.add(mpc::Priority::AfterCommit, new mpc::GlutDisplay(5.));
 
-	SimpleField f;
-	propa.add(mpc::Priority::Integration, &f);
-
-	mpc::GlutDisplay display(5.);
-	propa.add(mpc::Priority::AfterCommit, &display);
-
-	propa.print();
+	propagator.print();
 
 	mpc::ParticleState initial;
 	initial.setPosition(mpc::Vector3(-1.08, 0., 0.) * Mpc);
@@ -46,27 +47,18 @@ int main() {
 	mpc::Candidate candidate;
 	candidate.next = initial;
 	candidate.initial = initial;
-	candidate.setNextStep(0.05 * mpc::Mpc);
+	candidate.setNextStepSize(0.05 * mpc::Mpc);
 
-	propa.apply(candidate);
+	propagator.apply(candidate);
 
-#if 0
+	propagator.clear();
 
-	mpc::MaximumTrajectoryLength maxTrajLength(10 * Mpc);
-
-	for (int i = 0; i < 800; i++) {
-//		std::cout << "step:  " << particle.getStep()
-//			<< ", position (Mpc):  " << particle.getPositionMpc()
-//			<< ", momentum (EeV/c):  " << particle.getMomentum() / EeV
-//			<< ", check  " << particle.getDirection().mag() << std::endl;
-		std::cout << candidate.getNextStep() / Mpc << ", ";
-		std::cout << candidate.next.getPosition().x() / Mpc << ","
-		<< candidate.next.getPosition().y() / Mpc << ","
-		<< candidate.next.getPosition().z() / Mpc << std::endl;
-		deflection.apply(candidate, field);
-		maxTrajLength.apply(candidate);
-	}
-#endif
+	propagator.add(mpc::Priority::Integration, new SimpleField);
+	candidate.next = initial;
+	candidate.initial = initial;
+	candidate.setNextStepSize(0.05 * mpc::Mpc);
+	propagator.print();
+	propagator.apply(candidate);
 
 	return 0;
 }

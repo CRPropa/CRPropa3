@@ -22,6 +22,7 @@ public:
 	unsigned int s;
 	class F {
 	public:
+		virtual ~F(){}
 		virtual Y operator()(double t, const Y &v) = 0;
 	};
 	void step(double t, const Y &initial, Y &result, double stepsize, F &f);

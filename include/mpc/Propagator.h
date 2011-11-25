@@ -36,7 +36,7 @@ public:
 		return info.name();
 	}
 
-	virtual void apply(Candidate &c, size_t priority) = 0;
+	virtual void apply(Candidate &candidate) = 0;
 };
 
 class Propagator {
@@ -88,22 +88,22 @@ public:
 		check();
 	}
 
-	void apply(Candidate &c) {
+	void apply(Candidate &candidate) {
 		std::list<FeatureEntry>::iterator iStartEntry = startFeatures.begin();
 		while (iStartEntry != startFeatures.end()) {
 			FeatureEntry &entry = *iStartEntry;
 			iStartEntry++;
 
-			entry.feature->apply(c, entry.priority);
+			entry.feature->apply(candidate);
 		}
 
-		while (c.getStatus() == Candidate::Active) {
+		while (candidate.getStatus() == Candidate::Active) {
 			std::list<FeatureEntry>::iterator iEntry = mainFeatures.begin();
 			while (iEntry != mainFeatures.end()) {
 				FeatureEntry &entry = *iEntry;
 				iEntry++;
 
-				entry.feature->apply(c, entry.priority);
+				entry.feature->apply(candidate);
 			}
 		}
 
@@ -112,7 +112,7 @@ public:
 			FeatureEntry &entry = *iEndEntry;
 			iEndEntry++;
 
-			entry.feature->apply(c, entry.priority);
+			entry.feature->apply(candidate);
 		}
 	}
 

@@ -113,7 +113,7 @@ GlutDisplay::~GlutDisplay() {
 	glutDestroyWindow(glutGetWindow());
 }
 
-void GlutDisplay::apply(Candidate &candidate, size_t priority) {
+void GlutDisplay::apply(Candidate &candidate) {
 	if (counter % refresh == 0) {
 		states.push_back(candidate.next);
 		// mark the current window to be redisplayed

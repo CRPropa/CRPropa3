@@ -18,7 +18,7 @@ public:
 
 	}
 
-	void apply(mpc::Candidate &candidate, size_t priority) {
+	void apply(mpc::Candidate &candidate) {
 		deflection.apply(candidate, field);
 	}
 

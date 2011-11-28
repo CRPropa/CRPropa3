@@ -28,7 +28,7 @@ Vector3 ParticleState::getMomentum() const {
 }
 
 void ParticleState::setDirection(const Vector3 &dir) {
-	direction = dir;
+	direction = dir / dir.mag();
 }
 
 void ParticleState::setPosition(const Vector3 &pos) {

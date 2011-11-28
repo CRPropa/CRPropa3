@@ -20,4 +20,3 @@ public:
 } // namspace mpc
 
 #endif /* GLUTDISPLAY_H_ */
-

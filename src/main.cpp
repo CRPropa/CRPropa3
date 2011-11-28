@@ -2,64 +2,49 @@
 #include "mpc/DeflectionCK.h"
 #include "mpc/BreakCondition.h"
 #include "mpc/Propagator.h"
+#include "mpc/BreakCondition.h"
 #include "mpc/GlutDisplay.h"
 #include "mpc/ParticleState.h"
 #include "mpc/SharedPointer.h"
+#include "mpc/TurbulentMagneticField.h"
+#include "mpc/Units.h"
+#include <iostream>
 
-using mpc::Mpc;
-
-class SimpleField: public mpc::Feature {
-	mpc::HomogeneousMagneticField field;
-	mpc::DeflectionCK deflection;
-public:
-	SimpleField() :
-			field(mpc::Vector3(0., 0., 1e-13)), deflection(
-					mpc::DeflectionCK::WorstOffender, 5e-5) {
-
-	}
-
-	void apply(mpc::Candidate &candidate, size_t priority) {
-		deflection.apply(candidate, field);
-	}
-
-	std::string description() const {
-		return "SimpleField";
-	}
-};
+using namespace mpc;
 
 int main() {
-	mpc::Propagator propagator;
+	Propagator propa;
 
-	propagator.add(mpc::Priority::AfterIntegration,
-			new mpc::MaximumTrajectoryLength(100 * Mpc));
-	propagator.add(mpc::Priority::Integration, new SimpleField);
-	propagator.add(mpc::Priority::AfterCommit, new mpc::GlutDisplay(5.));
+	MaximumTrajectoryLength maxLen(100 * Mpc);
+	propa.add(mpc::Priority::AfterIntegration, &maxLen);
 
-	propagator.print();
+//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
+	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64,
+			100 * kpc, 1. * nG, -11. / 3., 2., 8.);
+	std::cout << "initializing turbulent field" << std::endl;
+	field.initialize();
+	DeflectionCK integrator(&field, DeflectionCK::WorstOffender, 5e-5);
+	propa.add(Priority::Integration, &integrator);
 
-	mpc::ParticleState initial;
-	initial.setPosition(mpc::Vector3(-1.08, 0., 0.) * Mpc);
+	GlutDisplay display(5.);
+	propa.add(Priority::AfterCommit, &display);
+
+	propa.print();
+
+	ParticleState initial;
+//	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
+	initial.setPosition(Vector3(2, 2, 2) * Mpc);
 	initial.setChargeNumber(1);
-	initial.setMass(1 * mpc::amu);
-	initial.setDirection(mpc::Vector3(0., 1., 0.));
-	initial.setEnergy(1 * mpc::EeV);
+	initial.setMass(1 * amu);
+	initial.setDirection(Vector3(1., 1., 1.));
+	initial.setEnergy(10 * EeV);
 
-	mpc::Candidate candidate;
-	candidate.next = initial;
+	Candidate candidate;
+	candidate.current = initial;
 	candidate.initial = initial;
-	candidate.setNextStepSize(0.05 * mpc::Mpc);
+	candidate.setNextStep(0.05 * Mpc);
 
-	propagator.apply(candidate);
-
-	propagator.clear();
-
-	propagator.add(mpc::Priority::Integration, new SimpleField);
-	candidate.next = initial;
-	candidate.initial = initial;
-	candidate.setNextStepSize(0.05 * mpc::Mpc);
-	propagator.print();
-	propagator.apply(candidate);
+	propa.apply(candidate);
 
 	return 0;
 }
-

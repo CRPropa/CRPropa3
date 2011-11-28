@@ -3,19 +3,19 @@
 namespace mpc {
 
 Candidate::Candidate() :
-		age(0), lastStepSize(0), nextStepSize(0), status(Active) {
+		age(0), currentStep(0), nextStep(0), status(Active) {
 }
 
 double Candidate::getTrajectoryLength() const {
 	return age;
 }
 
-double Candidate::getLastStep() const {
-	return lastStepSize;
+double Candidate::getCurrentStep() const {
+	return currentStep;
 }
 
 double Candidate::getNextStep() const {
-	return nextStepSize;
+	return nextStep;
 }
 
 Candidate::Status Candidate::getStatus() const {
@@ -26,13 +26,13 @@ void Candidate::setTrajectoryLength(double a) {
 	age = a;
 }
 
-void Candidate::setLastStepSize(double lstep) {
-	lastStepSize = lstep;
+void Candidate::setCurrentStep(double lstep) {
+	currentStep = lstep;
 	age += lstep;
 }
 
-void Candidate::setNextStepSize(double nstep) {
-	nextStepSize = nstep;
+void Candidate::setNextStep(double nstep) {
+	nextStep = nstep;
 }
 
 void Candidate::setStatus(Status stat) {

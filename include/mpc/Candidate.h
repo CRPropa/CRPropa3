@@ -20,7 +20,7 @@ public:
 		UserDefined
 	};
 
-	ParticleState next;
+	ParticleState current;
 	ParticleState last;
 	ParticleState initial;
 	std::vector< shared_ptr<Candidate> > secondaries;
@@ -30,17 +30,17 @@ public:
 	double getTrajectoryLength() const;
 	void setTrajectoryLength(double a);
 
-	double getLastStep() const;
-	void setLastStepSize(double lstep);
+	double getCurrentStep() const;
+	void setCurrentStep(double lstep);
 
 	double getNextStep() const;
-	void setNextStepSize(double nstep);
+	void setNextStep(double nstep);
 
 	Status getStatus() const;
 	void setStatus(Status stat);
 private:
 	double age;
-	double lastStepSize, nextStepSize;
+	double currentStep, nextStep;
 	Status status;
 };
 

@@ -4,26 +4,32 @@ project(ModularPropagationCode)
 include_directories(include)
 #lib
 add_library(libmpc
-    src/Candidate.cpp src/GlutDisplay.cpp src/Vector3.cpp src/ParticleState.cpp src/SphMagneticField.cpp 
+    src/Candidate.cpp
+    src/GlutDisplay.cpp
+    src/Vector3.cpp
+    src/ParticleState.cpp
+    src/SphMagneticField.cpp
+    src/TurbulentMagneticField.cpp
 )
-
-find_program(GADGET_CONFIG_COMMAND "gadget-config") 
-message("gadget-config: ${GADGET_CONFIG_COMMAND}")
-execute_process(COMMAND ${GADGET_CONFIG_COMMAND} "--include" OUTPUT_VARIABLE GADGET_INCLUDES OUTPUT_STRIP_TRAILING_WHITESPACE)
-message(STATUS "Gadget includes: ${GADGET_INCLUDES}")
-
-execute_process(COMMAND ${GADGET_CONFIG_COMMAND} "--libs" OUTPUT_VARIABLE GADGET_LIBS OUTPUT_STRIP_TRAILING_WHITESPACE)
-message(STATUS "Gadget includes: ${GADGET_LIBS}")
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GADGET_INCLUDES} ${OPTIONAL_CFLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GADGET_LIBS} ${OPTIONAL_LIBS}")
 
 # exe
-add_executable(mpc
-    src/main.cpp
-)
+add_executable(mpc src/main.cpp)
 
-TARGET_LINK_LIBRARIES(mpc ${GADGET_LIBS} libmpc glut GLU)
+#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+#find_package(FFTW REQUIRED)
+
+#find_program(GADGET_CONFIG_COMMAND "gadget-config") 
+#message("gadget-config: ${GADGET_CONFIG_COMMAND}")
+#execute_process(COMMAND ${GADGET_CONFIG_COMMAND} "--include" OUTPUT_VARIABLE GADGET_INCLUDES OUTPUT_STRIP_TRAILING_WHITESPACE)
+#message(STATUS "Gadget includes: ${GADGET_INCLUDES}")
+#
+#execute_process(COMMAND ${GADGET_CONFIG_COMMAND} "--libs" OUTPUT_VARIABLE GADGET_LIBS OUTPUT_STRIP_TRAILING_WHITESPACE)
+#message(STATUS "Gadget includes: ${GADGET_LIBS}")
+#
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GADGET_INCLUDES} ${OPTIONAL_CFLAGS}")
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GADGET_LIBS} ${OPTIONAL_LIBS}")
+
+TARGET_LINK_LIBRARIES(mpc ${GADGET_LIBS} libmpc glut GLU fftw3)
 
 # gtest
 enable_testing()

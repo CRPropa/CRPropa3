@@ -25,8 +25,12 @@ static const double c_light = 2.99792458e+8 * meter / second;
 static const double c_squared = c_light * c_light;
 static const double amu = 1.660538921e-27 * kilogram;
 
+// other units
+
 // gauss
 static const double gauss = 1.e-4 * tesla;
+static const double nanogauss = 1.e-9 * gauss;
+static const double nG = nanogauss;
 
 // electron volt
 static const double electronvolt = eplus * joule;

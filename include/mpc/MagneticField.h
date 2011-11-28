@@ -2,7 +2,6 @@
 #define MAGNETICFIELD_H_
 
 #include "mpc/Vector3.h"
-#include "mpc/Units.h"
 
 namespace mpc {
 

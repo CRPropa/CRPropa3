@@ -24,7 +24,7 @@ public:
 
 	std::string description() const {
 		std::stringstream s;
-		s << "MaximumTrajectoryLength " << maxLength;
+		s << "MaximumTrajectoryLength: " << maxLength / Mpc << " Mpc";
 		return s.str();
 	}
 };
@@ -38,13 +38,13 @@ public:
 	}
 
 	void apply(Candidate &candidate, size_t priority) {
-		if (candidate.next.getEnergy() <= minEnergy)
+		if (candidate.current.getEnergy() <= minEnergy)
 			candidate.setStatus(Candidate::BelowEnergyThreshold);
 	}
 
 	std::string description() const {
 		std::stringstream s;
-		s << "MinimumEnergy " << minEnergy;
+		s << "MinimumEnergy: " << minEnergy / EeV << " EeV";
 		return s.str();
 	}
 };

@@ -160,7 +160,7 @@ GlutDisplay::~GlutDisplay() {
 	glutDestroyWindow(glutGetWindow());
 }
 
-void GlutDisplay::apply(Candidate &candidate, size_t priority) {
+void GlutDisplay::apply(Candidate &candidate) {
 
 	if (counter % refresh == 0) {
 		// append trajectory point

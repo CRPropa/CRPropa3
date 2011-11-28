@@ -17,7 +17,7 @@ public:
 		this->maxLength = maxLength;
 	}
 
-	void apply(Candidate &candidate, size_t priority) {
+	void apply(Candidate &candidate) {
 		if (candidate.getTrajectoryLength() >= maxLength)
 			candidate.setStatus(Candidate::ReachedMaxTime);
 	}

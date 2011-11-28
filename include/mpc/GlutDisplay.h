@@ -13,10 +13,11 @@ public:
 	GlutDisplay(double r);
 	~GlutDisplay();
 
-	void apply(Candidate &candidate, size_t priority);
+	void apply(Candidate &candidate);
 	std::string description() const;
 };
 
 } // namspace mpc
 
 #endif /* GLUTDISPLAY_H_ */
+

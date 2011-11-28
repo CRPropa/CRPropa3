@@ -2,7 +2,6 @@
 #include "mpc/DeflectionCK.h"
 #include "mpc/BreakCondition.h"
 #include "mpc/Propagator.h"
-#include "mpc/BreakCondition.h"
 #include "mpc/GlutDisplay.h"
 #include "mpc/ParticleState.h"
 #include "mpc/SharedPointer.h"
@@ -26,7 +25,7 @@ int main() {
 	DeflectionCK integrator(&field, DeflectionCK::WorstOffender, 5e-5);
 	propa.add(Priority::Integration, &integrator);
 
-	GlutDisplay display(5.);
+	GlutDisplay display(5);
 	propa.add(Priority::AfterCommit, &display);
 
 	propa.print();

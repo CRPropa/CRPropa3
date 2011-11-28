@@ -8,9 +8,8 @@ namespace mpc {
 class GlutDisplay: public Feature {
 public:
 	int counter;
-	int refresh;
 
-	GlutDisplay(double r);
+	GlutDisplay();
 	~GlutDisplay();
 
 	void apply(Candidate &candidate);

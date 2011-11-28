@@ -58,7 +58,11 @@ public:
 		this->field = field;
 	}
 
-	void apply(Candidate &candidate, size_t priority) {
+	std::string description() const {
+		return "Cash-Karp Runge Kutta integration";
+	}
+
+	void apply(Candidate &candidate) {
 
 		PhasePoint yIn(candidate.current.getPosition(),
 				candidate.current.getMomentum());

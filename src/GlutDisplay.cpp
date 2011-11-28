@@ -12,6 +12,7 @@ namespace mpc {
 std::vector<ParticleState> points;
 
 // Viewer state
+int refreshAfter = 5;
 float cameraPhi = 45.0;
 float cameraTheta = 90.0;
 float cameraDepth = 10;
@@ -150,9 +151,8 @@ void initGlutDisplay() {
 //	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
-GlutDisplay::GlutDisplay(double r) {
+GlutDisplay::GlutDisplay() {
 	counter = 0;
-	refresh = r;
 	initGlutDisplay();
 }
 
@@ -162,7 +162,7 @@ GlutDisplay::~GlutDisplay() {
 
 void GlutDisplay::apply(Candidate &candidate) {
 
-	if (counter % refresh == 0) {
+	if (counter % refreshAfter == 0) {
 		// append trajectory point
 		points.push_back(candidate.current);
 

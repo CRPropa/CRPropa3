@@ -14,19 +14,19 @@ using namespace mpc;
 int main() {
 	Propagator propa;
 
-	MaximumTrajectoryLength maxLen(100 * Mpc);
-	propa.add(mpc::Priority::AfterIntegration, &maxLen);
-
-//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
-	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64,
-			100 * kpc, 1. * nG, -11. / 3., 2., 8.);
+	//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
+	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
+			-11. / 3., 2., 8.);
 	std::cout << "initializing turbulent field" << std::endl;
 	field.initialize();
-	DeflectionCK integrator(&field, DeflectionCK::WorstOffender, 5e-5);
-	propa.add(Priority::Integration, &integrator);
 
-	GlutDisplay display(5);
-	propa.add(Priority::AfterCommit, &display);
+	propa.add(Priority::Integration,
+			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));
+
+	propa.add(mpc::Priority::AfterIntegration,
+			new MaximumTrajectoryLength(100 * Mpc));
+
+	propa.add(Priority::AfterCommit, new GlutDisplay());
 
 	propa.print();
 

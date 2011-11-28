@@ -202,7 +202,6 @@ public:
 
 	// Transformation with a Rotation matrix.
 
-
 	// = = = = = = = = = = = = = = = = = = = = = = = =
 	//
 	// Esoteric properties and operations on 3-vectors:
@@ -388,7 +387,8 @@ protected:
 
 	static double tolerance;
 	// default tolerance criterion for isNear() to return true.
-}; // Vector3
+};
+// Vector3
 
 // Global Methods
 
@@ -396,12 +396,9 @@ Vector3 rotationXOf(const Vector3 & vec, double delta);
 Vector3 rotationYOf(const Vector3 & vec, double delta);
 Vector3 rotationZOf(const Vector3 & vec, double delta);
 
-Vector3 rotationOf(const Vector3 & vec, const Vector3 & axis,
-		double delta);
+Vector3 rotationOf(const Vector3 & vec, const Vector3 & axis, double delta);
 
-
-Vector3 rotationOf(const Vector3 & vec, double phi, double theta,
-		double psi);
+Vector3 rotationOf(const Vector3 & vec, double phi, double theta, double psi);
 
 // Return a new vector based on a rotation of the supplied vector
 
@@ -432,9 +429,8 @@ inline Vector3 operator *(const Vector3 &, double a);
 inline Vector3 operator *(double a, const Vector3 &);
 // Scaling of 3-vectors with a real number
 
-} // namespace mpc
+}// namespace mpc
 
 #include "mpc/Vector3Inline.h"
-
 
 #endif /* HEP_THREEVECTOR_H */

@@ -1,10 +1,11 @@
 #ifndef DECAY_H_
 #define DECAY_H_
 
-#include "mpc/Propagator.h"
+#include "mpc/Module.h"
 #include "mpc/Candidate.h"
 #include "mpc/ParticleState.h"
 #include "mpc/MersenneTwister.h"
+
 #include <math.h>
 #include <map>
 #include <iostream>
@@ -20,7 +21,7 @@ struct DecayMode {
 	double deltaMass;
 };
 
-class Decay: public Feature {
+class Decay: public Module {
 public:
 	Decay() {
 		initDecayTable();
@@ -79,7 +80,7 @@ public:
 		}
 	}
 
-	std::string description() const {
+	std::string getDescription() const {
 		return "Nuclear Decay";
 	}
 
@@ -91,10 +92,8 @@ private:
 	size_t cached_id;
 
 	void initDecayTable() {
-		size_t A, Z, N;
-		double deltaMass, halfLife;
-		int decayType;
 		char str[256];
+		size_t A, Z, N;
 		std::string name;
 		DecayMode dc;
 
@@ -103,10 +102,7 @@ private:
 		infile.getline(str, 255);
 
 		while (!infile.eof()) {
-			infile >> A >> Z >> N >> deltaMass >> halfLife >> decayType >> name;
-			dc.decayType = decayType;
-			dc.decayTime = halfLife / log(2.);
-			dc.deltaMass = deltaMass;
+			infile >> A >> Z >> N >> dc.deltaMass >> dc.decayTime >> dc.decayType >> name;
 			decayTable[size_t(A * 1000 + Z)].push_back(dc);
 		}
 	}

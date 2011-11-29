@@ -7,9 +7,12 @@ add_library(libmpc
     src/Candidate.cpp
     src/GlutDisplay.cpp
     src/Vector3.cpp
+    src/Module.cpp
+    src/ModuleChainImport.cpp
     src/ParticleState.cpp
     src/SphMagneticField.cpp
     src/TurbulentMagneticField.cpp
+    src/pugixml/pugixml.cpp
 )
 
 # exe

@@ -178,7 +178,7 @@ void GlutDisplay::apply(Candidate &candidate) {
 	return;
 }
 
-std::string GlutDisplay::description() const {
+std::string GlutDisplay::getDescription() const {
 	return "GlutDisplay";
 }
 

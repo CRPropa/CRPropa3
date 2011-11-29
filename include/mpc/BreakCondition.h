@@ -3,13 +3,13 @@
 
 #include "mpc/Candidate.h"
 #include "mpc/ParticleState.h"
-#include "mpc/Propagator.h"
+#include "mpc/Module.h"
 
 #include <sstream>
 
 namespace mpc {
 
-class MaximumTrajectoryLength: public Feature {
+class MaximumTrajectoryLength: public Module {
 public:
 	double maxLength;
 
@@ -22,14 +22,14 @@ public:
 			candidate.setStatus(Candidate::ReachedMaxTime);
 	}
 
-	std::string description() const {
+	std::string getDescription() const {
 		std::stringstream s;
 		s << "MaximumTrajectoryLength: " << maxLength / Mpc << " Mpc";
 		return s.str();
 	}
 };
 
-class MinimumEnergy: public Feature {
+class MinimumEnergy: public Module {
 public:
 	double minEnergy;
 
@@ -42,7 +42,7 @@ public:
 			candidate.setStatus(Candidate::BelowEnergyThreshold);
 	}
 
-	std::string description() const {
+	std::string getDescription() const {
 		std::stringstream s;
 		s << "MinimumEnergy: " << minEnergy / EeV << " EeV";
 		return s.str();

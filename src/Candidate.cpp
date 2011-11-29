@@ -35,6 +35,14 @@ void Candidate::setNextStep(double nstep) {
 	nextStep = nstep;
 }
 
+void Candidate::setNextStepUpperLimit(double upper) {
+	nextStep = std::min(nextStep, upper);
+}
+
+void Candidate::setNextStepLowerLimit(double lower) {
+	nextStep = std::max(nextStep, lower);
+}
+
 void Candidate::setStatus(Status stat) {
 	status = stat;
 }

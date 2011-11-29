@@ -36,8 +36,12 @@ public:
 	double getNextStep() const;
 	void setNextStep(double nstep);
 
+	void setNextStepUpperLimit(double upper);
+	void setNextStepLowerLimit(double lower);
+
 	Status getStatus() const;
 	void setStatus(Status stat);
+
 private:
 	double age;
 	double currentStep, nextStep;

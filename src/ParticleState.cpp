@@ -26,33 +26,33 @@ Vector3 ParticleState::getVelocity() const {
 Vector3 ParticleState::getMomentum() const {
 	return direction * (energy / c_light);
 }
+size_t ParticleState::getId() const {
+	return id;
+}
 
 void ParticleState::setDirection(const Vector3 &dir) {
 	direction = dir / dir.mag();
 }
-
 void ParticleState::setPosition(const Vector3 &pos) {
 	position = pos;
 }
-
 void ParticleState::setChargeNumber(size_t charge) {
 	chargeNumber = charge;
 }
-
 void ParticleState::setMass(double newMass) {
 	mass = newMass;
 }
-
 void ParticleState::setEnergy(double newEnergy) {
 	energy = newEnergy;
 }
-
 ParticleState::Type ParticleState::getType() {
 	return type;
 }
-
 void ParticleState::setType(Type t) {
 	type = t;
+}
+void ParticleState::setId(size_t pid) {
+	id = pid;
 }
 
 }

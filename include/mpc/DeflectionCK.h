@@ -1,7 +1,7 @@
 #ifndef DEFLECTION_H_
 #define DEFLECTION_H_
 
-#include "mpc/Propagator.h"
+#include "mpc/Module.h"
 #include "mpc/Candidate.h"
 #include "mpc/MagneticField.h"
 #include "mpc/ExplicitRungeKutta.h"
@@ -40,7 +40,7 @@ public:
  * propagates the particle by a step particle.getNextStep() or smaller.
  * The step size control tries to keep the error close to, but smaller than the maxError
  */
-class DeflectionCK : public Feature {
+class DeflectionCK : public Module {
 public:
 	MagneticField *field;
 	ExplicitRungeKutta<PhasePoint> erk;
@@ -58,7 +58,7 @@ public:
 		this->field = field;
 	}
 
-	std::string description() const {
+	std::string getDescription() const {
 		return "Cash-Karp Runge Kutta integration";
 	}
 

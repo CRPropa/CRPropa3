@@ -1,11 +1,11 @@
 #ifndef GLUTDISPLAY_H_
 #define GLUTDISPLAY_H_
 
-#include "mpc/Propagator.h"
+#include "mpc/ModuleChain.h"
 
 namespace mpc {
 
-class GlutDisplay: public Feature {
+class GlutDisplay: public Module {
 public:
 	int counter;
 

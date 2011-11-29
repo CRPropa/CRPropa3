@@ -1,7 +1,7 @@
 #include "mpc/Candidate.h"
 #include "mpc/DeflectionCK.h"
 #include "mpc/BreakCondition.h"
-#include "mpc/Propagator.h"
+#include "mpc/ModuleChain.h"
 #include "mpc/GlutDisplay.h"
 #include "mpc/ParticleState.h"
 #include "mpc/SharedPointer.h"
@@ -12,7 +12,7 @@
 using namespace mpc;
 
 int main() {
-	Propagator propa;
+	ModuleChain chain;
 
 	//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
 	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
@@ -20,15 +20,15 @@ int main() {
 	std::cout << "initializing turbulent field" << std::endl;
 	field.initialize();
 
-	propa.add(Priority::Integration,
+	chain.add(Priority::Integration,
 			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));
 
-	propa.add(mpc::Priority::AfterIntegration,
+	chain.add(mpc::Priority::AfterIntegration,
 			new MaximumTrajectoryLength(100 * Mpc));
 
-	propa.add(Priority::AfterCommit, new GlutDisplay());
+	chain.add(Priority::AfterCommit, new GlutDisplay());
 
-	propa.print();
+	chain.print();
 
 	ParticleState initial;
 //	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
@@ -43,7 +43,7 @@ int main() {
 	candidate.initial = initial;
 	candidate.setNextStep(0.05 * Mpc);
 
-	propa.apply(candidate);
+	chain.apply(candidate);
 
 	return 0;
 }

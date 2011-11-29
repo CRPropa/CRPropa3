@@ -59,10 +59,10 @@ class ModuleChain {
 	}
 public:
 
-	void add(size_t priority, shared_ptr<Module> feature) {
+	void add(size_t priority, shared_ptr<Module> module) {
 		ModuleEntry entry;
 		entry.priority = priority;
-		entry.module = feature;
+		entry.module = module;
 
 		if (priority == Priority::Start) {
 			startModules.push_back(entry);
@@ -75,6 +75,22 @@ public:
 
 		check();
 	}
+
+//	void addBefore(Module *prev, Module *module) {
+//		ModuleEntry entry;
+//		entry.module = module;
+//
+//		if (priority == Priority::Start) {
+//			startModules.push_back(entry);
+//		} else if (priority == Priority::End) {
+//			endModules.push_back(entry);
+//		} else {
+//			mainModules.push_back(entry);
+//			mainModules.sort();
+//		}
+//
+//		check();
+//	}
 
 	void apply(Candidate &candidate) {
 		std::list<ModuleEntry>::iterator iStartEntry = startModules.begin();

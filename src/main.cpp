@@ -8,6 +8,8 @@
 #include "mpc/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 #include "mpc/Output.h"
+#include "mpc/ModuleChainImport.h"
+
 #include <iostream>
 
 using namespace mpc;
@@ -28,7 +30,9 @@ int main() {
 			new MaximumTrajectoryLength(100 * Mpc));
 
 //	chain.add(Priority::AfterCommit, new GlutDisplay());
-	chain.add(Priority::AfterCommit, new CandidateOutput());
+//	chain.add(Priority::AfterCommit, new CandidateOutput());
+
+	import(chain, "example.xml");
 
 	chain.print();
 

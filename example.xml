@@ -1,0 +1,14 @@
+<mpc>
+	<module type="Output" priority="98"></module>
+	<module type="DeflectCK" priority="50">
+		<field>
+			<origin>0 0 0</origin>
+			<n>0</n>
+			<spacing>10</spacing>
+			<b_rms>1</b_rms>
+			<spectral_index>0</spectral_index>
+			<l_min>0</l_min>
+			<l_max>1</l_max>
+		</field>
+	</module>
+</mpc>

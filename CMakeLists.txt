@@ -10,6 +10,7 @@ add_library(libmpc
     src/Module.cpp
     src/ModuleChainImport.cpp
     src/ParticleState.cpp
+    src/ModuleChain.cpp
     src/SphMagneticField.cpp
     src/TurbulentMagneticField.cpp
     src/pugixml/pugixml.cpp

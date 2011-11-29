@@ -27,117 +27,28 @@ struct Priority {
 };
 
 class ModuleChain {
-	struct ModuleEntry {
-		size_t priority;
-		Module *module;
-		bool operator<(ModuleEntry const& rhs) const {
-			return (priority < rhs.priority);
-		}
-	};
-	std::list<ModuleEntry> startModules;
-	std::list<ModuleEntry> mainModules;
-	std::list<ModuleEntry> endModules;
-
-	void check() {
-		size_t integratorCount = 0;
-
-		std::list<ModuleEntry>::iterator iEntry = mainModules.begin();
-		while (iEntry != mainModules.end()) {
-			ModuleEntry &entry = *iEntry;
-			iEntry++;
-
-			if (entry.priority == Priority::Integration) {
-				integratorCount++;
-			}
-		}
-
-		if (integratorCount > 1) {
-			std::cerr << "Warning: more than one integration feature present."
-					<< std::endl;
-		}
-	}
 public:
+	typedef std::pair<size_t, Module *> list_entry_t;
+	typedef std::list<list_entry_t> list_t;
 
-	void add(size_t priority, Module *module) {
-		ModuleEntry entry;
-		entry.priority = priority;
-		entry.module = module;
+	const list_t &getStartModules() const;
+	const list_t &getMainModules() const;
+	const list_t &getEndModules() const;
 
-		if (priority == Priority::Start) {
-			startModules.push_back(entry);
-		} else if (priority == Priority::End) {
-			endModules.push_back(entry);
-		} else {
-			mainModules.push_back(entry);
-			mainModules.sort();
-		}
+	void add(size_t priority, Module *module);
+	void apply(Candidate &candidate);
+	void clear();
 
-		check();
-	}
+private:
+	void check();
 
-//	void addBefore(Module *prev, Module *module) {
-//		ModuleEntry entry;
-//		entry.module = module;
-//
-//		if (priority == Priority::Start) {
-//			startModules.push_back(entry);
-//		} else if (priority == Priority::End) {
-//			endModules.push_back(entry);
-//		} else {
-//			mainModules.push_back(entry);
-//			mainModules.sort();
-//		}
-//
-//		check();
-//	}
-
-	void apply(Candidate &candidate) {
-		std::list<ModuleEntry>::iterator iStartEntry = startModules.begin();
-		while (iStartEntry != startModules.end()) {
-			ModuleEntry &entry = *iStartEntry;
-			iStartEntry++;
-
-			entry.module->apply(candidate);
-		}
-
-		while (candidate.getStatus() == Candidate::Active) {
-			std::list<ModuleEntry>::iterator iEntry = mainModules.begin();
-			while (iEntry != mainModules.end()) {
-				ModuleEntry &entry = *iEntry;
-				iEntry++;
-
-				entry.module->apply(candidate);
-			}
-		}
-
-		std::list<ModuleEntry>::iterator iEndEntry = endModules.begin();
-		while (iEndEntry != endModules.end()) {
-			ModuleEntry &entry = *iEndEntry;
-			iEndEntry++;
-
-			entry.module->apply(candidate);
-		}
-	}
-
-	void print(std::ostream &out = std::cout) {
-		std::list<ModuleEntry>::iterator iEntry = mainModules.begin();
-		while (iEntry != mainModules.end()) {
-			ModuleEntry &entry = *iEntry;
-			iEntry++;
-
-			out << entry.priority << " -> " << entry.module->getDescription()
-					<< "\n";
-		}
-		out.flush();
-	}
-
-	void clear() {
-		startModules.clear();
-		mainModules.clear();
-		endModules.clear();
-	}
+	list_t startModules;
+	list_t mainModules;
+	list_t endModules;
 };
 
 } // namespace mpc
+
+std::ostream &operator<<(std::ostream &out, const mpc::ModuleChain &chain);
 
 #endif /* MODULE_CHAIN_H_ */

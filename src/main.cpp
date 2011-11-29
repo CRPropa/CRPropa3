@@ -34,7 +34,7 @@ int main() {
 
 	import(chain, "example.xml");
 
-	chain.print();
+	std::cout << chain << std::endl;
 
 	ParticleState initial;
 //	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);

@@ -93,8 +93,12 @@ void TurbulentMagneticField::initialize() {
 	fftw_plan p;
 	p = fftw_plan_dft_3d(N, N, N, Bx, Bx, FFTW_BACKWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
+	fftw_destroy_plan(p);
+
 	p = fftw_plan_dft_3d(N, N, N, By, By, FFTW_BACKWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
+	fftw_destroy_plan(p);
+
 	p = fftw_plan_dft_3d(N, N, N, Bz, Bz, FFTW_BACKWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
 	fftw_destroy_plan(p);

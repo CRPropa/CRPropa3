@@ -36,6 +36,9 @@ public:
 	Type getType();
 	void setType(Type t);
 
+	size_t getId() const;
+	void setId(size_t);
+
 	// convenience
 	double getLorentzFactor() const;
 	Vector3 getVelocity() const;
@@ -48,6 +51,7 @@ private:
 	size_t chargeNumber;
 	double mass;
 	Type type;
+	size_t id;
 
 };
 

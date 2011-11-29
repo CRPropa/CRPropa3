@@ -13,7 +13,7 @@ public:
 	~GlutDisplay();
 
 	void apply(Candidate &candidate);
-	std::string description() const;
+	std::string getDescription() const;
 };
 
 } // namspace mpc

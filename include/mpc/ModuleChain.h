@@ -1,5 +1,5 @@
-#ifndef PROPAGATOR_H_
-#define PROPAGATOR_H_
+#ifndef MODULE_CHAIN_H_
+#define MODULE_CHAIN_H_
 
 #include <list>
 #include <typeinfo>
@@ -104,15 +104,16 @@ public:
 		}
 	}
 
-	void print() {
+	void print(std::ostream &out = std::cout) {
 		std::list<ModuleEntry>::iterator iEntry = mainModules.begin();
 		while (iEntry != mainModules.end()) {
 			ModuleEntry &entry = *iEntry;
 			iEntry++;
 
-			std::cout << entry.priority << " -> "
-					<< entry.module->getDescription() << std::endl;
+			out << entry.priority << " -> " << entry.module->getDescription()
+					<< "\n";
 		}
+		out.flush();
 	}
 
 	void clear() {
@@ -124,4 +125,4 @@ public:
 
 } // namespace mpc
 
-#endif /* PROPAGATOR_H_ */
+#endif /* MODULE_CHAIN_H_ */

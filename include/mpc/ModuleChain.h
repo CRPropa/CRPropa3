@@ -5,7 +5,6 @@
 #include <typeinfo>
 #include <assert.h>
 
-#include "mpc/SharedPointer.h"
 #include "mpc/Candidate.h"
 #include "mpc/Module.h"
 
@@ -30,7 +29,7 @@ struct Priority {
 class ModuleChain {
 	struct ModuleEntry {
 		size_t priority;
-		shared_ptr<Module> module;
+		Module *module;
 		bool operator<(ModuleEntry const& rhs) const {
 			return (priority < rhs.priority);
 		}
@@ -59,7 +58,7 @@ class ModuleChain {
 	}
 public:
 
-	void add(size_t priority, shared_ptr<Module> module) {
+	void add(size_t priority, Module *module) {
 		ModuleEntry entry;
 		entry.priority = priority;
 		entry.module = module;

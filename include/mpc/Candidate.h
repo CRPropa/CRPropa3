@@ -2,7 +2,6 @@
 #define CANDIDATE_H_
 
 #include "mpc/ParticleState.h"
-#include "mpc/SharedPointer.h"
 
 #include <vector>
 
@@ -23,7 +22,7 @@ public:
 	ParticleState current;
 	ParticleState last;
 	ParticleState initial;
-	std::vector< shared_ptr<Candidate> > secondaries;
+	std::vector< Candidate > secondaries;
 
 	Candidate();
 

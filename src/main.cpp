@@ -4,7 +4,6 @@
 #include "mpc/ModuleChain.h"
 #include "mpc/GlutDisplay.h"
 #include "mpc/ParticleState.h"
-#include "mpc/SharedPointer.h"
 #include "mpc/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 #include "mpc/Output.h"
@@ -17,17 +16,18 @@ using namespace mpc;
 int main() {
 	ModuleChain chain;
 
-	//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
+	// magnetic field
 	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
 			-11. / 3., 2., 8.);
-	std::cout << "initializing turbulent field" << std::endl;
 	field.initialize();
 
-	chain.add(Priority::Integration,
-			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));
+	// deflection
+	DeflectionCK deflection(&field, DeflectionCK::WorstOffender, 5e-5);
+	chain.add(Priority::Integration, &deflection);
 
-	chain.add(mpc::Priority::AfterIntegration,
-			new MaximumTrajectoryLength(100 * Mpc));
+	// maximum trajectory length
+	MaximumTrajectoryLength trajLength(100 * Mpc);
+	chain.add(mpc::Priority::AfterIntegration, &trajLength);
 
 //	chain.add(Priority::AfterCommit, new GlutDisplay());
 //	chain.add(Priority::AfterCommit, new CandidateOutput());

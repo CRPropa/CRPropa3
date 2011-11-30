@@ -9,7 +9,7 @@
 #include "mpc/Units.h"
 #include "mpc/Output.h"
 #include "mpc/ModuleChainImport.h"
-#include "mpc/Decay.h"
+//#include "mpc/Decay.h"
 
 #include <iostream>
 
@@ -18,11 +18,12 @@ using namespace mpc;
 int main() {
 	ModuleChain chain;
 
-	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
-//	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
-//			-11. / 3., 2., 8.);
-//	std::cout << "initializing turbulent field" << std::endl;
-//	field.initialize();
+//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
+	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
+			-11. / 3., 200 * kpc, 800 * kpc);
+	std::cout << "initializing turbulent field" << std::endl;
+	field.setSeed(5);
+	field.initialize();
 
 	chain.add(Priority::Propagation,
 			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));

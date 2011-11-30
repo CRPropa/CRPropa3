@@ -5,48 +5,56 @@
 
 namespace mpc {
 
-TurbulentMagneticField::TurbulentMagneticField(Vector3 origin, size_t N,
-		double spacing, double Brms, double spectralIndex, double Lmin,
-		double Lmax) {
+TurbulentMagneticField::TurbulentMagneticField(Vector3 origin, size_t n,
+		double spacing, double Brms, double spectralIndex, double lMin,
+		double lMax) {
 	this->origin = origin;
-	this->N = N;
+	this->n = n;
 	this->spacing = spacing;
 	this->Brms = Brms;
 	this->spectralIndex = spectralIndex;
-	this->kMin = 1. / Lmax;
-	this->kMax = 1. / Lmin;
+	this->lMin = lMin / spacing;
+	this->lMax = lMax / spacing;
 }
 
 TurbulentMagneticField::~TurbulentMagneticField() {
 }
 
+void TurbulentMagneticField::setSeed(unsigned int seed) {
+	this->seed = seed;
+}
+
 void TurbulentMagneticField::initialize() {
-	// random generator
+	// random number generator
 	MTRand mtrand;
+	mtrand.seed(seed);
 
 	// vector components of B-field
 	fftw_complex *Bx, *By, *Bz;
-	Bx = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N * N * N);
-	By = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N * N * N);
-	Bz = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N * N * N);
+	Bx = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
+	By = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
+	Bz = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
 
 	// N discrete possible wave numbers
-	double K[N];
-	for (int i = 0; i < N / 2; i++)
-		K[i] = (float) i / N;
-	for (int i = N / 2; i < N; i++)
-		K[i] = (float) i / N - 1;
+	double K[n];
+	for (int i = 0; i < n / 2; i++)
+		K[i] = (float) i / n;
+	for (int i = n / 2; i < n; i++)
+		K[i] = (float) i / n - 1;
 
+	// create field in configuration space
 	int i;
 	double k, theta, phase, cosPhase, sinPhase;
+	double kMin = 1./lMax;
+	double kMax = 1./lMin;
 	Vector3 e1, e2, ek, b;
 	Vector3 n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
-	for (int ix = 0; ix < N; ix++) {
-		for (int iy = 0; iy < N; iy++) {
-			for (int iz = 0; iz < N; iz++) {
+	for (int ix = 0; ix < n; ix++) {
+		for (int iy = 0; iy < n; iy++) {
+			for (int iz = 0; iz < n; iz++) {
 
-				i = ix * N * N + iy * N + iz;
+				i = ix * n * n + iy * n + iz;
 				ek.set(K[ix], K[iy], K[iz]);
 				k = ek.mag();
 
@@ -91,23 +99,23 @@ void TurbulentMagneticField::initialize() {
 
 	// perform inverse FFT on each component
 	fftw_plan p;
-	p = fftw_plan_dft_3d(N, N, N, Bx, Bx, FFTW_BACKWARD, FFTW_ESTIMATE);
+	p = fftw_plan_dft_3d(n, n, n, Bx, Bx, FFTW_BACKWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
-	p = fftw_plan_dft_3d(N, N, N, By, By, FFTW_BACKWARD, FFTW_ESTIMATE);
+	p = fftw_plan_dft_3d(n, n, n, By, By, FFTW_BACKWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
-	p = fftw_plan_dft_3d(N, N, N, Bz, Bz, FFTW_BACKWARD, FFTW_ESTIMATE);
+	p = fftw_plan_dft_3d(n, n, n, Bz, Bz, FFTW_BACKWARD, FFTW_ESTIMATE);
 	fftw_execute(p);
 	fftw_destroy_plan(p);
 
 	// normalize RMS of field to Brms
 	double sumB2 = 0;
-	for (unsigned int i = 0; i < N * N * N; i++)
+	for (unsigned int i = 0; i < n * n * n; i++)
 		sumB2 += pow(Bx[i][0], 2) + pow(By[i][0], 2) + pow(Bz[i][0], 2);
 
-	double weight = Brms / sqrt(sumB2 / (N * N * N));
+	double weight = Brms / sqrt(sumB2 / (n * n * n));
 
-	field.resize(N * N * N);
-	for (unsigned int i = 0; i < N * N * N; i++) {
+	field.resize(n * n * n);
+	for (unsigned int i = 0; i < n * n * n; i++) {
 		field[i] = Vector3(Bx[i][0], By[i][0], Bz[i][0]) * weight;
 	}
 	fftw_free(Bx);
@@ -119,14 +127,14 @@ Vector3 TurbulentMagneticField::getField(const Vector3 &position) const {
 	Vector3 r = (position - origin) / spacing;
 
 	// index in a periodically continued grid
-	int ix = ((int(r.x())%N)+N)%N;
-	int iX = (ix + 1)%N;
+	int ix = ((int(r.x())%n)+n)%n;
+	int iX = (ix + 1)%n;
 
-	int iy = ((int(r.y())%N)+N)%N;
-	int iY = (iy + 1)%N;
+	int iy = ((int(r.y())%n)+n)%n;
+	int iY = (iy + 1)%n;
 
-	int iz = ((int(r.z())%N)+N)%N;
-	int iZ = (iz + 1)%N;
+	int iz = ((int(r.z())%n)+n)%n;
+	int iZ = (iz + 1)%n;
 
 	double fx = r.x() - floor(r.x());
 	double fX = 1 - fx;
@@ -138,25 +146,25 @@ Vector3 TurbulentMagneticField::getField(const Vector3 &position) const {
 	double fZ = 1 - fz;
 
 	Vector3 b(0.);
-	int N2 = N * N;
+	int n2 = n * n;
 
 	// check: http://paulbourke.net/miscellaneous/interpolation/
 	//V000 (1 - x) (1 - y) (1 - z) +
-	b += field[ix * N2 + iy * N + iz] * fX * fY * fZ;
+	b += field[ix * n2 + iy * n + iz] * fX * fY * fZ;
 	//V100 x (1 - y) (1 - z) +
-	b += field[iX * N2 + iy * N + iz] * fx * fY * fZ;
+	b += field[iX * n2 + iy * n + iz] * fx * fY * fZ;
 	//V010 (1 - x) y (1 - z) +
-	b += field[ix * N2 + iY * N + iz] * fX * fy * fZ;
+	b += field[ix * n2 + iY * n + iz] * fX * fy * fZ;
 	//V001 (1 - x) (1 - y) z +
-	b += field[ix * N2 + iy * N + iZ] * fX * fY * fz;
+	b += field[ix * n2 + iy * n + iZ] * fX * fY * fz;
 	//V101 x (1 - y) z +
-	b += field[iX * N2 + iy * N + iZ] * fx * fY * fz;
+	b += field[iX * n2 + iy * n + iZ] * fx * fY * fz;
 	//V011 (1 - x) y z +
-	b += field[ix * N2 + iY * N + iZ] * fX * fy * fz;
+	b += field[ix * n2 + iY * n + iZ] * fX * fy * fz;
 	//V110 x y (1 - z) +
-	b += field[iX * N2 + iY * N + iz] * fx * fy * fZ;
+	b += field[iX * n2 + iY * n + iz] * fx * fy * fZ;
 	//V111 x y z
-	b += field[iX * N2 + iY * N + iZ] * fx * fy * fz;
+	b += field[iX * n2 + iY * n + iZ] * fx * fy * fz;
 
 	return b;
 }

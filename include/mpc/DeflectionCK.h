@@ -105,12 +105,17 @@ public:
 			// limit step change
 			h = std::max(h, 0.1 * hTry);
 			h = std::min(h, 5 * hTry);
+//			h = std::max(h, candidate.getNextStepLowerLimit())
 		} while (r > 1);
 
 		candidate.current.setPosition(yOut.a);
 		candidate.current.setDirection(yOut.b.unit());
 		candidate.setCurrentStep(hTry * c_light);
 		candidate.setNextStep(h * c_light);
+//		candidate.setNextStepUpperLimit(h * c_light);
+
+		std::cout << candidate.getCurrentStep() << ", ";
+		std::cout << candidate.current.getPosition() << std::endl;
 	}
 
 };

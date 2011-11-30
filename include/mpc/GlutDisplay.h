@@ -12,7 +12,7 @@ public:
 	GlutDisplay();
 	~GlutDisplay();
 
-	void apply(Candidate &candidate);
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 	std::string getDescription() const;
 };
 

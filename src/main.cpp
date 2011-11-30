@@ -29,7 +29,7 @@ int main() {
 	MaximumTrajectoryLength trajLength(100 * Mpc);
 	chain.add(mpc::Priority::AfterIntegration, &trajLength);
 
-//	chain.add(Priority::AfterCommit, new GlutDisplay());
+	chain.add(Priority::AfterCommit, new GlutDisplay());
 //	chain.add(Priority::AfterCommit, new CandidateOutput());
 
 	import(chain, "example.xml");

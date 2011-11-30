@@ -24,7 +24,6 @@ float windowWidth = 500;
 float windowHeight = 500;
 bool continueDisplay;
 
-
 void keyboard(unsigned char key, int x, int y) {
 	switch (key) {
 	case 13: // enter
@@ -160,11 +159,12 @@ GlutDisplay::~GlutDisplay() {
 	glutDestroyWindow(glutGetWindow());
 }
 
-void GlutDisplay::apply(Candidate &candidate) {
+void GlutDisplay::process(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 
 	if (counter % refreshAfter == 0) {
 		// append trajectory point
-		points.push_back(candidate.current);
+		points.push_back(candidate->current);
 
 		glutPostRedisplay();
 

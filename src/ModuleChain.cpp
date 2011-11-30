@@ -29,22 +29,23 @@ void ModuleChain::add(size_t priority, Module *module) {
 	check();
 }
 
-void ModuleChain::apply(Candidate &candidate) {
+void ModuleChain::process(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	list_t::iterator iStartEntry = startModules.begin();
 	while (iStartEntry != startModules.end()) {
 		list_entry_t &entry = *iStartEntry;
 		iStartEntry++;
 
-		entry.second->apply(candidate);
+		entry.second->process(candidate, secondaries);
 	}
 
-	while (candidate.getStatus() == Candidate::Active) {
+	while (candidate->getStatus() == Candidate::Active) {
 		list_t::iterator iEntry = mainModules.begin();
 		while (iEntry != mainModules.end()) {
 			list_entry_t &entry = *iEntry;
 			iEntry++;
 
-			entry.second->apply(candidate);
+			entry.second->process(candidate, secondaries);
 		}
 	}
 
@@ -53,7 +54,7 @@ void ModuleChain::apply(Candidate &candidate) {
 		list_entry_t &entry = *iEndEntry;
 		iEndEntry++;
 
-		entry.second->apply(candidate);
+		entry.second->process(candidate, secondaries);
 	}
 }
 
@@ -79,6 +80,20 @@ void ModuleChain::check() {
 	if (integratorCount > 1) {
 		std::cerr << "Warning: more than one integration feature present."
 				<< std::endl;
+	}
+}
+
+void ModuleChain::process(std::vector<Candidate *> &candidates) {
+	bool haveActive = true;
+	while (haveActive) {
+		haveActive = false;
+		for (size_t i = 0; i < candidates.size(); i++) {
+			Candidate *candidate = candidates[i];
+			if (candidate->getStatus() == Candidate::Active) {
+				process(candidate, candidates);
+				haveActive = true;
+			}
+		}
 	}
 }
 

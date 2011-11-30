@@ -17,9 +17,9 @@ public:
 		this->maxLength = maxLength;
 	}
 
-	void apply(Candidate &candidate) {
-		if (candidate.getTrajectoryLength() >= maxLength)
-			candidate.setStatus(Candidate::ReachedMaxTime);
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		if (candidate->getTrajectoryLength() >= maxLength)
+			candidate->setStatus(Candidate::ReachedMaxTime);
 	}
 
 	std::string getDescription() const {
@@ -37,9 +37,9 @@ public:
 		this->minEnergy = minEnergy;
 	}
 
-	void apply(Candidate &candidate, size_t priority) {
-		if (candidate.current.getEnergy() <= minEnergy)
-			candidate.setStatus(Candidate::BelowEnergyThreshold);
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		if (candidate->current.getEnergy() <= minEnergy)
+			candidate->setStatus(Candidate::BelowEnergyThreshold);
 	}
 
 	std::string getDescription() const {

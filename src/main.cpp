@@ -49,7 +49,10 @@ int main() {
 	candidate.initial = initial;
 	candidate.setNextStep(0.05 * Mpc);
 
-	chain.apply(candidate);
+	std::vector<Candidate *> event;
+	event.push_back(&candidate);
+
+	chain.process(event);
 
 	return 0;
 }

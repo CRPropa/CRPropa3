@@ -40,7 +40,7 @@ public:
  * propagates the particle by a step particle.getNextStep() or smaller.
  * The step size control tries to keep the error close to, but smaller than the maxError
  */
-class DeflectionCK : public Module {
+class DeflectionCK: public Module {
 public:
 	MagneticField *field;
 	ExplicitRungeKutta<PhasePoint> erk;
@@ -62,13 +62,13 @@ public:
 		return "Cash-Karp Runge Kutta integration";
 	}
 
-	void apply(Candidate &candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 
-		PhasePoint yIn(candidate.current.getPosition(),
-				candidate.current.getMomentum());
+		PhasePoint yIn(candidate->current.getPosition(),
+				candidate->current.getMomentum());
 		PhasePoint yOut, yErr, yScale;
-		LorentzForce dydt(&candidate.current, field);
-		double hNext = candidate.getNextStep() / c_light, hTry, r;
+		LorentzForce dydt(&candidate->current, field);
+		double hNext = candidate->getNextStep() / c_light, hTry, r;
 
 		// phase-point to compare with error for step size control
 		yScale = (yIn.abs() + dydt(0., yIn).abs() * hNext) * tolerance;
@@ -106,10 +106,10 @@ public:
 			hNext = std::min(hNext, 5 * hTry);
 		} while (r > 1);
 
-		candidate.current.setPosition(yOut.a);
-		candidate.current.setDirection(yOut.b.unit());
-		candidate.setCurrentStep(hTry * c_light);
-		candidate.setNextStep(hNext * c_light);
+		candidate->current.setPosition(yOut.a);
+		candidate->current.setDirection(yOut.b.unit());
+		candidate->setCurrentStep(hTry * c_light);
+		candidate->setNextStep(hNext * c_light);
 	}
 
 };

@@ -2,6 +2,7 @@
 #define MODULE_H_
 
 #include <string>
+#include <vector>
 
 namespace mpc {
 
@@ -14,7 +15,8 @@ public:
 
 	virtual std::string getDescription() const;
 
-	virtual void apply(Candidate &candidate) = 0;
+	virtual void process(Candidate *candidate,
+			std::vector<Candidate *> &secondaries) = 0;
 };
 
 }

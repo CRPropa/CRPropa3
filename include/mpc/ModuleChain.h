@@ -13,9 +13,9 @@ namespace mpc {
 struct Priority {
 	enum Enum {
 		Start = 0,
-		BeforeIntegration = 20,
-		Integration = 25,
-		AfterIntegration = 30,
+		BeforePropagation = 20,
+		Propagation = 25,
+		AfterPropagation = 30,
 		BeforeInteraction = 45,
 		Interaction = 50,
 		AfterInteraction = 55,

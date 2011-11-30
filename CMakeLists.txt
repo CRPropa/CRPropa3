@@ -50,6 +50,10 @@ add_executable(testERK test/testERK.cpp)
 target_link_libraries(testERK ${GTEST_BOTH_LIBRARIES} pthread libmpc)
 add_test(test2 testERK)
 
+# test 2
+add_executable(testMagneticField test/testMagneticField.cpp)
+target_link_libraries(testMagneticField ${GTEST_BOTH_LIBRARIES} pthread libmpc fftw3)
+add_test(test2 testMagneticField)
 
 #INCLUDE (Python.cmake)
 #include_directories(${PYTHON_INCLUDE_PATH})

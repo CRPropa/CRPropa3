@@ -12,8 +12,8 @@ class CandidateOutput: public Module {
 
 	void apply(Candidate &candidate) {
 		std::cout << "Age: " << candidate.getTrajectoryLength() / Mpc << std::endl;
-		std::cout << "  CurrentStep: " << candidate.getCurrentStep() / Mpc << std::endl;
-		std::cout << "  NextStep:    " << candidate.getNextStep() / Mpc << std::endl;
+		std::cout << "  CurrentStep: " << candidate.getCurrentStep() * c_light / Mpc << std::endl;
+		std::cout << "  NextStep:    " << candidate.getNextStep() * c_light / Mpc << std::endl;
 	}
 };
 

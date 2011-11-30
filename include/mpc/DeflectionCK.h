@@ -68,13 +68,14 @@ public:
 				candidate->current.getMomentum());
 		PhasePoint yOut, yErr, yScale;
 		LorentzForce dydt(&candidate->current, field);
-		double hNext = candidate->getNextStep() / c_light, hTry, r;
+		double h = candidate->getNextStep() / c_light;
+		double hTry, r;
 
 		// phase-point to compare with error for step size control
-		yScale = (yIn.abs() + dydt(0., yIn).abs() * hNext) * tolerance;
+		yScale = (yIn.abs() + dydt(0., yIn).abs() * h) * tolerance;
 
 		do {
-			hTry = hNext;
+			hTry = h;
 			erk.step(0, yIn, yOut, yErr, hTry, dydt);
 			if (controlType == NoStepSizeControl) {
 				// no step size control
@@ -100,16 +101,21 @@ public:
 				r = pow(r / 3., 0.5);
 			}
 			// for efficient integration try to keep r close to one
-			hNext *= 0.95 * pow(r, -0.2);
+			h *= 0.95 * pow(r, -0.2);
 			// limit step change
-			hNext = std::max(hNext, 0.1 * hTry);
-			hNext = std::min(hNext, 5 * hTry);
+			h = std::max(h, 0.1 * hTry);
+			h = std::min(h, 5 * hTry);
+//			h = std::max(h, candidate.getNextStepLowerLimit())
 		} while (r > 1);
 
 		candidate->current.setPosition(yOut.a);
 		candidate->current.setDirection(yOut.b.unit());
 		candidate->setCurrentStep(hTry * c_light);
-		candidate->setNextStep(hNext * c_light);
+		candidate->setNextStep(h * c_light);
+//		candidate->setNextStepUpperLimit(h * c_light);
+
+		std::cout << candidate.getCurrentStep() << ", ";
+		std::cout << candidate.current.getPosition() << std::endl;
 	}
 
 };

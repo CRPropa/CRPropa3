@@ -8,6 +8,7 @@
 #include "mpc/Units.h"
 #include "mpc/Output.h"
 #include "mpc/ModuleChainImport.h"
+//#include "mpc/Decay.h"
 
 #include <iostream>
 
@@ -16,43 +17,42 @@ using namespace mpc;
 int main() {
 	ModuleChain chain;
 
-	// magnetic field
+//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
 	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
-			-11. / 3., 2., 8.);
+			-11. / 3., 200 * kpc, 800 * kpc);
+	std::cout << "initializing turbulent field" << std::endl;
+	field.setSeed(5);
 	field.initialize();
 
-	// deflection
-	DeflectionCK deflection(&field, DeflectionCK::WorstOffender, 5e-5);
-	chain.add(Priority::Integration, &deflection);
+	chain.add(Priority::Propagation,
+			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));
 
-	// maximum trajectory length
-	MaximumTrajectoryLength trajLength(100 * Mpc);
-	chain.add(mpc::Priority::AfterIntegration, &trajLength);
+	chain.add(mpc::Priority::AfterPropagation,
+			new MaximumTrajectoryLength(100 * Mpc));
+
+//	chain.add(Priority::Interaction, new Decay());
 
 	chain.add(Priority::AfterCommit, new GlutDisplay());
 //	chain.add(Priority::AfterCommit, new CandidateOutput());
 
-	import(chain, "example.xml");
+//	import(chain, "example.xml");
 
-	std::cout << chain << std::endl;
+	chain.print();
 
 	ParticleState initial;
-//	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
-	initial.setPosition(Vector3(2, 2, 2) * Mpc);
+	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
 	initial.setChargeNumber(1);
 	initial.setMass(1 * amu);
 	initial.setDirection(Vector3(1., 1., 1.));
-	initial.setEnergy(10 * EeV);
+	initial.setEnergy(1 * EeV);
+	initial.setId(1000);
 
 	Candidate candidate;
 	candidate.current = initial;
 	candidate.initial = initial;
 	candidate.setNextStep(0.05 * Mpc);
 
-	std::vector<Candidate *> event;
-	event.push_back(&candidate);
-
-	chain.process(event);
+	chain.process(candidate);
 
 	return 0;
 }

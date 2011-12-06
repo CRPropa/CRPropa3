@@ -1,4 +1,4 @@
-#include "mpc/SphMagneticField.h"
+#include "mpc/magneticfield/SphMagneticField.h"
 
 #include <stdint.h>
 #include <sstream>

@@ -29,13 +29,14 @@ public:
 		cached_id = 0;
 	}
 
-	void apply(Candidate &candidate) {
+	void process(Candidate &candidate) {
 		size_t id = candidate.current.getId();
 		double lf = candidate.current.getLorentzFactor()
 		double t = candidate.getCurrentStep() / lf;
 
 
 		std::vector<DecayMode> vecDecayModes = decayTable[id];
+//        getDecayLength(Z,A,tau,daughter,gamma);
 
 		if (vecDecayModes.size() == 0) // stable
 			return;
@@ -55,7 +56,7 @@ public:
 			return;
 		}
 
-		if (timer > t) { // life-time not reached
+		if (timer > t) { // life-time not over
 			timer -= t;
 			// limit next time step
 			candidate.setNextStepUpperLimit(timer * lf);

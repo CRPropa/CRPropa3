@@ -1,7 +1,8 @@
 #ifndef TURBULENTMAGNETICFIELD_H_
 #define TURBULENTMAGNETICFIELD_H_
 
-#include "mpc/MagneticField.h"
+#include "mpc/magneticfield/MagneticField.h"
+#include "mpc/MersenneTwister.h"
 #include "mpc/Vector3.h"
 #include <vector>
 
@@ -19,17 +20,17 @@ namespace mpc {
  *  isotropy:
  *  same coherence length in all directions
  */
-
-class TurbulentMagneticField : public MagneticField {
+class TurbulentMagneticField: public MagneticField {
 public:
 	TurbulentMagneticField(Vector3 origin, size_t n, double spacing,
 			double Brms, double spectralIndex, double lMin, double lMax);
 	~TurbulentMagneticField();
 	Vector3 getField(const Vector3 &position) const;
+
 	void setSeed(unsigned int seed);
 	void initialize();
 
-	std::vector<Vector3> field;
+	std::vector< std::vector< std::vector<Vector3> > > field;
 	Vector3 origin; // origin of grid
 	size_t n; // size of grid
 	double spacing; // grid spacing

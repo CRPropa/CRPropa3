@@ -3,7 +3,7 @@
 
 #include "mpc/Module.h"
 #include "mpc/Candidate.h"
-#include "mpc/MagneticField.h"
+#include "mpc/magneticfield/MagneticField.h"
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/PhasePoint.h"
 
@@ -114,8 +114,8 @@ public:
 		candidate->setNextStep(h * c_light);
 //		candidate->setNextStepUpperLimit(h * c_light);
 
-		std::cout << candidate.getCurrentStep() << ", ";
-		std::cout << candidate.current.getPosition() << std::endl;
+		std::cout << candidate->getCurrentStep() << ", ";
+		std::cout << candidate->current.getPosition() << std::endl;
 	}
 
 };

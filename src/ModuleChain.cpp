@@ -72,7 +72,7 @@ void ModuleChain::check() {
 		list_entry_t &entry = *iEntry;
 		iEntry++;
 
-		if (entry.first == Priority::Integration) {
+		if (entry.first == Priority::Propagation) {
 			integratorCount++;
 		}
 	}

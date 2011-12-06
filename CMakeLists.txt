@@ -2,58 +2,57 @@ cmake_minimum_required(VERSION 2.6)
 project(ModularPropagationCode)
 
 include_directories(include)
-#lib
-add_library(libmpc
+
+# libmpc
+add_library(mpc
     src/Candidate.cpp
-    src/GlutDisplay.cpp
     src/Vector3.cpp
     src/Module.cpp
     src/ModuleChainImport.cpp
     src/ParticleState.cpp
     src/ModuleChain.cpp
     src/SphMagneticField.cpp
-    src/TurbulentMagneticField.cpp
     src/pugixml/pugixml.cpp
 )
+set(LIBS ${LIBS} mpc)
 
-# exe
-add_executable(mpc src/main.cpp)
+# components with external dependencies
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-#find_package(FFTW REQUIRED)
+# fftw needed for TurbulentMagneticField
+find_package(FFTW)
+if (FFTW_FOUND)
+    add_library(turbulentfield src/TurbulentMagneticField.cpp)
+    set(LIBS ${LIBS} turbulentfield ${FFTW_LIBRARIES})
+endif (FFTW_FOUND)
 
-#find_program(GADGET_CONFIG_COMMAND "gadget-config") 
-#message("gadget-config: ${GADGET_CONFIG_COMMAND}")
-#execute_process(COMMAND ${GADGET_CONFIG_COMMAND} "--include" OUTPUT_VARIABLE GADGET_INCLUDES OUTPUT_STRIP_TRAILING_WHITESPACE)
-#message(STATUS "Gadget includes: ${GADGET_INCLUDES}")
-#
-#execute_process(COMMAND ${GADGET_CONFIG_COMMAND} "--libs" OUTPUT_VARIABLE GADGET_LIBS OUTPUT_STRIP_TRAILING_WHITESPACE)
-#message(STATUS "Gadget includes: ${GADGET_LIBS}")
-#
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GADGET_INCLUDES} ${OPTIONAL_CFLAGS}")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${GADGET_LIBS} ${OPTIONAL_LIBS}")
+# freeglut and GLU needed for GlutDisplay
+find_package(FreeGlut)
+find_package(OpenGl)
+if (Freeglut_FOUND)
+    if (OPENGL_GLU_FOUND)
+        add_library(glutdisplay src/GlutDisplay.cpp)
+        set(LIBS ${LIBS} glutdisplay ${Freeglut_LIBRARIES} ${OPENGL_glu_LIBRARY})
+    endif (OPENGL_GLU_FOUND)
+endif (Freeglut_FOUND)
 
-TARGET_LINK_LIBRARIES(mpc ${GADGET_LIBS} libmpc glut GLU fftw3)
+# executable
+add_executable(mpc-run src/main.cpp)
+TARGET_LINK_LIBRARIES(mpc-run ${LIBS})
 
-# gtest
-enable_testing()
-find_package(GTest REQUIRED)
-include_directories(src ${GTEST_INCLUDE_DIRS} libmpc)
+# testing
+find_package(GTest)
+if (GTEST_FOUND)
+    enable_testing()
 
-# test 1
-add_executable(testParticle test/testParticle.cpp)
-target_link_libraries(testParticle ${GTEST_BOTH_LIBRARIES} pthread libmpc)
-add_test(test1 testParticle)
+    add_executable(testCandidate test/testCandidate.cpp)
+    target_link_libraries(testCandidate ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
+    add_test(test1 testCandidate)
 
-# test 2
-add_executable(testERK test/testERK.cpp)
-target_link_libraries(testERK ${GTEST_BOTH_LIBRARIES} pthread libmpc)
-add_test(test2 testERK)
-
-# test 2
-add_executable(testMagneticField test/testMagneticField.cpp)
-target_link_libraries(testMagneticField ${GTEST_BOTH_LIBRARIES} pthread libmpc fftw3)
-add_test(test2 testMagneticField)
+    add_executable(testMagneticField test/testMagneticField.cpp)
+    target_link_libraries(testMagneticField ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
+    add_test(test2 testMagneticField)
+endif (GTEST_FOUND)
 
 #INCLUDE (Python.cmake)
 #include_directories(${PYTHON_INCLUDE_PATH})

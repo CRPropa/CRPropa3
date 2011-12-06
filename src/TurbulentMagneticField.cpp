@@ -1,7 +1,6 @@
-#include "mpc/TurbulentMagneticField.h"
+#include "mpc/magneticfield/TurbulentMagneticField.h"
 #include "mpc/MersenneTwister.h"
 #include "fftw3.h"
-#include <math.h>
 
 namespace mpc {
 
@@ -29,7 +28,7 @@ void TurbulentMagneticField::initialize() {
 	MTRand mtrand;
 	mtrand.seed(seed);
 
-	// vector components of B-field
+	// arrays to hold the complex vector components of B-field
 	fftw_complex *Bx, *By, *Bz;
 	Bx = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
 	By = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
@@ -37,16 +36,14 @@ void TurbulentMagneticField::initialize() {
 
 	// N discrete possible wave numbers
 	double K[n];
-	for (int i = 0; i < n / 2; i++)
-		K[i] = (float) i / n;
-	for (int i = n / 2; i < n; i++)
-		K[i] = (float) i / n - 1;
+	for (int i = 0; i < n; i++)
+		K[i] = (double) i / n - i / (n / 2);
 
 	// create field in configuration space
 	int i;
 	double k, theta, phase, cosPhase, sinPhase;
-	double kMin = 1./lMax;
-	double kMax = 1./lMin;
+	double kMin = 1. / lMax;
+	double kMax = 1. / lMin;
 	Vector3 e1, e2, ek, b;
 	Vector3 n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
@@ -63,11 +60,11 @@ void TurbulentMagneticField::initialize() {
 
 				// construct an orthogonal base e1, e2, ek
 				if ((ix == iy) && (iy == iz)) {
-					// ek || (1,1,1)
+					// ek parallel to (1,1,1)
 					e1.set(-1., 1., 0);
 					e2.set(1., 1., -2.);
 				} else {
-					// ek not || (1,1,1)
+					// ek not parallel to (1,1,1)
 					e1 = n0.cross(ek);
 					e2 = ek.cross(e1);
 				}
@@ -83,7 +80,6 @@ void TurbulentMagneticField::initialize() {
 
 				// uniform random phase
 				phase = 2 * M_PI * mtrand.rand();
-				fftw_complex a[2];
 				cosPhase = cos(phase); // real part
 				sinPhase = sin(phase); // imaginary part
 
@@ -98,14 +94,12 @@ void TurbulentMagneticField::initialize() {
 	}
 
 	// perform inverse FFT on each component
-	fftw_plan p;
-	p = fftw_plan_dft_3d(n, n, n, Bx, Bx, FFTW_BACKWARD, FFTW_ESTIMATE);
-	fftw_execute(p);
-	p = fftw_plan_dft_3d(n, n, n, By, By, FFTW_BACKWARD, FFTW_ESTIMATE);
-	fftw_execute(p);
-	p = fftw_plan_dft_3d(n, n, n, Bz, Bz, FFTW_BACKWARD, FFTW_ESTIMATE);
-	fftw_execute(p);
-	fftw_destroy_plan(p);
+	fftw_execute(
+			fftw_plan_dft_3d(n, n, n, Bx, Bx, FFTW_BACKWARD, FFTW_ESTIMATE));
+	fftw_execute(
+			fftw_plan_dft_3d(n, n, n, By, By, FFTW_BACKWARD, FFTW_ESTIMATE));
+	fftw_execute(
+			fftw_plan_dft_3d(n, n, n, Bz, Bz, FFTW_BACKWARD, FFTW_ESTIMATE));
 
 	// normalize RMS of field to Brms
 	double sumB2 = 0;
@@ -114,57 +108,63 @@ void TurbulentMagneticField::initialize() {
 
 	double weight = Brms / sqrt(sumB2 / (n * n * n));
 
-	field.resize(n * n * n);
-	for (unsigned int i = 0; i < n * n * n; i++) {
-		field[i] = Vector3(Bx[i][0], By[i][0], Bz[i][0]) * weight;
+	field.resize(n);
+	for (int ix = 0; ix < n; ix++) {
+		field[ix].resize(n);
+		for (int iy = 0; iy < n; iy++) {
+			field[ix][iy].resize(n);
+		}
 	}
+
+	for (unsigned int ix = 0; ix < n; ix++)
+		for (unsigned int iy = 0; iy < n; iy++)
+			for (unsigned int iz = 0; iz < n; iz++) {
+				int i = ix * n * n + iy * n + iz;
+				field[ix][iy][iz] = Vector3(Bx[i][0], By[i][0], Bz[i][0])
+						* weight;
+			}
+
 	fftw_free(Bx);
 	fftw_free(By);
 	fftw_free(Bz);
 }
 
+void periodicClamp(double pos, int n, int &lower, int &upper,
+		double &frac2Lower, double &frac2Upper) {
+	// closest lower and upper neighbour in a periodically continued grid
+	lower = ((int(pos) % n) + n) % n;
+	upper = (lower + 1) % n;
+	frac2Lower = pos - floor(pos);
+	frac2Upper = 1 - frac2Lower;
+}
+
 Vector3 TurbulentMagneticField::getField(const Vector3 &position) const {
 	Vector3 r = (position - origin) / spacing;
+	int ix, iX, iy, iY, iz, iZ;
+	double fx, fX, fy, fY, fz, fZ;
+	periodicClamp(r.x(), n, ix, iX, fx, fX);
+	periodicClamp(r.y(), n, iy, iY, fy, fY);
+	periodicClamp(r.z(), n, iz, iZ, fz, fZ);
 
-	// index in a periodically continued grid
-	int ix = ((int(r.x())%n)+n)%n;
-	int iX = (ix + 1)%n;
-
-	int iy = ((int(r.y())%n)+n)%n;
-	int iY = (iy + 1)%n;
-
-	int iz = ((int(r.z())%n)+n)%n;
-	int iZ = (iz + 1)%n;
-
-	double fx = r.x() - floor(r.x());
-	double fX = 1 - fx;
-
-	double fy = r.y() - floor(r.y());
-	double fY = 1 - fy;
-
-	double fz = r.z() - floor(r.y());
-	double fZ = 1 - fz;
-
-	Vector3 b(0.);
-	int n2 = n * n;
-
+	// trilinear interpolation
 	// check: http://paulbourke.net/miscellaneous/interpolation/
+	Vector3 b(0, 0, 0);
 	//V000 (1 - x) (1 - y) (1 - z) +
-	b += field[ix * n2 + iy * n + iz] * fX * fY * fZ;
+	b += field[ix][iy][iz] * fX * fY * fZ;
 	//V100 x (1 - y) (1 - z) +
-	b += field[iX * n2 + iy * n + iz] * fx * fY * fZ;
+	b += field[iX][iy][iz] * fx * fY * fZ;
 	//V010 (1 - x) y (1 - z) +
-	b += field[ix * n2 + iY * n + iz] * fX * fy * fZ;
+	b += field[ix][iY][iz] * fX * fy * fZ;
 	//V001 (1 - x) (1 - y) z +
-	b += field[ix * n2 + iy * n + iZ] * fX * fY * fz;
+	b += field[ix][iy][iZ] * fX * fY * fz;
 	//V101 x (1 - y) z +
-	b += field[iX * n2 + iy * n + iZ] * fx * fY * fz;
+	b += field[iX][iy][iZ] * fx * fY * fz;
 	//V011 (1 - x) y z +
-	b += field[ix * n2 + iY * n + iZ] * fX * fy * fz;
+	b += field[ix][iY][iZ] * fX * fy * fz;
 	//V110 x y (1 - z) +
-	b += field[iX * n2 + iY * n + iz] * fx * fy * fZ;
+	b += field[iX][iY][iz] * fx * fy * fZ;
 	//V111 x y z
-	b += field[iX * n2 + iY * n + iZ] * fx * fy * fz;
+	b += field[iX][iY][iZ] * fx * fy * fz;
 
 	return b;
 }

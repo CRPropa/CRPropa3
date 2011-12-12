@@ -1,6 +1,7 @@
 #ifndef MODULE_H_
 #define MODULE_H_
 
+#include "mpc/Candidate.h"
 #include <string>
 #include <vector>
 

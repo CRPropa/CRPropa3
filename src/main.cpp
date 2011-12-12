@@ -9,7 +9,7 @@
 #include "mpc/Units.h"
 #include "mpc/Output.h"
 #include "mpc/ModuleChainImport.h"
-//#include "mpc/Decay.h"
+#include "mpc/interaction/ElectronPairProduction.h"
 
 #include <iostream>
 
@@ -20,11 +20,11 @@ int main() {
 
 //	MagneticFieldRing field(Vector3(0,0,0),1e-12,0.1*Mpc,20*Mpc,30*Mpc);
 
-//	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
+	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
 
-	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
-			-11. / 3., 200 * kpc, 800 * kpc);
-	field.initialize();
+//	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
+//			-11. / 3., 200 * kpc, 800 * kpc);
+//	field.initialize();
 
 	chain.add(Priority::Propagation,
 			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));
@@ -32,18 +32,18 @@ int main() {
 	chain.add(mpc::Priority::AfterPropagation,
 			new MaximumTrajectoryLength(100 * Mpc));
 
+	chain.add(mpc::Priority::AfterPropagation, new ElectronPairProduction());
+
 	chain.add(Priority::AfterCommit, new GlutDisplay());
 
 	std::cout << chain << std::endl;
 
 
 	ParticleState initial;
-	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
-	initial.setChargeNumber(1);
-	initial.setMass(1 * amu);
-	initial.setDirection(Vector3(1., 1., 0.));
+	initial.setId(1000010010);
 	initial.setEnergy(1 * EeV);
-	initial.setId(2112);
+	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
+	initial.setDirection(Vector3(1., 1., 0.));
 
 	Candidate candidate;
 	candidate.current = initial;

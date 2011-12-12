@@ -33,19 +33,19 @@ TEST(particleTest, direction) {
 			particle.getMomentum() == v * (particle.getEnergy() / mpc::c_light));
 }
 
-TEST(particleTest, proton) {
-	mpc::ParticleState particle;
-	particle.setChargeNumber(1);
-	particle.setMass(1 * mpc::amu);
-
-	EXPECT_EQ(particle.getChargeNumber(), 1);
-	EXPECT_EQ(particle.getMass(), 1 * mpc::amu);
-	EXPECT_DOUBLE_EQ(particle.getChargeNumber(), 1);
+//TEST(particleTest, proton) {
+//	mpc::ParticleState particle;
+//	particle.setChargeNumber(1);
+//	particle.setMass(1 * mpc::amu);
+//
+//	EXPECT_EQ(particle.getChargeNumber(), 1);
+//	EXPECT_EQ(particle.getMass(), 1 * mpc::amu);
+//	EXPECT_DOUBLE_EQ(particle.getChargeNumber(), 1);
 //	EXPECT_DOUBLE_EQ(particle.getMass(), 1.660538921e-27);
-
-	particle.setEnergy(mpc::amu * mpc::c_squared);
-	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), 1);
-}
+//
+//	particle.setEnergy(mpc::amu * mpc::c_squared);
+//	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), 1);
+//}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

@@ -42,7 +42,7 @@ public:
 	void setStatus(Status stat);
 private:
 	double age;
-	double currentStep, nextStep;
+	double currentStep, nextStep; // stepsize in [m]
 	Status status;
 };
 

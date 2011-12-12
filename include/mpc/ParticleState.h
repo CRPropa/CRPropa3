@@ -8,38 +8,25 @@ namespace mpc {
 
 class ParticleState {
 public:
-	enum Type {
-		Gamma, Lepton, Hadron
-	};
-
-	union {
-		size_t baryonNumber;
-		size_t leptonNumber;
-		size_t massNumber;
-	};
-
-	double getEnergy() const;
-	void setEnergy(double newEnergy);
-
 	const Vector3 &getPosition() const;
 	void setPosition(const Vector3 &pos);
 
 	const Vector3 &getDirection() const;
 	void setDirection(const Vector3 &dir);
 
+	int getId() const;
+	void setId(int);
+
+	double getEnergy() const;
+	void setEnergy(double newEnergy);
+
 	double getChargeNumber() const;
-	void setChargeNumber(size_t charge);
+
+	double getMassNumber() const;
 
 	double getMass() const;
-	void setMass(double newMass);
 
-	Type getType();
-	void setType(Type t);
-
-	size_t getId() const;
-	void setId(size_t);
-
-	// convenience
+	// convenience functions
 	double getLorentzFactor() const;
 	Vector3 getVelocity() const;
 	Vector3 getMomentum() const;
@@ -48,11 +35,10 @@ private:
 	double energy;
 	Vector3 position;
 	Vector3 direction;
-	size_t chargeNumber;
 	double mass;
-	Type type;
-	size_t id;
+	int id;
 
+	void setMass(double newMass);
 };
 
 } // namespace mpc

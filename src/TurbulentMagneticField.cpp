@@ -58,7 +58,7 @@ void TurbulentMagneticField::initialize() {
 				if ((k < kMin) || (k > kMax))
 					continue; // wave outside of turbulent range -> B(k) = 0
 
-				// construct an orthogonal base e1, e2, ek
+				// construct an orthogonal base ek, e1, e2
 				if ((ix == iy) && (iy == iz)) {
 					// ek parallel to (1,1,1)
 					e1.set(-1., 1., 0);

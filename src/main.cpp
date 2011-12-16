@@ -10,6 +10,7 @@
 #include "mpc/Output.h"
 #include "mpc/ModuleChainImport.h"
 #include "mpc/interaction/ElectronPairProduction.h"
+#include "mpc/interaction/Decay.h"
 
 #include <iostream>
 

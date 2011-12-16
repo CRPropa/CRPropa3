@@ -2,6 +2,8 @@
 #define DECAY_H_
 
 #include "mpc/Module.h"
+#include "mpc/Candidate.h"
+#include "mpc/ParticleState.h"
 #include "mpc/MersenneTwister.h"
 
 #include <math.h>
@@ -13,32 +15,29 @@
 namespace mpc {
 
 struct DecayMode {
-	int decayType;
-	double decayTime;
-	double deltaMass;
+	int channel;
+	double distance;
 };
 
 class Decay: public Module {
 private:
 	MTRand mtrand;
 	std::map<size_t, std::vector<DecayMode> > decayModeMap;
-	size_t cached_id; // id of particle for which the decay was set
-	DecayMode cached_decayMode; // set decay mode
-	double cashed_distance; // decay
+	int cached_id;
+	int cached_channel;
+	double cached_distance;
 
 public:
 	Decay() {
-		cashed_distance(0), cached_id(0);
-
-		// read decay table
+		// read decay data
+		std::ifstream infile("include/data/decay.dat");
 		char header[256];
-		std::ifstream infile("include/data/bnl_data.dat");
 		infile.getline(header, 255);
 
 		int id;
 		DecayMode dm;
 		while (!infile.eof()) {
-			infile >> id >> dm.decayType >> dm.decayTime;
+			infile >> id >> dm.channel >> dm.distance;
 			decayModeMap[id].push_back(dm);
 		}
 	}
@@ -48,54 +47,84 @@ public:
 	}
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		int id = candidate.current.getId();
-		double gamma = candidate.current.getLorentzFactor()
-		double step = candidate.getCurrentStep() / gamma;
+		int id = candidate->current.getId();
+		double gamma = candidate->current.getLorentzFactor();
+		double step = candidate->getCurrentStep() / gamma;
+		std::vector<DecayMode> decayModes = decayModeMap[id];
 
-		std::vector<DecayMode> vecDecayModes = decayModeMap[id];
-
-		if (vecDecayModes.size() == 0) // stable
+		// check if stable
+		if (decayModes.size() == 0)
 			return;
 
-		if (id != cached_id) { // new particle, set new decay
-			// find decay mode with minimum random decay time
-			cashed_distance = std::numeric_limits<double>::max();
-			for (size_t i = 0; i < vecDecayModes.size(); i++) {
-				double t = -vecDecayModes[i].decayTime * log(mtrand.rand());
-				if (t > cashed_distance)
+		// check if decay is already cached, if not select decay
+		if (id != cached_id) {
+			// find decay mode with minimum random decay distance
+			cached_distance = std::numeric_limits<double>::max();
+			for (size_t i = 0; i < decayModes.size(); i++) {
+				double d = -log(mtrand.rand()) * decayModes[i].distance;
+				if (d > cached_distance)
 					continue;
-				cashed_distance = t;
-				cached_decayMode = vecDecayModes[i];
+				cached_distance = d;
+				cached_channel = decayModes[i].channel;
 			}
-			candidate.limitNextStep(cashed_distance * gamma);
+		}
+
+		// check if life-time is over
+		if (cached_distance > step) {
+			cached_distance -= step;
+			candidate->limitNextStep(cached_distance * gamma);
 			return;
 		}
 
-		if (cashed_distance > step) { // life-time not over
-			cashed_distance -= step;
-			candidate.limitNextStep(cashed_distance * gamma);
-			return;
-		}
+		// life time over -> decay
+		int nBeta = cached_channel / 10000;
+		int nBetaPlus = (cached_channel % 10000) / 1000;
+		int nAlpha = (cached_channel % 1000) / 100;
+		int nProton = (cached_channel % 100) / 10;
+		int nNeutron = cached_channel % 10;
 
-		// else decay
-		switch (cached_decayMode.decayType) {
-		case -1:
-			std::cout << "Beta- Decay" << std::endl;
-			break;
-		case 1:
-			std::cout << "Beta+ Decay" << std::endl;
-			break;
-		case 2:
-			std::cout << "Proton Dripping" << std::endl;
-			break;
-		case 3:
-			std::cout << "Neutron Dripping" << std::endl;
-			break;
-		case 4:
-			std::cout << "Alpha Decay" << std::endl;
-			break;
-			// goto middle or recursion?
+		// update particle
+		int dA = 4 * nAlpha + nProton + nNeutron;
+		int dZ = 2 * nAlpha + nProton;
+
+		int A = getMassNumberFromNucleusId(id);
+		int Z = getChargeNumberFromNucleusId(id);
+		double energyPerNucleon = candidate->current.getEnergy() / double(A);
+
+		candidate->current.setId(getNucleusId(A - dA, Z - dZ));
+		candidate->current.setEnergy(energyPerNucleon * (A - dA));
+
+		// create secondaries
+		for (int i = 0; i < nBeta; i++) {
+			// electron + neutrino
 		}
+		for (int i = 0; i < nBetaPlus; i++) {
+			// positron + neutrino
+		}
+		for (int i = 0; i < nAlpha; i++) {
+			createSecondary(candidate, secondaries, getNucleusId(4, 2),
+					energyPerNucleon * 4);
+		}
+		for (int i = 0; i < nProton; i++) {
+			createSecondary(candidate, secondaries, getNucleusId(4, 2),
+					energyPerNucleon);
+		}
+		for (int i = 0; i < nNeutron; i++) {
+			createSecondary(candidate, secondaries, getNucleusId(4, 2),
+					energyPerNucleon);
+		}
+	}
+
+	void createSecondary(Candidate *candidate,
+			std::vector<Candidate *> &secondaries, int id, double energy) {
+		ParticleState initial = candidate->current;
+		initial.setEnergy(energy);
+		initial.setId(id);
+		Candidate secondary;
+		secondary.current = initial;
+		secondary.initial = initial;
+		secondary.setNextStep(candidate->getCurrentStep());
+		secondaries.push_back(&secondary);
 	}
 };
 

@@ -14,11 +14,11 @@ public:
 	const Vector3 &getDirection() const;
 	void setDirection(const Vector3 &dir);
 
-	int getId() const;
-	void setId(int);
-
 	double getEnergy() const;
 	void setEnergy(double newEnergy);
+
+	int getId() const;
+	void setId(int);
 
 	double getChargeNumber() const;
 
@@ -32,11 +32,11 @@ public:
 	Vector3 getMomentum() const;
 
 private:
+	int id;
+	double mass;
 	double energy;
 	Vector3 position;
 	Vector3 direction;
-	double mass;
-	int id;
 
 	void setMass(double newMass);
 };

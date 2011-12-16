@@ -26,6 +26,9 @@ public:
 
 	Candidate();
 
+	double getRedshift() const;
+	void setRedshift(double z);
+
 	double getTrajectoryLength() const;
 	void setTrajectoryLength(double a);
 
@@ -33,15 +36,14 @@ public:
 	void setCurrentStep(double lstep);
 
 	double getNextStep() const;
-	void setNextStep(double nstep);
-
-	void setNextStepUpperLimit(double upper);
-	void setNextStepLowerLimit(double lower);
+	void setNextStep(double step);
+	void limitNextStep(double step);
 
 	Status getStatus() const;
 	void setStatus(Status stat);
+
 private:
-	double age;
+	double redshift, trajectoryLength;
 	double currentStep, nextStep; // stepsize in [m]
 	Status status;
 };

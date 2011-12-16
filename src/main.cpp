@@ -20,7 +20,7 @@ int main() {
 
 //	MagneticFieldRing field(Vector3(0,0,0),1e-12,0.1*Mpc,20*Mpc,30*Mpc);
 
-	HomogeneousMagneticField field(Vector3(0., 0., 1e-13));
+	HomogeneousMagneticField field(Vector3(0., 0., 1e-11));
 
 //	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
 //			-11. / 3., 200 * kpc, 800 * kpc);
@@ -32,16 +32,18 @@ int main() {
 	chain.add(mpc::Priority::AfterPropagation,
 			new MaximumTrajectoryLength(100 * Mpc));
 
-	chain.add(mpc::Priority::AfterPropagation, new ElectronPairProduction());
+	chain.add(mpc::Priority::AfterPropagation,
+			new ElectronPairProduction(ElectronPairProduction::CMB));
 
 	chain.add(Priority::AfterCommit, new GlutDisplay());
 
-	std::cout << chain << std::endl;
+	chain.add(Priority::AfterCommit, new TrajectoryOutput("trajectory.csv"));
 
+	std::cout << chain << std::endl;
 
 	ParticleState initial;
 	initial.setId(1000010010);
-	initial.setEnergy(1 * EeV);
+	initial.setEnergy(100 * EeV);
 	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
 	initial.setDirection(Vector3(1., 1., 0.));
 
@@ -52,7 +54,6 @@ int main() {
 
 	std::vector<Candidate *> event;
 	event.push_back(&candidate);
-
 
 	chain.process(event);
 

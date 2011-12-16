@@ -4,32 +4,51 @@
 #include "mpc/Module.h"
 #include "mpc/ParticleState.h"
 #include <fstream>
+#include <vector>
 
 namespace mpc {
 
 class ElectronPairProduction: public Module {
 private:
-	double y[69]; // tabulated electron pair production energy loss rate for protons in [J/m]
-	double x[69]; // tabulated energy in [J]
-	double dlx; // (logarithmic) spacing
-	double maxRelLoss; // approximate maximum relative energy loss per step
+	std::vector<double> y; // energy loss rate table for protons in [J/m]
+	std::vector<double> x; // energy table in [J]
 
 public:
-	ElectronPairProduction(double maxRelLoss) {
-		this->maxRelLoss = maxRelLoss;
+	enum PhotonField {
+		CMB, IR, CMBIR
+	};
+
+	ElectronPairProduction(PhotonField photonField) {
+		switch (photonField) {
+		case CMB:
+			init("data/epair_cmb.table");
+			break;
+		case IR:
+			init("data/epair_ir.table");
+			break;
+		case CMBIR:
+			init("data/epair_cmbir.table");
+			break;
+		}
+	}
+
+	ElectronPairProduction() {
+		init("data/epair_cmbir.table");
+	}
+
+	void init(std::string filename) {
 		// load energy loss rate table
-		std::ifstream infile("data/pair_rate_cmbir.table");
-		char str[256];
+		std::ifstream infile(filename.c_str());
+		char header[256];
 		for (int i = 0; i < 3; i++)
-			infile.getline(str, 255); // skip header
+			infile.getline(header, 255);
 		double a, b;
-		for (int i = 0; i < 70; i++) {
+		while (infile.good()) {
 			infile >> a >> b;
-			x[i] = a * eV; // convert [eV] -> [J]
-			y[i] = b * eV / Mpc; // convert [eV/Mpc] -> [J/m]
+			x.push_back(a * eV);
+			y.push_back(b * eV / Mpc);
 		}
 		infile.close();
-		dlx = log10(x[69] / x[0]) / 69;
 	}
 
 	std::string getDescription() const {
@@ -37,29 +56,33 @@ public:
 	}
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		double step = candidate->getCurrentStep();
+		double A = candidate->current.getMassNumber();
 		double E = candidate->current.getEnergy();
+		double z = candidate->getRedshift();
+
+		// energy per nucleon for lookup in proton table
+		double EpA = E / A * (1 + z);
+
+		// no data for EpA < 10^15 eV
+		if (EpA < 1.e15 * eV)
+			return;
+
+		double rate;
+		if (EpA < 1.e22 * eV) {
+			// index of next lower energy bin
+			int i = floor(log10(EpA / x[0]) * 69 / 7);
+			// linear interpolation: y(x) = y0 + dy/dx * (x-x0)
+			rate = y[i] + (y[i + 1] - y[i]) / (x[i + 1] - x[i]) * (EpA - x[i]);
+		} else {
+			// extrapolation for higher energies
+			rate = y[69] * pow(EpA / x[69], 0.4);
+		}
+
+		// dE(E) = Z^2 * loss_rate(E/A) * step
+		double step = candidate->getCurrentStep();
 		double Z = candidate->current.getChargeNumber();
-		double mass = candidate->current.getMass();
-
-		// index of next lower energy bin
-		int i = floor(log10(E / x[0]) / dlx);
-
-		// linear interpolation: y(x) = y0 + dy/dx * (x-x0)
-		double rate = y[i] + (y[i + 1] - y[i]) / (x[i + 1] - x[i]) * (E - x[i]);
-
-		// energy loss for nucleus of mass M
-		// dE(E) = m_p / m * Z^2 * loss_rate(E) * step
-		double dE = Z * Z * mass_proton / mass * rate * step;
-
-		std::cout << E / EeV << std::endl;
-		std::cout << dE / EeV << std::endl << std::endl;
-
+		double dE = Z * Z * rate * pow(1 + z, 3) * step;
 		candidate->current.setEnergy(E - dE);
-
-		// try to keep fractional energy loss smaller than maxRelLoss
-		// nextStep / step * dE / E < maxRelLoss
-		candidate->limitNextStep(step * E / dE * maxRelLoss);
 	}
 };
 

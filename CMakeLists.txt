@@ -49,9 +49,13 @@ if (GTEST_FOUND)
     target_link_libraries(testCandidate ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
     add_test(test1 testCandidate)
 
+    add_executable(testInteractions test/testInteractions.cpp)
+    target_link_libraries(testInteractions ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
+    add_test(test2 testInteractions)
+    
     add_executable(testMagneticField test/testMagneticField.cpp)
     target_link_libraries(testMagneticField ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test2 testMagneticField)
+    add_test(test3 testMagneticField)
 endif (GTEST_FOUND)
 
 #INCLUDE (Python.cmake)

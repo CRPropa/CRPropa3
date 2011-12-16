@@ -18,6 +18,10 @@ double ParticleState::getMass() const {
 	return getChargeNumberFromNucleusId(id) * amu;
 }
 
+double ParticleState::getMassNumber() const {
+	return getMassNumberFromNucleusId(id);
+}
+
 double ParticleState::getChargeNumber() const {
 	return getChargeNumberFromNucleusId(id);
 }

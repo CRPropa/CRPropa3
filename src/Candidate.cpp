@@ -3,11 +3,15 @@
 namespace mpc {
 
 Candidate::Candidate() :
-		age(0), currentStep(0), nextStep(0), status(Active) {
+		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), status(Active) {
+}
+
+double Candidate::getRedshift() const {
+	return redshift;
 }
 
 double Candidate::getTrajectoryLength() const {
-	return age;
+	return trajectoryLength;
 }
 
 double Candidate::getCurrentStep() const {
@@ -22,25 +26,25 @@ Candidate::Status Candidate::getStatus() const {
 	return status;
 }
 
+void Candidate::setRedshift(double z) {
+	redshift = z;
+}
+
 void Candidate::setTrajectoryLength(double a) {
-	age = a;
+	trajectoryLength = a;
 }
 
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
-	age += lstep;
+	trajectoryLength += lstep;
 }
 
-void Candidate::setNextStep(double nstep) {
-	nextStep = nstep;
+void Candidate::setNextStep(double step) {
+	nextStep = step;
 }
 
-void Candidate::setNextStepUpperLimit(double upper) {
-	nextStep = std::min(nextStep, upper);
-}
-
-void Candidate::setNextStepLowerLimit(double lower) {
-	nextStep = std::max(nextStep, lower);
+void Candidate::limitNextStep(double step) {
+	nextStep = std::min(nextStep, step);
 }
 
 void Candidate::setStatus(Status stat) {

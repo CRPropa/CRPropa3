@@ -12,7 +12,7 @@ const ModuleChain::list_t &ModuleChain::getEndModules() const {
 	return endModules;
 }
 
-void ModuleChain::add(size_t priority, Module *module) {
+void ModuleChain::add(Module *module, size_t priority) {
 	list_entry_t entry;
 	entry.first = priority;
 	entry.second = module;

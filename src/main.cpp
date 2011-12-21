@@ -19,32 +19,20 @@ using namespace mpc;
 int main() {
 	ModuleChain chain;
 
-//	MagneticFieldRing field(Vector3(0,0,0),1e-12,0.1*Mpc,20*Mpc,30*Mpc);
-
-	HomogeneousMagneticField field(Vector3(0., 0., 1e-11));
-
+	HomogeneousMagneticField field(Vector3(0., 0., 1e-12));
 //	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
 //			-11. / 3., 200 * kpc, 800 * kpc);
 //	field.initialize();
 
-	chain.add(Priority::Propagation,
-			new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5));
-
-	chain.add(mpc::Priority::AfterPropagation,
-			new MaximumTrajectoryLength(100 * Mpc));
-
-	chain.add(mpc::Priority::AfterPropagation,
-			new ElectronPairProduction(ElectronPairProduction::CMB));
-
-	chain.add(Priority::AfterCommit, new GlutDisplay());
-
-	chain.add(Priority::AfterCommit, new TrajectoryOutput("trajectory.csv"));
+	chain.add(new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5), 25);
+	chain.add(new Decay(), 30);
+	chain.add(new GlutDisplay(), 80);
 
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
-	initial.setId(1000010010);
-	initial.setEnergy(100 * EeV);
+	initial.setId(1001000000);
+	initial.setEnergy(10 * EeV);
 	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
 	initial.setDirection(Vector3(1., 1., 0.));
 

@@ -3,27 +3,28 @@
 
 #include "mpc/Vector3.h"
 #include "mpc/Units.h"
+#include "mpc/HepPID.h"
 
 namespace mpc {
 
 class ParticleState {
 public:
-	const Vector3 &getPosition() const;
 	void setPosition(const Vector3 &pos);
+	const Vector3 &getPosition() const;
 
-	const Vector3 &getDirection() const;
 	void setDirection(const Vector3 &dir);
+	const Vector3 &getDirection() const;
 
-	double getEnergy() const;
 	void setEnergy(double newEnergy);
+	double getEnergy() const;
 
-	int getId() const;
 	void setId(int);
+	int getId() const;
 
-	double getChargeNumber() const;
+	int getChargeNumber() const;
+	double getCharge() const;
 
-	double getMassNumber() const;
-
+	int getMassNumber() const;
 	double getMass() const;
 
 	// convenience functions
@@ -33,12 +34,9 @@ public:
 
 private:
 	int id;
-	double mass;
 	double energy;
 	Vector3 position;
 	Vector3 direction;
-
-	void setMass(double newMass);
 };
 
 } // namespace mpc

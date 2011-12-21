@@ -82,6 +82,16 @@ TEST(testElectronPairProduction, EnergyLossValues) {
 	}
 }
 
+//TEST(testDecay, NeutronDecay) {
+//	// test neutron life time
+//	Candidate candidate;
+//	candidate.setCurrentStep(1 * Mpc);
+//	candidate.current.setId(1000010010); // proton
+//	std::vector<Candidate *> secondaries;
+//
+//
+//}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

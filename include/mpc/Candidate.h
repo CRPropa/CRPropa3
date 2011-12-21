@@ -2,7 +2,6 @@
 #define CANDIDATE_H_
 
 #include "mpc/ParticleState.h"
-
 #include <vector>
 
 namespace mpc {

@@ -45,9 +45,9 @@ find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()
 
-    add_executable(testCandidate test/testCandidate.cpp)
-    target_link_libraries(testCandidate ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test1 testCandidate)
+    add_executable(testCore test/testCore.cpp)
+    target_link_libraries(testCore ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)
+    add_test(test1 testCore)
 
     add_executable(testInteractions test/testInteractions.cpp)
     target_link_libraries(testInteractions ${LIBS} ${GTEST_BOTH_LIBRARIES} pthread)

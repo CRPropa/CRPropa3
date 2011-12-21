@@ -22,7 +22,7 @@ struct DecayMode {
 class Decay: public Module {
 private:
 	MTRand mtrand;
-	std::map<size_t, std::vector<DecayMode> > decayModeMap;
+	std::map<int, std::vector<DecayMode> > decayModeMap;
 	int cached_id;
 	int cached_channel;
 	double cached_distance;
@@ -36,8 +36,8 @@ public:
 
 		int id;
 		DecayMode dm;
-		while (!infile.eof()) {
-			infile >> id >> dm.channel >> dm.distance;
+		while (infile.good()) {
+			infile >> id >> dm.distance >> dm.channel;
 			decayModeMap[id].push_back(dm);
 		}
 	}
@@ -52,16 +52,21 @@ public:
 		double step = candidate->getCurrentStep() / gamma;
 		std::vector<DecayMode> decayModes = decayModeMap[id];
 
+		std::cout << id << ", A " << candidate->current.getMassNumber() << ", Z " << candidate->current.getChargeNumber()<< std::endl;
+
 		// check if stable
 		if (decayModes.size() == 0)
+			std::cout << "stable" << std::endl;
 			return;
 
 		// check if decay is already cached, if not select decay
 		if (id != cached_id) {
+			id = cached_id;
 			// find decay mode with minimum random decay distance
 			cached_distance = std::numeric_limits<double>::max();
 			for (size_t i = 0; i < decayModes.size(); i++) {
 				double d = -log(mtrand.rand()) * decayModes[i].distance;
+				std::cout << d / Mpc << std::endl;
 				if (d > cached_distance)
 					continue;
 				cached_distance = d;

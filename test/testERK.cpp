@@ -37,7 +37,7 @@ public:
 	}
 };
 
-TEST(erkTest, geoStationaryOrbit) {
+TEST(testERK, geoStationaryOrbit) {
 	double siderialDay = 86164.0954; // siderial day in seconds
 	double GM = 3.986004418e14; // gravitational constant * mass of earth
 	double f = 2*3.14159/siderialDay; // angular frequency
@@ -53,7 +53,6 @@ TEST(erkTest, geoStationaryOrbit) {
 		erk.step(0, y, yOut, yErr, step, dydt); // step of 1 second
 		y = yOut;
 		std::cout << y.a.x() << "," << y.a.y() << "," << y.a.z() << std::endl;
-//		std::cout << y.a << ", " << y.b << std::endl;
 	}
 }
 

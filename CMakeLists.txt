@@ -12,6 +12,7 @@ add_library(mpc
     src/ParticleState.cpp
     src/ModuleChain.cpp
     src/SphMagneticField.cpp
+    src/interaction/ElectronPairProduction.cpp
     src/pugixml/pugixml.cpp
 )
 set(LIBS ${LIBS} mpc)
@@ -32,7 +33,7 @@ find_package(OpenGl)
 if (Freeglut_FOUND)
     if (OPENGL_GLU_FOUND)
         add_library(glutdisplay src/GlutDisplay.cpp)
-        set(LIBS ${LIBS} glutdisplay ${Freeglut_LIBRARIES} ${OPENGL_glu_LIBRARY})
+        set(LIBS ${LIBS} glutdisplay ${Freeglut_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
     endif (OPENGL_GLU_FOUND)
 endif (Freeglut_FOUND)
 

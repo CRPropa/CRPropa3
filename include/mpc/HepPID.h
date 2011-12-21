@@ -3,18 +3,18 @@
 
 namespace mpc {
 
-// HepPID codes for ions 1AAAZZZ00n, where n contains the total spin as n = 2J+1
-// see http://cepa.fnal.gov/psm/HepPID/
+// HepPID codes for ions 1AAAZZZ00nj (see http://cepa.fnal.gov/psm/HepPID/)
+// nj = 2J+1 is the nucleus total spin and is currently neglected
 inline int getNucleusId(int a, int z) {
-	return 1000000000 + z * 10000 + a * 10;
+	return 1e9 + a * 1e6 + z * 1e3;
 }
 
 inline int getChargeNumberFromNucleusId(int id) {
-	return ((id - 1000000000) % 1000000) / 1000;
+	return ((id - 1e9) % 1e6) / 1e3;
 }
 
 inline int getMassNumberFromNucleusId(int id) {
-	return (id - 1000000000) / 1000000;
+	return (id - 1e9) / 1e6;
 }
 
 }

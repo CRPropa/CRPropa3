@@ -21,19 +21,19 @@ public:
 	ElectronPairProduction(PhotonField photonField) {
 		switch (photonField) {
 		case CMB:
-			init("data/epair_cmb.table");
+			init("data/ElectronPairProduction/cmb.txt");
 			break;
 		case IR:
-			init("data/epair_ir.table");
+			init("data/ElectronPairProduction/ir.txt");
 			break;
 		case CMBIR:
-			init("data/epair_cmbir.table");
+			init("data/ElectronPairProduction/cmbir.txt");
 			break;
 		}
 	}
 
 	ElectronPairProduction() {
-		init("data/epair_cmbir.table");
+		init("data/ElectronPairProduction/cmbir.txt");
 	}
 
 	void init(std::string filename) {

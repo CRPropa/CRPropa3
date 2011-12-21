@@ -26,6 +26,7 @@ int main() {
 
 	chain.add(new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5), 25);
 	chain.add(new Decay(), 30);
+	chain.add(new ElectronPairProduction, 31);
 	chain.add(new GlutDisplay(), 80);
 
 	std::cout << chain << std::endl;

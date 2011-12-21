@@ -30,15 +30,28 @@ private:
 public:
 	Decay() {
 		// read decay data
-		std::ifstream infile("include/data/decay.dat");
+		std::ifstream infile("data/Decay/decayTable.txt");
 		char header[256];
 		infile.getline(header, 255);
 
 		int id;
 		DecayMode dm;
 		while (infile.good()) {
+			if (infile.eof())
+				break;
 			infile >> id >> dm.distance >> dm.channel;
+			dm.distance *= c_light;
 			decayModeMap[id].push_back(dm);
+		}
+
+		std::map<int, std::vector<DecayMode> >::iterator it;
+		for (it = decayModeMap.begin(); it != decayModeMap.end(); it++) {
+			std::cout << it->first << std::endl;
+			for (int i = 0; i < it->second.size(); i++) {
+				std::cout << it->second[i].channel << ": "
+						<< it->second[i].distance << std::endl;
+			}
+			std::cout << std::endl;
 		}
 	}
 
@@ -101,21 +114,21 @@ public:
 		candidate->current.setEnergy(energyPerNucleon * (A - dA));
 
 		// create secondaries
-		for (int i = 0; i < nBeta; i++) {
+		for (size_t i = 0; i < nBeta; i++) {
 			// electron + neutrino
 		}
-		for (int i = 0; i < nBetaPlus; i++) {
+		for (size_t i = 0; i < nBetaPlus; i++) {
 			// positron + neutrino
 		}
-		for (int i = 0; i < nAlpha; i++) {
+		for (size_t i = 0; i < nAlpha; i++) {
 			createSecondary(candidate, secondaries, getNucleusId(4, 2),
 					energyPerNucleon * 4);
 		}
-		for (int i = 0; i < nProton; i++) {
+		for (size_t i = 0; i < nProton; i++) {
 			createSecondary(candidate, secondaries, getNucleusId(4, 2),
 					energyPerNucleon);
 		}
-		for (int i = 0; i < nNeutron; i++) {
+		for (size_t i = 0; i < nNeutron; i++) {
 			createSecondary(candidate, secondaries, getNucleusId(4, 2),
 					energyPerNucleon);
 		}

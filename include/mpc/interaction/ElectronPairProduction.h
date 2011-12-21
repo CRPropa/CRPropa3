@@ -56,11 +56,11 @@ public:
 	}
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		double A = candidate->current.getMassNumber();
 		double E = candidate->current.getEnergy();
+		double A = candidate->current.getMassNumber();
 		double z = candidate->getRedshift();
 
-		// energy per nucleon for lookup in proton table
+		// redshift modified energy per nucleon for lookup in proton table
 		double EpA = E / A * (1 + z);
 
 		// no data for EpA < 10^15 eV

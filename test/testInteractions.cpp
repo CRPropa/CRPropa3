@@ -9,7 +9,7 @@ TEST(testElectronPairProduction, EnergyDecreasing) {
 	// test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(1000010010); // proton
+	candidate.current.setId(getNucleusId(1,1)); // proton
 	std::vector<Candidate *> secondaries;
 
 	ElectronPairProduction epp1(ElectronPairProduction::CMB);
@@ -42,7 +42,7 @@ TEST(testElectronPairProduction, BelowEnergyTreshold) {
 	ElectronPairProduction epp(ElectronPairProduction::CMB);
 
 	Candidate candidate;
-	candidate.current.setId(1000010010); // proton
+	candidate.current.setId(getNucleusId(1,1)); // proton
 	std::vector<Candidate *> secondaries;
 
 	double E = 1e14 * eV;
@@ -69,7 +69,7 @@ TEST(testElectronPairProduction, EnergyLossValues) {
 
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(1000010010); // proton
+	candidate.current.setId(getNucleusId(1,1)); // proton
 	std::vector<Candidate *> secondaries;
 
 	ElectronPairProduction epp;

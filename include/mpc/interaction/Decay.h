@@ -52,12 +52,13 @@ public:
 		double step = candidate->getCurrentStep() / gamma;
 		std::vector<DecayMode> decayModes = decayModeMap[id];
 
-		std::cout << id << ", A " << candidate->current.getMassNumber() << ", Z " << candidate->current.getChargeNumber()<< std::endl;
+		std::cout << id << ", A " << candidate->current.getMassNumber()
+				<< ", Z " << candidate->current.getChargeNumber() << std::endl;
 
 		// check if stable
 		if (decayModes.size() == 0)
 			std::cout << "stable" << std::endl;
-			return;
+		return;
 
 		// check if decay is already cached, if not select decay
 		if (id != cached_id) {

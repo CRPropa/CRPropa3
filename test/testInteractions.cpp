@@ -2,6 +2,7 @@
 #include "mpc/Candidate.h"
 #include "mpc/interaction/ElectronPairProduction.h"
 #include <iostream>
+#include <fstream>
 
 namespace mpc {
 

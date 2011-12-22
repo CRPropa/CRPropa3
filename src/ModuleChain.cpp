@@ -13,6 +13,9 @@ const ModuleChain::list_t &ModuleChain::getEndModules() const {
 }
 
 void ModuleChain::add(Module *module, size_t priority) {
+	if (module == 0)
+		return;
+
 	list_entry_t entry;
 	entry.first = priority;
 	entry.second = module;
@@ -35,13 +38,15 @@ void ModuleChain::process(list_t &list, Candidate *candidate,
 	while (iEntry != list.end()) {
 		list_entry_t &entry = *iEntry;
 		iEntry++;
-
 		entry.second->process(candidate, secondaries);
 	}
 }
 
 void ModuleChain::process(Candidate *candidate,
 		std::vector<Candidate *> &secondaries) {
+	if (mainModules.size() == 0)
+		return;
+
 	process(startModules, candidate, secondaries);
 
 	while (candidate->getStatus() == Candidate::Active) {
@@ -89,6 +94,9 @@ void ModuleChain::process(std::vector<Candidate *> &candidates) {
 				haveActive = true;
 			}
 		}
+
+		if (mainModules.size() == 0)
+			break;
 	}
 }
 

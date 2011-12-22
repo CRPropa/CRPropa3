@@ -4,6 +4,8 @@
 #include "mpc/Module.h"
 #include "mpc/ParticleState.h"
 
+#include <fstream>
+
 namespace mpc {
 
 struct IndexStruct {
@@ -22,133 +24,19 @@ private:
 	std::vector<double> tabulatedMeanFreePath;
 
 public:
-	PhotoDisintegration() {
-		IndexStruct index;
-		char str[256];
-		size_t dev0;
-
-		// load nucleus index
-		std::ifstream infile("data/PDInitNucleusId.cmt");
-		infile.getline(str, 255); // skip header
-		while (!infile.eof()) {
-			infile >> index.id >> dev0 >> dev0 >> index.start >> index.end;
-			nucleusIndex.push_back(index);
-		}
-
-		// load channel index
-		std::ifstream infile("data/PDExclTabMnFrPthCrossId.cmt");
-		infile.getline(str, 255); // skip header
-		while (!infile.eof()) {
-			infile >> index.id >> index.start;
-			channelIndex.push_back(index);
-		}
-
-		// load mean free path values
-		double value;
-		std::ifstream infile("data/PDExclTabMnFrPthCross.cmt");
-		infile.getline(str, 255); // skip header
-		while (!infile.eof()) {
-			infile >> value;
-			tabulatedMeanFreePath.push_back(value);
-		}
-	}
+	PhotoDisintegration();
 
 	~PhotoDisintegration();
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		step
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
+	double getLambdaSum(Candidate candidate);
 
-	}
-
-	double getLambdaSum(Candidate candidate) {
-		int id = candidate.current.getId();
-		double logGamma = log(candidate.current.getLorentzFactor());
-
-		size_t start = nucleusIndex[id].start;
-		size_t end = nucleusIndex[id].end;
-
-		double mfp = 0;
-		for (size_t i = start; i < end; i++)
-			mfp += interpolate(channelIndex[i].start, logGamma);
-
-		return 1. / mfp;
-	}
-
-	double interpolate(size_t start, double x) {
-		// bin below
-		size_t i = size_t((x - xMin) / dx) + start;
-		//energy below / above
-		double x0 = xMin + i * dx;
-		double x1 = x0 + dx;
-		//value below / above
-		double y0 = tabulatedMeanFreePath[i];
-		double y1 = tabulatedMeanFreePath[i];
-		return (y0 + (y0 - y1) * (x - x0) / dx);
-	}
-
+	double interpolate(size_t start, double x);
 	void disintegrate(Candidate *candidate,
-			std::vector<Candidate *> &secondaries, size_t channel) {
-
-		int id = candidate->current.getId();
-
-		// disintegration
-		int nNeutron = channel / 1.e5;
-		int nProton = (channel % 1.e5) / 1.e4;
-		int nDeuterium = (channel % 1.e4) / 1.e3;
-		int nTritium = (channel % 1.e3) / 1.e2;
-		int nHelium3 = (channel % 1.e2) / 1.e1;
-		int nHelium4 = (channel % 1.e1);
-		int dA = nNeutron + nProton + 2 * nDeuterium + 3 * nTritium
-				+ 3 * nHelium3 + 4 * nHelium4;
-		int dZ = nProton + nDeuterium + nTritium + 2 * nHelium3 + 2 * nHelium4;
-
-		// particle
-		int A = getMassNumberFromNucleusId(id);
-		int Z = getChargeNumberFromNucleusId(id);
-		double energyPerNucleon = candidate->current.getEnergy() / double(A);
-
-		// update particle
-		A -= dA;
-		Z -= dA;
-		candidate->current.setId(getNucleusId(A, Z));
-		candidate->current.setEnergy(energyPerNucleon * A);
-
-		// create secondaries
-		for (int i = 0; i < nNeutron; i++) {
-			createSecondary(candidate, secondaries, 2112, energyPerNucleon);
-		}
-		for (int i = 0; i < nProton; i++) {
-			createSecondary(candidate, secondaries, 2212, energyPerNucleon);
-		}
-		for (int i = 0; i < nDeuterium; i++) {
-			createSecondary(candidate, secondaries, 1000010020,
-					energyPerNucleon * 2);
-		}
-		for (int i = 0; i < nTritium; i++) {
-			createSecondary(candidate, secondaries, 1000010030,
-					energyPerNucleon * 3);
-		}
-		for (int i = 0; i < nHelium3; i++) {
-			createSecondary(candidate, secondaries, 1000020030,
-					energyPerNucleon * 3);
-		}
-		for (int i = 0; i < nHelium4; i++) {
-			createSecondary(candidate, secondaries, 1000020040,
-					energyPerNucleon * 4);
-		}
-	}
+			std::vector<Candidate *> &secondaries, size_t channel);
 
 	void createSecondary(Candidate *candidate,
-			std::vector<Candidate *> &secondaries, int id, double energy) {
-		ParticleState initial = candidate->current;
-		initial.setEnergy(energy);
-		initial.setId(id);
-		Candidate secondary;
-		secondary.current = initial;
-		secondary.initial = initial;
-		secondary.setNextStep(candidate->getCurrentStep());
-		secondaries.push_back(&secondary);
-	}
+			std::vector<Candidate *> &secondaries, int id, double energy);
 
 };
 

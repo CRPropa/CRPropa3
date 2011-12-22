@@ -4,6 +4,8 @@
 #include "mpc/Module.h"
 #include "mpc/ParticleState.h"
 
+#include <fstream>
+
 namespace mpc {
 
 struct IndexStruct {
@@ -36,7 +38,7 @@ public:
 		}
 
 		// load channel index
-		std::ifstream infile("data/PDExclTabMnFrPthCrossId.cmt");
+		 infile.open("data/PDExclTabMnFrPthCrossId.cmt");
 		infile.getline(str, 255); // skip header
 		while (!infile.eof()) {
 			infile >> index.id >> index.start;
@@ -45,7 +47,7 @@ public:
 
 		// load mean free path values
 		double value;
-		std::ifstream infile("data/PDExclTabMnFrPthCross.cmt");
+		infile.open("data/PDExclTabMnFrPthCross.cmt");
 		infile.getline(str, 255); // skip header
 		while (!infile.eof()) {
 			infile >> value;
@@ -56,8 +58,6 @@ public:
 	~PhotoDisintegration();
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		step
-
 	}
 
 	double getLambdaSum(Candidate candidate) {
@@ -92,12 +92,12 @@ public:
 		int id = candidate->current.getId();
 
 		// disintegration
-		int nNeutron = channel / 1.e5;
-		int nProton = (channel % 1.e5) / 1.e4;
-		int nDeuterium = (channel % 1.e4) / 1.e3;
-		int nTritium = (channel % 1.e3) / 1.e2;
-		int nHelium3 = (channel % 1.e2) / 1.e1;
-		int nHelium4 = (channel % 1.e1);
+		int nNeutron = channel / 100000;
+		int nProton = (channel % 100000) / 10000;
+		int nDeuterium = (channel % 10000) / 1000;
+		int nTritium = (channel % 1000) / 100;
+		int nHelium3 = (channel % 100) / 10;
+		int nHelium4 = (channel % 10);
 		int dA = nNeutron + nProton + 2 * nDeuterium + 3 * nTritium
 				+ 3 * nHelium3 + 4 * nHelium4;
 		int dZ = nProton + nDeuterium + nTritium + 2 * nHelium3 + 2 * nHelium4;

@@ -8,7 +8,7 @@
 #include "mpc/magneticfield/MagneticFieldRing.h"
 #include "mpc/Units.h"
 #include "mpc/Output.h"
-#include "mpc/ModuleChainImport.h"
+#include "mpc/XMLImport.h"
 #include "mpc/interaction/ElectronPairProduction.h"
 #include "mpc/interaction/Decay.h"
 
@@ -16,17 +16,25 @@
 
 using namespace mpc;
 
-int main() {
+int main(int argc, char **argv) {
 	ModuleChain chain;
 
-	HomogeneousMagneticField field(Vector3(0., 0., 1e-12));
+	if (argc > 1) {
+		XMLImport import(&chain);
+		import.import(argv[1]);
+	} else {
+
+		HomogeneousMagneticField *field = new HomogeneousMagneticField(
+				Vector3(0., 0., 1e-12));
 //	TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc, 1. * nG,
 //			-11. / 3., 200 * kpc, 800 * kpc);
 //	field.initialize();
 
-	chain.add(new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5), 25);
-	chain.add(new ElectronPairProduction(ElectronPairProduction::IR), 30);
-	chain.add(new GlutDisplay(), 80);
+		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 5e-5),
+				25);
+		chain.add(new ElectronPairProduction(ElectronPairProduction::IR), 30);
+		chain.add(new GlutDisplay(), 80);
+	}
 
 	std::cout << chain << std::endl;
 

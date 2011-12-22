@@ -1,7 +1,5 @@
 #include "mpc/DeflectionCK.h"
 
-#include "mpc/XMLImport.h"
-
 namespace mpc {
 
 /**

@@ -6,9 +6,10 @@ include_directories(include)
 # libmpc
 add_library(mpc
     src/Candidate.cpp
+    src/DeflectionCK.cpp
     src/Vector3.cpp
+    src/XMLImport.cpp
     src/Module.cpp
-    src/ModuleChainImport.cpp
     src/ParticleState.cpp
     src/ModuleChain.cpp
     src/SphMagneticField.cpp

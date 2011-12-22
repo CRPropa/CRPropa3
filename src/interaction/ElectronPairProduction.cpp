@@ -18,13 +18,13 @@ void ElectronPairProduction::init(PhotonField photonField) {
 	field = photonField;
 	switch (photonField) {
 	case CMB:
-		init("data/epair_cmb.table");
+		init("data/ElectronPairProduction/cmb.txt");
 		break;
 	case IR:
-		init("data/epair_ir.table");
+		init("data/ElectronPairProduction/ir.txt");
 		break;
 	case CMBIR:
-		init("data/epair_cmbir.table");
+		init("data/ElectronPairProduction/cmbir.txt");
 		break;
 	}
 }
@@ -39,7 +39,6 @@ void ElectronPairProduction::init(std::string filename) {
 			if (infile) {
 				x.push_back(a * eV);
 				y.push_back(b * eV / Mpc);
-				std::cout << a << ", " << b << std::endl;
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -47,7 +46,7 @@ void ElectronPairProduction::init(std::string filename) {
 	infile.close();
 }
 
-std::string ElectronPairProduction::ElectronPairProduction::getDescription() const {
+std::string ElectronPairProduction::getDescription() const {
 	static std::string u("Electron-pair production (unknown)");
 
 	switch (field) {

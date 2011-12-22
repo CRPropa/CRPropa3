@@ -36,6 +36,7 @@ public:
 	const list_t &getEndModules() const;
 
 	void add(Module *module, size_t priority);
+	void process(list_t &list, Candidate *candidate, std::vector<Candidate *> &secondaries);
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 	void process(std::vector<Candidate *> &candidates);
 	void clear();

@@ -29,33 +29,28 @@ void ModuleChain::add(Module *module, size_t priority) {
 	check();
 }
 
+void ModuleChain::process(list_t &list, Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
+	list_t::iterator iEntry = list.begin();
+	while (iEntry != list.end()) {
+		list_entry_t &entry = *iEntry;
+		iEntry++;
+
+		entry.second->process(candidate, secondaries);
+	}
+}
+
 void ModuleChain::process(Candidate *candidate,
 		std::vector<Candidate *> &secondaries) {
-	list_t::iterator iStartEntry = startModules.begin();
-	while (iStartEntry != startModules.end()) {
-		list_entry_t &entry = *iStartEntry;
-		iStartEntry++;
-
-		entry.second->process(candidate, secondaries);
-	}
+	process(startModules, candidate, secondaries);
 
 	while (candidate->getStatus() == Candidate::Active) {
-		list_t::iterator iEntry = mainModules.begin();
-		while (iEntry != mainModules.end()) {
-			list_entry_t &entry = *iEntry;
-			iEntry++;
-
-			entry.second->process(candidate, secondaries);
-		}
+		if (mainModules.size() == 0)
+			break;
+		process(mainModules, candidate, secondaries);
 	}
 
-	list_t::iterator iEndEntry = endModules.begin();
-	while (iEndEntry != endModules.end()) {
-		list_entry_t &entry = *iEndEntry;
-		iEndEntry++;
-
-		entry.second->process(candidate, secondaries);
-	}
+	process(endModules, candidate, secondaries);
 }
 
 void ModuleChain::clear() {

@@ -29,30 +29,22 @@ private:
 
 public:
 	Decay() {
+		cached_id = 0;
 		// read decay data
-		std::ifstream infile("data/Decay/decayTable.txt");
-		char header[256];
-		infile.getline(header, 255);
-
 		int id;
 		DecayMode dm;
+		std::ifstream infile("data/Decay/decayTable.txt");
 		while (infile.good()) {
-			if (infile.eof())
-				break;
-			infile >> id >> dm.distance >> dm.channel;
-			dm.distance *= c_light;
-			decayModeMap[id].push_back(dm);
-		}
-
-		std::map<int, std::vector<DecayMode> >::iterator it;
-		for (it = decayModeMap.begin(); it != decayModeMap.end(); it++) {
-			std::cout << it->first << std::endl;
-			for (int i = 0; i < it->second.size(); i++) {
-				std::cout << it->second[i].channel << ": "
-						<< it->second[i].distance << std::endl;
+			if (infile.peek() != '#') {
+				infile >> id >> dm.distance >> dm.channel;
+				if (infile) {
+					dm.distance *= c_light;
+					decayModeMap[id].push_back(dm);
+				}
 			}
-			std::cout << std::endl;
+			infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
+		infile.close();
 	}
 
 	std::string getDescription() const {
@@ -61,26 +53,21 @@ public:
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		int id = candidate->current.getId();
+		std::vector<DecayMode> decayModes = decayModeMap[id];
 		double gamma = candidate->current.getLorentzFactor();
 		double step = candidate->getCurrentStep() / gamma;
-		std::vector<DecayMode> decayModes = decayModeMap[id];
-
-		std::cout << id << ", A " << candidate->current.getMassNumber()
-				<< ", Z " << candidate->current.getChargeNumber() << std::endl;
 
 		// check if stable
 		if (decayModes.size() == 0)
-			std::cout << "stable" << std::endl;
-		return;
+			return;
 
-		// check if decay is already cached, if not select decay
+		// check if a decay is already cached, if not select one
 		if (id != cached_id) {
-			id = cached_id;
+			cached_id = id;
 			// find decay mode with minimum random decay distance
 			cached_distance = std::numeric_limits<double>::max();
 			for (size_t i = 0; i < decayModes.size(); i++) {
 				double d = -log(mtrand.rand()) * decayModes[i].distance;
-				std::cout << d / Mpc << std::endl;
 				if (d > cached_distance)
 					continue;
 				cached_distance = d;
@@ -88,32 +75,36 @@ public:
 			}
 		}
 
-		// check if life-time is over
+		// check if life-time is over, reduce life-time
 		if (cached_distance > step) {
 			cached_distance -= step;
 			candidate->limitNextStep(cached_distance * gamma);
 			return;
 		}
 
-		// life time over -> decay
+		// else life time is over, decay
+		cached_id = 0;
+		doDecay(candidate, secondaries);
+	}
+
+	void doDecay(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		int nBeta = cached_channel / 10000;
 		int nBetaPlus = (cached_channel % 10000) / 1000;
 		int nAlpha = (cached_channel % 1000) / 100;
 		int nProton = (cached_channel % 100) / 10;
 		int nNeutron = cached_channel % 10;
 
-		// update particle
-		int dA = 4 * nAlpha + nProton + nNeutron;
-		int dZ = 2 * nAlpha + nProton;
+		int dA = -4 * nAlpha - nProton - nNeutron;
+		int dZ = -2 * nAlpha - nProton + nBeta - nBetaPlus;
 
+		int id = candidate->current.getId();
 		int A = getMassNumberFromNucleusId(id);
 		int Z = getChargeNumberFromNucleusId(id);
 		double energyPerNucleon = candidate->current.getEnergy() / double(A);
 
-		candidate->current.setId(getNucleusId(A - dA, Z - dZ));
-		candidate->current.setEnergy(energyPerNucleon * (A - dA));
+		candidate->current.setId(getNucleusId(A + dA, Z + dZ));
+		candidate->current.setEnergy(energyPerNucleon * (A + dA));
 
-		// create secondaries
 		for (size_t i = 0; i < nBeta; i++) {
 			// electron + neutrino
 		}

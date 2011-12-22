@@ -1,7 +1,9 @@
 #include "gtest/gtest.h"
 #include "mpc/Candidate.h"
 #include "mpc/interaction/ElectronPairProduction.h"
-#include <iostream>
+#include "mpc/interaction/Decay.h"
+
+#include <fstream>
 
 namespace mpc {
 
@@ -55,15 +57,17 @@ TEST(testElectronPairProduction, EnergyLossValues) {
 	// test if energy loss corresponds to table
 	std::vector<double> x;
 	std::vector<double> y;
-	std::ifstream infile("data/epair_cmbir.table");
-	char header[256];
-	for (int i = 0; i < 3; i++)
-		infile.getline(header, 255);
-	double a, b;
+	std::ifstream infile("data/ElectronPairProduction/cmbir.txt");
 	while (infile.good()) {
-		infile >> a >> b;
-		x.push_back(a * eV);
-		y.push_back(b * eV / Mpc);
+		if (infile.peek() != '#') {
+			double a, b;
+			infile >> a >> b;
+			if (infile) {
+				x.push_back(a * eV);
+				y.push_back(b * eV / Mpc);
+			}
+		}
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
 
@@ -82,15 +86,66 @@ TEST(testElectronPairProduction, EnergyLossValues) {
 	}
 }
 
-//TEST(testDecay, NeutronDecay) {
-//	// test neutron life time
-//	Candidate candidate;
-//	candidate.setCurrentStep(1 * Mpc);
-//	candidate.current.setId(1000010010); // proton
-//	std::vector<Candidate *> secondaries;
-//
-//
-//}
+
+TEST(testDecay, Neutron) {
+	// test beta- decay n -> p
+	Candidate candidate;
+	candidate.setCurrentStep(1 * Mpc);
+	candidate.current.setId(getNucleusId(1,0));
+	candidate.current.setEnergy(1 * EeV);
+	std::vector<Candidate *> secondaries;
+	Decay d;
+	d.process(&candidate, secondaries);
+	EXPECT_EQ(candidate.current.getId(), getNucleusId(1,1));
+}
+
+TEST(testDecay, Scandium44) {
+	// test beta+ decay 44Sc -> 44Ca
+	Candidate candidate;
+	candidate.setCurrentStep(1 * Mpc);
+	candidate.current.setId(getNucleusId(44,21));
+	candidate.current.setEnergy(1 * EeV);
+	std::vector<Candidate *> secondaries;
+	Decay d;
+	d.process(&candidate, secondaries);
+	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
+}
+
+TEST(testDecay, Chlorium30) {
+	// test proton emission 30Cl -> 29S
+	Candidate candidate;
+	candidate.setCurrentStep(1 * Mpc);
+	candidate.current.setId(getNucleusId(30,17));
+	candidate.current.setEnergy(1 * EeV);
+	std::vector<Candidate *> secondaries;
+	Decay d;
+	d.process(&candidate, secondaries);
+	EXPECT_EQ(candidate.current.getId(), getNucleusId(29,16));
+}
+
+TEST(testDecay, Neon33) {
+	// test neutron emission 33Ne -> 32Ne
+	Candidate candidate;
+	candidate.setCurrentStep(1 * Mpc);
+	candidate.current.setId(getNucleusId(33,10));
+	candidate.current.setEnergy(1 * EeV);
+	std::vector<Candidate *> secondaries;
+	Decay d;
+	d.process(&candidate, secondaries);
+	EXPECT_EQ(candidate.current.getId(), getNucleusId(32,10));
+}
+
+TEST(testDecay, LimitNextStep) {
+	// test if Decay module limits the step size
+	Candidate candidate;
+	candidate.setNextStep(10 * Mpc);
+	candidate.current.setId(getNucleusId(1,0));
+	candidate.current.setEnergy(10 * EeV);
+	std::vector<Candidate *> secondaries;
+	Decay d;
+	d.process(&candidate, secondaries);
+	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

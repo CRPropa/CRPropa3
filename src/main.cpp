@@ -26,21 +26,21 @@ int main() {
 
 	chain.add(new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5), 25);
 	chain.add(new Decay(), 30);
-	chain.add(new ElectronPairProduction, 31);
+//	chain.add(new ElectronPairProduction, 31);
 	chain.add(new GlutDisplay(), 80);
 
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
-	initial.setId(1001000000);
-	initial.setEnergy(10 * EeV);
+	initial.setId(1005002000);
+	initial.setEnergy(100 * EeV);
 	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
 	initial.setDirection(Vector3(1., 1., 0.));
 
 	Candidate candidate;
 	candidate.current = initial;
 	candidate.initial = initial;
-	candidate.setNextStep(0.05 * Mpc);
+	candidate.setNextStep(0.01 * Mpc);
 
 	std::vector<Candidate *> event;
 	event.push_back(&candidate);

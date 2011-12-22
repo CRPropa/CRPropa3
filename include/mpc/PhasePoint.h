@@ -3,8 +3,6 @@
 
 #include "mpc/Vector3.h"
 
-#include <limits>
-
 namespace mpc {
 
 class PhasePoint {

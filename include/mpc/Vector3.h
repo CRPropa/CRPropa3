@@ -196,7 +196,7 @@ public:
 	Vector3 & rotateUz(const Vector3&);
 	// Rotates reference frame from Uz to newUz (unit vector) (Geant4).
 
-	Vector3 & rotate(double, const Vector3 &);
+	//Vector3 & rotate(double, const Vector3 &);
 	// Rotates around the axis specified by another Vector3.
 	// (Uses methods of HepRotation, forcing linking in of Rotation.cc.)
 
@@ -391,14 +391,14 @@ protected:
 // Vector3
 
 // Global Methods
+//
+//Vector3 rotationXOf(const Vector3 & vec, double delta);
+//Vector3 rotationYOf(const Vector3 & vec, double delta);
+//Vector3 rotationZOf(const Vector3 & vec, double delta);
 
-Vector3 rotationXOf(const Vector3 & vec, double delta);
-Vector3 rotationYOf(const Vector3 & vec, double delta);
-Vector3 rotationZOf(const Vector3 & vec, double delta);
-
-Vector3 rotationOf(const Vector3 & vec, const Vector3 & axis, double delta);
-
-Vector3 rotationOf(const Vector3 & vec, double phi, double theta, double psi);
+//Vector3 rotationOf(const Vector3 & vec, const Vector3 & axis, double delta);
+//
+//Vector3 rotationOf(const Vector3 & vec, double phi, double theta, double psi);
 
 // Return a new vector based on a rotation of the supplied vector
 
@@ -408,11 +408,11 @@ std::ostream & operator <<(std::ostream &, const Vector3 &);
 std::istream & operator >>(std::istream &, Vector3 &);
 // Input from a stream.
 
-extern const Vector3 HepXHat, HepYHat, HepZHat;
-
-typedef Vector3 HepThreeVectorD;
-typedef Vector3 HepThreeVectorF;
-
+//extern const Vector3 HepXHat, HepYHat, HepZHat;
+//
+//typedef Vector3 HepThreeVectorD;
+//typedef Vector3 HepThreeVectorF;
+//
 Vector3 operator /(const Vector3 &, double a);
 // Division of 3-vectors by non-zero real number
 
@@ -427,7 +427,7 @@ inline double operator *(const Vector3 &, const Vector3 &);
 
 inline Vector3 operator *(const Vector3 &, double a);
 inline Vector3 operator *(double a, const Vector3 &);
-// Scaling of 3-vectors with a real number
+//// Scaling of 3-vectors with a real number
 
 }// namespace mpc
 

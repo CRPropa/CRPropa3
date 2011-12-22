@@ -11,7 +11,7 @@
  * Copyright (C) 2003, by Kristen Wegner (kristen@tima.net)
  */
 
-#include "pugixml.hpp"
+#include "mpc/pugixml/pugixml.hpp"
 
 #include <stdlib.h>
 #include <stdio.h>

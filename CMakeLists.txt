@@ -14,6 +14,7 @@ add_library(mpc
     src/ModuleChain.cpp
     src/SphMagneticField.cpp
     src/interaction/ElectronPairProduction.cpp
+    src/interaction/Decay.cpp
     src/pugixml/pugixml.cpp
 )
 set(LIBS ${LIBS} mpc)

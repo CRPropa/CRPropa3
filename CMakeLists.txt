@@ -29,7 +29,6 @@ endif (Freeglut_FOUND)
 add_library(mpc SHARED
     src/Candidate.cpp
     src/DeflectionCK.cpp
-    src/interaction/PhotoDisintegration.cpp
     src/Vector3.cpp
     src/XMLImport.cpp
     src/Module.cpp
@@ -37,6 +36,8 @@ add_library(mpc SHARED
     src/ModuleChain.cpp
     src/SphMagneticField.cpp
     src/interaction/ElectronPairProduction.cpp
+    src/interaction/PhotoDisintegration.cpp
+    src/interaction/Decay.cpp
     src/pugixml/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )

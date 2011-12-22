@@ -1,5 +1,7 @@
 #include "mpc/DeflectionCK.h"
 
+#include <limits>
+
 namespace mpc {
 
 /**

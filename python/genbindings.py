@@ -6,7 +6,7 @@ from pybindgen import FileCodeSink
 from pybindgen.gccxmlparser import ModuleParser
 
 def my_module_gen():
-    module_parser = ModuleParser('mpd', '::')
+    module_parser = ModuleParser('mpc', '::')
     gccxml_options = dict(include_paths=[sys.argv[2]])
     includes=[]
     for f in sys.argv[3:]:

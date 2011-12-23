@@ -1,18 +1,16 @@
-#include "mpc/Candidate.h"
-#include "mpc/DeflectionCK.h"
-#include "mpc/BreakCondition.h"
-#include "mpc/ModuleChain.h"
-#include "mpc/GlutDisplay.h"
-#include "mpc/ParticleState.h"
-#include "mpc/magneticfield/TurbulentMagneticField.h"
-#include "mpc/magneticfield/MagneticFieldRing.h"
-#include "mpc/Units.h"
-#include "mpc/Output.h"
 #include "mpc/XMLImport.h"
-#include "mpc/interaction/ElectronPairProduction.h"
-#include "mpc/interaction/Decay.h"
-
-#include <iostream>
+#include "mpc/ModuleChain.h"
+#include "mpc/Candidate.h"
+#include "mpc/ParticleState.h"
+#include "mpc/Units.h"
+#include "mpc/module/DeflectionCK.h"
+#include "mpc/module/BreakCondition.h"
+#include "mpc/module/GlutDisplay.h"
+#include "mpc/module/Output.h"
+#include "mpc/module/ElectronPairProduction.h"
+#include "mpc/module/NuclearDecay.h"
+#include "mpc/module/PhotoDisintegration.h"
+#include "mpc/magneticfield/TurbulentMagneticField.h"
 
 using namespace mpc;
 
@@ -32,7 +30,7 @@ int main(int argc, char **argv) {
 
 		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 5e-5),
 				25);
-		chain.add(new Decay(), 30);
+		chain.add(new NuclearDecay(), 30);
 		chain.add(new ElectronPairProduction(ElectronPairProduction::IR), 30);
 		chain.add(new GlutDisplay(), 80);
 	}

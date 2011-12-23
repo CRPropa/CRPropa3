@@ -2,42 +2,36 @@
 #define PHOTODISINTEGRATION_H_
 
 #include "mpc/Module.h"
-#include "mpc/ParticleState.h"
+#include "mpc/MersenneTwister.h"
 
-#include <fstream>
+#include <vector>
+#include <map>
 
 namespace mpc {
 
-struct IndexStruct {
-	int id;
-	size_t start;
-	size_t end;
+struct DisintegrationMode {
+	int channel; // channel: #n #p #H2 #H3 #He3 #He4
+	std::vector<double> y; // free path in [m]
 };
 
 class PhotoDisintegration: public Module {
 private:
-	int n;
-	double dx;
-	double xMin;
-	std::vector<IndexStruct> nucleusIndex;
-	std::vector<IndexStruct> channelIndex;
-	std::vector<double> tabulatedMeanFreePath;
+	MTRand mtrand;
+	std::map<int, std::vector<DisintegrationMode> > modeMap;
+	std::vector<double> x; // log10(gamma)
+	int cached_id;
+	int cached_channel;
+	double cached_distance;
 
 public:
 	PhotoDisintegration();
 
-	~PhotoDisintegration();
-
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
-	double getLambdaSum(Candidate candidate);
-
-	double interpolate(size_t start, double x);
+	double getMeanFreePath(std::vector<double> y, double lg);
 	void disintegrate(Candidate *candidate,
-			std::vector<Candidate *> &secondaries, size_t channel);
-
+			std::vector<Candidate *> &secondaries);
 	void createSecondary(Candidate *candidate,
 			std::vector<Candidate *> &secondaries, int id, double energy);
-
 };
 
 } // namespace mpc

@@ -1,13 +1,14 @@
 #include "gtest/gtest.h"
 #include "mpc/Candidate.h"
-#include "mpc/interaction/ElectronPairProduction.h"
-#include "mpc/interaction/Decay.h"
+#include "mpc/module/ElectronPairProduction.h"
+#include "mpc/module/NuclearDecay.h"
+#include "mpc/module/PhotoDisintegration.h"
 
 #include <fstream>
 
 namespace mpc {
 
-TEST(testElectronPairProduction, EnergyDecreasing) {
+TEST(ElectronPairProduction, EnergyDecreasing) {
 	// test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
@@ -39,7 +40,7 @@ TEST(testElectronPairProduction, EnergyDecreasing) {
 	}
 }
 
-TEST(testElectronPairProduction, BelowEnergyTreshold) {
+TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	// test if nothing happens below 1e15 eV
 	ElectronPairProduction epp(ElectronPairProduction::CMB);
 
@@ -53,7 +54,7 @@ TEST(testElectronPairProduction, BelowEnergyTreshold) {
 	EXPECT_DOUBLE_EQ(candidate.current.getEnergy(), E);
 }
 
-TEST(testElectronPairProduction, EnergyLossValues) {
+TEST(ElectronPairProduction, EnergyLossValues) {
 	// test if energy loss corresponds to table
 	std::vector<double> x;
 	std::vector<double> y;
@@ -87,64 +88,68 @@ TEST(testElectronPairProduction, EnergyLossValues) {
 }
 
 
-TEST(testDecay, Neutron) {
+TEST(NuclearDecay, Neutron) {
 	// test beta- decay n -> p
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(1,0));
 	candidate.current.setEnergy(1 * EeV);
 	std::vector<Candidate *> secondaries;
-	Decay d;
+	NuclearDecay d;
 	d.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(1,1));
 }
 
-TEST(testDecay, Scandium44) {
+TEST(NuclearDecay, Scandium44) {
 	// test beta+ decay 44Sc -> 44Ca
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(44,21));
 	candidate.current.setEnergy(1 * EeV);
 	std::vector<Candidate *> secondaries;
-	Decay d;
+	NuclearDecay d;
 	d.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
 }
 
-TEST(testDecay, Chlorium30) {
+TEST(NuclearDecay, Chlorium30) {
 	// test proton emission 30Cl -> 29S
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(30,17));
 	candidate.current.setEnergy(1 * EeV);
 	std::vector<Candidate *> secondaries;
-	Decay d;
+	NuclearDecay d;
 	d.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(29,16));
 }
 
-TEST(testDecay, Neon33) {
+TEST(NuclearDecay, Neon33) {
 	// test neutron emission 33Ne -> 32Ne
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(33,10));
 	candidate.current.setEnergy(1 * EeV);
 	std::vector<Candidate *> secondaries;
-	Decay d;
+	NuclearDecay d;
 	d.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(32,10));
 }
 
-TEST(testDecay, LimitNextStep) {
+TEST(NuclearDecay, LimitNextStep) {
 	// test if Decay module limits the step size
 	Candidate candidate;
 	candidate.setNextStep(10 * Mpc);
 	candidate.current.setId(getNucleusId(1,0));
 	candidate.current.setEnergy(10 * EeV);
 	std::vector<Candidate *> secondaries;
-	Decay d;
+	NuclearDecay d;
 	d.process(&candidate, secondaries);
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
+}
+
+TEST(PhotoDisintegration, Basic) {
+	PhotoDisintegration m;
 }
 
 int main(int argc, char **argv) {

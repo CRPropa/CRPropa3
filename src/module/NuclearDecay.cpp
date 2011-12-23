@@ -1,4 +1,4 @@
-#include "mpc/interaction/Decay.h"
+#include "mpc/module/NuclearDecay.h"
 
 #include <fstream>
 #include <limits>
@@ -6,18 +6,18 @@
 
 namespace mpc {
 
-Decay::Decay() {
+NuclearDecay::NuclearDecay() {
 	cached_id = 0;
 	// read decay data
 	int id;
-	DecayMode dm;
-	std::ifstream infile("data/Decay/decayTable.txt");
+	DecayMode mode;
+	std::ifstream infile("data/NuclearDecay/decayTable.txt");
 	while (infile.good()) {
 		if (infile.peek() != '#') {
-			infile >> id >> dm.distance >> dm.channel;
+			infile >> id >> mode.distance >> mode.channel;
 			if (infile) {
-				dm.distance *= c_light;
-				decayModeMap[id].push_back(dm);
+				mode.distance *= c_light;
+				modeMap[id].push_back(mode);
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -25,19 +25,17 @@ Decay::Decay() {
 	infile.close();
 }
 
-std::string Decay::getDescription() const {
+std::string NuclearDecay::getDescription() const {
 	return "Nuclear Decay";
 }
 
-void Decay::process(Candidate *candidate,
+void NuclearDecay::process(Candidate *candidate,
 		std::vector<Candidate *> &secondaries) {
 	int id = candidate->current.getId();
-	std::vector<DecayMode> decayModes = decayModeMap[id];
-	double gamma = candidate->current.getLorentzFactor();
-	double step = candidate->getCurrentStep() / gamma;
+	std::vector<DecayMode> modes = modeMap[id];
 
 	// check if stable
-	if (decayModes.size() == 0)
+	if (modes.size() == 0)
 		return;
 
 	// check if a decay is already cached, if not select one
@@ -45,16 +43,18 @@ void Decay::process(Candidate *candidate,
 		cached_id = id;
 		// find decay mode with minimum random decay distance
 		cached_distance = std::numeric_limits<double>::max();
-		for (size_t i = 0; i < decayModes.size(); i++) {
-			double d = -log(mtrand.rand()) * decayModes[i].distance;
+		for (size_t i = 0; i < modes.size(); i++) {
+			double d = -log(mtrand.rand()) * modes[i].distance;
 			if (d > cached_distance)
 				continue;
 			cached_distance = d;
-			cached_channel = decayModes[i].channel;
+			cached_channel = modes[i].channel;
 		}
 	}
 
 	// check if life-time is over, reduce life-time
+	double gamma = candidate->current.getLorentzFactor();
+	double step = candidate->getCurrentStep() / gamma;
 	if (cached_distance > step) {
 		cached_distance -= step;
 		candidate->limitNextStep(cached_distance * gamma);
@@ -78,7 +78,7 @@ void createSecondary(Candidate *candidate,
 	secondaries.push_back(&secondary);
 }
 
-void Decay::decay(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+void NuclearDecay::decay(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 	int nBeta = cached_channel / 10000;
 	int nBetaPlus = (cached_channel % 10000) / 1000;
 	int nAlpha = (cached_channel % 1000) / 100;

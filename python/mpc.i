@@ -12,25 +12,25 @@
 %include std_container.i
 
 %{
-#include "mpc/interaction/Decay.h"
-#include "mpc/interaction/ElectronPairProduction.h"
-#include "mpc/interaction/PhotoDisintegration.h"
+#include "mpc/module/NuclearDecay.h"
+#include "mpc/module/ElectronPairProduction.h"
+#include "mpc/module/PhotoDisintegration.h"
+#include "mpc/module/BreakCondition.h"
+#include "mpc/module/DeflectionCK.h"
+#include "mpc/module/Output.h"
 
 #include "mpc/magneticfield/MagneticField.h"
 #include "mpc/magneticfield/MagneticFieldRing.h"
 #include "mpc/magneticfield/SphMagneticField.h"
 #include "mpc/magneticfield/TurbulentMagneticField.h"
 
-#include "mpc/BreakCondition.h"
 #include "mpc/Candidate.h"
-#include "mpc/DeflectionCK.h"
 #include "mpc/ExplicitRungeKutta.h"
-#include "mpc/GlutDisplay.h"
+#include "mpc/module/GlutDisplay.h"
 #include "mpc/HepPID.h"
 #include "mpc/MersenneTwister.h"
 #include "mpc/Module.h"
 #include "mpc/ModuleChain.h"
-#include "mpc/Output.h"
 #include "mpc/ParticleState.h"
 #include "mpc/PhasePoint.h"
 #include "mpc/Units.h"
@@ -53,18 +53,15 @@
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"
 
-%include "mpc/BreakCondition.h"
-%include "mpc/DeflectionCK.h"
-%include "mpc/GlutDisplay.h"
-%include "mpc/Output.h"
+%include "mpc/module/BreakCondition.h"
+%include "mpc/module/DeflectionCK.h"
+%include "mpc/module/GlutDisplay.h"
+%include "mpc/module/Output.h"
+%include "mpc/module/NuclearDecay.h"
+%include "mpc/module/ElectronPairProduction.h"
+%include "mpc/module/PhotoDisintegration.h"
 
 %include "mpc/ModuleChain.h"
-
-
-%include "mpc/interaction/Decay.h"
-%include "mpc/interaction/ElectronPairProduction.h"
-%include "mpc/interaction/PhotoDisintegration.h"
-
 
 
  

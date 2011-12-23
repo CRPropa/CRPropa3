@@ -2,8 +2,8 @@
 #include "mpc/ModuleChain.h"
 #include "mpc/pugixml/pugixml.hpp"
 #include "mpc/magneticfield/MagneticField.h"
-#include "mpc/DeflectionCK.h"
-#include "mpc/GlutDisplay.h"
+#include "mpc/module/DeflectionCK.h"
+#include "mpc/module/GlutDisplay.h"
 
 #include <stdexcept>
 #include <sstream>

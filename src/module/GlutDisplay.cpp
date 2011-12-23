@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "mpc/GlutDisplay.h"
+#include "mpc/module/GlutDisplay.h"
 #include "mpc/ParticleState.h"
 
 namespace mpc {

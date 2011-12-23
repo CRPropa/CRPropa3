@@ -16,16 +16,16 @@ struct DecayMode {
 	double distance;
 };
 
-class Decay: public Module {
+class NuclearDecay: public Module {
 private:
 	MTRand mtrand;
-	std::map<int, std::vector<DecayMode> > decayModeMap;
+	std::map<int, std::vector<DecayMode> > modeMap;
 	int cached_id;
 	int cached_channel;
 	double cached_distance;
 
 public:
-	Decay();
+	NuclearDecay();
 	std::string getDescription() const;
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 	void decay(Candidate *candidate, std::vector<Candidate *> &secondaries);

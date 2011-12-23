@@ -11,7 +11,7 @@ set (MPC_EXTRA_LIBRARIES)
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
-    list( APPEND MPC_EXTRA_SOURCES src/TurbulentMagneticField.cpp)
+    list( APPEND MPC_EXTRA_SOURCES src/magneticfield/TurbulentMagneticField.cpp)
     list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARIES})
 endif (FFTW_FOUND)
 
@@ -20,24 +20,24 @@ find_package(FreeGlut)
 find_package(OpenGl)
 if (Freeglut_FOUND)
     if (OPENGL_GLU_FOUND)
-        list( APPEND MPC_EXTRA_SOURCES src/GlutDisplay.cpp)
+        list( APPEND MPC_EXTRA_SOURCES src/module/GlutDisplay.cpp)
         list( APPEND MPC_EXTRA_LIBRARIES ${Freeglut_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
     endif (OPENGL_GLU_FOUND)
 endif (Freeglut_FOUND)
 
 # libmpc
 add_library(mpc SHARED
-    src/Candidate.cpp
-    src/DeflectionCK.cpp
     src/Vector3.cpp
     src/XMLImport.cpp
-    src/Module.cpp
-    src/ParticleState.cpp
     src/ModuleChain.cpp
-    src/SphMagneticField.cpp
-    src/interaction/ElectronPairProduction.cpp
-    src/interaction/PhotoDisintegration.cpp
-    src/interaction/Decay.cpp
+    src/Module.cpp
+    src/Candidate.cpp
+    src/ParticleState.cpp
+    src/magneticfield/SphMagneticField.cpp
+    src/module/DeflectionCK.cpp
+    src/module/ElectronPairProduction.cpp
+    src/module/PhotoDisintegration.cpp
+    src/module/NuclearDecay.cpp
     src/pugixml/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )

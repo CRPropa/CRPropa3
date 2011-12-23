@@ -1,4 +1,4 @@
-#include "mpc/interaction/ElectronPairProduction.h"
+#include "mpc/module/ElectronPairProduction.h"
 
 #include <fstream>
 #include <vector>

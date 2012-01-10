@@ -10,7 +10,7 @@
 namespace mpc {
 
 struct DisintegrationMode {
-	int channel; // channel: #n #p #H2 #H3 #He3 #He4
+	int channel; // #n #p #H2 #H3 #He3 #He4 emitted
 	std::vector<double> y; // free path in [m]
 };
 
@@ -25,7 +25,7 @@ private:
 
 public:
 	PhotoDisintegration();
-
+	std::string getDescription() const;
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 	double getMeanFreePath(std::vector<double> y, double lg);
 	void disintegrate(Candidate *candidate,

@@ -11,9 +11,8 @@ public:
 	enum Status {
 		Active = 0,
 		Detected,
-		ReachedMaxTime,
+		ReachedMaxTrajectoryLength,
 		BelowEnergyThreshold,
-		Decayed,
 		ObserverNotReachable,
 		UserDefined
 	};

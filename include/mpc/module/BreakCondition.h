@@ -19,7 +19,7 @@ public:
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		if (candidate->getTrajectoryLength() >= maxLength)
-			candidate->setStatus(Candidate::ReachedMaxTime);
+			candidate->setStatus(Candidate::ReachedMaxTrajectoryLength);
 	}
 
 	std::string getDescription() const {

@@ -23,7 +23,7 @@ public:
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 
 private:
-	PhotonField field;
+	PhotonField photonField;
 	std::vector<double> y; // energy loss rate table for protons in [J/m]
 	std::vector<double> x; // energy table in [J]
 

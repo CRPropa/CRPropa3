@@ -51,4 +51,18 @@ void Candidate::setStatus(Status stat) {
 	status = stat;
 }
 
+void Candidate::addSecondary(int id, double energy) {
+	ParticleState p = current; // makes a copy, right?
+	p.setId(id);
+	p.setEnergy(energy);
+	Candidate c;
+	c.status = Active;
+	c.initial = p;
+	c.current = p;
+	c.redshift = redshift;
+	c.trajectoryLength = trajectoryLength;
+	c.setNextStep(getCurrentStep());
+	secondaries.push_back(c);
+}
+
 } // namespace mpc

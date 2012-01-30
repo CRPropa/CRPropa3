@@ -9,7 +9,6 @@
 namespace mpc {
 
 PhotoDisintegration::PhotoDisintegration() {
-	cached_id = 0;
 	// load disintegration data
 	std::ifstream infile("data/PhotoDisintegration/meanFreePath.txt");
 	std::string line, cell;
@@ -28,7 +27,7 @@ PhotoDisintegration::PhotoDisintegration() {
 	}
 	infile.close();
 	for (size_t i = 0; i < 200; i++) {
-		x.push_back(6.0 + i * 8.0 / 199); // log(gamma)
+		x.push_back(6.0 + i * 8.0 / 199);
 	}
 }
 
@@ -78,13 +77,12 @@ void PhotoDisintegration::process(Candidate *candidate,
 		return;
 	}
 
-	// else life time is over, decay
+	// else life time is over, disintegrate
 	cached_id = 0;
 	disintegrate(candidate, secondaries);
 }
 
-double PhotoDisintegration::getMeanFreePath(std::vector<double> y,
-		double lg) {
+double PhotoDisintegration::getMeanFreePath(std::vector<double> y, double lg) {
 	// index of next lower gamma bin
 	size_t i = (lg - 6) / 200;
 	// linear interpolation: y(x) = y0 + dy/dx * (x-x0)

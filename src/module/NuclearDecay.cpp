@@ -11,7 +11,7 @@ NuclearDecay::NuclearDecay() {
 	// read decay data
 	int id;
 	DecayMode mode;
-	std::ifstream infile("data/NuclearDecay/decayTable.txt");
+	std::ifstream infile("data/NuclearDecay/decay.txt");
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			infile >> id >> mode.distance >> mode.channel;

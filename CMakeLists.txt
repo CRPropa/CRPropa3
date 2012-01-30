@@ -36,12 +36,14 @@ add_library(mpc SHARED
     src/magneticfield/SphMagneticField.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp
+    src/module/PhotoPionProduction.cpp
     src/module/PhotoDisintegration.cpp
     src/module/NuclearDecay.cpp
     src/pugixml/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )
-TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
+find_package(GSL REQUIRED)
+TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES} ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 
 # executable
 add_executable(mpc-run src/main.cpp)

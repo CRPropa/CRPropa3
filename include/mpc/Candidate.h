@@ -40,6 +40,8 @@ public:
 	Status getStatus() const;
 	void setStatus(Status stat);
 
+	void addSecondary(int id, double energy);
+
 private:
 	double redshift, trajectoryLength;
 	double currentStep, nextStep; // stepsize in [m]

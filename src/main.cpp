@@ -8,8 +8,9 @@
 #include "mpc/module/GlutDisplay.h"
 #include "mpc/module/Output.h"
 #include "mpc/module/ElectronPairProduction.h"
-#include "mpc/module/NuclearDecay.h"
+#include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
+#include "mpc/module/NuclearDecay.h"
 #include "mpc/magneticfield/TurbulentMagneticField.h"
 
 using namespace mpc;
@@ -33,24 +34,24 @@ int main(int argc, char **argv) {
 		// interactions
 //		chain.add(new NuclearDecay(), 30);
 //		chain.add(new PhotoDisintegration(), 31);
-		chain.add(new ElectronPairProduction(ElectronPairProduction::CMBIR),
-				32);
+//		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
+		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
 
 		// break conditions
 		chain.add(new MinimumEnergy(5 * EeV), 50);
 
 		// output
-//		chain.add(new ShellOutput(), 79);
-		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
+		chain.add(new ShellOutput(), 79);
+//		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
 //		chain.add(new FinishedOutput("finished.txt"), 80);
-//		chain.add(new GlutDisplay(), 80);
+		chain.add(new GlutDisplay(), 80);
 	}
 
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
 	initial.setId(1001001000);
-	initial.setEnergy(5.1 * EeV);
+	initial.setEnergy(50 * EeV);
 	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
 	initial.setDirection(Vector3(1., 1., 0.));
 

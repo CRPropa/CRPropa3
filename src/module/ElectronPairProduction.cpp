@@ -14,8 +14,8 @@ ElectronPairProduction::ElectronPairProduction() {
 	init(CMBIR);
 }
 
-void ElectronPairProduction::init(PhotonField photonField) {
-	field = photonField;
+void ElectronPairProduction::init(PhotonField field) {
+	photonField = field;
 	switch (photonField) {
 	case CMB:
 		init("data/ElectronPairProduction/cmb.txt");
@@ -47,30 +47,24 @@ void ElectronPairProduction::init(std::string filename) {
 }
 
 std::string ElectronPairProduction::getDescription() const {
-	static std::string u("Electron-pair production (unknown)");
-
-	switch (field) {
+	switch (photonField) {
 	case CMB: {
-		static std::string s("Electron-pair production (CMB)");
-		return s;
+		return "Electron-pair production on CMB";
 		break;
 	}
 	case IR: {
-		static std::string s("Electron-pair production (CMB)");
-		return s;
+		return "Electron-pair production on IB";
 		break;
 	}
 	case CMBIR: {
-		static std::string s("Electron-pair production (CMB)");
-		return s;
+		return "Electron-pair production on CMB + IR";
 		break;
 	}
 	default: {
-		return u;
+		return "Electron-pair production (unknown)";
 		break;
 	}
 	}
-	return u;
 }
 
 void ElectronPairProduction::process(Candidate *candidate,
@@ -79,22 +73,22 @@ void ElectronPairProduction::process(Candidate *candidate,
 	double E = candidate->current.getEnergy();
 	double z = candidate->getRedshift();
 
-	// energy per nucleon for lookup in proton table
-	double EpA = E / A * (1 + z);
+	// energy per nucleon
+	double xi = E / A * (1 + z);
 
 	// no data for EpA < 10^15 eV
-	if (EpA < 1.e15 * eV)
+	if (xi < 1.e15 * eV)
 		return;
 
 	double rate;
-	if (EpA < 1.e22 * eV) {
+	if (xi < 1.e22 * eV) {
 		// index of next lower energy bin
-		int i = floor(log10(EpA / x[0]) * 69 / 7);
+		int i = floor(log10(xi / x[0]) * 69 / 7);
 		// linear interpolation: y(x) = y0 + dy/dx * (x-x0)
-		rate = y[i] + (y[i + 1] - y[i]) / (x[i + 1] - x[i]) * (EpA - x[i]);
+		rate = y[i] + (y[i + 1] - y[i]) / (x[i + 1] - x[i]) * (xi - x[i]);
 	} else {
 		// extrapolation for higher energies
-		rate = y[69] * pow(EpA / x[69], 0.4);
+		rate = y[69] * pow(xi / x[69], 0.4);
 	}
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step

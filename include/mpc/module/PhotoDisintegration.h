@@ -11,7 +11,7 @@ namespace mpc {
 
 struct DisintegrationMode {
 	int channel; // #n #p #H2 #H3 #He3 #He4 emitted
-	std::vector<double> y; // free path in [m]
+	std::vector<double> y; // mean free path in [m]
 };
 
 class PhotoDisintegration: public Module {

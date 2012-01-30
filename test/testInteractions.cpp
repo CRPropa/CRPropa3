@@ -137,7 +137,7 @@ TEST(NuclearDecay, Neon33) {
 }
 
 TEST(NuclearDecay, LimitNextStep) {
-	// test if Decay module limits the step size
+	// test if Decay module limits the step size for neutrons
 	Candidate candidate;
 	candidate.setNextStep(10 * Mpc);
 	candidate.current.setId(getNucleusId(1,0));

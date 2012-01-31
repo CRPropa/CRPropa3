@@ -75,9 +75,8 @@ void PhotoDisintegration::process(Candidate *candidate,
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
-	double gamma = candidate->current.getLorentzFactor();
 	double z = candidate->getRedshift();
-	double lg = log10(gamma * (1 + z));
+	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
 
 	// no disintegration data
 	if (modeMap[id].size() == 0)
@@ -91,17 +90,14 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	cached_distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < modeMap[id].size(); i++) {
 		double rate = gsl_spline_eval(modeMap[id][i].rate, lg, acc);
-		double d = -log(mtrand.rand()) / rate / pow((1 + z), 3);
+		double d = -log(mtrand.rand()) / rate;
 		if (d > cached_distance)
 			continue;
 		cached_distance = d;
 		cached_channel = modeMap[id][i].channel;
 	}
 
-	std::cout << "new disintegration " << id << std::endl;
-	std::cout << "log10(gamma) " << lg << std::endl;
-	std::cout << "channel " << cached_channel << std::endl;
-	std::cout << "distance " << cached_distance / Mpc << std::endl;
+	cached_distance /= pow((1 + z), 3); // CMB density increases with (1+z)^3
 	return true;
 }
 
@@ -116,8 +112,6 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) {
 
 	int dA = -nNeutron - nProton - 2 * nH2 - 3 * nH3 - 3 * nHe3 - 4 * nHe4;
 	int dZ = -nProton - nH2 - nH3 - 2 * nHe3 - 2 * nHe4;
-	std::cout << "dA " << dA << std::endl;
-	std::cout << "dZ " << dZ << std::endl;
 
 	int id = candidate->current.getId();
 	int A = getMassNumberFromNucleusId(id);
@@ -131,27 +125,21 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) {
 	// create secondaries
 	for (size_t i = 0; i < nNeutron; i++) {
 		candidate->addSecondary(getNucleusId(1, 0), EpA);
-		std::cout << "neutron" << std::endl;
 	}
 	for (size_t i = 0; i < nProton; i++) {
 		candidate->addSecondary(getNucleusId(1, 1), EpA);
-		std::cout << "proton" << std::endl;
 	}
 	for (size_t i = 0; i < nH2; i++) {
 		candidate->addSecondary(getNucleusId(2, 1), EpA * 2);
-		std::cout << "H2" << std::endl;
 	}
 	for (size_t i = 0; i < nH3; i++) {
 		candidate->addSecondary(getNucleusId(3, 1), EpA * 3);
-		std::cout << "H3" << std::endl;
 	}
 	for (size_t i = 0; i < nHe3; i++) {
 		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
-		std::cout << "He3" << std::endl;
 	}
 	for (size_t i = 0; i < nHe4; i++) {
 		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
-		std::cout << "alpha" << std::endl;
 	}
 }
 

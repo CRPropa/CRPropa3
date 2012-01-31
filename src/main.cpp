@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	} else {
 		// propagation
 		HomogeneousMagneticField *field = new HomogeneousMagneticField(
-				Vector3(0., 0., 1e-12));
+				Vector3(0., 0., 1e-13));
 //		TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc,
 //				1. * nG, -11. / 3., 200 * kpc, 800 * kpc);
 //		field.initialize();
@@ -32,9 +32,9 @@ int main(int argc, char **argv) {
 				25);
 
 		// interactions
-//		chain.add(new NuclearDecay(), 30);
-//		chain.add(new PhotoDisintegration(), 31);
-//		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
+		chain.add(new NuclearDecay(), 30);
+		chain.add(new PhotoDisintegration(), 31);
+		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
 		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
 
 		// break conditions
@@ -50,8 +50,8 @@ int main(int argc, char **argv) {
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
-	initial.setId(1001001000);
-	initial.setEnergy(50 * EeV);
+	initial.setId(getNucleusId(56, 26));
+	initial.setEnergy(100 * EeV);
 	initial.setPosition(Vector3(-1.08, 0., 0.) * Mpc);
 	initial.setDirection(Vector3(1., 1., 0.));
 

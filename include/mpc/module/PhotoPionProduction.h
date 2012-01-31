@@ -1,5 +1,5 @@
-#ifndef PHOTODISINTEGRATION_H_
-#define PHOTODISINTEGRATION_H_
+#ifndef PHOTOPIONPRODUCTION_H_
+#define PHOTOPIONPRODUCTION_H_
 
 #include "mpc/Module.h"
 #include "mpc/MersenneTwister.h"
@@ -38,4 +38,4 @@ private:
 
 } // namespace mpc
 
-#endif /* PHOTODISINTEGRATION_H_ */
+#endif /* PHOTOPIONPRODUCTION_H_ */

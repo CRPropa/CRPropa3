@@ -3,6 +3,7 @@
 #include "mpc/module/ElectronPairProduction.h"
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/module/PhotoDisintegration.h"
+#include "mpc/module/PhotoPionProduction.h"
 
 #include <fstream>
 
@@ -12,28 +13,28 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	// test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(1,1)); // proton
+	candidate.current.setId(getNucleusId(1, 1)); // proton
 	std::vector<Candidate *> secondaries;
 
 	ElectronPairProduction epp1(ElectronPairProduction::CMB);
-	for (int i = 0; i<80; i++) {
-		double E = pow(10, 15+i*0.1) * eV;
+	for (int i = 0; i < 80; i++) {
+		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
 		epp1.process(&candidate, secondaries);
 		EXPECT_TRUE(candidate.current.getEnergy() <= E);
 	}
 
 	ElectronPairProduction epp2(ElectronPairProduction::IR);
-	for (int i = 0; i<80; i++) {
-		double E = pow(10, 15+i*0.1) * eV;
+	for (int i = 0; i < 80; i++) {
+		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
 		epp2.process(&candidate, secondaries);
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 
 	ElectronPairProduction epp3(ElectronPairProduction::CMBIR);
-	for (int i = 0; i<80; i++) {
-		double E = pow(10, 15+i*0.1) * eV;
+	for (int i = 0; i < 80; i++) {
+		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
 		epp3.process(&candidate, secondaries);
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
@@ -45,7 +46,7 @@ TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	ElectronPairProduction epp(ElectronPairProduction::CMB);
 
 	Candidate candidate;
-	candidate.current.setId(getNucleusId(1,1)); // proton
+	candidate.current.setId(getNucleusId(1, 1)); // proton
 	std::vector<Candidate *> secondaries;
 
 	double E = 1e14 * eV;
@@ -74,11 +75,11 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(1,1)); // proton
+	candidate.current.setId(getNucleusId(1, 1)); // proton
 	std::vector<Candidate *> secondaries;
 
 	ElectronPairProduction epp;
-	for (int i = 0; i<x.size(); i++) {
+	for (int i = 0; i < x.size(); i++) {
 		candidate.current.setEnergy(x[i]);
 		epp.process(&candidate, secondaries);
 		double dE = x[i] - candidate.current.getEnergy();
@@ -88,11 +89,12 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 }
 
 
+
 TEST(NuclearDecay, Neutron) {
 	// test beta- decay n -> p
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(1,0));
+	candidate.current.setId(getNucleusId(1, 0));
 	candidate.current.setEnergy(1 * EeV);
 	std::vector<Candidate *> secondaries;
 	NuclearDecay d;
@@ -104,7 +106,7 @@ TEST(NuclearDecay, Scandium44) {
 	// test beta+ decay 44Sc -> 44Ca
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(44,21));
+	candidate.current.setId(getNucleusId(44, 21));
 	candidate.current.setEnergy(1 * EeV);
 	std::vector<Candidate *> secondaries;
 	NuclearDecay d;
@@ -112,35 +114,11 @@ TEST(NuclearDecay, Scandium44) {
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
 }
 
-TEST(NuclearDecay, Chlorium30) {
-	// test proton emission 30Cl -> 29S
-	Candidate candidate;
-	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(30,17));
-	candidate.current.setEnergy(1 * EeV);
-	std::vector<Candidate *> secondaries;
-	NuclearDecay d;
-	d.process(&candidate, secondaries);
-	EXPECT_EQ(candidate.current.getId(), getNucleusId(29,16));
-}
-
-TEST(NuclearDecay, Neon33) {
-	// test neutron emission 33Ne -> 32Ne
-	Candidate candidate;
-	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(33,10));
-	candidate.current.setEnergy(1 * EeV);
-	std::vector<Candidate *> secondaries;
-	NuclearDecay d;
-	d.process(&candidate, secondaries);
-	EXPECT_EQ(candidate.current.getId(), getNucleusId(32,10));
-}
-
 TEST(NuclearDecay, LimitNextStep) {
 	// test if Decay module limits the step size for neutrons
 	Candidate candidate;
 	candidate.setNextStep(10 * Mpc);
-	candidate.current.setId(getNucleusId(1,0));
+	candidate.current.setId(getNucleusId(1, 0));
 	candidate.current.setEnergy(10 * EeV);
 	std::vector<Candidate *> secondaries;
 	NuclearDecay d;
@@ -148,9 +126,52 @@ TEST(NuclearDecay, LimitNextStep) {
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
 }
 
-TEST(PhotoDisintegration, Basic) {
-	PhotoDisintegration m;
+
+
+TEST(PhotoDisintegration, EnergyNucleonLoss) {
+	// test for energy and nucleon loss
+	Candidate candidate;
+	std::vector<Candidate *> secondaries;
+	PhotoDisintegration pd;
+
+	candidate.current.setId(getNucleusId(12, 6)); // carbon
+	candidate.current.setEnergy(200 * EeV);
+	candidate.setCurrentStep(50 * Mpc);
+	pd.process(&candidate, secondaries);
+	EXPECT_TRUE(candidate.current.getMassNumber() < 12);
+	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
+
+	candidate.current.setId(getNucleusId(56, 26)); // iron
+	candidate.current.setEnergy(200 * EeV);
+	candidate.setCurrentStep(50 * Mpc);
+	pd.process(&candidate, secondaries);
+	EXPECT_TRUE(candidate.current.getMassNumber() < 56);
+	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
 }
+
+
+
+TEST(PhotoPionProduction, EnergyNucleonLoss) {
+	// test for energy and nucleon loss
+	Candidate candidate;
+	std::vector<Candidate *> secondaries;
+	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
+
+	candidate.setCurrentStep(100 * Mpc);
+	candidate.current.setId(getNucleusId(1, 1)); // proton
+	candidate.current.setEnergy(100 * EeV);
+	ppp.process(&candidate, secondaries);
+	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 100);
+	EXPECT_TRUE(candidate.current.getMassNumber() == 1);
+
+	candidate.setCurrentStep(100 * Mpc);
+	candidate.current.setId(getNucleusId(56, 26)); // iron
+	candidate.current.setEnergy(100 * EeV);
+	ppp.process(&candidate, secondaries);
+	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 1000);
+	EXPECT_TRUE(candidate.current.getMassNumber() == 56);
+}
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

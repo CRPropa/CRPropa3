@@ -12,8 +12,8 @@
 namespace mpc {
 
 struct DecayMode {
-	int channel;
-	double distance;
+	int channel; // number of (beta-, beta+, alpha, p, n) decays
+	double distance; // decay length in [m]
 };
 
 class NuclearDecay: public Module {
@@ -28,7 +28,8 @@ public:
 	NuclearDecay();
 	std::string getDescription() const;
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
-	void decay(Candidate *candidate, std::vector<Candidate *> &secondaries);
+	bool setNextInteraction(Candidate *candidate);
+	void performInteraction(Candidate *candidate);
 };
 
 } // namespace mpc

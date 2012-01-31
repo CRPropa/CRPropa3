@@ -9,26 +9,37 @@
 namespace mpc {
 
 PhotoDisintegration::PhotoDisintegration() {
-	// load disintegration data
-	std::ifstream infile("data/PhotoDisintegration/meanFreePath.txt");
-	std::string line, cell;
-	while (std::getline(infile, line)) {
-		std::stringstream lineStream(line);
-		std::getline(lineStream, cell, ' ');
-		int id = atoi(cell.c_str()); // nucleus id
-		std::getline(lineStream, cell, ' ');
-		DisintegrationMode mode;
-		mode.channel = atoi(cell.c_str()); // disintegration channel
-		while (std::getline(lineStream, cell, ' ')) {
-			double mfp = 1 / atof(cell.c_str()) / Mpc; // mean free path [m]
-			mode.y.push_back(mfp);
-		}
-		modeMap[id].push_back(mode);
-	}
-	infile.close();
+	// create Lorentz factor sample points
+	std::vector<double> x;
 	for (size_t i = 0; i < 200; i++) {
 		x.push_back(6.0 + i * 8.0 / 199);
 	}
+
+	// load disintegration data
+	std::ifstream infile("data/PhotoDisintegration/rate.txt");
+	std::string line, cell;
+	while (std::getline(infile, line)) {
+		std::stringstream lineStream(line);
+
+		std::getline(lineStream, cell, ' ');
+		int id = atoi(cell.c_str()); // nucleus id
+
+		DisintegrationMode mode;
+		std::getline(lineStream, cell, ' ');
+		mode.channel = atoi(cell.c_str()); // disintegration channel
+
+		std::vector<double> y;
+		while (std::getline(lineStream, cell, ' ')) {
+			double a = atof(cell.c_str()); // disintegration rate
+			y.push_back(a / Mpc);
+		}
+		mode.rate = gsl_spline_alloc(gsl_interp_linear, 200);
+		gsl_spline_init(mode.rate, &x[0], &y[0], 200);
+
+		modeMap[id].push_back(mode);
+	}
+	infile.close();
+	acc = gsl_interp_accel_alloc();
 }
 
 std::string PhotoDisintegration::getDescription() const {
@@ -37,60 +48,64 @@ std::string PhotoDisintegration::getDescription() const {
 
 void PhotoDisintegration::process(Candidate *candidate,
 		std::vector<Candidate *> &secondaries) {
+	double step = candidate->getCurrentStep();
+
+	while (true) {
+		int id = candidate->current.getId();
+
+		// set a new interaction if necessary
+		if (id != cached_id) {
+			// return if no disintegration data
+			if (setNextInteraction(candidate) == false)
+				return;
+			cached_id = id;
+		}
+		// if counter not over, reduce and return
+		if (cached_distance > step) {
+			cached_distance -= step;
+			candidate->limitNextStep(cached_distance);
+			return;
+		}
+		// counter over: disintegrate
+		cached_id = 0;
+		step -= cached_distance;
+		performInteraction(candidate);
+	}
+}
+
+bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
-	std::vector<DisintegrationMode> modes = modeMap[id];
-
-	// no disintegration modes for this nucleus
-	if (modes.size() == 0)
-		return;
-
 	double gamma = candidate->current.getLorentzFactor();
 	double z = candidate->getRedshift();
 	double lg = log10(gamma * (1 + z));
 
-	// no data for log10(gamma) < 6 or log10(gamma) > 14
-	if (lg < 6)
-		return;
-	if (lg > 14)
-		return;
+	// no disintegration data
+	if (modeMap[id].size() == 0)
+		return false;
 
-	// check if a disintegration is already cached, if not set it
-	if (id != cached_id) {
-		cached_id = id;
-		// find decay mode with minimum random decay distance
-		cached_distance = std::numeric_limits<double>::max();
-		for (size_t i = 0; i < modes.size(); i++) {
-			double mfp = getMeanFreePath(modes[i].y, lg);
-			double d = -log(mtrand.rand()) * mfp;
-			if (d > cached_distance)
-				continue;
-			cached_distance = d;
-			cached_channel = modes[i].channel;
-		}
+	// out of energy range
+	if ((lg < 6) or (lg > 14))
+		return false;
+
+	// find channel with minimum random decay distance
+	cached_distance = std::numeric_limits<double>::max();
+	for (size_t i = 0; i < modeMap[id].size(); i++) {
+		double rate = gsl_spline_eval(modeMap[id][i].rate, lg, acc);
+		double d = -log(mtrand.rand()) / rate / pow((1 + z), 3);
+		if (d > cached_distance)
+			continue;
+		cached_distance = d;
+		cached_channel = modeMap[id][i].channel;
 	}
 
-	// check if life-time is over, reduce life-time
-	double step = candidate->getCurrentStep();
-	if (cached_distance > step) {
-		cached_distance -= step;
-		candidate->limitNextStep(cached_distance * gamma);
-		return;
-	}
-
-	// else life time is over, disintegrate
-	cached_id = 0;
-	disintegrate(candidate, secondaries);
+	std::cout << "new disintegration " << id << std::endl;
+	std::cout << "log10(gamma) " << lg << std::endl;
+	std::cout << "channel " << cached_channel << std::endl;
+	std::cout << "distance " << cached_distance / Mpc << std::endl;
+	return true;
 }
 
-double PhotoDisintegration::getMeanFreePath(std::vector<double> y, double lg) {
-	// index of next lower gamma bin
-	size_t i = (lg - 6) / 200;
-	// linear interpolation: y(x) = y0 + dy/dx * (x-x0)
-	return y[i] + (y[i + 1] - y[i]) / (x[i + 1] - x[i]) * (lg - x[i]);
-}
-
-void PhotoDisintegration::disintegrate(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoDisintegration::performInteraction(Candidate *candidate) {
 	// parse disintegration channel
 	int nNeutron = cached_channel / 100000;
 	int nProton = (cached_channel % 100000) / 10000;
@@ -101,45 +116,43 @@ void PhotoDisintegration::disintegrate(Candidate *candidate,
 
 	int dA = -nNeutron - nProton - 2 * nH2 - 3 * nH3 - 3 * nHe3 - 4 * nHe4;
 	int dZ = -nProton - nH2 - nH3 - 2 * nHe3 - 2 * nHe4;
+	std::cout << "dA " << dA << std::endl;
+	std::cout << "dZ " << dZ << std::endl;
 
 	int id = candidate->current.getId();
 	int A = getMassNumberFromNucleusId(id);
 	int Z = getChargeNumberFromNucleusId(id);
 	double EpA = candidate->current.getEnergy() / double(A);
 
+	// update particle
 	candidate->current.setId(getNucleusId(A + dA, Z + dZ));
 	candidate->current.setEnergy(EpA * (A + dA));
 
+	// create secondaries
 	for (size_t i = 0; i < nNeutron; i++) {
-		createSecondary(candidate, secondaries, getNucleusId(1, 0), EpA);
+		candidate->addSecondary(getNucleusId(1, 0), EpA);
+		std::cout << "neutron" << std::endl;
 	}
 	for (size_t i = 0; i < nProton; i++) {
-		createSecondary(candidate, secondaries, getNucleusId(1, 1), EpA);
+		candidate->addSecondary(getNucleusId(1, 1), EpA);
+		std::cout << "proton" << std::endl;
 	}
 	for (size_t i = 0; i < nH2; i++) {
-		createSecondary(candidate, secondaries, getNucleusId(2, 1), EpA * 2);
+		candidate->addSecondary(getNucleusId(2, 1), EpA * 2);
+		std::cout << "H2" << std::endl;
 	}
 	for (size_t i = 0; i < nH3; i++) {
-		createSecondary(candidate, secondaries, getNucleusId(3, 1), EpA * 3);
+		candidate->addSecondary(getNucleusId(3, 1), EpA * 3);
+		std::cout << "H3" << std::endl;
 	}
 	for (size_t i = 0; i < nHe3; i++) {
-		createSecondary(candidate, secondaries, getNucleusId(3, 2), EpA * 3);
+		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
+		std::cout << "He3" << std::endl;
 	}
 	for (size_t i = 0; i < nHe4; i++) {
-		createSecondary(candidate, secondaries, getNucleusId(4, 2), EpA * 4);
+		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
+		std::cout << "alpha" << std::endl;
 	}
-}
-
-void PhotoDisintegration::createSecondary(Candidate *candidate,
-		std::vector<Candidate *> &secondaries, int id, double energy) {
-	ParticleState initial = candidate->current;
-	initial.setEnergy(energy);
-	initial.setId(id);
-	Candidate secondary;
-	secondary.current = initial;
-	secondary.initial = initial;
-	secondary.setNextStep(candidate->getCurrentStep());
-	secondaries.push_back(&secondary);
 }
 
 } // namespace mpc

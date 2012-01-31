@@ -32,10 +32,6 @@ void PhotoPionProduction::init(PhotonField field) {
 }
 
 void PhotoPionProduction::init(std::string filename) {
-	gsl_rng_env_setup();
-	rand = gsl_rng_alloc(gsl_rng_default);
-
-	// load interaction rate table
 	std::vector<double> x, yp, yn;
 	std::ifstream infile(filename.c_str());
 	while (infile.good()) {
@@ -43,26 +39,25 @@ void PhotoPionProduction::init(std::string filename) {
 			double a, b, c;
 			infile >> a >> b >> c;
 			if (infile) {
-				x.push_back(a * EeV);
-				yp.push_back(Mpc / b);
-				yn.push_back(Mpc / c);
+				x.push_back(a * EeV); // energy in [EeV]
+				yp.push_back(b / Mpc); // rate in [1/Mpc]
+				yn.push_back(c / Mpc); // rate in [1/Mpc]
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
 	acc = gsl_interp_accel_alloc();
-	protonFreePath = gsl_spline_alloc(gsl_interp_linear, x.size());
-	neutronFreePath = gsl_spline_alloc(gsl_interp_linear, x.size());
-	gsl_spline_init(protonFreePath, &x[0], &yp[0], x.size());
-	gsl_spline_init(neutronFreePath, &x[0], &yn[0], x.size());
+	pRate = gsl_spline_alloc(gsl_interp_linear, x.size());
+	nRate = gsl_spline_alloc(gsl_interp_linear, x.size());
+	gsl_spline_init(pRate, &x[0], &yp[0], x.size());
+	gsl_spline_init(nRate, &x[0], &yn[0], x.size());
 }
 
 PhotoPionProduction::~PhotoPionProduction() {
-	gsl_spline_free(protonFreePath);
-	gsl_spline_free(neutronFreePath);
+	gsl_spline_free(pRate);
+	gsl_spline_free(nRate);
 	gsl_interp_accel_free(acc);
-	gsl_rng_free(rand);
 }
 
 std::string PhotoPionProduction::getDescription() const {
@@ -88,79 +83,86 @@ std::string PhotoPionProduction::getDescription() const {
 
 void PhotoPionProduction::process(Candidate *candidate,
 		std::vector<Candidate *> &secondaries) {
-	int id = candidate->current.getId();
+	double step = candidate->getCurrentStep();
 
-	// check if a interaction is already cached, if not set it
-	if (id != cached_id) {
-		cached_id = id;
-		setNextInteraction(candidate);
+	while (true) {
+		int id = candidate->current.getId();
+
+		// set a new interaction if necessary
+		if (id != cached_id) {
+			// return if no data
+			if (setNextInteraction(candidate) == false)
+				return;
+			cached_id = id;
+		}
+		// if counter not over, reduce and return
+		if (cached_distance > step) {
+			cached_distance -= step;
+			candidate->limitNextStep(cached_distance);
+			return;
+		}
+		// counter over: interact
+		cached_id = 0;
+		step -= cached_distance;
+		performInteraction(candidate);
 	}
-
-	// reduce distance to interaction
-	cached_distance -= candidate->getCurrentStep();
-
-	// check if free path is over
-	if (cached_distance > 0) {
-		candidate->limitNextStep(cached_distance);
-		return;
-	}
-	performInteraction(candidate, secondaries);
-	cached_id = 0;
-	// should repeat this, goto?
 }
 
-void PhotoPionProduction::setNextInteraction(Candidate *candidate) {
+bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
 	int A = getMassNumberFromNucleusId(id);
 	int Z = getChargeNumberFromNucleusId(id);
 	int N = A - Z;
+	double EpA = E / A * (1 + z); // CMB energies increase with (1+z)^3
 
-	double xi = E / A * (1 + z);
-	double d, mfp;
+	// out of energy range
+	if ((EpA < 10 * EeV) or (EpA > 1e5 * EeV))
+		return false;
+
 	cached_distance = std::numeric_limits<double>::max();
 	// check for interaction on proton
 	if (Z > 0) {
-		double mfp = gsl_spline_eval(protonFreePath, xi, acc) / Z;
-		double d = -log(gsl_rng_uniform(rand)) * mfp;
-		if (d < cached_distance) {
-			cached_distance = d;
-			cached_interaction = 1;
-		}
+		double rate = gsl_spline_eval(pRate, EpA, acc) * Z;
+		cached_distance = -log(mtrand.rand()) / rate;
+		cached_interaction = 1;
 	}
 	// check for interaction on neutron
 	if (N > 0) {
-		double mfp = gsl_spline_eval(neutronFreePath, xi, acc) / N;
-		double d = -log(gsl_rng_uniform(rand)) * mfp;
+		double rate = gsl_spline_eval(nRate, EpA, acc) * N;
+		double d = -log(mtrand.rand()) / rate;
 		if (d < cached_distance) {
 			cached_distance = d;
 			cached_interaction = 0;
 		}
 	}
+
+	cached_distance /= pow((1 + z), 3); // CMB density increases with (1+z)^3
+	return true;
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoPionProduction::performInteraction(Candidate *candidate) {
 	double E = candidate->current.getEnergy();
 	int id = candidate->current.getId();
 	int A = getMassNumberFromNucleusId(id);
 	int Z = getChargeNumberFromNucleusId(id);
 
-	int Zfinal = cached_interaction; // = 1, 0 for interaction on p, n
-	if (gsl_rng_uniform(rand) > 2. / 3)
-		Zfinal = abs(Zfinal - 1); // 2/3 probability of isospin change p <-> n
+	// final proton number of interaction nucleon
+	int Zfinal = cached_interaction;
+	if (mtrand.rand() < 1. / 3.)
+		Zfinal = abs(Zfinal - 1); // 1/3 probability of isospin change p <-> n
 
 	// interaction on single nucleon
 	if (A == 1) {
 		candidate->current.setEnergy(E * 938. / 1232.);
-		candidate->current.setId(getNucleusId(Zfinal, 1));
+		candidate->current.setId(getNucleusId(1, Zfinal));
 		return;
 	}
 
-	// else, interaction on nucleus
+	// else, interaction on nucleus, nucleon is emitted
 	candidate->current.setEnergy(E * (A - 1) / A);
-	candidate->current.setId(getNucleusId(Z - cached_interaction, A - 1));
+	candidate->current.setId(getNucleusId(A - 1, Z - cached_interaction));
 	candidate->addSecondary(getNucleusId(Zfinal, 1), E / A * 938. / 1232.);
 }
 

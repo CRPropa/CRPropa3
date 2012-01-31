@@ -2,9 +2,10 @@
 #define PHOTODISINTEGRATION_H_
 
 #include "mpc/Module.h"
+#include "mpc/MersenneTwister.h"
+
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
-#include <gsl/gsl_rng.h>
 
 namespace mpc {
 
@@ -21,16 +22,15 @@ public:
 	void init(std::string filename);
 	std::string getDescription() const;
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
-	void setNextInteraction(Candidate *candidate);
-	void performInteraction(Candidate *candidate,
-			std::vector<Candidate *> &secondaries);
+	bool setNextInteraction(Candidate *candidate);
+	void performInteraction(Candidate *candidate);
 
 private:
+	MTRand mtrand;
 	PhotonField photonField;
-	gsl_rng *rand;
 	gsl_interp_accel *acc;
-	gsl_spline *protonFreePath;
-	gsl_spline *neutronFreePath;
+	gsl_spline *pRate; // interaction rate in [1/m] for protons
+	gsl_spline *nRate; // interaction rate in [1/m] for neutrons
 	int cached_id;
 	int cached_interaction;
 	double cached_distance;

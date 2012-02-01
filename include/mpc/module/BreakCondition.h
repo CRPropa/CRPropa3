@@ -1,10 +1,8 @@
 #ifndef BREAKCONDITION_H_
 #define BREAKCONDITION_H_
 
-#include "mpc/Candidate.h"
-#include "mpc/ParticleState.h"
 #include "mpc/Module.h"
-
+#include "mpc/Vector3.h"
 #include <sstream>
 
 namespace mpc {
@@ -24,7 +22,7 @@ public:
 
 	std::string getDescription() const {
 		std::stringstream s;
-		s << "MaximumTrajectoryLength: " << maxLength / Mpc << " Mpc";
+		s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc";
 		return s.str();
 	}
 };
@@ -44,7 +42,57 @@ public:
 
 	std::string getDescription() const {
 		std::stringstream s;
-		s << "MinimumEnergy: " << minEnergy / EeV << " EeV";
+		s << "Minimum energy: " << minEnergy / EeV << " EeV";
+		return s.str();
+	}
+};
+
+class LargeObserverSphere: public Module {
+public:
+	double radius;
+	Vector3 center;
+
+	LargeObserverSphere(double radius, Vector3 center) {
+		this->radius = radius;
+		this->center = center;
+	}
+
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		double d = (candidate->current.getPosition() - center).mag();
+		if (d >= radius)
+			candidate->setStatus(Candidate::Detected);
+		candidate->limitNextStep(radius - d);
+	}
+
+	std::string getDescription() const {
+		std::stringstream s;
+		s << "Large observer sphere: " << radius / Mpc << " Mpc radius around "
+				<< center / Mpc << " Mpc";
+		return s.str();
+	}
+};
+
+class SmallObserverSphere: public Module {
+public:
+	double radius;
+	Vector3 center;
+
+	SmallObserverSphere(double radius, Vector3 center) {
+		this->radius = radius;
+		this->center = center;
+	}
+
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		double d = (candidate->current.getPosition() - center).mag();
+		if (d <= radius)
+			candidate->setStatus(Candidate::Detected);
+		candidate->limitNextStep((d - radius));
+	}
+
+	std::string getDescription() const {
+		std::stringstream s;
+		s << "Small observer sphere: " << radius / Mpc << " Mpc radius around "
+				<< center / Mpc << " Mpc";
 		return s.str();
 	}
 };

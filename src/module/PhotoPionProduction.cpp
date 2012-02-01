@@ -63,15 +63,15 @@ PhotoPionProduction::~PhotoPionProduction() {
 std::string PhotoPionProduction::getDescription() const {
 	switch (photonField) {
 	case CMB: {
-		return "Photo-pion production (CMB)";
+		return "Photo-pion production on CMB";
 		break;
 	}
 	case IR: {
-		return "Photo-pion production (IR)";
+		return "Photo-pion production on IR";
 		break;
 	}
 	case CMBIR: {
-		return "Photo-pion production (CMBIR)";
+		return "Photo-pion production on CMBIR";
 		break;
 	}
 	default: {

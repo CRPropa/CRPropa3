@@ -1,0 +1,21 @@
+# FFTW_INCLUDE_DIR = fftw3.h
+# FFTW_LIBRARIES = libfftw3.a
+# FFTW_FOUND = true if FFTW3 is found
+
+find_path(FFTW_INCLUDE_DIR fftw3.h)
+find_library(FFTW_LIBRARY fftw3)
+
+set(FFTW_FOUND FALSE)
+if(FFTW_INCLUDE_DIR AND FFTW_LIBRARIES)
+    set(FFTW_FOUND TRUE)
+endif()
+
+mark_as_advanced(
+FFTW_INCLUDE_DIR
+FFTW_LIBRARIES
+FFTW_FOUND
+)
+
+#MESSAGE("FFTW_FOUND=${FFTW_FOUND}\n"
+#    "FFTW_LIBRARY=${FFTW_LIBRARY}\n"
+#    "FFTW_INCLUDE_DIR=${FFTW_INCLUDE_DIR}")

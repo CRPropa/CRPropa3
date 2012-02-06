@@ -3,7 +3,7 @@
 # FFTW_FOUND = true if FFTW3 is found
 
 find_path(FFTW_INCLUDE_DIR fftw3.h)
-find_library(FFTW_LIBRARY fftw3)
+find_library(FFTW_LIBRARIES fftw3)
 
 set(FFTW_FOUND FALSE)
 if(FFTW_INCLUDE_DIR AND FFTW_LIBRARIES)

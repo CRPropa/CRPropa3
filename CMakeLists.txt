@@ -53,12 +53,11 @@ add_library(mpc SHARED
     src/pugixml/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )
-
 TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
+
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
 
-# testing
 find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()

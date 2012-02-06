@@ -1,7 +1,7 @@
-#ifndef _MAGNETICFIELDRING_H_
-#define _MAGNETICFIELDRING_H_
+#ifndef _MAGNETICFIELDRING_HPP_
+#define _MAGNETICFIELDRING_HPP_
 
-#include "mpc/magneticfield/MagneticField.h"
+#include "mpc/magneticField/magneticField.hpp"
 #include <math.h>
 
 namespace mpc {
@@ -45,4 +45,4 @@ public:
 
 } // namespace mpc
 
-#endif // _MAGNETICFIELDRING_H_
+#endif // _MAGNETICFIELDRING_HPP_

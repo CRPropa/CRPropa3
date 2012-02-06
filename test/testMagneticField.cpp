@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "mpc/magneticfield/MagneticField.h"
-#include "mpc/magneticfield/TurbulentMagneticField.h"
+#include "mpc/magneticfield/turbulentMagneticField.h"
 #include "mpc/Vector3.h"
 #include "fftw3.h"
 #include <iostream>

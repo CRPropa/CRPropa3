@@ -44,7 +44,7 @@ public:
 
 private:
 	double redshift, trajectoryLength;
-	double currentStep, nextStep; // stepsize in [m]
+	double currentStep, nextStep;
 	Status status;
 };
 

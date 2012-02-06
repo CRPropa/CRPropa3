@@ -10,7 +10,9 @@
 #include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/NuclearDecay.h"
-#include "mpc/magneticfield/TurbulentMagneticField.h"
+#include "mpc/magneticField/uniformMagneticField.hpp"
+#include "mpc/magneticField/turbulentMagneticFieldGrid.hpp"
+#include "mpc/magneticField/sphMagneticFieldGrid.hpp"
 
 using namespace mpc;
 
@@ -22,12 +24,15 @@ int main(int argc, char **argv) {
 		import.import(argv[1]);
 	} else {
 		// propagation --------------------------------------------------------
-		HomogeneousMagneticField *field = new HomogeneousMagneticField(
-				Vector3(0., 0., 1e-20));
-//		TurbulentMagneticField field(Vector3(0, 0, 0) * Mpc, 64, 100 * kpc,
-//				1. * nG, -11. / 3., 200 * kpc, 800 * kpc);
-//		field.initialize();
-		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 5e-5),
+//		UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
+
+//		RegularGridMagneticField field(64, 0.1 * Mpc, Vector3(0,0,0));
+//		initializeTurbulentMagneticField(&field.grid, 1e-12, -11./3., 1, 8, 5);
+//		chain.add(new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5), 25);
+
+		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(64,
+				0.1 * Mpc, Vector3(0, 0, 0), 1e-12, 1, 8, -11. / 3., 10);
+		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4),
 				25);
 
 		// interactions -------------------------------------------------------
@@ -36,7 +41,7 @@ int main(int argc, char **argv) {
 //		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
 //		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
 
-		// break conditions ---------------------------------------------------
+// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
 //		chain.add(new LargeObserverSphere(9 * Mpc, Vector3(0, 0, 0) * Mpc), 52);

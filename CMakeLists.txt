@@ -14,14 +14,14 @@ list (APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
-    list( APPEND MPC_EXTRA_SOURCES src/magneticfield/TurbulentMagneticField.cpp)
-    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARIES})
+    list( APPEND MPC_EXTRA_SOURCES src/magneticField/turbulentMagneticFieldGrid.cpp)
+    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY})
 endif (FFTW_FOUND)
 
 # gadget needed for SphMagneticField
 find_package(Gadget)
 if (GADGET_FOUND)
-    list( APPEND MPC_EXTRA_SOURCES src/magneticfield/SphMagneticField.cpp)
+    list( APPEND MPC_EXTRA_SOURCES src/magneticField/sphMagneticFieldGrid.cpp)
     list( APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
     list( APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
 endif (GADGET_FOUND)
@@ -35,6 +35,8 @@ if (Freeglut_FOUND)
         list( APPEND MPC_EXTRA_LIBRARIES ${Freeglut_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
     endif (OPENGL_GLU_FOUND)
 endif (Freeglut_FOUND)
+
+
 
 include_directories(include ${MPC_EXTRA_INCLUDES})
 
@@ -50,6 +52,7 @@ add_library(mpc SHARED
     src/module/PhotoPionProduction.cpp
     src/module/PhotoDisintegration.cpp
     src/module/NuclearDecay.cpp
+    src/magneticField/magneticFieldGrid.cpp
     src/pugixml/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )
@@ -70,9 +73,9 @@ if (GTEST_FOUND)
     target_link_libraries(testInteractions mpc ${GTEST_BOTH_LIBRARIES} pthread)
     add_test(test2 testInteractions)
     
-    add_executable(testMagneticField test/testMagneticField.cpp)
-    target_link_libraries(testMagneticField mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test3 testMagneticField)
+#    add_executable(testMagneticField test/testMagneticField.cpp)
+#    target_link_libraries(testMagneticField mpc ${GTEST_BOTH_LIBRARIES} pthread)
+#    add_test(test3 testMagneticField)
 endif (GTEST_FOUND)
 
 INCLUDE (Python.cmake)

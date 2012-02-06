@@ -1,7 +1,8 @@
 #include "mpc/XMLImport.h"
 #include "mpc/ModuleChain.h"
 #include "mpc/pugixml/pugixml.hpp"
-#include "mpc/magneticfield/MagneticField.h"
+#include "mpc/magneticField/magneticField.hpp"
+#include "mpc/magneticField/uniformMagneticField.hpp"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/GlutDisplay.h"
 
@@ -10,8 +11,7 @@
 
 namespace mpc {
 
-Module *ModuleFactory::create(const std::string type,
-		pugi::xml_node &moduleNode) {
+Module *ModuleFactory::create(const std::string type, pugi::xml_node &moduleNode) {
 	std::map<std::string, ModuleProducer *>::iterator i;
 	i = producers.find(type);
 	if (i == producers.end())
@@ -20,8 +20,7 @@ Module *ModuleFactory::create(const std::string type,
 	return i->second->create(moduleNode);
 }
 
-void ModuleFactory::registerProducer(const std::string &type,
-		ModuleProducer *producer) {
+void ModuleFactory::registerProducer(const std::string &type, ModuleProducer *producer) {
 	producers.insert(make_pair(type, producer));
 }
 
@@ -36,8 +35,7 @@ void XMLImport::import(std::string filename) {
 
 	if (!result) {
 		std::stringstream sstr;
-		sstr << "XML [" << filename << "] parsed with errors, attr value: ["
-				<< doc.child("node").attribute("attr").value() << "]\n";
+		sstr << "XML [" << filename << "] parsed with errors, attr value: [" << doc.child("node").attribute("attr").value() << "]\n";
 		sstr << "Error description: " << result.description() << "\n";
 		throw std::runtime_error(sstr.str());
 	}
@@ -58,8 +56,7 @@ ModuleFactory &ModuleFactory::instance() {
 }
 
 void XMLImport::import(pugi::xml_node &modules) {
-	for (pugi::xml_node moduleNode = modules.child("module"); moduleNode;
-			moduleNode = moduleNode.next_sibling("module")) {
+	for (pugi::xml_node moduleNode = modules.child("module"); moduleNode; moduleNode = moduleNode.next_sibling("module")) {
 		std::string type = moduleNode.attribute("type").value();
 		unsigned int priority = moduleNode.attribute("priority").as_uint();
 
@@ -80,8 +77,7 @@ public:
 	}
 
 	Module *create(pugi::xml_node &module) {
-		HomogeneousMagneticField *field = new HomogeneousMagneticField(
-				Vector3(0, 1, 0));
+		UniformMagneticField *field = new UniformMagneticField(Vector3(0, 1, 0));
 		return new DeflectionCK(field, DeflectionCK::RMS, 0.005);
 	}
 };

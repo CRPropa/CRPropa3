@@ -2,25 +2,25 @@
 
 namespace mpc {
 
-void periodicClamp(double pos, int n, int& lower, int& upper, double& fracLower,
-		double& fracUpper) {
+void periodicClamp(double x, int n, int &lo, int &hi, double &fLo,
+		double &fHi) {
 	// closest lower and upper neighbour in a periodically continued grid
-	lower = ((int(pos) % n) + n) % n;
-	upper = (lower + 1) % n;
-	fracLower = pos - floor(pos);
-	fracUpper = 1 - fracLower;
+	lo = ((int(x) % n) + n) % n;
+	hi = (lo + 1) % n;
+	fLo = x - floor(x);
+	fHi = 1 - fLo;
 }
 
-MagneticFieldGrid::MagneticFieldGrid(size_t n, double spacing,
-		Vector3 origin) {
+MagneticFieldGrid::MagneticFieldGrid(Vector3 origin, size_t samples,
+		double spacing) {
 	this->origin = origin;
 	this->spacing = spacing;
-	this->n = n;
-	grid.resize(n);
-	for (int ix = 0; ix < n; ix++) {
-		grid[ix].resize(n);
-		for (int iy = 0; iy < n; iy++) {
-			grid[ix][iy].resize(n);
+	this->samples = samples;
+	grid.resize(samples);
+	for (int ix = 0; ix < samples; ix++) {
+		grid[ix].resize(samples);
+		for (int iy = 0; iy < samples; iy++) {
+			grid[ix][iy].resize(samples);
 		}
 	}
 }
@@ -29,9 +29,9 @@ Vector3 MagneticFieldGrid::getField(const Vector3 &position) const {
 	Vector3 r = (position - origin) / spacing;
 	int ix, iX, iy, iY, iz, iZ;
 	double fx, fX, fy, fY, fz, fZ;
-	periodicClamp(r.x(), n, ix, iX, fx, fX);
-	periodicClamp(r.y(), n, iy, iY, fy, fY);
-	periodicClamp(r.z(), n, iz, iZ, fz, fZ);
+	periodicClamp(r.x(), samples, ix, iX, fx, fX);
+	periodicClamp(r.y(), samples, iy, iY, fy, fY);
+	periodicClamp(r.z(), samples, iz, iZ, fz, fZ);
 
 	// trilinear interpolation
 	// check: http://paulbourke.net/miscellaneous/interpolation/

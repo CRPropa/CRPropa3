@@ -5,6 +5,10 @@
 
 namespace mpc {
 
+/**
+	@class MagneticField
+	@brief Magnetic field base class.
+*/
 class MagneticField {
 public:
 	virtual ~MagneticField() {

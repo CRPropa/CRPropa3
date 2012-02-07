@@ -12,7 +12,7 @@
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/magneticField/uniformMagneticField.hpp"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.hpp"
-#include "mpc/magneticField/sphMagneticFieldGrid.hpp"
+#include "mpc/magneticField/sphMagneticField.hpp"
 
 using namespace mpc;
 
@@ -25,15 +25,10 @@ int main(int argc, char **argv) {
 	} else {
 		// propagation --------------------------------------------------------
 //		UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
-
-//		RegularGridMagneticField field(64, 0.1 * Mpc, Vector3(0,0,0));
-//		initializeTurbulentMagneticField(&field.grid, 1e-12, -11./3., 1, 8, 5);
-//		chain.add(new DeflectionCK(&field, DeflectionCK::WorstOffender, 5e-5), 25);
-
-		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(64,
-				0.1 * Mpc, Vector3(0, 0, 0), 1e-12, 1, 8, -11. / 3., 10);
-		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4),
-				25);
+		SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
+		field->gadgetField->load("test/coma-0.7.raw");
+//		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
+		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4), 25);
 
 		// interactions -------------------------------------------------------
 //		chain.add(new NuclearDecay(), 30);
@@ -41,7 +36,7 @@ int main(int argc, char **argv) {
 //		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
 //		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
 
-// break conditions ---------------------------------------------------
+		// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
 //		chain.add(new LargeObserverSphere(9 * Mpc, Vector3(0, 0, 0) * Mpc), 52);
@@ -60,6 +55,7 @@ int main(int argc, char **argv) {
 	initial.setId(getNucleusId(56, 26));
 	initial.setEnergy(100 * EeV);
 	initial.setPosition(Vector3(0., 1., 0.) * Mpc);
+	initial.setPosition(Vector3(119717 + 100, 221166 + 100, 133061 + 100) * kpc);
 	initial.setDirection(Vector3(1., 1., 0.));
 
 	Candidate candidate;

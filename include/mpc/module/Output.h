@@ -9,23 +9,6 @@
 
 namespace mpc {
 
-class ShellOutput: public Module {
-public:
-	std::string getDescription() const {
-		return "CandidateOutput";
-	}
-
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		std::cout << std::fixed << std::showpoint << std::setprecision(2)
-				<< std::setw(6);
-		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";
-		std::cout << candidate->current.getId() << ",  ";
-		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
-		std::cout << candidate->current.getPosition() / Mpc << " Mpc";
-		std::cout << std::endl;
-	}
-};
-
 std::string getOutputString(ParticleState particle) {
 	std::stringstream ss;
 	ss << particle.getId() << ", ";
@@ -41,6 +24,10 @@ std::string getOutputString(ParticleState particle) {
 	return ss.str();
 }
 
+/**
+ @class TrajectoryOutput
+ @brief Saves trajectories to CSV file.
+ */
 class TrajectoryOutput: public Module {
 private:
 	std::ofstream outfile;
@@ -65,6 +52,10 @@ public:
 	}
 };
 
+/**
+ @class FinishedOutput
+ @brief Saves finished particles to a CSV file.
+ */
 class FinishedOutput: public Module {
 private:
 	std::ofstream outfile;
@@ -76,8 +67,10 @@ public:
 
 	FinishedOutput(std::string name) {
 		outfile.open(name.c_str());
-		outfile << "# initial: Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
-		outfile << "# final: Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
+		outfile
+				<< "# initial: Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
+		outfile
+				<< "# final: Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
 	}
 
 	~FinishedOutput() {
@@ -93,6 +86,27 @@ public:
 //		// final state
 		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
 		outfile << getOutputString(candidate->current);
+	}
+};
+
+/**
+ @class ShellOutput
+ @brief Output of the candidate to the shell.
+ */
+class ShellOutput: public Module {
+public:
+	std::string getDescription() const {
+		return "ShellOutput";
+	}
+
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		std::cout << std::fixed << std::showpoint << std::setprecision(2)
+				<< std::setw(6);
+		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";
+		std::cout << candidate->current.getId() << ",  ";
+		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
+		std::cout << candidate->current.getPosition() / Mpc << " Mpc";
+		std::cout << std::endl;
 	}
 };
 

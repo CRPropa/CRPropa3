@@ -61,7 +61,8 @@ public:
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d >= radius)
 			candidate->setStatus(Candidate::Detected);
-		candidate->limitNextStep(radius - d);
+		else
+			candidate->limitNextStep(radius - d);
 	}
 
 	std::string getDescription() const {
@@ -86,7 +87,8 @@ public:
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d <= radius)
 			candidate->setStatus(Candidate::Detected);
-		candidate->limitNextStep((d - radius));
+		else
+			candidate->limitNextStep((d - radius));
 	}
 
 	std::string getDescription() const {

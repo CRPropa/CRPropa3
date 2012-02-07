@@ -5,5 +5,7 @@ syntax: regexp
 ^\.project$
 syntax: regexp
 ^\.cproject$
-syntax: glob
-build
+syntax: regexp
+^doc$
+syntax: regexp
+^.settings$

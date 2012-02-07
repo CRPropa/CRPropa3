@@ -16,6 +16,12 @@ struct DecayMode {
 	double distance; // decay length in [m]
 };
 
+/**
+ @class NuclearDecay
+ @brief Nuclear decay of unstable nuclei.
+
+ This module simulates the nuclear decay of unstable nuclei.
+ */
 class NuclearDecay: public Module {
 private:
 	MTRand mtrand;

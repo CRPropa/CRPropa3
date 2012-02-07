@@ -9,6 +9,13 @@
 
 namespace mpc {
 
+/**
+ @class PhotoPionProduction
+ @brief Photo-pion interactions of nuclei with background photons.
+
+ This module simulates photo-hadronic interactions of nuclei with background photons.\n
+ Several photon fields can be selected. They are considered as homogeneous and evolving as the CMB.\n
+ */
 class PhotoPionProduction: public Module {
 public:
 	enum PhotonField {

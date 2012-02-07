@@ -5,6 +5,12 @@
 
 namespace mpc {
 
+/**
+ @class GlutDisplay
+ @brief Visualization of the particle trajectory.
+
+ This module displays the particle trajectory in an interactive window.
+ */
 class GlutDisplay: public Module {
 public:
 	int counter;

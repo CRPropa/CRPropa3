@@ -16,6 +16,13 @@ struct DisintegrationMode {
 	gsl_spline *rate; // disintegration rate [1/m]
 };
 
+/**
+ @class PhotoDisintegration
+ @brief Photo-disintegration of nuclei with background photons.
+
+ This module simulates photo-disintegration of nuclei with background photons.\n
+ Background photons are considered as homogeneous and evolving as the CMB.\n
+ */
 class PhotoDisintegration: public Module {
 public:
 	PhotoDisintegration();

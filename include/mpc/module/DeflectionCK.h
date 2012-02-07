@@ -9,11 +9,13 @@
 namespace mpc {
 
 /**
- * @class Deflection
- * @brief Magnetic deflection in 3D using a the Cash-Karp Runge-Kutta method
- * propagates the particle by a step particle.getNextStep() or smaller.
- * The step size control tries to keep the error close to, but smaller than the maxError
- */
+	@class DeflectionCK
+	@brief Propagation through magnetic fields using the Cash-Karp integrator.
+
+	This module solves the equations of motion of a charged particle when propagating through a magnetic field.\n
+	It uses the Runge-Kutta integration method with Cash-Karp coefficients.\n
+	The step size control tries to keep the error close to, but smaller than the designated error.
+*/
 class DeflectionCK: public Module {
 public:
 	MagneticField *field;

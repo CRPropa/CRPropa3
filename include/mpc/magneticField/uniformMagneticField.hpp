@@ -6,6 +6,10 @@
 
 namespace mpc {
 
+/**
+	@class UniformMagneticField
+	@brief Magnetic field with one B-field vector.
+*/
 class UniformMagneticField: public MagneticField {
 public:
 	UniformMagneticField(const Vector3 &value) :

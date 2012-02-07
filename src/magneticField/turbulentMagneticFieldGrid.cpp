@@ -8,10 +8,10 @@ namespace mpc {
 //	TurbulentMagneticField(n, n, n, spacing, origin, Brms, lMin, lMax, powerSpectralIndex, seed);
 //}
 
-TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(size_t n, double spacing,
-		Vector3 origin, double Brms, double lMin, double lMax,
+TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
+		size_t samples, double spacing, double Brms, double lMin, double lMax,
 		double powerSpectralIndex, int seed) :
-		MagneticFieldGrid(n, spacing, origin) {
+		MagneticFieldGrid(origin, samples, spacing) {
 	this->Brms = Brms;
 	this->lMin = lMin;
 	this->lMax = lMax;
@@ -20,6 +20,8 @@ TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(size_t n, double spacing,
 }
 
 void TurbulentMagneticFieldGrid::initialize() {
+	size_t n = samples;
+
 	MTRand mtrand;
 	mtrand.seed(seed);
 

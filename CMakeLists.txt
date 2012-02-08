@@ -61,6 +61,9 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
 
+
+
+# GTest needed for testing
 find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()
@@ -76,6 +79,10 @@ if (GTEST_FOUND)
     add_executable(testMagneticField test/testMagneticField.cpp)
     target_link_libraries(testMagneticField mpc ${GTEST_BOTH_LIBRARIES} pthread)
     add_test(test3 testMagneticField)
+    
+    add_executable(testBreakCondition test/testBreakCondition.cpp)
+    target_link_libraries(testBreakCondition mpc ${GTEST_BOTH_LIBRARIES} pthread)
+    add_test(test4 testBreakCondition)
 endif (GTEST_FOUND)
 
 INCLUDE (Python.cmake)

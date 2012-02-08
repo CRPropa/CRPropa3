@@ -64,7 +64,7 @@ public:
 	double radius;
 	Vector3 center;
 
-	LargeObserverSphere(double radius, Vector3 center) {
+	LargeObserverSphere(Vector3 center, double radius) {
 		this->radius = radius;
 		this->center = center;
 	}
@@ -94,7 +94,7 @@ public:
 	double radius;
 	Vector3 center;
 
-	SmallObserverSphere(double radius, Vector3 center) {
+	SmallObserverSphere(Vector3 center, double radius) {
 		this->radius = radius;
 		this->center = center;
 	}
@@ -140,7 +140,7 @@ public:
 		if (hi > size)
 			candidate->setStatus(Candidate::OutOfBounds);
 		candidate->limitNextStep(lo + margin);
-		candidate->limitNextStep(hi - size + margin);
+		candidate->limitNextStep(size - hi + margin);
 	}
 
 	std::string getDescription() const {

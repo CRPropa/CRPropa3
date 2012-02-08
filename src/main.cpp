@@ -39,8 +39,8 @@ int main(int argc, char **argv) {
 		// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-//		chain.add(new LargeObserverSphere(9 * Mpc, Vector3(0, 0, 0) * Mpc), 52);
-		chain.add(new SmallObserverSphere(1 * Mpc, Vector3(5, 5, 0) * Mpc), 53);
+//		chain.add(new LargeObserverSphere(Vector3(0, 0, 0) * Mpc, 9 * Mpc), 52);
+		chain.add(new SmallObserverSphere(Vector3(5, 5, 0) * Mpc, 1 * Mpc), 53);
 
 		// output -------------------------------------------------------------
 		chain.add(new ShellOutput(), 79);

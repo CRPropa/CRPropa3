@@ -1,7 +1,7 @@
-#ifndef MAGNETICFIELDGRID_HPP_
-#define MAGNETICFIELDGRID_HPP_
+#ifndef MAGNETICFIELDGRID_H_
+#define MAGNETICFIELDGRID_H_
 
-#include "mpc/magneticField/magneticField.hpp"
+#include "mpc/magneticField/magneticField.h"
 #include "mpc/Vector3.h"
 #include <vector>
 
@@ -31,4 +31,4 @@ protected:
 
 } // namespace mpc
 
-#endif /* MAGNETICFIELDGRID_HPP_ */
+#endif /* MAGNETICFIELDGRID_H_ */

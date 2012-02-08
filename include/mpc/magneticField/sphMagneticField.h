@@ -1,7 +1,7 @@
-#ifndef SPHMAGNETICFIELD_HPP_
-#define SPHMAGNETICFIELD_HPP_
+#ifndef SPHMAGNETICFIELD_H_
+#define SPHMAGNETICFIELD_H_
 
-#include "mpc/magneticField/magneticFieldGrid.hpp"
+#include "mpc/magneticField/magneticFieldGrid.h"
 #include "gadget/MagneticField.hpp"
 #include "gadget/SmoothParticle.hpp"
 #include "gadget/Vector3.hpp"
@@ -36,4 +36,4 @@ public:
 
 } // namespace mpc
 
-#endif /* SPHMAGNETICFIELD_HPP_ */
+#endif /* SPHMAGNETICFIELD_H_ */

@@ -1,7 +1,7 @@
-#ifndef TURBULENTMAGNETICFIELD_HPP_
-#define TURBULENTMAGNETICFIELD_HPP_
+#ifndef TURBULENTMAGNETICFIELD_H_
+#define TURBULENTMAGNETICFIELD_H_
 
-#include "mpc/magneticField/magneticFieldGrid.hpp"
+#include "mpc/magneticField/magneticFieldGrid.h"
 
 namespace mpc {
 
@@ -34,4 +34,4 @@ protected:
 
 } // namespace mpc
 
-#endif /* TURBULENTMAGNETICFIELD_HPP_ */
+#endif /* TURBULENTMAGNETICFIELD_H_ */

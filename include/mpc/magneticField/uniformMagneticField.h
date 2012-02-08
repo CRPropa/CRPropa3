@@ -1,7 +1,7 @@
-#ifndef UNIFORMAGNETICFIELD_HPP_
-#define UNIFORMAGNETICFIELD_HPP_
+#ifndef UNIFORMAGNETICFIELD_H_
+#define UNIFORMAGNETICFIELD_H_
 
-#include "mpc/magneticField/magneticField.hpp"
+#include "mpc/magneticField/magneticField.h"
 #include "mpc/Vector3.h"
 
 namespace mpc {
@@ -25,4 +25,4 @@ private:
 
 } // namespace mpc
 
-#endif /* UNIFORMAGNETICFIELD_HPP_ */
+#endif /* UNIFORMAGNETICFIELD_H_ */

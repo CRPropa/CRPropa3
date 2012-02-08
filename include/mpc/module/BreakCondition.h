@@ -7,6 +7,10 @@
 
 namespace mpc {
 
+/**
+ @class MaximumTrajectoryLength
+ @brief Stops propagation after the set maximum trajectory length.
+ */
 class MaximumTrajectoryLength: public Module {
 public:
 	double maxLength;
@@ -17,7 +21,7 @@ public:
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		if (candidate->getTrajectoryLength() >= maxLength)
-			candidate->setStatus(Candidate::ReachedMaxTrajectoryLength);
+			candidate->setStatus(Candidate::Stopped);
 	}
 
 	std::string getDescription() const {
@@ -27,6 +31,10 @@ public:
 	}
 };
 
+/**
+ @class MinimumEnergy
+ @brief Stops propagation if energy drops under the set minimum energy.
+ */
 class MinimumEnergy: public Module {
 public:
 	double minEnergy;
@@ -37,7 +45,7 @@ public:
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		if (candidate->current.getEnergy() <= minEnergy)
-			candidate->setStatus(Candidate::BelowEnergyThreshold);
+			candidate->setStatus(Candidate::Stopped);
 	}
 
 	std::string getDescription() const {
@@ -47,6 +55,10 @@ public:
 	}
 };
 
+/**
+ @class LargeObserverSphere
+ @brief Detects particles when leaving the sphere.
+ */
 class LargeObserverSphere: public Module {
 public:
 	double radius;
@@ -73,6 +85,10 @@ public:
 	}
 };
 
+/**
+ @class SmallObserverSphere
+ @brief Detects particles when entering the sphere.
+ */
 class SmallObserverSphere: public Module {
 public:
 	double radius;
@@ -95,6 +111,43 @@ public:
 		std::stringstream s;
 		s << "Small observer sphere: " << radius / Mpc << " Mpc radius around "
 				<< center / Mpc << " Mpc";
+		return s.str();
+	}
+};
+
+/**
+ @class SimulationBox
+ @brief Declares particle out of bounds when exiting the simulation box.
+ */
+class SimulationBox: public Module {
+public:
+	Vector3 origin;
+	double size;
+	double margin;
+
+	SimulationBox(Vector3 origin, double size, double margin) {
+		this->origin = origin;
+		this->size = size;
+		this->margin = margin;
+	}
+
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		Vector3 relPos = candidate->current.getPosition() - origin;
+		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
+		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
+		if (lo < 0.)
+			candidate->setStatus(Candidate::OutOfBounds);
+		if (hi > size)
+			candidate->setStatus(Candidate::OutOfBounds);
+		candidate->limitNextStep(lo + margin);
+		candidate->limitNextStep(hi - size + margin);
+	}
+
+	std::string getDescription() const {
+		std::stringstream s;
+		s << "Simulation Box: " << origin / Mpc << " - "
+				<< origin + Vector3(size, size, size) << " Mpc, margin "
+				<< margin << " Mpc";
 		return s.str();
 	}
 };

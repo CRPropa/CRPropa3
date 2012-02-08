@@ -32,30 +32,28 @@ void ModuleChain::add(Module *module, size_t priority) {
 	check();
 }
 
-void ModuleChain::process(list_t &list, Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void ModuleChain::process(list_t &list, Candidate *candidate) {
 	list_t::iterator iEntry = list.begin();
 	while (iEntry != list.end()) {
 		list_entry_t &entry = *iEntry;
 		iEntry++;
-		entry.second->process(candidate, secondaries);
+		entry.second->process(candidate);
 	}
 }
 
-void ModuleChain::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void ModuleChain::process(Candidate *candidate) {
 	if (mainModules.size() == 0)
 		return;
 
-	process(startModules, candidate, secondaries);
+	process(startModules, candidate);
 
 	while (candidate->getStatus() == Candidate::Active) {
 		if (mainModules.size() == 0)
 			break;
-		process(mainModules, candidate, secondaries);
+		process(mainModules, candidate);
 	}
 
-	process(endModules, candidate, secondaries);
+	process(endModules, candidate);
 }
 
 void ModuleChain::clear() {
@@ -90,7 +88,7 @@ void ModuleChain::process(std::vector<Candidate *> &candidates) {
 		for (size_t i = 0; i < candidates.size(); i++) {
 			Candidate *candidate = candidates[i];
 			if (candidate->getStatus() == Candidate::Active) {
-				process(candidate, candidates);
+				process(candidate);
 				haveActive = true;
 			}
 		}

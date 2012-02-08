@@ -81,8 +81,7 @@ std::string PhotoPionProduction::getDescription() const {
 	}
 }
 
-void PhotoPionProduction::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoPionProduction::process(Candidate *candidate) {
 	double step = candidate->getCurrentStep();
 
 	while (true) {

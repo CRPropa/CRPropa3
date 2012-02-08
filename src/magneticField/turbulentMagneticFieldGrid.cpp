@@ -1,4 +1,4 @@
-#include "mpc/magneticField/turbulentMagneticFieldGrid.hpp"
+#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 #include "mpc/MersenneTwister.h"
 #include "fftw3.h"
 

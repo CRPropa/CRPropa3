@@ -10,9 +10,9 @@
 #include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/NuclearDecay.h"
-#include "mpc/magneticField/uniformMagneticField.hpp"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.hpp"
-#include "mpc/magneticField/sphMagneticField.hpp"
+#include "mpc/magneticField/uniformMagneticField.h"
+#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/sphMagneticField.h"
 
 using namespace mpc;
 

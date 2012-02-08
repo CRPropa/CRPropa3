@@ -1,4 +1,4 @@
-#include "mpc/magneticField/magneticFieldGrid.hpp"
+#include "mpc/magneticField/magneticFieldGrid.h"
 
 namespace mpc {
 

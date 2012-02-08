@@ -6,14 +6,17 @@
 
 namespace mpc {
 
+/**
+ @class Candidate
+ @brief All information about the the cosmic ray candidate.
+ */
 class Candidate {
 public:
 	enum Status {
 		Active = 0,
 		Detected,
-		ReachedMaxTrajectoryLength,
-		BelowEnergyThreshold,
-		ObserverNotReachable,
+		OutOfBounds,
+		Stopped,
 		UserDefined
 	};
 

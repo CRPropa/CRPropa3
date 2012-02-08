@@ -1,4 +1,4 @@
-#include "mpc/magneticField/sphMagneticField.hpp"
+#include "mpc/magneticField/sphMagneticField.h"
 #include "mpc/Units.h"
 
 namespace mpc {

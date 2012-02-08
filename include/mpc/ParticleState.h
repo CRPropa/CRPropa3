@@ -7,6 +7,10 @@
 
 namespace mpc {
 
+/**
+ @class ParticleState
+ @brief The state defining the particle.
+ */
 class ParticleState {
 public:
 	void setPosition(const Vector3 &pos);

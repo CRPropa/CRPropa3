@@ -9,3 +9,6 @@ syntax: regexp
 ^doc$
 syntax: regexp
 ^.settings$
+
+syntax: regexp
+^test/coma-0\.7\.raw$

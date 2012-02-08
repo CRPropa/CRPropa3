@@ -1,5 +1,4 @@
 #include "mpc/Candidate.h"
-#include "mpc/ParticleState.h"
 #include "gtest/gtest.h"
 
 namespace mpc {
@@ -73,7 +72,7 @@ TEST(testCandidate, currentStep) {
 	EXPECT_DOUBLE_EQ(candidate.getCurrentStep(), 1 * Mpc);
 }
 
-TEST(testCandidate, nextStep) {
+TEST(testCandidate, limitNextStep) {
 	Candidate candidate;
 	candidate.setNextStep(5 * Mpc);
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 5 * Mpc);
@@ -87,6 +86,12 @@ TEST(testCandidate, status) {
 	Candidate candidate;
 	candidate.setStatus(Candidate::Active);
 	EXPECT_EQ(candidate.getStatus(), Candidate::Active);
+	candidate.setStatus(Candidate::Detected);
+	EXPECT_EQ(candidate.getStatus(), Candidate::Detected);
+	candidate.setStatus(Candidate::Stopped);
+	EXPECT_EQ(candidate.getStatus(), Candidate::Stopped);
+	candidate.setStatus(Candidate::UserDefined);
+	EXPECT_EQ(candidate.getStatus(), Candidate::UserDefined);
 }
 
 

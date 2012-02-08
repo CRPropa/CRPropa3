@@ -30,8 +30,8 @@
 namespace mpc {
 
 /**
- * @author
- * @ingroup vector
+ @class Vector3
+ @brief CLHEP 3-vector
  */
 class Vector3 {
 

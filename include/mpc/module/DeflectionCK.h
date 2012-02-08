@@ -2,7 +2,7 @@
 #define DEFLECTION_H_
 
 #include "mpc/Module.h"
-#include "mpc/magneticField/magneticField.hpp"
+#include "mpc/magneticField/magneticField.h"
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/PhasePoint.h"
 
@@ -30,7 +30,7 @@ public:
 			double tolerance);
 	~DeflectionCK();
 	std::string getDescription() const;
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
+	void process(Candidate *candidate);
 };
 
 } /* namespace mpc */

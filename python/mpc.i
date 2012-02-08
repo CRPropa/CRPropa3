@@ -19,9 +19,9 @@
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Output.h"
 
-#include "mpc/magneticField/magneticField.hpp"
-#include "mpc/magneticField/uniformMagneticField.hpp"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.hpp"
+#include "mpc/magneticField/magneticField.h"
+#include "mpc/magneticField/uniformMagneticField.h"
+#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 
 #include "mpc/Candidate.h"
 #include "mpc/ExplicitRungeKutta.h"
@@ -44,9 +44,9 @@
 
 %include "mpc/Module.h"
 
-%include "mpc/magneticField/magneticField.hpp"
-%include "mpc/magneticField/uniformMagneticField.hpp"
-%include "mpc/magneticField/turbulentMagneticFieldGrid.hpp"
+%include "mpc/magneticField/magneticField.h"
+%include "mpc/magneticField/uniformMagneticField.h"
+%include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"

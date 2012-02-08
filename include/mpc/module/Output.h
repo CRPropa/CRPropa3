@@ -46,7 +46,7 @@ public:
 		outfile.close();
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		outfile << candidate->getTrajectoryLength() / Mpc << ", "
 				<< getOutputString(candidate->current);
 	}
@@ -77,7 +77,7 @@ public:
 		outfile.close();
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		if (candidate->getStatus() == Candidate::Active)
 			return;
 //		// initial state
@@ -99,7 +99,7 @@ public:
 		return "ShellOutput";
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		std::cout << std::fixed << std::showpoint << std::setprecision(2)
 				<< std::setw(6);
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";

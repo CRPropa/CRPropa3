@@ -19,7 +19,7 @@ public:
 		this->maxLength = maxLength;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		if (candidate->getTrajectoryLength() >= maxLength)
 			candidate->setStatus(Candidate::Stopped);
 	}
@@ -43,7 +43,7 @@ public:
 		this->minEnergy = minEnergy;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		if (candidate->current.getEnergy() <= minEnergy)
 			candidate->setStatus(Candidate::Stopped);
 	}
@@ -69,7 +69,7 @@ public:
 		this->center = center;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d >= radius)
 			candidate->setStatus(Candidate::Detected);
@@ -99,7 +99,7 @@ public:
 		this->center = center;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d <= radius)
 			candidate->setStatus(Candidate::Detected);
@@ -131,7 +131,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		Vector3 relPos = candidate->current.getPosition() - origin;
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));

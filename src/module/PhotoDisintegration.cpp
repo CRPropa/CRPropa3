@@ -46,8 +46,7 @@ std::string PhotoDisintegration::getDescription() const {
 	return "Photo-Disintegration";
 }
 
-void PhotoDisintegration::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoDisintegration::process(Candidate *candidate) {
 	double step = candidate->getCurrentStep();
 
 	while (true) {

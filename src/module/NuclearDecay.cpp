@@ -27,8 +27,7 @@ std::string NuclearDecay::getDescription() const {
 	return "Nuclear Decay";
 }
 
-void NuclearDecay::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void NuclearDecay::process(Candidate *candidate) {
 	double gamma = candidate->current.getLorentzFactor();
 	double step = candidate->getCurrentStep() / gamma;
 

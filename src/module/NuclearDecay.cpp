@@ -63,7 +63,7 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate) {
 	// find decay mode with minimum random decay distance
 	cached_distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < modeMap[id].size(); i++) {
-		double d = -log(mtrand.rand()) * modeMap[id][i].distance;
+		double d = -log(rng.rand()) * modeMap[id][i].distance;
 		if (d > cached_distance)
 			continue;
 		cached_distance = d;

@@ -56,36 +56,6 @@ public:
 };
 
 /**
- @class LargeObserverSphere
- @brief Detects particles when leaving the sphere.
- */
-class LargeObserverSphere: public Module {
-public:
-	double radius;
-	Vector3 center;
-
-	LargeObserverSphere(Vector3 center, double radius) {
-		this->radius = radius;
-		this->center = center;
-	}
-
-	void process(Candidate *candidate) {
-		double d = (candidate->current.getPosition() - center).mag();
-		if (d >= radius)
-			candidate->setStatus(Candidate::Detected);
-		else
-			candidate->limitNextStep(radius - d);
-	}
-
-	std::string getDescription() const {
-		std::stringstream s;
-		s << "Large observer sphere: " << radius / Mpc << " Mpc radius around "
-				<< center / Mpc << " Mpc";
-		return s.str();
-	}
-};
-
-/**
  @class SmallObserverSphere
  @brief Detects particles when entering the sphere.
  */
@@ -109,25 +79,35 @@ public:
 
 	std::string getDescription() const {
 		std::stringstream s;
-		s << "Small observer sphere: " << radius / Mpc << " Mpc radius around "
-				<< center / Mpc << " Mpc";
+		s << "Small observer sphere: " << radius << " radius around " << center;
 		return s.str();
 	}
 };
 
 /**
- @class SimulationBox
- @brief Declares particle out of bounds when exiting the simulation box.
+ @class CubicBoundary
+ @brief Flags a particle when exiting the cube.
  */
-class SimulationBox: public Module {
-public:
+class CubicBoundary: public Module {
+protected:
 	Vector3 origin;
 	double size;
+	Candidate::Status flag;
+	bool hardBoundary;
 	double margin;
 
-	SimulationBox(Vector3 origin, double size, double margin) {
+public:
+	CubicBoundary(Vector3 origin, double size, Candidate::Status flag) {
 		this->origin = origin;
 		this->size = size;
+		this->flag = flag;
+	}
+
+	CubicBoundary(Vector3 origin, double size, double margin, Candidate::Status flag) {
+		this->origin = origin;
+		this->size = size;
+		this->flag = flag;
+		this->hardBoundary = true;
 		this->margin = margin;
 	}
 
@@ -135,19 +115,108 @@ public:
 		Vector3 relPos = candidate->current.getPosition() - origin;
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
-		if (lo < 0.)
-			candidate->setStatus(Candidate::OutOfBounds);
-		if (hi > size)
-			candidate->setStatus(Candidate::OutOfBounds);
-		candidate->limitNextStep(lo + margin);
-		candidate->limitNextStep(size - hi + margin);
+		if ((lo <= 0.) or (hi >= size))
+			candidate->setStatus(flag);
+		if (hardBoundary) {
+			candidate->limitNextStep(lo + margin);
+			candidate->limitNextStep(size - hi + margin);
+		}
 	}
 
 	std::string getDescription() const {
 		std::stringstream s;
-		s << "Simulation Box: " << origin / Mpc << " - "
-				<< origin + Vector3(size, size, size) << " Mpc, margin "
-				<< margin << " Mpc";
+		s << "Cubic Boundary: origin " << origin << ", size " << size;
+		return s.str();
+	}
+};
+
+/**
+ @class SphericalBoundary
+ @brief Flags a particle when exiting the sphere.
+ */
+class SphericalBoundary: public Module {
+protected:
+	Vector3 center;
+	double radius;
+	Candidate::Status flag;
+	bool hardBoundary;
+	double margin;
+
+public:
+	SphericalBoundary(Vector3 center, double radius, Candidate::Status flag) {
+		this->center = center;
+		this->radius = radius;
+		this->flag = flag;
+	}
+
+	SphericalBoundary(Vector3 center, double radius, double margin, Candidate::Status flag) {
+		this->center = center;
+		this->radius = radius;
+		this->flag = flag;
+		this->hardBoundary = true;
+		this->margin = margin;
+	}
+
+	void process(Candidate *candidate) {
+		double d = (candidate->current.getPosition() - center).mag();
+		if (d >= radius)
+			candidate->setStatus(flag);
+		if (hardBoundary)
+			candidate->limitNextStep(radius - d + margin);
+	}
+
+	std::string getDescription() const {
+		std::stringstream s;
+		s << "Spherical Boundary: radius " << radius << " around " << center;
+		return s.str();
+	}
+};
+
+/**
+ @class EllipsoidalBoundary
+ @brief Flags a particle when leaving then ellipsoid.
+ */
+class EllipsoidalBoundary: public Module {
+protected:
+	Vector3 focalPoint1;
+	Vector3 focalPoint2;
+	double majorAxis;
+	Candidate::Status flag;
+	bool hardBoundary;
+	double margin;
+
+public:
+	EllipsoidalBoundary(Vector3 focalPoint1, Vector3 focalPoint2,
+			double majorAxis, Candidate::Status flag) {
+		this->focalPoint1 = focalPoint1;
+		this->focalPoint2 = focalPoint2;
+		this->majorAxis = majorAxis;
+		this->flag = flag;
+	}
+
+	EllipsoidalBoundary(Vector3 focalPoint1, Vector3 focalPoint2,
+			double majorAxis, double margin, Candidate::Status flag) {
+		this->focalPoint1 = focalPoint1;
+		this->focalPoint2 = focalPoint2;
+		this->majorAxis = majorAxis;
+		this->flag = flag;
+		this->hardBoundary = true;
+		this->margin = margin;
+	}
+
+	void process(Candidate *candidate) {
+		Vector3 pos = candidate->current.getPosition();
+		double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
+		if (d >= majorAxis)
+			candidate->setStatus(flag);
+		if (hardBoundary)
+			candidate->limitNextStep(majorAxis - d + margin);
+	}
+
+	std::string getDescription() const {
+		std::stringstream s;
+		s << "Ellipsoidal Boundary: F1 = " << focalPoint1 << ", F2 = "
+				<< focalPoint2 << ", major axis = " << majorAxis;
 		return s.str();
 	}
 };

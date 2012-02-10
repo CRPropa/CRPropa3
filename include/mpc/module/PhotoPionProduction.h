@@ -2,7 +2,7 @@
 #define PHOTOPIONPRODUCTION_H_
 
 #include "mpc/Module.h"
-#include "mpc/MersenneTwister.h"
+#include "mpc/Random.h"
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
@@ -33,7 +33,7 @@ public:
 	void performInteraction(Candidate *candidate);
 
 private:
-	MTRand mtrand;
+	Random random;
 	PhotonField photonField;
 	gsl_interp_accel *acc;
 	gsl_spline *pRate; // interaction rate in [1/m] for protons

@@ -33,10 +33,6 @@ private:
 	std::ofstream outfile;
 
 public:
-	std::string getDescription() const {
-		return "TrajectoryOutput";
-	}
-
 	TrajectoryOutput(std::string name) {
 		outfile.open(name.c_str());
 		outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
@@ -50,6 +46,10 @@ public:
 		outfile << candidate->getTrajectoryLength() / Mpc << ", "
 				<< getOutputString(candidate->current);
 	}
+
+	std::string getDescription() const {
+		return "TrajectoryOutput";
+	}
 };
 
 /**
@@ -61,10 +61,6 @@ private:
 	std::ofstream outfile;
 
 public:
-	std::string getDescription() const {
-		return "FinishedOutput";
-	}
-
 	FinishedOutput(std::string name) {
 		outfile.open(name.c_str());
 		outfile
@@ -80,12 +76,16 @@ public:
 	void process(Candidate *candidate) {
 		if (candidate->getStatus() == Candidate::Active)
 			return;
-//		// initial state
+		// initial state
 		outfile << "0, ";
 		outfile << getOutputString(candidate->initial);
-//		// final state
+		// final state
 		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
 		outfile << getOutputString(candidate->current);
+	}
+
+	std::string getDescription() const {
+		return "FinishedOutput";
 	}
 };
 
@@ -95,10 +95,6 @@ public:
  */
 class ShellOutput: public Module {
 public:
-	std::string getDescription() const {
-		return "ShellOutput";
-	}
-
 	void process(Candidate *candidate) {
 		std::cout << std::fixed << std::showpoint << std::setprecision(2)
 				<< std::setw(6);
@@ -107,6 +103,10 @@ public:
 		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
 		std::cout << candidate->current.getPosition() / Mpc << " Mpc";
 		std::cout << std::endl;
+	}
+
+	std::string getDescription() const {
+		return "ShellOutput";
 	}
 };
 

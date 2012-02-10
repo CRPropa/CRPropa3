@@ -2,7 +2,7 @@
 #define PHOTODISINTEGRATION_H_
 
 #include "mpc/Module.h"
-#include "mpc/MersenneTwister.h"
+#include "mpc/Random.h"
 
 #include <vector>
 #include <map>
@@ -24,20 +24,20 @@ struct DisintegrationMode {
  Background photons are considered as homogeneous and evolving as the CMB.\n
  */
 class PhotoDisintegration: public Module {
+private:
+	Random random;
+	gsl_interp_accel *acc;
+	std::map<int, std::vector<DisintegrationMode> > modeMap;
+	int cached_id;
+	int cached_channel;
+	double cached_distance;
+
 public:
 	PhotoDisintegration();
 	std::string getDescription() const;
 	void process(Candidate *candidate);
 	bool setNextInteraction(Candidate *candidate);
 	void performInteraction(Candidate *candidate);
-
-private:
-	MTRand mtrand;
-	gsl_interp_accel *acc;
-	std::map<int, std::vector<DisintegrationMode> > modeMap;
-	int cached_id;
-	int cached_channel;
-	double cached_distance;
 };
 
 } // namespace mpc

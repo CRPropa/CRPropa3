@@ -61,6 +61,17 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
 
+# Require MPI for this project:
+find_package(MPI)
+if (MPI_FOUND)
+    include_directories(${MPI_INCLUDE_PATH})
+
+    set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+    set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+
+    add_executable(mpc-mpi mpi/main.cpp mpi/Slave.cpp mpi/Master.cpp)
+    TARGET_LINK_LIBRARIES(mpc-mpi mpc ${MPI_LIBRARIES})
+endif()
 
 
 # GTest needed for testing

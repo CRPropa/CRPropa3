@@ -2,9 +2,7 @@
 #define DECAY_H_
 
 #include "mpc/Module.h"
-#include "mpc/Candidate.h"
-#include "mpc/ParticleState.h"
-#include "mpc/MersenneTwister.h"
+#include "mpc/Random.h"
 
 #include <map>
 #include <vector>
@@ -24,7 +22,7 @@ struct DecayMode {
  */
 class NuclearDecay: public Module {
 private:
-	MTRand mtrand;
+	Random random;
 	std::map<int, std::vector<DecayMode> > modeMap;
 	int cached_id;
 	int cached_channel;

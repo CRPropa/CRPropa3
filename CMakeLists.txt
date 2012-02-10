@@ -41,6 +41,7 @@ endif (Freeglut_FOUND)
 include_directories(include ${MPC_EXTRA_INCLUDES})
 
 add_library(mpc SHARED
+    src/Random.cpp
     src/Vector3.cpp
     src/XMLImport.cpp
     src/ModuleChain.cpp
@@ -60,6 +61,9 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
+
+add_executable(mpc-worker src/worker.cpp)
+TARGET_LINK_LIBRARIES(mpc-worker mpc)
 
 
 

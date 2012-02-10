@@ -89,7 +89,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	cached_distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < modeMap[id].size(); i++) {
 		double rate = gsl_spline_eval(modeMap[id][i].rate, lg, acc);
-		double d = -log(mtrand.rand()) / rate;
+		double d = -log(rand.rand()) / rate;
 		if (d > cached_distance)
 			continue;
 		cached_distance = d;

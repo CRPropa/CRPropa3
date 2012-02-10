@@ -36,7 +36,7 @@ class XMLImport {
 	ModuleChain *chain;
 public:
 	XMLImport(ModuleChain *chain);
-	void import(std::string filename);
+	void import(const std::string &filename);
 	void import(pugi::xml_node &node);
 };
 

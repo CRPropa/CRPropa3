@@ -62,9 +62,6 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
 
-add_executable(mpc-worker src/worker.cpp)
-TARGET_LINK_LIBRARIES(mpc-worker mpc)
-
 # Require MPI for this project:
 find_package(MPI)
 if (MPI_FOUND)

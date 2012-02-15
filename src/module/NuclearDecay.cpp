@@ -29,7 +29,8 @@ std::string NuclearDecay::getDescription() const {
 	return name;
 }
 
-void NuclearDecay::process(Candidate *candidate) {
+void NuclearDecay::process(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	double gamma = candidate->current.getLorentzFactor();
 	double step = candidate->getCurrentStep() / gamma;
 	InteractionState decay;
@@ -54,7 +55,7 @@ void NuclearDecay::process(Candidate *candidate) {
 
 		// counter over: interact
 		step -= decay.distance;
-		performInteraction(candidate);
+		performInteraction(candidate, secondaries);
 	}
 }
 
@@ -80,7 +81,8 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void NuclearDecay::performInteraction(Candidate *candidate) {
+void NuclearDecay::performInteraction(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	InteractionState decay;
 	candidate->getInteractionState(name, decay);
 	candidate->clearInteractionStates();
@@ -111,13 +113,13 @@ void NuclearDecay::performInteraction(Candidate *candidate) {
 		// positron + neutrino not implemented
 	}
 	for (size_t i = 0; i < nAlpha; i++) {
-		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
+		addSecondary(secondaries, candidate, getNucleusId(4, 2), EpA * 4);
 	}
 	for (size_t i = 0; i < nProton; i++) {
-		candidate->addSecondary(getNucleusId(4, 2), EpA);
+		addSecondary(secondaries, candidate, getNucleusId(4, 2), EpA);
 	}
 	for (size_t i = 0; i < nNeutron; i++) {
-		candidate->addSecondary(getNucleusId(4, 2), EpA);
+		addSecondary(secondaries, candidate, getNucleusId(4, 2), EpA);
 	}
 }
 

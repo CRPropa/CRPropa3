@@ -48,7 +48,8 @@ std::string PhotoDisintegration::getDescription() const {
 	return name;
 }
 
-void PhotoDisintegration::process(Candidate *candidate) {
+void PhotoDisintegration::process(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	double step = candidate->getCurrentStep();
 	InteractionState interaction;
 
@@ -72,7 +73,7 @@ void PhotoDisintegration::process(Candidate *candidate) {
 
 		// counter over: interact
 		step -= interaction.distance;
-		performInteraction(candidate);
+		performInteraction(candidate, secondaries);
 	}
 }
 
@@ -108,7 +109,8 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void PhotoDisintegration::performInteraction(Candidate *candidate) {
+void PhotoDisintegration::performInteraction(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();
@@ -134,22 +136,22 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) {
 
 	// create secondaries
 	for (size_t i = 0; i < nNeutron; i++) {
-		candidate->addSecondary(getNucleusId(1, 0), EpA);
+		addSecondary(secondaries, candidate, getNucleusId(1, 0), EpA);
 	}
 	for (size_t i = 0; i < nProton; i++) {
-		candidate->addSecondary(getNucleusId(1, 1), EpA);
+		addSecondary(secondaries, candidate, getNucleusId(1, 1), EpA);
 	}
 	for (size_t i = 0; i < nH2; i++) {
-		candidate->addSecondary(getNucleusId(2, 1), EpA * 2);
+		addSecondary(secondaries, candidate, getNucleusId(2, 1), EpA * 2);
 	}
 	for (size_t i = 0; i < nH3; i++) {
-		candidate->addSecondary(getNucleusId(3, 1), EpA * 3);
+		addSecondary(secondaries, candidate, getNucleusId(3, 1), EpA * 3);
 	}
 	for (size_t i = 0; i < nHe3; i++) {
-		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
+		addSecondary(secondaries, candidate, getNucleusId(3, 2), EpA * 3);
 	}
 	for (size_t i = 0; i < nHe4; i++) {
-		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
+		addSecondary(secondaries, candidate, getNucleusId(4, 2), EpA * 4);
 	}
 }
 

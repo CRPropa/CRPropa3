@@ -24,49 +24,48 @@ int main(int argc, char **argv) {
 		import.import(argv[1]);
 	} else {
 		// propagation --------------------------------------------------------
-//		UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
-		SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
-		field->gadgetField->load("test/coma-0.7.raw");
+		UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
+//		SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
+//		field->gadgetField->load("test/coma-0.7.raw");
 //		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
 		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4), 25);
 
 		// interactions -------------------------------------------------------
 		chain.add(new NuclearDecay(), 30);
-//		chain.add(new PhotoDisintegration(), 31);
-//		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
-//		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
+		chain.add(new PhotoDisintegration(), 31);
+		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
+		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
 
 		// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-//		chain.add(new LargeObserverSphere(Vector3(0, 0, 0) * Mpc, 9 * Mpc), 52);
-		chain.add(new SmallObserverSphere(Vector3(5, 5, 0) * Mpc, 1 * Mpc), 53);
+		chain.add(new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc, Candidate::Detected), 52);
+//		chain.add(new SmallObserverSphere(Vector3(0, 0, 0) * Mpc, 1 * Mpc), 53);
 
 		// output -------------------------------------------------------------
 		chain.add(new ShellOutput(), 79);
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
-//		chain.add(new FinishedOutput("finished.txt"), 80);
-		chain.add(new GlutDisplay(), 80);
+//		chain.add(new GlutDisplay(), 80);
+		chain.add(new FinalOutput("final.txt", Candidate::Detected), 100);
+
 	}
 
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
-	initial.setId(getNucleusId(56, 20));
-	initial.setEnergy(100 * EeV);
-	initial.setPosition(Vector3(0., 1., 0.) * Mpc);
-	initial.setPosition(Vector3(119717 + 100, 221166 + 100, 133061 + 100) * kpc);
-	initial.setDirection(Vector3(1., 1., 0.));
+	initial.setId(getNucleusId(56, 26));
+	initial.setEnergy(200 * EeV);
+	initial.setPosition(Vector3(0, 0, 0));
+	initial.setDirection(Vector3(1, 0, 0));
 
-	Candidate candidate;
-	candidate.current = initial;
-	candidate.initial = initial;
-	candidate.setNextStep(0.01 * Mpc);
-
+	Candidate *candidate;
+	candidate->current = initial;
+	candidate->initial = initial;
+	candidate->setNextStep(0.01 * Mpc);
 	std::vector<Candidate *> candidates;
-	candidates.push_back(&candidate);
+	candidates.push_back(candidate);
 
-	chain.process(candidates);
+	chain.process(candidates, true);
 
 	return 0;
 }

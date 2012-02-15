@@ -71,6 +71,10 @@ void Candidate::clearInteractionStates() {
 	interactionStates.clear();
 }
 
+const std::map<std::string, InteractionState> Candidate::getInteractionStates() const {
+	return interactionStates;
+}
+
 void addSecondary(std::vector<Candidate *> &secondaries, Candidate *parent,
 		int id, double energy) {
 	std::cout << "[Candidate::addSecondary] " << id << std::endl;

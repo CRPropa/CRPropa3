@@ -1,5 +1,5 @@
-#ifndef KISSCONVERT_H_
-#define KISSCONVERT_H_
+#ifndef KISS_CONVERT_H_
+#define KISS_CONVERT_H_
 
 #include <iostream>
 #include <sstream>

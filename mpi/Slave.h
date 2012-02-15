@@ -9,6 +9,7 @@
 
 class Slave {
 	mpc::ModuleChain chain;
+	void processJob(job_t job);
 public:
 	Slave();
 	virtual ~Slave();

@@ -1,11 +1,12 @@
 #ifndef MODULECHAINIMPORT_H_
 #define MODULECHAINIMPORT_H_
 
+#include "mpc/ModuleChain.h"
+
+#include "pugixml.hpp"
+
 #include <map>
 #include <string>
-
-#include "mpc/pugixml/pugixml.hpp"
-#include "mpc/ModuleChain.h"
 
 namespace mpc {
 
@@ -18,7 +19,6 @@ public:
 	Module *create(const std::string type, pugi::xml_node &modules);
 	void registerProducer(const std::string &type, ModuleProducer *producer);
 };
-
 
 class ModuleProducer {
 public:

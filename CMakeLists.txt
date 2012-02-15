@@ -39,6 +39,7 @@ endif (Freeglut_FOUND)
 
 
 include_directories(include ${MPC_EXTRA_INCLUDES})
+include_directories(libs)
 
 add_library(mpc SHARED
     src/Random.cpp
@@ -54,7 +55,8 @@ add_library(mpc SHARED
     src/module/PhotoDisintegration.cpp
     src/module/NuclearDecay.cpp
     src/magneticField/magneticFieldGrid.cpp
-    src/pugixml/pugixml.cpp
+    libs/kisslog.cpp
+    libs/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )
 TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})

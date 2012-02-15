@@ -1,10 +1,11 @@
 #include "mpc/XMLImport.h"
 #include "mpc/ModuleChain.h"
-#include "mpc/pugixml/pugixml.hpp"
 #include "mpc/magneticField/magneticField.h"
 #include "mpc/magneticField/uniformMagneticField.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/GlutDisplay.h"
+
+#include "pugixml.hpp"
 
 #include <stdexcept>
 #include <sstream>

@@ -1,5 +1,7 @@
 #include "Master.h"
 
+#include "kisslog.h"
+
 Master::Master() :
 		_NextJob(0) {
 	MPI_Comm_size(MPI_COMM_WORLD, &_RankCount);
@@ -13,6 +15,7 @@ void Master::run() {
 	sendFirstWorkItem();
 
 	job_t work = getNextJob();
+	size_t total = 100;
 	while (work != 0) {
 
 		unit_result_t result;
@@ -23,6 +26,9 @@ void Master::run() {
 		sendJob(work, status.MPI_SOURCE);
 
 		work = getNextJob();
+		total--;
+		if (total == 0)
+			break;
 	}
 
 	receiveOutstandingResults();
@@ -33,11 +39,14 @@ void Master::run() {
 void Master::receiveResult(unit_result_t &result, MPI_Status &status) {
 	MPI_Recv(&result, 1, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG,
 			MPI_COMM_WORLD, &status);
-	printf("receive result '%f' from '%d'\n", result, status.MPI_SOURCE);
+	KISS_LOG_DEBUG
+		<< "receive result '" << result << "' from '" << status.MPI_SOURCE
+				<< "'";
 }
 
 void Master::sendJob(job_t &job, int rank) {
-	printf("sent job '%d' to '%d'\n", job, rank);
+	KISS_LOG_DEBUG
+		<< "sent job '" << job << "' to '" << rank << "'";
 	_Slaves[rank].job = job;
 	MPI_Send(&job, 1, MPI_INT, rank, TAG_WORK, MPI_COMM_WORLD);
 }

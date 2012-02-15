@@ -1,5 +1,5 @@
-#ifndef KISSSTRING_H_
-#define KISSSTRING_H_
+#ifndef KISS_STRING_H_
+#define KISS_STRING_H_
 
 #include <iostream>
 #include <string>
@@ -91,4 +91,4 @@ bool starts_with(const std::string &s, const std::string &w) {
 
 } // namespace kiss
 
-#endif /* KISSSTRING_H_ */
+#endif /* KISS_STRING_H_ */

@@ -58,6 +58,7 @@ public:
 
 	bool getInteractionState(std::string moduleName, InteractionState &state);
 	void setInteractionState(std::string moduleName, InteractionState state);
+	const std::map<std::string, InteractionState> getInteractionStates() const;
 	void clearInteractionStates();
 };
 

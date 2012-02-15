@@ -38,7 +38,7 @@ public:
 	void add(Module *module, size_t priority);
 	void process(list_t &list, Candidate *candidate, std::vector<Candidate *> &secondaries);
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
-	void process(std::vector<Candidate*> &candidates, bool recursive);
+	void process(std::vector<Candidate*> &candidates);
 	void clear();
 
 private:

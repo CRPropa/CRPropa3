@@ -29,7 +29,7 @@ public:
 	ParticleState current;
 	ParticleState last;
 	ParticleState initial;
-	std::vector<Candidate*> secondaries;
+	Candidate *parent;
 
 private:
 	double redshift, trajectoryLength;

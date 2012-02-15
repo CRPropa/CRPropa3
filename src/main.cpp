@@ -58,14 +58,16 @@ int main(int argc, char **argv) {
 	initial.setPosition(Vector3(0, 0, 0));
 	initial.setDirection(Vector3(1, 0, 0));
 
-	Candidate *candidate;
+	Candidate *candidate = new Candidate;
 	candidate->current = initial;
 	candidate->initial = initial;
 	candidate->setNextStep(0.01 * Mpc);
 	std::vector<Candidate *> candidates;
 	candidates.push_back(candidate);
 
-	chain.process(candidates, true);
+	std::cout << "start" << std::endl;
+	chain.process(candidates);
+	std::cout << "end" << std::endl;
 
 	return 0;
 }

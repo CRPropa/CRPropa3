@@ -84,9 +84,7 @@ void ModuleChain::process(Candidate *candidate,
 	process(endModules, candidate, secondaries);
 }
 
-void ModuleChain::process(std::vector<Candidate *> &candidates,
-		bool recursive) {
-	std::vector<Candidate *> secondaries;
+void ModuleChain::process(std::vector<Candidate *> &candidates) {
 	bool haveActive = true;
 	while (haveActive) {
 		haveActive = false;
@@ -96,12 +94,8 @@ void ModuleChain::process(std::vector<Candidate *> &candidates,
 			Candidate *candidate = candidates[i];
 			if (candidate->getStatus() != Candidate::Active)
 				continue;
-			process(candidate, secondaries);
+			process(candidate, candidates);
 			haveActive = true;
-
-			// propagate secondaries
-			if (recursive)
-				this->process(candidate->secondaries, recursive);
 		}
 	}
 }

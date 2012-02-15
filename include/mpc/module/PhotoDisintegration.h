@@ -25,12 +25,10 @@ struct DisintegrationMode {
  */
 class PhotoDisintegration: public Module {
 private:
+	std::string name;
 	Random random;
 	gsl_interp_accel *acc;
-	std::map<int, std::vector<DisintegrationMode> > modeMap;
-	int cached_id;
-	int cached_channel;
-	double cached_distance;
+	std::map<int, std::vector<DisintegrationMode> > disintegrationTable;
 
 public:
 	PhotoDisintegration();

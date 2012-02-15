@@ -3,7 +3,8 @@
 namespace mpc {
 
 Candidate::Candidate() :
-		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), status(Active) {
+		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), status(
+				Active) {
 }
 
 double Candidate::getRedshift() const {
@@ -49,6 +50,25 @@ void Candidate::limitNextStep(double step) {
 
 void Candidate::setStatus(Status stat) {
 	status = stat;
+}
+
+bool Candidate::getInteractionState(std::string moduleName,
+		InteractionState &state) {
+	std::map<std::string, InteractionState>::iterator i =
+			interactionStates.find(moduleName);
+	if (i == interactionStates.end())
+		return false;
+	state = i->second;
+	return true;
+}
+
+void Candidate::setInteractionState(std::string moduleName,
+		InteractionState state) {
+	interactionStates[moduleName] = state;
+}
+
+void Candidate::clearInteractionStates() {
+	interactionStates.clear();
 }
 
 void Candidate::addSecondary(int id, double energy) {

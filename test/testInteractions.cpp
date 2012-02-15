@@ -142,20 +142,24 @@ TEST(PhotoDisintegration, EnergyNucleonLoss) {
 
 
 
-TEST(PhotoPionProduction, EnergyNucleonLoss) {
-	// test for energy and nucleon loss
+TEST(PhotoPionProduction, Proton) {
 	Candidate candidate;
 	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
 
 	candidate.setCurrentStep(100 * Mpc);
-	candidate.current.setId(getNucleusId(1, 1)); // proton
+	candidate.current.setId(getNucleusId(1, 1));
 	candidate.current.setEnergy(100 * EeV);
 	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 100);
-	EXPECT_TRUE(candidate.current.getMassNumber() == 1);
+	EXPECT_EQ(candidate.current.getMassNumber(), 1);
+}
+
+TEST(PhotoPionProduction, Iron) {
+	Candidate candidate;
+	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
 
 	candidate.setCurrentStep(100 * Mpc);
-	candidate.current.setId(getNucleusId(56, 26)); // iron
+	candidate.current.setId(getNucleusId(56, 26));
 	candidate.current.setEnergy(100 * EeV);
 	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 1000);

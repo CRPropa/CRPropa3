@@ -32,6 +32,8 @@ void PhotoPionProduction::init(PhotonField field) {
 }
 
 void PhotoPionProduction::init(std::string filename) {
+	name = "mpc::PhotoPionProduction";
+
 	std::vector<double> x, yp, yn;
 	std::ifstream infile(filename.c_str());
 	while (infile.good()) {
@@ -83,74 +85,86 @@ std::string PhotoPionProduction::getDescription() const {
 
 void PhotoPionProduction::process(Candidate *candidate) {
 	double step = candidate->getCurrentStep();
+	InteractionState interaction;
 
 	while (true) {
-		int id = candidate->current.getId();
-
 		// set a new interaction if necessary
-		if (id != cached_id) {
-			// return if no data
-			if (setNextInteraction(candidate) == false)
+		if (not (candidate->getInteractionState(name, interaction))) {
+			if (not (setNextInteraction(candidate)))
 				return;
-			cached_id = id;
 		}
-		// if counter not over, reduce and return
-		if (cached_distance > step) {
-			cached_distance -= step;
-			candidate->limitNextStep(cached_distance);
+
+		// get the interaction state
+		candidate->getInteractionState(name, interaction);
+
+		// if not over, reduce distance and return
+		if (interaction.distance > step) {
+			interaction.distance -= step;
+			candidate->limitNextStep(interaction.distance);
+			candidate->setInteractionState(name, interaction);
 			return;
 		}
+
 		// counter over: interact
-		cached_id = 0;
-		step -= cached_distance;
+		step -= interaction.distance;
 		performInteraction(candidate);
 	}
 }
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
-	int id = candidate->current.getId();
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
-	int A = getMassNumberFromNucleusId(id);
-	int Z = getChargeNumberFromNucleusId(id);
+	int A = candidate->current.getMassNumber();
+	int Z = candidate->current.getChargeNumber();
 	int N = A - Z;
 	double EpA = E / A * (1 + z); // CMB energies increase with (1+z)^3
 
-	// out of energy range
+	// check if out of energy range
 	if ((EpA < 10 * EeV) or (EpA > 1e5 * EeV))
 		return false;
 
-	cached_distance = std::numeric_limits<double>::max();
-	// check for interaction on proton
+	// find interaction with minimum random distance
+	// check for interaction on protons
+	InteractionState interaction;
+	interaction.distance = std::numeric_limits<double>::max();
 	if (Z > 0) {
 		double rate = gsl_spline_eval(pRate, EpA, acc) * Z;
-		cached_distance = -log(mtrand.rand()) / rate;
-		cached_interaction = 1;
+		interaction.distance = -log(random.rand()) / rate;
+		interaction.channel = 1;
 	}
-	// check for interaction on neutron
+	// check for interaction on neutrons
 	if (N > 0) {
 		double rate = gsl_spline_eval(nRate, EpA, acc) * N;
-		double d = -log(mtrand.rand()) / rate;
-		if (d < cached_distance) {
-			cached_distance = d;
-			cached_interaction = 0;
+		double d = -log(random.rand()) / rate;
+		if (d < interaction.distance) {
+			interaction.distance = -log(random.rand()) / rate;
+			interaction.channel = 0;
 		}
 	}
 
-	cached_distance /= pow((1 + z), 3); // CMB density increases with (1+z)^3
+	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
+	interaction.distance /= pow((1 + z), 3);
+
+	candidate->setInteractionState(name, interaction);
 	return true;
 }
 
 void PhotoPionProduction::performInteraction(Candidate *candidate) {
-	double E = candidate->current.getEnergy();
-	int id = candidate->current.getId();
-	int A = getMassNumberFromNucleusId(id);
-	int Z = getChargeNumberFromNucleusId(id);
+	InteractionState interaction;
+	candidate->getInteractionState(name, interaction);
+	candidate->clearInteractionStates();
 
-	// final proton number of interaction nucleon
-	int Zfinal = cached_interaction;
-	if (mtrand.rand() < 1. / 3.)
-		Zfinal = abs(Zfinal - 1); // 1/3 probability of isospin change p <-> n
+	// charge number loss of interaction nucleus
+	int dZ = interaction.channel;
+	// final proton number of emitted nucleon
+	int Zfinal = dZ;
+	// 1/3 probability of isospin change p <-> n
+	if (random.rand() < 1. / 3.)
+		Zfinal = abs(Zfinal - 1);
+
+	double E = candidate->current.getEnergy();
+	int A = candidate->current.getMassNumber();
+	int Z = candidate->current.getChargeNumber();
 
 	// interaction on single nucleon
 	if (A == 1) {
@@ -161,7 +175,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) {
 
 	// else, interaction on nucleus, nucleon is emitted
 	candidate->current.setEnergy(E * (A - 1) / A);
-	candidate->current.setId(getNucleusId(A - 1, Z - cached_interaction));
+	candidate->current.setId(getNucleusId(A - 1, Z - dZ));
 	candidate->addSecondary(getNucleusId(Zfinal, 1), E / A * 938. / 1232.);
 }
 

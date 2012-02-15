@@ -83,7 +83,8 @@ std::string PhotoPionProduction::getDescription() const {
 	}
 }
 
-void PhotoPionProduction::process(Candidate *candidate) {
+void PhotoPionProduction::process(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	double step = candidate->getCurrentStep();
 	InteractionState interaction;
 
@@ -107,7 +108,7 @@ void PhotoPionProduction::process(Candidate *candidate) {
 
 		// counter over: interact
 		step -= interaction.distance;
-		performInteraction(candidate);
+		performInteraction(candidate, secondaries);
 	}
 }
 
@@ -149,7 +150,8 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate) {
+void PhotoPionProduction::performInteraction(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();
@@ -173,10 +175,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) {
 		return;
 	}
 
-	// else, interaction on nucleus, nucleon is emitted
+	// interaction on nucleus, update nucleus and emit nucleon
 	candidate->current.setEnergy(E * (A - 1) / A);
 	candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-	candidate->addSecondary(getNucleusId(Zfinal, 1), E / A * 938. / 1232.);
+	addSecondary(secondaries, candidate, getNucleusId(Zfinal, 1),
+			E / A * 938. / 1232.);
 }
 
 } // namespace mpc

@@ -30,7 +30,7 @@ public:
 			double tolerance);
 	~DeflectionCK();
 	std::string getDescription() const;
-	void process(Candidate *candidate);
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 };
 
 } /* namespace mpc */

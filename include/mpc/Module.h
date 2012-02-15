@@ -20,7 +20,8 @@ public:
 
 	virtual std::string getDescription() const;
 
-	virtual void process(Candidate *candidate) = 0;
+	virtual void process(Candidate *candidate,
+			std::vector<Candidate *> &secondaries) = 0;
 };
 
 }

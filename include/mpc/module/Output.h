@@ -20,7 +20,7 @@ std::string getOutputString(ParticleState particle) {
 	Vector3 dir = particle.getDirection();
 	ss << dir.x() << ", ";
 	ss << dir.y() << ", ";
-	ss << dir.z() << "\n";
+	ss << dir.z();
 	return ss.str();
 }
 
@@ -42,7 +42,7 @@ public:
 		outfile.close();
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		outfile << candidate->getTrajectoryLength() / Mpc << ", "
 				<< getOutputString(candidate->current);
 	}
@@ -53,35 +53,39 @@ public:
 };
 
 /**
- @class FinishedOutput
- @brief Saves finished particles to a CSV file.
+ @class FinalOutput
+ @brief Saves particles to a CSV file.
  */
-class FinishedOutput: public Module {
+class FinalOutput: public Module {
 private:
 	std::ofstream outfile;
+	Candidate::Status flag;
 
 public:
-	FinishedOutput(std::string name) {
+	FinalOutput(std::string name, Candidate::Status flag) {
+		this->flag = flag;
 		outfile.open(name.c_str());
-		outfile
-				<< "# initial: Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
-		outfile
-				<< "# final: Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
+		outfile << "(initial) Age, Id, E, x, y, z, dirX, dirY, dirZ, ";
+		outfile << "(final) Age, Id, E, x, y, z, dirX, dirY, dirZ\n";
 	}
 
-	~FinishedOutput() {
+	~FinalOutput() {
 		outfile.close();
 	}
 
-	void process(Candidate *candidate) {
-		if (candidate->getStatus() == Candidate::Active)
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		std::cout << "[FinalOutput] process" << std::endl;
+		if (candidate->getStatus() != flag)
 			return;
 		// initial state
 		outfile << "0, ";
 		outfile << getOutputString(candidate->initial);
-		// final state
+		outfile << ", ";
+		// current state
 		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
 		outfile << getOutputString(candidate->current);
+		outfile << "\n";
+		outfile.close();
 	}
 
 	std::string getDescription() const {
@@ -95,7 +99,7 @@ public:
  */
 class ShellOutput: public Module {
 public:
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		std::cout << std::fixed << std::showpoint << std::setprecision(2)
 				<< std::setw(6);
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";

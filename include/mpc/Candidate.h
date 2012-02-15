@@ -29,7 +29,7 @@ public:
 	ParticleState current;
 	ParticleState last;
 	ParticleState initial;
-	std::vector<Candidate> secondaries;
+	std::vector<Candidate*> secondaries;
 
 private:
 	double redshift, trajectoryLength;
@@ -59,9 +59,10 @@ public:
 	bool getInteractionState(std::string moduleName, InteractionState &state);
 	void setInteractionState(std::string moduleName, InteractionState state);
 	void clearInteractionStates();
-
-	void addSecondary(int id, double energy);
 };
+
+void addSecondary(std::vector<Candidate *> &secondaries, Candidate *parent,
+		int id, double energy);
 
 } // namespace mpc
 

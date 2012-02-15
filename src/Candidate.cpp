@@ -71,17 +71,21 @@ void Candidate::clearInteractionStates() {
 	interactionStates.clear();
 }
 
-void Candidate::addSecondary(int id, double energy) {
-	ParticleState p = current; // makes a copy, right?
+void addSecondary(std::vector<Candidate *> &secondaries, Candidate *parent,
+		int id, double energy) {
+	std::cout << "[Candidate::addSecondary] " << id << std::endl;
+
+	Candidate *c = new Candidate;
+	c->setStatus(Candidate::Active);
+	c->setRedshift(parent->getRedshift());
+	c->setTrajectoryLength(parent->getTrajectoryLength());
+	c->setNextStep(parent->getCurrentStep());
+
+	ParticleState p = parent->current;
 	p.setId(id);
 	p.setEnergy(energy);
-	Candidate c;
-	c.status = Active;
-	c.initial = p;
-	c.current = p;
-	c.redshift = redshift;
-	c.trajectoryLength = trajectoryLength;
-	c.setNextStep(getCurrentStep());
+	c->initial = p;
+	c->current = p;
 	secondaries.push_back(c);
 }
 

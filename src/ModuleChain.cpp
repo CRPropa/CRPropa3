@@ -32,30 +32,6 @@ void ModuleChain::add(Module *module, size_t priority) {
 	check();
 }
 
-void ModuleChain::process(list_t &list, Candidate *candidate) {
-	list_t::iterator iEntry = list.begin();
-	while (iEntry != list.end()) {
-		list_entry_t &entry = *iEntry;
-		iEntry++;
-		entry.second->process(candidate);
-	}
-}
-
-void ModuleChain::process(Candidate *candidate) {
-	if (mainModules.size() == 0)
-		return;
-
-	process(startModules, candidate);
-
-	while (candidate->getStatus() == Candidate::Active) {
-		if (mainModules.size() == 0)
-			break;
-		process(mainModules, candidate);
-	}
-
-	process(endModules, candidate);
-}
-
 void ModuleChain::clear() {
 	startModules.clear();
 	mainModules.clear();
@@ -76,25 +52,57 @@ void ModuleChain::check() {
 	}
 
 	if (integratorCount > 1) {
-		std::cerr << "Warning: more than one integration feature present."
+		std::cerr << "Warning: more than one propagation feature present."
 				<< std::endl;
 	}
 }
 
-void ModuleChain::process(std::vector<Candidate *> &candidates) {
+void ModuleChain::process(list_t &list, Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
+	list_t::iterator iEntry = list.begin();
+	while (iEntry != list.end()) {
+		list_entry_t &entry = *iEntry;
+		iEntry++;
+		entry.second->process(candidate, secondaries);
+	}
+}
+
+void ModuleChain::process(Candidate *candidate,
+		std::vector<Candidate *> &secondaries) {
+	std::cout << "[ModuleChain::process] propagate" << std::endl;
+	if (mainModules.size() == 0)
+		return;
+
+	process(startModules, candidate, secondaries);
+
+	while (candidate->getStatus() == Candidate::Active) {
+		if (mainModules.size() == 0)
+			break;
+		process(mainModules, candidate, secondaries);
+	}
+
+	process(endModules, candidate, secondaries);
+}
+
+void ModuleChain::process(std::vector<Candidate *> &candidates,
+		bool recursive) {
+	std::vector<Candidate *> secondaries;
 	bool haveActive = true;
 	while (haveActive) {
 		haveActive = false;
+		std::cout << "[ModuleChain::process] number of candidates"
+				<< candidates.size() << std::endl;
 		for (size_t i = 0; i < candidates.size(); i++) {
 			Candidate *candidate = candidates[i];
-			if (candidate->getStatus() == Candidate::Active) {
-				process(candidate);
-				haveActive = true;
-			}
-		}
+			if (candidate->getStatus() != Candidate::Active)
+				continue;
+			process(candidate, secondaries);
+			haveActive = true;
 
-		if (mainModules.size() == 0)
-			break;
+			// propagate secondaries
+			if (recursive)
+				this->process(candidate->secondaries, recursive);
+		}
 	}
 }
 

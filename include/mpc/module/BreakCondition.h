@@ -19,7 +19,7 @@ public:
 		this->maxLength = maxLength;
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		if (candidate->getTrajectoryLength() >= maxLength)
 			candidate->setStatus(Candidate::Stopped);
 	}
@@ -43,7 +43,7 @@ public:
 		this->minEnergy = minEnergy;
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		if (candidate->current.getEnergy() <= minEnergy)
 			candidate->setStatus(Candidate::Stopped);
 	}
@@ -69,7 +69,7 @@ public:
 		this->center = center;
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d <= radius)
 			candidate->setStatus(Candidate::Detected);
@@ -103,7 +103,8 @@ public:
 		this->flag = flag;
 	}
 
-	CubicBoundary(Vector3 origin, double size, double margin, Candidate::Status flag) {
+	CubicBoundary(Vector3 origin, double size, double margin,
+			Candidate::Status flag) {
 		this->origin = origin;
 		this->size = size;
 		this->flag = flag;
@@ -111,7 +112,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		Vector3 relPos = candidate->current.getPosition() - origin;
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
@@ -149,7 +150,8 @@ public:
 		this->flag = flag;
 	}
 
-	SphericalBoundary(Vector3 center, double radius, double margin, Candidate::Status flag) {
+	SphericalBoundary(Vector3 center, double radius, double margin,
+			Candidate::Status flag) {
 		this->center = center;
 		this->radius = radius;
 		this->flag = flag;
@@ -157,7 +159,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d >= radius)
 			candidate->setStatus(flag);
@@ -204,7 +206,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
 		Vector3 pos = candidate->current.getPosition();
 		double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
 		if (d >= majorAxis)

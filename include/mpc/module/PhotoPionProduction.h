@@ -27,9 +27,9 @@ public:
 	~PhotoPionProduction();
 	void init(PhotonField photonField);
 	void init(std::string filename);
-	void process(Candidate *candidate);
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 	bool setNextInteraction(Candidate *candidate);
-	void performInteraction(Candidate *candidate);
+	void performInteraction(Candidate *candidate, std::vector<Candidate *> &secondaries);
 	std::string getDescription() const;
 
 private:

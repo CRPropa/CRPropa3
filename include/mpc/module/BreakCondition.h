@@ -103,7 +103,8 @@ public:
 		this->flag = flag;
 	}
 
-	CubicBoundary(Vector3 origin, double size, double margin, Candidate::Status flag) {
+	CubicBoundary(Vector3 origin, double size, double margin,
+			Candidate::Status flag) {
 		this->origin = origin;
 		this->size = size;
 		this->flag = flag;
@@ -115,7 +116,7 @@ public:
 		Vector3 relPos = candidate->current.getPosition() - origin;
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
-		if ((lo <= 0.) or (hi >= size))
+		if ((lo <= 0.) && (hi >= size))
 			candidate->setStatus(flag);
 		if (hardBoundary) {
 			candidate->limitNextStep(lo + margin);
@@ -149,7 +150,8 @@ public:
 		this->flag = flag;
 	}
 
-	SphericalBoundary(Vector3 center, double radius, double margin, Candidate::Status flag) {
+	SphericalBoundary(Vector3 center, double radius, double margin,
+			Candidate::Status flag) {
 		this->center = center;
 		this->radius = radius;
 		this->flag = flag;

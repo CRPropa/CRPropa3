@@ -9,9 +9,14 @@
 
 namespace mpc {
 
-TEST(ElectronPairProduction, EnergyDecreasing) {
-	// test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
+class ModuleTest: public testing::Test {
+protected:
 	Candidate candidate;
+	std::vector<Candidate *> secondaries;
+};
+
+TEST_F(ModuleTest, ElectronPairProduction_EnergyDecreasing) {
+	// test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1)); // proton
 
@@ -19,7 +24,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
-		epp1.process(&candidate);
+		epp1.process(&candidate, secondaries);
 		EXPECT_TRUE(candidate.current.getEnergy() <= E);
 	}
 
@@ -27,7 +32,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
-		epp2.process(&candidate);
+		epp2.process(&candidate, secondaries);
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 
@@ -35,23 +40,22 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
-		epp3.process(&candidate);
+		epp3.process(&candidate, secondaries);
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 }
 
-TEST(ElectronPairProduction, BelowEnergyTreshold) {
+TEST_F(ModuleTest, ElectronPairProduction_BelowEnergyTreshold) {
 	// test if nothing happens below 1e15 eV
 	ElectronPairProduction epp(ElectronPairProduction::CMB);
-	Candidate candidate;
 	candidate.current.setId(getNucleusId(1, 1)); // proton
 	double E = 1e14 * eV;
 	candidate.current.setEnergy(E);
-	epp.process(&candidate);
+	epp.process(&candidate, secondaries);
 	EXPECT_DOUBLE_EQ(candidate.current.getEnergy(), E);
 }
 
-TEST(ElectronPairProduction, EnergyLossValues) {
+TEST_F(ModuleTest, ElectronPairProduction_EnergyLossValues) {
 	// test if energy loss corresponds to table
 	std::vector<double> x;
 	std::vector<double> y;
@@ -69,100 +73,88 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 	}
 	infile.close();
 
-	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp;
 	for (int i = 0; i < x.size(); i++) {
 		candidate.current.setEnergy(x[i]);
-		epp.process(&candidate);
+		epp.process(&candidate, secondaries);
 		double dE = x[i] - candidate.current.getEnergy();
 		double dE_table = y[i] * 1 * Mpc;
 		EXPECT_NEAR(dE, dE_table, 1e-12);
 	}
 }
 
-TEST(NuclearDecay, Neutron) {
+TEST_F(ModuleTest, NuclearDecay_Neutron) {
 	// test beta- decay n -> p
-	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(1, 0));
 	candidate.current.setEnergy(1 * EeV);
 	NuclearDecay d;
-	d.process(&candidate);
+	d.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(1,1));
 }
 
-TEST(NuclearDecay, Scandium44) {
+TEST_F(ModuleTest, NuclearDecay_Scandium44) {
 	// test beta+ decay 44Sc -> 44Ca
-	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(44, 21));
 	candidate.current.setEnergy(1 * EeV);
 	NuclearDecay d;
-	d.process(&candidate);
+	d.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
 }
 
-TEST(NuclearDecay, LimitNextStep) {
-	// test if Decay module limits the step size for neutrons
-	Candidate candidate;
+TEST_F(ModuleTest, NuclearDecay_LimitNextStep) {
+	NuclearDecay d;
 	candidate.setNextStep(10 * Mpc);
 	candidate.current.setId(getNucleusId(1, 0));
 	candidate.current.setEnergy(10 * EeV);
-	NuclearDecay d;
-	d.process(&candidate);
+	d.process(&candidate, secondaries);
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
 }
 
 
 
-TEST(PhotoDisintegration, Carbon) {
-	Candidate candidate;
+TEST_F(ModuleTest, PhotoDisintegration_Carbon) {
 	PhotoDisintegration pd;
-
 	candidate.current.setId(getNucleusId(12, 6));
 	candidate.current.setEnergy(200 * EeV);
 	candidate.setCurrentStep(50 * Mpc);
-	pd.process(&candidate);
+	pd.process(&candidate, secondaries);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 12);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
 }
 
-TEST(PhotoDisintegration, Iron) {
-	Candidate candidate;
+TEST_F(ModuleTest, PhotoDisintegration_Iron) {
 	PhotoDisintegration pd;
 	candidate.current.setId(getNucleusId(56, 26));
 	candidate.current.setEnergy(200 * EeV);
 	candidate.setCurrentStep(50 * Mpc);
-	pd.process(&candidate);
+	pd.process(&candidate, secondaries);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 56);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
 }
 
 
 
-TEST(PhotoPionProduction, Proton) {
-	Candidate candidate;
+TEST_F(ModuleTest, PhotoPionProduction_Proton) {
 	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
-
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1));
 	candidate.current.setEnergy(100 * EeV);
-	ppp.process(&candidate);
+	ppp.process(&candidate, secondaries);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 100);
 	EXPECT_EQ(candidate.current.getMassNumber(), 1);
 }
 
-TEST(PhotoPionProduction, Iron) {
-	Candidate candidate;
+TEST_F(ModuleTest, PhotoPionProduction_Iron) {
 	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
-
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(56, 26));
 	candidate.current.setEnergy(100 * EeV);
-	ppp.process(&candidate);
+	ppp.process(&candidate, secondaries);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 1000);
 	EXPECT_TRUE(candidate.current.getMassNumber() == 56);
 }

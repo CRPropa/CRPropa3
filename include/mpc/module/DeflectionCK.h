@@ -9,13 +9,13 @@
 namespace mpc {
 
 /**
-	@class DeflectionCK
-	@brief Propagation through magnetic fields using the Cash-Karp integrator.
+ @class DeflectionCK
+ @brief Propagation through magnetic fields using the Cash-Karp integrator.
 
-	This module solves the equations of motion of a charged particle when propagating through a magnetic field.\n
-	It uses the Runge-Kutta integration method with Cash-Karp coefficients.\n
-	The step size control tries to keep the error close to, but smaller than the designated error.
-*/
+ This module solves the equations of motion of a charged particle when propagating through a magnetic field.\n
+ It uses the Runge-Kutta integration method with Cash-Karp coefficients.\n
+ The step size control tries to keep the error close to, but smaller than the designated error.
+ */
 class DeflectionCK: public Module {
 public:
 	MagneticField *field;
@@ -33,7 +33,7 @@ public:
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
 };
 
-} /* namespace mpc */
+} // namespace mpc
 
 #endif /* DEFLECTION_H_ */
 

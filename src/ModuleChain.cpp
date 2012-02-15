@@ -69,7 +69,6 @@ void ModuleChain::process(list_t &list, Candidate *candidate,
 
 void ModuleChain::process(Candidate *candidate,
 		std::vector<Candidate *> &secondaries) {
-	std::cout << "[ModuleChain::process] propagate" << std::endl;
 	if (mainModules.size() == 0)
 		return;
 
@@ -85,18 +84,11 @@ void ModuleChain::process(Candidate *candidate,
 }
 
 void ModuleChain::process(std::vector<Candidate *> &candidates) {
-	bool haveActive = true;
-	while (haveActive) {
-		haveActive = false;
-		std::cout << "[ModuleChain::process] number of candidates"
-				<< candidates.size() << std::endl;
-		for (size_t i = 0; i < candidates.size(); i++) {
-			Candidate *candidate = candidates[i];
-			if (candidate->getStatus() != Candidate::Active)
-				continue;
-			process(candidate, candidates);
-			haveActive = true;
-		}
+	for (size_t i = 0; i < candidates.size(); i++) {
+		Candidate *candidate = candidates[i];
+		if (candidate->getStatus() != Candidate::Active)
+			continue;
+		process(candidate, candidates);
 	}
 }
 

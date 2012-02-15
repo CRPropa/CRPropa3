@@ -74,18 +74,46 @@ public:
 	}
 
 	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		std::cout << "[FinalOutput] process" << std::endl;
 		if (candidate->getStatus() != flag)
 			return;
 		// initial state
 		outfile << "0, ";
 		outfile << getOutputString(candidate->initial);
 		outfile << ", ";
-		// current state
+		// final state
 		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
 		outfile << getOutputString(candidate->current);
 		outfile << "\n";
+	}
+
+	std::string getDescription() const {
+		return "FinishedOutput";
+	}
+};
+
+class ChargeMassEngergyOutput: public Module {
+private:
+	std::ofstream outfile;
+	Candidate::Status flag;
+
+public:
+	ChargeMassEngergyOutput(std::string filename, Candidate::Status flag) {
+		this->flag = flag;
+		outfile.open(filename.c_str());
+		outfile << "Z, A, E" << std::endl;
+	}
+
+	~ChargeMassEngergyOutput() {
 		outfile.close();
+	}
+
+	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+		if (candidate->getStatus() != flag)
+			return;
+		double Z = candidate->current.getChargeNumber();
+		double A = candidate->current.getMassNumber();
+		double E = candidate->current.getEnergy();
+		outfile << Z << ", " << A << ", " << E << std::endl;
 	}
 
 	std::string getDescription() const {

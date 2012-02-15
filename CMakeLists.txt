@@ -49,6 +49,7 @@ add_library(mpc SHARED
     src/Module.cpp
     src/Candidate.cpp
     src/ParticleState.cpp
+    src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp
     src/module/PhotoPionProduction.cpp
@@ -64,7 +65,7 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
 
-# Require MPI for this project:
+# MPI needed for mpc-mpi
 find_package(MPI)
 if (MPI_FOUND)
     include_directories(${MPI_INCLUDE_PATH})

@@ -73,8 +73,6 @@ void Candidate::clearInteractionStates() {
 
 void addSecondary(std::vector<Candidate *> &secondaries, Candidate *parent,
 		int id, double energy) {
-	std::cout << "[Candidate::addSecondary] " << id << std::endl;
-
 	Candidate *c = new Candidate;
 	c->setStatus(Candidate::Active);
 	c->setRedshift(parent->getRedshift());

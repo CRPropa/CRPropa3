@@ -4,29 +4,25 @@
 #include "mpc/Module.h"
 #include "mpc/Random.h"
 
-#include <map>
 #include <vector>
+#include <map>
 
 namespace mpc {
-
-struct DecayMode {
-	int channel; // number of (beta-, beta+, alpha, p, n) decays
-	double distance; // decay length in [m]
-};
 
 /**
  @class NuclearDecay
  @brief Nuclear decay of unstable nuclei.
 
  This module simulates the nuclear decay of unstable nuclei.
+ decayTable is a map of nuclei id to (distance, channel) where
+ channel is the number of (beta-, beta+, alpha, p, n) decays and
+ distance is the mean decay length in [m]
  */
 class NuclearDecay: public Module {
 private:
+	std::string name;
 	Random random;
-	std::map<int, std::vector<DecayMode> > modeMap;
-	int cached_id;
-	int cached_channel;
-	double cached_distance;
+	std::map<int, std::vector<InteractionState> > decayTable;
 
 public:
 	NuclearDecay();

@@ -3,8 +3,18 @@
 
 #include "mpc/ParticleState.h"
 #include <vector>
+#include <map>
 
 namespace mpc {
+
+/**
+ @class InteractionState
+ @brief Candidate state for stochastic interactions.
+ */
+struct InteractionState {
+	double distance;
+	int channel;
+};
 
 /**
  @class Candidate
@@ -13,18 +23,21 @@ namespace mpc {
 class Candidate {
 public:
 	enum Status {
-		Active = 0,
-		Detected,
-		OutOfBounds,
-		Stopped,
-		UserDefined
+		Active = 0, Detected, OutOfBounds, Stopped, UserDefined
 	};
 
 	ParticleState current;
 	ParticleState last;
 	ParticleState initial;
-	std::vector< Candidate > secondaries;
+	std::vector<Candidate> secondaries;
 
+private:
+	double redshift, trajectoryLength;
+	double currentStep, nextStep;
+	Status status;
+	std::map<std::string, InteractionState> interactionStates;
+
+public:
 	Candidate();
 
 	double getRedshift() const;
@@ -43,12 +56,11 @@ public:
 	Status getStatus() const;
 	void setStatus(Status stat);
 
-	void addSecondary(int id, double energy);
+	bool getInteractionState(std::string moduleName, InteractionState &state);
+	void setInteractionState(std::string moduleName, InteractionState state);
+	void clearInteractionStates();
 
-private:
-	double redshift, trajectoryLength;
-	double currentStep, nextStep;
-	Status status;
+	void addSecondary(int id, double energy);
 };
 
 } // namespace mpc

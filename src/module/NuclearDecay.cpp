@@ -7,15 +7,17 @@
 namespace mpc {
 
 NuclearDecay::NuclearDecay() {
+	name = "mpc::NuclearDecay";
+
 	std::ifstream infile("data/NuclearDecay/decay.txt");
 	while (infile.good()) {
 		if (infile.peek() != '#') {
-			DecayMode mode;
+			InteractionState decay;
 			int Z, N;
-			infile >> Z >> N >> mode.distance >> mode.channel;
+			infile >> Z >> N >> decay.distance >> decay.channel;
 			if (infile) {
-				mode.distance *= c_light;
-				modeMap[getNucleusId(Z + N, Z)].push_back(mode);
+				decay.distance *= c_light;
+				decayTable[getNucleusId(Z + N, Z)].push_back(decay);
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -24,31 +26,34 @@ NuclearDecay::NuclearDecay() {
 }
 
 std::string NuclearDecay::getDescription() const {
-	return "Nuclear Decay";
+	return name;
 }
 
 void NuclearDecay::process(Candidate *candidate) {
 	double gamma = candidate->current.getLorentzFactor();
 	double step = candidate->getCurrentStep() / gamma;
+	InteractionState decay;
 
 	while (true) {
-		int id = candidate->current.getId();
-
-		// set a new interaction if necessary
-		if (id != cached_id) {
-			if (setNextInteraction(candidate) == false)
+		// set a new decay if necessary
+		if (not (candidate->getInteractionState(name, decay))) {
+			if (not (setNextInteraction(candidate)))
 				return;
-			cached_id = id;
 		}
-		// if counter not over, reduce and return
-		if (cached_distance > step) {
-			cached_distance -= step;
-			candidate->limitNextStep(cached_distance * gamma);
+
+		// get the updated decay
+		candidate->getInteractionState(name, decay);
+
+		// if not over, reduce distance and return
+		if (decay.distance > step) {
+			decay.distance -= step;
+			candidate->limitNextStep(decay.distance * gamma);
+			candidate->setInteractionState(name, decay);
 			return;
 		}
+
 		// counter over: interact
-		cached_id = 0;
-		step -= cached_distance;
+		step -= decay.distance;
 		performInteraction(candidate);
 	}
 }
@@ -57,27 +62,35 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
 
 	// check if stable
-	if (modeMap[id].size() == 0)
+	if (decayTable[id].size() == 0)
 		return false;
 
 	// find decay mode with minimum random decay distance
-	cached_distance = std::numeric_limits<double>::max();
-	for (size_t i = 0; i < modeMap[id].size(); i++) {
-		double d = -log(rng.rand()) * modeMap[id][i].distance;
-		if (d > cached_distance)
+	InteractionState decay;
+	decay.distance = std::numeric_limits<double>::max();
+	int decayChannel;
+	for (size_t i = 0; i < decayTable[id].size(); i++) {
+		double d = -log(random.rand()) * decayTable[id][i].distance;
+		if (d > decay.distance)
 			continue;
-		cached_distance = d;
-		cached_channel = modeMap[id][i].channel;
+		decay.distance = d;
+		decay.channel = decayTable[id][i].channel;
 	}
+	candidate->setInteractionState(name, decay);
 	return true;
 }
 
 void NuclearDecay::performInteraction(Candidate *candidate) {
-	int nBeta = cached_channel / 10000;
-	int nBetaPlus = (cached_channel % 10000) / 1000;
-	int nAlpha = (cached_channel % 1000) / 100;
-	int nProton = (cached_channel % 100) / 10;
-	int nNeutron = cached_channel % 10;
+	InteractionState decay;
+	candidate->getInteractionState(name, decay);
+	candidate->clearInteractionStates();
+
+	// parse decay channel
+	int nBeta = decay.channel / 10000;
+	int nBetaPlus = (decay.channel % 10000) / 1000;
+	int nAlpha = (decay.channel % 1000) / 100;
+	int nProton = (decay.channel % 100) / 10;
+	int nNeutron = decay.channel % 10;
 
 	int dA = -4 * nAlpha - nProton - nNeutron;
 	int dZ = -2 * nAlpha - nProton + nBeta - nBetaPlus;
@@ -92,10 +105,10 @@ void NuclearDecay::performInteraction(Candidate *candidate) {
 
 	// create secondaries
 	for (size_t i = 0; i < nBeta; i++) {
-		// electron + neutrino
+		// electron + neutrino not implemented
 	}
 	for (size_t i = 0; i < nBetaPlus; i++) {
-		// positron + neutrino
+		// positron + neutrino not implemented
 	}
 	for (size_t i = 0; i < nAlpha; i++) {
 		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);

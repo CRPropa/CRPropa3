@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 		chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4), 25);
 
 		// interactions -------------------------------------------------------
-//		chain.add(new NuclearDecay(), 30);
+		chain.add(new NuclearDecay(), 30);
 //		chain.add(new PhotoDisintegration(), 31);
 //		chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
 //		chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
-	initial.setId(getNucleusId(56, 26));
+	initial.setId(getNucleusId(56, 20));
 	initial.setEnergy(100 * EeV);
 	initial.setPosition(Vector3(0., 1., 0.) * Mpc);
 	initial.setPosition(Vector3(119717 + 100, 221166 + 100, 133061 + 100) * kpc);

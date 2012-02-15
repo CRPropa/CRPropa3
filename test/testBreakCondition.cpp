@@ -10,14 +10,14 @@ protected:
 	std::vector<Candidate *> secondaries;
 };
 
-TEST_F(ModuleTest, Continue) {
+TEST_F(ModuleTest, MinimumEnergy_Continue) {
 	MinimumEnergy minEnergy(5);
 	candidate.current.setEnergy(5.1);
 	minEnergy.process(&candidate, secondaries);
 	EXPECT_EQ(candidate.getStatus(), Candidate::Active);
 }
 
-TEST_F(ModuleTest, Break) {
+TEST_F(ModuleTest, MinimumEnergy_Break) {
 	MinimumEnergy minEnergy(5);
 	candidate.current.setEnergy(4.9);
 	minEnergy.process(&candidate, secondaries);

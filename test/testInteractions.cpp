@@ -83,8 +83,6 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 	}
 }
 
-
-
 TEST(NuclearDecay, Neutron) {
 	// test beta- decay n -> p
 	Candidate candidate;
@@ -120,19 +118,22 @@ TEST(NuclearDecay, LimitNextStep) {
 
 
 
-TEST(PhotoDisintegration, EnergyNucleonLoss) {
-	// test for energy and nucleon loss
+TEST(PhotoDisintegration, Carbon) {
 	Candidate candidate;
 	PhotoDisintegration pd;
 
-	candidate.current.setId(getNucleusId(12, 6)); // carbon
+	candidate.current.setId(getNucleusId(12, 6));
 	candidate.current.setEnergy(200 * EeV);
 	candidate.setCurrentStep(50 * Mpc);
 	pd.process(&candidate);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 12);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
+}
 
-	candidate.current.setId(getNucleusId(56, 26)); // iron
+TEST(PhotoDisintegration, Iron) {
+	Candidate candidate;
+	PhotoDisintegration pd;
+	candidate.current.setId(getNucleusId(56, 26));
 	candidate.current.setEnergy(200 * EeV);
 	candidate.setCurrentStep(50 * Mpc);
 	pd.process(&candidate);
@@ -165,7 +166,6 @@ TEST(PhotoPionProduction, Iron) {
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 1000);
 	EXPECT_TRUE(candidate.current.getMassNumber() == 56);
 }
-
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

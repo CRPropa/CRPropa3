@@ -1,5 +1,5 @@
-#ifndef KISSLOG_H_
-#define KISSLOG_H_
+#ifndef KISS_LOG_H_
+#define KISS_LOG_H_
 
 #include <iostream>
 

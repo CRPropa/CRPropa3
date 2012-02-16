@@ -1,8 +1,8 @@
 #include "Slave.h"
 #include "Master.h"
 
-#include "kisslog.h"
-#include "kissconvert.h"
+#include "kissLog.h"
+#include "kissConvert.h"
 
 #include <mpi.h>
 

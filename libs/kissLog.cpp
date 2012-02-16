@@ -1,4 +1,4 @@
-#include "kisslog.h"
+#include "kissLog.h"
 
 #include <stdlib.h>
 #include <iostream>

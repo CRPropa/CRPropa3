@@ -48,6 +48,7 @@ add_library(mpc SHARED
     src/ModuleChain.cpp
     src/Module.cpp
     src/Candidate.cpp
+    src/IO.cpp
     src/ParticleState.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
@@ -57,7 +58,7 @@ add_library(mpc SHARED
     src/module/NuclearDecay.cpp
     src/module/Redshift.cpp
     src/magneticField/magneticFieldGrid.cpp
-    libs/kisslog.cpp
+    libs/kissLog.cpp
     libs/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )

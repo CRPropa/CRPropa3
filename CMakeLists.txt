@@ -48,6 +48,7 @@ add_library(mpc SHARED
     src/ModuleChain.cpp
     src/Module.cpp
     src/Candidate.cpp
+    src/IO.cpp
     src/ParticleState.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp

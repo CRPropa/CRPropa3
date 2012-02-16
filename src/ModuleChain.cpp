@@ -12,7 +12,7 @@ const ModuleChain::list_t &ModuleChain::getEndModules() const {
 	return endModules;
 }
 
-void ModuleChain::add(Module *module, size_t priority) {
+void ModuleChain::add(size_t priority, Module *module) {
 	if (module == 0)
 		return;
 
@@ -28,33 +28,12 @@ void ModuleChain::add(Module *module, size_t priority) {
 		mainModules.push_back(entry);
 		mainModules.sort();
 	}
-
-	check();
 }
 
 void ModuleChain::clear() {
 	startModules.clear();
 	mainModules.clear();
 	endModules.clear();
-}
-
-void ModuleChain::check() {
-	size_t integratorCount = 0;
-
-	list_t::iterator iEntry = mainModules.begin();
-	while (iEntry != mainModules.end()) {
-		list_entry_t &entry = *iEntry;
-		iEntry++;
-
-		if (entry.first == Priority::Propagation) {
-			integratorCount++;
-		}
-	}
-
-	if (integratorCount > 1) {
-		std::cerr << "Warning: more than one propagation feature present."
-				<< std::endl;
-	}
 }
 
 void ModuleChain::process(list_t &list, Candidate *candidate,

@@ -55,6 +55,7 @@ add_library(mpc SHARED
     src/module/PhotoPionProduction.cpp
     src/module/PhotoDisintegration.cpp
     src/module/NuclearDecay.cpp
+    src/module/Redshift.cpp
     src/magneticField/magneticFieldGrid.cpp
     libs/kisslog.cpp
     libs/pugixml.cpp

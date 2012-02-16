@@ -24,6 +24,6 @@ public:
 			std::vector<Candidate *> &secondaries) = 0;
 };
 
-}
+} // namespace mpc
 
 #endif /* MODULE_H_ */

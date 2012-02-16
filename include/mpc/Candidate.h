@@ -27,6 +27,7 @@ public:
 	};
 
 	ParticleState current;
+	ParticleState last;
 	ParticleState initial;
 	Candidate *parent;
 

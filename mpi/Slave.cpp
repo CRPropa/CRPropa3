@@ -40,27 +40,26 @@ void Slave::load(const string &filename) {
 //		SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
 //		field->gadgetField->load("test/coma-0.7.raw");
 //		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
-	chain.add(new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4), 25);
+	chain.add(1, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
 
 	// interactions -------------------------------------------------------
-	chain.add(new NuclearDecay(), 30);
-	chain.add(new PhotoDisintegration(), 31);
-	chain.add(new ElectronPairProduction(ElectronPairProduction::CMB), 32);
-	chain.add(new PhotoPionProduction(PhotoPionProduction::CMBIR), 33);
+	chain.add(30, new NuclearDecay());
+	chain.add(31, new PhotoDisintegration());
+	chain.add(32, new ElectronPairProduction(ElectronPairProduction::CMB));
+	chain.add(33, new PhotoPionProduction(PhotoPionProduction::CMBIR));
 
 	// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-	chain.add(
-			new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc,
-					Candidate::Detected), 52);
+	chain.add(40, new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc,
+					Candidate::Detected));
 //		chain.add(new SmallObserverSphere(Vector3(0, 0, 0) * Mpc, 1 * Mpc), 53);
 
 // output -------------------------------------------------------------
-	chain.add(new ShellOutput(), 79);
+	chain.add(50, new ShellOutput());
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
 //		chain.add(new GlutDisplay(), 80);
-	chain.add(new FinalOutput("final.txt", Candidate::Detected), 100);
+	chain.add(100, new FinalOutput("final.txt", Candidate::Detected));
 }
 
 void Slave::run() {

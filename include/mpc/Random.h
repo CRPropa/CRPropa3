@@ -77,6 +77,10 @@
 
 namespace mpc {
 
+/**
+ @class Random
+ @brief Random number generator.
+ */
 class Random {
 public:
 #ifndef uint32

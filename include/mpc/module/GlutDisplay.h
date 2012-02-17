@@ -18,7 +18,7 @@ public:
 	GlutDisplay();
 	~GlutDisplay();
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
+	void process(Candidate *candidate);
 	std::string getDescription() const;
 };
 

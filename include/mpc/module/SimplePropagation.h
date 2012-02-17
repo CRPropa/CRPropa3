@@ -12,10 +12,11 @@ namespace mpc {
 class SimplePropagation: public Module {
 private:
 	double acceleration;
+	double initialStep;
 public:
 	SimplePropagation();
-	SimplePropagation(double acceleration);
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
+	SimplePropagation(double acceleration, double initialStep);
+	void process(Candidate *candidate);
 	std::string getDescription() const;
 };
 

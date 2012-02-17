@@ -27,7 +27,7 @@
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/module/GlutDisplay.h"
 #include "mpc/HepPID.h"
-#include "mpc/MersenneTwister.h"
+#include "mpc/Random.h"
 #include "mpc/Module.h"
 #include "mpc/ModuleChain.h"
 #include "mpc/ParticleState.h"

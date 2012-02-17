@@ -40,10 +40,9 @@ private:
 
 public:
 	void add(size_t priority, Module *module);
-	void process(list_t &list, Candidate *candidate,
-			std::vector<Candidate *> &secondaries);
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
-	void process(std::vector<Candidate*> &candidates);
+	void process(Candidate *candidate);
+	void process(std::vector<Candidate*> &candidates, bool recursive);
+	void process(list_t &list, Candidate *candidate);
 	void clear();
 };
 

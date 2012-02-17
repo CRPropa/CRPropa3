@@ -1,0 +1,6 @@
+Installation from source
+mpc is build using CMAKE - for more information see www.cmake.org
+
+1) $cd build/
+2) $cmake .. or $ccmake ..
+3) make

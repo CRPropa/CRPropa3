@@ -75,20 +75,18 @@ const std::map<std::string, InteractionState> Candidate::getInteractionStates() 
 	return interactionStates;
 }
 
-void addSecondary(std::vector<Candidate *> &secondaries, Candidate *parent,
-		int id, double energy) {
-	Candidate *c = new Candidate;
-	c->setStatus(Candidate::Active);
-	c->setRedshift(parent->getRedshift());
-	c->setTrajectoryLength(parent->getTrajectoryLength());
-	c->setNextStep(parent->getCurrentStep());
-
-	ParticleState p = parent->current;
-	p.setId(id);
-	p.setEnergy(energy);
-	c->initial = p;
-	c->current = p;
-	secondaries.push_back(c);
+void Candidate::addSecondary(int id, double energy) {
+	Candidate *secondary = new Candidate;
+	secondary->setStatus(Candidate::Active);
+	secondary->setRedshift(redshift);
+	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setNextStep(0);
+	std::cout << secondary->getTrajectoryLength() / Mpc << std::endl;
+	secondary->initial = initial;
+	secondary->current = current;
+	secondary->current.setId(id);
+	secondary->current.setEnergy(energy);
+	secondaries.push_back(secondary);
 }
 
 } // namespace mpc

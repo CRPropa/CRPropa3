@@ -159,7 +159,7 @@ GlutDisplay::~GlutDisplay() {
 	glutDestroyWindow(glutGetWindow());
 }
 
-void GlutDisplay::process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+void GlutDisplay::process(Candidate *candidate) {
 
 	if (counter % refreshAfter == 0) {
 		// append trajectory point

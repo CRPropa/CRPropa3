@@ -67,8 +67,7 @@ std::string ElectronPairProduction::getDescription() const {
 	}
 }
 
-void ElectronPairProduction::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void ElectronPairProduction::process(Candidate *candidate) {
 	double A = candidate->current.getMassNumber();
 	double E = candidate->current.getEnergy();
 	double z = candidate->getRedshift();

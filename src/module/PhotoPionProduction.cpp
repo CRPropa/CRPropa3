@@ -83,8 +83,7 @@ std::string PhotoPionProduction::getDescription() const {
 	}
 }
 
-void PhotoPionProduction::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoPionProduction::process(Candidate *candidate) {
 	double step = candidate->getCurrentStep();
 	InteractionState interaction;
 
@@ -108,7 +107,7 @@ void PhotoPionProduction::process(Candidate *candidate,
 
 		// counter over: interact
 		step -= interaction.distance;
-		performInteraction(candidate, secondaries);
+		performInteraction(candidate);
 	}
 }
 
@@ -150,8 +149,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoPionProduction::performInteraction(Candidate *candidate) {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();
@@ -178,7 +176,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	// interaction on nucleus, update nucleus and emit nucleon
 	candidate->current.setEnergy(E * (A - 1) / A);
 	candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-	addSecondary(secondaries, candidate, getNucleusId(Zfinal, 1),
+	candidate->addSecondary(getNucleusId(Zfinal, 1),
 			E / A * 938. / 1232.);
 }
 

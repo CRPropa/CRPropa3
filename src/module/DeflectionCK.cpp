@@ -45,7 +45,7 @@ std::string DeflectionCK::getDescription() const {
 	return "Cash-Karp Runge Kutta integration";
 }
 
-void DeflectionCK::process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+void DeflectionCK::process(Candidate *candidate) {
 
 	PhasePoint yIn(candidate->current.getPosition(),
 			candidate->current.getMomentum());

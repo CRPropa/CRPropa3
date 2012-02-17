@@ -1,5 +1,5 @@
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
-#include "mpc/MersenneTwister.h"
+#include "mpc/Random.h"
 #include "fftw3.h"
 
 namespace mpc {
@@ -22,8 +22,8 @@ TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
 void TurbulentMagneticFieldGrid::initialize() {
 	size_t n = samples;
 
-	MTRand mtrand;
-	mtrand.seed(seed);
+	Random random;
+	random.seed(seed);
 
 	// arrays to hold the complex vector components of the B-field
 	fftw_complex *Bx, *By, *Bz;
@@ -69,14 +69,14 @@ void TurbulentMagneticFieldGrid::initialize() {
 				e2 /= e2.mag();
 
 				// random orientation perpendicular to k
-				theta = 2 * M_PI * mtrand.rand();
+				theta = 2 * M_PI * random.rand();
 				b = e1 * cos(theta) + e2 * sin(theta);
 
 				// gaussian amplitude weighted with k^alpha/2
-				b *= mtrand.randNorm() * pow(k, powerSpectralIndex / 2.);
+				b *= random.randNorm() * pow(k, powerSpectralIndex / 2.);
 
 				// uniform random phase
-				phase = 2 * M_PI * mtrand.rand();
+				phase = 2 * M_PI * random.rand();
 				cosPhase = cos(phase); // real part
 				sinPhase = sin(phase); // imaginary part
 

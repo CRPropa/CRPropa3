@@ -37,7 +37,6 @@ if (Freeglut_FOUND)
 endif (Freeglut_FOUND)
 
 
-
 include_directories(include ${MPC_EXTRA_INCLUDES})
 include_directories(libs)
 

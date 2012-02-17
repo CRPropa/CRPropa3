@@ -108,13 +108,14 @@ void Slave::processJob(job_t job) {
 		Candidate candidate;
 		if (!read(in, candidate))
 			break;
-		std::vector<Candidate *> secondaries;
-		chain.process(&candidate, secondaries);
+		chain.process(&candidate);
 		write(out, candidate);
+#if 0
 		for (size_t iSec = 0; iSec < secondaries.size(); iSec++) {
 			write(out, *secondaries[iSec]);
 			delete secondaries[iSec];
 		}
+#endif
 	}
-
 }
+

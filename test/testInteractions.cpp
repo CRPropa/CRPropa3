@@ -24,7 +24,7 @@ TEST_F(ModuleTest, ElectronPairProduction_EnergyDecreasing) {
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
-		epp1.process(&candidate, secondaries);
+		epp1.process(&candidate);
 		EXPECT_TRUE(candidate.current.getEnergy() <= E);
 	}
 
@@ -32,7 +32,7 @@ TEST_F(ModuleTest, ElectronPairProduction_EnergyDecreasing) {
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
-		epp2.process(&candidate, secondaries);
+		epp2.process(&candidate);
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 
@@ -40,7 +40,7 @@ TEST_F(ModuleTest, ElectronPairProduction_EnergyDecreasing) {
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
-		epp3.process(&candidate, secondaries);
+		epp3.process(&candidate);
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 }
@@ -51,7 +51,7 @@ TEST_F(ModuleTest, ElectronPairProduction_BelowEnergyTreshold) {
 	candidate.current.setId(getNucleusId(1, 1)); // proton
 	double E = 1e14 * eV;
 	candidate.current.setEnergy(E);
-	epp.process(&candidate, secondaries);
+	epp.process(&candidate);
 	EXPECT_DOUBLE_EQ(candidate.current.getEnergy(), E);
 }
 
@@ -79,7 +79,7 @@ TEST_F(ModuleTest, ElectronPairProduction_EnergyLossValues) {
 	ElectronPairProduction epp;
 	for (int i = 0; i < x.size(); i++) {
 		candidate.current.setEnergy(x[i]);
-		epp.process(&candidate, secondaries);
+		epp.process(&candidate);
 		double dE = x[i] - candidate.current.getEnergy();
 		double dE_table = y[i] * 1 * Mpc;
 		EXPECT_NEAR(dE, dE_table, 1e-12);
@@ -92,7 +92,7 @@ TEST_F(ModuleTest, NuclearDecay_Neutron) {
 	candidate.current.setId(getNucleusId(1, 0));
 	candidate.current.setEnergy(1 * EeV);
 	NuclearDecay d;
-	d.process(&candidate, secondaries);
+	d.process(&candidate);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(1,1));
 }
 
@@ -102,7 +102,7 @@ TEST_F(ModuleTest, NuclearDecay_Scandium44) {
 	candidate.current.setId(getNucleusId(44, 21));
 	candidate.current.setEnergy(1 * EeV);
 	NuclearDecay d;
-	d.process(&candidate, secondaries);
+	d.process(&candidate);
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
 }
 
@@ -111,7 +111,7 @@ TEST_F(ModuleTest, NuclearDecay_LimitNextStep) {
 	candidate.setNextStep(10 * Mpc);
 	candidate.current.setId(getNucleusId(1, 0));
 	candidate.current.setEnergy(10 * EeV);
-	d.process(&candidate, secondaries);
+	d.process(&candidate);
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
 }
 
@@ -122,7 +122,7 @@ TEST_F(ModuleTest, PhotoDisintegration_Carbon) {
 	candidate.current.setId(getNucleusId(12, 6));
 	candidate.current.setEnergy(200 * EeV);
 	candidate.setCurrentStep(50 * Mpc);
-	pd.process(&candidate, secondaries);
+	pd.process(&candidate);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 12);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
 }
@@ -132,7 +132,7 @@ TEST_F(ModuleTest, PhotoDisintegration_Iron) {
 	candidate.current.setId(getNucleusId(56, 26));
 	candidate.current.setEnergy(200 * EeV);
 	candidate.setCurrentStep(50 * Mpc);
-	pd.process(&candidate, secondaries);
+	pd.process(&candidate);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 56);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
 }
@@ -144,7 +144,7 @@ TEST_F(ModuleTest, PhotoPionProduction_Proton) {
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1));
 	candidate.current.setEnergy(100 * EeV);
-	ppp.process(&candidate, secondaries);
+	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 100);
 	EXPECT_EQ(candidate.current.getMassNumber(), 1);
 }
@@ -154,7 +154,7 @@ TEST_F(ModuleTest, PhotoPionProduction_Iron) {
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(56, 26));
 	candidate.current.setEnergy(100 * EeV);
-	ppp.process(&candidate, secondaries);
+	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 1000);
 	EXPECT_TRUE(candidate.current.getMassNumber() == 56);
 }

@@ -12,16 +12,18 @@ namespace mpc {
  @brief Stops propagation after the set maximum trajectory length.
  */
 class MaximumTrajectoryLength: public Module {
-public:
+private:
 	double maxLength;
 
-	MaximumTrajectoryLength(double maxLength) {
-		this->maxLength = maxLength;
+public:
+	MaximumTrajectoryLength(double length) : maxLength(length){
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
-		if (candidate->getTrajectoryLength() >= maxLength)
+	void process(Candidate *candidate) {
+		double l = candidate->getTrajectoryLength();
+		if (l >= maxLength)
 			candidate->setStatus(Candidate::Stopped);
+		candidate->limitNextStep(maxLength - l);
 	}
 
 	std::string getDescription() const {
@@ -43,7 +45,7 @@ public:
 		this->minEnergy = minEnergy;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		if (candidate->current.getEnergy() <= minEnergy)
 			candidate->setStatus(Candidate::Stopped);
 	}
@@ -69,7 +71,7 @@ public:
 		this->center = center;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d <= radius)
 			candidate->setStatus(Candidate::Detected);
@@ -112,7 +114,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		Vector3 relPos = candidate->current.getPosition() - origin;
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
@@ -159,7 +161,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d >= radius)
 			candidate->setStatus(flag);
@@ -206,7 +208,7 @@ public:
 		this->margin = margin;
 	}
 
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries) {
+	void process(Candidate *candidate) {
 		Vector3 pos = candidate->current.getPosition();
 		double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
 		if (d >= majorAxis)

@@ -27,10 +27,9 @@ private:
 public:
 	NuclearDecay();
 	std::string getDescription() const;
-	void process(Candidate *candidate, std::vector<Candidate *> &secondaries);
+	void process(Candidate *candidate);
 	bool setNextInteraction(Candidate *candidate);
-	void performInteraction(Candidate *candidate,
-			std::vector<Candidate *> &secondaries);
+	void performInteraction(Candidate *candidate);
 };
 
 } // namespace mpc

@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 //	field->gadgetField->load("test/coma-0.7.raw");
 //	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
 //	chain.add(1, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
-	chain.add(1, new SimplePropagation(10));
+	chain.add(1, new SimplePropagation);
 
 	// interactions -------------------------------------------------------
 	chain.add(10, new NuclearDecay());
@@ -57,15 +57,14 @@ int main(int argc, char **argv) {
 	initial.setDirection(Vector3(1, 0, 0));
 
 	std::vector<Candidate *> candidates;
-	for (size_t i=0; i<1000; i++) {
+	for (size_t i=0; i<1; i++) {
 		Candidate *candidate = new Candidate;
 		candidate->current = initial;
 		candidate->initial = initial;
-		candidate->setNextStep(0.01 * Mpc);
 		candidates.push_back(candidate);
 	}
 
-	chain.process(candidates);
+	chain.process(candidates, true);
 	delete output;
 
 	return 0;

@@ -11,7 +11,7 @@ namespace mpc {
 PhotoDisintegration::PhotoDisintegration() {
 	name = "mpc::PhotoDisintegration";
 
-	// create Lorentz factor sample points
+	// create spline x-axis
 	std::vector<double> x;
 	for (size_t i = 0; i < 200; i++) {
 		x.push_back(6.0 + i * 8.0 / 199);
@@ -38,7 +38,7 @@ PhotoDisintegration::PhotoDisintegration() {
 		mode.rate = gsl_spline_alloc(gsl_interp_linear, 200);
 		gsl_spline_init(mode.rate, &x[0], &y[0], 200);
 
-		disintegrationTable[id].push_back(mode);
+		PDTable[id].push_back(mode);
 	}
 	infile.close();
 	acc = gsl_interp_accel_alloc();
@@ -48,8 +48,7 @@ std::string PhotoDisintegration::getDescription() const {
 	return name;
 }
 
-void PhotoDisintegration::process(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoDisintegration::process(Candidate *candidate) {
 	double step = candidate->getCurrentStep();
 	InteractionState interaction;
 
@@ -73,18 +72,19 @@ void PhotoDisintegration::process(Candidate *candidate,
 
 		// counter over: interact
 		step -= interaction.distance;
-		performInteraction(candidate, secondaries);
+		performInteraction(candidate);
 	}
 }
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
-	double z = candidate->getRedshift();
-	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
 
 	// check if disintegration data available
-	if (disintegrationTable[id].size() == 0)
+	if (PDTable[id].size() == 0)
 		return false;
+
+	double z = candidate->getRedshift();
+	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
 
 	// check if out of energy range
 	if ((lg < 6) or (lg > 14))
@@ -93,13 +93,13 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	// find channel with minimum random decay distance
 	InteractionState interaction;
 	interaction.distance = std::numeric_limits<double>::max();
-	for (size_t i = 0; i < disintegrationTable[id].size(); i++) {
-		double rate = gsl_spline_eval(disintegrationTable[id][i].rate, lg, acc);
+	for (size_t i = 0; i < PDTable[id].size(); i++) {
+		double rate = gsl_spline_eval(PDTable[id][i].rate, lg, acc);
 		double d = -log(random.rand()) / rate;
 		if (d > interaction.distance)
 			continue;
 		interaction.distance = d;
-		interaction.channel = disintegrationTable[id][i].channel;
+		interaction.channel = PDTable[id][i].channel;
 	}
 
 	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
@@ -109,8 +109,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void PhotoDisintegration::performInteraction(Candidate *candidate,
-		std::vector<Candidate *> &secondaries) {
+void PhotoDisintegration::performInteraction(Candidate *candidate) {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();
@@ -136,22 +135,22 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 
 	// create secondaries
 	for (size_t i = 0; i < nNeutron; i++) {
-		addSecondary(secondaries, candidate, getNucleusId(1, 0), EpA);
+		candidate->addSecondary(getNucleusId(1, 0), EpA);
 	}
 	for (size_t i = 0; i < nProton; i++) {
-		addSecondary(secondaries, candidate, getNucleusId(1, 1), EpA);
+		candidate->addSecondary(getNucleusId(1, 1), EpA);
 	}
 	for (size_t i = 0; i < nH2; i++) {
-		addSecondary(secondaries, candidate, getNucleusId(2, 1), EpA * 2);
+		candidate->addSecondary(getNucleusId(2, 1), EpA * 2);
 	}
 	for (size_t i = 0; i < nH3; i++) {
-		addSecondary(secondaries, candidate, getNucleusId(3, 1), EpA * 3);
+		candidate->addSecondary(getNucleusId(3, 1), EpA * 3);
 	}
 	for (size_t i = 0; i < nHe3; i++) {
-		addSecondary(secondaries, candidate, getNucleusId(3, 2), EpA * 3);
+		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
 	}
 	for (size_t i = 0; i < nHe4; i++) {
-		addSecondary(secondaries, candidate, getNucleusId(4, 2), EpA * 4);
+		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
 	}
 }
 

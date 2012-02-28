@@ -3,25 +3,25 @@
 
 #include "mpc/Candidate.h"
 
-#include <iostream>
+#include <kiss/io.h>
 
 namespace mpc {
 
-void write(std::ostream &out, const mpc::Vector3 &vec3);
+void write(kiss::Output &out, const mpc::Vector3 &vec3);
 
-void write(std::ostream &out, const mpc::ParticleState &state);
+void write(kiss::Output &out, const mpc::ParticleState &state);
 
-void write(std::ostream &out, const mpc::InteractionState &s);
+void write(kiss::Output &out, const mpc::InteractionState &s);
 
-void write(std::ostream &out, const mpc::Candidate &candidate);
+void write(kiss::Output &out, const mpc::Candidate &candidate);
 
-bool read(std::istream &in, mpc::Vector3 &vec3);
+bool read(kiss::Input &in, mpc::Vector3 &vec3);
 
-bool read(std::istream &in, mpc::ParticleState &state);
+bool read(kiss::Input &in, mpc::ParticleState &state);
 
-bool read(std::istream &in, mpc::InteractionState &s);
+bool read(kiss::Input &in, mpc::InteractionState &s);
 
-bool read(std::istream &in, mpc::Candidate &candidate);
+bool read(kiss::Input &in, mpc::Candidate &candidate);
 
 } // namespace mpc
 

@@ -1,30 +1,28 @@
 #include "mpc/IO.h"
 
-#include "kissIO.h"
+#include <kiss/io.h>
 
 namespace mpc {
 
-using kiss::write;
-
-void write(std::ostream &out, const mpc::Vector3 &vec3) {
+void write(kiss::Output &out, const mpc::Vector3 &vec3) {
 	write(out, vec3.getX());
 	write(out, vec3.getY());
 	write(out, vec3.getZ());
 }
 
-void write(std::ostream &out, const mpc::ParticleState &state) {
+void write(kiss::Output &out, const mpc::ParticleState &state) {
 	write(out, state.getId());
 	write(out, state.getEnergy());
 	write(out, state.getPosition());
 	write(out, state.getDirection());
 }
 
-void write(std::ostream &out, const mpc::InteractionState &s) {
+void write(kiss::Output &out, const mpc::InteractionState &s) {
 	write(out, s.distance);
 	write(out, s.channel);
 }
 
-void write(std::ostream &out, const mpc::Candidate &candidate) {
+void write(kiss::Output &out, const mpc::Candidate &candidate) {
 	write(out, candidate.current);
 	write(out, candidate.last);
 	write(out, candidate.initial);
@@ -36,38 +34,36 @@ void write(std::ostream &out, const mpc::Candidate &candidate) {
 //write(out, candidate.getInteractionStates());
 }
 
-using kiss::read;
-
-bool read(std::istream &in, mpc::Vector3 &vec3) {
-	read(in, vec3[0]);
-	read(in, vec3[1]);
-	read(in, vec3[2]);
+bool read(kiss::Input &in, mpc::Vector3 &vec3) {
+	kiss::read(in, vec3[0]);
+	kiss::read(in, vec3[1]);
+	kiss::read(in, vec3[2]);
 	return (in);
 }
 
-bool read(std::istream &in, mpc::ParticleState &state) {
-	state.setId(read<int>(in));
-	state.setEnergy(read<double>(in));
-	state.setPosition(read<mpc::Vector3>(in));
-	state.setDirection(read<mpc::Vector3>(in));
+bool read(kiss::Input &in, mpc::ParticleState &state) {
+	state.setId(kiss::read<int>(in));
+	state.setEnergy(kiss::read<double>(in));
+	state.setPosition(kiss::read<mpc::Vector3>(in));
+	state.setDirection(kiss::read<mpc::Vector3>(in));
 	return (in);
 }
 
-bool read(std::istream &in, mpc::InteractionState &s) {
-	read(in, s.distance);
-	read(in, s.channel);
+bool read(kiss::Input &in, mpc::InteractionState &s) {
+	kiss::read(in, s.distance);
+	kiss::read(in, s.channel);
 	return (in);
 }
 
-bool read(std::istream &in, mpc::Candidate &candidate) {
+bool read(kiss::Input &in, mpc::Candidate &candidate) {
 	read(in, candidate.current);
 	read(in, candidate.last);
 	read(in, candidate.initial);
-	candidate.setRedshift(read<double>(in));
-	candidate.setTrajectoryLength(read<double>(in));
-	candidate.setCurrentStep(read<double>(in));
-	candidate.setNextStep(read<double>(in));
-	candidate.setStatus((mpc::Candidate::Status) read<int>(in));
+	candidate.setRedshift(kiss::read<double>(in));
+	candidate.setTrajectoryLength(kiss::read<double>(in));
+	candidate.setCurrentStep(kiss::read<double>(in));
+	candidate.setNextStep(kiss::read<double>(in));
+	candidate.setStatus((mpc::Candidate::Status) kiss::read<int>(in));
 //read(in, candidate.getInteractionStates());
 	return (in);
 }

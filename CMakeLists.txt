@@ -11,6 +11,11 @@ set (MPC_EXTRA_LIBRARIES)
 find_package(GSL REQUIRED)
 list (APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 
+# KISS required
+find_package(KISS REQUIRED)
+list (APPEND MPC_EXTRA_LIBRARIES ${KISS_LIBRARY} )
+list( APPEND MPC_EXTRA_INCLUDES ${KISS_INCLUDE_DIR})
+    
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
@@ -57,7 +62,6 @@ add_library(mpc SHARED
     src/module/NuclearDecay.cpp
     src/module/Redshift.cpp
     src/magneticField/magneticFieldGrid.cpp
-    libs/kissLog.cpp
     libs/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )

@@ -17,7 +17,7 @@
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 #include "mpc/magneticField/sphMagneticField.h"
 
-#include "kissConvert.h"
+#include <kiss/convert.h>
 
 #include <fstream>
 #include <sstream>
@@ -40,7 +40,7 @@ void Slave::load(const string &filename) {
 //		SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
 //		field->gadgetField->load("test/coma-0.7.raw");
 //		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
-	chain.add(1, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
+	chain.add(25, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
 
 	// interactions -------------------------------------------------------
 	chain.add(30, new NuclearDecay());
@@ -51,12 +51,13 @@ void Slave::load(const string &filename) {
 	// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-	chain.add(40, new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc,
+	chain.add(52,
+			new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc,
 					Candidate::Detected));
 //		chain.add(new SmallObserverSphere(Vector3(0, 0, 0) * Mpc, 1 * Mpc), 53);
 
 // output -------------------------------------------------------------
-	chain.add(50, new ShellOutput());
+	chain.add(79, new ShellOutput());
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
 //		chain.add(new GlutDisplay(), 80);
 	chain.add(100, new FinalOutput("final.txt", Candidate::Detected));
@@ -95,10 +96,12 @@ struct JobInfo {
 
 void Slave::processJob(job_t job) {
 	string in_filename = "job_" + str(job) + ".dat";
-	ifstream in(in_filename.c_str(), ios::binary);
+	ifstream in_stream(in_filename.c_str(), ios::binary);
+	kiss::StreamInput in(in_stream);
 
 	string out_filename = "job_" + str(job) + "_out.dat";
-	ofstream out(out_filename.c_str(), ios::binary);
+	ofstream out_stream(out_filename.c_str(), ios::binary);
+	kiss::StreamOutput out(out_stream);
 
 //	JobInfo info;
 //	in.read((char *) &info, sizeof(info));
@@ -110,12 +113,10 @@ void Slave::processJob(job_t job) {
 			break;
 		chain.process(&candidate);
 		write(out, candidate);
-#if 0
-		for (size_t iSec = 0; iSec < secondaries.size(); iSec++) {
-			write(out, *secondaries[iSec]);
-			delete secondaries[iSec];
-		}
-#endif
+//		for (size_t iSec = 0; iSec < secondaries.size(); iSec++) {
+//			write(out, *secondaries[iSec]);
+//			delete secondaries[iSec];
+//		}
 	}
-}
 
+}

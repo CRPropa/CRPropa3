@@ -1,8 +1,8 @@
 #include "Slave.h"
 #include "Master.h"
 
-#include "kissLog.h"
-#include "kissConvert.h"
+#include <kiss/logger.h>
+#include <kiss/convert.h>
 
 #include <mpi.h>
 
@@ -10,9 +10,12 @@
 #include <fstream>
 #include <sstream>
 
+using namespace kiss;
+using namespace std;
+
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		std::cout << "Usage: mpc-mpi <CONFIGFILE>" << std::endl;
+		cout << "Usage: mpc-mpi <CONFIGFILE>" << endl;
 		return 1;
 	}
 
@@ -20,9 +23,9 @@ int main(int argc, char **argv) {
 	int rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-	std::string filename = "log-" + kiss::str(rank) + ".txt";
-	std::ofstream log_file(filename.c_str());
-	kiss::Log::setLogStream(log_file);
+	string filename = "log-" + str(rank) + ".txt";
+	ofstream log_file(filename.c_str());
+	Logger::setLogStream(log_file);
 
 	KISS_LOG_INFO
 		<< "Starting " << rank;

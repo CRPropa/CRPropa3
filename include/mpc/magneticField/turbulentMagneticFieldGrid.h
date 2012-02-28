@@ -26,6 +26,7 @@ public:
 	TurbulentMagneticFieldGrid(Vector3 origin, size_t samples, double spacing,
 			double Brms, double lMin, double lMax, double powerSpectralIndex,
 			int seed);
+
 protected:
 	void initialize();
 	double Brms, lMin, lMax, powerSpectralIndex;

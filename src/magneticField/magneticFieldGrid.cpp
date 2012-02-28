@@ -25,6 +25,12 @@ MagneticFieldGrid::MagneticFieldGrid(Vector3 origin, size_t samples,
 	}
 }
 
+void MagneticFieldGrid::updateSimulationVolume(const Vector3 &origin,
+		double size) {
+	this->origin = origin;
+	this->spacing = size / (samples - 1);
+}
+
 Vector3 MagneticFieldGrid::getField(const Vector3 &position) const {
 	Vector3 r = (position - origin) / spacing;
 	int ix, iX, iy, iY, iz, iZ;

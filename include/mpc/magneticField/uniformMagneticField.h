@@ -7,9 +7,9 @@
 namespace mpc {
 
 /**
-	@class UniformMagneticField
-	@brief Magnetic field with one B-field vector.
-*/
+ @class UniformMagneticField
+ @brief Magnetic field with one B-field vector.
+ */
 class UniformMagneticField: public MagneticField {
 public:
 	UniformMagneticField(const Vector3 &value) :
@@ -17,6 +17,10 @@ public:
 	}
 	Vector3 getField(const Vector3 &position) const {
 		return value;
+	}
+
+	void updateSimulationVolume(const Vector3 &origin, double size) {
+
 	}
 
 private:

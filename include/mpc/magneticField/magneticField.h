@@ -14,6 +14,7 @@ public:
 	virtual ~MagneticField() {
 	}
 	virtual Vector3 getField(const Vector3 &position) const = 0;
+	virtual void updateSimulationVolume(const Vector3 &origin, double size) = 0;
 };
 
 } // namespace mpc

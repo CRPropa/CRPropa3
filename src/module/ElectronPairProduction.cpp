@@ -95,6 +95,10 @@ void ElectronPairProduction::process(Candidate *candidate) {
 	double Z = candidate->current.getChargeNumber();
 	double dE = Z * Z * rate * pow(1 + z, 3) * step;
 	candidate->current.setEnergy(E - dE);
+
+	// logging
+	std::stringstream s(candidate->history);
+	s << "EPP: dE = " << dE / EeV << "; ";
 }
 
 } // namespace mpc

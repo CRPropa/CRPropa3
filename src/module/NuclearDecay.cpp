@@ -26,7 +26,7 @@ NuclearDecay::NuclearDecay() {
 }
 
 std::string NuclearDecay::getDescription() const {
-	return name;
+	return "Nuclear decay";
 }
 
 void NuclearDecay::process(Candidate *candidate) {
@@ -119,6 +119,10 @@ void NuclearDecay::performInteraction(Candidate *candidate) {
 	for (size_t i = 0; i < nNeutron; i++) {
 		candidate->addSecondary(getNucleusId(4, 2), EpA);
 	}
+
+	// logging
+	std::stringstream s(candidate->history);
+	s << "ND: dE=" << -EpA * dA / EeV << " channel=" << decay.channel << "; ";
 }
 
 } // namespace mpc

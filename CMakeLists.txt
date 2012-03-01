@@ -101,10 +101,10 @@ if (GTEST_FOUND)
     add_test(test4 testBreakCondition)
 endif (GTEST_FOUND)
 
-INCLUDE (Python.cmake)
-include_directories(${PYTHON_INCLUDE_PATH})
+#INCLUDE (Python.cmake)
+#include_directories(${PYTHON_INCLUDE_PATH})
+#FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
 
-FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
 #message("Includes: ${MPC_INCLUDES}")
 #SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py PROPERTIES GENERATED true )
 #ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py
@@ -122,11 +122,11 @@ FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
 #set_target_properties(mpc_python PROPERTIES OUTPUT_NAME "mpc") 
 #target_link_libraries(mpc_python libppropa ${PYTHON_LIBRARIES})
 
-SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
-ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
-                COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
-                DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
-add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
-set_target_properties(mpc-swig PROPERTIES PREFIX "")
-set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
-target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})
+#SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
+#ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
+#                COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
+#                DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
+#add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
+#set_target_properties(mpc-swig PROPERTIES PREFIX "")
+#set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
+#target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})

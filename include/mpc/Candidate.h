@@ -4,6 +4,7 @@
 #include "mpc/ParticleState.h"
 #include <vector>
 #include <map>
+#include <sstream>
 
 namespace mpc {
 
@@ -30,6 +31,7 @@ public:
 	ParticleState last;
 	ParticleState initial;
 	std::vector<Candidate *> secondaries;
+	std::string history;
 
 private:
 	double redshift, trajectoryLength;

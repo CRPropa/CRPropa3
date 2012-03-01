@@ -13,6 +13,7 @@ class SimplePropagation: public Module {
 private:
 	double acceleration;
 	double initialStep;
+
 public:
 	SimplePropagation();
 	SimplePropagation(double acceleration, double initialStep);

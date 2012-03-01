@@ -10,18 +10,18 @@
 namespace mpc {
 
 std::string getOutputString(ParticleState particle) {
-	std::stringstream ss;
-	ss << particle.getId() << ", ";
-	ss << particle.getEnergy() / EeV << ", ";
+	std::stringstream s;
+	s << particle.getId() << ", ";
+	s << particle.getEnergy() / EeV << ", ";
 	Vector3 pos = particle.getPosition() / Mpc;
-	ss << pos.x() << ", ";
-	ss << pos.y() << ", ";
-	ss << pos.z() << ", ";
+	s << pos.x() << ", ";
+	s << pos.y() << ", ";
+	s << pos.z() << ", ";
 	Vector3 dir = particle.getDirection();
-	ss << dir.x() << ", ";
-	ss << dir.y() << ", ";
-	ss << dir.z();
-	return ss.str();
+	s << dir.x() << ", ";
+	s << dir.y() << ", ";
+	s << dir.z();
+	return s.str();
 }
 
 /**
@@ -35,7 +35,7 @@ private:
 public:
 	TrajectoryOutput(std::string name) {
 		outfile.open(name.c_str());
-		outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ\n";
+		outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
 	}
 
 	~TrajectoryOutput() {
@@ -44,32 +44,33 @@ public:
 
 	void process(Candidate *candidate) {
 		outfile << candidate->getTrajectoryLength() / Mpc << ", "
-				<< getOutputString(candidate->current);
+				<< getOutputString(candidate->current) << ", " << candidate->history << "\n";
+		candidate->history = "";
 	}
 
 	std::string getDescription() const {
-		return "TrajectoryOutput";
+		return "Trajectory output";
 	}
 };
 
 /**
  @class FinalOutput
- @brief Saves particles to a CSV file.
+ @brief Saves particles with given flag to a CSV file.
  */
-class FinalOutput: public Module {
+class FlaggedOutput: public Module {
 private:
 	std::ofstream outfile;
 	Candidate::Status flag;
 
 public:
-	FinalOutput(std::string name, Candidate::Status flag) {
+	FlaggedOutput(std::string name, Candidate::Status flag) {
 		this->flag = flag;
 		outfile.open(name.c_str());
 		outfile << "(initial) Age, Id, E, x, y, z, dirX, dirY, dirZ, ";
-		outfile << "(final) Age, Id, E, x, y, z, dirX, dirY, dirZ\n";
+		outfile << "(flagged) Age, Id, E, x, y, z, dirX, dirY, dirZ\n";
 	}
 
-	~FinalOutput() {
+	~FlaggedOutput() {
 		outfile.close();
 	}
 
@@ -87,14 +88,14 @@ public:
 	}
 
 	std::string getDescription() const {
-		return "FinishedOutput";
+		return "Output, flag: ";
 	}
 };
 
 class ChargeMassEngergyOutput: public Module {
 private:
-	std::ofstream outfile;
 	Candidate::Status flag;
+	std::ofstream outfile;
 
 public:
 	ChargeMassEngergyOutput(std::string filename, Candidate::Status flag) {
@@ -117,7 +118,7 @@ public:
 	}
 
 	std::string getDescription() const {
-		return "FinishedOutput";
+		return "ChargeMassEnergyOutput";
 	}
 };
 

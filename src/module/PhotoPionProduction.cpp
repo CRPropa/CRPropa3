@@ -166,18 +166,21 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) {
 	int A = candidate->current.getMassNumber();
 	int Z = candidate->current.getChargeNumber();
 
-	// interaction on single nucleon
 	if (A == 1) {
+		// interaction on single nucleon
 		candidate->current.setEnergy(E * 938. / 1232.);
 		candidate->current.setId(getNucleusId(1, Zfinal));
-		return;
+	} else {
+		// interaction on nucleus, update nucleus and emit nucleon
+		candidate->current.setEnergy(E * (A - 1) / A);
+		candidate->current.setId(getNucleusId(A - 1, Z - dZ));
+		candidate->addSecondary(getNucleusId(Zfinal, 1), E / A * 938. / 1232.);
 	}
 
-	// interaction on nucleus, update nucleus and emit nucleon
-	candidate->current.setEnergy(E * (A - 1) / A);
-	candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-	candidate->addSecondary(getNucleusId(Zfinal, 1),
-			E / A * 938. / 1232.);
+	// logging
+	std::stringstream s(candidate->history);
+	s << "PPP: dE = " << (E - candidate->current.getEnergy()) / EeV
+			<< " channel = " << interaction.channel << "; ";
 }
 
 } // namespace mpc

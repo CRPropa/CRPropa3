@@ -26,7 +26,8 @@ using namespace mpc;
 using namespace std;
 using namespace kiss;
 
-Slave::Slave() {
+Slave::Slave() :
+		running(true) {
 }
 
 Slave::~Slave() {
@@ -51,7 +52,8 @@ void Slave::load(const string &filename) {
 	// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-	chain.add(52,
+	chain.add(
+			52,
 			new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc,
 					Candidate::Detected));
 //		chain.add(new SmallObserverSphere(Vector3(0, 0, 0) * Mpc, 1 * Mpc), 53);
@@ -63,30 +65,27 @@ void Slave::load(const string &filename) {
 	chain.add(100, new FlaggedOutput("final.txt", Candidate::Detected));
 }
 
-void Slave::run() {
+void Slave::acquireJob() {
 	job_t job;
 	double result;
 	MPI_Status status;
 
-	while (1) {
+	MPI_Send(0, 0, MPI_DATATYPE_NULL, 0, TAG_REQUEST_JOB, MPI_COMM_WORLD);
+	MPI_Recv(&job, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
-		/* Receive a message from the master */
-
-		MPI_Recv(&job, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-
-		/* Check the tag of the received message. */
-
-		if (status.MPI_TAG == TAG_STOP) {
-			return;
-		} else if (status.MPI_TAG == TAG_WORK) {
-			processJob(job);
-			/* Send the result back */
-
-			MPI_Send(&result, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
-		} else {
-			printf("unknown tag");
-		}
+	if (status.MPI_TAG == TAG_STOP) {
+		running = false;
+	} else if (status.MPI_TAG == TAG_WORK) {
+		processJob(job);
+		MPI_Send(&result, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+	} else {
+		printf("unknown tag");
 	}
+}
+
+void Slave::run() {
+	while (running)
+		acquireJob();
 }
 
 struct JobInfo {
@@ -95,13 +94,22 @@ struct JobInfo {
 };
 
 void Slave::processJob(job_t job) {
+
+	// any local jobs available?
+	// otherwise ask master/other ranks
+
+	// collect particles
+	// process job
+	// store particles for each block in files
+	// register job at master
+
 	string in_filename = "job_" + str(job) + ".dat";
 	ifstream in_stream(in_filename.c_str(), ios::binary);
-	kiss::StreamInput in(in_stream);
+	StreamInput in(in_stream);
 
 	string out_filename = "job_" + str(job) + "_out.dat";
 	ofstream out_stream(out_filename.c_str(), ios::binary);
-	kiss::StreamOutput out(out_stream);
+	StreamOutput out(out_stream);
 
 //	JobInfo info;
 //	in.read((char *) &info, sizeof(info));

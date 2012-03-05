@@ -8,8 +8,10 @@
 #include <mpi.h>
 
 class Slave {
+	bool running;
 	mpc::ModuleChain chain;
 	void processJob(job_t job);
+	void acquireJob();
 public:
 	Slave();
 	virtual ~Slave();

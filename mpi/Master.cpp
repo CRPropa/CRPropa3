@@ -71,7 +71,7 @@ void Master::sendJob(job_t &job, int rank) {
 
 	string out_filename = "job_" + str(job) + ".dat";
 	ofstream out_stream(out_filename.c_str(), ios::binary);
-	kiss::StreamOutput out(out_stream);
+	StreamOutput out(out_stream);
 	write(out, candidate);
 
 	MPI_Send(&job, 1, MPI_INT, rank, TAG_WORK, MPI_COMM_WORLD);

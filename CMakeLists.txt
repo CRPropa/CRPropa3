@@ -41,9 +41,12 @@ if (Freeglut_FOUND)
     endif (OPENGL_GLU_FOUND)
 endif (Freeglut_FOUND)
 
+include_directories(libs/pugixml)
+add_library(pugixml SHARED
+    libs/pugixml/pugixml.cpp
+)
 
 include_directories(include ${MPC_EXTRA_INCLUDES})
-include_directories(libs)
 
 add_library(mpc SHARED
     src/Random.cpp
@@ -62,10 +65,9 @@ add_library(mpc SHARED
     src/module/NuclearDecay.cpp
     src/module/Redshift.cpp
     src/magneticField/magneticFieldGrid.cpp
-    libs/pugixml.cpp
     ${MPC_EXTRA_SOURCES}
 )
-TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
+TARGET_LINK_LIBRARIES(mpc pugixml ${MPC_EXTRA_LIBRARIES})
 
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
@@ -78,7 +80,7 @@ if (MPI_FOUND)
     set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
     set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 
-    add_executable(mpc-mpi mpi/main.cpp mpi/Slave.cpp mpi/Master.cpp)
+    add_executable(mpc-mpi mpi/main mpi/Slave mpi/Master mpi/Job)
     TARGET_LINK_LIBRARIES(mpc-mpi mpc ${MPI_LIBRARIES})
 endif()
 

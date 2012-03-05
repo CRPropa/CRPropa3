@@ -16,6 +16,7 @@ TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
 	this->lMin = lMin;
 	this->lMax = lMax;
 	this->seed = seed;
+	this->powerSpectralIndex = powerSpectralIndex;
 	initialize();
 }
 
@@ -52,8 +53,15 @@ void TurbulentMagneticFieldGrid::initialize() {
 				ek.set(K[ix], K[iy], K[iz]);
 				k = ek.mag();
 
-				if ((k < kMin) || (k > kMax))
+				if ((k < kMin) || (k > kMax)) {
+					Bx[i][0] = 0;
+					Bx[i][1] = 0;
+					By[i][0] = 0;
+					By[i][1] = 0;
+					Bz[i][0] = 0;
+					Bz[i][1] = 0;
 					continue; // wave outside of turbulent range -> B(k) = 0
+				}
 
 				// construct an orthogonal base ek, e1, e2
 				if ((ix == iy) && (iy == iz)) {
@@ -91,12 +99,20 @@ void TurbulentMagneticFieldGrid::initialize() {
 	}
 
 	// perform inverse FFT on each component
-	fftw_execute(
-			fftw_plan_dft_3d(n, n, n, Bx, Bx, FFTW_BACKWARD, FFTW_ESTIMATE));
-	fftw_execute(
-			fftw_plan_dft_3d(n, n, n, By, By, FFTW_BACKWARD, FFTW_ESTIMATE));
-	fftw_execute(
-			fftw_plan_dft_3d(n, n, n, Bz, Bz, FFTW_BACKWARD, FFTW_ESTIMATE));
+	fftw_plan plan_x = fftw_plan_dft_3d(n, n, n, Bx, Bx, FFTW_BACKWARD,
+			FFTW_ESTIMATE);
+	fftw_execute(plan_x);
+	fftw_destroy_plan(plan_x);
+
+	fftw_plan plan_y = fftw_plan_dft_3d(n, n, n, By, By, FFTW_BACKWARD,
+			FFTW_ESTIMATE);
+	fftw_execute(plan_y);
+	fftw_destroy_plan(plan_y);
+
+	fftw_plan plan_z = fftw_plan_dft_3d(n, n, n, Bz, Bz, FFTW_BACKWARD,
+			FFTW_ESTIMATE);
+	fftw_execute(plan_z);
+	fftw_destroy_plan(plan_z);
 
 	// calculate normalization
 	double sumB2 = 0;

@@ -76,13 +76,30 @@ void ModuleChain::process(std::vector<Candidate *> &candidates, bool recursive) 
 } // namespace mpc
 
 std::ostream &operator<<(std::ostream &out, const mpc::ModuleChain &chain) {
-	mpc::ModuleChain::list_t::const_iterator iEntry =
-			chain.getMainModules().begin();
+	mpc::ModuleChain::list_t::const_iterator iEntry;
+
+	out << "Start Modules" << "\n";
+	iEntry = chain.getStartModules().begin();
+	while (iEntry != chain.getStartModules().end()) {
+		const mpc::ModuleChain::list_entry_t &entry = *iEntry;
+		iEntry++;
+		out << "  " << entry.first << " -> " << entry.second->getDescription() << "\n";
+	}
+
+	out << "\nMain Modules" << "\n";
+	iEntry = chain.getMainModules().begin();
 	while (iEntry != chain.getMainModules().end()) {
 		const mpc::ModuleChain::list_entry_t &entry = *iEntry;
 		iEntry++;
+		out << "  " << entry.first << " -> " << entry.second->getDescription() << "\n";
+	}
 
-		out << entry.first << " -> " << entry.second->getDescription() << "\n";
+	out << "\nEnd Modules" << "\n";
+	iEntry = chain.getEndModules().begin();
+	while (iEntry != chain.getEndModules().end()) {
+		const mpc::ModuleChain::list_entry_t &entry = *iEntry;
+		iEntry++;
+		out << "  " << entry.first << " -> " << entry.second->getDescription() << "\n";
 	}
 	return out;
 }

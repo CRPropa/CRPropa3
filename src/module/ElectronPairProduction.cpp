@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <limits>
+#include <stdlib.h>
 
 namespace mpc {
 
@@ -15,16 +16,20 @@ ElectronPairProduction::ElectronPairProduction() {
 }
 
 void ElectronPairProduction::init(PhotonField field) {
+	std::string dataPath = "data";
+	if (getenv("MPC_DATA_PATH"))
+		dataPath = getenv("MPC_DATA_PATH");
+
 	photonField = field;
 	switch (photonField) {
 	case CMB:
-		init("data/ElectronPairProduction/cmb.txt");
+		init(dataPath + "/ElectronPairProduction/cmb.txt");
 		break;
 	case IR:
-		init("data/ElectronPairProduction/ir.txt");
+		init(dataPath + "/ElectronPairProduction/ir.txt");
 		break;
 	case CMBIR:
-		init("data/ElectronPairProduction/cmbir.txt");
+		init(dataPath + "/ElectronPairProduction/cmbir.txt");
 		break;
 	}
 }

@@ -43,21 +43,21 @@ int main(int argc, char **argv) {
 	chain.add(20, new MaximumTrajectoryLength(50 * Mpc));
 
 	// output -------------------------------------------------------------
-	chain.add(79, new ShellOutput());
+//	chain.add(79, new ShellOutput());
 //	chain.add(80, new GlutDisplay());
-	ChargeMassEngergyOutput *output = new ChargeMassEngergyOutput("26-56-50-10.txt", Candidate::Detected);
-	chain.add(100, output);
+	TrajectoryOutput *output = new TrajectoryOutput("26-56-50-10.txt");
+	chain.add(99, output);
 
 	std::cout << chain << std::endl;
 
 	ParticleState initial;
 	initial.setId(getNucleusId(56, 26));
-	initial.setEnergy(50 * EeV);
+	initial.setEnergy(100 * EeV);
 	initial.setPosition(Vector3(0, 0, 0));
 	initial.setDirection(Vector3(1, 0, 0));
 
 	std::vector<Candidate *> candidates;
-	for (size_t i=0; i<1; i++) {
+	for (size_t i=0; i<1000; i++) {
 		Candidate *candidate = new Candidate;
 		candidate->current = initial;
 		candidate->initial = initial;

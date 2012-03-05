@@ -26,7 +26,7 @@ NuclearDecay::NuclearDecay() {
 }
 
 std::string NuclearDecay::getDescription() const {
-	return name;
+	return "Nuclear decay";
 }
 
 void NuclearDecay::process(Candidate *candidate) {

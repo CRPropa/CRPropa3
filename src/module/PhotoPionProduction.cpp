@@ -17,23 +17,25 @@ PhotoPionProduction::PhotoPionProduction() {
 }
 
 void PhotoPionProduction::init(PhotonField field) {
+	std::string dataPath = "data";
+	if (getenv("MPC_DATA_PATH"))
+		dataPath = getenv("MPC_DATA_PATH");
+
 	photonField = field;
 	switch (photonField) {
 	case CMB:
-		init("data/PhotoPionProduction/cmb.txt");
+		init(dataPath + "/PhotoPionProduction/cmb.txt");
 		break;
 	case IR:
-		init("data/PhotoPionProduction/ir.txt");
+		init(dataPath + "/PhotoPionProduction/ir.txt");
 		break;
 	case CMBIR:
-		init("data/PhotoPionProduction/cmbir.txt");
+		init(dataPath + "/PhotoPionProduction/cmbir.txt");
 		break;
 	}
 }
 
 void PhotoPionProduction::init(std::string filename) {
-	name = "mpc::PhotoPionProduction";
-
 	std::vector<double> x, yp, yn;
 	std::ifstream infile(filename.c_str());
 	while (infile.good()) {
@@ -54,6 +56,7 @@ void PhotoPionProduction::init(std::string filename) {
 	nRate = gsl_spline_alloc(gsl_interp_linear, x.size());
 	gsl_spline_init(pRate, &x[0], &yp[0], x.size());
 	gsl_spline_init(nRate, &x[0], &yn[0], x.size());
+	name = "mpc::PhotoPionProduction";
 }
 
 PhotoPionProduction::~PhotoPionProduction() {
@@ -166,18 +169,16 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) {
 	int A = candidate->current.getMassNumber();
 	int Z = candidate->current.getChargeNumber();
 
-	// interaction on single nucleon
 	if (A == 1) {
+		// interaction on single nucleon
 		candidate->current.setEnergy(E * 938. / 1232.);
 		candidate->current.setId(getNucleusId(1, Zfinal));
-		return;
+	} else {
+		// interaction on nucleus, update nucleus and emit nucleon
+		candidate->current.setEnergy(E * (A - 1) / A);
+		candidate->current.setId(getNucleusId(A - 1, Z - dZ));
+		candidate->addSecondary(getNucleusId(Zfinal, 1), E / A * 938. / 1232.);
 	}
-
-	// interaction on nucleus, update nucleus and emit nucleon
-	candidate->current.setEnergy(E * (A - 1) / A);
-	candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-	candidate->addSecondary(getNucleusId(Zfinal, 1),
-			E / A * 938. / 1232.);
 }
 
 } // namespace mpc

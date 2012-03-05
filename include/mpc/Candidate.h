@@ -4,6 +4,7 @@
 #include "mpc/ParticleState.h"
 #include <vector>
 #include <map>
+#include <sstream>
 
 namespace mpc {
 

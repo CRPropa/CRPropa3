@@ -81,7 +81,6 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
 	secondary->setNextStep(0);
-	std::cout << secondary->getTrajectoryLength() / Mpc << std::endl;
 	secondary->initial = initial;
 	secondary->current = current;
 	secondary->current.setId(id);

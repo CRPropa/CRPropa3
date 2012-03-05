@@ -45,7 +45,7 @@ PhotoDisintegration::PhotoDisintegration() {
 }
 
 std::string PhotoDisintegration::getDescription() const {
-	return name;
+	return "Photo-disintegration";
 }
 
 void PhotoDisintegration::process(Candidate *candidate) {
@@ -134,24 +134,18 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) {
 	candidate->current.setEnergy(EpA * (A + dA));
 
 	// create secondaries
-	for (size_t i = 0; i < nNeutron; i++) {
+	for (size_t i = 0; i < nNeutron; i++)
 		candidate->addSecondary(getNucleusId(1, 0), EpA);
-	}
-	for (size_t i = 0; i < nProton; i++) {
+	for (size_t i = 0; i < nProton; i++)
 		candidate->addSecondary(getNucleusId(1, 1), EpA);
-	}
-	for (size_t i = 0; i < nH2; i++) {
+	for (size_t i = 0; i < nH2; i++)
 		candidate->addSecondary(getNucleusId(2, 1), EpA * 2);
-	}
-	for (size_t i = 0; i < nH3; i++) {
+	for (size_t i = 0; i < nH3; i++)
 		candidate->addSecondary(getNucleusId(3, 1), EpA * 3);
-	}
-	for (size_t i = 0; i < nHe3; i++) {
+	for (size_t i = 0; i < nHe3; i++)
 		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
-	}
-	for (size_t i = 0; i < nHe4; i++) {
+	for (size_t i = 0; i < nHe4; i++)
 		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
-	}
 }
 
 } // namespace mpc

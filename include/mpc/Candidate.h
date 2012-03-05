@@ -31,7 +31,6 @@ public:
 	ParticleState last;
 	ParticleState initial;
 	std::vector<Candidate *> secondaries;
-	std::string history;
 
 private:
 	double redshift, trajectoryLength;

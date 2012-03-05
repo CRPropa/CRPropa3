@@ -146,10 +146,6 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) {
 		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
 	for (size_t i = 0; i < nHe4; i++)
 		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
-
-	// logging
-	std::stringstream s(candidate->history);
-	s << "PD: dE = " << -EpA * dA / EeV << " channel = " << interaction.channel << "; ";
 }
 
 } // namespace mpc

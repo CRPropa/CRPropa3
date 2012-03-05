@@ -44,8 +44,7 @@ public:
 
 	void process(Candidate *candidate) {
 		outfile << candidate->getTrajectoryLength() / Mpc << ", "
-				<< getOutputString(candidate->current) << ", " << candidate->history << "\n";
-		candidate->history = "";
+				<< getOutputString(candidate->current) << "\n";
 	}
 
 	std::string getDescription() const {

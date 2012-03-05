@@ -25,7 +25,8 @@ private:
 		gsl_spline *rate; // disintegration rate [1/m]
 	};
 
-	std::map<int, std::vector<DisintegrationMode> > PDTable;
+	typedef std::map<int, std::vector<DisintegrationMode> > DisintegrationModeMap;
+	DisintegrationModeMap PDTable;
 	std::string name;
 	Random random;
 	gsl_interp_accel *acc;

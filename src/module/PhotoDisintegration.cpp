@@ -5,49 +5,63 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
+#include <stdexcept>
+
+#include <kiss/convert.h>
 
 namespace mpc {
 
+enum _Constants {
+	SAMPLE_COUNT = 200
+};
+
 PhotoDisintegration::PhotoDisintegration() {
 	name = "mpc::PhotoDisintegration";
+	acc = gsl_interp_accel_alloc();
 
 	// create spline x-axis
-	std::vector<double> x(200);
+	std::vector<double> x(SAMPLE_COUNT);
 	for (size_t i = 0; i < 200; i++) {
-		x[i] = 6.0 + i * 8.0 / 199;
+		x[i] = 6.0 + i * 8.0 / (SAMPLE_COUNT - 1);
 	}
+
+	std::vector<double> y(SAMPLE_COUNT);
 
 	// load disintegration table
 	std::ifstream infile("data/PhotoDisintegration/rate.txt");
 	std::string line, cell;
+	size_t lineNo = 0;
 	while (std::getline(infile, line)) {
+		lineNo++;
 		std::stringstream lineStream(line);
 
-		int id;
+		int id = 0;
 		lineStream >> id;
 
 		DisintegrationMode mode;
 		lineStream >> mode.channel; // disintegration channel
 
-		std::vector<double> y;
-		y.reserve(200);
-		while (lineStream) {
-			double a;
-			lineStream >> a; // disintegration rate
-			y.push_back(a / Mpc);
+		for (size_t i = 0; i < SAMPLE_COUNT; i++) {
+			lineStream >> y[i];
+			y[i] /= Mpc;
+
+			if (!lineStream)
+				throw std::runtime_error(
+						"mpc::PhotoDisintegration: not enough entries in rate.txt. Expected 200 got "
+								+ kiss::str(i) + " in line "
+								+ kiss::str(lineNo));
 		}
-		mode.rate = gsl_spline_alloc(gsl_interp_linear, 200);
-		gsl_spline_init(mode.rate, &x[0], &y[0], 200);
+
+		mode.rate = gsl_spline_alloc(gsl_interp_linear, SAMPLE_COUNT);
+		gsl_spline_init(mode.rate, &x[0], &y[0], SAMPLE_COUNT);
 
 		PDTable[id].push_back(mode);
 	}
-	infile.close();
-	acc = gsl_interp_accel_alloc();
 }
 
 PhotoDisintegration::~PhotoDisintegration() {
 	gsl_interp_accel_free(acc);
-	std::map<int, std::vector<DisintegrationMode> >::iterator iModes;
+	DisintegrationModeMap::iterator iModes;
 	for (iModes = PDTable.begin(); iModes != PDTable.end(); iModes++) {
 		for (size_t iMode = 0; iMode < iModes->second.size(); iMode++)
 			gsl_spline_free(iModes->second[iMode].rate);
@@ -89,8 +103,14 @@ void PhotoDisintegration::process(Candidate *candidate) {
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
 
+	DisintegrationModeMap::iterator iMode = PDTable.find(id);
+	if (iMode == PDTable.end())
+		return false;
+
+	std::vector<DisintegrationMode> &modes = iMode->second;
+
 	// check if disintegration data available
-	if (PDTable[id].size() == 0)
+	if (modes.size() == 0)
 		return false;
 
 	double z = candidate->getRedshift();
@@ -103,13 +123,13 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	// find channel with minimum random decay distance
 	InteractionState interaction;
 	interaction.distance = std::numeric_limits<double>::max();
-	for (size_t i = 0; i < PDTable[id].size(); i++) {
-		double rate = gsl_spline_eval(PDTable[id][i].rate, lg, acc);
+	for (size_t i = 0; i < modes.size(); i++) {
+		double rate = gsl_spline_eval(modes[i].rate, lg, acc);
 		double d = -log(random.rand()) / rate;
 		if (d > interaction.distance)
 			continue;
 		interaction.distance = d;
-		interaction.channel = PDTable[id][i].channel;
+		interaction.channel = modes[i].channel;
 	}
 
 	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
@@ -119,18 +139,22 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
+inline int digit(const int &value, const int &d) {
+	return (value % d * 10) / d;
+}
+
 void PhotoDisintegration::performInteraction(Candidate *candidate) {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();
 
 	// parse disintegration channel
-	int nNeutron = interaction.channel / 100000;
-	int nProton = (interaction.channel % 100000) / 10000;
-	int nH2 = (interaction.channel % 10000) / 1000;
-	int nH3 = (interaction.channel % 1000) / 100;
-	int nHe3 = (interaction.channel % 100) / 10;
-	int nHe4 = (interaction.channel % 10);
+	int nNeutron = digit(interaction.channel, 100000);
+	int nProton = digit(interaction.channel, 10000);
+	int nH2 = digit(interaction.channel, 1000);
+	int nH3 = digit(interaction.channel, 100);
+	int nHe3 = digit(interaction.channel, 10);
+	int nHe4 = digit(interaction.channel, 1);
 
 	int dA = -nNeutron - nProton - 2 * nH2 - 3 * nH3 - 3 * nHe3 - 4 * nHe4;
 	int dZ = -nProton - nH2 - nH3 - 2 * nHe3 - 2 * nHe4;

@@ -16,7 +16,8 @@ private:
 	double maxLength;
 
 public:
-	MaximumTrajectoryLength(double length) : maxLength(length){
+	MaximumTrajectoryLength(double length) :
+			maxLength(length) {
 	}
 
 	void process(Candidate *candidate) {
@@ -102,6 +103,7 @@ public:
 	CubicBoundary(Vector3 origin, double size, Candidate::Status flag) {
 		this->origin = origin;
 		this->size = size;
+		this->hardBoundary = true;
 		this->flag = flag;
 	}
 

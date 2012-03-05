@@ -32,6 +32,7 @@ private:
 
 public:
 	PhotoDisintegration();
+	~PhotoDisintegration();
 	std::string getDescription() const;
 	void process(Candidate *candidate);
 	bool setNextInteraction(Candidate *candidate);

@@ -12,9 +12,9 @@ PhotoDisintegration::PhotoDisintegration() {
 	name = "mpc::PhotoDisintegration";
 
 	// create spline x-axis
-	std::vector<double> x;
+	std::vector<double> x(200);
 	for (size_t i = 0; i < 200; i++) {
-		x.push_back(6.0 + i * 8.0 / 199);
+		x[i] = 6.0 + i * 8.0 / 199;
 	}
 
 	// load disintegration table
@@ -23,16 +23,17 @@ PhotoDisintegration::PhotoDisintegration() {
 	while (std::getline(infile, line)) {
 		std::stringstream lineStream(line);
 
-		std::getline(lineStream, cell, ' ');
-		int id = atoi(cell.c_str()); // nucleus id
+		int id;
+		lineStream >> id;
 
 		DisintegrationMode mode;
-		std::getline(lineStream, cell, ' ');
-		mode.channel = atoi(cell.c_str()); // disintegration channel
+		lineStream >> mode.channel; // disintegration channel
 
 		std::vector<double> y;
-		while (std::getline(lineStream, cell, ' ')) {
-			double a = atof(cell.c_str()); // disintegration rate
+		y.reserve(200);
+		while (lineStream) {
+			double a;
+			lineStream >> a; // disintegration rate
 			y.push_back(a / Mpc);
 		}
 		mode.rate = gsl_spline_alloc(gsl_interp_linear, 200);
@@ -42,6 +43,15 @@ PhotoDisintegration::PhotoDisintegration() {
 	}
 	infile.close();
 	acc = gsl_interp_accel_alloc();
+}
+
+PhotoDisintegration::~PhotoDisintegration() {
+	gsl_interp_accel_free(acc);
+	std::map<int, std::vector<DisintegrationMode> >::iterator iModes;
+	for (iModes = PDTable.begin(); iModes != PDTable.end(); iModes++) {
+		for (size_t iMode = 0; iMode < iModes->second.size(); iMode++)
+			gsl_spline_free(iModes->second[iMode].rate);
+	}
 }
 
 std::string PhotoDisintegration::getDescription() const {

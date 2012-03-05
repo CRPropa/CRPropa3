@@ -40,6 +40,7 @@ private:
 
 public:
 	Candidate();
+	~Candidate();
 
 	double getRedshift() const;
 	void setRedshift(double z);
@@ -63,6 +64,7 @@ public:
 	void clearInteractionStates();
 
 	void addSecondary(int id, double energy);
+	void clearSecondaries();
 };
 
 } // namespace mpc

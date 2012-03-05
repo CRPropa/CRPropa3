@@ -7,6 +7,10 @@ Candidate::Candidate() :
 				Active) {
 }
 
+Candidate::~Candidate() {
+	clearSecondaries();
+}
+
 double Candidate::getRedshift() const {
 	return redshift;
 }
@@ -86,6 +90,12 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
 	secondaries.push_back(secondary);
+}
+
+void Candidate::clearSecondaries() {
+	for (size_t i = 0; i < secondaries.size(); i++)
+		delete secondaries[i];
+	secondaries.clear();
 }
 
 } // namespace mpc

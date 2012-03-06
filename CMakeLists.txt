@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(ModularPropagationCode)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}" ${CMAKE_MODULE_PATH})
 
 set (MPC_EXTRA_SOURCES)
 set (MPC_EXTRA_INCLUDES)
@@ -11,11 +11,6 @@ set (MPC_EXTRA_LIBRARIES)
 find_package(GSL REQUIRED)
 list (APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 
-# KISS required
-find_package(KISS REQUIRED)
-list (APPEND MPC_EXTRA_LIBRARIES ${KISS_LIBRARY} )
-list( APPEND MPC_EXTRA_INCLUDES ${KISS_INCLUDE_DIR})
-    
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
@@ -41,10 +36,16 @@ if (Freeglut_FOUND)
     endif (OPENGL_GLU_FOUND)
 endif (Freeglut_FOUND)
 
-include_directories(libs/pugixml)
-add_library(pugixml SHARED
-    libs/pugixml/pugixml.cpp
-)
+# pugixml provided
+add_library (pugixml libs/pugixml/pugixml.cpp)
+list (APPEND MPC_EXTRA_LIBRARIES pugixml)
+list (APPEND MPC_EXTRA_INCLUDES libs/pugixml)
+
+# kiss provided
+add_subdirectory(libs/kiss)
+list (APPEND MPC_EXTRA_LIBRARIES kiss)
+list (APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
+
 
 include_directories(include ${MPC_EXTRA_INCLUDES})
 
@@ -67,7 +68,7 @@ add_library(mpc SHARED
     src/magneticField/magneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )
-TARGET_LINK_LIBRARIES(mpc pugixml ${MPC_EXTRA_LIBRARIES})
+TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)

@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
+#include <stdexcept>
 
 namespace mpc {
 
@@ -38,6 +39,8 @@ void PhotoPionProduction::init(PhotonField field) {
 void PhotoPionProduction::init(std::string filename) {
 	std::vector<double> x, yp, yn;
 	std::ifstream infile(filename.c_str());
+	if (infile.bad())
+		throw std::runtime_error("mpc::PhotoPionProduction: could not open file");
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;
@@ -92,13 +95,16 @@ void PhotoPionProduction::process(Candidate *candidate) {
 
 	while (true) {
 		// set a new interaction if necessary
-		if (not (candidate->getInteractionState(name, interaction))) {
-			if (not (setNextInteraction(candidate)))
+		bool noState = !candidate->getInteractionState(name, interaction);
+		if (noState) {
+			bool noNextState = !setNextInteraction(candidate);
+			if (noNextState)
 				return;
 		}
 
 		// get the interaction state
-		candidate->getInteractionState(name, interaction);
+		if (noState)
+			candidate->getInteractionState(name, interaction);
 
 		// if not over, reduce distance and return
 		if (interaction.distance > step) {
@@ -148,6 +154,10 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
 	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
 	interaction.distance /= pow((1 + z), 3);
 
+	if (isnan(interaction.distance)) {
+		return false;
+	}
+
 	candidate->setInteractionState(name, interaction);
 	return true;
 }
@@ -177,7 +187,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) {
 		// interaction on nucleus, update nucleus and emit nucleon
 		candidate->current.setEnergy(E * (A - 1) / A);
 		candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-		candidate->addSecondary(getNucleusId(Zfinal, 1), E / A * 938. / 1232.);
+		candidate->addSecondary(getNucleusId(1, Zfinal), E / A * 938. / 1232.);
 	}
 }
 

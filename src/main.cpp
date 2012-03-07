@@ -29,9 +29,9 @@ int main(int argc, char **argv) {
 //	UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
 //	SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
 //	field->gadgetField->load("test/coma-0.7.raw");
-//	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
-//	chain.add(1, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
-	chain.add(1, new SimplePropagation);
+	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 1., 1e-12, 2., 8., -11. / 3., 10);
+	chain.add(1, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
+//	chain.add(1, new SimplePropagation);
 
 	// interactions -------------------------------------------------------
 	chain.add(10, new NuclearDecay());
@@ -43,12 +43,11 @@ int main(int argc, char **argv) {
 	chain.add(20, new MaximumTrajectoryLength(50 * Mpc));
 
 	// output -------------------------------------------------------------
-//	chain.add(79, new ShellOutput());
-//	chain.add(80, new GlutDisplay());
-	TrajectoryOutput *output = new TrajectoryOutput("26-56-50-10.txt");
-	chain.add(99, output);
+	chain.add(79, new ShellOutput());
+	chain.add(80, new GlutDisplay());
 
 	std::cout << chain << std::endl;
+	std::cout << field->getField(Vector3(0,0,0)) << std::endl;
 
 	ParticleState initial;
 	initial.setId(getNucleusId(56, 26));
@@ -56,16 +55,11 @@ int main(int argc, char **argv) {
 	initial.setPosition(Vector3(0, 0, 0));
 	initial.setDirection(Vector3(1, 0, 0));
 
-	std::vector<Candidate *> candidates;
-	for (size_t i=0; i<1000; i++) {
-		Candidate *candidate = new Candidate;
-		candidate->current = initial;
-		candidate->initial = initial;
-		candidates.push_back(candidate);
-	}
+	Candidate *candidate = new Candidate;
+	candidate->current = initial;
+	candidate->initial = initial;
 
-	chain.process(candidates, true);
-	delete output;
+	chain.process(candidate);
 
 	return 0;
 }

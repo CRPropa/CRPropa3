@@ -4,10 +4,6 @@
 
 namespace mpc {
 
-//TurbulentMagneticField::TurbulentMagneticField(size_t n, double spacing, Vector3 origin, double Brms, double lMin, double lMax, double powerSpectralIndex, int seed) {
-//	TurbulentMagneticField(n, n, n, spacing, origin, Brms, lMin, lMax, powerSpectralIndex, seed);
-//}
-
 TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
 		size_t samples, double spacing, double Brms, double lMin, double lMax,
 		double powerSpectralIndex, int seed) :
@@ -80,7 +76,7 @@ void TurbulentMagneticFieldGrid::initialize() {
 				theta = 2 * M_PI * random.rand();
 				b = e1 * cos(theta) + e2 * sin(theta);
 
-				// gaussian amplitude weighted with k^alpha/2
+				// standard normal distributed amplitude weighted with k^alpha/2
 				b *= random.randNorm() * pow(k, powerSpectralIndex / 2.);
 
 				// uniform random phase

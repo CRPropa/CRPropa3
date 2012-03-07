@@ -9,6 +9,8 @@ add_library(kiss
     src/uuid
 )
 
+SET_TARGET_PROPERTIES( kiss PROPERTIES COMPILE_FLAGS -fPIC)
+
 # GTest needed for testing
 find_package(GTest)
 if (GTEST_FOUND)

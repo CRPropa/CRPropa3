@@ -38,6 +38,7 @@ endif (Freeglut_FOUND)
 
 # pugixml provided
 add_library (pugixml libs/pugixml/pugixml.cpp)
+SET_TARGET_PROPERTIES( pugixml PROPERTIES COMPILE_FLAGS -fPIC)
 list (APPEND MPC_EXTRA_LIBRARIES pugixml)
 list (APPEND MPC_EXTRA_INCLUDES libs/pugixml)
 

@@ -2,7 +2,7 @@
 # GADGET_LIBRARY = libGadget.a
 # GADGET_FOUND = true if gadget is found
 
-find_path(GADGET_INCLUDE_DIR gadget/SmoothParticle.hpp)
+find_path(GADGET_INCLUDE_DIR gadget/SmoothParticle.h)
 find_library(GADGET_LIBRARY Gadget)
 
 set(GADGET_FOUND FALSE)

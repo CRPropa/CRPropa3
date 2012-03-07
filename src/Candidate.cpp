@@ -3,7 +3,7 @@
 namespace mpc {
 
 Candidate::Candidate() :
-		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), status(
+		redshift(0), trajectoryLength(0), currentStep(0), nextStep(1 * kpc), status(
 				Active) {
 }
 

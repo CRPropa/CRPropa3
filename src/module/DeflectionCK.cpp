@@ -37,10 +37,6 @@ DeflectionCK::DeflectionCK(MagneticField *field, ControlType controlType,
 	this->field = field;
 }
 
-DeflectionCK::~DeflectionCK() {
-	delete field;
-}
-
 std::string DeflectionCK::getDescription() const {
 	return "Cash-Karp Runge Kutta integration";
 }

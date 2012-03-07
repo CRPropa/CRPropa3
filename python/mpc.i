@@ -21,6 +21,7 @@
 #include "mpc/module/Output.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
+#include "mpc/module/GlutDisplay.h"
 
 #include "mpc/magneticField/magneticField.h"
 #include "mpc/magneticField/uniformMagneticField.h"
@@ -66,5 +67,7 @@
 %include "mpc/module/PhotoPionProduction.h"
 %include "mpc/module/PhotoDisintegration.h"
 %include "mpc/module/Redshift.h"
+%include "mpc/module/GlutDisplay.h"
+
 
 %include "mpc/ModuleChain.h"

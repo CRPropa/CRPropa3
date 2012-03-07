@@ -28,7 +28,6 @@ public:
 
 	DeflectionCK(MagneticField *field, ControlType controlType,
 			double tolerance);
-	~DeflectionCK();
 	std::string getDescription() const;
 	void process(Candidate *candidate);
 };

@@ -27,27 +27,27 @@ PhotoDisintegration::PhotoDisintegration() {
 
 	std::vector<double> y(SAMPLE_COUNT);
 
-	// load disintegration table
-	std::ifstream infile("data/PhotoDisintegration/rate.txt");
-	std::string line, cell;
+	// load photo-disintegration table
+	std::ifstream infile("data/PhotoDisintegration/pd_table.txt");
+	std::string line;
 	size_t lineNo = 0;
 	while (std::getline(infile, line)) {
 		lineNo++;
 		std::stringstream lineStream(line);
 
 		int id = 0;
-		lineStream >> id;
+		lineStream >> id; // nucleus id
 
 		DisintegrationMode mode;
 		lineStream >> mode.channel; // disintegration channel
 
 		for (size_t i = 0; i < SAMPLE_COUNT; i++) {
 			lineStream >> y[i];
-			y[i] /= Mpc;
+			y[i] /= Mpc; // disintegration rate in [1/m]
 
 			if (!lineStream)
 				throw std::runtime_error(
-						"mpc::PhotoDisintegration: not enough entries in rate.txt. Expected 200 got "
+						"mpc::PhotoDisintegration: Not enough entries in rate.txt. Expected 200 got "
 								+ kiss::str(i) + " in line "
 								+ kiss::str(lineNo));
 		}
@@ -83,7 +83,7 @@ void PhotoDisintegration::process(Candidate *candidate) {
 				return;
 		}
 
-		// get the interaction state
+		// get interaction state
 		candidate->getInteractionState(name, interaction);
 
 		// if not over, reduce distance and return
@@ -94,7 +94,7 @@ void PhotoDisintegration::process(Candidate *candidate) {
 			return;
 		}
 
-		// counter over: interact
+		// if over, interact and repeat
 		step -= interaction.distance;
 		performInteraction(candidate);
 	}
@@ -114,6 +114,8 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 		return false;
 
 	double z = candidate->getRedshift();
+
+	// CMB energy increases with (1+z), increase nucleus energy accordingly
 	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
 
 	// check if out of energy range

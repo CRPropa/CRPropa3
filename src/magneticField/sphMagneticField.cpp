@@ -34,6 +34,7 @@ void SPHMagneticField::updateSimulationVolume(const Vector3 &origin,
 SPHMagneticFieldGrid::SPHMagneticFieldGrid(Vector3 origin, double size,
 		size_t samples, const std::string filename) :
 		field(samples) {
+	database.open(filename);
 	gadget::Vector3f v = gadget::Vector3f(origin.x(), origin.y(), origin.z())
 			/ kpc;
 	field.init(v, size / kpc, database);

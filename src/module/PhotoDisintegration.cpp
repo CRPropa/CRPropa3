@@ -33,6 +33,8 @@ PhotoDisintegration::PhotoDisintegration() {
 	size_t lineNo = 0;
 	while (std::getline(infile, line)) {
 		lineNo++;
+		if (line[0] == '#')
+			continue;
 		std::stringstream lineStream(line);
 
 		int id = 0;

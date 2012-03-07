@@ -124,7 +124,7 @@ public:
 	///Exponential distribution in (0,inf)
 	double randExponential();
 	/// Normal distributed random number
-	double randNorm( const double& mean = 0.0, const double& variance = 0.0 );
+	double randNorm( const double& mean = 0.0, const double& variance = 1.0 );
 	/// Uniform distribution in [min, max]
 	double randUniform(double min, double max);
 	/// Rayleigh distributed random number	

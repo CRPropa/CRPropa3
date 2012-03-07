@@ -3,12 +3,16 @@
 
 #include "mpc/magneticField/magneticFieldGrid.h"
 
+#include "gadget/Database.h"
 #include "gadget/MagneticField.h"
-#include "gadget/SmoothParticle.h"
-#include "gadget/Vector3.h"
 
 #include <vector>
 #include <memory>
+
+namespace gadget {
+class DirectMagneticField;
+class SampledMagneticField;
+}
 
 namespace mpc {
 
@@ -17,13 +21,14 @@ namespace mpc {
  @brief Wrapper for gadget::DirectMagneticField
  */
 class SPHMagneticField: public MagneticField {
-	size_t gridSize;
+	gadget::DirectMagneticField field;
+	gadget::FileDatabase database;
 public:
-	SPHMagneticField(Vector3 origin, double size, size_t gridSize);
+	SPHMagneticField(Vector3 origin, double size, size_t gridSize,
+			const std::string filename);
 	Vector3 getField(const Vector3 &position) const;
 	void updateSimulationVolume(const Vector3 &origin, double size);
 
-	std::auto_ptr<gadget::DirectMagneticField> gadgetField;
 };
 
 /**
@@ -31,12 +36,14 @@ public:
  @brief Wrapper for gadget::SampledMagneticField
  */
 class SPHMagneticFieldGrid: public MagneticField {
+	gadget::SampledMagneticField field;
+	gadget::FileDatabase database;
 public:
-	SPHMagneticFieldGrid(Vector3 origin, double size, size_t n);
+	SPHMagneticFieldGrid(Vector3 origin, double size, size_t samples,
+			const std::string filename);
 	Vector3 getField(const Vector3 &position) const;
 	void updateSimulationVolume(const Vector3 &origin, double size);
 
-	std::auto_ptr<gadget::SampledMagneticField> gadgetField;
 };
 
 } // namespace mpc

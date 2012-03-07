@@ -24,6 +24,7 @@
 
 #include "mpc/magneticField/magneticField.h"
 #include "mpc/magneticField/uniformMagneticField.h"
+#include "mpc/magneticField/sphMagneticField.h"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 
 #include "mpc/Candidate.h"
@@ -50,6 +51,7 @@
 
 %include "mpc/magneticField/magneticField.h"
 %include "mpc/magneticField/uniformMagneticField.h"
+%include "mpc/magneticField/sphMagneticField.h"
 %include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 
 %include "mpc/ExplicitRungeKutta.h"

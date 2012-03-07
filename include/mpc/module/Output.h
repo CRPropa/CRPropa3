@@ -133,7 +133,8 @@ public:
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";
 		std::cout << candidate->current.getId() << ",  ";
 		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
-		std::cout << candidate->current.getPosition() / Mpc << " Mpc";
+		std::cout << candidate->current.getPosition() / Mpc << " Mpc, Status: ";
+		std::cout << candidate->getStatus();
 		std::cout << std::endl;
 	}
 

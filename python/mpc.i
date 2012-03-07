@@ -46,6 +46,7 @@
 %include "mpc/Vector3.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
+%template(CandidateVector) std::vector< mpc::Candidate *>;
 %include "mpc/Candidate.h"
 
 %include "mpc/Module.h"

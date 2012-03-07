@@ -84,7 +84,7 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->setStatus(Candidate::Active);
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
-	secondary->setNextStep(0);
+	secondary->setNextStep(1 * kpc);
 	secondary->initial = initial;
 	secondary->current = current;
 	secondary->current.setId(id);

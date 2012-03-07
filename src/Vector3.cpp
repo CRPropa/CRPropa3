@@ -332,13 +332,13 @@ void Vector3::setCylEta(double eta) {
 
 } /* setCylEta */
 
-Vector3 operator/(const Vector3 & v1, double c) {
+Vector3 Vector3::operator/(double c) const {
 	if (c == 0) {
 		std::cerr << "Attempt to divide vector by 0 -- "
 				"will produce infinities and/or NANs" << std::endl;
 	}
 	double oneOverC = 1.0 / c;
-	return Vector3(v1.x() * oneOverC, v1.y() * oneOverC, v1.z() * oneOverC);
+	return Vector3(x() * oneOverC, y() * oneOverC, z() * oneOverC);
 } /* v / c */
 
 Vector3 & Vector3::operator/=(double c) {

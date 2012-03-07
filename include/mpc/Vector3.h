@@ -373,6 +373,13 @@ public:
 	// Rotate via Euler Angles. Our Euler Angles conventions are
 	// those of Goldstein Classical Mechanics page 107.
 
+	inline Vector3 operator +(const Vector3 &) const;
+	// Addition of 3-vectors.
+
+	inline Vector3 operator -(const Vector3 &) const;
+	Vector3 operator /(double a) const;
+	inline Vector3 operator *( double a)const;
+
 protected:
 	void setSpherical(double r, double theta, double phi);
 	void setCylindrical(double r, double phi, double z);
@@ -413,19 +420,14 @@ std::istream & operator >>(std::istream &, Vector3 &);
 //typedef Vector3 HepThreeVectorD;
 //typedef Vector3 HepThreeVectorF;
 //
-Vector3 operator /(const Vector3 &, double a);
 // Division of 3-vectors by non-zero real number
 
-inline Vector3 operator +(const Vector3 &, const Vector3 &);
-// Addition of 3-vectors.
 
-inline Vector3 operator -(const Vector3 &, const Vector3 &);
 // Subtraction of 3-vectors.
 
 inline double operator *(const Vector3 &, const Vector3 &);
 // double product of 3-vectors.
 
-inline Vector3 operator *(const Vector3 &, double a);
 inline Vector3 operator *(double a, const Vector3 &);
 //// Scaling of 3-vectors with a real number
 

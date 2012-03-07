@@ -63,16 +63,16 @@ inline void Vector3::set(double x, double y, double z) {
 // Global methods
 // --------------
 
-inline Vector3 operator +(const Vector3 & a, const Vector3 & b) {
-	return Vector3(a.x() + b.x(), a.y() + b.y(), a.z() + b.z());
+inline Vector3 Vector3::operator +(const Vector3 & b) const {
+	return Vector3(x() + b.x(), y() + b.y(), z() + b.z());
 }
 
-inline Vector3 operator -(const Vector3 & a, const Vector3 & b) {
-	return Vector3(a.x() - b.x(), a.y() - b.y(), a.z() - b.z());
+inline Vector3 Vector3::operator -(const Vector3 & b) const {
+	return Vector3(x() - b.x(), y() - b.y(), z() - b.z());
 }
 
-inline Vector3 operator *(const Vector3 & p, double a) {
-	return Vector3(a * p.x(), a * p.y(), a * p.z());
+inline Vector3 Vector3::operator *( double a) const {
+	return Vector3(a * x(), a * y(), a * z());
 }
 
 inline Vector3 operator *(double a, const Vector3 & p) {

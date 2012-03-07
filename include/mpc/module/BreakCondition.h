@@ -74,7 +74,7 @@ public:
 
 	void process(Candidate *candidate) {
 		double d = (candidate->current.getPosition() - center).mag();
-		if (d <= radius)
+		if (d <= radius * 1.01)
 			candidate->setStatus(Candidate::Detected);
 		else
 			candidate->limitNextStep((d - radius));
@@ -105,6 +105,7 @@ public:
 		this->size = size;
 		this->hardBoundary = true;
 		this->flag = flag;
+		this->margin = 0;
 	}
 
 	CubicBoundary(Vector3 origin, double size, double margin,
@@ -112,7 +113,7 @@ public:
 		this->origin = origin;
 		this->size = size;
 		this->flag = flag;
-		this->hardBoundary = true;
+		this->hardBoundary = false;
 		this->margin = margin;
 	}
 
@@ -120,9 +121,9 @@ public:
 		Vector3 relPos = candidate->current.getPosition() - origin;
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
-		if ((lo <= 0.) && (hi >= size))
+		if ((lo <= 0.) or (hi >= size))
 			candidate->setStatus(flag);
-		if (hardBoundary) {
+		if (!hardBoundary) {
 			candidate->limitNextStep(lo + margin);
 			candidate->limitNextStep(size - hi + margin);
 		}

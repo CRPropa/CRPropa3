@@ -1,10 +1,10 @@
 #include "mpc/module/PhotoDisintegration.h"
+#include "mpc/module/common.h"
 
 #include <limits>
 #include <math.h>
 #include <sstream>
 #include <fstream>
-#include <stdlib.h>
 #include <stdexcept>
 
 #include <kiss/convert.h>
@@ -28,7 +28,12 @@ PhotoDisintegration::PhotoDisintegration() {
 	std::vector<double> y(SAMPLE_COUNT);
 
 	// load photo-disintegration table
-	std::ifstream infile("data/PhotoDisintegration/pd_table.txt");
+	std::string filename = getDataPath("PhotoDisintegration/pd_table.txt");
+	std::ifstream infile(filename.c_str());
+
+	if (!infile.good())
+		throw std::runtime_error(name + ": could not open file " + filename);
+
 	std::string line;
 	size_t lineNo = 0;
 	while (std::getline(infile, line)) {
@@ -59,6 +64,8 @@ PhotoDisintegration::PhotoDisintegration() {
 
 		PDTable[id].push_back(mode);
 	}
+
+	infile.close();
 }
 
 PhotoDisintegration::~PhotoDisintegration() {
@@ -79,14 +86,16 @@ void PhotoDisintegration::process(Candidate *candidate) {
 	InteractionState interaction;
 
 	while (true) {
-		// set a new interaction if necessary
-		if (not (candidate->getInteractionState(name, interaction))) {
-			if (not (setNextInteraction(candidate)))
+		// check if interaction is set
+		bool noState = !candidate->getInteractionState(name, interaction);
+		if (noState) {
+			// try to set a new interaction
+			bool noInteraction = !setNextInteraction(candidate);
+			if (noInteraction)
 				return;
+			// get the new interaction
+			candidate->getInteractionState(name, interaction);
 		}
-
-		// get interaction state
-		candidate->getInteractionState(name, interaction);
 
 		// if not over, reduce distance and return
 		if (interaction.distance > step) {
@@ -105,19 +114,15 @@ void PhotoDisintegration::process(Candidate *candidate) {
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	int id = candidate->current.getId();
 
+	// check if disintegration data available
 	DisintegrationModeMap::iterator iMode = PDTable.find(id);
 	if (iMode == PDTable.end())
 		return false;
 
 	std::vector<DisintegrationMode> &modes = iMode->second;
 
-	// check if disintegration data available
-	if (modes.size() == 0)
-		return false;
-
-	double z = candidate->getRedshift();
-
 	// CMB energy increases with (1+z), increase nucleus energy accordingly
+	double z = candidate->getRedshift();
 	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
 
 	// check if out of energy range
@@ -141,10 +146,6 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 
 	candidate->setInteractionState(name, interaction);
 	return true;
-}
-
-inline int digit(const int &value, const int &d) {
-	return (value % d * 10) / d;
 }
 
 void PhotoDisintegration::performInteraction(Candidate *candidate) {

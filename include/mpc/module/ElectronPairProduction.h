@@ -5,6 +5,7 @@
 #include "mpc/ParticleState.h"
 
 #include <vector>
+#include <string>
 
 namespace mpc {
 

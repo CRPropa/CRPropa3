@@ -1,15 +1,22 @@
 #include "mpc/module/NuclearDecay.h"
+#include "mpc/module/common.h"
 
 #include <fstream>
 #include <limits>
 #include <math.h>
+#include <stdexcept>
 
 namespace mpc {
 
 NuclearDecay::NuclearDecay() {
 	name = "mpc::NuclearDecay";
 
-	std::ifstream infile("data/NuclearDecay/decay.txt");
+	std::string filename = getDataPath("/NuclearDecay/decay_table.txt");
+	std::ifstream infile(filename.c_str());
+
+	if (!infile.good())
+		throw std::runtime_error(name + ": could not open file " + filename);
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			InteractionState decay;
@@ -22,6 +29,7 @@ NuclearDecay::NuclearDecay() {
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
+
 	infile.close();
 }
 
@@ -35,14 +43,16 @@ void NuclearDecay::process(Candidate *candidate) {
 	InteractionState decay;
 
 	while (true) {
-		// set a new decay if necessary
-		if (not (candidate->getInteractionState(name, decay))) {
-			if (not (setNextInteraction(candidate)))
+		// check if decay is set
+		bool noState = !candidate->getInteractionState(name, decay);
+		if (noState) {
+			// try to set a new decay
+			bool noInteraction = !setNextInteraction(candidate);
+			if (noInteraction)
 				return;
+			// get the new decay
+			candidate->getInteractionState(name, decay);
 		}
-
-		// get the updated decay
-		candidate->getInteractionState(name, decay);
 
 		// if not over, reduce distance and return
 		if (decay.distance > step) {
@@ -86,11 +96,11 @@ void NuclearDecay::performInteraction(Candidate *candidate) {
 	candidate->clearInteractionStates();
 
 	// parse decay channel
-	int nBeta = decay.channel / 10000;
-	int nBetaPlus = (decay.channel % 10000) / 1000;
-	int nAlpha = (decay.channel % 1000) / 100;
-	int nProton = (decay.channel % 100) / 10;
-	int nNeutron = decay.channel % 10;
+	int nBeta = digit(decay.channel, 10000);
+	int nBetaPlus = digit(decay.channel, 1000);
+	int nAlpha = digit(decay.channel, 100);
+	int nProton = digit(decay.channel, 10);
+	int nNeutron = digit(decay.channel, 1);
 
 	int dA = -4 * nAlpha - nProton - nNeutron;
 	int dZ = -2 * nAlpha - nProton + nBeta - nBetaPlus;
@@ -114,10 +124,10 @@ void NuclearDecay::performInteraction(Candidate *candidate) {
 		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
 	}
 	for (size_t i = 0; i < nProton; i++) {
-		candidate->addSecondary(getNucleusId(4, 2), EpA);
+		candidate->addSecondary(getNucleusId(1, 1), EpA);
 	}
 	for (size_t i = 0; i < nNeutron; i++) {
-		candidate->addSecondary(getNucleusId(4, 2), EpA);
+		candidate->addSecondary(getNucleusId(1, 0), EpA);
 	}
 }
 

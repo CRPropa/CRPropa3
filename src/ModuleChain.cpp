@@ -60,7 +60,8 @@ void ModuleChain::process(Candidate *candidate) {
 	process(endModules, candidate);
 }
 
-void ModuleChain::process(std::vector<Candidate *> &candidates, bool recursive) {
+void ModuleChain::process(std::vector<ref_ptr<Candidate> > &candidates,
+		bool recursive) {
 	for (size_t i = 0; i < candidates.size(); i++) {
 		Candidate *candidate = candidates[i];
 		if (candidate->getStatus() != Candidate::Active)
@@ -83,7 +84,8 @@ std::ostream &operator<<(std::ostream &out, const mpc::ModuleChain &chain) {
 	while (iEntry != chain.getStartModules().end()) {
 		const mpc::ModuleChain::list_entry_t &entry = *iEntry;
 		iEntry++;
-		out << "  " << entry.first << " -> " << entry.second->getDescription() << "\n";
+		out << "  " << entry.first << " -> " << entry.second->getDescription()
+				<< "\n";
 	}
 
 	out << "\nMain Modules" << "\n";
@@ -91,7 +93,8 @@ std::ostream &operator<<(std::ostream &out, const mpc::ModuleChain &chain) {
 	while (iEntry != chain.getMainModules().end()) {
 		const mpc::ModuleChain::list_entry_t &entry = *iEntry;
 		iEntry++;
-		out << "  " << entry.first << " -> " << entry.second->getDescription() << "\n";
+		out << "  " << entry.first << " -> " << entry.second->getDescription()
+				<< "\n";
 	}
 
 	out << "\nEnd Modules" << "\n";
@@ -99,7 +102,8 @@ std::ostream &operator<<(std::ostream &out, const mpc::ModuleChain &chain) {
 	while (iEntry != chain.getEndModules().end()) {
 		const mpc::ModuleChain::list_entry_t &entry = *iEntry;
 		iEntry++;
-		out << "  " << entry.first << " -> " << entry.second->getDescription() << "\n";
+		out << "  " << entry.first << " -> " << entry.second->getDescription()
+				<< "\n";
 	}
 	return out;
 }

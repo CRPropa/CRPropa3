@@ -38,19 +38,28 @@
 #include "mpc/Random.h"
 #include "mpc/Units.h"
 #include "mpc/Vector3.h"
+#include "mpc/Referenced.h"
 %}
  
 /* Parse the header file to generate wrappers */
+%feature("ref")   mpc::Referenced "$this->addReference();"
+%feature("unref") mpc::Referenced "$this->removeReference();"
+%include "mpc/Referenced.h"
 %include "mpc/Units.h"
 %include "mpc/HepPID.h"
 %include "mpc/Vector3.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
-%template(CandidateVector) std::vector< mpc::Candidate *>;
+%template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
+%template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
 %include "mpc/Candidate.h"
 
+%template(ModuleVector) std::vector< mpc::ref_ptr<mpc::Module> >;
+%template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %include "mpc/Module.h"
 
+%template(MagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
+%template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
 %include "mpc/magneticField/magneticField.h"
 %include "mpc/magneticField/uniformMagneticField.h"
 %include "mpc/magneticField/sphMagneticField.h"

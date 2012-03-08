@@ -7,10 +7,6 @@ Candidate::Candidate() :
 				Active) {
 }
 
-Candidate::~Candidate() {
-	clearSecondaries();
-}
-
 double Candidate::getRedshift() const {
 	return redshift;
 }
@@ -93,8 +89,6 @@ void Candidate::addSecondary(int id, double energy) {
 }
 
 void Candidate::clearSecondaries() {
-	for (size_t i = 0; i < secondaries.size(); i++)
-		delete secondaries[i];
 	secondaries.clear();
 }
 

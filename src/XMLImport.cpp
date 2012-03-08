@@ -65,8 +65,8 @@ void XMLImport::import(pugi::xml_node &modules) {
 		std::string type = moduleNode.attribute("type").value();
 		unsigned int priority = moduleNode.attribute("priority").as_uint();
 
-		Module *module = ModuleFactory::instance().create(type, moduleNode);
-		if (module)
+		ref_ptr<Module> module = ModuleFactory::instance().create(type, moduleNode);
+		if (module.valid())
 			chain->add(priority, module);
 		else
 			std::cout << "No module '" << type << "' found!" << std::endl;

@@ -12,8 +12,6 @@ SPHMagneticField::SPHMagneticField(Vector3 origin, double size, size_t gridSize,
 	gadget::Vector3f v = gadget::Vector3f(origin.x(), origin.y(), origin.z())
 			/ kpc;
 	field.init(v, size / kpc, database);
-	KISS_LOG_INFO
-		<< "mpc::SPHMagneticField: ctor" << std::endl;
 }
 
 Vector3 SPHMagneticField::getField(const Vector3 &position) const {

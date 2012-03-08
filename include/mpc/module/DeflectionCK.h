@@ -1,5 +1,5 @@
-#ifndef DEFLECTION_H_
-#define DEFLECTION_H_
+#ifndef MPC_DEFLECTION_H_
+#define MPC_DEFLECTION_H_
 
 #include "mpc/Module.h"
 #include "mpc/magneticField/magneticField.h"
@@ -18,7 +18,7 @@ namespace mpc {
  */
 class DeflectionCK: public Module {
 public:
-	MagneticField *field;
+	ref_ptr<MagneticField> field;
 	ExplicitRungeKutta<PhasePoint> erk;
 	enum ControlType {
 		NoStepSizeControl, WorstOffender, RMS
@@ -34,5 +34,5 @@ public:
 
 } // namespace mpc
 
-#endif /* DEFLECTION_H_ */
+#endif /* MPC_DEFLECTION_H_ */
 

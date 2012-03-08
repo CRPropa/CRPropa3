@@ -1,5 +1,5 @@
-#ifndef MODULE_CHAIN_H_
-#define MODULE_CHAIN_H_
+#ifndef MPC_MODULE_CHAIN_H_
+#define MPC_MODULE_CHAIN_H_
 
 #include <list>
 #include <typeinfo>
@@ -26,7 +26,7 @@ struct Priority {
  */
 class ModuleChain {
 public:
-	typedef std::pair<size_t, Module *> list_entry_t;
+	typedef std::pair<size_t, ref_ptr<Module> > list_entry_t;
 	typedef std::list<list_entry_t> list_t;
 
 	const list_t &getStartModules() const;
@@ -41,7 +41,7 @@ private:
 public:
 	void add(size_t priority, Module *module);
 	void process(Candidate *candidate);
-	void process(std::vector<Candidate*> &candidates, bool recursive);
+	void process(std::vector<ref_ptr<Candidate> > &candidates, bool recursive);
 	void process(list_t &list, Candidate *candidate);
 	void clear();
 };
@@ -50,4 +50,4 @@ public:
 
 std::ostream &operator<<(std::ostream &out, const mpc::ModuleChain &chain);
 
-#endif /* MODULE_CHAIN_H_ */
+#endif /* MPC_MODULE_CHAIN_H_ */

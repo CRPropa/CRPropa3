@@ -1,7 +1,9 @@
-#ifndef CANDIDATE_H_
-#define CANDIDATE_H_
+#ifndef MPC_CANDIDATE_H_
+#define MPC_CANDIDATE_H_
 
 #include "mpc/ParticleState.h"
+#include "mpc/Referenced.h"
+
 #include <vector>
 #include <map>
 #include <sstream>
@@ -21,7 +23,7 @@ struct InteractionState {
  @class Candidate
  @brief All information about the the cosmic ray candidate.
  */
-class Candidate {
+class Candidate: public Referenced {
 public:
 	enum Status {
 		Active = 0, Detected, OutOfBounds, Stopped, UserDefined
@@ -30,7 +32,7 @@ public:
 	ParticleState current;
 	ParticleState last;
 	ParticleState initial;
-	std::vector<Candidate *> secondaries;
+	std::vector<ref_ptr<Candidate> > secondaries;
 
 private:
 	double redshift, trajectoryLength;
@@ -40,7 +42,6 @@ private:
 
 public:
 	Candidate();
-	~Candidate();
 
 	double getRedshift() const;
 	void setRedshift(double z);
@@ -69,4 +70,4 @@ public:
 
 } // namespace mpc
 
-#endif /* CANDIDATE_H_ */
+#endif /* MPC_CANDIDATE_H_ */

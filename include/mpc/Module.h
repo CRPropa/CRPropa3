@@ -1,7 +1,9 @@
-#ifndef MODULE_H_
-#define MODULE_H_
+#ifndef MPC_MODULE_H_
+#define MPC_MODULE_H_
 
 #include "mpc/Candidate.h"
+#include "mpc/Referenced.h"
+
 #include <string>
 #include <vector>
 
@@ -13,7 +15,7 @@ class Candidate;
  @class Module
  @brief Module base class.
  */
-class Module {
+class Module: public Referenced {
 public:
 	virtual ~Module() {
 	}
@@ -25,4 +27,4 @@ public:
 
 } // namespace mpc
 
-#endif /* MODULE_H_ */
+#endif /* MPC_MODULE_H_ */

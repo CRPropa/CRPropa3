@@ -25,8 +25,9 @@
 
 #include "mpc/magneticField/magneticField.h"
 #include "mpc/magneticField/uniformMagneticField.h"
-#include "mpc/magneticField/sphMagneticField.h"
+#include "mpc/magneticField/magneticFieldGrid.h"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/sphMagneticField.h"
 
 #include "mpc/Candidate.h"
 #include "mpc/ParticleState.h"
@@ -61,6 +62,7 @@
 %template(MagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
 %include "mpc/magneticField/magneticField.h"
+%include "mpc/magneticField/magneticFieldGrid.h"
 %include "mpc/magneticField/uniformMagneticField.h"
 %include "mpc/magneticField/sphMagneticField.h"
 %include "mpc/magneticField/turbulentMagneticFieldGrid.h"

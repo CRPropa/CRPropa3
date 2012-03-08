@@ -1,30 +1,25 @@
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
-#include "mpc/Random.h"
 #include "fftw3.h"
 
 namespace mpc {
 
-//TurbulentMagneticField::TurbulentMagneticField(size_t n, double spacing, Vector3 origin, double Brms, double lMin, double lMax, double powerSpectralIndex, int seed) {
-//	TurbulentMagneticField(n, n, n, spacing, origin, Brms, lMin, lMax, powerSpectralIndex, seed);
-//}
-
 TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
-		size_t samples, double spacing, double Brms, double lMin, double lMax,
-		double powerSpectralIndex, int seed) :
+		size_t samples, double spacing, double lMin, double lMax, double Brms, double powerSpectralIndex) :
 		MagneticFieldGrid(origin, samples, spacing) {
-	this->Brms = Brms;
 	this->lMin = lMin;
 	this->lMax = lMax;
-	this->seed = seed;
+	this->Brms = Brms;
 	this->powerSpectralIndex = powerSpectralIndex;
+	initialize();
+}
+
+void TurbulentMagneticFieldGrid::setSeed(int seed) {
+	random.seed(seed);
 	initialize();
 }
 
 void TurbulentMagneticFieldGrid::initialize() {
 	size_t n = samples;
-
-	Random random;
-	random.seed(seed);
 
 	// arrays to hold the complex vector components of the B-field
 	fftw_complex *Bx, *By, *Bz;
@@ -40,8 +35,8 @@ void TurbulentMagneticFieldGrid::initialize() {
 	// create field in configuration space
 	int i;
 	double k, theta, phase, cosPhase, sinPhase;
-	double kMin = 1. / lMax;
-	double kMax = 1. / lMin;
+	double kMin = spacing / lMax;
+	double kMax = spacing / lMin;
 	Vector3 e1, e2, ek, b;
 	Vector3 n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
@@ -80,7 +75,7 @@ void TurbulentMagneticFieldGrid::initialize() {
 				theta = 2 * M_PI * random.rand();
 				b = e1 * cos(theta) + e2 * sin(theta);
 
-				// gaussian amplitude weighted with k^alpha/2
+				// standard normal distributed amplitude weighted with k^alpha/2
 				b *= random.randNorm() * pow(k, powerSpectralIndex / 2.);
 
 				// uniform random phase

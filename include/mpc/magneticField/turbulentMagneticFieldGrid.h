@@ -2,6 +2,7 @@
 #define TURBULENTMAGNETICFIELD_H_
 
 #include "mpc/magneticField/magneticFieldGrid.h"
+#include "mpc/Random.h"
 
 namespace mpc {
 
@@ -24,13 +25,13 @@ namespace mpc {
 class TurbulentMagneticFieldGrid: public MagneticFieldGrid {
 public:
 	TurbulentMagneticFieldGrid(Vector3 origin, size_t samples, double spacing,
-			double Brms, double lMin, double lMax, double powerSpectralIndex,
-			int seed);
+			double lMin, double lMax, double Brms, double powerSpectralIndex);
+	void setSeed(int seed);
+	void initialize();
 
 protected:
-	void initialize();
 	double Brms, lMin, lMax, powerSpectralIndex;
-	int seed;
+	Random random;
 };
 
 } // namespace mpc

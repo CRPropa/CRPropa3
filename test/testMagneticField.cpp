@@ -2,6 +2,7 @@
 #include "mpc/magneticField/uniformMagneticField.h"
 #include "mpc/magneticField/magneticFieldGrid.h"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/Units.h"
 #include "fftw3.h"
 #include <iostream>
 
@@ -19,7 +20,7 @@ TEST(testTurbulentMagneticFieldGrid, PeriodicBoundaries) {
 	// B(x+a*n) = B(x)
 
 	size_t n = 64;
-	TurbulentMagneticFieldGrid B(Vector3(0, 0, 0), n, 1, 1, 2, 8, -11. / 3., 7);
+	TurbulentMagneticFieldGrid B(Vector3(0, 0, 0), n, 1, 2, 8, 1, -11. / 3.);
 
 	Vector3 pos(1.1, 2.1, 3.1);
 	Vector3 b = B.getField(pos);
@@ -44,7 +45,7 @@ TEST(testTurbulentMagneticFieldGrid, ZeroMean) {
 	// <B> = 0
 
 	size_t n = 64;
-	TurbulentMagneticFieldGrid B(Vector3(0, 0, 0), n, 1, 1, 2, 8, -11. / 3., 7);
+	TurbulentMagneticFieldGrid B(Vector3(0, 0, 0), n, 1, 2, 8, 1, -11. / 3.);
 
 	Vector3 b(0, 0, 0);
 	for (unsigned int ix = 0; ix < n; ix++)
@@ -63,13 +64,13 @@ TEST(testTurbulentMagneticFieldGrid, Brms) {
 	// <B^2> = Brms^2
 
 	size_t n = 64;
-	TurbulentMagneticFieldGrid B(Vector3(0, 0, 0), n, 1, 1, 2, 8, -11. / 3., 7);
+	TurbulentMagneticFieldGrid B(Vector3(0, 0, 0), n, 1*Mpc, 2*Mpc, 8*Mpc, 1., -11. / 3.);
 
 	double brms = 0;
 	for (unsigned int ix = 0; ix < n; ix++)
 		for (unsigned int iy = 0; iy < n; iy++)
 			for (unsigned int iz = 0; iz < n; iz++)
-				brms += B.getField(Vector3(ix, iy, iz)).mag2();
+				brms += B.getField(Vector3(ix, iy, iz)*Mpc).mag2();
 	brms = sqrt(brms / n / n / n);
 
 	double precision = 1e-12;

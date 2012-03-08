@@ -1,9 +1,10 @@
 #include "mpc/module/ElectronPairProduction.h"
+#include "mpc/module/common.h"
 
 #include <fstream>
 #include <vector>
 #include <limits>
-#include <stdlib.h>
+#include <stdexcept>
 
 namespace mpc {
 
@@ -16,20 +17,16 @@ ElectronPairProduction::ElectronPairProduction() {
 }
 
 void ElectronPairProduction::init(PhotonField field) {
-	std::string dataPath = "data";
-	if (getenv("MPC_DATA_PATH"))
-		dataPath = getenv("MPC_DATA_PATH");
-
 	photonField = field;
 	switch (photonField) {
 	case CMB:
-		init(dataPath + "/ElectronPairProduction/cmb.txt");
+		init(getDataPath("ElectronPairProduction/cmb.txt"));
 		break;
 	case IR:
-		init(dataPath + "/ElectronPairProduction/ir.txt");
+		init(getDataPath("ElectronPairProduction/ir.txt"));
 		break;
 	case CMBIR:
-		init(dataPath + "/ElectronPairProduction/cmbir.txt");
+		init(getDataPath("ElectronPairProduction/cmbir.txt"));
 		break;
 	}
 }
@@ -37,6 +34,11 @@ void ElectronPairProduction::init(PhotonField field) {
 void ElectronPairProduction::init(std::string filename) {
 	// load energy loss rate table
 	std::ifstream infile(filename.c_str());
+
+	if (!infile.good())
+		throw std::runtime_error(
+				"mpc::ElectronPairProduction: could not open file " + filename);
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;

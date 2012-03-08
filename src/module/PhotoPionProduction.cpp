@@ -1,10 +1,10 @@
 #include "mpc/module/PhotoPionProduction.h"
+#include "mpc/module/common.h"
 
 #include <limits>
 #include <math.h>
 #include <sstream>
 #include <fstream>
-#include <stdlib.h>
 #include <stdexcept>
 
 namespace mpc {
@@ -18,29 +18,28 @@ PhotoPionProduction::PhotoPionProduction() {
 }
 
 void PhotoPionProduction::init(PhotonField field) {
-	std::string dataPath = "data";
-	if (getenv("MPC_DATA_PATH"))
-		dataPath = getenv("MPC_DATA_PATH");
+	name = "mpc::PhotoPionProduction";
 
 	photonField = field;
 	switch (photonField) {
 	case CMB:
-		init(dataPath + "/PhotoPionProduction/cmb.txt");
+		init(getDataPath("PhotoPionProduction/cmb.txt"));
 		break;
 	case IR:
-		init(dataPath + "/PhotoPionProduction/ir.txt");
+		init(getDataPath("PhotoPionProduction/ir.txt"));
 		break;
 	case CMBIR:
-		init(dataPath + "/PhotoPionProduction/cmbir.txt");
+		init(getDataPath("PhotoPionProduction/cmbir.txt"));
 		break;
 	}
 }
 
 void PhotoPionProduction::init(std::string filename) {
-	std::vector<double> x, yp, yn;
 	std::ifstream infile(filename.c_str());
-	if (infile.bad())
-		throw std::runtime_error("mpc::PhotoPionProduction: could not open file");
+	if (!infile.good())
+		throw std::runtime_error(name + ": could not open file " + filename);
+
+	std::vector<double> x, yp, yn;
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;
@@ -53,13 +52,14 @@ void PhotoPionProduction::init(std::string filename) {
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
+
 	infile.close();
+
 	acc = gsl_interp_accel_alloc();
 	pRate = gsl_spline_alloc(gsl_interp_linear, x.size());
 	nRate = gsl_spline_alloc(gsl_interp_linear, x.size());
 	gsl_spline_init(pRate, &x[0], &yp[0], x.size());
 	gsl_spline_init(nRate, &x[0], &yn[0], x.size());
-	name = "mpc::PhotoPionProduction";
 }
 
 PhotoPionProduction::~PhotoPionProduction() {
@@ -94,17 +94,16 @@ void PhotoPionProduction::process(Candidate *candidate) {
 	InteractionState interaction;
 
 	while (true) {
-		// set a new interaction if necessary
+		// check if interaction is set
 		bool noState = !candidate->getInteractionState(name, interaction);
 		if (noState) {
-			bool noNextState = !setNextInteraction(candidate);
-			if (noNextState)
+			// try to set a new interaction
+			bool noInteraction = !setNextInteraction(candidate);
+			if (noInteraction)
 				return;
-		}
-
-		// get the interaction state
-		if (noState)
+			// get the new interaction
 			candidate->getInteractionState(name, interaction);
+		}
 
 		// if not over, reduce distance and return
 		if (interaction.distance > step) {

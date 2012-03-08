@@ -59,6 +59,7 @@ add_library(mpc SHARED
     src/Candidate.cpp
     src/IO.cpp
     src/ParticleState.cpp
+    src/module/common.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp
@@ -91,22 +92,21 @@ endif()
 find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()
+    
+    add_executable(testCommon test/testCommon.cpp)
+    target_link_libraries(testCommon mpc ${GTEST_BOTH_LIBRARIES} pthread)
 
     add_executable(testCore test/testCore.cpp)
     target_link_libraries(testCore mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test1 testCore)
 
     add_executable(testInteractions test/testInteractions.cpp)
     target_link_libraries(testInteractions mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test2 testInteractions)
     
     add_executable(testMagneticField test/testMagneticField.cpp)
     target_link_libraries(testMagneticField mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test3 testMagneticField)
     
     add_executable(testBreakCondition test/testBreakCondition.cpp)
     target_link_libraries(testBreakCondition mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    add_test(test4 testBreakCondition)
 endif (GTEST_FOUND)
 
 INCLUDE (Python.cmake)

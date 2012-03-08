@@ -21,7 +21,7 @@ namespace mpc {
 class PhotoDisintegration: public Module {
 private:
 	struct DisintegrationMode {
-		int channel; // number of emitted (n, p, ,H2, H3, He3, He4)
+		int channel; // number of emitted (n, p, H2, H3, He3, He4)
 		gsl_spline *rate; // disintegration rate [1/m]
 	};
 

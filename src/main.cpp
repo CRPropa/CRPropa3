@@ -29,8 +29,9 @@ int main(int argc, char **argv) {
 //	UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
 //	SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
 //	field->gadgetField->load("test/coma-0.7.raw");
-	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 1., 1e-12, 2., 8., -11. / 3., 10);
-	chain.add(1, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
+//	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
+//	field.initialize();
+//	chain.add(1, new DeflectionCK(&field, DeflectionCK::WorstOffender, 1e-4));
 //	chain.add(1, new SimplePropagation);
 
 	// interactions -------------------------------------------------------
@@ -47,7 +48,6 @@ int main(int argc, char **argv) {
 	chain.add(80, new GlutDisplay());
 
 	std::cout << chain << std::endl;
-	std::cout << field->getField(Vector3(0,0,0)) << std::endl;
 
 	ParticleState initial;
 	initial.setId(getNucleusId(56, 26));

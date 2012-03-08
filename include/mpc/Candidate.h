@@ -42,7 +42,9 @@ private:
 
 public:
 	Candidate();
+	virtual ~Candidate() {
 
+	}
 	double getRedshift() const;
 	void setRedshift(double z);
 
@@ -59,8 +61,10 @@ public:
 	Status getStatus() const;
 	void setStatus(Status stat);
 
-	bool getInteractionState(std::string moduleName, InteractionState &state);
-	void setInteractionState(std::string moduleName, InteractionState state);
+	bool getInteractionState(const std::string &moduleName,
+			InteractionState &state);
+	void setInteractionState(const std::string &moduleName,
+			InteractionState state);
 	const std::map<std::string, InteractionState> getInteractionStates() const;
 	void clearInteractionStates();
 

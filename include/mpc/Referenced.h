@@ -1,8 +1,10 @@
 #ifndef MPC_REFERENCED_H
 #define MPC_REFERENCED_H
 
+#ifdef DEBUG
 #include <iostream>
-#include <assert.h>
+#include <typeinfo>
+#endif
 
 namespace mpc {
 
@@ -26,6 +28,12 @@ public:
 	}
 
 	inline size_t removeReference() const {
+#ifdef DEBUG
+		if (_referenceCount == 0)
+			std::cerr
+					<< "WARNING: Remove reference from Object with NO references: "
+					<< typeid(*this).name() << std::endl;
+#endif
 		int newRef = --_referenceCount;
 		if (newRef == 0) {
 			delete this;
@@ -44,7 +52,11 @@ public:
 protected:
 
 	virtual inline ~Referenced() {
-		assert(_referenceCount);
+#ifdef DEBUG
+		if (_referenceCount)
+			std::cerr << "WARNING: Deleting Object with references: "
+					<< typeid(*this).name() << std::endl;
+#endif
 	}
 
 	mutable size_t _referenceCount;

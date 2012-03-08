@@ -52,7 +52,7 @@ void Candidate::setStatus(Status stat) {
 	status = stat;
 }
 
-bool Candidate::getInteractionState(std::string moduleName,
+bool Candidate::getInteractionState(const std::string &moduleName,
 		InteractionState &state) {
 	std::map<std::string, InteractionState>::iterator i =
 			interactionStates.find(moduleName);
@@ -62,7 +62,7 @@ bool Candidate::getInteractionState(std::string moduleName,
 	return true;
 }
 
-void Candidate::setInteractionState(std::string moduleName,
+void Candidate::setInteractionState(const std::string &moduleName,
 		InteractionState state) {
 	interactionStates[moduleName] = state;
 }
@@ -76,7 +76,7 @@ const std::map<std::string, InteractionState> Candidate::getInteractionStates() 
 }
 
 void Candidate::addSecondary(int id, double energy) {
-	Candidate *secondary = new Candidate;
+	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setStatus(Candidate::Active);
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);

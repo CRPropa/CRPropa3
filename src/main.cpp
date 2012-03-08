@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 //	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
 //	field.initialize();
 //	chain.add(1, new DeflectionCK(&field, DeflectionCK::WorstOffender, 1e-4));
-//	chain.add(1, new SimplePropagation);
+	chain.add(1, new SimplePropagation);
 
 	// interactions -------------------------------------------------------
 	chain.add(10, new NuclearDecay());
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 
 	// output -------------------------------------------------------------
 	chain.add(79, new ShellOutput());
-	chain.add(80, new GlutDisplay());
+	//chain.add(80, new GlutDisplay());
 
 	std::cout << chain << std::endl;
 
@@ -55,11 +55,13 @@ int main(int argc, char **argv) {
 	initial.setPosition(Vector3(0, 0, 0));
 	initial.setDirection(Vector3(1, 0, 0));
 
-	Candidate *candidate = new Candidate;
+	ref_ptr<Candidate> candidate = new Candidate;
 	candidate->current = initial;
 	candidate->initial = initial;
 
 	chain.process(candidate);
+
+	std::cout << "done" << std::endl;
 
 	return 0;
 }

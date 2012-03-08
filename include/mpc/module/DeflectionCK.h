@@ -28,8 +28,8 @@ public:
 
 	DeflectionCK(MagneticField *field, ControlType controlType,
 			double tolerance);
-	std::string getDescription() const;
 	void process(Candidate *candidate);
+	std::string getDescription() const;
 };
 
 } // namespace mpc

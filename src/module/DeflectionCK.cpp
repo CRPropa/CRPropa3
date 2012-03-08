@@ -29,12 +29,12 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, ControlType controlType,
-		double tolerance) {
-	erk.loadCashKarp();
+DeflectionCK::DeflectionCK(MagneticField *field, ControlType controlType =
+		DeflectionCK::WorstOffender, double tolerance = 1e-4) {
+	this->field = field;
 	this->controlType = controlType;
 	this->tolerance = tolerance;
-	this->field = field;
+	erk.loadCashKarp();
 }
 
 std::string DeflectionCK::getDescription() const {

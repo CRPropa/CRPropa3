@@ -28,7 +28,7 @@ public:
 	void init(PhotonField photonField);
 	void init(std::string filename);
 	std::string getDescription() const;
-	void process(Candidate *candidate);
+	void process(Candidate *candidate) const;
 
 private:
 	PhotonField photonField;

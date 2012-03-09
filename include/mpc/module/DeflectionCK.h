@@ -24,12 +24,13 @@ public:
 		NoStepSizeControl, WorstOffender, RMS
 	};
 	ControlType controlType;
-	double tolerance;
+	double tolerance, minimumStepSize;
 
-	DeflectionCK(MagneticField *field, ControlType controlType,
-			double tolerance);
+	DeflectionCK(MagneticField *field, double tolerance = 1e-4,
+			double minimumStepSize = 0.1 * kpc, ControlType controlType =
+					WorstOffender);
 	std::string getDescription() const;
-	void process(Candidate *candidate);
+	void process(Candidate *candidate) const;
 };
 
 } // namespace mpc

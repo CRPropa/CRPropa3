@@ -15,6 +15,14 @@ namespace mpc {
  @brief Candidate state for stochastic interactions.
  */
 struct InteractionState {
+	InteractionState() :
+			distance(0), channel(0) {
+
+	}
+	InteractionState(double distance, int channel) :
+			distance(distance), channel(channel) {
+
+	}
 	double distance;
 	int channel;
 };

@@ -89,7 +89,7 @@ std::string PhotoPionProduction::getDescription() const {
 	}
 }
 
-void PhotoPionProduction::process(Candidate *candidate) {
+void PhotoPionProduction::process(Candidate *candidate) const {
 	double step = candidate->getCurrentStep();
 	InteractionState interaction;
 
@@ -119,7 +119,7 @@ void PhotoPionProduction::process(Candidate *candidate) {
 	}
 }
 
-bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
+bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
 	int A = candidate->current.getMassNumber();
@@ -135,6 +135,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
 	// check for interaction on protons
 	InteractionState interaction;
 	interaction.distance = std::numeric_limits<double>::max();
+	Random random = Random::instance();
 	if (Z > 0) {
 		double rate = gsl_spline_eval(pRate, EpA, acc) * Z;
 		interaction.distance = -log(random.rand()) / rate;
@@ -161,7 +162,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate) {
+void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();
@@ -171,7 +172,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) {
 	// final proton number of emitted nucleon
 	int Zfinal = dZ;
 	// 1/3 probability of isospin change p <-> n
-	if (random.rand() < 1. / 3.)
+	if (Random::instance().rand() < 1. / 3.)
 		Zfinal = abs(Zfinal - 1);
 
 	double E = candidate->current.getEnergy();

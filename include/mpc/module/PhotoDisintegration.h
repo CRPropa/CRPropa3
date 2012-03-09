@@ -28,16 +28,15 @@ private:
 	typedef std::map<int, std::vector<DisintegrationMode> > DisintegrationModeMap;
 	DisintegrationModeMap PDTable;
 	std::string name;
-	Random random;
 	gsl_interp_accel *acc;
 
 public:
 	PhotoDisintegration();
 	~PhotoDisintegration();
 	std::string getDescription() const;
-	void process(Candidate *candidate);
-	bool setNextInteraction(Candidate *candidate);
-	void performInteraction(Candidate *candidate);
+	void process(Candidate *candidate) const;
+	bool setNextInteraction(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate) const;
 };
 
 } // namespace mpc

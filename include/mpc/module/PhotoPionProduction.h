@@ -27,14 +27,13 @@ public:
 	~PhotoPionProduction();
 	void init(PhotonField photonField);
 	void init(std::string filename);
-	void process(Candidate *candidate);
-	bool setNextInteraction(Candidate *candidate);
-	void performInteraction(Candidate *candidate);
+	void process(Candidate *candidate) const;
+	bool setNextInteraction(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate) const;
 	std::string getDescription() const;
 
 private:
 	std::string name;
-	Random random;
 	PhotonField photonField;
 	gsl_interp_accel *acc;
 	gsl_spline *pRate; // interaction rate in [1/m] for protons

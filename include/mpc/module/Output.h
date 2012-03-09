@@ -35,7 +35,8 @@ private:
 public:
 	TrajectoryOutput(std::string name) {
 		outfile.open(name.c_str());
-		outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
+		outfile
+				<< "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
 	}
 
 	~TrajectoryOutput() {
@@ -58,7 +59,7 @@ public:
  */
 class FlaggedOutput: public Module {
 private:
-	std::ofstream outfile;
+	mutable std::ofstream outfile;
 	Candidate::Status flag;
 
 public:
@@ -73,7 +74,7 @@ public:
 		outfile.close();
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate) const {
 		if (candidate->getStatus() != flag)
 			return;
 		// initial state
@@ -127,7 +128,7 @@ public:
  */
 class ShellOutput: public Module {
 public:
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate) const {
 		std::cout << std::fixed << std::showpoint << std::setprecision(2)
 				<< std::setw(6);
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";

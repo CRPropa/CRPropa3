@@ -17,7 +17,7 @@ private:
 
 public:
 	SimpleRedshift(Vector3 center);
-	void process(Candidate *candidate);
+	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
 

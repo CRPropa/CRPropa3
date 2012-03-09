@@ -29,25 +29,26 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, ControlType controlType,
-		double tolerance) {
+DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
+		double minimumStepSize, ControlType controlType) {
 	erk.loadCashKarp();
 	this->controlType = controlType;
 	this->tolerance = tolerance;
 	this->field = field;
+	this->minimumStepSize = minimumStepSize;
 }
 
 std::string DeflectionCK::getDescription() const {
 	return "Cash-Karp Runge Kutta integration";
 }
 
-void DeflectionCK::process(Candidate *candidate) {
+void DeflectionCK::process(Candidate *candidate) const {
 
 	PhasePoint yIn(candidate->current.getPosition(),
 			candidate->current.getMomentum());
 	PhasePoint yOut, yErr, yScale;
 	LorentzForce dydt(&candidate->current, field);
-	double h = candidate->getNextStep() / c_light;
+	double h = std::max(candidate->getNextStep(), minimumStepSize) / c_light;
 	double hTry, r;
 
 	// phase-point to compare with error for step size control
@@ -56,6 +57,7 @@ void DeflectionCK::process(Candidate *candidate) {
 	do {
 		hTry = h;
 		erk.step(0, yIn, yOut, yErr, hTry, dydt);
+
 		if (controlType == NoStepSizeControl) {
 			// no step size control
 			break;
@@ -84,7 +86,7 @@ void DeflectionCK::process(Candidate *candidate) {
 		// limit step change
 		h = std::max(h, 0.1 * hTry);
 		h = std::min(h, 5 * hTry);
-	} while (r > 1);
+	} while (r > 1 && h >= minimumStepSize);
 
 	candidate->current.setPosition(yOut.a);
 	candidate->current.setDirection(yOut.b.unit());

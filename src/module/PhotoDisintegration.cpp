@@ -81,7 +81,7 @@ std::string PhotoDisintegration::getDescription() const {
 	return "Photo-disintegration";
 }
 
-void PhotoDisintegration::process(Candidate *candidate) {
+void PhotoDisintegration::process(Candidate *candidate) const {
 	double step = candidate->getCurrentStep();
 	InteractionState interaction;
 
@@ -111,15 +111,15 @@ void PhotoDisintegration::process(Candidate *candidate) {
 	}
 }
 
-bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
+bool PhotoDisintegration::setNextInteraction(Candidate *candidate) const {
 	int id = candidate->current.getId();
 
 	// check if disintegration data available
-	DisintegrationModeMap::iterator iMode = PDTable.find(id);
+	DisintegrationModeMap::const_iterator iMode = PDTable.find(id);
 	if (iMode == PDTable.end())
 		return false;
 
-	std::vector<DisintegrationMode> &modes = iMode->second;
+	const std::vector<DisintegrationMode> &modes = iMode->second;
 
 	// CMB energy increases with (1+z), increase nucleus energy accordingly
 	double z = candidate->getRedshift();
@@ -134,7 +134,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < modes.size(); i++) {
 		double rate = gsl_spline_eval(modes[i].rate, lg, acc);
-		double d = -log(random.rand()) / rate;
+		double d = -log(Random::instance().rand()) / rate;
 		if (d > interaction.distance)
 			continue;
 		interaction.distance = d;
@@ -148,7 +148,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) {
 	return true;
 }
 
-void PhotoDisintegration::performInteraction(Candidate *candidate) {
+void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 	InteractionState interaction;
 	candidate->getInteractionState(name, interaction);
 	candidate->clearInteractionStates();

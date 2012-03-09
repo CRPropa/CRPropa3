@@ -1,12 +1,5 @@
-/*
- * ExplicitRungeKutta.h
- *
- *  Created on: Aug 26, 2010
- *      Author: gmueller
- */
-
-#ifndef EXPLICITRUNGEKUTTA_H_
-#define EXPLICITRUNGEKUTTA_H_
+#ifndef MPC_EXPLICITRUNGEKUTTA_H_
+#define MPC_EXPLICITRUNGEKUTTA_H_
 
 #include <vector>
 #include <stdexcept>
@@ -22,18 +15,20 @@ public:
 	unsigned int s;
 	class F {
 	public:
-		virtual ~F(){}
+		virtual ~F() {
+		}
 		virtual Y operator()(double t, const Y &v) = 0;
 	};
-	void step(double t, const Y &initial, Y &result, double stepsize, F &f);
+	void step(double t, const Y &initial, Y &result, double stepsize,
+			F &f) const;
 	void step(double t, const Y &initial, Y &result, Y &error, double stepsize,
-			F &f);
+			F &f) const;
 	void loadCashKarp();
 };
 
 template<class Y>
 inline void ExplicitRungeKutta<Y>::step(double t, const Y &y, Y &result,
-		double stepsize, F &f) {
+		double stepsize, F &f) const {
 	std::vector<Y> k;
 	k.reserve(s);
 
@@ -61,7 +56,7 @@ inline void ExplicitRungeKutta<Y>::step(double t, const Y &y, Y &result,
 
 template<class Y>
 inline void ExplicitRungeKutta<Y>::step(double t, const Y &y, Y &result,
-		Y &error, double stepsize, F &f) {
+		Y &error, double stepsize, F &f) const {
 	std::vector<Y> k;
 	k.reserve(s);
 
@@ -90,15 +85,15 @@ inline void ExplicitRungeKutta<Y>::step(double t, const Y &y, Y &result,
 }
 
 // Cash-Karp coefficients
-const double cash_karp_a[] = { 0., 0., 0., 0., 0.,
-		                       1./5., 0., 0., 0., 0.,
-		                       3./40., 9./40., 0., 0., 0.,
-		                       3./10., -9./10., 6./5., 0., 0.,
-		                       -11./54., 5./2., -70./27., 35./27., 0.,
-		                       1631./55296., 175./512., 575./13824., 44275./110592., 253./4096. };
-const double cash_karp_b[] = { 37./378., 0, 250./621., 125./594., 0., 512./1771. };
-const double cash_karp_bs[]= { 2825./27648., 0., 18575./48384., 13525./55296., 277./14336., 1./4. };
-const double cash_karp_c[] = { 0., 1./5., 3./10., 3./5., 1., 7./8. };
+const double cash_karp_a[] = { 0., 0., 0., 0., 0., 1. / 5., 0., 0., 0., 0., 3.
+		/ 40., 9. / 40., 0., 0., 0., 3. / 10., -9. / 10., 6. / 5., 0., 0., -11.
+		/ 54., 5. / 2., -70. / 27., 35. / 27., 0., 1631. / 55296., 175. / 512.,
+		575. / 13824., 44275. / 110592., 253. / 4096. };
+const double cash_karp_b[] = { 37. / 378., 0, 250. / 621., 125. / 594., 0., 512.
+		/ 1771. };
+const double cash_karp_bs[] = { 2825. / 27648., 0., 18575. / 48384., 13525.
+		/ 55296., 277. / 14336., 1. / 4. };
+const double cash_karp_c[] = { 0., 1. / 5., 3. / 10., 3. / 5., 1., 7. / 8. };
 
 template<class Y>
 inline void ExplicitRungeKutta<Y>::loadCashKarp() {
@@ -111,4 +106,4 @@ inline void ExplicitRungeKutta<Y>::loadCashKarp() {
 
 } // namespace mpc
 
-#endif /* EXPLICITRUNGEKUTTA_H_ */
+#endif /* MPC_EXPLICITRUNGEKUTTA_H_ */

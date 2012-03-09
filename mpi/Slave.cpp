@@ -62,7 +62,7 @@ void Slave::load(const string &filename) {
 	chain.add(79, new ShellOutput());
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
 //		chain.add(new GlutDisplay(), 80);
-	chain.add(100, new FlaggedOutput("final.txt", Candidate::Detected));
+	chain.add(100, new FlagOutput("final.txt", Candidate::Detected));
 }
 
 void Slave::acquireJob() {

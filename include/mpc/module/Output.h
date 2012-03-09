@@ -53,23 +53,23 @@ public:
 };
 
 /**
- @class FinalOutput
+ @class FlagOutput
  @brief Saves particles with a given flag to a CSV file.
  */
-class FlaggedOutput: public Module {
+class FlagOutput: public Module {
 private:
 	std::ofstream outfile;
 	Candidate::Status flag;
 
 public:
-	FlaggedOutput(std::string name, Candidate::Status flag) {
+	FlagOutput(std::string name, Candidate::Status flag) {
 		this->flag = flag;
 		outfile.open(name.c_str());
 		outfile << "(initial) Age, Id, E, x, y, z, dirX, dirY, dirZ, ";
 		outfile << "(flagged) Age, Id, E, x, y, z, dirX, dirY, dirZ\n";
 	}
 
-	~FlaggedOutput() {
+	~FlagOutput() {
 		outfile.close();
 	}
 

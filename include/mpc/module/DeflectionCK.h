@@ -26,8 +26,8 @@ public:
 	ControlType controlType;
 	double tolerance;
 
-	DeflectionCK(MagneticField *field, ControlType controlType,
-			double tolerance);
+	DeflectionCK(MagneticField *field, ControlType controlType = WorstOffender,
+			double tolerance = 1e-4);
 	void process(Candidate *candidate);
 	std::string getDescription() const;
 };

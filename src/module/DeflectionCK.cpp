@@ -29,8 +29,7 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, ControlType controlType =
-		DeflectionCK::WorstOffender, double tolerance = 1e-4) {
+DeflectionCK::DeflectionCK(MagneticField *field, ControlType controlType, double tolerance) {
 	this->field = field;
 	this->controlType = controlType;
 	this->tolerance = tolerance;

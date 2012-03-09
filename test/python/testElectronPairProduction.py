@@ -1,11 +1,4 @@
-import sys
-sys.path.append("/home/walz/software/mpc/build")
 from mpc import *
-
-import os
-dataPath = "/home/walz/software/mpc/data"
-os.environ["MPC_DATA_PATH"] = dataPath
-
 from pylab import *
 
 
@@ -40,6 +33,6 @@ def compare(dataFileName, photonField, plotFileName):
     savefig(plotFileName, bbox_inches='tight')
 
 
-compare(dataPath+"/ElectronPairProduction/cmb.txt", ElectronPairProduction.CMB, 'epair_cmb.png')
-compare(dataPath+"/ElectronPairProduction/cmbir.txt", ElectronPairProduction.CMBIR, 'epair_cmbir.png')
-compare(dataPath+"/ElectronPairProduction/ir.txt", ElectronPairProduction.IR, 'epair_ir.png')
+compare(getDataPath("/ElectronPairProduction/cmb.txt"), ElectronPairProduction.CMB, 'epair_cmb.png')
+compare(getDataPath("/ElectronPairProduction/cmbir.txt"), ElectronPairProduction.CMBIR, 'epair_cmbir.png')
+compare(getDataPath("/ElectronPairProduction/ir.txt"), ElectronPairProduction.IR, 'epair_ir.png')

@@ -40,6 +40,7 @@
 #include "mpc/Units.h"
 #include "mpc/Vector3.h"
 #include "mpc/Referenced.h"
+#include "mpc/module/common.h"
 %}
  
 /* Parse the header file to generate wrappers */
@@ -51,6 +52,7 @@
 %include "mpc/Vector3.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
+%include "mpc/module/common.h"
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
 %include "mpc/Candidate.h"

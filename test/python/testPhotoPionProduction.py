@@ -1,15 +1,6 @@
-import os
-dataPath = "/home/walz/software/mpc/data"
-os.environ["MPC_DATA_PATH"] = dataPath
-
-import sys
-sys.path.append("/home/walz/software/mpc/build")
 from mpc import *
-
 from pylab import *
 import ROOT
-
-
 
 ppp = PhotoPionProduction(PhotoPionProduction.CMBIR)
 c = Candidate()
@@ -35,7 +26,7 @@ ds = f.GetParError(1) * s**2
 #ylabel('Events')
 #legend()
 
-E,P,N = genfromtxt(dataPath+'/PhotoPionProduction/cmbir.txt', unpack=True)
+E,P,N = genfromtxt(getDataPath('/PhotoPionProduction/cmbir.txt'), unpack=True)
 i = argmin(abs(E - 100))
 
 print s, ds

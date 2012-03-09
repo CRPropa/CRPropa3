@@ -7,6 +7,12 @@ Candidate::Candidate() :
 				Active) {
 }
 
+Candidate::Candidate(const ParticleState &state) :
+		current(state), initial(state), redshift(0), trajectoryLength(0), currentStep(
+				0), nextStep(1 * kpc), status(Active) {
+
+}
+
 double Candidate::getRedshift() const {
 	return redshift;
 }

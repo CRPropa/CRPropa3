@@ -42,6 +42,7 @@ private:
 
 public:
 	Candidate();
+	Candidate(const ParticleState &state);
 	virtual ~Candidate() {
 
 	}

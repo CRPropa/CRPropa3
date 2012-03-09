@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 //		import.import(argv[1]);
 //	} else {
 
-	// propagation --------------------------------------------------------
+// propagation --------------------------------------------------------
 //	UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
 //	SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
 //	field->gadgetField->load("test/coma-0.7.raw");
@@ -55,9 +55,7 @@ int main(int argc, char **argv) {
 	initial.setPosition(Vector3(0, 0, 0));
 	initial.setDirection(Vector3(1, 0, 0));
 
-	ref_ptr<Candidate> candidate = new Candidate;
-	candidate->current = initial;
-	candidate->initial = initial;
+	ref_ptr<Candidate> candidate = new Candidate(initial);
 
 	chain.process(candidate);
 

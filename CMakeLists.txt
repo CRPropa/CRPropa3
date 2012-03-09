@@ -24,6 +24,7 @@ if (GADGET_FOUND)
     list( APPEND MPC_EXTRA_SOURCES src/magneticField/sphMagneticField.cpp)
     list( APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
     list( APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
+    add_definitions(-DMPC_HAVE_GADGET)
 endif (GADGET_FOUND)
 
 # freeglut and GLU needed for GlutDisplay

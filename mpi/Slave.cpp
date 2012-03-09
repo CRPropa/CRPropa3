@@ -15,7 +15,6 @@
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/magneticField/uniformMagneticField.h"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
-#include "mpc/magneticField/sphMagneticField.h"
 
 #include <kiss/convert.h>
 

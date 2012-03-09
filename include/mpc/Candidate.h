@@ -71,7 +71,7 @@ public:
 	void setStatus(Status stat);
 
 	bool getInteractionState(const std::string &moduleName,
-			InteractionState &state);
+			InteractionState &state) const;
 	void setInteractionState(const std::string &moduleName,
 			InteractionState state);
 	const std::map<std::string, InteractionState> getInteractionStates() const;

@@ -62,6 +62,7 @@ void ModuleChain::process(Candidate *candidate) {
 
 void ModuleChain::process(std::vector<ref_ptr<Candidate> > &candidates,
 		bool recursive) {
+#pragma omp parallel for
 	for (size_t i = 0; i < candidates.size(); i++) {
 		Candidate *candidate = candidates[i];
 		if (candidate->getStatus() != Candidate::Active)

@@ -20,6 +20,7 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 
 	// propagate secondaries
 	if (recursive) {
+#pragma omp parallel for
 		for (size_t i = 0; i < candidate->secondaries.size(); i++)
 			run(candidate->secondaries[i], recursive);
 	}

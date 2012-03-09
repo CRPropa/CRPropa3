@@ -21,15 +21,14 @@ namespace mpc {
 class NuclearDecay: public Module {
 private:
 	std::string name;
-	Random random;
 	std::map<int, std::vector<InteractionState> > decayTable;
 
 public:
 	NuclearDecay();
 	std::string getDescription() const;
-	void process(Candidate *candidate);
-	bool setNextInteraction(Candidate *candidate);
-	void performInteraction(Candidate *candidate);
+	void process(Candidate *candidate) const;
+	bool setNextInteraction(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate) const;
 };
 
 } // namespace mpc

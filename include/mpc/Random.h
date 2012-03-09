@@ -158,6 +158,8 @@ public:
 	friend std::ostream& operator<<( std::ostream& os, const Random& mtrand );
 	friend std::istream& operator>>( std::istream& is, Random& mtrand );
 
+	static Random &instance();
+
 protected:
 	/// Initialize generator state with seed
 	/// See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.

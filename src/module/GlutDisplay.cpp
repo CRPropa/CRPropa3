@@ -159,7 +159,7 @@ GlutDisplay::~GlutDisplay() {
 	glutDestroyWindow(glutGetWindow());
 }
 
-void GlutDisplay::process(Candidate *candidate) {
+void GlutDisplay::process(Candidate *candidate) const {
 
 	if (counter % refreshAfter == 0) {
 		// append trajectory point
@@ -173,7 +173,6 @@ void GlutDisplay::process(Candidate *candidate) {
 			glutMainLoopEvent();
 		}
 	}
-	counter += 1;
 	return;
 }
 

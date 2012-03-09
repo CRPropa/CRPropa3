@@ -37,7 +37,7 @@ std::string NuclearDecay::getDescription() const {
 	return "Nuclear decay";
 }
 
-void NuclearDecay::process(Candidate *candidate) {
+void NuclearDecay::process(Candidate *candidate) const {
 	double gamma = candidate->current.getLorentzFactor();
 	double step = candidate->getCurrentStep() / gamma;
 	InteractionState decay;
@@ -68,29 +68,32 @@ void NuclearDecay::process(Candidate *candidate) {
 	}
 }
 
-bool NuclearDecay::setNextInteraction(Candidate *candidate) {
+bool NuclearDecay::setNextInteraction(Candidate *candidate) const {
 	int id = candidate->current.getId();
 
-	// check if stable
-	if (decayTable[id].size() == 0)
+	std::map<int, std::vector<InteractionState> >::const_iterator iMode =
+			decayTable.find(id);
+	if (iMode == decayTable.end())
 		return false;
+
+	const std::vector<InteractionState> &states = iMode->second;
 
 	// find decay mode with minimum random decay distance
 	InteractionState decay;
 	decay.distance = std::numeric_limits<double>::max();
 	int decayChannel;
-	for (size_t i = 0; i < decayTable[id].size(); i++) {
-		double d = -log(random.rand()) * decayTable[id][i].distance;
+	for (size_t i = 0; i < states.size(); i++) {
+		double d = -log(Random::instance().rand()) * states[i].distance;
 		if (d > decay.distance)
 			continue;
 		decay.distance = d;
-		decay.channel = decayTable[id][i].channel;
+		decay.channel = states[i].channel;
 	}
 	candidate->setInteractionState(name, decay);
 	return true;
 }
 
-void NuclearDecay::performInteraction(Candidate *candidate) {
+void NuclearDecay::performInteraction(Candidate *candidate) const {
 	InteractionState decay;
 	candidate->getInteractionState(name, decay);
 	candidate->clearInteractionStates();

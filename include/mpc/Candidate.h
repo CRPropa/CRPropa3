@@ -15,6 +15,14 @@ namespace mpc {
  @brief Candidate state for stochastic interactions.
  */
 struct InteractionState {
+	InteractionState() :
+			distance(0), channel(0) {
+
+	}
+	InteractionState(double distance, int channel) :
+			distance(distance), channel(channel) {
+
+	}
 	double distance;
 	int channel;
 };
@@ -42,6 +50,7 @@ private:
 
 public:
 	Candidate();
+	Candidate(const ParticleState &state);
 	virtual ~Candidate() {
 
 	}
@@ -62,7 +71,7 @@ public:
 	void setStatus(Status stat);
 
 	bool getInteractionState(const std::string &moduleName,
-			InteractionState &state);
+			InteractionState &state) const;
 	void setInteractionState(const std::string &moduleName,
 			InteractionState state);
 	const std::map<std::string, InteractionState> getInteractionStates() const;

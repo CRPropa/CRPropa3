@@ -35,7 +35,8 @@ private:
 public:
 	TrajectoryOutput(std::string name) {
 		outfile.open(name.c_str());
-		outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
+		outfile
+				<< "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
 	}
 
 	~TrajectoryOutput() {
@@ -53,27 +54,27 @@ public:
 };
 
 /**
- @class FlagOutput
+ @class FlaggedOutput
  @brief Saves particles with a given flag to a CSV file.
  */
-class FlagOutput: public Module {
+class FlaggedOutput: public Module {
 private:
-	std::ofstream outfile;
+	mutable std::ofstream outfile;
 	Candidate::Status flag;
 
 public:
-	FlagOutput(std::string name, Candidate::Status flag) {
+	FlaggedOutput(std::string name, Candidate::Status flag) {
 		this->flag = flag;
 		outfile.open(name.c_str());
 		outfile << "(initial) Age, Id, E, x, y, z, dirX, dirY, dirZ, ";
 		outfile << "(flagged) Age, Id, E, x, y, z, dirX, dirY, dirZ\n";
 	}
 
-	~FlagOutput() {
+	~FlaggedOutput() {
 		outfile.close();
 	}
 
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate) const {
 		if (candidate->getStatus() != flag)
 			return;
 		// initial state
@@ -97,7 +98,7 @@ public:
  */
 class ShellOutput: public Module {
 public:
-	void process(Candidate *candidate) {
+	void process(Candidate *candidate) const {
 		std::cout << std::fixed << std::showpoint << std::setprecision(2)
 				<< std::setw(6);
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";

@@ -24,6 +24,7 @@ if (GADGET_FOUND)
     list( APPEND MPC_EXTRA_SOURCES src/magneticField/sphMagneticField.cpp)
     list( APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
     list( APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
+    add_definitions(-DMPC_HAVE_GADGET)
 endif (GADGET_FOUND)
 
 # freeglut and GLU needed for GlutDisplay
@@ -47,6 +48,12 @@ add_subdirectory(libs/kiss)
 list (APPEND MPC_EXTRA_LIBRARIES kiss)
 list (APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
 
+include(FindOpenMP)
+if(OPENMP_FOUND)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 include_directories(include ${MPC_EXTRA_INCLUDES})
 
@@ -55,6 +62,7 @@ add_library(mpc SHARED
     src/Vector3.cpp
     src/XMLImport.cpp
     src/ModuleChain.cpp
+    src/ModuleList.cpp
     src/Module.cpp
     src/Candidate.cpp
     src/IO.cpp
@@ -74,6 +82,9 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
+
+add_executable(openmp example/openmp.cpp)
+TARGET_LINK_LIBRARIES(openmp mpc)
 
 # MPI needed for mpc-mpi
 find_package(MPI)

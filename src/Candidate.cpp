@@ -7,6 +7,12 @@ Candidate::Candidate() :
 				Active) {
 }
 
+Candidate::Candidate(const ParticleState &state) :
+		current(state), initial(state), redshift(0), trajectoryLength(0), currentStep(
+				0), nextStep(1 * kpc), status(Active) {
+
+}
+
 double Candidate::getRedshift() const {
 	return redshift;
 }
@@ -53,8 +59,8 @@ void Candidate::setStatus(Status stat) {
 }
 
 bool Candidate::getInteractionState(const std::string &moduleName,
-		InteractionState &state) {
-	std::map<std::string, InteractionState>::iterator i =
+		InteractionState &state) const {
+	std::map<std::string, InteractionState>::const_iterator i =
 			interactionStates.find(moduleName);
 	if (i == interactionStates.end())
 		return false;
@@ -64,6 +70,7 @@ bool Candidate::getInteractionState(const std::string &moduleName,
 
 void Candidate::setInteractionState(const std::string &moduleName,
 		InteractionState state) {
+#pragma omp critical
 	interactionStates[moduleName] = state;
 }
 
@@ -85,6 +92,7 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
+#pragma omp critical
 	secondaries.push_back(secondary);
 }
 

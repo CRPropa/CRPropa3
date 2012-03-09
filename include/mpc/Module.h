@@ -22,7 +22,11 @@ public:
 
 	virtual std::string getDescription() const;
 
-	virtual void process(Candidate *candidate) = 0;
+	virtual void process(Candidate *candidate) const = 0;
+
+	void process(ref_ptr<Candidate> &candidate) const {
+		process(candidate.get());
+	}
 };
 
 } // namespace mpc

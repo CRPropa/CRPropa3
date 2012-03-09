@@ -15,7 +15,6 @@
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/magneticField/uniformMagneticField.h"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
-#include "mpc/magneticField/sphMagneticField.h"
 
 #include <kiss/convert.h>
 
@@ -38,10 +37,8 @@ void Slave::load(const string &filename) {
 //	import.import(filename);
 	UniformMagneticField *field = new UniformMagneticField(
 			Vector3(0., 0., 1e-20));
-//		SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
-//		field->gadgetField->load("test/coma-0.7.raw");
 //		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
-	chain.add(25, new DeflectionCK(field, DeflectionCK::WorstOffender, 1e-4));
+	chain.add(25, new DeflectionCK(field));
 
 	// interactions -------------------------------------------------------
 	chain.add(30, new NuclearDecay());
@@ -62,7 +59,7 @@ void Slave::load(const string &filename) {
 	chain.add(79, new ShellOutput());
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
 //		chain.add(new GlutDisplay(), 80);
-	chain.add(100, new FlagOutput("final.txt", Candidate::Detected));
+	chain.add(100, new FlaggedOutput("final.txt", Candidate::Detected));
 }
 
 void Slave::acquireJob() {

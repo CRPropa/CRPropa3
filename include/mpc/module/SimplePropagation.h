@@ -17,7 +17,7 @@ private:
 public:
 	SimplePropagation();
 	SimplePropagation(double acceleration, double initialStep);
-	void process(Candidate *candidate);
+	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
 

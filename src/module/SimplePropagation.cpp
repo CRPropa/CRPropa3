@@ -10,7 +10,7 @@ SimplePropagation::SimplePropagation(double acceleration, double initialStep) :
 		acceleration(acceleration), initialStep(initialStep) {
 }
 
-void SimplePropagation::process(Candidate *candidate) {
+void SimplePropagation::process(Candidate *candidate) const {
 	double nextStep = candidate->getNextStep();
 	if (nextStep == 0)
 		nextStep = initialStep;

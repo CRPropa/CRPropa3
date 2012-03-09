@@ -358,5 +358,35 @@ std::istream& operator>>(std::istream& is, Random& mtrand) {
 	return is;
 }
 
+#ifdef _OPENMP
+#include <omp.h>
+#include <stdexcept>
+
+// see http://stackoverflow.com/questions/8051108/using-the-openmp-threadprivate-directive-on-static-instances-of-c-stl-types
+const static int MAX_THREAD = 256;
+
+struct RANDOM_TLS_ITEM {
+	Random r;
+	char padding[80*64 - sizeof(Random)];
+};
+
+Random &Random::instance() {
+#ifdef _MSC_VER
+	__declspec(align(64)) static RANDOM_TLS_ITEM tls[MAX_THREAD];
+#else
+	__attribute__ ((aligned(64))) static RANDOM_TLS_ITEM tls[MAX_THREAD];
+#endif
+	int i = omp_get_thread_num();
+	if (i >= MAX_THREAD)
+		throw std::runtime_error("mpc::Random: more than MAX_THREAD threads!");
+	return tls[i].r;
+}
+#else
+Random &Random::instance() {
+	static Random r;
+	return r;
+}
+#endif
+
 } // namespace mpc
 

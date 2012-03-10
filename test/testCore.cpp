@@ -1,4 +1,5 @@
 #include "mpc/Candidate.h"
+
 #include "gtest/gtest.h"
 
 namespace mpc {
@@ -93,6 +94,7 @@ TEST(testCandidate, status) {
 	candidate.setStatus(Candidate::UserDefined);
 	EXPECT_EQ(candidate.getStatus(), Candidate::UserDefined);
 }
+
 
 
 int main(int argc, char **argv) {

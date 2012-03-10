@@ -27,8 +27,8 @@ public:
 	double tolerance, minimumStepSize;
 
 	DeflectionCK(MagneticField *field, double tolerance = 1e-4,
-			double minimumStepSize = 0.1 * kpc, ControlType controlType =
-					WorstOffender);
+			ControlType controlType = WorstOffender,
+			double minimumStepSize = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

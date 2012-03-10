@@ -84,7 +84,7 @@ public:
 	Module *create(pugi::xml_node &module) {
 		UniformMagneticField *field = new UniformMagneticField(
 				Vector3(0, 1, 0));
-		return new DeflectionCK(field, DeflectionCK::RMS, 0.005);
+		return new DeflectionCK(field);
 	}
 };
 

@@ -29,13 +29,12 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
-		double minimumStepSize, ControlType controlType) {
-	erk.loadCashKarp();
-	this->controlType = controlType;
-	this->tolerance = tolerance;
+DeflectionCK::DeflectionCK(MagneticField *field, double tolerance, ControlType controlType, double minimumStepSize) {
 	this->field = field;
+	this->tolerance = tolerance;
+	this->controlType = controlType;
 	this->minimumStepSize = minimumStepSize;
+	erk.loadCashKarp();
 }
 
 std::string DeflectionCK::getDescription() const {

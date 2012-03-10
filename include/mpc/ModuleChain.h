@@ -11,21 +11,17 @@
 namespace mpc {
 
 /**
- @class Priority
- @brief Defines the order of Modules in a ModuleChain.
- */
-struct Priority {
-	enum Enum {
-		Start = 0, Propagation = 1, End = 100
-	};
-};
-
-/**
  @class ModuleChain
  @brief The simulation chain.
  */
 class ModuleChain {
 public:
+	struct Priority {
+		enum Enum {
+			Start = 0, Propagation = 1, End = 100
+		};
+	};
+
 	typedef std::pair<size_t, ref_ptr<Module> > list_entry_t;
 	typedef std::list<list_entry_t> list_t;
 

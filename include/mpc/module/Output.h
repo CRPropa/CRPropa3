@@ -54,8 +54,8 @@ public:
 };
 
 /**
- @class FinalOutput
- @brief Saves particles with given flag to a CSV file.
+ @class FlaggedOutput
+ @brief Saves particles with a given flag to a CSV file.
  */
 class FlaggedOutput: public Module {
 private:
@@ -92,39 +92,9 @@ public:
 	}
 };
 
-class ChargeMassEngergyOutput: public Module {
-private:
-	Candidate::Status flag;
-	std::ofstream outfile;
-
-public:
-	ChargeMassEngergyOutput(std::string filename, Candidate::Status flag) {
-		this->flag = flag;
-		outfile.open(filename.c_str());
-		outfile << "Z, A, E" << std::endl;
-	}
-
-	~ChargeMassEngergyOutput() {
-		outfile.close();
-	}
-
-	void process(Candidate *candidate) {
-		if (candidate->getStatus() != flag)
-			return;
-		double Z = candidate->current.getChargeNumber();
-		double A = candidate->current.getMassNumber();
-		double E = candidate->current.getEnergy();
-		outfile << Z << ", " << A << ", " << E << std::endl;
-	}
-
-	std::string getDescription() const {
-		return "ChargeMassEnergyOutput";
-	}
-};
-
 /**
  @class ShellOutput
- @brief Output of the candidate to the shell.
+ @brief Write properties of the candidate to the shell.
  */
 class ShellOutput: public Module {
 public:

@@ -135,7 +135,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
 	// check for interaction on protons
 	InteractionState interaction;
 	interaction.distance = std::numeric_limits<double>::max();
-	Random random = Random::instance();
+	Random &random = Random::instance();
 	if (Z > 0) {
 		double rate = gsl_spline_eval(pRate, EpA, acc) * Z;
 		interaction.distance = -log(random.rand()) / rate;

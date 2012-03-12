@@ -1,42 +1,53 @@
-from mpc import *
-from pylab import *
+import mpc
+import pylab as lab
+import sys
+# make sure root is startet in Batch mode
+sys.argv.append( '-b-' )
 import ROOT
 
-ppp = PhotoPionProduction(PhotoPionProduction.CMBIR)
-c = Candidate()
-c.current.setId(getNucleusId(1,1))
-c.current.setEnergy(100 * EeV)
-c.setCurrentStep(0.0 * Mpc)
+def getSlope(interaction, energy, charge):
+    c = mpc.Candidate()
+    c.current.setId(mpc.getNucleusId(1, charge))
+    c.current.setEnergy(energy)
+    c.setCurrentStep(0.0 * mpc.Mpc)
 
-cn = ROOT.TCanvas()
-h = ROOT.TH1F('','',50,0,100)
+    h = ROOT.TH1F('', '', 50, 0, 100)
 
-for i in range(10000):
-    c.setNextStep(1000 * Mpc)
-    c.clearInteractionStates()
+    for i in range(100000):
+        c.setNextStep(1000 * mpc.Mpc)
+        c.clearInteractionStates()
     
-    ppp.process(c)
-    h.Fill(c.getNextStep() / Mpc)
+        ppp.process(c)
+        h.Fill(c.getNextStep() / mpc.Mpc)
 
-f = ROOT.TF1('f1','expo')
-h.Fit(f)
-#ROOT.gStyle.setOptFit(1)
-#h.Draw()
-h.Draw()
-cn.SaveAs("PhotoPionProduction_p_100EeV.pdf")
+    f = ROOT.TF1('f1', 'expo')
+    h.Fit(f)
+    
+    s = -f.GetParameter(1)
+    ds = f.GetParError(1) * s ** 2
+    return [s, ds]
+    
 
-#xlabel('Distance [Mpc]')
-#ylabel('Events')
-#legend()
+ppp = mpc.PhotoPionProduction(mpc.PhotoPionProduction.CMBIR)
 
-E,P,N = genfromtxt(getDataPath('/PhotoPionProduction/cmbir.txt'), unpack=True)
-i = argmin(abs(E - 100))
+E, P, N = lab.genfromtxt(mpc.getDataPath('/PhotoPionProduction/cmbir.txt'), unpack=True)
+p = lab.zeros(len(E))
+n = lab.zeros(len(E))
+for i in range(len(E)):
+    sds = getSlope(ppp, E[i] * mpc.EeV, 1)
+    p[i] = sds[0]
+    sds = getSlope(ppp, E[i] * mpc.EeV, 0)
+    n[i] = sds[0]
 
-s = 1/-f.GetParameter(1)
-ds = f.GetParError(1) * s**2
-print s, ds
-print 1 / ( P[i-1] + (P[i]-P[i-1]) * (100-E[i-1]) / (E[i]-E[i-1]) )
-
-#savefig('PhotoPionProduction_p_100EeV.png',bbox_inches='tight')
-
-proton, neutron * energien
+lab.plot(E, n, "b+", label="mpc neutron", markersize=8 )
+lab.plot(E, p, "r+", label="mpc proton", markersize=8 )
+lab.plot(E, N, "b", label="input neutron"  )
+lab.plot(E, P, "r", label="input proton"  )
+lab.xlabel('energy [EeV]')
+lab.ylabel('rate [1/Mpc]')
+lab.legend(loc='lower right')
+lab.grid()
+lab.semilogx()
+lab.savefig('PhotoPionProduction.png',bbox_inches='tight')
+#lab.show()
+#proton, neutron * energien

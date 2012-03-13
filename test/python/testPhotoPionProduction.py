@@ -5,9 +5,7 @@ import sys
 sys.argv.append('-b')
 import ROOT
 
-ROOT.gErrorIgnoreLevel = ROOT.kFatal;
-
-def getSlope(interaction, energy, charge):
+def getSlope(interaction, energy, charge, count = 100000):
     c = mpc.Candidate()
     c.current.setId(mpc.getNucleusId(1, charge))
     c.current.setEnergy(energy)
@@ -15,8 +13,8 @@ def getSlope(interaction, energy, charge):
 
     h = ROOT.TH1F('', '', 100, 0, 1000)
 
-    for i in range(100000):
-        c.setNextStep(1000 * mpc.Mpc)
+    for i in range(count):
+        c.setNextStep(100000 * mpc.Mpc)
         c.clearInteractionStates()
     
         interaction.process(c)
@@ -30,7 +28,7 @@ def getSlope(interaction, energy, charge):
     ds = f.GetParError(1) * s ** 2
     return [s, ds]
     
-def compare(type, name):
+def compare(type, name, count = 100000):
     print "> compare ", name
     ppp = mpc.PhotoPionProduction(type)
     E, P, N = lab.genfromtxt(mpc.getDataPath('/PhotoPionProduction/' + name + '.txt'), unpack=True)
@@ -40,9 +38,9 @@ def compare(type, name):
     print "[",
     for i in range(len(E)):
         print '=',
-        sds = getSlope(ppp, E[i] * mpc.EeV, 1)
+        sds = getSlope(ppp, E[i] * mpc.EeV, 1, count)
         p[i] = sds[0]
-        sds = getSlope(ppp, E[i] * mpc.EeV, 0)
+        sds = getSlope(ppp, E[i] * mpc.EeV, 0, count)
         n[i] = sds[0]
     print "]"
     lab.plot(E, p, 'k+', label="proton simulated", linewidth=2, markeredgewidth=2)
@@ -59,4 +57,4 @@ def compare(type, name):
 
 compare(mpc.PhotoPionProduction.CMB, "cmb");
 compare(mpc.PhotoPionProduction.CMBIR, "cmbir");
-compare(mpc.PhotoPionProduction.IR, "ir");
+compare(mpc.PhotoPionProduction.IR, "ir", 1000000);

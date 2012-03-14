@@ -24,7 +24,6 @@ void write(kiss::Output &out, const mpc::InteractionState &s) {
 
 void write(kiss::Output &out, const mpc::Candidate &candidate) {
 	write(out, candidate.current);
-	write(out, candidate.last);
 	write(out, candidate.initial);
 	write(out, candidate.getRedshift());
 	write(out, candidate.getTrajectoryLength());
@@ -57,7 +56,6 @@ bool read(kiss::Input &in, mpc::InteractionState &s) {
 
 bool read(kiss::Input &in, mpc::Candidate &candidate) {
 	read(in, candidate.current);
-	read(in, candidate.last);
 	read(in, candidate.initial);
 	candidate.setRedshift(kiss::read<double>(in));
 	candidate.setTrajectoryLength(kiss::read<double>(in));

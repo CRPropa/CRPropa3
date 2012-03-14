@@ -38,7 +38,6 @@ public:
 	};
 
 	ParticleState current;
-	ParticleState last;
 	ParticleState initial;
 	std::vector<ref_ptr<Candidate> > secondaries;
 

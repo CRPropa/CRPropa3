@@ -3,14 +3,13 @@
 namespace mpc {
 
 Candidate::Candidate() :
-		redshift(0), trajectoryLength(0), currentStep(0), nextStep(1 * kpc), status(
+		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), status(
 				Active) {
 }
 
 Candidate::Candidate(const ParticleState &state) :
 		current(state), initial(state), redshift(0), trajectoryLength(0), currentStep(
-				0), nextStep(1 * kpc), status(Active) {
-
+				0), nextStep(0), status(Active) {
 }
 
 double Candidate::getRedshift() const {
@@ -87,7 +86,6 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->setStatus(Candidate::Active);
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
-	secondary->setNextStep(1 * kpc);
 	secondary->initial = initial;
 	secondary->current = current;
 	secondary->current.setId(id);

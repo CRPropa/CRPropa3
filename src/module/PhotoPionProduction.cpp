@@ -40,6 +40,9 @@ void PhotoPionProduction::init(std::string filename) {
 		throw std::runtime_error(name + ": could not open file " + filename);
 
 	std::vector<double> x, yp, yn;
+	x.reserve(100);
+	yp.reserve(100);
+	yn.reserve(100);
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;
@@ -60,6 +63,8 @@ void PhotoPionProduction::init(std::string filename) {
 	nRate = gsl_spline_alloc(gsl_interp_linear, x.size());
 	gsl_spline_init(pRate, &x[0], &yp[0], x.size());
 	gsl_spline_init(nRate, &x[0], &yn[0], x.size());
+	Emin = x.front();
+	Emax = x.back();
 }
 
 PhotoPionProduction::~PhotoPionProduction() {
@@ -128,7 +133,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
 	double EpA = E / A * (1 + z); // CMB energies increase with (1+z)^3
 
 	// check if out of energy range
-	if ((EpA < 10 * EeV) or (EpA > 1e5 * EeV))
+	if ((EpA < Emin) or (EpA > Emax))
 		return false;
 
 	// find interaction with minimum random distance
@@ -138,16 +143,20 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
 	Random &random = Random::instance();
 	if (Z > 0) {
 		double rate = gsl_spline_eval(pRate, EpA, acc) * Z;
-		interaction.distance = -log(random.rand()) / rate;
-		interaction.channel = 1;
+		if (rate != 0) {
+			interaction.distance = -log(random.rand()) / rate;
+			interaction.channel = 1;
+		}
 	}
 	// check for interaction on neutrons
 	if (N > 0) {
 		double rate = gsl_spline_eval(nRate, EpA, acc) * N;
-		double d = -log(random.rand()) / rate;
-		if (d < interaction.distance) {
-			interaction.distance = -log(random.rand()) / rate;
-			interaction.channel = 0;
+		if (rate != 0) {
+			double d = -log(random.rand()) / rate;
+			if (d < interaction.distance) {
+				interaction.distance = -log(random.rand()) / rate;
+				interaction.channel = 0;
+			}
 		}
 	}
 

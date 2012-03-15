@@ -47,7 +47,7 @@ def propagate(tolerance):
 
 
 
-### Plot trajectory in x-space
+### Plot trajectory in x-space with 1e-4 tolerance
 figure()
 posX, posY, dirX, dirY, dirDev, theta, n = propagate(1e-4)
 plot(posX/R, posY/R, label='Simulated')
@@ -62,7 +62,7 @@ grid()
 savefig('deflection_xtrajectory', bbox_inches='tight')
 
 
-### Plot trajectory in p-space
+### Plot trajectory in p-space with 1e-4 tolerance
 figure()
 posX, posY, dirX, dirY, dirDev, theta, n = propagate(1e-4)
 plot(dirX, dirY, label='Simulated')

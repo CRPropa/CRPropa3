@@ -54,6 +54,10 @@ double ParticleState::getLorentzFactor() const {
 	return energy / (this->getMass() * c_squared);
 }
 
+void ParticleState::setLorentzFactor(double gamma) {
+	energy = gamma * this->getMass() * c_squared;
+}
+
 Vector3 ParticleState::getVelocity() const {
 	return direction * c_light;
 }

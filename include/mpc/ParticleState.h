@@ -33,6 +33,8 @@ public:
 
 	// convenience functions
 	double getLorentzFactor() const;
+	void setLorentzFactor(double gamma);
+
 	Vector3 getVelocity() const;
 	Vector3 getMomentum() const;
 

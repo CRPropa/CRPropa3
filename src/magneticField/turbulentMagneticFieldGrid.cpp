@@ -4,7 +4,8 @@
 namespace mpc {
 
 TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
-		size_t samples, double spacing, double lMin, double lMax, double Brms, double powerSpectralIndex) :
+		size_t samples, double spacing, double lMin, double lMax, double Brms,
+		double powerSpectralIndex) :
 		MagneticFieldGrid(origin, samples, spacing) {
 	this->lMin = lMin;
 	this->lMax = lMax;
@@ -127,6 +128,12 @@ void TurbulentMagneticFieldGrid::initialize() {
 	fftw_free(Bx);
 	fftw_free(By);
 	fftw_free(Bz);
+}
+
+double TurbulentMagneticFieldGrid::getCorrelationLength() const {
+	double r = lMin / lMax;
+	double a = -powerSpectralIndex - 2;
+	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 
 } // namespace mpc

@@ -28,6 +28,7 @@ public:
 			double lMin, double lMax, double Brms, double powerSpectralIndex);
 	void setSeed(int seed);
 	void initialize();
+	double getCorrelationLength() const;
 
 protected:
 	double Brms, lMin, lMax, powerSpectralIndex;

@@ -21,6 +21,10 @@ class MagneticFieldGrid: public MagneticField {
 public:
 	MagneticFieldGrid(Vector3 origin, size_t n, double spacing);
 	Vector3 getField(const Vector3 &position) const;
+	Vector3 getGridOrigin() const;
+	size_t getGridSamples() const;
+	double getGridSpacing() const;
+	double getGridSize() const;
 	virtual void updateSimulationVolume(const Vector3 &origin, double size);
 
 protected:

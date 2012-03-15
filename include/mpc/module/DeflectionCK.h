@@ -14,7 +14,7 @@ namespace mpc {
 
  This module solves the equations of motion of a charged particle when propagating through a magnetic field.\n
  It uses the Runge-Kutta integration method with Cash-Karp coefficients.\n
- The step size control tries to keep the error close to, but smaller than the designated error.
+ The step size control tries to keep the relative error close to, but smaller than the designated tolerance.
  */
 class DeflectionCK: public Module {
 public:
@@ -24,11 +24,11 @@ public:
 		NoStepSizeControl, WorstOffender, RMS
 	};
 	ControlType controlType;
-	double tolerance, minimumStepSize;
+	double tolerance, minimumStep;
 
 	DeflectionCK(MagneticField *field, double tolerance = 1e-4,
 			ControlType controlType = WorstOffender,
-			double minimumStepSize = 0.1 * kpc);
+			double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

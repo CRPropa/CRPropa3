@@ -118,15 +118,15 @@ TEST(NuclearDecay, H30) {
 	EXPECT_EQ(getNucleusId(3,1), candidate.current.getId());
 }
 
-TEST(NuclearDecay, Fe28) {
-	// test proton dripping Fe-28 -> He-4
+TEST(NuclearDecay, Fe27) {
+	// test proton dripping Fe-27 -> He-3
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(28, 26));
+	candidate.current.setId(getNucleusId(27, 26));
 	candidate.current.setEnergy(1 * EeV);
 	NuclearDecay d;
 	d.process(&candidate);
-	EXPECT_EQ(getNucleusId(4,2), candidate.current.getId());
+	EXPECT_EQ(getNucleusId(3,2), candidate.current.getId());
 }
 
 TEST(NuclearDecay, LimitNextStep) {

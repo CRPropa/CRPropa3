@@ -38,6 +38,7 @@ private:
 	gsl_interp_accel *acc;
 	gsl_spline *pRate; // interaction rate in [1/m] for protons
 	gsl_spline *nRate; // interaction rate in [1/m] for neutrons
+	double Emin, Emax;
 };
 
 } // namespace mpc

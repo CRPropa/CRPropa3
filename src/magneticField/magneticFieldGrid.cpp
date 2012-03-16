@@ -11,16 +11,13 @@ void periodicClamp(double x, int n, int &lo, int &hi, double &fLo,
 	fHi = 1 - fLo;
 }
 
-MagneticFieldGrid::MagneticFieldGrid(Vector3 origin, size_t samples,
-		double spacing) {
-	this->origin = origin;
-	this->spacing = spacing;
-	this->samples = samples;
-	grid.resize(samples);
-	for (int ix = 0; ix < samples; ix++) {
-		grid[ix].resize(samples);
-		for (int iy = 0; iy < samples; iy++) {
-			grid[ix][iy].resize(samples);
+MagneticFieldGrid::MagneticFieldGrid(Vector3 origin, size_t n, double spacing) :
+		origin(origin), samples(n), spacing(spacing) {
+	grid.resize(n);
+	for (int ix = 0; ix < n; ix++) {
+		grid[ix].resize(n);
+		for (int iy = 0; iy < n; iy++) {
+			grid[ix][iy].resize(n);
 		}
 	}
 }
@@ -29,6 +26,22 @@ void MagneticFieldGrid::updateSimulationVolume(const Vector3 &origin,
 		double size) {
 	this->origin = origin;
 	this->spacing = size / (samples - 1);
+}
+
+Vector3 MagneticFieldGrid::getGridOrigin() const {
+	return origin;
+}
+
+size_t MagneticFieldGrid::getGridSamples() const {
+	return samples;
+}
+
+double MagneticFieldGrid::getGridSpacing() const {
+	return spacing;
+}
+
+double MagneticFieldGrid::getGridSize() const {
+	return samples * spacing;
 }
 
 Vector3 MagneticFieldGrid::getField(const Vector3 &position) const {

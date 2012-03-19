@@ -13,6 +13,7 @@ namespace mpc {
  */
 class ParticleState {
 public:
+	ParticleState();
 	void setPosition(const Vector3 &pos);
 	const Vector3 &getPosition() const;
 

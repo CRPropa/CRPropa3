@@ -1,94 +1,46 @@
-import mpc
-import pylab as lab
+from mpc import *
+from pylab import *
 import sys
-import math
-# make sure root is startet in Batch mode
-sys.argv.append('-b')
 import ROOT
-ROOT.gErrorIgnoreLevel = ROOT.kWarning
-ROOT.PyConfig.StartGuiThread = False 
-ROOT.gStyle.SetOptFit(1)
 
-gamma = lab.zeros(200)
-for iE in xrange(200):
-    gamma[iE] = 10. ** (6. + (iE * 8. / 199.))
+gamma = logspace(6, 14, 200)
 
-
-def get_rate_h(interaction, id, gamma, count=1000):
-    h = {}
-    c = mpc.Candidate()
+def get_rates(interaction, id, gamma, count=100000):
+    D = {}
+    c = Candidate()
     c.current.setId(id)
     c.current.setLorentzFactor(gamma)
-    c.setCurrentStep(0.0 * mpc.Mpc)
 
     for i in range(count):
-        if i % 100000 == 0:
-            print ".",
-        c.setNextStep(10000000 * mpc.Mpc)
         c.clearInteractionStates()
-    
         interaction.process(c)
-        state = mpc.InteractionState()
+        state = InteractionState()
         c.getInteractionState("mpc::PhotoDisintegration", state)
-        if not h.has_key(state.channel):
-            h[state.channel] = []
-        v = state.distance / mpc.Mpc
-        h[state.channel].append(v)
+        D.setdefault(state.channel, []).append(state.distance / Mpc)
         
-    for key in h.keys():
-        l = h[key]
-        minV = min(l)
-        maxV = max(l)
-        hist = ROOT.TH1F(str(id) + str(key) + str(gamma), '', 20, minV, maxV)
-        for v in l:
-            hist.Fill(v)
-        h[key] = hist
-        
-    return h
-
-def get_rates_per_gamma(interaction, id, gamma):
-    r = {}
-    h = get_rate_h(interaction, id, gamma, 100000)
-    print "create hists"
-    for key in h.keys():
-        hist = h[key] 
-        if hist.GetEffectiveEntries() == 0:
-            r[key] = 0
-            continue
+    for channel in D.keys():
+        l = D[channel]
+        hist = ROOT.TH1F('', '', 50, 0, max(l))
+        for element in l:
+            hist.Fill(element)
         f = ROOT.TF1('f1', 'expo')
         hist.Fit(f, "q")
-        c = ROOT.TCanvas()
-        #file = ROOT.TFile(str(id) + "_" + str(gamma) + "_" + str(key) + ".root", "CREATE OVERWRITE")
-        hist.Draw()
-        #hist.Write()     
-        c.Print('PhotoDisintegration_' + str(id) + '_' + str(key) + '_' + str(lab.log10(gamma)) + '.png')
-        c.Close()
-        #file.Close()
-        slope = -f.GetParameter(1)
-        if not (slope > 0 and slope < 100):
-            slope = 0.00000001
-        r[key] = slope
-    return r
-
-def extract_ids(table):    
-    ids = []
-    for i in xrange(len(table)):
-        id = int(table[i][0])
-        if not id in ids:
-            ids.append(id)
-    return ids
+        l = -f.GetParameter(1)
+        p = hist.GetEntries() / float(count)
+        exclu = l * p # exclusive decay constant for this channel
+        D[channel] = max(0, exclu) # take 0 if slope is negative
+    
+    return D
 
 def get_rates_per_channel(interaction, id):
-    rates = {}
-    for iE in xrange(200):
+    D = {}
+    for iE in range(200):
         if iE % 20 != 0:
             continue
-        rates_per_gamma = get_rates_per_gamma(interaction, id, gamma[iE])
-        for channel in rates_per_gamma.keys():
-            if not rates.has_key(channel):
-                rates[channel] = lab.zeros(200)
-            rates[channel][iE] = rates_per_gamma[channel]
-    return rates
+        D2 = get_rates(interaction, id, gamma[iE])
+        for channel in D2.keys():
+            D.setdefault(channel, zeros(200))[iE] = D2[channel]
+    return D
 
 def get_data_rates_per_channel(table, id):
     rates = {}
@@ -99,34 +51,42 @@ def get_data_rates_per_channel(table, id):
     return rates
 
 def plot_channel(rates_simulated, rates_data, id, channel):
+    figure()
     if channel in rates_data:
-        lab.plot(gamma, rates_data[channel], 'r', label="data " + str(channel), linewidth=2, markeredgewidth=2)
+        plot(gamma, rates_data[channel], 'r', label="Data")
     if channel in rates_simulated:
-        y = list(rates_simulated[channel])
-        print y 
-        lab.plot(gamma, y, 'k+', label="simulated " + str(channel), linewidth=2, markeredgewidth=2)
-    lab.xlabel('energy [EeV]')
-    lab.ylabel('rate [1/Mpc]')
-    lab.semilogy()
-    lab.ylim(1e-9, 100)
-    lab.legend(loc='lower right')
-    lab.grid()
-    lab.semilogx()
-    lab.savefig('PhotoDisintegration_' + str(id) + '_' + str(channel) + '.png', bbox_inches='tight')
-    lab.close()
+        plot(gamma, rates_simulated[channel], 'k+', label="Simulated")
+    legend(loc='lower right')
+    text(0.1, 0.85, 'Nucleus '+parse_id(id)+'\nDecay Channel '+parse_channel(channel), transform=gca().transAxes)
+    xlabel('Lorentzfactor $\gamma$')
+    ylabel('Rate [1/Mpc]')
+    loglog()
+    ylim(1e-10,1e2)
+    grid()
+    savefig('PhotoDisintegration_' + str(id) + '_' + str(channel) + '.png', bbox_inches='tight')
 
-interaction = mpc.PhotoDisintegration()
-table = lab.genfromtxt(mpc.getDataPath('/PhotoDisintegration/pd_table.txt'))
-ids = [1044019000] #extract_ids(table)
+def parse_id(id):
+    z = ((id - 1000000000) % 1000000) // 1000
+    a = (id - 1000000000) // 1000000
+    return 'Z=%i, A=%i'%(z,a)
 
-i = 0
-count = len(ids)
-for id in ids:
-    i += 1
-    print "Id: ", id, "(", i, "/", count, ")"
-    rates_simulated = get_rates_per_channel(interaction, id)
-    rates_data = get_data_rates_per_channel(table, id)
-    channels = set.union(set(rates_simulated.keys()), set(rates_data.keys()))
-    for channel in channels:
-        plot_channel(rates_simulated, rates_data, id, channel)
-    break
+def parse_channel(c):
+    s = '%06d'%c
+    d = list(map(int, s))
+    s = 'n, '*d[0] + 'p, '*d[1] + 'H$^2$, '*d[2] + 'H$^3$, '*d[3] + 'He$^3$, '*d[4] + 'He$^4$, '*d[5]
+    return s[0:-2]
+
+interaction = PhotoDisintegration()
+table = genfromtxt(getDataPath('/PhotoDisintegration/pd_table.txt'))
+id = 1004002000
+
+if len(sys.argv) >= 3:
+    id = 1000000000 + int(sys.argv[1]) * 1000000 +  int(sys.argv[2]) * 1000
+
+print id
+rates_simulated = get_rates_per_channel(interaction, id)
+rates_data = get_data_rates_per_channel(table, id)
+channels = set.union(set(rates_simulated.keys()), set(rates_data.keys()))
+for channel in channels:
+    plot_channel(rates_simulated, rates_data, id, channel)
+

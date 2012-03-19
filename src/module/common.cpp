@@ -1,6 +1,7 @@
 #include "mpc/module/common.h"
 
 #include "kiss/path.h"
+#include "kiss/logger.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -11,13 +12,16 @@ namespace mpc {
 std::string getDataPath(std::string filename) {
 	static std::string dataPath;
 	if (dataPath.size())
-		return dataPath;
+		return concat_path(dataPath, filename);
 
 	const char *env_path = getenv("MPC_DATA_PATH");
 	if (env_path) {
 		if (is_directory(env_path)) {
 			dataPath = env_path;
-			return dataPath;
+			KISS_LOG_INFO
+				<< "getDataPath: use environment variable, " << dataPath
+						<< std::endl;
+			return concat_path(dataPath, filename);
 		}
 	}
 
@@ -26,7 +30,9 @@ std::string getDataPath(std::string filename) {
 		std::string _path = MPC_INSTALL_PREFIX "/share/mpc";
 		if (is_directory(_path)) {
 			dataPath = _path;
-			return dataPath;
+			KISS_LOG_INFO
+				<< "getDataPath: use define, " << dataPath << std::endl;
+			return concat_path(dataPath, filename);
 		}
 	}
 #endif
@@ -35,11 +41,17 @@ std::string getDataPath(std::string filename) {
 		std::string _path = executable_path() + "../data";
 		if (is_directory(_path)) {
 			dataPath = _path;
-			return dataPath;
+			KISS_LOG_INFO
+				<< "getDataPath: use executable path, " << dataPath
+						<< std::endl;
+			return concat_path(dataPath, filename);
 		}
 	}
 
-	return "data";
+	dataPath = "data";
+	KISS_LOG_INFO
+		<< "getDataPath: use default, " << dataPath << std::endl;
+	return concat_path(dataPath, filename);
 }
 
 } // namespace mpc

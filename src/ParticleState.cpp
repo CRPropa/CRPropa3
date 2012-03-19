@@ -2,6 +2,11 @@
 
 namespace mpc {
 
+ParticleState::ParticleState() :
+		id(0), energy(0) {
+
+}
+
 void ParticleState::setPosition(const Vector3 &pos) {
 	position = pos;
 }

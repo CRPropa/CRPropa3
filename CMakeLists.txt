@@ -56,7 +56,11 @@ if(OPENMP_FOUND)
 endif()
 
 include_directories(include ${MPC_EXTRA_INCLUDES})
+add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 
+# ----------------------------------------------------------------------------
+# mpc and mpc-run
+# ----------------------------------------------------------------------------
 add_library(mpc SHARED
     src/Random.cpp
     src/Vector3.cpp
@@ -83,23 +87,15 @@ TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
 add_executable(mpc-run src/main.cpp)
 TARGET_LINK_LIBRARIES(mpc-run mpc)
 
-add_executable(openmp example/openmp.cpp)
-TARGET_LINK_LIBRARIES(openmp mpc)
 
-# MPI needed for mpc-mpi
-find_package(MPI)
-if (MPI_FOUND)
-    include_directories(${MPI_INCLUDE_PATH})
+INSTALL(TARGETS mpc-run RUNTIME DESTINATION bin)
+INSTALL(TARGETS mpc DESTINATION lib)
+INSTALL(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
+INSTALL(DIRECTORY share/ DESTINATION share/mpc)
 
-    set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
-    set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
-
-    add_executable(mpc-mpi mpi/main mpi/Slave mpi/Master mpi/Job)
-    TARGET_LINK_LIBRARIES(mpc-mpi mpc ${MPI_LIBRARIES})
-endif()
-
-
-# GTest needed for testing
+# ----------------------------------------------------------------------------
+# Testing using gTest
+# ----------------------------------------------------------------------------
 find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()
@@ -120,26 +116,31 @@ if (GTEST_FOUND)
     target_link_libraries(testBreakCondition mpc ${GTEST_BOTH_LIBRARIES} pthread)
 endif (GTEST_FOUND)
 
+
+# ----------------------------------------------------------------------------
+# OpenMP and OpenMPI
+# ----------------------------------------------------------------------------
+add_executable(openmp example/openmp.cpp)
+TARGET_LINK_LIBRARIES(openmp mpc)
+
+# MPI needed for mpc-mpi
+find_package(MPI)
+if (MPI_FOUND)
+    include_directories(${MPI_INCLUDE_PATH})
+
+    set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
+    set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
+
+    add_executable(mpc-mpi mpi/main mpi/Slave mpi/Master mpi/Job)
+    TARGET_LINK_LIBRARIES(mpc-mpi mpc ${MPI_LIBRARIES})
+endif()
+
+
+# ----------------------------------------------------------------------------
+# Python
+# ----------------------------------------------------------------------------
 INCLUDE (Python.cmake)
 include_directories(${PYTHON_INCLUDE_PATH})
-
-FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
-#message("Includes: ${MPC_INCLUDES}")
-#SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py PROPERTIES GENERATED true )
-#ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py
-#                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/genbindings.py ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py ${CMAKE_SOURCE_DIR}/include ${MPC_INCLUDES}
-#                DEPENDS ${CMAKE_SOURCE_DIR}/python/genbindings.py ${MPC_INCLUDES} )
-
-
-#SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_python.cpp PROPERTIES GENERATED true )
-#ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_python.cpp
-#                COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py > ${CMAKE_CURRENT_BINARY_DIR}/mpc_python.cpp
-#                DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/genmodule.py )
-                
-#add_library(mpc_python MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_python.cpp)
-#set_target_properties(mpc_python PROPERTIES PREFIX "")
-#set_target_properties(mpc_python PROPERTIES OUTPUT_NAME "mpc") 
-#target_link_libraries(mpc_python libppropa ${PYTHON_LIBRARIES})
 
 SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
 ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
@@ -149,3 +150,5 @@ add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
 set_target_properties(mpc-swig PROPERTIES PREFIX "")
 set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
 target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})
+INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/mpc.py" DESTINATION ${PYTHON_SITE_PACKAGES})
+INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/_mpc.so" DESTINATION ${PYTHON_SITE_PACKAGES})

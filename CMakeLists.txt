@@ -79,6 +79,7 @@ add_library(mpc SHARED
     src/module/PhotoDisintegration.cpp
     src/module/NuclearDecay.cpp
     src/module/Redshift.cpp
+    src/module/Output.cpp
     src/magneticField/magneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )

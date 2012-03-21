@@ -59,7 +59,7 @@ ylim(-1.5,1.5)
 xlabel(r'$x / R_L$')
 ylabel(r'$y / R_L$')
 grid()
-savefig('deflection_xtrajectory', bbox_inches='tight')
+savefig('DeflectionCK_xtrajectory', bbox_inches='tight')
 
 
 ### Plot trajectory in p-space with 1e-4 tolerance
@@ -74,7 +74,7 @@ ylim(-1.5,1.5)
 xlabel(r'$p_x / |p_x|$')
 ylabel(r'$p_y / |p_y|$')
 grid()
-savefig('deflection_ptrajectory', bbox_inches='tight')
+savefig('DeflectionCK_ptrajectory', bbox_inches='tight')
 
 
 ### Directional error as function of distance for different tolerances
@@ -87,7 +87,7 @@ xlabel(r'Travelled Distance / $2 \pi R_L$')
 ylabel(r'Directional Error [$^\circ$]')
 xlim(0,1)
 grid()
-savefig('deflection_pdeviation.png',bbox_inches='tight')
+savefig('DeflectionCK_pdeviation.png',bbox_inches='tight')
 
 
 ### Positional error as function of distance for different tolerances
@@ -101,6 +101,6 @@ xlabel(r'Travelled Distance / $2 \pi R_L$')
 ylabel(r'Positional Error / $R_L$')
 xlim(0,1)
 grid()
-savefig('deflection_xdeviation.png',bbox_inches='tight')
+savefig('DeflectionCK_xdeviation.png',bbox_inches='tight')
 
 

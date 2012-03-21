@@ -24,8 +24,8 @@ def compare(dataFileName, photonField, plotFileName):
     
     plot(E, dE,'k+', label='simulated', linewidth=2, markeredgewidth=2)
     
-    xlabel('proton energy [eV]')
-    ylabel('energy loss rate [eV / Mpc]')
+    xlabel('Energy [eV]')
+    ylabel('Energy Loss Rate [eV / Mpc]')
     legend(loc='lower right')
     grid()
     loglog()
@@ -33,6 +33,6 @@ def compare(dataFileName, photonField, plotFileName):
     savefig(plotFileName, bbox_inches='tight')
 
 
-compare(getDataPath("/ElectronPairProduction/cmb.txt"), ElectronPairProduction.CMB, 'epair_cmb.png')
-compare(getDataPath("/ElectronPairProduction/cmbir.txt"), ElectronPairProduction.CMBIR, 'epair_cmbir.png')
-compare(getDataPath("/ElectronPairProduction/ir.txt"), ElectronPairProduction.IR, 'epair_ir.png')
+compare(getDataPath("/ElectronPairProduction/cmb.txt"), ElectronPairProduction.CMB, 'ElectronPairProduction_cmb.png')
+compare(getDataPath("/ElectronPairProduction/cmbir.txt"), ElectronPairProduction.CMBIR, 'ElectronPairProduction_cmbir.png')
+compare(getDataPath("/ElectronPairProduction/ir.txt"), ElectronPairProduction.IR, 'ElectronPairProduction_ir.png')

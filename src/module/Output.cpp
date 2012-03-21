@@ -8,21 +8,6 @@
 
 namespace mpc {
 
-std::string getOutputString(ParticleState particle) {
-	std::stringstream s;
-	s << particle.getId() << ", ";
-	s << particle.getEnergy() / EeV << ", ";
-	Vector3 pos = particle.getPosition() / Mpc;
-	s << pos.x() << ", ";
-	s << pos.y() << ", ";
-	s << pos.z() << ", ";
-	Vector3 dir = particle.getDirection();
-	s << dir.x() << ", ";
-	s << dir.y() << ", ";
-	s << dir.z();
-	return s.str();
-}
-
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	outfile.open(name.c_str());
 	outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
@@ -32,11 +17,19 @@ TrajectoryOutput::~TrajectoryOutput() {
 	outfile.close();
 }
 
-void TrajectoryOutput::process(Candidate *candidate) {
+void TrajectoryOutput::process(Candidate *candidate) const {
 #pragma omp critical
 	{
-		outfile << candidate->getTrajectoryLength() / Mpc << ", "
-				<< getOutputString(candidate->current) << "\n";
+		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
+		outfile << candidate->current.getId() << ", ";
+		outfile << candidate->current.getEnergy() / EeV << ", ";
+		outfile << candidate->current.getPosition().x() / Mpc << ", ";
+		outfile << candidate->current.getPosition().y() / Mpc << ", ";
+		outfile << candidate->current.getPosition().z() / Mpc << ", ";
+		outfile << candidate->current.getDirection().x() << ", ";
+		outfile << candidate->current.getDirection().y() << ", ";
+		outfile << candidate->current.getDirection().y() << ", ";
+		outfile << std::endl;
 	}
 }
 

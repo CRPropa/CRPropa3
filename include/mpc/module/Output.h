@@ -12,12 +12,12 @@ namespace mpc {
  */
 class TrajectoryOutput: public Module {
 private:
-	std::ofstream outfile;
+	mutable std::ofstream outfile;
 
 public:
 	TrajectoryOutput(std::string name);
 	~TrajectoryOutput();
-	void process(Candidate *candidate);
+	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
 

@@ -49,7 +49,7 @@ ax.text(0.48, 0.52, 'stable', ha='center', va='center', rotation=40, transform=a
 ax.text(0.56, 0.44, 'beta- decay', ha='center', va='center', rotation=40, transform=ax.transAxes)
 ax.text(0.78, 0.22, 'neutron dripping', ha='center', va='center', rotation=40, transform=ax.transAxes)
 ax.text(0.2, 0.8, 'proton dripping', ha='center', va='center', rotation=40, transform=ax.transAxes)
-fig.savefig('decay_mode.png',bbox_inches='tight')
+fig.savefig('NuclearDecay_mode.png',bbox_inches='tight')
 
 fig = figure()
 ax = fig.add_subplot(111)
@@ -61,7 +61,7 @@ cbar.set_label('inclusive decay time [s]')
 ax.set_xlabel('neutrons')
 ax.set_ylabel('protons')
 ax.grid()
-fig.savefig('decay_lifetime.png',bbox_inches='tight')
+fig.savefig('NuclearDecay_lifetime.png',bbox_inches='tight')
 
 fig = figure()
 ax = fig.add_subplot(111)
@@ -72,7 +72,7 @@ cbar.set_label('decay channels')
 ax.set_xlabel('neutrons')
 ax.set_ylabel('protons')
 ax.grid()
-fig.savefig('decay_multiplicity.png',bbox_inches='tight')
+fig.savefig('NuclearDecay_multiplicity.png',bbox_inches='tight')
 
 
 

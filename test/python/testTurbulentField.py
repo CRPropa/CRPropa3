@@ -172,7 +172,7 @@ xlim(0,3*n)
 ylim(0,3*n)
 xlabel(r'$x$ [gridpoints]')
 ylabel(r'$y$ [gridpoints]')
-savefig('turbulentField_periodicity.png', bbox_inches='tight')
+savefig('TurbulentField_periodicity.png', bbox_inches='tight')
 
 ### correlation length + isotropy
 figure()
@@ -197,13 +197,13 @@ xlim(0,32)
 grid()
 s = 'Correlation Length\n Nominal %.2f\n Simulated %.2f $\pm$ %.2f'%(field.getCorrelationLength(), mean(Lc), std(Lc)/(len(Lc))**.5)
 text(0.5, 0.95, s, ha='left', va='top', transform=gca().transAxes)
-savefig('turbulentField_correlation.png', bbox_inches='tight')
+savefig('TurbulentField_correlation.png', bbox_inches='tight')
 
 ### energy spectrum
 esd = VectorFieldEnergySpectralDensity(Bx, By, Bz)
 figure()
 esd.plot()
-savefig('turbulentField_spectrum.png', bbox_inches='tight')
+savefig('TurbulentField_spectrum.png', bbox_inches='tight')
 
 ### field strength, mean and brms
 Bx.resize(n**3)
@@ -219,4 +219,4 @@ xlabel('Magnetic Field Amplitude$')
 ylabel('Frequency')
 Brms = (mean( Bx**2 + By**2 + Bz**2 ))**.5
 text(1.45, 0.5, '$B_{RMS}$ = %.2f'%(Brms)) 
-savefig('turbulentField_amplitude.png', bbox_inches='tight')
+savefig('TurbulentField_amplitude.png', bbox_inches='tight')

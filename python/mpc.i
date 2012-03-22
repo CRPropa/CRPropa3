@@ -1,4 +1,4 @@
-%module mpc
+%module(directors="1") mpc
 
 %include stl.i
 %include std_set.i
@@ -45,7 +45,7 @@
 #include "mpc/Referenced.h"
 #include "mpc/module/common.h"
 %}
- 
+
 /* Parse the header file to generate wrappers */
 %feature("ref")   mpc::Referenced "$this->addReference();"
 %feature("unref") mpc::Referenced "$this->removeReference();"
@@ -58,6 +58,7 @@
 %feature("director") mpc::Source;
 %include "mpc/Source.h"
 %include "mpc/module/common.h"
+
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
 %include "mpc/Candidate.h"

@@ -4,9 +4,13 @@ using namespace std;
 
 namespace mpc {
 
+void ModuleList::add(Module *module) {
+	modules.push_back(module);
+}
+
 void ModuleList::process(Candidate *candidate) {
-	iterator iEntry = begin();
-	while (iEntry != end()) {
+	iterator iEntry = modules.begin();
+	while (iEntry != modules.end()) {
 		ref_ptr<Module> &module = *iEntry;
 		iEntry++;
 		module->process(candidate);
@@ -36,14 +40,17 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	}
 }
 
+const std::list<ref_ptr<Module> > &ModuleList::getModules() const {
+	return modules;
+}
+
 } // namespace mpc
 
-std::ostream &operator<<(std::ostream &out,
-		const std::list<mpc::ref_ptr<mpc::Module> > &modules) {
-	std::list<mpc::ref_ptr<mpc::Module> >::const_iterator iEntry;
+std::ostream &operator<<(std::ostream &out, const mpc::ModuleList &list) {
+	mpc::ModuleList::const_iterator iEntry;
 
-	iEntry = modules.begin();
-	while (iEntry != modules.end()) {
+	iEntry = list.getModules().begin();
+	while (iEntry != list.getModules().end()) {
 		const mpc::ref_ptr<mpc::Module> &entry = *iEntry;
 		iEntry++;
 		out << "  " << entry->getDescription() << "\n";

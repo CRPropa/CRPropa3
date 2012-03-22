@@ -19,13 +19,13 @@ int main(int argc, char **argv) {
 			Vector3(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
 
 	ModuleList modules;
-	modules.push_back(new DeflectionCK(field));
-	modules.push_back(new NuclearDecay());
-	modules.push_back(new PhotoDisintegration());
-	modules.push_back(new ElectronPairProduction(ElectronPairProduction::CMB));
-	modules.push_back(new PhotoPionProduction(PhotoPionProduction::CMBIR));
-	modules.push_back(new MaximumTrajectoryLength(50 * Mpc));
-	modules.push_back(new MinimumEnergy(5 * EeV));
+	modules.add(new DeflectionCK(field));
+	modules.add(new NuclearDecay());
+	modules.add(new PhotoDisintegration());
+	modules.add(new ElectronPairProduction(ElectronPairProduction::CMB));
+	modules.add(new PhotoPionProduction(PhotoPionProduction::CMBIR));
+	modules.add(new MaximumTrajectoryLength(50 * Mpc));
+	modules.add(new MinimumEnergy(5 * EeV));
 	//modules.push_back(new ShellOutput);
 
 	cout << modules << endl;

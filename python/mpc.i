@@ -8,6 +8,7 @@
 %include std_multimap.i
 %include std_vector.i
 %include std_string.i
+%include std_list.i
 %include stdint.i
 %include std_container.i
 
@@ -33,12 +34,14 @@
 #include "mpc/ParticleState.h"
 #include "mpc/Module.h"
 #include "mpc/ModuleChain.h"
+#include "mpc/ModuleList.h"
 #include "mpc/PhasePoint.h"
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/HepPID.h"
 #include "mpc/Random.h"
 #include "mpc/Units.h"
 #include "mpc/Vector3.h"
+#include "mpc/Source.h"
 #include "mpc/Referenced.h"
 #include "mpc/module/common.h"
 %}
@@ -52,16 +55,20 @@
 %include "mpc/Vector3.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
+%feature("director") mpc::Source;
+%include "mpc/Source.h"
 %include "mpc/module/common.h"
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
 %include "mpc/Candidate.h"
 
-%template(ModuleVector) std::vector< mpc::ref_ptr<mpc::Module> >;
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
+%template(stdModuleVector) std::vector< mpc::ref_ptr<mpc::Module> >;
+%template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
+%feature("director") mpc::Module;
 %include "mpc/Module.h"
 
-%template(MagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
+%template(stdMagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
 %include "mpc/magneticField/magneticField.h"
 %include "mpc/magneticField/magneticFieldGrid.h"
@@ -85,3 +92,4 @@
 
 
 %include "mpc/ModuleChain.h"
+%include "mpc/ModuleList.h"

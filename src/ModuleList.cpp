@@ -20,11 +20,20 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 
 	// propagate secondaries
 	if (recursive) {
-#pragma omp parallel for
 		for (size_t i = 0; i < candidate->secondaries.size(); i++)
 			run(candidate->secondaries[i], recursive);
 	}
 
+}
+
+void ModuleList::run(Source *source, size_t count, bool recursive) {
+#pragma omp parallel for schedule(dynamic, 1000)
+	for (size_t i = 0; i < count; i++) {
+		ParticleState state;
+		source->prepare(state);
+		ref_ptr<Candidate> candidate = new Candidate(state);
+		run(candidate, recursive);
+	}
 }
 
 } // namespace mpc

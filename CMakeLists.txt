@@ -6,6 +6,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}" ${CMAKE_MODULE_PATH})
 set (MPC_EXTRA_SOURCES)
 set (MPC_EXTRA_INCLUDES)
 set (MPC_EXTRA_LIBRARIES)
+set (MPC_SWIG_DEFINES)
 
 # GSL required
 find_package(GSL REQUIRED)
@@ -25,6 +26,7 @@ if (GADGET_FOUND)
     list( APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
     list( APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
     add_definitions(-DMPC_HAVE_GADGET)
+    list( APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
 endif (GADGET_FOUND)
 
 # freeglut and GLU needed for GlutDisplay
@@ -71,6 +73,7 @@ add_library(mpc SHARED
     src/Candidate.cpp
     src/IO.cpp
     src/ParticleState.cpp
+    src/Source.cpp
     src/module/common.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
@@ -145,7 +148,7 @@ include_directories(${PYTHON_INCLUDE_PATH})
 
 SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
 ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
-                COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
+                COMMAND swig -c++ -python ${MPC_SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
                 DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
 add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
 set_target_properties(mpc-swig PROPERTIES PREFIX "")

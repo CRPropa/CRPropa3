@@ -95,7 +95,7 @@ TARGET_LINK_LIBRARIES(mpc-run mpc)
 INSTALL(TARGETS mpc-run RUNTIME DESTINATION bin)
 INSTALL(TARGETS mpc DESTINATION lib)
 INSTALL(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-INSTALL(DIRECTORY share/ DESTINATION share/mpc)
+INSTALL(DIRECTORY data/ DESTINATION share/mpc)
 
 # ----------------------------------------------------------------------------
 # Testing using gTest

@@ -5,6 +5,7 @@
 
 #include "mpc/Candidate.h"
 #include "mpc/Module.h"
+#include "mpc/Source.h"
 
 namespace mpc {
 
@@ -19,6 +20,7 @@ public:
 
 	void process(Candidate *candidate);
 	void run(Candidate *candidate, bool recursive);
+	void run(Source *source, size_t count, bool recursive);
 };
 
 } // namespace mpc

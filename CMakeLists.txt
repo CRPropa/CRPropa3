@@ -39,6 +39,13 @@ if (Freeglut_FOUND)
     endif (OPENGL_GLU_FOUND)
 endif (Freeglut_FOUND)
 
+# Google Performance Tools
+find_package(GooglePerfTools)
+SET(TCMALLOC)
+IF (GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+    SET(TCMALLOC ${TCMALLOC_LIBRARY})
+endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+
 # pugixml provided
 add_library (pugixml libs/pugixml/pugixml.cpp)
 SET_TARGET_PROPERTIES( pugixml PROPERTIES COMPILE_FLAGS -fPIC)
@@ -86,11 +93,10 @@ add_library(mpc SHARED
     src/magneticField/magneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )
-TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES})
+TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES} ${TCMALLOC})
 
 add_executable(mpc-run src/main.cpp)
-TARGET_LINK_LIBRARIES(mpc-run mpc)
-
+TARGET_LINK_LIBRARIES(mpc-run mpc ${TCMALLOC})
 
 INSTALL(TARGETS mpc-run RUNTIME DESTINATION bin)
 INSTALL(TARGETS mpc DESTINATION lib)

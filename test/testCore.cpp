@@ -1,4 +1,5 @@
 #include "mpc/Candidate.h"
+#include "mpc/module/common.h"
 
 #include "gtest/gtest.h"
 
@@ -95,7 +96,12 @@ TEST(testCandidate, status) {
 	EXPECT_EQ(candidate.getStatus(), Candidate::UserDefined);
 }
 
-
+TEST(common, digit) {
+	EXPECT_EQ(1, digit(1234, 1000));
+	EXPECT_EQ(2, digit(1234, 100));
+	EXPECT_EQ(3, digit(1234, 10));
+	EXPECT_EQ(4, digit(1234, 1));
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

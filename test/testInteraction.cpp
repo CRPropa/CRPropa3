@@ -151,6 +151,7 @@ TEST(PhotoDisintegration, Carbon) {
 	pd.process(&candidate);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 12);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
+	EXPECT_TRUE(candidate.secondaries.size() > 0);
 }
 
 TEST(PhotoDisintegration, Iron) {

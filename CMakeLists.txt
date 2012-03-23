@@ -110,28 +110,28 @@ find_package(GTest)
 if (GTEST_FOUND)
     enable_testing()
     
-    add_executable(testCommon test/testCommon.cpp)
-    target_link_libraries(testCommon mpc ${GTEST_BOTH_LIBRARIES} pthread)
-
     add_executable(testCore test/testCore.cpp)
     target_link_libraries(testCore mpc ${GTEST_BOTH_LIBRARIES} pthread)
-
-    add_executable(testInteractions test/testInteractions.cpp)
-    target_link_libraries(testInteractions mpc ${GTEST_BOTH_LIBRARIES} pthread)
     
     add_executable(testMagneticField test/testMagneticField.cpp)
     target_link_libraries(testMagneticField mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    
+
+    add_executable(testPropagation test/testPropagation.cpp)
+    target_link_libraries(testPropagation mpc ${GTEST_BOTH_LIBRARIES} pthread)
+       
     add_executable(testBreakCondition test/testBreakCondition.cpp)
     target_link_libraries(testBreakCondition mpc ${GTEST_BOTH_LIBRARIES} pthread)
+     
+    add_executable(testInteraction test/testInteraction.cpp)
+    target_link_libraries(testInteraction mpc ${GTEST_BOTH_LIBRARIES} pthread)
 endif (GTEST_FOUND)
 
 
 # ----------------------------------------------------------------------------
 # OpenMP and OpenMPI
 # ----------------------------------------------------------------------------
-add_executable(openmp example/openmp.cpp)
-TARGET_LINK_LIBRARIES(openmp mpc)
+add_executable(mpc-omp-run example/openmp.cpp)
+TARGET_LINK_LIBRARIES(mpc-omp-run mpc)
 
 # MPI needed for mpc-mpi
 find_package(MPI)
@@ -141,8 +141,8 @@ if (MPI_FOUND)
     set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
     set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
 
-    add_executable(mpc-mpi mpi/main mpi/Slave mpi/Master mpi/Job)
-    TARGET_LINK_LIBRARIES(mpc-mpi mpc ${MPI_LIBRARIES})
+    add_executable(mpc-mpi-run mpi/main mpi/Slave mpi/Master mpi/Job)
+    TARGET_LINK_LIBRARIES(mpc-mpi-run mpc ${MPI_LIBRARIES})
 endif()
 
 

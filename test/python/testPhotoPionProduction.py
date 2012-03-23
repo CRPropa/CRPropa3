@@ -1,60 +1,55 @@
-import mpc
-import pylab as lab
-import sys
-# make sure root is startet in Batch mode
-sys.argv.append('-b')
+from mpc import *
+from pylab import *
 import ROOT
 
-def getSlope(interaction, energy, charge, count = 100000):
-    c = mpc.Candidate()
-    c.current.setId(mpc.getNucleusId(1, charge))
+def getSlope(interaction, energy, charge):
+    c = Candidate()
+    c.current.setId(getNucleusId(1, charge))
     c.current.setEnergy(energy)
-    c.setCurrentStep(0.0 * mpc.Mpc)
+    s = InteractionState()
 
-    h = ROOT.TH1F('', '', 100, 0, 1000)
-
-    for i in range(count):
-        c.setNextStep(100000 * mpc.Mpc)
+    l = []
+    for i in range(10000):
         c.clearInteractionStates()
-    
         interaction.process(c)
-        h.Fill(c.getNextStep() / mpc.Mpc)
-    if h.GetEffectiveEntries() == 0:
-        return [0, 0]
+        c.getInteractionState('mpc::PhotoPionProduction', s)
+        l.append(s.distance / Mpc)
+
+    h = ROOT.TH1F('', '', 100, 0, max(l))
+
+    for element in l:
+        h.Fill(element)
+
     f = ROOT.TF1('f1', 'expo')
     h.Fit(f, "q")
-    
     s = -f.GetParameter(1)
     ds = f.GetParError(1) * s ** 2
-    return [s, ds]
+    return s
     
-def compare(type, name, count = 100000):
-    print "> compare ", name
-    ppp = mpc.PhotoPionProduction(type)
-    E, P, N = lab.genfromtxt(mpc.getDataPath('/PhotoPionProduction/' + name + '.txt'), unpack=True)
+def compare(type, name):
+    print "compare ", name
+    ppp = PhotoPionProduction(type)
+    E_data, P_data, N_data = genfromtxt(getDataPath('/PhotoPionProduction/' + name + '.txt'), unpack=True)
 
-    p = lab.zeros(len(E))
-    n = lab.zeros(len(E))
-    print "[",
-    for i in range(len(E)):
-        print '=',
-        sds = getSlope(ppp, E[i] * mpc.EeV, 1, count)
-        p[i] = sds[0]
-        sds = getSlope(ppp, E[i] * mpc.EeV, 0, count)
-        n[i] = sds[0]
-    print "]"
-    lab.plot(E, p, 'k+', label="proton simulated", linewidth=2, markeredgewidth=2)
-    lab.plot(E, P, "r", label="proton data")
-    lab.plot(E, n, 'k.', label="neutron simulated")
-    lab.plot(E, N, "b", label="neutron data")
-    lab.xlabel('energy [EeV]')
-    lab.ylabel('rate [1/Mpc]')
-    lab.legend(loc='lower right')
-    lab.grid()
-    lab.semilogx()
-    lab.savefig('PhotoPionProduction_' + name + '.png', bbox_inches='tight')
-    lab.close()
+    E = logspace(1.5,5,10) * EeV
+    p = zeros(len(E))
+    n = zeros(len(E))
+    for i,energy in enumerate(E*EeV):
+        p[i] = getSlope(ppp, energy, 1)
+        n[i] = getSlope(ppp, energy, 0)
+    plot(E_data, P_data, "r", label="Proton Data")
+    plot(E, p, 'k+', label="Proton Simulated")
+    plot(E_data, N_data, "b", label="Neutron Data")
+    plot(E, n, 'k.', label="Neutron Simulated")
+    xlabel('Energy [EeV]')
+    ylabel('Rate [1/Mpc]')
+    legend(loc='center right')
+    grid()
+    loglog()
+    ylim(1e-4, 1)
+    savefig('PhotoPionProduction_' + name + '.png', bbox_inches='tight')
+    close()
 
-compare(mpc.PhotoPionProduction.CMB, "cmb");
-compare(mpc.PhotoPionProduction.CMBIR, "cmbir");
-compare(mpc.PhotoPionProduction.IR, "ir", 1000000);
+compare(PhotoPionProduction.CMB, "cmb")
+compare(PhotoPionProduction.CMBIR, "cmbir")
+compare(PhotoPionProduction.IR, "ir")

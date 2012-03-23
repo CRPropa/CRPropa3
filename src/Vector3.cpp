@@ -894,8 +894,6 @@ Vector3 rotationZOf(const Vector3 & vec, double delta) {
 	return vv.rotateZ(delta);
 }
 
-
-
 double Vector3::tolerance = Vector3::ToleranceTicks * 2.22045e-16;
 
 } // namespace mpc

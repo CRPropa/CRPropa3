@@ -183,15 +183,15 @@ TEST(PhotoPionProduction, Proton) {
 	EXPECT_EQ(candidate.current.getMassNumber(), 1);
 }
 
-TEST(PhotoPionProduction, Iron) {
+TEST(PhotoPionProduction, Helium) {
 	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
 	Candidate candidate;
 	candidate.setCurrentStep(100 * Mpc);
-	candidate.current.setId(getNucleusId(56, 26));
-	candidate.current.setEnergy(100 * EeV);
+	candidate.current.setId(getNucleusId(4, 2));
+	candidate.current.setEnergy(300 * EeV);
 	ppp.process(&candidate);
-	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 1000);
-	EXPECT_TRUE(candidate.current.getMassNumber() == 56);
+	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 300);
+	EXPECT_TRUE(candidate.current.getMassNumber() < 4);
 }
 
 

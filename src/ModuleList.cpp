@@ -4,6 +4,15 @@ using namespace std;
 
 namespace mpc {
 
+ModuleList::ModuleList() :
+		showProgress(false) {
+
+}
+
+void ModuleList::setShowProgress(bool show) {
+	showProgress = show;
+}
+
 void ModuleList::add(Module *module) {
 	modules.push_back(module);
 }
@@ -31,8 +40,14 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 }
 
 void ModuleList::run(Source *source, size_t count, bool recursive) {
+	size_t cent = count / 100;
+	size_t pc = 0;
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
+		if (showProgress && (i % cent == 0)) {
+			std::cout << pc << "% - " << i << std::endl;
+			pc++;
+		}
 		ParticleState state;
 		source->prepare(state);
 		ref_ptr<Candidate> candidate = new Candidate(state);

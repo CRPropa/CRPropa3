@@ -15,10 +15,13 @@ namespace mpc {
  */
 class ModuleList {
 	std::list<ref_ptr<Module> > modules;
-
+	bool showProgress;
 public:
 	typedef std::list<ref_ptr<Module> >::iterator iterator;
 	typedef std::list<ref_ptr<Module> >::const_iterator const_iterator;
+
+	ModuleList();
+	void setShowProgress(bool show);
 
 	void add(Module *module);
 	void process(Candidate *candidate);

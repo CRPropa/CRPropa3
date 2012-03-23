@@ -5,7 +5,6 @@
 #include "mpc/Referenced.h"
 
 #include <string>
-#include <vector>
 
 namespace mpc {
 
@@ -13,7 +12,7 @@ class Candidate;
 
 /**
  @class Module
- @brief Module base class.
+ @brief Abstract base class for modules
  */
 class Module: public Referenced {
 public:

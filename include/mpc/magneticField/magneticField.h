@@ -8,7 +8,7 @@ namespace mpc {
 
 /**
  @class MagneticField
- @brief Magnetic field base class.
+ @brief Abstract base class for magnetic fields.
  */
 class MagneticField: public Referenced {
 public:

@@ -21,7 +21,7 @@ public:
 	Vector3 position;
 	double index1, index2, breakpoint, Emin, Emax;
 	int id;
-
+	BasicSource();
 	BasicSource(const Vector3 &sposition, int type, double Emin = 5 * EeV,
 			double Emax = 1000 * EeV, double index1 = -1, double index2 = -1,
 			double breakpoint = 1);

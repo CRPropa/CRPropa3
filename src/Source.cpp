@@ -4,6 +4,12 @@
 
 namespace mpc {
 
+BasicSource::BasicSource() :
+		position(Vector3(0, 0, 0)), id(0), index1(-1), index2(-1), breakpoint(
+				10 * EeV), Emin(5 * EeV), Emax(1000 * EeV) {
+
+}
+
 BasicSource::BasicSource(const Vector3 &sposition, int type, double Emin,
 		double Emax, double index1, double index2, double breakpoint) :
 		position(position), id(id), index1(index1), index2(index2), breakpoint(
@@ -11,11 +17,12 @@ BasicSource::BasicSource(const Vector3 &sposition, int type, double Emin,
 }
 
 void BasicSource::prepare(ParticleState &state) const {
+
 	state.setPosition(position);
 	state.setId(id);
-	state.setEnergy(
-			Random::instance().randBrokenPowerLaw(index1, index2, breakpoint,
-					Emin, Emax));
+	double E = Random::instance().randBrokenPowerLaw(index1, index2, breakpoint,
+			Emin, Emax);
+	state.setEnergy(E);
 	state.setDirection(Random::instance().randUnitVectorOnSphere());
 }
 

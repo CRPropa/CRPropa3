@@ -72,6 +72,7 @@ add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 # ----------------------------------------------------------------------------
 add_library(mpc SHARED
     src/Random.cpp
+    src/Clock.cpp
     src/Vector3.cpp
     src/XMLImport.cpp
     src/ModuleChain.cpp
@@ -90,6 +91,7 @@ add_library(mpc SHARED
     src/module/NuclearDecay.cpp
     src/module/Redshift.cpp
     src/module/Output.cpp
+    src/module/Tools.cpp
     src/magneticField/magneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )

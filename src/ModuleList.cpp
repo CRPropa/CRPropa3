@@ -41,6 +41,8 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 
 void ModuleList::run(Source *source, size_t count, bool recursive) {
 	size_t cent = count / 100;
+	if (cent == 0)
+		cent = 1;
 	size_t pc = 0;
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {

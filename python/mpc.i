@@ -23,6 +23,7 @@
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/GlutDisplay.h"
+#include "mpc/module/Tools.h"
 
 #include "mpc/magneticField/magneticField.h"
 #include "mpc/magneticField/uniformMagneticField.h"
@@ -55,7 +56,8 @@
 %include "mpc/Vector3.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
-%feature("director") mpc::Source;
+// %feature("director") mpc::Source;
+%template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
 %include "mpc/Source.h"
 %include "mpc/module/common.h"
 
@@ -66,7 +68,7 @@
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %template(stdModuleVector) std::vector< mpc::ref_ptr<mpc::Module> >;
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
-%feature("director") mpc::Module;
+// %feature("director") mpc::Module;
 %include "mpc/Module.h"
 
 %template(stdMagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
@@ -90,6 +92,7 @@
 %include "mpc/module/PhotoDisintegration.h"
 %include "mpc/module/Redshift.h"
 %include "mpc/module/GlutDisplay.h"
+%include "mpc/module/Tools.h"
 
 
 %include "mpc/ModuleChain.h"

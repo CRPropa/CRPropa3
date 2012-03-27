@@ -57,6 +57,12 @@ add_subdirectory(libs/kiss)
 list (APPEND MPC_EXTRA_LIBRARIES kiss)
 list (APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
 
+# HepID provided
+add_subdirectory(libs/HepPID)
+list (APPEND MPC_EXTRA_LIBRARIES HepPID)
+list (APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
+
+
 include(FindOpenMP)
 if(OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 project(ModularPropagationCode)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}" ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 set (MPC_EXTRA_SOURCES)
 set (MPC_EXTRA_INCLUDES)
@@ -151,7 +151,7 @@ endif()
 # ----------------------------------------------------------------------------
 # Python
 # ----------------------------------------------------------------------------
-INCLUDE (Python.cmake)
+INCLUDE (python/Python.cmake)
 include_directories(${PYTHON_INCLUDE_PATH})
 
 SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )

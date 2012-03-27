@@ -43,6 +43,15 @@ std::string DeflectionCK::getDescription() const {
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
+	if (candidate->current.getChargeNumber() == 0) {
+		double nextStep = std::max(minimumStep, candidate->getNextStep());
+		Vector3 pos = candidate->current.getPosition();
+		Vector3 dir = candidate->current.getDirection();
+		candidate->current.setPosition(pos + dir * nextStep);
+		candidate->setCurrentStep(nextStep);
+		candidate->setNextStep(nextStep * 5);
+		return;
+	}
 
 	PhasePoint yIn(candidate->current.getPosition(),
 			candidate->current.getMomentum());

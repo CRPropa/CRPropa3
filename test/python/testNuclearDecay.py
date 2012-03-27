@@ -74,39 +74,3 @@ ax.set_ylabel('protons')
 ax.grid()
 fig.savefig('NuclearDecay_multiplicity.png',bbox_inches='tight')
 
-
-
-#def getDecayChannel(hepId):
-#    c = Candidate()
-#    c.current.setId(hepId)
-#    c.current.setEnergy(1*EeV)
-#    
-#    c.clearInteractionStates()
-#    decay.process(c)  
-#    s = InteractionState()
-#    c.getInteractionState('mpc::NuclearDecay', s)
-#    
-#    return s.channel
- 
-#import ROOT
-#def getDecayTime(hepId, n=1000):
-#    c = Candidate()
-#    c.current.setId(hepId)
-#    c.current.setEnergy(1*EeV)
-#    
-#    h = ROOT.TH1F('','',40,0,100)
-#    
-#    for i in range(n):
-#        c.clearInteractionStates()
-#        decay.process(c)
-#        s = InteractionState()
-#        c.getInteractionState('mpc::NuclearDecay', s)
-#        h.Fill(s.distance / c_light)
-#    
-#    if h.GetEffectiveEntries() == 0:
-#        return np.inf
-#
-#    print h.GetEntries()
-#    f = ROOT.TF1('f1', 'expo')
-#    h.Fit(f, "q")
-#    return 1/-f.GetParameter(1)

@@ -53,14 +53,14 @@ public:
 					0) {
 	}
 
-	bool writeBytes(char *data, size_t size) {
+//	bool writeBytes(char *data, size_t size) {
 //		data_left = size;
 //		while (data_left) {
 //
 //			output.write(data, size);
 //		}
 //		return (output);
-	}
+//	}
 };
 
 template<class T>

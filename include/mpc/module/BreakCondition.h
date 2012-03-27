@@ -24,7 +24,8 @@ public:
 		double l = candidate->getTrajectoryLength();
 		if (l >= maxLength)
 			candidate->setActive(false);
-		candidate->limitNextStep(maxLength - l);
+		else
+			candidate->limitNextStep(maxLength - l);
 	}
 
 	std::string getDescription() const {

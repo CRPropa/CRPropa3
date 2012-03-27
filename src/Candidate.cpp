@@ -16,7 +16,7 @@ bool Candidate::isActive() const {
 	return active;
 }
 
-void Candidate::setActive(const bool b) {
+void Candidate::setActive(bool b) {
 	active = b;
 }
 

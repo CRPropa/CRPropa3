@@ -94,6 +94,5 @@
 %include "mpc/module/GlutDisplay.h"
 %include "mpc/module/Tools.h"
 
-
 %include "mpc/ModuleChain.h"
 %include "mpc/ModuleList.h"

@@ -49,18 +49,16 @@ void Slave::load(const string &filename) {
 	// break conditions ---------------------------------------------------
 //		chain.add(new MinimumEnergy(5 * EeV), 50);
 //		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-	chain.add(
-			52,
-			new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc,
-					Candidate::Detected));
+	chain.add(52,
+			new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc));
 //		chain.add(new SmallObserverSphere(Vector3(0, 0, 0) * Mpc, 1 * Mpc), 53);
 
 // output -------------------------------------------------------------
 	chain.add(79, new ShellOutput());
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
 //		chain.add(new GlutDisplay(), 80);
-	chain.add(100, new FlaggedOutput("final.txt", Candidate::Detected));
-}
+chain.add(100, new ConditionalOutput("final.txt", "Detected"));
+	}
 
 void Slave::acquireJob() {
 	job_t job;

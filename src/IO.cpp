@@ -29,8 +29,6 @@ void write(kiss::Output &out, const mpc::Candidate &candidate) {
 	write(out, candidate.getTrajectoryLength());
 	write(out, candidate.getCurrentStep());
 	write(out, candidate.getNextStep());
-	write(out, candidate.getStatus());
-//write(out, candidate.getInteractionStates());
 }
 
 bool read(kiss::Input &in, mpc::Vector3 &vec3) {
@@ -61,8 +59,8 @@ bool read(kiss::Input &in, mpc::Candidate &candidate) {
 	candidate.setTrajectoryLength(kiss::read<double>(in));
 	candidate.setCurrentStep(kiss::read<double>(in));
 	candidate.setNextStep(kiss::read<double>(in));
-	candidate.setStatus((mpc::Candidate::Status) kiss::read<int>(in));
-//read(in, candidate.getInteractionStates());
+//	candidate.setStatus((mpc::Candidate::Status) kiss::read<int>(in));
+//  read(in, candidate.getInteractionStates());
 	return (in);
 }
 

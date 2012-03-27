@@ -23,7 +23,7 @@ public:
 	void process(Candidate *candidate) const {
 		double l = candidate->getTrajectoryLength();
 		if (l >= maxLength)
-			candidate->setStatus(Candidate::Stopped);
+			candidate->setActive(false);
 		candidate->limitNextStep(maxLength - l);
 	}
 
@@ -42,13 +42,13 @@ class MinimumEnergy: public Module {
 public:
 	double minEnergy;
 
-	MinimumEnergy(double minEnergy) {
-		this->minEnergy = minEnergy;
+	MinimumEnergy(double minEnergy) :
+			minEnergy(minEnergy) {
 	}
 
 	void process(Candidate *candidate) const {
 		if (candidate->current.getEnergy() <= minEnergy)
-			candidate->setStatus(Candidate::Stopped);
+			candidate->setActive(false);
 	}
 
 	std::string getDescription() const {
@@ -67,16 +67,16 @@ public:
 	double radius;
 	Vector3 center;
 
-	SmallObserverSphere(Vector3 center, double radius) {
-		this->radius = radius;
-		this->center = center;
+	SmallObserverSphere(Vector3 center, double radius) :
+			center(center), radius(radius) {
 	}
 
 	void process(Candidate *candidate) const {
 		double d = (candidate->current.getPosition() - center).mag();
-		if (d <= radius * 1.01)
-			candidate->setStatus(Candidate::Detected);
-		else
+		if (d <= radius * 1.01) {
+			candidate->setActive(false);
+			candidate->setProperty("Detected", "");
+		} else
 			candidate->limitNextStep((d - radius));
 	}
 
@@ -95,26 +95,16 @@ class CubicBoundary: public Module {
 protected:
 	Vector3 origin;
 	double size;
-	Candidate::Status flag;
-	bool hardBoundary;
+	bool limitStep;
 	double margin;
 
 public:
-	CubicBoundary(Vector3 origin, double size, Candidate::Status flag) {
-		this->origin = origin;
-		this->size = size;
-		this->hardBoundary = true;
-		this->flag = flag;
-		this->margin = 0;
+	CubicBoundary(Vector3 origin, double size) :
+			origin(origin), size(size), limitStep(false) {
 	}
 
-	CubicBoundary(Vector3 origin, double size, double margin,
-			Candidate::Status flag) {
-		this->origin = origin;
-		this->size = size;
-		this->flag = flag;
-		this->hardBoundary = false;
-		this->margin = margin;
+	CubicBoundary(Vector3 origin, double size, double margin) :
+			origin(origin), size(size), limitStep(true), margin(margin) {
 	}
 
 	void process(Candidate *candidate) const {
@@ -122,8 +112,8 @@ public:
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
 		if ((lo <= 0.) or (hi >= size))
-			candidate->setStatus(flag);
-		if (!hardBoundary) {
+			candidate->setActive(false);
+		if (limitStep) {
 			candidate->limitNextStep(lo + margin);
 			candidate->limitNextStep(size - hi + margin);
 		}
@@ -144,31 +134,23 @@ class SphericalBoundary: public Module {
 protected:
 	Vector3 center;
 	double radius;
-	Candidate::Status flag;
-	bool hardBoundary;
+	bool limitStep;
 	double margin;
 
 public:
-	SphericalBoundary(Vector3 center, double radius, Candidate::Status flag) {
-		this->center = center;
-		this->radius = radius;
-		this->flag = flag;
+	SphericalBoundary(Vector3 center, double radius) :
+			center(center), radius(radius), limitStep(false) {
 	}
 
-	SphericalBoundary(Vector3 center, double radius, double margin,
-			Candidate::Status flag) {
-		this->center = center;
-		this->radius = radius;
-		this->flag = flag;
-		this->hardBoundary = true;
-		this->margin = margin;
+	SphericalBoundary(Vector3 center, double radius, double margin) :
+			center(center), radius(radius), limitStep(true), margin(margin) {
 	}
 
 	void process(Candidate *candidate) const {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d >= radius)
-			candidate->setStatus(flag);
-		if (hardBoundary)
+			candidate->setActive(false);
+		if (limitStep)
 			candidate->limitNextStep(radius - d + margin);
 	}
 
@@ -188,26 +170,24 @@ protected:
 	Vector3 focalPoint1;
 	Vector3 focalPoint2;
 	double majorAxis;
-	Candidate::Status flag;
-	bool hardBoundary;
+	bool limitStep;
 	double margin;
 
 public:
 	EllipsoidalBoundary(Vector3 focalPoint1, Vector3 focalPoint2,
-			double majorAxis, Candidate::Status flag) {
+			double majorAxis) {
 		this->focalPoint1 = focalPoint1;
 		this->focalPoint2 = focalPoint2;
 		this->majorAxis = majorAxis;
-		this->flag = flag;
+		this->limitStep = false;
 	}
 
 	EllipsoidalBoundary(Vector3 focalPoint1, Vector3 focalPoint2,
-			double majorAxis, double margin, Candidate::Status flag) {
+			double majorAxis, double margin) {
 		this->focalPoint1 = focalPoint1;
 		this->focalPoint2 = focalPoint2;
 		this->majorAxis = majorAxis;
-		this->flag = flag;
-		this->hardBoundary = true;
+		this->limitStep = true;
 		this->margin = margin;
 	}
 
@@ -215,8 +195,8 @@ public:
 		Vector3 pos = candidate->current.getPosition();
 		double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
 		if (d >= majorAxis)
-			candidate->setStatus(flag);
-		if (hardBoundary)
+			candidate->setActive(false);
+		if (limitStep)
 			candidate->limitNextStep(majorAxis - d + margin);
 	}
 

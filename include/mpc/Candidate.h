@@ -33,12 +33,12 @@ struct InteractionState {
  */
 class Candidate: public Referenced {
 public:
-	bool active;
 	ParticleState current;
 	ParticleState initial;
 	std::vector<ref_ptr<Candidate> > secondaries;
 
 private:
+	bool active;
 	double redshift, trajectoryLength;
 	double currentStep, nextStep;
 	std::map<std::string, std::string> properties;

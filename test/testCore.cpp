@@ -5,34 +5,34 @@
 
 namespace mpc {
 
-TEST(testParticleState, position) {
+TEST(ParticleState, position) {
 	ParticleState particle;
 	Vector3 v(1, 3, 5);
 	particle.setPosition(v * Mpc);
 	EXPECT_TRUE(particle.getPosition() == v * Mpc);
 }
 
-TEST(testParticleState, energy) {
+TEST(ParticleState, energy) {
 	ParticleState particle;
 	particle.setEnergy(10 * EeV);
 	EXPECT_EQ(particle.getEnergy(), 10 * EeV);
 }
 
-TEST(testParticleState, direction) {
+TEST(ParticleState, direction) {
 	ParticleState particle;
 	Vector3 v(1, 2, 3);
 	particle.setDirection(v);
 	EXPECT_TRUE(particle.getDirection() == v / v.mag());
 }
 
-TEST(testParticleState, velocity) {
+TEST(ParticleState, velocity) {
 	ParticleState particle;
 	Vector3 v(1, 1, 0);
 	particle.setDirection(v);
 	EXPECT_TRUE(particle.getVelocity() == v / v.mag() * c_light);
 }
 
-TEST(testParticleState, momentum) {
+TEST(ParticleState, momentum) {
 	ParticleState particle;
 	Vector3 v(0, 1, 0);
 	particle.setDirection(v);
@@ -40,27 +40,27 @@ TEST(testParticleState, momentum) {
 	EXPECT_TRUE(particle.getMomentum() == v * (particle.getEnergy() / c_light));
 }
 
-TEST(testParticleState, id) {
+TEST(ParticleState, id) {
 	ParticleState particle;
 	particle.setId(1045026000);
 	EXPECT_EQ(particle.getId(), 1045026000);
 }
 
-TEST(testParticleState, charge) {
+TEST(ParticleState, charge) {
 	ParticleState particle;
 	particle.setId(1056026000);
 	EXPECT_EQ(particle.getChargeNumber(), 26);
 	EXPECT_DOUBLE_EQ(particle.getCharge(), 26 * eplus);
 }
 
-TEST(testParticleState, mass) {
+TEST(ParticleState, mass) {
 	ParticleState particle;
 	particle.setId(1056026000);
 	EXPECT_EQ(particle.getMassNumber(), 56);
 	EXPECT_DOUBLE_EQ(particle.getMass(), 56 * amu);
 }
 
-TEST(testParticleState, lorentzFactor) {
+TEST(ParticleState, lorentzFactor) {
 	ParticleState particle;
 	particle.setId(1010005000);
 	particle.setEnergy(1e12 * eV);
@@ -68,13 +68,13 @@ TEST(testParticleState, lorentzFactor) {
 	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), lf);
 }
 
-TEST(testCandidate, currentStep) {
+TEST(Candidate, currentStep) {
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
 	EXPECT_DOUBLE_EQ(candidate.getCurrentStep(), 1 * Mpc);
 }
 
-TEST(testCandidate, limitNextStep) {
+TEST(Candidate, limitNextStep) {
 	Candidate candidate;
 	candidate.setNextStep(5 * Mpc);
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 5 * Mpc);
@@ -84,16 +84,20 @@ TEST(testCandidate, limitNextStep) {
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 2 * Mpc);
 }
 
-TEST(testCandidate, status) {
+TEST(Candidate, isActive) {
 	Candidate candidate;
-	candidate.setStatus(Candidate::Active);
-	EXPECT_EQ(candidate.getStatus(), Candidate::Active);
-	candidate.setStatus(Candidate::Detected);
-	EXPECT_EQ(candidate.getStatus(), Candidate::Detected);
-	candidate.setStatus(Candidate::Stopped);
-	EXPECT_EQ(candidate.getStatus(), Candidate::Stopped);
-	candidate.setStatus(Candidate::UserDefined);
-	EXPECT_EQ(candidate.getStatus(), Candidate::UserDefined);
+	EXPECT_TRUE(candidate.isActive());
+	candidate.setActive(false);
+	EXPECT_FALSE(candidate.isActive());
+}
+
+TEST(Candidate, property) {
+	Candidate candidate;
+	candidate.setProperty("foo","bar");
+	EXPECT_TRUE(candidate.hasProperty("foo"));
+	std::string value;
+	candidate.getProperty("foo", value);
+	EXPECT_EQ("bar", value);
 }
 
 TEST(common, digit) {

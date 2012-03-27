@@ -37,57 +37,43 @@ std::string TrajectoryOutput::getDescription() const {
 	return "Trajectory output";
 }
 
-FlaggedOutput::FlaggedOutput(std::string name, Candidate::Status flag) {
-	this->flag = flag;
+ConditionalOutput::ConditionalOutput(std::string name, std::string propName) {
+	propertyName = propName;
 	outfile.open(name.c_str());
 	outfile
 			<< "id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta\n";
 }
 
-FlaggedOutput::~FlaggedOutput() {
+ConditionalOutput::~ConditionalOutput() {
 	outfile.close();
 }
 
-void FlaggedOutput::process(Candidate *candidate) const {
-	if (candidate->getStatus() != flag)
-		return;
-
+void ConditionalOutput::process(Candidate *candidate) const {
+	if (candidate->hasProperty(propertyName)) {
 #pragma omp critical
-	{
-		outfile << candidate->current.getId() << ", ";
-		outfile << candidate->current.getPosition().x() / Mpc << ", ";
-		outfile << candidate->current.getPosition().y() / Mpc << ", ";
-		outfile << candidate->current.getPosition().z() / Mpc << ", ";
-		outfile << candidate->current.getEnergy() / EeV << ", ";
-		outfile << candidate->current.getDirection().phi() << ", ";
-		outfile << candidate->current.getDirection().theta() << ", ";
-		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
-		outfile << candidate->initial.getId() << ", ";
-		outfile << candidate->initial.getPosition().x() / Mpc << ", ";
-		outfile << candidate->initial.getPosition().y() / Mpc << ", ";
-		outfile << candidate->initial.getPosition().z() / Mpc << ", ";
-		outfile << candidate->initial.getEnergy() / EeV << ", ";
-		outfile << candidate->initial.getDirection().phi() << ", ";
-		outfile << candidate->initial.getDirection().theta();
-		outfile << std::endl;
+		{
+			outfile << candidate->current.getId() << ", ";
+			outfile << candidate->current.getPosition().x() / Mpc << ", ";
+			outfile << candidate->current.getPosition().y() / Mpc << ", ";
+			outfile << candidate->current.getPosition().z() / Mpc << ", ";
+			outfile << candidate->current.getEnergy() / EeV << ", ";
+			outfile << candidate->current.getDirection().phi() << ", ";
+			outfile << candidate->current.getDirection().theta() << ", ";
+			outfile << candidate->getTrajectoryLength() / Mpc << ", ";
+			outfile << candidate->initial.getId() << ", ";
+			outfile << candidate->initial.getPosition().x() / Mpc << ", ";
+			outfile << candidate->initial.getPosition().y() / Mpc << ", ";
+			outfile << candidate->initial.getPosition().z() / Mpc << ", ";
+			outfile << candidate->initial.getEnergy() / EeV << ", ";
+			outfile << candidate->initial.getDirection().phi() << ", ";
+			outfile << candidate->initial.getDirection().theta();
+			outfile << std::endl;
+		}
 	}
 }
 
-std::string FlaggedOutput::getDescription() const {
-	switch (flag) {
-	case Candidate::Active:
-		return "FlaggedOutput, Active";
-	case Candidate::Detected:
-		return "FlaggedOutput, Detected";
-	case Candidate::OutOfBounds:
-		return "FlaggedOutput, OutOfBounds";
-	case Candidate::Stopped:
-		return "FlaggedOutput, Stopped";
-	case Candidate::UserDefined:
-	default:
-		return "FlaggedOutput, user defined (" + kiss::str(flag) + ")";
-	}
-
+std::string ConditionalOutput::getDescription() const {
+	return "ConditionalOutput, condition: " + propertyName;
 }
 
 void ShellOutput::process(Candidate *candidate) const {
@@ -99,7 +85,6 @@ void ShellOutput::process(Candidate *candidate) const {
 		std::cout << candidate->current.getId() << ",  ";
 		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
 		std::cout << candidate->current.getPosition() / Mpc << " Mpc, Status: ";
-		std::cout << candidate->getStatus();
 		std::cout << std::endl;
 	}
 }

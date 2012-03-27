@@ -27,7 +27,7 @@ void ModuleList::process(Candidate *candidate) {
 }
 
 void ModuleList::run(Candidate *candidate, bool recursive) {
-	while (candidate->getStatus() == Candidate::Active) {
+	while (candidate->isActive()) {
 		process(candidate);
 	}
 

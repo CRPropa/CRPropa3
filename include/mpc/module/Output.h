@@ -22,17 +22,17 @@ public:
 };
 
 /**
- @class FlaggedOutput
- @brief Saves particles with a given flag to a CSV file.
+ @class ConditionalOutput
+ @brief Saves particles with a given property to a CSV file.
  */
-class FlaggedOutput: public Module {
+class ConditionalOutput: public Module {
 private:
 	mutable std::ofstream outfile;
-	Candidate::Status flag;
+	std::string propertyName;
 
 public:
-	FlaggedOutput(std::string name, Candidate::Status flag);
-	~FlaggedOutput();
+	ConditionalOutput(std::string name, std::string propName);
+	~ConditionalOutput();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };

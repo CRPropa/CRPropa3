@@ -51,7 +51,7 @@ void ModuleChain::process(Candidate *candidate) {
 
 	process(startModules, candidate);
 
-	while (candidate->getStatus() == Candidate::Active) {
+	while (candidate->isActive()) {
 		if (mainModules.size() == 0)
 			break;
 		process(mainModules, candidate);
@@ -65,7 +65,7 @@ void ModuleChain::process(std::vector<ref_ptr<Candidate> > &candidates,
 #pragma omp parallel for
 	for (size_t i = 0; i < candidates.size(); i++) {
 		Candidate *candidate = candidates[i];
-		if (candidate->getStatus() != Candidate::Active)
+		if (candidate->isActive())
 			continue;
 		process(candidate);
 

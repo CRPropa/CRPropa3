@@ -33,10 +33,7 @@ struct InteractionState {
  */
 class Candidate: public Referenced {
 public:
-	enum Status {
-		Active = 0, Detected, OutOfBounds, Stopped, UserDefined
-	};
-
+	bool active;
 	ParticleState current;
 	ParticleState initial;
 	std::vector<ref_ptr<Candidate> > secondaries;
@@ -44,15 +41,17 @@ public:
 private:
 	double redshift, trajectoryLength;
 	double currentStep, nextStep;
-	Status status;
+	std::map<std::string, std::string> properties;
 	std::map<std::string, InteractionState> interactionStates;
 
 public:
 	Candidate();
 	Candidate(const ParticleState &state);
-	virtual ~Candidate() {
+	virtual ~Candidate() {};
 
-	}
+	bool isActive() const;
+	void setActive(const bool b);
+
 	double getRedshift() const;
 	void setRedshift(double z);
 
@@ -66,13 +65,14 @@ public:
 	void setNextStep(double step);
 	void limitNextStep(double step);
 
-	Status getStatus() const;
-	void setStatus(Status stat);
+	bool getProperty(const std::string &name, std::string &value) const;
+	void setProperty(const std::string &name, const std::string &value);
+	bool hasProperty(const std::string &name) const;
 
 	bool getInteractionState(const std::string &moduleName,
 			InteractionState &state) const;
 	void setInteractionState(const std::string &moduleName,
-			InteractionState state);
+			const InteractionState &state);
 	const std::map<std::string, InteractionState> getInteractionStates() const;
 	void clearInteractionStates();
 

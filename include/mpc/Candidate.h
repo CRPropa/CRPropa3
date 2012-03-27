@@ -50,13 +50,13 @@ public:
 	virtual ~Candidate() {};
 
 	bool isActive() const;
-	void setActive(const bool b);
-
-	double getRedshift() const;
-	void setRedshift(double z);
+	void setActive(bool b);
 
 	double getTrajectoryLength() const;
 	void setTrajectoryLength(double a);
+
+	double getRedshift() const;
+	void setRedshift(double z);
 
 	double getCurrentStep() const;
 	void setCurrentStep(double lstep);

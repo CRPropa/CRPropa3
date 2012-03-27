@@ -24,11 +24,11 @@ def propagate(tolerance):
 	c.setNextStep(1 * kpc)
 	c.current.setPosition(Vector3(0, R, 0))
 	c.current.setDirection(Vector3(1, 0, 0))
-	c.setStatus(Candidate.Active)
+	c.setActive(True)
 
 	posX, posY, dirX, dirY, dirDeviation, theta = [], [], [], [], [], []
 	nSteps = 0
-	while (c.getStatus() == Candidate.Active):
+	while c.isActive():
 		prop.process(c)
 		maxLen.process(c)
 		nSteps +=1
@@ -84,7 +84,7 @@ for tolerance in [1e-3, 1e-4, 1e-5, 1e-6]:
 	plot(theta/2/pi, arccos(dirDev)*180/pi, label='%.0e, %i'%(tolerance, n))
 legend(title='Tolerance, Steps', loc='upper left')
 xlabel(r'Travelled Distance / $2 \pi R_L$')
-ylabel(r'Directional Error [$^\circ$]')
+ylabel(r'Direction Error [$^\circ$]')
 xlim(0,1)
 grid()
 savefig('DeflectionCK_pdeviation.png',bbox_inches='tight')
@@ -98,7 +98,7 @@ for tolerance in [1e-3, 1e-4, 1e-5, 1e-6]:
 	plot(theta/2/pi, displacement, label='%.0e, %i'%(tolerance, n))
 legend(title='Tolerance, Steps', loc='upper left')
 xlabel(r'Travelled Distance / $2 \pi R_L$')
-ylabel(r'Positional Error / $R_L$')
+ylabel(r'Position Error / $R_L$')
 xlim(0,1)
 grid()
 savefig('DeflectionCK_xdeviation.png',bbox_inches='tight')

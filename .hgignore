@@ -10,4 +10,4 @@ syntax: regexp
 syntax: regexp
 ^.settings$
 syntax: regexp
-^\test\python\$.png
+.png$

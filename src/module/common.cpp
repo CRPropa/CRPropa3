@@ -31,7 +31,7 @@ std::string getDataPath(std::string filename) {
 		if (is_directory(_path)) {
 			dataPath = _path;
 			KISS_LOG_INFO
-				<< "getDataPath: use define, " << dataPath << std::endl;
+				<< "getDataPath: use install prefix, " << dataPath << std::endl;
 			return concat_path(dataPath, filename);
 		}
 	}

@@ -37,11 +37,13 @@ std::string TrajectoryOutput::getDescription() const {
 	return "Trajectory output";
 }
 
-ConditionalOutput::ConditionalOutput(std::string name, std::string propName) {
+ConditionalOutput::ConditionalOutput(std::string filename,
+		std::string propName) {
 	propertyName = propName;
 	outfile.open(name.c_str());
 	outfile
-			<< "id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta\n";
+			<< "id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta"
+			<< std::endl;
 }
 
 ConditionalOutput::~ConditionalOutput() {

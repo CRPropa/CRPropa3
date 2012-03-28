@@ -31,7 +31,7 @@ private:
 	std::string propertyName;
 
 public:
-	ConditionalOutput(std::string name, std::string propName);
+	ConditionalOutput(std::string filename, std::string propName);
 	~ConditionalOutput();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;

@@ -87,7 +87,7 @@ public:
 	void process(Candidate *candidate) const {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d <= radius * 1.01) {
-			candidate->addProperty("Detected", "");
+			candidate->setProperty("Detected", "");
 			if (makeInactive)
 				candidate->setActive(false);
 		}
@@ -141,7 +141,7 @@ public:
 		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
 		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
 		if ((lo <= 0.) or (hi >= size)) {
-			candidate->addProperty(flag, flagValue);
+			candidate->setProperty(flag, flagValue);
 			if (makeInactive)
 				candidate->setActive(false);
 		}
@@ -196,7 +196,7 @@ public:
 	void process(Candidate *candidate) const {
 		double d = (candidate->current.getPosition() - center).mag();
 		if (d >= radius) {
-			candidate->addProperty(flag, flagValue);
+			candidate->setProperty(flag, flagValue);
 			if (makeInactive)
 				candidate->setActive(false);
 		}
@@ -253,7 +253,7 @@ public:
 		Vector3 pos = candidate->current.getPosition();
 		double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
 		if (d >= majorAxis) {
-			candidate->addProperty(flag, flagValue);
+			candidate->setProperty(flag, flagValue);
 			if (makeInactive)
 				candidate->setActive(false);
 		}

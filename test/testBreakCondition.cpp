@@ -32,7 +32,7 @@ TEST(MaximumTrajectoryLength, Continue) {
 	EXPECT_TRUE(candidate.isActive());
 }
 
-TEST(MaximumTrajectoryLength, Stop) {
+TEST(MaximumTrajectoryLength, stop) {
 	MaximumTrajectoryLength maxLength(10);
 	Candidate candidate;
 	candidate.setTrajectoryLength(10.1);
@@ -48,7 +48,7 @@ TEST(SmallObserverSphere, Continue) {
 	EXPECT_TRUE(candidate.isActive());
 }
 
-TEST(SmallObserverSphere, Detect) {
+TEST(SmallObserverSphere, detect) {
 	SmallObserverSphere obs(Vector3(0, 0, 0), 1);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(0.1, 0.5, -0.1));
@@ -57,7 +57,7 @@ TEST(SmallObserverSphere, Detect) {
 	EXPECT_TRUE(candidate.hasProperty("Detected"));
 }
 
-TEST(SmallObserverSphere, LimitStep) {
+TEST(SmallObserverSphere, limitStep) {
 	SmallObserverSphere obs(Vector3(0, 0, 0), 1);
 	Candidate candidate;
 	candidate.setNextStep(10);
@@ -66,7 +66,7 @@ TEST(SmallObserverSphere, LimitStep) {
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 1);
 }
 
-TEST(CubicBoundary, Inside) {
+TEST(CubicBoundary, inside) {
 	CubicBoundary cube(Vector3(0, 0, 0), 10);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(9, 5, 5));
@@ -74,21 +74,22 @@ TEST(CubicBoundary, Inside) {
 	EXPECT_TRUE(candidate.isActive());
 }
 
-TEST(CubicBoundary, Outside) {
+TEST(CubicBoundary, outside) {
 	CubicBoundary cube(Vector3(0, 0, 0), 10);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(10.1, 5, 5));
 	cube.process(&candidate);
-	EXPECT_FALSE(candidate.isActive());
+	EXPECT_TRUE(candidate.isActive());
+	EXPECT_TRUE(candidate.hasProperty("OutOfBounds"));
 
-	candidate.current.setPosition(Vector3(5, -0.1, 5));
-	candidate.setActive(true);
+	cube.setMakeInactive(true);
 	cube.process(&candidate);
 	EXPECT_FALSE(candidate.isActive());
 }
 
-TEST(CubicBoundary, LimitStep) {
-	CubicBoundary cube(Vector3(0, 0, 0), 10, 1);
+TEST(CubicBoundary, limitStep) {
+	CubicBoundary cube(Vector3(0, 0, 0), 10);
+	cube.setLimitStep(true, 1);
 	Candidate candidate;
 	candidate.setNextStep(10);
 	candidate.current.setPosition(Vector3(5, 5, 0.5));
@@ -96,24 +97,30 @@ TEST(CubicBoundary, LimitStep) {
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 1.5);
 }
 
-TEST(SphericalBoundary, Inside) {
+TEST(SphericalBoundary, inside) {
 	SphericalBoundary sphere(Vector3(0, 0, 0), 10);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(9, 0, 0));
 	sphere.process(&candidate);
-	EXPECT_TRUE(candidate.isActive());
+	EXPECT_FALSE(candidate.hasProperty("OutOfBounds"));
 }
 
-TEST(SphericalBoundary, Outside) {
-	SphericalBoundary sphere(Vector3(0, 0, 0), 10);
+TEST(SphericalBoundary, outside) {
+	SphericalBoundary sphere(Vector3(0, 0, 0), 10, "PassedGalacticBorder");
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(0, -10.1, 0));
+	sphere.process(&candidate);
+	EXPECT_TRUE(candidate.isActive());
+	EXPECT_TRUE(candidate.hasProperty("PassedGalacticBorder"));
+
+	sphere.setMakeInactive(true);
 	sphere.process(&candidate);
 	EXPECT_FALSE(candidate.isActive());
 }
 
-TEST(SphericalBoundary, LimitStep) {
-	SphericalBoundary sphere(Vector3(0, 0, 0), 10, 1);
+TEST(SphericalBoundary, limitStep) {
+	SphericalBoundary sphere(Vector3(0, 0, 0), 10);
+	sphere.setLimitStep(true, 1);
 	Candidate candidate;
 	candidate.setNextStep(2);
 	candidate.current.setPosition(Vector3(0, 0, 9.5));
@@ -121,24 +128,30 @@ TEST(SphericalBoundary, LimitStep) {
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 1.5);
 }
 
-TEST(EllipsoidalBoundary, Inside) {
+TEST(EllipsoidalBoundary, inside) {
 	EllipsoidalBoundary ellipsoid(Vector3(-5, 0, 0), Vector3(5, 0, 0), 15);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(3, 2, 0));
 	ellipsoid.process(&candidate);
-	EXPECT_TRUE(candidate.isActive());
+	EXPECT_FALSE(candidate.hasProperty("OutOfBounds"));
 }
 
-TEST(EllipsoidalBoundary, Outside) {
+TEST(EllipsoidalBoundary, outside) {
 	EllipsoidalBoundary ellipsoid(Vector3(-5, 0, 0), Vector3(5, 0, 0), 15);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3(0, 25, 0));
 	ellipsoid.process(&candidate);
+	EXPECT_TRUE(candidate.hasProperty("OutOfBounds"));
+	EXPECT_TRUE(candidate.isActive());
+
+	ellipsoid.setMakeInactive(true);
+	ellipsoid.process(&candidate);
 	EXPECT_FALSE(candidate.isActive());
 }
 
-TEST(EllipsoidalBoundary, LimitStep) {
-	EllipsoidalBoundary ellipsoid(Vector3(-5, 0, 0), Vector3(5, 0, 0), 15, 0.5);
+TEST(EllipsoidalBoundary, limitStep) {
+	EllipsoidalBoundary ellipsoid(Vector3(-5, 0, 0), Vector3(5, 0, 0), 15);
+	ellipsoid.setLimitStep(true, 0.5);
 	Candidate candidate;
 	candidate.setNextStep(2);
 	candidate.current.setPosition(Vector3(7, 0, 0));

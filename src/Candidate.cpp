@@ -80,6 +80,19 @@ void Candidate::clearInteractionStates() {
 	interactionStates.clear();
 }
 
+void Candidate::addProperty(const std::string &name, const std::string &value) {
+	properties[name] = value;
+}
+
+bool Candidate::removeProperty(const std::string& name) {
+	std::map<std::string, std::string>::iterator i = properties.find(
+				name);
+	if (i == properties.end())
+			return false;
+	properties.erase(i);
+	return true;
+}
+
 bool Candidate::getProperty(const std::string &name, std::string &value) const {
 	std::map<std::string, std::string>::const_iterator i = properties.find(
 			name);
@@ -89,10 +102,6 @@ bool Candidate::getProperty(const std::string &name, std::string &value) const {
 	return true;
 }
 
-void Candidate::setProperty(const std::string &name, const std::string &value) {
-	properties[name] = value;
-}
-
 bool Candidate::hasProperty(const std::string &name) const {
 	std::map<std::string, std::string>::const_iterator i = properties.find(
 			name);
@@ -100,7 +109,6 @@ bool Candidate::hasProperty(const std::string &name) const {
 		return false;
 	return true;
 }
-;
 
 void Candidate::addSecondary(int id, double energy) {
 	ref_ptr<Candidate> secondary = new Candidate;

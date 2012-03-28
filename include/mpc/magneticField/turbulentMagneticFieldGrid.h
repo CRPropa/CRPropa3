@@ -28,7 +28,9 @@ public:
 			double lMin, double lMax, double Brms, double powerSpectralIndex);
 	void setSeed(int seed);
 	void initialize();
+	double getRMSFieldStrength() const;
 	double getCorrelationLength() const;
+	double getPowerSpectralIndex() const;
 
 protected:
 	double Brms, lMin, lMax, powerSpectralIndex;

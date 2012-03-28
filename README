@@ -1,6 +1,17 @@
 Installation from source
-mpc is build using CMAKE - for more information see www.cmake.org
+MPC is built using CMAKE - for more information see www.cmake.org
 
 1) $cd build/
 2) $cmake .. or $ccmake ..
 3) make
+
+Dependencies:
+GNU Scientific Library - for interpolation
+
+Optional dependencies:
+Python - to use MPC from python
+OpenMP - for shared memory parallelization
+FFTW - for turbulent magnetic field
+Gadget - for smooth particle large scale structure
+GTest - for unit-tests
+

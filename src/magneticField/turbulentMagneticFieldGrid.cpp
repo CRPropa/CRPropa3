@@ -130,6 +130,14 @@ void TurbulentMagneticFieldGrid::initialize() {
 	fftw_free(Bz);
 }
 
+double TurbulentMagneticFieldGrid::getRMSFieldStrength() const {
+	return Brms;
+}
+
+double TurbulentMagneticFieldGrid::getPowerSpectralIndex() const {
+	return powerSpectralIndex;
+}
+
 double TurbulentMagneticFieldGrid::getCorrelationLength() const {
 	double r = lMin / lMax;
 	double a = -powerSpectralIndex - 2;

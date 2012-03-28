@@ -138,7 +138,7 @@ endif (GTEST_FOUND)
 # ----------------------------------------------------------------------------
 # OpenMP and OpenMPI
 # ----------------------------------------------------------------------------
-add_executable(mpc-omp-run example/openmp.cpp)
+add_executable(mpc-omp-run src/openmp.cpp)
 TARGET_LINK_LIBRARIES(mpc-omp-run mpc)
 
 # MPI needed for mpc-mpi

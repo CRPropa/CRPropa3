@@ -80,7 +80,7 @@ void Candidate::clearInteractionStates() {
 	interactionStates.clear();
 }
 
-void Candidate::addProperty(const std::string &name, const std::string &value) {
+void Candidate::setProperty(const std::string &name, const std::string &value) {
 	properties[name] = value;
 }
 

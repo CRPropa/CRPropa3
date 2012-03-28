@@ -65,7 +65,7 @@ public:
 	void setNextStep(double step);
 	void limitNextStep(double step);
 
-	void addProperty(const std::string &name, const std::string &value);
+	void setProperty(const std::string &name, const std::string &value);
 	bool removeProperty(const std::string &name);
 	bool getProperty(const std::string &name, std::string &value) const;
 	bool hasProperty(const std::string &name) const;

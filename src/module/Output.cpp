@@ -40,7 +40,7 @@ std::string TrajectoryOutput::getDescription() const {
 ConditionalOutput::ConditionalOutput(std::string filename,
 		std::string propName) {
 	propertyName = propName;
-	outfile.open(name.c_str());
+	outfile.open(filename.c_str());
 	outfile
 			<< "id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta"
 			<< std::endl;
@@ -72,6 +72,7 @@ void ConditionalOutput::process(Candidate *candidate) const {
 			outfile << std::endl;
 		}
 	}
+	candidate->removeProperty(propertyName);
 }
 
 std::string ConditionalOutput::getDescription() const {

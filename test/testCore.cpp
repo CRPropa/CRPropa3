@@ -93,7 +93,7 @@ TEST(Candidate, isActive) {
 
 TEST(Candidate, property) {
 	Candidate candidate;
-	candidate.setProperty("foo","bar");
+	candidate.addProperty("foo","bar");
 	EXPECT_TRUE(candidate.hasProperty("foo"));
 	std::string value;
 	candidate.getProperty("foo", value);

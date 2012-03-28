@@ -37,7 +37,6 @@ void Slave::load(const string &filename) {
 //	import.import(filename);
 	UniformMagneticField *field = new UniformMagneticField(
 			Vector3(0., 0., 1e-20));
-//		TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 0.1 * Mpc, 1e-12, 1, 8, -11. / 3., 10);
 	chain.add(25, new DeflectionCK(field));
 
 	// interactions -------------------------------------------------------
@@ -46,18 +45,10 @@ void Slave::load(const string &filename) {
 	chain.add(32, new ElectronPairProduction(ElectronPairProduction::CMB));
 	chain.add(33, new PhotoPionProduction(PhotoPionProduction::CMBIR));
 
-	// break conditions ---------------------------------------------------
-//		chain.add(new MinimumEnergy(5 * EeV), 50);
-//		chain.add(new MaximumTrajectoryLength(100 * Mpc), 51);
-	chain.add(52,
-			new SphericalBoundary(Vector3(0, 0, 0) * Mpc, 20 * Mpc, 0.1 * Mpc));
-//		chain.add(new SmallObserverSphere(Vector3(0, 0, 0) * Mpc, 1 * Mpc), 53);
-
-// output -------------------------------------------------------------
+	// output -------------------------------------------------------------
 	chain.add(79, new ShellOutput());
 //		chain.add(new TrajectoryOutput("trajectories.csv"), 80);
-//		chain.add(new GlutDisplay(), 80);
-chain.add(100, new ConditionalOutput("final.txt", "Detected"));
+	chain.add(100, new ConditionalOutput("final.txt", "Detected"));
 	}
 
 void Slave::acquireJob() {

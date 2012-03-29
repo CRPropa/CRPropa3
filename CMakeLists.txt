@@ -89,6 +89,7 @@ add_library(mpc SHARED
     src/ParticleState.cpp
     src/Source.cpp
     src/module/common.cpp
+    src/module/BreakCondition.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp

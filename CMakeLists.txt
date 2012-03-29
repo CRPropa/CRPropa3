@@ -160,11 +160,13 @@ endif()
 INCLUDE (python/Python.cmake)
 include_directories(${PYTHON_INCLUDE_PATH})
 
+FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
 SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
 ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
                 COMMAND swig -c++ -python ${MPC_SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
                 DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
 add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
+#set_source_file_properties( ${CMAKE_SOURCE_DIR}/python/mpc.i PROPERTIES OBJECT_DEPENDS ${MPC_INCLUDES})
 set_target_properties(mpc-swig PROPERTIES PREFIX "")
 set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
 target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})

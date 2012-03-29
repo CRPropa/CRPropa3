@@ -1,6 +1,7 @@
 #include "mpc/module/DeflectionCK.h"
 
 #include <limits>
+#include <sstream>
 
 namespace mpc {
 
@@ -39,7 +40,9 @@ DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
 }
 
 std::string DeflectionCK::getDescription() const {
-	return "Propagation in magnetic fields using the Cash-Karp method";
+	std::stringstream sstr;
+	sstr << "Propagation in magnetic fields using the Cash-Karp method. Tolerance: " << tolerance << ", Minimum Step: " << minimumStep / kpc << " kpc";
+	return sstr.str();
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
@@ -66,7 +69,6 @@ void DeflectionCK::process(Candidate *candidate) const {
 	do {
 		hTry = h;
 		erk.step(0, yIn, yOut, yErr, hTry, dydt);
-
 		if (controlType == NoStepSizeControl) {
 			// no step size control
 			break;

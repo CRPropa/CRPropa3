@@ -87,7 +87,9 @@ void ShellOutput::process(Candidate *candidate) const {
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";
 		std::cout << candidate->current.getId() << ",  ";
 		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
-		std::cout << candidate->current.getPosition() / Mpc << " Mpc, Status: ";
+		std::cout << candidate->current.getPosition() / Mpc << " Mpc, ";
+		std::cout << candidate->current.getDirection().phi() << " / ";
+		std::cout << candidate->current.getDirection().theta();
 		std::cout << std::endl;
 	}
 }

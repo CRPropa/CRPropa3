@@ -21,7 +21,8 @@ PerformanceModule::~PerformanceModule() {
 	cout << "Performance for " << calls << " calls:" << endl;
 	for (size_t i = 0; i < modules.size(); i++) {
 		_module_info &m = modules[i];
-		cout << " - " << floor((1000 * m.time / total) + 0.5) / 10 << "% -> "  << m.module->getDescription() << ": " << (m.time / calls)
+		cout << " - " << floor((1000 * m.time / total) + 0.5) / 10 << "% -> "
+				<< m.module->getDescription() << ": " << (m.time / calls)
 				<< endl;
 	}
 }
@@ -66,4 +67,32 @@ string PerformanceModule::getDescription() const {
 	return sstr.str();
 }
 
+PropertyStatistics::PropertyStatistics(const std::string &key) :
+		key(key) {
+	setDescription("PropertyStatistics: " + key);
+}
+
+PropertyStatistics::~PropertyStatistics() {
+	std::cout << "Property Statistics for " << key << ":" << std::endl;
+	std::map<std::string, size_t>::iterator i;
+	for (i = properties.begin(); i != properties.end(); i++) {
+		std::cout << i->first << "\t\t-> " << i->second << std::endl;
+	}
+}
+
+void PropertyStatistics::process(Candidate *candidate) const {
+#pragma omp critical
+	{
+		std::string property;
+		if (candidate->getProperty(key, property)) {
+			std::map<std::string, size_t>::iterator i = properties.find(
+					property);
+			if (i == properties.end()) {
+				properties[property] = 1;
+			} else {
+				i->second++;
+			}
+		}
+	}
+}
 } // namespace mpc

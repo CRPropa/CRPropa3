@@ -15,11 +15,15 @@ class Candidate;
  @brief Abstract base class for modules
  */
 class Module: public Referenced {
+	std::string description;
 public:
+	Module();
+
 	virtual ~Module() {
 	}
 
 	virtual std::string getDescription() const;
+	virtual void setDescription(const std::string &description);
 
 	virtual void process(Candidate *candidate) const = 0;
 

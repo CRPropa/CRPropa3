@@ -4,9 +4,17 @@
 
 namespace mpc {
 
-std::string Module::getDescription() const {
+Module::Module() {
 	const std::type_info &info = typeid(*this);
-	return info.name();
+	setDescription(info.name());
+}
+
+std::string Module::getDescription() const {
+	return description;
+}
+
+void Module::setDescription(const std::string &description) {
+	this->description = description;
 }
 
 }

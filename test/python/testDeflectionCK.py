@@ -50,8 +50,8 @@ def propagate(tolerance):
 ### Plot trajectory in x-space with 1e-4 tolerance
 figure()
 posX, posY, dirX, dirY, dirDev, theta, n = propagate(1e-4)
-plot(posX/R, posY/R, label='Simulated')
-plot(sin(theta), cos(theta),'k--',label='True')
+plot(posX/R, posY/R, "o", label='Simulated')
+plot(sin(linspace(0,2*pi)), cos(linspace(0,2*pi)),'k--',label='True')
 title('Trajectory using $10^{-4}$ tolerance')
 legend()
 xlim(-1.5,1.5)
@@ -61,12 +61,11 @@ ylabel(r'$y / R_L$')
 grid()
 savefig('DeflectionCK_xtrajectory', bbox_inches='tight')
 
-
 ### Plot trajectory in p-space with 1e-4 tolerance
 figure()
 posX, posY, dirX, dirY, dirDev, theta, n = propagate(1e-4)
-plot(dirX, dirY, label='Simulated')
-plot(sin(theta), cos(theta),'k--',label='True')
+plot(dirX, dirY, "o", label='Simulated')
+plot(sin(linspace(0,2*pi)), cos(linspace(0,2*pi)),'k--',label='True')
 title(r'Trajectory in $\vec{p}$-space using $10^{-4}$ tolerance')
 legend()
 xlim(-1.5,1.5)
@@ -75,7 +74,6 @@ xlabel(r'$p_x / |p_x|$')
 ylabel(r'$p_y / |p_y|$')
 grid()
 savefig('DeflectionCK_ptrajectory', bbox_inches='tight')
-
 
 ### Directional error as function of distance for different tolerances
 figure()
@@ -89,7 +87,6 @@ xlim(0,1)
 grid()
 savefig('DeflectionCK_pdeviation.png',bbox_inches='tight')
 
-
 ### Positional error as function of distance for different tolerances
 figure()
 for tolerance in [1e-3, 1e-4, 1e-5, 1e-6]:
@@ -102,5 +99,4 @@ ylabel(r'Position Error / $R_L$')
 xlim(0,1)
 grid()
 savefig('DeflectionCK_xdeviation.png',bbox_inches='tight')
-
 

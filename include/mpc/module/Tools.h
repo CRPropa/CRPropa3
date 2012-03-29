@@ -23,6 +23,17 @@ public:
 	std::string getDescription() const;
 };
 
+class PropertyStatistics: public Module {
+private:
+	mutable std::map<std::string, size_t> properties;
+	std::string key;
+
+public:
+	PropertyStatistics(const std::string &key);
+	~PropertyStatistics();
+	void process(Candidate *candidate) const;
+};
+
 } // namespace mpc
 
 #endif /* MPC_MODULE_TOOLS_H_ */

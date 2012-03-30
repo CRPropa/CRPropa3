@@ -50,7 +50,7 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	for (size_t i = 0; i < count; i++) {
 #if _OPENMP
 		if (i == 0) {
-			std::cout << "Number of Threads: " << omp_get_thread_num()
+			std::cout << "Number of Threads: " << omp_get_num_threads()
 			<< std::endl;
 		}
 #endif

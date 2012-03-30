@@ -22,8 +22,9 @@ TrajectoryOutput::~TrajectoryOutput() {
 void TrajectoryOutput::process(Candidate *candidate) const {
 	char buffer[128];
 	size_t pos = 0;
-	pos += ::sprintf(buffer + pos, "%f, %d",
-			candidate->getTrajectoryLength() / Mpc, candidate->current.getId());
+	pos += ::sprintf(buffer + pos, "%f, %d, %f",
+			candidate->getTrajectoryLength() / Mpc, candidate->current.getId(),
+			candidate->current.getEnergy() / EeV);
 	Vector3 position = candidate->current.getPosition() / Mpc;
 	pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x(), position.y(),
 			position.z());
@@ -68,10 +69,10 @@ void ConditionalOutput::process(Candidate *candidate) const {
 				position.y(), position.z());
 		const Vector3 &dir = candidate->current.getDirection();
 		pos += ::sprintf(buffer + pos, ", %f, %f, %f",
-				candidate->current.getEnergy(), dir.phi(), dir.theta());
+				candidate->current.getEnergy() / EeV, dir.phi(), dir.theta());
 
 		pos += ::sprintf(buffer + pos, ", %f",
-				candidate->getTrajectoryLength());
+				candidate->getTrajectoryLength() / Mpc);
 
 		pos += ::sprintf(buffer + pos, ", %d", candidate->initial.getId());
 		Vector3 ipos = candidate->initial.getPosition() / Mpc;
@@ -79,7 +80,7 @@ void ConditionalOutput::process(Candidate *candidate) const {
 				ipos.z());
 		const Vector3 &idir = candidate->initial.getDirection();
 		pos += ::sprintf(buffer + pos, ", %f, %f, %f\n",
-				candidate->initial.getEnergy(), idir.phi(), idir.theta());
+				candidate->initial.getEnergy() / EeV, idir.phi(), idir.theta());
 
 #pragma omp critical
 		{

@@ -23,7 +23,14 @@ public:
 
 	PhasePoint operator()(double t, const PhasePoint &v) {
 		Vector3 velocity = v.b.unit() * c_light;
-		Vector3 B = field->getField(v.a);
+		Vector3 B(0, 0, 0);
+		try {
+			B = field->getField(v.a);
+		} catch (std::exception &e) {
+			std::cerr << "mpc::LorentzForce: Exception in getField."
+					<< std::endl;
+			std::cerr << e.what() << std::endl;
+		}
 		Vector3 force = (double) particle->getChargeNumber() * eplus
 				* velocity.cross(B);
 		return PhasePoint(velocity, force);
@@ -41,7 +48,9 @@ DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
 
 std::string DeflectionCK::getDescription() const {
 	std::stringstream sstr;
-	sstr << "Propagation in magnetic fields using the Cash-Karp method. Tolerance: " << tolerance << ", Minimum Step: " << minimumStep / kpc << " kpc";
+	sstr
+			<< "Propagation in magnetic fields using the Cash-Karp method. Tolerance: "
+			<< tolerance << ", Minimum Step: " << minimumStep / kpc << " kpc";
 	return sstr.str();
 }
 

@@ -1,5 +1,7 @@
 #include "mpc/ModuleList.h"
 
+#include <omp.h>
+
 using namespace std;
 
 namespace mpc {
@@ -46,6 +48,12 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	size_t pc = 0;
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
+#if _OPENMP
+		if (i == 0) {
+			std::cout << "Number of Threads: " << omp_get_thread_num()
+			<< std::endl;
+		}
+#endif
 		if (showProgress && (i % cent == 0)) {
 			std::cout << pc << "% - " << i << std::endl;
 			pc++;

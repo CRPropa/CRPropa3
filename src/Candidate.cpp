@@ -59,8 +59,7 @@ void Candidate::limitNextStep(double step) {
 
 bool Candidate::getInteractionState(const std::string &moduleName,
 		InteractionState &state) const {
-	std::map<std::string, InteractionState>::const_iterator i =
-			interactionStates.find(moduleName);
+	InteractionStatesMap::const_iterator i = interactionStates.find(moduleName);
 	if (i == interactionStates.end())
 		return false;
 	state = i->second;
@@ -72,7 +71,7 @@ void Candidate::setInteractionState(const std::string &moduleName,
 	interactionStates[moduleName] = state;
 }
 
-const std::map<std::string, InteractionState> Candidate::getInteractionStates() const {
+const Candidate::InteractionStatesMap Candidate::getInteractionStates() const {
 	return interactionStates;
 }
 
@@ -85,17 +84,15 @@ void Candidate::setProperty(const std::string &name, const std::string &value) {
 }
 
 bool Candidate::removeProperty(const std::string& name) {
-	std::map<std::string, std::string>::iterator i = properties.find(
-				name);
+	PropertyMap::iterator i = properties.find(name);
 	if (i == properties.end())
-			return false;
+		return false;
 	properties.erase(i);
 	return true;
 }
 
 bool Candidate::getProperty(const std::string &name, std::string &value) const {
-	std::map<std::string, std::string>::const_iterator i = properties.find(
-			name);
+	PropertyMap::const_iterator i = properties.find(name);
 	if (i == properties.end())
 		return false;
 	value = i->second;
@@ -103,8 +100,7 @@ bool Candidate::getProperty(const std::string &name, std::string &value) const {
 }
 
 bool Candidate::hasProperty(const std::string &name) const {
-	std::map<std::string, std::string>::const_iterator i = properties.find(
-			name);
+	PropertyMap::const_iterator i = properties.find(name);
 	if (i == properties.end())
 		return false;
 	return true;

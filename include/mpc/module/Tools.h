@@ -2,6 +2,7 @@
 #define MPC_MODULE_TOOLS_H_
 
 #include "mpc/Module.h"
+#include "mpc/AssocVector.h"
 
 namespace mpc {
 
@@ -25,7 +26,7 @@ public:
 
 class PropertyStatistics: public Module {
 private:
-	mutable std::map<std::string, size_t> properties;
+	mutable Loki::AssocVector<std::string, size_t> properties;
 	std::string key;
 
 public:

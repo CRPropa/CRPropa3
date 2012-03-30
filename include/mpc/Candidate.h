@@ -3,6 +3,7 @@
 
 #include "mpc/ParticleState.h"
 #include "mpc/Referenced.h"
+#include "mpc/AssocVector.h"
 
 #include <vector>
 #include <map>
@@ -37,17 +38,23 @@ public:
 	ParticleState initial;
 	std::vector<ref_ptr<Candidate> > secondaries;
 
+	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
+	typedef Loki::AssocVector<std::string, InteractionState> InteractionStatesMap;
+
 private:
 	bool active;
 	double redshift, trajectoryLength;
 	double currentStep, nextStep;
-	std::map<std::string, std::string> properties;
-	std::map<std::string, InteractionState> interactionStates;
+
+	PropertyMap properties;
+	InteractionStatesMap interactionStates;
 
 public:
 	Candidate();
 	Candidate(const ParticleState &state);
-	virtual ~Candidate() {};
+	virtual ~Candidate() {
+	}
+	;
 
 	bool isActive() const;
 	void setActive(bool b);
@@ -74,7 +81,7 @@ public:
 			InteractionState &state) const;
 	void setInteractionState(const std::string &moduleName,
 			const InteractionState &state);
-	const std::map<std::string, InteractionState> getInteractionStates() const;
+	const InteractionStatesMap getInteractionStates() const;
 	void clearInteractionStates();
 
 	void addSecondary(int id, double energy);

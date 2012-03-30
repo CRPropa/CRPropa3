@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <stdio.h>
+
 #include <kiss/convert.h>
 
 namespace mpc {
@@ -18,18 +20,19 @@ TrajectoryOutput::~TrajectoryOutput() {
 }
 
 void TrajectoryOutput::process(Candidate *candidate) const {
+	char buffer[128];
+	size_t pos = 0;
+	pos += ::sprintf(buffer + pos, "%f, %d",
+			candidate->getTrajectoryLength() / Mpc, candidate->current.getId());
+	Vector3 position = candidate->current.getPosition() / Mpc;
+	pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x(), position.y(),
+			position.z());
+	const Vector3 &dir = candidate->current.getDirection();
+	pos += ::sprintf(buffer + pos, ", %f, %f, %f\n", dir.x(), dir.y(), dir.z());
+
 #pragma omp critical
 	{
-		outfile << candidate->getTrajectoryLength() / Mpc << ", ";
-		outfile << candidate->current.getId() << ", ";
-		outfile << candidate->current.getEnergy() / EeV << ", ";
-		outfile << candidate->current.getPosition().x() / Mpc << ", ";
-		outfile << candidate->current.getPosition().y() / Mpc << ", ";
-		outfile << candidate->current.getPosition().z() / Mpc << ", ";
-		outfile << candidate->current.getDirection().x() << ", ";
-		outfile << candidate->current.getDirection().y() << ", ";
-		outfile << candidate->current.getDirection().y() << ", ";
-		outfile << std::endl;
+		outfile.write(buffer, pos);
 	}
 }
 
@@ -56,28 +59,36 @@ void ConditionalOutput::setRemoveProperty(bool removeProperty) {
 
 void ConditionalOutput::process(Candidate *candidate) const {
 	if (candidate->hasProperty(propertyName)) {
+		char buffer[256];
+		size_t pos = 0;
+
+		pos += ::sprintf(buffer + pos, "%d", candidate->current.getId());
+		Vector3 position = candidate->current.getPosition() / Mpc;
+		pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x(),
+				position.y(), position.z());
+		const Vector3 &dir = candidate->current.getDirection();
+		pos += ::sprintf(buffer + pos, ", %f, %f, %f",
+				candidate->current.getEnergy(), dir.phi(), dir.theta());
+
+		pos += ::sprintf(buffer + pos, ", %f",
+				candidate->getTrajectoryLength());
+
+		pos += ::sprintf(buffer + pos, ", %d", candidate->initial.getId());
+		Vector3 ipos = candidate->initial.getPosition() / Mpc;
+		pos += ::sprintf(buffer + pos, ", %f, %f, %f", ipos.x(), ipos.y(),
+				ipos.z());
+		const Vector3 &idir = candidate->initial.getDirection();
+		pos += ::sprintf(buffer + pos, ", %f, %f, %f\n",
+				candidate->initial.getEnergy(), idir.phi(), idir.theta());
+
 #pragma omp critical
 		{
-			outfile << candidate->current.getId() << ", ";
-			outfile << candidate->current.getPosition().x() / Mpc << ", ";
-			outfile << candidate->current.getPosition().y() / Mpc << ", ";
-			outfile << candidate->current.getPosition().z() / Mpc << ", ";
-			outfile << candidate->current.getEnergy() / EeV << ", ";
-			outfile << candidate->current.getDirection().phi() << ", ";
-			outfile << candidate->current.getDirection().theta() << ", ";
-			outfile << candidate->getTrajectoryLength() / Mpc << ", ";
-			outfile << candidate->initial.getId() << ", ";
-			outfile << candidate->initial.getPosition().x() / Mpc << ", ";
-			outfile << candidate->initial.getPosition().y() / Mpc << ", ";
-			outfile << candidate->initial.getPosition().z() / Mpc << ", ";
-			outfile << candidate->initial.getEnergy() / EeV << ", ";
-			outfile << candidate->initial.getDirection().phi() << ", ";
-			outfile << candidate->initial.getDirection().theta();
-			outfile << std::endl;
+			outfile.write(buffer, pos);
 		}
-	}
-	if (removeProperty) {
-		candidate->removeProperty(propertyName);
+
+		if (removeProperty) {
+			candidate->removeProperty(propertyName);
+		}
 	}
 }
 

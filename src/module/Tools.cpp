@@ -81,12 +81,12 @@ PropertyStatistics::~PropertyStatistics() {
 }
 
 void PropertyStatistics::process(Candidate *candidate) const {
+	std::string property;
+	if (candidate->getProperty(key, property)) {
 #pragma omp critical
-	{
-		std::string property;
-		if (candidate->getProperty(key, property)) {
-			Loki::AssocVector<std::string, size_t>::iterator i = properties.find(
-					property);
+		{
+			Loki::AssocVector<std::string, size_t>::iterator i =
+					properties.find(property);
 			if (i == properties.end()) {
 				properties[property] = 1;
 			} else {
@@ -95,4 +95,5 @@ void PropertyStatistics::process(Candidate *candidate) const {
 		}
 	}
 }
+
 } // namespace mpc

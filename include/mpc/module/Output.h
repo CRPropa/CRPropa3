@@ -29,10 +29,11 @@ class ConditionalOutput: public Module {
 private:
 	mutable std::ofstream outfile;
 	std::string propertyName;
-
+	bool removeProperty;
 public:
 	ConditionalOutput(std::string filename, std::string propName);
 	~ConditionalOutput();
+	void setRemoveProperty(bool removeProperty);
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };

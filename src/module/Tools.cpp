@@ -74,7 +74,7 @@ PropertyStatistics::PropertyStatistics(const std::string &key) :
 
 PropertyStatistics::~PropertyStatistics() {
 	std::cout << "Property Statistics for " << key << ":" << std::endl;
-	std::map<std::string, size_t>::iterator i;
+	Loki::AssocVector<std::string, size_t>::iterator i;
 	for (i = properties.begin(); i != properties.end(); i++) {
 		std::cout << i->first << "\t\t-> " << i->second << std::endl;
 	}
@@ -85,7 +85,7 @@ void PropertyStatistics::process(Candidate *candidate) const {
 	{
 		std::string property;
 		if (candidate->getProperty(key, property)) {
-			std::map<std::string, size_t>::iterator i = properties.find(
+			Loki::AssocVector<std::string, size_t>::iterator i = properties.find(
 					property);
 			if (i == properties.end()) {
 				properties[property] = 1;

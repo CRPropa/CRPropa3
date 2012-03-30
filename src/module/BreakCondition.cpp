@@ -61,8 +61,9 @@ void SmallObserverSphere::process(Candidate *candidate) const {
 
 void SmallObserverSphere::updateDescription() {
 	std::stringstream s;
-	s << "Small observer sphere: " << radius << " radius around " << center;
-	s << " Flag: " << flag << " -> " << flagValue;
+	s << "Small observer sphere: " << radius / Mpc << " Mpc radius around "
+			<< center / Mpc;
+	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
 	setDescription(s.str());
 }
 

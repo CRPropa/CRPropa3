@@ -16,7 +16,7 @@ list (APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 find_package(FFTW)
 if (FFTW_FOUND)
     list( APPEND MPC_EXTRA_SOURCES src/magneticField/turbulentMagneticFieldGrid.cpp)
-    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY})
+    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY} ${FFTWF_LIBRARY})
 endif (FFTW_FOUND)
 
 # gadget needed for SphMagneticField

@@ -21,46 +21,49 @@ void TurbulentMagneticFieldGrid::setSeed(int seed) {
 
 void TurbulentMagneticFieldGrid::initialize() {
 	size_t n = samples;
+	size_t n2 = floor(n/2) + 1; // size of complex array
 
-	// arrays to hold the complex vector components of the B-field
-	fftw_complex *Bx, *By, *Bz;
-	Bx = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
-	By = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
-	Bz = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n);
+	// arrays to hold the complex vector components of the B(k)-field
+	fftw_complex *Bkx, *Bky, *Bkz;
+	Bkx = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n2);
+	Bky = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n2);
+	Bkz = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n2);
 
-	// N discrete possible wave numbers
+	// calculate the n possible discrete wave numbers
 	double K[n];
 	for (int i = 0; i < n; i++)
 		K[i] = (double) i / n - i / (n / 2);
 
-	// create field in configuration space
+	// construct the field in configuration space
 	int i;
 	double k, theta, phase, cosPhase, sinPhase;
 	double kMin = spacing / lMax;
 	double kMax = spacing / lMin;
-	Vector3 e1, e2, ek, b;
+	Vector3 b; // real b-field vector
+	Vector3 ek, e1, e2; // orthogonal base
 	Vector3 n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
-			for (size_t iz = 0; iz < n; iz++) {
+			for (size_t iz = 0; iz < n2; iz++) {
 
-				i = ix * n * n + iy * n + iz;
+				i = ix * n * n2 + iy * n2 + iz;
 				ek.set(K[ix], K[iy], K[iz]);
 				k = ek.mag();
 
+				// wave outside of turbulent range -> B(k) = 0
 				if ((k < kMin) || (k > kMax)) {
-					Bx[i][0] = 0;
-					Bx[i][1] = 0;
-					By[i][0] = 0;
-					By[i][1] = 0;
-					Bz[i][0] = 0;
-					Bz[i][1] = 0;
-					continue; // wave outside of turbulent range -> B(k) = 0
+					Bkx[i][0] = 0;
+					Bkx[i][1] = 0;
+					Bky[i][0] = 0;
+					Bky[i][1] = 0;
+					Bkz[i][0] = 0;
+					Bkz[i][1] = 0;
+					continue;
 				}
 
 				// construct an orthogonal base ek, e1, e2
-				if ((ix == iy) && (iy == iz)) {
+				if (ek.isParallel(n0, 1e-6)) {
 					// ek parallel to (1,1,1)
 					e1.set(-1., 1., 0);
 					e2.set(1., 1., -2.);
@@ -84,50 +87,55 @@ void TurbulentMagneticFieldGrid::initialize() {
 				cosPhase = cos(phase); // real part
 				sinPhase = sin(phase); // imaginary part
 
-				Bx[i][0] = b.x() * cosPhase;
-				Bx[i][1] = b.x() * sinPhase;
-				By[i][0] = b.y() * cosPhase;
-				By[i][1] = b.y() * sinPhase;
-				Bz[i][0] = b.z() * cosPhase;
-				Bz[i][1] = b.z() * sinPhase;
+				Bkx[i][0] = b.x() * cosPhase;
+				Bkx[i][1] = b.x() * sinPhase;
+				Bky[i][0] = b.y() * cosPhase;
+				Bky[i][1] = b.y() * sinPhase;
+				Bkz[i][0] = b.z() * cosPhase;
+				Bkz[i][1] = b.z() * sinPhase;
 			}
 		}
 	}
 
-	// perform inverse FFT on each component
-	fftw_plan plan_x = fftw_plan_dft_3d(n, n, n, Bx, Bx, FFTW_BACKWARD,
-			FFTW_ESTIMATE);
+	// in-place, complex to real, inverse Fourier transformation on each component
+	// note that the last elements of B(x) are unused now
+	double *Bx = (double*) Bkx;
+	fftw_plan plan_x = fftw_plan_dft_c2r_3d(n, n, n, Bkx, Bx, FFTW_ESTIMATE);
 	fftw_execute(plan_x);
 	fftw_destroy_plan(plan_x);
 
-	fftw_plan plan_y = fftw_plan_dft_3d(n, n, n, By, By, FFTW_BACKWARD,
-			FFTW_ESTIMATE);
+	double *By = (double*) Bky;
+	fftw_plan plan_y = fftw_plan_dft_c2r_3d(n, n, n, Bky, By, FFTW_ESTIMATE);
 	fftw_execute(plan_y);
 	fftw_destroy_plan(plan_y);
 
-	fftw_plan plan_z = fftw_plan_dft_3d(n, n, n, Bz, Bz, FFTW_BACKWARD,
-			FFTW_ESTIMATE);
+	double *Bz = (double*) Bkz;
+	fftw_plan plan_z = fftw_plan_dft_c2r_3d(n, n, n, Bkz, Bz, FFTW_ESTIMATE);
 	fftw_execute(plan_z);
 	fftw_destroy_plan(plan_z);
 
 	// calculate normalization
 	double sumB2 = 0;
-	for (unsigned int i = 0; i < n * n * n; i++)
-		sumB2 += pow(Bx[i][0], 2) + pow(By[i][0], 2) + pow(Bz[i][0], 2);
+	for (size_t ix = 0; ix < n; ix++)
+		for (size_t iy = 0; iy < n; iy++)
+			for (size_t iz = 0; iz < n; iz++) {
+				i = ix * n * (n+2) + iy * (n+2) + iz;
+				sumB2 += pow(Bx[i], 2) + pow(By[i], 2) + pow(Bz[i], 2);
+			}
 	double weight = Brms / sqrt(sumB2 / (n * n * n));
 
 	// normalize and save real component to the grid
 	for (size_t ix = 0; ix < n; ix++)
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
-				int i = ix * n * n + iy * n + iz;
-				grid[ix][iy][iz] = Vector3(Bx[i][0], By[i][0], Bz[i][0])
+				i = ix * n * (n+2) + iy * (n+2) + iz;
+				grid[ix][iy][iz] = Vector3(Bx[i], By[i], Bz[i])
 						* weight;
 			}
 
-	fftw_free(Bx);
-	fftw_free(By);
-	fftw_free(Bz);
+	fftw_free(Bkx);
+	fftw_free(Bky);
+	fftw_free(Bkz);
 }
 
 double TurbulentMagneticFieldGrid::getRMSFieldStrength() const {

@@ -1,9 +1,11 @@
 # FFTW_INCLUDE_DIR = fftw3.h
 # FFTW_LIBRARY = libfftw3.a
+# FFTWF_LIBRARY = libfftw3f.a
 # FFTW_FOUND = true if FFTW3 is found
 
 find_path(FFTW_INCLUDE_DIR fftw3.h)
 find_library(FFTW_LIBRARY fftw3)
+find_library(FFTWF_LIBRARY fftw3f)
 
 set(FFTW_FOUND FALSE)
 if(FFTW_INCLUDE_DIR AND FFTW_LIBRARY)

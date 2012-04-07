@@ -159,6 +159,7 @@ n = 64
 field = TurbulentMagneticFieldGrid(Vector3(0, 0, 0), n, 1, 2, 16, 1, -11. / 3)
 Bx, By, Bz = retrieveField(field)
 
+
 ### periodicity
 figure()
 subplot(111, aspect='equal')
@@ -173,6 +174,29 @@ ylim(0,3*n)
 xlabel(r'$x$ [gridpoints]')
 ylabel(r'$y$ [gridpoints]')
 savefig('TurbulentField_periodicity.png', bbox_inches='tight')
+
+
+### slice in configuration space
+Bkx = fftshift(fftn(Bx))
+Bky = fftshift(fftn(By))
+Bkz = fftshift(fftn(Bz))
+Bk = ((Bkx*Bkx.conjugate() + Bky*Bky.conjugate() + Bkz*Bkz.conjugate())**.2).real
+del Bkx, Bky, Bkz
+figure()
+subplot(111, aspect='equal')
+pc = pcolor(Bk[:,:,n/2])
+cbar = colorbar(pc)
+cbar.set_label(r'$|\vec{B}(\vec{k})|$ [a.u.]')
+xlabel(r'$\vec{k}_x$')
+ylabel(r'$\vec{k}_y$')
+k = fftshift(fftfreq(n))
+idx = arange(0,n,n/4)
+xticks(idx, k[idx])
+yticks(idx, k[idx])
+xlim(0,n)
+ylim(0,n)
+savefig('TurbulentField_configurationSpace.png', bbox_inches='tight')
+
 
 ### correlation length + isotropy
 figure()
@@ -199,11 +223,13 @@ s = 'Correlation Length\n Nominal %.2f\n Simulated %.2f $\pm$ %.2f'%(field.getCo
 text(0.5, 0.95, s, ha='left', va='top', transform=gca().transAxes)
 savefig('TurbulentField_correlation.png', bbox_inches='tight')
 
+
 ### energy spectrum
 esd = VectorFieldEnergySpectralDensity(Bx, By, Bz)
 figure()
 esd.plot()
 savefig('TurbulentField_spectrum.png', bbox_inches='tight')
+
 
 ### field strength, mean and brms
 Bx.resize(n**3)

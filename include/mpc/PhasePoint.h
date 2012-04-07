@@ -5,6 +5,10 @@
 
 namespace mpc {
 
+/**
+ @class PhasePoint
+ @brief 6D point in (momentum - position) phase space
+ */
 class PhasePoint {
 public:
 	Vector3 a, b;

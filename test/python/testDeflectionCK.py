@@ -100,3 +100,4 @@ xlim(0,1)
 grid()
 savefig('DeflectionCK_xdeviation.png',bbox_inches='tight')
 
+

@@ -6,8 +6,6 @@
 #include <sstream>
 #include <stdio.h>
 
-#include <kiss/convert.h>
-
 namespace mpc {
 
 TrajectoryOutput::TrajectoryOutput(std::string name) {
@@ -41,8 +39,8 @@ std::string TrajectoryOutput::getDescription() const {
 	return "Trajectory output";
 }
 
-ConditionalOutput::ConditionalOutput(std::string filename, std::string propName) :
-		removeProperty(false) {
+ConditionalOutput::ConditionalOutput(std::string filename, std::string propName) {
+	removeProperty = false;
 	propertyName = propName;
 	outfile.open(filename.c_str());
 	outfile
@@ -61,30 +59,34 @@ void ConditionalOutput::setRemoveProperty(bool removeProperty) {
 void ConditionalOutput::process(Candidate *candidate) const {
 	if (candidate->hasProperty(propertyName)) {
 		char buffer[256];
-		size_t pos = 0;
+		size_t p = 0;
 
-		pos += ::sprintf(buffer + pos, "%d", candidate->current.getId());
-		Vector3 position = candidate->current.getPosition() / Mpc;
-		pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x(),
-				position.y(), position.z());
+		p += ::sprintf(buffer + p, "%d", candidate->current.getId());
+
+		const Vector3 &pos = candidate->current.getPosition() / Mpc;
+		p += ::sprintf(buffer + p, ", %f, %f, %f", pos.x(),
+				pos.y(), pos.z());
+
 		const Vector3 &dir = candidate->current.getDirection();
-		pos += ::sprintf(buffer + pos, ", %f, %f, %f",
+		p += ::sprintf(buffer + p, ", %f, %f, %f",
 				candidate->current.getEnergy() / EeV, dir.phi(), dir.theta());
 
-		pos += ::sprintf(buffer + pos, ", %f",
+		p += ::sprintf(buffer + p, ", %f",
 				candidate->getTrajectoryLength() / Mpc);
 
-		pos += ::sprintf(buffer + pos, ", %d", candidate->initial.getId());
-		Vector3 ipos = candidate->initial.getPosition() / Mpc;
-		pos += ::sprintf(buffer + pos, ", %f, %f, %f", ipos.x(), ipos.y(),
+		p += ::sprintf(buffer + p, ", %d", candidate->initial.getId());
+
+		const Vector3 &ipos = candidate->initial.getPosition() / Mpc;
+		p += ::sprintf(buffer + p, ", %f, %f, %f", ipos.x(), ipos.y(),
 				ipos.z());
+
 		const Vector3 &idir = candidate->initial.getDirection();
-		pos += ::sprintf(buffer + pos, ", %f, %f, %f\n",
+		p += ::sprintf(buffer + p, ", %f, %f, %f\n",
 				candidate->initial.getEnergy() / EeV, idir.phi(), idir.theta());
 
 #pragma omp critical
 		{
-			outfile.write(buffer, pos);
+			outfile.write(buffer, p);
 		}
 
 		if (removeProperty) {

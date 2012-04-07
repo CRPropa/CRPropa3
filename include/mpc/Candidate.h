@@ -53,8 +53,8 @@ public:
 	Candidate();
 	Candidate(const ParticleState &state);
 	virtual ~Candidate() {
-	}
-	;
+
+	};
 
 	bool isActive() const;
 	void setActive(bool b);

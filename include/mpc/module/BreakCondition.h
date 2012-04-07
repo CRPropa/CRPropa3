@@ -78,7 +78,6 @@ public:
  @brief Flag a particle when leaving the sphere.
  */
 class SphericalBoundary: public Module {
-
 protected:
 	Vector3 center;
 	double radius;

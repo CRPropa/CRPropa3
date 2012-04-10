@@ -36,16 +36,6 @@ class VectorFieldAutoCorrelation():
 			y[i] += self.Rz[ i * step[0], i * step[1], i * step[2] ]
 		y /= y[0]
 		return x, y
-	
-	def plotCorrelationCurve(self, step=(1, 1, 1)):
-		x, y = self.getCorrelationCurve(step)
-		fig = figure()
-		plot(x, y, label=str(step))
-		legend()
-		grid()
-		xlabel(r'$|\vec{d}| \left[\rm{gridpoints}\right]$')
-		ylabel(r'$R(\vec{d})/R(0)$')
-		return fig
 
 	def getIntegralLengthscale(self, step=(1, 1, 1)):
 		'''
@@ -64,144 +54,113 @@ def fftEnergySpectralDensity(a):
 	return (b * conjugate(b)).real
 
 
-class VectorFieldEnergySpectralDensity():
-	def __init__(self, Bx, By, Bz):
-		# sum of the energy spectral density of each component
-		E = fftEnergySpectralDensity(Bx)
-		E += fftEnergySpectralDensity(By)
-		E += fftEnergySpectralDensity(Bz)
-
-		n = shape(Bx)[0]
-		K = fftfreq(n)
-
-		# project E(kx,ky,kz) -> E(k) in a dictionary
-		d = {}
-		for ix in range(n):
-			for iy in range(n):
-				for iz in range(n):
-					magK = (K[ix]**2 + K[iy]**2 + K[iz]**2)**.5
-					energy = E[ix,iy,iz]
-					d.setdefault(magK,[energy]).append(energy)
-		
-		# make two arrays out of the dictionary
-		keys = d.keys()
-		keys.sort()
-		self.k = zeros(len(keys))
-		self.Ek = zeros(len(keys))
-		for i,key in enumerate(keys):
-			self.k[i] = key
-			self.Ek[i] = mean(d[key])
-
-		# normalize Ek
-		self.Ek /= max(self.Ek)
-
-
-	def findKmin(self, threshold=1e-6):
-		for i in range(len(self.Ek)):
-			if self.Ek[i] > threshold:
-				return self.k[i]
-
-	def findKmax(self, threshold=1e-6):
-		for i in range(len(self.Ek)-1,-1,-1):
-			if self.Ek[i] > threshold:
-				return self.k[i]
-
-	def powerLaw(self, p, x):
-		return (p[1]*x)**(p[0])
-
-	def costFunction(self, p, x, y):
-		return self.powerLaw(p, x) - y
-
-	def fitPowerLaw(self):
-		# determine fitting range
-		kmin=self.findKmin()
-		kmax=self.findKmax()
-		iMin = self.k.searchsorted(kmin)
-		iMax = self.k.searchsorted(kmax)
-		x = self.k[iMin:iMax]
-		y = self.Ek[iMin:iMax]
-		# fit
-		p0 = [-11./3., 1.] # initial guess
-		p1, success = optimize.leastsq(self.costFunction, p0, args=(x, y))
-		return p1
-
-	def plot(self):
-		plot(self.k, self.Ek, label='Sim. Turbulence')
-		p1 = self.fitPowerLaw()
-		alabel = 'Fit: $k^{%.2f/3}$'%(p1[0]*3)
-		plot(self.k, self.powerLaw(p1, self.k), label=alabel)
-		kmin = self.findKmin()
-		kmax = self.findKmax()
-		axvline(kmin, color='r',linestyle='--',label='$k_{min}=1/'+str(1/kmin)+'$')
-		axvline(kmax, color='r',linestyle='--',label='$k_{max}=1/'+str(1/kmax)+'$')
-		loglog()
-		legend(loc=0)
-		xlabel('Wavenumber $k$')
-		ylabel('Energy Spectral Density $E(k)$')
-		grid()
-		
-
-def retrieveField(field):
-	n = field.getGridSamples()
-	Bx, By, Bz = zeros((3, n, n, n))
+def getVectorFieldEnergySpectralDensity(Bx, By, Bz):
+	'''
+	calculate the energy spectral density for an 3-dimensional Vector field
+	'''
+	E = fftEnergySpectralDensity(Bx)
+	E += fftEnergySpectralDensity(By)
+	E += fftEnergySpectralDensity(Bz)
+	n = shape(Bx)[0]
+	K = fftfreq(n)
+	# project E(kx,ky,kz) -> E(k)
+	d = {}
 	for ix in range(n):
 		for iy in range(n):
 			for iz in range(n):
-				b = field.getField(Vector3(ix, iy, iz))
-				Bx[ix, iy, iz] = b.x()
-				By[ix, iy, iz] = b.y()
-				Bz[ix, iy, iz] = b.z()
-	return Bx, By, Bz
+				magK = (K[ix]**2 + K[iy]**2 + K[iz]**2)**.5
+				energy = E[ix,iy,iz]
+				d.setdefault(magK, [energy]).append(energy)
+	k = d.keys()
+	k.sort()
+	k = array(k)
+	Ek = zeros(len(k))
+	for i,key in enumerate(k):
+		Ek[i] = mean(d[key])
+	return k, Ek
 
 
 #if __name__ == '__main__':
-n = 64
-field = TurbulentMagneticFieldGrid(Vector3(0, 0, 0), n, 1, 2, 16, 1, -11. / 3)
-Bx, By, Bz = retrieveField(field)
+### create field
+n = 128
+lMin, lMax = 2, 32
+Brms = 1
+alpha = -11./3
+field = TurbulentMagneticFieldGrid(Vector3(0, 0, 0), n, 1, lMin, lMax, Brms, alpha)
+Lc = field.getCorrelationLength()
 
+### copy field to array
+Bx, By, Bz = zeros((3, n, n, n))
+for ix in range(n):
+	for iy in range(n):
+		for iz in range(n):
+			b = field.getField(Vector3(ix, iy, iz))
+			Bx[ix, iy, iz] = b.x()
+			By[ix, iy, iz] = b.y()
+			Bz[ix, iy, iz] = b.z()
+del field
 
-### periodicity
+### plot slice in position space
+slice = n/2
 figure()
 subplot(111, aspect='equal')
-A = zeros((3*n,3*n))
-for i,j in ((0,1), (1,0), (1,1), (1,2), (2,1)):
-	A[i*n:(i+1)*n, j*n:(j+1)*n] = Bx[:,:,32]
-pc = pcolor(ma.masked_array(A, A == 0))
+pc = pcolor(((Bx**2 + By**2 + Bz**2)**.5)[:,:,slice])
 cbar = colorbar(pc)
-cbar.set_label(r'$|\vec{B_x}|/B_{rms}$')
-xlim(0,3*n)
-ylim(0,3*n)
-xlabel(r'$x$ [gridpoints]')
-ylabel(r'$y$ [gridpoints]')
-savefig('TurbulentField_periodicity.png', bbox_inches='tight')
+cbar.set_label(r'$|\vec{B}(\vec{x})| / B_{RMS}$')
+xlabel(r'$x$')
+ylabel(r'$y$')
+xlim(0,n)
+ylim(0,n)
+text(0.8, 1.05, '$z=%i$'%slice, transform=gca().transAxes)
+savefig('TurbulentField_slicePositionSpace.png', bbox_inches='tight')
 
-
-### slice in configuration space
+### plot slice in configuration space
+slice = n/2
+figure()
+subplot(111, aspect='equal')
 Bkx = fftshift(fftn(Bx))
 Bky = fftshift(fftn(By))
 Bkz = fftshift(fftn(Bz))
-Bk = ((Bkx*Bkx.conjugate() + Bky*Bky.conjugate() + Bkz*Bkz.conjugate())**.2).real
-del Bkx, Bky, Bkz
-figure()
-subplot(111, aspect='equal')
-pc = pcolor(Bk[:,:,n/2])
+Bk = ((Bkx*Bkx.conjugate() + Bky*Bky.conjugate() + Bkz*Bkz.conjugate()).real)**.5
+pc = pcolor(log10(Bk[:,:,slice]), vmin=0)
+del Bk, Bkx, Bky, Bkz
 cbar = colorbar(pc)
-cbar.set_label(r'$|\vec{B}(\vec{k})|$ [a.u.]')
-xlabel(r'$\vec{k}_x$')
-ylabel(r'$\vec{k}_y$')
+cbar.set_label(r'$log_{10}(|\vec{B}(\vec{k})| / B_{RMS})$')
+xlabel(r'$k_x$')
+ylabel(r'$k_y$')
 k = fftshift(fftfreq(n))
 idx = arange(0,n,n/4)
 xticks(idx, k[idx])
 yticks(idx, k[idx])
 xlim(0,n)
 ylim(0,n)
-savefig('TurbulentField_configurationSpace.png', bbox_inches='tight')
+text(0.8, 1.05, '$k_z=%.2f$'%k[slice], transform=gca().transAxes)
+savefig('TurbulentField_sliceConfigurationSpace.png', bbox_inches='tight')
 
+### plot slice and periodical extension in position space
+slice = n/2
+figure()
+subplot(111, aspect='equal')
+A = zeros((3*n,3*n))
+for i,j in ((0,1), (1,0), (1,1), (1,2), (2,1)):
+	A[i*n:(i+1)*n, j*n:(j+1)*n] = Bx[:,:,slice]
+pc = pcolor(ma.masked_array(A, A == 0))
+del A
+cbar = colorbar(pc)
+cbar.set_label(r'$|\vec{B_x}|/B_{rms}$')
+xlim(0,3*n)
+ylim(0,3*n)
+xticks([0, n, 2*n, 3*n])
+yticks([0, n, 2*n, 3*n])
+xlabel(r'$x$')
+ylabel(r'$y$')
+text(0.8, 1.05, '$z=%i$'%slice, transform=gca().transAxes)
+savefig('TurbulentField_slicePeriodicity.png', bbox_inches='tight')
 
-### correlation length + isotropy
+### plot (2pt-auto-)correlation curves for various directions
 figure()
 corr = VectorFieldAutoCorrelation(Bx,By,Bz)
-Lc = []
+Lcs = []
 steps = []
 for ix in arange(-2,3):
 	for iy in arange(-2,3):
@@ -212,37 +171,45 @@ for ix in arange(-2,3):
 				continue
 			step = (ix,iy,iz)
 			# steps.append(step)
-			Lc.append( corr.getIntegralLengthscale(step) )
+			Lcs.append( corr.getIntegralLengthscale(step) )
 			x,y = corr.getCorrelationCurve(step)
 			plot(x,y,label=str(step))
 xlabel('Distance [gridpoints]')
 ylabel('Normalized Autocorrelation')
 xlim(0,32)
 grid()
-s = 'Correlation Length\n Nominal %.2f\n Simulated %.2f $\pm$ %.2f'%(field.getCorrelationLength(), mean(Lc), std(Lc)/(len(Lc))**.5)
+s = 'Correlation Length\n Nominal %.2f\n Simulated %.2f $\pm$ %.2f'%(Lc, mean(Lcs), std(Lcs)/(len(Lcs))**.5)
 text(0.5, 0.95, s, ha='left', va='top', transform=gca().transAxes)
-savefig('TurbulentField_correlation.png', bbox_inches='tight')
+savefig('TurbulentField_correlationCurves.png', bbox_inches='tight')
 
-
-### energy spectrum
-esd = VectorFieldEnergySpectralDensity(Bx, By, Bz)
+### plot energy spectrum
 figure()
-esd.plot()
+k, Ek = getVectorFieldEnergySpectralDensity(Bx, By, Bz)
+plot(k, Ek, label='Turbulent Spectrum')
+i = k.searchsorted(1./lMax) + 2
+plot(k, Ek[i]/k[i]**alpha * k**alpha, label='Slope $k^{-11/3}$')
+axvline(1./lMax, color='r', linestyle='--', label='$k_{min}=1/%.1f$'%lMax)
+axvline(1./lMin, color='r', linestyle='--', label='$k_{max}=1/%.1f$'%lMin)
+loglog()
+legend(loc='center left')
+xlabel('Wavenumber $k$')
+ylabel('Energy Spectral Density $E(k) [a.u.]$')
+grid()
 savefig('TurbulentField_spectrum.png', bbox_inches='tight')
 
-
-### field strength, mean and brms
+### plot histogram of field strengths
+figure()
 Bx.resize(n**3)
 By.resize(n**3)
 Bz.resize(n**3)
-figure()
 hist(Bx, bins=40, range=(-3,3), histtype='step', normed=True, label='$B_x$', linewidth=2)
 hist(By, bins=40, range=(-3,3), histtype='step', normed=True, label='$B_y$', linewidth=2)
 hist(Bz, bins=40, range=(-3,3), histtype='step', normed=True, label='$B_z$', linewidth=2)
 legend()
 grid()
-xlabel('Magnetic Field Amplitude$')
+xlabel('$B/B_{RMS}$')
 ylabel('Frequency')
-Brms = (mean( Bx**2 + By**2 + Bz**2 ))**.5
-text(1.45, 0.5, '$B_{RMS}$ = %.2f'%(Brms)) 
+brms = (mean( Bx**2 + By**2 + Bz**2 ))**.5
+bmean = abs(mean(Bx + By + Bz)) 
+text(0.95, 0.7, '$RMS$ = %.2f\nMean = %.2f'%(brms, bmean), ha='right', va='top', transform=gca().transAxes) 
 savefig('TurbulentField_amplitude.png', bbox_inches='tight')

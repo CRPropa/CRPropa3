@@ -21,7 +21,7 @@ def propagate(tolerance):
 
 	c.setTrajectoryLength(0)
 	c.setCurrentStep(0)
-	c.setNextStep(1 * kpc)
+	c.setNextStep(1 * Mpc) # set a large initial step, so that an initial acceleration is uneccessary
 	c.current.setPosition(Vector3(0, R, 0))
 	c.current.setDirection(Vector3(1, 0, 0))
 	c.setActive(True)
@@ -52,13 +52,13 @@ figure()
 posX, posY, dirX, dirY, dirDev, theta, n = propagate(1e-4)
 plot(posX/R, posY/R, "o", label='Simulated')
 plot(sin(linspace(0,2*pi)), cos(linspace(0,2*pi)),'k--',label='True')
-title('Trajectory using $10^{-4}$ tolerance')
 legend()
 xlim(-1.5,1.5)
 ylim(-1.5,1.5)
 xlabel(r'$x / R_L$')
 ylabel(r'$y / R_L$')
 grid()
+text(0.05, 0.95, 'Tolerance 1e-4', ha='left', transform=gca().transAxes)
 savefig('DeflectionCK_xtrajectory', bbox_inches='tight')
 
 ### Plot trajectory in p-space with 1e-4 tolerance
@@ -66,13 +66,13 @@ figure()
 posX, posY, dirX, dirY, dirDev, theta, n = propagate(1e-4)
 plot(dirX, dirY, "o", label='Simulated')
 plot(sin(linspace(0,2*pi)), cos(linspace(0,2*pi)),'k--',label='True')
-title(r'Trajectory in $\vec{p}$-space using $10^{-4}$ tolerance')
 legend()
 xlim(-1.5,1.5)
 ylim(-1.5,1.5)
 xlabel(r'$p_x / |p_x|$')
 ylabel(r'$p_y / |p_y|$')
 grid()
+text(0.05, 0.95, 'Tolerance 1e-4', ha='left', transform=gca().transAxes)
 savefig('DeflectionCK_ptrajectory', bbox_inches='tight')
 
 ### Directional error as function of distance for different tolerances
@@ -83,8 +83,8 @@ for tolerance in [1e-3, 1e-4, 1e-5, 1e-6]:
 legend(title='Tolerance, Steps', loc='upper left')
 xlabel(r'Travelled Distance / $2 \pi R_L$')
 ylabel(r'Direction Error [$^\circ$]')
-xlim(0,1)
 grid()
+semilogy()
 savefig('DeflectionCK_pdeviation.png',bbox_inches='tight')
 
 ### Positional error as function of distance for different tolerances
@@ -96,8 +96,9 @@ for tolerance in [1e-3, 1e-4, 1e-5, 1e-6]:
 legend(title='Tolerance, Steps', loc='upper left')
 xlabel(r'Travelled Distance / $2 \pi R_L$')
 ylabel(r'Position Error / $R_L$')
-xlim(0,1)
 grid()
+semilogy()
+ylim(1e-8,1e-1)
 savefig('DeflectionCK_xdeviation.png',bbox_inches='tight')
 
 

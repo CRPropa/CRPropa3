@@ -1,5 +1,4 @@
 #include "mpc/Candidate.h"
-#include "mpc/module/common.h"
 
 #include "gtest/gtest.h"
 

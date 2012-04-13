@@ -62,7 +62,12 @@ add_subdirectory(libs/HepPID)
 list (APPEND MPC_EXTRA_LIBRARIES HepPID)
 list (APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
 
+# SOPHIA provided
+#add_subdirectory(libs/sophia)
+#list (APPEND MPC_EXTRA_LIBRARIES sophia)
+#list (APPEND MPC_EXTRA_INCLUDES libs/sophia)
 
+# OpenMP needed for shared memory multiprocessing
 include(FindOpenMP)
 if(OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
@@ -88,7 +93,7 @@ add_library(mpc SHARED
     src/IO.cpp
     src/ParticleState.cpp
     src/Source.cpp
-    src/module/common.cpp
+    src/Common.cpp
     src/module/BreakCondition.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp

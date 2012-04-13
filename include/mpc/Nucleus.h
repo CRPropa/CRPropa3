@@ -1,5 +1,5 @@
-#ifndef HEPPID_H_
-#define HEPPID_H_
+#ifndef NUCLEUS_H_
+#define NUCLEUS_H_
 
 #include <stdexcept>
 
@@ -10,12 +10,12 @@ namespace mpc {
 // nj = 2J+1 is the nucleus total spin and is currently neglected
 inline int getNucleusId(int a, int z) {
 	if (z < 0)
-		throw std::runtime_error("mpc::HepId: no nucleus with Z < 0");
+		throw std::runtime_error("mpc::Nucleus: no nucleus with Z < 0");
 	if (a < 0)
-		throw std::runtime_error("mpc::HepId: no nucleus with A < 0");
+		throw std::runtime_error("mpc::Nucleus: no nucleus with A < 0");
 	if (a < z)
-		throw std::runtime_error("mpc::HepId: no nucleus with A < Z");
-	return 1e9 + a * 1e6 + z * 1e3;
+		throw std::runtime_error("mpc::Nucleus: no nucleus with A < Z");
+	return 1000000000 + a * 1000000 + z * 1000;
 }
 
 inline int getChargeNumberFromNucleusId(int id) {
@@ -28,4 +28,4 @@ inline int getMassNumberFromNucleusId(int id) {
 
 }
 
-#endif /* HEPPID_H_ */
+#endif /* NUCLEUS_H_ */

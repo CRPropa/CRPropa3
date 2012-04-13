@@ -1,5 +1,4 @@
 #include "mpc/module/ElectronPairProduction.h"
-#include "mpc/module/common.h"
 
 #include <fstream>
 #include <vector>

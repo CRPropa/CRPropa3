@@ -1,5 +1,4 @@
 #include "mpc/module/NuclearDecay.h"
-#include "mpc/module/common.h"
 
 #include <fstream>
 #include <limits>

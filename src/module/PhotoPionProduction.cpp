@@ -1,5 +1,4 @@
 #include "mpc/module/PhotoPionProduction.h"
-#include "mpc/module/common.h"
 
 #include <limits>
 #include <math.h>

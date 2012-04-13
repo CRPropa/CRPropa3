@@ -3,12 +3,13 @@
 
 #include <kiss/convert.h>
 
+#include <vector>
 #include <fstream>
 #include <limits>
 
 namespace mpc {
 
-static Loki::AssocVector<int, double> nuclearMassTable;
+static std::vector<double> nuclearMassTable;
 
 void initNuclearMassTable() {
 	std::string filename = getDataPath("/NuclearMass/nuclearMassTable.txt");
@@ -22,7 +23,7 @@ void initNuclearMassTable() {
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			infile >> Z >> N >> mass;
-			nuclearMassTable[getNucleusId(Z + N, Z)] = mass;
+			nuclearMassTable.push_back(mass);
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
@@ -34,10 +35,12 @@ double getNucleusMass(int id) {
 	if (nuclearMassTable.size() == 0)
 		initNuclearMassTable();
 
-	Loki::AssocVector<int, double>::const_iterator i = nuclearMassTable.find(id);
-	if (i == nuclearMassTable.end())
-		throw std::runtime_error("mpc: nuclear mass not found " + kiss::str(id));
-	return i->second;
+	int Z = getChargeNumberFromNucleusId(id);
+	int N = getMassNumberFromNucleusId(id) - Z;
+	double mass = nuclearMassTable[Z * 31 + N];
+	if (mass == 0)
+		throw std::runtime_error("mpc: nucleus not found " + kiss::str(id));
+	return mass;
 }
 
 } // namespace mpc

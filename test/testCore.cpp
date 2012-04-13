@@ -45,6 +45,11 @@ TEST(ParticleState, id) {
 	EXPECT_EQ(particle.getId(), 1045026000);
 }
 
+TEST(ParticleState, idException) {
+	ParticleState particle;
+	EXPECT_THROW(particle.setId(1002002000), std::runtime_error);
+}
+
 TEST(ParticleState, charge) {
 	ParticleState particle;
 	particle.setId(1056026000);
@@ -57,12 +62,6 @@ TEST(ParticleState, massProton) {
 	particle.setId(1001001000);
 	EXPECT_EQ(particle.getMassNumber(), 1);
 	EXPECT_DOUBLE_EQ(particle.getMass(), mass_proton);
-}
-
-TEST(ParticleState, massException) {
-	ParticleState particle;
-	particle.setId(1002002000);
-	EXPECT_THROW(particle.getMass(), std::runtime_error);
 }
 
 TEST(ParticleState, lorentzFactor) {

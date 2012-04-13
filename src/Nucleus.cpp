@@ -8,6 +8,8 @@
 
 namespace mpc {
 
+static Loki::AssocVector<int, double> nuclearMassTable;
+
 void initNuclearMassTable() {
 	std::string filename = getDataPath("/NuclearMass/nuclearMassTable.txt");
 	std::ifstream infile(filename.c_str());

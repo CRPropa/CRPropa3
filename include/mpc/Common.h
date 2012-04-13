@@ -11,7 +11,6 @@ inline int digit(const int &value, const int &d) {
 	return (value % (d * 10)) / d;
 }
 
-
 } // namespace mpc
 
 #endif /* COMMON_H_ */

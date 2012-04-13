@@ -52,19 +52,24 @@ TEST(ParticleState, charge) {
 	EXPECT_DOUBLE_EQ(particle.getCharge(), 26 * eplus);
 }
 
-TEST(ParticleState, mass) {
+TEST(ParticleState, massProton) {
 	ParticleState particle;
-	particle.setId(1056026000);
-	EXPECT_EQ(particle.getMassNumber(), 56);
-	EXPECT_DOUBLE_EQ(particle.getMass(), 56 * amu);
+	particle.setId(1001001000);
+	EXPECT_EQ(particle.getMassNumber(), 1);
+	EXPECT_DOUBLE_EQ(particle.getMass(), mass_proton);
+}
+
+TEST(ParticleState, massException) {
+	ParticleState particle;
+	particle.setId(1002002000);
+	EXPECT_THROW(particle.getMass(), std::runtime_error);
 }
 
 TEST(ParticleState, lorentzFactor) {
 	ParticleState particle;
-	particle.setId(1010005000);
+	particle.setId(1001001000);
 	particle.setEnergy(1e12 * eV);
-	double lf = 1e12 * eV / (10 * amu * c_squared);
-	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), lf);
+	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), 1e12 * eV / mass_proton / c_squared);
 }
 
 TEST(Candidate, currentStep) {
@@ -92,7 +97,7 @@ TEST(Candidate, isActive) {
 
 TEST(Candidate, property) {
 	Candidate candidate;
-	candidate.setProperty("foo","bar");
+	candidate.setProperty("foo", "bar");
 	EXPECT_TRUE(candidate.hasProperty("foo"));
 	std::string value;
 	candidate.getProperty("foo", value);

@@ -42,7 +42,6 @@ public:
 
 private:
 	int id;
-	double pmass;
 	double energy;
 	Vector3 position;
 	Vector3 direction;

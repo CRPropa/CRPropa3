@@ -1,6 +1,7 @@
 #ifndef NUCLEUS_H_
 #define NUCLEUS_H_
 
+#include "mpc/AssocVector.h"
 #include <stdexcept>
 
 namespace mpc {
@@ -26,6 +27,10 @@ inline int getMassNumberFromNucleusId(int id) {
 	return (id - 1000000000) / 1000000;
 }
 
-}
+static Loki::AssocVector<int, double> nuclearMassTable;
+void initNuclearMassTable();
+double getNucleusMass(int id);
+
+} // namespace mpc
 
 #endif /* NUCLEUS_H_ */

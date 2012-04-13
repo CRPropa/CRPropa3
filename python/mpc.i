@@ -38,13 +38,13 @@
 #include "mpc/ModuleList.h"
 #include "mpc/PhasePoint.h"
 #include "mpc/ExplicitRungeKutta.h"
-#include "mpc/HepPID.h"
+#include "mpc/Nucleus.h"
 #include "mpc/Random.h"
 #include "mpc/Units.h"
 #include "mpc/Vector3.h"
 #include "mpc/Source.h"
 #include "mpc/Referenced.h"
-#include "mpc/module/common.h"
+#include "mpc/Common.h"
 %}
 
 /* Parse the header file to generate wrappers */
@@ -52,14 +52,14 @@
 %feature("unref") mpc::Referenced "$this->removeReference();"
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
-%include "mpc/HepPID.h"
+%include "mpc/Nucleus.h"
 %include "mpc/Vector3.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
 // %feature("director") mpc::Source;
 %template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
 %include "mpc/Source.h"
-%include "mpc/module/common.h"
+%include "mpc/Common.h"
 
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;

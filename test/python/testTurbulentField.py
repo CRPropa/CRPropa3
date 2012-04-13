@@ -3,7 +3,6 @@ from pylab import *
 from mpc import *
 from scipy import optimize
 
-
 def fftAutoCorrelation(a):
 	'''
 	calculate 2point-autocorrelation for an n-dimensional array of real input
@@ -45,14 +44,12 @@ class VectorFieldAutoCorrelation():
 		# use symmetry: Lc = \int_{-inf}^{inf} R/R_0 dx = 2*\int_{0}^{inf} R/R_0 dx
 		return (2 * sum(y[1:]) + y[0]) * norm(step)
 
-
 def fftEnergySpectralDensity(a):
 	'''
 	calculate the energy spectral density for an n-dimensional array
 	'''
 	b = fftn(a)
 	return (b * conjugate(b)).real
-
 
 def getVectorFieldEnergySpectralDensity(Bx, By, Bz):
 	'''
@@ -80,7 +77,7 @@ def getVectorFieldEnergySpectralDensity(Bx, By, Bz):
 	return k, Ek
 
 
-#if __name__ == '__main__':
+
 ### create field
 n = 128
 lMin, lMax = 2, 32

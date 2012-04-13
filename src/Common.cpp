@@ -18,9 +18,8 @@ std::string getDataPath(std::string filename) {
 	if (env_path) {
 		if (is_directory(env_path)) {
 			dataPath = env_path;
-			KISS_LOG_INFO
-				<< "getDataPath: use environment variable, " << dataPath
-						<< std::endl;
+			KISS_LOG_INFO << "getDataPath: use environment variable, "
+					<< dataPath << std::endl;
 			return concat_path(dataPath, filename);
 		}
 	}
@@ -31,7 +30,7 @@ std::string getDataPath(std::string filename) {
 		if (is_directory(_path)) {
 			dataPath = _path;
 			KISS_LOG_INFO
-				<< "getDataPath: use install prefix, " << dataPath << std::endl;
+			<< "getDataPath: use install prefix, " << dataPath << std::endl;
 			return concat_path(dataPath, filename);
 		}
 	}
@@ -41,16 +40,14 @@ std::string getDataPath(std::string filename) {
 		std::string _path = executable_path() + "../data";
 		if (is_directory(_path)) {
 			dataPath = _path;
-			KISS_LOG_INFO
-				<< "getDataPath: use executable path, " << dataPath
-						<< std::endl;
+			KISS_LOG_INFO << "getDataPath: use executable path, " << dataPath
+					<< std::endl;
 			return concat_path(dataPath, filename);
 		}
 	}
 
 	dataPath = "data";
-	KISS_LOG_INFO
-		<< "getDataPath: use default, " << dataPath << std::endl;
+	KISS_LOG_INFO << "getDataPath: use default, " << dataPath << std::endl;
 	return concat_path(dataPath, filename);
 }
 

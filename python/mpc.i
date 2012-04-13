@@ -12,6 +12,23 @@
 %include stdint.i
 %include std_container.i
 
+// Handle standard exceptions.
+// NOTE: needs to be before the %import!
+%include "exception.i"
+%exception
+{
+ try
+ {
+   $action
+ }
+ catch (const std::runtime_error& e) {
+   SWIG_exception(SWIG_RuntimeError, e.what());
+ }
+ catch (...) { 
+   SWIG_exception(SWIG_RuntimeError, "unknown exception");
+ } 
+}
+
 %{
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/module/ElectronPairProduction.h"

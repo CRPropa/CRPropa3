@@ -20,8 +20,8 @@ void TurbulentMagneticFieldGrid::setSeed(int seed) {
 }
 
 void TurbulentMagneticFieldGrid::initialize() {
-	size_t n = samples;
-	size_t n2 = floor(n/2) + 1; // size of complex array
+	size_t n = samples; // size of array
+	size_t n2 = floor(n/2) + 1; // size array in z-direction in configuration space
 
 	// arrays to hold the complex vector components of the B(k)-field
 	fftw_complex *Bkx, *Bky, *Bkz;
@@ -119,7 +119,7 @@ void TurbulentMagneticFieldGrid::initialize() {
 	for (size_t ix = 0; ix < n; ix++)
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
-				i = ix * n * (n+2) + iy * (n+2) + iz;
+				i = ix * n * 2*n2 + iy * 2*n2 + iz;
 				sumB2 += pow(Bx[i], 2) + pow(By[i], 2) + pow(Bz[i], 2);
 			}
 	double weight = Brms / sqrt(sumB2 / (n * n * n));
@@ -128,7 +128,7 @@ void TurbulentMagneticFieldGrid::initialize() {
 	for (size_t ix = 0; ix < n; ix++)
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
-				i = ix * n * (n+2) + iy * (n+2) + iz;
+				i = ix * n * 2*n2 + iy * 2*n2 + iz;
 				grid[ix][iy][iz] = Vector3(Bx[i], By[i], Bz[i])
 						* weight;
 			}

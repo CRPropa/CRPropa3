@@ -3,8 +3,8 @@
 
 #include "mpc/Vector3.h"
 #include "mpc/Units.h"
-#include "mpc/Nucleus.h"
 #include "mpc/Common.h"
+#include "mpc/Nucleus.h"
 
 namespace mpc {
 
@@ -42,6 +42,7 @@ public:
 
 private:
 	int id;
+	double pmass;
 	double energy;
 	Vector3 position;
 	Vector3 direction;

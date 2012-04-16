@@ -8,6 +8,10 @@
 
 namespace mpc {
 
+/**
+ @class Source
+ @brief Base cosmic ray source
+ */
 class Source: public Referenced {
 public:
 	virtual ~Source() {
@@ -16,6 +20,10 @@ public:
 	virtual void prepare(ParticleState &state) const = 0;
 };
 
+/**
+ @class BasicSource
+ @brief Simple cosmic ray source
+ */
 class BasicSource: public Source {
 public:
 	Vector3 position;

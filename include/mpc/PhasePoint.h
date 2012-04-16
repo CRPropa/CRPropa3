@@ -7,7 +7,7 @@ namespace mpc {
 
 /**
  @class PhasePoint
- @brief 6D point in (momentum - position) phase space
+ @brief 6D point in (position - momentum) phase space
  */
 class PhasePoint {
 public:

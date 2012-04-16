@@ -8,6 +8,16 @@
 
 namespace mpc {
 
+/**
+ @class Referenced
+ @brief Base class for reference counting
+
+ A form of memory management is needed to prevent memory leaks when using MPC via SWIG.
+ This base class enables reference counting.
+ Every reference increases the reference counter, every dereference decreases it.
+ When the counter is decreased to 0, the object is deleted.
+ Candidate, Module, MagneticField and Source inherit from this class
+ */
 class Referenced {
 public:
 

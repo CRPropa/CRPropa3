@@ -9,9 +9,12 @@ Dependencies:
 GNU Scientific Library - for interpolation
 
 Optional dependencies:
-Python - to use MPC from python
+Python and SWIG - to use MPC from python
 OpenMP - for shared memory parallelization
 FFTW - for turbulent magnetic field
 Gadget - for smooth particle large scale structure
 GTest - for unit-tests
 
+To use MPC from python the following environment variables have to be set.
+PYTHONPATH=[path to mpc.py]
+MPC_DATA_PATH=[path to mpc/data]

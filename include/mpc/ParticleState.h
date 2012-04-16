@@ -10,7 +10,7 @@ namespace mpc {
 
 /**
  @class ParticleState
- @brief The state defining the particle.
+ @brief State of the particle: ID, energy, position, direction
  */
 class ParticleState {
 public:

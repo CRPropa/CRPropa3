@@ -63,9 +63,9 @@ list (APPEND MPC_EXTRA_LIBRARIES HepPID)
 list (APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
 
 # SOPHIA provided
-#add_subdirectory(libs/sophia)
-#list (APPEND MPC_EXTRA_LIBRARIES sophia)
-#list (APPEND MPC_EXTRA_INCLUDES libs/sophia)
+add_subdirectory(libs/sophia)
+list (APPEND MPC_EXTRA_LIBRARIES sophia gfortran)
+list (APPEND MPC_EXTRA_INCLUDES libs/sophia)
 
 # OpenMP needed for shared memory multiprocessing
 include(FindOpenMP)
@@ -100,6 +100,7 @@ add_library(mpc SHARED
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp
     src/module/PhotoPionProduction.cpp
+    src/module/SophiaPhotoPionProduction.cpp
     src/module/PhotoDisintegration.cpp
     src/module/NuclearDecay.cpp
     src/module/Redshift.cpp

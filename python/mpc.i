@@ -12,8 +12,6 @@
 %include stdint.i
 %include std_container.i
 
-// Handle standard exceptions.
-// NOTE: needs to be before the %import!
 %include "exception.i"
 %exception
 {
@@ -34,6 +32,7 @@
 #include "mpc/module/ElectronPairProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/PhotoPionProduction.h"
+#include "mpc/module/SophiaPhotoPionProduction.h"
 #include "mpc/module/Redshift.h"
 #include "mpc/module/BreakCondition.h"
 #include "mpc/module/Output.h"
@@ -106,6 +105,7 @@
 %include "mpc/module/NuclearDecay.h"
 %include "mpc/module/ElectronPairProduction.h"
 %include "mpc/module/PhotoPionProduction.h"
+%include "mpc/module/SophiaPhotoPionProduction.h"
 %include "mpc/module/PhotoDisintegration.h"
 %include "mpc/module/Redshift.h"
 %include "mpc/module/GlutDisplay.h"

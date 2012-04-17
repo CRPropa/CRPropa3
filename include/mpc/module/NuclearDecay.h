@@ -21,8 +21,8 @@ private:
 
 public:
 	NuclearDecay();
-	std::string getDescription() const;
-	bool setNextInteraction(Candidate *candidate) const;
+	bool setNextInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
 };
 

@@ -29,8 +29,8 @@ public:
 	~PhotoPionProduction();
 	void init(int photonField);
 	void init(std::string filename);
-	std::string getDescription() const;
-	bool setNextInteraction(Candidate *candidate) const;
+	bool setNextInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
 };
 
@@ -38,7 +38,7 @@ public:
  @class SophiaPhotoPionProduction
  @brief Photo-pion interactions of nuclei with background photons using SOPHIA.
  */
-class SophiaPhotoPionProduction : public PhotoPionProduction {
+class SophiaPhotoPionProduction: public PhotoPionProduction {
 	void performInteraction(Candidate *candidate) const;
 };
 

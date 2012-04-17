@@ -29,7 +29,8 @@ void PhotoPionProduction::init(int photonField) {
 		init(getDataPath("PhotoPionProduction/cmbir.txt"));
 		break;
 	default:
-		throw std::runtime_error("mpc::PhotoPionProduction: unknown photon background");
+		throw std::runtime_error(
+				"mpc::PhotoPionProduction: unknown photon background");
 	}
 }
 

@@ -26,7 +26,8 @@ void ElectronPairProduction::init(int photonField) {
 		init(getDataPath("ElectronPairProduction/cmbir.txt"));
 		break;
 	default:
-		throw std::runtime_error("mpc::ElectronPairProduction: unknown photon background");
+		throw std::runtime_error(
+				"mpc::ElectronPairProduction: unknown photon background");
 	}
 }
 
@@ -38,16 +39,26 @@ void ElectronPairProduction::init(std::string filename) {
 		throw std::runtime_error(
 				"mpc::ElectronPairProduction: could not open file " + filename);
 
+	std::vector<double> x, y;
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;
 			infile >> a >> b;
-			x.push_back(a * eV);
-			y.push_back(b * eV / Mpc);
+			if (infile) {
+				x.push_back(a * eV);
+				y.push_back(b * eV / Mpc);
+			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
+
+	acc = gsl_interp_accel_alloc();
+	lossRate = gsl_spline_alloc(gsl_interp_linear, x.size());
+	gsl_spline_init(lossRate, &x[0], &y[0], x.size());
+	xMin = x.front();
+	xMax = x.back();
+	yMax = y.back();
 }
 
 void ElectronPairProduction::process(Candidate *candidate) const {
@@ -55,23 +66,16 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	double E = candidate->current.getEnergy();
 	double z = candidate->getRedshift();
 
-	// energy per nucleon
-	double xi = E / A * (1 + z);
-
-	// no data for EpA < 10^15 eV
-	if (xi < 1.e15 * eV)
+	double EpA = E / A * (1 + z);
+	if (EpA < xMin)
 		return;
 
 	double rate;
-	if (xi < 1.e22 * eV) {
-		// index of next lower energy bin
-		int i = floor(log10(xi / x[0]) * 69 / 7);
-		// linear interpolation: y(x) = y0 + dy/dx * (x-x0)
-		rate = y[i] + (y[i + 1] - y[i]) / (x[i + 1] - x[i]) * (xi - x[i]);
-	} else {
+	if (EpA < xMax)
+		rate = gsl_spline_eval(lossRate, EpA, acc);
+	else
 		// extrapolation for higher energies
-		rate = y[69] * pow(xi / x[69], 0.4);
-	}
+		rate = yMax * pow(EpA / xMax, 0.4);
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step
 	double step = candidate->getCurrentStep();

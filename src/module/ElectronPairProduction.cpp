@@ -7,7 +7,7 @@
 
 namespace mpc {
 
-ElectronPairProduction::ElectronPairProduction(PhotonField photonField) {
+ElectronPairProduction::ElectronPairProduction(int photonField) {
 	init(photonField);
 }
 
@@ -15,8 +15,8 @@ ElectronPairProduction::ElectronPairProduction() {
 	init(CMBIR);
 }
 
-void ElectronPairProduction::init(PhotonField field) {
-	photonField = field;
+void ElectronPairProduction::init(int photonField) {
+	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
 		init(getDataPath("ElectronPairProduction/cmb.txt"));

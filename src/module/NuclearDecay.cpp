@@ -7,14 +7,12 @@
 
 namespace mpc {
 
-NuclearDecay::NuclearDecay() {
-	name = "mpc::NuclearDecay";
-
+NuclearDecay::NuclearDecay() : StochasticInteraction("NuclearDecay") {
 	std::string filename = getDataPath("/NuclearDecay/decay_table.txt");
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error(name + ": could not open file " + filename);
+		throw std::runtime_error("mpc::NuclearDecay: could not open file " + filename);
 
 	while (infile.good()) {
 		if (infile.peek() != '#') {
@@ -34,37 +32,6 @@ NuclearDecay::NuclearDecay() {
 
 std::string NuclearDecay::getDescription() const {
 	return "Nuclear decay";
-}
-
-void NuclearDecay::process(Candidate *candidate) const {
-	double gamma = candidate->current.getLorentzFactor();
-	double step = candidate->getCurrentStep() / gamma;
-	InteractionState decay;
-
-	while (true) {
-		// check if decay is set
-		bool noState = !candidate->getInteractionState(name, decay);
-		if (noState) {
-			// try to set a new decay
-			bool noInteraction = !setNextInteraction(candidate);
-			if (noInteraction)
-				return;
-			// get the new decay
-			candidate->getInteractionState(name, decay);
-		}
-
-		// if not over, reduce distance and return
-		if (decay.distance > step) {
-			decay.distance -= step;
-			candidate->limitNextStep(decay.distance * gamma);
-			candidate->setInteractionState(name, decay);
-			return;
-		}
-
-		// counter over: interact
-		step -= decay.distance;
-		performInteraction(candidate);
-	}
 }
 
 bool NuclearDecay::setNextInteraction(Candidate *candidate) const {
@@ -88,6 +55,7 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate) const {
 		decay.distance = d;
 		decay.channel = states[i].channel;
 	}
+	decay.distance *= candidate->current.getLorentzFactor();
 	candidate->setInteractionState(name, decay);
 	return true;
 }

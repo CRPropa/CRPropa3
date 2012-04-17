@@ -99,10 +99,10 @@ add_library(mpc SHARED
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp
-    src/module/PhotoPionProduction.cpp
-    src/module/SophiaPhotoPionProduction.cpp
-    src/module/PhotoDisintegration.cpp
+    src/module/StochasticInteraction.cpp
     src/module/NuclearDecay.cpp
+    src/module/PhotoPionProduction.cpp
+    src/module/PhotoDisintegration.cpp
     src/module/Redshift.cpp
     src/module/Output.cpp
     src/module/Tools.cpp

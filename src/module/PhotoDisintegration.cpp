@@ -14,8 +14,7 @@ enum _Constants {
 	SAMPLE_COUNT = 200
 };
 
-PhotoDisintegration::PhotoDisintegration() {
-	name = "mpc::PhotoDisintegration";
+PhotoDisintegration::PhotoDisintegration() : StochasticInteraction("PhotoDisintegration") {
 	acc = gsl_interp_accel_alloc();
 
 	// create spline x-axis
@@ -31,7 +30,7 @@ PhotoDisintegration::PhotoDisintegration() {
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error(name + ": could not open file " + filename);
+		throw std::runtime_error("mpc::PhotoDisitegration: could not open file " + filename);
 
 	std::string line;
 	size_t lineNo = 0;
@@ -78,36 +77,6 @@ PhotoDisintegration::~PhotoDisintegration() {
 
 std::string PhotoDisintegration::getDescription() const {
 	return "Photo-disintegration";
-}
-
-void PhotoDisintegration::process(Candidate *candidate) const {
-	double step = candidate->getCurrentStep();
-	InteractionState interaction;
-
-	while (true) {
-		// check if interaction is set
-		bool noState = !candidate->getInteractionState(name, interaction);
-		if (noState) {
-			// try to set a new interaction
-			bool noInteraction = !setNextInteraction(candidate);
-			if (noInteraction)
-				return;
-			// get the new interaction
-			candidate->getInteractionState(name, interaction);
-		}
-
-		// if not over, reduce distance and return
-		if (interaction.distance > step) {
-			interaction.distance -= step;
-			candidate->limitNextStep(interaction.distance);
-			candidate->setInteractionState(name, interaction);
-			return;
-		}
-
-		// if over, interact and repeat
-		step -= interaction.distance;
-		performInteraction(candidate);
-	}
 }
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate) const {

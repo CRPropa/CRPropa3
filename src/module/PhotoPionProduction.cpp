@@ -9,8 +9,7 @@
 
 namespace mpc {
 
-PhotoPionProduction::PhotoPionProduction(int photonField) :
-		StochasticInteraction("PhotoPionProduction") {
+PhotoPionProduction::PhotoPionProduction(int photonField) {
 	init(photonField);
 }
 
@@ -18,22 +17,18 @@ void PhotoPionProduction::init(int photonField) {
 	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
-		name = "PhotoPionProduction:CMB";
+		setDescription("PhotoPionProduction:CMB");
 		init(getDataPath("PhotoPionProduction/cmb.txt"));
 		break;
 	case IR:
-		name = "PhotoPionProduction:IR";
+		setDescription("PhotoPionProduction:IR");
 		init(getDataPath("PhotoPionProduction/ir.txt"));
 		break;
 	case CMBIR:
-		name = "PhotoPionProduction:CMBIR";
+		setDescription("PhotoPionProduction:CMBIR");
 		init(getDataPath("PhotoPionProduction/cmbir.txt"));
 		break;
 	}
-}
-
-std::string PhotoPionProduction::getDescription() const {
-	return name;
 }
 
 void PhotoPionProduction::init(std::string filename) {
@@ -76,7 +71,8 @@ PhotoPionProduction::~PhotoPionProduction() {
 	gsl_interp_accel_free(acc);
 }
 
-bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
+bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
+		InteractionState &interaction) const {
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
 	int A = candidate->current.getMassNumber();
@@ -90,7 +86,6 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
 
 	// find interaction with minimum random distance
 	// check for interaction on protons
-	InteractionState interaction;
 	interaction.distance = std::numeric_limits<double>::max();
 	Random &random = Random::instance();
 	if (Z > 0) {
@@ -119,13 +114,13 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate) const {
 		return false;
 	}
 
-	candidate->setInteractionState(name, interaction);
+	candidate->setInteractionState(getDescription(), interaction);
 	return true;
 }
 
 void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	InteractionState interaction;
-	candidate->getInteractionState(name, interaction);
+	candidate->getInteractionState(getDescription(), interaction);
 	candidate->clearInteractionStates();
 
 	// charge number loss of interaction nucleus
@@ -154,7 +149,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	InteractionState interaction;
-	candidate->getInteractionState(name, interaction);
+	candidate->getInteractionState(getDescription(), interaction);
 	candidate->clearInteractionStates();
 
 	int dZ = interaction.channel; // charge number loss of interacting nucleus

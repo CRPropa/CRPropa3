@@ -131,6 +131,7 @@ TEST(NuclearDecay, He5) {
 
 TEST(NuclearDecay, LimitNextStep) {
 	// test if nextStep is limited
+	// the decay length of a neutron at 10 EeV is 93 kpc
 	NuclearDecay d;
 	Candidate candidate;
 	candidate.setNextStep(10 * Mpc);

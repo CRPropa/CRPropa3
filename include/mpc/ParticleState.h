@@ -13,6 +13,13 @@ namespace mpc {
  @brief State of the particle: ID, energy, position, direction
  */
 class ParticleState {
+private:
+	int id;
+	double pmass;
+	double energy;
+	Vector3 position;
+	Vector3 direction;
+
 public:
 	ParticleState();
 	void setPosition(const Vector3 &pos);
@@ -39,13 +46,6 @@ public:
 
 	Vector3 getVelocity() const;
 	Vector3 getMomentum() const;
-
-private:
-	int id;
-	double pmass;
-	double energy;
-	Vector3 position;
-	Vector3 direction;
 };
 
 } // namespace mpc

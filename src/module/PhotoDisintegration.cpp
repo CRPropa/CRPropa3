@@ -14,7 +14,8 @@ enum _Constants {
 	SAMPLE_COUNT = 200
 };
 
-PhotoDisintegration::PhotoDisintegration() : StochasticInteraction("PhotoDisintegration") {
+PhotoDisintegration::PhotoDisintegration() {
+	setDescription("PhotoDisintegration");
 	acc = gsl_interp_accel_alloc();
 
 	// create spline x-axis
@@ -75,11 +76,7 @@ PhotoDisintegration::~PhotoDisintegration() {
 	}
 }
 
-std::string PhotoDisintegration::getDescription() const {
-	return "Photo-disintegration";
-}
-
-bool PhotoDisintegration::setNextInteraction(Candidate *candidate) const {
+bool PhotoDisintegration::setNextInteraction(Candidate *candidate, InteractionState &interaction) const {
 	int id = candidate->current.getId();
 
 	// check if disintegration data available
@@ -98,7 +95,6 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) const {
 		return false;
 
 	// find channel with minimum random decay distance
-	InteractionState interaction;
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < modes.size(); i++) {
 		double rate = gsl_spline_eval(modes[i].rate, lg, acc);
@@ -112,13 +108,13 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate) const {
 	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
 	interaction.distance /= pow((1 + z), 3);
 
-	candidate->setInteractionState(name, interaction);
+	candidate->setInteractionState(getDescription(), interaction);
 	return true;
 }
 
 void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 	InteractionState interaction;
-	candidate->getInteractionState(name, interaction);
+	candidate->getInteractionState(getDescription(), interaction);
 	candidate->clearInteractionStates();
 
 	// parse disintegration channel

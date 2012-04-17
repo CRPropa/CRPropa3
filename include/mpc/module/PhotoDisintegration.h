@@ -27,14 +27,13 @@ private:
 
 	typedef std::map<int, std::vector<DisintegrationMode> > DisintegrationModeMap;
 	DisintegrationModeMap PDTable;
-	std::string name;
 	gsl_interp_accel *acc;
 
 public:
 	PhotoDisintegration();
 	~PhotoDisintegration();
-	std::string getDescription() const;
-	bool setNextInteraction(Candidate *candidate) const;
+	bool setNextInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
 };
 

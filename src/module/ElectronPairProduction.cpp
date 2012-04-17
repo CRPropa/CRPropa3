@@ -1,7 +1,6 @@
 #include "mpc/module/ElectronPairProduction.h"
 
 #include <fstream>
-#include <vector>
 #include <limits>
 #include <stdexcept>
 
@@ -11,22 +10,23 @@ ElectronPairProduction::ElectronPairProduction(int photonField) {
 	init(photonField);
 }
 
-ElectronPairProduction::ElectronPairProduction() {
-	init(CMBIR);
-}
-
 void ElectronPairProduction::init(int photonField) {
 	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
+		setDescription("ElectronPairProduction:CMB");
 		init(getDataPath("ElectronPairProduction/cmb.txt"));
 		break;
-	case IR:
+	case IRB:
+		setDescription("ElectronPairProduction:IRB");
 		init(getDataPath("ElectronPairProduction/ir.txt"));
 		break;
-	case CMBIR:
+	case CMB_IRB:
+		setDescription("ElectronPairProduction:CMB_IRB");
 		init(getDataPath("ElectronPairProduction/cmbir.txt"));
 		break;
+	default:
+		throw std::runtime_error("mpc::ElectronPairProduction: unknown photon background");
 	}
 }
 
@@ -42,35 +42,12 @@ void ElectronPairProduction::init(std::string filename) {
 		if (infile.peek() != '#') {
 			double a, b;
 			infile >> a >> b;
-			if (infile) {
-				x.push_back(a * eV);
-				y.push_back(b * eV / Mpc);
-			}
+			x.push_back(a * eV);
+			y.push_back(b * eV / Mpc);
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
-}
-
-std::string ElectronPairProduction::getDescription() const {
-	switch (photonField) {
-	case CMB: {
-		return "Electron-pair production on CMB";
-		break;
-	}
-	case IR: {
-		return "Electron-pair production on IB";
-		break;
-	}
-	case CMBIR: {
-		return "Electron-pair production on CMB + IR";
-		break;
-	}
-	default: {
-		return "Electron-pair production (unknown)";
-		break;
-	}
-	}
 }
 
 void ElectronPairProduction::process(Candidate *candidate) const {

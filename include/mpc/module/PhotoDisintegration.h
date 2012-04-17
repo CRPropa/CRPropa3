@@ -20,6 +20,7 @@ namespace mpc {
  */
 class PhotoDisintegration: public StochasticInteraction {
 private:
+	int photonField;
 	struct DisintegrationMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
 		gsl_spline *rate; // disintegration rate [1/m]
@@ -30,8 +31,10 @@ private:
 	gsl_interp_accel *acc;
 
 public:
-	PhotoDisintegration();
+	PhotoDisintegration(int photonField = CMB_IRB);
 	~PhotoDisintegration();
+	void init(int photonField);
+	void init(std::string filename);
 	bool setNextInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;

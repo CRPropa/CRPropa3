@@ -20,14 +20,16 @@ void PhotoPionProduction::init(int photonField) {
 		setDescription("PhotoPionProduction:CMB");
 		init(getDataPath("PhotoPionProduction/cmb.txt"));
 		break;
-	case IR:
-		setDescription("PhotoPionProduction:IR");
+	case IRB:
+		setDescription("PhotoPionProduction:IRB");
 		init(getDataPath("PhotoPionProduction/ir.txt"));
 		break;
-	case CMBIR:
-		setDescription("PhotoPionProduction:CMBIR");
+	case CMB_IRB:
+		setDescription("PhotoPionProduction:CMB_IRB");
 		init(getDataPath("PhotoPionProduction/cmbir.txt"));
 		break;
+	default:
+		throw std::runtime_error("mpc::PhotoPionProduction: unknown photon background");
 	}
 }
 
@@ -171,12 +173,12 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	case CMB:
 		background = 1;
 		break;
-	case IR:
+	case IRB:
 		background = 2;
 		break;
-	case CMBIR:
+	case CMB_IRB:
 		throw std::runtime_error(
-				"mpc::SophiaPhotoPionProduction: CMBIR not possible for SophiaPhotoPionProduction");
+				"mpc::SophiaPhotoPionProduction: CMB_IRB not possible for SophiaPhotoPionProduction");
 		break;
 	}
 	double maxRedshift = 100; // IR photon density is zero above this redshift

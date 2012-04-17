@@ -35,8 +35,8 @@ int main(int argc, char **argv) {
 	// interactions -------------------------------------------------------
 	chain.add(10, new NuclearDecay());
 	chain.add(11, new PhotoDisintegration());
-	chain.add(12, new ElectronPairProduction(CMBIR));
-	chain.add(13, new PhotoPionProduction(CMBIR));
+	chain.add(12, new ElectronPairProduction());
+	chain.add(13, new PhotoPionProduction());
 
 	// break conditions ---------------------------------------------------
 	chain.add(20, new MaximumTrajectoryLength(50 * Mpc));

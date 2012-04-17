@@ -25,8 +25,8 @@ int main(int argc, char **argv) {
 	modules.add(new DeflectionCK(field));
 	modules.add(new NuclearDecay());
 	modules.add(new PhotoDisintegration());
-	modules.add(new ElectronPairProduction(CMBIR));
-	modules.add(new PhotoPionProduction(CMBIR));
+	modules.add(new ElectronPairProduction());
+	modules.add(new PhotoPionProduction());
 	modules.add(new MaximumTrajectoryLength(50 * Mpc));
 	modules.add(new MinimumEnergy(5 * EeV));
 

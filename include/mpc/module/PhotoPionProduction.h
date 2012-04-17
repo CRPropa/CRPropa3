@@ -25,7 +25,7 @@ protected:
 	double Emin, Emax;
 
 public:
-	PhotoPionProduction(int photonField);
+	PhotoPionProduction(int photonField = CMB_IRB);
 	~PhotoPionProduction();
 	void init(int photonField);
 	void init(std::string filename);

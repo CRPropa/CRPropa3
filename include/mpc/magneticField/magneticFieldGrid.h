@@ -11,10 +11,10 @@ namespace mpc {
  @class MagneticFieldGrid
  @brief Cubic, cartesian magnetic field grid with trilinear interpolation.
 
- This class provides a magnetic field grid. \n
- The grid spacing is constant and equal along all three axes (cartesian). \n
- The grid is of cubic shape. \n
- Magnetic field values are calculated by trilinear interpolation of the surrounding 8 grid points. \n
+ This class provides a magnetic field grid.
+ The grid spacing is constant and equal along all three axes (cartesian).
+ The grid is of cubic shape.
+ Magnetic field values are calculated by trilinear interpolation of the surrounding 8 grid points.
  The grid is periodically extended.
  */
 class MagneticFieldGrid: public MagneticField {

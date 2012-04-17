@@ -15,7 +15,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1)); // proton
 
-	ElectronPairProduction epp1(ElectronPairProduction::CMB);
+	ElectronPairProduction epp1(CMB);
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
@@ -23,7 +23,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		EXPECT_TRUE(candidate.current.getEnergy() <= E);
 	}
 
-	ElectronPairProduction epp2(ElectronPairProduction::IR);
+	ElectronPairProduction epp2(IR);
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
@@ -31,7 +31,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 
-	ElectronPairProduction epp3(ElectronPairProduction::CMBIR);
+	ElectronPairProduction epp3(CMBIR);
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
@@ -42,7 +42,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 
 TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	// test if nothing happens below 1e15 eV
-	ElectronPairProduction epp(ElectronPairProduction::CMB);
+	ElectronPairProduction epp(CMB);
 	Candidate candidate;
 	candidate.current.setId(getNucleusId(1, 1)); // proton
 	double E = 1e14 * eV;
@@ -107,26 +107,26 @@ TEST(NuclearDecay, Scandium44) {
 	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
 }
 
-TEST(NuclearDecay, H30) {
-	// test neutron dripping H-30 -> H-3 (-> He-3)
+TEST(NuclearDecay, Li4) {
+	// test proton dripping Li-4 -> He-3
 	Candidate candidate;
 	candidate.setCurrentStep(1 * kpc);
-	candidate.current.setId(getNucleusId(30, 1));
-	candidate.current.setEnergy(1 * EeV);
-	NuclearDecay d;
-	d.process(&candidate);
-	EXPECT_EQ(getNucleusId(3,1), candidate.current.getId());
-}
-
-TEST(NuclearDecay, Fe27) {
-	// test proton dripping Fe-27 -> He-3
-	Candidate candidate;
-	candidate.setCurrentStep(1 * Mpc);
-	candidate.current.setId(getNucleusId(27, 26));
+	candidate.current.setId(getNucleusId(4, 3));
 	candidate.current.setEnergy(1 * EeV);
 	NuclearDecay d;
 	d.process(&candidate);
 	EXPECT_EQ(getNucleusId(3,2), candidate.current.getId());
+}
+
+TEST(NuclearDecay, He5) {
+	// test neturon dripping He-5 -> He-4
+	Candidate candidate;
+	candidate.setCurrentStep(1 * Mpc);
+	candidate.current.setId(getNucleusId(5, 2));
+	candidate.current.setEnergy(1 * EeV);
+	NuclearDecay d;
+	d.process(&candidate);
+	EXPECT_EQ(getNucleusId(4,2), candidate.current.getId());
 }
 
 TEST(NuclearDecay, LimitNextStep) {
@@ -139,8 +139,6 @@ TEST(NuclearDecay, LimitNextStep) {
 	d.process(&candidate);
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
 }
-
-
 
 TEST(PhotoDisintegration, Carbon) {
 	PhotoDisintegration pd;
@@ -168,13 +166,13 @@ TEST(PhotoDisintegration, Iron) {
 
 
 TEST(PhotoPionProduction, Backgrounds) {
-	PhotoPionProduction ppp1(PhotoPionProduction::CMB);
-	PhotoPionProduction ppp2(PhotoPionProduction::IR);
-	PhotoPionProduction ppp3(PhotoPionProduction::CMBIR);
+	PhotoPionProduction ppp1(CMB);
+	PhotoPionProduction ppp2(IR);
+	PhotoPionProduction ppp3(CMBIR);
 }
 
 TEST(PhotoPionProduction, Proton) {
-	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
+	PhotoPionProduction ppp(CMBIR);
 	Candidate candidate;
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1));
@@ -185,7 +183,7 @@ TEST(PhotoPionProduction, Proton) {
 }
 
 TEST(PhotoPionProduction, Helium) {
-	PhotoPionProduction ppp(PhotoPionProduction::CMBIR);
+	PhotoPionProduction ppp(CMBIR);
 	Candidate candidate;
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(4, 2));

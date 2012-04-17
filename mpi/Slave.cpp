@@ -5,6 +5,7 @@
 #include "mpc/ModuleChain.h"
 #include "mpc/Vector3.h"
 #include "mpc/Units.h"
+#include "mpc/Common.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/BreakCondition.h"
 #include "mpc/module/GlutDisplay.h"
@@ -42,8 +43,8 @@ void Slave::load(const string &filename) {
 	// interactions -------------------------------------------------------
 	chain.add(30, new NuclearDecay());
 	chain.add(31, new PhotoDisintegration());
-	chain.add(32, new ElectronPairProduction(ElectronPairProduction::CMB));
-	chain.add(33, new PhotoPionProduction(PhotoPionProduction::CMBIR));
+//	chain.add(32, new ElectronPairProduction(CMBIR));
+//	chain.add(33, new PhotoPionProduction(CMBIR));
 
 	// output -------------------------------------------------------------
 	chain.add(79, new ShellOutput());

@@ -1,7 +1,5 @@
 #include "mpc/IO.h"
 
-#include <kiss/io.h>
-
 namespace mpc {
 
 void write(kiss::Output &out, const mpc::Vector3 &vec3) {

@@ -30,9 +30,9 @@
 %{
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/module/ElectronPairProduction.h"
+#include "mpc/module/StochasticInteraction.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/PhotoPionProduction.h"
-#include "mpc/module/SophiaPhotoPionProduction.h"
 #include "mpc/module/Redshift.h"
 #include "mpc/module/BreakCondition.h"
 #include "mpc/module/Output.h"
@@ -47,6 +47,7 @@
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 #include "mpc/magneticField/sphMagneticField.h"
 
+#include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
 #include "mpc/ParticleState.h"
 #include "mpc/Module.h"
@@ -59,7 +60,6 @@
 #include "mpc/Units.h"
 #include "mpc/Vector3.h"
 #include "mpc/Source.h"
-#include "mpc/Referenced.h"
 #include "mpc/Common.h"
 %}
 
@@ -102,14 +102,13 @@
 %include "mpc/module/SimplePropagation.h"
 %include "mpc/module/DeflectionCK.h"
 %include "mpc/module/Output.h"
-%include "mpc/module/NuclearDecay.h"
 %include "mpc/module/ElectronPairProduction.h"
+%include "mpc/module/StochasticInteraction.h"
+%include "mpc/module/NuclearDecay.h"
 %include "mpc/module/PhotoPionProduction.h"
-%include "mpc/module/SophiaPhotoPionProduction.h"
 %include "mpc/module/PhotoDisintegration.h"
 %include "mpc/module/Redshift.h"
 %include "mpc/module/GlutDisplay.h"
 %include "mpc/module/Tools.h"
-
 %include "mpc/ModuleChain.h"
 %include "mpc/ModuleList.h"

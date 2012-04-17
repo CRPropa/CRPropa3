@@ -1,7 +1,7 @@
 #ifndef DECAY_H_
 #define DECAY_H_
 
-#include "mpc/Module.h"
+#include "mpc/module/StochasticInteraction.h"
 #include "mpc/Random.h"
 
 #include <vector>
@@ -13,20 +13,15 @@ namespace mpc {
  @class NuclearDecay
  @brief Nuclear decay of unstable nuclei.
 
- This module simulates the nuclear decay of unstable nuclei.
- decayTable is a map of nuclei id to (distance, channel) where
- channel is the number of (beta-, beta+, alpha, p, n) decays and
- distance is the mean decay length in [m]
+ This module simulates the nuclear decay of unstable nuclei using data from NuDat2.
  */
-class NuclearDecay: public Module {
+class NuclearDecay: public StochasticInteraction {
 private:
-	std::string name;
 	std::map<int, std::vector<InteractionState> > decayTable;
 
 public:
 	NuclearDecay();
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
 	bool setNextInteraction(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate) const;
 };

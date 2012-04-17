@@ -1,7 +1,7 @@
 #ifndef PHOTODISINTEGRATION_H_
 #define PHOTODISINTEGRATION_H_
 
-#include "mpc/Module.h"
+#include "mpc/module/StochasticInteraction.h"
 #include "mpc/Random.h"
 
 #include <vector>
@@ -18,7 +18,7 @@ namespace mpc {
  This module simulates photo-disintegration of nuclei with background photons.\n
  Background photons are considered as homogeneous and evolving as the CMB.\n
  */
-class PhotoDisintegration: public Module {
+class PhotoDisintegration: public StochasticInteraction {
 private:
 	struct DisintegrationMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
@@ -34,7 +34,6 @@ public:
 	PhotoDisintegration();
 	~PhotoDisintegration();
 	std::string getDescription() const;
-	void process(Candidate *candidate) const;
 	bool setNextInteraction(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate) const;
 };

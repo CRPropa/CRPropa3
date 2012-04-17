@@ -7,38 +7,29 @@ void sophiaevent_(int&, double&, double[][2000], int[], int&, double&, int&,
 }
 
 /*
- The arguments are the following (see sophiaevent.f) :
-
- - nature, Ein = input nature and energy of the nucleon
- nature = 0 -> p ; 1 -> n
- Ein : in GeV (Sophia standard energy unit)
- - OutPart,OutPartType,NbOutPart = output data, respectively :
- P(2000,5) list of 4-momenta + masses of output particles (in GeV)
- LList(2000) list of output particle IDs
- NP nb of output particles
- Particle IDs are :
-
- cc      13  proton
- cc      14  neutron
- cc      -13 antiproton
- cc      -14 antineutron
- cc      1   photon
- cc      2   e+
- cc      3   e-
- cc      15  nu_e
- cc      16  antinu_e
- cc      17  nu_muon
- cc      18  antinu_muon
-
- - z_particle : needed to estimate the CMB temperature or IRB density
- - bgFlag = 1 for CMB, 2 for Primack et al. (1999) IRB. NO OTHER REDSHIFT MODEL
- IS IMPLEMENTED, AND ITS REDSHIFT EVOLUTION IS "TRIVIAL", ie. same as CMB.
- - Zmax_IRB : the photon density of IRB is null above this redshift
-
- Warning with passing arguments (variables->pointers) in fortran->C !
-
+ The arguments are the following
+ - nature: 0 -> p, 1 -> n
+ - input energy of nucleon in GeV
+ - list of 4-momenta + masses of output particles (in GeV)
+	13  proton
+	14  neutron
+	-13 antiproton
+	-14 antineutron
+	1   photon
+	2   e+
+	3   e-
+	15  nu_e
+	16  antinu_e
+	17  nu_muon
+	18  antinu_muon
+ - list of output particle ids
+ - number of output particles
+ - redshift
+ - photon background flag: 1 -> CMB, 2 -> Primack et al. (1999) IRB
+ - maximum redshift: the photon density of IRB is null above this redshift
+ -
+ -
+ -
  */
-
-//#define sophiaevent sophiaevent_
 
 #endif

@@ -4,7 +4,8 @@
 #include "mpc/Module.h"
 #include "mpc/Common.h"
 
-#include <vector>
+#include <gsl/gsl_errno.h>
+#include <gsl/gsl_spline.h>
 
 namespace mpc {
 
@@ -16,10 +17,11 @@ namespace mpc {
  Several photon fields can be selected. They are considered as homogeneous and evolving as the CMB.
  */
 class ElectronPairProduction: public Module {
-protected:
+private:
 	int photonField;
-	std::vector<double> y; // energy loss rate table for protons in [J/m]
-	std::vector<double> x; // energy table in [J]
+	gsl_interp_accel *acc;
+	gsl_spline *lossRate; // energy loss rate in [J/m]
+	double xMin, xMax, yMax;
 
 public:
 	ElectronPairProduction(int photonField = CMB_IRB);

@@ -2,9 +2,9 @@
 #define ELECTRONPAIRPRODUCTION_H_
 
 #include "mpc/Module.h"
+#include "mpc/Common.h"
 
 #include <vector>
-#include <string>
 
 namespace mpc {
 
@@ -22,11 +22,9 @@ protected:
 	std::vector<double> x; // energy table in [J]
 
 public:
-	ElectronPairProduction(int photonField);
-	ElectronPairProduction();
+	ElectronPairProduction(int photonField = CMB_IRB);
 	void init(int photonField);
 	void init(std::string filename);
-	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };
 

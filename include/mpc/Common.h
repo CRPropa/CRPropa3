@@ -15,7 +15,7 @@ inline int digit(const int &value, const int &d) {
 
 // Photon fields
 enum PhotonField {
-	CMB, IR, CMBIR
+	CMB, IRB, CMB_IRB
 };
 
 } // namespace mpc

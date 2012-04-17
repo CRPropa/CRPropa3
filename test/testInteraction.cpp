@@ -23,7 +23,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		EXPECT_TRUE(candidate.current.getEnergy() <= E);
 	}
 
-	ElectronPairProduction epp2(IR);
+	ElectronPairProduction epp2(IRB);
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
@@ -31,7 +31,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		EXPECT_TRUE(candidate.current.getEnergy() < E);
 	}
 
-	ElectronPairProduction epp3(CMBIR);
+	ElectronPairProduction epp3(CMB_IRB);
 	for (int i = 0; i < 80; i++) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		candidate.current.setEnergy(E);
@@ -141,6 +141,14 @@ TEST(NuclearDecay, LimitNextStep) {
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
 }
 
+
+
+TEST(PhotoDisintegration, Backgrounds) {
+	PhotoPionProduction ppp1(CMB);
+	PhotoPionProduction ppp2(IRB);
+	PhotoPionProduction ppp3(CMB_IRB);
+}
+
 TEST(PhotoDisintegration, Carbon) {
 	PhotoDisintegration pd;
 	Candidate candidate;
@@ -162,18 +170,30 @@ TEST(PhotoDisintegration, Iron) {
 	pd.process(&candidate);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 56);
 	EXPECT_TRUE(candidate.current.getEnergy() < 200 * EeV);
+	EXPECT_TRUE(candidate.secondaries.size() > 0);
+}
+
+TEST(PhotoDisintegration, LimitNextStep) {
+	// test if nextStep is limited
+	PhotoDisintegration pd;
+	Candidate candidate;
+	candidate.setNextStep(100 * Mpc);
+	candidate.current.setId(getNucleusId(4, 2));
+	candidate.current.setEnergy(200 * EeV);
+	pd.process(&candidate);
+	EXPECT_TRUE(candidate.getNextStep() < 100 * Mpc);
 }
 
 
 
 TEST(PhotoPionProduction, Backgrounds) {
 	PhotoPionProduction ppp1(CMB);
-	PhotoPionProduction ppp2(IR);
-	PhotoPionProduction ppp3(CMBIR);
+	PhotoPionProduction ppp2(IRB);
+	PhotoPionProduction ppp3(CMB_IRB);
 }
 
 TEST(PhotoPionProduction, Proton) {
-	PhotoPionProduction ppp(CMBIR);
+	PhotoPionProduction ppp;
 	Candidate candidate;
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(1, 1));
@@ -184,17 +204,27 @@ TEST(PhotoPionProduction, Proton) {
 }
 
 TEST(PhotoPionProduction, Helium) {
-	PhotoPionProduction ppp(CMBIR);
+	PhotoPionProduction ppp;
 	Candidate candidate;
 	candidate.setCurrentStep(100 * Mpc);
 	candidate.current.setId(getNucleusId(4, 2));
-	candidate.current.setEnergy(300 * EeV);
+	candidate.current.setEnergy(400 * EeV);
 	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 300);
 	EXPECT_TRUE(candidate.current.getMassNumber() < 4);
+	EXPECT_TRUE(candidate.secondaries.size() > 0);
 }
 
-
+TEST(PhotoPionProduction, LimitNextStep) {
+	// test if nextStep is limited
+	PhotoPionProduction ppp;
+	Candidate candidate;
+	candidate.setNextStep(100 * Mpc);
+	candidate.current.setId(getNucleusId(1, 1));
+	candidate.current.setEnergy(200 * EeV);
+	ppp.process(&candidate);
+	EXPECT_TRUE(candidate.getNextStep() < 100 * Mpc);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

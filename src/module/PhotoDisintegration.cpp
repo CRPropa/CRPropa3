@@ -14,24 +14,44 @@ enum _Constants {
 	SAMPLE_COUNT = 200
 };
 
-PhotoDisintegration::PhotoDisintegration() {
-	setDescription("PhotoDisintegration");
+PhotoDisintegration::PhotoDisintegration(int photonField) {
+	init(photonField);
+}
+
+void PhotoDisintegration::init(int photonField) {
+	this->photonField = photonField;
+	switch (photonField) {
+	case CMB:
+		setDescription("PhotoDisintegration:CMB");
+		init(getDataPath("PhotoDisintegration/PDtable_CMB.txt"));
+		break;
+	case IRB:
+		setDescription("PhotoDisintegration:IRB");
+		init(getDataPath("PhotoDisintegration/PDtable_IRB.txt"));
+		break;
+	case CMB_IRB:
+		setDescription("PhotoDisintegration:CMB_IRB");
+		init(getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt"));
+		break;
+	default:
+		throw std::runtime_error("mpc::PhotoDisintegration: unknown photon background");
+	}
+}
+
+void PhotoDisintegration::init(std::string filename) {
+	std::ifstream infile(filename.c_str());
+
 	acc = gsl_interp_accel_alloc();
 
 	// create spline x-axis
 	std::vector<double> x(SAMPLE_COUNT);
-	for (size_t i = 0; i < 200; i++) {
+	for (size_t i = 0; i < 200; i++)
 		x[i] = 6.0 + i * 8.0 / (SAMPLE_COUNT - 1);
-	}
 
 	std::vector<double> y(SAMPLE_COUNT);
 
-	// load photo-disintegration table
-	std::string filename = getDataPath("PhotoDisintegration/pd_table.txt");
-	std::ifstream infile(filename.c_str());
-
 	if (!infile.good())
-		throw std::runtime_error("mpc::PhotoDisitegration: could not open file " + filename);
+		throw std::runtime_error("mpc::PhotoDisintegration: could not open file " + filename);
 
 	std::string line;
 	size_t lineNo = 0;
@@ -41,8 +61,9 @@ PhotoDisintegration::PhotoDisintegration() {
 			continue;
 		std::stringstream lineStream(line);
 
-		int id = 0;
-		lineStream >> id; // nucleus id
+		int Z, A;
+		lineStream >> Z; // charge number
+		lineStream >> A; // mass number
 
 		DisintegrationMode mode;
 		lineStream >> mode.channel; // disintegration channel
@@ -61,7 +82,7 @@ PhotoDisintegration::PhotoDisintegration() {
 		mode.rate = gsl_spline_alloc(gsl_interp_linear, SAMPLE_COUNT);
 		gsl_spline_init(mode.rate, &x[0], &y[0], SAMPLE_COUNT);
 
-		PDTable[id].push_back(mode);
+		PDTable[getNucleusId(A, Z)].push_back(mode);
 	}
 
 	infile.close();

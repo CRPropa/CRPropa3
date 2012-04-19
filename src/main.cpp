@@ -5,7 +5,6 @@
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/BreakCondition.h"
-#include "mpc/module/GlutDisplay.h"
 #include "mpc/module/Output.h"
 #include "mpc/module/ElectronPairProduction.h"
 #include "mpc/module/PhotoPionProduction.h"
@@ -43,7 +42,6 @@ int main(int argc, char **argv) {
 
 	// output -------------------------------------------------------------
 	chain.add(79, new ShellOutput());
-	//chain.add(80, new GlutDisplay());
 
 	std::cout << chain << std::endl;
 

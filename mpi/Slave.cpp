@@ -8,7 +8,6 @@
 #include "mpc/Common.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/BreakCondition.h"
-#include "mpc/module/GlutDisplay.h"
 #include "mpc/module/Output.h"
 #include "mpc/module/ElectronPairProduction.h"
 #include "mpc/module/PhotoPionProduction.h"

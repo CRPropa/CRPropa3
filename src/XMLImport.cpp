@@ -3,7 +3,6 @@
 #include "mpc/magneticField/magneticField.h"
 #include "mpc/magneticField/uniformMagneticField.h"
 #include "mpc/module/DeflectionCK.h"
-#include "mpc/module/GlutDisplay.h"
 
 #include "pugixml.hpp"
 
@@ -87,21 +86,6 @@ public:
 		return new DeflectionCK(field);
 	}
 };
-
-class GlutDislpayProducer: public ModuleProducer {
-public:
-
-	GlutDislpayProducer() :
-			ModuleProducer("GluDisplay") {
-
-	}
-
-	Module *create(pugi::xml_node &module) {
-		return new GlutDisplay();
-	}
-};
-
-static GlutDislpayProducer _glut_display_producer;
 
 static DeflectionCKProducer _deflection_ck_producer;
 

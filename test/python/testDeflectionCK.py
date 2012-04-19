@@ -16,7 +16,7 @@ R = c.current.getMomentum().mag() / c.current.getCharge() / 1e-12
 
 
 def propagate(tolerance):
-	prop = DeflectionCK(field, tolerance, DeflectionCK.WorstOffender, 0.1 * kpc)
+	prop = DeflectionCK(field, tolerance, 0.1 * kpc)
 	maxLen = MaximumTrajectoryLength(2 * pi * R)
 
 	c.setTrajectoryLength(0)

@@ -20,15 +20,9 @@ class DeflectionCK: public Module {
 public:
 	ref_ptr<MagneticField> field;
 	ExplicitRungeKutta<PhasePoint> erk;
-	enum ControlType {
-		NoStepSizeControl, WorstOffender, RMS
-	};
-	ControlType controlType;
 	double tolerance, minimumStep;
 
-	DeflectionCK(MagneticField *field, double tolerance = 1e-4,
-			ControlType controlType = WorstOffender,
-			double minimumStep = 0.1 * kpc);
+	DeflectionCK(MagneticField *field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

@@ -37,11 +37,9 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
-		ControlType controlType, double minimumStep) {
+DeflectionCK::DeflectionCK(MagneticField *field, double tolerance, double minimumStep) {
 	this->field = field;
 	this->tolerance = tolerance;
-	this->controlType = controlType;
 	this->minimumStep = minimumStep;
 	erk.loadCashKarp();
 }
@@ -55,6 +53,7 @@ std::string DeflectionCK::getDescription() const {
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
+	// rectlinear propagation in case of no charge
 	if (candidate->current.getChargeNumber() == 0) {
 		double nextStep = std::max(minimumStep, candidate->getNextStep());
 		Vector3 pos = candidate->current.getPosition();
@@ -78,31 +77,19 @@ void DeflectionCK::process(Candidate *candidate) const {
 	do {
 		hTry = h;
 		erk.step(0, yIn, yOut, yErr, hTry, dydt);
-		if (controlType == NoStepSizeControl) {
-			// no step size control
-			break;
-		} else if (controlType == WorstOffender) {
-			// maximum of ratio yErr(i) / yScale(i)
-			r = 0;
-			if (yScale.b.x() > std::numeric_limits<double>::min())
-				r = std::max(r, fabs(yErr.b.x() / yScale.b.x()));
-			if (yScale.b.y() > std::numeric_limits<double>::min())
-				r = std::max(r, fabs(yErr.b.y() / yScale.b.y()));
-			if (yScale.b.z() > std::numeric_limits<double>::min())
-				r = std::max(r, fabs(yErr.b.z() / yScale.b.z()));
-		} else if (controlType == RMS) {
-			// RMS of ratio yErr(i) / yScale(i)
-			r = 0;
-			if (yScale.b.x() > std::numeric_limits<double>::min())
-				r += pow(yErr.b.x() / (yScale.b.x()), 2);
-			if (yScale.b.y() > std::numeric_limits<double>::min())
-				r += pow(yErr.b.y() / (yScale.b.y()), 2);
-			if (yScale.b.z() > std::numeric_limits<double>::min())
-				r += pow(yErr.b.z() / (yScale.b.z()), 2);
-			r = pow(r / 3., 0.5);
-		}
+
+		// maximum of ratio yErr(i) / yScale(i)
+		r = 0;
+		if (yScale.b.x() > std::numeric_limits<double>::min())
+			r = std::max(r, fabs(yErr.b.x() / yScale.b.x()));
+		if (yScale.b.y() > std::numeric_limits<double>::min())
+			r = std::max(r, fabs(yErr.b.y() / yScale.b.y()));
+		if (yScale.b.z() > std::numeric_limits<double>::min())
+			r = std::max(r, fabs(yErr.b.z() / yScale.b.z()));
+
 		// for efficient integration try to keep r close to one
 		h *= 0.95 * pow(r, -0.2);
+
 		// limit step change
 		h = std::max(h, 0.1 * hTry);
 		h = std::min(h, 5 * hTry);

@@ -29,16 +29,6 @@ if (GADGET_FOUND)
     list( APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
 endif (GADGET_FOUND)
 
-# freeglut and GLU needed for GlutDisplay
-find_package(FreeGlut)
-find_package(OpenGl)
-if (Freeglut_FOUND)
-    if (OPENGL_GLU_FOUND)
-        list( APPEND MPC_EXTRA_SOURCES src/module/GlutDisplay.cpp)
-        list( APPEND MPC_EXTRA_LIBRARIES ${Freeglut_LIBRARIES} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
-    endif (OPENGL_GLU_FOUND)
-endif (Freeglut_FOUND)
-
 # Google Performance Tools
 find_package(GooglePerfTools)
 SET(TCMALLOC)

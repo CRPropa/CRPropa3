@@ -132,25 +132,11 @@ if (GTEST_FOUND)
     target_link_libraries(testInteraction mpc ${GTEST_BOTH_LIBRARIES} pthread)
 endif (GTEST_FOUND)
 
-
 # ----------------------------------------------------------------------------
-# OpenMP and OpenMPI
+# OpenMP
 # ----------------------------------------------------------------------------
 add_executable(mpc-omp-run src/openmp.cpp)
 TARGET_LINK_LIBRARIES(mpc-omp-run mpc)
-
-# MPI needed for mpc-mpi
-find_package(MPI)
-if (MPI_FOUND)
-    include_directories(${MPI_INCLUDE_PATH})
-
-    set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
-    set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
-
-    add_executable(mpc-mpi-run mpi/main mpi/Slave mpi/Master mpi/Job)
-    TARGET_LINK_LIBRARIES(mpc-mpi-run mpc ${MPI_LIBRARIES})
-endif()
-
 
 # ----------------------------------------------------------------------------
 # Python

@@ -75,8 +75,6 @@ add_library(mpc SHARED
     src/Random.cpp
     src/Clock.cpp
     src/Vector3.cpp
-    src/XMLImport.cpp
-    src/ModuleChain.cpp
     src/ModuleList.cpp
     src/Module.cpp
     src/Candidate.cpp

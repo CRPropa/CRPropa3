@@ -51,7 +51,6 @@
 #include "mpc/ParticleState.h"
 #include "mpc/Nucleus.h"
 #include "mpc/Module.h"
-#include "mpc/ModuleChain.h"
 #include "mpc/ModuleList.h"
 #include "mpc/PhasePoint.h"
 #include "mpc/ExplicitRungeKutta.h"
@@ -108,5 +107,4 @@
 %include "mpc/module/PhotoDisintegration.h"
 %include "mpc/module/Redshift.h"
 %include "mpc/module/Tools.h"
-%include "mpc/ModuleChain.h"
 %include "mpc/ModuleList.h"

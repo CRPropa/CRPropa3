@@ -1,7 +1,4 @@
-#include "mpc/XMLImport.h"
-#include "mpc/ModuleChain.h"
-#include "mpc/Vector3.h"
-#include "mpc/Units.h"
+#include "mpc/ModuleList.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/BreakCondition.h"
@@ -16,34 +13,25 @@
 using namespace mpc;
 
 int main(int argc, char **argv) {
-	ModuleChain chain;
+	ModuleList modules;
 
-//	if (argc > 1) {
-//		XMLImport import(&chain);
-//		import.import(argv[1]);
-//	} else {
-
-// propagation --------------------------------------------------------
-//	UniformMagneticField *field = new UniformMagneticField(Vector3(0., 0., 1e-20));
-//	SPHMagneticField *field = new SPHMagneticField(Vector3(119717, 221166, 133061) * kpc, 3 * Mpc, 50);
-//	field->gadgetField->load("test/coma-0.7.raw");
+	// propagation --------------------------------------------------------
 	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
-	chain.add(1, new DeflectionCK(field));
-//	chain.add(1, new SimplePropagation);
+	modules.add(new DeflectionCK(field));
 
 	// interactions -------------------------------------------------------
-	chain.add(10, new NuclearDecay());
-	chain.add(11, new PhotoDisintegration());
-	chain.add(12, new ElectronPairProduction());
-	chain.add(13, new PhotoPionProduction());
+	modules.add(new NuclearDecay());
+	modules.add(new PhotoDisintegration());
+	modules.add(new ElectronPairProduction());
+	modules.add(new PhotoPionProduction());
 
 	// break conditions ---------------------------------------------------
-	chain.add(20, new MaximumTrajectoryLength(50 * Mpc));
+	modules.add(new MaximumTrajectoryLength(50 * Mpc));
 
 	// output -------------------------------------------------------------
-	chain.add(79, new ShellOutput());
+	modules.add(new ShellOutput());
 
-	std::cout << chain << std::endl;
+	std::cout << modules << std::endl;
 
 	ParticleState initial;
 	initial.setId(getNucleusId(56, 26));
@@ -52,8 +40,7 @@ int main(int argc, char **argv) {
 	initial.setDirection(Vector3(1, 0, 0));
 
 	ref_ptr<Candidate> candidate = new Candidate(initial);
-
-	chain.process(candidate);
+	modules.process(candidate);
 
 	std::cout << "done" << std::endl;
 

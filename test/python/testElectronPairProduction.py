@@ -33,6 +33,6 @@ def compare(dataFileName, photonField, plotFileName):
     savefig(plotFileName, bbox_inches='tight')
 
 
-compare(getDataPath("/ElectronPairProduction/cmb.txt"), ElectronPairProduction.CMB, 'ElectronPairProduction_cmb.png')
-compare(getDataPath("/ElectronPairProduction/cmbir.txt"), ElectronPairProduction.CMBIR, 'ElectronPairProduction_cmbir.png')
-compare(getDataPath("/ElectronPairProduction/ir.txt"), ElectronPairProduction.IR, 'ElectronPairProduction_ir.png')
+compare(getDataPath("/ElectronPairProduction/cmb.txt"), CMB, 'ElectronPairProduction_CMB.png')
+compare(getDataPath("/ElectronPairProduction/ir.txt"), IRB, 'ElectronPairProduction_IRB.png')
+compare(getDataPath("/ElectronPairProduction/cmbir.txt"), CMB_IRB, 'ElectronPairProduction_CMB_IRB.png')

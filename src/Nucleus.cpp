@@ -2,6 +2,7 @@
 #include "mpc/Common.h"
 
 #include <kiss/convert.h>
+#include <HepPID/ParticleIDMethods.hh>
 
 #include <vector>
 #include <fstream>
@@ -35,8 +36,8 @@ double getNucleusMass(int id) {
 	if (nuclearMassTable.size() == 0)
 		initNuclearMassTable();
 
-	int Z = getChargeNumberFromNucleusId(id);
-	int N = getMassNumberFromNucleusId(id) - Z;
+	int Z = HepPID::Z(id);
+	int N = HepPID::A(id) - Z;
 	double mass = nuclearMassTable[Z * 31 + N];
 	if (mass == 0)
 		throw std::runtime_error("mpc: nucleus not found " + kiss::str(id));

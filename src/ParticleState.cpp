@@ -1,5 +1,7 @@
 #include "mpc/ParticleState.h"
 
+#include <HepPID/ParticleIDMethods.hh>
+
 namespace mpc {
 
 ParticleState::ParticleState() :
@@ -23,7 +25,7 @@ const Vector3 &ParticleState::getDirection() const {
 	return direction;
 }
 
-void ParticleState::setEnergy(double newEnergy) {
+void ParticleState::setEnergy(const double newEnergy) {
 	energy = newEnergy;
 }
 
@@ -31,9 +33,10 @@ double ParticleState::getEnergy() const {
 	return energy;
 }
 
-void ParticleState::setId(int newId) {
+void ParticleState::setId(const int newId) {
 	id = newId;
-	pmass = getNucleusMass(id);
+	if (HepPID::isNucleus(id))
+		pmass = getNucleusMass(id);
 }
 
 int ParticleState::getId() const {
@@ -41,27 +44,46 @@ int ParticleState::getId() const {
 }
 
 int ParticleState::getChargeNumber() const {
-	return getChargeNumberFromNucleusId(id);
+	return HepPID::Z(id);
 }
 
 double ParticleState::getCharge() const {
-	return getChargeNumberFromNucleusId(id) * eplus;
+	return HepPID::Z(id) * eplus;
 }
 
 int ParticleState::getMassNumber() const {
-	return getMassNumberFromNucleusId(id);
+	return HepPID::A(id);
 }
 
 double ParticleState::getMass() const {
-	return pmass;
+	if (HepPID::isNucleus(id))
+		return pmass;
+	else
+		throw std::runtime_error(
+				"mpc::ParticleState::getMass only for nuclei/nucleons");
+}
+
+bool ParticleState::isNucleus() const {
+	if (HepPID::isNucleus(id))
+		return true;
+	else
+		return false;
 }
 
 double ParticleState::getLorentzFactor() const {
-	return energy / (this->getMass() * c_squared);
+	if (HepPID::isNucleus(id))
+		return energy / (pmass * c_squared);
+	else
+		throw std::runtime_error(
+				"mpc::ParticleState::getLorentzFactor only for nuclei/nucleons");
 }
 
-void ParticleState::setLorentzFactor(double gamma) {
-	energy = gamma * this->getMass() * c_squared;
+void ParticleState::setLorentzFactor(const double gamma) {
+	if (HepPID::isNucleus(id))
+		energy = gamma * pmass * c_squared;
+	else
+		throw std::runtime_error(
+				"mpc::ParticleState::setLorentzFactor only for nuclei/nucleons");
 }
 
 Vector3 ParticleState::getVelocity() const {

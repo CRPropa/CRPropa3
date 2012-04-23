@@ -41,32 +41,38 @@ TEST(ParticleState, momentum) {
 
 TEST(ParticleState, id) {
 	ParticleState particle;
-	particle.setId(1045026000);
-	EXPECT_EQ(particle.getId(), 1045026000);
+	particle.setId(getNucleusId(12, 6));
+	EXPECT_EQ(particle.getId(), 1000060120);
 }
 
 TEST(ParticleState, idException) {
-	ParticleState particle;
-	EXPECT_THROW(particle.setId(1002002000), std::runtime_error);
+	EXPECT_THROW(getNucleusId(5, 6), std::runtime_error);
 }
 
 TEST(ParticleState, charge) {
 	ParticleState particle;
-	particle.setId(1056026000);
+	particle.setId(getNucleusId(56, 26));
 	EXPECT_EQ(particle.getChargeNumber(), 26);
 	EXPECT_DOUBLE_EQ(particle.getCharge(), 26 * eplus);
 }
 
 TEST(ParticleState, massProton) {
 	ParticleState particle;
-	particle.setId(1001001000);
+	particle.setId(getNucleusId(1, 1));
 	EXPECT_EQ(particle.getMassNumber(), 1);
 	EXPECT_DOUBLE_EQ(particle.getMass(), mass_proton);
 }
 
+TEST(ParticleState, massNeutron) {
+	ParticleState particle;
+	particle.setId(getNucleusId(1, 0));
+	EXPECT_EQ(particle.getMassNumber(), 1);
+	EXPECT_DOUBLE_EQ(particle.getMass(), mass_neutron);
+}
+
 TEST(ParticleState, lorentzFactor) {
 	ParticleState particle;
-	particle.setId(1001001000);
+	particle.setId(getNucleusId(1, 1));
 	particle.setEnergy(1e12 * eV);
 	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(), 1e12 * eV / mass_proton / c_squared);
 }

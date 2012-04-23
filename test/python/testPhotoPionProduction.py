@@ -2,7 +2,7 @@ from mpc import *
 from pylab import *
 import ROOT
 
-def getSlope(interaction, energy, charge):
+def getSlope(interaction, energy, charge, name):
     c = Candidate()
     c.current.setId(getNucleusId(1, charge))
     c.current.setEnergy(energy)
@@ -12,7 +12,7 @@ def getSlope(interaction, energy, charge):
     for i in range(10000):
         c.clearInteractionStates()
         interaction.process(c)
-        c.getInteractionState('mpc::PhotoPionProduction', s)
+        c.getInteractionState('PhotoPionProduction:'+name, s)
         l.append(s.distance / Mpc)
 
     h = ROOT.TH1F('', '', 100, 0, max(l))
@@ -29,14 +29,14 @@ def getSlope(interaction, energy, charge):
 def compare(type, name):
     print "compare ", name
     ppp = PhotoPionProduction(type)
-    E_data, P_data, N_data = genfromtxt(getDataPath('/PhotoPionProduction/' + name + '.txt'), unpack=True)
+    E_data, P_data, N_data = genfromtxt(getDataPath('/PhotoPionProduction/PPtable_' + name + '.txt'), unpack=True)
 
     E = logspace(1.5,5,10) * EeV
     p = zeros(len(E))
     n = zeros(len(E))
     for i,energy in enumerate(E*EeV):
-        p[i] = getSlope(ppp, energy, 1)
-        n[i] = getSlope(ppp, energy, 0)
+        p[i] = getSlope(ppp, energy, 1, name)
+        n[i] = getSlope(ppp, energy, 0, name)
     plot(E_data, P_data, "r", label="Proton Data")
     plot(E, p, 'k+', label="Proton Simulated")
     plot(E_data, N_data, "b", label="Neutron Data")
@@ -50,6 +50,6 @@ def compare(type, name):
     savefig('PhotoPionProduction_' + name + '.png', bbox_inches='tight')
     close()
 
-compare(PhotoPionProduction.CMB, "cmb")
-compare(PhotoPionProduction.CMBIR, "cmbir")
-compare(PhotoPionProduction.IR, "ir")
+compare(CMB, "CMB")
+compare(IRB, "IRB")
+compare(CMB_IRB, "CMB_IRB")

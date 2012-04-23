@@ -1,4 +1,6 @@
 #include "mpc/module/PhotoPionProduction.h"
+
+#include <kiss/convert.h>
 #include "sophia.h"
 
 #include <limits>
@@ -18,15 +20,15 @@ void PhotoPionProduction::init(int photonField) {
 	switch (photonField) {
 	case CMB:
 		setDescription("PhotoPionProduction:CMB");
-		init(getDataPath("PhotoPionProduction/cmb.txt"));
+		init(getDataPath("PhotoPionProduction/PPtable_CMB.txt"));
 		break;
 	case IRB:
 		setDescription("PhotoPionProduction:IRB");
-		init(getDataPath("PhotoPionProduction/ir.txt"));
+		init(getDataPath("PhotoPionProduction/PPtable_IRB.txt"));
 		break;
 	case CMB_IRB:
 		setDescription("PhotoPionProduction:CMB_IRB");
-		init(getDataPath("PhotoPionProduction/cmbir.txt"));
+		init(getDataPath("PhotoPionProduction/PPtable_CMB_IRB.txt"));
 		break;
 	default:
 		throw std::runtime_error(
@@ -155,7 +157,7 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	candidate->getInteractionState(getDescription(), interaction);
 	candidate->clearInteractionStates();
 
-	int dZ = interaction.channel; // charge number loss of interacting nucleus
+	int channel = interaction.channel; // 1 for interaction proton, 0 for neutron
 
 	double E = candidate->current.getEnergy();
 	int A = candidate->current.getMassNumber();
@@ -163,13 +165,13 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	double EpA = E / A;
 
 	// arguments for sophia
-	int nature = 1 - dZ; // interacting particle: 0 for proton, 1 for neutron
+	int nature = 1 - channel; // interacting particle: 0 for proton, 1 for neutron
 	double Ein = EpA / GeV; // energy of in-going nucleon in GeV
 	double momentaList[5][2000]; // momentum list, what are the five components?
 	int particleList[2000]; // particle id list
 	int nParticles; // number of outgoing particles
 	double redshift = candidate->getRedshift();
-	int background; // Photon background: 1 for CMB, 2 for Primack IR
+	int background; // Photon background: 1 for CMB, 2 for Kneiske IRB
 	switch (photonField) {
 	case CMB:
 		background = 1;
@@ -193,23 +195,49 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
 
-		if (pType == 13 or pType == 14) {
-			int Zout = 14 - pType; // 1 for proton, 0 for neutron
+		switch (pType) {
+		case 13: // proton
+		case 14: // neutron
 			if (A == 1) { // in-going particle was a nucleon: update its properties
 				candidate->current.setEnergy(Eout);
-				candidate->current.setId(getNucleusId(1, Zout));
-			} else {
-				// // in-going particle was a nucleus: update nucleus and emit nucleon
+				candidate->current.setId(getNucleusId(1, 14 - pType));
+			} else { // in-going particle was a nucleus: update nucleus and emit nucleon
 				candidate->current.setEnergy(E - Eout);
-				candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-				candidate->addSecondary(getNucleusId(1, Zout), Eout);
+				candidate->current.setId(getNucleusId(A - 1, Z - channel));
+				candidate->addSecondary(getNucleusId(1, 14 - pType), Eout);
 			}
-		} else if (pType == -13 or pType == -14) {
-			continue; // anti-proton/neutron -> new electromagnetic cascade after annihilation?
-		} else if (pType >= 1 and pType <= 3) {
-			continue; // new electromagnetic cascade
-		} else if (pType >= 15) {
-			continue; // new neutrino
+			break;
+		case -13: // anti-proton
+			candidate->addSecondary(-getNucleusId(1, 1), Eout);
+			break;
+		case -14: // anti-neutron
+			candidate->addSecondary(-getNucleusId(1, 0), Eout);
+			break;
+		case 1: // photon
+			candidate->addSecondary(22, Eout);
+			break;
+		case 2: // positron
+			candidate->addSecondary(-11, Eout);
+			break;
+		case 3: // electron
+			candidate->addSecondary(11, Eout);
+			break;
+		case 15: // nu_e
+			candidate->addSecondary(12, Eout);
+			break;
+		case 16: // antinu_e
+			candidate->addSecondary(-12, Eout);
+			break;
+		case 17: // nu_muon
+			candidate->addSecondary(14, Eout);
+			break;
+		case 18: // antinu_muon
+			candidate->addSecondary(-14, Eout);
+			break;
+		default:
+			throw std::runtime_error(
+					"mpc::PhotoPionProduction: unexpected particle "
+							+ kiss::str(pType));
 		}
 	}
 }

@@ -28,10 +28,10 @@ public:
 	void setDirection(const Vector3 &dir);
 	const Vector3 &getDirection() const;
 
-	void setEnergy(double newEnergy);
+	void setEnergy(const double newEnergy);
 	double getEnergy() const;
 
-	void setId(int);
+	void setId(const int);
 	int getId() const;
 
 	int getChargeNumber() const;
@@ -41,8 +41,10 @@ public:
 	double getMass() const;
 
 	// convenience functions
+	bool isNucleus() const;
+
+	void setLorentzFactor(const double gamma);
 	double getLorentzFactor() const;
-	void setLorentzFactor(double gamma);
 
 	Vector3 getVelocity() const;
 	Vector3 getMomentum() const;

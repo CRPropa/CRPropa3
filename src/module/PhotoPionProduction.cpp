@@ -152,6 +152,13 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	}
 }
 
+SophiaPhotoPionProduction::SophiaPhotoPionProduction(int photonField) {
+	if ((photonField == CMB) or (photonField == IRB))
+		init(photonField);
+	else
+		std::runtime_error("mpc::SophiaPhotoPionProduction: only CMB or IRB background possible");
+}
+
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	InteractionState interaction;
 	candidate->getInteractionState(getDescription(), interaction);
@@ -178,10 +185,6 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 		break;
 	case IRB:
 		background = 2;
-		break;
-	case CMB_IRB:
-		throw std::runtime_error(
-				"mpc::SophiaPhotoPionProduction: CMB_IRB not possible for SophiaPhotoPionProduction");
 		break;
 	}
 	double maxRedshift = 100; // IR photon density is zero above this redshift

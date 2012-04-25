@@ -26,13 +26,9 @@ void PhotoPionProduction::init(int photonField) {
 		setDescription("PhotoPionProduction:IRB");
 		init(getDataPath("PhotoPionProduction/PPtable_IRB.txt"));
 		break;
-	case CMB_IRB:
-		setDescription("PhotoPionProduction:CMB_IRB");
-		init(getDataPath("PhotoPionProduction/PPtable_CMB_IRB.txt"));
-		break;
 	default:
 		throw std::runtime_error(
-				"mpc::PhotoPionProduction: unknown photon background");
+				"mpc::PhotoPionProduction: only CMB or IRB possible as photon background");
 	}
 }
 
@@ -43,9 +39,6 @@ void PhotoPionProduction::init(std::string filename) {
 				"mpc::PhotoPionProduction: could not open file " + filename);
 
 	std::vector<double> x, yp, yn;
-	x.reserve(100);
-	yp.reserve(100);
-	yn.reserve(100);
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;
@@ -150,13 +143,6 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 		candidate->current.setId(getNucleusId(A - 1, Z - dZ));
 		candidate->addSecondary(getNucleusId(1, Zfinal), E / A * 938. / 1232.);
 	}
-}
-
-SophiaPhotoPionProduction::SophiaPhotoPionProduction(int photonField) {
-	if ((photonField == CMB) or (photonField == IRB))
-		init(photonField);
-	else
-		std::runtime_error("mpc::SophiaPhotoPionProduction: only CMB or IRB background possible");
 }
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {

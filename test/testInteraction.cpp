@@ -144,9 +144,9 @@ TEST(NuclearDecay, LimitNextStep) {
 
 
 TEST(PhotoDisintegration, Backgrounds) {
-	PhotoPionProduction ppp1(CMB);
-	PhotoPionProduction ppp2(IRB);
-	PhotoPionProduction ppp3(CMB_IRB);
+	PhotoDisintegration pd1(CMB);
+	PhotoDisintegration pd2(IRB);
+	PhotoDisintegration pd3(CMB_IRB);
 }
 
 TEST(PhotoDisintegration, Carbon) {
@@ -188,8 +188,7 @@ TEST(PhotoDisintegration, LimitNextStep) {
 
 TEST(PhotoPionProduction, Backgrounds) {
 	PhotoPionProduction ppp1(CMB);
-	PhotoPionProduction ppp2(IRB);
-	PhotoPionProduction ppp3(CMB_IRB);
+	PhotoPionProduction ppp2(IRB);;
 }
 
 TEST(PhotoPionProduction, Proton) {
@@ -225,6 +224,24 @@ TEST(PhotoPionProduction, LimitNextStep) {
 	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.getNextStep() < 100 * Mpc);
 }
+
+TEST(SophiaPhotoPionProduction, Backgrounds) {
+	SophiaPhotoPionProduction ppp1(CMB);
+	SophiaPhotoPionProduction ppp2(IRB);;
+}
+
+TEST(SophiaPhotoPionProduction, Proton) {
+	SophiaPhotoPionProduction ppp;
+	Candidate candidate;
+	candidate.setCurrentStep(100 * Mpc);
+	candidate.current.setId(getNucleusId(1, 1));
+	candidate.current.setEnergy(100 * EeV);
+	ppp.process(&candidate);
+	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 100);
+	EXPECT_EQ(candidate.current.getMassNumber(), 1);
+	EXPECT_TRUE(candidate.secondaries.size() != 0);
+}
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

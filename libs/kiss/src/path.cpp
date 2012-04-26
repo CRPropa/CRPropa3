@@ -154,11 +154,11 @@ void append_file(const std::string &target, const std::string &source,
 std::string executable_path() {
 	char buf[1024];
 
-#if linux
+//#if linux
 	size_t len = readlink("/proc/self/exe", buf, sizeof(buf)-1);
-#else
-	size_t len = ::GetModuleFileName(NULL, buf, sizeof(buf)-1 );
-#endif
+//#else
+//	size_t len = ::GetModuleFileName(NULL, buf, sizeof(buf)-1 );
+//#endif
 	for (size_t i = 1; i < len; i++) {
 		if (buf[len - 1] == path_seperator)
 			break;

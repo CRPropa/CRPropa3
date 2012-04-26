@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(ModularPropagationCode)
+project(ModularPropagationCode Fortran CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -11,12 +11,13 @@ set (MPC_SWIG_DEFINES)
 # GSL required
 find_package(GSL REQUIRED)
 list (APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+list (APPEND MPC_EXTRA_INCLUDES ${GSL_INCLUDE_DIR})
 
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
     list( APPEND MPC_EXTRA_SOURCES src/magneticField/turbulentMagneticFieldGrid.cpp)
-    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY} ${FFTWF_LIBRARY})
+    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY})
 endif (FFTW_FOUND)
 
 # gadget needed for SphMagneticField

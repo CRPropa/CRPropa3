@@ -4,7 +4,7 @@
 #include "sophia.h"
 
 #include <limits>
-#include <math.h>
+#include <cmath>
 #include <sstream>
 #include <fstream>
 #include <stdexcept>
@@ -108,7 +108,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
 	interaction.distance /= pow((1 + z), 3);
 
-	if (isnan(interaction.distance)) {
+	if (std::isnan(interaction.distance)) {
 		return false;
 	}
 

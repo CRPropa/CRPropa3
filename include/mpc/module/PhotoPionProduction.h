@@ -39,8 +39,13 @@ public:
  @brief Photo-pion interactions of nuclei with background photons using SOPHIA.
  */
 class SophiaPhotoPionProduction: public PhotoPionProduction {
+protected:
+	bool havePhotonsElectrons;
+	bool haveNeutrinos;
+	bool haveAntiNucleons;
 public:
-	SophiaPhotoPionProduction(int photonField = CMB) : PhotoPionProduction(photonField) {};
+	SophiaPhotoPionProduction(int photonField = CMB, bool photonsElectrons =
+			false, bool neutrinos = false, bool antiNucleons = false);
 	void performInteraction(Candidate *candidate) const;
 };
 

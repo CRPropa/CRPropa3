@@ -125,8 +125,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	int dZ = interaction.channel;
 	// final proton number of emitted nucleon
 	int Zfinal = dZ;
-	// 1/3 probability of isospin change p <-> n
-	if (Random::instance().rand() < 1. / 3.)
+	// 50% probability of isospin change p <-> n
+	if (Random::instance().rand() < 1. / 2.)
 		Zfinal = abs(Zfinal - 1);
 
 	double E = candidate->current.getEnergy();
@@ -143,6 +143,14 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 		candidate->current.setId(getNucleusId(A - 1, Z - dZ));
 		candidate->addSecondary(getNucleusId(1, Zfinal), E / A * 938. / 1232.);
 	}
+}
+
+SophiaPhotoPionProduction::SophiaPhotoPionProduction(int photonField,
+		bool photonsElectrons, bool neutrinos, bool antiNucleons) :
+		PhotoPionProduction(photonField) {
+	havePhotonsElectrons = photonsElectrons;
+	haveNeutrinos = neutrinos;
+	haveAntiNucleons = antiNucleons;
 }
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
@@ -197,31 +205,40 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 			}
 			break;
 		case -13: // anti-proton
-			candidate->addSecondary(-getNucleusId(1, 1), Eout);
+			if (haveAntiNucleons)
+				candidate->addSecondary(-getNucleusId(1, 1), Eout);
 			break;
 		case -14: // anti-neutron
-			candidate->addSecondary(-getNucleusId(1, 0), Eout);
+			if (haveAntiNucleons)
+				candidate->addSecondary(-getNucleusId(1, 0), Eout);
 			break;
 		case 1: // photon
-			candidate->addSecondary(22, Eout);
+			if (havePhotonsElectrons)
+				candidate->addSecondary(22, Eout);
 			break;
 		case 2: // positron
-			candidate->addSecondary(-11, Eout);
+			if (havePhotonsElectrons)
+				candidate->addSecondary(-11, Eout);
 			break;
 		case 3: // electron
-			candidate->addSecondary(11, Eout);
+			if (havePhotonsElectrons)
+				candidate->addSecondary(11, Eout);
 			break;
 		case 15: // nu_e
-			candidate->addSecondary(12, Eout);
+			if (haveNeutrinos)
+				candidate->addSecondary(12, Eout);
 			break;
 		case 16: // antinu_e
-			candidate->addSecondary(-12, Eout);
+			if (haveNeutrinos)
+				candidate->addSecondary(-12, Eout);
 			break;
 		case 17: // nu_muon
-			candidate->addSecondary(14, Eout);
+			if (haveNeutrinos)
+				candidate->addSecondary(14, Eout);
 			break;
 		case 18: // antinu_muon
-			candidate->addSecondary(-14, Eout);
+			if (haveNeutrinos)
+				candidate->addSecondary(-14, Eout);
 			break;
 		default:
 			throw std::runtime_error(

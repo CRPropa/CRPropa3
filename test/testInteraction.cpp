@@ -83,8 +83,6 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 	}
 }
 
-
-
 TEST(NuclearDecay, Neutron) {
 	// test beta- decay n -> p
 	Candidate candidate;
@@ -141,8 +139,6 @@ TEST(NuclearDecay, LimitNextStep) {
 	EXPECT_TRUE(candidate.getNextStep() < 10 * Mpc);
 }
 
-
-
 TEST(PhotoDisintegration, Backgrounds) {
 	PhotoDisintegration pd1(CMB);
 	PhotoDisintegration pd2(IRB);
@@ -184,11 +180,9 @@ TEST(PhotoDisintegration, LimitNextStep) {
 	EXPECT_TRUE(candidate.getNextStep() < 100 * Mpc);
 }
 
-
-
 TEST(PhotoPionProduction, Backgrounds) {
 	PhotoPionProduction ppp1(CMB);
-	PhotoPionProduction ppp2(IRB);;
+	PhotoPionProduction ppp2(IRB);
 }
 
 TEST(PhotoPionProduction, Proton) {
@@ -225,11 +219,6 @@ TEST(PhotoPionProduction, LimitNextStep) {
 	EXPECT_TRUE(candidate.getNextStep() < 100 * Mpc);
 }
 
-TEST(SophiaPhotoPionProduction, Backgrounds) {
-	SophiaPhotoPionProduction ppp1(CMB);
-	SophiaPhotoPionProduction ppp2(IRB);;
-}
-
 TEST(SophiaPhotoPionProduction, Proton) {
 	SophiaPhotoPionProduction ppp;
 	Candidate candidate;
@@ -239,9 +228,19 @@ TEST(SophiaPhotoPionProduction, Proton) {
 	ppp.process(&candidate);
 	EXPECT_TRUE(candidate.current.getEnergy() / EeV < 100);
 	EXPECT_EQ(candidate.current.getMassNumber(), 1);
-	EXPECT_TRUE(candidate.secondaries.size() != 0);
+	EXPECT_TRUE(candidate.secondaries.size() == 0);
 }
 
+TEST(SophiaPhotoPionProduction, withSecondaries) {
+	SophiaPhotoPionProduction ppp(CMB, true, true, true);
+	Candidate candidate;
+	candidate.current.setId(getNucleusId(1, 1));
+	candidate.current.setEnergy(100 * EeV);
+	InteractionState interaction;
+	ppp.setNextInteraction(&candidate, interaction);
+	ppp.performInteraction(&candidate);
+	EXPECT_TRUE(candidate.secondaries.size() >= 2);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

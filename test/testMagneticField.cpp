@@ -1,8 +1,9 @@
-#include "gtest/gtest.h"
 #include "mpc/magneticField/uniformMagneticField.h"
 #include "mpc/magneticField/magneticFieldGrid.h"
 #include "mpc/magneticField/turbulentMagneticFieldGrid.h"
 #include "mpc/Units.h"
+
+#include "gtest/gtest.h"
 #include "fftw3.h"
 #include <iostream>
 

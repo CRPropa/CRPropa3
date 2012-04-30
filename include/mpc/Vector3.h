@@ -119,7 +119,7 @@ public:
 	// Set the transverse component keeping phi and z constant.
 
 	void setCylTheta(double);
-	// Set theta while keeping transvers component and phi fixed
+	// Set theta while keeping transverse component and phi fixed
 
 	inline double perp2(const Vector3 &) const;
 	// The transverse component w.r.t. given axis squared.

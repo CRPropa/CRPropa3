@@ -1,5 +1,6 @@
 #include "mpc/module/BreakCondition.h"
 #include "mpc/Candidate.h"
+
 #include "gtest/gtest.h"
 
 namespace mpc {

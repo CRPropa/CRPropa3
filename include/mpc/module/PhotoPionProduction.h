@@ -37,6 +37,11 @@ public:
 /**
  @class SophiaPhotoPionProduction
  @brief Photo-pion interactions of nuclei with background photons using SOPHIA.
+
+ This module simulates photo-hadronic interactions of nuclei with background photons.\n
+ Several photon fields can be selected. They are considered as homogeneous and evolving as the CMB.\n
+ The interaction itself is simulated with SOPHIA.\n
+ Electromagnetic particles, neutrinos and antiparticles as secondaries from these interactions can be switched on independently.
  */
 class SophiaPhotoPionProduction: public PhotoPionProduction {
 protected:

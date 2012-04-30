@@ -84,14 +84,16 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 }
 
 TEST(NuclearDecay, Neutron) {
-	// test beta- decay n -> p
+	// test beta- decay n -> p within 1 hour
 	Candidate candidate;
-	candidate.setCurrentStep(1 * Mpc);
+	candidate.setCurrentStep(3600 * c_light);
 	candidate.current.setId(getNucleusId(1, 0));
-	candidate.current.setEnergy(1 * EeV);
+	candidate.current.setEnergy(mass_neutron * c_squared);
 	NuclearDecay d;
 	d.process(&candidate);
-	EXPECT_EQ(candidate.current.getId(), getNucleusId(1,1));
+	EXPECT_EQ(getNucleusId(1,1), candidate.current.getId());
+	// leptonic secondaries not turned on
+	EXPECT_EQ(0, candidate.secondaries.size());
 }
 
 TEST(NuclearDecay, Scandium44) {
@@ -100,9 +102,11 @@ TEST(NuclearDecay, Scandium44) {
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(44, 21));
 	candidate.current.setEnergy(1 * EeV);
-	NuclearDecay d;
+	NuclearDecay d(true, true);
 	d.process(&candidate);
-	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
+	EXPECT_EQ(getNucleusId(44,20), candidate.current.getId());
+	// 2 leptons expected
+	EXPECT_EQ(2, candidate.secondaries.size());
 }
 
 TEST(NuclearDecay, Li4) {

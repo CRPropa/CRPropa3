@@ -17,16 +17,16 @@ private:
 	int id;
 	double pmass;
 	double energy;
-	Vector3 position;
-	Vector3 direction;
+	Vector3d position;
+	Vector3d direction;
 
 public:
 	ParticleState();
-	void setPosition(const Vector3 &pos);
-	const Vector3 &getPosition() const;
+	void setPosition(const Vector3d &pos);
+	const Vector3d &getPosition() const;
 
-	void setDirection(const Vector3 &dir);
-	const Vector3 &getDirection() const;
+	void setDirection(const Vector3d &dir);
+	const Vector3d &getDirection() const;
 
 	void setEnergy(const double newEnergy);
 	double getEnergy() const;
@@ -46,8 +46,8 @@ public:
 	void setLorentzFactor(const double gamma);
 	double getLorentzFactor() const;
 
-	Vector3 getVelocity() const;
-	Vector3 getMomentum() const;
+	Vector3d getVelocity() const;
+	Vector3d getMomentum() const;
 };
 
 } // namespace mpc

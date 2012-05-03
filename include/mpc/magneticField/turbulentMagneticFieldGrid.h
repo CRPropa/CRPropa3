@@ -24,7 +24,7 @@ namespace mpc {
  */
 class TurbulentMagneticFieldGrid: public MagneticFieldGrid {
 public:
-	TurbulentMagneticFieldGrid(Vector3 origin, size_t samples, double spacing,
+	TurbulentMagneticFieldGrid(Vector3d origin, size_t samples, double spacing,
 			double lMin, double lMax, double Brms, double powerSpectralIndex);
 	void setSeed(int seed);
 	void initialize();

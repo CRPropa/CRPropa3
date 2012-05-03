@@ -40,12 +40,12 @@ class SmallObserverSphere: public Module {
 	void updateDescription();
 public:
 	double radius;
-	Vector3 center;
+	Vector3d center;
 	std::string flag;
 	std::string flagValue;
 	bool makeInactive;
 
-	SmallObserverSphere(Vector3 center, double radius, std::string flag =
+	SmallObserverSphere(Vector3d center, double radius, std::string flag =
 			"Detected", std::string flagValue = "");
 	void setMakeInactive(bool makeInactive);
 	void process(Candidate *candidate) const;
@@ -57,7 +57,7 @@ public:
  */
 class CubicBoundary: public Module {
 protected:
-	Vector3 origin;
+	Vector3d origin;
 	double size;
 	double margin;
 	std::string flag;
@@ -66,7 +66,7 @@ protected:
 	bool limitStep;
 	void updateDescription();
 public:
-	CubicBoundary(Vector3 origin, double size, std::string flag = "OutOfBounds",
+	CubicBoundary(Vector3d origin, double size, std::string flag = "OutOfBounds",
 			std::string flagValue = "");
 	void setMakeInactive(bool makeInactive);
 	void setLimitStep(bool limitStep, double margin);
@@ -79,7 +79,7 @@ public:
  */
 class SphericalBoundary: public Module {
 protected:
-	Vector3 center;
+	Vector3d center;
 	double radius;
 	double margin;
 	std::string flag;
@@ -88,7 +88,7 @@ protected:
 	bool limitStep;
 	void updateDescription();
 public:
-	SphericalBoundary(Vector3 center, double radius, std::string flag =
+	SphericalBoundary(Vector3d center, double radius, std::string flag =
 			"OutOfBounds", std::string flagValue = "");
 	void setMakeInactive(bool makeInactive);
 	void setLimitStep(bool limitStep, double margin);
@@ -101,8 +101,8 @@ public:
  */
 class EllipsoidalBoundary: public Module {
 protected:
-	Vector3 focalPoint1;
-	Vector3 focalPoint2;
+	Vector3d focalPoint1;
+	Vector3d focalPoint2;
 	double majorAxis;
 	double margin;
 	std::string flag;
@@ -111,7 +111,7 @@ protected:
 	bool limitStep;
 	void updateDescription();
 public:
-	EllipsoidalBoundary(Vector3 focalPoint1, Vector3 focalPoint2,
+	EllipsoidalBoundary(Vector3d focalPoint1, Vector3d focalPoint2,
 			double majorAxis, std::string flag = "OutOfBounds",
 			std::string flagValue = "");
 	void setMakeInactive(bool makeInactive);

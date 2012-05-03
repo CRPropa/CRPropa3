@@ -9,19 +9,19 @@ ParticleState::ParticleState() :
 
 }
 
-void ParticleState::setPosition(const Vector3 &pos) {
+void ParticleState::setPosition(const Vector3d &pos) {
 	position = pos;
 }
 
-const Vector3 &ParticleState::getPosition() const {
+const Vector3d &ParticleState::getPosition() const {
 	return position;
 }
 
-void ParticleState::setDirection(const Vector3 &dir) {
+void ParticleState::setDirection(const Vector3d &dir) {
 	direction = dir / dir.mag();
 }
 
-const Vector3 &ParticleState::getDirection() const {
+const Vector3d &ParticleState::getDirection() const {
 	return direction;
 }
 
@@ -86,11 +86,11 @@ void ParticleState::setLorentzFactor(const double gamma) {
 				"mpc::ParticleState::setLorentzFactor only for nuclei/nucleons");
 }
 
-Vector3 ParticleState::getVelocity() const {
+Vector3d ParticleState::getVelocity() const {
 	return direction * c_light;
 }
 
-Vector3 ParticleState::getMomentum() const {
+Vector3d ParticleState::getMomentum() const {
 	return direction * (energy / c_light);
 }
 

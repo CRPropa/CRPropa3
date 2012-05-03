@@ -126,8 +126,8 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 
 	// random kinetic energy of electron in neutron decay
 	double T = gsl_spline_eval(Tbeta, Random::instance().rand(), acc);
-	double Q = (mass - candidate->current.getMass()) * c_squared;
-	double Qneutron = (mass_neutron - mass_proton) * c_squared;
+	double Q = (mass - candidate->current.getMass() - mass_electron) * c_squared;
+	double Qneutron = (mass_neutron - mass_proton - mass_electron) * c_squared;
 	// electron energy in this decay
 	double E = T * Q / Qneutron + mass_electron * c_squared;
 	double p = sqrt(E * E - pow(mass_electron * c_squared, 2));

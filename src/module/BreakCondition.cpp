@@ -32,7 +32,7 @@ void MinimumEnergy::process(Candidate *candidate) const {
 	}
 }
 
-SmallObserverSphere::SmallObserverSphere(Vector3 center, double radius,
+SmallObserverSphere::SmallObserverSphere(Vector3d center, double radius,
 		std::string flag, std::string flagValue) {
 	this->center = center;
 	this->radius = radius;
@@ -67,7 +67,7 @@ void SmallObserverSphere::updateDescription() {
 	setDescription(s.str());
 }
 
-CubicBoundary::CubicBoundary(Vector3 origin, double size, std::string flag,
+CubicBoundary::CubicBoundary(Vector3d origin, double size, std::string flag,
 		std::string flagValue) {
 	this->origin = origin;
 	this->size = size;
@@ -91,9 +91,9 @@ void CubicBoundary::setLimitStep(bool limitStep, double margin) {
 }
 
 void CubicBoundary::process(Candidate *candidate) const {
-	Vector3 relPos = candidate->current.getPosition() - origin;
-	double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
-	double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
+	Vector3d relPos = candidate->current.getPosition() - origin;
+	double lo = std::min(relPos.x, std::min(relPos.y, relPos.z));
+	double hi = std::max(relPos.x, std::max(relPos.y, relPos.z));
 	if ((lo <= 0.) or (hi >= size)) {
 		candidate->setProperty(flag, flagValue);
 		if (makeInactive) {
@@ -114,7 +114,7 @@ void CubicBoundary::updateDescription() {
 	setDescription(s.str());
 }
 
-SphericalBoundary::SphericalBoundary(Vector3 center, double radius,
+SphericalBoundary::SphericalBoundary(Vector3d center, double radius,
 		std::string flag, std::string flagValue) {
 	this->center = center;
 	this->radius = radius;
@@ -157,8 +157,8 @@ void SphericalBoundary::updateDescription() {
 	setDescription(s.str());
 }
 
-EllipsoidalBoundary::EllipsoidalBoundary(Vector3 focalPoint1,
-		Vector3 focalPoint2, double majorAxis, std::string flag,
+EllipsoidalBoundary::EllipsoidalBoundary(Vector3d focalPoint1,
+		Vector3d focalPoint2, double majorAxis, std::string flag,
 		std::string flagValue) {
 	this->focalPoint1 = focalPoint1;
 	this->focalPoint2 = focalPoint2;
@@ -183,7 +183,7 @@ void EllipsoidalBoundary::setLimitStep(bool limitStep, double margin) {
 }
 
 void EllipsoidalBoundary::process(Candidate *candidate) const {
-	Vector3 pos = candidate->current.getPosition();
+	Vector3d pos = candidate->current.getPosition();
 	double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
 	if (d >= majorAxis) {
 		candidate->setProperty(flag, flagValue);

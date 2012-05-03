@@ -2,10 +2,10 @@
 
 namespace mpc {
 
-void write(kiss::Output &out, const mpc::Vector3 &vec3) {
-	write(out, vec3.getX());
-	write(out, vec3.getY());
-	write(out, vec3.getZ());
+void write(kiss::Output &out, const mpc::Vector3d &vec3) {
+	write(out, vec3.x);
+	write(out, vec3.y);
+	write(out, vec3.z);
 }
 
 void write(kiss::Output &out, const mpc::ParticleState &state) {
@@ -29,18 +29,18 @@ void write(kiss::Output &out, const mpc::Candidate &candidate) {
 	write(out, candidate.getNextStep());
 }
 
-bool read(kiss::Input &in, mpc::Vector3 &vec3) {
-	kiss::read(in, vec3[0]);
-	kiss::read(in, vec3[1]);
-	kiss::read(in, vec3[2]);
+bool read(kiss::Input &in, mpc::Vector3d &vec3) {
+	kiss::read(in, vec3.x);
+	kiss::read(in, vec3.y);
+	kiss::read(in, vec3.z);
 	return (in);
 }
 
 bool read(kiss::Input &in, mpc::ParticleState &state) {
 	state.setId(kiss::read<int>(in));
 	state.setEnergy(kiss::read<double>(in));
-	state.setPosition(kiss::read<mpc::Vector3>(in));
-	state.setDirection(kiss::read<mpc::Vector3>(in));
+	state.setPosition(kiss::read<mpc::Vector3d>(in));
+	state.setDirection(kiss::read<mpc::Vector3d>(in));
 	return (in);
 }
 

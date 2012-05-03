@@ -23,11 +23,11 @@ void TrajectoryOutput::process(Candidate *candidate) const {
 	pos += ::sprintf(buffer + pos, "%f, %d, %f",
 			candidate->getTrajectoryLength() / Mpc, candidate->current.getId(),
 			candidate->current.getEnergy() / EeV);
-	Vector3 position = candidate->current.getPosition() / Mpc;
-	pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x(), position.y(),
-			position.z());
-	const Vector3 &dir = candidate->current.getDirection();
-	pos += ::sprintf(buffer + pos, ", %f, %f, %f\n", dir.x(), dir.y(), dir.z());
+	Vector3d position = candidate->current.getPosition() / Mpc;
+	pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x, position.y,
+			position.z);
+	const Vector3d &dir = candidate->current.getDirection();
+	pos += ::sprintf(buffer + pos, ", %f, %f, %f\n", dir.x, dir.y, dir.z);
 
 #pragma omp critical
 	{
@@ -39,7 +39,8 @@ std::string TrajectoryOutput::getDescription() const {
 	return "Trajectory output";
 }
 
-ConditionalOutput::ConditionalOutput(std::string filename, std::string propName) {
+ConditionalOutput::ConditionalOutput(std::string filename,
+		std::string propName) {
 	removeProperty = false;
 	propertyName = propName;
 	outfile.open(filename.c_str());
@@ -63,11 +64,10 @@ void ConditionalOutput::process(Candidate *candidate) const {
 
 		p += ::sprintf(buffer + p, "%d", candidate->current.getId());
 
-		const Vector3 &pos = candidate->current.getPosition() / Mpc;
-		p += ::sprintf(buffer + p, ", %f, %f, %f", pos.x(),
-				pos.y(), pos.z());
+		const Vector3d &pos = candidate->current.getPosition() / Mpc;
+		p += ::sprintf(buffer + p, ", %f, %f, %f", pos.x, pos.y, pos.z);
 
-		const Vector3 &dir = candidate->current.getDirection();
+		const Vector3d &dir = candidate->current.getDirection();
 		p += ::sprintf(buffer + p, ", %f, %f, %f",
 				candidate->current.getEnergy() / EeV, dir.phi(), dir.theta());
 
@@ -76,11 +76,11 @@ void ConditionalOutput::process(Candidate *candidate) const {
 
 		p += ::sprintf(buffer + p, ", %d", candidate->initial.getId());
 
-		const Vector3 &ipos = candidate->initial.getPosition() / Mpc;
-		p += ::sprintf(buffer + p, ", %f, %f, %f", ipos.x(), ipos.y(),
-				ipos.z());
+		const Vector3d &ipos = candidate->initial.getPosition() / Mpc;
+		p += ::sprintf(buffer + p, ", %f, %f, %f", ipos.x, ipos.y,
+				ipos.z);
 
-		const Vector3 &idir = candidate->initial.getDirection();
+		const Vector3d &idir = candidate->initial.getDirection();
 		p += ::sprintf(buffer + p, ", %f, %f, %f\n",
 				candidate->initial.getEnergy() / EeV, idir.phi(), idir.theta());
 

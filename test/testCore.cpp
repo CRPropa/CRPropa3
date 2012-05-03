@@ -6,7 +6,7 @@ namespace mpc {
 
 TEST(ParticleState, position) {
 	ParticleState particle;
-	Vector3 v(1, 3, 5);
+	Vector3d v(1, 3, 5);
 	particle.setPosition(v * Mpc);
 	EXPECT_TRUE(particle.getPosition() == v * Mpc);
 }
@@ -19,21 +19,21 @@ TEST(ParticleState, energy) {
 
 TEST(ParticleState, direction) {
 	ParticleState particle;
-	Vector3 v(1, 2, 3);
+	Vector3d v(1, 2, 3);
 	particle.setDirection(v);
 	EXPECT_TRUE(particle.getDirection() == v / v.mag());
 }
 
 TEST(ParticleState, velocity) {
 	ParticleState particle;
-	Vector3 v(1, 1, 0);
+	Vector3d v(1, 1, 0);
 	particle.setDirection(v);
 	EXPECT_TRUE(particle.getVelocity() == v / v.mag() * c_light);
 }
 
 TEST(ParticleState, momentum) {
 	ParticleState particle;
-	Vector3 v(0, 1, 0);
+	Vector3d v(0, 1, 0);
 	particle.setDirection(v);
 	particle.setEnergy(100 * EeV);
 	EXPECT_TRUE(particle.getMomentum() == v * (particle.getEnergy() / c_light));

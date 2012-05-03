@@ -3,7 +3,7 @@
 
 namespace mpc {
 
-TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3 origin,
+TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3d origin,
 		size_t samples, double spacing, double lMin, double lMax, double Brms,
 		double powerSpectralIndex) :
 		MagneticFieldGrid(origin, samples, spacing) {
@@ -39,9 +39,9 @@ void TurbulentMagneticFieldGrid::initialize() {
 	double k, theta, phase, cosPhase, sinPhase;
 	double kMin = spacing / lMax;
 	double kMax = spacing / lMin;
-	Vector3 b; // real b-field vector
-	Vector3 ek, e1, e2; // orthogonal base
-	Vector3 n0(1, 1, 1); // arbitrary vector to construct orthogonal base
+	Vector3d b; // real b-field vector
+	Vector3d ek, e1, e2; // orthogonal base
+	Vector3d n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
@@ -63,7 +63,7 @@ void TurbulentMagneticFieldGrid::initialize() {
 				}
 
 				// construct an orthogonal base ek, e1, e2
-				if (ek.isParallel(n0, 1e-6)) {
+				if (ek.isParallelTo(n0, 1e-6)) {
 					// ek parallel to (1,1,1)
 					e1.set(-1., 1., 0);
 					e2.set(1., 1., -2.);
@@ -87,12 +87,12 @@ void TurbulentMagneticFieldGrid::initialize() {
 				cosPhase = cos(phase); // real part
 				sinPhase = sin(phase); // imaginary part
 
-				Bkx[i][0] = b.x() * cosPhase;
-				Bkx[i][1] = b.x() * sinPhase;
-				Bky[i][0] = b.y() * cosPhase;
-				Bky[i][1] = b.y() * sinPhase;
-				Bkz[i][0] = b.z() * cosPhase;
-				Bkz[i][1] = b.z() * sinPhase;
+				Bkx[i][0] = b.x * cosPhase;
+				Bkx[i][1] = b.x * sinPhase;
+				Bky[i][0] = b.y * cosPhase;
+				Bky[i][1] = b.y * sinPhase;
+				Bkz[i][0] = b.z * cosPhase;
+				Bkz[i][1] = b.z * sinPhase;
 			}
 		}
 	}
@@ -129,7 +129,7 @@ void TurbulentMagneticFieldGrid::initialize() {
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
 				i = ix * n * 2*n2 + iy * 2*n2 + iz;
-				grid[ix][iy][iz] = Vector3(Bx[i], By[i], Bz[i])
+				grid[ix][iy][iz] = Vector3d(Bx[i], By[i], Bz[i])
 						* weight;
 			}
 

@@ -19,19 +19,19 @@ namespace mpc {
  */
 class MagneticFieldGrid: public MagneticField {
 public:
-	MagneticFieldGrid(Vector3 origin, size_t n, double spacing);
-	Vector3 getField(const Vector3 &position) const;
-	Vector3 getGridOrigin() const;
+	MagneticFieldGrid(Vector3d origin, size_t n, double spacing);
+	Vector3d getField(const Vector3d &position) const;
+	Vector3d getGridOrigin() const;
 	size_t getGridSamples() const;
 	double getGridSpacing() const;
 	double getGridSize() const;
-	virtual void updateSimulationVolume(const Vector3 &origin, double size);
+	virtual void updateSimulationVolume(const Vector3d &origin, double size);
 
 protected:
-	std::vector<std::vector<std::vector<Vector3> > > grid;
+	std::vector<std::vector<std::vector<Vector3d> > > grid;
 	size_t samples;
 	double spacing;
-	Vector3 origin;
+	Vector3d origin;
 };
 
 } // namespace mpc

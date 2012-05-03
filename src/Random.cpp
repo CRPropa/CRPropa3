@@ -122,11 +122,11 @@ double Random::randFisher(double k) {
 	return acos(1. + 1. / k * log(1 - rand() * (1 - exp(-2 * k))));
 }
 
-Vector3 Random::randUnitVectorOnSphere() {
+Vector3d Random::randUnitVectorOnSphere() {
 	double z = this->randUniform(-1.0, 1.0);
 	double t = this->randUniform(-1.0 * M_PI, M_PI);
 	double r = sqrt(1 - z * z);
-	return Vector3(r * cos(t), r * sin(t), z);
+	return Vector3d(r * cos(t), r * sin(t), z);
 }
 
 double Random::randPowerLaw(double index, double min, double max) {

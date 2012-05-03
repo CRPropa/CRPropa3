@@ -12,19 +12,19 @@ namespace mpc {
  */
 class UniformMagneticField: public MagneticField {
 public:
-	UniformMagneticField(const Vector3 &value) :
+	UniformMagneticField(const Vector3d &value) :
 			value(value) {
 	}
-	Vector3 getField(const Vector3 &position) const {
+	Vector3d getField(const Vector3d &position) const {
 		return value;
 	}
 
-	void updateSimulationVolume(const Vector3 &origin, double size) {
+	void updateSimulationVolume(const Vector3d &origin, double size) {
 
 	}
 
 private:
-	Vector3 value;
+	Vector3d value;
 };
 
 } // namespace mpc

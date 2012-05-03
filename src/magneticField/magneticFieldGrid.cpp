@@ -11,7 +11,7 @@ void periodicClamp(double x, int n, int &lo, int &hi, double &fLo,
 	fHi = 1 - fLo;
 }
 
-MagneticFieldGrid::MagneticFieldGrid(Vector3 origin, size_t n, double spacing) :
+MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, size_t n, double spacing) :
 		origin(origin), samples(n), spacing(spacing) {
 	grid.resize(n);
 	for (int ix = 0; ix < n; ix++) {
@@ -22,13 +22,13 @@ MagneticFieldGrid::MagneticFieldGrid(Vector3 origin, size_t n, double spacing) :
 	}
 }
 
-void MagneticFieldGrid::updateSimulationVolume(const Vector3 &origin,
+void MagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
 		double size) {
 	this->origin = origin;
 	this->spacing = size / (samples - 1);
 }
 
-Vector3 MagneticFieldGrid::getGridOrigin() const {
+Vector3d MagneticFieldGrid::getGridOrigin() const {
 	return origin;
 }
 
@@ -44,17 +44,17 @@ double MagneticFieldGrid::getGridSize() const {
 	return samples * spacing;
 }
 
-Vector3 MagneticFieldGrid::getField(const Vector3 &position) const {
-	Vector3 r = (position - origin) / spacing;
+Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
+	Vector3d r = (position - origin) / spacing;
 	int ix, iX, iy, iY, iz, iZ;
 	double fx, fX, fy, fY, fz, fZ;
-	periodicClamp(r.x(), samples, ix, iX, fx, fX);
-	periodicClamp(r.y(), samples, iy, iY, fy, fY);
-	periodicClamp(r.z(), samples, iz, iZ, fz, fZ);
+	periodicClamp(r.x, samples, ix, iX, fx, fX);
+	periodicClamp(r.y, samples, iy, iY, fy, fY);
+	periodicClamp(r.z, samples, iz, iZ, fz, fZ);
 
 	// trilinear interpolation
 	// check: http://paulbourke.net/miscellaneous/interpolation/
-	Vector3 b(0, 0, 0);
+	Vector3d b(0, 0, 0);
 	//V000 (1 - x) (1 - y) (1 - z) +
 	b += grid[ix][iy][iz] * fX * fY * fZ;
 	//V100 x (1 - y) (1 - z) +

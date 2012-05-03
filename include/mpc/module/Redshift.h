@@ -13,10 +13,10 @@ namespace mpc {
  */
 class SimpleRedshift {
 private:
-	Vector3 center;
+	Vector3d center;
 
 public:
-	SimpleRedshift(Vector3 center);
+	SimpleRedshift(Vector3d center);
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };

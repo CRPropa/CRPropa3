@@ -11,7 +11,6 @@
 %include std_list.i
 %include stdint.i
 %include std_container.i
-
 %include "exception.i"
 %exception
 {

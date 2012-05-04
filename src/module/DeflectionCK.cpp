@@ -37,7 +37,8 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, double tolerance, double minimumStep) {
+DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
+		double minimumStep) {
 	this->field = field;
 	this->tolerance = tolerance;
 	this->minimumStep = minimumStep;
@@ -99,6 +100,10 @@ void DeflectionCK::process(Candidate *candidate) const {
 	candidate->current.setDirection(yOut.b.unit());
 	candidate->setCurrentStep(hTry * c_light);
 	candidate->setNextStep(h * c_light);
+}
+
+void DeflectionCK::updateSimulationVolume(const Vector3 &origin, double size) {
+	field->updateSimulationVolume(origin, size);
 }
 
 } /* namespace mpc */

@@ -16,7 +16,7 @@ namespace mpc {
  It uses the Runge-Kutta integration method with Cash-Karp coefficients.\n
  The step size control tries to keep the relative error close to, but smaller than the designated tolerance.
  */
-class DeflectionCK: public Module {
+class DeflectionCK: public SimulationVolumeDependentModule {
 public:
 	ref_ptr<MagneticField> field;
 	ExplicitRungeKutta<PhasePoint> erk;
@@ -25,6 +25,7 @@ public:
 	DeflectionCK(MagneticField *field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
+	void updateSimulationVolume(const Vector3 &origin, double size);
 };
 
 } // namespace mpc

@@ -67,8 +67,8 @@ def plot_channel(rates_simulated, rates_data, id, channel):
     savefig('PhotoDisintegration_' + str(id) + '_' + str(channel) + '.png', bbox_inches='tight')
 
 def parse_id(id):
-    z = ((id - 1000000000) % 1000000) // 1000
-    a = (id - 1000000000) // 1000000
+    z = (id / 10000) % 1000
+    a = (id / 10) % 1000
     return 'Z=%i, A=%i' % (z, a)
 
 def parse_channel(c):
@@ -79,7 +79,7 @@ def parse_channel(c):
 
 interaction = PhotoDisintegration(CMB_IRB)
 table = genfromtxt(getDataPath('/PhotoDisintegration/PDtable_CMB_IRB.txt'))
-id = 1004002000
+id = getNucleusId(4,2)
 
 if len(sys.argv) >= 3:
     a = int(sys.argv[1])

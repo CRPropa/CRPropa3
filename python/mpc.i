@@ -66,13 +66,17 @@
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
 %include "mpc/Nucleus.h"
+%include "mpc/Common.h"
+
 %include "mpc/Vector3.h"
+%template(Vector3d) mpc::Vector3<double>;
+%template(Vector3f) mpc::Vector3<float>;
+
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
-// %feature("director") mpc::Source;
+
 %template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
 %include "mpc/Source.h"
-%include "mpc/Common.h"
 
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
@@ -81,7 +85,6 @@
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %template(stdModuleVector) std::vector< mpc::ref_ptr<mpc::Module> >;
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
-// %feature("director") mpc::Module;
 %include "mpc/Module.h"
 
 %template(stdMagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;

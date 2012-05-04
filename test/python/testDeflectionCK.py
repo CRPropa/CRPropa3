@@ -33,11 +33,11 @@ def propagate(tolerance):
 		maxLen.process(c)
 		nSteps +=1
 
-		posX.append(c.current.getPosition().x())
-		posY.append(c.current.getPosition().y())
+		posX.append(c.current.getPosition().x)
+		posY.append(c.current.getPosition().y)
 
-		dirX.append(c.current.getDirection().x())
-		dirY.append(c.current.getDirection().y())
+		dirX.append(c.current.getDirection().x)
+		dirY.append(c.current.getDirection().y)
 
 		t = c.getTrajectoryLength() / R
 		theta.append(t)

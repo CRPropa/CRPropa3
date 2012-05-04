@@ -28,7 +28,7 @@ public:
 	virtual void updateSimulationVolume(const Vector3d &origin, double size);
 
 protected:
-	std::vector<std::vector<std::vector<Vector3d> > > grid;
+	std::vector<std::vector<std::vector<Vector3f> > > grid;
 	size_t samples;
 	double spacing;
 	Vector3d origin;

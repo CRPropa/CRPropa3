@@ -21,13 +21,13 @@ void TurbulentMagneticFieldGrid::setSeed(int seed) {
 
 void TurbulentMagneticFieldGrid::initialize() {
 	size_t n = samples; // size of array
-	size_t n2 = floor(n/2) + 1; // size array in z-direction in configuration space
+	size_t n2 = floor(n / 2) + 1; // size array in z-direction in configuration space
 
 	// arrays to hold the complex vector components of the B(k)-field
-	fftw_complex *Bkx, *Bky, *Bkz;
-	Bkx = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n2);
-	Bky = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n2);
-	Bkz = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * n * n * n2);
+	fftwf_complex *Bkx, *Bky, *Bkz;
+	Bkx = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
+	Bky = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
+	Bkz = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
 
 	// calculate the n possible discrete wave numbers
 	double K[n];
@@ -39,9 +39,9 @@ void TurbulentMagneticFieldGrid::initialize() {
 	double k, theta, phase, cosPhase, sinPhase;
 	double kMin = spacing / lMax;
 	double kMax = spacing / lMin;
-	Vector3d b; // real b-field vector
-	Vector3d ek, e1, e2; // orthogonal base
-	Vector3d n0(1, 1, 1); // arbitrary vector to construct orthogonal base
+	Vector3f b; // real b-field vector
+	Vector3f ek, e1, e2; // orthogonal base
+	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
@@ -99,43 +99,42 @@ void TurbulentMagneticFieldGrid::initialize() {
 
 	// in-place, complex to real, inverse Fourier transformation on each component
 	// note that the last elements of B(x) are unused now
-	double *Bx = (double*) Bkx;
-	fftw_plan plan_x = fftw_plan_dft_c2r_3d(n, n, n, Bkx, Bx, FFTW_ESTIMATE);
-	fftw_execute(plan_x);
-	fftw_destroy_plan(plan_x);
+	float *Bx = (float*) Bkx;
+	fftwf_plan plan_x = fftwf_plan_dft_c2r_3d(n, n, n, Bkx, Bx, FFTW_ESTIMATE);
+	fftwf_execute(plan_x);
+	fftwf_destroy_plan(plan_x);
 
-	double *By = (double*) Bky;
-	fftw_plan plan_y = fftw_plan_dft_c2r_3d(n, n, n, Bky, By, FFTW_ESTIMATE);
-	fftw_execute(plan_y);
-	fftw_destroy_plan(plan_y);
+	float *By = (float*) Bky;
+	fftwf_plan plan_y = fftwf_plan_dft_c2r_3d(n, n, n, Bky, By, FFTW_ESTIMATE);
+	fftwf_execute(plan_y);
+	fftwf_destroy_plan(plan_y);
 
-	double *Bz = (double*) Bkz;
-	fftw_plan plan_z = fftw_plan_dft_c2r_3d(n, n, n, Bkz, Bz, FFTW_ESTIMATE);
-	fftw_execute(plan_z);
-	fftw_destroy_plan(plan_z);
+	float *Bz = (float*) Bkz;
+	fftwf_plan plan_z = fftwf_plan_dft_c2r_3d(n, n, n, Bkz, Bz, FFTW_ESTIMATE);
+	fftwf_execute(plan_z);
+	fftwf_destroy_plan(plan_z);
 
 	// calculate normalization
 	double sumB2 = 0;
 	for (size_t ix = 0; ix < n; ix++)
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
-				i = ix * n * 2*n2 + iy * 2*n2 + iz;
+				i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
 				sumB2 += pow(Bx[i], 2) + pow(By[i], 2) + pow(Bz[i], 2);
 			}
-	double weight = Brms / sqrt(sumB2 / (n * n * n));
+	double w = Brms / sqrt(sumB2 / (n * n * n));
 
 	// normalize and save real component to the grid
 	for (size_t ix = 0; ix < n; ix++)
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
-				i = ix * n * 2*n2 + iy * 2*n2 + iz;
-				grid[ix][iy][iz] = Vector3d(Bx[i], By[i], Bz[i])
-						* weight;
+				i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
+				grid[ix][iy][iz] = Vector3f(Bx[i], By[i], Bz[i]) * w;
 			}
 
-	fftw_free(Bkx);
-	fftw_free(Bky);
-	fftw_free(Bkz);
+	fftwf_free(Bkx);
+	fftwf_free(Bky);
+	fftwf_free(Bkz);
 }
 
 double TurbulentMagneticFieldGrid::getRMSFieldStrength() const {

@@ -14,6 +14,11 @@ SPHMagneticField::SPHMagneticField(Vector3 origin, double size, size_t gridSize,
 	field.init(v, size / kpc, database);
 }
 
+SPHMagneticField::SPHMagneticField(size_t gridSize, const std::string filename) :
+		field(gridSize) {
+	database.open(filename);
+}
+
 Vector3 SPHMagneticField::getField(const Vector3 &position) const {
 	gadget::Vector3f r = gadget::Vector3f(position.x(), position.y(),
 			position.z());
@@ -36,6 +41,12 @@ SPHMagneticFieldGrid::SPHMagneticFieldGrid(Vector3 origin, double size,
 	gadget::Vector3f v = gadget::Vector3f(origin.x(), origin.y(), origin.z())
 			/ kpc;
 	field.init(v, size / kpc, database);
+}
+
+SPHMagneticFieldGrid::SPHMagneticFieldGrid(size_t samples,
+		const std::string filename) :
+		field(samples) {
+	database.open(filename);
 }
 
 Vector3 SPHMagneticFieldGrid::getField(const Vector3 &position) const {

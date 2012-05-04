@@ -31,6 +31,11 @@ public:
 	}
 };
 
+class SimulationVolumeDependentModule: public Module {
+public:
+	virtual void updateSimulationVolume(const Vector3 &origin, double size) = 0;
+};
+
 } // namespace mpc
 
 #endif /* MPC_MODULE_H_ */

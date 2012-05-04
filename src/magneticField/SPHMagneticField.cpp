@@ -1,4 +1,4 @@
-#include "mpc/magneticField/sphMagneticField.h"
+#include "mpc/magneticField/SPHMagneticField.h"
 #include "mpc/Units.h"
 
 #include "kiss/logger.h"

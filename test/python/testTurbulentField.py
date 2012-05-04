@@ -82,7 +82,7 @@ n = 128
 lMin, lMax = 2, 32
 Brms = 1
 alpha = -11./3
-field = TurbulentMagneticFieldGrid(Vector3d(0, 0, 0), n, 1, lMin, lMax, Brms, alpha)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), n, 1, lMin, lMax, Brms, alpha)
 Lc = field.getCorrelationLength()
 
 ### copy field to array

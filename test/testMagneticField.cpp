@@ -1,6 +1,6 @@
-#include "mpc/magneticField/uniformMagneticField.h"
-#include "mpc/magneticField/magneticFieldGrid.h"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/UniformMagneticField.h"
+#include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 
 #include "gtest/gtest.h"
@@ -21,13 +21,14 @@ TEST(testTurbulentMagneticFieldGrid, PeriodicBoundaries) {
 	// B(x+a*n) = B(x)
 
 	size_t n = 64;
-	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), n, 1, 2, 8, 1, -11. / 3.);
+	TurbulentMagneticField bField(Vector3d(0, 0, 0), n, 1);
+	bField.initialize(2, 8, 1, -11. / 3.);
 
 	Vector3d pos(1.1, 2.1, 3.1);
-	Vector3d b = B.getField(pos);
-	Vector3d b1 = B.getField(pos + Vector3d(n, 0, 0));
-	Vector3d b2 = B.getField(pos + Vector3d(0, n, 0));
-	Vector3d b3 = B.getField(pos + Vector3d(0, 0, n));
+	Vector3d b = bField.getField(pos);
+	Vector3d b1 = bField.getField(pos + Vector3d(n, 0, 0));
+	Vector3d b2 = bField.getField(pos + Vector3d(0, n, 0));
+	Vector3d b3 = bField.getField(pos + Vector3d(0, 0, n));
 
 	EXPECT_FLOAT_EQ(b.x, b1.x);
 	EXPECT_FLOAT_EQ(b.y, b1.y);
@@ -46,17 +47,18 @@ TEST(testTurbulentMagneticFieldGrid, ZeroMean) {
 	// <B> = 0
 
 	size_t n = 64;
-	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), n, 1, 2, 8, 1, -11. / 3.);
+	TurbulentMagneticField bField(Vector3d(0, 0, 0), n, 1);
+	bField.initialize(2, 8, 1, -11. / 3.);
 
 	Vector3d b(0, 0, 0);
 	for (unsigned int ix = 0; ix < n; ix++)
 		for (unsigned int iy = 0; iy < n; iy++)
 			for (unsigned int iz = 0; iz < n; iz++)
-				b += B.getField(Vector3d(ix, iy, iz));
+				b += bField.getField(Vector3d(ix, iy, iz));
 
 	b /= n * n * n;
 
-	double precision = 1e-12;
+	double precision = 1e-7;
 	EXPECT_NEAR(b.x, 0, precision);
 	EXPECT_NEAR(b.y, 0, precision);
 	EXPECT_NEAR(b.z, 0, precision);
@@ -66,16 +68,17 @@ TEST(testTurbulentMagneticFieldGrid, Brms) {
 	// <B^2> = Brms^2
 
 	size_t n = 64;
-	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), n, 1*Mpc, 2*Mpc, 8*Mpc, 1., -11. / 3.);
+	TurbulentMagneticField bField(Vector3d(0, 0, 0), n, 1);
+	bField.initialize(2, 8, 1, -11. / 3.);
 
 	double brms = 0;
 	for (unsigned int ix = 0; ix < n; ix++)
 		for (unsigned int iy = 0; iy < n; iy++)
 			for (unsigned int iz = 0; iz < n; iz++)
-				brms += B.getField(Vector3d(ix, iy, iz)*Mpc).mag2();
+				brms += bField.getField(Vector3d(ix, iy, iz)).mag2();
 	brms = sqrt(brms / n / n / n);
 
-	double precision = 1e-12;
+	double precision = 1e-7;
 	EXPECT_NEAR(brms, 1, precision);
 }
 

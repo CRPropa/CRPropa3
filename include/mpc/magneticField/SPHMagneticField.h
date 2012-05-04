@@ -3,7 +3,7 @@
 
 #ifdef MPC_HAVE_GADGET
 
-#include "mpc/magneticField/magneticFieldGrid.h"
+#include "mpc/magneticField/MagneticField.h"
 
 #include "gadget/Database.h"
 #include "gadget/MagneticField.h"

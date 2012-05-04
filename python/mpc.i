@@ -39,11 +39,11 @@
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Tools.h"
 
-#include "mpc/magneticField/magneticField.h"
-#include "mpc/magneticField/uniformMagneticField.h"
-#include "mpc/magneticField/magneticFieldGrid.h"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
-#include "mpc/magneticField/sphMagneticField.h"
+#include "mpc/magneticField/MagneticField.h"
+#include "mpc/magneticField/UniformMagneticField.h"
+#include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
+#include "mpc/magneticField/SPHMagneticField.h"
 
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
@@ -89,11 +89,11 @@
 
 %template(stdMagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
-%include "mpc/magneticField/magneticField.h"
-%include "mpc/magneticField/magneticFieldGrid.h"
-%include "mpc/magneticField/uniformMagneticField.h"
-%include "mpc/magneticField/sphMagneticField.h"
-%include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+%include "mpc/magneticField/MagneticField.h"
+%include "mpc/magneticField/MagneticFieldGrid.h"
+%include "mpc/magneticField/UniformMagneticField.h"
+%include "mpc/magneticField/SPHMagneticField.h"
+%include "mpc/magneticField/TurbulentMagneticField.h"
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"

@@ -16,18 +16,22 @@ list(APPEND MPC_EXTRA_INCLUDES ${GSL_INCLUDE_DIR})
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
-    list(APPEND MPC_EXTRA_SOURCES src/magneticField/turbulentMagneticFieldGrid.cpp)
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
     list(APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY} ${FFTWF_LIBRARY})
 endif (FFTW_FOUND)
 
-# gadget needed for SphMagneticField
+# gadget needed for SPHMagneticField and SPHTurbulentMagneticField
 find_package(Gadget)
 if (GADGET_FOUND)
-    list(APPEND MPC_EXTRA_SOURCES src/magneticField/sphMagneticField.cpp)
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHMagneticField.cpp)
     list(APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
     list(APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
     add_definitions (-DMPC_HAVE_GADGET)
     list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
+    # fftw needed for SPHTurbulentMagneticField
+    if (FFTW_FOUND)
+        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
+    endif (FFTW_FOUND)
 endif (GADGET_FOUND)
 
 # Google Performance Tools optional
@@ -95,7 +99,7 @@ add_library(mpc SHARED
     src/module/Redshift.cpp
     src/module/Output.cpp
     src/module/Tools.cpp
-    src/magneticField/magneticFieldGrid.cpp
+    src/magneticField/MagneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )
 target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES} ${TCMALLOC})

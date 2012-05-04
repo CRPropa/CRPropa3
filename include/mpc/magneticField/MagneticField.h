@@ -1,5 +1,5 @@
-#ifndef MAGNETICFIELD_H_
-#define MAGNETICFIELD_H_
+#ifndef MPC_MAGNETICFIELD_H_
+#define MPC_MAGNETICFIELD_H_
 
 #include "mpc/Vector3.h"
 #include "mpc/Referenced.h"
@@ -20,4 +20,4 @@ public:
 
 } // namespace mpc
 
-#endif /* MAGNETICFIELD_H_ */
+#endif /* MPC_MAGNETICFIELD_H_ */

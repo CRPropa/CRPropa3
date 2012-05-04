@@ -2,7 +2,7 @@
 #define MPC_DEFLECTION_H_
 
 #include "mpc/Module.h"
-#include "mpc/magneticField/magneticField.h"
+#include "mpc/magneticField/MagneticField.h"
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/PhasePoint.h"
 

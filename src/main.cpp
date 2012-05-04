@@ -7,8 +7,8 @@
 #include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/NuclearDecay.h"
-#include "mpc/magneticField/uniformMagneticField.h"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/UniformMagneticField.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
 
 using namespace mpc;
 
@@ -16,8 +16,9 @@ int main(int argc, char **argv) {
 	ModuleList modules;
 
 	// propagation --------------------------------------------------------
-	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3d(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
-	modules.add(new DeflectionCK(field));
+	TurbulentMagneticField *bField = new TurbulentMagneticField(Vector3d(0, 0, 0), 64, 1.);
+	bField->initialize(2., 8., 1e-12, -11. / 3.);
+	modules.add(new DeflectionCK(bField));
 
 	// interactions -------------------------------------------------------
 	modules.add(new NuclearDecay());

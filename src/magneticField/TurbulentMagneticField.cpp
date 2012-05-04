@@ -1,25 +1,19 @@
-#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
 #include "fftw3.h"
 
 namespace mpc {
 
-TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3d origin,
-		size_t samples, double spacing, double lMin, double lMax, double Brms,
-		double powerSpectralIndex) :
-		MagneticFieldGrid(origin, samples, spacing) {
+void TurbulentMagneticField::setSeed(int seed) {
+	random.seed(seed);
+}
+
+void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
+		double powerSpectralIndex) {
 	this->lMin = lMin;
 	this->lMax = lMax;
 	this->Brms = Brms;
 	this->powerSpectralIndex = powerSpectralIndex;
-	initialize();
-}
 
-void TurbulentMagneticFieldGrid::setSeed(int seed) {
-	random.seed(seed);
-	initialize();
-}
-
-void TurbulentMagneticFieldGrid::initialize() {
 	size_t n = samples; // size of array
 	size_t n2 = floor(n / 2) + 1; // size array in z-direction in configuration space
 
@@ -129,7 +123,10 @@ void TurbulentMagneticFieldGrid::initialize() {
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {
 				i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
-				grid[ix][iy][iz] = Vector3f(Bx[i], By[i], Bz[i]) * w;
+				Vector3f &b = get(ix, iy, iz);
+				b.x = Bx[i] * w;
+				b.y = By[i] * w;
+				b.z = Bz[i] * w;
 			}
 
 	fftwf_free(Bkx);
@@ -137,15 +134,15 @@ void TurbulentMagneticFieldGrid::initialize() {
 	fftwf_free(Bkz);
 }
 
-double TurbulentMagneticFieldGrid::getRMSFieldStrength() const {
+double TurbulentMagneticField::getRMSFieldStrength() const {
 	return Brms;
 }
 
-double TurbulentMagneticFieldGrid::getPowerSpectralIndex() const {
+double TurbulentMagneticField::getPowerSpectralIndex() const {
 	return powerSpectralIndex;
 }
 
-double TurbulentMagneticFieldGrid::getCorrelationLength() const {
+double TurbulentMagneticField::getCorrelationLength() const {
 	double r = lMin / lMax;
 	double a = -powerSpectralIndex - 2;
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));

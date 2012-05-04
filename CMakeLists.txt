@@ -77,6 +77,7 @@ add_library(mpc SHARED
     src/Clock.cpp
     src/Vector3.cpp
     src/ModuleList.cpp
+    src/SpatialPartitioning.cpp
     src/Module.cpp
     src/Candidate.cpp
     src/IO.cpp

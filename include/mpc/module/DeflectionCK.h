@@ -2,7 +2,7 @@
 #define MPC_DEFLECTION_H_
 
 #include "mpc/Module.h"
-#include "mpc/magneticField/magneticField.h"
+#include "mpc/magneticField/MagneticField.h"
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/PhasePoint.h"
 
@@ -25,7 +25,7 @@ public:
 	DeflectionCK(MagneticField *field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
-	void updateSimulationVolume(const Vector3 &origin, double size);
+	void updateSimulationVolume(const Vector3d &origin, double size);
 };
 
 } // namespace mpc

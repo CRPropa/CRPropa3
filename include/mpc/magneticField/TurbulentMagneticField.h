@@ -1,13 +1,13 @@
-#ifndef TURBULENTMAGNETICFIELD_H_
-#define TURBULENTMAGNETICFIELD_H_
+#ifndef MPC_TURBULENTMAGNETICFIELD_H_
+#define MPC_TURBULENTMAGNETICFIELD_H_
 
-#include "mpc/magneticField/magneticFieldGrid.h"
+#include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/Random.h"
 
 namespace mpc {
 
 /**
- @class TurbulentMagneticFieldGrid
+ @class TurbulentMagneticField
  @brief Random turbulent magnetic field on a cubic grid with trilinear interpolation.
 
  This class creates a random magnetic field with the following properties. \n
@@ -22,12 +22,14 @@ namespace mpc {
  isotropy: \n
  same coherence length in all directions
  */
-class TurbulentMagneticFieldGrid: public MagneticFieldGrid {
+class TurbulentMagneticField: public MagneticFieldGrid {
 public:
-	TurbulentMagneticFieldGrid(Vector3 origin, size_t samples, double spacing,
-			double lMin, double lMax, double Brms, double powerSpectralIndex);
+	TurbulentMagneticField(Vector3d origin, size_t samples, double spacing) :
+			MagneticFieldGrid(origin, samples, spacing) {
+	}
+	void initialize(double lMin, double lMax, double Brms,
+			double powerSpectralIndex = -11. / 3.);
 	void setSeed(int seed);
-	void initialize();
 	double getRMSFieldStrength() const;
 	double getCorrelationLength() const;
 	double getPowerSpectralIndex() const;
@@ -39,4 +41,4 @@ protected:
 
 } // namespace mpc
 
-#endif /* TURBULENTMAGNETICFIELD_H_ */
+#endif /* MPC_TURBULENTMAGNETICFIELD_H_ */

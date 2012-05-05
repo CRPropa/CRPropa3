@@ -5,12 +5,12 @@
 namespace mpc {
 
 BasicSource::BasicSource() :
-		position(Vector3(0, 0, 0)), id(0), index1(-1), index2(-1), breakpoint(
+		position(Vector3d(0, 0, 0)), id(0), index1(-1), index2(-1), breakpoint(
 				10 * EeV), Emin(5 * EeV), Emax(1000 * EeV) {
 
 }
 
-BasicSource::BasicSource(const Vector3 &sposition, int type, double Emin,
+BasicSource::BasicSource(const Vector3d &sposition, int type, double Emin,
 		double Emax, double index1, double index2, double breakpoint) :
 		position(position), id(id), index1(index1), index2(index2), breakpoint(
 				breakpoint), Emin(Emin), Emax(Emax) {

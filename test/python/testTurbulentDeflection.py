@@ -8,7 +8,7 @@ nS = 100 # number of sampling points to simulate
 nP = range(75) # sampling points to plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-field = TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 256, 0.05 * Mpc, 0.1 * Mpc, 2.2 * Mpc, 1*nG, -11/3.)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), 256, 0.05 * Mpc, 0.1 * Mpc, 2.2 * Mpc, 1*nG, -11/3.)
 propa = DeflectionCK(field)
 
 age = linspace(1, 150, nS)
@@ -22,7 +22,7 @@ for j in range(nT):
 	ps.setId(getNucleusId(1, 1))
 	ps.setEnergy(E * EeV)	
 	ps.setDirection(Random.instance().randUnitVectorOnSphere())
-	ps.setPosition(Vector3(0, 0, 0))
+	ps.setPosition(Vector3d(0, 0, 0))
 	c = Candidate(ps)
 
 	for i in range(nS):
@@ -38,8 +38,8 @@ for j in range(nT):
 		p = c.current.getDirection()
 		p0 = c.initial.getDirection()
 		distance[i] += x.mag()
-		rms1[i] += (x.angle(p))**2
-		rms2[i] += (p0.angle(p))**2
+		rms1[i] += (x.angleTo(p))**2
+		rms2[i] += (p0.angleTo(p))**2
 
 
 distance /= nT

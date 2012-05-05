@@ -6,10 +6,10 @@ from mpc import *
 c = Candidate()
 c.current.setId(getNucleusId(1,1))
 c.current.setEnergy(100 * EeV)
-c.current.setDirection(Vector3(1, 0, 0))
+c.current.setDirection(Vector3d(1, 0, 0))
 
 # uniform perpendicular magnetic field of 10 nG
-field = UniformMagneticField(Vector3(0,0,1e-12))
+field = UniformMagneticField(Vector3d(0,0,1e-12))
 
 # resulting gyroradius
 R = c.current.getMomentum().mag() / c.current.getCharge() / 1e-12
@@ -22,8 +22,8 @@ def propagate(tolerance):
 	c.setTrajectoryLength(0)
 	c.setCurrentStep(0)
 	c.setNextStep(1 * Mpc) # set a large initial step, so that an initial acceleration is uneccessary
-	c.current.setPosition(Vector3(0, R, 0))
-	c.current.setDirection(Vector3(1, 0, 0))
+	c.current.setPosition(Vector3d(0, R, 0))
+	c.current.setDirection(Vector3d(1, 0, 0))
 	c.setActive(True)
 
 	posX, posY, dirX, dirY, dirDeviation, theta = [], [], [], [], [], []
@@ -33,15 +33,15 @@ def propagate(tolerance):
 		maxLen.process(c)
 		nSteps +=1
 
-		posX.append(c.current.getPosition().x())
-		posY.append(c.current.getPosition().y())
+		posX.append(c.current.getPosition().x)
+		posY.append(c.current.getPosition().y)
 
-		dirX.append(c.current.getDirection().x())
-		dirY.append(c.current.getDirection().y())
+		dirX.append(c.current.getDirection().x)
+		dirY.append(c.current.getDirection().y)
 
 		t = c.getTrajectoryLength() / R
 		theta.append(t)
-		dirDeviation.append(c.current.getDirection().dot(Vector3(cos(t), -sin(t), 0)))
+		dirDeviation.append(c.current.getDirection().dot(Vector3d(cos(t), -sin(t), 0)))
 
 	return array(posX), array(posY), array(dirX), array(dirY), array(dirDeviation), array(theta), nSteps
 

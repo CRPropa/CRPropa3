@@ -1,30 +1,19 @@
 from mpc import *
 from pylab import *
-import ROOT
-ROOT.gROOT.SetBatch(True)
 
-
-def getSlope(module, energy, charge, name):
+def getRate(module, energy, charge):
     c = Candidate()
     c.current.setId(getNucleusId(1, charge))
     c.current.setEnergy(energy)
     
-    l = []
-    for i in range(5000):
+    N = 5000
+    l = 0
+    for i in range(N):
         s = InteractionState()
         module.setNextInteraction(c, s)
-        l.append(s.distance / Mpc)
-
-    h = ROOT.TH1F('', '', 100, 0, max(l))
-
-    for element in l:
-        h.Fill(element)
-
-    f = ROOT.TF1('f1', 'expo')
-    h.Fit(f, "q")
-    s = -f.GetParameter(1)
-    ds = f.GetParError(1) * s ** 2
-    return s
+        l += s.distance / Mpc / N
+    
+    return 1 / l
     
 def compare(type, name):
     print "compare ", name
@@ -35,8 +24,8 @@ def compare(type, name):
     p = zeros(len(E))
     n = zeros(len(E))
     for i,energy in enumerate(E*EeV):
-        p[i] = getSlope(ppp, energy, 1, name)
-        n[i] = getSlope(ppp, energy, 0, name)
+        p[i] = getRate(ppp, energy, 1)
+        n[i] = getRate(ppp, energy, 0)
     figure()
     plot(E_data, P_data, "r", label="Proton Data")
     plot(E, p, 'k+', label="Proton Simulated")

@@ -3,60 +3,64 @@ project(ModularPropagationCode Fortran CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
-set (MPC_EXTRA_SOURCES)
-set (MPC_EXTRA_INCLUDES)
-set (MPC_EXTRA_LIBRARIES)
-set (MPC_SWIG_DEFINES)
+set(MPC_EXTRA_SOURCES)
+set(MPC_EXTRA_INCLUDES)
+set(MPC_EXTRA_LIBRARIES)
+set(MPC_SWIG_DEFINES)
 
 # GSL required
 find_package(GSL REQUIRED)
-list (APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
-list (APPEND MPC_EXTRA_INCLUDES ${GSL_INCLUDE_DIR})
+list(APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
+list(APPEND MPC_EXTRA_INCLUDES ${GSL_INCLUDE_DIR})
 
 # fftw needed for TurbulentMagneticField
 find_package(FFTW)
 if (FFTW_FOUND)
-    list( APPEND MPC_EXTRA_SOURCES src/magneticField/turbulentMagneticFieldGrid.cpp)
-    list( APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY})
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
+    list(APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY} ${FFTWF_LIBRARY})
 endif (FFTW_FOUND)
 
-# gadget needed for SphMagneticField
+# gadget needed for SPHMagneticField and SPHTurbulentMagneticField
 find_package(Gadget)
 if (GADGET_FOUND)
-    list( APPEND MPC_EXTRA_SOURCES src/magneticField/sphMagneticField.cpp)
-    list( APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
-    list( APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
-    add_definitions(-DMPC_HAVE_GADGET)
-    list( APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHMagneticField.cpp)
+    list(APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
+    list(APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
+    add_definitions (-DMPC_HAVE_GADGET)
+    list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
+    # fftw needed for SPHTurbulentMagneticField
+    if (FFTW_FOUND)
+        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
+    endif (FFTW_FOUND)
 endif (GADGET_FOUND)
 
-# Google Performance Tools
+# Google Performance Tools optional
 find_package(GooglePerfTools)
-SET(TCMALLOC)
-IF (GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
-    SET(TCMALLOC ${TCMALLOC_LIBRARY})
+set(TCMALLOC)
+if (GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+    set(TCMALLOC ${TCMALLOC_LIBRARY})
 endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 
 # pugixml provided
 add_library (pugixml libs/pugixml/pugixml.cpp)
-SET_TARGET_PROPERTIES( pugixml PROPERTIES COMPILE_FLAGS -fPIC)
-list (APPEND MPC_EXTRA_LIBRARIES pugixml)
-list (APPEND MPC_EXTRA_INCLUDES libs/pugixml)
+set_target_properties( pugixml PROPERTIES COMPILE_FLAGS -fPIC)
+list(APPEND MPC_EXTRA_LIBRARIES pugixml)
+list(APPEND MPC_EXTRA_INCLUDES libs/pugixml)
 
 # kiss provided
 add_subdirectory(libs/kiss)
-list (APPEND MPC_EXTRA_LIBRARIES kiss)
-list (APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
+list(APPEND MPC_EXTRA_LIBRARIES kiss)
+list(APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
 
 # HepID provided
 add_subdirectory(libs/HepPID)
-list (APPEND MPC_EXTRA_LIBRARIES HepPID)
-list (APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
+list(APPEND MPC_EXTRA_LIBRARIES HepPID)
+list(APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
 
 # SOPHIA provided
 add_subdirectory(libs/sophia)
-list (APPEND MPC_EXTRA_LIBRARIES sophia gfortran)
-list (APPEND MPC_EXTRA_INCLUDES libs/sophia)
+list(APPEND MPC_EXTRA_LIBRARIES sophia gfortran)
+list(APPEND MPC_EXTRA_INCLUDES libs/sophia)
 
 # OpenMP needed for shared memory multiprocessing
 include(FindOpenMP)
@@ -75,7 +79,7 @@ add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 add_library(mpc SHARED
     src/Random.cpp
     src/Clock.cpp
-    src/Vector3.cpp
+#    src/Vector3.cpp
     src/ModuleList.cpp
     src/SpatialPartitioning.cpp
     src/Module.cpp
@@ -96,18 +100,18 @@ add_library(mpc SHARED
     src/module/Redshift.cpp
     src/module/Output.cpp
     src/module/Tools.cpp
-    src/magneticField/magneticFieldGrid.cpp
+    src/magneticField/MagneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )
-TARGET_LINK_LIBRARIES(mpc ${MPC_EXTRA_LIBRARIES} ${TCMALLOC})
+target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES} ${TCMALLOC})
 
 add_executable(mpc-run src/main.cpp)
-TARGET_LINK_LIBRARIES(mpc-run mpc ${TCMALLOC})
+target_link_libraries(mpc-run mpc ${TCMALLOC})
 
-INSTALL(TARGETS mpc-run RUNTIME DESTINATION bin)
-INSTALL(TARGETS mpc DESTINATION lib)
-INSTALL(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-INSTALL(DIRECTORY data/ DESTINATION share/mpc)
+install(TARGETS mpc-run RUNTIME DESTINATION bin)
+install(TARGETS mpc DESTINATION lib)
+install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY data/ DESTINATION share/mpc)
 
 # ----------------------------------------------------------------------------
 # Testing using gTest
@@ -133,20 +137,14 @@ if (GTEST_FOUND)
 endif (GTEST_FOUND)
 
 # ----------------------------------------------------------------------------
-# OpenMP
-# ----------------------------------------------------------------------------
-add_executable(mpc-omp-run src/openmp.cpp)
-TARGET_LINK_LIBRARIES(mpc-omp-run mpc)
-
-# ----------------------------------------------------------------------------
 # Python
 # ----------------------------------------------------------------------------
-INCLUDE (python/Python.cmake)
+include(python/Python.cmake)
 include_directories(${PYTHON_INCLUDE_PATH})
 
-FILE(GLOB_RECURSE MPC_INCLUDES include/*.h)
-SET_SOURCE_FILES_PROPERTIES( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
-ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
+file(GLOB_RECURSE MPC_INCLUDES include/*.h)
+set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
+add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
                 COMMAND swig -c++ -python ${MPC_SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
                 DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
 add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
@@ -154,5 +152,5 @@ add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
 set_target_properties(mpc-swig PROPERTIES PREFIX "")
 set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
 target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})
-INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/mpc.py" DESTINATION ${PYTHON_SITE_PACKAGES})
-INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/_mpc.so" DESTINATION ${PYTHON_SITE_PACKAGES})
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mpc.py" DESTINATION ${PYTHON_SITE_PACKAGES})
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/_mpc.so" DESTINATION ${PYTHON_SITE_PACKAGES})

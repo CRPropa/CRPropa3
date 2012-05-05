@@ -7,7 +7,7 @@
 
 namespace mpc {
 
-void write(kiss::Output &out, const mpc::Vector3 &vec3);
+void write(kiss::Output &out, const mpc::Vector3d &vec3);
 
 void write(kiss::Output &out, const mpc::ParticleState &state);
 
@@ -15,7 +15,7 @@ void write(kiss::Output &out, const mpc::InteractionState &s);
 
 void write(kiss::Output &out, const mpc::Candidate &candidate);
 
-bool read(kiss::Input &in, mpc::Vector3 &vec3);
+bool read(kiss::Input &in, mpc::Vector3d &vec3);
 
 bool read(kiss::Input &in, mpc::ParticleState &state);
 

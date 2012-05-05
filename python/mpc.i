@@ -11,7 +11,6 @@
 %include std_list.i
 %include stdint.i
 %include std_container.i
-
 %include "exception.i"
 %exception
 {
@@ -40,11 +39,11 @@
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Tools.h"
 
-#include "mpc/magneticField/magneticField.h"
-#include "mpc/magneticField/uniformMagneticField.h"
-#include "mpc/magneticField/magneticFieldGrid.h"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
-#include "mpc/magneticField/sphMagneticField.h"
+#include "mpc/magneticField/MagneticField.h"
+#include "mpc/magneticField/UniformMagneticField.h"
+#include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
+#include "mpc/magneticField/SPHMagneticField.h"
 
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
@@ -68,13 +67,17 @@
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
 %include "mpc/Nucleus.h"
+%include "mpc/Common.h"
+
 %include "mpc/Vector3.h"
+%template(Vector3d) mpc::Vector3<double>;
+%template(Vector3f) mpc::Vector3<float>;
+
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
-// %feature("director") mpc::Source;
+
 %template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
 %include "mpc/Source.h"
-%include "mpc/Common.h"
 
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
@@ -83,16 +86,15 @@
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %template(stdModuleVector) std::vector< mpc::ref_ptr<mpc::Module> >;
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
-// %feature("director") mpc::Module;
 %include "mpc/Module.h"
 
 %template(stdMagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
-%include "mpc/magneticField/magneticField.h"
-%include "mpc/magneticField/magneticFieldGrid.h"
-%include "mpc/magneticField/uniformMagneticField.h"
-%include "mpc/magneticField/sphMagneticField.h"
-%include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+%include "mpc/magneticField/MagneticField.h"
+%include "mpc/magneticField/MagneticFieldGrid.h"
+%include "mpc/magneticField/UniformMagneticField.h"
+%include "mpc/magneticField/SPHMagneticField.h"
+%include "mpc/magneticField/TurbulentMagneticField.h"
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"

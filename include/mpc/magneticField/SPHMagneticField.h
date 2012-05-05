@@ -39,15 +39,19 @@ public:
  @brief Wrapper for gadget::SampledMagneticField
  */
 class SPHMagneticFieldGrid: public MagneticField {
+	size_t samples;
 	gadget::SampledMagneticField field;
 	gadget::FileDatabase database;
+	std::string cachePrefix;
+	bool cacheEnabled;
 public:
 	SPHMagneticFieldGrid(Vector3d origin, double size, size_t samples,
 			const std::string filename);
 	SPHMagneticFieldGrid(size_t samples, const std::string filename);
 	Vector3d getField(const Vector3d &position) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);
-
+	void setCachePrefix(const std::string &prefix);
+	void setCacheEnabled(bool enabled );
 };
 
 } // namespace mpc

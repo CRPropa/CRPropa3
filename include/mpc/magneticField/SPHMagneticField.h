@@ -26,11 +26,11 @@ class SPHMagneticField: public MagneticField {
 	gadget::DirectMagneticField field;
 	gadget::FileDatabase database;
 public:
-	SPHMagneticField(Vector3 origin, double size, size_t gridSize,
+	SPHMagneticField(Vector3d origin, double size, size_t gridSize,
 			const std::string filename);
 	SPHMagneticField(size_t gridSize, const std::string filename);
-	Vector3 getField(const Vector3 &position) const;
-	void updateSimulationVolume(const Vector3 &origin, double size);
+	Vector3d getField(const Vector3d &position) const;
+	void updateSimulationVolume(const Vector3d &origin, double size);
 
 };
 
@@ -42,11 +42,11 @@ class SPHMagneticFieldGrid: public MagneticField {
 	gadget::SampledMagneticField field;
 	gadget::FileDatabase database;
 public:
-	SPHMagneticFieldGrid(Vector3 origin, double size, size_t samples,
+	SPHMagneticFieldGrid(Vector3d origin, double size, size_t samples,
 			const std::string filename);
 	SPHMagneticFieldGrid(size_t samples, const std::string filename);
-	Vector3 getField(const Vector3 &position) const;
-	void updateSimulationVolume(const Vector3 &origin, double size);
+	Vector3d getField(const Vector3d &position) const;
+	void updateSimulationVolume(const Vector3d &origin, double size);
 
 };
 

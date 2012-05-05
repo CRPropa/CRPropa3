@@ -137,7 +137,7 @@ public:
 	/// Broken power-law distribution 
 	double randBrokenPowerLaw(double index1, double index2, double breakpoint, double min, double max );
 	/// Random point on a unit-sphere
-	Vector3 randUnitVectorOnSphere();
+	Vector3d randUnitVectorOnSphere();
 
 	/// Seed the generator with a simple uint32
 	void seed( const uint32 oneSeed );

@@ -3,7 +3,7 @@
 
 namespace mpc {
 
-SimpleRedshift::SimpleRedshift(Vector3 center) {
+SimpleRedshift::SimpleRedshift(Vector3d center) {
 	this->center = center;
 }
 

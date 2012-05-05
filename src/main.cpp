@@ -7,8 +7,8 @@
 #include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/NuclearDecay.h"
-#include "mpc/magneticField/uniformMagneticField.h"
-#include "mpc/magneticField/turbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/UniformMagneticField.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
 
 using namespace mpc;
 
@@ -16,8 +16,9 @@ int main(int argc, char **argv) {
 	ModuleList modules;
 
 	// propagation --------------------------------------------------------
-	TurbulentMagneticFieldGrid *field = new TurbulentMagneticFieldGrid(Vector3(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
-	modules.add(new DeflectionCK(field));
+	TurbulentMagneticField *bField = new TurbulentMagneticField(Vector3d(0, 0, 0), 64, 1.);
+	bField->initialize(2., 8., 1e-12, -11. / 3.);
+	modules.add(new DeflectionCK(bField));
 
 	// interactions -------------------------------------------------------
 	modules.add(new NuclearDecay());
@@ -36,8 +37,8 @@ int main(int argc, char **argv) {
 	ParticleState initial;
 	initial.setId(getNucleusId(56, 26));
 	initial.setEnergy(100 * EeV);
-	initial.setPosition(Vector3(0, 0, 0));
-	initial.setDirection(Vector3(1, 0, 0));
+	initial.setPosition(Vector3d(0, 0, 0));
+	initial.setDirection(Vector3d(1, 0, 0));
 
 	ref_ptr<Candidate> candidate = new Candidate(initial);
 	modules.process(candidate);

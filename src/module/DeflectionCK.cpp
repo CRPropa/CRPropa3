@@ -22,8 +22,8 @@ public:
 	}
 
 	PhasePoint operator()(double t, const PhasePoint &v) {
-		Vector3 velocity = v.b.unit() * c_light;
-		Vector3 B(0, 0, 0);
+		Vector3d velocity = v.b / v.b.mag() * c_light;
+		Vector3d B(0, 0, 0);
 		try {
 			B = field->getField(v.a);
 		} catch (std::exception &e) {
@@ -31,7 +31,7 @@ public:
 					<< std::endl;
 			std::cerr << e.what() << std::endl;
 		}
-		Vector3 force = (double) particle->getChargeNumber() * eplus
+		Vector3d force = (double) particle->getChargeNumber() * eplus
 				* velocity.cross(B);
 		return PhasePoint(velocity, force);
 	}
@@ -57,8 +57,8 @@ void DeflectionCK::process(Candidate *candidate) const {
 	// rectlinear propagation in case of no charge
 	if (candidate->current.getChargeNumber() == 0) {
 		double nextStep = std::max(minimumStep, candidate->getNextStep());
-		Vector3 pos = candidate->current.getPosition();
-		Vector3 dir = candidate->current.getDirection();
+		Vector3d pos = candidate->current.getPosition();
+		Vector3d dir = candidate->current.getDirection();
 		candidate->current.setPosition(pos + dir * nextStep);
 		candidate->setCurrentStep(nextStep);
 		candidate->setNextStep(nextStep * 5);
@@ -81,12 +81,12 @@ void DeflectionCK::process(Candidate *candidate) const {
 
 		// maximum of ratio yErr(i) / yScale(i)
 		r = 0;
-		if (yScale.b.x() > std::numeric_limits<double>::min())
-			r = std::max(r, fabs(yErr.b.x() / yScale.b.x()));
-		if (yScale.b.y() > std::numeric_limits<double>::min())
-			r = std::max(r, fabs(yErr.b.y() / yScale.b.y()));
-		if (yScale.b.z() > std::numeric_limits<double>::min())
-			r = std::max(r, fabs(yErr.b.z() / yScale.b.z()));
+		if (yScale.b.x > std::numeric_limits<double>::min())
+			r = std::max(r, fabs(yErr.b.x / yScale.b.x));
+		if (yScale.b.y > std::numeric_limits<double>::min())
+			r = std::max(r, fabs(yErr.b.y / yScale.b.y));
+		if (yScale.b.z > std::numeric_limits<double>::min())
+			r = std::max(r, fabs(yErr.b.z / yScale.b.z));
 
 		// for efficient integration try to keep r close to one
 		h *= 0.95 * pow(r, -0.2);
@@ -97,12 +97,12 @@ void DeflectionCK::process(Candidate *candidate) const {
 	} while (r > 1 && h >= minimumStep);
 
 	candidate->current.setPosition(yOut.a);
-	candidate->current.setDirection(yOut.b.unit());
+	candidate->current.setDirection(yOut.b / yOut.b.mag());
 	candidate->setCurrentStep(hTry * c_light);
 	candidate->setNextStep(h * c_light);
 }
 
-void DeflectionCK::updateSimulationVolume(const Vector3 &origin, double size) {
+void DeflectionCK::updateSimulationVolume(const Vector3d &origin, double size) {
 	field->updateSimulationVolume(origin, size);
 }
 

@@ -1,8 +1,7 @@
-#ifndef MAGNETICFIELDGRID_H_
-#define MAGNETICFIELDGRID_H_
+#ifndef MPC_MAGNETICFIELDGRID_H_
+#define MPC_MAGNETICFIELDGRID_H_
 
-#include "mpc/magneticField/magneticField.h"
-#include "mpc/Vector3.h"
+#include "mpc/magneticField/MagneticField.h"
 #include <vector>
 
 namespace mpc {
@@ -19,21 +18,25 @@ namespace mpc {
  */
 class MagneticFieldGrid: public MagneticField {
 public:
-	MagneticFieldGrid(Vector3 origin, size_t n, double spacing);
-	Vector3 getField(const Vector3 &position) const;
-	Vector3 getGridOrigin() const;
+	MagneticFieldGrid(Vector3d origin, size_t n, double spacing);
+	Vector3f &get(size_t ix, size_t iy, size_t iz);
+	const Vector3f &get(size_t ix, size_t iy, size_t iz) const;
+	Vector3d getField(const Vector3d &position) const;
+	Vector3d getGridOrigin() const;
 	size_t getGridSamples() const;
 	double getGridSpacing() const;
 	double getGridSize() const;
-	virtual void updateSimulationVolume(const Vector3 &origin, double size);
+	virtual void updateSimulationVolume(const Vector3d &origin, double size);
+	void setGridOrigin(const Vector3d &origin);
+	void setGridSpacing(const double spacing);
 
 protected:
-	std::vector<std::vector<std::vector<Vector3> > > grid;
+	std::vector<Vector3f> grid;
 	size_t samples;
 	double spacing;
-	Vector3 origin;
+	Vector3d origin;
 };
 
 } // namespace mpc
 
-#endif /* MAGNETICFIELDGRID_H_ */
+#endif /* MPC_MAGNETICFIELDGRID_H_ */

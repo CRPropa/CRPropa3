@@ -84,14 +84,20 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 }
 
 TEST(NuclearDecay, Neutron) {
-	// test beta- decay n -> p
+	// Quantitativ test of decaying neutrons at rest
+	// Due to the stochastic nature this test might fail.
 	Candidate candidate;
-	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(1, 0));
-	candidate.current.setEnergy(1 * EeV);
-	NuclearDecay d;
-	d.process(&candidate);
-	EXPECT_EQ(candidate.current.getId(), getNucleusId(1,1));
+	candidate.current.setEnergy(mass_neutron * c_squared);
+	NuclearDecay decay;
+	InteractionState state;
+	double tau = 0;
+	for (int i=0; i<100000; i++) {
+		decay.setNextInteraction(&candidate, state);
+		tau += state.distance;
+	}
+	tau /= c_light * 100000;
+	EXPECT_NEAR(tau, 881.46, 8.8);
 }
 
 TEST(NuclearDecay, Scandium44) {
@@ -100,9 +106,11 @@ TEST(NuclearDecay, Scandium44) {
 	candidate.setCurrentStep(1 * Mpc);
 	candidate.current.setId(getNucleusId(44, 21));
 	candidate.current.setEnergy(1 * EeV);
-	NuclearDecay d;
+	NuclearDecay d(true, true);
 	d.process(&candidate);
-	EXPECT_EQ(candidate.current.getId(), getNucleusId(44,20));
+	EXPECT_EQ(getNucleusId(44,20), candidate.current.getId());
+	// 2 leptons expected
+	EXPECT_EQ(2, candidate.secondaries.size());
 }
 
 TEST(NuclearDecay, Li4) {
@@ -114,6 +122,7 @@ TEST(NuclearDecay, Li4) {
 	NuclearDecay d;
 	d.process(&candidate);
 	EXPECT_EQ(getNucleusId(3,2), candidate.current.getId());
+	EXPECT_EQ(1, candidate.secondaries.size());
 }
 
 TEST(NuclearDecay, He5) {

@@ -11,17 +11,17 @@ namespace mpc {
  */
 class PhasePoint {
 public:
-	Vector3 a, b;
+	Vector3d a, b;
 
 	PhasePoint() {
 	}
 
-	PhasePoint(const Vector3 &a, const Vector3 &b) :
+	PhasePoint(const Vector3d &a, const Vector3d &b) :
 			a(a), b(b) {
 	}
 
 	PhasePoint(double f) :
-			a(Vector3(f, f, f)), b(Vector3(f, f, f)) {
+			a(Vector3d(f, f, f)), b(Vector3d(f, f, f)) {
 	}
 
 	PhasePoint operator *(double f) const {
@@ -29,8 +29,8 @@ public:
 	}
 
 	PhasePoint &operator =(double f) {
-		a.set(f, f, f);
-		b.set(f, f, f);
+		a = Vector3d(f, f, f);
+		b = Vector3d(f, f, f);
 		return *this;
 	}
 
@@ -45,8 +45,8 @@ public:
 	}
 
 	PhasePoint abs() const {
-		Vector3 abs_a( fabs(a.x()), fabs(a.y()), fabs(a.z()) );
-		Vector3 abs_b( fabs(b.x()), fabs(b.y()), fabs(b.z()) );
+		Vector3d abs_a( fabs(a.x), fabs(a.y), fabs(a.z) );
+		Vector3d abs_b( fabs(b.x), fabs(b.y), fabs(b.z) );
 		return PhasePoint(abs_a, abs_b);
 	}
 };

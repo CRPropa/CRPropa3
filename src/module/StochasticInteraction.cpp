@@ -4,19 +4,21 @@ namespace mpc {
 
 void StochasticInteraction::process(Candidate* candidate) const {
 	double step = candidate->getCurrentStep();
-	InteractionState interaction;
 
-	while (true) {
-		// check if an interaction is set
+	while (step >= 0) {
+		// get the interaction state, if there is one
+		InteractionState interaction;
 		bool noState = !candidate->getInteractionState(getDescription(), interaction);
+
+		// if no interaction state, set a new one
 		if (noState) {
-			// try to set a new interaction
-			bool successful = setNextInteraction(candidate, interaction);
-			if (not (successful))
-				return; // no new interaction for this particle
+			bool noNewState = !setNextInteraction(candidate, interaction);
+			// no new interaction; return
+			if (noNewState)
+				return;
 		}
 
-		// if not over, reduce distance and return
+		// if interaction distance not reached, reduce it and return
 		if (interaction.distance > step) {
 			interaction.distance -= step;
 			candidate->limitNextStep(interaction.distance);
@@ -24,9 +26,9 @@ void StochasticInteraction::process(Candidate* candidate) const {
 			return;
 		}
 
-		// counter over: interact
-		step -= interaction.distance;
+		// else: interaction distance reached; interact and repeat with remaining step
 		performInteraction(candidate);
+		step -= interaction.distance;
 	}
 }
 

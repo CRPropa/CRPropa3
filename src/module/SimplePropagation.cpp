@@ -8,8 +8,8 @@ SimplePropagation::SimplePropagation(double acceleration, double minimumStep) :
 
 void SimplePropagation::process(Candidate *candidate) const {
 	double nextStep = std::max(minimumStep, candidate->getNextStep());
-	Vector3 pos = candidate->current.getPosition();
-	Vector3 dir = candidate->current.getDirection();
+	Vector3d pos = candidate->current.getPosition();
+	Vector3d dir = candidate->current.getDirection();
 	candidate->current.setPosition(pos + dir * nextStep);
 	candidate->setCurrentStep(nextStep);
 	candidate->setNextStep(nextStep * acceleration);

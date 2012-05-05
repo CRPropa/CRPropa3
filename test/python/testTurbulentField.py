@@ -1,7 +1,6 @@
 # evaluating functions for the turbulentField module
 from pylab import *
 from mpc import *
-from scipy import optimize
 
 def fftAutoCorrelation(a):
 	'''
@@ -83,7 +82,7 @@ n = 128
 lMin, lMax = 2, 32
 Brms = 1
 alpha = -11./3
-field = TurbulentMagneticFieldGrid(Vector3(0, 0, 0), n, 1, lMin, lMax, Brms, alpha)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), n, 1, lMin, lMax, Brms, alpha)
 Lc = field.getCorrelationLength()
 
 ### copy field to array
@@ -91,10 +90,10 @@ Bx, By, Bz = zeros((3, n, n, n))
 for ix in range(n):
 	for iy in range(n):
 		for iz in range(n):
-			b = field.getField(Vector3(ix, iy, iz))
-			Bx[ix, iy, iz] = b.x()
-			By[ix, iy, iz] = b.y()
-			Bz[ix, iy, iz] = b.z()
+			b = field.getField(Vector3d(ix, iy, iz))
+			Bx[ix, iy, iz] = b.x
+			By[ix, iy, iz] = b.y
+			Bz[ix, iy, iz] = b.z
 del field
 
 ### plot slice in position space

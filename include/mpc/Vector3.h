@@ -162,7 +162,7 @@ public:
 
 	T phi() const {
 		T eps = std::numeric_limits<T>::min();
-		if (abs(x) < eps && abs(y) < eps)
+		if (fabs(x) < eps && fabs(y) < eps)
 			return 0.0;
 		else
 			return std::atan2(y, x);
@@ -170,7 +170,7 @@ public:
 
 	T theta() const {
 		T eps = std::numeric_limits<T>::min();
-		if (abs(x) < eps && abs(y) < eps && abs(z) < eps)
+		if (fabs(x) < eps && fabs(y) < eps && fabs(z) < eps)
 			return 0.0;
 		else
 			return std::atan2(sqrt(x * x + y * y), z);

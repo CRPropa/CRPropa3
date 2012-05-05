@@ -19,8 +19,8 @@ Index::Index() :
 		x(0), y(0), z(0) {
 
 }
-Index::Index(Vector3 v) :
-		x(floor(v.x())), y(floor(v.y())), z(floor(v.z())) {
+Index::Index(Vector3d v) :
+		x(floor(v.x)), y(floor(v.y)), z(floor(v.z)) {
 
 }
 
@@ -48,7 +48,7 @@ SpatialPartitioning::SpatialPartitioning(ModuleList *moduleList) :
 }
 
 bool findActivePosition(Candidate *candidate, bool recursive,
-		Vector3 &position) {
+		Vector3d &position) {
 	if (candidate->isActive()) {
 		position = candidate->current.getPosition();
 		return true;
@@ -71,7 +71,7 @@ void SpatialPartitioning::run(candidate_vector_t &candidates, bool recursive) {
 
 	for (size_t i = 0; i < count; i++) {
 		if (candidates[i]->isActive()) {
-			Vector3 pos = candidates[i]->current.getPosition()
+			Vector3d pos = candidates[i]->current.getPosition()
 					- partitionOrigin;
 			Index idx(pos / partitionSize);
 			partitions[idx] += 1;
@@ -91,7 +91,7 @@ void SpatialPartitioning::run(candidate_vector_t &candidates, bool recursive) {
 				nextPartition = iPartition->first;
 		}
 
-		Vector3 o(nextPartition.x, nextPartition.y, nextPartition.z);
+		Vector3d o(nextPartition.x, nextPartition.y, nextPartition.z);
 		setCurrentPartition(o * partitionSize);
 
 		// do the loop
@@ -122,9 +122,9 @@ void SpatialPartitioning::run(Candidate *candidate, bool recursive,
 	size_t active = 0;
 
 	while (candidate->isActive()) {
-		Vector3 relPos = candidate->current.getPosition() - currentPartition;
-		double lo = std::min(relPos.x(), std::min(relPos.y(), relPos.z()));
-		double hi = std::max(relPos.x(), std::max(relPos.y(), relPos.z()));
+		Vector3d relPos = candidate->current.getPosition() - currentPartition;
+		double lo = std::min(relPos.x, std::min(relPos.y, relPos.z));
+		double hi = std::max(relPos.x, std::max(relPos.y, relPos.z));
 		if ((lo < 0.) || (hi > partitionSize)) {
 			break;
 		}
@@ -135,7 +135,7 @@ void SpatialPartitioning::run(Candidate *candidate, bool recursive,
 	}
 
 	if (candidate->isActive()) {
-		Vector3 pos = candidate->current.getPosition() - partitionOrigin;
+		Vector3d pos = candidate->current.getPosition() - partitionOrigin;
 		Index idx(pos / partitionSize);
 //		std::cout << pos / Mpc;
 //		std::cout << " -> ";
@@ -163,7 +163,7 @@ void SpatialPartitioning::run(Source *source, size_t count, bool recursive) {
 	run(candidates, recursive);
 }
 
-void SpatialPartitioning::setPartitionOrigin(const Vector3 &origin) {
+void SpatialPartitioning::setPartitionOrigin(const Vector3d &origin) {
 	partitionOrigin = origin;
 }
 
@@ -173,9 +173,9 @@ void SpatialPartitioning::setPartitionSize(double size) {
 }
 
 struct _UpdateSimulationVolume {
-	Vector3 currentPartition;
+	Vector3d currentPartition;
 	double partitionSize;
-	_UpdateSimulationVolume(Vector3 currentPartition, double partitionSize) :
+	_UpdateSimulationVolume(Vector3d currentPartition, double partitionSize) :
 			currentPartition(currentPartition), partitionSize(partitionSize) {
 
 	}
@@ -188,10 +188,10 @@ struct _UpdateSimulationVolume {
 	}
 };
 
-void SpatialPartitioning::setCurrentPartition(const Vector3 &offset) {
+void SpatialPartitioning::setCurrentPartition(const Vector3d &offset) {
 	currentPartition = offset;
 	currentPartitionMargin = offset
-			- Vector3(partitionSize * 0.1, partitionSize * 0.1,
+			- Vector3d(partitionSize * 0.1, partitionSize * 0.1,
 					partitionSize * 0.1);
 	if (verbose) {
 		std::cout << "mpc::SpatialPartitioningExecutor::setCurrentPartition -> "

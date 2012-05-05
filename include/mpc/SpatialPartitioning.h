@@ -37,13 +37,14 @@ public:
 	void setPartitionOrigin(const Vector3d &origin);
 	void setPartitionSize(double size);
 	void setCurrentPartition(const Vector3d &offset);
+	void setPartitionMargin(double margin);
 
 	void setVerbose(bool verbose);
 private:
 	void run(Candidate *candidate, bool recursive,
 			Loki::AssocVector<Index, Count> &partitions);
-	Vector3d partitionOrigin, currentPartition, currentPartitionMargin;
-	double partitionSize, partitionSizeMargin;
+	Vector3d partitionOrigin, currentPartition;
+	double partitionSize, partitionMargin;
 	bool verbose;
 	ref_ptr<ModuleList> moduleList;
 };

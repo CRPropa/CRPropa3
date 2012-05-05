@@ -43,8 +43,8 @@ bool Index::operator<(const Index &rhs) const {
 }
 
 SpatialPartitioning::SpatialPartitioning(ModuleList *moduleList) :
-		partitionOrigin(0, 0, 0), partitionSize(1 * Mpc), verbose(false), moduleList(
-				moduleList) {
+		partitionOrigin(0, 0, 0), partitionSize(10 * Mpc), partitionMargin(
+				1 * Mpc), verbose(false), moduleList(moduleList) {
 }
 
 bool findActivePosition(Candidate *candidate, bool recursive,
@@ -86,7 +86,6 @@ void SpatialPartitioning::run(candidate_vector_t &candidates, bool recursive) {
 		size_t nextCount = iPartition->second.count;
 		for (iPartition = partitions.begin(); iPartition != partitions.end();
 				iPartition++) {
-//			std::cout << "testing: " << iPartition->second << std::endl;
 			if (iPartition->second.count > nextCount)
 				nextPartition = iPartition->first;
 		}
@@ -96,21 +95,23 @@ void SpatialPartitioning::run(candidate_vector_t &candidates, bool recursive) {
 
 		// do the loop
 		partitions.clear();
-#pragma omp parallel shared(partitions)
+		size_t cent = std::max(1ul, count / 100), pc = 0;
+
+#pragma omp parallel shared(partitions, pc)
 		{
 			Loki::AssocVector<Index, Count> _partitions;
 #pragma omp for schedule(dynamic, 1000)
 			for (size_t i = 0; i < count; i++) {
+				if (verbose && (i % cent == 0)) {
+					std::cout << pc << "% - " << i << std::endl;
+					pc++;
+				}
 				run(candidates[i], recursive, _partitions);
 			}
 
 			Loki::AssocVector<Index, Count>::iterator i;
 #pragma omp critical
 			for (i = _partitions.begin(); i != _partitions.end(); i++) {
-//				std::cout << "cp ";
-//				std::cout << i->first.x << ", " << i->first.y << ", "
-//						<< i->first.z;
-//				std::cout << " -> " << i->second << std::endl;
 				partitions[i->first] += i->second.count;
 			}
 		}
@@ -128,8 +129,8 @@ void SpatialPartitioning::run(Candidate *candidate, bool recursive,
 		if ((lo < 0.) || (hi > partitionSize)) {
 			break;
 		}
-		candidate->limitNextStep(lo + 0.1 * partitionSize);
-		candidate->limitNextStep(partitionSize - hi + 0.1 * partitionSize);
+		candidate->limitNextStep(lo + partitionMargin);
+		candidate->limitNextStep(partitionSize - hi + partitionMargin);
 
 		moduleList->process(candidate);
 	}
@@ -137,9 +138,6 @@ void SpatialPartitioning::run(Candidate *candidate, bool recursive,
 	if (candidate->isActive()) {
 		Vector3d pos = candidate->current.getPosition() - partitionOrigin;
 		Index idx(pos / partitionSize);
-//		std::cout << pos / Mpc;
-//		std::cout << " -> ";
-//		std::cout << idx.x << ", " << idx.y << ", " << idx.z << std::endl;
 		partitions[idx] += 1;
 	}
 
@@ -169,7 +167,11 @@ void SpatialPartitioning::setPartitionOrigin(const Vector3d &origin) {
 
 void SpatialPartitioning::setPartitionSize(double size) {
 	partitionSize = size;
-	partitionSizeMargin = size * 1.2;
+}
+
+void SpatialPartitioning::setPartitionMargin(double margin) {
+	partitionMargin = margin;
+
 }
 
 struct _UpdateSimulationVolume {
@@ -190,13 +192,15 @@ struct _UpdateSimulationVolume {
 
 void SpatialPartitioning::setCurrentPartition(const Vector3d &offset) {
 	currentPartition = offset;
-	currentPartitionMargin = offset
-			- Vector3d(partitionSize * 0.1, partitionSize * 0.1,
-					partitionSize * 0.1);
 	if (verbose) {
 		std::cout << "mpc::SpatialPartitioningExecutor::setCurrentPartition -> "
 				<< offset / Mpc << std::endl;
 	}
+
+	Vector3d currentPartitionMargin = offset
+			- Vector3d(partitionMargin, partitionMargin, partitionMargin);
+	double partitionSizeMargin = partitionSize + 2 * partitionMargin;
+
 	std::for_each(moduleList->getModules().begin(),
 			moduleList->getModules().end(),
 			_UpdateSimulationVolume(currentPartitionMargin,

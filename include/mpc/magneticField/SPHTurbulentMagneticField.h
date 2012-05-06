@@ -11,7 +11,7 @@ namespace mpc {
  */
 class SPHTurbulentMagneticField: public TurbulentMagneticField {
 public:
-	void initialize(const std::string filename);
+	void modulate(const std::string filename);
 };
 
 } // namespace mpc

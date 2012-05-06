@@ -1,8 +1,9 @@
 #include "mpc/module/NuclearDecay.h"
+#include "mpc/Random.h"
 
 #include <fstream>
 #include <limits>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 namespace mpc {
@@ -19,15 +20,15 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
 		throw std::runtime_error(
 				"mpc::NuclearDecay: could not open file " + filename);
 
+	decayTable.resize(31 * 57);
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			InteractionState decay;
 			int Z, N;
 			infile >> Z >> N >> decay.distance >> decay.channel;
-			if (infile) {
-				decay.distance *= c_light;
-				decayTable[getNucleusId(Z + N, Z)].push_back(decay);
-			}
+			decay.distance *= c_light; // mean decay distance [m]
+			if (infile)
+				decayTable[Z * 31 + N].push_back(decay);
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
@@ -55,28 +56,26 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
 }
 
 bool NuclearDecay::setNextInteraction(Candidate *candidate,
-		InteractionState &decay) const {
-	int id = candidate->current.getId();
+		InteractionState &interaction) const {
+	int A = candidate->current.getMassNumber();
+	int Z = candidate->current.getChargeNumber();
+	int N = A - Z;
 
-	std::map<int, std::vector<InteractionState> >::const_iterator iMode =
-			decayTable.find(id);
-	if (iMode == decayTable.end())
+	std::vector<InteractionState> decays = decayTable[Z * 31 + N];
+	if (decays.size() == 0)
 		return false;
 
-	const std::vector<InteractionState> &states = iMode->second;
-
-	// find decay mode with minimum random decay distance
-	decay.distance = std::numeric_limits<double>::max();
-	int decayChannel;
-	for (size_t i = 0; i < states.size(); i++) {
-		double d = -log(Random::instance().rand()) * states[i].distance;
-		if (d > decay.distance)
+	// find interaction mode with minimum random decay distance
+	interaction.distance = std::numeric_limits<double>::max();
+	for (size_t i = 0; i < decays.size(); i++) {
+		double d = -log(Random::instance().rand()) * decays[i].distance;
+		if (d > interaction.distance)
 			continue;
-		decay.distance = d;
-		decay.channel = states[i].channel;
+		interaction.distance = d;
+		interaction.channel = decays[i].channel;
 	}
-	decay.distance *= candidate->current.getLorentzFactor();
-	candidate->setInteractionState(getDescription(), decay);
+	interaction.distance *= candidate->current.getLorentzFactor();
+	candidate->setInteractionState(getDescription(), interaction);
 	return true;
 }
 
@@ -128,7 +127,8 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 
 	// random kinetic energy of electron in neutron decay
 	double T = gsl_spline_eval(Tbeta, Random::instance().rand(), acc);
-	double Q = (mass - candidate->current.getMass() - mass_electron) * c_squared;
+	double Q = (mass - candidate->current.getMass() - mass_electron)
+			* c_squared;
 	double Qneutron = (mass_neutron - mass_proton - mass_electron) * c_squared;
 	// electron energy in this decay
 	double E = T * Q / Qneutron + mass_electron * c_squared;
@@ -140,7 +140,8 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 		candidate->addSecondary(electronId, gamma * E * (1 + p * cosTheta));
 	if (haveNeutrinos)
 		// add neutrino with remaining energy and opposite momentum
-		candidate->addSecondary(neutrinoId, gamma * (Q - E) * (1 - p * cosTheta));
+		candidate->addSecondary(neutrinoId,
+				gamma * (Q - E) * (1 - p * cosTheta));
 }
 
 void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {

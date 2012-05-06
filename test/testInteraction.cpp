@@ -93,7 +93,8 @@ TEST(NuclearDecay, Neutron) {
 	NuclearDecay decay;
 	InteractionState state;
 	double tau = 0;
-	for (int i=0; i<100000; i++) {
+	for (int i = 0; i < 100000; i++) {
+//		std::cout << i << std::endl;
 		decay.setNextInteraction(&candidate, state);
 		tau += state.distance;
 	}
@@ -118,8 +119,10 @@ TEST(NuclearDecay, Scandium44) {
 	EXPECT_EQ(2, c.secondaries.size());
 	Candidate c1 = *c.secondaries[0];
 	Candidate c2 = *c.secondaries[1];
-	EXPECT_EQ(-11, c1.current.getId()); // positron
-	EXPECT_EQ( 12, c2.current.getId()); // electron neutrino
+	EXPECT_EQ(-11, c1.current.getId());
+	// positron
+	EXPECT_EQ( 12, c2.current.getId());
+	// electron neutrino
 }
 
 TEST(NuclearDecay, Li4) {
@@ -169,12 +172,34 @@ TEST(NuclearDecay, LimitNextStep) {
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(PhotoDisintegration, Backgrounds) {
-	// Test if all interaction can be initialized with all backgrounds.
+TEST(NuclearDecay, AllWorking) {
+	// Test if all nuclear decays are working.
+	NuclearDecay d;
+	Candidate c;
+	InteractionState interaction;
+
+	std::ifstream infile(getDataPath("/NuclearDecay/decay_table.txt").c_str());
+	while (infile.good()) {
+		if (infile.peek() != '#') {
+			int Z, N, x, channel;
+			infile >> Z >> N >> x >> interaction.channel;
+
+			c.current.setId(getNucleusId(Z + N, Z));
+			c.current.setEnergy(80 * EeV);
+			c.setInteractionState(d.getDescription(), interaction);
+			d.performInteraction(&c);
+		}
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	infile.close();
+}
+
+//TEST(PhotoDisintegration, Backgrounds) {
+//	// Test if all interaction can be initialized with all backgrounds.
 //	PhotoDisintegration pd1(CMB);
 //	PhotoDisintegration pd2(IRB);
 //	PhotoDisintegration pd3(CMB_IRB);
-}
+//}
 
 TEST(PhotoDisintegration, Carbon) {
 	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
@@ -186,8 +211,10 @@ TEST(PhotoDisintegration, Carbon) {
 	c.setCurrentStep(50 * Mpc);
 	pd.process(&c);
 
-	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV); // energy loss
-	EXPECT_TRUE(c.secondaries.size() > 0); // secondaries produced
+	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV);
+	// energy loss
+	EXPECT_TRUE(c.secondaries.size() > 0);
+	// secondaries produced
 
 	int A = c.current.getMassNumber();
 	int Z = c.current.getChargeNumber();
@@ -198,9 +225,12 @@ TEST(PhotoDisintegration, Carbon) {
 		Z += (*c.secondaries[i]).current.getChargeNumber();
 		E += (*c.secondaries[i]).current.getEnergy();
 	}
-	EXPECT_EQ(12, A); // nucleon number conserved
-	EXPECT_EQ(6, Z); // proton number conserved
-	EXPECT_DOUBLE_EQ(100 * EeV, E); // energy conserved
+	EXPECT_EQ(12, A);
+	// nucleon number conserved
+	EXPECT_EQ(6, Z);
+	// proton number conserved
+	EXPECT_DOUBLE_EQ(100 * EeV, E);
+	// energy conserved
 }
 
 TEST(PhotoDisintegration, Iron) {
@@ -213,8 +243,10 @@ TEST(PhotoDisintegration, Iron) {
 	c.setCurrentStep(50 * Mpc);
 	pd.process(&c);
 
-	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV); // energy loss
-	EXPECT_TRUE(c.secondaries.size() > 0); // secondaries produced
+	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV);
+	// energy loss
+	EXPECT_TRUE(c.secondaries.size() > 0);
+	// secondaries produced
 
 	int A = c.current.getMassNumber();
 	int Z = c.current.getChargeNumber();
@@ -225,9 +257,12 @@ TEST(PhotoDisintegration, Iron) {
 		Z += (*c.secondaries[i]).current.getChargeNumber();
 		E += (*c.secondaries[i]).current.getEnergy();
 	}
-	EXPECT_EQ(56, A); // nucleon number conserved
-	EXPECT_EQ(26, Z); // proton number conserved
-	EXPECT_DOUBLE_EQ(100 * EeV, E); // energy conserved
+	EXPECT_EQ(56, A);
+	// nucleon number conserved
+	EXPECT_EQ(26, Z);
+	// proton number conserved
+	EXPECT_DOUBLE_EQ(100 * EeV, E);
+	// energy conserved
 }
 
 TEST(PhotoDisintegration, LimitNextStep) {
@@ -247,7 +282,8 @@ TEST(PhotoDisintegration, AllWorking) {
 	Candidate c;
 	InteractionState interaction;
 
-	std::ifstream infile(getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt").c_str());
+	std::ifstream infile(
+			getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt").c_str());
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')
@@ -261,7 +297,8 @@ TEST(PhotoDisintegration, AllWorking) {
 		double y;
 		for (size_t i = 0; i < 200; i++) {
 			lineStream >> y;
-			EXPECT_TRUE(lineStream); // test if all 200 entries are present
+			EXPECT_TRUE(lineStream);
+			// test if all 200 entries are present
 		}
 
 		c.current.setId(getNucleusId(Z + N, Z));
@@ -287,9 +324,12 @@ TEST(PhotoPionProduction, Proton) {
 	c.current.setId(getNucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
-	EXPECT_TRUE(c.current.getEnergy() / EeV < 100); // energy loss
-	EXPECT_EQ(1, c.current.getMassNumber()); // nucleon number conserved
-	EXPECT_EQ(0, c.secondaries.size()); // no (nucleonic) secondaries
+	EXPECT_TRUE(c.current.getEnergy() / EeV < 100);
+	// energy loss
+	EXPECT_EQ(1, c.current.getMassNumber());
+	// nucleon number conserved
+	EXPECT_EQ(0, c.secondaries.size());
+	// no (nucleonic) secondaries
 }
 
 TEST(PhotoPionProduction, Helium) {
@@ -326,9 +366,12 @@ TEST(SophiaPhotoPionProduction, withoutSecondaries) {
 	c.current.setId(getNucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
-	EXPECT_GT(100 * EeV, c.current.getEnergy()); // energy loss
-	EXPECT_EQ(1, c.current.getMassNumber()); // nucleon number conserved
-	EXPECT_EQ(0, c.secondaries.size()); // secondaries turned off
+	EXPECT_GT(100 * EeV, c.current.getEnergy());
+	// energy loss
+	EXPECT_EQ(1, c.current.getMassNumber());
+	// nucleon number conserved
+	EXPECT_EQ(0, c.secondaries.size());
+	// secondaries turned off
 }
 
 TEST(SophiaPhotoPionProduction, withSecondaries) {
@@ -341,7 +384,8 @@ TEST(SophiaPhotoPionProduction, withSecondaries) {
 	InteractionState interaction;
 	ppp.setNextInteraction(&c, interaction);
 	ppp.performInteraction(&c);
-	EXPECT_GT(c.secondaries.size(), 1); // secondaries turned on
+	EXPECT_GT(c.secondaries.size(), 1);
+	// secondaries turned on
 }
 
 int main(int argc, char **argv) {

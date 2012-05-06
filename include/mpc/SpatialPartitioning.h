@@ -31,20 +31,26 @@ public:
 
 	SpatialPartitioning(ModuleList *moduleList);
 
-	void run(candidate_vector_t &candidates, bool recursive);
+	void run(candidate_vector_t &candidates, bool recursive,
+			bool deleteInactive);
 	void run(Source *source, size_t count, bool recursive);
 
 	void setPartitionOrigin(const Vector3d &origin);
 	void setPartitionSize(double size);
 	void setCurrentPartition(const Vector3d &offset);
-	void setPartitionMargin(double margin);
+	void setPartitionMargin(double inner, double outer);
 
 	void setVerbose(bool verbose);
 private:
 	void run(Candidate *candidate, bool recursive,
-			Loki::AssocVector<Index, Count> &partitions);
+			Loki::AssocVector<Index, Count> &partitions, bool deleteInactive);
 	Vector3d partitionOrigin, currentPartition;
-	double partitionSize, partitionMargin;
+	double partitionSize, partitionMarginInner, partitionMarginOuter;
+
+	void updateMargins();
+	Vector3d currentPartitionInner, currentPartitionOuter;
+	double partitionSizeInner, partitionSizeOuter;
+
 	bool verbose;
 	ref_ptr<ModuleList> moduleList;
 };

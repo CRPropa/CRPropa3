@@ -13,6 +13,11 @@ SPHMagneticField::SPHMagneticField(Vector3d origin, double size,
 	field.init(v, size / kpc, database);
 }
 
+SPHMagneticField::SPHMagneticField(size_t gridSize, const std::string filename) :
+		field(gridSize) {
+	database.open(filename);
+}
+
 Vector3d SPHMagneticField::getField(const Vector3d &position) const {
 	gadget::Vector3f r = gadget::Vector3f(position.x, position.y, position.z);
 	gadget::Vector3f b = field.getField(r / kpc);
@@ -28,10 +33,16 @@ void SPHMagneticField::updateSimulationVolume(const Vector3d &origin,
 
 SPHMagneticFieldGrid::SPHMagneticFieldGrid(Vector3d origin, double size,
 		size_t samples, const std::string filename) :
-		field(samples) {
+		samples(samples), field(samples), cacheEnabled(false) {
 	database.open(filename);
 	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z) / kpc;
 	field.init(v, size / kpc, database);
+}
+
+SPHMagneticFieldGrid::SPHMagneticFieldGrid(size_t samples,
+		const std::string filename) :
+		samples(samples), field(samples) {
+	database.open(filename);
 }
 
 Vector3d SPHMagneticFieldGrid::getField(const Vector3d &position) const {
@@ -43,9 +54,36 @@ Vector3d SPHMagneticFieldGrid::getField(const Vector3d &position) const {
 
 void SPHMagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
 		double size) {
-	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z)
-			/ kpc;
-	field.init(v, size / kpc, database);
+	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z) / kpc;
+	float s = size / kpc;
+	if (cacheEnabled) {
+		std::stringstream path;
+		path << cachePrefix << samples << "_" << s << "_" << v.x << "_" << v.y
+				<< "_" << v.z << ".cache";
+		std::string filename = path.str();
+		std::ifstream infile(filename.c_str());
+		if (infile) {
+			std::cout << "load cache file " << filename << std::endl;
+			field.init(v, s);
+			field.restore(filename);
+		} else {
+			field.init(v, s, database);
+			path << "." << time(NULL) << clock();
+			std::string filename_tmp = path.str();
+			field.dump(filename_tmp);
+			rename(filename_tmp.c_str(), filename.c_str());
+		}
+	} else {
+		field.init(v, s, database);
+	}
+}
+
+void SPHMagneticFieldGrid::setCachePrefix(const std::string &prefix) {
+	cachePrefix = prefix;
+}
+
+void SPHMagneticFieldGrid::setCacheEnabled(bool enabled) {
+	cacheEnabled = enabled;
 }
 
 } // namespace mpc

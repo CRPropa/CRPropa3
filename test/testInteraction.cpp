@@ -171,9 +171,9 @@ TEST(NuclearDecay, LimitNextStep) {
 
 TEST(PhotoDisintegration, Backgrounds) {
 	// Test if all interaction can be initialized with all backgrounds.
-	PhotoDisintegration pd1(CMB);
-	PhotoDisintegration pd2(IRB);
-	PhotoDisintegration pd3(CMB_IRB);
+//	PhotoDisintegration pd1(CMB);
+//	PhotoDisintegration pd2(IRB);
+//	PhotoDisintegration pd3(CMB_IRB);
 }
 
 TEST(PhotoDisintegration, Carbon) {
@@ -239,6 +239,37 @@ TEST(PhotoDisintegration, LimitNextStep) {
 	c.current.setEnergy(200 * EeV);
 	pd.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+}
+
+TEST(PhotoDisintegration, AllWorking) {
+	// Test if all photo-disintegrations are working.
+	PhotoDisintegration pd;
+	Candidate c;
+	InteractionState interaction;
+
+	std::ifstream infile(getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt").c_str());
+	std::string line;
+	while (std::getline(infile, line)) {
+		if (line[0] == '#')
+			continue;
+		std::stringstream lineStream(line);
+		int Z, N;
+		lineStream >> Z;
+		lineStream >> N;
+		lineStream >> interaction.channel;
+
+		double y;
+		for (size_t i = 0; i < 200; i++) {
+			lineStream >> y;
+			EXPECT_TRUE(lineStream); // test if all 200 entries are present
+		}
+
+		c.current.setId(getNucleusId(Z + N, Z));
+		c.current.setEnergy(80 * EeV);
+		c.setInteractionState(pd.getDescription(), interaction);
+		pd.performInteraction(&c);
+	}
+	infile.close();
 }
 
 TEST(PhotoPionProduction, Backgrounds) {

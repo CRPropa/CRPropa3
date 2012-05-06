@@ -1,12 +1,10 @@
 #include "mpc/module/PhotoDisintegration.h"
 
+#include <cmath>
 #include <limits>
-#include <math.h>
 #include <sstream>
 #include <fstream>
 #include <stdexcept>
-
-#include <kiss/convert.h>
 
 namespace mpc {
 
@@ -39,9 +37,8 @@ void PhotoDisintegration::init(int photonField) {
 }
 
 void PhotoDisintegration::init(std::string filename) {
-	std::ifstream infile(filename.c_str());
-
 	acc = gsl_interp_accel_alloc();
+	pdTable.resize(31 * 57);
 
 	// create spline x-axis
 	std::vector<double> x(SAMPLE_COUNT);
@@ -50,39 +47,31 @@ void PhotoDisintegration::init(std::string filename) {
 
 	std::vector<double> y(SAMPLE_COUNT);
 
+	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error("mpc::PhotoDisintegration: could not open file " + filename);
 
 	std::string line;
-	size_t lineNo = 0;
 	while (std::getline(infile, line)) {
-		lineNo++;
 		if (line[0] == '#')
 			continue;
 		std::stringstream lineStream(line);
 
-		int Z, A;
+		int Z, N;
 		lineStream >> Z; // charge number
-		lineStream >> A; // mass number
+		lineStream >> N; // mass number
 
-		DisintegrationMode mode;
-		lineStream >> mode.channel; // disintegration channel
+		PDMode pd;
+		lineStream >> pd.channel; // disintegration channel
 
 		for (size_t i = 0; i < SAMPLE_COUNT; i++) {
 			lineStream >> y[i];
 			y[i] /= Mpc; // disintegration rate in [1/m]
-
-			if (!lineStream)
-				throw std::runtime_error(
-						"mpc::PhotoDisintegration: Not enough entries in rate.txt. Expected 200 got "
-								+ kiss::str(i) + " in line "
-								+ kiss::str(lineNo));
 		}
 
-		mode.rate = gsl_spline_alloc(gsl_interp_linear, SAMPLE_COUNT);
-		gsl_spline_init(mode.rate, &x[0], &y[0], SAMPLE_COUNT);
-
-		PDTable[getNucleusId(A, Z)].push_back(mode);
+		pd.rate = gsl_spline_alloc(gsl_interp_linear, SAMPLE_COUNT);
+		gsl_spline_init(pd.rate, &x[0], &y[0], SAMPLE_COUNT);
+		pdTable[Z * 31 + N].push_back(pd);
 	}
 
 	infile.close();
@@ -90,22 +79,20 @@ void PhotoDisintegration::init(std::string filename) {
 
 PhotoDisintegration::~PhotoDisintegration() {
 	gsl_interp_accel_free(acc);
-	DisintegrationModeMap::iterator iModes;
-	for (iModes = PDTable.begin(); iModes != PDTable.end(); iModes++) {
-		for (size_t iMode = 0; iMode < iModes->second.size(); iMode++)
-			gsl_spline_free(iModes->second[iMode].rate);
-	}
+	for (size_t i = 0; i < pdTable.size(); i++)
+		for (size_t j = 0; j < pdTable[i].size(); j++)
+			gsl_spline_free(pdTable[i][j].rate);
 }
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate, InteractionState &interaction) const {
-	int id = candidate->current.getId();
+	int A = candidate->current.getMassNumber();
+	int Z = candidate->current.getChargeNumber();
+	int N = A - Z;
 
 	// check if disintegration data available
-	DisintegrationModeMap::const_iterator iMode = PDTable.find(id);
-	if (iMode == PDTable.end())
+	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
+	if (pdModes.size() == 0)
 		return false;
-
-	const std::vector<DisintegrationMode> &modes = iMode->second;
 
 	// CMB energy increases with (1+z), increase nucleus energy accordingly
 	double z = candidate->getRedshift();
@@ -117,13 +104,13 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate, InteractionSt
 
 	// find channel with minimum random decay distance
 	interaction.distance = std::numeric_limits<double>::max();
-	for (size_t i = 0; i < modes.size(); i++) {
-		double rate = gsl_spline_eval(modes[i].rate, lg, acc);
+	for (size_t i = 0; i < pdModes.size(); i++) {
+		double rate = gsl_spline_eval(pdModes[i].rate, lg, acc);
 		double d = -log(Random::instance().rand()) / rate;
 		if (d > interaction.distance)
 			continue;
 		interaction.distance = d;
-		interaction.channel = modes[i].channel;
+		interaction.channel = pdModes[i].channel;
 	}
 
 	// CMB density increases with (1+z)^3 -> free distance decreases accordingly

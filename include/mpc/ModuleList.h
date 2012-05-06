@@ -6,6 +6,8 @@
 #include "mpc/Candidate.h"
 #include "mpc/Module.h"
 #include "mpc/Source.h"
+#include "mpc/AssocVector.h"
+#include "mpc/Referenced.h"
 
 namespace mpc {
 
@@ -13,22 +15,27 @@ namespace mpc {
  @class ModuleList
  @brief List of modules
  */
-class ModuleList {
-	std::list<ref_ptr<Module> > modules;
-	bool showProgress;
+class ModuleList: public Referenced {
 public:
-	typedef std::list<ref_ptr<Module> >::iterator iterator;
-	typedef std::list<ref_ptr<Module> >::const_iterator const_iterator;
+	typedef std::list<ref_ptr<Module> > module_list_t;
+	typedef std::vector<ref_ptr<Candidate> > candidate_vector_t;
 
 	ModuleList();
+	virtual ~ModuleList();
 	void setShowProgress(bool show);
 
 	void add(Module *module);
-	void process(Candidate *candidate);
+	virtual void process(Candidate *candidate);
 	void run(Candidate *candidate, bool recursive);
+	void run(candidate_vector_t &candidates, bool recursive);
 	void run(Source *source, size_t count, bool recursive);
 
-	const std::list<ref_ptr<Module> > &getModules() const;
+	module_list_t &getModules();
+	const module_list_t &getModules() const;
+
+private:
+	module_list_t modules;
+	bool showProgress;
 };
 
 } // namespace mpc

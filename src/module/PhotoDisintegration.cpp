@@ -32,7 +32,8 @@ void PhotoDisintegration::init(int photonField) {
 		init(getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt"));
 		break;
 	default:
-		throw std::runtime_error("mpc::PhotoDisintegration: unknown photon background");
+		throw std::runtime_error(
+				"mpc::PhotoDisintegration: unknown photon background");
 	}
 }
 
@@ -49,7 +50,8 @@ void PhotoDisintegration::init(std::string filename) {
 
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
-		throw std::runtime_error("mpc::PhotoDisintegration: could not open file " + filename);
+		throw std::runtime_error(
+				"mpc::PhotoDisintegration: could not open file " + filename);
 
 	std::string line;
 	while (std::getline(infile, line)) {
@@ -84,7 +86,8 @@ PhotoDisintegration::~PhotoDisintegration() {
 			gsl_spline_free(pdTable[i][j].rate);
 }
 
-bool PhotoDisintegration::setNextInteraction(Candidate *candidate, InteractionState &interaction) const {
+bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
+		InteractionState &interaction) const {
 	int A = candidate->current.getMassNumber();
 	int Z = candidate->current.getChargeNumber();
 	int N = A - Z;
@@ -141,8 +144,13 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 	double EpA = candidate->current.getEnergy() / double(A);
 
 	// update particle
-	candidate->current.setId(getNucleusId(A + dA, Z + dZ));
-	candidate->current.setEnergy(EpA * (A + dA));
+	int nA = A + dA;
+	if (nA > 0) {
+		candidate->current.setId(getNucleusId(A + dA, Z + dZ));
+		candidate->current.setEnergy(EpA * (A + dA));
+	} else {
+		candidate->setActive(false);
+	}
 
 	// create secondaries
 	for (size_t i = 0; i < nNeutron; i++)

@@ -2,12 +2,10 @@
 #define DECAY_H_
 
 #include "mpc/module/StochasticInteraction.h"
-#include "mpc/Random.h"
 
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
 #include <vector>
-#include <map>
 
 namespace mpc {
 
@@ -22,7 +20,7 @@ private:
 	bool haveElectrons;
 	bool haveNeutrinos;
 
-	std::map<int, std::vector<InteractionState> > decayTable;
+	std::vector<std::vector<InteractionState> > decayTable;
 	gsl_interp_accel *acc;
 	gsl_spline *Tbeta; // inverse cdf electron kinetic energy [J] in neutron decay
 

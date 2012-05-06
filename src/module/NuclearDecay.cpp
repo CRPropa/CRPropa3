@@ -111,9 +111,11 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	int A = candidate->current.getMassNumber();
 	double mass = candidate->current.getMass();
 
+	// beta- decay
 	int electronId = 11; // electron
 	int neutrinoId = -12; // anti-electron neutrino
 	int dZ = 1;
+	// beta+ decay
 	if (isBetaPlus) {
 		electronId = -11; // positron
 		neutrinoId = 12; // electron neutrion

@@ -5,7 +5,6 @@
 #include "mpc/Random.h"
 
 #include <vector>
-#include <map>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
 
@@ -16,19 +15,17 @@ namespace mpc {
  @brief Photo-disintegration of nuclei with background photons.
 
  This module simulates photo-disintegration of nuclei with background photons.\n
- Background photons are considered as homogeneous and evolving as the CMB.\n
+ Background photon fields are considered as homogeneous and evolving as the CMB.\n
  */
 class PhotoDisintegration: public StochasticInteraction {
 private:
 	int photonField;
-	struct DisintegrationMode {
+	struct PDMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
 		gsl_spline *rate; // disintegration rate [1/m]
 	};
-
-	typedef std::map<int, std::vector<DisintegrationMode> > DisintegrationModeMap;
-	DisintegrationModeMap PDTable;
-	gsl_interp_accel *acc;
+	std::vector<std::vector<PDMode> > pdTable; // pdTable[Z * 31 + N] = vector<PDmode>
+	gsl_interp_accel *acc; // accelerator for the interpolation
 
 public:
 	PhotoDisintegration(int photonField = CMB_IRB);

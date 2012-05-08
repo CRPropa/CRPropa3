@@ -71,7 +71,9 @@ void SPHMagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
 			path << "." << time(NULL) << clock();
 			std::string filename_tmp = path.str();
 			field.dump(filename_tmp);
-			rename(filename_tmp.c_str(), filename.c_str());
+			int ren = rename(filename_tmp.c_str(), filename.c_str());
+			if (ren != 0)
+				remove(filename_tmp.c_str());
 		}
 	} else {
 		field.init(v, s, database);

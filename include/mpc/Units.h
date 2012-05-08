@@ -27,6 +27,7 @@ static const double amu = 1.660538921e-27 * kilogram;
 static const double mass_proton = 1.67262158e-27 * kilogram;
 static const double mass_neutron = 1.67492735e-27 * kilogram;
 static const double mass_electron = 9.10938291e-31 * kilogram;
+static const double h_planck = 6.62606957e-34 * joule * second;
 
 // other units
 

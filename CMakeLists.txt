@@ -79,7 +79,6 @@ add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 add_library(mpc SHARED
     src/Random.cpp
     src/Clock.cpp
-#    src/Vector3.cpp
     src/ModuleList.cpp
     src/SpatialPartitioning.cpp
     src/Module.cpp

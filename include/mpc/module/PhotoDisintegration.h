@@ -28,7 +28,7 @@ private:
 	gsl_interp_accel *acc; // accelerator for the interpolation
 
 public:
-	PhotoDisintegration(int photonField = CMB_IRB);
+	PhotoDisintegration(int photonField = CMB);
 	~PhotoDisintegration();
 	void init(int photonField);
 	void init(std::string filename);

@@ -27,10 +27,6 @@ void PhotoDisintegration::init(int photonField) {
 		setDescription("PhotoDisintegration:IRB");
 		init(getDataPath("PhotoDisintegration/PDtable_IRB.txt"));
 		break;
-	case CMB_IRB:
-		setDescription("PhotoDisintegration:CMB_IRB");
-		init(getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt"));
-		break;
 	default:
 		throw std::runtime_error(
 				"mpc::PhotoDisintegration: unknown photon background");

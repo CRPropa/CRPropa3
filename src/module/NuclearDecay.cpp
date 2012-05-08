@@ -14,18 +14,18 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
 	haveNeutrinos = neutrinos;
 
 	// load decay table
-	std::string filename = getDataPath("/NuclearDecay/decay_table.txt");
+	std::string filename = getDataPath("/NuclearDecay/decayTable.txt");
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
 				"mpc::NuclearDecay: could not open file " + filename);
 
-	decayTable.resize(31 * 57);
+	decayTable.resize(27 * 31);
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			InteractionState decay;
 			int Z, N;
-			infile >> Z >> N >> decay.distance >> decay.channel;
+			infile >> Z >> N >> decay.channel >> decay.distance;
 			decay.distance *= c_light; // mean decay distance [m]
 			if (infile)
 				decayTable[Z * 31 + N].push_back(decay);
@@ -85,14 +85,14 @@ void NuclearDecay::performInteraction(Candidate *candidate) const {
 	candidate->clearInteractionStates();
 
 	// parse decay channels
-	int nBeta = digit(decay.channel, 10000);
+	int nBetaMinus = digit(decay.channel, 10000);
 	int nBetaPlus = digit(decay.channel, 1000);
 	int nAlpha = digit(decay.channel, 100);
 	int nProton = digit(decay.channel, 10);
 	int nNeutron = digit(decay.channel, 1);
 
 	// perform decays
-	for (size_t i = 0; i < nBeta; i++)
+	for (size_t i = 0; i < nBetaMinus; i++)
 		betaDecay(candidate, false);
 	for (size_t i = 0; i < nBetaPlus; i++)
 		betaDecay(candidate, true);

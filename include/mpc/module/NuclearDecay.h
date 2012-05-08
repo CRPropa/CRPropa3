@@ -21,6 +21,8 @@ private:
 	bool haveNeutrinos;
 
 	std::vector<std::vector<InteractionState> > decayTable;
+	// InteractionState.channel is (#beta- #beta+ #alpha #proton #neutron)
+	// InteractionState.distance is the mean free path [m]
 	gsl_interp_accel *acc;
 	gsl_spline *Tbeta; // inverse cdf electron kinetic energy [J] in neutron decay
 

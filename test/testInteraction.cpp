@@ -94,7 +94,6 @@ TEST(NuclearDecay, Neutron) {
 	InteractionState state;
 	double tau = 0;
 	for (int i = 0; i < 100000; i++) {
-//		std::cout << i << std::endl;
 		decay.setNextInteraction(&candidate, state);
 		tau += state.distance;
 	}
@@ -178,11 +177,11 @@ TEST(NuclearDecay, AllWorking) {
 	Candidate c;
 	InteractionState interaction;
 
-	std::ifstream infile(getDataPath("/NuclearDecay/decay_table.txt").c_str());
+	std::ifstream infile(getDataPath("/NuclearDecay/decayTable.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
-			int Z, N, x, channel;
-			infile >> Z >> N >> x >> interaction.channel;
+			int Z, N, channel, foo;
+			infile >> Z >> N >> interaction.channel >> foo;
 
 			c.current.setId(getNucleusId(Z + N, Z));
 			c.current.setEnergy(80 * EeV);
@@ -193,13 +192,6 @@ TEST(NuclearDecay, AllWorking) {
 	}
 	infile.close();
 }
-
-//TEST(PhotoDisintegration, Backgrounds) {
-//	// Test if all interaction can be initialized with all backgrounds.
-//	PhotoDisintegration pd1(CMB);
-//	PhotoDisintegration pd2(IRB);
-//	PhotoDisintegration pd3(CMB_IRB);
-//}
 
 TEST(PhotoDisintegration, Carbon) {
 	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
@@ -236,7 +228,7 @@ TEST(PhotoDisintegration, Carbon) {
 TEST(PhotoDisintegration, Iron) {
 	// Test if a 100 EeV Fe-56 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(IRB);
 	Candidate c;
 	c.current.setId(getNucleusId(56, 26));
 	c.current.setEnergy(100 * EeV);
@@ -276,14 +268,47 @@ TEST(PhotoDisintegration, LimitNextStep) {
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(PhotoDisintegration, AllWorking) {
+TEST(PhotoDisintegration, AllWorkingCMB) {
 	// Test if all photo-disintegrations are working.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(CMB);
 	Candidate c;
 	InteractionState interaction;
 
 	std::ifstream infile(
-			getDataPath("PhotoDisintegration/PDtable_CMB_IRB.txt").c_str());
+			getDataPath("PhotoDisintegration/PDtable_CMB.txt").c_str());
+	std::string line;
+	while (std::getline(infile, line)) {
+		if (line[0] == '#')
+			continue;
+		std::stringstream lineStream(line);
+		int Z, N;
+		lineStream >> Z;
+		lineStream >> N;
+		lineStream >> interaction.channel;
+
+		double y;
+		for (size_t i = 0; i < 200; i++) {
+			lineStream >> y;
+			EXPECT_TRUE(lineStream);
+			// test if all 200 entries are present
+		}
+
+		c.current.setId(getNucleusId(Z + N, Z));
+		c.current.setEnergy(80 * EeV);
+		c.setInteractionState(pd.getDescription(), interaction);
+		pd.performInteraction(&c);
+	}
+	infile.close();
+}
+
+TEST(PhotoDisintegration, AllWorkingIRB) {
+	// Test if all photo-disintegrations are working.
+	PhotoDisintegration pd(IRB);
+	Candidate c;
+	InteractionState interaction;
+
+	std::ifstream infile(
+			getDataPath("PhotoDisintegration/PDtable_IRB.txt").c_str());
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')

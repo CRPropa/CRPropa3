@@ -79,6 +79,8 @@ TEST(CubicBoundary, outside) {
 	CubicBoundary cube(Vector3d(0, 0, 0), 10);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3d(10.1, 5, 5));
+
+	cube.setMakeInactive(false);
 	cube.process(&candidate);
 	EXPECT_TRUE(candidate.isActive());
 	EXPECT_TRUE(candidate.hasProperty("OutOfBounds"));
@@ -103,13 +105,17 @@ TEST(SphericalBoundary, inside) {
 	Candidate candidate;
 	candidate.current.setPosition(Vector3d(9, 0, 0));
 	sphere.process(&candidate);
+	EXPECT_TRUE(candidate.isActive());
 	EXPECT_FALSE(candidate.hasProperty("OutOfBounds"));
 }
 
 TEST(SphericalBoundary, outside) {
 	SphericalBoundary sphere(Vector3d(0, 0, 0), 10, "PassedGalacticBorder");
+
 	Candidate candidate;
 	candidate.current.setPosition(Vector3d(0, -10.1, 0));
+
+	sphere.setMakeInactive(false);
 	sphere.process(&candidate);
 	EXPECT_TRUE(candidate.isActive());
 	EXPECT_TRUE(candidate.hasProperty("PassedGalacticBorder"));
@@ -141,6 +147,8 @@ TEST(EllipsoidalBoundary, outside) {
 	EllipsoidalBoundary ellipsoid(Vector3d(-5, 0, 0), Vector3d(5, 0, 0), 15);
 	Candidate candidate;
 	candidate.current.setPosition(Vector3d(0, 25, 0));
+
+	ellipsoid.setMakeInactive(false);
 	ellipsoid.process(&candidate);
 	EXPECT_TRUE(candidate.hasProperty("OutOfBounds"));
 	EXPECT_TRUE(candidate.isActive());

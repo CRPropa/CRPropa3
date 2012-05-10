@@ -73,7 +73,7 @@ CubicBoundary::CubicBoundary(Vector3d origin, double size, std::string flag,
 	this->size = size;
 	this->flag = flag;
 	this->flagValue = flagValue;
-	this->makeInactive = false;
+	this->makeInactive = true;
 	this->limitStep = false;
 	this->margin = 0;
 	updateDescription();
@@ -120,7 +120,7 @@ SphericalBoundary::SphericalBoundary(Vector3d center, double radius,
 	this->radius = radius;
 	this->flag = flag;
 	this->flagValue = flagValue;
-	this->makeInactive = false;
+	this->makeInactive = true;
 	this->limitStep = false;
 	this->margin = 0;
 	updateDescription();
@@ -165,7 +165,7 @@ EllipsoidalBoundary::EllipsoidalBoundary(Vector3d focalPoint1,
 	this->majorAxis = majorAxis;
 	this->flag = flag;
 	this->flagValue = flagValue;
-	this->makeInactive = false;
+	this->makeInactive = true;
 	this->limitStep = false;
 	this->margin = 0;
 	updateDescription();

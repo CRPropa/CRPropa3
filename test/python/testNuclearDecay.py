@@ -13,13 +13,13 @@ modeDict = {1:vN, 2:vN, 10:vP, 20:vP, 100:vA, 200:vA, 10000:vBp, 20000:vBp, 1000
 
 
 ### read and evaluate decay tables
-data = genfromtxt(getDataPath('NuclearDecay/decay_table.txt'), comments='#')
+data = genfromtxt(getDataPath('NuclearDecay/decayTable.txt'), comments='#')
 modes = zeros((27, 31))
 times = zeros((27, 31))
 multi = zeros((27, 31))
 inclu = zeros((27, 31))
 
-for z, n, time, mode in data:
+for z, n, mode, time in data:
     inclu[z,n] += 1/time
     multi[z,n] += 1
     if modes[z, n] != 0:
@@ -41,8 +41,8 @@ for z in range(1,27):
 fig = figure()
 ax = fig.add_subplot(111)
 ax.imshow(ma.masked_array(modes, modes==0), aspect='equal', interpolation='nearest', origin='lower')
-ax.set_xlabel('neutrons')
-ax.set_ylabel('protons')
+ax.set_xlabel('Neutrons')
+ax.set_ylabel('Protons')
 ax.grid()
 ax.text(0.41, 0.59, 'beta+ decay', ha='center', va='center', rotation=40, transform=ax.transAxes)
 ax.text(0.48, 0.52, 'stable', ha='center', va='center', rotation=40, transform=ax.transAxes)
@@ -57,9 +57,9 @@ im = ax.imshow(ma.masked_array(inclu, inclu==np.inf), aspect='equal', interpolat
 cbar = fig.colorbar(im, orientation='horizontal')
 cbar.set_ticks(logspace(-3,3,7))
 cbar.set_ticklabels(['0.001','0.01','0.1','1','10','100','1000'])
-cbar.set_label('inclusive decay time [s]')
-ax.set_xlabel('neutrons')
-ax.set_ylabel('protons')
+cbar.set_label('Lifetime [s]')
+ax.set_xlabel('Neutrons')
+ax.set_ylabel('Protons')
 ax.grid()
 fig.savefig('NuclearDecay_lifetime.png',bbox_inches='tight')
 
@@ -68,9 +68,9 @@ ax = fig.add_subplot(111)
 mmulti = ma.masked_array(multi, multi==0)
 im = ax.imshow(mmulti, aspect='equal', interpolation='nearest', origin='lower')
 cbar = fig.colorbar(im, orientation='horizontal')
-cbar.set_label('decay channels')
-ax.set_xlabel('neutrons')
-ax.set_ylabel('protons')
+cbar.set_label('\# Decay Channels')
+ax.set_xlabel('Neutrons')
+ax.set_ylabel('Protons')
 ax.grid()
 fig.savefig('NuclearDecay_multiplicity.png',bbox_inches='tight')
 

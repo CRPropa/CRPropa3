@@ -173,15 +173,19 @@ public:
 		if (fabs(x) < eps && fabs(y) < eps && fabs(z) < eps)
 			return 0.0;
 		else
-			return std::atan2(sqrt(x * x + y * y), z);
+			return atan2((T)sqrt(x * x + y * y), z);
 	}
 
 	T angleTo(const Vector3<T> &v) const {
 		T cosdistance = this->dot(v) / this->mag() / v.mag();
 		// In some directions cosdistance is > 1 on some compilers
 		// This ensures that the correct result is returned
-		return (cosdistance >= 1.) ?
-				0 : ((cosdistance <= -1.) ? M_PI : acos(cosdistance));
+		if (cosdistance >= 1.)
+			return 0;
+		if (cosdistance <= -1.)
+			return M_PI;
+		else
+			return acos(cosdistance);
 	}
 
 	bool isParallelTo(const Vector3<T> &v, T maxAngle) const {

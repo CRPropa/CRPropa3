@@ -31,7 +31,6 @@ public:
 	SPHMagneticField(size_t gridSize, const std::string filename);
 	Vector3d getField(const Vector3d &position) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);
-
 };
 
 /**
@@ -39,9 +38,9 @@ public:
  @brief Wrapper for gadget::SampledMagneticField
  */
 class SPHMagneticFieldGrid: public MagneticField {
-	size_t samples;
 	gadget::SampledMagneticField field;
 	gadget::FileDatabase database;
+	size_t samples;
 	std::string cachePrefix;
 	bool cacheEnabled;
 public:
@@ -51,7 +50,7 @@ public:
 	Vector3d getField(const Vector3d &position) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);
 	void setCachePrefix(const std::string &prefix);
-	void setCacheEnabled(bool enabled );
+	void setCacheEnabled(bool enabled);
 };
 
 } // namespace mpc

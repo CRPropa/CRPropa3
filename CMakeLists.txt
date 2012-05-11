@@ -14,11 +14,11 @@ list(APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
 list(APPEND MPC_EXTRA_INCLUDES ${GSL_INCLUDE_DIR})
 
 # fftw needed for TurbulentMagneticField
-find_package(FFTW)
-if (FFTW_FOUND)
+find_package(FFTW3F)
+if (FFTW3F_FOUND)
     list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
-    list(APPEND MPC_EXTRA_LIBRARIES ${FFTW_LIBRARY} ${FFTWF_LIBRARY})
-endif (FFTW_FOUND)
+    list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
+endif (FFTW3F_FOUND)
 
 # gadget needed for SPHMagneticField and SPHTurbulentMagneticField
 find_package(Gadget)
@@ -28,10 +28,10 @@ if (GADGET_FOUND)
     list(APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
     add_definitions (-DMPC_HAVE_GADGET)
     list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
-    # fftw needed for SPHTurbulentMagneticField
-    if (FFTW_FOUND)
-        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
-    endif (FFTW_FOUND)
+#    # fftw needed for SPHTurbulentMagneticField
+#    if (FFTW_FOUND)
+#        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
+#    endif (FFTW_FOUND)
 endif (GADGET_FOUND)
 
 # Google Performance Tools optional

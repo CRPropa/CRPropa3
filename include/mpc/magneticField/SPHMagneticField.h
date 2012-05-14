@@ -30,6 +30,7 @@ public:
 			const std::string filename);
 	SPHMagneticField(size_t gridSize, const std::string filename);
 	Vector3d getField(const Vector3d &position) const;
+	double getRho(const Vector3d &position) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);
 };
 

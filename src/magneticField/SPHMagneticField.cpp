@@ -25,6 +25,12 @@ Vector3d SPHMagneticField::getField(const Vector3d &position) const {
 	return bField;
 }
 
+double SPHMagneticField::getRho(const Vector3d& position) const {
+	gadget::Vector3f r = gadget::Vector3f(position.x, position.y, position.z);
+	unsigned int overlaps = 0;
+	return (double) field.getRho(r / kpc, overlaps);
+}
+
 void SPHMagneticField::updateSimulationVolume(const Vector3d &origin,
 		double size) {
 	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z) / kpc;

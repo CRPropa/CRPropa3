@@ -8,7 +8,7 @@ SimpleRedshift::SimpleRedshift(Vector3d center) {
 }
 
 void SimpleRedshift::process(Candidate *candidate) const {
-	double d = (candidate->current.getPosition() - center).mag();
+	double d = candidate->current.getPosition().getDistanceTo(center);
 	double z = 0.024 * d / 100 / Mpc;
 	double dz = candidate->getRedshift() - z;
 

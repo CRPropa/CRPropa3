@@ -22,7 +22,7 @@ public:
 	}
 
 	PhasePoint operator()(double t, const PhasePoint &v) {
-		Vector3d velocity = v.b / v.b.mag() * c_light;
+		Vector3d velocity = v.b.getUnitVector() * c_light;
 		Vector3d B(0, 0, 0);
 		try {
 			B = field->getField(v.a);
@@ -97,7 +97,7 @@ void DeflectionCK::process(Candidate *candidate) const {
 	} while (r > 1 && h >= minimumStep);
 
 	candidate->current.setPosition(yOut.a);
-	candidate->current.setDirection(yOut.b / yOut.b.mag());
+	candidate->current.setDirection(yOut.b.getUnitVector());
 	candidate->setCurrentStep(hTry * c_light);
 	candidate->setNextStep(h * c_light);
 }

@@ -21,14 +21,14 @@ TEST(ParticleState, direction) {
 	ParticleState particle;
 	Vector3d v(1, 2, 3);
 	particle.setDirection(v);
-	EXPECT_TRUE(particle.getDirection() == v / v.mag());
+	EXPECT_TRUE(particle.getDirection() == v.getUnitVector());
 }
 
 TEST(ParticleState, velocity) {
 	ParticleState particle;
 	Vector3d v(1, 1, 0);
 	particle.setDirection(v);
-	EXPECT_TRUE(particle.getVelocity() == v / v.mag() * c_light);
+	EXPECT_TRUE(particle.getVelocity() == v.getUnitVector() * c_light);
 }
 
 TEST(ParticleState, momentum) {

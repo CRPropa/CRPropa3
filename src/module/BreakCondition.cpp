@@ -48,7 +48,7 @@ void SmallObserverSphere::setMakeInactive(bool makeInactive) {
 }
 
 void SmallObserverSphere::process(Candidate *candidate) const {
-	double d = (candidate->current.getPosition() - center).mag();
+	double d = (candidate->current.getPosition() - center).getMag();
 	if (d <= radius * 1.01) {
 		candidate->setProperty("Detected", "");
 		if (makeInactive) {
@@ -138,7 +138,7 @@ void SphericalBoundary::setLimitStep(bool limitStep, double margin) {
 }
 
 void SphericalBoundary::process(Candidate *candidate) const {
-	double d = (candidate->current.getPosition() - center).mag();
+	double d = (candidate->current.getPosition() - center).getMag();
 	if (d >= radius) {
 		candidate->setProperty(flag, flagValue);
 		if (makeInactive) {
@@ -184,7 +184,7 @@ void EllipsoidalBoundary::setLimitStep(bool limitStep, double margin) {
 
 void EllipsoidalBoundary::process(Candidate *candidate) const {
 	Vector3d pos = candidate->current.getPosition();
-	double d = (pos - focalPoint1).mag() + (pos - focalPoint2).mag();
+	double d = pos.getDistanceTo(focalPoint1) + pos.getDistanceTo(focalPoint2);
 	if (d >= majorAxis) {
 		candidate->setProperty(flag, flagValue);
 		if (makeInactive) {

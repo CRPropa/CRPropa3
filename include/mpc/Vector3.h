@@ -124,6 +124,10 @@ public:
 		return Vector3<T>(x, y, z) / getMag();
 	}
 
+	void normalize() {
+		*this /= getMag();
+	}
+
 	T dot(const Vector3<T> & p) const {
 		return x * p.x + y * p.y + z * p.z;
 	}
@@ -134,11 +138,11 @@ public:
 	}
 
 	void rotate(const Vector3<T> &axis, T angle) {
+		T ux = axis.getX() / axis.getMag();
+		T uy = axis.getY() / axis.getMag();
+		T uz = axis.getZ() / axis.getMag();
 		T c = cos(angle);
 		T s = sin(angle);
-		T ux = axis.getX();
-		T uy = axis.getY();
-		T uz = axis.getZ();
 		Vector3<T> Rx(c + ux * ux * (1 - c), ux * uy * (1 - c) - uz * s,
 				ux * uz * (1 - c) + uy * s);
 		Vector3<T> Ry(uy * ux * (1 - c) + uz * s, c + uy * uy * (1 - c),

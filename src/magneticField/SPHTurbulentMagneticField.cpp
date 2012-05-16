@@ -15,8 +15,8 @@ void SPHTurbulentMagneticField::modulate(const std::string filename) {
 				double rho = sphField.getRho(
 						Vector3d(ix, iy, iz) * spacing + origin);
 				Vector3f &b = get(ix, iy, iz);
-				b *= rho;
-				norm += b.mag2();
+				b *= pow(rho, 2./3);
+				norm += b.getMag2();
 			}
 
 	// renormalize

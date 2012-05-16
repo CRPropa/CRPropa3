@@ -38,6 +38,130 @@ public:
 			x(t), y(t), z(t) {
 	}
 
+	void setX(const T x) {
+		this->x = x;
+	}
+
+	void setY(const T x) {
+		this->y = y;
+	}
+
+	void setZ(const T x) {
+		this->z = z;
+	}
+
+	void setXYZ(const T x, const T y, const T z) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+
+	void setRThetaPhi(const T r, const T theta, const T phi) {
+		this->x = r * sin(theta) * cos(phi);
+		this->y = r * sin(theta) * sin(phi);
+		this->z = r * cos(theta);
+	}
+
+	T getX() const {
+		return x;
+	}
+
+	T getY() const {
+		return y;
+	}
+
+	T getZ() const {
+		return z;
+	}
+
+	T getPhi() const {
+		T eps = std::numeric_limits<T>::min();
+		if (fabs(x) < eps && fabs(y) < eps)
+			return 0.0;
+		else
+			return std::atan2(y, x);
+	}
+
+	T getTheta() const {
+		T eps = std::numeric_limits<T>::min();
+		if (fabs(x) < eps && fabs(y) < eps && fabs(z) < eps)
+			return 0.0;
+		else
+			return atan2((T) sqrt(x * x + y * y), z);
+	}
+
+	T getAngleTo(const Vector3<T> &v) const {
+		T cosdistance = this->dot(v) / this->getMag() / v.getMag();
+		// In some directions cosdistance is > 1 on some compilers
+		// This ensures that the correct result is returned
+		if (cosdistance >= 1.)
+			return 0;
+		if (cosdistance <= -1.)
+			return M_PI;
+		else
+			return acos(cosdistance);
+	}
+
+	bool isParallelTo(const Vector3<T> &v, T maxAngle) const {
+		T angle = this->getAngleTo(v);
+		return angle < maxAngle;
+	}
+
+	T getDistanceTo(const Vector3<T> &point) const {
+		Vector3<T> d = *this - point;
+		return d.getMag();
+	}
+
+	T getMag() const {
+		return std::sqrt(x * x + y * y + z * z);
+	}
+
+	T getMag2() const {
+		return (x * x + y * y + z * z);
+	}
+
+	Vector3<T> getUnitVector() const {
+		return Vector3<T>(x, y, z) / getMag();
+	}
+
+	T dot(const Vector3<T> & p) const {
+		return x * p.x + y * p.y + z * p.z;
+	}
+
+	Vector3<T> cross(const Vector3<T> & p) const {
+		return Vector3<T>(y * p.z - p.y * z, z * p.x - p.z * x,
+				x * p.y - p.x * y);
+	}
+
+	void rotate(const Vector3<T> &axis, T angle) {
+		T c = cos(angle);
+		T s = sin(angle);
+		T ux = axis.getX();
+		T uy = axis.getY();
+		T uz = axis.getZ();
+		Vector3<T> Rx(c + ux * ux * (1 - c), ux * uy * (1 - c) - uz * s,
+				ux * uz * (1 - c) + uy * s);
+		Vector3<T> Ry(uy * ux * (1 - c) + uz * s, c + uy * uy * (1 - c),
+				uy * uz * (1 - c) - ux * s);
+		Vector3<T> Rz(uz * ux * (1 - c) - uy * s, uz * uy * (1 - c) + ux * s,
+				c + uz * uz * (1 - c));
+		this->setXYZ(Rx.dot(*this), Ry.dot(*this), Rz.dot(*this));
+	}
+
+	void clamp(T lower, T upper) {
+		x = std::max(lower, std::min(x, upper));
+		y = std::max(lower, std::min(y, upper));
+		z = std::max(lower, std::min(z, upper));
+	}
+
+	Vector3<T> floor() const {
+		return Vector3<T>(std::floor(x), std::floor(y), std::floor(z));
+	}
+
+	Vector3<T> ceil() const {
+		return Vector3<T>(std::ceil(x), std::ceil(y), std::ceil(z));
+	}
+
 	bool operator <(const Vector3<T> &v) const {
 		if (x > v.x)
 			return false;
@@ -127,99 +251,6 @@ public:
 		y = v.y;
 		z = v.z;
 		return *this;
-	}
-
-	void clamp(T lower, T upper) {
-		x = std::max(lower, std::min(x, upper));
-		y = std::max(lower, std::min(y, upper));
-		z = std::max(lower, std::min(z, upper));
-	}
-
-	T mag() const {
-		return std::sqrt(x * x + y * y + z * z);
-	}
-
-	T mag2() {
-		return (x * x + y * y + z * z);
-	}
-
-	T dot(const Vector3<T> & p) const {
-		return x * p.x + y * p.y + z * p.z;
-	}
-
-	Vector3<T> cross(const Vector3<T> & p) const {
-		return Vector3<T>(y * p.z - p.y * z, z * p.x - p.z * x,
-				x * p.y - p.x * y);
-	}
-
-	Vector3<T> floor() const {
-		return Vector3<T>(std::floor(x), std::floor(y), std::floor(z));
-	}
-
-	Vector3<T> ceil() const {
-		return Vector3<T>(std::ceil(x), std::ceil(y), std::ceil(z));
-	}
-
-	T phi() const {
-		T eps = std::numeric_limits<T>::min();
-		if (fabs(x) < eps && fabs(y) < eps)
-			return 0.0;
-		else
-			return std::atan2(y, x);
-	}
-
-	T theta() const {
-		T eps = std::numeric_limits<T>::min();
-		if (fabs(x) < eps && fabs(y) < eps && fabs(z) < eps)
-			return 0.0;
-		else
-			return atan2((T)sqrt(x * x + y * y), z);
-	}
-
-	T angleTo(const Vector3<T> &v) const {
-		T cosdistance = this->dot(v) / this->mag() / v.mag();
-		// In some directions cosdistance is > 1 on some compilers
-		// This ensures that the correct result is returned
-		if (cosdistance >= 1.)
-			return 0;
-		if (cosdistance <= -1.)
-			return M_PI;
-		else
-			return acos(cosdistance);
-	}
-
-	bool isParallelTo(const Vector3<T> &v, T maxAngle) const {
-		T angle = this->angleTo(v);
-		return angle < maxAngle;
-	}
-
-	T distanceTo(const Vector3<T> &point) const {
-		Vector3<T> d = *this - point;
-		return d.mag();
-	}
-
-	void set(const T x, const T y, const T z) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
-
-	void setLower(const Vector3<T> &v) {
-		if (v.x < x)
-			x = v.x;
-		if (v.y < y)
-			y = v.y;
-		if (v.z < z)
-			z = v.z;
-	}
-
-	void setUpper(const Vector3<T> &v) {
-		if (v.x > x)
-			x = v.x;
-		if (v.y > y)
-			y = v.y;
-		if (v.z > z)
-			z = v.z;
 	}
 };
 

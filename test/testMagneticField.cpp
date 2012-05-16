@@ -74,7 +74,7 @@ TEST(testTurbulentMagneticFieldGrid, Brms) {
 	for (int ix = 0; ix < n; ix++)
 		for (int iy = 0; iy < n; iy++)
 			for (int iz = 0; iz < n; iz++)
-				brms += bField.getField(Vector3d(ix, iy, iz)).mag2();
+				brms += bField.getField(Vector3d(ix, iy, iz)).getMag2();
 	brms = sqrt(brms / n / n / n);
 
 	double precision = 1e-7;

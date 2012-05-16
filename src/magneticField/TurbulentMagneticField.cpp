@@ -42,8 +42,8 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 			for (size_t iz = 0; iz < n2; iz++) {
 
 				i = ix * n * n2 + iy * n2 + iz;
-				ek.set(K[ix], K[iy], K[iz]);
-				k = ek.mag();
+				ek.setXYZ(K[ix], K[iy], K[iz]);
+				k = ek.getMag();
 
 				// wave outside of turbulent range -> B(k) = 0
 				if ((k < kMin) || (k > kMax)) {
@@ -59,15 +59,15 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 				// construct an orthogonal base ek, e1, e2
 				if (ek.isParallelTo(n0, 1e-6)) {
 					// ek parallel to (1,1,1)
-					e1.set(-1., 1., 0);
-					e2.set(1., 1., -2.);
+					e1.setXYZ(-1., 1., 0);
+					e2.setXYZ(1., 1., -2.);
 				} else {
 					// ek not parallel to (1,1,1)
 					e1 = n0.cross(ek);
 					e2 = ek.cross(e1);
 				}
-				e1 /= e1.mag();
-				e2 /= e2.mag();
+				e1 /= e1.getMag();
+				e2 /= e2.getMag();
 
 				// random orientation perpendicular to k
 				theta = 2 * M_PI * random.rand();

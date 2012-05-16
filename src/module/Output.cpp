@@ -69,7 +69,7 @@ void ConditionalOutput::process(Candidate *candidate) const {
 
 		const Vector3d &dir = candidate->current.getDirection();
 		p += ::sprintf(buffer + p, ", %f, %f, %f",
-				candidate->current.getEnergy() / EeV, dir.phi(), dir.theta());
+				candidate->current.getEnergy() / EeV, dir.getPhi(), dir.getTheta());
 
 		p += ::sprintf(buffer + p, ", %f",
 				candidate->getTrajectoryLength() / Mpc);
@@ -82,7 +82,7 @@ void ConditionalOutput::process(Candidate *candidate) const {
 
 		const Vector3d &idir = candidate->initial.getDirection();
 		p += ::sprintf(buffer + p, ", %f, %f, %f\n",
-				candidate->initial.getEnergy() / EeV, idir.phi(), idir.theta());
+				candidate->initial.getEnergy() / EeV, idir.getPhi(), idir.getTheta());
 
 #pragma omp critical
 		{
@@ -108,8 +108,8 @@ void ShellOutput::process(Candidate *candidate) const {
 		std::cout << candidate->current.getId() << ",  ";
 		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
 		std::cout << candidate->current.getPosition() / Mpc << " Mpc, ";
-		std::cout << candidate->current.getDirection().phi() << " / ";
-		std::cout << candidate->current.getDirection().theta();
+		std::cout << candidate->current.getDirection().getPhi() << " / ";
+		std::cout << candidate->current.getDirection().getTheta();
 		std::cout << std::endl;
 	}
 }

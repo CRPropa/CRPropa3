@@ -132,12 +132,19 @@ public:
 	/// Fisher distributed random number
 	double randFisher(double k);
 
+	/// Random point on a unit-sphere
+	Vector3d randUnitVectorOnSphere();
+	/// Random vector with given angular separation around mean direction
+	Vector3d randVectorAroundMean(const Vector3d &meanDirection, double angularSeparation);
+	/// Fisher distributed random vector
+	Vector3d randFisher(const Vector3d &meanDirection, double kappa);
+	/// Uniform distributed random vector inside a cone
+	Vector3d randUniformCone(const Vector3d &meanDirection, double alpha);
+
 	/// Power-Law distribution, not possible for index == -1
 	double randPowerLaw(double index, double min, double max);
 	/// Broken power-law distribution 
 	double randBrokenPowerLaw(double index1, double index2, double breakpoint, double min, double max );
-	/// Random point on a unit-sphere
-	Vector3d randUnitVectorOnSphere();
 
 	/// Seed the generator with a simple uint32
 	void seed( const uint32 oneSeed );

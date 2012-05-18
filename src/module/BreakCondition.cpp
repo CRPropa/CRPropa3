@@ -50,7 +50,7 @@ void SmallObserverSphere::setMakeInactive(bool makeInactive) {
 void SmallObserverSphere::process(Candidate *candidate) const {
 	double d = (candidate->current.getPosition() - center).getMag();
 	if (d <= radius * 1.01) {
-		candidate->setProperty("Detected", "");
+		candidate->setProperty(flag, flagValue);
 		if (makeInactive) {
 			candidate->setActive(false);
 			candidate->setProperty("Deactivated", getDescription());

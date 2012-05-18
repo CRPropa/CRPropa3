@@ -135,11 +135,11 @@ public:
 	/// Random point on a unit-sphere
 	Vector3d randUnitVectorOnSphere();
 	/// Random vector with given angular separation around mean direction
-	Vector3d randVectorAroundMean(const Vector3d &meanDirection, double angularSeparation);
+	Vector3d randVectorAroundMean(const Vector3d &meanDirection, double angle);
 	/// Fisher distributed random vector
-	Vector3d randFisher(const Vector3d &meanDirection, double kappa);
+	Vector3d randFisherVector(const Vector3d &meanDirection, double kappa);
 	/// Uniform distributed random vector inside a cone
-	Vector3d randUniformCone(const Vector3d &meanDirection, double alpha);
+	Vector3d randConeVector(const Vector3d &meanDirection, double angularRadius);
 
 	/// Power-Law distribution, not possible for index == -1
 	double randPowerLaw(double index, double min, double max);

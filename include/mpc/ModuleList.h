@@ -26,9 +26,9 @@ public:
 
 	void add(Module *module);
 	virtual void process(Candidate *candidate);
-	void run(Candidate *candidate, bool recursive);
-	void run(candidate_vector_t &candidates, bool recursive);
-	void run(Source *source, size_t count, bool recursive);
+	void run(Candidate *candidate, bool recursive = true);
+	void run(candidate_vector_t &candidates, bool recursive = true);
+	void run(Source *source, size_t count, bool recursive = true);
 
 	module_list_t &getModules();
 	const module_list_t &getModules() const;

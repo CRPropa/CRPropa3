@@ -111,11 +111,11 @@ double Random::randNorm(const double& mean, const double& variance) {
 }
 
 double Random::randUniform(double min, double max) {
-	return min + (max - min) * this->rand();
+	return min + (max - min) * rand();
 }
 
 double Random::randRayleigh(double sigma) {
-	return sigma * sqrt(-2.0 * log(1 - this->rand()));
+	return sigma * sqrt(-2.0 * log(1 - rand()));
 }
 
 double Random::randFisher(double kappa) {
@@ -137,13 +137,13 @@ Vector3d Random::randVectorAroundMean(const Vector3d &meanDirection, double angl
 	return v;
 }
 
-Vector3d Random::randFisher(const Vector3d &meanDirection, double kappa) {
+Vector3d Random::randFisherVector(const Vector3d &meanDirection, double kappa) {
 	return randVectorAroundMean(meanDirection, randFisher(kappa));
 }
 
-Vector3d Random::randUniformCone(const Vector3d &meanDirection, double alpha) {
+Vector3d Random::randConeVector(const Vector3d &meanDirection, double angularRadius) {
 	double theta = 2 * M_PI;
-	while (theta > alpha)
+	while (theta > angularRadius)
 		theta = acos(2 * rand() - 1);
 	return randVectorAroundMean(meanDirection, theta);
 }
@@ -157,12 +157,12 @@ double Random::randPowerLaw(double index, double min, double max) {
 	if ((std::abs(index + 1.0)) < std::numeric_limits<double>::epsilon()) {
 		double part1 = log(max);
 		double part2 = log(min);
-		return exp((part1 - part2) * this->rand() + part2);
+		return exp((part1 - part2) * rand() + part2);
 	} else {
 		double part1 = pow(max, index + 1);
 		double part2 = pow(min, index + 1);
 		double ex = 1 / (index + 1);
-		return pow((part1 - part2) * this->rand() + part2, ex);
+		return pow((part1 - part2) * rand() + part2, ex);
 	}
 }
 
@@ -193,17 +193,17 @@ double Random::randBrokenPowerLaw(double index1, double index2,
 			intPL2 = (pow(max, index2 + 1) - pow(breakpoint, index2 + 1))
 					* pow(breakpoint, index1 - index2) / (index2 + 1);
 		}
-		if (this->rand() > intPL1 / (intPL1 + intPL2))
-			return this->randPowerLaw(index2, breakpoint, max);
+		if (rand() > intPL1 / (intPL1 + intPL2))
+			return randPowerLaw(index2, breakpoint, max);
 		else
-			return this->randPowerLaw(index1, min, breakpoint);
+			return randPowerLaw(index1, min, breakpoint);
 	}
 }
 
 double Random::randExponential() {
 	double dum;
 	do {
-		dum = this->rand();
+		dum = rand();
 	} while (dum < std::numeric_limits<double>::epsilon());
 	return -1.0 * log(dum);
 }

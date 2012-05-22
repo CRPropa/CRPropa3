@@ -116,6 +116,38 @@ TEST(common, digit) {
 	EXPECT_EQ(4, digit(1234, 1));
 }
 
+TEST(common, interpolate) {
+	double xD[100];
+	double yD[100];
+	for (int i=0; i<100; i++) {
+		xD[i] = 1 + i * 0.02;
+		yD[i] = pow(xD[i], 2);
+	}
+	double yInt = interpolate(1.5001, xD, yD);
+	EXPECT_NEAR(pow(1.5001, 2), yInt, 1e-4);
+}
+
+TEST(common, interpolateVector) {
+	std::vector<double> xD, yD;
+	xD.resize(100);
+	yD.resize(100);
+	for (int i=0; i<100; i++) {
+		xD[i] = 1 + i * 0.02;
+		yD[i] = pow(xD[i], 2);
+	}
+	double yInt = interpolate(1.5001, &xD[0], &yD[0]);
+	EXPECT_NEAR(pow(1.5001, 2), yInt, 1e-4);
+}
+
+TEST(common, interpolateEquidistant) {
+	double yD[100];
+	for (int i=0; i<100; i++) {
+		yD[i] = pow(1 + i * 0.02, 2);
+	}
+	double yInt = interpolateEquidistant(1.5001, 1, 0.02, yD);
+	EXPECT_NEAR(pow(1.5001, 2), yInt, 1e-4);
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

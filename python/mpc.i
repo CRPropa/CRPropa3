@@ -12,19 +12,6 @@
 %include stdint.i
 %include std_container.i
 %include "exception.i"
-%exception
-{
- try
- {
-   $action
- }
- catch (const std::runtime_error& e) {
-   SWIG_exception(SWIG_RuntimeError, e.what());
- }
- catch (...) { 
-   SWIG_exception(SWIG_RuntimeError, "unknown exception");
- } 
-}
 
 %{
 #include "mpc/module/NuclearDecay.h"
@@ -62,9 +49,33 @@
 #include "mpc/Common.h"
 %}
 
-/* Parse the header file to generate wrappers */
+%exception
+{
+ try
+ {
+   $action
+ }
+ catch (const std::runtime_error& e) {
+   SWIG_exception(SWIG_RuntimeError, e.what());
+ }
+ catch (...) { 
+   SWIG_exception(SWIG_RuntimeError, "unknown exception");
+ } 
+}
+
+%ignore operator<<;
+%ignore operator>>;
+
+%ignore operator mpc::Source*;
+%ignore operator mpc::Candidate*;
+%ignore operator mpc::Module*;
+%ignore operator mpc::ModuleList*;
+%ignore operator mpc::MagneticField*;
+%ignore operator mpc::SpatialPartitioning*;
+
 %feature("ref")   mpc::Referenced "$this->addReference();"
 %feature("unref") mpc::Referenced "$this->removeReference();"
+
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
 %include "mpc/Nucleus.h"

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <math.h>
 
 namespace mpc {
 
@@ -49,6 +50,21 @@ std::string getDataPath(std::string filename) {
 	dataPath = "data";
 	KISS_LOG_INFO << "getDataPath: use default, " << dataPath << std::endl;
 	return concat_path(dataPath, filename);
+}
+
+double interpolate(const double x, const double *xD, const double *yD) {
+	size_t i = 0;
+	while (x > xD[i])
+		i++;
+	i--;
+	return yD[i] + (x - xD[i]) * (yD[i + 1] - yD[i]) / (xD[i + 1] - xD[i]);
+}
+
+double interpolateEquidistant(const double x, const double xLo, const double dx,
+		const double *yD) {
+	double p = (x - xLo) / dx;
+	size_t i = floor(p);
+	return yD[i] + (p - i) * (yD[i + 1] - yD[i]);
 }
 
 } // namespace mpc

@@ -3,8 +3,6 @@
 
 #include "mpc/module/StochasticInteraction.h"
 
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_spline.h>
 #include <vector>
 
 namespace mpc {
@@ -23,8 +21,8 @@ private:
 	std::vector<std::vector<InteractionState> > decayTable;
 	// InteractionState.channel is (#beta- #beta+ #alpha #proton #neutron)
 	// InteractionState.distance is the mean free path [m]
-	gsl_interp_accel *acc;
-	gsl_spline *Tbeta; // inverse cdf electron kinetic energy [J] in neutron decay
+	double tBeta[50]; // electron kinetic energy [J] in neutron decays
+	double cdfBeta[50]; // cumulative distribution function for the electron kinetic energy [J] in neutron decays
 
 public:
 	NuclearDecay(bool electrons = false, bool neutrinos = false);

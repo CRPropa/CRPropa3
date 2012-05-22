@@ -38,35 +38,20 @@ void PhotoPionProduction::init(std::string filename) {
 		throw std::runtime_error(
 				"mpc::PhotoPionProduction: could not open file " + filename);
 
-	std::vector<double> x, yp, yn;
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;
 			infile >> a >> b >> c;
 			if (infile) {
-				x.push_back(a * EeV); // energy in [EeV]
-				yp.push_back(b / Mpc); // rate in [1/Mpc]
-				yn.push_back(c / Mpc); // rate in [1/Mpc]
+				energy.push_back(a * EeV);
+				pRate.push_back(b / Mpc);
+				nRate.push_back(c / Mpc);
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 
 	infile.close();
-
-	acc = gsl_interp_accel_alloc();
-	pRate = gsl_spline_alloc(gsl_interp_linear, x.size());
-	nRate = gsl_spline_alloc(gsl_interp_linear, x.size());
-	gsl_spline_init(pRate, &x[0], &yp[0], x.size());
-	gsl_spline_init(nRate, &x[0], &yn[0], x.size());
-	Emin = x.front();
-	Emax = x.back();
-}
-
-PhotoPionProduction::~PhotoPionProduction() {
-	gsl_spline_free(pRate);
-	gsl_spline_free(nRate);
-	gsl_interp_accel_free(acc);
 }
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
@@ -79,7 +64,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	double EpA = E / A * (1 + z); // CMB energies increase with (1+z)^3
 
 	// check if out of energy range
-	if ((EpA < Emin) or (EpA > Emax))
+	if ((EpA < energy.front()) or (EpA > energy.back()))
 		return false;
 
 	// find interaction with minimum random distance
@@ -87,7 +72,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	interaction.distance = std::numeric_limits<double>::max();
 	Random &random = Random::instance();
 	if (Z > 0) {
-		double rate = gsl_spline_eval(pRate, EpA, acc) * Z;
+		double rate = interpolate(EpA, &energy[0], &pRate[0]) * Z;
 		if (rate != 0) {
 			interaction.distance = -log(random.rand()) / rate;
 			interaction.channel = 1;
@@ -95,7 +80,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	}
 	// check for interaction on neutrons
 	if (N > 0) {
-		double rate = gsl_spline_eval(nRate, EpA, acc) * N;
+		double rate = interpolate(EpA, &energy[0], &nRate[0]) * N;
 		if (rate != 0) {
 			double d = -log(random.rand()) / rate;
 			if (d < interaction.distance) {

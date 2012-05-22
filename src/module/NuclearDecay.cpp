@@ -37,22 +37,15 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
 	// generate inverse cdf for electron kinetic energies in neutron decays
 	double Q = mass_neutron - mass_proton;
 	double cdf = 0;
-	std::vector<double> x, y;
-	x.resize(50);
-	y.resize(50);
 	for (int i = 0; i < 50; i++) {
 		double E = mass_electron + i / 50. * (Q - mass_electron);
 		cdf += sqrt(pow(E, 2) - pow(mass_electron, 2)) * pow(Q - E, 2) * E;
-		x[i] = cdf;
-		y[i] = (E - mass_electron) * c_squared;
+		cdfBeta[i] = cdf;
+		tBeta[i] = (E - mass_electron) * c_squared;
 	}
 	for (int i = 0; i < 50; i++) {
-		x[i] /= x.back();
+		cdfBeta[i] /= cdf;
 	}
-
-	acc = gsl_interp_accel_alloc();
-	Tbeta = gsl_spline_alloc(gsl_interp_linear, x.size());
-	gsl_spline_init(Tbeta, &x[0], &y[0], x.size());
 }
 
 bool NuclearDecay::setNextInteraction(Candidate *candidate,
@@ -126,7 +119,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	candidate->current.setLorentzFactor(gamma);
 
 	// random kinetic energy of electron in neutron decay
-	double T = gsl_spline_eval(Tbeta, Random::instance().rand(), acc);
+	double T = interpolate(Random::instance().rand(), cdfBeta, tBeta);
 	double Q = (mass - candidate->current.getMass() - mass_electron)
 			* c_squared;
 	double Qneutron = (mass_neutron - mass_proton - mass_electron) * c_squared;

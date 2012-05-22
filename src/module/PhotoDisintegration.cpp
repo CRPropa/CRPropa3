@@ -8,10 +8,6 @@
 
 namespace mpc {
 
-enum _Constants {
-	SAMPLE_COUNT = 200
-};
-
 PhotoDisintegration::PhotoDisintegration(int photonField) {
 	init(photonField);
 }
@@ -34,16 +30,9 @@ void PhotoDisintegration::init(int photonField) {
 }
 
 void PhotoDisintegration::init(std::string filename) {
-	acc = gsl_interp_accel_alloc();
 	pdTable.resize(31 * 57);
 
 	// create spline x-axis
-	std::vector<double> x(SAMPLE_COUNT);
-	for (size_t i = 0; i < 200; i++)
-		x[i] = 6.0 + i * 8.0 / (SAMPLE_COUNT - 1);
-
-	std::vector<double> y(SAMPLE_COUNT);
-
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
@@ -62,24 +51,16 @@ void PhotoDisintegration::init(std::string filename) {
 		PDMode pd;
 		lineStream >> pd.channel; // disintegration channel
 
-		for (size_t i = 0; i < SAMPLE_COUNT; i++) {
-			lineStream >> y[i];
-			y[i] /= Mpc; // disintegration rate in [1/m]
+		double r = 0;
+		for (size_t i = 0; i < 200; i++) {
+			lineStream >> r;
+			pd.rate[i] = r / Mpc; // disintegration rate in [1/m]
 		}
 
-		pd.rate = gsl_spline_alloc(gsl_interp_linear, SAMPLE_COUNT);
-		gsl_spline_init(pd.rate, &x[0], &y[0], SAMPLE_COUNT);
 		pdTable[Z * 31 + N].push_back(pd);
 	}
 
 	infile.close();
-}
-
-PhotoDisintegration::~PhotoDisintegration() {
-	gsl_interp_accel_free(acc);
-	for (size_t i = 0; i < pdTable.size(); i++)
-		for (size_t j = 0; j < pdTable[i].size(); j++)
-			gsl_spline_free(pdTable[i][j].rate);
 }
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
@@ -98,13 +79,13 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
 
 	// check if out of energy range
-	if ((lg < 6) or (lg > 14))
+	if ((lg <= 6) or (lg >= 14))
 		return false;
 
 	// find channel with minimum random decay distance
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < pdModes.size(); i++) {
-		double rate = gsl_spline_eval(pdModes[i].rate, lg, acc);
+		double rate = interpolateEquidistant(lg, 6., 8./200., pdModes[i].rate);
 		double d = -log(Random::instance().rand()) / rate;
 		if (d > interaction.distance)
 			continue;

@@ -4,8 +4,7 @@
 #include "mpc/module/StochasticInteraction.h"
 #include "mpc/Random.h"
 
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_spline.h>
+#include <vector>
 
 namespace mpc {
 
@@ -19,14 +18,12 @@ namespace mpc {
 class PhotoPionProduction: public StochasticInteraction {
 protected:
 	int photonField;
-	gsl_interp_accel *acc;
-	gsl_spline *pRate; // interaction rate in [1/m] for protons
-	gsl_spline *nRate; // interaction rate in [1/m] for neutrons
-	double Emin, Emax;
+	std::vector<double> pRate; // interaction rate in [1/m] for protons
+	std::vector<double> nRate; // interaction rate in [1/m] for neutrons
+	std::vector<double> energy; // energy in [J]
 
 public:
 	PhotoPionProduction(int photonField = CMB);
-	~PhotoPionProduction();
 	void init(int photonField);
 	void init(std::string filename);
 	bool setNextInteraction(Candidate *candidate,

@@ -4,9 +4,6 @@
 #include "mpc/Module.h"
 #include "mpc/Common.h"
 
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_spline.h>
-
 namespace mpc {
 
 /**
@@ -19,9 +16,8 @@ namespace mpc {
 class ElectronPairProduction: public Module {
 private:
 	int photonField;
-	gsl_interp_accel *acc;
-	gsl_spline *lossRate; // energy loss rate in [J/m]
-	double xMin, xMax, yMax;
+	std::vector<double> lossRate; // energy loss rate in [J/m]
+	std::vector<double> energy;
 
 public:
 	ElectronPairProduction(int photonField = CMB_IRB);

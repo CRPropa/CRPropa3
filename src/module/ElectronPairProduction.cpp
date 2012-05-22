@@ -45,20 +45,13 @@ void ElectronPairProduction::init(std::string filename) {
 			double a, b;
 			infile >> a >> b;
 			if (infile) {
-				x.push_back(a * eV);
-				y.push_back(b * eV / Mpc);
+				energy.push_back(a * eV);
+				lossRate.push_back(b * eV / Mpc);
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
-
-	acc = gsl_interp_accel_alloc();
-	lossRate = gsl_spline_alloc(gsl_interp_linear, x.size());
-	gsl_spline_init(lossRate, &x[0], &y[0], x.size());
-	xMin = x.front();
-	xMax = x.back();
-	yMax = y.back();
 }
 
 void ElectronPairProduction::process(Candidate *candidate) const {
@@ -67,15 +60,15 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	double z = candidate->getRedshift();
 
 	double EpA = E / A * (1 + z);
-	if (EpA < xMin)
+	if (EpA < energy.front())
 		return;
 
 	double rate;
-	if (EpA < xMax)
-		rate = gsl_spline_eval(lossRate, EpA, acc);
+	if (EpA < energy.back())
+		rate = interpolate(EpA, &energy[0], &lossRate[0]);
 	else
 		// extrapolation for higher energies
-		rate = yMax * pow(EpA / xMax, 0.4);
+		rate = lossRate.back() * pow(EpA / energy.back(), 0.4);
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step
 	double step = candidate->getCurrentStep();

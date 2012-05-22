@@ -5,8 +5,6 @@
 #include "mpc/Random.h"
 
 #include <vector>
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_spline.h>
 
 namespace mpc {
 
@@ -22,14 +20,12 @@ private:
 	int photonField;
 	struct PDMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
-		gsl_spline *rate; // disintegration rate [1/m]
+		double rate[200]; // disintegration rate [1/m]
 	};
 	std::vector<std::vector<PDMode> > pdTable; // pdTable[Z * 31 + N] = vector<PDmode>
-	gsl_interp_accel *acc; // accelerator for the interpolation
 
 public:
 	PhotoDisintegration(int photonField = CMB);
-	~PhotoDisintegration();
 	void init(int photonField);
 	void init(std::string filename);
 	bool setNextInteraction(Candidate *candidate,

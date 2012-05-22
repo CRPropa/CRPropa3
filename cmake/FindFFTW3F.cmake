@@ -12,6 +12,8 @@ if(FFTW3F_INCLUDE_DIR AND FFTW3F_LIBRARY)
     MESSAGE("-- Found FFTW3 with single precision (FFTW3F):\n"
             "--   Include: ${FFTW3F_INCLUDE_DIR}\n"
             "--   Library: ${FFTW3F_LIBRARY}")
+else()
+    MESSAGE("-- Could not find FFTW3 with single precision (FFTW3F)")
 endif()
 
 mark_as_advanced(FFTW3F_INCLUDE_DIR FFTW3F_LIBRARY FFTW3F_FOUND)

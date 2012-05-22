@@ -8,48 +8,6 @@ set(MPC_EXTRA_INCLUDES)
 set(MPC_EXTRA_LIBRARIES)
 set(MPC_SWIG_DEFINES)
 
-# GSL required
-find_package(GSL REQUIRED)
-list(APPEND MPC_EXTRA_LIBRARIES ${GSL_LIBRARIES} ${GSLCBLAS_LIBRARIES})
-list(APPEND MPC_EXTRA_INCLUDES ${GSL_INCLUDE_DIR})
-
-# fftw3f needed for TurbulentMagneticField
-find_package(FFTW3F)
-if (FFTW3F_FOUND)
-	message(STATUS "FFTW3F found!")
-    list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
-    list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
-else(FFTW3F_FOUND)
-	message(STATUS "FFTW3F NOT found!")
-endif (FFTW3F_FOUND)
-
-# gadget needed for SPHMagneticField and SPHTurbulentMagneticField
-find_package(Gadget)
-if (GADGET_FOUND)
-    list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHMagneticField.cpp)
-    list(APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
-    list(APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
-    add_definitions (-DMPC_HAVE_GADGET)
-    list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
-    # fftw3f needed for SPHTurbulentMagneticField
-    if (FFTW3F_FOUND)
-        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
-    endif (FFTW3F_FOUND)
-endif (GADGET_FOUND)
-
-# Google Performance Tools optional
-find_package(GooglePerfTools)
-set(TCMALLOC)
-if (GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
-    set(TCMALLOC ${TCMALLOC_LIBRARY})
-endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
-
-# pugixml provided
-add_library (pugixml libs/pugixml/pugixml.cpp)
-set_target_properties( pugixml PROPERTIES COMPILE_FLAGS -fPIC)
-list(APPEND MPC_EXTRA_LIBRARIES pugixml)
-list(APPEND MPC_EXTRA_INCLUDES libs/pugixml)
-
 # kiss provided
 add_subdirectory(libs/kiss)
 list(APPEND MPC_EXTRA_LIBRARIES kiss)
@@ -73,8 +31,28 @@ if(OPENMP_FOUND)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+# fftw3f needed for TurbulentMagneticField
+find_package(FFTW3F)
+if (FFTW3F_FOUND)
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
+    list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
+endif (FFTW3F_FOUND)
+
+# gadget needed for SPHMagneticField and SPHTurbulentMagneticField
+find_package(Gadget)
+if (GADGET_FOUND)
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHMagneticField.cpp)
+    list(APPEND MPC_EXTRA_INCLUDES ${GADGET_INCLUDE_DIR})
+    list(APPEND MPC_EXTRA_LIBRARIES ${GADGET_LIBRARY})
+    add_definitions (-DMPC_HAVE_GADGET)
+    list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
+    # fftw3f needed for SPHTurbulentMagneticField
+    if (FFTW3F_FOUND)
+        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
+    endif (FFTW3F_FOUND)
+endif (GADGET_FOUND)
+
 include_directories(include ${MPC_EXTRA_INCLUDES})
-add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 
 # ----------------------------------------------------------------------------
 # mpc and mpc-run
@@ -105,11 +83,12 @@ add_library(mpc SHARED
     src/magneticField/MagneticFieldGrid.cpp
     ${MPC_EXTRA_SOURCES}
 )
-target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES} ${TCMALLOC})
+target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES})
 
 add_executable(mpc-run src/main.cpp)
-target_link_libraries(mpc-run mpc ${TCMALLOC})
+target_link_libraries(mpc-run mpc)
 
+add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS mpc-run RUNTIME DESTINATION bin)
 install(TARGETS mpc DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
@@ -118,25 +97,27 @@ install(DIRECTORY data/ DESTINATION share/mpc)
 # ----------------------------------------------------------------------------
 # Testing using gTest
 # ----------------------------------------------------------------------------
-find_package(GTest)
-if (GTEST_FOUND)
-    enable_testing()
-    
-    add_executable(testCore test/testCore.cpp)
-    target_link_libraries(testCore mpc ${GTEST_BOTH_LIBRARIES} pthread)
-    
-    add_executable(testMagneticField test/testMagneticField.cpp)
-    target_link_libraries(testMagneticField mpc ${GTEST_BOTH_LIBRARIES} pthread)
+OPTION(ENABLETESTING "Build tests and enable test target" ON)
+if(ENABLETESTING)
+	#enable_testing()
+	include_directories(libs/gtest/include)
+	add_subdirectory(libs/gtest)
+	
+	add_executable(testCore test/testCore.cpp)
+	target_link_libraries(testCore mpc gtest gtest_main pthread)
 
-    add_executable(testPropagation test/testPropagation.cpp)
-    target_link_libraries(testPropagation mpc ${GTEST_BOTH_LIBRARIES} pthread)
-       
-    add_executable(testBreakCondition test/testBreakCondition.cpp)
-    target_link_libraries(testBreakCondition mpc ${GTEST_BOTH_LIBRARIES} pthread)
+	add_executable(testMagneticField test/testMagneticField.cpp)
+	target_link_libraries(testMagneticField mpc gtest gtest_main pthread)
+
+	add_executable(testPropagation test/testPropagation.cpp)
+	target_link_libraries(testPropagation mpc gtest gtest_main pthread)
      
-    add_executable(testInteraction test/testInteraction.cpp)
-    target_link_libraries(testInteraction mpc ${GTEST_BOTH_LIBRARIES} pthread)
-endif (GTEST_FOUND)
+	add_executable(testBreakCondition test/testBreakCondition.cpp)
+	target_link_libraries(testBreakCondition mpc gtest gtest_main pthread)
+    
+	add_executable(testInteraction test/testInteraction.cpp)
+	target_link_libraries(testInteraction mpc gtest gtest_main pthread)
+endif(ENABLETESTING)
 
 # ----------------------------------------------------------------------------
 # Python

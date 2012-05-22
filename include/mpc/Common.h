@@ -5,6 +5,11 @@
 
 namespace mpc {
 
+// Photon fields
+enum PhotonField {
+	CMB, IRB, CMB_IRB
+};
+
 // Returns the full path to a mpc data file
 std::string getDataPath(std::string filename);
 
@@ -13,10 +18,12 @@ inline int digit(const int &value, const int &d) {
 	return (value % (d * 10)) / d;
 }
 
-// Photon fields
-enum PhotonField {
-	CMB, IRB, CMB_IRB
-};
+// Perform linear interpolation
+double interpolate(const double x, const double *xD, const double *yD);
+
+// Perform linear interpolation on equidistant tabulated data
+double interpolateEquidistant(const double x, const double xLo, const double dx,
+		const double *yD);
 
 } // namespace mpc
 

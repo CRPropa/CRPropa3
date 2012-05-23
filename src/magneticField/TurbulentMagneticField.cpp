@@ -15,7 +15,7 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 	this->powerSpectralIndex = powerSpectralIndex;
 
 	size_t n = samples; // size of array
-	size_t n2 = floor(n / 2) + 1; // size array in z-direction in configuration space
+	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
 
 	// arrays to hold the complex vector components of the B(k)-field
 	fftwf_complex *Bkx, *Bky, *Bkz;

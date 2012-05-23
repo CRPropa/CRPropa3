@@ -95,11 +95,10 @@ install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY data/ DESTINATION share/mpc)
 
 # ----------------------------------------------------------------------------
-# Testing using gTest
+# Testing
 # ----------------------------------------------------------------------------
 OPTION(ENABLETESTING "Build tests and enable test target" ON)
 if(ENABLETESTING)
-	#enable_testing()
 	include_directories(libs/gtest/include)
 	add_subdirectory(libs/gtest)
 	

@@ -82,7 +82,8 @@ n = 128
 lMin, lMax = 2, 32
 Brms = 1
 alpha = -11./3
-field = TurbulentMagneticField(Vector3d(0, 0, 0), n, 1, lMin, lMax, Brms, alpha)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), n, 1)
+field.initialize(lMin, lMax, Brms, alpha)
 Lc = field.getCorrelationLength()
 
 ### copy field to array
@@ -94,7 +95,6 @@ for ix in range(n):
 			Bx[ix, iy, iz] = b.x
 			By[ix, iy, iz] = b.y
 			Bz[ix, iy, iz] = b.z
-del field
 
 ### plot slice in position space
 slice = n/2

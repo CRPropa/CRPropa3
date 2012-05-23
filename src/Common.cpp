@@ -63,7 +63,7 @@ double interpolate(const double x, const double *xD, const double *yD) {
 double interpolateEquidistant(const double x, const double xLo, const double dx,
 		const double *yD) {
 	double p = (x - xLo) / dx;
-	size_t i = floor(p);
+	size_t i = (size_t) floor(p);
 	return yD[i] + (p - i) * (yD[i + 1] - yD[i]);
 }
 

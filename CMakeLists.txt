@@ -35,6 +35,7 @@ endif()
 find_package(FFTW3F)
 if (FFTW3F_FOUND)
     list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
+    list(APPEND MPC_EXTRA_INCLUDES ${FFTW3F_INCLUDE_DIR})
     list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
 endif (FFTW3F_FOUND)
 

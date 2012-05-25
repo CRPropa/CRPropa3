@@ -3,6 +3,8 @@
 
 #include "mpc/magneticField/TurbulentMagneticField.h"
 
+#ifdef MPC_HAVE_GADGET
+
 namespace mpc {
 
 /**
@@ -19,4 +21,5 @@ public:
 
 } // namespace mpc
 
-#endif /* MPC_SPHTURBULENTMAGNETICFIELD_H_ */
+#endif // MPC_HAVE_GADGET
+#endif // MPC_SPHTURBULENTMAGNETICFIELD_H_

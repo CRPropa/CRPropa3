@@ -57,7 +57,7 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 				}
 
 				// construct an orthogonal base ek, e1, e2
-				if (ek.isParallelTo(n0, 1e-6)) {
+				if (ek.getAngleTo(n0) < 1e-3) {
 					// ek parallel to (1,1,1)
 					e1.setXYZ(-1., 1., 0);
 					e2.setXYZ(1., 1., -2.);

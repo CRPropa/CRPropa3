@@ -8,22 +8,32 @@ set(MPC_EXTRA_INCLUDES)
 set(MPC_EXTRA_LIBRARIES)
 set(MPC_SWIG_DEFINES)
 
-# kiss provided
+# ----------------------------------------------------------------------------
+# Dependencies
+# ----------------------------------------------------------------------------
+# googletest (provided)
+OPTION(ENABLETESTING "Build tests and enable test target" ON)
+if(ENABLETESTING)
+	include_directories(libs/gtest/include)
+	add_subdirectory(libs/gtest)
+endif(ENABLETESTING)
+
+# kiss (provided)
 add_subdirectory(libs/kiss)
 list(APPEND MPC_EXTRA_LIBRARIES kiss)
 list(APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
 
-# HepID provided
+# HepID (provided)
 add_subdirectory(libs/HepPID)
 list(APPEND MPC_EXTRA_LIBRARIES HepPID)
 list(APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
 
-# SOPHIA provided
+# SOPHIA (provided)
 add_subdirectory(libs/sophia)
 list(APPEND MPC_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND MPC_EXTRA_INCLUDES libs/sophia)
 
-# OpenMP needed for shared memory multiprocessing
+# OpenMP (optional for shared memory multiprocessing)
 include(FindOpenMP)
 if(OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
@@ -31,7 +41,7 @@ if(OPENMP_FOUND)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-# fftw3f needed for TurbulentMagneticField
+# fftw3f (optional for turbulent magnetic fields)
 find_package(FFTW3F)
 if (FFTW3F_FOUND)
     list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
@@ -39,7 +49,7 @@ if (FFTW3F_FOUND)
     list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
 endif (FFTW3F_FOUND)
 
-# gadget needed for SPHMagneticField and SPHTurbulentMagneticField
+# gadget (optional for SPH magnetic fields)
 find_package(Gadget)
 if (GADGET_FOUND)
     list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHMagneticField.cpp)
@@ -53,11 +63,17 @@ if (GADGET_FOUND)
     endif (FFTW3F_FOUND)
 endif (GADGET_FOUND)
 
-include_directories(include ${MPC_EXTRA_INCLUDES})
+# Google Performance Tools (optional as possible performance tweak)
+find_package(GooglePerfTools)
+set(TCMALLOC)
+if (GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+    set(TCMALLOC ${TCMALLOC_LIBRARY})
+endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 
 # ----------------------------------------------------------------------------
 # mpc and mpc-run
 # ----------------------------------------------------------------------------
+include_directories(include ${MPC_EXTRA_INCLUDES})
 add_library(mpc SHARED
     src/Random.cpp
     src/Clock.cpp
@@ -100,23 +116,26 @@ install(DIRECTORY data/ DESTINATION share/mpc)
 # ----------------------------------------------------------------------------
 OPTION(ENABLETESTING "Build tests and enable test target" ON)
 if(ENABLETESTING)
-	include_directories(libs/gtest/include)
-	add_subdirectory(libs/gtest)
-	
+    enable_testing()
 	add_executable(testCore test/testCore.cpp)
 	target_link_libraries(testCore mpc gtest gtest_main pthread)
+	add_test(testCore testCore)
 
 	add_executable(testMagneticField test/testMagneticField.cpp)
 	target_link_libraries(testMagneticField mpc gtest gtest_main pthread)
+	add_test(testMagneticField testMagneticField)
 
 	add_executable(testPropagation test/testPropagation.cpp)
 	target_link_libraries(testPropagation mpc gtest gtest_main pthread)
+	add_test(testPropagation testPropagation)
      
 	add_executable(testBreakCondition test/testBreakCondition.cpp)
 	target_link_libraries(testBreakCondition mpc gtest gtest_main pthread)
+	add_test(testBreakCondition testBreakCondition)
     
 	add_executable(testInteraction test/testInteraction.cpp)
 	target_link_libraries(testInteraction mpc gtest gtest_main pthread)
+	add_test(testInteraction testInteraction)
 endif(ENABLETESTING)
 
 # ----------------------------------------------------------------------------

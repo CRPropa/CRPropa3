@@ -3,11 +3,6 @@
 #include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 
-#ifdef MPC_HAVE_GADGET
-#include "mpc/magneticField/SPHMagneticField.h"
-#include "mpc/magneticField/SPHTurbulentMagneticField.h"
-#endif
-
 #include "gtest/gtest.h"
 
 namespace mpc {
@@ -79,12 +74,6 @@ TEST(testTurbulentMagneticFieldGrid, Brms) {
 
 	double precision = 1e-7;
 	EXPECT_NEAR(brms, 1, precision);
-}
-
-TEST(testSPHTurbulentMagneticField, construction) {
-	SPHTurbulentMagneticField bField(Vector3d(80, 80, 80) * Mpc, 64, 40./64);
-	bField.initialize(2, 8, 1, -11. / 3.);
-	bField.modulate("/home/walz/software/mpc/data/mhd1.db");
 }
 
 int main(int argc, char **argv) {

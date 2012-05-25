@@ -11,12 +11,9 @@ add_library(kiss
 
 SET_TARGET_PROPERTIES( kiss PROPERTIES COMPILE_FLAGS -fPIC)
 
-# GTest needed for testing
-find_package(GTest)
-if (GTEST_FOUND)
-    enable_testing()
-
+# testing
+if(ENABLETESTING)
     add_executable(test_uuid test/test_uuid.cpp)
-    target_link_libraries(test_uuid kiss ${GTEST_LIBRARIES} pthread)
+    target_link_libraries(test_uuid kiss gtest gtest_main pthread)
     add_test(test_uuid test_uuid)
-endif (GTEST_FOUND)
+endif(ENABLETESTING)

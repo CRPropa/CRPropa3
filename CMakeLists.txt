@@ -12,7 +12,7 @@ set(MPC_SWIG_DEFINES)
 # Dependencies
 # ----------------------------------------------------------------------------
 # googletest (provided)
-OPTION(ENABLETESTING "Build tests and enable test target" ON)
+option(ENABLETESTING "Build tests and enable test target" ON)
 if(ENABLETESTING)
 	include_directories(libs/gtest/include)
 	add_subdirectory(libs/gtest)
@@ -114,7 +114,6 @@ install(DIRECTORY data/ DESTINATION share/mpc)
 # ----------------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------------
-OPTION(ENABLETESTING "Build tests and enable test target" ON)
 if(ENABLETESTING)
     enable_testing()
 	add_executable(testCore test/testCore.cpp)
@@ -136,6 +135,12 @@ if(ENABLETESTING)
 	add_executable(testInteraction test/testInteraction.cpp)
 	target_link_libraries(testInteraction mpc gtest gtest_main pthread)
 	add_test(testInteraction testInteraction)
+	
+	if(GADGET_FOUND AND FFTW3F_FOUND) 
+        add_executable(testSPHField test/testSPHField.cpp)
+	    target_link_libraries(testSPHField mpc gtest gtest_main pthread)
+	    add_test(testSPHField testSPHField)
+    endif()
 endif(ENABLETESTING)
 
 # ----------------------------------------------------------------------------

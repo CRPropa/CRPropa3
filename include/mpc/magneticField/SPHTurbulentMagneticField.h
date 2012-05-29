@@ -16,7 +16,7 @@ public:
 	SPHTurbulentMagneticField(Vector3d origin, size_t samples, double spacing) :
 			TurbulentMagneticField(origin, samples, spacing) {
 	}
-	void modulate(const std::string filename);
+	void modulate(std::string filename);
 };
 
 } // namespace mpc

@@ -4,12 +4,10 @@
 
 namespace mpc {
 
-void SPHTurbulentMagneticField::modulate(const std::string filename) {
+void SPHTurbulentMagneticField::modulate(std::string filename) {
 	// create SPH Field to obtain baryon density
 	std::cout << "mpc::SPHTurbulentMagneticField: Loading SPH-field." << std::endl;
-	Vector3d safeOrigin = origin - Vector3d(1,1,1) * kpc;
-	double safeSize = spacing * samples + 2 * kpc;
-	SPHMagneticField sph(safeOrigin, safeSize, 32, filename);
+	SPHMagneticField sph(origin, spacing * samples, 20, filename);
 
 	// modulate and calculate renormalization
 	std::cout << "mpc::SPHTurbulentMagneticField: Modulate turbulent field." << std::endl;
@@ -22,14 +20,15 @@ void SPHTurbulentMagneticField::modulate(const std::string filename) {
 				double rho = sph.getRho(pos);
 				Vector3f &b = get(ix, iy, iz);
 				b *= pow(rho, 2. / 3);
-				double dist = (pos / Mpc - Vector3d(120, 120, 120)).getMag();
-				if (dist < 110) {
+				double dist = (pos - Vector3d(120 * Mpc)).getMag();
+				if (dist < 110 * Mpc) {
 					sumB2 += b.getMag2();
 					n++;
 				}
 			}
 
 	// renormalize
+	std::cout << "mpc::SPHTurbulentMagneticField: Normalize turbulent field." << std::endl;
 	double norm = Brms / sqrt(sumB2 / n);
 	for (int ix = 0; ix < samples; ix++)
 		for (int iy = 0; iy < samples; iy++)

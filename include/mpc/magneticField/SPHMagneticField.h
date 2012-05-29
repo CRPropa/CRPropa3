@@ -26,9 +26,9 @@ class SPHMagneticField: public MagneticField {
 	gadget::DirectMagneticField field;
 	gadget::FileDatabase database;
 public:
-	SPHMagneticField(Vector3d origin, double size, size_t gridSize,
-			const std::string filename);
-	SPHMagneticField(size_t gridSize, const std::string filename);
+	SPHMagneticField(Vector3d origin, double size, size_t samples,
+			std::string filename);
+	SPHMagneticField(size_t samples, std::string filename);
 	Vector3d getField(const Vector3d &position) const;
 	double getRho(const Vector3d &position) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);
@@ -45,12 +45,12 @@ class SPHMagneticFieldGrid: public MagneticField {
 	std::string cachePrefix;
 	bool cacheEnabled;
 public:
-	SPHMagneticFieldGrid(Vector3d origin, double size, size_t samples,
-			const std::string filename);
-	SPHMagneticFieldGrid(size_t samples, const std::string filename);
+	SPHMagneticFieldGrid(Vector3d origin, double size, size_t gridSize,
+			std::string filename);
+	SPHMagneticFieldGrid(size_t gridSize, std::string filename);
 	Vector3d getField(const Vector3d &position) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);
-	void setCachePrefix(const std::string &prefix);
+	void setCachePrefix(std::string prefix);
 	void setCacheEnabled(bool enabled);
 };
 

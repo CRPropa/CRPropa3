@@ -55,7 +55,7 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 	// Test if energy loss corresponds to the data table.
 	std::vector<double> x;
 	std::vector<double> y;
-	std::ifstream infile("data/ElectronPairProduction/cmbir.txt");
+	std::ifstream infile(getDataPath("ElectronPairProduction/cmbir.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;

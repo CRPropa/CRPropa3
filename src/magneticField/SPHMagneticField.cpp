@@ -5,16 +5,16 @@
 
 namespace mpc {
 
-SPHMagneticField::SPHMagneticField(Vector3d origin, double size,
-		size_t gridSize, const std::string filename) :
-		field(gridSize) {
+SPHMagneticField::SPHMagneticField(Vector3d origin, double size, size_t samples,
+		std::string filename) :
+		field(samples) {
 	database.open(filename);
 	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z) / kpc;
 	field.init(v, size / kpc, database);
 }
 
-SPHMagneticField::SPHMagneticField(size_t gridSize, const std::string filename) :
-		field(gridSize) {
+SPHMagneticField::SPHMagneticField(size_t samples, std::string filename) :
+		field(samples) {
 	database.open(filename);
 }
 
@@ -31,21 +31,20 @@ double SPHMagneticField::getRho(const Vector3d& position) const {
 	return (double) field.getRho(r / kpc, overlaps);
 }
 
-void SPHMagneticField::updateSimulationVolume(const Vector3d &origin,
-		double size) {
+void SPHMagneticField::updateSimulationVolume(const Vector3d &origin, double size) {
 	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z) / kpc;
 	field.init(v, size / kpc, database);
 }
 
 SPHMagneticFieldGrid::SPHMagneticFieldGrid(Vector3d origin, double size,
-		size_t samples, const std::string filename) :
+		size_t samples, std::string filename) :
 		samples(samples), field(samples), cacheEnabled(false) {
 	database.open(filename);
 	gadget::Vector3f v = gadget::Vector3f(origin.x, origin.y, origin.z) / kpc;
 	field.init(v, size / kpc, database);
 }
 
-SPHMagneticFieldGrid::SPHMagneticFieldGrid(size_t samples,
+SPHMagneticFieldGrid::SPHMagneticFieldGrid(const size_t samples,
 		const std::string filename) :
 		samples(samples), field(samples) {
 	database.open(filename);
@@ -86,7 +85,7 @@ void SPHMagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
 	}
 }
 
-void SPHMagneticFieldGrid::setCachePrefix(const std::string &prefix) {
+void SPHMagneticFieldGrid::setCachePrefix(std::string prefix) {
 	cachePrefix = prefix;
 }
 

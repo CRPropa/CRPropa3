@@ -27,6 +27,7 @@ for i in range(20):
 	print i
 	Rpn[i] = getPNRatio(E[i])
 
+figure()
 plot(E, Rpn)
 grid()
 xlabel('Energy of Incident Proton [EeV]')

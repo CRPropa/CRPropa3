@@ -82,11 +82,11 @@ n = 128
 lMin, lMax = 2, 32
 Brms = 1
 alpha = -11./3
-field = TurbulentMagneticField(Vector3d(0, 0, 0), n, 1)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), n, n)
 field.initialize(lMin, lMax, Brms, alpha)
 Lc = field.getCorrelationLength()
 
-### copy field to array
+### copy field grid to array(s)
 Bx, By, Bz = zeros((3, n, n, n))
 for ix in range(n):
 	for iy in range(n):
@@ -97,60 +97,50 @@ for ix in range(n):
 			Bz[ix, iy, iz] = b.z
 
 ### plot slice in position space
-slice = n/2
 figure()
-subplot(111, aspect='equal')
-pc = pcolor(((Bx**2 + By**2 + Bz**2)**.5)[:,:,slice])
-cbar = colorbar(pc)
-cbar.set_label(r'$|\vec{B}(\vec{x})| / B_{RMS}$')
-xlabel(r'$x$')
-ylabel(r'$y$')
-xlim(0,n)
-ylim(0,n)
-text(0.8, 1.05, '$z=%i$'%slice, transform=gca().transAxes)
+A = ((Bx**2 + By**2 + Bz**2)**.5)[:,:,n/2]
+im = imshow(A, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
+cbar = colorbar(im)
+cbar.set_label(r'$|\vec{B}(\vec{x})| / B_{rms}$')
+xlabel('$x$')
+ylabel('$y$')
+text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentField_slicePositionSpace.png', bbox_inches='tight')
 
 ### plot slice in configuration space
-slice = n/2
 figure()
-subplot(111, aspect='equal')
 Bkx = fftshift(fftn(Bx))
 Bky = fftshift(fftn(By))
 Bkz = fftshift(fftn(Bz))
 Bk = ((Bkx*Bkx.conjugate() + Bky*Bky.conjugate() + Bkz*Bkz.conjugate()).real)**.5
-pc = pcolor(log10(Bk[:,:,slice]), vmin=0)
-del Bk, Bkx, Bky, Bkz
-cbar = colorbar(pc)
-cbar.set_label(r'$log_{10}(|\vec{B}(\vec{k})| / B_{RMS})$')
-xlabel(r'$k_x$')
-ylabel(r'$k_y$')
+A = log10(Bk[:,:,n/2])
+im = imshow(A, origin='lower', vmin=0)
+cbar = colorbar(im)
+cbar.set_label(r'$log_{10}(|\vec{B}(\vec{k})| / B_{rms})$')
+xlabel('$k_x$')
+ylabel('$k_y$')
 k = fftshift(fftfreq(n))
 idx = arange(0,n,n/4)
 xticks(idx, k[idx])
 yticks(idx, k[idx])
 xlim(0,n)
 ylim(0,n)
-text(0.8, 1.05, '$k_z=%.2f$'%k[slice], transform=gca().transAxes)
+text(0.8, 1.05, '$k_z=%.2f$'%k[n/2], transform=gca().transAxes)
 savefig('TurbulentField_sliceConfigurationSpace.png', bbox_inches='tight')
 
 ### plot slice and periodical extension in position space
-slice = n/2
 figure()
-subplot(111, aspect='equal')
 A = zeros((3*n,3*n))
 for i,j in ((0,1), (1,0), (1,1), (1,2), (2,1)):
-	A[i*n:(i+1)*n, j*n:(j+1)*n] = Bx[:,:,slice]
-pc = pcolor(ma.masked_array(A, A == 0))
-del A
-cbar = colorbar(pc)
+	A[i*n:(i+1)*n, j*n:(j+1)*n] = Bx[:,:,n/2]
+im = imshow(ma.masked_array(A, A == 0), origin='lower', extent=[-n,2*n,-n,2*n], vmin=0, vmax=3)
+cbar = colorbar(im)
 cbar.set_label(r'$|\vec{B_x}|/B_{rms}$')
-xlim(0,3*n)
-ylim(0,3*n)
-xticks([0, n, 2*n, 3*n])
-yticks([0, n, 2*n, 3*n])
-xlabel(r'$x$')
-ylabel(r'$y$')
-text(0.8, 1.05, '$z=%i$'%slice, transform=gca().transAxes)
+xticks([-n, 0, n, 2*n])
+yticks([-n, 0, n, 2*n])
+xlabel('$x$')
+ylabel('$y$')
+text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentField_slicePeriodicity.png', bbox_inches='tight')
 
 ### plot (2pt-auto-)correlation curves for various directions
@@ -170,7 +160,7 @@ for ix in arange(-2,3):
 			Lcs.append( corr.getIntegralLengthscale(step) )
 			x,y = corr.getCorrelationCurve(step)
 			plot(x,y,label=str(step))
-xlabel('Distance [gridpoints]')
+xlabel('Distance')
 ylabel('Normalized Autocorrelation')
 xlim(0,32)
 grid()

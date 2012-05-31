@@ -12,7 +12,7 @@ c.current.setDirection(Vector3d(1, 0, 0))
 field = UniformMagneticField(Vector3d(0,0,1e-12))
 
 # resulting gyroradius
-R = c.current.getMomentum().mag() / c.current.getCharge() / 1e-12
+R = c.current.getMomentum().getMag() / c.current.getCharge() / 1e-12
 
 
 def propagate(tolerance):

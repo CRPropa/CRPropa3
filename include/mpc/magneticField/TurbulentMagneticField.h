@@ -24,8 +24,8 @@ namespace mpc {
  */
 class TurbulentMagneticField: public MagneticFieldGrid {
 public:
-	TurbulentMagneticField(Vector3d origin, size_t samples, double spacing) :
-			MagneticFieldGrid(origin, samples, spacing) {
+	TurbulentMagneticField(Vector3d origin, double size, size_t samples) :
+			MagneticFieldGrid(origin, size, samples) {
 	}
 	void initialize(double lMin, double lMax, double Brms,
 			double powerSpectralIndex = -11. / 3.);
@@ -35,8 +35,11 @@ public:
 	double getPowerSpectralIndex() const;
 
 protected:
-	double Brms, lMin, lMax, powerSpectralIndex;
-	Random random;
+	double Brms; /** RMS field strength */
+	double lMin; /** minimum coherent length scale */
+	double lMax; /** maximum coherent lenght scale */
+	double powerSpectralIndex; /** turbulence spectral index */
+	Random random; /** random number generator instance */
 };
 
 } // namespace mpc

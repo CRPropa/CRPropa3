@@ -1,5 +1,7 @@
 #include "mpc/magneticField/TurbulentMagneticField.h"
+
 #include "fftw3.h"
+#include <stdexcept>
 
 namespace mpc {
 
@@ -13,6 +15,13 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 	this->lMax = lMax;
 	this->Brms = Brms;
 	this->powerSpectralIndex = powerSpectralIndex;
+
+	if (lMin < 2 * spacing)
+		throw std::runtime_error("mpc::TurbulentMagneticField: lMin < 2 * spacing");
+	if (lMin >= lMax)
+		throw std::runtime_error("mpc::TurbulentMagneticField: lMin >= lMax");
+	if (lMax > size / 2)
+		throw std::runtime_error("mpc::TurbulentMagneticField: lMax > size / 2");
 
 	size_t n = samples; // size of array
 	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
@@ -118,7 +127,7 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 			}
 	double w = Brms / sqrt(sumB2 / (n * n * n));
 
-	// normalize and save real component to the grid
+	// normalize and save to grid
 	for (size_t ix = 0; ix < n; ix++)
 		for (size_t iy = 0; iy < n; iy++)
 			for (size_t iz = 0; iz < n; iz++) {

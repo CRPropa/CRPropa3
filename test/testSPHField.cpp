@@ -10,18 +10,22 @@ namespace mpc {
 TEST(testSPHMagneticField, simpleTest) {
 	// Tests if a direct SPH field can be constructed and prints RMS and mean field strength
 	Vector3d origin(80 * Mpc);
-	int n = 64;
 	double size = 40 * Mpc;
-	double spacing = size / n;
 
-	SPHMagneticField bField(origin, 40 * Mpc, 20, getDataPath("SPH/mhd_z.db").c_str());
+	// gadget::DirectField may throw if queried for magnetic fields on the borders
+	Vector3d safeOrigin = origin - Vector3d(1 * kpc);
+	double safeSize = size + 2 * kpc;
 
+	SPHMagneticField B(safeOrigin, safeSize, 20, getDataPath("SPH/mhd_z.db").c_str());
+
+	int n = 64;
+	double spacing = 40 * Mpc / (n - 1);
 	double brms = 0;
 	Vector3d bmean(0, 0, 0);
 	for (int ix = 0; ix < n; ix++)
 		for (int iy = 0; iy < n; iy++)
 			for (int iz = 0; iz < n; iz++) {
-				Vector3d b = bField.getField(origin + Vector3d(ix, iy, iz) * spacing);
+				Vector3d b = B.getField(origin + Vector3d(ix, iy, iz) * spacing);
 				brms += b.getMag2();
 				bmean += b;
 			}
@@ -36,23 +40,22 @@ TEST(testSPHMagneticField, simpleTest) {
 TEST(testSPHMagneticFieldGrid, simpleTest) {
 	// Tests if a sampled SPH field can be constructed and prints RMS and mean field strength
 	Vector3d origin(80 * Mpc);
-	Vector3d margin(1 * kpc);
-	int n = 64;
+	size_t n = 64;
 	double size = 40 * Mpc;
-	double spacing = size / n;
+	double spacing = size / (n - 1);
 
-	// gadget::SampledField throws errors if queried for magnetic fields on the borders
-	Vector3d safeOrigin(80.001 * Mpc);
-	double safeSpacing = (size - 2 * kpc) / n;
+	// gadget::SampledField may throw if queried for magnetic fields on the borders
+	Vector3d safeOrigin = origin - Vector3d(1 * kpc);
+	double safeSize = size + 2 * kpc;
 
-	SPHMagneticFieldGrid bField(origin, 40 * Mpc, n, getDataPath("SPH/mhd_z.db").c_str());
+	SPHMagneticFieldGrid B(safeOrigin, safeSize, n, getDataPath("SPH/mhd_z.db").c_str());
 
 	double brms = 0;
 	Vector3d bmean(0, 0, 0);
 	for (int ix = 0; ix < n; ix++)
 		for (int iy = 0; iy < n; iy++)
 			for (int iz = 0; iz < n; iz++) {
-				Vector3d b = bField.getField(safeOrigin + Vector3d(ix, iy, iz) * safeSpacing);
+				Vector3d b = B.getField(origin + Vector3d(ix, iy, iz) * spacing);
 				brms += b.getMag2();
 				bmean += b;
 			}
@@ -65,26 +68,21 @@ TEST(testSPHMagneticFieldGrid, simpleTest) {
 }
 
 TEST(testSPHTurbulentMagneticField, modulatedField) {
-	// Test SPH modulated turbulent field for correct RMS strength: <B^2> = Brms^2 and mean
+	// Test for correct rms and mean strength
 	Vector3d origin(80 * Mpc);
-	double size = 40 * Mpc; // subvolume of the SPH field
 	int n = 64;
-	double spacing = size / n;
-	double lMin = 2 * spacing;
-	double lMax = 16 * spacing;
-	double Brms = 1;
-	double alpha = -11./3;
 
-	SPHTurbulentMagneticField bField(origin, n, spacing);
-	bField.initialize(lMin, lMax, Brms, alpha);
-	bField.modulate(getDataPath("SPH/mhd_z.db").c_str());
+	SPHTurbulentMagneticField B(origin, 40 * Mpc, n);
+	double spacing = B.getGridSpacing();
+	B.initialize(2 * spacing, 8 * spacing, 1, -11./3);
+	B.modulate(getDataPath("SPH/mhd_z.db").c_str(), 2./3);
 
 	double brms = 0;
 	Vector3d bmean(0, 0, 0);
 	for (int ix = 0; ix < n; ix++)
 		for (int iy = 0; iy < n; iy++)
 			for (int iz = 0; iz < n; iz++) {
-				Vector3d b = bField.getField(origin + Vector3d(ix, iy, iz) * spacing);
+				Vector3d b = B.getField(origin + Vector3d(ix, iy, iz) * spacing);
 				brms += b.getMag2();
 				bmean += b;
 			}
@@ -93,9 +91,9 @@ TEST(testSPHTurbulentMagneticField, modulatedField) {
 	bmean /= n * n * n;
 
 	EXPECT_NEAR(brms, 1, 1e-7);
-	EXPECT_NEAR(bmean.x, 0, 1e-2); // compatible with 0 within 1%
-	EXPECT_NEAR(bmean.y, 0, 1e-2);
-	EXPECT_NEAR(bmean.z, 0, 1e-2);
+	EXPECT_NEAR(bmean.x, 0, 5e-3); // compatible with 0 within 0.5%
+	EXPECT_NEAR(bmean.y, 0, 5e-3);
+	EXPECT_NEAR(bmean.z, 0, 5e-3);
 }
 
 int main(int argc, char **argv) {

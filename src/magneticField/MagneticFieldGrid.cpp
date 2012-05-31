@@ -2,25 +2,26 @@
 
 namespace mpc {
 
-void periodicClamp(double x, int n, int &low, int &high, double &fLow,
-		double &fHigh) {
-	// closest lower and upper neighbour in a periodically continued grid
-	low = ((int(x) % n) + n) % n;
-	high = (low + 1) % n;
-	fLow = x - floor(x);
-	fHigh = 1 - fLow;
+/** lower and upper neighbor in a periodically continued unit grid */
+void periodicClamp(double x, int n, int &lo, int &hi) {
+	lo = ( ( int(floor(x)) % n ) + n ) % n;
+	hi = (lo + 1) % n;
 }
 
-MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, size_t samples,
-		double spacing) :
-		origin(origin), samples(samples), spacing(spacing) {
+MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, double size,
+		size_t samples) {
+	this->origin = origin;
+	this->size = size;
+	this->samples = samples;
+	this->spacing = size / samples;
 	grid.resize(samples * samples * samples);
 }
 
 void MagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
 		double size) {
 	this->origin = origin;
-	this->spacing = size / (samples - 1);
+	this->size = size;
+	this->spacing = size / samples;
 }
 
 Vector3d MagneticFieldGrid::getGridOrigin() const {
@@ -36,7 +37,7 @@ double MagneticFieldGrid::getGridSpacing() const {
 }
 
 double MagneticFieldGrid::getGridSize() const {
-	return samples * spacing;
+	return size;
 }
 
 Vector3f &MagneticFieldGrid::get(size_t ix, size_t iy, size_t iz) {
@@ -50,16 +51,26 @@ const Vector3f &MagneticFieldGrid::get(size_t ix, size_t iy, size_t iz) const {
 }
 
 Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
+	// position on a unit grid
 	Vector3d r = (position - origin) / spacing;
+
+	// indices of lower and upper neighbors
 	int ix, iX, iy, iY, iz, iZ;
-	double fx, fX, fy, fY, fz, fZ;
-	periodicClamp(r.x, samples, ix, iX, fx, fX);
-	periodicClamp(r.y, samples, iy, iY, fy, fY);
-	periodicClamp(r.z, samples, iz, iZ, fz, fZ);
+	periodicClamp(r.x, samples, ix, iX);
+	periodicClamp(r.y, samples, iy, iY);
+	periodicClamp(r.z, samples, iz, iZ);
+
+	// linear fraction to lower and upper neighbor
+	double fx = r.x - floor(r.x);
+	double fX = 1 - fx;
+	double fy = r.y - floor(r.y);
+	double fY = 1 - fy;
+	double fz = r.z - floor(r.z);
+	double fZ = 1 - fz;
 
 	// trilinear interpolation
 	// check: http://paulbourke.net/miscellaneous/interpolation/
-	Vector3d b(0, 0, 0);
+	Vector3d b(0.);
 	//V000 (1 - x) (1 - y) (1 - z) +
 	b += get(ix, iy, iz) * fX * fY * fZ;
 	//V100 x (1 - y) (1 - z) +
@@ -78,14 +89,6 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
 	b += get(iX, iY, iZ) * fx * fy * fz;
 
 	return b;
-}
-
-void MagneticFieldGrid::setGridOrigin(const Vector3d& origin) {
-	this->origin = origin;
-}
-
-void MagneticFieldGrid::setGridSpacing(const double spacing) {
-	this->spacing = spacing;
 }
 
 } // namespace mpc

@@ -13,10 +13,10 @@ namespace mpc {
  */
 class SPHTurbulentMagneticField: public TurbulentMagneticField {
 public:
-	SPHTurbulentMagneticField(Vector3d origin, size_t samples, double spacing) :
-			TurbulentMagneticField(origin, samples, spacing) {
+	SPHTurbulentMagneticField(Vector3d origin, double size, size_t samples) :
+			TurbulentMagneticField(origin, size, samples) {
 	}
-	void modulate(std::string filename);
+	void modulate(std::string filename, double weight);
 };
 
 } // namespace mpc

@@ -117,7 +117,7 @@ public:
 	}
 
 	T getMag2() const {
-		return (x * x + y * y + z * z);
+		return x * x + y * y + z * z;
 	}
 
 	Vector3<T> getUnitVector() const {

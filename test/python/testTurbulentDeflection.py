@@ -5,10 +5,11 @@ from pylab import *
 E = 10 # proton energy [EeV]
 nT = 1000 # number of trajectories
 nS = 100 # number of sampling points to simulate
-nP = range(75) # sampling points to plot
+nP = range(75) # sampling points for plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-field = TurbulentMagneticField(Vector3d(0, 0, 0), 256, 0.05 * Mpc, 0.1 * Mpc, 2.2 * Mpc, 1*nG, -11/3.)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), 256 * 0.05 * Mpc, 256)
+field.initialize(0.1 * Mpc, 2.2 * Mpc, 1 * nG, -11/3.)
 propa = DeflectionCK(field)
 
 age = linspace(1, 150, nS)
@@ -37,9 +38,9 @@ for j in range(nT):
 		x = c.current.getPosition() / Mpc
 		p = c.current.getDirection()
 		p0 = c.initial.getDirection()
-		distance[i] += x.mag()
-		rms1[i] += (x.angleTo(p))**2
-		rms2[i] += (p0.angleTo(p))**2
+		distance[i] += x.getMag()
+		rms1[i] += (x.getAngleTo(p))**2
+		rms2[i] += (p0.getAngleTo(p))**2
 
 
 distance /= nT
@@ -51,6 +52,7 @@ Brms = field.getRMSFieldStrength() / nG
 Rg = 1.08 * E / Brms # Mpc
 theory = 38 * (distance * Lc)**.5 * Brms / E * pi/180
 
+figure()
 plot(distance[nP], rms1[nP], label='position, final direction')
 plot(distance[nP], theory[nP] / 3**.5, 'k--')
 plot(distance[nP], rms2[nP], label='initial, final direction')

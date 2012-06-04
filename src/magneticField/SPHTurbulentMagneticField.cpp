@@ -4,7 +4,7 @@
 
 namespace mpc {
 
-void SPHTurbulentMagneticField::modulate(std::string filename, double weight) {
+void SPHTurbulentMagneticField::modulate(std::string filename, double weight = 2./3) {
 	// create SPH Field to obtain baryon density
 	std::cout << "mpc::SPHTurbulentMagneticField: Loading SPH-field: "
 			<< filename << std::endl;

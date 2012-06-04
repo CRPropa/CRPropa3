@@ -5,10 +5,6 @@
 
 namespace mpc {
 
-class ModuleTest: public testing::Test {
-protected:
-};
-
 TEST(MinimumEnergy, Continue) {
 	MinimumEnergy minEnergy(5);
 	Candidate candidate;

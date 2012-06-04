@@ -12,8 +12,12 @@ namespace mpc {
 // L is the total number of strange quarks.
 // I is the isomer number, with I=0 corresponding to the ground state.
 int getNucleusId(int a, int z);
+
 void initNuclearMassTable();
 double getNucleusMass(int id);
+
+int getChargeNumberFromNucleusId(int id);
+int getMassNumberFromNucleusId(int id);
 
 } // namespace mpc
 

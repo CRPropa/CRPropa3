@@ -39,10 +39,10 @@ int Z(const int & pid );
 int lambda( const int & pid );
 
 /// absolute value of particle ID
-int           abspid( const int & pid );
+int abspid( const int & pid );
 
 /// extract fundamental ID (1-100) if this is a "fundamental" particle
-int    fundamentalID( const int & pid );
+int fundamentalID( const int & pid );
 /// if this is a fundamental particle, does it have a valid antiparticle?
 bool hasFundamentalAnti( const int & pid );
 

@@ -62,4 +62,12 @@ double getNucleusMass(int id) {
 	return mass;
 }
 
+int getChargeNumberFromNucleusId(int id) {
+	return HepPID::Z(id);
+}
+
+int getMassNumberFromNucleusId(int id) {
+	return HepPID::A(id);
+}
+
 } // namespace mpc

@@ -136,6 +136,10 @@ if(ENABLETESTING)
 	target_link_libraries(testInteraction mpc gtest gtest_main pthread)
 	add_test(testInteraction testInteraction)
 	
+	add_executable(testSource test/testSource.cpp)
+	target_link_libraries(testSource mpc gtest gtest_main pthread)
+	add_test(testSource testSource)
+	
 	if(GADGET_FOUND AND FFTW3F_FOUND) 
         add_executable(testSPHField test/testSPHField.cpp)
 	    target_link_libraries(testSPHField mpc gtest gtest_main pthread)

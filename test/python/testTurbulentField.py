@@ -166,7 +166,7 @@ xlim(0,32)
 grid()
 s = 'Correlation Length\n Nominal %.2f\n Simulated %.2f $\pm$ %.2f'%(Lc, mean(Lcs), std(Lcs)/(len(Lcs))**.5)
 text(0.5, 0.95, s, ha='left', va='top', transform=gca().transAxes)
-savefig('TurbulentField_correlationCurves.png', bbox_inches='tight')
+savefig('TurbulentField_coherenceLength.png', bbox_inches='tight')
 
 ### plot energy spectrum
 figure()

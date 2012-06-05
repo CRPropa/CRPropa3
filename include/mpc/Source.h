@@ -43,27 +43,26 @@ public:
  */
 class CompositeSource: public Source {
 public:
-	/**
-	 @class Isotope
-	 @brief Source isotope
-	 */
-	struct Isotope {
-	public:
-		int id;
-		double abundance;
-		double probability;
-		Isotope();
-		Isotope(int id, double abundance);
-	};
-
+	/** source position */
 	Vector3d position;
+	/** differential spectral index, minimum and maximum energy */
 	double index, Emin, Emax;
-	std::vector<Isotope> composition;
+	/** source isotopes ids */
+	std::vector<int> isotope;
+	/** relative abundance of source isotopes at equal energies */
+	std::vector<double> abundance;
+	/** cumulative probability of source isotopes */
+	std::vector<double> probability;
+
 	CompositeSource();
 	CompositeSource(const Vector3d &sposition, double Emin = 5 * EeV,
 			double Emax = 1000 * EeV, double index = -1);
+
+	/** add an isotope the source */
 	void addToComposition(int id, double abundance);
+	/** calculate the probability for each isotope */
 	void normalize();
+	/** prepare a random particle */
 	virtual void prepare(ParticleState &state) const;
 };
 

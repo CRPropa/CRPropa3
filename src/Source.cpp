@@ -36,48 +36,39 @@ CompositeSource::CompositeSource(const Vector3d& position, double Emin,
 		position(position), Emin(Emin), Emax(Emax), index(index) {
 }
 
-CompositeSource::Isotope::Isotope() :
-		id(getNucleusId(1, 1)), abundance(1), probability(0) {
-}
-
-CompositeSource::Isotope::Isotope(int id, double abundance) :
-		id(id), abundance(abundance), probability(0) {
-}
-
-void CompositeSource::addToComposition(int id, double abundance) {
-	Isotope iso(id, abundance);
-	composition.push_back(iso);
+void CompositeSource::addToComposition(int id, double a) {
+	isotope.push_back(id);
+	abundance.push_back(a);
+	probability.push_back(0);
 	normalize();
 }
 
 void CompositeSource::normalize() {
 	double pSum = 0;
 	double a = 1 + index;
-	for (int i = 0; i < composition.size(); i++) {
-		Isotope &iso = composition[i];
-		int Z = HepPID::Z(iso.id);
-		if (std::abs(a) < std::numeric_limits<double>::min()) // index = -1
-			pSum += iso.abundance * log(Z * Emax / Emin);
+	for (int i = 0; i < isotope.size(); i++) {
+		int Z = HepPID::Z(isotope[i]);
+		if (std::abs(a) < std::numeric_limits<double>::min())
+			pSum += abundance[i] * log(Z * Emax / Emin);
 		else
-			// index <> -1
-			pSum += iso.abundance / a * (pow(Z * Emax, a) - pow(Emin, a));
-		iso.probability = pSum;
+			pSum += abundance[i] / a * (pow(Z * Emax, a) - pow(Emin, a));
+		probability[i] = pSum;
 	}
-	for (int i = 0; i < composition.size(); i++) {
-		composition[i].probability /= pSum;
+	for (int i = 0; i < probability.size(); i++) {
+		probability[i] /= pSum;
 	}
 }
 
 void CompositeSource::prepare(ParticleState& state) const {
-	if (composition.size() == 0)
+	if (isotope.size() == 0)
 		throw std::runtime_error("mpc::CompositeSource: No source isotope set");
 	double r = Random().rand();
-	int i = -1;
-	while (r < composition[i + 1].probability)
+	int i = 0;
+	while ((r > probability[i]) and (i < probability.size()))
 		i++;
-	state.setId(composition[i].id);
-	double E = Random::instance().randPowerLaw(index, Emin, Emax);
-	state.setEnergy(E);
+	state.setId(isotope[i]);
+	int Z = HepPID::Z(isotope[i]);
+	state.setEnergy(Random::instance().randPowerLaw(index, Emin, Z * Emax));
 	state.setPosition(position);
 	state.setDirection(Random::instance().randUnitVectorOnSphere());
 }

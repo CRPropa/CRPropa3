@@ -45,7 +45,7 @@ TEST(ModuleList, runOpenMP) {
 	CompositeSource source(Vector3d(0.), 10., 100., -1.);
 	source.addToComposition(getNucleusId(56, 26), 1);
 	omp_set_num_threads(2);
-	modules.run(&source, 100, false);
+	modules.run(&source, 1000, false);
 }
 #endif
 

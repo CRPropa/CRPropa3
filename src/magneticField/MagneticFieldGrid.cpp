@@ -1,8 +1,10 @@
 #include "mpc/magneticField/MagneticFieldGrid.h"
 
+#include <stdexcept>
+#include <fstream>
+
 namespace mpc {
 
-/** lower and upper neighbor in a periodically continued unit grid */
 void periodicClamp(double x, int n, int &lo, int &hi) {
 	lo = ( ( int(floor(x)) % n ) + n ) % n;
 	hi = (lo + 1) % n;
@@ -24,6 +26,35 @@ void MagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
 	this->spacing = size / samples;
 }
 
+void MagneticFieldGrid::normalize(double norm) {
+	for (int ix = 0; ix < samples; ix++)
+		for (int iy = 0; iy < samples; iy++)
+			for (int iz = 0; iz < samples; iz++)
+				get(ix, iy, iz) *= norm;
+}
+
+void MagneticFieldGrid::modulateWithDensityField(std::string filename,
+		double exp) {
+	std::ifstream infile(filename.c_str(), std::ios::binary);
+	if (!infile)
+		throw std::runtime_error("mpc::MagneticFieldGrid: File not found");
+	double sumB2 = 0;
+	int numB2 = 0;
+	float rho;
+	for (int ix = 0; ix < samples + 1; ix++) {
+		for (int iy = 0; iy < samples + 1; iy++) {
+			for (int iz = 0; iz < samples + 1; iz++) {
+				infile.read((char*) &rho, sizeof(float));
+				if ((ix == samples) or (iy == samples) or (iz == samples))
+					continue; // skip last grid points in each direction
+				Vector3d pos = origin + Vector3d(ix, iy, iz) * spacing;
+				Vector3f &b = get(ix, iy, iz);
+				b *= pow(rho, exp);
+			}
+		}
+	}
+}
+
 Vector3d MagneticFieldGrid::getGridOrigin() const {
 	return origin;
 }
@@ -38,6 +69,33 @@ double MagneticFieldGrid::getGridSpacing() const {
 
 double MagneticFieldGrid::getGridSize() const {
 	return size;
+}
+
+double MagneticFieldGrid::getRMSFieldStrength() const {
+	double sumB2 = 0;
+	for (int ix = 0; ix < samples; ix++)
+		for (int iy = 0; iy < samples; iy++)
+			for (int iz = 0; iz < samples; iz++)
+				sumB2 += get(ix, iy, iz).getMag2();
+	return sqrt(sumB2 / samples / samples / samples);
+}
+
+double MagneticFieldGrid::getRMSFieldStrengthInSphere(Vector3d center,
+		double radius) const {
+	int numB2 = 0;
+	double sumB2 = 0;
+	for (int ix = 0; ix < samples; ix++) {
+		for (int iy = 0; iy < samples; iy++) {
+			for (int iz = 0; iz < samples; iz++) {
+				Vector3d position = origin + Vector3d(ix, iy, iz) * spacing;
+				if (position.getDistanceTo(center) < radius) {
+					sumB2 += get(ix, iy, iz).getMag2();
+					numB2++;
+				}
+			}
+		}
+	}
+	return sqrt(sumB2 / numB2);
 }
 
 Vector3f &MagneticFieldGrid::get(size_t ix, size_t iy, size_t iz) {

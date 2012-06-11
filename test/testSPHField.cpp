@@ -70,12 +70,14 @@ TEST(testSPHMagneticFieldGrid, simpleTest) {
 TEST(testSPHTurbulentMagneticField, modulatedField) {
 	// Test for correct rms and mean strength
 	Vector3d origin(80 * Mpc);
-	int n = 64;
+	size_t n = 64;
 
 	SPHTurbulentMagneticField B(origin, 40 * Mpc, n);
 	double spacing = B.getGridSpacing();
-	B.initialize(2 * spacing, 8 * spacing, 1, -11./3);
+	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11./3);
+	B.initialize();
 	B.modulate(getDataPath("SPH/mhd_z.db").c_str(), 2./3);
+	B.normalize(1. / B.getRMSFieldStrengthInSphere(Vector3d(120 * Mpc), 105 * Mpc));
 
 	double brms = 0;
 	Vector3d bmean(0, 0, 0);

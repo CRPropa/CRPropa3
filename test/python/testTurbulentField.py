@@ -80,60 +80,42 @@ def getVectorFieldEnergySpectralDensity(Bx, By, Bz):
 ### create field
 n = 128
 lMin, lMax = 2, 32
-Brms = 1
+Brms = 1.
 alpha = -11./3
 field = TurbulentMagneticField(Vector3d(0, 0, 0), n, n)
-field.initialize(lMin, lMax, Brms, alpha)
+field.setTurbulenceProperties(lMin, lMax, alpha)
+field.initialize()
+field.normalize(Brms / field.getRMSFieldStrength())
 Lc = field.getCorrelationLength()
 
 ### copy field grid to array(s)
 Bx, By, Bz = zeros((3, n, n, n))
 for ix in range(n):
+	print ix
 	for iy in range(n):
 		for iz in range(n):
-			b = field.getField(Vector3d(ix, iy, iz))
+			b = field.get(ix, iy, iz)
 			Bx[ix, iy, iz] = b.x
 			By[ix, iy, iz] = b.y
 			Bz[ix, iy, iz] = b.z
 
 ### plot slice in position space
-figure()
-A = ((Bx**2 + By**2 + Bz**2)**.5)[:,:,n/2]
-im = imshow(A, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
+figure(figsize=(8,6))
+A1 = (Bx[:,:,n/2]**2 + By[:,:,n/2]**2 + Bz[:,:,n/2]**2)**.5
+im = imshow(A1, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
 cbar = colorbar(im)
-cbar.set_label(r'$|\vec{B}(\vec{x})| / B_{rms}$')
+cbar.set_label('$B/B_{rms}$')
 xlabel('$x$')
 ylabel('$y$')
 text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentField_slicePositionSpace.png', bbox_inches='tight')
 
-### plot slice in configuration space
-figure()
-Bkx = fftshift(fftn(Bx))
-Bky = fftshift(fftn(By))
-Bkz = fftshift(fftn(Bz))
-Bk = ((Bkx*Bkx.conjugate() + Bky*Bky.conjugate() + Bkz*Bkz.conjugate()).real)**.5
-A = log10(Bk[:,:,n/2])
-im = imshow(A, origin='lower', vmin=0)
-cbar = colorbar(im)
-cbar.set_label(r'$log_{10}(|\vec{B}(\vec{k})| / B_{rms})$')
-xlabel('$k_x$')
-ylabel('$k_y$')
-k = fftshift(fftfreq(n))
-idx = arange(0,n,n/4)
-xticks(idx, k[idx])
-yticks(idx, k[idx])
-xlim(0,n)
-ylim(0,n)
-text(0.8, 1.05, '$k_z=%.2f$'%k[n/2], transform=gca().transAxes)
-savefig('TurbulentField_sliceConfigurationSpace.png', bbox_inches='tight')
-
 ### plot slice and periodical extension in position space
 figure()
-A = zeros((3*n,3*n))
+A2 = zeros((3*n,3*n))
 for i,j in ((0,1), (1,0), (1,1), (1,2), (2,1)):
-	A[i*n:(i+1)*n, j*n:(j+1)*n] = Bx[:,:,n/2]
-im = imshow(ma.masked_array(A, A == 0), origin='lower', extent=[-n,2*n,-n,2*n], vmin=0, vmax=3)
+	A2[i*n:(i+1)*n, j*n:(j+1)*n] = A1
+im = imshow(ma.masked_array(A2, A2 == 0), origin='lower', extent=[-n,2*n,-n,2*n], vmin=0, vmax=3)
 cbar = colorbar(im)
 cbar.set_label(r'$|\vec{B_x}|/B_{rms}$')
 xticks([-n, 0, n, 2*n])
@@ -142,6 +124,26 @@ xlabel('$x$')
 ylabel('$y$')
 text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentField_slicePeriodicity.png', bbox_inches='tight')
+
+### plot slice in configuration space
+figure()
+Bkx = fftshift(fftn(Bx))
+Bky = fftshift(fftn(By))
+Bkz = fftshift(fftn(Bz))
+Bk = (((Bkx*Bkx.conjugate() + Bky*Bky.conjugate() + Bkz*Bkz.conjugate()).real)**.5)
+im = imshow(log10(Bk[:,:,n/2]), origin='lower', vmin=0)
+cbar = colorbar(im)
+cbar.set_label(r'$\log_{10}(B/B_{rms})$')
+xlabel('$k_x$')
+ylabel('$k_y$')
+k = fftshift(fftfreq(n))
+idx = arange(0, n, n/4)
+xticks(idx, k[idx])
+yticks(idx, k[idx])
+xlim(0,n)
+ylim(0,n)
+text(0.8, 1.05, '$k_z=%.2f$'%k[n/2], transform=gca().transAxes)
+savefig('TurbulentField_sliceConfigurationSpace.png', bbox_inches='tight')
 
 ### plot (2pt-auto-)correlation curves for various directions
 figure()
@@ -188,9 +190,9 @@ figure()
 Bx.resize(n**3)
 By.resize(n**3)
 Bz.resize(n**3)
-hist(Bx, bins=40, range=(-3,3), histtype='step', normed=True, label='$B_x$', linewidth=2)
-hist(By, bins=40, range=(-3,3), histtype='step', normed=True, label='$B_y$', linewidth=2)
-hist(Bz, bins=40, range=(-3,3), histtype='step', normed=True, label='$B_z$', linewidth=2)
+hist(log10(Bx), bins=40, range=(-3,3), histtype='step', normed=True, label='$B_x$', linewidth=2)
+hist(log10(By), bins=40, range=(-3,3), histtype='step', normed=True, label='$B_y$', linewidth=2)
+hist(log10(Bz), bins=40, range=(-3,3), histtype='step', normed=True, label='$B_z$', linewidth=2)
 legend()
 grid()
 xlabel('$B/B_{RMS}$')

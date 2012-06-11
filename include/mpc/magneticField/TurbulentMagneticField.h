@@ -10,36 +10,58 @@ namespace mpc {
  @class TurbulentMagneticField
  @brief Random turbulent magnetic field on a cubic grid with trilinear interpolation.
 
- This class creates a random magnetic field with the following properties. \n
- mean and rms strength: \n
- \f$ <\vec{B}> = 0 \f$ \n
- \f$ <B^2> = B_{rms}^2\f$ \n
- turbulent range and spectrum: \n
- \f$ \vec{B}(\vec{k}) \sim k^{-11/3} \f$ for \f$ k_{min} < k < k_{max} \f$ \n
- \f$ \vec{B}(\vec{k}) = 0 \f$ otherwise \n
- solenoidity: \n
- \f$ \nabla \vec{B}(\vec{x}) = 0 \f$ \n
- isotropy: \n
- same coherence length in all directions
+ This class creates a random magnetic field with a turbulent spectrum.
+ The field is isotropic and homogeneous with a zero mean magnetic field and and divergence.
  */
 class TurbulentMagneticField: public MagneticFieldGrid {
 public:
-	TurbulentMagneticField(Vector3d origin, double size, size_t samples) :
-			MagneticFieldGrid(origin, size, samples) {
-	}
-	void initialize(double lMin, double lMax, double Brms,
-			double powerSpectralIndex = -11. / 3.);
-	void setSeed(int seed);
-	double getRMSFieldStrength() const;
-	double getCorrelationLength() const;
+	/**
+	 * Constructor
+	 * @param origin	Lower left front corner of the grid
+	 * @param size 		Physical extension of the field grid
+	 * @param samples	Number of grid samples per edge
+	 */
+	TurbulentMagneticField(Vector3d origin, double size, size_t samples);
+
+	/**
+	 * Constructor, also performs initialization and normalization.
+	 * @param origin	Lower left front corner of the grid
+	 * @param size 		Physical extension of the field grid
+	 * @param samples	Number of grid samples per edge
+	 * @param lMin		Minimum wavelength of the turbulence
+	 * @param lMax		Maximum wavelength of the turbulence
+	 * @param spectralIndex	Power spectral index of the turbulence
+	 * @param Brms		RMS field strength
+	 */
+	TurbulentMagneticField(Vector3d origin, double size, size_t samples,
+			double lMin, double lMax, double spectralIndex, double Brms);
+
+	/**
+	 * Define the properties of the turbulence.
+	 * @param lMin		Minimum wavelength of the turbulence
+	 * @param lMax		Maximum wavelength of the turbulence
+	 * @param spectralIndex	Power spectral index turbulence
+	 */
+	void setTurbulenceProperties(double lMin, double lMax, double spectralIndex);
+
+	/** Create a random initialization of the turbulent field. */
+	void initialize();
+
+	/** Create a random initialization from a given seed. */
+	void initialize(int seed);
+
 	double getPowerSpectralIndex() const;
+	double getMinimumWavelength() const;
+	double getMaximumWavelength() const;
+
+	/** Return the analytical calculation of the correlation length. */
+	double getCorrelationLength() const;
 
 protected:
-	double Brms; /** RMS field strength */
-	double lMin; /** minimum coherent length scale */
-	double lMax; /** maximum coherent lenght scale */
-	double powerSpectralIndex; /** turbulence spectral index */
-	Random random; /** random number generator instance */
+	double lMin; /**< Minimum wavelength of the turbulence */
+	double lMax; /**< Maximum  wavelength of the turbulence */
+	double spectralIndex; /**< Power spectral index of the turbulence */
+	Random random; /**< Random number generator instance */
 };
 
 } // namespace mpc

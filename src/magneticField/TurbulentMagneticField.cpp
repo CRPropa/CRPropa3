@@ -1,27 +1,47 @@
 #include "mpc/magneticField/TurbulentMagneticField.h"
+#include "mpc/Units.h"
 
 #include "fftw3.h"
-#include <stdexcept>
 
 namespace mpc {
 
-void TurbulentMagneticField::setSeed(int seed) {
-	random.seed(seed);
+TurbulentMagneticField::TurbulentMagneticField(Vector3d origin, double size,
+		size_t samples) :
+		MagneticFieldGrid(origin, size, samples) {
 }
 
-void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
-		double powerSpectralIndex) {
+TurbulentMagneticField::TurbulentMagneticField(Vector3d origin, double size,
+		size_t samples, double lMin, double lMax, double spectralIndex,
+		double Brms) :
+		MagneticFieldGrid(origin, size, samples) {
 	this->lMin = lMin;
 	this->lMax = lMax;
-	this->Brms = Brms;
-	this->powerSpectralIndex = powerSpectralIndex;
+	this->spectralIndex = spectralIndex;
+	initialize();
+	normalize(Brms / getRMSFieldStrength());
+}
 
+void TurbulentMagneticField::setTurbulenceProperties(double lMin, double lMax,
+		double spectralIndex) {
+	this->lMin = lMin;
+	this->lMax = lMax;
+	this->spectralIndex = spectralIndex;
+}
+
+void TurbulentMagneticField::initialize(int seed) {
+	random.seed(seed);
+	initialize();
+}
+
+void TurbulentMagneticField::initialize() {
 	if (lMin < 2 * spacing)
-		throw std::runtime_error("mpc::TurbulentMagneticField: lMin < 2 * spacing");
+		throw std::runtime_error(
+				"mpc::TurbulentMagneticField: lMin < 2 * spacing");
 	if (lMin >= lMax)
 		throw std::runtime_error("mpc::TurbulentMagneticField: lMin >= lMax");
 	if (lMax > size / 2)
-		throw std::runtime_error("mpc::TurbulentMagneticField: lMax > size / 2");
+		throw std::runtime_error(
+				"mpc::TurbulentMagneticField: lMax > size / 2");
 
 	size_t n = samples; // size of array
 	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
@@ -83,7 +103,7 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 				b = e1 * cos(theta) + e2 * sin(theta);
 
 				// standard normal distributed amplitude weighted with k^alpha/2
-				b *= random.randNorm() * pow(k, powerSpectralIndex / 2.);
+				b *= random.randNorm() * pow(k, spectralIndex / 2.);
 
 				// uniform random phase
 				phase = 2 * M_PI * random.rand();
@@ -117,43 +137,39 @@ void TurbulentMagneticField::initialize(double lMin, double lMax, double Brms,
 	fftwf_execute(plan_z);
 	fftwf_destroy_plan(plan_z);
 
-	// calculate normalization
-	double sumB2 = 0;
-	for (size_t ix = 0; ix < n; ix++)
-		for (size_t iy = 0; iy < n; iy++)
-			for (size_t iz = 0; iz < n; iz++) {
-				i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
-				sumB2 += pow(Bx[i], 2) + pow(By[i], 2) + pow(Bz[i], 2);
-			}
-	double w = Brms / sqrt(sumB2 / (n * n * n));
-
-	// normalize and save to grid
-	for (size_t ix = 0; ix < n; ix++)
-		for (size_t iy = 0; iy < n; iy++)
+	// save to grid
+	for (size_t ix = 0; ix < n; ix++) {
+		for (size_t iy = 0; iy < n; iy++) {
 			for (size_t iz = 0; iz < n; iz++) {
 				i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
 				Vector3f &b = get(ix, iy, iz);
-				b.x = Bx[i] * w;
-				b.y = By[i] * w;
-				b.z = Bz[i] * w;
+				b.x = Bx[i];
+				b.y = By[i];
+				b.z = Bz[i];
 			}
+		}
+	}
 
 	fftwf_free(Bkx);
 	fftwf_free(Bky);
 	fftwf_free(Bkz);
 }
 
-double TurbulentMagneticField::getRMSFieldStrength() const {
-	return Brms;
+double TurbulentMagneticField::getPowerSpectralIndex() const {
+	return spectralIndex;
 }
 
-double TurbulentMagneticField::getPowerSpectralIndex() const {
-	return powerSpectralIndex;
+double TurbulentMagneticField::getMinimumWavelength() const {
+	return lMin;
+}
+
+double TurbulentMagneticField::getMaximumWavelength() const {
+	return lMax;
 }
 
 double TurbulentMagneticField::getCorrelationLength() const {
 	double r = lMin / lMax;
-	double a = -powerSpectralIndex - 2;
+	double a = -spectralIndex - 2;
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 

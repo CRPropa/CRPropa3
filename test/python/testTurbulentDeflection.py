@@ -8,15 +8,14 @@ nS = 100 # number of sampling points to simulate
 nP = range(75) # sampling points for plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-field = TurbulentMagneticField(Vector3d(0, 0, 0), 256 * 0.05 * Mpc, 256)
-field.initialize(0.1 * Mpc, 2.2 * Mpc, 1 * nG, -11/3.)
+field = TurbulentMagneticField(Vector3d(0, 0, 0), 256 * 0.05 * Mpc, 256, 0.1 * Mpc, 2.2 * Mpc, -11/3., 1 * nG)
 propa = DeflectionCK(field)
 
 age = linspace(1, 150, nS)
 distance, rms1, rms2 = zeros((3, nS))
 
 for j in range(nT):
-	if j%(nT//10) == 0:
+	if j % (nT // 10) == 0:
 		print j
 	
 	ps = ParticleState()

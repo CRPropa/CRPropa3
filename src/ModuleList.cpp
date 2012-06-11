@@ -47,48 +47,40 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 
 void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	size_t count = candidates.size();
-	size_t cent = count / 100;
-	if (cent == 0)
-		cent = 1;
 	size_t pc = 0;
+#if _OPENMP
+	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
+#endif
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
-#if _OPENMP
-		if (i == 0) {
-			std::cout << "Number of Threads: " << omp_get_num_threads()
-			<< std::endl;
-		}
-#endif
-		if (showProgress && (i % cent == 0)) {
+		if (showProgress && ((i * 100) / count > pc)) {
+			pc += ceil(100. / count);
 			std::cout << pc << "% - " << i << std::endl;
-			pc++;
 		}
 		run(candidates[i], recursive);
 	}
+	if (showProgress)
+		std::cout << "100% - " << count << std::endl;
 }
 
 void ModuleList::run(Source *source, size_t count, bool recursive) {
-	size_t cent = count / 100;
-	if (cent == 0)
-		cent = 1;
 	size_t pc = 0;
+#if _OPENMP
+	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
+#endif
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
-#if _OPENMP
-		if (i == 0) {
-			std::cout << "Number of Threads: " << omp_get_num_threads()
-			<< std::endl;
-		}
-#endif
-		if (showProgress && (i % cent == 0)) {
+		if (showProgress && ((i * 100) / count > pc)) {
+			pc += ceil(100. / count);
 			std::cout << pc << "% - " << i << std::endl;
-			pc++;
 		}
 		ParticleState state;
 		source->prepare(state);
 		ref_ptr<Candidate> candidate = new Candidate(state);
 		run(candidate, recursive);
 	}
+	if (showProgress)
+		std::cout << "100% - " << count << std::endl;
 }
 
 ModuleList::module_list_t &ModuleList::getModules() {

@@ -119,6 +119,10 @@ if(ENABLETESTING)
 	add_executable(testCore test/testCore.cpp)
 	target_link_libraries(testCore mpc gtest gtest_main pthread)
 	add_test(testCore testCore)
+	
+	add_executable(testModuleList test/testModuleList.cpp)
+	target_link_libraries(testModuleList mpc gtest gtest_main pthread)
+	add_test(testModuleList testModuleList)
 
 	add_executable(testMagneticField test/testMagneticField.cpp)
 	target_link_libraries(testMagneticField mpc gtest gtest_main pthread)

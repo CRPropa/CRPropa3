@@ -33,6 +33,40 @@ void MagneticFieldGrid::normalize(double norm) {
 				get(ix, iy, iz) *= norm;
 }
 
+void MagneticFieldGrid::load(std::string filename) {
+	std::ifstream infile(filename.c_str(), std::ios::binary);
+	if (!infile)
+		throw std::runtime_error("mpc::MagneticFieldGrid: File not found");
+	for (int ix = 0; ix < samples; ix++) {
+		for (int iy = 0; iy < samples; iy++) {
+			for (int iz = 0; iz < samples; iz++) {
+				Vector3f &b = get(ix, iy, iz);
+				infile.read((char*) &(b.x), sizeof(float));
+				infile.read((char*) &(b.y), sizeof(float));
+				infile.read((char*) &(b.z), sizeof(float));
+			}
+		}
+	}
+	infile.close();
+}
+
+void MagneticFieldGrid::dump(std::string filename) const {
+	std::ofstream outfile(filename.c_str(), std::ios::binary);
+	if (!outfile)
+		throw std::runtime_error("mpc::MagneticFieldGrid: Could not open file");
+	for (int ix = 0; ix < samples; ix++) {
+		for (int iy = 0; iy < samples; iy++) {
+			for (int iz = 0; iz < samples; iz++) {
+				Vector3f b = get(ix, iy, iz);
+				outfile.write((char*) &(b.x), sizeof(float));
+				outfile.write((char*) &(b.y), sizeof(float));
+				outfile.write((char*) &(b.z), sizeof(float));
+			}
+		}
+	}
+	outfile.close();
+}
+
 void MagneticFieldGrid::modulateWithDensityField(std::string filename,
 		double exp) {
 	std::ifstream infile(filename.c_str(), std::ios::binary);
@@ -53,6 +87,7 @@ void MagneticFieldGrid::modulateWithDensityField(std::string filename,
 			}
 		}
 	}
+	infile.close();
 }
 
 Vector3d MagneticFieldGrid::getGridOrigin() const {
@@ -118,7 +153,7 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
 	periodicClamp(r.y, samples, iy, iY);
 	periodicClamp(r.z, samples, iz, iZ);
 
-	// linear fraction to lower and upper neighbor
+	// linear fraction to lower and upper neighbors
 	double fx = r.x - floor(r.x);
 	double fX = 1 - fx;
 	double fy = r.y - floor(r.y);

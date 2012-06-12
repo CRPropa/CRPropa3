@@ -35,6 +35,18 @@ public:
 	void normalize(double norm);
 
 	/**
+	 * Load the field from a binary file.
+	 * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
+	 */
+	void load(std::string filename);
+
+	/**
+	 * Dump the field to a binary file.
+	 * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
+	 */
+	void dump(std::string filename) const;
+
+	/**
 	 * Modulate the magnetic field with a density field from a binary file.
 	 * The field should be (re)normalized afterwards.
 	 * The file has to contain the density values in float precision on a grid with N + 1 samples per edge, the last of which is disregarded due to periodicity.

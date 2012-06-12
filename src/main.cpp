@@ -16,8 +16,8 @@ int main(int argc, char **argv) {
 	ModuleList modules;
 
 	// propagation --------------------------------------------------------
-	TurbulentMagneticField *bField = new TurbulentMagneticField(Vector3d(0, 0, 0), 64, 1.);
-	bField->initialize(2., 8., 1e-12, -11. / 3.);
+	TurbulentMagneticField *bField = new TurbulentMagneticField(Vector3d(0, 0, 0), 64, 1., 2., 8., 1e-12, -11. / 3.);
+	bField->initialize();
 	modules.add(new DeflectionCK(bField));
 
 	// interactions -------------------------------------------------------

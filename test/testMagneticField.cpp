@@ -98,6 +98,31 @@ TEST(testMagneticFieldGrid, Periodicity) {
 	EXPECT_FLOAT_EQ(b.z, b2.z);
 }
 
+TEST(testMagneticFieldGrid, DumpLoad) {
+	// Dump and load a field grid
+	MagneticFieldGrid B1(Vector3d(0.), 3, 3);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				B1.get(ix, iy, iz) = Vector3f(1, 2, 3);
+	B1.dump("testDump.raw");
+
+	MagneticFieldGrid B2(Vector3d(0.), 3, 3);
+	B2.load("testDump.raw");
+
+	for (int ix = 0; ix < 3; ix++) {
+		for (int iy = 0; iy < 3; iy++) {
+			for (int iz = 0; iz < 3; iz++) {
+				Vector3f b1 = B1.get(ix, iy, iz);
+				Vector3f b2 = B2.get(ix, iy, iz);
+				EXPECT_FLOAT_EQ(b1.x, b2.x);
+				EXPECT_FLOAT_EQ(b1.y, b2.y);
+				EXPECT_FLOAT_EQ(b1.z, b2.z);
+			}
+		}
+	}
+}
+
 TEST(testTurbulentMagneticField, Bmean) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;

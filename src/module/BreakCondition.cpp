@@ -9,6 +9,14 @@ MaximumTrajectoryLength::MaximumTrajectoryLength(double length) :
 	setDescription(s.str());
 }
 
+void MaximumTrajectoryLength::setMaximumTrajectoryLength(double length) {
+	maxLength = length;
+}
+
+double MaximumTrajectoryLength::getMaximumTrajectoryLength() const {
+	return maxLength;
+}
+
 void MaximumTrajectoryLength::process(Candidate *candidate) const {
 	double l = candidate->getTrajectoryLength();
 	if (l >= maxLength) {
@@ -23,6 +31,14 @@ MinimumEnergy::MinimumEnergy(double minEnergy) :
 	std::stringstream s;
 	s << "Minimum energy: " << minEnergy / EeV << " EeV";
 	setDescription(s.str());
+}
+
+void MinimumEnergy::setMinimumEnergy(double energy) {
+	minEnergy = energy;
+}
+
+double MinimumEnergy::getMinimumEnergy() const {
+	return minEnergy;
 }
 
 void MinimumEnergy::process(Candidate *candidate) const {

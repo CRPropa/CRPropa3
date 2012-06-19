@@ -45,7 +45,7 @@ ConditionalOutput::ConditionalOutput(std::string filename,
 	propertyName = propName;
 	outfile.open(filename.c_str());
 	outfile
-			<< "id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta"
+			<< "# id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta"
 			<< std::endl;
 }
 
@@ -69,7 +69,8 @@ void ConditionalOutput::process(Candidate *candidate) const {
 
 		const Vector3d &dir = candidate->current.getDirection();
 		p += ::sprintf(buffer + p, ", %f, %f, %f",
-				candidate->current.getEnergy() / EeV, dir.getPhi(), dir.getTheta());
+				candidate->current.getEnergy() / EeV, dir.getPhi(),
+				dir.getTheta());
 
 		p += ::sprintf(buffer + p, ", %f",
 				candidate->getTrajectoryLength() / Mpc);
@@ -77,12 +78,12 @@ void ConditionalOutput::process(Candidate *candidate) const {
 		p += ::sprintf(buffer + p, ", %d", candidate->initial.getId());
 
 		const Vector3d &ipos = candidate->initial.getPosition() / Mpc;
-		p += ::sprintf(buffer + p, ", %f, %f, %f", ipos.x, ipos.y,
-				ipos.z);
+		p += ::sprintf(buffer + p, ", %f, %f, %f", ipos.x, ipos.y, ipos.z);
 
 		const Vector3d &idir = candidate->initial.getDirection();
 		p += ::sprintf(buffer + p, ", %f, %f, %f\n",
-				candidate->initial.getEnergy() / EeV, idir.getPhi(), idir.getTheta());
+				candidate->initial.getEnergy() / EeV, idir.getPhi(),
+				idir.getTheta());
 
 #pragma omp critical
 		{

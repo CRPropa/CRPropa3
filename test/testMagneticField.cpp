@@ -1,5 +1,6 @@
 #include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/magneticField/TurbulentMagneticFieldGrid.h"
 #include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 
@@ -49,8 +50,10 @@ TEST(testMagneticFieldGrid, Interpolation) {
 	EXPECT_FLOAT_EQ(1.7 * 0.9, B.getField(Vector3d(0, 0, 0.9) * spacing).x);
 	EXPECT_FLOAT_EQ(1.7 * 0.9, B.getField(Vector3d(0, 0, 1.1) * spacing).x);
 
-	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85, B.getField(Vector3d(0, 0.15, 0.9) * spacing).x);
-	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, B.getField(Vector3d(0, 2.15, 0.9) * spacing).x);
+	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85,
+			B.getField(Vector3d(0, 0.15, 0.9) * spacing).x);
+	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15,
+			B.getField(Vector3d(0, 2.15, 0.9) * spacing).x);
 }
 
 TEST(testMagneticFieldGrid, Normalization) {
@@ -123,11 +126,12 @@ TEST(testMagneticFieldGrid, DumpLoad) {
 	}
 }
 
-TEST(testTurbulentMagneticField, Bmean) {
+TEST(testTurbulentMagneticFieldGrid, Bmean) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;
 	double spacing = 10 * Mpc / n;
-	TurbulentMagneticField B(Vector3d(0, 0, 0), 10 * Mpc, n, 2 * spacing, 8 * spacing, -11. / 3., 1.);
+	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), 10 * Mpc, n, 2 * spacing,
+			8 * spacing, -11. / 3., 1.);
 
 	Vector3d b(0, 0, 0);
 	for (int ix = 0; ix < n; ix++)
@@ -142,12 +146,12 @@ TEST(testTurbulentMagneticField, Bmean) {
 	EXPECT_NEAR(b.z, 0, precision);
 }
 
-TEST(testTurbulentMagneticField, Brms) {
+TEST(testTurbulentMagneticFieldGrid, Brms) {
 	// Test for correct RMS strength: <B^2> = Brms^2
 	size_t n = 100;
-	TurbulentMagneticField B(Vector3d(0, 0, 0), 10 * Mpc, n);
+	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), 10 * Mpc, n);
 	double spacing = B.getGridSpacing();
-	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11./3.);
+	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11. / 3.);
 	B.initialize();
 	B.normalize(1. / B.getRMSFieldStrength());
 	double brms = 0;
@@ -161,9 +165,9 @@ TEST(testTurbulentMagneticField, Brms) {
 	EXPECT_NEAR(brms, 1, precision);
 }
 
-TEST(testTurbulentMagneticField, Exceptions) {
+TEST(testTurbulentMagneticFieldGrid, Exceptions) {
 	// Test exceptions
-	TurbulentMagneticField B(Vector3d(0, 0, 0), 10, 64);
+	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), 10, 64);
 	double spacing = B.getGridSpacing();
 
 	// should be fine
@@ -180,6 +184,57 @@ TEST(testTurbulentMagneticField, Exceptions) {
 
 	// lMax too large
 	B.setTurbulenceProperties(2 * spacing, 33 * spacing, -11. / 3.);
+	EXPECT_THROW(B.initialize(), std::runtime_error);
+}
+
+TEST(testTurbulentMagneticField, SimpleTest) {
+	TurbulentMagneticField B;
+	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11./3., 1000);
+	B.initialize();
+	Vector3d b1 = B.getField(Vector3d(0.));
+	Vector3d b2 = B.getField(Vector3d(0.));
+	EXPECT_DOUBLE_EQ(b1.x, b2.x);
+	EXPECT_DOUBLE_EQ(b1.y, b2.y);
+	EXPECT_DOUBLE_EQ(b1.z, b2.z);
+}
+
+TEST(testTurbulentMagneticField, Brms) {
+	TurbulentMagneticField B;
+	B.setTurbulenceProperties(1, 0.1, 100);
+	B.initialize();
+	double sumB2 = 0;
+	Vector3d Bmean, b;
+	int n = 20;
+	Random random;
+	for (int ix = 0; ix < n; ix++) {
+		for (int iy = 0; iy < n; iy++) {
+			for (int iz = 0; iz < n; iz++) {
+				b = B.getField(Vector3d(random.rand(), random.rand(), random.rand()) * 100000);
+				Bmean += b;
+				sumB2 = b.getMag2();
+			}
+		}
+	}
+	Bmean /= pow(n, 3);
+	double Brms = sqrt(sumB2 / pow(n, 3));
+	std::cout << Brms << std::endl;
+	std::cout << Bmean << std::endl;
+
+//	EXPECT_NEAR(Bmean.x, 0, 1e-6);
+//	EXPECT_NEAR(Bmean.y, 0, 1e-6);
+//	EXPECT_NEAR(Bmean.z, 0, 1e-6);
+//
+//	EXPECT_NEAR(Brms, 1, 1e-2);
+}
+
+TEST(testTurbulentMagneticField, Exceptions) {
+	TurbulentMagneticField B;
+
+	// Test exception if properties not set
+	EXPECT_THROW(B.initialize(), std::runtime_error);
+
+	// Test exception for lMin > lMax
+	B.setTurbulenceProperties(1 * nG, 8.1, 8);
 	EXPECT_THROW(B.initialize(), std::runtime_error);
 }
 

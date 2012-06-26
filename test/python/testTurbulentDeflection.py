@@ -8,7 +8,7 @@ nS = 100 # number of sampling points to simulate
 nP = range(75) # sampling points for plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-field = TurbulentMagneticField(Vector3d(0, 0, 0), 256 * 0.05 * Mpc, 256, 0.1 * Mpc, 2.2 * Mpc, -11/3., 1 * nG)
+field = TurbulentMagneticFieldGrid(Vector3d(0, 0, 0), 256 * 0.05 * Mpc, 256, 0.1 * Mpc, 2.2 * Mpc, -11/3., 1 * nG)
 propa = DeflectionCK(field)
 
 age = linspace(1, 150, nS)

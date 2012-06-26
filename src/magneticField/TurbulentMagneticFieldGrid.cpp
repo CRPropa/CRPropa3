@@ -1,16 +1,16 @@
-#include "mpc/magneticField/TurbulentMagneticField.h"
+#include "mpc/magneticField/TurbulentMagneticFieldGrid.h"
 #include "mpc/Units.h"
 
 #include "fftw3.h"
 
 namespace mpc {
 
-TurbulentMagneticField::TurbulentMagneticField(Vector3d origin, double size,
+TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3d origin, double size,
 		size_t samples) :
 		MagneticFieldGrid(origin, size, samples) {
 }
 
-TurbulentMagneticField::TurbulentMagneticField(Vector3d origin, double size,
+TurbulentMagneticFieldGrid::TurbulentMagneticFieldGrid(Vector3d origin, double size,
 		size_t samples, double lMin, double lMax, double spectralIndex,
 		double Brms) :
 		MagneticFieldGrid(origin, size, samples) {
@@ -21,19 +21,19 @@ TurbulentMagneticField::TurbulentMagneticField(Vector3d origin, double size,
 	normalize(Brms / getRMSFieldStrength());
 }
 
-void TurbulentMagneticField::setTurbulenceProperties(double lMin, double lMax,
+void TurbulentMagneticFieldGrid::setTurbulenceProperties(double lMin, double lMax,
 		double spectralIndex) {
 	this->lMin = lMin;
 	this->lMax = lMax;
 	this->spectralIndex = spectralIndex;
 }
 
-void TurbulentMagneticField::initialize(int seed) {
+void TurbulentMagneticFieldGrid::initialize(int seed) {
 	random.seed(seed);
 	initialize();
 }
 
-void TurbulentMagneticField::initialize() {
+void TurbulentMagneticFieldGrid::initialize() {
 	if (lMin < 2 * spacing)
 		throw std::runtime_error(
 				"mpc::TurbulentMagneticField: lMin < 2 * spacing");
@@ -155,19 +155,19 @@ void TurbulentMagneticField::initialize() {
 	fftwf_free(Bkz);
 }
 
-double TurbulentMagneticField::getPowerSpectralIndex() const {
+double TurbulentMagneticFieldGrid::getPowerSpectralIndex() const {
 	return spectralIndex;
 }
 
-double TurbulentMagneticField::getMinimumWavelength() const {
+double TurbulentMagneticFieldGrid::getMinimumWavelength() const {
 	return lMin;
 }
 
-double TurbulentMagneticField::getMaximumWavelength() const {
+double TurbulentMagneticFieldGrid::getMaximumWavelength() const {
 	return lMax;
 }
 
-double TurbulentMagneticField::getCorrelationLength() const {
+double TurbulentMagneticFieldGrid::getCorrelationLength() const {
 	double r = lMin / lMax;
 	double a = -spectralIndex - 2;
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));

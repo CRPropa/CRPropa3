@@ -7,13 +7,13 @@
 namespace mpc {
 
 /**
- @class TurbulentMagneticField
+ @class TurbulentMagneticFieldGrid
  @brief Random turbulent magnetic field on a cubic grid with trilinear interpolation.
 
  This class creates a random magnetic field with a turbulent spectrum.
  The field is isotropic and homogeneous with a zero mean magnetic field and and divergence.
  */
-class TurbulentMagneticField: public MagneticFieldGrid {
+class TurbulentMagneticFieldGrid: public MagneticFieldGrid {
 public:
 	/**
 	 * Constructor
@@ -21,7 +21,7 @@ public:
 	 * @param size 		Physical extension of the field grid
 	 * @param samples	Number of grid samples per edge
 	 */
-	TurbulentMagneticField(Vector3d origin, double size, size_t samples);
+	TurbulentMagneticFieldGrid(Vector3d origin, double size, size_t samples);
 
 	/**
 	 * Constructor, also performs initialization and normalization.
@@ -33,7 +33,7 @@ public:
 	 * @param spectralIndex	Power spectral index of the turbulence
 	 * @param Brms		RMS field strength
 	 */
-	TurbulentMagneticField(Vector3d origin, double size, size_t samples,
+	TurbulentMagneticFieldGrid(Vector3d origin, double size, size_t samples,
 			double lMin, double lMax, double spectralIndex, double Brms);
 
 	/**

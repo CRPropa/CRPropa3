@@ -82,7 +82,7 @@ n = 128
 lMin, lMax = 2, 32
 Brms = 1.
 alpha = -11./3
-field = TurbulentMagneticField(Vector3d(0, 0, 0), n, n)
+field = TurbulentMagneticFieldGrid(Vector3d(0, 0, 0), n, n)
 field.setTurbulenceProperties(lMin, lMax, alpha)
 field.initialize()
 field.normalize(Brms / field.getRMSFieldStrength())

@@ -29,8 +29,9 @@ public:
 	SPHMagneticField(Vector3d origin, double size, size_t samples,
 			std::string filename);
 	SPHMagneticField(size_t samples, std::string filename);
+
 	Vector3d getField(const Vector3d &position) const;
-	double getRho(const Vector3d &position) const;
+	double getRho(const Vector3d &position) const; /*< Return the density in [kg / m^3] */
 	void updateSimulationVolume(const Vector3d &origin, double size);
 };
 

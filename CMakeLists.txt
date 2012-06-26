@@ -44,7 +44,7 @@ endif()
 # fftw3f (optional for turbulent magnetic fields)
 find_package(FFTW3F)
 if (FFTW3F_FOUND)
-    list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticField.cpp)
+    list(APPEND MPC_EXTRA_SOURCES src/magneticField/TurbulentMagneticFieldGrid.cpp)
     list(APPEND MPC_EXTRA_INCLUDES ${FFTW3F_INCLUDE_DIR})
     list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
 endif (FFTW3F_FOUND)
@@ -59,7 +59,7 @@ if (GADGET_FOUND)
     list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
     # fftw3f needed for SPHTurbulentMagneticField
     if (FFTW3F_FOUND)
-        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticField.cpp)
+        list(APPEND MPC_EXTRA_SOURCES src/magneticField/SPHTurbulentMagneticFieldGrid.cpp)
     endif (FFTW3F_FOUND)
 endif (GADGET_FOUND)
 
@@ -98,6 +98,7 @@ add_library(mpc SHARED
     src/module/Output.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticFieldGrid.cpp
+    src/magneticField/TurbulentMagneticField.cpp
     ${MPC_EXTRA_SOURCES}
 )
 target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES})

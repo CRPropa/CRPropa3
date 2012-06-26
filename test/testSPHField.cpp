@@ -1,5 +1,5 @@
 #include "mpc/magneticField/SPHMagneticField.h"
-#include "mpc/magneticField/SPHTurbulentMagneticField.h"
+#include "mpc/magneticField/SPHTurbulentMagneticFieldGrid.h"
 #include "mpc/Units.h"
 #include "mpc/Common.h"
 
@@ -67,24 +67,29 @@ TEST(testSPHMagneticFieldGrid, simpleTest) {
 	std::cout << "RMS B-Field: " << brms / nG << " nG" << std::endl;
 }
 
-TEST(testSPHTurbulentMagneticField, modulatedField) {
-	// Test for correct rms and mean strength
-	Vector3d origin(80 * Mpc);
+TEST(testSPHTurbulentMagneticField, simpleTest) {
+	// Tests if a sampled SPH field can be constructed and prints RMS and mean field strength
+	Vector3d origin(100 * Mpc);
 	size_t n = 64;
+	double size = 40 * Mpc;
+	double spacing = size / n;
 
-	SPHTurbulentMagneticField B(origin, 40 * Mpc, n);
-	double spacing = B.getGridSpacing();
-	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11./3);
+	SPHTurbulentMagneticFieldGrid B(origin, size, n);
+	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11. / 3);
 	B.initialize();
-	B.modulate(getDataPath("SPH/mhd_z.db").c_str(), 2./3);
-	B.normalize(1. / B.getRMSFieldStrengthInSphere(Vector3d(120 * Mpc), 105 * Mpc));
 
+	std::cout << "modulating" << std::endl;
+	B.setModulation(getDataPath("SPH/mhd_z.db").c_str(), Vector3d(99 * Mpc),
+			42 * Mpc, 20, 2. / 3., 1.);
+
+	std::cout << "sampling" << std::endl;
 	double brms = 0;
 	Vector3d bmean(0, 0, 0);
 	for (int ix = 0; ix < n; ix++)
 		for (int iy = 0; iy < n; iy++)
 			for (int iz = 0; iz < n; iz++) {
-				Vector3d b = B.getField(origin + Vector3d(ix, iy, iz) * spacing);
+				Vector3d b = B.getField(
+						origin + Vector3d(ix, iy, iz) * spacing);
 				brms += b.getMag2();
 				bmean += b;
 			}
@@ -92,10 +97,8 @@ TEST(testSPHTurbulentMagneticField, modulatedField) {
 	brms = sqrt(brms / n / n / n);
 	bmean /= n * n * n;
 
-	EXPECT_NEAR(brms, 1, 1e-7);
-	EXPECT_NEAR(bmean.x, 0, 5e-3); // compatible with 0 within 0.5%
-	EXPECT_NEAR(bmean.y, 0, 5e-3);
-	EXPECT_NEAR(bmean.z, 0, 5e-3);
+	std::cout << "Mean B-Field: " << bmean / nG << " nG" << std::endl;
+	std::cout << "RMS B-Field: " << brms / nG << " nG" << std::endl;
 }
 
 int main(int argc, char **argv) {

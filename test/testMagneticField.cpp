@@ -126,6 +126,20 @@ TEST(testMagneticFieldGrid, DumpLoad) {
 	}
 }
 
+TEST(testMagneticFieldGrid, Speed) {
+	// Dump and load a field grid
+	MagneticFieldGrid B(Vector3d(0.), 3, 3);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				B.get(ix, iy, iz) = Vector3f(1, 2, 3);
+
+	Vector3d b;
+	Vector3d pos(1.,1.,1.);
+	for (int i = 0; i < 1000000; i++)
+		b = B.getField(pos);
+}
+
 TEST(testTurbulentMagneticFieldGrid, Bmean) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;

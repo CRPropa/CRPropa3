@@ -63,6 +63,36 @@ TEST(SmallObserverSphere, limitStep) {
 	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 1);
 }
 
+TEST(PeriodicBox, high) {
+	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.
+	PeriodicBox box(Vector3d(2, 2, 2), Vector3d(2, 2, 2));
+	Candidate candidate;
+	candidate.current.setPosition(Vector3d(4.5, 4.3, 4.4));
+	candidate.initial.setPosition(Vector3d(3, 3, 3));
+	box.process(&candidate);
+	EXPECT_DOUBLE_EQ(candidate.current.getPosition().x, 2.5);
+	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().x, 1);
+	EXPECT_DOUBLE_EQ(candidate.current.getPosition().y, 2.3);
+	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().y, 1);
+	EXPECT_DOUBLE_EQ(candidate.current.getPosition().z, 2.4);
+	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().z, 1);
+}
+
+TEST(PeriodicBox, low) {
+	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.
+	PeriodicBox box(Vector3d(0., 0., 0.), Vector3d(2., 2., 2.));
+	Candidate candidate;
+	candidate.current.setPosition(Vector3d(-2.5, -0.3, -0.4));
+	candidate.initial.setPosition(Vector3d(1, 1, 1));
+	box.process(&candidate);
+	EXPECT_DOUBLE_EQ(candidate.current.getPosition().x, 1.5);
+	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().x, 5);
+	EXPECT_DOUBLE_EQ(candidate.current.getPosition().y, 1.7);
+	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().y, 3);
+	EXPECT_DOUBLE_EQ(candidate.current.getPosition().z, 1.6);
+	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().z, 3);
+}
+
 TEST(CubicBoundary, inside) {
 	CubicBoundary cube(Vector3d(0, 0, 0), 10);
 	Candidate candidate;

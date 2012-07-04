@@ -83,6 +83,19 @@ void SmallObserverSphere::updateDescription() {
 	setDescription(s.str());
 }
 
+PeriodicBox::PeriodicBox(Vector3d origin, Vector3d size) :
+		origin(origin), size(size) {
+}
+
+void PeriodicBox::process(Candidate *candidate) const {
+	Vector3d position = candidate->current.getPosition();
+	Vector3d n = ((position - origin) / size).floor(); // integers for translation
+	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
+		candidate->current.setPosition(position - n * size);
+		candidate->initial.setPosition(candidate->initial.getPosition() - n * size);
+	}
+}
+
 CubicBoundary::CubicBoundary(Vector3d origin, double size, std::string flag,
 		std::string flagValue) {
 	this->origin = origin;

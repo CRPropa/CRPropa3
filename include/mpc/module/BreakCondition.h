@@ -64,6 +64,22 @@ public:
 };
 
 /**
+ @class PeriodicBox
+ @brief Box with periodic boundaries
+
+ If a particle leaves the periodic box it is placed at the opposite side and its initial (source) position changed accordingly.
+ Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
+ */
+class PeriodicBox: public Module {
+public:
+	Vector3d origin;
+	Vector3d size;
+
+	PeriodicBox(Vector3d origin, Vector3d size);
+	void process(Candidate *candidate) const;
+};
+
+/**
  @class CubicBoundary
  @brief Flags a particle when exiting the cube.
  */

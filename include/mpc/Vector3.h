@@ -191,12 +191,20 @@ public:
 		return true;
 	}
 
+	Vector3<T> operator +(const Vector3<T> &v) const {
+		return Vector3(x + v.x, y + v.y, z + v.z);
+	}
+
+	Vector3<T> operator +(const T &f) const {
+		return Vector3(x + f, y + f, z + f);
+	}
+
 	Vector3<T> operator -(const Vector3<T> &v) const {
 		return Vector3(x - v.x, y - v.y, z - v.z);
 	}
 
-	Vector3<T> operator +(const Vector3<T> &v) const {
-		return Vector3(x + v.x, y + v.y, z + v.z);
+	Vector3<T> operator -(const T &f) const {
+		return Vector3(x - f, y - f, z - f);
 	}
 
 	Vector3<T> operator *(const Vector3<T> &v) const {
@@ -207,32 +215,29 @@ public:
 		return Vector3(x * v, y * v, z * v);
 	}
 
-	Vector3<T> operator /(const T &f) const {
-		return Vector3(x / f, y / f, z / f);
+	Vector3<T> operator /(const Vector3<T> &v) const {
+		return Vector3(x / v.x, y / v.x, z / v.z);
 	}
 
-	Vector3<T> &operator /=(const T &f) {
-		x /= f;
-		y /= f;
-		z /= f;
-		return *this;
+	Vector3<T> operator /(const T &f) const {
+		return Vector3(x / f, y / f, z / f);
 	}
 
 	Vector3<T> operator %(const T &f) const {
 		return Vector3(x % f, y % f, z % f);
 	}
 
-	Vector3<T> &operator %=(const T &f) {
-		x %= f;
-		y %= f;
-		z %= f;
+	Vector3<T> &operator -=(const Vector3<T> &v) {
+		x -= v.x;
+		y -= v.y;
+		z -= v.z;
 		return *this;
 	}
 
-	Vector3<T> &operator *=(const T &f) {
-		x *= f;
-		y *= f;
-		z *= f;
+	Vector3<T> &operator -=(const T &f) {
+		x -= f;
+		y -= f;
+		z -= f;
 		return *this;
 	}
 
@@ -243,10 +248,45 @@ public:
 		return *this;
 	}
 
-	Vector3<T> &operator -=(const Vector3<T> &v) {
-		x -= v.x;
-		y -= v.y;
-		z -= v.z;
+	Vector3<T> &operator +=(const T &f) {
+		x += f;
+		y += f;
+		z += f;
+		return *this;
+	}
+
+	Vector3<T> &operator *=(const Vector3<T> &v) {
+		x *= v.x;
+		y *= v.y;
+		z *= v.z;
+		return *this;
+	}
+
+	Vector3<T> &operator *=(const T &f) {
+		x *= f;
+		y *= f;
+		z *= f;
+		return *this;
+	}
+
+	Vector3<T> &operator /=(const Vector3<T> &v) {
+		x /= v.x;
+		y /= v.y;
+		z /= v.z;
+		return *this;
+	}
+
+	Vector3<T> &operator /=(const T &f) {
+		x /= f;
+		y /= f;
+		z /= f;
+		return *this;
+	}
+
+	Vector3<T> &operator %=(const T &f) {
+		x %= f;
+		y %= f;
+		z %= f;
 		return *this;
 	}
 

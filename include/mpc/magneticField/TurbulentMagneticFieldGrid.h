@@ -8,7 +8,7 @@ namespace mpc {
 
 /**
  @class TurbulentMagneticFieldGrid
- @brief Random turbulent magnetic field on a cubic grid with trilinear interpolation.
+ @brief Turbulent magnetic field on a cubic grid with trilinear interpolation.
 
  This class creates a random magnetic field with a turbulent spectrum.
  The field is isotropic and homogeneous with a zero mean magnetic field and and divergence.

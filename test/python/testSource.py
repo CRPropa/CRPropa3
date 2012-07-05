@@ -1,10 +1,14 @@
 from mpc import *
 from pylab import *
 
-source = CompositeSource(Vector3d(0.), 10, 100, -1)
+
+Emin = 10 * EeV
+Emax = 100 * EeV
+index = -1
+composition = SourceComposition(Emin, Emax, index)
 
 def add(A, Z, w):
-    source.addToComposition(getNucleusId(A, Z), w * A)
+    composition.addToComposition(getNucleusId(A, Z), w * A)
 
 # DuVernois
 add(1, 1, 92000)
@@ -29,7 +33,7 @@ N = 10000
 Etot = zeros(N)
 E1, E2, E3, E4 = [], [], [], []
 for i in range(N):
-    source.prepare(state)
+    composition.prepare(state)
     lE = log10(state.getEnergy()) + 18
     Z = state.getChargeNumber()
     Etot[i] = lE

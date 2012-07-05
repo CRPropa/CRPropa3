@@ -12,7 +12,7 @@ namespace mpc {
 
 /**
  @class SPHTurbulentMagneticFieldGrid
- @brief Random turbulent magnetic field on a cubic grid modulated with an SPH density field.
+ @brief Turbulent magnetic field on a cubic grid modulated with an SPH density field.
  */
 class SPHTurbulentMagneticFieldGrid: public TurbulentMagneticFieldGrid {
 public:

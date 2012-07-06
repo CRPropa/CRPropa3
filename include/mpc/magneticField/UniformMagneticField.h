@@ -2,7 +2,6 @@
 #define MPC_UNIFORMAGNETICFIELD_H_
 
 #include "mpc/magneticField/MagneticField.h"
-#include "mpc/Vector3.h"
 
 namespace mpc {
 

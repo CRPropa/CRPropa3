@@ -1,5 +1,5 @@
-#ifndef MPC_TURBULENTMAGNETICFIELD_H_
-#define MPC_TURBULENTMAGNETICFIELD_H_
+#ifndef MPC_TURBULENTMAGNETICFIELDGRID_H_
+#define MPC_TURBULENTMAGNETICFIELDGRID_H_
 
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/Random.h"
@@ -66,4 +66,4 @@ protected:
 
 } // namespace mpc
 
-#endif /* MPC_TURBULENTMAGNETICFIELD_H_ */
+#endif /* MPC_TURBULENTMAGNETICFIELDGRID_H_ */

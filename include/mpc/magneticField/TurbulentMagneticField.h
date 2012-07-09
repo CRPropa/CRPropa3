@@ -1,5 +1,5 @@
-#ifndef TURBULENTMAGNETICFIELD2_H_
-#define TURBULENTMAGNETICFIELD2_H_
+#ifndef TURBULENTMAGNETICFIELD_H_
+#define TURBULENTMAGNETICFIELD_H_
 
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/Random.h"
@@ -58,15 +58,8 @@ public:
 
 	void updateSimulationVolume(const Vector3d &origin, double size);
 
-public:
-	double nModes; /**< Number of modes */
-	double spectralIndex; /**< Power spectral index of the turbulence */
-	double Brms; /**< RMS Field strength */
-	double lMin; /**< Minimum wavelength */
-	double lMax; /**< Maximum wavelength */
-
+private:
 	struct Mode {
-	public:
 		double amplitude;
 		double phase;
 		Vector3d e1;
@@ -74,10 +67,14 @@ public:
 		Vector3d k;
 	};
 	std::vector<Mode> modes; /**< List of random turbulent modes */
-
+	int nModes; /**< Number of modes */
+	double spectralIndex; /**< Power spectral index of the turbulence */
+	double Brms; /**< RMS Field strength */
+	double lMin; /**< Minimum wavelength */
+	double lMax; /**< Maximum wavelength */
 	Random random; /**< Random number generator instance */
 };
 
 } // mpc
 
-#endif /* TURBULENTMAGNETICFIELD2_H_ */
+#endif /* TURBULENTMAGNETICFIELD_H_ */

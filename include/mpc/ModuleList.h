@@ -1,13 +1,14 @@
 #ifndef MPC_MODULE_LIST_H_
 #define MPC_MODULE_LIST_H_
 
-#include <list>
-
 #include "mpc/Candidate.h"
 #include "mpc/Module.h"
 #include "mpc/Source.h"
 #include "mpc/AssocVector.h"
 #include "mpc/Referenced.h"
+
+#include <list>
+#include <iostream>
 
 namespace mpc {
 
@@ -24,7 +25,7 @@ public:
 	virtual ~ModuleList();
 	void setShowProgress(bool show);
 
-	void add(Module *module);
+	void add(ref_ptr<Module> );
 	virtual void process(Candidate *candidate);
 	void run(Candidate *candidate, bool recursive = true);
 	void run(candidate_vector_t &candidates, bool recursive = true);

@@ -22,7 +22,7 @@ public:
 	ExplicitRungeKutta<PhasePoint> erk;
 	double tolerance, minimumStep;
 
-	DeflectionCK(MagneticField *field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
+	DeflectionCK(ref_ptr<MagneticField> field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);

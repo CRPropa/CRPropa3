@@ -2,6 +2,7 @@
 
 #include <limits>
 #include <sstream>
+#include <stdexcept>
 
 namespace mpc {
 
@@ -14,9 +15,9 @@ namespace mpc {
 class LorentzForce: public ExplicitRungeKutta<PhasePoint>::F {
 public:
 	ParticleState *particle;
-	MagneticField *field;
+	ref_ptr<MagneticField> field;
 
-	LorentzForce(ParticleState *particle, MagneticField *field) {
+	LorentzForce(ParticleState *particle, ref_ptr<MagneticField> field) {
 		this->particle = particle;
 		this->field = field;
 	}
@@ -37,8 +38,10 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
+DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
 		double minimumStep) {
+	if (!field.valid())
+		throw std::runtime_error("[mpc::DeflectionCK] No Magnetic field set!");
 	this->field = field;
 	this->tolerance = tolerance;
 	this->minimumStep = minimumStep;

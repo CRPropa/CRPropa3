@@ -23,6 +23,11 @@ add_subdirectory(libs/kiss)
 list(APPEND MPC_EXTRA_LIBRARIES kiss)
 list(APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
 
+# pugixml (provided)
+add_subdirectory(libs/pugixml)
+list(APPEND MPC_EXTRA_LIBRARIES pugixml)
+list(APPEND MPC_EXTRA_INCLUDES libs/pugixml)
+
 # HepID (provided)
 add_subdirectory(libs/HepPID)
 list(APPEND MPC_EXTRA_LIBRARIES HepPID)
@@ -86,6 +91,7 @@ add_library(mpc SHARED
     src/Source.cpp
     src/Common.cpp
     src/Nucleus.cpp
+    src/XmlExecute.cpp
     src/module/BreakCondition.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp

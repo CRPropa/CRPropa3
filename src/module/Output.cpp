@@ -18,16 +18,16 @@ TrajectoryOutput::~TrajectoryOutput() {
 }
 
 void TrajectoryOutput::process(Candidate *candidate) const {
-	char buffer[128];
+	char buffer[1024];
 	size_t pos = 0;
-	pos += ::sprintf(buffer + pos, "%f, %d, %f",
+	pos += ::sprintf(buffer + pos, "%.15g, %d, %.15g",
 			candidate->getTrajectoryLength() / Mpc, candidate->current.getId(),
 			candidate->current.getEnergy() / EeV);
 	Vector3d position = candidate->current.getPosition() / Mpc;
-	pos += ::sprintf(buffer + pos, ", %f, %f, %f", position.x, position.y,
+	pos += ::sprintf(buffer + pos, ", %.15g, %.15g, %.15g", position.x, position.y,
 			position.z);
 	const Vector3d &dir = candidate->current.getDirection();
-	pos += ::sprintf(buffer + pos, ", %f, %f, %f\n", dir.x, dir.y, dir.z);
+	pos += ::sprintf(buffer + pos, ", %.15g, %.15g, %.15g\n", dir.x, dir.y, dir.z);
 
 #pragma omp critical
 	{

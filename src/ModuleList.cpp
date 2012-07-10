@@ -19,7 +19,7 @@ void ModuleList::setShowProgress(bool show) {
 	showProgress = show;
 }
 
-void ModuleList::add(Module *module) {
+void ModuleList::add(ref_ptr<Module> module) {
 	modules.push_back(module);
 }
 

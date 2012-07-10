@@ -100,7 +100,7 @@ public:
 	template<class Other> ref_ptr(const ref_ptr<Other>& rp) :
 			_ptr(rp._ptr) {
 		if (_ptr)
-			_ptr->ref();
+			_ptr->addReference();
 	}
 
 	~ref_ptr() {

@@ -46,11 +46,17 @@ double SourceComposition::getSpectrumIntegral(int Z) const {
 		return (pow(Emax, a) - pow(Emin, a)) / a;
 }
 
-void SourceComposition::addToComposition(int id, double a) {
+void SourceComposition::add(int id, double a) {
 	isotope.push_back(id);
-	abundance.push_back(a);
+	int A = getMassNumberFromNucleusId(id);
+	double weightedAbundance = a * pow(A, -index - 1);
+	abundance.push_back(weightedAbundance);
 	probability.push_back(0);
 	normalize();
+}
+
+void SourceComposition::add(int A, int Z, double a) {
+	add(getNucleusId(A, Z), a);
 }
 
 void SourceComposition::normalize() {

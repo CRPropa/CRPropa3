@@ -66,7 +66,8 @@ class SourceComposition: public SourceProperty {
 public:
 	SourceComposition(double Emin, double Rmax, double index);
 	double getSpectrumIntegral(int Z = 1) const;
-	void addToComposition(int id, double abundance);
+	void add(int id, double abundance);
+	void add(int A, int Z, double abundance);
 	void normalize();
 	void prepare(ParticleState &particle) const;
 };

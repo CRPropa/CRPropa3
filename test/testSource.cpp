@@ -41,7 +41,7 @@ TEST(testSourceComposition, simpleTest) {
 	double Emax = 100;
 	double index = -2;
 	SourceComposition source(Emin, Emax, index);
-	source.addToComposition(getNucleusId(6, 3), 1);
+	source.add(getNucleusId(6, 3), 1);
 	ParticleState ps;
 	source.prepare(ps);
 	EXPECT_EQ(6, ps.getMassNumber());

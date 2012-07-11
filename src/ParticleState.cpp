@@ -56,18 +56,11 @@ int ParticleState::getMassNumber() const {
 }
 
 double ParticleState::getMass() const {
-	if (HepPID::isNucleus(id))
-		return pmass;
-	else
-		throw std::runtime_error(
-				"mpc::ParticleState::getMass only for nuclei/nucleons");
+	return pmass;
 }
 
 bool ParticleState::isNucleus() const {
-	if (HepPID::isNucleus(id))
-		return true;
-	else
-		return false;
+	return HepPID::isNucleus(id);
 }
 
 double ParticleState::getLorentzFactor() const {

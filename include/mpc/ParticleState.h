@@ -1,5 +1,5 @@
-#ifndef PARTICLE_H_
-#define PARTICLE_H_
+#ifndef MPC_PARTICLE_STATE_H_
+#define MPC_PARTICLE_STATE_H_
 
 #include "mpc/Vector3.h"
 #include "mpc/Units.h"
@@ -52,4 +52,4 @@ public:
 
 } // namespace mpc
 
-#endif /* PARTICLE_H_ */
+#endif /* MPC_PARTICLE_STATE_H_ */

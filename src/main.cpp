@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		std::cout << "mpc-run <XML File>" << std::endl;
+		cout << "mpc-run <XML File>" << endl;
 		return 1;
 	}
 
@@ -16,7 +16,6 @@ int main(int argc, char **argv) {
 		XmlExecute exe;
 		if (!exe.load(argv[1]))
 			return 1;
-
 		exe.run();
 	} catch (std::exception &e) {
 		cerr << e.what() << endl;

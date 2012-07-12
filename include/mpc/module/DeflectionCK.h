@@ -18,11 +18,12 @@ namespace mpc {
  */
 class DeflectionCK: public SimulationVolumeDependentModule {
 public:
-	ref_ptr<MagneticField> field;
+	MagneticField *field;
 	ExplicitRungeKutta<PhasePoint> erk;
-	double tolerance, minimumStep;
+	double tolerance;
+	double minStep;
 
-	DeflectionCK(ref_ptr<MagneticField> field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
+	DeflectionCK(MagneticField *field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 	void updateSimulationVolume(const Vector3d &origin, double size);

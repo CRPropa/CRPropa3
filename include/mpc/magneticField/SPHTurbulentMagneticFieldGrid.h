@@ -15,6 +15,10 @@ namespace mpc {
  @brief Turbulent magnetic field on a cubic grid modulated with an SPH density field.
  */
 class SPHTurbulentMagneticFieldGrid: public TurbulentMagneticFieldGrid {
+	std::auto_ptr<SPHMagneticField> sphField; /**< SPH (density) field */
+	double lRho[67];
+	double lB[67];
+
 public:
 	/** Constructor. Reimplementation of TurbulentMagneticField. */
 	SPHTurbulentMagneticFieldGrid(Vector3d origin, double size, size_t samples) :
@@ -34,21 +38,17 @@ public:
 	 * @param origin	Origin of the SPH field
 	 * @param size		Size of the SPH field
 	 * @param bins		Number of bins of the SPH field
-	 * @param exp		Exponent for the density modulation
-	 * @param norm		Normalization of the field strength
 	 */
-	void setModulation(std::string filename, Vector3d origin, double size,
-			size_t samples, double exp, double norm);
+	void setDensityField(std::string filename, Vector3d origin, double size,
+			size_t bins);
+
+	void setModulation(std::string filename);
 
 	/** Get the density modulated magnetic field vector */
 	Vector3d getField(const Vector3d &position) const;
 
 	/** Get the density in [10^10 M_sol * h^2 / kpc^3] */
 	double getRho(const Vector3d &position) const;
-
-	double exponent; /**< Exponent of modulation with the density field */
-	double normalization; /**< Normalization factor */
-	std::auto_ptr<SPHMagneticField> sphField; /**< SPH (density) field */
 };
 
 } // namespace mpc

@@ -25,7 +25,7 @@ public:
 	virtual ~ModuleList();
 	void setShowProgress(bool show);
 
-	void add(ref_ptr<Module> );
+	void add(Module* module);
 	virtual void process(Candidate *candidate);
 	void run(Candidate *candidate, bool recursive = true);
 	void run(candidate_vector_t &candidates, bool recursive = true);

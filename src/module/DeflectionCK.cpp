@@ -15,7 +15,7 @@ namespace mpc {
 class LorentzForce: public ExplicitRungeKutta<PhasePoint>::F {
 public:
 	ParticleState *particle;
-	ref_ptr<MagneticField> field;
+	MagneticField *field;
 
 	LorentzForce(ParticleState *particle, ref_ptr<MagneticField> field) {
 		this->particle = particle;
@@ -38,13 +38,11 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
-		double minimumStep) {
-	if (!field.valid())
-		throw std::runtime_error("[mpc::DeflectionCK] No Magnetic field set!");
+DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
+		double minStep) {
 	this->field = field;
 	this->tolerance = tolerance;
-	this->minimumStep = minimumStep;
+	this->minStep = minStep;
 	erk.loadCashKarp();
 }
 
@@ -52,14 +50,14 @@ std::string DeflectionCK::getDescription() const {
 	std::stringstream sstr;
 	sstr
 			<< "Propagation in magnetic fields using the Cash-Karp method. Tolerance: "
-			<< tolerance << ", Minimum Step: " << minimumStep / kpc << " kpc";
+			<< tolerance << ", Minimum Step: " << minStep / kpc << " kpc";
 	return sstr.str();
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
 	// rectlinear propagation in case of no charge
 	if (candidate->current.getChargeNumber() == 0) {
-		double nextStep = std::max(minimumStep, candidate->getNextStep());
+		double nextStep = std::max(minStep, candidate->getNextStep());
 		Vector3d pos = candidate->current.getPosition();
 		Vector3d dir = candidate->current.getDirection();
 		candidate->current.setPosition(pos + dir * nextStep);
@@ -72,7 +70,7 @@ void DeflectionCK::process(Candidate *candidate) const {
 			candidate->current.getMomentum());
 	PhasePoint yOut, yErr, yScale;
 	LorentzForce dydt(&candidate->current, field);
-	double h = std::max(candidate->getNextStep(), minimumStep) / c_light;
+	double h = std::max(candidate->getNextStep(), minStep) / c_light;
 	double hTry, r;
 
 	// phase-point to compare with error for step size control
@@ -97,7 +95,7 @@ void DeflectionCK::process(Candidate *candidate) const {
 		// limit step change
 		h = std::max(h, 0.1 * hTry);
 		h = std::min(h, 5 * hTry);
-	} while (r > 1 && h >= minimumStep);
+	} while (r > 1 && h >= minStep);
 
 	candidate->current.setPosition(yOut.a);
 	candidate->current.setDirection(yOut.b.getUnitVector());

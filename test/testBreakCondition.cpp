@@ -116,14 +116,24 @@ TEST(CubicBoundary, outside) {
 	EXPECT_FALSE(candidate.isActive());
 }
 
-TEST(CubicBoundary, limitStep) {
-	CubicBoundary cube(Vector3d(0, 0, 0), 10);
+TEST(CubicBoundary, limitStepLower) {
+	CubicBoundary cube(Vector3d(10, 10, 10), 10);
 	cube.setLimitStep(true, 1);
 	Candidate candidate;
-	candidate.setNextStep(10);
-	candidate.current.setPosition(Vector3d(5, 5, 0.5));
+	candidate.current.setPosition(Vector3d(15, 15, 10.5));
+	candidate.setNextStep(100);
 	cube.process(&candidate);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 1.5);
+	EXPECT_DOUBLE_EQ(1.5, candidate.getNextStep());
+}
+
+TEST(CubicBoundary, limitStepUpper) {
+	CubicBoundary cube(Vector3d(-10, -10, -10), 10);
+	cube.setLimitStep(true, 1);
+	Candidate candidate;
+	candidate.current.setPosition(Vector3d(-5, -5, -0.5));
+	candidate.setNextStep(100);
+	cube.process(&candidate);
+	EXPECT_DOUBLE_EQ(1.5, candidate.getNextStep());
 }
 
 TEST(SphericalBoundary, inside) {
@@ -155,10 +165,10 @@ TEST(SphericalBoundary, limitStep) {
 	SphericalBoundary sphere(Vector3d(0, 0, 0), 10);
 	sphere.setLimitStep(true, 1);
 	Candidate candidate;
-	candidate.setNextStep(2);
+	candidate.setNextStep(100);
 	candidate.current.setPosition(Vector3d(0, 0, 9.5));
 	sphere.process(&candidate);
-	EXPECT_DOUBLE_EQ(candidate.getNextStep(), 1.5);
+	EXPECT_DOUBLE_EQ(1.5, candidate.getNextStep());
 }
 
 TEST(EllipsoidalBoundary, inside) {

@@ -2,6 +2,7 @@
 #define MPC_UNIFORMAGNETICFIELD_H_
 
 #include "mpc/magneticField/MagneticField.h"
+#include <stdexcept>
 
 namespace mpc {
 
@@ -10,6 +11,9 @@ namespace mpc {
  @brief Magnetic field with one B-field vector.
  */
 class UniformMagneticField: public MagneticField {
+private:
+	Vector3d value;
+
 public:
 	UniformMagneticField(const Vector3d &value) :
 			value(value) {
@@ -19,11 +23,7 @@ public:
 	}
 
 	void updateSimulationVolume(const Vector3d &origin, double size) {
-
 	}
-
-private:
-	Vector3d value;
 };
 
 } // namespace mpc

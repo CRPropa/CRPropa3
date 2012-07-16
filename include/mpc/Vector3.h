@@ -166,6 +166,14 @@ public:
 		return Vector3<T>(std::ceil(x), std::ceil(y), std::ceil(z));
 	}
 
+	T min() {
+		return std::min(x, std::min(y, z));
+	}
+
+	T max() {
+		return std::max(x, std::max(y, z));
+	}
+
 	bool operator <(const Vector3<T> &v) const {
 		if (x > v.x)
 			return false;

@@ -2,15 +2,14 @@
 
 namespace mpc {
 
-MaximumTrajectoryLength::MaximumTrajectoryLength(double length) :
-		maxLength(length) {
-	std::stringstream s;
-	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc";
-	setDescription(s.str());
+MaximumTrajectoryLength::MaximumTrajectoryLength(double maxLength) {
+	this->maxLength = maxLength;
+	updateDescription();
 }
 
 void MaximumTrajectoryLength::setMaximumTrajectoryLength(double length) {
 	maxLength = length;
+	updateDescription();
 }
 
 double MaximumTrajectoryLength::getMaximumTrajectoryLength() const {
@@ -22,19 +21,25 @@ void MaximumTrajectoryLength::process(Candidate *candidate) const {
 	if (l >= maxLength) {
 		candidate->setActive(false);
 		candidate->setProperty("Deactivated", getDescription());
-	} else
+	} else {
 		candidate->limitNextStep(maxLength - l);
+	}
 }
 
-MinimumEnergy::MinimumEnergy(double minEnergy) :
-		minEnergy(minEnergy) {
+void MaximumTrajectoryLength::updateDescription() {
 	std::stringstream s;
-	s << "Minimum energy: " << minEnergy / EeV << " EeV";
+	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc";
 	setDescription(s.str());
+}
+
+MinimumEnergy::MinimumEnergy(double minEnergy) {
+	this->minEnergy = minEnergy;
+	updateDescription();
 }
 
 void MinimumEnergy::setMinimumEnergy(double energy) {
 	minEnergy = energy;
+	updateDescription();
 }
 
 double MinimumEnergy::getMinimumEnergy() const {
@@ -46,6 +51,12 @@ void MinimumEnergy::process(Candidate *candidate) const {
 		candidate->setActive(false);
 		candidate->setProperty("Deactivated", getDescription());
 	}
+}
+
+void MinimumEnergy::updateDescription() {
+	std::stringstream s;
+	s << "Minimum energy: " << minEnergy / EeV << " EeV";
+	setDescription(s.str());
 }
 
 SmallObserverSphere::SmallObserverSphere(Vector3d center, double radius,
@@ -83,8 +94,10 @@ void SmallObserverSphere::updateDescription() {
 	setDescription(s.str());
 }
 
-PeriodicBox::PeriodicBox(Vector3d origin, Vector3d size) :
-		origin(origin), size(size) {
+PeriodicBox::PeriodicBox(Vector3d origin, Vector3d size) {
+	this->origin = origin;
+	this->size = size;
+	updateDescription();
 }
 
 void PeriodicBox::process(Candidate *candidate) const {
@@ -92,8 +105,15 @@ void PeriodicBox::process(Candidate *candidate) const {
 	Vector3d n = ((position - origin) / size).floor(); // integers for translation
 	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
 		candidate->current.setPosition(position - n * size);
-		candidate->initial.setPosition(candidate->initial.getPosition() - n * size);
+		candidate->initial.setPosition(
+				candidate->initial.getPosition() - n * size);
 	}
+}
+
+void PeriodicBox::updateDescription() {
+	std::stringstream s;
+	s << "Periodic box: origin " << origin << ", size " << size;
+	setDescription(s.str());
 }
 
 CubicBoundary::CubicBoundary(Vector3d origin, double size, std::string flag,
@@ -120,17 +140,16 @@ void CubicBoundary::setLimitStep(bool limitStep, double margin) {
 }
 
 void CubicBoundary::process(Candidate *candidate) const {
-	Vector3d relPos = candidate->current.getPosition() - origin;
-	double lo = std::min(relPos.x, std::min(relPos.y, relPos.z));
-	double hi = std::max(relPos.x, std::max(relPos.y, relPos.z));
-	if ((lo <= 0.) or (hi >= size)) {
+	Vector3d r = candidate->current.getPosition() - origin;
+	double lo = r.min();
+	double hi = r.max();
+	if ((lo <= 0) or (hi >= size)) {
 		candidate->setProperty(flag, flagValue);
 		if (makeInactive) {
 			candidate->setActive(false);
 			candidate->setProperty("Deactivated", getDescription());
 		}
-	}
-	if (limitStep) {
+	} else if (limitStep) {
 		candidate->limitNextStep(lo + margin);
 		candidate->limitNextStep(size - hi + margin);
 	}

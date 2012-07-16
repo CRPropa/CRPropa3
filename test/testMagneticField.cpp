@@ -3,6 +3,7 @@
 #include "mpc/magneticField/TurbulentMagneticFieldGrid.h"
 #include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
+#include "mpc/Common.h"
 
 #include "gtest/gtest.h"
 #include <stdexcept>
@@ -108,10 +109,10 @@ TEST(testMagneticFieldGrid, DumpLoad) {
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
 				B1.get(ix, iy, iz) = Vector3f(1, 2, 3);
-	B1.dump("test/testDump.raw");
+	B1.dump(getDataPath("../test/testDump.raw"));
 
 	MagneticFieldGrid B2(Vector3d(0.), 3, 3);
-	B2.load("test/testDump.raw");
+	B2.load(getDataPath("../test/testDump.raw"));
 
 	for (int ix = 0; ix < 3; ix++) {
 		for (int iy = 0; iy < 3; iy++) {

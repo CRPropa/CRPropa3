@@ -55,14 +55,15 @@ std::string DeflectionCK::getDescription() const {
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
+	double step = std::max(minStep, candidate->getNextStep());
+
 	// rectlinear propagation in case of no charge
-	if (candidate->current.getChargeNumber() == 0) {
-		double nextStep = std::max(minStep, candidate->getNextStep());
+	if (candidate->current.getCharge() == 0) {
 		Vector3d pos = candidate->current.getPosition();
 		Vector3d dir = candidate->current.getDirection();
-		candidate->current.setPosition(pos + dir * nextStep);
-		candidate->setCurrentStep(nextStep);
-		candidate->setNextStep(nextStep * 5);
+		candidate->current.setPosition(pos + dir * step);
+		candidate->setCurrentStep(step);
+		candidate->setNextStep(step * 5);
 		return;
 	}
 
@@ -70,7 +71,7 @@ void DeflectionCK::process(Candidate *candidate) const {
 			candidate->current.getMomentum());
 	PhasePoint yOut, yErr, yScale;
 	LorentzForce dydt(&candidate->current, field);
-	double h = std::max(candidate->getNextStep(), minStep) / c_light;
+	double h = step / c_light;
 	double hTry, r;
 
 	// phase-point to compare with error for step size control

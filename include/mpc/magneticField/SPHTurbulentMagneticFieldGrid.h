@@ -16,8 +16,8 @@ namespace mpc {
  */
 class SPHTurbulentMagneticFieldGrid: public TurbulentMagneticFieldGrid {
 	std::auto_ptr<SPHMagneticField> sphField; /**< SPH (density) field */
-	double lRho[67];
-	double lB[67];
+	double tabRho[67];
+	double tabB[67];
 
 public:
 	/** Constructor. Reimplementation of TurbulentMagneticField. */

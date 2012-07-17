@@ -2,9 +2,6 @@
 #define MPC_EXPLICITRUNGEKUTTA_H_
 
 #include <vector>
-#include <stdexcept>
-#include <iostream>
-#include <sstream>
 
 namespace mpc {
 

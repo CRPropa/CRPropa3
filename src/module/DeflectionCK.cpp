@@ -8,9 +8,7 @@ namespace mpc {
 
 /**
  * @class LorentzForce
- * @brief Time-derivative in SI-units of phase-point
- * (position, momentum) -> (velocity, force)
- * of a highly relativistic charged particle in magnetic field.
+ * @brief Time-derivative of the phase-point (position, momentum) of a highly relativistic particle in magnetic field.
  */
 class LorentzForce: public ExplicitRungeKutta<PhasePoint>::F {
 public:
@@ -57,7 +55,7 @@ std::string DeflectionCK::getDescription() const {
 void DeflectionCK::process(Candidate *candidate) const {
 	double step = std::max(minStep, candidate->getNextStep());
 
-	// rectlinear propagation in case of no charge
+	// rectlinear propagation for neutral particles
 	if (candidate->current.getCharge() == 0) {
 		Vector3d pos = candidate->current.getPosition();
 		Vector3d dir = candidate->current.getDirection();
@@ -77,11 +75,13 @@ void DeflectionCK::process(Candidate *candidate) const {
 	// phase-point to compare with error for step size control
 	yScale = (yIn.abs() + dydt(0., yIn).abs() * h) * tolerance;
 
+	// try performing a steps until the relative error is less than the desired tolerance
+	// or the minimum step size has been reached
 	do {
 		hTry = h;
 		erk.step(0, yIn, yOut, yErr, hTry, dydt);
 
-		// maximum of ratio yErr(i) / yScale(i)
+		// determine maximum of relative errors yErr(i) / yScale(i)
 		r = 0;
 		if (yScale.b.x > std::numeric_limits<double>::min())
 			r = std::max(r, fabs(yErr.b.x / yScale.b.x));
@@ -90,13 +90,11 @@ void DeflectionCK::process(Candidate *candidate) const {
 		if (yScale.b.z > std::numeric_limits<double>::min())
 			r = std::max(r, fabs(yErr.b.z / yScale.b.z));
 
-		// for efficient integration try to keep r close to one
+		// change (next) step size to keep the relative error close to the tolerance
 		h *= 0.95 * pow(r, -0.2);
-
-		// limit step change
 		h = std::max(h, 0.1 * hTry);
 		h = std::min(h, 5 * hTry);
-	} while (r > 1 && h >= minStep);
+	} while (r > 1 && h > minStep);
 
 	candidate->current.setPosition(yOut.a);
 	candidate->current.setDirection(yOut.b.getUnitVector());

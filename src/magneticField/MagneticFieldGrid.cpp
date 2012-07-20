@@ -6,7 +6,7 @@
 namespace mpc {
 
 void periodicClamp(double x, int n, int &lo, int &hi) {
-	lo = ( ( int(floor(x)) % n ) + n ) % n;
+	lo = ((int(floor(x)) % n) + n) % n;
 	hi = (lo + 1) % n;
 }
 
@@ -34,37 +34,75 @@ void MagneticFieldGrid::normalize(double norm) {
 }
 
 void MagneticFieldGrid::load(std::string filename) {
-	std::ifstream infile(filename.c_str(), std::ios::binary);
-	if (!infile)
-		throw std::runtime_error("mpc::MagneticFieldGrid: File not found");
+	std::ifstream fin(filename.c_str(), std::ios::binary);
+	if (!fin)
+		throw std::runtime_error("MagneticFieldGrid: File not found");
 	for (int ix = 0; ix < samples; ix++) {
 		for (int iy = 0; iy < samples; iy++) {
 			for (int iz = 0; iz < samples; iz++) {
 				Vector3f &b = get(ix, iy, iz);
-				infile.read((char*) &(b.x), sizeof(float));
-				infile.read((char*) &(b.y), sizeof(float));
-				infile.read((char*) &(b.z), sizeof(float));
+				fin.read((char*) &(b.x), sizeof(float));
+				fin.read((char*) &(b.y), sizeof(float));
+				fin.read((char*) &(b.z), sizeof(float));
 			}
 		}
 	}
-	infile.close();
+	fin.close();
 }
 
 void MagneticFieldGrid::dump(std::string filename) const {
-	std::ofstream outfile(filename.c_str(), std::ios::binary);
-	if (!outfile)
-		throw std::runtime_error("mpc::MagneticFieldGrid: Could not open file");
+	std::ofstream fout(filename.c_str(), std::ios::binary);
+	if (!fout)
+		throw std::runtime_error("MagneticFieldGrid: Could not open file");
 	for (int ix = 0; ix < samples; ix++) {
 		for (int iy = 0; iy < samples; iy++) {
 			for (int iz = 0; iz < samples; iz++) {
 				Vector3f b = get(ix, iy, iz);
-				outfile.write((char*) &(b.x), sizeof(float));
-				outfile.write((char*) &(b.y), sizeof(float));
-				outfile.write((char*) &(b.z), sizeof(float));
+				fout.write((char*) &(b.x), sizeof(float));
+				fout.write((char*) &(b.y), sizeof(float));
+				fout.write((char*) &(b.z), sizeof(float));
 			}
 		}
 	}
-	outfile.close();
+	fout.close();
+}
+
+void MagneticFieldGrid::loadTxt(std::string filename, double conversion) {
+	std::ifstream fin(filename.c_str());
+	if (!fin)
+		throw std::runtime_error("MagneticFieldGrid: file not found");
+
+	// skip header lines
+	while (fin.peek() == '#')
+		fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	for (int ix = 0; ix < samples; ix++) {
+		for (int iy = 0; iy < samples; iy++) {
+			for (int iz = 0; iz < samples; iz++) {
+				Vector3f &b = get(ix, iy, iz);
+				fin >> b.x >> b.y >> b.z;
+				b *= conversion;
+				if (fin.eof())
+					throw std::runtime_error("MagneticFieldGrid: file too short");
+			}
+		}
+	}
+	fin.close();
+}
+
+void MagneticFieldGrid::dumpTxt(std::string filename, double conversion) {
+	std::ofstream fout(filename.c_str());
+	if (!fout)
+		throw std::runtime_error("MagneticFieldGrid: could not open file");
+	for (int ix = 0; ix < samples; ix++) {
+		for (int iy = 0; iy < samples; iy++) {
+			for (int iz = 0; iz < samples; iz++) {
+				Vector3f b = get(ix, iy, iz) * conversion;
+				fout << b << "\n";
+			}
+		}
+	}
+	fout.close();
 }
 
 void MagneticFieldGrid::modulateWithDensityField(std::string filename,

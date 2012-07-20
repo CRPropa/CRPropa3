@@ -35,16 +35,34 @@ public:
 	void normalize(double norm);
 
 	/**
-	 * Load the field from a binary file.
+	 * Load the field grid from a binary file.
 	 * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
 	 */
 	void load(std::string filename);
 
 	/**
-	 * Dump the field to a binary file.
+	 * Dump the field grid to a binary file.
 	 * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
 	 */
 	void dump(std::string filename) const;
+
+	/**
+	 * Load the field grid from a plain text file.
+	 * The field is stored as one grid point per line from (0,0,0) to (nx, ny, nz) with the grid z-index changing the fastest.
+	 * Within one line the magnetic field values are stored in xyz order separated by a blank or tab.
+	 * Header lines must start with a #.
+	 * @param unit	conversion of the values in the file to SI
+	 */
+	void loadTxt(std::string filename, double unit);
+
+	/**
+	 * Dump the field grid to a plain text file.
+	 * The field is stored as one grid point per line from (0,0,0) to (nx, ny, nz) with the grid z-index changing the fastest.
+	 * Within one line the magnetic field values are stored in xyz order separated by a blank or tab.
+	 * Header lines must start with a #.
+	 * @param unit	conversion of SI to the values in the file
+	 */
+	void dumpTxt(std::string filename, double unit);
 
 	/**
 	 * Modulate the magnetic field with a density field from a binary file.

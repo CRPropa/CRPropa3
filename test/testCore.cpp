@@ -222,6 +222,11 @@ TEST(Vector3, rotation) {
 	EXPECT_NEAR(v.z, 7, 1e-9);
 }
 
+TEST(NucleusId, crpropaScheme) {
+	EXPECT_EQ(getNucleusId(56, 26), convertFromCRPropaId(26056));
+	EXPECT_EQ(26056, convertToCRPropaId(getNucleusId(56, 26)));
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

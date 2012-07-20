@@ -27,6 +27,26 @@ int getNucleusId(int a, int z) {
 	return 1000000000 + z * 10000 + a * 10;
 }
 
+int getChargeNumberFromNucleusId(int id) {
+	return HepPID::Z(id);
+}
+
+int getMassNumberFromNucleusId(int id) {
+	return HepPID::A(id);
+}
+
+int convertFromCRPropaId(int crp_id) {
+	int Z = crp_id / 1000;
+	int A = crp_id % 1000;
+	return getNucleusId(A, Z);
+}
+
+int convertToCRPropaId(int id) {
+	int Z = getChargeNumberFromNucleusId(id);
+	int A = getMassNumberFromNucleusId(id);
+	return Z * 1000 + A;
+}
+
 struct NuclearMassTable {
 	std::vector<double> table;
 
@@ -60,14 +80,6 @@ double getNucleusMass(int id) {
 	if (mass == 0)
 		throw std::runtime_error("mpc: nucleus not found " + kiss::str(id));
 	return mass;
-}
-
-int getChargeNumberFromNucleusId(int id) {
-	return HepPID::Z(id);
-}
-
-int getMassNumberFromNucleusId(int id) {
-	return HepPID::A(id);
 }
 
 } // namespace mpc

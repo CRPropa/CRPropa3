@@ -16,6 +16,10 @@ int getNucleusId(int a, int z);
 int getChargeNumberFromNucleusId(int id);
 int getMassNumberFromNucleusId(int id);
 
+/* CRPropa2.0 code scheme */
+int convertFromCRPropaId(int id);
+int convertToCRPropaId(int id);
+
 /** Return the nucleus mass by lookup from a table.
  *  The masses are the atomic masses from the NIST database (http://www.nist.gov/pml/data/comp.cfm) minus electron masses, neglecting electron binding energies.
  *  Unmeasured atomic masses are taken to be A * amu minus electron masses.

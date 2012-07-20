@@ -6,13 +6,30 @@
 
 namespace mpc {
 
-void Source::addProperty(SourceProperty* property) {
+void Source::addProperty(SourceProperty *property) {
 	properties.push_back(property);
 }
 
-void Source::prepare(ParticleState& state) const {
+void Source::prepare(ParticleState &particle) const {
 	for (int i = 0; i < properties.size(); i++)
-		(*properties[i]).prepare(state);
+		(*properties[i]).prepare(particle);
+}
+
+void SourceList::addSource(Source *source, double lumi) {
+	sources.push_back(source);
+	if (luminosities.size() > 0)
+		lumi += luminosities.back();
+	luminosities.push_back(lumi);
+}
+
+void SourceList::prepare(ParticleState &particle) const {
+	if (sources.size() == 0)
+		throw std::runtime_error("SourceList: no sources set");
+	double r = Random().rand() * luminosities.back();
+	int i = 0;
+	while ((r > luminosities[i]) and (i < luminosities.size()))
+		i++;
+	(sources[i])->prepare(particle);
 }
 
 SourceParticleType::SourceParticleType(int id) :
@@ -21,6 +38,14 @@ SourceParticleType::SourceParticleType(int id) :
 
 void SourceParticleType::prepare(ParticleState &particle) const {
 	particle.setId(id);
+}
+
+SourceEnergy::SourceEnergy(double energy) :
+		E(energy) {
+}
+
+void SourceEnergy::prepare(ParticleState &particle) const {
+	particle.setEnergy(E);
 }
 
 SourcePowerLawSpectrum::SourcePowerLawSpectrum(double Emin, double Emax,
@@ -96,13 +121,13 @@ SourceSphericalVolume::SourceSphericalVolume(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
-void SourceSphericalVolume::prepare(ParticleState& particle) const {
+void SourceSphericalVolume::prepare(ParticleState &particle) const {
 	double r = pow(Random().rand(), 1. / 3.) * radius;
 	Vector3d pos = Random().randUnitVectorOnSphere() * r;
 	particle.setPosition(pos);
 }
 
-void SourceIsotropicEmission::prepare(ParticleState& particle) const {
+void SourceIsotropicEmission::prepare(ParticleState &particle) const {
 	Vector3d dir = Random().randUnitVectorOnSphere();
 	particle.setDirection(dir);
 }
@@ -111,7 +136,7 @@ SourceDirection::SourceDirection(Vector3d direction) :
 		direction(direction) {
 }
 
-void SourceDirection::prepare(ParticleState& particle) const {
+void SourceDirection::prepare(ParticleState &particle) const {
 	particle.setDirection(direction);
 }
 
@@ -119,7 +144,7 @@ SourceEmissionCone::SourceEmissionCone(Vector3d direction, double aperture) :
 		direction(direction), aperture(aperture) {
 }
 
-void SourceEmissionCone::prepare(ParticleState& particle) const {
+void SourceEmissionCone::prepare(ParticleState &particle) const {
 	Vector3d dir = Random().randConeVector(direction, aperture);
 	particle.setDirection(dir);
 }

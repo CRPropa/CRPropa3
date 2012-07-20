@@ -19,12 +19,27 @@ public:
 
 /**
  @class Source
- @brief Abstract class for cosmic ray sources
+ @brief General cosmic ray source
+
+ This class is a container for source properties.
+ The source prepares a particle by passing it to all its source properties, who in turn modify it accordingly.
  */
 class Source: public Referenced {
-public:
 	std::vector<ref_ptr<SourceProperty> > properties;
+public:
 	void addProperty(SourceProperty *property);
+	void prepare(ParticleState &particle) const;
+};
+
+/**
+ @class SourceList
+ @brief List of cosmic ray sources of individual total lumosities.
+ */
+class SourceList: public Source {
+	std::vector<ref_ptr<Source> > sources;
+	std::vector<double> luminosities;
+public:
+	void addSource(Source *source, double luminosity = 1);
 	void prepare(ParticleState &particle) const;
 };
 
@@ -36,6 +51,18 @@ class SourceParticleType: public SourceProperty {
 	double id;
 public:
 	SourceParticleType(int id);
+	void prepare(ParticleState &particle) const;
+};
+
+
+/**
+ @ class SourceEnergy
+ @ brief Sets the initial energy to a given value
+ */
+class SourceEnergy: public SourceProperty {
+	double E;
+public:
+	SourceEnergy(double energy);
 	void prepare(ParticleState &particle) const;
 };
 

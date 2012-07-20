@@ -56,7 +56,7 @@ TEST(testSourceComposition, throwNoIsotope) {
 	EXPECT_THROW(source.prepare(ps), std::runtime_error);
 }
 
-TEST(testSource, simpleTest) {
+TEST(testSource, allPropertiesUsed) {
 	Source source;
 	source.addProperty(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
 	source.addProperty(new SourceIsotropicEmission());
@@ -69,6 +69,46 @@ TEST(testSource, simpleTest) {
 	EXPECT_LE(5 * EeV, ps.getEnergy());
 	EXPECT_GE(100 * EeV , ps.getEnergy());
 	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, ps.getPosition());
+}
+
+TEST(testSourceList, simpleTest) {
+	// test if source list works with one source
+	SourceList sourceList;
+	ref_ptr<Source> source = new Source;
+	source->addProperty(new SourcePosition(Vector3d(10, 0, 0)));
+	sourceList.addSource(source);
+	ParticleState p;
+	sourceList.prepare(p);
+	EXPECT_EQ(Vector3d(10, 0, 0), p.getPosition());
+}
+
+TEST(testSourceList, noSource) {
+	// test if an error is thrown when source list empty
+	SourceList sourceList;
+	ParticleState p;
+	EXPECT_THROW(sourceList.prepare(p), std::runtime_error);
+}
+
+TEST(testSourceList, luminosity) {
+	// test if the sources are dialed according to their luminosities
+	SourceList sourceList;
+	ParticleState p;
+
+	ref_ptr<Source> source1 = new Source;
+	source1->addProperty(new SourceEnergy(100));
+	sourceList.addSource(source1, 80);
+
+	ref_ptr<Source> source2 = new Source;
+	source2->addProperty(new SourceEnergy(0));
+	sourceList.addSource(source2, 20);
+
+	double meanE = 0;
+	for (int i = 0; i < 1000; i++) {
+		sourceList.prepare(p);
+		meanE += p.getEnergy();
+	}
+	meanE /= 1000;
+	EXPECT_NEAR(80, meanE, 1); // this test can stochastically fail
 }
 
 int main(int argc, char **argv) {

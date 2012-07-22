@@ -19,13 +19,6 @@ MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, double size,
 	grid.resize(samples * samples * samples);
 }
 
-void MagneticFieldGrid::updateSimulationVolume(const Vector3d &origin,
-		double size) {
-	this->origin = origin;
-	this->size = size;
-	this->spacing = size / samples;
-}
-
 void MagneticFieldGrid::normalize(double norm) {
 	for (int ix = 0; ix < samples; ix++)
 		for (int iy = 0; iy < samples; iy++)

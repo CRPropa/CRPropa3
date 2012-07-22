@@ -40,7 +40,6 @@
 #include "mpc/Nucleus.h"
 #include "mpc/Module.h"
 #include "mpc/ModuleList.h"
-#include "mpc/SpatialPartitioning.h"
 #include "mpc/PhasePoint.h"
 #include "mpc/ExplicitRungeKutta.h"
 #include "mpc/Random.h"
@@ -72,7 +71,6 @@
 %ignore operator mpc::Module*;
 %ignore operator mpc::ModuleList*;
 %ignore operator mpc::MagneticField*;
-%ignore operator mpc::SpatialPartitioning*;
 
 %feature("ref")   mpc::Referenced "$this->addReference();"
 %feature("unref") mpc::Referenced "$this->removeReference();"
@@ -127,5 +125,3 @@
 %include "mpc/module/Tools.h"
 %template(ModuleListRefPtr) mpc::ref_ptr<mpc::ModuleList>;
 %include "mpc/ModuleList.h"
-%template(SpatialPartitioningRefPtr) mpc::ref_ptr<mpc::SpatialPartitioning>;
-%include "mpc/SpatialPartitioning.h"

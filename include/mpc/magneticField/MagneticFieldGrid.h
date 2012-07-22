@@ -95,16 +95,11 @@ public:
 	double getGridSpacing() const;
 	double getGridSize() const;
 
-	/** Update the fields origin and size. */
-	virtual void updateSimulationVolume(const Vector3d &origin, double size);
-
-
 protected:
 	std::vector<Vector3f> grid; /**< Grid of magnetic field vectors */
 	Vector3d origin; /**< Origin of the field */
 	double size; /**< Extension of the field */
 	size_t samples; /**< Number of grid points per edge */
-
 	double spacing; /**< Distance between two grid points (= size / samples) */
 };
 

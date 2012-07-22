@@ -56,8 +56,6 @@ public:
 	/** Return the analytical calculation of the correlation length. */
 	double getCorrelationLength() const;
 
-	void updateSimulationVolume(const Vector3d &origin, double size);
-
 private:
 	struct Mode {
 		double amplitude;

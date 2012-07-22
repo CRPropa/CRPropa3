@@ -86,7 +86,6 @@ add_library(mpc SHARED
     src/SpatialPartitioning.cpp
     src/Module.cpp
     src/Candidate.cpp
-    src/IO.cpp
     src/ParticleState.cpp
     src/Source.cpp
     src/Common.cpp

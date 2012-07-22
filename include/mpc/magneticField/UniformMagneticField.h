@@ -21,9 +21,6 @@ public:
 	Vector3d getField(const Vector3d &position) const {
 		return value;
 	}
-
-	void updateSimulationVolume(const Vector3d &origin, double size) {
-	}
 };
 
 } // namespace mpc

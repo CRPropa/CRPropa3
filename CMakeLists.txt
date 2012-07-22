@@ -83,7 +83,6 @@ add_library(mpc SHARED
     src/Random.cpp
     src/Clock.cpp
     src/ModuleList.cpp
-    src/SpatialPartitioning.cpp
     src/Module.cpp
     src/Candidate.cpp
     src/ParticleState.cpp

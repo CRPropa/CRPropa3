@@ -105,9 +105,4 @@ double TurbulentMagneticField::getCorrelationLength() const {
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 
-void TurbulentMagneticField::updateSimulationVolume(const Vector3d &origin,
-		double size) {
-	return;
-}
-
 } // namespace mpc

@@ -32,7 +32,6 @@ public:
 
 	Vector3d getField(const Vector3d &position) const;
 	double getRho(const Vector3d &position) const; /*< Return the density in [kg / m^3] */
-	void updateSimulationVolume(const Vector3d &origin, double size);
 };
 
 /**
@@ -50,7 +49,6 @@ public:
 			std::string filename);
 	SPHMagneticFieldGrid(size_t gridSize, std::string filename);
 	Vector3d getField(const Vector3d &position) const;
-	void updateSimulationVolume(const Vector3d &origin, double size);
 	void setCachePrefix(std::string prefix);
 	void setCacheEnabled(bool enabled);
 };

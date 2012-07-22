@@ -102,8 +102,4 @@ void DeflectionCK::process(Candidate *candidate) const {
 	candidate->setNextStep(h * c_light);
 }
 
-void DeflectionCK::updateSimulationVolume(const Vector3d &origin, double size) {
-	field->updateSimulationVolume(origin, size);
-}
-
 } /* namespace mpc */

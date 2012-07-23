@@ -58,6 +58,23 @@ void SourcePowerLawSpectrum::prepare(ParticleState &particle) const {
 	particle.setEnergy(E);
 }
 
+void SourceNuclei::add(int id, double a) {
+	ids.push_back(id);
+	if (abundances.size() > 0)
+		a += abundances.back();
+	abundances.push_back(a);
+}
+
+void SourceNuclei::prepare(ParticleState &particle) const {
+	if (ids.size() == 0)
+		throw std::runtime_error("SourceNuclei: no nuclei set");
+	double r = Random().rand() * abundances.back();
+	int i = 0;
+	while ((r > abundances[i]) and (i < abundances.size()))
+		i++;
+	particle.setId(ids[i]);
+}
+
 SourceComposition::SourceComposition(double Emin, double Rmax, double index) :
 		Emin(Emin), Rmax(Rmax), index(index) {
 }
@@ -115,6 +132,23 @@ SourcePosition::SourcePosition(Vector3d position) :
 
 void SourcePosition::prepare(ParticleState& state) const {
 	state.setPosition(position);
+}
+
+void SourceMultiplePositions::add(Vector3d pos, double lumi) {
+	positions.push_back(pos);
+	if (luminosities.size() > 0)
+		lumi += luminosities.back();
+	luminosities.push_back(lumi);
+}
+
+void SourceMultiplePositions::prepare(ParticleState &particle) const {
+	if (positions.size() == 0)
+		throw std::runtime_error("SourceMultiplePositions: no position set");
+	double r = Random().rand() * luminosities.back();
+	int i = 0;
+	while ((r > luminosities[i]) and (i < luminosities.size()))
+		i++;
+	particle.setPosition(positions[i]);
 }
 
 SourceSphericalVolume::SourceSphericalVolume(Vector3d center, double radius) :

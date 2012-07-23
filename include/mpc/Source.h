@@ -56,8 +56,8 @@ public:
 
 
 /**
- @ class SourceEnergy
- @ brief Sets the initial energy to a given value
+ @class SourceEnergy
+ @brief Sets the initial energy to a given value
  */
 class SourceEnergy: public SourceProperty {
 	double E;
@@ -76,6 +76,18 @@ class SourcePowerLawSpectrum: public SourceProperty {
 	double index;
 public:
 	SourcePowerLawSpectrum(double Emin, double Emax, double index);
+	void prepare(ParticleState &particle) const;
+};
+
+/**
+ @class SourceNuclei
+ @brief Nuclei with given total abundances
+ */
+class SourceNuclei: public SourceProperty {
+	std::vector<int> ids; /**< nucleus id */
+	std::vector<double> abundances; /**< relative abundance of source isotopes at equal energies */
+public:
+	void add(int id, double abundance = 1);
 	void prepare(ParticleState &particle) const;
 };
 
@@ -108,6 +120,18 @@ class SourcePosition: public SourceProperty {
 public:
 	SourcePosition(Vector3d position);
 	void prepare(ParticleState &state) const;
+};
+
+/**
+ @class SourceMultiplePositions
+ @brief Multiple point source positions with individual luminosities
+ */
+class SourceMultiplePositions: public SourceProperty {
+	std::vector<Vector3d> positions;
+	std::vector<double> luminosities;
+public:
+	void add(Vector3d position, double luminosity = 1);
+	void prepare(ParticleState &particle) const;
 };
 
 /**

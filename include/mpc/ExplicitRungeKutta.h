@@ -90,8 +90,10 @@ const double cash_karp_a[] = { 0., 0., 0., 0., 0., 0., 1. / 5., 0., 0., 0., 0.,
 
 const double cash_karp_b[] = { 37. / 378., 0, 250. / 621., 125. / 594., 0., 512.
 		/ 1771. };
+
 const double cash_karp_bs[] = { 2825. / 27648., 0., 18575. / 48384., 13525.
 		/ 55296., 277. / 14336., 1. / 4. };
+
 const double cash_karp_c[] = { 0., 1. / 5., 3. / 10., 3. / 5., 1., 7. / 8. };
 
 template<class Y>

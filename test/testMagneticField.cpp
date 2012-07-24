@@ -1,6 +1,6 @@
 #include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/magneticField/TurbulentMagneticFieldGrid.h"
+#include "mpc/magneticField/MagneticFieldGridTools.h"
 #include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 #include "mpc/Common.h"
@@ -33,57 +33,63 @@ TEST(testMagneticFieldGrid, PeriodicClamp) {
 
 TEST(testMagneticFieldGrid, SimpleTest) {
 	// Test construction and parameters
-	MagneticFieldGrid B(Vector3d(1., 2., 3.), 10, 4);
-	EXPECT_TRUE(Vector3d(1., 2., 3.) == B.getGridOrigin());
-	EXPECT_EQ(4, B.getGridSamples());
-	EXPECT_DOUBLE_EQ(10, B.getGridSize());
-	EXPECT_DOUBLE_EQ(2.5, B.getGridSpacing());
+	MagneticFieldGrid B(Vector3d(1., 2., 3.), 4, 2.5);
+	EXPECT_TRUE(Vector3d(1., 2., 3.) == B.getOrigin());
+	EXPECT_EQ(4, B.getNx());
+	EXPECT_EQ(4, B.getNy());
+	EXPECT_EQ(4, B.getNz());
+	EXPECT_DOUBLE_EQ(2.5, B.getSpacing());
 }
 
 TEST(testMagneticFieldGrid, Interpolation) {
 	// Explicitly test trilinear interpolation
-	MagneticFieldGrid B(Vector3d(0.), 9, 3);
-	B.get(0, 0, 1) = Vector3f(1.7, 0., 0.);
+	double spacing = 2.793;
+	MagneticFieldGrid B(Vector3d(0.), 3, spacing);
 
-	double spacing = B.getGridSpacing();
-	EXPECT_FLOAT_EQ(1.7, B.getField(Vector3d(0, 0, 1) * spacing).x);
+	B.get(0, 0, 1) = Vector3f(1.7, 0., 0.); // set one value
 
-	EXPECT_FLOAT_EQ(1.7 * 0.9, B.getField(Vector3d(0, 0, 0.9) * spacing).x);
-	EXPECT_FLOAT_EQ(1.7 * 0.9, B.getField(Vector3d(0, 0, 1.1) * spacing).x);
+	Vector3d b = B.getField(Vector3d(0, 0, 1) * spacing);
+	EXPECT_FLOAT_EQ(1.7, b.x);
 
-	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85,
-			B.getField(Vector3d(0, 0.15, 0.9) * spacing).x);
-	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15,
-			B.getField(Vector3d(0, 2.15, 0.9) * spacing).x);
+	b = B.getField(Vector3d(0, 0, 0.9) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9, b.x);
+
+	b = B.getField(Vector3d(0, 0, 1.1) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9, b.x);
+
+	b = B.getField(Vector3d(0, 0.15, 0.9) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85, b.x);
+
+	b = B.getField(Vector3d(0, 2.15, 0.9) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
 }
 
-TEST(testMagneticFieldGrid, Normalization) {
-	// If the field is uniform, (interpolated) field values should be the same everywhere
-	MagneticFieldGrid B(Vector3d(0.), 3, 3);
+TEST(testMagneticFieldGrid, Scale) {
+	// Test scaling a field
+	MagneticFieldGrid B(Vector3d(0.), 3, 1);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
 				B.get(ix, iy, iz) = Vector3f(1, 0, 0);
 
-	EXPECT_FLOAT_EQ(1, B.getField(Vector3d(0.7, 0, 0.1)).x);
-	EXPECT_FLOAT_EQ(1, B.getField(Vector3d(0, 1.3, 0.9)).x);
-
-	B.normalize(2);
-
-	EXPECT_FLOAT_EQ(2, B.getField(Vector3d(0.7, 0, 0.1)).x);
-	EXPECT_FLOAT_EQ(2, B.getField(Vector3d(0, 1.3, 0.9)).x);
+	scale(&B, 5);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				EXPECT_FLOAT_EQ(5, B.getField(Vector3d(0.7, 0, 0.1)).x);
 }
 
 TEST(testMagneticFieldGrid, Periodicity) {
 	// Test for periodic boundaries: B(x+a*n) = B(x)
-	MagneticFieldGrid B(Vector3d(0.), 9, 3);
-
+	size_t n = 3;
+	double spacing = 3;
+	double size = n * spacing;
+	MagneticFieldGrid B(Vector3d(0.), n, spacing);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
 				B.get(ix, iy, iz) = Vector3f(iz + ix, iy * iz, ix - iz * iy);
 
-	double size = B.getGridSize();
 	Vector3d pos(1.2, 2.3, 0.7);
 	Vector3f b = B.getField(pos);
 	Vector3f b2 = B.getField(pos + Vector3d(1, 0, 0) * size);
@@ -104,15 +110,15 @@ TEST(testMagneticFieldGrid, Periodicity) {
 
 TEST(testMagneticFieldGrid, DumpLoad) {
 	// Dump and load a field grid
-	MagneticFieldGrid B1(Vector3d(0.), 3, 3);
+	MagneticFieldGrid B1(Vector3d(0.), 3, 1);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
 				B1.get(ix, iy, iz) = Vector3f(1, 2, 3);
-	B1.dump(getDataPath("../test/testDump.raw"));
+	dump(&B1, getDataPath("../test/testDump.raw"));
 
-	MagneticFieldGrid B2(Vector3d(0.), 3, 3);
-	B2.load(getDataPath("../test/testDump.raw"));
+	MagneticFieldGrid B2(Vector3d(0.), 3, 1);
+	load(&B2, getDataPath("../test/testDump.raw"));
 
 	for (int ix = 0; ix < 3; ix++) {
 		for (int iy = 0; iy < 3; iy++) {
@@ -129,15 +135,15 @@ TEST(testMagneticFieldGrid, DumpLoad) {
 
 TEST(testMagneticFieldGrid, DumpLoadTxt) {
 	// Dump and load a field grid
-	MagneticFieldGrid B1(Vector3d(0.), 3, 3);
+	MagneticFieldGrid B1(Vector3d(0.), 3, 1);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
 				B1.get(ix, iy, iz) = Vector3f(ix, iy, iz) * nG;
-	B1.dumpTxt(getDataPath("../test/testDump.txt"), 1e4);
+	dumpTxt(&B1, getDataPath("../test/testDump.txt"), 1e4);
 
-	MagneticFieldGrid B2(Vector3d(0.), 3, 3);
-	B2.loadTxt(getDataPath("../test/testDump.txt"), 1e-4);
+	MagneticFieldGrid B2(Vector3d(0.), 3, 1);
+	loadTxt(&B2, getDataPath("../test/testDump.txt"), 1e-4);
 
 	for (int ix = 0; ix < 3; ix++) {
 		for (int iy = 0; iy < 3; iy++) {
@@ -161,75 +167,72 @@ TEST(testMagneticFieldGrid, Speed) {
 				B.get(ix, iy, iz) = Vector3f(1, 2, 3);
 
 	Vector3d b;
-	Vector3d pos(1.,1.,1.);
-	for (int i = 0; i < 1000000; i++)
-		b = B.getField(pos);
+	for (int i = 0; i < 100000; i++)
+		b = B.getField(Vector3d(i));
 }
 
-TEST(testTurbulentMagneticFieldGrid, Bmean) {
+TEST(testMagneticFieldGrid, Turbulence_bmean_brms) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;
 	double spacing = 10 * Mpc / n;
-	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), 10 * Mpc, n, 2 * spacing,
-			8 * spacing, -11. / 3., 1.);
-
-	Vector3d b(0, 0, 0);
-	for (int ix = 0; ix < n; ix++)
-		for (int iy = 0; iy < n; iy++)
-			for (int iz = 0; iz < n; iz++)
-				b += B.getField(Vector3d(ix, iy, iz) * spacing);
-	b /= n * n * n;
-
-	double precision = 1e-9;
-	EXPECT_NEAR(b.x, 0, precision);
-	EXPECT_NEAR(b.y, 0, precision);
-	EXPECT_NEAR(b.z, 0, precision);
-}
-
-TEST(testTurbulentMagneticFieldGrid, Brms) {
-	// Test for correct RMS strength: <B^2> = Brms^2
-	size_t n = 100;
-	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), 10 * Mpc, n);
-	double spacing = B.getGridSpacing();
-	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11. / 3.);
-	B.initialize();
-	B.normalize(1. / B.getRMSFieldStrength());
-	double brms = 0;
-	for (int ix = 0; ix < n; ix++)
-		for (int iy = 0; iy < n; iy++)
-			for (int iz = 0; iz < n; iz++)
-				brms += B.getField(Vector3d(ix, iy, iz) * spacing).getMag2();
-	brms = sqrt(brms / n / n / n);
+	double Brms = 1;
+	double lMin = 2 * spacing;
+	double lMax = 8 * spacing;
+	MagneticFieldGrid B(Vector3d(0, 0, 0), n, spacing);
+	initTurbulence(&B, Brms, lMin, lMax);
 
 	double precision = 1e-7;
-	EXPECT_NEAR(brms, 1, precision);
+	Vector3f bMean = meanFieldStrength(&B);
+	EXPECT_NEAR(0, bMean.x, precision);
+	EXPECT_NEAR(0, bMean.y, precision);
+	EXPECT_NEAR(0, bMean.z, precision);
+	EXPECT_NEAR(1, rmsFieldStrength(&B), precision);
 }
 
-TEST(testTurbulentMagneticFieldGrid, Exceptions) {
+TEST(testMagneticFieldGrid, Turbulence_seed) {
+	// Test if seeding produces 2 identical fields
+	size_t n = 64;
+	double spacing = 1 * Mpc;
+	double Brms = 1;
+	double lMin = 2 * spacing;
+	double lMax = 8 * spacing;
+	double index = -11. / 3.;
+	int seed = 753;
+
+	MagneticFieldGrid B1(Vector3d(0, 0, 0), n, spacing);
+	initTurbulence(&B1, Brms, lMin, lMax, index, seed);
+
+	MagneticFieldGrid B2(Vector3d(0, 0, 0), n, spacing);
+	initTurbulence(&B2, Brms, lMin, lMax, index, seed);
+
+	Vector3d pos(22 * Mpc);
+	EXPECT_FLOAT_EQ(B1.getField(pos).x, B2.getField(pos).x);
+}
+
+TEST(testMagneticFieldGrid, turbulence_Exceptions) {
 	// Test exceptions
-	TurbulentMagneticFieldGrid B(Vector3d(0, 0, 0), 10, 64);
-	double spacing = B.getGridSpacing();
+	size_t n = 64;
+	double spacing = 10 * Mpc / n;
+	double brms = 1;
+	MagneticFieldGrid B(Vector3d(0, 0, 0), n, spacing);
 
 	// should be fine
-	B.setTurbulenceProperties(2 * spacing, 8 * spacing, -11. / 3.);
-	EXPECT_NO_THROW(B.initialize());
-
+	EXPECT_NO_THROW(initTurbulence(&B, brms, 2 * spacing, 8 * spacing));
 	// lMin too small
-	B.setTurbulenceProperties(1.5 * spacing, 8 * spacing, -11. / 3.);
-	EXPECT_THROW(B.initialize(), std::runtime_error);
-
+	EXPECT_THROW(initTurbulence(&B, brms, 1.5 * spacing, 8 * spacing),
+			std::runtime_error);
 	// lMin > lMax
-	B.setTurbulenceProperties(8.1 * spacing, 8 * spacing, -11. / 3.);
-	EXPECT_THROW(B.initialize(), std::runtime_error);
-
+	EXPECT_THROW(initTurbulence(&B, brms, 8.1 * spacing, 8 * spacing),
+			std::runtime_error);
 	// lMax too large
-	B.setTurbulenceProperties(2 * spacing, 33 * spacing, -11. / 3.);
-	EXPECT_THROW(B.initialize(), std::runtime_error);
+	EXPECT_THROW(initTurbulence(&B, brms, 2 * spacing, 33 * spacing),
+			std::runtime_error);
 }
 
 TEST(testTurbulentMagneticField, SimpleTest) {
 	TurbulentMagneticField B;
-	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11./3., 1000);
+	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11. / 3.,
+			1000);
 	B.initialize();
 	Vector3d b1 = B.getField(Vector3d(0.));
 	Vector3d b2 = B.getField(Vector3d(0.));
@@ -249,7 +252,9 @@ TEST(testTurbulentMagneticField, Brms) {
 	for (int ix = 0; ix < n; ix++) {
 		for (int iy = 0; iy < n; iy++) {
 			for (int iz = 0; iz < n; iz++) {
-				b = B.getField(Vector3d(random.rand(), random.rand(), random.rand()) * 100000);
+				b = B.getField(
+						Vector3d(random.rand(), random.rand(), random.rand())
+								* 100000);
 				Bmean += b;
 				sumB2 = b.getMag2();
 			}

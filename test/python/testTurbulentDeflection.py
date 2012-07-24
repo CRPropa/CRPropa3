@@ -3,13 +3,18 @@ from pylab import *
 
 
 E = 10 # proton energy [EeV]
-nT = 1000 # number of trajectories
-nS = 100 # number of sampling points to simulate
-nP = range(75) # sampling points for plot
+nT = 500 # number of trajectories
+nS = 50 # number of sampling points to simulate
+nP = range(30) # sampling points for plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-field = TurbulentMagneticFieldGrid(Vector3d(0, 0, 0), 256 * 0.05 * Mpc, 256, 0.1 * Mpc, 2.2 * Mpc, -11/3., 1 * nG)
+field = MagneticFieldGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
+initTurbulence(field, 1 * nG, 0.1 * Mpc, 2.2 * Mpc, -11/3.)
 propa = DeflectionCK(field)
+
+Lc = turbulentCorrelationLength(0.1 * Mpc, 2.2 * Mpc, -11/3.) / Mpc
+Brms = 1 # nG
+Rg = 1.08 * E / Brms # Mpc
 
 age = linspace(1, 150, nS)
 distance, rms1, rms2 = zeros((3, nS))
@@ -46,9 +51,6 @@ distance /= nT
 rms1 = (rms1 / nT)**.5
 rms2 = (rms2 / nT)**.5
 
-Lc = field.getCorrelationLength() / Mpc
-Brms = field.getRMSFieldStrength() / nG
-Rg = 1.08 * E / Brms # Mpc
 theory = 38 * (distance * Lc)**.5 * Brms / E * pi/180
 
 figure()

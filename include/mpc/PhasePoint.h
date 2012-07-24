@@ -45,9 +45,7 @@ public:
 	}
 
 	PhasePoint abs() const {
-		Vector3d abs_a( fabs(a.x), fabs(a.y), fabs(a.z) );
-		Vector3d abs_b( fabs(b.x), fabs(b.y), fabs(b.z) );
-		return PhasePoint(abs_a, abs_b);
+		return PhasePoint(a.abs(), b.abs());
 	}
 };
 

@@ -78,15 +78,16 @@ def getVectorFieldEnergySpectralDensity(Bx, By, Bz):
 
 
 ### create field
+origin = Vector3d(0,0,0)
 n = 128
+spacing = 1
 lMin, lMax = 2, 32
 Brms = 1.
 alpha = -11./3
-field = TurbulentMagneticFieldGrid(Vector3d(0, 0, 0), n, n)
-field.setTurbulenceProperties(lMin, lMax, alpha)
-field.initialize()
-field.normalize(Brms / field.getRMSFieldStrength())
-Lc = field.getCorrelationLength()
+field = MagneticFieldGrid(origin, n, spacing)
+initTurbulence(field, Brms, lMin, lMax, alpha)
+
+Lc = turbulentCorrelationLength(lMin, lMax, alpha)
 
 ### copy field grid to array(s)
 Bx, By, Bz = zeros((3, n, n, n))

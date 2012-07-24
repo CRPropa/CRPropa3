@@ -2,105 +2,46 @@
 #define MPC_MAGNETICFIELDGRID_H_
 
 #include "mpc/magneticField/MagneticField.h"
-
 #include <vector>
 
 namespace mpc {
 
 /**
  @class MagneticFieldGrid
- @brief Periodic, cubic, cartesian magnetic field grid with trilinear interpolation.
+ @brief Magnetic field on a periodic, cartesian grid with trilinear interpolation.
 
- This class provides a magnetic field grid.
- The grid is of cubic shape and the spacing is constant and equal along all three axes.
+ This class provides a three-dimensional magnetic field grid.
+ The grid spacing is constant and equal along all three axes.
  Magnetic field values are calculated by trilinear interpolation of the surrounding 8 grid points. \n
  The grid is periodically extended.
  Thus the field at opposite borders is assumed identical and does not need to be sampled twice.
  The grid sample positions are hence at 0, size / samples, ... size * (samples - 1) / samples and the grid spacing is size / samples.
  */
 class MagneticFieldGrid: public MagneticField {
+	std::vector<Vector3f> grid; /**< Magnetic field vectors */
+	Vector3d origin; /**< Lower left front corner of the grid */
+	size_t Nx, Ny, Nz; /**< Number of grid points per edge */
+	double spacing; /**< Distance between two grid points (= size / samples) */
+
 public:
-	/**
-	 * Constructor
-	 * @param origin	Lower left front corner of the grid
-	 * @param size 	Physical extension of the field grid
-	 * @param samples	Number of grid samples per edge
-	 */
-	MagneticFieldGrid(Vector3d origin, double size, size_t samples);
+	MagneticFieldGrid(Vector3d origin, size_t N, double spacing);
+	MagneticFieldGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz,
+			double spacing);
 
-	/**
-	 * Multiply the field by a factor.
-	 * @param norm	Normalization factor
-	 */
-	void normalize(double norm);
+	void setOrigin(Vector3d origin);
+	void setGridSize(size_t Nx, size_t Ny, size_t Nz);
+	void setSpacing(double spacing);
 
-	/**
-	 * Load the field grid from a binary file.
-	 * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
-	 */
-	void load(std::string filename);
+	Vector3d getOrigin() const;
+	size_t getNx() const;
+	size_t getNy() const;
+	size_t getNz() const;
+	double getSpacing() const;
 
-	/**
-	 * Dump the field grid to a binary file.
-	 * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
-	 */
-	void dump(std::string filename) const;
-
-	/**
-	 * Load the field grid from a plain text file.
-	 * The field is stored as one grid point per line from (0,0,0) to (nx, ny, nz) with the grid z-index changing the fastest.
-	 * Within one line the magnetic field values are stored in xyz order separated by a blank or tab.
-	 * Header lines must start with a #.
-	 * @param unit	conversion of the values in the file to SI
-	 */
-	void loadTxt(std::string filename, double unit);
-
-	/**
-	 * Dump the field grid to a plain text file.
-	 * The field is stored as one grid point per line from (0,0,0) to (nx, ny, nz) with the grid z-index changing the fastest.
-	 * Within one line the magnetic field values are stored in xyz order separated by a blank or tab.
-	 * Header lines must start with a #.
-	 * @param unit	conversion of SI to the values in the file
-	 */
-	void dumpTxt(std::string filename, double unit);
-
-	/**
-	 * Modulate the magnetic field with a density field from a binary file.
-	 * The field should be (re)normalized afterwards.
-	 * The file has to contain the density values in float precision on a grid with N + 1 samples per edge, the last of which is disregarded due to periodicity.
-	 * @param filename	Path to the density grid file
-	 * @param exp		Exponent for the modulation
-	 */
-	void modulateWithDensityField(std::string filename, double exp = 2. / 3.);
-
-	/** Return a reference to the grid point (ix, iy, iz). */
 	Vector3f &get(size_t ix, size_t iy, size_t iz);
 	const Vector3f &get(size_t ix, size_t iy, size_t iz) const;
 
-	/** Return the field vector at arbitrary position by trilinear interpolation. */
 	Vector3d getField(const Vector3d &position) const;
-
-	/** Return the RMS field strength */
-	double getRMSFieldStrength() const;
-
-	/**
-	 * Return the RMS field strength inside a spherical region
-	 * @param center	Center of the sphere
-	 * @param radius	Radius of the sphere
-	 */
-	double getRMSFieldStrengthInSphere(Vector3d center, double radius) const;
-
-	Vector3d getGridOrigin() const;
-	size_t getGridSamples() const;
-	double getGridSpacing() const;
-	double getGridSize() const;
-
-protected:
-	std::vector<Vector3f> grid; /**< Grid of magnetic field vectors */
-	Vector3d origin; /**< Origin of the field */
-	double size; /**< Extension of the field */
-	size_t samples; /**< Number of grid points per edge */
-	double spacing; /**< Distance between two grid points (= size / samples) */
 };
 
 /** Lower and upper neighbor in a periodically continued unit grid */

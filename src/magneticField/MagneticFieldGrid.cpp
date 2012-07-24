@@ -1,177 +1,63 @@
 #include "mpc/magneticField/MagneticFieldGrid.h"
-
 #include <stdexcept>
-#include <fstream>
 
 namespace mpc {
 
-void periodicClamp(double x, int n, int &lo, int &hi) {
-	lo = ((int(floor(x)) % n) + n) % n;
-	hi = (lo + 1) % n;
+MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, size_t N,
+		double spacing) {
+	setOrigin(origin);
+	setGridSize(N, N, N);
+	setSpacing(spacing);
 }
 
-MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, double size,
-		size_t samples) {
+MagneticFieldGrid::MagneticFieldGrid(Vector3d origin, size_t Nx, size_t Ny,
+		size_t Nz, double spacing) {
+	setOrigin(origin);
+	setGridSize(Nx, Ny, Nz);
+	setSpacing(spacing);
+}
+
+void MagneticFieldGrid::setOrigin(Vector3d origin) {
 	this->origin = origin;
-	this->size = size;
-	this->samples = samples;
-	this->spacing = size / samples;
-	grid.resize(samples * samples * samples);
 }
 
-void MagneticFieldGrid::normalize(double norm) {
-	for (int ix = 0; ix < samples; ix++)
-		for (int iy = 0; iy < samples; iy++)
-			for (int iz = 0; iz < samples; iz++)
-				get(ix, iy, iz) *= norm;
+void MagneticFieldGrid::setGridSize(size_t Nx, size_t Ny, size_t Nz) {
+	this->Nx = Nx;
+	this->Ny = Ny;
+	this->Nz = Nz;
+	grid.resize(Nx * Ny * Nz);
 }
 
-void MagneticFieldGrid::load(std::string filename) {
-	std::ifstream fin(filename.c_str(), std::ios::binary);
-	if (!fin)
-		throw std::runtime_error("MagneticFieldGrid: File not found");
-	for (int ix = 0; ix < samples; ix++) {
-		for (int iy = 0; iy < samples; iy++) {
-			for (int iz = 0; iz < samples; iz++) {
-				Vector3f &b = get(ix, iy, iz);
-				fin.read((char*) &(b.x), sizeof(float));
-				fin.read((char*) &(b.y), sizeof(float));
-				fin.read((char*) &(b.z), sizeof(float));
-			}
-		}
-	}
-	fin.close();
+void MagneticFieldGrid::setSpacing(double spacing) {
+	this->spacing = spacing;
 }
 
-void MagneticFieldGrid::dump(std::string filename) const {
-	std::ofstream fout(filename.c_str(), std::ios::binary);
-	if (!fout)
-		throw std::runtime_error("MagneticFieldGrid: Could not open file");
-	for (int ix = 0; ix < samples; ix++) {
-		for (int iy = 0; iy < samples; iy++) {
-			for (int iz = 0; iz < samples; iz++) {
-				Vector3f b = get(ix, iy, iz);
-				fout.write((char*) &(b.x), sizeof(float));
-				fout.write((char*) &(b.y), sizeof(float));
-				fout.write((char*) &(b.z), sizeof(float));
-			}
-		}
-	}
-	fout.close();
-}
-
-void MagneticFieldGrid::loadTxt(std::string filename, double conversion) {
-	std::ifstream fin(filename.c_str());
-	if (!fin)
-		throw std::runtime_error("MagneticFieldGrid: file not found");
-
-	// skip header lines
-	while (fin.peek() == '#')
-		fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-	for (int ix = 0; ix < samples; ix++) {
-		for (int iy = 0; iy < samples; iy++) {
-			for (int iz = 0; iz < samples; iz++) {
-				Vector3f &b = get(ix, iy, iz);
-				fin >> b.x >> b.y >> b.z;
-				b *= conversion;
-				if (fin.eof())
-					throw std::runtime_error("MagneticFieldGrid: file too short");
-			}
-		}
-	}
-	fin.close();
-}
-
-void MagneticFieldGrid::dumpTxt(std::string filename, double conversion) {
-	std::ofstream fout(filename.c_str());
-	if (!fout)
-		throw std::runtime_error("MagneticFieldGrid: could not open file");
-	for (int ix = 0; ix < samples; ix++) {
-		for (int iy = 0; iy < samples; iy++) {
-			for (int iz = 0; iz < samples; iz++) {
-				Vector3f b = get(ix, iy, iz) * conversion;
-				fout << b << "\n";
-			}
-		}
-	}
-	fout.close();
-}
-
-void MagneticFieldGrid::modulateWithDensityField(std::string filename,
-		double exp) {
-	std::ifstream infile(filename.c_str(), std::ios::binary);
-	if (!infile)
-		throw std::runtime_error("mpc::MagneticFieldGrid: File not found");
-	double sumB2 = 0;
-	int numB2 = 0;
-	float rho;
-	for (int ix = 0; ix < samples + 1; ix++) {
-		for (int iy = 0; iy < samples + 1; iy++) {
-			for (int iz = 0; iz < samples + 1; iz++) {
-				infile.read((char*) &rho, sizeof(float));
-				if ((ix == samples) or (iy == samples) or (iz == samples))
-					continue; // skip last grid points in each direction
-				Vector3d pos = origin + Vector3d(ix, iy, iz) * spacing;
-				Vector3f &b = get(ix, iy, iz);
-				b *= pow(rho, exp);
-			}
-		}
-	}
-	infile.close();
-}
-
-Vector3d MagneticFieldGrid::getGridOrigin() const {
+Vector3d MagneticFieldGrid::getOrigin() const {
 	return origin;
 }
 
-size_t MagneticFieldGrid::getGridSamples() const {
-	return samples;
+size_t MagneticFieldGrid::getNx() const {
+	return Nx;
 }
 
-double MagneticFieldGrid::getGridSpacing() const {
+size_t MagneticFieldGrid::getNy() const {
+	return Ny;
+}
+
+size_t MagneticFieldGrid::getNz() const {
+	return Nz;
+}
+
+double MagneticFieldGrid::getSpacing() const {
 	return spacing;
 }
 
-double MagneticFieldGrid::getGridSize() const {
-	return size;
-}
-
-double MagneticFieldGrid::getRMSFieldStrength() const {
-	double sumB2 = 0;
-	for (int ix = 0; ix < samples; ix++)
-		for (int iy = 0; iy < samples; iy++)
-			for (int iz = 0; iz < samples; iz++)
-				sumB2 += get(ix, iy, iz).getMag2();
-	return sqrt(sumB2 / samples / samples / samples);
-}
-
-double MagneticFieldGrid::getRMSFieldStrengthInSphere(Vector3d center,
-		double radius) const {
-	int numB2 = 0;
-	double sumB2 = 0;
-	for (int ix = 0; ix < samples; ix++) {
-		for (int iy = 0; iy < samples; iy++) {
-			for (int iz = 0; iz < samples; iz++) {
-				Vector3d position = origin + Vector3d(ix, iy, iz) * spacing;
-				if (position.getDistanceTo(center) < radius) {
-					sumB2 += get(ix, iy, iz).getMag2();
-					numB2++;
-				}
-			}
-		}
-	}
-	return sqrt(sumB2 / numB2);
-}
-
 Vector3f &MagneticFieldGrid::get(size_t ix, size_t iy, size_t iz) {
-	int i = ix * samples * samples + iy * samples + iz;
-	return grid[i];
+	return grid[ix * Ny * Nz + iy * Ny + iz];
 }
 
 const Vector3f &MagneticFieldGrid::get(size_t ix, size_t iy, size_t iz) const {
-	int i = ix * samples * samples + iy * samples + iz;
-	return grid[i];
+	return grid[ix * Ny * Nz + iy * Ny + iz];
 }
 
 Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
@@ -180,9 +66,9 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
 
 	// indices of lower and upper neighbors
 	int ix, iX, iy, iY, iz, iZ;
-	periodicClamp(r.x, samples, ix, iX);
-	periodicClamp(r.y, samples, iy, iY);
-	periodicClamp(r.z, samples, iz, iZ);
+	periodicClamp(r.x, Nx, ix, iX);
+	periodicClamp(r.y, Ny, iy, iY);
+	periodicClamp(r.z, Nz, iz, iZ);
 
 	// linear fraction to lower and upper neighbors
 	double fx = r.x - floor(r.x);
@@ -213,6 +99,11 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &position) const {
 	b += get(iX, iY, iZ) * fx * fy * fz;
 
 	return b;
+}
+
+void periodicClamp(double x, int n, int &lo, int &hi) {
+	lo = ((int(floor(x)) % n) + n) % n;
+	hi = (lo + 1) % n;
 }
 
 } // namespace mpc

@@ -99,7 +99,6 @@ add_library(mpc SHARED
     src/module/Output.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticFieldGrid.cpp
-    src/magneticField/MagneticFieldGridTools.cpp
     src/magneticField/TurbulentMagneticField.cpp
     ${MPC_EXTRA_SOURCES}
 )
@@ -157,18 +156,18 @@ endif(ENABLETESTING)
 # ----------------------------------------------------------------------------
 # Python
 # ----------------------------------------------------------------------------
-include(python/Python.cmake)
-include_directories(${PYTHON_INCLUDE_PATH})
+#include(python/Python.cmake)
+#include_directories(${PYTHON_INCLUDE_PATH})
 
-file(GLOB_RECURSE MPC_INCLUDES include/*.h)
-set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
-add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
-                COMMAND swig -c++ -python ${MPC_SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
-                DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
-add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
-#set_source_file_properties( ${CMAKE_SOURCE_DIR}/python/mpc.i PROPERTIES OBJECT_DEPENDS ${MPC_INCLUDES})
-set_target_properties(mpc-swig PROPERTIES PREFIX "")
-set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
-target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mpc.py" DESTINATION ${PYTHON_SITE_PACKAGES})
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/_mpc.so" DESTINATION ${PYTHON_SITE_PACKAGES})
+#file(GLOB_RECURSE MPC_INCLUDES include/*.h)
+#set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
+#add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
+#                COMMAND swig -c++ -python ${MPC_SWIG_DEFINES} -I${CMAKE_SOURCE_DIR}/include -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
+#                DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
+#add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
+##set_source_file_properties( ${CMAKE_SOURCE_DIR}/python/mpc.i PROPERTIES OBJECT_DEPENDS ${MPC_INCLUDES})
+#set_target_properties(mpc-swig PROPERTIES PREFIX "")
+#set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
+#target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})
+#install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mpc.py" DESTINATION ${PYTHON_SITE_PACKAGES})
+#install(FILES "${CMAKE_CURRENT_BINARY_DIR}/_mpc.so" DESTINATION ${PYTHON_SITE_PACKAGES})

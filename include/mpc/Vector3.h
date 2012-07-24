@@ -17,6 +17,7 @@ public:
 			x(0), y(0), z(0) {
 	}
 
+	// Provides implicit conversion Vector3<double> <--> Vector3<float>
 	template<typename U>
 	Vector3(const Vector3<U> &v) :
 			x(v.x), y(v.y), z(v.z) {
@@ -349,7 +350,7 @@ inline std::istream &operator >>(std::istream &in, Vector3<T> &v) {
 }
 
 template<typename T>
-Vector3<T> operator *(T f, const Vector3<T> &v) {
+inline Vector3<T> operator *(T f, const Vector3<T> &v) {
 	return Vector3<T>(v.x * f, v.y * f, v.z * f);
 }
 

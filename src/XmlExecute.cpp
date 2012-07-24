@@ -1,7 +1,6 @@
 #include "mpc/XmlExecute.h"
 #include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/magneticField/MagneticFieldGridTools.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/Output.h"
@@ -196,7 +195,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 	size.y = Ny * spacing;
 	size.z = Nz * spacing;
 
-	MagneticFieldGrid *Bfield = new MagneticFieldGrid(origin, Nx, Ny, Nz, spacing);
+	VectorFieldGrid *field = new VectorFieldGrid(origin, Nx, Ny, Nz, spacing);
 
 	std::string type = node.attribute("type").as_string();
 	if (type == "LSS-Grid") {
@@ -207,7 +206,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 
 		string fname = node.child_value("File");
 		cout << "  - Loading file (values in [G]): " << fname << endl;
-		loadTxt(Bfield, fname, gauss);
+		loadTxt(field, fname, gauss);
 	} else {
 		double brms = node.child("RMS_muG").attribute("value").as_double() * 1e-6 * gauss;
 		cout << "  - Brms : " << brms / nG << " nG" << endl;
@@ -222,10 +221,10 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		cout << "  - Turbulence spectral index: " << alpha << endl;
 		cout << "  - Random seed: " << randomSeed << endl;
 
-		initTurbulence(Bfield, brms, lMin, lMax, alpha, randomSeed);
+		initTurbulence(field, brms, lMin, lMax, alpha, randomSeed);
 	}
 
-	magnetic_field = Bfield;
+	magnetic_field = new MagneticFieldGrid(field);
 }
 
 void XmlExecute::loadSophia(xml_node &node) {

@@ -13,8 +13,8 @@ std::string Module::getDescription() const {
 	return description;
 }
 
-void Module::setDescription(const std::string &description) {
-	this->description = description;
+void Module::setDescription(const std::string &d) {
+	description = d;
 }
 
-}
+} // namespace mpc

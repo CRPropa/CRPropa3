@@ -158,6 +158,10 @@ public:
 		z = std::max(lower, std::min(z, upper));
 	}
 
+	Vector3<T> abs() const {
+		return Vector3<T>(std::abs(x), std::abs(y), std::abs(z));
+	}
+
 	Vector3<T> floor() const {
 		return Vector3<T>(std::floor(x), std::floor(y), std::floor(z));
 	}

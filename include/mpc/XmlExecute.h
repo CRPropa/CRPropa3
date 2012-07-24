@@ -16,19 +16,28 @@ namespace mpc {
 class XmlExecute {
 	ModuleList modules;
 	ref_ptr<MagneticField> magnetic_field;
-	std::vector<Source> sources;
+	Source source;
 
-	void loadCashKarp(pugi::xml_node &);
-	void loadLssGrid(pugi::xml_node &);
-	void loadSophia(pugi::xml_node &);
-	void loadSpheresAroundObserver(pugi::xml_node &);
-	void loadDiscreteSources(pugi::xml_node &);
-	void loadFullTrajectoryOutput(pugi::xml_node &);
+	void loadUniformMagneticField(pugi::xml_node &node);
+	void loadGridMagneticField(pugi::xml_node &node);
 
+	void loadDeflectionCK(pugi::xml_node &node);
+
+	void loadDiscreteSources(pugi::xml_node &node);
+
+	void loadSophia(pugi::xml_node &node);
+
+	void loadSpheresAroundObserver(pugi::xml_node &node);
+	void loadSpheresAroundSource(pugi::xml_node &node);
+
+	void loadOutput(pugi::xml_node &node);
+
+	bool is1D;
 	size_t trajectories;
-	double minEnergyEeV;
-	double maxTimeMpc;
 	size_t randomSeed;
+	double Emin;
+	Vector3d origin;
+	Vector3d size;
 
 public:
 	bool load(const std::string &filename);

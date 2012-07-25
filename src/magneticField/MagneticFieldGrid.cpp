@@ -20,6 +20,12 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &pos) const {
 	return grid->interpolate(pos);
 }
 
+ModulatedMagneticFieldGrid::ModulatedMagneticFieldGrid(VectorFieldGrid *grid,
+		ScalarFieldGrid *modGrid) {
+	setGrid(grid);
+	setModulationGrid(modGrid);
+}
+
 void ModulatedMagneticFieldGrid::setGrid(VectorFieldGrid *g) {
 	grid = g;
 }
@@ -82,18 +88,18 @@ void initTurbulence(VectorFieldGrid *m, double Brms, double lMin, double lMax,
 	size_t Ny = m->getNy();
 	size_t Nz = m->getNz();
 	if ((Nx != Ny) or (Ny != Nz))
-	throw std::runtime_error("turbulentField: only cubic grid supported");
+		throw std::runtime_error("turbulentField: only cubic grid supported");
 
 	double spacing = m->getSpacing();
 	if (lMin < 2 * spacing)
-	throw std::runtime_error("turbulentField: lMin < 2 * spacing");
+		throw std::runtime_error("turbulentField: lMin < 2 * spacing");
 	if (lMin >= lMax)
-	throw std::runtime_error("turbulentField: lMin >= lMax");
+		throw std::runtime_error("turbulentField: lMin >= lMax");
 	if (lMax > Nx * spacing / 2)
-	throw std::runtime_error("turbulentField: lMax > size / 2");
+		throw std::runtime_error("turbulentField: lMax > size / 2");
 
 	size_t n = Nx; // size of array
-	size_t n2 = (size_t) floor(n / 2) + 1;// size array in z-direction in configuration space
+	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
 
 	// arrays to hold the complex vector components of the B(k)-field
 	fftwf_complex *Bkx, *Bky, *Bkz;
@@ -103,21 +109,21 @@ void initTurbulence(VectorFieldGrid *m, double Brms, double lMin, double lMax,
 
 	Random random;
 	if (seed != 0)
-	random.seed(seed);// use given seed
+		random.seed(seed); // use given seed
 
 	// calculate the n possible discrete wave numbers
 	double K[n];
 	for (int i = 0; i < n; i++)
-	K[i] = (double) i / n - i / (n / 2);
+		K[i] = (double) i / n - i / (n / 2);
 
 	// construct the field in configuration space
 	int i;
 	double k, theta, phase, cosPhase, sinPhase;
 	double kMin = spacing / lMax;
 	double kMax = spacing / lMin;
-	Vector3f b;// real b-field vector
-	Vector3f ek, e1, e2;// orthogonal base
-	Vector3f n0(1, 1, 1);// arbitrary vector to construct orthogonal base
+	Vector3f b; // real b-field vector
+	Vector3f ek, e1, e2; // orthogonal base
+	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
@@ -160,8 +166,8 @@ void initTurbulence(VectorFieldGrid *m, double Brms, double lMin, double lMax,
 
 				// uniform random phase
 				phase = 2 * M_PI * random.rand();
-				cosPhase = cos(phase);// real part
-				sinPhase = sin(phase);// imaginary part
+				cosPhase = cos(phase); // real part
+				sinPhase = sin(phase); // imaginary part
 
 				Bkx[i][0] = b.x * cosPhase;
 				Bkx[i][1] = b.x * sinPhase;
@@ -210,13 +216,13 @@ void initTurbulence(VectorFieldGrid *m, double Brms, double lMin, double lMax,
 	scale(m, Brms / rmsFieldStrength(m)); // normalize to Brms
 }
 
-double turbulentCorrelationLength(double lMin, double lMax, double spectralIndex) {
+double turbulentCorrelationLength(double lMin, double lMax,
+		double spectralIndex) {
 	double r = lMin / lMax;
 	double a = -spectralIndex - 2;
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 #endif // MPC_HAVE_FFTW3F
-
 void load(VectorFieldGrid *m, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin)

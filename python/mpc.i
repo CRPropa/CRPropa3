@@ -28,8 +28,8 @@
 
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/magneticField/UniformMagneticField.h"
+#include "mpc/magneticField/PeriodicGrid.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/magneticField/MagneticFieldGridTools.h"
 #include "mpc/magneticField/SPHMagneticField.h"
 
 #include "mpc/Referenced.h"
@@ -100,8 +100,12 @@
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
 %include "mpc/magneticField/MagneticField.h"
 %include "mpc/magneticField/UniformMagneticField.h"
+
+%include "mpc/magneticField/PeriodicGrid.h"
+%template(VectorFieldGrid) mpc::PeriodicGrid<mpc::Vector3<float> >;
+%template(ScalarFieldGrid) mpc::PeriodicGrid<float>;
+
 %include "mpc/magneticField/MagneticFieldGrid.h"
-%include "mpc/magneticField/MagneticFieldGridTools.h"
 %include "mpc/magneticField/SPHMagneticField.h"
 
 %include "mpc/ExplicitRungeKutta.h"

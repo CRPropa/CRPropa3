@@ -171,6 +171,7 @@ TEST(testVectorFieldGrid, Speed) {
 		b = grid.interpolate(Vector3d(i));
 }
 
+#ifdef MPC_HAVE_FFTW3F
 TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;
@@ -228,6 +229,7 @@ TEST(testMagneticFieldGrid, turbulence_Exceptions) {
 	EXPECT_THROW(initTurbulence(&grid, brms, 2 * spacing, 33 * spacing),
 			std::runtime_error);
 }
+#endif // MPC_HAVE_FFTW3F
 
 TEST(testTurbulentMagneticField, SimpleTest) {
 	TurbulentMagneticField B;

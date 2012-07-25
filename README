@@ -17,15 +17,26 @@ Dependencies
 ------------
 Required:
 C++ Compiler
-Fortran Compiler
-GNU Scientific Library - for interpolation
+Fortran Compiler 
+	-> to compile SOPHIA
 
 Provided:
-SOPHIA - for photo-hadronic interactions
-googletest - for unit-tests
+SOPHIA 
+	-> for photo-hadronic interactions
+googletest
+	-> for unit-tests
 
 Optional:
-Python and SWIG - to use MPC from python
-OpenMP - for shared memory parallelization
-FFTW - for turbulent magnetic field
-Gadget - for smooth particle large scale structure
+Python and SWIG
+	-> to use MPC from Python
+	tested for > Python 2.7
+	tested for > SWIG 2.0
+FFTW3F 
+	-> for turbulent magnetic field grids
+	MPC needs the FFTW3 library compiled with the single precision option 
+Gadget 
+	-> for large scale structure using the smooth particle formalism
+OpenMP
+	-> for shared memory parallelization
+googleperftools 
+	-> for performance optimizations regarding shared memory parallelization

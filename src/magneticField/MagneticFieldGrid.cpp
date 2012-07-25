@@ -215,6 +215,7 @@ void initTurbulence(ref_ptr<VectorGrid> m, double Brms, double lMin,
 
 	scale(m, Brms / rmsFieldStrength(m)); // normalize to Brms
 }
+#endif // MPC_HAVE_FFTW3F
 
 double turbulentCorrelationLength(double lMin, double lMax,
 		double spectralIndex) {
@@ -222,7 +223,7 @@ double turbulentCorrelationLength(double lMin, double lMax,
 	double a = -spectralIndex - 2;
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
-#endif // MPC_HAVE_FFTW3F
+
 void load(ref_ptr<VectorGrid> m, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin)

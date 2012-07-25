@@ -4,15 +4,15 @@
 
 namespace mpc {
 
-MagneticFieldGrid::MagneticFieldGrid(VectorFieldGrid *grid) {
+MagneticFieldGrid::MagneticFieldGrid(ref_ptr<VectorGrid> grid) {
 	setGrid(grid);
 }
 
-void MagneticFieldGrid::setGrid(VectorFieldGrid *grid) {
+void MagneticFieldGrid::setGrid(ref_ptr<VectorGrid> grid) {
 	this->grid = grid;
 }
 
-VectorFieldGrid *MagneticFieldGrid::getGrid() {
+ref_ptr<VectorGrid> MagneticFieldGrid::getGrid() {
 	return grid;
 }
 
@@ -20,25 +20,25 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &pos) const {
 	return grid->interpolate(pos);
 }
 
-ModulatedMagneticFieldGrid::ModulatedMagneticFieldGrid(VectorFieldGrid *grid,
-		ScalarFieldGrid *modGrid) {
+ModulatedMagneticFieldGrid::ModulatedMagneticFieldGrid(ref_ptr<VectorGrid> grid,
+		ref_ptr<ScalarGrid> modGrid) {
 	setGrid(grid);
 	setModulationGrid(modGrid);
 }
 
-void ModulatedMagneticFieldGrid::setGrid(VectorFieldGrid *g) {
+void ModulatedMagneticFieldGrid::setGrid(ref_ptr<VectorGrid> g) {
 	grid = g;
 }
 
-VectorFieldGrid *ModulatedMagneticFieldGrid::getGrid() {
+ref_ptr<VectorGrid> ModulatedMagneticFieldGrid::getGrid() {
 	return grid;
 }
 
-void ModulatedMagneticFieldGrid::setModulationGrid(ScalarFieldGrid *g) {
+void ModulatedMagneticFieldGrid::setModulationGrid(ref_ptr<ScalarGrid> g) {
 	modGrid = g;
 }
 
-ScalarFieldGrid *ModulatedMagneticFieldGrid::getModulationGrid() {
+ref_ptr<ScalarGrid> ModulatedMagneticFieldGrid::getModulationGrid() {
 	return modGrid;
 }
 
@@ -48,7 +48,7 @@ Vector3d ModulatedMagneticFieldGrid::getField(const Vector3d &pos) const {
 	return b * m;
 }
 
-Vector3f meanFieldStrength(VectorFieldGrid *m) {
+Vector3f meanFieldStrength(ref_ptr<VectorGrid> m) {
 	size_t Nx = m->getNx();
 	size_t Ny = m->getNy();
 	size_t Nz = m->getNz();
@@ -60,7 +60,7 @@ Vector3f meanFieldStrength(VectorFieldGrid *m) {
 	return mean / Nx / Ny / Nz;
 }
 
-double rmsFieldStrength(VectorFieldGrid *m) {
+double rmsFieldStrength(ref_ptr<VectorGrid> m) {
 	size_t Nx = m->getNx();
 	size_t Ny = m->getNy();
 	size_t Nz = m->getNz();
@@ -72,7 +72,7 @@ double rmsFieldStrength(VectorFieldGrid *m) {
 	return sqrt(sumB2 / Nx / Ny / Nz);
 }
 
-void scale(VectorFieldGrid *m, double a) {
+void scale(ref_ptr<VectorGrid> m, double a) {
 	for (int ix = 0; ix < m->getNx(); ix++)
 		for (int iy = 0; iy < m->getNy(); iy++)
 			for (int iz = 0; iz < m->getNz(); iz++)
@@ -82,8 +82,8 @@ void scale(VectorFieldGrid *m, double a) {
 #ifdef MPC_HAVE_FFTW3F
 #include "fftw3.h"
 
-void initTurbulence(VectorFieldGrid *m, double Brms, double lMin, double lMax,
-		double spectralIndex, int seed) {
+void initTurbulence(ref_ptr<VectorGrid> m, double Brms, double lMin,
+		double lMax, double spectralIndex, int seed) {
 	size_t Nx = m->getNx();
 	size_t Ny = m->getNy();
 	size_t Nz = m->getNz();
@@ -223,7 +223,7 @@ double turbulentCorrelationLength(double lMin, double lMax,
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 #endif // MPC_HAVE_FFTW3F
-void load(VectorFieldGrid *m, std::string filename, double c) {
+void load(ref_ptr<VectorGrid> m, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin)
 		throw std::runtime_error("MagneticFieldGrid: File not found");
@@ -241,7 +241,7 @@ void load(VectorFieldGrid *m, std::string filename, double c) {
 	fin.close();
 }
 
-void dump(VectorFieldGrid *m, std::string filename, double c) {
+void dump(ref_ptr<VectorGrid> m, std::string filename, double c) {
 	std::ofstream fout(filename.c_str(), std::ios::binary);
 	if (!fout)
 		throw std::runtime_error("MagneticFieldGrid: Could not open file");
@@ -258,7 +258,7 @@ void dump(VectorFieldGrid *m, std::string filename, double c) {
 	fout.close();
 }
 
-void loadTxt(VectorFieldGrid *m, std::string filename, double unit) {
+void loadTxt(ref_ptr<VectorGrid> m, std::string filename, double unit) {
 	std::ifstream fin(filename.c_str());
 	if (!fin)
 		throw std::runtime_error("MagneticFieldGrid: file not found");
@@ -282,7 +282,7 @@ void loadTxt(VectorFieldGrid *m, std::string filename, double unit) {
 	fin.close();
 }
 
-void dumpTxt(VectorFieldGrid *m, std::string filename, double unit) {
+void dumpTxt(ref_ptr<VectorGrid> m, std::string filename, double unit) {
 	std::ofstream fout(filename.c_str());
 	if (!fout)
 		throw std::runtime_error("MagneticFieldGrid: could not open file");

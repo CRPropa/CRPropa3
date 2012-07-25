@@ -195,7 +195,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 	size.y = Ny * spacing;
 	size.z = Nz * spacing;
 
-	VectorFieldGrid *field = new VectorFieldGrid(origin, Nx, Ny, Nz, spacing);
+	ref_ptr<VectorGrid> field = new VectorGrid(origin, Nx, Ny, Nz, spacing);
 
 	std::string type = node.attribute("type").as_string();
 	if (type == "LSS-Grid") {

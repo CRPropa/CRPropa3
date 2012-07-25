@@ -47,6 +47,7 @@
 #include "mpc/Common.h"
 %}
 
+
 %exception
 {
  try
@@ -61,6 +62,7 @@
  } 
 }
 
+
 %ignore operator<<;
 %ignore operator>>;
 
@@ -73,17 +75,19 @@
 %feature("ref")   mpc::Referenced "$this->addReference();"
 %feature("unref") mpc::Referenced "$this->removeReference();"
 
-%include "mpc/Referenced.h"
-%include "mpc/Units.h"
-%include "mpc/Nucleus.h"
-%include "mpc/Common.h"
 
 %include "mpc/Vector3.h"
 %template(Vector3d) mpc::Vector3<double>;
 %template(Vector3f) mpc::Vector3<float>;
 
+
+%include "mpc/Referenced.h"
+%include "mpc/Units.h"
+%include "mpc/Nucleus.h"
+%include "mpc/Common.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
+
 
 %template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
 %include "mpc/Source.h"
@@ -96,20 +100,28 @@
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
 %include "mpc/Module.h"
 
-%template(stdMagneticFieldVector) std::vector< mpc::ref_ptr<mpc::MagneticField> >;
+
+%implicitconv mpc::ref_ptr<mpc::MagneticField>;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
 %include "mpc/magneticField/MagneticField.h"
 %include "mpc/magneticField/UniformMagneticField.h"
 
 %include "mpc/magneticField/PeriodicGrid.h"
-%template(VectorFieldGrid) mpc::PeriodicGrid<mpc::Vector3<float> >;
-%template(ScalarFieldGrid) mpc::PeriodicGrid<float>;
+
+%implicitconv mpc::ref_ptr<mpc::PeriodicGrid<mpc::Vector3<float> > >;
+%template(VectorGridRefPtr) mpc::ref_ptr<mpc::PeriodicGrid<mpc::Vector3<float> > >;
+%template(VectorGrid) mpc::PeriodicGrid<mpc::Vector3<float> >;
+
+%implicitconv mpc::ref_ptr<mpc::PeriodicGrid<float> >;
+%template(ScalarGridRefPtr) mpc::ref_ptr<mpc::PeriodicGrid<float> >;
+%template(ScalarGrid) mpc::PeriodicGrid<float>;
 
 %include "mpc/magneticField/MagneticFieldGrid.h"
 %include "mpc/magneticField/SPHMagneticField.h"
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"
+
 
 %include "mpc/module/BreakCondition.h"
 %include "mpc/module/SimplePropagation.h"
@@ -122,5 +134,7 @@
 %include "mpc/module/PhotoDisintegration.h"
 %include "mpc/module/Redshift.h"
 %include "mpc/module/Tools.h"
+
+
 %template(ModuleListRefPtr) mpc::ref_ptr<mpc::ModuleList>;
 %include "mpc/ModuleList.h"

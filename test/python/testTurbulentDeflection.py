@@ -8,9 +8,9 @@ nS = 50 # number of sampling points to simulate
 nP = range(30) # sampling points for plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-field = MagneticFieldGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
-initTurbulence(field, 1 * nG, 0.1 * Mpc, 2.2 * Mpc, -11/3.)
-propa = DeflectionCK(field)
+vGrid = VectorGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
+initTurbulence(vGrid, 1 * nG, 0.1 * Mpc, 2.2 * Mpc, -11/3.)
+propa = DeflectionCK(MagneticFieldGrid(vGrid))
 
 Lc = turbulentCorrelationLength(0.1 * Mpc, 2.2 * Mpc, -11/3.) / Mpc
 Brms = 1 # nG
@@ -22,7 +22,7 @@ distance, rms1, rms2 = zeros((3, nS))
 for j in range(nT):
 	if j % (nT // 10) == 0:
 		print j
-	
+
 	ps = ParticleState()
 	ps.setId(getNucleusId(1, 1))
 	ps.setEnergy(E * EeV)	

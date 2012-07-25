@@ -13,42 +13,40 @@ namespace mpc {
  This class provides a container for a VectorFieldGrid (PeriodicGrid of type Vector3f) to serve as a MagneticField.
  */
 class MagneticFieldGrid: public MagneticField {
-	VectorFieldGrid *grid;
+	ref_ptr<VectorGrid> grid;
 
 public:
-	MagneticFieldGrid(VectorFieldGrid *grid);
-	void setGrid(VectorFieldGrid *grid);
-	VectorFieldGrid *getGrid();
+	MagneticFieldGrid(ref_ptr<VectorGrid> grid);
+	void setGrid(ref_ptr<VectorGrid> grid);
+	ref_ptr<VectorGrid> getGrid();
 	Vector3d getField(const Vector3d &position) const;
 };
 
 /**
  @class MagneticFieldGrid
  @brief Modulated magnetic field on a periodic grid.
-
- The class
  */
 class ModulatedMagneticFieldGrid: public MagneticField {
-	VectorFieldGrid *grid;
-	ScalarFieldGrid *modGrid;
+	ref_ptr<VectorGrid> grid;
+	ref_ptr<ScalarGrid> modGrid;
 
 public:
-	ModulatedMagneticFieldGrid(VectorFieldGrid *grid, ScalarFieldGrid *modGrid);
-	void setGrid(VectorFieldGrid *grid);
-	void setModulationGrid(ScalarFieldGrid *modGrid);
-	VectorFieldGrid *getGrid();
-	ScalarFieldGrid *getModulationGrid();
+	ModulatedMagneticFieldGrid(ref_ptr<VectorGrid> grid, ref_ptr<ScalarGrid> modGrid);
+	void setGrid(ref_ptr<VectorGrid> grid);
+	void setModulationGrid(ref_ptr<ScalarGrid> modGrid);
+	ref_ptr<VectorGrid> getGrid();
+	ref_ptr<ScalarGrid> getModulationGrid();
 	Vector3d getField(const Vector3d &position) const;
 };
 
 /** Calculate the mean field strength */
-Vector3f meanFieldStrength(VectorFieldGrid *m);
+Vector3f meanFieldStrength(ref_ptr<VectorGrid> m);
 
 /** Calculate the RMS field strength */
-double rmsFieldStrength(VectorFieldGrid *m);
+double rmsFieldStrength(ref_ptr<VectorGrid> m);
 
 /** Multiply a magnetic field grid by a factor. */
-void scale(VectorFieldGrid *m, double a);
+void scale(ref_ptr<VectorGrid> m, double a);
 
 #ifdef MPC_HAVE_FFTW3F
 /**
@@ -59,7 +57,7 @@ void scale(VectorFieldGrid *m, double a);
  * @param Brms		RMS field strength
  * @param seed		Random seed
  */
-void initTurbulence(VectorFieldGrid *m, double Brms, double lMin,
+void initTurbulence(ref_ptr<VectorGrid> m, double Brms, double lMin,
 		double lMax, double spectralIndex = -11. / 3., int seed = 0);
 
 /** Analytically calculate the correlation length of a turbulent field */
@@ -71,14 +69,14 @@ double turbulentCorrelationLength(double lMin, double lMax, double spectralIndex
  * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
  * @param c	conversion of the values in the file to SI
  */
-void load(VectorFieldGrid *m, std::string filename, double c = 1);
+void load(ref_ptr<VectorGrid> m, std::string filename, double c = 1);
 
 /**
  * Dump a magnetic field grid to a binary file.
  * The field is stored single precision numbers with the field components in xyz order and the grid z-index changing the fastest.
  * @param c	conversion of the values in the file to SI
  */
-void dump(VectorFieldGrid *m, std::string filename, double c = 1);
+void dump(ref_ptr<VectorGrid> m, std::string filename, double c = 1);
 
 /**
  * Load a magnetic field grid from a plain text file.
@@ -87,7 +85,7 @@ void dump(VectorFieldGrid *m, std::string filename, double c = 1);
  * Header lines must start with a #.
  * @param c	conversion of the values in the file to SI
  */
-void loadTxt(VectorFieldGrid *m, std::string filename, double c = 1);
+void loadTxt(ref_ptr<VectorGrid> m, std::string filename, double c = 1);
 
 /**
  * Dump a magnetic field grid to a plain text file.
@@ -96,7 +94,7 @@ void loadTxt(VectorFieldGrid *m, std::string filename, double c = 1);
  * Header lines must start with a #.
  * @param c	conversion of SI to the values in the file
  */
-void dumpTxt(VectorFieldGrid *m, std::string filename, double c = 1);
+void dumpTxt(ref_ptr<VectorGrid> m, std::string filename, double c = 1);
 
 } // namespace mpc
 

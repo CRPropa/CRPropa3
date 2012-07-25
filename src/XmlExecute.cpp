@@ -221,7 +221,12 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		cout << "  - Turbulence spectral index: " << alpha << endl;
 		cout << "  - Random seed: " << randomSeed << endl;
 
+#ifdef MPC_HAVE_FFTW3F
 		initTurbulence(field, brms, lMin, lMax, alpha, randomSeed);
+#endif // MPC_HAVE_FFTW3F
+#ifndef MPC_HAVE_FFTW3F
+		throw runtime_error("Turbulent field grid not available. Compile with FFTW3F.");
+#endif // MPC_HAVE_FFTW3F
 	}
 
 	magnetic_field = new MagneticFieldGrid(field);

@@ -22,7 +22,7 @@ inline void periodicClamp(double x, int n, int &lo, int &hi) {
  The grid sample positions are at 0, size/N, ... (N-1) * size/N.
  */
 template<typename T>
-class PeriodicGrid {
+class PeriodicGrid : public Referenced {
 	std::vector<T> grid;
 	Vector3d origin;
 	size_t Nx, Ny, Nz;
@@ -126,8 +126,8 @@ public:
 	}
 };
 
-typedef PeriodicGrid<Vector3f> VectorFieldGrid;
-typedef PeriodicGrid<float> ScalarFieldGrid;
+typedef PeriodicGrid<Vector3f> VectorGrid;
+typedef PeriodicGrid<float> ScalarGrid;
 
 } // namespace mpc
 

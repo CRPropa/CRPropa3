@@ -36,7 +36,7 @@ public:
 	}
 };
 
-DeflectionCK::DeflectionCK(MagneticField *field, double tolerance,
+DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
 		double minStep) {
 	this->field = field;
 	this->tolerance = tolerance;

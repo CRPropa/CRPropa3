@@ -18,12 +18,12 @@ namespace mpc {
  */
 class DeflectionCK: public Module {
 public:
-	MagneticField *field;
+	ref_ptr<MagneticField> field;
 	ExplicitRungeKutta<PhasePoint> erk;
 	double tolerance;
 	double minStep;
 
-	DeflectionCK(MagneticField *field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
+	DeflectionCK(ref_ptr<MagneticField> field, double tolerance = 1e-4,	double minimumStep = 0.1 * kpc);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

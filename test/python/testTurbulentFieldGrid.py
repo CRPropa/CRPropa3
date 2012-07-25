@@ -84,10 +84,10 @@ spacing = 1
 lMin, lMax = 2, 32
 Brms = 1.
 alpha = -11./3
-field = MagneticFieldGrid(origin, n, spacing)
-initTurbulence(field, Brms, lMin, lMax, alpha)
-
 Lc = turbulentCorrelationLength(lMin, lMax, alpha)
+
+vGrid = VectorGrid(origin, n, spacing)
+initTurbulence(vGrid, Brms, lMin, lMax, alpha)
 
 ### copy field grid to array(s)
 Bx, By, Bz = zeros((3, n, n, n))
@@ -95,7 +95,7 @@ for ix in range(n):
 	print ix
 	for iy in range(n):
 		for iz in range(n):
-			b = field.get(ix, iy, iz)
+			b = vGrid.get(ix, iy, iz)
 			Bx[ix, iy, iz] = b.x
 			By[ix, iy, iz] = b.y
 			Bz[ix, iy, iz] = b.z

@@ -94,13 +94,6 @@ void ConditionalOutput::process(Candidate *candidate) const {
 	}
 }
 
-//  _fDataStream << "#CRPropa - Output data file" << endl ;
-//  if (lUnivType == "One Dimension" && lRecordType == "Events") {
-//    _fDataStream << "#Format - Particle_Type Initial_Particle_Type Initial_Position(Mpc) Initial_Energy(EeV) Time(Mpc) Energy(EeV)" << endl ;
-//  } else if (lUnivType == "One Dimension" && lRecordType == "Full Trajectories") {
-//    _fDataStream << "#Format - Particle_Type Initial_Particle_Type Time(Mpc) Position(Mpc) Energy(EeV)" << endl ;
-//  } else throw TCrpErr("Output format determination failed") ;
-
 CRPropa2EventOutput::CRPropa2EventOutput(std::string filename) {
 	setDescription("Event output in CRPropa2 format");
 	outfile.open(filename.c_str());

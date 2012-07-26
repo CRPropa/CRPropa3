@@ -1,6 +1,7 @@
 #ifndef MPC_PERIODICGRID_H_
 #define MPC_PERIODICGRID_H_
 
+#include "mpc/Referenced.h"
 #include "mpc/Vector3.h"
 #include <vector>
 

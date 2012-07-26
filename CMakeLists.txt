@@ -86,6 +86,7 @@ add_library(mpc SHARED
     src/Source.cpp
     src/Common.cpp
     src/Nucleus.cpp
+    src/PeriodicGridTools.cpp
     src/XmlExecute.cpp
     src/module/BreakCondition.cpp
     src/module/SimplePropagation.cpp

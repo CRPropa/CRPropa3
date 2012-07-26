@@ -1,6 +1,7 @@
 #include "mpc/XmlExecute.h"
 #include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/PeriodicGridTools.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/Output.h"

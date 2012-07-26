@@ -1,6 +1,8 @@
 #ifndef MPC_REFERENCED_H
 #define MPC_REFERENCED_H
 
+#include <stddef.h>
+
 #ifdef DEBUG
 #include <iostream>
 #include <typeinfo>

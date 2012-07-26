@@ -25,10 +25,11 @@
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Tools.h"
+#include "mpc/PeriodicGrid.h"
+#include "mpc/PeriodicGridTools.h"
 
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/magneticField/UniformMagneticField.h"
-#include "mpc/magneticField/PeriodicGrid.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/magneticField/SPHMagneticField.h"
 
@@ -106,7 +107,8 @@
 %include "mpc/magneticField/MagneticField.h"
 %include "mpc/magneticField/UniformMagneticField.h"
 
-%include "mpc/magneticField/PeriodicGrid.h"
+%include "mpc/PeriodicGrid.h"
+%include "mpc/PeriodicGridTools.h"
 
 %implicitconv mpc::ref_ptr<mpc::PeriodicGrid<mpc::Vector3<float> > >;
 %template(VectorGridRefPtr) mpc::ref_ptr<mpc::PeriodicGrid<mpc::Vector3<float> > >;

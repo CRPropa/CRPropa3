@@ -72,10 +72,10 @@ public:
 
 /**
  @class PeriodicBox
- @brief Box with periodic boundaries.
+ @brief Rectangular box with periodic boundaries.
 
- If a candidate leaves the periodic box it is placed at the opposite side and its initial (source) position changed accordingly.
- Candidates can overshoot (be outside of the box during the step) since the step size is not limited by this module.
+ If a particle passes on of the sides it is placed at the opposite side and its initial (source) position changed accordingly.
+ Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
  */
 class PeriodicBox: public Module {
 private:
@@ -85,6 +85,24 @@ private:
 
 public:
 	PeriodicBox(Vector3d origin, Vector3d size);
+	void process(Candidate *candidate) const;
+};
+
+/**
+ @class AntiperiodicBox
+ @brief Rectangular box with antiperiodic boundaries.
+
+ If a particle passes on of the sides it is reflected back inside (position and velocity) and its initial position changed as if the particle had come from that side.
+ Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
+ */
+class ReflectiveBox: public Module {
+private:
+	Vector3d origin;
+	Vector3d size;
+	void updateDescription();
+
+public:
+	ReflectiveBox(Vector3d origin, Vector3d size);
 	void process(Candidate *candidate) const;
 };
 

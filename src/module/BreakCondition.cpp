@@ -116,6 +116,32 @@ void PeriodicBox::updateDescription() {
 	setDescription(s.str());
 }
 
+ReflectiveBox::ReflectiveBox(Vector3d origin, Vector3d size) {
+	this->origin = origin;
+	this->size = size;
+	updateDescription();
+}
+
+void ReflectiveBox::process(Candidate *candidate) const {
+	Vector3d pos = candidate->current.getPosition();
+	Vector3d n = ((pos - origin) / size).floor(); // integers for translation
+	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
+		Vector3d dir = candidate->current.getDirection();
+		dir.x *= pow(-1, n.x);
+		dir.y *= pow(-1, n.y);
+		dir.z *= pow(-1, n.z);
+		candidate->current.setDirection(dir);
+		candidate->current.setPosition(pos - n * size);
+		candidate->initial.setPosition(candidate->initial.getPosition() + n * size);
+	}
+}
+
+void ReflectiveBox::updateDescription() {
+	std::stringstream s;
+	s << "Antiperiodic box: origin " << origin << ", size " << size;
+	setDescription(s.str());
+}
+
 CubicBoundary::CubicBoundary(Vector3d origin, double size, std::string flag,
 		std::string flagValue) {
 	this->origin = origin;

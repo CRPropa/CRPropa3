@@ -93,6 +93,23 @@ TEST(PeriodicBox, low) {
 	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().z, 3);
 }
 
+TEST(ReflectiveBox, high) {
+	// Tests if the reflective boundaries place the particle back inside the box and translate the initial position accordingly.
+	ReflectiveBox box(Vector3d(10, 10, 10), Vector3d(10, 20, 20));
+	Candidate candidate;
+	candidate.current.setPosition(Vector3d(21, 31, 51));
+	candidate.initial.setPosition(Vector3d(15, 15, 15));
+	box.process(&candidate);
+
+	EXPECT_DOUBLE_EQ(19, candidate.current.getPosition().x);
+	EXPECT_DOUBLE_EQ(29, candidate.current.getPosition().y);
+	EXPECT_DOUBLE_EQ(29, candidate.current.getPosition().z);
+
+	EXPECT_DOUBLE_EQ(25, candidate.initial.getPosition().x);
+	EXPECT_DOUBLE_EQ(35, candidate.initial.getPosition().y);
+	EXPECT_DOUBLE_EQ(55, candidate.initial.getPosition().z);
+}
+
 TEST(CubicBoundary, inside) {
 	CubicBoundary cube(Vector3d(0, 0, 0), 10);
 	Candidate candidate;

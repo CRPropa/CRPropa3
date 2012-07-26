@@ -1,6 +1,7 @@
 #include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/magneticField/PeriodicGrid.h"
+#include "mpc/PeriodicGrid.h"
+#include "mpc/PeriodicGridTools.h"
 #include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 #include "mpc/Common.h"

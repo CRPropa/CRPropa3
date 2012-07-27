@@ -300,17 +300,17 @@ public:
 		return *this;
 	}
 
-	Vector3<T> &operator %=(const T &f) {
-		x = fmod(x, f);
-		y = fmod(y, f);
-		z = fmod(z, f);
-		return *this;
-	}
-
 	Vector3<T> &operator %=(const Vector3<T> &v) {
 		x = fmod(x, v.x);
 		y = fmod(y, v.y);
 		z = fmod(z, v.z);
+		return *this;
+	}
+
+	Vector3<T> &operator %=(const T &f) {
+		x = fmod(x, f);
+		y = fmod(y, f);
+		z = fmod(z, f);
 		return *this;
 	}
 

@@ -65,49 +65,74 @@ TEST(SmallObserverSphere, limitStep) {
 
 TEST(PeriodicBox, high) {
 	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.
-	PeriodicBox box(Vector3d(2, 2, 2), Vector3d(2, 2, 2));
-	Candidate candidate;
-	candidate.current.setPosition(Vector3d(4.5, 4.3, 4.4));
-	candidate.initial.setPosition(Vector3d(3, 3, 3));
-	box.process(&candidate);
-	EXPECT_DOUBLE_EQ(candidate.current.getPosition().x, 2.5);
-	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().x, 1);
-	EXPECT_DOUBLE_EQ(candidate.current.getPosition().y, 2.3);
-	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().y, 1);
-	EXPECT_DOUBLE_EQ(candidate.current.getPosition().z, 2.4);
-	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().z, 1);
+	Vector3d origin(2, 2, 2);
+	Vector3d size(2, 2, 2);
+	PeriodicBox box(origin, size);
+
+	Candidate c;
+	c.current.setPosition(Vector3d(4.5, 4.3, 4.4));
+	c.initial.setPosition(Vector3d(3, 3, 3));
+
+	box.process(&c);
+
+	EXPECT_DOUBLE_EQ(2.5, c.current.getPosition().x);
+	EXPECT_DOUBLE_EQ(1, c.initial.getPosition().x);
+	EXPECT_DOUBLE_EQ(2.3, c.current.getPosition().y);
+	EXPECT_DOUBLE_EQ(1, c.initial.getPosition().y);
+	EXPECT_DOUBLE_EQ(2.4, c.current.getPosition().z);
+	EXPECT_DOUBLE_EQ(1, c.initial.getPosition().z);
 }
 
 TEST(PeriodicBox, low) {
 	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.
-	PeriodicBox box(Vector3d(0., 0., 0.), Vector3d(2., 2., 2.));
-	Candidate candidate;
-	candidate.current.setPosition(Vector3d(-2.5, -0.3, -0.4));
-	candidate.initial.setPosition(Vector3d(1, 1, 1));
-	box.process(&candidate);
-	EXPECT_DOUBLE_EQ(candidate.current.getPosition().x, 1.5);
-	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().x, 5);
-	EXPECT_DOUBLE_EQ(candidate.current.getPosition().y, 1.7);
-	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().y, 3);
-	EXPECT_DOUBLE_EQ(candidate.current.getPosition().z, 1.6);
-	EXPECT_DOUBLE_EQ(candidate.initial.getPosition().z, 3);
+	Vector3d origin(0, 0, 0);
+	Vector3d size(2, 2, 2);
+	PeriodicBox box(origin, size);
+
+	Candidate c;
+	c.current.setPosition(Vector3d(-2.5, -0.3, -0.4));
+	c.initial.setPosition(Vector3d(1, 1, 1));
+
+	box.process(&c);
+
+	EXPECT_DOUBLE_EQ(1.5, c.current.getPosition().x);
+	EXPECT_DOUBLE_EQ(5, c.initial.getPosition().x);
+	EXPECT_DOUBLE_EQ(1.7, c.current.getPosition().y);
+	EXPECT_DOUBLE_EQ(3, c.initial.getPosition().y);
+	EXPECT_DOUBLE_EQ(1.6, c.current.getPosition().z);
+	EXPECT_DOUBLE_EQ(3, c.initial.getPosition().z);
 }
 
 TEST(ReflectiveBox, high) {
 	// Tests if the reflective boundaries place the particle back inside the box and translate the initial position accordingly.
-	ReflectiveBox box(Vector3d(10, 10, 10), Vector3d(10, 20, 20));
-	Candidate candidate;
-	candidate.current.setPosition(Vector3d(21, 31, 51));
-	candidate.initial.setPosition(Vector3d(15, 15, 15));
-	box.process(&candidate);
+	// Also the initial and final directions are to be reflected
+	Vector3d origin(10, 10, 10);
+	Vector3d size(10, 20, 20);
+	ReflectiveBox box(origin, size);
 
-	EXPECT_DOUBLE_EQ(19, candidate.current.getPosition().x);
-	EXPECT_DOUBLE_EQ(29, candidate.current.getPosition().y);
-	EXPECT_DOUBLE_EQ(29, candidate.current.getPosition().z);
+	Candidate c;
+	c.initial.setPosition(Vector3d(15, 15, 15));
+	c.initial.setDirection(Vector3d(0, 0.6, 0.8));
+	c.current.setPosition(Vector3d(15, 15, 31));
+	c.current.setDirection(Vector3d(0, 0.6, 0.8));
 
-	EXPECT_DOUBLE_EQ(25, candidate.initial.getPosition().x);
-	EXPECT_DOUBLE_EQ(35, candidate.initial.getPosition().y);
-	EXPECT_DOUBLE_EQ(55, candidate.initial.getPosition().z);
+	box.process(&c);
+
+	EXPECT_DOUBLE_EQ(15, c.initial.getPosition().x);
+	EXPECT_DOUBLE_EQ(15, c.initial.getPosition().y);
+	EXPECT_DOUBLE_EQ(45, c.initial.getPosition().z);
+
+	EXPECT_DOUBLE_EQ(15, c.current.getPosition().x);
+	EXPECT_DOUBLE_EQ(15, c.current.getPosition().y);
+	EXPECT_DOUBLE_EQ(29, c.current.getPosition().z);
+
+	EXPECT_DOUBLE_EQ(0, c.initial.getDirection().x);
+	EXPECT_DOUBLE_EQ(0.6, c.initial.getDirection().y);
+	EXPECT_DOUBLE_EQ(-0.8, c.initial.getDirection().z);
+
+	EXPECT_DOUBLE_EQ(0, c.current.getDirection().x);
+	EXPECT_DOUBLE_EQ(0.6, c.current.getDirection().y);
+	EXPECT_DOUBLE_EQ(-0.8, c.current.getDirection().z);
 }
 
 TEST(CubicBoundary, inside) {

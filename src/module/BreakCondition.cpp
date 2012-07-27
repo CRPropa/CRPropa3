@@ -16,13 +16,13 @@ double MaximumTrajectoryLength::getMaximumTrajectoryLength() const {
 	return maxLength;
 }
 
-void MaximumTrajectoryLength::process(Candidate *candidate) const {
-	double l = candidate->getTrajectoryLength();
+void MaximumTrajectoryLength::process(Candidate *c) const {
+	double l = c->getTrajectoryLength();
 	if (l >= maxLength) {
-		candidate->setActive(false);
-		candidate->setProperty("Deactivated", getDescription());
+		c->setActive(false);
+		c->setProperty("Deactivated", getDescription());
 	} else {
-		candidate->limitNextStep(maxLength - l);
+		c->limitNextStep(maxLength - l);
 	}
 }
 
@@ -46,10 +46,10 @@ double MinimumEnergy::getMinimumEnergy() const {
 	return minEnergy;
 }
 
-void MinimumEnergy::process(Candidate *candidate) const {
-	if (candidate->current.getEnergy() <= minEnergy) {
-		candidate->setActive(false);
-		candidate->setProperty("Deactivated", getDescription());
+void MinimumEnergy::process(Candidate *c) const {
+	if (c->current.getEnergy() <= minEnergy) {
+		c->setActive(false);
+		c->setProperty("Deactivated", getDescription());
 	}
 }
 
@@ -74,16 +74,16 @@ void SmallObserverSphere::setMakeInactive(bool makeInactive) {
 	updateDescription();
 }
 
-void SmallObserverSphere::process(Candidate *candidate) const {
-	double d = (candidate->current.getPosition() - center).getMag();
+void SmallObserverSphere::process(Candidate *c) const {
+	double d = (c->current.getPosition() - center).getMag();
 	if (d <= radius * 1.01) {
-		candidate->setProperty(flag, flagValue);
+		c->setProperty(flag, flagValue);
 		if (makeInactive) {
-			candidate->setActive(false);
-			candidate->setProperty("Deactivated", getDescription());
+			c->setActive(false);
+			c->setProperty("Deactivated", getDescription());
 		}
 	}
-	candidate->limitNextStep((d - radius));
+	c->limitNextStep((d - radius));
 }
 
 void SmallObserverSphere::updateDescription() {
@@ -100,13 +100,12 @@ PeriodicBox::PeriodicBox(Vector3d origin, Vector3d size) {
 	updateDescription();
 }
 
-void PeriodicBox::process(Candidate *candidate) const {
-	Vector3d position = candidate->current.getPosition();
-	Vector3d n = ((position - origin) / size).floor(); // integers for translation
+void PeriodicBox::process(Candidate *c) const {
+	Vector3d relPos = c->current.getPosition() - origin;
+	Vector3d n = (relPos / size).floor(); // integers for translation
 	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
-		candidate->current.setPosition(position - n * size);
-		candidate->initial.setPosition(
-				candidate->initial.getPosition() - n * size);
+		c->initial.setPosition(c->initial.getPosition() - n * size);
+		c->current.setPosition(c->current.getPosition() - n * size);
 	}
 }
 
@@ -122,23 +121,28 @@ ReflectiveBox::ReflectiveBox(Vector3d origin, Vector3d size) {
 	updateDescription();
 }
 
-void ReflectiveBox::process(Candidate *candidate) const {
-	Vector3d pos = candidate->current.getPosition();
-	Vector3d n = ((pos - origin) / size).floor(); // integers for translation
+void ReflectiveBox::process(Candidate *c) const {
+	Vector3d relPos = c->current.getPosition() - origin;
+	Vector3d n = (relPos / size).floor(); // integers for translation
+	std::cout << relPos << std::endl;
+	std::cout << n << std::endl;
 	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
-		Vector3d dir = candidate->current.getDirection();
+		// flip direction
+		Vector3d dir = c->current.getDirection();
 		dir.x *= pow(-1, n.x);
 		dir.y *= pow(-1, n.y);
 		dir.z *= pow(-1, n.z);
-		candidate->current.setDirection(dir);
-		candidate->current.setPosition(pos - n * size);
-		candidate->initial.setPosition(candidate->initial.getPosition() + n * size);
+		c->current.setDirection(dir);
+		// translate into the box
+		Vector3d t = (relPos % size) * n;
+		c->initial.setPosition(c->initial.getPosition() + t);
+		c->current.setPosition(c->current.getPosition() + t);
 	}
 }
 
 void ReflectiveBox::updateDescription() {
 	std::stringstream s;
-	s << "Antiperiodic box: origin " << origin << ", size " << size;
+	s << "Reflective box: origin " << origin << ", size " << size;
 	setDescription(s.str());
 }
 
@@ -165,19 +169,19 @@ void CubicBoundary::setLimitStep(bool limitStep, double margin) {
 	updateDescription();
 }
 
-void CubicBoundary::process(Candidate *candidate) const {
-	Vector3d r = candidate->current.getPosition() - origin;
+void CubicBoundary::process(Candidate *c) const {
+	Vector3d r = c->current.getPosition() - origin;
 	double lo = r.min();
 	double hi = r.max();
 	if ((lo <= 0) or (hi >= size)) {
-		candidate->setProperty(flag, flagValue);
+		c->setProperty(flag, flagValue);
 		if (makeInactive) {
-			candidate->setActive(false);
-			candidate->setProperty("Deactivated", getDescription());
+			c->setActive(false);
+			c->setProperty("Deactivated", getDescription());
 		}
 	} else if (limitStep) {
-		candidate->limitNextStep(lo + margin);
-		candidate->limitNextStep(size - hi + margin);
+		c->limitNextStep(lo + margin);
+		c->limitNextStep(size - hi + margin);
 	}
 }
 
@@ -211,17 +215,17 @@ void SphericalBoundary::setLimitStep(bool limitStep, double margin) {
 	updateDescription();
 }
 
-void SphericalBoundary::process(Candidate *candidate) const {
-	double d = (candidate->current.getPosition() - center).getMag();
+void SphericalBoundary::process(Candidate *c) const {
+	double d = (c->current.getPosition() - center).getMag();
 	if (d >= radius) {
-		candidate->setProperty(flag, flagValue);
+		c->setProperty(flag, flagValue);
 		if (makeInactive) {
-			candidate->setActive(false);
-			candidate->setProperty("Deactivated", getDescription());
+			c->setActive(false);
+			c->setProperty("Deactivated", getDescription());
 		}
 	}
 	if (limitStep)
-		candidate->limitNextStep(radius - d + margin);
+		c->limitNextStep(radius - d + margin);
 }
 
 void SphericalBoundary::updateDescription() {
@@ -256,18 +260,18 @@ void EllipsoidalBoundary::setLimitStep(bool limitStep, double margin) {
 	updateDescription();
 }
 
-void EllipsoidalBoundary::process(Candidate *candidate) const {
-	Vector3d pos = candidate->current.getPosition();
+void EllipsoidalBoundary::process(Candidate *c) const {
+	Vector3d pos = c->current.getPosition();
 	double d = pos.getDistanceTo(focalPoint1) + pos.getDistanceTo(focalPoint2);
 	if (d >= majorAxis) {
-		candidate->setProperty(flag, flagValue);
+		c->setProperty(flag, flagValue);
 		if (makeInactive) {
-			candidate->setActive(false);
-			candidate->setProperty("Deactivated", getDescription());
+			c->setActive(false);
+			c->setProperty("Deactivated", getDescription());
 		}
 	}
 	if (limitStep)
-		candidate->limitNextStep(majorAxis - d + margin);
+		c->limitNextStep(majorAxis - d + margin);
 }
 
 void EllipsoidalBoundary::updateDescription() {

@@ -26,8 +26,9 @@ bool XmlExecute::load(const string &filename) {
 	xml_parse_result result = doc.load_file(filename.c_str());
 
 	if (!result) {
-		cout << "Error description: " << result.description() << "\n";
-		cout << "Error offset: " << result.offset << "\n";
+		cout << "Error reading XML card: " << result.description() << "\n";
+		cout << "Error position: " << result.offset << "\n";
+		return false;
 	}
 
 	xml_node root = doc.child("CRPropa");
@@ -74,7 +75,7 @@ bool XmlExecute::load(const string &filename) {
 	cout << "MagenticField: " << type << endl;
 	if (type == "Uniform")
 		loadUniformMagneticField(node);
-	else if ((type == "LSS") or (type == "Kolmogoroff"))
+	else if ((type == "LSS-Grid") or (type == "Kolmogoroff"))
 		loadGridMagneticField(node);
 	else {
 		cout << " --> unknown, set zero field" << endl;

@@ -40,3 +40,23 @@ OpenMP
 	-> for shared memory parallelization
 googleperftools 
 	-> for performance optimizations regarding shared memory parallelization
+	
+
+XML Steering
+------------
+MPC can be steered via XML cards ($mpc-run some_steeringcard.xml)
+The steeringcard layout is conform to the one CRPropa2.
+However, CRPropa 2 does not fully enforce the XML-1.0 standard (http://www.w3.org/XML). 
+To comply with the standard a few modifications to exisisting steering cards might have to be made.
+Modification are
+	1) XML-cards can have only one root node. The root node is
+		<CRPropa>
+		....
+		</CRPropa>
+	2) All nodes including the optional header node need to be closed, e.g.
+		<?xml version="1.0" standalone=no ?>
+		<Option1> ... </Option1> or
+		<Option2/>
+	3) Values need to be embraced by quotes, e.g. 
+		<NumTrajectories="1000"/> or
+		<NumTrajectories='1000'/>

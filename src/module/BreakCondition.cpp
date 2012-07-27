@@ -122,21 +122,26 @@ ReflectiveBox::ReflectiveBox(Vector3d origin, Vector3d size) {
 }
 
 void ReflectiveBox::process(Candidate *c) const {
-	Vector3d relPos = c->current.getPosition() - origin;
-	Vector3d n = (relPos / size).floor(); // integers for translation
-	std::cout << relPos << std::endl;
-	std::cout << n << std::endl;
+	Vector3d pos = c->current.getPosition();
+	Vector3d n = ((pos - origin) / size).floor(); // integers for translation
 	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
 		// flip direction
+		Vector3d idir = c->initial.getDirection();
+		idir.x *= pow(-1, n.x);
+		idir.y *= pow(-1, n.y);
+		idir.z *= pow(-1, n.z);
+		c->initial.setDirection(idir);
+
 		Vector3d dir = c->current.getDirection();
 		dir.x *= pow(-1, n.x);
 		dir.y *= pow(-1, n.y);
 		dir.z *= pow(-1, n.z);
 		c->current.setDirection(dir);
-		// translate into the box
-		Vector3d t = (relPos % size) * n;
-		c->initial.setPosition(c->initial.getPosition() + t);
-		c->current.setPosition(c->current.getPosition() + t);
+
+		// translate back into the box
+		Vector3d ipos = c->initial.getPosition();
+		c->initial.setPosition(ipos + (size - (ipos - origin)) * n * 2);
+		c->current.setPosition(pos - ((pos - origin) % size) * n * 2);
 	}
 }
 

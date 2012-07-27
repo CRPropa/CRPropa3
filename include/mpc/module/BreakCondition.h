@@ -89,8 +89,8 @@ public:
 };
 
 /**
- @class AntiperiodicBox
- @brief Rectangular box with antiperiodic boundaries.
+ @class ReflectiveBox
+ @brief Rectangular box with reflective boundaries.
 
  If a particle passes on of the sides it is reflected back inside (position and velocity) and its initial position changed as if the particle had come from that side.
  Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.

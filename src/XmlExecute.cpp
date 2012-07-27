@@ -73,7 +73,9 @@ bool XmlExecute::load(const string &filename) {
 		throw runtime_error("Magnetic field not specified");
 	type = node.attribute("type").as_string();
 	cout << "MagenticField: " << type << endl;
-	if (type == "Uniform")
+	if (type == "None")
+		magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
+	else if (type == "Uniform")
 		loadUniformMagneticField(node);
 	else if ((type == "LSS-Grid") or (type == "Kolmogoroff"))
 		loadGridMagneticField(node);

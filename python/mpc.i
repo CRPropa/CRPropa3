@@ -63,10 +63,9 @@
  } 
 }
 
-
 %ignore operator<<;
 %ignore operator>>;
-
+%ignore *::operator=;
 %ignore operator mpc::Source*;
 %ignore operator mpc::Candidate*;
 %ignore operator mpc::Module*;

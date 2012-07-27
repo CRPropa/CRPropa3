@@ -17,7 +17,7 @@ public:
 			x(0), y(0), z(0) {
 	}
 
-	// Provides implicit conversion Vector3<double> <--> Vector3<float>
+	// Provides implicit conversion
 	template<typename U>
 	Vector3(const Vector3<U> &v) :
 			x(v.x), y(v.y), z(v.z) {
@@ -39,28 +39,28 @@ public:
 			x(t), y(t), z(t) {
 	}
 
-	void setX(const T x) {
-		this->x = x;
+	void setX(const T X) {
+		x = X;
 	}
 
-	void setY(const T x) {
-		this->y = y;
+	void setY(const T Y) {
+		y = Y;
 	}
 
-	void setZ(const T x) {
-		this->z = z;
+	void setZ(const T Z) {
+		z = Z;
 	}
 
-	void setXYZ(const T x, const T y, const T z) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
+	void setXYZ(const T X, const T Y, const T Z) {
+		x = X;
+		y = Y;
+		z = Z;
 	}
 
 	void setRThetaPhi(const T r, const T theta, const T phi) {
-		this->x = r * sin(theta) * cos(phi);
-		this->y = r * sin(theta) * sin(phi);
-		this->z = r * cos(theta);
+		x = r * sin(theta) * cos(phi);
+		y = r * sin(theta) * sin(phi);
+		z = r * cos(theta);
 	}
 
 	T getX() const {
@@ -129,13 +129,13 @@ public:
 		*this /= getMag();
 	}
 
-	T dot(const Vector3<T> & p) const {
-		return x * p.x + y * p.y + z * p.z;
+	T dot(const Vector3<T> &v) const {
+		return x * v.x + y * v.y + z * v.z;
 	}
 
-	Vector3<T> cross(const Vector3<T> & p) const {
-		return Vector3<T>(y * p.z - p.y * z, z * p.x - p.z * x,
-				x * p.y - p.x * y);
+	Vector3<T> cross(const Vector3<T> &v) const {
+		return Vector3<T>(y * v.z - v.y * z, z * v.x - v.z * x,
+				x * v.y - v.x * y);
 	}
 
 	void rotate(const Vector3<T> &axis, T angle) {
@@ -236,8 +236,12 @@ public:
 		return Vector3(x / f, y / f, z / f);
 	}
 
+	Vector3<T> operator %(const Vector3<T> &v) const {
+		return Vector3(fmod(x, v.x), fmod(y, v.y), fmod(z, v.z));
+	}
+
 	Vector3<T> operator %(const T &f) const {
-		return Vector3(x % f, y % f, z % f);
+		return Vector3(fmod(x, f), fmod(y, f), fmod(z, f));
 	}
 
 	Vector3<T> &operator -=(const Vector3<T> &v) {
@@ -297,9 +301,16 @@ public:
 	}
 
 	Vector3<T> &operator %=(const T &f) {
-		x %= f;
-		y %= f;
-		z %= f;
+		x = fmod(x, f);
+		y = fmod(y, f);
+		z = fmod(z, f);
+		return *this;
+	}
+
+	Vector3<T> &operator %=(const Vector3<T> &v) {
+		x = fmod(x, v.x);
+		y = fmod(y, v.y);
+		z = fmod(z, v.z);
 		return *this;
 	}
 
@@ -310,32 +321,6 @@ public:
 		return *this;
 	}
 };
-
-template<>
-inline Vector3<float> Vector3<float>::operator %(const float &f) const {
-	return Vector3<float>(fmod(x, f), fmod(y, f), fmod(z, f));
-}
-
-template<>
-inline Vector3<float> &Vector3<float>::operator %=(const float &f) {
-	x = fmod(x, f);
-	y = fmod(y, f);
-	z = fmod(z, f);
-	return *this;
-}
-
-template<>
-inline Vector3<double> Vector3<double>::operator %(const double &f) const {
-	return Vector3<double>(fmod(x, f), fmod(y, f), fmod(z, f));
-}
-
-template<>
-inline Vector3<double> &Vector3<double>::operator %=(const double &f) {
-	x = fmod(x, f);
-	y = fmod(y, f);
-	z = fmod(z, f);
-	return *this;
-}
 
 template<typename T>
 inline std::ostream &operator <<(std::ostream &out, const Vector3<T> &v) {

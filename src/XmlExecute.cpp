@@ -323,9 +323,14 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 	cout << "  - Spectrum: " << spectrumType << endl;
 
 	if (spectrumType == "Monochromatic") {
-		double E = spec.child("Energy_EeV").attribute("value").as_double() * EeV;
-		source.addProperty(new SourceEnergy(E));
-		cout << "  - Energy: " << E / EeV << " EeV" << endl;
+		if (spec.child("Energy_EeV")) {
+			double E = spec.child("Energy_EeV").attribute("value").as_double() * EeV;
+			source.addProperty(new SourceEnergy(E));
+			cout << "  - Energy: " << E / EeV << " EeV" << endl;
+		} else if (spec.child("Rigidity_EeV"))
+			throw runtime_error("Fixed rigidity not implemented");
+		else
+			throw runtime_error("Source energy missing");
 
 		// source composition
 		SourceNuclei *composition = new SourceNuclei;
@@ -340,27 +345,53 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 		source.addProperty(composition);
 
 	} else if (spectrumType == "Power Law") {
+		if (!spec.child("Alpha"))
+			throw runtime_error(" --> source power law index missing");
+
 		double alpha = spec.child("Alpha").attribute("value").as_double();
-		double Rmax = spec.child("Rigidity_EeV").attribute("value").as_double() * EeV;
-		cout << "  - Minimum energy: " << Emin / EeV << " EeV" << endl;
-		cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 		cout << "  - Power law index: " << alpha << endl;
+		cout << "  - Minimum energy: " << Emin / EeV << " EeV" << endl;
 
-		// source composition
-		SourceComposition *composition = new SourceComposition(Emin, Rmax, alpha);
-		xml_node p = node.child("Particles");
-		for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
-			int A = n.attribute("MassNumber").as_int();
-			int Z = n.attribute("ChargeNumber").as_int();
-			double ab = n.attribute("Abundance").as_double();
-			cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
-			composition->add(getNucleusId(A, Z), ab);
-		}
-		source.addProperty(composition);
+		// if the source is accelerated
+		if (spec.child("Rigidity_EeV")) {
+			double Rmax = spec.child("Rigidity_EeV").attribute("value").as_double() * EeV;
+			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
-	} else {
-		throw runtime_error(" --> unknown source");
-	}
+			// combined source spectrum / composition
+			SourceComposition *composition = new SourceComposition(Emin, Rmax, alpha);
+			xml_node p = node.child("Particles");
+			for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
+				int A = n.attribute("MassNumber").as_int();
+				int Z = n.attribute("ChargeNumber").as_int();
+				double ab = n.attribute("Abundance").as_double();
+				cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
+				composition->add(getNucleusId(A, Z), ab);
+			}
+			source.addProperty(composition);
+
+		} else if (spec.child("Ecut_EeV")) {
+			double Emax = spec.child("Ecut_EeV").attribute("value").as_double() * EeV;
+			cout << "  - Maximum energy: " << Emax / EeV << " EeV" << endl;
+
+			// source spectrum
+			source.addProperty(new SourcePowerLawSpectrum(Emin, Emax, alpha));
+
+			// source composition
+			SourceNuclei *composition = new SourceNuclei();
+			xml_node p = node.child("Particles");
+			for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
+				int A = n.attribute("MassNumber").as_int();
+				int Z = n.attribute("ChargeNumber").as_int();
+				double ab = n.attribute("Abundance").as_double();
+				cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
+				composition->add(getNucleusId(A, Z), ab);
+			}
+			source.addProperty(composition);
+		} else
+			throw runtime_error(" --> maximum source energy / rigidity missing");
+
+	} else
+		throw runtime_error(" --> unknown source spectrum");
 }
 
 void XmlExecute::loadOutput(xml_node &node) {

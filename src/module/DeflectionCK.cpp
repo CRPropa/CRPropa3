@@ -37,10 +37,11 @@ public:
 };
 
 DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
-		double minStep) {
+		double minStep, double maxStep) {
 	this->field = field;
 	this->tolerance = tolerance;
 	this->minStep = minStep;
+	this->maxStep = maxStep;
 	erk.loadCashKarp();
 }
 
@@ -53,7 +54,9 @@ std::string DeflectionCK::getDescription() const {
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
-	double step = std::max(minStep, candidate->getNextStep());
+	double step = candidate->getNextStep();
+	step = std::max(step, minStep);
+	step = std::min(step, maxStep);
 
 	// rectlinear propagation for neutral particles
 	if (candidate->current.getCharge() == 0) {

@@ -1,4 +1,5 @@
 #include "mpc/ModuleList.h"
+#include "mpc/ProgressBar.h"
 
 #include <omp.h>
 #include <algorithm>
@@ -52,27 +53,47 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 #if _OPENMP
 	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
 #endif
+
+	ProgressBar *progressbar = NULL;
+	if (showProgress)
+	{
+		progressbar = new ProgressBar("Run ModuleList", count);
+	}
+
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
-		if ((showProgress) && (i % pc == 0))
-			std::cout << i / pc << "% - " << i << std::endl;
+		//if ((showProgress) && (i % pc == 0))
+		//	std::cout << i / pc << "% - " << i << std::endl;
 		run(candidates[i], recursive);
+
+		if (progressbar)
+			#pragma omp critical(progressbarUpdate)
+			progressbar->update();
 	}
 }
 
 void ModuleList::run(Source *source, size_t count, bool recursive) {
 	size_t pc = std::max(count / 100, size_t(1));
+
 #if _OPENMP
 	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
 #endif
+
+	ProgressBar *progressbar = NULL;
+	if (showProgress)
+	{
+		progressbar = new ProgressBar("Run ModuleList", count);
+	}
+
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
-		if ((showProgress) && (i % pc == 0))
-			std::cout << i / pc << "% - " << i << std::endl;
 		ParticleState state;
 		source->prepare(state);
 		ref_ptr<Candidate> candidate = new Candidate(state);
 		run(candidate, recursive);
+		if (progressbar)
+			#pragma omp critical(progressbarUpdate)
+			progressbar->update();
 	}
 }
 

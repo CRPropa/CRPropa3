@@ -11,11 +11,10 @@ namespace mpc {
  */
 class SimplePropagation: public Module {
 private:
-	double acceleration;
-	double minimumStep;
+	double acceleration, minStep, maxStep;
 
 public:
-	SimplePropagation(double acceleration = 10, double minimumStep = 0.1 * kpc);
+	SimplePropagation(double acceleration = 10, double minStep = 0.1 * kpc, double maxStep = 4000 * Mpc);
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };

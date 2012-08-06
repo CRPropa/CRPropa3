@@ -114,29 +114,29 @@ void CRPropa2EventOutput::process(Candidate *candidate) const {
 		size_t p = 0; // length of line
 
 		int cid = convertToCRPropaId(candidate->current.getId());
-		p += sprintf(buffer + p, "%i, ", cid);
+		p += sprintf(buffer + p, "%i ", cid);
 
 		int iid = convertToCRPropaId(candidate->initial.getId());
-		p += sprintf(buffer + p, "%i, ", iid);
+		p += sprintf(buffer + p, "%i ", iid);
 
 		const Vector3d &ipos = candidate->initial.getPosition() / Mpc;
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f", ipos.x, ipos.y, ipos.z);
+		p += sprintf(buffer + p, "%.4f %.4f %.4f ", ipos.x, ipos.y, ipos.z);
 
 		double iPhi = candidate->initial.getDirection().getPhi();
 		double iTheta = candidate->initial.getDirection().getTheta();
 		double iE = candidate->initial.getEnergy() / EeV;
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f", iE, iPhi, iTheta);
+		p += sprintf(buffer + p, "%.4f %.4f %.4f ", iE, iPhi, iTheta);
 
 		double t = candidate->getTrajectoryLength() / Mpc;
-		p += sprintf(buffer + p, ", %.4f", t);
+		p += sprintf(buffer + p, "%.4f ", t);
 
 		const Vector3d &pos = candidate->current.getPosition() / Mpc;
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f", ipos.x, ipos.y, ipos.z);
+		p += sprintf(buffer + p, "%.4f %.4f %.4f ", ipos.x, ipos.y, ipos.z);
 
 		double phi = candidate->current.getDirection().getPhi();
 		double theta = candidate->current.getDirection().getTheta();
 		double E = candidate->current.getEnergy() / EeV;
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f\n", E, phi, theta);
+		p += sprintf(buffer + p, "%.4f %.4f %.4f\n", E, phi, theta);
 
 #pragma omp critical
 		{
@@ -162,22 +162,22 @@ void CRPropa2TrajectoryOutput::process(Candidate *candidate) const {
 	size_t p = 0;
 
 	int cid = convertToCRPropaId(candidate->current.getId());
-	p += sprintf(buffer + p, "%i", cid);
+	p += sprintf(buffer + p, "%i ", cid);
 
 	int iid = convertToCRPropaId(candidate->initial.getId());
-	p += sprintf(buffer + p, ", %i", iid);
+	p += sprintf(buffer + p, "%i ", iid);
 
 	double t = candidate->getTrajectoryLength() / Mpc;
-	p += sprintf(buffer + p, ", %.4f", t);
+	p += sprintf(buffer + p, "%.4f ", t);
 
 	const Vector3d &pos = candidate->current.getPosition() / Mpc;
-	p += sprintf(buffer + p, ", %.4f, %.4f, %.4f", pos.x, pos.y, pos.z);
+	p += sprintf(buffer + p, "%.4f %.4f %.4f ", pos.x, pos.y, pos.z);
 
 	const Vector3d &mom = candidate->current.getMomentum() / EeV;
-	p += sprintf(buffer + p, ", %.4g, %.4g, %.4g", mom.x, mom.y, mom.z);
+	p += sprintf(buffer + p, "%.4g %.4g %.4g ", mom.x, mom.y, mom.z);
 
 	double E = candidate->current.getEnergy() / EeV;
-	p += sprintf(buffer + p, ", %.4f\n", E);
+	p += sprintf(buffer + p, "%.4f\n", E);
 
 #pragma omp critical
 	{

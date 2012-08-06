@@ -64,7 +64,7 @@ void DeflectionCK::process(Candidate *candidate) const {
 		Vector3d dir = candidate->current.getDirection();
 		candidate->current.setPosition(pos + dir * step);
 		candidate->setCurrentStep(step);
-		candidate->setNextStep(step * 5);
+		candidate->setNextStep(maxStep);
 		return;
 	}
 

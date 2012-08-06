@@ -339,6 +339,9 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 }
 
 void XmlExecute::loadDiscreteSources(xml_node &node) {
+	// source isotropic emission
+	source.addProperty(new SourceIsotropicEmission());
+
 	// source positions
 	SourceMultiplePositions *positions = new SourceMultiplePositions();
 	for (xml_node n = node.child("PointSource"); n; n = n.next_sibling("PointSource")) {

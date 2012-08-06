@@ -5,7 +5,7 @@
 
 namespace mpc {
 
-/** This implements the 2006 Monte Carlo nuclear code scheme.
+/** This implements the 2012 Monte Carlo nuclear code scheme.
  * Ion numbers are +/- 10LZZZAAAI.
  * AAA is A - total baryon number
  * ZZZ is Z - total charge

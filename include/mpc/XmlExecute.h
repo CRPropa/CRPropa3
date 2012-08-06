@@ -14,28 +14,24 @@ class xml_node;
 namespace mpc {
 
 class XmlExecute {
+	void loadUniformMagneticField(pugi::xml_node &node);
+	void loadGridMagneticField(pugi::xml_node &node);
+	void loadDeflectionCK(pugi::xml_node &node);
+	void loadPeriodicBoundaries();
+	void loadDiscreteSources(pugi::xml_node &node);
+	void loadSophia(pugi::xml_node &node);
+	void loadSpheresAroundObserver(pugi::xml_node &node);
+	void loadSpheresAroundSource(pugi::xml_node &node);
+	void loadOutput(pugi::xml_node &node);
+
 	ModuleList modules;
 	ref_ptr<MagneticField> magnetic_field;
 	Source source;
-
-	void loadUniformMagneticField(pugi::xml_node &node);
-	void loadGridMagneticField(pugi::xml_node &node);
-
-	void loadDeflectionCK(pugi::xml_node &node);
-
-	void loadDiscreteSources(pugi::xml_node &node);
-
-	void loadSophia(pugi::xml_node &node);
-
-	void loadSpheresAroundObserver(pugi::xml_node &node);
-	void loadSpheresAroundSource(pugi::xml_node &node);
-
-	void loadOutput(pugi::xml_node &node);
-
 	bool is1D;
 	size_t trajectories;
 	size_t randomSeed;
 	double Emin;
+	double maxStep;
 	Vector3d origin;
 	Vector3d size;
 

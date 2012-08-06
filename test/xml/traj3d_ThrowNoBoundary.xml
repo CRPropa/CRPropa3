@@ -11,7 +11,7 @@
 
 <!-- In this simulation output will be full trajectories as a txt file --> 
 <Output type="Full Trajectories">
-   <File type="ASCII" option="force">traj3d_V3NoBound.txt</File> 
+   <File type="ASCII" option="force">traj3d.txt</File> 
 </Output>
 
 <!-- Definition of the simulation box, in case of a magnetic field the details are specified by the field -->

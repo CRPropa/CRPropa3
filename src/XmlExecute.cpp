@@ -15,11 +15,32 @@
 #include "pugixml.hpp"
 
 #include <fstream>
+#include <sstream>
 
 using namespace pugi;
 using namespace std;
 
 namespace mpc {
+
+double childValue(xml_node parent, string name, bool throwIfEmpty = true) {
+	xml_node node = parent.child(name.c_str());
+	if (!node and throwIfEmpty) {
+		stringstream ss;
+		ss << "Error reading XML card: " << name << " not found";
+		throw runtime_error(ss.str());
+	}
+	return node.attribute("value").as_double();
+}
+
+string childType(xml_node parent, string name, bool throwIfEmpty = true) {
+	xml_node node = parent.child(name.c_str());
+	if (!node and throwIfEmpty) {
+		stringstream ss;
+		ss << "Error reading XML card: " << name << " not found";
+		throw runtime_error(ss.str());
+	}
+	return node.attribute("type").as_string();
+}
 
 bool XmlExecute::load(const string &filename) {
 	xml_document doc;
@@ -32,20 +53,23 @@ bool XmlExecute::load(const string &filename) {
 	}
 
 	xml_node root = doc.child("CRPropa");
-	xml_node node;
-	std::string type;
+	if (!root)
+		throw runtime_error("Error reading XML card: Root element not found");
 
-	trajectories = root.child("TrajNumber").attribute("value").as_int();
+	trajectories = (int)childValue(root, "TrajNumber");
 	cout << "Trajectories: " << trajectories << endl;
 
-	double maxTime = root.child("MaxTime_Mpc").attribute("value").as_double() * Mpc;
+	double maxTime = childValue(root, "MaxTime_Mpc") * Mpc;
 	cout << "Maximum Time: " << maxTime / Mpc << " Mpc" << endl;
 
-	Emin = root.child("MinEnergy_EeV").attribute("value").as_double() * EeV;
+	Emin = childValue(root, "MinEnergy_EeV") * EeV;
 	cout << "Minimum Energy: " << Emin / EeV << " EeV" << endl;
 
-	randomSeed = root.child("RandomSeed").attribute("value").as_int();
+	randomSeed = (int)childValue(root, "RandomSeed");
 	cout << "RandomSeed: " << randomSeed << endl;
+
+	xml_node node;
+	std::string type;
 
 	// environment
 	node = root.child("Environment");
@@ -57,12 +81,12 @@ bool XmlExecute::load(const string &filename) {
 		throw runtime_error("One Dimension not supported");
 	else if (type == "LSS") {
 		// will be overwritten if (re)defined by magnetic field
-		origin.x = node.child("Xmin_Mpc").attribute("value").as_double() * Mpc;
-		origin.y = node.child("Ymin_Mpc").attribute("value").as_double() * Mpc;
-		origin.z = node.child("Zmin_Mpc").attribute("value").as_double() * Mpc;
-		size.x = node.child("Xmax_Mpc").attribute("value").as_double() * Mpc;
-		size.y = node.child("Ymax_Mpc").attribute("value").as_double() * Mpc;
-		size.z = node.child("Zmax_Mpc").attribute("value").as_double() * Mpc;
+		origin.x = childValue(node, "Xmin_Mpc", false) * Mpc;
+		origin.y = childValue(node, "Ymin_Mpc", false) * Mpc;
+		origin.z = childValue(node, "Zmin_Mpc", false) * Mpc;
+		size.x = childValue(node, "Xmax_Mpc", false) * Mpc;
+		size.y = childValue(node, "Ymax_Mpc", false) * Mpc;
+		size.z = childValue(node, "Zmax_Mpc", false) * Mpc;
 		size -= origin;
 	} else
 		throw runtime_error("Unknown environment");
@@ -84,17 +108,6 @@ bool XmlExecute::load(const string &filename) {
 		magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
 	}
 
-	// propagator
-	node = root.child("Integrator");
-	if (!node)
-		throw runtime_error("Integrator not specified");
-	type = node.attribute("type").as_string();
-	cout << "Integrator: " << type << endl;
-	if (type == "Cash-Karp RK")
-		loadDeflectionCK(node);
-	else
-		throw runtime_error("Unknown integrator");
-
 	// interactions
 	node = root.child("Interactions");
 	if (!node)
@@ -112,6 +125,17 @@ bool XmlExecute::load(const string &filename) {
 	else
 		cout << "  -> unknown" << endl;
 
+	// propagator
+	node = root.child("Integrator");
+	if (!node)
+		throw runtime_error("Integrator not specified");
+	type = node.attribute("type").as_string();
+	cout << "Integrator: " << type << endl;
+	if (type == "Cash-Karp RK")
+		loadDeflectionCK(node);
+	else
+		throw runtime_error("Unknown integrator");
+
 	// minimum energy
 	modules.add(new MinimumEnergy(Emin));
 
@@ -119,10 +143,7 @@ bool XmlExecute::load(const string &filename) {
 	modules.add(new MaximumTrajectoryLength(maxTime));
 
 	// periodic boundaries
-	cout << "Periodic boundaries" << endl;
-	cout << "  - Lower bounds: " << origin / Mpc << " Mpc" << endl;
-	cout << "  - Upper bounds: " << (origin + size) / Mpc << " Mpc" << endl;
-	modules.add(new PeriodicBox(origin, size));
+	loadPeriodicBoundaries();
 
 	// sources
 	node = root.child("Sources");
@@ -163,36 +184,38 @@ bool XmlExecute::load(const string &filename) {
 }
 
 void XmlExecute::loadDeflectionCK(xml_node &node) {
-	double epsilon = node.child("Epsilon").attribute("value").as_double();
+	double epsilon = childValue(node, "MinStep_Mpc");
 	cout << "  - Epsilon: " << epsilon << endl;
-	double minstep = node.child("MinStep_Mpc").attribute("value").as_double()
-			* Mpc;
-	cout << "  - Minimum Step: " << minstep / Mpc << " Mpc " << endl;
-	modules.add(new DeflectionCK(magnetic_field, epsilon, minstep));
+	double minStep = childValue(node, "MinStep_Mpc") * Mpc;
+	cout << "  - Minimum Step: " << minStep / Mpc << " Mpc" << endl;
+	cout << "  - Maximum Step: " << maxStep / Mpc << " Mpc" << endl;
+	if (minStep >= maxStep)
+		throw runtime_error("MaxStep must be larger than MinStep");
+	modules.add(new DeflectionCK(magnetic_field, epsilon, minStep, maxStep));
 }
 
 void XmlExecute::loadUniformMagneticField(xml_node &node) {
 	Vector3d bField;
-	bField.x = node.child("Bx_nG").attribute("value").as_int() * nG;
-	bField.y = node.child("By_nG").attribute("value").as_int() * nG;
-	bField.z = node.child("Bz_nG").attribute("value").as_int() * nG;
+	bField.x = childValue(node, "Bx_nG") * nG;
+	bField.y = childValue(node, "By_nG") * nG;
+	bField.z = childValue(node, "Bz_nG") * nG;
 	cout << "  - Bx, By, Bz: " << bField / nG << " nG" << endl;
 	magnetic_field = new UniformMagneticField(bField);
 }
 
 void XmlExecute::loadGridMagneticField(xml_node &node) {
 	xml_node origin_node = node.child("Origin");
-	origin.x = origin_node.child("X_Mpc").attribute("value").as_double() * Mpc;
-	origin.y = origin_node.child("Y_Mpc").attribute("value").as_double() * Mpc;
-	origin.z = origin_node.child("Z_Mpc").attribute("value").as_double() * Mpc;
+	origin.x = childValue(origin_node, "X_Mpc") * Mpc;
+	origin.y = childValue(origin_node, "Y_Mpc") * Mpc;
+	origin.z = childValue(origin_node, "Z_Mpc") * Mpc;
 	cout << "  - Origin: " << origin / Mpc << endl;
 
-	int Nx = node.child("Nx").attribute("value").as_int();
-	int Ny = node.child("Ny").attribute("value").as_int();
-	int Nz = node.child("Nz").attribute("value").as_int();
+	int Nx = childValue(node, "Nx");
+	int Ny = childValue(node, "Ny");
+	int Nz = childValue(node, "Nz");
 	cout << "  - Samples: " << Nx << " * " << Ny << " * " << Nz << endl;
 
-	double spacing = node.child("Step_Mpc").attribute("value").as_double() * Mpc;
+	double spacing = childValue(node, "Step_Mpc") * Mpc;
 	cout << "  - Spacing: " << spacing / Mpc << " Mpc " << endl;
 
 	size.x = Nx * spacing;
@@ -212,16 +235,16 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		cout << "  - Loading file (values in [G]): " << fname << endl;
 		loadTxt(field, fname, gauss);
 	} else {
-		double brms = node.child("RMS_muG").attribute("value").as_double() * 1e-6 * gauss;
+		double brms = childValue(node, "RMS_muG") * 1e-6 * gauss;
 		cout << "  - Brms : " << brms / nG << " nG" << endl;
 
-		double kMin = node.child("Kmin").attribute("value").as_double();
-		double kMax = node.child("Kmax").attribute("value").as_double();
+		double kMin = childValue(node, "Kmin");
+		double kMax = childValue(node, "Kmax");
 		double lMin = spacing / kMax;
 		double lMax = spacing / kMin;
 		cout << "  - Turbulent range: " << lMin / Mpc << " - " << lMax / Mpc << " Mpc" << endl;
 
-		double alpha = node.child("SpectralIndex").attribute("value").as_double();
+		double alpha = childValue(node, "SpectralIndex");
 		cout << "  - Turbulence spectral index: " << alpha << endl;
 		cout << "  - Random seed: " << randomSeed << endl;
 
@@ -236,11 +259,22 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 	magnetic_field = new MagneticFieldGrid(field);
 }
 
+void XmlExecute::loadPeriodicBoundaries() {
+	if ((size.x == 0) or (size.y == 0) or (size.z == 0))
+		throw runtime_error("Environment boundaries not set.");
+	cout << "Periodic boundaries" << endl;
+	cout << "  - Lower bounds: " << origin / Mpc << " Mpc" << endl;
+	cout << "  - Upper bounds: " << (origin + size) / Mpc << " Mpc" << endl;
+	modules.add(new PeriodicBox(origin, size));
+}
+
 void XmlExecute::loadSophia(xml_node &node) {
+	maxStep = childValue(node, "MaxStep_Mpc") * Mpc;
+
 	if (node.child("NoRedshift"))
 		cout << "  - No redshift" << endl;
-//	else
-//		redshift
+	else
+		cout << "  - Redshift not implemented" << endl;
 
 	if (node.child("NoPairProd"))
 		cout << "  - No pair production" << endl;
@@ -255,7 +289,7 @@ void XmlExecute::loadSophia(xml_node &node) {
 			modules.add(new ElectronPairProduction(IRB));
 	}
 
-	if (node.child("NoPhotoDisintegration"))
+	if (node.child("NoPhotodisintegration"))
 		cout << "  - No photo disintegration" << endl;
 	else {
 		modules.add(new PhotoDisintegration(CMB));
@@ -269,16 +303,16 @@ void XmlExecute::loadSophia(xml_node &node) {
 }
 
 void XmlExecute::loadSpheresAroundObserver(xml_node &node) {
-	double r = node.child("Radius_Mpc").attribute("value").as_double() * Mpc;
+	double r = childValue(node, "Radius_Mpc") * Mpc;
 	cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
 
 	int nObs = 0;
 	for (xml_node n = node.child("SphereObserver"); n; n = n.next_sibling("SphereObserver")) {
 		nObs += 1;
 		Vector3d pos;
-		pos.x = n.child("CoordX_Mpc").attribute("value").as_double() * Mpc;
-		pos.y = n.child("CoordY_Mpc").attribute("value").as_double() * Mpc;
-		pos.z = n.child("CoordZ_Mpc").attribute("value").as_double() * Mpc;
+		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
+		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
+		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
 		modules.add(new SmallObserverSphere(pos, r));
 	}
@@ -291,11 +325,11 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 	for (xml_node n = node.child("Sphere"); n; n = n.next_sibling("Sphere")) {
 		nObs += 1;
 		Vector3d pos;
-		pos.x = n.child("CoordX_Mpc").attribute("value").as_double() * Mpc;
-		pos.y = n.child("CoordY_Mpc").attribute("value").as_double() * Mpc;
-		pos.z = n.child("CoordZ_Mpc").attribute("value").as_double() * Mpc;
-		double r = n.child("Radius_Mpc").attribute("value").as_double() * Mpc;
+		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
+		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
+		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
+		double r = childValue(n, "Radius_Mpc") * Mpc;
 		cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
 		SphericalBoundary *sphere = new SphericalBoundary(pos, r, "Detected");
 		modules.add(sphere);
@@ -309,9 +343,9 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 	SourceMultiplePositions *positions = new SourceMultiplePositions();
 	for (xml_node n = node.child("PointSource"); n; n = n.next_sibling("PointSource")) {
 		Vector3d pos;
-		pos.x = n.child("CoordX_Mpc").attribute("value").as_double() * Mpc;
-		pos.y = n.child("CoordY_Mpc").attribute("value").as_double() * Mpc;
-		pos.z = n.child("CoordZ_Mpc").attribute("value").as_double() * Mpc;
+		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
+		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
+		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 		cout << "  - Position " << pos / Mpc << " Mpc" << endl;
 		positions->add(pos);
 	}
@@ -324,9 +358,9 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 
 	if (spectrumType == "Monochromatic") {
 		if (spec.child("Energy_EeV")) {
-			double E = spec.child("Energy_EeV").attribute("value").as_double() * EeV;
-			source.addProperty(new SourceEnergy(E));
+			double E = childValue(spec, "Energy_EeV") * EeV;
 			cout << "  - Energy: " << E / EeV << " EeV" << endl;
+			source.addProperty(new SourceEnergy(E));
 		} else if (spec.child("Rigidity_EeV"))
 			throw runtime_error("Fixed rigidity not implemented");
 		else
@@ -336,25 +370,22 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 		SourceNuclei *composition = new SourceNuclei;
 		xml_node p = node.child("Particles");
 		for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
-			int A = n.child("MassNumber").attribute("value").as_int();
-			int Z = n.child("ChargeNumber").attribute("value").as_int();
-			double ab = n.child("Abundance").attribute("value").as_double();
+			int A = (int)childValue(n, "MassNumber");
+			int Z = (int)childValue(n, "ChargeNumber");
+			double ab = childValue(n, "Abundance");
 			composition->add(getNucleusId(A, Z), ab);
 			cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
 		}
 		source.addProperty(composition);
 
 	} else if (spectrumType == "Power Law") {
-		if (!spec.child("Alpha"))
-			throw runtime_error(" --> source power law index missing");
-
-		double alpha = spec.child("Alpha").attribute("value").as_double();
+		double alpha = childValue(spec, "Alpha");
 		cout << "  - Power law index: " << alpha << endl;
 		cout << "  - Minimum energy: " << Emin / EeV << " EeV" << endl;
 
-		// if the source is accelerated
+		// if the source is accelerated to a maximum rigidity
 		if (spec.child("Rigidity_EeV")) {
-			double Rmax = spec.child("Rigidity_EeV").attribute("value").as_double() * EeV;
+			double Rmax = childValue(spec, "Rigidity_EeV") * EeV;
 			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
 			// combined source spectrum / composition
@@ -370,7 +401,7 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 			source.addProperty(composition);
 
 		} else if (spec.child("Ecut_EeV")) {
-			double Emax = spec.child("Ecut_EeV").attribute("value").as_double() * EeV;
+			double Emax = childValue(spec, "Ecut_EeV") * EeV;
 			cout << "  - Maximum energy: " << Emax / EeV << " EeV" << endl;
 
 			// source spectrum
@@ -387,6 +418,7 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 				composition->add(getNucleusId(A, Z), ab);
 			}
 			source.addProperty(composition);
+
 		} else
 			throw runtime_error(" --> maximum source energy / rigidity missing");
 

@@ -11,11 +11,18 @@
 
 <!-- In this simulation output will be full trajectories as a txt file --> 
 <Output type="Full Trajectories">
-   <File type="ASCII" option="force"> "traj3d.txt" </File> 
+   <File type="ASCII" option="force">traj3d.txt</File>
 </Output>
 
 <!-- Definition of the simulation box, in case of a magnetic field the details are specified by the field -->
-<Environment type="LSS"/>
+<Environment type="LSS">
+	<Xmin_Mpc value="0"/>
+	<Ymin_Mpc value="0"/>
+	<Zmin_Mpc value="0"/>
+	<Xmax_Mpc value="20"/>
+	<Ymax_Mpc value="20"/>
+	<Zmax_Mpc value="20"/>
+</Environment>
 
 <MagneticField type="None" />
 

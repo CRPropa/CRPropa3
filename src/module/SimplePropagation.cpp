@@ -2,17 +2,20 @@
 
 namespace mpc {
 
-SimplePropagation::SimplePropagation(double acceleration, double minimumStep) :
-		acceleration(acceleration), minimumStep(minimumStep) {
+SimplePropagation::SimplePropagation(double accel, double minStep,
+		double maxStep) :
+		acceleration(accel), minStep(minStep), maxStep(maxStep) {
 }
 
 void SimplePropagation::process(Candidate *candidate) const {
-	double nextStep = std::max(minimumStep, candidate->getNextStep());
+	double step = candidate->getNextStep();
+	step = std::max(step, minStep);
+	step = std::min(step, maxStep);
 	Vector3d pos = candidate->current.getPosition();
 	Vector3d dir = candidate->current.getDirection();
-	candidate->current.setPosition(pos + dir * nextStep);
-	candidate->setCurrentStep(nextStep);
-	candidate->setNextStep(nextStep * acceleration);
+	candidate->current.setPosition(pos + dir * step);
+	candidate->setCurrentStep(step);
+	candidate->setNextStep(maxStep);
 }
 
 std::string SimplePropagation::getDescription() const {

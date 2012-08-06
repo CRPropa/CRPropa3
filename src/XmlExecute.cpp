@@ -66,7 +66,6 @@ bool XmlExecute::load(const string &filename) {
 	cout << "Minimum Energy: " << Emin / EeV << " EeV" << endl;
 
 	randomSeed = (int)childValue(root, "RandomSeed");
-	Random(randomSeed);
 	cout << "RandomSeed: " << randomSeed << endl;
 
 	xml_node node;

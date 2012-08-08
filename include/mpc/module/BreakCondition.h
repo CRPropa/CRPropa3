@@ -75,6 +75,7 @@ public:
  @brief Rectangular box with periodic boundaries.
 
  If a particle passes on of the sides it is placed at the opposite side and its initial (source) position changed accordingly.
+ This realizes periodic boundaries, where the particle is kept inside the box and the source is moved away from the box.
  Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
  */
 class PeriodicBox: public Module {
@@ -93,6 +94,8 @@ public:
  @brief Rectangular box with reflective boundaries.
 
  If a particle passes on of the sides it is reflected back inside (position and velocity) and its initial position changed as if the particle had come from that side.
+ This realizes reflective boundaries, where the particle is kept inside the box and the source is moved away from the box.
+ The translation currently does not work correctly if the particle's distance to the box is larger than one box size.
  Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
  */
 class ReflectiveBox: public Module {

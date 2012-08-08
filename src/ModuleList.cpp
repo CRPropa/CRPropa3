@@ -55,8 +55,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 #endif
 
 	ProgressBar *progressbar = NULL;
-	if (showProgress)
-	{
+	if (showProgress) {
 		progressbar = new ProgressBar("Run ModuleList", count);
 	}
 
@@ -67,7 +66,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 		run(candidates[i], recursive);
 
 		if (progressbar)
-			#pragma omp critical(progressbarUpdate)
+#pragma omp critical(progressbarUpdate)
 			progressbar->update();
 	}
 }
@@ -80,8 +79,7 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 #endif
 
 	ProgressBar *progressbar = NULL;
-	if (showProgress)
-	{
+	if (showProgress) {
 		progressbar = new ProgressBar("Run ModuleList", count);
 	}
 
@@ -92,7 +90,7 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 		ref_ptr<Candidate> candidate = new Candidate(state);
 		run(candidate, recursive);
 		if (progressbar)
-			#pragma omp critical(progressbarUpdate)
+#pragma omp critical(progressbarUpdate)
 			progressbar->update();
 	}
 }

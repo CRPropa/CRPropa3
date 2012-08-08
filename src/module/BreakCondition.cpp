@@ -101,12 +101,14 @@ PeriodicBox::PeriodicBox(Vector3d origin, Vector3d size) {
 }
 
 void PeriodicBox::process(Candidate *c) const {
-	Vector3d relPos = c->current.getPosition() - origin;
-	Vector3d n = (relPos / size).floor(); // integers for translation
-	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
-		c->initial.setPosition(c->initial.getPosition() - n * size);
-		c->current.setPosition(c->current.getPosition() - n * size);
-	}
+	Vector3d pos = c->current.getPosition();
+	Vector3d n = ((pos - origin) / size).floor();
+
+	if ((n.x == 0) and (n.y == 0) and (n.z == 0))
+		return; // do nothing if candidate is inside the box
+
+	c->initial.setPosition(c->initial.getPosition() - n * size);
+	c->current.setPosition(pos - n * size);
 }
 
 void PeriodicBox::updateDescription() {
@@ -123,26 +125,27 @@ ReflectiveBox::ReflectiveBox(Vector3d origin, Vector3d size) {
 
 void ReflectiveBox::process(Candidate *c) const {
 	Vector3d pos = c->current.getPosition();
-	Vector3d n = ((pos - origin) / size).floor(); // integers for translation
-	if ((n.x != 0) or (n.y != 0) or (n.z != 0)) {
-		// flip direction
-		Vector3d idir = c->initial.getDirection();
-		idir.x *= pow(-1, n.x);
-		idir.y *= pow(-1, n.y);
-		idir.z *= pow(-1, n.z);
-		c->initial.setDirection(idir);
+	Vector3d n = ((pos - origin) / size).floor();
 
-		Vector3d dir = c->current.getDirection();
-		dir.x *= pow(-1, n.x);
-		dir.y *= pow(-1, n.y);
-		dir.z *= pow(-1, n.z);
-		c->current.setDirection(dir);
+	if ((n.x == 0) and (n.y == 0) and (n.z == 0))
+		return; // do nothing if candidate is inside the box
 
-		// translate back into the box
-		Vector3d ipos = c->initial.getPosition();
-		c->initial.setPosition(ipos + (size - (ipos - origin)) * n * 2);
-		c->current.setPosition(pos - ((pos - origin) % size) * n * 2);
-	}
+	// flip direction
+	Vector3d nReflect(pow(-1, n.x), pow(-1, n.y), pow(-1, n.z));
+	c->current.setDirection(c->current.getDirection() * nReflect);
+	c->initial.setDirection(c->initial.getDirection() * nReflect);
+
+	Vector3d isOutside(n.x != 0, n.y != 0, n.z != 0);
+	Vector3d isHigh(n.x > 0, n.y > 0, n.z > 0);
+
+	// translate current position
+	Vector3d dist = (origin + isHigh * size - pos); // distance to boundary
+	c->current.setPosition(pos + isOutside * dist * 2 );
+
+	// translate initial position
+	Vector3d ipos = c->initial.getPosition();
+	Vector3d idist = (origin + isHigh * size - ipos); // distance to boundary
+	c->initial.setPosition(ipos + isOutside * idist * 2 );
 }
 
 void ReflectiveBox::updateDescription() {

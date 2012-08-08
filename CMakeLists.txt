@@ -123,6 +123,10 @@ if(ENABLETESTING)
 	target_link_libraries(testCore mpc gtest gtest_main pthread)
 	add_test(testCore testCore)
 	
+	add_executable(testVector3 test/testVector3.cpp)
+	target_link_libraries(testVector3 mpc gtest gtest_main pthread)
+	add_test(testVector3 testVector3)
+	
 	add_executable(testModuleList test/testModuleList.cpp)
 	target_link_libraries(testModuleList mpc gtest gtest_main pthread)
 	add_test(testModuleList testModuleList)

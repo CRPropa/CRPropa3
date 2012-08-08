@@ -108,7 +108,7 @@ TEST(testSourceList, luminosity) {
 		meanE += p.getEnergy();
 	}
 	meanE /= 1000;
-	EXPECT_NEAR(80, meanE, 1); // this test can stochastically fail
+	EXPECT_NEAR(80, meanE, 2); // this test can stochastically fail
 }
 
 int main(int argc, char **argv) {

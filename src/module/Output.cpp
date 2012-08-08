@@ -11,28 +11,29 @@ namespace mpc {
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");
 	outfile.open(name.c_str());
-	outfile << "# Age, HepId, E, posX, posY, posZ, dirX, dirY, dirZ, event\n";
+	outfile
+			<< "# Age[Mpc] PDG_Code Energy[EeV] Position(X,Y,Z)[Mpc] Direction(X,Y,Z)\n";
 }
 
 TrajectoryOutput::~TrajectoryOutput() {
 	outfile.close();
 }
 
-void TrajectoryOutput::process(Candidate *candidate) const {
+void TrajectoryOutput::process(Candidate *c) const {
 	char buffer[1024];
-	size_t pos = 0;
-	pos += ::sprintf(buffer + pos, "%.4f, %d, %.4f",
-			candidate->getTrajectoryLength() / Mpc, candidate->current.getId(),
-			candidate->current.getEnergy() / EeV);
-	Vector3d position = candidate->current.getPosition() / Mpc;
-	pos += ::sprintf(buffer + pos, ", %.4f, %.4f, %.4f", position.x, position.y,
-			position.z);
-	const Vector3d &dir = candidate->current.getDirection();
-	pos += ::sprintf(buffer + pos, ", %.4f, %.4f, %.4f\n", dir.x, dir.y, dir.z);
+	size_t p = 0;
+
+	p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
+	p += sprintf(buffer + p, "%10i\t", c->current.getId());
+	p += sprintf(buffer + p, "%8.4f\t", c->current.getEnergy() / EeV);
+	Vector3d pos = c->current.getPosition() / Mpc;
+	p += sprintf(buffer + p, "%8.4f\t%8.4f\t%8.4f\t", pos.x, pos.y, pos.z);
+	const Vector3d &dir = c->current.getDirection();
+	p += sprintf(buffer + p, "%7.4f\t%7.4f\t%7.4f\n", dir.x, dir.y, dir.z);
 
 #pragma omp critical
 	{
-		outfile.write(buffer, pos);
+		outfile.write(buffer, p);
 	}
 }
 
@@ -43,8 +44,7 @@ ConditionalOutput::ConditionalOutput(std::string filename,
 	propertyName = propName;
 	outfile.open(filename.c_str());
 	outfile
-			<< "# id, x, y, z, E, phi, theta, distance, i_id, i_x, i_y, i_z, i_E, i_phi, i_theta"
-			<< std::endl;
+			<< "# PDG_Code Energy[EeV] Position(X,Y,Z)[Mpc] Direction(Phi,Theta) Age[Mpc] Initial_PDG_Code Initial_Energy[EeV] Initial_Position(X,Y,Z)[Mpc] Initial_Direction(Phi,Theta)\n";
 }
 
 ConditionalOutput::~ConditionalOutput() {
@@ -55,33 +55,24 @@ void ConditionalOutput::setRemoveProperty(bool removeProperty) {
 	this->removeProperty = removeProperty;
 }
 
-void ConditionalOutput::process(Candidate *candidate) const {
-	if (candidate->hasProperty(propertyName)) {
+void ConditionalOutput::process(Candidate *c) const {
+	if (c->hasProperty(propertyName)) {
 		char buffer[256];
 		size_t p = 0;
 
-		p += sprintf(buffer + p, "%i", candidate->current.getId());
-
-		const Vector3d &pos = candidate->current.getPosition() / Mpc;
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f", pos.x, pos.y, pos.z);
-
-		const Vector3d &dir = candidate->current.getDirection();
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f",
-				candidate->current.getEnergy() / EeV, dir.getPhi(),
-				dir.getTheta());
-
-		p += sprintf(buffer + p, ", %.4f",
-				candidate->getTrajectoryLength() / Mpc);
-
-		p += sprintf(buffer + p, ", %i", candidate->initial.getId());
-
-		const Vector3d &ipos = candidate->initial.getPosition() / Mpc;
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f", ipos.x, ipos.y, ipos.z);
-
-		const Vector3d &idir = candidate->initial.getDirection();
-		p += sprintf(buffer + p, ", %.4f, %.4f, %.4f\n",
-				candidate->initial.getEnergy() / EeV, idir.getPhi(),
-				idir.getTheta());
+		p += sprintf(buffer + p, "%10i\t", c->current.getId());
+		p += sprintf(buffer + p, "%8.4f\t", c->current.getEnergy() / EeV);
+		const Vector3d &pos = c->current.getPosition() / Mpc;
+		p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", pos.x, pos.y, pos.z);
+		const Vector3d &dir = c->current.getDirection();
+		p += sprintf(buffer + p, "%6.4f\t%7.4f\t", dir.getPhi(), dir.getTheta());
+		p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
+		p += sprintf(buffer + p, "%10i\t", c->initial.getId());
+		p += sprintf(buffer + p, "%8.4f\t", c->initial.getEnergy() / EeV);
+		const Vector3d &ipos = c->initial.getPosition() / Mpc;
+		p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", ipos.x, ipos.y, ipos.z);
+		const Vector3d &idir = c->initial.getDirection();
+		p += sprintf(buffer + p, "%6.4f\t%7.4f\n", idir.getPhi(), idir.getTheta());
 
 #pragma omp critical
 		{
@@ -89,7 +80,7 @@ void ConditionalOutput::process(Candidate *candidate) const {
 		}
 
 		if (removeProperty) {
-			candidate->removeProperty(propertyName);
+			c->removeProperty(propertyName);
 		}
 	}
 }
@@ -193,8 +184,8 @@ void ShellOutput::process(Candidate *candidate) const {
 		std::cout << candidate->getTrajectoryLength() / Mpc << " Mpc,  ";
 		std::cout << candidate->current.getId() << ",  ";
 		std::cout << candidate->current.getEnergy() / EeV << " EeV,  ";
-		std::cout << candidate->current.getPosition() / Mpc << " Mpc, ";
-		std::cout << candidate->current.getDirection().getPhi() << " / ";
+		std::cout << candidate->current.getPosition() / Mpc << " Mpc,  ";
+		std::cout << candidate->current.getDirection().getPhi() << " ";
 		std::cout << candidate->current.getDirection().getTheta();
 		std::cout << std::endl;
 	}

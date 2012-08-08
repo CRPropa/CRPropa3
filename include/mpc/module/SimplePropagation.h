@@ -8,13 +8,16 @@ namespace mpc {
 /**
  @class SimplePropagation
  @brief Simple rectalinear propagation in absence of magnetic fields.
+
+ This module performs a rectalinear propagation.
+ It always proposes a next step of the maximum step size.
  */
 class SimplePropagation: public Module {
 private:
-	double acceleration, minStep, maxStep;
+	double minStep, maxStep;
 
 public:
-	SimplePropagation(double acceleration = 10, double minStep = 0.1 * kpc, double maxStep = 4000 * Mpc);
+	SimplePropagation(double minStep = 0.1 * kpc, double maxStep = 4000 * Mpc);
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };

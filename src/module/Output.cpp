@@ -65,14 +65,14 @@ void ConditionalOutput::process(Candidate *c) const {
 		const Vector3d &pos = c->current.getPosition() / Mpc;
 		p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", pos.x, pos.y, pos.z);
 		const Vector3d &dir = c->current.getDirection();
-		p += sprintf(buffer + p, "%6.4f\t%7.4f\t", dir.getPhi(), dir.getTheta());
+		p += sprintf(buffer + p, "%7.4f\t%7.4f\t", dir.getPhi(), dir.getTheta());
 		p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
 		p += sprintf(buffer + p, "%10i\t", c->initial.getId());
 		p += sprintf(buffer + p, "%8.4f\t", c->initial.getEnergy() / EeV);
 		const Vector3d &ipos = c->initial.getPosition() / Mpc;
 		p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", ipos.x, ipos.y, ipos.z);
 		const Vector3d &idir = c->initial.getDirection();
-		p += sprintf(buffer + p, "%6.4f\t%7.4f\n", idir.getPhi(), idir.getTheta());
+		p += sprintf(buffer + p, "%7.4f\t%7.4f\n", idir.getPhi(), idir.getTheta());
 
 #pragma omp critical
 		{

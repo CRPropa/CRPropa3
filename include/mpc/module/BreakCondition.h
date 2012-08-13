@@ -95,7 +95,6 @@ public:
 
  If a particle passes on of the sides it is reflected back inside (position and velocity) and its initial position changed as if the particle had come from that side.
  This realizes reflective boundaries, where the particle is kept inside the box and the source is moved away from the box.
- The translation currently does not work correctly if the particle's distance to the box is larger than one box size.
  Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
  */
 class ReflectiveBox: public Module {

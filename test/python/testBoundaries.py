@@ -13,7 +13,7 @@ x, y, sx, sy = pl.zeros((4,N))
 
 # simulate periodic boundaries
 m1 = ModuleList()
-m1.add(SimplePropagation(10, 0, 1))
+m1.add(SimplePropagation(0, 1))
 m1.add(PeriodicBox(Vector3d(-10), Vector3d(20)))
 
 c = Candidate(p)
@@ -37,7 +37,7 @@ ax1.set_title('Periodic Boundaries')
 
 # simulate reflective boundaries
 m2 = ModuleList()
-m2.add(SimplePropagation(10, 0, 1))
+m2.add(SimplePropagation(0, 1))
 m2.add(ReflectiveBox(Vector3d(-10), Vector3d(20)))
 
 c = Candidate(p)

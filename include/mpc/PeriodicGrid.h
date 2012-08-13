@@ -13,6 +13,14 @@ inline void periodicClamp(double x, int n, int &lo, int &hi) {
 	hi = (lo + 1) % n;
 }
 
+// Lower and upper neighbor in a reflectively repeated unit grid
+inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
+	while ((x < 0) or (x > n))
+		x = 2 * n * (x > n) - x;
+	lo = floor(x);
+	hi = lo + (lo < n-1);
+}
+
 /**
  @class PeriodicGrid
  @brief Template class for fields on a periodic grid with trilinear interpolation
@@ -23,17 +31,19 @@ inline void periodicClamp(double x, int n, int &lo, int &hi) {
  The grid sample positions are at 0, size/N, ... (N-1) * size/N.
  */
 template<typename T>
-class PeriodicGrid : public Referenced {
+class PeriodicGrid: public Referenced {
 	std::vector<T> grid;
-	Vector3d origin;
-	size_t Nx, Ny, Nz;
-	double spacing;
+	size_t Nx, Ny, Nz; /**< Number of grid points */
+	Vector3d origin; /**< Grid origin */
+	double spacing; /**< Distance between grid points, determines the extension of the grid */
+	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 
 public:
 	PeriodicGrid(Vector3d origin, size_t N, double spacing) {
 		setOrigin(origin);
 		setGridSize(N, N, N);
 		setSpacing(spacing);
+		setReflective(false);
 	}
 
 	PeriodicGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz,
@@ -41,6 +51,7 @@ public:
 		setOrigin(origin);
 		setGridSize(Nx, Ny, Nz);
 		setSpacing(spacing);
+		setReflective(false);
 	}
 
 	void setOrigin(Vector3d origin) {
@@ -56,6 +67,10 @@ public:
 
 	void setSpacing(double spacing) {
 		this->spacing = spacing;
+	}
+
+	void setReflective(bool b) {
+		reflective = b;
 	}
 
 	Vector3d getOrigin() const {
@@ -77,23 +92,36 @@ public:
 		return spacing;
 	}
 
+	bool isReflective() const {
+		return reflective;
+	}
+
+	/** Accessor / Mutator */
 	T &get(size_t ix, size_t iy, size_t iz) {
 		return grid[ix * Ny * Nz + iy * Ny + iz];
 	}
 
+	/** Accessor */
 	const T &get(size_t ix, size_t iy, size_t iz) const {
 		return grid[ix * Ny * Nz + iy * Ny + iz];
 	}
 
+	/** Interpolate the grid at a given position */
 	T interpolate(const Vector3d &position) const {
 		// position on a unit grid
 		Vector3d r = (position - origin) / spacing;
 
 		// indices of lower and upper neighbors
 		int ix, iX, iy, iY, iz, iZ;
-		periodicClamp(r.x, Nx, ix, iX);
-		periodicClamp(r.y, Ny, iy, iY);
-		periodicClamp(r.z, Nz, iz, iZ);
+		if (reflective) {
+			reflectiveClamp(r.x, Nx, ix, iX);
+			reflectiveClamp(r.y, Ny, iy, iY);
+			reflectiveClamp(r.z, Nz, iz, iZ);
+		} else {
+			periodicClamp(r.x, Nx, ix, iX);
+			periodicClamp(r.y, Ny, iy, iY);
+			periodicClamp(r.z, Nz, iz, iZ);
+		}
 
 		// linear fraction to lower and upper neighbors
 		double fx = r.x - floor(r.x);
@@ -103,8 +131,7 @@ public:
 		double fz = r.z - floor(r.z);
 		double fZ = 1 - fz;
 
-		// trilinear interpolation
-		// check: http://paulbourke.net/miscellaneous/interpolation/
+		// trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation)
 		T b(0.);
 		//V000 (1 - x) (1 - y) (1 - z) +
 		b += get(ix, iy, iz) * fX * fY * fZ;

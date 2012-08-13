@@ -124,8 +124,8 @@ ReflectiveBox::ReflectiveBox(Vector3d origin, Vector3d size) {
 }
 
 void ReflectiveBox::process(Candidate *c) const {
-	Vector3d pos = c->current.getPosition();
-	Vector3d n = ((pos - origin) / size).floor();
+	Vector3d a = (c->current.getPosition() - origin) / size; // current position in unit cells
+	Vector3d n = a.floor();
 
 	if ((n.x == 0) and (n.y == 0) and (n.z == 0))
 		return; // do nothing if candidate is inside the box
@@ -135,17 +135,24 @@ void ReflectiveBox::process(Candidate *c) const {
 	c->current.setDirection(c->current.getDirection() * nReflect);
 	c->initial.setDirection(c->initial.getDirection() * nReflect);
 
-	Vector3d isOutside(n.x != 0, n.y != 0, n.z != 0);
-	Vector3d isHigh(n.x > 0, n.y > 0, n.z > 0);
+	Vector3d b = (c->initial.getPosition() - origin) / size; // initial position in unit cells
 
-	// translate current position
-	Vector3d dist = (origin + isHigh * size - pos); // distance to boundary
-	c->current.setPosition(pos + isOutside * dist * 2 );
+	// repeatedly translate until the current position is inside the cell
+	while ((a.x < 0) or (a.x > 1)) {
+		b.x = 2 * (a.x > 1) - b.x;
+		a.x = 2 * (a.x > 1) - a.x;
+	}
+	while ((a.y < 0) or (a.y > 1)) {
+		b.y = 2 * (a.y > 1) - b.y;
+		a.y = 2 * (a.y > 1) - a.y;
+	}
+	while ((a.z < 0) or (a.z > 1)) {
+		b.z = 2 * (a.z > 1) - b.z;
+		a.z = 2 * (a.z > 1) - a.z;
+	}
 
-	// translate initial position
-	Vector3d ipos = c->initial.getPosition();
-	Vector3d idist = (origin + isHigh * size - ipos); // distance to boundary
-	c->initial.setPosition(ipos + isOutside * idist * 2 );
+	c->current.setPosition(a * size + origin);
+	c->initial.setPosition(b * size + origin);
 }
 
 void ReflectiveBox::updateDescription() {

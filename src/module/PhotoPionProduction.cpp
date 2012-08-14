@@ -170,8 +170,11 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	int dummy1;
 	double dummy2[2];
 
-	sophiaevent_(nature, Ein, momentaList, particleList, nParticles, redshift,
-			background, maxRedshift, dummy1, dummy2, dummy2);
+#pragma omp critical
+	{
+		sophiaevent_(nature, Ein, momentaList, particleList, nParticles,
+				redshift, background, maxRedshift, dummy1, dummy2, dummy2);
+	}
 
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail

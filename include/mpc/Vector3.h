@@ -229,7 +229,7 @@ public:
 	}
 
 	Vector3<T> operator /(const Vector3<T> &v) const {
-		return Vector3(x / v.x, y / v.x, z / v.z);
+		return Vector3(x / v.x, y / v.y, z / v.z);
 	}
 
 	Vector3<T> operator /(const T &f) const {

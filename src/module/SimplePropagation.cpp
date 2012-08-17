@@ -7,8 +7,12 @@ SimplePropagation::SimplePropagation(double minStep, double maxStep) :
 }
 
 void SimplePropagation::process(Candidate *candidate) const {
+	// save the new previous particle state
+	candidate->previous = candidate->current;
+
 	double step = candidate->getNextStep();
 	step = std::max(step, minStep);
+
 	Vector3d pos = candidate->current.getPosition();
 	Vector3d dir = candidate->current.getDirection();
 	candidate->current.setPosition(pos + dir * step);

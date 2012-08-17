@@ -58,8 +58,10 @@ static const double EeV = exaelectronvolt;
 static const double parsec = 3.0856775807e+16 * meter;
 static const double kiloparsec = 1e3 * parsec;
 static const double megaparsec = 1e6 * parsec;
+static const double gigaparsec = 1e9 * parsec;
 static const double kpc = kiloparsec;
 static const double Mpc = megaparsec;
+static const double Gpc = gigaparsec;
 
 } // namespace mpc
 

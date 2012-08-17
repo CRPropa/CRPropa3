@@ -54,6 +54,9 @@ std::string DeflectionCK::getDescription() const {
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
+	// save the new previous particle state
+	candidate->previous = candidate->current;
+
 	double step = candidate->getNextStep();
 	step = std::max(step, minStep);
 	step = std::min(step, maxStep);

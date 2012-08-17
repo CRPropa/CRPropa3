@@ -34,9 +34,11 @@ struct InteractionState {
  */
 class Candidate: public Referenced {
 public:
-	ParticleState current;
-	ParticleState initial;
-	std::vector<ref_ptr<Candidate> > secondaries;
+	ParticleState initial; /**< Particle state at the beginning of propagation */
+	ParticleState current; /**< Current particle state */
+	ParticleState previous;  /**< Particle state at the end of the previous step */
+
+	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles created in interactions */
 
 	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
 	typedef Loki::AssocVector<std::string, InteractionState> InteractionStatesMap;

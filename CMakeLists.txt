@@ -89,6 +89,8 @@ add_library(mpc SHARED
     src/PeriodicGridTools.cpp
     src/XmlExecute.cpp
     src/module/BreakCondition.cpp
+    src/module/Boundary.cpp
+    src/module/Observer.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp

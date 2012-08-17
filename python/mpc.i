@@ -21,6 +21,8 @@
 #include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/Redshift.h"
 #include "mpc/module/BreakCondition.h"
+#include "mpc/module/Boundary.h"
+#include "mpc/module/Observer.h"
 #include "mpc/module/Output.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
@@ -125,6 +127,8 @@
 
 
 %include "mpc/module/BreakCondition.h"
+%include "mpc/module/Boundary.h"
+%include "mpc/module/Observer.h"
 %include "mpc/module/SimplePropagation.h"
 %include "mpc/module/DeflectionCK.h"
 %include "mpc/module/Output.h"

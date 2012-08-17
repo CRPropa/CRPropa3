@@ -8,8 +8,8 @@ Candidate::Candidate() :
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		current(state), initial(state), redshift(0), trajectoryLength(0), currentStep(
-				0), nextStep(0), active(true) {
+		current(state), initial(state), previous(state), redshift(0), trajectoryLength(
+				0), currentStep(0), nextStep(0), active(true) {
 }
 
 bool Candidate::isActive() const {

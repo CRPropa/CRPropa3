@@ -24,24 +24,24 @@ using namespace std;
 
 namespace mpc {
 
-double childValue(xml_node parent, string name, bool throwIfEmpty = true) {
-	xml_node node = parent.child(name.c_str());
+double childValue(xml_node parent, string childName, bool throwIfEmpty = true) {
+	xml_node node = parent.child(childName.c_str());
 	if (!node and throwIfEmpty) {
 		stringstream ss;
-		ss << "Error reading XML card: " << name << " not found";
+		ss << "Error reading XML card: " << childName << " not specified";
 		throw runtime_error(ss.str());
 	}
 	return node.attribute("value").as_double();
 }
 
-string childType(xml_node parent, string name, bool throwIfEmpty = true) {
-	xml_node node = parent.child(name.c_str());
+xml_node childNode(xml_node parent, string childName, bool throwIfEmpty = true) {
+	xml_node node = parent.child(childName.c_str());
 	if (!node and throwIfEmpty) {
 		stringstream ss;
-		ss << "Error reading XML card: " << name << " not found";
+		ss << "Error reading XML card: " << childName << " not specified";
 		throw runtime_error(ss.str());
 	}
-	return node.attribute("type").as_string();
+	return node;
 }
 
 bool XmlExecute::load(const string &filename) {
@@ -56,9 +56,10 @@ bool XmlExecute::load(const string &filename) {
 
 	xml_node root = doc.child("CRPropa");
 	if (!root)
-		throw runtime_error("Error reading XML card: Root element not found");
+		throw runtime_error("Error reading XML card: Root element CRPropa not found");
 
-	trajectories = (int)childValue(root, "TrajNumber");
+	// ----- general settings -----
+	trajectories = (int) childValue(root, "TrajNumber");
 	cout << "Trajectories: " << trajectories << endl;
 
 	double maxTime = childValue(root, "MaxTime_Mpc") * Mpc;
@@ -67,18 +68,15 @@ bool XmlExecute::load(const string &filename) {
 	Emin = childValue(root, "MinEnergy_EeV") * EeV;
 	cout << "Minimum Energy: " << Emin / EeV << " EeV" << endl;
 
-	randomSeed = (int)childValue(root, "RandomSeed");
+	randomSeed = (int) childValue(root, "RandomSeed");
 	cout << "RandomSeed: " << randomSeed << endl;
 
+	// ----- environment -----
 	xml_node node;
-	std::string type;
-
-	// environment
-	node = root.child("Environment");
-	if (!node)
-		throw runtime_error("Environment not specified");
-	type = node.attribute("type").as_string();
+	node = childNode(root, "Environment");
+	std::string type = node.attribute("type").as_string();
 	cout << "Environment: " << type << endl;
+
 	if (type == "One Dimension")
 		throw runtime_error("One Dimension not supported");
 	else if (type == "LSS") {
@@ -93,10 +91,8 @@ bool XmlExecute::load(const string &filename) {
 	} else
 		throw runtime_error("Unknown environment");
 
-	// magnetic field
-	node = root.child("MagneticField");
-	if (!node)
-		throw runtime_error("Magnetic field not specified");
+	// ----- magnetic field -----
+	node = childNode(root, "MagneticField");
 	type = node.attribute("type").as_string();
 	cout << "MagenticField: " << type << endl;
 	if (type == "None")
@@ -110,27 +106,8 @@ bool XmlExecute::load(const string &filename) {
 		magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
 	}
 
-	// interactions
-	node = root.child("Interactions");
-	if (!node)
-		throw runtime_error("Interactions not specified");
-	type = node.attribute("type").as_string();
-	cout << "Interactions: " << type << endl;
-	if (type == "None")
-		;
-	else if (type == "F77-proton")
-		cout << "  -> not supported" << endl;
-	else if (type == "Sophia")
-		loadSophia(node);
-	else if (type == "Photon")
-		cout << "  -> not supported" << endl;
-	else
-		cout << "  -> unknown" << endl;
-
-	// propagator
-	node = root.child("Integrator");
-	if (!node)
-		throw runtime_error("Integrator not specified");
+	// ----- propagator -----
+	node = childNode(root, "Integrator");
 	type = node.attribute("type").as_string();
 	cout << "Integrator: " << type << endl;
 	if (type == "Cash-Karp RK")
@@ -138,19 +115,17 @@ bool XmlExecute::load(const string &filename) {
 	else
 		throw runtime_error("Unknown integrator");
 
-	// minimum energy
+	// ----- minimum energy -----
 	modules.add(new MinimumEnergy(Emin));
 
-	// maximum trajectory length
+	// ----- maximum trajectory length -----
 	modules.add(new MaximumTrajectoryLength(maxTime));
 
-	// periodic boundaries
+	// ----- periodic boundaries -----
 	loadPeriodicBoundaries();
 
-	// sources
-	node = root.child("Sources");
-	if (!node)
-		throw runtime_error("Source(s) not specified");
+	// ----- sources -----
+	node = childNode(root, "Sources");
 	type = node.attribute("type").as_string();
 	cout << "Sources: " << type << endl;
 	if (type == "Discrete")
@@ -160,7 +135,7 @@ bool XmlExecute::load(const string &filename) {
 	else
 		throw runtime_error("Unknown source");
 
-	// observers
+	// ----- observers -----
 	node = root.child("Observers");
 	if (!node)
 		cout << "Observer(s) not specified" << endl;
@@ -175,7 +150,7 @@ bool XmlExecute::load(const string &filename) {
 			cout << "  -> unknown observer" << endl;
 	}
 
-	// output
+	// ----- output -----
 	node = root.child("Output");
 	if (!node)
 		cout << "No output" << endl;
@@ -244,7 +219,8 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		double kMax = childValue(node, "Kmax");
 		double lMin = spacing / kMax;
 		double lMax = spacing / kMin;
-		cout << "  - Turbulent range: " << lMin / Mpc << " - " << lMax / Mpc << " Mpc" << endl;
+		cout << "  - Turbulent range: " << lMin / Mpc << " - " << lMax / Mpc
+				<< " Mpc" << endl;
 
 		double alpha = childValue(node, "SpectralIndex");
 		cout << "  - Turbulence spectral index: " << alpha << endl;
@@ -308,18 +284,15 @@ void XmlExecute::loadSpheresAroundObserver(xml_node &node) {
 	double r = childValue(node, "Radius_Mpc") * Mpc;
 	cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
 
-	int nObs = 0;
-	for (xml_node n = node.child("SphereObserver"); n; n = n.next_sibling("SphereObserver")) {
-		nObs += 1;
+	for (xml_node n = node.child("SphereObserver"); n;
+			n = n.next_sibling("SphereObserver")) {
 		Vector3d pos;
 		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
 		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
 		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
-		modules.add(new SmallObserverSphere(pos, r));
+		modules.add(new SmallObserverSphere(pos, r, "Detected", "", false));
 	}
-	if (nObs > 1)
-		cout << "  -> Warning for multiple observers: propagation will stop after first detection." << endl;
 }
 
 void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
@@ -333,11 +306,8 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
 		double r = childValue(n, "Radius_Mpc") * Mpc;
 		cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
-		SphericalBoundary *sphere = new SphericalBoundary(pos, r, "Detected");
-		modules.add(sphere);
+		modules.add(new LargeObserverSphere(pos, r, "Detected", "", false));
 	}
-	if (nObs > 1)
-		cout << "  -> Warning for multiple observers: propagation will stop after first detection." << endl;
 }
 
 void XmlExecute::loadDiscreteSources(xml_node &node) {
@@ -346,7 +316,8 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 
 	// source positions
 	SourceMultiplePositions *positions = new SourceMultiplePositions();
-	for (xml_node n = node.child("PointSource"); n; n = n.next_sibling("PointSource")) {
+	for (xml_node n = node.child("PointSource"); n;
+			n = n.next_sibling("PointSource")) {
 		Vector3d pos;
 		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
 		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
@@ -374,12 +345,14 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 		// source composition
 		SourceNuclei *composition = new SourceNuclei;
 		xml_node p = node.child("Particles");
-		for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
-			int A = (int)childValue(n, "MassNumber");
-			int Z = (int)childValue(n, "ChargeNumber");
+		for (xml_node n = p.child("Species"); n;
+				n = n.next_sibling("Species")) {
+			int A = (int) childValue(n, "MassNumber");
+			int Z = (int) childValue(n, "ChargeNumber");
 			double ab = childValue(n, "Abundance");
 			composition->add(getNucleusId(A, Z), ab);
-			cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
+			cout << "  - Species: Z = " << Z << ", A = " << A
+					<< ", abundance = " << ab << endl;
 		}
 		source.addProperty(composition);
 
@@ -394,13 +367,16 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
 			// combined source spectrum / composition
-			SourceComposition *composition = new SourceComposition(Emin, Rmax, alpha);
+			SourceComposition *composition = new SourceComposition(Emin, Rmax,
+					alpha);
 			xml_node p = node.child("Particles");
-			for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
+			for (xml_node n = p.child("Species"); n;
+					n = n.next_sibling("Species")) {
 				int A = n.attribute("MassNumber").as_int();
 				int Z = n.attribute("ChargeNumber").as_int();
 				double ab = n.attribute("Abundance").as_double();
-				cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
+				cout << "  - Species: Z = " << Z << ", A = " << A
+						<< ", abundance = " << ab << endl;
 				composition->add(getNucleusId(A, Z), ab);
 			}
 			source.addProperty(composition);
@@ -415,17 +391,20 @@ void XmlExecute::loadDiscreteSources(xml_node &node) {
 			// source composition
 			SourceNuclei *composition = new SourceNuclei();
 			xml_node p = node.child("Particles");
-			for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
+			for (xml_node n = p.child("Species"); n;
+					n = n.next_sibling("Species")) {
 				int A = n.attribute("MassNumber").as_int();
 				int Z = n.attribute("ChargeNumber").as_int();
 				double ab = n.attribute("Abundance").as_double();
-				cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = " << ab <<  endl;
+				cout << "  - Species: Z = " << Z << ", A = " << A
+						<< ", abundance = " << ab << endl;
 				composition->add(getNucleusId(A, Z), ab);
 			}
 			source.addProperty(composition);
 
 		} else
-			throw runtime_error(" --> maximum source energy / rigidity missing");
+			throw runtime_error(
+					" --> maximum source energy / rigidity missing");
 
 	} else
 		throw runtime_error(" --> unknown source spectrum");

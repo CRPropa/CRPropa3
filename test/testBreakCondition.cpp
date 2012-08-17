@@ -124,7 +124,9 @@ TEST(ReflectiveBox, high) {
 	Candidate c;
 	c.initial.setPosition(Vector3d(15, 15, 15));
 	c.initial.setDirection(Vector3d(0, 0.6, 0.8));
-	c.current.setPosition(Vector3d(15, 15, 31));
+	c.previous.setPosition(Vector3d(15, 15, 29.5));
+	c.previous.setDirection(Vector3d(0, 0.6, 0.8));
+	c.current.setPosition(Vector3d(15, 15, 30.5));
 	c.current.setDirection(Vector3d(0, 0.6, 0.8));
 
 	box.process(&c);
@@ -133,13 +135,21 @@ TEST(ReflectiveBox, high) {
 	EXPECT_DOUBLE_EQ(15, c.initial.getPosition().y);
 	EXPECT_DOUBLE_EQ(45, c.initial.getPosition().z);
 
+	EXPECT_DOUBLE_EQ(15, c.previous.getPosition().x);
+	EXPECT_DOUBLE_EQ(15, c.previous.getPosition().y);
+	EXPECT_DOUBLE_EQ(30.5, c.previous.getPosition().z);
+
 	EXPECT_DOUBLE_EQ(15, c.current.getPosition().x);
 	EXPECT_DOUBLE_EQ(15, c.current.getPosition().y);
-	EXPECT_DOUBLE_EQ(29, c.current.getPosition().z);
+	EXPECT_DOUBLE_EQ(29.5, c.current.getPosition().z);
 
 	EXPECT_DOUBLE_EQ(0, c.initial.getDirection().x);
 	EXPECT_DOUBLE_EQ(0.6, c.initial.getDirection().y);
 	EXPECT_DOUBLE_EQ(-0.8, c.initial.getDirection().z);
+
+	EXPECT_DOUBLE_EQ(0, c.previous.getDirection().x);
+	EXPECT_DOUBLE_EQ(0.6, c.previous.getDirection().y);
+	EXPECT_DOUBLE_EQ(-0.8, c.previous.getDirection().z);
 
 	EXPECT_DOUBLE_EQ(0, c.current.getDirection().x);
 	EXPECT_DOUBLE_EQ(0.6, c.current.getDirection().y);

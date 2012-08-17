@@ -23,9 +23,10 @@ void SourceList::addSource(Source *source, double lumi) {
 }
 
 void SourceList::prepare(ParticleState &particle) const {
+	Random &random = Random::instance();
 	if (sources.size() == 0)
 		throw std::runtime_error("SourceList: no sources set");
-	double r = Random().rand() * luminosities.back();
+	double r = random.rand() * luminosities.back();
 	int i = 0;
 	while ((r > luminosities[i]) and (i < luminosities.size()))
 		i++;
@@ -54,7 +55,8 @@ SourcePowerLawSpectrum::SourcePowerLawSpectrum(double Emin, double Emax,
 }
 
 void SourcePowerLawSpectrum::prepare(ParticleState &particle) const {
-	double E = Random().randPowerLaw(index, Emin, Emax);
+	Random &random = Random::instance();
+	double E = random.randPowerLaw(index, Emin, Emax);
 	particle.setEnergy(E);
 }
 
@@ -68,7 +70,8 @@ void SourceNuclei::add(int id, double a) {
 void SourceNuclei::prepare(ParticleState &particle) const {
 	if (ids.size() == 0)
 		throw std::runtime_error("SourceNuclei: no nuclei set");
-	double r = Random().rand() * abundances.back();
+	Random &random = Random::instance();
+	double r = random.rand() * abundances.back();
 	int i = 0;
 	while ((r > abundances[i]) and (i < abundances.size()))
 		i++;
@@ -116,14 +119,14 @@ void SourceComposition::normalize() {
 void SourceComposition::prepare(ParticleState& particle) const {
 	if (isotope.size() == 0)
 		throw std::runtime_error("PowerLawComposition: No source isotope set");
-	double r = Random().rand();
+	Random &random = Random::instance();
+	double r = random.rand();
 	int i = 0;
 	while ((r > probability[i]) and (i < probability.size()))
 		i++;
 	int id = isotope[i];
-	double E = Random().randPowerLaw(index, Emin, HepPID::Z(id) * Rmax);
 	particle.setId(id);
-	particle.setEnergy(E);
+	particle.setEnergy(random.randPowerLaw(index, Emin, HepPID::Z(id) * Rmax));
 }
 
 SourcePosition::SourcePosition(Vector3d position) :
@@ -151,19 +154,29 @@ void SourceMultiplePositions::prepare(ParticleState &particle) const {
 	particle.setPosition(positions[i]);
 }
 
-SourceSphericalVolume::SourceSphericalVolume(Vector3d center, double radius) :
-		center(center), radius(radius) {
+SourceHomogeneousSphere::SourceHomogeneousSphere(Vector3d c, double r) :
+		center(c), radius(r) {
 }
 
-void SourceSphericalVolume::prepare(ParticleState &particle) const {
-	double r = pow(Random().rand(), 1. / 3.) * radius;
-	Vector3d pos = Random().randUnitVectorOnSphere() * r;
-	particle.setPosition(pos);
+void SourceHomogeneousSphere::prepare(ParticleState &particle) const {
+	Random &random = Random::instance();
+	double r = pow(random.rand(), 1. / 3.) * radius;
+	particle.setPosition(random.randUnitVectorOnSphere() * r);
+}
+
+SourceHomogeneousBox::SourceHomogeneousBox(Vector3d o, Vector3d s) :
+		origin(o), size(s) {
+}
+
+void SourceHomogeneousBox::prepare(ParticleState &particle) const {
+	Random &random = Random::instance();
+	Vector3d pos(random.rand(), random.rand(), random.rand());
+	particle.setPosition(pos * size + origin);
 }
 
 void SourceIsotropicEmission::prepare(ParticleState &particle) const {
-	Vector3d dir = Random().randUnitVectorOnSphere();
-	particle.setDirection(dir);
+	Random &random = Random::instance();
+	particle.setDirection(random.randUnitVectorOnSphere());
 }
 
 SourceDirection::SourceDirection(Vector3d direction) :
@@ -179,8 +192,8 @@ SourceEmissionCone::SourceEmissionCone(Vector3d direction, double aperture) :
 }
 
 void SourceEmissionCone::prepare(ParticleState &particle) const {
-	Vector3d dir = Random().randConeVector(direction, aperture);
-	particle.setDirection(dir);
+	Random &random = Random::instance();
+	particle.setDirection(random.randConeVector(direction, aperture));
 }
 
 } // namespace mpc

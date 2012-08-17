@@ -135,14 +135,26 @@ public:
 };
 
 /**
- @class SourceSphericalVolume
+ @class SourceHomogeneousSphere
  @brief Uniform random source positions inside a sphere
  */
-class SourceSphericalVolume: public SourceProperty {
+class SourceHomogeneousSphere: public SourceProperty {
 	Vector3d center;
 	double radius;
 public:
-	SourceSphericalVolume(Vector3d center, double radius);
+	SourceHomogeneousSphere(Vector3d center, double radius);
+	void prepare(ParticleState &particle) const;
+};
+
+/**
+ @class SourceHomogeneousBox
+ @brief Uniform random source positions inside a box
+ */
+class SourceHomogeneousBox: public SourceProperty {
+	Vector3d origin;
+	Vector3d size;
+public:
+	SourceHomogeneousBox(Vector3d origin, Vector3d size);
 	void prepare(ParticleState &particle) const;
 };
 

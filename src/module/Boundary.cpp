@@ -16,8 +16,9 @@ void PeriodicBox::process(Candidate *c) const {
 	if ((n.x == 0) and (n.y == 0) and (n.z == 0))
 		return; // do nothing if candidate is inside the box
 
-	c->initial.setPosition(c->initial.getPosition() - n * size);
 	c->current.setPosition(pos - n * size);
+	c->previous.setPosition(c->previous.getPosition() - n * size);
+	c->initial.setPosition(c->initial.getPosition() - n * size);
 }
 
 void PeriodicBox::updateDescription() {
@@ -32,7 +33,7 @@ ReflectiveBox::ReflectiveBox(Vector3d o, Vector3d s) :
 }
 
 void ReflectiveBox::process(Candidate *c) const {
-	Vector3d cur = (c->current.getPosition() - origin) / size; // current position in unit cells
+	Vector3d cur = (c->current.getPosition() - origin) / size; // current position in cell units
 	Vector3d n = cur.floor();
 
 	if ((n.x == 0) and (n.y == 0) and (n.z == 0))
@@ -41,26 +42,35 @@ void ReflectiveBox::process(Candidate *c) const {
 	// flip direction
 	Vector3d nReflect(pow(-1, n.x), pow(-1, n.y), pow(-1, n.z));
 	c->current.setDirection(c->current.getDirection() * nReflect);
+	c->previous.setDirection(c->previous.getDirection() * nReflect);
 	c->initial.setDirection(c->initial.getDirection() * nReflect);
 
-	Vector3d ini = (c->initial.getPosition() - origin) / size; // initial position in unit cells
+	Vector3d ini = (c->initial.getPosition() - origin) / size; // initial position in cell units
+	Vector3d prv = (c->previous.getPosition() - origin) / size; // previous position in cell units
 
 	// repeatedly translate until the current position is inside the cell
 	while ((cur.x < 0) or (cur.x > 1)) {
-		ini.x = 2 * (cur.x > 1) - ini.x;
-		cur.x = 2 * (cur.x > 1) - cur.x;
+		double t = 2 * (cur.x > 1);
+		ini.x = t - ini.x;
+		prv.x = t - prv.x;
+		cur.x = t - cur.x;
 	}
 	while ((cur.y < 0) or (cur.y > 1)) {
-		ini.y = 2 * (cur.y > 1) - ini.y;
-		cur.y = 2 * (cur.y > 1) - cur.y;
+		double t = 2 * (cur.y > 1);
+		ini.y = t - ini.y;
+		prv.y = t - prv.y;
+		cur.y = t - cur.y;
 	}
 	while ((cur.z < 0) or (cur.z > 1)) {
-		ini.z = 2 * (cur.z > 1) - ini.z;
-		cur.z = 2 * (cur.z > 1) - cur.z;
+		double t = 2 * (cur.z > 1);
+		ini.z = t - ini.z;
+		prv.z = t - prv.z;
+		cur.z = t - cur.z;
 	}
 
 	c->current.setPosition(cur * size + origin);
 	c->initial.setPosition(ini * size + origin);
+	c->previous.setPosition(prv * size + origin);
 }
 
 void ReflectiveBox::updateDescription() {

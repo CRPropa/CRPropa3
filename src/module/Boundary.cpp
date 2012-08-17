@@ -23,7 +23,8 @@ void PeriodicBox::process(Candidate *c) const {
 
 void PeriodicBox::updateDescription() {
 	std::stringstream s;
-	s << "Periodic box: origin " << origin << ", size " << size;
+	s << "Periodic box: origin " << origin / Mpc << "Mpc, ";
+	s << "size " << size / Mpc << " Mpc";
 	setDescription(s.str());
 }
 
@@ -75,7 +76,8 @@ void ReflectiveBox::process(Candidate *c) const {
 
 void ReflectiveBox::updateDescription() {
 	std::stringstream s;
-	s << "Reflective box: origin " << origin << ", size " << size;
+	s << "Reflective box: origin " << origin / Mpc << "Mpc, ";
+	s << "size " << size / Mpc << " Mpc";
 	setDescription(s.str());
 }
 
@@ -106,8 +108,9 @@ void CubicBoundary::process(Candidate *c) const {
 
 void CubicBoundary::updateDescription() {
 	std::stringstream s;
-	s << "Cubic Boundary: origin " << origin << ", size " << size;
-	s << " Flag: " << flag << " -> " << flagValue;
+	s << "Cubic Boundary: origin " << origin / Mpc << " Mpc, ";
+	s << "size " << size / Mpc << " Mpc; ";
+	s << "Flag: " << flag << " -> " << flagValue;
 	setDescription(s.str());
 }
 
@@ -135,8 +138,9 @@ void SphericalBoundary::process(Candidate *c) const {
 
 void SphericalBoundary::updateDescription() {
 	std::stringstream s;
-	s << "Spherical Boundary: radius " << radius << " around " << center;
-	s << " Flag: " << flag << " -> " << flagValue;
+	s << "Spherical Boundary: radius " << radius / Mpc << " Mpc ";
+	s << "around " << center / Mpc << " Mpc; ";
+	s << "Flag: " << flag << " -> " << flagValue;
 	setDescription(s.str());
 }
 
@@ -165,8 +169,9 @@ void EllipsoidalBoundary::process(Candidate *c) const {
 
 void EllipsoidalBoundary::updateDescription() {
 	std::stringstream s;
-	s << "Ellipsoidal Boundary: F1 = " << focalPoint1 / Mpc << ", F2 = "
-			<< focalPoint2 / Mpc << ", major axis = " << majorAxis / Mpc;
+	s << "Ellipsoidal Boundary: F1 = " << focalPoint1 / Mpc << " Mpc, ";
+	s << "F2 = " << focalPoint2 / Mpc << " Mpc, ";
+	s << "major axis " << majorAxis / Mpc << " Mpc; ";
 	s << " Flag: " << flag << " -> " << flagValue;
 	setDescription(s.str());
 }

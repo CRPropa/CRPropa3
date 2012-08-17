@@ -420,9 +420,8 @@ void XmlExecute::loadOutput(xml_node &node) {
 	string option = node.child("File").attribute("option").as_string();
 	if (option != "force") {
 		ifstream ifile(filename.c_str());
-		if (ifile) {
-			throw runtime_error("Outputfile already exists!");
-		}
+		if (ifile)
+			throw runtime_error("Output file already exists!");
 	}
 
 	if (type == "Full Trajectories")

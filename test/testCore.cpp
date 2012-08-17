@@ -1,4 +1,5 @@
 #include "mpc/Candidate.h"
+#include "mpc/Random.h"
 
 #include "gtest/gtest.h"
 
@@ -174,6 +175,18 @@ TEST(common, interpolateEquidistant) {
 TEST(NucleusId, crpropaScheme) {
 	EXPECT_EQ(getNucleusId(56, 26), convertFromCRPropaId(26056));
 	EXPECT_EQ(26056, convertToCRPropaId(getNucleusId(56, 26)));
+}
+
+TEST(Random, speed1) {
+	for (int i = 0; i < 10000; i++)
+		double r = Random().rand();
+}
+
+TEST(Random, speed2) {
+	for (int i = 0; i < 10000; i++) {
+		Random &random = Random::instance();
+		double r = random.rand();
+	}
 }
 
 int main(int argc, char **argv) {

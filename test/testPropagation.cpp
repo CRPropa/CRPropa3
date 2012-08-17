@@ -23,8 +23,12 @@ TEST(testSimplePropagation, step) {
 
 	EXPECT_EQ(minStep, c.getCurrentStep());
 	EXPECT_EQ(maxStep, c.getNextStep());
-	EXPECT_EQ(Vector3d(0,20,0), c.current.getPosition());
-	EXPECT_EQ(Vector3d(0,1,0), c.current.getDirection());
+	EXPECT_EQ(Vector3d(0,  0, 0), c.initial.getPosition());
+	EXPECT_EQ(Vector3d(0,  1, 0), c.initial.getDirection());
+	EXPECT_EQ(Vector3d(0,  0, 0), c.previous.getPosition());
+	EXPECT_EQ(Vector3d(0,  1, 0), c.previous.getDirection());
+	EXPECT_EQ(Vector3d(0, 20, 0), c.current.getPosition());
+	EXPECT_EQ(Vector3d(0,  1, 0), c.current.getDirection());
 }
 
 TEST(testDeflectionCK, proton) {

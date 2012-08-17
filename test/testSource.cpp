@@ -1,12 +1,11 @@
 #include "mpc/Source.h"
 
 #include "gtest/gtest.h"
-
 #include <stdexcept>
 
 namespace mpc {
 
-TEST(testSourcePosition, simpleTest) {
+TEST(SourcePosition, simpleTest) {
 	Vector3d position(1, 2, 3);
 	SourcePosition source(position);
 	ParticleState ps;
@@ -14,17 +13,32 @@ TEST(testSourcePosition, simpleTest) {
 	EXPECT_EQ(position, ps.getPosition());
 }
 
-TEST(testSourceSphericalVolume, simpleTest) {
+TEST(SourceHomogeneousSphere, simpleTest) {
 	Vector3d center(0, 0, 0);
 	double radius = 110;
-	SourceSphericalVolume source(center, radius);
+	SourceHomogeneousSphere source(center, radius);
 	ParticleState ps;
 	source.prepare(ps);
 	double distance = ps.getPosition().getDistanceTo(center);
 	EXPECT_GE(radius, distance);
 }
 
-TEST(testSourcePowerLawSpectrum, simpleTest) {
+TEST(SourceHomogeneousBox, simpleTest) {
+	Vector3d origin(-7, -2, 0);
+	Vector3d size(13, 55, 192);
+	SourceHomogeneousBox box(origin, size);
+	ParticleState p;
+	box.prepare(p);
+	Vector3d pos = p.getPosition();
+	EXPECT_LE(origin.x, pos.x);
+	EXPECT_LE(origin.y, pos.y);
+	EXPECT_LE(origin.z, pos.z);
+	EXPECT_GE(size.x, pos.x);
+	EXPECT_GE(size.y, pos.y);
+	EXPECT_GE(size.z, pos.z);
+}
+
+TEST(SourcePowerLawSpectrum, simpleTest) {
 	double Emin = 4 * EeV;
 	double Emax = 200 * EeV;
 	double index = -2.7;
@@ -35,7 +49,7 @@ TEST(testSourcePowerLawSpectrum, simpleTest) {
 	EXPECT_GE(Emax, ps.getEnergy());
 }
 
-TEST(testSourceComposition, simpleTest) {
+TEST(SourceComposition, simpleTest) {
 	Vector3d position(1, 2, 3);
 	double Emin = 10;
 	double Emax = 100;
@@ -50,13 +64,13 @@ TEST(testSourceComposition, simpleTest) {
 	EXPECT_GE(Emax, ps.getEnergy());
 }
 
-TEST(testSourceComposition, throwNoIsotope) {
+TEST(SourceComposition, throwNoIsotope) {
 	SourceComposition source(1, 10, -1);
 	ParticleState ps;
 	EXPECT_THROW(source.prepare(ps), std::runtime_error);
 }
 
-TEST(testSource, allPropertiesUsed) {
+TEST(Source, allPropertiesUsed) {
 	Source source;
 	source.addProperty(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
 	source.addProperty(new SourceIsotropicEmission());
@@ -71,7 +85,7 @@ TEST(testSource, allPropertiesUsed) {
 	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, ps.getPosition());
 }
 
-TEST(testSourceList, simpleTest) {
+TEST(SourceList, simpleTest) {
 	// test if source list works with one source
 	SourceList sourceList;
 	ref_ptr<Source> source = new Source;
@@ -82,14 +96,14 @@ TEST(testSourceList, simpleTest) {
 	EXPECT_EQ(Vector3d(10, 0, 0), p.getPosition());
 }
 
-TEST(testSourceList, noSource) {
+TEST(SourceList, noSource) {
 	// test if an error is thrown when source list empty
 	SourceList sourceList;
 	ParticleState p;
 	EXPECT_THROW(sourceList.prepare(p), std::runtime_error);
 }
 
-TEST(testSourceList, luminosity) {
+TEST(SourceList, luminosity) {
 	// test if the sources are dialed according to their luminosities
 	SourceList sourceList;
 	ParticleState p;

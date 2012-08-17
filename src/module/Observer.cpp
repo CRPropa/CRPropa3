@@ -47,7 +47,7 @@ void LargeObserverSphere::process(Candidate *c) const {
 				c->setActive(false);
 		}
 	}
-	c->limitNextStep((d - radius));
+	c->limitNextStep((radius - d));
 }
 
 void LargeObserverSphere::updateDescription() {

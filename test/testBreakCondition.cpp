@@ -52,12 +52,14 @@ TEST(SmallObserverSphere, inside) {
 	SmallObserverSphere obs(Vector3d(0, 0, 0), 1);
 	Candidate c;
 
+	// no detection: particle was inside already
 	c.current.setPosition(Vector3d(0.9, 0, 0));
 	c.previous.setPosition(Vector3d(0.95, 0, 0));
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
 	EXPECT_FALSE(c.hasProperty("Detected"));
 
+	// detection: particle just entered
 	c.current.setPosition(Vector3d(0.9, 0, 0));
 	c.previous.setPosition(Vector3d(1.1, 0, 0));
 	obs.process(&c);
@@ -72,6 +74,43 @@ TEST(SmallObserverSphere, limitStep) {
 	c.current.setPosition(Vector3d(0, 0, 2));
 	obs.process(&c);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1);
+}
+
+TEST(LargeObserverSphere, inside) {
+	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
+	Candidate c;
+	c.current.setPosition(Vector3d(0, 5, 5));
+	obs.process(&c);
+	EXPECT_TRUE(c.isActive());
+}
+
+TEST(LargeObserverSphere, outside) {
+	// detect if the current position is outside and the previous inside of the sphere
+	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
+	Candidate c;
+
+	// no detection: particle was outside already
+	c.current.setPosition(Vector3d(11, 0, 0));
+	c.previous.setPosition(Vector3d(10.5, 0, 0));
+	obs.process(&c);
+	EXPECT_TRUE(c.isActive());
+	EXPECT_FALSE(c.hasProperty("Detected"));
+
+	// detection: particle just left
+	c.current.setPosition(Vector3d(11, 0, 0));
+	c.previous.setPosition(Vector3d(9.5, 0, 0));
+	obs.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Detected"));
+}
+
+TEST(LargeObserverSphere, limitStep) {
+	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
+	Candidate c;
+	c.setNextStep(10);
+	c.current.setPosition(Vector3d(0, 0, 8));
+	obs.process(&c);
+	EXPECT_DOUBLE_EQ(c.getNextStep(), 2);
 }
 
 TEST(PeriodicBox, high) {

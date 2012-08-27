@@ -3,6 +3,7 @@
 
 #include "HepPID/ParticleIDMethods.hh"
 #include <stdexcept>
+#include <algorithm>
 
 namespace mpc {
 
@@ -172,6 +173,39 @@ void SourceHomogeneousBox::prepare(ParticleState &particle) const {
 	Random &random = Random::instance();
 	Vector3d pos(random.rand(), random.rand(), random.rand());
 	particle.setPosition(pos * size + origin);
+}
+
+SourceDensityGrid::SourceDensityGrid(ref_ptr<ScalarGrid> g) {
+	float sum = 0;
+	for (int ix = 0; ix < g->getNx(); ix++) {
+		for (int iy = 0; iy < g->getNy(); iy++) {
+			for (int iz = 0; iz < g->getNz(); iz++) {
+				sum += g->get(ix, iy, iz);
+				g->get(ix, iy, iz) = sum;
+			}
+		}
+	}
+	grid = g;
+	sumDensity = sum;
+}
+
+void SourceDensityGrid::prepare(ParticleState &particle) const {
+	Random &random = Random::instance();
+
+	// pick random bin; find bin using STL method
+	double r = random.rand(sumDensity);
+	std::vector<float> &v = grid->getGrid();
+	std::vector<float>::iterator it = lower_bound(v.begin(), v.end(), r);
+	int i = it - v.begin();
+	Vector3d pos = grid->getPosition(i);
+
+	// draw uniform position within bin
+	double dx = random.rand() - 0.5;
+	double dy = random.rand() - 0.5;
+	double dz = random.rand() - 0.5;
+	pos += Vector3d(dx, dy, dz) * grid->getSpacing();
+
+	particle.setPosition(pos);
 }
 
 void SourceIsotropicEmission::prepare(ParticleState &particle) const {

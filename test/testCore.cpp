@@ -177,16 +177,24 @@ TEST(NucleusId, crpropaScheme) {
 	EXPECT_EQ(26056, convertToCRPropaId(getNucleusId(56, 26)));
 }
 
-TEST(Random, speed1) {
-	for (int i = 0; i < 10000; i++)
-		double r = Random().rand();
-}
+TEST(Random, seed) {
+	Random &a = Random::instance();
+	Random &b = Random::instance();
 
-TEST(Random, speed2) {
-	for (int i = 0; i < 10000; i++) {
-		Random &random = Random::instance();
-		double r = random.rand();
-	}
+	a.seed(42);
+	double r1 = a.rand();
+
+	a.seed(42);
+	double r2 = a.rand();
+
+	a.seed(42);
+	double r3 = b.rand();
+
+	// seeding should give same random numbers
+	EXPECT_EQ(r1, r2);
+
+	// seeding should work for all instances
+	EXPECT_EQ(r1, r3);
 }
 
 int main(int argc, char **argv) {

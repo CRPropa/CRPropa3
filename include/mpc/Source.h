@@ -1,8 +1,9 @@
 #ifndef MPC_SOURCE_H
 #define MPC_SOURCE_H
 
-#include "mpc/ParticleState.h"
 #include "mpc/Referenced.h"
+#include "mpc/ParticleState.h"
+#include "mpc/PeriodicGrid.h"
 
 #include <vector>
 
@@ -155,6 +156,22 @@ class SourceHomogeneousBox: public SourceProperty {
 	Vector3d size;
 public:
 	SourceHomogeneousBox(Vector3d origin, Vector3d size);
+	void prepare(ParticleState &particle) const;
+};
+
+/**
+ @class SourceDensityGrid
+ @brief Provides source positions from a density grid
+
+ This module takes a density grid to compute random initial positions.
+ First a discrete bin is drawn following the density distribution.
+ Then a random position is drawn from a uniform distribution in the bin.
+ */
+class SourceDensityGrid: public SourceProperty {
+	ref_ptr<ScalarGrid> grid;
+	float sumDensity;
+public:
+	SourceDensityGrid(ref_ptr<ScalarGrid> densityGrid);
 	void prepare(ParticleState &particle) const;
 };
 

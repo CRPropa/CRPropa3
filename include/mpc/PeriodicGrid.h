@@ -106,6 +106,18 @@ public:
 		return grid[ix * Ny * Nz + iy * Ny + iz];
 	}
 
+	std::vector<T> &getGrid() {
+		return grid;
+	}
+
+	// return the position corresponding to a given grid index
+	Vector3d getPosition(int index) const {
+		int ix = index / (Ny * Nz);
+		int iy = (index / Nz) % Ny;
+		int iz = index % Nz;
+		return Vector3d(ix, iy, iz) * spacing + origin;
+	}
+
 	/** Interpolate the grid at a given position */
 	T interpolate(const Vector3d &position) const {
 		// position on a unit grid

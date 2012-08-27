@@ -38,6 +38,72 @@ TEST(SourceHomogeneousBox, simpleTest) {
 	EXPECT_GE(size.z, pos.z);
 }
 
+TEST(SourceDensityGrid, simpleTest) {
+	// Create a grid with 10^3 cells ranging from (0, 0, 0) to (10, 10, 10)
+	Vector3d origin(0.5, 0.5, 0.5);
+	int cells = 10;
+	double spacing = 1;
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, cells, spacing);
+	for (int ix = 0; ix < cells; ix++)
+		for (int iy = 0; iy < cells; iy++)
+			for (int iz = 0; iz < cells; iz++)
+				grid->get(ix, iy, iz) = ix * iy * iz;
+
+	SourceDensityGrid source(grid);
+	ParticleState p;
+
+	source.prepare(p);
+	Vector3d pos = p.getPosition();
+
+	// dialed positions should be within the volume (0, 0, 0) - (10, 10, 10)
+	EXPECT_LE(0, pos.x);
+	EXPECT_GE(10, pos.x);
+	EXPECT_LE(0, pos.y);
+	EXPECT_GE(10, pos.y);
+	EXPECT_LE(0, pos.z);
+	EXPECT_GE(10, pos.z);
+}
+
+TEST(SourceDensityGrid, OneAllowedCell) {
+	// Create a grid with 2^3 cells ranging from (0, 0, 0) to (4, 4, 4)
+	Vector3d origin(1, 1, 1);
+	int cells = 2;
+	double spacing = 2;
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, cells, spacing);
+
+	// set all but one cells to 0
+	for (int ix = 0; ix < cells; ix++)
+		for (int iy = 0; iy < cells; iy++)
+			for (int iz = 0; iz < cells; iz++)
+				grid->get(ix, iy, iz) = 0;
+
+	// set the first cell ((0, 0, 0) to (2, 2, 2))
+	grid->get(0, 0, 0) = 1;
+
+	SourceDensityGrid source(grid);
+	ParticleState p;
+
+	int nFalse = 0;
+	Vector3d mean(0, 0, 0);
+	for (int i = 0; i < 10000; i++) {
+		source.prepare(p);
+		Vector3d pos = p.getPosition();
+		mean += pos;
+		if ((pos.x < 0) or (pos.x > 2) or (pos.y < 0) or (pos.y > 2)
+				or (pos.z < 0) or (pos.z > 2))
+			nFalse++;
+	}
+
+	// only the first bin should get dialed
+	EXPECT_EQ(0, nFalse);
+
+	// mean should be close to (1, 1, 1) if random positions are uniform in (0, 0, 0) - (2, 2, 2)
+	mean /= 10000;
+	EXPECT_NEAR(1, mean.x, 0.1);
+	EXPECT_NEAR(1, mean.y, 0.1);
+	EXPECT_NEAR(1, mean.z, 0.1);
+}
+
 TEST(SourcePowerLawSpectrum, simpleTest) {
 	double Emin = 4 * EeV;
 	double Emax = 200 * EeV;
@@ -45,6 +111,8 @@ TEST(SourcePowerLawSpectrum, simpleTest) {
 	SourcePowerLawSpectrum spectrum(Emin, Emax, index);
 	ParticleState ps;
 	spectrum.prepare(ps);
+
+	// energy should be within Emin - Emax
 	EXPECT_LE(Emin, ps.getEnergy());
 	EXPECT_GE(Emax, ps.getEnergy());
 }
@@ -81,7 +149,7 @@ TEST(Source, allPropertiesUsed) {
 	EXPECT_EQ(8, ps.getMassNumber());
 	EXPECT_EQ(4, ps.getChargeNumber());
 	EXPECT_LE(5 * EeV, ps.getEnergy());
-	EXPECT_GE(100 * EeV , ps.getEnergy());
+	EXPECT_GE(100 * EeV, ps.getEnergy());
 	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, ps.getPosition());
 }
 
@@ -122,7 +190,8 @@ TEST(SourceList, luminosity) {
 		meanE += p.getEnergy();
 	}
 	meanE /= 1000;
-	EXPECT_NEAR(80, meanE, 2); // this test can stochastically fail
+	EXPECT_NEAR(80, meanE, 2);
+	// this test can stochastically fail
 }
 
 int main(int argc, char **argv) {

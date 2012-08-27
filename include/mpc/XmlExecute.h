@@ -18,7 +18,10 @@ class XmlExecute {
 	void loadGridMagneticField(pugi::xml_node &node);
 	void loadDeflectionCK(pugi::xml_node &node);
 	void loadPeriodicBoundaries();
+	void loadSources(pugi::xml_node &node);
 	void loadDiscreteSources(pugi::xml_node &node);
+	void loadContinuousSources(pugi::xml_node &node);
+	void loadSourceNuclei(pugi::xml_node &node);
 	void loadSophia(pugi::xml_node &node);
 	void loadSpheresAroundObserver(pugi::xml_node &node);
 	void loadSpheresAroundSource(pugi::xml_node &node);
@@ -28,14 +31,14 @@ class XmlExecute {
 	ref_ptr<MagneticField> magnetic_field;
 	Source source;
 	bool is1D;
-	size_t trajectories;
-	size_t randomSeed;
+	size_t nTrajectories;
 	double Emin;
 	double maxStep;
 	Vector3d origin;
 	Vector3d size;
 
 public:
+	XmlExecute();
 	bool load(const std::string &filename);
 	void run();
 };

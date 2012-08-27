@@ -91,9 +91,6 @@
 %include "mpc/ParticleState.h"
 
 
-%template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
-%include "mpc/Source.h"
-
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
 %include "mpc/Candidate.h"
@@ -124,6 +121,9 @@
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"
+
+%template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
+%include "mpc/Source.h"
 
 
 %include "mpc/module/BreakCondition.h"

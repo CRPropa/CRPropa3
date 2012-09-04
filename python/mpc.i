@@ -34,6 +34,7 @@
 #include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/magneticField/SPHMagneticField.h"
+#include "mpc/magneticField/JF2012Field.h"
 
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
@@ -118,6 +119,7 @@
 
 %include "mpc/magneticField/MagneticFieldGrid.h"
 %include "mpc/magneticField/SPHMagneticField.h"
+%include "mpc/magneticField/JF2012Field.h"
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"

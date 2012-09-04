@@ -21,7 +21,7 @@ static const double coulomb = 1;
 
 // physical constants
 static const double eplus = 1.602176487e-19 * ampere * second;
-static const double c_light = 2.99792458e+8 * meter / second;
+static const double c_light = 2.99792458e8 * meter / second;
 static const double c_squared = c_light * c_light;
 static const double amu = 1.660538921e-27 * kilogram;
 static const double mass_proton = 1.67262158e-27 * kilogram;
@@ -35,17 +35,19 @@ static const double centimeter = 1e-2 * meter;
 
 // gauss
 static const double gauss = 1e-4 * tesla;
+static const double microgauss = 1e-6 * gauss;
 static const double nanogauss = 1e-9 * gauss;
+static const double muG = microgauss;
 static const double nG = nanogauss;
 
 // electron volt
 static const double electronvolt = eplus * joule;
+static const double kiloelectronvolt = 1e3 * electronvolt;
 static const double megaelectronvolt = 1e6 * electronvolt;
-static const double kiloelectronvolt = 1e+3 * electronvolt;
-static const double gigaelectronvolt = 1e+9 * electronvolt;
-static const double teraelectronvolt = 1e+12 * electronvolt;
-static const double petaelectronvolt = 1e+15 * electronvolt;
-static const double exaelectronvolt = 1e+18 * electronvolt;
+static const double gigaelectronvolt = 1e9 * electronvolt;
+static const double teraelectronvolt = 1e12 * electronvolt;
+static const double petaelectronvolt = 1e15 * electronvolt;
+static const double exaelectronvolt = 1e18 * electronvolt;
 static const double eV = electronvolt;
 static const double keV = kiloelectronvolt;
 static const double MeV = megaelectronvolt;
@@ -55,7 +57,7 @@ static const double PeV = petaelectronvolt;
 static const double EeV = exaelectronvolt;
 
 // parsec
-static const double parsec = 3.0856775807e+16 * meter;
+static const double parsec = 3.0856775807e16 * meter;
 static const double kiloparsec = 1e3 * parsec;
 static const double megaparsec = 1e6 * parsec;
 static const double gigaparsec = 1e9 * parsec;

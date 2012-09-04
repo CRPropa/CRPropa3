@@ -3,6 +3,7 @@
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/module/PhotoDisintegration.h"
 #include "mpc/module/PhotoPionProduction.h"
+#include "mpc/module/Redshift.h"
 
 #include "gtest/gtest.h"
 #include <fstream>
@@ -411,6 +412,20 @@ TEST(SophiaPhotoPionProduction, withSecondaries) {
 	ppp.performInteraction(&c);
 	EXPECT_GT(c.secondaries.size(), 1);
 	// secondaries turned on
+}
+
+TEST(SimpleRedshift, test) {
+	// Test redshift approximation for small redshifts z << 1.
+	SimpleRedshift redshift(Vector3d(0.), 0.7);
+
+	Candidate c;
+	c.setRedshift(0.024); // roughly corresponds to 100 Mpc
+	c.current.setEnergy(100 * EeV);
+	c.current.setPosition(Vector3d(0.));
+
+	redshift.process(&c);
+	EXPECT_EQ(0, c.getRedshift());
+	EXPECT_EQ(97.6, c.current.getEnergy() / EeV);
 }
 
 int main(int argc, char **argv) {

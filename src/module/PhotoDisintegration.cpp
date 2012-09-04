@@ -83,10 +83,11 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 		return false;
 
 	// find channel with minimum random decay distance
+	Random &random = Random::instance();
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < pdModes.size(); i++) {
 		double rate = interpolateEquidistant(lg, 6., 8./200., pdModes[i].rate);
-		double d = -log(Random::instance().rand()) / rate;
+		double d = -log(random.rand()) / rate;
 		if (d > interaction.distance)
 			continue;
 		interaction.distance = d;

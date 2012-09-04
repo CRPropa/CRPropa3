@@ -59,9 +59,10 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate,
 		return false;
 
 	// find interaction mode with minimum random decay distance
+	Random &random = Random::instance();
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < decays.size(); i++) {
-		double d = -log(Random::instance().rand()) * decays[i].distance;
+		double d = -log(random.rand()) * decays[i].distance;
 		if (d > interaction.distance)
 			continue;
 		interaction.distance = d;
@@ -119,14 +120,15 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	candidate->current.setLorentzFactor(gamma);
 
 	// random kinetic energy of electron in neutron decay
-	double T = interpolate(Random::instance().rand(), cdfBeta, tBeta);
+	Random &random = Random::instance();
+	double T = interpolate(random.rand(), cdfBeta, tBeta);
 	double Q = (mass - candidate->current.getMass() - mass_electron)
 			* c_squared;
 	double Qneutron = (mass_neutron - mass_proton - mass_electron) * c_squared;
 	// electron energy in this decay
 	double E = T * Q / Qneutron + mass_electron * c_squared;
 	double p = sqrt(E * E - pow(mass_electron * c_squared, 2));
-	double cosTheta = 2 * Random::instance().rand() - 1;
+	double cosTheta = 2 * random.rand() - 1;
 
 	if (haveElectrons)
 		// add electron/positron boosted to lab frame

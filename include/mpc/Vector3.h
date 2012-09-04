@@ -77,7 +77,7 @@ public:
 
 	T getPhi() const {
 		T eps = std::numeric_limits<T>::min();
-		if (fabs(x) < eps && fabs(y) < eps)
+		if ((fabs(x) < eps) and (fabs(y) < eps))
 			return 0.0;
 		else
 			return std::atan2(y, x);
@@ -85,7 +85,7 @@ public:
 
 	T getTheta() const {
 		T eps = std::numeric_limits<T>::min();
-		if (fabs(x) < eps && fabs(y) < eps && fabs(z) < eps)
+		if ((fabs(x) < eps) and (fabs(y) < eps) and (fabs(z) < eps))
 			return 0.0;
 		else
 			return atan2((T) sqrt(x * x + y * y), z);

@@ -111,7 +111,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	// final proton number of emitted nucleon
 	int Zfinal = dZ;
 	// 50% probability of isospin change p <-> n
-	if (Random::instance().rand() < 1. / 2.)
+	Random &random = Random::instance();
+	if (random.rand() < 1. / 2.)
 		Zfinal = abs(Zfinal - 1);
 
 	double E = candidate->current.getEnergy();

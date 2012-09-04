@@ -8,9 +8,9 @@ namespace mpc {
 
 /**
  @class MagneticFieldGrid
- @brief Magnetic field on a periodic, cartesian grid with trilinear interpolation.
+ @brief Magnetic field on a periodic (or reflective), cartesian grid with trilinear interpolation.
 
- This class provides a container for a VectorGrid (PeriodicGrid of type Vector3f) to serve as a MagneticField.
+ This class wraps a VectorGrid to serve as a MagneticField.
  */
 class MagneticFieldGrid: public MagneticField {
 	ref_ptr<VectorGrid> grid;
@@ -26,7 +26,7 @@ public:
  @class MagneticFieldGrid
  @brief Modulated magnetic field on a periodic grid.
 
- This class provides a container for a VectorGrid to serve as a MagneticField.
+ This class wraps a VectorGrid to serve as a MagneticField.
  The field is modulated on-the-fly with a ScalarGrid.
  The VectorGrid and ScalarGrid do not need to share the same origin, spacing or size.
  */

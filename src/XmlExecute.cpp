@@ -1,5 +1,4 @@
 #include "mpc/XmlExecute.h"
-#include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/GridTools.h"
 #include "mpc/module/SimplePropagation.h"
@@ -87,7 +86,7 @@ SourceDensityGrid* loadSourceDensityGrid(
 	string file_name = file_node.child_value();
 	cout << "  - File = " << file_name << endl;
 	if (file_type == "ASCII")
-		loadTxt(grid, file_name);
+		loadGridFromTxt(grid, file_name);
 	else if (file_type == "FITS")
 		throw runtime_error(" --> FITS files not supported");
 	else
@@ -271,7 +270,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 
 		string fname = node.child_value("File");
 		cout << "  - Loading file (values in [G]): " << fname << endl;
-		loadTxt(field, fname, gauss);
+		loadGridFromTxt(field, fname, gauss);
 	} else {
 		double brms = childValue(node, "RMS_muG") * 1e-6 * gauss;
 		cout << "  - Brms : " << brms / nG << " nG" << endl;

@@ -1,13 +1,11 @@
-#include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Grid.h"
 #include "mpc/GridTools.h"
-#include "mpc/magneticField/TurbulentMagneticField.h"
 #include "mpc/Units.h"
 #include "mpc/Common.h"
 
 #include "gtest/gtest.h"
-#include <stdexcept>
 
 namespace mpc {
 
@@ -16,6 +14,18 @@ TEST(testUniformMagneticField, SimpleTest) {
 	Vector3d b = B.getField(Vector3d(1, 0, 0));
 	EXPECT_DOUBLE_EQ(b.x, -1);
 	EXPECT_DOUBLE_EQ(b.y, 5);
+	EXPECT_DOUBLE_EQ(b.z, 3);
+}
+
+TEST(testMagneticFieldList, SimpleTest) {
+	// Test a list of three magnetic fields
+	MagneticFieldList B;
+	B.addField(new UniformMagneticField(Vector3d(1, 0, 0)));
+	B.addField(new UniformMagneticField(Vector3d(0, 2, 0)));
+	B.addField(new UniformMagneticField(Vector3d(0, 0, 3)));
+	Vector3d b = B.getField(Vector3d(0.));
+	EXPECT_DOUBLE_EQ(b.x, 1);
+	EXPECT_DOUBLE_EQ(b.y, 2);
 	EXPECT_DOUBLE_EQ(b.z, 3);
 }
 
@@ -117,10 +127,10 @@ TEST(testVectorFieldGrid, DumpLoad) {
 			for (int iz = 0; iz < 3; iz++)
 				B1->get(ix, iy, iz) = Vector3f(1, 2, 3);
 
-	dump(B1, "testDump.raw");
+	dumpGrid(B1, "testDump.raw");
 
 	ref_ptr<VectorGrid> B2 = new VectorGrid(Vector3d(0.), 3, 1);
-	load(B2, "testDump.raw");
+	loadGrid(B2, "testDump.raw");
 
 	for (int ix = 0; ix < 3; ix++) {
 		for (int iy = 0; iy < 3; iy++) {
@@ -143,10 +153,10 @@ TEST(testVectorFieldGrid, DumpLoadTxt) {
 			for (int iz = 0; iz < 3; iz++)
 				B1->get(ix, iy, iz) = Vector3f(ix, iy, iz) * nG;
 
-	dumpTxt(B1, "testDump.txt", 1e4);
+	dumpGridToTxt(B1, "testDump.txt", 1e4);
 
 	ref_ptr<VectorGrid> B2 = new VectorGrid(Vector3d(0.), 3, 1);
-	loadTxt(B2, "testDump.txt", 1e-4);
+	loadGridFromTxt(B2, "testDump.txt", 1e-4);
 
 	for (int ix = 0; ix < 3; ix++) {
 		for (int iy = 0; iy < 3; iy++) {
@@ -187,7 +197,7 @@ TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	initTurbulence(grid, Brms, lMin, lMax);
 
 	double precision = 1e-7;
-	Vector3f bMean = meanFieldStrength(grid);
+	Vector3f bMean = meanFieldVector(grid);
 	EXPECT_NEAR(0, bMean.x, precision);
 	EXPECT_NEAR(0, bMean.y, precision);
 	EXPECT_NEAR(0, bMean.z, precision);
@@ -234,7 +244,6 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 			std::runtime_error);
 }
 #endif // MPC_HAVE_FFTW3F
-
 TEST(testTurbulentMagneticField, SimpleTest) {
 	TurbulentMagneticField B;
 	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11. / 3.,
@@ -254,13 +263,11 @@ TEST(testTurbulentMagneticField, Brms) {
 	double sumB2 = 0;
 	Vector3d Bmean, b;
 	int n = 20;
-	Random random;
+	Random &r = Random::instance();
 	for (int ix = 0; ix < n; ix++) {
 		for (int iy = 0; iy < n; iy++) {
 			for (int iz = 0; iz < n; iz++) {
-				b = B.getField(
-						Vector3d(random.rand(), random.rand(), random.rand())
-								* 100000);
+				b = B.getField(Vector3d(r.rand(), r.rand(), r.rand()) * 100000);
 				Bmean += b;
 				sumB2 = b.getMag2();
 			}

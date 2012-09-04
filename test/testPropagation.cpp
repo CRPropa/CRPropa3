@@ -1,7 +1,6 @@
 #include "mpc/Candidate.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
-#include "mpc/magneticField/UniformMagneticField.h"
 
 #include "gtest/gtest.h"
 

@@ -2,7 +2,7 @@
 #define MPC_MAGNETICFIELDGRID_H_
 
 #include "mpc/magneticField/MagneticField.h"
-#include "mpc/PeriodicGrid.h"
+#include "mpc/Grid.h"
 
 namespace mpc {
 

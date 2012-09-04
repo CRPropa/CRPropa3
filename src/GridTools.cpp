@@ -1,4 +1,4 @@
-#include "mpc/PeriodicGridTools.h"
+#include "mpc/GridTools.h"
 #include "mpc/Random.h"
 
 #include <fstream>

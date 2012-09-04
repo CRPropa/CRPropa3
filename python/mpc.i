@@ -27,8 +27,6 @@
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Tools.h"
-#include "mpc/PeriodicGrid.h"
-#include "mpc/PeriodicGridTools.h"
 
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/magneticField/UniformMagneticField.h"
@@ -49,6 +47,8 @@
 #include "mpc/Vector3.h"
 #include "mpc/Source.h"
 #include "mpc/Common.h"
+#include "mpc/Grid.h"
+#include "mpc/GridTools.h"
 %}
 
 
@@ -106,16 +106,18 @@
 %include "mpc/magneticField/MagneticField.h"
 %include "mpc/magneticField/UniformMagneticField.h"
 
-%include "mpc/PeriodicGrid.h"
-%include "mpc/PeriodicGridTools.h"
 
-%implicitconv mpc::ref_ptr<mpc::PeriodicGrid<mpc::Vector3<float> > >;
-%template(VectorGridRefPtr) mpc::ref_ptr<mpc::PeriodicGrid<mpc::Vector3<float> > >;
-%template(VectorGrid) mpc::PeriodicGrid<mpc::Vector3<float> >;
+%include "mpc/Grid.h"
+%include "mpc/GridTools.h"
 
-%implicitconv mpc::ref_ptr<mpc::PeriodicGrid<float> >;
-%template(ScalarGridRefPtr) mpc::ref_ptr<mpc::PeriodicGrid<float> >;
-%template(ScalarGrid) mpc::PeriodicGrid<float>;
+%implicitconv mpc::ref_ptr<mpc::Grid<mpc::Vector3<float> > >;
+%template(VectorGridRefPtr) mpc::ref_ptr<mpc::Grid<mpc::Vector3<float> > >;
+%template(VectorGrid) mpc::Grid<mpc::Vector3<float> >;
+
+%implicitconv mpc::ref_ptr<mpc::Grid<float> >;
+%template(ScalarGridRefPtr) mpc::ref_ptr<mpc::Grid<float> >;
+%template(ScalarGrid) mpc::Grid<float>;
+
 
 %include "mpc/magneticField/MagneticFieldGrid.h"
 %include "mpc/magneticField/SPHMagneticField.h"

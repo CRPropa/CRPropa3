@@ -1,7 +1,7 @@
-#ifndef MPC_PERIODICGRIDTOOLS_H_
-#define MPC_PERIODICGRIDTOOLS_H_
+#ifndef MPC_GRIDTOOLS_H_
+#define MPC_GRIDTOOLS_H_
 
-#include "mpc/PeriodicGrid.h"
+#include "mpc/Grid.h"
 #include <string>
 
 namespace mpc {
@@ -67,4 +67,4 @@ void dumpTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c = 1);
 
 } // namespace mpc
 
-#endif /* MPC_PERIODICGRIDTOOLS_H_ */
+#endif /* MPC_GRIDTOOLS_H_ */

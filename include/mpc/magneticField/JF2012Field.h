@@ -2,7 +2,7 @@
 #define MPC_JF2012FIELD_H
 
 #include "mpc/magneticField/MagneticField.h"
-#include "mpc/PeriodicGrid.h"
+#include "mpc/Grid.h"
 
 namespace mpc {
 
@@ -41,7 +41,7 @@ class JF2012TurbulentField: public MagneticField {
 	double r0;	// radial attenuation length
 	double z0;	// vertical attenuation length
 	double z0S; // vertical attenuation length for spiral field
-	ref_ptr<VectorGrid> grid;
+	ref_ptr<VectorGrid> grid; // turbulent field grid
 
 public:
 	JF2012TurbulentField();

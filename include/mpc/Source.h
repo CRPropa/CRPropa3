@@ -3,7 +3,7 @@
 
 #include "mpc/Referenced.h"
 #include "mpc/ParticleState.h"
-#include "mpc/PeriodicGrid.h"
+#include "mpc/Grid.h"
 
 #include <vector>
 

@@ -1,5 +1,6 @@
 #include "mpc/magneticField/JF2012Field.h"
 #include "mpc/Units.h"
+#include "mpc/GridTools.h"
 
 namespace mpc {
 

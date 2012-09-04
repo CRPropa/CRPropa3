@@ -1,5 +1,5 @@
-#ifndef MPC_PERIODICGRID_H_
-#define MPC_PERIODICGRID_H_
+#ifndef MPC_GRID_H_
+#define MPC_GRID_H_
 
 #include "mpc/Referenced.h"
 #include "mpc/Vector3.h"
@@ -31,7 +31,7 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
  The grid sample positions are at 0, size/N, ... (N-1) * size/N.
  */
 template<typename T>
-class PeriodicGrid: public Referenced {
+class Grid: public Referenced {
 	std::vector<T> grid;
 	size_t Nx, Ny, Nz; /**< Number of grid points */
 	Vector3d origin; /**< Grid origin */
@@ -39,14 +39,14 @@ class PeriodicGrid: public Referenced {
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 
 public:
-	PeriodicGrid(Vector3d origin, size_t N, double spacing) {
+	Grid(Vector3d origin, size_t N, double spacing) {
 		setOrigin(origin);
 		setGridSize(N, N, N);
 		setSpacing(spacing);
 		setReflective(false);
 	}
 
-	PeriodicGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz,
+	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz,
 			double spacing) {
 		setOrigin(origin);
 		setGridSize(Nx, Ny, Nz);
@@ -166,9 +166,9 @@ public:
 	}
 };
 
-typedef PeriodicGrid<Vector3f> VectorGrid;
-typedef PeriodicGrid<float> ScalarGrid;
+typedef Grid<Vector3f> VectorGrid;
+typedef Grid<float> ScalarGrid;
 
 } // namespace mpc
 
-#endif /* MPC_PERIODICGRID_H_ */
+#endif /* MPC_GRID_H_ */

@@ -103,6 +103,7 @@ add_library(mpc SHARED
     src/module/Tools.cpp
     src/magneticField/MagneticFieldGrid.cpp
     src/magneticField/TurbulentMagneticField.cpp
+    src/magneticField/JF2012Field.cpp
     ${MPC_EXTRA_SOURCES}
 )
 target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES})

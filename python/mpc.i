@@ -29,7 +29,6 @@
 #include "mpc/module/Tools.h"
 
 #include "mpc/magneticField/MagneticField.h"
-#include "mpc/magneticField/UniformMagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/magneticField/SPHMagneticField.h"
 #include "mpc/magneticField/JF2012Field.h"
@@ -104,8 +103,6 @@
 %implicitconv mpc::ref_ptr<mpc::MagneticField>;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
 %include "mpc/magneticField/MagneticField.h"
-%include "mpc/magneticField/UniformMagneticField.h"
-
 
 %include "mpc/Grid.h"
 %include "mpc/GridTools.h"

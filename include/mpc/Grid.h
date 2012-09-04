@@ -22,12 +22,12 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
 }
 
 /**
- @class PeriodicGrid
+ @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
 
  The grid spacing is constant and equal along all three axes.
  Values are calculated by trilinear interpolation of the surrounding 8 grid points.
- The grid is periodically extended.
+ The grid is periodically (default) or reflectively extended.
  The grid sample positions are at 0, size/N, ... (N-1) * size/N.
  */
 template<typename T>

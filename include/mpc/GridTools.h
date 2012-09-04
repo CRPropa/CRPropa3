@@ -6,14 +6,17 @@
 
 namespace mpc {
 
+/** Calculate the mean field vector */
+Vector3f meanFieldVector(ref_ptr<VectorGrid> grid);
+
 /** Calculate the mean field strength */
-Vector3f meanFieldStrength(ref_ptr<VectorGrid> m);
+double meanFieldStrength(ref_ptr<VectorGrid> grid);
 
 /** Calculate the RMS field strength */
-double rmsFieldStrength(ref_ptr<VectorGrid> m);
+double rmsFieldStrength(ref_ptr<VectorGrid> grid);
 
 /** Multiply a magnetic field grid by a factor. */
-void scale(ref_ptr<VectorGrid> m, double a);
+void scale(ref_ptr<VectorGrid> grid, double a);
 
 #ifdef MPC_HAVE_FFTW3F
 /**
@@ -24,12 +27,13 @@ void scale(ref_ptr<VectorGrid> m, double a);
  @param Brms	RMS field strength
  @param seed	Random seed
  */
-void initTurbulence(ref_ptr<VectorGrid> m, double Brms, double lMin,
+void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 		double lMax, double index = -11. / 3., int seed = 0);
 #endif // MPC_HAVE_FFTW3F
 
 /** Analytically calculate the correlation length of a turbulent field */
-double turbulentCorrelationLength(double lMin, double lMax, double spectralIndex = -11. / 3.);
+double turbulentCorrelationLength(double lMin, double lMax,
+		double spectralIndex = -11. / 3.);
 
 /**
  Dump / load functions for scalar / 3-vector grids and binary / plain text files.
@@ -42,28 +46,36 @@ double turbulentCorrelationLength(double lMin, double lMax, double spectralIndex
  All functions offer a conversion factor that is multiplied to all values.
  */
 // Load a VectorGrid from a binary file with single precision.
-void load(ref_ptr<VectorGrid> grid, std::string filename, double c = 1);
+void loadGrid(ref_ptr<VectorGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Load a ScalarGrid from a binary file with single precision.
-void load(ref_ptr<ScalarGrid> grid, std::string filename, double c = 1);
+void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Dump a VectorGrid to a binary file.
-void dump(ref_ptr<VectorGrid> grid, std::string filename, double c = 1);
+void dumpGrid(ref_ptr<VectorGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Dump a ScalarGrid to a binary file with single precision.
-void dump(ref_ptr<ScalarGrid> grid, std::string filename, double c = 1);
+void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Load a VectorGrid grid from a plain text file.
-void loadTxt(ref_ptr<VectorGrid> grid, std::string filename, double c = 1);
+void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Load a ScalarGrid from a plain text file.
-void loadTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c = 1);
+void loadGridFromTxt(ref_ptr<ScalarGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Dump a VectorGrid to a plain text file.
-void dumpTxt(ref_ptr<VectorGrid> grid, std::string filename, double c = 1);
+void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename,
+		double conversion = 1);
 
 // Dump a ScalarGrid to a plain text file.
-void dumpTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c = 1);
+void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename,
+		double conversion = 1);
 
 } // namespace mpc
 

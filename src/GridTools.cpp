@@ -6,7 +6,7 @@
 
 namespace mpc {
 
-Vector3f meanFieldStrength(ref_ptr<VectorGrid> grid) {
+Vector3f meanFieldVector(ref_ptr<VectorGrid> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -15,6 +15,18 @@ Vector3f meanFieldStrength(ref_ptr<VectorGrid> grid) {
 		for (int iy = 0; iy < Ny; iy++)
 			for (int iz = 0; iz < Nz; iz++)
 				mean += grid->get(ix, iy, iz);
+	return mean / Nx / Ny / Nz;
+}
+
+double meanFieldStrength(ref_ptr<VectorGrid> grid) {
+	size_t Nx = grid->getNx();
+	size_t Ny = grid->getNy();
+	size_t Nz = grid->getNz();
+	double mean = 0;
+	for (int ix = 0; ix < Nx; ix++)
+		for (int iy = 0; iy < Ny; iy++)
+			for (int iz = 0; iz < Nz; iz++)
+				mean += grid->get(ix, iy, iz).getMag();
 	return mean / Nx / Ny / Nz;
 }
 
@@ -181,7 +193,7 @@ double turbulentCorrelationLength(double lMin, double lMax,
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 
-void load(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void loadGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin) {
 		std::stringstream ss;
@@ -202,7 +214,7 @@ void load(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void load(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin) {
 		std::stringstream ss;
@@ -221,7 +233,7 @@ void load(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void dump(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void dumpGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str(), std::ios::binary);
 	if (!fout) {
 		std::stringstream ss;
@@ -241,7 +253,7 @@ void dump(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void dump(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str(), std::ios::binary);
 	if (!fout) {
 		std::stringstream ss;
@@ -259,7 +271,7 @@ void dump(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void loadTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str());
 	if (!fin) {
 		std::stringstream ss;
@@ -284,7 +296,7 @@ void loadTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void loadTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void loadGridFromTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str());
 	if (!fin) {
 		std::stringstream ss;
@@ -309,7 +321,7 @@ void loadTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void dumpTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {
 		std::stringstream ss;
@@ -327,7 +339,7 @@ void dumpTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void dumpTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {
 		std::stringstream ss;

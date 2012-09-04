@@ -101,6 +101,7 @@ add_library(mpc SHARED
     src/module/Redshift.cpp
     src/module/Output.cpp
     src/module/Tools.cpp
+    src/magneticField/MagneticField.cpp
     src/magneticField/MagneticFieldGrid.cpp
     src/magneticField/TurbulentMagneticField.cpp
     src/magneticField/JF2012Field.cpp

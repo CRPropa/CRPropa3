@@ -125,7 +125,7 @@ void CRPropa2EventOutput::process(Candidate *candidate) const {
 		p += sprintf(buffer + p, "%.4f ", t);
 
 		const Vector3d &pos = candidate->current.getPosition() / Mpc;
-		p += sprintf(buffer + p, "%.4f %.4f %.4f ", ipos.x, ipos.y, ipos.z);
+		p += sprintf(buffer + p, "%.4f %.4f %.4f ", pos.x, pos.y, pos.z);
 
 		double phi = candidate->current.getDirection().getPhi();
 		double theta = candidate->current.getDirection().getTheta();

@@ -11,7 +11,7 @@ namespace mpc {
  @brief Electron-pair production of charged nuclei with background photons.
 
  This module simulates electron-pair production as a continuous energy loss.\n
- Several photon fields can be selected. They are considered as homogeneous and evolving as the CMB.
+ Several photon fields can be selected. They are considered homogeneous and evolving as the CMB.
  */
 class ElectronPairProduction: public Module {
 private:

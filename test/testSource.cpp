@@ -144,13 +144,29 @@ TEST(Source, allPropertiesUsed) {
 	source.addProperty(new SourceIsotropicEmission());
 	source.addProperty(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
 	source.addProperty(new SourceParticleType(getNucleusId(8, 4)));
-	ParticleState ps;
-	source.prepare(ps);
-	EXPECT_EQ(8, ps.getMassNumber());
-	EXPECT_EQ(4, ps.getChargeNumber());
-	EXPECT_LE(5 * EeV, ps.getEnergy());
-	EXPECT_GE(100 * EeV, ps.getEnergy());
-	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, ps.getPosition());
+
+	Candidate c = *source.getCandidate();
+
+	ParticleState p = c.initial;
+	EXPECT_EQ(8, p.getMassNumber());
+	EXPECT_EQ(4, p.getChargeNumber());
+	EXPECT_LE(5 * EeV, p.getEnergy());
+	EXPECT_GE(100 * EeV, p.getEnergy());
+	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());
+
+	p = c.previous;
+	EXPECT_EQ(8, p.getMassNumber());
+	EXPECT_EQ(4, p.getChargeNumber());
+	EXPECT_LE(5 * EeV, p.getEnergy());
+	EXPECT_GE(100 * EeV, p.getEnergy());
+	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());
+
+	p = c.current;
+	EXPECT_EQ(8, p.getMassNumber());
+	EXPECT_EQ(4, p.getChargeNumber());
+	EXPECT_LE(5 * EeV, p.getEnergy());
+	EXPECT_GE(100 * EeV, p.getEnergy());
+	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());
 }
 
 TEST(SourceList, simpleTest) {
@@ -159,22 +175,23 @@ TEST(SourceList, simpleTest) {
 	ref_ptr<Source> source = new Source;
 	source->addProperty(new SourcePosition(Vector3d(10, 0, 0)));
 	sourceList.addSource(source);
-	ParticleState p;
-	sourceList.prepare(p);
-	EXPECT_EQ(Vector3d(10, 0, 0), p.getPosition());
+
+	ref_ptr<Candidate> c = sourceList.getCandidate();
+
+	EXPECT_EQ(Vector3d(10, 0, 0), c->initial.getPosition());
+	EXPECT_EQ(Vector3d(10, 0, 0), c->previous.getPosition());
+	EXPECT_EQ(Vector3d(10, 0, 0), c->current.getPosition());
 }
 
 TEST(SourceList, noSource) {
 	// test if an error is thrown when source list empty
 	SourceList sourceList;
-	ParticleState p;
-	EXPECT_THROW(sourceList.prepare(p), std::runtime_error);
+	EXPECT_THROW(sourceList.getCandidate(), std::runtime_error);
 }
 
 TEST(SourceList, luminosity) {
 	// test if the sources are dialed according to their luminosities
 	SourceList sourceList;
-	ParticleState p;
 
 	ref_ptr<Source> source1 = new Source;
 	source1->addProperty(new SourceEnergy(100));
@@ -186,12 +203,11 @@ TEST(SourceList, luminosity) {
 
 	double meanE = 0;
 	for (int i = 0; i < 1000; i++) {
-		sourceList.prepare(p);
-		meanE += p.getEnergy();
+		ref_ptr<Candidate> c = sourceList.getCandidate();
+		meanE += c->initial.getEnergy();
 	}
 	meanE /= 1000;
-	EXPECT_NEAR(80, meanE, 2);
-	// this test can stochastically fail
+	EXPECT_NEAR(80, meanE, 2); // this test can stochastically fail
 }
 
 int main(int argc, char **argv) {

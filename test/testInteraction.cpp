@@ -428,6 +428,19 @@ TEST(SimpleRedshift, test) {
 	EXPECT_EQ(97.6, c.current.getEnergy() / EeV);
 }
 
+TEST(Redshift, test) {
+	Redshift redshift(0.7, 0.3, 0.7);
+
+	Candidate c;
+	c.setRedshift(0.024); // roughly corresponds to 100 Mpc
+	c.current.setEnergy(100 * EeV);
+	c.current.setPosition(Vector3d(0.));
+
+	redshift.process(&c);
+	EXPECT_LT(c.getRedshift(), 1);
+	EXPECT_LT(c.current.getEnergy() / EeV, 100);
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

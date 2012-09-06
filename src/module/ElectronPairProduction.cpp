@@ -67,12 +67,12 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	if (EpA < energy.back())
 		rate = interpolate(EpA, &energy[0], &lossRate[0]);
 	else
-		// extrapolation for higher energies
-		rate = lossRate.back() * pow(EpA / energy.back(), 0.4);
+		rate = lossRate.back() * pow(EpA / energy.back(), 0.4); // extrapolation
+
+	double step = candidate->getCurrentStep() / (1 + z);
+	double Z = candidate->current.getChargeNumber();
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step
-	double step = candidate->getCurrentStep();
-	double Z = candidate->current.getChargeNumber();
 	double dE = Z * Z * rate * pow(1 + z, 3) * step;
 	candidate->current.setEnergy(E - dE);
 }

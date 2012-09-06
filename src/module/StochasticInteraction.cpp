@@ -3,6 +3,7 @@
 namespace mpc {
 
 void StochasticInteraction::process(Candidate* candidate) const {
+	double z = candidate->getRedshift();
 	double step = candidate->getCurrentStep();
 
 	while (step >= 0) {

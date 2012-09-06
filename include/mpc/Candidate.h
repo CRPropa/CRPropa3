@@ -24,19 +24,21 @@ struct InteractionState {
 			distance(distance), channel(channel) {
 
 	}
-	double distance;
-	int channel;
+	double distance; /**< Free distance of the interaction in [m] comoving units */
+	int channel; /**< Interaction ID */
 };
 
 /**
  @class Candidate
- @brief All information about the the cosmic ray candidate.
+ @brief All information about the cosmic ray.
+
+ The Candidate is a passive object, that holds all information about the initial and current state of the cosmic ray and the status of propagation.
  */
 class Candidate: public Referenced {
 public:
 	ParticleState initial; /**< Particle state at the beginning of propagation */
 	ParticleState current; /**< Current particle state */
-	ParticleState previous;  /**< Particle state at the end of the previous step */
+	ParticleState previous; /**< Particle state at the end of the previous step */
 
 	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles created in interactions */
 
@@ -44,34 +46,36 @@ public:
 	typedef Loki::AssocVector<std::string, InteractionState> InteractionStatesMap;
 
 private:
-	bool active;
-	double redshift, trajectoryLength;
-	double currentStep, nextStep;
+	bool active; /**< Active status */
+	double redshift; /**< Current simulation time-point in terms of redshift z, z = 0 being the present */
+	double trajectoryLength; /**< Comoving distance [m] the candidate has travelled so far */
+	double currentStep; /**< Size of the currently performed step in [m] comoving units */
+	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
 
-	PropertyMap properties;
-	InteractionStatesMap interactionStates;
+	PropertyMap properties; /**< Map of property names and their values. */
+	InteractionStatesMap interactionStates; /**< Map of physical interactions that are scheduled to happen to the candidate. */
 
 public:
 	Candidate();
+	/** Creates a candidate, initializing the initial, previous and current particle state with the argument. */
 	Candidate(const ParticleState &state);
-	virtual ~Candidate() {
-
-	};
 
 	bool isActive() const;
 	void setActive(bool b);
 
+	void setTrajectoryLength(double length);
 	double getTrajectoryLength() const;
-	void setTrajectoryLength(double a);
 
-	double getRedshift() const;
 	void setRedshift(double z);
+	double getRedshift() const;
 
+	/** Sets the current step and increases the trajectory length accordingly. Only the propagation module should use this. */
+	void setCurrentStep(double step);
 	double getCurrentStep() const;
-	void setCurrentStep(double lstep);
 
-	double getNextStep() const;
+	/** Sets the proposed next step. Only the propagation module should use this. */
 	void setNextStep(double step);
+	double getNextStep() const;
 	void limitNextStep(double step);
 
 	void setProperty(const std::string &name, const std::string &value);

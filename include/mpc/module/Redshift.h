@@ -1,5 +1,5 @@
-#ifndef REDSHIFT_H_
-#define REDSHIFT_H_
+#ifndef MPC_REDSHIFT_H_
+#define MPC_REDSHIFT_H_
 
 #include "mpc/Module.h"
 
@@ -27,24 +27,21 @@ public:
 	std::string getDescription() const;
 };
 
-///**
-// @class Redshift
-// @brief Redshift and adiabatic energy loss
-// */
-//class Redshift {
-//private:
-//	std::vector<double> z;
-//	std::vector<double> D;
-//
-//public:
-////	double h; // dimension-free Hubble constant, H0 = h * 100 km/s/Mpc
-////	double omegaM; // density parameter
-////	double omegaL; // vacuum energy parameter
-//	Redshift(double h = 0.7, double omegaM = 0.3, double omegaL = 0.7);
-//	void process(Candidate *candidate) const;
-//	std::string getDescription() const;
-//};
+/**
+ @class Redshift
+ @brief Calculation of cosmological redshift and adiabatic energy loss
+ */
+class Redshift : public Module {
+private:
+	double H0; // Hubble constant, H0 = h * 100 km/s/Mpc
+	double omegaM; // density parameter
+	double omegaL; // vacuum energy parameter
+
+public:
+	Redshift(double h = 0.7, double omegaM = 0.3, double omegaL = 0.7);
+	void process(Candidate *candidate) const;
+};
 
 } // namespace mpc
 
-#endif /* REDSHIFT_H_ */
+#endif /* MPC_REDSHIFT_H_ */

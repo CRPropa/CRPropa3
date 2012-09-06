@@ -2,7 +2,7 @@
 #define MPC_SOURCE_H
 
 #include "mpc/Referenced.h"
-#include "mpc/ParticleState.h"
+#include "mpc/Candidate.h"
 #include "mpc/Grid.h"
 
 #include <vector>
@@ -15,7 +15,8 @@ namespace mpc {
  */
 class SourceProperty: public Referenced {
 public:
-	virtual void prepare(ParticleState &state) const = 0;
+	virtual void prepare(ParticleState &particle) const;
+	virtual void prepare(Candidate &candidate) const;
 };
 
 /**
@@ -23,25 +24,27 @@ public:
  @brief General cosmic ray source
 
  This class is a container for source properties.
- The source prepares a particle by passing it to all its source properties, who in turn modify it accordingly.
+ The source prepares a new candidate by passing it to all its source properties to be modified accordingly.
  */
 class Source: public Referenced {
 	std::vector<ref_ptr<SourceProperty> > properties;
 public:
-	void addProperty(SourceProperty *property);
-	void prepare(ParticleState &particle) const;
+	void addProperty(SourceProperty* property);
+	ref_ptr<Candidate> getCandidate() const;
 };
 
 /**
  @class SourceList
  @brief List of cosmic ray sources of individual total lumosities.
+
+ The SourceList is a source itself. It can be used if several UHECR sources are needed in one simulation.
  */
 class SourceList: public Source {
 	std::vector<ref_ptr<Source> > sources;
 	std::vector<double> luminosities;
 public:
 	void addSource(Source *source, double luminosity = 1);
-	void prepare(ParticleState &particle) const;
+	ref_ptr<Candidate> getCandidate() const;
 };
 
 /**
@@ -205,6 +208,17 @@ class SourceEmissionCone: public SourceProperty {
 public:
 	SourceEmissionCone(Vector3d direction, double aperture);
 	void prepare(ParticleState &particle) const;
+};
+
+/**
+ @class SourceRedshift
+ @brief Redshift at the time of emission for particles that travel rectalinearly towards the observer
+ */
+class SourceRedshift: public SourceProperty {
+	double z;
+public:
+	SourceRedshift(double distance, double h = 0.7, double omegaM = 0.3, double omegaL = 0.7);
+	void prepare(Candidate &candidate) const;
 };
 
 }// namespace mpc

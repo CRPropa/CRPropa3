@@ -68,7 +68,12 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate,
 		interaction.distance = d;
 		interaction.channel = decays[i].channel;
 	}
+
+	// special relativistic time dilation increases the decay distance by gamma
 	interaction.distance *= candidate->current.getLorentzFactor();
+	// convert to cosmological comoving units
+	interaction.distance *= (1 + candidate->getRedshift());
+
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;
 }

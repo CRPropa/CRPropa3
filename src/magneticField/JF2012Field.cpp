@@ -160,8 +160,10 @@ JF2012TurbulentField::JF2012TurbulentField() {
 	rArms[6] = 12.7 * kpc;
 	rArms[7] = 15.5 * kpc;
 
-	// create a turbulent field with Kolmogorov spectrum, B_rms =
+	// create a turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
 	grid = new VectorGrid(Vector3d(0.), 256, 8 * parsec);
+	double seed = 42;
+	initTurbulence(grid, 1., 16 * parsec, 255.5 * parsec, -11/3., seed);
 }
 
 double JF2012TurbulentField::getModulation(const Vector3d& pos) const {

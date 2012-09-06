@@ -4,8 +4,6 @@
 #include "mpc/Candidate.h"
 #include "mpc/Module.h"
 #include "mpc/Source.h"
-#include "mpc/AssocVector.h"
-#include "mpc/Referenced.h"
 
 #include <list>
 #include <iostream>

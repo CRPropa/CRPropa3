@@ -7,31 +7,42 @@
 
 namespace mpc {
 
-void Source::addProperty(SourceProperty *property) {
+void SourceProperty::prepare(ParticleState &particle) const {
+}
+
+void SourceProperty::prepare(Candidate &candidate) const {
+	ParticleState &initial = candidate.initial;
+	prepare(initial);
+	candidate.current = initial;
+	candidate.previous = initial;
+}
+
+void Source::addProperty(SourceProperty* property) {
 	properties.push_back(property);
 }
 
-void Source::prepare(ParticleState &particle) const {
+ref_ptr<Candidate> Source::getCandidate() const {
+	ref_ptr<Candidate> candidate = new Candidate();
 	for (int i = 0; i < properties.size(); i++)
-		(*properties[i]).prepare(particle);
+		(*properties[i]).prepare(*candidate);
+	return candidate;
 }
 
-void SourceList::addSource(Source *source, double lumi) {
+void SourceList::addSource(Source* source, double lumi) {
 	sources.push_back(source);
 	if (luminosities.size() > 0)
 		lumi += luminosities.back();
 	luminosities.push_back(lumi);
 }
 
-void SourceList::prepare(ParticleState &particle) const {
-	Random &random = Random::instance();
+ref_ptr<Candidate> SourceList::getCandidate() const {
 	if (sources.size() == 0)
 		throw std::runtime_error("SourceList: no sources set");
-	double r = random.rand() * luminosities.back();
+	double r = Random::instance().rand() * luminosities.back();
 	int i = 0;
 	while ((r > luminosities[i]) and (i < luminosities.size()))
 		i++;
-	(sources[i])->prepare(particle);
+	return (sources[i])->getCandidate();
 }
 
 SourceParticleType::SourceParticleType(int id) :
@@ -228,6 +239,44 @@ SourceEmissionCone::SourceEmissionCone(Vector3d direction, double aperture) :
 void SourceEmissionCone::prepare(ParticleState &particle) const {
 	Random &random = Random::instance();
 	particle.setDirection(random.randConeVector(direction, aperture));
+}
+
+SourceRedshift::SourceRedshift(double d, double h, double omegaM,
+		double omegaL) {
+	double H0 = h * 1e5 / Mpc;
+
+	const int n = 1000;
+	double zMin = 0.0001;
+	double zMax = 100;
+
+	std::vector<double> Z; // redshift
+	std::vector<double> D; // comoving distance [m]
+	std::vector<double> H; // Hubble rate [1/s]
+
+	Z.resize(n);
+	H.resize(n);
+	D.resize(n);
+
+	Z[0] = 0;
+	H[0] = H0;
+	D[0] = 0;
+
+	// Relation between comoving distance and redshift (see J.A. Peacock, Cosmological physics, p. 89 eq. 3.76)
+	// R0 dr = c / H(z) dz
+	// H(z) = H0 sqrt(omegaL + omegaM (1 + z)^3)
+	// Integration with midpoint rule.
+	for (int i = 1; i < n; i++) {
+		Z[i] = pow(10, zMin + (zMax - zMin) * i / (n - 1));
+		H[i] = H0 * sqrt(omegaL + omegaM * pow(1 + Z[i], 3));
+		D[i] = D[i - 1]
+				+ c_light * (Z[i] - Z[i - 1]) * (1 / H[i - 1] + 1 / H[i]) / 2;
+	}
+
+	z = interpolate(d, &D[0], &Z[0]);
+}
+
+void SourceRedshift::prepare(Candidate &candidate) const {
+	candidate.setRedshift(z);
 }
 
 } // namespace mpc

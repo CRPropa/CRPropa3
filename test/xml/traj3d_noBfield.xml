@@ -24,7 +24,7 @@
 	<Zmax_Mpc value="20"/>
 </Environment>
 
-<MagneticField type="None" />
+<MagneticField type="Null" />
 
 <!-- Definition of interactions --> 
 <Interactions type="Sophia">

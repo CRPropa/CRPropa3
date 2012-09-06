@@ -13,15 +13,14 @@ SimpleRedshift::SimpleRedshift(Vector3d observer, double h) :
 void SimpleRedshift::process(Candidate *c) const {
 	double d = c->current.getPosition().getDistanceTo(observer);
 	double z = h * 1e5 / Mpc * d / c_light;
-	double dz = z - c->getRedshift();
+	double dz = c->getRedshift() - z;
 
-	if (dz > 0)
+	if (dz < 0)
 		return; // do nothing if the new redshift is higher
 
 	c->setRedshift(z);
-
 	double E = c->current.getEnergy();
-	c->current.setEnergy(E * (1 + dz) / (1 + z)); // using dE/dz=E/(1+z)
+	c->current.setEnergy(E * (1 - dz / (1 + z)));// using dE/dz = E/(1+z)
 }
 
 std::string SimpleRedshift::getDescription() const {
@@ -44,7 +43,7 @@ Redshift::Redshift(double h, double m, double l) {
 void Redshift::process(Candidate *c) const {
 	double z = c->getRedshift();
 	if (z == 0)
-		return; // nothing to do
+		return; // nothing to do, redshift can't get smaller
 
 	// small step approximation: dz = H(z) / c * dr
 	// an analytical form for the integral would be better
@@ -54,7 +53,7 @@ void Redshift::process(Candidate *c) const {
 
 	c->setRedshift(z - dz);
 	double E = c->current.getEnergy();
-	c->current.setEnergy(E * (1 - dz) / (1 + z)); // using dE/dz=E/(1+z)
+	c->current.setEnergy(E * (1 - dz / (1 + z))); // using dE/dz = E/(1+z)
 }
 
 } // namespace mpc

@@ -40,8 +40,8 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
 	for (int i = 0; i < 50; i++) {
 		double E = mass_electron + i / 50. * (Q - mass_electron);
 		cdf += sqrt(pow(E, 2) - pow(mass_electron, 2)) * pow(Q - E, 2) * E;
-		cdfBeta[i] = cdf;
-		tBeta[i] = (E - mass_electron) * c_squared;
+		cdfBeta.push_back(cdf);
+		tBeta.push_back((E - mass_electron) * c_squared);
 	}
 	for (int i = 0; i < 50; i++) {
 		cdfBeta[i] /= cdf;

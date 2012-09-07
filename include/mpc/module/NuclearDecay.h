@@ -1,5 +1,5 @@
-#ifndef DECAY_H_
-#define DECAY_H_
+#ifndef MPC_DECAY_H_
+#define MPC_DECAY_H_
 
 #include "mpc/module/StochasticInteraction.h"
 
@@ -21,8 +21,8 @@ private:
 	std::vector<std::vector<InteractionState> > decayTable;
 	// InteractionState.channel is (#beta- #beta+ #alpha #proton #neutron)
 	// InteractionState.distance is the mean free path [m]
-	double tBeta[50]; // electron kinetic energy [J] in neutron decays
-	double cdfBeta[50]; // cumulative distribution function for the electron kinetic energy [J] in neutron decays
+	std::vector<double> tBeta; // electron kinetic energy [J] in neutron decays
+	std::vector<double> cdfBeta; // cumulative distribution function for the electron kinetic energy [J] in neutron decays
 
 public:
 	NuclearDecay(bool electrons = false, bool neutrinos = false);
@@ -35,4 +35,4 @@ public:
 
 } // namespace mpc
 
-#endif /* DECAY_H_ */
+#endif /* MPC_DECAY_H_ */

@@ -425,7 +425,7 @@ TEST(SimpleRedshift, test) {
 
 	redshift.process(&c);
 	EXPECT_EQ(0, c.getRedshift());
-	EXPECT_EQ(97.6, c.current.getEnergy() / EeV);
+	EXPECT_GT(100, c.current.getEnergy() / EeV);
 }
 
 TEST(Redshift, test) {
@@ -434,11 +434,11 @@ TEST(Redshift, test) {
 	Candidate c;
 	c.setRedshift(0.024); // roughly corresponds to 100 Mpc
 	c.current.setEnergy(100 * EeV);
-	c.current.setPosition(Vector3d(0.));
+	c.setCurrentStep(100 * Mpc);
 
 	redshift.process(&c);
-	EXPECT_LT(c.getRedshift(), 1);
-	EXPECT_LT(c.current.getEnergy() / EeV, 100);
+	EXPECT_GT(0.024, c.getRedshift());
+	EXPECT_GT(100, c.current.getEnergy() / EeV);
 }
 
 int main(int argc, char **argv) {

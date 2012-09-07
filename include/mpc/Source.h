@@ -212,12 +212,12 @@ public:
 
 /**
  @class SourceRedshift
- @brief Redshift at the time of emission for particles that travel rectalinearly towards the observer
+ @brief Single redshift at the time of emission
  */
 class SourceRedshift: public SourceProperty {
 	double z;
 public:
-	SourceRedshift(double distance, double h = 0.7, double omegaM = 0.3, double omegaL = 0.7);
+	SourceRedshift(double z);
 	void prepare(Candidate &candidate) const;
 };
 

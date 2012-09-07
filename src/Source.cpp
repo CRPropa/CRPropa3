@@ -241,38 +241,7 @@ void SourceEmissionCone::prepare(ParticleState &particle) const {
 	particle.setDirection(random.randConeVector(direction, aperture));
 }
 
-SourceRedshift::SourceRedshift(double d, double h, double omegaM,
-		double omegaL) {
-	double H0 = h * 1e5 / Mpc;
-
-	const int n = 1000;
-	double zMin = 0.0001;
-	double zMax = 100;
-
-	std::vector<double> Z; // redshift
-	std::vector<double> D; // comoving distance [m]
-	std::vector<double> H; // Hubble rate [1/s]
-
-	Z.resize(n);
-	H.resize(n);
-	D.resize(n);
-
-	Z[0] = 0;
-	H[0] = H0;
-	D[0] = 0;
-
-	// Relation between comoving distance and redshift (see J.A. Peacock, Cosmological physics, p. 89 eq. 3.76)
-	// R0 dr = c / H(z) dz
-	// H(z) = H0 sqrt(omegaL + omegaM (1 + z)^3)
-	// Integration with midpoint rule.
-	for (int i = 1; i < n; i++) {
-		Z[i] = pow(10, zMin + (zMax - zMin) * i / (n - 1));
-		H[i] = H0 * sqrt(omegaL + omegaM * pow(1 + Z[i], 3));
-		D[i] = D[i - 1]
-				+ c_light * (Z[i] - Z[i - 1]) * (1 / H[i - 1] + 1 / H[i]) / 2;
-	}
-
-	z = interpolate(d, &D[0], &Z[0]);
+SourceRedshift::SourceRedshift(double z) : z(z) {
 }
 
 void SourceRedshift::prepare(Candidate &candidate) const {

@@ -2,6 +2,7 @@
 #define COMMON_H_
 
 #include <string>
+#include <vector>
 
 namespace mpc {
 
@@ -19,11 +20,12 @@ inline int digit(const int &value, const int &d) {
 }
 
 // Perform linear interpolation
-double interpolate(const double x, const double *xD, const double *yD);
+double interpolate(double x, const std::vector<double> &X,
+		const std::vector<double> &Y);
 
 // Perform linear interpolation on equidistant tabulated data
-double interpolateEquidistant(const double x, const double xLo, const double dx,
-		const double *yD);
+double interpolateEquidistant(double x, double lo, double hi,
+		const std::vector<double> &Y);
 
 } // namespace mpc
 

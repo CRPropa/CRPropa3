@@ -72,16 +72,16 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	interaction.distance = std::numeric_limits<double>::max();
 	Random &random = Random::instance();
 	if (Z > 0) {
-		double rate = interpolate(EpA, &energy[0], &pRate[0]) * Z;
-		if (rate != 0) {
+		double rate = interpolate(EpA, energy, pRate) * Z;
+		if (rate > 0) {
 			interaction.distance = -log(random.rand()) / rate;
 			interaction.channel = 1;
 		}
 	}
 	// check for interaction on neutrons
 	if (N > 0) {
-		double rate = interpolate(EpA, &energy[0], &nRate[0]) * N;
-		if (rate != 0) {
+		double rate = interpolate(EpA, energy, nRate) * N;
+		if (rate > 0) {
 			double d = -log(random.rand()) / rate;
 			if (d < interaction.distance) {
 				interaction.distance = -log(random.rand()) / rate;

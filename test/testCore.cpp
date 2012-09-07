@@ -1,3 +1,10 @@
+/** Unit test for core features of MPC
+  	Candidate
+  	ParticleState
+  	Random
+  	Common functions
+ */
+
 #include "mpc/Candidate.h"
 #include "mpc/Random.h"
 
@@ -141,38 +148,42 @@ TEST(common, digit) {
 }
 
 TEST(common, interpolate) {
-	double xD[100];
-	double yD[100];
+	std::vector<double> xD(100), yD(100);
 	for (int i = 0; i < 100; i++) {
-		xD[i] = 1 + i * 0.02;
+		xD[i] = 1 + i * 2. / 99.;
 		yD[i] = pow(xD[i], 2);
 	}
-	double yInt = interpolate(1.5001, xD, yD);
-	EXPECT_NEAR(pow(1.5001, 2), yInt, 1e-4);
-}
 
-TEST(common, interpolateVector) {
-	std::vector<double> xD, yD;
-	xD.resize(100);
-	yD.resize(100);
-	for (int i = 0; i < 100; i++) {
-		xD[i] = 1 + i * 0.02;
-		yD[i] = pow(xD[i], 2);
-	}
-	double yInt = interpolate(1.5001, &xD[0], &yD[0]);
-	EXPECT_NEAR(pow(1.5001, 2), yInt, 1e-4);
+	// interpolated value should be close to computed
+	double y = interpolate(1.5001, xD, yD);
+	EXPECT_NEAR(pow(1.5001, 2), y, 1e-4);
+
+	// value out of range, return lower bound
+	EXPECT_EQ(1, interpolate(0.9, xD, yD));
+
+	// value out of range, return lower bound
+	EXPECT_EQ(9, interpolate(3.1, xD, yD));
 }
 
 TEST(common, interpolateEquidistant) {
-	double yD[100];
+	std::vector<double> yD(100);
 	for (int i = 0; i < 100; i++) {
-		yD[i] = pow(1 + i * 0.02, 2);
+		yD[i] = pow(1 + i * 2. / 99., 2);
 	}
-	double yInt = interpolateEquidistant(1.5001, 1, 0.02, yD);
-	EXPECT_NEAR(pow(1.5001, 2), yInt, 1e-4);
+
+	// interpolated value should be close to computed
+	double y = interpolateEquidistant(1.5001, 1, 3, yD);
+	EXPECT_NEAR(pow(1.5001, 2), y, 1e-4);
+
+	// value out of range, return lower bound
+	EXPECT_EQ(1, interpolateEquidistant(0.9, 1, 3, yD));
+
+	// value out of range, return lower bound
+	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
 }
 
 TEST(NucleusId, crpropaScheme) {
+	// test conversion to and from the CRPropa2 naming scheme
 	EXPECT_EQ(getNucleusId(56, 26), convertFromCRPropaId(26056));
 	EXPECT_EQ(26056, convertToCRPropaId(getNucleusId(56, 26)));
 }

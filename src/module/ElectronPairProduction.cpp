@@ -58,14 +58,14 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	double A = candidate->current.getMassNumber();
 	double E = candidate->current.getEnergy();
 	double z = candidate->getRedshift();
-
 	double EpA = E / A * (1 + z);
+
 	if (EpA < energy.front())
 		return;
 
 	double rate;
 	if (EpA < energy.back())
-		rate = interpolate(EpA, &energy[0], &lossRate[0]);
+		rate = interpolate(EpA, energy, lossRate);
 	else
 		rate = lossRate.back() * pow(EpA / energy.back(), 0.4); // extrapolation
 

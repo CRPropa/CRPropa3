@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <math.h>
+#include <algorithm>
 
 namespace mpc {
 
@@ -52,19 +53,28 @@ std::string getDataPath(std::string filename) {
 	return concat_path(dataPath, filename);
 }
 
-double interpolate(const double x, const double *xD, const double *yD) {
-	size_t i = 0;
-	while (x > xD[i])
-		i++;
-	i--;
-	return yD[i] + (x - xD[i]) * (yD[i + 1] - yD[i]) / (xD[i + 1] - xD[i]);
+double interpolate(double x, const std::vector<double> &X,
+		const std::vector<double> &Y) {
+	std::vector<double>::const_iterator it = std::upper_bound(X.begin(), X.end(), x);
+	if (it == X.begin())
+		return Y.front();
+	if (it == X.end())
+		return Y.back();
+
+	size_t i = it - X.begin() - 1;
+	return Y[i] + (x - X[i]) * (Y[i + 1] - Y[i]) / (X[i + 1] - X[i]);
 }
 
-double interpolateEquidistant(const double x, const double xLo, const double dx,
-		const double *yD) {
-	double p = (x - xLo) / dx;
-	size_t i = (size_t) floor(p);
-	return yD[i] + (p - i) * (yD[i + 1] - yD[i]);
+double interpolateEquidistant(double x, double lo, double hi, const std::vector<double> &Y) {
+	if (x <= lo)
+		return Y.front();
+	if (x >= hi)
+		return Y.back();
+
+	double dx = (hi - lo) / (Y.size() - 1);
+	double p = (x - lo) / dx;
+	size_t i = floor(p);
+	return Y[i] + (p - i) * (Y[i + 1] - Y[i]);
 }
 
 } // namespace mpc

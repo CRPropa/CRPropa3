@@ -54,7 +54,7 @@ void PhotoDisintegration::init(std::string filename) {
 		double r = 0;
 		for (size_t i = 0; i < 200; i++) {
 			lineStream >> r;
-			pd.rate[i] = r / Mpc; // disintegration rate in [1/m]
+			pd.rate.push_back(r / Mpc); // disintegration rate in [1/m]
 		}
 
 		pdTable[Z * 31 + N].push_back(pd);
@@ -86,7 +86,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 	Random &random = Random::instance();
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < pdModes.size(); i++) {
-		double rate = interpolateEquidistant(lg, 6., 8./200., pdModes[i].rate);
+		double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
 		double d = -log(random.rand()) / rate;
 		if (d > interaction.distance)
 			continue;

@@ -20,7 +20,7 @@ private:
 	int photonField;
 	struct PDMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
-		double rate[200]; // disintegration rate [1/m]
+		std::vector<double> rate; // disintegration rate [1/m]
 	};
 	std::vector<std::vector<PDMode> > pdTable; // pdTable[Z * 31 + N] = vector<PDmode>
 

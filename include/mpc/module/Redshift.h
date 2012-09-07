@@ -33,13 +33,25 @@ public:
  */
 class Redshift : public Module {
 private:
-	double H0; // Hubble constant, H0 = h * 100 km/s/Mpc
+	double H0; // Hubble rate at z=0 in [1/s], H0 = h * 100 km/s/Mpc
 	double omegaM; // density parameter
 	double omegaL; // vacuum energy parameter
 
+	static const int n = 1000;
+	static const double zmin = 0.0001;
+	static const double zmax = 100;
+
+	std::vector<double> Z; // redshift
+	std::vector<double> D; // comoving distance [m]
+
 public:
 	Redshift(double h = 0.7, double omegaM = 0.3, double omegaL = 0.7);
+	void init();
+	double getRedshift(double distance) const;
+	double getHubbleRate(double redshift) const;
+	double getDistance(double redshift) const;
 	void process(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 } // namespace mpc

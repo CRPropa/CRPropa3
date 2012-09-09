@@ -1,3 +1,5 @@
+/** Unit tests for break condition and observer modules */
+
 #include "mpc/module/BreakCondition.h"
 #include "mpc/module/Boundary.h"
 #include "mpc/module/Observer.h"
@@ -7,36 +9,46 @@
 
 namespace mpc {
 
-TEST(MinimumEnergy, above) {
+TEST(MinimumEnergy, test) {
 	MinimumEnergy minEnergy(5);
 	Candidate c;
+
 	c.current.setEnergy(5.1);
 	minEnergy.process(&c);
 	EXPECT_TRUE(c.isActive());
-}
 
-TEST(MinimumEnergy, below) {
-	MinimumEnergy minEnergy(5);
-	Candidate c;
 	c.current.setEnergy(4.9);
 	minEnergy.process(&c);
 	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Deactivated"));
 }
 
-TEST(MaximumTrajectoryLength, above) {
+TEST(MaximumTrajectoryLength, test) {
 	MaximumTrajectoryLength maxLength(10);
 	Candidate c;
+
 	c.setTrajectoryLength(9.9);
 	maxLength.process(&c);
 	EXPECT_TRUE(c.isActive());
-}
 
-TEST(MaximumTrajectoryLength, below) {
-	MaximumTrajectoryLength maxLength(10);
-	Candidate c;
 	c.setTrajectoryLength(10.1);
 	maxLength.process(&c);
 	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Deactivated"));
+}
+
+TEST(MinimumRedshift, test) {
+	MinimumRedshift minZ; // default minimum redshift of 0
+	Candidate c;
+
+	c.setRedshift(0.1);
+	minZ.process(&c);
+	EXPECT_TRUE(c.isActive());
+
+	c.setRedshift(0);
+	minZ.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Deactivated"));
 }
 
 TEST(SmallObserverSphere, outside) {

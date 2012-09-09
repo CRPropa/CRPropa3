@@ -7,7 +7,7 @@ namespace mpc {
 
 /**
  @class MaximumTrajectoryLength
- @brief Stops propagation after a maximum trajectory length.
+ @brief Deactivates the candidate beyond a maximum trajectory length
 
  This modules deactivates the candidate at a given maximum trajectory length.
  In that case the property ("Deactivated", module::description) is set.
@@ -16,32 +16,51 @@ namespace mpc {
 class MaximumTrajectoryLength: public Module {
 private:
 	double maxLength;
-	void updateDescription();
 
 public:
 	MaximumTrajectoryLength(double length = 0);
 	void setMaximumTrajectoryLength(double length);
 	double getMaximumTrajectoryLength() const;
 	void process(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
  @class MinimumEnergy
- @brief Stops propagation if energy drops under the set minimum energy.
+ @brief Deactivates the candidate below a minimum energy
 
- This modules deactivates the candidate below a give minimum energy.
+ This modules deactivates the candidate below a given minimum energy.
  In that case the property ("Deactivated", module::description) is set.
  */
 class MinimumEnergy: public Module {
 private:
 	double minEnergy;
-	void updateDescription();
 
 public:
 	MinimumEnergy(double minEnergy = 0);
 	void setMinimumEnergy(double energy);
 	double getMinimumEnergy() const;
 	void process(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+/**
+ @class MinimumRedshift
+ @brief Deactivates the candidate below a minimum redshift
+
+ This modules deactivates the candidate below a given minimum redshift.
+ In that case the property ("Deactivated", module::description) is set.
+ */
+class MinimumRedshift: public Module {
+private:
+	double zmin;
+
+public:
+	MinimumRedshift(double zmin = 0);
+	void setMinimumRedshift(double z);
+	double getMinimumRedshift();
+	void process(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 } // namespace mpc

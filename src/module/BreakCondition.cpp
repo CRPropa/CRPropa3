@@ -6,12 +6,10 @@ namespace mpc {
 
 MaximumTrajectoryLength::MaximumTrajectoryLength(double maxLength) {
 	this->maxLength = maxLength;
-	updateDescription();
 }
 
 void MaximumTrajectoryLength::setMaximumTrajectoryLength(double length) {
 	maxLength = length;
-	updateDescription();
 }
 
 double MaximumTrajectoryLength::getMaximumTrajectoryLength() const {
@@ -28,20 +26,18 @@ void MaximumTrajectoryLength::process(Candidate *c) const {
 	}
 }
 
-void MaximumTrajectoryLength::updateDescription() {
+std::string MaximumTrajectoryLength::getDescription() const {
 	std::stringstream s;
 	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc";
-	setDescription(s.str());
+	return s.str();
 }
 
 MinimumEnergy::MinimumEnergy(double minEnergy) {
 	this->minEnergy = minEnergy;
-	updateDescription();
 }
 
 void MinimumEnergy::setMinimumEnergy(double energy) {
 	minEnergy = energy;
-	updateDescription();
 }
 
 double MinimumEnergy::getMinimumEnergy() const {
@@ -55,10 +51,36 @@ void MinimumEnergy::process(Candidate *c) const {
 	}
 }
 
-void MinimumEnergy::updateDescription() {
+std::string MinimumEnergy::getDescription() const {
 	std::stringstream s;
 	s << "Minimum energy: " << minEnergy / EeV << " EeV";
-	setDescription(s.str());
+	return s.str();
+}
+
+MinimumRedshift::MinimumRedshift(double z) :
+		zmin(z) {
+}
+
+void MinimumRedshift::setMinimumRedshift(double z) {
+	zmin = z;
+}
+
+double MinimumRedshift::getMinimumRedshift() {
+	return zmin;
+}
+
+void MinimumRedshift::process(Candidate* c) const {
+	double z = c->getRedshift();
+	if (z <= zmin) {
+		c->setActive(false);
+		c->setProperty("Deactivated", getDescription());
+	}
+}
+
+std::string MinimumRedshift::getDescription() const {
+	std::stringstream s;
+	s << "Minimum redshift: " << zmin;
+	return s.str();
 }
 
 } // namespace mpc

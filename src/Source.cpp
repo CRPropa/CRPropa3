@@ -241,10 +241,20 @@ void SourceEmissionCone::prepare(ParticleState &particle) const {
 	particle.setDirection(random.randConeVector(direction, aperture));
 }
 
-SourceRedshift::SourceRedshift(double z) : z(z) {
+SourceRedshift::SourceRedshift(double z) :
+		z(z) {
 }
 
 void SourceRedshift::prepare(Candidate &candidate) const {
+	candidate.setRedshift(z);
+}
+
+SourceUniformRedshift::SourceUniformRedshift(double zmin, double zmax) :
+		zmin(zmin), zmax(zmax) {
+}
+
+void SourceUniformRedshift::prepare(Candidate &candidate) const {
+	double z = Random::instance().randUniform(zmin, zmax);
 	candidate.setRedshift(z);
 }
 

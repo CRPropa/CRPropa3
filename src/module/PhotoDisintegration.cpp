@@ -16,11 +16,11 @@ void PhotoDisintegration::init(int photonField) {
 	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
-		setDescription("PhotoDisintegration:CMB");
+		setDescription("PhotoDisintegration: CMB");
 		init(getDataPath("PhotoDisintegration/PDtable_CMB.txt"));
 		break;
 	case IRB:
-		setDescription("PhotoDisintegration:IRB");
+		setDescription("PhotoDisintegration: IRB");
 		init(getDataPath("PhotoDisintegration/PDtable_IRB.txt"));
 		break;
 	default:

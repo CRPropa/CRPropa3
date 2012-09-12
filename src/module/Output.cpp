@@ -11,8 +11,11 @@ namespace mpc {
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");
 	outfile.open(name.c_str());
-	outfile
-			<< "# Age[Mpc] PDG_Code Energy[EeV] Position(X,Y,Z)[Mpc] Direction(X,Y,Z)\n";
+	outfile << "# Age[Mpc]\t";
+	outfile << "PDG_Code\t";
+	outfile << "Energy[EeV]\t";
+	outfile << "Position(X,Y,Z)[Mpc]\t";
+	outfile << "Direction(X,Y,Z)\n";
 }
 
 TrajectoryOutput::~TrajectoryOutput() {
@@ -39,12 +42,20 @@ void TrajectoryOutput::process(Candidate *c) const {
 
 ConditionalOutput::ConditionalOutput(std::string filename,
 		std::string propName) {
-	setDescription("ConditionalOutput, condition: " + propName);
+	setDescription("Conditional output, condition: '" + propName + "'");
 	removeProperty = false;
 	propertyName = propName;
 	outfile.open(filename.c_str());
-	outfile
-			<< "# PDG_Code Energy[EeV] Position(X,Y,Z)[Mpc] Direction(Phi,Theta) Age[Mpc] Initial_PDG_Code Initial_Energy[EeV] Initial_Position(X,Y,Z)[Mpc] Initial_Direction(Phi,Theta)\n";
+	outfile << "# PDG_Code\t";
+	outfile << "Energy[EeV]\t";
+	outfile << "Position(X,Y,Z)[Mpc]\t";
+	outfile << "Direction(Phi,Theta)\t";
+	outfile << "Age[Mpc]\t";
+	outfile << "Redshift\t";
+	outfile << "Initial_PDG_Code\t";
+	outfile << "Initial_Energy[EeV]\t";
+	outfile << "Initial_Position(X,Y,Z)[Mpc]\t";
+	outfile << "Initial_Direction(Phi,Theta)\n";
 }
 
 ConditionalOutput::~ConditionalOutput() {
@@ -68,6 +79,7 @@ void ConditionalOutput::process(Candidate *c) const {
 		p += sprintf(buffer + p, "%7.4f\t%7.4f\t", dir.getPhi(),
 				dir.getTheta());
 		p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
+		p += sprintf(buffer + p, "%7.4f\t", c->getRedshift());
 		p += sprintf(buffer + p, "%10i\t", c->initial.getId());
 		p += sprintf(buffer + p, "%8.4f\t", c->initial.getEnergy() / EeV);
 		const Vector3d &ipos = c->initial.getPosition() / Mpc;
@@ -91,9 +103,9 @@ void ConditionalOutput::process(Candidate *c) const {
 CRPropa2EventOutput::CRPropa2EventOutput(std::string filename) {
 	setDescription("Event output in CRPropa2 format");
 	outfile.open(filename.c_str());
-	outfile << "#CRPropa - Output data file" << std::endl
-			<< "#Format - Particle_Type Initial_Particle_Type Initial_Position[X,Y,Z](Mpc) Initial_Momentum[E,theta,phi](EeV) Time(Mpc) Position[X,Y,Z](Mpc) Momentum[E,theta,phi](EeV)"
-			<< std::endl;
+	outfile << "#CRPropa - Output data file\n";
+	outfile
+			<< "#Format - Particle_Type Initial_Particle_Type Initial_Position[X,Y,Z](Mpc) Initial_Momentum[E,theta,phi](EeV) Time(Mpc) Position[X,Y,Z](Mpc) Momentum[E,theta,phi](EeV)\n";
 }
 
 CRPropa2EventOutput::~CRPropa2EventOutput() {

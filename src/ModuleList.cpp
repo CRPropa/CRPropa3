@@ -93,6 +93,17 @@ const ModuleList::module_list_t &ModuleList::getModules() const {
 	return modules;
 }
 
+void ModuleList::showModules() const {
+	mpc::ModuleList::module_list_t::const_iterator iEntry;
+
+	iEntry = getModules().begin();
+	while (iEntry != getModules().end()) {
+		const mpc::ref_ptr<mpc::Module> &entry = *iEntry;
+		iEntry++;
+		std::cout << "  " << entry->getDescription() << "\n";
+	}
+}
+
 } // namespace mpc
 
 std::ostream &operator<<(std::ostream &out, const mpc::ModuleList &list) {

@@ -19,11 +19,11 @@ void PhotoPionProduction::init(int photonField) {
 	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
-		setDescription("PhotoPionProduction:CMB");
+		setDescription("PhotoPionProduction: CMB");
 		init(getDataPath("PhotoPionProduction/PPtable_CMB.txt"));
 		break;
 	case IRB:
-		setDescription("PhotoPionProduction:IRB");
+		setDescription("PhotoPionProduction: IRB");
 		init(getDataPath("PhotoPionProduction/PPtable_IRB.txt"));
 		break;
 	default:

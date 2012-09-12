@@ -32,6 +32,8 @@ public:
 	module_list_t &getModules();
 	const module_list_t &getModules() const;
 
+	void showModules() const;
+
 private:
 	module_list_t modules;
 	bool showProgress;

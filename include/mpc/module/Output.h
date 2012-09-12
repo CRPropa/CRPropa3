@@ -37,7 +37,7 @@ class ConditionalOutput: public Module {
 	std::string propertyName;
 	bool removeProperty;
 public:
-	ConditionalOutput(std::string filename, std::string propName);
+	ConditionalOutput(std::string filename, std::string propName = "Detected");
 	~ConditionalOutput();
 	void setRemoveProperty(bool removeProperty);
 	void process(Candidate *candidate) const;
@@ -66,7 +66,6 @@ public:
 	~CRPropa2TrajectoryOutput();
 	void process(Candidate *candidate) const;
 };
-
 
 } // namespace mpc
 

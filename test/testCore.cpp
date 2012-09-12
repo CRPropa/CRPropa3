@@ -1,4 +1,4 @@
-/** Unit test for core features of MPC
+/** Unit tests for core features of MPC
   	Candidate
   	ParticleState
   	Random

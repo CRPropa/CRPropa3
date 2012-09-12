@@ -212,12 +212,23 @@ public:
 
 /**
  @class SourceRedshift
- @brief Single redshift at the time of emission
+ @brief Discrete redshift (time of emission)
  */
 class SourceRedshift: public SourceProperty {
 	double z;
 public:
 	SourceRedshift(double z);
+	void prepare(Candidate &candidate) const;
+};
+
+/**
+ @class SourceUniformRedshift
+ @brief Uniform redshift distribution (time of emission)
+ */
+class SourceUniformRedshift: public SourceProperty {
+	double zmin, zmax;
+public:
+	SourceUniformRedshift(double zmin, double zmax);
 	void prepare(Candidate &candidate) const;
 };
 

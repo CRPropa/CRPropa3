@@ -46,11 +46,12 @@ DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
 }
 
 std::string DeflectionCK::getDescription() const {
-	std::stringstream sstr;
-	sstr
-			<< "Propagation in magnetic fields using the Cash-Karp method. Tolerance: "
-			<< tolerance << ", Minimum Step: " << minStep / kpc << " kpc";
-	return sstr.str();
+	std::stringstream s;
+	s << "Propagation in magnetic fields using the Cash-Karp method.";
+	s << " Tolerance: " << tolerance;
+	s << ", Minimum Step: " << minStep / kpc << " kpc";
+	s << ", Maximum Step: " << maxStep / kpc << " kpc";
+	return s.str();
 }
 
 void DeflectionCK::process(Candidate *candidate) const {

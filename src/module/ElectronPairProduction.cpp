@@ -14,15 +14,15 @@ void ElectronPairProduction::init(int photonField) {
 	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
-		setDescription("ElectronPairProduction:CMB");
+		setDescription("ElectronPairProduction: CMB");
 		init(getDataPath("ElectronPairProduction/cmb.txt"));
 		break;
 	case IRB:
-		setDescription("ElectronPairProduction:IRB");
+		setDescription("ElectronPairProduction: IRB");
 		init(getDataPath("ElectronPairProduction/ir.txt"));
 		break;
 	case CMB_IRB:
-		setDescription("ElectronPairProduction:CMB_IRB");
+		setDescription("ElectronPairProduction: CMB and IRB");
 		init(getDataPath("ElectronPairProduction/cmbir.txt"));
 		break;
 	default:

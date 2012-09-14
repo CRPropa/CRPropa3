@@ -72,21 +72,39 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	interaction.distance = std::numeric_limits<double>::max();
 	Random &random = Random::instance();
 	if (Z > 0) {
-		double rate = interpolate(EpA, energy, pRate) * Z;
-		if (rate > 0) {
-			interaction.distance = -log(random.rand()) / rate;
-			interaction.channel = 1;
+		double rate = interpolate(EpA, energy, pRate);
+		if (rate <= 0)
+			break;
+
+		if (A > 1) {
+			rate *= 0.85;
+			if (A < 8)
+				rate *= pow(Z, 2. / 3.);
+			if (A >= 8)
+				rate *= Z;
 		}
+
+		interaction.distance = -log(random.rand()) / rate;
+		interaction.channel = 1;
 	}
 	// check for interaction on neutrons
 	if (N > 0) {
-		double rate = interpolate(EpA, energy, nRate) * N;
-		if (rate > 0) {
-			double d = -log(random.rand()) / rate;
-			if (d < interaction.distance) {
-				interaction.distance = -log(random.rand()) / rate;
-				interaction.channel = 0;
-			}
+		double rate = interpolate(EpA, energy, nRate);
+		if (rate <= 0)
+			break;
+
+		if (A > 1) {
+			rate *= 0.85;
+			if (A < 8)
+				rate *= pow(N, 2. / 3.);
+			if (A >= 8)
+				rate *= N;
+		}
+
+		double d = -log(random.rand()) / rate;
+		if (d < interaction.distance) {
+			interaction.distance = -log(random.rand()) / rate;
+			interaction.channel = 0;
 		}
 	}
 
@@ -156,15 +174,16 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	int particleList[2000]; // particle id list
 	int nParticles; // number of outgoing particles
 	double redshift = candidate->getRedshift();
+
 	int background; // Photon background: 1 for CMB, 2 for Kneiske IRB
-	switch (photonField) {
-	case CMB:
+	if (photonField == CMB)
 		background = 1;
-		break;
-	case IRB:
+	else if (photonField == IRB)
 		background = 2;
-		break;
-	}
+	else
+		throw std::runtime_error(
+				"SophiaPhotoPionProduction: Only CMB an IRB provided");
+
 	double maxRedshift = 100; // IR photon density is zero above this redshift
 	int dummy1;
 	double dummy2[2];

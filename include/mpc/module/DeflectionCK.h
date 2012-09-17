@@ -22,11 +22,16 @@ class DeflectionCK: public Module {
 	ref_ptr<MagneticField> field;
 	ExplicitRungeKutta<PhasePoint> erk;
 	double tolerance;
-	double minStep, maxStep;
+	double minStep;
+	double maxStep;
 
 public:
-	DeflectionCK(ref_ptr<MagneticField> field, double tolerance = 1e-4,
+	DeflectionCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
 			double minStep = 0.1 * kpc, double maxStep = 4000 * Mpc);
+	void setField(ref_ptr<MagneticField> field);
+	void setTolerance(double tolerance);
+	void setMinimumStep(double minStep);
+	void setMaximumStep(double maxStep);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

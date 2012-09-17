@@ -37,12 +37,25 @@ public:
 };
 
 DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
-		double minStep, double maxStep) {
-	this->field = field;
-	this->tolerance = tolerance;
-	this->minStep = minStep;
-	this->maxStep = maxStep;
+		double minStep, double maxStep) :
+		field(field), tolerance(tolerance), minStep(minStep), maxStep(maxStep) {
 	erk.loadCashKarp();
+}
+
+void DeflectionCK::setField(ref_ptr<MagneticField> f) {
+	field = f;
+}
+
+void DeflectionCK::setTolerance(double t) {
+	tolerance = t;
+}
+
+void DeflectionCK::setMinimumStep(double s) {
+	minStep = s;
+}
+
+void DeflectionCK::setMaximumStep(double s) {
+	maxStep = s;
 }
 
 std::string DeflectionCK::getDescription() const {

@@ -17,11 +17,14 @@ class PeriodicBox: public Module {
 private:
 	Vector3d origin;
 	Vector3d size;
-	void updateDescription();
 
 public:
+	PeriodicBox();
 	PeriodicBox(Vector3d origin, Vector3d size);
 	void process(Candidate *candidate) const;
+	void setOrigin(Vector3d origin);
+	void setSize(Vector3d size);
+	std::string getDescription() const;
 };
 
 /**
@@ -36,11 +39,14 @@ class ReflectiveBox: public Module {
 private:
 	Vector3d origin;
 	Vector3d size;
-	void updateDescription();
 
 public:
+	ReflectiveBox();
 	ReflectiveBox(Vector3d origin, Vector3d size);
 	void process(Candidate *candidate) const;
+	void setOrigin(Vector3d origin);
+	void setSize(Vector3d size);
+	std::string getDescription() const;
 };
 
 /**
@@ -59,13 +65,17 @@ private:
 	std::string flag;
 	std::string flagValue;
 	bool limitStep;
-	void updateDescription();
 
 public:
-	CubicBoundary(Vector3d origin, double size,
-			std::string flag = "OutOfBounds", std::string flagValue = "");
-	void setLimitStep(bool limitStep, double margin);
+	CubicBoundary();
+	CubicBoundary(Vector3d origin, double size);
 	void process(Candidate *candidate) const;
+	void setOrigin(Vector3d origin);
+	void setSize(double size);
+	void setMargin(double margin);
+	void setLimitStep(bool limitStep);
+	void setFlag(std::string flag, std::string flagValue);
+	std::string getDescription() const;
 };
 
 /**
@@ -84,13 +94,17 @@ private:
 	std::string flag;
 	std::string flagValue;
 	bool limitStep;
-	void updateDescription();
 
 public:
-	SphericalBoundary(Vector3d center, double radius, std::string flag =
-			"OutOfBounds", std::string flagValue = "");
-	void setLimitStep(bool limitStep, double margin);
+	SphericalBoundary();
+	SphericalBoundary(Vector3d center, double radius);
 	void process(Candidate *candidate) const;
+	void setCenter(Vector3d center);
+	void setRadius(double size);
+	void setMargin(double margin);
+	void setLimitStep(bool limitStep);
+	void setFlag(std::string flag, std::string flagValue);
+	std::string getDescription() const;
 };
 
 /**
@@ -110,14 +124,18 @@ private:
 	std::string flag;
 	std::string flagValue;
 	bool limitStep;
-	void updateDescription();
 
 public:
+	EllipsoidalBoundary();
 	EllipsoidalBoundary(Vector3d focalPoint1, Vector3d focalPoint2,
-			double majorAxis, std::string flag = "OutOfBounds",
-			std::string flagValue = "");
-	void setLimitStep(bool limitStep, double margin);
+			double majorAxis);
 	void process(Candidate *candidate) const;
+	void setFocalPoints(Vector3d focalPoint1, Vector3d focalPoint2);
+	void setMajorAxis(double size);
+	void setMargin(double margin);
+	void setLimitStep(bool limitStep);
+	void setFlag(std::string flag, std::string flagValue);
+	std::string getDescription() const;
 };
 
 } // namespace mpc

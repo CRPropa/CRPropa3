@@ -11,32 +11,31 @@
 
 namespace mpc {
 
-PhotoPionProduction::PhotoPionProduction(int photonField) {
-	init(photonField);
+PhotoPionProduction::PhotoPionProduction(int p) :
+		photonField(p) {
+	init();
 }
 
-void PhotoPionProduction::init(int photonField) {
-	this->photonField = photonField;
-	switch (photonField) {
-	case CMB:
-		setDescription("PhotoPionProduction: CMB");
+void PhotoPionProduction::setPhotonField(int p) {
+	photonField = p;
+	init();
+}
+
+void PhotoPionProduction::init() {
+	if (photonField == CMB)
 		init(getDataPath("PhotoPionProduction/PPtable_CMB.txt"));
-		break;
-	case IRB:
-		setDescription("PhotoPionProduction: IRB");
+	else if (photonField == IRB)
 		init(getDataPath("PhotoPionProduction/PPtable_IRB.txt"));
-		break;
-	default:
+	else
 		throw std::runtime_error(
-				"mpc::PhotoPionProduction: only CMB or IRB possible as photon background");
-	}
+				"PhotoPionProduction: only CMB / IRB possible");
 }
 
 void PhotoPionProduction::init(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
-				"mpc::PhotoPionProduction: could not open file " + filename);
+				"PhotoPionProduction: could not open file " + filename);
 
 	while (infile.good()) {
 		if (infile.peek() != '#') {
@@ -52,6 +51,10 @@ void PhotoPionProduction::init(std::string filename) {
 	}
 
 	infile.close();
+}
+
+std::string PhotoPionProduction::getDescription() const {
+	return "PhotoPionProduction on " + (photonField == CMB)? "CMB" : "IRB";
 }
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
@@ -145,11 +148,21 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 }
 
 SophiaPhotoPionProduction::SophiaPhotoPionProduction(int photonField,
-		bool photonsElectrons, bool neutrinos, bool antiNucleons) :
-		PhotoPionProduction(photonField) {
-	havePhotonsElectrons = photonsElectrons;
-	haveNeutrinos = neutrinos;
-	haveAntiNucleons = antiNucleons;
+		bool photons, bool neutrinos, bool antiNucleons) :
+		PhotoPionProduction(photonField), havePhotons(photons), haveNeutrinos(
+				neutrinos), haveAntiNucleons(antiNucleons) {
+}
+
+void SophiaPhotoPionProduction::setHavePhotons(bool b) {
+	havePhotons = b;
+}
+
+void SophiaPhotoPionProduction::setHaveNeutrinos(bool b) {
+	haveNeutrinos = b;
+}
+
+void SophiaPhotoPionProduction::setHaveAntiNucleons(bool b) {
+	haveAntiNucleons = b;
 }
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
@@ -216,15 +229,15 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 				candidate->addSecondary(-getNucleusId(1, 0), Eout);
 			break;
 		case 1: // photon
-			if (havePhotonsElectrons)
+			if (havePhotons)
 				candidate->addSecondary(22, Eout);
 			break;
 		case 2: // positron
-			if (havePhotonsElectrons)
+			if (havePhotons)
 				candidate->addSecondary(-11, Eout);
 			break;
 		case 3: // electron
-			if (havePhotonsElectrons)
+			if (havePhotons)
 				candidate->addSecondary(11, Eout);
 			break;
 		case 15: // nu_e
@@ -245,10 +258,14 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 			break;
 		default:
 			throw std::runtime_error(
-					"mpc::PhotoPionProduction: unexpected particle "
+					"PhotoPionProduction: unexpected particle "
 							+ kiss::str(pType));
 		}
 	}
+}
+
+std::string SophiaPhotoPionProduction::getDescription() const {
+	return "SophiaPhotoPionProduction on " + (photonField == CMB)? "CMB" : "IRB";
 }
 
 } // namespace mpc

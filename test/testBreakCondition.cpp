@@ -226,7 +226,8 @@ TEST(CubicBoundary, outside) {
 
 TEST(CubicBoundary, limitStepLower) {
 	CubicBoundary cube(Vector3d(10, 10, 10), 10);
-	cube.setLimitStep(true, 1);
+	cube.setLimitStep(true);
+	cube.setMargin(1);
 	Candidate c;
 	c.current.setPosition(Vector3d(15, 15, 10.5));
 	c.setNextStep(100);
@@ -236,7 +237,8 @@ TEST(CubicBoundary, limitStepLower) {
 
 TEST(CubicBoundary, limitStepUpper) {
 	CubicBoundary cube(Vector3d(-10, -10, -10), 10);
-	cube.setLimitStep(true, 1);
+	cube.setLimitStep(true);
+	cube.setMargin(1);
 	Candidate c;
 	c.current.setPosition(Vector3d(-5, -5, -0.5));
 	c.setNextStep(100);
@@ -254,17 +256,19 @@ TEST(SphericalBoundary, inside) {
 }
 
 TEST(SphericalBoundary, outside) {
-	SphericalBoundary sphere(Vector3d(0, 0, 0), 10, "PassedGalacticBorder");
+	SphericalBoundary sphere(Vector3d(0, 0, 0), 10);
+	sphere.setFlag("I passed the galactic border", "Nothing happened");
 	Candidate c;
 	c.current.setPosition(Vector3d(0, -10.1, 0));
 	sphere.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("PassedGalacticBorder"));
+	EXPECT_TRUE(c.hasProperty("I passed the galactic border"));
 }
 
 TEST(SphericalBoundary, limitStep) {
 	SphericalBoundary sphere(Vector3d(0, 0, 0), 10);
-	sphere.setLimitStep(true, 1);
+	sphere.setLimitStep(true);
+	sphere.setMargin(1);
 	Candidate c;
 	c.setNextStep(100);
 	c.current.setPosition(Vector3d(0, 0, 9.5));
@@ -292,7 +296,8 @@ TEST(EllipsoidalBoundary, outside) {
 
 TEST(EllipsoidalBoundary, limitStep) {
 	EllipsoidalBoundary ellipsoid(Vector3d(-5, 0, 0), Vector3d(5, 0, 0), 15);
-	ellipsoid.setLimitStep(true, 0.5);
+	ellipsoid.setLimitStep(true);
+	ellipsoid.setMargin(0.5);
 	Candidate c;
 	c.setNextStep(2);
 	c.current.setPosition(Vector3d(7, 0, 0));

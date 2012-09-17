@@ -1,5 +1,5 @@
-#ifndef ELECTRONPAIRPRODUCTION_H_
-#define ELECTRONPAIRPRODUCTION_H_
+#ifndef MPC_ELECTRONPAIRPRODUCTION_H_
+#define MPC_ELECTRONPAIRPRODUCTION_H_
 
 #include "mpc/Module.h"
 #include "mpc/Common.h"
@@ -21,11 +21,12 @@ private:
 
 public:
 	ElectronPairProduction(int photonField = CMB_IRB);
-	void init(int photonField);
+	void setPhotonField(int photonField);
+	void init();
 	void init(std::string filename);
 	void process(Candidate *candidate) const;
 };
 
 } // namespace mpc
 
-#endif /* ELECTRONPAIRPRODUCTION_H_ */
+#endif /* MPC_ELECTRONPAIRPRODUCTION_H_ */

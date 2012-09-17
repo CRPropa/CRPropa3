@@ -8,10 +8,9 @@
 
 namespace mpc {
 
-NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
+NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
+		haveElectrons(electrons), haveNeutrinos(neutrinos) {
 	setDescription("NuclearDecay");
-	haveElectrons = electrons;
-	haveNeutrinos = neutrinos;
 
 	// load decay table
 	std::string filename = getDataPath("/NuclearDecay/decayTable.txt");
@@ -46,6 +45,14 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) {
 	for (int i = 0; i < 50; i++) {
 		cdfBeta[i] /= cdf;
 	}
+}
+
+void NuclearDecay::setHaveElectrons(bool b) {
+	haveElectrons = b;
+}
+
+void NuclearDecay::setHaveNeutrinos(bool b) {
+	haveNeutrinos = b;
 }
 
 bool NuclearDecay::setNextInteraction(Candidate *candidate,

@@ -6,12 +6,17 @@
 
 namespace mpc {
 
-ElectronPairProduction::ElectronPairProduction(int photonField) {
-	init(photonField);
+ElectronPairProduction::ElectronPairProduction(int p) :
+		photonField(p) {
+	init();
 }
 
-void ElectronPairProduction::init(int photonField) {
-	this->photonField = photonField;
+void ElectronPairProduction::setPhotonField(int p) {
+	photonField = p;
+	init();
+}
+
+void ElectronPairProduction::init() {
 	switch (photonField) {
 	case CMB:
 		setDescription("ElectronPairProduction: CMB");
@@ -27,7 +32,7 @@ void ElectronPairProduction::init(int photonField) {
 		break;
 	default:
 		throw std::runtime_error(
-				"mpc::ElectronPairProduction: unknown photon background");
+				"ElectronPairProduction: unknown photon background");
 	}
 }
 
@@ -37,7 +42,7 @@ void ElectronPairProduction::init(std::string filename) {
 
 	if (!infile.good())
 		throw std::runtime_error(
-				"mpc::ElectronPairProduction: could not open file " + filename);
+				"ElectronPairProduction: could not open file " + filename);
 
 	std::vector<double> x, y;
 	while (infile.good()) {
@@ -69,7 +74,7 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	else
 		rate = lossRate.back() * pow(EpA / energy.back(), 0.4); // extrapolation
 
-	// step size in local frame
+		// step size in local frame
 	double step = candidate->getCurrentStep() / (1 + z);
 	double Z = candidate->current.getChargeNumber();
 

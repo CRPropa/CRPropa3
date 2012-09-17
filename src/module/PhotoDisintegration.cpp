@@ -94,9 +94,9 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 		interaction.channel = pdModes[i].channel;
 	}
 
-	// CMB density increases with (1+z)^3 -> free distance decreases accordingly
-	interaction.distance /= pow((1 + z), 3);
-	// convert to cosmological comoving units
+	// interaction length is proportional to 1 / (photon density)
+	interaction.distance /= photonFieldScaling(photonField, z);
+	// convert to comoving frame
 	interaction.distance *= (1 + z);
 
 	candidate->setInteractionState(getDescription(), interaction);

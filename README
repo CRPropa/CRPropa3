@@ -1,16 +1,23 @@
-Installation from source
+Install from source
 ------------------------
 MPC is configured using CMAKE - for more information see www.cmake.org
 1) $cd build
 2) $cmake .. (or $ccmake ..)
 3) $make
 4) $make test (to run all unit tests)
-5) Set the data path MPC_DATA_PATH=[path to mpc/data]
+5) Set the data path
+	export MPC_DATA_PATH=[path to mpc/data]
 6) Retrieve additional data files from https://forge.physik.rwth-aachen.de/projects/mpc/files
-	The photo-disintegration tables PDtable_XXX.txt have to be copied to mpc/data/PhotoDisintegration 
-
+	The photo-disintegration tables PDtable_XXX.txt have to be copied to mpc/data/PhotoDisintegration
+	
 Notes for Intel Compiler:
   -DCMAKE_SHARED_LINKER_FLAGS="-lifcore" -DCMAKE_Fortran_COMPILER=ifort
+
+
+Install with Python bindings
+----------------------------
+To use mpc via python the CMAKE flag ENABLEPYTHON needs to be set to True.
+Additionally the path to mpc.py needs to be added to PYTHONPATH
 
 
 Dependencies

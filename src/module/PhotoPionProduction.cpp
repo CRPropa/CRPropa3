@@ -68,43 +68,40 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		return false;
 
 	// find interaction with minimum random distance
-	// check for interaction on protons
 	interaction.distance = std::numeric_limits<double>::max();
 	Random &random = Random::instance();
+
+	// check for interaction on protons
 	if (Z > 0) {
 		double rate = interpolate(EpA, energy, pRate);
-		if (rate <= 0)
-			break;
-
-		if (A > 1) {
-			rate *= 0.85;
-			if (A < 8)
-				rate *= pow(Z, 2. / 3.);
-			if (A >= 8)
-				rate *= Z;
+		if (rate > 0) {
+			if (A > 1) {
+				if (A < 8)
+					rate *= 0.85 * pow(Z, 2. / 3.);
+				if (A >= 8)
+					rate *= 0.85 * Z;
+			}
+			interaction.distance = -log(random.rand()) / rate;
+			interaction.channel = 1;
 		}
-
-		interaction.distance = -log(random.rand()) / rate;
-		interaction.channel = 1;
 	}
+
 	// check for interaction on neutrons
 	if (N > 0) {
 		double rate = interpolate(EpA, energy, nRate);
-		if (rate <= 0)
-			break;
+		if (rate > 0) {
+			if (A > 1) {
+				if (A < 8)
+					rate *= 0.85 * pow(N, 2. / 3.);
+				if (A >= 8)
+					rate *= 0.85 * N;
+			}
 
-		if (A > 1) {
-			rate *= 0.85;
-			if (A < 8)
-				rate *= pow(N, 2. / 3.);
-			if (A >= 8)
-				rate *= N;
-		}
-
-		double d = -log(random.rand()) / rate;
-		if (d < interaction.distance) {
-			interaction.distance = -log(random.rand()) / rate;
-			interaction.channel = 0;
+			double d = -log(random.rand()) / rate;
+			if (d < interaction.distance) {
+				interaction.distance = -log(random.rand()) / rate;
+				interaction.channel = 0;
+			}
 		}
 	}
 

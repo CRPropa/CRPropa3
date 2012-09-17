@@ -20,7 +20,7 @@ void SmallObserverSphere::process(Candidate *c) const {
 				c->setActive(false);
 		}
 	}
-	c->limitNextStep((d - radius));
+	c->limitNextStep(fabs(d - radius));
 }
 
 void SmallObserverSphere::updateDescription() {
@@ -47,7 +47,7 @@ void LargeObserverSphere::process(Candidate *c) const {
 				c->setActive(false);
 		}
 	}
-	c->limitNextStep((radius - d));
+	c->limitNextStep(fabs(radius - d));
 }
 
 void LargeObserverSphere::updateDescription() {

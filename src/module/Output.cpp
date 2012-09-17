@@ -41,9 +41,9 @@ void TrajectoryOutput::process(Candidate *c) const {
 }
 
 ConditionalOutput::ConditionalOutput(std::string filename,
-		std::string propName) {
+		std::string propName, bool b) {
 	setDescription("Conditional output, condition: '" + propName + "'");
-	removeProperty = false;
+	removeProperty = b;
 	propertyName = propName;
 	outfile.open(filename.c_str());
 	outfile << "# PDG_Code\t";

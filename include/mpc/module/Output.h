@@ -37,7 +37,7 @@ class ConditionalOutput: public Module {
 	std::string propertyName;
 	bool removeProperty;
 public:
-	ConditionalOutput(std::string filename, std::string propName = "Detected");
+	ConditionalOutput(std::string filename, std::string propName = "Detected", bool removeProperty = false);
 	~ConditionalOutput();
 	void setRemoveProperty(bool removeProperty);
 	void process(Candidate *candidate) const;

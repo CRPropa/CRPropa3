@@ -26,6 +26,8 @@ private:
 
 public:
 	NuclearDecay(bool electrons = false, bool neutrinos = false);
+	void setHaveElectrons(bool b);
+	void setHaveNeutrinos(bool b);
 	bool setNextInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;

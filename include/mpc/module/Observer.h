@@ -20,12 +20,17 @@ private:
 	std::string flag;
 	std::string flagValue;
 	bool makeInactive;
-	void updateDescription();
 
 public:
+	SmallObserverSphere();
 	SmallObserverSphere(Vector3d center, double radius, std::string flag =
 			"Detected", std::string flagValue = "", bool makeInactive = true);
 	void process(Candidate *candidate) const;
+	void setCenter(Vector3d center);
+	void setRadius(double radius);
+	void setFlag(std::string flag, std::string flagValue);
+	void setMakeInactive(bool makeInactive);
+	std::string getDescription() const;
 };
 
 /**
@@ -46,9 +51,15 @@ private:
 	void updateDescription();
 
 public:
+	LargeObserverSphere();
 	LargeObserverSphere(Vector3d center, double radius, std::string flag =
 			"Detected", std::string flagValue = "", bool makeInactive = true);
 	void process(Candidate *candidate) const;
+	void setCenter(Vector3d center);
+	void setRadius(double radius);
+	void setFlag(std::string flag, std::string flagValue);
+	void setMakeInactive(bool makeInactive);
+	std::string getDescription() const;
 };
 
 } // namespace mpc

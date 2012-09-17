@@ -4,9 +4,12 @@
 
 namespace mpc {
 
+PeriodicBox::PeriodicBox() :
+		origin(Vector3d(0, 0, 0)), size(Vector3d(0, 0, 0)) {
+}
+
 PeriodicBox::PeriodicBox(Vector3d o, Vector3d s) :
 		origin(o), size(s) {
-	updateDescription();
 }
 
 void PeriodicBox::process(Candidate *c) const {
@@ -21,16 +24,26 @@ void PeriodicBox::process(Candidate *c) const {
 	c->initial.setPosition(c->initial.getPosition() - n * size);
 }
 
-void PeriodicBox::updateDescription() {
+void PeriodicBox::setOrigin(Vector3d o) {
+	origin = o;
+}
+void PeriodicBox::setSize(Vector3d s) {
+	size = s;
+}
+
+std::string PeriodicBox::getDescription() const {
 	std::stringstream s;
 	s << "Periodic box: origin " << origin / Mpc << "Mpc, ";
 	s << "size " << size / Mpc << " Mpc";
-	setDescription(s.str());
+	return s.str();
+}
+
+ReflectiveBox::ReflectiveBox() :
+		origin(Vector3d(0, 0, 0)), size(Vector3d(0, 0, 0)) {
 }
 
 ReflectiveBox::ReflectiveBox(Vector3d o, Vector3d s) :
 		origin(o), size(s) {
-	updateDescription();
 }
 
 void ReflectiveBox::process(Candidate *c) const {
@@ -74,22 +87,28 @@ void ReflectiveBox::process(Candidate *c) const {
 	c->previous.setPosition(prv * size + origin);
 }
 
-void ReflectiveBox::updateDescription() {
+void ReflectiveBox::setOrigin(Vector3d o) {
+	origin = o;
+}
+void ReflectiveBox::setSize(Vector3d s) {
+	size = s;
+}
+
+std::string ReflectiveBox::getDescription() const {
 	std::stringstream s;
 	s << "Reflective box: origin " << origin / Mpc << "Mpc, ";
 	s << "size " << size / Mpc << " Mpc";
-	setDescription(s.str());
+	return s.str();
 }
 
-CubicBoundary::CubicBoundary(Vector3d o, double s, std::string f, std::string v) :
-		origin(o), size(s), margin(0), flag(f), flagValue(v), limitStep(false) {
-	updateDescription();
+CubicBoundary::CubicBoundary() :
+		origin(Vector3d(0, 0, 0)), size(0), margin(0), flag("OutOfBounds"), flagValue(
+				""), limitStep(false) {
 }
 
-void CubicBoundary::setLimitStep(bool limitStep, double margin) {
-	this->limitStep = limitStep;
-	this->margin = margin;
-	updateDescription();
+CubicBoundary::CubicBoundary(Vector3d o, double s) :
+		origin(o), size(s), margin(0), flag("OutOfBounds"), flagValue(""), limitStep(
+				false) {
 }
 
 void CubicBoundary::process(Candidate *c) const {
@@ -106,24 +125,39 @@ void CubicBoundary::process(Candidate *c) const {
 	}
 }
 
-void CubicBoundary::updateDescription() {
+void CubicBoundary::setOrigin(Vector3d o) {
+	origin = o;
+}
+void CubicBoundary::setSize(double s) {
+	size = s;
+}
+void CubicBoundary::setMargin(double m) {
+	margin = m;
+}
+void CubicBoundary::setLimitStep(bool b) {
+	limitStep = b;
+}
+void CubicBoundary::setFlag(std::string f, std::string v) {
+	flag = f;
+	flagValue = v;
+}
+
+std::string CubicBoundary::getDescription() const {
 	std::stringstream s;
 	s << "Cubic Boundary: origin " << origin / Mpc << " Mpc, ";
 	s << "size " << size / Mpc << " Mpc; ";
 	s << "Flag: " << flag << " -> " << flagValue;
-	setDescription(s.str());
+	return s.str();
 }
 
-SphericalBoundary::SphericalBoundary(Vector3d c, double r, std::string f,
-		std::string v) :
-		center(c), radius(r), flag(f), flagValue(v), limitStep(false), margin(0) {
-	updateDescription();
+SphericalBoundary::SphericalBoundary() :
+		center(Vector3d(0, 0, 0)), radius(0), flag("OutOfBounds"), flagValue(
+				""), limitStep(false), margin(0) {
 }
 
-void SphericalBoundary::setLimitStep(bool limitStep, double margin) {
-	this->limitStep = limitStep;
-	this->margin = margin;
-	updateDescription();
+SphericalBoundary::SphericalBoundary(Vector3d c, double r) :
+		center(c), radius(r), flag("OutOfBounds"), flagValue(""), limitStep(
+				false), margin(0) {
 }
 
 void SphericalBoundary::process(Candidate *c) const {
@@ -136,24 +170,40 @@ void SphericalBoundary::process(Candidate *c) const {
 		c->limitNextStep(radius - d + margin);
 }
 
-void SphericalBoundary::updateDescription() {
+void SphericalBoundary::setCenter(Vector3d c) {
+	center = c;
+}
+void SphericalBoundary::setRadius(double r) {
+	radius = r;
+}
+void SphericalBoundary::setMargin(double m) {
+	margin = m;
+}
+void SphericalBoundary::setLimitStep(bool b) {
+	limitStep = b;
+}
+void SphericalBoundary::setFlag(std::string f, std::string v) {
+	flag = f;
+	flagValue = v;
+}
+
+std::string SphericalBoundary::getDescription() const {
 	std::stringstream s;
 	s << "Spherical Boundary: radius " << radius / Mpc << " Mpc ";
 	s << "around " << center / Mpc << " Mpc; ";
 	s << "Flag: " << flag << " -> " << flagValue;
-	setDescription(s.str());
+	return s.str();
 }
 
-EllipsoidalBoundary::EllipsoidalBoundary(Vector3d f1,
-		Vector3d f2, double a, std::string f,
-		std::string v) : focalPoint1(f1), focalPoint2(f2), majorAxis(a), flag(f), flagValue(v), limitStep(false), margin(0) {
-	updateDescription();
+EllipsoidalBoundary::EllipsoidalBoundary() :
+		focalPoint1(Vector3d(0, 0, 0)), focalPoint2(Vector3d(0, 0, 0)), majorAxis(
+				0), flag("OutOfBounds"), flagValue(""), limitStep(false), margin(
+				0) {
 }
 
-void EllipsoidalBoundary::setLimitStep(bool limitStep, double margin) {
-	this->limitStep = limitStep;
-	this->margin = margin;
-	updateDescription();
+EllipsoidalBoundary::EllipsoidalBoundary(Vector3d f1, Vector3d f2, double a) :
+		focalPoint1(f1), focalPoint2(f2), majorAxis(a), flag("OutOfBounds"), flagValue(
+				""), limitStep(false), margin(0) {
 }
 
 void EllipsoidalBoundary::process(Candidate *c) const {
@@ -167,13 +217,31 @@ void EllipsoidalBoundary::process(Candidate *c) const {
 		c->limitNextStep(majorAxis - d + margin);
 }
 
-void EllipsoidalBoundary::updateDescription() {
+void EllipsoidalBoundary::setFocalPoints(Vector3d f1, Vector3d f2) {
+	focalPoint1 = f1;
+	focalPoint2 = f2;
+}
+void EllipsoidalBoundary::setMajorAxis(double a) {
+	majorAxis = a;
+}
+void EllipsoidalBoundary::setMargin(double m) {
+	margin = m;
+}
+void EllipsoidalBoundary::setLimitStep(bool b) {
+	limitStep = b;
+}
+void EllipsoidalBoundary::setFlag(std::string f, std::string v) {
+	flag = f;
+	flagValue = v;
+}
+
+std::string EllipsoidalBoundary::getDescription() const {
 	std::stringstream s;
 	s << "Ellipsoidal Boundary: F1 = " << focalPoint1 / Mpc << " Mpc, ";
 	s << "F2 = " << focalPoint2 / Mpc << " Mpc, ";
 	s << "major axis " << majorAxis / Mpc << " Mpc; ";
 	s << " Flag: " << flag << " -> " << flagValue;
-	setDescription(s.str());
+	return s.str();
 }
 
 } // namespace mpc

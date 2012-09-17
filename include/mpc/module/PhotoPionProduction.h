@@ -1,5 +1,5 @@
-#ifndef PHOTOPIONPRODUCTION_H_
-#define PHOTOPIONPRODUCTION_H_
+#ifndef MPC_PHOTOPIONPRODUCTION_H_
+#define MPC_PHOTOPIONPRODUCTION_H_
 
 #include "mpc/module/StochasticInteraction.h"
 #include "mpc/Random.h"
@@ -24,11 +24,13 @@ protected:
 
 public:
 	PhotoPionProduction(int photonField = CMB);
-	void init(int photonField);
+	void setPhotonField(int photonField);
+	void init();
 	void init(std::string filename);
 	bool setNextInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -41,16 +43,21 @@ public:
  Electromagnetic particles, neutrinos and antiparticles as secondaries from these interactions can be switched on independently.
  */
 class SophiaPhotoPionProduction: public PhotoPionProduction {
-protected:
-	bool havePhotonsElectrons;
+private:
+	bool havePhotons;
 	bool haveNeutrinos;
 	bool haveAntiNucleons;
+
 public:
-	SophiaPhotoPionProduction(int photonField = CMB, bool photonsElectrons =
-			false, bool neutrinos = false, bool antiNucleons = false);
+	SophiaPhotoPionProduction(int photonField = CMB, bool photons = false,
+			bool neutrinos = false, bool antiNucleons = false);
+	void setHavePhotons(bool b);
+	void setHaveNeutrinos(bool b);
+	void setHaveAntiNucleons(bool b);
 	void performInteraction(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 } // namespace mpc
 
-#endif /* PHOTOPIONPRODUCTION_H_ */
+#endif /* MPC_PHOTOPIONPRODUCTION_H_ */

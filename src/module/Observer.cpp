@@ -4,10 +4,14 @@
 
 namespace mpc {
 
-SmallObserverSphere::SmallObserverSphere(Vector3d c, double r,
-		std::string f, std::string v, bool b) :
+SmallObserverSphere::SmallObserverSphere() :
+		center(Vector3d(0, 0, 0)), radius(0), flag("Detected"), flagValue(""), makeInactive(
+				true) {
+}
+
+SmallObserverSphere::SmallObserverSphere(Vector3d c, double r, std::string f,
+		std::string v, bool b) :
 		center(c), radius(r), flag(f), flagValue(v), makeInactive(b) {
-	updateDescription();
 }
 
 void SmallObserverSphere::process(Candidate *c) const {
@@ -23,18 +27,39 @@ void SmallObserverSphere::process(Candidate *c) const {
 	c->limitNextStep(fabs(d - radius));
 }
 
-void SmallObserverSphere::updateDescription() {
+void SmallObserverSphere::setCenter(Vector3d c) {
+	center = c;
+}
+
+void SmallObserverSphere::setRadius(double r) {
+	radius = r;
+}
+
+void SmallObserverSphere::setFlag(std::string f, std::string v) {
+	flag = f;
+	flagValue = v;
+}
+
+void SmallObserverSphere::setMakeInactive(bool b) {
+	makeInactive = b;
+}
+
+std::string SmallObserverSphere::getDescription() const {
 	std::stringstream s;
 	s << "Small observer sphere: " << radius / Mpc;
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
-	setDescription(s.str());
+	return s.str();
 }
 
-LargeObserverSphere::LargeObserverSphere(Vector3d c, double r,
-		std::string f, std::string v, bool b) :
+LargeObserverSphere::LargeObserverSphere() :
+		center(Vector3d(0, 0, 0)), radius(0), flag("Detected"), flagValue(""), makeInactive(
+				true) {
+}
+
+LargeObserverSphere::LargeObserverSphere(Vector3d c, double r, std::string f,
+		std::string v, bool b) :
 		center(c), radius(r), flag(f), flagValue(v), makeInactive(b) {
-	updateDescription();
 }
 
 void LargeObserverSphere::process(Candidate *c) const {
@@ -50,12 +75,29 @@ void LargeObserverSphere::process(Candidate *c) const {
 	c->limitNextStep(fabs(radius - d));
 }
 
-void LargeObserverSphere::updateDescription() {
+void LargeObserverSphere::setCenter(Vector3d c) {
+	center = c;
+}
+
+void LargeObserverSphere::setRadius(double r) {
+	radius = r;
+}
+
+void LargeObserverSphere::setFlag(std::string f, std::string v) {
+	flag = f;
+	flagValue = v;
+}
+
+void LargeObserverSphere::setMakeInactive(bool b) {
+	makeInactive = b;
+}
+
+std::string LargeObserverSphere::getDescription() const {
 	std::stringstream s;
 	s << "Large observer sphere: " << radius / Mpc;
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
-	setDescription(s.str());
+	return s.str();
 }
 
 } // namespace mpc

@@ -40,10 +40,10 @@ void TrajectoryOutput::process(Candidate *c) const {
 	}
 }
 
-ConditionalOutput::ConditionalOutput(std::string filename,
-		std::string propName, bool b) {
+ConditionalOutput::ConditionalOutput(std::string filename, std::string propName,
+		bool removeProperty, bool showRedshift) :
+		removeProperty(removeProperty), showRedshift(showRedshift) {
 	setDescription("Conditional output, condition: '" + propName + "'");
-	removeProperty = b;
 	propertyName = propName;
 	outfile.open(filename.c_str());
 	outfile << "# PDG_Code\t";
@@ -51,7 +51,7 @@ ConditionalOutput::ConditionalOutput(std::string filename,
 	outfile << "Position(X,Y,Z)[Mpc]\t";
 	outfile << "Direction(Phi,Theta)\t";
 	outfile << "Age[Mpc]\t";
-	outfile << "Redshift\t";
+	outfile << "(Redshift)\t";
 	outfile << "Initial_PDG_Code\t";
 	outfile << "Initial_Energy[EeV]\t";
 	outfile << "Initial_Position(X,Y,Z)[Mpc]\t";
@@ -62,8 +62,12 @@ ConditionalOutput::~ConditionalOutput() {
 	outfile.close();
 }
 
-void ConditionalOutput::setRemoveProperty(bool removeProperty) {
-	this->removeProperty = removeProperty;
+void ConditionalOutput::setRemoveProperty(bool b) {
+	removeProperty = b;
+}
+
+void ConditionalOutput::setShowRedshift(bool b) {
+	showRedshift = b;
 }
 
 void ConditionalOutput::process(Candidate *c) const {
@@ -79,7 +83,10 @@ void ConditionalOutput::process(Candidate *c) const {
 		p += sprintf(buffer + p, "%7.4f\t%7.4f\t", dir.getPhi(),
 				dir.getTheta());
 		p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
-		p += sprintf(buffer + p, "%7.4f\t", c->getRedshift());
+
+		if (showRedshift)
+			p += sprintf(buffer + p, "%7.4f\t", c->getRedshift());
+
 		p += sprintf(buffer + p, "%10i\t", c->initial.getId());
 		p += sprintf(buffer + p, "%8.4f\t", c->initial.getEnergy() / EeV);
 		const Vector3d &ipos = c->initial.getPosition() / Mpc;

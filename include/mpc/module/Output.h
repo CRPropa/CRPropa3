@@ -36,10 +36,13 @@ class ConditionalOutput: public Module {
 	mutable std::ofstream outfile;
 	std::string propertyName;
 	bool removeProperty;
+	bool showRedshift;
 public:
-	ConditionalOutput(std::string filename, std::string propName = "Detected", bool removeProperty = false);
+	ConditionalOutput(std::string filename, std::string propName = "Detected",
+			bool removeProperty = false, bool showRedshift = false);
 	~ConditionalOutput();
 	void setRemoveProperty(bool removeProperty);
+	void setShowRedshift(bool showRedshift);
 	void process(Candidate *candidate) const;
 };
 

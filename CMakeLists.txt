@@ -73,7 +73,7 @@ if (GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 
 # ----------------------------------------------------------------------------
-# mpc and mpc-run
+# Library and Binary
 # ----------------------------------------------------------------------------
 include_directories(include ${MPC_EXTRA_INCLUDES})
 add_library(mpc SHARED
@@ -112,11 +112,15 @@ target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES})
 add_executable(mpc-run src/main.cpp)
 target_link_libraries(mpc-run mpc)
 
+
+# ----------------------------------------------------------------------------
+# Install
+# ----------------------------------------------------------------------------
 add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS mpc-run RUNTIME DESTINATION bin)
 install(TARGETS mpc DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY data/ DESTINATION share/mpc)
+install(DIRECTORY data/ DESTINATION share/mpc/)
 
 # ----------------------------------------------------------------------------
 # Testing

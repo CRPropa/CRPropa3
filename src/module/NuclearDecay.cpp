@@ -13,7 +13,7 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
 	setDescription("NuclearDecay");
 
 	// load decay table
-	std::string filename = getDataPath("/NuclearDecay/decayTable.txt");
+	std::string filename = getDataPath("nuclear_decay.txt");
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(

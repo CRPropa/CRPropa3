@@ -23,9 +23,9 @@ void PhotoPionProduction::setPhotonField(int p) {
 
 void PhotoPionProduction::init() {
 	if (photonField == CMB)
-		init(getDataPath("PhotoPionProduction/PPtable_CMB.txt"));
+		init(getDataPath("photopion_CMB.txt"));
 	else if (photonField == IRB)
-		init(getDataPath("PhotoPionProduction/PPtable_IRB.txt"));
+		init(getDataPath("photopion_IRB.txt"));
 	else
 		throw std::runtime_error(
 				"PhotoPionProduction: only CMB / IRB possible");

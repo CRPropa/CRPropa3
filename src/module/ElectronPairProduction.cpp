@@ -20,15 +20,15 @@ void ElectronPairProduction::init() {
 	switch (photonField) {
 	case CMB:
 		setDescription("ElectronPairProduction: CMB");
-		init(getDataPath("ElectronPairProduction/cmb.txt"));
+		init(getDataPath("epair_CMB.txt"));
 		break;
 	case IRB:
 		setDescription("ElectronPairProduction: IRB");
-		init(getDataPath("ElectronPairProduction/ir.txt"));
+		init(getDataPath("epair_IRB.txt"));
 		break;
 	case CMB_IRB:
 		setDescription("ElectronPairProduction: CMB and IRB");
-		init(getDataPath("ElectronPairProduction/cmbir.txt"));
+		init(getDataPath("epair_CMB_IRB.txt"));
 		break;
 	default:
 		throw std::runtime_error(

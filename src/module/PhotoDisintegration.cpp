@@ -17,11 +17,11 @@ void PhotoDisintegration::init(int photonField) {
 	switch (photonField) {
 	case CMB:
 		setDescription("PhotoDisintegration: CMB");
-		init(getDataPath("PhotoDisintegration/PDtable_CMB.txt"));
+		init(getDataPath("photodis_CMB.txt"));
 		break;
 	case IRB:
 		setDescription("PhotoDisintegration: IRB");
-		init(getDataPath("PhotoDisintegration/PDtable_IRB.txt"));
+		init(getDataPath("photodis_IRB.txt"));
 		break;
 	default:
 		throw std::runtime_error(

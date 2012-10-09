@@ -51,7 +51,7 @@ struct NuclearMassTable {
 	std::vector<double> table;
 
 	NuclearMassTable() {
-		std::string filename = getDataPath("/NuclearMass/nuclearMassTable.txt");
+		std::string filename = getDataPath("nuclear_mass.txt");
 		std::ifstream infile(filename.c_str());
 
 		if (!infile.good())

@@ -1,14 +1,15 @@
-/** Unit tests for break condition and observer modules */
+/** Unit tests for break condition, observer and boundary modules */
 
 #include "mpc/module/BreakCondition.h"
-#include "mpc/module/Boundary.h"
 #include "mpc/module/Observer.h"
+#include "mpc/module/Boundary.h"
 #include "mpc/Candidate.h"
 
 #include "gtest/gtest.h"
 
 namespace mpc {
 
+//** ========================= Break conditions ============================= */
 TEST(MinimumEnergy, test) {
 	MinimumEnergy minEnergy(5);
 	Candidate c;
@@ -51,6 +52,7 @@ TEST(MinimumRedshift, test) {
 	EXPECT_TRUE(c.hasProperty("Deactivated"));
 }
 
+//** ============================= Observers ================================ */
 TEST(SmallObserverSphere, outside) {
 	SmallObserverSphere obs(Vector3d(0, 0, 0), 1);
 	Candidate c;
@@ -125,6 +127,25 @@ TEST(LargeObserverSphere, limitStep) {
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 2);
 }
 
+TEST(OneDimensionalObserver, noDetection) {
+	OneDimensionalObserver obs; // observer at x = 0
+	Candidate c;
+	c.current.setPosition(Vector3d(5, 0, 0));
+	c.setNextStep(10);
+	obs.process(&c);
+	EXPECT_TRUE(c.isActive());
+	EXPECT_DOUBLE_EQ(5, c.getNextStep());
+}
+
+TEST(OneDimensionalObserver, detection) {
+	OneDimensionalObserver obs; // observer at x = 0
+	Candidate c;
+	c.current.setPosition(Vector3d(0, 0, 0));
+	obs.process(&c);
+	EXPECT_FALSE(c.isActive());
+}
+
+//** ========================= Boundaries =================================== */
 TEST(PeriodicBox, high) {
 	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.
 	Vector3d origin(2, 2, 2);

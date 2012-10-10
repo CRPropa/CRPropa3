@@ -62,6 +62,33 @@ public:
 	std::string getDescription() const;
 };
 
+/**
+ @class OneDimensionalObserver
+ @brief Observer for 1D simulations
+
+ Particles are detected once their x-position gets smaller than a given value.
+ In this case the candidate is by default flagged "Detected" made inactive.
+ This module limits the next step size to prevent candidates from overshooting.
+ */
+class OneDimensionalObserver: public Module {
+private:
+	double xObs;
+	std::string flag;
+	std::string flagValue;
+	bool makeInactive;
+	void updateDescription();
+
+public:
+	OneDimensionalObserver();
+	OneDimensionalObserver(double x, std::string flag =
+			"Detected", std::string flagValue = "", bool makeInactive = true);
+	void process(Candidate *candidate) const;
+	void setPosition(double position);
+	void setFlag(std::string flag, std::string flagValue);
+	void setMakeInactive(bool makeInactive);
+	std::string getDescription() const;
+};
+
 } // namespace mpc
 
 #endif /* MPC_OBSERVER_H_ */

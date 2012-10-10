@@ -95,9 +95,8 @@ void Redshift::process(Candidate *c) const {
 
 std::string Redshift::getDescription() const {
 	std::stringstream ss;
-	ss << "Redshift for cosmological parameters: ";
-	ss << "H0 = " << H0 * 1e3 / Mpc << " km/s/Mpc, ";
-	ss << "omegaL = " << omegaL << ", omegaM = " << omegaM;
+	ss << "Redshift: " << "H0 = " << H0 / 1e3 * Mpc << " km/s/Mpc, ";
+	ss << "OmegaL = " << omegaL << ", OmegaM = " << omegaM;
 	return ss.str();
 }
 

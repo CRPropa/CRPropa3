@@ -49,6 +49,8 @@ std::string SmallObserverSphere::getDescription() const {
 	s << "Small observer sphere: " << radius / Mpc;
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
+	if (makeInactive)
+		s << ", Inactivate";
 	return s.str();
 }
 
@@ -97,6 +99,56 @@ std::string LargeObserverSphere::getDescription() const {
 	s << "Large observer sphere: " << radius / Mpc;
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
+	if (makeInactive)
+		s << ", Inactivate";
+	return s.str();
+}
+
+OneDimensionalObserver::OneDimensionalObserver() :
+		xObs(0), flag("Detected"), flagValue(""), makeInactive(true) {
+}
+
+OneDimensionalObserver::OneDimensionalObserver(double x, std::string f,
+		std::string v, bool b) :
+		xObs(x), flag(f), flagValue(v), makeInactive(b) {
+}
+
+void OneDimensionalObserver::process(Candidate *c) const {
+	double x = c->current.getPosition().x;
+	if (x > xObs) {
+		c->limitNextStep(x - xObs);
+		return; // no detection yet
+	}
+
+	double xprev = c->previous.getPosition().x;
+	if (xprev < xObs)
+		return; // particle already detected
+
+	// else: detection
+	c->setProperty(flag, flagValue);
+	if (makeInactive)
+		c->setActive(false);
+}
+
+void OneDimensionalObserver::setPosition(double x) {
+	xObs = x;
+}
+
+void OneDimensionalObserver::setFlag(std::string f, std::string v) {
+	flag = f;
+	flagValue = v;
+}
+
+void OneDimensionalObserver::setMakeInactive(bool b) {
+	makeInactive = b;
+}
+
+std::string OneDimensionalObserver::getDescription() const {
+	std::stringstream s;
+	s << "1D observer at " << xObs / Mpc << " Mpc";
+	s << ", Flag: '" << flag << "' -> '" << flagValue << "'";
+	if (makeInactive)
+		s << ", Inactivate";
 	return s.str();
 }
 

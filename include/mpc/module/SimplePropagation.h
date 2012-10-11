@@ -17,7 +17,7 @@ private:
 	double minStep, maxStep;
 
 public:
-	SimplePropagation(double minStep = 0, double maxStep = 4000 * Mpc);
+	SimplePropagation(double minStep = 0, double maxStep = 10 * Mpc);
 	void process(Candidate *candidate) const;
 	void setMinimumStep(double minStep);
 	void setMaximumStep(double maxStep);

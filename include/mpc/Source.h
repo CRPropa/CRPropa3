@@ -79,7 +79,13 @@ class SourcePowerLawSpectrum: public SourceProperty {
 	double Emax;
 	double index;
 public:
+	/** Constructor
+	 @param Emin	minimum energy
+	 @param Emax	maximum energy
+	 @param index	differential spectral index
+	 */
 	SourcePowerLawSpectrum(double Emin, double Emax, double index);
+	/** Set particle with a random energy from a power law distribtuition */
 	void prepare(ParticleState &particle) const;
 };
 
@@ -97,7 +103,7 @@ public:
 
 /**
  @class SourceComposition
- @brief Nuclei with given abundances and a uniform power law spectrum from Emin to Z * Rmax
+ @brief Nuclei with given abundances and a uniform power law spectrum between Emin and Z * Rmax
  */
 class SourceComposition: public SourceProperty {
 	double Emin;
@@ -106,12 +112,28 @@ class SourceComposition: public SourceProperty {
 	std::vector<int> isotope; /**< isotope id */
 	std::vector<double> abundance; /**< relative abundance of source isotopes at equal energies */
 	std::vector<double> probability; /**< cumulative probability of source isotopes */
-public:
-	SourceComposition(double Emin, double Rmax, double index);
-	double getSpectrumIntegral(int Z = 1) const;
-	void add(int id, double abundance);
-	void add(int A, int Z, double abundance);
 	void normalize();
+	double getSpectrumIntegral(int Z) const;
+
+public:
+	/** Constructor
+	 @param Emin	minimum energy for cosmic rays
+	 @param Rmax	maximum rigidity for cosmic rays
+	 @param index	differential spectral index
+	 */
+	SourceComposition(double Emin, double Rmax, double index);
+	/** Add a species to the composition
+	 @param id 			particle id
+	 @param abundance	absolute or relative abundance at a fixed value of energy/nucleons
+	 */
+	void add(int id, double abundance);
+	/** Add a species to the composition
+	 @param A 			mass number
+	 @param Z			charge number
+	 @param abundance	absolute or relative abundance at a fixed value of energy/nucleons
+	 */
+	void add(int A, int Z, double abundance);
+	/** Randomly select a species and energy */
 	void prepare(ParticleState &particle) const;
 };
 
@@ -120,7 +142,7 @@ public:
  @brief Position of a point source
  */
 class SourcePosition: public SourceProperty {
-	Vector3d position;
+	Vector3d position; /**< Source position */
 public:
 	SourcePosition(Vector3d position);
 	void prepare(ParticleState &state) const;

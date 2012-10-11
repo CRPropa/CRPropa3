@@ -15,17 +15,17 @@ def getRate(module, energy, charge):
     
     return 1 / l
     
-def compare(type, name):
-    print "compare ", name
-    ppp = PhotoPionProduction(type)
-    E_data, P_data, N_data = genfromtxt(getDataPath('/PhotoPionProduction/PPtable_' + name + '.txt'), unpack=True)
-
+def compare(dataFileName, photonField, plotFileName):
+    E_data, P_data, N_data = genfromtxt(dataFileName, unpack=1)
     E = E_data[1:-1:5]
     p = zeros(len(E))
     n = zeros(len(E))
+
+    ppp = PhotoPionProduction(photonField)
     for i,energy in enumerate(E*EeV):
         p[i] = getRate(ppp, energy, 1)
         n[i] = getRate(ppp, energy, 0)
+
     figure()
     plot(E_data, P_data, "r", label="Proton Data")
     plot(E, p, 'k+', label="Proton Simulated")
@@ -38,7 +38,7 @@ def compare(type, name):
     loglog()
     xlim(10, 1e5)
     ylim(1e-4, 1)
-    savefig('PhotoPionProduction_' + name + '.png', bbox_inches='tight')
+    savefig(plotFileName)
 
-compare(CMB, "CMB")
-compare(IRB, "IRB")
+compare(getDataPath('photopion_CMB.txt'), CMB, 'PhotoPionProduction_CMB.png')
+compare(getDataPath('photopion_IRB.txt'), IRB, 'PhotoPionProduction_IRB.png')

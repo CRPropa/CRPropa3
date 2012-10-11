@@ -22,13 +22,17 @@ void PhotoPionProduction::setPhotonField(int p) {
 }
 
 void PhotoPionProduction::init() {
-	if (photonField == CMB)
+	if (photonField == CMB) {
 		init(getDataPath("photopion_CMB.txt"));
-	else if (photonField == IRB)
+		setDescription("PhotoPionProduction: CMB");
+	}
+	else if (photonField == IRB) {
 		init(getDataPath("photopion_IRB.txt"));
+		setDescription("PhotoPionProduction: IRB");
+	}
 	else
 		throw std::runtime_error(
-				"PhotoPionProduction: only CMB / IRB possible");
+				"PhotoPionProduction: unknown photon background");
 }
 
 void PhotoPionProduction::init(std::string filename) {
@@ -51,10 +55,6 @@ void PhotoPionProduction::init(std::string filename) {
 	}
 
 	infile.close();
-}
-
-std::string PhotoPionProduction::getDescription() const {
-	return "PhotoPionProduction on " + (photonField == CMB)? "CMB" : "IRB";
 }
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
@@ -262,10 +262,6 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 							+ kiss::str(pType));
 		}
 	}
-}
-
-std::string SophiaPhotoPionProduction::getDescription() const {
-	return "SophiaPhotoPionProduction on " + (photonField == CMB)? "CMB" : "IRB";
 }
 
 } // namespace mpc

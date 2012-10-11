@@ -52,11 +52,11 @@ TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
 }
 
-TEST(ElectronPairProduction, EnergyLossValues) {
+TEST(ElectronPairProduction, valuesCMB) {
 	// Test if energy loss corresponds to the data table.
 	std::vector<double> x;
 	std::vector<double> y;
-	std::ifstream infile(getDataPath("ElectronPairProduction/cmbir.txt").c_str());
+	std::ifstream infile(getDataPath("epair_CMB.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;
@@ -74,7 +74,71 @@ TEST(ElectronPairProduction, EnergyLossValues) {
 	c.setCurrentStep(1 * Mpc);
 	c.current.setId(getNucleusId(1, 1)); // proton
 
-	ElectronPairProduction epp;
+	ElectronPairProduction epp(CMB);
+	for (int i = 0; i < x.size(); i++) {
+		c.current.setEnergy(x[i]);
+		epp.process(&c);
+		double dE = x[i] - c.current.getEnergy();
+		double dE_table = y[i] * 1 * Mpc;
+		EXPECT_NEAR(dE, dE_table, 1e-12);
+	}
+}
+
+TEST(ElectronPairProduction, valuesIRB) {
+	// Test if energy loss corresponds to the data table.
+	std::vector<double> x;
+	std::vector<double> y;
+	std::ifstream infile(getDataPath("epairIRB.txt").c_str());
+	while (infile.good()) {
+		if (infile.peek() != '#') {
+			double a, b;
+			infile >> a >> b;
+			if (infile) {
+				x.push_back(a * eV);
+				y.push_back(b * eV / Mpc);
+			}
+		}
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	infile.close();
+
+	Candidate c;
+	c.setCurrentStep(1 * Mpc);
+	c.current.setId(getNucleusId(1, 1)); // proton
+
+	ElectronPairProduction epp(IRB);
+	for (int i = 0; i < x.size(); i++) {
+		c.current.setEnergy(x[i]);
+		epp.process(&c);
+		double dE = x[i] - c.current.getEnergy();
+		double dE_table = y[i] * 1 * Mpc;
+		EXPECT_NEAR(dE, dE_table, 1e-12);
+	}
+}
+
+TEST(ElectronPairProduction, valuesCMB_IRB) {
+	// Test if energy loss corresponds to the data table.
+	std::vector<double> x;
+	std::vector<double> y;
+	std::ifstream infile(getDataPath("epair_CMB_IRB.txt").c_str());
+	while (infile.good()) {
+		if (infile.peek() != '#') {
+			double a, b;
+			infile >> a >> b;
+			if (infile) {
+				x.push_back(a * eV);
+				y.push_back(b * eV / Mpc);
+			}
+		}
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	infile.close();
+
+	Candidate c;
+	c.setCurrentStep(1 * Mpc);
+	c.current.setId(getNucleusId(1, 1)); // proton
+
+	ElectronPairProduction epp(CMB_IRB);
 	for (int i = 0; i < x.size(); i++) {
 		c.current.setEnergy(x[i]);
 		epp.process(&c);
@@ -178,7 +242,7 @@ TEST(NuclearDecay, AllWorking) {
 	Candidate c;
 	InteractionState interaction;
 
-	std::ifstream infile(getDataPath("/NuclearDecay/decayTable.txt").c_str());
+	std::ifstream infile(getDataPath("nuclear_decay.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			int Z, N, channel, foo;
@@ -276,7 +340,7 @@ TEST(PhotoDisintegration, AllWorkingCMB) {
 	InteractionState interaction;
 
 	std::ifstream infile(
-			getDataPath("PhotoDisintegration/PDtable_CMB.txt").c_str());
+			getDataPath("photodis_CMB.txt").c_str());
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')
@@ -309,7 +373,7 @@ TEST(PhotoDisintegration, AllWorkingIRB) {
 	InteractionState interaction;
 
 	std::ifstream infile(
-			getDataPath("PhotoDisintegration/PDtable_IRB.txt").c_str());
+			getDataPath("photodis_IRB.txt").c_str());
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')

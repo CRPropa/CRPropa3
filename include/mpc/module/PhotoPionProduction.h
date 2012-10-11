@@ -30,7 +30,6 @@ public:
 	bool setNextInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
-	std::string getDescription() const;
 };
 
 /**
@@ -55,7 +54,6 @@ public:
 	void setHaveNeutrinos(bool b);
 	void setHaveAntiNucleons(bool b);
 	void performInteraction(Candidate *candidate) const;
-	std::string getDescription() const;
 };
 
 } // namespace mpc

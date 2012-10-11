@@ -1,17 +1,16 @@
 Install from source
 ------------------------
 MPC is configured using CMAKE - for more information see www.cmake.org
-1) $cd build
-2) $cmake .. (or $ccmake ..)
-3) $make
-4) $make test (to run all unit tests)
-5) Set the data path
-	export MPC_DATA_PATH=[path to mpc/data]
-6) Retrieve additional data files from https://forge.physik.rwth-aachen.de/projects/mpc/files
-	The photo-disintegration tables PDtable_XXX.txt have to be copied to mpc/data/PhotoDisintegration
-	
+1) Download the data archive from https://forge.physik.rwth-aachen.de/projects/mpc/files extract to mpc/data
+2) >> cd build
+3) >> cmake ..
+	or >> ccmake ..
+4) >> make
+5) >> make test [to run all unit tests when gtest is available]
+7) >> make install
+
 Notes for Intel Compiler:
-  -DCMAKE_SHARED_LINKER_FLAGS="-lifcore" -DCMAKE_Fortran_COMPILER=ifort
+  use -DCMAKE_SHARED_LINKER_FLAGS="-lifcore" -DCMAKE_Fortran_COMPILER=ifort
 
 
 Install with Python bindings
@@ -47,7 +46,7 @@ OpenMP
 	-> for shared memory parallelization
 googleperftools 
 	-> for performance optimizations regarding shared memory parallelization
-	
+
 
 XML Steering
 ------------

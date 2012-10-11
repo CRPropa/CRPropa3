@@ -60,6 +60,10 @@ void ElectronPairProduction::init(std::string filename) {
 }
 
 void ElectronPairProduction::process(Candidate *candidate) const {
+	double Z = candidate->current.getChargeNumber();
+	if (Z < 1)
+		return;
+
 	double A = candidate->current.getMassNumber();
 	double E = candidate->current.getEnergy();
 	double z = candidate->getRedshift();
@@ -76,7 +80,6 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 
 		// step size in local frame
 	double step = candidate->getCurrentStep() / (1 + z);
-	double Z = candidate->current.getChargeNumber();
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step
 	double dE = Z * Z * rate * photonFieldScaling(photonField, z) * step;

@@ -48,7 +48,7 @@ pid = getNucleusId(4,2)
 candidate = Candidate()
 candidate.current.setId(pid)
 
-table = genfromtxt(getDataPath('PhotoDisintegration/PDtable_CMB.txt'))
+table = genfromtxt(getDataPath('photodis_CMB.txt'))
 pdModule = PhotoDisintegration(CMB)
 gamma = logspace(6, 14, 200)
 gamma2 = gamma[1::5]

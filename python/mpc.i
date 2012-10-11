@@ -123,10 +123,6 @@
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"
 
-%template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
-%include "mpc/Source.h"
-
-
 %include "mpc/module/BreakCondition.h"
 %include "mpc/module/Boundary.h"
 %include "mpc/module/Observer.h"
@@ -141,6 +137,8 @@
 %include "mpc/module/Redshift.h"
 %include "mpc/module/Tools.h"
 
+%template(SourceRefPtr) mpc::ref_ptr<mpc::Source>;
+%include "mpc/Source.h"
 
 %template(ModuleListRefPtr) mpc::ref_ptr<mpc::ModuleList>;
 %include "mpc/ModuleList.h"

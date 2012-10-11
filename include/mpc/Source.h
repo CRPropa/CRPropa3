@@ -4,6 +4,7 @@
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
 #include "mpc/Grid.h"
+#include "mpc/module/Redshift.h"
 
 #include <vector>
 
@@ -15,8 +16,8 @@ namespace mpc {
  */
 class SourceProperty: public Referenced {
 public:
-	virtual void prepare(ParticleState &particle) const;
-	virtual void prepare(Candidate &candidate) const;
+	virtual void prepare(ParticleState& particle) const;
+	virtual void prepare(Candidate& candidate) const;
 };
 
 /**
@@ -43,7 +44,7 @@ class SourceList: public Source {
 	std::vector<ref_ptr<Source> > sources;
 	std::vector<double> luminosities;
 public:
-	void addSource(Source *source, double luminosity = 1);
+	void addSource(Source* source, double luminosity = 1);
 	ref_ptr<Candidate> getCandidate() const;
 };
 
@@ -57,7 +58,6 @@ public:
 	SourceParticleType(int id);
 	void prepare(ParticleState &particle) const;
 };
-
 
 /**
  @class SourceEnergy
@@ -139,27 +139,38 @@ public:
 };
 
 /**
- @class SourceHomogeneousSphere
+ @class SourceUniformDistributionSphere
  @brief Uniform random source positions inside a sphere
  */
-class SourceHomogeneousSphere: public SourceProperty {
+class SourceUniformDistributionSphere: public SourceProperty {
 	Vector3d center;
 	double radius;
 public:
-	SourceHomogeneousSphere(Vector3d center, double radius);
+	SourceUniformDistributionSphere(Vector3d center, double radius);
 	void prepare(ParticleState &particle) const;
 };
 
 /**
- @class SourceHomogeneousBox
+ @class SourceUniformDistributionBox
  @brief Uniform random source positions inside a box
  */
-class SourceHomogeneousBox: public SourceProperty {
+class SourceUniformDistributionBox: public SourceProperty {
 	Vector3d origin;
 	Vector3d size;
 public:
-	SourceHomogeneousBox(Vector3d origin, Vector3d size);
+	SourceUniformDistributionBox(Vector3d origin, Vector3d size);
 	void prepare(ParticleState &particle) const;
+};
+
+/**
+ @class SourceUniformDistribution1D
+ @brief Uniform random source positions in for 1D simulations
+ */
+class SourceUniformDistribution1D: public SourceProperty {
+	double minDistance, maxDistance;
+public:
+	SourceUniformDistribution1D(double minDistance, double maxDistance);
+	void prepare(ParticleState& particle) const;
 };
 
 /**
@@ -194,7 +205,7 @@ public:
 class SourceDirection: public SourceProperty {
 	Vector3d direction;
 public:
-	SourceDirection(Vector3d direction);
+	SourceDirection(Vector3d direction = Vector3d(-1, 0, 0));
 	void prepare(ParticleState &particle) const;
 };
 
@@ -229,6 +240,20 @@ class SourceUniformRedshift: public SourceProperty {
 	double zmin, zmax;
 public:
 	SourceUniformRedshift(double zmin, double zmax);
+	void prepare(Candidate &candidate) const;
+};
+
+/**
+ @class SourceRedshift1D
+ @brief Redshift according to the distance to 0
+
+ This source property sets the redshift according to the distance to 0.
+ It must be added after a position setting source property.
+ */
+class SourceRedshift1D: public SourceProperty {
+	ref_ptr<Redshift> redshift;
+public:
+	SourceRedshift1D(Redshift* redshift);
 	void prepare(Candidate &candidate) const;
 };
 

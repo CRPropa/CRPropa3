@@ -13,20 +13,20 @@ TEST(SourcePosition, simpleTest) {
 	EXPECT_EQ(position, ps.getPosition());
 }
 
-TEST(SourceHomogeneousSphere, simpleTest) {
+TEST(SourceUniformDistributionSphere, simpleTest) {
 	Vector3d center(0, 0, 0);
 	double radius = 110;
-	SourceHomogeneousSphere source(center, radius);
+	SourceUniformDistributionSphere source(center, radius);
 	ParticleState ps;
 	source.prepare(ps);
 	double distance = ps.getPosition().getDistanceTo(center);
 	EXPECT_GE(radius, distance);
 }
 
-TEST(SourceHomogeneousBox, simpleTest) {
+TEST(SourceUniformDistributionBox, simpleTest) {
 	Vector3d origin(-7, -2, 0);
 	Vector3d size(13, 55, 192);
-	SourceHomogeneousBox box(origin, size);
+	SourceUniformDistributionBox box(origin, size);
 	ParticleState p;
 	box.prepare(p);
 	Vector3d pos = p.getPosition();

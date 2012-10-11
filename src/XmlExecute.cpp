@@ -45,7 +45,7 @@ xml_node childNode(xml_node parent, string childName,
 	return node;
 }
 
-SourceHomogeneousBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
+SourceUniformDistributionBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
 	Vector3d origin;
 	origin.x = childValue(node, "Xmin_Mpc") * Mpc;
 	origin.y = childValue(node, "Ymin_Mpc") * Mpc;
@@ -59,7 +59,7 @@ SourceHomogeneousBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
 	size -= origin;
 	cout << "  - Size: " << size / Mpc << endl;
 
-	return (new SourceHomogeneousBox(origin, size));
+	return (new SourceUniformDistributionBox(origin, size));
 }
 
 SourceDensityGrid* loadSourceDensityGrid(
@@ -457,7 +457,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 				new SourceMultiplePositions();
 
 		if (type == "Uniform") {
-			SourceHomogeneousBox* box = loadSourceHomogeneousBox(density_node);
+			SourceUniformDistributionBox* box = loadSourceHomogeneousBox(density_node);
 			ParticleState p;
 			for (int i = 0; i < nSources; i++) {
 				box->prepare(p);

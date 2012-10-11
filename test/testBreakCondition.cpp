@@ -127,8 +127,8 @@ TEST(LargeObserverSphere, limitStep) {
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 2);
 }
 
-TEST(OneDimensionalObserver, noDetection) {
-	OneDimensionalObserver obs; // observer at x = 0
+TEST(Observer1D, noDetection) {
+	Observer1D obs; // observer at x = 0
 	Candidate c;
 	c.current.setPosition(Vector3d(5, 0, 0));
 	c.setNextStep(10);
@@ -137,8 +137,8 @@ TEST(OneDimensionalObserver, noDetection) {
 	EXPECT_DOUBLE_EQ(5, c.getNextStep());
 }
 
-TEST(OneDimensionalObserver, detection) {
-	OneDimensionalObserver obs; // observer at x = 0
+TEST(Observer1D, detection) {
+	Observer1D obs; // observer at x = 0
 	Candidate c;
 	c.current.setPosition(Vector3d(0, 0, 0));
 	obs.process(&c);

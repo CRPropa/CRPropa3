@@ -141,7 +141,7 @@ public:
 	/// Uniform distributed random vector inside a cone
 	Vector3d randConeVector(const Vector3d &meanDirection, double angularRadius);
 
-	/// Power-Law distribution, not possible for index == -1
+	/// Power-law distribution of a given differential spectral index
 	double randPowerLaw(double index, double min, double max);
 	/// Broken power-law distribution 
 	double randBrokenPowerLaw(double index1, double index2, double breakpoint, double min, double max );

@@ -6,6 +6,14 @@ SimplePropagation::SimplePropagation(double minStep, double maxStep) :
 		minStep(minStep), maxStep(maxStep) {
 }
 
+void SimplePropagation::setMinimumStep(double s) {
+	minStep = s;
+}
+
+void SimplePropagation::setMaximumStep(double s) {
+	maxStep = s;
+}
+
 void SimplePropagation::process(Candidate *candidate) const {
 	// save the new previous particle state
 	candidate->previous = candidate->current;
@@ -21,7 +29,10 @@ void SimplePropagation::process(Candidate *candidate) const {
 }
 
 std::string SimplePropagation::getDescription() const {
-	return "Simple Propagation";
+	std::stringstream s;
+	s << "Simple Propagation: Step size = " << minStep / Mpc
+			<< " - " << maxStep / Mpc << " Mpc";
+	return s.str();
 }
 
 } // namespace mpc

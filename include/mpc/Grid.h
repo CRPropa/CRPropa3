@@ -7,13 +7,13 @@
 
 namespace mpc {
 
-// Lower and upper neighbor in a periodically continued unit grid
+/** Lower and upper neighbor in a periodically continued unit grid */
 inline void periodicClamp(double x, int n, int &lo, int &hi) {
 	lo = ((int(floor(x)) % n) + n) % n;
 	hi = (lo + 1) % n;
 }
 
-// Lower and upper neighbor in a reflectively repeated unit grid
+/** Lower and upper neighbor in a reflectively repeated unit grid */
 inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
 	while ((x < 0) or (x > n))
 		x = 2 * n * (x > n) - x;
@@ -39,6 +39,11 @@ class Grid: public Referenced {
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 
 public:
+	/** Constructor for cubic grid
+	 @param	origin	Position of the lower, left, front grid point
+	 @param	N		Number of grid points in one direction
+	 @param spacing	Spacing between grid points
+	 */
 	Grid(Vector3d origin, size_t N, double spacing) {
 		setOrigin(origin);
 		setGridSize(N, N, N);
@@ -46,6 +51,13 @@ public:
 		setReflective(false);
 	}
 
+	/** Constructor for non-cubic grid
+	 @param	origin	Position of the lower, left, front grid point
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing between grid points
+	 */
 	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz,
 			double spacing) {
 		setOrigin(origin);
@@ -58,6 +70,7 @@ public:
 		this->origin = origin;
 	}
 
+	/** Resize grid */
 	void setGridSize(size_t Nx, size_t Ny, size_t Nz) {
 		this->Nx = Nx;
 		this->Ny = Ny;
@@ -98,19 +111,20 @@ public:
 
 	/** Accessor / Mutator */
 	T &get(size_t ix, size_t iy, size_t iz) {
-		return grid[ix * Ny * Nz + iy * Ny + iz];
+		return grid[ix * Ny * Nz + iy * Nz + iz];
 	}
 
 	/** Accessor */
 	const T &get(size_t ix, size_t iy, size_t iz) const {
-		return grid[ix * Ny * Nz + iy * Ny + iz];
+		return grid[ix * Ny * Nz + iy * Nz + iz];
 	}
 
+	/** Return a reference to the grid values */
 	std::vector<T> &getGrid() {
 		return grid;
 	}
 
-	// return the position corresponding to a given grid index
+	/** Position of the grid point of a given index */
 	Vector3d getPosition(int index) const {
 		int ix = index / (Ny * Nz);
 		int iy = (index / Nz) % Ny;

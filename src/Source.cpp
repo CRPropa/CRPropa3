@@ -231,6 +231,38 @@ void SourceDensityGrid::prepare(ParticleState& particle) const {
 	particle.setPosition(pos);
 }
 
+SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<ScalarGrid> grid) :
+		grid(grid) {
+	if (grid->getNy() != 1)
+		throw std::runtime_error("SourceDensityGrid1D: Ny != 1");
+	if (grid->getNz() != 1)
+		throw std::runtime_error("SourceDensityGrid1D: Nz != 1");
+
+	float sum = 0;
+	for (int ix = 0; ix < grid->getNx(); ix++) {
+		sum += grid->get(ix, 0, 0);
+		grid->get(ix, 0, 0) = sum;
+	}
+	sumDensity = sum;
+}
+
+void SourceDensityGrid1D::prepare(ParticleState& particle) const {
+	Random &random = Random::instance();
+
+	// pick random bin; find bin using STL method
+	double r = random.rand(sumDensity);
+	std::vector<float> &v = grid->getGrid();
+	std::vector<float>::iterator it = lower_bound(v.begin(), v.end(), r);
+	int i = it - v.begin();
+	Vector3d pos = grid->getPosition(i);
+
+	// draw uniform position within bin
+	double dx = random.rand() - 0.5;
+	pos += Vector3d(dx, 0, 0) * grid->getSpacing();
+
+	particle.setPosition(pos);
+}
+
 void SourceIsotropicEmission::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 	particle.setDirection(random.randUnitVectorOnSphere());

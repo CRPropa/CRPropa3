@@ -127,19 +127,16 @@ TEST(SourceDensityGrid1D, OneAllowedCell) {
 	Vector3d origin(0.5, 0, 0);
 	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, 10, 1, 1, 1.0);
 	for (int i = 0; i < 10; i++) {
-		grid->get(i, 0, 0) = 2;
+		grid->get(i, 0, 0) = 0;
 	}
-
-	grid->get(5, 0, 0);
-
+	grid->get(5, 0, 0) = 1;
 	SourceDensityGrid1D source(grid);
 	ParticleState p;
-
 	source.prepare(p);
+	// dialed position should be in range 5-6
 	Vector3d pos = p.getPosition();
-	// dialed position should be within the range 0 - 10
-	EXPECT_LE(0, pos.x);
-	EXPECT_GE(10, pos.x);
+	EXPECT_LE(5, pos.x);
+	EXPECT_GE(6, pos.x);
 }
 
 TEST(SourcePowerLawSpectrum, simpleTest) {

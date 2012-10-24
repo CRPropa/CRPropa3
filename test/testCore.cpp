@@ -7,6 +7,8 @@
 
 #include "mpc/Candidate.h"
 #include "mpc/Random.h"
+#include "mpc/Grid.h"
+#include "mpc/GridTools.h"
 
 #include "gtest/gtest.h"
 
@@ -206,6 +208,178 @@ TEST(Random, seed) {
 
 	// seeding should work for all instances
 	EXPECT_EQ(r1, r3);
+}
+
+TEST(Grid, PeriodicClamp) {
+	// Test correct determination of lower and upper neighbor
+	int lo, hi;
+
+	periodicClamp(23.12, 8, lo, hi);
+	EXPECT_EQ(7, lo);
+	EXPECT_EQ(0, hi);
+
+	periodicClamp(-23.12, 8, lo, hi);
+	EXPECT_EQ(0, lo);
+	EXPECT_EQ(1, hi);
+}
+
+TEST(ScalarGrid, SimpleTest) {
+	// Test construction and parameters
+	size_t Nx = 5;
+	size_t Ny = 8;
+	size_t Nz = 10;
+	double spacing = 2.0;
+	Vector3d origin(1., 2., 3.);
+
+	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
+
+	EXPECT_TRUE(origin == grid.getOrigin());
+	EXPECT_EQ(Nx, grid.getNx());
+	EXPECT_EQ(Ny, grid.getNy());
+	EXPECT_EQ(Nz, grid.getNz());
+	EXPECT_DOUBLE_EQ(spacing, grid.getSpacing());
+	EXPECT_EQ(5 * 8 * 10, grid.getGrid().size());
+
+	// Test index handling: get position of grid point (2, 3, 4)
+	size_t some_index = 2 * Ny * Nz + 3 * Nz + 4;
+	Vector3d position = origin + Vector3d(2, 3, 4) * spacing;
+	EXPECT_EQ(position, grid.getPosition(some_index));
+
+	grid.get(2, 3, 4) = 7;
+	EXPECT_FLOAT_EQ(7., grid.getGrid()[some_index]);
+	EXPECT_FLOAT_EQ(7., grid.interpolate(position));
+}
+
+TEST(VectorGrid, Interpolation) {
+	// Explicitly test trilinear interpolation
+	double spacing = 2.793;
+	VectorGrid grid(Vector3d(0.), 3, spacing);
+	grid.get(0, 0, 1) = Vector3f(1.7, 0., 0.); // set one value
+
+	Vector3d b;
+	b = grid.interpolate(Vector3d(0, 0, 1) * spacing);
+	EXPECT_FLOAT_EQ(1.7, b.x);
+
+	b = grid.interpolate(Vector3d(0, 0, 0.9) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9, b.x);
+
+	b = grid.interpolate(Vector3d(0, 0, 1.1) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9, b.x);
+
+	b = grid.interpolate(Vector3d(0, 0.15, 0.9) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85, b.x);
+
+	b = grid.interpolate(Vector3d(0, 2.15, 0.9) * spacing);
+	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
+}
+
+TEST(VectordGrid, Scale) {
+	// Test scaling a field
+	ref_ptr<VectorGrid> grid = new VectorGrid(Vector3d(0.), 3, 1);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				grid->get(ix, iy, iz) = Vector3f(1, 0, 0);
+
+	scale(grid, 5);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				EXPECT_FLOAT_EQ(5, grid->interpolate(Vector3d(0.7, 0, 0.1)).x);
+}
+
+TEST(VectorGrid, Periodicity) {
+	// Test for periodic boundaries: grid(x+a*n) = grid(x)
+	size_t n = 3;
+	double spacing = 3;
+	double size = n * spacing;
+	VectorGrid grid(Vector3d(0.), n, spacing);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				grid.get(ix, iy, iz) = Vector3f(iz + ix, iy * iz, ix - iz * iy);
+
+	Vector3d pos(1.2, 2.3, 0.7);
+	Vector3f b = grid.interpolate(pos);
+	Vector3f b2 = grid.interpolate(pos + Vector3d(1, 0, 0) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	b2 = grid.interpolate(pos + Vector3d(0, 5, 0) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	b2 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+}
+
+TEST(VectorGrid, DumpLoad) {
+	// Dump and load a field grid
+	ref_ptr<VectorGrid> grid1 = new VectorGrid(Vector3d(0.), 3, 1);
+	ref_ptr<VectorGrid> grid2 = new VectorGrid(Vector3d(0.), 3, 1);
+
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				grid1->get(ix, iy, iz) = Vector3f(1, 2, 3);
+
+	dumpGrid(grid1, "testDump.raw");
+	loadGrid(grid2, "testDump.raw");
+
+	for (int ix = 0; ix < 3; ix++) {
+		for (int iy = 0; iy < 3; iy++) {
+			for (int iz = 0; iz < 3; iz++) {
+				Vector3f b1 = grid1->get(ix, iy, iz);
+				Vector3f b2 = grid2->get(ix, iy, iz);
+				EXPECT_FLOAT_EQ(b1.x, b2.x);
+				EXPECT_FLOAT_EQ(b1.y, b2.y);
+				EXPECT_FLOAT_EQ(b1.z, b2.z);
+			}
+		}
+	}
+}
+
+TEST(VectorGrid, DumpLoadTxt) {
+	// Dump and load a field grid
+	ref_ptr<VectorGrid> grid1 = new VectorGrid(Vector3d(0.), 3, 1);
+	ref_ptr<VectorGrid> grid2 = new VectorGrid(Vector3d(0.), 3, 1);
+
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				grid1->get(ix, iy, iz) = Vector3f(ix, iy, iz);
+
+	dumpGridToTxt(grid1, "testDump.txt", 1e4);
+	loadGridFromTxt(grid2, "testDump.txt", 1e-4);
+
+	for (int ix = 0; ix < 3; ix++) {
+		for (int iy = 0; iy < 3; iy++) {
+			for (int iz = 0; iz < 3; iz++) {
+				Vector3f b1 = grid1->get(ix, iy, iz);
+				Vector3f b2 = grid2->get(ix, iy, iz);
+				EXPECT_FLOAT_EQ(b1.x, b2.x);
+				EXPECT_FLOAT_EQ(b1.y, b2.y);
+				EXPECT_FLOAT_EQ(b1.z, b2.z);
+			}
+		}
+	}
+}
+
+TEST(VectorGrid, Speed) {
+	// Dump and load a field grid
+	VectorGrid grid(Vector3d(0.), 3, 3);
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				grid.get(ix, iy, iz) = Vector3f(1, 2, 3);
+
+	Vector3d b;
+	for (int i = 0; i < 100000; i++)
+		b = grid.interpolate(Vector3d(i));
 }
 
 int main(int argc, char **argv) {

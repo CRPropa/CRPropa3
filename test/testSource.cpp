@@ -38,7 +38,7 @@ TEST(SourceUniformDistributionBox, simpleTest) {
 	EXPECT_GE(size.z, pos.z);
 }
 
-TEST(SourceDensityGrid, simpleTest) {
+TEST(SourceDensityGrid, withInRange) {
 	// Create a grid with 10^3 cells ranging from (0, 0, 0) to (10, 10, 10)
 	Vector3d origin(0.5, 0.5, 0.5);
 	int cells = 10;
@@ -102,6 +102,44 @@ TEST(SourceDensityGrid, OneAllowedCell) {
 	EXPECT_NEAR(1, mean.x, 0.1);
 	EXPECT_NEAR(1, mean.y, 0.1);
 	EXPECT_NEAR(1, mean.z, 0.1);
+}
+
+TEST(SourceDensityGrid1D, withInRange) {
+	// Create a grid with 10 cells ranging from 0 to 10
+	Vector3d origin(0.5, 0, 0);
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, 10, 1, 1, 1.0);
+
+	for (int i = 0; i < 10; i++) {
+		grid->get(i, 0, 0) = 2;
+	}
+
+	SourceDensityGrid1D source(grid);
+	ParticleState p;
+
+	source.prepare(p);
+	Vector3d pos = p.getPosition();
+	// dialed position should be within the range 0 - 10
+	EXPECT_LE(0, pos.x);
+	EXPECT_GE(10, pos.x);
+}
+
+TEST(SourceDensityGrid1D, OneAllowedCell) {
+	Vector3d origin(0.5, 0, 0);
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, 10, 1, 1, 1.0);
+	for (int i = 0; i < 10; i++) {
+		grid->get(i, 0, 0) = 2;
+	}
+
+	grid->get(5, 0, 0);
+
+	SourceDensityGrid1D source(grid);
+	ParticleState p;
+
+	source.prepare(p);
+	Vector3d pos = p.getPosition();
+	// dialed position should be within the range 0 - 10
+	EXPECT_LE(0, pos.x);
+	EXPECT_GE(10, pos.x);
 }
 
 TEST(SourcePowerLawSpectrum, simpleTest) {

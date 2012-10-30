@@ -17,7 +17,7 @@ namespace mpc {
  */
 class PhotoDisintegration: public StochasticInteraction {
 private:
-	int photonField;
+	PhotonField photonField;
 	struct PDMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
 		std::vector<double> rate; // disintegration rate [1/m]
@@ -25,12 +25,20 @@ private:
 	std::vector<std::vector<PDMode> > pdTable; // pdTable[Z * 31 + N] = vector<PDmode>
 
 public:
-	PhotoDisintegration(int photonField = CMB);
-	void init(int photonField);
+	PhotoDisintegration(PhotonField photonField = CMB);
+	void init(PhotonField photonField);
 	void init(std::string filename);
 	bool setNextInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
+
+
+	/**
+	 Calculates the energy loss length 1/E dE/dx in [m]
+	 @param	id		PDG particle id
+	 @param energy	particle energy [J]
+	 */
+	double energyLossLength(int id, double energy);
 };
 
 } // namespace mpc

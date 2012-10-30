@@ -8,11 +8,11 @@
 
 namespace mpc {
 
-PhotoDisintegration::PhotoDisintegration(int photonField) {
+PhotoDisintegration::PhotoDisintegration(PhotonField photonField) {
 	init(photonField);
 }
 
-void PhotoDisintegration::init(int photonField) {
+void PhotoDisintegration::init(PhotonField photonField) {
 	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
@@ -145,6 +145,41 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
 	for (size_t i = 0; i < nHe4; i++)
 		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
+}
+
+double PhotoDisintegration::energyLossLength(int id, double E) {
+	int A = getMassNumberFromNucleusId(id);
+	int Z = getChargeNumberFromNucleusId(id);
+	int N = A - Z;
+
+	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
+	if (pdModes.size() == 0)
+		return 0;
+
+	// log10 of lorentz factor
+	double lg = log10(E / (getNucleusMass(id) * c_squared));
+	if ((lg <= 6) or (lg >= 14))
+		return 0;
+
+	double lossRate = 0;
+	for (size_t i = 0; i < pdModes.size(); i++) {
+		double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
+
+		int channel = pdModes[i].channel;
+		int nN = digit(channel, 100000);
+		int nP = digit(channel, 10000);
+		int nH2 = digit(channel, 1000);
+		int nH3 = digit(channel, 100);
+		int nHe3 = digit(channel, 10);
+		int nHe4 = digit(channel, 1);
+
+		double relativeEnergyLoss = double(
+				nN + nP + 2 * nH2 + 3 * nH3 + 3 * nHe3 + 4 * nHe4) / double(A);
+
+		lossRate += rate * relativeEnergyLoss;
+	}
+
+	return 1 / lossRate;
 }
 
 } // namespace mpc

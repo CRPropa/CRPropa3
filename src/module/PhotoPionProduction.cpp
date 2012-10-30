@@ -147,6 +147,41 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	}
 }
 
+double PhotoPionProduction::energyLossLength(int id, double E) {
+	int A = getMassNumberFromNucleusId(id);
+	int Z = getChargeNumberFromNucleusId(id);
+	int N = A - Z;
+
+	double EpA = E / A;
+	if ((EpA < energy.front()) or (EpA > energy.back()))
+		return std::numeric_limits<double>::max();
+
+	double lossRate = 0;
+	double relativeEnergyLoss = 1. / double(A);
+
+	if (Z > 0) {
+		double rate = interpolate(EpA, energy, pRate);
+		if (A > 1)
+			if (A < 8)
+				rate *= 0.85 * pow(Z, 2. / 3.);
+			if (A >= 8)
+				rate *= 0.85 * Z;
+		lossRate += relativeEnergyLoss * rate;
+	}
+
+	if (N > 0) {
+		double rate = interpolate(EpA, energy, nRate);
+		if (A > 1)
+			if (A < 8)
+				rate *= 0.85 * pow(N, 2. / 3.);
+			if (A >= 8)
+				rate *= 0.85 * N;
+		lossRate += relativeEnergyLoss * rate;
+	}
+
+	return 1. / lossRate;
+}
+
 SophiaPhotoPionProduction::SophiaPhotoPionProduction(int photonField,
 		bool photons, bool neutrinos, bool antiNucleons) :
 		PhotoPionProduction(photonField), havePhotons(photons), haveNeutrinos(

@@ -32,7 +32,7 @@ def get_data_rates(pid):
     return D
 
 def parse_pid(pid):
-    return str(pid%100//10) + ' ' + str(pid%100000//10000)
+  return 'Z=%i, A=%i'%((pid//10000)%1000, (pid%10000)/10)
 
 def parse_channel(channel):
     s = '%06d' % channel

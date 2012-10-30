@@ -11,13 +11,13 @@
 
 namespace mpc {
 
-PhotoPionProduction::PhotoPionProduction(int p) :
-		photonField(p) {
+PhotoPionProduction::PhotoPionProduction(PhotonField photonField) :
+		photonField(photonField) {
 	init();
 }
 
-void PhotoPionProduction::setPhotonField(int p) {
-	photonField = p;
+void PhotoPionProduction::setPhotonField(PhotonField photonField) {
+	this->photonField = photonField;
 	init();
 }
 
@@ -182,7 +182,7 @@ double PhotoPionProduction::energyLossLength(int id, double E) {
 	return 1. / lossRate;
 }
 
-SophiaPhotoPionProduction::SophiaPhotoPionProduction(int photonField,
+SophiaPhotoPionProduction::SophiaPhotoPionProduction(PhotonField photonField,
 		bool photons, bool neutrinos, bool antiNucleons) :
 		PhotoPionProduction(photonField), havePhotons(photons), haveNeutrinos(
 				neutrinos), haveAntiNucleons(antiNucleons) {

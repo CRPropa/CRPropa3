@@ -6,13 +6,13 @@
 
 namespace mpc {
 
-ElectronPairProduction::ElectronPairProduction(int p) :
-		photonField(p) {
+ElectronPairProduction::ElectronPairProduction(PhotonField photonField) :
+		photonField(photonField) {
 	init();
 }
 
-void ElectronPairProduction::setPhotonField(int p) {
-	photonField = p;
+void ElectronPairProduction::setPhotonField(PhotonField photonField) {
+	this->photonField = photonField;
 	init();
 }
 
@@ -84,6 +84,27 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	// dE(E) = Z^2 * loss_rate(E/A) * step
 	double dE = Z * Z * rate * photonFieldScaling(photonField, z) * step;
 	candidate->current.setEnergy(E - dE);
+}
+
+double ElectronPairProduction::energyLossLength(int id, double E) {
+	double A = getMassNumberFromNucleusId(id);
+	double Z = getChargeNumberFromNucleusId(id);
+
+	if (Z < 1)
+		return std::numeric_limits<double>::max();
+
+	double EpA = E / A;
+	if (EpA < energy.front())
+		return std::numeric_limits<double>::max();
+
+	double rate;
+	if (EpA < energy.back())
+		rate = interpolate(EpA, energy, lossRate);
+	else
+		rate = lossRate.back() * pow(EpA / energy.back(), 0.4);
+
+	double lossRate = Z * Z * rate / E;
+	return 1. / lossRate;
 }
 
 } // namespace mpc

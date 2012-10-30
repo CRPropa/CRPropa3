@@ -15,16 +15,23 @@ namespace mpc {
  */
 class ElectronPairProduction: public Module {
 private:
-	int photonField;
+	PhotonField photonField;
 	std::vector<double> lossRate; // energy loss rate in [J/m]
 	std::vector<double> energy;
 
 public:
-	ElectronPairProduction(int photonField = CMB_IRB);
-	void setPhotonField(int photonField);
+	ElectronPairProduction(PhotonField photonField = CMB_IRB);
+	void setPhotonField(PhotonField photonField);
 	void init();
 	void init(std::string filename);
 	void process(Candidate *candidate) const;
+
+	/**
+	 Calculates the energy loss length 1/E dE/dx in [m]
+	 @param	id		PDG particle id
+	 @param energy	particle energy [J]
+	 */
+	double energyLossLength(int id, double energy);
 };
 
 } // namespace mpc

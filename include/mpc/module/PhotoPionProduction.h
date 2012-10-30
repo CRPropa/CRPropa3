@@ -17,14 +17,14 @@ namespace mpc {
  */
 class PhotoPionProduction: public StochasticInteraction {
 protected:
-	int photonField;
+	PhotonField photonField;
 	std::vector<double> pRate; // interaction rate in [1/m] for protons
 	std::vector<double> nRate; // interaction rate in [1/m] for neutrons
 	std::vector<double> energy; // energy in [J]
 
 public:
-	PhotoPionProduction(int photonField = CMB);
-	void setPhotonField(int photonField);
+	PhotoPionProduction(PhotonField photonField = CMB);
+	void setPhotonField(PhotonField photonField);
 	void init();
 	void init(std::string filename);
 	bool setNextInteraction(Candidate *candidate,
@@ -55,8 +55,8 @@ private:
 	bool haveAntiNucleons;
 
 public:
-	SophiaPhotoPionProduction(int photonField = CMB, bool photons = false,
-			bool neutrinos = false, bool antiNucleons = false);
+	SophiaPhotoPionProduction(PhotonField photonField = CMB, bool photons =
+			false, bool neutrinos = false, bool antiNucleons = false);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
 	void setHaveAntiNucleons(bool b);

@@ -154,12 +154,12 @@ double PhotoDisintegration::energyLossLength(int id, double E) {
 
 	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
 	if (pdModes.size() == 0)
-		return 0;
+		return std::numeric_limits<double>::max();
 
 	// log10 of lorentz factor
 	double lg = log10(E / (getNucleusMass(id) * c_squared));
 	if ((lg <= 6) or (lg >= 14))
-		return 0;
+		return std::numeric_limits<double>::max();
 
 	double lossRate = 0;
 	for (size_t i = 0; i < pdModes.size(); i++) {

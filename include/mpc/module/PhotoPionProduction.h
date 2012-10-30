@@ -30,6 +30,13 @@ public:
 	bool setNextInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
+
+	/**
+	 Calculates the energy loss length 1/E dE/dx in [m]
+	 @param	id		PDG particle id
+	 @param energy	particle energy [J]
+	 */
+	double energyLossLength(int id, double energy);
 };
 
 /**

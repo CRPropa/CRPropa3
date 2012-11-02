@@ -16,7 +16,7 @@ namespace mpc {
  This redshift is reduced with shrinking distance to the observer, and the particle loses energy accordingly.
  Redshift and particle energy are not changed if the distance to the observer grows.
  */
-class SimpleRedshift : public Module {
+class SimpleRedshift: public Module {
 private:
 	Vector3d observer; // observer position (z = 0)
 	double h; // dimension-free Hubble constant, H0 = h * 100 km/s/Mpc
@@ -30,11 +30,16 @@ public:
 /**
  @class Redshift
  @brief Calculation of cosmological redshift and adiabatic energy loss
+
+ This module implements the calculation of cosmological redshift for a flat universe.
+ It provides two functionalities:
+ 1) In a simulation chain it reduces the candidate's redshift according to the propagation step and applies the adiabatic energy loss.
+ 2) It provides translations from redshift to comoving distance and vice versa.
  */
-class Redshift : public Module {
+class Redshift: public Module {
 private:
 	double H0; // Hubble rate at z=0 in [1/s], H0 = h * 100 km/s/Mpc
-	double omegaM; // density parameter
+	double omegaM; // matter density parameter
 	double omegaL; // vacuum energy parameter
 
 	static const int n = 1000;
@@ -45,13 +50,21 @@ private:
 	std::vector<double> D; // comoving distance [m]
 
 public:
+	/** Constructor
+	 @param	h		dimension-free Hubble constant, H0 = h * 100 km/s/Mpc
+	 @param omegaM	matter density parameter
+	 @param omegaL	vacuum energy parameter
+	 */
 	Redshift(double h = 0.7, double omegaM = 0.3, double omegaL = 0.7);
-	void init();
-	double getRedshift(double distance) const;
-	double getHubbleRate(double redshift) const;
-	double getDistance(double redshift) const;
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
+
+	/** Hubble rate at given redshift */
+	double hubbleRate(double redshift) const;
+	/** Redshift of a comoving object at a given comoving distance to the observer at z = 0 */
+	double comovingDistance2Redshift(double distance) const;
+	/** Comoving distance between an observer at z = 0 and a comoving object at z */
+	double redshift2ComovingDistance(double redshift) const;
 };
 
 } // namespace mpc

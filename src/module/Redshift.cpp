@@ -31,10 +31,6 @@ std::string SimpleRedshift::getDescription() const {
 
 Redshift::Redshift(double h, double m, double l) :
 		H0(h * 1e5 / Mpc), omegaM(m), omegaL(l) {
-	init();
-}
-
-void Redshift::init() {
 	Z.resize(n);
 	D.resize(n);
 	std::vector<double> H(n);
@@ -43,24 +39,23 @@ void Redshift::init() {
 	D[0] = 0;
 	H[0] = H0;
 
-	// Relation between comoving distance and redshift (see J.A. Peacock, Cosmological physics, p. 89 eq. 3.76)
-	// R0 dr = c / H(z) dz
-	// Integration with midpoint rule: R0 dr = (c/H(z+dz) + c/H(z)) / 2 * dz
+	// Relation between comoving distance r and redshift z (cf. J.A. Peacock, Cosmological physics, p. 89 eq. 3.76)
+	// dr = c / H(z) dz, integration using midpoint rule
 	double dlz = log10(zmax) - log10(zmin);
-	double dz, A;
+	double dz;
 	for (int i = 1; i < n; i++) {
 		Z[i] = zmin * pow(10, i * dlz / (n - 1)); // logarithmic even spacing
-		H[i] = getHubbleRate(Z[i]);
-		D[i] = D[i - 1]
-				+ (Z[i] - Z[i - 1]) * c_light * (1 / H[i] + 1 / H[i - 1]) / 2;
+		dz = (Z[i] - Z[i - 1]);
+		H[i] = hubbleRate(Z[i]);
+		D[i] = D[i - 1]	+ c_light * (1 / H[i] + 1 / H[i - 1]) / 2 * dz;
 	}
 }
 
-double Redshift::getHubbleRate(double z) const {
+double Redshift::hubbleRate(double z) const {
 	return H0 * sqrt(omegaL + omegaM * pow(1 + z, 3));
 }
 
-double Redshift::getRedshift(double d) const {
+double Redshift::comovingDistance2Redshift(double d) const {
 	if (d < 0)
 		throw std::runtime_error("Redshift: d < 0");
 	if (d > D[n - 1])
@@ -68,7 +63,7 @@ double Redshift::getRedshift(double d) const {
 	return interpolate(d, D, Z);
 }
 
-double Redshift::getDistance(double z) const {
+double Redshift::redshift2ComovingDistance(double z) const {
 	if (z < 0)
 		throw std::runtime_error("Redshift: z < 0");
 	if (z > zmax)
@@ -82,13 +77,13 @@ void Redshift::process(Candidate *c) const {
 	if (z == 0)
 		return; // nothing to do, redshift can't get smaller
 
-	// use small step approximation to calculate redshift change
-	// dz = H(z) / c * dr
-	// dE/dz = E/(1+z)
-	double dz = getHubbleRate(z) / c_light * c->getCurrentStep();
+	// use small redshift approximation:  dz = H(z) / c * dr
+	double dz = hubbleRate(z) / c_light * c->getCurrentStep();
 
-	// update candidate
+	// update redshift
 	c->setRedshift(z - dz);
+
+	// adiabatic energy loss: dE / dz = E/(1+z)
 	double E = c->current.getEnergy();
 	c->current.setEnergy(E * (1 - dz / (1 + z)));
 }

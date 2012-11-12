@@ -38,7 +38,7 @@ class ConditionalOutput: public Module {
 	bool removeProperty;
 public:
 	ConditionalOutput(std::string filename, std::string condition = "Detected",
-			bool removeProperty = false);
+			bool removeProperty = true);
 	~ConditionalOutput();
 	void setRemoveProperty(bool removeProperty);
 	void process(Candidate *candidate) const;
@@ -65,54 +65,6 @@ class EventOutput1D: public Module {
 public:
 	EventOutput1D(std::string filename);
 	~EventOutput1D();
-	void process(Candidate *candidate) const;
-};
-
-/**
- @class CRPropa2EventOutput
- @brief Saves events to a plain text file in CRPropa2 format.
- */
-class CRPropa2EventOutput: public Module {
-	mutable std::ofstream outfile;
-public:
-	CRPropa2EventOutput(std::string filename);
-	~CRPropa2EventOutput();
-	void process(Candidate *candidate) const;
-};
-
-/**
- @class CRPropa2TrajectoryOutput
- @brief Saves trajectories to a plain text file in CRPropa2 format.
- */
-class CRPropa2TrajectoryOutput: public Module {
-	mutable std::ofstream outfile;
-public:
-	CRPropa2TrajectoryOutput(std::string filename);
-	~CRPropa2TrajectoryOutput();
-	void process(Candidate *candidate) const;
-};
-
-/**
- @class CRPropa2EventOutput1D
- @brief Saves 1D events to a plain text file in CRPropa2 format.
- */
-class CRPropa2EventOutput1D: public Module {
-	mutable std::ofstream outfile;
-public:
-	CRPropa2EventOutput1D(std::string filename);
-	~CRPropa2EventOutput1D();
-	void process(Candidate *candidate) const;
-};
-
-/**
- @class CRPropa2TrajectoryOutput1D
- @brief Saves 1D trajectories to a plain text file in CRPropa2 format.
- */
-class CRPropa2TrajectoryOutput1D: public Module {
-	mutable std::ofstream outfile;
-public:
-	CRPropa2TrajectoryOutput1D(std::string filename);
-	~CRPropa2TrajectoryOutput1D();
 	void process(Candidate *candidate) const;
 };
 

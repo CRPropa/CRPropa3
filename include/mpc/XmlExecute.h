@@ -18,9 +18,9 @@ class XmlExecute {
 	void loadGridMagneticField(pugi::xml_node &node);
 	void loadDeflectionCK(pugi::xml_node &node);
 	void loadPeriodicBoundaries();
-	void loadSources(pugi::xml_node &node);
 	void loadDiscreteSources(pugi::xml_node &node);
 	void loadContinuousSources(pugi::xml_node &node);
+	void loadSpectrumComposition(pugi::xml_node &node);
 	void loadSourceNuclei(pugi::xml_node &node);
 	void loadSophia(pugi::xml_node &node);
 	void loadSpheresAroundObserver(pugi::xml_node &node);

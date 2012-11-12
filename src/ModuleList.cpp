@@ -10,10 +10,8 @@ using namespace std;
 namespace mpc {
 
 bool g_cancel_signal_flag = false;
-sighandler_t g_cancel_signal_backup = NULL;
 void g_cancel_signal_callback(int sig) {
 	g_cancel_signal_flag = true;
-	::signal(SIGINT, SIG_DFL );
 }
 
 ModuleList::ModuleList() :
@@ -64,7 +62,8 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	}
 
 	g_cancel_signal_flag = false;
-	g_cancel_signal_backup = ::signal(SIGINT, g_cancel_signal_callback);
+	sighandler_t old_signal_handler = ::signal(SIGINT,
+			g_cancel_signal_callback);
 
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
@@ -76,7 +75,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 			progressbar.update();
 	}
 
-	::signal(SIGINT, g_cancel_signal_backup);
+	::signal(SIGINT, old_signal_handler);
 }
 
 void ModuleList::run(Source *source, size_t count, bool recursive) {
@@ -92,7 +91,8 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	}
 
 	g_cancel_signal_flag = false;
-	::signal(SIGINT, g_cancel_signal_callback);
+	sighandler_t old_signal_handler = ::signal(SIGINT,
+			g_cancel_signal_callback);
 
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
@@ -105,7 +105,7 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 			progressbar.update();
 	}
 
-	::signal(SIGINT, g_cancel_signal_backup);
+	::signal(SIGINT, old_signal_handler);
 }
 
 ModuleList::module_list_t &ModuleList::getModules() {

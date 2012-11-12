@@ -2,11 +2,19 @@
 #include "mpc/ProgressBar.h"
 
 #include <omp.h>
+#include <signal.h>
 #include <algorithm>
 
 using namespace std;
 
 namespace mpc {
+
+bool g_cancel_signal_flag = false;
+sighandler_t g_cancel_signal_backup = NULL;
+void g_cancel_signal_callback(int sig) {
+	g_cancel_signal_flag = true;
+	::signal(SIGINT, SIG_DFL );
+}
 
 ModuleList::ModuleList() :
 		showProgress(false) {
@@ -33,7 +41,7 @@ void ModuleList::process(Candidate *candidate) {
 }
 
 void ModuleList::run(Candidate *candidate, bool recursive) {
-	while (candidate->isActive())
+	while (candidate->isActive() && !g_cancel_signal_flag)
 		process(candidate);
 
 	// propagate secondaries
@@ -49,18 +57,26 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
 #endif
 
-	ProgressBar *progressbar = NULL;
-	if (showProgress)
-		progressbar = new ProgressBar("Run ModuleList", count);
+	ProgressBar progressbar(count);
+
+	if (showProgress) {
+		progressbar.start("Run ModuleList");
+	}
+
+	g_cancel_signal_flag = false;
+	g_cancel_signal_backup = ::signal(SIGINT, g_cancel_signal_callback);
 
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
-		run(candidates[i], recursive);
+		if (!g_cancel_signal_flag)
+			run(candidates[i], recursive);
 
-		if (progressbar)
+		if (showProgress)
 #pragma omp critical(progressbarUpdate)
-			progressbar->update();
+			progressbar.update();
 	}
+
+	::signal(SIGINT, g_cancel_signal_backup);
 }
 
 void ModuleList::run(Source *source, size_t count, bool recursive) {
@@ -69,20 +85,27 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
 #endif
 
-	ProgressBar *progressbar = NULL;
+	ProgressBar progressbar(count);
+
 	if (showProgress) {
-		progressbar = new ProgressBar("Run ModuleList", count);
+		progressbar.start("Run ModuleList");
 	}
+
+	g_cancel_signal_flag = false;
+	::signal(SIGINT, g_cancel_signal_callback);
 
 #pragma omp parallel for schedule(dynamic, 1000)
 	for (size_t i = 0; i < count; i++) {
 		ref_ptr<Candidate> candidate = source->getCandidate();
-		run(candidate, recursive);
+		if (!g_cancel_signal_flag)
+			run(candidate, recursive);
 
-		if (progressbar)
+		if (showProgress)
 #pragma omp critical(progressbarUpdate)
-			progressbar->update();
+			progressbar.update();
 	}
+
+	::signal(SIGINT, g_cancel_signal_backup);
 }
 
 ModuleList::module_list_t &ModuleList::getModules() {

@@ -23,20 +23,8 @@ public:
 class TrajectoryOutput: public Module {
 	mutable std::ofstream outfile;
 public:
-	TrajectoryOutput(std::string name);
+	TrajectoryOutput(std::string filename);
 	~TrajectoryOutput();
-	void process(Candidate *candidate) const;
-};
-
-/**
- @class TrajectoryOutput1D
- @brief Saves 1D trajectories to plain text file.
- */
-class TrajectoryOutput1D: public Module {
-	mutable std::ofstream outfile;
-public:
-	TrajectoryOutput1D(std::string name);
-	~TrajectoryOutput1D();
 	void process(Candidate *candidate) const;
 };
 
@@ -53,6 +41,18 @@ public:
 			bool removeProperty = false);
 	~ConditionalOutput();
 	void setRemoveProperty(bool removeProperty);
+	void process(Candidate *candidate) const;
+};
+
+/**
+ @class TrajectoryOutput1D
+ @brief Saves 1D trajectories to plain text file.
+ */
+class TrajectoryOutput1D: public Module {
+	mutable std::ofstream outfile;
+public:
+	TrajectoryOutput1D(std::string filename);
+	~TrajectoryOutput1D();
 	void process(Candidate *candidate) const;
 };
 
@@ -75,20 +75,44 @@ public:
 class CRPropa2EventOutput: public Module {
 	mutable std::ofstream outfile;
 public:
-	CRPropa2EventOutput(std::string name);
+	CRPropa2EventOutput(std::string filename);
 	~CRPropa2EventOutput();
 	void process(Candidate *candidate) const;
 };
 
 /**
  @class CRPropa2TrajectoryOutput
- @brief Saves trajectory to a plain text file in CRPropa2 format.
+ @brief Saves trajectories to a plain text file in CRPropa2 format.
  */
 class CRPropa2TrajectoryOutput: public Module {
 	mutable std::ofstream outfile;
 public:
-	CRPropa2TrajectoryOutput(std::string name);
+	CRPropa2TrajectoryOutput(std::string filename);
 	~CRPropa2TrajectoryOutput();
+	void process(Candidate *candidate) const;
+};
+
+/**
+ @class CRPropa2EventOutput1D
+ @brief Saves 1D events to a plain text file in CRPropa2 format.
+ */
+class CRPropa2EventOutput1D: public Module {
+	mutable std::ofstream outfile;
+public:
+	CRPropa2EventOutput1D(std::string filename);
+	~CRPropa2EventOutput1D();
+	void process(Candidate *candidate) const;
+};
+
+/**
+ @class CRPropa2TrajectoryOutput1D
+ @brief Saves 1D trajectories to a plain text file in CRPropa2 format.
+ */
+class CRPropa2TrajectoryOutput1D: public Module {
+	mutable std::ofstream outfile;
+public:
+	CRPropa2TrajectoryOutput1D(std::string filename);
+	~CRPropa2TrajectoryOutput1D();
 	void process(Candidate *candidate) const;
 };
 

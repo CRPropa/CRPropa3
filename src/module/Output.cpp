@@ -8,6 +8,26 @@
 
 namespace mpc {
 
+void ShellOutput::process(Candidate* c) const {
+#pragma omp critical
+	{
+		std::cout << std::fixed << std::showpoint << std::setprecision(3)
+				<< std::setw(6);
+		std::cout << c->getTrajectoryLength() / Mpc << " Mpc,  ";
+		std::cout << c->getRedshift() << ",  ";
+		std::cout << c->current.getId() << ",  ";
+		std::cout << c->current.getEnergy() / EeV << " EeV,  ";
+		std::cout << c->current.getPosition() / Mpc << " Mpc,  ";
+		std::cout << c->current.getDirection().getPhi() << " ";
+		std::cout << c->current.getDirection().getTheta();
+		std::cout << std::endl;
+	}
+}
+
+std::string ShellOutput::getDescription() const {
+	return "Shell output";
+}
+
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");
 	outfile.open(name.c_str());
@@ -37,30 +57,7 @@ void TrajectoryOutput::process(Candidate *c) const {
 #pragma omp critical
 	{
 		outfile.write(buffer, p);
-	}
-}
-
-TrajectoryOutput1D::TrajectoryOutput1D(std::string filename) {
-	setDescription("Trajectory output");
-	outfile.open(filename.c_str());
-	outfile << "# Position(X)[Mpc]\t";
-	outfile << "PDG_Code\t";
-	outfile << "Energy[EeV]\n";
-}
-
-TrajectoryOutput1D::~TrajectoryOutput1D() {
-	outfile.close();
-}
-
-void TrajectoryOutput1D::process(Candidate *c) const {
-	char buffer[1024];
-	size_t p = 0;
-	p += sprintf(buffer + p, "%8.4f\t", c->current.getPosition().x / Mpc);
-	p += sprintf(buffer + p, "%10i\t", c->current.getId());
-	p += sprintf(buffer + p, "%8.4f\n", c->current.getEnergy() / EeV);
-#pragma omp critical
-	{
-		outfile.write(buffer, p);
+		outfile.flush();
 	}
 }
 
@@ -76,7 +73,7 @@ ConditionalOutput::ConditionalOutput(std::string filename, std::string propName,
 	outfile << "Energy[EeV]\t";
 	outfile << "Position(X,Y,Z)[Mpc]\t";
 	outfile << "Direction(Phi,Theta)\t";
-	outfile << "Age[Mpc]\t";
+	outfile << "Comoving distance [Mpc]\t";
 	outfile << "Initial_PDG_Code\t";
 	outfile << "Initial_Energy[EeV]\t";
 	outfile << "Initial_Position(X,Y,Z)[Mpc]\t";
@@ -119,7 +116,33 @@ void ConditionalOutput::process(Candidate *c) const {
 #pragma omp critical
 		{
 			outfile.write(buffer, p);
+			outfile.flush();
 		}
+	}
+}
+
+TrajectoryOutput1D::TrajectoryOutput1D(std::string filename) {
+	setDescription("Trajectory output");
+	outfile.open(filename.c_str());
+	outfile << "# Position(X)[Mpc]\t";
+	outfile << "PDG_Code\t";
+	outfile << "Energy[EeV]\n";
+}
+
+TrajectoryOutput1D::~TrajectoryOutput1D() {
+	outfile.close();
+}
+
+void TrajectoryOutput1D::process(Candidate *c) const {
+	char buffer[1024];
+	size_t p = 0;
+	p += sprintf(buffer + p, "%8.4f\t", c->current.getPosition().x / Mpc);
+	p += sprintf(buffer + p, "%10i\t", c->current.getId());
+	p += sprintf(buffer + p, "%8.4f\n", c->current.getEnergy() / EeV);
+#pragma omp critical
+	{
+		outfile.write(buffer, p);
+		outfile.flush();
 	}
 }
 
@@ -153,6 +176,7 @@ void EventOutput1D::process(Candidate *c) const {
 #pragma omp critical
 		{
 			outfile.write(buffer, p);
+			outfile.flush();
 		}
 	}
 }
@@ -202,6 +226,7 @@ void CRPropa2EventOutput::process(Candidate *candidate) const {
 #pragma omp critical
 		{
 			outfile.write(buffer, p);
+			outfile.flush();
 		}
 	}
 }
@@ -243,27 +268,68 @@ void CRPropa2TrajectoryOutput::process(Candidate *candidate) const {
 #pragma omp critical
 	{
 		outfile.write(buffer, p);
+		outfile.flush();
 	}
 }
 
-void ShellOutput::process(Candidate* c) const {
+CRPropa2TrajectoryOutput1D::CRPropa2TrajectoryOutput1D(std::string filename) {
+	setDescription("Trajectory output");
+	outfile.open(filename.c_str());
+	outfile << "# Position(X)[Mpc]\t";
+	outfile << "PDG_Code\t";
+	outfile << "Energy[EeV]\n";
+}
+
+CRPropa2TrajectoryOutput1D::~CRPropa2TrajectoryOutput1D() {
+	outfile.close();
+}
+
+void CRPropa2TrajectoryOutput1D::process(Candidate *c) const {
+	char buffer[1024];
+	size_t p = 0;
+	p += sprintf(buffer + p, "%8.4f\t", c->current.getPosition().x / Mpc);
+	p += sprintf(buffer + p, "%10i\t", c->current.getId());
+	p += sprintf(buffer + p, "%8.4f\n", c->current.getEnergy() / EeV);
 #pragma omp critical
 	{
-		std::cout << std::fixed << std::showpoint << std::setprecision(3)
-				<< std::setw(6);
-		std::cout << c->getTrajectoryLength() / Mpc << " Mpc,  ";
-		std::cout << c->getRedshift() << ",  ";
-		std::cout << c->current.getId() << ",  ";
-		std::cout << c->current.getEnergy() / EeV << " EeV,  ";
-		std::cout << c->current.getPosition() / Mpc << " Mpc,  ";
-		std::cout << c->current.getDirection().getPhi() << " ";
-		std::cout << c->current.getDirection().getTheta();
-		std::cout << std::endl;
+		outfile.write(buffer, p);
+		outfile.flush();
 	}
 }
 
-std::string ShellOutput::getDescription() const {
-	return "Shell output";
+CRPropa2EventOutput1D::CRPropa2EventOutput1D(std::string filename) {
+	setDescription("Conditional output, Filename: " + filename);
+	outfile.open(filename.c_str());
+	outfile << "# PDG_Code\t";
+	outfile << "Energy[EeV]\t";
+	outfile << "Age[Mpc]";
+	outfile << "Initial_PDG_Code\t";
+	outfile << "Initial_Energy[EeV]\n";
+}
+
+CRPropa2EventOutput1D::~CRPropa2EventOutput1D() {
+	outfile.close();
+}
+
+void CRPropa2EventOutput1D::process(Candidate *c) const {
+	if (c->isActive())
+		return;
+	if (c->hasProperty("Detected")) {
+		char buffer[256];
+		size_t p = 0;
+
+		p += sprintf(buffer + p, "%10i\t", c->current.getId());
+		p += sprintf(buffer + p, "%8.4f\t", c->current.getEnergy() / EeV);
+		p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
+		p += sprintf(buffer + p, "%10i\t", c->initial.getId());
+		p += sprintf(buffer + p, "%8.4f\n", c->initial.getEnergy() / EeV);
+
+#pragma omp critical
+		{
+			outfile.write(buffer, p);
+			outfile.flush();
+		}
+	}
 }
 
 } // namespace mpc

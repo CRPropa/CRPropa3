@@ -9,11 +9,12 @@ find_library(FFTW3F_LIBRARY fftw3f)
 set(FFTW3F_FOUND FALSE)
 if(FFTW3F_INCLUDE_DIR AND FFTW3F_LIBRARY)
     set(FFTW3F_FOUND TRUE)
-    MESSAGE("-- Found FFTW3 with single precision (FFTW3F):\n"
-            "--   Include: ${FFTW3F_INCLUDE_DIR}\n"
-            "--   Library: ${FFTW3F_LIBRARY}")
+    MESSAGE(STATUS "FFTW3 with single precision (FFTW3F): Found!")
 else()
-    MESSAGE("-- Could not find FFTW3 with single precision (FFTW3F)")
+    MESSAGE(STATUS "FFTW3 with single precision (FFTW3F): NOT Found!")
 endif()
+
+MESSAGE(STATUS "  Include:     ${FFTW3F_INCLUDE_DIR}")
+MESSAGE(STATUS "  Library:     ${FFTW3F_LIBRARY}")
 
 mark_as_advanced(FFTW3F_INCLUDE_DIR FFTW3F_LIBRARY FFTW3F_FOUND)

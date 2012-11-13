@@ -12,8 +12,8 @@
 #include <memory>
 
 namespace gadget {
-class DirectMagneticField;
-class SampledMagneticField;
+	class DirectMagneticField;
+	class SampledMagneticField;
 }
 
 namespace mpc {
@@ -48,6 +48,7 @@ public:
 	SPHMagneticFieldGrid(Vector3d origin, double size, size_t gridSize,
 			std::string filename);
 	SPHMagneticFieldGrid(size_t gridSize, std::string filename);
+	void init(const Vector3d &origin, double size);
 	Vector3d getField(const Vector3d &position) const;
 	void setCachePrefix(std::string prefix);
 	void setCacheEnabled(bool enabled);

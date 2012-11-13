@@ -7,7 +7,5 @@ syntax: regexp
 .png$
 ^\.cproject$
 ^\.project$
-^data/NuclearDecay/bnl_z0-36\.txt$
-^data/PhotoDisintegration/CMB$
-^data/PhotoDisintegration/IRB$
-^data/SPH$
+^data/.*$
+

@@ -23,7 +23,7 @@ Vector3d SPHMagneticField::getField(const Vector3d &position) const {
 	gadget::Vector3f b;
 	bool isGood = field.getField(r / kpc, b);
 	if (!isGood)
-		std::cout << "mpc::SPHMagneticField invalid position : " << position
+		std::cerr << "mpc::SPHMagneticField invalid position : " << position
 				<< std::endl;
 	Vector3d bField = Vector3d(b.x, b.y, b.z) * gauss;
 	return bField;
@@ -35,7 +35,7 @@ double SPHMagneticField::getRho(const Vector3d& position) const {
 	float rho;
 	bool isGood = field.getRho(r / kpc, overlaps, rho);
 	if (!isGood)
-		std::cout << "mpc::SPHMagneticField invalid position : " << position
+		std::cerr << "mpc::SPHMagneticField invalid position : " << position
 				<< std::endl;
 	return rho * 1.98892e40 * kilogram * pow(0.7, 2) / pow(kpc, 3);
 }
@@ -59,7 +59,7 @@ Vector3d SPHMagneticFieldGrid::getField(const Vector3d &position) const {
 	gadget::Vector3f b;
 	bool isGood = field.getField(r / kpc, b);
 	if (!isGood)
-		std::cout << "mpc::SPHMagneticField invalid position : " << position
+		std::cerr << "mpc::SPHMagneticField invalid position : " << position
 				<< std::endl;
 	Vector3d bField = Vector3d(b.x, b.y, b.z) * gauss;
 	return bField;

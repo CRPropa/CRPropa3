@@ -4,7 +4,7 @@ enable_language(Fortran)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(sophia
+add_library(sophia STATIC
     sophia_interface.f
 )
 

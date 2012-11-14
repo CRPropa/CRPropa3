@@ -62,8 +62,7 @@ SourceUniformDistributionBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
 	return (new SourceUniformDistributionBox(origin, size));
 }
 
-SourceDensityGrid* loadSourceDensityGrid(
-		pugi::xml_node &node) {
+SourceDensityGrid* loadSourceDensityGrid(pugi::xml_node &node) {
 	int nx = childValue(node, "Nx");
 	int ny = childValue(node, "Ny");
 	int nz = childValue(node, "Nz");
@@ -95,6 +94,29 @@ SourceDensityGrid* loadSourceDensityGrid(
 	return (new SourceDensityGrid(grid));
 }
 
+SourceDensityGrid1D* loadSourceDensityGrid1D(pugi::xml_node &node) {
+	int nx = childValue(node, "Nx");
+	cout << "  - Nx = " << nx << endl;
+
+	double spacing = childValue(node, "Step_Mpc") * Mpc;
+	cout << "  - Spacing = " << spacing / Mpc << " Mpc" << endl;
+
+	ScalarGrid* grid = new ScalarGrid(Vector3d(0, 0, 0), nx, 1, 1, spacing);
+
+	xml_node file_node = childNode(node, "File");
+	string file_type = file_node.attribute("type").as_string();
+	string file_name = file_node.child_value();
+	cout << "  - File = " << file_name << endl;
+	if (file_type == "ASCII")
+		loadGridFromTxt(grid, file_name);
+	else if (file_type == "FITS")
+		throw runtime_error(" --> FITS files not supported");
+	else
+		throw runtime_error(" --> unknown file type");
+
+	return (new SourceDensityGrid1D(grid));
+}
+
 XmlExecute::XmlExecute() :
 		is1D(false), nTrajectories(0), Emin(0), maxStep(0) {
 }
@@ -116,7 +138,7 @@ bool XmlExecute::load(const string &filename) {
 
 	// ----- general settings -----
 	nTrajectories = (int) childValue(root, "TrajNumber");
-	cout << "Trajectories: " << nTrajectories << endl;
+	cout << "Number of particles: " << nTrajectories << endl;
 
 	double maxTime = childValue(root, "MaxTime_Mpc") * Mpc;
 	cout << "Maximum time: " << maxTime / Mpc << " Mpc" << endl;
@@ -130,7 +152,8 @@ bool XmlExecute::load(const string &filename) {
 		Random &random = Random::instance();
 		random.seed(seed);
 		cout << "Random seed: " << seed << endl;
-	}
+	} else
+		cout << "No random seed given. Using random random seed." << endl;
 
 	// ----- environment -----
 	xml_node node;
@@ -139,7 +162,7 @@ bool XmlExecute::load(const string &filename) {
 	cout << "Environment: " << type << endl;
 
 	if (type == "One Dimension")
-		throw runtime_error(" --> one dimension not supported");
+		is1D = true;
 	else if (type == "LSS") {
 		// will be overwritten if (re)defined by magnetic field
 		origin.x = childValue(node, "Xmin_Mpc", false) * Mpc;
@@ -153,28 +176,74 @@ bool XmlExecute::load(const string &filename) {
 		throw runtime_error(" --> unknown environment");
 
 	// ----- magnetic field -----
-	node = childNode(root, "MagneticField");
-	type = node.attribute("type").as_string();
-	cout << "MagenticField: " << type << endl;
-	if (type == "Null")
-		magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
-	else if (type == "Uniform")
-		loadUniformMagneticField(node);
-	else if ((type == "LSS-Grid") or (type == "Kolmogoroff"))
-		loadGridMagneticField(node);
-	else {
-		cout << " --> unknown, set zero field" << endl;
-		magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
+	node = childNode(root, "MagneticField", false);
+	if (node) {
+		type = node.attribute("type").as_string();
+		cout << "MagenticField: " << type << endl;
+		if ((type == "Null") or (type == "None"))
+			magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
+		else if (type == "Uniform")
+			loadUniformMagneticField(node);
+		else if ((type == "LSS-Grid") or (type == "Kolmogoroff"))
+			loadGridMagneticField(node);
+		else if (type == "1D")
+			cout << " --> not implemented" << endl;
+		else {
+			cout << " --> unknown, set zero field" << endl;
+			magnetic_field = new UniformMagneticField(Vector3d(0, 0, 0));
+		}
+	} else {
+		if (!is1D)
+			throw runtime_error(" --> magnetic field not specified");
 	}
 
 	// ----- propagator -----
-	node = childNode(root, "Integrator");
-	type = node.attribute("type").as_string();
-	cout << "Integrator: " << type << endl;
-	if (type == "Cash-Karp RK")
-		loadDeflectionCK(node);
-	else
-		throw runtime_error(" --> unknown integrator");
+	xml_node interaction_node = childNode(root, "Interactions");
+	maxStep = childValue(interaction_node, "MaxStep_Mpc", false) * Mpc;
+
+	if (is1D) {
+		cout << "Propagator: 1D" << endl;
+		modules.add(new SimplePropagation());
+
+		bool noRedshift = interaction_node.child("NoRedshift");
+		hasRedshift = !(noRedshift);
+
+		if (hasRedshift) {
+			double omegaM = 0.3;
+			if (root.child("OmegaM"))
+				omegaM = childValue(root, "OmegaM");
+
+			double omegaL = 0.7;
+			if (root.child("OmegaLambda"))
+				childValue(root, "OmegaLambda");
+
+			double H0 = 70.;
+			if (root.child("H0_km_s_Mpc"))
+				childValue(root, "H0_km_s_Mpc");
+
+			cout << "Redshift: OmegaM = " << omegaM << ", OmegaLambda = "
+					<< omegaL << ", H0 = " << H0 << " km/s/Mpc" << endl;
+
+			redshift = new Redshift(H0 / 100, omegaM, omegaL);
+			modules.add(redshift);
+		} else {
+			cout << "  - No redshift" << endl;
+		}
+	} else {
+		node = childNode(root, "Integrator");
+		type = node.attribute("type").as_string();
+		cout << "Propagator: " << type << endl;
+		if (type == "Cash-Karp RK")
+			loadDeflectionCK(node);
+		else
+			throw runtime_error(" --> unknown integrator");
+	}
+
+	// ----- interactions -----
+	type = interaction_node.attribute("type").as_string();
+	cout << "Interactions: " << type << endl;
+	if (type == "Sophia")
+		loadSophia(interaction_node);
 
 	// ----- minimum energy -----
 	modules.add(new MinimumEnergy(Emin));
@@ -183,25 +252,53 @@ bool XmlExecute::load(const string &filename) {
 	modules.add(new MaximumTrajectoryLength(maxTime));
 
 	// ----- periodic boundaries -----
-	loadPeriodicBoundaries();
+	if (!is1D)
+		loadPeriodicBoundaries();
 
 	// ----- sources -----
 	node = childNode(root, "Sources");
-	loadSources(node);
+
+	// emission direction
+	if (is1D)
+		source.addProperty(new SourceDirection());
+	else
+		source.addProperty(new SourceIsotropicEmission());
+
+	// position
+	type = node.attribute("type").as_string();
+	cout << "Source(s): " << type << endl;
+	if (type == "Discrete")
+		loadDiscreteSources(node);
+	else if (type == "Continuous")
+		loadContinuousSources(node);
+	else
+		throw runtime_error(" --> unknown source type");
+
+	if (is1D and hasRedshift) {
+		cout << "  - Redshift according to source distance" << endl;
+		source.addProperty(new SourceRedshift1D(redshift));
+	}
+
+	// spectrum + composition
+	loadSpectrumComposition(node);
 
 	// ----- observers -----
-	node = root.child("Observers");
-	if (!node)
-		cout << "Observer(s) not specified" << endl;
-	else {
-		string type = node.attribute("type").as_string();
-		cout << "Observers: " << type << endl;
-		if (type == "Spheres around Observers")
-			loadSpheresAroundObserver(node);
-		else if (type == "Spheres around Source")
-			loadSpheresAroundSource(node);
-		else
-			cout << " --> unknown observer" << endl;
+	if (is1D) {
+		modules.add(new Observer1D());
+	} else {
+		node = root.child("Observers");
+		if (!node) {
+			cout << "Observer(s) not specified" << endl;
+		} else {
+			string type = node.attribute("type").as_string();
+			cout << "Observers: " << type << endl;
+			if (type == "Spheres around Observers")
+				loadSpheresAroundObserver(node);
+			else if (type == "Spheres around Source")
+				loadSpheresAroundSource(node);
+			else
+				cout << " --> unknown observer" << endl;
+		}
 	}
 
 	// ----- output -----
@@ -219,14 +316,15 @@ void XmlExecute::loadDeflectionCK(xml_node &node) {
 	cout << "  - Epsilon: " << epsilon << endl;
 
 	double minStep = childValue(node, "MinStep_Mpc") * Mpc;
-	cout << "  - Minimum Step: " << minStep / Mpc << " Mpc" << endl;
+	cout << "  - Minimum step: " << minStep / Mpc << " Mpc" << endl;
 
 	if (maxStep == 0)
 		maxStep = numeric_limits<double>::max();
-	cout << "  - Maximum Step: " << maxStep / Mpc << " Mpc" << endl;
+	cout << "  - Maximum step: " << maxStep / Mpc << " Mpc" << endl;
 
 	if (minStep >= maxStep)
-		throw runtime_error(" --> MaxStep must be larger than MinStep");
+		throw runtime_error(
+				" --> Maximum step must be larger than minimum step");
 
 	modules.add(new DeflectionCK(magnetic_field, epsilon, minStep, maxStep));
 }
@@ -289,7 +387,8 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		initTurbulence(field, brms, lMin, lMax, alpha);
 #endif // MPC_HAVE_FFTW3F
 #ifndef MPC_HAVE_FFTW3F
-		throw runtime_error("Turbulent field grid not available. Compile with FFTW3F.");
+		throw runtime_error(
+				"Turbulent field grid not available. Compile with FFTW3F.");
 #endif // MPC_HAVE_FFTW3F
 	}
 
@@ -298,7 +397,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 
 void XmlExecute::loadPeriodicBoundaries() {
 	if ((size.x == 0) or (size.y == 0) or (size.z == 0))
-		throw runtime_error("Environment boundaries not set.");
+		throw runtime_error(" --> Environment boundaries not set");
 	cout << "Periodic boundaries" << endl;
 	cout << "  - Lower bounds: " << origin / Mpc << " Mpc" << endl;
 	cout << "  - Upper bounds: " << (origin + size) / Mpc << " Mpc" << endl;
@@ -306,29 +405,22 @@ void XmlExecute::loadPeriodicBoundaries() {
 }
 
 void XmlExecute::loadSophia(xml_node &node) {
-	maxStep = childValue(node, "MaxStep_Mpc") * Mpc;
-
-	if (node.child("NoRedshift"))
-		cout << "  - No redshift" << endl;
-	else
-		cout << "  - Redshift not implemented" << endl;
-
 	if (node.child("NoPairProd"))
 		cout << "  - No pair production" << endl;
 	else
 		modules.add(new ElectronPairProduction(CMB_IRB));
 
-	if (node.child("NoPionProd"))
+	if (node.child("NoPionProd")) {
 		cout << "  - No pion production" << endl;
-	else {
-		modules.add(new ElectronPairProduction(CMB));
+	} else {
+		modules.add(new SophiaPhotoPionProduction(CMB));
 		if (!node.child("NoIRPionProd"))
-			modules.add(new ElectronPairProduction(IRB));
+			modules.add(new SophiaPhotoPionProduction(IRB));
 	}
 
-	if (node.child("NoPhotodisintegration"))
+	if (node.child("NoPhotodisintegration")) {
 		cout << "  - No photo disintegration" << endl;
-	else {
+	} else {
 		modules.add(new PhotoDisintegration(CMB));
 		modules.add(new PhotoDisintegration(IRB));
 	}
@@ -369,21 +461,82 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 	}
 }
 
-void XmlExecute::loadSources(xml_node &node) {
-	// source isotropic emission
-	source.addProperty(new SourceIsotropicEmission());
+void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
+	SourceMultiplePositions* sourcePositions = new SourceMultiplePositions();
 
-	// source positions
-	string type = node.attribute("type").as_string();
-	cout << "Source(s): " << type << endl;
-	if (type == "Discrete")
-		loadDiscreteSources(node);
-	else if (type == "Continuous")
-		loadContinuousSources(node);
-	else
-		throw runtime_error(" --> unknown source type");
+	xml_node density_node = node.child("Density");
+	if (density_node) { // draw positions from density distribution
+		string type = density_node.attribute("type").as_string();
+		cout << "  - Density: " << type << endl;
 
-	// source spectrum
+		int nSources = childValue(node, "Number");
+		cout << "  - Number = " << nSources << endl;
+
+		SourceProperty* sourceDistribution = new SourceProperty();
+		if (type == "Uniform") {
+			if (is1D) {
+				double xmin = childValue(density_node, "Xmin_Mpc") * Mpc;
+				double xmax = childValue(density_node, "Xmax_Mpc") * Mpc;
+				sourceDistribution = new SourceUniformDistribution1D(xmin,
+						xmax);
+			} else {
+				sourceDistribution = loadSourceHomogeneousBox(density_node);
+			}
+		} else if (type == "Grid") {
+			if (is1D)
+				sourceDistribution = loadSourceDensityGrid1D(density_node);
+			else
+				sourceDistribution = loadSourceDensityGrid(density_node);
+		} else {
+			throw runtime_error(" --> unknown source density type");
+		}
+		ParticleState p;
+		for (int i = 0; i < nSources; i++) {
+			sourceDistribution->prepare(p);
+			sourcePositions->add(p.getPosition());
+			cout << "  - Position = " << p.getPosition() / Mpc << " Mpc"
+					<< endl;
+		}
+		delete sourceDistribution;
+	} else { // read individual positions from xml
+		for (xml_node n = node.child("PointSource"); n;
+				n = n.next_sibling("PointSource")) {
+			Vector3d pos;
+			pos.x = childValue(n, "CoordX_Mpc") * Mpc;
+			pos.y = childValue(n, "CoordY_Mpc") * Mpc;
+			pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
+			cout << "  - Position " << pos / Mpc << " Mpc" << endl;
+			sourcePositions->add(pos);
+		}
+	}
+	source.addProperty(sourcePositions);
+}
+
+void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
+	xml_node density_node = node.child("Density");
+	string type = density_node.attribute("type").as_string();
+	cout << "  - Density: " << type << endl;
+	if (type == "Uniform")
+		if (is1D) {
+			double minD = childValue(density_node, "Xmin_Mpc") * Mpc;
+			double maxD = childValue(density_node, "Xmax_Mpc") * Mpc;
+			cout << "  - Minimum distance: " << minD / Mpc << " Mpc" << endl;
+			cout << "  - Maximum distance: " << maxD / Mpc << " Mpc" << endl;
+			source.addProperty(new SourceUniformDistribution1D(minD, maxD));
+		} else {
+			source.addProperty(loadSourceHomogeneousBox(density_node));
+		}
+	else if (type == "Grid") {
+		if (is1D) {
+			source.addProperty(loadSourceDensityGrid1D(density_node));
+		} else
+			source.addProperty(loadSourceDensityGrid(density_node));
+	} else {
+		throw runtime_error(" --> unknown source density type");
+	}
+}
+
+void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 	xml_node spectrum_node = node.child("Spectrum");
 	string spectrumType = spectrum_node.attribute("type").as_string();
 	cout << "  - Spectrum: " << spectrumType << endl;
@@ -395,12 +548,10 @@ void XmlExecute::loadSources(xml_node &node) {
 			source.addProperty(new SourceEnergy(E));
 		} else if (spectrum_node.child("Rigidity_EeV"))
 			throw runtime_error(" --> Fixed rigidity not implemented");
-		else
+		else {
 			throw runtime_error(" --> Source energy missing");
-
-		// source composition
+		}
 		loadSourceNuclei(node);
-
 	} else if (spectrumType == "Power Law") {
 		double alpha = childValue(spectrum_node, "Alpha");
 		cout << "  - Power law index: " << alpha << endl;
@@ -425,7 +576,6 @@ void XmlExecute::loadSources(xml_node &node) {
 				composition->add(getNucleusId(A, Z), ab);
 			}
 			source.addProperty(composition);
-
 		} else if (spectrum_node.child("Ecut_EeV")) {
 			double Emax = childValue(spectrum_node, "Ecut_EeV") * EeV;
 			cout << "  - Maximum energy: " << Emax / EeV << " EeV" << endl;
@@ -435,63 +585,12 @@ void XmlExecute::loadSources(xml_node &node) {
 
 			// source composition
 			loadSourceNuclei(node);
-
-		} else
+		} else {
 			throw runtime_error(
 					" --> maximum source energy / rigidity missing");
-
-	} else
-		throw runtime_error(" --> unknown source spectrum");
-}
-
-void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
-	xml_node density_node = node.child("Density");
-	if (density_node) { // draw positions from density distribution
-		string type = density_node.attribute("type").as_string();
-		cout << "  - Density: " << type << endl;
-
-		int nSources = childValue(node, "Number");
-		cout << "  - Number = " << nSources << endl;
-
-		SourceMultiplePositions* positions =
-				new SourceMultiplePositions();
-
-		if (type == "Uniform") {
-			SourceUniformDistributionBox* box = loadSourceHomogeneousBox(density_node);
-			ParticleState p;
-			for (int i = 0; i < nSources; i++) {
-				box->prepare(p);
-				positions->add(p.getPosition());
-				cout << "  - Position = " << p.getPosition() / Mpc << " Mpc" << endl;
-			}
-
-		} else if (type == "Grid") {
-			SourceDensityGrid* grid = loadSourceDensityGrid(density_node);
-			ParticleState p;
-			for (int i = 0; i < nSources; i++) {
-				grid->prepare(p);
-				positions->add(p.getPosition());
-				cout << "  - Position = " << p.getPosition() / Mpc << " Mpc" << endl;
-			}
-
-		} else
-			throw runtime_error(" --> unknown source density type");
-
-		source.addProperty(positions);
-
-	} else { // read positions from xml card
-		SourceMultiplePositions *positions = new SourceMultiplePositions();
-		for (xml_node n = node.child("PointSource"); n;
-				n = n.next_sibling("PointSource")) {
-			Vector3d pos;
-			pos.x = childValue(n, "CoordX_Mpc") * Mpc;
-			pos.y = childValue(n, "CoordY_Mpc") * Mpc;
-			pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
-			cout << "  - Position " << pos / Mpc << " Mpc" << endl;
-			positions->add(pos);
 		}
-		source.addProperty(positions);
-
+	} else {
+		throw runtime_error(" --> unknown source spectrum");
 	}
 }
 
@@ -509,19 +608,6 @@ void XmlExecute::loadSourceNuclei(pugi::xml_node &node) {
 	source.addProperty(composition);
 }
 
-void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
-	xml_node density_node = node.child("Density");
-	string type = density_node.attribute("type").as_string();
-	cout << "  - Density: " << type << endl;
-
-	if (type == "Uniform")
-		source.addProperty(loadSourceHomogeneousBox(density_node));
-	else if (type == "Grid")
-		source.addProperty(loadSourceDensityGrid(density_node));
-	else
-		throw runtime_error(" --> unknown source density type");
-}
-
 void XmlExecute::loadOutput(xml_node &node) {
 	string type = node.attribute("type").as_string();
 	cout << "Output: " << type << endl;
@@ -537,13 +623,19 @@ void XmlExecute::loadOutput(xml_node &node) {
 	}
 
 	if (type == "Full Trajectories")
-		modules.add(new CRPropa2TrajectoryOutput(filename));
+		if (is1D)
+			modules.add(new TrajectoryOutput1D(filename));
+		else
+			modules.add(new TrajectoryOutput(filename));
 	else if (type == "Events")
-		modules.add(new CRPropa2EventOutput(filename));
+		if (is1D)
+			modules.add(new EventOutput1D(filename));
+		else
+			modules.add(new ConditionalOutput(filename));
 	else if (type == "None")
 		return;
 	else
-		cout << "  -> unknown output" << endl;
+		cout << "  --> unknown output" << endl;
 }
 
 void XmlExecute::run() {

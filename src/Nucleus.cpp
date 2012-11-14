@@ -78,7 +78,7 @@ double getNucleusMass(int id) {
 	int N = HepPID::A(id) - Z;
 	double mass = nuclearMassTable.table[Z * 31 + N];
 	if (mass == 0)
-		throw std::runtime_error("mpc: nucleus not found " + kiss::str(id));
+		throw std::runtime_error("getNucleusMass: nucleus not found " + kiss::str(id));
 	return mass;
 }
 

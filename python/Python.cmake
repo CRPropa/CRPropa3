@@ -70,8 +70,9 @@ execute_process(
 	OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-MESSAGE(STATUS "Found Python executeable: " ${PYTHON_EXECUTABLE})
-MESSAGE(STATUS "Found Python include path: " ${PYTHON_INCLUDE_PATH})
-MESSAGE(STATUS "Found Python library: " ${PYTHON_LIBRARIES})
-MESSAGE(STATUS "Using Python site-package directory: " ${PYTHON_SITE_PACKAGES})
-MESSAGE(STATUS "Using Python Version: " ${PYTHON_DOT_VERSION} "/" ${PYTHON_VERSION})
+MESSAGE(STATUS "Python: Found!")
+MESSAGE(STATUS "  Version:     " ${PYTHON_DOT_VERSION} "/" ${PYTHON_VERSION})
+MESSAGE(STATUS "  Executeable: " ${PYTHON_EXECUTABLE})
+MESSAGE(STATUS "  Include:     " ${PYTHON_INCLUDE_PATH})
+MESSAGE(STATUS "  Library:     " ${PYTHON_LIBRARIES})
+MESSAGE(STATUS "  Site-package directory: " ${PYTHON_SITE_PACKAGES})

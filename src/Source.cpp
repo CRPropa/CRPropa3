@@ -308,7 +308,7 @@ SourceRedshift1D::SourceRedshift1D(Redshift* redishift) :
 
 void SourceRedshift1D::prepare(Candidate& candidate) const {
 	double d = candidate.initial.getPosition().getMag();
-	double z = redshift->getRedshift(d);
+	double z = redshift->comovingDistance2Redshift(d);
 	candidate.setRedshift(z);
 }
 

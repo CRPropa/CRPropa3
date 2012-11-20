@@ -36,7 +36,17 @@ public:
 	}
 
 	inline size_t addReference() const {
-		return ++_referenceCount;
+		int newRef;
+#if defined(OPENMP_3_1)
+		#pragma omp atomic capture
+		{newRef = _referenceCount++;}
+#elif defined(GCC_EXTENSION)
+		newRef = __sync_add_and_fetch(&_referenceCount, 1);
+#else
+		#pragma omp critical
+		{newRef = _referenceCount++;}
+#endif
+		return newRef;
 	}
 
 	inline size_t removeReference() const {
@@ -46,7 +56,17 @@ public:
 					<< "WARNING: Remove reference from Object with NO references: "
 					<< typeid(*this).name() << std::endl;
 #endif
-		int newRef = --_referenceCount;
+		int newRef;
+#if defined(OPENMP_3_1)
+		#pragma omp atomic capture
+		{newRef = _referenceCount--;}
+#elif defined(GCC_EXTENSION)
+		newRef = __sync_add_and_fetch(&_referenceCount, -1);
+#else
+		#pragma omp critical
+		{newRef = _referenceCount--;}
+#endif
+
 		if (newRef == 0) {
 			delete this;
 		}

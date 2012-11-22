@@ -15,7 +15,7 @@ public:
 	ParticleState *particle;
 	MagneticField *field;
 
-	LorentzForce(ParticleState *particle, ref_ptr<MagneticField> field) {
+	LorentzForce(ParticleState *particle, MagneticField *field) {
 		this->particle = particle;
 		this->field = field;
 	}

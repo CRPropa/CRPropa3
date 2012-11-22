@@ -40,7 +40,7 @@ public:
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
 		{newRef = _referenceCount++;}
-#elif defined(GCC_EXTENSION)
+#elif defined(__GNUC__)
 		newRef = __sync_add_and_fetch(&_referenceCount, 1);
 #else
 		#pragma omp critical
@@ -60,8 +60,8 @@ public:
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
 		{newRef = _referenceCount--;}
-#elif defined(GCC_EXTENSION)
-		newRef = __sync_add_and_fetch(&_referenceCount, -1);
+#elif defined(__GNUC__)
+		newRef = __sync_sub_and_fetch(&_referenceCount, 1);
 #else
 		#pragma omp critical
 		{newRef = _referenceCount--;}

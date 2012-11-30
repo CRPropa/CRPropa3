@@ -243,11 +243,29 @@ TEST(ScalarGrid, SimpleTest) {
 	// Test index handling: get position of grid point (2, 3, 4)
 	size_t some_index = 2 * Ny * Nz + 3 * Nz + 4;
 	Vector3d position = origin + Vector3d(2, 3, 4) * spacing;
-	EXPECT_EQ(position, grid.getPosition(some_index));
+	EXPECT_EQ(position, grid.positionFromIndex(some_index));
 
 	grid.get(2, 3, 4) = 7;
 	EXPECT_FLOAT_EQ(7., grid.getGrid()[some_index]);
 	EXPECT_FLOAT_EQ(7., grid.interpolate(position));
+}
+
+TEST(ScalarGrid, ClosestValue) {
+	ScalarGrid grid(Vector3d(0.), 2, 1);
+	grid.get(0, 0, 0) = 1;
+	grid.get(0, 0, 1) = 2;
+	grid.get(0, 1, 0) = 3;
+	grid.get(0, 1, 1) = 4;
+	grid.get(1, 0, 0) = 5;
+	grid.get(1, 0, 1) = 6;
+	grid.get(1, 1, 0) = 7;
+	grid.get(1, 1, 1) = 8;
+
+	// Closest value
+	EXPECT_FLOAT_EQ(1, grid.closestValue(Vector3d(-0.2,  0, 0.4)));
+	EXPECT_FLOAT_EQ(2, grid.closestValue(Vector3d(0.2, 0.1, 0.9)));
+	EXPECT_FLOAT_EQ(3, grid.closestValue(Vector3d(0.3, 1.2, 0.2)));
+	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(0.6, 0.7, 0.4)));
 }
 
 TEST(VectorGrid, Interpolation) {

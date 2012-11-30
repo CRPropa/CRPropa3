@@ -21,6 +21,11 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
 	hi = lo + (lo < n-1);
 }
 
+/** Symmetrical round */
+inline double round(double r) {
+    return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+}
+
 /**
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
@@ -125,11 +130,32 @@ public:
 	}
 
 	/** Position of the grid point of a given index */
-	Vector3d getPosition(int index) const {
+	Vector3d positionFromIndex(int index) const {
 		int ix = index / (Ny * Nz);
 		int iy = (index / Nz) % Ny;
 		int iz = index % Nz;
 		return Vector3d(ix, iy, iz) * spacing + origin;
+	}
+
+	/** Value of a grid point that is closest to a given position */
+	T closestValue(const Vector3d &position) const {
+		Vector3d r = (position - origin) / spacing;
+		int ix = round(r.x);
+		int iy = round(r.y);
+		int iz = round(r.z);
+		if (reflective) {
+			while ((ix < 0) or (ix > Nx))
+				ix = 2 * Nx * (ix > Nx) - ix;
+			while ((iy < 0) or (iy > Ny))
+				iy = 2 * Ny * (iy > Ny) - iy;
+			while ((iz < 0) or (iz > Nz))
+				iz = 2 * Nz * (iz > Nz) - iz;
+		} else {
+			ix = ((ix % Nx) + Nx) % Nx;
+			iy = ((iy % Ny) + Ny) % Ny;
+			iz = ((iz % Nz) + Nz) % Nz;
+		}
+		return get(ix, iy, iz);
 	}
 
 	/** Interpolate the grid at a given position */

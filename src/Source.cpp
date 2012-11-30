@@ -220,7 +220,7 @@ void SourceDensityGrid::prepare(ParticleState& particle) const {
 	std::vector<float> &v = grid->getGrid();
 	std::vector<float>::iterator it = lower_bound(v.begin(), v.end(), r);
 	int i = it - v.begin();
-	Vector3d pos = grid->getPosition(i);
+	Vector3d pos = grid->positionFromIndex(i);
 
 	// draw uniform position within bin
 	double dx = random.rand() - 0.5;
@@ -254,7 +254,7 @@ void SourceDensityGrid1D::prepare(ParticleState& particle) const {
 	std::vector<float> &v = grid->getGrid();
 	std::vector<float>::iterator it = lower_bound(v.begin(), v.end(), r);
 	int i = it - v.begin();
-	Vector3d pos = grid->getPosition(i);
+	Vector3d pos = grid->positionFromIndex(i);
 
 	// draw uniform position within bin
 	double dx = random.rand() - 0.5;

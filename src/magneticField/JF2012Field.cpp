@@ -1,6 +1,7 @@
 #include "mpc/magneticField/JF2012Field.h"
 #include "mpc/Units.h"
 #include "mpc/GridTools.h"
+#include "mpc/Random.h"
 
 namespace mpc {
 
@@ -9,11 +10,25 @@ double logisticFunction(double x, double x0, double w) {
 }
 
 JF2012Field::JF2012Field() {
+	useStriated = false;
+	useTurbulent = false;
+
+	// spiral arms
 	pitch = 11.5 * M_PI / 180;
 	sinPitch = sin(pitch);
 	cosPitch = cos(pitch);
 	tan90MinusPitch = tan(M_PI / 2 - pitch);
 
+	rArms[0] = 5.1 * kpc;
+	rArms[1] = 6.3 * kpc;
+	rArms[2] = 7.1 * kpc;
+	rArms[3] = 8.3 * kpc;
+	rArms[4] = 9.8 * kpc;
+	rArms[5] = 11.4 * kpc;
+	rArms[6] = 12.7 * kpc;
+	rArms[7] = 15.5 * kpc;
+
+	// regular field
 	bRing = 0.1 * muG;
 	hDisk = 0.40 * kpc;
 	wDisk = 0.27 * kpc;
@@ -26,15 +41,6 @@ JF2012Field::JF2012Field() {
 	bDisk[5] = -4.2 * muG;
 	bDisk[6] = 0.0 * muG;
 	bDisk[7] = 2.7 * muG;
-
-	rArms[0] = 5.1 * kpc;
-	rArms[1] = 6.3 * kpc;
-	rArms[2] = 7.1 * kpc;
-	rArms[3] = 8.3 * kpc;
-	rArms[4] = 9.8 * kpc;
-	rArms[5] = 11.4 * kpc;
-	rArms[6] = 12.7 * kpc;
-	rArms[7] = 15.5 * kpc;
 
 	bNorth = 1.4 * muG;
 	bSouth = -1.1 * muG;
@@ -50,17 +56,78 @@ JF2012Field::JF2012Field() {
 	tanThetaX0 = tan(thetaX0);
 	rXc = 4.8 * kpc;
 	rX = 2.9 * kpc;
+
+	// striated field
+	sqrtbeta = sqrt(1.36);
+
+	// turbulent field
+	bDiskTurb[0] = 10.81 * muG;
+	bDiskTurb[1] = 6.96 * muG;
+	bDiskTurb[2] = 9.59 * muG;
+	bDiskTurb[3] = 6.96 * muG;
+	bDiskTurb[4] = 1.96 * muG;
+	bDiskTurb[5] = 16.34 * muG;
+	bDiskTurb[6] = 37.29 * muG;
+	bDiskTurb[7] = 10.35 * muG;
+
+	bDiskTurb5 = 7.63 * muG;
+	zDiskTurb = 0.61 * kpc;
+
+	bHaloTurb = 4.68 * muG;
+	rHaloTurb = 10.97 * kpc;
+	zHaloTurb = 2.84 * kpc;
 }
 
-Vector3d JF2012Field::getField(const Vector3d& pos) const {
+void JF2012Field::randomStriated(int seed) {
+	useStriated = true;
+	int N = 100;
+	striatedGrid = new ScalarGrid(Vector3d(0.), N, 0.1 * kpc);
+
+	Random random;
+	if (seed != 0)
+		random.seed(seed);
+
+	for (int ix = 0; ix < N; ix++)
+		for (int iy = 0; iy < N; iy++)
+			for (int iz = 0; iz < N; iz++) {
+				float &f = striatedGrid->get(ix, iy, iz);
+				f = round(random.rand()) * 2 - 1;
+			}
+}
+
+void JF2012Field::randomTurbulent(int seed) {
+	useTurbulent = true;
+	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
+	turbulentGrid = new VectorGrid(Vector3d(0.), 256, 4 * parsec);
+	initTurbulence(turbulentGrid, 1., 16 * parsec, 255.5 * parsec, -11. / 3.,
+			seed);
+}
+
+void JF2012Field::setStriatedGrid(ref_ptr<ScalarGrid> grid) {
+	useStriated = true;
+	striatedGrid = grid;
+}
+
+void JF2012Field::setTurbulentGrid(ref_ptr<VectorGrid> grid) {
+	useTurbulent = true;
+	turbulentGrid = grid;
+}
+
+ref_ptr<ScalarGrid> JF2012Field::getStriatedGrid() {
+	return striatedGrid;
+}
+
+ref_ptr<VectorGrid> JF2012Field::getTurbulentGrid() {
+	return turbulentGrid;
+}
+
+Vector3d JF2012Field::getRegularField(const Vector3d& pos) const {
 	Vector3d b(0.);
 
-	if (pos.getMag() < 1 * kpc)
-		return b; // no field if distance to GC < 1 kpc
-
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
-	if (r > 20 * kpc)
-		return b; // no field if in-plane distance to GC > 20 kpc
+	double d = pos.getMag(); // distance to galactic center
+	if ((d < 1 * kpc) or (d > 20 * kpc))
+		return b;
 
 	double phi = pos.getPhi(); // azimuth
 	double sinPhi = sin(phi);
@@ -70,13 +137,14 @@ Vector3d JF2012Field::getField(const Vector3d& pos) const {
 
 	// disk field
 	if (r > 3 * kpc) {
+		double bMag;
 		if (r < 5 * kpc) {
 			// molecular ring
-			double bMagD = bRing * (5 * kpc / r) * (1 - lfDisk);
-			b.x += -bMagD * sinPhi;
-			b.y += bMagD * cosPhi;
+			bMag = bRing * (5 * kpc / r) * (1 - lfDisk);
+			b.x += -bMag * sinPhi;
+			b.y += bMag * cosPhi;
 
-		} else if (r < 20 * kpc) {
+		} else {
 			// spiral region
 			double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);
 			if (r_negx > rArms[7])
@@ -84,14 +152,13 @@ Vector3d JF2012Field::getField(const Vector3d& pos) const {
 			if (r_negx > rArms[7])
 				r_negx = r * exp(-(phi + 3 * M_PI) / tan90MinusPitch);
 
-			double bMagD;
 			for (int i = 7; i >= 0; i--)
 				if (r_negx < rArms[i])
-					bMagD = bDisk[i];
+					bMag = bDisk[i];
 
-			bMagD *= (5 * kpc / r) * (1 - lfDisk);
-			b.x += bMagD * (sinPitch * cosPhi - cosPitch * sinPhi);
-			b.y += bMagD * (sinPitch * sinPhi + cosPitch * cosPhi);
+			bMag *= (5 * kpc / r) * (1 - lfDisk);
+			b.x += bMag * (sinPitch * cosPhi - cosPitch * sinPhi);
+			b.y += bMag * (sinPitch * sinPhi + cosPitch * cosPhi);
 		}
 	}
 
@@ -104,7 +171,7 @@ Vector3d JF2012Field::getField(const Vector3d& pos) const {
 	b.x += -bMagH * sinPhi;
 	b.y += bMagH * cosPhi;
 
-	// X-halo field
+	// poloidal halo field
 	double bMagX;
 	double sinThetaX, cosThetaX;
 	double rp;
@@ -131,53 +198,27 @@ Vector3d JF2012Field::getField(const Vector3d& pos) const {
 	return b;
 }
 
-JF2012TurbulentField::JF2012TurbulentField() {
-	// correlation length = 0.060 * kpc;
-	r0 = 10.65363798 * kpc;
-	z0 = 3.89915783 * kpc;
-
-	pitch = 11.5 * M_PI / 180;
-	tan90MinusPitch = tan(M_PI / 2 - pitch);
-
-	b5 = 5.35262527 * muG;
-	z0S = 0.58119582 * kpc;
-
-	bDisk[0] = 7.94373074 * muG;
-	bDisk[1] = 4.4140519 * muG;
-	bDisk[2] = 6.72729298 * muG;
-	bDisk[3] = 4.69436688 * muG;
-	bDisk[4] = 1.35254503 * muG;
-	bDisk[5] = 10.91095824;
-	bDisk[6] = 24.74973782;
-	bDisk[7] = 6.86975446;
-
-	rArms[0] = 5.1 * kpc;
-	rArms[1] = 6.3 * kpc;
-	rArms[2] = 7.1 * kpc;
-	rArms[3] = 8.3 * kpc;
-	rArms[4] = 9.8 * kpc;
-	rArms[5] = 11.4 * kpc;
-	rArms[6] = 12.7 * kpc;
-	rArms[7] = 15.5 * kpc;
-
-	// create a turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
-	grid = new VectorGrid(Vector3d(0.), 256, 8 * parsec);
-	double seed = 42;
-	initTurbulence(grid, 1., 16 * parsec, 255.5 * parsec, -11/3., seed);
+Vector3d JF2012Field::getStriatedField(const Vector3d& pos) const {
+	Vector3d b = getRegularField(pos);
+	return b * (1. + sqrtbeta * striatedGrid->closestValue(pos));
 }
 
-double JF2012TurbulentField::getModulation(const Vector3d& pos) const {
-	double r = sqrt(pos.x * pos.x + pos.y * pos.y);
-	if (r > 20 * kpc)
-		return 0; // no field if in-plane distance to GC > 20 kpc
+Vector3d JF2012Field::getTurbulentField(const Vector3d& pos) const {
+	Vector3d b(0.);
 
+	if (pos.getMag() > 20 * kpc)
+		return b;
+
+	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
 	double phi = pos.getPhi(); // azimuth
 
-	// disk field
-	double spiralNorm;
+	double bMag;
+
+	// disk
 	if (r < 5 * kpc) {
-		spiralNorm = b5;
-	} else if (r < 20 * kpc) {
+		bMag = bDiskTurb5;
+	} else {
+		// spiral region
 		double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);
 		if (r_negx > rArms[7])
 			r_negx = r * exp(-(phi + M_PI) / tan90MinusPitch);
@@ -186,22 +227,28 @@ double JF2012TurbulentField::getModulation(const Vector3d& pos) const {
 
 		for (int i = 7; i >= 0; i--)
 			if (r_negx < rArms[i])
-				spiralNorm = bDisk[i];
-
-		spiralNorm *= (5 * kpc / r);
+				bMag = bDiskTurb[i];
 	}
-	spiralNorm *= exp(-0.5 * pow(pos.z / z0S, 2));
+	bMag *= exp(-0.5 * pow(pos.z / zDiskTurb, 2));
 
-	double smoothNorm = 1;
-	smoothNorm *= exp(-1. * fabs(pos.z) / z0);
-	smoothNorm *= exp(-1. * fabs(r) / r0);
+	// halo
+	bMag += bHaloTurb * exp(-1. * (r / rHaloTurb))
+			* exp(-0.5 * pow(pos.z / zHaloTurb, 2));
 
-	return sqrt(smoothNorm * smoothNorm + spiralNorm * spiralNorm);
+	// modulate turbulent field
+	b = turbulentGrid->interpolate(pos) * bMag;
+	return b;
 }
 
-Vector3d JF2012TurbulentField::getField(const Vector3d& pos) const {
-	Vector3d b = grid->interpolate(pos);
-	return b * getModulation(pos);
+Vector3d JF2012Field::getField(const Vector3d& pos) const {
+	Vector3d b(0.);
+	if (useStriated)
+		b += getStriatedField(pos);
+	else
+		b += getRegularField(pos);
+	if (useTurbulent)
+		b += getTurbulentField(pos);
+	return b;
 }
 
-}
+} // namespace mpc

@@ -36,9 +36,13 @@ double ParticleState::getEnergy() const {
 
 void ParticleState::setId(const int newId) {
 	id = newId;
-	if (HepPID::isNucleus(id))
+	if (HepPID::isNucleus(id)) {
 		pmass = nucleusMass(id);
-	charge = HepPID::charge(id) * eplus;
+		charge = HepPID::Z(id) * eplus;
+		if (id < 0)
+			charge *= -1; // HepPID::Z returns positive charge numbers for anti-nuclei
+	} else
+		charge = HepPID::charge(id) * eplus;
 }
 
 int ParticleState::getId() const {

@@ -69,6 +69,9 @@ void PhotoDisintegration::init(std::string filename) {
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
+	if (not(candidate->current.isNucleus()))
+		return false; // accept only nuclei
+
 	int A = candidate->current.getMassNumber();
 	int Z = candidate->current.getChargeNumber();
 	int N = A - Z;

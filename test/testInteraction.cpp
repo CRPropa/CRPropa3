@@ -52,6 +52,17 @@ TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
 }
 
+TEST(ElectronPairProduction, NoNucleus) {
+	// Test if non-nuclei are skipped
+	ElectronPairProduction epp(CMB);
+	Candidate c;
+	c.current.setId(11); // electron
+	double E = 1e20 * eV;
+	c.current.setEnergy(E);
+	epp.process(&c);
+	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
+}
+
 TEST(ElectronPairProduction, valuesCMB) {
 	// Test if energy loss corresponds to the data table.
 	std::vector<double> x;
@@ -258,6 +269,19 @@ TEST(NuclearDecay, AllWorking) {
 	infile.close();
 }
 
+TEST(NuclearDecay, NoNucleus) {
+	// Test if non-nuclei are skipped
+	Candidate c;
+	c.setNextStep(std::numeric_limits<double>::max());
+	c.current.setId(11); // electron
+	c.current.setEnergy(10 * EeV);
+
+	NuclearDecay d;
+	InteractionState state;
+	EXPECT_FALSE(d.setNextInteraction(&c, state));
+	EXPECT_EQ(0, state.channel);
+}
+
 TEST(PhotoDisintegration, Carbon) {
 	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
@@ -320,6 +344,19 @@ TEST(PhotoDisintegration, Iron) {
 	// proton number conserved
 	EXPECT_DOUBLE_EQ(100 * EeV, E);
 	// energy conserved
+}
+
+TEST(PhotoDisintegration, NoNucleus) {
+	// Test if non-nuclei are skipped
+	Candidate c;
+	c.setNextStep(std::numeric_limits<double>::max());
+	c.current.setId(11); // electron
+	c.current.setEnergy(10 * EeV);
+
+	PhotoDisintegration module;
+	InteractionState state;
+	EXPECT_FALSE(module.setNextInteraction(&c, state));
+	EXPECT_EQ(0, state.channel);
 }
 
 TEST(PhotoDisintegration, LimitNextStep) {
@@ -434,6 +471,19 @@ TEST(PhotoPionProduction, Helium) {
 	EXPECT_LT(c.current.getEnergy(), 400 * EeV);
 	EXPECT_TRUE(c.current.getMassNumber() < 4);
 	EXPECT_TRUE(c.secondaries.size() > 0);
+}
+
+TEST(PhotoPionProduction, NoNucleus) {
+	// Test if non-nuclei are skipped
+	Candidate c;
+	c.setNextStep(std::numeric_limits<double>::max());
+	c.current.setId(11); // electron
+	c.current.setEnergy(10 * EeV);
+
+	PhotoPionProduction module;
+	InteractionState state;
+	EXPECT_FALSE(module.setNextInteraction(&c, state));
+	EXPECT_EQ(0, state.channel);
 }
 
 TEST(PhotoPionProduction, LimitNextStep) {

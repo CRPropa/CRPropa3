@@ -34,7 +34,7 @@ TEST(ModuleList, runSource) {
 	source.addProperty(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
 	source.addProperty(new SourceIsotropicEmission());
 	source.addProperty(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
-	source.addProperty(new SourceParticleType(getNucleusId(1, 1)));
+	source.addProperty(new SourceParticleType(nucleusId(1, 1)));
 	modules.setShowProgress(true);
 	modules.run(&source, 100, false);
 }
@@ -49,7 +49,7 @@ TEST(ModuleList, runOpenMP) {
 	source.addProperty(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
 	source.addProperty(new SourceIsotropicEmission());
 	source.addProperty(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
-	source.addProperty(new SourceParticleType(getNucleusId(1, 1)));
+	source.addProperty(new SourceParticleType(nucleusId(1, 1)));
 	omp_set_num_threads(2);
 	modules.run(&source, 1000, false);
 }

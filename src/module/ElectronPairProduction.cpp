@@ -87,8 +87,8 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 }
 
 double ElectronPairProduction::energyLossLength(int id, double E) {
-	double A = getMassNumberFromNucleusId(id);
-	double Z = getChargeNumberFromNucleusId(id);
+	double A = massNumberFromNucleusId(id);
+	double Z = chargeNumberFromNucleusId(id);
 
 	if (Z < 1)
 		return std::numeric_limits<double>::max();

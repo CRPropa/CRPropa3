@@ -128,7 +128,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	}
 
 	// update candidate
-	candidate->current.setId(getNucleusId(A, Z + dZ));
+	candidate->current.setId(nucleusId(A, Z + dZ));
 	candidate->current.setLorentzFactor(gamma);
 
 	// random kinetic energy of electron in neutron decay
@@ -156,9 +156,9 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	int A = candidate->current.getMassNumber();
 	double EpA = candidate->current.getEnergy()
 			/ double(candidate->current.getMassNumber());
-	candidate->current.setId(getNucleusId(A - dA, Z - dZ));
+	candidate->current.setId(nucleusId(A - dA, Z - dZ));
 	candidate->current.setEnergy(EpA * (A - dA));
-	candidate->addSecondary(getNucleusId(dA, dZ), EpA * dA);
+	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA);
 }
 
 } // namespace mpc

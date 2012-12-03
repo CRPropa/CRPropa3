@@ -51,38 +51,38 @@ TEST(ParticleState, momentum) {
 
 TEST(ParticleState, id) {
 	ParticleState particle;
-	particle.setId(getNucleusId(12, 6));
+	particle.setId(nucleusId(12, 6));
 	EXPECT_EQ(particle.getId(), 1000060120);
 }
 
 TEST(ParticleState, idException) {
-	EXPECT_THROW(getNucleusId(5, 6), std::runtime_error);
+	EXPECT_THROW(nucleusId(5, 6), std::runtime_error);
 }
 
 TEST(ParticleState, charge) {
 	ParticleState particle;
-	particle.setId(getNucleusId(56, 26));
+	particle.setId(nucleusId(56, 26));
 	EXPECT_EQ(particle.getChargeNumber(), 26);
 	EXPECT_DOUBLE_EQ(particle.getCharge(), 26 * eplus);
 }
 
 TEST(ParticleState, massProton) {
 	ParticleState particle;
-	particle.setId(getNucleusId(1, 1));
+	particle.setId(nucleusId(1, 1));
 	EXPECT_EQ(particle.getMassNumber(), 1);
 	EXPECT_DOUBLE_EQ(particle.getMass(), mass_proton);
 }
 
 TEST(ParticleState, massNeutron) {
 	ParticleState particle;
-	particle.setId(getNucleusId(1, 0));
+	particle.setId(nucleusId(1, 0));
 	EXPECT_EQ(particle.getMassNumber(), 1);
 	EXPECT_DOUBLE_EQ(particle.getMass(), mass_neutron);
 }
 
 TEST(ParticleState, lorentzFactor) {
 	ParticleState particle;
-	particle.setId(getNucleusId(1, 1));
+	particle.setId(nucleusId(1, 1));
 	particle.setEnergy(1e12 * eV);
 	EXPECT_DOUBLE_EQ(particle.getLorentzFactor(),
 			1e12 * eV / mass_proton / c_squared);
@@ -124,15 +124,15 @@ TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);
 	c.setTrajectoryLength(23);
-	c.initial.setId(getNucleusId(56,26));
+	c.initial.setId(nucleusId(56,26));
 	c.initial.setEnergy(1000);
 	c.initial.setPosition(Vector3d(1,2,3));
 	c.initial.setDirection(Vector3d(0,0,1));
 
-	c.addSecondary(getNucleusId(1,1), 200);
+	c.addSecondary(nucleusId(1,1), 200);
 	Candidate s = *c.secondaries[0];
 
-	EXPECT_EQ(getNucleusId(1,1), s.current.getId());
+	EXPECT_EQ(nucleusId(1,1), s.current.getId());
 	EXPECT_EQ(200, s.current.getEnergy());
 
 	EXPECT_EQ(5, s.getRedshift());
@@ -186,8 +186,8 @@ TEST(common, interpolateEquidistant) {
 
 TEST(NucleusId, crpropaScheme) {
 	// test conversion to and from the CRPropa2 naming scheme
-	EXPECT_EQ(getNucleusId(56, 26), convertFromCRPropaId(26056));
-	EXPECT_EQ(26056, convertToCRPropaId(getNucleusId(56, 26)));
+	EXPECT_EQ(nucleusId(56, 26), convertFromCRPropaId(26056));
+	EXPECT_EQ(26056, convertToCRPropaId(nucleusId(56, 26)));
 }
 
 TEST(Random, seed) {

@@ -1,6 +1,7 @@
 #include "mpc/ParticleState.h"
 
 #include <HepPID/ParticleIDMethods.hh>
+#include <stdexcept>
 
 namespace mpc {
 
@@ -36,7 +37,7 @@ double ParticleState::getEnergy() const {
 void ParticleState::setId(const int newId) {
 	id = newId;
 	if (HepPID::isNucleus(id))
-		pmass = getNucleusMass(id);
+		pmass = nucleusMass(id);
 }
 
 int ParticleState::getId() const {

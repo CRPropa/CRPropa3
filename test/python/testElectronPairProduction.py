@@ -10,7 +10,7 @@ def compare(dataFileName, photonField, plotFileName):
     epp = ElectronPairProduction(photonField)
     
     c = Candidate()
-    c.current.setId(getNucleusId(1,1))
+    c.current.setId(nucleusId(1,1))
     c.setCurrentStep(1 * Mpc)
     
     N = 50

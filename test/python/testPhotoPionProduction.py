@@ -3,7 +3,7 @@ from pylab import *
 
 def getRate(module, energy, charge):
     c = Candidate()
-    c.current.setId(getNucleusId(1, charge))
+    c.current.setId(nucleusId(1, charge))
     c.current.setEnergy(energy)
     
     N = 5000

@@ -573,7 +573,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 				double ab = n.attribute("Abundance").as_double();
 				cout << "  - Species: Z = " << Z << ", A = " << A
 						<< ", abundance = " << ab << endl;
-				composition->add(getNucleusId(A, Z), ab);
+				composition->add(nucleusId(A, Z), ab);
 			}
 			source.addProperty(composition);
 		} else if (spectrum_node.child("Ecut_EeV")) {
@@ -603,7 +603,7 @@ void XmlExecute::loadSourceNuclei(pugi::xml_node &node) {
 		double ab = n.attribute("Abundance").as_double();
 		cout << "  - Species: Z = " << Z << ", A = " << A << ", abundance = "
 				<< ab << endl;
-		composition->add(getNucleusId(A, Z), ab);
+		composition->add(nucleusId(A, Z), ab);
 	}
 	source.addProperty(composition);
 }

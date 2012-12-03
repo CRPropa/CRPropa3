@@ -29,7 +29,7 @@ for i in range(nS):
 
 	for j in range(nP):
 		composition.prepare(state)
-		z = state.getChargeNumber()
+		z = state.chargeNumber()
 		d[z][i] += 1
 
 	norm = float(d[1][i])

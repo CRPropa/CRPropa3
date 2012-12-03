@@ -59,6 +59,9 @@ void PhotoPionProduction::init(std::string filename) {
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
+	if (not(candidate->current.isNucleus()))
+		return false; // accept only nuclei
+
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
 	int A = candidate->current.getMassNumber();

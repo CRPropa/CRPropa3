@@ -3,20 +3,18 @@
 namespace mpc {
 
 void StochasticInteraction::process(Candidate* candidate) const {
-	double z = candidate->getRedshift();
 	double step = candidate->getCurrentStep();
-
 	while (step >= 0) {
 		// get the interaction state, if there is one
 		InteractionState interaction;
-		bool noState = !candidate->getInteractionState(getDescription(), interaction);
+		bool noState = !candidate->getInteractionState(getDescription(),
+				interaction);
 
 		// if no interaction state, set a new one
 		if (noState) {
 			bool noNewState = !setNextInteraction(candidate, interaction);
-			// no new interaction; return
 			if (noNewState)
-				return;
+				return; // no new interaction; return
 		}
 
 		// if interaction distance not reached, reduce it and return

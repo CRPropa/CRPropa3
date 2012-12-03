@@ -60,17 +60,20 @@ void ElectronPairProduction::init(std::string filename) {
 }
 
 void ElectronPairProduction::process(Candidate *candidate) const {
-	double Z = candidate->current.getChargeNumber();
-	if (Z < 1)
-		return;
+	if (not(candidate->current.isNucleus()))
+		return; // this module only handles nucleons / nuclei
 
+	double Z = candidate->current.getChargeNumber();
 	double A = candidate->current.getMassNumber();
 	double E = candidate->current.getEnergy();
 	double z = candidate->getRedshift();
 	double EpA = E / A * (1 + z);
 
+	if (Z < 1)
+		return; // no electron pair production on uncharged particles
+
 	if (EpA < energy.front())
-		return;
+		return; // below energy threshold
 
 	double rate;
 	if (EpA < energy.back())

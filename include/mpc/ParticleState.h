@@ -20,6 +20,7 @@ private:
 	Vector3d direction;
 
 	double pmass;
+	double charge;
 
 public:
 	ParticleState();
@@ -35,20 +36,19 @@ public:
 	void setId(const int);
 	int getId() const;
 
-	int getChargeNumber() const;
-	double getCharge() const;
-
-	int getMassNumber() const;
-	double getMass() const;
-
 	// convenience functions
-	bool isNucleus() const;
+	double getCharge() const;
+	double getMass() const;
 
 	void setLorentzFactor(const double gamma);
 	double getLorentzFactor() const;
 
 	Vector3d getVelocity() const;
 	Vector3d getMomentum() const;
+
+	bool isNucleus() const;
+	int getChargeNumber() const;
+	int getMassNumber() const;
 };
 
 } // namespace mpc

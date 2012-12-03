@@ -3,6 +3,7 @@
 #include "mpc/Common.h"
 
 #include <sstream>
+#include <stdexcept>
 
 namespace mpc {
 

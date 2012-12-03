@@ -15,10 +15,11 @@ namespace mpc {
 class ParticleState {
 private:
 	int id;
-	double pmass;
 	double energy;
 	Vector3d position;
 	Vector3d direction;
+
+	double pmass;
 
 public:
 	ParticleState();

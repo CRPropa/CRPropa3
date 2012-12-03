@@ -158,7 +158,7 @@ TEST(SourceComposition, simpleTest) {
 	double Emax = 100;
 	double index = -2;
 	SourceComposition source(Emin, Emax, index);
-	source.add(getNucleusId(6, 3), 1);
+	source.add(nucleusId(6, 3), 1);
 	ParticleState ps;
 	source.prepare(ps);
 	EXPECT_EQ(6, ps.getMassNumber());
@@ -178,7 +178,7 @@ TEST(Source, allPropertiesUsed) {
 	source.addProperty(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
 	source.addProperty(new SourceIsotropicEmission());
 	source.addProperty(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
-	source.addProperty(new SourceParticleType(getNucleusId(8, 4)));
+	source.addProperty(new SourceParticleType(nucleusId(8, 4)));
 
 	Candidate c = *source.getCandidate();
 

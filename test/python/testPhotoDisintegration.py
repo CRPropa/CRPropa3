@@ -24,7 +24,7 @@ def get_data_rates(pid):
     D = {}
     for i in range(len(table)):
         z, n = int(table[i][0]), int(table[i][1])
-        if getNucleusId(z+n, z) != pid:
+        if nucleusId(z+n, z) != pid:
             continue
         channel = table[i][2]
         rates = table[i][3:]
@@ -43,7 +43,7 @@ def parse_channel(channel):
 
 
 ### nucleus to test
-pid = getNucleusId(4,2)
+pid = nucleusId(4,2)
 
 candidate = Candidate()
 candidate.current.setId(pid)

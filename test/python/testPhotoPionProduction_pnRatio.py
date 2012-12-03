@@ -11,13 +11,13 @@ s = InteractionState()
 def getPNRatio(E):
 	nP, nN = 0, 0
 	for i in range(2000):
-		c.current.setId(getNucleusId(1, 1))
+		c.current.setId(nucleusId(1, 1))
 		c.current.setEnergy(E * EeV)
 		spp.setNextInteraction(c, s)
 		spp.performInteraction(c)
-		if c.current.getId() == getNucleusId(1,1):
+		if c.current.getId() == nucleusId(1,1):
 			nP += 1.
-		if c.current.getId() == getNucleusId(1,0):
+		if c.current.getId() == nucleusId(1,0):
 			nN += 1.
 	return nP / nN
 

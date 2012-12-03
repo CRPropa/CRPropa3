@@ -14,7 +14,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
-	c.current.setId(getNucleusId(1, 1)); // proton
+	c.current.setId(nucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp1(CMB);
 	for (int i = 0; i < 80; i++) {
@@ -45,7 +45,7 @@ TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	// Test if nothing happens below 1e15 eV
 	ElectronPairProduction epp(CMB);
 	Candidate c;
-	c.current.setId(getNucleusId(1, 1)); // proton
+	c.current.setId(nucleusId(1, 1)); // proton
 	double E = 1e14 * eV;
 	c.current.setEnergy(E);
 	epp.process(&c);
@@ -72,7 +72,7 @@ TEST(ElectronPairProduction, valuesCMB) {
 
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
-	c.current.setId(getNucleusId(1, 1)); // proton
+	c.current.setId(nucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp(CMB);
 	for (int i = 0; i < x.size(); i++) {
@@ -104,7 +104,7 @@ TEST(ElectronPairProduction, valuesIRB) {
 
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
-	c.current.setId(getNucleusId(1, 1)); // proton
+	c.current.setId(nucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp(IRB);
 	for (int i = 0; i < x.size(); i++) {
@@ -136,7 +136,7 @@ TEST(ElectronPairProduction, valuesCMB_IRB) {
 
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
-	c.current.setId(getNucleusId(1, 1)); // proton
+	c.current.setId(nucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp(CMB_IRB);
 	for (int i = 0; i < x.size(); i++) {
@@ -153,7 +153,7 @@ TEST(NuclearDecay, Neutron) {
 	// The mean decay time is expected to be within 1% of the literature value.
 	// This test can stochastically fail.
 	Candidate candidate;
-	candidate.current.setId(getNucleusId(1, 0));
+	candidate.current.setId(nucleusId(1, 0));
 	candidate.current.setEnergy(mass_neutron * c_squared);
 	NuclearDecay decay;
 	InteractionState state;
@@ -172,12 +172,12 @@ TEST(NuclearDecay, Scandium44) {
 	NuclearDecay d(true, true);
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
-	c.current.setId(getNucleusId(44, 21));
+	c.current.setId(nucleusId(44, 21));
 	c.current.setEnergy(1 * EeV);
 	double gamma = c.current.getLorentzFactor();
 	d.process(&c);
 	// primary
-	EXPECT_EQ(getNucleusId(44,20), c.current.getId());
+	EXPECT_EQ(nucleusId(44,20), c.current.getId());
 	EXPECT_DOUBLE_EQ(gamma, c.current.getLorentzFactor());
 	// secondaries
 	EXPECT_EQ(2, c.secondaries.size());
@@ -195,15 +195,15 @@ TEST(NuclearDecay, Li4) {
 	NuclearDecay d;
 	Candidate c;
 	c.setCurrentStep(1 * kpc);
-	c.current.setId(getNucleusId(4, 3));
+	c.current.setId(nucleusId(4, 3));
 	c.current.setEnergy(4 * EeV);
 	d.process(&c);
 	// primary
-	EXPECT_EQ(getNucleusId(3,2), c.current.getId());
+	EXPECT_EQ(nucleusId(3,2), c.current.getId());
 	EXPECT_EQ(1, c.secondaries.size());
 	// secondary
 	Candidate c1 = *c.secondaries[0];
-	EXPECT_EQ(getNucleusId(1,1), c1.current.getId());
+	EXPECT_EQ(nucleusId(1,1), c1.current.getId());
 	EXPECT_EQ(1, c1.current.getEnergy() / EeV);
 }
 
@@ -213,15 +213,15 @@ TEST(NuclearDecay, He5) {
 	NuclearDecay d;
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
-	c.current.setId(getNucleusId(5, 2));
+	c.current.setId(nucleusId(5, 2));
 	c.current.setEnergy(5 * EeV);
 	d.process(&c);
 	// primary
-	EXPECT_EQ(getNucleusId(4,2), c.current.getId());
+	EXPECT_EQ(nucleusId(4,2), c.current.getId());
 	EXPECT_EQ(4, c.current.getEnergy() / EeV);
 	// secondary
 	Candidate c2 = *c.secondaries[0];
-	EXPECT_EQ(getNucleusId(1,0), c2.current.getId());
+	EXPECT_EQ(nucleusId(1,0), c2.current.getId());
 	EXPECT_EQ(1, c2.current.getEnergy() / EeV);
 }
 
@@ -230,7 +230,7 @@ TEST(NuclearDecay, LimitNextStep) {
 	NuclearDecay d;
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
-	c.current.setId(getNucleusId(1, 0));
+	c.current.setId(nucleusId(1, 0));
 	c.current.setEnergy(10 * EeV);
 	d.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
@@ -248,7 +248,7 @@ TEST(NuclearDecay, AllWorking) {
 			int Z, N, channel, foo;
 			infile >> Z >> N >> interaction.channel >> foo;
 
-			c.current.setId(getNucleusId(Z + N, Z));
+			c.current.setId(nucleusId(Z + N, Z));
 			c.current.setEnergy(80 * EeV);
 			c.setInteractionState(d.getDescription(), interaction);
 			d.performInteraction(&c);
@@ -263,7 +263,7 @@ TEST(PhotoDisintegration, Carbon) {
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
 	PhotoDisintegration pd;
 	Candidate c;
-	c.current.setId(getNucleusId(12, 6));
+	c.current.setId(nucleusId(12, 6));
 	c.current.setEnergy(100 * EeV);
 	c.setCurrentStep(50 * Mpc);
 	pd.process(&c);
@@ -295,7 +295,7 @@ TEST(PhotoDisintegration, Iron) {
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
 	PhotoDisintegration pd(IRB);
 	Candidate c;
-	c.current.setId(getNucleusId(56, 26));
+	c.current.setId(nucleusId(56, 26));
 	c.current.setEnergy(100 * EeV);
 	c.setCurrentStep(50 * Mpc);
 	pd.process(&c);
@@ -327,7 +327,7 @@ TEST(PhotoDisintegration, LimitNextStep) {
 	PhotoDisintegration pd;
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
-	c.current.setId(getNucleusId(4, 2));
+	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(200 * EeV);
 	pd.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
@@ -358,7 +358,7 @@ TEST(PhotoDisintegration, AllWorkingCMB) {
 			// test if all 200 entries are present
 		}
 
-		c.current.setId(getNucleusId(Z + N, Z));
+		c.current.setId(nucleusId(Z + N, Z));
 		c.current.setEnergy(80 * EeV);
 		c.setInteractionState(pd.getDescription(), interaction);
 		pd.performInteraction(&c);
@@ -391,7 +391,7 @@ TEST(PhotoDisintegration, AllWorkingIRB) {
 			// test if all 200 entries are present
 		}
 
-		c.current.setId(getNucleusId(Z + N, Z));
+		c.current.setId(nucleusId(Z + N, Z));
 		c.current.setEnergy(80 * EeV);
 		c.setInteractionState(pd.getDescription(), interaction);
 		pd.performInteraction(&c);
@@ -411,7 +411,7 @@ TEST(PhotoPionProduction, Proton) {
 	PhotoPionProduction ppp;
 	Candidate c;
 	c.setCurrentStep(100 * Mpc);
-	c.current.setId(getNucleusId(1, 1));
+	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
 	EXPECT_TRUE(c.current.getEnergy() / EeV < 100);
@@ -428,7 +428,7 @@ TEST(PhotoPionProduction, Helium) {
 	PhotoPionProduction ppp;
 	Candidate c;
 	c.setCurrentStep(100 * Mpc);
-	c.current.setId(getNucleusId(4, 2));
+	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(400 * EeV);
 	ppp.process(&c);
 	EXPECT_LT(c.current.getEnergy(), 400 * EeV);
@@ -441,7 +441,7 @@ TEST(PhotoPionProduction, LimitNextStep) {
 	PhotoPionProduction ppp;
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
-	c.current.setId(getNucleusId(1, 1));
+	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(200 * EeV);
 	ppp.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
@@ -453,7 +453,7 @@ TEST(SophiaPhotoPionProduction, withoutSecondaries) {
 	SophiaPhotoPionProduction ppp;
 	Candidate c;
 	c.setCurrentStep(100 * Mpc);
-	c.current.setId(getNucleusId(1, 1));
+	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
 	EXPECT_GT(100 * EeV, c.current.getEnergy());
@@ -469,7 +469,7 @@ TEST(SophiaPhotoPionProduction, withSecondaries) {
 	// This test can stochastically fail if no interaction occurs over 100 Mpc.
 	SophiaPhotoPionProduction ppp(CMB, true, true, true);
 	Candidate c;
-	c.current.setId(getNucleusId(1, 1));
+	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	InteractionState interaction;
 	ppp.setNextInteraction(&c, interaction);

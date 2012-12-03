@@ -34,7 +34,7 @@ TEST(testDeflectionCK, proton) {
 	DeflectionCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
 	ParticleState p;
-	p.setId(getNucleusId(1, 1));
+	p.setId(nucleusId(1, 1));
 	p.setEnergy(100 * EeV);
 	p.setPosition(Vector3d(0, 0, 0));
 	p.setDirection(Vector3d(0, 1, 0));
@@ -51,7 +51,7 @@ TEST(testDeflectionCK, neutron) {
 	DeflectionCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
 	ParticleState p;
-	p.setId(getNucleusId(1, 0));
+	p.setId(nucleusId(1, 0));
 	p.setEnergy(100 * EeV);
 	p.setPosition(Vector3d(0, 0, 0));
 	p.setDirection(Vector3d(0, 1, 0));

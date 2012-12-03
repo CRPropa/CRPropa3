@@ -130,7 +130,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 	// update particle
 	int nA = A + dA;
 	if (nA > 0) {
-		candidate->current.setId(getNucleusId(A + dA, Z + dZ));
+		candidate->current.setId(nucleusId(A + dA, Z + dZ));
 		candidate->current.setEnergy(EpA * (A + dA));
 	} else {
 		candidate->setActive(false);
@@ -138,22 +138,22 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 
 	// create secondaries
 	for (size_t i = 0; i < nNeutron; i++)
-		candidate->addSecondary(getNucleusId(1, 0), EpA);
+		candidate->addSecondary(nucleusId(1, 0), EpA);
 	for (size_t i = 0; i < nProton; i++)
-		candidate->addSecondary(getNucleusId(1, 1), EpA);
+		candidate->addSecondary(nucleusId(1, 1), EpA);
 	for (size_t i = 0; i < nH2; i++)
-		candidate->addSecondary(getNucleusId(2, 1), EpA * 2);
+		candidate->addSecondary(nucleusId(2, 1), EpA * 2);
 	for (size_t i = 0; i < nH3; i++)
-		candidate->addSecondary(getNucleusId(3, 1), EpA * 3);
+		candidate->addSecondary(nucleusId(3, 1), EpA * 3);
 	for (size_t i = 0; i < nHe3; i++)
-		candidate->addSecondary(getNucleusId(3, 2), EpA * 3);
+		candidate->addSecondary(nucleusId(3, 2), EpA * 3);
 	for (size_t i = 0; i < nHe4; i++)
-		candidate->addSecondary(getNucleusId(4, 2), EpA * 4);
+		candidate->addSecondary(nucleusId(4, 2), EpA * 4);
 }
 
 double PhotoDisintegration::energyLossLength(int id, double E) {
-	int A = getMassNumberFromNucleusId(id);
-	int Z = getChargeNumberFromNucleusId(id);
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	int N = A - Z;
 
 	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
@@ -161,7 +161,7 @@ double PhotoDisintegration::energyLossLength(int id, double E) {
 		return std::numeric_limits<double>::max();
 
 	// log10 of lorentz factor
-	double lg = log10(E / (getNucleusMass(id) * c_squared));
+	double lg = log10(E / (nucleusMass(id) * c_squared));
 	if ((lg <= 6) or (lg >= 14))
 		return std::numeric_limits<double>::max();
 

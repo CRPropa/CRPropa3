@@ -11,7 +11,7 @@
 
 namespace mpc {
 
-int getNucleusId(int a, int z) {
+int nucleusId(int a, int z) {
 	if (z < 0)
 		throw std::runtime_error(
 				"mpc::Nucleus: no nucleus with Z < 0, A=" + kiss::str(a) + " Z="
@@ -27,23 +27,23 @@ int getNucleusId(int a, int z) {
 	return 1000000000 + z * 10000 + a * 10;
 }
 
-int getChargeNumberFromNucleusId(int id) {
+int chargeNumberFromNucleusId(int id) {
 	return HepPID::Z(id);
 }
 
-int getMassNumberFromNucleusId(int id) {
+int massNumberFromNucleusId(int id) {
 	return HepPID::A(id);
 }
 
 int convertFromCRPropaId(int crp_id) {
 	int Z = crp_id / 1000;
 	int A = crp_id % 1000;
-	return getNucleusId(A, Z);
+	return nucleusId(A, Z);
 }
 
 int convertToCRPropaId(int id) {
-	int Z = getChargeNumberFromNucleusId(id);
-	int A = getMassNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumberFromNucleusId(id);
 	return Z * 1000 + A;
 }
 
@@ -73,7 +73,7 @@ struct NuclearMassTable {
 
 static NuclearMassTable nuclearMassTable;
 
-double getNucleusMass(int id) {
+double nucleusMass(int id) {
 	int Z = HepPID::Z(id);
 	int N = HepPID::A(id) - Z;
 	double mass = nuclearMassTable.table[Z * 31 + N];

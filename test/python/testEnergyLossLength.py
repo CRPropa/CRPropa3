@@ -25,7 +25,7 @@ def parse_pid(pid):
 
 
 
-pid = getNucleusId(56, 26)
+pid = nucleusId(56, 26)
 
 E = logspace(1, 4) * EeV
 L = zeros((3, 50))

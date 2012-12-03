@@ -7,7 +7,7 @@ D2 = zeros((27, 31))
 for z in range(0, 27):
     for n in range(0, 31):
         try:
-            D[z, n] = getNucleusMass(getNucleusId(n + z, z)) / amu
+            D[z, n] = nucleusMass(nucleusId(n + z, z)) / amu
             D2[z, n] = D[z, n] - (z + n) - z * mass_electron / amu
         except:
             continue

@@ -24,7 +24,7 @@ for j in range(nT):
 		print j
 
 	ps = ParticleState()
-	ps.setId(getNucleusId(1, 1))
+	ps.setId(nucleusId(1, 1))
 	ps.setEnergy(E * EeV)	
 	ps.setDirection(Random.instance().randUnitVectorOnSphere())
 	ps.setPosition(Vector3d(0, 0, 0))

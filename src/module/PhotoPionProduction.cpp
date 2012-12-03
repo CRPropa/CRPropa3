@@ -138,18 +138,18 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 	if (A == 1) {
 		// interaction on single nucleon
 		candidate->current.setEnergy(E * 938. / 1232.);
-		candidate->current.setId(getNucleusId(1, Zfinal));
+		candidate->current.setId(nucleusId(1, Zfinal));
 	} else {
 		// interaction on nucleus, update nucleus and emit nucleon
 		candidate->current.setEnergy(E * (A - 1) / A);
-		candidate->current.setId(getNucleusId(A - 1, Z - dZ));
-		candidate->addSecondary(getNucleusId(1, Zfinal), E / A * 938. / 1232.);
+		candidate->current.setId(nucleusId(A - 1, Z - dZ));
+		candidate->addSecondary(nucleusId(1, Zfinal), E / A * 938. / 1232.);
 	}
 }
 
 double PhotoPionProduction::energyLossLength(int id, double E) {
-	int A = getMassNumberFromNucleusId(id);
-	int Z = getChargeNumberFromNucleusId(id);
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	int N = A - Z;
 
 	double EpA = E / A;
@@ -248,20 +248,20 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 		case 14: // neutron
 			if (A == 1) { // in-going particle was a nucleon: update its properties
 				candidate->current.setEnergy(Eout);
-				candidate->current.setId(getNucleusId(1, 14 - pType));
+				candidate->current.setId(nucleusId(1, 14 - pType));
 			} else { // in-going particle was a nucleus: update nucleus and emit nucleon
 				candidate->current.setEnergy(E - Eout);
-				candidate->current.setId(getNucleusId(A - 1, Z - channel));
-				candidate->addSecondary(getNucleusId(1, 14 - pType), Eout);
+				candidate->current.setId(nucleusId(A - 1, Z - channel));
+				candidate->addSecondary(nucleusId(1, 14 - pType), Eout);
 			}
 			break;
 		case -13: // anti-proton
 			if (haveAntiNucleons)
-				candidate->addSecondary(-getNucleusId(1, 1), Eout);
+				candidate->addSecondary(-nucleusId(1, 1), Eout);
 			break;
 		case -14: // anti-neutron
 			if (haveAntiNucleons)
-				candidate->addSecondary(-getNucleusId(1, 0), Eout);
+				candidate->addSecondary(-nucleusId(1, 0), Eout);
 			break;
 		case 1: // photon
 			if (havePhotons)

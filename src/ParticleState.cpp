@@ -38,26 +38,27 @@ void ParticleState::setId(const int newId) {
 	id = newId;
 	if (HepPID::isNucleus(id))
 		pmass = nucleusMass(id);
+	charge = HepPID::charge(id) * eplus;
 }
 
 int ParticleState::getId() const {
 	return id;
 }
 
+double ParticleState::getMass() const {
+	return pmass;
+}
+
+double ParticleState::getCharge() const {
+	return charge;
+}
+
 int ParticleState::getChargeNumber() const {
 	return HepPID::Z(id);
 }
 
-double ParticleState::getCharge() const {
-	return HepPID::Z(id) * eplus;
-}
-
 int ParticleState::getMassNumber() const {
 	return HepPID::A(id);
-}
-
-double ParticleState::getMass() const {
-	return pmass;
 }
 
 bool ParticleState::isNucleus() const {

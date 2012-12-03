@@ -59,25 +59,49 @@ TEST(ParticleState, idException) {
 	EXPECT_THROW(nucleusId(5, 6), std::runtime_error);
 }
 
-TEST(ParticleState, charge) {
+TEST(ParticleState, Charge) {
 	ParticleState particle;
-	particle.setId(nucleusId(56, 26));
-	EXPECT_EQ(particle.getChargeNumber(), 26);
-	EXPECT_DOUBLE_EQ(particle.getCharge(), 26 * eplus);
+
+	particle.setId(nucleusId(56, 26)); // iron
+	EXPECT_EQ(26, particle.getChargeNumber());
+	EXPECT_DOUBLE_EQ(26 * eplus, particle.getCharge());
+
+	particle.setId(-nucleusId(56, 26)); // anti-iron
+	EXPECT_EQ(26, particle.getChargeNumber());
+	EXPECT_DOUBLE_EQ(-26 * eplus, particle.getCharge());
+
+	particle.setId(11); // electron
+	EXPECT_DOUBLE_EQ(-1 * eplus, particle.getCharge());
+
+	particle.setId(-11); // positron
+	EXPECT_DOUBLE_EQ(1 * eplus, particle.getCharge());
+
+	particle.setId(12); // electron neutrino
+	EXPECT_DOUBLE_EQ(0, particle.getCharge());
+
+	particle.setId(-12); // electron anti-neutrino
+	EXPECT_DOUBLE_EQ(0, particle.getCharge());
 }
 
-TEST(ParticleState, massProton) {
+TEST(ParticleState, Mass) {
 	ParticleState particle;
-	particle.setId(nucleusId(1, 1));
-	EXPECT_EQ(particle.getMassNumber(), 1);
-	EXPECT_DOUBLE_EQ(particle.getMass(), mass_proton);
-}
 
-TEST(ParticleState, massNeutron) {
-	ParticleState particle;
-	particle.setId(nucleusId(1, 0));
-	EXPECT_EQ(particle.getMassNumber(), 1);
-	EXPECT_DOUBLE_EQ(particle.getMass(), mass_neutron);
+	particle.setId(nucleusId(1, 1)); // proton
+	EXPECT_EQ(1, particle.getMassNumber());
+	EXPECT_DOUBLE_EQ(mass_proton, particle.getMass());
+
+	particle.setId(nucleusId(1, 0)); // neutron
+	EXPECT_EQ(1, particle.getMassNumber());
+	EXPECT_DOUBLE_EQ(mass_neutron, particle.getMass());
+
+	int id = nucleusId(56, 26);
+	particle.setId(id); // iron
+	EXPECT_EQ(56, particle.getMassNumber());
+	EXPECT_DOUBLE_EQ(nucleusMass(id), particle.getMass());
+
+	particle.setId(-id); // anti-iron
+	EXPECT_EQ(56, particle.getMassNumber());
+	EXPECT_DOUBLE_EQ(nucleusMass(-id), particle.getMass());
 }
 
 TEST(ParticleState, lorentzFactor) {

@@ -6,7 +6,18 @@
 
 namespace mpc {
 
+/**
+ @class JF2012
+ @brief JF2012 galactic magnetic field model
+
+ Implements the JF2012 magnetic field model, consisting of a large-scale regular
+ and random (striated) field and a small-scale random (turbulent) field.
+ The field is described in
+ Jansson 2012a, ApJ. 757, A New Model of the Galactic Magnetic Field
+ Jansson 2012b, arXiv:1210.7820, The Galactic Magnetic Field
+ */
 class JF2012Field: public MagneticField {
+	bool useRegular;
 	bool useStriated;
 	bool useTurbulent;
 
@@ -35,7 +46,7 @@ class JF2012Field: public MagneticField {
 	double sqrtbeta;       // relative strength of striated field
 	ref_ptr<ScalarGrid> striatedGrid;
 
-	// Small-scale turbulent field -------------------------------------------
+	// Turbulent field -------------------------------------------
 	ref_ptr<VectorGrid> turbulentGrid;
 	// disk
 	double bDiskTurb[8]; // field strengths in arms at r=5 kpc
@@ -49,7 +60,10 @@ class JF2012Field: public MagneticField {
 public:
 	JF2012Field();
 
+	// Create and set a random realization for the striated field
 	void randomStriated(int seed = 0);
+
+	// Create a random realization for the turbulent field
 	void randomTurbulent(int seed = 0);
 
 	void setStriatedGrid(ref_ptr<ScalarGrid> grid);
@@ -58,10 +72,24 @@ public:
 	ref_ptr<ScalarGrid> getStriatedGrid();
 	ref_ptr<VectorGrid> getTurbulentGrid();
 
+	void setUseRegular(bool use);
+	void setUseStriated(bool use);
+	void setUseTurbulent(bool use);
+
+	bool isUsingRegular();
+	bool isUsingStriated();
+	bool isUsingTurbulent();
+
+	// Regular field component
 	Vector3d getRegularField(const Vector3d& pos) const;
+
+	// Regular and striated field component
 	Vector3d getStriatedField(const Vector3d& pos) const;
+
+	// Turbulent field component
 	Vector3d getTurbulentField(const Vector3d& pos) const;
 
+	// All set field components
 	Vector3d getField(const Vector3d& pos) const;
 };
 

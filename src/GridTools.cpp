@@ -42,7 +42,7 @@ double rmsFieldStrength(ref_ptr<VectorGrid> grid) {
 	return sqrt(sumB2 / Nx / Ny / Nz);
 }
 
-void scale(ref_ptr<VectorGrid> grid, double a) {
+void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
 	for (int ix = 0; ix < grid->getNx(); ix++)
 		for (int iy = 0; iy < grid->getNy(); iy++)
 			for (int iz = 0; iz < grid->getNz(); iz++)
@@ -183,7 +183,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 	fftwf_free(Bky);
 	fftwf_free(Bkz);
 
-	scale(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
+	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
 #endif // MPC_HAVE_FFTW3F
 double turbulentCorrelationLength(double lMin, double lMax,

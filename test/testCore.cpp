@@ -323,7 +323,7 @@ TEST(VectordGrid, Scale) {
 			for (int iz = 0; iz < 3; iz++)
 				grid->get(ix, iy, iz) = Vector3f(1, 0, 0);
 
-	scale(grid, 5);
+	scaleGrid(grid, 5);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)

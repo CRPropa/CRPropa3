@@ -16,7 +16,7 @@ double meanFieldStrength(ref_ptr<VectorGrid> grid);
 double rmsFieldStrength(ref_ptr<VectorGrid> grid);
 
 /** Multiply a magnetic field grid by a factor. */
-void scale(ref_ptr<VectorGrid> grid, double a);
+void scaleGrid(ref_ptr<VectorGrid> grid, double a);
 
 #ifdef MPC_HAVE_FFTW3F
 /**

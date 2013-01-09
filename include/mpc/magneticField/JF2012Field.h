@@ -66,7 +66,16 @@ public:
 	// Create a random realization for the turbulent field
 	void randomTurbulent(int seed = 0);
 
+	/**
+	 * Set a striated grid and activate the striated field component
+	 * @param grid	scalar grid containing random +1/-1 values, 100 parsec grid spacing
+	 */
 	void setStriatedGrid(ref_ptr<ScalarGrid> grid);
+
+	/**
+	 * Set a turbulent grid and activate the turbulent field component
+	 * @param grid	vector grid containing a random field of Brms = 1
+	 */
 	void setTurbulentGrid(ref_ptr<VectorGrid> grid);
 
 	ref_ptr<ScalarGrid> getStriatedGrid();
@@ -85,6 +94,9 @@ public:
 
 	// Regular and striated field component
 	Vector3d getStriatedField(const Vector3d& pos) const;
+
+	// Brms of the turbulent field
+	double getTurbulentStrength(const Vector3d& pos) const;
 
 	// Turbulent field component
 	Vector3d getTurbulentField(const Vector3d& pos) const;

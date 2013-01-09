@@ -236,15 +236,13 @@ Vector3d JF2012Field::getRegularField(const Vector3d& pos) const {
 }
 
 Vector3d JF2012Field::getStriatedField(const Vector3d& pos) const {
-	Vector3d b = getRegularField(pos);
-	return b * (1. + sqrtbeta * striatedGrid->closestValue(pos));
+	return (getRegularField(pos)
+			* (1. + sqrtbeta * striatedGrid->closestValue(pos)));
 }
 
-Vector3d JF2012Field::getTurbulentField(const Vector3d& pos) const {
-	Vector3d b(0.);
-
+double JF2012Field::getTurbulentStrength(const Vector3d& pos) const {
 	if (pos.getMag() > 20 * kpc)
-		return b;
+		return 0;
 
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
 	double phi = pos.getPhi(); // azimuth
@@ -270,12 +268,14 @@ Vector3d JF2012Field::getTurbulentField(const Vector3d& pos) const {
 	bDisk *= exp(-0.5 * pow(pos.z / zDiskTurb, 2));
 
 	// halo
-	double bHalo = bHaloTurb * exp(-1. * (r / rHaloTurb))
-			* exp(-0.5 * pow(pos.z / zHaloTurb, 2));
+	double bHalo = bHaloTurb * exp(-r / rHaloTurb) * exp(-0.5 * pow(pos.z / zHaloTurb, 2));
 
 	// modulate turbulent field
-	b = turbulentGrid->interpolate(pos) * sqrt(bDisk * bDisk + bHalo * bHalo);
-	return b;
+	return sqrt(pow(bDisk, 2) + pow(bHalo, 2));
+}
+
+Vector3d JF2012Field::getTurbulentField(const Vector3d& pos) const {
+	return (turbulentGrid->interpolate(pos) * getTurbulentStrength(pos));
 }
 
 Vector3d JF2012Field::getField(const Vector3d& pos) const {

@@ -6,7 +6,7 @@
 namespace mpc {
 
 ParticleState::ParticleState() :
-		id(0), pmass(0), energy(0), position(0, 0, 0), direction(1, 0, 0) {
+		id(0), pmass(0), energy(0), position(0, 0, 0), direction(-1, 0, 0) {
 
 }
 

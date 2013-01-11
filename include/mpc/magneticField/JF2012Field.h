@@ -63,8 +63,10 @@ public:
 	// Create and set a random realization for the striated field
 	void randomStriated(int seed = 0);
 
+#ifdef MPC_HAVE_FFTW3F
 	// Create a random realization for the turbulent field
 	void randomTurbulent(int seed = 0);
+#endif
 
 	/**
 	 * Set a striated grid and activate the striated field component

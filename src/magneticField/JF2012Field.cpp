@@ -98,6 +98,7 @@ void JF2012Field::randomStriated(int seed) {
 			}
 }
 
+#ifdef MPC_HAVE_FFTW3F
 void JF2012Field::randomTurbulent(int seed) {
 	useTurbulent = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
@@ -105,6 +106,7 @@ void JF2012Field::randomTurbulent(int seed) {
 	initTurbulence(turbulentGrid, 1., 16 * parsec, 255.5 * parsec, -11. / 3.,
 			seed);
 }
+#endif
 
 void JF2012Field::setStriatedGrid(ref_ptr<ScalarGrid> grid) {
 	useStriated = true;

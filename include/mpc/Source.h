@@ -60,6 +60,18 @@ public:
 };
 
 /**
+ @class SourceMultipleParticleTypes
+ @brief Multiple particle types with individual (relative) total abundances
+ */
+class SourceMultipleParticleTypes: public SourceProperty {
+	std::vector<int> ids; /**< particle ids */
+	std::vector<double> abundances; /**< (relative) total abundances */
+public:
+	void add(int id, double abundance = 1);
+	void prepare(ParticleState &particle) const;
+};
+
+/**
  @class SourceEnergy
  @brief Sets the initial energy to a given value
  */
@@ -86,18 +98,6 @@ public:
 	 */
 	SourcePowerLawSpectrum(double Emin, double Emax, double index);
 	/** Set particle with a random energy from a power law distribtuition */
-	void prepare(ParticleState &particle) const;
-};
-
-/**
- @class SourceNuclei
- @brief Nuclei with given total abundances
- */
-class SourceNuclei: public SourceProperty {
-	std::vector<int> ids; /**< nucleus id */
-	std::vector<double> abundances; /**< relative abundance of source isotopes at equal energies */
-public:
-	void add(int id, double abundance = 1);
 	void prepare(ParticleState &particle) const;
 };
 

@@ -72,14 +72,14 @@ void SourcePowerLawSpectrum::prepare(ParticleState& particle) const {
 	particle.setEnergy(E);
 }
 
-void SourceNuclei::add(int id, double a) {
+void SourceMultipleParticleTypes::add(int id, double a) {
 	ids.push_back(id);
 	if (abundances.size() > 0)
 		a += abundances.back();
 	abundances.push_back(a);
 }
 
-void SourceNuclei::prepare(ParticleState& particle) const {
+void SourceMultipleParticleTypes::prepare(ParticleState& particle) const {
 	if (ids.size() == 0)
 		throw std::runtime_error("SourceNuclei: no nuclei set");
 	Random &random = Random::instance();

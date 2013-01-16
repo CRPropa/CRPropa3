@@ -11,6 +11,7 @@
 #include "mpc/module/Boundary.h"
 #include "mpc/module/Observer.h"
 #include "mpc/module/Output.h"
+#include "mpc/module/OutputROOT.h"
 #include "mpc/ModuleList.h"
 
 #include "pugixml.hpp"
@@ -612,6 +613,10 @@ void XmlExecute::loadOutput(xml_node &node) {
 	string type = node.attribute("type").as_string();
 	cout << "Output: " << type << endl;
 
+	xml_node file_node = node.child("File");
+	string format = file_node.attribute("type").as_string();
+	cout << "  - Filetype: " << format << endl;
+
 	string filename = node.child("File").child_value();
 	cout << "  - Filename: " << filename << endl;
 
@@ -622,20 +627,38 @@ void XmlExecute::loadOutput(xml_node &node) {
 			throw runtime_error("Output file already exists!");
 	}
 
-	if (type == "Full Trajectories")
-		if (is1D)
-			modules.add(new TrajectoryOutput1D(filename));
-		else
-			modules.add(new TrajectoryOutput(filename));
-	else if (type == "Events")
-		if (is1D)
-			modules.add(new EventOutput1D(filename));
-		else
-			modules.add(new ConditionalOutput(filename));
-	else if (type == "None")
-		return;
+	if (format == "ASCII") 
+	  if (type == "Full Trajectories")
+	    if (is1D)
+	      modules.add(new TrajectoryOutput1D(filename));
+	    else
+	      modules.add(new TrajectoryOutput(filename));
+	  else if (type == "Events")
+	    if (is1D)
+	      modules.add(new EventOutput1D(filename));
+	    else
+	      modules.add(new ConditionalOutput(filename));
+	  else if (type == "None")
+	    return;
+	  else
+	    cout << "  --> unknown output" << endl;
+     	else if (format == "ROOT")
+	  if (type == "Full Trajectories")
+	    if (is1D)
+	      modules.add(new ROOTTrajectoryOutput1D(filename));
+	    else
+	      modules.add(new ROOTTrajectoryOutput3D(filename));
+	  else if (type == "Events")
+	    if (is1D)
+	      modules.add(new ROOTEventOutput1D(filename));
+	    else
+	      modules.add(new ROOTEventOutput3D(filename));
+	  else if (type == "None")
+	    return;
+	  else
+	    cout << "  --> unknown output" << endl;
 	else
-		cout << "  --> unknown output" << endl;
+	  cout <<  "  --> unknown output format (should be 'ASCII' or 'ROOT')" << endl;
 }
 
 void XmlExecute::run() {

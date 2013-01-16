@@ -65,6 +65,26 @@ if (GADGET_FOUND)
     list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_GADGET)
 endif (GADGET_FOUND)
 
+# ROOT (optional for ROOT output)
+find_package(ROOT)
+if (ROOT_FOUND)
+	FIND_PROGRAM(ROOT_CONFIG root-config REQUIRED ROOT_CONFIG_PATH) 
+	execute_process(COMMAND ${ROOT_CONFIG} "--cflags" OUTPUT_VARIABLE ROOT_CFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
+	message(STATUS "ROOT cflags: ${ROOT_CFLAGS}")
+
+	execute_process(COMMAND ${ROOT_CONFIG} "--libs" OUTPUT_VARIABLE ROOT_LIBS OUTPUT_STRIP_TRAILING_WHITESPACE)
+	message(STATUS "ROOT libs: ${ROOT_LIBS}")
+
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CFLAGS}")
+	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
+	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
+
+	add_definitions(-DMPC_HAVE_ROOT)
+endif()
+
+
+
+
 # Google Performance Tools (optional as possible performance tweak)
 find_package(GooglePerfTools)
 set(TCMALLOC)
@@ -100,6 +120,7 @@ add_library(mpc SHARED
     src/module/PhotoDisintegration.cpp
     src/module/Redshift.cpp
     src/module/Output.cpp
+    src/module/OutputROOT.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticField.cpp
     src/magneticField/MagneticFieldGrid.cpp

@@ -595,7 +595,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 }
 
 void XmlExecute::loadSourceNuclei(pugi::xml_node &node) {
-	SourceNuclei *composition = new SourceNuclei();
+	SourceMultipleParticleTypes *composition = new SourceMultipleParticleTypes();
 	xml_node p = node.child("Particles");
 	for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
 		int A = n.attribute("MassNumber").as_int();

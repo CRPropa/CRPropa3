@@ -1,8 +1,7 @@
-#ifndef OUTPUTROOT_H_
-#define OUTPUTROOT_H_
+#ifndef MPC_OUTPUTROOT_H_
+#define MPC_OUTPUTROOT_H_
 
 #include "mpc/Module.h"
-#include <fstream>
 
 #ifdef MPC_HAVE_ROOT
 #include <TFile.h>
@@ -11,12 +10,12 @@
 namespace mpc {
 
 /**
- @class EventOutput 1D ROOT
+ @class ROOTEventOutput1D
  @brief Records particles that are inactive and have the property 'Detected' to a ROOT file.
  */
 class ROOTEventOutput1D: public Module {
-        mutable TFile *ROOTFile;
-        mutable TNtuple *Ntuple;
+	mutable TFile *ROOTFile;
+	mutable TNtuple *Ntuple;
 
 public:
 	ROOTEventOutput1D(std::string filename);
@@ -24,14 +23,13 @@ public:
 	void process(Candidate *candidate) const;
 };
 
-
 /**
- @class TrajectoryOutput 1D ROOT
+ @class ROOTTrajectoryOutput1D
  @brief Saves trajectories to root file.
  */
 class ROOTTrajectoryOutput1D: public Module {
-        mutable TFile *ROOTFile;
-        mutable TNtuple *Ntuple;
+	mutable TFile *ROOTFile;
+	mutable TNtuple *Ntuple;
 
 public:
 	ROOTTrajectoryOutput1D(std::string filename);
@@ -39,14 +37,13 @@ public:
 	void process(Candidate *candidate) const;
 };
 
-
 /**
- @class EventOutput 3D ROOT
- @brief Records particles that are inactive and have the property 'Detected' to a ROOT file in 3D.
+ @class ROOTEventOutput3D
+ @brief Records particles that have the property 'Detected' to a ROOT file in 3D.
  */
 class ROOTEventOutput3D: public Module {
-        mutable TFile *ROOTFile;
-        mutable TNtuple *Ntuple;
+	mutable TFile *ROOTFile;
+	mutable TNtuple *Ntuple;
 
 public:
 	ROOTEventOutput3D(std::string filename);
@@ -54,14 +51,13 @@ public:
 	void process(Candidate *candidate) const;
 };
 
-
 /**
- @class TrajectoryOutput 3D ROOT
+ @class ROOTTrajectoryOutput3D
  @brief Saves trajectories to root file in 3D.
  */
 class ROOTTrajectoryOutput3D: public Module {
-        mutable TFile *ROOTFile;
-        mutable TNtuple *Ntuple;
+	mutable TFile *ROOTFile;
+	mutable TNtuple *Ntuple;
 
 public:
 	ROOTTrajectoryOutput3D(std::string filename);
@@ -69,12 +65,7 @@ public:
 	void process(Candidate *candidate) const;
 };
 
-
-
-
-
 } // namespace mpc
 
-
 #endif // MPC_HAVE_ROOT
-#endif /* OUTPUTROOT_H_ */
+#endif // MPC_OUTPUTROOT_H_

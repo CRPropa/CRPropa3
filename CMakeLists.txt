@@ -70,21 +70,13 @@ find_package(ROOT)
 if (ROOT_FOUND)
 	FIND_PROGRAM(ROOT_CONFIG root-config REQUIRED ROOT_CONFIG_PATH) 
 	execute_process(COMMAND ${ROOT_CONFIG} "--cflags" OUTPUT_VARIABLE ROOT_CFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-	message(STATUS "ROOT cflags: ${ROOT_CFLAGS}")
-
 	execute_process(COMMAND ${ROOT_CONFIG} "--libs" OUTPUT_VARIABLE ROOT_LIBS OUTPUT_STRIP_TRAILING_WHITESPACE)
-	message(STATUS "ROOT libs: ${ROOT_LIBS}")
-
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CFLAGS}")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
-
 	add_definitions(-DMPC_HAVE_ROOT)
 	list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_ROOT)
 endif()
-
-
-
 
 # Google Performance Tools (optional as possible performance tweak)
 find_package(GooglePerfTools)

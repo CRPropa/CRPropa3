@@ -1,7 +1,7 @@
 # - Finds ROOT instalation
 # This module sets up ROOT information 
 # It defines:
-# ROOT_FOUND          If the ROOT is found
+# ROOT_FOUND          If ROOT is found
 
 find_program(ROOT_CONFIG_EXECUTABLE root-config
   PATHS $ENV{ROOTSYS}/bin)

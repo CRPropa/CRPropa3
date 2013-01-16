@@ -80,8 +80,6 @@ ROOTEventOutput3D::~ROOTEventOutput3D() {
 }
 
 void ROOTEventOutput3D::process(Candidate *c) const {
-	if (c->isActive())
-		return;
 	if (c->hasProperty("Detected")) {
 	  #pragma omp critical
 	  {

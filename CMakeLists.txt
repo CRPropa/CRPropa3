@@ -114,6 +114,7 @@ add_library(mpc SHARED
     src/module/Redshift.cpp
     src/module/Output.cpp
     src/module/OutputROOT.cpp
+    src/module/OutputCRPropa2.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticField.cpp
     src/magneticField/MagneticFieldGrid.cpp

@@ -1,5 +1,5 @@
-#ifndef OUTPUT_H_
-#define OUTPUT_H_
+#ifndef MPC_OUTPUT_H_
+#define MPC_OUTPUT_H_
 
 #include "mpc/Module.h"
 #include <fstream>
@@ -70,4 +70,4 @@ public:
 
 } // namespace mpc
 
-#endif /* OUTPUT_H_ */
+#endif // MPC_OUTPUT_H_

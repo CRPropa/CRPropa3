@@ -1,5 +1,5 @@
-#ifndef NUCLEUS_H_
-#define NUCLEUS_H_
+#ifndef MPC_NUCLEUS_H_
+#define MPC_NUCLEUS_H_
 
 namespace mpc {
 
@@ -27,4 +27,4 @@ double nucleusMass(int id);
 
 } // namespace mpc
 
-#endif /* NUCLEUS_H_ */
+#endif // MPC_NUCLEUS_H_

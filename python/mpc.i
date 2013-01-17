@@ -25,6 +25,7 @@
 #include "mpc/module/Observer.h"
 #include "mpc/module/Output.h"
 #include "mpc/module/OutputROOT.h"
+#include "mpc/module/OutputCRPropa2.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Tools.h"
@@ -83,6 +84,13 @@
 %template(Vector3d) mpc::Vector3<double>;
 %template(Vector3f) mpc::Vector3<float>;
 
+%pythoncode %{
+def Vector3__str__(self):
+  return "(%.4e, %.4e, %.4e)" % (self.x, self.y, self.z)
+Vector3d.__str__ = Vector3__str__
+Vector3f.__str__ = Vector3__str__
+%}
+
 
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
@@ -131,6 +139,7 @@
 %include "mpc/module/DeflectionCK.h"
 %include "mpc/module/Output.h"
 %include "mpc/module/OutputROOT.h"
+#include "mpc/module/OutputCRPropa2.h"
 %include "mpc/module/ElectronPairProduction.h"
 %include "mpc/module/StochasticInteraction.h"
 %include "mpc/module/NuclearDecay.h"

@@ -1,9 +1,6 @@
 #include "mpc/module/Output.h"
 
-#include <iostream>
 #include <iomanip>
-#include <fstream>
-#include <sstream>
 #include <stdio.h>
 
 namespace mpc {

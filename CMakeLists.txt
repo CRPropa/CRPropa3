@@ -98,6 +98,7 @@ add_library(mpc SHARED
     src/ParticleState.cpp
     src/Source.cpp
     src/Common.cpp
+    src/PhotonBackground.cpp
     src/Nucleus.cpp
     src/GridTools.cpp
     src/XmlExecute.cpp

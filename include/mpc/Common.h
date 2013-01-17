@@ -1,18 +1,10 @@
-#ifndef COMMON_H_
-#define COMMON_H_
+#ifndef MPC_COMMON_H_
+#define MPC_COMMON_H_
 
 #include <string>
 #include <vector>
 
 namespace mpc {
-
-// Photon fields
-enum PhotonField {
-	CMB, IRB, CMB_IRB
-};
-
-// Returns overall photon field scaling factor at redshift z
-double photonFieldScaling(int photonField, double z);
 
 // Returns the full path to a mpc data file
 std::string getDataPath(std::string filename);
@@ -34,4 +26,4 @@ double interpolateEquidistant(double x, double lo, double hi,
 
 } // namespace mpc
 
-#endif /* COMMON_H_ */
+#endif // MPC_COMMON_H_

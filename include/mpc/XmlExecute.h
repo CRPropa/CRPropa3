@@ -1,5 +1,5 @@
-#ifndef MPC_XML_EXECUTE_H
-#define MPC_XML_EXECUTE_H
+#ifndef MPC_XMLEXECUTE_H_
+#define MPC_XMLEXECUTE_H_
 
 #include "mpc/ModuleList.h"
 #include "mpc/Source.h"
@@ -47,4 +47,4 @@ public:
 
 } // namespace mpc
 
-#endif /* MPC_XML_EXECUTE_H */
+#endif // MPC_XMLEXECUTE_H_

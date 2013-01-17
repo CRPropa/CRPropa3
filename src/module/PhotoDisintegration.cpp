@@ -1,4 +1,5 @@
 #include "mpc/module/PhotoDisintegration.h"
+#include "mpc/Random.h"
 
 #include <cmath>
 #include <limits>

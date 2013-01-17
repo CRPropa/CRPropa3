@@ -12,6 +12,7 @@
 #include "mpc/module/Observer.h"
 #include "mpc/module/Output.h"
 #include "mpc/module/OutputROOT.h"
+#include "mpc/module/OutputCRPropa2.h"
 #include "mpc/ModuleList.h"
 
 #include "pugixml.hpp"
@@ -298,7 +299,8 @@ bool XmlExecute::load(const string &filename) {
 			else if (type == "Spheres around Source")
 				loadSpheresAroundSource(node);
 			else
-				cout << " --> unknown observer" << endl;
+				cout << " --> unknown observer ('Spheres around Source' or "
+						<< "'Spheres around Observer')" << endl;
 		}
 	}
 
@@ -458,8 +460,11 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
 		double r = childValue(n, "Radius_Mpc") * Mpc;
 		cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
-		modules.add(new LargeObserverSphere(pos, r, "Detected", "", false));
+		modules.add(new LargeObserverSphere(pos, r, "Detected", "", true));
 	}
+	if (nObs > 1)
+		cout << " --> Warning! More than one observer currently not supported. "
+				<< endl;
 }
 
 void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
@@ -596,7 +601,8 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 }
 
 void XmlExecute::loadSourceNuclei(pugi::xml_node &node) {
-	SourceMultipleParticleTypes *composition = new SourceMultipleParticleTypes();
+	SourceMultipleParticleTypes *composition =
+			new SourceMultipleParticleTypes();
 	xml_node p = node.child("Particles");
 	for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
 		int A = n.attribute("MassNumber").as_int();
@@ -627,38 +633,41 @@ void XmlExecute::loadOutput(xml_node &node) {
 			throw runtime_error("Output file already exists!");
 	}
 
-	if (format == "ASCII") 
-	  if (type == "Full Trajectories")
-	    if (is1D)
-	      modules.add(new TrajectoryOutput1D(filename));
-	    else
-	      modules.add(new TrajectoryOutput(filename));
-	  else if (type == "Events")
-	    if (is1D)
-	      modules.add(new EventOutput1D(filename));
-	    else
-	      modules.add(new ConditionalOutput(filename));
-	  else if (type == "None")
-	    return;
-	  else
-	    cout << "  --> unknown output" << endl;
-     	else if (format == "ROOT")
-	  if (type == "Full Trajectories")
-	    if (is1D)
-	      modules.add(new ROOTTrajectoryOutput1D(filename));
-	    else
-	      modules.add(new ROOTTrajectoryOutput3D(filename));
-	  else if (type == "Events")
-	    if (is1D)
-	      modules.add(new ROOTEventOutput1D(filename));
-	    else
-	      modules.add(new ROOTEventOutput3D(filename));
-	  else if (type == "None")
-	    return;
-	  else
-	    cout << "  --> unknown output" << endl;
-	else
-	  cout <<  "  --> unknown output format (should be 'ASCII' or 'ROOT')" << endl;
+	if (format == "ASCII") {
+		if (type == "Full Trajectories")
+			if (is1D)
+				modules.add(new CRPropa2TrajectoryOutput1D(filename));
+			else
+				modules.add(new CRPropa2TrajectoryOutput3D(filename));
+		else if (type == "Events")
+			if (is1D)
+				modules.add(new CRPropa2EventOutput1D(filename));
+			else
+				modules.add(new CRPropa2EventOutput3D(filename));
+		else if (type == "None")
+			return;
+		else
+			cout << "  --> unknown output type "
+					<< "('Events', 'Full Trajectories' or 'None')" << endl;
+	} else if (format == "ROOT") {
+		if (type == "Full Trajectories")
+			if (is1D)
+				modules.add(new ROOTTrajectoryOutput1D(filename));
+			else
+				modules.add(new ROOTTrajectoryOutput3D(filename));
+		else if (type == "Events")
+			if (is1D)
+				modules.add(new ROOTEventOutput1D(filename));
+			else
+				modules.add(new ROOTEventOutput3D(filename));
+		else if (type == "None")
+			return;
+		else
+			cout << "  --> unknown output type "
+					<< "('Events', 'Full Trajectories' or 'None')" << endl;
+	} else {
+		cout << "  --> unknown output format " << "('ASCII' or 'ROOT')" << endl;
+	}
 }
 
 void XmlExecute::run() {

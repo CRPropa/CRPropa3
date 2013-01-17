@@ -2,7 +2,7 @@
 #define MPC_ELECTRONPAIRPRODUCTION_H_
 
 #include "mpc/Module.h"
-#include "mpc/Common.h"
+#include "mpc/PhotonBackground.h"
 
 namespace mpc {
 
@@ -36,4 +36,4 @@ public:
 
 } // namespace mpc
 
-#endif /* MPC_ELECTRONPAIRPRODUCTION_H_ */
+#endif // MPC_ELECTRONPAIRPRODUCTION_H_

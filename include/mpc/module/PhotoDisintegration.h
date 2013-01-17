@@ -1,8 +1,8 @@
-#ifndef PHOTODISINTEGRATION_H_
-#define PHOTODISINTEGRATION_H_
+#ifndef MPC_PHOTODISINTEGRATION_H_
+#define MPC_PHOTODISINTEGRATION_H_
 
 #include "mpc/module/StochasticInteraction.h"
-#include "mpc/Random.h"
+#include "mpc/PhotonBackground.h"
 
 #include <vector>
 
@@ -43,4 +43,4 @@ public:
 
 } // namespace mpc
 
-#endif /* PHOTODISINTEGRATION_H_ */
+#endif // MPC_PHOTODISINTEGRATION_H_

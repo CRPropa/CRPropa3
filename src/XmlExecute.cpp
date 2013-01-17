@@ -1,6 +1,8 @@
 #include "mpc/XmlExecute.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/GridTools.h"
+#include "mpc/PhotonBackground.h"
+#include "mpc/Random.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/ElectronPairProduction.h"
@@ -20,6 +22,7 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
+#include <stdexcept>
 
 using namespace pugi;
 using namespace std;

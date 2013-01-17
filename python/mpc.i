@@ -48,6 +48,7 @@
 #include "mpc/Vector3.h"
 #include "mpc/Source.h"
 #include "mpc/Common.h"
+#include "mpc/PhotonBackground.h"
 #include "mpc/Grid.h"
 #include "mpc/GridTools.h"
 %}
@@ -96,6 +97,7 @@ Vector3f.__str__ = Vector3__str__
 %include "mpc/Units.h"
 %include "mpc/Nucleus.h"
 %include "mpc/Common.h"
+%include "mpc/PhotonBackground.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
 
@@ -139,7 +141,7 @@ Vector3f.__str__ = Vector3__str__
 %include "mpc/module/DeflectionCK.h"
 %include "mpc/module/Output.h"
 %include "mpc/module/OutputROOT.h"
-#include "mpc/module/OutputCRPropa2.h"
+%include "mpc/module/OutputCRPropa2.h"
 %include "mpc/module/ElectronPairProduction.h"
 %include "mpc/module/StochasticInteraction.h"
 %include "mpc/module/NuclearDecay.h"

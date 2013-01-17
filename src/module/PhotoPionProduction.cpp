@@ -1,4 +1,5 @@
 #include "mpc/module/PhotoPionProduction.h"
+#include "mpc/Random.h"
 
 #include <kiss/convert.h>
 #include "sophia.h"

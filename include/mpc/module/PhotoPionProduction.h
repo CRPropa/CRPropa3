@@ -2,7 +2,7 @@
 #define MPC_PHOTOPIONPRODUCTION_H_
 
 #include "mpc/module/StochasticInteraction.h"
-#include "mpc/Random.h"
+#include "mpc/PhotonBackground.h"
 
 #include <vector>
 
@@ -65,4 +65,4 @@ public:
 
 } // namespace mpc
 
-#endif /* MPC_PHOTOPIONPRODUCTION_H_ */
+#endif // MPC_PHOTOPIONPRODUCTION_H_

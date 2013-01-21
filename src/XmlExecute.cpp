@@ -652,7 +652,9 @@ void XmlExecute::loadOutput(xml_node &node) {
 		else
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
-	} else if (format == "ROOT") {
+	} 
+#ifdef MPC_HAVE_ROOT
+          else if (format == "ROOT") {
 		if (type == "Full Trajectories")
 			if (is1D)
 				modules.add(new ROOTTrajectoryOutput1D(filename));
@@ -668,8 +670,10 @@ void XmlExecute::loadOutput(xml_node &node) {
 		else
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
-	} else {
-		cout << "  --> unknown output format " << "('ASCII' or 'ROOT')" << endl;
+	} 
+#endif // MPC_HAVE_ROOT
+          else {
+		cout << "  --> unknown output format. " << " Use 'ASCII' or 'ROOT' (if ROOT is set)" << endl;
 	}
 }
 

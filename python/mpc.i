@@ -1,5 +1,11 @@
 %module(directors="1") mpc
 
+%{
+// workaround for swig
+#include <cstddef>
+using std::ptrdiff_t;
+%}
+
 %include stl.i
 %include std_set.i
 %include std_multiset.i
@@ -51,6 +57,7 @@
 #include "mpc/PhotonBackground.h"
 #include "mpc/Grid.h"
 #include "mpc/GridTools.h"
+
 %}
 
 

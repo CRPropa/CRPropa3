@@ -6,6 +6,8 @@
 #ifdef MPC_HAVE_ROOT
 #include <TFile.h>
 #include <TNtuple.h>
+#include <TThread.h>
+
 
 namespace mpc {
 

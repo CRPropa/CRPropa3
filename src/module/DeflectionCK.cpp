@@ -30,8 +30,7 @@ public:
 					<< std::endl;
 			std::cerr << e.what() << std::endl;
 		}
-		Vector3d force = (double) particle->getChargeNumber() * eplus
-				* velocity.cross(B);
+		Vector3d force = (double) particle->getCharge() * velocity.cross(B);
 		return PhasePoint(velocity, force);
 	}
 };

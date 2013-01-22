@@ -32,7 +32,10 @@ struct InteractionState {
  @class Candidate
  @brief All information about the cosmic ray.
 
- The Candidate is a passive object, that holds all information about the initial and current state of the cosmic ray and the status of propagation.
+ The Candidate is a passive object, that holds the information about the state
+ of the cosmic ray at the beginning of propagation and in the current and
+ previous propagation step.
+ It holds status information about the cosmic ray and the simulation itself.
  */
 class Candidate: public Referenced {
 public:
@@ -53,7 +56,7 @@ private:
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
 
 	PropertyMap properties; /**< Map of property names and their values. */
-	InteractionStatesMap interactionStates; /**< Map of physical interactions that are scheduled to happen to the candidate. */
+	InteractionStatesMap interactionStates; /**< Map of interactions that are scheduled to happen to the candidate. */
 
 public:
 	Candidate();

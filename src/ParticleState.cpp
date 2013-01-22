@@ -26,7 +26,7 @@ const Vector3d &ParticleState::getDirection() const {
 	return direction;
 }
 
-void ParticleState::setEnergy(const double newEnergy) {
+void ParticleState::setEnergy(double newEnergy) {
 	energy = newEnergy;
 }
 
@@ -34,15 +34,16 @@ double ParticleState::getEnergy() const {
 	return energy;
 }
 
-void ParticleState::setId(const int newId) {
+void ParticleState::setId(int newId) {
 	id = newId;
 	if (HepPID::isNucleus(id)) {
 		pmass = nucleusMass(id);
-		charge = HepPID::Z(id) * eplus;
+		charge = HepPID::Z(id) * eplus; // HepPID::charge doesn't work for nuclei
 		if (id < 0)
 			charge *= -1; // HepPID::Z returns positive charge numbers for anti-nuclei
-	} else
+	} else {
 		charge = HepPID::charge(id) * eplus;
+	}
 }
 
 int ParticleState::getId() const {
@@ -77,7 +78,7 @@ double ParticleState::getLorentzFactor() const {
 				"mpc::ParticleState::getLorentzFactor only for nuclei/nucleons");
 }
 
-void ParticleState::setLorentzFactor(const double gamma) {
+void ParticleState::setLorentzFactor(double gamma) {
 	if (HepPID::isNucleus(id))
 		energy = gamma * pmass * c_squared;
 	else

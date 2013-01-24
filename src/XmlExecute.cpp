@@ -572,8 +572,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
 			// combined source spectrum / composition
-			SourceComposition *composition = new SourceComposition(Emin, Rmax,
-					alpha);
+			SourceComposition *composition = new SourceComposition(Emin, Rmax, -alpha);
 			xml_node p = node.child("Particles");
 			for (xml_node n = p.child("Species"); n;
 					n = n.next_sibling("Species")) {
@@ -590,7 +589,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 			cout << "  - Maximum energy: " << Emax / EeV << " EeV" << endl;
 
 			// source spectrum
-			source.addProperty(new SourcePowerLawSpectrum(Emin, Emax, alpha));
+			source.addProperty(new SourcePowerLawSpectrum(Emin, Emax, -alpha));
 
 			// source composition
 			loadSourceNuclei(node);

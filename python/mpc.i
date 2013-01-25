@@ -1,7 +1,7 @@
 %module(directors="1") mpc
 
 %{
-// workaround for swig
+// workaround for SWIG < 2.0.5 with GCC >= 4.7
 #include <cstddef>
 using std::ptrdiff_t;
 %}
@@ -57,7 +57,6 @@ using std::ptrdiff_t;
 #include "mpc/PhotonBackground.h"
 #include "mpc/Grid.h"
 #include "mpc/GridTools.h"
-
 %}
 
 

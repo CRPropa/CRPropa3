@@ -32,7 +32,7 @@ public:
 	void performInteraction(Candidate *candidate) const;
 
 	/**
-	 Calculates the energy loss length 1/E dE/dx in [m]
+	 Calculates the energy loss length 1/E dE/dx in [m]. This is not used in the simulation.
 	 @param	id		PDG particle id
 	 @param energy	particle energy [J]
 	 */

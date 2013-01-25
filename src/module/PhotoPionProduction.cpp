@@ -26,12 +26,10 @@ void PhotoPionProduction::init() {
 	if (photonField == CMB) {
 		init(getDataPath("photopion_CMB.txt"));
 		setDescription("PhotoPionProduction: CMB");
-	}
-	else if (photonField == IRB) {
+	} else if (photonField == IRB) {
 		init(getDataPath("photopion_IRB.txt"));
 		setDescription("PhotoPionProduction: IRB");
-	}
-	else
+	} else
 		throw std::runtime_error(
 				"PhotoPionProduction: unknown photon background");
 }
@@ -52,7 +50,7 @@ void PhotoPionProduction::init(std::string filename) {
 				nRate.push_back(c / Mpc);
 			}
 		}
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 	}
 
 	infile.close();
@@ -60,7 +58,7 @@ void PhotoPionProduction::init(std::string filename) {
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
-	if (not(candidate->current.isNucleus()))
+	if (not (candidate->current.isNucleus()))
 		return false; // accept only nuclei
 
 	double z = candidate->getRedshift();
@@ -160,26 +158,27 @@ double PhotoPionProduction::energyLossLength(int id, double E) {
 	if ((EpA < energy.front()) or (EpA > energy.back()))
 		return std::numeric_limits<double>::max();
 
-	double lossRate = 0;
-	double relativeEnergyLoss = 1. / double(A);
+	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass (crude approximation)
+	// nuclei approximately lose the energy that the interacting nucleon is carrying
+	double relativeEnergyLoss = (A == 1) ? 1 - 938. / 1232. : 1. / A;
 
+	double lossRate = 0;
 	if (Z > 0) {
 		double rate = interpolate(EpA, energy, pRate);
 		if (A > 1)
 			if (A < 8)
 				rate *= 0.85 * pow(Z, 2. / 3.);
-			if (A >= 8)
-				rate *= 0.85 * Z;
+		if (A >= 8)
+			rate *= 0.85 * Z;
 		lossRate += relativeEnergyLoss * rate;
 	}
-
 	if (N > 0) {
 		double rate = interpolate(EpA, energy, nRate);
 		if (A > 1)
 			if (A < 8)
 				rate *= 0.85 * pow(N, 2. / 3.);
-			if (A >= 8)
-				rate *= 0.85 * N;
+		if (A >= 8)
+			rate *= 0.85 * N;
 		lossRate += relativeEnergyLoss * rate;
 	}
 
@@ -205,16 +204,26 @@ void SophiaPhotoPionProduction::setHaveAntiNucleons(bool b) {
 }
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
+	double E = candidate->current.getEnergy();
+	int A = candidate->current.getMassNumber();
+	int Z = candidate->current.getChargeNumber();
+	double EpA = E / A;
+	double redshift = candidate->getRedshift();
+
+	// check if energy, shifted by *(1+z), is still above SOPHIA's threshold
+	// if below the threshold, remove interaction state and return
+	double Eth = (photonField == CMB) ? 3.75 * EeV : 0.01 * EeV;
+	if (EpA * (1 + redshift) < Eth) {
+		candidate->removeInteractionState(getDescription());
+		return;
+	}
+
+	// else continue
 	InteractionState interaction;
 	candidate->getInteractionState(getDescription(), interaction);
 	candidate->clearInteractionStates();
 
 	int channel = interaction.channel; // 1 for interaction proton, 0 for neutron
-
-	double E = candidate->current.getEnergy();
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
-	double EpA = E / A;
 
 	// arguments for sophia
 	int nature = 1 - channel; // interacting particle: 0 for proton, 1 for neutron
@@ -222,20 +231,10 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	double momentaList[5][2000]; // momentum list, what are the five components?
 	int particleList[2000]; // particle id list
 	int nParticles; // number of outgoing particles
-	double redshift = candidate->getRedshift();
-
-	int background; // Photon background: 1 for CMB, 2 for Kneiske IRB
-	if (photonField == CMB)
-		background = 1;
-	else if (photonField == IRB)
-		background = 2;
-	else
-		throw std::runtime_error(
-				"SophiaPhotoPionProduction: Only CMB an IRB provided");
-
 	double maxRedshift = 100; // IR photon density is zero above this redshift
-	int dummy1;
-	double dummy2[2];
+	int dummy1; // unneeded
+	double dummy2[2]; // unneeded
+	int background = (photonField == CMB) ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
 
 #pragma omp critical
 	{

@@ -57,22 +57,29 @@ void Candidate::limitNextStep(double step) {
 	nextStep = std::min(nextStep, step);
 }
 
-bool Candidate::getInteractionState(const std::string &moduleName,
+bool Candidate::getInteractionState(const std::string &name,
 		InteractionState &state) const {
-	InteractionStatesMap::const_iterator i = interactionStates.find(moduleName);
+	InteractionStatesMap::const_iterator i = interactionStates.find(name);
 	if (i == interactionStates.end())
 		return false;
 	state = i->second;
 	return true;
 }
 
-void Candidate::setInteractionState(const std::string &moduleName,
-		const InteractionState &state) {
-	interactionStates[moduleName] = state;
-}
-
 const Candidate::InteractionStatesMap Candidate::getInteractionStates() const {
 	return interactionStates;
+}
+
+void Candidate::setInteractionState(const std::string &name,
+		const InteractionState &state) {
+	interactionStates[name] = state;
+}
+
+void Candidate::removeInteractionState(const std::string &name) {
+	InteractionStatesMap::iterator i = interactionStates.find(name);
+	if (i == interactionStates.end())
+		return;
+	interactionStates.erase(i);
 }
 
 void Candidate::clearInteractionStates() {

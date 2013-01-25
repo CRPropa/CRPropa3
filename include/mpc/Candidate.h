@@ -86,11 +86,12 @@ public:
 	bool getProperty(const std::string &name, std::string &value) const;
 	bool hasProperty(const std::string &name) const;
 
-	bool getInteractionState(const std::string &moduleName,
+	bool getInteractionState(const std::string &name,
 			InteractionState &state) const;
-	void setInteractionState(const std::string &moduleName,
+	void setInteractionState(const std::string &name,
 			const InteractionState &state);
 	const InteractionStatesMap getInteractionStates() const;
+	void removeInteractionState(const std::string &name);
 	void clearInteractionStates();
 
 	void addSecondary(int id, double energy);
@@ -99,4 +100,4 @@ public:
 
 } // namespace mpc
 
-#endif /* MPC_CANDIDATE_H_ */
+#endif // MPC_CANDIDATE_H_

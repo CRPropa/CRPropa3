@@ -10,7 +10,8 @@ namespace mpc {
  @brief Simple rectalinear propagation in absence of magnetic fields.
 
  This module performs a rectalinear propagation.
- It always proposes a next step of the maximum step size.
+ The step size is guaranteed to be larger than minStep and smaller than maxStep.
+ It always proposes a next step size of maxStep.
  */
 class SimplePropagation: public Module {
 private:
@@ -21,10 +22,12 @@ public:
 	void process(Candidate *candidate) const;
 	void setMinimumStep(double minStep);
 	void setMaximumStep(double maxStep);
+	double getMinimumStep() const;
+	double getMaximumStep() const;
 	std::string getDescription() const;
 };
 
 } // namespace mpc
 
-#endif /* SIMPLEPROPAGATION_H_ */
+#endif // SIMPLEPROPAGATION_H_
 

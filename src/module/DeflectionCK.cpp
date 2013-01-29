@@ -26,8 +26,7 @@ public:
 		try {
 			B = field->getField(v.a);
 		} catch (std::exception &e) {
-			std::cerr << "mpc::LorentzForce: Exception in getField."
-					<< std::endl;
+			std::cerr << "LorentzForce: Exception in getField." << std::endl;
 			std::cerr << e.what() << std::endl;
 		}
 		Vector3d force = (double) particle->getCharge() * velocity.cross(B);
@@ -38,32 +37,12 @@ public:
 DeflectionCK::DeflectionCK(ref_ptr<MagneticField> field, double tolerance,
 		double minStep, double maxStep) :
 		field(field), tolerance(tolerance), minStep(minStep), maxStep(maxStep) {
+	if ((tolerance > 1) or (tolerance < 0))
+		throw std::runtime_error(
+				"DeflectionCK: target relative error not in range 0-1");
+	if (minStep > maxStep)
+		throw std::runtime_error("DeflectionCK: minStep > maxStep");
 	erk.loadCashKarp();
-}
-
-void DeflectionCK::setField(ref_ptr<MagneticField> f) {
-	field = f;
-}
-
-void DeflectionCK::setTolerance(double t) {
-	tolerance = t;
-}
-
-void DeflectionCK::setMinimumStep(double s) {
-	minStep = s;
-}
-
-void DeflectionCK::setMaximumStep(double s) {
-	maxStep = s;
-}
-
-std::string DeflectionCK::getDescription() const {
-	std::stringstream s;
-	s << "Propagation in magnetic fields using the Cash-Karp method.";
-	s << " Tolerance: " << tolerance;
-	s << ", Minimum Step: " << minStep / kpc << " kpc";
-	s << ", Maximum Step: " << maxStep / kpc << " kpc";
-	return s.str();
 }
 
 void DeflectionCK::process(Candidate *candidate) const {
@@ -121,4 +100,48 @@ void DeflectionCK::process(Candidate *candidate) const {
 	candidate->setNextStep(h * c_light);
 }
 
-} /* namespace mpc */
+void DeflectionCK::setField(ref_ptr<MagneticField> f) {
+	field = f;
+}
+
+void DeflectionCK::setTolerance(double tol) {
+	if ((tol > 1) or (tol < 0))
+		throw std::runtime_error(
+				"DeflectionCK: target relative error not in range 0-1");
+	tolerance = tol;
+}
+
+void DeflectionCK::setMinimumStep(double min) {
+	if (min > maxStep)
+		throw std::runtime_error("DeflectionCK: minStep > maxStep");
+	minStep = min;
+}
+
+void DeflectionCK::setMaximumStep(double min) {
+	if (minStep > min)
+		throw std::runtime_error("DeflectionCK: minStep > maxStep");
+	maxStep = min;
+}
+
+double DeflectionCK::getTolerance() const {
+	return tolerance;
+}
+
+double DeflectionCK::getMinimumStep() const {
+	return minStep;
+}
+
+double DeflectionCK::getMaximumStep() const {
+	return maxStep;
+}
+
+std::string DeflectionCK::getDescription() const {
+	std::stringstream s;
+	s << "Propagation in magnetic fields using the Cash-Karp method.";
+	s << " Target error: " << tolerance;
+	s << ", Minimum Step: " << minStep / kpc << " kpc";
+	s << ", Maximum Step: " << maxStep / kpc << " kpc";
+	return s.str();
+}
+
+} // namespace mpc

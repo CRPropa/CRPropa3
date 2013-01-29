@@ -27,15 +27,13 @@ void SimplePropagation::process(Candidate *c) const {
 void SimplePropagation::setMinimumStep(double step) {
 	if (step > maxStep)
 		throw std::runtime_error("SimplePropagation: minStep > maxStep");
-	else
-		minStep = step;
+	minStep = step;
 }
 
 void SimplePropagation::setMaximumStep(double step) {
 	if (minStep > step)
 		throw std::runtime_error("SimplePropagation: minStep > maxStep");
-	else
-		maxStep = step;
+	maxStep = step;
 }
 
 double SimplePropagation::getMinimumStep() const {

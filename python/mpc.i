@@ -1,4 +1,5 @@
 %module(directors="1") mpc
+%feature("autodoc", "1"); // automatic docstrings
 
 %{
 // workaround for SWIG < 2.0.5 with GCC >= 4.7
@@ -91,14 +92,6 @@ using std::ptrdiff_t;
 %template(Vector3d) mpc::Vector3<double>;
 %template(Vector3f) mpc::Vector3<float>;
 
-%pythoncode %{
-def Vector3__str__(self):
-  return "(%.4e, %.4e, %.4e)" % (self.x, self.y, self.z)
-Vector3d.__str__ = Vector3__str__
-Vector3f.__str__ = Vector3__str__
-%}
-
-
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
 %include "mpc/Nucleus.h"
@@ -107,7 +100,6 @@ Vector3f.__str__ = Vector3__str__
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
 
-
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;
 %include "mpc/Candidate.h"
@@ -115,7 +107,6 @@ Vector3f.__str__ = Vector3__str__
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
 %include "mpc/Module.h"
-
 
 %implicitconv mpc::ref_ptr<mpc::MagneticField>;
 %template(MagneticFieldRefPtr) mpc::ref_ptr<mpc::MagneticField>;
@@ -131,7 +122,6 @@ Vector3f.__str__ = Vector3__str__
 %implicitconv mpc::ref_ptr<mpc::Grid<float> >;
 %template(ScalarGridRefPtr) mpc::ref_ptr<mpc::Grid<float> >;
 %template(ScalarGrid) mpc::Grid<float>;
-
 
 %include "mpc/magneticField/MagneticFieldGrid.h"
 %include "mpc/magneticField/SPHMagneticField.h"
@@ -161,3 +151,13 @@ Vector3f.__str__ = Vector3__str__
 
 %template(ModuleListRefPtr) mpc::ref_ptr<mpc::ModuleList>;
 %include "mpc/ModuleList.h"
+
+
+// nice python print
+%pythoncode %{
+Module.__str__ = Module.getDescription
+def Vector3__str__(self):
+  return "(%.4e, %.4e, %.4e)" % (self.x, self.y, self.z)
+Vector3d.__str__ = Vector3__str__
+Vector3f.__str__ = Vector3__str__
+%}

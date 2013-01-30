@@ -8,7 +8,6 @@
 #include <TNtuple.h>
 #include <TThread.h>
 
-
 namespace mpc {
 
 /**

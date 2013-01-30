@@ -53,15 +53,7 @@ TEST(MinimumRedshift, test) {
 }
 
 //** ============================= Observers ================================ */
-TEST(SmallObserverSphere, outside) {
-	SmallObserverSphere obs(Vector3d(0, 0, 0), 1);
-	Candidate c;
-	c.current.setPosition(Vector3d(2, 0, 0));
-	obs.process(&c);
-	EXPECT_TRUE(c.isActive());
-}
-
-TEST(SmallObserverSphere, inside) {
+TEST(SmallObserverSphere, detection) {
 	// detect if the current position is inside and the previous outside of the sphere
 	SmallObserverSphere obs(Vector3d(0, 0, 0), 1);
 	Candidate c;
@@ -90,15 +82,7 @@ TEST(SmallObserverSphere, limitStep) {
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1);
 }
 
-TEST(LargeObserverSphere, inside) {
-	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
-	Candidate c;
-	c.current.setPosition(Vector3d(0, 5, 5));
-	obs.process(&c);
-	EXPECT_TRUE(c.isActive());
-}
-
-TEST(LargeObserverSphere, outside) {
+TEST(LargeObserverSphere, detection) {
 	// detect if the current position is outside and the previous inside of the sphere
 	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
 	Candidate c;

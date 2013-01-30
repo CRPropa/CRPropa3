@@ -22,9 +22,9 @@ private:
 	bool makeInactive;
 
 public:
-	SmallObserverSphere();
-	SmallObserverSphere(Vector3d center, double radius, std::string flag =
-			"Detected", std::string flagValue = "", bool makeInactive = true);
+	SmallObserverSphere(Vector3d center = Vector3d(0.), double radius = 0,
+			std::string flag = "Detected", std::string flagValue = "",
+			bool makeInactive = true);
 	void process(Candidate *candidate) const;
 	void setCenter(Vector3d center);
 	void setRadius(double radius);
@@ -51,9 +51,9 @@ private:
 	void updateDescription();
 
 public:
-	LargeObserverSphere();
-	LargeObserverSphere(Vector3d center, double radius, std::string flag =
-			"Detected", std::string flagValue = "", bool makeInactive = true);
+	LargeObserverSphere(Vector3d center = Vector3d(0.), double radius = 0,
+			std::string flag = "Detected", std::string flagValue = "",
+			bool makeInactive = true);
 	void process(Candidate *candidate) const;
 	void setCenter(Vector3d center);
 	void setRadius(double radius);

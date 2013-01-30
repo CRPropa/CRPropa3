@@ -4,27 +4,34 @@
 
 namespace mpc {
 
-SmallObserverSphere::SmallObserverSphere() :
-		center(Vector3d(0, 0, 0)), radius(0), flag("Detected"), flagValue(""), makeInactive(
-				true) {
+SmallObserverSphere::SmallObserverSphere(Vector3d center, double radius,
+		std::string flag, std::string flagValue, bool makeInactive) :
+		center(center), radius(radius), flag(flag), flagValue(flagValue), makeInactive(
+				makeInactive) {
 }
 
-SmallObserverSphere::SmallObserverSphere(Vector3d c, double r, std::string f,
-		std::string v, bool b) :
-		center(c), radius(r), flag(f), flagValue(v), makeInactive(b) {
-}
+void SmallObserverSphere::process(Candidate *candidate) const {
+	// current distance to observer sphere center
+	double d = (candidate->current.getPosition() - center).getMag();
 
-void SmallObserverSphere::process(Candidate *c) const {
-	double d = (c->current.getPosition() - center).getMag();
-	if (d <= radius) {
-		double dprev = (c->previous.getPosition() - center).getMag();
-		if (dprev > radius) {
-			c->setProperty(flag, flagValue);
-			if (makeInactive)
-				c->setActive(false);
-		}
-	}
-	c->limitNextStep(fabs(d - radius));
+	// conservatively limit next step to prevent overshooting
+	candidate->limitNextStep(fabs(d - radius));
+
+	// no detection if outside of observer sphere
+	if (d > radius)
+		return;
+
+	// previous distance to observer sphere center
+	double dprev = (candidate->previous.getPosition() - center).getMag();
+
+	// if particle was inside of sphere in previous step it has already been detected
+	if (dprev <= radius)
+		return;
+
+	// else: detection
+	candidate->setProperty(flag, flagValue);
+	if (makeInactive)
+		candidate->setActive(false);
 }
 
 void SmallObserverSphere::setCenter(Vector3d c) {
@@ -54,27 +61,34 @@ std::string SmallObserverSphere::getDescription() const {
 	return s.str();
 }
 
-LargeObserverSphere::LargeObserverSphere() :
-		center(Vector3d(0, 0, 0)), radius(0), flag("Detected"), flagValue(""), makeInactive(
-				true) {
+LargeObserverSphere::LargeObserverSphere(Vector3d center, double radius,
+		std::string flag, std::string flagValue, bool makeInactive) :
+		center(center), radius(radius), flag(flag), flagValue(flagValue), makeInactive(
+				makeInactive) {
 }
 
-LargeObserverSphere::LargeObserverSphere(Vector3d c, double r, std::string f,
-		std::string v, bool b) :
-		center(c), radius(r), flag(f), flagValue(v), makeInactive(b) {
-}
+void LargeObserverSphere::process(Candidate *candidate) const {
+	// current distance to observer sphere center
+	double d = (candidate->current.getPosition() - center).getMag();
 
-void LargeObserverSphere::process(Candidate *c) const {
-	double d = (c->current.getPosition() - center).getMag();
-	if (d >= radius) {
-		double dprev = (c->previous.getPosition() - center).getMag();
-		if (dprev < radius) {
-			c->setProperty(flag, flagValue);
-			if (makeInactive)
-				c->setActive(false);
-		}
-	}
-	c->limitNextStep(fabs(radius - d));
+	// conservatively limit next step size to prevent overshooting
+	candidate->limitNextStep(fabs(radius - d));
+
+	// no detection if inside observer sphere
+	if (d < radius)
+		return;
+
+	// previous distance to observer sphere center
+	double dprev = (candidate->previous.getPosition() - center).getMag();
+
+	// if particle was outside of sphere in previous step it has already been detected
+	if (dprev >= radius)
+		return;
+
+	// else: detection
+	candidate->setProperty(flag, flagValue);
+	if (makeInactive)
+		candidate->setActive(false);
 }
 
 void LargeObserverSphere::setCenter(Vector3d c) {
@@ -108,15 +122,15 @@ Observer1D::Observer1D() {
 	setDescription("1D observer");
 }
 
-void Observer1D::process(Candidate *c) const {
-	double x = c->current.getPosition().x;
+void Observer1D::process(Candidate *candidate) const {
+	double x = candidate->current.getPosition().x;
 	if (x > 0) {
-		c->limitNextStep(x);
+		candidate->limitNextStep(x);
 		return;
 	}
 	// else: detection
-	c->setProperty("Detected", "");
-	c->setActive(false);
+	candidate->setProperty("Detected", "");
+	candidate->setActive(false);
 }
 
 } // namespace mpc

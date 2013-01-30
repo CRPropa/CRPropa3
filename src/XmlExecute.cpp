@@ -448,9 +448,9 @@ void XmlExecute::loadSpheresAroundObserver(xml_node &node) {
 		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
 		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 		cout << "  - Postion: " << pos / Mpc << " Mpc";
-		cout << ", Detection stops propagation" << endl;
+		cout << ", Detection does not stop propagation" << endl;
 
-		modules.add(new SmallObserverSphere(pos, r, "Detected", "", true));
+		modules.add(new SmallObserverSphere(pos, r, "Detected", "", false));
 	}
 }
 

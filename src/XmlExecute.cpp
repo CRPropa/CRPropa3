@@ -447,8 +447,10 @@ void XmlExecute::loadSpheresAroundObserver(xml_node &node) {
 		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
 		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
 		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
-		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
-		modules.add(new SmallObserverSphere(pos, r, "Detected", "", false));
+		cout << "  - Postion: " << pos / Mpc << " Mpc";
+		cout << ", Detection stops propagation" << endl;
+
+		modules.add(new SmallObserverSphere(pos, r, "Detected", "", true));
 	}
 }
 
@@ -456,6 +458,8 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 	int nObs = 0;
 	for (xml_node n = node.child("Sphere"); n; n = n.next_sibling("Sphere")) {
 		nObs += 1;
+		bool makeInactive = (nObs == 1) ? true : false;
+
 		Vector3d pos;
 		pos.x = childValue(n, "CoordX_Mpc") * Mpc;
 		pos.y = childValue(n, "CoordY_Mpc") * Mpc;
@@ -463,11 +467,15 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 		cout << "  - Postion: " << pos / Mpc << " Mpc" << endl;
 		double r = childValue(n, "Radius_Mpc") * Mpc;
 		cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
-		modules.add(new LargeObserverSphere(pos, r, "Detected", "", true));
+
+		if (makeInactive)
+			cout << "  - Detection stops propagation" << endl;
+		else
+			cout << "  - Detection does not stop propagation" << endl;
+
+		modules.add(
+				new LargeObserverSphere(pos, r, "Detected", "", makeInactive));
 	}
-	if (nObs > 1)
-		cout << " --> Warning! More than one observer currently not supported. "
-				<< endl;
 }
 
 void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
@@ -572,7 +580,8 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
 			// combined source spectrum / composition
-			SourceComposition *composition = new SourceComposition(Emin, Rmax, -alpha);
+			SourceComposition *composition = new SourceComposition(Emin, Rmax,
+					-alpha);
 			xml_node p = node.child("Particles");
 			for (xml_node n = p.child("Species"); n;
 					n = n.next_sibling("Species")) {
@@ -651,9 +660,9 @@ void XmlExecute::loadOutput(xml_node &node) {
 		else
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
-	} 
+	}
 #ifdef MPC_HAVE_ROOT
-          else if (format == "ROOT") {
+	else if (format == "ROOT") {
 		if (type == "Full Trajectories")
 			if (is1D)
 				modules.add(new ROOTTrajectoryOutput1D(filename));
@@ -669,10 +678,11 @@ void XmlExecute::loadOutput(xml_node &node) {
 		else
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
-	} 
+	}
 #endif // MPC_HAVE_ROOT
-          else {
-		cout << "  --> unknown output format. " << " Use 'ASCII' or 'ROOT' (if ROOT is set)" << endl;
+	else {
+		cout << "  --> unknown output format. "
+				<< " Use 'ASCII' or 'ROOT' (if ROOT is set)" << endl;
 	}
 }
 

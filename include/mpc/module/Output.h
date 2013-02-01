@@ -40,8 +40,8 @@ public:
 	ConditionalOutput(std::string filename, std::string condition = "Detected",
 			bool removeProperty = true);
 	~ConditionalOutput();
-	void setRemoveProperty(bool removeProperty);
 	void process(Candidate *candidate) const;
+	void setRemoveProperty(bool removeProperty);
 };
 
 /**

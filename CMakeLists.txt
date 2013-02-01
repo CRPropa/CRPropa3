@@ -175,6 +175,10 @@ if(ENABLE_TESTING)
 	target_link_libraries(testBreakCondition mpc gtest gtest_main pthread)
 	add_test(testBreakCondition testBreakCondition)
     
+    add_executable(testOutput test/testOutput.cpp)
+	target_link_libraries(testOutput mpc gtest gtest_main pthread)
+	add_test(testOutput testOutput)
+    
 	add_executable(testInteraction test/testInteraction.cpp)
 	target_link_libraries(testInteraction mpc gtest gtest_main pthread)
 	add_test(testInteraction testInteraction)

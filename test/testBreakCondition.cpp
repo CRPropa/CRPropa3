@@ -3,7 +3,6 @@
 #include "mpc/module/BreakCondition.h"
 #include "mpc/module/Observer.h"
 #include "mpc/module/Boundary.h"
-#include "mpc/Candidate.h"
 
 #include "gtest/gtest.h"
 

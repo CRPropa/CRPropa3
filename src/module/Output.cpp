@@ -60,12 +60,14 @@ void TrajectoryOutput::process(Candidate *c) const {
 
 ConditionalOutput::ConditionalOutput(std::string filename, std::string propName,
 		bool removeProperty) :
-		removeProperty(removeProperty) {
+		removeProperty(removeProperty), condition(propName) {
+
 	setDescription(
-			"Conditional output, condition: " + propName + ", filename: "
+			"ConditionalOutput, condition: " + propName + ", filename: "
 					+ filename);
-	condition = propName;
+
 	outfile.open(filename.c_str());
+
 	outfile << "# PDG_Code\t";
 	outfile << "Energy[EeV]\t";
 	outfile << "Position(X,Y,Z)[Mpc]\t";

@@ -15,7 +15,7 @@ Notes for Intel Compiler:
 
 Install with Python bindings
 ----------------------------
-To use mpc via python the CMAKE flag ENABLEPYTHON needs to be set to True.
+To use mpc via python the CMAKE flag ENABLE_PYTHON needs to be set to True.
 Additionally the path to mpc.py needs to be added to PYTHONPATH
 
 

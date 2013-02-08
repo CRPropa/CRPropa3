@@ -21,7 +21,7 @@ public:
  @brief Saves trajectories to plain text file.
  */
 class TrajectoryOutput: public Module {
-	mutable std::ofstream outfile;
+	mutable std::ofstream fout;
 public:
 	TrajectoryOutput(std::string filename);
 	~TrajectoryOutput();
@@ -33,15 +33,12 @@ public:
  @brief Saves particles with a given property to a plain text file.
  */
 class ConditionalOutput: public Module {
-	mutable std::ofstream outfile;
+	mutable std::ofstream fout;
 	std::string condition;
-	bool removeProperty;
 public:
-	ConditionalOutput(std::string filename, std::string condition = "Detected",
-			bool removeProperty = true);
+	ConditionalOutput(std::string filename, std::string condition = "Detected");
 	~ConditionalOutput();
 	void process(Candidate *candidate) const;
-	void setRemoveProperty(bool removeProperty);
 };
 
 /**
@@ -49,7 +46,7 @@ public:
  @brief Saves 1D trajectories to plain text file.
  */
 class TrajectoryOutput1D: public Module {
-	mutable std::ofstream outfile;
+	mutable std::ofstream fout;
 public:
 	TrajectoryOutput1D(std::string filename);
 	~TrajectoryOutput1D();
@@ -61,7 +58,7 @@ public:
  @brief Records particles that are inactive and have the property 'Detected' to a plain text file.
  */
 class EventOutput1D: public Module {
-	mutable std::ofstream outfile;
+	mutable std::ofstream fout;
 public:
 	EventOutput1D(std::string filename);
 	~EventOutput1D();

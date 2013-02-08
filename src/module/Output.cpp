@@ -27,16 +27,18 @@ std::string ShellOutput::getDescription() const {
 
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");
-	outfile.open(name.c_str());
-	outfile << "# Age[Mpc]\t";
-	outfile << "PDG_Code\t";
-	outfile << "Energy[EeV]\t";
-	outfile << "Position(X,Y,Z)[Mpc]\t";
-	outfile << "Direction(X,Y,Z)\n";
+	fout.open(name.c_str());
+	fout << "# D\tID\E\tX\tY\tZ\tPhi\tTheta\n";
+	fout << "#\n";
+	fout << "# D          Comoving trajectory length\n";
+	fout << "# ID         Particle type\n";
+	fout << "# E          Energy [EeV]\n";
+	fout << "# X, Y, Z    Position [Mpc]\n";
+	fout << "# Phi, Theta Direction\n";
 }
 
 TrajectoryOutput::~TrajectoryOutput() {
-	outfile.close();
+	fout.close();
 }
 
 void TrajectoryOutput::process(Candidate *c) const {
@@ -49,50 +51,45 @@ void TrajectoryOutput::process(Candidate *c) const {
 	Vector3d pos = c->current.getPosition() / Mpc;
 	p += sprintf(buffer + p, "%8.4f\t%8.4f\t%8.4f\t", pos.x, pos.y, pos.z);
 	const Vector3d &dir = c->current.getDirection();
-	p += sprintf(buffer + p, "%7.4f\t%7.4f\t%7.4f\n", dir.x, dir.y, dir.z);
+	p += sprintf(buffer + p, "%7.4f\t%7.4f\n", dir.getPhi(), dir.getTheta());
 
 #pragma omp critical
 	{
-		outfile.write(buffer, p);
-		outfile.flush();
+		fout.write(buffer, p);
+		fout.flush();
 	}
 }
 
-ConditionalOutput::ConditionalOutput(std::string filename, std::string propName,
-		bool removeProperty) :
-		removeProperty(removeProperty), condition(propName) {
-
+ConditionalOutput::ConditionalOutput(std::string fname, std::string cond) :
+		condition(cond) {
 	setDescription(
-			"ConditionalOutput, condition: " + propName + ", filename: "
-					+ filename);
-
-	outfile.open(filename.c_str());
-
-	outfile << "# PDG_Code\t";
-	outfile << "Energy[EeV]\t";
-	outfile << "Position(X,Y,Z)[Mpc]\t";
-	outfile << "Direction(Phi,Theta)\t";
-	outfile << "Comoving distance [Mpc]\t";
-	outfile << "Initial_PDG_Code\t";
-	outfile << "Initial_Energy[EeV]\t";
-	outfile << "Initial_Position(X,Y,Z)[Mpc]\t";
-	outfile << "Initial_Direction(Phi,Theta)\n";
+			"Conditional output, condition: " + cond + ", filename: " + fname);
+	fout.open(fname.c_str());
+	fout << "# ID\tE\tY\tY\tZ\tPhi\tTheta\tD\tID0\tE0\tX0\tY0\tZ0\tPhi0\tTheta0\n";
+	fout << "#\n";
+	fout << "# Final state:\n";
+	fout << "#    ID           Particle type\n";
+	fout << "#    E            Energy [EeV]\n";
+	fout << "#    X, Y, Z      Position [Mpc]\n";
+	fout << "#    Phi, Theta   Direction\n";
+	fout << "#    D            Comoving trajectory length [Mpc]\n";
+	fout << "#\n";
+	fout << "# Initial state:\n";
+	fout << "#    I0           Particle type\n";
+	fout << "#    E0           Energy [EeV]\n";
+	fout << "#    X0, Y0, Z0   Position [Mpc]\n";
+	fout << "#    Phi0, Theta0 Direction\n";
 }
 
 ConditionalOutput::~ConditionalOutput() {
-	outfile.close();
-}
-
-void ConditionalOutput::setRemoveProperty(bool b) {
-	removeProperty = b;
+	fout.close();
 }
 
 void ConditionalOutput::process(Candidate *c) const {
 	if (not (c->hasProperty(condition)))
 		return;
 
-	if (removeProperty)
-		c->removeProperty(condition);
+	c->removeProperty(condition);
 
 	char buffer[256];
 	size_t p = 0;
@@ -113,21 +110,23 @@ void ConditionalOutput::process(Candidate *c) const {
 
 #pragma omp critical
 	{
-		outfile.write(buffer, p);
-		outfile.flush();
+		fout.write(buffer, p);
+		fout.flush();
 	}
 }
 
 TrajectoryOutput1D::TrajectoryOutput1D(std::string filename) {
-	setDescription("Trajectory output");
-	outfile.open(filename.c_str());
-	outfile << "# Position(X)[Mpc]\t";
-	outfile << "PDG_Code\t";
-	outfile << "Energy[EeV]\n";
+	setDescription("TrajectoryOutput, filename: " + filename);
+	fout.open(filename.c_str());
+	fout << "#X\tID\tE\n";
+	fout << "#\n";
+	fout << "# X  Position [Mpc]\n";
+	fout << "# ID Particle type\n";
+	fout << "# E  Energy [EeV]\n";
 }
 
 TrajectoryOutput1D::~TrajectoryOutput1D() {
-	outfile.close();
+	fout.close();
 }
 
 void TrajectoryOutput1D::process(Candidate *c) const {
@@ -138,23 +137,25 @@ void TrajectoryOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%8.4f\n", c->current.getEnergy() / EeV);
 #pragma omp critical
 	{
-		outfile.write(buffer, p);
-		outfile.flush();
+		fout.write(buffer, p);
+		fout.flush();
 	}
 }
 
 EventOutput1D::EventOutput1D(std::string filename) {
-	setDescription("Conditional output, Filename: " + filename);
-	outfile.open(filename.c_str());
-	outfile << "# PDG_Code\t";
-	outfile << "Energy[EeV]\t";
-	outfile << "Age[Mpc]";
-	outfile << "Initial_PDG_Code\t";
-	outfile << "Initial_Energy[EeV]\n";
+	setDescription("Conditional output, filename: " + filename);
+	fout.open(filename.c_str());
+	fout << "#ID\tE\tD\tID0\tE0\n";
+	fout << "#\n";
+	fout << "# ID  Particle type\n";
+	fout << "# E   Energy [EeV]\n";
+	fout << "# D   Comoving trajectory length [Mpc]\n";
+	fout << "# ID0 Initial particle type\n";
+	fout << "# E0  Initial energy [EeV]\n";
 }
 
 EventOutput1D::~EventOutput1D() {
-	outfile.close();
+	fout.close();
 }
 
 void EventOutput1D::process(Candidate *c) const {
@@ -174,8 +175,8 @@ void EventOutput1D::process(Candidate *c) const {
 
 #pragma omp critical
 	{
-		outfile.write(buffer, p);
-		outfile.flush();
+		fout.write(buffer, p);
+		fout.flush();
 	}
 }
 

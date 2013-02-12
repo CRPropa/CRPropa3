@@ -177,6 +177,16 @@ void SourceUniformDistributionSphere::prepare(ParticleState& particle) const {
 	particle.setPosition(random.randUnitVectorOnSphere() * r);
 }
 
+SourceUniformDistributionOnSphere::SourceUniformDistributionOnSphere(
+		Vector3d center, double radius) :
+		center(center), radius(radius) {
+}
+
+void SourceUniformDistributionOnSphere::prepare(ParticleState& particle) const {
+	Random &random = Random::instance();
+	particle.setPosition(random.randUnitVectorOnSphere() * radius);
+}
+
 SourceUniformDistributionBox::SourceUniformDistributionBox(Vector3d origin,
 		Vector3d size) :
 		origin(origin), size(size) {

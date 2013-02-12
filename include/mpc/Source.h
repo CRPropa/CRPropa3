@@ -173,6 +173,19 @@ public:
 };
 
 /**
+ @class SourceUniformDistributionOnSphere
+ @brief Uniform random source positions on a sphere
+ */
+class SourceUniformDistributionOnSphere: public SourceProperty {
+	Vector3d center;
+	double radius;
+public:
+	SourceUniformDistributionOnSphere(Vector3d center, double radius);
+	void prepare(ParticleState &particle) const;
+};
+
+
+/**
  @class SourceUniformDistributionBox
  @brief Uniform random source positions inside a box
  */

@@ -12,8 +12,8 @@ add_library(kiss STATIC
 SET_TARGET_PROPERTIES( kiss PROPERTIES COMPILE_FLAGS -fPIC)
 
 # testing
-if(ENABLETESTING)
+if(ENABLE_TESTING)
     add_executable(test_uuid test/test_uuid.cpp)
     target_link_libraries(test_uuid kiss gtest gtest_main pthread)
     add_test(test_uuid test_uuid)
-endif(ENABLETESTING)
+endif(ENABLE_TESTING)

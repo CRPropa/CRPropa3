@@ -105,10 +105,11 @@ add_library(mpc SHARED
     src/Module.cpp
     src/Candidate.cpp
     src/ParticleState.cpp
+    src/ParticleID.cpp
+    src/ParticleMass.cpp
     src/Source.cpp
     src/Common.cpp
     src/PhotonBackground.cpp
-    src/Nucleus.cpp
     src/GridTools.cpp
     src/XmlExecute.cpp
     src/module/BreakCondition.cpp

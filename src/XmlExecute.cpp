@@ -123,7 +123,7 @@ SourceDensityGrid1D* loadSourceDensityGrid1D(pugi::xml_node &node) {
 }
 
 XmlExecute::XmlExecute() :
-		is1D(false), nTrajectories(0), Emin(0), maxStep(0) {
+		is1D(false), hasRedshift(false), nTrajectories(0), Emin(0), maxStep(0) {
 }
 
 bool XmlExecute::load(const string &filename) {

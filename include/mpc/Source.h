@@ -96,7 +96,7 @@ public:
 	 @param Emax	maximum energy
 	 @param index	differential spectral index
 	 */
-	SourcePowerLawSpectrum(double Emin, double Emax, double index);
+	SourcePowerLawSpectrum(double Emin, double Emax, double differentialIndex);
 	/** Set particle with a random energy from a power law distribtuition */
 	void prepare(ParticleState &particle) const;
 };

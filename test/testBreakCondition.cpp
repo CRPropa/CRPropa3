@@ -130,6 +130,15 @@ TEST(Observer1D, detection) {
 	EXPECT_FALSE(c.isActive());
 }
 
+TEST(DetectAll, detection) {
+	// DetectAll should detect all candidates
+	DetectAll obs("Wait", "You forgot your lunchbox");
+	Candidate c;
+	obs.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Wait"));
+}
+
 //** ========================= Boundaries =================================== */
 TEST(PeriodicBox, high) {
 	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.
@@ -314,18 +323,18 @@ TEST(EllipsoidalBoundary, limitStep) {
 //** ============================ Tools ===================================== */
 TEST(ParticleSelector, neutrinos) {
 	// Test if ParticleSelector only activates for neutrinos
-	// Use MaximumTrajectoryLength as test module
-	ParticleSelector selector(new MaximumTrajectoryLength(1 * Mpc), neutrinos());
+	// Use DetectAll as test module
+	ParticleSelector selector(new DetectAll(), neutrinos());
 
 	Candidate c1;
 	c1.current.setId(12); // electron neutrino
-	c1.setTrajectoryLength(5 * Mpc); // should be deactivated by MaximumTrajectoryLength
+	c1.setTrajectoryLength(5 * Mpc);
 	selector.process(&c1);
 	EXPECT_FALSE(c1.isActive());
 
 	Candidate c2;
 	c2.current.setId(nucleusId(1, 1)); // proton
-	c2.setTrajectoryLength(5 * Mpc); // should be deactivated by MaximumTrajectoryLength
+	c2.setTrajectoryLength(5 * Mpc);
 	selector.process(&c2);
 	EXPECT_TRUE(c2.isActive());
 }

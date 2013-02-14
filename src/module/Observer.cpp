@@ -57,7 +57,7 @@ std::string SmallObserverSphere::getDescription() const {
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
 	if (makeInactive)
-		s << ", Inactivate";
+		s << ", render inactivate";
 	return s.str();
 }
 
@@ -114,7 +114,7 @@ std::string LargeObserverSphere::getDescription() const {
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
 	if (makeInactive)
-		s << ", Inactivate";
+		s << ", render inactivates";
 	return s.str();
 }
 
@@ -131,6 +131,24 @@ void Observer1D::process(Candidate *candidate) const {
 	// else: detection
 	candidate->setProperty("Detected", "");
 	candidate->setActive(false);
+}
+
+DetectAll::DetectAll(std::string f, std::string v, bool m) :
+		flag(f), flagValue(v), makeInactive(m) {
+}
+
+void DetectAll::process(Candidate *candidate) const {
+	candidate->setProperty(flag, flagValue);
+	if (makeInactive)
+		candidate->setActive(false);
+}
+
+std::string DetectAll::getDescription() const {
+	std::stringstream s;
+	s << "DetectAll: Flag: " << flag << " -> " << flagValue;
+	if (makeInactive)
+		s << ", render inactive";
+	return s.str();
 }
 
 } // namespace mpc

@@ -76,6 +76,26 @@ public:
 	void process(Candidate *candidate) const;
 };
 
+/**
+ @class DetectAll
+ @brief Flags all
+
+ Module that flags every particle it processes.
+ Optionally inactivates the particle.
+ */
+class DetectAll: public Module {
+private:
+	std::string flag;
+	std::string flagValue;
+	bool makeInactive;
+
+public:
+	DetectAll(std::string flag = "Detected", std::string flagValue = "",
+			bool makeInactive = true);
+	void process(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
 } // namespace mpc
 
 #endif /* MPC_OBSERVER_H_ */

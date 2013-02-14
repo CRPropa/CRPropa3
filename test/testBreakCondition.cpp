@@ -1,8 +1,10 @@
-/** Unit tests for break condition, observer and boundary modules */
+/** Unit tests for break condition, observer, boundary and tool modules */
 
 #include "mpc/module/BreakCondition.h"
 #include "mpc/module/Observer.h"
 #include "mpc/module/Boundary.h"
+#include "mpc/module/Tools.h"
+#include "mpc/ParticleID.h"
 
 #include "gtest/gtest.h"
 
@@ -307,6 +309,25 @@ TEST(EllipsoidalBoundary, limitStep) {
 	c.current.setPosition(Vector3d(7, 0, 0));
 	ellipsoid.process(&c);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
+}
+
+//** ============================ Tools ===================================== */
+TEST(ParticleSelector, neutrinos) {
+	// Test if ParticleSelector only activates for neutrinos
+	// Use MaximumTrajectoryLength as test module
+	ParticleSelector selector(new MaximumTrajectoryLength(1 * Mpc), neutrinos());
+
+	Candidate c1;
+	c1.current.setId(12); // electron neutrino
+	c1.setTrajectoryLength(5 * Mpc); // should be deactivated by MaximumTrajectoryLength
+	selector.process(&c1);
+	EXPECT_FALSE(c1.isActive());
+
+	Candidate c2;
+	c2.current.setId(nucleusId(1, 1)); // proton
+	c2.setTrajectoryLength(5 * Mpc); // should be deactivated by MaximumTrajectoryLength
+	selector.process(&c2);
+	EXPECT_TRUE(c2.isActive());
 }
 
 int main(int argc, char **argv) {

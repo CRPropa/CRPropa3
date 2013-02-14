@@ -45,7 +45,8 @@ using std::ptrdiff_t;
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
 #include "mpc/ParticleState.h"
-#include "mpc/Nucleus.h"
+#include "mpc/ParticleID.h"
+#include "mpc/ParticleMass.h"
 #include "mpc/Module.h"
 #include "mpc/ModuleList.h"
 #include "mpc/PhasePoint.h"
@@ -94,11 +95,12 @@ using std::ptrdiff_t;
 
 %include "mpc/Referenced.h"
 %include "mpc/Units.h"
-%include "mpc/Nucleus.h"
 %include "mpc/Common.h"
 %include "mpc/PhotonBackground.h"
 %include "mpc/Random.h"
 %include "mpc/ParticleState.h"
+%include "mpc/ParticleID.h"
+%include "mpc/ParticleMass.h"
 
 %template(CandidateVector) std::vector< mpc::ref_ptr<mpc::Candidate> >;
 %template(CandidateRefPtr) mpc::ref_ptr<mpc::Candidate>;

@@ -8,10 +8,6 @@ using namespace std;
 
 namespace mpc {
 
-PerformanceModule::PerformanceModule() {
-
-}
-
 PerformanceModule::~PerformanceModule() {
 	double total = 0;
 	for (size_t i = 0; i < modules.size(); i++) {
@@ -94,6 +90,28 @@ void PropertyStatistics::process(Candidate *candidate) const {
 			}
 		}
 	}
+}
+
+ParticleSelector::ParticleSelector(Module *m) :
+		module(m) {
+}
+
+ParticleSelector::ParticleSelector(Module *m, std::vector<int> particleIDs) :
+		module(m), ids(particleIDs) {
+}
+
+void ParticleSelector::add(int particleID) {
+	ids.push_back(particleID);
+}
+
+void ParticleSelector::process(Candidate* candidate) const {
+	int id = candidate->current.getId();
+	if (std::find(ids.begin(), ids.end(), id) != ids.end())
+		module->process(candidate);
+}
+
+std::string ParticleSelector::getDescription() const {
+	return "ParticleSelector";
 }
 
 } // namespace mpc

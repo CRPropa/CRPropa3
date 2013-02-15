@@ -30,3 +30,5 @@ xlabel('Neutrons')
 ylabel('Protons')
 grid()
 savefig('NuclearMass_difference.png', bbox_inches='tight')
+
+show()

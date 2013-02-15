@@ -3,13 +3,15 @@ from pylab import *
 from matplotlib.colors import LogNorm
 
 
+# Components of JF12 model
 bField = JF2012Field()
 #bField.randomStriated()
 #bField.randomTurbulent()
 
-N = 241
+z = 0 # z position [kpc] of slice to plot
+N = 241 # resolution in one direction
+
 lx = (linspace(-20, 20, N, endpoint=True))
-z = 0
 B, X, Y = zeros((3, N,N))
 
 for ix in range(N):
@@ -28,5 +30,8 @@ cbar.set_label(r'$\vert \vec{B} \vert$ [G]')
 plot(-8.5, 0, 'wo')
 xlabel('x [kpx]')
 ylabel('y [kpx]')
-show()
+xlim(-20, 20)
+ylim(-20, 20)
 savefig('JF12.png', bbox_inches='tight')
+
+show()

@@ -1,6 +1,7 @@
 from mpc import *
 from pylab import *
 
+
 # Simulates the integrated relative abundance from a source that accelerates
 # particles up to a maximum rigidity.
 # min. energy = 10 EeV
@@ -15,7 +16,6 @@ d = {1:zeros(nS), 2:zeros(nS), 6:zeros(nS), 8:zeros(nS), 14:zeros(nS), 26:zeros(
 print 'simulating for spectral index'
 for i in range(nS):
 	beta = 2 + i/float(nS - 1)
-	print beta
 
 	composition = SourceComposition(10, 100, -beta)
 	composition.add(1, 1, 92000)
@@ -29,7 +29,7 @@ for i in range(nS):
 
 	for j in range(nP):
 		composition.prepare(state)
-		z = state.chargeNumber()
+		z = chargeNumberFromNucleusId(state.getId())
 		d[z][i] += 1
 
 	norm = float(d[1][i])
@@ -40,7 +40,7 @@ figure()
 beta = linspace(2, 3, nS)
 elements = {1:'H', 2:'He', 6:'C', 8:'O', 14:'Si', 26:'Fe'}
 for z in d.keys():
-	plot(beta, d[z], label=elements[z])
+	plt.plot(beta, d[z], label=elements[z])
 
 legend(loc = 'lower right')
 xlabel(r'Source Spectral Index $\beta$')

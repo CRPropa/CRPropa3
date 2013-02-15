@@ -27,10 +27,10 @@ def compare(dataFileName, photonField, plotFileName):
         n[i] = getRate(ppp, energy, 0)
 
     figure()
-    plot(E_data, P_data, "r", label="Proton Data")
-    plot(E, p, 'k+', label="Proton Simulated")
-    plot(E_data, N_data, "b", label="Neutron Data")
-    plot(E, n, 'k.', label="Neutron Simulated")
+    plot(E_data, P_data, "r", label="Proton data table")
+    plot(E, p, 'k+', label="Proton")
+    plot(E_data, N_data, "b", label="Neutron data table")
+    plot(E, n, 'k.', label="Neutron")
     xlabel('Energy [EeV]')
     ylabel('Rate [1/Mpc]')
     legend(loc='center right')
@@ -42,3 +42,5 @@ def compare(dataFileName, photonField, plotFileName):
 
 compare(getDataPath('photopion_CMB.txt'), CMB, 'PhotoPionProduction_CMB.png')
 compare(getDataPath('photopion_IRB.txt'), IRB, 'PhotoPionProduction_IRB.png')
+
+show()

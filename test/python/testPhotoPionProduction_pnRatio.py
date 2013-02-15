@@ -1,8 +1,8 @@
-'''
-Simulate the p/n-ratio of the final baryon states in SOPHIA photo-pion interactions
-'''
 from mpc import *
 from pylab import *
+
+
+# Simulate the p/n-ratio of the final baryon states in SOPHIA photo-pion interactions
 
 spp = SophiaPhotoPionProduction()
 c = Candidate()
@@ -24,7 +24,6 @@ def getPNRatio(E):
 E = logspace(log10(50), 4, 20)
 Rpn = zeros(20)
 for i in range(20):
-	print i
 	Rpn[i] = getPNRatio(E[i])
 
 figure()
@@ -34,3 +33,5 @@ xlabel('Energy of Incident Proton [EeV]')
 ylabel('Proton / Neutron Ratio')
 semilogx()
 savefig('PhotoPionProduction_pnRatio.png', bbox_inches='tight')
+
+show()

@@ -1,30 +1,28 @@
 #!/usr/bin/env python
 from mpc import *
-import numpy as np
-import matplotlib.pyplot as plt
+from pylab import *
 
-
-
-redshift = Redshift()
 
 # Redshift - comoving distance relation
-N = 100
-Z = np.logspace(-4, 2, N)
-D1 = np.zeros(N)
-for i in range(N):
-	D1[i] = redshift.getDistance(Z[i]) / Mpc
+redshift = Redshift()
 
-H0 = redshift.getHubbleRate(0)
+N = 100
+Z = logspace(-4, 2, N)
+D1 = zeros(N)
+for i in range(N):
+	D1[i] = redshift.redshift2ComovingDistance(Z[i]) / Mpc
+
+H0 = redshift.hubbleRate(0)
 D2 = c_light * Z / H0 / Mpc
 
-plt.figure()
-plt.plot(Z, D1, label='Numerical Integration')
-plt.plot(Z, D2, 'r--', label='Small Redshift Approximation')
-plt.legend(loc='upper left', frameon=0)
-plt.xlabel('Redshift z')
-plt.ylabel('Comoving Distance [Mpc]')
-plt.loglog()
-plt.grid()
-plt.savefig('Redshift.png', bbox_inches='tight')
-plt.show()
+figure()
+plot(Z, D1, label='Numerical Integration')
+plot(Z, D2, 'r--', label='Small Redshift Approximation')
+legend(loc='upper left', frameon=0)
+xlabel('Redshift z')
+ylabel('Comoving Distance [Mpc]')
+loglog()
+grid()
+savefig('Redshift.png', bbox_inches='tight')
+show()
 

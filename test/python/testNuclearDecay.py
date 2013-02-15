@@ -2,6 +2,7 @@ from mpc import *
 from pylab import *
 from matplotlib.colors import LogNorm
 
+
 # color values of decay modes
 vS = 0.5 # stable
 vP = 0.9 # proton emission
@@ -13,7 +14,7 @@ modeDict = {1:vN, 2:vN, 10:vP, 20:vP, 100:vA, 200:vA, 10000:vBp, 20000:vBp, 1000
 
 
 ### read and evaluate decay tables
-data = genfromtxt(getDataPath('NuclearDecay/decayTable.txt'), comments='#')
+data = genfromtxt(getDataPath('nuclear_decay.txt'), comments='#')
 modes = zeros((27, 31))
 times = zeros((27, 31))
 multi = zeros((27, 31))
@@ -74,3 +75,4 @@ ax.set_ylabel('Protons')
 ax.grid()
 fig.savefig('NuclearDecay_multiplicity.png',bbox_inches='tight')
 
+show()

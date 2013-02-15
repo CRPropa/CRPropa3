@@ -4,7 +4,7 @@ from mpc import *
 
 # 100 EeV proton
 c = Candidate()
-c.current.setId(getNucleusId(1,1))
+c.current.setId(nucleusId(1,1))
 c.current.setEnergy(100 * EeV)
 c.current.setDirection(Vector3d(1, 0, 0))
 
@@ -101,4 +101,5 @@ semilogy()
 ylim(1e-8,1e-1)
 savefig('DeflectionCK_xdeviation.png',bbox_inches='tight')
 
+show()
 

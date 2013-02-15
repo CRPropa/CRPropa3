@@ -92,7 +92,6 @@ initTurbulence(vGrid, Brms, lMin, lMax, alpha)
 ### copy field grid to array(s)
 Bx, By, Bz = zeros((3, n, n, n))
 for ix in range(n):
-	print ix
 	for iy in range(n):
 		for iz in range(n):
 			b = vGrid.get(ix, iy, iz)
@@ -202,3 +201,5 @@ brms = (mean( Bx**2 + By**2 + Bz**2 ))**.5
 bmean = abs(mean(Bx + By + Bz)) 
 text(0.95, 0.7, '$RMS$ = %.2f\nMean = %.2f'%(brms, bmean), ha='right', va='top', transform=gca().transAxes) 
 savefig('TurbulentField_amplitude.png', bbox_inches='tight')
+
+show()

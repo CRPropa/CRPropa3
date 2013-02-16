@@ -4,7 +4,8 @@
 #include "mpc/Vector3.h"
 #include "mpc/Units.h"
 #include "mpc/Common.h"
-#include "mpc/Nucleus.h"
+#include "mpc/ParticleID.h"
+#include "mpc/ParticleMass.h"
 
 namespace mpc {
 

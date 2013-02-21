@@ -47,7 +47,9 @@ private:
 	static const double zmax = 100;
 
 	std::vector<double> Z; // redshift
-	std::vector<double> D; // comoving distance [m]
+	std::vector<double> Dc; // comoving distance [m]
+	std::vector<double> Dl; // luminosity distance [m]
+	std::vector<double> Dt; // light travel distance [m]
 
 public:
 	/** Constructor
@@ -59,12 +61,49 @@ public:
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 
-	/** Hubble rate at given redshift */
+	/**
+	 Hubble rate at given redshift
+	 H(z) = H0 * sqrt(omegaM * (1 + z)^3 + omegaL)
+	 */
 	double hubbleRate(double redshift) const;
-	/** Redshift of a comoving object at a given comoving distance to the observer at z = 0 */
+	/**
+	 Dimensionless Hubble parameter at given redshift
+	 E(z) = sqrt(omegaM * (1 + z)^3 + omegaL)
+	 */
+	double hubbleParameter(double redshift) const;
+
+	/**
+	 Redshift of a comoving object at a given comoving distance to an observer at z = 0.
+	 d_comoving(z) = c/H0 * int_0^z dz' / E(z')
+	 */
 	double comovingDistance2Redshift(double distance) const;
-	/** Comoving distance between an observer at z = 0 and a comoving object at z */
+	/**
+	 Comoving distance between an observer at z = 0 and a comoving object at z.
+	 d_comoving(z) = c/H0 * int_0^z dz' / E(z')
+	 */
 	double redshift2ComovingDistance(double redshift) const;
+
+	/**
+	 Redshift of a comoving object at a given luminosity distance to an observer at z = 0.
+	 d_luminosity(z) = (1 + z) * d_comoving(z)
+	 */
+	double luminosityDistance2Redshift(double distance) const;
+	/**
+	 Luminosity distance between an observer at z = 0 and a comoving object at z.
+	 d_luminosity(z) = (1 + z) * d_comoving(z)
+	 */
+	double redshift2LuminosityDistance(double redshift) const;
+
+	/**
+	 Redshift of a comoving object at a given light travel distance to an observer at z = 0.
+	 d_lighttravel(z) = c/H0 * int_0^z dz' / ((1 + z')  *  E(z'))
+	 */
+	double lightTravelDistance2Redshift(double distance) const;
+	/**
+	 Light travel distance between an observer at z = 0 and a comoving object at z.
+	 d_lighttravel(z) = c/H0 * int_0^z dz' / ((1 + z')  *  E(z'))
+	 */
+	double redshift2LightTravelDistance(double redshift) const;
 };
 
 } // namespace mpc

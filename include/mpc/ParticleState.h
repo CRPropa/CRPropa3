@@ -45,10 +45,12 @@ public:
 	void setId(int);
 	int getId() const;
 
+	/* Electrical charge of the particle */
 	double getCharge() const;
+	/* Mass of the particle */
 	double getMass() const;
 
-	/* Set Lorentz factor, which modifies the particles energy */
+	/* Set Lorentz factor and modify the particles energy accordingly */
 	void setLorentzFactor(double gamma);
 	double getLorentzFactor() const;
 

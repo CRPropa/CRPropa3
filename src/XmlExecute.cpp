@@ -518,10 +518,12 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 	} else { // read individual positions from xml
 		for (xml_node n = node.child("PointSource"); n;
 				n = n.next_sibling("PointSource")) {
-			Vector3d pos;
+			Vector3d pos(0.);
 			pos.x = childValue(n, "CoordX_Mpc") * Mpc;
-			pos.y = childValue(n, "CoordY_Mpc") * Mpc;
-			pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
+			if (not(is1D)) {
+				pos.y = childValue(n, "CoordY_Mpc") * Mpc;
+				pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
+			}
 			cout << "  - Position " << pos / Mpc << " Mpc" << endl;
 			sourcePositions->add(pos);
 		}

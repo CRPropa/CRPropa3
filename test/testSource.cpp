@@ -40,7 +40,7 @@ TEST(SourceUniformDistributionBox, simpleTest) {
 
 TEST(SourceDensityGrid, withInRange) {
 	// Create a grid with 10^3 cells ranging from (0, 0, 0) to (10, 10, 10)
-	Vector3d origin(0.5, 0.5, 0.5);
+	Vector3d origin(0, 0, 0);
 	int cells = 10;
 	double spacing = 1;
 	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, cells, spacing);
@@ -66,7 +66,7 @@ TEST(SourceDensityGrid, withInRange) {
 
 TEST(SourceDensityGrid, OneAllowedCell) {
 	// Create a grid with 2^3 cells ranging from (0, 0, 0) to (4, 4, 4)
-	Vector3d origin(1, 1, 1);
+	Vector3d origin(0, 0, 0);
 	int cells = 2;
 	double spacing = 2;
 	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, cells, spacing);
@@ -106,9 +106,12 @@ TEST(SourceDensityGrid, OneAllowedCell) {
 
 TEST(SourceDensityGrid1D, withInRange) {
 	// Create a grid with 10 cells ranging from 0 to 10
-	Vector3d origin(0.5, 0, 0);
-	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, 10, 1, 1, 1.0);
+	Vector3d origin(0, 0, 0);
+	int nCells = 10;
+	double spacing = 1.;
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, nCells, 1, 1, spacing);
 
+	// set some values
 	for (int i = 0; i < 10; i++) {
 		grid->get(i, 0, 0) = 2;
 	}
@@ -124,19 +127,28 @@ TEST(SourceDensityGrid1D, withInRange) {
 }
 
 TEST(SourceDensityGrid1D, OneAllowedCell) {
-	Vector3d origin(0.5, 0, 0);
-	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, 10, 1, 1, 1.0);
+	// Test if the only allowed cells is repeatedly selected
+	Vector3d origin(0, 0, 0);
+	int nCells = 10;
+	double spacing = 1.;
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, nCells, 1, 1, spacing);
+
+	// set some values
 	for (int i = 0; i < 10; i++) {
 		grid->get(i, 0, 0) = 0;
 	}
 	grid->get(5, 0, 0) = 1;
+
 	SourceDensityGrid1D source(grid);
 	ParticleState p;
-	source.prepare(p);
-	// dialed position should be in range 5-6
-	Vector3d pos = p.getPosition();
-	EXPECT_LE(5, pos.x);
-	EXPECT_GE(6, pos.x);
+
+	for (int i = 0; i < 100; i++) {
+		source.prepare(p);
+		// dialed position should be in range 5-6
+		Vector3d pos = p.getPosition();
+		EXPECT_LE(5, pos.x);
+		EXPECT_GE(6, pos.x);
+	}
 }
 
 TEST(SourcePowerLawSpectrum, simpleTest) {
@@ -242,7 +254,8 @@ TEST(SourceList, luminosity) {
 		meanE += c->initial.getEnergy();
 	}
 	meanE /= 1000;
-	EXPECT_NEAR(80, meanE, 2); // this test can stochastically fail
+	EXPECT_NEAR(80, meanE, 2);
+	// this test can stochastically fail
 }
 
 int main(int argc, char **argv) {

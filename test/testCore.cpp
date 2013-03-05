@@ -266,16 +266,17 @@ TEST(ScalarGrid, SimpleTest) {
 
 	// Test index handling: get position of grid point (2, 3, 4)
 	size_t some_index = 2 * Ny * Nz + 3 * Nz + 4;
-	Vector3d position = origin + Vector3d(2, 3, 4) * spacing;
-	EXPECT_EQ(position, grid.positionFromIndex(some_index));
+	Vector3d some_grid_point = origin + Vector3d(2, 3, 4) * spacing + Vector3d(spacing / 2.);
+	EXPECT_EQ(some_grid_point, grid.positionFromIndex(some_index));
 
 	grid.get(2, 3, 4) = 7;
 	EXPECT_FLOAT_EQ(7., grid.getGrid()[some_index]);
-	EXPECT_FLOAT_EQ(7., grid.interpolate(position));
+	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
 }
 
 TEST(ScalarGrid, ClosestValue) {
-	ScalarGrid grid(Vector3d(0.), 2, 1);
+	// Check some closest values
+	ScalarGrid grid(Vector3d(0.), 2, 2, 2, 1.);
 	grid.get(0, 0, 0) = 1;
 	grid.get(0, 0, 1) = 2;
 	grid.get(0, 1, 0) = 3;
@@ -285,33 +286,36 @@ TEST(ScalarGrid, ClosestValue) {
 	grid.get(1, 1, 0) = 7;
 	grid.get(1, 1, 1) = 8;
 
-	// Closest value
-	EXPECT_FLOAT_EQ(1, grid.closestValue(Vector3d(-0.2,  0, 0.4)));
-	EXPECT_FLOAT_EQ(2, grid.closestValue(Vector3d(0.2, 0.1, 0.9)));
+	// grid points are at 0.5 and 1.5
+	EXPECT_FLOAT_EQ(1, grid.closestValue(Vector3d(0.1,  0.2, 0.6)));
+	EXPECT_FLOAT_EQ(2, grid.closestValue(Vector3d(0.2, 0.1, 1.3)));
 	EXPECT_FLOAT_EQ(3, grid.closestValue(Vector3d(0.3, 1.2, 0.2)));
-	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(0.6, 0.7, 0.4)));
+	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(1.7, 1.8, 0.4)));
 }
 
 TEST(VectorGrid, Interpolation) {
 	// Explicitly test trilinear interpolation
 	double spacing = 2.793;
-	VectorGrid grid(Vector3d(0.), 3, spacing);
+	int n = 3;
+	VectorGrid grid(Vector3d(0.), n, n, n, spacing);
 	grid.get(0, 0, 1) = Vector3f(1.7, 0., 0.); // set one value
 
 	Vector3d b;
-	b = grid.interpolate(Vector3d(0, 0, 1) * spacing);
+
+	// grid points are at (0.5, 1.5, 2.5) * spacing
+	b = grid.interpolate(Vector3d(0.5, 0.5, 1.5) * spacing);
 	EXPECT_FLOAT_EQ(1.7, b.x);
 
-	b = grid.interpolate(Vector3d(0, 0, 0.9) * spacing);
+	b = grid.interpolate(Vector3d(0.5, 0.5, 1.4) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9, b.x);
 
-	b = grid.interpolate(Vector3d(0, 0, 1.1) * spacing);
+	b = grid.interpolate(Vector3d(0.5, 0.5, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9, b.x);
 
-	b = grid.interpolate(Vector3d(0, 0.15, 0.9) * spacing);
+	b = grid.interpolate(Vector3d(0.5, 0.35, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85, b.x);
 
-	b = grid.interpolate(Vector3d(0, 2.15, 0.9) * spacing);
+	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
 }
 

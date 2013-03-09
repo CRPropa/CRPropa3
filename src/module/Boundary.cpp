@@ -33,7 +33,7 @@ void PeriodicBox::setSize(Vector3d s) {
 
 std::string PeriodicBox::getDescription() const {
 	std::stringstream s;
-	s << "Periodic box: origin " << origin / Mpc << "Mpc, ";
+	s << "Periodic box: origin " << origin / Mpc << " Mpc, ";
 	s << "size " << size / Mpc << " Mpc";
 	return s.str();
 }
@@ -96,7 +96,7 @@ void ReflectiveBox::setSize(Vector3d s) {
 
 std::string ReflectiveBox::getDescription() const {
 	std::stringstream s;
-	s << "Reflective box: origin " << origin / Mpc << "Mpc, ";
+	s << "Reflective box: origin " << origin / Mpc << " Mpc, ";
 	s << "size " << size / Mpc << " Mpc";
 	return s.str();
 }

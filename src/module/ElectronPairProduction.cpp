@@ -86,6 +86,9 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step
 	double dE = Z * Z * rate * photonFieldScaling(photonField, z) * step;
+
+	// prevent the energy loss from exceeding the actual energy
+	dE = std::min(E, dE);
 	candidate->current.setEnergy(E - dE);
 }
 

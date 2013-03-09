@@ -15,7 +15,7 @@ static std::vector<double> sKneiske(b, b + sizeof(b) / sizeof(double));
 double photonFieldScaling(int photonField, double z) {
 	if (photonField == IRB)
 		return interpolate(z, zKneiske, sKneiske);
-	return pow(z + 1, 3); // CMB-like scaling
+	return pow(1 + z, 3); // CMB-like scaling
 }
 
 } // namespace mpc

@@ -41,7 +41,7 @@ FFTW3F
 	-> for turbulent magnetic field grids
 	MPC needs the FFTW3 library compiled with the single precision option 
 Gadget 
-	-> for large scale structure using the smooth particle formalism
+	-> Magnetic fields for large scale structure data
 OpenMP
 	-> for shared memory parallelization
 googleperftools 

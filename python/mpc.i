@@ -20,6 +20,8 @@ using std::ptrdiff_t;
 %include std_container.i
 %include "exception.i"
 
+%import (module="gadget") gadget.i
+
 %{
 #include "mpc/module/NuclearDecay.h"
 #include "mpc/module/ElectronPairProduction.h"
@@ -108,6 +110,7 @@ using std::ptrdiff_t;
 
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
+%feature("director") Module;      
 %include "mpc/Module.h"
 
 %implicitconv mpc::ref_ptr<mpc::MagneticField>;

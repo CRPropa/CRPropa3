@@ -4,6 +4,7 @@
 #ifdef MPC_HAVE_GADGET
 
 #include "mpc/magneticField/MagneticFieldGrid.h"
+#include "mpc/Units.h"
 
 #include "gadget/Database.h"
 #include "gadget/MagneticField.h"
@@ -52,6 +53,26 @@ public:
 	Vector3d getField(const Vector3d &position) const;
 	void setCachePrefix(std::string prefix);
 	void setCacheEnabled(bool enabled);
+};
+
+/**
+ @class GadgetMagneticField
+ @brief Wrapper for gadget::MagneticField
+ */
+class GadgetMagneticField: public MagneticField {
+	gadget::ref_ptr<gadget::MagneticField> field;
+public:
+	GadgetMagneticField(gadget::ref_ptr<gadget::MagneticField> field) : field(field) {
+
+	}
+	Vector3d getField(const Vector3d &position) const {
+		gadget::Vector3f b, r = gadget::Vector3f(position.x, position.y, position.z);
+		bool isGood = field->getField(r / kpc, b);
+		if (!isGood)
+			std::cerr << "mpc::SPHMagneticField invalid position : " << position
+					<< std::endl;
+		return Vector3d(b.x, b.y, b.z) * gauss;
+	}
 };
 
 } // namespace mpc

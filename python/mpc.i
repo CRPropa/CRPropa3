@@ -20,7 +20,9 @@ using std::ptrdiff_t;
 %include std_container.i
 %include "exception.i"
 
+#ifdef MPC_HAVE_GADGET
 %import (module="gadget") gadget.i
+#endif
 
 %{
 #include "mpc/module/NuclearDecay.h"

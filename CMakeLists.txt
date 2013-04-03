@@ -12,7 +12,7 @@ set(MPC_SWIG_DEFINES)
 # Dependencies
 # ----------------------------------------------------------------------------
 # googletest (provided)
-option(ENABLE_TESTING "Build tests and enable test target" OFF)
+option(ENABLE_TESTING "Build tests and enable test target" ON)
 if(ENABLE_TESTING)
 	include_directories(libs/gtest/include)
 	add_subdirectory(libs/gtest)
@@ -50,7 +50,7 @@ include(FindOpenMP)
 endif(ENABLE_OPENMP)
 
 # fftw3f (optional for turbulent magnetic fields)
-option(ENABLE_FFTW3F "FFTW3F to create turbulent fields" OFF)
+option(ENABLE_FFTW3F "FFTW3F to create turbulent fields" ON)
 if(ENABLE_FFTW3F)
     find_package(FFTW3F)
     if(FFTW3F_FOUND)
@@ -73,7 +73,7 @@ if(GADGET_FOUND)
 endif(GADGET_FOUND)
 
 # ROOT (optional for ROOT output)
-option(ENABLE_ROOT "ROOT Output" OFF)
+option(ENABLE_ROOT "ROOT Output" ON)
 if(ENABLE_ROOT)
     find_package(ROOT)
     if(ROOT_FOUND)
@@ -108,6 +108,7 @@ add_library(mpc SHARED
     src/ParticleState.cpp
     src/ParticleID.cpp
     src/ParticleMass.cpp
+    src/Cosmology.cpp
     src/Source.cpp
     src/Common.cpp
     src/PhotonBackground.cpp
@@ -193,7 +194,7 @@ endif(ENABLE_TESTING)
 # ----------------------------------------------------------------------------
 # Python
 # ----------------------------------------------------------------------------
-option(ENABLE_PYTHON "Create python library via SWIG" OFF)
+option(ENABLE_PYTHON "Create python library via SWIG" ON)
 if(ENABLE_PYTHON)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})

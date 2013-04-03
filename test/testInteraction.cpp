@@ -572,22 +572,8 @@ TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_IRB) {
 	EXPECT_FALSE(hasInteraction);
 }
 
-TEST(SimpleRedshift, test) {
-	// Test redshift approximation for small redshifts z << 1.
-	SimpleRedshift redshift(Vector3d(0.), 0.7);
-
-	Candidate c;
-	c.setRedshift(0.024); // roughly corresponds to 100 Mpc
-	c.current.setEnergy(100 * EeV);
-	c.current.setPosition(Vector3d(0.));
-
-	redshift.process(&c);
-	EXPECT_EQ(0, c.getRedshift());
-	EXPECT_GT(100, c.current.getEnergy() / EeV);
-}
-
 TEST(Redshift, test) {
-	Redshift redshift(0.7, 0.3, 0.7);
+	Redshift redshift;
 
 	Candidate c;
 	c.setRedshift(0.024); // roughly corresponds to 100 Mpc

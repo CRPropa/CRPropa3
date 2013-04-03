@@ -1,5 +1,6 @@
 #include "mpc/Source.h"
 #include "mpc/Random.h"
+#include "mpc/Cosmology.h"
 
 #include "HepPID/ParticleIDMethods.hh"
 #include <stdexcept>
@@ -166,43 +167,43 @@ void SourceMultiplePositions::prepare(ParticleState& particle) const {
 	particle.setPosition(positions[i]);
 }
 
-SourceUniformDistributionSphere::SourceUniformDistributionSphere(
+SourceUniformSphere::SourceUniformSphere(
 		Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
-void SourceUniformDistributionSphere::prepare(ParticleState& particle) const {
+void SourceUniformSphere::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 	double r = pow(random.rand(), 1. / 3.) * radius;
 	particle.setPosition(random.randUnitVectorOnSphere() * r);
 }
 
-SourceUniformDistributionOnSphere::SourceUniformDistributionOnSphere(
+SourceUniformShell::SourceUniformShell(
 		Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
-void SourceUniformDistributionOnSphere::prepare(ParticleState& particle) const {
+void SourceUniformShell::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 	particle.setPosition(random.randUnitVectorOnSphere() * radius);
 }
 
-SourceUniformDistributionBox::SourceUniformDistributionBox(Vector3d origin,
+SourceUniformBox::SourceUniformBox(Vector3d origin,
 		Vector3d size) :
 		origin(origin), size(size) {
 }
 
-void SourceUniformDistributionBox::prepare(ParticleState& particle) const {
+void SourceUniformBox::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 	Vector3d pos(random.rand(), random.rand(), random.rand());
 	particle.setPosition(pos * size + origin);
 }
 
-SourceUniformDistribution1D::SourceUniformDistribution1D(double lo, double hi) :
+SourceUniform1D::SourceUniform1D(double lo, double hi) :
 		minDistance(lo), maxDistance(hi) {
 }
 
-void SourceUniformDistribution1D::prepare(ParticleState& particle) const {
+void SourceUniform1D::prepare(ParticleState& particle) const {
 	Random& random = Random::instance();
 	double d = random.rand() * (maxDistance - minDistance) + minDistance;
 	particle.setPosition(Vector3d(d, 0, 0));
@@ -312,13 +313,9 @@ void SourceUniformRedshift::prepare(Candidate& candidate) const {
 	candidate.setRedshift(z);
 }
 
-SourceRedshift1D::SourceRedshift1D(Redshift* redishift) :
-		redshift(redishift) {
-}
-
 void SourceRedshift1D::prepare(Candidate& candidate) const {
 	double d = candidate.initial.getPosition().getMag();
-	double z = redshift->comovingDistance2Redshift(d);
+	double z = comovingDistance2Redshift(d);
 	candidate.setRedshift(z);
 }
 

@@ -4,7 +4,6 @@
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
 #include "mpc/Grid.h"
-#include "mpc/module/Redshift.h"
 
 #include <vector>
 
@@ -161,50 +160,49 @@ public:
 };
 
 /**
- @class SourceUniformDistributionSphere
+ @class SourceUniformSphere
  @brief Uniform random source positions inside a sphere
  */
-class SourceUniformDistributionSphere: public SourceProperty {
+class SourceUniformSphere: public SourceProperty {
 	Vector3d center;
 	double radius;
 public:
-	SourceUniformDistributionSphere(Vector3d center, double radius);
+	SourceUniformSphere(Vector3d center, double radius);
 	void prepare(ParticleState &particle) const;
 };
 
 /**
- @class SourceUniformDistributionOnSphere
+ @class SourceUniformShell
  @brief Uniform random source positions on a sphere
  */
-class SourceUniformDistributionOnSphere: public SourceProperty {
+class SourceUniformShell: public SourceProperty {
 	Vector3d center;
 	double radius;
 public:
-	SourceUniformDistributionOnSphere(Vector3d center, double radius);
+	SourceUniformShell(Vector3d center, double radius);
 	void prepare(ParticleState &particle) const;
 };
 
-
 /**
- @class SourceUniformDistributionBox
+ @class SourceUniformBox
  @brief Uniform random source positions inside a box
  */
-class SourceUniformDistributionBox: public SourceProperty {
+class SourceUniformBox: public SourceProperty {
 	Vector3d origin;
 	Vector3d size;
 public:
-	SourceUniformDistributionBox(Vector3d origin, Vector3d size);
+	SourceUniformBox(Vector3d origin, Vector3d size);
 	void prepare(ParticleState &particle) const;
 };
 
 /**
- @class SourceUniformDistribution1D
+ @class SourceUniform1D
  @brief Uniform random source positions in for 1D simulations
  */
-class SourceUniformDistribution1D: public SourceProperty {
+class SourceUniform1D: public SourceProperty {
 	double minDistance, maxDistance;
 public:
-	SourceUniformDistribution1D(double minDistance, double maxDistance);
+	SourceUniform1D(double minDistance, double maxDistance);
 	void prepare(ParticleState& particle) const;
 };
 
@@ -304,9 +302,7 @@ public:
  It must be added after a position setting source property.
  */
 class SourceRedshift1D: public SourceProperty {
-	ref_ptr<Redshift> redshift;
 public:
-	SourceRedshift1D(Redshift* redshift);
 	void prepare(Candidate &candidate) const;
 };
 

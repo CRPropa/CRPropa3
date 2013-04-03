@@ -3,7 +3,7 @@ from mpc import *
 from pylab import *
 
 
-redshift = Redshift()
+setCosmologyParameters(0.71, 0.27, 0.73)
 
 N = 100
 Z = logspace(-4, 2, N)
@@ -11,11 +11,11 @@ Dc = zeros(N) # comoving distance
 Dl = zeros(N) # comoving distance
 Dt = zeros(N) # light travel distance
 for i in range(N):
-    Dc[i] = redshift.redshift2ComovingDistance(Z[i]) / Mpc
-    Dl[i] = redshift.redshift2LuminosityDistance(Z[i]) / Mpc
-    Dt[i] = redshift.redshift2LightTravelDistance(Z[i]) / Mpc
+    Dc[i] = redshift2ComovingDistance(Z[i]) / Mpc
+    Dl[i] = redshift2LuminosityDistance(Z[i]) / Mpc
+    Dt[i] = redshift2LightTravelDistance(Z[i]) / Mpc
 
-H0 = redshift.hubbleRate(0)
+H0 = hubbleRate(0)
 Dlin = c_light * Z / H0 / Mpc # Hubble's law
 
 figure()

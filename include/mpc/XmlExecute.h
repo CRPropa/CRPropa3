@@ -32,7 +32,6 @@ class XmlExecute {
 	Source source;
 	bool is1D;
 	bool hasRedshift;
-	ref_ptr<Redshift> redshift;
 	size_t nTrajectories;
 	double Emin;
 	double maxStep;

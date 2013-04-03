@@ -147,12 +147,6 @@ bool XmlExecute::load(const string &filename) {
 	nTrajectories = (int) childValue(root, "TrajNumber");
 	cout << "Number of particles: " << nTrajectories << endl;
 
-	double maxTime = childValue(root, "MaxTime_Mpc") * Mpc;
-	cout << "Maximum time: " << maxTime / Mpc << " Mpc" << endl;
-
-	Emin = childValue(root, "MinEnergy_EeV") * EeV;
-	cout << "Minimum energy: " << Emin / EeV << " EeV" << endl;
-
 	xml_node seed_node = root.child("RandomSeed");
 	if (seed_node) {
 		int seed = seed_node.attribute("value").as_int();
@@ -253,9 +247,15 @@ bool XmlExecute::load(const string &filename) {
 		loadSophia(interaction_node);
 
 	// ----- minimum energy -----
+	Emin = childValue(root, "MinEnergy_EeV") * EeV;
+	cout << "Minimum energy: " << Emin / EeV << " EeV" << endl;
 	modules.add(new MinimumEnergy(Emin));
 
 	// ----- maximum trajectory length -----
+	double maxTime = childValue(root, "MaxTime_Mpc") * Mpc;
+	cout << "Maximum time: " << maxTime / Mpc << " Mpc" << endl;
+	if (is1D)
+		maxTime = lightTravel2ComovingDistance(maxTime); // convert to comoving distance
 	modules.add(new MaximumTrajectoryLength(maxTime));
 
 	// ----- periodic boundaries -----
@@ -494,8 +494,9 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 			if (is1D) {
 				double xmin = childValue(density_node, "Xmin_Mpc") * Mpc;
 				double xmax = childValue(density_node, "Xmax_Mpc") * Mpc;
-				sourceDistribution = new SourceUniform1D(xmin,
-						xmax);
+				xmin = lightTravel2ComovingDistance(xmin);
+				xmax = lightTravel2ComovingDistance(xmax);
+				sourceDistribution = new SourceUniform1D(xmin, xmax);
 			} else {
 				sourceDistribution = loadSourceHomogeneousBox(density_node);
 			}
@@ -539,8 +540,10 @@ void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
 		if (is1D) {
 			double minD = childValue(density_node, "Xmin_Mpc") * Mpc;
 			double maxD = childValue(density_node, "Xmax_Mpc") * Mpc;
-			cout << "  - Minimum distance: " << minD / Mpc << " Mpc" << endl;
-			cout << "  - Maximum distance: " << maxD / Mpc << " Mpc" << endl;
+			cout << "  - Minimum light travel distance: " << minD / Mpc << " Mpc" << endl;
+			cout << "  - Maximum light travel distance: " << maxD / Mpc << " Mpc" << endl;
+			minD = lightTravel2ComovingDistance(minD);
+			maxD = lightTravel2ComovingDistance(maxD);
 			source.addProperty(new SourceUniform1D(minD, maxD));
 		} else {
 			source.addProperty(loadSourceHomogeneousBox(density_node));

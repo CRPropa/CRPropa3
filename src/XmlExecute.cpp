@@ -1,10 +1,12 @@
 #include "mpc/XmlExecute.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/GridTools.h"
-#include "mpc/PhotonBackground.h"
 #include "mpc/Random.h"
+#include "mpc/PhotonBackground.h"
+#include "mpc/Cosmology.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
+#include "mpc/module/Redshift.h"
 #include "mpc/module/ElectronPairProduction.h"
 #include "mpc/module/PhotoPionProduction.h"
 #include "mpc/module/PhotoDisintegration.h"
@@ -50,7 +52,7 @@ xml_node childNode(xml_node parent, string childName,
 	return node;
 }
 
-SourceUniformDistributionBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
+SourceUniformBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
 	Vector3d origin;
 	origin.x = childValue(node, "Xmin_Mpc") * Mpc;
 	origin.y = childValue(node, "Ymin_Mpc") * Mpc;
@@ -64,7 +66,7 @@ SourceUniformDistributionBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
 	size -= origin;
 	cout << "  - Size: " << size / Mpc << endl;
 
-	return (new SourceUniformDistributionBox(origin, size));
+	return (new SourceUniformBox(origin, size));
 }
 
 SourceDensityGrid* loadSourceDensityGrid(pugi::xml_node &node) {
@@ -163,7 +165,7 @@ bool XmlExecute::load(const string &filename) {
 	// ----- environment -----
 	xml_node node;
 	node = childNode(root, "Environment");
-	std::string type = node.attribute("type").as_string();
+	string type = node.attribute("type").as_string();
 	cout << "Environment: " << type << endl;
 
 	if (type == "One Dimension")
@@ -214,6 +216,8 @@ bool XmlExecute::load(const string &filename) {
 		hasRedshift = !(noRedshift);
 
 		if (hasRedshift) {
+			modules.add(new Redshift());
+
 			double omegaM = 0.3;
 			if (root.child("OmegaM"))
 				omegaM = childValue(root, "OmegaM");
@@ -226,11 +230,9 @@ bool XmlExecute::load(const string &filename) {
 			if (root.child("H0_km_s_Mpc"))
 				childValue(root, "H0_km_s_Mpc");
 
-			cout << "Redshift: OmegaM = " << omegaM << ", OmegaLambda = "
+			cout << "Cosmology: OmegaM = " << omegaM << ", OmegaLambda = "
 					<< omegaL << ", H0 = " << H0 << " km/s/Mpc" << endl;
-
-			redshift = new Redshift(H0 / 100, omegaM, omegaL);
-			modules.add(redshift);
+			setCosmologyParameters(H0 / 100, omegaM, omegaL);
 		} else {
 			cout << "  - No redshift" << endl;
 		}
@@ -281,7 +283,7 @@ bool XmlExecute::load(const string &filename) {
 
 	if (is1D and hasRedshift) {
 		cout << "  - Redshift according to source distance" << endl;
-		source.addProperty(new SourceRedshift1D(redshift));
+		source.addProperty(new SourceRedshift1D());
 	}
 
 	// spectrum + composition
@@ -365,7 +367,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 
 	ref_ptr<VectorGrid> field = new VectorGrid(origin, Nx, Ny, Nz, spacing);
 
-	std::string type = node.attribute("type").as_string();
+	string type = node.attribute("type").as_string();
 	if (type == "LSS-Grid") {
 		string filetype = node.child("File").attribute("type").as_string();
 		cout << "  - File type: " << filetype << endl;
@@ -494,7 +496,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 			if (is1D) {
 				double xmin = childValue(density_node, "Xmin_Mpc") * Mpc;
 				double xmax = childValue(density_node, "Xmax_Mpc") * Mpc;
-				sourceDistribution = new SourceUniformDistribution1D(xmin,
+				sourceDistribution = new SourceUniform1D(xmin,
 						xmax);
 			} else {
 				sourceDistribution = loadSourceHomogeneousBox(density_node);
@@ -541,7 +543,7 @@ void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
 			double maxD = childValue(density_node, "Xmax_Mpc") * Mpc;
 			cout << "  - Minimum distance: " << minD / Mpc << " Mpc" << endl;
 			cout << "  - Maximum distance: " << maxD / Mpc << " Mpc" << endl;
-			source.addProperty(new SourceUniformDistribution1D(minD, maxD));
+			source.addProperty(new SourceUniform1D(minD, maxD));
 		} else {
 			source.addProperty(loadSourceHomogeneousBox(density_node));
 		}

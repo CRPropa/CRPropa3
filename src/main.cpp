@@ -3,23 +3,19 @@
 #include <iostream>
 #include <exception>
 
-
-using namespace mpc;
-using namespace std;
-
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		cout << "mpc-run <XML File>" << endl;
+		std::cout << "mpc-run <XML File>" << std::endl;
 		return 1;
 	}
 
 	try {
-		XmlExecute exe;
+		mpc::XmlExecute exe;
 		if (!exe.load(argv[1]))
 			return 1;
 		exe.run();
 	} catch (std::exception &e) {
-		cerr << e.what() << endl;
+		std::cerr << e.what() << std::endl;
 		return 1;
 	}
 

@@ -266,9 +266,7 @@ bool XmlExecute::load(const string &filename) {
 	node = childNode(root, "Sources");
 
 	// emission direction
-	if (is1D)
-		source.addProperty(new SourceDirection());
-	else
+	if (!is1D)
 		source.addProperty(new SourceIsotropicEmission());
 
 	// position

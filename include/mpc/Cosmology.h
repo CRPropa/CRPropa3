@@ -51,6 +51,12 @@ double lightTravelDistance2Redshift(double distance);
  */
 double redshift2LightTravelDistance(double redshift);
 
+// Conversion from comoving distance to light travel distance.
+double comoving2LightTravelDistance(double distance);
+
+// Conversion from light travel distance to comoving distance.
+double lightTravel2ComovingDistance(double distance);
+
 } // namespace mpc
 
 #endif // MPC_COSMOLOGY_H_

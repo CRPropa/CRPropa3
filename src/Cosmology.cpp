@@ -134,4 +134,20 @@ double redshift2LightTravelDistance(double z) {
 	return interpolate(z, cosmology.Z, cosmology.Dt);
 }
 
+double comoving2LightTravelDistance(double d) {
+	if (d < 0)
+		throw std::runtime_error("Cosmology: d < 0");
+	if (d > cosmology.Dc.back())
+		throw std::runtime_error("Cosmology: d > dmax");
+	return interpolate(d, cosmology.Dc, cosmology.Dt);
+}
+
+double lightTravel2ComovingDistance(double d) {
+	if (d < 0)
+		throw std::runtime_error("Cosmology: d < 0");
+	if (d > cosmology.Dt.back())
+		throw std::runtime_error("Cosmology: d > dmax");
+	return interpolate(d, cosmology.Dt, cosmology.Dc);
+}
+
 } // namespace mpc

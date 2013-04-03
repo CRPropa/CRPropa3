@@ -197,21 +197,30 @@ public:
 
 /**
  @class SourceUniform1D
- @brief Uniform random source positions in for 1D simulations
+ @brief 1D-Positions from a uniform source distribution in an expanding universe
+
+ This source property sets random x-coordinates according to a uniform source
+ distribution in a given comoving distance interval.
+ This is done by drawing a light travel distance from a flat distribution and
+ converting to a comoving distance.
  */
 class SourceUniform1D: public SourceProperty {
-	double minDistance, maxDistance;
+	double minDt; // minimum light travel distance [m]
+	double maxDt; // maximum light travel distance [m]
 public:
-	SourceUniform1D(double minDistance, double maxDistance);
+	/**
+	 @param minD	minimum comoving distance [m]
+	 @param maxD 	maximum comoving distance [m]
+	 */
+	SourceUniform1D(double minD, double maxD);
 	void prepare(ParticleState& particle) const;
 };
 
 /**
  @class SourceDensityGrid
- @brief Provides source positions from a density grid
+ @brief Random source positions from a density grid
 
- This module takes a density grid to compute random initial positions.
- The positions of the grid points are interpreted as bin centers, the values as source density in the bin.
+ This source property takes a density grid to compute random initial positions.
  To dial a source position, first a bin is drawn following the density distribution.
  Then a random position is drawn from a uniform distribution in the bin.
  */
@@ -225,10 +234,9 @@ public:
 
 /**
  @class SourceDensityGrid1D
- @brief Provides source positions from a 1D density grid
+ @brief Random source positions from a 1D density grid
 
- This module takes a N*1*1 grid to compute random initial positions.
- The positions of the grid points are interpreted as bin centers, the values as source density in the bin.
+ This source property takes a N*1*1 grid to compute random initial positions.
  To dial a source position, first a bin is drawn following the density distribution.
  Then a random position is drawn from a uniform distribution in the bin.
  */

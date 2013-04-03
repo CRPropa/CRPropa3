@@ -199,13 +199,15 @@ void SourceUniformBox::prepare(ParticleState& particle) const {
 	particle.setPosition(pos * size + origin);
 }
 
-SourceUniform1D::SourceUniform1D(double lo, double hi) :
-		minDistance(lo), maxDistance(hi) {
+SourceUniform1D::SourceUniform1D(double minD, double maxD) {
+		minDt = comoving2LightTravelDistance(minD);
+		maxDt = comoving2LightTravelDistance(maxD);
 }
 
 void SourceUniform1D::prepare(ParticleState& particle) const {
 	Random& random = Random::instance();
-	double d = random.rand() * (maxDistance - minDistance) + minDistance;
+	double d = random.rand() * (maxDt - minDt) + minDt;
+	d = lightTravel2ComovingDistance(d);
 	particle.setPosition(Vector3d(d, 0, 0));
 }
 

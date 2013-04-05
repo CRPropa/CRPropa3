@@ -3,6 +3,10 @@
 
 namespace mpc {
 
+Redshift::Redshift() {
+	setDescription("Redshift");
+}
+
 void Redshift::process(Candidate *c) const {
 	double z = c->getRedshift();
 	if (z == 0)

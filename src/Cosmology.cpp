@@ -48,7 +48,7 @@ struct Cosmology {
 	}
 
 	Cosmology() {
-		H0 = 7e4 / Mpc;
+		H0 = 71 * 1000 * meter / second / Mpc; // default values
 		omegaM = 0.3;
 		omegaL = 0.7;
 

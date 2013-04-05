@@ -11,6 +11,7 @@ namespace mpc {
  */
 class Redshift: public Module {
 public:
+	Redshift();
 	void process(Candidate *candidate) const;
 };
 

@@ -205,14 +205,15 @@ public:
  converting to a comoving distance.
  */
 class SourceUniform1D: public SourceProperty {
-	double minDt; // minimum light travel distance [m]
-	double maxDt; // maximum light travel distance [m]
+	double minD; // minimum light travel distance [m]
+	double maxD; // maximum light travel distance [m]
+	bool withCosmology;
 public:
 	/**
 	 @param minD	minimum comoving distance [m]
 	 @param maxD 	maximum comoving distance [m]
 	 */
-	SourceUniform1D(double minD, double maxD);
+	SourceUniform1D(double minD, double maxD, bool withCosmology=true);
 	void prepare(ParticleState& particle) const;
 };
 

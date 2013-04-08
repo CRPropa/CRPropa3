@@ -167,8 +167,7 @@ void SourceMultiplePositions::prepare(ParticleState& particle) const {
 	particle.setPosition(positions[i]);
 }
 
-SourceUniformSphere::SourceUniformSphere(
-		Vector3d center, double radius) :
+SourceUniformSphere::SourceUniformSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
@@ -178,8 +177,7 @@ void SourceUniformSphere::prepare(ParticleState& particle) const {
 	particle.setPosition(random.randUnitVectorOnSphere() * r);
 }
 
-SourceUniformShell::SourceUniformShell(
-		Vector3d center, double radius) :
+SourceUniformShell::SourceUniformShell(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
@@ -188,8 +186,7 @@ void SourceUniformShell::prepare(ParticleState& particle) const {
 	particle.setPosition(random.randUnitVectorOnSphere() * radius);
 }
 
-SourceUniformBox::SourceUniformBox(Vector3d origin,
-		Vector3d size) :
+SourceUniformBox::SourceUniformBox(Vector3d origin, Vector3d size) :
 		origin(origin), size(size) {
 }
 
@@ -199,15 +196,22 @@ void SourceUniformBox::prepare(ParticleState& particle) const {
 	particle.setPosition(pos * size + origin);
 }
 
-SourceUniform1D::SourceUniform1D(double minD, double maxD) {
-		minDt = comoving2LightTravelDistance(minD);
-		maxDt = comoving2LightTravelDistance(maxD);
+SourceUniform1D::SourceUniform1D(double minD, double maxD, bool withCosmology) {
+	this->withCosmology = withCosmology;
+	if (withCosmology) {
+		this->minD = comoving2LightTravelDistance(minD);
+		this->maxD = comoving2LightTravelDistance(maxD);
+	} else {
+		this->minD = minD;
+		this->maxD = maxD;
+	}
 }
 
 void SourceUniform1D::prepare(ParticleState& particle) const {
 	Random& random = Random::instance();
-	double d = random.rand() * (maxDt - minDt) + minDt;
-	d = lightTravel2ComovingDistance(d);
+	double d = random.rand() * (maxD - minD) + minD;
+	if (withCosmology)
+		d = lightTravel2ComovingDistance(d);
 	particle.setPosition(Vector3d(d, 0, 0));
 }
 

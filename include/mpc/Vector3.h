@@ -138,6 +138,16 @@ public:
 				x * v.y - v.x * y);
 	}
 
+	double perp2(const Vector3<T> & p) const {
+		double tot = p.getMag2();
+		double ss = dot(p);
+		return tot > 0.0 ? getMag2() - ss * ss / tot : getMag2();
+	}
+
+	double perp(const Vector3<T> & p) const {
+		return std::sqrt(perp2(p));
+	}
+
 	void rotate(const Vector3<T> &axis, T angle) {
 		T ux = axis.getX() / axis.getMag();
 		T uy = axis.getY() / axis.getMag();

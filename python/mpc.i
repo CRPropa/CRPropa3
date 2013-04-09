@@ -37,6 +37,7 @@ using std::ptrdiff_t;
 #include "mpc/module/Output.h"
 #include "mpc/module/OutputROOT.h"
 #include "mpc/module/OutputCRPropa2.h"
+#include "mpc/module/PhotonOutput.h"
 #include "mpc/module/SimplePropagation.h"
 #include "mpc/module/DeflectionCK.h"
 #include "mpc/module/Tools.h"
@@ -73,12 +74,15 @@ using std::ptrdiff_t;
  {
    $action
  }
- catch (const std::runtime_error& e) {
+ catch (const std::exception& e) {
    SWIG_exception(SWIG_RuntimeError, e.what());
  }
- catch (...) { 
-   SWIG_exception(SWIG_RuntimeError, "unknown exception");
- } 
+ catch (const char *e) {
+   SWIG_exception(SWIG_RuntimeError, e);
+ }
+ catch (Swig::DirectorException &e) {
+   SWIG_exception(SWIG_RuntimeError, e.getMessage());
+ }
 }
 
 %ignore operator<<;
@@ -114,7 +118,7 @@ using std::ptrdiff_t;
 
 %template(ModuleRefPtr) mpc::ref_ptr<mpc::Module>;
 %template(stdModuleList) std::list< mpc::ref_ptr<mpc::Module> >;
-%feature("director") Module;      
+%feature("director") mpc::Module;      
 %include "mpc/Module.h"
 
 %implicitconv mpc::ref_ptr<mpc::MagneticField>;
@@ -147,6 +151,7 @@ using std::ptrdiff_t;
 %include "mpc/module/Output.h"
 %include "mpc/module/OutputROOT.h"
 %include "mpc/module/OutputCRPropa2.h"
+%include "mpc/module/PhotonOutput.h"
 %include "mpc/module/ElectronPairProduction.h"
 %include "mpc/module/StochasticInteraction.h"
 %include "mpc/module/NuclearDecay.h"

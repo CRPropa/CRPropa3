@@ -92,16 +92,16 @@ void ConditionalOutput::process(Candidate *c) const {
 
 	p += sprintf(buffer + p, "%8.3f\t", c->getTrajectoryLength() / Mpc);
 	p += sprintf(buffer + p, "%10i\t", c->current.getId());
-	p += sprintf(buffer + p, "%10i\t", c->initial.getId());
+	p += sprintf(buffer + p, "%10i\t", c->source.getId());
 	p += sprintf(buffer + p, "%8.4f\t", c->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%8.4f\t", c->initial.getEnergy() / EeV);
+	p += sprintf(buffer + p, "%8.4f\t", c->source.getEnergy() / EeV);
 	Vector3d pos = c->current.getPosition() / Mpc;
 	p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", pos.x, pos.y, pos.z);
-	Vector3d ipos = c->initial.getPosition() / Mpc;
+	Vector3d ipos = c->source.getPosition() / Mpc;
 	p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", ipos.x, ipos.y, ipos.z);
 	Vector3d dir = c->current.getDirection();
 	p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", dir.x, dir.y, dir.z);
-	Vector3d idir = c->initial.getDirection();
+	Vector3d idir = c->source.getDirection();
 	p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\n", idir.x, idir.y, idir.z);
 
 #pragma omp critical
@@ -166,8 +166,8 @@ void EventOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%10i\t", c->current.getId());
 	p += sprintf(buffer + p, "%8.4f\t", c->current.getEnergy() / EeV);
 	p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
-	p += sprintf(buffer + p, "%10i\t", c->initial.getId());
-	p += sprintf(buffer + p, "%8.4f\n", c->initial.getEnergy() / EeV);
+	p += sprintf(buffer + p, "%10i\t", c->source.getId());
+	p += sprintf(buffer + p, "%8.4f\n", c->source.getEnergy() / EeV);
 
 #pragma omp critical
 	{

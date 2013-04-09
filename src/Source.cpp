@@ -12,10 +12,11 @@ void SourceProperty::prepare(ParticleState& particle) const {
 }
 
 void SourceProperty::prepare(Candidate& candidate) const {
-	ParticleState &initial = candidate.initial;
-	prepare(initial);
-	candidate.current = initial;
-	candidate.previous = initial;
+	ParticleState &source = candidate.source;
+	prepare(source);
+	candidate.created = source;
+	candidate.current = source;
+	candidate.previous = source;
 }
 
 void Source::addProperty(SourceProperty* property) {
@@ -320,7 +321,7 @@ void SourceUniformRedshift::prepare(Candidate& candidate) const {
 }
 
 void SourceRedshift1D::prepare(Candidate& candidate) const {
-	double d = candidate.initial.getPosition().getMag();
+	double d = candidate.source.getPosition().getMag();
 	double z = comovingDistance2Redshift(d);
 	candidate.setRedshift(z);
 }

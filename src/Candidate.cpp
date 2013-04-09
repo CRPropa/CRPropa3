@@ -8,8 +8,9 @@ Candidate::Candidate() :
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		current(state), initial(state), previous(state), redshift(0), trajectoryLength(
-				0), currentStep(0), nextStep(0), active(true) {
+		source(state), created(state), current(state), previous(state), redshift(
+				0), trajectoryLength(0), currentStep(0), nextStep(0), active(
+				true) {
 }
 
 bool Candidate::isActive() const {
@@ -117,7 +118,8 @@ void Candidate::addSecondary(int id, double energy) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
-	secondary->initial = initial;
+	secondary->source = source;
+	secondary->created = current;
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);

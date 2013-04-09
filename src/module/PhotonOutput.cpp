@@ -71,13 +71,13 @@ void PhotonOutput::process(Candidate *candidate) const {
 		double criticalEnergy = candidate->current.getEnergy()
 				/ (eV * ELECTRON_MASS); // units of dint
 		int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-				- MAX_ENERGY_EXP)*BINS_PER_DECADE + NUM_MAIN_BINS);
+				- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
 		inputSpectrum.spectrum[PHOTON][maxBin] = 1.;
 	}
 
 	// Initialize the positions
 	Vector3d position = candidate->current.getPosition();
-	Vector3d initialPosition = candidate->initial.getPosition();
+	Vector3d initialPosition = candidate->created.getPosition();
 	string initial_string;
 	if (candidate->getProperty("PhotonInitialPosition", initial_string)) {
 		stringstream initial_stream(initial_string);
@@ -114,13 +114,13 @@ void PhotonOutput::process(Candidate *candidate) const {
 #pragma omp critical
 	{
 		fout << 22 << " " << initialType << " "
-				<< candidate->initial.getPosition() / Mpc << " "
+				<< candidate->source.getPosition() / Mpc << " "
 				<< initialPosition / Mpc << " " << position / Mpc << " "
 				<< candidate->current.getEnergy() << " "
 				<< candidate->current.getDirection().x << " "
 				<< candidate->current.getDirection().y << " "
 				<< candidate->current.getDirection().z << " "
-				<< candidate->initial.getEnergy() / Mpc << endl;
+				<< candidate->source.getEnergy() / Mpc << endl;
 
 		for (int j = 0; j < outputSpectrum.numberOfMainBins; j++) {
 			fout << outputSpectrum.spectrum[0][j] << " "; // spectrum: mean number of particles per energy bin

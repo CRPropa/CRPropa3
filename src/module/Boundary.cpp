@@ -21,7 +21,8 @@ void PeriodicBox::process(Candidate *c) const {
 
 	c->current.setPosition(pos - n * size);
 	c->previous.setPosition(c->previous.getPosition() - n * size);
-	c->initial.setPosition(c->initial.getPosition() - n * size);
+	c->source.setPosition(c->source.getPosition() - n * size);
+	c->created.setPosition(c->created.getPosition() - n * size);
 }
 
 void PeriodicBox::setOrigin(Vector3d o) {
@@ -57,33 +58,39 @@ void ReflectiveBox::process(Candidate *c) const {
 	Vector3d nReflect(pow(-1, n.x), pow(-1, n.y), pow(-1, n.z));
 	c->current.setDirection(c->current.getDirection() * nReflect);
 	c->previous.setDirection(c->previous.getDirection() * nReflect);
-	c->initial.setDirection(c->initial.getDirection() * nReflect);
+	c->created.setDirection(c->created.getDirection() * nReflect);
+	c->source.setDirection(c->source.getDirection() * nReflect);
 
-	Vector3d ini = (c->initial.getPosition() - origin) / size; // initial position in cell units
+	Vector3d src = (c->source.getPosition() - origin) / size; // initial position in cell units
+	Vector3d cre = (c->created.getPosition() - origin) / size; // initial position in cell units
 	Vector3d prv = (c->previous.getPosition() - origin) / size; // previous position in cell units
 
 	// repeatedly translate until the current position is inside the cell
 	while ((cur.x < 0) or (cur.x > 1)) {
 		double t = 2 * (cur.x > 1);
-		ini.x = t - ini.x;
+		src.x = t - src.x;
+		cre.x = t - cre.x;
 		prv.x = t - prv.x;
 		cur.x = t - cur.x;
 	}
 	while ((cur.y < 0) or (cur.y > 1)) {
 		double t = 2 * (cur.y > 1);
-		ini.y = t - ini.y;
+		src.y = t - src.y;
+		cre.y = t - cre.y;
 		prv.y = t - prv.y;
 		cur.y = t - cur.y;
 	}
 	while ((cur.z < 0) or (cur.z > 1)) {
 		double t = 2 * (cur.z > 1);
-		ini.z = t - ini.z;
+		src.z = t - src.z;
+		cre.z = t - cre.z;
 		prv.z = t - prv.z;
 		cur.z = t - cur.z;
 	}
 
 	c->current.setPosition(cur * size + origin);
-	c->initial.setPosition(ini * size + origin);
+	c->source.setPosition(src * size + origin);
+	c->created.setPosition(cre * size + origin);
 	c->previous.setPosition(prv * size + origin);
 }
 

@@ -39,7 +39,8 @@ struct InteractionState {
  */
 class Candidate: public Referenced {
 public:
-	ParticleState initial; /**< Particle state at the beginning of propagation */
+	ParticleState source; /**< Particle state at the source */
+	ParticleState created; /**< Particle state at the creation */
 	ParticleState current; /**< Current particle state */
 	ParticleState previous; /**< Particle state at the end of the previous step */
 

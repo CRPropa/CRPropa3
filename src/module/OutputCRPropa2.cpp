@@ -27,14 +27,14 @@ void CRPropa2EventOutput3D::process(Candidate *c) const {
 	size_t p = 0; // length of line
 
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->initial.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
 
-	const Vector3d &ipos = c->initial.getPosition() / Mpc;
+	const Vector3d &ipos = c->source.getPosition() / Mpc;
 	p += sprintf(buffer + p, "%.4f %.4f %.4f ", ipos.x, ipos.y, ipos.z);
 
-	double iPhi = c->initial.getDirection().getPhi();
-	double iTheta = c->initial.getDirection().getTheta();
-	double iE = c->initial.getEnergy() / EeV;
+	double iPhi = c->source.getDirection().getPhi();
+	double iTheta = c->source.getDirection().getTheta();
+	double iE = c->source.getEnergy() / EeV;
 	p += sprintf(buffer + p, "%.4f %.4f %.4f ", iE, iPhi, iTheta);
 
 	double t = c->getTrajectoryLength() / Mpc;
@@ -72,7 +72,7 @@ void CRPropa2TrajectoryOutput3D::process(Candidate *c) const {
 	size_t p = 0;
 
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->initial.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
 	p += sprintf(buffer + p, "%.4f ", c->getTrajectoryLength() / Mpc);
 
 	const Vector3d &pos = c->current.getPosition() / Mpc;
@@ -141,8 +141,8 @@ void CRPropa2EventOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
 	p += sprintf(buffer + p, "%.4f ", c->current.getEnergy() / EeV);
 	p += sprintf(buffer + p, "%.4f ", c->getTrajectoryLength() / Mpc);
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->initial.getId()));
-	p += sprintf(buffer + p, "%.4f\n", c->initial.getEnergy() / EeV);
+	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
+	p += sprintf(buffer + p, "%.4f\n", c->source.getEnergy() / EeV);
 
 #pragma omp critical
 	{

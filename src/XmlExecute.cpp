@@ -225,8 +225,8 @@ bool XmlExecute::load(const string &filename) {
 				childValue(root, "H0_km_s_Mpc");
 
 			cout << "Cosmology: OmegaM = " << omegaM << ", OmegaLambda = "
-					<< omegaL << ", H0 = " << H0 << " km/s/Mpc" << endl;
-			setCosmologyParameters(H0 / 100, omegaM, omegaL);
+					<< 1 - omegaM << ", H0 = " << H0 << " km/s/Mpc" << endl;
+			setCosmologyParameters(H0 / 100, omegaM);
 		} else {
 			cout << "  - No redshift" << endl;
 		}

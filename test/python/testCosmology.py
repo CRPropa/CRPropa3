@@ -3,7 +3,7 @@ from mpc import *
 from pylab import *
 
 
-setCosmologyParameters(0.71, 0.27, 0.73)
+setCosmologyParameters(0.71, 0.27)
 
 N = 100
 Z = logspace(-4, 2, N)

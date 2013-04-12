@@ -50,7 +50,7 @@ struct Cosmology {
 	Cosmology() {
 		H0 = 71 * 1000 * meter / second / Mpc; // default values
 		omegaM = 0.3;
-		omegaL = 0.7;
+		omegaL = 1 - omegaM;
 
 		Z.resize(n);
 		Dc.resize(n);
@@ -65,10 +65,10 @@ struct Cosmology {
 		update();
 	}
 
-	void setParameters(double h, double oM, double oL) {
+	void setParameters(double h, double oM) {
 		H0 = h * 1e5 / Mpc;
 		omegaM = oM;
-		omegaL = oL;
+		omegaL = 1 - oM;
 		update();
 	}
 };
@@ -77,8 +77,8 @@ static Cosmology cosmology; // instance is created at runtime
 
 
 
-void setCosmologyParameters(double h, double oM, double oL) {
-	cosmology.setParameters(h, oM, oL);
+void setCosmologyParameters(double h, double oM) {
+	cosmology.setParameters(h, oM);
 }
 
 double hubbleRate(double z) {

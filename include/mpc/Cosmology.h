@@ -4,10 +4,11 @@
 namespace mpc {
 
 /**
- Set the cosmological parameters for a flat universe.
+ Set the cosmological parameters for a flat universe. To ensure flatness omegaL is set to 1 - omegaMatter
+ @param hubbleParameter	dimensionless Hubble parameter, default = 0.7
+ @param omegaMatter		matter parameter, default = 0.3
  */
-void setCosmologyParameters(double hubbleParameter, double omegaMatter,
-		double omegaVacuum);
+void setCosmologyParameters(double hubbleParameter, double omegaMatter);
 
 /**
  Hubble rate at given redshift

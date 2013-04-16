@@ -86,6 +86,14 @@ double hubbleRate(double z) {
 			* sqrt(cosmology.omegaL + cosmology.omegaM * pow(1 + z, 3));
 }
 
+double omegaL() {
+	return cosmology.omegaL;
+}
+
+double omegaM() {
+	return cosmology.omegaM;
+}
+
 double comovingDistance2Redshift(double d) {
 	if (d < 0)
 		throw std::runtime_error("Cosmology: d < 0");

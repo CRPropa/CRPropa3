@@ -16,6 +16,12 @@ void setCosmologyParameters(double hubbleParameter, double omegaMatter);
  */
 double hubbleRate(double redshift = 0);
 
+// Returns the dark energy density parameter
+double omegaL();
+
+// Returns the matter density parameter
+double omegaM();
+
 /**
  Redshift of a comoving object at a given comoving distance to an observer at z = 0.
  d_comoving(z) = c/H0 * int_0^z dz' / E(z')

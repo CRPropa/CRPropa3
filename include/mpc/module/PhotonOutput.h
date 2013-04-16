@@ -15,7 +15,6 @@ private:
 	ref_ptr<MagneticField> field;
 
 	int IRFlag, RadioFlag;
-	double H0, OmegaLambda, OmegaM;
 	double Zmax, Cutcascade_Magfield;
 
 public:

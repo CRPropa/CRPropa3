@@ -1,14 +1,10 @@
 #include "mpc/module/PhotonOutput.h"
+#include "mpc/Cosmology.h"
 
 #include <iostream>
 #include <sstream>
 
 #include "dint/prop_second.h"
-
-// Default cosmological parameters
-#define DEFAULT_OMEGA_M 0.3 /**< Default value for _fOmegaM */
-#define DEFAULT_OMEGA_LAMBDA 0.7 /**< Default value for _fOmegaLambda */
-#define DEFAULT_H_0_KM_S_MPC 71. /**< Default value for _fH0 */
 
 using namespace std;
 
@@ -16,8 +12,7 @@ namespace mpc {
 
 PhotonOutput::PhotonOutput(const string &filename, ref_ptr<MagneticField> field) :
 		filename(filename), fout(filename.c_str()), field(field), IRFlag(0), RadioFlag(
-				0), H0(DEFAULT_H_0_KM_S_MPC), OmegaLambda(DEFAULT_OMEGA_LAMBDA), OmegaM(
-				DEFAULT_OMEGA_M), Zmax(5), Cutcascade_Magfield(0) {
+				0), Zmax(5), Cutcascade_Magfield(0) {
 	dataPath = getDataPath("dint");
 
 //TODO: implement ir and radio flags
@@ -71,7 +66,7 @@ void PhotonOutput::process(Candidate *candidate) const {
 		double criticalEnergy = candidate->current.getEnergy()
 				/ (eV * ELECTRON_MASS); // units of dint
 		int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-				- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
+				- MAX_ENERGY_EXP)* BINS_PER_DECADE + NUM_MAIN_BINS);
 		inputSpectrum.spectrum[PHOTON][maxBin] = 1.;
 	}
 
@@ -107,9 +102,11 @@ void PhotonOutput::process(Candidate *candidate) const {
 	Spectrum outputSpectrum;
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
+	double H0 = hubbleRate(0) * Mpc / 1000; // Hubble constant in [km/s/Mpc]
+
 	prop_second(showerPropDistance / Mpc, &bField, &energyGrid, &energyWidth,
 			&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag,
-			H0, OmegaM, OmegaLambda, Cutcascade_Magfield);
+			H0, omegaL(), omegaM(), Cutcascade_Magfield);
 
 #pragma omp critical
 	{

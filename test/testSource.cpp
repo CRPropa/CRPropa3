@@ -194,7 +194,7 @@ TEST(Source, allPropertiesUsed) {
 
 	Candidate c = *source.getCandidate();
 
-	ParticleState p = c.initial;
+	ParticleState p = c.created;
 	EXPECT_EQ(8, p.getMassNumber());
 	EXPECT_EQ(4, p.getChargeNumber());
 	EXPECT_LE(5 * EeV, p.getEnergy());
@@ -225,7 +225,7 @@ TEST(SourceList, simpleTest) {
 
 	ref_ptr<Candidate> c = sourceList.getCandidate();
 
-	EXPECT_EQ(Vector3d(10, 0, 0), c->initial.getPosition());
+	EXPECT_EQ(Vector3d(10, 0, 0), c->created.getPosition());
 	EXPECT_EQ(Vector3d(10, 0, 0), c->previous.getPosition());
 	EXPECT_EQ(Vector3d(10, 0, 0), c->current.getPosition());
 }
@@ -251,7 +251,7 @@ TEST(SourceList, luminosity) {
 	double meanE = 0;
 	for (int i = 0; i < 1000; i++) {
 		ref_ptr<Candidate> c = sourceList.getCandidate();
-		meanE += c->initial.getEnergy();
+		meanE += c->created.getEnergy();
 	}
 	meanE /= 1000;
 	EXPECT_NEAR(80, meanE, 2);

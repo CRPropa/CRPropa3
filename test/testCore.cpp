@@ -148,10 +148,10 @@ TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);
 	c.setTrajectoryLength(23);
-	c.initial.setId(nucleusId(56,26));
-	c.initial.setEnergy(1000);
-	c.initial.setPosition(Vector3d(1,2,3));
-	c.initial.setDirection(Vector3d(0,0,1));
+	c.current.setId(nucleusId(56,26));
+	c.current.setEnergy(1000);
+	c.current.setPosition(Vector3d(1,2,3));
+	c.current.setDirection(Vector3d(0,0,1));
 
 	c.addSecondary(nucleusId(1,1), 200);
 	Candidate s = *c.secondaries[0];
@@ -161,9 +161,9 @@ TEST(Candidate, addSecondary) {
 
 	EXPECT_EQ(5, s.getRedshift());
 	EXPECT_EQ(23, s.getTrajectoryLength());
-	EXPECT_EQ(1000, s.initial.getEnergy());
-	EXPECT_TRUE(Vector3d(1,2,3) == s.initial.getPosition());
-	EXPECT_TRUE(Vector3d(0,0,1) == s.initial.getDirection());
+	EXPECT_EQ(1000, s.created.getEnergy());
+	EXPECT_TRUE(Vector3d(1,2,3) == s.created.getPosition());
+	EXPECT_TRUE(Vector3d(0,0,1) == s.created.getDirection());
 }
 
 TEST(common, digit) {

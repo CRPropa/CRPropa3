@@ -20,8 +20,8 @@ using std::ptrdiff_t;
 %include std_container.i
 %include "exception.i"
 
-#ifdef MPC_HAVE_GADGET
-%import (module="gadget") gadget.i
+#ifdef MPC_HAVE_QUIMBY
+%import (module="quimby") quimby.i
 #endif
 
 %{
@@ -44,7 +44,7 @@ using std::ptrdiff_t;
 
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/magneticField/GadgetMagneticField.h"
+#include "mpc/magneticField/QuimbyMagneticField.h"
 #include "mpc/magneticField/JF2012Field.h"
 
 #include "mpc/Referenced.h"
@@ -137,7 +137,7 @@ using std::ptrdiff_t;
 %template(ScalarGrid) mpc::Grid<float>;
 
 %include "mpc/magneticField/MagneticFieldGrid.h"
-%include "mpc/magneticField/GadgetMagneticField.h"
+%include "mpc/magneticField/QuimbyMagneticField.h"
 %include "mpc/magneticField/JF2012Field.h"
 
 %include "mpc/ExplicitRungeKutta.h"

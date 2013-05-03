@@ -1,5 +1,5 @@
-#ifndef MPC_JF2012FIELD_H
-#define MPC_JF2012FIELD_H
+#ifndef MPC_JF12FIELD_H
+#define MPC_JF12FIELD_H
 
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/Grid.h"
@@ -7,16 +7,25 @@
 namespace mpc {
 
 /**
- @class JF2012
- @brief JF2012 galactic magnetic field model
+ @class JF12Field
+ @brief JF12Field galactic magnetic field model
 
  Implements the JF2012 magnetic field model, consisting of a large-scale regular
  and random (striated) field and a small-scale random (turbulent) field.
- The field is described in
+ See:
  Jansson 2012a, ApJ. 757, A New Model of the Galactic Magnetic Field
  Jansson 2012b, arXiv:1210.7820, The Galactic Magnetic Field
+
+ All three components may individually turned on and off.
+ Currently only best fit values of the field paramaters are implemented and
+ cannot be changed.
+
+ The field is defined in the usual galactocentric coordinate system with the
+ Galactic center at the origin, the x-axis pointing in the opposite direction of
+ the Sun, and the z-axis pointing towards Galactic north.
  */
-class JF2012Field: public MagneticField {
+class JF12Field: public MagneticField {
+private:
 	bool useRegular;
 	bool useStriated;
 	bool useTurbulent;
@@ -26,7 +35,7 @@ class JF2012Field: public MagneticField {
 	double pitch;          // pitch angle
 	double sinPitch, cosPitch, tan90MinusPitch;
 
-	// Regular field ---------------------------------------------------------
+	// Regular field ----------------------------------------------------------
 	// disk
 	double bDisk[8];       // field strengths of arms at r=5 kpc
 	double bRing;          // ring field strength 3<r<5 kpc
@@ -42,11 +51,11 @@ class JF2012Field: public MagneticField {
 	double rXc;            // radius of varying elevation angle region
 	double rX;             // exponential scale height
 
-	// Striated field --------------------------------------------------------
+	// Striated field ---------------------------------------------------------
 	double sqrtbeta;       // relative strength of striated field
 	ref_ptr<ScalarGrid> striatedGrid;
 
-	// Turbulent field -------------------------------------------
+	// Turbulent field --------------------------------------------------------
 	ref_ptr<VectorGrid> turbulentGrid;
 	// disk
 	double bDiskTurb[8]; // field strengths in arms at r=5 kpc
@@ -58,7 +67,7 @@ class JF2012Field: public MagneticField {
 	double zHaloTurb; // Gaussian scale height
 
 public:
-	JF2012Field();
+	JF12Field();
 
 	// Create and set a random realization for the striated field
 	void randomStriated(int seed = 0);
@@ -109,4 +118,4 @@ public:
 
 } // namespace mpc
 
-#endif // MPC_JF2012FIELD_H
+#endif // MPC_JF12FIELD_H

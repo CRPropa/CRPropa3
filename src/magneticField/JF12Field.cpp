@@ -1,4 +1,4 @@
-#include "mpc/magneticField/JF2012Field.h"
+#include "mpc/magneticField/JF12Field.h"
 #include "mpc/Units.h"
 #include "mpc/GridTools.h"
 #include "mpc/Random.h"
@@ -11,12 +11,12 @@ double logisticFunction(double x, double x0, double w) {
 	return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));
 }
 
-JF2012Field::JF2012Field() {
+JF12Field::JF12Field() {
 	useRegular = true;
 	useStriated = false;
 	useTurbulent = false;
 
-	// spiral arms
+	// spiral arm parameters
 	pitch = 11.5 * M_PI / 180;
 	sinPitch = sin(pitch);
 	cosPitch = cos(pitch);
@@ -31,7 +31,7 @@ JF2012Field::JF2012Field() {
 	rArms[6] = 12.7 * kpc;
 	rArms[7] = 15.5 * kpc;
 
-	// regular field
+	// regular field parameters
 	bRing = 0.1 * muG;
 	hDisk = 0.40 * kpc;
 	wDisk = 0.27 * kpc;
@@ -60,10 +60,10 @@ JF2012Field::JF2012Field() {
 	rXc = 4.8 * kpc;
 	rX = 2.9 * kpc;
 
-	// striated field
+	// striated field parameter
 	sqrtbeta = sqrt(1.36);
 
-	// turbulent field
+	// turbulent field parameters
 	bDiskTurb[0] = 10.81 * muG;
 	bDiskTurb[1] = 6.96 * muG;
 	bDiskTurb[2] = 9.59 * muG;
@@ -81,7 +81,7 @@ JF2012Field::JF2012Field() {
 	zHaloTurb = 2.84 * kpc;
 }
 
-void JF2012Field::randomStriated(int seed) {
+void JF12Field::randomStriated(int seed) {
 	useStriated = true;
 	int N = 100;
 	striatedGrid = new ScalarGrid(Vector3d(0.), N, 0.1 * kpc);
@@ -99,7 +99,7 @@ void JF2012Field::randomStriated(int seed) {
 }
 
 #ifdef MPC_HAVE_FFTW3F
-void JF2012Field::randomTurbulent(int seed) {
+void JF12Field::randomTurbulent(int seed) {
 	useTurbulent = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
 	turbulentGrid = new VectorGrid(Vector3d(0.), 256, 4 * parsec);
@@ -108,29 +108,29 @@ void JF2012Field::randomTurbulent(int seed) {
 }
 #endif
 
-void JF2012Field::setStriatedGrid(ref_ptr<ScalarGrid> grid) {
+void JF12Field::setStriatedGrid(ref_ptr<ScalarGrid> grid) {
 	useStriated = true;
 	striatedGrid = grid;
 }
 
-void JF2012Field::setTurbulentGrid(ref_ptr<VectorGrid> grid) {
+void JF12Field::setTurbulentGrid(ref_ptr<VectorGrid> grid) {
 	useTurbulent = true;
 	turbulentGrid = grid;
 }
 
-ref_ptr<ScalarGrid> JF2012Field::getStriatedGrid() {
+ref_ptr<ScalarGrid> JF12Field::getStriatedGrid() {
 	return striatedGrid;
 }
 
-ref_ptr<VectorGrid> JF2012Field::getTurbulentGrid() {
+ref_ptr<VectorGrid> JF12Field::getTurbulentGrid() {
 	return turbulentGrid;
 }
 
-void JF2012Field::setUseRegular(bool use) {
+void JF12Field::setUseRegular(bool use) {
 	useRegular = use;
 }
 
-void JF2012Field::setUseStriated(bool use) {
+void JF12Field::setUseStriated(bool use) {
 	if ((use) and (striatedGrid)) {
 		std::cout << "JF12Field: No striated field set: ignored" << std::endl;
 		return;
@@ -138,7 +138,7 @@ void JF2012Field::setUseStriated(bool use) {
 	useStriated = use;
 }
 
-void JF2012Field::setUseTurbulent(bool use) {
+void JF12Field::setUseTurbulent(bool use) {
 	if ((use) and (turbulentGrid)) {
 		std::cout << "JF12Field: No turbulent field set: ignored" << std::endl;
 		return;
@@ -146,19 +146,19 @@ void JF2012Field::setUseTurbulent(bool use) {
 	useTurbulent = use;
 }
 
-bool JF2012Field::isUsingRegular() {
+bool JF12Field::isUsingRegular() {
 	return useRegular;
 }
 
-bool JF2012Field::isUsingStriated() {
+bool JF12Field::isUsingStriated() {
 	return useStriated;
 }
 
-bool JF2012Field::isUsingTurbulent() {
+bool JF12Field::isUsingTurbulent() {
 	return useTurbulent;
 }
 
-Vector3d JF2012Field::getRegularField(const Vector3d& pos) const {
+Vector3d JF12Field::getRegularField(const Vector3d& pos) const {
 	Vector3d b(0.);
 
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
@@ -237,12 +237,12 @@ Vector3d JF2012Field::getRegularField(const Vector3d& pos) const {
 	return b;
 }
 
-Vector3d JF2012Field::getStriatedField(const Vector3d& pos) const {
+Vector3d JF12Field::getStriatedField(const Vector3d& pos) const {
 	return (getRegularField(pos)
 			* (1. + sqrtbeta * striatedGrid->closestValue(pos)));
 }
 
-double JF2012Field::getTurbulentStrength(const Vector3d& pos) const {
+double JF12Field::getTurbulentStrength(const Vector3d& pos) const {
 	if (pos.getMag() > 20 * kpc)
 		return 0;
 
@@ -276,11 +276,11 @@ double JF2012Field::getTurbulentStrength(const Vector3d& pos) const {
 	return sqrt(pow(bDisk, 2) + pow(bHalo, 2));
 }
 
-Vector3d JF2012Field::getTurbulentField(const Vector3d& pos) const {
+Vector3d JF12Field::getTurbulentField(const Vector3d& pos) const {
 	return (turbulentGrid->interpolate(pos) * getTurbulentStrength(pos));
 }
 
-Vector3d JF2012Field::getField(const Vector3d& pos) const {
+Vector3d JF12Field::getField(const Vector3d& pos) const {
 	Vector3d b(0.);
 	if (useTurbulent)
 		b += getTurbulentField(pos);

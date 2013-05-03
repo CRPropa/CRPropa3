@@ -31,9 +31,9 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(c->current.getId(), c->initial.getId(),
-				c->initial.getPosition().getX() / Mpc, c->getRedshift(),
-				c->initial.getEnergy() / EeV, c->getTrajectoryLength() / Mpc,
+		Ntuple->Fill(c->current.getId(), c->source.getId(),
+				c->source.getPosition().getX() / Mpc, c->getRedshift(),
+				c->source.getEnergy() / EeV, c->getTrajectoryLength() / Mpc,
 				c->current.getEnergy() / EeV);
 	}
 	TThread::UnLock();
@@ -62,7 +62,7 @@ void ROOTTrajectoryOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(c->current.getId(), c->initial.getId(),
+		Ntuple->Fill(c->current.getId(), c->source.getId(),
 				c->getTrajectoryLength() / Mpc,
 				c->current.getPosition().getX() / Mpc,
 				c->current.getEnergy() / EeV);
@@ -98,13 +98,13 @@ void ROOTEventOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(c->current.getId(), c->initial.getId(),
-				c->initial.getPosition().getX() / Mpc,
-				c->initial.getPosition().getY() / Mpc,
-				c->initial.getPosition().getZ() / Mpc,
-				c->initial.getEnergy() / EeV,
-				c->initial.getDirection().getTheta(),
-				c->initial.getDirection().getPhi(),
+		Ntuple->Fill(c->current.getId(), c->source.getId(),
+				c->source.getPosition().getX() / Mpc,
+				c->source.getPosition().getY() / Mpc,
+				c->source.getPosition().getZ() / Mpc,
+				c->source.getEnergy() / EeV,
+				c->source.getDirection().getTheta(),
+				c->source.getDirection().getPhi(),
 				c->getTrajectoryLength() / Mpc,
 				c->current.getPosition().getX() / Mpc,
 				c->current.getPosition().getY() / Mpc,
@@ -139,7 +139,7 @@ void ROOTTrajectoryOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(c->current.getId(), c->initial.getId(),
+		Ntuple->Fill(c->current.getId(), c->source.getId(),
 				c->getTrajectoryLength() / Mpc,
 				c->current.getPosition().getX() / Mpc,
 				c->current.getPosition().getY() / Mpc,

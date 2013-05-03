@@ -45,7 +45,7 @@ using std::ptrdiff_t;
 #include "mpc/magneticField/MagneticField.h"
 #include "mpc/magneticField/MagneticFieldGrid.h"
 #include "mpc/magneticField/QuimbyMagneticField.h"
-#include "mpc/magneticField/JF2012Field.h"
+#include "mpc/magneticField/JF12Field.h"
 
 #include "mpc/Referenced.h"
 #include "mpc/Candidate.h"
@@ -138,7 +138,7 @@ using std::ptrdiff_t;
 
 %include "mpc/magneticField/MagneticFieldGrid.h"
 %include "mpc/magneticField/QuimbyMagneticField.h"
-%include "mpc/magneticField/JF2012Field.h"
+%include "mpc/magneticField/JF12Field.h"
 
 %include "mpc/ExplicitRungeKutta.h"
 %include "mpc/PhasePoint.h"

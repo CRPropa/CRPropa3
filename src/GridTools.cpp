@@ -53,7 +53,7 @@ void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
 #include "fftw3.h"
 
 void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
-		double lMax, double spectralIndex, int seed) {
+		double lMax, double alpha, int seed) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -131,8 +131,8 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 				theta = 2 * M_PI * random.rand();
 				b = e1 * cos(theta) + e2 * sin(theta);
 
-				// standard normal distributed amplitude weighted with k^alpha/2
-				b *= random.randNorm() * pow(k, spectralIndex / 2.);
+				// normal distributed amplitude with mean = 0 and sigma = k^alpha/2
+				b *= random.randNorm() * pow(k, alpha / 2);
 
 				// uniform random phase
 				phase = 2 * M_PI * random.rand();
@@ -186,10 +186,10 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
 #endif // MPC_HAVE_FFTW3F
-double turbulentCorrelationLength(double lMin, double lMax,
-		double spectralIndex) {
+
+double turbulentCorrelationLength(double lMin, double lMax, double alpha) {
 	double r = lMin / lMax;
-	double a = -spectralIndex - 2;
+	double a = -alpha - 2;
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 

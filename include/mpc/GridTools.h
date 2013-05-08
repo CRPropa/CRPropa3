@@ -23,17 +23,17 @@ void scaleGrid(ref_ptr<VectorGrid> grid, double a);
  Create a random initialization of a turbulent field.
  @param lMin	Minimum wavelength of the turbulence
  @param lMax	Maximum wavelength of the turbulence
- @param index	Power spectral index of the turbulence (-11/3 corresponds to a Kolmogorov spectrum)
+ @param alpha	Power law index of <B^2(k)> ~ k^alpha (alpha = -11/3 corresponds to a Kolmogorov spectrum)
  @param Brms	RMS field strength
  @param seed	Random seed
  */
 void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
-		double lMax, double index = -11. / 3., int seed = 0);
+		double lMax, double alpha = -11./3., int seed = 0);
 #endif // MPC_HAVE_FFTW3F
 
 /** Analytically calculate the correlation length of a turbulent field */
 double turbulentCorrelationLength(double lMin, double lMax,
-		double spectralIndex = -11. / 3.);
+		double alpha = -11./3.);
 
 /**
  Dump / load functions for scalar / 3-vector grids and binary / plain text files.

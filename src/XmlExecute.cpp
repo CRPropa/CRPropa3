@@ -377,7 +377,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		loadGridFromTxt(field, fname, gauss);
 	} else {
 		double brms = childValue(node, "RMS_muG") * 1e-6 * gauss;
-		cout << "  - Brms : " << brms / nG << " nG" << endl;
+		cout << "  - Brms: " << brms / nG << " nG" << endl;
 
 		double kMin = childValue(node, "Kmin");
 		double kMax = childValue(node, "Kmax");
@@ -387,7 +387,7 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 				<< " Mpc" << endl;
 
 		double alpha = childValue(node, "SpectralIndex");
-		cout << "  - Turbulence spectral index: " << alpha << endl;
+		cout << "  - Spectral index, <B^2(k)> ~ k^n, n:  " << alpha << endl;
 
 #ifdef MPC_HAVE_FFTW3F
 		initTurbulence(field, brms, lMin, lMax, alpha);
@@ -575,8 +575,8 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 		}
 		loadSourceNuclei(node);
 	} else if (spectrumType == "Power Law") {
-		double alpha = childValue(spectrum_node, "Alpha");
-		cout << "  - Power law index: " << alpha << endl;
+		double alpha = -childValue(spectrum_node, "Alpha");
+		cout << "  - Power law index E^a, a:" << alpha << endl;
 		cout << "  - Minimum energy: " << Emin / EeV << " EeV" << endl;
 
 		// if the source is accelerated to a maximum rigidity
@@ -585,8 +585,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
 			// combined source spectrum / composition
-			SourceComposition *composition = new SourceComposition(Emin, Rmax,
-					-alpha);
+			SourceComposition *comp = new SourceComposition(Emin, Rmax,	alpha);
 			xml_node p = node.child("Particles");
 			for (xml_node n = p.child("Species"); n;
 					n = n.next_sibling("Species")) {
@@ -595,15 +594,15 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 				double ab = n.attribute("Abundance").as_double();
 				cout << "  - Species: Z = " << Z << ", A = " << A
 						<< ", abundance = " << ab << endl;
-				composition->add(nucleusId(A, Z), ab);
+				comp->add(nucleusId(A, Z), ab);
 			}
-			source.addProperty(composition);
+			source.addProperty(comp);
 		} else if (spectrum_node.child("Ecut_EeV")) {
 			double Emax = childValue(spectrum_node, "Ecut_EeV") * EeV;
 			cout << "  - Maximum energy: " << Emax / EeV << " EeV" << endl;
 
 			// source spectrum
-			source.addProperty(new SourcePowerLawSpectrum(Emin, Emax, -alpha));
+			source.addProperty(new SourcePowerLawSpectrum(Emin, Emax, alpha));
 
 			// source composition
 			loadSourceNuclei(node);

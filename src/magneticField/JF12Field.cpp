@@ -103,8 +103,7 @@ void JF12Field::randomTurbulent(int seed) {
 	useTurbulent = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
 	turbulentGrid = new VectorGrid(Vector3d(0.), 256, 4 * parsec);
-	initTurbulence(turbulentGrid, 1., 16 * parsec, 255.5 * parsec, -11. / 3.,
-			seed);
+	initTurbulence(turbulentGrid, 1, 16 * parsec, 255.5 * parsec, -11./3., seed);
 }
 #endif
 

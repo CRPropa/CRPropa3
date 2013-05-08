@@ -9,10 +9,10 @@ nP = range(30) # sampling points for plot
 
 # create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
 vGrid = VectorGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
-initTurbulence(vGrid, 1 * nG, 0.1 * Mpc, 2.2 * Mpc, -11/3.)
+initTurbulence(vGrid, 1 * nG, 0.1 * Mpc, 2.2 * Mpc)
 propa = DeflectionCK(MagneticFieldGrid(vGrid))
 
-Lc = turbulentCorrelationLength(0.1 * Mpc, 2.2 * Mpc, -11/3.) / Mpc
+Lc = turbulentCorrelationLength(0.1, 2.2) # in [Mpc]
 Brms = 1 # nG
 Rg = 1.08 * E / Brms # Mpc
 
@@ -20,31 +20,31 @@ age = linspace(1, 150, nS)
 distance, rms1, rms2 = zeros((3, nS))
 
 for j in range(nT):
-	if j % (nT // 10) == 0:
-		print j
+    if j % (nT // 10) == 0:
+        print j
 
-	ps = ParticleState()
-	ps.setId(nucleusId(1, 1))
-	ps.setEnergy(E * EeV)	
-	ps.setDirection(Random.instance().randUnitVectorOnSphere())
-	ps.setPosition(Vector3d(0, 0, 0))
-	c = Candidate(ps)
+    ps = ParticleState()
+    ps.setId(nucleusId(1, 1))
+    ps.setEnergy(E * EeV)
+    ps.setDirection(Random.instance().randUnitVectorOnSphere())
+    ps.setPosition(Vector3d(0, 0, 0))
+    c = Candidate(ps)
 
-	for i in range(nS):
-		maxLen = MaximumTrajectoryLength(age[i] * Mpc)
-		c.setNextStep(c.getNextStep() * 0.99)
-		c.setActive(True)
+    for i in range(nS):
+        maxLen = MaximumTrajectoryLength(age[i] * Mpc)
+        c.setNextStep(c.getNextStep() * 0.99)
+        c.setActive(True)
 
-		while c.isActive():
-			propa.process(c)
-			maxLen.process(c)
+        while c.isActive():
+            propa.process(c)
+            maxLen.process(c)
 
-		x = c.current.getPosition() / Mpc
-		p = c.current.getDirection()
-		p0 = c.initial.getDirection()
-		distance[i] += x.getMag()
-		rms1[i] += (x.getAngleTo(p))**2
-		rms2[i] += (p0.getAngleTo(p))**2
+        x = c.current.getPosition() / Mpc
+        p = c.current.getDirection()
+        p0 = c.source.getDirection()
+        distance[i] += x.getMag()
+        rms1[i] += (x.getAngleTo(p))**2
+        rms2[i] += (p0.getAngleTo(p))**2
 
 
 distance /= nT

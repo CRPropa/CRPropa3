@@ -18,6 +18,28 @@ public:
 };
 
 /**
+ @class PeriodicMagneticField
+ @brief Magnetic field decorator to implement periodic magnetic fields.
+ */
+class PeriodicMagneticField: public MagneticField {
+	ref_ptr<MagneticField> field;
+	Vector3d origin, extends;
+	bool reflective;
+public:
+	PeriodicMagneticField(ref_ptr<MagneticField> field,
+			const Vector3d &extends);
+	PeriodicMagneticField(ref_ptr<MagneticField> field, const Vector3d &extends,
+			const Vector3d &origin, bool reflective);
+	Vector3d &getOrigin();
+	void setOrigin(const Vector3d &origin);
+	Vector3d &getExtends();
+	void setExtends(const Vector3d &origin);
+	bool isReflective();
+	void setReflective(bool reflective);
+	Vector3d getField(const Vector3d &position) const;
+};
+
+/**
  @class MagneticFieldList
  @brief List of magnetic fields
 

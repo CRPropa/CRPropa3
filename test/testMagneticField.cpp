@@ -7,7 +7,7 @@
 
 #include "gtest/gtest.h"
 
-namespace mpc {
+using namespace mpc;
 
 TEST(testUniformMagneticField, SimpleTest) {
 	UniformMagneticField B(Vector3d(-1, 5, 3));
@@ -142,9 +142,39 @@ TEST(testTurbulentMagneticField, Exceptions) {
 	EXPECT_THROW(B.initialize(), std::runtime_error);
 }
 
+class EchoMagneticField: public MagneticField {
+public:
+	Vector3d getField(const Vector3d &position) const {
+		return position;
+	}
+};
+
+TEST(testPeriodicMagneticField, Exceptions) {
+	ref_ptr<EchoMagneticField> f = new EchoMagneticField();
+	ref_ptr<PeriodicMagneticField> p = new PeriodicMagneticField(f,
+			Vector3d(10000, 10000, 10000), Vector3d(1000, 1000, 1000), true);
+
+	// box 0, 0, 0
+	Vector3d v = p->getField(Vector3d(1000, 2000, 3000));
+	EXPECT_DOUBLE_EQ(0, v.x);
+	EXPECT_DOUBLE_EQ(1000, v.y);
+	EXPECT_DOUBLE_EQ(2000, v.z);
+
+	// box 1, 2, 3
+	v = p->getField(Vector3d(12000, 23000, 34000));
+	EXPECT_DOUBLE_EQ(9000, v.x);
+	EXPECT_DOUBLE_EQ(2000, v.y);
+	EXPECT_DOUBLE_EQ(7000, v.z);
+
+	// box -1, -2, -3
+	v = p->getField(Vector3d(0, -10000, -20000));
+	EXPECT_DOUBLE_EQ(1000, v.x);
+	EXPECT_DOUBLE_EQ(9000, v.y);
+	EXPECT_DOUBLE_EQ(1000, v.z);
+
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
-
-} // namespace mpc

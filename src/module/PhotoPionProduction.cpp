@@ -79,11 +79,11 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	// check for interaction on protons
 	if (Z > 0) {
 		double rate = interpolate(EpA, energy, pRate);
-		if (rate > 0) {
+		if (rate > 0)  {
 			if (A > 1) {
 				if (A < 8)
 					rate *= 0.85 * pow(Z, 2. / 3.);
-				if (A >= 8)
+				else
 					rate *= 0.85 * Z;
 			}
 			interaction.distance = -log(random.rand()) / rate;
@@ -98,13 +98,13 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 			if (A > 1) {
 				if (A < 8)
 					rate *= 0.85 * pow(N, 2. / 3.);
-				if (A >= 8)
+				else
 					rate *= 0.85 * N;
 			}
 
 			double d = -log(random.rand()) / rate;
 			if (d < interaction.distance) {
-				interaction.distance = -log(random.rand()) / rate;
+				interaction.distance = d;
 				interaction.channel = 0;
 			}
 		}
@@ -165,20 +165,22 @@ double PhotoPionProduction::energyLossLength(int id, double E) {
 	double lossRate = 0;
 	if (Z > 0) {
 		double rate = interpolate(EpA, energy, pRate);
-		if (A > 1)
+		if (A > 1) {
 			if (A < 8)
 				rate *= 0.85 * pow(Z, 2. / 3.);
-		if (A >= 8)
-			rate *= 0.85 * Z;
+			else
+				rate *= 0.85 * Z;
+		}
 		lossRate += relativeEnergyLoss * rate;
 	}
 	if (N > 0) {
 		double rate = interpolate(EpA, energy, nRate);
-		if (A > 1)
+		if (A > 1) {
 			if (A < 8)
 				rate *= 0.85 * pow(N, 2. / 3.);
-		if (A >= 8)
-			rate *= 0.85 * N;
+			else
+				rate *= 0.85 * N;
+		}
 		lossRate += relativeEnergyLoss * rate;
 	}
 

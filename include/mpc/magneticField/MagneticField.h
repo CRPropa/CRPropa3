@@ -41,9 +41,7 @@ public:
 
 /**
  @class MagneticFieldList
- @brief List of magnetic fields
-
- The field at a given position is the sum of all fields evaluated at that position.
+ @brief Magnetic field decorator implementing a superposition of fields.
  */
 class MagneticFieldList: public MagneticField {
 	std::vector<ref_ptr<MagneticField> > fields;
@@ -57,9 +55,7 @@ public:
  @brief Magnetic field with one B-field vector.
  */
 class UniformMagneticField: public MagneticField {
-private:
 	Vector3d value;
-
 public:
 	UniformMagneticField(const Vector3d &value) :
 			value(value) {

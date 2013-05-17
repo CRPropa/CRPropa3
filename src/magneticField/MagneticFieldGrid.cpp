@@ -20,7 +20,7 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &pos) const {
 
 ModulatedMagneticFieldGrid::ModulatedMagneticFieldGrid(ref_ptr<VectorGrid> grid,
 		ref_ptr<ScalarGrid> modGrid) {
-	grid->setReflective(true);
+	grid->setReflective(false);
 	modGrid->setReflective(true);
 	setGrid(grid);
 	setModulationGrid(modGrid);
@@ -40,6 +40,12 @@ void ModulatedMagneticFieldGrid::setModulationGrid(ref_ptr<ScalarGrid> g) {
 
 ref_ptr<ScalarGrid> ModulatedMagneticFieldGrid::getModulationGrid() {
 	return modGrid;
+}
+
+void ModulatedMagneticFieldGrid::setReflective(bool gridReflective,
+		bool modGridReflective) {
+	grid->setReflective(gridReflective);
+	modGrid->setReflective(modGridReflective);
 }
 
 Vector3d ModulatedMagneticFieldGrid::getField(const Vector3d &pos) const {

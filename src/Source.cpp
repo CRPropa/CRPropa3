@@ -175,7 +175,7 @@ SourceUniformSphere::SourceUniformSphere(Vector3d center, double radius) :
 void SourceUniformSphere::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 	double r = pow(random.rand(), 1. / 3.) * radius;
-	particle.setPosition(random.randUnitVectorOnSphere() * r);
+	particle.setPosition(random.randVector() * r);
 }
 
 SourceUniformShell::SourceUniformShell(Vector3d center, double radius) :
@@ -184,7 +184,7 @@ SourceUniformShell::SourceUniformShell(Vector3d center, double radius) :
 
 void SourceUniformShell::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
-	particle.setPosition(random.randUnitVectorOnSphere() * radius);
+	particle.setPosition(random.randVector() * radius);
 }
 
 SourceUniformBox::SourceUniformBox(Vector3d origin, Vector3d size) :
@@ -283,7 +283,7 @@ void SourceDensityGrid1D::prepare(ParticleState& particle) const {
 
 void SourceIsotropicEmission::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
-	particle.setDirection(random.randUnitVectorOnSphere());
+	particle.setDirection(random.randVector());
 }
 
 SourceDirection::SourceDirection(Vector3d direction) :

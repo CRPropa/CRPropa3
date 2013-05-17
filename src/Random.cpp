@@ -122,7 +122,7 @@ double Random::randFisher(double kappa) {
 	return acos(1. + 1. / kappa * log(1 - rand() * (1 - exp(-2 * kappa))));
 }
 
-Vector3d Random::randUnitVectorOnSphere() {
+Vector3d Random::randVector() {
 	double z = randUniform(-1.0, 1.0);
 	double t = randUniform(-1.0 * M_PI, M_PI);
 	double r = sqrt(1 - z * z);
@@ -130,7 +130,7 @@ Vector3d Random::randUnitVectorOnSphere() {
 }
 
 Vector3d Random::randVectorAroundMean(const Vector3d &meanDirection, double angle) {
-	Vector3d rotAxis = meanDirection.cross(randUnitVectorOnSphere());
+	Vector3d rotAxis = meanDirection.cross(randVector());
 	rotAxis.normalize();
 	Vector3d v = meanDirection;
 	v.rotate(rotAxis, angle);

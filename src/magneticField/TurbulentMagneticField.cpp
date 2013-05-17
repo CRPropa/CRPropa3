@@ -45,7 +45,7 @@ void TurbulentMagneticField::initialize() {
 	double sumGk = 0;
 	for (int i = 0; i < nModes; i++) {
 		// construct an orthogonal base ek, e1, e2
-		ek = random.randUnitVectorOnSphere();
+		ek = random.randVector();
 		if (ek.getAngleTo(n0) < 1e-3) {
 			// ek parallel to (1,1,1)
 			e1.setXYZ(-1., 1., 0);

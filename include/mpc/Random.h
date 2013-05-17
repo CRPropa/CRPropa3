@@ -133,7 +133,7 @@ public:
 	double randFisher(double k);
 
 	/// Random point on a unit-sphere
-	Vector3d randUnitVectorOnSphere();
+	Vector3d randVector();
 	/// Random vector with given angular separation around mean direction
 	Vector3d randVectorAroundMean(const Vector3d &meanDirection, double angle);
 	/// Fisher distributed random vector

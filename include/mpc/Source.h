@@ -96,7 +96,7 @@ public:
 	 @param index	differential spectral index
 	 */
 	SourcePowerLawSpectrum(double Emin, double Emax, double differentialIndex);
-	/** Set particle with a random energy from a power law distribtuition */
+	/** Set particle with a random energy from a power law distribution */
 	void prepare(ParticleState &particle) const;
 };
 

@@ -38,10 +38,15 @@ add_subdirectory(libs/sophia)
 list(APPEND MPC_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND MPC_EXTRA_INCLUDES libs/sophia)
 
-# dint (provided)
+# DINT (provided)
 add_subdirectory(libs/dint)
 list(APPEND MPC_EXTRA_LIBRARIES dint)
 list(APPEND MPC_EXTRA_INCLUDES libs/dint/include)
+
+# EleCa (provided)
+#add_subdirectory(libs/eleca)
+#list(APPEND MPC_EXTRA_LIBRARIES eleca)
+#list(APPEND MPC_EXTRA_INCLUDES libs/eleca/include)
 
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)
@@ -133,7 +138,8 @@ add_library(mpc SHARED
     src/module/Output.cpp
     src/module/OutputROOT.cpp
     src/module/OutputCRPropa2.cpp
-    src/module/PhotonOutput.cpp
+    src/module/PhotonDINT.cpp
+    src/module/PhotonEleCa.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticField.cpp
     src/magneticField/MagneticFieldGrid.cpp

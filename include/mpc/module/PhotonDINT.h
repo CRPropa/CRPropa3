@@ -1,5 +1,5 @@
-#ifndef MPC_MODULE_PHOTON_OUTPUT_H_
-#define MPC_MODULE_PHOTON_OUTPUT_H_
+#ifndef MPC_MODULE_PHOTON_DINT_H_
+#define MPC_MODULE_PHOTON_DINT_H_
 
 #include "mpc/Module.h"
 #include "mpc/magneticField/MagneticField.h"
@@ -8,7 +8,7 @@
 
 namespace mpc {
 
-class PhotonOutput: public Module {
+class PhotonDINT: public Module {
 private:
 	std::string filename, dataPath;
 	mutable std::ofstream fout;
@@ -18,12 +18,12 @@ private:
 	double Zmax, Cutcascade_Magfield;
 
 public:
-	PhotonOutput(const std::string &filename, ref_ptr<MagneticField> field);
-	~PhotonOutput();
+	PhotonDINT(const std::string &filename, ref_ptr<MagneticField> field);
+	~PhotonDINT();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
 
 } // namespace mpc
 
-#endif /* MPC_MODULE_PHOTON_OUTPUT_H_ */
+#endif /* MPC_MODULE_PHOTON_DINT_H_ */

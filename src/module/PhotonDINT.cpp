@@ -1,4 +1,4 @@
-#include "mpc/module/PhotonOutput.h"
+#include "mpc/module/PhotonDINT.h"
 #include "mpc/Cosmology.h"
 
 #include <iostream>
@@ -10,7 +10,7 @@ using namespace std;
 
 namespace mpc {
 
-PhotonOutput::PhotonOutput(const string &filename, ref_ptr<MagneticField> field) :
+PhotonDINT::PhotonDINT(const string &filename, ref_ptr<MagneticField> field) :
 		filename(filename), fout(filename.c_str()), field(field), IRFlag(0), RadioFlag(
 				0), Zmax(5), Cutcascade_Magfield(0) {
 	dataPath = getDataPath("dint");
@@ -35,10 +35,10 @@ PhotonOutput::PhotonOutput(const string &filename, ref_ptr<MagneticField> field)
 #endif
 }
 
-PhotonOutput::~PhotonOutput() {
+PhotonDINT::~PhotonDINT() {
 }
 
-void PhotonOutput::process(Candidate *candidate) const {
+void PhotonDINT::process(Candidate *candidate) const {
 	if (candidate->current.getId() != 22)
 		return;
 
@@ -132,9 +132,9 @@ void PhotonOutput::process(Candidate *candidate) const {
 	Delete_dCVector(&energyWidth);
 }
 
-string PhotonOutput::getDescription() const {
+string PhotonDINT::getDescription() const {
 	std::stringstream s;
-	s << "PhotonModule: Output file = " << filename;
+	s << "PhotonDINT: Output file = " << filename;
 	return s.str();
 }
 

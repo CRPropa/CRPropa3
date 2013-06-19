@@ -43,11 +43,6 @@ add_subdirectory(libs/dint)
 list(APPEND MPC_EXTRA_LIBRARIES dint)
 list(APPEND MPC_EXTRA_INCLUDES libs/dint/include)
 
-# EleCa (provided)
-#add_subdirectory(libs/eleca)
-#list(APPEND MPC_EXTRA_LIBRARIES eleca)
-#list(APPEND MPC_EXTRA_INCLUDES libs/eleca/include)
-
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)
 if(ENABLE_OPENMP)

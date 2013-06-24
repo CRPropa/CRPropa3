@@ -37,4 +37,4 @@ void append_file(const std::string &target, const std::string &source, bool bina
 
 std::string executable_path();
 
-#endif /* FILEUTILS_H_ */
+#endif /* FILEUTILS_H */

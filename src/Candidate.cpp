@@ -1,6 +1,6 @@
-#include "mpc/Candidate.h"
+#include "crpropa/Candidate.h"
 
-namespace mpc {
+namespace crpropa {
 
 Candidate::Candidate() :
 		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(
@@ -130,4 +130,4 @@ void Candidate::clearSecondaries() {
 	secondaries.clear();
 }
 
-} // namespace mpc
+} // namespace crpropa

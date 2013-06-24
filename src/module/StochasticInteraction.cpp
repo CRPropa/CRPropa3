@@ -1,6 +1,6 @@
-#include "mpc/module/StochasticInteraction.h"
+#include "crpropa/module/StochasticInteraction.h"
 
-namespace mpc {
+namespace crpropa {
 
 void StochasticInteraction::process(Candidate* candidate) const {
 	double step = candidate->getCurrentStep();
@@ -31,4 +31,4 @@ void StochasticInteraction::process(Candidate* candidate) const {
 	}
 }
 
-} // namespace mpc
+} // namespace crpropa

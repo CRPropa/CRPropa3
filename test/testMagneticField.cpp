@@ -1,13 +1,13 @@
-#include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/magneticField/TurbulentMagneticField.h"
-#include "mpc/Grid.h"
-#include "mpc/GridTools.h"
-#include "mpc/Units.h"
-#include "mpc/Common.h"
+#include "crpropa/magneticField/MagneticFieldGrid.h"
+#include "crpropa/magneticField/TurbulentMagneticField.h"
+#include "crpropa/Grid.h"
+#include "crpropa/GridTools.h"
+#include "crpropa/Units.h"
+#include "crpropa/Common.h"
 
 #include "gtest/gtest.h"
 
-using namespace mpc;
+using namespace crpropa;
 
 TEST(testUniformMagneticField, SimpleTest) {
 	UniformMagneticField B(Vector3d(-1, 5, 3));

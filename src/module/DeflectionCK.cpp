@@ -1,10 +1,10 @@
-#include "mpc/module/DeflectionCK.h"
+#include "crpropa/module/DeflectionCK.h"
 
 #include <limits>
 #include <sstream>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 /**
  * @class LorentzForce
@@ -144,4 +144,4 @@ std::string DeflectionCK::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

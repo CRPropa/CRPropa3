@@ -1,9 +1,9 @@
-#include "mpc/ParticleState.h"
+#include "crpropa/ParticleState.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 ParticleState::ParticleState() :
 		id(0), charge(0), pmass(0), energy(0), position(0, 0, 0), direction(-1,
@@ -94,4 +94,4 @@ Vector3d ParticleState::getMomentum() const {
 	return direction * (energy / c_light);
 }
 
-} // namespace mpc
+} // namespace crpropa

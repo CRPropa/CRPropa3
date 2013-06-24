@@ -1,9 +1,9 @@
-#include "mpc/module/SimplePropagation.h"
+#include "crpropa/module/SimplePropagation.h"
 
 #include <sstream>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 SimplePropagation::SimplePropagation(double minStep, double maxStep) :
 		minStep(minStep), maxStep(maxStep) {
@@ -51,4 +51,4 @@ std::string SimplePropagation::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

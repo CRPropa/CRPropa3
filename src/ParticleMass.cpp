@@ -1,6 +1,6 @@
-#include "mpc/ParticleMass.h"
-#include "mpc/ParticleID.h"
-#include "mpc/Common.h"
+#include "crpropa/ParticleMass.h"
+#include "crpropa/ParticleID.h"
+#include "crpropa/Common.h"
 
 #include <kiss/convert.h>
 
@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <limits>
 
-namespace mpc {
+namespace crpropa {
 
 struct NuclearMassTable {
 	std::vector<double> table;
@@ -46,4 +46,4 @@ double nucleusMass(int id) {
 	return mass;
 }
 
-} // namespace mpc
+} // namespace crpropa

@@ -1,5 +1,5 @@
-#ifndef _ADVANCE_H_
-#define _ADVANCE_H_
+#ifndef _ADVANCE_H
+#define _ADVANCE_H
 
 #include <math.h>
 #include "dint/spectrum.h"

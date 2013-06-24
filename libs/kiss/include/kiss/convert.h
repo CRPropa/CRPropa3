@@ -1,5 +1,5 @@
-#ifndef KISS_CONVERT_H_
-#define KISS_CONVERT_H_
+#ifndef KISS_CONVERT_H
+#define KISS_CONVERT_H
 
 #include <iostream>
 #include <sstream>
@@ -71,4 +71,4 @@ inline T convertTo(std::string const& s, bool failIfLeftoverChars = true) {
 
 } // namespace kiss
 
-#endif /* KISSCONVERT_H_ */
+#endif /* KISSCONVERT_H */

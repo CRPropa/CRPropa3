@@ -1,8 +1,8 @@
-#include "mpc/module/OutputROOT.h"
+#include "crpropa/module/OutputROOT.h"
 
 #ifdef MPC_HAVE_ROOT
 
-namespace mpc {
+namespace crpropa {
 
 /////////////////////// ROOT EVENT OUTPUT 1D //////////////////////////////////
 ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
@@ -152,6 +152,6 @@ void ROOTTrajectoryOutput3D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-}// namespace mpc
+}// namespace crpropa
 
 #endif // MPC_HAVE_ROOT

@@ -1,6 +1,6 @@
-#include "mpc/magneticField/MagneticFieldGrid.h"
+#include "crpropa/magneticField/MagneticFieldGrid.h"
 
-namespace mpc {
+namespace crpropa {
 
 MagneticFieldGrid::MagneticFieldGrid(ref_ptr<VectorGrid> grid) {
 	setGrid(grid);
@@ -54,4 +54,4 @@ Vector3d ModulatedMagneticFieldGrid::getField(const Vector3d &pos) const {
 	return b * m;
 }
 
-} // namespace mpc
+} // namespace crpropa

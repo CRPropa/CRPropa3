@@ -1,12 +1,12 @@
-#include "mpc/module/Tools.h"
-#include "mpc/Clock.h"
+#include "crpropa/module/Tools.h"
+#include "crpropa/Clock.h"
 
 #include <iostream>
 #include <sstream>
 
 using namespace std;
 
-namespace mpc {
+namespace crpropa {
 
 PerformanceModule::~PerformanceModule() {
 	double total = 0;
@@ -114,4 +114,4 @@ std::string ParticleSelector::getDescription() const {
 	return "ParticleSelector";
 }
 
-} // namespace mpc
+} // namespace crpropa

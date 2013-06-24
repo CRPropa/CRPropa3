@@ -1,8 +1,8 @@
-#include "mpc/Module.h"
+#include "crpropa/Module.h"
 
 #include <typeinfo>
 
-namespace mpc {
+namespace crpropa {
 
 Module::Module() {
 	const std::type_info &info = typeid(*this);
@@ -17,4 +17,4 @@ void Module::setDescription(const std::string &d) {
 	description = d;
 }
 
-} // namespace mpc
+} // namespace crpropa

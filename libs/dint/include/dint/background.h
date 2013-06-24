@@ -1,6 +1,6 @@
 
-#ifndef _BACKGROUND_H_
-#define _BACKGROUND_H_
+#ifndef _BACKGROUND_H
+#define _BACKGROUND_H
 
 #include <stdio.h>
 #include <math.h>

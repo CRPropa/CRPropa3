@@ -1,7 +1,7 @@
 Install from source
 ------------------------
-MPC is configured using CMAKE - for more information see www.cmake.org
-1) Download the data archive from https://forge.physik.rwth-aachen.de/projects/mpc/files extract to mpc/data
+CRPropa is configured using CMAKE - for more information see www.cmake.org
+1) Download the data archive from https://forge.physik.rwth-aachen.de/projects/mpc/files extract to crpropa/data
 2) >> cd build
 3) >> cmake ..
 	or >> ccmake ..
@@ -15,8 +15,8 @@ Notes for Intel Compiler:
 
 Install with Python bindings
 ----------------------------
-To use mpc via python the CMAKE flag ENABLE_PYTHON needs to be set to True.
-Additionally the path to mpc.py needs to be added to PYTHONPATH
+To use CRPropa via python the CMAKE flag ENABLE_PYTHON needs to be set to True.
+Additionally the path to crpropa.py needs to be added to PYTHONPATH
 
 
 Dependencies
@@ -34,12 +34,12 @@ googletest
 
 Optional:
 Python and SWIG
-	-> to use MPC from Python
+	-> to use CRPropa from Python
 	tested for > Python 2.7
 	tested for > SWIG 2.0
 FFTW3F 
 	-> for turbulent magnetic field grids
-	MPC needs the FFTW3 library compiled with the single precision option 
+	CRPropa needs the FFTW3 library compiled with the single precision option 
 Gadget 
 	-> Magnetic fields for large scale structure data
 OpenMP
@@ -50,7 +50,7 @@ googleperftools
 
 XML Steering
 ------------
-MPC can be steered via XML cards ($mpc-run some_steeringcard.xml)
+CRPropa can be steered via XML cards ($cropra-xmlrun some_steeringcard.xml)
 The steeringcard layout is conform to the one CRPropa2.
 However, CRPropa 2 does not fully enforce the XML-1.0 standard (http://www.w3.org/XML). 
 To comply with the standard a few modifications to exisisting steering cards might have to be made.

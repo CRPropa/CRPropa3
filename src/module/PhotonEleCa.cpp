@@ -1,6 +1,6 @@
-#include "mpc/module/PhotonEleCa.h"
+#include "crpropa/module/PhotonEleCa.h"
 
-namespace mpc {
+namespace crpropa {
 
 PhotonEleCa::PhotonEleCa(ref_ptr<MagneticField> field) {
 }
@@ -21,4 +21,4 @@ std::string PhotonEleCa::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

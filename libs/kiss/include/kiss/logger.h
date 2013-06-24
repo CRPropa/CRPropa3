@@ -1,5 +1,5 @@
-#ifndef KISS_LOG_H_
-#define KISS_LOG_H_
+#ifndef KISS_LOG_H
+#define KISS_LOG_H
 
 #include <iostream>
 
@@ -46,4 +46,4 @@ public:
 #define KISS_LOG_INFO if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_INFO) {} else kiss::Logger(kiss::LOG_LEVEL_INFO)
 #define KISS_LOG_DEBUG if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_DEBUG) {} else kiss::Logger(kiss::LOG_LEVEL_DEBUG)
 
-#endif /* KISSLOG_H_ */
+#endif /* KISSLOG_H */

@@ -1,7 +1,7 @@
-#include "mpc/module/Redshift.h"
-#include "mpc/Cosmology.h"
+#include "crpropa/module/Redshift.h"
+#include "crpropa/Cosmology.h"
 
-namespace mpc {
+namespace crpropa {
 
 Redshift::Redshift() {
 	setDescription("Redshift");
@@ -23,4 +23,4 @@ void Redshift::process(Candidate *c) const {
 	c->current.setEnergy(E * (1 - dz / (1 + z)));
 }
 
-} // namespace mpc
+} // namespace crpropa

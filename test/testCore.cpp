@@ -5,14 +5,14 @@
   	Common functions
  */
 
-#include "mpc/Candidate.h"
-#include "mpc/Random.h"
-#include "mpc/Grid.h"
-#include "mpc/GridTools.h"
+#include "crpropa/Candidate.h"
+#include "crpropa/Random.h"
+#include "crpropa/Grid.h"
+#include "crpropa/GridTools.h"
 
 #include "gtest/gtest.h"
 
-namespace mpc {
+namespace crpropa {
 
 TEST(ParticleState, position) {
 	ParticleState particle;
@@ -433,4 +433,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

@@ -1,7 +1,7 @@
-#include "mpc/magneticField/TurbulentMagneticField.h"
-#include "mpc/Units.h"
+#include "crpropa/magneticField/TurbulentMagneticField.h"
+#include "crpropa/Units.h"
 
-namespace mpc {
+namespace crpropa {
 
 TurbulentMagneticField::TurbulentMagneticField(double Brms, double lMin,
 		double lMax, double spectralIndex, int nModes) {
@@ -105,4 +105,4 @@ double TurbulentMagneticField::getCorrelationLength() const {
 	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
 }
 
-} // namespace mpc
+} // namespace crpropa

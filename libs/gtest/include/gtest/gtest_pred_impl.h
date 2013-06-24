@@ -32,13 +32,13 @@
 //
 // Implements a family of generic predicate assertion macros.
 
-#ifndef GTEST_INCLUDE_GTEST_GTEST_PRED_IMPL_H_
-#define GTEST_INCLUDE_GTEST_GTEST_PRED_IMPL_H_
+#ifndef GTEST_INCLUDE_GTEST_GTEST_PRED_IMPL_H
+#define GTEST_INCLUDE_GTEST_GTEST_PRED_IMPL_H
 
 // Makes sure this header is not included before gtest.h.
-#ifndef GTEST_INCLUDE_GTEST_GTEST_H_
+#ifndef GTEST_INCLUDE_GTEST_GTEST_H
 # error Do not include gtest_pred_impl.h directly.  Include gtest.h instead.
-#endif  // GTEST_INCLUDE_GTEST_GTEST_H_
+#endif  // GTEST_INCLUDE_GTEST_GTEST_H
 
 // This header implements a family of generic predicate assertion
 // macros:
@@ -355,4 +355,4 @@ AssertionResult AssertPred5Helper(const char* pred_text,
 
 
 
-#endif  // GTEST_INCLUDE_GTEST_GTEST_PRED_IMPL_H_
+#endif  // GTEST_INCLUDE_GTEST_GTEST_PRED_IMPL_H

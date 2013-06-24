@@ -1,5 +1,5 @@
-#ifndef KISS_IO_H_
-#define KISS_IO_H_
+#ifndef KISS_IO_H
+#define KISS_IO_H
 
 #include <iostream>
 #include <vector>
@@ -170,4 +170,4 @@ inline bool read(Input &in, std::vector<VALUE> &m) {
 
 } // namespace kiss
 
-#endif /* KISS_IO_H_ */
+#endif /* KISS_IO_H */

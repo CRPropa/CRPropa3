@@ -1,10 +1,10 @@
-#include "mpc/Candidate.h"
-#include "mpc/module/SimplePropagation.h"
-#include "mpc/module/DeflectionCK.h"
+#include "crpropa/Candidate.h"
+#include "crpropa/module/SimplePropagation.h"
+#include "crpropa/module/DeflectionCK.h"
 
 #include "gtest/gtest.h"
 
-namespace mpc {
+namespace crpropa {
 
 TEST(testSimplePropagation, step) {
 	double minStep = 20;
@@ -70,4 +70,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

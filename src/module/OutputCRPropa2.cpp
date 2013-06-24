@@ -1,6 +1,6 @@
-#include "mpc/module/OutputCRPropa2.h"
+#include "crpropa/module/OutputCRPropa2.h"
 
-namespace mpc {
+namespace crpropa {
 
 CRPropa2EventOutput3D::CRPropa2EventOutput3D(std::string filename) {
 	setDescription("Event output in CRPropa2 format");
@@ -151,4 +151,4 @@ void CRPropa2EventOutput1D::process(Candidate *c) const {
 	}
 }
 
-} // namespace mpc
+} // namespace crpropa

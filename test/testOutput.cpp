@@ -1,12 +1,12 @@
 /** Unit tests for output modules */
 
-#include "mpc/module/Output.h"
-#include "mpc/module/OutputCRPropa2.h"
-#include "mpc/module/OutputROOT.h"
+#include "crpropa/module/Output.h"
+#include "crpropa/module/OutputCRPropa2.h"
+#include "crpropa/module/OutputROOT.h"
 
 #include "gtest/gtest.h"
 
-using namespace mpc;
+using namespace crpropa;
 
 TEST(ConditionalOutput, removeProperty) {
 	ConditionalOutput output("", "Detected");

@@ -57,9 +57,9 @@
 // Parts of this file are modified beginning in 29.10.09 for adaption in PXL.
 // Parts of this file are modified beginning in 10.02.12 for adaption in MPC.
 
-#include "mpc/Random.h"
+#include "crpropa/Random.h"
 
-namespace mpc {
+namespace crpropa {
 
 Random::Random(const uint32& oneSeed) {
 	seed(oneSeed);
@@ -406,5 +406,5 @@ Random &Random::instance() {
 }
 #endif
 
-} // namespace mpc
+} // namespace crpropa
 

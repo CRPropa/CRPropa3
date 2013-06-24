@@ -34,8 +34,8 @@
 // This header file declares functions and macros used internally by
 // Google Test.  They are subject to change without notice.
 
-#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H_
-#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H_
+#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H
+#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H
 
 #include "gtest/internal/gtest-port.h"
 
@@ -1223,4 +1223,4 @@ class GTEST_TEST_CLASS_NAME_(test_case_name, test_name) : public parent_class {\
             GTEST_TEST_CLASS_NAME_(test_case_name, test_name)>);\
 void GTEST_TEST_CLASS_NAME_(test_case_name, test_name)::TestBody()
 
-#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H_
+#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_INTERNAL_H

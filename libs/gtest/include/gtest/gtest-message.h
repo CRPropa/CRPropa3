@@ -43,8 +43,8 @@
 // to CHANGE WITHOUT NOTICE.  Therefore DO NOT DEPEND ON IT in a user
 // program!
 
-#ifndef GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
-#define GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
+#ifndef GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H
+#define GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H
 
 #include <limits>
 
@@ -227,4 +227,4 @@ inline std::ostream& operator <<(std::ostream& os, const Message& sb) {
 
 }  // namespace testing
 
-#endif  // GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H_
+#endif  // GTEST_INCLUDE_GTEST_GTEST_MESSAGE_H

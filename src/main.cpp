@@ -1,4 +1,4 @@
-#include "mpc/XmlExecute.h"
+#include "crpropa/XmlExecute.h"
 
 #include <iostream>
 #include <exception>
@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 	}
 
 	try {
-		mpc::XmlExecute exe;
+		crpropa::XmlExecute exe;
 		if (!exe.load(argv[1]))
 			return 1;
 		exe.run();

@@ -1,5 +1,5 @@
-#ifndef _FRAG_H_
-#define _FRAG_H_
+#ifndef _FRAG_H
+#define _FRAG_H
 
 double OldFrag(const double x);
 double HillFrag(const double x);

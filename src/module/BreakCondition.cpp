@@ -1,8 +1,8 @@
-#include "mpc/module/BreakCondition.h"
+#include "crpropa/module/BreakCondition.h"
 
 #include <sstream>
 
-namespace mpc {
+namespace crpropa {
 
 MaximumTrajectoryLength::MaximumTrajectoryLength(double maxLength,
 		std::string flag) :
@@ -108,4 +108,4 @@ std::string MinimumRedshift::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

@@ -29,8 +29,8 @@
 //
 // Author: wan@google.com (Zhanyong Wan)
 
-#ifndef GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H_
-#define GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H_
+#ifndef GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H
+#define GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H
 
 // This header implements typed tests and type-parameterized tests.
 
@@ -256,4 +256,4 @@ INSTANTIATE_TYPED_TEST_CASE_P(My, FooTest, MyTypes);
 
 #endif  // GTEST_HAS_TYPED_TEST_P
 
-#endif  // GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H_
+#endif  // GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H

@@ -65,8 +65,8 @@
 // TODO(wan@google.com): rename this to safe_linked_ptr to avoid
 // confusion with normal linked_ptr.
 
-#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_
-#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_
+#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H
+#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H
 
 #include <stdlib.h>
 #include <assert.h>
@@ -230,4 +230,4 @@ linked_ptr<T> make_linked_ptr(T* ptr) {
 }  // namespace internal
 }  // namespace testing
 
-#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_
+#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H

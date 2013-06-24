@@ -1,11 +1,11 @@
-#include "mpc/ModuleList.h"
-#include "mpc/module/SimplePropagation.h"
-#include "mpc/module/BreakCondition.h"
-#include "mpc/Source.h"
+#include "crpropa/ModuleList.h"
+#include "crpropa/module/SimplePropagation.h"
+#include "crpropa/module/BreakCondition.h"
+#include "crpropa/Source.h"
 
 #include "gtest/gtest.h"
 
-namespace mpc {
+namespace crpropa {
 
 TEST(ModuleList, process) {
 	ModuleList modules;
@@ -60,4 +60,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

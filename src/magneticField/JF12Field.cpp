@@ -1,11 +1,11 @@
-#include "mpc/magneticField/JF12Field.h"
-#include "mpc/Units.h"
-#include "mpc/GridTools.h"
-#include "mpc/Random.h"
+#include "crpropa/magneticField/JF12Field.h"
+#include "crpropa/Units.h"
+#include "crpropa/GridTools.h"
+#include "crpropa/Random.h"
 
 #include <iostream>
 
-namespace mpc {
+namespace crpropa {
 
 double logisticFunction(double x, double x0, double w) {
 	return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));
@@ -98,7 +98,7 @@ void JF12Field::randomStriated(int seed) {
 			}
 }
 
-#ifdef MPC_HAVE_FFTW3F
+#ifdef CRPROPA_HAVE_FFTW3F
 void JF12Field::randomTurbulent(int seed) {
 	useTurbulent = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
@@ -290,4 +290,4 @@ Vector3d JF12Field::getField(const Vector3d& pos) const {
 	return b;
 }
 
-} // namespace mpc
+} // namespace crpropa

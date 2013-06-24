@@ -1,12 +1,12 @@
-#include "mpc/Source.h"
-#include "mpc/Random.h"
-#include "mpc/Cosmology.h"
+#include "crpropa/Source.h"
+#include "crpropa/Random.h"
+#include "crpropa/Cosmology.h"
 
 #include "HepPID/ParticleIDMethods.hh"
 #include <stdexcept>
 #include <algorithm>
 
-namespace mpc {
+namespace crpropa {
 
 void SourceProperty::prepare(ParticleState& particle) const {
 }
@@ -326,4 +326,4 @@ void SourceRedshift1D::prepare(Candidate& candidate) const {
 	candidate.setRedshift(z);
 }
 
-} // namespace mpc
+} // namespace crpropa

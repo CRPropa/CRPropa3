@@ -1,8 +1,8 @@
-#include "mpc/module/Boundary.h"
+#include "crpropa/module/Boundary.h"
 
 #include <sstream>
 
-namespace mpc {
+namespace crpropa {
 
 PeriodicBox::PeriodicBox() :
 		origin(Vector3d(0, 0, 0)), size(Vector3d(0, 0, 0)) {
@@ -251,4 +251,4 @@ std::string EllipsoidalBoundary::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

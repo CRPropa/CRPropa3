@@ -41,8 +41,8 @@
 // Please contact googletestframework@googlegroups.com if you need
 // more.
 
-#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H_
-#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H_
+#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H
+#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H
 
 #include "gtest/internal/gtest-port.h"
 #include "gtest/internal/gtest-string.h"
@@ -3327,4 +3327,4 @@ struct TypeList<Types<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13,
 }  // namespace internal
 }  // namespace testing
 
-#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H_
+#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_TYPE_UTIL_H

@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
-project(ModularPropagationCode Fortran C CXX)
+project(CRPropa Fortran C CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
-set(MPC_EXTRA_SOURCES)
-set(MPC_EXTRA_INCLUDES)
-set(MPC_EXTRA_LIBRARIES)
-set(MPC_SWIG_DEFINES)
+set(CRPROPA_EXTRA_SOURCES)
+set(CRPROPA_EXTRA_INCLUDES)
+set(CRPROPA_EXTRA_LIBRARIES)
+set(CRPROPA_SWIG_DEFINES)
 
 # ----------------------------------------------------------------------------
 # Dependencies
@@ -20,28 +20,28 @@ endif(ENABLE_TESTING)
 
 # kiss (provided)
 add_subdirectory(libs/kiss)
-list(APPEND MPC_EXTRA_LIBRARIES kiss)
-list(APPEND MPC_EXTRA_INCLUDES libs/kiss/include)
+list(APPEND CRPROPA_EXTRA_LIBRARIES kiss)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/kiss/include)
 
 # pugixml (provided)
 add_subdirectory(libs/pugixml)
-list(APPEND MPC_EXTRA_LIBRARIES pugixml)
-list(APPEND MPC_EXTRA_INCLUDES libs/pugixml)
+list(APPEND CRPROPA_EXTRA_LIBRARIES pugixml)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/pugixml)
 
 # HepID (provided)
 add_subdirectory(libs/HepPID)
-list(APPEND MPC_EXTRA_LIBRARIES HepPID)
-list(APPEND MPC_EXTRA_INCLUDES libs/HepPID/include)
+list(APPEND CRPROPA_EXTRA_LIBRARIES HepPID)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/HepPID/include)
 
 # SOPHIA (provided)
 add_subdirectory(libs/sophia)
-list(APPEND MPC_EXTRA_LIBRARIES sophia gfortran)
-list(APPEND MPC_EXTRA_INCLUDES libs/sophia)
+list(APPEND CRPROPA_EXTRA_LIBRARIES sophia gfortran)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/sophia)
 
 # DINT (provided)
 add_subdirectory(libs/dint)
-list(APPEND MPC_EXTRA_LIBRARIES dint)
-list(APPEND MPC_EXTRA_INCLUDES libs/dint/include)
+list(APPEND CRPROPA_EXTRA_LIBRARIES dint)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/dint/include)
 
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)
@@ -59,22 +59,22 @@ option(ENABLE_FFTW3F "FFTW3F to create turbulent fields" ON)
 if(ENABLE_FFTW3F)
     find_package(FFTW3F)
     if(FFTW3F_FOUND)
-        list(APPEND MPC_EXTRA_INCLUDES ${FFTW3F_INCLUDE_DIR})
-        list(APPEND MPC_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
-        add_definitions(-DMPC_HAVE_FFTW3F)
-        list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_FFTW3F)
+        list(APPEND CRPROPA_EXTRA_INCLUDES ${FFTW3F_INCLUDE_DIR})
+        list(APPEND CRPROPA_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
+        add_definitions(-DCRPROPA_HAVE_FFTW3F)
+        list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_FFTW3F)
     endif(FFTW3F_FOUND)
 endif(ENABLE_FFTW3F)
 
 # Quimby (optional for SPH magnetic fields)
 find_package(Quimby)
 if(QUIMBY_FOUND)
-    list(APPEND MPC_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
-    list(APPEND MPC_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
-    add_definitions (-DMPC_HAVE_QUIMBY)
-    list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_QUIMBY)
-    list(APPEND MPC_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
-    list(APPEND MPC_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
+    list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
+    list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
+    add_definitions (-DCRPROPA_HAVE_QUIMBY)
+    list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
+    list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
+    list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
 endif(QUIMBY_FOUND)
 
 # ROOT (optional for ROOT output)
@@ -88,8 +88,8 @@ if(ENABLE_ROOT)
     	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CFLAGS}")
     	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
     	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
-    	add_definitions(-DMPC_HAVE_ROOT)
-    	list(APPEND MPC_SWIG_DEFINES -DMPC_HAVE_ROOT)
+    	add_definitions(-DCRPROPA_HAVE_ROOT)
+    	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ROOT)
     endif(ROOT_FOUND)
 endif(ENABLE_ROOT)
 
@@ -103,8 +103,8 @@ endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 # ----------------------------------------------------------------------------
 # Library and Binary
 # ----------------------------------------------------------------------------
-include_directories(include ${MPC_EXTRA_INCLUDES})
-add_library(mpc SHARED
+include_directories(include ${CRPROPA_EXTRA_INCLUDES})
+add_library(crpropa SHARED
     src/Random.cpp
     src/Clock.cpp
     src/ModuleList.cpp
@@ -140,21 +140,21 @@ add_library(mpc SHARED
     src/magneticField/MagneticFieldGrid.cpp
     src/magneticField/TurbulentMagneticField.cpp
     src/magneticField/JF12Field.cpp
-    ${MPC_EXTRA_SOURCES}
+    ${CRPROPA_EXTRA_SOURCES}
 )
-target_link_libraries(mpc ${MPC_EXTRA_LIBRARIES})
+target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 
-add_executable(mpc-run src/main.cpp)
-target_link_libraries(mpc-run mpc)
+add_executable(crpropa-xmlrun src/main.cpp)
+target_link_libraries(crpropa-xmlrun crpropa)
 
 # ----------------------------------------------------------------------------
 # Install
 # ----------------------------------------------------------------------------
-add_definitions(-DMPC_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
-install(TARGETS mpc-run RUNTIME DESTINATION bin)
-install(TARGETS mpc DESTINATION lib)
+add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
+install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY data/ DESTINATION share/mpc/)
+install(DIRECTORY data/ DESTINATION share/crpropa/)
 
 # ----------------------------------------------------------------------------
 # Testing
@@ -162,39 +162,39 @@ install(DIRECTORY data/ DESTINATION share/mpc/)
 if(ENABLE_TESTING)
     enable_testing()
 	add_executable(testCore test/testCore.cpp)
-	target_link_libraries(testCore mpc gtest gtest_main pthread)
+	target_link_libraries(testCore crpropa gtest gtest_main pthread)
 	add_test(testCore testCore)
 	
 	add_executable(testVector3 test/testVector3.cpp)
-	target_link_libraries(testVector3 mpc gtest gtest_main pthread)
+	target_link_libraries(testVector3 crpropa gtest gtest_main pthread)
 	add_test(testVector3 testVector3)
 	
 	add_executable(testModuleList test/testModuleList.cpp)
-	target_link_libraries(testModuleList mpc gtest gtest_main pthread)
+	target_link_libraries(testModuleList crpropa gtest gtest_main pthread)
 	add_test(testModuleList testModuleList)
 
 	add_executable(testMagneticField test/testMagneticField.cpp)
-	target_link_libraries(testMagneticField mpc gtest gtest_main pthread)
+	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread)
 	add_test(testMagneticField testMagneticField)
 
 	add_executable(testPropagation test/testPropagation.cpp)
-	target_link_libraries(testPropagation mpc gtest gtest_main pthread)
+	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
 	add_test(testPropagation testPropagation)
      
 	add_executable(testBreakCondition test/testBreakCondition.cpp)
-	target_link_libraries(testBreakCondition mpc gtest gtest_main pthread)
+	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread)
 	add_test(testBreakCondition testBreakCondition)
     
     add_executable(testOutput test/testOutput.cpp)
-	target_link_libraries(testOutput mpc gtest gtest_main pthread)
+	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
 	add_test(testOutput testOutput)
     
 	add_executable(testInteraction test/testInteraction.cpp)
-	target_link_libraries(testInteraction mpc gtest gtest_main pthread)
+	target_link_libraries(testInteraction crpropa gtest gtest_main pthread)
 	add_test(testInteraction testInteraction)
 	
 	add_executable(testSource test/testSource.cpp)
-	target_link_libraries(testSource mpc gtest gtest_main pthread)
+	target_link_libraries(testSource crpropa gtest gtest_main pthread)
 	add_test(testSource testSource)
 endif(ENABLE_TESTING)
 
@@ -206,15 +206,17 @@ if(ENABLE_PYTHON)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
 	
-	file(GLOB_RECURSE MPC_INCLUDES include/*.h)
-	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx PROPERTIES GENERATED true )
-	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx
-	                COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include ${MPC_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/mpc.i 
-	                DEPENDS ${CMAKE_SOURCE_DIR}/python/mpc.i  ${MPC_INCLUDES} )
-	add_library(mpc-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/mpc_wrap.cxx)
-	set_target_properties(mpc-swig PROPERTIES PREFIX "")
-	set_target_properties(mpc-swig PROPERTIES OUTPUT_NAME "_mpc") 
-	target_link_libraries(mpc-swig mpc ${PYTHON_LIBRARIES})
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mpc.py" DESTINATION ${PYTHON_SITE_PACKAGES})
-	install(TARGETS mpc-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES})
+	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
+	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
+	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
+	                COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa.i 
+	                DEPENDS ${CMAKE_SOURCE_DIR}/python/crpropa.i ${CRPROPA_INCLUDES} )
+	
+	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
+	set_target_properties(crpropa-swig PROPERTIES PREFIX "")
+	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa") 
+	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
+	
+	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES})
+	install(TARGETS crpropa-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES})
 endif(ENABLE_PYTHON)

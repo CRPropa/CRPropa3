@@ -1,23 +1,23 @@
-#include "mpc/XmlExecute.h"
-#include "mpc/magneticField/MagneticFieldGrid.h"
-#include "mpc/GridTools.h"
-#include "mpc/Random.h"
-#include "mpc/PhotonBackground.h"
-#include "mpc/Cosmology.h"
-#include "mpc/module/SimplePropagation.h"
-#include "mpc/module/DeflectionCK.h"
-#include "mpc/module/Redshift.h"
-#include "mpc/module/ElectronPairProduction.h"
-#include "mpc/module/PhotoPionProduction.h"
-#include "mpc/module/PhotoDisintegration.h"
-#include "mpc/module/NuclearDecay.h"
-#include "mpc/module/BreakCondition.h"
-#include "mpc/module/Boundary.h"
-#include "mpc/module/Observer.h"
-#include "mpc/module/Output.h"
-#include "mpc/module/OutputROOT.h"
-#include "mpc/module/OutputCRPropa2.h"
-#include "mpc/ModuleList.h"
+#include "crpropa/XmlExecute.h"
+#include "crpropa/magneticField/MagneticFieldGrid.h"
+#include "crpropa/GridTools.h"
+#include "crpropa/Random.h"
+#include "crpropa/PhotonBackground.h"
+#include "crpropa/Cosmology.h"
+#include "crpropa/module/SimplePropagation.h"
+#include "crpropa/module/DeflectionCK.h"
+#include "crpropa/module/Redshift.h"
+#include "crpropa/module/ElectronPairProduction.h"
+#include "crpropa/module/PhotoPionProduction.h"
+#include "crpropa/module/PhotoDisintegration.h"
+#include "crpropa/module/NuclearDecay.h"
+#include "crpropa/module/BreakCondition.h"
+#include "crpropa/module/Boundary.h"
+#include "crpropa/module/Observer.h"
+#include "crpropa/module/Output.h"
+#include "crpropa/module/OutputROOT.h"
+#include "crpropa/module/OutputCRPropa2.h"
+#include "crpropa/ModuleList.h"
 
 #include "pugixml.hpp"
 
@@ -29,7 +29,7 @@
 using namespace pugi;
 using namespace std;
 
-namespace mpc {
+namespace crpropa {
 
 double childValue(xml_node parent, string childName, bool throwIfEmpty = true) {
 	xml_node node = parent.child(childName.c_str());
@@ -389,13 +389,13 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 		double alpha = childValue(node, "SpectralIndex");
 		cout << "  - Spectral index, <B^2(k)> ~ k^n, n:  " << alpha << endl;
 
-#ifdef MPC_HAVE_FFTW3F
+#ifdef CRPROPA_HAVE_FFTW3F
 		initTurbulence(field, brms, lMin, lMax, alpha);
-#endif // MPC_HAVE_FFTW3F
-#ifndef MPC_HAVE_FFTW3F
+#endif
+#ifndef CRPROPA_HAVE_FFTW3F
 		throw runtime_error(
 				"Turbulent field grid not available. Compile with FFTW3F.");
-#endif // MPC_HAVE_FFTW3F
+#endif
 	}
 
 	magnetic_field = new MagneticFieldGrid(field);
@@ -696,4 +696,4 @@ void XmlExecute::run() {
 	modules.run(&source, nTrajectories, true);
 }
 
-} // namespace mpc
+} // namespace crpropa

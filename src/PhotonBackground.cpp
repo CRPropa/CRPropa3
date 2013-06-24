@@ -1,10 +1,10 @@
-#include "mpc/PhotonBackground.h"
-#include "mpc/Common.h"
+#include "crpropa/PhotonBackground.h"
+#include "crpropa/Common.h"
 
 #include <vector>
 #include <math.h>
 
-namespace mpc {
+namespace crpropa {
 
 // Overall redshift scaling of the Kneiske IRB (see data/PhotonField/KneiskeIRB.py and Kneiske et al. 2004, astro-ph/0309141)
 double a[9] = { 0, 0.2, 0.4, 0.6, 1, 2, 3, 4, 5 };
@@ -18,4 +18,4 @@ double photonFieldScaling(int photonField, double z) {
 	return pow(1 + z, 3); // CMB-like scaling
 }
 
-} // namespace mpc
+} // namespace crpropa

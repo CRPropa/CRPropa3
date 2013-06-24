@@ -1,4 +1,4 @@
-#include "mpc/Common.h"
+#include "crpropa/Common.h"
 
 #include "kiss/path.h"
 #include "kiss/logger.h"
@@ -9,7 +9,7 @@
 #include <math.h>
 #include <algorithm>
 
-namespace mpc {
+namespace crpropa {
 
 std::string getDataPath(std::string filename) {
 	static std::string dataPath;
@@ -79,5 +79,5 @@ double interpolateEquidistant(double x, double lo, double hi,
 	return Y[i] + (p - i) * (Y[i + 1] - Y[i]);
 }
 
-} // namespace mpc
+} // namespace crpropa
 

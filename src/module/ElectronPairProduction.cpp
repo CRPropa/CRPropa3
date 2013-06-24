@@ -1,10 +1,10 @@
-#include "mpc/module/ElectronPairProduction.h"
+#include "crpropa/module/ElectronPairProduction.h"
 
 #include <fstream>
 #include <limits>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 ElectronPairProduction::ElectronPairProduction(PhotonField photonField) :
 		photonField(photonField) {
@@ -113,4 +113,4 @@ double ElectronPairProduction::energyLossLength(int id, double E) {
 	return 1. / lossRate;
 }
 
-} // namespace mpc
+} // namespace crpropa

@@ -38,8 +38,8 @@
 // This header file is #included by <gtest/internal/gtest-internal.h>.
 // It should not be #included by other files.
 
-#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H_
-#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H_
+#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H
+#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H
 
 #ifdef __BORLANDC__
 // string.h is not guaranteed to provide strcpy on C++ Builder.
@@ -347,4 +347,4 @@ String StreamableToString(const T& streamable);
 }  // namespace internal
 }  // namespace testing
 
-#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H_
+#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_STRING_H

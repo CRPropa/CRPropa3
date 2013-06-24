@@ -1,5 +1,5 @@
-#ifndef _SOPHIA_H_
-#define _SOPHIA_H_
+#ifndef _SOPHIA_H
+#define _SOPHIA_H
 
 extern "C" {
 void sophiaevent_(int&, double&, double[][2000], int[], int&, double&, int&,

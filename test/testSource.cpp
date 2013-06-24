@@ -1,9 +1,9 @@
-#include "mpc/Source.h"
+#include "crpropa/Source.h"
 
 #include "gtest/gtest.h"
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 TEST(SourcePosition, simpleTest) {
 	Vector3d position(1, 2, 3);
@@ -263,4 +263,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

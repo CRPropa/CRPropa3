@@ -1,7 +1,7 @@
-#include "mpc/Vector3.h"
+#include "crpropa/Vector3.h"
 #include "gtest/gtest.h"
 
-namespace mpc {
+namespace crpropa {
 
 TEST(Vector3, division) {
 	Vector3d v(10);
@@ -81,4 +81,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

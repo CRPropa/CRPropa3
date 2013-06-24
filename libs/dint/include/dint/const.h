@@ -1,6 +1,6 @@
 
-#ifndef _CONST_H_
-#define _CONST_H_
+#ifndef _CONST_H
+#define _CONST_H
 
 
 #define ELECTRON_MASS 5.110e5

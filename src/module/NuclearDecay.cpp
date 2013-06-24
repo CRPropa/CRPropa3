@@ -1,12 +1,12 @@
-#include "mpc/module/NuclearDecay.h"
-#include "mpc/Random.h"
+#include "crpropa/module/NuclearDecay.h"
+#include "crpropa/Random.h"
 
 #include <fstream>
 #include <limits>
 #include <cmath>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
 		haveElectrons(electrons), haveNeutrinos(neutrinos) {
@@ -164,4 +164,4 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA);
 }
 
-} // namespace mpc
+} // namespace crpropa

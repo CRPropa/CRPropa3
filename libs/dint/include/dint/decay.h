@@ -1,5 +1,5 @@
-#ifndef _DECAY_H_
-#define _DECAY_H_
+#ifndef _DECAY_H
+#define _DECAY_H
 
 double PionToPhoton(const int iPhoton, const int iPion);
 double PionToLepton(const double leptonEnergy, const double pionEnergy);

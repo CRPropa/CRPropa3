@@ -1,9 +1,9 @@
-#include "mpc/module/Output.h"
+#include "crpropa/module/Output.h"
 
 #include <iomanip>
 #include <stdio.h>
 
-namespace mpc {
+namespace crpropa {
 
 void ShellOutput::process(Candidate* c) const {
 #pragma omp critical
@@ -176,4 +176,4 @@ void EventOutput1D::process(Candidate *c) const {
 	}
 }
 
-} // namespace mpc
+} // namespace crpropa

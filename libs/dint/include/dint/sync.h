@@ -1,6 +1,6 @@
 
-#ifndef _SYNC_H_
-#define _SYNC_H_
+#ifndef _SYNC_H
+#define _SYNC_H
 
 #include "dint/rate.h"
 #include "dint/cvector.h"

@@ -1,5 +1,5 @@
-#include "mpc/module/PhotoDisintegration.h"
-#include "mpc/Random.h"
+#include "crpropa/module/PhotoDisintegration.h"
+#include "crpropa/Random.h"
 
 #include <cmath>
 #include <limits>
@@ -7,7 +7,7 @@
 #include <fstream>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 PhotoDisintegration::PhotoDisintegration(PhotonField photonField) {
 	init(photonField);
@@ -190,4 +190,4 @@ double PhotoDisintegration::energyLossLength(int id, double E) {
 	return 1 / lossRate;
 }
 
-} // namespace mpc
+} // namespace crpropa

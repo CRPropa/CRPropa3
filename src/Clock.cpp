@@ -1,4 +1,4 @@
-#include "mpc/Clock.h"
+#include "crpropa/Clock.h"
 
 #if defined(WIN32) || defined(_WIN32)
 
@@ -24,7 +24,7 @@
 #include <stdexcept>
 #endif
 
-namespace mpc {
+namespace crpropa {
 
 #ifdef WIN32
 class Clock::Impl {

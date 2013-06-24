@@ -1,6 +1,6 @@
-#include "mpc/magneticField/MagneticField.h"
+#include "crpropa/magneticField/MagneticField.h"
 
-namespace mpc {
+namespace crpropa {
 
 PeriodicMagneticField::PeriodicMagneticField(ref_ptr<MagneticField> field,
 		const Vector3d &extends) :
@@ -68,4 +68,4 @@ Vector3d MagneticFieldList::getField(const Vector3d &position) const {
 	return b;
 }
 
-} // namespace mpc
+} // namespace crpropa

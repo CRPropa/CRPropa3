@@ -1,5 +1,5 @@
-#include "mpc/ModuleList.h"
-#include "mpc/ProgressBar.h"
+#include "crpropa/ModuleList.h"
+#include "crpropa/ProgressBar.h"
 
 #include <omp.h>
 #include <algorithm>
@@ -10,7 +10,7 @@ typedef void (*sighandler_t)(int);
 
 using namespace std;
 
-namespace mpc {
+namespace crpropa {
 
 bool g_cancel_signal_flag = false;
 void g_cancel_signal_callback(int sig) {
@@ -120,24 +120,24 @@ const ModuleList::module_list_t &ModuleList::getModules() const {
 }
 
 void ModuleList::showModules() const {
-	mpc::ModuleList::module_list_t::const_iterator iEntry;
+	crpropa::ModuleList::module_list_t::const_iterator iEntry;
 
 	iEntry = getModules().begin();
 	while (iEntry != getModules().end()) {
-		const mpc::ref_ptr<mpc::Module> &entry = *iEntry;
+		const crpropa::ref_ptr<crpropa::Module> &entry = *iEntry;
 		iEntry++;
 		std::cout << "  " << entry->getDescription() << "\n";
 	}
 }
 
-} // namespace mpc
+} // namespace crpropa
 
-std::ostream &operator<<(std::ostream &out, const mpc::ModuleList &list) {
-	mpc::ModuleList::module_list_t::const_iterator iEntry;
+std::ostream &operator<<(std::ostream &out, const crpropa::ModuleList &list) {
+	crpropa::ModuleList::module_list_t::const_iterator iEntry;
 
 	iEntry = list.getModules().begin();
 	while (iEntry != list.getModules().end()) {
-		const mpc::ref_ptr<mpc::Module> &entry = *iEntry;
+		const crpropa::ref_ptr<crpropa::Module> &entry = *iEntry;
 		iEntry++;
 		out << "  " << entry->getDescription() << "\n";
 	}

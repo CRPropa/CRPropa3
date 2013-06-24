@@ -1,14 +1,14 @@
-#include "mpc/Candidate.h"
-#include "mpc/module/ElectronPairProduction.h"
-#include "mpc/module/NuclearDecay.h"
-#include "mpc/module/PhotoDisintegration.h"
-#include "mpc/module/PhotoPionProduction.h"
-#include "mpc/module/Redshift.h"
+#include "crpropa/Candidate.h"
+#include "crpropa/module/ElectronPairProduction.h"
+#include "crpropa/module/NuclearDecay.h"
+#include "crpropa/module/PhotoDisintegration.h"
+#include "crpropa/module/PhotoPionProduction.h"
+#include "crpropa/module/Redshift.h"
 
 #include "gtest/gtest.h"
 #include <fstream>
 
-namespace mpc {
+namespace crpropa {
 
 TEST(ElectronPairProduction, EnergyDecreasing) {
 	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
@@ -590,4 +590,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

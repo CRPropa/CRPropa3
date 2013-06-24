@@ -1,9 +1,9 @@
-#include "mpc/ParticleID.h"
+#include "crpropa/ParticleID.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include <kiss/convert.h>
 
-namespace mpc {
+namespace crpropa {
 
 std::vector<int> neutrinos() {
 	int a[] = { 12, -12, 14, -14, 16, -16 };

@@ -1,10 +1,10 @@
-#include "mpc/GridTools.h"
-#include "mpc/Random.h"
+#include "crpropa/GridTools.h"
+#include "crpropa/Random.h"
 
 #include <fstream>
 #include <sstream>
 
-namespace mpc {
+namespace crpropa {
 
 Vector3f meanFieldVector(ref_ptr<VectorGrid> grid) {
 	size_t Nx = grid->getNx();
@@ -49,7 +49,7 @@ void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
 				grid->get(ix, iy, iz) *= a;
 }
 
-#ifdef MPC_HAVE_FFTW3F
+#ifdef CRPROPA_HAVE_FFTW3F
 #include "fftw3.h"
 
 void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
@@ -185,7 +185,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
-#endif // MPC_HAVE_FFTW3F
+#endif // CRPROPA_HAVE_FFTW3F
 
 double turbulentCorrelationLength(double lMin, double lMax, double alpha) {
 	double r = lMin / lMax;
@@ -357,4 +357,4 @@ void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-} // namespace mpc
+} // namespace crpropa

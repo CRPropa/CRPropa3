@@ -48,8 +48,8 @@
 // registration from Barthelemy Dagenais' (barthelemy@prologique.com)
 // easyUnit framework.
 
-#ifndef GTEST_INCLUDE_GTEST_GTEST_H_
-#define GTEST_INCLUDE_GTEST_GTEST_H_
+#ifndef GTEST_INCLUDE_GTEST_GTEST_H
+#define GTEST_INCLUDE_GTEST_GTEST_H
 
 #include <limits>
 #include <vector>
@@ -2152,4 +2152,4 @@ bool StaticAssertTypeEq() {
 
 }  // namespace testing
 
-#endif  // GTEST_INCLUDE_GTEST_GTEST_H_
+#endif  // GTEST_INCLUDE_GTEST_GTEST_H

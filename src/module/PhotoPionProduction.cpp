@@ -1,5 +1,5 @@
-#include "mpc/module/PhotoPionProduction.h"
-#include "mpc/Random.h"
+#include "crpropa/module/PhotoPionProduction.h"
+#include "crpropa/Random.h"
 
 #include <kiss/convert.h>
 #include "sophia.h"
@@ -10,7 +10,7 @@
 #include <fstream>
 #include <stdexcept>
 
-namespace mpc {
+namespace crpropa {
 
 PhotoPionProduction::PhotoPionProduction(PhotonField photonField) :
 		photonField(photonField) {
@@ -304,4 +304,4 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	}
 }
 
-} // namespace mpc
+} // namespace crpropa

@@ -1,14 +1,14 @@
 /** Unit tests for break condition, observer, boundary and tool modules */
 
-#include "mpc/module/BreakCondition.h"
-#include "mpc/module/Observer.h"
-#include "mpc/module/Boundary.h"
-#include "mpc/module/Tools.h"
-#include "mpc/ParticleID.h"
+#include "crpropa/module/BreakCondition.h"
+#include "crpropa/module/Observer.h"
+#include "crpropa/module/Boundary.h"
+#include "crpropa/module/Tools.h"
+#include "crpropa/ParticleID.h"
 
 #include "gtest/gtest.h"
 
-namespace mpc {
+namespace crpropa {
 
 //** ========================= Break conditions ============================= */
 TEST(MinimumEnergy, test) {
@@ -350,4 +350,4 @@ int main(int argc, char **argv) {
 	return RUN_ALL_TESTS();
 }
 
-} // namespace mpc
+} // namespace crpropa

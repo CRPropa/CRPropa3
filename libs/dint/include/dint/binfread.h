@@ -1,6 +1,6 @@
 
-#ifndef _BINFREAD_H_
-#define _BINFREAD_H_
+#ifndef _BINFREAD_H
+#define _BINFREAD_H
 
 // T. Beau 2005
 

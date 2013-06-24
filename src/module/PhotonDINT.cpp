@@ -1,5 +1,5 @@
-#include "mpc/module/PhotonDINT.h"
-#include "mpc/Cosmology.h"
+#include "crpropa/module/PhotonDINT.h"
+#include "crpropa/Cosmology.h"
 
 #include <iostream>
 #include <sstream>
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-namespace mpc {
+namespace crpropa {
 
 PhotonDINT::PhotonDINT(const string &filename, ref_ptr<MagneticField> field) :
 		filename(filename), fout(filename.c_str()), field(field), IRFlag(0), RadioFlag(
@@ -138,4 +138,4 @@ string PhotonDINT::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

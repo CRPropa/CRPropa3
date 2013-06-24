@@ -1,8 +1,8 @@
-#include "mpc/module/Observer.h"
+#include "crpropa/module/Observer.h"
 
 #include <sstream>
 
-namespace mpc {
+namespace crpropa {
 
 SmallObserverSphere::SmallObserverSphere(Vector3d center, double radius,
 		std::string flag, std::string flagValue, bool makeInactive) :
@@ -151,4 +151,4 @@ std::string DetectAll::getDescription() const {
 	return s.str();
 }
 
-} // namespace mpc
+} // namespace crpropa

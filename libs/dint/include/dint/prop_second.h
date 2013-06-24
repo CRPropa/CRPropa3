@@ -1,6 +1,6 @@
 
-#ifndef _PROPSECOND_H_
-#define _PROPSECOND_H_
+#ifndef _PROPSECOND_H
+#define _PROPSECOND_H
 
 #include "dint/cvector.h"
 

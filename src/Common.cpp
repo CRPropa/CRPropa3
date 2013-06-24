@@ -16,7 +16,7 @@ std::string getDataPath(std::string filename) {
 	if (dataPath.size())
 		return concat_path(dataPath, filename);
 
-	const char *env_path = getenv("MPC_DATA_PATH");
+	const char *env_path = getenv("CRPROPA_DATA_PATH");
 	if (env_path) {
 		if (is_directory(env_path)) {
 			dataPath = env_path;
@@ -26,9 +26,9 @@ std::string getDataPath(std::string filename) {
 		}
 	}
 
-#ifdef MPC_INSTALL_PREFIX
+#ifdef CRPROPA_INSTALL_PREFIX
 	{
-		std::string _path = MPC_INSTALL_PREFIX "/share/mpc";
+		std::string _path = CRPROPA_INSTALL_PREFIX "/share/crpropa";
 		if (is_directory(_path)) {
 			dataPath = _path;
 			KISS_LOG_INFO

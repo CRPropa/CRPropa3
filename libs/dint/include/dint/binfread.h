@@ -1,6 +1,5 @@
-
-#ifndef _BINFREAD_H
-#define _BINFREAD_H
+#ifndef DINT__BINFREAD_H
+#define DINT__BINFREAD_H
 
 // T. Beau 2005
 

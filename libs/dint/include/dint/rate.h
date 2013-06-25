@@ -1,5 +1,5 @@
-#ifndef _RATE_H
-#define _RATE_H
+#ifndef DINT__RATE_H
+#define DINT__RATE_H
 
 #include "dint/vector.h"
 #include "dint/binfread.h"

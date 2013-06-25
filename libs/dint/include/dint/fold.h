@@ -1,5 +1,5 @@
-#ifndef _FOLD_H
-#define _FOLD_H
+#ifndef DINT__FOLD_H
+#define DINT__FOLD_H
 
 #include "dint/rate.h"
 #include "dint/cvector.h"

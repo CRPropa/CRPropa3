@@ -1,6 +1,5 @@
-
-#ifndef _BACKGROUND_H
-#define _BACKGROUND_H
+#ifndef DINT__BACKGROUND_H
+#define DINT__BACKGROUND_H
 
 #include <stdio.h>
 #include <math.h>

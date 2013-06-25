@@ -1,5 +1,5 @@
-#ifndef _INJECT_H
-#define _INJECT_H
+#ifndef DINT__INJECT_H
+#define DINT__INJECT_H
 
 #include "dint/cvector.h"
 #include "dint/spectrum.h"

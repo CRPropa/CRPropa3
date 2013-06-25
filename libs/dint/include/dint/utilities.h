@@ -1,5 +1,5 @@
-#ifndef _UTILITIES_H
-#define _UTILITIES_H
+#ifndef DINT__UTILITIES_H
+#define DINT__UTILITIES_H
 
 #include "dint/error.h"
 #include "dint/io_util.h"

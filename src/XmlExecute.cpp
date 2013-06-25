@@ -665,7 +665,7 @@ void XmlExecute::loadOutput(xml_node &node) {
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
 	}
-#ifdef MPC_HAVE_ROOT
+#ifdef CRPROPA_HAVE_ROOT
 	else if (format == "ROOT") {
 		if (type == "Full Trajectories")
 			if (is1D)
@@ -683,7 +683,7 @@ void XmlExecute::loadOutput(xml_node &node) {
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
 	}
-#endif // MPC_HAVE_ROOT
+#endif // CRPROPA_HAVE_ROOT
 	else {
 		cout << "  --> unknown output format. "
 				<< " Use 'ASCII' or 'ROOT' (if ROOT is set)" << endl;

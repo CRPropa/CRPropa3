@@ -40,7 +40,7 @@ TEST(CRPropa2EventOutput1D, removeProperty) {
 	EXPECT_FALSE(c.hasProperty("Detected"));
 }
 
-#ifdef MPC_HAVE_ROOT
+#ifdef CRPROPA_HAVE_ROOT
 TEST(ROOTEventOutput3D, removeProperty) {
 	ROOTEventOutput3D output("");
 	Candidate c;

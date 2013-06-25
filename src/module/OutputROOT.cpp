@@ -1,6 +1,6 @@
 #include "crpropa/module/OutputROOT.h"
 
-#ifdef MPC_HAVE_ROOT
+#ifdef CRPROPA_HAVE_ROOT
 
 namespace crpropa {
 
@@ -154,4 +154,4 @@ void ROOTTrajectoryOutput3D::process(Candidate *c) const {
 
 }// namespace crpropa
 
-#endif // MPC_HAVE_ROOT
+#endif // CRPROPA_HAVE_ROOT

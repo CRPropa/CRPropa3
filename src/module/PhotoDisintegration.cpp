@@ -30,7 +30,7 @@ void PhotoDisintegration::init(PhotonField photonField) {
 		break;
 	default:
 		throw std::runtime_error(
-				"mpc::PhotoDisintegration: unknown photon background");
+				"crpropa::PhotoDisintegration: unknown photon background");
 	}
 }
 
@@ -41,7 +41,7 @@ void PhotoDisintegration::init(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
-				"mpc::PhotoDisintegration: could not open file " + filename);
+				"crpropa::PhotoDisintegration: could not open file " + filename);
 
 	std::string line;
 	while (std::getline(infile, line)) {

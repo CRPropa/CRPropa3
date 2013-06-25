@@ -1,4 +1,4 @@
-/** Unit tests for core features of MPC
+/** Unit tests for core features of CRPropa
   	Candidate
   	ParticleState
   	Random

@@ -55,7 +55,7 @@
 // when you write.
 
 // Parts of this file are modified beginning in 29.10.09 for adaption in PXL.
-// Parts of this file are modified beginning in 10.02.12 for adaption in MPC.
+// Parts of this file are modified beginning in 10.02.12 for adaption in CRPROPA.
 
 #include "crpropa/Random.h"
 
@@ -396,7 +396,7 @@ Random &Random::instance() {
 #endif
 	int i = omp_get_thread_num();
 	if (i >= MAX_THREAD)
-	throw std::runtime_error("mpc::Random: more than MAX_THREAD threads!");
+	throw std::runtime_error("crpropa::Random: more than MAX_THREAD threads!");
 	return tls[i].r;
 }
 #else

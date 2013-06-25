@@ -75,7 +75,7 @@ double ParticleState::getLorentzFactor() const {
 		return energy / (pmass * c_squared);
 	else
 		throw std::runtime_error(
-				"mpc::ParticleState::getLorentzFactor only for nuclei/nucleons");
+				"crpropa::ParticleState::getLorentzFactor only for nuclei/nucleons");
 }
 
 void ParticleState::setLorentzFactor(double gamma) {
@@ -83,7 +83,7 @@ void ParticleState::setLorentzFactor(double gamma) {
 		energy = gamma * pmass * c_squared;
 	else
 		throw std::runtime_error(
-				"mpc::ParticleState::setLorentzFactor only for nuclei/nucleons");
+				"crpropa::ParticleState::setLorentzFactor only for nuclei/nucleons");
 }
 
 Vector3d ParticleState::getVelocity() const {

@@ -17,7 +17,7 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
-				"mpc::NuclearDecay: could not open file " + filename);
+				"crpropa::NuclearDecay: could not open file " + filename);
 
 	decayTable.resize(27 * 31);
 	while (infile.good()) {

@@ -1,5 +1,5 @@
-#ifndef _FINAL_H
-#define _FINAL_H
+#ifndef DINT__FINAL_H
+#define DINT__FINAL_H
 
 #include "dint/spectrum.h"
 #include "dint/cvector.h"

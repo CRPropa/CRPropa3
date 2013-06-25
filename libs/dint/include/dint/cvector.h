@@ -1,6 +1,5 @@
-
-#ifndef _CVECTOR_H
-#define _CVECTOR_H
+#ifndef DINT__CVECTOR_H
+#define DINT__CVECTOR_H
 
 #include "dint/vector.h"
 #include <stdio.h>

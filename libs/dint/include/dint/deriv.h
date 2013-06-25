@@ -1,5 +1,5 @@
-#ifndef _DERIV_H
-#define _DERIV_H
+#ifndef DINT__DERIV_H
+#define DINT__DERIV_H
 
 #include "dint/rate.h"
 #include "dint/spectrum.h"

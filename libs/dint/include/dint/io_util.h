@@ -1,5 +1,5 @@
-#ifndef _IO_UTIL_H
-#define _IO_UTIL_H
+#ifndef DINT__IO_UTIL_H
+#define DINT__IO_UTIL_H
 
 #include <stdio.h>
 

@@ -1,5 +1,5 @@
-#ifndef _LOAD_H
-#define _LOAD_H
+#ifndef DINT__LOAD_H
+#define DINT__LOAD_H
 
 #include "dint/rate.h"
 #include "dint/utilities.h"

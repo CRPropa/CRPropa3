@@ -1,5 +1,5 @@
-#ifndef _CHECK_H
-#define _CHECK_H
+#ifndef DINT__CHECK_H
+#define DINT__CHECK_H
 
 #include "dint/cvector.h"
 

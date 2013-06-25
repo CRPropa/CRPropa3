@@ -1,5 +1,5 @@
-#ifndef _PREPARE_H
-#define _PREPARE_H
+#ifndef DINT__PREPARE_H
+#define DINT__PREPARE_H
 
 #include <stdio.h>
 #include "dint/spectrum.h"

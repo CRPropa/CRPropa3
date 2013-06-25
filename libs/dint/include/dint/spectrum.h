@@ -1,5 +1,5 @@
-#ifndef _SPECTRUM_H
-#define _SPECTRUM_H
+#ifndef DINT__SPECTRUM_H
+#define DINT__SPECTRUM_H
 
 #include "dint/vector.h"
 #include "dint/cvector.h"

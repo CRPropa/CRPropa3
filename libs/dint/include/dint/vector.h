@@ -1,5 +1,5 @@
-#ifndef _VECTOR_H
-#define _VECTOR_H
+#ifndef DINT__VECTOR_H
+#define DINT__VECTOR_H
 
 /* Vectors, matrices, and tensors defined here are very simple, dynamic
    objects.  They do not provide any bound checking nor has extra data

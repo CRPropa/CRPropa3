@@ -1,12 +1,13 @@
-from mpc import *
+# CRPropa test script
+# Simulates the integrated relative abundance from a source, 
+#   accelerationg particles up to a maximum rigidity.
+# Minimum energy = 10 EeV
+# Maximum rigidity = 100 EeV / Z -> max. energy = Z * 100 EeV
+# Composition = p, He, C, O, Si, Fe with relative abundances
+#   from Allard 2006, DOI: 10.1088/1475-7516/2006/09/005
+#
+from crpropa import *
 from pylab import *
-
-
-# Simulates the integrated relative abundance from a source that accelerates
-# particles up to a maximum rigidity.
-# min. energy = 10 EeV
-# max. rigidity = 100 EeV / Z -> max. energy = Z * 100 EeV
-# composition = p, He, C, O, Si, Fe with relative abundances from Allard 2006, DOI: 10.1088/1475-7516/2006/09/005
 
 nS = 5 # number of spectral indices between 2 and 3
 nP = 5000 # number of particles per spectral index

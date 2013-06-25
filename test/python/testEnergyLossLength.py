@@ -1,5 +1,8 @@
+# CRPRopa test script
+# Shows how to use the energy loss length method, provided by the interaction modules
+#
+from crpropa import *
 from pylab import *
-from mpc import *
 
 pd1 = PhotoDisintegration(CMB)
 pd2 = PhotoDisintegration(IRB)
@@ -24,20 +27,15 @@ def parse_pid(pid):
   return 'Z=%i, A=%i'%((pid//10000)%1000, (pid%10000)/10)
 
 
-
 pid = nucleusId(56, 26)
-
-E = logspace(1, 4) * EeV
+E = logspace(1, 4, 50)
 L = zeros((3, 50))
 
-for i, energy in enumerate(E):
+for i, energy in enumerate(E * EeV):
   L[0,i] = pdLoss(pid, energy)
   L[1,i] = ppLoss(pid, energy)
   L[2,i] = ep.energyLossLength(pid, energy)
-
-E /= EeV
 L /= Mpc
-
 
 
 figure()

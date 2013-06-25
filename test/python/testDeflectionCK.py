@@ -1,5 +1,8 @@
+# CRPropa test script
+# Tests the accuracy of the Cash-Karp numerical integration method in CRPropa
+#
+from crpropa import *
 from pylab import *
-from mpc import *
 
 
 # 100 EeV proton
@@ -9,10 +12,10 @@ c.current.setEnergy(100 * EeV)
 c.current.setDirection(Vector3d(1, 0, 0))
 
 # uniform perpendicular magnetic field of 10 nG
-field = UniformMagneticField(Vector3d(0,0,1e-12))
+field = UniformMagneticField(Vector3d(0, 0, 10 * nG))
 
 # resulting gyroradius
-R = c.current.getMomentum().getMag() / c.current.getCharge() / 1e-12
+R = c.current.getMomentum().getMag() / c.current.getCharge() / (10 * nG)
 
 
 def propagate(tolerance):

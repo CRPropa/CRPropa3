@@ -1,5 +1,11 @@
-from mpc import *
+# CRPRopa test script
+# Plot and self consistency check for photo disintegration
+#
+from crpropa import *
 from pylab import *
+
+
+pid = nucleusId(4,2) # nucleus to test
 
 
 def get_rates(candidate, N=5000):
@@ -41,10 +47,6 @@ def parse_channel(channel):
     return s[0:-2]
 
 
-
-### nucleus to test
-pid = nucleusId(4,2)
-
 candidate = Candidate()
 candidate.current.setId(pid)
 
@@ -62,7 +64,7 @@ for i,g in enumerate(gamma2):
 
 Ddata = get_data_rates(pid)
 
-# plot
+
 for k in Dsim.keys():
     figure()
     plot(gamma2, Dsim[k], 'k+')
@@ -76,7 +78,4 @@ for k in Dsim.keys():
     grid()
     savefig('PhotoDisintegration_' + str(pid) + '_' + str(k) + '.png', bbox_inches='tight')
     show()
-
-
-
 

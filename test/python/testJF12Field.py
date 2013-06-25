@@ -1,25 +1,28 @@
-from mpc import *
+# CRPropa test script
+# Plots a sclice of the JF12 field
+#
+from crpropa import *
 from pylab import *
 from matplotlib.colors import LogNorm
 
 
 # Components of JF12 model
-bField = JF2012Field()
+# To plot also striated and/or turbulent component, remove the comment
+bField = JF12Field()
 #bField.randomStriated()
 #bField.randomTurbulent()
 
 z = 0 # z position [kpc] of slice to plot
-N = 241 # resolution in one direction
+N = 241 # samples per direction
+samples = (linspace(-20, 20, N, endpoint=True))
 
-lx = (linspace(-20, 20, N, endpoint=True))
-B, X, Y = zeros((3, N,N))
+B = zeros((N,N))
+X, Y = meshgrid(samples, samples)
 
-for ix in range(N):
-  for iy in range(N):
-    b = bField.getField(Vector3d(lx[ix], lx[iy], z) * kpc)
-    B[ix, iy] = b.getMag() / gauss # B in [G]
-    X[ix, iy] = lx[ix]
-    Y[ix, iy] = lx[iy]
+for i,x in enumerate(samples):
+  for j,y in enumerate(samples):
+    pos = Vector3d(x, y, z) * kpc
+    B[i, j] = bField.getField(pos).getMag() / gauss # B in [G]
 
 figure()
 maB = ma.masked_array(B, B==0)

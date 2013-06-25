@@ -1,4 +1,7 @@
-from mpc import *
+# CRPRopa test script
+# Plot and self consistency test for electron pair production.
+#
+from crpropa import *
 from pylab import *
 
 

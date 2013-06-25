@@ -1,5 +1,9 @@
-from mpc import *
+# CRPRopa test script
+# Visualizes the nuclear masses in CRPropa
+#
+from crpropa import *
 from pylab import *
+
 
 D = zeros((27, 31))
 D2 = zeros((27, 31))

@@ -1,5 +1,5 @@
-#ifndef UNITS_H
-#define UNITS_H
+#ifndef CRPROPA_UNITS_H
+#define CRPROPA_UNITS_H
 
 namespace crpropa {
 
@@ -68,4 +68,4 @@ static const double Gpc = gigaparsec;
 
 } // namespace crpropa
 
-#endif /* UNITS_H */
+#endif // CRPROPA_UNITS_H

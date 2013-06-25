@@ -1,8 +1,9 @@
-from mpc import *
+# CRPRopa test script
+# Simulate the p/n-ratio of the final baryon states in SOPHIA photo-pion interactions
+#
+from crpropa import *
 from pylab import *
 
-
-# Simulate the p/n-ratio of the final baryon states in SOPHIA photo-pion interactions
 
 spp = SophiaPhotoPionProduction()
 c = Candidate()

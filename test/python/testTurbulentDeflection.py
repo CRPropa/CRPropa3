@@ -1,4 +1,7 @@
-from mpc import *
+# CRPropa test script
+# Simulate the propagation through a turbulent field and compare to theoretical predictions
+#
+from crpropa import *
 from pylab import *
 
 
@@ -7,18 +10,20 @@ nT = 500 # number of trajectories
 nS = 50 # number of sampling points to simulate
 nP = range(30) # sampling points for plot
 
-# create turbulent field with B_RMS = 1 nG and 0.5 Mpc correlation length
-vGrid = VectorGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
-initTurbulence(vGrid, 1 * nG, 0.1 * Mpc, 2.2 * Mpc)
-propa = DeflectionCK(MagneticFieldGrid(vGrid))
+Lmin = 0.1 # Minimum turbulent scale
+Lmax = 2.2 # Maximum turbulent scale
+Lc = turbulentCorrelationLength(Lmin, Lmax) # coherence length in [Mpc]
+Brms = 1 # RMS field strength sqrt(<B^2>) in [nG]
+Rg = 1.08 * E / Brms # Gyroradius in [Mpc]
 
-Lc = turbulentCorrelationLength(0.1, 2.2) # in [Mpc]
-Brms = 1 # nG
-Rg = 1.08 * E / Brms # Mpc
+vGrid = VectorGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
+initTurbulence(vGrid, Brms * nG, Lmin * Mpc, Lmax * Mpc)
+propa = DeflectionCK(MagneticFieldGrid(vGrid))
 
 age = linspace(1, 150, nS)
 distance, rms1, rms2 = zeros((3, nS))
 
+R = Random.instance()
 for j in range(nT):
     if j % (nT // 10) == 0:
         print j
@@ -26,7 +31,7 @@ for j in range(nT):
     ps = ParticleState()
     ps.setId(nucleusId(1, 1))
     ps.setEnergy(E * EeV)
-    ps.setDirection(Random.instance().randUnitVectorOnSphere())
+    ps.setDirection(R.randVector())
     ps.setPosition(Vector3d(0, 0, 0))
     c = Candidate(ps)
 
@@ -61,7 +66,7 @@ plot(distance[nP], theory[nP], 'k--', label='Harari et al.')
 xlabel('Distance [Mpc]')
 ylabel('RMS(Deflection) [rad]')
 legend(loc='lower right', frameon=False)
-s = 'Gyroradius $r_g=%.2f$ Mpc\nCorr. Length $L_c=%.2f$ Mpc'%(Rg, Lc)
+s = 'Gyroradius $r_g=%.2f$ Mpc\nCoh. Length $L_c=%.2f$ Mpc'%(Rg, Lc)
 text(0.05, 0.95, s, ha='left', va='top', transform=gca().transAxes)
 savefig('TurbulentDeflection.png', bbox_inches='tight')
 

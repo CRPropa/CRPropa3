@@ -1,4 +1,7 @@
-from mpc import *
+# CRPRopa test script
+# Visualizes the nuclear decay tables in CRPropa
+#
+from crpropa import *
 from pylab import *
 from matplotlib.colors import LogNorm
 

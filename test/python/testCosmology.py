@@ -1,5 +1,7 @@
-#!/usr/bin/env python
-from mpc import *
+# CRPropa test script
+# Plots the different cosmological distance measures available in CRPropa.
+#
+from crpropa import *
 from pylab import *
 
 

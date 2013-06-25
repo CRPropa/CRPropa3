@@ -1,5 +1,9 @@
-from mpc import *
+# CRPRopa test script
+# Plot and self consistency check for photo pion production
+#
+from crpropa import *
 from pylab import *
+
 
 def getRate(module, energy, charge):
     c = Candidate()

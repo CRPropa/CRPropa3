@@ -142,7 +142,7 @@ Clock &Clock::getInstance() {
 #endif
 	int i = omp_get_thread_num();
 	if (i >= MAX_THREAD)
-	throw std::runtime_error("mpc::Clock: more than MAX_THREAD threads!");
+	throw std::runtime_error("crpropa::Clock: more than MAX_THREAD threads!");
 	return tls[i].r;
 }
 #else

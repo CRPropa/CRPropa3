@@ -55,7 +55,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	size_t count = candidates.size();
 
 #if _OPENMP
-	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
+	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
 #endif
 
 	ProgressBar progressbar(count);
@@ -84,7 +84,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 void ModuleList::run(Source *source, size_t count, bool recursive) {
 
 #if _OPENMP
-	std::cout << "mpc::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
+	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
 #endif
 
 	ProgressBar progressbar(count);

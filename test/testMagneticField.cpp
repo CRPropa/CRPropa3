@@ -29,7 +29,7 @@ TEST(testMagneticFieldList, SimpleTest) {
 	EXPECT_DOUBLE_EQ(b.z, 3);
 }
 
-#ifdef MPC_HAVE_FFTW3F
+#ifdef CRPROPA_HAVE_FFTW3F
 TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;
@@ -88,7 +88,7 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 	EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 33 * spacing),
 			std::runtime_error);
 }
-#endif // MPC_HAVE_FFTW3F
+#endif // CRPROPA_HAVE_FFTW3F
 TEST(testTurbulentMagneticField, SimpleTest) {
 	TurbulentMagneticField B;
 	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11. / 3.,

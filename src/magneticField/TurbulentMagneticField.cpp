@@ -31,7 +31,7 @@ void TurbulentMagneticField::setTurbulenceProperties(double Brms, double lMin,
 
 void TurbulentMagneticField::initialize() {
 	if (lMin >= lMax)
-		throw std::runtime_error("mpc::TurbulentMagneticField: lMin >= lMax");
+		throw std::runtime_error("crpropa::TurbulentMagneticField: lMin >= lMax");
 
 	double lkMin = log10(2 * M_PI / lMax);
 	double lkMax = log10(2 * M_PI / lMin);

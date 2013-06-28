@@ -20,4 +20,5 @@ public:
 };
 
 } // namespace crpropa
+
 #endif // CRPROPA_CLOCK_H

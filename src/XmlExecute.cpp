@@ -52,7 +52,7 @@ xml_node childNode(xml_node parent, string childName,
 	return node;
 }
 
-SourceUniformBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
+ref_ptr<SourceUniformBox> loadSourceHomogeneousBox(pugi::xml_node &node) {
 	Vector3d origin;
 	origin.x = childValue(node, "Xmin_Mpc") * Mpc;
 	origin.y = childValue(node, "Ymin_Mpc") * Mpc;
@@ -69,7 +69,7 @@ SourceUniformBox* loadSourceHomogeneousBox(pugi::xml_node &node) {
 	return (new SourceUniformBox(origin, size));
 }
 
-SourceDensityGrid* loadSourceDensityGrid(pugi::xml_node &node) {
+ref_ptr<SourceDensityGrid> loadSourceDensityGrid(pugi::xml_node &node) {
 	int nx = childValue(node, "Nx");
 	int ny = childValue(node, "Ny");
 	int nz = childValue(node, "Nz");
@@ -85,7 +85,7 @@ SourceDensityGrid* loadSourceDensityGrid(pugi::xml_node &node) {
 	origin.z = childValue(origin_node, "Z_Mpc") * Mpc;
 	cout << "  - Origin = " << origin / Mpc << " Mpc" << endl;
 
-	ScalarGrid* grid = new ScalarGrid(origin, nx, ny, nz, spacing);
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, nx, ny, nz, spacing);
 
 	xml_node file_node = childNode(node, "File");
 	string file_type = file_node.attribute("type").as_string();
@@ -101,14 +101,15 @@ SourceDensityGrid* loadSourceDensityGrid(pugi::xml_node &node) {
 	return (new SourceDensityGrid(grid));
 }
 
-SourceDensityGrid1D* loadSourceDensityGrid1D(pugi::xml_node &node) {
+ref_ptr<SourceDensityGrid1D> loadSourceDensityGrid1D(pugi::xml_node &node) {
 	int nx = childValue(node, "Nx");
 	cout << "  - Nx = " << nx << endl;
 
 	double spacing = childValue(node, "Step_Mpc") * Mpc;
 	cout << "  - Spacing = " << spacing / Mpc << " Mpc" << endl;
 
-	ScalarGrid* grid = new ScalarGrid(Vector3d(0, 0, 0), nx, 1, 1, spacing);
+	ref_ptr<ScalarGrid> grid = new ScalarGrid(Vector3d(0, 0, 0), nx, 1, 1,
+			spacing);
 
 	xml_node file_node = childNode(node, "File");
 	string file_type = file_node.attribute("type").as_string();
@@ -479,7 +480,8 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 }
 
 void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
-	SourceMultiplePositions* sourcePositions = new SourceMultiplePositions();
+	ref_ptr<SourceMultiplePositions> sourcePositions =
+			new SourceMultiplePositions();
 
 	xml_node density_node = node.child("Density");
 	if (density_node) { // draw positions from density distribution
@@ -489,7 +491,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 		int nSources = childValue(node, "Number");
 		cout << "  - Number = " << nSources << endl;
 
-		SourceProperty* sourceDistribution = new SourceProperty();
+		ref_ptr<SourceProperty> sourceDistribution = new SourceProperty();
 		if (type == "Uniform") {
 			if (is1D) {
 				double xmin = childValue(density_node, "Xmin_Mpc") * Mpc;
@@ -515,13 +517,12 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 			cout << "  - Position = " << p.getPosition() / Mpc << " Mpc"
 					<< endl;
 		}
-		delete sourceDistribution;
 	} else { // read individual positions from xml
 		for (xml_node n = node.child("PointSource"); n;
 				n = n.next_sibling("PointSource")) {
 			Vector3d pos(0.);
 			pos.x = childValue(n, "CoordX_Mpc") * Mpc;
-			if (not(is1D)) {
+			if (not (is1D)) {
 				pos.y = childValue(n, "CoordY_Mpc") * Mpc;
 				pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 			}
@@ -540,8 +541,10 @@ void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
 		if (is1D) {
 			double minD = childValue(density_node, "Xmin_Mpc") * Mpc;
 			double maxD = childValue(density_node, "Xmax_Mpc") * Mpc;
-			cout << "  - Minimum light travel distance: " << minD / Mpc << " Mpc" << endl;
-			cout << "  - Maximum light travel distance: " << maxD / Mpc << " Mpc" << endl;
+			cout << "  - Minimum light travel distance: " << minD / Mpc
+					<< " Mpc" << endl;
+			cout << "  - Maximum light travel distance: " << maxD / Mpc
+					<< " Mpc" << endl;
 			minD = lightTravel2ComovingDistance(minD);
 			maxD = lightTravel2ComovingDistance(maxD);
 			source.addProperty(new SourceUniform1D(minD, maxD));
@@ -585,7 +588,8 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 			cout << "  - Maximum rigidity: " << Rmax / EeV << " EeV" << endl;
 
 			// combined source spectrum / composition
-			SourceComposition *comp = new SourceComposition(Emin, Rmax,	alpha);
+			ref_ptr<SourceComposition> comp = new SourceComposition(Emin, Rmax,
+					alpha);
 			xml_node p = node.child("Particles");
 			for (xml_node n = p.child("Species"); n;
 					n = n.next_sibling("Species")) {
@@ -616,7 +620,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 }
 
 void XmlExecute::loadSourceNuclei(pugi::xml_node &node) {
-	SourceMultipleParticleTypes *composition =
+	ref_ptr<SourceMultipleParticleTypes> composition =
 			new SourceMultipleParticleTypes();
 	xml_node p = node.child("Particles");
 	for (xml_node n = p.child("Species"); n; n = n.next_sibling("Species")) {
@@ -668,20 +672,20 @@ void XmlExecute::loadOutput(xml_node &node) {
 #ifdef CRPROPA_HAVE_ROOT
 	else if (format == "ROOT") {
 		if (type == "Full Trajectories")
-			if (is1D)
-				modules.add(new ROOTTrajectoryOutput1D(filename));
-			else
-				modules.add(new ROOTTrajectoryOutput3D(filename));
-		else if (type == "Events")
-			if (is1D)
-				modules.add(new ROOTEventOutput1D(filename));
-			else
-				modules.add(new ROOTEventOutput3D(filename));
-		else if (type == "None")
-			return;
+		if (is1D)
+		modules.add(new ROOTTrajectoryOutput1D(filename));
 		else
-			cout << "  --> unknown output type "
-					<< "('Events', 'Full Trajectories' or 'None')" << endl;
+		modules.add(new ROOTTrajectoryOutput3D(filename));
+		else if (type == "Events")
+		if (is1D)
+		modules.add(new ROOTEventOutput1D(filename));
+		else
+		modules.add(new ROOTEventOutput3D(filename));
+		else if (type == "None")
+		return;
+		else
+		cout << "  --> unknown output type "
+		<< "('Events', 'Full Trajectories' or 'None')" << endl;
 	}
 #endif // CRPROPA_HAVE_ROOT
 	else {

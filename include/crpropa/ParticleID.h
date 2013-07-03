@@ -26,4 +26,4 @@ int convertToCRPropaId(int id);
 
 } // namespace crpropa
 
-#endif /* CRPROPA_PARTICLE_ID_H */
+#endif // CRPROPA_PARTICLE_ID_H

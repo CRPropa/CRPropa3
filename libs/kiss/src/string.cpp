@@ -6,8 +6,6 @@
 
 namespace kiss {
 
-#define SPACES " \t\r\n"
-
 std::string trim_right(const std::string &s, const std::string &t) {
 	std::string::size_type i(s.find_last_not_of(t));
 
@@ -21,9 +19,9 @@ std::string trim_left(const std::string &s, const std::string &t) {
 	return std::string(s, s.find_first_not_of(t));
 }
 
-std::string trim(const std::string &s, const std::string &t = SPACES) {
-	std::string::size_type a = s.find_first_not_of(t), b = s.find_last_not_of(
-			t);
+std::string trim(const std::string &s, const std::string &t) {
+	std::string::size_type a = s.find_first_not_of(t);
+	std::string::size_type b = s.find_last_not_of(t);
 
 	if (a == std::string::npos || b == std::string::npos)
 		return "";

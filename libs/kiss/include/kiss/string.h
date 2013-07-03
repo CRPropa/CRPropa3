@@ -7,10 +7,12 @@
 
 namespace kiss {
 
+#define SPACES " \t\r\n"
+
 std::string trim_right(const std::string &s, const std::string &t);
 std::string trim_left(const std::string &s, const std::string &t);
 
-std::string trim(const std::string &s, const std::string &t);
+std::string trim(const std::string &s, const std::string &t = SPACES);
 void explode(const std::string &s, std::vector<std::string> &v,
 		const bool trim_spaces, const std::string &t);
 std::string implode(const std::vector<std::string> &v, const std::string &t);

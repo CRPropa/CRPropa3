@@ -215,4 +215,4 @@ typedef Grid<float> ScalarGrid;
 
 } // namespace crpropa
 
-#endif /* CRPROPA_GRID_H */
+#endif // CRPROPA_GRID_H

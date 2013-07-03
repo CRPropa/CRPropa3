@@ -20,6 +20,7 @@
 #include "crpropa/ModuleList.h"
 
 #include "pugixml.hpp"
+#include "kiss/string.h"
 
 #include <fstream>
 #include <sstream>
@@ -642,7 +643,7 @@ void XmlExecute::loadOutput(xml_node &node) {
 	string format = file_node.attribute("type").as_string();
 	cout << "  - Filetype: " << format << endl;
 
-	string filename = node.child("File").child_value();
+	string filename = kiss::trim( node.child("File").child_value() );
 	cout << "  - Filename: " << filename << endl;
 
 	string option = node.child("File").attribute("option").as_string();

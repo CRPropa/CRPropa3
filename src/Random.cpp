@@ -388,21 +388,30 @@ struct RANDOM_TLS_ITEM {
 	char padding[80*64 - sizeof(Random)];
 };
 
-Random &Random::instance() {
 #ifdef _MSC_VER
-	__declspec(align(64)) static RANDOM_TLS_ITEM tls[MAX_THREAD];
+	__declspec(align(64)) static RANDOM_TLS_ITEM _tls[MAX_THREAD];
 #else
-	__attribute__ ((aligned(64))) static RANDOM_TLS_ITEM tls[MAX_THREAD];
+	__attribute__ ((aligned(64))) static RANDOM_TLS_ITEM _tls[MAX_THREAD];
 #endif
+
+Random &Random::instance() {
 	int i = omp_get_thread_num();
 	if (i >= MAX_THREAD)
 	throw std::runtime_error("crpropa::Random: more than MAX_THREAD threads!");
-	return tls[i].r;
+	return _tls[i].r;
+}
+
+void Random::seedThreads(const uint32 oneSeed) {
+	for(size_t i = 0; i < MAX_THREAD; ++i)
+		_tls[i].r.seed(oneSeed + i);
 }
 #else
+static Random _random;
 Random &Random::instance() {
-	static Random r;
-	return r;
+	return _random;
+}
+void Random::seedThreads(const uint32 oneSeed) {
+	_random.seed(oneSeed);
 }
 #endif
 

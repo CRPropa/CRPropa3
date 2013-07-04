@@ -166,7 +166,8 @@ public:
 	friend std::istream& operator>>( std::istream& is, Random& mtrand );
 
 	static Random &instance();
-
+	static void seedThreads(const uint32 oneSeed);
+	
 protected:
 	/// Initialize generator state with seed
 	/// See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.

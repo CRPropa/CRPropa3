@@ -68,7 +68,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	sighandler_t old_signal_handler = ::signal(SIGINT,
 			g_cancel_signal_callback);
 
-#pragma omp parallel for schedule(dynamic, 1000)
+#pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
 		if (!g_cancel_signal_flag)
 			run(candidates[i], recursive);
@@ -97,7 +97,7 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	sighandler_t old_signal_handler = ::signal(SIGINT,
 			g_cancel_signal_callback);
 
-#pragma omp parallel for schedule(dynamic, 1000)
+#pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
 		ref_ptr<Candidate> candidate = source->getCandidate();
 		if (!g_cancel_signal_flag)

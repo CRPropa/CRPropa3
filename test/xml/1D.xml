@@ -1,9 +1,9 @@
 <CRPropa>
 
-<TrajNumber value= "1000"/>
+<TrajNumber value= "100000"/>
 <MinEnergy_EeV value="1"/>
 <MaxTime_Mpc value="1000"/>
-<!--RandomSeed value=""/-->
+<RandomSeed value="457"/>
 <!--H0_km_s_Mpc value=0/-->
 
 <Output type="Events">

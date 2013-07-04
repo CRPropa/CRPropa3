@@ -152,8 +152,7 @@ bool XmlExecute::load(const string &filename) {
 	xml_node seed_node = root.child("RandomSeed");
 	if (seed_node) {
 		int seed = seed_node.attribute("value").as_int();
-		Random &random = Random::instance();
-		random.seed(seed);
+		Random::seedThreads(seed);
 		cout << "Random seed: " << seed << endl;
 	} else
 		cout << "No random seed given. Using random random seed." << endl;

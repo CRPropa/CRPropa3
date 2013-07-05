@@ -191,6 +191,10 @@ class SourceUniformBox: public SourceProperty {
 	Vector3d origin;
 	Vector3d size;
 public:
+	/** Constructor
+	 @param origin	lower box corner
+	 @param size	upper box corner
+	 */
 	SourceUniformBox(Vector3d origin, Vector3d size);
 	void prepare(ParticleState &particle) const;
 };
@@ -205,13 +209,14 @@ public:
  converting to a comoving distance.
  */
 class SourceUniform1D: public SourceProperty {
-	double minD; // minimum light travel distance [m]
-	double maxD; // maximum light travel distance [m]
+	double minD; // minimum light travel distance
+	double maxD; // maximum light travel distance
 	bool withCosmology;
 public:
-	/**
-	 @param minD	minimum comoving distance [m]
-	 @param maxD 	maximum comoving distance [m]
+	/** Constructor
+	 @param minD	minimum comoving distance
+	 @param maxD 	maximum comoving distance
+	 @param withCosmology	specify if universe expanding
 	 */
 	SourceUniform1D(double minD, double maxD, bool withCosmology=true);
 	void prepare(ParticleState& particle) const;

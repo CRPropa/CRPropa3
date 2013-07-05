@@ -11,8 +11,8 @@ namespace crpropa {
  */
 class Redshift: public Module {
 public:
-	Redshift();
 	void process(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 } // namespace crpropa

@@ -43,4 +43,4 @@ private:
 
 std::ostream &operator<<(std::ostream &out, const crpropa::ModuleList &list);
 
-#endif /* CRPROPA_MODULE_LIST_H */
+#endif // CRPROPA_MODULE_LIST_H

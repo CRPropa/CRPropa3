@@ -572,17 +572,30 @@ TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_IRB) {
 	EXPECT_FALSE(hasInteraction);
 }
 
-TEST(Redshift, test) {
+TEST(Redshift, simpleTest) {
+	// Test if redshift is decreased and adiabatic energy loss is applied.
+	Redshift redshift;
+
+	Candidate c;
+	c.setRedshift(0.024);
+	c.current.setEnergy(100 * EeV);
+	c.setCurrentStep(1 * Mpc);
+
+	redshift.process(&c);
+	EXPECT_GT(0.024, c.getRedshift()); // expect redshift decrease
+	EXPECT_GT(100, c.current.getEnergy() / EeV); // expect energy loss
+}
+
+TEST(Redshift, limitRedshiftDecrease) {
+	// Test if the redshift decrease is limited to z_updated >= 0.
 	Redshift redshift;
 
 	Candidate c;
 	c.setRedshift(0.024); // roughly corresponds to 100 Mpc
-	c.current.setEnergy(100 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(150 * Mpc);
 
 	redshift.process(&c);
-	EXPECT_GT(0.024, c.getRedshift());
-	EXPECT_GT(100, c.current.getEnergy() / EeV);
+	EXPECT_DOUBLE_EQ(0, c.getRedshift());
 }
 
 int main(int argc, char **argv) {

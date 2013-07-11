@@ -412,29 +412,62 @@ void XmlExecute::loadPeriodicBoundaries() {
 }
 
 void XmlExecute::loadSophia(xml_node &node) {
-	if (node.child("NoPairProd"))
-		cout << "  - No pair production" << endl;
-	else
-		modules.add(new ElectronPairProduction(CMB_IRB));
+	bool pairprodCMB = true;
+	bool pairprodIRB = true;
+	bool pionprodCMB = true;
+	bool pionprodIRB = true;
+	bool photodisCMB = true;
+	bool photodisIRB = true;
+	bool decay = true;
 
+	if (node.child("NoPairProd")) {
+		cout << "  - No pair production" << endl;
+		pairprodCMB = false;
+		pairprodIRB = false;
+	}
 	if (node.child("NoPionProd")) {
 		cout << "  - No pion production" << endl;
-	} else {
-		modules.add(new SophiaPhotoPionProduction(CMB));
-		if (!node.child("NoIRPionProd"))
-			modules.add(new SophiaPhotoPionProduction(IRB));
+		pionprodCMB = false;
+		pionprodIRB = false;
 	}
-
 	if (node.child("NoPhotodisintegration")) {
 		cout << "  - No photo disintegration" << endl;
-	} else {
-		modules.add(new PhotoDisintegration(CMB));
-		modules.add(new PhotoDisintegration(IRB));
+		photodisCMB = false;
+		photodisIRB = false;
+	}
+	if (node.child("NoIRO")) {
+		cout << "  - No interactions on IRB" << endl;
+		pairprodIRB = false;
+		pionprodIRB = false;
+		photodisIRB = false;
+	}
+	if (node.child("NoIRPionProd")) {
+		cout << "  - No pion production on IRB" << endl;
+		pionprodIRB = false;
+	}
+	if (node.child("NoDecay")) {
+		cout << "  - No decay" << endl;
+		decay = false;
 	}
 
-	if (node.child("NoDecay"))
-		cout << "  - No decay" << endl;
+	if (pairprodCMB and pairprodIRB)
+		modules.add(new ElectronPairProduction(CMB_IRB));
 	else
+		if (pairprodCMB)
+			modules.add(new ElectronPairProduction(CMB));
+
+	if (pionprodCMB)
+		modules.add(new SophiaPhotoPionProduction(CMB));
+	if (pionprodIRB)
+		modules.add(new SophiaPhotoPionProduction(IRB));
+
+	if (photodisCMB and photodisIRB)
+		modules.add(new PhotoDisintegration(CMB_IRB));
+	else
+		if (photodisCMB)
+			modules.add(new PhotoDisintegration(CMB));
+
+	if (decay)
 		modules.add(new NuclearDecay);
 }
 

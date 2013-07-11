@@ -8,4 +8,5 @@ syntax: regexp
 ^\.cproject$
 ^\.project$
 ^data/.*$
+^data-tools/.*$
 

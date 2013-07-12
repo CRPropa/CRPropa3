@@ -109,6 +109,9 @@ ref_ptr<SourceDensityGrid1D> loadSourceDensityGrid1D(pugi::xml_node &node) {
 	double spacing = childValue(node, "Step_Mpc") * Mpc;
 	cout << "  - Spacing = " << spacing / Mpc << " Mpc" << endl;
 
+	// convert to comoving spacing
+	spacing = lightTravel2ComovingDistance(spacing);
+
 	ref_ptr<ScalarGrid> grid = new ScalarGrid(Vector3d(0, 0, 0), nx, 1, 1,
 			spacing);
 
@@ -517,12 +520,12 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 			new SourceMultiplePositions();
 
 	xml_node density_node = node.child("Density");
-	if (density_node) { // draw positions from density distribution
+	if (density_node) {
+		// draw positions from density distribution
 		string type = density_node.attribute("type").as_string();
 		cout << "  - Density: " << type << endl;
-
 		int nSources = childValue(node, "Number");
-		cout << "  - Number = " << nSources << endl;
+		cout << "  - Number of sources = " << nSources << endl;
 
 		ref_ptr<SourceProperty> sourceDistribution = new SourceProperty();
 		if (type == "Uniform") {
@@ -550,16 +553,23 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 			cout << "  - Position = " << p.getPosition() / Mpc << " Mpc"
 					<< endl;
 		}
-	} else { // read individual positions from xml
+	} else {
+		// loop over point sources
 		for (xml_node n = node.child("PointSource"); n;
 				n = n.next_sibling("PointSource")) {
 			Vector3d pos(0.);
-			pos.x = childValue(n, "CoordX_Mpc") * Mpc;
-			if (not (is1D)) {
+			if (is1D) {
+				// 1D
+				double dlt = childValue(n, "CoordX_Mpc") * Mpc;
+				pos.x = lightTravel2ComovingDistance(dlt);
+				cout << "  - Light travel distance = " << dlt << " Mpc" << endl;
+			} else {
+				// 3D
+				pos.x = childValue(n, "CoordX_Mpc") * Mpc;
 				pos.y = childValue(n, "CoordY_Mpc") * Mpc;
 				pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
+				cout << "  - Position = " << pos / Mpc << " Mpc" << endl;
 			}
-			cout << "  - Position " << pos / Mpc << " Mpc" << endl;
 			sourcePositions->add(pos);
 		}
 	}
@@ -686,21 +696,22 @@ void XmlExecute::loadOutput(xml_node &node) {
 	}
 
 	if (format == "ASCII") {
-		if (type == "Full Trajectories")
+		if (type == "Full Trajectories") {
 			if (is1D)
 				modules.add(new CRPropa2TrajectoryOutput1D(filename));
 			else
 				modules.add(new CRPropa2TrajectoryOutput3D(filename));
-		else if (type == "Events")
+		} else if (type == "Events") {
 			if (is1D)
 				modules.add(new CRPropa2EventOutput1D(filename));
 			else
 				modules.add(new CRPropa2EventOutput3D(filename));
-		else if (type == "None")
+		} else if (type == "None") {
 			return;
-		else
+		} else {
 			cout << "  --> unknown output type "
 					<< "('Events', 'Full Trajectories' or 'None')" << endl;
+		}
 	}
 #ifdef CRPROPA_HAVE_ROOT
 	else if (format == "ROOT") {

@@ -1,4 +1,5 @@
 #include "crpropa/module/OutputCRPropa2.h"
+#include "crpropa/Cosmology.h"
 
 namespace crpropa {
 
@@ -6,10 +7,13 @@ CRPropa2EventOutput3D::CRPropa2EventOutput3D(std::string filename) {
 	setDescription("Event output in CRPropa2 format");
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
-			<< "#Format - Particle_Type Initial_Particle_Type "
+			<< "#Format - Particle_Type "
+			<< "Initial_Particle_Type "
 			<< "Initial_Position[X,Y,Z](Mpc) "
 			<< "Initial_Momentum[E(EeV),theta,phi] "
-			<< "Time(Mpc) Position[X,Y,Z](Mpc) Momentum[E(EeV),theta,phi]\n";
+			<< "Time(Mpc, light travel distance) "
+			<< "Position[X,Y,Z](Mpc) "
+			<< "Momentum[E(EeV),theta,phi]\n";
 }
 
 CRPropa2EventOutput3D::~CRPropa2EventOutput3D() {
@@ -37,7 +41,7 @@ void CRPropa2EventOutput3D::process(Candidate *c) const {
 	double iE = c->source.getEnergy() / EeV;
 	p += sprintf(buffer + p, "%.4f %.4f %.4f ", iE, iPhi, iTheta);
 
-	double t = c->getTrajectoryLength() / Mpc;
+	double t = comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc;
 	p += sprintf(buffer + p, "%.4f ", t);
 
 	const Vector3d &pos = c->current.getPosition() / Mpc;
@@ -59,8 +63,12 @@ CRPropa2TrajectoryOutput3D::CRPropa2TrajectoryOutput3D(std::string filename) {
 	setDescription("Trajectory output in CRPropa2 format");
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
-			<< "#Format - Particle_Type Initial_Particle_Type Time(Mpc) "
-			<< "Position[X,Y,Z](Mpc) Momentum[X(EeV),Y,Z] Energy(EeV)\n";
+			<< "#Format - Particle_Type "
+			<< "Initial_Particle_Type "
+			<< "Time(Mpc, light travel distance) "
+			<< "Position[X,Y,Z](Mpc) "
+			<< "Momentum[X(EeV),Y,Z] "
+			<< "Energy(EeV)\n";
 }
 
 CRPropa2TrajectoryOutput3D::~CRPropa2TrajectoryOutput3D() {
@@ -73,7 +81,9 @@ void CRPropa2TrajectoryOutput3D::process(Candidate *c) const {
 
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
-	p += sprintf(buffer + p, "%.4f ", c->getTrajectoryLength() / Mpc);
+
+	double t = comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc;
+	p += sprintf(buffer + p, "%.4f ", t);
 
 	const Vector3d &pos = c->current.getPosition() / Mpc;
 	p += sprintf(buffer + p, "%.4f %.4f %.4f ", pos.x, pos.y, pos.z);
@@ -94,7 +104,9 @@ CRPropa2TrajectoryOutput1D::CRPropa2TrajectoryOutput1D(std::string filename) {
 	setDescription("Trajectory output");
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
-			<< "#Format - Position(Mpc) Particle_Type Energy(EeV)\n";
+			<< "#Format - Position(Mpc) "
+			<< "Particle_Type "
+			<< "Energy(EeV)\n";
 }
 
 CRPropa2TrajectoryOutput1D::~CRPropa2TrajectoryOutput1D() {
@@ -120,7 +132,9 @@ CRPropa2EventOutput1D::CRPropa2EventOutput1D(std::string filename) {
 	setDescription("Conditional output, Filename: " + filename);
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
-			<< "#Format - Energy(EeV) Time(Mpc) Initial_Particle_Type "
+			<< "#Format - Energy(EeV) "
+			<< "Time(Mpc, light travel distance) "
+			<< "Initial_Particle_Type "
 			<< "Initial_Energy(EeV)\n";
 }
 
@@ -140,7 +154,8 @@ void CRPropa2EventOutput1D::process(Candidate *c) const {
 
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
 	p += sprintf(buffer + p, "%.4f ", c->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%.4f ", c->getTrajectoryLength() / Mpc);
+	double t = comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc;
+	p += sprintf(buffer + p, "%.4f ", t);
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
 	p += sprintf(buffer + p, "%.4f\n", c->source.getEnergy() / EeV);
 

@@ -1,5 +1,5 @@
 from pylab import *
-from mpc import *
+from crpropa import *
 from scipy import interpolate, integrate
 
 

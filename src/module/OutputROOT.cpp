@@ -11,7 +11,7 @@ ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
 			"CRPropa output data file");
 	Ntuple =
 			new TNtuple("events", "CRPropa 1D events",
-					"Particle_Type:Initial_Type:Initial_Position_Mpc:Inital_Redshift:Initial_Energy_EeV:Time_Mpc:Energy_EeV");
+					"Particle_Type:Initial_Type:Initial_Position_Mpc:Inital_Redshift:Initial_Energy_EeV:Energy_EeV");
 	TThread::UnLock();
 }
 
@@ -31,9 +31,11 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(c->current.getId(), c->source.getId(),
-				c->source.getPosition().getX() / Mpc, c->getRedshift(),
-				c->source.getEnergy() / EeV, c->getTrajectoryLength() / Mpc,
+		Ntuple->Fill(c->current.getId(),
+				c->source.getId(),
+				c->source.getPosition().getX() / Mpc,
+				c->source.getEnergy() / EeV,
+				c->getTrajectoryLength() / Mpc,
 				c->current.getEnergy() / EeV);
 	}
 	TThread::UnLock();
@@ -45,7 +47,6 @@ ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
-	//  Ntuple = new TNtuple("traj","CRPropa 1D trajectories","Particle_Type:Initial_Type:Time_Mpc:Position_Mpc:Energy_EeV");
 	Ntuple = new TNtuple("traj", "CRPropa 1D trajectories",
 			"Particle_Type:Initial_Type:Time_Mpc:Position_Mpc:Energy_EeV");
 	TThread::UnLock();
@@ -139,14 +140,16 @@ void ROOTTrajectoryOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(c->current.getId(), c->source.getId(),
+		Ntuple->Fill(c->current.getId(),
+				c->source.getId(),
 				c->getTrajectoryLength() / Mpc,
 				c->current.getPosition().getX() / Mpc,
 				c->current.getPosition().getY() / Mpc,
 				c->current.getPosition().getZ() / Mpc,
 				c->current.getDirection().getX(),
 				c->current.getDirection().getY(),
-				c->current.getDirection().getZ(), c->current.getEnergy() / EeV);
+				c->current.getDirection().getZ(),
+				c->current.getEnergy() / EeV);
 	}
 	TThread::UnLock();
 }

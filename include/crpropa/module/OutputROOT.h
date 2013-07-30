@@ -11,58 +11,58 @@
 namespace crpropa {
 
 /**
- @class ROOTEventOutput1D
+ @class CRPropa2ROOTEventOutput1D
  @brief Records particles that are inactive and have the property 'Detected' to a ROOT file.
  */
-class ROOTEventOutput1D: public Module {
+class CRPropa2ROOTEventOutput1D: public Module {
 	mutable TFile *ROOTFile;
 	mutable TNtuple *Ntuple;
 
 public:
-	ROOTEventOutput1D(std::string filename);
-	~ROOTEventOutput1D();
+	CRPropa2ROOTEventOutput1D(std::string filename);
+	~CRPropa2ROOTEventOutput1D();
 	void process(Candidate *candidate) const;
 };
 
 /**
- @class ROOTTrajectoryOutput1D
+ @class CRPropa2ROOTTrajectoryOutput1D
  @brief Saves trajectories to root file.
  */
-class ROOTTrajectoryOutput1D: public Module {
+class CRPropa2ROOTTrajectoryOutput1D: public Module {
 	mutable TFile *ROOTFile;
 	mutable TNtuple *Ntuple;
 
 public:
-	ROOTTrajectoryOutput1D(std::string filename);
-	~ROOTTrajectoryOutput1D();
+	CRPropa2ROOTTrajectoryOutput1D(std::string filename);
+	~CRPropa2ROOTTrajectoryOutput1D();
 	void process(Candidate *candidate) const;
 };
 
 /**
- @class ROOTEventOutput3D
+ @class CRPropa2ROOTEventOutput3D
  @brief Records particles that have the property 'Detected' to a ROOT file in 3D.
  */
-class ROOTEventOutput3D: public Module {
+class CRPropa2ROOTEventOutput3D: public Module {
 	mutable TFile *ROOTFile;
 	mutable TNtuple *Ntuple;
 
 public:
-	ROOTEventOutput3D(std::string filename);
-	~ROOTEventOutput3D();
+	CRPropa2ROOTEventOutput3D(std::string filename);
+	~CRPropa2ROOTEventOutput3D();
 	void process(Candidate *candidate) const;
 };
 
 /**
- @class ROOTTrajectoryOutput3D
+ @class CRPropa2ROOTTrajectoryOutput3D
  @brief Saves trajectories to root file in 3D.
  */
-class ROOTTrajectoryOutput3D: public Module {
+class CRPropa2ROOTTrajectoryOutput3D: public Module {
 	mutable TFile *ROOTFile;
 	mutable TNtuple *Ntuple;
 
 public:
-	ROOTTrajectoryOutput3D(std::string filename);
-	~ROOTTrajectoryOutput3D();
+	CRPropa2ROOTTrajectoryOutput3D(std::string filename);
+	~CRPropa2ROOTTrajectoryOutput3D();
 	void process(Candidate *candidate) const;
 };
 

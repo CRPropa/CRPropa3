@@ -41,16 +41,16 @@ TEST(CRPropa2EventOutput1D, removeProperty) {
 }
 
 #ifdef CRPROPA_HAVE_ROOT
-TEST(ROOTEventOutput3D, removeProperty) {
-	ROOTEventOutput3D output("");
+TEST(CRPropa2ROOTEventOutput3D, removeProperty) {
+	CRPropa2ROOTEventOutput3D output("");
 	Candidate c;
 	c.setProperty("Dected", "");
 	output.process(&c);
 	EXPECT_FALSE(c.hasProperty("Detected"));
 }
 
-TEST(ROOTEventOutput1D, removeProperty) {
-	ROOTEventOutput1D output("");
+TEST(CRPropa2ROOTEventOutput1D, removeProperty) {
+	CRPropa2ROOTEventOutput1D output("");
 	Candidate c;
 	c.setProperty("Dected", "");
 	output.process(&c);

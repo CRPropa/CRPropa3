@@ -717,14 +717,14 @@ void XmlExecute::loadOutput(xml_node &node) {
 	else if (format == "ROOT") {
 		if (type == "Full Trajectories")
 		if (is1D)
-		modules.add(new ROOTTrajectoryOutput1D(filename));
+		modules.add(new CRPropa2ROOTTrajectoryOutput1D(filename));
 		else
-		modules.add(new ROOTTrajectoryOutput3D(filename));
+		modules.add(new CRPropa2ROOTTrajectoryOutput3D(filename));
 		else if (type == "Events")
 		if (is1D)
-		modules.add(new ROOTEventOutput1D(filename));
+		modules.add(new CRPropa2ROOTEventOutput1D(filename));
 		else
-		modules.add(new ROOTEventOutput3D(filename));
+		modules.add(new CRPropa2ROOTEventOutput3D(filename));
 		else if (type == "None")
 		return;
 		else

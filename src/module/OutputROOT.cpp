@@ -4,8 +4,8 @@
 
 namespace crpropa {
 
-/////////////////////// ROOT EVENT OUTPUT 1D //////////////////////////////////
-ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
+/////////////////////// CRPropa2ROOT EVENT OUTPUT 1D //////////////////////////////////
+CRPropa2ROOTEventOutput1D::CRPropa2ROOTEventOutput1D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -15,14 +15,14 @@ ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-ROOTEventOutput1D::~ROOTEventOutput1D() {
+CRPropa2ROOTEventOutput1D::~CRPropa2ROOTEventOutput1D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
 	TThread::UnLock();
 }
 
-void ROOTEventOutput1D::process(Candidate *c) const {
+void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
 	if (not (c->hasProperty("Detected")))
 		return;
 
@@ -42,8 +42,8 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////// ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
-ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
+/////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
+CRPropa2ROOTTrajectoryOutput1D::CRPropa2ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -52,14 +52,14 @@ ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-ROOTTrajectoryOutput1D::~ROOTTrajectoryOutput1D() {
+CRPropa2ROOTTrajectoryOutput1D::~CRPropa2ROOTTrajectoryOutput1D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
 	TThread::UnLock();
 }
 
-void ROOTTrajectoryOutput1D::process(Candidate *c) const {
+void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
@@ -72,8 +72,8 @@ void ROOTTrajectoryOutput1D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////// ROOT EVENT OUTPUT 3D //////////////////////////////////
-ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
+/////////////////////// CRPropa2ROOT EVENT OUTPUT 3D //////////////////////////////////
+CRPropa2ROOTEventOutput3D::CRPropa2ROOTEventOutput3D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -83,14 +83,14 @@ ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-ROOTEventOutput3D::~ROOTEventOutput3D() {
+CRPropa2ROOTEventOutput3D::~CRPropa2ROOTEventOutput3D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
 	TThread::UnLock();
 }
 
-void ROOTEventOutput3D::process(Candidate *c) const {
+void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
 	if (not (c->hasProperty("Detected")))
 		return;
 
@@ -118,8 +118,8 @@ void ROOTEventOutput3D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////// ROOT TRAJECTORY OUTPUT 3D //////////////////////////////
-ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
+/////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 3D //////////////////////////////
+CRPropa2ROOTTrajectoryOutput3D::CRPropa2ROOTTrajectoryOutput3D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -129,14 +129,14 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-ROOTTrajectoryOutput3D::~ROOTTrajectoryOutput3D() {
+CRPropa2ROOTTrajectoryOutput3D::~CRPropa2ROOTTrajectoryOutput3D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
 	TThread::UnLock();
 }
 
-void ROOTTrajectoryOutput3D::process(Candidate *c) const {
+void CRPropa2ROOTTrajectoryOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{

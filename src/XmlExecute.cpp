@@ -222,11 +222,11 @@ bool XmlExecute::load(const string &filename) {
 
 			double omegaL = 0.7;
 			if (root.child("OmegaLambda"))
-				childValue(root, "OmegaLambda");
+				omegaL = childValue(root, "OmegaLambda");
 
 			double H0 = 70.;
 			if (root.child("H0_km_s_Mpc"))
-				childValue(root, "H0_km_s_Mpc");
+				H0 = childValue(root, "H0_km_s_Mpc");
 
 			cout << "Cosmology: OmegaM = " << omegaM << ", OmegaLambda = "
 					<< 1 - omegaM << ", H0 = " << H0 << " km/s/Mpc" << endl;
@@ -562,7 +562,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 				// 1D
 				double dlt = childValue(n, "CoordX_Mpc") * Mpc;
 				pos.x = lightTravel2ComovingDistance(dlt);
-				cout << "  - Light travel distance = " << dlt << " Mpc" << endl;
+				cout << "  - Light travel distance = " << dlt / Mpc << " Mpc" << endl;
 			} else {
 				// 3D
 				pos.x = childValue(n, "CoordX_Mpc") * Mpc;

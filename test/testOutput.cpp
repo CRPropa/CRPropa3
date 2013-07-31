@@ -55,5 +55,6 @@ TEST(CRPropa2ROOTEventOutput1D, removeProperty) {
 	c.setProperty("Dected", "");
 	output.process(&c);
 	EXPECT_FALSE(c.hasProperty("Detected"));
+
 }
 #endif

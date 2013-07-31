@@ -117,7 +117,7 @@ void CRPropa2TrajectoryOutput1D::process(Candidate *c) const {
 	char buffer[256];
 	size_t p = 0;
 
-	p += sprintf(buffer + p, "%.4f ", c->current.getPosition().x / Mpc);
+	p += sprintf(buffer + p, "%.4f ", comoving2LightTravelDistance(c->current.getPosition().x) / Mpc);
 	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
 	p += sprintf(buffer + p, "%.4f\n", c->current.getEnergy() / EeV);
 

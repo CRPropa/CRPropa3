@@ -5,7 +5,7 @@
 
 namespace crpropa {
 
-/////////////////////// CRPropa2ROOT EVENT OUTPUT 1D //////////////////////////////////
+/////////////////////// CRPropa2ROOT EVENT OUTPUT 1D ///////////////////////////
 CRPropa2ROOTEventOutput1D::CRPropa2ROOTEventOutput1D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -33,7 +33,7 @@ void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
 	{
 	  Ntuple->Fill(convertToCRPropaId(c->current.getId()),
 		       convertToCRPropaId(c->source.getId()),
-		       comoving2LightTravelDistance(c->source.getPosition().getX() / Mpc),
+		       comoving2LightTravelDistance(c->source.getPosition().x) / Mpc,
 		       c->source.getEnergy() / EeV,
 		       c->current.getEnergy() / EeV);
 	}
@@ -41,8 +41,7 @@ void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
+/////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 1D //////////////////////
 CRPropa2ROOTTrajectoryOutput1D::CRPropa2ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -65,21 +64,20 @@ void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
 	{
 	  Ntuple->Fill(convertToCRPropaId(c->current.getId()), 
 		       convertToCRPropaId(c->source.getId()),
-		       comoving2LightTravelDistance(c->current.getPosition().getX() / Mpc),
+		       comoving2LightTravelDistance(c->current.getPosition().x) / Mpc,
 		       c->current.getEnergy() / EeV);
 	}
 	TThread::UnLock();
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////// CRPropa2ROOT EVENT OUTPUT 3D //////////////////////////////////
+/////////////////////// CRPropa2ROOT EVENT OUTPUT 3D ///////////////////////////
 CRPropa2ROOTEventOutput3D::CRPropa2ROOTEventOutput3D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa 2 output data file");
-	Ntuple =
-			new TNtuple("events", "CRPropa 3D events",
-					"Particle_Type:Initial_Type:Initial_Position_X_Mpc:Initial_Position_Y_Mpc:Initial_Position_Z_Mpc:Initial_Momentum_E_EeV:Initial_Momentum_theta:Initial_Momentum_phi:Time_Mpc:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Momentum_E_EeV:Momentum_theta:Momentum_phi");
+	Ntuple = new TNtuple("events", "CRPropa 3D events",
+			"Particle_Type:Initial_Type:Initial_Position_X_Mpc:Initial_Position_Y_Mpc:Initial_Position_Z_Mpc:Initial_Momentum_E_EeV:Initial_Momentum_theta:Initial_Momentum_phi:Time_Mpc:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Momentum_E_EeV:Momentum_theta:Momentum_phi");
 	TThread::UnLock();
 }
 
@@ -96,21 +94,23 @@ void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
 
 	c->removeProperty("Detected");
 
+	Vector3d ipos = c->source.getPosition();
+	Vector3d pos = c->current.getPosition();
 	TThread::Lock();
 #pragma omp critical
 	{
-	  Ntuple->Fill(convertToCRPropaId(c->current.getId()), 
+		Ntuple->Fill(convertToCRPropaId(c->current.getId()),
 		       convertToCRPropaId(c->source.getId()),
-		       comoving2LightTravelDistance(c->source.getPosition().getX() / Mpc),
-		       comoving2LightTravelDistance(c->source.getPosition().getY() / Mpc),
-		       comoving2LightTravelDistance(c->source.getPosition().getZ() / Mpc),
+		       comoving2LightTravelDistance(ipos.x) / Mpc,
+		       comoving2LightTravelDistance(ipos.y) / Mpc,
+		       comoving2LightTravelDistance(ipos.z) / Mpc,
 		       c->source.getEnergy() / EeV,
 		       c->source.getDirection().getTheta(),
 		       c->source.getDirection().getPhi(),
-		       comoving2LightTravelDistance(c->getTrajectoryLength() / Mpc),
-		       comoving2LightTravelDistance(c->current.getPosition().getX() / Mpc),
-		       comoving2LightTravelDistance(c->current.getPosition().getY() / Mpc),
-		       comoving2LightTravelDistance(c->current.getPosition().getZ() / Mpc),
+		       comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc,
+		       comoving2LightTravelDistance(pos.x) / Mpc,
+		       comoving2LightTravelDistance(pos.y) / Mpc,
+		       comoving2LightTravelDistance(pos.z) / Mpc,
 		       c->current.getEnergy() / EeV,
 		       c->current.getDirection().getTheta(),
 		       c->current.getDirection().getPhi());
@@ -119,14 +119,13 @@ void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 3D //////////////////////////////
+/////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 3D //////////////////////
 CRPropa2ROOTTrajectoryOutput3D::CRPropa2ROOTTrajectoryOutput3D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa 2 output data file");
-	Ntuple =
-			new TNtuple("traj", "CRPropa 3D trajectories",
-					"Particle_Type:Initial_Type:Time_Mpc:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Direction_X:Direction_Y:Direction_Z:Energy_EeV");
+	Ntuple = new TNtuple("traj", "CRPropa 3D trajectories",
+			"Particle_Type:Initial_Type:Time_Mpc:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Direction_X:Direction_Y:Direction_Z:Energy_EeV");
 	TThread::UnLock();
 }
 
@@ -138,27 +137,25 @@ CRPropa2ROOTTrajectoryOutput3D::~CRPropa2ROOTTrajectoryOutput3D() {
 }
 
 void CRPropa2ROOTTrajectoryOutput3D::process(Candidate *c) const {
+	Vector3d pos = c->current.getPosition();
+	Vector3d dir = c->current.getDirection();
 	TThread::Lock();
 #pragma omp critical
 	{
 		Ntuple->Fill(c->current.getId(),
 			     c->source.getId(),
-			     comoving2LightTravelDistance(c->getTrajectoryLength() / Mpc),
-			     comoving2LightTravelDistance(c->current.getPosition().getX() / Mpc),
-			     comoving2LightTravelDistance(c->current.getPosition().getY() / Mpc),
-			     comoving2LightTravelDistance(c->current.getPosition().getZ() / Mpc),
-			     c->current.getDirection().getX(),
-			     c->current.getDirection().getY(),
-			     c->current.getDirection().getZ(),
+			     comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc,
+			     comoving2LightTravelDistance(pos.x) / Mpc,
+			     comoving2LightTravelDistance(pos.y) / Mpc,
+			     comoving2LightTravelDistance(pos.z) / Mpc,
+			     dir.x,
+			     dir.y,
+			     dir.z,
 			     c->current.getEnergy() / EeV);
 	}
 	TThread::UnLock();
 }
 ////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 /////////////////////// ROOT EVENT OUTPUT 1D //////////////////////////////////
 ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
@@ -166,7 +163,7 @@ ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
 	Ntuple = new TNtuple("events", "CRPropa 1D events",
-	 		     "Particle_Type:Energy_EeV:TrajectoryLength_Mpc:Initial_Type:Initial_Energy_EeV");
+			"Particle_Type:Energy_EeV:TrajectoryLength_Mpc:Initial_Type:Initial_Energy_EeV");
 	TThread::UnLock();
 }
 
@@ -197,7 +194,6 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-
 /////////////////////// ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
 ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::Lock();
@@ -227,13 +223,14 @@ void ROOTTrajectoryOutput1D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////// ROOT EVENT OUTPUT 3D //////////////////////////////////
+/////////////////////// ROOT EVENT OUTPUT 3D ///////////////////////////////////
 ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
 	Ntuple = new TNtuple("events", "CRPropa 3D events",
-			     "TrajectoryLength_Mpc:Particle_Type:Initial_Type:Momentum_E_EeV:Initial_Momentum_E_EeV:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Initial_Position_X_Mpc:Initial_Position_Y_Mpc:Initial_Position_Z_Mpc:Direction_X_Mpc:Direction_Y_Mpc:Direction_Z_Mpc:Initial_Direction_X_Mpc:Initial_Direction_Y_Mpc:Initial_Direction_Z_Mpc");
+			"TrajectoryLength_Mpc:Particle_Type:Initial_Type:Momentum_E_EeV:Initial_Momentum_E_EeV:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Initial_Position_X_Mpc:Initial_Position_Y_Mpc:Initial_Position_Z_Mpc:Direction_X_Mpc:Direction_Y_Mpc:Direction_Z_Mpc");
+			// Initial_Direction_X_Mpc:Initial_Direction_Y_Mpc:Initial_Direction_Z_Mpc
 	TThread::UnLock();
 }
 
@@ -253,23 +250,23 @@ void ROOTEventOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-	  // Ntuple->Fill(c->getTrajectoryLength() / Mpc,
-	  // 	       c->current.getId(),
-	  // 	       c->source.getId(),
-	  // 	       c->current.getEnergy() / EeV,
-	  // 	       c->source.getEnergy() / EeV,
-	  // 	       c->current.getPosition().getX() / Mpc,
-	  // 	       c->current.getPosition().getY() / Mpc,
-	  // 	       c->current.getPosition().getZ() / Mpc,
-	  // 	       c->source.getPosition().getX() / Mpc,
-	  // 	       c->source.getPosition().getY() / Mpc,
-	  // 	       c->source.getPosition().getZ() / Mpc,
-	  // 	       c->current.getDirection().getX() / Mpc,
-	  // 	       c->current.getDirection().getY() / Mpc,
-	  // 	       c->current.getDirection().getZ() / Mpc,
-	  // 	       c->source.getDirection().getX() / Mpc,
-	  // 	       c->source.getDirection().getY() / Mpc,
-	  // 	       c->source.getDirection().getZ() / Mpc);
+	   Ntuple->Fill(c->getTrajectoryLength() / Mpc,   // TrajectoryLength_Mpc
+	   	       c->current.getId(),                    // Particle_Type
+	   	       c->source.getId(),                     // Initial_Type
+			   c->current.getEnergy() / EeV,          // Momentum_E_EeV
+	   	       c->source.getEnergy() / EeV,           // Initial_Momentum_E_EeV
+	   	       c->current.getPosition().x / Mpc, // Position_X_Mpc
+	   	       c->current.getPosition().y / Mpc, // Position_Y_Mpc
+	   	       c->current.getPosition().z / Mpc, // Position_Z_Mpc
+	   	       c->source.getPosition().x / Mpc,  // Initial_Position_X_Mpc
+	   	       c->source.getPosition().y / Mpc,  // Initial_Position_Y_Mpc
+	   	       c->source.getPosition().z / Mpc,  // Initial_Position_Z_Mpc
+	   	       c->current.getDirection().x,      // Direction_X_Mpc
+	   	       c->current.getDirection().y,      // Direction_Y_Mpc
+	   	       c->current.getDirection().z);      // Direction_Z_Mpc
+//	   	       c->source.getDirection().x,       // Initial_Direction_X_Mpc
+//	   	       c->source.getDirection().y,       // Initial_Direction_Y_Mpc
+//	   	       c->source.getDirection().z);      // Initial_Direction_Z_Mpc
 	}
 	TThread::UnLock();
 }
@@ -281,7 +278,7 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
 	Ntuple = new TNtuple("traj", "CRPropa 3D trajectories",
-			     "TrajectoryLength_Mpc:Particle_Type:Energy_EeV:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Direction_X_Mpc:Direction_Y_Mpc:Direction_Z_Mpc");
+			"TrajectoryLength_Mpc:Particle_Type:Energy_EeV:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Direction_X_Mpc:Direction_Y_Mpc:Direction_Z_Mpc");
 	TThread::UnLock();
 }
 
@@ -299,18 +296,17 @@ void ROOTTrajectoryOutput3D::process(Candidate *c) const {
 	  Ntuple->Fill(c->getTrajectoryLength() / Mpc,
 		       c->current.getId(),
 		       c->current.getEnergy() / EeV,
-		       c->current.getPosition().getX() / Mpc,
-		       c->current.getPosition().getY() / Mpc,
-		       c->current.getPosition().getZ() / Mpc,
-		       c->current.getDirection().getX(),
-		       c->current.getDirection().getY(),
-		       c->current.getDirection().getZ());
+		       c->current.getPosition().x / Mpc,
+		       c->current.getPosition().y / Mpc,
+		       c->current.getPosition().z / Mpc,
+		       c->current.getDirection().x,
+		       c->current.getDirection().y,
+		       c->current.getDirection().z);
 	}
 	TThread::UnLock();
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-
-}// namespace crpropa
+} // namespace crpropa
 
 #endif // CRPROPA_HAVE_ROOT

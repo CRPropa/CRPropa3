@@ -7,11 +7,12 @@ namespace crpropa {
 
 /////////////////////// CRPropa2ROOT EVENT OUTPUT 1D ///////////////////////////
 CRPropa2ROOTEventOutput1D::CRPropa2ROOTEventOutput1D(std::string filename) {
+	setDescription("CRPropa2ROOTEventOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa 2 output data file");
 	Ntuple = new TNtuple("events", "CRPropa 1D events",
-			     "Particle_Type:Initial_Type:Initial_Position_Mpc:Initial_Energy_EeV:Energy_EeV");
+			"Particle_Type:Initial_Type:Initial_Position_Mpc:Initial_Energy_EeV:Energy_EeV");
 	TThread::UnLock();
 }
 
@@ -43,6 +44,7 @@ void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
 
 /////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 1D //////////////////////
 CRPropa2ROOTTrajectoryOutput1D::CRPropa2ROOTTrajectoryOutput1D(std::string filename) {
+	setDescription("CRPropa2ROOTTrajectoryOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa 2 output data file");
@@ -73,6 +75,7 @@ void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
 
 /////////////////////// CRPropa2ROOT EVENT OUTPUT 3D ///////////////////////////
 CRPropa2ROOTEventOutput3D::CRPropa2ROOTEventOutput3D(std::string filename) {
+	setDescription("CRPropa2ROOTEventOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa 2 output data file");
@@ -121,6 +124,7 @@ void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
 
 /////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 3D //////////////////////
 CRPropa2ROOTTrajectoryOutput3D::CRPropa2ROOTTrajectoryOutput3D(std::string filename) {
+	setDescription("CRPropa2ROOTTrajectoryOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa 2 output data file");
@@ -159,6 +163,7 @@ void CRPropa2ROOTTrajectoryOutput3D::process(Candidate *c) const {
 
 /////////////////////// ROOT EVENT OUTPUT 1D //////////////////////////////////
 ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
+	setDescription("ROOTEventOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -196,6 +201,7 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 
 /////////////////////// ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
 ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
+	setDescription("ROOTTrajectoryOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -225,6 +231,7 @@ void ROOTTrajectoryOutput1D::process(Candidate *c) const {
 
 /////////////////////// ROOT EVENT OUTPUT 3D ///////////////////////////////////
 ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
+	setDescription("ROOTEventOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
@@ -274,6 +281,7 @@ void ROOTEventOutput3D::process(Candidate *c) const {
 
 /////////////////////// ROOT TRAJECTORY OUTPUT 3D //////////////////////////////
 ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
+	setDescription("ROOTTrajectoryOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");

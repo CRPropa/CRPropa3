@@ -3,7 +3,10 @@
 namespace crpropa {
 
 void StochasticInteraction::process(Candidate* candidate) const {
-	double step = candidate->getCurrentStep();
+	// interaction distances are in physical distances --> get physical step size: dx = dx_comoving / (1 + z)
+	double z = candidate->getRedshift();
+	double step = candidate->getCurrentStep() / (1 + z);
+
 	while (step >= 0) {
 		// get the interaction state, if there is one
 		InteractionState interaction;
@@ -20,7 +23,7 @@ void StochasticInteraction::process(Candidate* candidate) const {
 		// if interaction distance not reached, reduce it and return
 		if (interaction.distance > step) {
 			interaction.distance -= step;
-			candidate->limitNextStep(interaction.distance);
+			candidate->limitNextStep(interaction.distance * (1 + z));
 			candidate->setInteractionState(getDescription(), interaction);
 			return;
 		}

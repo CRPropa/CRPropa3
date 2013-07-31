@@ -66,7 +66,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	int A = candidate->current.getMassNumber();
 	int Z = candidate->current.getChargeNumber();
 	int N = A - Z;
-	double EpA = E / A * (1 + z); // CMB energies increase with (1+z)^3
+	double EpA = E / A * (1 + z); // CMB photon energies increase with (1+z)
 
 	// check if out of energy range
 	if ((EpA < energy.front()) or (EpA > energy.back()))
@@ -111,9 +111,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	}
 
 	// interaction length is proportional to 1 / (photon density)
-	interaction.distance /= photonFieldScaling(photonField, z);
-	// convert to comoving frame
-	interaction.distance *= (1 + z);
+	interaction.distance /= photonDensityScaling(photonField, z);
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;

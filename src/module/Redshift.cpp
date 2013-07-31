@@ -19,7 +19,7 @@ void Redshift::process(Candidate *c) const {
 	// update redshift
 	c->setRedshift(z - dz);
 
-	// adiabatic energy loss: dE / dz = E/(1+z)
+	// adiabatic energy loss: dE / dz = E / (1+z)
 	double E = c->current.getEnergy();
 	c->current.setEnergy(E * (1 - dz / (1 + z)));
 }

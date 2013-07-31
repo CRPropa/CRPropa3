@@ -81,11 +81,11 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	else
 		rate = lossRate.back() * pow(EpA / energy.back(), 0.4); // extrapolation
 
-		// step size in local frame
+	// convert step size to local frame: dx = dx_com / (1 + z)
 	double step = candidate->getCurrentStep() / (1 + z);
 
 	// dE(E) = Z^2 * loss_rate(E/A) * step
-	double dE = Z * Z * rate * photonFieldScaling(photonField, z) * step;
+	double dE = Z * Z * rate * photonDensityScaling(photonField, z) * step;
 
 	// prevent the energy loss from exceeding the actual energy
 	dE = std::min(E, dE);

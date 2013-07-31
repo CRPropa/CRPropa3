@@ -9,7 +9,7 @@ enum PhotonField {
 };
 
 // Returns overall photon field scaling factor at redshift z
-double photonFieldScaling(int photonField, double z);
+double photonDensityScaling(int photonField, double z);
 
 } // namespace crpropa
 

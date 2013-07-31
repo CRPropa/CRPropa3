@@ -81,8 +81,6 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate,
 
 	// special relativistic time dilation
 	interaction.distance *= candidate->current.getLorentzFactor();
-	// convert to comoving frame
-	interaction.distance *= (1 + candidate->getRedshift());
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;

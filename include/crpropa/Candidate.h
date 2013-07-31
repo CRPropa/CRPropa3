@@ -24,7 +24,7 @@ struct InteractionState {
 			distance(distance), channel(channel) {
 
 	}
-	double distance; /**< Free distance of the interaction in [m] comoving units */
+	double distance; /**< Free distance of the interaction in [m] as light travel distance */
 	int channel; /**< Interaction ID */
 };
 

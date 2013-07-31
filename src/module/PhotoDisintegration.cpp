@@ -103,9 +103,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 	}
 
 	// interaction length is proportional to 1 / (photon density)
-	interaction.distance /= photonFieldScaling(photonField, z);
-	// convert to comoving frame
-	interaction.distance *= (1 + z);
+	interaction.distance /= photonDensityScaling(photonField, z);
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;

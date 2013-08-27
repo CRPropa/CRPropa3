@@ -21,8 +21,8 @@ int chargeNumberFromNucleusId(int id);
 int massNumberFromNucleusId(int id);
 
 /* CRPropa2.0 code scheme */
-int convertFromCRPropaId(int id);
-int convertToCRPropaId(int id);
+int convertFromCRPropa2NucleusId(int id);
+int convertToCRPropa2NucleusId(int id);
 
 } // namespace crpropa
 

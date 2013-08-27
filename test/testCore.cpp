@@ -210,8 +210,8 @@ TEST(common, interpolateEquidistant) {
 
 TEST(NucleusId, crpropaScheme) {
 	// test conversion to and from the CRPropa2 naming scheme
-	EXPECT_EQ(nucleusId(56, 26), convertFromCRPropaId(26056));
-	EXPECT_EQ(26056, convertToCRPropaId(nucleusId(56, 26)));
+	EXPECT_EQ(nucleusId(56, 26), convertFromCRPropa2NucleusId(26056));
+	EXPECT_EQ(26056, convertToCRPropa2NucleusId(nucleusId(56, 26)));
 }
 
 TEST(Random, seed) {

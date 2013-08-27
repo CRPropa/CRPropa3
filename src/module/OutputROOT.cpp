@@ -32,8 +32,8 @@ void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-	  Ntuple->Fill(convertToCRPropaId(c->current.getId()),
-		       convertToCRPropaId(c->source.getId()),
+	  Ntuple->Fill(convertToCRPropa2NucleusId(c->current.getId()),
+		       convertToCRPropa2NucleusId(c->source.getId()),
 		       comoving2LightTravelDistance(c->source.getPosition().x) / Mpc,
 		       c->source.getEnergy() / EeV,
 		       c->current.getEnergy() / EeV);
@@ -64,8 +64,8 @@ void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-	  Ntuple->Fill(convertToCRPropaId(c->current.getId()), 
-		       convertToCRPropaId(c->source.getId()),
+	  Ntuple->Fill(convertToCRPropa2NucleusId(c->current.getId()), 
+		       convertToCRPropa2NucleusId(c->source.getId()),
 		       comoving2LightTravelDistance(c->current.getPosition().x) / Mpc,
 		       c->current.getEnergy() / EeV);
 	}
@@ -102,8 +102,8 @@ void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(convertToCRPropaId(c->current.getId()),
-		       convertToCRPropaId(c->source.getId()),
+		Ntuple->Fill(convertToCRPropa2NucleusId(c->current.getId()),
+		       convertToCRPropa2NucleusId(c->source.getId()),
 		       comoving2LightTravelDistance(ipos.x) / Mpc,
 		       comoving2LightTravelDistance(ipos.y) / Mpc,
 		       comoving2LightTravelDistance(ipos.z) / Mpc,

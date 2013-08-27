@@ -30,8 +30,8 @@ void CRPropa2EventOutput3D::process(Candidate *c) const {
 	char buffer[256]; // max. 256 characters per line
 	size_t p = 0; // length of line
 
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->current.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->source.getId()));
 
 	const Vector3d &ipos = c->source.getPosition() / Mpc;
 	p += sprintf(buffer + p, "%.4f %.4f %.4f ", ipos.x, ipos.y, ipos.z);
@@ -79,8 +79,8 @@ void CRPropa2TrajectoryOutput3D::process(Candidate *c) const {
 	char buffer[256];
 	size_t p = 0;
 
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->current.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->source.getId()));
 
 	double t = comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc;
 	p += sprintf(buffer + p, "%.4f ", t);
@@ -118,7 +118,7 @@ void CRPropa2TrajectoryOutput1D::process(Candidate *c) const {
 	size_t p = 0;
 
 	p += sprintf(buffer + p, "%.4f ", comoving2LightTravelDistance(c->current.getPosition().x) / Mpc);
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->current.getId()));
 	p += sprintf(buffer + p, "%.4f\n", c->current.getEnergy() / EeV);
 
 #pragma omp critical
@@ -152,11 +152,11 @@ void CRPropa2EventOutput1D::process(Candidate *c) const {
 	char buffer[256];
 	size_t p = 0;
 
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->current.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->current.getId()));
 	p += sprintf(buffer + p, "%.4f ", c->current.getEnergy() / EeV);
 	double t = comoving2LightTravelDistance(c->getTrajectoryLength()) / Mpc;
 	p += sprintf(buffer + p, "%.4f ", t);
-	p += sprintf(buffer + p, "%i ", convertToCRPropaId(c->source.getId()));
+	p += sprintf(buffer + p, "%i ", convertToCRPropa2NucleusId(c->source.getId()));
 	p += sprintf(buffer + p, "%.4f\n", c->source.getEnergy() / EeV);
 
 #pragma omp critical

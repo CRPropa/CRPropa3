@@ -9,6 +9,7 @@ CRPropa is configured using CMAKE - for more information see www.cmake.org
 5) >> make test [to run all unit tests when gtest is available]
 7) >> make install
 
+The install path can be set with -DCMAKE_INSTALL_PREFIX=/my/path or with the option browser when using ccmake.
 Notes for Intel Compiler:
   use -DCMAKE_SHARED_LINKER_FLAGS="-lifcore" -DCMAKE_Fortran_COMPILER=ifort
 

@@ -1,7 +1,9 @@
 #include "crpropa/ParticleState.h"
 
 #include <HepPID/ParticleIDMethods.hh>
+
 #include <stdexcept>
+#include <algorithm>
 
 namespace crpropa {
 
@@ -27,7 +29,7 @@ const Vector3d &ParticleState::getDirection() const {
 }
 
 void ParticleState::setEnergy(double newEnergy) {
-	energy = newEnergy;
+	energy = std::max(0, newEnergy); // prevent negative energies
 }
 
 double ParticleState::getEnergy() const {

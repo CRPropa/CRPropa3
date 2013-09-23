@@ -61,7 +61,7 @@ void ElectronPairProduction::init(std::string filename) {
 
 void ElectronPairProduction::process(Candidate *candidate) const {
 	if (not(candidate->current.isNucleus()))
-		return; // this module only handles nucleons / nuclei
+		return; // this module only handles nucleons and nuclei
 
 	double Z = candidate->current.getChargeNumber();
 	double A = candidate->current.getMassNumber();
@@ -75,21 +75,25 @@ void ElectronPairProduction::process(Candidate *candidate) const {
 	if (EpA < energy.front())
 		return; // below energy threshold
 
+	// evaluate energy loss rate for proton
 	double rate;
 	if (EpA < energy.back())
-		rate = interpolate(EpA, energy, lossRate);
+		rate = interpolate(EpA, energy, lossRate); // interpolation
 	else
 		rate = lossRate.back() * pow(EpA / energy.back(), 0.4); // extrapolation
+
+	// modify loss rate for nuclei
+	// cf. Kampert et al. 2013, eq. 5
+	// http://dx.doi.org/10.1016/j.astropartphys.2012.12.001
+	rate *= Z * Z / A;
+
+	// effect of photon evolution on loss rate
+	rate *= photonDensityScaling(photonField, z);
 
 	// convert step size to local frame: dx = dx_com / (1 + z)
 	double step = candidate->getCurrentStep() / (1 + z);
 
-	// dE(E) = Z^2 * loss_rate(E/A) * step
-//	double dE = Z * Z * rate * photonDensityScaling(photonField, z) * step;
-	double dE = Z * Z * rate * pow(1 + z, 2) * step;
-
-	// prevent the energy loss from exceeding the actual energy
-	dE = std::min(E, dE);
+	double dE = rate * step;
 	candidate->current.setEnergy(E - dE);
 }
 
@@ -110,7 +114,7 @@ double ElectronPairProduction::energyLossLength(int id, double E) {
 	else
 		rate = lossRate.back() * pow(EpA / energy.back(), 0.4);
 
-	double lossRate = Z * Z * rate / E;
+	double lossRate = Z * Z / A * rate / E;
 	return 1. / lossRate;
 }
 

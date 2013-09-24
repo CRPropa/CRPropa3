@@ -1,4 +1,5 @@
 #include "crpropa/module/ElectronPairProduction.h"
+#include "crpropa/ParticleID.h"
 
 #include <fstream>
 #include <limits>
@@ -37,21 +38,19 @@ void ElectronPairProduction::init() {
 }
 
 void ElectronPairProduction::init(std::string filename) {
-	// load energy loss rate table
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())
 		throw std::runtime_error(
 				"ElectronPairProduction: could not open file " + filename);
 
-	std::vector<double> x, y;
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;
 			infile >> a >> b;
 			if (infile) {
-				energy.push_back(a * eV);
-				lossRate.push_back(b * eV / Mpc);
+				tabEnergy.push_back(a * eV);
+				tabLossRate.push_back(b * eV / Mpc);
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -59,63 +58,37 @@ void ElectronPairProduction::init(std::string filename) {
 	infile.close();
 }
 
-void ElectronPairProduction::process(Candidate *candidate) const {
-	if (not(candidate->current.isNucleus()))
-		return; // this module only handles nucleons and nuclei
-
-	double Z = candidate->current.getChargeNumber();
-	double A = candidate->current.getMassNumber();
-	double E = candidate->current.getEnergy();
-	double z = candidate->getRedshift();
-	double EpA = E / A * (1 + z);
-
-	if (Z < 1)
-		return; // no electron pair production on uncharged particles
-
-	if (EpA < energy.front())
-		return; // below energy threshold
-
-	// evaluate energy loss rate for proton
-	double rate;
-	if (EpA < energy.back())
-		rate = interpolate(EpA, energy, lossRate); // interpolation
-	else
-		rate = lossRate.back() * pow(EpA / energy.back(), 0.4); // extrapolation
-
-	// modify loss rate for nuclei
-	// cf. Kampert et al. 2013, eq. 5
-	// http://dx.doi.org/10.1016/j.astropartphys.2012.12.001
-	rate *= Z * Z / A;
-
-	// effect of photon evolution on loss rate
-	rate *= photonDensityScaling(photonField, z);
-
-	// convert step size to local frame: dx = dx_com / (1 + z)
-	double step = candidate->getCurrentStep() / (1 + z);
-
-	double dE = rate * step;
-	candidate->current.setEnergy(E - dE);
-}
-
-double ElectronPairProduction::energyLossLength(int id, double E) {
+double ElectronPairProduction::lossRate(int id, double E, double z) const {
 	double A = massNumberFromNucleusId(id);
 	double Z = chargeNumberFromNucleusId(id);
 
 	if (Z < 1)
-		return std::numeric_limits<double>::max();
+		return 0; // no pair production on uncharged particles
 
-	double EpA = E / A;
-	if (EpA < energy.front())
-		return std::numeric_limits<double>::max();
+	double Eeff = E / A * (1 + z);
+	if (Eeff < tabEnergy.front())
+		return 0; // below energy threshold
 
 	double rate;
-	if (EpA < energy.back())
-		rate = interpolate(EpA, energy, lossRate);
+	if (Eeff < tabEnergy.back())
+		rate = interpolate(Eeff, tabEnergy, tabLossRate);// interpolation
 	else
-		rate = lossRate.back() * pow(EpA / energy.back(), 0.4);
+		rate = tabLossRate.back() * pow(Eeff / tabEnergy.back(), 0.4); // extrapolation
 
-	double lossRate = Z * Z / A * rate / E;
-	return 1. / lossRate;
+	return rate * Z * Z / A * lossRateScaling(photonField, z);
+}
+
+void ElectronPairProduction::process(Candidate *c) const {
+	if (not(c->current.isNucleus()))
+		return; // this module only handles nucleons and nuclei
+
+	int id = c->current.getId();
+	double E = c->current.getEnergy();
+	double z = c->getRedshift();
+	double step = c->getCurrentStep() / (1 + z); // step size in local frame
+	double dE = lossRate(id, E, z) * step;
+
+	c->current.setEnergy(E - dE);
 }
 
 } // namespace crpropa

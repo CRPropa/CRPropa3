@@ -25,8 +25,8 @@ private:
 	Vector3d position; /*< position vector in comoving coordinates */
 	Vector3d direction; /*< unit vector of velocity or momentum */
 
-	double pmass;
-	double charge;
+	double pmass; /*< particle rest mass */
+	double charge; /*< particle charge */
 
 public:
 	ParticleState();

@@ -29,7 +29,7 @@ const Vector3d &ParticleState::getDirection() const {
 }
 
 void ParticleState::setEnergy(double newEnergy) {
-	energy = std::max(0, newEnergy); // prevent negative energies
+	energy = std::max(0., newEnergy); // prevent negative energies
 }
 
 double ParticleState::getEnergy() const {

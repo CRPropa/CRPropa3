@@ -1,4 +1,5 @@
 #include "crpropa/module/NuclearDecay.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Random.h"
 
 #include <fstream>
@@ -57,11 +58,12 @@ void NuclearDecay::setHaveNeutrinos(bool b) {
 
 bool NuclearDecay::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
-	if (not(candidate->current.isNucleus()))
+	int id = candidate->current.getId();
+	if (not(isNucleus(id)))
 		return false; // accept only nuclei
 
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	int N = A - Z;
 
 	std::vector<InteractionState> decays = decayTable[Z * 31 + N];
@@ -113,8 +115,9 @@ void NuclearDecay::performInteraction(Candidate *candidate) const {
 
 void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	double gamma = candidate->current.getLorentzFactor();
-	int Z = candidate->current.getChargeNumber();
-	int A = candidate->current.getMassNumber();
+	int id = candidate->current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	double mass = candidate->current.getMass();
 
 	// beta- decay
@@ -153,10 +156,10 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 }
 
 void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
-	int Z = candidate->current.getChargeNumber();
-	int A = candidate->current.getMassNumber();
-	double EpA = candidate->current.getEnergy()
-			/ double(candidate->current.getMassNumber());
+	int id = candidate->current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
+	double EpA = candidate->current.getEnergy() / double(A);
 	candidate->current.setId(nucleusId(A - dA, Z - dZ));
 	candidate->current.setEnergy(EpA * (A - dA));
 	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA);

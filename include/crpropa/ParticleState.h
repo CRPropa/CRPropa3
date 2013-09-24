@@ -58,13 +58,6 @@ public:
 	Vector3d getVelocity() const;
 	/* Momentum: direction times energy divided by the speed of light */
 	Vector3d getMomentum() const;
-
-	/* Check if the particle is a (anti-)nucleus */
-	bool isNucleus() const;
-	/* If nucleus, return the charge number Z (apositive for anti-nuclei) */
-	int getChargeNumber() const;
-	/* If nucleus, return the mass number A (also positive for anti-nuclei) */
-	int getMassNumber() const;
 };
 
 } // namespace crpropa

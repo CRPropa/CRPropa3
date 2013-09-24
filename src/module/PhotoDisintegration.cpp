@@ -1,4 +1,5 @@
 #include "crpropa/module/PhotoDisintegration.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Random.h"
 
 #include <cmath>
@@ -70,11 +71,12 @@ void PhotoDisintegration::init(std::string filename) {
 
 bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
-	if (not(candidate->current.isNucleus()))
+	int id = candidate->current.getId();
+	if (not(isNucleus(id)))
 		return false; // accept only nuclei
 
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	int N = A - Z;
 
 	// check if disintegration data available
@@ -125,8 +127,9 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 	int dA = -nNeutron - nProton - 2 * nH2 - 3 * nH3 - 3 * nHe3 - 4 * nHe4;
 	int dZ = -nProton - nH2 - nH3 - 2 * nHe3 - 2 * nHe4;
 
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
+	int id = candidate->current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	double EpA = candidate->current.getEnergy() / double(A);
 
 	// update particle

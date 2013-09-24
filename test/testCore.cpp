@@ -63,11 +63,9 @@ TEST(ParticleState, Charge) {
 	ParticleState particle;
 
 	particle.setId(nucleusId(56, 26)); // iron
-	EXPECT_EQ(26, particle.getChargeNumber());
 	EXPECT_DOUBLE_EQ(26 * eplus, particle.getCharge());
 
 	particle.setId(-nucleusId(56, 26)); // anti-iron
-	EXPECT_EQ(26, particle.getChargeNumber());
 	EXPECT_DOUBLE_EQ(-26 * eplus, particle.getCharge());
 
 	particle.setId(11); // electron
@@ -87,20 +85,16 @@ TEST(ParticleState, Mass) {
 	ParticleState particle;
 
 	particle.setId(nucleusId(1, 1)); // proton
-	EXPECT_EQ(1, particle.getMassNumber());
 	EXPECT_DOUBLE_EQ(mass_proton, particle.getMass());
 
 	particle.setId(nucleusId(1, 0)); // neutron
-	EXPECT_EQ(1, particle.getMassNumber());
 	EXPECT_DOUBLE_EQ(mass_neutron, particle.getMass());
 
 	int id = nucleusId(56, 26);
 	particle.setId(id); // iron
-	EXPECT_EQ(56, particle.getMassNumber());
 	EXPECT_DOUBLE_EQ(nucleusMass(id), particle.getMass());
 
 	particle.setId(-id); // anti-iron
-	EXPECT_EQ(56, particle.getMassNumber());
 	EXPECT_DOUBLE_EQ(nucleusMass(-id), particle.getMass());
 }
 

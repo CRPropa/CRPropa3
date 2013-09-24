@@ -41,6 +41,10 @@ int massNumberFromNucleusId(int id) {
 	return HepPID::A(id);
 }
 
+bool isNucleus(int id) {
+	return HepPID::isNucleus(id);
+}
+
 int convertFromCRPropa2NucleusId(int crp_id) {
 	int Z = crp_id / 1000;
 	int A = crp_id % 1000;

@@ -4,6 +4,7 @@
 #include "crpropa/module/PhotoDisintegration.h"
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/Redshift.h"
+#include "crpropa/ParticleID.h"
 
 #include "gtest/gtest.h"
 #include <fstream>
@@ -287,7 +288,8 @@ TEST(PhotoDisintegration, Carbon) {
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
 	PhotoDisintegration pd;
 	Candidate c;
-	c.current.setId(nucleusId(12, 6));
+	int id = nucleusId(12, 6);
+	c.current.setId(id);
 	c.current.setEnergy(100 * EeV);
 	c.setCurrentStep(50 * Mpc);
 	pd.process(&c);
@@ -297,14 +299,16 @@ TEST(PhotoDisintegration, Carbon) {
 	EXPECT_TRUE(c.secondaries.size() > 0);
 	// secondaries produced
 
-	int A = c.current.getMassNumber();
-	int Z = c.current.getChargeNumber();
 	double E = c.current.getEnergy();
+	id = c.current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 
 	for (int i = 0; i < c.secondaries.size(); i++) {
-		A += (*c.secondaries[i]).current.getMassNumber();
-		Z += (*c.secondaries[i]).current.getChargeNumber();
 		E += (*c.secondaries[i]).current.getEnergy();
+		id = (*c.secondaries[i]).current.getId();
+		A += massNumberFromNucleusId(id);
+		Z += chargeNumberFromNucleusId(id);
 	}
 	EXPECT_EQ(12, A);
 	// nucleon number conserved
@@ -319,7 +323,8 @@ TEST(PhotoDisintegration, Iron) {
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
 	PhotoDisintegration pd(IRB);
 	Candidate c;
-	c.current.setId(nucleusId(56, 26));
+	int id = nucleusId(56, 26);
+	c.current.setId(id);
 	c.current.setEnergy(100 * EeV);
 	c.setCurrentStep(50 * Mpc);
 	pd.process(&c);
@@ -329,14 +334,16 @@ TEST(PhotoDisintegration, Iron) {
 	EXPECT_TRUE(c.secondaries.size() > 0);
 	// secondaries produced
 
-	int A = c.current.getMassNumber();
-	int Z = c.current.getChargeNumber();
 	double E = c.current.getEnergy();
+	id = c.current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 
 	for (int i = 0; i < c.secondaries.size(); i++) {
-		A += (*c.secondaries[i]).current.getMassNumber();
-		Z += (*c.secondaries[i]).current.getChargeNumber();
 		E += (*c.secondaries[i]).current.getEnergy();
+		id = (*c.secondaries[i]).current.getId();
+		A += massNumberFromNucleusId(id);
+		Z += chargeNumberFromNucleusId(id);
 	}
 	EXPECT_EQ(56, A);
 	// nucleon number conserved
@@ -451,12 +458,10 @@ TEST(PhotoPionProduction, Proton) {
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
-	EXPECT_TRUE(c.current.getEnergy() / EeV < 100);
-	// energy loss
-	EXPECT_EQ(1, c.current.getMassNumber());
-	// nucleon number conserved
-	EXPECT_EQ(0, c.secondaries.size());
-	// no (nucleonic) secondaries
+	EXPECT_TRUE(c.current.getEnergy() / EeV < 100); // energy loss
+	int id = c.current.getId();
+	EXPECT_EQ(1, massNumberFromNucleusId(id)); // nucleon number conserved
+	EXPECT_EQ(0, c.secondaries.size()); // no (nucleonic) secondaries
 }
 
 TEST(PhotoPionProduction, Helium) {
@@ -469,7 +474,8 @@ TEST(PhotoPionProduction, Helium) {
 	c.current.setEnergy(400 * EeV);
 	ppp.process(&c);
 	EXPECT_LT(c.current.getEnergy(), 400 * EeV);
-	EXPECT_TRUE(c.current.getMassNumber() < 4);
+	int id = c.current.getId();
+	EXPECT_TRUE(massNumberFromNucleusId(id) < 4);
 	EXPECT_TRUE(c.secondaries.size() > 0);
 }
 
@@ -506,12 +512,10 @@ TEST(SophiaPhotoPionProduction, withoutSecondaries) {
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
-	EXPECT_GT(100 * EeV, c.current.getEnergy());
-	// energy loss
-	EXPECT_EQ(1, c.current.getMassNumber());
-	// nucleon number conserved
-	EXPECT_EQ(0, c.secondaries.size());
-	// secondaries turned off
+	EXPECT_GT(100 * EeV, c.current.getEnergy()); // energy loss
+	int id = c.current.getId();
+	EXPECT_EQ(1, massNumberFromNucleusId(id)); // nucleon number conserved
+	EXPECT_EQ(0, c.secondaries.size()); // secondaries turned off
 }
 
 TEST(SophiaPhotoPionProduction, withSecondaries) {

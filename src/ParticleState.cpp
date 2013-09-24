@@ -60,18 +60,6 @@ double ParticleState::getCharge() const {
 	return charge;
 }
 
-int ParticleState::getChargeNumber() const {
-	return HepPID::Z(id);
-}
-
-int ParticleState::getMassNumber() const {
-	return HepPID::A(id);
-}
-
-bool ParticleState::isNucleus() const {
-	return HepPID::isNucleus(id);
-}
-
 double ParticleState::getLorentzFactor() const {
 	if (HepPID::isNucleus(id))
 		return energy / (pmass * c_squared);

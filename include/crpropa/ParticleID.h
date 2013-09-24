@@ -19,6 +19,7 @@ std::vector<int> leptons();
 int nucleusId(int a, int z);
 int chargeNumberFromNucleusId(int id);
 int massNumberFromNucleusId(int id);
+bool isNucleus(int id);
 
 /* CRPropa2.0 code scheme */
 int convertFromCRPropa2NucleusId(int id);

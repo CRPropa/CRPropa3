@@ -1,4 +1,5 @@
 #include "crpropa/module/PhotoPionProduction.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Random.h"
 
 #include <kiss/convert.h>
@@ -58,18 +59,19 @@ void PhotoPionProduction::init(std::string filename) {
 
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
-	if (not (candidate->current.isNucleus()))
+	int id = candidate->current.getId();
+	if (not(isNucleus(id)))
 		return false; // accept only nuclei
 
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	int N = A - Z;
-	double EpA = E / A * (1 + z); // CMB photon energies increase with (1+z)
+	double Eeff = E / A * (1 + z); // effective energy per nucleon at redshift z
 
 	// check if out of energy range
-	if ((EpA < energy.front()) or (EpA > energy.back()))
+	if ((Eeff < energy.front()) or (Eeff > energy.back()))
 		return false;
 
 	// find interaction with minimum random distance
@@ -78,7 +80,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 
 	// check for interaction on protons
 	if (Z > 0) {
-		double rate = interpolate(EpA, energy, pRate);
+		double rate = interpolate(Eeff, energy, pRate);
 		if (rate > 0)  {
 			if (A > 1) {
 				if (A < 8)
@@ -93,7 +95,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 
 	// check for interaction on neutrons
 	if (N > 0) {
-		double rate = interpolate(EpA, energy, nRate);
+		double rate = interpolate(Eeff, energy, nRate);
 		if (rate > 0) {
 			if (A > 1) {
 				if (A < 8)
@@ -132,8 +134,9 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 		Zfinal = abs(Zfinal - 1);
 
 	double E = candidate->current.getEnergy();
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
+	int id = candidate->current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 
 	if (A == 1) {
 		// interaction on single nucleon
@@ -204,9 +207,10 @@ void SophiaPhotoPionProduction::setHaveAntiNucleons(bool b) {
 }
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
+	int id = candidate->current.getId();
+	int A = massNumberFromNucleusId(id);
+	int Z = chargeNumberFromNucleusId(id);
 	double E = candidate->current.getEnergy();
-	int A = candidate->current.getMassNumber();
-	int Z = candidate->current.getChargeNumber();
 	double EpA = E / A;
 	double redshift = candidate->getRedshift();
 
@@ -232,8 +236,8 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	int particleList[2000]; // particle id list
 	int nParticles; // number of outgoing particles
 	double maxRedshift = 100; // IR photon density is zero above this redshift
-	int dummy1; // unneeded
-	double dummy2[2]; // unneeded
+	int dummy1; // not needed
+	double dummy2[2]; // not needed
 	int background = (photonField == CMB) ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
 
 #pragma omp critical
@@ -249,22 +253,20 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 		switch (pType) {
 		case 13: // proton
 		case 14: // neutron
-			if (A == 1) { // in-going particle was a nucleon: update its properties
+			if (A == 1) { // single interacting nucleon
 				candidate->current.setEnergy(Eout);
 				candidate->current.setId(nucleusId(1, 14 - pType));
-			} else { // in-going particle was a nucleus: update nucleus and emit nucleon
-				candidate->current.setEnergy(E - Eout);
+			} else { // interacting nucleon is part of nucleus: it is emitted from the nucleus
+				candidate->current.setEnergy(E - EpA);
 				candidate->current.setId(nucleusId(A - 1, Z - channel));
 				candidate->addSecondary(nucleusId(1, 14 - pType), Eout);
 			}
 			break;
 		case -13: // anti-proton
-			if (haveAntiNucleons)
-				candidate->addSecondary(-nucleusId(1, 1), Eout);
-			break;
 		case -14: // anti-neutron
+			std::cout << "Antiproton/-neutron produced" << std::endl;
 			if (haveAntiNucleons)
-				candidate->addSecondary(-nucleusId(1, 0), Eout);
+				candidate->addSecondary(-nucleusId(1, 14 - pType), Eout);
 			break;
 		case 1: // photon
 			if (havePhotons)

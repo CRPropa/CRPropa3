@@ -171,12 +171,11 @@ TEST(SourceComposition, simpleTest) {
 	double index = -2;
 	SourceComposition source(Emin, Emax, index);
 	source.add(nucleusId(6, 3), 1);
-	ParticleState ps;
-	source.prepare(ps);
-	EXPECT_EQ(6, ps.getMassNumber());
-	EXPECT_EQ(3, ps.getChargeNumber());
-	EXPECT_LE(Emin, ps.getEnergy());
-	EXPECT_GE(Emax, ps.getEnergy());
+	ParticleState p;
+	source.prepare(p);
+	EXPECT_EQ(nucleusId(6, 3), p.getId());
+	EXPECT_LE(Emin, p.getEnergy());
+	EXPECT_GE(Emax, p.getEnergy());
 }
 
 TEST(SourceComposition, throwNoIsotope) {
@@ -195,22 +194,19 @@ TEST(Source, allPropertiesUsed) {
 	Candidate c = *source.getCandidate();
 
 	ParticleState p = c.created;
-	EXPECT_EQ(8, p.getMassNumber());
-	EXPECT_EQ(4, p.getChargeNumber());
+	EXPECT_EQ(nucleusId(8, 4), p.getId());
 	EXPECT_LE(5 * EeV, p.getEnergy());
 	EXPECT_GE(100 * EeV, p.getEnergy());
 	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());
 
 	p = c.previous;
-	EXPECT_EQ(8, p.getMassNumber());
-	EXPECT_EQ(4, p.getChargeNumber());
+	EXPECT_EQ(nucleusId(8, 4), p.getId());
 	EXPECT_LE(5 * EeV, p.getEnergy());
 	EXPECT_GE(100 * EeV, p.getEnergy());
 	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());
 
 	p = c.current;
-	EXPECT_EQ(8, p.getMassNumber());
-	EXPECT_EQ(4, p.getChargeNumber());
+	EXPECT_EQ(nucleusId(8, 4), p.getId());
 	EXPECT_LE(5 * EeV, p.getEnergy());
 	EXPECT_GE(100 * EeV, p.getEnergy());
 	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());

@@ -79,10 +79,10 @@ double ElectronPairProduction::lossRate(int id, double E, double z) const {
 }
 
 void ElectronPairProduction::process(Candidate *c) const {
-	if (not(c->current.isNucleus()))
+	int id = c->current.getId();
+	if (not(isNucleus(id)))
 		return; // this module only handles nucleons and nuclei
 
-	int id = c->current.getId();
 	double E = c->current.getEnergy();
 	double z = c->getRedshift();
 	double step = c->getCurrentStep() / (1 + z); // step size in local frame

@@ -12,16 +12,10 @@ static std::vector<double> zKneiske(a, a + sizeof(a) / sizeof(double));
 double b[9] = { 1, 1.6937, 2.5885, 3.6178, 5.1980, 7.3871, 8.5471, 7.8605, 0 };
 static std::vector<double> sKneiske(b, b + sizeof(b) / sizeof(double));
 
-double photonDensityScaling(int photonField, double z) {
+double photonFieldScaling(PhotonField photonField, double z) {
 	if (photonField == IRB)
 		return interpolate(z, zKneiske, sKneiske);
-	return pow(1 + z, 2); // CMB-like scaling
-}
-
-double lossRateScaling(PhotonField photonField, double z) {
-	if (photonField == IRB)
-		return interpolate(z, zKneiske, sKneiske);
-	return pow(1 + z, 2); // CMB-like scaling
+	return 1.; // CMB-like scaling
 }
 
 } // namespace crpropa

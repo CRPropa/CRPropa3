@@ -3,7 +3,6 @@ from numpy import *
 # This script reformats the exclusive mean free path data files from CRPropa2.
 # - The four CRPropa2 files are merged into one,
 # - nuclides with Z>26 or N>30 are omitted and
-# - disintegration rates < 1e-6/Mpc are set to 0.
 #
 # The folders with the date files being used, are found in [CRPropa2 source]/TabulatedTALYSMeanFreePath/.
 # Copy the content or execute the script from within this folder.
@@ -74,7 +73,7 @@ def reformat(photonField):
 		if Z>26 or N>30: # skip isotopes heavier than Fe-56
 			continue
 
-		j0 = int(data1[i, 1]) # start index in for channels in 'PDExclTabMnFrPthCrossId.cmt'
+		j0 = int(data1[i, 1]) # start index for channels in 'PDExclTabMnFrPthCrossId.cmt'
 		j1 = int(data1[i, 2]) # end index
 
 		for j in range(j0, j1):
@@ -90,10 +89,7 @@ def reformat(photonField):
 			k0 = int(data2[j, 1]) # start index in 'PDExclTabMnFrPthCross.cmt'
 
 			for rate in data3[k0:k0 + 200]:
-				if rate < 1e-6:
-					fout.write('\t0') # replace values < 1e-6 [1/Mpc] with 0
-				else:
-					fout.write('\t'+str(rate))
+				fout.write('\t'+str(rate))
 
 
 reformat('CMB')

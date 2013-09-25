@@ -8,11 +8,8 @@ enum PhotonField {
 	CMB, IRB, CMB_IRB
 };
 
-// Returns overall photon field scaling factor at redshift z
-double photonDensityScaling(int photonField, double z);
-
-// Returns overall scaling factor for loss rates dE/dt at redshift z
-double lossRateScaling(PhotonField photonField, double z);
+// Returns overall comoving scaling factor
+double photonFieldScaling(PhotonField photonField, double z);
 
 } // namespace crpropa
 

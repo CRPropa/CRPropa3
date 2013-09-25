@@ -49,46 +49,47 @@ void ElectronPairProduction::init(std::string filename) {
 			double a, b;
 			infile >> a >> b;
 			if (infile) {
-				tabEnergy.push_back(a * eV);
-				tabLossRate.push_back(b * eV / Mpc);
+				tabLorentzFactor.push_back(a * eV / mass_proton / c_squared);
+				tabLossLength.push_back(b / a / Mpc);
 			}
 		}
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 	}
 	infile.close();
 }
 
-double ElectronPairProduction::lossRate(int id, double E, double z) const {
-	double A = massNumberFromNucleusId(id);
-	double Z = chargeNumberFromNucleusId(id);
-
-	if (Z < 1)
+double ElectronPairProduction::invLossLength(int id, double lf,
+		double z) const {
+	double Z = chargeNumber(id);
+	if (Z == 0)
 		return 0; // no pair production on uncharged particles
 
-	double Eeff = E / A * (1 + z);
-	if (Eeff < tabEnergy.front())
+	lf *= (1 + z);
+	if (lf < tabLorentzFactor.front())
 		return 0; // below energy threshold
 
-	double rate;
-	if (Eeff < tabEnergy.back())
-		rate = interpolate(Eeff, tabEnergy, tabLossRate);// interpolation
+	double length;
+	if (lf < tabLorentzFactor.back())
+		length = interpolate(lf, tabLorentzFactor, tabLossLength); // interpolation
 	else
-		rate = tabLossRate.back() * pow(Eeff / tabEnergy.back(), 0.4); // extrapolation
+		length = tabLossLength.back() * pow(lf / tabLorentzFactor.back(), -0.6); // extrapolation
 
-	return rate * Z * Z / A * lossRateScaling(photonField, z);
+	double A = nucleusMass(id) / mass_proton; // more accurate than massNumber(Id)
+	return length * Z * Z / A * pow(1 + z, 3)
+			* photonFieldScaling(photonField, z);
 }
 
 void ElectronPairProduction::process(Candidate *c) const {
 	int id = c->current.getId();
-	if (not(isNucleus(id)))
-		return; // this module only handles nucleons and nuclei
+	if (not (isNucleus(id)))
+		return; // only nuclei
 
-	double E = c->current.getEnergy();
+	double lf = c->current.getLorentzFactor();
 	double z = c->getRedshift();
 	double step = c->getCurrentStep() / (1 + z); // step size in local frame
-	double dE = lossRate(id, E, z) * step;
+	double loss = invLossLength(id, lf, z) * step;
 
-	c->current.setEnergy(E - dE);
+	c->current.setLorentzFactor(lf * (1 - loss));
 }
 
 } // namespace crpropa

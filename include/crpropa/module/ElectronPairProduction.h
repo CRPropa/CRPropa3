@@ -17,8 +17,8 @@ namespace crpropa {
 class ElectronPairProduction: public Module {
 private:
 	PhotonField photonField;
-	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0*/
-	std::vector<double> tabEnergy; /*< tabulated proton energy [J] */
+	std::vector<double> tabLossLength; /*< tabulated energy loss rate in [J/m] for protons at z = 0*/
+	std::vector<double> tabLorentzFactor; /*< tabulated proton energy [J] */
 
 public:
 	ElectronPairProduction(PhotonField photonField = CMB_IRB);
@@ -28,23 +28,19 @@ public:
 	void process(Candidate *candidate) const;
 
 	/**
-	 Calculates the energy loss rate dE/dx in [J/m]
-	 @param	id		PDG particle id
-	 @param E		energy [J]
+	 Calculates the inverse energy loss length beta = -1/E dE/dx in [1/m]
+	 @param	id		PDG particle ID
+	 @param lf		Lorentz factor
 	 @param z		redshift
 
-	 The energy loss rate b(E) = -dE/dt is tabulated for protons against
-	 CMB, IRB and CMB+IRB photon backgrounds.
-
-	 For nuclei this loss rate is modified as (cf. 10.1016/j.astropartphys.2012.07.010, eq. 5)
-	 b_A,Z(E) = Z^2/A * b_p(E/A).
-
-	 Cosmological evolution of the photon background is considered with (cf. 10.1103/PhysRevD.74.043005, eq. 5)
-	 b(E,z) = (1+z)^2 b((1+z)E).
-	 Note that the energy loss length beta(E) = -1/E dE/dt evolves as
+	 The energy loss length is tabulated for protons against CMB, IRB and
+	 CMB+IRB photon backgrounds.
+	 Modification for nuclei and cosmological evolution of the photon background
+	 is considered with (cf. 10.1016/j.astropartphys.2012.07.010, eq. 3 and 5)
+	 beta_A,Z(E) = Z^2 / A * beta_p(E/A)
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
-	double lossRate(int id, double E, double z) const;
+	double invLossLength(int id, double lf, double z) const;
 };
 
 } // namespace crpropa

@@ -65,8 +65,8 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	int N = A - Z;
 	double Eeff = E / A * (1 + z); // effective energy per nucleon at redshift z
 
@@ -112,8 +112,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		}
 	}
 
-	// interaction length is proportional to 1 / (photon density)
-	interaction.distance /= photonDensityScaling(photonField, z);
+	interaction.distance /= photonFieldScaling(photonField, z);
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;
@@ -135,8 +134,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 
 	double E = candidate->current.getEnergy();
 	int id = candidate->current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 
 	if (A == 1) {
 		// interaction on single nucleon
@@ -151,8 +150,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate) const {
 }
 
 double PhotoPionProduction::energyLossLength(int id, double E) {
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	int N = A - Z;
 
 	double EpA = E / A;
@@ -208,8 +207,8 @@ void SophiaPhotoPionProduction::setHaveAntiNucleons(bool b) {
 
 void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	int id = candidate->current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	double E = candidate->current.getEnergy();
 	double EpA = E / A;
 	double redshift = candidate->getRedshift();

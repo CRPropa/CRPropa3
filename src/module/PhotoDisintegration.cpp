@@ -75,8 +75,8 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 	if (not(isNucleus(id)))
 		return false; // accept only nuclei
 
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	int N = A - Z;
 
 	// check if disintegration data available
@@ -104,8 +104,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 		interaction.channel = pdModes[i].channel;
 	}
 
-	// interaction length is proportional to 1 / (photon density)
-	interaction.distance /= photonDensityScaling(photonField, z);
+	interaction.distance /= photonFieldScaling(photonField, z);
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;
@@ -128,8 +127,8 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 	int dZ = -nProton - nH2 - nH3 - 2 * nHe3 - 2 * nHe4;
 
 	int id = candidate->current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	double EpA = candidate->current.getEnergy() / double(A);
 
 	// update particle
@@ -157,8 +156,8 @@ void PhotoDisintegration::performInteraction(Candidate *candidate) const {
 }
 
 double PhotoDisintegration::energyLossLength(int id, double E) {
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	int N = A - Z;
 
 	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];

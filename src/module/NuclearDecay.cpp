@@ -62,8 +62,8 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate,
 	if (not(isNucleus(id)))
 		return false; // accept only nuclei
 
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	int N = A - Z;
 
 	std::vector<InteractionState> decays = decayTable[Z * 31 + N];
@@ -116,8 +116,8 @@ void NuclearDecay::performInteraction(Candidate *candidate) const {
 void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	double gamma = candidate->current.getLorentzFactor();
 	int id = candidate->current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	double mass = candidate->current.getMass();
 
 	// beta- decay
@@ -157,8 +157,8 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 
 void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	int id = candidate->current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 	double EpA = candidate->current.getEnergy() / double(A);
 	candidate->current.setId(nucleusId(A - dA, Z - dZ));
 	candidate->current.setEnergy(EpA * (A - dA));

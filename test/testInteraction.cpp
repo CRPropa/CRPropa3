@@ -14,7 +14,7 @@ namespace crpropa {
 TEST(ElectronPairProduction, EnergyDecreasing) {
 	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
+	c.setCurrentStep(2 * Mpc);
 	c.current.setId(nucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp1(CMB);
@@ -22,7 +22,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		c.current.setEnergy(E);
 		epp1.process(&c);
-		EXPECT_TRUE(c.current.getEnergy() <= E);
+		EXPECT_LE(c.current.getEnergy(), E);
 	}
 
 	ElectronPairProduction epp2(IRB);
@@ -30,7 +30,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		c.current.setEnergy(E);
 		epp2.process(&c);
-		EXPECT_TRUE(c.current.getEnergy() < E);
+		EXPECT_LE(c.current.getEnergy(), E);
 	}
 
 	ElectronPairProduction epp3(CMB_IRB);
@@ -38,7 +38,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 		double E = pow(10, 15 + i * 0.1) * eV;
 		c.current.setEnergy(E);
 		epp3.process(&c);
-		EXPECT_TRUE(c.current.getEnergy() < E);
+		EXPECT_LE(c.current.getEnergy(), E);
 	}
 }
 
@@ -301,14 +301,14 @@ TEST(PhotoDisintegration, Carbon) {
 
 	double E = c.current.getEnergy();
 	id = c.current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 
 	for (int i = 0; i < c.secondaries.size(); i++) {
 		E += (*c.secondaries[i]).current.getEnergy();
 		id = (*c.secondaries[i]).current.getId();
-		A += massNumberFromNucleusId(id);
-		Z += chargeNumberFromNucleusId(id);
+		A += massNumber(id);
+		Z += chargeNumber(id);
 	}
 	EXPECT_EQ(12, A);
 	// nucleon number conserved
@@ -336,14 +336,14 @@ TEST(PhotoDisintegration, Iron) {
 
 	double E = c.current.getEnergy();
 	id = c.current.getId();
-	int A = massNumberFromNucleusId(id);
-	int Z = chargeNumberFromNucleusId(id);
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
 
 	for (int i = 0; i < c.secondaries.size(); i++) {
 		E += (*c.secondaries[i]).current.getEnergy();
 		id = (*c.secondaries[i]).current.getId();
-		A += massNumberFromNucleusId(id);
-		Z += chargeNumberFromNucleusId(id);
+		A += massNumber(id);
+		Z += chargeNumber(id);
 	}
 	EXPECT_EQ(56, A);
 	// nucleon number conserved
@@ -460,7 +460,7 @@ TEST(PhotoPionProduction, Proton) {
 	ppp.process(&c);
 	EXPECT_TRUE(c.current.getEnergy() / EeV < 100); // energy loss
 	int id = c.current.getId();
-	EXPECT_EQ(1, massNumberFromNucleusId(id)); // nucleon number conserved
+	EXPECT_EQ(1, massNumber(id)); // nucleon number conserved
 	EXPECT_EQ(0, c.secondaries.size()); // no (nucleonic) secondaries
 }
 
@@ -475,7 +475,7 @@ TEST(PhotoPionProduction, Helium) {
 	ppp.process(&c);
 	EXPECT_LT(c.current.getEnergy(), 400 * EeV);
 	int id = c.current.getId();
-	EXPECT_TRUE(massNumberFromNucleusId(id) < 4);
+	EXPECT_TRUE(massNumber(id) < 4);
 	EXPECT_TRUE(c.secondaries.size() > 0);
 }
 
@@ -514,7 +514,7 @@ TEST(SophiaPhotoPionProduction, withoutSecondaries) {
 	ppp.process(&c);
 	EXPECT_GT(100 * EeV, c.current.getEnergy()); // energy loss
 	int id = c.current.getId();
-	EXPECT_EQ(1, massNumberFromNucleusId(id)); // nucleon number conserved
+	EXPECT_EQ(1, massNumber(id)); // nucleon number conserved
 	EXPECT_EQ(0, c.secondaries.size()); // secondaries turned off
 }
 

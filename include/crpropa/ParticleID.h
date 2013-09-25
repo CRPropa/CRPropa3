@@ -17,8 +17,8 @@ std::vector<int> leptons();
  * I is the isomer number, with I=0 corresponding to the ground state.
  */
 int nucleusId(int a, int z);
-int chargeNumberFromNucleusId(int id);
-int massNumberFromNucleusId(int id);
+int chargeNumber(int id);
+int massNumber(int id);
 bool isNucleus(int id);
 
 /* CRPropa2.0 code scheme */

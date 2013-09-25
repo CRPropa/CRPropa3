@@ -44,6 +44,7 @@ void ParticleState::setId(int newId) {
 		if (id < 0)
 			charge *= -1; // HepPID::Z returns positive charge numbers for anti-nuclei
 	} else {
+		// pmass missing for non-nuclei
 		charge = HepPID::charge(id) * eplus;
 	}
 }
@@ -61,19 +62,12 @@ double ParticleState::getCharge() const {
 }
 
 double ParticleState::getLorentzFactor() const {
-	if (HepPID::isNucleus(id))
-		return energy / (pmass * c_squared);
-	else
-		throw std::runtime_error(
-				"crpropa::ParticleState::getLorentzFactor only for nuclei/nucleons");
+	return energy / (pmass * c_squared);
 }
 
-void ParticleState::setLorentzFactor(double gamma) {
-	if (HepPID::isNucleus(id))
-		energy = gamma * pmass * c_squared;
-	else
-		throw std::runtime_error(
-				"crpropa::ParticleState::setLorentzFactor only for nuclei/nucleons");
+void ParticleState::setLorentzFactor(double lf) {
+	lf = std::max(0., lf); // prevent negative Lorentz factors
+	energy = lf * pmass * c_squared;
 }
 
 Vector3d ParticleState::getVelocity() const {

@@ -107,7 +107,7 @@ double SourceComposition::getSpectrumIntegral(int Z) const {
 
 void SourceComposition::add(int id, double a) {
 	isotope.push_back(id);
-	int A = massNumberFromNucleusId(id);
+	int A = massNumber(id);
 	double weightedAbundance = a * pow(A, -index - 1);
 	abundance.push_back(weightedAbundance);
 	probability.push_back(0);

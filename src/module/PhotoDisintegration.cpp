@@ -97,6 +97,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 	interaction.distance = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < pdModes.size(); i++) {
 		double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
+//		std::cout << pdModes[i].channel << " " << rate * Mpc << std::endl;
 		double d = -log(random.rand()) / rate;
 		if (d > interaction.distance)
 			continue;
@@ -104,7 +105,7 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 		interaction.channel = pdModes[i].channel;
 	}
 
-	interaction.distance /= photonFieldScaling(photonField, z);
+	interaction.distance /= pow(1 + z, 3) * photonFieldScaling(photonField, z);
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;

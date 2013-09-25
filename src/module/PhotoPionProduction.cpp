@@ -57,10 +57,20 @@ void PhotoPionProduction::init(std::string filename) {
 	infile.close();
 }
 
+double PhotoPionProduction::nucleiModification(int A, int X) const {
+	;
+	if (A == 1)
+		return 1.;
+	if (A < 8)
+		return 0.85 * pow(X, 2. / 3.);
+	else
+		return 0.85 * X;
+}
+
 bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
 	int id = candidate->current.getId();
-	if (not(isNucleus(id)))
+	if (not (isNucleus(id)))
 		return false; // accept only nuclei
 
 	double z = candidate->getRedshift();
@@ -81,13 +91,8 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	// check for interaction on protons
 	if (Z > 0) {
 		double rate = interpolate(Eeff, energy, pRate);
-		if (rate > 0)  {
-			if (A > 1) {
-				if (A < 8)
-					rate *= 0.85 * pow(Z, 2. / 3.);
-				else
-					rate *= 0.85 * Z;
-			}
+		if (rate > 0) {
+			rate *= nucleiModification(A, Z);
 			interaction.distance = -log(random.rand()) / rate;
 			interaction.channel = 1;
 		}
@@ -97,13 +102,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	if (N > 0) {
 		double rate = interpolate(Eeff, energy, nRate);
 		if (rate > 0) {
-			if (A > 1) {
-				if (A < 8)
-					rate *= 0.85 * pow(N, 2. / 3.);
-				else
-					rate *= 0.85 * N;
-			}
-
+			rate *= nucleiModification(A, N);
 			double d = -log(random.rand()) / rate;
 			if (d < interaction.distance) {
 				interaction.distance = d;
@@ -112,7 +111,7 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 		}
 	}
 
-	interaction.distance /= photonFieldScaling(photonField, z);
+	interaction.distance /= pow(1 + z, 3) * photonFieldScaling(photonField, z);
 
 	candidate->setInteractionState(getDescription(), interaction);
 	return true;
@@ -165,22 +164,12 @@ double PhotoPionProduction::energyLossLength(int id, double E) {
 	double lossRate = 0;
 	if (Z > 0) {
 		double rate = interpolate(EpA, energy, pRate);
-		if (A > 1) {
-			if (A < 8)
-				rate *= 0.85 * pow(Z, 2. / 3.);
-			else
-				rate *= 0.85 * Z;
-		}
+		rate *= nucleiModification(A, Z);
 		lossRate += relativeEnergyLoss * rate;
 	}
 	if (N > 0) {
 		double rate = interpolate(EpA, energy, nRate);
-		if (A > 1) {
-			if (A < 8)
-				rate *= 0.85 * pow(N, 2. / 3.);
-			else
-				rate *= 0.85 * N;
-		}
+		rate *= nucleiModification(A, N);
 		lossRate += relativeEnergyLoss * rate;
 	}
 
@@ -263,7 +252,6 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 			break;
 		case -13: // anti-proton
 		case -14: // anti-neutron
-			std::cout << "Antiproton/-neutron produced" << std::endl;
 			if (haveAntiNucleons)
 				candidate->addSecondary(-nucleusId(1, 14 - pType), Eout);
 			break;

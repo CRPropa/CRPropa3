@@ -1,5 +1,5 @@
 from pylab import *
-from mpc import h_planck, c_light, k_boltzmann, eV
+from crpropa import h_planck, c_light, k_boltzmann, eV
 
 
 def CMBSpectralRadiance(nu):

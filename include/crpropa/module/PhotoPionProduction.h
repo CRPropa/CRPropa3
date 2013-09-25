@@ -31,6 +31,8 @@ public:
 			InteractionState &interaction) const;
 	void performInteraction(Candidate *candidate) const;
 
+	double nucleiModification(int A, int X) const;
+
 	/**
 	 Calculates the energy loss length 1/E dE/dx in [m]. This is not used in the simulation.
 	 @param	id		PDG particle id

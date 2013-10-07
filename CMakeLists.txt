@@ -129,6 +129,7 @@ add_library(crpropa SHARED
     src/module/PhotoDisintegration.cpp
     src/module/Redshift.cpp
     src/module/Output.cpp
+    src/module/OutputShell.cpp
     src/module/OutputROOT.cpp
     src/module/OutputCRPropa2.cpp
     src/module/PhotonDINT.cpp

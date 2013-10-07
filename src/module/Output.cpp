@@ -1,29 +1,8 @@
 #include "crpropa/module/Output.h"
 
-#include <iomanip>
 #include <stdio.h>
 
 namespace crpropa {
-
-void ShellOutput::process(Candidate* c) const {
-#pragma omp critical
-	{
-		std::cout << std::fixed << std::showpoint << std::setprecision(3)
-				<< std::setw(6);
-		std::cout << c->getTrajectoryLength() / Mpc << " Mpc,  ";
-		std::cout << c->getRedshift() << ",  ";
-		std::cout << c->current.getId() << ",  ";
-		std::cout << c->current.getEnergy() / EeV << " EeV,  ";
-		std::cout << c->current.getPosition() / Mpc << " Mpc,  ";
-		std::cout << c->current.getDirection().getPhi() << " ";
-		std::cout << c->current.getDirection().getTheta();
-		std::cout << std::endl;
-	}
-}
-
-std::string ShellOutput::getDescription() const {
-	return "Shell output";
-}
 
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");

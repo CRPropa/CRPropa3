@@ -2,19 +2,10 @@
 #define CRPROPA_OUTPUT_H
 
 #include "crpropa/Module.h"
+#include "crpropa/AssocVector.h"
 #include <fstream>
 
 namespace crpropa {
-
-/**
- @class ShellOutput
- @brief Write properties of the candidate to the shell.
- */
-class ShellOutput: public Module {
-public:
-	void process(Candidate *candidate) const;
-	std::string getDescription() const;
-};
 
 /**
  @class TrajectoryOutput

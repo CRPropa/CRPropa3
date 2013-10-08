@@ -171,7 +171,7 @@ TEST(NuclearDecay, Neutron) {
 	InteractionState state;
 	double tau = 0;
 	for (int i = 0; i < 100000; i++) {
-		decay.setNextInteraction(&candidate, state);
+		decay.randomInteraction(&candidate, state);
 		tau += state.distance;
 	}
 	tau /= c_light * 100000;
@@ -262,8 +262,7 @@ TEST(NuclearDecay, AllWorking) {
 
 			c.current.setId(nucleusId(Z + N, Z));
 			c.current.setEnergy(80 * EeV);
-			c.setInteractionState(d.getDescription(), interaction);
-			d.performInteraction(&c);
+			d.performInteraction(&c, interaction);
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
@@ -279,7 +278,7 @@ TEST(NuclearDecay, NoNucleus) {
 
 	NuclearDecay d;
 	InteractionState state;
-	EXPECT_FALSE(d.setNextInteraction(&c, state));
+	EXPECT_FALSE(d.randomInteraction(&c, state));
 	EXPECT_EQ(0, state.channel);
 }
 
@@ -362,7 +361,7 @@ TEST(PhotoDisintegration, NoNucleus) {
 
 	PhotoDisintegration module;
 	InteractionState state;
-	EXPECT_FALSE(module.setNextInteraction(&c, state));
+	EXPECT_FALSE(module.randomInteraction(&c, state));
 	EXPECT_EQ(0, state.channel);
 }
 
@@ -404,8 +403,7 @@ TEST(PhotoDisintegration, AllWorkingCMB) {
 
 		c.current.setId(nucleusId(Z + N, Z));
 		c.current.setEnergy(80 * EeV);
-		c.setInteractionState(pd.getDescription(), interaction);
-		pd.performInteraction(&c);
+		pd.performInteraction(&c, interaction);
 	}
 	infile.close();
 }
@@ -437,8 +435,7 @@ TEST(PhotoDisintegration, AllWorkingIRB) {
 
 		c.current.setId(nucleusId(Z + N, Z));
 		c.current.setEnergy(80 * EeV);
-		c.setInteractionState(pd.getDescription(), interaction);
-		pd.performInteraction(&c);
+		pd.performInteraction(&c, interaction);
 	}
 	infile.close();
 }
@@ -488,7 +485,7 @@ TEST(PhotoPionProduction, NoNucleus) {
 
 	PhotoPionProduction module;
 	InteractionState state;
-	EXPECT_FALSE(module.setNextInteraction(&c, state));
+	EXPECT_FALSE(module.randomInteraction(&c, state));
 	EXPECT_EQ(0, state.channel);
 }
 
@@ -512,10 +509,16 @@ TEST(SophiaPhotoPionProduction, withoutSecondaries) {
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	ppp.process(&c);
-	EXPECT_GT(100 * EeV, c.current.getEnergy()); // energy loss
+
+	// energy loss
+	EXPECT_GT(100 * EeV, c.current.getEnergy());
+
+	// nucleon number conserved
 	int id = c.current.getId();
-	EXPECT_EQ(1, massNumber(id)); // nucleon number conserved
-	EXPECT_EQ(0, c.secondaries.size()); // secondaries turned off
+	EXPECT_EQ(1, massNumber(id));
+
+	// secondaries turned off
+	EXPECT_EQ(0, c.secondaries.size());
 }
 
 TEST(SophiaPhotoPionProduction, withSecondaries) {
@@ -526,10 +529,10 @@ TEST(SophiaPhotoPionProduction, withSecondaries) {
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
 	InteractionState interaction;
-	ppp.setNextInteraction(&c, interaction);
-	ppp.performInteraction(&c);
+	ppp.performInteraction(&c, interaction);
+
+	// there should be secondaries secondaries turned on
 	EXPECT_GT(c.secondaries.size(), 1);
-	// secondaries turned on
 }
 
 TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_CMB) {
@@ -540,10 +543,9 @@ TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_CMB) {
 	Candidate c;
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(2 * EeV);
-	InteractionState state(1 * Mpc, 1);
-
-	c.setInteractionState(ppp.getDescription(), state);
-	ppp.performInteraction(&c);
+	InteractionState interaction(1 * Mpc, 1);
+	c.setInteractionState(ppp.getDescription(), interaction);
+	ppp.performInteraction(&c, interaction);
 
 	// no interaction should have happened
 	EXPECT_DOUBLE_EQ(2, c.current.getEnergy() / EeV);
@@ -562,10 +564,9 @@ TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_IRB) {
 	Candidate c;
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(0.005 * EeV);
-	InteractionState state(1 * Mpc, 1);
-
-	c.setInteractionState(ppp.getDescription(), state);
-	ppp.performInteraction(&c);
+	InteractionState interaction(1 * Mpc, 1);
+	c.setInteractionState(ppp.getDescription(), interaction);
+	ppp.performInteraction(&c, interaction);
 
 	// no interaction should have happened
 	EXPECT_DOUBLE_EQ(0.005, c.current.getEnergy() / EeV);

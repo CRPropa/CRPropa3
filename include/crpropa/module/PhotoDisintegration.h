@@ -28,10 +28,10 @@ public:
 	PhotoDisintegration(PhotonField photonField = CMB);
 	void init(PhotonField photonField);
 	void init(std::string filename);
-	bool setNextInteraction(Candidate *candidate,
+	bool randomInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
-	void performInteraction(Candidate *candidate) const;
-
+	void performInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 
 	/**
 	 Calculates the energy loss length 1/E dE/dx in [m]

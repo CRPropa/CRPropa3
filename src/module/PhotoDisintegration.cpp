@@ -42,7 +42,8 @@ void PhotoDisintegration::init(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
-				"crpropa::PhotoDisintegration: could not open file " + filename);
+				"crpropa::PhotoDisintegration: could not open file "
+						+ filename);
 
 	std::string line;
 	while (std::getline(infile, line)) {
@@ -69,10 +70,10 @@ void PhotoDisintegration::init(std::string filename) {
 	infile.close();
 }
 
-bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
+bool PhotoDisintegration::randomInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
 	int id = candidate->current.getId();
-	if (not(isNucleus(id)))
+	if (not (isNucleus(id)))
 		return false; // accept only nuclei
 
 	int A = massNumber(id);
@@ -111,10 +112,8 @@ bool PhotoDisintegration::setNextInteraction(Candidate *candidate,
 	return true;
 }
 
-void PhotoDisintegration::performInteraction(Candidate *candidate) const {
-	InteractionState interaction;
-	candidate->getInteractionState(getDescription(), interaction);
-	candidate->clearInteractionStates();
+void PhotoDisintegration::performInteraction(Candidate *candidate,
+		InteractionState &interaction) const {
 
 	// parse disintegration channel
 	int nNeutron = digit(interaction.channel, 100000);

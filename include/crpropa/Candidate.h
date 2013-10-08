@@ -13,18 +13,16 @@ namespace crpropa {
 
 /**
  @class InteractionState
- @brief Candidate state for stochastic interactions.
+ @brief State for stochastic interactions.
  */
 struct InteractionState {
 	InteractionState() :
 			distance(0), channel(0) {
-
 	}
 	InteractionState(double distance, int channel) :
 			distance(distance), channel(channel) {
-
 	}
-	double distance; /**< Free distance of the interaction in [m] as light travel distance */
+	double distance; /**< Comoving distance [m] to the next interaction */
 	int channel; /**< Interaction ID */
 };
 
@@ -51,7 +49,7 @@ public:
 
 private:
 	bool active; /**< Active status */
-	double redshift; /**< Current simulation time-point in terms of redshift z, z = 0 being the present */
+	double redshift; /**< Current simulation time-point in terms of redshift z */
 	double trajectoryLength; /**< Comoving distance [m] the candidate has travelled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
@@ -83,17 +81,18 @@ public:
 	void limitNextStep(double step);
 
 	void setProperty(const std::string &name, const std::string &value);
-	bool removeProperty(const std::string &name);
 	bool getProperty(const std::string &name, std::string &value) const;
+	bool removeProperty(const std::string &name);
 	bool hasProperty(const std::string &name) const;
+	const PropertyMap getProperties() const;
 
+	void setInteractionState(const std::string &name,
+				const InteractionState &state);
 	bool getInteractionState(const std::string &name,
 			InteractionState &state) const;
-	void setInteractionState(const std::string &name,
-			const InteractionState &state);
-	const InteractionStatesMap getInteractionStates() const;
 	void removeInteractionState(const std::string &name);
 	void clearInteractionStates();
+	const InteractionStatesMap getInteractionStates() const;
 
 	void addSecondary(int id, double energy);
 	void clearSecondaries();

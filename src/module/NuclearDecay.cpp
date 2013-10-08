@@ -30,7 +30,7 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
 			if (infile)
 				decayTable[Z * 31 + N].push_back(decay);
 		}
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 	}
 	infile.close();
 
@@ -56,10 +56,10 @@ void NuclearDecay::setHaveNeutrinos(bool b) {
 	haveNeutrinos = b;
 }
 
-bool NuclearDecay::setNextInteraction(Candidate *candidate,
+bool NuclearDecay::randomInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
 	int id = candidate->current.getId();
-	if (not(isNucleus(id)))
+	if (not (isNucleus(id)))
 		return false; // accept only nuclei
 
 	int A = massNumber(id);
@@ -88,10 +88,8 @@ bool NuclearDecay::setNextInteraction(Candidate *candidate,
 	return true;
 }
 
-void NuclearDecay::performInteraction(Candidate *candidate) const {
-	InteractionState decay;
-	candidate->getInteractionState(getDescription(), decay);
-	candidate->clearInteractionStates();
+void NuclearDecay::performInteraction(Candidate *candidate,
+		InteractionState &decay) const {
 
 	// parse decay channels
 	int nBetaMinus = digit(decay.channel, 10000);

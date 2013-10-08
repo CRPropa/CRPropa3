@@ -128,7 +128,7 @@ add_library(crpropa SHARED
     src/module/PhotoPionProduction.cpp
     src/module/PhotoDisintegration.cpp
     src/module/Redshift.cpp
-    src/module/OutputASCII.cpp
+    src/module/OutputTXT.cpp
     src/module/OutputShell.cpp
     src/module/OutputROOT.cpp
     src/module/OutputCRPropa2.cpp

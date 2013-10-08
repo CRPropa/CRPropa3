@@ -1,4 +1,4 @@
-#include "crpropa/module/OutputASCII.h"
+#include "crpropa/module/OutputTXT.h"
 
 #include <stdio.h>
 

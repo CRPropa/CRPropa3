@@ -1,6 +1,6 @@
 /** Unit tests for output modules */
 
-#include "crpropa/module/OutputASCII.h"
+#include "crpropa/module/OutputTXT.h"
 #include "crpropa/module/OutputCRPropa2.h"
 #include "crpropa/module/OutputROOT.h"
 

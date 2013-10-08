@@ -14,7 +14,7 @@
 #include "crpropa/module/BreakCondition.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/Observer.h"
-#include "crpropa/module/OutputASCII.h"
+#include "crpropa/module/OutputTXT.h"
 #include "crpropa/module/OutputROOT.h"
 #include "crpropa/module/OutputCRPropa2.h"
 #include "crpropa/ModuleList.h"

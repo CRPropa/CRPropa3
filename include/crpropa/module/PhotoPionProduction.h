@@ -11,9 +11,6 @@ namespace crpropa {
 /**
  @class PhotoPionProduction
  @brief Photo-pion interactions of nuclei with background photons.
-
- This module simulates photo-hadronic interactions of nuclei with background photons.\n
- Several photon fields can be selected. They are considered as homogeneous and evolving as the CMB.\n
  */
 class PhotoPionProduction: public StochasticInteraction {
 protected:
@@ -27,9 +24,12 @@ public:
 	void setPhotonField(PhotonField photonField);
 	void init();
 	void init(std::string filename);
-	bool setNextInteraction(Candidate *candidate,
+
+	bool randomInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
-	void performInteraction(Candidate *candidate) const;
+
+	void performInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 
 	double nucleiModification(int A, int X) const;
 
@@ -46,7 +46,6 @@ public:
  @brief Photo-pion interactions of nuclei with background photons using SOPHIA.
 
  This module simulates photo-hadronic interactions of nuclei with background photons.\n
- Several photon fields can be selected. They are considered as homogeneous and evolving as the CMB.\n
  The interaction itself is simulated with SOPHIA.\n
  Electromagnetic particles, neutrinos and antiparticles as secondaries from these interactions can be switched on independently.
  */
@@ -62,7 +61,8 @@ public:
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
 	void setHaveAntiNucleons(bool b);
-	void performInteraction(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 };
 
 } // namespace crpropa

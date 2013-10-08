@@ -12,9 +12,10 @@ namespace crpropa {
 class StochasticInteraction: public Module {
 public:
 	void process(Candidate *candidate) const;
-	virtual bool setNextInteraction(Candidate *candidate,
+	virtual bool randomInteraction(Candidate *candidate,
 			InteractionState &interaction) const = 0;
-	virtual void performInteraction(Candidate *candidate) const = 0;
+	virtual void performInteraction(Candidate *candidate,
+			InteractionState &interaction) const = 0;
 };
 
 } // namespace crpropa

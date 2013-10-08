@@ -58,6 +58,11 @@ void Candidate::limitNextStep(double step) {
 	nextStep = std::min(nextStep, step);
 }
 
+void Candidate::setInteractionState(const std::string &name,
+		const InteractionState &state) {
+	interactionStates[name] = state;
+}
+
 bool Candidate::getInteractionState(const std::string &name,
 		InteractionState &state) const {
 	InteractionStatesMap::const_iterator i = interactionStates.find(name);
@@ -65,15 +70,6 @@ bool Candidate::getInteractionState(const std::string &name,
 		return false;
 	state = i->second;
 	return true;
-}
-
-const Candidate::InteractionStatesMap Candidate::getInteractionStates() const {
-	return interactionStates;
-}
-
-void Candidate::setInteractionState(const std::string &name,
-		const InteractionState &state) {
-	interactionStates[name] = state;
 }
 
 void Candidate::removeInteractionState(const std::string &name) {
@@ -87,16 +83,12 @@ void Candidate::clearInteractionStates() {
 	interactionStates.clear();
 }
 
-void Candidate::setProperty(const std::string &name, const std::string &value) {
-	properties[name] = value;
+const Candidate::InteractionStatesMap Candidate::getInteractionStates() const {
+	return interactionStates;
 }
 
-bool Candidate::removeProperty(const std::string& name) {
-	PropertyMap::iterator i = properties.find(name);
-	if (i == properties.end())
-		return false;
-	properties.erase(i);
-	return true;
+void Candidate::setProperty(const std::string &name, const std::string &value) {
+	properties[name] = value;
 }
 
 bool Candidate::getProperty(const std::string &name, std::string &value) const {
@@ -107,11 +99,23 @@ bool Candidate::getProperty(const std::string &name, std::string &value) const {
 	return true;
 }
 
+bool Candidate::removeProperty(const std::string& name) {
+	PropertyMap::iterator i = properties.find(name);
+	if (i == properties.end())
+		return false;
+	properties.erase(i);
+	return true;
+}
+
 bool Candidate::hasProperty(const std::string &name) const {
 	PropertyMap::const_iterator i = properties.find(name);
 	if (i == properties.end())
 		return false;
 	return true;
+}
+
+const Candidate::PropertyMap Candidate::getProperties() const {
+	return properties;
 }
 
 void Candidate::addSecondary(int id, double energy) {

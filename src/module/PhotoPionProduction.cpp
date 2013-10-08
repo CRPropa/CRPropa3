@@ -30,9 +30,10 @@ void PhotoPionProduction::init() {
 	} else if (photonField == IRB) {
 		init(getDataPath("photopion_IRB.txt"));
 		setDescription("PhotoPionProduction: IRB");
-	} else
+	} else {
 		throw std::runtime_error(
 				"PhotoPionProduction: unknown photon background");
+	}
 }
 
 void PhotoPionProduction::init(std::string filename) {
@@ -58,7 +59,6 @@ void PhotoPionProduction::init(std::string filename) {
 }
 
 double PhotoPionProduction::nucleiModification(int A, int X) const {
-	;
 	if (A == 1)
 		return 1.;
 	if (A < 8)
@@ -67,8 +67,9 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 		return 0.85 * X;
 }
 
-bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
+bool PhotoPionProduction::randomInteraction(Candidate *candidate,
 		InteractionState &interaction) const {
+
 	int id = candidate->current.getId();
 	if (not (isNucleus(id)))
 		return false; // accept only nuclei
@@ -80,9 +81,10 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	int N = A - Z;
 	double Eeff = E / A * (1 + z); // effective energy per nucleon at redshift z
 
-	// check if out of energy range
-	if ((Eeff < energy.front()) or (Eeff > energy.back()))
+	// check if outside tabulated energy range
+	if (Eeff < energy.front() or (Eeff > energy.back())) {
 		return false;
+	}
 
 	// find interaction with minimum random distance
 	interaction.distance = std::numeric_limits<double>::max();
@@ -90,7 +92,14 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 
 	// check for interaction on protons
 	if (Z > 0) {
-		double rate = interpolate(Eeff, energy, pRate);
+//		double rate = interpolate(Eeff, energy, pRate);
+
+		// FIXME temporary wrong interpolation
+		std::vector<double>::const_iterator it = std::upper_bound(
+				energy.begin(), energy.end(), Eeff);
+		size_t i = it - energy.begin() - 1;
+		double rate = pRate[i];
+
 		if (rate > 0) {
 			rate *= nucleiModification(A, Z);
 			interaction.distance = -log(random.rand()) / rate;
@@ -100,7 +109,14 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 
 	// check for interaction on neutrons
 	if (N > 0) {
-		double rate = interpolate(Eeff, energy, nRate);
+//		double rate = interpolate(Eeff, energy, nRate);
+
+		// FIXME temporary wrong interpolation
+		std::vector<double>::const_iterator it = std::upper_bound(
+				energy.begin(), energy.end(), Eeff);
+		size_t i = it - energy.begin() - 1;
+		double rate = nRate[i];
+
 		if (rate > 0) {
 			rate *= nucleiModification(A, N);
 			double d = -log(random.rand()) / rate;
@@ -112,15 +128,12 @@ bool PhotoPionProduction::setNextInteraction(Candidate *candidate,
 	}
 
 	interaction.distance /= pow(1 + z, 3) * photonFieldScaling(photonField, z);
-
-	candidate->setInteractionState(getDescription(), interaction);
+	interaction.distance *= (1 + z);
 	return true;
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate) const {
-	InteractionState interaction;
-	candidate->getInteractionState(getDescription(), interaction);
-	candidate->clearInteractionStates();
+void PhotoPionProduction::performInteraction(Candidate *candidate,
+		InteractionState &interaction) const {
 
 	// charge number loss of interaction nucleus
 	int dZ = interaction.channel;
@@ -194,7 +207,8 @@ void SophiaPhotoPionProduction::setHaveAntiNucleons(bool b) {
 	haveAntiNucleons = b;
 }
 
-void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
+void SophiaPhotoPionProduction::performInteraction(Candidate *candidate,
+		InteractionState &interaction) const {
 	int id = candidate->current.getId();
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
@@ -202,19 +216,19 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate) const {
 	double EpA = E / A;
 	double redshift = candidate->getRedshift();
 
+	candidate->current.setEnergy(E * 0.5); // FIXME
+	return; // FIXME
+
 	// check if energy, shifted by *(1+z), is still above SOPHIA's threshold
 	// if below the threshold, remove interaction state and return
 	double Eth = (photonField == CMB) ? 3.75 * EeV : 0.01 * EeV;
 	if (EpA * (1 + redshift) < Eth) {
 		candidate->removeInteractionState(getDescription());
+//		std::cout << "performInteraction: below threshold" << std::endl;
 		return;
 	}
 
 	// else continue
-	InteractionState interaction;
-	candidate->getInteractionState(getDescription(), interaction);
-	candidate->clearInteractionStates();
-
 	int channel = interaction.channel; // 1 for interaction proton, 0 for neutron
 
 	// arguments for sophia

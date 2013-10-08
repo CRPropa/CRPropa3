@@ -28,9 +28,10 @@ public:
 	NuclearDecay(bool electrons = false, bool neutrinos = false);
 	void setHaveElectrons(bool b);
 	void setHaveNeutrinos(bool b);
-	bool setNextInteraction(Candidate *candidate,
+	bool randomInteraction(Candidate *candidate,
 			InteractionState &interaction) const;
-	void performInteraction(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate,
+			InteractionState &interaction) const;
 	void betaDecay(Candidate *candidate, bool isBetaPlus) const;
 	void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
 };

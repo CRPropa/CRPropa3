@@ -1,5 +1,5 @@
-#ifndef CRPROPA_OUTPUT_H
-#define CRPROPA_OUTPUT_H
+#ifndef CRPROPA_OUTPUTASCII_H
+#define CRPROPA_OUTPUTASCII_H
 
 #include "crpropa/Module.h"
 #include "crpropa/AssocVector.h"
@@ -58,4 +58,4 @@ public:
 
 } // namespace crpropa
 
-#endif // CRPROPA_OUTPUT_H
+#endif // CRPROPA_OUTPUTASCII_H

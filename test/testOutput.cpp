@@ -1,6 +1,6 @@
 /** Unit tests for output modules */
 
-#include "crpropa/module/Output.h"
+#include "crpropa/module/OutputASCII.h"
 #include "crpropa/module/OutputCRPropa2.h"
 #include "crpropa/module/OutputROOT.h"
 
@@ -55,6 +55,5 @@ TEST(CRPropa2ROOTEventOutput1D, removeProperty) {
 	c.setProperty("Dected", "");
 	output.process(&c);
 	EXPECT_FALSE(c.hasProperty("Detected"));
-
 }
 #endif

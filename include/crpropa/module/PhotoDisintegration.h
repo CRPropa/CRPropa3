@@ -1,7 +1,7 @@
 #ifndef CRPROPA_PHOTODISINTEGRATION_H
 #define CRPROPA_PHOTODISINTEGRATION_H
 
-#include "crpropa/module/StochasticInteraction.h"
+#include "crpropa/Module.h"
 #include "crpropa/PhotonBackground.h"
 
 #include <vector>
@@ -11,13 +11,11 @@ namespace crpropa {
 /**
  @class PhotoDisintegration
  @brief Photo-disintegration of nuclei with background photons.
-
- This module simulates photo-disintegration of nuclei with background photons.\n
- Background photon fields are considered as homogeneous and evolving as the CMB.\n
  */
-class PhotoDisintegration: public StochasticInteraction {
+class PhotoDisintegration: public Module {
 private:
 	PhotonField photonField;
+	double limit;
 	struct PDMode {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
 		std::vector<double> rate; // disintegration rate [1/m]
@@ -25,13 +23,12 @@ private:
 	std::vector<std::vector<PDMode> > pdTable; // pdTable[Z * 31 + N] = vector<PDmode>
 
 public:
-	PhotoDisintegration(PhotonField photonField = CMB);
+	PhotoDisintegration(PhotonField photonField = CMB, double limit = 0.1);
+	void setLimit(double l);
 	void init(PhotonField photonField);
 	void init(std::string filename);
-	bool randomInteraction(Candidate *candidate,
-			InteractionState &interaction) const;
-	void performInteraction(Candidate *candidate,
-			InteractionState &interaction) const;
+	void process(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate, int channel) const;
 
 	/**
 	 Calculates the energy loss length 1/E dE/dx in [m]

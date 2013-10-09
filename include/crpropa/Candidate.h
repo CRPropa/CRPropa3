@@ -12,28 +12,11 @@
 namespace crpropa {
 
 /**
- @class InteractionState
- @brief State for stochastic interactions.
- */
-struct InteractionState {
-	InteractionState() :
-			distance(0), channel(0) {
-	}
-	InteractionState(double distance, int channel) :
-			distance(distance), channel(channel) {
-	}
-	double distance; /**< Comoving distance [m] to the next interaction */
-	int channel; /**< Interaction ID */
-};
-
-/**
  @class Candidate
  @brief All information about the cosmic ray.
 
  The Candidate is a passive object, that holds the information about the state
- of the cosmic ray at the beginning of propagation and in the current and
- previous propagation step.
- It holds status information about the cosmic ray and the simulation itself.
+ of the cosmic ray and the simulation itself.
  */
 class Candidate: public Referenced {
 public:
@@ -42,10 +25,10 @@ public:
 	ParticleState current; /**< Current particle state */
 	ParticleState previous; /**< Particle state at the end of the previous step */
 
-	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles created in interactions */
+	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles from interactions */
 
 	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
-	typedef Loki::AssocVector<std::string, InteractionState> InteractionStatesMap;
+	PropertyMap properties; /**< Map of property names and their values. */
 
 private:
 	bool active; /**< Active status */
@@ -54,13 +37,9 @@ private:
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
 
-	PropertyMap properties; /**< Map of property names and their values. */
-	InteractionStatesMap interactionStates; /**< Map of interactions that are scheduled to happen to the candidate. */
-
 public:
 	Candidate();
-	/** Creates a candidate, initializing the initial, previous and current particle state with the argument. */
-	Candidate(const ParticleState &state);
+	Candidate(const ParticleState &state); /**< Creates a candidate, initializing the initial, previous and current particle state with the argument. */
 
 	bool isActive() const;
 	void setActive(bool b);
@@ -71,12 +50,10 @@ public:
 	void setRedshift(double z);
 	double getRedshift() const;
 
-	/** Sets the current step and increases the trajectory length accordingly. Only the propagation module should use this. */
-	void setCurrentStep(double step);
+	void setCurrentStep(double step); /**< Sets the current step and increases the trajectory length accordingly. Only the propagation module should use this. */
 	double getCurrentStep() const;
 
-	/** Sets the proposed next step. Only the propagation module should use this. */
-	void setNextStep(double step);
+	void setNextStep(double step); /**< Sets the proposed next step. Only the propagation module should use this. */
 	double getNextStep() const;
 	void limitNextStep(double step);
 
@@ -84,15 +61,6 @@ public:
 	bool getProperty(const std::string &name, std::string &value) const;
 	bool removeProperty(const std::string &name);
 	bool hasProperty(const std::string &name) const;
-	const PropertyMap getProperties() const;
-
-	void setInteractionState(const std::string &name,
-				const InteractionState &state);
-	bool getInteractionState(const std::string &name,
-			InteractionState &state) const;
-	void removeInteractionState(const std::string &name);
-	void clearInteractionStates();
-	const InteractionStatesMap getInteractionStates() const;
 
 	void addSecondary(int id, double energy);
 	void clearSecondaries();

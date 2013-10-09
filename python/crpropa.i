@@ -27,7 +27,6 @@ using std::ptrdiff_t;
 %{
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/ElectronPairProduction.h"
-#include "crpropa/module/StochasticInteraction.h"
 #include "crpropa/module/PhotoDisintegration.h"
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/Redshift.h"
@@ -157,7 +156,6 @@ using std::ptrdiff_t;
 %include "crpropa/module/PhotonDINT.h"
 %include "crpropa/module/PhotonEleCa.h"
 %include "crpropa/module/ElectronPairProduction.h"
-%include "crpropa/module/StochasticInteraction.h"
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/PhotoPionProduction.h"
 %include "crpropa/module/PhotoDisintegration.h"

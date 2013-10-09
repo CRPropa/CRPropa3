@@ -40,29 +40,11 @@ std::string ShellOutput1D::getDescription() const {
 	return "Shell output for 1D";
 }
 
-void ShellInteractionOutput::process(Candidate* c) const {
-		InteractionStatesMap states = c->getInteractionStates();
-		InteractionStatesMap::const_iterator i = states.begin();
-#pragma omp critical
-	{
-		for (i; i != states.end(); i++) {
-			std::cout << "  " << i->first << ", ";
-			std::cout << "distance: " << i->second.distance / Mpc << " Mpc, ";
-			std::cout << "channel: " << i->second.channel << std::endl;
-		}
-	}
-}
-
-std::string ShellInteractionOutput::getDescription() const {
-	return "Shell interaction output";
-}
-
 void ShellPropertyOutput::process(Candidate* c) const {
-		PropertyMap properties = c->getProperties();
-		PropertyMap::const_iterator i = properties.begin();
+		PropertyMap::const_iterator i = c->properties.begin();
 #pragma omp critical
 	{
-		for (i; i != properties.end(); i++) {
+		for (i; i != c->properties.end(); i++) {
 			std::cout << "  " << i->first << ", " << i->second << std::endl;
 		}
 	}

@@ -440,6 +440,7 @@ TEST(PhotoDisintegration, AllWorkingIRB) {
 	infile.close();
 }
 
+/**
 TEST(PhotoPionProduction, Backgrounds) {
 	// Test if interaction data files are loaded.
 	PhotoPionProduction ppp1(CMB);
@@ -576,6 +577,7 @@ TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_IRB) {
 	bool hasInteraction = c.getInteractionState(ppp.getDescription(), dummy);
 	EXPECT_FALSE(hasInteraction);
 }
+**/
 
 TEST(Redshift, simpleTest) {
 	// Test if redshift is decreased and adiabatic energy loss is applied.

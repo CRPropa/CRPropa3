@@ -123,7 +123,6 @@ add_library(crpropa SHARED
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
     src/module/ElectronPairProduction.cpp
-    src/module/StochasticInteraction.cpp
     src/module/NuclearDecay.cpp
     src/module/PhotoPionProduction.cpp
     src/module/PhotoDisintegration.cpp

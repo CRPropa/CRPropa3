@@ -58,35 +58,6 @@ void Candidate::limitNextStep(double step) {
 	nextStep = std::min(nextStep, step);
 }
 
-void Candidate::setInteractionState(const std::string &name,
-		const InteractionState &state) {
-	interactionStates[name] = state;
-}
-
-bool Candidate::getInteractionState(const std::string &name,
-		InteractionState &state) const {
-	InteractionStatesMap::const_iterator i = interactionStates.find(name);
-	if (i == interactionStates.end())
-		return false;
-	state = i->second;
-	return true;
-}
-
-void Candidate::removeInteractionState(const std::string &name) {
-	InteractionStatesMap::iterator i = interactionStates.find(name);
-	if (i == interactionStates.end())
-		return;
-	interactionStates.erase(i);
-}
-
-void Candidate::clearInteractionStates() {
-	interactionStates.clear();
-}
-
-const Candidate::InteractionStatesMap Candidate::getInteractionStates() const {
-	return interactionStates;
-}
-
 void Candidate::setProperty(const std::string &name, const std::string &value) {
 	properties[name] = value;
 }
@@ -112,10 +83,6 @@ bool Candidate::hasProperty(const std::string &name) const {
 	if (i == properties.end())
 		return false;
 	return true;
-}
-
-const Candidate::PropertyMap Candidate::getProperties() const {
-	return properties;
 }
 
 void Candidate::addSecondary(int id, double energy) {

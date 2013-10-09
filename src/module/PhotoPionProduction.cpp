@@ -13,14 +13,35 @@
 
 namespace crpropa {
 
-PhotoPionProduction::PhotoPionProduction(PhotonField photonField) :
-		photonField(photonField) {
+PhotoPionProduction::PhotoPionProduction(PhotonField field,
+		bool photons, bool neutrinos, bool antiNucleons, double l) {
+	photonField = field;
+	havePhotons = photons;
+	haveNeutrinos = neutrinos;
+	haveAntiNucleons = antiNucleons;
+	limit = l;
 	init();
 }
 
 void PhotoPionProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	init();
+}
+
+void PhotoPionProduction::setHavePhotons(bool b) {
+	havePhotons = b;
+}
+
+void PhotoPionProduction::setHaveNeutrinos(bool b) {
+	haveNeutrinos = b;
+}
+
+void PhotoPionProduction::setHaveAntiNucleons(bool b) {
+	haveAntiNucleons = b;
+}
+
+void PhotoPionProduction::setLimit(double l) {
+	limit = l;
 }
 
 void PhotoPionProduction::init() {
@@ -67,169 +88,79 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 		return 0.85 * X;
 }
 
-bool PhotoPionProduction::randomInteraction(Candidate *candidate,
-		InteractionState &interaction) const {
+void PhotoPionProduction::process(Candidate *candidate) const {
+	// the loop should be processed at least once for limiting the next step
+	double step = candidate->getCurrentStep();
+	do {
+		// check if nucleus
+		int id = candidate->current.getId();
+		if (not (isNucleus(id)))
+			return;
 
-	int id = candidate->current.getId();
-	if (not (isNucleus(id)))
-		return false; // accept only nuclei
+		double z = candidate->getRedshift();
+		double E = candidate->current.getEnergy();
+		int A = massNumber(id);
+		int Z = chargeNumber(id);
+		int N = A - Z;
+		double Eeff = E / A * (1 + z); // effective energy per nucleon
 
-	double z = candidate->getRedshift();
-	double E = candidate->current.getEnergy();
-	int A = massNumber(id);
-	int Z = chargeNumber(id);
-	int N = A - Z;
-	double Eeff = E / A * (1 + z); // effective energy per nucleon at redshift z
+		// check if in tabulated energy range
+		if (Eeff < energy.front() or (Eeff > energy.back()))
+			return;
 
-	// check if outside tabulated energy range
-	if (Eeff < energy.front() or (Eeff > energy.back())) {
-		return false;
-	}
+		// find interaction with minimum random distance
+		Random &random = Random::instance();
+		double randDistance = std::numeric_limits<double>::max();
+		int channel; // interacting particle: 1 for proton, 0 for neutron
+		double totalRate = 0;
 
-	// find interaction with minimum random distance
-	interaction.distance = std::numeric_limits<double>::max();
-	Random &random = Random::instance();
+		// comological scaling of interaction distance (comoving)
+		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
-	// check for interaction on protons
-	if (Z > 0) {
-//		double rate = interpolate(Eeff, energy, pRate);
-
-		// FIXME temporary wrong interpolation
-		std::vector<double>::const_iterator it = std::upper_bound(
-				energy.begin(), energy.end(), Eeff);
-		size_t i = it - energy.begin() - 1;
-		double rate = pRate[i];
-
-		if (rate > 0) {
+		// check for interaction on protons
+		if (Z > 0) {
+			double rate = interpolate(Eeff, energy, pRate);
 			rate *= nucleiModification(A, Z);
-			interaction.distance = -log(random.rand()) / rate;
-			interaction.channel = 1;
+			rate *= scaling;
+			totalRate += rate;
+			channel = 1;
+			randDistance = -log(random.rand()) / rate;
 		}
-	}
 
-	// check for interaction on neutrons
-	if (N > 0) {
-//		double rate = interpolate(Eeff, energy, nRate);
-
-		// FIXME temporary wrong interpolation
-		std::vector<double>::const_iterator it = std::upper_bound(
-				energy.begin(), energy.end(), Eeff);
-		size_t i = it - energy.begin() - 1;
-		double rate = nRate[i];
-
-		if (rate > 0) {
+		// check for interaction on neutrons
+		if (N > 0) {
+			double rate = interpolate(Eeff, energy, nRate);
 			rate *= nucleiModification(A, N);
+			rate *= scaling;
+			totalRate += rate;
 			double d = -log(random.rand()) / rate;
-			if (d < interaction.distance) {
-				interaction.distance = d;
-				interaction.channel = 0;
+			if (d < randDistance) {
+				randDistance = d;
+				channel = 0;
 			}
 		}
-	}
 
-	interaction.distance /= pow(1 + z, 3) * photonFieldScaling(photonField, z);
-	interaction.distance *= (1 + z);
-	return true;
+		// check if interaction doesn't happen
+		if (step < randDistance) {
+			candidate->limitNextStep(limit / totalRate);
+			return;
+		}
+
+		// interact and repeat with remaining step
+		performInteraction(candidate, channel);
+		step -= randDistance;
+	} while (step > 0);
 }
 
 void PhotoPionProduction::performInteraction(Candidate *candidate,
-		InteractionState &interaction) const {
+		int channel) const {
 
-	// charge number loss of interaction nucleus
-	int dZ = interaction.channel;
-	// final proton number of emitted nucleon
-	int Zfinal = dZ;
-	// 50% probability of isospin change p <-> n
-	Random &random = Random::instance();
-	if (random.rand() < 1. / 2.)
-		Zfinal = abs(Zfinal - 1);
-
-	double E = candidate->current.getEnergy();
-	int id = candidate->current.getId();
-	int A = massNumber(id);
-	int Z = chargeNumber(id);
-
-	if (A == 1) {
-		// interaction on single nucleon
-		candidate->current.setEnergy(E * 938. / 1232.);
-		candidate->current.setId(nucleusId(1, Zfinal));
-	} else {
-		// interaction on nucleus, update nucleus and emit nucleon
-		candidate->current.setEnergy(E * (A - 1) / A);
-		candidate->current.setId(nucleusId(A - 1, Z - dZ));
-		candidate->addSecondary(nucleusId(1, Zfinal), E / A * 938. / 1232.);
-	}
-}
-
-double PhotoPionProduction::energyLossLength(int id, double E) {
-	int A = massNumber(id);
-	int Z = chargeNumber(id);
-	int N = A - Z;
-
-	double EpA = E / A;
-	if ((EpA < energy.front()) or (EpA > energy.back()))
-		return std::numeric_limits<double>::max();
-
-	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass (crude approximation)
-	// nuclei approximately lose the energy that the interacting nucleon is carrying
-	double relativeEnergyLoss = (A == 1) ? 1 - 938. / 1232. : 1. / A;
-
-	double lossRate = 0;
-	if (Z > 0) {
-		double rate = interpolate(EpA, energy, pRate);
-		rate *= nucleiModification(A, Z);
-		lossRate += relativeEnergyLoss * rate;
-	}
-	if (N > 0) {
-		double rate = interpolate(EpA, energy, nRate);
-		rate *= nucleiModification(A, N);
-		lossRate += relativeEnergyLoss * rate;
-	}
-
-	return 1. / lossRate;
-}
-
-SophiaPhotoPionProduction::SophiaPhotoPionProduction(PhotonField photonField,
-		bool photons, bool neutrinos, bool antiNucleons) :
-		PhotoPionProduction(photonField), havePhotons(photons), haveNeutrinos(
-				neutrinos), haveAntiNucleons(antiNucleons) {
-}
-
-void SophiaPhotoPionProduction::setHavePhotons(bool b) {
-	havePhotons = b;
-}
-
-void SophiaPhotoPionProduction::setHaveNeutrinos(bool b) {
-	haveNeutrinos = b;
-}
-
-void SophiaPhotoPionProduction::setHaveAntiNucleons(bool b) {
-	haveAntiNucleons = b;
-}
-
-void SophiaPhotoPionProduction::performInteraction(Candidate *candidate,
-		InteractionState &interaction) const {
 	int id = candidate->current.getId();
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	double E = candidate->current.getEnergy();
 	double EpA = E / A;
-	double redshift = candidate->getRedshift();
-
-	candidate->current.setEnergy(E * 0.5); // FIXME
-	return; // FIXME
-
-	// check if energy, shifted by *(1+z), is still above SOPHIA's threshold
-	// if below the threshold, remove interaction state and return
-	double Eth = (photonField == CMB) ? 3.75 * EeV : 0.01 * EeV;
-	if (EpA * (1 + redshift) < Eth) {
-		candidate->removeInteractionState(getDescription());
-//		std::cout << "performInteraction: below threshold" << std::endl;
-		return;
-	}
-
-	// else continue
-	int channel = interaction.channel; // 1 for interaction proton, 0 for neutron
+	double z = candidate->getRedshift();
 
 	// arguments for sophia
 	int nature = 1 - channel; // interacting particle: 0 for proton, 1 for neutron
@@ -244,8 +175,8 @@ void SophiaPhotoPionProduction::performInteraction(Candidate *candidate,
 
 #pragma omp critical
 	{
-		sophiaevent_(nature, Ein, momentaList, particleList, nParticles,
-				redshift, background, maxRedshift, dummy1, dummy2, dummy2);
+		sophiaevent_(nature, Ein, momentaList, particleList, nParticles, z,
+				background, maxRedshift, dummy1, dummy2, dummy2);
 	}
 
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles

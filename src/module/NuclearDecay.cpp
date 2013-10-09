@@ -9,8 +9,10 @@
 
 namespace crpropa {
 
-NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
-		haveElectrons(electrons), haveNeutrinos(neutrinos) {
+NuclearDecay::NuclearDecay(bool electrons, bool neutrinos, double l) {
+	haveElectrons = electrons;
+	haveNeutrinos = neutrinos;
+	limit = l;
 	setDescription("NuclearDecay");
 
 	// load decay table
@@ -23,10 +25,11 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos) :
 	decayTable.resize(27 * 31);
 	while (infile.good()) {
 		if (infile.peek() != '#') {
-			InteractionState decay;
+			DecayMode decay;
 			int Z, N;
-			infile >> Z >> N >> decay.channel >> decay.distance;
-			decay.distance *= c_light; // mean decay distance [m]
+			double lifetime;
+			infile >> Z >> N >> decay.channel >> lifetime;
+			decay.rate = 1. / lifetime / c_light; // decay rate in [1/m]
 			if (infile)
 				decayTable[Z * 31 + N].push_back(decay);
 		}
@@ -56,47 +59,65 @@ void NuclearDecay::setHaveNeutrinos(bool b) {
 	haveNeutrinos = b;
 }
 
-bool NuclearDecay::randomInteraction(Candidate *candidate,
-		InteractionState &interaction) const {
-	int id = candidate->current.getId();
-	if (not (isNucleus(id)))
-		return false; // accept only nuclei
-
-	int A = massNumber(id);
-	int Z = chargeNumber(id);
-	int N = A - Z;
-
-	std::vector<InteractionState> decays = decayTable[Z * 31 + N];
-	if (decays.size() == 0)
-		return false;
-
-	// find interaction mode with minimum random decay distance
-	Random &random = Random::instance();
-	interaction.distance = std::numeric_limits<double>::max();
-	for (size_t i = 0; i < decays.size(); i++) {
-		double d = -log(random.rand()) * decays[i].distance;
-		if (d > interaction.distance)
-			continue;
-		interaction.distance = d;
-		interaction.channel = decays[i].channel;
-	}
-
-	// special relativistic time dilation
-	interaction.distance *= candidate->current.getLorentzFactor();
-
-	candidate->setInteractionState(getDescription(), interaction);
-	return true;
+void NuclearDecay::setLimit(double l) {
+	limit = l;
 }
 
-void NuclearDecay::performInteraction(Candidate *candidate,
-		InteractionState &decay) const {
+void NuclearDecay::process(Candidate *candidate) const {
+	// the loop should be processed at least once for limiting the next step
+	double step = candidate->getCurrentStep();
+	do {
+		// check if nucleus
+		int id = candidate->current.getId();
+		if (not (isNucleus(id)))
+			return;
 
-	// parse decay channels
-	int nBetaMinus = digit(decay.channel, 10000);
-	int nBetaPlus = digit(decay.channel, 1000);
-	int nAlpha = digit(decay.channel, 100);
-	int nProton = digit(decay.channel, 10);
-	int nNeutron = digit(decay.channel, 1);
+		int A = massNumber(id);
+		int Z = chargeNumber(id);
+		int N = A - Z;
+
+		// check if particle can decay
+		std::vector<DecayMode> decays = decayTable[Z * 31 + N];
+		if (decays.size() == 0)
+			return;
+
+		// find interaction mode with minimum random decay distance
+		Random &random = Random::instance();
+		double randDistance = std::numeric_limits<double>::max();
+		int channel;
+		double totalRate = 0;
+
+		for (size_t i = 0; i < decays.size(); i++) {
+			double rate = decays[i].rate;
+			rate *= candidate->current.getLorentzFactor();
+			totalRate += rate;
+			double d = -log(random.rand()) / rate;
+			if (d > randDistance)
+				continue;
+			randDistance = d;
+			channel = decays[i].channel;
+		}
+
+		// check if interaction doesn't happen
+		if (step < randDistance) {
+			// limit next step to a fraction of the mean free path
+			candidate->limitNextStep(limit / totalRate);
+			return;
+		}
+
+		// interact and repeat with remaining step
+		performInteraction(candidate, channel);
+		step -= randDistance;
+	} while (step > 0);
+}
+
+void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
+	// interpret decay channel
+	int nBetaMinus = digit(channel, 10000);
+	int nBetaPlus = digit(channel, 1000);
+	int nAlpha = digit(channel, 100);
+	int nProton = digit(channel, 10);
+	int nNeutron = digit(channel, 1);
 
 	// perform decays
 	for (size_t i = 0; i < nBetaMinus; i++)

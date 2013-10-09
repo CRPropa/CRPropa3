@@ -10,8 +10,13 @@
 
 namespace crpropa {
 
-PhotoDisintegration::PhotoDisintegration(PhotonField photonField) {
+PhotoDisintegration::PhotoDisintegration(PhotonField photonField, double l) {
+	limit = l;
 	init(photonField);
+}
+
+void PhotoDisintegration::setLimit(double l) {
+	limit = l;
 }
 
 void PhotoDisintegration::init(PhotonField photonField) {
@@ -70,58 +75,72 @@ void PhotoDisintegration::init(std::string filename) {
 	infile.close();
 }
 
-bool PhotoDisintegration::randomInteraction(Candidate *candidate,
-		InteractionState &interaction) const {
-	int id = candidate->current.getId();
-	if (not (isNucleus(id)))
-		return false; // accept only nuclei
+void PhotoDisintegration::process(Candidate *candidate) const {
+	// the loop should be processed at least once for limiting the next step
+	double step = candidate->getCurrentStep();
+	do {
+		// check if nucleus
+		int id = candidate->current.getId();
+		if (not (isNucleus(id)))
+			return;
 
-	int A = massNumber(id);
-	int Z = chargeNumber(id);
-	int N = A - Z;
+		int A = massNumber(id);
+		int Z = chargeNumber(id);
+		int N = A - Z;
 
-	// check if disintegration data available
-	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
-	if (pdModes.size() == 0)
-		return false;
+		// check if disintegration data available
+		std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
+		if (pdModes.size() == 0)
+			return;
 
-	// CMB energy increases with (1+z), increase nucleus energy accordingly
-	double z = candidate->getRedshift();
-	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
+		// check if in tabulated energy range
+		double z = candidate->getRedshift();
+		double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
+		if ((lg <= 6) or (lg >= 14))
+			return;
 
-	// check if out of energy range
-	if ((lg <= 6) or (lg >= 14))
-		return false;
+		// find disintegration channel with minimum random decay distance
+		Random &random = Random::instance();
+		double randDistance = std::numeric_limits<double>::max();
+		int channel;
+		double totalRate = 0;
 
-	// find channel with minimum random decay distance
-	Random &random = Random::instance();
-	interaction.distance = std::numeric_limits<double>::max();
-	for (size_t i = 0; i < pdModes.size(); i++) {
-		double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
-//		std::cout << pdModes[i].channel << " " << rate * Mpc << std::endl;
-		double d = -log(random.rand()) / rate;
-		if (d > interaction.distance)
-			continue;
-		interaction.distance = d;
-		interaction.channel = pdModes[i].channel;
-	}
+		// comological scaling of interaction distance (comoving)
+		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
-	interaction.distance /= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+		for (size_t i = 0; i < pdModes.size(); i++) {
+			double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
+			rate *= scaling;
+			totalRate += rate;
+			double d = -log(random.rand()) / rate;
+			if (d > randDistance)
+				continue;
+			randDistance = d;
+			channel = pdModes[i].channel;
+		}
 
-	candidate->setInteractionState(getDescription(), interaction);
-	return true;
+		// check if interaction doesn't happen
+		if (step < randDistance) {
+			// limit next step to a fraction of the mean free path
+			candidate->limitNextStep(limit / totalRate);
+			return;
+		}
+
+		// interact and repeat with remaining step
+		performInteraction(candidate, channel);
+		step -= randDistance;
+	} while (step > 0);
 }
 
 void PhotoDisintegration::performInteraction(Candidate *candidate,
-		InteractionState &interaction) const {
-
-	// parse disintegration channel
-	int nNeutron = digit(interaction.channel, 100000);
-	int nProton = digit(interaction.channel, 10000);
-	int nH2 = digit(interaction.channel, 1000);
-	int nH3 = digit(interaction.channel, 100);
-	int nHe3 = digit(interaction.channel, 10);
-	int nHe4 = digit(interaction.channel, 1);
+		int channel) const {
+	// interpret disintegration channel
+	int nNeutron = digit(channel, 100000);
+	int nProton = digit(channel, 10000);
+	int nH2 = digit(channel, 1000);
+	int nH3 = digit(channel, 100);
+	int nHe3 = digit(channel, 10);
+	int nHe4 = digit(channel, 1);
 
 	int dA = -nNeutron - nProton - 2 * nH2 - 3 * nH3 - 3 * nHe3 - 4 * nHe4;
 	int dZ = -nProton - nH2 - nH3 - 2 * nHe3 - 2 * nHe4;
@@ -129,7 +148,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 	int id = candidate->current.getId();
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
-	double EpA = candidate->current.getEnergy() / double(A);
+	double EpA = candidate->current.getEnergy() / A;
 
 	// update particle
 	int nA = A + dA;
@@ -164,7 +183,6 @@ double PhotoDisintegration::energyLossLength(int id, double E) {
 	if (pdModes.size() == 0)
 		return std::numeric_limits<double>::max();
 
-	// log10 of lorentz factor
 	double lg = log10(E / (nucleusMass(id) * c_squared));
 	if ((lg <= 6) or (lg >= 14))
 		return std::numeric_limits<double>::max();

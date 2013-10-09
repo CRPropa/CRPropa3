@@ -460,9 +460,9 @@ void XmlExecute::loadSophia(xml_node &node) {
 			modules.add(new ElectronPairProduction(CMB));
 
 	if (pionprodCMB)
-		modules.add(new SophiaPhotoPionProduction(CMB));
+		modules.add(new PhotoPionProduction(CMB));
 	if (pionprodIRB)
-		modules.add(new SophiaPhotoPionProduction(IRB));
+		modules.add(new PhotoPionProduction(IRB));
 
 	if (photodisCMB and photodisIRB)
 		modules.add(new PhotoDisintegration(CMB_IRB));

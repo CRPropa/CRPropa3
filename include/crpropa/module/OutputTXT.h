@@ -3,6 +3,7 @@
 
 #include "crpropa/Module.h"
 #include "crpropa/AssocVector.h"
+
 #include <fstream>
 
 namespace crpropa {

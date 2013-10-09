@@ -1,17 +1,17 @@
 #include "crpropa/Candidate.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/PhotoDisintegration.h"
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/Redshift.h"
-#include "crpropa/ParticleID.h"
-
 #include "gtest/gtest.h"
+
 #include <fstream>
 
 namespace crpropa {
 
-TEST(ElectronPairProduction, EnergyDecreasing) {
+TEST(ElectronPairProduction, energyDecreasing) {
 	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
 	Candidate c;
 	c.setCurrentStep(2 * Mpc);
@@ -42,7 +42,7 @@ TEST(ElectronPairProduction, EnergyDecreasing) {
 	}
 }
 
-TEST(ElectronPairProduction, BelowEnergyTreshold) {
+TEST(ElectronPairProduction, belowEnergyTreshold) {
 	// Test if nothing happens below 1e15 eV
 	ElectronPairProduction epp(CMB);
 	Candidate c;
@@ -53,7 +53,7 @@ TEST(ElectronPairProduction, BelowEnergyTreshold) {
 	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
 }
 
-TEST(ElectronPairProduction, NoNucleus) {
+TEST(ElectronPairProduction, thisIsNotNucleonic) {
 	// Test if non-nuclei are skipped
 	ElectronPairProduction epp(CMB);
 	Candidate c;
@@ -160,25 +160,7 @@ TEST(ElectronPairProduction, valuesCMB_IRB) {
 	}
 }
 
-TEST(NuclearDecay, Neutron) {
-	// Quantitative test of decaying neutrons at rest.
-	// The mean decay time is expected to be within 1% of the literature value.
-	// This test can stochastically fail.
-	Candidate candidate;
-	candidate.current.setId(nucleusId(1, 0));
-	candidate.current.setEnergy(mass_neutron * c_squared);
-	NuclearDecay decay;
-	InteractionState state;
-	double tau = 0;
-	for (int i = 0; i < 100000; i++) {
-		decay.randomInteraction(&candidate, state);
-		tau += state.distance;
-	}
-	tau /= c_light * 100000;
-	EXPECT_NEAR(tau, 881.46, 8.8);
-}
-
-TEST(NuclearDecay, Scandium44) {
+TEST(NuclearDecay, scandium44) {
 	// Test beta+ decay of 44Sc 44Ca.
 	// This test can stochastically fail.
 	NuclearDecay d(true, true);
@@ -201,7 +183,7 @@ TEST(NuclearDecay, Scandium44) {
 	// electron neutrino
 }
 
-TEST(NuclearDecay, Li4) {
+TEST(NuclearDecay, lithium4) {
 	// Test proton dripping of Li-4 to He-3.
 	// This test can stochastically fail.
 	NuclearDecay d;
@@ -219,7 +201,7 @@ TEST(NuclearDecay, Li4) {
 	EXPECT_EQ(1, c1.current.getEnergy() / EeV);
 }
 
-TEST(NuclearDecay, He5) {
+TEST(NuclearDecay, helium5) {
 	// Test neturon dripping of He-5 to He-4.
 	// This test can stochastically fail if no interaction occurs over 1 Mpc.
 	NuclearDecay d;
@@ -237,52 +219,49 @@ TEST(NuclearDecay, He5) {
 	EXPECT_EQ(1, c2.current.getEnergy() / EeV);
 }
 
-TEST(NuclearDecay, LimitNextStep) {
-	// Test if next step is limited.
-	NuclearDecay d;
+TEST(NuclearDecay, limitNextStep) {
+	// Test if next step is limited in case of a neutron.
+	NuclearDecay decay;
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
 	c.current.setId(nucleusId(1, 0));
 	c.current.setEnergy(10 * EeV);
-	d.process(&c);
+	decay.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(NuclearDecay, AllWorking) {
+TEST(NuclearDecay, allWorking) {
 	// Test if all nuclear decays are working.
 	NuclearDecay d;
 	Candidate c;
-	InteractionState interaction;
 
 	std::ifstream infile(getDataPath("nuclear_decay.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			int Z, N, channel, foo;
-			infile >> Z >> N >> interaction.channel >> foo;
-
+			infile >> Z >> N >> channel >> foo;
 			c.current.setId(nucleusId(Z + N, Z));
 			c.current.setEnergy(80 * EeV);
-			d.performInteraction(&c, interaction);
+			d.performInteraction(&c, channel);
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
 }
 
-TEST(NuclearDecay, NoNucleus) {
-	// Test if non-nuclei are skipped
+TEST(NuclearDecay, thisIsNotNucleonic) {
+	// Test if noting happens to an electron
+	NuclearDecay decay;
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
-
-	NuclearDecay d;
-	InteractionState state;
-	EXPECT_FALSE(d.randomInteraction(&c, state));
-	EXPECT_EQ(0, state.channel);
+	decay.process(&c);
+	EXPECT_EQ(11, c.current.getId());
+	EXPECT_EQ(10 * EeV, c.current.getEnergy());
 }
 
-TEST(PhotoDisintegration, Carbon) {
+TEST(PhotoDisintegration, carbon) {
 	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
 	PhotoDisintegration pd;
@@ -317,7 +296,7 @@ TEST(PhotoDisintegration, Carbon) {
 	// energy conserved
 }
 
-TEST(PhotoDisintegration, Iron) {
+TEST(PhotoDisintegration, iron) {
 	// Test if a 100 EeV Fe-56 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
 	PhotoDisintegration pd(IRB);
@@ -352,20 +331,19 @@ TEST(PhotoDisintegration, Iron) {
 	// energy conserved
 }
 
-TEST(PhotoDisintegration, NoNucleus) {
-	// Test if non-nuclei are skipped
+TEST(PhotoDisintegration, thisIsNotNucleonic) {
+	// Test if noting happens to an electron
+	PhotoDisintegration pd;
 	Candidate c;
-	c.setNextStep(std::numeric_limits<double>::max());
+	c.setCurrentStep(1 * Mpc);
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
-
-	PhotoDisintegration module;
-	InteractionState state;
-	EXPECT_FALSE(module.randomInteraction(&c, state));
-	EXPECT_EQ(0, state.channel);
+	pd.process(&c);
+	EXPECT_EQ(11, c.current.getId());
+	EXPECT_EQ(10 * EeV, c.current.getEnergy());
 }
 
-TEST(PhotoDisintegration, LimitNextStep) {
+TEST(PhotoDisintegration, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
 	PhotoDisintegration pd;
 	Candidate c;
@@ -380,19 +358,15 @@ TEST(PhotoDisintegration, AllWorkingCMB) {
 	// Test if all photo-disintegrations are working.
 	PhotoDisintegration pd(CMB);
 	Candidate c;
-	InteractionState interaction;
 
-	std::ifstream infile(
-			getDataPath("photodis_CMB.txt").c_str());
+	std::ifstream infile(getDataPath("photodis_CMB.txt").c_str());
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')
 			continue;
 		std::stringstream lineStream(line);
-		int Z, N;
-		lineStream >> Z;
-		lineStream >> N;
-		lineStream >> interaction.channel;
+		int Z, N, channel;
+		lineStream >> Z >> N >> channel;
 
 		double y;
 		for (size_t i = 0; i < 200; i++) {
@@ -403,7 +377,7 @@ TEST(PhotoDisintegration, AllWorkingCMB) {
 
 		c.current.setId(nucleusId(Z + N, Z));
 		c.current.setEnergy(80 * EeV);
-		pd.performInteraction(&c, interaction);
+		pd.process(&c);
 	}
 	infile.close();
 }
@@ -412,19 +386,15 @@ TEST(PhotoDisintegration, AllWorkingIRB) {
 	// Test if all photo-disintegrations are working.
 	PhotoDisintegration pd(IRB);
 	Candidate c;
-	InteractionState interaction;
 
-	std::ifstream infile(
-			getDataPath("photodis_IRB.txt").c_str());
+	std::ifstream infile(getDataPath("photodis_IRB.txt").c_str());
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')
 			continue;
 		std::stringstream lineStream(line);
-		int Z, N;
-		lineStream >> Z;
-		lineStream >> N;
-		lineStream >> interaction.channel;
+		int Z, N, channel;
+		lineStream >> Z >> N >> channel;
 
 		double y;
 		for (size_t i = 0; i < 200; i++) {
@@ -435,19 +405,18 @@ TEST(PhotoDisintegration, AllWorkingIRB) {
 
 		c.current.setId(nucleusId(Z + N, Z));
 		c.current.setEnergy(80 * EeV);
-		pd.performInteraction(&c, interaction);
+		pd.process(&c);
 	}
 	infile.close();
 }
 
-/**
-TEST(PhotoPionProduction, Backgrounds) {
+TEST(PhotoPionProduction, backgrounds) {
 	// Test if interaction data files are loaded.
 	PhotoPionProduction ppp1(CMB);
 	PhotoPionProduction ppp2(IRB);
 }
 
-TEST(PhotoPionProduction, Proton) {
+TEST(PhotoPionProduction, proton) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail if no interaction occurs over 100 Mpc.
 	PhotoPionProduction ppp;
@@ -462,7 +431,7 @@ TEST(PhotoPionProduction, Proton) {
 	EXPECT_EQ(0, c.secondaries.size()); // no (nucleonic) secondaries
 }
 
-TEST(PhotoPionProduction, Helium) {
+TEST(PhotoPionProduction, helium) {
 	// Test photo-pion interaction for 400 EeV He nucleus.
 	// This test can stochastically fail if no interaction occurs over 100 Mpc.
 	PhotoPionProduction ppp;
@@ -477,20 +446,20 @@ TEST(PhotoPionProduction, Helium) {
 	EXPECT_TRUE(c.secondaries.size() > 0);
 }
 
-TEST(PhotoPionProduction, NoNucleus) {
-	// Test if non-nuclei are skipped
+TEST(PhotoPionProduction, thisIsNotNucleonic) {
+	// Test if noting happens to an electron
+	PhotoPionProduction ppp;
 	Candidate c;
+	c.setCurrentStep(1 * Mpc);
 	c.setNextStep(std::numeric_limits<double>::max());
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
-
-	PhotoPionProduction module;
-	InteractionState state;
-	EXPECT_FALSE(module.randomInteraction(&c, state));
-	EXPECT_EQ(0, state.channel);
+	ppp.process(&c);
+	EXPECT_EQ(11, c.current.getId());
+	EXPECT_EQ(10 * EeV, c.current.getEnergy());
 }
 
-TEST(PhotoPionProduction, LimitNextStep) {
+TEST(PhotoPionProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
 	PhotoPionProduction ppp;
 	Candidate c;
@@ -501,10 +470,10 @@ TEST(PhotoPionProduction, LimitNextStep) {
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(SophiaPhotoPionProduction, withoutSecondaries) {
+TEST(PhotoPionProduction, withoutSecondaries) {
 	// Test photo-pion (SOPHIA) interaction for 100 EeV proton.
 	// This test can stochastically fail if no interaction occurs over 100 Mpc.
-	SophiaPhotoPionProduction ppp;
+	PhotoPionProduction ppp;
 	Candidate c;
 	c.setCurrentStep(100 * Mpc);
 	c.current.setId(nucleusId(1, 1));
@@ -513,71 +482,25 @@ TEST(SophiaPhotoPionProduction, withoutSecondaries) {
 
 	// energy loss
 	EXPECT_GT(100 * EeV, c.current.getEnergy());
-
 	// nucleon number conserved
 	int id = c.current.getId();
 	EXPECT_EQ(1, massNumber(id));
-
 	// secondaries turned off
 	EXPECT_EQ(0, c.secondaries.size());
 }
 
-TEST(SophiaPhotoPionProduction, withSecondaries) {
+TEST(PhotoPionProduction, withSecondaries) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail if no interaction occurs over 100 Mpc.
-	SophiaPhotoPionProduction ppp(CMB, true, true, true);
+	PhotoPionProduction ppp(CMB, true, true, true);
 	Candidate c;
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
-	InteractionState interaction;
-	ppp.performInteraction(&c, interaction);
-
-	// there should be secondaries secondaries turned on
+	c.setCurrentStep(100 * Mpc);
+	ppp.process(&c);
+	// there should be secondaries
 	EXPECT_GT(c.secondaries.size(), 1);
 }
-
-TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_CMB) {
-	// The minimum nucleon energy for SOPHIA interactions is ~3.75 EeV against the CMB.
-	// This needs to be caught
-	SophiaPhotoPionProduction ppp(CMB);
-
-	Candidate c;
-	c.current.setId(nucleusId(1, 1));
-	c.current.setEnergy(2 * EeV);
-	InteractionState interaction(1 * Mpc, 1);
-	c.setInteractionState(ppp.getDescription(), interaction);
-	ppp.performInteraction(&c, interaction);
-
-	// no interaction should have happened
-	EXPECT_DOUBLE_EQ(2, c.current.getEnergy() / EeV);
-
-	// the scheduled photo-pion interaction better be deleted
-	InteractionState dummy;
-	bool hasInteraction = c.getInteractionState(ppp.getDescription(), dummy);
-	EXPECT_FALSE(hasInteraction);
-}
-
-TEST(SophiaPhotoPionProduction, belowSophiaEnergyThreshold_IRB) {
-	// The minimum nucleon energy for SOPHIA interactions is ~0.01 EeV against the IRB.
-	// This needs to be caught.
-	SophiaPhotoPionProduction ppp(IRB);
-
-	Candidate c;
-	c.current.setId(nucleusId(1, 1));
-	c.current.setEnergy(0.005 * EeV);
-	InteractionState interaction(1 * Mpc, 1);
-	c.setInteractionState(ppp.getDescription(), interaction);
-	ppp.performInteraction(&c, interaction);
-
-	// no interaction should have happened
-	EXPECT_DOUBLE_EQ(0.005, c.current.getEnergy() / EeV);
-
-	// the scheduled photo-pion interaction better be deleted
-	InteractionState dummy;
-	bool hasInteraction = c.getInteractionState(ppp.getDescription(), dummy);
-	EXPECT_FALSE(hasInteraction);
-}
-**/
 
 TEST(Redshift, simpleTest) {
 	// Test if redshift is decreased and adiabatic energy loss is applied.

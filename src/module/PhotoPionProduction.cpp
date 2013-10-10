@@ -236,4 +236,33 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	}
 }
 
+double PhotoPionProduction::energyLossLength(int id, double E) {
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
+	int N = A - Z;
+
+	double Eeff = E / A;
+	if ((Eeff < energy.front()) or (Eeff > energy.back()))
+		return std::numeric_limits<double>::max();
+
+	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
+	// nuclei approximately lose the energy that the interacting nucleon is carrying
+	double relativeEnergyLoss = (A == 1) ? 1 - 938. / 1232. : 1. / A;
+
+	double lossRate = 0;
+	if (Z > 0) {
+		double rate = interpolate(Eeff, energy, pRate);
+		rate *= nucleiModification(A, Z);
+		lossRate += relativeEnergyLoss * rate;
+	}
+
+	if (N > 0) {
+		double rate = interpolate(Eeff, energy, nRate);
+		rate *= nucleiModification(A, N);
+		lossRate += relativeEnergyLoss * rate;
+	}
+
+	return 1. / lossRate;
+}
+
 } // namespace crpropa

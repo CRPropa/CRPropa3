@@ -41,7 +41,7 @@ void PhotoDisintegration::init(PhotonField photonField) {
 }
 
 void PhotoDisintegration::init(std::string filename) {
-	pdTable.resize(31 * 57);
+	pdTable.resize(27 * 31);
 
 	// create spline x-axis
 	std::ifstream infile(filename.c_str());
@@ -57,8 +57,8 @@ void PhotoDisintegration::init(std::string filename) {
 		std::stringstream lineStream(line);
 
 		int Z, N;
-		lineStream >> Z; // charge number
-		lineStream >> N; // mass number
+		lineStream >> Z; // proton number
+		lineStream >> N; // neutron number
 
 		PDMode pd;
 		lineStream >> pd.channel; // disintegration channel
@@ -89,6 +89,8 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		int N = A - Z;
 
 		// check if disintegration data available
+		if ((Z > 26) or (N > 30))
+			return;
 		std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
 		if (pdModes.size() == 0)
 			return;
@@ -174,38 +176,36 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 		candidate->addSecondary(nucleusId(4, 2), EpA * 4);
 }
 
-double PhotoDisintegration::energyLossLength(int id, double E) {
+double PhotoDisintegration::interactionRate(int id, double E, double z) {
+	// check if nucleus
+	if (not (isNucleus(id)))
+		return 0;
+
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
+	// check if disintegration data available
+	if ((Z > 26) or (N > 30))
+		return 0;
 	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
 	if (pdModes.size() == 0)
-		return std::numeric_limits<double>::max();
+		return 0;
 
+	// check if in tabulated energy range
 	double lg = log10(E / (nucleusMass(id) * c_squared));
 	if ((lg <= 6) or (lg >= 14))
-		return std::numeric_limits<double>::max();
+		return 0;
 
-	double lossRate = 0;
+	// total rate from all disintegration channels
+	double rate = 0;
 	for (size_t i = 0; i < pdModes.size(); i++) {
-		double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
-
-		int channel = pdModes[i].channel;
-		int nN = digit(channel, 100000);
-		int nP = digit(channel, 10000);
-		int nH2 = digit(channel, 1000);
-		int nH3 = digit(channel, 100);
-		int nHe3 = digit(channel, 10);
-		int nHe4 = digit(channel, 1);
-
-		double relativeEnergyLoss = double(
-				nN + nP + 2 * nH2 + 3 * nH3 + 3 * nHe3 + 4 * nHe4) / double(A);
-
-		lossRate += rate * relativeEnergyLoss;
+		rate += interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
 	}
 
-	return 1 / lossRate;
+	// comological scaling of interaction distance (in physical units)
+	rate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	return rate;
 }
 
 } // namespace crpropa

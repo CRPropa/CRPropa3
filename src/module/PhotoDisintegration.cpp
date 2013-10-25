@@ -41,11 +41,12 @@ void PhotoDisintegration::init(PhotonField photonField) {
 }
 
 void PhotoDisintegration::init(std::string filename) {
+	lgmin = 6;
+	lgmax = 13.96;
 	pdTable.resize(27 * 31);
 
-	// create spline x-axis
 	std::ifstream infile(filename.c_str());
-	if (!infile.good())
+	if (not infile.good())
 		throw std::runtime_error(
 				"crpropa::PhotoDisintegration: could not open file "
 						+ filename);
@@ -57,16 +58,16 @@ void PhotoDisintegration::init(std::string filename) {
 		std::stringstream lineStream(line);
 
 		int Z, N;
-		lineStream >> Z; // proton number
-		lineStream >> N; // neutron number
+		lineStream >> Z;
+		lineStream >> N;
 
 		PDMode pd;
-		lineStream >> pd.channel; // disintegration channel
+		lineStream >> pd.channel;
 
 		double r = 0;
 		for (size_t i = 0; i < 200; i++) {
 			lineStream >> r;
-			pd.rate.push_back(r / Mpc); // disintegration rate in [1/m]
+			pd.rate.push_back(r / Mpc);
 		}
 
 		pdTable[Z * 31 + N].push_back(pd);
@@ -76,7 +77,7 @@ void PhotoDisintegration::init(std::string filename) {
 }
 
 void PhotoDisintegration::process(Candidate *candidate) const {
-	// the loop should be processed at least once for limiting the next step
+	// the loop will be executed at least once for limiting the next step
 	double step = candidate->getCurrentStep();
 	do {
 		// check if nucleus
@@ -98,7 +99,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		// check if in tabulated energy range
 		double z = candidate->getRedshift();
 		double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
-		if ((lg <= 6) or (lg >= 14))
+		if ((lg <= lgmin) or (lg >= lgmax))
 			return;
 
 		// find disintegration channel with minimum random decay distance
@@ -107,11 +108,12 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		int channel;
 		double totalRate = 0;
 
-		// comological scaling of interaction distance (comoving)
+		// comological scaling of interaction distance (comoving units)
 		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 		for (size_t i = 0; i < pdModes.size(); i++) {
-			double rate = interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
+			double rate = interpolateEquidistant(lg, lgmin, lgmax,
+					pdModes[i].rate);
 			rate *= scaling;
 			totalRate += rate;
 			double d = -log(random.rand()) / rate;
@@ -193,14 +195,14 @@ double PhotoDisintegration::interactionRate(int id, double E, double z) {
 		return 0;
 
 	// check if in tabulated energy range
-	double lg = log10(E / (nucleusMass(id) * c_squared));
-	if ((lg <= 6) or (lg >= 14))
+	double lg = log10(E / (nucleusMass(id) * c_squared)) * (1 + z);
+	if ((lg <= lgmin) or (lg >= lgmax))
 		return 0;
 
 	// total rate from all disintegration channels
 	double rate = 0;
 	for (size_t i = 0; i < pdModes.size(); i++) {
-		rate += interpolateEquidistant(lg, 6, 14, pdModes[i].rate);
+		rate += interpolateEquidistant(lg, lgmin, lgmax, pdModes[i].rate);
 	}
 
 	// comological scaling of interaction distance (in physical units)

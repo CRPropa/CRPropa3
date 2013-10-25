@@ -26,7 +26,7 @@ def getDigit(number, d):
 	return number % (10**d) // (10**(d-1))
 
 
-def isBogus(Z, A, channel, j):
+def isBogus(Z, A, channel):
 	# checks if the disintegration channel is impossible or leaves an empty nucleus
 	nN = getDigit(channel, 6)
 	nP = getDigit(channel, 5)
@@ -79,11 +79,12 @@ def reformat(photonField):
 		for j in range(j0, j1):
 			channel = int(data2[j, 0])
 
-			if isBogus(Z,A,channel,j):
+			if isBogus(Z,A,channel):
+				print ' .. in line', j
 				continue
 
 			fout.write('\n')
-			fout.write(str(Z)+'\t'+str(N)+'\t') # write the particle's Z, A
+			fout.write(str(Z)+'\t'+str(N)+'\t') # write the particle's Z, N
 			fout.write(str(channel)) # write disintegration channel
 
 			k0 = int(data2[j, 1]) # start index in 'PDExclTabMnFrPthCross.cmt'

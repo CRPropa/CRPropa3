@@ -13,6 +13,26 @@ TEST(SourcePosition, simpleTest) {
 	EXPECT_EQ(position, ps.getPosition());
 }
 
+TEST(SourceMultiplePositions, simpleTest) {
+	SourceMultiplePositions source;
+	source.add(Vector3d(1, 0, 0), 0.25);
+	source.add(Vector3d(2, 0, 0), 0.75);
+	ParticleState ps;
+	int n1 = 0;
+	int n2 = 0;
+	for (int i = 0; i < 10000; i++) {
+		source.prepare(ps);
+		if (ps.getPosition().x == 1)
+			n1++;
+		else if (ps.getPosition().x == 2)
+			n2++;
+	}
+	std::cout << n1 << std::endl;
+	std::cout << n2 << std::endl;
+	EXPECT_NEAR(n1, 2500, 2 * sqrt(2500));
+	EXPECT_NEAR(n2, 7500, 2 * sqrt(7500));
+}
+
 TEST(SourceUniformSphere, simpleTest) {
 	Vector3d center(0, 0, 0);
 	double radius = 110;

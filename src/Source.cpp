@@ -161,10 +161,12 @@ void SourceMultiplePositions::add(Vector3d pos, double lumi) {
 void SourceMultiplePositions::prepare(ParticleState& particle) const {
 	if (positions.size() == 0)
 		throw std::runtime_error("SourceMultiplePositions: no position set");
-	double r = Random().rand() * luminosities.back();
-	int i = 0;
-	while ((r > luminosities[i]) and (i < luminosities.size()))
-		i++;
+
+	Random &random = Random::instance();
+	double r = random.rand();
+	std::vector<double>::const_iterator it = std::upper_bound(
+			luminosities.begin(), luminosities.end(), r * luminosities.back());
+	size_t i = it - luminosities.begin();
 	particle.setPosition(positions[i]);
 }
 

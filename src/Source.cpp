@@ -30,20 +30,17 @@ ref_ptr<Candidate> Source::getCandidate() const {
 	return candidate;
 }
 
-void SourceList::addSource(Source* source, double lumi) {
+void SourceList::addSource(Source* source, double weight) {
 	sources.push_back(source);
-	if (luminosities.size() > 0)
-		lumi += luminosities.back();
-	luminosities.push_back(lumi);
+	if (cdf.size() > 0)
+		weight += cdf.back();
+	cdf.push_back(weight);
 }
 
 ref_ptr<Candidate> SourceList::getCandidate() const {
 	if (sources.size() == 0)
 		throw std::runtime_error("SourceList: no sources set");
-	double r = Random::instance().rand() * luminosities.back();
-	int i = 0;
-	while ((r > luminosities[i]) and (i < luminosities.size()))
-		i++;
+	size_t i = Random::instance().randBin(cdf);
 	return (sources[i])->getCandidate();
 }
 
@@ -75,72 +72,59 @@ void SourcePowerLawSpectrum::prepare(ParticleState& particle) const {
 }
 
 void SourceMultipleParticleTypes::add(int id, double a) {
-	ids.push_back(id);
-	if (abundances.size() > 0)
-		a += abundances.back();
-	abundances.push_back(a);
+	particleTypes.push_back(id);
+	if (cdf.size() > 0)
+		a += cdf.back();
+	cdf.push_back(a);
 }
 
 void SourceMultipleParticleTypes::prepare(ParticleState& particle) const {
-	if (ids.size() == 0)
-		throw std::runtime_error("SourceNuclei: no nuclei set");
-	Random &random = Random::instance();
-	double r = random.rand() * abundances.back();
-	int i = 0;
-	while ((r > abundances[i]) and (i < abundances.size()))
-		i++;
-	particle.setId(ids[i]);
+	if (particleTypes.size() == 0)
+		throw std::runtime_error("SourceMultipleParticleTypes: no nuclei set");
+	size_t i = Random::instance().randBin(cdf);
+	particle.setId(particleTypes[i]);
 }
 
 SourceComposition::SourceComposition(double Emin, double Rmax, double index) :
 		Emin(Emin), Rmax(Rmax), index(index) {
 }
 
-double SourceComposition::getSpectrumIntegral(int Z) const {
-	double a = 1 + index;
-	double Emax = Z * Rmax;
-	if (std::abs(a) < std::numeric_limits<double>::min())
-		return log(Emax / Emin);
-	else
-		return (pow(Emax, a) - pow(Emin, a)) / a;
-}
-
-void SourceComposition::add(int id, double a) {
-	isotope.push_back(id);
+void SourceComposition::add(int id, double weight) {
+	nuclei.push_back(id);
 	int A = massNumber(id);
-	double weightedAbundance = a * pow(A, -index - 1);
-	abundance.push_back(weightedAbundance);
-	probability.push_back(0);
-	normalize();
+	int Z = chargeNumber(id);
+
+	double a = 1 + index;
+	if (std::abs(a) < std::numeric_limits<double>::min())
+		weight *= log(Z * Rmax / Emin);
+	else
+		weight *= (pow(Z * Rmax, a) - pow(Emin, a)) / a;
+
+	weight *= pow(A, -a);
+
+	if (cdf.size() > 0)
+		weight += cdf.back();
+	cdf.push_back(weight);
 }
 
 void SourceComposition::add(int A, int Z, double a) {
 	add(nucleusId(A, Z), a);
 }
 
-void SourceComposition::normalize() {
-	double pSum = 0;
-	for (int i = 0; i < isotope.size(); i++) {
-		int Z = HepPID::Z(isotope[i]);
-		pSum += abundance[i] * getSpectrumIntegral(Z);
-		probability[i] = pSum;
-	}
-	for (int i = 0; i < probability.size(); i++) {
-		probability[i] /= pSum;
-	}
-}
-
 void SourceComposition::prepare(ParticleState& particle) const {
-	if (isotope.size() == 0)
-		throw std::runtime_error("PowerLawComposition: No source isotope set");
+	if (nuclei.size() == 0)
+		throw std::runtime_error("SourceComposition: No source isotope set");
+
 	Random &random = Random::instance();
-	double r = random.rand();
-	int i = 0;
-	while ((r > probability[i]) and (i < probability.size()))
-		i++;
-	int id = isotope[i];
+
+	// draw random particle type
+	size_t i = random.randBin(cdf);
+	int id = nuclei[i];
 	particle.setId(id);
-	particle.setEnergy(random.randPowerLaw(index, Emin, HepPID::Z(id) * Rmax));
+
+	// random energy from power law
+	int Z = chargeNumber(id);
+	particle.setEnergy(random.randPowerLaw(index, Emin, Z * Rmax));
 }
 
 SourcePosition::SourcePosition(Vector3d position) :
@@ -151,22 +135,17 @@ void SourcePosition::prepare(ParticleState& particle) const {
 	particle.setPosition(position);
 }
 
-void SourceMultiplePositions::add(Vector3d pos, double lumi) {
+void SourceMultiplePositions::add(Vector3d pos, double weight) {
 	positions.push_back(pos);
-	if (luminosities.size() > 0)
-		lumi += luminosities.back();
-	luminosities.push_back(lumi);
+	if (cdf.size() > 0)
+		weight += cdf.back();
+	cdf.push_back(weight);
 }
 
 void SourceMultiplePositions::prepare(ParticleState& particle) const {
 	if (positions.size() == 0)
 		throw std::runtime_error("SourceMultiplePositions: no position set");
-
-	Random &random = Random::instance();
-	double r = random.rand();
-	std::vector<double>::const_iterator it = std::upper_bound(
-			luminosities.begin(), luminosities.end(), r * luminosities.back());
-	size_t i = it - luminosities.begin();
+	size_t i = Random::instance().randBin(cdf);
 	particle.setPosition(positions[i]);
 }
 
@@ -229,17 +208,13 @@ SourceDensityGrid::SourceDensityGrid(ref_ptr<ScalarGrid> grid) :
 			}
 		}
 	}
-	sumDensity = sum;
 }
 
 void SourceDensityGrid::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 
-	// pick random bin; find bin using STL method
-	double r = random.rand(sumDensity);
-	std::vector<float> &v = grid->getGrid();
-	std::vector<float>::iterator it = lower_bound(v.begin(), v.end(), r);
-	int i = it - v.begin();
+	// draw random bin
+	size_t i = random.randBin(grid->getGrid());
 	Vector3d pos = grid->positionFromIndex(i);
 
 	// draw uniform position within bin
@@ -263,22 +238,18 @@ SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<ScalarGrid> grid) :
 		sum += grid->get(ix, 0, 0);
 		grid->get(ix, 0, 0) = sum;
 	}
-	sumDensity = sum;
 }
 
 void SourceDensityGrid1D::prepare(ParticleState& particle) const {
 	Random &random = Random::instance();
 
-	// pick random bin; find bin using STL method
-	double r = random.rand(sumDensity);
-	std::vector<float> &v = grid->getGrid();
-	std::vector<float>::iterator it = lower_bound(v.begin(), v.end(), r);
-	int i = it - v.begin();
+	// draw random bin
+	size_t i = random.randBin(grid->getGrid());
 	Vector3d pos = grid->positionFromIndex(i);
 
 	// draw uniform position within bin
 	double dx = random.rand() - 0.5;
-	pos += Vector3d(dx, 0, 0) * grid->getSpacing();
+	pos.x += dx * grid->getSpacing();
 
 	particle.setPosition(pos);
 }

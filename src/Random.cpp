@@ -122,6 +122,12 @@ double Random::randFisher(double kappa) {
 	return acos(1. + 1. / kappa * log(1 - rand() * (1 - exp(-2 * kappa))));
 }
 
+size_t randBin(const std::vector<double>& cdf) {
+	std::vector<double>::const_iterator it = std::lower_bound(cdf.begin(),
+			cdf.end(), rand() * cdf.back());
+	return it - cdf.begin();
+}
+
 Vector3d Random::randVector() {
 	double z = randUniform(-1.0, 1.0);
 	double t = randUniform(-1.0 * M_PI, M_PI);
@@ -129,7 +135,8 @@ Vector3d Random::randVector() {
 	return Vector3d(r * cos(t), r * sin(t), z);
 }
 
-Vector3d Random::randVectorAroundMean(const Vector3d &meanDirection, double angle) {
+Vector3d Random::randVectorAroundMean(const Vector3d &meanDirection,
+		double angle) {
 	Vector3d rotAxis = meanDirection.cross(randVector());
 	rotAxis.normalize();
 	Vector3d v = meanDirection;
@@ -141,7 +148,8 @@ Vector3d Random::randFisherVector(const Vector3d &meanDirection, double kappa) {
 	return randVectorAroundMean(meanDirection, randFisher(kappa));
 }
 
-Vector3d Random::randConeVector(const Vector3d &meanDirection, double angularRadius) {
+Vector3d Random::randConeVector(const Vector3d &meanDirection,
+		double angularRadius) {
 	double theta = 2 * M_PI;
 	while (theta > angularRadius)
 		theta = acos(2 * rand() - 1);
@@ -296,7 +304,8 @@ void Random::seed() {
 	}
 
 // Was not successful, so use time() and clock() instead
-	seed (hash(time (NULL), clock()));}
+	seed(hash(time(NULL), clock()));
+}
 
 void Random::initialize(const uint32 seed) {
 	register uint32 *s = state;
@@ -389,9 +398,9 @@ struct RANDOM_TLS_ITEM {
 };
 
 #ifdef _MSC_VER
-	__declspec(align(64)) static RANDOM_TLS_ITEM _tls[MAX_THREAD];
+__declspec(align(64)) static RANDOM_TLS_ITEM _tls[MAX_THREAD];
 #else
-	__attribute__ ((aligned(64))) static RANDOM_TLS_ITEM _tls[MAX_THREAD];
+__attribute__ ((aligned(64))) static RANDOM_TLS_ITEM _tls[MAX_THREAD];
 #endif
 
 Random &Random::instance() {
@@ -403,7 +412,7 @@ Random &Random::instance() {
 
 void Random::seedThreads(const uint32 oneSeed) {
 	for(size_t i = 0; i < MAX_THREAD; ++i)
-		_tls[i].r.seed(oneSeed + i);
+	_tls[i].r.seed(oneSeed + i);
 }
 #else
 static Random _random;

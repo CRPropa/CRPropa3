@@ -132,6 +132,9 @@ public:
 	/// Fisher distributed random number
 	double randFisher(double k);
 
+	/// Draw a random bin from a (unnormalized) cumulative distribution function
+	size_t randBin(const std::vector<double>& cdf);
+
 	/// Random point on a unit-sphere
 	Vector3d randVector();
 	/// Random vector with given angular separation around mean direction

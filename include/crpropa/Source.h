@@ -1,7 +1,6 @@
 #ifndef CRPROPA_SOURCE_H
 #define CRPROPA_SOURCE_H
 
-#include "crpropa/Referenced.h"
 #include "crpropa/Candidate.h"
 #include "crpropa/Grid.h"
 
@@ -36,7 +35,7 @@ public:
 
 /**
  @class SourceList
- @brief List of cosmic ray sources of individual total lumosities.
+ @brief List of cosmic ray sources of individual lumosities.
 
  The SourceList is a source itself. It can be used if several sources are
  needed in one simulation.

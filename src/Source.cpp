@@ -4,7 +4,6 @@
 
 #include "HepPID/ParticleIDMethods.hh"
 #include <stdexcept>
-#include <algorithm>
 
 namespace crpropa {
 

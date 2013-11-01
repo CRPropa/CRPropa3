@@ -37,7 +37,7 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
 // CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
 // EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
 // PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
@@ -55,7 +55,7 @@
 // when you write.
 
 // Parts of this file are modified beginning in 29.10.09 for adaption in PXL.
-// Parts of this file are modified beginning in 10.02.12 for adaption in MPC.
+// Parts of this file are modified beginning in 10.02.12 for adaption in CRPropa.
 
 #ifndef RANDOM_H
 #define RANDOM_H
@@ -63,12 +63,14 @@
 // Not thread safe (unless auto-initialization is avoided and each thread has
 // its own Random object)
 #include "crpropa/Vector3.h"
+
 #include <iostream>
 #include <limits>
 #include <stdio.h>
 #include <time.h>
 #include <cmath>
 #include <stdexcept>
+#include <algorithm>
 
 //necessary for win32
 #ifndef M_PI
@@ -133,7 +135,8 @@ public:
 	double randFisher(double k);
 
 	/// Draw a random bin from a (unnormalized) cumulative distribution function
-	size_t randBin(const std::vector<double>& cdf);
+	size_t randBin(const std::vector<float> &cdf);
+	size_t randBin(const std::vector<double> &cdf);
 
 	/// Random point on a unit-sphere
 	Vector3d randVector();

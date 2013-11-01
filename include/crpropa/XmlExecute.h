@@ -5,8 +5,6 @@
 #include "crpropa/Source.h"
 #include "crpropa/magneticField/MagneticField.h"
 
-#include <vector>
-
 namespace pugi {
 class xml_node;
 }

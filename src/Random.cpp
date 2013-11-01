@@ -55,7 +55,7 @@
 // when you write.
 
 // Parts of this file are modified beginning in 29.10.09 for adaption in PXL.
-// Parts of this file are modified beginning in 10.02.12 for adaption in CRPROPA.
+// Parts of this file are modified beginning in 10.02.12 for adaption in CRPropa.
 
 #include "crpropa/Random.h"
 
@@ -122,7 +122,13 @@ double Random::randFisher(double kappa) {
 	return acos(1. + 1. / kappa * log(1 - rand() * (1 - exp(-2 * kappa))));
 }
 
-size_t randBin(const std::vector<double>& cdf) {
+size_t Random::randBin(const std::vector<float> &cdf) {
+	std::vector<float>::const_iterator it = std::lower_bound(cdf.begin(),
+			cdf.end(), rand() * cdf.back());
+	return it - cdf.begin();
+}
+
+size_t Random::randBin(const std::vector<double> &cdf) {
 	std::vector<double>::const_iterator it = std::lower_bound(cdf.begin(),
 			cdf.end(), rand() * cdf.back());
 	return it - cdf.begin();

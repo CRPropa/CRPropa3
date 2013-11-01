@@ -185,17 +185,16 @@ TEST(SourcePowerLawSpectrum, simpleTest) {
 }
 
 TEST(SourceComposition, simpleTest) {
-	Vector3d position(1, 2, 3);
 	double Emin = 10;
-	double Emax = 100;
-	double index = -2;
-	SourceComposition source(Emin, Emax, index);
+	double Rmax = 100;
+	double index = -1;
+	SourceComposition source(Emin, Rmax, index);
 	source.add(nucleusId(6, 3), 1);
 	ParticleState p;
 	source.prepare(p);
 	EXPECT_EQ(nucleusId(6, 3), p.getId());
 	EXPECT_LE(Emin, p.getEnergy());
-	EXPECT_GE(Emax, p.getEnergy());
+	EXPECT_GE(6 * Rmax, p.getEnergy());
 }
 
 TEST(SourceComposition, throwNoIsotope) {
@@ -270,8 +269,7 @@ TEST(SourceList, luminosity) {
 		meanE += c->created.getEnergy();
 	}
 	meanE /= 1000;
-	EXPECT_NEAR(80, meanE, 2);
-	// this test can stochastically fail
+	EXPECT_NEAR(80, meanE, 4); // this test can stochastically fail
 }
 
 int main(int argc, char **argv) {

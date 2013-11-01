@@ -5,13 +5,13 @@ Development version of CRPropa. Use on your own risk.
 
 Install from source
 ------------------------
-1. Download the data archive from https://forge.physik.rwth-aachen.de/projects/mpc/files extract to crpropa/data  
-1. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake
+1. Download the latest data archive from https://crpropa.desy.de/Interaction_data and extract to CRPropa3/data  
+2. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake
 
         cd build
         ccmake ..  
 
-2. Afterward configuring run make and make install as usual
+3. Afterward configuring run make and make install as usual
 
         make
         make install 

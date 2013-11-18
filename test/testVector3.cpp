@@ -3,6 +3,11 @@
 
 namespace crpropa {
 
+TEST(Vector3, comparison) {
+	EXPECT_TRUE(Vector3d(1, 2, 3) == Vector3d(1, 2, 3));
+	EXPECT_TRUE(Vector3d(1, 2, 3) < Vector3d(2, 3, 4));
+}
+
 TEST(Vector3, multiplication) {
 	Vector3d v(1);
 	v *= 10;
@@ -44,21 +49,16 @@ TEST(Vector3, dot) {
 
 TEST(Vector3, cross) {
 	Vector3d v = Vector3d(1, 0, 0).cross(Vector3d(0, 1, 0));
-	EXPECT_DOUBLE_EQ(v.x, 0);
-	EXPECT_DOUBLE_EQ(v.y, 0);
-	EXPECT_DOUBLE_EQ(v.z, 1);
+	EXPECT_TRUE(v == Vector3d(0, 0, 1));
 }
 
 TEST(Vector3, angle) {
+	// 45 degrees
 	double a = Vector3d(1, 1, 0).getAngleTo(Vector3d(1, 0, 0));
 	EXPECT_DOUBLE_EQ(a, 45 * M_PI / 180);
+	// perpendicular vectors
 	double b = Vector3d(0, 0, 1).getAngleTo(Vector3d(0, 0, 1));
 	EXPECT_DOUBLE_EQ(b, 0);
-}
-
-TEST(Vector3, comparison) {
-	EXPECT_TRUE(Vector3d(1, 2, 3) == Vector3d(1, 2, 3));
-	EXPECT_TRUE(Vector3d(1, 2, 3) < Vector3d(2, 3, 4));
 }
 
 TEST(Vector3, unitVectors) {
@@ -73,19 +73,19 @@ TEST(Vector3, unitVectors) {
 	EXPECT_NEAR(er.y, 0, eps);
 	EXPECT_NEAR(er.z, 0, eps);
 
-	EXPECT_NEAR(ep.x, 0, eps);
-	EXPECT_NEAR(ep.y, 1, eps);
-	EXPECT_NEAR(ep.z, 0, eps);
-
 	EXPECT_NEAR(et.x, 0, eps);
 	EXPECT_NEAR(et.y, 0, eps);
 	EXPECT_NEAR(et.z, -1, eps);
+
+	EXPECT_NEAR(ep.x, 0, eps);
+	EXPECT_NEAR(ep.y, 1, eps);
+	EXPECT_NEAR(ep.z, 0, eps);
 }
 
 TEST(Vector3, magnitude) {
 	Vector3d v = Vector3d(1, 2, -2);
-	EXPECT_DOUBLE_EQ(v.getMag(), 3);
-	EXPECT_DOUBLE_EQ(v.getMag2(), 9);
+	EXPECT_DOUBLE_EQ(v.getR(), 3);
+	EXPECT_DOUBLE_EQ(v.getR2(), 9);
 }
 
 TEST(Vector3, distance) {
@@ -94,24 +94,43 @@ TEST(Vector3, distance) {
 }
 
 TEST(Vector3, rotation) {
-	Vector3d v(10, 0, 0);
-	v.rotate(Vector3d(0, 2, 0), M_PI);
-	EXPECT_NEAR(v.x, -10, 1e-9);
-	// rotation doesn't preserve double precision
-	EXPECT_NEAR(v.y, 0, 1e-9);
-	EXPECT_NEAR(v.z, 0, 1e-9);
+	Vector3d v, w;
 
+	// rotation by 180 degrees
 	v = Vector3d(10, 0, 0);
-	v.rotate(Vector3d(1, 0, 0), M_PI); // no rotation
-	EXPECT_NEAR(v.x, 10, 1e-9);
-	EXPECT_NEAR(v.y, 0, 1e-9);
-	EXPECT_NEAR(v.z, 0, 1e-9);
+	w = v.getRotated(Vector3d(0, 2, 0), M_PI);
+	EXPECT_NEAR(w.x, -10, 1e-9);
+	EXPECT_NEAR(w.y, 0, 1e-9);
+	EXPECT_NEAR(w.z, 0, 1e-9);
 
+	// rotation axis parallel to vector --> no rotation
+	v = Vector3d(10, 0, 0);
+	w = v.getRotated(Vector3d(1, 0, 0), M_PI);
+	EXPECT_NEAR(w.x, 10, 1e-9);
+	EXPECT_NEAR(w.y, 0, 1e-9);
+	EXPECT_NEAR(w.z, 0, 1e-9);
+
+	// rotation by 360 degrees
 	v = Vector3d(5, 2, 7);
-	v.rotate(Vector3d(1, 8, -4), 2 * M_PI); // full rotation
-	EXPECT_NEAR(v.x, 5, 1e-9);
-	EXPECT_NEAR(v.y, 2, 1e-9);
-	EXPECT_NEAR(v.z, 7, 1e-9);
+	w = v.getRotated(Vector3d(1, 8, -4), 2 * M_PI);
+	EXPECT_NEAR(w.x, 5, 1e-9);
+	EXPECT_NEAR(w.y, 2, 1e-9);
+	EXPECT_NEAR(w.z, 7, 1e-9);
+}
+
+TEST(Vector3, parallelPerpendicular) {
+	Vector3d v(3, 2, 1);
+	Vector3d w(0, 1, 0);
+
+	Vector3d vpara = v.getParallelTo(w);
+	Vector3d vperp = v.getPerpendicularTo(w);
+
+	EXPECT_DOUBLE_EQ(vpara.x, 0);
+	EXPECT_DOUBLE_EQ(vpara.y, 2);
+	EXPECT_DOUBLE_EQ(vpara.z, 0);
+	EXPECT_DOUBLE_EQ(vperp.x, 3);
+	EXPECT_DOUBLE_EQ(vperp.y, 0);
+	EXPECT_DOUBLE_EQ(vperp.z, 1);
 }
 
 int main(int argc, char **argv) {

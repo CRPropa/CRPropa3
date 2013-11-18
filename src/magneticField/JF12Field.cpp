@@ -161,7 +161,7 @@ Vector3d JF12Field::getRegularField(const Vector3d& pos) const {
 	Vector3d b(0.);
 
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
-	double d = pos.getMag(); // distance to galactic center
+	double d = pos.getR(); // distance to galactic center
 	if ((d < 1 * kpc) or (d > 20 * kpc))
 		return b; // 0 field for d < 1 kpc or d > 20 kpc
 
@@ -242,7 +242,7 @@ Vector3d JF12Field::getStriatedField(const Vector3d& pos) const {
 }
 
 double JF12Field::getTurbulentStrength(const Vector3d& pos) const {
-	if (pos.getMag() > 20 * kpc)
+	if (pos.getR() > 20 * kpc)
 		return 0;
 
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
@@ -269,7 +269,8 @@ double JF12Field::getTurbulentStrength(const Vector3d& pos) const {
 	bDisk *= exp(-0.5 * pow(pos.z / zDiskTurb, 2));
 
 	// halo
-	double bHalo = bHaloTurb * exp(-r / rHaloTurb) * exp(-0.5 * pow(pos.z / zHaloTurb, 2));
+	double bHalo = bHaloTurb * exp(-r / rHaloTurb)
+			* exp(-0.5 * pow(pos.z / zHaloTurb, 2));
 
 	// modulate turbulent field
 	return sqrt(pow(bDisk, 2) + pow(bHalo, 2));

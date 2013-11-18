@@ -66,8 +66,8 @@ void TurbulentMagneticField::initialize() {
 
 		// random orientation of b
 		double alpha = random.rand(2 * M_PI);
-		mode.e1 = e1 / e1.getMag() * cos(alpha);
-		mode.e2 = e2 / e2.getMag() * sin(alpha);
+		mode.e1 = e1 / e1.getR() * cos(alpha);
+		mode.e2 = e2 / e2.getR() * sin(alpha);
 
 		// random phase
 		mode.phase = random.rand(2 * M_PI);

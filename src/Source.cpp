@@ -293,7 +293,7 @@ void SourceUniformRedshift::prepare(Candidate& candidate) const {
 }
 
 void SourceRedshift1D::prepare(Candidate& candidate) const {
-	double d = candidate.source.getPosition().getMag();
+	double d = candidate.source.getPosition().getR();
 	double z = comovingDistance2Redshift(d);
 	candidate.setRedshift(z);
 }

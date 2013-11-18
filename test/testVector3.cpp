@@ -3,6 +3,18 @@
 
 namespace crpropa {
 
+TEST(Vector3, multiplication) {
+	Vector3d v(1);
+	v *= 10;
+	EXPECT_DOUBLE_EQ(v.x, 10);
+	EXPECT_DOUBLE_EQ(v.y, 10);
+	EXPECT_DOUBLE_EQ(v.z, 10);
+	v = Vector3d(1) * Vector3d(2); // element-wise multiplication
+	EXPECT_DOUBLE_EQ(v.x, 2);
+	EXPECT_DOUBLE_EQ(v.y, 2);
+	EXPECT_DOUBLE_EQ(v.z, 2);
+}
+
 TEST(Vector3, division) {
 	Vector3d v(10);
 	v /= 10;
@@ -42,6 +54,32 @@ TEST(Vector3, angle) {
 	EXPECT_DOUBLE_EQ(a, 45 * M_PI / 180);
 	double b = Vector3d(0, 0, 1).getAngleTo(Vector3d(0, 0, 1));
 	EXPECT_DOUBLE_EQ(b, 0);
+}
+
+TEST(Vector3, comparison) {
+	EXPECT_TRUE(Vector3d(1, 2, 3) == Vector3d(1, 2, 3));
+	EXPECT_TRUE(Vector3d(1, 2, 3) < Vector3d(2, 3, 4));
+}
+
+TEST(Vector3, unitVectors) {
+	Vector3d v = Vector3d(2, 0, 0);
+	Vector3d er = v.getUnitVector();
+	Vector3d et = v.getUnitVectorTheta();
+	Vector3d ep = v.getUnitVectorPhi();
+
+	// trigonometrical functions don't preserve double precision
+	double eps = 1e-16;
+	EXPECT_NEAR(er.x, 1, eps);
+	EXPECT_NEAR(er.y, 0, eps);
+	EXPECT_NEAR(er.z, 0, eps);
+
+	EXPECT_NEAR(ep.x, 0, eps);
+	EXPECT_NEAR(ep.y, 1, eps);
+	EXPECT_NEAR(ep.z, 0, eps);
+
+	EXPECT_NEAR(et.x, 0, eps);
+	EXPECT_NEAR(et.y, 0, eps);
+	EXPECT_NEAR(et.z, -1, eps);
 }
 
 TEST(Vector3, magnitude) {

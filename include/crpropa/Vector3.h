@@ -76,7 +76,7 @@ public:
 	}
 
 	T getPhi() const {
-		T eps = std::numeric_limits<T>::min();
+		T eps = std::numeric_limits < T > ::min();
 		if ((fabs(x) < eps) and (fabs(y) < eps))
 			return 0.0;
 		else
@@ -84,7 +84,7 @@ public:
 	}
 
 	T getTheta() const {
-		T eps = std::numeric_limits<T>::min();
+		T eps = std::numeric_limits < T > ::min();
 		if ((fabs(x) < eps) and (fabs(y) < eps) and (fabs(z) < eps))
 			return 0.0;
 		else
@@ -122,7 +122,18 @@ public:
 	}
 
 	Vector3<T> getUnitVector() const {
-		return Vector3<T>(x, y, z) / getMag();
+		return *this / getMag();
+	}
+
+	Vector3<T> getUnitVectorTheta() const {
+		T theta = getTheta();
+		T phi = getPhi();
+		return Vector3<T>(cos(theta) * cos(phi), cos(theta) * sin(phi),
+				-sin(theta));
+	}
+
+	Vector3<T> getUnitVectorPhi() const {
+		return Vector3<T>(-sin(getPhi()), cos(getPhi()), 0);
 	}
 
 	void normalize() {

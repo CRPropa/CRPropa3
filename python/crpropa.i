@@ -46,6 +46,7 @@ using std::ptrdiff_t;
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
+#include "crpropa/magneticField/AMRMagneticField.h"
 #include "crpropa/magneticField/JF12Field.h"
 
 #include "crpropa/Referenced.h"
@@ -139,6 +140,7 @@ using std::ptrdiff_t;
 
 %include "crpropa/magneticField/MagneticFieldGrid.h"
 %include "crpropa/magneticField/QuimbyMagneticField.h"
+%include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"
 
 %include "crpropa/ExplicitRungeKutta.h"

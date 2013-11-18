@@ -8,6 +8,17 @@
 
 namespace crpropa {
 
+/**
+ @class Vector3
+ @brief Template class for 3-vectors of type float, double, ...
+
+ Allows accessing and changing the elements x, y, z directly or  through the
+ corresponding get and set methods.
+
+ Angle definitions are
+ phi [-pi, pi]: azimuthal angle in the x-y plane, 0 pointing in x-direction
+ theta [0, pi]: zenith angle towards the z axis, 0 pointing in z-direction
+ */
 template<typename T>
 class Vector3 {
 public:
@@ -57,6 +68,10 @@ public:
 		z = Z;
 	}
 
+	void setR(const T r) {
+		*this *= r / getR();
+	}
+
 	void setRThetaPhi(const T r, const T theta, const T phi) {
 		x = r * sin(theta) * cos(phi);
 		y = r * sin(theta) * sin(phi);
@@ -75,6 +90,17 @@ public:
 		return z;
 	}
 
+	// magnitude (2-norm) of the vector
+	T getR() const {
+		return std::sqrt(x * x + y * y + z * z);
+	}
+
+	// square of magnitude of the vector
+	T getR2() const {
+		return x * x + y * y + z * z;
+	}
+
+	// return the azimuth angle
 	T getPhi() const {
 		T eps = std::numeric_limits < T > ::min();
 		if ((fabs(x) < eps) and (fabs(y) < eps))
@@ -83,6 +109,7 @@ public:
 			return std::atan2(y, x);
 	}
 
+	// return the zenith angle
 	T getTheta() const {
 		T eps = std::numeric_limits < T > ::min();
 		if ((fabs(x) < eps) and (fabs(y) < eps) and (fabs(z) < eps))
@@ -91,40 +118,12 @@ public:
 			return atan2((T) sqrt(x * x + y * y), z);
 	}
 
-	T getAngleTo(const Vector3<T> &v) const {
-		T cosdistance = this->dot(v) / this->getMag() / v.getMag();
-		// In some directions cosdistance is > 1 on some compilers
-		// This ensures that the correct result is returned
-		if (cosdistance >= 1.)
-			return 0;
-		if (cosdistance <= -1.)
-			return M_PI;
-		else
-			return acos(cosdistance);
-	}
-
-	bool isParallelTo(const Vector3<T> &v, T maxAngle) const {
-		T angle = this->getAngleTo(v);
-		return angle < maxAngle;
-	}
-
-	T getDistanceTo(const Vector3<T> &point) const {
-		Vector3<T> d = *this - point;
-		return d.getMag();
-	}
-
-	T getMag() const {
-		return std::sqrt(x * x + y * y + z * z);
-	}
-
-	T getMag2() const {
-		return x * x + y * y + z * z;
-	}
-
+	// return the unit-vector e_r
 	Vector3<T> getUnitVector() const {
-		return *this / getMag();
+		return *this / getR();
 	}
 
+	// return the unit-vector e_theta
 	Vector3<T> getUnitVectorTheta() const {
 		T theta = getTheta();
 		T phi = getPhi();
@@ -132,74 +131,112 @@ public:
 				-sin(theta));
 	}
 
+	// return the unit-vector e_phi
 	Vector3<T> getUnitVectorPhi() const {
 		return Vector3<T>(-sin(getPhi()), cos(getPhi()), 0);
 	}
 
-	void normalize() {
-		*this /= getMag();
+	// return the angle [0, pi] between the vectors
+	T getAngleTo(const Vector3<T> &v) const {
+		T cosdistance = dot(v) / v.getR() / getR();
+		// In some directions cosdistance is > 1 on some compilers
+		// This ensures that the correct result is returned
+		if (cosdistance >= 1.)
+			return 0;
+		else if (cosdistance <= -1.)
+			return M_PI;
+		else
+			return acos(cosdistance);
 	}
 
+	// return true if the angle between the vectors is smaller than a threshold
+	bool isParallelTo(const Vector3<T> &v, T maxAngle) const {
+		return getAngleTo(v) < maxAngle;
+	}
+
+	// linear distance to a given vector
+	T getDistanceTo(const Vector3<T> &point) const {
+		Vector3<T> d = *this - point;
+		return d.getR();
+	}
+
+	// return the component parallel to a second vector
+	// 0 if the second vector has 0 magnitude
+	Vector3<T> getParallelTo(const Vector3<T> &v) const {
+		T vmag = v.getR();
+		if (vmag == std::numeric_limits < T > ::min())
+			return Vector3<T>(0.);
+		return v * dot(v) / vmag;
+	}
+
+	// return the component perpendicular to a second vector
+	// 0 if the second vector has 0 magnitude
+	Vector3<T> getPerpendicularTo(const Vector3<T> &v) const {
+		if (v.getR() == std::numeric_limits < T > ::min())
+			return Vector3<T>(0.);
+		return (*this) - getParallelTo(v);
+	}
+
+	// rotate the vector around a given axis by a given a angle
+	Vector3<T> getRotated(const Vector3<T> &axis, T angle) const {
+		Vector3<T> u = axis / axis.getR();
+		T c = cos(angle);
+		T s = sin(angle);
+		Vector3<T> Rx(c + u.x * u.x * (1 - c), u.x * u.y * (1 - c) - u.z * s,
+				u.x * u.z * (1 - c) + u.y * s);
+		Vector3<T> Ry(u.y * u.x * (1 - c) + u.z * s, c + u.y * u.y * (1 - c),
+				u.y * u.z * (1 - c) - u.x * s);
+		Vector3<T> Rz(u.z * u.x * (1 - c) - u.y * s,
+				u.z * u.y * (1 - c) + u.x * s, c + u.z * u.z * (1 - c));
+		return Vector3<T>(dot(Rx), dot(Ry), dot(Rz));
+	}
+
+	// return vector with values limited to the range [lower, upper]
+	Vector3<T> clip(T lower, T upper) const {
+		Vector3<T> out;
+		out.x = std::max(lower, std::min(x, upper));
+		out.y = std::max(lower, std::min(y, upper));
+		out.z = std::max(lower, std::min(z, upper));
+		return out;
+	}
+
+	// return vector with absolute values
+	Vector3<T> abs() const {
+		return Vector3<T>(std::abs(x), std::abs(y), std::abs(z));
+	}
+
+	// return vector with floored values
+	Vector3<T> floor() const {
+		return Vector3<T>(std::floor(x), std::floor(y), std::floor(z));
+	}
+
+	// return vector with ceiled values
+	Vector3<T> ceil() const {
+		return Vector3<T>(std::ceil(x), std::ceil(y), std::ceil(z));
+	}
+
+	// minimum element
+	T min() const {
+		return std::min(x, std::min(y, z));
+	}
+
+	// maximum element
+	T max() const {
+		return std::max(x, std::max(y, z));
+	}
+
+	// dot product
 	T dot(const Vector3<T> &v) const {
 		return x * v.x + y * v.y + z * v.z;
 	}
 
+	// cross product
 	Vector3<T> cross(const Vector3<T> &v) const {
 		return Vector3<T>(y * v.z - v.y * z, z * v.x - v.z * x,
 				x * v.y - v.x * y);
 	}
 
-	double perp2(const Vector3<T> & p) const {
-		double tot = p.getMag2();
-		double ss = dot(p);
-		return tot > 0.0 ? getMag2() - ss * ss / tot : getMag2();
-	}
-
-	double perp(const Vector3<T> & p) const {
-		return std::sqrt(perp2(p));
-	}
-
-	void rotate(const Vector3<T> &axis, T angle) {
-		T ux = axis.getX() / axis.getMag();
-		T uy = axis.getY() / axis.getMag();
-		T uz = axis.getZ() / axis.getMag();
-		T c = cos(angle);
-		T s = sin(angle);
-		Vector3<T> Rx(c + ux * ux * (1 - c), ux * uy * (1 - c) - uz * s,
-				ux * uz * (1 - c) + uy * s);
-		Vector3<T> Ry(uy * ux * (1 - c) + uz * s, c + uy * uy * (1 - c),
-				uy * uz * (1 - c) - ux * s);
-		Vector3<T> Rz(uz * ux * (1 - c) - uy * s, uz * uy * (1 - c) + ux * s,
-				c + uz * uz * (1 - c));
-		this->setXYZ(Rx.dot(*this), Ry.dot(*this), Rz.dot(*this));
-	}
-
-	void clamp(T lower, T upper) {
-		x = std::max(lower, std::min(x, upper));
-		y = std::max(lower, std::min(y, upper));
-		z = std::max(lower, std::min(z, upper));
-	}
-
-	Vector3<T> abs() const {
-		return Vector3<T>(std::abs(x), std::abs(y), std::abs(z));
-	}
-
-	Vector3<T> floor() const {
-		return Vector3<T>(std::floor(x), std::floor(y), std::floor(z));
-	}
-
-	Vector3<T> ceil() const {
-		return Vector3<T>(std::ceil(x), std::ceil(y), std::ceil(z));
-	}
-
-	T min() {
-		return std::min(x, std::min(y, z));
-	}
-
-	T max() {
-		return std::max(x, std::max(y, z));
-	}
-
+	// returns true if all elements of the first vector are smaller than those in the second vector
 	bool operator <(const Vector3<T> &v) const {
 		if (x > v.x)
 			return false;
@@ -215,6 +252,7 @@ public:
 			return true;
 	}
 
+	// returns true if all elements of the two vectors are equal
 	bool operator ==(const Vector3<T> &v) const {
 		if (x != v.x)
 			return false;
@@ -241,6 +279,7 @@ public:
 		return Vector3(x - f, y - f, z - f);
 	}
 
+	// element-wise multiplication
 	Vector3<T> operator *(const Vector3<T> &v) const {
 		return Vector3(x * v.x, y * v.y, z * v.z);
 	}
@@ -249,6 +288,7 @@ public:
 		return Vector3(x * v, y * v, z * v);
 	}
 
+	// element-wise division
 	Vector3<T> operator /(const Vector3<T> &v) const {
 		return Vector3(x / v.x, y / v.y, z / v.z);
 	}
@@ -257,6 +297,7 @@ public:
 		return Vector3(x / f, y / f, z / f);
 	}
 
+	// element-wise modulo operation
 	Vector3<T> operator %(const Vector3<T> &v) const {
 		return Vector3(fmod(x, v.x), fmod(y, v.y), fmod(z, v.z));
 	}
@@ -293,6 +334,7 @@ public:
 		return *this;
 	}
 
+	// element-wise multiplication
 	Vector3<T> &operator *=(const Vector3<T> &v) {
 		x *= v.x;
 		y *= v.y;
@@ -307,6 +349,7 @@ public:
 		return *this;
 	}
 
+	// element-wise division
 	Vector3<T> &operator /=(const Vector3<T> &v) {
 		x /= v.x;
 		y /= v.y;
@@ -321,6 +364,7 @@ public:
 		return *this;
 	}
 
+	// element-wise modulo operation
 	Vector3<T> &operator %=(const Vector3<T> &v) {
 		x = fmod(x, v.x);
 		y = fmod(y, v.y);

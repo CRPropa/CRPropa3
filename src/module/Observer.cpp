@@ -12,7 +12,7 @@ SmallObserverSphere::SmallObserverSphere(Vector3d center, double radius,
 
 void SmallObserverSphere::process(Candidate *candidate) const {
 	// current distance to observer sphere center
-	double d = (candidate->current.getPosition() - center).getMag();
+	double d = (candidate->current.getPosition() - center).getR();
 
 	// conservatively limit next step to prevent overshooting
 	candidate->limitNextStep(fabs(d - radius));
@@ -22,7 +22,7 @@ void SmallObserverSphere::process(Candidate *candidate) const {
 		return;
 
 	// previous distance to observer sphere center
-	double dprev = (candidate->previous.getPosition() - center).getMag();
+	double dprev = (candidate->previous.getPosition() - center).getR();
 
 	// if particle was inside of sphere in previous step it has already been detected
 	if (dprev <= radius)
@@ -69,7 +69,7 @@ LargeObserverSphere::LargeObserverSphere(Vector3d center, double radius,
 
 void LargeObserverSphere::process(Candidate *candidate) const {
 	// current distance to observer sphere center
-	double d = (candidate->current.getPosition() - center).getMag();
+	double d = (candidate->current.getPosition() - center).getR();
 
 	// conservatively limit next step size to prevent overshooting
 	candidate->limitNextStep(fabs(radius - d));
@@ -79,7 +79,7 @@ void LargeObserverSphere::process(Candidate *candidate) const {
 		return;
 
 	// previous distance to observer sphere center
-	double dprev = (candidate->previous.getPosition() - center).getMag();
+	double dprev = (candidate->previous.getPosition() - center).getR();
 
 	// if particle was outside of sphere in previous step it has already been detected
 	if (dprev >= radius)

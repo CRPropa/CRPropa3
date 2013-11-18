@@ -168,7 +168,7 @@ SphericalBoundary::SphericalBoundary(Vector3d c, double r) :
 }
 
 void SphericalBoundary::process(Candidate *c) const {
-	double d = (c->current.getPosition() - center).getMag();
+	double d = (c->current.getPosition() - center).getR();
 	if (d >= radius) {
 		c->setActive(false);
 		c->setProperty(flag, flagValue);

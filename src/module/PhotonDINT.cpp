@@ -83,7 +83,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 	string initialType = "photon";
 	candidate->getProperty("PhotonInitialType", initialType);
 
-	double showerPropDistance = (initialPosition - position).getMag();
+	double showerPropDistance = (initialPosition - position).getR();
 
 	// Initialize the bField
 	dCVector bField;
@@ -95,7 +95,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 		Vector3d p = initialPosition
 				+ direction * showerPropDistance * (i + 0.5) / bFieldSteps;
 		Vector3d B = field->getField(p);
-		bField.vector[i] = B.perp(direction) / gauss;
+		bField.vector[i] = B.getPerpendicularTo(direction).getR() / gauss;
 	}
 
 	// Initialize output spectrum

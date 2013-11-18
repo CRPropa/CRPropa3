@@ -143,11 +143,9 @@ Vector3d Random::randVector() {
 
 Vector3d Random::randVectorAroundMean(const Vector3d &meanDirection,
 		double angle) {
-	Vector3d rotAxis = meanDirection.cross(randVector());
-	rotAxis.normalize();
+	Vector3d axis = meanDirection.cross(randVector());
 	Vector3d v = meanDirection;
-	v.rotate(rotAxis, angle);
-	return v;
+	return v.getRotated(axis, angle);
 }
 
 Vector3d Random::randFisherVector(const Vector3d &meanDirection, double kappa) {

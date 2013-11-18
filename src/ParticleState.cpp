@@ -21,7 +21,7 @@ const Vector3d &ParticleState::getPosition() const {
 }
 
 void ParticleState::setDirection(const Vector3d &dir) {
-	direction = dir / dir.getMag();
+	direction = dir / dir.getR();
 }
 
 const Vector3d &ParticleState::getDirection() const {

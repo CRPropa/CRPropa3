@@ -114,7 +114,7 @@ TEST(testTurbulentMagneticField, Brms) {
 			for (int iz = 0; iz < n; iz++) {
 				b = B.getField(Vector3d(r.rand(), r.rand(), r.rand()) * 100000);
 				Bmean += b;
-				sumB2 = b.getMag2();
+				sumB2 = b.getR2();
 			}
 		}
 	}

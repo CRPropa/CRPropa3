@@ -26,7 +26,7 @@ double meanFieldStrength(ref_ptr<VectorGrid> grid) {
 	for (int ix = 0; ix < Nx; ix++)
 		for (int iy = 0; iy < Ny; iy++)
 			for (int iz = 0; iz < Nz; iz++)
-				mean += grid->get(ix, iy, iz).getMag();
+				mean += grid->get(ix, iy, iz).getR();
 	return mean / Nx / Ny / Nz;
 }
 
@@ -38,8 +38,8 @@ double rmsFieldStrength(ref_ptr<VectorGrid> grid) {
 	for (int ix = 0; ix < Nx; ix++)
 		for (int iy = 0; iy < Ny; iy++)
 			for (int iz = 0; iz < Nz; iz++)
-				sumB2 += grid->get(ix, iy, iz).getMag2();
-	return sqrt(sumB2 / Nx / Ny / Nz);
+				sumB2 += grid->get(ix, iy, iz).getR2();
+	return std::sqrt(sumB2 / Nx / Ny / Nz);
 }
 
 void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
@@ -101,7 +101,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 
 				i = ix * n * n2 + iy * n2 + iz;
 				ek.setXYZ(K[ix], K[iy], K[iz]);
-				k = ek.getMag();
+				k = ek.getR();
 
 				// wave outside of turbulent range -> B(k) = 0
 				if ((k < kMin) || (k > kMax)) {
@@ -115,7 +115,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 				}
 
 				// construct an orthogonal base ek, e1, e2
-				if (ek.getAngleTo(n0) < 1e-3) {
+				if (ek.isParallelTo(n0, float(1e-3))) {
 					// ek parallel to (1,1,1)
 					e1.setXYZ(-1., 1., 0);
 					e2.setXYZ(1., 1., -2.);
@@ -124,8 +124,8 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 					e1 = n0.cross(ek);
 					e2 = ek.cross(e1);
 				}
-				e1 /= e1.getMag();
-				e2 /= e2.getMag();
+				e1 /= e1.getR();
+				e2 /= e2.getR();
 
 				// random orientation perpendicular to k
 				theta = 2 * M_PI * random.rand();

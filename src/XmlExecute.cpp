@@ -371,15 +371,24 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 
 	string type = node.attribute("type").as_string();
 	if (type == "LSS-Grid") {
+		cout << "  - Loading field from file" << endl;
+
 		string filetype = node.child("File").attribute("type").as_string();
 		cout << "  - File type: " << filetype << endl;
-		if (filetype != "ASCII")
-			throw runtime_error("Only ASCII files supported");
 
-		string fname = node.child_value("File");
-		cout << "  - Loading file (values in [G]): " << fname << endl;
-		loadGridFromTxt(field, fname, gauss);
-	} else {
+		string filename = kiss::trim(node.child_value("File"));
+		cout << "  - File name: " << filename << endl;
+
+		if (filetype == "ASCII")
+			loadGridFromTxt(field, filename, gauss);
+		else if (filetype == "RAW")
+			loadGrid(field, filename, gauss);
+		else
+			throw runtime_error("Unsupported file type");
+
+	} else if (type == "Kolmogoroff") {
+		cout << "  - Creating random turbulent field" << endl;
+
 		double brms = childValue(node, "RMS_muG") * 1e-6 * gauss;
 		cout << "  - Brms: " << brms / nG << " nG" << endl;
 
@@ -398,8 +407,10 @@ void XmlExecute::loadGridMagneticField(xml_node &node) {
 #endif
 #ifndef CRPROPA_HAVE_FFTW3F
 		throw runtime_error(
-				"Turbulent field grid not available. Compile with FFTW3F.");
+				"Turbulent field not available: Compile with FFTW3F.");
 #endif
+	} else {
+		throw runtime_error("Unknown field type");
 	}
 
 	magnetic_field = new MagneticFieldGrid(field);

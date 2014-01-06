@@ -6,16 +6,16 @@
 
 namespace crpropa {
 
-/** Calculate the mean field vector */
+/** Evaluate the mean field vector of all grid points. */
 Vector3f meanFieldVector(ref_ptr<VectorGrid> grid);
 
-/** Calculate the mean field strength */
+/** Evaluate the mean field strength of all grid points. */
 double meanFieldStrength(ref_ptr<VectorGrid> grid);
 
-/** Calculate the RMS field strength */
+/** Evaluate the RMS field strength of all grid points. */
 double rmsFieldStrength(ref_ptr<VectorGrid> grid);
 
-/** Multiply a magnetic field grid by a factor. */
+/** Multiply all grid values by a given factor. */
 void scaleGrid(ref_ptr<VectorGrid> grid, double a);
 
 #ifdef CRPROPA_HAVE_FFTW3F

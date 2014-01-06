@@ -19,7 +19,7 @@ public:
 
 /**
  @class PeriodicMagneticField
- @brief Magnetic field decorator to implement periodic magnetic fields.
+ @brief Magnetic field decorator implementing periodic fields.
  */
 class PeriodicMagneticField: public MagneticField {
 	ref_ptr<MagneticField> field;

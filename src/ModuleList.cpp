@@ -1,7 +1,10 @@
 #include "crpropa/ModuleList.h"
 #include "crpropa/ProgressBar.h"
 
+#if _OPENMP
 #include <omp.h>
+#endif
+
 #include <algorithm>
 #include <signal.h>
 #ifndef sighandler_t

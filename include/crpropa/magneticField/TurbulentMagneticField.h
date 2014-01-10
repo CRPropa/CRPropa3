@@ -1,5 +1,5 @@
-#ifndef TURBULENTMAGNETICFIELD_H
-#define TURBULENTMAGNETICFIELD_H
+#ifndef CRPROPA_TURBULENTMAGNETICFIELD_H
+#define CRPROPA_TURBULENTMAGNETICFIELD_H
 
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/Random.h"
@@ -73,6 +73,6 @@ private:
 	Random random; /**< Random number generator instance */
 };
 
-} // mpc
+} // crpropa
 
 #endif // TURBULENTMAGNETICFIELD_H

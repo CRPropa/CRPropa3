@@ -19,7 +19,7 @@ struct NuclearMassTable {
 		std::ifstream infile(filename.c_str());
 
 		if (!infile.good())
-			throw std::runtime_error("mpc: could not open file " + filename);
+			throw std::runtime_error("crpropa: could not open file " + filename);
 
 		int Z, N;
 		double mass;

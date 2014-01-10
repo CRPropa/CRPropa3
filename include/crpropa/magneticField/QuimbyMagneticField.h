@@ -24,13 +24,13 @@ public:
 		quimby::Vector3f b, r = quimby::Vector3f(position.x, position.y, position.z);
 		bool isGood = field->getField(r / kpc, b);
 		if (!isGood)
-			std::cerr << "mpc::SPHMagneticField invalid position : " << position
+			std::cerr << "crpropa::SPHMagneticField invalid position : " << position
 					<< std::endl;
 		return Vector3d(b.x, b.y, b.z) * gauss;
 	}
 };
 
-} // namespace crpropaCRPROPA
+} // namespace crpropa
 
 #endif // CRPROPA_HAVE_QUIMBY
 #endif // CRPROPA_QUIMBYMAGNETICFIELD_H

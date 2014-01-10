@@ -24,7 +24,8 @@ private:
 	double vICSle[1101];
 	double vEtab[1101];
 
-	double BkgArray[POINTS_VERY_FEW][2];
+	std::vector<double> BkgE, BkgA;
+	std::string Bkg;
 	double fEthr;
 
 public:
@@ -50,15 +51,17 @@ public:
 
 	double GetMeanThetaBFDeflection(double Bin, double Ein, int ptype,
 			double Lin) const;
-	double GetLambdaTab(Process proc, std::string procName) const;
+	double GetLambdaTab(const Process &proc, const std::string &procName) const;
 	double ExtractMinDist(Process &proc, int type, double R, double R2,
-			std::vector<double> Etarget) const;
-	std::vector<double> GetEtarget(Process &proc, Particle &particle) const;
+			std::vector<double> &Etarget) const;
+	std::vector<double> GetEtarget(Process &proc,
+			const Particle &particle) const;
 	void Propagate(Particle &curr_particle,
 			std::vector<Particle> &ParticleAtMatrix,
 			std::vector<Particle> &ParticleAtGround) const;
 	double ExtractPhotonEnergyMC(double z, Process &proc) const;
 	double ShootPhotonEnergyMC(double z) const;
+	double ShootPhotonEnergyMC(double Emin, double z) const;
 	void SetInitVar(std::vector<std::vector<double> > bk,
 			std::vector<std::vector<double> > *le) const;
 
@@ -88,7 +91,7 @@ void Propagation::ReadTables(const std::string &filename) {
 		fin >> Etab >> PPle >> ICSle >> DPPle >> TPPle;
 		vEtab[k] = Etab;
 		vPPle[k] = PPle;
-		vICSle[k] = Etab;
+		vICSle[k] = ICSle;
 		vDPPle[k] = DPPle;
 		vTPPle[k] = TPPle;
 		k++;
@@ -103,81 +106,66 @@ void Propagation::InitBkgArray(const std::string &BackRad) {
 	// Routine to build the array of cumulative distribution of
 	// background photons
 
-	std::vector<std::vector<double> > BkgArray0;
+	Bkg = BackRad;
+	BkgE.resize(POINTS_VERY_FEW);
+	BkgA.resize(POINTS_VERY_FEW);
 
-	int i = 0;
-	double epsinf = 0;
-	double epssup = 0;
-	std::vector<double> tmp;
-	tmp.resize(2);
 	if (BackRad == "CMB") {
-		double de = pow((double) eps_ph_sup_cmb / eps_ph_inf_cmb, 1. / 100.);
-		for (double e = eps_ph_inf_cmb; e <= eps_ph_sup_cmb; e *= de) {
-			tmp.at(0) = e;
-			if (i == 0)
-				tmp.at(1) = CMBR(e);
-			else
-				tmp.at(1) = BkgArray0.at(i - 1).at(1) + CMBR(e);
-
-			BkgArray0.push_back(tmp);
-			i++;
+		double de = pow((double) eps_ph_sup_cmb / eps_ph_inf_cmb,
+				1. / POINTS_VERY_FEW);
+		double e = eps_ph_inf_cmb;
+		for (size_t i = 0; i < POINTS_VERY_FEW; i++) {
+			BkgE[i] = e;
+			BkgA[i] = CMBR(e);
+			e *= de;
 		}
 	}
 
 	if (BackRad == "CIOB") {
-		double de = pow((double) eps_ph_sup_ciob / eps_ph_inf_ciob, 1. / 100.);
-
-		for (double e = eps_ph_inf_ciob; e <= eps_ph_sup_ciob; e *= de) {
-			tmp.clear();
-			tmp.push_back(e);
-			if (i == 0)
-				tmp.push_back(CIOBR(e));
-			else
-				tmp.push_back(BkgArray0.at(i - 1).at(1) + CIOBR(e));
-
-			BkgArray0.push_back(tmp);
-			i++;
+		double de = pow((double) eps_ph_sup_ciob / eps_ph_inf_ciob,
+				1. / POINTS_VERY_FEW);
+		double e = eps_ph_inf_ciob;
+		for (size_t i = 0; i < POINTS_VERY_FEW; i++) {
+			BkgE[i] = e;
+			BkgA[i] = CIOBR(e);
+			e *= de;
 		}
 	}
 
 	if (BackRad == "URB") {
-		double de = pow((double) eps_ph_sup_urb / eps_ph_inf_urb, 1. / 100.);
-		for (double e = eps_ph_inf_urb; e <= eps_ph_sup_urb; e *= de) {
-			tmp.clear();
-			tmp.push_back(e);
-
-			if (i == 0)
-				tmp.push_back(URB(e));
-			else
-				tmp.push_back(BkgArray0.at(i - 1).at(1) + URB(e));
-
-			BkgArray0.push_back(tmp);
-			i++;
+		double de = pow((double) eps_ph_sup_urb / eps_ph_inf_urb,
+				1. / POINTS_VERY_FEW);
+		double e = eps_ph_inf_urb;
+		for (size_t i = 0; i < POINTS_VERY_FEW; i++) {
+			BkgE[i] = e;
+			BkgA[i] = URB(e);
+			e *= de;
 		}
 	}
 
-	if (BackRad != "CMB" && BackRad != "CIOB") {
+	if (BackRad == "URB") {
 		double de = pow((double) eps_ph_sup_global / eps_ph_inf_global,
 				(double) 1. / POINTS_VERY_FEW);
-		for (double e = eps_ph_inf_global; e <= eps_ph_sup_global; e *= de) {
-			tmp.at(0) = e;
-			if (i == 0)
-				tmp.at(1) = CBR(e);
-			else
-				tmp.at(1) = BkgArray0.at(i - 1).at(1) + CBR(e);
-			BkgArray0.push_back(tmp);
-			i++;
+		double e = eps_ph_inf_global;
+		for (size_t i = 0; i < POINTS_VERY_FEW; i++) {
+			BkgE[i] = e;
+			BkgA[i] = CBR(e);
+			e *= de;
 		}
 	}
 
-	double a = 1.0 / BkgArray0.at(i - 1).at(1);
+	// cumulate
+	for (size_t i = 1; i < POINTS_VERY_FEW; i++) {
+		BkgA[i] += BkgA[i - 1];
+	}
 
-	for (i = 0; i < POINTS_VERY_FEW; i++)
-		BkgArray0.at(i).at(1) *= a;
-
-	for (int k = 0; k < POINTS_VERY_FEW; k++) {
-		BkgArray[k][0] = BkgArray0[k][0];
-		BkgArray[k][1] = BkgArray0[k][1];
+	// normalize
+	double a = 1.0 / BkgA[POINTS_VERY_FEW - 1];
+	for (size_t i = 0; i < POINTS_VERY_FEW; i++) {
+		BkgA[i] *= a;
+#ifdef DEBUG_ELECA
+		std::cout << BkgE[i] << " - " << BkgA[i] << std::endl;
+#endif
 	}
 }
 
@@ -197,7 +185,7 @@ double Propagation::GetMeanThetaBFDeflection(double Bin, double Ein, int ptype,
 }
 
 double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
-		std::vector<double> Etarget) const {
+		std::vector<double> &Etarget) const {
 
 	double min_dist1 = 0;
 	double min_dist2 = 0;
@@ -260,6 +248,12 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 		tmp_lambda2 = GetLambdaTab(proc2, "TPP");
 		min_dist2 = -tmp_lambda2 * log(R2);
 
+#ifdef DEBUG_ELECA
+		std::cerr << "comparing 2 mindists: " << min_dist1 << "("
+		<< tmp_lambda1 << ") vs " << min_dist2 << " ( "
+		<< tmp_lambda2 << ") " << std::endl;
+#endif
+
 		if (min_dist2 < min_dist1) {
 			min_dist1 = min_dist2;
 			proc.SetName("TPP");
@@ -281,7 +275,8 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 	return min_dist1;
 }
 
-double Propagation::GetLambdaTab(Process proc, std::string procName) const {
+double Propagation::GetLambdaTab(const Process &proc,
+		const std::string &procName) const {
 
 	double E1 = proc.GetIncidentParticle().GetEnergy();
 	double z = proc.GetIncidentParticle().Getz();
@@ -329,10 +324,23 @@ double Propagation::GetLambdaTab(Process proc, std::string procName) const {
 double Propagation::ShootPhotonEnergyMC(double z) const {
 	// Routine for the MC sampling of background photon energy
 
+//	double interpolate(double x, const std::vector<double> &X,
+//			const std::vector<double> &Y) {
+//		std::vector<double>::const_iterator it = std::upper_bound(X.begin(),
+//				X.end(), x);
+//		if (it == X.begin())
+//			return Y.front();
+//		if (it == X.end())
+//			return Y.back();
+//
+//		size_t i = it - X.begin() - 1;
+//		return Y[i] + (x - X[i]) * (Y[i + 1] - Y[i]) / (X[i + 1] - X[i]);
+//	}
+
 	double h = Uniform(0, 1);
 	for (int i = 0; i < POINTS_VERY_FEW; i++) {
-		if (h < BkgArray[i][1]) {
-			return BkgArray[i][0] * (1. + z);
+		if (h < BkgA[i]) {
+			return BkgE[i] * (1. + z);
 			break;
 		}
 	}
@@ -344,8 +352,36 @@ double Propagation::ShootPhotonEnergyMC(double z) const {
 	return 0.;
 }
 
+double Propagation::ShootPhotonEnergyMC(double Emin, double z) const {
+	// Routine for the MC sampling of background photon energy
+	std::vector<double>::const_iterator it;
+
+	// find lowest energy bin
+
+	it = std::lower_bound(BkgE.begin(), BkgE.end(), Emin);
+	size_t iE;
+	if (it == BkgE.begin())
+		iE = 0;
+	else if (it == BkgE.end())
+		iE = BkgE.size() - 1;
+	else
+		iE = it - BkgE.begin();
+
+	// random number in selected range
+	double h = Uniform(BkgA[iE], 1);
+
+	// find energy for random number
+	it = std::upper_bound(BkgA.begin(), BkgA.end(), h);
+	if (it == BkgA.begin())
+		return BkgE.front();
+	else if (it == BkgA.end())
+		return BkgE.back();
+	else
+		return BkgE[it - BkgA.begin()];
+}
+
 std::vector<double> Propagation::GetEtarget(Process &proc,
-		Particle &particle) const {
+		const Particle &particle) const {
 
 	std::vector<double> Etarget;
 	double Etarget_tmp = 0;
@@ -357,20 +393,14 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 		proc.SetName("PP");
 		proc.SetLimits();
 		smintmp = proc.GetMin();
-		Etarget_tmp = 0;
-		while (Etarget_tmp < ElectronMass * ElectronMass / Energy) {
-			Etarget_tmp = ShootPhotonEnergyMC(z_curr);
-		}
+		Etarget_tmp = ShootPhotonEnergyMC(ElectronMass * ElectronMass / Energy,
+				z_curr);
 		Etarget.push_back(Etarget_tmp);
 
 		proc.SetName("DPP");
 		proc.SetLimits();
 		smintmp = proc.GetMin();
-		Etarget_tmp = 0;
-
-		while (Etarget_tmp < smintmp / (4.0 * Energy)) {
-			Etarget_tmp = ShootPhotonEnergyMC(z_curr);
-		}
+		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
 		Etarget.push_back(Etarget_tmp);
 	}
 
@@ -378,20 +408,13 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 		proc.SetName("ICS");
 		proc.SetLimits();
 		smintmp = proc.GetMin();
-		Etarget_tmp = 0;
-		while (Etarget_tmp < smintmp / (4.0 * Energy)) {
-			Etarget_tmp = ShootPhotonEnergyMC(z_curr);
-		}
+		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
 		Etarget.push_back(Etarget_tmp);
 
 		proc.SetName("TPP");
 		proc.SetLimits();
 		smintmp = proc.GetMin();
-		Etarget_tmp = 0;
-
-		while (Etarget_tmp < smintmp / (4.0 * Energy)) {
-			Etarget_tmp = ShootPhotonEnergyMC(z_curr);
-		}
+		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
 		Etarget.push_back(Etarget_tmp);
 	}    //end e/e
 	else
@@ -409,26 +432,15 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 
 double Propagation::ExtractPhotonEnergyMC(double z, Process &proc) const {
 	double esoft = 0;
-	double snew = 0;
+//double snew = 0;
 	double emin = proc.GetMin();
 	Particle pi = proc.GetIncidentParticle();
 	Particle pb = proc.GetTargetParticle();
 
 	double Epi = pi.GetEnergy();
 	double m = pi.GetMass();
-	while (esoft < emin / (4.0 * Epi)) {
-
-		double h = Uniform(0, 1);
-
-		for (int i = 0; i < POINTS_VERY_FEW; i++) {
-			if (h < BkgArray[i][1]) {
-				esoft = BkgArray[i][0] * (1. + z);
-				break;
-			}
-		}
-
-		snew = 4 * Epi * esoft + m * m;
-	}
+	esoft = ShootPhotonEnergyMC(emin / (4.0 * Epi), z);
+	//snew = 4 * Epi * esoft + m * m;
 	pb.SetEnergy(esoft);
 	proc.SetTargetParticle(pb);
 	proc.SetCMEnergy();
@@ -505,19 +517,21 @@ void Propagation::Propagate(Particle &curr_particle,
 
 	double R = Uniform(0.0, 1.0);
 	double R2 = Uniform(0.0, 1.0);
-	bool fast = 1;
+	bool fast = 0;
 
 	Process proc;
 	proc.SetIncidentParticle(curr_particle);
+	proc.SetBackground(Bkg);
 
-#ifdef DEBUG_ELECA
-	std::cout << "GetEtarget " << std::endl;
-#endif
 	std::vector<double> EtargetAll = GetEtarget(proc, curr_particle);
 #ifdef DEBUG_ELECA
-	std::cout << "ExtractMinDist " << std::endl;
+	std::cout << "GetEtarget: " << EtargetAll[0] << " " << EtargetAll[1] << std::endl;
 #endif
+
 	min_dist = ExtractMinDist(proc, curr_particle.GetType(), R, R2, EtargetAll);
+#ifdef DEBUG_ELECA
+	std::cout << "ExtractMinDist " << min_dist << std::endl;
+#endif
 
 	interacted = 0;
 	double dz = 0;
@@ -528,8 +542,7 @@ void Propagation::Propagate(Particle &curr_particle,
 
 	double min_dist_last = min_dist;
 #ifdef DEBUG_ELECA
-	std::cout << "starting propagation... min_dist_last: " << min_dist_last
-	<< std::endl;
+	std::cout << "starting propagation... min_dist_last: " << min_dist_last << std::endl;
 #endif
 
 	while (!interacted) {
@@ -565,11 +578,9 @@ void Propagation::Propagate(Particle &curr_particle,
 			<< " walkdone + realpath > min_dist: correcting realpath from"
 			<< realpath << " to " << min_dist - walkdone
 			<< " and the stepsize is changed from " << dz << " to ";
-#endif
 			realpath = min_dist - walkdone;
 			stepsize = realpath * corrB_factor;
 			dz = Mpc2z(stepsize);
-#ifdef DEBUG_ELECA
 			std::cout << dz << std::endl;
 #endif
 			interacted = 1;

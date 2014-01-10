@@ -56,25 +56,7 @@ static const double eps_ph_sup_ciob = 9.9;   // [eV]
 static const double eps_ph_sup_global = eps_ph_sup_cob;   // [eV] *global
 static const double eps_ph_inf_global = eps_ph_inf_urb;   // [eV] *global
 
-static const int NsecG = 0;
 
-static const double z0ph = 0;
-static const double E0ph = 0;
-
-static const int particle_type = 0;
-static const double EnergyCM = 0;
-static const double GammaEnergy = 0;
-static const double BackGamma = 0;
-static const double PPxsection = 0;
-static const double DPPxsection = 0;
-static const double TPPxsection = 0;
-static const double ICSxsection = 0;
-static const double PPlength = 0;
-static const double DPPlength = 0;
-static const double TPPlength = 0;
-static const double ICSlength = 0;
-static const double n_eps2 = 0;
-static const double eps2 = 0;
 
 } // namespace eleca
 

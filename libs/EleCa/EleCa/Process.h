@@ -27,7 +27,7 @@ public:
 	double fbackdensity;
 
 	Process();
-	Process(Process&);
+	Process(const Process&);
 	Process(Particle&, Particle&);
 	Process(Particle&, Particle&, std::string);
 
@@ -36,21 +36,21 @@ public:
 	void SetName(std::string nm) {
 		fname = nm;
 	}
-	std::string &GetName() {
+	const std::string &GetName() const {
 		return fname;
 	}
 
 	void SetInteractionAngle(double a) {
 		fInteractionAngle = a;
 	}
-	double GetInteractionAngle() {
+	double GetInteractionAngle() const {
 		return fInteractionAngle;
 	}
 
 	void SetLambda(double le) {
 		flambda = le;
 	}
-	double GetLambda() {
+	double GetLambda() const {
 		return flambda;
 	}
 
@@ -69,10 +69,10 @@ public:
 	void SetMin(double smin) {
 		fsmin = smin;
 	}
-	double GetMin() {
+	double GetMin() const {
 		return fsmin;
 	}
-	double GetMax() {
+	double GetMax() const {
 		return fsmax;
 	}
 
@@ -93,11 +93,11 @@ public:
 
 	}
 
-	double GetCMEnergy() {
+	double GetCMEnergy() const {
 		return fCMEnergy;
 	}
 
-	void SetIncidentParticle(Particle& p1) {
+	void SetIncidentParticle(const Particle& p1) {
 		fPi = p1;
 		SetLimits();
 	}
@@ -106,14 +106,14 @@ public:
 		SetLimits();
 	}
 
-	Particle &GetIncidentParticle() {
+	const Particle &GetIncidentParticle() const {
 		return fPi;
 	}
-	Particle &GetTargetParticle() {
+	const Particle &GetTargetParticle() const {
 		return fPt;
 	}
 
-	std::string GetBackground() {
+	const std::string &GetBackground() const {
 		return fback;
 	}
 	void SetBackground(std::string BackRad);
@@ -170,7 +170,7 @@ Process::Process(Particle& p1, Particle& p2, std::string name) {
 	feps_sup = eps_ph_sup_global;
 }
 
-Process::Process(Process& proc2) {
+Process::Process(const Process& proc2) {
 	fname = proc2.GetName();
 	SetLimits(proc2.GetMin(), proc2.GetMax());
 	fCMEnergy = proc2.GetCMEnergy();
@@ -198,32 +198,27 @@ void Process::SetBackground(std::string BackRad) {
 	if (BackRad == "CMB") {
 		eps_min = eps_ph_inf_cmb;
 		eps_max = eps_ph_sup_cmb;
-		std::cout << "eps range setted to " << eps_min << " , " << eps_max
-				<< std::endl;
 	} else if (BackRad == "COB") {
 		eps_min = eps_ph_inf_cob;
 		eps_max = eps_ph_sup_cob;
-		std::cout << "eps range setted to " << eps_min << " , " << eps_max
-				<< std::endl;
 	} else if (BackRad == "CIB") {
 		eps_min = eps_ph_inf_cib;
 		eps_max = eps_ph_sup_cib;
-		std::cout << "eps range setted to " << eps_min << " , " << eps_max
-				<< std::endl;
 	} else if (BackRad == "CIOB") {
 		eps_min = eps_ph_inf_ciob;
 		eps_max = eps_ph_sup_ciob;
-		std::cout << "eps range setted to " << eps_min << " , " << eps_max
-				<< std::endl;
 	} else if (BackRad == "URB") {
 		eps_min = eps_ph_inf_urb;
 		eps_max = eps_ph_sup_urb;
-		std::cout << "eps range setted to " << eps_min << " , " << eps_max
-				<< std::endl;
 	}
 
 	feps_inf = eps_min;
 	feps_sup = eps_max;
+
+#ifdef DEBUG_ELECA
+	std::cout << "eps range set to " << eps_min << " , " << eps_max
+	<< std::endl;
+#endif
 
 }
 

@@ -17,9 +17,9 @@ struct Cosmology {
 	double omegaM; // matter density parameter
 	double omegaL; // vacuum energy parameter
 
-	static const int n = 1000;
-	static const double zmin = 0.0001;
-	static const double zmax = 100;
+	static const int n;
+	static const double zmin;
+	static const double zmax;
 
 	std::vector<double> Z;  // redshift
 	std::vector<double> Dc; // comoving distance [m]
@@ -42,8 +42,10 @@ struct Cosmology {
 			E[i] = sqrt(omegaL + omegaM * pow(1 + Z[i], 3));
 			Dc[i] = Dc[i - 1] + dH * dz * (1 / E[i] + 1 / E[i - 1]) / 2;
 			Dl[i] = (1 + Z[i]) * Dc[i];
-			Dt[i] = Dt[i - 1] + dH * dz
-			  * (1 / ((1 + Z[i]) * E[i]) + 1 / ((1 + Z[i - 1]) * E[i - 1])) / 2;
+			Dt[i] = Dt[i - 1]
+					+ dH * dz
+							* (1 / ((1 + Z[i]) * E[i])
+									+ 1 / ((1 + Z[i - 1]) * E[i - 1])) / 2;
 		}
 	}
 
@@ -73,9 +75,11 @@ struct Cosmology {
 	}
 };
 
+const int Cosmology::n = 1000;
+const double Cosmology::zmin = 0.0001;
+const double Cosmology::zmax = 100;
+
 static Cosmology cosmology; // instance is created at runtime
-
-
 
 void setCosmologyParameters(double h, double oM) {
 	cosmology.setParameters(h, oM);

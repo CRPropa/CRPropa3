@@ -8,10 +8,12 @@
 
 namespace crpropa {
 
-PhotonEleCa::PhotonEleCa() :
+PhotonEleCa::PhotonEleCa(const std::string background,
+		const std::string &filename) :
 		propagation(new eleca::Propagation) {
 	propagation->ReadTables(getDataPath("eleca_lee.txt"));
-	propagation->InitBkgArray("CMB");
+	propagation->InitBkgArray(background);
+	output.open(filename.c_str());
 }
 
 PhotonEleCa::~PhotonEleCa() {
@@ -40,7 +42,7 @@ void PhotonEleCa::process(Candidate *candidate) const {
 
 #pragma omp critical
 	{
-		propagation->WriteOutput(p0, ParticleAtGround, 0);
+		propagation->WriteOutput(output, p0, ParticleAtGround);
 	}
 
 	candidate->setActive(false);

@@ -5,6 +5,7 @@
 #include "crpropa/magneticField/MagneticField.h"
 
 #include <memory>
+#include <fstream>
 
 // forward declaration
 namespace eleca {
@@ -16,9 +17,9 @@ namespace crpropa {
 class PhotonEleCa: public Module {
 private:
 	std::auto_ptr<eleca::Propagation> propagation;
-
+	mutable std::ofstream output;
 public:
-	PhotonEleCa();
+	PhotonEleCa(const std::string background, const std::string &filename);
 	~PhotonEleCa();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;

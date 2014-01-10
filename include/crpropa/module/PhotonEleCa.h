@@ -18,11 +18,15 @@ class PhotonEleCa: public Module {
 private:
 	std::auto_ptr<eleca::Propagation> propagation;
 	mutable std::ofstream output;
+	Vector3d observer;
+	bool saveOnlyPhotonEnergies;
 public:
 	PhotonEleCa(const std::string background, const std::string &filename);
 	~PhotonEleCa();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
+	void setObserver(const Vector3d &position);
+	void setSaveOnlyPhotonEnergies(bool photonsOnly);
 };
 
 } // namespace crpropa

@@ -35,7 +35,7 @@ public:
 		return 1;
 	}
 
-	int GetType() {
+	int GetType() const {
 		return ftype;
 	}
 
@@ -43,7 +43,7 @@ public:
 		ftype = _ft;
 	}
 
-	int GetWeigth() {
+	int GetWeigth() const {
 		return fwi;
 	}
 
@@ -51,7 +51,7 @@ public:
 		fwi = _wi;
 	}
 
-	double GetEnergy() {
+	double GetEnergy() const {
 		return fE0ph;
 	}
 
@@ -60,7 +60,7 @@ public:
 		SetBetaAndMass();
 	}
 
-	double Getz() {
+	double Getz() const {
 		return fz0ph;
 	}
 
@@ -68,18 +68,18 @@ public:
 		fz0ph = _fz;
 	}
 
-	double GetMass() {
+	double GetMass() const {
 		return fmass;
 	}
 
-	double GetBeta() {
+	double GetBeta() const {
 		return fbeta;
 	}
-
-	bool GetStatus() {
-		fIsGood = IsGood();
-		return fIsGood;
-	}
+//
+//	bool GetStatus() {
+//		fIsGood = IsGood();
+//		return fIsGood;
+//	}
 
 	void SetBetaAndMass() {
 		if (ftype == 22) {
@@ -96,7 +96,7 @@ public:
 	void SetB(double B) {
 		fB = B;
 	}
-	double GetB() {
+	double GetB() const {
 		return fB;
 	}
 

@@ -10,7 +10,7 @@ namespace crpropa {
 
 PhotonEleCa::PhotonEleCa(const std::string background,
 		const std::string &filename) :
-		propagation(new eleca::Propagation) {
+		propagation(new eleca::Propagation), saveOnlyPhotonEnergies(false) {
 	propagation->ReadTables(getDataPath("eleca_lee.txt"));
 	propagation->InitBkgArray(background);
 	output.open(filename.c_str());
@@ -23,9 +23,13 @@ void PhotonEleCa::process(Candidate *candidate) const {
 	if (candidate->current.getId() != 22)
 		return; // do nothing if not a photon
 
+	double z = candidate->getRedshift();
+	if (z == 0)
+		z = eleca::Mpc2z(
+				(candidate->current.getPosition() - observer).getR() / Mpc);
 	eleca::Particle p0(candidate->current.getId(),
-			candidate->current.getEnergy() / eV, candidate->getRedshift());
-
+			candidate->current.getEnergy() / eV, z);
+	p0.SetB(1e-9);
 	std::vector<eleca::Particle> ParticleAtMatrix;
 	std::vector<eleca::Particle> ParticleAtGround;
 	ParticleAtMatrix.push_back(p0);
@@ -42,11 +46,28 @@ void PhotonEleCa::process(Candidate *candidate) const {
 
 #pragma omp critical
 	{
-		propagation->WriteOutput(output, p0, ParticleAtGround);
+		if (saveOnlyPhotonEnergies) {
+			for (int i = 0; i < ParticleAtGround.size(); ++i) {
+				eleca::Particle &p = ParticleAtGround[i];
+				if (p.GetType() != 22)
+					continue;
+				output << p.GetEnergy() << "\n";
+			}
+		} else {
+			propagation->WriteOutput(output, p0, ParticleAtGround);
+		}
 	}
 
 	candidate->setActive(false);
 	return;
+}
+
+void PhotonEleCa::setObserver(const Vector3d &position) {
+	observer = position;
+}
+
+void PhotonEleCa::setSaveOnlyPhotonEnergies(bool photonsOnly) {
+	saveOnlyPhotonEnergies = photonsOnly;
 }
 
 std::string PhotonEleCa::getDescription() const {

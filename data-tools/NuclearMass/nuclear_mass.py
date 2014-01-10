@@ -1,5 +1,5 @@
 from pylab import *
-import mpc
+import crpropa
 
 # This script generates a table of nuclear mass for all combinations (Z,N) Z=0..26, N=0..30
 # For measured atoms, the NIST data table is used.
@@ -39,18 +39,18 @@ for line in fin.readlines():
 			continue # skip isotopes with N > 30
 
 		# mass in [kg] minus mass of electrons
-		D[z, n] = float(relAtomicMass) * mpc.amu - z * mpc.mass_electron
+		D[z, n] = float(relAtomicMass) * crpropa.amu - z * crpropa.mass_electron
 
 
 ### add neutron and proton mass
-D[1, 0] = mpc.mass_proton
-D[0, 1] = mpc.mass_neutron
+D[1, 0] = crpropa.mass_proton
+D[0, 1] = crpropa.mass_neutron
 
 ### fill empty entries in table with A * amu - Z * m_e approximation
 for z in range(27):
 	for n in range(31):
 		if D[z, n] == 0:
-			D[z, n] = (z + n) * mpc.amu - z * mpc.mass_electron
+			D[z, n] = (z + n) * crpropa.amu - z * crpropa.mass_electron
 
 ## Write to file
 fout = open('nuclear_mass.txt', 'w')

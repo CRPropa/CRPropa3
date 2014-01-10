@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		std::cout << "mpc-run <XML File>" << std::endl;
+		std::cout << "crpropa-run <XML File>" << std::endl;
 		return 1;
 	}
 

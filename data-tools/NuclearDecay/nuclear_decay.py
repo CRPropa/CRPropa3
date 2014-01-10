@@ -1,5 +1,5 @@
 from numpy import *
-import mpc
+import crpropa
 
 # Script to preprocess the nuclear decay data table from the BNL NuDat2 database
 # See http://www.nndc.bnl.gov/nudat2/indx_sigma.jsp
@@ -193,8 +193,8 @@ for z in range(27):
 print '\nBeta+ correction'
 print '-------------------------------------'
 a0 = 5.29177e-11 # Bohr radius [m]
-a0 /= mpc.c_light * (mpc.h_planck / 2 / pi) / mpc.eplus # convert to [1/eV]
-Qe = mpc.mass_electron * mpc.c_squared / mpc.eV # [eV]
+a0 /= crpropa.c_light * (crpropa.h_planck / 2 / pi) / crpropa.eplus # convert to [1/eV]
+Qe = crpropa.mass_electron * crpropa.c_squared / crpropa.eV # [eV]
 
 def I1(Q):
 	x = Q / Qe
@@ -206,9 +206,9 @@ for z in range(27):
 			if not(d.isBetaPlus()):
 				continue
 
-			m1 = mpc.getNucleusMass(mpc.getNucleusId(z+n, z))
-			m2 = mpc.getNucleusMass(mpc.getNucleusId(z+n, z - 1))
-			Q = (m1 - m2) * mpc.c_squared / mpc.eV
+			m1 = crpropa.getNucleusMass(crpropa.getNucleusId(z+n, z))
+			m2 = crpropa.getNucleusMass(crpropa.getNucleusId(z+n, z - 1))
+			Q = (m1 - m2) * crpropa.c_squared / crpropa.eV
 
 			Qbeta = (Q - Qe) # [eV]
 			Qec = (Q + Qe) # [eV]

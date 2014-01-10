@@ -4,14 +4,21 @@
 #include "crpropa/Module.h"
 #include "crpropa/magneticField/MagneticField.h"
 
+#include <memory>
+
+// forward declaration
+namespace eleca {
+class Propagation;
+}
+
 namespace crpropa {
 
 class PhotonEleCa: public Module {
 private:
-	ref_ptr<MagneticField> field;
+	std::auto_ptr<eleca::Propagation> propagation;
 
 public:
-	PhotonEleCa(ref_ptr<MagneticField> field);
+	PhotonEleCa();
 	~PhotonEleCa();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;

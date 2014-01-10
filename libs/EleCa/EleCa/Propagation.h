@@ -42,8 +42,8 @@ public:
 	~Propagation() {
 	}
 
-	void WriteOutput(Particle &p1, std::vector<Particle> &part, bool spectropt =
-			0) const;
+	void WriteOutput(std::ostream &out, Particle &p1,
+			std::vector<Particle> &part) const;
 
 	void ReadTables(const std::string &file);
 	void InitBkgArray(const std::string &BackRad);
@@ -336,9 +336,11 @@ double Propagation::ShootPhotonEnergyMC(double z) const {
 			break;
 		}
 	}
-
+#ifdef DEBUG_ELECA
 	std::cout << "ShootPhotonEnergyMC. z = " << z << " h: " << h << " => 0"
-			<< std::endl;
+	<< std::endl;
+#endif
+
 	return 0.;
 }
 
@@ -357,7 +359,6 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 		smintmp = proc.GetMin();
 		Etarget_tmp = 0;
 		while (Etarget_tmp < ElectronMass * ElectronMass / Energy) {
-			std::cout << "smintmp" << std::endl;
 			Etarget_tmp = ShootPhotonEnergyMC(z_curr);
 		}
 		Etarget.push_back(Etarget_tmp);
@@ -368,7 +369,6 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 		Etarget_tmp = 0;
 
 		while (Etarget_tmp < smintmp / (4.0 * Energy)) {
-			std::cout << "smintmp" << std::endl;
 			Etarget_tmp = ShootPhotonEnergyMC(z_curr);
 		}
 		Etarget.push_back(Etarget_tmp);
@@ -435,58 +435,51 @@ double Propagation::ExtractPhotonEnergyMC(double z, Process &proc) const {
 	return esoft;
 }
 
-void Propagation::WriteOutput(Particle & p1,
-		std::vector<Particle> &ParticleAtGround, bool spectrum) const {
-	double Ethr = 1e16;
+void Propagation::WriteOutput(std::ostream &out, Particle &p1,
+		std::vector<Particle> &ParticleAtGround) const {
 	double Bfield = 0;
-	double E0nucl = p1.GetEnergy();
-	double z0nucl = p1.Getz();
+	size_t NsecG = ParticleAtGround.size();
 
-	int NsecG = ParticleAtGround.size();
-	std::vector<double> EGround;
-	std::vector<int> wGround;
-	std::vector<int> typeGround;
-	int cpart = 0;
-
-	for (int ig = 0; ig < NsecG; ++ig) {
-		EGround.push_back(ParticleAtGround.at(ig).GetEnergy());
-		typeGround.push_back(ParticleAtGround.at(ig).GetType());
-		wGround.push_back(ParticleAtGround.at(ig).GetWeigth());
-
-		cpart += wGround.at(ig);
+	out << fEthr << " " << Bfield / 1e-9 << " " << p1.GetEnergy() << " "
+			<< p1.Getz() << " " << NsecG;
+	for (int i = 0; i < NsecG; ++i) {
+		Particle &p = ParticleAtGround[i];
+		out << "  " << p.GetWeigth() << " " << p.GetEnergy() << " "
+				<< p.GetType();
 	}
-
-	std::vector<int> fdN;
-
-	std::ofstream outfile("eleca_output.txt", std::ios::app);
-	if (spectrum) {
-		double emin = 7.0;
-		double dE = (24.0 - 7.0) / 170.0;
-		int ipos = 0;
-
-		for (int h = 0; h < NsecG; ++h) {
-			ipos = (int) ((log10(EGround.at(h)) - emin) / dE);
-			if (typeGround.at(h) == 22)
-				fdN[ipos] += wGround.at(h);
-		}
-	}    //end opt_spectrum
-	else {
-		outfile << Ethr << " " << Bfield / 1e-9 << " " << E0nucl << " "
-				<< z0nucl << " " << NsecG << "  ";
-		for (int h = 0; h < NsecG; ++h) {
-
-			outfile << wGround.at(h) << " " << EGround.at(h) << " "
-					<< typeGround.at(h) << "  ";
-		}
-	}
-	outfile << std::endl;
+	out << std::endl;
 }
+//
+//void Propagation::Spectrum(std::vector<double> &spectrum) const {
+//	double emin = 7.0;
+//	double dE = (24.0 - 7.0) / 170.0;
+//	size_t ipos = 0;
+//	size_t NsecG = ParticleAtGround.size();
+//
+//	for (int h = 0; h < NsecG; ++h) {
+//		ipos = (int) ((log10(EGround.at(h)) - emin) / dE);
+//		if (typeGround.at(h) == 22)
+//			fdN[ipos] += wGround.at(h);
+//	}
+//}
+//
+//void Propagation::AddSpectrum(std::vector<double> &spectrum) const {
+//	double emin = 7.0;
+//	double dE = (24.0 - 7.0) / 170.0;
+//	size_t ipos = 0;
+//	size_t NsecG = ParticleAtGround.size();
+//
+//	for (int h = 0; h < NsecG; ++h) {
+//		ipos = (int) ((log10(EGround.at(h)) - emin) / dE);
+//		if (typeGround.at(h) == 22)
+//			fdN[ipos] += wGround.at(h);
+//	}
+//}
 
 void Propagation::Propagate(Particle &curr_particle,
 		std::vector<Particle> &ParticleAtMatrix,
 		std::vector<Particle> &ParticleAtGround) const {
 
-	double Ethr = fEthr;
 	double theta_deflBF = 0.0;
 	double BNorm = curr_particle.GetB();
 
@@ -605,7 +598,7 @@ void Propagation::Propagate(Particle &curr_particle,
 		curr_particle.Setz(z_curr);
 		curr_particle.SetEnergy(Ecurr);
 
-		if (z_curr > 0 && Ecurr < Ethr) {
+		if (z_curr > 0 && Ecurr < fEthr) {
 			return;
 		}
 		if (z_curr <= 0) {
@@ -634,12 +627,12 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in PP process:  E : " << Ecurr << "  " << E1
 						<< " " << std::endl;
 
-			if (E1 > Ethr) {
+			if (E1 > fEthr) {
 				Particle pp(11, E1, z_curr);
 				pp.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pp);
 			}
-			if (Ecurr - E1 > Ethr) {
+			if (Ecurr - E1 > fEthr) {
 				Particle pe(-11, Ecurr - E1, z_curr);
 				pe.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pe);
@@ -652,7 +645,7 @@ void Propagation::Propagate(Particle &curr_particle,
 			if (E1 == 0)
 				std::cerr << "ERROR in DPP process E : " << E1 << std::endl;
 
-			if (E1 > Ethr) {
+			if (E1 > fEthr) {
 				Particle pp(11, E1, z_curr);
 				if (fast == 1)
 					pp.SetWeigth(wi_last * 2);
@@ -675,12 +668,12 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in ICS process E : " << E1 << " " << E2
 						<< std::endl;
 
-			if (E1 > Ethr) {
+			if (E1 > fEthr) {
 				Particle pp(curr_particle.GetType(), E1, z_curr);
 				pp.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pp);
 			}
-			if (E2 > Ethr) {
+			if (E2 > fEthr) {
 				Particle pg(22, E2, z_curr);
 				pg.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pg);
@@ -695,7 +688,7 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in TPP process E : " << E1 << " " << E2
 						<< std::endl;
 
-			if (E1 > Ethr) {
+			if (E1 > fEthr) {
 				Particle pp(11, E1, z_curr);
 				if (fast == 1)
 					pp.SetWeigth(wi_last * 2);
@@ -707,7 +700,7 @@ void Propagation::Propagate(Particle &curr_particle,
 				}
 				ParticleAtMatrix.push_back(pp);
 			}
-			if (E3 > Ethr) {
+			if (E3 > fEthr) {
 				Particle psc(curr_particle.GetType(), E3, z_curr);
 				psc.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(psc);

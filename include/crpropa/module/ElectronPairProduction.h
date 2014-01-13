@@ -17,7 +17,7 @@ namespace crpropa {
 class ElectronPairProduction: public Module {
 private:
 	PhotonField photonField;
-	std::vector<double> tabLossLength; /*< tabulated energy loss rate in [J/m] for protons at z = 0*/
+	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0*/
 	std::vector<double> tabLorentzFactor; /*< tabulated proton energy [J] */
 
 public:
@@ -28,7 +28,7 @@ public:
 	void process(Candidate *candidate) const;
 
 	/**
-	 Calculates the inverse energy loss length beta = -1/E dE/dx in [1/m]
+	 Calculates the energy loss length 1/beta = -E dx/dE in [m]
 	 @param	id		PDG particle ID
 	 @param lf		Lorentz factor
 	 @param z		redshift
@@ -40,7 +40,7 @@ public:
 	 beta_A,Z(E) = Z^2 / A * beta_p(E/A)
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
-	double invLossLength(int id, double lf, double z) const;
+	double lossLength(int id, double lf, double z) const;
 };
 
 } // namespace crpropa

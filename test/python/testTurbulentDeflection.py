@@ -47,7 +47,7 @@ for j in range(nT):
         x = c.current.getPosition() / Mpc
         p = c.current.getDirection()
         p0 = c.source.getDirection()
-        distance[i] += x.getMag()
+        distance[i] += x.getR()
         rms1[i] += (x.getAngleTo(p))**2
         rms2[i] += (p0.getAngleTo(p))**2
 

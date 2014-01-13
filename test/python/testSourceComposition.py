@@ -1,5 +1,5 @@
 # CRPropa test script
-# Simulates the integrated relative abundance from a source, 
+# Simulates the integrated relative abundance from a source,
 #   accelerationg particles up to a maximum rigidity.
 # Minimum energy = 10 EeV
 # Maximum rigidity = 100 EeV / Z -> max. energy = Z * 100 EeV
@@ -16,32 +16,32 @@ d = {1:zeros(nS), 2:zeros(nS), 6:zeros(nS), 8:zeros(nS), 14:zeros(nS), 26:zeros(
 
 print 'simulating for spectral index'
 for i in range(nS):
-	beta = 2 + i/float(nS - 1)
+    beta = 2 + i/float(nS - 1)
 
-	composition = SourceComposition(10, 100, -beta)
-	composition.add(1, 1, 92000)
-	composition.add(4, 2, 13000)
-	composition.add(12, 6, 447.4)
-	composition.add(16, 8, 526.3)
-	composition.add(28, 14, 100)
-	composition.add(56, 26, 97)
+    composition = SourceComposition(10, 100, -beta)
+    composition.add(1, 1, 92000)
+    composition.add(4, 2, 13000)
+    composition.add(12, 6, 447.4)
+    composition.add(16, 8, 526.3)
+    composition.add(28, 14, 100)
+    composition.add(56, 26, 97)
 
-	state = ParticleState()
+    ps = ParticleState()
 
-	for j in range(nP):
-		composition.prepare(state)
-		z = chargeNumberFromNucleusId(state.getId())
-		d[z][i] += 1
+    for j in range(nP):
+        composition.prepare(ps)
+        z = chargeNumber(ps.getId())
+        d[z][i] += 1
 
-	norm = float(d[1][i])
-	for z in d.keys():
-		d[z][i] /= norm
+    norm = float(d[1][i])
+    for z in d.keys():
+        d[z][i] /= norm
 
 figure()
 beta = linspace(2, 3, nS)
 elements = {1:'H', 2:'He', 6:'C', 8:'O', 14:'Si', 26:'Fe'}
 for z in d.keys():
-	plt.plot(beta, d[z], label=elements[z])
+    plt.plot(beta, d[z], label=elements[z])
 
 legend(loc = 'lower right')
 xlabel(r'Source Spectral Index $\beta$')

@@ -98,6 +98,10 @@ double omegaM() {
 	return cosmology.omegaM;
 }
 
+double H0() {
+	return cosmology.H0;
+}
+
 double comovingDistance2Redshift(double d) {
 	if (d < 0)
 		throw std::runtime_error("Cosmology: d < 0");

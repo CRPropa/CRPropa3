@@ -102,6 +102,7 @@ find_package(GooglePerfTools)
 set(TCMALLOC)
 if(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
     set(TCMALLOC ${TCMALLOC_LIBRARY})
+    list(APPEND CRPROPA_EXTRA_LIBRARIES profiler)
 endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 
 # ----------------------------------------------------------------------------
@@ -138,6 +139,7 @@ add_library(crpropa SHARED
     src/module/OutputROOT.cpp
     src/module/OutputCRPropa2.cpp
     src/module/PhotonDINT.cpp
+    src/module/PhotonDINT1D.cpp
     src/module/PhotonEleCa.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticField.cpp

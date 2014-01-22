@@ -22,7 +22,7 @@ X, Y = meshgrid(samples, samples)
 for i,x in enumerate(samples):
   for j,y in enumerate(samples):
     pos = Vector3d(x, y, z) * kpc
-    B[i, j] = bField.getField(pos).getMag() / gauss # B in [G]
+    B[i, j] = bField.getField(pos).getR() / gauss # B in [G]
 
 figure()
 maB = ma.masked_array(B, B==0)

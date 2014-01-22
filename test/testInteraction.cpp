@@ -50,7 +50,7 @@ TEST(ElectronPairProduction, belowEnergyTreshold) {
 	double E = 1e14 * eV;
 	c.current.setEnergy(E);
 	epp.process(&c);
-	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
+	EXPECT_DOUBLE_EQ(E, c.current.getEnergy());
 }
 
 TEST(ElectronPairProduction, thisIsNotNucleonic) {
@@ -61,7 +61,7 @@ TEST(ElectronPairProduction, thisIsNotNucleonic) {
 	double E = 1e20 * eV;
 	c.current.setEnergy(E);
 	epp.process(&c);
-	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
+	EXPECT_DOUBLE_EQ(E, c.current.getEnergy());
 }
 
 TEST(ElectronPairProduction, valuesCMB) {
@@ -92,7 +92,7 @@ TEST(ElectronPairProduction, valuesCMB) {
 		epp.process(&c);
 		double dE = x[i] - c.current.getEnergy();
 		double dE_table = y[i] * 1 * Mpc;
-		EXPECT_NEAR(dE, dE_table, 1e-12);
+		EXPECT_NEAR(dE_table, dE, 1e-12);
 	}
 }
 

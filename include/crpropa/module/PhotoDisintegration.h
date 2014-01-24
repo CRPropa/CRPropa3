@@ -31,7 +31,14 @@ public:
 	void init(std::string filename);
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, int channel) const;
-	double interactionRate(int id, double E, double z);
+
+	/**
+	 Calculates the loss length E dx/dE in [m]. This is not used in the simulation.
+	 @param	id		PDG particle id
+	 @param energy	particle energy [J]
+	 @param z		redshift
+	 */
+	double lossLength(int id, double E, double z = 0);
 };
 
 } // namespace crpropa

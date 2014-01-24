@@ -24,9 +24,9 @@ private:
 	bool haveAntiNucleons;
 
 public:
-	PhotoPionProduction(PhotonField photonField = CMB,
-			bool photons = false, bool neutrinos = false, bool antiNucleons =
-					false, double limit = 0.1);
+	PhotoPionProduction(PhotonField photonField = CMB, bool photons = false,
+			bool neutrinos = false, bool antiNucleons = false, double limit =
+					0.1);
 	void setPhotonField(PhotonField photonField);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
@@ -37,12 +37,15 @@ public:
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, int channel) const;
 	double nucleiModification(int A, int X) const;
+
 	/**
-	 Calculates the energy loss length 1/E dE/dx in [m]. This is not used in the simulation.
+	 Calculates the loss length E dx/dE in [m].
+	 This is not used in the simulation.
 	 @param	id		PDG particle id
 	 @param energy	particle energy [J]
+	 @param z		redshift
 	 */
-	double energyLossLength(int id, double energy);
+	double lossLength(int id, double energy, double z = 0);
 };
 
 } // namespace crpropa

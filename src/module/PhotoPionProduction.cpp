@@ -236,32 +236,28 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	}
 }
 
-double PhotoPionProduction::energyLossLength(int id, double E) {
+double PhotoPionProduction::lossLength(int id, double E, double z) {
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-	double Eeff = E / A;
+	double Eeff = E / A * (1 + z);
 	if ((Eeff < energy.front()) or (Eeff > energy.back()))
 		return std::numeric_limits<double>::max();
+
+	double lossRate = 0;
+	if (Z > 0)
+		lossRate += interpolate(Eeff, energy, pRate) * nucleiModification(A, Z);
+	if (N > 0)
+		lossRate += interpolate(Eeff, energy, nRate) * nucleiModification(N, Z);
 
 	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
 	// nuclei approximately lose the energy that the interacting nucleon is carrying
 	double relativeEnergyLoss = (A == 1) ? 1 - 938. / 1232. : 1. / A;
+	lossRate *= relativeEnergyLoss;
 
-	double lossRate = 0;
-	if (Z > 0) {
-		double rate = interpolate(Eeff, energy, pRate);
-		rate *= nucleiModification(A, Z);
-		lossRate += relativeEnergyLoss * rate;
-	}
-
-	if (N > 0) {
-		double rate = interpolate(Eeff, energy, nRate);
-		rate *= nucleiModification(A, N);
-		lossRate += relativeEnergyLoss * rate;
-	}
-
+	// cosmological scaling of photon density
+	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
 	return 1. / lossRate;
 }
 

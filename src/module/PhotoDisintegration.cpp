@@ -178,7 +178,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 		candidate->addSecondary(nucleusId(4, 2), EpA * 4);
 }
 
-double PhotoDisintegration::interactionRate(int id, double E, double z) {
+double PhotoDisintegration::lossLength(int id, double E, double z) {
 	// check if nucleus
 	if (not (isNucleus(id)))
 		return 0;
@@ -189,25 +189,34 @@ double PhotoDisintegration::interactionRate(int id, double E, double z) {
 
 	// check if disintegration data available
 	if ((Z > 26) or (N > 30))
-		return 0;
+		return std::numeric_limits<double>::max();
 	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
 	if (pdModes.size() == 0)
-		return 0;
+		return std::numeric_limits<double>::max();
 
 	// check if in tabulated energy range
 	double lg = log10(E / (nucleusMass(id) * c_squared)) * (1 + z);
 	if ((lg <= lgmin) or (lg >= lgmax))
-		return 0;
+		return std::numeric_limits<double>::max();
 
 	// total rate from all disintegration channels
-	double rate = 0;
+	double lossRate = 0;
 	for (size_t i = 0; i < pdModes.size(); i++) {
-		rate += interpolateEquidistant(lg, lgmin, lgmax, pdModes[i].rate);
+		int dA = 0;
+		dA += 1 * digit(pdModes[i].channel, 100000);
+		dA += 1 * digit(pdModes[i].channel, 10000);
+		dA += 2 * digit(pdModes[i].channel, 1000);
+		dA += 3 * digit(pdModes[i].channel, 100);
+		dA += 3 * digit(pdModes[i].channel, 10);
+		dA += 4 * digit(pdModes[i].channel, 1);
+
+		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdModes[i].rate);
+		lossRate += rate * dA / A;
 	}
 
 	// comological scaling of interaction distance (in physical units)
-	rate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
-	return rate;
+	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	return 1. / lossRate;
 }
 
 } // namespace crpropa

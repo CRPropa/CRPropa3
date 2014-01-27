@@ -102,7 +102,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 	Spectrum outputSpectrum;
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
-	double h = H0() * Mpc / 1e5;
+	double h = H0() * Mpc / 1000;
 
 	prop_second(showerPropDistance / Mpc, &bField, &energyGrid, &energyWidth,
 			&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag,

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 #include "dint/prop_second.h"
 
@@ -51,7 +52,7 @@ public:
 class PhotonDINT1DROOTImpl: public PhotonDINT1DImpl {
 public:
 	PhotonDINT1DROOTImpl(const std::string &filename) :
-			PhotonDINT1DImpl() {
+	PhotonDINT1DImpl() {
 		//TODO: new histogram
 	}
 
@@ -104,7 +105,7 @@ void PhotonDINT1D::process(Candidate *candidate) const {
 	if (candidate->current.getId() != 22)
 		return;
 
-// Initialize the spectrum
+	// Initialize the spectrum
 	Spectrum inputSpectrum;
 	NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
 
@@ -114,16 +115,16 @@ void PhotonDINT1D::process(Candidate *candidate) const {
 			* BINS_PER_DECADE + NUM_MAIN_BINS);
 	inputSpectrum.spectrum[PHOTON][maxBin] = 1.;
 
-// Initialize the bField
+	// Initialize the bField
 	dCVector bField;
-	New_dCVector(&bField, 0);
+	New_dCVector(&bField, 1);
 
-// Initialize output spectrum
+	// Initialize output spectrum
 	Spectrum outputSpectrum;
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
 	double h = H0() * Mpc / 1e5;
-	double showerPropDistance = candidate->current.getPosition().getR() / centimeter;
+	double showerPropDistance = candidate->current.getPosition().getR() / Mpc;
 	double z = candidate->getRedshift();
 	if (z == 0) {
 		//TODO: use z value for distance calculation

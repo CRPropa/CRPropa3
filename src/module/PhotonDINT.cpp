@@ -102,11 +102,11 @@ void PhotonDINT::process(Candidate *candidate) const {
 	Spectrum outputSpectrum;
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
-	double H0 = hubbleRate(0) * Mpc / 1000; // Hubble constant in [km/s/Mpc]
+	double h = H0() * Mpc / 1e5;
 
-	prop_second(showerPropDistance / Mpc, &bField, &energyGrid, &energyWidth,
+	prop_second(showerPropDistance / centimeter, &bField, &energyGrid, &energyWidth,
 			&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag,
-			H0, omegaL(), omegaM(), Cutcascade_Magfield);
+			h, omegaL(), omegaM(), Cutcascade_Magfield);
 
 #pragma omp critical
 	{

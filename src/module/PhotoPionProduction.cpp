@@ -82,10 +82,9 @@ void PhotoPionProduction::init(std::string filename) {
 double PhotoPionProduction::nucleiModification(int A, int X) const {
 	if (A == 1)
 		return 1.;
-	if (A < 8)
+	if (A <= 8)
 		return 0.85 * pow(X, 2. / 3.);
-	else
-		return 0.85 * X;
+	return 0.85 * X;
 }
 
 void PhotoPionProduction::process(Candidate *candidate) const {

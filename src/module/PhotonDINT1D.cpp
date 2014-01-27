@@ -123,13 +123,13 @@ void PhotonDINT1D::process(Candidate *candidate) const {
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
 	double h = H0() * Mpc / 1e5;
-	double showerPropDistance = candidate->current.getPosition().getR();
+	double showerPropDistance = candidate->current.getPosition().getR() / centimeter;
 	double z = candidate->getRedshift();
 	if (z == 0) {
 		//TODO: use z value for distance calculation
 	}
 
-	prop_second(showerPropDistance / Mpc, &bField, &impl->energyGrid,
+	prop_second(showerPropDistance, &bField, &impl->energyGrid,
 			&impl->energyWidth, &inputSpectrum, &outputSpectrum, dataPath,
 			IRFlag, Zmax, RadioFlag, h, omegaL(), omegaM(),
 			Cutcascade_Magfield);

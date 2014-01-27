@@ -168,21 +168,40 @@ TEST(common, digit) {
 }
 
 TEST(common, interpolate) {
-	std::vector<double> xD(100), yD(100);
-	for (int i = 0; i < 100; i++) {
-		xD[i] = 1 + i * 2. / 99.;
-		yD[i] = pow(xD[i], 2);
+	// create vectors x = (0, 0.02, ... 2) and y = 2x + 3 = (3, ... 7)
+	std::vector<double> xD(101), yD(101);
+	for (int i = 0; i <= 100; i++) {
+		xD[i] = i * 0.02;
+		yD[i] = 2 * xD[i] + 3;
 	}
 
-	// interpolated value should be close to computed
-	double y = interpolate(1.5001, xD, yD);
-	EXPECT_NEAR(pow(1.5001, 2), y, 1e-4);
+	// interpolating tabulated values of a linear function should produce exact results
+	Random &R = Random::instance();
+	double x, ytrue, yinterp;
+	for (int i = 0; i < 10000; i++) {
+		x = R.rand() * 2; // random value between 0 and 2
+		ytrue = 2 * x + 3;
+		yinterp = interpolate(x, xD, yD);
+		EXPECT_DOUBLE_EQ(ytrue, yinterp);
+	}
+
+	// test interpolation in first bin
+	x = 0.01;
+	ytrue = 2 * x + 3;
+	yinterp = interpolate(x, xD, yD);
+	EXPECT_DOUBLE_EQ(ytrue, yinterp);
+
+	// test interpolation in last bin
+	x = 1.99;
+	ytrue = 2 * x + 3;
+	yinterp = interpolate(x, xD, yD);
+	EXPECT_DOUBLE_EQ(ytrue, yinterp);
 
 	// value out of range, return lower bound
-	EXPECT_EQ(1, interpolate(0.9, xD, yD));
+	EXPECT_EQ(3, interpolate(-0.001, xD, yD));
 
-	// value out of range, return lower bound
-	EXPECT_EQ(9, interpolate(3.1, xD, yD));
+	// value out of range, return upper bound
+	EXPECT_EQ(7, interpolate(2.001, xD, yD));
 }
 
 TEST(common, interpolateEquidistant) {

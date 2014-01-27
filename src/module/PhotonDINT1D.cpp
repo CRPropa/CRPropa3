@@ -133,9 +133,9 @@ void PhotonDINT1D::process(Candidate *candidate) const {
 	}
 
 	prop_second(showerPropDistance, &bField, &impl->energyGrid,
-			&impl->energyWidth, &inputSpectrum, &outputSpectrum, dataPath,
-			IRFlag, Zmax, RadioFlag, h, ol, om,
-			Cutcascade_Magfield);
+		    &impl->energyWidth, &inputSpectrum, &outputSpectrum, dataPath,
+		    IRFlag, Zmax, RadioFlag, h, om, ol,
+		    Cutcascade_Magfield);
 
 #pragma omp critical
 	{

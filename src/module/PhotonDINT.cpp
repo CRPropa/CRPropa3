@@ -104,7 +104,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 
 	double h = H0() * Mpc / 1e5;
 
-	prop_second(showerPropDistance / centimeter, &bField, &energyGrid, &energyWidth,
+	prop_second(showerPropDistance / Mpc, &bField, &energyGrid, &energyWidth,
 			&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag,
 			h, omegaL(), omegaM(), Cutcascade_Magfield);
 

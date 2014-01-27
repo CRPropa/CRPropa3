@@ -67,7 +67,7 @@ public:
 #endif
 
 PhotonDINT1D::PhotonDINT1D(const string &filename) :
-		filename(filename), IRFlag(1), RadioFlag(1), Zmax(5), Cutcascade_Magfield(
+		filename(filename), IRFlag(2), RadioFlag(2), Zmax(5), Cutcascade_Magfield(
 				0), impl(0) {
 	dataPath = getDataPath("dint");
 
@@ -123,7 +123,9 @@ void PhotonDINT1D::process(Candidate *candidate) const {
 	Spectrum outputSpectrum;
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
-	double h = H0() * Mpc / 1e5;
+	double h = H0() * Mpc / 1000;
+	double ol =  omegaL();
+	double om = omegaM();
 	double showerPropDistance = candidate->current.getPosition().getR() / Mpc;
 	double z = candidate->getRedshift();
 	if (z == 0) {
@@ -132,7 +134,7 @@ void PhotonDINT1D::process(Candidate *candidate) const {
 
 	prop_second(showerPropDistance, &bField, &impl->energyGrid,
 			&impl->energyWidth, &inputSpectrum, &outputSpectrum, dataPath,
-			IRFlag, Zmax, RadioFlag, h, omegaL(), omegaM(),
+			IRFlag, Zmax, RadioFlag, h, ol, om,
 			Cutcascade_Magfield);
 
 #pragma omp critical

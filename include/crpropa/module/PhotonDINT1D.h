@@ -24,20 +24,23 @@ public:
 	std::string getDescription() const;
 
 	/* Possible values:
-	 * 0 -> IR_UNIFORM_HIGH (default)
+	 * 0 -> IR_UNIFORM_HIGH
 	 * 1 -> IR_UNIFORM_LOW
-	 * 2 -> IR_UNIFORM_PRIMACK
+	 * 2 -> IR_UNIFORM_PRIMACK (default)
 	 */
 	void setIRFlag(int ir);
 
 	/* Possible values:
-	 * 0 -> High (default)
+	 * 0 -> High
 	 * 1 -> Med
-	 * 2 -> Obs
+	 * 2 -> Obs (default)
 	 * 3 -> Null
 	 */
 	void setRadioFlag(int radio);
 
+	/*
+	 * default: 5
+	 */
 	void setZmax(double zmax);
 };
 

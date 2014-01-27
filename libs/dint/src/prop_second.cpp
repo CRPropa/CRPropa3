@@ -1008,8 +1008,10 @@ clock_t end = clock();
 
 clock_t total = end -start;
 clock_t comp = end_comp -start_comp;
-printf("Comptime: %f\n", float(comp)/float(total));
 
+#ifdef DEBUG
+printf("Dint Comptime: %f\n", float(comp)/float(total));
+#endif
 }
 
 void BuildRedshiftTable(double aH0, double aOmegaM, double aOmegaLambda, 

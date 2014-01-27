@@ -160,7 +160,7 @@ add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY data/ DESTINATION share/crpropa/)
+install(DIRECTORY data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 # ----------------------------------------------------------------------------
 # Testing

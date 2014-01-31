@@ -11,8 +11,8 @@ using namespace std;
 namespace crpropa {
 
 PhotonDINT::PhotonDINT(const string &filename, ref_ptr<MagneticField> field) :
-		filename(filename), fout(filename.c_str()), field(field), IRFlag(0), RadioFlag(
-				0), Zmax(5), Cutcascade_Magfield(0) {
+		filename(filename), fout(filename.c_str()), field(field), IRFlag(2), RadioFlag(
+				2), Zmax(5), Cutcascade_Magfield(0) {
 	dataPath = getDataPath("dint");
 
 //TODO: implement ir and radio flags
@@ -66,7 +66,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 		double criticalEnergy = candidate->current.getEnergy()
 				/ (eV * ELECTRON_MASS); // units of dint
 		int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-				- MAX_ENERGY_EXP)* BINS_PER_DECADE + NUM_MAIN_BINS);
+				- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
 		inputSpectrum.spectrum[PHOTON][maxBin] = 1.;
 	}
 
@@ -106,7 +106,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 
 	prop_second(showerPropDistance / Mpc, &bField, &energyGrid, &energyWidth,
 			&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag,
-			h, omegaL(), omegaM(), Cutcascade_Magfield);
+			h, omegaM(), omegaL(), Cutcascade_Magfield);
 
 #pragma omp critical
 	{

@@ -8,6 +8,10 @@ set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
 
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--as-needed")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
+
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
@@ -94,6 +98,7 @@ if(ENABLE_ROOT)
     	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
     	add_definitions(-DCRPROPA_HAVE_ROOT)
     	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ROOT)
+		list(APPEND CRPROPA_EXTRA_LIBRARIES Core RIO Tree)
     endif(ROOT_FOUND)
 endif(ENABLE_ROOT)
 
@@ -140,6 +145,7 @@ add_library(crpropa SHARED
     src/module/OutputCRPropa2.cpp
     src/module/PhotonDINT.cpp
     src/module/PhotonDINT1D.cpp
+    src/module/PhotonOutput1D.cpp
     src/module/PhotonEleCa.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticField.cpp

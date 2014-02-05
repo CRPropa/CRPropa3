@@ -145,7 +145,6 @@ add_library(crpropa SHARED
     src/module/OutputCRPropa2.cpp
     src/module/PhotonDINT.cpp
     src/module/PhotonDINT1D.cpp
-    src/module/PhotonOutput1D.cpp
     src/module/PhotonEleCa.cpp
     src/module/Tools.cpp
     src/magneticField/MagneticField.cpp

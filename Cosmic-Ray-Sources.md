@@ -16,7 +16,7 @@ For n discrete source positions
 ```python
 positions = SourceMultiplePositions()
 p = ParticleState()
-for i in range(nSources):
+for i in range(n):
     density.prepare(p)
     pos.add(p.getPosition())
 source.addProperty(positions)

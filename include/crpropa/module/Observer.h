@@ -3,16 +3,115 @@
 
 #include "crpropa/Module.h"
 
+#include <vector>
+#include <fstream>
+
 namespace crpropa {
 
 /**
- @class SmallObserverSphere
- @brief Flags particles when entering the sphere.
-
- Particles are detected when the current position is inside and the previous position outside the sphere.
- In this case the candidate is by default flagged "Detected" made inactive.
- This module limits the next step size to prevent candidates from overshooting.
+ @class ObserverFeature
+ @brief Abstract base class for features of cosmic ray observers
  */
+class ObserverFeature: public Referenced {
+public:
+	virtual bool process(Candidate &candidate) const = 0;
+};
+
+/**
+ @class Observer
+ @brief General cosmic ray observer
+ */
+class Observer: public Referenced {
+private:
+	std::vector<ref_ptr<ObserverFeature> > features;
+	bool makeInactive;
+public:
+	Observer(bool makeInactive = false) :
+			makeInactive(makeInactive) {
+	}
+	void add(ObserverFeature *property);
+	void process(Candidate *candidate) const;
+};
+
+/**
+ @class ObserverSmallSphere
+ @brief Detects particles upon entering a sphere
+ */
+class ObserverSmallSphere: public ObserverFeature {
+private:
+	Vector3d center;
+	double radius;
+public:
+	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
+	bool process(Candidate &candidate) const;
+};
+
+/**
+ @class ObserverSmallSphere
+ @brief Detects particles upon exiting a sphere
+ */
+class ObserverLargeSphere: public ObserverFeature {
+private:
+	Vector3d center;
+	double radius;
+public:
+	ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
+	bool process(Candidate &candidate) const;
+};
+
+/**
+ @class ObserverSmallSphere
+ @brief Detects particles upon exiting a sphere
+ */
+class ObserverRedshiftWindow: public ObserverFeature {
+private:
+	double zmin, zmax;
+public:
+	ObserverRedshiftWindow(double zmin = 0, double zmax = 0.1);
+	bool process(Candidate &candidate) const;
+};
+
+/**
+ @class ObserverPoint
+ @brief Detects particles when reaching x = 0
+
+ Should be renamed to Observer1D
+ */
+class ObserverPoint: public ObserverFeature {
+public:
+	bool process(Candidate &candidate) const;
+};
+
+/**
+ @class ObserverOutput3D
+ @brief Plain text output of 3D properties
+ */
+class ObserverOutput3D: public ObserverFeature {
+private:
+	mutable std::ofstream fout;
+	bool legacy;  // toggle CRPropa 2 output format
+public:
+	ObserverOutput3D(std::string filename, bool legacy = false);
+	~ObserverOutput3D();
+	bool process(Candidate &candidate) const;
+};
+
+/**
+ @class ObserverOutput1D
+ @brief Plain text output of 1D properties
+ */
+class ObserverOutput1D: public ObserverFeature {
+private:
+	mutable std::ofstream fout;
+	bool legacy;  // toggle CRPropa 2 output format
+public:
+	ObserverOutput1D(std::string filename, bool legacy = false);
+	~ObserverOutput1D();
+	bool process(Candidate &candidate) const;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 class SmallObserverSphere: public Module {
 private:
 	Vector3d center;

@@ -45,13 +45,14 @@ ConditionalOutput::ConditionalOutput(std::string fname, std::string cond) :
 	setDescription(
 			"Conditional output, condition: " + cond + ", filename: " + fname);
 	fout.open(fname.c_str());
-	fout << "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\n";
+	fout << "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\tz\n";
 	fout << "#\n";
 	fout << "# D           Trajectory length [Mpc]\n";
 	fout << "# ID          Particle type (PDG MC numbering scheme)\n";
 	fout << "# E           Energy [EeV]\n";
 	fout << "# X, Y, Z     Position [Mpc]\n";
 	fout << "# Px, Py, Pz  Heading (unit vector of momentum)\n";
+	fout << "# z           Current redshift\n";
 	fout << "# Initial state: ID0, E0, ...\n";
 	fout << "#\n";
 }
@@ -81,7 +82,8 @@ void ConditionalOutput::process(Candidate *c) const {
 	Vector3d dir = c->current.getDirection();
 	p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", dir.x, dir.y, dir.z);
 	Vector3d idir = c->source.getDirection();
-	p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\n", idir.x, idir.y, idir.z);
+	p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", idir.x, idir.y, idir.z);
+	p += sprintf(buffer + p, "%1.3f\n", c->getRedshift());
 
 #pragma omp critical
 	{

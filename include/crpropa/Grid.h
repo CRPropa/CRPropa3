@@ -128,6 +128,10 @@ public:
 		return grid[ix * Ny * Nz + iy * Nz + iz];
 	}
 
+	T getValue(size_t ix, size_t iy, size_t iz) {
+		return grid[ix * Ny * Nz + iy * Nz + iz];
+	}
+
 	/** Return a reference to the grid values */
 	std::vector<T> &getGrid() {
 		return grid;

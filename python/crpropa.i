@@ -77,14 +77,14 @@ using std::ptrdiff_t;
  {
    $action
  }
+ catch (Swig::DirectorException &e) {
+   SWIG_exception(SWIG_RuntimeError, e.getMessage());
+ }
  catch (const std::exception& e) {
    SWIG_exception(SWIG_RuntimeError, e.what());
  }
  catch (const char *e) {
    SWIG_exception(SWIG_RuntimeError, e);
- }
- catch (Swig::DirectorException &e) {
-   SWIG_exception(SWIG_RuntimeError, e.getMessage());
  }
 }
 

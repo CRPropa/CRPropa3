@@ -14,8 +14,8 @@ namespace crpropa {
  */
 class SourceProperty: public Referenced {
 public:
-	virtual void prepare(ParticleState& particle) const;
-	virtual void prepare(Candidate& candidate) const;
+	virtual void prepareParticle(ParticleState& particle) const;
+	virtual void prepareCandidate(Candidate& candidate) const;
 };
 
 /**
@@ -56,7 +56,7 @@ class SourceParticleType: public SourceProperty {
 	double id;
 public:
 	SourceParticleType(int id);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -68,7 +68,7 @@ class SourceMultipleParticleTypes: public SourceProperty {
 	std::vector<double> cdf;
 public:
 	void add(int id, double weight = 1);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -79,7 +79,7 @@ class SourceEnergy: public SourceProperty {
 	double E;
 public:
 	SourceEnergy(double energy);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -92,7 +92,7 @@ class SourcePowerLawSpectrum: public SourceProperty {
 	double index;
 public:
 	SourcePowerLawSpectrum(double Emin, double Emax, double index);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -111,7 +111,7 @@ public:
 	SourceComposition(double Emin, double Rmax, double index);
 	void add(int id, double abundance);
 	void add(int A, int Z, double abundance);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -122,7 +122,7 @@ class SourcePosition: public SourceProperty {
 	Vector3d position; /**< Source position */
 public:
 	SourcePosition(Vector3d position);
-	void prepare(ParticleState &state) const;
+	void prepareParticle(ParticleState &state) const;
 };
 
 /**
@@ -134,7 +134,7 @@ class SourceMultiplePositions: public SourceProperty {
 	std::vector<double> cdf;
 public:
 	void add(Vector3d position, double weight = 1);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -146,7 +146,7 @@ class SourceUniformSphere: public SourceProperty {
 	double radius;
 public:
 	SourceUniformSphere(Vector3d center, double radius);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -158,7 +158,7 @@ class SourceUniformShell: public SourceProperty {
 	double radius;
 public:
 	SourceUniformShell(Vector3d center, double radius);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -174,7 +174,7 @@ public:
 	 @param size	upper box corner
 	 */
 	SourceUniformBox(Vector3d origin, Vector3d size);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -197,7 +197,7 @@ public:
 	 @param withCosmology	specify if universe expanding
 	 */
 	SourceUniform1D(double minD, double maxD, bool withCosmology=true);
-	void prepare(ParticleState& particle) const;
+	void prepareParticle(ParticleState& particle) const;
 };
 
 /**
@@ -208,7 +208,7 @@ class SourceDensityGrid: public SourceProperty {
 	ref_ptr<ScalarGrid> grid;
 public:
 	SourceDensityGrid(ref_ptr<ScalarGrid> densityGrid);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -219,7 +219,7 @@ class SourceDensityGrid1D: public SourceProperty {
 	ref_ptr<ScalarGrid> grid;
 public:
 	SourceDensityGrid1D(ref_ptr<ScalarGrid> densityGrid);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -228,7 +228,7 @@ public:
  */
 class SourceIsotropicEmission: public SourceProperty {
 public:
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -239,7 +239,7 @@ class SourceDirection: public SourceProperty {
 	Vector3d direction;
 public:
 	SourceDirection(Vector3d direction = Vector3d(-1, 0, 0));
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -251,7 +251,7 @@ class SourceEmissionCone: public SourceProperty {
 	double aperture;
 public:
 	SourceEmissionCone(Vector3d direction, double aperture);
-	void prepare(ParticleState &particle) const;
+	void prepareParticle(ParticleState &particle) const;
 };
 
 /**
@@ -262,7 +262,7 @@ class SourceRedshift: public SourceProperty {
 	double z;
 public:
 	SourceRedshift(double z);
-	void prepare(Candidate &candidate) const;
+	void prepareCandidate(Candidate &candidate) const;
 };
 
 /**
@@ -273,7 +273,7 @@ class SourceUniformRedshift: public SourceProperty {
 	double zmin, zmax;
 public:
 	SourceUniformRedshift(double zmin, double zmax);
-	void prepare(Candidate &candidate) const;
+	void prepareCandidate(Candidate &candidate) const;
 };
 
 /**
@@ -285,7 +285,7 @@ public:
  */
 class SourceRedshift1D: public SourceProperty {
 public:
-	void prepare(Candidate &candidate) const;
+	void prepareCandidate(Candidate &candidate) const;
 };
 
 }// namespace crpropa

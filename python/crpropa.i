@@ -121,7 +121,7 @@ using std::ptrdiff_t;
 
 %template(ModuleRefPtr) crpropa::ref_ptr<crpropa::Module>;
 %template(stdModuleList) std::list< crpropa::ref_ptr<crpropa::Module> >;
-%feature("director") crpropa::Module;      
+%feature("director") crpropa::Module;
 %include "crpropa/Module.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
@@ -166,18 +166,20 @@ using std::ptrdiff_t;
 %include "crpropa/module/Redshift.h"
 %include "crpropa/module/Tools.h"
 
-%template(SourceRefPtr) crpropa::ref_ptr<crpropa::Source>;
-%include "crpropa/Source.h"
-
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 
+%feature("director") Source;
+%feature("director") SourceProperty;
+%include "crpropa/Source.h"
 
 // nice python print
 %pythoncode %{
 Module.__str__ = Module.getDescription
+
 def Vector3__str__(self):
   return "(%.4e, %.4e, %.4e)" % (self.x, self.y, self.z)
+
 Vector3d.__str__ = Vector3__str__
 Vector3f.__str__ = Vector3__str__
 %}

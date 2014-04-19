@@ -7,12 +7,12 @@
 
 namespace crpropa {
 
-void SourceProperty::prepare(ParticleState& particle) const {
+void SourceProperty::prepareParticle(ParticleState& particle) const {
 }
 
-void SourceProperty::prepare(Candidate& candidate) const {
+void SourceProperty::prepareCandidate(Candidate& candidate) const {
 	ParticleState &source = candidate.source;
-	prepare(source);
+	prepareParticle(source);
 	candidate.created = source;
 	candidate.current = source;
 	candidate.previous = source;
@@ -25,7 +25,7 @@ void Source::addProperty(SourceProperty* property) {
 ref_ptr<Candidate> Source::getCandidate() const {
 	ref_ptr<Candidate> candidate = new Candidate();
 	for (int i = 0; i < properties.size(); i++)
-		(*properties[i]).prepare(*candidate);
+		(*properties[i]).prepareCandidate(*candidate);
 	return candidate;
 }
 
@@ -47,7 +47,7 @@ SourceParticleType::SourceParticleType(int id) :
 		id(id) {
 }
 
-void SourceParticleType::prepare(ParticleState& particle) const {
+void SourceParticleType::prepareParticle(ParticleState& particle) const {
 	particle.setId(id);
 }
 
@@ -55,7 +55,7 @@ SourceEnergy::SourceEnergy(double energy) :
 		E(energy) {
 }
 
-void SourceEnergy::prepare(ParticleState& p) const {
+void SourceEnergy::prepareParticle(ParticleState& p) const {
 	p.setEnergy(E);
 }
 
@@ -64,7 +64,7 @@ SourcePowerLawSpectrum::SourcePowerLawSpectrum(double Emin, double Emax,
 		Emin(Emin), Emax(Emax), index(index) {
 }
 
-void SourcePowerLawSpectrum::prepare(ParticleState& particle) const {
+void SourcePowerLawSpectrum::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	double E = random.randPowerLaw(index, Emin, Emax);
 	particle.setEnergy(E);
@@ -77,7 +77,7 @@ void SourceMultipleParticleTypes::add(int id, double a) {
 	cdf.push_back(a);
 }
 
-void SourceMultipleParticleTypes::prepare(ParticleState& particle) const {
+void SourceMultipleParticleTypes::prepareParticle(ParticleState& particle) const {
 	if (particleTypes.size() == 0)
 		throw std::runtime_error("SourceMultipleParticleTypes: no nuclei set");
 	size_t i = Random::instance().randBin(cdf);
@@ -110,7 +110,7 @@ void SourceComposition::add(int A, int Z, double a) {
 	add(nucleusId(A, Z), a);
 }
 
-void SourceComposition::prepare(ParticleState& particle) const {
+void SourceComposition::prepareParticle(ParticleState& particle) const {
 	if (nuclei.size() == 0)
 		throw std::runtime_error("SourceComposition: No source isotope set");
 
@@ -130,7 +130,7 @@ SourcePosition::SourcePosition(Vector3d position) :
 		position(position) {
 }
 
-void SourcePosition::prepare(ParticleState& particle) const {
+void SourcePosition::prepareParticle(ParticleState& particle) const {
 	particle.setPosition(position);
 }
 
@@ -141,7 +141,7 @@ void SourceMultiplePositions::add(Vector3d pos, double weight) {
 	cdf.push_back(weight);
 }
 
-void SourceMultiplePositions::prepare(ParticleState& particle) const {
+void SourceMultiplePositions::prepareParticle(ParticleState& particle) const {
 	if (positions.size() == 0)
 		throw std::runtime_error("SourceMultiplePositions: no position set");
 	size_t i = Random::instance().randBin(cdf);
@@ -152,7 +152,7 @@ SourceUniformSphere::SourceUniformSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
-void SourceUniformSphere::prepare(ParticleState& particle) const {
+void SourceUniformSphere::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	double r = pow(random.rand(), 1. / 3.) * radius;
 	particle.setPosition(random.randVector() * r);
@@ -162,7 +162,7 @@ SourceUniformShell::SourceUniformShell(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
 
-void SourceUniformShell::prepare(ParticleState& particle) const {
+void SourceUniformShell::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	particle.setPosition(random.randVector() * radius);
 }
@@ -171,7 +171,7 @@ SourceUniformBox::SourceUniformBox(Vector3d origin, Vector3d size) :
 		origin(origin), size(size) {
 }
 
-void SourceUniformBox::prepare(ParticleState& particle) const {
+void SourceUniformBox::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	Vector3d pos(random.rand(), random.rand(), random.rand());
 	particle.setPosition(pos * size + origin);
@@ -188,7 +188,7 @@ SourceUniform1D::SourceUniform1D(double minD, double maxD, bool withCosmology) {
 	}
 }
 
-void SourceUniform1D::prepare(ParticleState& particle) const {
+void SourceUniform1D::prepareParticle(ParticleState& particle) const {
 	Random& random = Random::instance();
 	double d = random.rand() * (maxD - minD) + minD;
 	if (withCosmology)
@@ -209,7 +209,7 @@ SourceDensityGrid::SourceDensityGrid(ref_ptr<ScalarGrid> grid) :
 	}
 }
 
-void SourceDensityGrid::prepare(ParticleState& particle) const {
+void SourceDensityGrid::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 
 	// draw random bin
@@ -239,7 +239,7 @@ SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<ScalarGrid> grid) :
 	}
 }
 
-void SourceDensityGrid1D::prepare(ParticleState& particle) const {
+void SourceDensityGrid1D::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 
 	// draw random bin
@@ -253,7 +253,7 @@ void SourceDensityGrid1D::prepare(ParticleState& particle) const {
 	particle.setPosition(pos);
 }
 
-void SourceIsotropicEmission::prepare(ParticleState& particle) const {
+void SourceIsotropicEmission::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	particle.setDirection(random.randVector());
 }
@@ -262,7 +262,7 @@ SourceDirection::SourceDirection(Vector3d direction) :
 		direction(direction) {
 }
 
-void SourceDirection::prepare(ParticleState& particle) const {
+void SourceDirection::prepareParticle(ParticleState& particle) const {
 	particle.setDirection(direction);
 }
 
@@ -270,7 +270,7 @@ SourceEmissionCone::SourceEmissionCone(Vector3d direction, double aperture) :
 		direction(direction), aperture(aperture) {
 }
 
-void SourceEmissionCone::prepare(ParticleState& particle) const {
+void SourceEmissionCone::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	particle.setDirection(random.randConeVector(direction, aperture));
 }
@@ -279,7 +279,7 @@ SourceRedshift::SourceRedshift(double z) :
 		z(z) {
 }
 
-void SourceRedshift::prepare(Candidate& candidate) const {
+void SourceRedshift::prepareCandidate(Candidate& candidate) const {
 	candidate.setRedshift(z);
 }
 
@@ -287,12 +287,12 @@ SourceUniformRedshift::SourceUniformRedshift(double zmin, double zmax) :
 		zmin(zmin), zmax(zmax) {
 }
 
-void SourceUniformRedshift::prepare(Candidate& candidate) const {
+void SourceUniformRedshift::prepareCandidate(Candidate& candidate) const {
 	double z = Random::instance().randUniform(zmin, zmax);
 	candidate.setRedshift(z);
 }
 
-void SourceRedshift1D::prepare(Candidate& candidate) const {
+void SourceRedshift1D::prepareCandidate(Candidate& candidate) const {
 	double d = candidate.source.getPosition().getR();
 	double z = comovingDistance2Redshift(d);
 	candidate.setRedshift(z);

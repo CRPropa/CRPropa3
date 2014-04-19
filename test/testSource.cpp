@@ -9,7 +9,7 @@ TEST(SourcePosition, simpleTest) {
 	Vector3d position(1, 2, 3);
 	SourcePosition source(position);
 	ParticleState ps;
-	source.prepare(ps);
+	source.prepareParticle(ps);
 	EXPECT_EQ(position, ps.getPosition());
 }
 
@@ -21,14 +21,12 @@ TEST(SourceMultiplePositions, simpleTest) {
 	int n1 = 0;
 	int n2 = 0;
 	for (int i = 0; i < 10000; i++) {
-		source.prepare(ps);
+		source.prepareParticle(ps);
 		if (ps.getPosition().x == 1)
 			n1++;
 		else if (ps.getPosition().x == 2)
 			n2++;
 	}
-	std::cout << n1 << std::endl;
-	std::cout << n2 << std::endl;
 	EXPECT_NEAR(n1, 2500, 2 * sqrt(2500));
 	EXPECT_NEAR(n2, 7500, 2 * sqrt(7500));
 }
@@ -38,7 +36,7 @@ TEST(SourceUniformSphere, simpleTest) {
 	double radius = 110;
 	SourceUniformSphere source(center, radius);
 	ParticleState ps;
-	source.prepare(ps);
+	source.prepareParticle(ps);
 	double distance = ps.getPosition().getDistanceTo(center);
 	EXPECT_GE(radius, distance);
 }
@@ -48,7 +46,7 @@ TEST(SourceUniformBox, simpleTest) {
 	Vector3d size(13, 55, 192);
 	SourceUniformBox box(origin, size);
 	ParticleState p;
-	box.prepare(p);
+	box.prepareParticle(p);
 	Vector3d pos = p.getPosition();
 	EXPECT_LE(origin.x, pos.x);
 	EXPECT_LE(origin.y, pos.y);
@@ -72,7 +70,7 @@ TEST(SourceDensityGrid, withInRange) {
 	SourceDensityGrid source(grid);
 	ParticleState p;
 
-	source.prepare(p);
+	source.prepareParticle(p);
 	Vector3d pos = p.getPosition();
 
 	// dialed positions should be within the volume (0, 0, 0) - (10, 10, 10)
@@ -106,7 +104,7 @@ TEST(SourceDensityGrid, OneAllowedCell) {
 	int nFalse = 0;
 	Vector3d mean(0, 0, 0);
 	for (int i = 0; i < 10000; i++) {
-		source.prepare(p);
+		source.prepareParticle(p);
 		Vector3d pos = p.getPosition();
 		mean += pos;
 		if ((pos.x < 0) or (pos.x > 2) or (pos.y < 0) or (pos.y > 2)
@@ -139,7 +137,7 @@ TEST(SourceDensityGrid1D, withInRange) {
 	SourceDensityGrid1D source(grid);
 	ParticleState p;
 
-	source.prepare(p);
+	source.prepareParticle(p);
 	Vector3d pos = p.getPosition();
 	// dialed position should be within the range 0 - 10
 	EXPECT_LE(0, pos.x);
@@ -163,7 +161,7 @@ TEST(SourceDensityGrid1D, OneAllowedCell) {
 	ParticleState p;
 
 	for (int i = 0; i < 100; i++) {
-		source.prepare(p);
+		source.prepareParticle(p);
 		// dialed position should be in range 5-6
 		Vector3d pos = p.getPosition();
 		EXPECT_LE(5, pos.x);
@@ -177,7 +175,7 @@ TEST(SourcePowerLawSpectrum, simpleTest) {
 	double index = -2.7;
 	SourcePowerLawSpectrum spectrum(Emin, Emax, index);
 	ParticleState ps;
-	spectrum.prepare(ps);
+	spectrum.prepareParticle(ps);
 
 	// energy should be within Emin - Emax
 	EXPECT_LE(Emin, ps.getEnergy());
@@ -191,7 +189,7 @@ TEST(SourceComposition, simpleTest) {
 	SourceComposition source(Emin, Rmax, index);
 	source.add(nucleusId(6, 3), 1);
 	ParticleState p;
-	source.prepare(p);
+	source.prepareParticle(p);
 	EXPECT_EQ(nucleusId(6, 3), p.getId());
 	EXPECT_LE(Emin, p.getEnergy());
 	EXPECT_GE(6 * Rmax, p.getEnergy());
@@ -200,7 +198,7 @@ TEST(SourceComposition, simpleTest) {
 TEST(SourceComposition, throwNoIsotope) {
 	SourceComposition source(1, 10, -1);
 	ParticleState ps;
-	EXPECT_THROW(source.prepare(ps), std::runtime_error);
+	EXPECT_THROW(source.prepareParticle(ps), std::runtime_error);
 }
 
 TEST(Source, allPropertiesUsed) {
@@ -209,10 +207,21 @@ TEST(Source, allPropertiesUsed) {
 	source.addProperty(new SourceIsotropicEmission());
 	source.addProperty(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
 	source.addProperty(new SourceParticleType(nucleusId(8, 4)));
+	source.addProperty(new SourceRedshift(2));
 
 	Candidate c = *source.getCandidate();
 
-	ParticleState p = c.created;
+	EXPECT_EQ(2, c.getRedshift());
+
+	ParticleState p;
+
+	p = c.source;
+	EXPECT_EQ(nucleusId(8, 4), p.getId());
+	EXPECT_LE(5 * EeV, p.getEnergy());
+	EXPECT_GE(100 * EeV, p.getEnergy());
+	EXPECT_EQ(Vector3d(10, 0, 0) * Mpc, p.getPosition());
+
+	p = c.created;
 	EXPECT_EQ(nucleusId(8, 4), p.getId());
 	EXPECT_LE(5 * EeV, p.getEnergy());
 	EXPECT_GE(100 * EeV, p.getEnergy());

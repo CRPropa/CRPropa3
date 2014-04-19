@@ -559,7 +559,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 		}
 		ParticleState p;
 		for (int i = 0; i < nSources; i++) {
-			sourceDistribution->prepare(p);
+			sourceDistribution->prepareParticle(p);
 			sourcePositions->add(p.getPosition());
 			cout << "  - Position = " << p.getPosition() / Mpc << " Mpc"
 					<< endl;

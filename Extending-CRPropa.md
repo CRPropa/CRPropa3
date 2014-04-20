@@ -2,7 +2,7 @@ CRPropa uses SWIG to provide a python interface.
 The CRPropa functionality can be extended in Python in several ways.
 
 ### Implementing base classes
-The base classes Module, Source and SourceProperty can be implemented in Python and used like the built-in classes. Here is an example for a Module.
+The base classes Module, Source and SourceProperty can be implemented in Python and used like the built-in classes. Here is an example for a custom Module:
 ```python
 class MyModule(Module):
     """ Reduces the cosmic ray energy by 10% in each step """
@@ -19,7 +19,7 @@ print c.current.getEnergy()
 ```
 
 The initial properties of a cosmic rays can be set with a Source, composed of several SourceProperties.
-Custom SourceProperties can be written in the following way.
+Custom SourceProperties can be written in the following way:
 ```python
 class MySourceProperty(SourceProperty):
     """ Set the initial energy to 10 EeV """
@@ -32,11 +32,11 @@ c = s.getCandidate()
 print c.current.getEnergy()
 ```
 
-The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceProperty use the following.
+The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceProperty use the following:
 ```python
 class MySourceProperty2(SourceProperty):
     """ Set the initial redshift """
-    def prepareParticle(self, candidate):
+    def prepareCandidate(self, candidate):
         candidate.setRedshift(0.6)
 
 s = Source()
@@ -46,8 +46,8 @@ print c.getRedshift()
 ```
 
 ### Replacing base classes
-Alternatively the simulation chain (ModuleList) and the cosmic ray source (Source, SourceProperty) can be explicitly written down and extended in Python.
-The following code replaces a ModuleList
+Alternatively the simulation chain (ModuleList) and the cosmic ray source (Source, SourceProperty) can be explicitly written down and replaced.
+The following code replaces a ModuleList:
 ```python
 m1 = SimplePropagation()
 m2 = ElectronPairProduction()

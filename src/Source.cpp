@@ -3,6 +3,11 @@
 #include "crpropa/Cosmology.h"
 
 #include "HepPID/ParticleIDMethods.hh"
+
+#ifdef CRPROPA_HAVE_MUPARSER
+#include "muParser.h"
+#endif
+
 #include <stdexcept>
 
 namespace crpropa {
@@ -58,6 +63,85 @@ SourceEnergy::SourceEnergy(double energy) :
 void SourceEnergy::prepareParticle(ParticleState& p) const {
 	p.setEnergy(E);
 }
+
+#ifdef CRPROPA_HAVE_MUPARSER
+SourceGenericComposition::SourceGenericComposition(double Emin, double Emax, std::string expression, size_t steps) :
+	Emin(Emin), Emax(Emax), expression(expression), steps(steps) {
+
+	// precalculate energy bins
+	double logEmin = ::log10(Emin);
+	double logEmax = ::log10(Emax);
+	double logStep = (logEmax - logEmin) / (steps-1);
+	energy.resize(steps);
+	for (size_t i = 0; i < steps; i++) {
+		energy[i] = ::pow(10, logEmin + i * logStep);
+	}
+}
+
+void SourceGenericComposition::add(int id, double weight) {
+	int A = massNumber(id);
+	int Z = chargeNumber(id);
+
+	Nucleus n;
+	n.id = id;
+
+	// calculate nuclei cdf
+	mu::Parser p;
+	double E;
+    p.DefineVar("E", &E); 
+    p.DefineConst("Emin", Emin); 
+    p.DefineConst("Emax", Emax); 
+    p.DefineConst("steps", steps); 
+    p.DefineConst("A", (double)A); 
+    p.DefineConst("Z", (double)Z); 
+    p.SetExpr(expression);
+
+	// calculate pdf
+	n.cdf.resize(steps);
+    for (std::size_t i=0; i<steps; ++i) {
+		E = energy[i];
+		n.cdf[i] = p.Eval();
+    }
+
+	// integrate
+    for (std::size_t i=1; i<steps; ++i) {
+		n.cdf[i] = (n.cdf[i-1] + n.cdf[i]) * (energy[i] - energy[i-1]) / 2;
+    }
+
+	// cumulate
+	n.cdf[0] = 0;
+    for (std::size_t i=1; i<steps; ++i) {
+		n.cdf[i] += n.cdf[i-1];
+    }
+
+	nuclei.push_back(n);
+
+	if (cdf.size() > 0)
+		weight += cdf.back();
+	cdf.push_back(weight);
+}
+
+void SourceGenericComposition::add(int A, int Z, double a) {
+	add(nucleusId(A, Z), a);
+}
+
+void SourceGenericComposition::prepareParticle(ParticleState& particle) const {
+	if (nuclei.size() == 0)
+		throw std::runtime_error("SourceComposition: No source isotope set");
+
+	Random &random = Random::instance();
+
+
+	// draw random particle type
+	size_t iN = random.randBin(cdf);
+	const Nucleus &n = nuclei[iN];
+	particle.setId(n.id);
+
+	// random energy
+	double E = interpolate(random.rand() * n.cdf.back(), n.cdf, energy);
+	particle.setEnergy(E);
+}
+#endif
 
 SourcePowerLawSpectrum::SourcePowerLawSpectrum(double Emin, double Emax,
 		double index) :

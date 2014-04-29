@@ -92,6 +92,7 @@ using std::ptrdiff_t;
 %ignore operator>>;
 %ignore *::operator=;
 %ignore operator crpropa::Source*;
+%ignore operator crpropa::SourceProperty*;
 %ignore operator crpropa::Candidate*;
 %ignore operator crpropa::Module*;
 %ignore operator crpropa::ModuleList*;
@@ -166,12 +167,15 @@ using std::ptrdiff_t;
 %include "crpropa/module/Redshift.h"
 %include "crpropa/module/Tools.h"
 
+%template(SourceRefPtr) crpropa::ref_ptr<crpropa::Source>;
+%feature("director") crpropa::Source;
+%template(SourcePropertyRefPtr) crpropa::ref_ptr<crpropa::SourceProperty>;
+%feature("director") crpropa::SourceProperty;
+%include "crpropa/Source.h"
+
+
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
-
-%feature("director") Source;
-%feature("director") SourceProperty;
-%include "crpropa/Source.h"
 
 // nice python print
 %pythoncode %{

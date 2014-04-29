@@ -102,6 +102,16 @@ if(ENABLE_ROOT)
     endif(ROOT_FOUND)
 endif(ENABLE_ROOT)
 
+find_package(muParser)
+if(MUPARSER_FOUND)
+    list(APPEND CRPROPA_EXTRA_INCLUDES ${MUPARSER_INCLUDE_DIR})
+    list(APPEND CRPROPA_EXTRA_LIBRARIES ${MUPARSER_LIBRARY})
+    add_definitions (-DCRPROPA_HAVE_MUPARSER)
+    list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_MUPARSER)
+    list(APPEND CRPROPA_SWIG_DEFINES -I${MUPARSER_INCLUDE_DIR})
+endif(MUPARSER_FOUND)
+
+
 # Google Performance Tools (optional as possible performance tweak)
 find_package(GooglePerfTools)
 set(TCMALLOC)

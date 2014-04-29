@@ -195,6 +195,39 @@ TEST(SourceComposition, simpleTest) {
 	EXPECT_GE(6 * Rmax, p.getEnergy());
 }
 
+#ifdef CRPROPA_HAVE_MUPARSER
+TEST(SourceGenericComposition, simpleTest) {
+	double Emin = 10;
+	double Emax = 100;
+	SourceGenericComposition source(Emin, Emax, "E^-2");
+	int id1 = nucleusId(6, 3);
+	int id2 = nucleusId(12, 6);
+	source.add(id1, 1);
+	source.add(id2, 10);
+	ParticleState p;
+	size_t id1Count = 0, id2Count = 0;
+	size_t ElowCount = 0, EhighCount = 0;
+	size_t n = 100000;
+	for (size_t i = 0; i < n; i++) {
+		source.prepareParticle(p);
+		if (p.getId() == id1)
+			id1Count++;
+		if (p.getId() == id2)
+			id2Count++;
+		double e = p.getEnergy();
+		if ( (e >= Emin) && (e < 20))
+			ElowCount++;
+		if ( (e >= 20) && (e <= Emax))
+			EhighCount++;
+		
+	}
+	EXPECT_EQ(n, id1Count + id2Count);
+	EXPECT_EQ(n, ElowCount + EhighCount);
+	EXPECT_NEAR((float)id1Count/(float)id2Count, 0.1, 0.01);
+	EXPECT_NEAR((float)ElowCount/(float)EhighCount, 1.25, 0.1);
+}
+#endif
+
 TEST(SourceComposition, throwNoIsotope) {
 	SourceComposition source(1, 10, -1);
 	ParticleState ps;

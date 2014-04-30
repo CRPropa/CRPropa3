@@ -8,9 +8,11 @@ set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
 
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
-set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--as-needed")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
+if(CMAKE_COMPILER_IS_GNUCXX)
+	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
+	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--as-needed")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # ----------------------------------------------------------------------------
 # Dependencies

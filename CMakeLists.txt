@@ -8,9 +8,11 @@ set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
 
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
-set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--as-needed")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
+if(CMAKE_COMPILER_IS_GNUCXX)
+	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
+	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--as-needed")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # ----------------------------------------------------------------------------
 # Dependencies
@@ -153,6 +155,7 @@ add_library(crpropa SHARED
     src/module/OutputShell.cpp
     src/module/OutputROOT.cpp
     src/module/OutputCRPropa2.cpp
+    src/module/PhotonOutput1D.cpp
     src/module/PhotonDINT.cpp
     src/module/PhotonDINT1D.cpp
     src/module/PhotonEleCa.cpp
@@ -201,10 +204,6 @@ if(ENABLE_TESTING)
 	add_executable(testPropagation test/testPropagation.cpp)
 	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
 	add_test(testPropagation testPropagation)
-
-	add_executable(testDINT test/testDINT.cpp)
-	target_link_libraries(testDINT crpropa gtest gtest_main pthread)
-	add_test(testPropagation testDINT)
      
 	add_executable(testBreakCondition test/testBreakCondition.cpp)
 	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread)

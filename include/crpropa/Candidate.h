@@ -21,7 +21,7 @@ namespace crpropa {
 class Candidate: public Referenced {
 public:
 	ParticleState source; /**< Particle state at the source */
-	ParticleState created; /**< Particle state at the creation */
+	ParticleState created; /**< Particle state of parent particle at the time of creation */
 	ParticleState current; /**< Current particle state */
 	ParticleState previous; /**< Particle state at the end of the previous step */
 

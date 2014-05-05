@@ -49,9 +49,7 @@ void DeflectionCK::process(Candidate *candidate) const {
 	// save the new previous particle state
 	candidate->previous = candidate->current;
 
-	double step = candidate->getNextStep();
-	step = std::max(step, minStep);
-	step = std::min(step, maxStep);
+	double step = clip(candidate->getNextStep(), minStep, maxStep);
 
 	// rectlinear propagation for neutral particles
 	if (candidate->current.getCharge() == 0) {
@@ -67,17 +65,17 @@ void DeflectionCK::process(Candidate *candidate) const {
 			candidate->current.getMomentum());
 	PhasePoint yOut, yErr, yScale;
 	LorentzForce dydt(&candidate->current, field);
-	double h = step / c_light;
-	double hTry, r;
+	double t = step / c_light;
+	double tTry, r;
 
 	// phase-point to compare with error for step size control
-	yScale = (yIn.abs() + dydt(0., yIn).abs() * h) * tolerance;
+	yScale = (yIn.abs() + dydt(0., yIn).abs() * t) * tolerance;
 
-	// try performing a steps until the relative error is less than the desired tolerance
-	// or the minimum step size has been reached
+	// try performing a steps until the relative error is less than the desired
+	// tolerance or the minimum step size has been reached
 	do {
-		hTry = h;
-		erk.step(0, yIn, yOut, yErr, hTry, dydt);
+		tTry = t;
+		erk.step(0, yIn, yOut, yErr, tTry, dydt);
 
 		// determine maximum of relative errors yErr(i) / yScale(i)
 		r = 0;
@@ -88,16 +86,17 @@ void DeflectionCK::process(Candidate *candidate) const {
 		if (yScale.b.z > std::numeric_limits<double>::min())
 			r = std::max(r, fabs(yErr.b.z / yScale.b.z));
 
-		// change (next) step size to keep the relative error close to the tolerance
-		h *= 0.95 * pow(r, -0.2);
-		h = std::max(h, 0.1 * hTry);
-		h = std::min(h, 5 * hTry);
-	} while (r > 1 && h > minStep);
+		// new step size to keep the relative error close to the tolerance
+		t *= 0.95 * pow(r, -0.2);
+		// limit change of new step size
+		t = clip(t, 0.1 * tTry, 5 * tTry);
+
+	} while (r > 1 && t > minStep);
 
 	candidate->current.setPosition(yOut.a);
 	candidate->current.setDirection(yOut.b.getUnitVector());
-	candidate->setCurrentStep(hTry * c_light);
-	candidate->setNextStep(h * c_light);
+	candidate->setCurrentStep(tTry * c_light);
+	candidate->setNextStep(t * c_light);
 }
 
 void DeflectionCK::setField(ref_ptr<MagneticField> f) {

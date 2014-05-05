@@ -14,6 +14,12 @@ inline int digit(const int& value, const int& d) {
 	return (value % (d * 10)) / d;
 }
 
+// Return value xclip which is the closest to x, so that lower <= xclip <= upper
+template <typename T>
+T clip(const T& x, const T& lower, const T& upper) {
+  return std::max(lower, std::min(x, upper));
+}
+
 // Perform linear interpolation on a set of n tabulated data points X[0 .. n-1] -> Y[0 .. n-1]
 // Returns Y[0] if x < X[0] and Y[n-1] if x > X[n-1]
 double interpolate(double x, const std::vector<double>& X,

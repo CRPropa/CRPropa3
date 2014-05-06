@@ -18,7 +18,7 @@ Rg = 1.08 * E / Brms # Gyroradius in [Mpc]
 
 vGrid = VectorGrid(Vector3d(0, 0, 0), 128, 0.05 * Mpc)
 initTurbulence(vGrid, Brms * nG, Lmin * Mpc, Lmax * Mpc)
-propa = DeflectionCK(MagneticFieldGrid(vGrid))
+propa = PropagationCK(MagneticFieldGrid(vGrid))
 
 age = linspace(1, 150, nS)
 distance, rms1, rms2 = zeros((3, nS))

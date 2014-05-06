@@ -50,8 +50,8 @@ struct Cosmology {
 	}
 
 	Cosmology() {
-		H0 = 71 * 1000 * meter / second / Mpc; // default values
-		omegaM = 0.3;
+		H0 = 70.4 * 1000 * meter / second / Mpc; // default values
+		omegaM = 0.272;
 		omegaL = 1 - omegaM;
 
 		Z.resize(n);

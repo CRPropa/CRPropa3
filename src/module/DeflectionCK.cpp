@@ -116,10 +116,10 @@ void DeflectionCK::setMinimumStep(double min) {
 	minStep = min;
 }
 
-void DeflectionCK::setMaximumStep(double min) {
-	if (minStep > min)
+void DeflectionCK::setMaximumStep(double max) {
+	if (max > minStep)
 		throw std::runtime_error("DeflectionCK: minStep > maxStep");
-	maxStep = min;
+	maxStep = max;
 }
 
 double DeflectionCK::getTolerance() const {

@@ -5,7 +5,7 @@
 #include "crpropa/PhotonBackground.h"
 #include "crpropa/Cosmology.h"
 #include "crpropa/module/SimplePropagation.h"
-#include "crpropa/module/DeflectionCK.h"
+#include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Redshift.h"
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/PhotoPionProduction.h"
@@ -336,7 +336,7 @@ void XmlExecute::loadDeflectionCK(xml_node &node) {
 		throw runtime_error(
 				" --> Maximum step must be larger than minimum step");
 
-	modules.add(new DeflectionCK(magnetic_field, epsilon, minStep, maxStep));
+	modules.add(new PropagationCK(magnetic_field, epsilon, minStep, maxStep));
 }
 
 void XmlExecute::loadUniformMagneticField(xml_node &node) {

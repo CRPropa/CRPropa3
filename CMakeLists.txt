@@ -146,6 +146,7 @@ add_library(crpropa SHARED
     src/module/Observer.cpp
     src/module/SimplePropagation.cpp
     src/module/DeflectionCK.cpp
+    src/module/PropagationCK.cpp
     src/module/ElectronPairProduction.cpp
     src/module/NuclearDecay.cpp
     src/module/PhotoPionProduction.cpp

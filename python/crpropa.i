@@ -42,7 +42,6 @@ using std::ptrdiff_t;
 #include "crpropa/module/PhotonEleCa.h"
 #include "crpropa/module/PhotonOutput1D.h"
 #include "crpropa/module/SimplePropagation.h"
-#include "crpropa/module/DeflectionCK.h"
 #include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Tools.h"
 
@@ -59,8 +58,6 @@ using std::ptrdiff_t;
 #include "crpropa/ParticleMass.h"
 #include "crpropa/Module.h"
 #include "crpropa/ModuleList.h"
-#include "crpropa/PhasePoint.h"
-#include "crpropa/ExplicitRungeKutta.h"
 #include "crpropa/Random.h"
 #include "crpropa/Units.h"
 #include "crpropa/Vector3.h"
@@ -147,14 +144,10 @@ using std::ptrdiff_t;
 %include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"
 
-%include "crpropa/ExplicitRungeKutta.h"
-%include "crpropa/PhasePoint.h"
-
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 %include "crpropa/module/Observer.h"
 %include "crpropa/module/SimplePropagation.h"
-%include "crpropa/module/DeflectionCK.h"
 %include "crpropa/module/PropagationCK.h"
 %include "crpropa/module/OutputTXT.h"
 %include "crpropa/module/OutputShell.h"
@@ -176,18 +169,18 @@ using std::ptrdiff_t;
 %template(SourcePropertyRefPtr) crpropa::ref_ptr<crpropa::SourceProperty>;
 %feature("director") crpropa::SourceProperty;
 %include "crpropa/Source.h"
-
-
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 
-// nice python print
 %pythoncode %{
+# nice python print
 Module.__str__ = Module.getDescription
 
 def Vector3__str__(self):
   return "(%.4e, %.4e, %.4e)" % (self.x, self.y, self.z)
-
 Vector3d.__str__ = Vector3__str__
 Vector3f.__str__ = Vector3__str__
+
+# expose PropagationCK under its former name Deflection 
+DeflectionCK = PropagationCK
 %}

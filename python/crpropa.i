@@ -43,6 +43,7 @@ using std::ptrdiff_t;
 #include "crpropa/module/PhotonOutput1D.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/DeflectionCK.h"
+#include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Tools.h"
 
 #include "crpropa/magneticField/MagneticField.h"
@@ -154,6 +155,7 @@ using std::ptrdiff_t;
 %include "crpropa/module/Observer.h"
 %include "crpropa/module/SimplePropagation.h"
 %include "crpropa/module/DeflectionCK.h"
+%include "crpropa/module/PropagationCK.h"
 %include "crpropa/module/OutputTXT.h"
 %include "crpropa/module/OutputShell.h"
 %include "crpropa/module/OutputROOT.h"

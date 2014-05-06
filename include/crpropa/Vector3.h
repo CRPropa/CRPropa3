@@ -385,6 +385,13 @@ public:
 		z = v.z;
 		return *this;
 	}
+
+	Vector3<T> &operator =(const T &f) {
+		x = f;
+		y = f;
+		z = f;
+		return *this;
+	}
 };
 
 #ifndef SWIG

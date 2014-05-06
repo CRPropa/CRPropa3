@@ -1,6 +1,6 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/module/SimplePropagation.h"
-#include "crpropa/module/DeflectionCK.h"
+#include "crpropa/module/PropagationCK.h"
 
 #include "gtest/gtest.h"
 
@@ -30,8 +30,8 @@ TEST(testSimplePropagation, step) {
 	EXPECT_EQ(Vector3d(0,  1, 0), c.current.getDirection());
 }
 
-TEST(testDeflectionCK, proton) {
-	DeflectionCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+TEST(testPropagationCK, proton) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
 	ParticleState p;
 	p.setId(nucleusId(1, 1));
@@ -47,8 +47,10 @@ TEST(testDeflectionCK, proton) {
 	EXPECT_DOUBLE_EQ(0.5 * kpc, c.getNextStep());
 }
 
-TEST(testDeflectionCK, neutron) {
-	DeflectionCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+TEST(testPropagationCK, neutron) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+	propa.setMinimumStep(1 * kpc);
+	propa.setMaximumStep(42 * Mpc);
 
 	ParticleState p;
 	p.setId(nucleusId(1, 0));
@@ -59,9 +61,9 @@ TEST(testDeflectionCK, neutron) {
 
 	propa.process(&c);
 
-	EXPECT_DOUBLE_EQ(0.1 * kpc, c.getCurrentStep());
-	EXPECT_DOUBLE_EQ(4000 * Mpc, c.getNextStep());
-	EXPECT_EQ(Vector3d(0, 0.1 * kpc, 0), c.current.getPosition());
+	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
+	EXPECT_DOUBLE_EQ(42 * Mpc, c.getNextStep());
+	EXPECT_EQ(Vector3d(0, 1 * kpc, 0), c.current.getPosition());
 	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
 }
 

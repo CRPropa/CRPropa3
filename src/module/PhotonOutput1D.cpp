@@ -10,15 +10,15 @@ namespace crpropa {
 
 PhotonOutput1D::PhotonOutput1D(const string &filename) :
 		filename(filename), output(filename.c_str()) {
-	output << "#ID\tE\tz\tiE\tiID\tpE\tpID\n";
+	output << "#ID\tE\tz\tpE\tpID\tiE\tiID\n";
 	output << "#\n";
 	output << "# ID          Id of particle (photon, electron, positron)\n";
 	output << "# E           Energy [EeV]\n";
 	output << "# z           Redshift\n";
-	output << "# iE          Energy [EeV] of source particle\n";
-	output << "# iID         Id of source particle\n";
 	output << "# pE          Energy [EeV] of parent particle\n";
 	output << "# pID         Id of parent particle\n";
+	output << "# iE          Energy [EeV] of source particle\n";
+	output << "# iID         Id of source particle\n";
 	output << "#\n";
 }
 
@@ -35,13 +35,14 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 
 	p += sprintf(buffer + p, "%4i\t", pid);
 	p += sprintf(buffer + p, "%8.4f\t", candidate->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%8.4f\n", candidate->getRedshift());
-
-	p += sprintf(buffer + p, "%8.4f\t", candidate->source.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%10i\t", candidate->source.getId());
+	p += sprintf(buffer + p, "%8.4f\t", candidate->getRedshift());
 
 	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getEnergy() / EeV);
 	p += sprintf(buffer + p, "%10i\t", candidate->created.getId());
+
+	p += sprintf(buffer + p, "%8.4f\t", candidate->source.getEnergy() / EeV);
+	p += sprintf(buffer + p, "%10i\n", candidate->source.getId());
+
 
 #pragma omp critical
 	{

@@ -199,6 +199,47 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 }
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/////////////////////// ROOT PHOTON OUTPUT 1D //////////////////////////////////
+ROOTPhotonOutput1D::ROOTPhotonOutput1D(std::string filename) {
+	setDescription("ROOTPHOTONOutput1D, filename: " + filename);
+	TThread::Lock();
+	ROOTFile = new TFile(filename.c_str(), "RECREATE",
+			"CRPropa output data file");
+	Ntuple = new TNtuple("photons", "CRPropa 1D photons",
+			"Particle_Type:Energy_EeV:Redshift:Parent_Type:Parent_Energy_EeV:Initial_Type:Initial_Energy_EeV");
+	TThread::UnLock();
+}
+
+
+ROOTPhotonOutput1D::~ROOTPhotonOutput1D() {
+	TThread::Lock();
+	ROOTFile->Write();
+	ROOTFile->Close();
+	TThread::UnLock();
+}
+
+void ROOTPhotonOutput1D::process(Candidate *c) const {
+	int pid = c->current.getId();
+	if ((pid != 22) and (abs(pid) != 11))
+		return;
+
+	TThread::Lock();
+#pragma omp critical
+	{
+	Ntuple->Fill(pid,
+		     c->current.getEnergy() / EeV,
+		     c->getRedshift(),
+		     c->created.getId(),
+		     c->created.getEnergy(),
+		     c->source.getId(),
+		     c->source.getEnergy());
+	}
+	TThread::UnLock();
+}
+////////////////////////////////////////////////////////////////////////////////
+
+
 /////////////////////// ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
 ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	setDescription("ROOTTrajectoryOutput1D, filename: " + filename);

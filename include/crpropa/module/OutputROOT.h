@@ -39,6 +39,23 @@ public:
 };
 
 
+
+/**
+ @class ROOTPhotonOutput1D
+ @brief Records EM-particles that are inactive and have the property 'Detected' to a ROOT file.
+ */
+class ROOTPhotonOutput1D: public Module {
+	mutable TFile *ROOTFile;
+	mutable TNtuple *Ntuple;
+
+public:
+	ROOTPhotonOutput1D(std::string filename);
+	~ROOTPhotonOutput1D();
+	void process(Candidate *candidate) const;
+};
+
+
+
 /**
  @class CRPropa2ROOTTrajectoryOutput1D
  @brief Saves trajectories to root file.

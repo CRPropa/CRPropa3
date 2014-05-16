@@ -10,11 +10,11 @@ namespace crpropa {
 
 PhotonOutput1D::PhotonOutput1D(const string &filename) :
 		filename(filename), output(filename.c_str()) {
-	output << "#ID\tE\tz\tpID\tpE\tiID\tiE\n";
+	output << "#ID\tE\tD\tpID\tpE\tiID\tiE\n";
 	output << "#\n";
 	output << "# ID          Id of particle (photon, electron, positron)\n";
 	output << "# E           Energy [EeV]\n";
-	output << "# z           Redshift\n";
+	output << "# D           Comoving trajectory length [Mpc]\n";
 	output << "# pID         Id of parent particle\n";
 	output << "# pE          Energy [EeV] of parent particle\n";
 	output << "# iID         Id of source particle\n";
@@ -35,7 +35,7 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 
 	p += sprintf(buffer + p, "%4i\t", pid);
 	p += sprintf(buffer + p, "%8.4f\t", candidate->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%8.4f\t", candidate->getRedshift());
+	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getPosition().getR() / Mpc);
 
 	p += sprintf(buffer + p, "%10i\t", candidate->created.getId());
 	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getEnergy() / EeV);

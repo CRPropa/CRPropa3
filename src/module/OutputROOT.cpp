@@ -207,7 +207,7 @@ ROOTPhotonOutput1D::ROOTPhotonOutput1D(std::string filename) {
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
 	Ntuple = new TNtuple("photons", "CRPropa 1D photons",
-			"Particle_Type:Energy_EeV:Redshift:Parent_Type:Parent_Energy_EeV:Initial_Type:Initial_Energy_EeV");
+			"Particle_Type:Energy_EeV:ComovingDistance_Mpc:Parent_Type:Parent_Energy_EeV:Initial_Type:Initial_Energy_EeV");
 	TThread::UnLock();
 }
 
@@ -229,7 +229,7 @@ void ROOTPhotonOutput1D::process(Candidate *c) const {
 	{
 	Ntuple->Fill(pid,
 		     c->current.getEnergy() / EeV,
-		     c->getRedshift(),
+		     c->created.getPosition().getR() / Mpc,
 		     c->created.getId(),
 		     c->created.getEnergy(),
 		     c->source.getId(),

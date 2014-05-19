@@ -39,7 +39,11 @@ private:
 
 public:
 	Candidate();
-	Candidate(const ParticleState &state); /**< Creates a candidate, initializing the initial, previous and current particle state with the argument. */
+	/**
+	 Creates a candidate, initializing the Candidate::source, Candidate::created,
+	 Candidate::previous and Candidate::current state with the argument.
+	 */
+	Candidate(const ParticleState &state);
 
 	bool isActive() const;
 	void setActive(bool b);
@@ -50,11 +54,23 @@ public:
 	void setRedshift(double z);
 	double getRedshift() const;
 
-	void setCurrentStep(double step); /**< Sets the current step and increases the trajectory length accordingly. Only the propagation module should use this. */
+	/**
+	 Sets the current step and increases the trajectory length accordingly.
+	 Only the propagation module should use this.
+	 */
+	void setCurrentStep(double step);
 	double getCurrentStep() const;
 
-	void setNextStep(double step); /**< Sets the proposed next step. Only the propagation module should use this. */
+	/**
+	 Sets the proposed next step.
+	 Only the propagation module should use this.
+	 */
+	void setNextStep(double step);
 	double getNextStep() const;
+
+	/**
+	 Make a bid for the next step size: the lowest wins.
+	 */
 	void limitNextStep(double step);
 
 	void setProperty(const std::string &name, const std::string &value);
@@ -62,6 +78,19 @@ public:
 	bool removeProperty(const std::string &name);
 	bool hasProperty(const std::string &name) const;
 
+	/**
+	 Add a new candidate to the list of secondaries.
+	 @param id		particle ID of the secondary
+	 @param energy	energy of the secondary
+
+	 Adds a new candidate to the list of secondaries of this candidate.
+	 The secondaries Candidate::source and Candidate::previous state are set to
+	 the _source_ and _previous_ state of its parent.
+	 The secondaries Candidate::created and Candidate::current state are set to
+	 the _current_ state its parent, except for the secondaries current energy
+	 and particle id.
+	 Trajectory length and redshift are copied from the parent.
+	 */
 	void addSecondary(int id, double energy);
 	void clearSecondaries();
 };

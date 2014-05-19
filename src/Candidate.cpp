@@ -90,6 +90,7 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
 	secondary->source = source;
+	secondary->previous = previous;
 	secondary->created = current;
 	secondary->current = current;
 	secondary->current.setId(id);

@@ -17,14 +17,24 @@ namespace crpropa {
 class ElectronPairProduction: public Module {
 private:
 	PhotonField photonField;
-	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0*/
-	std::vector<double> tabLorentzFactor; /*< tabulated proton energy [J] */
+
+	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0 */
+	std::vector<double> tabLorentzFactor; /*< tabulated Lorentz factor */
+
+	std::vector<std::vector<double> > tabSpectrum; /*< tabulated electron spectrum dN/dE in [a.u.] */
+	std::vector<double> tabE; /*< tabulated proton energy in [J], 70 steps from 10^15 - 10^22 eV */
+	std::vector<double> tabEe; /*< edges of electron energy bins in [J], 171 steps from 10^6.95 - 10^23.95 eV */
+	std::vector<double> tabEeWidth; /*< electron energy bin width in [J], 170 steps */
+	bool haveElectrons;
 
 public:
-	ElectronPairProduction(PhotonField photonField = CMB_IRB);
+	ElectronPairProduction(PhotonField photonField = CMB, bool haveElectrons =
+			false);
 	void setPhotonField(PhotonField photonField);
+	void setHaveElectrons(bool haveElectrons);
 	void init();
-	void init(std::string filename);
+	void initRate(std::string filename);
+	void initSpectrum(std::string filename);
 	void process(Candidate *candidate) const;
 
 	/**
@@ -41,6 +51,7 @@ public:
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
 	double lossLength(int id, double lf, double z) const;
+	void addElectrons(Candidate *candidate, double loss) const;
 };
 
 } // namespace crpropa

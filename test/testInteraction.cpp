@@ -32,14 +32,6 @@ TEST(ElectronPairProduction, energyDecreasing) {
 		epp2.process(&c);
 		EXPECT_LE(c.current.getEnergy(), E);
 	}
-
-	ElectronPairProduction epp3(CMB_IRB);
-	for (int i = 0; i < 80; i++) {
-		double E = pow(10, 15 + i * 0.1) * eV;
-		c.current.setEnergy(E);
-		epp3.process(&c);
-		EXPECT_LE(c.current.getEnergy(), E);
-	}
 }
 
 TEST(ElectronPairProduction, belowEnergyTreshold) {
@@ -68,7 +60,7 @@ TEST(ElectronPairProduction, valuesCMB) {
 	// Test if energy loss corresponds to the data table.
 	std::vector<double> x;
 	std::vector<double> y;
-	std::ifstream infile(getDataPath("epair_CMB.txt").c_str());
+	std::ifstream infile(getDataPath("pair_CMB.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;
@@ -100,7 +92,7 @@ TEST(ElectronPairProduction, valuesIRB) {
 	// Test if energy loss corresponds to the data table.
 	std::vector<double> x;
 	std::vector<double> y;
-	std::ifstream infile(getDataPath("epairIRB.txt").c_str());
+	std::ifstream infile(getDataPath("pairIRB.txt").c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;
@@ -119,38 +111,6 @@ TEST(ElectronPairProduction, valuesIRB) {
 	c.current.setId(nucleusId(1, 1)); // proton
 
 	ElectronPairProduction epp(IRB);
-	for (int i = 0; i < x.size(); i++) {
-		c.current.setEnergy(x[i]);
-		epp.process(&c);
-		double dE = x[i] - c.current.getEnergy();
-		double dE_table = y[i] * 1 * Mpc;
-		EXPECT_NEAR(dE, dE_table, 1e-12);
-	}
-}
-
-TEST(ElectronPairProduction, valuesCMB_IRB) {
-	// Test if energy loss corresponds to the data table.
-	std::vector<double> x;
-	std::vector<double> y;
-	std::ifstream infile(getDataPath("epair_CMB_IRB.txt").c_str());
-	while (infile.good()) {
-		if (infile.peek() != '#') {
-			double a, b;
-			infile >> a >> b;
-			if (infile) {
-				x.push_back(a * eV);
-				y.push_back(b * eV / Mpc);
-			}
-		}
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
-	infile.close();
-
-	Candidate c;
-	c.setCurrentStep(1 * Mpc);
-	c.current.setId(nucleusId(1, 1)); // proton
-
-	ElectronPairProduction epp(CMB_IRB);
 	for (int i = 0; i < x.size(); i++) {
 		c.current.setEnergy(x[i]);
 		epp.process(&c);

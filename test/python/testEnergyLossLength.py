@@ -8,7 +8,8 @@ pd1 = PhotoDisintegration(CMB)
 pd2 = PhotoDisintegration(IRB)
 pp1 = PhotoPionProduction(CMB)
 pp2 = PhotoPionProduction(IRB)
-ep = ElectronPairProduction(CMB_IRB)
+ep1 = ElectronPairProduction(CMB)
+ep2 = ElectronPairProduction(IRB)
 
 def parse_pid(pid):
     return 'Z=%i, A=%i'%((pid//10000)%1000, (pid%10000)/10)
@@ -26,7 +27,7 @@ for i, E in enumerate(energies * EeV):
     L[0,i] = invAdd(pd1.lossLength(pid, E, z), pd2.lossLength(pid, E, z))
     L[1,i] = invAdd(pp1.lossLength(pid, E, z), pp2.lossLength(pid, E, z))
     lorentzfactor = E / (mass * c_squared)
-    L[2,i] = ep.lossLength(pid, lorentzfactor, z)
+    L[2,i] = invAdd(ep1.lossLength(pid, lorentzfactor, z), ep2.lossLength(pid, lorentzfactor, z))
 L /= Mpc
 
 

@@ -5,7 +5,7 @@ namespace crpropa {
 
 // Photon fields
 enum PhotonField {
-	CMB, IRB, CMB_IRB
+	CMB, IRB
 };
 
 // Returns overall comoving scaling factor

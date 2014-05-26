@@ -464,22 +464,20 @@ void XmlExecute::loadSophia(xml_node &node) {
 		decay = false;
 	}
 
-	if (pairprodCMB and pairprodIRB)
-		modules.add(new ElectronPairProduction(CMB_IRB));
-	else
-		if (pairprodCMB)
-			modules.add(new ElectronPairProduction(CMB));
+	if (pairprodCMB)
+		modules.add(new ElectronPairProduction(CMB));
+	if (pairprodIRB)
+		modules.add(new ElectronPairProduction(IRB));
 
 	if (pionprodCMB)
 		modules.add(new PhotoPionProduction(CMB));
 	if (pionprodIRB)
 		modules.add(new PhotoPionProduction(IRB));
 
-	if (photodisCMB and photodisIRB)
-		modules.add(new PhotoDisintegration(CMB_IRB));
-	else
-		if (photodisCMB)
-			modules.add(new PhotoDisintegration(CMB));
+	if (photodisCMB)
+		modules.add(new PhotoDisintegration(CMB));
+	if (photodisIRB)
+		modules.add(new PhotoDisintegration(IRB));
 
 	if (decay)
 		modules.add(new NuclearDecay);
@@ -573,7 +571,8 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 				// 1D
 				double dlt = childValue(n, "CoordX_Mpc") * Mpc;
 				pos.x = lightTravel2ComovingDistance(dlt);
-				cout << "  - Light travel distance = " << dlt / Mpc << " Mpc" << endl;
+				cout << "  - Light travel distance = " << dlt / Mpc << " Mpc"
+						<< endl;
 			} else {
 				// 3D
 				pos.x = childValue(n, "CoordX_Mpc") * Mpc;
@@ -696,7 +695,7 @@ void XmlExecute::loadOutput(xml_node &node) {
 	string format = file_node.attribute("type").as_string();
 	cout << "  - Filetype: " << format << endl;
 
-	string filename = kiss::trim( node.child("File").child_value() );
+	string filename = kiss::trim(node.child("File").child_value());
 	cout << "  - Filename: " << filename << endl;
 
 	string option = node.child("File").attribute("option").as_string();
@@ -727,20 +726,20 @@ void XmlExecute::loadOutput(xml_node &node) {
 #ifdef CRPROPA_HAVE_ROOT
 	else if (format == "ROOT") {
 		if (type == "Full Trajectories")
-		if (is1D)
-		modules.add(new CRPropa2ROOTTrajectoryOutput1D(filename));
-		else
-		modules.add(new CRPropa2ROOTTrajectoryOutput3D(filename));
+			if (is1D)
+				modules.add(new CRPropa2ROOTTrajectoryOutput1D(filename));
+			else
+				modules.add(new CRPropa2ROOTTrajectoryOutput3D(filename));
 		else if (type == "Events")
-		if (is1D)
-		modules.add(new CRPropa2ROOTEventOutput1D(filename));
-		else
-		modules.add(new CRPropa2ROOTEventOutput3D(filename));
+			if (is1D)
+				modules.add(new CRPropa2ROOTEventOutput1D(filename));
+			else
+				modules.add(new CRPropa2ROOTEventOutput3D(filename));
 		else if (type == "None")
-		return;
+			return;
 		else
-		cout << "  --> unknown output type "
-		<< "('Events', 'Full Trajectories' or 'None')" << endl;
+			cout << "  --> unknown output type "
+					<< "('Events', 'Full Trajectories' or 'None')" << endl;
 	}
 #endif // CRPROPA_HAVE_ROOT
 	else {

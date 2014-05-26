@@ -1,11 +1,9 @@
-#ifndef ELECA_COMMON_H_
-#define ELECA_COMMON_H_
-
-#include "Constants.h"
-#include "crpropa/Random.h"
+#include "EleCa/Common.h"
+#include "EleCa/Constants.h"
 
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 namespace eleca {
 
@@ -31,10 +29,19 @@ double Mpc2z(double D) {
 	}
 }
 
+static double (*_Uniform)(double min, double max) = 0;
+
+void setUniformCallback(double (*uniform)(double min, double max)) {
+	_Uniform = uniform;
+}
+
 double Uniform(double min, double max) {
-	return crpropa::Random::instance().randUniform(min, max);
+	if (_Uniform)
+		return _Uniform(min, max);
+	else
+		//return crpropa::Random::instance().randUniform(min, max);
+		return min + (max - min) * ::drand48();
 }
 
 } // namespace eleca
 
-#endif // ELECA_COMMON_H_

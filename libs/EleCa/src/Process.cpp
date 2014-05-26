@@ -1,128 +1,94 @@
-#ifndef ELECA_PROCESS_H_
-#define ELECA_PROCESS_H_
-
-#include "Particle.h"
+#include "EleCa/Process.h"
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
 
 namespace eleca {
 
-class Process {
+void Process::SetName(std::string nm) {
+	fname = nm;
+}
+const std::string &Process::GetName() const {
+	return fname;
+}
 
-public:
+void Process::SetInteractionAngle(double a) {
+	fInteractionAngle = a;
+}
+double Process::GetInteractionAngle() const {
+	return fInteractionAngle;
+}
 
-	std::string fname;
-	double flambda;
-	double fsmin;
-	double fsmax;
-	double fCMEnergy;
-	double fInteractionAngle;
-	double feps_inf;
-	double feps_sup;
-	Particle fPi;
-	Particle fPt;
+void Process::SetLambda(double le) {
+	flambda = le;
+}
+double Process::GetLambda() const {
+	return flambda;
+}
 
-	std::string fback;
-	double fbackdensity;
+void Process::SetLimits(double smin, double smax) {
+	fsmin = smin;
+	fsmax = smax;
+}
 
-	Process();
-	Process(const Process&);
-	Process(Particle&, Particle&);
-	Process(Particle&, Particle&, std::string);
+void Process::SetLimits() {
+	SetLimits(fPi, fname);
+}
 
-	~Process();
+void Process::SetMax(double smax) {
+	fsmax = smax;
+}
+void Process::SetMin(double smin) {
+	fsmin = smin;
+}
+double Process::GetMin() const {
+	return fsmin;
+}
+double Process::GetMax() const {
+	return fsmax;
+}
 
-	void SetName(std::string nm) {
-		fname = nm;
-	}
-	const std::string &GetName() const {
-		return fname;
-	}
+void Process::SetCMEnergy(double s) {
+	fCMEnergy = s;
+}
 
-	void SetInteractionAngle(double a) {
-		fInteractionAngle = a;
-	}
-	double GetInteractionAngle() const {
-		return fInteractionAngle;
-	}
+void Process::SetCMEnergy(Particle p1, Particle pb) {
+	fCMEnergy = 2 * p1.GetEnergy() * pb.GetEnergy()
+			* (1 - p1.GetBeta() * cos(fInteractionAngle))
+			+ p1.GetMass() * p1.GetMass() + pb.GetMass() * pb.GetMass();
+}
 
-	void SetLambda(double le) {
-		flambda = le;
-	}
-	double GetLambda() const {
-		return flambda;
-	}
+void Process::SetCMEnergy() {
+	fCMEnergy = 2 * fPi.GetEnergy() * fPt.GetEnergy()
+			* (1 - fPi.GetBeta() * cos(fInteractionAngle))
+			+ fPi.GetMass() * fPi.GetMass() + fPt.GetMass() * fPt.GetMass();
 
-	void SetLimits(double smin, double smax) {
-		fsmin = smin;
-		fsmax = smax;
-	}
-	void SetLimits(Particle& p1, std::string nameproc);
-	void SetLimits() {
-		SetLimits(fPi, fname);
-	}
+}
 
-	void SetMax(double smax) {
-		fsmax = smax;
-	}
-	void SetMin(double smin) {
-		fsmin = smin;
-	}
-	double GetMin() const {
-		return fsmin;
-	}
-	double GetMax() const {
-		return fsmax;
-	}
+double Process::GetCMEnergy() const {
+	return fCMEnergy;
+}
 
-	void SetCMEnergy(double s) {
-		fCMEnergy = s;
-	}
+void Process::SetIncidentParticle(const Particle& p1) {
+	fPi = p1;
+	SetLimits();
+}
+void Process::SetTargetParticle(Particle& p1) {
+	fPt = p1;
+	SetLimits();
+}
 
-	void SetCMEnergy(Particle p1, Particle pb) {
-		fCMEnergy = 2 * p1.GetEnergy() * pb.GetEnergy()
-				* (1 - p1.GetBeta() * cos(fInteractionAngle))
-				+ p1.GetMass() * p1.GetMass() + pb.GetMass() * pb.GetMass();
-	}
+const Particle &Process::GetIncidentParticle() const {
+	return fPi;
+}
+const Particle &Process::GetTargetParticle() const {
+	return fPt;
+}
 
-	void SetCMEnergy() {
-		fCMEnergy = 2 * fPi.GetEnergy() * fPt.GetEnergy()
-				* (1 - fPi.GetBeta() * cos(fInteractionAngle))
-				+ fPi.GetMass() * fPi.GetMass() + fPt.GetMass() * fPt.GetMass();
-
-	}
-
-	double GetCMEnergy() const {
-		return fCMEnergy;
-	}
-
-	void SetIncidentParticle(const Particle& p1) {
-		fPi = p1;
-		SetLimits();
-	}
-	void SetTargetParticle(Particle& p1) {
-		fPt = p1;
-		SetLimits();
-	}
-
-	const Particle &GetIncidentParticle() const {
-		return fPi;
-	}
-	const Particle &GetTargetParticle() const {
-		return fPt;
-	}
-
-	const std::string &GetBackground() const {
-		return fback;
-	}
-	void SetBackground(std::string BackRad);
-
-private:
-
-};
-
-//-------------- explicit definitions
+const std::string &Process::GetBackground() const {
+	return fback;
+}
 
 Process::Process() {
 	fname = "";
@@ -260,6 +226,4 @@ void Process::SetLimits(Particle& p1, std::string nameproc) {
 	}
 }
 
-}
-
-#endif
+} // namespace

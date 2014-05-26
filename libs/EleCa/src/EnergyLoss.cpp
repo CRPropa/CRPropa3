@@ -1,9 +1,13 @@
 #ifndef ELECA_ENERGY_LOSS_H_
 #define ELECA_ENERGY_LOSS_H_
 
-#include "Common.h"
+#include "EleCa/EnergyLoss.h"
+#include "EleCa/Process.h"
+#include "EleCa/Common.h"
 
 #include <iostream>
+#include <stdexcept>
+#include <cstdlib>
 
 namespace eleca {
 
@@ -376,7 +380,7 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 					<< cnt << std::endl;
 			std::cout << " Limits  " << proc.GetMin() << std::endl;
 			if (cnt == 0)
-				exit(0);
+				throw std::runtime_error("failed in extractPP");
 		}
 
 	} //end while
@@ -393,7 +397,7 @@ double ExtractICSSecondariesEnergy(Particle &pi, Particle &pt) {
 	 incidence angle theta.
 	 Returns the energy of the recoiled e+ (e-)
 	 */
-	if (abs(pi.GetType()) != 11) {
+	if (::abs(pi.GetType()) != 11) {
 		std::cerr << "something wrong in type ExtractICSEnergy " << std::endl;
 		return 0.;
 	}

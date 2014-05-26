@@ -53,7 +53,9 @@ list(APPEND CRPROPA_EXTRA_LIBRARIES dint)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/dint/include)
 
 # EleCa (provided)
-list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa)
+add_subdirectory(libs/EleCa)
+list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
 
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)

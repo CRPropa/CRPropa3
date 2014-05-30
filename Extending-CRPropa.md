@@ -18,6 +18,14 @@ m.process(c)
 print c.current.getEnergy()
 ```
 
+When redefining the init function make sure to call the super classes init function as well.
+```python
+class MyModule(Module):
+    def __init__(self):
+        Module.__init__(self)
+```
+
+
 The initial properties of a cosmic rays can be set with a Source, composed of several SourceProperties.
 Custom SourceProperties can be written in the following way:
 ```python

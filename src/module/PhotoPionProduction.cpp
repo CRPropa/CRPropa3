@@ -63,6 +63,11 @@ void PhotoPionProduction::init(std::string filename) {
 		throw std::runtime_error(
 				"PhotoPionProduction: could not open file " + filename);
 
+	// clear previously loaded tables
+	energy.clear();
+	pRate.clear();
+	nRate.clear();
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;

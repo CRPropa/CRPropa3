@@ -161,6 +161,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	double EpA = E / A;
 	double z = candidate->getRedshift();
 
+	// SOPHIA simulates interactions for protons / neutrons
+	// for anti-protons / neutrons assume charge symmetry and change all
+	// interaction products from particle <--> anti-particle
+	int sign = (id > 0)? 1: -1;
+
 	// arguments for sophia
 	int nature = 1 - channel; // interacting particle: 0 for proton, 1 for neutron
 	double Ein = EpA / GeV; // energy of in-going nucleon in GeV
@@ -181,14 +186,15 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
-
 		switch (pType) {
 		case 13: // proton
 		case 14: // neutron
-			if (A == 1) { // single interacting nucleon
+			if (A == 1) {
+				// single interacting nucleon
 				candidate->current.setEnergy(Eout);
-				candidate->current.setId(nucleusId(1, 14 - pType));
-			} else { // interacting nucleon is part of nucleus: it is emitted from the nucleus
+				candidate->current.setId(sign * nucleusId(1, 14 - pType));
+			} else {
+				// interacting nucleon is part of nucleus: it is emitted from the nucleus
 				candidate->current.setEnergy(E - EpA);
 				candidate->current.setId(nucleusId(A - 1, Z - channel));
 				candidate->addSecondary(nucleusId(1, 14 - pType), Eout);
@@ -197,7 +203,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 		case -13: // anti-proton
 		case -14: // anti-neutron
 			if (haveAntiNucleons)
-				candidate->addSecondary(-nucleusId(1, 14 + pType), Eout);
+				candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout);
 			break;
 		case 1: // photon
 			if (havePhotons)
@@ -205,27 +211,27 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 			break;
 		case 2: // positron
 			if (havePhotons)
-				candidate->addSecondary(-11, Eout);
+				candidate->addSecondary(sign * -11, Eout);
 			break;
 		case 3: // electron
 			if (havePhotons)
-				candidate->addSecondary(11, Eout);
+				candidate->addSecondary(sign * 11, Eout);
 			break;
 		case 15: // nu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(12, Eout);
+				candidate->addSecondary(sign * 12, Eout);
 			break;
 		case 16: // antinu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(-12, Eout);
+				candidate->addSecondary(sign * -12, Eout);
 			break;
 		case 17: // nu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(14, Eout);
+				candidate->addSecondary(sign * 14, Eout);
 			break;
 		case 18: // antinu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(-14, Eout);
+				candidate->addSecondary(sign * -14, Eout);
 			break;
 		default:
 			throw std::runtime_error(

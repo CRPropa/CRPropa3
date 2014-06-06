@@ -161,7 +161,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	double EpA = E / A;
 	double z = candidate->getRedshift();
 
-	// SOPHIA simulates interactions for protons / neutrons
+	// SOPHIA simulates interactions only for protons / neutrons
 	// for anti-protons / neutrons assume charge symmetry and change all
 	// interaction products from particle <--> anti-particle
 	int sign = (id > 0)? 1: -1;
@@ -196,8 +196,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 			} else {
 				// interacting nucleon is part of nucleus: it is emitted from the nucleus
 				candidate->current.setEnergy(E - EpA);
-				candidate->current.setId(nucleusId(A - 1, Z - channel));
-				candidate->addSecondary(nucleusId(1, 14 - pType), Eout);
+				candidate->current.setId(sign * nucleusId(A - 1, Z - channel));
+				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout);
 			}
 			break;
 		case -13: // anti-proton

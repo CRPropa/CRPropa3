@@ -197,7 +197,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 		case -13: // anti-proton
 		case -14: // anti-neutron
 			if (haveAntiNucleons)
-				candidate->addSecondary(-nucleusId(1, 14 - pType), Eout);
+				candidate->addSecondary(-nucleusId(1, 14 + pType), Eout);
 			break;
 		case 1: // photon
 			if (havePhotons)

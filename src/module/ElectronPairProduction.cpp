@@ -49,6 +49,10 @@ void ElectronPairProduction::initRate(std::string filename) {
 		throw std::runtime_error(
 				"ElectronPairProduction: could not open file " + filename);
 
+	// clear previously loaded interaction rates
+	tabLorentzFactor.clear();
+	tabLossRate.clear();
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;

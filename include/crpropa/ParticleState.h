@@ -6,7 +6,6 @@
 #include "crpropa/Common.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/ParticleMass.h"
-#include "crpropa/UUID.h"
 
 namespace crpropa {
 
@@ -15,8 +14,9 @@ namespace crpropa {
  @brief State of the particle: ID, energy, position, direction
 
  The ParticleState defines the state of an ultra-high energy cosmic ray, which
- is assumed to be flying at the exact speed of light. The cosmic ray state is
- uniquely defined by particle ID, energy and position and direction vector.
+ is assumed to be travelling at the exact speed of light.
+ The cosmic ray state is defined by particle ID, energy and position and
+ direction vector.
  For faster lookup mass and charge of the particle are stored as members.
  */
 class ParticleState {

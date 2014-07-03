@@ -4,6 +4,12 @@
 from crpropa import *
 from pylab import *
 
+z = 0
+pid = nucleusId(4, 2)
+mass = nucleusMass(pid)
+energies = logspace(1, 4, 50)
+
+
 pd1 = PhotoDisintegration(CMB)
 pd2 = PhotoDisintegration(IRB)
 pp1 = PhotoPionProduction(CMB)
@@ -11,32 +17,36 @@ pp2 = PhotoPionProduction(IRB)
 ep1 = ElectronPairProduction(CMB)
 ep2 = ElectronPairProduction(IRB)
 
-def parse_pid(pid):
-    return 'Z=%i, A=%i'%((pid//10000)%1000, (pid%10000)/10)
-
-def invAdd(x1, x2):
-    return 1. / (1. / x1 + 1. / x2)
-
-pid = nucleusId(4, 2)
-mass = nucleusMass(pid)
-energies = logspace(1, 4, 50)
-L = zeros((3, 50))
-z = 0.
+pp1Loss, pp2Loss = zeros(50), zeros(50)
+pd1Loss, pd2Loss = zeros(50), zeros(50)
+ep1Loss, ep2Loss = zeros(50), zeros(50)
 
 for i, E in enumerate(energies * EeV):
-    L[0,i] = invAdd(pd1.lossLength(pid, E, z), pd2.lossLength(pid, E, z))
-    L[1,i] = invAdd(pp1.lossLength(pid, E, z), pp2.lossLength(pid, E, z))
-    lorentzfactor = E / (mass * c_squared)
-    L[2,i] = invAdd(ep1.lossLength(pid, lorentzfactor, z), ep2.lossLength(pid, lorentzfactor, z))
-L /= Mpc
+    # pion production
+    pp1Loss[i] = pp1.lossLength(pid, E, z)
+    pp2Loss[i] = pp2.lossLength(pid, E, z)
+    # disintegration
+    pd1Loss[i] = pd1.lossLength(pid, E, z)
+    pd2Loss[i] = pd2.lossLength(pid, E, z)
+    # pair production
+    lf = E / (mass * c_squared)  # Lorentz factor
+    ep1Loss[i] = ep1.lossLength(pid, lf, z)
+    ep2Loss[i] = ep2.lossLength(pid, lf, z)
+
+# inversely add loss lengths
+ppLoss = 1/(1/pp1Loss + 1/pp2Loss) / Mpc
+pdLoss = 1/(1/pd1Loss + 1/pd2Loss) / Mpc
+epLoss = 1/(1/ep1Loss + 1/ep2Loss) / Mpc
 
 
 figure()
-plot(energies, L[0], label='PDis')
-plot(energies, L[1], label='PPion')
-plot(energies, L[2], label='EPair')
+plot(energies, pdLoss, label='PDis')
+plot(energies, ppLoss, label='PPion')
+plot(energies, epLoss, label='EPair')
 legend(frameon=0, loc='lower left')
-text(0.05, 0.25, parse_pid(pid), transform=gca().transAxes)
+text(0.05, 0.25,
+    'Z=%i, A=%i'%(chargeNumber(pid), massNumber(pid)),
+    transform=gca().transAxes)
 xlabel('Energy [EeV]')
 ylabel('Energy Loss Length [Mpc]')
 ylim(1, 1e4)

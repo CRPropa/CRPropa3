@@ -14,49 +14,59 @@ namespace crpropa {
  @brief State of the particle: ID, energy, position, direction
 
  The ParticleState defines the state of an ultra-high energy cosmic ray, which
- is assumed to be flying at the exact speed of light. The cosmic ray state is
- uniquely defined by particle ID, energy and position and direction vector.
+ is assumed to be travelling at the exact speed of light.
+ The cosmic ray state is defined by particle ID, energy and position and
+ direction vector.
  For faster lookup mass and charge of the particle are stored as members.
  */
 class ParticleState {
 private:
-	int id; /*< particle ID (Particle Data Group numbering scheme) */
-	double energy; /*< total energy */
-	Vector3d position; /*< position vector in comoving coordinates */
-	Vector3d direction; /*< unit vector of velocity or momentum */
-
-	double pmass; /*< particle rest mass */
-	double charge; /*< particle charge */
+	int id; ///< particle ID (Particle Data Group numbering scheme)
+	double energy; ///< total energy
+	Vector3d position; ///< position vector in comoving coordinates
+	Vector3d direction; ///< unit vector of velocity or momentum
+	double pmass; ///< particle rest mass
+	double charge; ///< particle charge
 
 public:
+	/// Constructor: Create a particle at (0,0,0) pointing at (-1,0,0)
 	ParticleState();
-	/* Set position in comoving coordinates */
+
+	/// Set position in comoving coordinates
 	void setPosition(const Vector3d &pos);
-	/* Get position in comoving coordinates */
+	/// Get position in comoving coordinates
 	const Vector3d &getPosition() const;
 
-	/* Set direction unit vector. Non unit-vectors are normalized */
+	/// Set direction unit vector, non unit-vectors are normalized
 	void setDirection(const Vector3d &dir);
+	/// Get direction unit vector
 	const Vector3d &getDirection() const;
 
+	/// Set energy in [J]
 	void setEnergy(double newEnergy);
+	/// Get energy in [J]
 	double getEnergy() const;
 
+	/// Set particle ID
 	void setId(int);
+	/// Get particle ID
 	int getId() const;
 
-	/* Electrical charge of the particle */
+	// ======== Helper methods ========
+
+	/// Electrical charge of the particle in [A]
 	double getCharge() const;
-	/* Mass of the particle */
+	/// Mass of the particle in [kg]
 	double getMass() const;
 
-	/* Set Lorentz factor and modify the particles energy accordingly */
+	/// Set Lorentz factor and modify the particle's energy accordingly
 	void setLorentzFactor(double gamma);
+	/// Get Lorentz factor
 	double getLorentzFactor() const;
 
-	/* Velocity: direction times the speed of light */
+	/// Velocity: direction times the speed of light in [m/s]
 	Vector3d getVelocity() const;
-	/* Momentum: direction times energy divided by the speed of light */
+	/// Momentum: direction times energy divided by the speed of light [kg m/s]
 	Vector3d getMomentum() const;
 };
 

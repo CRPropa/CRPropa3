@@ -126,7 +126,7 @@ EventOutput1D::EventOutput1D(std::string filename) {
 	fout << "#\n";
 	fout << "# ID  Particle type\n";
 	fout << "# E   Energy [EeV]\n";
-	fout << "# D   Comoving trajectory length [Mpc]\n";
+	fout << "# D   Comoving source distance [Mpc]\n";
 	fout << "# ID0 Initial particle type\n";
 	fout << "# E0  Initial energy [EeV]\n";
 }
@@ -146,7 +146,7 @@ void EventOutput1D::process(Candidate *c) const {
 
 	p += sprintf(buffer + p, "%10i\t", c->current.getId());
 	p += sprintf(buffer + p, "%8.4f\t", c->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%9.4f\t", c->getTrajectoryLength() / Mpc);
+	p += sprintf(buffer + p, "%9.4f\t", c->source.getPosition().x / Mpc);
 	p += sprintf(buffer + p, "%10i\t", c->source.getId());
 	p += sprintf(buffer + p, "%8.4f\n", c->source.getEnergy() / EeV);
 

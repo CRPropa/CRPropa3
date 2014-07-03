@@ -30,10 +30,6 @@ void PhotoDisintegration::init(PhotonField photonField) {
 		setDescription("PhotoDisintegration: IRB");
 		init(getDataPath("photodis_IRB.txt"));
 		break;
-	case CMB_IRB:
-		setDescription("PhotoDisintegration: CMB and IRB");
-		init(getDataPath("photodis_CMB_IRB.txt"));
-		break;
 	default:
 		throw std::runtime_error(
 				"crpropa::PhotoDisintegration: unknown photon background");
@@ -41,15 +37,18 @@ void PhotoDisintegration::init(PhotonField photonField) {
 }
 
 void PhotoDisintegration::init(std::string filename) {
-	lgmin = 6;
-	lgmax = 13.96;
-	pdTable.resize(27 * 31);
-
 	std::ifstream infile(filename.c_str());
 	if (not infile.good())
 		throw std::runtime_error(
 				"crpropa::PhotoDisintegration: could not open file "
 						+ filename);
+
+	lgmin = 6;
+	lgmax = 13.96;
+
+	// clear previously loaded interaction rates
+	pdTable.clear();
+	pdTable.resize(27 * 31);
 
 	std::string line;
 	while (std::getline(infile, line)) {

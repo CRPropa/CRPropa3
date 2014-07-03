@@ -141,6 +141,7 @@ add_library(crpropa SHARED
     src/Source.cpp
     src/Common.cpp
     src/PhotonBackground.cpp
+    src/PhotonPropagation.cpp
     src/GridTools.cpp
     src/XmlExecute.cpp
     src/module/BreakCondition.cpp

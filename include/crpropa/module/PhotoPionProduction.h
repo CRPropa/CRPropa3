@@ -15,10 +15,10 @@ namespace crpropa {
 class PhotoPionProduction: public Module {
 private:
 	PhotonField photonField;
-	std::vector<double> pRate; // interaction rate in [1/m] for protons
-	std::vector<double> nRate; // interaction rate in [1/m] for neutrons
-	std::vector<double> energy; // energy in [J]
-	double limit; // fraction of mean free path to limit the next step
+	std::vector<double> tabLorentz; ///< Lorentz factor of nucleus
+	std::vector<double> tabProtonRate; ///< interaction rate in [1/m] for protons
+	std::vector<double> tabNeutronRate; ///< interaction rate in [1/m] for neutrons
+	double limit; ///< fraction of mean free path to limit the next step
 	bool havePhotons;
 	bool haveNeutrinos;
 	bool haveAntiNucleons;
@@ -42,10 +42,10 @@ public:
 	 Calculates the loss length E dx/dE in [m].
 	 This is not used in the simulation.
 	 @param	id		PDG particle id
-	 @param energy	particle energy [J]
+	 @param gamma	Lorentz factor of particle
 	 @param z		redshift
 	 */
-	double lossLength(int id, double energy, double z = 0);
+	double lossLength(int id, double gamma, double z = 0);
 };
 
 } // namespace crpropa

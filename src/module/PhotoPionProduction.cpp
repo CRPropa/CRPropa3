@@ -13,8 +13,8 @@
 
 namespace crpropa {
 
-PhotoPionProduction::PhotoPionProduction(PhotonField field,
-		bool photons, bool neutrinos, bool antiNucleons, double l) {
+PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons,
+		bool neutrinos, bool antiNucleons, double l) {
 	photonField = field;
 	havePhotons = photons;
 	haveNeutrinos = neutrinos;
@@ -49,7 +49,7 @@ void PhotoPionProduction::init() {
 		init(getDataPath("photopion_CMB.txt"));
 		setDescription("PhotoPionProduction: CMB");
 	} else if (photonField == IRB) {
-		init(getDataPath("photopion_IRB.txt"));
+		init(getDataPath("photopion_KneiskeIRB.txt"));
 		setDescription("PhotoPionProduction: IRB");
 	} else {
 		throw std::runtime_error(
@@ -64,23 +64,22 @@ void PhotoPionProduction::init(std::string filename) {
 				"PhotoPionProduction: could not open file " + filename);
 
 	// clear previously loaded tables
-	energy.clear();
-	pRate.clear();
-	nRate.clear();
+	tabLorentz.clear();
+	tabProtonRate.clear();
+	tabNeutronRate.clear();
 
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b, c;
 			infile >> a >> b >> c;
 			if (infile) {
-				energy.push_back(a * EeV);
-				pRate.push_back(b / Mpc);
-				nRate.push_back(c / Mpc);
+				tabLorentz.push_back(pow(10, a));
+				tabProtonRate.push_back(b / Mpc);
+				tabNeutronRate.push_back(c / Mpc);
 			}
 		}
-		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-
 	infile.close();
 }
 
@@ -102,14 +101,10 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 			return;
 
 		double z = candidate->getRedshift();
-		double E = candidate->current.getEnergy();
-		int A = massNumber(id);
-		int Z = chargeNumber(id);
-		int N = A - Z;
-		double Eeff = E / A * (1 + z); // effective energy per nucleon
+		double gamma = (1 + z) * candidate->current.getLorentzFactor();
 
 		// check if in tabulated energy range
-		if (Eeff < energy.front() or (Eeff > energy.back()))
+		if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
 			return;
 
 		// find interaction with minimum random distance
@@ -121,9 +116,13 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		// comological scaling of interaction distance (comoving)
 		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
+		int A = massNumber(id);
+		int Z = chargeNumber(id);
+		int N = A - Z;
+
 		// check for interaction on protons
 		if (Z > 0) {
-			double rate = interpolate(Eeff, energy, pRate);
+			double rate = interpolate(gamma, tabLorentz, tabProtonRate);
 			rate *= nucleiModification(A, Z);
 			rate *= scaling;
 			totalRate += rate;
@@ -133,7 +132,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 
 		// check for interaction on neutrons
 		if (N > 0) {
-			double rate = interpolate(Eeff, energy, nRate);
+			double rate = interpolate(gamma, tabLorentz, tabNeutronRate);
 			rate *= nucleiModification(A, N);
 			rate *= scaling;
 			totalRate += rate;
@@ -144,7 +143,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 			}
 		}
 
-		// check if interaction doesn't happen
+		// check if interaction does not happen
 		if (step < randDistance) {
 			candidate->limitNextStep(limit / totalRate);
 			return;
@@ -169,7 +168,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	// SOPHIA simulates interactions only for protons / neutrons
 	// for anti-protons / neutrons assume charge symmetry and change all
 	// interaction products from particle <--> anti-particle
-	int sign = (id > 0)? 1: -1;
+	int sign = (id > 0) ? 1 : -1;
 
 	// arguments for sophia
 	int nature = 1 - channel; // interacting particle: 0 for proton, 1 for neutron
@@ -246,20 +245,22 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	}
 }
 
-double PhotoPionProduction::lossLength(int id, double E, double z) {
+double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-	double Eeff = E / A * (1 + z);
-	if ((Eeff < energy.front()) or (Eeff > energy.back()))
+	gamma *= (1 + z); // cosmological scaling of photon energy
+	if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
 		return std::numeric_limits<double>::max();
 
 	double lossRate = 0;
 	if (Z > 0)
-		lossRate += interpolate(Eeff, energy, pRate) * nucleiModification(A, Z);
+		lossRate += interpolate(gamma, tabLorentz, tabProtonRate)
+				* nucleiModification(A, Z);
 	if (N > 0)
-		lossRate += interpolate(Eeff, energy, nRate) * nucleiModification(N, Z);
+		lossRate += interpolate(gamma, tabLorentz, tabProtonRate)
+				* nucleiModification(A, N);
 
 	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
 	// nuclei approximately lose the energy that the interacting nucleon is carrying
@@ -268,6 +269,7 @@ double PhotoPionProduction::lossLength(int id, double E, double z) {
 
 	// cosmological scaling of photon density
 	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+
 	return 1. / lossRate;
 }
 

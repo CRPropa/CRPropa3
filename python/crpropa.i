@@ -65,6 +65,7 @@ using std::ptrdiff_t;
 #include "crpropa/Common.h"
 #include "crpropa/Cosmology.h"
 #include "crpropa/PhotonBackground.h"
+#include "crpropa/PhotonPropagation.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
 %}
@@ -110,6 +111,7 @@ using std::ptrdiff_t;
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
 %include "crpropa/PhotonBackground.h"
+%include "crpropa/PhotonPropagation.h"
 %include "crpropa/Random.h"
 %include "crpropa/ParticleState.h"
 %include "crpropa/ParticleID.h"

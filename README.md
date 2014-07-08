@@ -6,27 +6,27 @@ It features a very flexible setup of simulation, support for specialized extraga
 
 ## Install from source
 1. Download the source
-```
-git clone https://github.com/CRPropa/CRPropa3.git
-```
+    ```
+    git clone https://github.com/CRPropa/CRPropa3.git
+    ```
 2. Download the data repository
-```
-git clone https://github.com/CRPropa/CRPropa3-data.git CRPropa3/data
-```
+    ```
+    git clone https://github.com/CRPropa/CRPropa3-data.git CRPropa3/data
+    ```
 3. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake. See the next section for a list of configuration flags
-```
-cd build
-ccmake ..
-```
+    ```
+    cd build
+    ccmake ..
+    ```
 4. After the configuration run make and make install as usual
-```
-make
-make install
-```
+    ```
+    make
+    make install
+    ```
 
 #### CMake flags
 We recommend using ccmake to view and set the options through the user interface.
-When using cmake, options can be set by adding flags to the cmake command, e.g. ``cmake -DENABLE_PYTHON=ON ..``
+When using cmake, options can be set by adding flags to the cmake command, e.g. ```cmake -DENABLE_PYTHON=ON ..```
 
 + Set the install path
 ```-DCMAKE_INSTALL_PREFIX=/my/install/path```

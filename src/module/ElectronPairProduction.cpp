@@ -9,9 +9,10 @@
 namespace crpropa {
 
 ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
-		bool haveElectrons) {
+		bool haveElectrons, double limit) {
 	this->photonField = photonField;
 	this->haveElectrons = haveElectrons;
+	this->limit = limit;
 	init();
 }
 
@@ -161,13 +162,15 @@ void ElectronPairProduction::process(Candidate *c) const {
 
 	double lf = c->current.getLorentzFactor();
 	double z = c->getRedshift();
+	double losslen = lossLength(id, lf, z);  // energy loss length
 	double step = c->getCurrentStep() / (1 + z); // step size in local frame
-	double loss = step / lossLength(id, lf, z);
+	double loss = step / losslen;  // relative energy loss
 
 	if (haveElectrons)
 		addElectrons(c, loss);
 
 	c->current.setLorentzFactor(lf * (1 - loss));
+	c->limitNextStep(limit * losslen);
 }
 
 } // namespace crpropa

@@ -5,47 +5,67 @@ This is the development version of [CRPropa](https://crpropa.desy.de/Main_Page).
 It features a very flexible setup of simulation, support for specialized extragalactic magnetic fields, galactic lensing, python - steering and parallelization.
 
 ## Install from source
-1. Download the data repository
+1. Download the source
+    ```
+    git clone https://github.com/CRPropa/CRPropa3.git
+    ```
+2. Download the data repository
+    ```
+    git clone https://github.com/CRPropa/CRPropa3-data.git CRPropa3/data
+    ```
+3. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake. See the next section for a list of configuration flags
+    ```
+    cd build
+    ccmake ..
+    ```
+4. After the configuration run make and make install as usual
+    ```
+    make
+    make install
+    ```
+
+#### CMake flags
+We recommend using ccmake to view and set the options through the user interface.
+When using cmake, options can be set by adding flags to the cmake command, e.g. ```cmake -DENABLE_PYTHON=ON ..```
+
++ Set the install path
+```-DCMAKE_INSTALL_PREFIX=/my/install/path```
++ Enable OpenMP
+```-DENABLE_OPENMP=ON```
++ Enable Python
+```-DENABLE_PYTHON=ON```
++ Enable ROOT
+```-DENABLE_ROOT=ON```
++ Enable FFTW3
+```-DENABLE_FFTW3F=ON```
++ Enable testing with googletest
+```-DENABLE_TESTING=ON```
++ Additional flags for Intel compiler
 ```
-cd CRPropa3
-git clone https://github.com/CRPropa/CRPropa3-data.git data
-```
-2. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake
-```
-cd build
-ccmake ..
-```
-3. Afterward configuring run make and make install as usual
-```
-make
-make install
+-DCMAKE_SHARED_LINKER_FLAGS="-lifcore"
+-DCMAKE_Fortran_COMPILER=ifort
 ```
 
-The install path can be set with -DCMAKE_INSTALL_PREFIX=/my/path or with the option browser when using ccmake.
-
-Notes for Intel Compiler:
-use -DCMAKE_SHARED_LINKER_FLAGS="-lifcore" -DCMAKE_Fortran_COMPILER=ifort
+#### Required dependencies
++ C++ Compiler
++ Fortran Compiler: to compile SOPHIA
 
 #### Provided dependencies
-+ SOPHIA
-    + for photo-hadronic interactions
-+ googletest
-    + for unit-tests
++ SOPHIA: photo-hadronic interactions
++ EleCa and dint: electromagnetic cascades
++ googletest: unit-testing
++ HepPID: particle ID library
++ kiss: small tool collection
++ pugixml: for xml steering
 
 #### Optional dependencies
-+ Python and SWIG
-    + to use CRPropa from Python
-    + tested for > Python 2.7
-    + tested for > SWIG 2.0
-+ FFTW3F
-    + for turbulent magnetic field grids
-    + CRPropa needs the FFTW3 library compiled with the single precision option
-+ Gadget
-    + Magnetic fields for large scale structure data
-+ OpenMP
-    + for shared memory parallelization
-+ googleperftools
-    + for performance optimizations regarding shared memory parallelization
++ Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 2.0)
++ ROOT: for ROOT output
++ FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
++ Gadget: magnetic fields for large scale structure data
++ OpenMP: for shared memory parallelization
++ googleperftools: for performance optimizations regarding shared memory parallelization
++ muparser: to define the source spectrum through a mathematical formula
 
 
 ## Getting started
@@ -62,7 +82,8 @@ For a 1D simulation try
     m.add(PhotoPionProduction(IRB))
     m.add(PhotoDisintegration(CMB))
     m.add(PhotoDisintegration(IRB))
-    m.add(ElectronPairProduction(CMB_IRB))
+    m.add(ElectronPairProduction(CMB))
+    m.add(ElectronPairProduction(IRB))
     m.add(NuclearDecay())
     m.add(MinimumEnergy(1 * EeV))
     m.add(Observer1D())

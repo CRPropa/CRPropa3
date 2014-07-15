@@ -95,7 +95,7 @@ double CMBR(double eps) {
 		tmp = 0;
 	}
 
-	if (isnan(tmp))
+	if (std::isnan(tmp))
 		tmp = 0;
 
 	return tmp;
@@ -116,7 +116,7 @@ double CIBR(double eps) {
 		tmp = 0;
 	}
 
-	if (isnan(tmp))
+	if (std::isnan(tmp))
 		tmp = 0;
 
 	return tmp;
@@ -156,7 +156,7 @@ double CIOBR(double eps) {
 		tmp = 0;
 	}
 
-	if (isnan(tmp))
+	if (std::isnan(tmp))
 		tmp = 0;
 
 	return tmp;
@@ -172,7 +172,7 @@ double COBR(double eps) {
 		tmp = 0;
 	}
 
-	if (isnan(tmp))
+	if (std::isnan(tmp))
 		tmp = 0;
 
 	return tmp;

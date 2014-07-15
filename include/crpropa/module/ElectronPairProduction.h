@@ -11,8 +11,9 @@ namespace crpropa {
  @brief Electron-pair production of charged nuclei with background photons.
 
  This module simulates electron-pair production as a continuous energy loss.\n
- Several photon fields can be selected.
- Secondary electrons are not created.
+ Several photon fields can be selected.\n
+ The production of secondary e+/e- pairs and photons can by activated.\n
+ By default, the module limits the step size to 10% of the energy loss length of the particle.
  */
 class ElectronPairProduction: public Module {
 private:
@@ -25,11 +26,12 @@ private:
 	std::vector<double> tabE; /*< tabulated proton energy in [J], 70 steps from 10^15 - 10^22 eV */
 	std::vector<double> tabEe; /*< edges of electron energy bins in [J], 171 steps from 10^6.95 - 10^23.95 eV */
 	std::vector<double> tabEeWidth; /*< electron energy bin width in [J], 170 steps */
+	double limit; ///< fraction of energy loss length to limit the next step
 	bool haveElectrons;
 
 public:
 	ElectronPairProduction(PhotonField photonField = CMB, bool haveElectrons =
-			false);
+			false, double limit = 0.1);
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);
 	void init();

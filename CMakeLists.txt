@@ -8,11 +8,12 @@ set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
 
-if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--as-needed")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
-endif(CMAKE_COMPILER_IS_GNUCXX)
+	MESSAGE(STATUS "Use --as-needed linker flags!")
+endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
 # ----------------------------------------------------------------------------
 # Dependencies

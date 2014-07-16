@@ -200,6 +200,19 @@ void loadGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 		ss << "load VectorGrid: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
+
+	// get length of file and compare to size of grid
+	fin.seekg(0, fin.end);
+	int length = fin.tellg() / sizeof(float);
+	fin.seekg (0, fin.beg);
+
+	size_t nx = grid->getNx();
+	size_t ny = grid->getNy();
+	size_t nz = grid->getNz();
+
+	if (length != (3 * nx * ny * nz))
+		throw std::runtime_error("loadGrid: file and grid size do not match");
+
 	for (int ix = 0; ix < grid->getNx(); ix++) {
 		for (int iy = 0; iy < grid->getNy(); iy++) {
 			for (int iz = 0; iz < grid->getNz(); iz++) {
@@ -221,9 +234,22 @@ void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 		ss << "load ScalarGrid: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
-	for (int ix = 0; ix < grid->getNx(); ix++) {
-		for (int iy = 0; iy < grid->getNy(); iy++) {
-			for (int iz = 0; iz < grid->getNz(); iz++) {
+
+	// get length of file and compare to size of grid
+	fin.seekg(0, fin.end);
+	int length = fin.tellg() / sizeof(float);
+	fin.seekg (0, fin.beg);
+
+	size_t nx = grid->getNx();
+	size_t ny = grid->getNy();
+	size_t nz = grid->getNz();
+
+	if (length != (nx * ny * nz))
+		throw std::runtime_error("loadGrid: file and grid size do not match");
+
+	for (int ix = 0; ix < nx; ix++) {
+		for (int iy = 0; iy < ny; iy++) {
+			for (int iz = 0; iz < nz; iz++) {
 				float &b = grid->get(ix, iy, iz);
 				fin.read((char*) &b, sizeof(float));
 				b *= c;

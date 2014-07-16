@@ -6,6 +6,20 @@
 
 namespace crpropa {
 
+void scaleGrid(ref_ptr<ScalarGrid> grid, double a) {
+	for (int ix = 0; ix < grid->getNx(); ix++)
+		for (int iy = 0; iy < grid->getNy(); iy++)
+			for (int iz = 0; iz < grid->getNz(); iz++)
+				grid->get(ix, iy, iz) *= a;
+}
+
+void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
+	for (int ix = 0; ix < grid->getNx(); ix++)
+		for (int iy = 0; iy < grid->getNy(); iy++)
+			for (int iz = 0; iz < grid->getNz(); iz++)
+				grid->get(ix, iy, iz) *= a;
+}
+
 Vector3f meanFieldVector(ref_ptr<VectorGrid> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
@@ -30,23 +44,40 @@ double meanFieldStrength(ref_ptr<VectorGrid> grid) {
 	return mean / Nx / Ny / Nz;
 }
 
+double meanFieldStrength(ref_ptr<ScalarGrid> grid) {
+	size_t Nx = grid->getNx();
+	size_t Ny = grid->getNy();
+	size_t Nz = grid->getNz();
+	double mean = 0;
+	for (int ix = 0; ix < Nx; ix++)
+		for (int iy = 0; iy < Ny; iy++)
+			for (int iz = 0; iz < Nz; iz++)
+				mean += grid->get(ix, iy, iz);
+	return mean / Nx / Ny / Nz;
+}
+
 double rmsFieldStrength(ref_ptr<VectorGrid> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
-	double sumB2 = 0;
+	double sumV2 = 0;
 	for (int ix = 0; ix < Nx; ix++)
 		for (int iy = 0; iy < Ny; iy++)
 			for (int iz = 0; iz < Nz; iz++)
-				sumB2 += grid->get(ix, iy, iz).getR2();
-	return std::sqrt(sumB2 / Nx / Ny / Nz);
+				sumV2 += grid->get(ix, iy, iz).getR2();
+	return std::sqrt(sumV2 / Nx / Ny / Nz);
 }
 
-void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
-	for (int ix = 0; ix < grid->getNx(); ix++)
-		for (int iy = 0; iy < grid->getNy(); iy++)
-			for (int iz = 0; iz < grid->getNz(); iz++)
-				grid->get(ix, iy, iz) *= a;
+double rmsFieldStrength(ref_ptr<ScalarGrid> grid) {
+	size_t Nx = grid->getNx();
+	size_t Ny = grid->getNy();
+	size_t Nz = grid->getNz();
+	double sumV2 = 0;
+	for (int ix = 0; ix < Nx; ix++)
+		for (int iy = 0; iy < Ny; iy++)
+			for (int iz = 0; iz < Nz; iz++)
+				sumV2 += pow(grid->get(ix, iy, iz), 2);
+	return std::sqrt(sumV2 / Nx / Ny / Nz);
 }
 
 #ifdef CRPROPA_HAVE_FFTW3F
@@ -203,7 +234,7 @@ void loadGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 
 	// get length of file and compare to size of grid
 	fin.seekg(0, fin.end);
-	int length = fin.tellg() / sizeof(float);
+	size_t length = fin.tellg() / sizeof(float);
 	fin.seekg (0, fin.beg);
 
 	size_t nx = grid->getNx();
@@ -237,7 +268,7 @@ void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 
 	// get length of file and compare to size of grid
 	fin.seekg(0, fin.end);
-	int length = fin.tellg() / sizeof(float);
+	size_t length = fin.tellg() / sizeof(float);
 	fin.seekg (0, fin.beg);
 
 	size_t nx = grid->getNx();

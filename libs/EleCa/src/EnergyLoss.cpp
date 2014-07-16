@@ -173,7 +173,7 @@ double EnergyLoss1D(double Energy, double z0, double zfin, double B) {
 			FLAG_PROPAG = 0;
 		}
 
-		if (isnan(Energy))
+		if (std::isnan(Energy))
 			return 0;
 	}
 

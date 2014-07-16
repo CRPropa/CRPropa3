@@ -447,7 +447,7 @@ void Propagation::Propagate(Particle &curr_particle,
 
 	double zin = curr_particle.Getz();
 	double Ein = curr_particle.GetEnergy();
-	int type = curr_particle.Getz();
+	int type = curr_particle.GetType();
 
 	int wi_last = curr_particle.GetWeigth();
 

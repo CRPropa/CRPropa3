@@ -30,8 +30,12 @@ TEST(testSimplePropagation, step) {
 	EXPECT_EQ(Vector3d(0,  1, 0), c.current.getDirection());
 }
 
-TEST(testPropagationCK, proton) {
-	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+
+TEST(testPropagationCK, zeroField) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 0)));
+
+	double minStep = 0.1 * kpc;
+	propa.setMinimumStep(minStep);
 
 	ParticleState p;
 	p.setId(nucleusId(1, 1));
@@ -43,8 +47,28 @@ TEST(testPropagationCK, proton) {
 
 	propa.process(&c);
 
-	EXPECT_DOUBLE_EQ(0.1 * kpc, c.getCurrentStep());
-	EXPECT_DOUBLE_EQ(0.5 * kpc, c.getNextStep());
+	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
+	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
+}
+
+TEST(testPropagationCK, proton) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+
+	double minStep = 0.1 * kpc;
+	propa.setMinimumStep(minStep);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 1));
+	p.setEnergy(100 * EeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+	c.setNextStep(0);
+
+	propa.process(&c);
+
+	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
+	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
 TEST(testPropagationCK, neutron) {

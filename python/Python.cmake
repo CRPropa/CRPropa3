@@ -29,19 +29,25 @@ IF(APPLE)
 	STRING(REGEX REPLACE ".*MacOSX([0-9]+)[.]([0-9]+)[.]sdk" "\\2" OSX_SDK_MINOR_VERSION "${CMAKE_OSX_SYSROOT}" )
 	# MESSAGE("Found OS X SDK minor version: ${OSX_SDK_MINOR_VERSION}")
 
-	IF(OSX_SDK_MINOR_VERSION GREATER 8)
-		SET(OSX_USE_PYTHON_FRAMEWORK "False")
-		MESSAGE(STATUS "Running on Mac OS X >= 10.9: Linking to Python in UNIX default way")
-	ELSE(OSX_SDK_MINOR_VERSION GREATER 8)
-		MESSAGE(STATUS "Running on Mac OS X < 10.9: Linking to Python as framework")
-		SET(OSX_USE_PYTHON_FRAMEWORK "True")
+	IF (PYTHON_LIBRARIES)
+			SET(OSX_USE_PYTHON_FRAMEWORK "False")
+			MESSAGE(STATUS "Using user provided Python library: " ${PYTHON_LIBRARIES} )
 
-		INCLUDE(CMakeFindFrameworks)
-		# Search for the python framework on Apple.
-		MESSAGE(INFO "Looking for python framework as on apple system" )
-		CMAKE_FIND_FRAMEWORKS(Python)
-		SET (PYTHON_LIBRARIES "-framework Python" CACHE FILEPATH "Python Framework" FORCE)
-	ENDIF(OSX_SDK_MINOR_VERSION GREATER 8)
+	ELSE(PYTHON_LIBRARIES)
+		IF(OSX_SDK_MINOR_VERSION GREATER 8)
+			SET(OSX_USE_PYTHON_FRAMEWORK "False")
+			MESSAGE(STATUS "Running on Mac OS X >= 10.9: Linking to Python in UNIX default way")
+		ELSE(OSX_SDK_MINOR_VERSION GREATER 8)
+			MESSAGE(STATUS "Running on Mac OS X < 10.9: Linking to Python as framework")
+			SET(OSX_USE_PYTHON_FRAMEWORK "True")
+
+			INCLUDE(CMakeFindFrameworks)
+			# Search for the python framework on Apple.
+			MESSAGE(INFO "Looking for python framework as on apple system" )
+			CMAKE_FIND_FRAMEWORKS(Python)
+			SET (PYTHON_LIBRARIES "-framework Python" CACHE FILEPATH "Python Framework" FORCE)
+		ENDIF(OSX_SDK_MINOR_VERSION GREATER 8)
+	ENDIF(PYTHON_LIBRARIES)
 
 ENDIF(APPLE)
 
@@ -61,13 +67,13 @@ IF (MINGW)
 	)
 ENDIF(MINGW)
 
-IF(NOT OSX_USE_PYTHON_FRAMEWORK AND NOT MSVC AND NOT MINGW)
+IF(NOT OSX_USE_PYTHON_FRAMEWORK AND NOT PYTHON_LIBRARIES AND NOT MSVC AND NOT MINGW)
 	execute_process(
 		COMMAND ${PYTHON_EXECUTABLE} -c "import sys; from distutils import sysconfig; import os; libname = sysconfig.get_config_var('LDLIBRARY'); libdir = sysconfig.get_config_var('LIBPL'); lib = os.path.join(libdir,libname); out = lib if os.path.exists(lib) else os.path.join(libdir, sysconfig.get_config_var('LIBRARY')); sys.stdout.write(out);"
 		OUTPUT_VARIABLE PYTHON_LIBRARIES
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-ENDIF(NOT OSX_USE_PYTHON_FRAMEWORK AND NOT MSVC AND NOT MINGW)
+ENDIF(NOT OSX_USE_PYTHON_FRAMEWORK AND NOT PYTHON_LIBRARIES AND NOT MSVC AND NOT MINGW)
 
 #find the site package destinaton 
 execute_process(

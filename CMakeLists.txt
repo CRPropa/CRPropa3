@@ -129,10 +129,7 @@ endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 # Library and Binary
 # ----------------------------------------------------------------------------
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
-file(GLOB_RECURSE
-	CRPROPA_SOURCES
-	RELATIVE ${CMAKE_SOURCE_DIR}
-	"${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE CRPROPA_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 add_library(crpropa SHARED
 	${CRPROPA_SOURCES}
 	${CRPROPA_EXTRA_SOURCES}
@@ -212,7 +209,7 @@ if(ENABLE_PYTHON)
 	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
 	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
 
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES})
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES})
-	install(TARGETS crpropa-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES})
+	install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION ${PYTHON_SITE_PACKAGES})
+	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
+	install(TARGETS crpropa-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
 endif(ENABLE_PYTHON)

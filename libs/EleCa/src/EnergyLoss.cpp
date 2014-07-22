@@ -344,18 +344,25 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 		}
 	}
 
+	if (cnt == 0) {
+	for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
+			Ee *= f) {
+	  std::cout << Ee  << " " << f << " " << (1-beta)  << std::endl;
+	    }
+	}
 	NormFactor = (double) 1. / (double) NormFactor;
 
 	for (int i = 0; i < cnt; i++)
 		MC_Sampling_Hist[i][2] *= NormFactor;
 
+
 	double rnd;
-	double Ee = 0;
+	double Ee = ElectronMass;
 	int k = 0;
 
 	while (failed) {
 		rnd = Uniform(0., 1.0);
-		Ee = 0;
+		Ee = ElectronMass;
 		k++;
 		double min = 1e6;
 		double max = -1;
@@ -374,11 +381,12 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 			}
 		}
 		if (failed) {
-			std::cout << "failed in extractPP " << Ee << " " << beta << " * s: "
-					<< s << " E: " << E0 << " eps : " << eps << " me: "
+		  /*	std::cout << "failed in extractPP " << Ee << " " << beta << " * s: "
+					<< s << " E0: " << E0 << " eps : " << eps << " me^2/E0: "
 					<< ElectronMass * ElectronMass / E0 << "  ) " << " cnt : "
 					<< cnt << std::endl;
 			std::cout << " Limits  " << proc.GetMin() << std::endl;
+		  */
 			if (cnt == 0)
 				throw std::runtime_error("failed in extractPP");
 		}

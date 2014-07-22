@@ -131,11 +131,7 @@ void DintPropagation(const std::string &inputfile,
 
 	// Initialize the bField
 	dCVector bField;
-	New_dCVector(&bField, 1);
-
-	// Initialize output spectrum
-	Spectrum outputSpectrum;
-	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
+	New_dCVector(&bField, 5);
 
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
@@ -146,7 +142,7 @@ void DintPropagation(const std::string &inputfile,
 	double om = omegaM();
 
 	const size_t nBuffer = 1 << 20;
-	const double dMargin = 0.01; // Mpc;
+	const double dMargin = 0.1; // Mpc;
 
 	size_t cnt = 0;
 	while (infile.good()) {
@@ -185,11 +181,25 @@ void DintPropagation(const std::string &inputfile,
 
 		// process secondaries
 		while (secondaries.size() > 0) {
+			std::cout << secondaries.size() << " "<< currentDistance << std::endl;
+
 			// add secondaries at the current distance to spectrum
-			while (secondaries.back().D >= (currentDistance - dMargin)) {
+			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
 				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
 				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
 						- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
+				if (maxBin >= NUM_MAIN_BINS) {
+					std::cout << "DintPropagation: Energy too high " << secondaries.back().E
+							<< std::endl;
+					secondaries.pop_back();
+					continue;
+				}
+				if (maxBin < 0) {
+					std::cout << "DintPropagation: Energy too low " << secondaries.back().E
+							<< std::endl;
+					secondaries.pop_back();
+					continue;
+				}
 				int Id = secondaries.back().Id;
 				if (Id == 22)
 					inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
@@ -198,18 +208,19 @@ void DintPropagation(const std::string &inputfile,
 				else if (Id == -11)
 					inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
 				else {
-					std::cerr << "DintPropagation: Unhandled particle ID " << Id
+					std::cout << "DintPropagation: Unhandled particle ID " << Id
 							<< std::endl;
 				}
 				secondaries.pop_back();
 			}
+			//std::cout << secondaries.size() << std::endl;
 
 			double D = currentDistance;
 
 			// only propagate to next particle
 			if (secondaries.size() > 0)
 				D -= secondaries.back().D;
-
+			//std::cout << D << std::endl;
 			InitializeSpectrum(&outputSpectrum);
 			prop_second(D, &bField, &energyGrid, &energyWidth, &inputSpectrum,
 					&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
@@ -232,6 +243,8 @@ void DintPropagation(const std::string &inputfile,
 		}
 		outfile << "\n";
 	}
+
+	//std::cout << "done" << std::endl;
 
 	DeleteSpectrum(&finalSpectrum);
 	Delete_dCVector(&bField);

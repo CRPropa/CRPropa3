@@ -34,7 +34,7 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 	size_t p = 0;
 
 	p += sprintf(buffer + p, "%4i\t", pid);
-	p += sprintf(buffer + p, "%8.4f\t", candidate->current.getEnergy() / EeV);
+	p += sprintf(buffer + p, "%g\t", candidate->current.getEnergy() / EeV);
 	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getPosition().getR() / Mpc);
 
 	p += sprintf(buffer + p, "%10i\t", candidate->created.getId());

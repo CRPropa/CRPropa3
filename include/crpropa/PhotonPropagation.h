@@ -11,6 +11,7 @@ void EleCaPropagation(const std::string &background,
 		std::vector<double> &spectrum);
 void EleCaPropagation(const std::string &background,
 		const std::string &inputfile, const std::string &outputfile);
+void DintPropagation(const std::string &inputfile, const std::string &outputfile);
 
 } // namespace crpropa
 

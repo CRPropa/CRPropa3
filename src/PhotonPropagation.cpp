@@ -1,9 +1,13 @@
 #include "crpropa/PhotonPropagation.h"
 #include "crpropa/Common.h"
+#include "crpropa/Units.h"
+#include "crpropa/Cosmology.h"
 
 #include "EleCa/Propagation.h"
 #include "EleCa/Particle.h"
 #include "EleCa/Common.h"
+
+#include "dint/prop_second.h"
 
 #include <fstream>
 #include <stdexcept>
@@ -89,5 +93,145 @@ void EleCaPropagation(const std::string &background,
 	}
 }
 
-} // namespace crpropa
+class PhotonDINT1DImpl {
+public:
+	PhotonDINT1DImpl() {
+		// Initialize the energy grids for dint
+		New_dCVector(&energyGrid, NUM_MAIN_BINS);
+		New_dCVector(&energyWidth, NUM_MAIN_BINS);
+		SetEnergyBins(MIN_ENERGY_EXP, &energyGrid, &energyWidth);
+	}
 
+	virtual ~PhotonDINT1DImpl() {
+		Delete_dCVector(&energyGrid);
+		Delete_dCVector(&energyWidth);
+	}
+
+	dCVector energyGrid, energyWidth;
+	virtual void saveSpectrum(Spectrum *spectrum) = 0;
+};
+
+class PhotonDINT1DAsciiImpl: public PhotonDINT1DImpl {
+	mutable std::ofstream fout;
+public:
+	PhotonDINT1DAsciiImpl(const std::string &filename) :
+			PhotonDINT1DImpl(), fout(filename.c_str()) {
+		for (int j = 0; j < energyGrid.dimension; j++) {
+			fout << (energyGrid.vector[j] * ELECTRON_MASS) << " ";
+		}
+		fout << std::endl;
+	}
+
+	void saveSpectrum(Spectrum *spectrum) {
+		for (int j = 0; j < spectrum->numberOfMainBins; j++) {
+			fout << spectrum->spectrum[PHOTON][j] << " "; // spectrum: mean number of particles per energy bin
+		}
+		fout << endl;
+	}
+};
+
+void DintPropagation(const std::string &inputfile,
+		const std::string &outputfile) {
+	// Initialize the spectrum
+	Spectrum inputSpectrum;
+	NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
+
+	dCVector energyGrid, energyWidth;
+	// Initialize the energy grids for dint
+	New_dCVector(&energyGrid, NUM_MAIN_BINS);
+	New_dCVector(&energyWidth, NUM_MAIN_BINS);
+	SetEnergyBins(MIN_ENERGY_EXP, &energyGrid, &energyWidth);
+
+	std::ofstream outfile(outputfile.c_str());
+	if (!outfile.good())
+		throw std::runtime_error(
+				"DintPropagation: could not open file " + outputfile);
+
+	std::ifstream infile(inputfile.c_str());
+	if (!infile.good())
+		throw std::runtime_error(
+				"DintPropagation: could not open file " + inputfile);
+
+	// Initialize the bField
+	dCVector bField;
+	New_dCVector(&bField, 1);
+
+	// Initialize output spectrum
+	Spectrum outputSpectrum;
+	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
+
+	Spectrum finalSpectrum;
+	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
+
+	std::string dataPath = getDataPath("dint");
+
+	size_t cnt = 0;
+	while (infile.good()) {
+		if (infile.peek() != '#') {
+			double E, D, pE, iE;
+			int Id, pId, iId;
+			infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
+			cnt++;
+			std::cerr << cnt << std::endl;
+			if (infile) {
+
+				double criticalEnergy = E * EeV / (eV * ELECTRON_MASS); // units of dint
+				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
+						- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
+				if (Id == 22)
+					inputSpectrum.spectrum[PHOTON][maxBin] = 1.;
+				else if (Id == 11)
+					inputSpectrum.spectrum[ELECTRON][maxBin] = 1.;
+				else if (Id == -11)
+					inputSpectrum.spectrum[POSITRON][maxBin] = 1.;
+				else {
+					std::cerr << "DintPropagation: Unhandled particle ID " << Id << std::endl;
+					continue;
+				}
+
+
+				double h = H0() * Mpc / 1000;
+				double ol = omegaL();
+				double om = omegaM();
+
+				int IRFlag(2);
+				int RadioFlag(2);
+				double Zmax(5);
+				int Cutcascade_Magfield(0);
+
+				InitializeSpectrum(&outputSpectrum);
+				prop_second(D, &bField, &energyGrid, &energyWidth,
+						&inputSpectrum, &outputSpectrum, dataPath, 2, 5, 2, h,
+						om, ol, Cutcascade_Magfield);
+				// add spectrum
+				for (int i = 0; i < NUM_SPECIES; i++) {
+					for (int j = 0; j < outputSpectrum.numberOfMainBins; j++)
+						finalSpectrum.spectrum[i][j] +=
+								outputSpectrum.spectrum[i][j];
+				}
+
+			}
+		}
+
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+
+	for (int j = 0; j < finalSpectrum.numberOfMainBins; j++) {
+		outfile << (energyGrid.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
+		for (int i = 0; i < NUM_SPECIES; i++) {
+			outfile << finalSpectrum.spectrum[i][j] << " ";
+		}
+		outfile << "\n";
+	}
+
+	DeleteSpectrum(&finalSpectrum);
+	DeleteSpectrum(&outputSpectrum);
+	DeleteSpectrum(&inputSpectrum);
+	Delete_dCVector(&bField);
+
+	Delete_dCVector(&energyGrid);
+	Delete_dCVector(&energyWidth);
+
+}
+
+} // namespace crpropa

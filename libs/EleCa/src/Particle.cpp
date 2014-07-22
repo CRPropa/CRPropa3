@@ -11,7 +11,9 @@ bool Particle::IsGood() {
 	double zmax_prop1 = -0.101717;
 	double zmax_prop2 = 0.002855;
 	double Eloc = log10(fE0ph);
-	if (Eloc < 18)
+	if (fE0ph <=0 )
+		return 0;
+	if (Eloc > 12 && Eloc < 18)
 		Eloc = 18;
 	if (fz0ph > zmax_prop0 + zmax_prop1 * Eloc + zmax_prop2 * Eloc * Eloc)
 		return 0;

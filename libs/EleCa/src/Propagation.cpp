@@ -12,6 +12,7 @@
 #include <fstream>
 #include <algorithm>
 
+//#define DEBUG_ELECA
 namespace eleca {
 
 Propagation::Propagation() {
@@ -71,7 +72,7 @@ void Propagation::InitBkgArray(const std::string &BackRad) {
 		}
 	}
 
-	if (BackRad == "CIOB") {
+	else if (BackRad == "CIOB") {
 		double de = pow((double) eps_ph_sup_ciob / eps_ph_inf_ciob,
 				1. / POINTS_VERY_FEW);
 		double e = eps_ph_inf_ciob;
@@ -82,7 +83,7 @@ void Propagation::InitBkgArray(const std::string &BackRad) {
 		}
 	}
 
-	if (BackRad == "URB") {
+	else if (BackRad == "URB") {
 		double de = pow((double) eps_ph_sup_urb / eps_ph_inf_urb,
 				1. / POINTS_VERY_FEW);
 		double e = eps_ph_inf_urb;
@@ -93,7 +94,7 @@ void Propagation::InitBkgArray(const std::string &BackRad) {
 		}
 	}
 
-	if (BackRad == "URB") {
+	else { //if (BackRad == "ALL"  ) {
 		double de = pow((double) eps_ph_sup_global / eps_ph_inf_global,
 				(double) 1. / POINTS_VERY_FEW);
 		double e = eps_ph_inf_global;
@@ -475,7 +476,7 @@ void Propagation::Propagate(Particle &curr_particle,
 
 	std::vector<double> EtargetAll = GetEtarget(proc, curr_particle);
 #ifdef DEBUG_ELECA
-	std::cout << "GetEtarget: " << EtargetAll[0] << " " << EtargetAll[1] << std::endl;
+	std::cout << "for initial particle : " << curr_particle.GetEnergy() << " " << Ein << "  GetEtarget: " << EtargetAll[0] << " " << EtargetAll[1] << std::endl;
 #endif
 
 	min_dist = ExtractMinDist(proc, curr_particle.GetType(), R, R2, EtargetAll);

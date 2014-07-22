@@ -16,8 +16,8 @@
 
 namespace crpropa {
 
-void EleCaPropagation(const std::string &background,
-		const std::string &inputfile, std::vector<double> &energy,
+void EleCaPropagation(const std::string &inputfile,
+		const std::string &background, std::vector<double> &energy,
 		std::vector<double> &spectrum) {
 	std::ifstream infile(inputfile.c_str());
 
@@ -82,10 +82,10 @@ void EleCaPropagation(const std::string &background,
 	infile.close();
 }
 
-void EleCaPropagation(const std::string &background,
-		const std::string &inputfile, const std::string &outputfile) {
+void EleCaPropagation(const std::string &inputfile,
+		const std::string &outputfile, const std::string &background) {
 	std::vector<double> energy, spectrum;
-	EleCaPropagation(background, inputfile, energy, spectrum);
+	EleCaPropagation(inputfile, background, energy, spectrum);
 	std::ofstream output(outputfile.c_str());
 	output << "# E N\n";
 	for (size_t i = 0; i < energy.size(); i++) {
@@ -93,45 +93,8 @@ void EleCaPropagation(const std::string &background,
 	}
 }
 
-class PhotonDINT1DImpl {
-public:
-	PhotonDINT1DImpl() {
-		// Initialize the energy grids for dint
-		New_dCVector(&energyGrid, NUM_MAIN_BINS);
-		New_dCVector(&energyWidth, NUM_MAIN_BINS);
-		SetEnergyBins(MIN_ENERGY_EXP, &energyGrid, &energyWidth);
-	}
-
-	virtual ~PhotonDINT1DImpl() {
-		Delete_dCVector(&energyGrid);
-		Delete_dCVector(&energyWidth);
-	}
-
-	dCVector energyGrid, energyWidth;
-	virtual void saveSpectrum(Spectrum *spectrum) = 0;
-};
-
-class PhotonDINT1DAsciiImpl: public PhotonDINT1DImpl {
-	mutable std::ofstream fout;
-public:
-	PhotonDINT1DAsciiImpl(const std::string &filename) :
-			PhotonDINT1DImpl(), fout(filename.c_str()) {
-		for (int j = 0; j < energyGrid.dimension; j++) {
-			fout << (energyGrid.vector[j] * ELECTRON_MASS) << " ";
-		}
-		fout << std::endl;
-	}
-
-	void saveSpectrum(Spectrum *spectrum) {
-		for (int j = 0; j < spectrum->numberOfMainBins; j++) {
-			fout << spectrum->spectrum[PHOTON][j] << " "; // spectrum: mean number of particles per energy bin
-		}
-		fout << endl;
-	}
-};
-
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile) {
+		const std::string &outputfile, int IRFlag, int RadioFlag, double Zmax) {
 	// Initialize the spectrum
 	Spectrum inputSpectrum;
 	NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
@@ -185,24 +148,19 @@ void DintPropagation(const std::string &inputfile,
 				else if (Id == -11)
 					inputSpectrum.spectrum[POSITRON][maxBin] = 1.;
 				else {
-					std::cerr << "DintPropagation: Unhandled particle ID " << Id << std::endl;
+					std::cerr << "DintPropagation: Unhandled particle ID " << Id
+							<< std::endl;
 					continue;
 				}
-
 
 				double h = H0() * Mpc / 1000;
 				double ol = omegaL();
 				double om = omegaM();
 
-				int IRFlag(2);
-				int RadioFlag(2);
-				double Zmax(5);
-				int Cutcascade_Magfield(0);
-
 				InitializeSpectrum(&outputSpectrum);
 				prop_second(D, &bField, &energyGrid, &energyWidth,
-						&inputSpectrum, &outputSpectrum, dataPath, 2, 5, 2, h,
-						om, ol, Cutcascade_Magfield);
+						&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax,
+						RadioFlag, h, om, ol, 0);
 				// add spectrum
 				for (int i = 0; i < NUM_SPECIES; i++) {
 					for (int j = 0; j < outputSpectrum.numberOfMainBins; j++)

@@ -47,7 +47,8 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 #pragma omp critical
 	{
 		output.write(buffer, p);
-		//output.flush();
+		// TODO: add begin/end methods to Modules to flush at the end of the module list only
+		output.flush();
 	}
 
 	candidate->setActive(false);

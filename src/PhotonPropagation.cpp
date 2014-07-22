@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <limits>
 #include <iostream>
+#include <algorithm>
 
 namespace crpropa {
 
@@ -93,12 +94,25 @@ void EleCaPropagation(const std::string &inputfile,
 	}
 }
 
+typedef struct _Secondary {
+	double E, D;
+	int Id;
+} _Secondary;
+
+bool _SecondarySortPredicate(const _Secondary& s1, const _Secondary& s2) {
+	return s1.D < s2.D;
+}
+
+void AddSpectrum(Spectrum *a, const Spectrum *b) {
+	for (int i = 0; i < NUM_SPECIES; i++) {
+		for (int j = 0; j < a->numberOfMainBins; j++)
+			a->spectrum[i][j] += b->spectrum[i][j];
+	}
+}
+
 void DintPropagation(const std::string &inputfile,
 		const std::string &outputfile, int IRFlag, int RadioFlag, double Zmax) {
 	// Initialize the spectrum
-	Spectrum inputSpectrum;
-	NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
-
 	dCVector energyGrid, energyWidth;
 	// Initialize the energy grids for dint
 	New_dCVector(&energyGrid, NUM_MAIN_BINS);
@@ -127,51 +141,88 @@ void DintPropagation(const std::string &inputfile,
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
 
 	std::string dataPath = getDataPath("dint");
+	double h = H0() * Mpc / 1000;
+	double ol = omegaL();
+	double om = omegaM();
+
+	const size_t nBuffer = 1 << 20;
+	const double dMargin = 0.01; // Mpc;
 
 	size_t cnt = 0;
 	while (infile.good()) {
-		if (infile.peek() != '#') {
-			double E, D, pE, iE;
-			int Id, pId, iId;
-			infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
-			cnt++;
-			std::cerr << cnt << std::endl;
-			if (infile) {
+		// buffer for secondaries
+		std::vector<_Secondary> secondaries;
+		secondaries.reserve(nBuffer);
 
-				double criticalEnergy = E * EeV / (eV * ELECTRON_MASS); // units of dint
+		// read secondaries from file
+		size_t n = 0;
+		while (infile.good() && (n < nBuffer)) {
+			if (infile.peek() != '#') {
+				double pE, iE;
+				int pId, iId;
+				_Secondary s;
+				infile >> s.Id >> s.E >> s.D >> pId >> pE >> iId >> iE;
+				if (infile) {
+					n++;
+					secondaries.push_back(s);
+				}
+			}
+
+			infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+
+		if (secondaries.size() == 0)
+			continue;
+
+		// sort by D
+		std::sort(secondaries.begin(), secondaries.end(),
+				_SecondarySortPredicate);
+
+		Spectrum inputSpectrum, outputSpectrum;
+		NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
+		NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
+		double currentDistance = secondaries.back().D;
+
+		// process secondaries
+		while (secondaries.size() > 0) {
+			// add secondaries at the current distance to spectrum
+			while (secondaries.back().D >= (currentDistance - dMargin)) {
+				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
 				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
 						- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
+				int Id = secondaries.back().Id;
 				if (Id == 22)
-					inputSpectrum.spectrum[PHOTON][maxBin] = 1.;
+					inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
 				else if (Id == 11)
-					inputSpectrum.spectrum[ELECTRON][maxBin] = 1.;
+					inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
 				else if (Id == -11)
-					inputSpectrum.spectrum[POSITRON][maxBin] = 1.;
+					inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
 				else {
 					std::cerr << "DintPropagation: Unhandled particle ID " << Id
 							<< std::endl;
-					continue;
 				}
-
-				double h = H0() * Mpc / 1000;
-				double ol = omegaL();
-				double om = omegaM();
-
-				InitializeSpectrum(&outputSpectrum);
-				prop_second(D, &bField, &energyGrid, &energyWidth,
-						&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax,
-						RadioFlag, h, om, ol, 0);
-				// add spectrum
-				for (int i = 0; i < NUM_SPECIES; i++) {
-					for (int j = 0; j < outputSpectrum.numberOfMainBins; j++)
-						finalSpectrum.spectrum[i][j] +=
-								outputSpectrum.spectrum[i][j];
-				}
-
+				secondaries.pop_back();
 			}
+
+			double D = currentDistance;
+
+			// only propagate to next particle
+			if (secondaries.size() > 0)
+				D -= secondaries.back().D;
+
+			InitializeSpectrum(&outputSpectrum);
+			prop_second(D, &bField, &energyGrid, &energyWidth, &inputSpectrum,
+					&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
+					ol, 0);
+			AddSpectrum(&inputSpectrum, &outputSpectrum);
+
+			currentDistance -= D;
 		}
 
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		AddSpectrum(&finalSpectrum, &inputSpectrum);
+
+		DeleteSpectrum(&outputSpectrum);
+		DeleteSpectrum(&inputSpectrum);
 	}
 
 	for (int j = 0; j < finalSpectrum.numberOfMainBins; j++) {
@@ -183,8 +234,6 @@ void DintPropagation(const std::string &inputfile,
 	}
 
 	DeleteSpectrum(&finalSpectrum);
-	DeleteSpectrum(&outputSpectrum);
-	DeleteSpectrum(&inputSpectrum);
 	Delete_dCVector(&bField);
 
 	Delete_dCVector(&energyGrid);

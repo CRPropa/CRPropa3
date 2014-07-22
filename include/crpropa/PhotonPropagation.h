@@ -6,12 +6,14 @@
 
 namespace crpropa {
 
-void EleCaPropagation(const std::string &background,
-		const std::string &inputfile, std::vector<double> &energy,
+void EleCaPropagation(const std::string &inputfile,
+		const std::string &background, std::vector<double> &energy,
 		std::vector<double> &spectrum);
-void EleCaPropagation(const std::string &background,
-		const std::string &inputfile, const std::string &outputfile);
-void DintPropagation(const std::string &inputfile, const std::string &outputfile);
+void EleCaPropagation(const std::string &inputfile,
+		const std::string &outputfile, const std::string &background = "ALL");
+void DintPropagation(const std::string &inputfile,
+		const std::string &outputfile, int IRFlag = 2, int RadioFlag = 2,
+		double Zmax = 5);
 
 } // namespace crpropa
 

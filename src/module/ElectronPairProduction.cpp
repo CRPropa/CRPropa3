@@ -29,13 +29,29 @@ void ElectronPairProduction::init() {
 	switch (photonField) {
 	case CMB:
 		setDescription("ElectronPairProduction: CMB");
-		initRate(getDataPath("pair_rate_CMB.txt"));
-		initSpectrum(getDataPath("pair_spectrum_CMB.txt"));
+		initRate(getDataPath("epp_CMB.txt"));
+		initSpectrum(getDataPath("epp_spectrum_CMB.txt"));
 		break;
-	case IRB:
-		setDescription("ElectronPairProduction: IRB");
-		initRate(getDataPath("pair_rate_IRB.txt"));
-		initSpectrum(getDataPath("pair_spectrum_IRB.txt"));
+	case IRB:  // default: Kneiske '04 IRB model
+	case IRB_Kneiske04:
+		setDescription("ElectronPairProduction: IRB Kneiske '04");
+		initRate(getDataPath("epp_IRB_Kneiske04.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
+	case IRB_Kneiske10:
+		setDescription("ElectronPairProduction: IRB Kneiske '10 (lower limit)");
+		initRate(getDataPath("epp_IRB_Kneiske10.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
+	case IRB_Stecker05:
+		setDescription("ElectronPairProduction: IRB Stecker '05");
+		initRate(getDataPath("epp_IRB_Stecker05.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
+	case IRB_Franceschini08:
+		setDescription("ElectronPairProduction: IRB Franceschini '08");
+		initRate(getDataPath("epp_IRB_Franceschini08.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
 	default:
 		throw std::runtime_error(
@@ -59,8 +75,8 @@ void ElectronPairProduction::initRate(std::string filename) {
 			double a, b;
 			infile >> a >> b;
 			if (infile) {
-				tabLorentzFactor.push_back(a * eV / mass_proton / c_squared);
-				tabLossRate.push_back(b / a / Mpc);
+				tabLorentzFactor.push_back(pow(10, a));
+				tabLossRate.push_back(b / Mpc);
 			}
 		}
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');

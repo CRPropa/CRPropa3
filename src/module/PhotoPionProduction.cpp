@@ -45,13 +45,29 @@ void PhotoPionProduction::setLimit(double l) {
 }
 
 void PhotoPionProduction::init() {
-	if (photonField == CMB) {
-		init(getDataPath("photopion_CMB.txt"));
+	switch (photonField) {
+	case CMB:
 		setDescription("PhotoPionProduction: CMB");
-	} else if (photonField == IRB) {
-		init(getDataPath("photopion_KneiskeIRB.txt"));
-		setDescription("PhotoPionProduction: IRB");
-	} else {
+		init(getDataPath("ppp_CMB.txt"));
+		break;
+	case IRB:  // default: Kneiske '04 IRB model
+	case IRB_Kneiske04:
+		setDescription("PhotoPionProduction: IRB Kneiske '04");
+		init(getDataPath("ppp_IRB_Kneiske04.txt"));
+		break;
+	case IRB_Kneiske10:
+		setDescription("PhotoPionProduction: IRB Kneiske '10 (lower limit)");
+		init(getDataPath("ppp_IRB_Kneiske10.txt"));
+		break;
+	case IRB_Stecker05:
+		setDescription("PhotoPionProduction: IRB Stecker '05");
+		init(getDataPath("ppp_IRB_Stecker05.txt"));
+		break;
+	case IRB_Franceschini08:
+		setDescription("PhotoPionProduction: IRB Franceschini '08");
+		init(getDataPath("ppp_IRB_Franceschini08.txt"));
+		break;
+	default:
 		throw std::runtime_error(
 				"PhotoPionProduction: unknown photon background");
 	}

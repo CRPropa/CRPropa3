@@ -20,35 +20,48 @@ void PhotoDisintegration::setLimit(double l) {
 }
 
 void PhotoDisintegration::init(PhotonField photonField) {
-	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
 		setDescription("PhotoDisintegration: CMB");
-		init(getDataPath("photodis_CMB.txt"));
+		initRate(getDataPath("pd_CMB.txt"));
+		initBranching(getDataPath("pd_branch_CMB.txt"));
 		break;
-	case IRB:
-		setDescription("PhotoDisintegration: IRB");
-		init(getDataPath("photodis_IRB.txt"));
+	case IRB:  // default: Kneiske '04 IRB model
+	case IRB_Kneiske04:
+		setDescription("PhotoDisintegration: IRB Kneiske '04");
+		initRate(getDataPath("pd_IRB_Kneiske04.txt"));
+		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		break;
+	case IRB_Kneiske10:
+		setDescription("PhotoDisintegration: IRB Kneiske '10 (lower limit)");
+		initRate(getDataPath("pd_IRB_Kneiske10.txt"));
+		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		break;
+	case IRB_Stecker05:
+		setDescription("PhotoDisintegration: IRB Stecker '05");
+		initRate(getDataPath("pd_IRB_Stecker05.txt"));
+		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		break;
+	case IRB_Franceschini08:
+		setDescription("PhotoDisintegration: IRB Franceschini '08");
+		initRate(getDataPath("pd_IRB_Franceschini08.txt"));
+		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
 		break;
 	default:
 		throw std::runtime_error(
-				"crpropa::PhotoDisintegration: unknown photon background");
+				"PhotoDisintegration: unknown photon background");
 	}
 }
 
-void PhotoDisintegration::init(std::string filename) {
+void PhotoDisintegration::initRate(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (not infile.good())
 		throw std::runtime_error(
-				"crpropa::PhotoDisintegration: could not open file "
-						+ filename);
-
-	lgmin = 6;
-	lgmax = 13.96;
+				"PhotoDisintegration: could not open file " + filename);
 
 	// clear previously loaded interaction rates
-	pdTable.clear();
-	pdTable.resize(27 * 31);
+	pdRate.clear();
+	pdRate.resize(27 * 31);
 
 	std::string line;
 	while (std::getline(infile, line)) {
@@ -60,23 +73,52 @@ void PhotoDisintegration::init(std::string filename) {
 		lineStream >> Z;
 		lineStream >> N;
 
-		PDMode pd;
-		lineStream >> pd.channel;
-
-		double r = 0;
-		for (size_t i = 0; i < 200; i++) {
+		double r;
+		for (size_t i = 0; i < nlg; i++) {
 			lineStream >> r;
-			pd.rate.push_back(r / Mpc);
+			pdRate[Z * 31 + N].push_back(r / Mpc);
+		}
+	}
+	infile.close();
+}
+
+void PhotoDisintegration::initBranching(std::string filename) {
+	std::ifstream infile(filename.c_str());
+	if (not infile.good())
+		throw std::runtime_error(
+				"PhotoDisintegration: could not open file " + filename);
+
+	// clear previously loaded interaction rates
+	pdBranch.clear();
+	pdBranch.resize(27 * 31);
+
+	std::string line;
+	while (std::getline(infile, line)) {
+		if (line[0] == '#')
+			continue;
+		std::stringstream lineStream(line);
+
+		int Z, N;
+		lineStream >> Z;
+		lineStream >> N;
+
+		Branch branch;
+		lineStream >> branch.channel;
+
+		double r;
+		for (size_t i = 0; i < nlg; i++) {
+			lineStream >> r;
+			branch.branchingRatio.push_back(r / Mpc);
 		}
 
-		pdTable[Z * 31 + N].push_back(pd);
+		pdBranch[Z * 31 + N].push_back(branch);
 	}
 
 	infile.close();
 }
 
 void PhotoDisintegration::process(Candidate *candidate) const {
-	// the loop will be executed at least once for limiting the next step
+	// execute the loop at least once for limiting the next step
 	double step = candidate->getCurrentStep();
 	do {
 		// check if nucleus
@@ -91,8 +133,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		// check if disintegration data available
 		if ((Z > 26) or (N > 30))
 			return;
-		std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
-		if (pdModes.size() == 0)
+		if (pdRate[Z * 31 + N].size() == 0)
 			return;
 
 		// check if in tabulated energy range
@@ -101,36 +142,37 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		if ((lg <= lgmin) or (lg >= lgmax))
 			return;
 
-		// find disintegration channel with minimum random decay distance
+		double rate = interpolateEquidistant(lg, lgmin, lgmax,
+				pdRate[Z * 31 + N]);
+
+		// comological scaling, rate per comoving distance)
+		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+
 		Random &random = Random::instance();
-		double randDistance = std::numeric_limits<double>::max();
-		int channel;
-		double totalRate = 0;
+		double randDistance = -log(random.rand()) / rate;
 
-		// comological scaling of interaction distance (comoving units)
-		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
-
-		for (size_t i = 0; i < pdModes.size(); i++) {
-			double rate = interpolateEquidistant(lg, lgmin, lgmax,
-					pdModes[i].rate);
-			rate *= scaling;
-			totalRate += rate;
-			double d = -log(random.rand()) / rate;
-			if (d > randDistance)
-				continue;
-			randDistance = d;
-			channel = pdModes[i].channel;
-		}
-
-		// check if interaction doesn't happen
+		// check if an interaction occurs in this step
 		if (step < randDistance) {
 			// limit next step to a fraction of the mean free path
-			candidate->limitNextStep(limit / totalRate);
+			candidate->limitNextStep(limit / rate);
 			return;
 		}
 
-		// interact and repeat with remaining step
+		// select channel and interact
+		double cmp = random.rand();
+		int channel;
+		int l = round(lg / (lgmax - lgmin) * (nlg - 1)); // index of closest tabulated point
+
+		std::vector<Branch> branches = pdBranch[Z * 31 + N];
+		for (size_t i = 0; i < branches.size(); i++) {
+			channel = branches[i].channel;
+			cmp -= branches[i].branchingRatio[l];
+			if (cmp <= 0)
+				break;
+		}
 		performInteraction(candidate, channel);
+
+		// repeat with remaining step
 		step -= randDistance;
 	} while (step > 0);
 }
@@ -189,8 +231,8 @@ double PhotoDisintegration::lossLength(int id, double E, double z) {
 	// check if disintegration data available
 	if ((Z > 26) or (N > 30))
 		return std::numeric_limits<double>::max();
-	std::vector<PDMode> pdModes = pdTable[Z * 31 + N];
-	if (pdModes.size() == 0)
+	std::vector<double> rate = pdRate[Z * 31 + N];
+	if (rate.size() == 0)
 		return std::numeric_limits<double>::max();
 
 	// check if in tabulated energy range
@@ -198,24 +240,32 @@ double PhotoDisintegration::lossLength(int id, double E, double z) {
 	if ((lg <= lgmin) or (lg >= lgmax))
 		return std::numeric_limits<double>::max();
 
-	// total rate from all disintegration channels
-	double lossRate = 0;
-	for (size_t i = 0; i < pdModes.size(); i++) {
-		int dA = 0;
-		dA += 1 * digit(pdModes[i].channel, 100000);
-		dA += 1 * digit(pdModes[i].channel, 10000);
-		dA += 2 * digit(pdModes[i].channel, 1000);
-		dA += 3 * digit(pdModes[i].channel, 100);
-		dA += 3 * digit(pdModes[i].channel, 10);
-		dA += 4 * digit(pdModes[i].channel, 1);
+	// total interaction rate
+	double lossRate = interpolateEquidistant(lg, lgmin, lgmax, rate);
 
-		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdModes[i].rate);
-		lossRate += rate * dA / A;
+	// comological scaling, rate per physical distance
+	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+
+	// average number of nucleons lost for all disintegration channels
+	double avg_dA = 0;
+	std::vector<Branch> branches = pdBranch[Z * 31 + N];
+	for (size_t i = 0; i < branches.size(); i++) {
+		int channel = branches[i].channel;
+		int dA = 0;
+		dA += 1 * digit(channel, 100000);
+		dA += 1 * digit(channel, 10000);
+		dA += 2 * digit(channel, 1000);
+		dA += 3 * digit(channel, 100);
+		dA += 3 * digit(channel, 10);
+		dA += 4 * digit(channel, 1);
+
+		double br = interpolateEquidistant(lg, lgmin, lgmax,
+				branches[i].branchingRatio);
+		avg_dA += br * dA;
 	}
 
-	// comological scaling of interaction distance (in physical units)
-	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
-	return 1. / lossRate;
+	lossRate *= avg_dA / A;
+	return 1 / lossRate;
 }
 
 } // namespace crpropa

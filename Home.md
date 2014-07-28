@@ -3,4 +3,5 @@ Welcome to the CRPropa3 wiki!
 Collection of examples for the Python steering
  * [Cosmic Ray Sources](Cosmic Ray Sources)
  * [Random Number Seed](Random Numbers)
+ * [Multiple Observers](Multiple Observers)
  * [Extending CRPropa from Python](Extending CRPropa)

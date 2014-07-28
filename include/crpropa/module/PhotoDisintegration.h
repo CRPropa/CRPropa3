@@ -16,24 +16,30 @@ class PhotoDisintegration: public Module {
 private:
 	PhotonField photonField;
 	double limit; // fraction of mean free path for limiting the next step
-	struct PDMode {
+
+	struct Branch {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
-		std::vector<double> rate; // disintegration rate [1/m]
+		std::vector<double> branchingRatio; // branching ratio as function of nucleus Lorentz factor
 	};
-	std::vector<std::vector<PDMode> > pdTable; // pdTable[Z * 31 + N] = vector<PDmode>
-	double lgmin; // minimum log10(Lorentz-factor)
-	double lgmax; // maximum log10(Lorentz-factor)
+	std::vector<std::vector<Branch> > pdBranch; // pdTable[Z * 31 + N] = vector<Branch>
+	std::vector<std::vector<double> > pdRate; // pdRate[Z * 31 + N] = total disintegration rate
+
+	static const double lgmin = 6; // minimum log10(Lorentz-factor)
+	static const double lgmax = 14; // maximum log10(Lorentz-factor)
+	static const size_t nlg = 201; // number of Lorentz-factor steps
 
 public:
 	PhotoDisintegration(PhotonField photonField = CMB, double limit = 0.1);
 	void setLimit(double l);
 	void init(PhotonField photonField);
-	void init(std::string filename);
+	void initRate(std::string filename);
+	void initBranching(std::string filename);
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, int channel) const;
 
 	/**
-	 Calculates the loss length E dx/dE in [m]. This is not used in the simulation.
+	 Calculates the loss length E dx/dE in [m] physical distance.
+	 This is not used in the simulation.
 	 @param	id		PDG particle id
 	 @param energy	particle energy [J]
 	 @param z		redshift

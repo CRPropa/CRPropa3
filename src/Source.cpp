@@ -12,10 +12,10 @@
 
 namespace crpropa {
 
-void SourceProperty::prepareParticle(ParticleState& particle) const {
+void SourceFeature::prepareParticle(ParticleState& particle) const {
 }
 
-void SourceProperty::prepareCandidate(Candidate& candidate) const {
+void SourceFeature::prepareCandidate(Candidate& candidate) const {
 	ParticleState &source = candidate.source;
 	prepareParticle(source);
 	candidate.created = source;
@@ -23,18 +23,18 @@ void SourceProperty::prepareCandidate(Candidate& candidate) const {
 	candidate.previous = source;
 }
 
-void Source::addProperty(SourceProperty* property) {
-	properties.push_back(property);
+void Source::add(SourceFeature* property) {
+	features.push_back(property);
 }
 
 ref_ptr<Candidate> Source::getCandidate() const {
 	ref_ptr<Candidate> candidate = new Candidate();
-	for (int i = 0; i < properties.size(); i++)
-		(*properties[i]).prepareCandidate(*candidate);
+	for (int i = 0; i < features.size(); i++)
+		(*features[i]).prepareCandidate(*candidate);
 	return candidate;
 }
 
-void SourceList::addSource(Source* source, double weight) {
+void SourceList::add(Source* source, double weight) {
 	sources.push_back(source);
 	if (cdf.size() > 0)
 		weight += cdf.back();

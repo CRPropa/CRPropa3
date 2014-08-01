@@ -236,11 +236,11 @@ TEST(SourceComposition, throwNoIsotope) {
 
 TEST(Source, allPropertiesUsed) {
 	Source source;
-	source.addProperty(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
-	source.addProperty(new SourceIsotropicEmission());
-	source.addProperty(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
-	source.addProperty(new SourceParticleType(nucleusId(8, 4)));
-	source.addProperty(new SourceRedshift(2));
+	source.add(new SourcePosition(Vector3d(10, 0, 0) * Mpc));
+	source.add(new SourceIsotropicEmission());
+	source.add(new SourcePowerLawSpectrum(5 * EeV, 100 * EeV, -2));
+	source.add(new SourceParticleType(nucleusId(8, 4)));
+	source.add(new SourceRedshift(2));
 
 	Candidate c = *source.getCandidate();
 
@@ -277,8 +277,8 @@ TEST(SourceList, simpleTest) {
 	// test if source list works with one source
 	SourceList sourceList;
 	ref_ptr<Source> source = new Source;
-	source->addProperty(new SourcePosition(Vector3d(10, 0, 0)));
-	sourceList.addSource(source);
+	source->add(new SourcePosition(Vector3d(10, 0, 0)));
+	sourceList.add(source);
 
 	ref_ptr<Candidate> c = sourceList.getCandidate();
 
@@ -298,12 +298,12 @@ TEST(SourceList, luminosity) {
 	SourceList sourceList;
 
 	ref_ptr<Source> source1 = new Source;
-	source1->addProperty(new SourceEnergy(100));
-	sourceList.addSource(source1, 80);
+	source1->add(new SourceEnergy(100));
+	sourceList.add(source1, 80);
 
 	ref_ptr<Source> source2 = new Source;
-	source2->addProperty(new SourceEnergy(0));
-	sourceList.addSource(source2, 20);
+	source2->add(new SourceEnergy(0));
+	sourceList.add(source2, 20);
 
 	double meanE = 0;
 	for (int i = 0; i < 1000; i++) {

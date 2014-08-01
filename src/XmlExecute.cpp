@@ -271,7 +271,7 @@ bool XmlExecute::load(const string &filename) {
 
 	// emission direction
 	if (!is1D)
-		source.addProperty(new SourceIsotropicEmission());
+		source.add(new SourceIsotropicEmission());
 
 	// position
 	type = node.attribute("type").as_string();
@@ -285,7 +285,7 @@ bool XmlExecute::load(const string &filename) {
 
 	if (is1D and hasRedshift) {
 		cout << "  - Redshift according to source distance" << endl;
-		source.addProperty(new SourceRedshift1D());
+		source.add(new SourceRedshift1D());
 	}
 
 	// spectrum + composition
@@ -536,7 +536,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 		int nSources = childValue(node, "Number");
 		cout << "  - Number of sources = " << nSources << endl;
 
-		ref_ptr<SourceProperty> sourceDistribution = new SourceProperty();
+		ref_ptr<SourceFeature> sourceDistribution = new SourceFeature();
 		if (type == "Uniform") {
 			if (is1D) {
 				double xmin = childValue(density_node, "Xmin_Mpc") * Mpc;
@@ -583,7 +583,7 @@ void XmlExecute::loadDiscreteSources(pugi::xml_node &node) {
 			sourcePositions->add(pos);
 		}
 	}
-	source.addProperty(sourcePositions);
+	source.add(sourcePositions);
 }
 
 void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
@@ -600,15 +600,15 @@ void XmlExecute::loadContinuousSources(pugi::xml_node &node) {
 					<< " Mpc" << endl;
 			minD = lightTravel2ComovingDistance(minD);
 			maxD = lightTravel2ComovingDistance(maxD);
-			source.addProperty(new SourceUniform1D(minD, maxD));
+			source.add(new SourceUniform1D(minD, maxD));
 		} else {
-			source.addProperty(loadSourceHomogeneousBox(density_node));
+			source.add(loadSourceHomogeneousBox(density_node));
 		}
 	else if (type == "Grid") {
 		if (is1D) {
-			source.addProperty(loadSourceDensityGrid1D(density_node));
+			source.add(loadSourceDensityGrid1D(density_node));
 		} else
-			source.addProperty(loadSourceDensityGrid(density_node));
+			source.add(loadSourceDensityGrid(density_node));
 	} else {
 		throw runtime_error(" --> unknown source density type");
 	}
@@ -623,7 +623,7 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 		if (spectrum_node.child("Energy_EeV")) {
 			double E = childValue(spectrum_node, "Energy_EeV") * EeV;
 			cout << "  - Energy: " << E / EeV << " EeV" << endl;
-			source.addProperty(new SourceEnergy(E));
+			source.add(new SourceEnergy(E));
 		} else if (spectrum_node.child("Rigidity_EeV"))
 			throw runtime_error(" --> Fixed rigidity not implemented");
 		else {
@@ -653,13 +653,13 @@ void XmlExecute::loadSpectrumComposition(pugi::xml_node &node) {
 						<< ", abundance = " << ab << endl;
 				comp->add(nucleusId(A, Z), ab);
 			}
-			source.addProperty(comp);
+			source.add(comp);
 		} else if (spectrum_node.child("Ecut_EeV")) {
 			double Emax = childValue(spectrum_node, "Ecut_EeV") * EeV;
 			cout << "  - Maximum energy: " << Emax / EeV << " EeV" << endl;
 
 			// source spectrum
-			source.addProperty(new SourcePowerLawSpectrum(Emin, Emax, alpha));
+			source.add(new SourcePowerLawSpectrum(Emin, Emax, alpha));
 
 			// source composition
 			loadSourceNuclei(node);
@@ -684,7 +684,7 @@ void XmlExecute::loadSourceNuclei(pugi::xml_node &node) {
 				<< ab << endl;
 		composition->add(nucleusId(A, Z), ab);
 	}
-	source.addProperty(composition);
+	source.add(composition);
 }
 
 void XmlExecute::loadOutput(xml_node &node) {

@@ -349,7 +349,8 @@ Observer1D::Observer1D() {
 
 void Observer1D::process(Candidate *candidate) const {
 	double x = candidate->current.getPosition().x;
-	if (x > 0) {
+	// check if position x > 0
+	if (x > std::numeric_limits<double>::min()) {
 		candidate->limitNextStep(x);
 		return;
 	}

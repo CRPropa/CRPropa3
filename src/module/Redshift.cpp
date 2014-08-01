@@ -1,14 +1,16 @@
 #include "crpropa/module/Redshift.h"
 #include "crpropa/Cosmology.h"
 
-#include <algorithm>
+#include <limits>
 
 namespace crpropa {
 
 void Redshift::process(Candidate *c) const {
 	double z = c->getRedshift();
-	if (z <= 0)
-		return; // nothing to do, redshift can't get smaller
+
+	// check if z = 0
+	if (z <= std::numeric_limits<double>::min())
+		return;
 
 	// use small step approximation:  dz = H(z) / c * ds
 	double dz = hubbleRate(z) / c_light * c->getCurrentStep();

@@ -120,8 +120,6 @@ TEST(testTurbulentMagneticField, Brms) {
 	}
 	Bmean /= pow(n, 3);
 	double Brms = sqrt(sumB2 / pow(n, 3));
-	std::cout << Brms << std::endl;
-	std::cout << Bmean << std::endl;
 
 	// this turbulent field realization is not working at the moment
 //	EXPECT_NEAR(Bmean.x, 0, 1e-6);

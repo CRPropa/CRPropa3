@@ -92,7 +92,7 @@ using std::ptrdiff_t;
 %ignore operator>>;
 %ignore *::operator=;
 %ignore operator crpropa::Source*;
-%ignore operator crpropa::SourceProperty*;
+%ignore operator crpropa::SourceFeature*;
 %ignore operator crpropa::Candidate*;
 %ignore operator crpropa::Module*;
 %ignore operator crpropa::ModuleList*;
@@ -168,9 +168,10 @@ using std::ptrdiff_t;
 
 %template(SourceRefPtr) crpropa::ref_ptr<crpropa::Source>;
 %feature("director") crpropa::Source;
-%template(SourcePropertyRefPtr) crpropa::ref_ptr<crpropa::SourceProperty>;
-%feature("director") crpropa::SourceProperty;
+%template(SourceFeatureRefPtr) crpropa::ref_ptr<crpropa::SourceFeature>;
+%feature("director") crpropa::SourceFeature;
 %include "crpropa/Source.h"
+
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 

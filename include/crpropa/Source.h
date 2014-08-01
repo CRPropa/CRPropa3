@@ -9,10 +9,10 @@
 namespace crpropa {
 
 /**
- @class SourceProperty
- @brief Abstract class for properties of cosmic ray sources
+ @class SourceFeature
+ @brief Abstract base class cosmic ray source features
  */
-class SourceProperty: public Referenced {
+class SourceFeature: public Referenced {
 public:
 	virtual void prepareParticle(ParticleState& particle) const;
 	virtual void prepareCandidate(Candidate& candidate) const;
@@ -27,9 +27,9 @@ public:
  to be modified accordingly.
  */
 class Source: public Referenced {
-	std::vector<ref_ptr<SourceProperty> > properties;
+	std::vector<ref_ptr<SourceFeature> > features;
 public:
-	void addProperty(SourceProperty* property);
+	void add(SourceFeature* feature);
 	ref_ptr<Candidate> getCandidate() const;
 };
 
@@ -44,7 +44,7 @@ class SourceList: public Source {
 	std::vector<ref_ptr<Source> > sources;
 	std::vector<double> cdf;
 public:
-	void addSource(Source* source, double weight = 1);
+	void add(Source* source, double weight = 1);
 	ref_ptr<Candidate> getCandidate() const;
 };
 
@@ -52,7 +52,7 @@ public:
  @class SourceParticleType
  @brief Particle type at the source
  */
-class SourceParticleType: public SourceProperty {
+class SourceParticleType: public SourceFeature {
 	double id;
 public:
 	SourceParticleType(int id);
@@ -63,7 +63,7 @@ public:
  @class SourceMultipleParticleTypes
  @brief Multiple particle types with individual relative abundances
  */
-class SourceMultipleParticleTypes: public SourceProperty {
+class SourceMultipleParticleTypes: public SourceFeature {
 	std::vector<int> particleTypes;
 	std::vector<double> cdf;
 public:
@@ -75,7 +75,7 @@ public:
  @class SourceEnergy
  @brief Sets the initial energy to a given value
  */
-class SourceEnergy: public SourceProperty {
+class SourceEnergy: public SourceFeature {
 	double E;
 public:
 	SourceEnergy(double energy);
@@ -86,7 +86,7 @@ public:
  @class SourcePowerLawSpectrum
  @brief Particle energy following a power law spectrum
  */
-class SourcePowerLawSpectrum: public SourceProperty {
+class SourcePowerLawSpectrum: public SourceFeature {
 	double Emin;
 	double Emax;
 	double index;
@@ -101,7 +101,7 @@ public:
 
  See Allard et al. 2006, DOI 10.1088/1475-7516/2006/09/005
  */
-class SourceComposition: public SourceProperty {
+class SourceComposition: public SourceFeature {
 	double Emin;
 	double Rmax;
 	double index;
@@ -119,7 +119,7 @@ public:
  @class SourceGenericComposition
  @brief Multiple nuclei with energies described by an expression string
  */
-class SourceGenericComposition: public SourceProperty {
+class SourceGenericComposition: public SourceFeature {
 	struct Nucleus {
 		int id;
 		std::vector<double> cdf;
@@ -144,7 +144,7 @@ public:
  @class SourcePosition
  @brief Position of a point source
  */
-class SourcePosition: public SourceProperty {
+class SourcePosition: public SourceFeature {
 	Vector3d position; /**< Source position */
 public:
 	SourcePosition(Vector3d position);
@@ -155,7 +155,7 @@ public:
  @class SourceMultiplePositions
  @brief Multiple point source positions with individual luminosities
  */
-class SourceMultiplePositions: public SourceProperty {
+class SourceMultiplePositions: public SourceFeature {
 	std::vector<Vector3d> positions;
 	std::vector<double> cdf;
 public:
@@ -167,7 +167,7 @@ public:
  @class SourceUniformSphere
  @brief Uniform random source positions inside a sphere
  */
-class SourceUniformSphere: public SourceProperty {
+class SourceUniformSphere: public SourceFeature {
 	Vector3d center;
 	double radius;
 public:
@@ -179,7 +179,7 @@ public:
  @class SourceUniformShell
  @brief Uniform random source positions on a sphere
  */
-class SourceUniformShell: public SourceProperty {
+class SourceUniformShell: public SourceFeature {
 	Vector3d center;
 	double radius;
 public:
@@ -191,7 +191,7 @@ public:
  @class SourceUniformBox
  @brief Uniform random source positions inside a box
  */
-class SourceUniformBox: public SourceProperty {
+class SourceUniformBox: public SourceFeature {
 	Vector3d origin;
 	Vector3d size;
 public:
@@ -212,7 +212,7 @@ public:
  This is done by drawing a light travel distance from a flat distribution and
  converting to a comoving distance.
  */
-class SourceUniform1D: public SourceProperty {
+class SourceUniform1D: public SourceFeature {
 	double minD; // minimum light travel distance
 	double maxD; // maximum light travel distance
 	bool withCosmology;
@@ -230,7 +230,7 @@ public:
  @class SourceDensityGrid
  @brief Random source positions from a density grid
  */
-class SourceDensityGrid: public SourceProperty {
+class SourceDensityGrid: public SourceFeature {
 	ref_ptr<ScalarGrid> grid;
 public:
 	SourceDensityGrid(ref_ptr<ScalarGrid> densityGrid);
@@ -241,7 +241,7 @@ public:
  @class SourceDensityGrid1D
  @brief Random source positions from a 1D density grid
  */
-class SourceDensityGrid1D: public SourceProperty {
+class SourceDensityGrid1D: public SourceFeature {
 	ref_ptr<ScalarGrid> grid;
 public:
 	SourceDensityGrid1D(ref_ptr<ScalarGrid> densityGrid);
@@ -252,7 +252,7 @@ public:
  @class SourceIsotropicEmission
  @brief Isotropic emission from a source
  */
-class SourceIsotropicEmission: public SourceProperty {
+class SourceIsotropicEmission: public SourceFeature {
 public:
 	void prepareParticle(ParticleState &particle) const;
 };
@@ -261,7 +261,7 @@ public:
  @class SourceDirection
  @brief Emission in a discrete direction
  */
-class SourceDirection: public SourceProperty {
+class SourceDirection: public SourceFeature {
 	Vector3d direction;
 public:
 	SourceDirection(Vector3d direction = Vector3d(-1, 0, 0));
@@ -272,7 +272,7 @@ public:
  @class SourceEmissionCone
  @brief Uniform random emission inside a cone
  */
-class SourceEmissionCone: public SourceProperty {
+class SourceEmissionCone: public SourceFeature {
 	Vector3d direction;
 	double aperture;
 public:
@@ -284,7 +284,7 @@ public:
  @class SourceRedshift
  @brief Discrete redshift (time of emission)
  */
-class SourceRedshift: public SourceProperty {
+class SourceRedshift: public SourceFeature {
 	double z;
 public:
 	SourceRedshift(double z);
@@ -295,7 +295,7 @@ public:
  @class SourceUniformRedshift
  @brief Uniform redshift distribution (time of emission)
  */
-class SourceUniformRedshift: public SourceProperty {
+class SourceUniformRedshift: public SourceFeature {
 	double zmin, zmax;
 public:
 	SourceUniformRedshift(double zmin, double zmax);
@@ -309,7 +309,7 @@ public:
  This source property sets the redshift according to the distance to 0.
  It must be added after a position setting source property.
  */
-class SourceRedshift1D: public SourceProperty {
+class SourceRedshift1D: public SourceFeature {
 public:
 	void prepareCandidate(Candidate &candidate) const;
 };

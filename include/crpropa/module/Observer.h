@@ -21,7 +21,7 @@ public:
  @class Observer
  @brief General cosmic ray observer
  */
-class Observer: public Referenced {
+class Observer: public Module {
 private:
 	std::vector<ref_ptr<ObserverFeature> > features;
 	bool makeInactive;
@@ -47,7 +47,7 @@ public:
 };
 
 /**
- @class ObserverSmallSphere
+ @class ObserverLargeSphere
  @brief Detects particles upon exiting a sphere
  */
 class ObserverLargeSphere: public ObserverFeature {
@@ -60,8 +60,8 @@ public:
 };
 
 /**
- @class ObserverSmallSphere
- @brief Detects particles upon exiting a sphere
+ @class ObserverRedshiftWindow
+ @brief Detects particles in a given redshift window
  */
 class ObserverRedshiftWindow: public ObserverFeature {
 private:

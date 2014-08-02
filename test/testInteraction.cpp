@@ -131,7 +131,7 @@ TEST(NuclearDecay, scandium44) {
 	double gamma = c.current.getLorentzFactor();
 	d.process(&c);
 	// primary
-	EXPECT_EQ(nucleusId(44,20), c.current.getId());
+	EXPECT_EQ(nucleusId(44, 20), c.current.getId());
 	EXPECT_DOUBLE_EQ(gamma, c.current.getLorentzFactor());
 	// secondaries
 	EXPECT_EQ(2, c.secondaries.size());
@@ -139,7 +139,7 @@ TEST(NuclearDecay, scandium44) {
 	Candidate c2 = *c.secondaries[1];
 	EXPECT_EQ(-11, c1.current.getId());
 	// positron
-	EXPECT_EQ( 12, c2.current.getId());
+	EXPECT_EQ(12, c2.current.getId());
 	// electron neutrino
 }
 
@@ -153,11 +153,11 @@ TEST(NuclearDecay, lithium4) {
 	c.current.setEnergy(4 * EeV);
 	d.process(&c);
 	// primary
-	EXPECT_EQ(nucleusId(3,2), c.current.getId());
+	EXPECT_EQ(nucleusId(3, 2), c.current.getId());
 	EXPECT_EQ(1, c.secondaries.size());
 	// secondary
 	Candidate c1 = *c.secondaries[0];
-	EXPECT_EQ(nucleusId(1,1), c1.current.getId());
+	EXPECT_EQ(nucleusId(1, 1), c1.current.getId());
 	EXPECT_EQ(1, c1.current.getEnergy() / EeV);
 }
 
@@ -171,11 +171,11 @@ TEST(NuclearDecay, helium5) {
 	c.current.setEnergy(5 * EeV);
 	d.process(&c);
 	// primary
-	EXPECT_EQ(nucleusId(4,2), c.current.getId());
+	EXPECT_EQ(nucleusId(4, 2), c.current.getId());
 	EXPECT_EQ(4, c.current.getEnergy() / EeV);
 	// secondary
 	Candidate c2 = *c.secondaries[0];
-	EXPECT_EQ(nucleusId(1,0), c2.current.getId());
+	EXPECT_EQ(nucleusId(1, 0), c2.current.getId());
 	EXPECT_EQ(1, c2.current.getEnergy() / EeV);
 }
 
@@ -292,7 +292,7 @@ TEST(PhotoDisintegration, iron) {
 }
 
 TEST(PhotoDisintegration, thisIsNotNucleonic) {
-	// Test if noting happens to an electron
+	// Test that nothing happens to an electron
 	PhotoDisintegration pd;
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
@@ -314,60 +314,25 @@ TEST(PhotoDisintegration, limitNextStep) {
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(PhotoDisintegration, AllWorkingCMB) {
-	// Test if all photo-disintegrations are working.
-	PhotoDisintegration pd(CMB);
+TEST(PhotoDisintegration, allIsotopes) {
+	// Test if all isotopes are handled.
+	PhotoDisintegration pd1(CMB);
+	PhotoDisintegration pd2(IRB);
 	Candidate c;
+	c.setCurrentStep(10 * Mpc);
 
-	std::ifstream infile(getDataPath("photodis_CMB.txt").c_str());
-	std::string line;
-	while (std::getline(infile, line)) {
-		if (line[0] == '#')
-			continue;
-		std::stringstream lineStream(line);
-		int Z, N, channel;
-		lineStream >> Z >> N >> channel;
+	for (int Z = 1; Z <= 26; Z++) {
+		for (int N = 1; N <= 30; N++) {
 
-		double y;
-		for (size_t i = 0; i < 200; i++) {
-			lineStream >> y;
-			EXPECT_TRUE(lineStream);
-			// test if all 200 entries are present
+			c.current.setId(nucleusId(Z + N, Z));
+			c.current.setEnergy(80 * EeV);
+			pd1.process(&c);
+
+			c.current.setId(nucleusId(Z + N, Z));
+			c.current.setEnergy(80 * EeV);
+			pd2.process(&c);
 		}
-
-		c.current.setId(nucleusId(Z + N, Z));
-		c.current.setEnergy(80 * EeV);
-		pd.process(&c);
 	}
-	infile.close();
-}
-
-TEST(PhotoDisintegration, AllWorkingIRB) {
-	// Test if all photo-disintegrations are working.
-	PhotoDisintegration pd(IRB);
-	Candidate c;
-
-	std::ifstream infile(getDataPath("photodis_IRB.txt").c_str());
-	std::string line;
-	while (std::getline(infile, line)) {
-		if (line[0] == '#')
-			continue;
-		std::stringstream lineStream(line);
-		int Z, N, channel;
-		lineStream >> Z >> N >> channel;
-
-		double y;
-		for (size_t i = 0; i < 200; i++) {
-			lineStream >> y;
-			EXPECT_TRUE(lineStream);
-			// test if all 200 entries are present
-		}
-
-		c.current.setId(nucleusId(Z + N, Z));
-		c.current.setEnergy(80 * EeV);
-		pd.process(&c);
-	}
-	infile.close();
 }
 
 TEST(PhotoPionProduction, backgrounds) {

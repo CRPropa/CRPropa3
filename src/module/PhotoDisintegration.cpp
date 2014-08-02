@@ -10,47 +10,48 @@
 
 namespace crpropa {
 
-PhotoDisintegration::PhotoDisintegration(PhotonField photonField, double l) {
-	limit = l;
-	init(photonField);
+PhotoDisintegration::PhotoDisintegration(PhotonField f, double limit) {
+	setPhotonField(f);
+	this->limit = limit;
 }
 
-void PhotoDisintegration::setLimit(double l) {
-	limit = l;
-}
-
-void PhotoDisintegration::init(PhotonField photonField) {
+void PhotoDisintegration::setPhotonField(PhotonField photonField) {
+	this->photonField = photonField;
 	switch (photonField) {
 	case CMB:
 		setDescription("PhotoDisintegration: CMB");
 		initRate(getDataPath("pd_CMB.txt"));
-		initBranching(getDataPath("pd_branch_CMB.txt"));
+		initBranching(getDataPath("pd_branching_CMB.txt"));
 		break;
 	case IRB:  // default: Kneiske '04 IRB model
 	case IRB_Kneiske04:
 		setDescription("PhotoDisintegration: IRB Kneiske '04");
 		initRate(getDataPath("pd_IRB_Kneiske04.txt"));
-		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
 	case IRB_Kneiske10:
 		setDescription("PhotoDisintegration: IRB Kneiske '10 (lower limit)");
 		initRate(getDataPath("pd_IRB_Kneiske10.txt"));
-		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
 	case IRB_Stecker05:
 		setDescription("PhotoDisintegration: IRB Stecker '05");
 		initRate(getDataPath("pd_IRB_Stecker05.txt"));
-		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
 	case IRB_Franceschini08:
 		setDescription("PhotoDisintegration: IRB Franceschini '08");
 		initRate(getDataPath("pd_IRB_Franceschini08.txt"));
-		initBranching(getDataPath("pd_branch_IRB_Kneiske04.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
 	default:
 		throw std::runtime_error(
 				"PhotoDisintegration: unknown photon background");
 	}
+}
+
+void PhotoDisintegration::setLimit(double limit) {
+	this->limit = limit;
 }
 
 void PhotoDisintegration::initRate(std::string filename) {

@@ -2,7 +2,6 @@
 #include "crpropa/Common.h"
 
 #include <vector>
-#include <math.h>
 #include <stdexcept>
 
 namespace crpropa {

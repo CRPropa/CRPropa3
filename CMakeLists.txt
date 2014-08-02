@@ -129,9 +129,46 @@ endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 # Library and Binary
 # ----------------------------------------------------------------------------
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
-file(GLOB_RECURSE CRPROPA_SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+
 add_library(crpropa SHARED
-	${CRPROPA_SOURCES}
+	src/Random.cpp
+	src/Clock.cpp
+	src/ModuleList.cpp
+	src/Module.cpp
+	src/Candidate.cpp
+	src/ParticleState.cpp
+	src/ParticleID.cpp
+	src/ParticleMass.cpp
+	src/Cosmology.cpp
+	src/Source.cpp
+	src/Common.cpp
+	src/PhotonBackground.cpp
+	src/PhotonPropagation.cpp
+	src/GridTools.cpp
+	src/XmlExecute.cpp
+	src/module/BreakCondition.cpp
+	src/module/Boundary.cpp
+	src/module/Observer.cpp
+	src/module/SimplePropagation.cpp
+	src/module/PropagationCK.cpp
+	src/module/ElectronPairProduction.cpp
+	src/module/NuclearDecay.cpp
+	src/module/PhotoPionProduction.cpp
+	src/module/PhotoDisintegration.cpp
+	src/module/Redshift.cpp
+	src/module/OutputTXT.cpp
+	src/module/OutputShell.cpp
+	src/module/OutputROOT.cpp
+	src/module/OutputCRPropa2.cpp
+	src/module/PhotonOutput1D.cpp
+	src/module/PhotonDINT.cpp
+	src/module/PhotonDINT1D.cpp
+	src/module/PhotonEleCa.cpp
+	src/module/Tools.cpp
+	src/magneticField/MagneticField.cpp
+	src/magneticField/MagneticFieldGrid.cpp
+	src/magneticField/TurbulentMagneticField.cpp
+	src/magneticField/JF12Field.cpp
 	${CRPROPA_EXTRA_SOURCES}
 )
 target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})

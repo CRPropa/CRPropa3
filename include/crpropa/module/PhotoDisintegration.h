@@ -30,10 +30,13 @@ private:
 
 public:
 	PhotoDisintegration(PhotonField photonField = CMB, double limit = 0.1);
-	void setLimit(double l);
-	void init(PhotonField photonField);
+
+	void setPhotonField(PhotonField photonField);
+	void setLimit(double limit);
+
 	void initRate(std::string filename);
 	void initBranching(std::string filename);
+
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, int channel) const;
 

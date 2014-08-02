@@ -10,22 +10,13 @@ namespace crpropa {
 
 ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
 		bool haveElectrons, double limit) {
-	this->photonField = photonField;
+	setPhotonField(photonField);
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
-	init();
 }
 
 void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	init();
-}
-
-void ElectronPairProduction::setHaveElectrons(bool haveElectrons) {
-	this->haveElectrons = haveElectrons;
-}
-
-void ElectronPairProduction::init() {
 	switch (photonField) {
 	case CMB:
 		setDescription("ElectronPairProduction: CMB");
@@ -57,6 +48,14 @@ void ElectronPairProduction::init() {
 		throw std::runtime_error(
 				"ElectronPairProduction: unknown photon background");
 	}
+}
+
+void ElectronPairProduction::setHaveElectrons(bool haveElectrons) {
+	this->haveElectrons = haveElectrons;
+}
+
+void ElectronPairProduction::setLimit(double limit) {
+	this->limit = limit;
 }
 
 void ElectronPairProduction::initRate(std::string filename) {
@@ -179,6 +178,9 @@ void ElectronPairProduction::process(Candidate *c) const {
 	double lf = c->current.getLorentzFactor();
 	double z = c->getRedshift();
 	double losslen = lossLength(id, lf, z);  // energy loss length
+	if (losslen >= std::numeric_limits<double>::max())
+		return;
+
 	double step = c->getCurrentStep() / (1 + z); // step size in local frame
 	double loss = step / losslen;  // relative energy loss
 

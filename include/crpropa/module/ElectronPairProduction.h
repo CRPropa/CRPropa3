@@ -32,9 +32,11 @@ private:
 public:
 	ElectronPairProduction(PhotonField photonField = CMB, bool haveElectrons =
 			false, double limit = 0.1);
+
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);
-	void init();
+	void setLimit(double limit);
+
 	void initRate(std::string filename);
 	void initSpectrum(std::string filename);
 	void process(Candidate *candidate) const;

@@ -4,6 +4,7 @@ doc/*
 build/*
 data/*
 data-tools/*
+data.tar.gz
 
 *.png
 *.pyc

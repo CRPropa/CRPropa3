@@ -18,7 +18,8 @@ endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
-# googletest (provided)
+# googletest (provided, see https://code.google.com/p/googletest/wiki/FAQ
+#     Why is it not recommended use a pre-compiled copy of Google Test?)
 option(ENABLE_TESTING "Build tests and enable test target" ON)
 if(ENABLE_TESTING)
 	include_directories(libs/gtest/include)
@@ -58,40 +59,6 @@ add_subdirectory(libs/EleCa)
 list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
 
-# OpenMP (optional for shared memory multiprocessing)
-option(ENABLE_OPENMP "OpenMP for multithreading" ON)
-if(ENABLE_OPENMP)
-include(FindOpenMP)
-	if(OPENMP_FOUND)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-	endif(OPENMP_FOUND)
-endif(ENABLE_OPENMP)
-
-# fftw3f (optional for turbulent magnetic fields)
-option(ENABLE_FFTW3F "FFTW3F to create turbulent fields" ON)
-if(ENABLE_FFTW3F)
-	find_package(FFTW3F)
-	if(FFTW3F_FOUND)
-		list(APPEND CRPROPA_EXTRA_INCLUDES ${FFTW3F_INCLUDE_DIR})
-		list(APPEND CRPROPA_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
-		add_definitions(-DCRPROPA_HAVE_FFTW3F)
-		list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_FFTW3F)
-	endif(FFTW3F_FOUND)
-endif(ENABLE_FFTW3F)
-
-# Quimby (optional for SPH magnetic fields)
-find_package(Quimby)
-if(QUIMBY_FOUND)
-	list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
-	list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
-	add_definitions (-DCRPROPA_HAVE_QUIMBY)
-	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
-endif(QUIMBY_FOUND)
-
 # ROOT (optional for ROOT output)
 option(ENABLE_ROOT "ROOT Output" ON)
 if(ENABLE_ROOT)
@@ -107,6 +74,46 @@ if(ENABLE_ROOT)
 	endif(ROOT_FOUND)
 endif(ENABLE_ROOT)
 
+# OpenMP (optional for shared memory multiprocessing)
+option(ENABLE_OPENMP "OpenMP for multithreading" ON)
+if(ENABLE_OPENMP)
+include(FindOpenMP)
+	if(OPENMP_FOUND)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+	endif(OPENMP_FOUND)
+endif(ENABLE_OPENMP)
+
+# Google Performance Tools (optional as possible performance tweak for OpenMP)
+find_package(GooglePerfTools)
+set(TCMALLOC)
+if(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+	set(TCMALLOC ${TCMALLOC_LIBRARY})
+	list(APPEND CRPROPA_EXTRA_LIBRARIES profiler)
+endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+
+# FFTW3F (optional for turbulent magnetic fields)
+find_package(FFTW3F)
+if(FFTW3F_FOUND)
+	list(APPEND CRPROPA_EXTRA_INCLUDES ${FFTW3F_INCLUDE_DIR})
+	list(APPEND CRPROPA_EXTRA_LIBRARIES ${FFTW3F_LIBRARY})
+	add_definitions(-DCRPROPA_HAVE_FFTW3F)
+	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_FFTW3F)
+endif(FFTW3F_FOUND)
+
+# Quimby (optional for SPH magnetic fields)
+find_package(Quimby)
+if(QUIMBY_FOUND)
+	list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
+	list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
+	add_definitions (-DCRPROPA_HAVE_QUIMBY)
+	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
+	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
+	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
+endif(QUIMBY_FOUND)
+
+# muparser (optional for genercic source spectra)
 find_package(muParser)
 if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_EXTRA_INCLUDES ${MUPARSER_INCLUDE_DIR})
@@ -116,14 +123,21 @@ if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${MUPARSER_INCLUDE_DIR})
 endif(MUPARSER_FOUND)
 
-
-# Google Performance Tools (optional as possible performance tweak)
-find_package(GooglePerfTools)
-set(TCMALLOC)
-if(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
-	set(TCMALLOC ${TCMALLOC_LIBRARY})
-	list(APPEND CRPROPA_EXTRA_LIBRARIES profiler)
-endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
+# ----------------------------------------------------------------------------
+# Downloading data files (interaction data, masses, decay times)
+# ----------------------------------------------------------------------------
+# download specific data file (called with cmake)
+message("Downloading data files from crpropa.desy.de ~ 30 MB")
+file(DOWNLOAD https://crpropa.desy.de/images/f/ff/Data20140803.tar.gz
+	${CMAKE_SOURCE_DIR}/data.tar.gz STATUS status
+	EXPECTED_MD5 1f0016cf3b1cf31250293de08d7fe759)
+message("Download complete: ${status}")
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+# extract (called on make)
+execute_process(
+	COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/data.tar.gz
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data
+)
 
 # ----------------------------------------------------------------------------
 # Library and Binary

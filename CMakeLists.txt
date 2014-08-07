@@ -126,18 +126,18 @@ endif(MUPARSER_FOUND)
 # ----------------------------------------------------------------------------
 # Downloading data files (interaction data, masses, decay times)
 # ----------------------------------------------------------------------------
-# download specific data file (called with cmake)
+set(DATA_URL "http://crpropa.desy.de/images/f/ff/Data20140803.tar.gz")
+set(DATA_MD5SUM "1f0016cf3b1cf31250293de08d7fe759")
 message("Downloading data files from crpropa.desy.de ~ 30 MB")
-file(DOWNLOAD https://crpropa.desy.de/images/f/ff/Data20140803.tar.gz
-	${CMAKE_SOURCE_DIR}/data.tar.gz STATUS status
-	EXPECTED_MD5 1f0016cf3b1cf31250293de08d7fe759)
+if(CMAKE_VERSION GREATER 2.6)
+	file(DOWNLOAD ${DATA_URL} ${CMAKE_SOURCE_DIR}/data.tar.gz STATUS status EXPECTED_MD5 ${DATA_MD5SUM})
+else()
+	execute_process(COMMAND wget ${DATA_URL} -O ${CMAKE_SOURCE_DIR}/data.tar.gz --no-check-certificate RESULT_VARIABLE status)
+endif(CMAKE_VERSION GREATER 2.6)
 message("Download complete: ${status}")
+
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
-# extract (called on make)
-execute_process(
-	COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/data.tar.gz
-	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data
-)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
 
 # ----------------------------------------------------------------------------
 # Library and Binary

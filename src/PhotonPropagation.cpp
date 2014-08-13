@@ -28,7 +28,7 @@ void EleCaPropagation(const std::string &inputfile,
 	energy.resize(steps);
 	spectrum.resize(steps);
 	for (size_t i = 0; i < steps; i++) {
-		energy[i] = 16 + i * step;
+		energy[i] = emin + i * step;
 		spectrum[i] = 0;
 	}
 

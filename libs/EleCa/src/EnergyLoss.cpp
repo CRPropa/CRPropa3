@@ -189,8 +189,8 @@ double dSigmadE_ICS(double Ee, double Eer, double s, double theta) {
 			/ (s + ElectronMass * ElectronMass);
 
 	if (Eer / Ee < (1 - beta) / (1 + beta) || Eer / Ee > 1) {
-		std::cerr << "ERROR, Energy outside limits for ICS [Lee96]! "
-				<< std::endl;
+		std::cerr << "ERROR, Energy outside limits for ICS [Lee96]! " << std::endl;
+		std::cerr << "       Eer = " << Eer << " Ee = " << Ee << "  Eer/Ee = " << Eer / Ee << "   (1 - beta) / (1 + beta) = " << (1 - beta) / (1 + beta) << std::endl;
 		return 0.;
 	} else {
 		double q = ((1 - beta) / beta) * (1 - Ee / Eer);
@@ -350,6 +350,7 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 
 	return __extractPPSecondariesEnergy(E0, eps, beta);
 }
+
 
 // Helper function for actual Monte Carlo sampling to avoid code-duplication
 double __extractICSSecondaries(double Ee, double s, double theta)

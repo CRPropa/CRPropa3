@@ -229,91 +229,12 @@ double dSigmadE_PP(double Ee, double E0, double eps, double theta) {
 	}
 }
 
-double ExtractPPSecondariesEnergy(Particle &pi, Particle &pt) {
-	/*!
-	 Input: incident gamma Energy E0, background photon energy eps,
-	 incidence angle theta.
-	 Returns the energy of the produced e+ (e-)
-	 */
-	double E0 = pi.GetEnergy();
-	double eps = pt.GetEnergy();
-	double beta = pi.GetBeta();
-	double theta = cPI;
-	double s2 = ElectronMass * ElectronMass
-			+ 2 * eps * E0 * (1 - (beta) * cos(theta));
 
-	bool failed = 1;
-
-	double MC_Sampling_Hist[MC_SAMPLING][3];
-	for (int i = 0; i < MC_SAMPLING; i++) {
-		for (int j = 0; j < 3; j++)
-			MC_Sampling_Hist[i][j] = 0.;
-	}
-
-	double f = pow((double) (1 + beta) / (1 - beta),
-			(double) 1. / (double) MC_SAMPLING);
-	int cnt = 0;
-	double NormFactor = 0;
-
-	for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
-			Ee *= f) {
-		MC_Sampling_Hist[cnt][0] = Ee;
-		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta);
-
-		NormFactor += MC_Sampling_Hist[cnt][1];
-		MC_Sampling_Hist[cnt][2] = NormFactor;
-
-		if (MC_Sampling_Hist[cnt][1] > 0.) {
-			cnt++;
-		} else {
-			break;
-		}
-	}
-
-	NormFactor = (double) 1. / (double) NormFactor;
-
-	for (int i = 0; i < cnt; i++)
-		MC_Sampling_Hist[i][2] *= NormFactor;
-
-	double rnd;
-	double Ee = 0;
-	int k = 0;
-	while (failed) {
-		k++;
-
-		rnd = Uniform(0, 1);
-		Ee = 0;
-		for (int i = 0; i < cnt - 1; i++) {
-			if (MC_Sampling_Hist[i][2] <= rnd <= MC_Sampling_Hist[i + 1][2]) {
-				Ee = MC_Sampling_Hist[i][0];
-				failed = 0;
-				break;
-			}
-			if (failed)
-				std::cout << "cnt: " << cnt << " failed " << k << std::endl;
-		}
-
-	} //end while
-
-	if (Uniform(0, 1) < 0.5)
-		return Ee;
-	else
-		return E0 - Ee;
-}
-
-double ExtractPPSecondariesEnergy(Process &proc) {
-	/*!
-	 Input: incident gamma Energy E0, background photon energy eps,
-	 incidence angle theta.
-	 Returns the energy of the produced e+ (e-)
-	 */
-
-	double E0 = proc.GetIncidentParticle().GetEnergy();
-	double s = proc.GetCMEnergy();
-	double eps = proc.GetTargetParticle().GetEnergy();
+// Helper function for actual Monte Carlo sampling to avoid code-duplication
+double __extractPPSecondariesEnergy(double E0, double eps, double beta)
+{
 	double theta = M_PI;
 
-	double beta = sqrt(1. - 4.0 * ElectronMass * ElectronMass / s);
 	double s2 = ElectronMass * ElectronMass
 			+ 2 * eps * E0 * (1 - (beta) * cos(theta));
 
@@ -355,7 +276,6 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 	for (int i = 0; i < cnt; i++)
 		MC_Sampling_Hist[i][2] *= NormFactor;
 
-
 	double rnd;
 	double Ee = ElectronMass;
 	int k = 0;
@@ -390,91 +310,50 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 			if (cnt == 0)
 				throw std::runtime_error("failed in extractPP");
 		}
-
 	} //end while
 
 	if (Uniform(0, 1.0) < 0.5)
 		return Ee;
 	else
 		return E0 - Ee;
+
+
 }
 
-double ExtractICSSecondariesEnergy(Particle &pi, Particle &pt) {
-	/*!
-	 Input: incident electron energy Ee, background photon energy eps,
-	 incidence angle theta.
-	 Returns the energy of the recoiled e+ (e-)
-	 */
-	if (::abs(pi.GetType()) != 11) {
-		std::cerr << "something wrong in type ExtractICSEnergy " << std::endl;
-		return 0.;
-	}
 
-	double Ee = pi.GetEnergy();
+double ExtractPPSecondariesEnergy(Particle &pi, Particle &pt) {
+	/*!
+	 Input: incident gamma Energy E0, background photon energy eps,
+	 incidence angle theta.
+	 Returns the energy of the produced e+ (e-)
+	 */
+	double E0 = pi.GetEnergy();
 	double eps = pt.GetEnergy();
-	double theta = M_PI;
-	double s = 2 * Ee * eps * (1 - pi.GetBeta() * cos(cPI))
-			+ pi.GetMass() * pi.GetMass();
-	double beta = (s - ElectronMass * ElectronMass)
-			/ (s + ElectronMass * ElectronMass);
-	bool failed = 1;
+	double beta = pi.GetBeta();
 
-	double MC_Sampling_Hist[MC_SAMPLING][3];
-	for (int i = 0; i < MC_SAMPLING; i++) {
-		for (int j = 0; j < 3; j++)
-			MC_Sampling_Hist[i][j] = 0.;
-	}
-
-	double f = pow((double) (1 + beta) / (1 - beta), (double) 1. / MC_SAMPLING);
-	int cnt = 0;
-	double NormFactor = 0;
-
-	for (double Eer = f * ((1 - beta) / (1 + beta)) * Ee; Eer <= Ee; Eer *= f) {
-		MC_Sampling_Hist[cnt][0] = Eer;
-		MC_Sampling_Hist[cnt][1] = dSigmadE_ICS(Ee, Eer, s, theta);
-
-		NormFactor += MC_Sampling_Hist[cnt][1];
-		MC_Sampling_Hist[cnt][2] = NormFactor;
-
-		if (MC_Sampling_Hist[cnt][1] > 0.) {
-			cnt++;
-		} else {
-			break;
-		}
-	}
-
-	NormFactor = (double) 1. / (double) NormFactor;
-
-	for (int i = 0; i < cnt; i++)
-		MC_Sampling_Hist[i][2] *= NormFactor;
-
-	double rnd = 0;
-	double Eer = 0;
-
-	while (failed) {
-		rnd = Uniform(0, 1);
-		Eer = 0;
-		for (int i = 0; i < cnt - 1; i++) {
-			if (MC_Sampling_Hist[i][2] <= rnd <= MC_Sampling_Hist[i + 1][2]) {
-				Eer = MC_Sampling_Hist[i][0];
-				failed = 0;
-				break;
-			}
-		}
-
-	}
-	return Eer;
+	return __extractPPSecondariesEnergy(E0, eps, beta);
 }
 
-double ExtractICSSecondariesEnergy(Process &proc) {
+
+
+double ExtractPPSecondariesEnergy(Process &proc) {
 	/*!
-	 Input: incident electron energy Ee, background photon energy eps,
+	 Input: incident gamma Energy E0, background photon energy eps,
 	 incidence angle theta.
-	 Returns the energy of the recoiled e+ (e-)
+	 Returns the energy of the produced e+ (e-)
 	 */
-	double Ee = proc.GetIncidentParticle().GetEnergy();
+
+	double E0 = proc.GetIncidentParticle().GetEnergy();
 	double s = proc.GetCMEnergy();
-	double theta = proc.GetInteractionAngle();
+	double eps = proc.GetTargetParticle().GetEnergy();
+	double beta = sqrt(1. - 4.0 * ElectronMass * ElectronMass / s);
+
+	return __extractPPSecondariesEnergy(E0, eps, beta);
+}
+
+// Helper function for actual Monte Carlo sampling to avoid code-duplication
+double __extractICSSecondaries(double Ee, double s, double theta)
+{
 	double beta = (s - ElectronMass * ElectronMass)
 			/ (s + ElectronMass * ElectronMass);
 	bool failed = 1;
@@ -522,9 +401,42 @@ double ExtractICSSecondariesEnergy(Process &proc) {
 				break;
 			}
 		}
-
 	}
 	return Eer;
+}
+
+
+double ExtractICSSecondariesEnergy(Particle &pi, Particle &pt) {
+	/*!
+	 Input: incident electron energy Ee, background photon energy eps,
+	 incidence angle theta.
+	 Returns the energy of the recoiled e+ (e-)
+	 */
+	if (::abs(pi.GetType()) != 11) {
+		std::cerr << "something wrong in type ExtractICSEnergy " << std::endl;
+		return 0.;
+	}
+
+	double Ee = pi.GetEnergy();
+	double eps = pt.GetEnergy();
+	double theta = M_PI;
+	double s = 2 * Ee * eps * (1 - pi.GetBeta() * cos(cPI))
+			+ pi.GetMass() * pi.GetMass();
+
+	return __extractICSSecondaries(Ee, s, theta);
+}
+
+double ExtractICSSecondariesEnergy(Process &proc) {
+	/*!
+	 Input: incident electron energy Ee, background photon energy eps,
+	 incidence angle theta.
+	 Returns the energy of the recoiled e+ (e-)
+	 */
+	double Ee = proc.GetIncidentParticle().GetEnergy();
+	double s = proc.GetCMEnergy();
+	double theta = proc.GetInteractionAngle();
+
+	return __extractICSSecondaries(Ee, s , theta);
 }
 
 double ExtractTPPSecondariesEnergy(Particle &pi, Particle &pt) {

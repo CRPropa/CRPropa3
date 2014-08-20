@@ -19,10 +19,12 @@ namespace crpropa {
 
 void EleCaPropagation(const std::string &inputfile,
 		const std::string &background, std::vector<double> &energy,
-		std::vector<double> &spectrum) {
+		std::vector<double> &spectrum,
+		double lowerEnergyThreshold
+		) {
 	std::ifstream infile(inputfile.c_str());
 
-	const double emin = 16, emax = 22, step = 0.2;
+	const double emin = log10(lowerEnergyThreshold), emax = 22, step = 0.2;
 	const size_t steps = (emax - emin) / step;
 	energy.clear();
 	energy.resize(steps);
@@ -37,6 +39,7 @@ void EleCaPropagation(const std::string &inputfile,
 				"EleCaPropagation: could not open file " + inputfile);
 
 	eleca::Propagation propagation;
+  propagation.SetEthr(lowerEnergyThreshold);
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray(background);
 
@@ -84,9 +87,9 @@ void EleCaPropagation(const std::string &inputfile,
 }
 
 void EleCaPropagation(const std::string &inputfile,
-		const std::string &outputfile, const std::string &background) {
+		const std::string &outputfile, double lowerEnergyThreshold, const std::string &background) {
 	std::vector<double> energy, spectrum;
-	EleCaPropagation(inputfile, background, energy, spectrum);
+	EleCaPropagation(inputfile, background, energy, spectrum, lowerEnergyThreshold);
 	std::ofstream output(outputfile.c_str());
 	output << "# E N\n";
 	for (size_t i = 0; i < energy.size(); i++) {

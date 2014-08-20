@@ -27,7 +27,7 @@ public:
 
 	Propagation();
 
-	void SetEthr(double eth);
+	void SetEthr(double eth) {fEthr = eth;};
 	double GetEthr();
 	~Propagation();
 

@@ -1,6 +1,8 @@
 #ifndef ELECA_XLOSS_CBR_H
 #define ELECA_XLOSS_CBR_H
 
+#include <EleCa/Common.h>
+
 namespace eleca {
 /*=====================================================================
 
@@ -64,7 +66,7 @@ double CIB_Evolution_Fast(double z) {
 }
 
 double CMB_Evolution(double z) {
-	return pow(1. + z, 3.);
+	return pow_integer<3>(1. + z);
 }
 
 double CIB_Evolution(double z) {
@@ -76,14 +78,14 @@ double CIOB_Evolution(double z) {
 }
 
 double COB_Evolution(double z) {
-	return pow(1. + z, 3.);
+	return pow_integer<3>(1. + z);
 }
 
 double URB_Evolution(double z) {
 	//from Protheroe - Bierman astro-ph:9605119
 	if (z < 0.8)
-		return pow(1. + z, 4.);
-	return pow(1 + 0.8, 4);   // z>= z0
+		return pow_integer<4>(1. + z);
+	return pow_integer<4>(1 + 0.8);   // z>= z0
 }
 
 double CMBR(double eps) {
@@ -132,25 +134,25 @@ double CIOBR(double eps) {
 	if (eps > eps_ph_inf_ciob && eps < eps_ph_sup_ciob) {
 		double x = log(eps);
 		tmp = -5.32524895349885 - 0.0741140642891119 * x
-				- 0.252586527659431 * pow(x, 2.)
-				+ 0.234971297531891 * pow(x, 3.)
-				- 0.217014471117521 * pow(x, 4.)
-				- 0.364936722063572 * pow(x, 5.)
-				+ 0.0880702191711222 * pow(x, 6.)
-				+ 0.221947767409286 * pow(x, 7.)
-				+ 0.0445499623085708 * pow(x, 8.)
-				- 0.0517435600939147 * pow(x, 9.)
-				- 0.0295646851279071 * pow(x, 10.)
-				- 0.00011943632049331 * pow(x, 11.)
-				+ 0.00461621589174355 * pow(x, 12.)
-				+ 0.00150906100702171 * pow(x, 13.)
-				+ 1.91459088023263e-05 * pow(x, 14.)
-				- 0.000110272619218937 * pow(x, 15.)
-				- 3.45221358079085e-05 * pow(x, 16.)
-				- 5.42000122025042e-06 * pow(x, 17.)
-				- 4.90862622314226e-07 * pow(x, 18.)
-				- 2.45145316799091e-08 * pow(x, 19.)
-				- 5.25792204884819e-10 * pow(x, 20.);
+				- 0.252586527659431 * pow_integer<2>(x)
+				+ 0.234971297531891 * pow_integer<3>(x)
+				- 0.217014471117521 * pow_integer<4>(x)
+				- 0.364936722063572 * pow_integer<5>(x)
+				+ 0.0880702191711222 * pow_integer<6>(x)
+				+ 0.221947767409286 * pow_integer<7>(x)
+				+ 0.0445499623085708 * pow_integer<8>(x)
+				- 0.0517435600939147 * pow_integer<9>(x)
+				- 0.0295646851279071 * pow_integer<10>(x)
+				- 0.00011943632049331 * pow_integer<11>(x)
+				+ 0.00461621589174355 * pow_integer<12>(x)
+				+ 0.00150906100702171 * pow_integer<13>(x)
+				+ 1.91459088023263e-05 * pow_integer<14>(x)
+				- 0.000110272619218937 * pow_integer<15>(x)
+				- 3.45221358079085e-05 * pow_integer<16>(x)
+				- 5.42000122025042e-06 * pow_integer<17>(x)
+				- 4.90862622314226e-07 * pow_integer<18>(x)
+				- 2.45145316799091e-08 * pow_integer<19>(x)
+				- 5.25792204884819e-10 * pow_integer<20>(x);
 		tmp = 0.4 * (double) exp(tmp) / eps / eps;
 	} else {
 		tmp = 0;

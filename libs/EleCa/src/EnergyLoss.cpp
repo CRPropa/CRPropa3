@@ -18,14 +18,14 @@ double dTdZ(double z) {
 	return -1.
 			/ ((1 + z) * H0y
 					* sqrt(
-							pow(1. + z, 3.) * OM + OL
-									+ (1 - OM - OL) * pow(1. + z, 2.)));
+							pow_integer<3>(1. + z) * OM + OL
+									+ (1 - OM - OL) * pow_integer<2>(1. + z)));
 }
 
 double betaRsh(double z) {
 	// Energy loss term due to cosmological redshift
 	return H0y
-			* sqrt(pow(1. + z, 3.) * OM + OL + (1 - OM - OL) * pow(1. + z, 2.));
+			* sqrt(pow_integer<3>(1. + z) * OM + OL + (1 - OM - OL) * pow_integer<2>(1. + z));
 }
 
 double fLossAdiabatic(double E, double z) {
@@ -43,7 +43,7 @@ double AdiabaticELoss(double z0, double z, double E0) {
 double MeanRateSynchrotronLoss(double E, double B) {
 	double dEdt = 0;
 	if (B > 0)
-		dEdt = 3.79e-6 * pow(E / 1e9 * B, 2) * 1e9 / E;
+		dEdt = 3.79e-6 * pow_integer<2>(E / 1e9 * B) * 1e9 / E;
 
 	return dEdt;
 }
@@ -226,7 +226,7 @@ double dSigmadE_PP(double Ee, double E0, double eps, double theta) {
 		double A = Ee / q + q / Ee;
 		double B = E0 * (1 - beta * beta) * (1. / Ee + 1. / q);
 		double C = -((1 - beta * beta) * (1 - beta * beta) * E0 * E0 / 4.0)
-				* pow(1. / Ee + 1. / q, 2);
+				* pow_integer<2>(1. / Ee + 1. / q);
 
 		double dsigmadE = k * (A + B + C);
 

@@ -187,12 +187,17 @@ double dSigmadE_ICS(double Ee, double Eer, double s, double theta) {
 
 	double beta = (s - ElectronMass * ElectronMass)
 			/ (s + ElectronMass * ElectronMass);
-
-	if (Eer / Ee < (1 - beta) / (1 + beta) || Eer / Ee > 1) {
+	// boundaries rewritten to avoid error due to numerical uncertainties
+	if ((Eer / Ee -1) / (Eer / Ee +1) > beta || Eer / Ee > 1) 
+	{
 		std::cerr << "ERROR, Energy outside limits for ICS [Lee96]! " << std::endl;
-		std::cerr << "       Eer = " << Eer << " Ee = " << Ee << "  Eer/Ee = " << Eer / Ee << "   (1 - beta) / (1 + beta) = " << (1 - beta) / (1 + beta) << std::endl;
+		std::cerr << "       Eer = " << Eer << " Ee = " << Ee << "  Eer/Ee = " <<
+			Eer / Ee << "   (1 - beta) / (1 + beta) = " << (1 - beta) / (1 + beta) <<
+			" beta = " << beta << std::endl;
 		return 0.;
-	} else {
+	}
+	else
+	{
 		double q = ((1 - beta) / beta) * (1 - Ee / Eer);
 		double A = Eer / Ee + Ee / Eer;
 		double k = (3.0 / 8.0) * (SigmaThompson * ElectronMass * ElectronMass)
@@ -352,58 +357,144 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 }
 
 
+/// Hold an data array to interpolate the energy distribution on 
+class ICSSecondariesEnergyDistribution
+{
+	private:
+		double *_data;
+		size_t _Ns;
+		size_t _Nrer;
+		double _s_min;
+		double _s_max;
+		double _dls;
+
+	public:
+		ICSSecondariesEnergyDistribution(double s_min = 2.6373E+11, double s_max =1e21,
+				size_t Ns = 1000, size_t Nrer = 1000 )
+		{
+			// ToDo: this boundary is just an estimate
+			const double l = 1.001;
+			if (s_min < l * ElectronMass*ElectronMass)
+			{
+				std::cerr << "Warning: Minimum COM Energy in ICS Interpolation s = " << s_min << " < " << l << " m_e**2 selected. Setting to s_min = " << l << " m_e**2.\n" ;
+				s_min = l * ElectronMass*ElectronMass;
+			}
+			_Ns = Ns;
+			_Nrer = Nrer;
+			_s_min =s_min;
+			_s_max = s_max;
+			_data = new double[Ns*Nrer];
+
+			double theta = M_PI;
+
+			double dls = (log(s_max) - log(s_min)) / (Ns);
+			double dls_min = log(s_min);
+
+			for (size_t i = 0; i < Ns; i++)
+			{
+				const double s = exp(dls_min + i*dls);
+				double beta = (s - ElectronMass * ElectronMass) / (s +
+						ElectronMass * ElectronMass);
+
+				double eer_0 = log((1-beta) / (1+beta));
+				double deer =  - log((1-beta) / (1+beta)) / Nrer;
+				
+				_data[i * Nrer] = 0; 
+				for (size_t j = 1; j < Nrer; j++)
+				{
+					const double Ee = 1E21;
+					
+					double Eer = Ee * exp(eer_0 + (j-1)*deer); 
+					_data[i * Nrer + j] =	dSigmadE_ICS(Ee, Eer , s, theta) + _data[i * Nrer + j - 1];
+				}
+			}
+		}
+
+		// returns pointer to the the integrated distribution for a given s
+		double* getDistribution(double s)
+		{
+			double dls = (log(_s_max) - log(_s_min)) / (_Ns);
+			size_t idx = (log(s) - log(_s_min)) / dls;
+			double *s0 = &_data[idx * _Nrer];
+			return s0;
+		}
+
+		//samples the integrated distribution and returns Eer(Ee, s)
+		double sample(double Ee, double s)
+		{
+			double *s0 = getDistribution(s); 
+			double rnd = Uniform(0, 1.0) *s0[_Nrer-1];
+			for (size_t i=1; i < _Nrer; i++)
+			{
+				if (rnd < s0[i])
+				{
+					double beta = (s - ElectronMass * ElectronMass) / (s +
+								ElectronMass * ElectronMass);
+					double eer_0 = log((1-beta) / (1+beta));
+					double deer =  - log((1-beta) / (1+beta)) / (_Nrer );
+					return exp(eer_0 + (i-1)*deer) * Ee; 
+				}
+			}
+		}
+};
+
+
 // Helper function for actual Monte Carlo sampling to avoid code-duplication
 double __extractICSSecondaries(double Ee, double s, double theta)
 {
-	double beta = (s - ElectronMass * ElectronMass)
-			/ (s + ElectronMass * ElectronMass);
-	bool failed = 1;
 
-	// reInitialization to zero..
-	double MC_Sampling_Hist[MC_SAMPLING][3];
-	for (int i = 0; i < MC_SAMPLING; i++) {
-		for (int j = 0; j < 3; j++)
-			MC_Sampling_Hist[i][j] = 0.;
-	}
+	static ICSSecondariesEnergyDistribution interpolation(1E11, 1E21, 1000);
+	return interpolation.sample(Ee, s);
 
-	double f = pow((double) (1 + beta) / (1 - beta), (double) 1. / MC_SAMPLING);
-	int cnt = 0;
-	double NormFactor = 0;
+	//double beta = (s - ElectronMass * ElectronMass)
+	//		/ (s + ElectronMass * ElectronMass);
+	//bool failed = 1;
 
-	for (double Eer = f * ((1 - beta) / (1 + beta)) * Ee; Eer <= Ee; Eer *= f) {
-		MC_Sampling_Hist[cnt][0] = Eer;
-		MC_Sampling_Hist[cnt][1] = dSigmadE_ICS(Ee, Eer, s, theta);
+	//// reInitialization to zero..
+	//double MC_Sampling_Hist[MC_SAMPLING][3];
+	//for (int i = 0; i < MC_SAMPLING; i++) {
+	//	for (int j = 0; j < 3; j++)
+	//		MC_Sampling_Hist[i][j] = 0.;
+	//}
 
-		NormFactor += MC_Sampling_Hist[cnt][1];
-		MC_Sampling_Hist[cnt][2] = NormFactor;
+	//double f = pow((double) (1 + beta) / (1 - beta), (double) 1. / MC_SAMPLING);
+	//int cnt = 0;
+	//double NormFactor = 0;
 
-		if (MC_Sampling_Hist[cnt][1] > 0.) {
-			cnt++;
-		} else {
-			break;
-		}
-	}
+	//for (double Eer = f * ((1 - beta) / (1 + beta)) * Ee; Eer <= Ee; Eer *= f) {
+	//	MC_Sampling_Hist[cnt][0] = Eer;
+	//	MC_Sampling_Hist[cnt][1] = dSigmadE_ICS(Ee, Eer, s, theta);
 
-	NormFactor = (double) 1. / (double) NormFactor;
+	//	NormFactor += MC_Sampling_Hist[cnt][1];
+	//	MC_Sampling_Hist[cnt][2] = NormFactor;
 
-	for (int i = 0; i < cnt; i++)
-		MC_Sampling_Hist[i][2] *= NormFactor;
+	//	if (MC_Sampling_Hist[cnt][1] > 0.) {
+	//		cnt++;
+	//	} else {
+	//		break;
+	//	}
+	//}
 
-	double rnd = 0;
-	double Eer = 0;
+	//NormFactor = (double) 1. / (double) NormFactor;
 
-	while (failed) {
-		rnd = Uniform(0, 1.0);
-		Eer = 0;
-		for (int i = 0; i < cnt - 1; i++) {
-			if (MC_Sampling_Hist[i][2] <= rnd <= MC_Sampling_Hist[i + 1][2]) {
-				Eer = MC_Sampling_Hist[i][0];
-				failed = 0;
-				break;
-			}
-		}
-	}
-	return Eer;
+	//for (int i = 0; i < cnt; i++)
+	//	MC_Sampling_Hist[i][2] *= NormFactor;
+
+	//double rnd = 0;
+	//double Eer = 0;
+
+	//while (failed) {
+	//	rnd = Uniform(0, 1.0);
+	//	Eer = 0;
+	//	for (int i = 0; i < cnt - 1; i++) {
+	//		if (MC_Sampling_Hist[i][2] <= rnd <= MC_Sampling_Hist[i + 1][2]) {
+	//			Eer = MC_Sampling_Hist[i][0];
+	//			failed = 0;
+	//			break;
+	//		}
+	//	}
+	//}
+	//return Eer;
 }
 
 
@@ -427,6 +518,7 @@ double ExtractICSSecondariesEnergy(Particle &pi, Particle &pt) {
 	return __extractICSSecondaries(Ee, s, theta);
 }
 
+
 double ExtractICSSecondariesEnergy(Process &proc) {
 	/*!
 	 Input: incident electron energy Ee, background photon energy eps,
@@ -436,9 +528,9 @@ double ExtractICSSecondariesEnergy(Process &proc) {
 	double Ee = proc.GetIncidentParticle().GetEnergy();
 	double s = proc.GetCMEnergy();
 	double theta = proc.GetInteractionAngle();
-
 	return __extractICSSecondaries(Ee, s , theta);
 }
+
 
 double ExtractTPPSecondariesEnergy(Particle &pi, Particle &pt) {
 	/* approximation based on A. Mastichiadis et al.,
@@ -459,8 +551,8 @@ double ExtractTPPSecondariesEnergy(Particle &pi, Particle &pt) {
 			/ 2.0;
 	//return the energy of each e+/e- in the pair.
 	return Epp;
-
 }
+
 
 double ExtractTPPSecondariesEnergy(Process &proc) {
 	/* approximation based on A. Mastichiadis et al.,
@@ -480,6 +572,7 @@ double ExtractTPPSecondariesEnergy(Process &proc) {
 			/ 2.0;
 	return Epp;
 }
+
 
 double ExtractDPPSecondariesEnergy(double E0) {
 	/*

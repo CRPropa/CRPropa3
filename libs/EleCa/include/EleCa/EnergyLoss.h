@@ -25,6 +25,7 @@ double ExtractTPPSecondariesEnergy(Particle &pi, Particle &pt);
 double ExtractTPPSecondariesEnergy(Process &proc);
 double ExtractDPPSecondariesEnergy(double E0);
 
+double __extractICSSecondaries(double Ee, double s, double theta);
 } // namespace eleca
 
 #endif // ELECA_ENERGY_LOSS_H_

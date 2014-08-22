@@ -150,20 +150,20 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 
 	if (type == 22) {
 
-		proc1.SetName("PP");
+		proc1.SetName(Process::PP);
 		pt.SetEnergy(Etarget[0]);
 		proc1.SetTargetParticle(pt);
 		proc1.SetCMEnergy();
 
-		tmp_lambda1 = GetLambdaTab(proc1, "PP");
+		tmp_lambda1 = GetLambdaTab(proc1, Process::PP);
 
 		min_dist1 = -tmp_lambda1 * log(R);
 
-		proc2.SetName("DPP");
+		proc2.SetName(Process::DPP);
 		pt.SetEnergy(Etarget[1]);
 		proc2.SetTargetParticle(pt);
 		proc2.SetCMEnergy();
-		tmp_lambda2 = GetLambdaTab(proc2, "DPP");
+		tmp_lambda2 = GetLambdaTab(proc2, Process::DPP);
 		min_dist2 = -tmp_lambda2 * log(R2);
 
 #ifdef DEBUG_ELECA
@@ -174,12 +174,12 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 
 		if (min_dist2 < min_dist1) {
 			min_dist1 = min_dist2;
-			proc.SetName("DPP");
+			proc.SetName(Process::DPP);
 			pt.SetEnergy(Etarget[1]);
 			proc.SetTargetParticle(pt);
 			proc.SetCMEnergy();
 		} else {
-			proc.SetName("PP");
+			proc.SetName(Process::PP);
 			pt.SetEnergy(Etarget[0]);
 			proc.SetTargetParticle(pt);
 			proc.SetCMEnergy();
@@ -187,16 +187,16 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 	}    //end if type 0
 	else if (abs(type) == 11) {
 
-		proc1.SetName("ICS");
+		proc1.SetName(Process::ICS);
 		pt.SetEnergy(Etarget[0]);
 		proc1.SetTargetParticle(pt);
-		tmp_lambda1 = GetLambdaTab(proc1, "ICS");
+		tmp_lambda1 = GetLambdaTab(proc1, Process::ICS);
 		min_dist1 = -tmp_lambda1 * log(R);
 
-		proc2.SetName("TPP");
+		proc2.SetName(Process::TPP);
 		pt.SetEnergy(Etarget[1]);
 		proc2.SetTargetParticle(pt);
-		tmp_lambda2 = GetLambdaTab(proc2, "TPP");
+		tmp_lambda2 = GetLambdaTab(proc2, Process::TPP);
 		min_dist2 = -tmp_lambda2 * log(R2);
 
 #ifdef DEBUG_ELECA
@@ -207,12 +207,12 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 
 		if (min_dist2 < min_dist1) {
 			min_dist1 = min_dist2;
-			proc.SetName("TPP");
+			proc.SetName(Process::TPP);
 			pt.SetEnergy(Etarget[1]);
 			proc.SetTargetParticle(pt);
 			proc.SetCMEnergy();
 		} else {
-			proc.SetName("ICS");
+			proc.SetName(Process::ICS);
 			pt.SetEnergy(Etarget[0]);
 			proc.SetTargetParticle(pt);
 			proc.SetCMEnergy();
@@ -227,7 +227,7 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 }
 
 double Propagation::GetLambdaTab(const Process &proc,
-		const std::string &procName) const {
+		const Process::Name procName) const {
 
 	double E1 = proc.GetIncidentParticle().GetEnergy();
 	double z = proc.GetIncidentParticle().Getz();
@@ -251,13 +251,13 @@ double Propagation::GetLambdaTab(const Process &proc,
 				<< ") .. returning lambda[nentries];" << std::endl;
 
 	} else {
-		if (procName == "PP")
+		if (procName == Process::PP)
 			res = vPPle[i];
-		else if (procName == "DPP")
+		else if (procName == Process::DPP)
 			res = vDPPle[i];
-		else if (procName == "ICS")
+		else if (procName == Process::ICS)
 			res = vICSle[i];
-		else if (procName == "TPP")
+		else if (procName == Process::TPP)
 			res = vTPPle[i];
 	}
 
@@ -341,14 +341,14 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 	double Energy = particle.GetEnergy();
 	int pType = particle.GetType();
 	if (pType == 22) {
-		proc.SetName("PP");
+		proc.SetName(Process::PP);
 		proc.SetLimits();
 		smintmp = proc.GetMin();
 		Etarget_tmp = ShootPhotonEnergyMC(ElectronMass * ElectronMass / Energy,
 				z_curr);
 		Etarget.push_back(Etarget_tmp);
 
-		proc.SetName("DPP");
+		proc.SetName(Process::DPP);
 		proc.SetLimits();
 		smintmp = proc.GetMin();
 		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
@@ -356,13 +356,13 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 	}
 
 	else if (abs(pType) == 11) {
-		proc.SetName("ICS");
+		proc.SetName(Process::ICS);
 		proc.SetLimits();
 		smintmp = proc.GetMin();
 		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
 		Etarget.push_back(Etarget_tmp);
 
-		proc.SetName("TPP");
+		proc.SetName(Process::TPP);
 		proc.SetLimits();
 		smintmp = proc.GetMin();
 		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
@@ -581,7 +581,7 @@ void Propagation::Propagate(Particle &curr_particle,
 		std::cerr << "******** producing secondary particles according to "
 		<< proc.GetName() << " process *********** " << std::endl;
 #endif
-		if (proc.GetName() == "PP") {
+		if (proc.GetName() == Process::PP) {
 
 			E1 = ExtractPPSecondariesEnergy(proc);
 
@@ -602,7 +602,7 @@ void Propagation::Propagate(Particle &curr_particle,
 
 			return;
 		} //if PP
-		else if (proc.GetName() == "DPP") {
+		else if (proc.GetName() == Process::DPP) {
 			E1 = (Ecurr - 2 * ElectronMass) / 2.0;
 			if (E1 == 0)
 				std::cerr << "ERROR in DPP process E : " << E1 << std::endl;
@@ -622,7 +622,7 @@ void Propagation::Propagate(Particle &curr_particle,
 
 			return;
 		} //end if DPP
-		else if (proc.GetName() == "ICS") {
+		else if (proc.GetName() == Process::ICS) {
 
 			E1 = ExtractICSSecondariesEnergy(proc);
 			E2 = Ecurr - E1;
@@ -643,7 +643,7 @@ void Propagation::Propagate(Particle &curr_particle,
 
 			return;
 		} //if ics
-		else if (proc.GetName() == "TPP") {
+		else if (proc.GetName() == Process::TPP) {
 			E1 = E2 = ExtractTPPSecondariesEnergy(proc);
 			E3 = Ecurr - E1 - E2;
 			if (E1 == 0 || E2 == 0 || E3 == 0)

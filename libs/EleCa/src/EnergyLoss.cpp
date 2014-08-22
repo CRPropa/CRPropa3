@@ -240,9 +240,6 @@ double __extractPPSecondariesEnergy(double E0, double eps, double beta)
 {
 	double theta = M_PI;
 
-	double s2 = ElectronMass * ElectronMass
-			+ 2 * eps * E0 * (1 - (beta) * cos(theta));
-
 	bool failed = 1;
 
 	double MC_Sampling_Hist[MC_SAMPLING][3];
@@ -397,14 +394,14 @@ class ICSSecondariesEnergyDistribution
 						ElectronMass * ElectronMass);
 
 				double eer_0 = log((1-beta) / (1+beta));
-				double deer =  - log((1-beta) / (1+beta)) / Nrer;
+				double deer =  - log((1-beta) / (1+beta)) / (Nrer-1);
 				
-				_data[i * Nrer] = 0; 
+				const double Ee = 1E21;
+				_data[i * Nrer] = dSigmadE_ICS(Ee, Ee * exp(eer_0), s, theta); 
 				for (size_t j = 1; j < Nrer; j++)
 				{
-					const double Ee = 1E21;
 					
-					double Eer = Ee * exp(eer_0 + (j-1)*deer); 
+					double Eer = Ee * exp(eer_0 + (j)*deer); 
 					_data[i * Nrer + j] =	dSigmadE_ICS(Ee, Eer , s, theta) + _data[i * Nrer + j - 1];
 				}
 			}
@@ -424,7 +421,7 @@ class ICSSecondariesEnergyDistribution
 		{
 			double *s0 = getDistribution(s); 
 			double rnd = Uniform(0, 1.0) *s0[_Nrer-1];
-			for (size_t i=1; i < _Nrer; i++)
+			for (size_t i=0; i < _Nrer; i++)
 			{
 				if (rnd < s0[i])
 				{
@@ -432,7 +429,7 @@ class ICSSecondariesEnergyDistribution
 								ElectronMass * ElectronMass);
 					double eer_0 = log((1-beta) / (1+beta));
 					double deer =  - log((1-beta) / (1+beta)) / (_Nrer );
-					return exp(eer_0 + (i-1)*deer) * Ee; 
+					return exp(eer_0 + (i)*deer) * Ee; 
 				}
 			}
 		}

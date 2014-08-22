@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
+#include <cfloat>
 
 namespace eleca {
 
@@ -234,92 +235,117 @@ double dSigmadE_PP(double Ee, double E0, double eps, double theta) {
 	}
 }
 
+///	 Differential cross-section for pair production for x = E/E0
+double dSigmadE_PPx(double x, double beta) {
+
+	if ((x - 0.5 * (1 - beta)) < -1 * DBL_EPSILON || x - 0.5 * (1 + beta) > DBL_EPSILON ) {
+		std::cerr << "ERROR, Energy outside limits for PP [Lee96]! " << std::endl;
+		std::cerr << " x = " << x << " 0.5* (1-beta) = " << 0.5 * (1 - beta) << " 0.5* (1+beta) = " << 0.5 * (1 + beta) << " beta = " << beta << std::endl;
+		return 0.;
+	} else {
+
+		const double A = (x / (1. - x) + (1. - x) / x );
+		const double B =  (1. / x + 1. / (1. - x) );
+
+		return A + (1. - beta*beta) * B + (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
+	}
+}
+
+
+/// Hold an data array to interpolate the energy distribution on 
+class PPSecondariesEnergyDistribution
+{
+	private:
+		double *_data;
+		size_t _Ns;
+		size_t _Nrer;
+		double _s_min;
+		double _s_max;
+		double _dls;
+
+	public:
+		PPSecondariesEnergyDistribution(double s_min = 2.6373E+11, double s_max =1e21,
+				size_t Ns = 1000, size_t Nrer = 1000 )
+		{
+			// ToDo: this boundary is just an estimate
+			const double l = 1.001;
+			if (s_min < l * ElectronMass*ElectronMass)
+			{
+				std::cerr << "Warning: Minimum COM Energy in ICS Interpolation s = " << s_min << " < " << l << " m_e**2 selected. Setting to s_min = " << l << " m_e**2.\n" ;
+				s_min = l * ElectronMass*ElectronMass;
+			}
+			_Ns = Ns;
+			_Nrer = Nrer;
+			_s_min =s_min;
+			_s_max = s_max;
+			_data = new double[Ns*Nrer];
+
+			double dls = (log(s_max) - log(s_min)) / (Ns);
+			double dls_min = log(s_min);
+
+			for (size_t i = 0; i < Ns; i++)
+			{
+				const double s = exp(dls_min + i*dls);
+				double beta = sqrt(1. - 4. * ElectronMass*ElectronMass /s);
+				
+				double x0 = log((1.-beta) / 2.);
+				double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (Nrer); 
+				_data[i * Nrer] = exp(x0) ; 
+				for (size_t j = 1; j < Nrer; j++)
+				{
+					double x = exp(x0 + j*dx); 
+					_data[i * Nrer + j] =	dSigmadE_PPx(x, beta) + _data[i * Nrer + j - 1];
+				}
+			}
+		}
+
+		// returns pointer to the the integrated distribution for a given s
+		double* getDistribution(double s)
+		{
+			double dls = (log(_s_max) - log(_s_min)) / (_Ns);
+			size_t idx = (log(s) - log(_s_min)) / dls;
+			double *s0 = &_data[idx * _Nrer];
+			return s0;
+		}
+
+		//samples the integrated distribution and returns Eer(Ee, s)
+		double sample(double E0, double eps, double theta)
+		{
+			double s = ElectronMass*ElectronMass + 2. * E0 * eps * (1-cos(theta));
+			
+			double *s0 = getDistribution(s); 
+			double rnd = Uniform(0, 1.0) *s0[_Nrer-1];
+
+			for (size_t i=0; i < _Nrer; i++)
+			{
+				if (rnd < s0[i])
+				{
+					double beta = (s - ElectronMass * ElectronMass) / (s +
+								ElectronMass * ElectronMass);
+
+					double x0 = log((1.-beta) / 2.);
+					double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (_Nrer); 
+					if (Uniform(0, 1.0) < 0.5)
+						return exp(x0 + (i)*dx) * E0;
+					else
+						return E0 * (1-exp(x0 + (i)*dx) );
+				}
+			}
+			std::cerr << "PPSecondariesEnergyDistribution out of bounds!" << std::endl;
+			std::cerr << "  s0[0] = " << s0[0] << "  s0[_Nrer-1] = " << s0[_Nrer-1] << "  rnd = " << rnd << std::endl;
+			throw std::runtime_error("Grave logic error in PPSecondariesEnergyDistribution!");
+		}
+};
+
+
 
 // Helper function for actual Monte Carlo sampling to avoid code-duplication
 double __extractPPSecondariesEnergy(double E0, double eps, double beta)
 {
 	double theta = M_PI;
 
-	bool failed = 1;
-
-	double MC_Sampling_Hist[MC_SAMPLING][3];
-	for (int i = 0; i < MC_SAMPLING; i++) {
-		for (int j = 0; j < 3; j++)
-			MC_Sampling_Hist[i][j] = 0.;
-	}
-
-	double f = pow((double) (1 + beta) / (1 - beta),
-			(double) 1. / (double) MC_SAMPLING);
-	int cnt = 0;
-	double NormFactor = 0;
-
-	for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
-			Ee *= f) {
-		MC_Sampling_Hist[cnt][0] = Ee;
-		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta);
-		NormFactor += MC_Sampling_Hist[cnt][1];
-		MC_Sampling_Hist[cnt][2] = NormFactor;
-
-		if (MC_Sampling_Hist[cnt][1] > 0.) {
-			cnt++;
-		} else {
-			break;
-		}
-	}
-
-	if (cnt == 0) {
-	for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
-			Ee *= f) {
-	  std::cout << Ee  << " " << f << " " << (1-beta)  << std::endl;
-	    }
-	}
-	NormFactor = (double) 1. / (double) NormFactor;
-
-	for (int i = 0; i < cnt; i++)
-		MC_Sampling_Hist[i][2] *= NormFactor;
-
-	double rnd;
-	double Ee = ElectronMass;
-	int k = 0;
-
-	while (failed) {
-		rnd = Uniform(0., 1.0);
-		Ee = ElectronMass;
-		k++;
-		double min = 1e6;
-		double max = -1;
-
-		for (int i = 0; i < cnt - 1; i++) {
-
-			if (MC_Sampling_Hist[i][2] < min)
-				min = MC_Sampling_Hist[i][2];
-			if (MC_Sampling_Hist[i + 1][2] > max)
-				max = MC_Sampling_Hist[i + 1][2];
-
-			if (MC_Sampling_Hist[i][2] <= rnd <= MC_Sampling_Hist[i + 1][2]) {
-				Ee = MC_Sampling_Hist[i][0];
-				failed = 0;
-				break;
-			}
-		}
-		if (failed) {
-		  /*	std::cout << "failed in extractPP " << Ee << " " << beta << " * s: "
-					<< s << " E0: " << E0 << " eps : " << eps << " me^2/E0: "
-					<< ElectronMass * ElectronMass / E0 << "  ) " << " cnt : "
-					<< cnt << std::endl;
-			std::cout << " Limits  " << proc.GetMin() << std::endl;
-		  */
-			if (cnt == 0)
-				throw std::runtime_error("failed in extractPP");
-		}
-	} //end while
-
-	if (Uniform(0, 1.0) < 0.5)
-		return Ee;
-	else
-		return E0 - Ee;
-
-
+	static PPSecondariesEnergyDistribution interpolation;
+	return interpolation.sample(E0, eps, theta);
 }
 
 
@@ -394,7 +420,7 @@ class ICSSecondariesEnergyDistribution
 						ElectronMass * ElectronMass);
 
 				double eer_0 = log((1-beta) / (1+beta));
-				double deer =  - log((1-beta) / (1+beta)) / (Nrer-1);
+				double deer =  - log((1-beta) / (1+beta)) / (Nrer);
 				
 				const double Ee = 1E21;
 				_data[i * Nrer] = dSigmadE_ICS(Ee, Ee * exp(eer_0), s, theta); 
@@ -440,7 +466,7 @@ class ICSSecondariesEnergyDistribution
 double __extractICSSecondaries(double Ee, double s, double theta)
 {
 
-	static ICSSecondariesEnergyDistribution interpolation(1E11, 1E21, 1000);
+	static ICSSecondariesEnergyDistribution interpolation;
 	return interpolation.sample(Ee, s);
 
 	//double beta = (s - ElectronMass * ElectronMass)

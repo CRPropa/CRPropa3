@@ -2,6 +2,7 @@
 #define ELECA_PROPAGATION_H
 
 #include "EleCa/Particle.h"
+#include "EleCa/Process.h"
 
 #include <vector>
 #include <string>
@@ -39,7 +40,7 @@ public:
 
 	double GetMeanThetaBFDeflection(double Bin, double Ein, int ptype,
 			double Lin) const;
-	double GetLambdaTab(const Process &proc, const std::string &procName) const;
+	double GetLambdaTab(const Process &proc, Process::Name procName) const;
 	double ExtractMinDist(Process &proc, int type, double R, double R2,
 			std::vector<double> &Etarget) const;
 	std::vector<double> GetEtarget(Process &proc,

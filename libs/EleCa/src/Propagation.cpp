@@ -235,9 +235,9 @@ double Propagation::GetLambdaTab(const Process &proc,
 
 	double E0taborg = vEtab[0];
 
-	double dEtab = log10(vEtab[0]) - log10(vEtab[1]);
+	double dEtab = log10(vEtab[0] / vEtab[1]);
 	double evolution = GetEvolution(proc.GetTargetParticle().GetEnergy(), z);
-	int i = (int) ((log10(E0taborg) - log10(E1 * (1 + z))) / dEtab);
+	int i = (int) (log10(E0taborg / (E1 * (1 + z))) / dEtab);
 
 	if (i < 0) {
 		std::cout << "WARNING!! GetLambdaTab in " << procName << " : i= " << i

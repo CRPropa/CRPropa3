@@ -1,13 +1,21 @@
 #ifndef CRPROPA_OBSERVER_H
 #define CRPROPA_OBSERVER_H
 
-#include "crpropa/Module.h"
-
-#include <vector>
 #include <fstream>
 #include <limits>
+#include <string>
+#include <vector>
+
+#include "../Candidate.h"
+#include "../Module.h"
+#include "../Referenced.h"
+#include "../Vector3.h"
 
 namespace crpropa {
+
+enum DetectionState {
+	DETECTED, VETO, NOTHING
+};
 
 /**
  @class ObserverFeature
@@ -15,7 +23,8 @@ namespace crpropa {
  */
 class ObserverFeature: public Referenced {
 public:
-	virtual bool process(Candidate &candidate) const = 0;
+	virtual DetectionState checkDetection(Candidate *candidate) const;
+	virtual void onDetection(Candidate *candidate) const;
 };
 
 /**
@@ -27,9 +36,7 @@ private:
 	std::vector<ref_ptr<ObserverFeature> > features;
 	bool makeInactive;
 public:
-	Observer(bool makeInactive = false) :
-			makeInactive(makeInactive) {
-	}
+	Observer(bool makeInactive = false);
 	void add(ObserverFeature *property);
 	void process(Candidate *candidate) const;
 };
@@ -46,7 +53,7 @@ private:
 public:
 	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0,
 			double maximumTrajectory = std::numeric_limits<double>::max());
-	bool process(Candidate &candidate) const;
+	DetectionState checkDetection(Candidate *candidate) const;
 };
 
 /**
@@ -59,7 +66,7 @@ private:
 	double radius;
 public:
 	ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
-	bool process(Candidate &candidate) const;
+	DetectionState checkDetection(Candidate *candidate) const;
 };
 
 /**
@@ -71,7 +78,7 @@ private:
 	double zmin, zmax;
 public:
 	ObserverRedshiftWindow(double zmin = 0, double zmax = 0.1);
-	bool process(Candidate &candidate) const;
+	DetectionState checkDetection(Candidate *candidate) const;
 };
 
 /**
@@ -82,7 +89,7 @@ public:
  */
 class ObserverPoint: public ObserverFeature {
 public:
-	bool process(Candidate &candidate) const;
+	DetectionState checkDetection(Candidate *candidate) const;
 };
 
 /**
@@ -96,7 +103,7 @@ private:
 public:
 	ObserverOutput3D(std::string filename, bool legacy = false);
 	~ObserverOutput3D();
-	bool process(Candidate &candidate) const;
+	void onDetection(Candidate *candidate) const;
 };
 
 /**
@@ -110,7 +117,7 @@ private:
 public:
 	ObserverOutput1D(std::string filename, bool legacy = false);
 	~ObserverOutput1D();
-	bool process(Candidate &candidate) const;
+	void onDetection(Candidate *candidate) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +129,7 @@ private:
 	std::string flag;
 	std::string flagValue;
 	bool makeInactive;
+	double maximumTrajectory;
 
 public:
 	SmallObserverSphere(Vector3d center = Vector3d(0.), double radius = 0,
@@ -132,6 +140,7 @@ public:
 	void setRadius(double radius);
 	void setFlag(std::string flag, std::string flagValue);
 	void setMakeInactive(bool makeInactive);
+	void setMaximumTrajectory(double maximumTrajectory);
 	std::string getDescription() const;
 };
 

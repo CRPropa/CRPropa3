@@ -9,29 +9,39 @@ void Observer::add(ObserverFeature *feature) {
 
 void Observer::process(Candidate *candidate) const {
 	// loop over all features and have them check the particle
+	bool detected = true;
 	for (int i = 0; i < features.size(); i++) {
-		bool b = (*features[i]).process(*candidate);
-		if (not (b))
-			return; // not detected
+		detected = detected && features[i]->process(*candidate);
 	}
-	if (makeInactive)
+
+	if (detected && makeInactive)
 		candidate->setActive(false);
 }
 
-ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
-		center(center), radius(radius) {
+ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius,
+		double maximumTrajectory) :
+		center(center), radius(radius), maximumTrajectory(maximumTrajectory) {
 }
 
 bool ObserverSmallSphere::process(Candidate &candidate) const {
 	// current distance to observer sphere center
 	double d = (candidate.current.getPosition() - center).getR();
 
+	double remainingToBorder = d - radius;
+
 	// conservatively limit next step to prevent overshooting
-	candidate.limitNextStep(fabs(d - radius));
+	candidate.limitNextStep(fabs(remainingToBorder));
 
 	// no detection if outside of observer sphere
-	if (d > radius)
+	if (d > radius) {
+		// disable candidate if it cannot reach this observer
+		double remainingToMaximum = maximumTrajectory
+				- candidate.getTrajectoryLength();
+		if (remainingToBorder > remainingToMaximum)
+			candidate.setActive(false);
+
 		return false;
+	}
 
 	// previous distance to observer sphere center
 	double dprev = (candidate.previous.getPosition() - center).getR();

@@ -333,7 +333,7 @@ std::string SmallObserverSphere::getDescription() const {
 	s << " Mpc radius around " << center / Mpc;
 	s << " Mpc, Flag: '" << flag << "' -> '" << flagValue << "'";
 	if (maximumTrajectory != std::numeric_limits<double>::max())
-		s << ", maximum trajectory: " << maximumTrajectory;
+		s << ", Maximum trajectory: " << maximumTrajectory / Mpc << "Mpc";
 	if (makeInactive)
 		s << ", render inactivate";
 	return s.str();

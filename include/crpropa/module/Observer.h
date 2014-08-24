@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <fstream>
+#include <limits>
 
 namespace crpropa {
 
@@ -41,8 +42,10 @@ class ObserverSmallSphere: public ObserverFeature {
 private:
 	Vector3d center;
 	double radius;
+	double maximumTrajectory;
 public:
-	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
+	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0,
+			double maximumTrajectory = std::numeric_limits<double>::max());
 	bool process(Candidate &candidate) const;
 };
 

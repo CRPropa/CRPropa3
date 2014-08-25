@@ -130,11 +130,12 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		int A = massNumber(id);
 		int Z = chargeNumber(id);
 		int N = A - Z;
+		size_t idx = Z * 31 + N;
 
 		// check if disintegration data available
 		if ((Z > 26) or (N > 30))
 			return;
-		if (pdRate[Z * 31 + N].size() == 0)
+		if (pdRate[idx].size() == 0)
 			return;
 
 		// check if in tabulated energy range
@@ -144,9 +145,9 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 			return;
 
 		double rate = interpolateEquidistant(lg, lgmin, lgmax,
-				pdRate[Z * 31 + N]);
+				pdRate[idx]);
 
-		// comological scaling, rate per comoving distance)
+		// cosmological scaling, rate per comoving distance)
 		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 		Random &random = Random::instance();
@@ -164,10 +165,13 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		int channel;
 		int l = round(lg / (lgmax - lgmin) * (nlg - 1)); // index of closest tabulated point
 
-		std::vector<Branch> branches = pdBranch[Z * 31 + N];
+		const std::vector<Branch> &branches = pdBranch[idx];
 		for (size_t i = 0; i < branches.size(); i++) {
-			channel = branches[i].channel;
-			cmp -= branches[i].branchingRatio[l];
+			const Branch &branch = branches[i];
+			channel = branch.channel;
+			if ((l < 0) || (l >=  branch.branchingRatio.size()))
+				continue;
+			cmp -= branch.branchingRatio[l];
 			if (cmp <= 0)
 				break;
 		}
@@ -228,11 +232,12 @@ double PhotoDisintegration::lossLength(int id, double E, double z) {
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	int N = A - Z;
+	size_t idx = Z * 31 + N;
 
 	// check if disintegration data available
 	if ((Z > 26) or (N > 30))
 		return std::numeric_limits<double>::max();
-	std::vector<double> rate = pdRate[Z * 31 + N];
+	const std::vector<double> &rate = pdRate[idx];
 	if (rate.size() == 0)
 		return std::numeric_limits<double>::max();
 
@@ -249,7 +254,7 @@ double PhotoDisintegration::lossLength(int id, double E, double z) {
 
 	// average number of nucleons lost for all disintegration channels
 	double avg_dA = 0;
-	std::vector<Branch> branches = pdBranch[Z * 31 + N];
+	const std::vector<Branch> &branches = pdBranch[idx];
 	for (size_t i = 0; i < branches.size(); i++) {
 		int channel = branches[i].channel;
 		int dA = 0;

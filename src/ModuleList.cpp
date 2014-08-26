@@ -49,9 +49,13 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 		process(candidate);
 
 	// propagate secondaries
-	if (recursive)
-		for (size_t i = 0; i < candidate->secondaries.size(); i++)
+	if (recursive) {
+		for (size_t i = 0; i < candidate->secondaries.size(); i++) {
+			if (g_cancel_signal_flag)
+				break;
 			run(candidate->secondaries[i], recursive);
+		}
+	}
 }
 
 void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
@@ -73,8 +77,10 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 
 #pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
-		if (!g_cancel_signal_flag)
-			run(candidates[i], recursive);
+		if (g_cancel_signal_flag)
+			continue;
+
+		run(candidates[i], recursive);
 
 		if (showProgress)
 #pragma omp critical(progressbarUpdate)
@@ -102,9 +108,11 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 
 #pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
+		if (g_cancel_signal_flag)
+			continue;
+
 		ref_ptr<Candidate> candidate = source->getCandidate();
-		if (!g_cancel_signal_flag)
-			run(candidate, recursive);
+		run(candidate, recursive);
 
 		if (showProgress)
 #pragma omp critical(progressbarUpdate)

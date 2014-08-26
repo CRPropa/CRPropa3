@@ -326,25 +326,6 @@ TEST(EllipsoidalBoundary, limitStep) {
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
 }
 
-//** ============================ Tools ===================================== */
-TEST(ParticleSelector, neutrinos) {
-	// Test if ParticleSelector only activates for neutrinos
-	// Use DetectAll as test module
-	ParticleSelector selector(new DetectAll(), neutrinos());
-
-	Candidate c1;
-	c1.current.setId(12); // electron neutrino
-	c1.setTrajectoryLength(5 * Mpc);
-	selector.process(&c1);
-	EXPECT_FALSE(c1.isActive());
-
-	Candidate c2;
-	c2.current.setId(nucleusId(1, 1)); // proton
-	c2.setTrajectoryLength(5 * Mpc);
-	selector.process(&c2);
-	EXPECT_TRUE(c2.isActive());
-}
-
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

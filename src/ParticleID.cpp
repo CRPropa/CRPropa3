@@ -5,18 +5,6 @@
 
 namespace crpropa {
 
-std::vector<int> neutrinos() {
-	int a[] = { 12, -12, 14, -14, 16, -16 };
-	std::vector<int> v(a, a + sizeof(a) / sizeof(int));
-	return v;
-}
-
-std::vector<int> leptons() {
-	int a[] = { 11, -11, 12, -12, 13, -13, 14, -14, 15, -15, 16, -16 };
-	std::vector<int> v(a, a + sizeof(a) / sizeof(int));
-	return v;
-}
-
 int nucleusId(int a, int z) {
 	if (z < 0)
 		throw std::runtime_error(

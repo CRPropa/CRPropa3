@@ -42,6 +42,8 @@ int massNumber(int id) {
 }
 
 bool isNucleus(int id) {
+	if (id == 2112)
+		return true; // consider neutron as nucleus
 	return HepPID::isNucleus(id);
 }
 

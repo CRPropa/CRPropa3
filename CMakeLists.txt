@@ -124,7 +124,7 @@ if(MUPARSER_FOUND)
 endif(MUPARSER_FOUND)
 
 # ----------------------------------------------------------------------------
-# Downloading data files (interaction data, masses, decay times)
+# Downloading data files (interaction data, masses, decay data)
 # ----------------------------------------------------------------------------
 set(DATA_URL "http://crpropa.desy.de/images/f/ff/Data20140803.tar.gz")
 set(DATA_MD5SUM "1f0016cf3b1cf31250293de08d7fe759")

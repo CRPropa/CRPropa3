@@ -6,9 +6,6 @@
 
 namespace crpropa {
 
-std::vector<int> neutrinos();
-std::vector<int> leptons();
-
 /** This implements the 2012 Monte Carlo nuclear code scheme.
  * Ion numbers are +/- 10LZZZAAAI.
  * AAA is A - total baryon number
@@ -19,6 +16,7 @@ std::vector<int> leptons();
 int nucleusId(int a, int z);
 int chargeNumber(int id);
 int massNumber(int id);
+
 bool isNucleus(int id);
 
 /* CRPropa2.0 code scheme */

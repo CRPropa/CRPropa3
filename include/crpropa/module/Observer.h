@@ -49,10 +49,8 @@ class ObserverSmallSphere: public ObserverFeature {
 private:
 	Vector3d center;
 	double radius;
-	double maximumTrajectory;
 public:
-	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0,
-			double maximumTrajectory = std::numeric_limits<double>::max());
+	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
 	DetectionState checkDetection(Candidate *candidate) const;
 };
 
@@ -93,6 +91,33 @@ public:
 };
 
 /**
+ @class ObserverNucleusVeto
+ @brief Veto for nuclei (including protons and neutrons)
+ */
+class ObserverNucleusVeto: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+};
+
+/**
+ @class ObserverNeutrinoVeto
+ @brief Veto for neutrinos
+ */
+class ObserverNeutrinoVeto: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+};
+
+/**
+ @class ObserverPhotonVeto
+ @brief Veto for photons
+ */
+class ObserverPhotonVeto: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+};
+
+/**
  @class ObserverOutput3D
  @brief Plain text output of 3D properties
  */
@@ -121,6 +146,7 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+// old observer scheme
 
 class SmallObserverSphere: public Module {
 private:

@@ -39,30 +39,20 @@ void Observer::process(Candidate *candidate) const {
 	}
 }
 
-ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius,
-		double maximumTrajectory) :
-		center(center), radius(radius), maximumTrajectory(maximumTrajectory) {
+ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
+		center(center), radius(radius) {
 }
 
 DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
 	// current distance to observer sphere center
 	double d = (candidate->current.getPosition() - center).getR();
 
-	double remainingToBorder = d - radius;
-
 	// conservatively limit next step to prevent overshooting
-	candidate->limitNextStep(fabs(remainingToBorder));
+	candidate->limitNextStep(fabs(d - radius));
 
 	// no detection if outside of observer sphere
-	if (d > radius) {
-		// disable candidate if it cannot reach this observer
-		double remainingToMaximum = maximumTrajectory
-				- candidate->getTrajectoryLength();
-		if (remainingToBorder > remainingToMaximum)
-			candidate->setActive(false);
-
+	if (d > radius)
 		return NOTHING;
-	}
 
 	// previous distance to observer sphere center
 	double dprev = (candidate->previous.getPosition() - center).getR();
@@ -122,6 +112,25 @@ DetectionState ObserverRedshiftWindow::checkDetection(
 	if (z < zmin)
 		return VETO;
 	return NOTHING;
+}
+
+DetectionState ObserverNucleusVeto::checkDetection(Candidate *c) const {
+	if (isNucleus(c->current.getId()))
+		return NOTHING;
+	return VETO;
+}
+
+DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
+	int id = fabs(c->current.getId());
+	if ((id == 12) or (id == 14) or (id == 16))
+		return NOTHING;
+	return VETO;
+}
+
+DetectionState ObserverPhotonVeto::checkDetection(Candidate *c) const {
+	if (c->current.getId() == 22)
+		return NOTHING;
+	return VETO;
 }
 
 ObserverOutput3D::ObserverOutput3D(std::string fname, bool legacy) :

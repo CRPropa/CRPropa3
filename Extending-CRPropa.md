@@ -27,34 +27,34 @@ class MyModule(Module):
 
 
 The initial properties of a cosmic rays can be set with a Source, composed of several SourceProperties.
-Custom SourceProperties can be written in the following way:
+Custom SourceFeatures can be written in the following way:
 ```python
-class MySourceProperty(SourceProperty):
+class MySourceFeature(SourceFeature):
     """ Set the initial energy to 10 EeV """
     def prepareParticle(self, particleState):
         particleState.setEnergy(10 * EeV)
 
 s = Source()
-s.addProperty(MySourceProperty())
+s.add(MySourceFeature())
 c = s.getCandidate()
 print c.current.getEnergy()
 ```
 
-The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceProperty use the following:
+The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceFeature use the following:
 ```python
-class MySourceProperty2(SourceProperty):
+class MySourceFeature(SourceFeature):
     """ Set the initial redshift """
     def prepareCandidate(self, candidate):
         candidate.setRedshift(0.6)
 
 s = Source()
-s.addProperty(MySourceProperty())
+s.add(MySourceFeature())
 c = s.getCandidate()
 print c.getRedshift()
 ```
 
 ### Replacing base classes
-Alternatively the simulation chain (ModuleList) and the cosmic ray source (Source, SourceProperty) can be explicitly written down and replaced.
+Alternatively the simulation chain (ModuleList) and the cosmic ray source (Source, SourceFeature) can be explicitly written down and replaced.
 The following code replaces a ModuleList:
 ```python
 m1 = SimplePropagation()

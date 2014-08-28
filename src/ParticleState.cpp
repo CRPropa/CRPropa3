@@ -1,15 +1,18 @@
 #include "crpropa/ParticleState.h"
+#include "crpropa/Units.h"
+#include "crpropa/Common.h"
+#include "crpropa/ParticleID.h"
+#include "crpropa/ParticleMass.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 
-#include <stdexcept>
-#include <algorithm>
-
 namespace crpropa {
 
-ParticleState::ParticleState() :
-		id(0), charge(0), pmass(0), energy(0), position(0, 0, 0), direction(-1,
-				0, 0) {
+ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir) {
+	setId(id);
+	setEnergy(E);
+	setPosition(pos);
+	setDirection(dir);
 }
 
 void ParticleState::setPosition(const Vector3d &pos) {
@@ -38,9 +41,9 @@ double ParticleState::getEnergy() const {
 
 void ParticleState::setId(int newId) {
 	id = newId;
-	if (HepPID::isNucleus(id)) {
+	if (isNucleus(id)) {
 		pmass = nucleusMass(id);
-		charge = HepPID::Z(id) * eplus; // HepPID::charge doesn't work for nuclei
+		charge = chargeNumber(id) * eplus; // HepPID::charge doesn't work for nuclei
 		if (id < 0)
 			charge *= -1; // HepPID::Z returns positive charge numbers for anti-nuclei
 	} else {
@@ -76,6 +79,15 @@ Vector3d ParticleState::getVelocity() const {
 
 Vector3d ParticleState::getMomentum() const {
 	return direction * (energy / c_light);
+}
+
+std::string ParticleState::getDescription() const {
+	std::stringstream ss;
+	ss << "Particle " << id << ", ";
+	ss << "E = " << energy / EeV << " EeV, ";
+	ss << "x = " << position / Mpc << " Mpc, ";
+	ss << "p = " << direction;
+	return ss.str();
 }
 
 } // namespace crpropa

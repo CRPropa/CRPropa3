@@ -6,6 +6,10 @@
  */
 
 #include "crpropa/Candidate.h"
+#include "crpropa/Common.h"
+#include "crpropa/Units.h"
+#include "crpropa/ParticleID.h"
+#include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"

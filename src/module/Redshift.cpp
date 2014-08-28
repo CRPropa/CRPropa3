@@ -1,4 +1,5 @@
 #include "crpropa/module/Redshift.h"
+#include "crpropa/Units.h"
 #include "crpropa/Cosmology.h"
 
 #include <limits>

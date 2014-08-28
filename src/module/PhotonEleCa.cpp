@@ -1,4 +1,5 @@
 #include "crpropa/module/PhotonEleCa.h"
+#include "crpropa/Units.h"
 
 #include "EleCa/Propagation.h"
 #include "EleCa/Particle.h"

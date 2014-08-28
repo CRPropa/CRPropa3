@@ -1,4 +1,6 @@
 #include "crpropa/module/OutputROOT.h"
+#include "crpropa/Units.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
 #ifdef CRPROPA_HAVE_ROOT

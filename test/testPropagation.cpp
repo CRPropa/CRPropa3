@@ -1,4 +1,5 @@
 #include "crpropa/Candidate.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/PropagationCK.h"
 

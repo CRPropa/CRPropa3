@@ -175,15 +175,24 @@ using std::ptrdiff_t;
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 
+
+// nice Python print
 %pythoncode %{
-# nice python print
 Module.__str__ = Module.getDescription
+Module.__repr__ = Module.getDescription
+
+ModuleList.__str__ = ModuleList.getDescription
+ModuleList.__repr__ = ModuleList.getDescription
 
 def Vector3__str__(self):
-  return "(%.4e, %.4e, %.4e)" % (self.x, self.y, self.z)
+  return "(%.3g, %.3g, %.3g)" % (self.x, self.y, self.z)
 Vector3d.__str__ = Vector3__str__
 Vector3f.__str__ = Vector3__str__
 
-# expose PropagationCK under its former name Deflection 
-DeflectionCK = PropagationCK
+def Vector3__repr__(self):
+    return "Vector3 (%.3g, %.3g, %.3g)" % (self.x, self.y, self.z)
+Vector3d.__repr__ = Vector3__repr__
+Vector3f.__repr__ = Vector3__repr__
+
+DeflectionCK = PropagationCK  # legacy name
 %}

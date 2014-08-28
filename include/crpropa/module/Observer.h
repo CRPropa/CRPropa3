@@ -36,7 +36,7 @@ private:
 	std::vector<ref_ptr<ObserverFeature> > features;
 	bool makeInactive;
 public:
-	Observer(bool makeInactive = false);
+	Observer(bool makeInactive = true);
 	void add(ObserverFeature *property);
 	void process(Candidate *candidate) const;
 };

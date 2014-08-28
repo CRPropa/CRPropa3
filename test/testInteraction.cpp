@@ -1,4 +1,5 @@
 #include "crpropa/Candidate.h"
+#include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"

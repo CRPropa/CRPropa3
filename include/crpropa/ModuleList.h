@@ -6,7 +6,7 @@
 #include "crpropa/Source.h"
 
 #include <list>
-#include <iostream>
+#include <sstream>
 
 namespace crpropa {
 

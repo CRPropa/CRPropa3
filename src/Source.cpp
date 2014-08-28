@@ -1,8 +1,8 @@
 #include "crpropa/Source.h"
 #include "crpropa/Random.h"
 #include "crpropa/Cosmology.h"
-
-#include "HepPID/ParticleIDMethods.hh"
+#include "crpropa/Common.h"
+#include "crpropa/ParticleID.h"
 
 #ifdef CRPROPA_HAVE_MUPARSER
 #include "muParser.h"

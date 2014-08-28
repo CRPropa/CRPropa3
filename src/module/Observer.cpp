@@ -1,4 +1,6 @@
 #include "crpropa/module/Observer.h"
+#include "crpropa/Units.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
 namespace crpropa {

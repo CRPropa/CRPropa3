@@ -2,6 +2,7 @@
 #define SIMPLEPROPAGATION_H
 
 #include "crpropa/Module.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 

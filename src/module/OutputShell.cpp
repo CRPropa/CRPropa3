@@ -1,4 +1,5 @@
 #include "crpropa/module/OutputShell.h"
+#include "crpropa/Units.h"
 
 #include <iomanip>
 

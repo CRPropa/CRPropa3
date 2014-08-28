@@ -130,27 +130,19 @@ const ModuleList::module_list_t &ModuleList::getModules() const {
 	return modules;
 }
 
-void ModuleList::showModules() const {
-	crpropa::ModuleList::module_list_t::const_iterator iEntry;
-
-	iEntry = getModules().begin();
-	while (iEntry != getModules().end()) {
-		const crpropa::ref_ptr<crpropa::Module> &entry = *iEntry;
-		iEntry++;
-		std::cout << "  " << entry->getDescription() << "\n";
+std::string ModuleList::getDescription() const {
+	std::stringstream ss;
+	ss << "ModuleList\n";
+	crpropa::ModuleList::module_list_t::const_iterator it;
+	for (it = modules.begin(); it != modules.end(); ++it) {
+		const crpropa::ref_ptr<crpropa::Module> &m = *it;
+		ss << "  " << m->getDescription() << "\n";
 	}
+	return ss.str();
+}
+
+void ModuleList::showModules() const {
+	std::cout << getDescription();
 }
 
 } // namespace crpropa
-
-std::ostream &operator<<(std::ostream &out, const crpropa::ModuleList &list) {
-	crpropa::ModuleList::module_list_t::const_iterator iEntry;
-
-	iEntry = list.getModules().begin();
-	while (iEntry != list.getModules().end()) {
-		const crpropa::ref_ptr<crpropa::Module> &entry = *iEntry;
-		iEntry++;
-		out << "  " << entry->getDescription() << "\n";
-	}
-	return out;
-}

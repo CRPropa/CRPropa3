@@ -214,6 +214,10 @@ SourcePosition::SourcePosition(Vector3d position) :
 		position(position) {
 }
 
+SourcePosition::SourcePosition(double d) :
+		position(Vector3d(d, 0, 0)) {
+}
+
 void SourcePosition::prepareParticle(ParticleState& particle) const {
 	particle.setPosition(position);
 }

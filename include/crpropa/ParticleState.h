@@ -2,10 +2,8 @@
 #define CRPROPA_PARTICLE_STATE_H
 
 #include "crpropa/Vector3.h"
-#include "crpropa/Units.h"
-#include "crpropa/Common.h"
-#include "crpropa/ParticleID.h"
-#include "crpropa/ParticleMass.h"
+
+#include <sstream>
 
 namespace crpropa {
 
@@ -29,8 +27,9 @@ private:
 	double charge; ///< particle charge
 
 public:
-	/// Constructor: Create a particle at (0,0,0) pointing at (-1,0,0)
-	ParticleState();
+	ParticleState(int id = 0, double energy = 0,
+			Vector3d position = Vector3d(0, 0, 0),
+			Vector3d direction = Vector3d(-1, 0, 0));
 
 	/// Set position in comoving coordinates
 	void setPosition(const Vector3d &pos);
@@ -51,6 +50,8 @@ public:
 	void setId(int);
 	/// Get particle ID
 	int getId() const;
+
+	std::string getDescription() const;
 
 	// ======== Helper methods ========
 

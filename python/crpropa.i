@@ -178,16 +178,49 @@ using std::ptrdiff_t;
 
 // pretty print
 %pythoncode %{
+ParticleState.__repr__ = ParticleState.getDescription
+Candidate.__repr__ = Candidate.getDescription
+
 Module.__repr__ = Module.getDescription
 ModuleList.__repr__ = ModuleList.getDescription
+
+Source.__repr__ = Source.getDescription
+SourceList.__repr__ = SourceList.getDescription
+SourceParticleType.__repr__ = SourceParticleType.getDescription
+SourceMultipleParticleTypes.__repr__ = SourceMultipleParticleTypes.getDescription
+SourceEnergy.__repr__ = SourceEnergy.getDescription
+SourcePowerLawSpectrum.__repr__ = SourcePowerLawSpectrum.getDescription
+SourceMultiplePositions.__repr__ = SourceMultiplePositions.getDescription
+SourceComposition.__repr__ = SourceComposition.getDescription
+SourcePosition.__repr__ = SourcePosition.getDescription
+SourceUniform1D.__repr__ = SourceUniform1D.getDescription
+SourceUniformBox.__repr__ = SourceUniformBox.getDescription
+SourceUniformShell.__repr__ = SourceUniformShell.getDescription
+SourceUniformSphere.__repr__ = SourceUniformSphere.getDescription
+SourceDensityGrid.__repr__ = SourceDensityGrid.getDescription
+SourceDensityGrid1D.__repr__ = SourceDensityGrid1D.getDescription
+SourceDirection.__repr__ = SourceDirection.getDescription
+SourceIsotropicEmission.__repr__ = SourceIsotropicEmission.getDescription
+SourceEmissionCone.__repr__ = SourceEmissionCone.getDescription
+SourceRedshift.__repr__ = SourceRedshift.getDescription
+SourceRedshift1D.__repr__ = SourceRedshift1D.getDescription
+SourceUniformRedshift.__repr__ = SourceUniformRedshift.getDescription
+
+Observer.__repr__ = Observer.getDescription
+ObserverPoint.__repr__ = ObserverPoint.getDescription
+ObserverSmallSphere.__repr__ = ObserverSmallSphere.getDescription
+ObserverLargeSphere.__repr__ = ObserverLargeSphere.getDescription
+ObserverRedshiftWindow.__repr__ = ObserverRedshiftWindow.getDescription
+ObserverNucleusVeto.__repr__ = ObserverNucleusVeto.getDescription
+ObserverNeutrinoVeto.__repr__ = ObserverNeutrinoVeto.getDescription
+ObserverPhotonVeto.__repr__ = ObserverPhotonVeto.getDescription
+ObserverOutput1D.__repr__ = ObserverOutput1D.getDescription
+ObserverOutput3D.__repr__ = ObserverOutput3D.getDescription
 
 def Vector3__repr__(self):
     return "Vector(%.3g, %.3g, %.3g)" % (self.x, self.y, self.z)
 Vector3d.__repr__ = Vector3__repr__
 Vector3f.__repr__ = Vector3__repr__
-
-ParticleState.__repr__ = ParticleState.getDescription
-Candidate.__repr__ = Candidate.getDescription
 
 DeflectionCK = PropagationCK  # legacy name
 %}

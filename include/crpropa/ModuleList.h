@@ -32,6 +32,7 @@ public:
 	module_list_t &getModules();
 	const module_list_t &getModules() const;
 
+	std::string getDescription() const;
 	void showModules() const;
 
 private:
@@ -40,7 +41,5 @@ private:
 };
 
 } // namespace crpropa
-
-std::ostream &operator<<(std::ostream &out, const crpropa::ModuleList &list);
 
 #endif // CRPROPA_MODULE_LIST_H

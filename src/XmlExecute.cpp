@@ -750,7 +750,7 @@ void XmlExecute::loadOutput(xml_node &node) {
 
 void XmlExecute::run() {
 	cout << endl << "Active modules:" << endl;
-	modules.showModules();
+	cout << modules.getDescription();
 	modules.setShowProgress(true);
 	modules.run(&source, nTrajectories, true);
 }

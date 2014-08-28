@@ -22,9 +22,12 @@ enum DetectionState {
  @brief Abstract base class for features of cosmic ray observers
  */
 class ObserverFeature: public Referenced {
+protected:
+	std::string description;
 public:
 	virtual DetectionState checkDetection(Candidate *candidate) const;
 	virtual void onDetection(Candidate *candidate) const;
+	virtual std::string getDescription() const;
 };
 
 /**
@@ -39,6 +42,7 @@ public:
 	Observer(bool makeInactive = true);
 	void add(ObserverFeature *property);
 	void process(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -52,6 +56,7 @@ private:
 public:
 	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -65,6 +70,7 @@ private:
 public:
 	ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -77,6 +83,7 @@ private:
 public:
 	ObserverRedshiftWindow(double zmin = 0, double zmax = 0.1);
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -88,6 +95,7 @@ public:
 class ObserverPoint: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -97,6 +105,7 @@ public:
 class ObserverNucleusVeto: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -106,6 +115,7 @@ public:
 class ObserverNeutrinoVeto: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -115,6 +125,7 @@ public:
 class ObserverPhotonVeto: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
 };
 
 /**
@@ -200,7 +211,7 @@ public:
 };
 
 /**
- @class Observer1D
+ @class OneDimObserver
  @brief Observer for 1D simulations
 
  Particles are detected once their x-position gets smaller than a 0.

@@ -45,7 +45,7 @@ void ParticleState::setId(int newId) {
 		pmass = nucleusMass(id);
 		charge = chargeNumber(id) * eplus;
 		if (id < 0)
-			charge *= -1;
+			charge *= -1; // anti-nucleus
 	} else {
 		// pmass missing for non-nuclei
 		charge = HepPID::charge(id) * eplus;

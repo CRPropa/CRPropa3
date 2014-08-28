@@ -148,6 +148,7 @@ class SourcePosition: public SourceFeature {
 	Vector3d position; /**< Source position */
 public:
 	SourcePosition(Vector3d position);
+	SourcePosition(double d);
 	void prepareParticle(ParticleState &state) const;
 };
 

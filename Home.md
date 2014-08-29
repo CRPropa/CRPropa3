@@ -7,6 +7,7 @@ For installation instructions please refer to the [README]()
 
 #### Manual
  * [Basic concepts](Basic concepts)
+ * [Nuclear data](Nuclear data)
 
 Collection of examples for the Python steering
  * [Cosmic Ray Sources](Cosmic Ray Sources)

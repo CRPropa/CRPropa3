@@ -6,6 +6,7 @@ Welcome to the CRPropa3 wiki!
 
 #### Getting started
  * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.ipynb)
+ * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.ipynb)
 
 Collection of examples for the Python steering
  * [Cosmic Ray Sources](Cosmic Ray Sources)

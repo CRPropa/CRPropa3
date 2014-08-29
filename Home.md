@@ -19,3 +19,6 @@ CRPropa 2 compatibility (XML steering)
 #### Manual
  * [Basic concepts](Basic concepts)
  * [Nuclear data](Nuclear data)
+ * [List of simulation modules](Simulation Modules)
+ * [List of observer feature](Observer Features)
+ * [List of source features](Source Features)

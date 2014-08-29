@@ -7,7 +7,7 @@ To run a simulation execute
 
 For a complete list of xml settings, refer to the CRPropa 2 manual.
 
-#### Changes to CRPropa2 cards
+##### Changes to CRPropa2 cards
 Since CRPropa 2 does not fully enforce the XML-1.0 standard, a few modifications to existing XML cards can be necessary. 
  * XML-cards can have only one root node. The root node is
    ```
@@ -19,6 +19,11 @@ Since CRPropa 2 does not fully enforce the XML-1.0 standard, a few modifications
    ```<Option1> ... </Option1>``` or ```<Option2/>```
  * Values need to be embraced by quotes, e.g.
    ```<TrajNumber value = "1000"/>``` or ```<TrajNumber value = '1000'/>```
+
+##### Known differences to CRPropa 2
+* As CRPropa2 and 3 use different random numbers and due to different internal structure, the same random seed will lead to different results.
+* Step size when no magnetic field is set:
+   CRPropa2 always performs maximum step, whereas CRPropa 3 starts with the minimum step and successively increases step size
 
 #### Example
 The following XML syntax is an example of a 3D simulation without cosmology or galactic magnetic field deflections.

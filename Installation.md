@@ -3,20 +3,19 @@
     ```
     git clone https://github.com/CRPropa/CRPropa3.git
     ```
-2. Download the data repository
-    ```
-    git clone https://github.com/CRPropa/CRPropa3-data.git CRPropa3/data
-    ```
-3. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake. See the next section for a list of configuration flags
+2. CRPropa uses CMAKE to configure. From the build directory call ccmake or cmake. See the next section for a list of configuration flags.
     ```
     cd build
     ccmake ..
     ```
-4. After the configuration run make and make install as usual
-    ```
-    make
-    make install
-    ```
+
+  CMake also automatically downloads the interaction data. If the download fails please manually obtain the data files and extract the to ./data.
+
+3. After the configuration run make and make install as usual
+  ```
+  make
+  make install
+  ```
 
 ##### CMake flags
 We recommend using ccmake to view and set the options through the user interface.

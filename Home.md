@@ -14,6 +14,9 @@ Collection of examples for the Python steering
  * [Multiple Observers](Multiple Observers)
  * [Extending CRPropa from Python](Extending CRPropa)
 
+CRPropa 2 compatibility (XML steering)
+ * [XML steering](XML steering)
+
 #### Manual
  * [Basic concepts](Basic concepts)
  * [Nuclear data](Nuclear data)

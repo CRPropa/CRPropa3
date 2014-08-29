@@ -2,6 +2,9 @@ Welcome to the CRPropa3 wiki!
 For installation instructions please refer to the [README]()
 
 ***
+#### Installation
+ * [Installation](Installation)
+
 #### Getting started
  * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.ipynb)
 

@@ -1,5 +1,4 @@
 Welcome to the CRPropa3 wiki!
-For installation instructions please refer to the [README]()
 
 ***
 #### Installation

@@ -17,9 +17,12 @@
   make install
   ```
 
-##### CMake flags
+#### CMake flags
 We recommend using ccmake to view and set the options through the user interface.
-When using cmake, options can be set by adding flags to the cmake command, e.g. ```cmake -DENABLE_PYTHON=ON ..```
+When using cmake, options can be set by adding flags to the cmake command, e.g. 
+```
+cmake -DENABLE_PYTHON=ON ..
+```
 
 + Set the install path ```-DCMAKE_INSTALL_PREFIX=/my/install/path```
 + Enable OpenMP ```-DENABLE_OPENMP=ON```
@@ -33,7 +36,7 @@ When using cmake, options can be set by adding flags to the cmake command, e.g. 
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
-##### Dependencies
+#### Dependencies
 + C++ Compiler
 + Fortran Compiler: to compile SOPHIA
 

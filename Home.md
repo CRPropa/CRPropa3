@@ -7,7 +7,7 @@ Welcome to the CRPropa3 wiki!
 #### Getting started
  * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.ipynb)
  * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.ipynb)
- * [1D simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.ipynb)
+ * [1D Simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.ipynb)
 
 Collection of examples for the Python steering
  * [Cosmic Ray Sources](Cosmic Ray Sources)

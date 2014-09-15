@@ -1,22 +1,26 @@
 #### Install from source
-1. Download the source
+1. Download and unzip the [source file](https://github.com/CRPropa/CRPropa3/archive/master.zip) or clone the repository with
     ```
     git clone https://github.com/CRPropa/CRPropa3.git
     ```
+
 2. CRPropa uses CMAKE to configure the Makefile. From the build directory call ccmake or cmake. See the next section for a list of configuration flags.
     ```
     cd build
     ccmake ..
+    make
     ```
 
-  CMake also automatically downloads the interaction data (data.tar.gz). If the download fails, please manually put the tarball in the source folder and repeat cmake.
+  CMake also automatically downloads a tarball with the interaction data (data.tar.gz). If the download fails, please manually place data.tar.gz in the source folder and repeat cmake.
 
-3. After the configuration run make and make install as usual
-  ```
-  make
-  make test   (if compiled with unit-tests)
-  make install
-  ```
+3. A set of unit tests can be run with ```make test```. If the tests are successful continue with ```make install``` to install CRPropa at the specified path, or leave it in the build directory.
+Make sure the environment variables are set accordingly: E.g. for an installation under $HOME/.local and using Python 2.7 set
+    ```sh
+    export PATH=$HOME/.local/bin:$PATH
+    export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
+    export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
+    export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
+    ```
 
 #### CMake flags
 We recommend using ccmake to view and set the options through the user interface.

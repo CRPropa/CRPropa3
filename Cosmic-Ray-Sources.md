@@ -9,7 +9,7 @@ density = crpropa.SourceDensityGrid(grid)
 
 For continuous source positions
 ```python
-source.addProperty(density)
+source.add(density)
 ```
 
 For n discrete source positions
@@ -19,5 +19,5 @@ p = ParticleState()
 for i in range(n):
     density.prepare(p)
     pos.add(p.getPosition())
-source.addProperty(positions)
+source.add(positions)
 ```

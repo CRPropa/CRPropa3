@@ -14,6 +14,7 @@
 3. After the configuration run make and make install as usual
   ```
   make
+  make test   (if compiled with unit-tests)
   make install
   ```
 

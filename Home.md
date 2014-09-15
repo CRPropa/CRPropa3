@@ -4,11 +4,11 @@ Welcome to the CRPropa3 wiki!
 #### Installation
  * [Installation](Installation)
 
-#### Getting started
+#### Tutorials
  * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.ipynb)
  * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.ipynb)
  * [1D Simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.ipynb)
- * [Galactic backtracking](hhttp://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.ipynb)
+ * [Galactic backtracking](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.ipynb)
 
 Collection of examples for the Python steering
  * [Cosmic Ray Sources](Cosmic Ray Sources)

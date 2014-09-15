@@ -135,7 +135,7 @@ else()
 	execute_process(COMMAND wget ${DATA_URL} -O ${CMAKE_SOURCE_DIR}/data.tar.gz --no-check-certificate RESULT_VARIABLE status)
 endif(CMAKE_VERSION GREATER 2.6)
 message("Download complete: ${status}")
-message("If the download failed, please manually obtain the file from " ${DATA_URL} " and extract to ./data before 'make install'")
+message("If the download failed, please manually obtain the file from " ${DATA_URL} " and place it in the source folder'")
 
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)

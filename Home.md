@@ -10,14 +10,14 @@ Welcome to the CRPropa3 wiki!
  * [1D Simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.ipynb)
  * [Galactic backtracking](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.ipynb)
 
-Collection of examples for the Python steering
+CRPropa 2 compatibility (XML steering)
+ * [XML steering](XML steering)
+
+#### FAQ
  * [Cosmic Ray Sources](Cosmic Ray Sources)
  * [Random Number Seed](Random Numbers)
  * [Multiple Observers](Multiple Observers)
  * [Extending CRPropa from Python](Extending CRPropa)
-
-CRPropa 2 compatibility (XML steering)
- * [XML steering](XML steering)
 
 #### Manual
  * [Basic concepts](Basic concepts)

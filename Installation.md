@@ -6,6 +6,7 @@
 
 2. CRPropa uses CMAKE to configure the Makefile. From the build directory call ccmake or cmake. See the next section for a list of configuration flags.
     ```
+    mkdir build
     cd build
     ccmake ..
     make

@@ -109,7 +109,7 @@ void Candidate::clearSecondaries() {
 
 std::string Candidate::getDescription() const {
 	std::stringstream ss;
-	ss << "CosmicRay\n";
+	ss << "CosmicRay at z = " << getRedshift() << "\n";
 	ss << "  source:  " << source.getDescription() << "\n";
 	ss << "  current: " << current.getDescription();
 	return ss.str();

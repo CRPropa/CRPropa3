@@ -1,5 +1,6 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/ParticleID.h"
+#include <HepPID/ParticleIDMethods.hh>
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/PhotoDisintegration.h"
@@ -452,6 +453,21 @@ TEST(Redshift, limitRedshiftDecrease) {
 	redshift.process(&c);
 	EXPECT_DOUBLE_EQ(0, c.getRedshift());
 }
+
+
+TEST(PIDdigit, consistencyWithReferenceImplementation){
+	// Tests the performance improved version against the default one
+	unsigned long testPID = rand() % 1000000000 + 1000000000;
+	for(size_t i=1; i < 8; i++)
+	{
+		HepPID::location loc = (HepPID::location) i;
+		unsigned short newResult = HepPID::digit(loc, testPID);
+		//original implementation
+		int numerator = (int) std::pow(10.0,(loc-1));
+		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
+	}
+}
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

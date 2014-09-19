@@ -2,9 +2,14 @@
 
 namespace crpropa {
 
-Candidate::Candidate() :
-		redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(
-				true) {
+Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
+		trajectoryLength(0), currentStep(0), nextStep(0), active(true) {
+	ParticleState state(id, E, pos, dir);
+	source = state;
+	created = state;
+	previous = state;
+	current = state;
+	setRedshift(z);
 }
 
 Candidate::Candidate(const ParticleState &state) :
@@ -100,6 +105,14 @@ void Candidate::addSecondary(int id, double energy) {
 
 void Candidate::clearSecondaries() {
 	secondaries.clear();
+}
+
+std::string Candidate::getDescription() const {
+	std::stringstream ss;
+	ss << "CosmicRay at z = " << getRedshift() << "\n";
+	ss << "  source:  " << source.getDescription() << "\n";
+	ss << "  current: " << current.getDescription();
+	return ss.str();
 }
 
 } // namespace crpropa

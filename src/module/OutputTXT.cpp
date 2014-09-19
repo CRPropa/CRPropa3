@@ -1,4 +1,5 @@
 #include "crpropa/module/OutputTXT.h"
+#include "crpropa/Units.h"
 
 #include <stdio.h>
 

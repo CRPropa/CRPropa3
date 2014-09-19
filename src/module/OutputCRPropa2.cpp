@@ -1,4 +1,6 @@
 #include "crpropa/module/OutputCRPropa2.h"
+#include "crpropa/Units.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
 namespace crpropa {

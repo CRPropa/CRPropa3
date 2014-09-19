@@ -38,7 +38,11 @@ private:
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
 
 public:
-	Candidate();
+	Candidate(int id = 0, double energy = 0,
+			Vector3d position = Vector3d(0, 0, 0),
+			Vector3d direction = Vector3d(-1, 0, 0),
+			double z = 0);
+
 	/**
 	 Creates a candidate, initializing the Candidate::source, Candidate::created,
 	 Candidate::previous and Candidate::current state with the argument.
@@ -93,6 +97,8 @@ public:
 	 */
 	void addSecondary(int id, double energy);
 	void clearSecondaries();
+
+	std::string getDescription() const;
 };
 
 } // namespace crpropa

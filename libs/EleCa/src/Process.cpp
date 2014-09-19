@@ -194,35 +194,32 @@ void Process::SetLimits(Particle& p1, std::string nameproc) {
 				<< std::endl;
 
 	if (nameproc == "PP") {
-		if (abs(p1.GetType()) == 11)
+		if (abs(p1.GetType()) != 22)
 			std::cout << "\nERROR!! wrong particle or process!! " << nameproc
 					<< p1.GetType() << "\n" << std::endl;
-		fsmin = 4 * ElectronMass * ElectronMass; //min per theta = 0;
-		fsmax = 4 * p1.GetEnergy() * feps_sup * 2.0; //(1.0-cos(fInteractionAngle)); //max per theta=3.14
+		fsmin = 2 * ElectronMass * ElectronMass; 
+		fsmax = 4 * p1.GetEnergy() * feps_sup; 
 	}
 	if (nameproc == "DPP") {
-		if (abs(p1.GetType()) == 11)
+		if (abs(p1.GetType()) != 22)
 			std::cout << "\nERROR!! wrong particle or process!! " << nameproc
 					<< p1.GetType() << "\n" << std::endl;
-		fsmin = 16 * ElectronMass * ElectronMass;
-		fsmax = 4 * p1.GetEnergy() * feps_sup * 2.0;
+		fsmin = 4 * ElectronMass*ElectronMass;
+		fsmax = 4 * p1.GetEnergy() * feps_sup;
 	}
 	if (nameproc == "ICS") {
-		if (p1.GetType() == 22 || p1.GetType() == 9)
-			std::cout << "\nERROR!! wrong particle or process!! " << nameproc
-					<< p1.GetType() << "\n" << std::endl;
-		fsmin = p1.GetMass() * p1.GetMass()
-				+ 2 * p1.GetEnergy() * feps_inf * (1 - p1.GetBeta());
-		fsmax = p1.GetMass() * p1.GetMass()
-				+ 2 * p1.GetEnergy() * feps_sup * (1 + p1.GetBeta());
+	  if (abs(p1.GetType()) != 11)
+	    std::cout << "\nERROR!! wrong particle or process!! " << nameproc
+		      << p1.GetType() << "\n" << std::endl;
+	  fsmin = 4 * 1e12 * feps_inf + ElectronMass*ElectronMass; //given the min E in lambda
+	  fsmax = 4 * p1.GetEnergy() * feps_inf + p1.GetMass() * p1.GetMass();
 	}
 	if (nameproc == "TPP") {
-		if (p1.GetType() == 22 || p1.GetType() == 9)
-			std::cout << "\nERROR!! wrong particle or process!! " << nameproc
-					<< p1.GetType() << "\n" << std::endl;
-		fsmin = 10 * ElectronMass * ElectronMass;
-		fsmax = 2 * p1.GetEnergy() * feps_sup * (1 + p1.GetBeta())
-				+ p1.GetMass() * p1.GetMass();
+	  if (abs(p1.GetType()) != 11)
+	    std::cout << "\nERROR!! wrong particle or process!! " << nameproc
+		      << p1.GetType() << "\n" << std::endl;
+	  fsmin = std::max(4 * 1e12 * feps_inf + ElectronMass*ElectronMass,3 * ElectronMass * ElectronMass);
+	  fsmax = 4 * p1.GetEnergy() * feps_sup + p1.GetMass() * p1.GetMass();
 	}
 }
 

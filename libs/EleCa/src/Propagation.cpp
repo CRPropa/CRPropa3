@@ -4,7 +4,6 @@
 #include "EleCa/Common.h"
 #include "EleCa/EnergyLoss.h"
 #include "EleCa/Constants.h"
-
 #include "XLoss_CBR.h"
 
 #include <string>
@@ -94,7 +93,7 @@ void Propagation::InitBkgArray(const std::string &BackRad) {
 		}
 	}
 
-	else { //if (BackRad == "ALL"  ) {
+	else {
 		double de = pow((double) eps_ph_sup_global / eps_ph_inf_global,
 				(double) 1. / POINTS_VERY_FEW);
 		double e = eps_ph_inf_global;
@@ -114,9 +113,6 @@ void Propagation::InitBkgArray(const std::string &BackRad) {
 	double a = 1.0 / BkgA[POINTS_VERY_FEW - 1];
 	for (size_t i = 0; i < POINTS_VERY_FEW; i++) {
 		BkgA[i] *= a;
-#ifdef DEBUG_ELECA
-		std::cout << BkgE[i] << " - " << BkgA[i] << std::endl;
-#endif
 	}
 }
 
@@ -149,7 +145,7 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 	pt.Setz(proc.GetIncidentParticle().Getz());
 
 	if (type == 22) {
-
+	  if (Etarget[0]) {
 		proc1.SetName("PP");
 		pt.SetEnergy(Etarget[0]);
 		proc1.SetTargetParticle(pt);
@@ -158,14 +154,15 @@ double Propagation::ExtractMinDist(Process &proc, int type, double R, double R2,
 		tmp_lambda1 = GetLambdaTab(proc1, "PP");
 
 		min_dist1 = -tmp_lambda1 * log(R);
-
+	  }
+	  if (Etarget[1]) {
 		proc2.SetName("DPP");
 		pt.SetEnergy(Etarget[1]);
 		proc2.SetTargetParticle(pt);
 		proc2.SetCMEnergy();
 		tmp_lambda2 = GetLambdaTab(proc2, "DPP");
 		min_dist2 = -tmp_lambda2 * log(R2);
-
+	  }
 #ifdef DEBUG_ELECA
 		std::cerr << "comparing 2 mindists: " << min_dist1 << "("
 		<< tmp_lambda1 << ") vs " << min_dist2 << " ( "
@@ -275,19 +272,6 @@ double Propagation::GetLambdaTab(const Process &proc,
 double Propagation::ShootPhotonEnergyMC(double z) const {
 	// Routine for the MC sampling of background photon energy
 
-//	double interpolate(double x, const std::vector<double> &X,
-//			const std::vector<double> &Y) {
-//		std::vector<double>::const_iterator it = std::upper_bound(X.begin(),
-//				X.end(), x);
-//		if (it == X.begin())
-//			return Y.front();
-//		if (it == X.end())
-//			return Y.back();
-//
-//		size_t i = it - X.begin() - 1;
-//		return Y[i] + (x - X[i]) * (Y[i + 1] - Y[i]) / (X[i + 1] - X[i]);
-//	}
-
 	double h = Uniform(0, 1);
 	for (int i = 0; i < POINTS_VERY_FEW; i++) {
 		if (h < BkgA[i]) {
@@ -308,8 +292,9 @@ double Propagation::ShootPhotonEnergyMC(double Emin, double z) const {
 	std::vector<double>::const_iterator it;
 
 	// find lowest energy bin
-
+	if (Emin == 0) return 0;
 	it = std::lower_bound(BkgE.begin(), BkgE.end(), Emin);
+
 	size_t iE;
 	if (it == BkgE.begin())
 		iE = 0;
@@ -320,15 +305,15 @@ double Propagation::ShootPhotonEnergyMC(double Emin, double z) const {
 
 	// random number in selected range
 	double h = Uniform(BkgA[iE], 1);
-
-	// find energy for random number
 	it = std::upper_bound(BkgA.begin(), BkgA.end(), h);
+
 	if (it == BkgA.begin())
 		return BkgE.front();
 	else if (it == BkgA.end())
 		return BkgE.back();
 	else
 		return BkgE[it - BkgA.begin()];
+
 }
 
 std::vector<double> Propagation::GetEtarget(Process &proc,
@@ -340,33 +325,55 @@ std::vector<double> Propagation::GetEtarget(Process &proc,
 	double z_curr = particle.Getz();
 	double Energy = particle.GetEnergy();
 	int pType = particle.GetType();
-	if (pType == 22) {
-		proc.SetName("PP");
-		proc.SetLimits();
-		smintmp = proc.GetMin();
-		Etarget_tmp = ShootPhotonEnergyMC(ElectronMass * ElectronMass / Energy,
-				z_curr);
-		Etarget.push_back(Etarget_tmp);
+	double Eexp = smintmp/(4.0 * Energy);
 
-		proc.SetName("DPP");
-		proc.SetLimits();
-		smintmp = proc.GetMin();
-		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
-		Etarget.push_back(Etarget_tmp);
+	if (pType == 22) {
+	  proc.SetName("PP");
+	  proc.SetLimits();
+	  smintmp = proc.GetMin(); 
+	  Eexp = std::max(proc.feps_inf,ElectronMass*ElectronMass/Energy);    
+	  if (Eexp > proc.feps_sup) {
+//	    std::cout << proc.GetName() << "  " <<  Eexp << " too big wrt " << proc.feps_sup << " , " << proc.feps_inf << " .. it should not interact!" << std::endl;
+	    Eexp = 0; 
+	    Etarget.push_back(0);}
+	  else
+	    Etarget_tmp = ShootPhotonEnergyMC(Eexp, z_curr);
+	  Etarget.push_back(Etarget_tmp);
+
+	  proc.SetName("DPP");
+	  proc.SetLimits();
+	  smintmp = proc.GetMin();
+	  Eexp = std::max(proc.feps_inf,2*ElectronMass*ElectronMass/Energy);
+	  if (Eexp > proc.feps_sup) {
+//	    std::cout << proc.GetName() << "  " <<  Eexp << " too big wrt " << proc.feps_sup << " , " << proc.feps_inf << " .. it should not interact!" << std::endl;
+	    Eexp = 0; 
+	    Etarget.push_back(0);}
+	  else
+	    Etarget_tmp = ShootPhotonEnergyMC(Eexp, z_curr);	  
+	  Etarget.push_back(Etarget_tmp);
 	}
 
 	else if (abs(pType) == 11) {
-		proc.SetName("ICS");
-		proc.SetLimits();
-		smintmp = proc.GetMin();
-		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
-		Etarget.push_back(Etarget_tmp);
+	  proc.SetName("ICS");
+	  proc.SetLimits();
+	  smintmp = proc.GetMin();
+	  Eexp = proc.feps_inf;
+          Etarget_tmp = ShootPhotonEnergyMC(Eexp, z_curr);	  
+	  
+	  Etarget.push_back(Etarget_tmp);
+	  
+	  proc.SetName("TPP");
+	  proc.SetLimits();
+	  smintmp = proc.GetMin();
+	  Eexp = std::max(proc.feps_inf,2*ElectronMass*ElectronMass/Energy);
+	  if (Eexp > proc.feps_sup) {
+//	    std::cout << proc.GetName() << "  " <<  Eexp << " too big wrt " << proc.feps_sup << " , " << proc.feps_inf << " .. it should not interact!" << std::endl;
+	    Eexp = 0; 
+	    Etarget.push_back(0);}
+	  else
+	    Etarget_tmp = ShootPhotonEnergyMC(Eexp, z_curr);	  
 
-		proc.SetName("TPP");
-		proc.SetLimits();
-		smintmp = proc.GetMin();
-		Etarget_tmp = ShootPhotonEnergyMC(smintmp / (4.0 * Energy), z_curr);
-		Etarget.push_back(Etarget_tmp);
+	  Etarget.push_back(Etarget_tmp);
 	}    //end e/e
 	else
 		std::cerr << "something wrong in particle type ( " << pType
@@ -473,6 +480,9 @@ void Propagation::Propagate(Particle &curr_particle,
 	Process proc;
 	proc.SetIncidentParticle(curr_particle);
 	proc.SetBackground(Bkg);
+	
+	double Ethr2 = std::max(fEthr, std::max(ElectronMass,ElectronMass*ElectronMass/proc.feps_sup));
+	if (Ecurr < Ethr2)  return;
 
 	std::vector<double> EtargetAll = GetEtarget(proc, curr_particle);
 #ifdef DEBUG_ELECA
@@ -560,7 +570,7 @@ void Propagation::Propagate(Particle &curr_particle,
 		curr_particle.Setz(z_curr);
 		curr_particle.SetEnergy(Ecurr);
 
-		if (z_curr > 0 && Ecurr < fEthr) {
+		if (z_curr > 0 && Ecurr <= Ethr2) { 
 			return;
 		}
 		if (z_curr <= 0) {
@@ -589,12 +599,12 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in PP process:  E : " << Ecurr << "  " << E1
 						<< " " << std::endl;
 
-			if (E1 > fEthr) {
+			if (E1 > Ethr2) { 
 				Particle pp(11, E1, z_curr);
 				pp.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pp);
 			}
-			if (Ecurr - E1 > fEthr) {
+			if (Ecurr - E1 > Ethr2) {
 				Particle pe(-11, Ecurr - E1, z_curr);
 				pe.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pe);
@@ -603,11 +613,11 @@ void Propagation::Propagate(Particle &curr_particle,
 			return;
 		} //if PP
 		else if (proc.GetName() == "DPP") {
-			E1 = (Ecurr - 2 * ElectronMass) / 2.0;
+		  E1 = (Ecurr - 2 * ElectronMass) / 2.0;
 			if (E1 == 0)
 				std::cerr << "ERROR in DPP process E : " << E1 << std::endl;
 
-			if (E1 > fEthr) {
+			if (E1 > Ethr2) { 
 				Particle pp(11, E1, z_curr);
 				if (fast == 1)
 					pp.SetWeigth(wi_last * 2);
@@ -630,12 +640,12 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in ICS process E : " << E1 << " " << E2
 						<< std::endl;
 
-			if (E1 > fEthr) {
+			if (E1 > Ethr2) {
 				Particle pp(curr_particle.GetType(), E1, z_curr);
 				pp.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pp);
 			}
-			if (E2 > fEthr) {
+			if (E2 > Ethr2 ) { 
 				Particle pg(22, E2, z_curr);
 				pg.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(pg);
@@ -650,7 +660,7 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in TPP process E : " << E1 << " " << E2
 						<< std::endl;
 
-			if (E1 > fEthr) {
+			if (E1 > Ethr2) { 
 				Particle pp(11, E1, z_curr);
 				if (fast == 1)
 					pp.SetWeigth(wi_last * 2);
@@ -662,7 +672,7 @@ void Propagation::Propagate(Particle &curr_particle,
 				}
 				ParticleAtMatrix.push_back(pp);
 			}
-			if (E3 > fEthr) {
+			if (E3 > Ethr2) { 
 				Particle psc(curr_particle.GetType(), E3, z_curr);
 				psc.SetWeigth(wi_last);
 				ParticleAtMatrix.push_back(psc);

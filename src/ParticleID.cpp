@@ -26,6 +26,8 @@ int chargeNumber(int id) {
 }
 
 int massNumber(int id) {
+	if (id == 2112)
+		return 1;
 	return HepPID::A(id);
 }
 

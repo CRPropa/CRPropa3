@@ -4,6 +4,7 @@
 #include "crpropa/Random.h"
 #include "crpropa/PhotonBackground.h"
 #include "crpropa/Cosmology.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Redshift.h"
@@ -750,7 +751,7 @@ void XmlExecute::loadOutput(xml_node &node) {
 
 void XmlExecute::run() {
 	cout << endl << "Active modules:" << endl;
-	modules.showModules();
+	cout << modules.getDescription();
 	modules.setShowProgress(true);
 	modules.run(&source, nTrajectories, true);
 }

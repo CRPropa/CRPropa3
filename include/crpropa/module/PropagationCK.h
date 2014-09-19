@@ -2,6 +2,7 @@
 #define CRPROPA_PROPAGATIONCK_H
 
 #include "crpropa/Module.h"
+#include "crpropa/Units.h"
 #include "crpropa/magneticField/MagneticField.h"
 
 namespace crpropa {

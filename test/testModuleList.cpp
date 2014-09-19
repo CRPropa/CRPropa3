@@ -1,7 +1,8 @@
 #include "crpropa/ModuleList.h"
+#include "crpropa/Source.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/BreakCondition.h"
-#include "crpropa/Source.h"
 
 #include "gtest/gtest.h"
 

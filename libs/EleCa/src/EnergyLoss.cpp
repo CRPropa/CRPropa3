@@ -203,11 +203,11 @@ double dSigmadE_ICS(double Ee, double Eer, double s, double theta) {
 	}
 }
 
-double dSigmadE_PP(double Ee, double E0, double eps, double theta) {
+  double dSigmadE_PP(double Ee, double E0, double eps, double theta, double s) {
 	/*!
 	 Differential cross-section for pair production.
 	 */
-	double s = ElectronMass * ElectronMass + 2 * eps * E0 * (1 - cos(theta));
+    //	double s = ElectronMass * ElectronMass + 2 * eps * E0 * (1 - cos(theta));
 	double beta = sqrt(1 - 4 * ElectronMass * ElectronMass / s);
 
 	if (Ee / E0 <= 0.5 * (1 - beta) || Ee / E0 >= 0.5 * (1 + beta)) {
@@ -239,8 +239,7 @@ double ExtractPPSecondariesEnergy(Particle &pi, Particle &pt) {
 	double eps = pt.GetEnergy();
 	double beta = pi.GetBeta();
 	double theta = cPI;
-	double s2 = ElectronMass * ElectronMass
-			+ 2 * eps * E0 * (1 - (beta) * cos(theta));
+	double s2 = ElectronMass * ElectronMass + 4 * eps * E0;// * (1 - (beta) * cos(theta));
 
 	bool failed = 1;
 
@@ -258,7 +257,7 @@ double ExtractPPSecondariesEnergy(Particle &pi, Particle &pt) {
 	for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
 			Ee *= f) {
 		MC_Sampling_Hist[cnt][0] = Ee;
-		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta);
+		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta,s2);
 
 		NormFactor += MC_Sampling_Hist[cnt][1];
 		MC_Sampling_Hist[cnt][2] = NormFactor;
@@ -312,10 +311,11 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 	double s = proc.GetCMEnergy();
 	double eps = proc.GetTargetParticle().GetEnergy();
 	double theta = M_PI;
+  s = ElectronMass * ElectronMass + 2 * eps * E0 * (1 - cos(theta));
+	double beta = sqrt(1 - 4 * ElectronMass * ElectronMass / s);
 
-	double beta = sqrt(1. - 4.0 * ElectronMass * ElectronMass / s);
-	double s2 = ElectronMass * ElectronMass
-			+ 2 * eps * E0 * (1 - (beta) * cos(theta));
+	//	double s2 = ElectronMass * ElectronMass
+	//		+ 2 * eps * E0 * (1 - (beta) * cos(theta));
 
 	bool failed = 1;
 
@@ -333,7 +333,7 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 	for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
 			Ee *= f) {
 		MC_Sampling_Hist[cnt][0] = Ee;
-		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta);
+		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta, s);
 		NormFactor += MC_Sampling_Hist[cnt][1];
 		MC_Sampling_Hist[cnt][2] = NormFactor;
 
@@ -352,17 +352,39 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 	}
 	NormFactor = (double) 1. / (double) NormFactor;
 
+	if (cnt == 0) {
+              std::cout << " PP cnt = 0 ... returning electron mass " << std::endl; 
+	      std::cout << " " << proc.GetCMEnergy() << " new s " << s  << " eps " << eps << " E0 " << E0 << std::endl << " beta: " <<  beta << " beta^2 "  <<  1 - 4 * ElectronMass * ElectronMass / s << std::endl;
+
+
+	      //just for testing what's going on  -- to be removed after some debug runs
+	      for (double Ee = f * 0.5 * (1 - beta) * E0; Ee < 0.5 * (1 + beta) * E0;
+		   Ee *= f) {
+		MC_Sampling_Hist[cnt][0] = Ee;
+		MC_Sampling_Hist[cnt][1] = dSigmadE_PP(Ee, E0, eps, theta,s);
+		NormFactor += MC_Sampling_Hist[cnt][1];
+		MC_Sampling_Hist[cnt][2] = NormFactor;
+	        std::cout << Ee << " " << beta << " f: " << f << " " << MC_Sampling_Hist[cnt][1] <<  std::endl; 
+		if (MC_Sampling_Hist[cnt][1] > 0.) {
+			cnt++;
+		} else {
+			break;
+		}
+	      }
+          return ElectronMass;}
+	/// throw std::runtime_error("failed in extractPP");
+
 	for (int i = 0; i < cnt; i++)
 		MC_Sampling_Hist[i][2] *= NormFactor;
 
 
 	double rnd;
-	double Ee = ElectronMass;
+	double Ee = 0;
 	int k = 0;
 
 	while (failed) {
 		rnd = Uniform(0., 1.0);
-		Ee = ElectronMass;
+		Ee = 0;
 		k++;
 		double min = 1e6;
 		double max = -1;
@@ -379,16 +401,6 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 				failed = 0;
 				break;
 			}
-		}
-		if (failed) {
-		  /*	std::cout << "failed in extractPP " << Ee << " " << beta << " * s: "
-					<< s << " E0: " << E0 << " eps : " << eps << " me^2/E0: "
-					<< ElectronMass * ElectronMass / E0 << "  ) " << " cnt : "
-					<< cnt << std::endl;
-			std::cout << " Limits  " << proc.GetMin() << std::endl;
-		  */
-			if (cnt == 0)
-				throw std::runtime_error("failed in extractPP");
 		}
 
 	} //end while

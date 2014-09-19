@@ -280,12 +280,12 @@ class PPSecondariesEnergyDistribution
 			_s_max = s_max;
 			_data = new double[Ns*Nrer];
 
-			double dls = (log(s_max) - log(s_min)) / (Ns);
+			_dls = (log(s_max) - log(s_min)) / (Ns);
 			double dls_min = log(s_min);
 
 			for (size_t i = 0; i < Ns; i++)
 			{
-				const double s = exp(dls_min + i*dls);
+				const double s = exp(dls_min + i*_dls);
 				double beta = sqrt(1. - 4. * ElectronMass*ElectronMass /s);
 				
 				double x0 = log((1.-beta) / 2.);
@@ -302,8 +302,7 @@ class PPSecondariesEnergyDistribution
 		// returns pointer to the the integrated distribution for a given s
 		double* getDistribution(double s)
 		{
-			double dls = (log(_s_max) - log(_s_min)) / (_Ns);
-			size_t idx = (log(s) - log(_s_min)) / dls;
+			size_t idx = (log(s / _s_min)) / _dls;
 			double *s0 = &_data[idx * _Nrer];
 			return s0;
 		}
@@ -413,12 +412,12 @@ class ICSSecondariesEnergyDistribution
 
 			double theta = M_PI;
 
-			double dls = (log(s_max) - log(s_min)) / (Ns);
+			_dls = (log(s_max) - log(s_min)) / (Ns);
 			double dls_min = log(s_min);
 
 			for (size_t i = 0; i < Ns; i++)
 			{
-				const double s = exp(dls_min + i*dls);
+				const double s = exp(dls_min + i*_dls);
 				double beta = (s - ElectronMass * ElectronMass) / (s +
 						ElectronMass * ElectronMass);
 
@@ -439,8 +438,7 @@ class ICSSecondariesEnergyDistribution
 		// returns pointer to the the integrated distribution for a given s
 		double* getDistribution(double s)
 		{
-			double dls = (log(_s_max) - log(_s_min)) / (_Ns);
-			size_t idx = (log(s) - log(_s_min)) / dls;
+			size_t idx = (log(s / _s_min)) / _dls;
 			double *s0 = &_data[idx * _Nrer];
 			return s0;
 		}

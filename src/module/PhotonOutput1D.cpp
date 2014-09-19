@@ -1,4 +1,5 @@
 #include "crpropa/module/PhotonOutput1D.h"
+#include "crpropa/Units.h"
 
 #include <iostream>
 #include <sstream>

@@ -1,4 +1,5 @@
 #include "crpropa/module/PhotonDINT1D.h"
+#include "crpropa/Units.h"
 #include "crpropa/Cosmology.h"
 
 #include <iostream>

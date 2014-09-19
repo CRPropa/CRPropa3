@@ -1,4 +1,5 @@
 #include "crpropa/module/BreakCondition.h"
+#include "crpropa/Units.h"
 
 #include <sstream>
 

@@ -1,4 +1,5 @@
 #include "crpropa/module/Boundary.h"
+#include "crpropa/Units.h"
 
 #include <sstream>
 

@@ -1,4 +1,6 @@
 #include "crpropa/module/Observer.h"
+#include "crpropa/Units.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
 namespace crpropa {
@@ -8,6 +10,10 @@ DetectionState ObserverFeature::checkDetection(Candidate *candidate) const {
 }
 
 void ObserverFeature::onDetection(Candidate *candidate) const {
+}
+
+std::string ObserverFeature::getDescription() const {
+	return description;
 }
 
 Observer::Observer(bool makeInactive) :
@@ -39,6 +45,14 @@ void Observer::process(Candidate *candidate) const {
 	}
 }
 
+std::string Observer::getDescription() const {
+	std::stringstream ss;
+	ss << "Observer\n";
+	for (int i = 0; i < features.size(); i++)
+		ss << "    " << features[i]->getDescription() << "\n";
+	return ss.str();
+}
+
 ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
@@ -63,6 +77,14 @@ DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
 
 	// else detection
 	return DETECTED;
+}
+
+std::string ObserverSmallSphere::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverSmallSphere: ";
+	ss << "center = " << center / Mpc << " Mpc, ";
+	ss << "radius = " << radius / Mpc << " Mpc";
+	return ss.str();
 }
 
 ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
@@ -91,6 +113,15 @@ DetectionState ObserverLargeSphere::checkDetection(Candidate *candidate) const {
 	return DETECTED;
 }
 
+std::string ObserverLargeSphere::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverLargeSphere: ";
+	ss << "center = " << center / Mpc << " Mpc, ";
+	ss << "radius = " << radius / Mpc << " Mpc";
+	return ss.str();
+}
+
+
 DetectionState ObserverPoint::checkDetection(Candidate *candidate) const {
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
@@ -99,6 +130,11 @@ DetectionState ObserverPoint::checkDetection(Candidate *candidate) const {
 	}
 	return DETECTED;
 }
+
+std::string ObserverPoint::getDescription() const {
+	return "ObserverPoint: observer at x = 0";
+}
+
 
 ObserverRedshiftWindow::ObserverRedshiftWindow(double zmin, double zmax) :
 		zmin(zmin), zmax(zmax) {
@@ -114,10 +150,20 @@ DetectionState ObserverRedshiftWindow::checkDetection(
 	return NOTHING;
 }
 
+std::string ObserverRedshiftWindow::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverRedshiftWindow: z = " << zmin << " - " << zmax;
+	return ss.str();
+}
+
 DetectionState ObserverNucleusVeto::checkDetection(Candidate *c) const {
 	if (isNucleus(c->current.getId()))
 		return NOTHING;
 	return VETO;
+}
+
+std::string ObserverNucleusVeto::getDescription() const {
+	return "ObserverNucleusVeto";
 }
 
 DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
@@ -127,14 +173,23 @@ DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
 	return VETO;
 }
 
+std::string ObserverNeutrinoVeto::getDescription() const {
+	return "ObserverNeutrinoVeto";
+}
+
 DetectionState ObserverPhotonVeto::checkDetection(Candidate *c) const {
 	if (c->current.getId() == 22)
 		return NOTHING;
 	return VETO;
 }
 
+std::string ObserverPhotonVeto::getDescription() const {
+	return "ObserverPhotonVeto";
+}
+
 ObserverOutput3D::ObserverOutput3D(std::string fname, bool legacy) :
 		legacy(legacy) {
+	description = "ObserverOutput3D: " + fname;
 	fout.open(fname.c_str());
 
 	if (legacy) {
@@ -216,9 +271,10 @@ void ObserverOutput3D::onDetection(Candidate *candidate) const {
 	}
 }
 
-ObserverOutput1D::ObserverOutput1D(std::string filename, bool legacy) :
+ObserverOutput1D::ObserverOutput1D(std::string fname, bool legacy) :
 		legacy(legacy) {
-	fout.open(filename.c_str());
+	description = "ObserverOutput1D: " + fname;
+	fout.open(fname.c_str());
 
 	if (legacy) {
 		fout << "#CRPropa - Output data file\n";

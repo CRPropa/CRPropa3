@@ -1,4 +1,6 @@
 #include "crpropa/Source.h"
+#include "crpropa/Units.h"
+#include "crpropa/ParticleID.h"
 
 #include "gtest/gtest.h"
 #include <stdexcept>

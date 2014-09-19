@@ -1,4 +1,5 @@
 #include "crpropa/module/NuclearDecay.h"
+#include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/Random.h"
 

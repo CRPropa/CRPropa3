@@ -209,11 +209,11 @@ double dSigmadE_ICS(double Ee, double Eer, double s, double theta) {
 	}
 }
 
-double dSigmadE_PP(double Ee, double E0, double eps, double theta) {
+  double dSigmadE_PP(double Ee, double E0, double eps, double theta, double s) {
 	/*!
 	 Differential cross-section for pair production.
 	 */
-	double s = ElectronMass * ElectronMass + 2 * eps * E0 * (1 - cos(theta));
+    //	double s = ElectronMass * ElectronMass + 2 * eps * E0 * (1 - cos(theta));
 	double beta = sqrt(1 - 4 * ElectronMass * ElectronMass / s);
 
 	if (Ee / E0 <= 0.5 * (1 - beta) || Ee / E0 >= 0.5 * (1 + beta)) {
@@ -374,7 +374,10 @@ double ExtractPPSecondariesEnergy(Process &proc) {
 	double E0 = proc.GetIncidentParticle().GetEnergy();
 	double s = proc.GetCMEnergy();
 	double eps = proc.GetTargetParticle().GetEnergy();
-	double beta = sqrt(1. - 4.0 * ElectronMass * ElectronMass / s);
+	double theta = M_PI;
+  s = ElectronMass * ElectronMass + 2 * eps * E0 * (1 - cos(theta));
+	double beta = sqrt(1 - 4 * ElectronMass * ElectronMass / s);
+	//	double s2 = ElectronMass * ElectronMass
 
 	return __extractPPSecondariesEnergy(E0, eps, beta);
 }

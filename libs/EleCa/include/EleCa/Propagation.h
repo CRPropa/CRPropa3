@@ -23,6 +23,7 @@ private:
 	std::vector<double> BkgE, BkgA;
 	std::string Bkg;
 	double fEthr;
+	double _dEtab;
 
 public:
 

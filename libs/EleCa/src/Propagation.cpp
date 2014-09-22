@@ -46,7 +46,8 @@ void Propagation::ReadTables(const std::string &filename) {
 		vTPPle[k] = TPPle;
 		k++;
 	}
-
+	// store dEtab
+	_dEtab = log10(vEtab[0] / vEtab[1]);
 	if (k != 1101)
 		std::cerr << "Failed to read lambda_table file: " << filename
 				<< "! only " << k << " entries, expected 1101!";
@@ -231,9 +232,9 @@ double Propagation::GetLambdaTab(const Process &proc,
 
 	double E0taborg = vEtab[0];
 
-	double dEtab = log10(vEtab[0] / vEtab[1]);
+	//double dEtab = log10(vEtab[0] / vEtab[1]);
 	double evolution = GetEvolution(proc.GetTargetParticle().GetEnergy(), z);
-	int i = (int) (log10(E0taborg / (E1 * (1 + z))) / dEtab);
+	int i = (int) (log10(E0taborg / (E1 * (1 + z))) / _dEtab);
 
 	if (i < 0) {
 		std::cout << "WARNING!! GetLambdaTab in " << procName << " : i= " << i

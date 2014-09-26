@@ -248,6 +248,7 @@ endif(ENABLE_TESTING)
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
 if(ENABLE_PYTHON)
+	FIND_PACKAGE(SWIG REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
 

@@ -60,7 +60,7 @@ void TurbulentMagneticField::initialize() {
 
 		// amplitude (this seems to be wrong)
 		double dk = k * dlk;
-		double Gk = k * k * dk / (1 + pow(k * Lc, spectralIndex));
+		double Gk = k * k * dk / (1 + pow(k * Lc, -spectralIndex));
 		sumGk += Gk;
 		mode.amplitude = Brms * sqrt(Gk);
 

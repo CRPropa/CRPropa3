@@ -27,3 +27,6 @@ CRPropa 2 compatibility (XML steering)
  * [List of observer feature](Observer Features)
  * [List of source features](Source Features)
  * [List of magnetic fields](Magnetic Fields)
+
+#### Developer Section
+ * [Possible developments](Possible Developments)

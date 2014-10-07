@@ -7,6 +7,9 @@ double z2Mpc(double z);
 double Mpc2z(double D);
 double Uniform(double min, double max);
 
+// set the seed for the random generator. If 0, current ime is used
+void setSeed(long int seedval=0);
+
 void setUniformCallback(double (*Uniform)(double min, double max));
 
 

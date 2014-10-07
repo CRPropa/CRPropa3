@@ -39,6 +39,7 @@ void EleCaPropagation(const std::string &inputfile,
 		throw std::runtime_error(
 				"EleCaPropagation: could not open file " + inputfile);
 
+	eleca::setSeed();
 	eleca::Propagation propagation;
   propagation.SetEthr(lowerEnergyThreshold);
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));

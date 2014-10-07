@@ -243,8 +243,10 @@ void DintPropagation(const std::string &inputfile,
 		DeleteSpectrum(&inputSpectrum);
 	}
 
+	outfile << "# BinCenter [EeV] BinWidth [EeV] Flux-Weights for photons electrons positrons ... \n";
 	for (int j = 0; j < finalSpectrum.numberOfMainBins; j++) {
 		outfile << (energyGrid.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
+		outfile << (energyWidth.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
 		for (int i = 0; i < NUM_SPECIES; i++) {
 			outfile << finalSpectrum.spectrum[i][j] << " ";
 		}

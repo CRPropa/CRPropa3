@@ -16,12 +16,14 @@ class PhotoPionProduction: public Module {
 private:
 	PhotonField photonField;
 	std::vector<double> tabLorentz; ///< Lorentz factor of nucleus
+	std::vector<double> tabRedshifts; ///< Redshifts for the interaction rates
 	std::vector<double> tabProtonRate; ///< interaction rate in [1/m] for protons
 	std::vector<double> tabNeutronRate; ///< interaction rate in [1/m] for neutrons
 	double limit; ///< fraction of mean free path to limit the next step
 	bool havePhotons;
 	bool haveNeutrinos;
 	bool haveAntiNucleons;
+	bool doRedshiftDependent;
 
 public:
 	PhotoPionProduction(PhotonField photonField = CMB, bool photons = false,

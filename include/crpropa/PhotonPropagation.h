@@ -6,17 +6,14 @@
 
 namespace crpropa {
 
-void EleCaPropagation(const std::string &inputfile,
-		const std::string &background, std::vector<double> &energy,
-		std::vector<double> &spectrum, 
-		double lowerEnergyThreshold = 1E16,
-		double stepSize = 0.2
-    );
+
 void EleCaPropagation(const std::string &inputfile,
 		const std::string &outputfile,
+		bool showProgress=true,
 		double lowerEnergyThreshold = 1E16,
-		double stepSize = 0.2,
     const std::string &background = "ALL");
+
+
 void DintPropagation(const std::string &inputfile,
 		const std::string &outputfile, int IRFlag = 2, int RadioFlag = 2,
 		double Zmax = 5);

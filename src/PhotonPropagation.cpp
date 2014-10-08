@@ -2,6 +2,7 @@
 #include "crpropa/Common.h"
 #include "crpropa/Units.h"
 #include "crpropa/Cosmology.h"
+#include "crpropa/ProgressBar.h"
 
 #include "EleCa/Propagation.h"
 #include "EleCa/Particle.h"
@@ -18,22 +19,24 @@
 namespace crpropa {
 
 void EleCaPropagation(const std::string &inputfile,
-		const std::string &background, std::vector<double> &energy,
-		std::vector<double> &spectrum,
-		double lowerEnergyThreshold,
-		double stepSize
-		) {
-	std::ifstream infile(inputfile.c_str());
+	const std::string &outputfile, 
+	bool showProgress,
+	double lowerEnergyThreshold,
+	const std::string &background) {
 
-	const double emin = log10(lowerEnergyThreshold), emax = 22, step = stepSize;
-	const size_t steps = (emax - emin) / step;
-	energy.clear();
-	energy.resize(steps);
-	spectrum.resize(steps);
-	for (size_t i = 0; i < steps; i++) {
-		energy[i] = emin + i * step;
-		spectrum[i] = 0;
+	std::ifstream infile(inputfile.c_str());
+	std::streampos startPosition = infile.tellg();
+
+	infile.seekg(0, std::ios::end);
+	std::streampos endPosition = infile.tellg();
+	infile.seekg(startPosition);
+
+
+	ProgressBar progressbar(endPosition);
+	if (showProgress) {
+		progressbar.start("Run EleCa propagation");
 	}
+
 
 	if (!infile.good())
 		throw std::runtime_error(
@@ -45,12 +48,18 @@ void EleCaPropagation(const std::string &inputfile,
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray(background);
 
+	std::ofstream output(outputfile.c_str());
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double E, D, pE, iE;
 			int Id, pId, iId;
 			infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
+
 			if (infile) {
+
+				if (showProgress) {
+					progressbar.setPosition(infile.tellg());
+				}
 				double z = eleca::Mpc2z(D);
 				eleca::Particle p0(Id, E * 1e18, z);
 
@@ -72,13 +81,11 @@ void EleCaPropagation(const std::string &inputfile,
 					}
 				}
 
-				//propagation.WriteOutput(output, p0, ParticleAtGround);
 				for (int i = 0; i < ParticleAtGround.size(); ++i) {
 					eleca::Particle &p = ParticleAtGround[i];
 					if (p.GetType() != 22)
 						continue;
-					size_t idx = (::log10(p.GetEnergy()) - emin) / step;
-					spectrum.at(idx) += 1;
+					output << p.GetType() << "\t" << p.GetEnergy() << "\n"; 
 				}
 			}
 		}
@@ -86,20 +93,9 @@ void EleCaPropagation(const std::string &inputfile,
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
+	output.close();
 }
 
-void EleCaPropagation(const std::string &inputfile,
-		const std::string &outputfile, double lowerEnergyThreshold, 
-		double stepSize,
-		const std::string &background) {
-	std::vector<double> energy, spectrum;
-	EleCaPropagation(inputfile, background, energy, spectrum, lowerEnergyThreshold, stepSize);
-	std::ofstream output(outputfile.c_str());
-	output << "# E N\n";
-	for (size_t i = 0; i < energy.size(); i++) {
-		output << energy[i] << " " << spectrum[i] << "\n";
-	}
-}
 
 typedef struct _Secondary {
 	double E, D;

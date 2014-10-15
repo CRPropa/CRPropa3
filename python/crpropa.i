@@ -20,6 +20,8 @@ using std::ptrdiff_t;
 %include std_container.i
 %include "exception.i"
 
+
+
 #ifdef CRPROPA_HAVE_QUIMBY
 %import (module="quimby") quimby.i
 #endif
@@ -223,4 +225,107 @@ Vector3d.__repr__ = Vector3__repr__
 Vector3f.__repr__ = Vector3__repr__
 
 DeflectionCK = PropagationCK  # legacy name
+
 %}
+
+
+/*
+ * MagneticLens
+ */
+
+#ifdef WITHNUMPY
+%{
+/* Include numpy array interface, if available */
+  #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+  #include "numpy/arrayobject.h"
+  #include "numpy/ufuncobject.h"
+%}
+#endif
+
+/* Initialize numpy array interface, if available */
+#ifdef WITHNUMPY
+%init %{
+import_array();
+import_ufunc();
+%}
+
+%pythoncode %{
+import numpy
+__WITHNUMPY = True
+%}
+
+#else
+%pythoncode %{
+__WITHNUMPY = False 
+%}
+#endif
+
+
+#ifdef WITH_GALACTIC_LENSES
+
+%include typemaps.i
+
+%{
+#include "parsec/ModelMatrix.h"
+#include "parsec/Pixelization.h"
+#include "parsec/MagneticLens.h"
+%}
+
+%include "parsec/ModelMatrix.h"
+%apply double &INOUT {double &longitude, double &latitude};
+%ignore Pixelization::nPix();
+
+%include "parsec/Pixelization.h"
+%pythoncode %{
+def Pixelization_nonStaticnPix(self, order=None):
+  if order == None:
+    return Pixelization_nPix(self.getOrder())
+  else:
+    return Pixelization_nPix(order)
+Pixelization.nPix = Pixelization_nonStaticnPix
+%}
+
+%apply double &INOUT {double &phi, double &theta};
+%ignore MagneticLens::transformModelVector(double *,double) const;
+%include "parsec/MagneticLens.h"
+%template(LenspartVector) std::vector< parsec::LensPart *>;
+
+#ifdef WITHNUMPY
+%extend parsec::MagneticLens{
+    PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
+    {
+      PyArrayObject *arr = NULL;
+      PyArray_Descr *dtype = NULL;
+      int ndim = 0;
+      npy_intp dims[NPY_MAXDIMS];
+      if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0)
+      {
+        return NULL; 
+      }
+
+      if (arr == NULL) 
+      {
+        return NULL;
+      }
+
+      double *dataPointer = (double*) PyArray_DATA(arr);
+      $self->transformModelVector(dataPointer, rigidity);
+      return input;
+    }
+};
+#else
+%extend parsec::MagneticLens{
+    PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
+    {
+      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      return NULL;
+    }
+};
+#endif
+
+%pythoncode %{
+MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
+%}
+
+#endif // WITH_GALACTIC_LENSES_
+

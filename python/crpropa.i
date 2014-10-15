@@ -269,6 +269,7 @@ __WITHNUMPY = False
 #include "parsec/ModelMatrix.h"
 #include "parsec/Pixelization.h"
 #include "parsec/MagneticLens.h"
+#include "parsec/ParticleMapsContainer.h"
 %}
 
 %include "parsec/ModelMatrix.h"
@@ -327,5 +328,54 @@ Pixelization.nPix = Pixelization_nonStaticnPix
 MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
 %}
 
+
+%ignore ParticleMapsContainer::getMap;
+%ignore ParticleMapsContainer::getParticleIds;
+%ignore ParticleMapsContainer::getEnergies;
+%include "parsec/ParticleMapsContainer.h"
+
+#ifdef WITHNUMPY
+%extend parsec::ParticleMapsContainer{
+  PyObject *getMap_numpyArray(const int particleId, double energy)
+  {
+      double* data = $self->getMap(particleId, energy);
+      size_t npix = $self->getNumberOfPixels();
+      npy_intp dims[1] = {npix};
+      return PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, (void*)data);
+  }
+
+  PyObject *getParticleIds_numpyArray()
+  {
+      std::vector<int> v = $self->getParticleIds();
+      npy_intp size = {v.size()};
+      PyObject *out = out = PyArray_SimpleNew(1, &size, NPY_INT);
+      memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(int));
+      return out; 
+  }
+
+  PyObject *getEnergies_numpyArray(const int pid)
+  {
+      std::vector<double> v = $self->getEnergies(pid);
+      npy_intp size = {v.size()};
+      PyObject *out = out = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
+      memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(double));
+      return out; 
+  }
+
+};
+#else
+%extend parsec::ParticleMapsContainer{
+  PyObject *getMap_numpyArray(const int particleId, double energy)
+  {
+      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      return NULL;
+  }
+};
+#endif
+%pythoncode %{
+ParticleMapsContainer.getMap = ParticleMapsContainer.getMap_numpyArray
+ParticleMapsContainer.getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
+ParticleMapsContainer.getEnergies = ParticleMapsContainer.getEnergies_numpyArray
+%}
 #endif // WITH_GALACTIC_LENSES_
 

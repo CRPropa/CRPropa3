@@ -16,6 +16,7 @@
 #include "parsec/MagneticLens.h"
 #include "parsec/ModelMatrix.h"
 #include "parsec/Pixelization.h"
+#include "parsec/ParticleMapsContainer.h"
 
 using namespace std;
 using namespace parsec;
@@ -70,4 +71,44 @@ TEST(Pixelization, angularDistance)
 		double ang = P.angularDistance(idx,idx);
 		EXPECT_TRUE(ang == ang);
 	}
+}
+
+
+TEST(ParticleMapsContainer, addParticle)
+{
+  ParticleMapsContainer maps;
+  maps.addParticle(1000010010, 1E18, 0 , 0 );
+  std::vector<int> pids = maps.getParticleIds();
+  EXPECT_EQ(pids.size(), 1);
+  EXPECT_EQ(pids[0], 1000010010);
+
+  std::vector<double> energies = maps.getEnergies(1000010010);
+  EXPECT_EQ(energies.size(), 1);
+}
+
+TEST(ParticleMapsContainer, getRandomParticles)
+{
+  ParticleMapsContainer maps(0.002);
+  maps.addParticle(1000010010, 1E18, 0 , 0 );
+  std::vector<double> energies;
+  std::vector<double> lons;
+  std::vector<double> lats;
+  std::vector<int> particleIds;
+
+  size_t N = 42;
+	maps.getRandomParticles(N, particleIds, energies, lons, lats);
+			
+  EXPECT_EQ(energies.size(), N);
+  EXPECT_EQ(lons.size(), N);
+  EXPECT_EQ(lats.size(), N);
+  EXPECT_EQ(particleIds.size(), N);
+
+  for(size_t i = 0; i < N; i++)
+  {
+    EXPECT_NEAR(log10(energies[i]), 18, 0.002);
+    EXPECT_EQ(particleIds[i], 1000010010);
+    EXPECT_NEAR(lons[i], 0, 1./180*M_PI);
+    EXPECT_NEAR(lats[i], 0, 1./180*M_PI);
+  }
+
 }

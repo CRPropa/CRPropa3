@@ -15,6 +15,12 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
+# Set default build-type to release to enable performance improvements 
+if (NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE Release)
+endif(NOT CMAKE_BUILD_TYPE)
+MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
@@ -270,6 +276,11 @@ if(ENABLE_TESTING)
 		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
 		add_test(testGalacticMagneticLens testGalacticMagneticLens)
 	endif(WITH_GALACTIC_LENSES)
+
+	if(ENABLE_PYTHON)
+		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py) 
+		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
+	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)
 
 # ----------------------------------------------------------------------------

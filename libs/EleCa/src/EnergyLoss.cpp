@@ -79,9 +79,11 @@ void InitRK() {
 	gRKa[5] = 1.;
 	gRKa[6] = 7. / 8.;
 
-	for (int i = 0; i < RK_ORDER; i++) {
-		for (int j = 0; j < RK_ORDER + 1; j++)
+	for (int i = 0; i < RK_ORDER + 1; i++) {
+		for (int j = 0; j < RK_ORDER; j++)
+    {
 			gRKb[i][j] = 0.;
+    }
 	}
 
 	gRKb[2][1] = 1. / 5.;

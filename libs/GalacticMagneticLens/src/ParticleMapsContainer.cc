@@ -87,11 +87,13 @@ void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName
         >> redShift;
       
       double weight = pow(sourceEnergy, sourceEnergyWeightExponent);
-      double galacticLongitude = atan2(-x, -y);
-      double galacticLatitude =  acos(z) - M_PI /2;
-      addParticle(particleId, energy, galacticLongitude, galacticLatitude, weight);
+      double galacticLongitude = atan2(-pY, -pX);
+      double galacticLatitude =  acos(pZ / sqrt(pX*pX + pY*pY + pZ*pZ)) - M_PI /2;
+      addParticle(particleId, energy * 1E18, galacticLongitude, galacticLatitude, weight);
     }
+		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
   }
+	infile.close();
 }
 
 

@@ -76,7 +76,8 @@ bool MagneticLens::transformCosmicRay(double rigidity, double& phi,
 	LensPart *lenspart = getLensPart(log10(rigidity) + 18);
 	if (!lenspart)
 	{
-		throw std::runtime_error("Rigidity not covered by lens");
+		std::cerr << "Warning. Trying to transform cosmic ray with rigidity " << rigidity << " which is not covered by this lens!.\n" << std::endl;
+		return false;
 	}
 
 	ModelVectorType v;
@@ -241,7 +242,12 @@ void MagneticLens::normalizeLensparts()
 void MagneticLens::transformModelVector(double* model, double rigidity) const
 {
 	LensPart* lenspart = (getLensPart(log10(rigidity)+18));
-
+	
+	if (!lenspart)
+	{
+		std::cerr << "Warning. Trying to transform vector with rigidity " << rigidity << " which is not covered by this lens!.\n" << std::endl;
+		return;
+	}
 
 	size_t lensSize =  _pixelization->nPix();
 

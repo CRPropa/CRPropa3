@@ -265,6 +265,9 @@ __WITHNUMPY = False
 
 %include typemaps.i
 
+%template(IntVector) std::vector<int>;
+%template(DoubleVector) std::vector<double>;
+
 %{
 #include "parsec/ModelMatrix.h"
 #include "parsec/Pixelization.h"
@@ -361,6 +364,10 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
       memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(double));
       return out; 
   }
+
+  
+
+  
 
 };
 #else

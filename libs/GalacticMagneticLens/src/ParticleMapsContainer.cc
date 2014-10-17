@@ -50,7 +50,6 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, dou
   {
     map<int, double*> M;
     _data[particleId] = M;
-    _weights[particleId] = 0;
   }
 
   int energyIdx  = energy2Idx(energy);
@@ -62,7 +61,6 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, dou
 
   uint32_t pixel = _pixelization.direction2Pix(galacticLongitude, galacticLatitude);
   _data[particleId][energyIdx][pixel] +=weight;
-  _weights[particleId] +=weight;
 }
  
 
@@ -149,10 +147,21 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 	vector<double> &galacticLatitudes)
 {
 	double sumOfWeights = 0;
-	for(std::map<int, double>::iterator iter = _weights.begin(); iter != _weights.end(); ++iter)
-  {
-		sumOfWeights += iter->second;
-  }
+  std::map< int , double> _weights;				
+
+	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
+			pid_iter != _data.end(); ++pid_iter) {
+    _weights[pid_iter->first] = 0;
+
+		for(std::map<int, double*>::iterator energy_iter = pid_iter->second.begin();
+			energy_iter != pid_iter->second.end(); ++energy_iter) {
+			for(size_t j=0; j< _pixelization.getNumberOfPixels() ; j++)
+			{
+        _weights[pid_iter->first]+=energy_iter->second[j];
+      }
+      sumOfWeights+=_weights[pid_iter->first];
+		}
+	}
 
 	particleId.resize(N);
 	energy.resize(N);
@@ -166,13 +175,13 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
    
     while ((r-= iter->second) > 0)
     {
-      ++iter; 
+     ++iter; 
     }
 
     particleId[i] = iter->first;
 		bool foundParticle = false;
 
-	//	// loop over maps
+	////	// loop over maps
     for(std::map<int, double*>::iterator energy_iter =
         _data[iter->first].begin(); !foundParticle; ++energy_iter )
 		{

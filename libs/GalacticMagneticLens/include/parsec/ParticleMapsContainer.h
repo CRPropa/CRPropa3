@@ -16,7 +16,6 @@ class ParticleMapsContainer
 {
 	private:
     std::map< int , std::map <int , double*> > _data;				
-    std::map< int , double> _weights;				
 		Pixelization _pixelization;
     double _deltaLogE;
     double _bin0lowerEdge;

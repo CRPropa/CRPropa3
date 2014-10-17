@@ -27,7 +27,7 @@ class ParticleMapsContainer
 
   public:
 
-		ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 18) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6)
+		ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6)
 		{
 		}
 

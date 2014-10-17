@@ -88,7 +88,7 @@ void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName
       
       double weight = pow(sourceEnergy, sourceEnergyWeightExponent);
       double galacticLongitude = atan2(-pY, -pX);
-      double galacticLatitude =  acos(pZ / sqrt(pX*pX + pY*pY + pZ*pZ)) - M_PI /2;
+      double galacticLatitude =  M_PI / 2 - acos(-pZ / sqrt(pX*pX + pY*pY + pZ*pZ));
       addParticle(particleId, energy * 1E18, galacticLongitude, galacticLatitude, weight);
     }
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
@@ -133,10 +133,10 @@ void ParticleMapsContainer::applyLens(MagneticLens &lens)
 			energy_iter != pid_iter->second.end(); ++energy_iter) {
 		//	// transform only nuclei
 			double energy = idx2Energy(energy_iter->first) / 1E18;
-			double charge = HepPID::charge(pid_iter->first);
-      if (fabs(charge) > DBL_EPSILON)
+			int chargeNumber = HepPID::Z(pid_iter->first);
+      if (chargeNumber != 0)
       {
-			  lens.transformModelVector(energy_iter->second, energy / charge);
+			  lens.transformModelVector(energy_iter->second, energy / chargeNumber);
       }
 			
 		}

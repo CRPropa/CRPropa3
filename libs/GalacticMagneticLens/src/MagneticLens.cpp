@@ -226,6 +226,7 @@ void MagneticLens::normalizeLens()
 	{
 		(*iter)->getMatrix().normalizeMatrix(norm);
 	}
+  _norm = norm;
 }
 
 void MagneticLens::normalizeLensparts()

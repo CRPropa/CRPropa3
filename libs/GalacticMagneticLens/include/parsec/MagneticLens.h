@@ -2,22 +2,22 @@
 // This file is part of PARSEC (http://physik.rwth-aachen.de/parsec)
 // a parametrized simulation engine for cosmic rays.
 //
-// Copyright (C) 2011  Martin Erdmann, Peter Schiffer, Tobias Winchen
-//                     RWTH Aachen University, Germany
+// Copyright (C) 2011	Martin Erdmann, Peter Schiffer, Tobias Winchen
+//										 RWTH Aachen University, Germany
 // Contact: winchen@physik.rwth-aachen.de
 //
-//  This program is free software: you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License as
-//  published by the Free Software Foundation, either version 3 of
-//  the License, or (at your option) any later version.
+//	This program is free software: you can redistribute it and/or
+//	modify it under the terms of the GNU General Public License as
+//	published by the Free Software Foundation, either version 3 of
+//	the License, or (at your option) any later version.
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
+//	This program is distributed in the hope that it will be useful,
+//	but WITHOUT ANY WARRANTY; without even the implied warranty of
+//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+//	GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License
-//  along with this program. If not, see <http://www.gnu.org/licenses/>.
+//	You should have received a copy of the GNU General Public License
+//	along with this program. If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
 #ifndef MAGNETICLENS_HH 
@@ -55,7 +55,7 @@ public:
 	{
 	}
 	/// File containing the matrix to be used in the range rigidityMin,
-	/// rigidityMax with logarithmic units  [log10(E / eV)]
+	/// rigidityMax with logarithmic units	[log10(E / eV)]
 	LensPart(const std::string &filename, double rigidityMin, double rigidityMax) :
 			_filename(filename), _rigidityMin(rigidityMin), _rigidityMax(rigidityMax), _maximumSumOfColumns_calculated(
 					false), _maximumSumOfColumns(0)
@@ -88,7 +88,7 @@ public:
 		}
 		return _maximumSumOfColumns;
 	}
-
+ 
 	/// Returns the minimum of the rigidity range for the lenspart in [log10(E/ eV)]
 	double getMinimumRigidity()
 	{
@@ -113,7 +113,7 @@ public:
 		M = m;
 	}
 
-  
+	
 };
 
 /// Function to calculate the mean deflection [rad] of the matrix M, given a pixelization
@@ -154,13 +154,13 @@ class MagneticLens
 	// minimum / maximum rigidity [log10(E / eV)] that is covered by the lens
 	double _minimumRigidity;
 	double _maximumRigidity;
-
 	static bool _randomSeeded;
+	double _norm;
 
 public:
 	/// Default constructor
 	MagneticLens() :
-			_pixelization(NULL), _minimumRigidity(-1), _maximumRigidity(-1)
+			_pixelization(NULL), _minimumRigidity(-1), _maximumRigidity(-1), _norm(1)
 	{
 	}
 
@@ -203,7 +203,7 @@ public:
 	/// Rigidity is given in EeV, phi and theta in rad
 	bool transformCosmicRay(double rigidity, double& phi, double& theta);
 
-	/// transforms the model assuming that model points to an array of the
+	/// transforms the model array assuming that model points to an array of the
 	/// correct size
 	void transformModelVector(double* model, double rigidity) const;
 
@@ -242,6 +242,12 @@ public:
 		return pow(10, _maximumRigidity - 18);
 	}
 
+	//	returns the norm used for the lenses
+	double getNorm()
+	{
+		return _norm;
+	}
+
 	/// Returns iterator to the lens part with rigidity [log10(E / eV)]
 	LensPart* getLensPart(double rigidity) const;
 
@@ -251,12 +257,12 @@ public:
 		return _lensParts;
 	}
 
-  //calculates the mean deflection at given rigidity [EeV] 
-  //double getMeanDeflection(double rigidity) const
-  //{
-  //  LensPart* lp = getLensPart(log10(rigidity) + 18);
-  //  return calculateMeanDeflection(lp->getMatrix(), *_pixelization);
-  //}
+	//calculates the mean deflection at given rigidity [EeV] 
+	//double getMeanDeflection(double rigidity) const
+	//{
+	//	LensPart* lp = getLensPart(log10(rigidity) + 18);
+	//	return calculateMeanDeflection(lp->getMatrix(), *_pixelization);
+	//}
 
 };
 

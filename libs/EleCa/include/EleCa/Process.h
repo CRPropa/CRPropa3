@@ -12,7 +12,15 @@ class Process {
 
 public:
 
-	std::string fname;
+	enum Name
+	{
+		NONE,
+		PP,
+		DPP,
+		TPP,
+		ICS
+	};
+
 	double flambda;
 	double fsmin;
 	double fsmax;
@@ -29,12 +37,12 @@ public:
 	Process();
 	Process(const Process&);
 	Process(Particle&, Particle&);
-	Process(Particle&, Particle&, std::string);
+	Process(Particle&, Particle&, Process::Name);
 
 	~Process();
 
-	void SetName(std::string nm);
-	const std::string &GetName() const;
+	void SetName(Process::Name nm);
+	const Process::Name &GetName() const;
 
 	void SetInteractionAngle(double a);
 	double GetInteractionAngle() const;
@@ -43,7 +51,7 @@ public:
 	double GetLambda() const;
 
 	void SetLimits(double smin, double smax);
-	void SetLimits(Particle& p1, std::string nameproc);
+	void SetLimits(Particle& p1, Process::Name nameproc);
 	void SetLimits();
 
 	void SetMax(double smax);
@@ -68,6 +76,7 @@ public:
 
 private:
 
+	Process::Name _name;
 };
 
 } // namespace

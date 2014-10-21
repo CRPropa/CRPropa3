@@ -12,7 +12,8 @@ namespace crpropa {
 PhotonEleCa::PhotonEleCa(const std::string background,
 		const std::string &filename) :
 		propagation(new eleca::Propagation), saveOnlyPhotonEnergies(false) {
-	propagation->ReadTables(getDataPath("eleca_lee.txt"));
+	//propagation->ReadTables(getDataPath("eleca_lee.txt"));
+	propagation->ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation->InitBkgArray(background);
 	output.open(filename.c_str());
 }

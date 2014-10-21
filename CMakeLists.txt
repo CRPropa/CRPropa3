@@ -127,7 +127,7 @@ endif(MUPARSER_FOUND)
 # Downloading data files (interaction data, masses, decay data)
 # ----------------------------------------------------------------------------
 set(DATA_URL "https://crpropa.desy.de/images/e/e2/Data20141021.tar.gz")
-set(DATA_MD5SUM "cd9e4bdf2a31d21986e5e379a9a5f962")
+set(DATA_MD5SUM "c2e1dba052c550873e67344673013f7c")
 message("Downloading data files from crpropa.desy.de ~ 60 MB")
 if(CMAKE_VERSION GREATER 2.6)
 	file(DOWNLOAD ${DATA_URL} ${CMAKE_SOURCE_DIR}/data.tar.gz STATUS status EXPECTED_MD5 ${DATA_MD5SUM})

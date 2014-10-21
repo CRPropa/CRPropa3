@@ -65,6 +65,10 @@ void PhotoPionProduction::init() {
 		setDescription("PhotoPionProduction: IRB Stecker '05");
 		init(getDataPath("ppp_IRB_Stecker05.txt"));
 		break;
+	case IRB_Dole06:
+		setDescription("PhotoPionProduction: IRB Dole '06");
+		init(getDataPath("ppp_IRB_Dole06.txt"));
+		break;
 	case IRB_Franceschini08:
 		setDescription("PhotoPionProduction: IRB Franceschini '08");
 		init(getDataPath("ppp_IRB_Franceschini08.txt"));
@@ -118,9 +122,6 @@ void PhotoPionProduction::init(std::string filename) {
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 
-	std::cout << "Read IRB table in " << tabRedshifts.size() << "\t"
-			<< tabLorentz.size() << "\t" << tabProtonRate.size() << "\t"
-			<< tabNeutronRate.size() << std::endl;
 	infile.close();
 }
 

@@ -41,6 +41,11 @@ void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 		initRate(getDataPath("epp_IRB_Stecker05.txt"));
 		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
+	case IRB_Dole06:
+		setDescription("ElectronPairProduction: IRB Dole '06");
+		initRate(getDataPath("epp_IRB_Dole06.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
 	case IRB_Franceschini08:
 		setDescription("ElectronPairProduction: IRB Franceschini '08");
 		initRate(getDataPath("epp_IRB_Franceschini08.txt"));

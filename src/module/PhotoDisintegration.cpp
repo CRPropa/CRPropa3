@@ -41,6 +41,11 @@ void PhotoDisintegration::setPhotonField(PhotonField photonField) {
 		initRate(getDataPath("pd_IRB_Stecker05.txt"));
 		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
+	case IRB_Dole06:
+		setDescription("PhotoDisintegration: IRB Dole '06");
+		initRate(getDataPath("pd_IRB_Dole06.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Dole06.txt"));
+		break;
 	case IRB_Franceschini08:
 		setDescription("PhotoDisintegration: IRB Franceschini '08");
 		initRate(getDataPath("pd_IRB_Franceschini08.txt"));

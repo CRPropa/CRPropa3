@@ -37,7 +37,7 @@ TEST(MagneticLens, Deflection)
 		M(i,j) =1;
 	}
 
-	magneticLens.setLensPart(M,19.0,20.0);
+	magneticLens.setLensPart(M, 10 * EeV, 100 * EeV);
 
 	for (int i=0; i < P.nPix(); i++)
 	{
@@ -46,7 +46,7 @@ TEST(MagneticLens, Deflection)
 		double theta0 = theta;
 
 		// No CR is allowed to be lost in this lens
-		EXPECT_TRUE(magneticLens.transformCosmicRay(19.32, phi, theta));
+		EXPECT_TRUE(magneticLens.transformCosmicRay(20 * EeV, phi, theta));
 		EXPECT_NEAR(theta+theta0,0., 0.05);
 	}
 }
@@ -56,9 +56,9 @@ TEST(MagneticLens, OutOfBoundsEnergy)
 	MagneticLens magneticLens(5);
 	Pixelization P(5);
 	ModelMatrix M(P.nPix(),P.nPix(),P.nPix());
-	magneticLens.setLensPart(M,19.0,20.0);
+	magneticLens.setLensPart(M,10. * EeV, 100. * EeV);
 	double theta, phi;
-	EXPECT_FALSE(magneticLens.transformCosmicRay(1.32, phi, theta));
+	EXPECT_FALSE(magneticLens.transformCosmicRay(1. * EeV, phi, theta));
 }
 
 
@@ -77,7 +77,7 @@ TEST(Pixelization, angularDistance)
 TEST(ParticleMapsContainer, addParticle)
 {
   ParticleMapsContainer maps;
-  maps.addParticle(1000010010, 1E18, 0 , 0 );
+  maps.addParticle(1000010010, 1 * EeV, 0 , 0 );
   std::vector<int> pids = maps.getParticleIds();
   EXPECT_EQ(pids.size(), 1);
   EXPECT_EQ(pids[0], 1000010010);
@@ -89,7 +89,7 @@ TEST(ParticleMapsContainer, addParticle)
 TEST(ParticleMapsContainer, getRandomParticles)
 {
   ParticleMapsContainer maps(0.002);
-  maps.addParticle(1000010010, 1E18, 0 , 0 );
+  maps.addParticle(1000010010, 1 * EeV, 0 , 0 );
   std::vector<double> energies;
   std::vector<double> lons;
   std::vector<double> lats;

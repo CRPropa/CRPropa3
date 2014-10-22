@@ -23,6 +23,8 @@
 #include "crpropa/magneticLens/MagneticLens.h"
 
 #include "crpropa/Random.h"
+#include "crpropa/Units.h"
+
 // needed for memcpy in gcc 4.3.2
 #include <cstring>
 
@@ -63,7 +65,7 @@ void MagneticLens::loadLens(const string &filename)
 			}
 			else
 			{
-				this->loadLensPart(prefix + mfdatfile, emin, emax);
+				this->loadLensPart(prefix + mfdatfile, pow(10, emin) * eV, pow(10, emax) * eV);
 			}
 		}
 	}
@@ -73,10 +75,11 @@ bool MagneticLens::transformCosmicRay(double rigidity, double& phi,
 		double& theta) 
 {
 	uint32_t c = _pixelization->direction2Pix(phi, theta);
-	LensPart *lenspart = getLensPart(log10(rigidity) + 18);
+	LensPart *lenspart = getLensPart(rigidity);
 	if (!lenspart)
 	{
-		std::cerr << "Warning. Trying to transform cosmic ray with rigidity " << rigidity << " which is not covered by this lens!.\n" << std::endl;
+		std::cerr << "Warning. Trying to transform cosmic ray with rigidity " << rigidity / eV << " eV which is not covered by this lens!.\n";
+		std::cerr << " This lens covers the range " << _minimumRigidity /eV << " eV - " << _maximumRigidity << " eV.\n";
 		return false;
 	}
 
@@ -114,7 +117,7 @@ void MagneticLens::loadLensPart(const string &filename, double rigidityMin,
 	{
 		throw std::runtime_error("rigidityMin >= rigidityMax");
 	}
-	if (_minimumRigidity < 0 || rigidityMin < _minimumRigidity)
+	if (rigidityMin < _minimumRigidity)
 	{
 		_minimumRigidity = rigidityMin;
 	}
@@ -180,8 +183,8 @@ LensPart* MagneticLens::getLensPart(double rigidity) const
 	const_LensPartIter i = _lensParts.begin();
 	while (i != _lensParts.end())
 	{
-		if (((*i)->getMinimumRigidity() < rigidity)
-				&& ((*i)->getMaximumRigidity() >= rigidity))
+		if (((*i)->getMinimumRigidity() < rigidity / eV)
+				&& ((*i)->getMaximumRigidity() >= rigidity / eV))
 		{
 			return (*i);
 		}
@@ -242,11 +245,11 @@ void MagneticLens::normalizeLensparts()
 
 void MagneticLens::transformModelVector(double* model, double rigidity) const
 {
-	LensPart* lenspart = (getLensPart(log10(rigidity)+18));
+	LensPart* lenspart = getLensPart(rigidity);
 	
 	if (!lenspart)
 	{
-		std::cerr << "Warning. Trying to transform vector with rigidity " << rigidity << " which is not covered by this lens!.\n" << std::endl;
+		std::cerr << "Warning. Trying to transform vector with rigidity " << rigidity / eV << "eV which is not covered by this lens!.\n" << std::endl;
 		return;
 	}
 

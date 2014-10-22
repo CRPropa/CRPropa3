@@ -23,8 +23,8 @@
 #ifndef MAGNETICLENS_HH 
 #define MAGNETICLENS_HH 
 
-#include "parsec/ModelMatrix.h"
-#include "parsec/Pixelization.h"
+#include "crpropa/magneticLens/ModelMatrix.h"
+#include "crpropa/magneticLens/Pixelization.h"
 
 #include <boost/numeric/ublas/operation.hpp>
 
@@ -37,7 +37,7 @@
 #include <stdint.h>
 
 
-namespace parsec
+namespace crpropa 
 {
 
 /// Holds one matrix for the lens and information about the rigidity range

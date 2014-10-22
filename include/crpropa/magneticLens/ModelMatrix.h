@@ -45,7 +45,7 @@
 
 using namespace std;
 
-namespace parsec
+namespace crpropa 
 {
 
 /// ModelMatrixType specifies the used Matrix Type

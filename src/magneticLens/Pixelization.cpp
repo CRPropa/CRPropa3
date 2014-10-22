@@ -20,9 +20,9 @@
 //  along with this program. If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#include "parsec/Pixelization.h"
+#include "crpropa/magneticLens/Pixelization.h"
 
-namespace parsec
+namespace crpropa 
 {
 
 uint8_t Pixelization::pix2Order(uint32_t pix)

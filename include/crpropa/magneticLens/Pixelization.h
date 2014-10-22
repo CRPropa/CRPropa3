@@ -24,11 +24,11 @@
 #ifndef PIXELIZATION_HH 
 #define PIXELIZATION_HH
 
-#include "parsec/shealpix.h"
+#include "crpropa/magneticLens/shealpix.h"
 #include <cmath>
 #include <stdint.h>
 
-namespace parsec
+namespace crpropa 
 {
 
 /// Helpers to makes work with Healpix smooth 

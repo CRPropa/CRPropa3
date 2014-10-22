@@ -1,9 +1,9 @@
 #include "HepPID/ParticleIDMethods.hh"
-#include "parsec/Random.hh"
+#include "crpropa/Random.h"
 #include <fstream>
-#include "parsec/ParticleMapsContainer.h"
+#include "crpropa/magneticLens/ParticleMapsContainer.h"
 #include <iostream>
-namespace parsec 
+namespace crpropa 
 {
 
 ParticleMapsContainer::~ParticleMapsContainer()

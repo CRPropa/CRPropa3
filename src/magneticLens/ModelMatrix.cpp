@@ -20,9 +20,9 @@
 //  along with this program. If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#include "parsec/ModelMatrix.h"
+#include "crpropa/magneticLens/ModelMatrix.h"
 #include <ctime>
-namespace parsec
+namespace crpropa 
 {
 
 void ModelMatrix::serialize(const string &filename)

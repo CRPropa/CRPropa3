@@ -3,10 +3,10 @@
 
 #include <map>
 #include <vector>
-#include "parsec/Pixelization.h"
-#include "parsec/MagneticLens.h"
+#include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/magneticLens/MagneticLens.h"
 
-namespace parsec{
+namespace crpropa{
 
 /// Container for particlemaps
 /// The maps are stored with discrete energies on a logarithmic scale. The

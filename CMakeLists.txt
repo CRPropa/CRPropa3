@@ -73,12 +73,12 @@ if (ENABLE_GALACTICMAGETICLENS)
 	IF(Boost_FOUND)
 		SET(WITH_GALACTIC_LENSES TRUE)
 
-		list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
-		list(APPEND CRPROPA_SWIG_DEFINES -I${CMAKE_CURRENT_SOURCE_DIR}/libs/GalacticMagneticLens/include)
+		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
+		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
+		list(APPEND CRPROPA_EXTRA_SOURCES	src/magneticLens/Pixelization.cpp)
+		list(APPEND CRPROPA_EXTRA_SOURCES	src/magneticLens/ParticleMapsContainer.cpp)
 
-		add_subdirectory(libs/GalacticMagneticLens)
-		list(APPEND CRPROPA_EXTRA_LIBRARIES galacticmagneticlens)
-		list(APPEND CRPROPA_EXTRA_INCLUDES libs/GalacticMagneticLens/include)
+		list(APPEND CRPROPA_EXTRA_INCLUDES ${Boost_INCLUDE_DIRS})
 		
 	ELSE(Boost_FOUND)
 		MESSAGE (STATUS "Cannot find BOOST which is required for GalacticMagneticLenses.")

@@ -269,17 +269,17 @@ __WITHNUMPY = False
 %template(DoubleVector) std::vector<double>;
 
 %{
-#include "parsec/ModelMatrix.h"
-#include "parsec/Pixelization.h"
-#include "parsec/MagneticLens.h"
-#include "parsec/ParticleMapsContainer.h"
+#include "crpropa/magneticLens/ModelMatrix.h"
+#include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/magneticLens/MagneticLens.h"
+#include "crpropa/magneticLens/ParticleMapsContainer.h"
 %}
 
-%include "parsec/ModelMatrix.h"
+%include "crpropa/magneticLens/ModelMatrix.h"
 %apply double &INOUT {double &longitude, double &latitude};
 %ignore Pixelization::nPix();
 
-%include "parsec/Pixelization.h"
+%include "crpropa/magneticLens/Pixelization.h"
 %pythoncode %{
 def Pixelization_nonStaticnPix(self, order=None):
   if order == None:
@@ -291,11 +291,11 @@ Pixelization.nPix = Pixelization_nonStaticnPix
 
 %apply double &INOUT {double &phi, double &theta};
 %ignore MagneticLens::transformModelVector(double *,double) const;
-%include "parsec/MagneticLens.h"
-%template(LenspartVector) std::vector< parsec::LensPart *>;
+%include "crpropa/magneticLens/MagneticLens.h"
+%template(LenspartVector) std::vector< crpropa::LensPart *>;
 
 #ifdef WITHNUMPY
-%extend parsec::MagneticLens{
+%extend crpropa::MagneticLens{
     PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
     {
       PyArrayObject *arr = NULL;
@@ -318,7 +318,7 @@ Pixelization.nPix = Pixelization_nonStaticnPix
     }
 };
 #else
-%extend parsec::MagneticLens{
+%extend crpropa::MagneticLens{
     PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
     {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
@@ -335,10 +335,10 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
 %ignore ParticleMapsContainer::getMap;
 %ignore ParticleMapsContainer::getParticleIds;
 %ignore ParticleMapsContainer::getEnergies;
-%include "parsec/ParticleMapsContainer.h"
+%include "crpropa/magneticLens/ParticleMapsContainer.h"
 
 #ifdef WITHNUMPY
-%extend parsec::ParticleMapsContainer{
+%extend crpropa::ParticleMapsContainer{
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
       double* data = $self->getMap(particleId, energy);
@@ -365,13 +365,9 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
       return out; 
   }
 
-  
-
-  
-
 };
 #else
-%extend parsec::ParticleMapsContainer{
+%extend crpropa::ParticleMapsContainer{
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;

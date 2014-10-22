@@ -13,13 +13,13 @@
 #include <boost/progress.hpp>
 #include "gtest/gtest.h"
 
-#include "parsec/MagneticLens.h"
-#include "parsec/ModelMatrix.h"
-#include "parsec/Pixelization.h"
-#include "parsec/ParticleMapsContainer.h"
+#include "crpropa/magneticLens/MagneticLens.h"
+#include "crpropa/magneticLens/ModelMatrix.h"
+#include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/magneticLens/ParticleMapsContainer.h"
 
 using namespace std;
-using namespace parsec;
+using namespace crpropa;
 
 TEST(MagneticLens, Deflection)
 {
@@ -58,7 +58,7 @@ TEST(MagneticLens, OutOfBoundsEnergy)
 	ModelMatrix M(P.nPix(),P.nPix(),P.nPix());
 	magneticLens.setLensPart(M,19.0,20.0);
 	double theta, phi;
-	EXPECT_THROW(magneticLens.transformCosmicRay(1.32, phi, theta), std::runtime_error);
+	EXPECT_FALSE(magneticLens.transformCosmicRay(1.32, phi, theta));
 }
 
 

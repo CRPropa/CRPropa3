@@ -20,13 +20,13 @@
 //  along with this program. If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#include "parsec/MagneticLens.h"
+#include "crpropa/magneticLens/MagneticLens.h"
 
-#include "parsec/Random.hh"
+#include "crpropa/Random.h"
 // needed for memcpy in gcc 4.3.2
 #include <cstring>
 
-namespace parsec
+namespace crpropa 
 {
 
 void MagneticLens::loadLens(const string &filename)

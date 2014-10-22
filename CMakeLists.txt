@@ -73,6 +73,8 @@ if (ENABLE_GALACTICMAGETICLENS)
 	IF(Boost_FOUND)
 		SET(WITH_GALACTIC_LENSES TRUE)
 
+		list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
+
 		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
 		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
 		list(APPEND CRPROPA_EXTRA_SOURCES	src/magneticLens/Pixelization.cpp)

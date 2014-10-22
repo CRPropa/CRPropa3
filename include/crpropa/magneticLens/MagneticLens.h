@@ -25,6 +25,7 @@
 
 #include "crpropa/magneticLens/ModelMatrix.h"
 #include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/Units.h"
 
 #include <boost/numeric/ublas/operation.hpp>
 
@@ -55,7 +56,7 @@ public:
 	{
 	}
 	/// File containing the matrix to be used in the range rigidityMin,
-	/// rigidityMax with logarithmic units	[log10(E / eV)]
+	/// rigidityMax in Joule 
 	LensPart(const std::string &filename, double rigidityMin, double rigidityMax) :
 			_filename(filename), _rigidityMin(rigidityMin), _rigidityMax(rigidityMax), _maximumSumOfColumns_calculated(
 					false), _maximumSumOfColumns(0)
@@ -89,16 +90,16 @@ public:
 		return _maximumSumOfColumns;
 	}
  
-	/// Returns the minimum of the rigidity range for the lenspart in [log10(E/ eV)]
+	/// Returns the minimum of the rigidity range for the lenspart in eV 
 	double getMinimumRigidity()
 	{
-		return _rigidityMin;
+		return _rigidityMin / eV;
 	}
 
-	/// Returns the maximum of the rigidity range for the lenspart in [log10(E/ eV)]
+	/// Returns the maximum of the rigidity range for the lenspart in eV
 	double getMaximumRigidity()
 	{
-		return _rigidityMax;
+		return _rigidityMax / eV;
 	}
 
 	/// Returns the modelmatrix
@@ -151,7 +152,7 @@ class MagneticLens
 	// Checks Matrix, raises Errors if not ok - also generate
 	// _pixelization if called first time
 	void _checkMatrix(const ModelMatrix &M);
-	// minimum / maximum rigidity [log10(E / eV)] that is covered by the lens
+	// minimum / maximum rigidity that is covered by the lens [Joule]
 	double _minimumRigidity;
 	double _maximumRigidity;
 	static bool _randomSeeded;
@@ -160,20 +161,20 @@ class MagneticLens
 public:
 	/// Default constructor
 	MagneticLens() :
-			_pixelization(NULL), _minimumRigidity(-1), _maximumRigidity(-1), _norm(1)
+			_pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN), _norm(1)
 	{
 	}
 
 	/// Constructs lens with predefined healpix order
 	MagneticLens(uint8_t healpixorder) :
-			_pixelization(NULL), _minimumRigidity(-1), _maximumRigidity(-1)
+			_pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN)
 	{
 		_pixelization = new Pixelization(healpixorder);
 	}
 
 	/// Construct lens and load lens from file
 	MagneticLens(const string &filename) :
-			_pixelization(NULL), _minimumRigidity(-1), _maximumRigidity(-1)
+			_pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN)
 	{
 		loadLens(filename);
 	}
@@ -200,19 +201,20 @@ public:
 	/// Try to transform the comsic ray to a new direction.
 	/// Returns false and does not change phi and theta if the cosmic ray is
 	/// lost due to conservation of cosmic ray flux.
-	/// Rigidity is given in EeV, phi and theta in rad
+	/// Rigidity is given in Joule, phi and theta in rad
 	bool transformCosmicRay(double rigidity, double& phi, double& theta);
 
 	/// transforms the model array assuming that model points to an array of the
-	/// correct size
+	/// correct size. Rigidity is given in Joule
 	void transformModelVector(double* model, double rigidity) const;
 
 	/// Loads M as part of a lens and use it in given rigidity range with
-	/// given in logarithmic units [log10(E / eV)]
+	/// rigidities given in Joule 
 	void setLensPart(const ModelMatrix &M, double rigidityMin, double rigidityMax);
 
 	/// Loads a lens from a given file, containing lines like
 	/// lensefile.MLDAT rigidityMin rigidityMax
+	/// rigidities are given in logarithmic units [log10(E / eV)]
 	void loadLens(const string &filename);
 
 	/// Normalizes the lens parts to the maximum of sums of columns of
@@ -224,22 +226,22 @@ public:
 	/// the UHECR more efficiently.
 	void normalizeLensparts();
 
-	/// Checks if rigidity [log10(E / eV)] is covered by lens
+	/// Checks if rigidity [Joule] is covered by lens
 	bool rigidityCovered(double rigidity) const;
 
 	/// Normalizes all matrix columns - the lens will then create fake
 	/// anisotropies, but won't drop particles 
 	void normalizeMatrixColumns();
 
-	/// Returns minimum rigidity covered by lens, in EeV
+	/// Returns minimum rigidity covered by lens, in eV
 	double getMinimumRigidity() const
 	{
-		return pow(10, _minimumRigidity - 18);
+		return _minimumRigidity / eV;
 	}
-	/// Returns maximum rigidity covered by lens, in EeV
+	/// Returns maximum rigidity covered by lens, in eV
 	double getMaximumRigidity() const
 	{
-		return pow(10, _maximumRigidity - 18);
+		return _maximumRigidity / eV;
 	}
 
 	//	returns the norm used for the lenses
@@ -248,7 +250,7 @@ public:
 		return _norm;
 	}
 
-	/// Returns iterator to the lens part with rigidity [log10(E / eV)]
+	/// Returns iterator to the lens part with rigidity Joule 
 	LensPart* getLensPart(double rigidity) const;
 
 	/// Returns all lens parts
@@ -256,14 +258,6 @@ public:
 	{
 		return _lensParts;
 	}
-
-	//calculates the mean deflection at given rigidity [EeV] 
-	//double getMeanDeflection(double rigidity) const
-	//{
-	//	LensPart* lp = getLensPart(log10(rigidity) + 18);
-	//	return calculateMeanDeflection(lp->getMatrix(), *_pixelization);
-	//}
-
 };
 
 

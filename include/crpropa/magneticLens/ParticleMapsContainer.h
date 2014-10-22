@@ -37,11 +37,12 @@ class ParticleMapsContainer
       return _pixelization.getNumberOfPixels();
     }
 
-		/// returns the map for the particleId with the given energy
+		/// returns the map for the particleId with the given energy,. energy in
+		/// Joule
 		double *getMap(const int particleId, double energy);
 			
 		/// adds a particle to the map container
-    /// particleId is HEP particleId, energy [eV], galacticLongitude and
+    /// particleId is HEP particleId, energy [Joule], galacticLongitude and
     /// galacticLatitude in [rad]
 		void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight=1);
 			
@@ -50,15 +51,19 @@ class ParticleMapsContainer
 		/// this assumes that the particles in the fiels are observed at earth and the galactic
 		/// center is in directon (0,1,0) and the galactic north-pole is in
 		/// direction (0,0,1).
+		/// The energy in the fileneeds to be in eV, as it should be for CrPropa
+		/// output
 		void addParticlesFromFile(const std::string inputFileName, double sourceEnergyWeightExponent=0);
 
 		// returns a vector of all particle ids in th
 		std::vector<int> getParticleIds();
 
+		// the energies are in eV
 		std::vector<double> getEnergies(int pid);
 
 		void applyLens(MagneticLens &lens);;
 
+		// energy in Joule
 		void getRandomParticles(size_t N, vector<int> &particleId, 
 			vector<double> &energy, vector<double> &galacticLongitudes,
 			vector<double> &galacticLatitudes);

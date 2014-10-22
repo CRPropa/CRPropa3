@@ -1,8 +1,10 @@
 #include "HepPID/ParticleIDMethods.hh"
 #include "crpropa/Random.h"
-#include <fstream>
 #include "crpropa/magneticLens/ParticleMapsContainer.h"
+#include "crpropa/Units.h"
+
 #include <iostream>
+#include <fstream>
 namespace crpropa 
 {
 
@@ -19,13 +21,13 @@ ParticleMapsContainer::~ParticleMapsContainer()
 
 int ParticleMapsContainer::energy2Idx(double energy) const
 {
-	double lE = log10(energy);
+	double lE = log10(energy / eV);
 	return int((lE - _bin0lowerEdge) / _deltaLogE);
 }
 
 double ParticleMapsContainer::idx2Energy(int idx) const
 {
-	return pow(10, idx * _deltaLogE + _bin0lowerEdge + _deltaLogE / 2);
+	return pow(10, idx * _deltaLogE + _bin0lowerEdge + _deltaLogE / 2) * eV;
 }
 
 		
@@ -87,7 +89,7 @@ void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName
 			double weight = pow(sourceEnergy, sourceEnergyWeightExponent);
 			double galacticLongitude = atan2(-pY, -pX);
 			double galacticLatitude =	M_PI / 2 - acos(-pZ / sqrt(pX*pX + pY*pY + pZ*pZ));
-			addParticle(particleId, energy * 1E18, galacticLongitude, galacticLatitude, weight);
+			addParticle(particleId, energy * EeV, galacticLongitude, galacticLatitude, weight);
 		}
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 	}
@@ -116,7 +118,7 @@ std::vector<double> ParticleMapsContainer::getEnergies(int pid)
 		for(std::map<int, double*>::iterator iter = _data[pid].begin(); 
 			iter != _data[pid].end(); ++iter) 
 		{
-			energies.push_back( idx2Energy(iter->first) );
+			energies.push_back( idx2Energy(iter->first) / eV );
 		}
 	}
 	return energies;
@@ -130,7 +132,7 @@ void ParticleMapsContainer::applyLens(MagneticLens &lens)
 		for(std::map<int, double*>::iterator energy_iter = pid_iter->second.begin();
 			energy_iter != pid_iter->second.end(); ++energy_iter) {
 		//	// transform only nuclei
-			double energy = idx2Energy(energy_iter->first) / 1E18;
+			double energy = idx2Energy(energy_iter->first);
 			int chargeNumber = HepPID::Z(pid_iter->first);
 			if (chargeNumber != 0 && lens.rigidityCovered(energy / chargeNumber))
 			{
@@ -201,7 +203,7 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 				if (r <=0)
 				{
 					foundParticle = true;
-					energy[i] = idx2Energy(energy_iter->first);
+					energy[i] = idx2Energy(energy_iter->first) / eV;
 					_pixelization.pix2Direction (j, galacticLongitudes[i], galacticLatitudes[i]);
 				}
 			}

@@ -17,6 +17,7 @@
 #include "crpropa/magneticLens/ModelMatrix.h"
 #include "crpropa/magneticLens/Pixelization.h"
 #include "crpropa/magneticLens/ParticleMapsContainer.h"
+#include "crpropa/Common.h"
 
 using namespace std;
 using namespace crpropa;
@@ -49,6 +50,38 @@ TEST(MagneticLens, Deflection)
 		EXPECT_TRUE(magneticLens.transformCosmicRay(20 * EeV, phi, theta));
 		EXPECT_NEAR(theta+theta0,0., 0.05);
 	}
+}
+
+TEST(MagneticLens, Vector3Deflection)
+{
+	MagneticLens magneticLens(5);
+	Pixelization P(5);
+	ModelMatrix M(P.nPix(),P.nPix(),P.nPix());
+
+	// No deflection 
+	for (int i=0;i<P.nPix();i++)
+	{
+		M(i,i) = 1;
+	}
+
+	magneticLens.setLensPart(M, 10 * EeV, 100 * EeV);
+
+	Vector3d u(1,0,0);
+	Vector3d v(u);
+	EXPECT_TRUE(magneticLens.transformCosmicRay(20 * EeV, v));
+	EXPECT_NEAR(u.getAngleTo(v), 0., 2. / 180 * M_PI);
+
+	u.x = 0; u.y = 1; u.z = 0; v = u;
+	EXPECT_TRUE(magneticLens.transformCosmicRay(20 * EeV, v));
+	EXPECT_NEAR(u.getAngleTo(v), 0., 2. / 180 * M_PI);
+
+	u.x = 0; u.y = 0; u.z = 1; v = u;
+	EXPECT_TRUE(magneticLens.transformCosmicRay(20 * EeV, v));
+	EXPECT_NEAR(u.getAngleTo(v), 0., 2. / 180 * M_PI);
+
+	u.x = 1; u.y = -2; u.z = 3; v = u;
+	EXPECT_TRUE(magneticLens.transformCosmicRay(20 * EeV, v));
+	EXPECT_NEAR(u.getAngleTo(v), 0., 2. / 180 * M_PI);
 }
 
 TEST(MagneticLens, OutOfBoundsEnergy)

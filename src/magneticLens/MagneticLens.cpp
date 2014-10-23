@@ -109,6 +109,18 @@ bool MagneticLens::transformCosmicRay(double rigidity, double& phi,
   return false;
 }
 
+bool MagneticLens::transformCosmicRay(double rigidity, Vector3d &p){
+
+			double galacticLongitude = atan2(-p.y, -p.x);
+			double galacticLatitude =	M_PI / 2 - acos(-p.z/ sqrt(p.x*p.x + p.y*p.y + p.z*p.z));
+			bool result = transformCosmicRay(rigidity, galacticLongitude, galacticLatitude);
+			
+			p.x = -1 * cos(galacticLongitude) * sin(M_PI / 2 - galacticLatitude);
+			p.y = -1 * sin(galacticLongitude) * sin(M_PI / 2 - galacticLatitude);
+			p.z = -1. * cos(M_PI / 2 - galacticLatitude);
+
+			return result;
+}
 
 void MagneticLens::loadLensPart(const string &filename, double rigidityMin,
 		double rigidityMax)

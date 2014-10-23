@@ -64,7 +64,15 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, dou
 	uint32_t pixel = _pixelization.direction2Pix(galacticLongitude, galacticLatitude);
 	_data[particleId][energyIdx][pixel] +=weight;
 }
- 
+
+
+void ParticleMapsContainer::addParticle(const int particleId, double energy, const Vector3d &p, double weight)
+{
+	double galacticLongitude = atan2(-p.y, -p.x);
+	double galacticLatitude =	M_PI / 2 - acos(-p.x / p.getR());
+	addParticle(particleId, energy * EeV, galacticLongitude, galacticLatitude, weight);
+}
+
 
 void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName, double sourceEnergyWeightExponent)
 {
@@ -73,7 +81,8 @@ void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			int particleId, sourceId; 
-			double trajectoryLength, energy, sourceEnergy, pX, pY, pZ, x, y, z, pX0, pY0, pZ0, x0, y0, z0, redShift;
+			double trajectoryLength, energy, sourceEnergy, x, y, z, pX0, pY0, pZ0, x0, y0, z0, redShift;
+			Vector3d p;
 
 			infile >> trajectoryLength 
 				>> particleId 
@@ -82,14 +91,12 @@ void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName
 				>> sourceEnergy
 				>> x >> y >> z 
 				>> x0 >> y0 >> z0
-				>> pX >> pY >> pZ 
+				>> p.x >> p.y >> p.z 
 				>> pX0 >> pY0 >> pZ0 
 				>> redShift;
 			
 			double weight = pow(sourceEnergy, sourceEnergyWeightExponent);
-			double galacticLongitude = atan2(-pY, -pX);
-			double galacticLatitude =	M_PI / 2 - acos(-pZ / sqrt(pX*pX + pY*pY + pZ*pZ));
-			addParticle(particleId, energy * EeV, galacticLongitude, galacticLatitude, weight);
+			addParticle(particleId, energy * EeV, p, weight);
 		}
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 	}

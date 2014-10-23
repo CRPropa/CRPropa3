@@ -6,6 +6,8 @@
 #include "crpropa/magneticLens/Pixelization.h"
 #include "crpropa/magneticLens/MagneticLens.h"
 
+#include "crpropa/Vector3.h"
+
 namespace crpropa{
 
 /// Container for particlemaps
@@ -44,8 +46,9 @@ class ParticleMapsContainer
 		/// adds a particle to the map container
     /// particleId is HEP particleId, energy [Joule], galacticLongitude and
     /// galacticLatitude in [rad]
-		void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight=1);
+		void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight = 1);
 			
+		void addParticle(const int particleId, double energy, const Vector3d &v, double weight = 1);
 		/// reads the particles from the given file and weights the particles with
 		/// the energy of the mother particle at the source.
 		/// this assumes that the particles in the fiels are observed at earth and the galactic

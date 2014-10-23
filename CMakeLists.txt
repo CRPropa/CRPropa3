@@ -271,9 +271,6 @@ if(ENABLE_TESTING)
 	add_test(testSource testSource)
 
 	if(WITH_GALACTIC_LENSES)
-		include_directories(
-			libs/GalacticMagneticLens/include
-			)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
 		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
 		add_test(testGalacticMagneticLens testGalacticMagneticLens)

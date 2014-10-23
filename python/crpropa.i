@@ -335,6 +335,7 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
 %ignore ParticleMapsContainer::getMap;
 %ignore ParticleMapsContainer::getParticleIds;
 %ignore ParticleMapsContainer::getEnergies;
+%ignore ParticleMapsContainer::getRandomParticles;
 %include "crpropa/magneticLens/ParticleMapsContainer.h"
 
 #ifdef WITHNUMPY
@@ -351,7 +352,7 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
   {
       std::vector<int> v = $self->getParticleIds();
       npy_intp size = {v.size()};
-      PyObject *out = out = PyArray_SimpleNew(1, &size, NPY_INT);
+      PyObject *out = PyArray_SimpleNew(1, &size, NPY_INT);
       memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(int));
       return out; 
   }
@@ -360,9 +361,41 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
   {
       std::vector<double> v = $self->getEnergies(pid);
       npy_intp size = {v.size()};
-      PyObject *out = out = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
+      PyObject *out = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
       memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(double));
       return out; 
+  }
+
+  PyObject *getRandomParticles_numpyArray(size_t N)
+  {
+      vector<int> particleId;
+			vector<double> energy;
+      vector<double> galacticLongitudes;
+			vector<double> galacticLatitudes;
+      $self->getRandomParticles(N, particleId, energy, galacticLongitudes,
+          galacticLatitudes);
+      
+      npy_intp size = {N};
+      PyObject *oId = PyArray_SimpleNew(1, &size, NPY_INT);
+      PyObject *oEnergy = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
+      PyObject *oLon = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
+      PyObject *oLat = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
+
+      memcpy(PyArray_DATA((PyArrayObject *) oId), &particleId[0],
+          particleId.size() * sizeof(int));
+      memcpy(PyArray_DATA((PyArrayObject *) oEnergy), &energy[0], energy.size()
+          * sizeof(double));
+      memcpy(PyArray_DATA((PyArrayObject *) oLon), &galacticLongitudes[0],
+          galacticLongitudes.size() * sizeof(double));
+      memcpy(PyArray_DATA((PyArrayObject *) oLat), &galacticLatitudes[0],
+          galacticLatitudes.size() * sizeof(double));
+
+      PyObject *returnList = PyList_New(4);
+      PyList_SET_ITEM(returnList, 0, oId);
+      PyList_SET_ITEM(returnList, 1, oEnergy);
+      PyList_SET_ITEM(returnList, 2, oLon);
+      PyList_SET_ITEM(returnList, 3, oLat);
+      return returnList;
   }
 
 };
@@ -379,6 +412,7 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
 ParticleMapsContainer.getMap = ParticleMapsContainer.getMap_numpyArray
 ParticleMapsContainer.getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
 ParticleMapsContainer.getEnergies = ParticleMapsContainer.getEnergies_numpyArray
+ParticleMapsContainer.getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
 %}
 #endif // WITH_GALACTIC_LENSES_
 

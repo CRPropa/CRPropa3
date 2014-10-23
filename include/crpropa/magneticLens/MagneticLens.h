@@ -26,6 +26,7 @@
 #include "crpropa/magneticLens/ModelMatrix.h"
 #include "crpropa/magneticLens/Pixelization.h"
 #include "crpropa/Units.h"
+#include "crpropa/Vector3.h"
 
 #include <boost/numeric/ublas/operation.hpp>
 
@@ -203,6 +204,9 @@ public:
 	/// lost due to conservation of cosmic ray flux.
 	/// Rigidity is given in Joule, phi and theta in rad
 	bool transformCosmicRay(double rigidity, double& phi, double& theta);
+
+	/// Tries transform a cosmic ray with momentum vector p 
+	bool transformCosmicRay(double rigidity, Vector3d &p);
 
 	/// transforms the model array assuming that model points to an array of the
 	/// correct size. Rigidity is given in Joule

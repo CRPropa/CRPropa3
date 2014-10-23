@@ -88,8 +88,9 @@ class testParticleMapsContainer(unittest.TestCase):
 
     def testGetRandomParticlesInterface(self):
         self.maps.addParticle(12, 1 * EeV, 0, 0)
-        ids, lons, lats = self.maps.getRandomParticles(10)
+        ids, energies, lons, lats = self.maps.getRandomParticles(10)
         self.assertEqual(len(ids), 10)
+        self.assertEqual(len(energies), 10)
         self.assertEqual(len(lons), 10)
         self.assertEqual(len(lats), 10)
 

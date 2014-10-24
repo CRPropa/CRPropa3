@@ -55,8 +55,9 @@ const uint32_t _nPix[] =
 class Pixelization 
 {
 public:
-	Pixelization() 
+	Pixelization()  
 	{
+		_healpix = new healpix::T_Healpix_Base<int>(6, healpix::RING);
 	}
 
 	/// Constructor creating Pixelization with healpix order 6 (about
@@ -112,11 +113,14 @@ public:
     return _healpix->Order();
   }
 
+	void getRandomDirectionInPixel(uint32_t i, double &longitude, double &latitude);
+
 
 private:
 	void spherCo2Vec(double phi, double theta, healpix::vec3 &V) const;
 	void vec2SphereCo(double &phi , double &theta, const healpix::vec3 &V) const;
 	healpix::T_Healpix_Base<int> *_healpix;
+	static healpix::T_Healpix_Base<int64_t> _healpix_nest;
 };
 
 

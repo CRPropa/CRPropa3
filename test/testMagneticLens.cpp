@@ -145,3 +145,24 @@ TEST(ParticleMapsContainer, getRandomParticles)
   }
 
 }
+
+TEST(Pixelization, randomDirectionInPixel)
+{
+  Pixelization p(6);
+  const double long0 = -35./180 * M_PI;
+  const double lat0 =  12.08/180 * M_PI;
+
+  int pix = p.direction2Pix(long0, lat0);
+
+  double rlon, rlat;
+  p.getRandomDirectionInPixel(pix, rlon, rlat);
+  std::cout << rlon << "\t" << rlat << std::endl;
+
+  // new direction should be inside the pixel
+  EXPECT_EQ(pix, p.direction2Pix(rlon, rlat));
+
+  // new direction should be different from input 
+  EXPECT_FALSE(long0 == rlon);
+  EXPECT_FALSE(lat0 == rlat);
+
+}

@@ -21,6 +21,7 @@ CRPropa 2 compatibility (XML steering)
  * [Extending CRPropa from Python](Extending CRPropa)
 
 #### Manual
+[Doxygen documentation](http://crpropa.github.io/CRPropa3/)
  * [Basic concepts](Basic concepts)
  * [Nuclear data](Nuclear data)
  * [List of simulation modules](Simulation Modules)
@@ -29,6 +30,6 @@ CRPropa 2 compatibility (XML steering)
  * [List of magnetic fields](Magnetic Fields)
 
 #### Developer Section
- * [Tutorials in form of ipython-notebooks](ipython-notebooks)
- * [Doxygen on github-pages](github-pages)
+ * [How-to: Tutorials in form of ipython-notebooks](ipython-notebooks)
+ * [How-to: Doxygen on github-pages](github-pages)
  * [Possible developments](Possible Developments)

@@ -24,7 +24,7 @@
 #ifndef PIXELIZATION_HH 
 #define PIXELIZATION_HH
 
-#include "crpropa/magneticLens/shealpix.h"
+#include "healpix_base/healpix_base.h"
 #include <cmath>
 #include <stdint.h>
 
@@ -52,17 +52,23 @@ const uint32_t _nPix[] =
 
 /// Every communication with healpix is done through this class to avoid
 /// bugs with missmatching coordinates (and make python hooks easier)
-class Pixelization : private shealpix::sHEALPIX
+class Pixelization 
 {
 public:
-	Pixelization() : shealpix::sHEALPIX( )
+	Pixelization() 
 	{
 	}
 
 	/// Constructor creating Pixelization with healpix order 6 (about
 	/// 50000 pixels)
-	Pixelization(uint8_t order) : shealpix::sHEALPIX(order)
+	Pixelization(uint8_t order) 
 	{
+		_healpix = new healpix::T_Healpix_Base<int>(order, healpix::RING);
+	}
+
+	~Pixelization()
+	{
+		delete _healpix;
 	}
 
 	/// Returns the number of the pixel which includes the direction (phi,theta) 
@@ -72,7 +78,7 @@ public:
 	/// Returns the number of pixels of the pixelization
 	uint32_t nPix() const
 	{
-		return Npix();
+		return _healpix->Npix();
 	}
 
 	/// Returns the number of pixels given by healpix order
@@ -81,7 +87,7 @@ public:
 	/// Returns the number of pixels of the pixelization
 	int getNumberOfPixels()
 	{
-		return Npix();
+		return _healpix->Npix();
 	}
 
 	/// Returns the order, a given pixel number corresponds to. 0 if no
@@ -103,13 +109,14 @@ public:
   /// Returns healpix order
   uint8_t getOrder() const
   {
-    return Order();
+    return _healpix->Order();
   }
 
 
 private:
-	void spherCo2Vec(double phi, double theta, shealpix::vec3 &V) const;
-	void vec2SphereCo(double &phi , double &theta, const shealpix::vec3 &V) const;
+	void spherCo2Vec(double phi, double theta, healpix::vec3 &V) const;
+	void vec2SphereCo(double &phi , double &theta, const healpix::vec3 &V) const;
+	healpix::T_Healpix_Base<int> *_healpix;
 };
 
 

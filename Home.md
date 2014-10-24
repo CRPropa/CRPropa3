@@ -29,5 +29,6 @@ CRPropa 2 compatibility (XML steering)
  * [List of magnetic fields](Magnetic Fields)
 
 #### Developer Section
+ * [Tutorials in form of ipython-notebooks](ipython-notebooks)
  * [Doxygen on github-pages](github-pages)
  * [Possible developments](Possible Developments)

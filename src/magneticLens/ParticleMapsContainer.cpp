@@ -211,7 +211,7 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 				{
 					foundParticle = true;
 					energy[i] = idx2Energy(energy_iter->first) / eV;
-					_pixelization.pix2Direction (j, galacticLongitudes[i], galacticLatitudes[i]);
+					_pixelization.getRandomDirectionInPixel(j, galacticLongitudes[i], galacticLatitudes[i] );
 				}
 			}
 		}

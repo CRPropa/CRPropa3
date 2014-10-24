@@ -21,9 +21,13 @@
 //----------------------------------------------------------------------
 
 #include "crpropa/magneticLens/Pixelization.h"
+#include "crpropa/Random.h"
 
 namespace crpropa 
 {
+
+	healpix::T_Healpix_Base<int64_t> Pixelization::_healpix_nest = healpix::T_Healpix_Base<int64_t>(29, healpix::NEST);
+
 
 uint8_t Pixelization::pix2Order(uint32_t pix)
 {
@@ -89,4 +93,17 @@ double Pixelization::angularDistance(uint32_t i, uint32_t j) const
 	return ((s > 1) ? 0 : ((s < -1) ? M_PI : acos(s)));
 }
 
+	void Pixelization::getRandomDirectionInPixel(uint32_t i, double &longitude, double &latitude) 
+	{
+		
+    int64_t inest = _healpix->ring2nest(i);
+
+    int64_t nUp = 29 - _healpix->Order();
+    int64_t iUp = inest * pow(4, nUp);
+    iUp += Random::instance().randInt(pow(4, nUp));
+
+		healpix::vec3 v = _healpix_nest.pix2vec(iUp);
+		
+		vec2SphereCo(longitude, latitude, v);
+	}
 } // namespace

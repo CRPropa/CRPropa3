@@ -28,6 +28,8 @@ public:
 	virtual DetectionState checkDetection(Candidate *candidate) const;
 	virtual void onDetection(Candidate *candidate) const;
 	virtual std::string getDescription() const;
+	virtual void beginRun();
+	virtual void endRun();
 };
 
 /**
@@ -41,6 +43,8 @@ private:
 public:
 	Observer(bool makeInactive = true);
 	void add(ObserverFeature *property);
+	void beginRun();
+	void endRun();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
@@ -140,6 +144,7 @@ public:
 	ObserverOutput3D(std::string filename, bool legacy = false);
 	~ObserverOutput3D();
 	void onDetection(Candidate *candidate) const;
+	void endRun();
 };
 
 /**
@@ -154,6 +159,7 @@ public:
 	ObserverOutput1D(std::string filename, bool legacy = false);
 	~ObserverOutput1D();
 	void onDetection(Candidate *candidate) const;
+	void endRun();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,7 +202,6 @@ private:
 	std::string flag;
 	std::string flagValue;
 	bool makeInactive;
-	void updateDescription();
 
 public:
 	LargeObserverSphere(Vector3d center = Vector3d(0.), double radius = 0,

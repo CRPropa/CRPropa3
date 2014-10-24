@@ -35,13 +35,22 @@ void ModuleList::add(Module *module) {
 	modules.push_back(module);
 }
 
+void ModuleList::beginRun() {
+	module_list_t::iterator m;
+	for (m = modules.begin(); m != modules.end(); m++)
+		(*m)->beginRun();
+}
+
 void ModuleList::process(Candidate *candidate) {
-	module_list_t::iterator iEntry = modules.begin();
-	while (iEntry != modules.end()) {
-		ref_ptr<Module> &module = *iEntry;
-		iEntry++;
-		module->process(candidate);
-	}
+	module_list_t::iterator m;
+	for (m = modules.begin(); m != modules.end(); m++)
+		(*m)->process(candidate);
+}
+
+void ModuleList::endRun() {
+	module_list_t::iterator m;
+	for (m = modules.begin(); m != modules.end(); m++)
+		(*m)->endRun();
 }
 
 void ModuleList::run(Candidate *candidate, bool recursive) {
@@ -75,6 +84,8 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	sighandler_t old_signal_handler = ::signal(SIGINT,
 			g_cancel_signal_callback);
 
+	beginRun();  // call beginRun in all modules
+
 #pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
 		if (g_cancel_signal_flag)
@@ -86,6 +97,8 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 #pragma omp critical(progressbarUpdate)
 			progressbar.update();
 	}
+
+	endRun();  // call endRun in all modules
 
 	::signal(SIGINT, old_signal_handler);
 }
@@ -106,6 +119,8 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 	sighandler_t old_signal_handler = ::signal(SIGINT,
 			g_cancel_signal_callback);
 
+	beginRun();  // call beginRun in all modules
+
 #pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
 		if (g_cancel_signal_flag)
@@ -118,6 +133,8 @@ void ModuleList::run(Source *source, size_t count, bool recursive) {
 #pragma omp critical(progressbarUpdate)
 			progressbar.update();
 	}
+
+	endRun();  // call endRun in all modules
 
 	::signal(SIGINT, old_signal_handler);
 }
@@ -133,11 +150,9 @@ const ModuleList::module_list_t &ModuleList::getModules() const {
 std::string ModuleList::getDescription() const {
 	std::stringstream ss;
 	ss << "ModuleList\n";
-	crpropa::ModuleList::module_list_t::const_iterator it;
-	for (it = modules.begin(); it != modules.end(); ++it) {
-		const crpropa::ref_ptr<crpropa::Module> &m = *it;
-		ss << "  " << m->getDescription() << "\n";
-	}
+	crpropa::ModuleList::module_list_t::const_iterator m;
+	for (m = modules.begin(); m != modules.end(); m++)
+		ss << "  " << (*m)->getDescription() << "\n";
 	return ss.str();
 }
 

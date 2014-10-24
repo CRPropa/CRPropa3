@@ -74,7 +74,7 @@ if (ENABLE_GALACTICMAGETICLENS)
 	# healpix redux (provided)
 	add_subdirectory(libs/healpix_base)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
-	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base//include)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base/include)
 
 	FIND_PACKAGE(Boost)
 	IF(Boost_FOUND)
@@ -84,8 +84,8 @@ if (ENABLE_GALACTICMAGETICLENS)
 
 		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
 		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
-		list(APPEND CRPROPA_EXTRA_SOURCES	src/magneticLens/Pixelization.cpp)
-		list(APPEND CRPROPA_EXTRA_SOURCES	src/magneticLens/ParticleMapsContainer.cpp)
+		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
+		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
 
 		list(APPEND CRPROPA_EXTRA_INCLUDES ${Boost_INCLUDE_DIRS})
 		

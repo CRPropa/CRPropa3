@@ -12,7 +12,7 @@ namespace crpropa {
 
 /**
  @class ModuleList
- @brief List of modules
+ @brief The simulation itself: A list of simulation modules
  */
 class ModuleList: public Referenced {
 public:
@@ -21,16 +21,23 @@ public:
 
 	ModuleList();
 	virtual ~ModuleList();
-	void setShowProgress(bool show);
+	void setShowProgress(bool show = true); ///< activate a progress bar
 
 	void add(Module* module);
-	virtual void process(Candidate *candidate);
+	module_list_t &getModules();
+	const module_list_t &getModules() const;
+
+	/**
+	 @class
+	 @brief The simulation itself: A list of simulation modules
+	 */
+	void beginRun(); ///< call beginRun in all modules
+	void endRun(); ///< call endRun in all modules
+	void process(Candidate *candidate); ///< call process in all modules
+
 	void run(Candidate *candidate, bool recursive = true);
 	void run(candidate_vector_t &candidates, bool recursive = true);
 	void run(Source *source, size_t count, bool recursive = true);
-
-	module_list_t &getModules();
-	const module_list_t &getModules() const;
 
 	std::string getDescription() const;
 	void showModules() const;

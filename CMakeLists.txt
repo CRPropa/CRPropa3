@@ -69,6 +69,13 @@ list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
 option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
 SET(WITH_GALACTIC_LENSES FALSE)
 if (ENABLE_GALACTICMAGETICLENS)
+
+
+	# healpix redux (provided)
+	add_subdirectory(libs/healpix_base)
+	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base//include)
+
 	FIND_PACKAGE(Boost)
 	IF(Boost_FOUND)
 		SET(WITH_GALACTIC_LENSES TRUE)

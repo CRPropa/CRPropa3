@@ -10,7 +10,8 @@ Welcome to the CRPropa3 wiki!
  * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.ipynb)
  * [Galactic backtracking (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.ipynb)
  * [Galactic backtracking (2)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.ipynb)
-
+ * [Galactic Lensing (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_cr.ipynb)
+ * [Galactic Lensing (2)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_maps.ipynb)
 CRPropa 2 compatibility (XML steering)
  * [XML steering](XML steering)
 

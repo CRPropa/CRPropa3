@@ -96,7 +96,8 @@ void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName
 				>> redShift;
 			
 			double weight = pow(sourceEnergy, sourceEnergyWeightExponent);
-			addParticle(particleId, energy * EeV, p, weight);
+			if (infile)
+				addParticle(particleId, energy * EeV, p, weight);
 		}
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
 	}

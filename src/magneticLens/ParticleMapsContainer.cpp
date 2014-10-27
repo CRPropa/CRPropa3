@@ -35,11 +35,13 @@ double* ParticleMapsContainer::getMap(const int particleId, double energy)
 {
 	if (_data.find(particleId) == _data.end())
 	{
+		std::cerr << "No map for ParticleID " << particleId << std::endl;
 		return NULL;
 	}
 	int energyIdx	= energy2Idx(energy);
 	if (_data[particleId].find(energyIdx) == _data[particleId].end())
 	{
+		std::cerr << "No map for ParticleID and energy" << energy / eV << " eV" << std::endl;
 		return NULL;
 	}
 	return _data[particleId][energy2Idx(energy)];
@@ -62,15 +64,15 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, dou
 	}
 
 	uint32_t pixel = _pixelization.direction2Pix(galacticLongitude, galacticLatitude);
-	_data[particleId][energyIdx][pixel] +=weight;
+	_data[particleId][energyIdx][pixel] += weight;
 }
 
 
 void ParticleMapsContainer::addParticle(const int particleId, double energy, const Vector3d &p, double weight)
 {
 	double galacticLongitude = atan2(-p.y, -p.x);
-	double galacticLatitude =	M_PI / 2 - acos(-p.x / p.getR());
-	addParticle(particleId, energy * EeV, galacticLongitude, galacticLatitude, weight);
+	double galacticLatitude =	M_PI / 2 - acos(-p.z / p.getR());
+	addParticle(particleId, energy, galacticLongitude, galacticLatitude, weight);
 }
 
 

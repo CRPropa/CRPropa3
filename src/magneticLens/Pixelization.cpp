@@ -55,15 +55,36 @@ uint32_t Pixelization::direction2Pix(double longitude, double latitude) const
 {
 	healpix::vec3 v;
 	spherCo2Vec(longitude, latitude, v);
-	uint32_t i = (uint32_t) _healpix->vec2pix(v);
-	return i;
+	try
+	{
+		uint32_t i = (uint32_t) _healpix->vec2pix(v);
+		return i;
+	}
+	catch (healpix::PlanckError &e)
+	{
+		std::cerr << "Healpix error triggered from direction2Pix(" << longitude << ", " << latitude  << ")\n";
+		std::cerr << " v = " << v.x <<", " << v.y << ", " <<  v.z << std::endl;
+		std::cerr << "\n The original exception reads:\n";
+		std::cerr << e.what() << std::endl;
+		throw;
+	}
 }
 
 void Pixelization::pix2Direction(uint32_t i, double &longitude,
 		double &latitude) const
 {
 	healpix::vec3 v;
-	v = _healpix->pix2vec(i);
+	try{
+		v = _healpix->pix2vec(i);
+	}
+	catch (healpix::PlanckError &e)
+	{
+		std::cerr << "Healpix error triggered from pix2Direction(" << i << ", &longitude, &latitude " << ")\n";
+		std::cerr << "The original exception reads:\n";
+		std::cerr << e.what() << std::endl;
+		throw;
+	}
+
 	vec2SphereCo(longitude, latitude, v);
 }
 

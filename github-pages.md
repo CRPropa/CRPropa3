@@ -20,6 +20,7 @@ doxygen Doxyfile
 4) commit the changes
 ```
 cd html
+git add -u
 git commit
 git push
 ```

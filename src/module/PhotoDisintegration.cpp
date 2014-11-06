@@ -151,38 +151,33 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		if ((lg <= lgmin) or (lg >= lgmax))
 			return;
 
-		double rate = interpolateEquidistant(lg, lgmin, lgmax,
-				pdRate[idx]);
+		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
 
-		// cosmological scaling, rate per comoving distance)
+		// cosmological scaling, rate per comoving distance
 		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
 
 		// check if an interaction occurs in this step
+		// if not, limit next step to a fraction of the mean free path
 		if (step < randDistance) {
-			// limit next step to a fraction of the mean free path
 			candidate->limitNextStep(limit / rate);
 			return;
 		}
 
-		// select channel and interact
-		double cmp = random.rand();
-		int channel;
-		int l = round(lg / (lgmax - lgmin) * (nlg - 1)); // index of closest tabulated point
+		// index of closest tabulation point
+		int l = round((lg - lgmin) / (lgmax - lgmin) * (nlg - 1));
 
+		// select channel and interact
 		const std::vector<Branch> &branches = pdBranch[idx];
-		for (size_t i = 0; i < branches.size(); i++) {
-			const Branch &branch = branches[i];
-			channel = branch.channel;
-			if ((l < 0) || (l >=  branch.branchingRatio.size()))
-				continue;
-			cmp -= branch.branchingRatio[l];
-			if (cmp <= 0)
-				break;
+		double cmp = random.rand();
+		size_t i = 0;
+		while ((i < branches.size()) and (cmp > 0)) {
+			cmp -= branches[i].branchingRatio[l];
+			i++;
 		}
-		performInteraction(candidate, channel);
+		performInteraction(candidate, branches[i-1].channel);
 
 		// repeat with remaining step
 		step -= randDistance;

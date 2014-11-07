@@ -164,9 +164,13 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 
 		// check for interaction on protons
 		if (Z > 0) {
-			double rate = (!doRedshiftDependent) ?
-					scaling * interpolate(gamma, tabLorentz, tabProtonRate) :
-					interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+			double rate =
+					(!doRedshiftDependent) ?
+							scaling
+									* interpolate(gamma, tabLorentz,
+											tabProtonRate) :
+							interpolate2d(z, gamma, tabRedshifts, tabLorentz,
+									tabProtonRate);
 			rate *= nucleiModification(A, Z);
 			totalRate += rate;
 			channel = 1;
@@ -175,9 +179,13 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 
 		// check for interaction on neutrons
 		if (N > 0) {
-			double rate = (!doRedshiftDependent) ?
-					scaling * interpolate(gamma, tabLorentz, tabNeutronRate) :
-					interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+			double rate =
+					(!doRedshiftDependent) ?
+							scaling
+									* interpolate(gamma, tabLorentz,
+											tabNeutronRate) :
+							interpolate2d(z, gamma, tabRedshifts, tabLorentz,
+									tabNeutronRate);
 			rate *= nucleiModification(A, N);
 			totalRate += rate;
 			double d = -log(random.rand()) / rate;
@@ -224,6 +232,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	int dummy1; // not needed
 	double dummy2[2]; // not needed
 	int background = (photonField == CMB) ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
+
+	// check if below SOPHIA's energy threshold
+	double E_threshold = (photonField == CMB) ? 3.72e18 * eV : 5.83e15 * eV;
+	if (EpA < E_threshold)
+		return;
 
 #pragma omp critical
 	{

@@ -65,33 +65,28 @@ add_subdirectory(libs/EleCa)
 list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
 
+
 # GlacticMagneticLenses 
 option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
 SET(WITH_GALACTIC_LENSES FALSE)
 if (ENABLE_GALACTICMAGETICLENS)
+	SET(WITH_GALACTIC_LENSES TRUE)
 
+	# Eigen redux (provided)
+	add_subdirectory(libs/eigen3)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/eigen3)
 
 	# healpix redux (provided)
 	add_subdirectory(libs/healpix_base)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
 	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base/include)
 
-	FIND_PACKAGE(Boost)
-	IF(Boost_FOUND)
-		SET(WITH_GALACTIC_LENSES TRUE)
+	list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
 
-		list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
-
-		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
-		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
-		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
-		list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
-
-		list(APPEND CRPROPA_EXTRA_INCLUDES ${Boost_INCLUDE_DIRS})
-		
-	ELSE(Boost_FOUND)
-		MESSAGE (STATUS "Cannot find BOOST which is required for GalacticMagneticLenses.")
-	ENDIF(Boost_FOUND)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
 endif (ENABLE_GALACTICMAGETICLENS)
 
 # ROOT (optional for ROOT output)

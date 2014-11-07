@@ -48,7 +48,7 @@ class LensPart
 	string _filename;
 	double _rigidityMin;
 	double _rigidityMax;
-	ModelMatrix M;
+	ModelMatrixType M;
 	double _maximumSumOfColumns;
 	bool _maximumSumOfColumns_calculated;
 
@@ -71,7 +71,7 @@ public:
 	/// Loads the matrix from file
 	void loadMatrixFromFile()
 	{
-		M.deserialize(_filename);
+		deserialize(_filename, M);
 	}
 
 	/// Returns the filename of the matrix
@@ -85,7 +85,7 @@ public:
 	{
 		if (!_maximumSumOfColumns_calculated)
 		{ // lazy calculation of maximum
-			_maximumSumOfColumns = M.getMaximumOfSumsOfColumns();
+			_maximumSumOfColumns = maximumOfSumsOfColumns(M);
 			_maximumSumOfColumns_calculated = true;
 		}
 		return _maximumSumOfColumns;
@@ -104,13 +104,13 @@ public:
 	}
 
 	/// Returns the modelmatrix
-	ModelMatrix& getMatrix()
+	ModelMatrixType& getMatrix()
 	{
 		return M;
 	}
 
 	/// Sets the modelmatrix
-	void setMatrix(const ModelMatrix& m)
+	void setMatrix(const ModelMatrixType& m)
 	{
 		M = m;
 	}
@@ -143,6 +143,9 @@ typedef std::vector<LensPart*>::const_iterator const_LensPartIter;
 /// Note that the energies refer to protons (Z=1). To be used with other particles with a different charge number please select the rigidity accordingly.
 class MagneticLens
 {
+	
+	void updateRigidityBounds(double rigidityMin, double rigidityMax);
+	
 	/// Loads part of a lens (one matrix) from file to use it in given rigidity range.
 	void loadLensPart(const string &filename, double rigidityMin,
 			double rigidityMax);
@@ -152,7 +155,7 @@ class MagneticLens
 	Pixelization* _pixelization;
 	// Checks Matrix, raises Errors if not ok - also generate
 	// _pixelization if called first time
-	void _checkMatrix(const ModelMatrix &M);
+	void _checkMatrix(const ModelMatrixType &M);
 	// minimum / maximum rigidity that is covered by the lens [Joule]
 	double _minimumRigidity;
 	double _maximumRigidity;
@@ -214,7 +217,7 @@ public:
 
 	/// Loads M as part of a lens and use it in given rigidity range with
 	/// rigidities given in Joule 
-	void setLensPart(const ModelMatrix &M, double rigidityMin, double rigidityMax);
+	void setLensPart(const ModelMatrixType &M, double rigidityMin, double rigidityMax);
 
 	/// Loads a lens from a given file, containing lines like
 	/// lensefile.MLDAT rigidityMin rigidityMax

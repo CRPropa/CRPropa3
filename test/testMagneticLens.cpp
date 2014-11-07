@@ -26,7 +26,9 @@ TEST(MagneticLens, Deflection)
 {
 	MagneticLens magneticLens(5);
 	Pixelization P(5);
-	ModelMatrix M(P.nPix(),P.nPix(),P.nPix());
+	ModelMatrixType M;
+	M.resize(P.nPix(), P.nPix());
+	M.reserve(P.nPix());
 
 	// Map any direction (p,t) to (p, -t)
 	for (int i=0;i<P.nPix();i++)
@@ -35,7 +37,7 @@ TEST(MagneticLens, Deflection)
 		P.pix2Direction(i, phi, theta);
 		theta*= -1;
 		int j = P.direction2Pix(phi, theta);
-		M(i,j) =1;
+		M.insert(i,j) =1;
 	}
 
 	magneticLens.setLensPart(M, 10 * EeV, 100 * EeV);
@@ -56,12 +58,14 @@ TEST(MagneticLens, Vector3Deflection)
 {
 	MagneticLens magneticLens(5);
 	Pixelization P(5);
-	ModelMatrix M(P.nPix(),P.nPix(),P.nPix());
+	ModelMatrixType M;
+	M.resize(P.nPix(), P.nPix());
+	M.reserve(P.nPix());
 
 	// No deflection 
 	for (int i=0;i<P.nPix();i++)
 	{
-		M(i,i) = 1;
+		M.insert(i,i) = 1;
 	}
 
 	magneticLens.setLensPart(M, 10 * EeV, 100 * EeV);
@@ -88,7 +92,9 @@ TEST(MagneticLens, OutOfBoundsEnergy)
 {
 	MagneticLens magneticLens(5);
 	Pixelization P(5);
-	ModelMatrix M(P.nPix(),P.nPix(),P.nPix());
+	ModelMatrixType M;
+	M.resize(P.nPix(), P.nPix());
+	M.reserve(P.nPix());
 	magneticLens.setLensPart(M,10. * EeV, 100. * EeV);
 	double theta, phi;
 	EXPECT_FALSE(magneticLens.transformCosmicRay(1. * EeV, phi, theta));

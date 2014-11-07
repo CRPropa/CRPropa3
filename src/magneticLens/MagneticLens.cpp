@@ -83,19 +83,18 @@ bool MagneticLens::transformCosmicRay(double rigidity, double& phi,
 		return false;
 	}
 
-	ModelVectorType v;
-	v = column(lenspart->getMatrix(), c);
+	ModelVectorType v = lenspart->getMatrix().col(c);
 
 	uint32_t r;
 
 	// the random number to compare with
 	double rn = Random::instance().rand();
 
-	MVi_t i = v.begin();
+	ModelVectorType::InnerIterator i(v);
   double cpv = 0;
-  while (i != v.end())
+  while (i)
   {
-		cpv += *i;
+		cpv += i.value();
 		if (rn < cpv)
 		{
 			_pixelization->pix2Direction(i.index(), phi, theta);
@@ -125,6 +124,46 @@ bool MagneticLens::transformCosmicRay(double rigidity, Vector3d &p){
 void MagneticLens::loadLensPart(const string &filename, double rigidityMin,
 		double rigidityMax)
 {
+	updateRigidityBounds(rigidityMin, rigidityMax);
+
+	LensPart *p = new LensPart(filename, rigidityMin, rigidityMax);
+	p->loadMatrixFromFile();
+	_checkMatrix(p->getMatrix());
+
+	_lensParts.push_back(p);
+}
+
+void MagneticLens::_checkMatrix(const ModelMatrixType &M)
+{
+	if (M.rows() != M.cols())
+	{
+		throw std::runtime_error("Not a square Matrix!");
+	}
+
+	if (_pixelization)
+	{
+		if (_pixelization->nPix() != M.cols())
+		{
+			std::cerr << "*** ERROR ***" << endl;
+			std::cerr << "  Pixelization: " << _pixelization->nPix() << endl;
+			std::cerr << "  Matrix Size : " << M.cols() << endl;
+			throw std::runtime_error("Matrix doesn't fit into Lense");
+		}
+	}
+	else
+	{
+		uint32_t morder = Pixelization::pix2Order(M.cols());
+		if (morder == 0)
+		{
+			throw std::runtime_error(
+					"Matrix size doesn't match healpix scheme!");
+		}
+		_pixelization = new Pixelization(morder);
+	}
+}
+
+void MagneticLens::updateRigidityBounds(double rigidityMin, double rigidityMax)
+{
 	if (rigidityMin >= rigidityMax)
 	{
 		throw std::runtime_error("rigidityMin >= rigidityMax");
@@ -138,51 +177,13 @@ void MagneticLens::loadLensPart(const string &filename, double rigidityMin,
 	{
 		_maximumRigidity = rigidityMax;
 	}
-
-	LensPart *p = new LensPart(filename, rigidityMin, rigidityMax);
-	p->loadMatrixFromFile();
-	_checkMatrix(p->getMatrix());
-
-	_lensParts.push_back(p);
 }
 
-void MagneticLens::_checkMatrix(const ModelMatrix &M)
-{
-	if (M.size1() != M.size2())
-	{
-		throw std::runtime_error("Not a square Matrix!");
-	}
-
-	if (_pixelization)
-	{
-		if (_pixelization->nPix() != M.size1())
-		{
-			std::cerr << "*** ERROR ***" << endl;
-			std::cerr << "  Pixelization: " << _pixelization->nPix() << endl;
-			std::cerr << "  Matrix Size : " << M.size1() << endl;
-			throw std::runtime_error("Matrix doesn't fit into Lense");
-		}
-	}
-	else
-	{
-		uint32_t morder = Pixelization::pix2Order(M.size1());
-		if (morder == 0)
-		{
-			throw std::runtime_error(
-					"Matrix size doesn't match healpix scheme!");
-		}
-		_pixelization = new Pixelization(morder);
-	}
-}
-
-void MagneticLens::setLensPart(const ModelMatrix &M, double rigidityMin,
+void MagneticLens::setLensPart(const ModelMatrixType &M, double rigidityMin,
 		double rigidityMax)
 {
+	updateRigidityBounds(rigidityMin, rigidityMax);
 	LensPart *p = new LensPart("Direct Input", rigidityMin, rigidityMax);
-	if (rigidityMin >= rigidityMax)
-	{
-		throw std::runtime_error("rigidityMin >= rigidityMax");
-	}
 
 	p->setMatrix(M);
 
@@ -219,7 +220,7 @@ void MagneticLens::normalizeMatrixColumns()
 	for (LensPartIter iter = _lensParts.begin(); iter != _lensParts.end();
 			++iter)
 	{
-		(*iter)->getMatrix().normalizeColumns();
+		normalizeColumns((*iter)->getMatrix());
 	}
 }
 
@@ -239,7 +240,7 @@ void MagneticLens::normalizeLens()
 	for (LensPartIter iter = _lensParts.begin(); iter != _lensParts.end();
 			++iter)
 	{
-		(*iter)->getMatrix().normalizeMatrix(norm);
+		normalizeMatrix((*iter)->getMatrix(), norm);
 	}
   _norm = norm;
 }
@@ -251,7 +252,7 @@ void MagneticLens::normalizeLensparts()
 			++iter)
 	{
 		norm = (*iter)->getMaximumOfSumsOfColumns();
-		(*iter)->getMatrix().normalizeMatrix(norm);
+		normalizeMatrix((*iter)->getMatrix(), norm);
 	}
 }
 
@@ -265,27 +266,8 @@ void MagneticLens::transformModelVector(double* model, double rigidity) const
 		return;
 	}
 
-	size_t lensSize =  _pixelization->nPix();
+	prod_up(lenspart->getMatrix(), model);
 
-	// copy storage of model, as matrix vector product cannot be done
-	// in place
-	double *origVectorStorage = new double[lensSize];
-	memcpy(origVectorStorage, model, lensSize * sizeof(double));
-
-	// create shallow adapters, to access original data backup and model
-	// vector data with ublas
-	shallow_adaptor_double origVectorStorageAdaptor(lensSize, origVectorStorage);
-	shallow_adaptor_double modelVectorAdaptor(lensSize, model);
-
-	// create the ublas vector "views:
-	shallow_vector_double origVector(lensSize, origVectorStorageAdaptor);
-	shallow_vector_double modelVector(lensSize, modelVectorAdaptor);
-
-	// perform the optimized product
-	boost::numeric::ublas::axpy_prod(lenspart->getMatrix(), origVector, modelVector, true);
-
-	// clean up
-	delete origVectorStorage;
 }
 
 

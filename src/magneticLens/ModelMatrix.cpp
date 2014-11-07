@@ -22,59 +22,56 @@
 
 #include "crpropa/magneticLens/ModelMatrix.h"
 #include <ctime>
+
+#include <Eigen/Core>
 namespace crpropa 
 {
 
-void ModelMatrix::serialize(const string &filename)
+void serialize(const string &filename, const ModelMatrixType& matrix)
 {
 	ofstream outfile(filename.c_str(), ios::binary);
 	if (!outfile)
 	{
 		throw runtime_error("Can't write file: " + filename);
 	}
+
 	uint32_t nnz = 0;
 	uint32_t C = 0;
 	double val;
 
-	// first write dummy and jump back later
+	C = (uint32_t) (matrix.nonZeros());
 	outfile.write((char*) &nnz, sizeof(uint32_t));
-	C = (uint32_t) (this->size1());
+	C = (uint32_t) (matrix.rows());
 	outfile.write((char*) &C, sizeof(uint32_t));
-	C = (uint32_t) (this->size2());
+	C = (uint32_t) (matrix.cols());
 	outfile.write((char*) &C, sizeof(uint32_t));
 
 	// serialize non zero elements
-	for (i2_t i2 = this->begin2(); i2 != this->end2(); ++i2)
+	for (size_t col_idx = 0; col_idx < matrix.cols(); ++col_idx)
 	{
-		for (i1_t i1 = i2.begin(); i1 != i2.end(); ++i1)
-		{
-			val = *i1;
-			if (val > DBL_EPSILON)
+		for (ModelMatrixType::InnerIterator it(matrix,col_idx); it; ++it)
 			{
-				C = (uint32_t) i1.index1();
+				it.value();
+				C = (uint32_t) it.row(); 
 				outfile.write((char*) &C, sizeof(uint32_t));
-				C = (uint32_t) i1.index2();
+
+				C = (uint32_t) it.col(); 
 				outfile.write((char*) &C, sizeof(uint32_t));
-				outfile.write((char*) &val, sizeof(val));
-				nnz++;
+				
+				val = it.value(); 
+				outfile.write((char*) &val, sizeof(double));
 				if (outfile.fail())
 				{
 					throw runtime_error("Error writing file: " + filename);
 				}
 			}
-		}
 	}
-	// jump back and write nnz
-	outfile.seekp(0);
-	outfile.write((char*) &nnz, sizeof(uint32_t));
-	if (!outfile)
-	{
-		throw runtime_error("Error writing file: " + filename);
-	}
+	
 	outfile.close();
 }
 
-void ModelMatrix::deserialize(const string &filename)
+
+void deserialize(const string &filename, ModelMatrixType& matrix)
 {
 	ifstream infile(filename.c_str(), ios::binary);
 	if (!infile)
@@ -82,75 +79,85 @@ void ModelMatrix::deserialize(const string &filename)
 		throw runtime_error("Can't read file: " + filename);
 	}
 
-	uint32_t nnz, size1, size2;
-	double val;
+	uint32_t nnz, nRows, nColumns;
 	infile.read((char*) &nnz, sizeof(uint32_t));
-	infile.read((char*) &size1, sizeof(uint32_t));
-	infile.read((char*) &size2, sizeof(uint32_t));
-	boost::numeric::ublas::compressed_matrix<double,
-			boost::numeric::ublas::column_major> M(size1, size2, nnz);
+	infile.read((char*) &nRows, sizeof(uint32_t));
+	infile.read((char*) &nColumns, sizeof(uint32_t));
+	matrix.resize(nRows, nColumns);
+	matrix.reserve(nnz);
 
+	uint32_t row, column;
+	double val;
+	std::vector< Eigen::Triplet<double> > triplets;
+	triplets.resize(nnz);
 	for (size_t i = 0; i < nnz; i++)
 	{
-		infile.read((char*) &size1, sizeof(uint32_t));
-		infile.read((char*) &size2, sizeof(uint32_t));
+		infile.read((char*) &row, sizeof(uint32_t));
+		infile.read((char*) &column, sizeof(uint32_t));
 		infile.read((char*) &val, sizeof(double));
 		//M(size1,size2) = val;
-		M.push_back(size1, size2, val);
+		triplets[i] = Eigen::Triplet<double>(row, column, val);
 	}
-	this->ModelMatrixType::operator=(M);
+	matrix.setFromTriplets(triplets.begin(), triplets.end());
+	matrix.makeCompressed();
 }
 
-void ModelMatrix::normalizeRows()
+
+double norm_1(const ModelVectorType &v)
 {
-	boost::numeric::ublas::diagonal_matrix<double,
-			boost::numeric::ublas::row_major> A(this->size1(), this->size2());
-	double rn;
-	for (size_t i = 0; i < this->size1(); i++)
-	{
-		rn = norm_1(row((*this), i));
-		A(i, i) = 1 / rn;
-	}
-	*this = prod(A, (*this));
+	return v.cwiseAbs().sum();
 }
 
-void ModelMatrix::normalizeColumns(){
-	boost::numeric::ublas::diagonal_matrix<double,boost::numeric::ublas::row_major> A(this->size1(),this->size2());
-	double rn;
-	ModelVectorType v;
-	for (size_t i=0;i<this->size1();i++)
+
+void normalizeColumns(ModelMatrixType &matrix){
+	for (size_t i=0; i< matrix.cols(); i++)
 	{
-		v = column(*this,i);
-		rn = norm_1(v);
-		v/=rn;
+		ModelVectorType v = matrix.col(i);
+		double rn = norm_1(v);
+		matrix.col(i) = v/rn;
 	}
 }
 
-double ModelMatrix::getSumOfColumn(size_t j) const
-{
-	ModelVectorType v;
-	v = column(*this, j);
-	double sum = norm_1(v);
-	return sum;
-}
 
-
-double ModelMatrix::getMaximumOfSumsOfColumns() const
+double maximumOfSumsOfColumns(const ModelMatrixType &matrix) 
 {
 	double summax = 0;
 	double sum = 0;
-	for (size_t i = 0; i < this->size2(); i++)
+	for (size_t i = 0; i < matrix.cols(); i++)
 	{
-		sum = getSumOfColumn(i);
+		sum =matrix.col(i).sum();
 		if (sum > summax)
 			summax = sum;
 	}
 	return summax;
 }
 
-void ModelMatrix::normalizeMatrix(double factor)
+	void normalizeMatrix(ModelMatrixType& matrix, double norm)
 {
-	*this /= factor;
+	matrix /= norm;
 }
+
+	void prod_up(const ModelMatrixType& matrix, double* model)
+{
+
+	// copy storage of model, as matrix vector product cannot be done
+	// in place
+	
+	const size_t mSize = matrix.cols();
+	double *origVectorStorage = new double[mSize];
+	memcpy(origVectorStorage, model, mSize * sizeof(double));
+
+
+
+	Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, 1> > origVectorAdaptor(origVectorStorage, mSize);
+	Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, 1> > modelVectorAdaptor(model, mSize);
+
+	// perform the optimized product
+	modelVectorAdaptor = matrix * origVectorAdaptor;
+
+	// clean up
+	delete origVectorStorage;
+}
+
 
 } // namespace parsec

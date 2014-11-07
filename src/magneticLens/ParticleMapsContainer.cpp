@@ -165,21 +165,30 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 	vector<double> &galacticLatitudes)
 {
 	double sumOfWeights = 0;
-	std::map< int , double> _weights;				
+
+	std::map< int , double > _weightsPID;				
+	std::map< int , map<int, double> > _weights_pidEnergy;				
 
 	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
-			pid_iter != _data.end(); ++pid_iter) {
-		_weights[pid_iter->first] = 0;
+			pid_iter != _data.end(); ++pid_iter) 
+	{
+		_weightsPID[pid_iter->first] = 0;
 
 		for(std::map<int, double*>::iterator energy_iter = pid_iter->second.begin();
-			energy_iter != pid_iter->second.end(); ++energy_iter) {
+			energy_iter != pid_iter->second.end(); ++energy_iter) 
+		{
+
+			_weights_pidEnergy[pid_iter->first][energy_iter->first] = 0;
 			for(size_t j=0; j< _pixelization.getNumberOfPixels() ; j++)
 			{
-				_weights[pid_iter->first]+=energy_iter->second[j];
+				_weights_pidEnergy[pid_iter->first][energy_iter->first] +=energy_iter->second[j];
+					
+				_weightsPID[pid_iter->first]+=energy_iter->second[j];
 			}
+		sumOfWeights+=_weights_pidEnergy[pid_iter->first][energy_iter->first];
 		}
-		sumOfWeights+=_weights[pid_iter->first];
 	}
+
 
 	particleId.resize(N);
 	energy.resize(N);
@@ -188,34 +197,34 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 
 	for(size_t i=0; i< N; i++)
 	{
+		//get particle
 		double r = Random::instance().rand() * sumOfWeights;
-		std::map<int, double>::iterator iter = _weights.begin();
+		std::map<int, double>::iterator iter = _weightsPID.begin();
 		while ((r-= iter->second) > 0)
 		{
 		 ++iter; 
 		}
-		
 		particleId[i] = iter->first;
-		
-		bool foundParticle = false;
-
+	
+		//get energy
 		r = Random::instance().rand() * iter->second;
-	////	// loop over maps
-		for(std::map<int, double*>::iterator energy_iter =
-				_data[iter->first].begin(); !foundParticle; ++energy_iter )
+		iter = _weights_pidEnergy[particleId[i]].begin();
+		while ((r-= iter->second) > 0)
 		{
+		 ++iter; 
+		}
+		energy[i] = idx2Energy(iter->first) / eV;
 
-			for(size_t j=0; j< _pixelization.getNumberOfPixels() && !foundParticle; j++)
+		//get direction
+		r = Random::instance().rand() * iter->second;
+
+		for(size_t j=0; j< _pixelization.getNumberOfPixels(); j++)
+		{
+			r-= _data[particleId[i]][iter->first][j];
+			if (r <=0)
 			{
-				// if this is too slow I need to store the weights for the energies
-				// alongside the maps
-				r-= energy_iter->second[j];
-				if (r <=0)
-				{
-					foundParticle = true;
-					energy[i] = idx2Energy(energy_iter->first) / eV;
-					_pixelization.getRandomDirectionInPixel(j, galacticLongitudes[i], galacticLatitudes[i] );
-				}
+				_pixelization.getRandomDirectionInPixel(j, galacticLongitudes[i], galacticLatitudes[i] );
+				break;
 			}
 		}
 	}

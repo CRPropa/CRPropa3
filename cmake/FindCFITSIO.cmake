@@ -1,0 +1,22 @@
+# Find CFTISIO
+# CFITSIO_FOUND = true if cfitsio is found
+# CFITSIO_INCLUDE_DIR = fitsio.h
+# CFITSIO_LIBRARY = libcfitsio.a .so
+
+find_path(CFITSIO_INCLUDE_DIR fitsio.h ${CFITSIO_ROOT_DIR}/include)
+find_library(CFITSIO_LIBRARY cfitsio ${CFITSIO_ROOT_DIR}/lib)
+
+MESSAGE(STATUS "  Include:     ${CFITSIO_INCLUDE_DIR}")
+
+set(CFITSIO_FOUND FALSE)
+if(CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARY)
+    set(CFITSIO_FOUND TRUE)
+    MESSAGE(STATUS "CFITSIO: Found!")
+else()
+    MESSAGE(STATUS "CFITSIO: NOT Found!")
+endif()		   
+
+MESSAGE(STATUS "  Include:     ${CFITSIO_INCLUDE_DIR}")
+MESSAGE(STATUS "  Library:     ${CFITSIO_LIBRARY}")
+
+mark_as_advanced(CFITSIO_INCLUDE_DIR CFITSIO_LIBRARY CFITSIO_FOUND)

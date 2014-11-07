@@ -15,6 +15,12 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
+# Set default build-type to release to enable performance improvements 
+if (NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE Release)
+endif(NOT CMAKE_BUILD_TYPE)
+MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
@@ -58,6 +64,30 @@ list(APPEND CRPROPA_EXTRA_INCLUDES libs/dint/include)
 add_subdirectory(libs/EleCa)
 list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
+
+
+# GlacticMagneticLenses 
+option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
+SET(WITH_GALACTIC_LENSES FALSE)
+if (ENABLE_GALACTICMAGETICLENS)
+	SET(WITH_GALACTIC_LENSES TRUE)
+
+	# Eigen redux (provided)
+	add_subdirectory(libs/eigen3)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/eigen3)
+
+	# healpix redux (provided)
+	add_subdirectory(libs/healpix_base)
+	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base/include)
+
+	list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
+
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
+endif (ENABLE_GALACTICMAGETICLENS)
 
 # ROOT (optional for ROOT output)
 option(ENABLE_ROOT "ROOT Output" ON)
@@ -250,6 +280,17 @@ if(ENABLE_TESTING)
 	add_executable(testSource test/testSource.cpp)
 	target_link_libraries(testSource crpropa gtest gtest_main pthread)
 	add_test(testSource testSource)
+
+	if(WITH_GALACTIC_LENSES)
+		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
+		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
+		add_test(testGalacticMagneticLens testGalacticMagneticLens)
+	endif(WITH_GALACTIC_LENSES)
+
+	if(ENABLE_PYTHON)
+		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py) 
+		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
+	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)
 
 # ----------------------------------------------------------------------------
@@ -260,6 +301,17 @@ if(ENABLE_PYTHON)
 	FIND_PACKAGE(SWIG REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
+
+	# tries to import numpy
+	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
+	if(numpyIncludePath)
+	  MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
+		SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
+		list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
+	  include_directories(${numpyIncludePath})
+	else()
+	  MESSAGE(STATUS "Numpy not found.")
+	endif()
 
 	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )

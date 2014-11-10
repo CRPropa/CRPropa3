@@ -73,7 +73,6 @@ if (ENABLE_GALACTICMAGETICLENS)
 	SET(WITH_GALACTIC_LENSES TRUE)
 
 	# Eigen redux (provided)
-	add_subdirectory(libs/eigen3)
 	list(APPEND CRPROPA_EXTRA_INCLUDES libs/eigen3)
 
 	# healpix redux (provided)

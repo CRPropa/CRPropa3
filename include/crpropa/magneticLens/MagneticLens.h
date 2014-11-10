@@ -28,8 +28,6 @@
 #include "crpropa/Units.h"
 #include "crpropa/Vector3.h"
 
-#include <boost/numeric/ublas/operation.hpp>
-
 #include <vector>
 #include <string>
 #include <stdexcept>

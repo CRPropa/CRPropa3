@@ -401,7 +401,7 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
   }
 
 };
-#else
+#else // with numpy
 %extend crpropa::ParticleMapsContainer{
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
@@ -409,7 +409,29 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
       return NULL;
   }
 };
-#endif
+%extend crpropa::ParticleMapsContainer{
+  PyObject *getParticleIds_numpyArray(const int particleId, double energy)
+  {
+      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      return NULL;
+  }
+};
+%extend crpropa::ParticleMapsContainer{
+  PyObject *getEnergies_numpyArray(const int particleId, double energy)
+  {
+      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      return NULL;
+  }
+};
+%extend crpropa::ParticleMapsContainer{
+  PyObject *getRandomParticles_numpyArray(const int particleId, double energy)
+  {
+      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      return NULL;
+  }
+};
+#endif // with numpy
+
 %pythoncode %{
 ParticleMapsContainer.getMap = ParticleMapsContainer.getMap_numpyArray
 ParticleMapsContainer.getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray

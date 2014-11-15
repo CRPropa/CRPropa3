@@ -104,6 +104,7 @@ void PhotoDisintegration::initBranching(std::string filename) {
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')
 			continue;
+
 		std::stringstream lineStream(line);
 
 		int Z, N;
@@ -116,7 +117,7 @@ void PhotoDisintegration::initBranching(std::string filename) {
 		double r;
 		for (size_t i = 0; i < nlg; i++) {
 			lineStream >> r;
-			branch.branchingRatio.push_back(r / Mpc);
+			branch.branchingRatio.push_back(r);
 		}
 
 		pdBranch[Z * 31 + N].push_back(branch);

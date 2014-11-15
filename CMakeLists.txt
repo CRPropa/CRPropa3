@@ -302,7 +302,7 @@ if(ENABLE_PYTHON)
 	include_directories(${PYTHON_INCLUDE_PATH})
 
 	# tries to import numpy
-	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
+	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
 	if(numpyIncludePath)
 	  MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
 		SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})

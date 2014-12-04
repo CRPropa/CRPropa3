@@ -12,7 +12,7 @@
     make
     ```
 
-  CMake also automatically downloads a tarball with the interaction data. If the download fails, please manually download the specified file, rename it to data.tar.gz and place it in the source folder before continuing with cmake.
+  **Note:** CMake automatically downloads a tarball with the interaction data. If the download fails, please manually download from the specified URL, rename the file to data.tar.gz and place it in the source folder before continuing with cmake.
 
 3. A set of unit tests can be run with ```make test```. If the tests are successful continue with ```make install``` to install CRPropa at the specified path, or leave it in the build directory.
 Make sure the environment variables are set accordingly: E.g. for an installation under $HOME/.local and using Python 2.7 set

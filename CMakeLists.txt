@@ -15,7 +15,7 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
-# Set default build-type to release to enable performance improvements 
+# Set default build-type to release to enable performance improvements
 if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
@@ -66,7 +66,7 @@ list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
 
 
-# GlacticMagneticLenses 
+# GlacticMagneticLenses
 option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
 SET(WITH_GALACTIC_LENSES FALSE)
 if (ENABLE_GALACTICMAGETICLENS)
@@ -164,19 +164,37 @@ endif(MUPARSER_FOUND)
 # ----------------------------------------------------------------------------
 # Downloading data files (interaction data, masses, decay data)
 # ----------------------------------------------------------------------------
+# the much shorter file(DOWNLOAD ${DATA_URL} ${CMAKE_SOURCE_DIR}/data.tar.gz EXPECTED_MD5 ${EXPECTED_MD5SUM}) is not used since
+#   - FILE(DOWNLOAD) only exists for CMake > 2.6
+#   - option "VERIFY_TLS off" only exists for CMake > 2.8?
 set(DATA_URL "https://crpropa.desy.de/images/e/e2/Data20141021.tar.gz")
-set(DATA_MD5SUM "c2e1dba052c550873e67344673013f7c")
-message("Downloading data files from crpropa.desy.de ~ 60 MB")
-if(CMAKE_VERSION GREATER 2.6)
-	file(DOWNLOAD ${DATA_URL} ${CMAKE_SOURCE_DIR}/data.tar.gz STATUS status EXPECTED_MD5 ${DATA_MD5SUM})
-else()
-	execute_process(COMMAND wget ${DATA_URL} -O ${CMAKE_SOURCE_DIR}/data.tar.gz --no-check-certificate RESULT_VARIABLE status)
-endif(CMAKE_VERSION GREATER 2.6)
-message("Download complete: ${status}")
-message("If the download failed, please manually obtain the file from " ${DATA_URL} ", rename it to data.tar.gz and place it in the source folder'")
+set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
+set(GET_DATA 0)
 
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+message("\nSearching for data archive")
+find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/build)
+if (DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
+    message("File not found: data.tar.gz")
+    set(GET_DATA 1)
+else ()
+    message("File found: " ${DATA_FILE})
+    execute_process(COMMAND md5sum ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
+    string(SUBSTRING ${MD5SUM} 0 32 MD5SUM)
+    if (MD5SUM STREQUAL EXPECTED_MD5SUM)
+        message("MD5sum matching\n")
+    else ()
+        message("MD5sum not matching " ${EXPECTED_MD5SUM})
+            set(GET_DATA 1)
+    endif ()
+endif ()
+
+if (GET_DATA EQUAL 1)
+    message("Downloading from crpropa.desy.de ~ 60 MB")
+    set(DATA_FILE ${CMAKE_SOURCE_DIR}/build/data.tar.gz)
+    execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
+    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+endif()
 
 # ----------------------------------------------------------------------------
 # Library and Binary
@@ -287,7 +305,7 @@ if(ENABLE_TESTING)
 	endif(WITH_GALACTIC_LENSES)
 
 	if(ENABLE_PYTHON)
-		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py) 
+		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py)
 		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
 	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)

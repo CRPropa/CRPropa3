@@ -13,7 +13,10 @@ enum PhotonField {
 	IRB_Stecker05,
 	IRB_Dole06,
 	IRB_Franceschini08,
-	IRB_withRedshift_Kneiske04
+	IRB_withRedshift_Kneiske04,
+	IRB_withRedshift_Franceschini08,
+	IRB_withRedshift_Finke10,
+	IRB_withRedshift_Gilmore12	
 };
 
 // Returns overall comoving scaling factor

@@ -42,7 +42,7 @@ double ParticleState::getEnergy() const {
 void ParticleState::setId(int newId) {
 	id = newId;
 	if (isNucleus(id)) {
-		pmass = nucleusMass(id);
+		pmass = nuclearMass(id);
 		charge = chargeNumber(id) * eplus;
 		if (id < 0)
 			charge *= -1; // anti-nucleus

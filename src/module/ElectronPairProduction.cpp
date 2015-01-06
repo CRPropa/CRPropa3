@@ -136,7 +136,7 @@ double ElectronPairProduction::lossLength(int id, double lf, double z) const {
 	else
 		rate = tabLossRate.back() * pow(lf / tabLorentzFactor.back(), -0.6); // extrapolation
 
-	double A = nucleusMass(id) / mass_proton; // more accurate than massNumber(Id)
+	double A = nuclearMass(id) / mass_proton; // more accurate than massNumber(Id)
 	rate *= Z * Z / A * pow(1 + z, 3) * photonFieldScaling(photonField, z);
 	return 1. / rate;
 }

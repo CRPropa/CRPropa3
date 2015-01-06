@@ -37,12 +37,17 @@ struct NuclearMassTable {
 
 static NuclearMassTable nuclearMassTable;
 
-double nucleusMass(int id) {
+double nuclearMass(int id) {
+	int A = massNumber(id);
 	int Z = chargeNumber(id);
-	int N = massNumber(id) - Z;
+	return nuclearMass(A, Z);
+}
+
+double nuclearMass(int A, int Z) {
+	int N = A - Z;
 	double mass = nuclearMassTable.table[Z * 31 + N];
 	if (mass == 0)
-		throw std::runtime_error("getNucleusMass: nucleus not found " + kiss::str(id));
+		throw std::runtime_error("nuclearMass: nucleus not found " + kiss::str(A) + ", " + kiss::str(Z));
 	return mass;
 }
 

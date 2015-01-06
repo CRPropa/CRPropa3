@@ -10,7 +10,6 @@
 //--------------------------------------------
 
 #include <string>
-#include <boost/progress.hpp>
 #include "gtest/gtest.h"
 
 #include "crpropa/magneticLens/MagneticLens.h"

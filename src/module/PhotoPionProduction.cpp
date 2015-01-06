@@ -75,8 +75,23 @@ void PhotoPionProduction::init() {
 		break;
 	case IRB_withRedshift_Kneiske04:
 		doRedshiftDependent = true;
-		setDescription("PhotoPionProduction: IRB with redshift Kneiske '04");
+		setDescription("PhotoPionProduction: IRB evolving with redshift Kneiske '04");
 		init(getDataPath("ppp_IRBz_Kneiske04.txt"));
+		break;
+        case IRB_withRedshift_Franceschini08:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Franceschini '08");
+		init(getDataPath("ppp_IRBz_Franceschini08.txt"));
+		break;
+        case IRB_withRedshift_Finke10:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Finke '10");
+		init(getDataPath("ppp_IRBz_Finke10.txt"));
+		break;
+        case IRB_withRedshift_Gilmore12:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Gimore '12");
+		init(getDataPath("ppp_IRBz_Gilmore12.txt"));
 		break;
 	default:
 		throw std::runtime_error(

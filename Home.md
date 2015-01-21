@@ -34,4 +34,5 @@ CRPropa 2 compatibility (XML steering)
 #### Developer Section
  * [How-to: Tutorials in form of ipython-notebooks](ipython-notebooks)
  * [How-to: Doxygen on github-pages](github-pages)
+ * [How-to: Updating data files](datafiles)
  * [Possible developments](Possible Developments)

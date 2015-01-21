@@ -26,7 +26,7 @@
 namespace crpropa 
 {
 
-	healpix::T_Healpix_Base<int64_t> Pixelization::_healpix_nest = healpix::T_Healpix_Base<int64_t>(29, healpix::NEST);
+	healpix::T_Healpix_Base<healpix::int64> Pixelization::_healpix_nest = healpix::T_Healpix_Base<healpix::int64>(29, healpix::NEST);
 
 
 uint8_t Pixelization::pix2Order(uint32_t pix)

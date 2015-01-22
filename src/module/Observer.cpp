@@ -179,8 +179,8 @@ std::string ObserverRedshiftWindow::getDescription() const {
 // ObserverNucleusVeto --------------------------------------------------------
 DetectionState ObserverNucleusVeto::checkDetection(Candidate *c) const {
 	if (isNucleus(c->current.getId()))
-		return NOTHING;
-	return VETO;
+		return VETO;
+	return NOTHING;
 }
 
 std::string ObserverNucleusVeto::getDescription() const {
@@ -191,8 +191,8 @@ std::string ObserverNucleusVeto::getDescription() const {
 DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
 	int id = fabs(c->current.getId());
 	if ((id == 12) or (id == 14) or (id == 16))
-		return NOTHING;
-	return VETO;
+		return VETO;
+	return NOTHING;
 }
 
 std::string ObserverNeutrinoVeto::getDescription() const {
@@ -202,8 +202,8 @@ std::string ObserverNeutrinoVeto::getDescription() const {
 // ObserverPhotonVeto ---------------------------------------------------------
 DetectionState ObserverPhotonVeto::checkDetection(Candidate *c) const {
 	if (c->current.getId() == 22)
-		return NOTHING;
-	return VETO;
+		return VETO;
+	return NOTHING;
 }
 
 std::string ObserverPhotonVeto::getDescription() const {

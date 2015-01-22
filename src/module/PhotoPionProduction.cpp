@@ -151,13 +151,14 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 void PhotoPionProduction::process(Candidate *candidate) const {
 	// the loop should be processed at least once for limiting the next step
 	double step = candidate->getCurrentStep();
+	double z = candidate->getRedshift();
 	do {
 		// check if nucleus
 		int id = candidate->current.getId();
 		if (not (isNucleus(id)))
 			return;
 
-		double z = candidate->getRedshift();
+		// instead of scaling the photon energies, scale the nucleus energy
 		double gamma = (1 + z) * candidate->current.getLorentzFactor();
 
 		// check if in tabulated energy range
@@ -178,14 +179,12 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		int N = A - Z;
 
 		// check for interaction on protons
+		double rate;
 		if (Z > 0) {
-			double rate =
-					(!doRedshiftDependent) ?
-							scaling
-									* interpolate(gamma, tabLorentz,
-											tabProtonRate) :
-							interpolate2d(z, gamma, tabRedshifts, tabLorentz,
-									tabProtonRate);
+			if (doRedshiftDependent)
+				rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+			else
+				rate = scaling * interpolate(gamma, tabLorentz, tabProtonRate);
 			rate *= nucleiModification(A, Z);
 			totalRate += rate;
 			channel = 1;
@@ -194,13 +193,10 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 
 		// check for interaction on neutrons
 		if (N > 0) {
-			double rate =
-					(!doRedshiftDependent) ?
-							scaling
-									* interpolate(gamma, tabLorentz,
-											tabNeutronRate) :
-							interpolate2d(z, gamma, tabRedshifts, tabLorentz,
-									tabNeutronRate);
+			if (doRedshiftDependent)
+				rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+			else
+				rate = scaling * interpolate(gamma, tabLorentz, tabNeutronRate);
 			rate *= nucleiModification(A, N);
 			totalRate += rate;
 			double d = -log(random.rand()) / rate;

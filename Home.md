@@ -16,12 +16,6 @@ Welcome to the CRPropa3 wiki!
 CRPropa 2 compatibility (XML steering)
  * [XML steering](XML steering)
 
-#### FAQ
- * [Cosmic Ray Sources](Cosmic Ray Sources)
- * [Random Number Seed](Random Numbers)
- * [Multiple Observers](Multiple Observers)
- * [Extending CRPropa from Python](Extending CRPropa)
-
 #### Manual
 [Doxygen documentation](http://crpropa.github.io/CRPropa3/)
  * [Basic concepts](Basic concepts)
@@ -30,6 +24,12 @@ CRPropa 2 compatibility (XML steering)
  * [List of observer feature](Observer Features)
  * [List of source features](Source Features)
  * [List of magnetic fields](Magnetic Fields)
+
+#### FAQ
+ * [Cosmic Ray Sources](Cosmic Ray Sources)
+ * [Random Number Seed](Random Numbers)
+ * [Multiple Observers](Multiple Observers)
+ * [Extending CRPropa from Python](Extending CRPropa)
 
 #### Developer Section
  * [How-to: Tutorials in form of ipython-notebooks](ipython-notebooks)

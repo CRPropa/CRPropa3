@@ -49,6 +49,11 @@ void EleCaPropagation(const std::string &inputfile,
 	propagation.InitBkgArray(background);
 
 	std::ofstream output(outputfile.c_str());
+	output << "# ID\tE\tiID\tiE\n";
+	output << "# ID          Id of particle (photon, electron, positron)\n";
+	output << "# E           Energy [EeV]\n";
+	output << "# iID         Id of source particle\n";
+	output << "# iE          Energy [EeV] of source particle\n";
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double E, D, pE, iE;
@@ -85,7 +90,7 @@ void EleCaPropagation(const std::string &inputfile,
 					eleca::Particle &p = ParticleAtGround[i];
 					if (p.GetType() != 22)
 						continue;
-					output << p.GetType() << "\t" << p.GetEnergy() << "\n"; 
+					output << p.GetType() << "\t" << p.GetEnergy() << "\t" << iId << "\t" << iE << "\n"; 
 				}
 			}
 		}

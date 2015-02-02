@@ -44,7 +44,7 @@ void EleCaPropagation(const std::string &inputfile,
 
 	eleca::setSeed();
 	eleca::Propagation propagation;
-  propagation.SetEthr(lowerEnergyThreshold);
+  propagation.SetEthr(lowerEnergyThreshold / EeV );
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray(background);
 

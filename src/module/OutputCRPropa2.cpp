@@ -55,10 +55,11 @@ void CRPropa2EventOutput3D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%.4f %.4f %.4f\n", E, phi, theta);
 
 #pragma omp critical
-	{
-		outfile.write(buffer, p);
-		outfile.flush();
-	}
+	outfile.write(buffer, p);
+}
+
+void CRPropa2EventOutput3D::endRun() {
+	outfile.flush();
 }
 
 CRPropa2TrajectoryOutput3D::CRPropa2TrajectoryOutput3D(std::string filename) {
@@ -96,10 +97,11 @@ void CRPropa2TrajectoryOutput3D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%.4f\n", c->current.getEnergy() / EeV);
 
 #pragma omp critical
-	{
-		outfile.write(buffer, p);
-		outfile.flush();
-	}
+	outfile.write(buffer, p);
+}
+
+void CRPropa2TrajectoryOutput3D::endRun() {
+	outfile.flush();
 }
 
 CRPropa2TrajectoryOutput1D::CRPropa2TrajectoryOutput1D(std::string filename) {
@@ -124,10 +126,11 @@ void CRPropa2TrajectoryOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%.4f\n", c->current.getEnergy() / EeV);
 
 #pragma omp critical
-	{
-		outfile.write(buffer, p);
-		outfile.flush();
-	}
+	outfile.write(buffer, p);
+}
+
+void CRPropa2TrajectoryOutput1D::endRun() {
+	outfile.flush();
 }
 
 CRPropa2EventOutput1D::CRPropa2EventOutput1D(std::string filename) {
@@ -162,10 +165,11 @@ void CRPropa2EventOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%.4f\n", c->source.getEnergy() / EeV);
 
 #pragma omp critical
-	{
-		outfile.write(buffer, p);
-		outfile.flush();
-	}
+	outfile.write(buffer, p);
+}
+
+void CRPropa2EventOutput1D::endRun() {
+	outfile.flush();
 }
 
 } // namespace crpropa

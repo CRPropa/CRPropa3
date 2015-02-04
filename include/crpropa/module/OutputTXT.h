@@ -18,6 +18,7 @@ public:
 	TrajectoryOutput(std::string filename);
 	~TrajectoryOutput();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 /**
@@ -31,6 +32,7 @@ public:
 	ConditionalOutput(std::string filename, std::string condition = "Detected");
 	~ConditionalOutput();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 /**
@@ -43,6 +45,7 @@ public:
 	TrajectoryOutput1D(std::string filename);
 	~TrajectoryOutput1D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 /**
@@ -55,6 +58,7 @@ public:
 	EventOutput1D(std::string filename);
 	~EventOutput1D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 } // namespace crpropa

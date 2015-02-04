@@ -258,7 +258,7 @@ SourceUniformSphere::SourceUniformSphere(Vector3d center, double radius) :
 void SourceUniformSphere::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	double r = pow(random.rand(), 1. / 3.) * radius;
-	particle.setPosition(random.randVector() * r);
+	particle.setPosition(center + random.randVector() * r);
 }
 
 void SourceUniformSphere::setDescription() {

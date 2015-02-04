@@ -17,4 +17,10 @@ void Module::setDescription(const std::string &d) {
 	description = d;
 }
 
+void Module::beginRun() {
+}
+
+void Module::endRun() {
+}
+
 } // namespace crpropa

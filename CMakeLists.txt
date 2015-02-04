@@ -18,6 +18,13 @@ endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 # Add buildtype for profiling 
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
 
+# Set default build-type to release to enable performance improvements
+if (NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE Release)
+endif(NOT CMAKE_BUILD_TYPE)
+MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+
+
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
@@ -62,6 +69,29 @@ add_subdirectory(libs/EleCa)
 list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
 
+
+# GlacticMagneticLenses
+option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
+SET(WITH_GALACTIC_LENSES FALSE)
+if (ENABLE_GALACTICMAGETICLENS)
+	SET(WITH_GALACTIC_LENSES TRUE)
+
+	# Eigen redux (provided)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/eigen3)
+
+	# healpix redux (provided)
+	add_subdirectory(libs/healpix_base)
+	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
+	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base/include)
+
+	list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
+
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/MagneticLens.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
+	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
+endif (ENABLE_GALACTICMAGETICLENS)
+
 # ROOT (optional for ROOT output)
 option(ENABLE_ROOT "ROOT Output" ON)
 if(ENABLE_ROOT)
@@ -105,6 +135,15 @@ if(FFTW3F_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_FFTW3F)
 endif(FFTW3F_FOUND)
 
+# CFITSIO (optional for reading magnetic fields from FITS file)
+find_package(CFITSIO)
+if(CFITSIO_FOUND)
+	list(APPEND CRPROPA_EXTRA_INCLUDES ${CFITSIO_INCLUDE_DIR})
+	list(APPEND CRPROPA_EXTRA_LIBRARIES ${CFITSIO_LIBRARY})
+	add_definitions(-DCRPROPA_HAVE_CFITSIO)
+	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_CFITSIO)
+endif(CFITSIO_FOUND)
+
 # Quimby (optional for SPH magnetic fields)
 find_package(Quimby)
 if(QUIMBY_FOUND)
@@ -135,20 +174,50 @@ option(DISABLE_DOWNLOAD "Disable download of data files" OFF)
 if(DISABLE_DOWNLOAD)
 	message("Download of data files disabled")
 else(DISABLE_DOWNLOAD)
-	set(DATA_URL "http://crpropa.desy.de/images/f/ff/Data20140803.tar.gz")
-	set(DATA_MD5SUM "1f0016cf3b1cf31250293de08d7fe759")
-	message("Downloading data files from crpropa.desy.de ~ 30 MB")
-	if(CMAKE_VERSION GREATER 2.6)
-		file(DOWNLOAD ${DATA_URL} ${CMAKE_SOURCE_DIR}/data.tar.gz STATUS status EXPECTED_MD5 ${DATA_MD5SUM})
-	else()
-		execute_process(COMMAND wget ${DATA_URL} -O ${CMAKE_SOURCE_DIR}/data.tar.gz --no-check-certificate RESULT_VARIABLE status)
-	endif(CMAKE_VERSION GREATER 2.6)
-	message("Download complete: ${status}")
-	message("If the download failed, please manually obtain the file from " ${DATA_URL} ", rename it to data.tar.gz and place it in the source folder'")
-endif(DISABLE_DOWNLOAD)	
 
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_SOURCE_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+	set(DATA_URL "https://crpropa.desy.de/images/e/e2/Data20141021.tar.gz")
+	set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
+
+	function(GET_DATA)
+	    message("Downloading from crpropa.desy.de ~ 60 MB")
+	    set(DATA_FILE ${CMAKE_SOURCE_DIR}/build/data.tar.gz)
+	    
+	    if(APPLE)
+		execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
+	    else()	
+	    	execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
+	    endif()
+	
+	
+	    message("Unpacking to CRPropa3/data\n")
+	    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+	    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+	endfunction(GET_DATA)
+	
+	message("\nSearching for data archive")
+	find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/build)
+	if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
+	    message("File not found: data.tar.gz")
+	    GET_DATA()
+	else()
+	    message("File found: " ${DATA_FILE})
+	    if(APPLE)
+	    	execute_process(COMMAND md5 ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
+	    	string(LENGTH ${MD5SUM} MD5LENGTH)
+	    	MATH(EXPR START "${MD5LENGTH} - 33")
+	    	string(SUBSTRING ${MD5SUM} ${START} 32 MD5SUM)		     
+	    else()
+		execute_process(COMMAND md5sum ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
+	    	string(SUBSTRING ${MD5SUM} 0 32 MD5SUM)
+	    endif()
+	    if(MD5SUM STREQUAL EXPECTED_MD5SUM)
+	        message("MD5sum matching\n")
+	    else()
+	        message("MD5sum not matching " ${EXPECTED_MD5SUM})
+	        GET_DATA()
+	    endif()
+	endif()
+endif(DISABLE_DOWNLOAD)	
 
 # ----------------------------------------------------------------------------
 # Library and Binary
@@ -251,6 +320,17 @@ if(ENABLE_TESTING)
 	add_executable(testSource test/testSource.cpp)
 	target_link_libraries(testSource crpropa gtest gtest_main pthread)
 	add_test(testSource testSource)
+
+	if(WITH_GALACTIC_LENSES)
+		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
+		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
+		add_test(testGalacticMagneticLens testGalacticMagneticLens)
+	endif(WITH_GALACTIC_LENSES)
+
+	if(ENABLE_PYTHON)
+		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py)
+		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
+	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)
 
 # ----------------------------------------------------------------------------
@@ -258,8 +338,20 @@ endif(ENABLE_TESTING)
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
 if(ENABLE_PYTHON)
+	FIND_PACKAGE(SWIG REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
+
+	# tries to import numpy
+	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
+	if(numpyIncludePath)
+	  MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
+		SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
+		list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
+	  include_directories(${numpyIncludePath})
+	else()
+	  MESSAGE(STATUS "Numpy not found.")
+	endif()
 
 	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )

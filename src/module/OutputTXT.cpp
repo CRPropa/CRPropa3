@@ -8,14 +8,14 @@ namespace crpropa {
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");
 	fout.open(name.c_str());
-	fout << "# D\tID\tE\tX\tY\tZ\tPx\tPy\tPz\n";
-	fout << "#\n";
-	fout << "# D           Trajectory length\n";
-	fout << "# ID          Particle type (PDG MC numbering scheme)\n";
-	fout << "# E           Energy [EeV]\n";
-	fout << "# X, Y, Z     Position [Mpc]\n";
-	fout << "# Px, Py, Pz  Heading (unit vector of momentum)\n";
-	fout << "#\n";
+	fout << "# D\tID\tE\tX\tY\tZ\tPx\tPy\tPz\n"
+	     << "#\n"
+	     << "# D           Trajectory length\n"
+	     << "# ID          Particle type (PDG MC numbering scheme)\n"
+	     << "# E           Energy [EeV]\n"
+	     << "# X, Y, Z     Position [Mpc]\n"
+	     << "# Px, Py, Pz  Heading (unit vector of momentum)\n"
+	     << "#\n";
 }
 
 TrajectoryOutput::~TrajectoryOutput() {
@@ -35,10 +35,11 @@ void TrajectoryOutput::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\n", dir.x, dir.y, dir.z);
 
 #pragma omp critical
-	{
-		fout.write(buffer, p);
-		fout.flush();
-	}
+	fout.write(buffer, p);
+}
+
+void TrajectoryOutput::endRun() {
+	fout.flush();
 }
 
 ConditionalOutput::ConditionalOutput(std::string fname, std::string cond) :
@@ -46,16 +47,16 @@ ConditionalOutput::ConditionalOutput(std::string fname, std::string cond) :
 	setDescription(
 			"Conditional output, condition: " + cond + ", filename: " + fname);
 	fout.open(fname.c_str());
-	fout << "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\tz\n";
-	fout << "#\n";
-	fout << "# D           Trajectory length [Mpc]\n";
-	fout << "# ID          Particle type (PDG MC numbering scheme)\n";
-	fout << "# E           Energy [EeV]\n";
-	fout << "# X, Y, Z     Position [Mpc]\n";
-	fout << "# Px, Py, Pz  Heading (unit vector of momentum)\n";
-	fout << "# z           Current redshift\n";
-	fout << "# Initial state: ID0, E0, ...\n";
-	fout << "#\n";
+	fout << "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\tz\n"
+	     << "#\n"
+	     << "# D           Trajectory length [Mpc]\n"
+	     << "# ID          Particle type (PDG MC numbering scheme)\n"
+	     << "# E           Energy [EeV]\n"
+	     << "# X, Y, Z     Position [Mpc]\n"
+	     << "# Px, Py, Pz  Heading (unit vector of momentum)\n"
+	     << "# z           Current redshift\n"
+	     << "# Initial state: ID0, E0, ...\n"
+	     << "#\n";
 }
 
 ConditionalOutput::~ConditionalOutput() {
@@ -68,7 +69,7 @@ void ConditionalOutput::process(Candidate *c) const {
 
 	c->removeProperty(condition);
 
-	char buffer[256];
+	char buffer[1024];
 	size_t p = 0;
 
 	p += sprintf(buffer + p, "%8.3f\t", c->getTrajectoryLength() / Mpc);
@@ -87,20 +88,21 @@ void ConditionalOutput::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%1.3f\n", c->getRedshift());
 
 #pragma omp critical
-	{
-		fout.write(buffer, p);
-		fout.flush();
-	}
+	fout.write(buffer, p);
+}
+
+void ConditionalOutput::endRun() {
+	fout.flush();
 }
 
 TrajectoryOutput1D::TrajectoryOutput1D(std::string filename) {
 	setDescription("TrajectoryOutput, filename: " + filename);
 	fout.open(filename.c_str());
-	fout << "#X\tID\tE\n";
-	fout << "#\n";
-	fout << "# X  Position [Mpc]\n";
-	fout << "# ID Particle type\n";
-	fout << "# E  Energy [EeV]\n";
+	fout << "#X\tID\tE\n"
+	     << "#\n"
+	     << "# X  Position [Mpc]\n"
+	     << "# ID Particle type\n"
+	     << "# E  Energy [EeV]\n";
 }
 
 TrajectoryOutput1D::~TrajectoryOutput1D() {
@@ -113,23 +115,25 @@ void TrajectoryOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%8.4f\t", c->current.getPosition().x / Mpc);
 	p += sprintf(buffer + p, "%10i\t", c->current.getId());
 	p += sprintf(buffer + p, "%8.4f\n", c->current.getEnergy() / EeV);
+
 #pragma omp critical
-	{
-		fout.write(buffer, p);
-		fout.flush();
-	}
+	fout.write(buffer, p);
+}
+
+void TrajectoryOutput1D::endRun() {
+	fout.flush();
 }
 
 EventOutput1D::EventOutput1D(std::string filename) {
 	setDescription("Conditional output, filename: " + filename);
 	fout.open(filename.c_str());
-	fout << "#ID\tE\tD\tID0\tE0\n";
-	fout << "#\n";
-	fout << "# ID  Particle type\n";
-	fout << "# E   Energy [EeV]\n";
-	fout << "# D   Comoving source distance [Mpc]\n";
-	fout << "# ID0 Initial particle type\n";
-	fout << "# E0  Initial energy [EeV]\n";
+	fout << "#ID\tE\tD\tID0\tE0\n"
+	     << "#\n"
+	     << "# ID  Particle type\n"
+	     << "# E   Energy [EeV]\n"
+	     << "# D   Comoving source distance [Mpc]\n"
+	     << "# ID0 Initial particle type\n"
+	     << "# E0  Initial energy [EeV]\n";
 }
 
 EventOutput1D::~EventOutput1D() {
@@ -142,7 +146,7 @@ void EventOutput1D::process(Candidate *c) const {
 
 	c->removeProperty("Detected");
 
-	char buffer[256];
+	char buffer[1024];
 	size_t p = 0;
 
 	p += sprintf(buffer + p, "%10i\t", c->current.getId());
@@ -152,10 +156,11 @@ void EventOutput1D::process(Candidate *c) const {
 	p += sprintf(buffer + p, "%8.4f\n", c->source.getEnergy() / EeV);
 
 #pragma omp critical
-	{
-		fout.write(buffer, p);
-		fout.flush();
-	}
+	fout.write(buffer, p);
+}
+
+void EventOutput1D::endRun() {
+	fout.flush();
 }
 
 } // namespace crpropa

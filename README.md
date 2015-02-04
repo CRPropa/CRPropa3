@@ -6,6 +6,9 @@ CRPropa is a publicly available code to study the propagation of ultra high ener
 This is the development version of [CRPropa](https://crpropa.desy.de).
 It features a very flexible simulation setup, support for specialized extragalactic magnetic fields, galactic propagation and galactic lensing, python steering and shared-memory parallelization.
 
+### Support
 For installation instructions and documentation please refer to the [wiki page](https://github.com/CRPropa/CRPropa3/wiki).
 
-In case of questions please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues).
+If you encounter any problems during installation or when running CRPropa please don't hesitate to use the [ticket system](https://github.com/CRPropa/CRPropa3/issues).
+
+In case of general questions please send an email to our [support address](mailto:crpropa-support@desy.de)

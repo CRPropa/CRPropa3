@@ -41,6 +41,11 @@ void PhotoDisintegration::setPhotonField(PhotonField photonField) {
 		initRate(getDataPath("pd_IRB_Stecker05.txt"));
 		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
+	case IRB_Dole06:
+		setDescription("PhotoDisintegration: IRB Dole '06");
+		initRate(getDataPath("pd_IRB_Dole06.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Dole06.txt"));
+		break;
 	case IRB_Franceschini08:
 		setDescription("PhotoDisintegration: IRB Franceschini '08");
 		initRate(getDataPath("pd_IRB_Franceschini08.txt"));
@@ -99,6 +104,7 @@ void PhotoDisintegration::initBranching(std::string filename) {
 	while (std::getline(infile, line)) {
 		if (line[0] == '#')
 			continue;
+
 		std::stringstream lineStream(line);
 
 		int Z, N;
@@ -111,7 +117,7 @@ void PhotoDisintegration::initBranching(std::string filename) {
 		double r;
 		for (size_t i = 0; i < nlg; i++) {
 			lineStream >> r;
-			branch.branchingRatio.push_back(r / Mpc);
+			branch.branchingRatio.push_back(r);
 		}
 
 		pdBranch[Z * 31 + N].push_back(branch);
@@ -146,38 +152,33 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		if ((lg <= lgmin) or (lg >= lgmax))
 			return;
 
-		double rate = interpolateEquidistant(lg, lgmin, lgmax,
-				pdRate[idx]);
+		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
 
-		// cosmological scaling, rate per comoving distance)
+		// cosmological scaling, rate per comoving distance
 		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
 
 		// check if an interaction occurs in this step
+		// if not, limit next step to a fraction of the mean free path
 		if (step < randDistance) {
-			// limit next step to a fraction of the mean free path
 			candidate->limitNextStep(limit / rate);
 			return;
 		}
 
-		// select channel and interact
-		double cmp = random.rand();
-		int channel;
-		int l = round(lg / (lgmax - lgmin) * (nlg - 1)); // index of closest tabulated point
+		// index of closest tabulation point
+		int l = round((lg - lgmin) / (lgmax - lgmin) * (nlg - 1));
 
+		// select channel and interact
 		const std::vector<Branch> &branches = pdBranch[idx];
-		for (size_t i = 0; i < branches.size(); i++) {
-			const Branch &branch = branches[i];
-			channel = branch.channel;
-			if ((l < 0) || (l >=  branch.branchingRatio.size()))
-				continue;
-			cmp -= branch.branchingRatio[l];
-			if (cmp <= 0)
-				break;
+		double cmp = random.rand();
+		size_t i = 0;
+		while ((i < branches.size()) and (cmp > 0)) {
+			cmp -= branches[i].branchingRatio[l];
+			i++;
 		}
-		performInteraction(candidate, channel);
+		performInteraction(candidate, branches[i-1].channel);
 
 		// repeat with remaining step
 		step -= randDistance;
@@ -244,7 +245,7 @@ double PhotoDisintegration::lossLength(int id, double E, double z) {
 		return std::numeric_limits<double>::max();
 
 	// check if in tabulated energy range
-	double lg = log10(E / (nucleusMass(id) * c_squared)) * (1 + z);
+	double lg = log10(E / (nuclearMass(id) * c_squared)) * (1 + z);
 	if ((lg <= lgmin) or (lg >= lgmax))
 		return std::numeric_limits<double>::max();
 

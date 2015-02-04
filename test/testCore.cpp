@@ -96,10 +96,10 @@ TEST(ParticleState, Mass) {
 
 	int id = nucleusId(56, 26);
 	particle.setId(id); // iron
-	EXPECT_DOUBLE_EQ(nucleusMass(id), particle.getMass());
+	EXPECT_DOUBLE_EQ(nuclearMass(id), particle.getMass());
 
 	particle.setId(-id); // anti-iron
-	EXPECT_DOUBLE_EQ(nucleusMass(-id), particle.getMass());
+	EXPECT_DOUBLE_EQ(nuclearMass(-id), particle.getMass());
 }
 
 TEST(ParticleState, lorentzFactor) {

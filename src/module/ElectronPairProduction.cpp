@@ -41,6 +41,11 @@ void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 		initRate(getDataPath("epp_IRB_Stecker05.txt"));
 		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
+	case IRB_Dole06:
+		setDescription("ElectronPairProduction: IRB Dole '06");
+		initRate(getDataPath("epp_IRB_Dole06.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
 	case IRB_Franceschini08:
 		setDescription("ElectronPairProduction: IRB Franceschini '08");
 		initRate(getDataPath("epp_IRB_Franceschini08.txt"));
@@ -131,7 +136,7 @@ double ElectronPairProduction::lossLength(int id, double lf, double z) const {
 	else
 		rate = tabLossRate.back() * pow(lf / tabLorentzFactor.back(), -0.6); // extrapolation
 
-	double A = nucleusMass(id) / mass_proton; // more accurate than massNumber(Id)
+	double A = nuclearMass(id) / mass_proton; // more accurate than massNumber(Id)
 	rate *= Z * Z / A * pow(1 + z, 3) * photonFieldScaling(photonField, z);
 	return 1. / rate;
 }

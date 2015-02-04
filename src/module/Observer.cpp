@@ -5,23 +5,23 @@
 
 namespace crpropa {
 
-DetectionState ObserverFeature::checkDetection(Candidate *candidate) const {
-	return NOTHING;
-}
-
-void ObserverFeature::onDetection(Candidate *candidate) const {
-}
-
-std::string ObserverFeature::getDescription() const {
-	return description;
-}
-
+// Observer -------------------------------------------------------------------
 Observer::Observer(bool makeInactive) :
 		makeInactive(makeInactive) {
 }
 
 void Observer::add(ObserverFeature *feature) {
 	features.push_back(feature);
+}
+
+void crpropa::Observer::beginRun() {
+	for (int i = 0; i < features.size(); i++)
+		features[i]->beginRun();
+}
+
+void crpropa::Observer::endRun() {
+	for (int i = 0; i < features.size(); i++)
+		features[i]->endRun();
 }
 
 void Observer::process(Candidate *candidate) const {
@@ -53,6 +53,25 @@ std::string Observer::getDescription() const {
 	return ss.str();
 }
 
+// ObserverFeature ------------------------------------------------------------
+DetectionState ObserverFeature::checkDetection(Candidate *candidate) const {
+	return NOTHING;
+}
+
+void ObserverFeature::onDetection(Candidate *candidate) const {
+}
+
+void ObserverFeature::beginRun() {
+}
+
+void ObserverFeature::endRun() {
+}
+
+std::string ObserverFeature::getDescription() const {
+	return description;
+}
+
+// ObserverSmallSphere --------------------------------------------------------
 ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
@@ -87,6 +106,7 @@ std::string ObserverSmallSphere::getDescription() const {
 	return ss.str();
 }
 
+// ObserverLargeSphere --------------------------------------------------------
 ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
 }
@@ -121,7 +141,7 @@ std::string ObserverLargeSphere::getDescription() const {
 	return ss.str();
 }
 
-
+// ObserverPoint --------------------------------------------------------------
 DetectionState ObserverPoint::checkDetection(Candidate *candidate) const {
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
@@ -135,7 +155,7 @@ std::string ObserverPoint::getDescription() const {
 	return "ObserverPoint: observer at x = 0";
 }
 
-
+// ObserverRedshiftWindow -----------------------------------------------------
 ObserverRedshiftWindow::ObserverRedshiftWindow(double zmin, double zmax) :
 		zmin(zmin), zmax(zmax) {
 }
@@ -156,62 +176,65 @@ std::string ObserverRedshiftWindow::getDescription() const {
 	return ss.str();
 }
 
+// ObserverNucleusVeto --------------------------------------------------------
 DetectionState ObserverNucleusVeto::checkDetection(Candidate *c) const {
 	if (isNucleus(c->current.getId()))
-		return NOTHING;
-	return VETO;
+		return VETO;
+	return NOTHING;
 }
 
 std::string ObserverNucleusVeto::getDescription() const {
 	return "ObserverNucleusVeto";
 }
 
+// ObserverNeutrinoVeto -------------------------------------------------------
 DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
 	int id = fabs(c->current.getId());
 	if ((id == 12) or (id == 14) or (id == 16))
-		return NOTHING;
-	return VETO;
+		return VETO;
+	return NOTHING;
 }
 
 std::string ObserverNeutrinoVeto::getDescription() const {
 	return "ObserverNeutrinoVeto";
 }
 
+// ObserverPhotonVeto ---------------------------------------------------------
 DetectionState ObserverPhotonVeto::checkDetection(Candidate *c) const {
 	if (c->current.getId() == 22)
-		return NOTHING;
-	return VETO;
+		return VETO;
+	return NOTHING;
 }
 
 std::string ObserverPhotonVeto::getDescription() const {
 	return "ObserverPhotonVeto";
 }
 
+// ObserverOutput3D -----------------------------------------------------------
 ObserverOutput3D::ObserverOutput3D(std::string fname, bool legacy) :
 		legacy(legacy) {
 	description = "ObserverOutput3D: " + fname;
 	fout.open(fname.c_str());
 
 	if (legacy) {
-		fout << "#CRPropa - Output data file\n";
-		fout << "#Format - Particle_Type ";
-		fout << "Initial_Particle_Type ";
-		fout << "Initial_Position[X,Y,Z](Mpc) ";
-		fout << "Initial_Momentum[E(EeV),theta,phi] ";
-		fout << "Time(Mpc, light travel distance) ";
-		fout << "Position[X,Y,Z](Mpc) ";
-		fout << "Momentum[E(EeV),theta,phi]\n";
+		fout << "#CRPropa - Output data file\n"
+		     << "#Format - Particle_Type "
+		     << "Initial_Particle_Type "
+		 	 << "Initial_Position[X,Y,Z](Mpc) "
+			 << "Initial_Momentum[E(EeV),theta,phi] "
+		     << "Time(Mpc, light travel distance) "
+		     << "Position[X,Y,Z](Mpc) "
+		     << "Momentum[E(EeV),theta,phi]\n";
 	} else {
-		fout
-				<< "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\n";
-		fout << "#\n";
-		fout << "# D           Trajectory length [Mpc]\n";
-		fout << "# ID          Particle type (PDG MC numbering scheme)\n";
-		fout << "# E           Energy [EeV]\n";
-		fout << "# X, Y, Z     Position [Mpc]\n";
-		fout << "# Px, Py, Pz  Heading (unit vector of momentum)\n";
-		fout << "# Initial state: ID0, E0, ...\n";
-		fout << "#\n";
+		fout << "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\n"
+		     << "#\n"
+		     << "# D           Trajectory length [Mpc]\n"
+		     << "# ID          Particle type (PDG MC numbering scheme)\n"
+		     << "# E           Energy [EeV]\n"
+		     << "# X, Y, Z     Position [Mpc]\n"
+		     << "# Px, Py, Pz  Heading (unit vector of momentum)\n"
+		     << "# Initial state: ID0, E0, ...\n"
+		     << "#\n";
 	}
 }
 
@@ -265,31 +288,33 @@ void ObserverOutput3D::onDetection(Candidate *candidate) const {
 	}
 
 #pragma omp critical
-	{
-		fout.write(buffer, p);
-		fout.flush();
-	}
+	fout.write(buffer, p);
 }
 
+void ObserverOutput3D::endRun() {
+	fout.flush();
+}
+
+// ObserverOutput1D -----------------------------------------------------------
 ObserverOutput1D::ObserverOutput1D(std::string fname, bool legacy) :
 		legacy(legacy) {
 	description = "ObserverOutput1D: " + fname;
 	fout.open(fname.c_str());
 
 	if (legacy) {
-		fout << "#CRPropa - Output data file\n";
-		fout << "#Format - Energy(EeV) ";
-		fout << "Time(Mpc, light travel distance) ";
-		fout << "Initial_Particle_Type ";
-		fout << "Initial_Energy(EeV)\n";
+		fout << "#CRPropa - Output data file\n"
+		     << "#Format - Energy(EeV) "
+		     << "Time(Mpc, light travel distance) "
+		     << "Initial_Particle_Type "
+		     << "Initial_Energy(EeV)\n";
 	} else {
-		fout << "#ID\tE\tD\tID0\tE0\n";
-		fout << "#\n";
-		fout << "# ID  Particle type\n";
-		fout << "# E   Energy [EeV]\n";
-		fout << "# D   Comoving trajectory length [Mpc]\n";
-		fout << "# ID0 Initial particle type\n";
-		fout << "# E0  Initial energy [EeV]\n";
+		fout << "#ID\tE\tD\tID0\tE0\n"
+		     << "#\n"
+		     << "# ID  Particle type\n"
+		     << "# E   Energy [EeV]\n"
+		     << "# D   Comoving trajectory length [Mpc]\n"
+		     << "# ID0 Initial particle type\n"
+		     << "# E0  Initial energy [EeV]\n";
 	}
 }
 
@@ -323,10 +348,11 @@ void ObserverOutput1D::onDetection(Candidate *candidate) const {
 	}
 
 #pragma omp critical
-	{
-		fout.write(buffer, p);
-		fout.flush();
-	}
+	fout.write(buffer, p);
+}
+
+void ObserverOutput1D::endRun() {
+	fout.flush();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

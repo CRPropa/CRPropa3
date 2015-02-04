@@ -20,6 +20,7 @@ PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons,
 	havePhotons = photons;
 	haveNeutrinos = neutrinos;
 	haveAntiNucleons = antiNucleons;
+	doRedshiftDependent = false;
 	limit = l;
 	init();
 }
@@ -51,7 +52,7 @@ void PhotoPionProduction::init() {
 		setDescription("PhotoPionProduction: CMB");
 		init(getDataPath("ppp_CMB.txt"));
 		break;
-	case IRB:  // default: Kneiske '04 IRB model
+	case IRB: // default: Kneiske '04 IRB model
 	case IRB_Kneiske04:
 		setDescription("PhotoPionProduction: IRB Kneiske '04");
 		init(getDataPath("ppp_IRB_Kneiske04.txt"));
@@ -64,9 +65,33 @@ void PhotoPionProduction::init() {
 		setDescription("PhotoPionProduction: IRB Stecker '05");
 		init(getDataPath("ppp_IRB_Stecker05.txt"));
 		break;
+	case IRB_Dole06:
+		setDescription("PhotoPionProduction: IRB Dole '06");
+		init(getDataPath("ppp_IRB_Dole06.txt"));
+		break;
 	case IRB_Franceschini08:
 		setDescription("PhotoPionProduction: IRB Franceschini '08");
 		init(getDataPath("ppp_IRB_Franceschini08.txt"));
+		break;
+	case IRB_withRedshift_Kneiske04:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Kneiske '04");
+		init(getDataPath("ppp_IRBz_Kneiske04.txt"));
+		break;
+        case IRB_withRedshift_Franceschini08:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Franceschini '08");
+		init(getDataPath("ppp_IRBz_Franceschini08.txt"));
+		break;
+        case IRB_withRedshift_Finke10:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Finke '10");
+		init(getDataPath("ppp_IRBz_Finke10.txt"));
+		break;
+        case IRB_withRedshift_Gilmore12:
+		doRedshiftDependent = true;
+		setDescription("PhotoPionProduction: IRB evolving with redshift Gimore '12");
+		init(getDataPath("ppp_IRBz_Gilmore12.txt"));
 		break;
 	default:
 		throw std::runtime_error(
@@ -82,21 +107,36 @@ void PhotoPionProduction::init(std::string filename) {
 
 	// clear previously loaded tables
 	tabLorentz.clear();
+	tabRedshifts.clear();
 	tabProtonRate.clear();
 	tabNeutronRate.clear();
 
+	double zOld = -1, aOld = -1;
+	bool doReadLorentz = true;
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
-			double a, b, c;
-			infile >> a >> b >> c;
+			double z, a, b, c;
+			if (!doRedshiftDependent)
+				infile >> a >> b >> c;
+			else
+				infile >> z >> a >> b >> c;
 			if (infile) {
-				tabLorentz.push_back(pow(10, a));
+				if (doRedshiftDependent && z != zOld)
+					tabRedshifts.push_back(z);
+				if (a < aOld)
+					doReadLorentz = false;
+				if (doReadLorentz)
+					tabLorentz.push_back(pow(10, a));
 				tabProtonRate.push_back(b / Mpc);
 				tabNeutronRate.push_back(c / Mpc);
+				zOld = z;
+				aOld = a;
 			}
 		}
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
+
 	infile.close();
 }
 
@@ -111,13 +151,14 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 void PhotoPionProduction::process(Candidate *candidate) const {
 	// the loop should be processed at least once for limiting the next step
 	double step = candidate->getCurrentStep();
+	double z = candidate->getRedshift();
 	do {
 		// check if nucleus
 		int id = candidate->current.getId();
 		if (not (isNucleus(id)))
 			return;
 
-		double z = candidate->getRedshift();
+		// instead of scaling the photon energies, scale the nucleus energy
 		double gamma = (1 + z) * candidate->current.getLorentzFactor();
 
 		// check if in tabulated energy range
@@ -138,10 +179,13 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		int N = A - Z;
 
 		// check for interaction on protons
+		double rate;
 		if (Z > 0) {
-			double rate = interpolate(gamma, tabLorentz, tabProtonRate);
+			if (doRedshiftDependent)
+				rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+			else
+				rate = scaling * interpolate(gamma, tabLorentz, tabProtonRate);
 			rate *= nucleiModification(A, Z);
-			rate *= scaling;
 			totalRate += rate;
 			channel = 1;
 			randDistance = -log(random.rand()) / rate;
@@ -149,9 +193,11 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 
 		// check for interaction on neutrons
 		if (N > 0) {
-			double rate = interpolate(gamma, tabLorentz, tabNeutronRate);
+			if (doRedshiftDependent)
+				rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+			else
+				rate = scaling * interpolate(gamma, tabLorentz, tabNeutronRate);
 			rate *= nucleiModification(A, N);
-			rate *= scaling;
 			totalRate += rate;
 			double d = -log(random.rand()) / rate;
 			if (d < randDistance) {
@@ -197,6 +243,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	int dummy1; // not needed
 	double dummy2[2]; // not needed
 	int background = (photonField == CMB) ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
+
+	// check if below SOPHIA's energy threshold
+	double E_threshold = (photonField == CMB) ? 3.72e18 * eV : 5.83e15 * eV;
+	if (EpA < E_threshold)
+		return;
 
 #pragma omp critical
 	{

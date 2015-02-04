@@ -14,7 +14,7 @@ namespace crpropa {
 void EleCaPropagation(const std::string &inputfile,
 		const std::string &outputfile,
 		bool showProgress=true,
-		double lowerEnergyThreshold = 0.001602176487,
+		double lowerEnergyThreshold = 1.602176487E-6,
     const std::string &background = "ALL");
 
 

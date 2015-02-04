@@ -44,7 +44,7 @@ void EleCaPropagation(const std::string &inputfile,
 
 	eleca::setSeed();
 	eleca::Propagation propagation;
-  propagation.SetEthr(lowerEnergyThreshold / EeV );
+  propagation.SetEthr(lowerEnergyThreshold / eV );
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray(background);
 
@@ -70,6 +70,7 @@ void EleCaPropagation(const std::string &inputfile,
 
 				// TODO: find a motivated value!
 				p0.SetB(1e-9);
+				//p0.SetB(0);
 
 				std::vector<eleca::Particle> ParticleAtMatrix;
 				std::vector<eleca::Particle> ParticleAtGround;

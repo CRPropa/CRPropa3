@@ -16,9 +16,19 @@ class SourceFeature: public Referenced {
 protected:
 	std::string description;
 public:
-	virtual void prepareParticle(ParticleState& particle) const;
+	virtual void prepareParticle(ParticleState& particle) const {};
 	virtual void prepareCandidate(Candidate& candidate) const;
 	std::string getDescription() const;
+};
+
+/**
+ @class SourceInterface
+ @brief Abstract base class for cosmic ray sources
+ */
+class SourceInterface : public Referenced {
+public:
+	virtual ref_ptr<Candidate> getCandidate() const = 0;
+	virtual std::string getDescription() const = 0;
 };
 
 /**
@@ -29,7 +39,7 @@ public:
  The source prepares a new candidate by passing it to all its source features
  to be modified accordingly.
  */
-class Source: public Referenced {
+class Source: public SourceInterface {
 	std::vector<ref_ptr<SourceFeature> > features;
 public:
 	void add(SourceFeature* feature);
@@ -44,12 +54,13 @@ public:
  The SourceList is a source itself. It can be used if several sources are
  needed in one simulation.
  */
-class SourceList: public Source {
+class SourceList: public SourceInterface {
 	std::vector<ref_ptr<Source> > sources;
 	std::vector<double> cdf;
 public:
 	void add(Source* source, double weight = 1);
 	ref_ptr<Candidate> getCandidate() const;
+	std::string getDescription() const;
 };
 
 /**

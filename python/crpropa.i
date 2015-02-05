@@ -95,6 +95,8 @@ using std::ptrdiff_t;
 %ignore operator>>;
 %ignore *::operator=;
 %ignore operator crpropa::Source*;
+%ignore operator crpropa::SourceList*;
+%ignore operator crpropa::SourceInterface*;
 %ignore operator crpropa::SourceFeature*;
 %ignore operator crpropa::Candidate*;
 %ignore operator crpropa::Module*;
@@ -170,8 +172,8 @@ using std::ptrdiff_t;
 %include "crpropa/module/Redshift.h"
 %include "crpropa/module/Tools.h"
 
-%template(SourceRefPtr) crpropa::ref_ptr<crpropa::Source>;
-%feature("director") crpropa::Source;
+%template(SourceInterfaceRefPtr) crpropa::ref_ptr<crpropa::SourceInterface>;
+%feature("director") crpropa::SourceInterface;
 %template(SourceFeatureRefPtr) crpropa::ref_ptr<crpropa::SourceFeature>;
 %feature("director") crpropa::SourceFeature;
 %include "crpropa/Source.h"

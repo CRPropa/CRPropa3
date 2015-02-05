@@ -37,7 +37,7 @@ public:
 
 	void run(Candidate *candidate, bool recursive = true);
 	void run(candidate_vector_t &candidates, bool recursive = true);
-	void run(Source *source, size_t count, bool recursive = true);
+	void run(SourceInterface *source, size_t count, bool recursive = true);
 
 	std::string getDescription() const;
 	void showModules() const;

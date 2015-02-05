@@ -103,7 +103,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	::signal(SIGINT, old_signal_handler);
 }
 
-void ModuleList::run(Source *source, size_t count, bool recursive) {
+void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
 
 #if _OPENMP
 	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;

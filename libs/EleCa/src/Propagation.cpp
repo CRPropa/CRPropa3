@@ -451,7 +451,7 @@ void Propagation::Propagate(Particle &curr_particle,
 		std::vector<Particle> &ParticleAtGround) const {
 
 	double theta_deflBF = 0.0;
-	double BNorm = curr_particle.GetB();
+	double BNorm = magneticFieldStrength; 
 
 	double zin = curr_particle.Getz();
 	double Ein = curr_particle.GetEnergy();

@@ -23,6 +23,7 @@ void EleCaPropagation(const std::string &inputfile,
 	const std::string &outputfile, 
 	bool showProgress,
 	double lowerEnergyThreshold,
+	double magneticFieldStrength,
 	const std::string &background) {
 
 	std::ifstream infile(inputfile.c_str());
@@ -49,6 +50,8 @@ void EleCaPropagation(const std::string &inputfile,
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray(background);
 
+	propagation.SetB(magneticFieldStrength * gauss);
+
 	std::ofstream output(outputfile.c_str());
 	output << "# ID\tE\tiID\tiE\n";
 	output << "# ID          Id of particle (photon, electron, positron)\n";
@@ -68,9 +71,6 @@ void EleCaPropagation(const std::string &inputfile,
 				}
 				double z = eleca::Mpc2z(D);
 				eleca::Particle p0(Id, E * 1e18, z);
-
-				// TODO: find a motivated value!
-				p0.SetB(1e-9);
 
 				std::vector<eleca::Particle> ParticleAtMatrix;
 				std::vector<eleca::Particle> ParticleAtGround;

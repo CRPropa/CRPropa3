@@ -25,6 +25,7 @@ private:
 	double fEthr;
 	double _dEtab;
 
+	double magneticFieldStrength;
 public:
 
 	Propagation();
@@ -55,6 +56,10 @@ public:
 	void SetInitVar(std::vector<std::vector<double> > bk,
 			std::vector<std::vector<double> > *le) const;
 
+	void SetB(double B)
+	{
+		magneticFieldStrength = B;
+	}
 };
 
 } // namespace eleca

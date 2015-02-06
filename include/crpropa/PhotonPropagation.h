@@ -19,9 +19,10 @@ void EleCaPropagation(const std::string &inputfile,
 
 
 /** Use Dint to calculate the observed sprectrum fom the photons recorded in inputfile.
+ *  Magneticfield [T], default 1E-13 T = 1 nG
  * **/
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, int IRFlag = 2, int RadioFlag = 2,
+		const std::string &outputfile, double magneticFieldStrength = 1E-13, int IRFlag = 2, int RadioFlag = 2,
 		double Zmax = 5);
 
 } // namespace crpropa

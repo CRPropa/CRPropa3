@@ -70,7 +70,6 @@ void EleCaPropagation(const std::string &inputfile,
 
 				// TODO: find a motivated value!
 				p0.SetB(1e-9);
-				//p0.SetB(0);
 
 				std::vector<eleca::Particle> ParticleAtMatrix;
 				std::vector<eleca::Particle> ParticleAtGround;
@@ -120,7 +119,7 @@ void AddSpectrum(Spectrum *a, const Spectrum *b) {
 }
 
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, int IRFlag, int RadioFlag, double Zmax) {
+		const std::string &outputfile, double magneticFieldStrength,  int IRFlag, int RadioFlag, double Zmax) {
 	// Initialize the spectrum
 	dCVector energyGrid, energyWidth;
 	// Initialize the energy grids for dint
@@ -141,6 +140,7 @@ void DintPropagation(const std::string &inputfile,
 	// Initialize the bField
 	dCVector bField;
 	New_dCVector(&bField, 5);
+	for (size_t i = 0; i < 5; i++)	bField.vector[i] = magneticFieldStrength / gauss;  
 
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);

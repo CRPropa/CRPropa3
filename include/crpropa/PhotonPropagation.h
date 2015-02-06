@@ -15,6 +15,7 @@ void EleCaPropagation(const std::string &inputfile,
 		const std::string &outputfile,
 		bool showProgress=true,
 		double lowerEnergyThreshold = 1.602176487E-6,
+		double magneticFieldStrength = 1E-13,
     const std::string &background = "ALL");
 
 

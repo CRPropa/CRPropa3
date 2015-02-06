@@ -31,7 +31,6 @@ void PhotonEleCa::process(Candidate *candidate) const {
 				(candidate->current.getPosition() - observer).getR() / Mpc);
 	eleca::Particle p0(candidate->current.getId(),
 			candidate->current.getEnergy() / eV, z);
-	p0.SetB(1e-9);
 	std::vector<eleca::Particle> ParticleAtMatrix;
 	std::vector<eleca::Particle> ParticleAtGround;
 	ParticleAtMatrix.push_back(p0);

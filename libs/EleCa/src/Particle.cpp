@@ -73,12 +73,7 @@ void Particle::SetBetaAndMass() {
 	}
 }
 
-void Particle::SetB(double B) {
-	fB = B;
-}
-double Particle::GetB() const {
-	return fB;
-}
+
 
 Particle::Particle(int _ft, double _fE, double _fz) {
 	ftype = _ft;
@@ -86,7 +81,6 @@ Particle::Particle(int _ft, double _fE, double _fz) {
 	fz0ph = _fz;
 	SetBetaAndMass();
 	fIsGood = IsGood();
-	fB = 0;
 	fwi = 1;
 }
 
@@ -97,7 +91,6 @@ Particle::Particle() {
 	fmass = 0;
 	fbeta = 0;
 	fIsGood = 0;
-	fB = 0;
 	fwi = 1;
 }
 

@@ -11,6 +11,7 @@
 #include "dint/prop_second.h"
 
 #include <fstream>
+#include <stdio.h>
 #include <stdexcept>
 #include <limits>
 #include <iostream>
@@ -90,7 +91,15 @@ void EleCaPropagation(const std::string &inputfile,
 					eleca::Particle &p = ParticleAtGround[i];
 					if (p.GetType() != 22)
 						continue;
-					output << p.GetType() << "\t" << p.GetEnergy() << "\t" << iId << "\t" << iE << "\n"; 
+					char buffer[256];
+					size_t bufferPos = 0;
+					bufferPos += sprintf(buffer + bufferPos, "%i\t", p.GetType());
+					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
+					bufferPos += sprintf(buffer + bufferPos, "%i\t", iId);
+					bufferPos += sprintf(buffer + bufferPos, "%.4E", iE );
+					bufferPos += sprintf(buffer + bufferPos, "\n");
+
+					output.write(buffer, bufferPos);
 				}
 			}
 		}

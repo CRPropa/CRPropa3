@@ -33,6 +33,7 @@ double ParticleMapsContainer::idx2Energy(int idx) const
 		
 double* ParticleMapsContainer::getMap(const int particleId, double energy)
 {
+	_weightsUpToDate = false;
 	if (_data.find(particleId) == _data.end())
 	{
 		std::cerr << "No map for ParticleID " << particleId << std::endl;
@@ -50,6 +51,7 @@ double* ParticleMapsContainer::getMap(const int particleId, double energy)
 			
 void ParticleMapsContainer::addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight)
 {
+	_weightsUpToDate = false;
 	if (_data.find(particleId) == _data.end())
 	{
 		map<int, double*> M;
@@ -78,6 +80,7 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, con
 
 void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName, double sourceEnergyWeightExponent)
 {
+	_weightsUpToDate = false;
 	std::ifstream infile(inputFileName.c_str());
 
 	while (infile.good()) {
@@ -137,6 +140,9 @@ std::vector<double> ParticleMapsContainer::getEnergies(int pid)
 
 void ParticleMapsContainer::applyLens(MagneticLens &lens)
 {
+	// if lens is normalized, this should not be necessary.
+	_weightsUpToDate = false;
+
 	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
 			pid_iter != _data.end(); ++pid_iter) {
 		for(std::map<int, double*>::iterator energy_iter = pid_iter->second.begin();
@@ -160,14 +166,10 @@ void ParticleMapsContainer::applyLens(MagneticLens &lens)
 }
 
 
-void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId, 
-	vector<double> &energy, vector<double> &galacticLongitudes,
-	vector<double> &galacticLatitudes)
+void ParticleMapsContainer::_updateWeights()
 {
-	double sumOfWeights = 0;
-
-	std::map< int , double > _weightsPID;				
-	std::map< int , map<int, double> > _weights_pidEnergy;				
+	if (_weightsUpToDate)
+		return;
 
 	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
 			pid_iter != _data.end(); ++pid_iter) 
@@ -185,10 +187,17 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 					
 				_weightsPID[pid_iter->first]+=energy_iter->second[j];
 			}
-		sumOfWeights+=_weights_pidEnergy[pid_iter->first][energy_iter->first];
+		_sumOfWeights+=_weights_pidEnergy[pid_iter->first][energy_iter->first];
 		}
 	}
+}
 
+
+void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId, 
+	vector<double> &energy, vector<double> &galacticLongitudes,
+	vector<double> &galacticLatitudes)
+{
+	_updateWeights();
 
 	particleId.resize(N);
 	energy.resize(N);
@@ -198,7 +207,7 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 	for(size_t i=0; i< N; i++)
 	{
 		//get particle
-		double r = Random::instance().rand() * sumOfWeights;
+		double r = Random::instance().rand() * _sumOfWeights;
 		std::map<int, double>::iterator iter = _weightsPID.begin();
 		while ((r-= iter->second) > 0)
 		{
@@ -228,6 +237,12 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 			}
 		}
 	}
+}
+
+
+void ParticleMapsContainer::forceWeightUpdate()
+{
+	_weightsUpToDate = false;
 }
 
 } // namespace parsec

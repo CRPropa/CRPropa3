@@ -66,7 +66,7 @@ class ParticleMapsContainer
 
 		void applyLens(MagneticLens &lens);;
 
-		// energy in Joule
+		// energy in eV , galacticLongitude in rad [-pi ... pi], galacticLatitudes in rad [-pi/2 ... pi/2]
 		void getRandomParticles(size_t N, vector<int> &particleId, 
 			vector<double> &energy, vector<double> &galacticLongitudes,
 			vector<double> &galacticLatitudes);

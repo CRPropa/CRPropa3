@@ -26,9 +26,18 @@ class ParticleMapsContainer
 		int energy2Idx(double energy) const;
 		double idx2Energy(int idx) const;
 
+
+		// weights of the particles
+		double _sumOfWeights;
+		std::map< int , double > _weightsPID;				
+		std::map< int , map<int, double> > _weights_pidEnergy;				
+
+		// lazy update of weights 
+		bool _weightsUpToDate;
+		void _updateWeights();
   public:
 
-		ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6)
+		ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6), _weightsUpToDate(false), _sumOfWeights(0)
 		{
 		}
 
@@ -70,7 +79,10 @@ class ParticleMapsContainer
 		void getRandomParticles(size_t N, vector<int> &particleId, 
 			vector<double> &energy, vector<double> &galacticLongitudes,
 			vector<double> &galacticLatitudes);
-			
+
+
+		// force weight update prior to get random particles 
+		void forceWeightUpdate();
 };
 
 

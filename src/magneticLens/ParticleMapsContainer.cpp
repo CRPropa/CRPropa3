@@ -190,6 +190,7 @@ void ParticleMapsContainer::_updateWeights()
 		_sumOfWeights+=_weights_pidEnergy[pid_iter->first][energy_iter->first];
 		}
 	}
+	_weightsUpToDate = true;
 }
 
 
@@ -224,19 +225,37 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 		}
 		energy[i] = idx2Energy(iter->first) / eV;
 
-		//get direction
-		r = Random::instance().rand() * iter->second;
+		placeOnMap(particleId[i], energy[i] * eV, galacticLongitudes[i], galacticLatitudes[i]);
+	}
+}
 
-		for(size_t j=0; j< _pixelization.getNumberOfPixels(); j++)
+
+bool ParticleMapsContainer::placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude)
+{
+	_updateWeights();
+
+	if (_data.find(pid) == _data.end())
+	{
+		return false;
+	}
+	int energyIdx	= energy2Idx(energy);
+	if (_data[pid].find(energyIdx) == _data[pid].end())
+	{
+		return false;
+	}
+
+	double r = Random::instance().rand() * _weights_pidEnergy[pid][energyIdx];
+
+	for(size_t j=0; j< _pixelization.getNumberOfPixels(); j++)
+	{
+		r-= _data[pid][energyIdx][j];
+		if (r <=0)
 		{
-			r-= _data[particleId[i]][iter->first][j];
-			if (r <=0)
-			{
-				_pixelization.getRandomDirectionInPixel(j, galacticLongitudes[i], galacticLatitudes[i] );
-				break;
-			}
+			_pixelization.getRandomDirectionInPixel(j, galacticLongitude, galacticLatitude );
+			return true;
 		}
 	}
+	return false;
 }
 
 

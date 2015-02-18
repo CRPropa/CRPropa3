@@ -80,8 +80,12 @@ class ParticleMapsContainer
 			vector<double> &energy, vector<double> &galacticLongitudes,
 			vector<double> &galacticLatitudes);
 
+		// places a cosmic ray with given PID and energy according to the
+		// probability maps. Returns false if not possible.
+		bool placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude);
 
-		// force weight update prior to get random particles 
+		// force weight update prior to get random particles. Only necessary when
+		// reusing pointer to maps after calculating weights
 		void forceWeightUpdate();
 };
 

@@ -169,22 +169,21 @@ set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
 
 function(GET_DATA)
     message("Downloading from crpropa.desy.de ~ 60 MB")
-    set(DATA_FILE ${CMAKE_SOURCE_DIR}/build/data.tar.gz)
+    set(DATA_FILE ${CMAKE_BINARY_DIR}/data.tar.gz)
     
     if(APPLE)
-	execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
-    else()	
-    	execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
+        execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
+    else()
+        execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
     endif()
 
-
-    message("Unpacking to CRPropa3/data\n")
+    message("Unpacking data\n")
     file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
     execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
 endfunction(GET_DATA)
 
 message("\nSearching for data archive")
-find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/build)
+find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
     message("File not found: data.tar.gz")
     GET_DATA()

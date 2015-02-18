@@ -117,11 +117,10 @@ double Pixelization::angularDistance(uint32_t i, uint32_t j) const
 	void Pixelization::getRandomDirectionInPixel(uint32_t i, double &longitude, double &latitude) 
 	{
 		
-    int64_t inest = _healpix->ring2nest(i);
-
-    int64_t nUp = 29 - _healpix->Order();
-    int64_t iUp = inest * pow(4, nUp);
-    iUp += Random::instance().randInt(pow(4, nUp));
+    uint64_t inest = _healpix->ring2nest(i);
+    uint64_t nUp = 29 - _healpix->Order();
+    uint64_t iUp = inest * pow(4, nUp);
+    iUp += Random::instance().randInt64(pow(4, nUp));
 
 		healpix::vec3 v = _healpix_nest.pix2vec(iUp);
 		

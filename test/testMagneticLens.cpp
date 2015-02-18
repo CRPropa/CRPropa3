@@ -161,7 +161,6 @@ TEST(Pixelization, randomDirectionInPixel)
 
   double rlon, rlat;
   p.getRandomDirectionInPixel(pix, rlon, rlat);
-  std::cout << rlon << "\t" << rlat << std::endl;
 
   // new direction should be inside the pixel
   EXPECT_EQ(pix, p.direction2Pix(rlon, rlat));

@@ -251,6 +251,64 @@ Random::uint32 Random::randInt(const uint32& n) {
 	return i;
 }
 
+
+uint64_t Random::murmurhash3(uint64_t x)
+{
+	// public domain implementation by Sebastiano Vigna (vigna@acm.org)
+	// http://xorshift.di.unimi.it/murmurhash3.c
+	x ^= x >> 33;
+	x *= 0xff51afd7ed558ccdULL;
+	x ^= x >> 33;
+	x *= 0xc4ceb9fe1a85ec53ULL;
+	return x ^= x >> 33;
+}
+
+
+uint64_t Random::randInt64()
+{
+	// xorshift128+
+	// public domain implementation by Sebastiano Vigna (vigna@acm.org)
+	// Not safe to use with `to high parellelism'
+	// http://arxiv.org/abs/1402.6246, http://arxiv.org/abs/1404.0390
+	
+	
+	// choose the seed from mersenne twister
+	//		THIS USES CORRELATED 32BIT RANDOM NUMBERS AS SEED 
+	//    AND IS THUS PROBABLY NOT SECURE AT ALL!
+	// follow the advide to run the seeds twice through the murmurhash3
+	uint64_t s[2];
+	s[0] = murmurhash3(murmurhash3(randInt()));
+	s[1] = murmurhash3(murmurhash3(randInt()));
+
+	// xorshift128+
+	uint64_t s1 = s[0];
+	const uint64_t s0 = s[1];
+	s[ 0 ] = s0;
+	s1 ^= s1 << 23; // a
+	return ( s[ 1 ] = ( s1 ^ s0 ^ ( s1 >> 17 ) ^ ( s0 >> 26 ) ) ) + s0;
+}
+
+
+uint64_t Random::randInt64(const uint64_t &n)
+{
+	uint64_t used = n;
+	used |= used >> 1;
+	used |= used >> 2;
+	used |= used >> 4;
+	used |= used >> 8;
+	used |= used >> 16;
+	used |= used >> 32;
+
+	// Draw numbers until one is found in [0,n]
+	uint64_t i;
+	do
+		i = randInt64() & used; // toss unused bits to shorten search
+	while (i > n);
+	return i;
+}
+
+
+
 void Random::seed(const uint32 oneSeed) {
 	initialize(oneSeed);
 	reload();

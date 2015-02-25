@@ -258,6 +258,47 @@ target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 add_executable(crpropa-xmlrun src/main.cpp)
 target_link_libraries(crpropa-xmlrun crpropa)
 
+
+# ----------------------------------------------------------------------------
+# Python
+# ----------------------------------------------------------------------------
+option(ENABLE_PYTHON "Create python library via SWIG" ON)
+if(ENABLE_PYTHON)
+	FIND_PACKAGE(SWIG REQUIRED)
+	include(python/Python.cmake)
+	include_directories(${PYTHON_INCLUDE_PATH})
+
+	# tries to import numpy
+	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
+	if(numpyIncludePath)
+	  MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
+		SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
+		list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
+	  include_directories(${numpyIncludePath})
+	else()
+	  MESSAGE(STATUS "Numpy not found.")
+	endif()
+
+	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
+	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
+	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
+		COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa.i
+		DEPENDS ${CMAKE_SOURCE_DIR}/python/crpropa.i ${CRPROPA_INCLUDES} )
+
+	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
+	set_target_properties(crpropa-swig PROPERTIES PREFIX "")
+	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
+	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
+
+	install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION ${PYTHON_SITE_PACKAGES})
+	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
+	install(TARGETS crpropa-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
+endif(ENABLE_PYTHON)
+
+
+
+
+
 # ----------------------------------------------------------------------------
 # Install
 # ----------------------------------------------------------------------------
@@ -320,38 +361,4 @@ if(ENABLE_TESTING)
 	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)
 
-# ----------------------------------------------------------------------------
-# Python
-# ----------------------------------------------------------------------------
-option(ENABLE_PYTHON "Create python library via SWIG" ON)
-if(ENABLE_PYTHON)
-	FIND_PACKAGE(SWIG REQUIRED)
-	include(python/Python.cmake)
-	include_directories(${PYTHON_INCLUDE_PATH})
 
-	# tries to import numpy
-	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
-	if(numpyIncludePath)
-	  MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
-		SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
-		list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
-	  include_directories(${numpyIncludePath})
-	else()
-	  MESSAGE(STATUS "Numpy not found.")
-	endif()
-
-	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
-	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
-	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-		COMMAND swig -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa.i
-		DEPENDS ${CMAKE_SOURCE_DIR}/python/crpropa.i ${CRPROPA_INCLUDES} )
-
-	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
-	set_target_properties(crpropa-swig PROPERTIES PREFIX "")
-	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
-	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
-
-	install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION ${PYTHON_SITE_PACKAGES})
-	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
-	install(TARGETS crpropa-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
-endif(ENABLE_PYTHON)

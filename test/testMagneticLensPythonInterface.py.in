@@ -73,6 +73,35 @@ class testParticleMapsContainer(unittest.TestCase):
         self.assertEqual(len(lons), 10)
         self.assertEqual(len(lats), 10)
 
+    def testGetRandomparticlesStatistic(self):
+        msg = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.0027)! You should rerun the test to make sure there is a bug."
+       
+        try:
+            import numpy as np
+        except:
+            print("Cannot import numpy. Not testing RandomParticles!")
+            return
+
+        self.maps.addParticle(12, 1*EeV, 0, 0, 1)
+        self.maps.addParticle(12, 10*EeV, 0, 0, 1000)
+        self.maps.addParticle(2, 1*EeV, 0, 0, 1000)
+        self.maps.addParticle(2, 10*EeV, 0, 0, 1)
+
+        Ntot = 10000
+        ids, energies, lons, lats = self.maps.getRandomParticles(Ntot)
+
+        n12 = len(np.where(ids == 12))
+        n2 = len(np.where(ids == 2))
+       
+        #we expect n12 = n2 = Ntot/2, with uncertainty sqrt(Ntot/2)
+        self.assertTrue( np.abs(n12 - n2) < 3. * np.sqrt(Ntot/2.), msg=msg)
+
+        #half of the sample should be with E =1 
+        nle = len(np.where(energies < 5E18)[0])
+        self.assertTrue( np.abs(nle - Ntot /2.) < 3. * np.sqrt(Ntot/2.), msg=msg)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

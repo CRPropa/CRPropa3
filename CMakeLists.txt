@@ -301,6 +301,10 @@ if(ENABLE_TESTING)
 	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread)
 	add_test(testMagneticField testMagneticField)
 
+	add_executable(testDINT test/testDINT.cpp)
+	target_link_libraries(testDINT crpropa gtest gtest_main pthread)
+	add_test(testDINT testDINT)
+
 	add_executable(testPropagation test/testPropagation.cpp)
 	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
 	add_test(testPropagation testPropagation)

@@ -18,41 +18,20 @@ except Exception as e:
 
 from crpropa import EeV
 
-class TestMagneticLens(unittest.TestCase):
-    def setUp(self):
-        self.magneticLens = crpropa.MagneticLens(5)
-        p = crpropa.Pixelization(5)
-        m = crpropa.ModelMatrix(p.nPix(5), p.nPix(5), p.nPix(5))
-        for i in range(p.nPix(5)):
-            theta = 0.
-            phi = 0.
-            [phiout, thetaout] = p.pix2Direction(i, phi, theta)
-            phiout += 0.4
-            if phiout > 3.14:
-                phiout -= 3.14
-            j = p.direction2Pix(phiout, thetaout)
-            m.setElement(i, j, 1)
-        self.magneticLens.setLensPart(m, 1 * EeV, 100 * EeV)
-
-    def test_transformCosmicRays(self):
-        phi = 0
-        theta = -0.01
-        [r, phi, theta] = self.magneticLens.transformCosmicRay(10. * EeV, phi,
-                                                               theta)
-        self.assertTrue(r)
-        self.assertFalse(theta == -0.01)
-
-    def test_transformModelVector_numpyArray(self):
-        import numpy
-        v = numpy.ones(self.magneticLens.getPixelization().nPix())
-        self.magneticLens.transformModelVector(v, 2 * EeV)
-
-    def test_accessToPixelization(self):
-        self.assertEquals(self.magneticLens.getPixelization().nPix(),
-                          self.magneticLens.getPixelization().nPix(5))
-
 
 class testPixelizationConsistency(unittest.TestCase):
+    def testPixelizationInterface(self):
+        p = crpropa.Pixelization(4)
+        rd = p.pix2Direction(42)
+        pix = p.direction2Pix(*rd)
+        self.assertEqual(pix, 42)
+
+        for i in range(p.getNumberOfPixels()):
+            rd = p.getRandomDirectionInPixel(i)
+            pix = p.direction2Pix(*rd)
+            self.assertEqual(pix, i)
+
+
     def testConsistencyWithHealpy(self):
         try:
             import healpy

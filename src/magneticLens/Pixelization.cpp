@@ -114,16 +114,16 @@ double Pixelization::angularDistance(uint32_t i, uint32_t j) const
 	return ((s > 1) ? 0 : ((s < -1) ? M_PI : acos(s)));
 }
 
-	void Pixelization::getRandomDirectionInPixel(uint32_t i, double &longitude, double &latitude) 
-	{
-		
-    uint64_t inest = _healpix->ring2nest(i);
-    uint64_t nUp = 29 - _healpix->Order();
-    uint64_t iUp = inest * pow(4, nUp);
-    iUp += Random::instance().randInt64(pow(4, nUp));
+void Pixelization::getRandomDirectionInPixel(uint32_t i, double &longitude, double &latitude) 
+{
+	
+	uint64_t inest = _healpix->ring2nest(i);
+	uint64_t nUp = 29 - _healpix->Order();
+	uint64_t iUp = inest * pow(4, nUp);
+	iUp += Random::instance().randInt64(pow(4, nUp));
 
-		healpix::vec3 v = _healpix_nest.pix2vec(iUp);
-		
-		vec2SphereCo(longitude, latitude, v);
-	}
+	healpix::vec3 v = _healpix_nest.pix2vec(iUp);
+	
+	vec2SphereCo(longitude, latitude, v);
+}
 } // namespace

@@ -113,7 +113,7 @@ public:
     return _healpix->Order();
   }
 
-	void getRandomDirectionInPixel(uint32_t i, double &longitude, double &latitude);
+	void getRandomDirectionInPixel(uint32_t pixel, double &longitude, double &latitude);
 
 
 private:

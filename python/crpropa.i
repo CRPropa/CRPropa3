@@ -281,6 +281,15 @@ __WITHNUMPY = False
 
 %include "crpropa/magneticLens/ModelMatrix.h"
 %apply double &INOUT {double &longitude, double &latitude};
+%typemap(in,numinputs=0) double& longitude (double temp) "$1 = &temp;"
+%typemap(in,numinputs=0) double& latitude (double temp) "$1 = &temp;"
+%typemap(argout) double& longitude {
+  %append_output(PyFloat_FromDouble(*$1));
+}
+%typemap(argout) double& latitude {
+  %append_output(PyFloat_FromDouble(*$1));
+}
+
 %ignore Pixelization::nPix();
 
 %include "crpropa/magneticLens/Pixelization.h"

@@ -133,7 +133,7 @@ TEST(ParticleMapsContainer, getRandomParticles)
   std::vector<double> lats;
   std::vector<int> particleIds;
 
-  size_t N = 42;
+  size_t N = 420;
 	maps.getRandomParticles(N, particleIds, energies, lons, lats);
 			
   EXPECT_EQ(energies.size(), N);
@@ -145,8 +145,8 @@ TEST(ParticleMapsContainer, getRandomParticles)
   {
     EXPECT_NEAR(log10(energies[i]), 18, 0.002);
     EXPECT_EQ(particleIds[i], 1000010010);
-    EXPECT_NEAR(lons[i], 0, 1./180*M_PI);
-    EXPECT_NEAR(lats[i], 0, 1./180*M_PI);
+    EXPECT_NEAR(lons[i], 0, 2./180*M_PI);
+    EXPECT_NEAR(lats[i], 0, 2./180*M_PI);
   }
 
 }

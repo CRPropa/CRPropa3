@@ -56,10 +56,6 @@
 
 // Parts of this file are modified beginning in 29.10.09 for adaption in PXL.
 // Parts of this file are modified beginning in 10.02.12 for adaption in CRPropa.
-// 
-// Parts of this file are modified beginning in 12.02.15 to allow generation of 64 bit random numbers
-//		THIS USES THE MERSENNE TWISTER 32BIT RANDOM NUMBERS AS SEED FOR AN
-//    XORSHIFT WHICH IS PROBABLY NOT SECURE AT ALL!
 
 #ifndef RANDOM_H
 #define RANDOM_H
@@ -216,7 +212,6 @@ protected:
 	/// Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
 	static uint32 hash( time_t t, clock_t c );
 
-	uint64_t murmurhash3(uint64_t x);
 };
 
 } //namespace crpropa

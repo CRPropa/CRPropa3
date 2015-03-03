@@ -448,7 +448,9 @@ void Propagation::WriteOutput(std::ostream &out, Particle &p1,
 
 void Propagation::Propagate(Particle &curr_particle,
 		std::vector<Particle> &ParticleAtMatrix,
-		std::vector<Particle> &ParticleAtGround) const {
+		std::vector<Particle> &ParticleAtGround,
+		bool dropParticlesBelowEnergyThreshold
+		) const {
 
 	double theta_deflBF = 0.0;
 	double BNorm = magneticFieldStrength; 
@@ -570,14 +572,24 @@ void Propagation::Propagate(Particle &curr_particle,
 		curr_particle.Setz(z_curr);
 		curr_particle.SetEnergy(Ecurr);
 
-		if (z_curr > 0 && Ecurr <= Ethr2) { 
-			return;
-		}
-		if (z_curr <= 0) {
+				
+		if (z_curr <= 0) 
+		{
 			ParticleAtGround.push_back(curr_particle);
 			return;
 		}
-
+		else if (Ecurr <= Ethr2) 
+		{ 
+			if (dropParticlesBelowEnergyThreshold)
+			{
+				return;
+			}
+			else
+			{
+				ParticleAtGround.push_back(curr_particle);
+				return;
+			}
+		}
 		proc.SetIncidentParticle(curr_particle);
 		proc.SetCMEnergy();
 		proc.SetLimits();

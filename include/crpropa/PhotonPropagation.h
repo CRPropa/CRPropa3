@@ -32,6 +32,16 @@ void DintPropagation(const std::string &inputfile,
 		int IRFlag = 4, int RadioFlag = 4,		
 		double Zmax = 5);
 
+
+/** Propagate high energy photons using eleca until the crossoverenergy is
+ * reached. Then the cascade is continued using dint.
+ **/
+void DintElcaPropagation(const std::string &inputfile,
+	const std::string &outputfile, 
+	bool showProgress = true,
+	double crossOverEnergy = 0.08010882435,  // in Joule! 5E17 eV = 0.080 J
+	double magneticFieldStrength = 1E-13);
+
 } // namespace crpropa
 
 #endif // CRPROPA_PHOTON_PROPAGATION_H

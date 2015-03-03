@@ -49,7 +49,8 @@ public:
 			const Particle &particle) const;
 	void Propagate(Particle &curr_particle,
 			std::vector<Particle> &ParticleAtMatrix,
-			std::vector<Particle> &ParticleAtGround) const;
+			std::vector<Particle> &ParticleAtGround,
+			bool dropParticlesBelowEnergyThreshold = true) const;
 	double ExtractPhotonEnergyMC(double z, Process &proc) const;
 	double ShootPhotonEnergyMC(double z) const;
 	double ShootPhotonEnergyMC(double Emin, double z) const;

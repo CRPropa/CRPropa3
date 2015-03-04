@@ -10,4 +10,4 @@ add_library(eleca STATIC
     src/Propagation
 )
 
-SET_TARGET_PROPERTIES( eleca PROPERTIES COMPILE_FLAGS -fPIC)
+SET_TARGET_PROPERTIES(eleca PROPERTIES COMPILE_FLAGS "-fPIC -ffast-math")

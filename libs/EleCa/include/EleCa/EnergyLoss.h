@@ -16,7 +16,7 @@ double ESynchrotronAdiabaticLoss(double z, double E, double B);
 void InitRK();
 double EnergyLoss1D(double Energy, double z0, double zfin, double B);
 double dSigmadE_ICS(double Ee, double Eer, double s, double theta);
-double dSigmadE_PP(double Ee, double E0, double eps, double theta);
+double dSigmadE_PP(double Ee, double E0, double eps, double theta, double s);
 double ExtractPPSecondariesEnergy(Particle &pi, Particle &pt);
 double ExtractPPSecondariesEnergy(Process &proc);
 double ExtractICSSecondariesEnergy(Particle &pi, Particle &pt);

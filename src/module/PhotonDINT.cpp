@@ -103,7 +103,7 @@ void PhotonDINT::process(Candidate *candidate) const {
 	Spectrum outputSpectrum;
 	NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
-	double h = H0() * Mpc / 1000;
+	double h = H0() * Mpc / 1000; // This is NOT the reduced hubble constant h = H0/100 but H0 in km/s instead of m/s
 
 	prop_second(showerPropDistance / Mpc, &bField, &energyGrid, &energyWidth,
 			&inputSpectrum, &outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag,

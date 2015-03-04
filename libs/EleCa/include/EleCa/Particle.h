@@ -14,7 +14,6 @@ private:
 	double fmass;
 	bool fIsGood;
 	int fwi;
-	double fB;
 
 public:
 	Particle();
@@ -48,8 +47,6 @@ public:
 
 	void SetBetaAndMass();
 
-	void SetB(double B);
-	double GetB() const;
 
 };
 

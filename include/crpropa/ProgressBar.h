@@ -26,7 +26,10 @@ public:
 
 	/// update the progressbar
 	/// should be called steps times in a loop 
-	void update();
+	void update(); 
+
+	// sets the position of the bar to a given value
+	void setPosition(unsigned long position);
 
 	/// Mark the progressbar with an error
 	void setError();

@@ -56,8 +56,14 @@ unsigned short digit( location loc, const int & pid )
 {
     //  PID digits (base 10) are: n nr nl nq1 nq2 nq3 nj
     //  the location enum provides a convenient index into the PID
-    int numerator = (int) std::pow(10.0,(loc-1));
-    return (abspid(pid)/numerator)%10;
+		//
+		//  Modified for CRPropa: use precalculated values isntead of pow for
+		//  performance
+		static unsigned int p10[] = { 1, 10, 100, 1000,  10000, 100000, 1000000,
+			10000000, 100000000, 1000000000};
+    return (abspid(pid)/ p10[loc-1])%10;
+//    int numerator = (int) std::pow(10.0,(loc-1));
+//    return (abspid(pid)/numerator)%10;
 }
 
 //  return the first two digits if this is a "fundamental" particle

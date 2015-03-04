@@ -11,8 +11,8 @@ bool Particle::IsGood() {
 	double zmax_prop1 = -0.101717;
 	double zmax_prop2 = 0.002855;
 	double Eloc = log10(fE0ph);
-	if (fE0ph <=0 )
-		return 0;
+  if (fE0ph <=3.0e12) 
+		return 0; //for interaction lengths tab
 	if (Eloc > 12 && Eloc < 18)
 		Eloc = 18;
 	if (fz0ph > zmax_prop0 + zmax_prop1 * Eloc + zmax_prop2 * Eloc * Eloc)
@@ -73,12 +73,7 @@ void Particle::SetBetaAndMass() {
 	}
 }
 
-void Particle::SetB(double B) {
-	fB = B;
-}
-double Particle::GetB() const {
-	return fB;
-}
+
 
 Particle::Particle(int _ft, double _fE, double _fz) {
 	ftype = _ft;
@@ -86,7 +81,6 @@ Particle::Particle(int _ft, double _fE, double _fz) {
 	fz0ph = _fz;
 	SetBetaAndMass();
 	fIsGood = IsGood();
-	fB = 0;
 	fwi = 1;
 }
 
@@ -97,7 +91,6 @@ Particle::Particle() {
 	fmass = 0;
 	fbeta = 0;
 	fIsGood = 0;
-	fB = 0;
 	fwi = 1;
 }
 

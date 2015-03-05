@@ -21,7 +21,7 @@ private:
 	Vector3d observer;
 	bool saveOnlyPhotonEnergies;
 public:
-	PhotonEleCa(const std::string background, const std::string &filename);
+	PhotonEleCa(const std::string background, const std::string &outputFilename);
 	~PhotonEleCa();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;

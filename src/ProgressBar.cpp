@@ -27,32 +27,36 @@ void ProgressBar::update() {
 	_currentCount++;
 	if (_currentCount == _nextStep || _currentCount == _steps
 			|| _currentCount == 1000) {
-		_nextStep += long(_steps / float(_updateSteps));
+				_nextStep += long(_steps / float(_updateSteps));
+			setPosition(_currentCount);
+			}
+}
 
-		int percentage = int(100 * _currentCount / float(_steps));
-		time_t currentTime = time(NULL);
-		if (_currentCount < _steps) {
-			int j = 0;
-			if (arrow.size() <= (_maxbarLength) * (_currentCount) / (_steps))
-				arrow.insert(0, "=");
-			float tElapsed = currentTime - _startTime;
-			float tToGo = (_steps - _currentCount) * tElapsed / _currentCount;
-			printf(stringTmpl.c_str(), arrow.c_str(), percentage, "Finish in",
-					int(tToGo / 3600), (int(tToGo) % 3600) / 60,
-					int(tToGo) % 60, "");
-			fflush(stdout);
-		} else {
-			float tElapsed = currentTime - _startTime;
-			std::string s = " - Finished at ";
-			s.append(ctime(&currentTime));
-			char fs[255];
-			sprintf(fs, "%c[%d;%dm Finished %c[%dm", 27, 1, 32, 27, 0);
-			printf(stringTmpl.c_str(), fs, percentage, "Needed",
-					int(tElapsed / 3600), (int(tElapsed) % 3600) / 60,
-					int(tElapsed) % 60, s.c_str());
-		}
+void ProgressBar::setPosition(unsigned long position) {
+	int percentage = int(100 * (position / float(_steps)));
+	time_t currentTime = time(NULL);
+	if (position < _steps) {
+		int j = 0;
+		if (arrow.size() <= (_maxbarLength) * (position) / (_steps))
+			arrow.insert(0, "=");
+		float tElapsed = currentTime - _startTime;
+		float tToGo = (_steps - position) * tElapsed / position;
+		printf(stringTmpl.c_str(), arrow.c_str(), percentage, "Finish in",
+				int(tToGo / 3600), (int(tToGo) % 3600) / 60,
+				int(tToGo) % 60, "");
+		fflush(stdout);
+	} else {
+		float tElapsed = currentTime - _startTime;
+		std::string s = " - Finished at ";
+		s.append(ctime(&currentTime));
+		char fs[255];
+		sprintf(fs, "%c[%d;%dm Finished %c[%dm", 27, 1, 32, 27, 0);
+		printf(stringTmpl.c_str(), fs, percentage, "Needed",
+				int(tElapsed / 3600), (int(tElapsed) % 3600) / 60,
+				int(tElapsed) % 60, s.c_str());
 	}
 }
+
 
 /// Mark the progressbar with an error
 void ProgressBar::setError() {

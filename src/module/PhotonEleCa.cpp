@@ -10,12 +10,12 @@
 namespace crpropa {
 
 PhotonEleCa::PhotonEleCa(const std::string background,
-		const std::string &filename) :
+		const std::string &outputFilename) :
 		propagation(new eleca::Propagation), saveOnlyPhotonEnergies(false) {
 	//propagation->ReadTables(getDataPath("eleca_lee.txt"));
 	propagation->ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation->InitBkgArray(background);
-	output.open(filename.c_str());
+	output.open(outputFilename.c_str());
 }
 
 PhotonEleCa::~PhotonEleCa() {
@@ -31,7 +31,6 @@ void PhotonEleCa::process(Candidate *candidate) const {
 				(candidate->current.getPosition() - observer).getR() / Mpc);
 	eleca::Particle p0(candidate->current.getId(),
 			candidate->current.getEnergy() / eV, z);
-	p0.SetB(1e-9);
 	std::vector<eleca::Particle> ParticleAtMatrix;
 	std::vector<eleca::Particle> ParticleAtGround;
 	ParticleAtMatrix.push_back(p0);

@@ -183,7 +183,8 @@ double COBR(double eps) {
 // Universal Radio Background from Protheroe, Bierman 1996. 
 
 double URB(double eps) {
-	if (eps < eps_ph_inf_urb || eps > eps_ph_sup_urb)
+	//if (eps < eps_ph_inf_urb || eps > eps_ph_sup_urb)
+	if (eps < eps_ph_inf_urb) 
 		return 0;
 
 	double v = eps / h_Planck;
@@ -194,14 +195,13 @@ double URB(double eps) {
 	double p2 = 3.51067e-01;
 	double p3 = -6.80104e-02;
 	double p4 = 5.82003e-01;
-	double p5 = 2.00075e+00;
-	double p6 = 1.35259e+00;
+	double p5 = -2.00075e+00;
+	double p6 = -1.35259e+00;
 	double p7 = -7.12112e-01;  //xbreak
 
 	double intensity = 0;
 	if (x > p7)
-		intensity = p0 + p1 * x + p2 * x * x
-				+ p3 * x * x * x / (exp(p4 * x) - 1) + p6 + p5 * x;
+		intensity = p0 + p1 * x	+ p3 * x * x * x / (exp(p4 * x) - 1) + p6 + p5 * x;
 	else
 		intensity = p0 + p1 * x + p2 * x * x
 				+ p3 * x * x * x / (exp(p4 * x) - 1);

@@ -14,16 +14,22 @@ namespace crpropa {
 void EleCaPropagation(const std::string &inputfile,
 		const std::string &outputfile,
 		bool showProgress=true,
-		double lowerEnergyThreshold = 1.602176487E-6,
-		double magneticFieldStrength = 1E-13,
+		double lowerEnergyThreshold = 0.8010882435, // 5 EeV
+		double magneticFieldStrength = 1E-13,				// 1 nG
     const std::string &background = "ALL");
 
 
 /** Use Dint to calculate the observed sprectrum fom the photons recorded in inputfile.
  *  Magneticfield [T], default 1E-13 T = 1 nG
+ *
+ *  Implemented backgrounds are selected via the flags
+ *		IRFlag = 0 (High IR), 1 (Low IR), 2 (Primack IR), 3 (Not defined), 4 (EleCa)
+ *  RadioFlag = 0 (High Radio), 1 (Low Radio), 2 (Obs Radio), 3 (Null Radio), 4 (EleCa)
  * **/
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, double magneticFieldStrength = 1E-13, int IRFlag = 2, int RadioFlag = 2,
+		const std::string &outputfile, 
+		double magneticFieldStrength = 1E-13, // 1 nG
+		int IRFlag = 4, int RadioFlag = 4,		
 		double Zmax = 5);
 
 } // namespace crpropa

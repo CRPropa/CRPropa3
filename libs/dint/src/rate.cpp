@@ -199,18 +199,18 @@ void CheckRawDiffRate(RawDiffRate* pRate)
 
     for (counter = 0, i = 0; i < pRate->mainDimension; i++)
     {
-	for (j = 0; j < pRate->bgDimension; j++)
-	{
-	    if (pRate->bound[i][j][0] != -1)
-	    {
-		counter += pRate->bound[i][j][1] - pRate->bound[i][j][0] + 1;
-	    }
-	}
+			for (j = 0; j < pRate->bgDimension; j++)
+			{
+				if (pRate->bound[i][j][0] != -1)
+				{
+					counter += pRate->bound[i][j][1] - pRate->bound[i][j][0] + 1;
+				}
+				}
     }
 
     if (counter != pRate->numberOfElements)
     {
-	Error("CheckRawDiffRate: inconsistent rate", PROGRAM_ERROR);
+			Error("CheckRawDiffRate: inconsistent rate", PROGRAM_ERROR);
     }
 }
 

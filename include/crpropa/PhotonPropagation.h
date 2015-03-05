@@ -6,19 +6,24 @@
 
 namespace crpropa {
 
-void EleCaPropagation(const std::string &inputfile,
-		const std::string &background, std::vector<double> &energy,
-		std::vector<double> &spectrum, 
-		double lowerEnergyThreshold = 1E16,
-		double stepSize = 0.2
-    );
+
+/** Use EleCa to propagate the photons recorded in inputfile.
+ *  Propagation is stopped if the particles reach the observer or their energy
+ *  dropps below lowerEnergyThreshold [J].
+ * **/
 void EleCaPropagation(const std::string &inputfile,
 		const std::string &outputfile,
-		double lowerEnergyThreshold = 1E16,
-		double stepSize = 0.2,
+		bool showProgress=true,
+		double lowerEnergyThreshold = 1.602176487E-6,
+		double magneticFieldStrength = 1E-13,
     const std::string &background = "ALL");
+
+
+/** Use Dint to calculate the observed sprectrum fom the photons recorded in inputfile.
+ *  Magneticfield [T], default 1E-13 T = 1 nG
+ * **/
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, int IRFlag = 2, int RadioFlag = 2,
+		const std::string &outputfile, double magneticFieldStrength = 1E-13, int IRFlag = 2, int RadioFlag = 2,
 		double Zmax = 5);
 
 } // namespace crpropa

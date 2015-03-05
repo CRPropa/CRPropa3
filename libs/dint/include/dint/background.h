@@ -51,6 +51,10 @@ double MedRadio(const double zTarget, const double zObserve,
 double ObsRadio(const double zTarget, const double zObserve, 
 		const double energy0,  const double aH0, 
 		const double aOmegaM, const double aOmegaLambda);
+double ElecaRadio(const double zTarget, const double zObserve, 
+		const double energy0, const double aH0,
+		const double aOmegaM, const double aOmegaLambda);
+
 /*
 // Routine added by Gunter (July 2005) :
 void DumpBgSpectrum(const dCVector* pBgEnergy, const dCVector* pBgEnergyWidth,

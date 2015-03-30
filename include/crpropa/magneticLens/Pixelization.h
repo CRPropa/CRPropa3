@@ -115,6 +115,14 @@ public:
 
 	void getRandomDirectionInPixel(uint32_t pixel, double &longitude, double &latitude);
 
+	void getPixelsInCone(double longitude, double latitude,double radius, std::vector<int>& listpix)
+	{
+		healpix::vec3 v;
+		spherCo2Vec(longitude, latitude, v);
+		healpix::pointing p;
+		p.from_vec3(v);
+		_healpix->query_disc(p, radius, listpix);
+	}
 
 private:
 	void spherCo2Vec(double phi, double theta, healpix::vec3 &V) const;

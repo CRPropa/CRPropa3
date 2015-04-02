@@ -156,6 +156,9 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	candidate->current.setId(nucleusId(A, Z + dZ));
 	candidate->current.setLorentzFactor(gamma);
 
+	if (not (haveElectrons or haveNeutrinos))
+		return;
+
 	// random electron kinetic energy in free neutron decay
 	Random &random = Random::instance();
 	double Tn = interpolate(random.rand(), cdfBeta, tBeta);

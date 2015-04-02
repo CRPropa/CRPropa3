@@ -27,10 +27,6 @@ public:
 	module_list_t &getModules();
 	const module_list_t &getModules() const;
 
-	/**
-	 @class
-	 @brief The simulation itself: A list of simulation modules
-	 */
 	void beginRun(); ///< call beginRun in all modules
 	void endRun(); ///< call endRun in all modules
 	void process(Candidate *candidate); ///< call process in all modules

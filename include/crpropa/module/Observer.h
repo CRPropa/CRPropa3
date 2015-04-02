@@ -78,6 +78,19 @@ public:
 };
 
 /**
+ @class ObserverPoint
+ @brief Detects particles when reaching x = 0
+
+ This module limits the next step size to prevent candidates from overshooting.
+ Should be renamed to Observer1D, once old observer-scheme is removed.
+ */
+class ObserverPoint: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+/**
  @class ObserverRedshiftWindow
  @brief Detects particles in a given redshift window
  */
@@ -86,18 +99,6 @@ private:
 	double zmin, zmax;
 public:
 	ObserverRedshiftWindow(double zmin = 0, double zmax = 0.1);
-	DetectionState checkDetection(Candidate *candidate) const;
-	std::string getDescription() const;
-};
-
-/**
- @class ObserverPoint
- @brief Detects particles when reaching x = 0
-
- Should be renamed to Observer1D
- */
-class ObserverPoint: public ObserverFeature {
-public:
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
 };

@@ -33,6 +33,7 @@ double ParticleMapsContainer::idx2Energy(int idx) const
 		
 double* ParticleMapsContainer::getMap(const int particleId, double energy)
 {
+	_weightsUpToDate = false;
 	if (_data.find(particleId) == _data.end())
 	{
 		std::cerr << "No map for ParticleID " << particleId << std::endl;
@@ -50,6 +51,7 @@ double* ParticleMapsContainer::getMap(const int particleId, double energy)
 			
 void ParticleMapsContainer::addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight)
 {
+	_weightsUpToDate = false;
 	if (_data.find(particleId) == _data.end())
 	{
 		map<int, double*> M;
@@ -78,6 +80,7 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, con
 
 void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName, double sourceEnergyWeightExponent)
 {
+	_weightsUpToDate = false;
 	std::ifstream infile(inputFileName.c_str());
 
 	while (infile.good()) {
@@ -137,6 +140,9 @@ std::vector<double> ParticleMapsContainer::getEnergies(int pid)
 
 void ParticleMapsContainer::applyLens(MagneticLens &lens)
 {
+	// if lens is normalized, this should not be necessary.
+	_weightsUpToDate = false;
+
 	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
 			pid_iter != _data.end(); ++pid_iter) {
 		for(std::map<int, double*>::iterator energy_iter = pid_iter->second.begin();
@@ -160,14 +166,10 @@ void ParticleMapsContainer::applyLens(MagneticLens &lens)
 }
 
 
-void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId, 
-	vector<double> &energy, vector<double> &galacticLongitudes,
-	vector<double> &galacticLatitudes)
+void ParticleMapsContainer::_updateWeights()
 {
-	double sumOfWeights = 0;
-
-	std::map< int , double > _weightsPID;				
-	std::map< int , map<int, double> > _weights_pidEnergy;				
+	if (_weightsUpToDate)
+		return;
 
 	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
 			pid_iter != _data.end(); ++pid_iter) 
@@ -185,10 +187,18 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 					
 				_weightsPID[pid_iter->first]+=energy_iter->second[j];
 			}
-		sumOfWeights+=_weights_pidEnergy[pid_iter->first][energy_iter->first];
+		_sumOfWeights+=_weights_pidEnergy[pid_iter->first][energy_iter->first];
 		}
 	}
+	_weightsUpToDate = true;
+}
 
+
+void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId, 
+	vector<double> &energy, vector<double> &galacticLongitudes,
+	vector<double> &galacticLatitudes)
+{
+	_updateWeights();
 
 	particleId.resize(N);
 	energy.resize(N);
@@ -198,7 +208,7 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 	for(size_t i=0; i< N; i++)
 	{
 		//get particle
-		double r = Random::instance().rand() * sumOfWeights;
+		double r = Random::instance().rand() * _sumOfWeights;
 		std::map<int, double>::iterator iter = _weightsPID.begin();
 		while ((r-= iter->second) > 0)
 		{
@@ -215,19 +225,43 @@ void ParticleMapsContainer::getRandomParticles(size_t N, vector<int> &particleId
 		}
 		energy[i] = idx2Energy(iter->first) / eV;
 
-		//get direction
-		r = Random::instance().rand() * iter->second;
+		placeOnMap(particleId[i], energy[i] * eV, galacticLongitudes[i], galacticLatitudes[i]);
+	}
+}
 
-		for(size_t j=0; j< _pixelization.getNumberOfPixels(); j++)
+
+bool ParticleMapsContainer::placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude)
+{
+	_updateWeights();
+
+	if (_data.find(pid) == _data.end())
+	{
+		return false;
+	}
+	int energyIdx	= energy2Idx(energy);
+	if (_data[pid].find(energyIdx) == _data[pid].end())
+	{
+		return false;
+	}
+
+	double r = Random::instance().rand() * _weights_pidEnergy[pid][energyIdx];
+
+	for(size_t j=0; j< _pixelization.getNumberOfPixels(); j++)
+	{
+		r-= _data[pid][energyIdx][j];
+		if (r <=0)
 		{
-			r-= _data[particleId[i]][iter->first][j];
-			if (r <=0)
-			{
-				_pixelization.getRandomDirectionInPixel(j, galacticLongitudes[i], galacticLatitudes[i] );
-				break;
-			}
+			_pixelization.getRandomDirectionInPixel(j, galacticLongitude, galacticLatitude );
+			return true;
 		}
 	}
+	return false;
+}
+
+
+void ParticleMapsContainer::forceWeightUpdate()
+{
+	_weightsUpToDate = false;
 }
 
 } // namespace parsec

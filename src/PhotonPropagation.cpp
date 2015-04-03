@@ -2,6 +2,7 @@
 #include "crpropa/Common.h"
 #include "crpropa/Units.h"
 #include "crpropa/Cosmology.h"
+#include "crpropa/ProgressBar.h"
 
 #include "EleCa/Propagation.h"
 #include "EleCa/Particle.h"
@@ -10,6 +11,7 @@
 #include "dint/prop_second.h"
 
 #include <fstream>
+#include <stdio.h>
 #include <stdexcept>
 #include <limits>
 #include <iostream>
@@ -18,43 +20,57 @@
 namespace crpropa {
 
 void EleCaPropagation(const std::string &inputfile,
-		const std::string &background, std::vector<double> &energy,
-		std::vector<double> &spectrum,
-		double lowerEnergyThreshold,
-		double stepSize
-		) {
-	std::ifstream infile(inputfile.c_str());
+	const std::string &outputfile, 
+	bool showProgress,
+	double lowerEnergyThreshold,
+	double magneticFieldStrength,
+	const std::string &background) {
 
-	const double emin = log10(lowerEnergyThreshold), emax = 22, step = stepSize;
-	const size_t steps = (emax - emin) / step;
-	energy.clear();
-	energy.resize(steps);
-	spectrum.resize(steps);
-	for (size_t i = 0; i < steps; i++) {
-		energy[i] = emin + i * step;
-		spectrum[i] = 0;
+	std::ifstream infile(inputfile.c_str());
+	std::streampos startPosition = infile.tellg();
+
+	infile.seekg(0, std::ios::end);
+	std::streampos endPosition = infile.tellg();
+	infile.seekg(startPosition);
+
+
+	ProgressBar progressbar(endPosition);
+	if (showProgress) {
+		progressbar.start("Run EleCa propagation");
 	}
+
 
 	if (!infile.good())
 		throw std::runtime_error(
 				"EleCaPropagation: could not open file " + inputfile);
 
+	eleca::setSeed();
 	eleca::Propagation propagation;
-  propagation.SetEthr(lowerEnergyThreshold);
+  propagation.SetEthr(lowerEnergyThreshold / eV );
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray(background);
 
+	propagation.SetB(magneticFieldStrength * gauss);
+
+	std::ofstream output(outputfile.c_str());
+	output << "# ID\tE\tiID\tiE\n";
+	output << "# ID          Id of particle (photon, electron, positron)\n";
+	output << "# E           Energy [EeV]\n";
+	output << "# iID         Id of source particle\n";
+	output << "# iE          Energy [EeV] of source particle\n";
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double E, D, pE, iE;
 			int Id, pId, iId;
 			infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
+
 			if (infile) {
+
+				if (showProgress) {
+					progressbar.setPosition(infile.tellg());
+				}
 				double z = eleca::Mpc2z(D);
 				eleca::Particle p0(Id, E * 1e18, z);
-
-				// TODO: find a motivated value!
-				p0.SetB(1e-9);
 
 				std::vector<eleca::Particle> ParticleAtMatrix;
 				std::vector<eleca::Particle> ParticleAtGround;
@@ -71,13 +87,19 @@ void EleCaPropagation(const std::string &inputfile,
 					}
 				}
 
-				//propagation.WriteOutput(output, p0, ParticleAtGround);
 				for (int i = 0; i < ParticleAtGround.size(); ++i) {
 					eleca::Particle &p = ParticleAtGround[i];
 					if (p.GetType() != 22)
 						continue;
-					size_t idx = (::log10(p.GetEnergy()) - emin) / step;
-					spectrum.at(idx) += 1;
+					char buffer[256];
+					size_t bufferPos = 0;
+					bufferPos += sprintf(buffer + bufferPos, "%i\t", p.GetType());
+					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
+					bufferPos += sprintf(buffer + bufferPos, "%i\t", iId);
+					bufferPos += sprintf(buffer + bufferPos, "%.4E", iE );
+					bufferPos += sprintf(buffer + bufferPos, "\n");
+
+					output.write(buffer, bufferPos);
 				}
 			}
 		}
@@ -85,20 +107,9 @@ void EleCaPropagation(const std::string &inputfile,
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
+	output.close();
 }
 
-void EleCaPropagation(const std::string &inputfile,
-		const std::string &outputfile, double lowerEnergyThreshold, 
-		double stepSize,
-		const std::string &background) {
-	std::vector<double> energy, spectrum;
-	EleCaPropagation(inputfile, background, energy, spectrum, lowerEnergyThreshold, stepSize);
-	std::ofstream output(outputfile.c_str());
-	output << "# E N\n";
-	for (size_t i = 0; i < energy.size(); i++) {
-		output << energy[i] << " " << spectrum[i] << "\n";
-	}
-}
 
 typedef struct _Secondary {
 	double E, D;
@@ -117,7 +128,7 @@ void AddSpectrum(Spectrum *a, const Spectrum *b) {
 }
 
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, int IRFlag, int RadioFlag, double Zmax) {
+		const std::string &outputfile, double magneticFieldStrength,  int IRFlag, int RadioFlag, double Zmax) {
 	// Initialize the spectrum
 	dCVector energyGrid, energyWidth;
 	// Initialize the energy grids for dint
@@ -138,6 +149,7 @@ void DintPropagation(const std::string &inputfile,
 	// Initialize the bField
 	dCVector bField;
 	New_dCVector(&bField, 5);
+	for (size_t i = 0; i < 5; i++)	bField.vector[i] = magneticFieldStrength / gauss;  
 
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
@@ -242,8 +254,10 @@ void DintPropagation(const std::string &inputfile,
 		DeleteSpectrum(&inputSpectrum);
 	}
 
+	outfile << "# BinCenter [EeV] BinWidth [EeV] Flux-Weights for photons electrons positrons ... \n";
 	for (int j = 0; j < finalSpectrum.numberOfMainBins; j++) {
 		outfile << (energyGrid.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
+		outfile << (energyWidth.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
 		for (int i = 0; i < NUM_SPECIES; i++) {
 			outfile << finalSpectrum.spectrum[i][j] << " ";
 		}

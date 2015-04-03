@@ -42,34 +42,44 @@ void PhotoPionProduction::setHaveAntiNucleons(bool b) {
 	haveAntiNucleons = b;
 }
 
+void PhotoPionProduction::setDoRedshiftDependent(bool b) {
+        doRedshiftDependent = b;
+}
+
 void PhotoPionProduction::setLimit(double l) {
 	limit = l;
 }
 
 void PhotoPionProduction::init() {
 	switch (photonField) {
-	case CMB:
+	case CMB:	
+	        doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: CMB");
 		init(getDataPath("ppp_CMB.txt"));
 		break;
 	case IRB: // default: Kneiske '04 IRB model
-	case IRB_Kneiske04:
+	case IRB_Kneiske04:	
+                doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: IRB Kneiske '04");
 		init(getDataPath("ppp_IRB_Kneiske04.txt"));
 		break;
 	case IRB_Kneiske10:
+                doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: IRB Kneiske '10 (lower limit)");
 		init(getDataPath("ppp_IRB_Kneiske10.txt"));
 		break;
-	case IRB_Stecker05:
+	case IRB_Stecker05: 
+	        doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: IRB Stecker '05");
 		init(getDataPath("ppp_IRB_Stecker05.txt"));
 		break;
-	case IRB_Dole06:
+	case IRB_Dole06:   
+                doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: IRB Dole '06");
 		init(getDataPath("ppp_IRB_Dole06.txt"));
 		break;
-	case IRB_Franceschini08:
+	case IRB_Franceschini08: 
+                doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: IRB Franceschini '08");
 		init(getDataPath("ppp_IRB_Franceschini08.txt"));
 		break;
@@ -182,7 +192,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		double rate;
 		if (Z > 0) {
 			if (doRedshiftDependent)
-				rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+				rate = scaling * interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
 			else
 				rate = scaling * interpolate(gamma, tabLorentz, tabProtonRate);
 			rate *= nucleiModification(A, Z);
@@ -194,7 +204,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		// check for interaction on neutrons
 		if (N > 0) {
 			if (doRedshiftDependent)
-				rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+				rate = scaling * interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
 			else
 				rate = scaling * interpolate(gamma, tabLorentz, tabNeutronRate);
 			rate *= nucleiModification(A, N);

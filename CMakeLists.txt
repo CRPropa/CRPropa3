@@ -15,11 +15,15 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
+# Add buildtype for profiling 
+SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
+
 # Set default build-type to release to enable performance improvements
 if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+
 
 # ----------------------------------------------------------------------------
 # Dependencies
@@ -74,11 +78,13 @@ if (ENABLE_GALACTICMAGETICLENS)
 
 	# Eigen redux (provided)
 	list(APPEND CRPROPA_EXTRA_INCLUDES libs/eigen3)
+	install(DIRECTORY libs/eigen3/ DESTINATION include)
 
 	# healpix redux (provided)
 	add_subdirectory(libs/healpix_base)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
 	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base/include)
+	install(DIRECTORY libs/healpix_base/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 
 	list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
 
@@ -164,48 +170,56 @@ endif(MUPARSER_FOUND)
 # ----------------------------------------------------------------------------
 # Downloading data files (interaction data, masses, decay data)
 # ----------------------------------------------------------------------------
-set(DATA_URL "https://crpropa.desy.de/images/e/e2/Data20141021.tar.gz")
-set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
+#Needed fo compilation without internet connection
+option(DISABLE_DOWNLOAD "Disable download of data files" OFF)
 
-function(GET_DATA)
-    message("Downloading from crpropa.desy.de ~ 60 MB")
-    set(DATA_FILE ${CMAKE_SOURCE_DIR}/build/data.tar.gz)
-    
-    if(APPLE)
-	execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
-    else()	
-    	execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
-    endif()
+if(DISABLE_DOWNLOAD)
+	message("Download of data files disabled")
+else(DISABLE_DOWNLOAD)
 
+	set(DATA_URL "https://crpropa.desy.de/images/e/e2/Data20141021.tar.gz")
+	set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
 
-    message("Unpacking to CRPropa3/data\n")
-    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
-endfunction(GET_DATA)
-
-message("\nSearching for data archive")
-find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/build)
-if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
-    message("File not found: data.tar.gz")
-    GET_DATA()
-else()
-    message("File found: " ${DATA_FILE})
-    if(APPLE)
-    	execute_process(COMMAND md5 ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
-    	string(LENGTH ${MD5SUM} MD5LENGTH)
-    	MATH(EXPR START "${MD5LENGTH} - 33")
-    	string(SUBSTRING ${MD5SUM} ${START} 32 MD5SUM)		     
-    else()
-	execute_process(COMMAND md5sum ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
-    	string(SUBSTRING ${MD5SUM} 0 32 MD5SUM)
-    endif()
-    if(MD5SUM STREQUAL EXPECTED_MD5SUM)
-        message("MD5sum matching\n")
-    else()
-        message("MD5sum not matching " ${EXPECTED_MD5SUM})
-        GET_DATA()
-    endif()
-endif()
+	function(GET_DATA)
+	    message("Downloading from crpropa.desy.de ~ 60 MB")
+	    set(DATA_FILE ${CMAKE_SOURCE_DIR}/build/data.tar.gz)
+	    
+	    if(APPLE)
+		execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
+	    else()	
+	    	execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
+	    endif()
+	
+	
+	    message("Unpacking to CRPropa3/data\n")
+	    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+	    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+	endfunction(GET_DATA)
+	
+	message("\nSearching for data archive")
+	find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/build)
+	if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
+	    message("File not found: data.tar.gz")
+	    GET_DATA()
+	else()
+	    message("File found: " ${DATA_FILE})
+	    if(APPLE)
+	    	execute_process(COMMAND md5 ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
+	    	string(LENGTH ${MD5SUM} MD5LENGTH)
+	    	MATH(EXPR START "${MD5LENGTH} - 33")
+	    	string(SUBSTRING ${MD5SUM} ${START} 32 MD5SUM)		     
+	    else()
+		execute_process(COMMAND md5sum ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
+	    	string(SUBSTRING ${MD5SUM} 0 32 MD5SUM)
+	    endif()
+	    if(MD5SUM STREQUAL EXPECTED_MD5SUM)
+	        message("MD5sum matching\n")
+	    else()
+	        message("MD5sum not matching " ${EXPECTED_MD5SUM})
+	        GET_DATA()
+	    endif()
+	endif()
+endif(DISABLE_DOWNLOAD)	
 
 # ----------------------------------------------------------------------------
 # Library and Binary
@@ -259,67 +273,6 @@ target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 add_executable(crpropa-xmlrun src/main.cpp)
 target_link_libraries(crpropa-xmlrun crpropa)
 
-# ----------------------------------------------------------------------------
-# Install
-# ----------------------------------------------------------------------------
-add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
-install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
-install(TARGETS crpropa DESTINATION lib)
-install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
-
-# ----------------------------------------------------------------------------
-# Testing
-# ----------------------------------------------------------------------------
-if(ENABLE_TESTING)
-	enable_testing()
-	add_executable(testCore test/testCore.cpp)
-	target_link_libraries(testCore crpropa gtest gtest_main pthread)
-	add_test(testCore testCore)
-
-	add_executable(testVector3 test/testVector3.cpp)
-	target_link_libraries(testVector3 crpropa gtest gtest_main pthread)
-	add_test(testVector3 testVector3)
-
-	add_executable(testModuleList test/testModuleList.cpp)
-	target_link_libraries(testModuleList crpropa gtest gtest_main pthread)
-	add_test(testModuleList testModuleList)
-
-	add_executable(testMagneticField test/testMagneticField.cpp)
-	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread)
-	add_test(testMagneticField testMagneticField)
-
-	add_executable(testPropagation test/testPropagation.cpp)
-	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
-	add_test(testPropagation testPropagation)
-
-	add_executable(testBreakCondition test/testBreakCondition.cpp)
-	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread)
-	add_test(testBreakCondition testBreakCondition)
-
-	add_executable(testOutput test/testOutput.cpp)
-	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
-	add_test(testOutput testOutput)
-
-	add_executable(testInteraction test/testInteraction.cpp)
-	target_link_libraries(testInteraction crpropa gtest gtest_main pthread)
-	add_test(testInteraction testInteraction)
-
-	add_executable(testSource test/testSource.cpp)
-	target_link_libraries(testSource crpropa gtest gtest_main pthread)
-	add_test(testSource testSource)
-
-	if(WITH_GALACTIC_LENSES)
-		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
-		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
-		add_test(testGalacticMagneticLens testGalacticMagneticLens)
-	endif(WITH_GALACTIC_LENSES)
-
-	if(ENABLE_PYTHON)
-		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py)
-		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
-	endif(ENABLE_PYTHON)
-endif(ENABLE_TESTING)
 
 # ----------------------------------------------------------------------------
 # Python
@@ -356,3 +309,75 @@ if(ENABLE_PYTHON)
 	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
 	install(TARGETS crpropa-swig LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES}/crpropa)
 endif(ENABLE_PYTHON)
+
+
+
+
+
+# ----------------------------------------------------------------------------
+# Install
+# ----------------------------------------------------------------------------
+add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
+install(TARGETS crpropa DESTINATION lib)
+install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
+
+# ----------------------------------------------------------------------------
+# Testing
+# ----------------------------------------------------------------------------
+if(ENABLE_TESTING)
+	enable_testing()
+	add_executable(testCore test/testCore.cpp)
+	target_link_libraries(testCore crpropa gtest gtest_main pthread)
+	add_test(testCore testCore)
+
+	add_executable(testVector3 test/testVector3.cpp)
+	target_link_libraries(testVector3 crpropa gtest gtest_main pthread)
+	add_test(testVector3 testVector3)
+
+	add_executable(testModuleList test/testModuleList.cpp)
+	target_link_libraries(testModuleList crpropa gtest gtest_main pthread)
+	add_test(testModuleList testModuleList)
+
+	add_executable(testMagneticField test/testMagneticField.cpp)
+	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread)
+	add_test(testMagneticField testMagneticField)
+
+	add_executable(testDINT test/testDINT.cpp)
+	target_link_libraries(testDINT crpropa gtest gtest_main pthread)
+	add_test(testDINT testDINT)
+
+	add_executable(testPropagation test/testPropagation.cpp)
+	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
+	add_test(testPropagation testPropagation)
+
+	add_executable(testBreakCondition test/testBreakCondition.cpp)
+	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread)
+	add_test(testBreakCondition testBreakCondition)
+
+	add_executable(testOutput test/testOutput.cpp)
+	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
+	add_test(testOutput testOutput)
+
+	add_executable(testInteraction test/testInteraction.cpp)
+	target_link_libraries(testInteraction crpropa gtest gtest_main pthread)
+	add_test(testInteraction testInteraction)
+
+	add_executable(testSource test/testSource.cpp)
+	target_link_libraries(testSource crpropa gtest gtest_main pthread)
+	add_test(testSource testSource)
+
+	if(WITH_GALACTIC_LENSES)
+		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
+		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
+		add_test(testGalacticMagneticLens testGalacticMagneticLens)
+	endif(WITH_GALACTIC_LENSES)
+
+	if(ENABLE_PYTHON)
+		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py)
+		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
+	endif(ENABLE_PYTHON)
+endif(ENABLE_TESTING)
+
+

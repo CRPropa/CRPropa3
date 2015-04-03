@@ -251,6 +251,33 @@ Random::uint32 Random::randInt(const uint32& n) {
 	return i;
 }
 
+
+uint64_t Random::randInt64()
+{
+	return (randInt() << 32 | randInt());
+}
+
+
+uint64_t Random::randInt64(const uint64_t &n)
+{
+	uint64_t used = n;
+	used |= used >> 1;
+	used |= used >> 2;
+	used |= used >> 4;
+	used |= used >> 8;
+	used |= used >> 16;
+	used |= used >> 32;
+
+	// Draw numbers until one is found in [0,n]
+	uint64_t i;
+	do
+		i = randInt64() & used; // toss unused bits to shorten search
+	while (i > n);
+	return i;
+}
+
+
+
 void Random::seed(const uint32 oneSeed) {
 	initialize(oneSeed);
 	reload();

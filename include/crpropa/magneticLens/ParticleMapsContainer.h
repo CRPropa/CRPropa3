@@ -87,6 +87,20 @@ class ParticleMapsContainer
 		// force weight update prior to get random particles. Only necessary when
 		// reusing pointer to maps after calculating weights
 		void forceWeightUpdate();
+
+		double getSumOfWeights()
+		{
+			if (!_weightsUpToDate)
+				_updateWeights();
+			return _sumOfWeights;
+		}
+
+		double getWeight(int pid, double energy)
+		{
+			if (!_weightsUpToDate)
+				_updateWeights();
+			return _weights_pidEnergy[pid][energy2Idx(energy)];				
+		}
 };
 
 

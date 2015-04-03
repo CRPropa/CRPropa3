@@ -23,8 +23,6 @@ private:
 		double rate; // decay rate in [1/m]
 	};
 	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
-	std::vector<double> tBeta; // electron kinetic energy [J] in neutron decays
-	std::vector<double> cdfBeta; // cumulative distribution function for the electron kinetic energy [J] in neutron decays
 
 public:
 	NuclearDecay(bool electrons = false, bool neutrinos = false, double limit =

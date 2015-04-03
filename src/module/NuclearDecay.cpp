@@ -37,20 +37,6 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos, double l) {
 		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
 	infile.close();
-
-	// generate cdf for electron kinetic energies in free neutron decays
-	// see Basdevant, Fundamentals in Nuclear Physics, (4.92)
-	double dm = mass_neutron - mass_proton;
-	double cdf = 0;
-	for (int i = 0; i < 50; i++) {
-		double E = mass_electron + i / 50. * (dm - mass_electron);
-		cdf += sqrt(pow(E, 2) - pow(mass_electron, 2)) * pow(dm - E, 2) * E;
-		cdfBeta.push_back(cdf);
-		tBeta.push_back((E - mass_electron) * c_squared);
-	}
-	for (int i = 0; i < 50; i++) {
-		cdfBeta[i] /= cdf;
-	}
 }
 
 void NuclearDecay::setHaveElectrons(bool b) {
@@ -152,36 +138,45 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 		dZ = -1;
 	}
 
-	// update candidate, energy loss negligible
+	// update candidate, nuclear recoil negligible
 	candidate->current.setId(nucleusId(A, Z + dZ));
 	candidate->current.setLorentzFactor(gamma);
 
 	if (not (haveElectrons or haveNeutrinos))
 		return;
 
-	// random electron kinetic energy in free neutron decay
+	// Q-value of the decay
+	double newMass = candidate->current.getMass();
+	double Q = (mass - newMass - mass_electron) * c_squared;
+
+	// generate cdf of electron energy, neglecting Coulomb correction
+	// see Basdevant, Fundamentals in Nuclear Physics, eq. (4.92)
+	std::vector<double> energies;
+	std::vector<double> densities; // cdf(E), unnormalized
+
+	double me = mass_electron * c_squared;
+	double cdf = 0;
+	for (int i = 0; i <= 50; i++) {
+		double E = me + i / 50. * Q;
+		cdf += E * sqrt(E * E - me * me) * pow(Q + me - E, 2);
+		energies.push_back(E);
+		densities.push_back(cdf);
+	}
+
+	// draw random electron energy and angle
 	Random &random = Random::instance();
-	double Tn = interpolate(random.rand(), cdfBeta, tBeta);
-	double Qn = (mass_neutron - mass_proton - mass_electron) * c_squared;
-
-	// scale to Q-value of the given nuclear decay (rough approximation)
-	double Q = (mass - candidate->current.getMass() - mass_electron)
-			* c_squared;
-	double T = Tn * Q / Qn;
-
-	// electron energy and momentum in the nuclear rest frame
-	double E = T + mass_electron * c_squared;
-	double p = sqrt(E * E - pow(mass_electron * c_squared, 2));
-
-	// random angle with respect to the cosmic ray direction
+	double E = interpolate(random.rand() * cdf, densities, energies);
+	double p = sqrt(E * E - me * me);  // p*c
 	double cosTheta = 2 * random.rand() - 1;
 
+	// boost to lab frame
+	double Ee = gamma * (E - p * cosTheta);
+	double Enu = gamma * (Q + me - E) * (1 + cosTheta);  // pnu*c ~ Enu
+
 	if (haveElectrons)
-		// add electron/positron boosted to lab frame
-		candidate->addSecondary(electronId, gamma * (E + p * cosTheta));
+		candidate->addSecondary(electronId, Ee);
 	if (haveNeutrinos)
-		// add neutrino with remaining energy and opposite momentum
-		candidate->addSecondary(neutrinoId, gamma * ((Q - T) - p * cosTheta));
+		candidate->addSecondary(neutrinoId, Enu);
 }
 
 void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {

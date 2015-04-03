@@ -26,9 +26,18 @@ class ParticleMapsContainer
 		int energy2Idx(double energy) const;
 		double idx2Energy(int idx) const;
 
+
+		// weights of the particles
+		double _sumOfWeights;
+		std::map< int , double > _weightsPID;				
+		std::map< int , map<int, double> > _weights_pidEnergy;				
+
+		// lazy update of weights 
+		bool _weightsUpToDate;
+		void _updateWeights();
   public:
 
-		ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6)
+		ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6), _weightsUpToDate(false), _sumOfWeights(0)
 		{
 		}
 
@@ -66,11 +75,32 @@ class ParticleMapsContainer
 
 		void applyLens(MagneticLens &lens);;
 
-		// energy in Joule
+		// energy in eV , galacticLongitude in rad [-pi ... pi], galacticLatitudes in rad [-pi/2 ... pi/2]
 		void getRandomParticles(size_t N, vector<int> &particleId, 
 			vector<double> &energy, vector<double> &galacticLongitudes,
 			vector<double> &galacticLatitudes);
-			
+
+		// places a cosmic ray with given PID and energy according to the
+		// probability maps. Returns false if not possible.
+		bool placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude);
+
+		// force weight update prior to get random particles. Only necessary when
+		// reusing pointer to maps after calculating weights
+		void forceWeightUpdate();
+
+		double getSumOfWeights()
+		{
+			if (!_weightsUpToDate)
+				_updateWeights();
+			return _sumOfWeights;
+		}
+
+		double getWeight(int pid, double energy)
+		{
+			if (!_weightsUpToDate)
+				_updateWeights();
+			return _weights_pidEnergy[pid][energy2Idx(energy)];				
+		}
 };
 
 

@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <ctime>
+
+#include <iostream>
 
 namespace eleca {
 
@@ -29,17 +32,18 @@ double Mpc2z(double D) {
 	}
 }
 
-static double (*_Uniform)(double min, double max) = 0;
 
-void setUniformCallback(double (*uniform)(double min, double max)) {
-	_Uniform = uniform;
+void setSeed(long int seedval)
+{
+	if (seedval == 0)
+	{ // use system time
+		time(&seedval);
+	}
+	::srand48(seedval);
 }
 
+
 double Uniform(double min, double max) {
-	if (_Uniform)
-		return _Uniform(min, max);
-	else
-		//return crpropa::Random::instance().randUniform(min, max);
 		return min + (max - min) * ::drand48();
 }
 

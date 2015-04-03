@@ -18,41 +18,20 @@ except Exception as e:
 
 from crpropa import EeV
 
-class TestMagneticLens(unittest.TestCase):
-    def setUp(self):
-        self.magneticLens = crpropa.MagneticLens(5)
-        p = crpropa.Pixelization(5)
-        m = crpropa.ModelMatrix(p.nPix(5), p.nPix(5), p.nPix(5))
-        for i in range(p.nPix(5)):
-            theta = 0.
-            phi = 0.
-            [phiout, thetaout] = p.pix2Direction(i, phi, theta)
-            phiout += 0.4
-            if phiout > 3.14:
-                phiout -= 3.14
-            j = p.direction2Pix(phiout, thetaout)
-            m.setElement(i, j, 1)
-        self.magneticLens.setLensPart(m, 1 * EeV, 100 * EeV)
-
-    def test_transformCosmicRays(self):
-        phi = 0
-        theta = -0.01
-        [r, phi, theta] = self.magneticLens.transformCosmicRay(10. * EeV, phi,
-                                                               theta)
-        self.assertTrue(r)
-        self.assertFalse(theta == -0.01)
-
-    def test_transformModelVector_numpyArray(self):
-        import numpy
-        v = numpy.ones(self.magneticLens.getPixelization().nPix())
-        self.magneticLens.transformModelVector(v, 2 * EeV)
-
-    def test_accessToPixelization(self):
-        self.assertEquals(self.magneticLens.getPixelization().nPix(),
-                          self.magneticLens.getPixelization().nPix(5))
-
 
 class testPixelizationConsistency(unittest.TestCase):
+    def testPixelizationInterface(self):
+        p = crpropa.Pixelization(4)
+        rd = p.pix2Direction(42)
+        pix = p.direction2Pix(*rd)
+        self.assertEqual(pix, 42)
+
+        for i in range(p.getNumberOfPixels()):
+            rd = p.getRandomDirectionInPixel(i)
+            pix = p.direction2Pix(*rd)
+            self.assertEqual(pix, i)
+
+
     def testConsistencyWithHealpy(self):
         try:
             import healpy
@@ -93,6 +72,35 @@ class testParticleMapsContainer(unittest.TestCase):
         self.assertEqual(len(energies), 10)
         self.assertEqual(len(lons), 10)
         self.assertEqual(len(lats), 10)
+
+    def testGetRandomparticlesStatistic(self):
+        msg = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.0027)! You should rerun the test to make sure there is a bug."
+       
+        try:
+            import numpy as np
+        except:
+            print("Cannot import numpy. Not testing RandomParticles!")
+            return
+
+        self.maps.addParticle(12, 1*EeV, 0, 0, 1)
+        self.maps.addParticle(12, 10*EeV, 0, 0, 1000)
+        self.maps.addParticle(2, 1*EeV, 0, 0, 1000)
+        self.maps.addParticle(2, 10*EeV, 0, 0, 1)
+
+        Ntot = 10000
+        ids, energies, lons, lats = self.maps.getRandomParticles(Ntot)
+
+        n12 = len(np.where(ids == 12))
+        n2 = len(np.where(ids == 2))
+       
+        #we expect n12 = n2 = Ntot/2, with uncertainty sqrt(Ntot/2)
+        self.assertTrue( np.abs(n12 - n2) < 3. * np.sqrt(Ntot/2.), msg=msg)
+
+        #half of the sample should be with E =1 
+        nle = len(np.where(energies < 5E18)[0])
+        self.assertTrue( np.abs(nle - Ntot /2.) < 3. * np.sqrt(Ntot/2.), msg=msg)
+
+
 
 
 if __name__ == '__main__':

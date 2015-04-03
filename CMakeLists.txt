@@ -78,11 +78,13 @@ if (ENABLE_GALACTICMAGETICLENS)
 
 	# Eigen redux (provided)
 	list(APPEND CRPROPA_EXTRA_INCLUDES libs/eigen3)
+	install(DIRECTORY libs/eigen3/ DESTINATION include)
 
 	# healpix redux (provided)
 	add_subdirectory(libs/healpix_base)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES healpix_base)
 	list(APPEND CRPROPA_EXTRA_INCLUDES libs/healpix_base/include)
+	install(DIRECTORY libs/healpix_base/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 
 	list(APPEND CRPROPA_SWIG_DEFINES -DWITH_GALACTIC_LENSES)
 

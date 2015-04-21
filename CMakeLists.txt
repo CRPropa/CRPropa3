@@ -182,7 +182,7 @@ else(DISABLE_DOWNLOAD)
 
 	function(GET_DATA)
 	    message("Downloading from crpropa.desy.de ~ 60 MB")
-	    set(DATA_FILE ${CMAKE_SOURCE_DIR}/build/data.tar.gz)
+	    set(DATA_FILE ${CMAKE_BINARY_DIR}/data.tar.gz)
 	    
 	    if(APPLE)
 		execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
@@ -192,12 +192,12 @@ else(DISABLE_DOWNLOAD)
 	
 	
 	    message("Unpacking to CRPropa3/data\n")
-	    file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
-	    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/data)
+	    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
+	    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 	endfunction(GET_DATA)
 	
 	message("\nSearching for data archive")
-	find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/build)
+	find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 	if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
 	    message("File not found: data.tar.gz")
 	    GET_DATA()
@@ -321,7 +321,7 @@ add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 # ----------------------------------------------------------------------------
 # Testing

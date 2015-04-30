@@ -41,8 +41,8 @@ void ModuleList::beginRun() {
 		(*m)->beginRun();
 }
 
-void ModuleList::process(Candidate *candidate) {
-	module_list_t::iterator m;
+void ModuleList::process(Candidate *candidate) const {
+	module_list_t::const_iterator m;
 	for (m = modules.begin(); m != modules.end(); m++)
 		(*m)->process(candidate);
 }

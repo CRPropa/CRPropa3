@@ -141,11 +141,6 @@ EventOutput1D::~EventOutput1D() {
 }
 
 void EventOutput1D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	c->removeProperty("Detected");
-
 	char buffer[1024];
 	size_t p = 0;
 

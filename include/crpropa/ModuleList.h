@@ -14,7 +14,7 @@ namespace crpropa {
  @class ModuleList
  @brief The simulation itself: A list of simulation modules
  */
-class ModuleList: public Referenced {
+class ModuleList: public Module {
 public:
 	typedef std::list<ref_ptr<Module> > module_list_t;
 	typedef std::vector<ref_ptr<Candidate> > candidate_vector_t;
@@ -29,7 +29,7 @@ public:
 
 	void beginRun(); ///< call beginRun in all modules
 	void endRun(); ///< call endRun in all modules
-	void process(Candidate *candidate); ///< call process in all modules
+	void process(Candidate *candidate) const; ///< call process in all modules
 
 	void run(Candidate *candidate, bool recursive = true);
 	void run(candidate_vector_t &candidates, bool recursive = true);

@@ -5,9 +5,45 @@
 
 namespace crpropa {
 
-MaximumTrajectoryLength::MaximumTrajectoryLength(double maxLength,
-		std::string flag) :
-		maxLength(maxLength), flag(flag) {
+AbstractBreakCondition::AbstractBreakCondition() :
+		makeInactive(true), flagKey("Deactivated") {
+
+}
+
+void AbstractBreakCondition::processBreak(Candidate *candidate) const {
+	if (!candidate)
+		return;
+
+	if (breakAction.valid())
+		breakAction->process(candidate);
+
+	if (!flagKey.empty())
+		candidate->setProperty(flagKey, flagValue);
+
+	if (makeInactive)
+		candidate->setActive(false);
+}
+
+void AbstractBreakCondition::setMakeInactive(bool deactivate) {
+	makeInactive = deactivate;
+}
+
+void AbstractBreakCondition::onBreak(Module *action) {
+	breakAction = action;
+}
+
+void AbstractBreakCondition::setFlag(std::string key, std::string value) {
+	flagKey = key;
+	flagValue = value;
+}
+
+void AbstractBreakCondition::endRun() {
+	if (breakAction.valid())
+		breakAction->endRun();
+}
+
+MaximumTrajectoryLength::MaximumTrajectoryLength(double maxLength) :
+		maxLength(maxLength) {
 }
 
 void MaximumTrajectoryLength::setMaximumTrajectoryLength(double length) {
@@ -18,33 +54,27 @@ double MaximumTrajectoryLength::getMaximumTrajectoryLength() const {
 	return maxLength;
 }
 
-void MaximumTrajectoryLength::setFlag(std::string f) {
-	flag = f;
-}
-
-std::string MaximumTrajectoryLength::getFlag() const {
-	return flag;
-}
-
 std::string MaximumTrajectoryLength::getDescription() const {
 	std::stringstream s;
-	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc, flag: "
-			<< flag;
+	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc, ";
+	s << "Flag: '" << flagKey << "' -> '" << flagValue << "', ";
+	s << "MakeInactive: " << (makeInactive ? "yes" : "no");
+	if (breakAction.valid())
+		s << ", Action: " << breakAction->getDescription();
 	return s.str();
 }
 
 void MaximumTrajectoryLength::process(Candidate *c) const {
 	double l = c->getTrajectoryLength();
 	if (l >= maxLength) {
-		c->setActive(false);
-		c->setProperty(flag, getDescription());
+		processBreak(c);
 	} else {
 		c->limitNextStep(maxLength - l);
 	}
 }
 
-MinimumEnergy::MinimumEnergy(double minEnergy, std::string flag) :
-		minEnergy(minEnergy), flag(flag) {
+MinimumEnergy::MinimumEnergy(double minEnergy) :
+		minEnergy(minEnergy) {
 }
 
 void MinimumEnergy::setMinimumEnergy(double energy) {
@@ -55,29 +85,25 @@ double MinimumEnergy::getMinimumEnergy() const {
 	return minEnergy;
 }
 
-void MinimumEnergy::setFlag(std::string f) {
-	flag = f;
-}
-
-std::string MinimumEnergy::getFlag() const {
-	return flag;
-}
-
 void MinimumEnergy::process(Candidate *c) const {
 	if (c->current.getEnergy() > minEnergy)
 		return;
-	c->setActive(false);
-	c->setProperty(flag, getDescription());
+	else
+		processBreak(c);
 }
 
 std::string MinimumEnergy::getDescription() const {
 	std::stringstream s;
-	s << "Minimum energy: " << minEnergy / EeV << " EeV, flag: " << flag;
+	s << "Minimum energy: " << minEnergy / EeV << " EeV, ";
+	s << "Flag: '" << flagKey << "' -> '" << flagValue << "', ";
+	s << "MakeInactive: " << (makeInactive ? "yes" : "no");
+	if (breakAction.valid())
+		s << ", Action: " << breakAction->getDescription();
 	return s.str();
 }
 
-MinimumRedshift::MinimumRedshift(double zmin, std::string flag) :
-		zmin(zmin), flag(flag) {
+MinimumRedshift::MinimumRedshift(double zmin) :
+		zmin(zmin) {
 }
 
 void MinimumRedshift::setMinimumRedshift(double z) {
@@ -88,24 +114,20 @@ double MinimumRedshift::getMinimumRedshift() {
 	return zmin;
 }
 
-void MinimumRedshift::setFlag(std::string f) {
-	flag = f;
-}
-
-std::string MinimumRedshift::getFlag() const {
-	return flag;
-}
-
 void MinimumRedshift::process(Candidate* c) const {
 	if (c->getRedshift() > zmin)
 		return;
-	c->setActive(false);
-	c->setProperty(flag, getDescription());
+	else
+		processBreak(c);
 }
 
 std::string MinimumRedshift::getDescription() const {
 	std::stringstream s;
-	s << "Minimum redshift: " << zmin << ", flag: " << flag;
+	s << "Minimum redshift: " << zmin << ", ";
+	s << "Flag: '" << flagKey << "' -> '" << flagValue << "', ";
+	s << "Meactivate: " << makeInactive ? "yes" : "no";
+	if (breakAction.valid())
+		s << ", Action: " << breakAction->getDescription();
 	return s.str();
 }
 

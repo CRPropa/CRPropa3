@@ -1,7 +1,6 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
-#include <HepPID/ParticleIDMethods.hh>
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/PhotoDisintegration.h"

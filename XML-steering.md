@@ -7,7 +7,7 @@ To run a simulation execute
 
 For a complete list of xml settings, refer to the CRPropa 2 manual.
 
-##### Changes to CRPropa2 cards
+##### Changes from CRPropa2 cards
 Since CRPropa 2 does not fully enforce the XML-1.0 standard, a few modifications to existing XML cards can be necessary. 
  * XML-cards can have only one root node. The root node is
    ```

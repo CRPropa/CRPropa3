@@ -14,6 +14,7 @@
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
 
+#include <HepPID/ParticleIDMethods.hh>
 #include "gtest/gtest.h"
 
 namespace crpropa {

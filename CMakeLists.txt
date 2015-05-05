@@ -15,7 +15,7 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
-# Add buildtype for profiling 
+# Add buildtype for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
 
 # Set default build-type to release to enable performance improvements
@@ -177,25 +177,25 @@ if(DISABLE_DOWNLOAD)
 	message("Download of data files disabled")
 else(DISABLE_DOWNLOAD)
 
-	set(DATA_URL "https://crpropa.desy.de/images/e/e2/Data20141021.tar.gz")
-	set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
+	set(DATA_URL "https://crpropa.desy.de/images/4/44/Data20150505.tar.gz")
+	set(EXPECTED_MD5SUM "6df0b02c3140ed4caa47845d6cc15409")
 
 	function(GET_DATA)
 	    message("Downloading from crpropa.desy.de ~ 60 MB")
 	    set(DATA_FILE ${CMAKE_BINARY_DIR}/data.tar.gz)
-	    
+
 	    if(APPLE)
 		execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL})
-	    else()	
+	    else()
 	    	execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
 	    endif()
-	
-	
+
+
 	    message("Unpacking to CRPropa3/data\n")
 	    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 	    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 	endfunction(GET_DATA)
-	
+
 	message("\nSearching for data archive")
 	find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 	if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
@@ -207,7 +207,7 @@ else(DISABLE_DOWNLOAD)
 	    	execute_process(COMMAND md5 ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
 	    	string(LENGTH ${MD5SUM} MD5LENGTH)
 	    	MATH(EXPR START "${MD5LENGTH} - 33")
-	    	string(SUBSTRING ${MD5SUM} ${START} 32 MD5SUM)		     
+	    	string(SUBSTRING ${MD5SUM} ${START} 32 MD5SUM)
 	    else()
 		execute_process(COMMAND md5sum ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
 	    	string(SUBSTRING ${MD5SUM} 0 32 MD5SUM)
@@ -219,7 +219,7 @@ else(DISABLE_DOWNLOAD)
 	        GET_DATA()
 	    endif()
 	endif()
-endif(DISABLE_DOWNLOAD)	
+endif(DISABLE_DOWNLOAD)
 
 # ----------------------------------------------------------------------------
 # Library and Binary

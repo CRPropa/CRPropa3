@@ -17,19 +17,20 @@ static std::vector<double> sKneiske(b, b + sizeof(b) / sizeof(double));
 double photonFieldScaling(PhotonField photonField, double z) {
 	switch (photonField) {
 	case CMB:
-		return 1.; // CMB-like scaling
+		return 1; // CMB-like scaling
 	case IRB:
 	case IRB_Kneiske04:
-	case IRB_Kneiske10:
 	case IRB_Stecker05:
-	case IRB_Dole06:
-	        return interpolate(z, zKneiske, sKneiske);
 	case IRB_Franceschini08:
+	case IRB_Finke10:
+	case IRB_Dominguez11:
+	case IRB_Gilmore12:
+		return interpolate(z, zKneiske, sKneiske);
 	case IRB_withRedshift_Kneiske04:
-	case IRB_withRedshift_Franceschini08:   
-        case IRB_withRedshift_Finke10:
-        case IRB_withRedshift_Gilmore12:
-	        return 1;
+	case IRB_withRedshift_Franceschini08:
+	case IRB_withRedshift_Finke10:
+	case IRB_withRedshift_Gilmore12:
+		return 1;
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");
 	}

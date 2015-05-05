@@ -27,29 +27,34 @@ void PhotoDisintegration::setPhotonField(PhotonField photonField) {
 		break;
 	case IRB:  // default: Kneiske '04 IRB model
 	case IRB_Kneiske04:
-		setDescription("PhotoDisintegration: IRB Kneiske '04");
+		setDescription("PhotoDisintegration: IRB (Kneiske 2004)");
 		initRate(getDataPath("pd_IRB_Kneiske04.txt"));
 		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
 		break;
-	case IRB_Kneiske10:
-		setDescription("PhotoDisintegration: IRB Kneiske '10 (lower limit)");
-		initRate(getDataPath("pd_IRB_Kneiske10.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Kneiske10.txt"));
-		break;
 	case IRB_Stecker05:
-		setDescription("PhotoDisintegration: IRB Stecker '05");
+		setDescription("PhotoDisintegration: IRB (Stecker 2005)");
 		initRate(getDataPath("pd_IRB_Stecker05.txt"));
 		initBranching(getDataPath("pd_branching_IRB_Stecker05.txt"));
 		break;
-	case IRB_Dole06:
-		setDescription("PhotoDisintegration: IRB Dole '06");
-		initRate(getDataPath("pd_IRB_Dole06.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Dole06.txt"));
-		break;
 	case IRB_Franceschini08:
-		setDescription("PhotoDisintegration: IRB Franceschini '08");
+		setDescription("PhotoDisintegration: IRB (Franceschini 2008)");
 		initRate(getDataPath("pd_IRB_Franceschini08.txt"));
 		initBranching(getDataPath("pd_branching_IRB_Franceschini08.txt"));
+		break;
+	case IRB_Finke10:
+		setDescription("PhotoDisintegration: IRB (Finke 2010)");
+		initRate(getDataPath("pd_IRB_Finke10.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Finke10.txt"));
+		break;
+	case IRB_Dominguez11:
+		setDescription("PhotoDisintegration: IRB (Dominguez 2011)");
+		initRate(getDataPath("pd_IRB_Dominguez11.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Dominguez11.txt"));
+		break;
+	case IRB_Gilmore12:
+		setDescription("PhotoDisintegration: IRB (Gilmore 12)");
+		initRate(getDataPath("pd_IRB_Gilmore12.txt"));
+		initBranching(getDataPath("pd_branching_IRB_Gilmore12.txt"));
 		break;
 	default:
 		throw std::runtime_error(

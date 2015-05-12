@@ -6,22 +6,29 @@
 namespace crpropa {
 
 // Observer -------------------------------------------------------------------
-Observer::Observer(bool makeInactive) :
-		makeInactive(makeInactive) {
+Observer::Observer() :
+		makeInactive(true) {
 }
 
 void Observer::add(ObserverFeature *feature) {
 	features.push_back(feature);
 }
 
-void crpropa::Observer::beginRun() {
+void Observer::beginRun() {
 	for (int i = 0; i < features.size(); i++)
 		features[i]->beginRun();
 }
 
-void crpropa::Observer::endRun() {
+void Observer::endRun() {
 	for (int i = 0; i < features.size(); i++)
 		features[i]->endRun();
+
+	if (detectionAction.valid())
+		detectionAction->endRun();
+}
+
+void Observer::onDetection(Module *action) {
+	detectionAction = action;
 }
 
 void Observer::process(Candidate *candidate) const {
@@ -40,9 +47,20 @@ void Observer::process(Candidate *candidate) const {
 			features[i]->onDetection(candidate);
 		}
 
+		if (detectionAction.valid())
+			detectionAction->process(candidate);
+
+		if (!flagKey.empty())
+			candidate->setProperty(flagKey, flagValue);
+
 		if (makeInactive)
 			candidate->setActive(false);
 	}
+}
+
+void Observer::setFlag(std::string key, std::string value) {
+	flagKey = key;
+	flagValue = value;
 }
 
 std::string Observer::getDescription() const {
@@ -50,6 +68,11 @@ std::string Observer::getDescription() const {
 	ss << "Observer\n";
 	for (int i = 0; i < features.size(); i++)
 		ss << "    " << features[i]->getDescription() << "\n";
+	ss << "    Flag: '" << flagKey << "' -> '" << flagValue << "'\n";
+	ss << "    MakeInactive: " << (makeInactive ? "yes\n" : "no\n");
+	if (detectionAction.valid())
+		ss << "    Action: " << detectionAction->getDescription();
+
 	return ss.str();
 }
 
@@ -208,151 +231,6 @@ DetectionState ObserverPhotonVeto::checkDetection(Candidate *c) const {
 
 std::string ObserverPhotonVeto::getDescription() const {
 	return "ObserverPhotonVeto";
-}
-
-// ObserverOutput3D -----------------------------------------------------------
-ObserverOutput3D::ObserverOutput3D(std::string fname, bool legacy) :
-		legacy(legacy) {
-	description = "ObserverOutput3D: " + fname;
-	fout.open(fname.c_str());
-
-	if (legacy) {
-		fout << "#CRPropa - Output data file\n"
-		     << "#Format - Particle_Type "
-		     << "Initial_Particle_Type "
-		 	 << "Initial_Position[X,Y,Z](Mpc) "
-			 << "Initial_Momentum[E(EeV),theta,phi] "
-		     << "Time(Mpc, light travel distance) "
-		     << "Position[X,Y,Z](Mpc) "
-		     << "Momentum[E(EeV),theta,phi]\n";
-	} else {
-		fout << "# D\tID\tID0\tE\tE0\tX\tY\tZ\tX0\tY0\tZ0\tPx\tPy\tPz\tP0x\tP0y\tP0z\n"
-		     << "#\n"
-		     << "# D           Trajectory length [Mpc]\n"
-		     << "# ID          Particle type (PDG MC numbering scheme)\n"
-		     << "# E           Energy [EeV]\n"
-		     << "# X, Y, Z     Position [Mpc]\n"
-		     << "# Px, Py, Pz  Heading (unit vector of momentum)\n"
-		     << "# Initial state: ID0, E0, ...\n"
-		     << "#\n";
-	}
-}
-
-ObserverOutput3D::~ObserverOutput3D() {
-	fout.close();
-}
-
-void ObserverOutput3D::onDetection(Candidate *candidate) const {
-	char buffer[256];
-	size_t p = 0;
-
-	if (legacy) {
-		p += sprintf(buffer + p, "%i ",
-				convertToCRPropa2NucleusId(candidate->current.getId()));
-		p += sprintf(buffer + p, "%i ",
-				convertToCRPropa2NucleusId(candidate->source.getId()));
-		Vector3d ipos = candidate->source.getPosition() / Mpc;
-		p += sprintf(buffer + p, "%.4f %.4f %.4f ", ipos.x, ipos.y, ipos.z);
-		double iPhi = candidate->source.getDirection().getPhi();
-		double iTheta = candidate->source.getDirection().getTheta();
-		double iE = candidate->source.getEnergy() / EeV;
-		p += sprintf(buffer + p, "%.4f %.4f %.4f ", iE, iPhi, iTheta);
-		double t = comoving2LightTravelDistance(
-				candidate->getTrajectoryLength()) / Mpc;
-		p += sprintf(buffer + p, "%.4f ", t);
-		Vector3d pos = candidate->current.getPosition() / Mpc;
-		p += sprintf(buffer + p, "%.4f %.4f %.4f ", pos.x, pos.y, pos.z);
-		double phi = candidate->current.getDirection().getPhi();
-		double theta = candidate->current.getDirection().getTheta();
-		double E = candidate->current.getEnergy() / EeV;
-		p += sprintf(buffer + p, "%.4f %.4f %.4f\n", E, phi, theta);
-	} else {
-		p += sprintf(buffer + p, "%8.3f\t",
-				candidate->getTrajectoryLength() / Mpc);
-		p += sprintf(buffer + p, "%10i\t", candidate->current.getId());
-		p += sprintf(buffer + p, "%10i\t", candidate->source.getId());
-		p += sprintf(buffer + p, "%8.4f\t",
-				candidate->current.getEnergy() / EeV);
-		p += sprintf(buffer + p, "%8.4f\t",
-				candidate->source.getEnergy() / EeV);
-		Vector3d pos = candidate->current.getPosition() / Mpc;
-		p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", pos.x, pos.y, pos.z);
-		Vector3d ipos = candidate->source.getPosition() / Mpc;
-		p += sprintf(buffer + p, "%9.4f\t%9.4f\t%9.4f\t", ipos.x, ipos.y,
-				ipos.z);
-		Vector3d dir = candidate->current.getDirection();
-		p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", dir.x, dir.y, dir.z);
-		Vector3d idir = candidate->source.getDirection();
-		p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\n", idir.x, idir.y,
-				idir.z);
-	}
-
-#pragma omp critical
-	fout.write(buffer, p);
-}
-
-void ObserverOutput3D::endRun() {
-	fout.flush();
-}
-
-// ObserverOutput1D -----------------------------------------------------------
-ObserverOutput1D::ObserverOutput1D(std::string fname, bool legacy) :
-		legacy(legacy) {
-	description = "ObserverOutput1D: " + fname;
-	fout.open(fname.c_str());
-
-	if (legacy) {
-		fout << "#CRPropa - Output data file\n"
-		     << "#Format - Energy(EeV) "
-		     << "Time(Mpc, light travel distance) "
-		     << "Initial_Particle_Type "
-		     << "Initial_Energy(EeV)\n";
-	} else {
-		fout << "#ID\tE\tD\tID0\tE0\n"
-		     << "#\n"
-		     << "# ID  Particle type\n"
-		     << "# E   Energy [EeV]\n"
-		     << "# D   Comoving trajectory length [Mpc]\n"
-		     << "# ID0 Initial particle type\n"
-		     << "# E0  Initial energy [EeV]\n";
-	}
-}
-
-ObserverOutput1D::~ObserverOutput1D() {
-	fout.close();
-}
-
-void ObserverOutput1D::onDetection(Candidate *candidate) const {
-	char buffer[256];
-	size_t p = 0;
-
-	if (legacy) {
-		p += sprintf(buffer + p, "%i ",
-				convertToCRPropa2NucleusId(candidate->current.getId()));
-		p += sprintf(buffer + p, "%.4f ", candidate->current.getEnergy() / EeV);
-		double t = comoving2LightTravelDistance(
-				candidate->getTrajectoryLength()) / Mpc;
-		p += sprintf(buffer + p, "%.4f ", t);
-		p += sprintf(buffer + p, "%i ",
-				convertToCRPropa2NucleusId(candidate->source.getId()));
-		p += sprintf(buffer + p, "%.4f\n", candidate->source.getEnergy() / EeV);
-	} else {
-		p += sprintf(buffer + p, "%10i\t", candidate->current.getId());
-		p += sprintf(buffer + p, "%8.4f\t",
-				candidate->current.getEnergy() / EeV);
-		p += sprintf(buffer + p, "%9.4f\t",
-				candidate->getTrajectoryLength() / Mpc);
-		p += sprintf(buffer + p, "%10i\t", candidate->source.getId());
-		p += sprintf(buffer + p, "%8.4f\n",
-				candidate->source.getEnergy() / EeV);
-	}
-
-#pragma omp critical
-	fout.write(buffer, p);
-}
-
-void ObserverOutput1D::endRun() {
-	fout.flush();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

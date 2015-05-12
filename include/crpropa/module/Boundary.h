@@ -50,6 +50,30 @@ public:
 };
 
 /**
+ @class AbstractBoundary
+ @brief Abstract Module providing common features for boundary modules.
+ */
+class AbstractBoundary: public Module {
+protected:
+	ref_ptr<Module> outOfBoundsAction;
+	bool makeInactive;
+	std::string flagKey;
+	std::string flagValue;
+
+	void processOutOfBounds(Candidate *candidate) const;
+	inline void processOutOfBounds(ref_ptr<Candidate> candidate) const {
+		processOutOfBounds(candidate.get());
+	}
+
+public:
+	AbstractBoundary();
+	void onOutOfBounds(Module *action);
+	void setMakeInactive(bool makeInactive);
+	void setFlag(std::string flag, std::string flagValue);
+	void endRun();
+};
+
+/**
  @class CubicBoundary
  @brief Flags a particle when exiting the cube.
 
@@ -57,15 +81,12 @@ public:
  The particle is made inactive and by default is flagged "OutOfBounds".
  Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
  */
-class CubicBoundary: public Module {
+class CubicBoundary: public AbstractBoundary {
 private:
 	Vector3d origin;
 	double size;
 	double margin;
-	std::string flag;
-	std::string flagValue;
 	bool limitStep;
-
 public:
 	CubicBoundary();
 	CubicBoundary(Vector3d origin, double size);
@@ -74,7 +95,6 @@ public:
 	void setSize(double size);
 	void setMargin(double margin);
 	void setLimitStep(bool limitStep);
-	void setFlag(std::string flag, std::string flagValue);
 	std::string getDescription() const;
 };
 
@@ -86,13 +106,11 @@ public:
  The particle is made inactive and by default is flagged "OutOfBounds".
  Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
  */
-class SphericalBoundary: public Module {
+class SphericalBoundary: public AbstractBoundary {
 private:
 	Vector3d center;
 	double radius;
 	double margin;
-	std::string flag;
-	std::string flagValue;
 	bool limitStep;
 
 public:
@@ -103,7 +121,6 @@ public:
 	void setRadius(double size);
 	void setMargin(double margin);
 	void setLimitStep(bool limitStep);
-	void setFlag(std::string flag, std::string flagValue);
 	std::string getDescription() const;
 };
 
@@ -115,14 +132,12 @@ public:
  The particle is made inactive and by default is flagged "OutOfBounds".
  Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
  */
-class EllipsoidalBoundary: public Module {
+class EllipsoidalBoundary: public AbstractBoundary {
 private:
 	Vector3d focalPoint1;
 	Vector3d focalPoint2;
 	double majorAxis;
 	double margin;
-	std::string flag;
-	std::string flagValue;
 	bool limitStep;
 
 public:
@@ -134,7 +149,6 @@ public:
 	void setMajorAxis(double size);
 	void setMargin(double margin);
 	void setLimitStep(bool limitStep);
-	void setFlag(std::string flag, std::string flagValue);
 	std::string getDescription() const;
 };
 

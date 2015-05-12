@@ -26,11 +26,6 @@ CRPropa2ROOTEventOutput1D::~CRPropa2ROOTEventOutput1D() {
 }
 
 void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	c->removeProperty("Detected");
-
 	TThread::Lock();
 #pragma omp critical
 	{
@@ -94,11 +89,6 @@ CRPropa2ROOTEventOutput3D::~CRPropa2ROOTEventOutput3D() {
 }
 
 void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	c->removeProperty("Detected");
-
 	Vector3d ipos = c->source.getPosition();
 	Vector3d pos = c->current.getPosition();
 	TThread::Lock();
@@ -183,11 +173,6 @@ ROOTEventOutput1D::~ROOTEventOutput1D() {
 }
 
 void ROOTEventOutput1D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	c->removeProperty("Detected");
-
 	TThread::Lock();
 #pragma omp critical
 	{
@@ -292,11 +277,6 @@ ROOTEventOutput3D::~ROOTEventOutput3D() {
 }
 
 void ROOTEventOutput3D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	c->removeProperty("Detected");
-
 	TThread::Lock();
 #pragma omp critical
 	{

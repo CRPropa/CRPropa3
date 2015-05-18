@@ -24,10 +24,10 @@ Make sure the environment variables are set accordingly: E.g. for an installatio
 
 #### Recommended set-up
 
-There are different ways to install, set-up and use CRPropa, but for a common user case we can recommend the following one.
+There are different ways to install, set-up and use CRPropa, but for a common scenario we can recommend the following one.
 
 CRPropa is typically run on clusters where superuser access is not always available to a user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
-Hence, for the recommended way we will choose installation in user's space without privileged access to a system. Python provides the most flexible access to CRPropa features so in this case we will require Python and therefore SWIG. To avoid clashes with a system python and its libraries, we will use python's virtual environment for this set-up, too.
+Hence, for the recommended way we will choose installation in user's space without privileged access to a system. Python provides the most flexible access to CRPropa features so in this case we will require Python and therefore SWIG. To avoid clashes with a system python and its libraries, we will use python's virtual environment for this set-up.
 
 In this procedure there are few extra steps compared to the already given plain installation from source, but later this set-up will be a worthwhile.
 
@@ -60,17 +60,19 @@ In this procedure there are few extra steps compared to the already given plain 
 4. Compile and install CRPropa.
     ```
     git clone https://github.com/CRPropa/CRPropa3.git
+    cd CRPropa3
     mkdir build
     cd build
     CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR ..
     make
-    install
+    make install
     ```
 
 5. Add CRPropa to the virtualenv path.
     ```
     echo "export LD_LIBRARY_PATH=$CRPROPA_DIR/lib:\$LD_LIBRARY_PATH" >> $CRPROPA_DIR"/bin/activate"
     ```
+    Then `deactivate` and activate again virtualenv: `source $CRPROPA_DIR"/bin/activate"`.
 
 6. Check the set-up.
     ```
@@ -81,6 +83,8 @@ In this procedure there are few extra steps compared to the already given plain 
     ```
     'initTurbulence' in dir(crpropa)
     ```
+
+There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate described procedure.
 
 #### CMake flags
 We recommend using ccmake to view and set the options through the user interface.

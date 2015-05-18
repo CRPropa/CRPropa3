@@ -21,38 +21,66 @@ Make sure the environment variables are set accordingly: E.g. for an installatio
     export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
     export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
     ```
-### Recommended set-up
+
+#### Recommended set-up
 
 There are different ways to install, set-up and use CRPropa, but for a common user case we can recommend the following one.
 
-CRPropa is typically run on clusters where superuser access is not always available to a user. Besides that, it is easier to secure reproducibility of simulations in user controlled and clean environment.
-Hence, for the recommended way we will choose installation in user's space without privileged access to a system. To avoid clashes with system python and its libraries, we will use python's virtual environment for this set-up, too.
+CRPropa is typically run on clusters where superuser access is not always available to a user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
+Hence, for the recommended way we will choose installation in user's space without privileged access to a system. Python provides the most flexible access to CRPropa features so in this case we will require Python and therefore SWIG. To avoid clashes with a system python and its libraries, we will use python's virtual environment for this set-up, too.
 
-In this procedure there are few extra steps in compared to the already given plain installation from source, but later this set-up will be a worthwhile.
+In this procedure there are few extra steps compared to the already given plain installation from source, but later this set-up will be a worthwhile.
 
-0. Choose a location of the set-up and save it to env variable to avoid retyping:
-   ```CRPROPA_DIR=$HOME"/crpropa_virtenv"```
+1. Choose a location of the set-up and save it to env variable to avoid retyping:
+`CRPROPA_DIR=$HOME"/crpropa_virtenv"`
 
-1. Set-up python's virtual environment with virtualenv.
-
-If a virtualenv is not already installed on a system (try ```virtualenv``` command), download it first:
-    ```wget https://github.com/pypa/virtualenv/archive/develop.zip```
-un-zip it, and deploy new virtual environment:
-    ```unzip develop.zip
+2. Set-up python's virtual environment with a virtualenv.
+    If the virtualenv is not already installed on a system (try `virtualenv` command), download it and un-zip it:
+    ```
+    wget https://github.com/pypa/virtualenv/archive/develop.zip
+    unzip develop.zip
     python virtualenv-develop/virtualenv.py $CRPROPA_DIR --no-site-packages
-    ```    
+    ```
 
-2. Check for dependencies and install nesessary ones (see  [dependencies](#Dependencies) for details).
+    Or instead of all this, just `virtualenv $CRPROPA_DIR --no-site-packages` if there is system virtualenv available.
+    
+    Finally, activate virtualenv:
+    ```
+    source $CRPROPA_DIR"/bin/activate"
+    ```
 
+3. Check for dependencies and install required ones (see  [dependencies](#Dependencies) for details). During a compilation of dependency our prefix is needed:
+    ```
+    ./configure --prefix=$CRPROPA_DIR
+    make
+    make install
+    ```
+    To install python dependencies and libraries use `pip`. Example: `pip install numpy`.
 
-3. Compile and install CRPropa.
+4. Compile and install CRPropa.
+    ```
+    git clone https://github.com/CRPropa/CRPropa3.git
+    mkdir build
+    cd build
+    CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR ..
+    make
+    install
+    ```
 
+5. Add CRPropa to the virtualenv path.
+    ```
+    echo "export LD_LIBRARY_PATH=$CRPROPA_DIR/lib:\$LD_LIBRARY_PATH" >> $CRPROPA_DIR"/bin/activate"
+    ```
 
-4. Add CRPropa to the virtualenv path.
-
-
-5. Check the set-up.
-
+6. Check the set-up.
+    ```
+    python
+    import crpropa
+    ```
+    The last command must complete without any output. To check if dependencies are installed and linked correctly use this python command, for example in case of FFTW3:
+    ```
+    'initTurbulence' in dir(crpropa)
+    ```
 
 #### CMake flags
 We recommend using ccmake to view and set the options through the user interface.

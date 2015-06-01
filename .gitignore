@@ -1,5 +1,7 @@
 .*
 
+*~
+
 doc/*
 build/*
 data/*

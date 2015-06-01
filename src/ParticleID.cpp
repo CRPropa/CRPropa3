@@ -1,6 +1,9 @@
+#include <string>
+
 #include "crpropa/ParticleID.h"
 
 #include <HepPID/ParticleIDMethods.hh>
+#include <HepPID/ParticleName.hh>
 #include <kiss/convert.h>
 
 namespace crpropa {
@@ -50,5 +53,10 @@ int convertToCRPropa2NucleusId(int id) {
 	int A = massNumber(id);
 	return Z * 1000 + A;
 }
+
+std::string convertIdToName(int id) {
+    return HepPID::particleName(id);
+}
+
 
 }

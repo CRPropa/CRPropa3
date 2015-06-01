@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <string>
 
 namespace crpropa {
 
@@ -18,6 +19,9 @@ int chargeNumber(int id);
 int massNumber(int id);
 
 bool isNucleus(int id);
+
+/* Additional modules */
+std::string convertIdToName(int id); 
 
 /* CRPropa2.0 code scheme */
 int convertFromCRPropa2NucleusId(int id);

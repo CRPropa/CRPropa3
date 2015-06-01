@@ -27,28 +27,33 @@ void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 		break;
 	case IRB:  // default: Kneiske '04 IRB model
 	case IRB_Kneiske04:
-		setDescription("ElectronPairProduction: IRB Kneiske '04");
+		setDescription("ElectronPairProduction: IRB (Kneiske 2004)");
 		initRate(getDataPath("epp_IRB_Kneiske04.txt"));
 		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
-	case IRB_Kneiske10:
-		setDescription("ElectronPairProduction: IRB Kneiske '10 (lower limit)");
-		initRate(getDataPath("epp_IRB_Kneiske10.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
 	case IRB_Stecker05:
-		setDescription("ElectronPairProduction: IRB Stecker '05");
+		setDescription("ElectronPairProduction: IRB (Stecker 2005)");
 		initRate(getDataPath("epp_IRB_Stecker05.txt"));
 		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
-	case IRB_Dole06:
-		setDescription("ElectronPairProduction: IRB Dole '06");
-		initRate(getDataPath("epp_IRB_Dole06.txt"));
+	case IRB_Franceschini08:
+		setDescription("ElectronPairProduction: IRB (Franceschini 2008)");
+		initRate(getDataPath("epp_IRB_Franceschini08.txt"));
 		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
-	case IRB_Franceschini08:
-		setDescription("ElectronPairProduction: IRB Franceschini '08");
-		initRate(getDataPath("epp_IRB_Franceschini08.txt"));
+	case IRB_Finke10:
+		setDescription("ElectronPairProduction: IRB (Finke 2010)");
+		initRate(getDataPath("epp_IRB_Finke10.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
+	case IRB_Dominguez11:
+		setDescription("ElectronPairProduction: IRB (Dominguez 2011)");
+		initRate(getDataPath("epp_IRB_Dominguez11.txt"));
+		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
+		break;
+	case IRB_Gilmore12:
+		setDescription("ElectronPairProduction: IRB (Gilmore 2012)");
+		initRate(getDataPath("epp_IRB_Gilmore12.txt"));
 		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
 		break;
 	default:

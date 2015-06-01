@@ -28,16 +28,39 @@ for ix in range(n):
             Bz[ix, iy, iz] = b.z
 
 # Plot slice in position space
+i = 0  #n/2
+sxy = (Bx[:,:,i]**2 + By[:,:,i]**2 + Bz[:,:,i]**2)**.5
+sxz = (Bx[:,i,:]**2 + By[:,i,:]**2 + Bz[:,i,:]**2)**.5
+syz = (Bx[i,:,:]**2 + By[i,:,:]**2 + Bz[i,:,:]**2)**.5
+
 figure(figsize=(8,6))
-A1 = (Bx[:,:,n/2]**2 + By[:,:,n/2]**2 + Bz[:,:,n/2]**2)**.5
-im = imshow(A1, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
+im = imshow(sxy, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
 cbar = colorbar(im)
 cbar.set_label('$B/B_{rms}$')
 xlabel('$x$')
 ylabel('$y$')
 text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
-savefig('TurbulentGrid_slicePositionSpace.png', bbox_inches='tight')
+savefig('TurbulentGrid_slicePositionSpace_xy.png', bbox_inches='tight')
 
+figure(figsize=(8,6))
+im = imshow(sxz, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
+cbar = colorbar(im)
+cbar.set_label('$B/B_{rms}$')
+xlabel('$x$')
+ylabel('$z$')
+text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
+savefig('TurbulentGrid_slicePositionSpace_xz.png', bbox_inches='tight')
+
+figure(figsize=(8,6))
+im = imshow(syz, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
+cbar = colorbar(im)
+cbar.set_label('$B/B_{rms}$')
+xlabel('$y$')
+ylabel('$z$')
+text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
+savefig('TurbulentGrid_slicePositionSpace_yz.png', bbox_inches='tight')
+
+"""
 # Plot slice in configuration space
 figure()
 Bkx = fftshift(fftn(Bx))
@@ -71,8 +94,9 @@ grid()
 xlabel('$\log_{10}(B/B_{RMS}$)')
 ylabel('Rel. Frequency')
 brms = (mean( Bx**2 + By**2 + Bz**2 ))**.5
-bmean = abs(mean(Bx + By + Bz)) 
-text(0.95, 0.7, 'RMS = %.2f\nMean = %.2f'%(brms, bmean), ha='right', va='top', transform=gca().transAxes) 
+bmean = abs(mean(Bx + By + Bz))
+text(0.95, 0.7, 'RMS = %.2f\nMean = %.2f'%(brms, bmean), ha='right', va='top', transform=gca().transAxes)
 savefig('TurbulentGrid_amplitude.png', bbox_inches='tight')
 
 show()
+"""

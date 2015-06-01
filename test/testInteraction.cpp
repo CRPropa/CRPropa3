@@ -1,7 +1,6 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
-#include <HepPID/ParticleIDMethods.hh>
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/PhotoDisintegration.h"
@@ -12,6 +11,18 @@
 #include <fstream>
 
 namespace crpropa {
+
+// ElectronPairProduction -----------------------------------------------------
+TEST(ElectronPairProduction, allBackgrounds) {
+	// Test if interaction data files are loaded.
+	ElectronPairProduction epp1(CMB);
+	ElectronPairProduction epp2(IRB_Kneiske04);
+	ElectronPairProduction epp3(IRB_Stecker05);
+	ElectronPairProduction epp4(IRB_Franceschini08);
+	ElectronPairProduction epp5(IRB_Finke10);
+	ElectronPairProduction epp6(IRB_Dominguez11);
+	ElectronPairProduction epp7(IRB_Gilmore12);
+}
 
 TEST(ElectronPairProduction, energyDecreasing) {
 	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
@@ -122,6 +133,7 @@ TEST(ElectronPairProduction, valuesIRB) {
 	}
 }
 
+// NuclearDecay ---------------------------------------------------------------
 TEST(NuclearDecay, scandium44) {
 	// Test beta+ decay of 44Sc 44Ca.
 	// This test can stochastically fail.
@@ -223,10 +235,22 @@ TEST(NuclearDecay, thisIsNotNucleonic) {
 	EXPECT_EQ(10 * EeV, c.current.getEnergy());
 }
 
+// PhotoDisintegration --------------------------------------------------------
+TEST(PhotoDisintegration, allBackgrounds) {
+	// Test if interaction data files are loaded.
+	PhotoDisintegration pd1(CMB);
+	PhotoDisintegration pd2(IRB_Kneiske04);
+	PhotoDisintegration pd3(IRB_Stecker05);
+	PhotoDisintegration pd4(IRB_Franceschini08);
+	PhotoDisintegration pd5(IRB_Finke10);
+	PhotoDisintegration pd6(IRB_Dominguez11);
+	PhotoDisintegration pd7(IRB_Gilmore12);
+}
+
 TEST(PhotoDisintegration, carbon) {
 	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
 	// This test can stochastically fail if no interaction occurs over 50 Mpc.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(CMB);
 	Candidate c;
 	int id = nucleusId(12, 6);
 	c.current.setId(id);
@@ -337,10 +361,24 @@ TEST(PhotoDisintegration, allIsotopes) {
 	}
 }
 
-TEST(PhotoPionProduction, backgrounds) {
+// PhotoPionProduction --------------------------------------------------------
+TEST(PhotoPionProduction, allBackgrounds) {
 	// Test if interaction data files are loaded.
 	PhotoPionProduction ppp1(CMB);
-	PhotoPionProduction ppp2(IRB);
+	PhotoPionProduction ppp2(IRB_Kneiske04);
+	PhotoPionProduction ppp3(IRB_Stecker05);
+	PhotoPionProduction ppp4(IRB_Franceschini08);
+	PhotoPionProduction ppp5(IRB_Finke10);
+	PhotoPionProduction ppp6(IRB_Dominguez11);
+	PhotoPionProduction ppp7(IRB_Gilmore12);
+}
+
+TEST(PhotoPionProduction, allBackgroundsWithEvolution) {
+	// Test if interaction data files are loaded.
+	PhotoPionProduction ppp1(IRB_withRedshift_Kneiske04);
+	PhotoPionProduction ppp2(IRB_withRedshift_Franceschini08);
+	PhotoPionProduction ppp3(IRB_withRedshift_Finke10);
+	PhotoPionProduction ppp4(IRB_withRedshift_Gilmore12);
 }
 
 TEST(PhotoPionProduction, proton) {
@@ -429,6 +467,7 @@ TEST(PhotoPionProduction, withSecondaries) {
 	EXPECT_GT(c.secondaries.size(), 1);
 }
 
+// Redshift -------------------------------------------------------------------
 TEST(Redshift, simpleTest) {
 	// Test if redshift is decreased and adiabatic energy loss is applied.
 	Redshift redshift;
@@ -454,21 +493,6 @@ TEST(Redshift, limitRedshiftDecrease) {
 	redshift.process(&c);
 	EXPECT_DOUBLE_EQ(0, c.getRedshift());
 }
-
-
-TEST(PIDdigit, consistencyWithReferenceImplementation){
-	// Tests the performance improved version against the default one
-	unsigned long testPID = rand() % 1000000000 + 1000000000;
-	for(size_t i=1; i < 8; i++)
-	{
-		HepPID::location loc = (HepPID::location) i;
-		unsigned short newResult = HepPID::digit(loc, testPID);
-		//original implementation
-		int numerator = (int) std::pow(10.0,(loc-1));
-		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
-	}
-}
-
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

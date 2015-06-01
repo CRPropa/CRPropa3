@@ -43,7 +43,7 @@ void PhotoPionProduction::setHaveAntiNucleons(bool b) {
 }
 
 void PhotoPionProduction::setDoRedshiftDependent(bool b) {
-        doRedshiftDependent = b;
+	doRedshiftDependent = b;
 }
 
 void PhotoPionProduction::setLimit(double l) {
@@ -52,55 +52,64 @@ void PhotoPionProduction::setLimit(double l) {
 
 void PhotoPionProduction::init() {
 	switch (photonField) {
-	case CMB:	
-	        doRedshiftDependent = false;
+	case CMB:
+		doRedshiftDependent = false;
 		setDescription("PhotoPionProduction: CMB");
 		init(getDataPath("ppp_CMB.txt"));
 		break;
 	case IRB: // default: Kneiske '04 IRB model
-	case IRB_Kneiske04:	
-                doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB Kneiske '04");
+	case IRB_Kneiske04:
+		doRedshiftDependent = false;
+		setDescription("PhotoPionProduction: IRB (Kneiske 2004)");
 		init(getDataPath("ppp_IRB_Kneiske04.txt"));
 		break;
-	case IRB_Kneiske10:
-                doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB Kneiske '10 (lower limit)");
-		init(getDataPath("ppp_IRB_Kneiske10.txt"));
-		break;
-	case IRB_Stecker05: 
-	        doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB Stecker '05");
+	case IRB_Stecker05:
+		doRedshiftDependent = false;
+		setDescription("PhotoPionProduction: IRB (Stecker 2005)");
 		init(getDataPath("ppp_IRB_Stecker05.txt"));
 		break;
-	case IRB_Dole06:   
-                doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB Dole '06");
-		init(getDataPath("ppp_IRB_Dole06.txt"));
-		break;
-	case IRB_Franceschini08: 
-                doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB Franceschini '08");
+	case IRB_Franceschini08:
+		doRedshiftDependent = false;
+		setDescription("PhotoPionProduction: IRB (Franceschini 2008)");
 		init(getDataPath("ppp_IRB_Franceschini08.txt"));
+		break;
+	case IRB_Finke10:
+		doRedshiftDependent = false;
+		setDescription("PhotoPionProduction: IRB (Finke 2010)");
+		init(getDataPath("ppp_IRB_Finke10.txt"));
+		break;
+	case IRB_Dominguez11:
+		doRedshiftDependent = false;
+		setDescription("PhotoPionProduction: IRB (Dominguez 2011)");
+		init(getDataPath("ppp_IRB_Dominguez11.txt"));
+		break;
+	case IRB_Gilmore12:
+		doRedshiftDependent = false;
+		setDescription("PhotoPionProduction: IRB (Gilmore 2012)");
+		init(getDataPath("ppp_IRB_Gilmore12.txt"));
 		break;
 	case IRB_withRedshift_Kneiske04:
 		doRedshiftDependent = true;
-		setDescription("PhotoPionProduction: IRB evolving with redshift Kneiske '04");
+		setDescription(
+				"PhotoPionProduction: IRB (Kneiske 2004), redshift dependent shape");
 		init(getDataPath("ppp_IRBz_Kneiske04.txt"));
 		break;
-        case IRB_withRedshift_Franceschini08:
+	case IRB_withRedshift_Franceschini08:
 		doRedshiftDependent = true;
-		setDescription("PhotoPionProduction: IRB evolving with redshift Franceschini '08");
+		setDescription(
+				"PhotoPionProduction: IRB (Franceschini 2008), redshift dependent shape");
 		init(getDataPath("ppp_IRBz_Franceschini08.txt"));
 		break;
-        case IRB_withRedshift_Finke10:
+	case IRB_withRedshift_Finke10:
 		doRedshiftDependent = true;
-		setDescription("PhotoPionProduction: IRB evolving with redshift Finke '10");
+		setDescription(
+				"PhotoPionProduction: IRB (Finke 2010), redshift dependent shape");
 		init(getDataPath("ppp_IRBz_Finke10.txt"));
 		break;
-        case IRB_withRedshift_Gilmore12:
+	case IRB_withRedshift_Gilmore12:
 		doRedshiftDependent = true;
-		setDescription("PhotoPionProduction: IRB evolving with redshift Gimore '12");
+		setDescription(
+				"PhotoPionProduction: IRB (Gilmore 2012), redshift dependent shape");
 		init(getDataPath("ppp_IRBz_Gilmore12.txt"));
 		break;
 	default:
@@ -192,7 +201,9 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		double rate;
 		if (Z > 0) {
 			if (doRedshiftDependent)
-				rate = scaling * interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+				rate = scaling
+						* interpolate2d(z, gamma, tabRedshifts, tabLorentz,
+								tabProtonRate);
 			else
 				rate = scaling * interpolate(gamma, tabLorentz, tabProtonRate);
 			rate *= nucleiModification(A, Z);
@@ -204,7 +215,9 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 		// check for interaction on neutrons
 		if (N > 0) {
 			if (doRedshiftDependent)
-				rate = scaling * interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+				rate = scaling
+						* interpolate2d(z, gamma, tabRedshifts, tabLorentz,
+								tabNeutronRate);
 			else
 				rate = scaling * interpolate(gamma, tabLorentz, tabNeutronRate);
 			rate *= nucleiModification(A, N);

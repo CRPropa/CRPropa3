@@ -2,34 +2,74 @@
 #include "crpropa/Common.h"
 
 #include <vector>
+#include <fstream>
 #include <stdexcept>
+#include <limits>
 
 namespace crpropa {
 
-// Overall redshift scaling of the Kneiske et al. 2004 IRB, astro-ph/0309141
-// The scaling is calculated in data-tools/PhotonField/Kneiske2004_IRB_scaling.py
-double a[10] = { -1, 0, 0.2, 0.4, 0.6, 1, 2, 3, 4, 5 };
-static std::vector<double> zKneiske(a, a + sizeof(a) / sizeof(double));
-double b[10] = { 1.250665, 1., 0.9749867, 0.93999977, 0.88430409, 0.64952017,
-		0.27170436, 0.130244, 0.05971749, 0. };
-static std::vector<double> sKneiske(b, b + sizeof(b) / sizeof(double));
+// Class to handle global evolution of IRB models (cf. CRPropa3-data/calc_scaling.py)
+struct PhotonFieldScaling {
+	std::vector<double> tab_z;
+	std::vector<double> tab_s;
+
+	PhotonFieldScaling(std::string filename) {
+		std::string path = getDataPath(filename);
+		std::ifstream infile(path.c_str());
+
+		if (!infile.good())
+			throw std::runtime_error(
+					"crpropa: could not open file " + filename);
+
+		double z, s;
+		while (infile.good()) {
+			if (infile.peek() != '#') {
+				infile >> z >> s;
+				tab_z.push_back(z);
+				tab_s.push_back(s);
+			}
+			infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+
+		infile.close();
+	}
+
+	double scalingFactor(double z) {
+		if (z > tab_z.back())
+			return 0;  // zero photon background beyond maximum tabulated value
+		return interpolate(z, tab_z, tab_s);
+	}
+};
+
+static PhotonFieldScaling scalingKneiske04("scaling_Kneiske04.txt");
+static PhotonFieldScaling scalingStecker05("scaling_Stecker05.txt");
+static PhotonFieldScaling scalingFranceschini08("scaling_Franceschini08.txt");
+static PhotonFieldScaling scalingFinke10("scaling_Finke10.txt");
+static PhotonFieldScaling scalingDominguez11("scaling_Dominguez11.txt");
+static PhotonFieldScaling scalingGilmore12("scaling_Gilmore12.txt");
 
 double photonFieldScaling(PhotonField photonField, double z) {
 	switch (photonField) {
 	case CMB:
-		return 1.; // CMB-like scaling
+		return 1; // CMB-like scaling
 	case IRB:
 	case IRB_Kneiske04:
-	case IRB_Kneiske10:
+		return scalingKneiske04.scalingFactor(z);
 	case IRB_Stecker05:
-	case IRB_Dole06:
-	        return interpolate(z, zKneiske, sKneiske);
+		return scalingStecker05.scalingFactor(z);
 	case IRB_Franceschini08:
+		return scalingFranceschini08.scalingFactor(z);
+	case IRB_Finke10:
+		return scalingFinke10.scalingFactor(z);
+	case IRB_Dominguez11:
+		return scalingDominguez11.scalingFactor(z);
+	case IRB_Gilmore12:
+		return scalingGilmore12.scalingFactor(z);
 	case IRB_withRedshift_Kneiske04:
-	case IRB_withRedshift_Franceschini08:   
-        case IRB_withRedshift_Finke10:
-        case IRB_withRedshift_Gilmore12:
-	        return 1;
+	case IRB_withRedshift_Franceschini08:
+	case IRB_withRedshift_Finke10:
+	case IRB_withRedshift_Gilmore12:
+		return 1;  // no global evolution factor needed
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");
 	}

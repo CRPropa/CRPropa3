@@ -14,6 +14,7 @@
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
 
+#include <HepPID/ParticleIDMethods.hh>
 #include "gtest/gtest.h"
 
 namespace crpropa {
@@ -229,6 +230,19 @@ TEST(NucleusId, crpropaScheme) {
 	// test conversion to and from the CRPropa2 naming scheme
 	EXPECT_EQ(nucleusId(56, 26), convertFromCRPropa2NucleusId(26056));
 	EXPECT_EQ(26056, convertToCRPropa2NucleusId(nucleusId(56, 26)));
+}
+
+TEST(PIDdigit, consistencyWithReferenceImplementation){
+	// Tests the performance improved version against the default one
+	unsigned long testPID = rand() % 1000000000 + 1000000000;
+	for(size_t i=1; i < 8; i++)
+	{
+		HepPID::location loc = (HepPID::location) i;
+		unsigned short newResult = HepPID::digit(loc, testPID);
+		//original implementation
+		int numerator = (int) std::pow(10.0,(loc-1));
+		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
+	}
 }
 
 TEST(Random, seed) {

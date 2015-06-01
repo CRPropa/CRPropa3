@@ -1,4 +1,20 @@
+/* CRPropa3 SWIG interface (for Python) */
+
+/* Content:
+ *
+ * 1. SWIG settings and workarounds
+ * 2. SWIG and CRPropa headers
+ * 3. Pretty print for Python
+ * 4. Magnetic Lens
+ * 5. Particle Maps Container
+ *
+ */
+
+
+/* 1. SWIG settings and workarounds */
+
 %module(directors="1") crpropa
+
 %feature("autodoc", "1"); // automatic docstrings
 
 %{
@@ -6,6 +22,26 @@
 #include <cstddef>
 using std::ptrdiff_t;
 %}
+
+%exception
+{
+ try
+ {
+   $action
+ }
+ catch (Swig::DirectorException &e) {
+   SWIG_exception(SWIG_RuntimeError, e.getMessage());
+ }
+ catch (const std::exception& e) {
+   SWIG_exception(SWIG_RuntimeError, e.what());
+ }
+ catch (const char *e) {
+   SWIG_exception(SWIG_RuntimeError, e);
+ }
+}
+
+
+/* 2: SWIG and CRPropa headers */
 
 %include stl.i
 %include std_set.i
@@ -19,8 +55,6 @@ using std::ptrdiff_t;
 %include stdint.i
 %include std_container.i
 %include "exception.i"
-
-
 
 #ifdef CRPROPA_HAVE_QUIMBY
 %import (module="quimby") quimby.i
@@ -73,23 +107,10 @@ using std::ptrdiff_t;
 #include "crpropa/GridTools.h"
 %}
 
-
-%exception
-{
- try
- {
-   $action
- }
- catch (Swig::DirectorException &e) {
-   SWIG_exception(SWIG_RuntimeError, e.getMessage());
- }
- catch (const std::exception& e) {
-   SWIG_exception(SWIG_RuntimeError, e.what());
- }
- catch (const char *e) {
-   SWIG_exception(SWIG_RuntimeError, e);
- }
-}
+%{
+#include <iostream>
+#include <iomanip>
+%}
 
 %ignore operator<<;
 %ignore operator>>;
@@ -108,8 +129,7 @@ using std::ptrdiff_t;
 
 
 %include "crpropa/Vector3.h"
-%template(Vector3d) crpropa::Vector3<double>;
-%template(Vector3f) crpropa::Vector3<float>;
+
 
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
@@ -182,60 +202,88 @@ using std::ptrdiff_t;
 %include "crpropa/ModuleList.h"
 
 
-// pretty print
+/* 3. Pretty print for Python */
+/*  __repr__ << getDescription */
+
+%define __REPR__( classname ) 
+%feature("python:slot", "tp_str", functype="reprfunc") classname::repr();
+%feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
+
+%extend classname {
+        const std::string repr() {
+            return $self->getDescription();
+        }
+}
+
+%enddef
+
+%define VECTOR3__REPR__( classname ) 
+%feature("python:slot", "tp_str", functype="reprfunc") classname::repr();
+%feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
+
+%extend classname {
+        const std::string repr() {
+            std::ostringstream buffer;
+            buffer << "Vector( ";
+            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << ", ";
+            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << ", ";
+            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << " )";
+            return buffer.str();
+        }
+}
+
+%enddef
+
+__REPR__( crpropa::ParticleState );
+__REPR__( crpropa::Candidate );
+__REPR__( crpropa::Module );
+__REPR__( crpropa::ModuleList );
+
+__REPR__( crpropa::Source );
+
+__REPR__( crpropa::SourceList );
+__REPR__( crpropa::SourceParticleType );
+__REPR__( crpropa::SourceMultipleParticleTypes );
+__REPR__( crpropa::SourceEnergy );
+__REPR__( crpropa::SourcePowerLawSpectrum );
+__REPR__( crpropa::SourceMultiplePositions );
+__REPR__( crpropa::SourceComposition );
+__REPR__( crpropa::SourcePosition );
+__REPR__( crpropa::SourceUniform1D );
+__REPR__( crpropa::SourceUniformBox );
+__REPR__( crpropa::SourceUniformShell );
+__REPR__( crpropa::SourceUniformSphere );
+__REPR__( crpropa::SourceDensityGrid );
+__REPR__( crpropa::SourceDensityGrid1D );
+__REPR__( crpropa::SourceDirection );
+__REPR__( crpropa::SourceIsotropicEmission );
+__REPR__( crpropa::SourceEmissionCone );
+__REPR__( crpropa::SourceRedshift );
+__REPR__( crpropa::SourceRedshift1D );
+__REPR__( crpropa::SourceUniformRedshift );
+
+__REPR__( crpropa::Observer );
+__REPR__( crpropa::ObserverPoint );
+__REPR__( crpropa::ObserverSmallSphere );
+__REPR__( crpropa::ObserverLargeSphere );
+__REPR__( crpropa::ObserverRedshiftWindow );
+__REPR__( crpropa::ObserverNucleusVeto );
+__REPR__( crpropa::ObserverNeutrinoVeto );
+__REPR__( crpropa::ObserverPhotonVeto );
+__REPR__( crpropa::ObserverOutput1D );
+__REPR__( crpropa::ObserverOutput3D );
+
+VECTOR3__REPR__( crpropa::Vector3 );
+
+%template(Vector3d) crpropa::Vector3<double>;
+%template(Vector3f) crpropa::Vector3<float>;
+
 %pythoncode %{
-ParticleState.__repr__ = ParticleState.getDescription
-Candidate.__repr__ = Candidate.getDescription
-
-Module.__repr__ = Module.getDescription
-ModuleList.__repr__ = ModuleList.getDescription
-
-Source.__repr__ = Source.getDescription
-SourceList.__repr__ = SourceList.getDescription
-SourceParticleType.__repr__ = SourceParticleType.getDescription
-SourceMultipleParticleTypes.__repr__ = SourceMultipleParticleTypes.getDescription
-SourceEnergy.__repr__ = SourceEnergy.getDescription
-SourcePowerLawSpectrum.__repr__ = SourcePowerLawSpectrum.getDescription
-SourceMultiplePositions.__repr__ = SourceMultiplePositions.getDescription
-SourceComposition.__repr__ = SourceComposition.getDescription
-SourcePosition.__repr__ = SourcePosition.getDescription
-SourceUniform1D.__repr__ = SourceUniform1D.getDescription
-SourceUniformBox.__repr__ = SourceUniformBox.getDescription
-SourceUniformShell.__repr__ = SourceUniformShell.getDescription
-SourceUniformSphere.__repr__ = SourceUniformSphere.getDescription
-SourceDensityGrid.__repr__ = SourceDensityGrid.getDescription
-SourceDensityGrid1D.__repr__ = SourceDensityGrid1D.getDescription
-SourceDirection.__repr__ = SourceDirection.getDescription
-SourceIsotropicEmission.__repr__ = SourceIsotropicEmission.getDescription
-SourceEmissionCone.__repr__ = SourceEmissionCone.getDescription
-SourceRedshift.__repr__ = SourceRedshift.getDescription
-SourceRedshift1D.__repr__ = SourceRedshift1D.getDescription
-SourceUniformRedshift.__repr__ = SourceUniformRedshift.getDescription
-
-Observer.__repr__ = Observer.getDescription
-ObserverPoint.__repr__ = ObserverPoint.getDescription
-ObserverSmallSphere.__repr__ = ObserverSmallSphere.getDescription
-ObserverLargeSphere.__repr__ = ObserverLargeSphere.getDescription
-ObserverRedshiftWindow.__repr__ = ObserverRedshiftWindow.getDescription
-ObserverNucleusVeto.__repr__ = ObserverNucleusVeto.getDescription
-ObserverNeutrinoVeto.__repr__ = ObserverNeutrinoVeto.getDescription
-ObserverPhotonVeto.__repr__ = ObserverPhotonVeto.getDescription
-ObserverOutput1D.__repr__ = ObserverOutput1D.getDescription
-ObserverOutput3D.__repr__ = ObserverOutput3D.getDescription
-
-def Vector3__repr__(self):
-    return "Vector(%.3g, %.3g, %.3g)" % (self.x, self.y, self.z)
-Vector3d.__repr__ = Vector3__repr__
-Vector3f.__repr__ = Vector3__repr__
-
-DeflectionCK = PropagationCK  # legacy name
-
+    DeflectionCK = PropagationCK  # legacy name
 %}
 
 
-/*
- * MagneticLens
- */
+/* 4. Magnetic Lens */
 
 #ifdef WITHNUMPY
 %{
@@ -290,17 +338,22 @@ __WITHNUMPY = False
   %append_output(PyFloat_FromDouble(*$1));
 }
 
-%ignore Pixelization::nPix();
+
 
 %include "crpropa/magneticLens/Pixelization.h"
+
+%ignore crpropa::Pixelization::nPix( uint8_t order );
+
 %pythoncode %{
-def Pixelization_nonStaticnPix(self, order=None):
-  if order == None:
-    return Pixelization_nPix(self.getOrder())
-  else:
-    return Pixelization_nPix(order)
-Pixelization.nPix = Pixelization_nonStaticnPix
+class Pixelization(Pixelization):
+    def nPix(self, order=None):
+      if order == None:
+        return Pixelization_nPix(self.getOrder())
+      else:
+        return Pixelization_nPix(order)
 %}
+
+
 
 %apply double &INOUT {double &phi, double &theta};
 %ignore MagneticLens::transformModelVector(double *,double) const;
@@ -341,9 +394,12 @@ Pixelization.nPix = Pixelization_nonStaticnPix
 #endif
 
 %pythoncode %{
-MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
+class MagneticLens(MagneticLens):
+        transformModelVector = MagneticLens.transformModelVector_numpyArray
 %}
 
+
+/* 5. Particle Maps Container */
 
 %ignore ParticleMapsContainer::getMap;
 %ignore ParticleMapsContainer::getParticleIds;
@@ -444,10 +500,12 @@ MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
 #endif // with numpy
 
 %pythoncode %{
-ParticleMapsContainer.getMap = ParticleMapsContainer.getMap_numpyArray
-ParticleMapsContainer.getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
-ParticleMapsContainer.getEnergies = ParticleMapsContainer.getEnergies_numpyArray
-ParticleMapsContainer.getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
+class ParticleMapsContainer( ParticleMapsContainer ):
+    getParticleMap = ParticleMapsContainer.getMap_numpyArray
+    getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
+    getEnergies = ParticleMapsContainer.getEnergies_numpyArray
+    getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
 %}
+
 #endif // WITH_GALACTIC_LENSES_
 

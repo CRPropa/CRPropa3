@@ -47,9 +47,9 @@ void Observer::process(Candidate *candidate) const {
 
 std::string Observer::getDescription() const {
 	std::stringstream ss;
-	ss << "Observer\n";
+	ss << "Observer";
 	for (int i = 0; i < features.size(); i++)
-		ss << "    " << features[i]->getDescription() << "\n";
+		ss << "\n    " << features[i]->getDescription();
 	return ss.str();
 }
 

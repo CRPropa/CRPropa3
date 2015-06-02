@@ -110,7 +110,7 @@ cmake -DENABLE_PYTHON=ON ..
 + Fortran Compiler: to compile SOPHIA
 
 Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
-+ Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 2.0)
++ Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 2.0.4)
 + ROOT: for ROOT output
 + FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
 + Gadget: magnetic fields for large scale structure data

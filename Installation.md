@@ -36,7 +36,7 @@ In this procedure there are few extra steps compared to the already given plain 
 
 2. Set-up python's virtual environment with a virtualenv.
     If the virtualenv is not already installed on a system (try `virtualenv` command), download it and un-zip it:
-    ```
+    ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip
     unzip develop.zip
     python virtualenv-develop/virtualenv.py $CRPROPA_DIR --no-site-packages
@@ -45,12 +45,12 @@ In this procedure there are few extra steps compared to the already given plain 
     Or instead of all this, just `virtualenv $CRPROPA_DIR --no-site-packages` if there is system virtualenv available.
     
     Finally, activate virtualenv:
-    ```
+    ```sh
     source $CRPROPA_DIR"/bin/activate"
     ```
 
 3. Check for dependencies and install required ones (see  [dependencies](#Dependencies) for details). During a compilation of dependency our prefix is needed:
-    ```
+    ```sh
     ./configure --prefix=$CRPROPA_DIR
     make
     make install
@@ -58,7 +58,7 @@ In this procedure there are few extra steps compared to the already given plain 
     To install python dependencies and libraries use `pip`. Example: `pip install numpy`.
 
 4. Compile and install CRPropa.
-    ```
+    ```sh
     git clone https://github.com/CRPropa/CRPropa3.git
     cd CRPropa3
     mkdir build
@@ -69,18 +69,18 @@ In this procedure there are few extra steps compared to the already given plain 
     ```
 
 5. Add CRPropa to the virtualenv path.
-    ```
+    ```sh
     echo "export LD_LIBRARY_PATH=$CRPROPA_DIR/lib:\$LD_LIBRARY_PATH" >> $CRPROPA_DIR"/bin/activate"
     ```
     Then `deactivate` and activate again virtualenv: `source $CRPROPA_DIR"/bin/activate"`.
 
 6. Check the set-up.
-    ```
+    ```python
     python
     import crpropa
     ```
     The last command must complete without any output. To check if dependencies are installed and linked correctly use this python command, for example in case of FFTW3:
-    ```
+    ```python
     'initTurbulence' in dir(crpropa)
     ```
 

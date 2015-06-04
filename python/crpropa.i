@@ -105,6 +105,8 @@ using std::ptrdiff_t;
 #include "crpropa/PhotonPropagation.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+
+#include "crpropa/Version.h"
 %}
 
 %{
@@ -201,6 +203,10 @@ using std::ptrdiff_t;
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 
+%include "crpropa/Version.h"
+%pythoncode %{
+    __version__ = g_GIT_DESC 
+%}
 
 /* 3. Pretty print for Python */
 /*  __repr__ << getDescription */

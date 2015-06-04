@@ -26,6 +26,18 @@ MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 
 
 # ----------------------------------------------------------------------------
+# Version info from Git
+# ----------------------------------------------------------------------------
+# Embeded version info to the binaries for easier debugging 
+# and with the reproducibility in mind
+include(GetGitRevisionDescription)
+get_git_head_revision(GIT_REFSPEC GIT_SHA1)
+git_describe(GIT_DESC)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp" @ONLY)
+list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
+
+# ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
 # googletest (provided, see https://code.google.com/p/googletest/wiki/FAQ

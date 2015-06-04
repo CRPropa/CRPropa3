@@ -1,0 +1,8 @@
+#include "crpropa/Version.h"
+
+#define GIT_SHA1 "@GIT_SHA1@"
+#define GIT_REFSPEC "@GIT_REFSPEC@"
+#define GIT_DESC "@GIT_DESC@"
+const char g_GIT_SHA1[] = GIT_SHA1;
+const char g_GIT_REFSPEC[] = GIT_REFSPEC;
+const char g_GIT_DESC[] = GIT_DESC;

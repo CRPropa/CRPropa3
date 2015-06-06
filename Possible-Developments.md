@@ -19,3 +19,5 @@ Since EleCa is a MC code for individual photons, the functionality could be dire
 * **Inverse propagation**: Inverting the stochastic interactions and continuous energy losses would allow back-propagating observed cosmic rays through extragalactic space.
 
 * **Synergies with Geant4** Geant4 basically provides the same physics as CRPropa, allowing for comparisons and possible technical/physical improvements. Additionally, event biasing techniques that are used in Geant could allow for more efficient MC sampling.
+
+* **Replacement of SOPHIA** SOPHIA (PhotoPionProduction module) is generally the slowest part of CRPropa so it should be replaced with tabular data or some other idea.

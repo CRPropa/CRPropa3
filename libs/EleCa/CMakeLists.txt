@@ -10,4 +10,8 @@ add_library(eleca STATIC
     src/Propagation
 )
 
-SET_TARGET_PROPERTIES(eleca PROPERTIES COMPILE_FLAGS "-fPIC -ffast-math")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    SET_TARGET_PROPERTIES(eleca PROPERTIES COMPILE_FLAGS "-fPIC -ffast-math -D__extern_always_inline=inline")
+else()
+    SET_TARGET_PROPERTIES(eleca PROPERTIES COMPILE_FLAGS "-fPIC -ffast-math")
+endif()

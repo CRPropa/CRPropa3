@@ -1,6 +1,8 @@
 CRPropa3
 ========
 
+[![Build Status](https://travis-ci.org/CRPropa/CRPropa3.svg?branch=master)](https://travis-ci.org/CRPropa/CRPropa3)
+
 CRPropa is a publicly available code to study the propagation of ultra high energy nuclei up to iron on their voyage through an extra galactic environment. It takes into account: pion production, photodisintegration and energy losses by pair production of all relevant isotopes in the ambient low energy photon fields as well as nuclear decay. CRPropa can model the deflection in intergalactic magnetic fields, the propagation of secondary electromagnetic cascades and neutrinos for a multitude of scenarios for different source distributions and magnetic environments. It enables the user to predict the spectra of UHECR (and of their secondaries), their composition and arrival direction distribution.
 
 This is the development version of [CRPropa](https://crpropa.desy.de).

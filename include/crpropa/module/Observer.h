@@ -37,16 +37,22 @@ public:
  @brief General cosmic ray observer
  */
 class Observer: public Module {
+	std::string flagKey;
+	std::string flagValue;
+
 private:
 	std::vector<ref_ptr<ObserverFeature> > features;
+	ref_ptr<Module> detectionAction;
 	bool makeInactive;
 public:
-	Observer(bool makeInactive = true);
-	void add(ObserverFeature *property);
+	Observer();
+	void add(ObserverFeature *feature);
+	void onDetection(Module *action);
 	void beginRun();
 	void endRun();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
+	void setFlag(std::string key, std::string value);
 };
 
 /**
@@ -131,36 +137,6 @@ class ObserverPhotonVeto: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
-};
-
-/**
- @class ObserverOutput3D
- @brief Plain text output of 3D properties
- */
-class ObserverOutput3D: public ObserverFeature {
-private:
-	mutable std::ofstream fout;
-	bool legacy;  // toggle CRPropa 2 output format
-public:
-	ObserverOutput3D(std::string filename, bool legacy = false);
-	~ObserverOutput3D();
-	void onDetection(Candidate *candidate) const;
-	void endRun();
-};
-
-/**
- @class ObserverOutput1D
- @brief Plain text output of 1D properties
- */
-class ObserverOutput1D: public ObserverFeature {
-private:
-	mutable std::ofstream fout;
-	bool legacy;  // toggle CRPropa 2 output format
-public:
-	ObserverOutput1D(std::string filename, bool legacy = false);
-	~ObserverOutput1D();
-	void onDetection(Candidate *candidate) const;
-	void endRun();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

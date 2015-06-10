@@ -110,13 +110,11 @@ std::string ReflectiveBox::getDescription() const {
 }
 
 CubicBoundary::CubicBoundary() :
-		origin(Vector3d(0, 0, 0)), size(0), margin(0), flag("OutOfBounds"), flagValue(
-				""), limitStep(false) {
+		origin(Vector3d(0, 0, 0)), size(0), margin(0), limitStep(false) {
 }
 
 CubicBoundary::CubicBoundary(Vector3d o, double s) :
-		origin(o), size(s), margin(0), flag("OutOfBounds"), flagValue(""), limitStep(
-				false) {
+		origin(o), size(s), margin(0), limitStep(false) {
 }
 
 void CubicBoundary::process(Candidate *c) const {
@@ -124,8 +122,7 @@ void CubicBoundary::process(Candidate *c) const {
 	double lo = r.min();
 	double hi = r.max();
 	if ((lo <= 0) or (hi >= size)) {
-		c->setActive(false);
-		c->setProperty(flag, flagValue);
+		reject(c);
 	}
 	if (limitStep) {
 		c->limitNextStep(lo + margin);
@@ -145,34 +142,30 @@ void CubicBoundary::setMargin(double m) {
 void CubicBoundary::setLimitStep(bool b) {
 	limitStep = b;
 }
-void CubicBoundary::setFlag(std::string f, std::string v) {
-	flag = f;
-	flagValue = v;
-}
 
 std::string CubicBoundary::getDescription() const {
 	std::stringstream s;
 	s << "Cubic Boundary: origin " << origin / Mpc << " Mpc, ";
-	s << "size " << size / Mpc << " Mpc; ";
-	s << "Flag: " << flag << " -> " << flagValue;
+	s << "size " << size / Mpc << " Mpc, ";
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
 	return s.str();
 }
 
 SphericalBoundary::SphericalBoundary() :
-		center(Vector3d(0, 0, 0)), radius(0), flag("OutOfBounds"), flagValue(
-				""), limitStep(false), margin(0) {
+		center(Vector3d(0, 0, 0)), radius(0), limitStep(false), margin(0) {
 }
 
 SphericalBoundary::SphericalBoundary(Vector3d c, double r) :
-		center(c), radius(r), flag("OutOfBounds"), flagValue(""), limitStep(
-				false), margin(0) {
+		center(c), radius(r), limitStep(false), margin(0) {
 }
 
 void SphericalBoundary::process(Candidate *c) const {
 	double d = (c->current.getPosition() - center).getR();
 	if (d >= radius) {
-		c->setActive(false);
-		c->setProperty(flag, flagValue);
+		reject(c);
 	}
 	if (limitStep)
 		c->limitNextStep(radius - d + margin);
@@ -190,36 +183,33 @@ void SphericalBoundary::setMargin(double m) {
 void SphericalBoundary::setLimitStep(bool b) {
 	limitStep = b;
 }
-void SphericalBoundary::setFlag(std::string f, std::string v) {
-	flag = f;
-	flagValue = v;
-}
 
 std::string SphericalBoundary::getDescription() const {
 	std::stringstream s;
-	s << "Spherical Boundary: radius " << radius / Mpc << " Mpc ";
-	s << "around " << center / Mpc << " Mpc; ";
-	s << "Flag: " << flag << " -> " << flagValue;
+	s << "Spherical Boundary: radius " << radius / Mpc << " Mpc, ";
+	s << "around " << center / Mpc << " Mpc, ";
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
 	return s.str();
 }
 
 EllipsoidalBoundary::EllipsoidalBoundary() :
 		focalPoint1(Vector3d(0, 0, 0)), focalPoint2(Vector3d(0, 0, 0)), majorAxis(
-				0), flag("OutOfBounds"), flagValue(""), limitStep(false), margin(
-				0) {
+				0), limitStep(false), margin(0) {
 }
 
 EllipsoidalBoundary::EllipsoidalBoundary(Vector3d f1, Vector3d f2, double a) :
-		focalPoint1(f1), focalPoint2(f2), majorAxis(a), flag("OutOfBounds"), flagValue(
-				""), limitStep(false), margin(0) {
+		focalPoint1(f1), focalPoint2(f2), majorAxis(a), limitStep(false), margin(
+				0) {
 }
 
 void EllipsoidalBoundary::process(Candidate *c) const {
 	Vector3d pos = c->current.getPosition();
 	double d = pos.getDistanceTo(focalPoint1) + pos.getDistanceTo(focalPoint2);
 	if (d >= majorAxis) {
-		c->setActive(false);
-		c->setProperty(flag, flagValue);
+		reject(c);
 	}
 	if (limitStep)
 		c->limitNextStep(majorAxis - d + margin);
@@ -238,17 +228,16 @@ void EllipsoidalBoundary::setMargin(double m) {
 void EllipsoidalBoundary::setLimitStep(bool b) {
 	limitStep = b;
 }
-void EllipsoidalBoundary::setFlag(std::string f, std::string v) {
-	flag = f;
-	flagValue = v;
-}
 
 std::string EllipsoidalBoundary::getDescription() const {
 	std::stringstream s;
 	s << "Ellipsoidal Boundary: F1 = " << focalPoint1 / Mpc << " Mpc, ";
 	s << "F2 = " << focalPoint2 / Mpc << " Mpc, ";
 	s << "major axis " << majorAxis / Mpc << " Mpc; ";
-	s << " Flag: " << flag << " -> " << flagValue;
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
 	return s.str();
 }
 

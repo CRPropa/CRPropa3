@@ -23,12 +23,6 @@ CRPropa2EventOutput3D::~CRPropa2EventOutput3D() {
 }
 
 void CRPropa2EventOutput3D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	// remove flag so that the particle is not written to output again in the next step
-	c->removeProperty("Detected");
-
 	char buffer[256]; // max. 256 characters per line
 	size_t p = 0; // length of line
 
@@ -148,12 +142,6 @@ CRPropa2EventOutput1D::~CRPropa2EventOutput1D() {
 }
 
 void CRPropa2EventOutput1D::process(Candidate *c) const {
-	if (not (c->hasProperty("Detected")))
-		return;
-
-	// remove flag so that the particle is not written to output again in the next step
-	c->removeProperty("Detected");
-
 	char buffer[256];
 	size_t p = 0;
 

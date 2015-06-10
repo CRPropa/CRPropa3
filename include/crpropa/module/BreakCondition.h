@@ -13,16 +13,12 @@ namespace crpropa {
  In that case the property ("Deactivated", module::description) is set.
  It also limits the candidates next step size to ensure the maximum trajectory length is no exceeded.
  */
-class MaximumTrajectoryLength: public Module {
+class MaximumTrajectoryLength: public AbstractCondition {
 	double maxLength;
-	std::string flag;
 public:
-	MaximumTrajectoryLength(double length = 0,
-			std::string flag = "Deactivated");
+	MaximumTrajectoryLength(double length = 0);
 	void setMaximumTrajectoryLength(double length);
 	double getMaximumTrajectoryLength() const;
-	void setFlag(std::string flag);
-	std::string getFlag() const;
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };
@@ -34,15 +30,12 @@ public:
  This modules deactivates the candidate below a given minimum energy.
  In that case the property ("Deactivated", module::description) is set.
  */
-class MinimumEnergy: public Module {
+class MinimumEnergy: public AbstractCondition {
 	double minEnergy;
-	std::string flag;
 public:
-	MinimumEnergy(double minEnergy = 0, std::string flag = "Deactivated");
+	MinimumEnergy(double minEnergy = 0);
 	void setMinimumEnergy(double energy);
 	double getMinimumEnergy() const;
-	void setFlag(std::string flag);
-	std::string getFlag() const;
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };
@@ -54,15 +47,12 @@ public:
  This modules deactivates the candidate below a given minimum redshift.
  In that case the property ("Deactivated", module::description) is set.
  */
-class MinimumRedshift: public Module {
+class MinimumRedshift: public AbstractCondition {
 	double zmin;
-	std::string flag;
 public:
-	MinimumRedshift(double zmin = 0, std::string flag = "Deactivated");
+	MinimumRedshift(double zmin = 0);
 	void setMinimumRedshift(double z);
 	double getMinimumRedshift();
-	void setFlag(std::string flag);
-	std::string getFlag() const;
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

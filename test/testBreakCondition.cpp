@@ -22,7 +22,7 @@ TEST(MinimumEnergy, test) {
 	c.current.setEnergy(4.9);
 	minEnergy.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("Deactivated"));
+	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 TEST(MaximumTrajectoryLength, test) {
@@ -36,7 +36,7 @@ TEST(MaximumTrajectoryLength, test) {
 	c.setTrajectoryLength(10.1);
 	maxLength.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("Deactivated"));
+	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 TEST(MinimumRedshift, test) {
@@ -50,7 +50,7 @@ TEST(MinimumRedshift, test) {
 	c.setRedshift(0);
 	minZ.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("Deactivated"));
+	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 //** ============================= Observers ================================ */
@@ -242,7 +242,7 @@ TEST(CubicBoundary, outside) {
 	c.current.setPosition(Vector3d(10.1, 5, 5));
 	cube.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("OutOfBounds"));
+	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 TEST(CubicBoundary, limitStepLower) {
@@ -273,12 +273,12 @@ TEST(SphericalBoundary, inside) {
 	c.current.setPosition(Vector3d(9, 0, 0));
 	sphere.process(&c);
 	EXPECT_TRUE(c.isActive());
-	EXPECT_FALSE(c.hasProperty("OutOfBounds"));
+	EXPECT_FALSE(c.hasProperty("Rejected"));
 }
 
 TEST(SphericalBoundary, outside) {
 	SphericalBoundary sphere(Vector3d(0, 0, 0), 10);
-	sphere.setFlag("I passed the galactic border", "Nothing happened");
+	sphere.setRejectFlag("I passed the galactic border", "Nothing happened");
 	Candidate c;
 	c.current.setPosition(Vector3d(0, -10.1, 0));
 	sphere.process(&c);
@@ -303,7 +303,7 @@ TEST(EllipsoidalBoundary, inside) {
 	c.current.setPosition(Vector3d(3, 2, 0));
 	ellipsoid.process(&c);
 	EXPECT_TRUE(c.isActive());
-	EXPECT_FALSE(c.hasProperty("OutOfBounds"));
+	EXPECT_FALSE(c.hasProperty("Rejected"));
 }
 
 TEST(EllipsoidalBoundary, outside) {
@@ -312,7 +312,7 @@ TEST(EllipsoidalBoundary, outside) {
 	c.current.setPosition(Vector3d(0, 25, 0));
 	ellipsoid.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("OutOfBounds"));
+	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
 TEST(EllipsoidalBoundary, limitStep) {

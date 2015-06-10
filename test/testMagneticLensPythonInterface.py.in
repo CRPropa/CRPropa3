@@ -36,8 +36,8 @@ class testPixelizationConsistency(unittest.TestCase):
         try:
             import healpy
         except ImportError:
-            print "Consistency with healpy not tested as healpy is" \
-                  "not available"
+            print ("Consistency with healpy not tested as healpy is" \
+                  "not available")
             return
         p = crpropa.Pixelization(4)
         from numpy import linspace

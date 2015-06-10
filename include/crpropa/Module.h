@@ -31,6 +31,40 @@ public:
 	}
 };
 
+
+/**
+ @class AbstractCondition
+ @brief Abstract Module providing common features for conditional modules.
+ */
+class AbstractCondition: public Module {
+protected:
+	ref_ptr<Module> rejectAction, acceptAction;
+	bool makeRejectedInactive, makeAcceptedInactive;
+	std::string rejectFlagKey, rejectFlagValue;
+	std::string acceptFlagKey, acceptFlagValue;
+
+	void reject(Candidate *candidate) const;
+	inline void reject(ref_ptr<Candidate> candidate) const {
+		reject(candidate.get());
+	}
+
+	void accept(Candidate *candidate) const;
+	inline void accept(ref_ptr<Candidate> candidate) const {
+		accept(candidate.get());
+	}
+
+public:
+	AbstractCondition();
+	void onReject(Module *rejectAction);
+	void onAccept(Module *acceptAction);
+	void setMakeRejectedInactive(bool makeInactive);
+	void setMakeAcceptedInactive(bool makeInactive);
+	void setRejectFlag(std::string key, std::string value);
+	void setAcceptFlag(std::string key, std::string value);
+	void beginRun();
+	void endRun();
+};
+
 } // namespace crpropa
 
 #endif /* CRPROPA_MODULE_H */

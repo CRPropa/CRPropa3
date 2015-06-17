@@ -195,15 +195,14 @@ void DintPropagation(const std::string &inputfile,
 		std::sort(secondaries.begin(), secondaries.end(),
 				_SecondarySortPredicate);
 
+		double currentDistance = secondaries.back().D;
+
 		Spectrum inputSpectrum, outputSpectrum;
 		NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
 		NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
-		double currentDistance = secondaries.back().D;
-
 		// process secondaries
 		while (secondaries.size() > 0) {
-			std::cout << secondaries.size() << " "<< currentDistance << std::endl;
-
+			InitializeSpectrum(&inputSpectrum);
 			// add secondaries at the current distance to spectrum
 			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
 				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
@@ -236,22 +235,21 @@ void DintPropagation(const std::string &inputfile,
 			}
 			//std::cout << secondaries.size() << std::endl;
 
-			double D = currentDistance;
-
-			// only propagate to next particle
-			if (secondaries.size() > 0)
-				D -= secondaries.back().D;
+//			double D = currentDistance;
+//
+//			// only propagate to next particle
+//			if (secondaries.size() > 0)
+//				D -= secondaries.back().D;
 			//std::cout << D << std::endl;
 			InitializeSpectrum(&outputSpectrum);
-			prop_second(D, &bField, &energyGrid, &energyWidth, &inputSpectrum,
+			prop_second(currentDistance, &bField, &energyGrid, &energyWidth, &inputSpectrum,
 					&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
 					ol, 0);
-			AddSpectrum(&inputSpectrum, &outputSpectrum);
+			AddSpectrum(&finalSpectrum, &outputSpectrum);
 
-			currentDistance -= D;
 		}
 
-		AddSpectrum(&finalSpectrum, &inputSpectrum);
+		//AddSpectrum(&finalSpectrum, &inputSpectrum);
 
 		DeleteSpectrum(&outputSpectrum);
 		DeleteSpectrum(&inputSpectrum);

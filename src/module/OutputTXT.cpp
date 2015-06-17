@@ -3,7 +3,244 @@
 
 #include <stdio.h>
 
+#ifdef CRPROPA_HAVE_ZLIB
+#include <ozstream.hpp>
+#include <kiss/string.h>
+#endif
+
 namespace crpropa {
+
+TextOutput::TextOutput() : lengthScale(Mpc), energyScale(EeV), out(&std::cout), oneDimensional(false) {
+	enableAll();
+}
+
+TextOutput::TextOutput(std::ostream &out) : lengthScale(Mpc), energyScale(EeV), out(&out), oneDimensional(false) {
+	enableAll();
+}
+
+TextOutput::TextOutput(const std::string &filename) : lengthScale(Mpc), energyScale(EeV), outfile(filename.c_str(), std::ios::binary), out(&outfile), oneDimensional(false) {
+	enableAll();
+        if (kiss::ends_with(filename, ".gz"))
+            gzip();
+}
+
+void TextOutput::setEnergyScale(double scale) {
+	energyScale = scale;
+}
+
+void TextOutput::setLengthScale(double scale) {
+	lengthScale = scale;
+}
+
+void TextOutput::set1D(bool value) {
+    oneDimensional = value;
+}
+
+void TextOutput::enable(OutputColumn field) {
+	fields.set(field, true);
+}
+
+void TextOutput::disable(OutputColumn field) {
+	fields.set(field, false);
+}
+
+void TextOutput::set(OutputColumn field, bool value) {
+	fields.set(field, value);
+}
+
+void TextOutput::enableAll() {
+	fields.set();
+}
+
+void TextOutput::disableAll() {
+	fields.reset();
+}
+
+void TextOutput::printHeader() {
+	*out << "#";
+    if (fields.test(TrajectoryLengthColumn))
+		*out << "\tD";
+    if (fields.test(RedshiftColumn))
+		*out << "\tz";
+    if (fields.test(CurrentIdColumn))
+		*out << "\tID";
+    if (fields.test(CurrentEnergyColumn))
+		*out << "\tE";
+    if (fields.test(CurrentPositionColumn)) {
+        if (oneDimensional)
+        *out << "\tX";
+        else
+        *out << "\tX\tY\tZ";
+    }
+    if (fields.test(CurrentDirectionColumn)) {
+        if (oneDimensional)
+        *out << "\tPx";
+        else
+        *out << "\tPx\tPy\tPz";
+    }
+
+    if (fields.test(SourceIdColumn))
+		*out << "\tID0";
+    if (fields.test(SourceEnergyColumn))
+		*out << "\tE0";
+    if (fields.test(SourcePositionColumn)) {
+        if (oneDimensional)
+        *out << "\tX0";
+        else
+        *out << "\tX0\tY0\tZ0";
+    }
+    if (fields.test(SourceDirectionColumn))  {
+        if (oneDimensional)
+        *out << "\tP0x";
+        else
+        *out << "\tP0x\tP0y\tP0z";
+    }
+
+    if (fields.test(CreatedIdColumn))
+		*out << "\tID1";
+    if (fields.test(CreatedEnergyColumn))
+		*out << "\tE1";
+    if (fields.test(CreatedPositionColumn))  {
+        if (oneDimensional)
+        *out << "\tX1";
+        else
+        *out << "\tX1\tY1\tZ1";
+}
+    if (fields.test(CreatedDirectionColumn))  {
+        if (oneDimensional)
+        *out << "\tP1x";
+        else
+        *out << "\tP1x\tP1y\tP1z";
+    }
+
+
+	*out << "\n#\n";
+    if (fields.test(TrajectoryLengthColumn))
+		*out << "# D             Trajectory length [" << lengthScale / Mpc << " Mpc]\n";
+    if (fields.test(RedshiftColumn))
+		*out << "# z             Redshift\n";
+    if (fields.test(CurrentIdColumn) || fields.test(CreatedIdColumn) || fields.test(SourceIdColumn))
+		*out << "# ID/ID0/ID1    Particle type (PDG MC numbering scheme)\n";
+    if (fields.test(CurrentEnergyColumn) || fields.test(CreatedEnergyColumn) || fields.test(SourceEnergyColumn))
+		*out << "# E/E0/E1       Energy [" << energyScale / EeV << " EeV]\n";
+    if (fields.test(CurrentPositionColumn) || fields.test(CreatedPositionColumn) || fields.test(SourcePositionColumn)) 
+		*out << "# X/X0/X1...    Position [" << lengthScale / Mpc << " Mpc]\n";
+    if (fields.test(CurrentDirectionColumn) || fields.test(CreatedDirectionColumn) || fields.test(SourceDirectionColumn))
+		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
+	*out << "# 0 = Source, 1 = Created, e.g. interaction point\n";
+}
+
+void TextOutput::process(Candidate *c) const {
+	if (fields.none())
+		return;
+
+	char buffer[1024];
+	size_t p = 0;
+
+    if (fields.test(TrajectoryLengthColumn))
+		p += sprintf(buffer + p, "%8.5f\t", c->getTrajectoryLength() / lengthScale);
+    if (fields.test(RedshiftColumn))
+		p += sprintf(buffer + p, "%1.5f\t", c->getRedshift());
+    if (fields.test(CurrentIdColumn))
+		p += sprintf(buffer + p, "%10i\t", c->current.getId());
+    if (fields.test(CurrentEnergyColumn))
+		p += sprintf(buffer + p, "%8.5f\t", c->current.getEnergy() / energyScale);
+    if (fields.test(CurrentPositionColumn)) {
+                if (oneDimensional) {
+                    p += sprintf(buffer + p, "%8.5f\t", c->current.getPosition().x / lengthScale);
+                } else {
+                    const Vector3d pos = c->current.getPosition() / lengthScale;
+                    p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y, pos.z);
+                }
+	}
+    if (fields.test(CurrentDirectionColumn)) {
+                if (oneDimensional) {
+                    p += sprintf(buffer + p, "%8.5f\t", c->current.getDirection().x);
+                } else {
+                    const Vector3d pos = c->current.getDirection();
+                    p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y, pos.z);
+                }
+	}
+	
+    if (fields.test(SourceIdColumn))
+		p += sprintf(buffer + p, "%10i\t", c->source.getId());
+    if (fields.test(SourceEnergyColumn))
+		p += sprintf(buffer + p, "%8.5f\t", c->source.getEnergy() / energyScale);
+    if (fields.test(SourcePositionColumn)) {
+                if (oneDimensional) {
+                    p += sprintf(buffer + p, "%8.5f\t", c->source.getPosition().x / lengthScale);
+                } else {
+                    const Vector3d pos = c->source.getPosition() / lengthScale;
+                    p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y, pos.z);
+                }
+	}
+    if (fields.test(SourceDirectionColumn)) {
+                if (oneDimensional) {
+                    p += sprintf(buffer + p, "%8.5f\t", c->source.getDirection().x);
+                } else {
+                    const Vector3d pos = c->source.getDirection();
+                    p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y, pos.z);
+                }
+        
+    }
+
+    if (fields.test(CreatedIdColumn))
+		p += sprintf(buffer + p, "%10i\t", c->created.getId());
+    if (fields.test(CreatedEnergyColumn))
+		p += sprintf(buffer + p, "%8.5f\t", c->created.getEnergy() / energyScale);
+    if (fields.test(CreatedPositionColumn)) {
+                if (oneDimensional) {
+                    p += sprintf(buffer + p, "%8.5f\t", c->created.getPosition().x / lengthScale);
+                } else {
+                    const Vector3d pos = c->created.getPosition() / lengthScale;
+                    p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y, pos.z);
+                }
+	}
+    if (fields.test(CreatedDirectionColumn)) {
+                if (oneDimensional) {
+                    p += sprintf(buffer + p, "%8.5f\t", c->created.getDirection().x);
+                } else {
+                    const Vector3d pos = c->created.getDirection();
+                    p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y, pos.z);
+                }
+        
+    }	
+
+	buffer[p-1] = '\n';
+
+#pragma omp critical
+{
+	out->write(buffer, p);
+}
+
+}
+
+void TextOutput::endRun() {
+#ifdef CRPROPA_HAVE_ZLIB
+     zstream::ogzstream *zs = dynamic_cast<zstream::ogzstream *>(out);
+     if (zs) {
+        zs->close();
+     }
+#endif    
+}
+
+TextOutput::~TextOutput() {
+#ifdef CRPROPA_HAVE_ZLIB
+     zstream::ogzstream *zs = dynamic_cast<zstream::ogzstream *>(out);
+     if (zs) {
+        delete zs;
+     }
+#endif
+    outfile.close();
+}
+
+void TextOutput::gzip() {
+#ifdef CRPROPA_HAVE_ZLIB
+    out = new zstream::ogzstream(*out);
+#else
+    throw std::runtime_error("CRPropa was build without Zlib compression!");
+#endif
+}
 
 TrajectoryOutput::TrajectoryOutput(std::string name) {
 	setDescription("Trajectory output");

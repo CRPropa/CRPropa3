@@ -5,8 +5,55 @@
 #include "crpropa/AssocVector.h"
 
 #include <fstream>
+#include <bitset>
+
 
 namespace crpropa {
+
+enum OutputColumn {
+	TrajectoryLengthColumn,
+	RedshiftColumn,
+	CurrentIdColumn,
+	CurrentEnergyColumn,
+	CurrentPositionColumn,
+	CurrentDirectionColumn,
+	SourceIdColumn,
+	SourceEnergyColumn,
+	SourcePositionColumn,
+	SourceDirectionColumn,
+	CreatedIdColumn,
+	CreatedEnergyColumn,
+	CreatedPositionColumn,
+	CreatedDirectionColumn
+};
+
+class TextOutput: public Module {
+protected:
+	double lengthScale, energyScale;
+	std::ostream *out;
+	std::ofstream outfile;
+	std::bitset<64> fields;
+        bool oneDimensional;
+public:
+	TextOutput();
+	~TextOutput();
+	TextOutput(std::ostream &out);
+	TextOutput(const std::string &filename);
+	void setEnergyScale(double scale);
+	void setLengthScale(double scale);
+
+	void set(OutputColumn field, bool value);
+	void enable(OutputColumn field);
+	void disable(OutputColumn field);
+	void enableAll();
+	void disableAll();
+	void printHeader();
+        void set1D(bool value);
+	void process(Candidate *candidate) const;
+	void endRun();	
+        
+        void gzip();
+};
 
 /**
  @class TrajectoryOutput

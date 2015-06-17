@@ -276,8 +276,6 @@ __REPR__( crpropa::ObserverRedshiftWindow );
 __REPR__( crpropa::ObserverNucleusVeto );
 __REPR__( crpropa::ObserverNeutrinoVeto );
 __REPR__( crpropa::ObserverPhotonVeto );
-__REPR__( crpropa::ObserverOutput1D );
-__REPR__( crpropa::ObserverOutput3D );
 
 VECTOR3__REPR__( crpropa::Vector3 );
 

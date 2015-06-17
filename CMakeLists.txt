@@ -179,6 +179,16 @@ if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${MUPARSER_INCLUDE_DIR})
 endif(MUPARSER_FOUND)
 
+find_package(ZLIB)
+if(ZLIB_FOUND)
+	list(APPEND CRPROPA_EXTRA_INCLUDES ${ZLIB_INCLUDE_DIRS})
+	list(APPEND CRPROPA_EXTRA_INCLUDES "libs/zstream-cpp")
+	list(APPEND CRPROPA_EXTRA_LIBRARIES ${ZLIB_LIBRARIES})
+	add_definitions (-DCRPROPA_HAVE_ZLIB)
+	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ZLIB)
+	list(APPEND CRPROPA_SWIG_DEFINES -I${ZLIB_INCLUDE_DIRS})
+endif(ZLIB_FOUND)
+
 # ----------------------------------------------------------------------------
 # Downloading data files (interaction data, masses, decay data)
 # ----------------------------------------------------------------------------

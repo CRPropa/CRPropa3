@@ -1,4 +1,4 @@
-The Doxygen documentation is tracked in the branch gh-pages and is hosted on crpropa/github.io/CRPropa3.
+The Doxygen documentation is tracked in the branch gh-pages and is hosted on https://crpropa.github.io/CRPropa3.
 The documentation has to be updated and committed manually.
 To update use the following procedure:
 

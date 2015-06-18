@@ -21,10 +21,8 @@ void EleCaPropagation(const std::string &inputfile,
 
 /** Use Dint to calculate the observed sprectrum fom the photons recorded in inputfile.
  *  Magneticfield [T], default 1E-13 T = 1 nG
- *
- *  Implemented backgrounds are selected via the flags
- *		IRFlag = 0 (High IR), 1 (Low IR), 2 (Primack IR), 3 (Not defined), 4 (EleCa)
- *  RadioFlag = 0 (High Radio), 1 (Low Radio), 2 (Obs Radio), 3 (Null Radio), 4 (EleCa)
+ *  IRFlag 0: High IR Background , 1: Low IR BAckground , 2: Primack Background, 4: Eleca Background (Stecker, Malkan, Scully (2006) arXiv:astro-ph/0510449v4)
+ *  RadioFlag 0: High Radio Background , 1: MEd Radio BAckground , 2: Obs. Radio background , 3: No Radio, 4: Eleca Background (Protheroe, Bierman 1996.)
  * **/
 void DintPropagation(const std::string &inputfile,
 		const std::string &outputfile, 

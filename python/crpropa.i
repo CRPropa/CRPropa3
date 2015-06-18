@@ -13,7 +13,7 @@
 
 /* 1. SWIG settings and workarounds */
 
-%module(directors="1") crpropa
+%module(directors="1", threads="1") crpropa
 
 %feature("autodoc", "1"); // automatic docstrings
 

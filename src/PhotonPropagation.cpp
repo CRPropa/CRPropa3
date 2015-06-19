@@ -195,7 +195,6 @@ void DintPropagation(const std::string &inputfile,
 		std::sort(secondaries.begin(), secondaries.end(),
 				_SecondarySortPredicate);
 
-		double currentDistance = secondaries.back().D;
 
 		Spectrum inputSpectrum, outputSpectrum;
 		NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
@@ -203,6 +202,7 @@ void DintPropagation(const std::string &inputfile,
 		// process secondaries
 		while (secondaries.size() > 0) {
 			InitializeSpectrum(&inputSpectrum);
+			double currentDistance = secondaries.back().D;
 			// add secondaries at the current distance to spectrum
 			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
 				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
@@ -391,14 +391,15 @@ void DintElcaPropagation(const std::string &inputfile,
 				Spectrum inputSpectrum, outputSpectrum;
 				NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
 				NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
-				double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz());
 
 				// process secondaries
 				while (ParticleAtGround.size() > 0) 
 				{
+					double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz()) ;
 					//std::cout << currentDistance / Mpc << "\t";
 					// add secondaries at the current distance to spectrum
-					while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin))) {
+					while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin))) 
+					{
 						double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
 						int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
 								- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
@@ -428,24 +429,24 @@ void DintElcaPropagation(const std::string &inputfile,
 						}
 						ParticleAtGround.pop_back();
 					}
-					//std::cout << ParticleAtGround.size() << std::endl;
+					// std::cout << ParticleAtGround.size() << " " << currentDistance / Mpc << std::endl;
 	
 					double D = currentDistance;
 	
 					// only propagate to next particle
-					if (ParticleAtGround.size() > 0)
-						D -= redshift2ComovingDistance(ParticleAtGround.back().Getz());
+					//if (ParticleAtGround.size() > 0)
+					//	D -= redshift2ComovingDistance(ParticleAtGround.back().Getz());
 					InitializeSpectrum(&outputSpectrum);
 					// Fix Radioflag and IR Flag to Eleca implementation
 					prop_second(D / Mpc, &bField, &energyGrid, &energyWidth, &inputSpectrum,
 							&outputSpectrum, dataPath, 4, 5, 4, h, om,
 							ol, 0);
-					AddSpectrum(&inputSpectrum, &outputSpectrum);
+					AddSpectrum(&finalSpectrum, &outputSpectrum);
 	
-					currentDistance -= D;
+					//currentDistance -= D;
 				} // while (secondaries.size() > 0) 
 	
-				AddSpectrum(&finalSpectrum, &inputSpectrum);
+				//AddSpectrum(&finalSpectrum, &inputSpectrum);
 	
 				DeleteSpectrum(&outputSpectrum);
 				DeleteSpectrum(&inputSpectrum);

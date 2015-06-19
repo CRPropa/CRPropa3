@@ -1,3 +1,7 @@
 This is redux version of healpix based on Healpix 3.11. It contains only
 necessary code to constuct a healpix_base object wrapped in a new namespace.
 
+License: GNU General Public License version 2.0 (GPLv2)
+Reference:
+	http://healpix.jpl.nasa.gov/
+	K.M. Gorski et al., 2005, Ap.J., 622, p.759

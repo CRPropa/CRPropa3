@@ -484,17 +484,18 @@ void Propagation::Propagate(Particle &curr_particle,
 	proc.SetBackground(Bkg);
 	
 	double Ethr2 = std::max(fEthr, std::max(ElectronMass,ElectronMass*ElectronMass/proc.feps_sup));
-	if (Ecurr < Ethr2)  return;
+	if (Ecurr < Ethr2)
+	{
+		if (!dropParticlesBelowEnergyThreshold)
+			ParticleAtGround.push_back(curr_particle);
+
+		return;
+	}
+		
 
 	std::vector<double> EtargetAll = GetEtarget(proc, curr_particle);
-#ifdef DEBUG_ELECA
-	std::cout << "for initial particle : " << curr_particle.GetEnergy() << " " << Ein << "  GetEtarget: " << EtargetAll[0] << " " << EtargetAll[1] << std::endl;
-#endif
 
 	min_dist = ExtractMinDist(proc, curr_particle.GetType(), R, R2, EtargetAll);
-#ifdef DEBUG_ELECA
-	std::cout << "ExtractMinDist " << min_dist << std::endl;
-#endif
 
 	interacted = 0;
 	double dz = 0;
@@ -504,9 +505,6 @@ void Propagation::Propagate(Particle &curr_particle,
 	double realpath = 0;
 
 	double min_dist_last = min_dist;
-#ifdef DEBUG_ELECA
-	std::cout << "starting propagation... min_dist_last: " << min_dist_last << std::endl;
-#endif
 
 	while (!interacted) {
 
@@ -521,31 +519,8 @@ void Propagation::Propagate(Particle &curr_particle,
 		stepsize = realpath * corrB_factor;
 		dz = Mpc2z(stepsize);
 
-#ifdef DEBUG_ELECA
-		if (BNorm > 0)
-		std::cout << "z_curr " << z_curr << ", type: "
-		<< curr_particle.GetType() << ", Ecurr "
-		<< curr_particle.GetEnergy() << "  = " << min_dist
-		<< " Mpc -->  theta: " << theta_deflBF * 180.0 / 3.1415927
-		<< "  " << corrB_factor << std::endl;
-
-		std::cout << "done : " << walkdone << " + " << realpath << " = "
-		<< walkdone + realpath << " has to be:  " << min_dist
-		<< " Mpc. Now @ z= " << zpos << " vs nexz = "
-		<< zpos - Mpc2z(stepsize) << std::endl;
-#endif
 
 		if ((walkdone + realpath) > min_dist) {
-#ifdef DEBUG_ELECA
-			std::cout
-			<< " walkdone + realpath > min_dist: correcting realpath from"
-			<< realpath << " to " << min_dist - walkdone
-			<< " and the stepsize is changed from " << dz << " to ";
-			realpath = min_dist - walkdone;
-			stepsize = realpath * corrB_factor;
-			dz = Mpc2z(stepsize);
-			std::cout << dz << std::endl;
-#endif
 			interacted = 1;
 		}
 
@@ -599,10 +574,6 @@ void Propagation::Propagate(Particle &curr_particle,
 	} //end while
 
 	if (interacted == 1) {
-#ifdef DEBUG_ELECA
-		std::cerr << "******** producing secondary particles according to "
-		<< proc.GetName() << " process *********** " << std::endl;
-#endif
 		if (proc.GetName() == Process::PP) {
 
 			E1 = ExtractPPSecondariesEnergy(proc);

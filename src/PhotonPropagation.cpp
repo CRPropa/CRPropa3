@@ -156,6 +156,7 @@ void DintPropagation(const std::string &inputfile,
 
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
+	InitializeSpectrum(&finalSpectrum);
 
 	std::string dataPath = getDataPath("dint");
 	double h = H0() * Mpc / 1000;
@@ -312,7 +313,7 @@ void DintElcaPropagation(const std::string &inputfile,
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation.InitBkgArray("ALL");
 
-	propagation.SetB(magneticFieldStrength * gauss);
+	propagation.SetB(magneticFieldStrength / gauss);
 
 	std::vector<eleca::Particle> ParticleAtGround;
 
@@ -337,6 +338,7 @@ void DintElcaPropagation(const std::string &inputfile,
 
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
+	InitializeSpectrum(&finalSpectrum);
 
 	std::string dataPath = getDataPath("dint");
 	double h = H0() * Mpc / 1000;

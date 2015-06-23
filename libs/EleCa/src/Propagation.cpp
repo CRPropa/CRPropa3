@@ -477,7 +477,6 @@ void Propagation::Propagate(Particle &curr_particle,
 
 	double R = Uniform(0.0, 1.0);
 	double R2 = Uniform(0.0, 1.0);
-	bool fast = 0;
 
 	Process proc;
 	proc.SetIncidentParticle(curr_particle);
@@ -553,17 +552,13 @@ void Propagation::Propagate(Particle &curr_particle,
 			ParticleAtGround.push_back(curr_particle);
 			return;
 		}
-		else if (Ecurr <= Ethr2) 
+		if (Ecurr <= Ethr2) 
 		{ 
-			if (dropParticlesBelowEnergyThreshold)
-			{
-				return;
-			}
-			else
+			if (!dropParticlesBelowEnergyThreshold)
 			{
 				ParticleAtGround.push_back(curr_particle);
-				return;
 			}
+			return;
 		}
 		proc.SetIncidentParticle(curr_particle);
 		proc.SetCMEnergy();
@@ -582,17 +577,13 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in PP process:  E : " << Ecurr << "  " << E1
 						<< " " << std::endl;
 
-			if (E1 > Ethr2) { 
-				Particle pp(11, E1, z_curr);
-				pp.SetWeigth(wi_last);
-				ParticleAtMatrix.push_back(pp);
-			}
-			if (Ecurr - E1 > Ethr2) {
-				Particle pe(-11, Ecurr - E1, z_curr);
-				pe.SetWeigth(wi_last);
-				ParticleAtMatrix.push_back(pe);
-			}
+			Particle pp(11, E1, z_curr);
+			pp.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pp);
 
+			Particle pe(-11, Ecurr - E1, z_curr);
+			pe.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pe);
 			return;
 		} //if PP
 		else if (proc.GetName() == Process::DPP) {
@@ -600,18 +591,13 @@ void Propagation::Propagate(Particle &curr_particle,
 			if (E1 == 0)
 				std::cerr << "ERROR in DPP process E : " << E1 << std::endl;
 
-			if (E1 > Ethr2) { 
-				Particle pp(11, E1, z_curr);
-				if (fast == 1)
-					pp.SetWeigth(wi_last * 2);
-				else {
-					pp.SetWeigth(wi_last);
-					Particle pe(-11, E1, z_curr);
-					pe.SetWeigth(wi_last);
-					ParticleAtMatrix.push_back(pe);
-				}
-				ParticleAtMatrix.push_back(pp);
-			}
+			Particle pp(11, E1, z_curr);
+			pp.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pp);
+			
+			Particle pe(-11, E1, z_curr);
+			pe.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pe);
 
 			return;
 		} //end if DPP
@@ -623,19 +609,15 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in ICS process E : " << E1 << " " << E2
 						<< std::endl;
 
-			if (E1 > Ethr2) {
-				Particle pp(curr_particle.GetType(), E1, z_curr);
-				pp.SetWeigth(wi_last);
-				ParticleAtMatrix.push_back(pp);
-			}
-			if (E2 > Ethr2 ) { 
-				Particle pg(22, E2, z_curr);
-				pg.SetWeigth(wi_last);
-				ParticleAtMatrix.push_back(pg);
-			}
+			Particle pp(curr_particle.GetType(), E1, z_curr);
+			pp.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pp);
+			Particle pg(22, E2, z_curr);
+			pg.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pg);
 
 			return;
-		} //if ics
+		} //end if ics
 		else if (proc.GetName() == Process::TPP) {
 			E1 = E2 = ExtractTPPSecondariesEnergy(proc);
 			E3 = Ecurr - E1 - E2;
@@ -643,23 +625,17 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in TPP process E : " << E1 << " " << E2
 						<< std::endl;
 
-			if (E1 > Ethr2) { 
-				Particle pp(11, E1, z_curr);
-				if (fast == 1)
-					pp.SetWeigth(wi_last * 2);
-				else {
-					pp.SetWeigth(wi_last);
-					Particle pe(-11, E1, z_curr);
-					pe.SetWeigth(wi_last);
-					ParticleAtMatrix.push_back(pe);
-				}
-				ParticleAtMatrix.push_back(pp);
-			}
-			if (E3 > Ethr2) { 
-				Particle psc(curr_particle.GetType(), E3, z_curr);
-				psc.SetWeigth(wi_last);
-				ParticleAtMatrix.push_back(psc);
-			}
+			Particle pp(11, E1, z_curr);
+			pp.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pp);
+			
+			Particle pe(-11, E1, z_curr);
+			pe.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(pe);
+			
+			Particle psc(curr_particle.GetType(), E3, z_curr);
+			psc.SetWeigth(wi_last);
+			ParticleAtMatrix.push_back(psc);
 			return;
 		}
 	}

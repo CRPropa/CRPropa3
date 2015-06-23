@@ -371,7 +371,8 @@ void DintElcaPropagation(const std::string &inputfile,
 			std::vector<eleca::Particle> ParticleAtMatrix;
 			ParticleAtMatrix.push_back(p0);
 
-			while (ParticleAtMatrix.size() > 0) {
+			while (ParticleAtMatrix.size() > 0) 
+			{
 				eleca::Particle p1 = ParticleAtMatrix.back();
 				ParticleAtMatrix.pop_back();
 
@@ -397,6 +398,7 @@ void DintElcaPropagation(const std::string &inputfile,
 				// process secondaries
 				while (ParticleAtGround.size() > 0) 
 				{
+					InitializeSpectrum(&inputSpectrum);
 					double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz()) ;
 					//std::cout << currentDistance / Mpc << "\t";
 					// add secondaries at the current distance to spectrum

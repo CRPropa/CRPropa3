@@ -533,9 +533,6 @@ void Propagation::Propagate(Particle &curr_particle,
 		walkdone += realpath;
 		Elast = Ecurr;
 
-		double adiab = Ecurr
-				- AdiabaticELoss(zpos + Mpc2z(realpath), zpos + dz, Ecurr);
-
 		if (type == 0 || type == 22)
 			Ecurr = EnergyLoss1D(Ecurr, zpos + Mpc2z(realpath), zpos, 0);
 		else

@@ -24,7 +24,7 @@ static const double eV2J = 1.602176487e-19; // from eV to J
 static const double ElectronMass = 0.510998918e6; // [eV/c^2]
 static const double K_boltz = 8.617342294984e-5;  // [eV/K ] Boltzman constant
 static const double C_speed = 299792458;          // [m/s] speed of light
-static const double SigmaThompson = 6.6524e-25;
+static const double SigmaThompson = 6.6524e-25;   // cm**2
 
 static const double T_CMB = 2.725; // [K] // evolution 2.725*(1-z)  1012.3164 
 static const double T_COB = 5270; // [K]  // Visible [380 - 760] nm. Scelgo 550

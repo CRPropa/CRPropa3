@@ -51,7 +51,7 @@ void ProgressBar::setPosition(unsigned long position) {
 		s.append(ctime(&currentTime));
 		char fs[255];
 		sprintf(fs, "%c[%d;%dm Finished %c[%dm", 27, 1, 32, 27, 0);
-		printf(stringTmpl.c_str(), fs, percentage, "Needed",
+		printf(stringTmpl.c_str(), fs, 100, "Needed",
 				int(tElapsed / 3600), (int(tElapsed) % 3600) / 60,
 				int(tElapsed) % 60, s.c_str());
 	}

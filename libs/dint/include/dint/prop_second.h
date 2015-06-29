@@ -1,8 +1,6 @@
 #ifndef DINT__PROPSECOND_H
 #define DINT__PROPSECOND_H
 
-#include "dint/cvector.h"
-
 #include <stdio.h>
 #include <math.h>
 #include "dint/rate.h"

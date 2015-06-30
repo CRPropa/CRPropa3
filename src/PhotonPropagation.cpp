@@ -66,12 +66,12 @@ void EleCaPropagation(const std::string &inputfile,
 			double E, D, pE, iE;
 			int Id, pId, iId;
 			infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
+			if (showProgress) {
+				progressbar.setPosition(infile.tellg());
+			}
 
 			if (infile) {
 
-				if (showProgress) {
-					progressbar.setPosition(infile.tellg());
-				}
 				double z = eleca::Mpc2z(D);
 				eleca::Particle p0(Id, E * 1e18, z);
 
@@ -360,11 +360,11 @@ void DintElcaPropagation(const std::string &inputfile,
 		int Id, pId, iId;
 		infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
 
+		if (showProgress) {
+			progressbar.setPosition(infile.tellg());
+		}
 		if (infile)
 		{ // stop at last line
-			if (showProgress) {
-				progressbar.setPosition(infile.tellg());
-			}
 			double z = eleca::Mpc2z(D);
 			eleca::Particle p0(Id, E * 1e18, z);
 

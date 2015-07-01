@@ -210,7 +210,7 @@ if(DISABLE_DOWNLOAD)
 else(DISABLE_DOWNLOAD)
 
 	set(DATA_URL "https://crpropa.desy.de/images/4/44/Data20150505.tar.gz")
-	set(EXPECTED_MD5SUM "6df0b02c3140ed4caa47845d6cc15409")
+	set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
 
 	function(GET_DATA)
 	    message("Downloading from crpropa.desy.de ~ 60 MB")

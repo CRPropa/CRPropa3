@@ -25,6 +25,7 @@ add_library(dint STATIC
     src/spectrum.cpp
     src/sync.cpp
     src/vector.cpp
+		src/DintEMCascade.cpp
 )
 
 SET_TARGET_PROPERTIES(dint PROPERTIES COMPILE_FLAGS -fPIC)

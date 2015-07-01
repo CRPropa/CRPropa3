@@ -9,6 +9,7 @@
 #include "EleCa/Common.h"
 
 #include "dint/prop_second.h"
+#include "dint/DintEMCascade.h"
 
 #include <fstream>
 #include <stdio.h>
@@ -41,7 +42,6 @@ void EleCaPropagation(const std::string &inputfile,
 	if (showProgress) {
 		progressbar.start("Run EleCa propagation");
 	}
-
 
 	if (!infile.good())
 		throw std::runtime_error(
@@ -162,6 +162,7 @@ void DintPropagation(const std::string &inputfile,
 	double h = H0() * Mpc / 1000;
 	double ol = omegaL();
 	double om = omegaM();
+	DintEMCascade dint(IRFlag, RadioFlag, dataPath, magneticFieldStrength/gauss, h, om, ol);
 
 	const size_t nBuffer = 1 << 20;
 	const double dMargin = 0.1; // Mpc;
@@ -243,9 +244,11 @@ void DintPropagation(const std::string &inputfile,
 //				D -= secondaries.back().D;
 			//std::cout << D << std::endl;
 			InitializeSpectrum(&outputSpectrum);
-			prop_second(currentDistance, &bField, &energyGrid, &energyWidth, &inputSpectrum,
-					&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
-					ol, 0);
+			//prop_second(currentDistance, &bField, &energyGrid, &energyWidth, &inputSpectrum,
+			//		&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
+			//		ol, 0);
+
+			dint.propagate(currentDistance, 0, &inputSpectrum, &outputSpectrum);
 			AddSpectrum(&finalSpectrum, &outputSpectrum);
 
 		}
@@ -331,11 +334,6 @@ void DintElcaPropagation(const std::string &inputfile,
 		throw std::runtime_error(
 				"DintPropagation: could not open file " + outputfile);
 
-	// Initialize the bField
-	dCVector bField;
-	New_dCVector(&bField, 5);
-	for (size_t i = 0; i < 5; i++)	bField.vector[i] = magneticFieldStrength / gauss;  
-
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
 	InitializeSpectrum(&finalSpectrum);
@@ -344,6 +342,7 @@ void DintElcaPropagation(const std::string &inputfile,
 	double h = H0() * Mpc / 1000;
 	double ol = omegaL();
 	double om = omegaM();
+	DintEMCascade dint(4, 4, dataPath, magneticFieldStrength/gauss, h, om, ol);
 
 	//////////////////////////////////////////////////////////////////////// 
 	// Loop over infile
@@ -442,9 +441,8 @@ void DintElcaPropagation(const std::string &inputfile,
 					//	D -= redshift2ComovingDistance(ParticleAtGround.back().Getz());
 					InitializeSpectrum(&outputSpectrum);
 					// Fix Radioflag and IR Flag to Eleca implementation
-					prop_second(D / Mpc, &bField, &energyGrid, &energyWidth, &inputSpectrum,
-							&outputSpectrum, dataPath, 4, 5, 4, h, om,
-							ol, 0);
+					dint.propagate(D / Mpc, 0, &inputSpectrum,
+							&outputSpectrum);
 					AddSpectrum(&finalSpectrum, &outputSpectrum);
 	
 					//currentDistance -= D;
@@ -473,7 +471,6 @@ void DintElcaPropagation(const std::string &inputfile,
 	//std::cout << "done" << std::endl;
 
 	DeleteSpectrum(&finalSpectrum);
-	Delete_dCVector(&bField);
 
 	Delete_dCVector(&energyGrid);
 	Delete_dCVector(&energyWidth);

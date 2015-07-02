@@ -201,9 +201,9 @@ void DintPropagation(const std::string &inputfile,
 		Spectrum inputSpectrum, outputSpectrum;
 		NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
 		NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
+		InitializeSpectrum(&inputSpectrum);
 		// process secondaries
 		while (secondaries.size() > 0) {
-			InitializeSpectrum(&inputSpectrum);
 			double currentDistance = secondaries.back().D;
 			// add secondaries at the current distance to spectrum
 			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
@@ -235,25 +235,22 @@ void DintPropagation(const std::string &inputfile,
 				}
 				secondaries.pop_back();
 			}
-			//std::cout << secondaries.size() << std::endl;
 
-//			double D = currentDistance;
-//
-//			// only propagate to next particle
-//			if (secondaries.size() > 0)
-//				D -= secondaries.back().D;
-			//std::cout << D << std::endl;
+			double D = 0;
+			// only propagate to next particle
+			if (secondaries.size() > 0)
+				D = secondaries.back().D;
+
 			InitializeSpectrum(&outputSpectrum);
 			//prop_second(currentDistance, &bField, &energyGrid, &energyWidth, &inputSpectrum,
 			//		&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
 			//		ol, 0);
 
-			dint.propagate(currentDistance, 0, &inputSpectrum, &outputSpectrum);
-			AddSpectrum(&finalSpectrum, &outputSpectrum);
-
+			dint.propagate(currentDistance, D, &inputSpectrum, &outputSpectrum);
+			SetSpectrum(&inputSpectrum, &outputSpectrum);
 		}
 
-		//AddSpectrum(&finalSpectrum, &inputSpectrum);
+		AddSpectrum(&finalSpectrum, &inputSpectrum);
 
 		DeleteSpectrum(&outputSpectrum);
 		DeleteSpectrum(&inputSpectrum);
@@ -269,7 +266,6 @@ void DintPropagation(const std::string &inputfile,
 		outfile << "\n";
 	}
 
-	//std::cout << "done" << std::endl;
 
 	DeleteSpectrum(&finalSpectrum);
 	Delete_dCVector(&bField);
@@ -394,12 +390,11 @@ void DintElcaPropagation(const std::string &inputfile,
 				NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
 				NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 
+				InitializeSpectrum(&inputSpectrum);
 				// process secondaries
 				while (ParticleAtGround.size() > 0) 
 				{
-					InitializeSpectrum(&inputSpectrum);
 					double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz()) ;
-					//std::cout << currentDistance / Mpc << "\t";
 					// add secondaries at the current distance to spectrum
 					while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin))) 
 					{
@@ -432,23 +427,19 @@ void DintElcaPropagation(const std::string &inputfile,
 						}
 						ParticleAtGround.pop_back();
 					}
-					// std::cout << ParticleAtGround.size() << " " << currentDistance / Mpc << std::endl;
-	
-					double D = currentDistance;
-	
+
+					double D = 0;
 					// only propagate to next particle
-					//if (ParticleAtGround.size() > 0)
-					//	D -= redshift2ComovingDistance(ParticleAtGround.back().Getz());
+					if (ParticleAtGround.size() > 0)
+						D = redshift2ComovingDistance(ParticleAtGround.back().Getz());
+
 					InitializeSpectrum(&outputSpectrum);
-					// Fix Radioflag and IR Flag to Eleca implementation
-					dint.propagate(D / Mpc, 0, &inputSpectrum,
+					dint.propagate(currentDistance / Mpc, D / Mpc, &inputSpectrum,
 							&outputSpectrum);
-					AddSpectrum(&finalSpectrum, &outputSpectrum);
-	
-					//currentDistance -= D;
+					SetSpectrum(&inputSpectrum, &outputSpectrum);
 				} // while (secondaries.size() > 0) 
 	
-				//AddSpectrum(&finalSpectrum, &inputSpectrum);
+				AddSpectrum(&finalSpectrum, &inputSpectrum);
 	
 				DeleteSpectrum(&outputSpectrum);
 				DeleteSpectrum(&inputSpectrum);
@@ -467,8 +458,6 @@ void DintElcaPropagation(const std::string &inputfile,
 		}
 		outfile << "\n";
 	}
-
-	//std::cout << "done" << std::endl;
 
 	DeleteSpectrum(&finalSpectrum);
 

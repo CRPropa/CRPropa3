@@ -139,6 +139,17 @@ public:
 	std::string getDescription() const;
 };
 
+/**
+ @class ObserverElectronVeto
+ @brief Veto for electrons and positrons
+ */
+class ObserverElectronVeto: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // old observer scheme
 

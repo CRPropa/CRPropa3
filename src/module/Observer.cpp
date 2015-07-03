@@ -233,6 +233,19 @@ std::string ObserverPhotonVeto::getDescription() const {
 	return "ObserverPhotonVeto";
 }
 
+// ObserverElectronVeto ---------------------------------------------------------
+DetectionState ObserverElectronVeto::checkDetection(Candidate *c) const {
+	if (abs(c->current.getId()) == 11)
+		return VETO;
+	return NOTHING;
+}
+
+std::string ObserverElectronVeto::getDescription() const {
+	return "ObserverElectronVeto";
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 
 SmallObserverSphere::SmallObserverSphere(Vector3d center, double radius,

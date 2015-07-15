@@ -232,8 +232,8 @@ using std::ptrdiff_t;
             std::ostringstream buffer;
             buffer << "Vector( ";
             buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << ", ";
-            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << ", ";
-            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << " )";
+            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->y << ", ";
+            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->z << " )";
             return buffer.str();
         }
 }

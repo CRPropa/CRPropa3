@@ -229,12 +229,9 @@ using std::ptrdiff_t;
 
 %extend classname {
         const std::string repr() {
-            std::ostringstream buffer;
-            buffer << "Vector( ";
-            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->x << ", ";
-            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->y << ", ";
-            buffer << std::setiosflags(std::ios::fixed) << std::setprecision(3) << $self->z << " )";
-            return buffer.str();
+            char buffer[1024];
+            sprintf( buffer, "Vector( %.5e, %.5e, %.5e )", $self->x, $self->y, $self->z );
+            return buffer;
         }
 }
 

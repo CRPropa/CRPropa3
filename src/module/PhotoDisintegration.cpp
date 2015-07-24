@@ -12,6 +12,12 @@
 
 namespace crpropa {
 
+
+const double PhotoDisintegration::lgmin = 6.; // minimum log10(Lorentz-factor)
+const double PhotoDisintegration::lgmax = 14.; // maximum log10(Lorentz-factor)
+const size_t PhotoDisintegration::nlg = 201; // number of Lorentz-factor steps
+
+
 PhotoDisintegration::PhotoDisintegration(PhotonField f, double limit) {
 	setPhotonField(f);
 	this->limit = limit;

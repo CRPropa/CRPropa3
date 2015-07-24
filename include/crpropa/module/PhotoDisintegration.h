@@ -24,9 +24,9 @@ private:
 	std::vector<std::vector<Branch> > pdBranch; // pdTable[Z * 31 + N] = vector<Branch>
 	std::vector<std::vector<double> > pdRate; // pdRate[Z * 31 + N] = total disintegration rate
 
-	static const double lgmin = 6; // minimum log10(Lorentz-factor)
-	static const double lgmax = 14; // maximum log10(Lorentz-factor)
-	static const size_t nlg = 201; // number of Lorentz-factor steps
+	static const double lgmin; // minimum log10(Lorentz-factor)
+	static const double lgmax; // maximum log10(Lorentz-factor)
+	static const size_t nlg; // number of Lorentz-factor steps
 
 public:
 	PhotoDisintegration(PhotonField photonField = CMB, double limit = 0.1);

@@ -413,7 +413,7 @@ class MagneticLens(MagneticLens):
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
       double* data = $self->getMap(particleId, energy);
-      size_t npix = $self->getNumberOfPixels();
+      npy_intp npix = $self->getNumberOfPixels();
       npy_intp dims[1] = {npix};
       return PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, (void*)data);
   }

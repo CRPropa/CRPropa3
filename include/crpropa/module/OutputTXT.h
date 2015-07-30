@@ -9,23 +9,6 @@
 
 namespace crpropa {
 
-enum OutputColumn {
-	TrajectoryLengthColumn,
-	RedshiftColumn,
-	CurrentIdColumn,
-	CurrentEnergyColumn,
-	CurrentPositionColumn,
-	CurrentDirectionColumn,
-	SourceIdColumn,
-	SourceEnergyColumn,
-	SourcePositionColumn,
-	SourceDirectionColumn,
-	CreatedIdColumn,
-	CreatedEnergyColumn,
-	CreatedPositionColumn,
-	CreatedDirectionColumn
-};
-
 class TextOutput: public Module {
 protected:
 	double lengthScale, energyScale;
@@ -35,6 +18,23 @@ protected:
 	std::string filename;
 	bool oneDimensional;
 public:
+	enum OutputColumn {
+		TrajectoryLengthColumn,
+		RedshiftColumn,
+		CurrentIdColumn,
+		CurrentEnergyColumn,
+		CurrentPositionColumn,
+		CurrentDirectionColumn,
+		SourceIdColumn,
+		SourceEnergyColumn,
+		SourcePositionColumn,
+		SourceDirectionColumn,
+		CreatedIdColumn,
+		CreatedEnergyColumn,
+		CreatedPositionColumn,
+		CreatedDirectionColumn
+	};
+
 	TextOutput();
 	~TextOutput();
 	TextOutput(std::ostream &out);

@@ -7,7 +7,6 @@
 #include <fstream>
 #include <bitset>
 
-
 namespace crpropa {
 
 enum OutputColumn {
@@ -33,7 +32,8 @@ protected:
 	std::ostream *out;
 	std::ofstream outfile;
 	std::bitset<64> fields;
-        bool oneDimensional;
+	std::string filename;
+	bool oneDimensional;
 public:
 	TextOutput();
 	~TextOutput();
@@ -47,12 +47,13 @@ public:
 	void disable(OutputColumn field);
 	void enableAll();
 	void disableAll();
+	void resetFile();
 	void printHeader();
-        void set1D(bool value);
+	void set1D(bool value);
 	void process(Candidate *candidate) const;
-	void endRun();	
-        
-        void gzip();
+	void endRun();
+
+	void gzip();
 };
 
 /**

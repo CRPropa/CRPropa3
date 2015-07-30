@@ -13,4 +13,4 @@ For installation instructions and documentation please refer to the [wiki page](
 
 If you encounter any problems during installation or when running CRPropa please don't hesitate to use the [ticket system](https://github.com/CRPropa/CRPropa3/issues).
 
-In case of general questions please send an email to our [support address](mailto:crpropa-support@desy.de)
+In case of general questions please send an email to our [support address](mailto:crpropa-support@desy.de).

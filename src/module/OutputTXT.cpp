@@ -91,12 +91,9 @@ void TextOutput::printHeader() {
 		else
 			*out << "\tX\tY\tZ";
 	}
-	if (fields.test(CurrentDirectionColumn)) {
-		if (oneDimensional)
-			*out << "\tPx";
-		else
+	if (fields.test(CurrentDirectionColumn))
+		if (not oneDimensional)
 			*out << "\tPx\tPy\tPz";
-	}
 
 	if (fields.test(SourceIdColumn))
 		*out << "\tID0";
@@ -108,12 +105,9 @@ void TextOutput::printHeader() {
 		else
 			*out << "\tX0\tY0\tZ0";
 	}
-	if (fields.test(SourceDirectionColumn)) {
-		if (oneDimensional)
-			*out << "\tP0x";
-		else
+	if (fields.test(SourceDirectionColumn))
+		if (not oneDimensional)
 			*out << "\tP0x\tP0y\tP0z";
-	}
 
 	if (fields.test(CreatedIdColumn))
 		*out << "\tID1";
@@ -125,12 +119,9 @@ void TextOutput::printHeader() {
 		else
 			*out << "\tX1\tY1\tZ1";
 	}
-	if (fields.test(CreatedDirectionColumn)) {
-		if (oneDimensional)
-			*out << "\tP1x";
-		else
+	if (fields.test(CreatedDirectionColumn))
+		if (not oneDimensional)
 			*out << "\tP1x\tP1y\tP1z";
-	}
 
 	*out << "\n#\n";
 	if (fields.test(TrajectoryLengthColumn))
@@ -182,9 +173,7 @@ void TextOutput::process(Candidate *c) const {
 		}
 	}
 	if (fields.test(CurrentDirectionColumn)) {
-		if (oneDimensional) {
-			p += sprintf(buffer + p, "%8.5f\t", c->current.getDirection().x);
-		} else {
+		if (not oneDimensional) {
 			const Vector3d pos = c->current.getDirection();
 			p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y,
 					pos.z);
@@ -207,9 +196,7 @@ void TextOutput::process(Candidate *c) const {
 		}
 	}
 	if (fields.test(SourceDirectionColumn)) {
-		if (oneDimensional) {
-			p += sprintf(buffer + p, "%8.5f\t", c->source.getDirection().x);
-		} else {
+		if (not oneDimensional) {
 			const Vector3d pos = c->source.getDirection();
 			p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y,
 					pos.z);
@@ -233,14 +220,11 @@ void TextOutput::process(Candidate *c) const {
 		}
 	}
 	if (fields.test(CreatedDirectionColumn)) {
-		if (oneDimensional) {
-			p += sprintf(buffer + p, "%8.5f\t", c->created.getDirection().x);
-		} else {
+		if (not oneDimensional) {
 			const Vector3d pos = c->created.getDirection();
 			p += sprintf(buffer + p, "%8.5f\t%8.5f\t%8.5f\t", pos.x, pos.y,
 					pos.z);
 		}
-
 	}
 
 	buffer[p - 1] = '\n';

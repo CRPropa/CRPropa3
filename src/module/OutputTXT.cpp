@@ -23,8 +23,57 @@ TextOutput::TextOutput(std::ostream &out) :
 
 TextOutput::TextOutput(const std::string &filename) :
 		lengthScale(Mpc), energyScale(EeV), outfile(filename.c_str(),
-				std::ios::binary), out(&outfile), oneDimensional(false), filename(filename){
+				std::ios::binary), out(&outfile), oneDimensional(false), filename(
+				filename) {
 	enableAll();
+	if (kiss::ends_with(filename, ".gz"))
+		gzip();
+}
+
+TextOutput::TextOutput(const std::string &filename, const std::string &outputtype) :
+		lengthScale(Mpc), energyScale(EeV), outfile(filename.c_str(),
+				std::ios::binary), out(&outfile), oneDimensional(false), filename(
+				filename) {
+	if (outputtype == "1D trajectories") {
+		// X, ID, E
+		set(CurrentPositionColumn, true);
+		set(CurrentIdColumn, true);
+		set(CurrentEnergyColumn, true);
+		set1D(true);
+	}
+	else if (outputtype == "1D events") {
+		// ID, E, D, ID0, E0
+		set(CurrentIdColumn, true);
+		set(CurrentEnergyColumn, true);
+		set(TrajectoryLengthColumn, true);
+		set(SourceIdColumn, true);
+		set(SourceEnergyColumn, true);
+		set1D(true);
+	}
+	else if (outputtype == "3D trajectories") {
+		// D, ID, E, X, Y, Z, Px, Py, Pz
+		set(TrajectoryLengthColumn, true);
+		set(CurrentIdColumn, true);
+		set(CurrentEnergyColumn, true);
+		set(CurrentPositionColumn, true);
+		set(CurrentDirectionColumn, true);
+	}
+	else if (outputtype == "3D events") {
+		// D, ID, ID0, E, E0, X, Y, Z, X0, Y0, Z0, Px, Py, Pz, P0x, P0y, P0z,z
+		set(TrajectoryLengthColumn, true);
+		set(CurrentIdColumn, true);
+		set(SourceIdColumn, true);
+		set(CurrentEnergyColumn, true);
+		set(SourceEnergyColumn, true);
+		set(CurrentPositionColumn, true);
+		set(SourcePositionColumn, true);
+		set(CurrentDirectionColumn, true);
+		set(SourcePositionColumn, true);
+	}
+	else {
+		throw std::runtime_error(
+				"TextOutput: Outputtype must be one of '1D trajectories', '1D events', '3D trajectories', '3D events'");
+	}
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 }
@@ -142,7 +191,7 @@ void TextOutput::printHeader() {
 			|| fields.test(CreatedDirectionColumn)
 			|| fields.test(SourceDirectionColumn))
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
-	*out << "# 0 = Source, 1 = Created, e.g. interaction point\n";
+	*out << "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
 }
 
 void TextOutput::process(Candidate *c) const {

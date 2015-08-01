@@ -30,7 +30,8 @@ TextOutput::TextOutput(const std::string &filename) :
 		gzip();
 }
 
-TextOutput::TextOutput(const std::string &filename, const std::string &outputtype) :
+TextOutput::TextOutput(const std::string &filename,
+		const std::string &outputtype) :
 		lengthScale(Mpc), energyScale(EeV), outfile(filename.c_str(),
 				std::ios::binary), out(&outfile), oneDimensional(false), filename(
 				filename) {
@@ -40,8 +41,7 @@ TextOutput::TextOutput(const std::string &filename, const std::string &outputtyp
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
 		set1D(true);
-	}
-	else if (outputtype == "1D events") {
+	} else if (outputtype == "1D events") {
 		// ID, E, D, ID0, E0
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
@@ -49,16 +49,14 @@ TextOutput::TextOutput(const std::string &filename, const std::string &outputtyp
 		set(SourceIdColumn, true);
 		set(SourceEnergyColumn, true);
 		set1D(true);
-	}
-	else if (outputtype == "3D trajectories") {
+	} else if (outputtype == "3D trajectories") {
 		// D, ID, E, X, Y, Z, Px, Py, Pz
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
 		set(CurrentPositionColumn, true);
 		set(CurrentDirectionColumn, true);
-	}
-	else if (outputtype == "3D events") {
+	} else if (outputtype == "3D events") {
 		// D, ID, ID0, E, E0, X, Y, Z, X0, Y0, Z0, Px, Py, Pz, P0x, P0y, P0z,z
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
@@ -69,8 +67,7 @@ TextOutput::TextOutput(const std::string &filename, const std::string &outputtyp
 		set(SourcePositionColumn, true);
 		set(CurrentDirectionColumn, true);
 		set(SourcePositionColumn, true);
-	}
-	else {
+	} else {
 		throw std::runtime_error(
 				"TextOutput: Outputtype must be one of '1D trajectories', '1D events', '3D trajectories', '3D events'");
 	}
@@ -191,7 +188,8 @@ void TextOutput::printHeader() {
 			|| fields.test(CreatedDirectionColumn)
 			|| fields.test(SourceDirectionColumn))
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
-	*out << "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
+	*out
+			<< "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
 }
 
 void TextOutput::process(Candidate *c) const {
@@ -313,6 +311,9 @@ void TextOutput::gzip() {
 }
 
 TrajectoryOutput::TrajectoryOutput(std::string name) {
+	std::cout
+			<< "TrajectoryOutput is deprecated. Use TextOutput(..., '3D trajectories') instead."
+			<< std::endl;
 	setDescription("Trajectory output");
 	fout.open(name.c_str());
 	fout << "# D\tID\tE\tX\tY\tZ\tPx\tPy\tPz\n" << "#\n"
@@ -349,6 +350,9 @@ void TrajectoryOutput::endRun() {
 
 ConditionalOutput::ConditionalOutput(std::string fname, std::string cond) :
 		condition(cond) {
+	std::cout
+			<< "ConditionalOutput is deprecated. Use TextOutput(..., '3D events') instead."
+			<< std::endl;
 	setDescription(
 			"Conditional output, condition: " + cond + ", filename: " + fname);
 	fout.open(fname.c_str());
@@ -400,6 +404,9 @@ void ConditionalOutput::endRun() {
 }
 
 TrajectoryOutput1D::TrajectoryOutput1D(std::string filename) {
+	std::cout
+			<< "TrajectoryOutput1D is deprecated. Use TextOutput(..., '1D trajectories') instead."
+			<< std::endl;
 	setDescription("TrajectoryOutput, filename: " + filename);
 	fout.open(filename.c_str());
 	fout << "#X\tID\tE\n" << "#\n" << "# X  Position [Mpc]\n"
@@ -426,6 +433,9 @@ void TrajectoryOutput1D::endRun() {
 }
 
 EventOutput1D::EventOutput1D(std::string filename) {
+	std::cout
+			<< "EventOutput1D is deprecated. Use TextOutput(..., '1D events') instead."
+			<< std::endl;
 	setDescription("Conditional output, filename: " + filename);
 	fout.open(filename.c_str());
 	fout << "#ID\tE\tD\tID0\tE0\n" << "#\n" << "# ID  Particle type\n"

@@ -9,6 +9,10 @@
 
 namespace crpropa {
 
+/**
+ @class TextOutput
+ @brief Configurable plain text output for cosmic ray information.
+ */
 class TextOutput: public Module {
 protected:
 	double lengthScale, energyScale;
@@ -59,7 +63,7 @@ public:
 
 /**
  @class TrajectoryOutput
- @brief Saves trajectories to plain text file.
+ @brief Deprecated! Saves trajectories to plain text file.
  */
 class TrajectoryOutput: public Module {
 	mutable std::ofstream fout;
@@ -72,7 +76,7 @@ public:
 
 /**
  @class ConditionalOutput
- @brief Saves particles with a given property to a plain text file.
+ @brief Deprecated! Saves particles with a given property to a plain text file.
  */
 class ConditionalOutput: public Module {
 	mutable std::ofstream fout;
@@ -86,7 +90,7 @@ public:
 
 /**
  @class TrajectoryOutput1D
- @brief Saves 1D trajectories to plain text file.
+ @brief Deprecated! Saves 1D trajectories to plain text file.
  */
 class TrajectoryOutput1D: public Module {
 	mutable std::ofstream fout;
@@ -99,7 +103,7 @@ public:
 
 /**
  @class EventOutput1D
- @brief Records particles that are inactive and have the property 'Detected' to a plain text file.
+ @brief Deprecated! Records particles that are inactive and have the property 'Detected' to a plain text file.
  */
 class EventOutput1D: public Module {
 	mutable std::ofstream fout;

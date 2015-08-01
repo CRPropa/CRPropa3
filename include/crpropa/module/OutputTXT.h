@@ -39,6 +39,7 @@ public:
 	~TextOutput();
 	TextOutput(std::ostream &out);
 	TextOutput(const std::string &filename);
+	TextOutput(const std::string &filename, const std::string &outputtype);
 	void setEnergyScale(double scale);
 	void setLengthScale(double scale);
 

@@ -30,7 +30,6 @@ namespace crpropa {
  */
 class AMRMagneticField: public MagneticField {
 
-private:
 	saga::ref_ptr<saga::MagneticField> field;
     double cfLength;
     double cfDensity;
@@ -38,9 +37,9 @@ private:
 
 public:        
   
-    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)            
+    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field, double convLength, double convDensity, double convMagneticField)            
     {
-        field = field_;
+        field = field;
         cfLength = convLength;
         cfDensity = convDensity;
         cfMagneticField = convMagneticField;
@@ -48,9 +47,9 @@ public:
 
     Vector3d getField(const Vector3d &position) const {
 
-        double x = position.x/cfLength;
-        double y = position.y/cfLength;
-        double z = position.z/cfLength;
+        double x = position.x / cfLength;
+        double y = position.y / cfLength;
+        double z = position.z / cfLength;
 
         std::vector<double> b;
         #ifdef _OPENMP
@@ -62,11 +61,10 @@ public:
             b = field->getField(x, y, z);
         #endif
 
-        for(int i=0; i<3; i++)
-            b[i]*=cfMagneticField;
-        //std::cout << x*cfLength/Mpc << "  " << y*cfLength/Mpc << "  " << z*cfLength/Mpc << "  ||   " << b[0] << " " << b[1] << "  " << b[0] << std::endl;
+        for(size_t i=0; i<3; i++)
+            b[i] *= cfMagneticField;
 
-		return Vector3d(b[0], b[1], b[2]) * tesla;   
+		return Vector3d(b[0], b[1], b[2]);   
     }
 
 };

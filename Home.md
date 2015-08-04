@@ -5,10 +5,10 @@ Welcome to the CRPropa3 wiki!
  * [Installation](Installation)
 
 #### Tutorials
- * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.ipynb)
- * [1D Simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.ipynb)
- * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.ipynb)
- * [Galactic backtracking (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.ipynb)
+ * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.v3.ipynb)
+ * [1D Simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.v3.ipynb)
+ * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.v3.ipynb)
+ * [Galactic backtracking (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.v3.ipynb)
  * [Galactic backtracking (2)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v3.ipynb)
  * [Galactic Lensing (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_cr.ipynb)
  * [Galactic Lensing (2)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_maps.ipynb)

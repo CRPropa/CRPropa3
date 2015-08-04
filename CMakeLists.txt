@@ -22,18 +22,27 @@ SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
 if (NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
-MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 
 
 # ----------------------------------------------------------------------------
 # Version info from Git
 # ----------------------------------------------------------------------------
-# Embeded version info to the binaries for easier debugging 
-# and with the reproducibility in mind
-include(GetGitRevisionDescription)
-get_git_head_revision(GIT_REFSPEC GIT_SHA1)
-git_describe(GIT_DESC)
+# Embed the information about CRPropa version into the binaries for easier 
+# debugging with a reproducibility in mind
+option(ENABLE_GIT "If CRPropa source is inside of a git version control" ON)
 
+if(ENABLE_GIT)
+    include(GetGitRevisionDescription)
+    get_git_head_revision(GIT_REFSPEC GIT_SHA1)
+    git_describe(GIT_DESC)
+else(ENABLE_GIT)
+    set(GIT_REFSPEC "")
+    set(GIT_SHA1 "")
+    set(GIT_DESC "v3.0.beta1")
+endif(ENABLE_GIT)
+
+message(STATUS "CRPropa version: ${GIT_DESC}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp" @ONLY)
 list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
 
@@ -202,7 +211,7 @@ endif(ZLIB_FOUND)
 # ----------------------------------------------------------------------------
 # Downloading data files (interaction data, masses, decay data)
 # ----------------------------------------------------------------------------
-#Needed fo compilation without internet connection
+# Needed fo compilation without internet connection
 option(DISABLE_DOWNLOAD "Disable download of data files" OFF)
 
 if(DISABLE_DOWNLOAD)
@@ -210,7 +219,7 @@ if(DISABLE_DOWNLOAD)
 else(DISABLE_DOWNLOAD)
 
 	set(DATA_URL "https://crpropa.desy.de/images/4/44/Data20150505.tar.gz")
-	set(EXPECTED_MD5SUM "c2e1dba052c550873e67344673013f7c")
+	set(EXPECTED_MD5SUM "6df0b02c3140ed4caa47845d6cc15409")
 
 	function(GET_DATA)
 	    message("Downloading from crpropa.desy.de ~ 60 MB")
@@ -311,9 +320,17 @@ target_link_libraries(crpropa-xmlrun crpropa)
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
 if(ENABLE_PYTHON)
-	FIND_PACKAGE(SWIG REQUIRED)
+    FIND_PACKAGE(SWIG REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
+
+    # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
+    option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
+    if(ENABLE_SWIG_BUILTIN)
+        set(BUILTIN "-builtin")
+    else(ENABLE_SWIG_BUILTIN)
+        set(BUILTIN "")
+    endif(ENABLE_SWIG_BUILTIN)
 
 	# tries to import numpy
 	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
@@ -329,7 +346,7 @@ if(ENABLE_PYTHON)
 	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-		COMMAND swig -builtin -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa.i
+		COMMAND swig ${BUILTIN} -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa.i
 		DEPENDS ${CMAKE_SOURCE_DIR}/python/crpropa.i ${CRPROPA_INCLUDES} )
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)

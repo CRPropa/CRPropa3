@@ -2,6 +2,7 @@
 #include "crpropa/Units.h"
 
 #include <stdio.h>
+#include <stdexcept>
 
 #ifdef CRPROPA_HAVE_ZLIB
 #include <ozstream.hpp>

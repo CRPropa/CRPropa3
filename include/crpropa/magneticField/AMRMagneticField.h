@@ -36,10 +36,10 @@ class AMRMagneticField: public MagneticField {
     double cfMagneticField;
 
 public:        
-  
-    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field, double convLength, double convDensity, double convMagneticField)            
+    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)            
     {
-        field = field;
+
+        field = field_;
         cfLength = convLength;
         cfDensity = convDensity;
         cfMagneticField = convMagneticField;
@@ -51,15 +51,7 @@ public:
         double y = position.y / cfLength;
         double z = position.z / cfLength;
 
-        std::vector<double> b;
-        #ifdef _OPENMP
-            #pragma omp critical 
-            {    
-		        b = field->getField(x, y, z);
-            }
-        #else 
-            b = field->getField(x, y, z);
-        #endif
+        std::vector<double> b = field->getField(x, y, z);
 
         for(size_t i=0; i<3; i++)
             b[i] *= cfMagneticField;

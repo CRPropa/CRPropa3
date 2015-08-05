@@ -38,7 +38,6 @@ class AMRMagneticField: public MagneticField {
 public:        
     AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)            
     {
-
         field = field_;
         cfLength = convLength;
         cfDensity = convDensity;
@@ -52,11 +51,11 @@ public:
         double z = position.z / cfLength;
 
         std::vector<double> b = field->getField(x, y, z);
+        Vector3d B;
+        B.setXYZ(b[0], b[1], b[2]);
+        B = B * cfMagneticField;
 
-        for(size_t i=0; i<3; i++)
-            b[i] *= cfMagneticField;
-
-		return Vector3d(b[0], b[1], b[2]);   
+		return B;   
     }
 
 };

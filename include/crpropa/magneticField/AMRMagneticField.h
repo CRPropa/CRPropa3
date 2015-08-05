@@ -30,6 +30,7 @@ namespace crpropa {
  */
 class AMRMagneticField: public MagneticField {
 
+private:
 	saga::ref_ptr<saga::MagneticField> field;
     double cfLength;
     double cfDensity;

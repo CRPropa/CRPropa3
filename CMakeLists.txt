@@ -347,7 +347,7 @@ if(ENABLE_PYTHON)
 	include_directories(${PYTHON_INCLUDE_PATH})
 
     # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-    option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
+    option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
     if(ENABLE_SWIG_BUILTIN)
         set(BUILTIN "-builtin")
     else(ENABLE_SWIG_BUILTIN)
@@ -368,7 +368,7 @@ if(ENABLE_PYTHON)
 	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-		COMMAND swig ${BUILTIN} -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa.i
+        COMMAND swig ${BUILTIN} -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
 		DEPENDS ${CMAKE_SOURCE_DIR}/python/crpropa.i ${CRPROPA_INCLUDES} )
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)

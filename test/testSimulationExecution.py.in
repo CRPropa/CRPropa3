@@ -1,0 +1,79 @@
+import sys
+
+try:
+    import unittest
+    import tempfile
+except:
+    print("***********************************************************") 
+    print("* WARNING!! Couldn't import python unittesting framework! *") 
+    print("* No python tests have been executed                      *") 
+    print("***********************************************************") 
+    sys.exit(0)
+
+try:
+    import crpropa
+except Exception as e:
+    print("*** CRPropa import failed")
+    print(type(e), str(e))
+    sys.exit(-1)
+
+from crpropa import *
+
+
+class test1DChainWithSecondaries(unittest.TestCase):
+    def runTest(self):
+
+        dintFile = tempfile.NamedTemporaryFile()
+        outputFile = tempfile.NamedTemporaryFile()
+
+        sim = ModuleList()
+
+        sim.add(SimplePropagation())
+        sim.add(Redshift())
+        sim.add(PhotoPionProduction(CMB))
+        sim.add(PhotoPionProduction(IRB))
+        sim.add(PhotoDisintegration(CMB))
+        sim.add(PhotoDisintegration(IRB))
+        sim.add(NuclearDecay())
+        sim.add(ElectronPairProduction(CMB))
+        sim.add(ElectronPairProduction(IRB))
+        sim.add(MinimumEnergy(1 * EeV))
+
+        # observer
+        obs = Observer()
+        obs.add(ObserverPoint())
+        sim.add(obs)
+
+        # output
+        output = TextOutput(outputFile.name)
+        output.set1D(True)
+        output.printHeader()
+        obs.onDetection(output)
+
+        # source
+        source = Source()
+        source.add(SourceUniform1D(1 * Mpc, 1000 * Mpc))
+        source.add(SourceRedshift1D())
+
+        # power law spectrum with charge dependent maximum energy Z*100 EeV
+        # elements: H, He, N, Fe with equal abundances at constant energy per
+        # nucleon
+        composition = SourceComposition(1 * EeV, 100 * EeV, -1)
+        composition.add(1,  1,  1)  # H
+        composition.add(4,  2,  1)  # He-4
+        composition.add(14, 7,  1)  # N-14
+        composition.add(56, 26, 1)  # Fe-56
+        source.add(composition)
+
+        # run simulation
+        phot1 = PhotonDINT1D(dintFile.name)
+        sim.add(phot1)
+
+        sim.run(source, 1)
+
+        dintFile.close()
+        outputFile.close()
+
+
+if __name__ == '__main__':
+    unittest.main()

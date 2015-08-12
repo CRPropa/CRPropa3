@@ -444,6 +444,9 @@ if(ENABLE_TESTING)
 	if(ENABLE_PYTHON)
 		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py)
 		ADD_TEST(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
+
+		CONFIGURE_FILE(test/testSimulationExecution.py.in testSimulationExecution.py)
+		ADD_TEST(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
 	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)
 

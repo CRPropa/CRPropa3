@@ -73,17 +73,21 @@ PhotonDINT1D::PhotonDINT1D(const string &filename) :
 	dataPath = getDataPath("dint");
 
 	std::string::size_type i = filename.find_last_of('.');
-	std::string ext = filename.substr(i);
+
+	std::string ext;
+	if (i != string::npos)
+	{
+		ext = filename.substr(i);
+	}
 	if (ext == "root") {
-#ifdef CRPROPA_HAVE_ROOT
+	#ifdef CRPROPA_HAVE_ROOT
 		impl = new PhotonDINT1DROOTImpl(filename);
-#else
+	#else
 		throw std::runtime_error("ROOT not compiled!");
-#endif
+	#endif
 	} else {
 		impl = new PhotonDINT1DAsciiImpl(filename);
 	}
-
 }
 
 PhotonDINT1D::~PhotonDINT1D() {

@@ -76,6 +76,10 @@ std::string Observer::getDescription() const {
 	return ss.str();
 }
 
+void Observer::setDeactivateOnDetection(bool deactivate) {
+	makeInactive = deactivate;
+}
+
 // ObserverFeature ------------------------------------------------------------
 DetectionState ObserverFeature::checkDetection(Candidate *candidate) const {
 	return NOTHING;

@@ -53,6 +53,7 @@ public:
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 	void setFlag(std::string key, std::string value);
+	void setDeactivateOnDetection(bool deactivate);
 };
 
 /**

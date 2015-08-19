@@ -3,10 +3,10 @@ import sys
 try:
     import unittest
 except:
-    print("***********************************************************") 
-    print("* WARNING!! Couldn't import python unittesting framework! *") 
-    print("* No python tests have been executed                      *") 
-    print("***********************************************************") 
+    print("***********************************************************")
+    print("* WARNING!! Couldn't import python unittesting framework! *")
+    print("* No python tests have been executed                      *")
+    print("***********************************************************")
     sys.exit(0)
 
 try:
@@ -31,13 +31,12 @@ class testPixelizationConsistency(unittest.TestCase):
             pix = p.direction2Pix(*rd)
             self.assertEqual(pix, i)
 
-
     def testConsistencyWithHealpy(self):
         try:
             import healpy
         except ImportError:
-            print ("Consistency with healpy not tested as healpy is" \
-                  "not available")
+            print("Consistency with healpy not tested as healpy is not "
+                  "available")
             return
         p = crpropa.Pixelization(4)
         from numpy import linspace
@@ -74,8 +73,10 @@ class testParticleMapsContainer(unittest.TestCase):
         self.assertEqual(len(lats), 10)
 
     def testGetRandomparticlesStatistic(self):
-        msg = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.0027)! You should rerun the test to make sure there is a bug."
-       
+        msg = "Note that this is a statistical test. It might fail by chance "
+        "with a probabilty O(0.0027)! You should rerun the test to make "
+        "sure there is a bug."
+
         try:
             import numpy as np
         except:
@@ -92,13 +93,14 @@ class testParticleMapsContainer(unittest.TestCase):
 
         n12 = len(np.where(ids == 12))
         n2 = len(np.where(ids == 2))
-       
-        #we expect n12 = n2 = Ntot/2, with uncertainty sqrt(Ntot/2)
-        self.assertTrue( np.abs(n12 - n2) < 3. * np.sqrt(Ntot/2.), msg=msg)
 
-        #half of the sample should be with E =1 
+        # we expect n12 = n2 = Ntot/2, with uncertainty sqrt(Ntot/2)
+        self.assertTrue(np.abs(n12 - n2) < 3. * np.sqrt(Ntot/2.), msg=msg)
+
+        # half of the sample should be with E = 1
         nle = len(np.where(energies < 5E18)[0])
-        self.assertTrue( np.abs(nle - Ntot /2.) < 3. * np.sqrt(Ntot/2.), msg=msg)
+        self.assertTrue(np.abs(nle - Ntot / 2.) < 3. * np.sqrt(Ntot / 2.),
+                        msg=msg)
 
     def testNumpyMapAccess(self):
         try:
@@ -111,12 +113,12 @@ class testParticleMapsContainer(unittest.TestCase):
         self.maps.addParticle(12, 10*EeV, 0, 0, 1000)
         self.maps.addParticle(2, 1*EeV, 0, 0, 1000)
         self.maps.addParticle(2, 10*EeV, 0, 0, 1)
-        #stack all maps
+        # stack all maps
         crMap = np.zeros(49152)
         for pid in self.maps.getParticleIds():
             energies = self.maps.getEnergies(int(pid))
             for i, energy in enumerate(energies):
-                crMap += self.maps.getMap(int(pid), energy * crpropa.eV )
+                crMap += self.maps.getMap(int(pid), energy * crpropa.eV)
         self.assertTrue(isinstance(crMap, np.ndarray))
 
 

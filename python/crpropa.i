@@ -48,3 +48,27 @@ Vector3f.__repr__ = Vector3__repr__
 /* 4. Magnetic Lens */
 %include "4_lens.i"
 
+#ifdef WITH_GALACTIC_LENSES
+
+%ignore Pixelization::nPix();
+
+%pythoncode %{
+
+def Pixelization_nonStaticnPix(self, order=None):
+  if order == None:
+    return Pixelization_nPix(self.getOrder())
+  else:
+    return Pixelization_nPix(order)
+Pixelization.nPix = Pixelization_nonStaticnPix
+
+MagneticLens.transformModelVector = MagneticLens.transformModelVector_numpyArray
+
+ParticleMapsContainer.getMap = ParticleMapsContainer.getMap_numpyArray
+ParticleMapsContainer.getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
+ParticleMapsContainer.getEnergies = ParticleMapsContainer.getEnergies_numpyArray
+ParticleMapsContainer.getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
+
+%}
+
+#endif // WITH_GALACTIC_LENSES_
+

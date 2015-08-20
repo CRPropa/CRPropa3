@@ -56,3 +56,27 @@
 /* 4. Magnetic Lens */
 %include "4_lens.i"
 
+#ifdef WITH_GALACTIC_LENSES
+
+%pythoncode %{
+
+class Pixelization(Pixelization):
+    def nPix(self, order=None):
+      if order == None:
+        return Pixelization_nPix(self.getOrder())
+      else:
+        return Pixelization_nPix(order)
+
+class MagneticLens(MagneticLens):
+    transformModelVector = MagneticLens.transformModelVector_numpyArray
+
+class ParticleMapsContainer( ParticleMapsContainer ):
+    getParticleMap = ParticleMapsContainer.getMap_numpyArray
+    getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
+    getEnergies = ParticleMapsContainer.getEnergies_numpyArray
+    getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
+
+%}
+
+#endif // WITH_GALACTIC_LENSES_
+

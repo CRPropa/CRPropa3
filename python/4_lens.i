@@ -59,17 +59,6 @@ __WITHNUMPY = False
 
 %ignore crpropa::Pixelization::nPix( uint8_t order );
 
-%pythoncode %{
-class Pixelization(Pixelization):
-    def nPix(self, order=None):
-      if order == None:
-        return Pixelization_nPix(self.getOrder())
-      else:
-        return Pixelization_nPix(order)
-%}
-
-
-
 %apply double &INOUT {double &phi, double &theta};
 %ignore MagneticLens::transformModelVector(double *,double) const;
 %include "crpropa/magneticLens/MagneticLens.h"
@@ -108,10 +97,6 @@ class Pixelization(Pixelization):
 };
 #endif
 
-%pythoncode %{
-class MagneticLens(MagneticLens):
-        transformModelVector = MagneticLens.transformModelVector_numpyArray
-%}
 
 
 /* 5. Particle Maps Container */
@@ -213,14 +198,6 @@ class MagneticLens(MagneticLens):
   }
 };
 #endif // with numpy
-
-%pythoncode %{
-class ParticleMapsContainer( ParticleMapsContainer ):
-    getParticleMap = ParticleMapsContainer.getMap_numpyArray
-    getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
-    getEnergies = ParticleMapsContainer.getEnergies_numpyArray
-    getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
-%}
 
 #endif // WITH_GALACTIC_LENSES_
 

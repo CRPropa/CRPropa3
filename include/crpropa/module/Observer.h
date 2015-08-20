@@ -71,6 +71,21 @@ public:
 };
 
 /**
+ @class ObserverTracking
+ @brief Tracks particles inside a sphere
+ */
+class ObserverTracking: public ObserverFeature {
+private:
+	Vector3d center;
+	double radius;
+    double stepSize;
+public:
+	ObserverTracking(Vector3d center, double radius, double stepSize = 0);
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+/**
  @class ObserverLargeSphere
  @brief Detects particles upon exiting a sphere
  */

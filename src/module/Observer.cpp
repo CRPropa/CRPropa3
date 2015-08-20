@@ -133,6 +133,41 @@ std::string ObserverSmallSphere::getDescription() const {
 	return ss.str();
 }
 
+// ObserverTracking --------------------------------------------------------
+ObserverTracking::ObserverTracking(Vector3d center, double radius, double stepSize) :
+		center(center), radius(radius), stepSize(stepSize) {
+	if (stepSize == 0) {
+		stepSize = radius / 10.;
+	}
+}
+
+DetectionState ObserverTracking::checkDetection(Candidate *candidate) const {
+	// current distance to observer sphere center
+	double d = (candidate->current.getPosition() - center).getR();
+
+	// no detection if outside of observer sphere
+	if (d > radius) {
+		// conservatively limit next step to prevent overshooting
+		candidate->limitNextStep(fabs(d - radius));
+
+		return NOTHING;
+	} else {
+		// limit next step
+		candidate->limitNextStep(stepSize);
+
+		return DETECTED;
+	}
+}
+
+std::string ObserverTracking::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverTracking: ";
+	ss << "center = " << center / Mpc << " Mpc, ";
+	ss << "radius = " << radius / Mpc << " Mpc";
+	ss << "stepSize = " << stepSize / Mpc << " Mpc";
+	return ss.str();
+}
+
 // ObserverLargeSphere --------------------------------------------------------
 ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {

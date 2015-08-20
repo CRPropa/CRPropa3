@@ -115,4 +115,26 @@ std::string Candidate::getDescription() const {
 	return ss.str();
 }
 
+ref_ptr<Candidate> Candidate::clone(bool recursive) const {
+	ref_ptr<Candidate> cloned = new Candidate;
+	cloned->source = source;
+	cloned->created = created;
+	cloned->current = current;
+	cloned->previous = previous;
+
+	cloned->properties = properties;
+	cloned->active = active;
+	cloned->redshift = redshift;
+	cloned->trajectoryLength = trajectoryLength;
+	cloned->currentStep = currentStep;
+	cloned->nextStep = nextStep;
+	if (recursive) {
+		cloned->secondaries.reserve(secondaries.size());
+		for (size_t i = 0; i < secondaries.size(); i++) {
+			cloned->secondaries.push_back(secondaries[i]->clone(recursive));
+		}
+	}
+	return cloned;
+}
+
 } // namespace crpropa

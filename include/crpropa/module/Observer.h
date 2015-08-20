@@ -39,15 +39,15 @@ public:
 class Observer: public Module {
 	std::string flagKey;
 	std::string flagValue;
-
 private:
 	std::vector<ref_ptr<ObserverFeature> > features;
 	ref_ptr<Module> detectionAction;
+	bool clone;
 	bool makeInactive;
 public:
 	Observer();
 	void add(ObserverFeature *feature);
-	void onDetection(Module *action);
+	void onDetection(Module *action, bool clone = false);
 	void beginRun();
 	void endRun();
 	void process(Candidate *candidate) const;

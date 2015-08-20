@@ -284,6 +284,11 @@ void TextOutput::process(Candidate *c) const {
 
 }
 
+std::string TextOutput::getDescription() const {
+	return "TextOutput";
+}
+
+
 void TextOutput::endRun() {
 #ifdef CRPROPA_HAVE_ZLIB
 	zstream::ogzstream *zs = dynamic_cast<zstream::ogzstream *>(out);

@@ -99,6 +99,12 @@ public:
 	void clearSecondaries();
 
 	std::string getDescription() const;
+
+	/**
+	 Create an exact clone of candidate
+	 @param recursive	Recursivly clone and add the secondaries 
+	 */
+	ref_ptr<Candidate> clone(bool recursive = false) const;
 };
 
 } // namespace crpropa

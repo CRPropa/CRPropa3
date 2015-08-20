@@ -43,6 +43,20 @@ private:
 	bool showProgress;
 };
 
+/**
+ @class ModuleListRunner
+ @brief Run the provided ModuleList when process is called.
+ */
+class ModuleListRunner: public Module {
+private:
+	ref_ptr<ModuleList> mlist;
+public:
+
+	ModuleListRunner(ModuleList *mlist);
+	void process(Candidate *candidate) const; ///< call run of wrapped ModuleList
+	std::string getDescription() const;
+};
+
 } // namespace crpropa
 
 #endif // CRPROPA_MODULE_LIST_H

@@ -7,7 +7,7 @@ namespace crpropa {
 
 // Observer -------------------------------------------------------------------
 Observer::Observer() :
-		makeInactive(true) {
+		makeInactive(true), clone(false) {
 }
 
 void Observer::add(ObserverFeature *feature) {
@@ -27,8 +27,9 @@ void Observer::endRun() {
 		detectionAction->endRun();
 }
 
-void Observer::onDetection(Module *action) {
+void Observer::onDetection(Module *action, bool clone_) {
 	detectionAction = action;
+	clone = clone_;
 }
 
 void Observer::process(Candidate *candidate) const {
@@ -47,8 +48,12 @@ void Observer::process(Candidate *candidate) const {
 			features[i]->onDetection(candidate);
 		}
 
-		if (detectionAction.valid())
-			detectionAction->process(candidate);
+		if (detectionAction.valid()) {
+			if (clone)
+				detectionAction->process(candidate->clone(false));
+			else
+				detectionAction->process(candidate);
+		}
 
 		if (!flagKey.empty())
 			candidate->setProperty(flagKey, flagValue);
@@ -71,7 +76,7 @@ std::string Observer::getDescription() const {
 	ss << "    Flag: '" << flagKey << "' -> '" << flagValue << "'\n";
 	ss << "    MakeInactive: " << (makeInactive ? "yes\n" : "no\n");
 	if (detectionAction.valid())
-		ss << "    Action: " << detectionAction->getDescription();
+		ss << "    Action: " << detectionAction->getDescription() << ", clone: " << (clone ? "yes" : "no");
 
 	return ss.str();
 }

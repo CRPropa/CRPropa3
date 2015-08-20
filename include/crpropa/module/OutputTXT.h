@@ -59,6 +59,8 @@ public:
 	void endRun();
 
 	void gzip();
+
+	std::string getDescription() const;
 };
 
 /**

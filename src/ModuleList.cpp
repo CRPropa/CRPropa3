@@ -160,4 +160,20 @@ void ModuleList::showModules() const {
 	std::cout << getDescription();
 }
 
+ModuleListRunner::ModuleListRunner(ModuleList *mlist) : mlist(mlist) {
+}
+
+void ModuleListRunner::process(Candidate *candidate) const {
+	if (mlist.valid())
+		mlist->run(candidate);
+}
+
+std::string ModuleListRunner::getDescription() const {
+	std::stringstream ss;
+	ss << "ModuleListRunner\n";
+	if (mlist.valid())
+		ss << mlist->getDescription();
+	return ss.str();
+};
+
 } // namespace crpropa

@@ -17,6 +17,11 @@
 %import (module="quimby") quimby.i
 #endif
 
+#ifdef CRPROPA_HAVE_SAGA
+%import (module="saga") saga.i
+#endif
+
+
 %{
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/ElectronPairProduction.h"
@@ -159,4 +164,3 @@
 
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
-

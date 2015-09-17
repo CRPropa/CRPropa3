@@ -243,11 +243,6 @@ else(DISABLE_DOWNLOAD)
 	    else()
 	    	execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
 	    endif()
-
-
-	    message("Unpacking to CRPropa3/data\n")
-	    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
-	    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 	endfunction(GET_DATA)
 
 	message("\nSearching for data archive")
@@ -273,6 +268,10 @@ else(DISABLE_DOWNLOAD)
 	        GET_DATA()
 	    endif()
 	endif()
+
+	message("Unpacking to CRPropa3/data\n")
+	file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
+	execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 endif(DISABLE_DOWNLOAD)
 
 # ----------------------------------------------------------------------------

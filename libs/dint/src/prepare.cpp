@@ -232,7 +232,7 @@ void InteractionParameterInput(FILE* input, const int argc,
         }
 
 	printf("7. Neutrino mass (0: equally massive (1 eV), 1: tau = nu = 1, e = 0.1 eV): ");
-	scanf("%lf", pTauNeutrinoMassSwitch);
+	scanf("%i", pTauNeutrinoMassSwitch);
 
 	//	printf("\n\nNow turning to individual interactions...\n");
 	printf("\n");

@@ -17,7 +17,7 @@ void setUniformCallback(double (*Uniform)(double min, double max));
 template <unsigned int exponent>
 inline double pow_integer(double base)
 {
-  return pow_integer<exponent >> 1>(base*base) * (((exponent & 1) > 0) ? base : 1);
+  return pow_integer<(exponent >> 1)>(base*base) * (((exponent & 1) > 0) ? base : 1);
 }
 
 template <>

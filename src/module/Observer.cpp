@@ -256,7 +256,7 @@ std::string ObserverNucleusVeto::getDescription() const {
 
 // ObserverNeutrinoVeto -------------------------------------------------------
 DetectionState ObserverNeutrinoVeto::checkDetection(Candidate *c) const {
-	int id = fabs(c->current.getId());
+	int id = abs(c->current.getId());
 	if ((id == 12) or (id == 14) or (id == 16))
 		return VETO;
 	return NOTHING;

@@ -57,6 +57,30 @@ class testParticleMapsContainer(unittest.TestCase):
         self.assertEquals(len(self.maps.getParticleIds()), 1)
         self.assertEquals(self.maps.getParticleIds()[0], 12)
         self.assertEquals(len(self.maps.getEnergies(12)), 1)
+    
+    def testAddParticlesNumpyInterface(self):
+        try:
+            import numpy as np
+        except:
+            print("Cannot import numpy. Not testing testAddParticlesNumpyInterface!")
+            return
+        
+
+        N = 13
+        ids = np.ones(N, dtype='i')
+        lats = np.random.rand(N) * np.pi - np.pi/2.
+        lons = np.random.rand(N) * np.pi * 2. - np.pi
+        energy = 10 ** (18 + np.random.rand(N) * 3.) * crpropa.eV
+        weights = np.ones(N) / N
+        self.maps.addParticles(ids, energy, lons, lats, weights )
+        
+        crMap = np.zeros(49152)
+        for pid in self.maps.getParticleIds():
+            energies = self.maps.getEnergies(int(pid))
+            for i, energy in enumerate(energies):
+                crMap += self.maps.getMap(int(pid), energy * crpropa.eV)
+        self.assertAlmostEqual(sum(crMap), 1.)
+
 
     def testAddParticleVectorInterface(self):
         self.maps.addParticle(12, 1 * EeV, crpropa.Vector3d(1, 0, 0))

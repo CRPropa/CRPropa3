@@ -55,7 +55,7 @@ size_t binfread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
         temp[i] = Swap8(temp[i]);
     }
     else {
-      fprintf(stderr,"DINT / binfread : Strange member size = %d. Exit",size);
+      fprintf(stderr,"DINT / binfread : Strange member size = %i. Exit", size);
       exit(1);
     }   
   }

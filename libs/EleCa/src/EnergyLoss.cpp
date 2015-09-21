@@ -461,6 +461,7 @@ class ICSSecondariesEnergyDistribution
 					return exp(eer_0 + (i)*deer) * Ee; 
 				}
 			}
+			throw std::runtime_error("Grave logic error in sampling ICSSecondariesEnergyDistribution!");	
 		}
 };
 

@@ -109,6 +109,109 @@ __WITHNUMPY = False
 
 #ifdef WITHNUMPY
 %extend crpropa::ParticleMapsContainer{
+
+		PyObject *addParticles(PyObject *particleIds, 
+        PyObject *energies, 
+        PyObject *galacticLongitudes, 
+        PyObject *galacticLatitudes, 
+        PyObject *weights)
+    {
+      //ToDo: Handle strided arrays 
+      
+      //ToDo: Check that input objects are arrays  PyArray_Check
+      if (!PyArray_Check(particleIds))
+      {
+        std::cerr << "ParticleMapsContainer::addParticles -  require array as input for particleIds\n";
+        return NULL;
+      }
+      if (!PyArray_Check(energies))
+      {
+        std::cerr << "ParticleMapsContainer::addParticles -  require array as input for energy\n";
+        return NULL;
+      }
+      if (!PyArray_Check(galacticLongitudes))
+      {
+        std::cerr << "ParticleMapsContainer::addParticles -  require array as input for galacticLongitudes\n";
+        return NULL;
+      }
+      if (!PyArray_Check(galacticLatitudes))
+      {
+        std::cerr << "ParticleMapsContainer::addParticles -  require array as input for galacticLatitudes\n";
+        return NULL;
+      }
+      if (!PyArray_Check(weights))
+      {
+        std::cerr << "ParticleMapsContainer::addParticles -  require array as input for weights\n";
+        return NULL;
+      }
+      
+      int ndim = 0;
+      npy_intp dims[NPY_MAXDIMS];
+
+      PyArrayObject *particleIds_arr = NULL;
+      PyArray_Descr *particleIds_dtype = NULL;
+      if (PyArray_GetArrayParamsFromObject(particleIds, NULL, 1,
+            &particleIds_dtype, &ndim, dims, &particleIds_arr, NULL) < 0)
+        { return NULL; };
+      if (particleIds_arr == NULL)
+        return NULL;
+      
+      npy_intp *D = PyArray_DIMS(particleIds_arr);
+      int arraySize = D[0];
+
+      PyArrayObject *energies_arr = NULL;
+      PyArray_Descr *energies_dtype = NULL;
+      
+      if (PyArray_GetArrayParamsFromObject(energies, NULL, 1,
+            &energies_dtype, &ndim, dims, &energies_arr,
+            NULL) < 0)
+        { return NULL; };
+      if (energies_arr == NULL)
+        return NULL;
+
+      PyArrayObject *galacticLongitudes_arr = NULL;
+      PyArray_Descr *galacticLongitudes_dtype = NULL;
+      if (PyArray_GetArrayParamsFromObject(galacticLongitudes, NULL, 1,
+            &galacticLongitudes_dtype, &ndim, dims, &galacticLongitudes_arr,
+            NULL) < 0)
+        { return NULL; };
+      if (galacticLongitudes_arr == NULL)
+        return NULL;
+
+      PyArrayObject *galacticLatitudes_arr = NULL;
+      PyArray_Descr *galacticLatitudes_dtype = NULL;
+      if (PyArray_GetArrayParamsFromObject(galacticLatitudes, NULL, 1,
+            &galacticLatitudes_dtype, &ndim, dims, &galacticLatitudes_arr,
+            NULL) < 0)
+        { return NULL; };
+      if (galacticLatitudes_arr == NULL)
+        return NULL;
+
+      PyArrayObject *weights_arr = NULL;
+      PyArray_Descr *weights_dtype = NULL;
+      if (PyArray_GetArrayParamsFromObject(weights, NULL, 1,
+            &weights_dtype, &ndim, dims, &weights_arr,
+            NULL) < 0)
+        { return NULL; };
+      if (weights_arr == NULL)
+        return NULL;
+
+      int *particleIds_dp = (int*) PyArray_DATA(particleIds_arr);
+      double *energies_dp = (double*) PyArray_DATA(energies_arr);
+      double *galacticLongitudes_dp = (double*) PyArray_DATA(galacticLongitudes_arr);
+      double *galacticLatitudes_dp = (double*) PyArray_DATA(galacticLatitudes_arr);
+      double *weights_dp= (double*) PyArray_DATA(weights_arr);
+
+      for(size_t i =0; i < arraySize; i++ )
+      {
+        $self->addParticle(particleIds_dp[i], energies_dp[i],
+            galacticLongitudes_dp[i], galacticLatitudes_dp[i], weights_dp[i]);
+
+      }
+      Py_RETURN_TRUE;
+    }
+      
+
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
       double* data = $self->getMap(particleId, energy);

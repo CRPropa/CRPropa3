@@ -164,6 +164,13 @@ ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
+void ROOTEventOutput1D::endRun()
+{
+	TThread::Lock();
+	ROOTFile->Write();
+	TThread::UnLock();
+}
+
 
 ROOTEventOutput1D::~ROOTEventOutput1D() {
 	TThread::Lock();
@@ -198,6 +205,12 @@ ROOTPhotonOutput1D::ROOTPhotonOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
+void ROOTPhotonOutput1D::endRun()
+{
+	TThread::Lock();
+	ROOTFile->Write();
+	TThread::UnLock();
+}
 
 ROOTPhotonOutput1D::~ROOTPhotonOutput1D() {
 	TThread::Lock();
@@ -238,6 +251,13 @@ ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
+void ROOTTrajectoryOutput1D::endRun()
+{
+	TThread::Lock();
+	ROOTFile->Write();
+	TThread::UnLock();
+}
+
 ROOTTrajectoryOutput1D::~ROOTTrajectoryOutput1D() {
 	TThread::Lock();
 	ROOTFile->Write();
@@ -266,6 +286,13 @@ ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
 	Ntuple = new TNtuple("events", "CRPropa 3D events",
 			"TrajectoryLength_Mpc:Particle_Type:Initial_Type:Momentum_E_EeV:Initial_Momentum_E_EeV:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Initial_Position_X_Mpc:Initial_Position_Y_Mpc:Initial_Position_Z_Mpc:Direction_X_Mpc:Direction_Y_Mpc:Direction_Z_Mpc");
 			// Initial_Direction_X_Mpc:Initial_Direction_Y_Mpc:Initial_Direction_Z_Mpc
+	TThread::UnLock();
+}
+
+void ROOTEventOutput3D::endRun()
+{
+	TThread::Lock();
+	ROOTFile->Write();
 	TThread::UnLock();
 }
 
@@ -310,6 +337,13 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 			"CRPropa output data file");
 	Ntuple = new TNtuple("traj", "CRPropa 3D trajectories",
 			"TrajectoryLength_Mpc:Particle_Type:Energy_EeV:Position_X_Mpc:Position_Y_Mpc:Position_Z_Mpc:Direction_X_Mpc:Direction_Y_Mpc:Direction_Z_Mpc");
+	TThread::UnLock();
+}
+
+void ROOTTrajectoryOutput3D::endRun()
+{
+	TThread::Lock();
+	ROOTFile->Write();
 	TThread::UnLock();
 }
 

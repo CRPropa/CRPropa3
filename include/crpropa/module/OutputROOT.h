@@ -36,6 +36,7 @@ public:
 	ROOTEventOutput1D(std::string filename);
 	~ROOTEventOutput1D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 
@@ -52,6 +53,7 @@ public:
 	ROOTPhotonOutput1D(std::string filename);
 	~ROOTPhotonOutput1D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 
@@ -83,6 +85,7 @@ public:
 	ROOTTrajectoryOutput1D(std::string filename);
 	~ROOTTrajectoryOutput1D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 
@@ -113,6 +116,7 @@ public:
 	ROOTEventOutput3D(std::string filename);
 	~ROOTEventOutput3D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 
@@ -142,6 +146,7 @@ public:
 	ROOTTrajectoryOutput3D(std::string filename);
 	~ROOTTrajectoryOutput3D();
 	void process(Candidate *candidate) const;
+	void endRun();
 };
 
 

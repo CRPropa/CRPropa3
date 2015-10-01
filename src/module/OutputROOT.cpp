@@ -2,9 +2,10 @@
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
-#include <TObject.h>
 
 #ifdef CRPROPA_HAVE_ROOT
+
+#include <TObject.h>
 
 namespace crpropa {
 

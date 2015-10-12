@@ -2,6 +2,7 @@
 #define CRPROPA_GRIDTOOLS_H
 
 #include "crpropa/Grid.h"
+#include "crpropa/magneticField/MagneticField.h"
 #include <string>
 
 namespace crpropa {
@@ -37,6 +38,12 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 /** Analytically calculate the correlation length of a turbulent field */
 double turbulentCorrelationLength(double lMin, double lMax,
 		double alpha = -11./3.);
+
+/** fill vector grid from provided magnetic field */
+void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field);
+
+/** fill scalar grid from provided magnetic field */
+void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field);
 
 /**
  Dump / load functions for scalar / 3-vector grids and binary / plain text files.

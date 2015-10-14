@@ -50,9 +50,11 @@ void MagneticLens::loadLens(const string &filename)
 	string mfdatfile;
 	double emin, emax;
 
+	int lineCounter = 0;
 	while (!infile.eof())
 	{
 		getline(infile, line);
+		lineCounter++;
 		if (line.find('#') == string::npos)
 		{
 			stringstream ss;
@@ -60,8 +62,8 @@ void MagneticLens::loadLens(const string &filename)
 			ss >> mfdatfile >> emin >> emax;
 			if (ss.fail())
 			{
-				cerr << " ERROR READING LINE:\n  " << line
-						<< "  ... line skipped!" << endl;
+				cerr << "WARNING! Cannot read line " << lineCounter << " of file " << filename << " :\n [" << lineCounter << " ]: " << line << " \n";
+				cerr << " ... Skipping line and continue\n";
 			}
 			else
 			{

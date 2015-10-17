@@ -524,6 +524,7 @@ SourceGenericComposition::SourceGenericComposition(double Emin, double Emax, std
 		energy[i] = ::pow(10, logEmin + i * logStep);
 	}
 	setDescription();
+	cdf.push_back(0);
 }
 
 void SourceGenericComposition::add(int id, double weight) {
@@ -536,37 +537,36 @@ void SourceGenericComposition::add(int id, double weight) {
 	// calculate nuclei cdf
 	mu::Parser p;
 	double E;
-    p.DefineVar("E", &E);
-    p.DefineConst("Emin", Emin);
-    p.DefineConst("Emax", Emax);
-    p.DefineConst("steps", steps);
-    p.DefineConst("A", (double)A);
-    p.DefineConst("Z", (double)Z);
-    p.SetExpr(expression);
+	p.DefineVar("E", &E);
+	p.DefineConst("Emin", Emin);
+	p.DefineConst("Emax", Emax);
+	p.DefineConst("steps", steps);
+	p.DefineConst("A", (double)A);
+	p.DefineConst("Z", (double)Z);
+	p.SetExpr(expression);
 
 	// calculate pdf
 	n.cdf.resize(steps);
-    for (std::size_t i=0; i<steps; ++i) {
+	for (std::size_t i=0; i<steps; ++i) {
 		E = energy[i];
 		n.cdf[i] = p.Eval();
-    }
+	}
 
 	// integrate
-    for (std::size_t i=1; i<steps; ++i) {
+	for (std::size_t i=1; i<steps; ++i) {
 		n.cdf[i] = (n.cdf[i-1] + n.cdf[i]) * (energy[i] - energy[i-1]) / 2;
-    }
+	}
 
 	// cumulate
 	n.cdf[0] = 0;
-    for (std::size_t i=1; i<steps; ++i) {
+	for (std::size_t i=1; i<steps; ++i) {
 		n.cdf[i] += n.cdf[i-1];
-    }
+	}
 
 	nuclei.push_back(n);
 
-	if (cdf.size() > 0)
-		weight += cdf.back();
-	cdf.push_back(weight);
+	// update composition cdf
+	cdf.push_back(cdf.back() + weight * n.cdf.back());
 }
 
 void SourceGenericComposition::add(int A, int Z, double a) {
@@ -581,8 +581,8 @@ void SourceGenericComposition::prepareParticle(ParticleState& particle) const {
 
 
 	// draw random particle type
-	size_t iN = random.randBin(cdf);
-	const Nucleus &n = nuclei[iN];
+	size_t iN = random.randBin(cdf) - 1;
+	const Nucleus &n = nuclei.at(iN);
 	particle.setId(n.id);
 
 	// random energy

@@ -543,17 +543,25 @@ void SourceGenericComposition::add(int id, double weight) {
 	p.DefineConst("steps", steps);
 	p.DefineConst("A", (double)A);
 	p.DefineConst("Z", (double)Z);
+
+	p.DefineConst("MeV", MeV);
+	p.DefineConst("GeV", GeV);
+	p.DefineConst("TeV", TeV);
+	p.DefineConst("PeV", PeV);
+	p.DefineConst("EeV", EeV);
+	
 	p.SetExpr(expression);
 
 	// calculate pdf
 	n.cdf.resize(steps);
+	
 	for (std::size_t i=0; i<steps; ++i) {
 		E = energy[i];
 		n.cdf[i] = p.Eval();
 	}
 
 	// integrate
-	for (std::size_t i=1; i<steps; ++i) {
+	for (std::size_t i=steps-1; i>0; --i) {
 		n.cdf[i] = (n.cdf[i-1] + n.cdf[i]) * (energy[i] - energy[i-1]) / 2;
 	}
 

@@ -63,7 +63,7 @@ IF (MINGW)
 	execute_process(
 		COMMAND ${PYTHON_EXECUTABLE} -c "import sys; from distutils import sysconfig; import os; prefix= sysconfig.get_config_var('prefix'); ver = sysconfig.get_python_version().replace('.', ''); lib = os.path.join(prefix,'libs\\libpython'+ver+'.a'); sys.stdout.write(lib)"
 		OUTPUT_VARIABLE PYTHON_LIBRARIES
-		OUTPUT_STRIP_TRAILING_WHITESPACEsysconfig.get_config_var('LIBDIR')
+		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
 ENDIF(MINGW)
 

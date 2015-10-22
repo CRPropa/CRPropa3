@@ -131,7 +131,9 @@ void AddSpectrum(Spectrum *a, const Spectrum *b) {
 
 
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, double magneticFieldStrength,  int IRFlag, int RadioFlag, double Zmax) {
+		const std::string &outputfile, double magneticFieldStrength,  int IRFlag,
+		int RadioFlag, double Zmax,
+		double aCutcascade_Magfield) {
 	// Initialize the spectrum
 	dCVector energyGrid, energyWidth;
 	// Initialize the energy grids for dint
@@ -246,7 +248,7 @@ void DintPropagation(const std::string &inputfile,
 			//		&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
 			//		ol, 0);
 
-			dint.propagate(currentDistance, D, &inputSpectrum, &outputSpectrum);
+			dint.propagate(currentDistance, D, &inputSpectrum, &outputSpectrum, aCutcascade_Magfield);
 			SetSpectrum(&inputSpectrum, &outputSpectrum);
 		}
 
@@ -286,7 +288,8 @@ void DintElcaPropagation(const std::string &inputfile,
 	const std::string &outputfile, 
 	bool showProgress,
 	double crossOverEnergy,
-	double magneticFieldStrength)
+	double magneticFieldStrength,
+	double aCutcascade_Magfield) 
 {
 	//////////////////////////////////////////////////////////////////////// 
 	//Initialize EleCa
@@ -435,7 +438,7 @@ void DintElcaPropagation(const std::string &inputfile,
 
 					InitializeSpectrum(&outputSpectrum);
 					dint.propagate(currentDistance / Mpc, D / Mpc, &inputSpectrum,
-							&outputSpectrum);
+							&outputSpectrum, aCutcascade_Magfield);
 					SetSpectrum(&inputSpectrum, &outputSpectrum);
 				} // while (secondaries.size() > 0) 
 	

@@ -71,7 +71,7 @@ class MagneticLens(MagneticLens):
     transformModelVector = MagneticLens.transformModelVector_numpyArray
 
 class ParticleMapsContainer( ParticleMapsContainer ):
-    getParticleMap = ParticleMapsContainer.getMap_numpyArray
+    getMap = ParticleMapsContainer.getMap_numpyArray
     getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
     getEnergies = ParticleMapsContainer.getEnergies_numpyArray
     getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray

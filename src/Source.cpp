@@ -496,6 +496,29 @@ void SourceUniformRedshift::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
+SourceRedshiftEvolution::SourceRedshiftEvolution(double m, double zmin, double zmax) : m(m), zmin(zmin), zmax(zmax) {
+	std::stringstream ss;
+	ss << "SourceRedshiftEvolution: (1+z)^m, m = " << m;
+	ss << ", z = " << zmin << " - " << zmax << "\n";
+	description = ss.str();
+}
+
+void SourceRedshiftEvolution::prepareCandidate(Candidate& candidate) const {
+	double x = Random::instance().randUniform(0, 1);
+	double norm, z;
+
+	// special case: m=-1
+	if ((std::abs(m+1)) < std::numeric_limits<double>::epsilon()) {
+		norm = log(1+zmax) - log(1+zmin);
+		z = exp(norm*x) - 1;
+	} else {
+		norm = ( pow(1+zmax, m+1) - pow(1+zmin, m+1) ) / (m+1);
+		z = pow( norm*(m+1)*x + pow(1+zmin, m+1), 1./(m+1)) - 1;
+	}
+	candidate.setRedshift(z);
+}
+
+// ----------------------------------------------------------------------------
 SourceRedshift1D::SourceRedshift1D() {
 	setDescription();
 }
@@ -549,12 +572,12 @@ void SourceGenericComposition::add(int id, double weight) {
 	p.DefineConst("TeV", TeV);
 	p.DefineConst("PeV", PeV);
 	p.DefineConst("EeV", EeV);
-	
+
 	p.SetExpr(expression);
 
 	// calculate pdf
 	n.cdf.resize(steps);
-	
+
 	for (std::size_t i=0; i<steps; ++i) {
 		E = energy[i];
 		n.cdf[i] = p.Eval();

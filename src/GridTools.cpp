@@ -1,5 +1,6 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/Random.h"
+#include "crpropa/magneticField/MagneticField.h"
 
 #include <fstream>
 #include <sstream>
@@ -217,6 +218,36 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
 #endif // CRPROPA_HAVE_FFTW3F
+
+void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
+    Vector3d origin = grid->getOrigin();
+	double spacing = grid->getSpacing();
+    size_t Nx = grid->getNx();
+    size_t Ny = grid->getNy();
+    size_t Nz = grid->getNz();
+    for (size_t ix = 0; ix < Nx; ix++)
+        for (size_t iy = 0; iy < Ny; iy++)
+            for (size_t iz = 0; iz < Nz; iz++) {
+				Vector3d pos = Vector3d(double(ix) + 0.5, double(iy) + 0.5, double(iz) + 0.5) * spacing + origin;
+				Vector3d B = field->getField(pos);
+				grid->get(ix, iy, iz) = B;
+	}
+}
+
+void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field) {
+    Vector3d origin = grid->getOrigin();
+	double spacing = grid->getSpacing();
+    size_t Nx = grid->getNx();
+    size_t Ny = grid->getNy();
+    size_t Nz = grid->getNz();
+    for (size_t ix = 0; ix < Nx; ix++)
+        for (size_t iy = 0; iy < Ny; iy++)
+            for (size_t iz = 0; iz < Nz; iz++) {
+				Vector3d pos = Vector3d(double(ix) + 0.5, double(iy) + 0.5, double(iz) + 0.5) * spacing + origin;
+				double s = field->getField(pos).getR();
+				grid->get(ix, iy, iz) = s;
+	}
+}
 
 double turbulentCorrelationLength(double lMin, double lMax, double alpha) {
 	double r = lMin / lMax;

@@ -249,7 +249,7 @@ double dSigmadE_PPx(double x, double beta) {
 		const double A = (x / (1. - x) + (1. - x) / x );
 		const double B =  (1. / x + 1. / (1. - x) );
 
-		return A + (1. - beta*beta) * B + (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
+		return A + (1. - beta*beta) * B - (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
 	}
 }
 

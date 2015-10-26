@@ -318,8 +318,7 @@ class PPSecondariesEnergyDistribution
 			{
 				if (rnd < s0[i])
 				{
-					double beta = (s - ElectronMass * ElectronMass) / (s +
-								ElectronMass * ElectronMass);
+					double beta = sqrt(1. - 4.* ElectronMass * ElectronMass / s);
 
 					double x0 = log((1.-beta) / 2.);
 					double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (_Nrer); 

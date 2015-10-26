@@ -21,7 +21,7 @@ const double cash_karp_bs[] = { 2825. / 27648., 0., 18575. / 48384., 13525.
 		/ 55296., 277. / 14336., 1. / 4. };
 
 void PropagationCK::tryStep(const Y &y, Y &out, Y &error, double h,
-		ParticleState &particle) const {
+		ParticleState &particle, double z) const {
 	std::vector<Y> k;
 	k.reserve(6);
 
@@ -36,19 +36,19 @@ void PropagationCK::tryStep(const Y &y, Y &out, Y &error, double h,
 			y_n += k[j] * a[i * 6 + j] * h;
 
 		// update k_i
-		k[i] = dYdt(y_n, particle);
+		k[i] = dYdt(y_n, particle, z);
 
 		out += k[i] * b[i] * h;
 		error += k[i] * (b[i] - bs[i]) * h;
 	}
 }
 
-PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p) const {
+PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p, double z) const {
 	// normalize direction vector to prevent numerical losses
 	Vector3d velocity = y.u.getUnitVector() * c_light;
 	Vector3d B(0, 0, 0);
 	try {
-		B = field->getField(y.x);
+		B = field->getField(y.x, z);
 	} catch (std::exception &e) {
 		std::cerr << "PropagationCK: Exception in getField." << std::endl;
 		std::cerr << e.what() << std::endl;
@@ -93,12 +93,13 @@ void PropagationCK::process(Candidate *candidate) const {
 	Y yOut, yErr;
 	double h = step / c_light;
 	double hTry, r;
+	double z = candidate->getRedshift();
 
-	// try performing a steps until the relative error is less than the desired
+	// try performing a step until the relative error is less than the desired
 	// tolerance or the minimum step size has been reached
 	do {
 		hTry = h;
-		tryStep(yIn, yOut, yErr, hTry, current);
+		tryStep(yIn, yOut, yErr, hTry, current, z);
 
 		// determine absolute direction error relative to tolerance
 		r = yErr.u.getR() / tolerance;

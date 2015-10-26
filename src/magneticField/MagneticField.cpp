@@ -68,4 +68,14 @@ Vector3d MagneticFieldList::getField(const Vector3d &position) const {
 	return b;
 }
 
+MagneticFieldEvolution::MagneticFieldEvolution(ref_ptr<MagneticField> field,
+	double m) :
+	field(field), m(m) {
+}
+
+Vector3d MagneticFieldEvolution::getField(const Vector3d &position,
+	double z) const {
+	return field->getField(position) * pow(1+z, m);
+}
+
 } // namespace crpropa

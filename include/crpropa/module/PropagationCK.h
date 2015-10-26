@@ -59,10 +59,10 @@ public:
 
 	// derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)
 	// du/dt = q*c^2/E * (u x B)
-	Y dYdt(const Y &y, ParticleState &p) const;
+	Y dYdt(const Y &y, ParticleState &p, double z) const;
 
 	void tryStep(const Y &y, Y &out, Y &error, double t,
-			ParticleState &p) const;
+			ParticleState &p, double z) const;
 
 	void setField(ref_ptr<MagneticField> field);
 	void setTolerance(double tolerance);

@@ -309,7 +309,7 @@ class PPSecondariesEnergyDistribution
 		//samples the integrated distribution and returns Eer(Ee, s)
 		double sample(double E0, double eps, double theta)
 		{
-			double s = ElectronMass*ElectronMass + 2. * E0 * eps * (1-cos(theta));
+			double s = 2. * E0 * eps * (1-cos(theta));
 			
 			double *s0 = getDistribution(s); 
 			double rnd = Uniform(0, 1.0) *s0[_Nrer-1];

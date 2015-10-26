@@ -191,7 +191,7 @@ double dSigmadE_ICS(double Ee, double Eer, double s, double theta) {
 	double beta = (s - ElectronMass * ElectronMass)
 			/ (s + ElectronMass * ElectronMass);
 	// boundaries rewritten to avoid error due to numerical uncertainties
-	if ((Eer / Ee -1) / (Eer / Ee +1) > beta || Eer / Ee > 1) 
+	if ((1 - Eer / Ee) / (Eer / Ee +1) - beta > DBL_EPSILON || Eer / Ee > 1) 
 	{
 		std::cerr << "ERROR, Energy outside limits for ICS [Lee96]! " << std::endl;
 		std::cerr << "       Eer = " << Eer << " Ee = " << Ee << "  Eer/Ee = " <<

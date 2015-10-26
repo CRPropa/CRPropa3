@@ -28,7 +28,7 @@ message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 # ----------------------------------------------------------------------------
 # Version info from Git
 # ----------------------------------------------------------------------------
-# Embed the information about CRPropa version into the binaries for easier 
+# Embed the information about CRPropa version into the binaries for easier
 # debugging with a reproducibility in mind
 option(ENABLE_GIT "If CRPropa source is inside of a git version control" ON)
 
@@ -167,15 +167,6 @@ if(FFTW3F_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_FFTW3F)
 endif(FFTW3F_FOUND)
 
-# CFITSIO (optional for reading magnetic fields from FITS file)
-find_package(CFITSIO)
-if(CFITSIO_FOUND)
-	list(APPEND CRPROPA_EXTRA_INCLUDES ${CFITSIO_INCLUDE_DIR})
-	list(APPEND CRPROPA_EXTRA_LIBRARIES ${CFITSIO_LIBRARY})
-	add_definitions(-DCRPROPA_HAVE_CFITSIO)
-	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_CFITSIO)
-endif(CFITSIO_FOUND)
-
 # Quimby (optional for SPH magnetic fields)
 find_package(Quimby)
 if(QUIMBY_FOUND)
@@ -187,8 +178,7 @@ if(QUIMBY_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
 endif(QUIMBY_FOUND)
 
-
-# SAGA (optinal for AMR grids) 
+# SAGA (optinal for AMR grids)
 find_package(SAGA)
 if(SAGA_FOUND)
 	list(APPEND CRPROPA_EXTRA_INCLUDES ${SAGA_INCLUDE_DIR})
@@ -198,8 +188,6 @@ if(SAGA_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${SAGA_INCLUDE_DIR}/../python)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${SAGA_INCLUDE_DIR})
 endif(SAGA_FOUND)
-
-
 
 # muparser (optional for genercic source spectra)
 find_package(muParser)
@@ -211,6 +199,7 @@ if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${MUPARSER_INCLUDE_DIR})
 endif(MUPARSER_FOUND)
 
+# zstream-cpp (for compressed input/output files)
 find_package(ZLIB)
 if(ZLIB_FOUND)
 	list(APPEND CRPROPA_EXTRA_INCLUDES ${ZLIB_INCLUDE_DIRS})

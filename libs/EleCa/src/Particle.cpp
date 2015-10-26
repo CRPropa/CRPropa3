@@ -73,15 +73,18 @@ void Particle::SetBetaAndMass() {
 	}
 }
 
+int Particle::Generation() {
+  return fgeneration;
+}
 
-
-Particle::Particle(int _ft, double _fE, double _fz) {
+Particle::Particle(int _ft, double _fE, double _fz, int _fgeneration) {
 	ftype = _ft;
 	fE0ph = _fE;
 	fz0ph = _fz;
 	SetBetaAndMass();
 	fIsGood = IsGood();
 	fwi = 1;
+  fgeneration = _fgeneration;
 }
 
 Particle::Particle() {

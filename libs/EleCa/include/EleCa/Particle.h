@@ -14,10 +14,11 @@ private:
 	double fmass;
 	bool fIsGood;
 	int fwi;
+  int fgeneration;
 
 public:
 	Particle();
-	Particle(int _ft, double _fE, double fz);
+	Particle(int _ft, double _fE, double _fz, int _fgeneration = 0);
 	~ Particle();
 	bool IsGood();
 	int GetType() const;
@@ -46,6 +47,9 @@ public:
 //	}
 
 	void SetBetaAndMass();
+
+  int Generation();
+
 
 
 };

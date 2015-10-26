@@ -29,6 +29,22 @@ TEST(testMagneticFieldList, SimpleTest) {
 	EXPECT_DOUBLE_EQ(b.z, 3);
 }
 
+TEST(testMagneticFieldEvolution, SimpleTest) {
+	// Test if this decorator scales the underlying field as (1+z)^m
+	ref_ptr<UniformMagneticField> B = new UniformMagneticField(Vector3d(1,0,0));
+	double z = 1.2;
+	double m = 3;
+	MagneticFieldEvolution Bz(B, m);
+
+	// scaled field
+	Vector3d b = Bz.getField(Vector3d(0,0,0), z);
+	EXPECT_DOUBLE_EQ(b.x, pow(1+z, m));
+
+	// unscaled field
+	b = Bz.getField(Vector3d(0,0,0));
+	EXPECT_DOUBLE_EQ(b.x, 1);
+}
+
 #ifdef CRPROPA_HAVE_FFTW3F
 TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	// Test for zero mean: <B> = 0
@@ -89,6 +105,7 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 			std::runtime_error);
 }
 #endif // CRPROPA_HAVE_FFTW3F
+
 TEST(testTurbulentMagneticField, SimpleTest) {
 	TurbulentMagneticField B;
 	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11. / 3.,

@@ -24,6 +24,8 @@ CRPropa2ROOTEventOutput1D::~CRPropa2ROOTEventOutput1D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Ntuple;
 	TThread::UnLock();
 }
 
@@ -56,6 +58,8 @@ CRPropa2ROOTTrajectoryOutput1D::~CRPropa2ROOTTrajectoryOutput1D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Ntuple;
 	TThread::UnLock();
 }
 
@@ -87,6 +91,8 @@ CRPropa2ROOTEventOutput3D::~CRPropa2ROOTEventOutput3D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Ntuple;
 	TThread::UnLock();
 }
 
@@ -131,6 +137,8 @@ CRPropa2ROOTTrajectoryOutput3D::~CRPropa2ROOTTrajectoryOutput3D() {
 	TThread::Lock();
 	ROOTFile->Write();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Ntuple;
 	TThread::UnLock();
 }
 
@@ -182,6 +190,8 @@ ROOTEventOutput1D::~ROOTEventOutput1D() {
 	TThread::Lock(); 
 	ROOTFile->Close();
 	TThread::UnLock();
+	delete ROOTFile;
+	delete Tree;
 }
 
 void ROOTEventOutput1D::process(Candidate *c) const {
@@ -229,6 +239,8 @@ void ROOTPhotonOutput1D::endRun()
 ROOTPhotonOutput1D::~ROOTPhotonOutput1D() {
 	TThread::Lock();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Tree;
 	TThread::UnLock();
 }
 
@@ -279,6 +291,8 @@ void ROOTTrajectoryOutput1D::endRun()
 ROOTTrajectoryOutput1D::~ROOTTrajectoryOutput1D() {
 	TThread::Lock();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Tree;
 	TThread::UnLock();
 }
 
@@ -331,6 +345,8 @@ void ROOTEventOutput3D::endRun()
 ROOTEventOutput3D::~ROOTEventOutput3D() {
 	TThread::Lock();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Tree;
 	TThread::UnLock();
 }
 
@@ -391,6 +407,8 @@ void ROOTTrajectoryOutput3D::endRun()
 ROOTTrajectoryOutput3D::~ROOTTrajectoryOutput3D() {
 	TThread::Lock();
 	ROOTFile->Close();
+	delete ROOTFile;
+	delete Tree;
 	TThread::UnLock();
 }
 

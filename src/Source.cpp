@@ -496,6 +496,29 @@ void SourceUniformRedshift::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
+SourceRedshiftEvolution::SourceRedshiftEvolution(double m, double zmin, double zmax) : m(m), zmin(zmin), zmax(zmax) {
+	std::stringstream ss;
+	ss << "SourceRedshiftEvolution: (1+z)^m, m = " << m;
+	ss << ", z = " << zmin << " - " << zmax << "\n";
+	description = ss.str();
+}
+
+void SourceRedshiftEvolution::prepareCandidate(Candidate& candidate) const {
+	double x = Random::instance().randUniform(0, 1);
+	double norm, z;
+
+	// special case: m=-1
+	if ((std::abs(m+1)) < std::numeric_limits<double>::epsilon()) {
+		norm = log(1+zmax) - log(1+zmin);
+		z = exp(norm*x) - 1;
+	} else {
+		norm = ( pow(1+zmax, m+1) - pow(1+zmin, m+1) ) / (m+1);
+		z = pow( norm*(m+1)*x + pow(1+zmin, m+1), 1./(m+1)) - 1;
+	}
+	candidate.setRedshift(z);
+}
+
+// ----------------------------------------------------------------------------
 SourceRedshift1D::SourceRedshift1D() {
 	setDescription();
 }
@@ -524,6 +547,7 @@ SourceGenericComposition::SourceGenericComposition(double Emin, double Emax, std
 		energy[i] = ::pow(10, logEmin + i * logStep);
 	}
 	setDescription();
+	cdf.push_back(0);
 }
 
 void SourceGenericComposition::add(int id, double weight) {
@@ -536,37 +560,44 @@ void SourceGenericComposition::add(int id, double weight) {
 	// calculate nuclei cdf
 	mu::Parser p;
 	double E;
-    p.DefineVar("E", &E);
-    p.DefineConst("Emin", Emin);
-    p.DefineConst("Emax", Emax);
-    p.DefineConst("steps", steps);
-    p.DefineConst("A", (double)A);
-    p.DefineConst("Z", (double)Z);
-    p.SetExpr(expression);
+	p.DefineVar("E", &E);
+	p.DefineConst("Emin", Emin);
+	p.DefineConst("Emax", Emax);
+	p.DefineConst("steps", steps);
+	p.DefineConst("A", (double)A);
+	p.DefineConst("Z", (double)Z);
+
+	p.DefineConst("MeV", MeV);
+	p.DefineConst("GeV", GeV);
+	p.DefineConst("TeV", TeV);
+	p.DefineConst("PeV", PeV);
+	p.DefineConst("EeV", EeV);
+
+	p.SetExpr(expression);
 
 	// calculate pdf
 	n.cdf.resize(steps);
-    for (std::size_t i=0; i<steps; ++i) {
+
+	for (std::size_t i=0; i<steps; ++i) {
 		E = energy[i];
 		n.cdf[i] = p.Eval();
-    }
+	}
 
 	// integrate
-    for (std::size_t i=1; i<steps; ++i) {
+	for (std::size_t i=steps-1; i>0; --i) {
 		n.cdf[i] = (n.cdf[i-1] + n.cdf[i]) * (energy[i] - energy[i-1]) / 2;
-    }
+	}
 
 	// cumulate
 	n.cdf[0] = 0;
-    for (std::size_t i=1; i<steps; ++i) {
+	for (std::size_t i=1; i<steps; ++i) {
 		n.cdf[i] += n.cdf[i-1];
-    }
+	}
 
 	nuclei.push_back(n);
 
-	if (cdf.size() > 0)
-		weight += cdf.back();
-	cdf.push_back(weight);
+	// update composition cdf
+	cdf.push_back(cdf.back() + weight * n.cdf.back());
 }
 
 void SourceGenericComposition::add(int A, int Z, double a) {
@@ -581,8 +612,8 @@ void SourceGenericComposition::prepareParticle(ParticleState& particle) const {
 
 
 	// draw random particle type
-	size_t iN = random.randBin(cdf);
-	const Nucleus &n = nuclei[iN];
+	size_t iN = random.randBin(cdf) - 1;
+	const Nucleus &n = nuclei.at(iN);
 	particle.setId(n.id);
 
 	// random energy

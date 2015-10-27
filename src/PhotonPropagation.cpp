@@ -51,16 +51,17 @@ void EleCaPropagation(const std::string &inputfile,
 	eleca::Propagation propagation;
   propagation.SetEthr(lowerEnergyThreshold / eV );
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
-	propagation.InitBkgArray(background);
+  propagation.InitBkgArray(background);
 
 	propagation.SetB(magneticFieldStrength / gauss);
 
 	std::ofstream output(outputfile.c_str());
-	output << "# ID\tE\tiID\tiE\n";
+	output << "# ID\tE\tiID\tiE\tgeneration\n";
 	output << "# ID          Id of particle (photon, electron, positron)\n";
 	output << "# E           Energy [EeV]\n";
 	output << "# iID         Id of source particle\n";
 	output << "# iE          Energy [EeV] of source particle\n";
+	output << "# Generation  number of interactions during propagation before particle is created\n";
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double E, D, pE, iE;
@@ -99,7 +100,8 @@ void EleCaPropagation(const std::string &inputfile,
 					bufferPos += sprintf(buffer + bufferPos, "%i\t", p.GetType());
 					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
 					bufferPos += sprintf(buffer + bufferPos, "%i\t", iId);
-					bufferPos += sprintf(buffer + bufferPos, "%.4E", iE );
+					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", iE );
+					bufferPos += sprintf(buffer + bufferPos, "%i", p.Generation());
 					bufferPos += sprintf(buffer + bufferPos, "\n");
 
 					output.write(buffer, bufferPos);

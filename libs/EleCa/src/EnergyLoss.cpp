@@ -191,7 +191,7 @@ double dSigmadE_ICS(double Ee, double Eer, double s, double theta) {
 	double beta = (s - ElectronMass * ElectronMass)
 			/ (s + ElectronMass * ElectronMass);
 	// boundaries rewritten to avoid error due to numerical uncertainties
-	if ((Eer / Ee -1) / (Eer / Ee +1) > beta || Eer / Ee > 1) 
+	if ((1 - Eer / Ee) / (Eer / Ee +1) - beta > DBL_EPSILON || Eer / Ee > 1) 
 	{
 		std::cerr << "ERROR, Energy outside limits for ICS [Lee96]! " << std::endl;
 		std::cerr << "       Eer = " << Eer << " Ee = " << Ee << "  Eer/Ee = " <<
@@ -249,7 +249,7 @@ double dSigmadE_PPx(double x, double beta) {
 		const double A = (x / (1. - x) + (1. - x) / x );
 		const double B =  (1. / x + 1. / (1. - x) );
 
-		return A + (1. - beta*beta) * B + (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
+		return A + (1. - beta*beta) * B - (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
 	}
 }
 
@@ -266,15 +266,13 @@ class PPSecondariesEnergyDistribution
 		double _dls;
 
 	public:
-		PPSecondariesEnergyDistribution(double s_min = 2.6373E+11, double s_max =1e21,
+		PPSecondariesEnergyDistribution(double s_min = 4. * ElectronMass * ElectronMass, double s_max =1e21,
 				size_t Ns = 1000, size_t Nrer = 1000 )
 		{
-			// ToDo: this boundary is just an estimate
-			const double l = 1.001;
-			if (s_min < l * ElectronMass*ElectronMass)
+			if (s_min < 4.*ElectronMass*ElectronMass)
 			{
-				std::cerr << "Warning: Minimum COM Energy in ICS Interpolation s = " << s_min << " < " << l << " m_e**2 selected. Setting to s_min = " << l << " m_e**2.\n" ;
-				s_min = l * ElectronMass*ElectronMass;
+				std::cerr << "Warning: Minimum COM Energy in PP Interpolation s = " << s_min << " <  (2*m_e)**2 selected. Setting to s_min = (2*m_e)**2.\n" ;
+				s_min = 4.*ElectronMass*ElectronMass;
 			}
 			_Ns = Ns;
 			_Nrer = Nrer;
@@ -283,11 +281,10 @@ class PPSecondariesEnergyDistribution
 			_data = new double[Ns*Nrer];
 
 			_dls = (log(s_max) - log(s_min)) / (Ns);
-			double dls_min = log(s_min);
 
 			for (size_t i = 0; i < Ns; i++)
 			{
-				const double s = exp(dls_min + i*_dls);
+				const double s = s_min * exp(i*_dls);
 				double beta = sqrt(1. - 4. * ElectronMass*ElectronMass /s);
 				
 				double x0 = log((1.-beta) / 2.);
@@ -312,7 +309,7 @@ class PPSecondariesEnergyDistribution
 		//samples the integrated distribution and returns Eer(Ee, s)
 		double sample(double E0, double eps, double theta)
 		{
-			double s = ElectronMass*ElectronMass + 2. * E0 * eps * (1-cos(theta));
+			double s = 2. * E0 * eps * (1-cos(theta));
 			
 			double *s0 = getDistribution(s); 
 			double rnd = Uniform(0, 1.0) *s0[_Nrer-1];
@@ -321,8 +318,7 @@ class PPSecondariesEnergyDistribution
 			{
 				if (rnd < s0[i])
 				{
-					double beta = (s - ElectronMass * ElectronMass) / (s +
-								ElectronMass * ElectronMass);
+					double beta = sqrt(1. - 4.* ElectronMass * ElectronMass / s);
 
 					double x0 = log((1.-beta) / 2.);
 					double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (_Nrer); 
@@ -396,11 +392,11 @@ class ICSSecondariesEnergyDistribution
 		double _dls;
 
 	public:
-		ICSSecondariesEnergyDistribution(double s_min = 2.6373E+11, double s_max =1e21,
+		ICSSecondariesEnergyDistribution(double s_min = 1.01 * ElectronMass * ElectronMass /*2.6373E+11*/, double s_max =1e21,
 				size_t Ns = 1000, size_t Nrer = 1000 )
 		{
 			// ToDo: this boundary is just an estimate
-			const double l = 1.001;
+			const double l = 1.01;
 			if (s_min < l * ElectronMass*ElectronMass)
 			{
 				std::cerr << "Warning: Minimum COM Energy in ICS Interpolation s = " << s_min << " < " << l << " m_e**2 selected. Setting to s_min = " << l << " m_e**2.\n" ;

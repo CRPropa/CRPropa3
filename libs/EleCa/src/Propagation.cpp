@@ -574,11 +574,11 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in PP process:  E : " << Ecurr << "  " << E1
 						<< " " << std::endl;
 
-			Particle pp(11, E1, z_curr);
+			Particle pp(11, E1, z_curr,curr_particle.Generation()+1);
 			pp.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pp);
 
-			Particle pe(-11, Ecurr - E1, z_curr);
+			Particle pe(-11, Ecurr - E1, z_curr,curr_particle.Generation()+1);
 			pe.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pe);
 			return;
@@ -588,17 +588,17 @@ void Propagation::Propagate(Particle &curr_particle,
 			if (E1 == 0)
 				std::cerr << "ERROR in DPP process E : " << E1 << std::endl;
 
-			Particle pp(11, E1, z_curr);
+			Particle pp(11, E1, z_curr,curr_particle.Generation()+1);
 			pp.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pp);
 			
-			Particle pe(-11, E1, z_curr);
+			Particle pe(-11, E1, z_curr,curr_particle.Generation()+1);
 			pe.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pe);
 
 			return;
 		} //end if DPP
-		else if (proc.GetName() == Process::ICS) {
+		else if (proc.GetName() == Process::ICS) {        
 
 			E1 = ExtractICSSecondariesEnergy(proc);
 			E2 = Ecurr - E1;
@@ -606,10 +606,10 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in ICS process E : " << E1 << " " << E2
 						<< std::endl;
 
-			Particle pp(curr_particle.GetType(), E1, z_curr);
+			Particle pp(curr_particle.GetType(), E1, z_curr,curr_particle.Generation()+1);
 			pp.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pp);
-			Particle pg(22, E2, z_curr);
+			Particle pg(22, E2, z_curr,curr_particle.Generation()+1);
 			pg.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pg);
 
@@ -622,15 +622,15 @@ void Propagation::Propagate(Particle &curr_particle,
 				std::cerr << "ERROR in TPP process E : " << E1 << " " << E2
 						<< std::endl;
 
-			Particle pp(11, E1, z_curr);
+			Particle pp(11, E1, z_curr,curr_particle.Generation()+1);
 			pp.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pp);
 			
-			Particle pe(-11, E1, z_curr);
+			Particle pe(-11, E1, z_curr,curr_particle.Generation()+1);
 			pe.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(pe);
 			
-			Particle psc(curr_particle.GetType(), E3, z_curr);
+			Particle psc(curr_particle.GetType(), E3, z_curr,curr_particle.Generation()+1);
 			psc.SetWeigth(wi_last);
 			ParticleAtMatrix.push_back(psc);
 			return;

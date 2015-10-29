@@ -28,7 +28,7 @@ void DintPropagation(const std::string &inputfile,
 		const std::string &outputfile, 
 		double magneticFieldStrength = 1E-13, // 1 nG
 		int IRFlag = 4, int RadioFlag = 4,		
-		double Zmax = 5);
+		double Zmax = 5, double aCutcascade_Magfield = 0);
 
 
 /** Propagate high energy photons using eleca until the crossoverenergy is
@@ -38,7 +38,7 @@ void DintElcaPropagation(const std::string &inputfile,
 	const std::string &outputfile, 
 	bool showProgress = true,
 	double crossOverEnergy = 0.08010882435,  // in Joule! 5E17 eV = 0.080 J
-	double magneticFieldStrength = 1E-13);	 // 1 nG
+	double magneticFieldStrength = 1E-13, double aCutcascade_Magfield = 0);	 // 1 nG
 
 } // namespace crpropa
 

@@ -51,6 +51,9 @@
 
 %enddef
 
+/* Division of vector fix #34 */
+%feature("python:slot", "nb_divide", functype="binaryfunc") *::operator/;
+
 %include "3_repr.i"
 
 /* 4. Magnetic Lens */
@@ -71,7 +74,7 @@ class MagneticLens(MagneticLens):
     transformModelVector = MagneticLens.transformModelVector_numpyArray
 
 class ParticleMapsContainer( ParticleMapsContainer ):
-    getParticleMap = ParticleMapsContainer.getMap_numpyArray
+    getMap = ParticleMapsContainer.getMap_numpyArray
     getParticleIds = ParticleMapsContainer.getParticleIds_numpyArray
     getEnergies = ParticleMapsContainer.getEnergies_numpyArray
     getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray

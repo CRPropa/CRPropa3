@@ -14,7 +14,10 @@ class MagneticField: public Referenced {
 public:
 	virtual ~MagneticField() {
 	}
-	virtual Vector3d getField(const Vector3d &position) const = 0;
+	virtual Vector3d getField(const Vector3d &position) const {};
+	virtual Vector3d getField(const Vector3d &position, double z) const {
+		return getField(position);
+	};
 };
 
 /**
@@ -48,6 +51,18 @@ class MagneticFieldList: public MagneticField {
 public:
 	void addField(ref_ptr<MagneticField> field);
 	Vector3d getField(const Vector3d &position) const;
+};
+
+/**
+ @class MagneticFieldEvolution
+ @brief Magnetic field decorator implementing an evolution of type (1+z)^m.
+ */
+class MagneticFieldEvolution: public MagneticField {
+	ref_ptr<MagneticField> field;
+	double m;
+public:
+	MagneticFieldEvolution(ref_ptr<MagneticField> field, double m);
+	Vector3d getField(const Vector3d &position, double z = 0) const;
 };
 
 /**

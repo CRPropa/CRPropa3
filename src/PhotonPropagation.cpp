@@ -51,16 +51,17 @@ void EleCaPropagation(const std::string &inputfile,
 	eleca::Propagation propagation;
   propagation.SetEthr(lowerEnergyThreshold / eV );
 	propagation.ReadTables(getDataPath("EleCa/eleca.dat"));
-	propagation.InitBkgArray(background);
+  propagation.InitBkgArray(background);
 
 	propagation.SetB(magneticFieldStrength / gauss);
 
 	std::ofstream output(outputfile.c_str());
-	output << "# ID\tE\tiID\tiE\n";
+	output << "# ID\tE\tiID\tiE\tgeneration\n";
 	output << "# ID          Id of particle (photon, electron, positron)\n";
 	output << "# E           Energy [EeV]\n";
 	output << "# iID         Id of source particle\n";
 	output << "# iE          Energy [EeV] of source particle\n";
+	output << "# Generation  number of interactions during propagation before particle is created\n";
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double E, D, pE, iE;
@@ -99,7 +100,8 @@ void EleCaPropagation(const std::string &inputfile,
 					bufferPos += sprintf(buffer + bufferPos, "%i\t", p.GetType());
 					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
 					bufferPos += sprintf(buffer + bufferPos, "%i\t", iId);
-					bufferPos += sprintf(buffer + bufferPos, "%.4E", iE );
+					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", iE );
+					bufferPos += sprintf(buffer + bufferPos, "%i", p.Generation());
 					bufferPos += sprintf(buffer + bufferPos, "\n");
 
 					output.write(buffer, bufferPos);
@@ -131,7 +133,9 @@ void AddSpectrum(Spectrum *a, const Spectrum *b) {
 
 
 void DintPropagation(const std::string &inputfile,
-		const std::string &outputfile, double magneticFieldStrength,  int IRFlag, int RadioFlag, double Zmax) {
+		const std::string &outputfile, double magneticFieldStrength,  int IRFlag,
+		int RadioFlag, double Zmax,
+		double aCutcascade_Magfield) {
 	// Initialize the spectrum
 	dCVector energyGrid, energyWidth;
 	// Initialize the energy grids for dint
@@ -246,7 +250,7 @@ void DintPropagation(const std::string &inputfile,
 			//		&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
 			//		ol, 0);
 
-			dint.propagate(currentDistance, D, &inputSpectrum, &outputSpectrum);
+			dint.propagate(currentDistance, D, &inputSpectrum, &outputSpectrum, aCutcascade_Magfield);
 			SetSpectrum(&inputSpectrum, &outputSpectrum);
 		}
 
@@ -286,7 +290,8 @@ void DintElcaPropagation(const std::string &inputfile,
 	const std::string &outputfile, 
 	bool showProgress,
 	double crossOverEnergy,
-	double magneticFieldStrength)
+	double magneticFieldStrength,
+	double aCutcascade_Magfield) 
 {
 	//////////////////////////////////////////////////////////////////////// 
 	//Initialize EleCa
@@ -435,7 +440,7 @@ void DintElcaPropagation(const std::string &inputfile,
 
 					InitializeSpectrum(&outputSpectrum);
 					dint.propagate(currentDistance / Mpc, D / Mpc, &inputSpectrum,
-							&outputSpectrum);
+							&outputSpectrum, aCutcascade_Magfield);
 					SetSpectrum(&inputSpectrum, &outputSpectrum);
 				} // while (secondaries.size() > 0) 
 	

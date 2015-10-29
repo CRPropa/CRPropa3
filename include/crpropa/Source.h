@@ -303,7 +303,7 @@ public:
 
 /**
  @class SourceUniformRedshift
- @brief Uniform redshift distribution (time of emission)
+ @brief Random redshift (time of emission) from uniform distribution
  */
 class SourceUniformRedshift: public SourceFeature {
 	double zmin, zmax;
@@ -311,6 +311,17 @@ public:
 	SourceUniformRedshift(double zmin, double zmax);
 	void prepareCandidate(Candidate &candidate) const;
 	void setDescription();
+};
+
+/**
+ @class SourceRedshiftEvolution
+ @brief Random redshift (time of emission) from (1+z)^m distribution
+ */
+class SourceRedshiftEvolution: public SourceFeature {
+	double zmin, zmax, m;
+public:
+	SourceRedshiftEvolution(double m, double zmin, double zmax);
+	void prepareCandidate(Candidate &candidate) const;
 };
 
 /**

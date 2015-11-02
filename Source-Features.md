@@ -25,7 +25,7 @@ Several sources can be combined in a SourceList, with individual (relative) lumi
   * Initial position drawn from a 3D grid
 * **SourceDensityGrid1D**
   * Initial position drawn from a 1D grid
-* **SourceIsotropicEmision**
+* **SourceIsotropicEmission**
   * Isotropic initial direction
 * **SourceDirection**
   * Discrete initial direction

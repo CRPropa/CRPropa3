@@ -44,10 +44,10 @@ public:
 	 Calculates the loss length E dx/dE in [m] physical distance.
 	 This is not used in the simulation.
 	 @param	id		PDG particle id
-	 @param energy	particle energy [J]
+	 @param gamma	Lorentz factor of particle
 	 @param z		redshift
 	 */
-	double lossLength(int id, double E, double z = 0);
+	double lossLength(int id, double gamma, double z = 0);
 };
 
 } // namespace crpropa

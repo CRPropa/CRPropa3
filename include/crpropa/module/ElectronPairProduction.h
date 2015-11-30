@@ -54,7 +54,7 @@ public:
 	 beta_A,Z(E) = Z^2 / A * beta_p(E/A)
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
-	double lossLength(int id, double lf, double z) const;
+	double lossLength(int id, double lf, double z=0) const;
 	void addElectrons(Candidate *candidate, double loss) const;
 };
 

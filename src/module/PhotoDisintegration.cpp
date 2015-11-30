@@ -238,7 +238,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 		candidate->addSecondary(nucleusId(4, 2), EpA * 4);
 }
 
-double PhotoDisintegration::lossLength(int id, double E, double z) {
+double PhotoDisintegration::lossLength(int id, double gamma, double z) {
 	// check if nucleus
 	if (not (isNucleus(id)))
 		return 0;
@@ -256,7 +256,7 @@ double PhotoDisintegration::lossLength(int id, double E, double z) {
 		return std::numeric_limits<double>::max();
 
 	// check if in tabulated energy range
-	double lg = log10(E / (nuclearMass(id) * c_squared)) * (1 + z);
+	double lg = log10(gamma) * (1 + z);
 	if ((lg <= lgmin) or (lg >= lgmax))
 		return std::numeric_limits<double>::max();
 

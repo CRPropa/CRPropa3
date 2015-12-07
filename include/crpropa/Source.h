@@ -350,7 +350,7 @@ public:
 		std::vector<double> cdf;
 	};
 
-	SourceGenericComposition(double Emin, double Emax, std::string expression, size_t steps = 1024);
+	SourceGenericComposition(double Emin, double Emax, std::string expression, size_t bins = 1024);
 	void add(int id, double abundance);
 	void add(int A, int Z, double abundance);
 	void prepareParticle(ParticleState &particle) const;
@@ -366,7 +366,7 @@ public:
 protected:
 
 	double Emin, Emax;
-	size_t steps;
+	size_t bins;
 	std::string expression;
 	std::vector<double> energy;
 

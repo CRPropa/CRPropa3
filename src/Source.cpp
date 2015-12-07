@@ -535,19 +535,18 @@ void SourceRedshift1D::setDescription() {
 
 // ----------------------------------------------------------------------------
 #ifdef CRPROPA_HAVE_MUPARSER
-SourceGenericComposition::SourceGenericComposition(double Emin, double Emax, std::string expression, size_t steps) :
-	Emin(Emin), Emax(Emax), expression(expression), steps(steps) {
+SourceGenericComposition::SourceGenericComposition(double Emin, double Emax, std::string expression, size_t bins) :
+	Emin(Emin), Emax(Emax), expression(expression), bins(bins) {
 
 	// precalculate energy bins
 	double logEmin = ::log10(Emin);
 	double logEmax = ::log10(Emax);
-	double logStep = (logEmax - logEmin) / (steps-1);
-	energy.resize(steps);
-	for (size_t i = 0; i < steps; i++) {
+	double logStep = (logEmax - logEmin) / bins;
+	energy.resize(bins + 1);
+	for (size_t i = 0; i <= bins; i++) {
 		energy[i] = ::pow(10, logEmin + i * logStep);
 	}
 	setDescription();
-	cdf.push_back(0);
 }
 
 void SourceGenericComposition::add(int id, double weight) {
@@ -563,7 +562,7 @@ void SourceGenericComposition::add(int id, double weight) {
 	p.DefineVar("E", &E);
 	p.DefineConst("Emin", Emin);
 	p.DefineConst("Emax", Emax);
-	p.DefineConst("steps", steps);
+	p.DefineConst("bins", bins);
 	p.DefineConst("A", (double)A);
 	p.DefineConst("Z", (double)Z);
 
@@ -576,28 +575,31 @@ void SourceGenericComposition::add(int id, double weight) {
 	p.SetExpr(expression);
 
 	// calculate pdf
-	n.cdf.resize(steps);
+	n.cdf.resize(bins + 1);
 
-	for (std::size_t i=0; i<steps; ++i) {
+	for (std::size_t i=0; i<=bins; ++i) {
 		E = energy[i];
 		n.cdf[i] = p.Eval();
 	}
 
 	// integrate
-	for (std::size_t i=steps-1; i>0; --i) {
+	for (std::size_t i=bins; i>0; --i) {
 		n.cdf[i] = (n.cdf[i-1] + n.cdf[i]) * (energy[i] - energy[i-1]) / 2;
 	}
-
-	// cumulate
 	n.cdf[0] = 0;
-	for (std::size_t i=1; i<steps; ++i) {
+	
+	// cumulate
+	for (std::size_t i=1; i<=bins; ++i) {
 		n.cdf[i] += n.cdf[i-1];
 	}
 
 	nuclei.push_back(n);
 
 	// update composition cdf
-	cdf.push_back(cdf.back() + weight * n.cdf.back());
+	if (cdf.size() == 0)
+		cdf.push_back(weight * n.cdf.back());
+	else
+		cdf.push_back(cdf.back() + weight * n.cdf.back());
 }
 
 void SourceGenericComposition::add(int A, int Z, double a) {
@@ -612,7 +614,7 @@ void SourceGenericComposition::prepareParticle(ParticleState& particle) const {
 
 
 	// draw random particle type
-	size_t iN = random.randBin(cdf) - 1;
+	size_t iN = random.randBin(cdf);
 	const Nucleus &n = nuclei.at(iN);
 	particle.setId(n.id);
 
@@ -624,6 +626,7 @@ void SourceGenericComposition::prepareParticle(ParticleState& particle) const {
 void SourceGenericComposition::setDescription() {
 	description = "Generice source composition" + expression;
 }
+
 #endif
 
 } // namespace crpropa

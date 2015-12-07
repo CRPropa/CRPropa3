@@ -140,7 +140,7 @@ public:
 	/// Fisher distributed random number
 	double randFisher(double k);
 
-	/// Draw a random bin from a (unnormalized) cumulative distribution function
+	/// Draw a random bin from a (unnormalized) cumulative distribution function, without leading zero. 
 	size_t randBin(const std::vector<float> &cdf);
 	size_t randBin(const std::vector<double> &cdf);
 

@@ -74,12 +74,12 @@ __WITHNUMPY = False
       npy_intp dims[NPY_MAXDIMS];
       if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0)
       {
-        return NULL; 
+        return Py_RETURN_NONE; 
       }
 
       if (arr == NULL) 
       {
-        return NULL;
+        return Py_RETURN_NONE;
       }
 
       double *dataPointer = (double*) PyArray_DATA(arr);
@@ -92,7 +92,7 @@ __WITHNUMPY = False
     PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
     {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
-      return NULL;
+      return Py_RETURN_NONE;
     }
 };
 #endif
@@ -122,27 +122,27 @@ __WITHNUMPY = False
       if (!PyArray_Check(particleIds))
       {
         std::cerr << "ParticleMapsContainer::addParticles -  require array as input for particleIds\n";
-        return NULL;
+        return Py_RETURN_NONE;
       }
       if (!PyArray_Check(energies))
       {
         std::cerr << "ParticleMapsContainer::addParticles -  require array as input for energy\n";
-        return NULL;
+        return Py_RETURN_NONE;
       }
       if (!PyArray_Check(galacticLongitudes))
       {
         std::cerr << "ParticleMapsContainer::addParticles -  require array as input for galacticLongitudes\n";
-        return NULL;
+        return Py_RETURN_NONE;
       }
       if (!PyArray_Check(galacticLatitudes))
       {
         std::cerr << "ParticleMapsContainer::addParticles -  require array as input for galacticLatitudes\n";
-        return NULL;
+        return Py_RETURN_NONE;
       }
       if (!PyArray_Check(weights))
       {
         std::cerr << "ParticleMapsContainer::addParticles -  require array as input for weights\n";
-        return NULL;
+        return Py_RETURN_NONE;
       }
       
       int ndim = 0;
@@ -152,9 +152,9 @@ __WITHNUMPY = False
       PyArray_Descr *particleIds_dtype = NULL;
       if (PyArray_GetArrayParamsFromObject(particleIds, NULL, 1,
             &particleIds_dtype, &ndim, dims, &particleIds_arr, NULL) < 0)
-        { return NULL; };
+        { return Py_RETURN_NONE; };
       if (particleIds_arr == NULL)
-        return NULL;
+        return Py_RETURN_NONE;
       
       npy_intp *D = PyArray_DIMS(particleIds_arr);
       int arraySize = D[0];
@@ -165,36 +165,36 @@ __WITHNUMPY = False
       if (PyArray_GetArrayParamsFromObject(energies, NULL, 1,
             &energies_dtype, &ndim, dims, &energies_arr,
             NULL) < 0)
-        { return NULL; };
+        { return Py_RETURN_NONE; };
       if (energies_arr == NULL)
-        return NULL;
+        return Py_RETURN_NONE;
 
       PyArrayObject *galacticLongitudes_arr = NULL;
       PyArray_Descr *galacticLongitudes_dtype = NULL;
       if (PyArray_GetArrayParamsFromObject(galacticLongitudes, NULL, 1,
             &galacticLongitudes_dtype, &ndim, dims, &galacticLongitudes_arr,
             NULL) < 0)
-        { return NULL; };
+        { return Py_RETURN_NONE; };
       if (galacticLongitudes_arr == NULL)
-        return NULL;
+        return Py_RETURN_NONE;
 
       PyArrayObject *galacticLatitudes_arr = NULL;
       PyArray_Descr *galacticLatitudes_dtype = NULL;
       if (PyArray_GetArrayParamsFromObject(galacticLatitudes, NULL, 1,
             &galacticLatitudes_dtype, &ndim, dims, &galacticLatitudes_arr,
             NULL) < 0)
-        { return NULL; };
+        { return Py_RETURN_NONE; };
       if (galacticLatitudes_arr == NULL)
-        return NULL;
+        return Py_RETURN_NONE;
 
       PyArrayObject *weights_arr = NULL;
       PyArray_Descr *weights_dtype = NULL;
       if (PyArray_GetArrayParamsFromObject(weights, NULL, 1,
             &weights_dtype, &ndim, dims, &weights_arr,
             NULL) < 0)
-        { return NULL; };
+        { return Py_RETURN_NONE; };
       if (weights_arr == NULL)
-        return NULL;
+        return Py_RETURN_NONE;
 
       int *particleIds_dp = (int*) PyArray_DATA(particleIds_arr);
       double *energies_dp = (double*) PyArray_DATA(energies_arr);
@@ -276,28 +276,28 @@ __WITHNUMPY = False
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
-      return NULL;
+      return Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
   PyObject *getParticleIds_numpyArray()
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
-      return NULL;
+      return Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
   PyObject *getEnergies_numpyArray(const int pid)
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
-      return NULL;
+      return Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
   PyObject *getRandomParticles_numpyArray(size_t N)
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
-      return NULL;
+      return Py_RETURN_NONE;
   }
 };
 #endif // with numpy

@@ -280,21 +280,21 @@ __WITHNUMPY = False
   }
 };
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getParticleIds_numpyArray(const int particleId, double energy)
+  PyObject *getParticleIds_numpyArray()
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
       return NULL;
   }
 };
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getEnergies_numpyArray(const int particleId, double energy)
+  PyObject *getEnergies_numpyArray(const int pid)
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
       return NULL;
   }
 };
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getRandomParticles_numpyArray(const int particleId, double energy)
+  PyObject *getRandomParticles_numpyArray(size_t N)
   {
       std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
       return NULL;

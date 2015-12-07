@@ -17,6 +17,7 @@ namespace crpropa {
 
 bool g_cancel_signal_flag = false;
 void g_cancel_signal_callback(int sig) {
+	std::cerr << "crpropa::ModuleList: SIGINT/SIGTERM received" << std::endl;
 	g_cancel_signal_flag = true;
 }
 
@@ -65,6 +66,8 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 			run(candidate->secondaries[i], recursive);
 		}
 	}
+
+
 }
 
 void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
@@ -81,7 +84,9 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	}
 
 	g_cancel_signal_flag = false;
-	sighandler_t old_signal_handler = ::signal(SIGINT,
+	sighandler_t old_sigint_handler = ::signal(SIGINT,
+			g_cancel_signal_callback);
+	sighandler_t old_sigterm_handler = ::signal(SIGTERM,
 			g_cancel_signal_callback);
 
 	beginRun();  // call beginRun in all modules
@@ -91,7 +96,12 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 		if (g_cancel_signal_flag)
 			continue;
 
-		run(candidates[i], recursive);
+		try {
+			run(candidates[i], recursive);
+		} catch (std::exception &e) {
+			std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
+			std::cerr << e.what() << std::endl;
+		}
 
 		if (showProgress)
 #pragma omp critical(progressbarUpdate)
@@ -100,7 +110,8 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 
 	endRun();  // call endRun in all modules
 
-	::signal(SIGINT, old_signal_handler);
+	::signal(SIGINT, old_sigint_handler);
+	::signal(SIGTERM, old_sigterm_handler);
 }
 
 void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
@@ -126,8 +137,23 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
 		if (g_cancel_signal_flag)
 			continue;
 
-		ref_ptr<Candidate> candidate = source->getCandidate();
-		run(candidate, recursive);
+		ref_ptr<Candidate> candidate;
+		
+		try {
+			candidate = source->getCandidate();
+		} catch (std::exception &e) {
+			std::cerr << "Exception in crpropa::ModuleList::run: source->getCandidate" << std::endl;
+			std::cerr << e.what() << std::endl;
+		}
+
+		if (candidate.valid()) {
+			try {
+				run(candidate, recursive);
+			} catch (std::exception &e) {
+				std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
+				std::cerr << e.what() << std::endl;
+			}
+		}
 
 		if (showProgress)
 #pragma omp critical(progressbarUpdate)

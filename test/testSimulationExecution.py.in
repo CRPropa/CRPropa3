@@ -11,14 +11,11 @@ except:
     sys.exit(0)
 
 try:
-    import crpropa
+    import crpropa as crp
 except Exception as e:
     print("*** CRPropa import failed")
     print(type(e), str(e))
     sys.exit(-1)
-
-from crpropa import *
-
 
 class test1DChainWithSecondaries(unittest.TestCase):
     def runTest(self):
@@ -26,39 +23,39 @@ class test1DChainWithSecondaries(unittest.TestCase):
         dintFile = tempfile.NamedTemporaryFile()
         outputFile = tempfile.NamedTemporaryFile()
 
-        sim = ModuleList()
+        sim = crp.ModuleList()
 
-        sim.add(SimplePropagation())
-        sim.add(Redshift())
-        sim.add(PhotoPionProduction(CMB))
-        sim.add(PhotoPionProduction(IRB))
-        sim.add(PhotoDisintegration(CMB))
-        sim.add(PhotoDisintegration(IRB))
-        sim.add(NuclearDecay())
-        sim.add(ElectronPairProduction(CMB))
-        sim.add(ElectronPairProduction(IRB))
-        sim.add(MinimumEnergy(1 * EeV))
+        sim.add(crp.SimplePropagation())
+        sim.add(crp.Redshift())
+        sim.add(crp.PhotoPionProduction(crp.CMB))
+        sim.add(crp.PhotoPionProduction(crp.IRB))
+        sim.add(crp.PhotoDisintegration(crp.CMB))
+        sim.add(crp.PhotoDisintegration(crp.IRB))
+        sim.add(crp.NuclearDecay())
+        sim.add(crp.ElectronPairProduction(crp.CMB))
+        sim.add(crp.ElectronPairProduction(crp.IRB))
+        sim.add(crp.MinimumEnergy(1 * crp.EeV))
 
         # observer
-        obs = Observer()
-        obs.add(ObserverPoint())
+        obs = crp.Observer()
+        obs.add(crp.ObserverPoint())
         sim.add(obs)
 
         # output
-        output = TextOutput(outputFile.name)
+        output = crp.TextOutput(outputFile.name)
         output.set1D(True)
         output.printHeader()
         obs.onDetection(output)
 
         # source
-        source = Source()
-        source.add(SourceUniform1D(1 * Mpc, 1000 * Mpc))
-        source.add(SourceRedshift1D())
+        source =crp. Source()
+        source.add(crp.SourceUniform1D(1 * crp.Mpc, 1000 * crp.Mpc))
+        source.add(crp.SourceRedshift1D())
 
         # power law spectrum with charge dependent maximum energy Z*100 EeV
         # elements: H, He, N, Fe with equal abundances at constant energy per
         # nucleon
-        composition = SourceComposition(1 * EeV, 100 * EeV, -1)
+        composition = crp.SourceComposition(1 * crp.EeV, 100 * crp.EeV, -1)
         composition.add(1,  1,  1)  # H
         composition.add(4,  2,  1)  # He-4
         composition.add(14, 7,  1)  # N-14
@@ -66,7 +63,7 @@ class test1DChainWithSecondaries(unittest.TestCase):
         source.add(composition)
 
         # run simulation
-        phot1 = PhotonDINT1D(dintFile.name)
+        phot1 = crp.PhotonDINT1D(dintFile.name)
         sim.add(phot1)
 
         sim.run(source, 1)

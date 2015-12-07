@@ -17,6 +17,6 @@ before_script:
   - cd build
   - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
 
-script: make
-
-after_script: make test
+script:
+  - make
+  - make test

@@ -78,10 +78,12 @@ TextOutput::TextOutput(const std::string &filename,
 
 void TextOutput::setEnergyScale(double scale) {
 	energyScale = scale;
+	printHeader();
 }
 
 void TextOutput::setLengthScale(double scale) {
 	lengthScale = scale;
+	printHeader();
 }
 
 void TextOutput::set1D(bool value) {

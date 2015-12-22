@@ -5,8 +5,8 @@ namespace crpropa {
 
 /**
  Set the cosmological parameters for a flat universe. To ensure flatness omegaL is set to 1 - omegaMatter
- @param hubbleParameter	dimensionless Hubble parameter, default = 0.7
- @param omegaMatter		matter parameter, default = 0.3
+ @param hubbleParameter	dimensionless Hubble parameter, default = 0.704
+ @param omegaMatter		matter parameter, default = 0.272
  */
 void setCosmologyParameters(double hubbleParameter, double omegaMatter);
 

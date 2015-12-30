@@ -168,7 +168,7 @@ void ElectronPairProduction::addElectrons(Candidate *c, double loss) const {
 		double Ee = tabEe[i] + random.rand() * tabEeWidth[i]; // draw random uniform energy in bin
 		Ee /= (1 + z); // dN/dE(Ep,Ee,z) = (1+z)^4 * dN/dE(Ep*(1+z),Ee*(1+z),0)
 
-		double Epair = 2 * Ee;
+		double Epair = 2 * Ee; // electron and positron should generally not have the same energy in the lab frame, however averaged over many draws the result of this method will be consistent with the correct implementation
 
 		// if the remaining energy is not sufficient check for random accepting
 		if (Epair > dE)

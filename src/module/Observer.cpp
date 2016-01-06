@@ -243,6 +243,17 @@ std::string ObserverRedshiftWindow::getDescription() const {
 	return ss.str();
 }
 
+// ObserverInactiveVeto -------------------------------------------------------
+DetectionState ObserverInactiveVeto::checkDetection(Candidate *c) const {
+	if (not(c->isActive()))
+		return VETO;
+	return NOTHING;
+}
+
+std::string ObserverInactiveVeto::getDescription() const {
+	return "ObserverInactiveVeto";
+}
+
 // ObserverNucleusVeto --------------------------------------------------------
 DetectionState ObserverNucleusVeto::checkDetection(Candidate *c) const {
 	if (isNucleus(c->current.getId()))

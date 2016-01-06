@@ -126,6 +126,16 @@ public:
 };
 
 /**
+ @class ObserverInactiveVeto
+ @brief Veto for inactive candidates
+ */
+class ObserverInactiveVeto: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+/**
  @class ObserverNucleusVeto
  @brief Veto for nuclei (including protons and neutrons)
  */

@@ -50,8 +50,9 @@ struct Cosmology {
 	}
 
 	Cosmology() {
-		H0 = 70.4 * 1000 * meter / second / Mpc; // default values
-		omegaM = 0.272;
+        // Cosmological parameters (K.A. Olive et al. (Particle Data Group), Chin. Phys. C, 38, 090001 (2014))
+		H0 = 67.3 * 1000 * meter / second / Mpc; // default values
+		omegaM = 0.315;
 		omegaL = 1 - omegaM;
 
 		Z.resize(n);

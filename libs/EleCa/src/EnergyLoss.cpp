@@ -568,7 +568,7 @@ double ExtractTPPSecondariesEnergy(Particle &pi, Particle &pt) {
 	double eps = pt.GetEnergy();
 	double s = 2 * E0 * eps * (1 - pi.GetBeta() * cos(M_PI))
 			+ pi.GetMass() * pi.GetMass();
-	double Epp = 5.7e-1 * pow(eps, -0.56) * pow(E0, 0.44);
+	double Epp = 5.7e-1 * pow(eps / ElectronMass, -0.56) * pow(E0 / ElectronMass, 0.44) * ElectronMass;
 	double Epp2 = E0
 			* (1 - 1.768 * pow(s / ElectronMass / ElectronMass, -3.0 / 4.0))
 			/ 2.0;
@@ -588,7 +588,7 @@ double ExtractTPPSecondariesEnergy(Process &proc) {
 
 	double E0 = proc.GetIncidentParticle().GetEnergy();
 	double eps = proc.GetTargetParticle().GetEnergy();
-	double Epp = 5.7e-1 * pow(eps, -0.56) * pow(E0, 0.44);
+	double Epp = 5.7e-1 * pow(eps/ElectronMass, -0.56) * pow(E0/ElectronMass, 0.44) * ElectronMass;
 	double s = proc.GetCMEnergy();
 	double Epp2 = E0
 			* (1 - 1.768 * pow(s / ElectronMass / ElectronMass, -3.0 / 4.0))

@@ -3,10 +3,10 @@
 
 #include <stdio.h>
 #include <stdexcept>
+#include <kiss/string.h>
 
 #ifdef CRPROPA_HAVE_ZLIB
 #include <ozstream.hpp>
-#include <kiss/string.h>
 #endif
 
 namespace crpropa {

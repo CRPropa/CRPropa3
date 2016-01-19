@@ -77,7 +77,7 @@ void NuclearDecay::process(Candidate *candidate) const {
 
 		for (size_t i = 0; i < decays.size(); i++) {
 			double rate = decays[i].rate;
-			rate *= candidate->current.getLorentzFactor();
+			rate /= candidate->current.getLorentzFactor();
 			totalRate += rate;
 			double d = -log(random.rand()) / rate;
 			if (d > randDistance)

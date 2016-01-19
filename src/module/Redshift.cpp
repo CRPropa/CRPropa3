@@ -37,7 +37,7 @@ std::string Redshift::getDescription() const {
 void FutureRedshift::process(Candidate *c) const {
 	double z = c->getRedshift();
 
-	// check if z = 0
+	// check if z = -1
 	if (z <= -1)
 		return;
 

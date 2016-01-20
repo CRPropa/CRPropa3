@@ -6,7 +6,7 @@ from pylab import *
 
 z = 0
 pid = nucleusId(4, 2)
-mass = nucleusMass(pid)
+mass = nuclearMass(pid)
 energies = logspace(1, 4, 50)
 
 
@@ -22,14 +22,15 @@ pd1Loss, pd2Loss = zeros(50), zeros(50)
 ep1Loss, ep2Loss = zeros(50), zeros(50)
 
 for i, E in enumerate(energies * EeV):
-    # pion production
-    pp1Loss[i] = pp1.lossLength(pid, E, z)
-    pp2Loss[i] = pp2.lossLength(pid, E, z)
-    # disintegration
-    pd1Loss[i] = pd1.lossLength(pid, E, z)
-    pd2Loss[i] = pd2.lossLength(pid, E, z)
-    # pair production
     lf = E / (mass * c_squared)  # Lorentz factor
+
+    # pion production
+    pp1Loss[i] = pp1.lossLength(pid, lf, z)
+    pp2Loss[i] = pp2.lossLength(pid, lf, z)
+    # disintegration
+    pd1Loss[i] = pd1.lossLength(pid, lf, z)
+    pd2Loss[i] = pd2.lossLength(pid, lf, z)
+    # pair production
     ep1Loss[i] = ep1.lossLength(pid, lf, z)
     ep2Loss[i] = ep2.lossLength(pid, lf, z)
 

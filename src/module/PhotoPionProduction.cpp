@@ -341,17 +341,26 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-	gamma *= (1 + z); // cosmological scaling of photon energy
+    // instead of scaling the photon energies, scale the nucleus energy
+	gamma *= (1 + z);
 	if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
 		return std::numeric_limits<double>::max();
 
 	double lossRate = 0;
-	if (Z > 0)
-		lossRate += interpolate(gamma, tabLorentz, tabProtonRate)
-				* nucleiModification(A, Z);
-	if (N > 0)
-		lossRate += interpolate(gamma, tabLorentz, tabProtonRate)
-				* nucleiModification(A, N);
+
+	if (Z > 0) {
+		if (doRedshiftDependent)
+            lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+        else
+            lossRate += interpolate(gamma, tabLorentz, tabProtonRate);
+    }
+	if (N > 0) {
+        if (doRedshiftDependent)
+    	    lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+        else
+            lossRate += interpolate(gamma, tabLorentz, tabNeutronRate);
+    }
+    lossRate *= nucleiModification(A, Z);
 
 	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
 	// nuclei approximately lose the energy that the interacting nucleon is carrying

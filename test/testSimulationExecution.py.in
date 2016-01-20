@@ -25,7 +25,7 @@ class test1DChainWithSecondaries(unittest.TestCase):
 
         sim = crp.ModuleList()
 
-        sim.add(crp.SimplePropagation())
+        sim.add(crp.SimplePropagation(1 * crp.kpc, 1 * crp.Mpc))
         sim.add(crp.Redshift())
         sim.add(crp.PhotoPionProduction(crp.CMB))
         sim.add(crp.PhotoPionProduction(crp.IRB))
@@ -48,7 +48,7 @@ class test1DChainWithSecondaries(unittest.TestCase):
         obs.onDetection(output)
 
         # source
-        source =crp. Source()
+        source = crp.Source()
         source.add(crp.SourceUniform1D(1 * crp.Mpc, 1000 * crp.Mpc))
         source.add(crp.SourceRedshift1D())
 

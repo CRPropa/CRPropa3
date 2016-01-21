@@ -519,10 +519,6 @@ void Propagation::Propagate(Particle &curr_particle,
 		dz = Mpc2z(stepsize);
 
 
-		if ((walkdone + realpath) > min_dist) {
-			interacted = 1;
-		}
-
 		if (zpos - dz <= 0) {
 			dz = zpos;
 			stepsize = z2Mpc(dz);
@@ -543,6 +539,10 @@ void Propagation::Propagate(Particle &curr_particle,
 		curr_particle.Setz(z_curr);
 		curr_particle.SetEnergy(Ecurr);
 
+    if (walkdone > min_dist) {
+      interacted = 1;
+      break;
+    }
 				
 		if (z_curr <= 0) 
 		{

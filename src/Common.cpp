@@ -74,9 +74,9 @@ double interpolate(double x, const std::vector<double> &X,
     std::vector<double>::const_iterator itx = std::upper_bound(X.begin(), X.end(), x); // Redshift
     std::vector<double>::const_iterator ity = std::upper_bound(Y.begin(), Y.end(), y); // Lorentz
     
-    if (x >= X.back() || x <= X.front())
+    if (x > X.back() || x < X.front())
       return 0;
-    if (y >= Y.back() || y <= Y.front())
+    if (y > Y.back() || y < Y.front())
       return 0;
     
     if (itx == X.begin() && ity == Y.begin())

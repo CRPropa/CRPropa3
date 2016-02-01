@@ -108,7 +108,7 @@ void PropagationCK::process(Candidate *candidate) const {
 		// limit change of new step size
 		h = clip(h, 0.1 * hTry, 5 * hTry);
 
-	} while (r > 1 && h > minStep);
+	} while (r > 1 && h > minStep / c_light);
 
 	current.setPosition(yOut.x);
 	current.setDirection(yOut.u.getUnitVector());

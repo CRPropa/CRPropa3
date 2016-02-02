@@ -1,5 +1,7 @@
 if(APPLE)
 	cmake_minimum_required(VERSION 2.8.12)
+else(APPLE)
+	cmake_minimum_required(VERSION 2.6.0)
 endif(APPLE)
 project(CRPropa Fortran C CXX)
 

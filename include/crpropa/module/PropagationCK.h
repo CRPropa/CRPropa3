@@ -54,7 +54,7 @@ private:
 
 public:
 	PropagationCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
-			double minStep = 0.1 * kpc, double maxStep = 1 * Gpc);
+			double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
 	void process(Candidate *candidate) const;
 
 	// derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)

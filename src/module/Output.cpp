@@ -1,8 +1,7 @@
 #include "crpropa/module/Output.h"
 #include "crpropa/Units.h"
 
-//#include <stdio.h>
-//#include <stdexcept>
+#include <stdexcept>
 
 namespace crpropa {
 

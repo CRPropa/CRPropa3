@@ -126,6 +126,8 @@ void TextOutput::process(Candidate *c) const {
 	char buffer[1024];
 	size_t p = 0;
 
+	std::locale old_locale = std::locale::global(std::locale::classic());
+
 	if (fields.test(TrajectoryLengthColumn))
 		p += sprintf(buffer + p, "%8.5f\t",
 				c->getTrajectoryLength() / lengthScale);
@@ -202,6 +204,8 @@ void TextOutput::process(Candidate *c) const {
 	}
 
 	buffer[p - 1] = '\n';
+
+	std::locale::global(old_locale);
 
 #pragma omp critical
 	{

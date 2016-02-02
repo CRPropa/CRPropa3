@@ -17,6 +17,10 @@ void Observer::add(ObserverFeature *feature) {
 void Observer::beginRun() {
 	for (int i = 0; i < features.size(); i++)
 		features[i]->beginRun();
+
+	if (detectionAction.valid())
+		detectionAction->beginRun();
+
 }
 
 void Observer::endRun() {

@@ -144,6 +144,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
 		} catch (std::exception &e) {
 			std::cerr << "Exception in crpropa::ModuleList::run: source->getCandidate" << std::endl;
 			std::cerr << e.what() << std::endl;
+			g_cancel_signal_flag = true;
 		}
 
 		if (candidate.valid()) {
@@ -152,6 +153,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
 			} catch (std::exception &e) {
 				std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
 				std::cerr << e.what() << std::endl;
+				g_cancel_signal_flag = true;
 			}
 		}
 

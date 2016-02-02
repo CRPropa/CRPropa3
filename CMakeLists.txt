@@ -172,15 +172,18 @@ if(FFTW3F_FOUND)
 endif(FFTW3F_FOUND)
 
 # Quimby (optional for SPH magnetic fields)
-find_package(Quimby)
-if(QUIMBY_FOUND)
+option(ENABLE_QUIMBY "Quimby Support" ON)
+if (ENABLE_QUIMBY)
+  find_package(Quimby)
+  if(AND QUIMBY_FOUND)
 	list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
 	list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
 	add_definitions (-DCRPROPA_HAVE_QUIMBY)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
-endif(QUIMBY_FOUND)
+  endif(QUIMBY_FOUND)
+endif(ENABLE_QUIMBY)
 
 # SAGA (optinal for AMR grids)
 find_package(SAGA)
@@ -213,6 +216,18 @@ if(ZLIB_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ZLIB)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${ZLIB_INCLUDE_DIRS})
 endif(ZLIB_FOUND)
+
+option(ENABLE_HDF5 "HDF5 Support" ON)
+if(ENABLE_HDF5)
+	find_package( HDF5 COMPONENTS C )
+	if(HDF5_FOUND)
+		list(APPEND CRPROPA_EXTRA_INCLUDES ${HDF5_INCLUDE_DIRS})
+		list(APPEND CRPROPA_EXTRA_LIBRARIES ${HDF5_LIBRARIES})
+		add_definitions (-DCRPROPA_HAVE_HDF5)
+		list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_HDF5)
+		list(APPEND CRPROPA_SWIG_DEFINES -I${HDF5_INCLUDE_DIRS})
+	endif(HDF5_FOUND)
+endif(ENABLE_HDF5)
 
 # ----------------------------------------------------------------------------
 # Fix Apple RPATH
@@ -322,6 +337,7 @@ add_library(crpropa SHARED
 	src/module/Redshift.cpp
 	src/module/Output.cpp
 	src/module/TextOutput.cpp
+	src/module/HDF5Output.cpp
 	src/module/OutputShell.cpp
 	src/module/OutputROOT.cpp
 	src/module/OutputCRPropa2.cpp

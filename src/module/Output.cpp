@@ -27,7 +27,7 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
 		set1D(true);
-	} else if (outputtype == Trajectory1D) {
+	} else if (outputtype == Event1D) {
 		// ID, E, D, ID0, E0
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);

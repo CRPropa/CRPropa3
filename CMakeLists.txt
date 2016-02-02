@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 2.8.12)
+if(APPLE)
+	cmake_minimum_required(VERSION 2.8.12)
+endif(APPLE)
 project(CRPropa Fortran C CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})

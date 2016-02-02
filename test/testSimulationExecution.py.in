@@ -44,7 +44,6 @@ class test1DChainWithSecondaries(unittest.TestCase):
         # output
         output = crp.TextOutput(outputFile.name)
         output.set1D(True)
-        output.printHeader()
         obs.onDetection(output)
 
         # source

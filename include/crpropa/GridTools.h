@@ -32,7 +32,7 @@ void scaleGrid(ref_ptr<VectorGrid> grid, double a);
  @param seed	Random seed
  */
 void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
-		double lMax, double alpha = -11./3., int seed = 0);
+		double lMax, double alpha = (-11./3.), int seed = 0);
 #endif // CRPROPA_HAVE_FFTW3F
 
 /** Analytically calculate the correlation length of a turbulent field */

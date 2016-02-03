@@ -63,7 +63,7 @@ void HDF5Output::open(const std::string &filename) {
 	hsize_t max_dims[RANK] = {H5S_UNLIMITED};
 	dataspace = H5Screate_simple(RANK, dims, max_dims);
 
-	dset = H5Dcreate(file, "CRPROPA3", sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
+	dset = H5Dcreate2(file, "CRPROPA3", sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
 	
 	H5Pclose(plist);
 	

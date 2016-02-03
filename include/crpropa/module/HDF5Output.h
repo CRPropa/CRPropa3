@@ -41,7 +41,6 @@ class HDF5Output: public Output {
 
 	hid_t file, sid;
 	hid_t dset, dataspace;
-	mutable size_t count;
 	mutable std::vector<OutputRow> buffer;
 	
 	void open(const std::string &filename);

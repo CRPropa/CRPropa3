@@ -230,7 +230,7 @@ public:
 };
 
 /**
- @class OneDimObserver
+ @class Observer1D
  @brief Observer for 1D simulations
 
  Particles are detected once their x-position gets smaller than a 0.

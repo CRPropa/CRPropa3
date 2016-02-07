@@ -10,36 +10,36 @@ typedef int hid_t;
 
 namespace crpropa {
 
-typedef struct OuputRow {
-	double D;
-	double z;
-	uint64_t ID;
-	double E;
-	double X;
-	double Y;
-	double Z;
-	double Px;
-	double Py;
-	double Pz;
-	uint64_t ID0;
-	double E0;
-	double X0;
-	double Y0;
-	double Z0;
-	double P0x;
-	double P0y;
-	double P0z;
-	uint64_t ID1;
-	double E1;
-	double X1;
-	double Y1;
-	double Z1;
-	double P1x;
-	double P1y;
-	double P1z;
-} OutputRow;
-
 class HDF5Output: public Output {
+
+	typedef struct OuputRow {
+		double D;
+		double z;
+		uint64_t ID;
+		double E;
+		double X;
+		double Y;
+		double Z;
+		double Px;
+		double Py;
+		double Pz;
+		uint64_t ID0;
+		double E0;
+		double X0;
+		double Y0;
+		double Z0;
+		double P0x;
+		double P0y;
+		double P0z;
+		uint64_t ID1;
+		double E1;
+		double X1;
+		double Y1;
+		double Z1;
+		double P1x;
+		double P1y;
+		double P1z;
+	} OutputRow;
 
 	hid_t file, sid;
 	hid_t dset, dataspace;
@@ -48,8 +48,8 @@ class HDF5Output: public Output {
 	void open(const std::string &filename);
 	void close();
 	void flush() const;
-public:
 
+public:
 	HDF5Output(const std::string &filename);
 	HDF5Output(const std::string &filename, OutputType outputtype);
 	~HDF5Output();

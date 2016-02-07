@@ -58,29 +58,19 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
   * Detects particles when they leave the sphere
 
 ### Output modules
-* **ShellOutput**
-  * Output to the shell
-
-#### ASCII output
-Plain text output
-* **TrajectoryOutput**
-* **ConditionalOutput**
-* **TrajectoryOutput1D**
-* **EventOutput1D**
-
-#### CRPropa2 output
-Plain text output in CRPropa-like format
-* **CRPropa2EventOutput1D**
-* **CRPropa2EventOutput3D**
-* **CRPropa2TrajectoryOutput1D**
-* **CRPropa2TrajectoryOutput3D**
-
-#### ROOT output
-ROOT output (if compiled with ROOT)
+* **ShellOutput** Output to the shell
+* **TextOutput** Plain text output
+  * Customizable with the presets Event1D, Event3D, Trajectory1D, Trajectory3D, Everything.
+  * If the filename ends with '.gz' the output is compressed 
+* **HDF5Output** Output in the HDF5 format
 * **ROOTEventOutput1D**
 * **ROOTEventOutput3D**
 * **ROOTTrajectoryOutput1D**
 * **ROOTTrajectoryOutput3D**
+* **CRPropa2EventOutput1D**
+* **CRPropa2EventOutput3D**
+* **CRPropa2TrajectoryOutput1D**
+* **CRPropa2TrajectoryOutput3D**
 
 ### Other modules
 * **PerformanceModule**

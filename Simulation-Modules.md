@@ -8,21 +8,17 @@ Propagation modules are responsible for proposing a step size, evaluating the bi
   * Rectalinear propagation
 * **PropagationCK** 
   * Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5)
-  * Rectalinear propagation for uncharged particles
 
 ### Interaction modules
 Interaction modules implement physical interactions which modify the particle and possibly produce secondaries
 
 * **ElectronPairProduction**
   * Electron pair production energy losses for charged nuclei using the continuous energy loss approximation
-  * CMB and IRB background with cosmological evolution
-  * No secondaries
 * **PhotoPionProduction**
   * Photo meson production for nuclei using free nucleon approximation
   * Uses SOPHIA to calculate the outcome of a photopion interaction
 * **PhotoDisintegration**
   * Photo disintegration using TALYS tables
-  * CMB and IRB background with cosmological evolution
 * **NuclearDecay**
   * Nuclear decay
   * Electron and neutrino secondaries

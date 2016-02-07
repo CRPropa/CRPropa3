@@ -1,3 +1,5 @@
+#ifdef CRPROPA_HAVE_HDF5
+
 #ifndef CRPROPA_HDF5OUTPUT_H
 #define CRPROPA_HDF5OUTPUT_H
 
@@ -42,7 +44,7 @@ class HDF5Output: public Output {
 	hid_t file, sid;
 	hid_t dset, dataspace;
 	mutable std::vector<OutputRow> buffer;
-	
+
 	void open(const std::string &filename);
 	void close();
 	void flush() const;
@@ -51,7 +53,7 @@ public:
 	HDF5Output(const std::string &filename);
 	HDF5Output(const std::string &filename, OutputType outputtype);
 	~HDF5Output();
-	
+
 	void process(Candidate *candidate) const;
 	void beginRun();
 	void endRun();
@@ -61,3 +63,5 @@ public:
 } // namespace crpropa
 
 #endif // CRPROPA_HDF5OUTPUT_H
+
+#endif // CRPROPA_HAVE_HDF5

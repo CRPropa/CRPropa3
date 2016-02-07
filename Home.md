@@ -30,7 +30,6 @@ CRPropa 2 compatibility (XML steering)
 #### FAQ
  * [Cosmic Ray Sources](Cosmic Ray Sources)
  * [Random Number Seed](Random Numbers)
- * [Multiple Observers](Multiple Observers)
  * [Extending CRPropa from Python](Extending CRPropa)
 
 #### Developer Section

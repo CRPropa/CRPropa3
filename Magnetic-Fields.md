@@ -18,3 +18,5 @@
 * **JF2012Field**
   * Galactic magnetic field from the JF2012 model
   * Regular, striated and turbulent
+* **PshirkovField**
+  * Galactic magnetic field from the Pshirkov2011 model

@@ -1,5 +1,5 @@
 from subprocess import call
-
+from sys import argv
 
 def convert(fname):
     # jupyter-nbconvert --to=notebook --nbformat=3 xxx --output=yyy
@@ -18,6 +18,10 @@ files = (
     'trajectories/trajectories.v4.ipynb'
     )
 
-# convert all notebooks from v4 to v3
-for f in files:
-    convert(f)
+if len(argv) == 1:
+    # convert all notebooks from v4 to v3
+    for f in files:
+        convert(f)
+else:
+    for f in argv[1:]:
+        convert(f)

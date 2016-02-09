@@ -30,10 +30,11 @@ public:
 	void beginRun(); ///< call beginRun in all modules
 	void endRun(); ///< call endRun in all modules
 	void process(Candidate *candidate) const; ///< call process in all modules
+	void processToFinish(Candidate *candidate, bool recursive = true); ///< propagate until finished
 
-	void run(Candidate *candidate, bool recursive = true);
-	void run(candidate_vector_t &candidates, bool recursive = true);
-	void run(SourceInterface *source, size_t count, bool recursive = true);
+	void run(Candidate *candidate, bool recursive = true); ///< run simulation for a single candidate
+	void run(candidate_vector_t &candidates, bool recursive = true); ///< run simulation for a candidate vector
+	void run(SourceInterface *source, size_t count, bool recursive = true); ///< run simulation for n candidates from the given source
 
 	std::string getDescription() const;
 	void showModules() const;

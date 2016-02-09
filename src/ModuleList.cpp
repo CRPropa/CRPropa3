@@ -21,8 +21,7 @@ void g_cancel_signal_callback(int sig) {
 	g_cancel_signal_flag = true;
 }
 
-ModuleList::ModuleList() :
-		showProgress(false) {
+ModuleList::ModuleList() : showProgress(false) {
 }
 
 ModuleList::~ModuleList() {
@@ -42,19 +41,19 @@ void ModuleList::beginRun() {
 		(*m)->beginRun();
 }
 
-void ModuleList::process(Candidate *candidate) const {
-	module_list_t::const_iterator m;
-	for (m = modules.begin(); m != modules.end(); m++)
-		(*m)->process(candidate);
-}
-
 void ModuleList::endRun() {
 	module_list_t::iterator m;
 	for (m = modules.begin(); m != modules.end(); m++)
 		(*m)->endRun();
 }
 
-void ModuleList::run(Candidate *candidate, bool recursive) {
+void ModuleList::process(Candidate *candidate) const {
+	module_list_t::const_iterator m;
+	for (m = modules.begin(); m != modules.end(); m++)
+		(*m)->process(candidate);
+}
+
+void ModuleList::processToFinish(Candidate *candidate, bool recursive) {
 	while (candidate->isActive() && !g_cancel_signal_flag)
 		process(candidate);
 
@@ -63,11 +62,15 @@ void ModuleList::run(Candidate *candidate, bool recursive) {
 		for (size_t i = 0; i < candidate->secondaries.size(); i++) {
 			if (g_cancel_signal_flag)
 				break;
-			run(candidate->secondaries[i], recursive);
+			processToFinish(candidate->secondaries[i], recursive);
 		}
 	}
+}
 
-
+void ModuleList::run(Candidate *candidate, bool recursive) {
+	beginRun();
+	processToFinish(candidate, recursive);
+	endRun();
 }
 
 void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
@@ -97,7 +100,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 			continue;
 
 		try {
-			run(candidates[i], recursive);
+			processToFinish(candidates[i], recursive);
 		} catch (std::exception &e) {
 			std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
 			std::cerr << e.what() << std::endl;
@@ -138,7 +141,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
 			continue;
 
 		ref_ptr<Candidate> candidate;
-		
+
 		try {
 			candidate = source->getCandidate();
 		} catch (std::exception &e) {
@@ -149,7 +152,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
 
 		if (candidate.valid()) {
 			try {
-				run(candidate, recursive);
+				processToFinish(candidate, recursive);
 			} catch (std::exception &e) {
 				std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
 				std::cerr << e.what() << std::endl;

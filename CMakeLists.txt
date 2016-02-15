@@ -345,6 +345,10 @@ add_library(crpropa SHARED
 	src/module/PhotonDINT.cpp
 	src/module/PhotonDINT1D.cpp
 	src/module/PhotonEleCa.cpp
+  src/module/EMPairProduction.cpp
+  src/module/EMDoublePairProduction.cpp
+  src/module/EMTripletPairProduction.cpp
+  src/module/EMInverseComptonScattering.cpp
 	src/module/Tools.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp

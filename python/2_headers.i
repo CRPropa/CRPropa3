@@ -42,6 +42,10 @@
 #include "crpropa/module/PhotonOutput1D.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/PropagationCK.h"
+#include "crpropa/module/EMPairProduction.h"
+#include "crpropa/module/EMDoublePairProduction.h"
+#include "crpropa/module/EMTripletPairProduction.h"
+#include "crpropa/module/EMInverseComptonScattering.h"
 #include "crpropa/module/Tools.h"
 
 #include "crpropa/magneticField/MagneticField.h"
@@ -159,6 +163,10 @@
 %include "crpropa/module/PhotoPionProduction.h"
 %include "crpropa/module/PhotoDisintegration.h"
 %include "crpropa/module/Redshift.h"
+%include "crpropa/module/EMPairProduction.h"
+%include "crpropa/module/EMDoublePairProduction.h"
+%include "crpropa/module/EMTripletPairProduction.h"
+%include "crpropa/module/EMInverseComptonScattering.h"
 %include "crpropa/module/Tools.h"
 
 %template(SourceInterfaceRefPtr) crpropa::ref_ptr<crpropa::SourceInterface>;

@@ -58,15 +58,7 @@ class ParticleMapsContainer
 		void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight = 1);
 			
 		void addParticle(const int particleId, double energy, const Vector3d &v, double weight = 1);
-		/// reads the particles from the given file and weights the particles with
-		/// the energy of the mother particle at the source.
-		/// this assumes that the particles in the fiels are observed at earth and the galactic
-		/// center is in directon (0,1,0) and the galactic north-pole is in
-		/// direction (0,0,1).
-		/// The energy in the fileneeds to be in eV, as it should be for CrPropa
-		/// output
-		void addParticlesFromFile(const std::string inputFileName, double sourceEnergyWeightExponent=0);
-
+		
 		// returns a vector of all particle ids in th
 		std::vector<int> getParticleIds();
 

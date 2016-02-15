@@ -78,38 +78,6 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, con
 }
 
 
-void ParticleMapsContainer::addParticlesFromFile(const std::string inputFileName, double sourceEnergyWeightExponent)
-{
-	_weightsUpToDate = false;
-	std::ifstream infile(inputFileName.c_str());
-
-	while (infile.good()) {
-		if (infile.peek() != '#') {
-			int particleId, sourceId; 
-			double trajectoryLength, energy, sourceEnergy, x, y, z, pX0, pY0, pZ0, x0, y0, z0, redShift;
-			Vector3d p;
-
-			infile >> trajectoryLength 
-				>> particleId 
-				>> sourceId
-				>> energy 
-				>> sourceEnergy
-				>> x >> y >> z 
-				>> x0 >> y0 >> z0
-				>> p.x >> p.y >> p.z 
-				>> pX0 >> pY0 >> pZ0 
-				>> redShift;
-			
-			double weight = pow(sourceEnergy, sourceEnergyWeightExponent);
-			if (infile)
-				addParticle(particleId, energy * EeV, p, weight);
-		}
-		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
-	}
-	infile.close();
-}
-
-
 // returns a vector of all particle ids in th
 std::vector<int> ParticleMapsContainer::getParticleIds()
 {

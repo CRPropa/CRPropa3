@@ -69,6 +69,7 @@ double photonFieldScaling(PhotonField photonField, double z) {
 	case IRB_withRedshift_Franceschini08:
 	case IRB_withRedshift_Finke10:
 	case IRB_withRedshift_Gilmore12:
+  case URB_Protheroe96:
 		return 1;  // no global evolution factor needed
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");

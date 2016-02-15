@@ -539,16 +539,13 @@ void Propagation::Propagate(Particle &curr_particle,
 		curr_particle.Setz(z_curr);
 		curr_particle.SetEnergy(Ecurr);
 
-    if (walkdone > min_dist) {
-      interacted = 1;
-      break;
-    }
-				
-		if (z_curr <= 0) 
-		{
-			ParticleAtGround.push_back(curr_particle);
-			return;
-		}
+		proc.SetIncidentParticle(curr_particle);
+		proc.SetCMEnergy();
+		proc.SetLimits();
+		//      std::vector<double> EtargetAll=GetEtarget(proc,curr_particle);
+		min_dist = ExtractMinDist(proc, curr_particle.GetType(), R, R2,
+				EtargetAll);
+
 		if (Ecurr <= Ethr2) 
 		{ 
 			if (!dropParticlesBelowEnergyThreshold)
@@ -557,12 +554,17 @@ void Propagation::Propagate(Particle &curr_particle,
 			}
 			return;
 		}
-		proc.SetIncidentParticle(curr_particle);
-		proc.SetCMEnergy();
-		proc.SetLimits();
-		//      std::vector<double> EtargetAll=GetEtarget(proc,curr_particle);
-		min_dist = ExtractMinDist(proc, curr_particle.GetType(), R, R2,
-				EtargetAll);
+		if (walkdone > min_dist) {
+			interacted = 1;
+			break;
+		}
+				
+		if (z_curr <= 0) 
+		{
+			ParticleAtGround.push_back(curr_particle);
+			return;
+		}
+		
 	} //end while
 
 	if (interacted == 1) {

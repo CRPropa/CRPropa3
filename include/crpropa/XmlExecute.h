@@ -3,6 +3,7 @@
 
 #include "crpropa/ModuleList.h"
 #include "crpropa/Source.h"
+#include "crpropa/module/Observer.h"
 #include "crpropa/magneticField/MagneticField.h"
 
 namespace pugi {
@@ -25,9 +26,10 @@ class XmlExecute {
 	void loadSpheresAroundSource(pugi::xml_node &node);
 	void loadOutput(pugi::xml_node &node);
 
-	ModuleList modules;
 	ref_ptr<MagneticField> magnetic_field;
+	ModuleList modules;
 	Source source;
+	Observer observer;
 	bool is1D;
 	bool hasRedshift;
 	size_t nTrajectories;

@@ -54,9 +54,10 @@ TEST(MinimumRedshift, test) {
 }
 
 //** ============================= Observers ================================ */
-TEST(SmallObserverSphere, detection) {
+TEST(Observer, SmallSphere) {
 	// detect if the current position is inside and the previous outside of the sphere
-	SmallObserverSphere obs(Vector3d(0, 0, 0), 1);
+	Observer obs;
+	obs.add(new ObserverSmallSphere(Vector3d(0, 0, 0), 1));
 	Candidate c;
 
 	// no detection: particle was inside already
@@ -64,18 +65,17 @@ TEST(SmallObserverSphere, detection) {
 	c.previous.setPosition(Vector3d(0.95, 0, 0));
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
-	EXPECT_FALSE(c.hasProperty("Detected"));
 
 	// detection: particle just entered
 	c.current.setPosition(Vector3d(0.9, 0, 0));
 	c.previous.setPosition(Vector3d(1.1, 0, 0));
 	obs.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("Detected"));
 }
 
-TEST(SmallObserverSphere, limitStep) {
-	SmallObserverSphere obs(Vector3d(0, 0, 0), 1);
+TEST(ObserverSmallSphere, limitStep) {
+	Observer obs;
+	obs.add(new ObserverSmallSphere(Vector3d(0, 0, 0), 1));
 	Candidate c;
 	c.setNextStep(10);
 	c.current.setPosition(Vector3d(0, 0, 2));
@@ -83,9 +83,10 @@ TEST(SmallObserverSphere, limitStep) {
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1);
 }
 
-TEST(LargeObserverSphere, detection) {
+TEST(ObserverLargeSphere, detection) {
 	// detect if the current position is outside and the previous inside of the sphere
-	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
+	Observer obs;
+	obs.add(new ObserverLargeSphere(Vector3d(0, 0, 0), 10));
 	Candidate c;
 
 	// no detection: particle was outside already
@@ -93,18 +94,17 @@ TEST(LargeObserverSphere, detection) {
 	c.previous.setPosition(Vector3d(10.5, 0, 0));
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
-	EXPECT_FALSE(c.hasProperty("Detected"));
 
 	// detection: particle just left
 	c.current.setPosition(Vector3d(11, 0, 0));
 	c.previous.setPosition(Vector3d(9.5, 0, 0));
 	obs.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("Detected"));
 }
 
-TEST(LargeObserverSphere, limitStep) {
-	LargeObserverSphere obs(Vector3d(0, 0, 0), 10);
+TEST(ObserverLargeSphere, limitStep) {
+	Observer obs;
+	obs.add(new ObserverLargeSphere(Vector3d(0, 0, 0), 10));
 	Candidate c;
 	c.setNextStep(10);
 	c.current.setPosition(Vector3d(0, 0, 8));
@@ -112,31 +112,31 @@ TEST(LargeObserverSphere, limitStep) {
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 2);
 }
 
-TEST(Observer1D, noDetection) {
-	Observer1D obs; // observer at x = 0
+TEST(ObserverPoint, detection) {
+	Observer obs;
+	obs.add(new ObserverPoint()); obs;
 	Candidate c;
+
+	// no detection, limit step
 	c.current.setPosition(Vector3d(5, 0, 0));
 	c.setNextStep(10);
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
 	EXPECT_DOUBLE_EQ(5, c.getNextStep());
-}
 
-TEST(Observer1D, detection) {
-	Observer1D obs; // observer at x = 0
-	Candidate c;
+	// detection
 	c.current.setPosition(Vector3d(0, 0, 0));
 	obs.process(&c);
 	EXPECT_FALSE(c.isActive());
 }
 
-TEST(DetectAll, detection) {
+TEST(ObserverDetectAll, detection) {
 	// DetectAll should detect all candidates
-	DetectAll obs("Wait", "You forgot your lunchbox");
+	Observer obs;
+	obs.add(new ObserverDetectAll());
 	Candidate c;
 	obs.process(&c);
 	EXPECT_FALSE(c.isActive());
-	EXPECT_TRUE(c.hasProperty("Wait"));
 }
 
 //** ========================= Boundaries =================================== */

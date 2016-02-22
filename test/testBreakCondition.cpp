@@ -54,17 +54,21 @@ TEST(MinimumRedshift, test) {
 }
 
 //** ============================= Observers ================================ */
-TEST(Observer, SmallSphere) {
+TEST(ObserverFeature, SmallSphere) {
 	// detect if the current position is inside and the previous outside of the sphere
 	Observer obs;
 	obs.add(new ObserverSmallSphere(Vector3d(0, 0, 0), 1));
 	Candidate c;
+	c.setNextStep(10);
 
 	// no detection: particle was inside already
 	c.current.setPosition(Vector3d(0.9, 0, 0));
 	c.previous.setPosition(Vector3d(0.95, 0, 0));
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
+
+	// limit step
+	EXPECT_DOUBLE_EQ(c.getNextStep(), 0.1);
 
 	// detection: particle just entered
 	c.current.setPosition(Vector3d(0.9, 0, 0));
@@ -73,27 +77,21 @@ TEST(Observer, SmallSphere) {
 	EXPECT_FALSE(c.isActive());
 }
 
-TEST(ObserverSmallSphere, limitStep) {
-	Observer obs;
-	obs.add(new ObserverSmallSphere(Vector3d(0, 0, 0), 1));
-	Candidate c;
-	c.setNextStep(10);
-	c.current.setPosition(Vector3d(0, 0, 2));
-	obs.process(&c);
-	EXPECT_DOUBLE_EQ(c.getNextStep(), 1);
-}
-
-TEST(ObserverLargeSphere, detection) {
+TEST(ObserverFeature, LargeSphere) {
 	// detect if the current position is outside and the previous inside of the sphere
 	Observer obs;
 	obs.add(new ObserverLargeSphere(Vector3d(0, 0, 0), 10));
 	Candidate c;
+	c.setNextStep(10);
 
 	// no detection: particle was outside already
 	c.current.setPosition(Vector3d(11, 0, 0));
 	c.previous.setPosition(Vector3d(10.5, 0, 0));
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
+
+	// limit step
+	EXPECT_DOUBLE_EQ(c.getNextStep(), 1);
 
 	// detection: particle just left
 	c.current.setPosition(Vector3d(11, 0, 0));
@@ -102,26 +100,18 @@ TEST(ObserverLargeSphere, detection) {
 	EXPECT_FALSE(c.isActive());
 }
 
-TEST(ObserverLargeSphere, limitStep) {
-	Observer obs;
-	obs.add(new ObserverLargeSphere(Vector3d(0, 0, 0), 10));
-	Candidate c;
-	c.setNextStep(10);
-	c.current.setPosition(Vector3d(0, 0, 8));
-	obs.process(&c);
-	EXPECT_DOUBLE_EQ(c.getNextStep(), 2);
-}
-
-TEST(ObserverPoint, detection) {
+TEST(ObserverFeature, Point) {
 	Observer obs;
 	obs.add(new ObserverPoint()); obs;
 	Candidate c;
+	c.setNextStep(10);
 
 	// no detection, limit step
 	c.current.setPosition(Vector3d(5, 0, 0));
-	c.setNextStep(10);
 	obs.process(&c);
 	EXPECT_TRUE(c.isActive());
+
+	// limit step
 	EXPECT_DOUBLE_EQ(5, c.getNextStep());
 
 	// detection
@@ -130,7 +120,7 @@ TEST(ObserverPoint, detection) {
 	EXPECT_FALSE(c.isActive());
 }
 
-TEST(ObserverDetectAll, detection) {
+TEST(ObserverFeature, DetectAll) {
 	// DetectAll should detect all candidates
 	Observer obs;
 	obs.add(new ObserverDetectAll());

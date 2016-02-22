@@ -57,6 +57,16 @@ public:
 };
 
 /**
+ @class ObserverDetectAll
+ @brief Detects all particles
+ */
+class ObserverDetectAll: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+/**
  @class ObserverSmallSphere
  @brief Detects particles upon entering a sphere
  */

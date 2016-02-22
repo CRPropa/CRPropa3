@@ -107,6 +107,14 @@ std::string ObserverFeature::getDescription() const {
 	return description;
 }
 
+// ObserverDetectAll ----------------------------------------------------------
+DetectionState ObserverDetectAll::checkDetection(Candidate *candidate) const {
+	return DETECTED;
+}
+
+std::string ObserverDetectAll::getDescription() const {
+}
+
 // ObserverSmallSphere --------------------------------------------------------
 ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {

@@ -67,7 +67,7 @@ void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
 	TThread::Lock();
 #pragma omp critical
 	{
-		Ntuple->Fill(convertToCRPropa2NucleusId(c->current.getId()), 
+		Ntuple->Fill(convertToCRPropa2NucleusId(c->current.getId()),
 			convertToCRPropa2NucleusId(c->source.getId()),
 			comoving2LightTravelDistance(c->current.getPosition().x) / Mpc,
 			c->current.getEnergy() / EeV);
@@ -187,7 +187,7 @@ void ROOTEventOutput1D::endRun()
 
 
 ROOTEventOutput1D::~ROOTEventOutput1D() {
-	TThread::Lock(); 
+	TThread::Lock();
 	ROOTFile->Close();
 	TThread::UnLock();
 	delete ROOTFile;
@@ -354,19 +354,19 @@ void ROOTEventOutput3D::process(Candidate *c) const {
 	TThread::Lock();
 	#pragma omp critical
 	{
-		TrajectoryLength_Mpc = c->getTrajectoryLength() / Mpc; 
+		TrajectoryLength_Mpc = c->getTrajectoryLength() / Mpc;
 		Particle_Type = c->current.getId();
 		Initial_Type = c->source.getId();
 		Momentum_E_EeV = c->current.getEnergy() / EeV;
 		Initial_Momentum_E_EeV = c->source.getEnergy() / EeV;
-		Position_X_Mpc = c->current.getPosition().x / Mpc; 
-		Position_Y_Mpc = c->current.getPosition().y / Mpc; 
-		Position_Z_Mpc = c->current.getPosition().z / Mpc; 
+		Position_X_Mpc = c->current.getPosition().x / Mpc;
+		Position_Y_Mpc = c->current.getPosition().y / Mpc;
+		Position_Z_Mpc = c->current.getPosition().z / Mpc;
 		Initial_Position_X_Mpc = c->source.getPosition().x / Mpc;
 		Initial_Position_Y_Mpc = c->source.getPosition().y / Mpc;
 		Initial_Position_Z_Mpc = c->source.getPosition().z / Mpc;
-		Direction_X_Mpc	= c->current.getDirection().x; 
-		Direction_Y_Mpc	= c->current.getDirection().y; 
+		Direction_X_Mpc	= c->current.getDirection().x;
+		Direction_Y_Mpc	= c->current.getDirection().y;
 		Direction_Z_Mpc	= c->current.getDirection().z;
 
 		Tree->Fill();
@@ -382,7 +382,7 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
 			"CRPropa output data file");
 	Tree = new TTree("traj", "CRPropa 3D trajectories");
-			
+
 	Tree->Branch("TrajectoryLength_Mpc", &TrajectoryLength_Mpc, "TrajectoryLength_Mpc/F" );
 	Tree->Branch("Particle_Type", &Particle_Type, "Particle_Type/I");
 	Tree->Branch("Energy_EeV", &Energy_EeV, "Energy_EeV/F" );
@@ -392,8 +392,7 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 	Tree->Branch("Direction_X_Mpc", &Direction_X_Mpc, "Direction_X_Mpc/F" );
 	Tree->Branch("Direction_Y_Mpc", &Direction_Y_Mpc, "Direction_Y_Mpc/F" );
 	Tree->Branch("Direction_Z_Mpc", &Direction_Z_Mpc, "Direction_Z_Mpc/F" );
-	
-	
+
 	TThread::UnLock();
 }
 

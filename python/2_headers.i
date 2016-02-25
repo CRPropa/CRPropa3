@@ -14,7 +14,10 @@
 %include "exception.i"
 
 #ifdef CRPROPA_HAVE_QUIMBY
-%import (module="quimby") quimby.i
+%import (module="quimby") "quimby/Referenced.h"
+%import (module="quimby") "quimby/Vector3.h"
+%import (module="quimby") "quimby/MagneticField.h"
+//%import (module="quimby") quimby.i
 #endif
 
 #ifdef CRPROPA_HAVE_SAGA
@@ -137,6 +140,7 @@
 %template(ScalarGrid) crpropa::Grid<float>;
 
 %include "crpropa/magneticField/MagneticFieldGrid.h"
+%feature("notabstract") QuimbyMagneticFieldAdapter;
 %include "crpropa/magneticField/QuimbyMagneticField.h"
 %include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"

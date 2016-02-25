@@ -265,6 +265,20 @@ public:
 };
 
 /**
+ @class SourceCylindricalProjectionEmission
+ @brief Emission from cylindrical equal-area projection pixels.
+ */
+/*
+class SourceCylindricalProjectionEmission: public SourceFeature {
+public:
+	SourceCylindricalProjectionEmission(size_t nx, size_t ny, const std::vector<float> &weights);
+	void prepareParticle(ParticleState &particle) const;
+	void setDescription();
+};
+*/
+
+
+/**
  @class SourceDirection
  @brief Emission in a discrete direction
  */

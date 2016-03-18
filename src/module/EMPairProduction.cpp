@@ -252,8 +252,9 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
       std::cout << "ERROR" << std::endl;
     Epos = __extractPPSecondariesEnergy(E,s_kin);
 
-    candidate->addSecondary(-11, (E-Epos));
-    candidate->addSecondary(11, Epos);
+    Vector3d pos = randomPositionInPropagationStep(candidate);
+    candidate->addSecondary(-11, (E-Epos), pos);
+    candidate->addSecondary(11, Epos, pos);
   }
   candidate->setActive(false);
 }

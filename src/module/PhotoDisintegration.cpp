@@ -224,18 +224,19 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 	}
 
 	// create secondaries
+  Vector3d pos = randomPositionInPropagationStep(candidate);
 	for (size_t i = 0; i < nNeutron; i++)
-		candidate->addSecondary(nucleusId(1, 0), EpA);
+		candidate->addSecondary(nucleusId(1, 0), EpA, pos);
 	for (size_t i = 0; i < nProton; i++)
-		candidate->addSecondary(nucleusId(1, 1), EpA);
+		candidate->addSecondary(nucleusId(1, 1), EpA, pos);
 	for (size_t i = 0; i < nH2; i++)
-		candidate->addSecondary(nucleusId(2, 1), EpA * 2);
+		candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
 	for (size_t i = 0; i < nH3; i++)
-		candidate->addSecondary(nucleusId(3, 1), EpA * 3);
+		candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
 	for (size_t i = 0; i < nHe3; i++)
-		candidate->addSecondary(nucleusId(3, 2), EpA * 3);
+		candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
 	for (size_t i = 0; i < nHe4; i++)
-		candidate->addSecondary(nucleusId(4, 2), EpA * 4);
+		candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
 }
 
 double PhotoDisintegration::lossLength(int id, double gamma, double z) {

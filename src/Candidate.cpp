@@ -1,4 +1,5 @@
 #include "crpropa/Candidate.h"
+#include "crpropa/Random.h"
 
 namespace crpropa {
 
@@ -90,6 +91,10 @@ bool Candidate::hasProperty(const std::string &name) const {
 	return true;
 }
 
+void Candidate::addSecondary(Candidate *c) {
+	secondaries.push_back(c);
+}
+
 void Candidate::addSecondary(int id, double energy) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
@@ -100,6 +105,21 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
+	secondaries.push_back(secondary);
+}
+
+void Candidate::addSecondary(int id, double energy, Vector3d position) {
+	ref_ptr<Candidate> secondary = new Candidate;
+	secondary->setRedshift(redshift);
+	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->source = source;
+	secondary->previous = previous;
+	secondary->created = current;
+	secondary->current = current;
+	secondary->current.setId(id);
+	secondary->current.setEnergy(energy);
+  secondary->current.setPosition(position);
+  secondary->created.setPosition(position);
 	secondaries.push_back(secondary);
 }
 
@@ -135,6 +155,13 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 		}
 	}
 	return cloned;
+}
+
+const Vector3d randomPositionInPropagationStep(Candidate *c) {
+  Vector3d initial = c->current.getPosition();
+  Vector3d final = c->previous.getPosition();
+  Random &random = Random::instance();
+  return initial + random.rand() * (final - initial);
 }
 
 } // namespace crpropa

@@ -278,6 +278,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				background, maxRedshift, dummy1, dummy2, dummy2);
 	}
 
+  Vector3d pos = randomPositionInPropagationStep(candidate);
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
@@ -292,41 +293,41 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				// interacting nucleon is part of nucleus: it is emitted from the nucleus
 				candidate->current.setEnergy(E - EpA);
 				candidate->current.setId(sign * nucleusId(A - 1, Z - channel));
-				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout);
+				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout, pos);
 			}
 			break;
 		case -13: // anti-proton
 		case -14: // anti-neutron
 			if (haveAntiNucleons)
-				candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout);
+				candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout, pos);
 			break;
 		case 1: // photon
 			if (havePhotons)
-				candidate->addSecondary(22, Eout);
+				candidate->addSecondary(22, Eout, pos);
 			break;
 		case 2: // positron
 			if (havePhotons)
-				candidate->addSecondary(sign * -11, Eout);
+				candidate->addSecondary(sign * -11, Eout, pos);
 			break;
 		case 3: // electron
 			if (havePhotons)
-				candidate->addSecondary(sign * 11, Eout);
+				candidate->addSecondary(sign * 11, Eout, pos);
 			break;
 		case 15: // nu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * 12, Eout);
+				candidate->addSecondary(sign * 12, Eout, pos);
 			break;
 		case 16: // antinu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * -12, Eout);
+				candidate->addSecondary(sign * -12, Eout, pos);
 			break;
 		case 17: // nu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * 14, Eout);
+				candidate->addSecondary(sign * 14, Eout, pos);
 			break;
 		case 18: // antinu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * -14, Eout);
+				candidate->addSecondary(sign * -14, Eout, pos);
 			break;
 		default:
 			throw std::runtime_error(

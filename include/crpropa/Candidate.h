@@ -109,8 +109,6 @@ public:
 	ref_ptr<Candidate> clone(bool recursive = false) const;
 };
 
-const Vector3d randomPositionInPropagationStep(Candidate *c);
-
 } // namespace crpropa
 
 #endif // CRPROPA_CANDIDATE_H

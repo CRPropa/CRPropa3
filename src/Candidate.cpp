@@ -1,5 +1,4 @@
 #include "crpropa/Candidate.h"
-#include "crpropa/Random.h"
 
 namespace crpropa {
 
@@ -155,13 +154,6 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 		}
 	}
 	return cloned;
-}
-
-const Vector3d randomPositionInPropagationStep(Candidate *c) {
-	Vector3d initial = c->current.getPosition();
-	Vector3d final = c->previous.getPosition();
-	Random &random = Random::instance();
-	return initial + random.rand() * (final - initial);
 }
 
 } // namespace crpropa

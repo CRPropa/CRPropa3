@@ -278,6 +278,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				background, maxRedshift, dummy1, dummy2, dummy2);
 	}
 
+	Random &random = Random::instance();
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
@@ -292,41 +294,41 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				// interacting nucleon is part of nucleus: it is emitted from the nucleus
 				candidate->current.setEnergy(E - EpA);
 				candidate->current.setId(sign * nucleusId(A - 1, Z - channel));
-				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout);
+				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout, pos);
 			}
 			break;
 		case -13: // anti-proton
 		case -14: // anti-neutron
 			if (haveAntiNucleons)
-				candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout);
+				candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout, pos);
 			break;
 		case 1: // photon
 			if (havePhotons)
-				candidate->addSecondary(22, Eout);
+				candidate->addSecondary(22, Eout, pos);
 			break;
 		case 2: // positron
 			if (havePhotons)
-				candidate->addSecondary(sign * -11, Eout);
+				candidate->addSecondary(sign * -11, Eout, pos);
 			break;
 		case 3: // electron
 			if (havePhotons)
-				candidate->addSecondary(sign * 11, Eout);
+				candidate->addSecondary(sign * 11, Eout, pos);
 			break;
 		case 15: // nu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * 12, Eout);
+				candidate->addSecondary(sign * 12, Eout, pos);
 			break;
 		case 16: // antinu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * -12, Eout);
+				candidate->addSecondary(sign * -12, Eout, pos);
 			break;
 		case 17: // nu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * 14, Eout);
+				candidate->addSecondary(sign * 14, Eout, pos);
 			break;
 		case 18: // antinu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * -14, Eout);
+				candidate->addSecondary(sign * -14, Eout, pos);
 			break;
 		default:
 			throw std::runtime_error(
@@ -341,7 +343,7 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-    // instead of scaling the photon energies, scale the nucleus energy
+	// instead of scaling the photon energies, scale the nucleus energy
 	gamma *= (1 + z);
 	if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
 		return std::numeric_limits<double>::max();
@@ -350,17 +352,17 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 
 	if (Z > 0) {
 		if (doRedshiftDependent)
-            lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
-        else
-            lossRate += interpolate(gamma, tabLorentz, tabProtonRate);
-    }
+			lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+		else
+			lossRate += interpolate(gamma, tabLorentz, tabProtonRate);
+	}
 	if (N > 0) {
-        if (doRedshiftDependent)
-    	    lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
-        else
-            lossRate += interpolate(gamma, tabLorentz, tabNeutronRate);
-    }
-    lossRate *= nucleiModification(A, Z);
+		if (doRedshiftDependent)
+			lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+		else
+			lossRate += interpolate(gamma, tabLorentz, tabNeutronRate);
+	}
+	lossRate *= nucleiModification(A, Z);
 
 	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
 	// nuclei approximately lose the energy that the interacting nucleon is carrying

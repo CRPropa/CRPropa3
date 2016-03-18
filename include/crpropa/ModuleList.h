@@ -27,10 +27,7 @@ public:
 	module_list_t &getModules();
 	const module_list_t &getModules() const;
 
-	void beginRun(); ///< call beginRun in all modules
-	void endRun(); ///< call endRun in all modules
 	void process(Candidate *candidate) const; ///< call process in all modules
-	void processToFinish(Candidate *candidate, bool recursive = true); ///< propagate until finished
 
 	void run(Candidate *candidate, bool recursive = true); ///< run simulation for a single candidate
 	void run(candidate_vector_t &candidates, bool recursive = true); ///< run simulation for a candidate vector

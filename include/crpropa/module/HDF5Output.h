@@ -55,8 +55,6 @@ public:
 	~HDF5Output();
 
 	void process(Candidate *candidate) const;
-	void beginRun();
-	void endRun();
 	std::string getDescription() const;
 };
 

@@ -26,7 +26,7 @@ public:
 	ROOTTrajectoryOutput1D(std::string filename);
 	~ROOTTrajectoryOutput1D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -47,7 +47,7 @@ public:
 	ROOTTrajectoryOutput3D(std::string filename);
 	~ROOTTrajectoryOutput3D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -65,7 +65,7 @@ public:
 	ROOTEventOutput1D(std::string filename);
 	~ROOTEventOutput1D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -88,7 +88,7 @@ public:
 	ROOTEventOutput3D(std::string filename);
 	~ROOTEventOutput3D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -106,7 +106,7 @@ public:
 	ROOTPhotonOutput1D(std::string filename);
 	~ROOTPhotonOutput1D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 
@@ -123,6 +123,7 @@ public:
 	CRPropa2ROOTTrajectoryOutput1D(std::string filename);
 	~CRPropa2ROOTTrajectoryOutput1D();
 	void process(Candidate *candidate) const;
+	void close();
 };
 
 /**
@@ -137,6 +138,7 @@ public:
 	CRPropa2ROOTTrajectoryOutput3D(std::string filename);
 	~CRPropa2ROOTTrajectoryOutput3D();
 	void process(Candidate *candidate) const;
+	void close();
 };
 
 /**
@@ -151,6 +153,7 @@ public:
 	CRPropa2ROOTEventOutput1D(std::string filename);
 	~CRPropa2ROOTEventOutput1D();
 	void process(Candidate *candidate) const;
+	void close();
 };
 
 /**
@@ -165,6 +168,7 @@ public:
 	CRPropa2ROOTEventOutput3D(std::string filename);
 	~CRPropa2ROOTEventOutput3D();
 	void process(Candidate *candidate) const;
+	void close();
 };
 
 } // namespace crpropa

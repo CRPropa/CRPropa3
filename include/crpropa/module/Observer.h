@@ -28,8 +28,6 @@ public:
 	virtual DetectionState checkDetection(Candidate *candidate) const;
 	virtual void onDetection(Candidate *candidate) const;
 	virtual std::string getDescription() const;
-	virtual void beginRun();
-	virtual void endRun();
 };
 
 /**
@@ -48,8 +46,6 @@ public:
 	Observer();
 	void add(ObserverFeature *feature);
 	void onDetection(Module *action, bool clone = false);
-	void beginRun();
-	void endRun();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 	void setFlag(std::string key, std::string value);

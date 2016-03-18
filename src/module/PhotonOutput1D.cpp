@@ -53,7 +53,7 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 	candidate->setActive(false);
 }
 
-void PhotonOutput1D::endRun() {
+void PhotonOutput1D::close() {
 	output.flush();
 }
 

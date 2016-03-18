@@ -5,17 +5,24 @@
 
 namespace crpropa {
 
-Output::Output() : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), begun(false), ended(false) {
+Output::Output() : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
 	enableAll();
 }
 
-Output::Output(OutputType outputtype) : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), begun(false), ended(false) {
+Output::Output(OutputType outputtype) : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
 		setOutputType(outputtype);
 }
 
 void Output::modify() {
-	if (begun || ended)
-		throw std::runtime_error("Output: cannot change Output parameters after begin/endRun.");
+	if (count > 0)
+		throw std::runtime_error("Output: cannot change Output parameters after data has been written to file.");
+}
+
+void Output::process(Candidate *c) const {
+	#pragma omp critical
+	{
+		count++;
+	}
 }
 
 void Output::setOutputType(OutputType outputtype) {
@@ -103,19 +110,8 @@ void Output::disableAll() {
 	fields.reset();
 }
 
-void  Output::process(Candidate *candidate) const {
-	if (!begun)
-		throw std::runtime_error("Output: call beginRun before using Output");
-	if (ended)
-		throw std::runtime_error("Output: cannot process output after endRun was called.");
-}
-
-void  Output::beginRun() {
-	begun = true;
-}
-
-void  Output::endRun() {
-	ended = true;
+size_t Output::getCount() const {
+	return count;
 }
 
 } // namespace crpropa

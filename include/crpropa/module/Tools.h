@@ -4,6 +4,7 @@
 #include "crpropa/Module.h"
 
 #include <vector>
+#include <set>
 
 namespace crpropa {
 
@@ -20,6 +21,20 @@ private:
 public:
 	~PerformanceModule();
 	void add(Module* module);
+	void process(Candidate* candidate) const;
+	std::string getDescription() const;
+};
+
+class ParticleFilter: public AbstractCondition {
+	std::set<int> ids;
+
+public:
+	ParticleFilter();
+	ParticleFilter(const std::set<int> &ids);
+	void addId(int id);
+	void removeId(int remove);
+	std::set<int> &getIds();
+
 	void process(Candidate* candidate) const;
 	std::string getDescription() const;
 };

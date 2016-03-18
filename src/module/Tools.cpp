@@ -63,4 +63,38 @@ string PerformanceModule::getDescription() const {
 	return sstr.str();
 }
 
+ParticleFilter::ParticleFilter() {
+
+}
+ParticleFilter::ParticleFilter(const std::set<int> &ids) : ids(ids) {
+
+}
+void ParticleFilter::addId(int id) {
+	ids.insert(id);
+}
+void ParticleFilter::removeId(int id) {
+	ids.erase(id);
+}
+
+std::set<int> &ParticleFilter::getIds() {
+	return ids;
+}
+
+void ParticleFilter::process(Candidate* candidate) const {
+	if (ids.find(candidate->current.getId()) == ids.end())
+		reject(candidate);
+	else
+		accept(candidate);
+}
+
+string ParticleFilter::getDescription() const {
+	stringstream sstr;
+	sstr << "ParticleFilter: ";
+	for (std::set<int>::const_iterator i = ids.begin(); i != ids.end(); i++) {
+		sstr << *i << ", ";
+	}
+	sstr << ")";
+	return sstr.str();
+}
+
 } // namespace crpropa

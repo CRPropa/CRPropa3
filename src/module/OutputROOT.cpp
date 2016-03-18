@@ -20,13 +20,21 @@ CRPropa2ROOTEventOutput1D::CRPropa2ROOTEventOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-CRPropa2ROOTEventOutput1D::~CRPropa2ROOTEventOutput1D() {
+void CRPropa2ROOTEventOutput1D::close() {
 	TThread::Lock();
-	ROOTFile->Write();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Ntuple;
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Ntuple;
+		Ntuple = 0;
+	}
 	TThread::UnLock();
+}
+
+CRPropa2ROOTEventOutput1D::~CRPropa2ROOTEventOutput1D() {
+	close();
 }
 
 void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
@@ -54,13 +62,21 @@ CRPropa2ROOTTrajectoryOutput1D::CRPropa2ROOTTrajectoryOutput1D(std::string filen
 	TThread::UnLock();
 }
 
-CRPropa2ROOTTrajectoryOutput1D::~CRPropa2ROOTTrajectoryOutput1D() {
+void CRPropa2ROOTTrajectoryOutput1D::close() {
 	TThread::Lock();
-	ROOTFile->Write();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Ntuple;
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Ntuple;
+		Ntuple = 0;
+	}
 	TThread::UnLock();
+}
+
+CRPropa2ROOTTrajectoryOutput1D::~CRPropa2ROOTTrajectoryOutput1D() {
+	close();
 }
 
 void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
@@ -87,13 +103,21 @@ CRPropa2ROOTEventOutput3D::CRPropa2ROOTEventOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-CRPropa2ROOTEventOutput3D::~CRPropa2ROOTEventOutput3D() {
+void CRPropa2ROOTEventOutput3D::close() {
 	TThread::Lock();
-	ROOTFile->Write();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Ntuple;
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Ntuple;
+		Ntuple = 0;
+	}
 	TThread::UnLock();
+}
+
+CRPropa2ROOTEventOutput3D::~CRPropa2ROOTEventOutput3D() {
+	close();
 }
 
 void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
@@ -133,13 +157,22 @@ CRPropa2ROOTTrajectoryOutput3D::CRPropa2ROOTTrajectoryOutput3D(std::string filen
 	TThread::UnLock();
 }
 
-CRPropa2ROOTTrajectoryOutput3D::~CRPropa2ROOTTrajectoryOutput3D() {
+void CRPropa2ROOTTrajectoryOutput3D::close() {
 	TThread::Lock();
-	ROOTFile->Write();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Ntuple;
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Ntuple;
+		Ntuple = 0;
+	}
 	TThread::UnLock();
+}
+
+
+CRPropa2ROOTTrajectoryOutput3D::~CRPropa2ROOTTrajectoryOutput3D() {
+	close();
 }
 
 void CRPropa2ROOTTrajectoryOutput3D::process(Candidate *c) const {
@@ -178,20 +211,23 @@ ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTEventOutput1D::endRun()
+void ROOTEventOutput1D::close()
 {
 	TThread::Lock();
-	Tree->Write();
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Tree;
+		Tree = 0;
+	}
 	TThread::UnLock();
 }
 
 
 ROOTEventOutput1D::~ROOTEventOutput1D() {
-	TThread::Lock();
-	ROOTFile->Close();
-	TThread::UnLock();
-	delete ROOTFile;
-	delete Tree;
+	close();
 }
 
 void ROOTEventOutput1D::process(Candidate *c) const {
@@ -229,19 +265,22 @@ ROOTPhotonOutput1D::ROOTPhotonOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTPhotonOutput1D::endRun()
+void ROOTPhotonOutput1D::close()
 {
 	TThread::Lock();
-	ROOTFile->Write();
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Tree;
+		Tree = 0;
+	}
 	TThread::UnLock();
 }
 
 ROOTPhotonOutput1D::~ROOTPhotonOutput1D() {
-	TThread::Lock();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Tree;
-	TThread::UnLock();
+	close();
 }
 
 void ROOTPhotonOutput1D::process(Candidate *c) const {
@@ -281,19 +320,22 @@ ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTTrajectoryOutput1D::endRun()
+void ROOTTrajectoryOutput1D::close()
 {
 	TThread::Lock();
-	ROOTFile->Write();
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Tree;
+		Tree = 0;
+	}
 	TThread::UnLock();
 }
 
 ROOTTrajectoryOutput1D::~ROOTTrajectoryOutput1D() {
-	TThread::Lock();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Tree;
-	TThread::UnLock();
+	close();
 }
 
 void ROOTTrajectoryOutput1D::process(Candidate *c) const {
@@ -335,19 +377,22 @@ ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTEventOutput3D::endRun()
+void ROOTEventOutput3D::close()
 {
 	TThread::Lock();
-	ROOTFile->Write();
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Tree;
+		Tree = 0;
+	}
 	TThread::UnLock();
 }
 
 ROOTEventOutput3D::~ROOTEventOutput3D() {
-	TThread::Lock();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Tree;
-	TThread::UnLock();
+	close();
 }
 
 void ROOTEventOutput3D::process(Candidate *c) const {
@@ -396,19 +441,22 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTTrajectoryOutput3D::endRun()
+void ROOTTrajectoryOutput3D::close()
 {
 	TThread::Lock();
-	ROOTFile->Write();
+	if (ROOTFile) {
+		ROOTFile->Write();
+		ROOTFile->Close();
+		delete ROOTFile;
+		ROOTFile = 0;
+		delete Tree;
+		Tree = 0;
+	}
 	TThread::UnLock();
 }
 
 ROOTTrajectoryOutput3D::~ROOTTrajectoryOutput3D() {
-	TThread::Lock();
-	ROOTFile->Close();
-	delete ROOTFile;
-	delete Tree;
-	TThread::UnLock();
+	close();
 }
 
 void ROOTTrajectoryOutput3D::process(Candidate *c) const {

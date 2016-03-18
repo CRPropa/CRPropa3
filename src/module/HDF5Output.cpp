@@ -160,15 +160,6 @@ void HDF5Output::flush() const {
 	buffer.clear();
 }
 
-void HDF5Output::beginRun() {
-	Output::beginRun();
-}
-
-void HDF5Output::endRun() {
-	Output::endRun();
-	close();
-}
-
 std::string HDF5Output::getDescription() const  {
 	return "HDF5Output";
 }

@@ -16,7 +16,7 @@ public:
 	CRPropa2EventOutput3D(std::string filename);
 	~CRPropa2EventOutput3D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -29,7 +29,7 @@ public:
 	CRPropa2TrajectoryOutput3D(std::string filename);
 	~CRPropa2TrajectoryOutput3D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -42,7 +42,7 @@ public:
 	CRPropa2EventOutput1D(std::string filename);
 	~CRPropa2EventOutput1D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 /**
@@ -55,7 +55,7 @@ public:
 	CRPropa2TrajectoryOutput1D(std::string filename);
 	~CRPropa2TrajectoryOutput1D();
 	void process(Candidate *candidate) const;
-	void endRun();
+	void close();
 };
 
 } // namespace crpropa

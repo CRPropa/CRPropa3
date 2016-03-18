@@ -23,8 +23,6 @@ public:
 	}
 	virtual std::string getDescription() const;
 	void setDescription(const std::string &description);
-	virtual void beginRun();
-	virtual void endRun();
 	virtual void process(Candidate *candidate) const = 0;
 	inline void process(ref_ptr<Candidate> candidate) const {
 		process(candidate.get());
@@ -61,8 +59,6 @@ public:
 	void setMakeAcceptedInactive(bool makeInactive);
 	void setRejectFlag(std::string key, std::string value);
 	void setAcceptFlag(std::string key, std::string value);
-	void beginRun();
-	void endRun();
 };
 
 } // namespace crpropa

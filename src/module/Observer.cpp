@@ -14,23 +14,6 @@ void Observer::add(ObserverFeature *feature) {
 	features.push_back(feature);
 }
 
-void Observer::beginRun() {
-	for (int i = 0; i < features.size(); i++)
-		features[i]->beginRun();
-
-	if (detectionAction.valid())
-		detectionAction->beginRun();
-
-}
-
-void Observer::endRun() {
-	for (int i = 0; i < features.size(); i++)
-		features[i]->endRun();
-
-	if (detectionAction.valid())
-		detectionAction->endRun();
-}
-
 void Observer::onDetection(Module *action, bool clone_) {
 	detectionAction = action;
 	clone = clone_;
@@ -95,12 +78,6 @@ DetectionState ObserverFeature::checkDetection(Candidate *candidate) const {
 }
 
 void ObserverFeature::onDetection(Candidate *candidate) const {
-}
-
-void ObserverFeature::beginRun() {
-}
-
-void ObserverFeature::endRun() {
 }
 
 std::string ObserverFeature::getDescription() const {

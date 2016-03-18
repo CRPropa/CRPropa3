@@ -17,7 +17,7 @@ public:
 	~PhotonOutput1D();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
-	void endRun();
+	void close();
 };
 
 } // namespace crpropa

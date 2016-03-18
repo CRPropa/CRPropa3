@@ -17,7 +17,7 @@ protected:
 	std::ofstream outfile;
 	std::string filename;
 
-	void printHeader();
+	void printHeader() const;
 
 public:
 	TextOutput();
@@ -28,11 +28,10 @@ public:
 	TextOutput(const std::string &filename, OutputType outputtype);
 	~TextOutput();
 
+	void close();
 	void gzip();
 
 	void process(Candidate *candidate) const;
-	void beginRun();
-	void endRun();
 	std::string getDescription() const;
 };
 

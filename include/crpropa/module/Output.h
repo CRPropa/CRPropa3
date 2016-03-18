@@ -15,9 +15,11 @@ class Output: public Module {
 protected:
 	double lengthScale, energyScale;
 	std::bitset<64> fields;
-	bool oneDimensional, begun, ended;
+	bool oneDimensional;
+	mutable size_t count;
 	
 	void modify();
+
 public:
 	enum OutputColumn {
 		TrajectoryLengthColumn,
@@ -57,11 +59,9 @@ public:
 	void enableAll();
 	void disableAll();
 	void set1D(bool value);
+	size_t getCount() const;
 
-	void process(Candidate *candidate) const;
-	void beginRun();
-	void endRun();
-	virtual std::string getDescription() const  = 0;
+	void process(Candidate *) const;
 };
 
 } // namespace crpropa

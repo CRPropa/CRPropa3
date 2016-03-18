@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdexcept>
+#include <iostream>
 #include <kiss/string.h>
 
 #ifdef CRPROPA_HAVE_ZLIB
@@ -40,14 +41,7 @@ TextOutput::TextOutput(const std::string &filename,
 		gzip();
 }
 
-void TextOutput::beginRun() {
-	if (!begun) {
-		printHeader();
-	}
-	Output::beginRun();
-}
-
-void TextOutput::printHeader() {
+void TextOutput::printHeader() const {
 	*out << "#";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "\tD";
@@ -119,7 +113,11 @@ void TextOutput::printHeader() {
 }
 
 void TextOutput::process(Candidate *c) const {
+	if (count == 0)
+		printHeader();
+
 	Output::process(c);
+
 	if (fields.none())
 		return;
 
@@ -218,19 +216,20 @@ std::string TextOutput::getDescription() const {
 	return "TextOutput";
 }
 
-void TextOutput::endRun() {
-	Output::endRun();
+void TextOutput::close() {
 #ifdef CRPROPA_HAVE_ZLIB
 	zstream::ogzstream *zs = dynamic_cast<zstream::ogzstream *>(out);
 	if (zs) {
 		zs->close();
+		delete out;
+		out = 0;
 	}
 #endif
 	outfile.flush();
 }
 
 TextOutput::~TextOutput() {
-	endRun();
+	close();
 }
 
 void TextOutput::gzip() {

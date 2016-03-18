@@ -52,7 +52,7 @@ void CRPropa2EventOutput3D::process(Candidate *c) const {
 	outfile.write(buffer, p);
 }
 
-void CRPropa2EventOutput3D::endRun() {
+void CRPropa2EventOutput3D::close() {
 	outfile.flush();
 }
 
@@ -94,7 +94,7 @@ void CRPropa2TrajectoryOutput3D::process(Candidate *c) const {
 	outfile.write(buffer, p);
 }
 
-void CRPropa2TrajectoryOutput3D::endRun() {
+void CRPropa2TrajectoryOutput3D::close() {
 	outfile.flush();
 }
 
@@ -123,7 +123,7 @@ void CRPropa2TrajectoryOutput1D::process(Candidate *c) const {
 	outfile.write(buffer, p);
 }
 
-void CRPropa2TrajectoryOutput1D::endRun() {
+void CRPropa2TrajectoryOutput1D::close() {
 	outfile.flush();
 }
 
@@ -156,7 +156,7 @@ void CRPropa2EventOutput1D::process(Candidate *c) const {
 	outfile.write(buffer, p);
 }
 
-void CRPropa2EventOutput1D::endRun() {
+void CRPropa2EventOutput1D::close() {
 	outfile.flush();
 }
 

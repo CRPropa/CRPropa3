@@ -160,6 +160,10 @@ Vector3d Random::randConeVector(const Vector3d &meanDirection,
 	return randVectorAroundMean(meanDirection, theta);
 }
 
+Vector3d Random::randomInterpolatedPosition(const Vector3d &a, const Vector3d &b) {
+	return a + rand() * (b - a);
+}
+
 double Random::randPowerLaw(double index, double min, double max) {
 	if ((min < 0) || (max < min)) {
 		throw std::runtime_error(

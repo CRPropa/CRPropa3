@@ -244,7 +244,7 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 
 	Epost = __extractICSSecondaries(E,s);
 	if (havePhotons){
-		Vector3d pos = randomPositionInPropagationStep(candidate);
+		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 		candidate->addSecondary(22, (E-Epost), pos);
 	}
 	candidate->current.setEnergy(Epost);

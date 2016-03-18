@@ -278,7 +278,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				background, maxRedshift, dummy1, dummy2, dummy2);
 	}
 
-	Vector3d pos = randomPositionInPropagationStep(candidate);
+	Random &random = Random::instance();
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];

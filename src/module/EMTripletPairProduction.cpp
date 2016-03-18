@@ -109,7 +109,7 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 
 	// clear previously loaded interaction rates
 	tabE.clear();
-  tabs.clear();
+	tabs.clear();
 	tabCumulativeRate.clear();
 
 	while (infile.good()) {
@@ -118,7 +118,7 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 			infile >> a >> b >> c;
 			if (infile) {
 				tabE.push_back(pow(10, a) * eV);
-        tabs.push_back(pow(10,b) * eV * eV);
+				tabs.push_back(pow(10,b) * eV * eV);
 				tabCumulativeRate.push_back(c / Mpc);
 			}
 		}
@@ -129,84 +129,84 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 
 void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 
-  //approximation based on A. Mastichiadis et al.,
-  //Astroph. Journ. 300:178-189 (1986), eq. 30.
-  //This approx is valid only for   alpha >=100
-  //where alpha = p0*eps*costheta - E0*eps;
-  //for our purposes, me << E0 --> p0~ E0 -->
-  //alpha = E0*eps*(costheta - 1) >= 100;
+	//approximation based on A. Mastichiadis et al.,
+	//Astroph. Journ. 300:178-189 (1986), eq. 30.
+	//This approx is valid only for   alpha >=100
+	//where alpha = p0*eps*costheta - E0*eps;
+	//for our purposes, me << E0 --> p0~ E0 -->
+	//alpha = E0*eps*(costheta - 1) >= 100;
 
-  int id = candidate->current.getId();
-  double z = candidate->getRedshift();
-  double E = candidate->current.getEnergy();
-  double Epp = 0.;
-  double mec2 = mass_electron * c_squared;
+	int id = candidate->current.getId();
+	double z = candidate->getRedshift();
+	double E = candidate->current.getEnergy();
+	double Epp = 0.;
+	double mec2 = mass_electron * c_squared;
 
-  // interpolate between tabulated electron energies to get corresponding cdf
-  size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500; 
-  double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
-  if (E < tabE.front() || E > tabE.back())
-    return;
+	// interpolate between tabulated electron energies to get corresponding cdf
+	size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
+	double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
+	if (E < tabE.front() || E > tabE.back())
+		return;
 
-  std::vector<double> cdf(500);
-  for (size_t j = 0; j < 500; j++)
-    cdf[j] = tabCumulativeRate[i+j] + a * (tabCumulativeRate[i+500+j] - tabCumulativeRate[i+j]);
+	std::vector<double> cdf(500);
+	for (size_t j = 0; j < 500; j++)
+		cdf[j] = tabCumulativeRate[i+j] + a * (tabCumulativeRate[i+500+j] - tabCumulativeRate[i+j]);
 
-  // draw random value between 0. and maximum of corresponding cdf
-  // choose bin of eps where cdf(eps) = cdf_rand -> eps_rand
-  Random &random = Random::instance();
-  size_t j = random.randBin(cdf); // draw random bin
-  double binWidth = (tabs[i+j+1] - tabs[i+j]);
-  double eps = (tabs[i+j] + random.rand() * binWidth)/4./E; // draw random uniform background photon energy in bin, note that one needs to convert tablulated eps back to s_kin and calculate right eps with real electron energy
-  if (4*E*eps < 8*mec2*mec2)
-    std::cout << "ERROR" << std::endl;
+	// draw random value between 0. and maximum of corresponding cdf
+	// choose bin of eps where cdf(eps) = cdf_rand -> eps_rand
+	Random &random = Random::instance();
+	size_t j = random.randBin(cdf); // draw random bin
+	double binWidth = (tabs[i+j+1] - tabs[i+j]);
+	double eps = (tabs[i+j] + random.rand() * binWidth)/4./E; // draw random uniform background photon energy in bin, note that one needs to convert tablulated eps back to s_kin and calculate right eps with real electron energy
+	if (4*E*eps < 8*mec2*mec2)
+		std::cout << "ERROR" << std::endl;
 
-  eps *= (1 + z);
+	eps *= (1 + z);
 
-  Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
+	Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
 
-  if (haveElectrons){
-    Vector3d pos = randomPositionInPropagationStep(candidate);
-    candidate->addSecondary(11, Epp, pos);
-    candidate->addSecondary(-11, Epp, pos);
-  }
-  candidate->current.setEnergy((E - 2.*Epp));
+	if (haveElectrons){
+		Vector3d pos = randomPositionInPropagationStep(candidate);
+		candidate->addSecondary(11, Epp, pos);
+		candidate->addSecondary(-11, Epp, pos);
+	}
+	candidate->current.setEnergy((E - 2.*Epp));
 }
 
 void EMTripletPairProduction::process(Candidate *candidate) const {
 	double step = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
 	
-  // check if electron / positron
-  int id = candidate->current.getId();
-  if (id != 11 && id != -11)
-    return; 
+	// check if electron / positron
+	int id = candidate->current.getId();
+	if (id != 11 && id != -11)
+		return;
 
-  // instead of scaling the background photon energies, scale the electron energy
-  double E = (1 + z) * candidate->current.getEnergy();
+	// instead of scaling the background photon energies, scale the electron energy
+	double E = (1 + z) * candidate->current.getEnergy();
 
-  // check if in tabulated energy range
-  if (E < tabElectronEnergy.front() or (E > tabElectronEnergy.back()))
-//  if (E < tabE.front() or (E > tabE.back()))
-    return;
+	// check if in tabulated energy range
+	if (E < tabElectronEnergy.front() or (E > tabElectronEnergy.back()))
+//	if (E < tabE.front() or (E > tabE.back()))
+		return;
 
-  // find interaction with minimum random distance
-  Random &random = Random::instance();
-  double randDistance = std::numeric_limits<double>::max();
+	// find interaction with minimum random distance
+	Random &random = Random::instance();
+	double randDistance = std::numeric_limits<double>::max();
 
-  // comological scaling of interaction distance (comoving)
-  double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
-  double rate = scaling * interpolate(E, tabElectronEnergy, tabInteractionRate);
-  randDistance = -log(random.rand()) / rate;
-  candidate->limitNextStep(limit / rate);
+	// comological scaling of interaction distance (comoving)
+	double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	double rate = scaling * interpolate(E, tabElectronEnergy, tabInteractionRate);
+	randDistance = -log(random.rand()) / rate;
+	candidate->limitNextStep(limit / rate);
 
-  // check if interaction does not happen
-  if (step < randDistance) {
-    return;
-  }
+	// check if interaction does not happen
+	if (step < randDistance) {
+		return;
+	}
 
-  // interact 
-  performInteraction(candidate);
+	// interact
+	performInteraction(candidate);
 }
 
 } // namespace crpropa

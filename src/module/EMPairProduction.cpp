@@ -110,7 +110,7 @@ void EMPairProduction::initCumulativeRate(std::string filename) {
 
 	// clear previously loaded interaction rates
 	tabE.clear();
-  tabs.clear();
+	tabs.clear();
 	tabCumulativeRate.clear();
 
 	while (infile.good()) {
@@ -119,7 +119,7 @@ void EMPairProduction::initCumulativeRate(std::string filename) {
 			infile >> a >> b >> c;
 			if (infile) {
 				tabE.push_back(pow(10, a) * eV);
-        tabs.push_back(pow(10,b) * eV*eV);
+				tabs.push_back(pow(10,b) * eV*eV);
 				tabCumulativeRate.push_back(c / Mpc);
 			}
 		}
@@ -130,12 +130,12 @@ void EMPairProduction::initCumulativeRate(std::string filename) {
 
 ///	 Differential cross-section for pair production for x = Epositron/Egamma
 double dSigmadE_PPx(double x, double beta) {
-  const double A = (x / (1. - x) + (1. - x) / x );
-  const double B =  (1. / x + 1. / (1. - x) );
-  return A + (1. - beta*beta) * B - (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
+	const double A = (x / (1. - x) + (1. - x) / x );
+	const double B =  (1. / x + 1. / (1. - x) );
+	return A + (1. - beta*beta) * B - (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
 }
 
-/// Hold an data array to interpolate the energy distribution on 
+/// Hold an data array to interpolate the energy distribution on
 class PPSecondariesEnergyDistribution
 {
 	private:
@@ -152,7 +152,7 @@ class PPSecondariesEnergyDistribution
 		{
 			if (s_min < 4.*mass_electron*c_squared * mass_electron*c_squared)
 			{
-				std::cerr << "Warning: Minimum COM Energy in PP Interpolation s = " << s_min << " <  (2*m_e)**2 selected. Setting to s_min = (2*m_e)**2.\n" ;
+				std::cerr << "Warning: Minimum COM Energy in PP Interpolation s = " << s_min << " <  (2*m_e)**2 selected. Setting to s_min = (2*m_e)**2.\n";
 				s_min = 4.*mass_electron*c_squared * mass_electron*c_squared;
 			}
 			_Ns = Ns;
@@ -161,7 +161,7 @@ class PPSecondariesEnergyDistribution
 			_s_max = s_max;
 			_data = new double[Ns*Nrer];
 			_dls = (log(s_max) - log(s_min)) / (Ns);
-      double ElectronMass = mass_electron*c_squared;
+			double ElectronMass = mass_electron*c_squared;
 
 			for (size_t i = 0; i < Ns; i++)
 			{
@@ -171,12 +171,12 @@ class PPSecondariesEnergyDistribution
 				double x0 = log((1.-beta) / 2.);
 				double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (Nrer); 
 				_data[i *Nrer] = 0;
-        for (size_t j = 1; j < Nrer; j++)
+				for (size_t j = 1; j < Nrer; j++)
 				{
 					double x = exp(x0 + j*dx); 
 					_data[i * Nrer + j] =	dSigmadE_PPx(x, beta) + _data[i*Nrer +j-1]; //TODO: tables contains some nans
 				}
-      }
+			}
 		}
 
 		// returns pointer to the the integrated distribution for a given s
@@ -190,9 +190,9 @@ class PPSecondariesEnergyDistribution
 		//samples the integrated distribution and returns Eer(Ee, s)
 		double sample(double E0,double s)
 		{
-      double ElectronMass = mass_electron*c_squared;
+			double ElectronMass = mass_electron*c_squared;
 			double *s0 = getDistribution(s); 
-      Random &random = Random::instance();
+			Random &random = Random::instance();
 			double rnd = random.rand() *s0[_Nrer-1];
 
 			for (size_t i=0; i < _Nrer; i++)
@@ -202,17 +202,17 @@ class PPSecondariesEnergyDistribution
 					double beta = sqrt(1. - 4.* ElectronMass * ElectronMass / s);
 
 					double x0 = log((1.-beta) / 2.);
-          double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (_Nrer); 
-          if (random.rand() < 0.5)
-            return exp(x0 + (i)*dx) * E0;
-          else
-            return E0 * (1-exp(x0 + (i)*dx) );
-        }
-      }
-      std::cerr << "PPSecondariesEnergyDistribution out of bounds!" << std::endl;
-      std::cerr << "  s0[0] = " << s0[0] << "  s0[_Nrer-1] = " << s0[_Nrer-1] << "  rnd = " << rnd << std::endl;
-      throw std::runtime_error("Grave logic error in PPSecondariesEnergyDistribution!");
-    }
+					double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (_Nrer);
+					if (random.rand() < 0.5)
+						return exp(x0 + (i)*dx) * E0;
+					else
+						return E0 * (1-exp(x0 + (i)*dx));
+				}
+			}
+			std::cerr << "PPSecondariesEnergyDistribution out of bounds!" << std::endl;
+			std::cerr << "  s0[0] = " << s0[0] << "  s0[_Nrer-1] = " << s0[_Nrer-1] << "  rnd = " << rnd << std::endl;
+			throw std::runtime_error("Grave logic error in PPSecondariesEnergyDistribution!");
+		}
 };
 
 // Helper function for actual Monte Carlo sampling to avoid code-duplication
@@ -224,74 +224,74 @@ double __extractPPSecondariesEnergy(double E0, double s)
 
 void EMPairProduction::performInteraction(Candidate *candidate) const {
 
-  if (haveElectrons){
-    int id = candidate->current.getId();
-    double z = candidate->getRedshift();
-    double E = candidate->current.getEnergy();
-    double Epos = 0.;
-    double mec2 = mass_electron * c_squared;
-    
-    // interpolate between tabulated electron energies to get corresponding cdf
-    size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500; 
-    double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
-    if (E < tabE.front() || E > tabE.back())
-      return;
+	if (haveElectrons){
+		int id = candidate->current.getId();
+		double z = candidate->getRedshift();
+		double E = candidate->current.getEnergy();
+		double Epos = 0.;
+		double mec2 = mass_electron * c_squared;
 
-    std::vector<double> cdf(500);
-    for (size_t j = 0; j < 500; j++)
-      cdf[j] = tabCumulativeRate[i+j] + a * (tabCumulativeRate[i+500+j] - tabCumulativeRate[i+j]);
+		// interpolate between tabulated electron energies to get corresponding cdf
+		size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
+		double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
+		if (E < tabE.front() || E > tabE.back())
+			return;
 
-    // draw random value between 0. and maximum of corresponding cdf
-    // choose bin of s where cdf(s) = cdf_rand -> s_rand
-    Random &random = Random::instance();
-    size_t j = random.randBin(cdf); // draw random bin
-    double binWidth = (tabs[i+j+1] - tabs[i+j]);
-    double s_kin = tabs[i+j] + random.rand() * binWidth; // draw random s uniformly distributed in bin
-    s_kin *(1 + z); 
-    if (s_kin < 4*mec2*mec2)
-      std::cout << "ERROR" << std::endl;
-    Epos = __extractPPSecondariesEnergy(E,s_kin);
+		std::vector<double> cdf(500);
+		for (size_t j = 0; j < 500; j++)
+			cdf[j] = tabCumulativeRate[i+j] + a * (tabCumulativeRate[i+500+j] - tabCumulativeRate[i+j]);
 
-    Vector3d pos = randomPositionInPropagationStep(candidate);
-    candidate->addSecondary(-11, (E-Epos), pos);
-    candidate->addSecondary(11, Epos, pos);
-  }
-  candidate->setActive(false);
+		// draw random value between 0. and maximum of corresponding cdf
+		// choose bin of s where cdf(s) = cdf_rand -> s_rand
+		Random &random = Random::instance();
+		size_t j = random.randBin(cdf); // draw random bin
+		double binWidth = (tabs[i+j+1] - tabs[i+j]);
+		double s_kin = tabs[i+j] + random.rand() * binWidth; // draw random s uniformly distributed in bin
+		s_kin *(1 + z);
+		if (s_kin < 4*mec2*mec2)
+			std::cout << "ERROR" << std::endl;
+		Epos = __extractPPSecondariesEnergy(E,s_kin);
+
+		Vector3d pos = randomPositionInPropagationStep(candidate);
+		candidate->addSecondary(-11, (E-Epos), pos);
+		candidate->addSecondary(11, Epos, pos);
+	}
+	candidate->setActive(false);
 }
 
 void EMPairProduction::process(Candidate *candidate) const {
 	double step = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
 	
-  // check if photon
-  int id = candidate->current.getId();
-  if (id != 22)
-    return; 
+	// check if photon
+	int id = candidate->current.getId();
+	if (id != 22)
+		return;
 
-  // instead of scaling the background photon energies, scale the photon energy
-  double E = (1 + z) * candidate->current.getEnergy();
+	// instead of scaling the background photon energies, scale the photon energy
+	double E = (1 + z) * candidate->current.getEnergy();
 
-  // check if in tabulated energy range
-  if (E < tabPhotonEnergy.front() or (E > tabPhotonEnergy.back()))
-    return;
+	// check if in tabulated energy range
+	if (E < tabPhotonEnergy.front() or (E > tabPhotonEnergy.back()))
+		return;
 
-  // find interaction with minimum random distance
-  Random &random = Random::instance();
-  double randDistance = std::numeric_limits<double>::max();
+	// find interaction with minimum random distance
+	Random &random = Random::instance();
+	double randDistance = std::numeric_limits<double>::max();
 
-  // comological scaling of interaction distance (comoving)
-  double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
-  double rate = scaling * interpolate(E, tabPhotonEnergy, tabInteractionRate);
-  randDistance = -log(random.rand()) / rate;
-  
-  candidate->limitNextStep(limit / rate);
-  // check if interaction does not happen
-  if (step < randDistance) {
-    return;
-  }
+	// comological scaling of interaction distance (comoving)
+	double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	double rate = scaling * interpolate(E, tabPhotonEnergy, tabInteractionRate);
+	randDistance = -log(random.rand()) / rate;
 
-  // interact 
-  performInteraction(candidate);
+	candidate->limitNextStep(limit / rate);
+	// check if interaction does not happen
+	if (step < randDistance) {
+		return;
+	}
+
+	// interact
+	performInteraction(candidate);
 }
 
 } // namespace crpropa

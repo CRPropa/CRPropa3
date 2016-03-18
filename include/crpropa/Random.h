@@ -152,6 +152,8 @@ public:
 	Vector3d randFisherVector(const Vector3d &meanDirection, double kappa);
 	/// Uniform distributed random vector inside a cone
 	Vector3d randConeVector(const Vector3d &meanDirection, double angularRadius);
+	///_Position vector uniformly distributed within propagation step size bin
+	Vector3d randomInterpolatedPosition(const Vector3d &a, const Vector3d &b);
 
 	/// Power-law distribution of a given differential spectral index
 	double randPowerLaw(double index, double min, double max);

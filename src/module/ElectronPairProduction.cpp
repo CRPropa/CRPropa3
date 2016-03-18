@@ -177,8 +177,9 @@ void ElectronPairProduction::addElectrons(Candidate *c, double loss) const {
 
 		// create pair and repeat with remaining energy
 		dE -= Epair;
-		c->addSecondary(11, Ee);
-		c->addSecondary(-11, Ee);
+		Vector3d pos = random.randomInterpolatedPosition(c->previous.getPosition(),c->current.getPosition());
+		c->addSecondary(11, Ee, pos);
+		c->addSecondary(-11, Ee, pos);
 	}
 }
 

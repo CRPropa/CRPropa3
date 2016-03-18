@@ -171,6 +171,8 @@
 %include "crpropa/module/EMDoublePairProduction.h"
 %include "crpropa/module/EMTripletPairProduction.h"
 %include "crpropa/module/EMInverseComptonScattering.h"
+
+%template(IntSet) std::set<int>;
 %include "crpropa/module/Tools.h"
 
 %template(SourceInterfaceRefPtr) crpropa::ref_ptr<crpropa::SourceInterface>;

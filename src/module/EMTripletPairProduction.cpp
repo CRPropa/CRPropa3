@@ -166,8 +166,9 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
   Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
 
   if (haveElectrons){
-    candidate->addSecondary(11, Epp);
-    candidate->addSecondary(-11, Epp);
+    Vector3d pos = randomPositionInPropagationStep(candidate);
+    candidate->addSecondary(11, Epp, pos);
+    candidate->addSecondary(-11, Epp, pos);
   }
   candidate->current.setEnergy((E - 2.*Epp));
 }

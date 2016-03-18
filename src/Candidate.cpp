@@ -118,8 +118,8 @@ void Candidate::addSecondary(int id, double energy, Vector3d position) {
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
-  secondary->current.setPosition(position);
-  secondary->created.setPosition(position);
+	secondary->current.setPosition(position);
+	secondary->created.setPosition(position);
 	secondaries.push_back(secondary);
 }
 
@@ -158,10 +158,10 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 }
 
 const Vector3d randomPositionInPropagationStep(Candidate *c) {
-  Vector3d initial = c->current.getPosition();
-  Vector3d final = c->previous.getPosition();
-  Random &random = Random::instance();
-  return initial + random.rand() * (final - initial);
+	Vector3d initial = c->current.getPosition();
+	Vector3d final = c->previous.getPosition();
+	Random &random = Random::instance();
+	return initial + random.rand() * (final - initial);
 }
 
 } // namespace crpropa

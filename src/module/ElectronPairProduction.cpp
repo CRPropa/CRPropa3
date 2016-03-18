@@ -177,7 +177,7 @@ void ElectronPairProduction::addElectrons(Candidate *c, double loss) const {
 
 		// create pair and repeat with remaining energy
 		dE -= Epair;
-    Vector3d pos = randomPositionInPropagationStep(c);
+		Vector3d pos = randomPositionInPropagationStep(c);
 		c->addSecondary(11, Ee, pos);
 		c->addSecondary(-11, Ee, pos);
 	}

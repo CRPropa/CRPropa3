@@ -173,7 +173,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	double Ee = gamma * (E - p * cosTheta);
 	double Enu = gamma * (Q + me - E) * (1 + cosTheta);  // pnu*c ~ Enu
 
-  Vector3d pos = randomPositionInPropagationStep(candidate);
+	Vector3d pos = randomPositionInPropagationStep(candidate);
 	if (haveElectrons)
 		candidate->addSecondary(electronId, Ee, pos);
 	if (haveNeutrinos)
@@ -187,7 +187,7 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	double EpA = candidate->current.getEnergy() / double(A);
 	candidate->current.setId(nucleusId(A - dA, Z - dZ));
 	candidate->current.setEnergy(EpA * (A - dA));
-  Vector3d pos = randomPositionInPropagationStep(candidate);
+	Vector3d pos = randomPositionInPropagationStep(candidate);
 	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos);
 }
 

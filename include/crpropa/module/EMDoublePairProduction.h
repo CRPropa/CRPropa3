@@ -34,7 +34,7 @@ public:
 
 	void initRate(std::string filename);
 	void process(Candidate *candidate) const;
-  void performInteraction(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate) const;
 
 };
 

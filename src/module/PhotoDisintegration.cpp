@@ -224,7 +224,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 	}
 
 	// create secondaries
-  Vector3d pos = randomPositionInPropagationStep(candidate);
+	Vector3d pos = randomPositionInPropagationStep(candidate);
 	for (size_t i = 0; i < nNeutron; i++)
 		candidate->addSecondary(nucleusId(1, 0), EpA, pos);
 	for (size_t i = 0; i < nProton; i++)

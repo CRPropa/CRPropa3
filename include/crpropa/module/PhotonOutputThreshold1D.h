@@ -13,7 +13,7 @@ class PhotonOutputThreshold1D: public Module {
 private:
 	std::string filename;
 	mutable std::ofstream output;
-  mutable double Ethreshold;
+	mutable double Ethreshold;
 public:
 	PhotonOutputThreshold1D(const std::string &filename);
 	PhotonOutputThreshold1D(const std::string &filename, const double Ethr);

@@ -93,50 +93,50 @@ void EMDoublePairProduction::initRate(std::string filename) {
 }
 
 void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
-  double E = candidate->current.getEnergy();
+	double E = candidate->current.getEnergy();
 
-  if (haveElectrons){
-    double Ee = (E-2.*mass_electron*c_squared)/2.; // Use assumption of Lee 96 (i.e., all the energy goes equaly shared between only 1 couple of e+e- but take mass of second e+e- pair into account. In DPPpaper has been shown that this approximation is valid within -1.5%
-    Vector3d pos = randomPositionInPropagationStep(candidate);
-    candidate->addSecondary(11, Ee, pos);
-    candidate->addSecondary(-11, Ee, pos);
-  }
-  candidate->setActive(false);
+	if (haveElectrons){
+		double Ee = (E-2.*mass_electron*c_squared)/2.; // Use assumption of Lee 96 (i.e., all the energy goes equaly shared between only 1 couple of e+e- but take mass of second e+e- pair into account. In DPPpaper has been shown that this approximation is valid within -1.5%
+		Vector3d pos = randomPositionInPropagationStep(candidate);
+		candidate->addSecondary(11, Ee, pos);
+		candidate->addSecondary(-11, Ee, pos);
+	}
+	candidate->setActive(false);
 }
 
 void EMDoublePairProduction::process(Candidate *candidate) const {
 	double step = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
-	
-  // check if photon
-  int id = candidate->current.getId();
-  if (id != 22)
-    return; 
 
-  // instead of scaling the background photon energies, scale the photon energy
-  double E = (1 + z) * candidate->current.getEnergy();
+	// check if photon
+	int id = candidate->current.getId();
+	if (id != 22)
+		return;
 
-  // check if in tabulated energy range
-  if (E < tabPhotonEnergy.front() or (E > tabPhotonEnergy.back()))
-    return;
+	// instead of scaling the background photon energies, scale the photon energy
+	double E = (1 + z) * candidate->current.getEnergy();
 
-  // find interaction with minimum random distance
-  Random &random = Random::instance();
-  double randDistance = std::numeric_limits<double>::max();
+	// check if in tabulated energy range
+	if (E < tabPhotonEnergy.front() or (E > tabPhotonEnergy.back()))
+		return;
 
-  // comological scaling of interaction distance (comoving)
-  double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
-  double rate = scaling * interpolate(E, tabPhotonEnergy, tabInteractionRate);
-  randDistance = -log(random.rand()) / rate;
+	// find interaction with minimum random distance
+	Random &random = Random::instance();
+	double randDistance = std::numeric_limits<double>::max();
 
-  candidate->limitNextStep(limit / rate);
-  // check if interaction does not happen
-  if (step < randDistance) {
-    return;
-  }
+	// comological scaling of interaction distance (comoving)
+	double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	double rate = scaling * interpolate(E, tabPhotonEnergy, tabInteractionRate);
+	randDistance = -log(random.rand()) / rate;
 
-  // interact 
-  performInteraction(candidate);
+	candidate->limitNextStep(limit / rate);
+	// check if interaction does not happen
+	if (step < randDistance) {
+		return;
+	}
+
+	// interact
+	performInteraction(candidate);
 }
 
 } // namespace crpropa

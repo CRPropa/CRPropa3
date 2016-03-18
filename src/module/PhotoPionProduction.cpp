@@ -278,7 +278,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				background, maxRedshift, dummy1, dummy2, dummy2);
 	}
 
-  Vector3d pos = randomPositionInPropagationStep(candidate);
+	Vector3d pos = randomPositionInPropagationStep(candidate);
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
@@ -342,7 +342,7 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-    // instead of scaling the photon energies, scale the nucleus energy
+	// instead of scaling the photon energies, scale the nucleus energy
 	gamma *= (1 + z);
 	if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
 		return std::numeric_limits<double>::max();
@@ -351,17 +351,17 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 
 	if (Z > 0) {
 		if (doRedshiftDependent)
-            lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
-        else
-            lossRate += interpolate(gamma, tabLorentz, tabProtonRate);
-    }
+			lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
+		else
+			lossRate += interpolate(gamma, tabLorentz, tabProtonRate);
+	}
 	if (N > 0) {
-        if (doRedshiftDependent)
-    	    lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
-        else
-            lossRate += interpolate(gamma, tabLorentz, tabNeutronRate);
-    }
-    lossRate *= nucleiModification(A, Z);
+		if (doRedshiftDependent)
+			lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
+		else
+			lossRate += interpolate(gamma, tabLorentz, tabNeutronRate);
+	}
+	lossRate *= nucleiModification(A, Z);
 
 	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
 	// nuclei approximately lose the energy that the interacting nucleon is carrying

@@ -25,7 +25,7 @@ CRPropa 2 compatibility (XML steering)
  * [List of observer feature](Observer Features)
  * [List of source features](Source Features)
  * [List of magnetic fields](Magnetic Fields)
- * [Files for interaction and nuclear data](Data files)
+ * [Data files](Data files)
 
 #### FAQ
  * [Cosmic Ray Sources](Cosmic Ray Sources)

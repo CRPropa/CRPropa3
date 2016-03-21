@@ -94,6 +94,12 @@ void PhotoPionProduction::init() {
 				"PhotoPionProduction: IRB (Kneiske 2004), redshift dependent shape");
 		init(getDataPath("ppp_IRBz_Kneiske04.txt"));
 		break;
+	case IRB_withRedshift_Stecker05:
+		doRedshiftDependent = true;
+		setDescription(
+				"PhotoPionProduction: IRB (Stecker 2005), redshift dependent shape");
+		init(getDataPath("ppp_IRBz_Stecker05.txt"));
+		break;
 	case IRB_withRedshift_Franceschini08:
 		doRedshiftDependent = true;
 		setDescription(
@@ -105,6 +111,12 @@ void PhotoPionProduction::init() {
 		setDescription(
 				"PhotoPionProduction: IRB (Finke 2010), redshift dependent shape");
 		init(getDataPath("ppp_IRBz_Finke10.txt"));
+		break;
+	case IRB_withRedshift_Dominguez11:
+		doRedshiftDependent = true;
+		setDescription(
+				"PhotoPionProduction: IRB (Dominguez 2011), redshift dependent shape");
+		init(getDataPath("ppp_IRBz_Dominguez11.txt"));
 		break;
 	case IRB_withRedshift_Gilmore12:
 		doRedshiftDependent = true;

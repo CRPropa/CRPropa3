@@ -51,7 +51,7 @@ static PhotonFieldScaling scalingGilmore12("scaling_Gilmore12.txt");
 double photonFieldScaling(PhotonField photonField, double z) {
 	switch (photonField) {
 	case CMB:
-		return 1; // CMB-like scaling
+		return 1;  // constant comoving photon number density
 	case IRB:
 	case IRB_Kneiske04:
 		return scalingKneiske04.scalingFactor(z);
@@ -66,11 +66,14 @@ double photonFieldScaling(PhotonField photonField, double z) {
 	case IRB_Gilmore12:
 		return scalingGilmore12.scalingFactor(z);
 	case IRB_withRedshift_Kneiske04:
+	case IRB_withRedshift_Stecker05:
 	case IRB_withRedshift_Franceschini08:
 	case IRB_withRedshift_Finke10:
+	case IRB_withRedshift_Dominguez11:
 	case IRB_withRedshift_Gilmore12:
-  case URB_Protheroe96:
 		return 1;  // no global evolution factor needed
+	case URB_Protheroe96:
+		return 1;  // no evolution available
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");
 	}

@@ -16,5 +16,4 @@ Use the guest login and go to the CRPropa example via "VISPA Cluster" --> "Open 
 Installation instructions and documentation are found on the [wiki page](https://github.com/CRPropa/CRPropa3/wiki).
 
 ## Support
-If you encounter any problems during installation or when running CRPropa, please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues).  
-In case of general questions please send an email to our [support address](mailto:crpropa-support@desy.de).
+If you have general questions or encounter any problems during installation or when running CRPropa, please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues).  

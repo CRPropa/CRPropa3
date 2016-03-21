@@ -1,5 +1,4 @@
 #include "crpropa/magneticField/MagneticFieldGrid.h"
-#include "crpropa/magneticField/TurbulentMagneticField.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
 #include "crpropa/Units.h"
@@ -105,57 +104,6 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 			std::runtime_error);
 }
 #endif // CRPROPA_HAVE_FFTW3F
-
-TEST(testTurbulentMagneticField, SimpleTest) {
-	TurbulentMagneticField B;
-	B.setTurbulenceProperties(1 * nG, 10 * parsec, 200 * parsec, -11. / 3.,
-			1000);
-	B.initialize();
-	Vector3d b1 = B.getField(Vector3d(0.));
-	Vector3d b2 = B.getField(Vector3d(0.));
-	EXPECT_DOUBLE_EQ(b1.x, b2.x);
-	EXPECT_DOUBLE_EQ(b1.y, b2.y);
-	EXPECT_DOUBLE_EQ(b1.z, b2.z);
-}
-
-TEST(testTurbulentMagneticField, Brms) {
-	TurbulentMagneticField B;
-	B.setTurbulenceProperties(1, 0.1, 100);
-	B.initialize();
-	double sumB2 = 0;
-	Vector3d Bmean, b;
-	int n = 20;
-	Random &r = Random::instance();
-	for (int ix = 0; ix < n; ix++) {
-		for (int iy = 0; iy < n; iy++) {
-			for (int iz = 0; iz < n; iz++) {
-				b = B.getField(Vector3d(r.rand(), r.rand(), r.rand()) * 100000);
-				Bmean += b;
-				sumB2 = b.getR2();
-			}
-		}
-	}
-	Bmean /= pow(n, 3);
-	double Brms = sqrt(sumB2 / pow(n, 3));
-
-	// this turbulent field realization is not working at the moment
-//	EXPECT_NEAR(Bmean.x, 0, 1e-6);
-//	EXPECT_NEAR(Bmean.y, 0, 1e-6);
-//	EXPECT_NEAR(Bmean.z, 0, 1e-6);
-//
-//	EXPECT_NEAR(Brms, 1, 1e-2);
-}
-
-TEST(testTurbulentMagneticField, Exceptions) {
-	TurbulentMagneticField B;
-
-	// Test exception if properties not set
-	EXPECT_THROW(B.initialize(), std::runtime_error);
-
-	// Test exception for lMin > lMax
-	B.setTurbulenceProperties(1 * nG, 8.1, 8);
-	EXPECT_THROW(B.initialize(), std::runtime_error);
-}
 
 class EchoMagneticField: public MagneticField {
 public:

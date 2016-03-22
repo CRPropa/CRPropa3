@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"

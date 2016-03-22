@@ -110,7 +110,7 @@ void Candidate::addSecondary(int id, double energy) {
 void Candidate::addSecondary(int id, double energy, Vector3d position) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
-	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setTrajectoryLength(trajectoryLength-(current.getPosition()-position).getR());
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = current;

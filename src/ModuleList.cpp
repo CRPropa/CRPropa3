@@ -41,6 +41,12 @@ void ModuleList::process(Candidate *candidate) const {
 		(*m)->process(candidate);
 }
 
+void ModuleList::process(ref_ptr<Candidate> candidate) const {
+	module_list_t::const_iterator m;
+	for (m = modules.begin(); m != modules.end(); m++)
+		(*m)->process(candidate);
+}
+
 void ModuleList::run(Candidate *candidate, bool recursive) {
 	while (candidate->isActive() && !g_cancel_signal_flag)
 		process(candidate);

@@ -283,17 +283,17 @@ TEST(PhotoDisintegration, carbon) {
 }
 
 TEST(PhotoDisintegration, iron) {
-	// Test if a 100 EeV Fe-56 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
-	// This test can stochastically fail if no interaction occurs over 50 Mpc.
+	// Test if a 200 EeV Fe-56 nucleus photo-disintegrates (at least once) over a distance of 100 Mpc.
+	// This test can stochastically fail if no interaction occurs over this distance.
 	PhotoDisintegration pd(IRB);
 	Candidate c;
 	int id = nucleusId(56, 26);
 	c.current.setId(id);
-	c.current.setEnergy(100 * EeV);
-	c.setCurrentStep(50 * Mpc);
+	c.current.setEnergy(200 * EeV);
+	c.setCurrentStep(100 * Mpc);
 	pd.process(&c);
 
-	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV);
+	EXPECT_TRUE(c.current.getEnergy() < 200 * EeV);
 	// energy loss
 	EXPECT_TRUE(c.secondaries.size() > 0);
 	// secondaries produced
@@ -313,7 +313,7 @@ TEST(PhotoDisintegration, iron) {
 	// nucleon number conserved
 	EXPECT_EQ(26, Z);
 	// proton number conserved
-	EXPECT_DOUBLE_EQ(100 * EeV, E);
+	EXPECT_DOUBLE_EQ(200 * EeV, E);
 	// energy conserved
 }
 

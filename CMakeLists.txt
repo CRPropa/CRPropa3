@@ -262,7 +262,7 @@ if(DISABLE_DOWNLOAD)
 else(DISABLE_DOWNLOAD)
 
 	set(DATA_URL "https://crpropa.desy.de/images/2/2e/Data_2016_03_21_TALYS.tar.gz")
-	set(EXPECTED_MD5SUM "3ab7fbb0c1a2c0d4cc7e560e51d90fc2")
+	set(EXPECTED_MD5SUM "5b898f474df136cb907c12139709b980")
 
 	function(GET_DATA)
 		message("Downloading from crpropa.desy.de ~ 60 MB")

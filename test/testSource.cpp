@@ -119,9 +119,9 @@ TEST(SourceDensityGrid, OneAllowedCell) {
 
 	// mean should be close to (1, 1, 1) if random positions are uniform in (0, 0, 0) - (2, 2, 2)
 	mean /= 10000;
-	EXPECT_NEAR(1, mean.x, 0.1);
-	EXPECT_NEAR(1, mean.y, 0.1);
-	EXPECT_NEAR(1, mean.z, 0.1);
+	EXPECT_NEAR(1, mean.x, 0.2);
+	EXPECT_NEAR(1, mean.y, 0.2);
+	EXPECT_NEAR(1, mean.z, 0.2);
 }
 
 TEST(SourceDensityGrid1D, withInRange) {
@@ -221,7 +221,7 @@ TEST(SourceGenericComposition, simpleTest) {
 			ElowCount++;
 		if ( (e >= 20) && (e <= Emax))
 			EhighCount++;
-		
+
 	}
 	EXPECT_EQ(n, id1Count + id2Count);
 	EXPECT_EQ(n, ElowCount + EhighCount);

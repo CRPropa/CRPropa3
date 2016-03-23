@@ -139,9 +139,9 @@ TEST(NuclearDecay, scandium44) {
 	// This test can stochastically fail.
 	NuclearDecay d(true, true);
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
 	c.current.setId(nucleusId(44, 21));
 	c.current.setEnergy(1 * EeV);
+	c.setCurrentStep(100 * Mpc);
 	double gamma = c.current.getLorentzFactor();
 	d.process(&c);
 	// primary
@@ -162,9 +162,9 @@ TEST(NuclearDecay, lithium4) {
 	// This test can stochastically fail.
 	NuclearDecay d;
 	Candidate c;
-	c.setCurrentStep(1 * kpc);
 	c.current.setId(nucleusId(4, 3));
 	c.current.setEnergy(4 * EeV);
+	c.setCurrentStep(100 * Mpc);
 	d.process(&c);
 	// primary
 	EXPECT_EQ(nucleusId(3, 2), c.current.getId());
@@ -177,12 +177,12 @@ TEST(NuclearDecay, lithium4) {
 
 TEST(NuclearDecay, helium5) {
 	// Test neturon dripping of He-5 to He-4.
-	// This test can stochastically fail if no interaction occurs over 1 Mpc.
+	// This test can stochastically fail.
 	NuclearDecay d;
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
 	c.current.setId(nucleusId(5, 2));
 	c.current.setEnergy(5 * EeV);
+	c.setCurrentStep(100 * Mpc);
 	d.process(&c);
 	// primary
 	EXPECT_EQ(nucleusId(4, 2), c.current.getId());
@@ -248,14 +248,14 @@ TEST(PhotoDisintegration, allBackgrounds) {
 }
 
 TEST(PhotoDisintegration, carbon) {
-	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 50 Mpc.
-	// This test can stochastically fail if no interaction occurs over 50 Mpc.
+	// Test if a 100 EeV C-12 nucleus photo-disintegrates (at least once) over a distance of 1 Gpc.
+	// This test can stochastically fail.
 	PhotoDisintegration pd(CMB);
 	Candidate c;
 	int id = nucleusId(12, 6);
 	c.current.setId(id);
 	c.current.setEnergy(100 * EeV);
-	c.setCurrentStep(50 * Mpc);
+	c.setCurrentStep(1000 * Mpc);
 	pd.process(&c);
 
 	EXPECT_TRUE(c.current.getEnergy() < 100 * EeV);
@@ -283,14 +283,14 @@ TEST(PhotoDisintegration, carbon) {
 }
 
 TEST(PhotoDisintegration, iron) {
-	// Test if a 200 EeV Fe-56 nucleus photo-disintegrates (at least once) over a distance of 100 Mpc.
-	// This test can stochastically fail if no interaction occurs over this distance.
+	// Test if a 200 EeV Fe-56 nucleus photo-disintegrates (at least once) over a distance of 1 Gpc.
+	// This test can stochastically fail.
 	PhotoDisintegration pd(IRB);
 	Candidate c;
 	int id = nucleusId(56, 26);
 	c.current.setId(id);
 	c.current.setEnergy(200 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(1000 * Mpc);
 	pd.process(&c);
 
 	EXPECT_TRUE(c.current.getEnergy() < 200 * EeV);
@@ -383,12 +383,12 @@ TEST(PhotoPionProduction, allBackgroundsWithEvolution) {
 
 TEST(PhotoPionProduction, proton) {
 	// Test photo-pion interaction for 100 EeV proton.
-	// This test can stochastically fail if no interaction occurs over 100 Mpc.
+	// This test can stochastically fail.
 	PhotoPionProduction ppp;
 	Candidate c;
-	c.setCurrentStep(100 * Mpc);
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
+	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
 	EXPECT_TRUE(c.current.getEnergy() / EeV < 100); // energy loss
 	int id = c.current.getId();
@@ -398,12 +398,12 @@ TEST(PhotoPionProduction, proton) {
 
 TEST(PhotoPionProduction, helium) {
 	// Test photo-pion interaction for 400 EeV He nucleus.
-	// This test can stochastically fail if no interaction occurs over 100 Mpc.
+	// This test can stochastically fail.
 	PhotoPionProduction ppp;
 	Candidate c;
-	c.setCurrentStep(100 * Mpc);
 	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(400 * EeV);
+	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
 	EXPECT_LT(c.current.getEnergy(), 400 * EeV);
 	int id = c.current.getId();
@@ -415,10 +415,9 @@ TEST(PhotoPionProduction, thisIsNotNucleonic) {
 	// Test if noting happens to an electron
 	PhotoPionProduction ppp;
 	Candidate c;
-	c.setCurrentStep(1 * Mpc);
-	c.setNextStep(std::numeric_limits<double>::max());
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
+	c.setCurrentStep(100 * Mpc);
 	ppp.process(&c);
 	EXPECT_EQ(11, c.current.getId());
 	EXPECT_EQ(10 * EeV, c.current.getEnergy());
@@ -435,33 +434,14 @@ TEST(PhotoPionProduction, limitNextStep) {
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(PhotoPionProduction, withoutSecondaries) {
-	// Test photo-pion (SOPHIA) interaction for 100 EeV proton.
-	// This test can stochastically fail if no interaction occurs over 100 Mpc.
-	PhotoPionProduction ppp;
-	Candidate c;
-	c.setCurrentStep(100 * Mpc);
-	c.current.setId(nucleusId(1, 1));
-	c.current.setEnergy(100 * EeV);
-	ppp.process(&c);
-
-	// energy loss
-	EXPECT_GT(100 * EeV, c.current.getEnergy());
-	// nucleon number conserved
-	int id = c.current.getId();
-	EXPECT_EQ(1, massNumber(id));
-	// secondaries turned off
-	EXPECT_EQ(0, c.secondaries.size());
-}
-
-TEST(PhotoPionProduction, withSecondaries) {
+TEST(PhotoPionProduction, secondaries) {
 	// Test photo-pion interaction for 100 EeV proton.
-	// This test can stochastically fail if no interaction occurs over 100 Mpc.
+	// This test can stochastically fail.
 	PhotoPionProduction ppp(CMB, true, true, true);
 	Candidate c;
 	c.current.setId(nucleusId(1, 1));
 	c.current.setEnergy(100 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
 	// there should be secondaries
 	EXPECT_GT(c.secondaries.size(), 1);

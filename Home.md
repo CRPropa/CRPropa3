@@ -19,7 +19,7 @@ CRPropa 2 compatibility (XML steering)
  * [XML steering](XML steering)
 
 #### Manual
-[Doxygen documentation](http://crpropa.github.io/CRPropa3/)
+[Doxygen documentation (version 3.0)](http://crpropa.github.io/CRPropa3/)
  * [Basic concepts](Basic concepts)
  * [List of simulation modules](Simulation Modules)
  * [List of source features](Source Features)

@@ -1,5 +1,5 @@
 This list gives an overview over the simulation modules together with a short description.
-For a more detailed explanation you can also refer to the Doxygen documentation
+For a more detailed explanation refer to the Doxygen documentation.
 
 ### Propagation modules
 Propagation modules are responsible for proposing a step size, evaluating the bids for the step size of the previous round and spatially moving the particle according to this step. Every simulation needs exactly one propagation module, that is usually put at the beginning of the module list.
@@ -48,17 +48,33 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
   * If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
 
 #### Observers
-* **SmallObserverSphere**
+Observers can be defined using a collection of ObserverFeatures.
+The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python sessen by typing "Observer" and pressing "tab". The list includes
+* **ObserverSmallSphere**
   * Detects particle when they enter the sphere
-* **LargeObserverSphere**
+* **ObserverLargeSphere**
   * Detects particles when they leave the sphere
+* **ObserverTracking**
+  * For recording the tracks of particles inside a small observer sphere
+* **ObserverPoint**
+  * Observer for 1D simulations
+* **ObserverDetectAll**
+  * Detects all particles
+* **ObserverRedshiftWindow**
+  * Detect particles within a given redshift interval around z=0
+* **ObserverInactiveVeto**
+  * Prevent inactive particles from being detected
+* **ObserverPhotonVeto**, **ObserverElectronVeto**, **ObserverNeutrinoVeto**, **ObserverNucleusVeto**
 
 ### Output modules
+Main output modules
 * **ShellOutput** Output to the shell
 * **TextOutput** Plain text output
   * Customizable with the presets Event1D, Event3D, Trajectory1D, Trajectory3D, Everything.
   * If the filename ends with '.gz' the output is compressed 
 * **HDF5Output** Output in the HDF5 format
+
+Legacy output modules (CRPropa 2 format)
 * **ROOTEventOutput1D**
 * **ROOTEventOutput3D**
 * **ROOTTrajectoryOutput1D**

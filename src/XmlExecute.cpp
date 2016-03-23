@@ -292,10 +292,10 @@ bool XmlExecute::load(const string &filename) {
 	loadSpectrumComposition(node);
 
 	// ----- observers -----
-	/*observer = new Observer();*/
-	modules.add(&observer);
+	ref_ptr<Observer> observer = new Observer();
+	modules.add(observer);
 	if (is1D) {
-		observer.add(new ObserverPoint());
+		observer->add(new ObserverPoint());
 	} else {
 		node = root.child("Observers");
 		if (!node) {

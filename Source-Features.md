@@ -6,7 +6,7 @@ Source objects do not have a logic. The order in which the source properties mod
 Several sources can be combined in a SourceList, with individual (relative) luminosities.
 
 * **SourceParticleType**
-  * Type (particle ID= of the emitted particles
+  * Type (particle ID) of the emitted particles
 * **SourceMultipleParticleTypes**
   * Multiple emitted particle types with individual total abundances
 * **SourceEnergy**

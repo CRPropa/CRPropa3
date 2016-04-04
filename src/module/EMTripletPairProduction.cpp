@@ -143,10 +143,10 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	double mec2 = mass_electron * c_squared;
 
 	// interpolate between tabulated electron energies to get corresponding cdf
-	size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
-	double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
 	if (E < tabE.front() || E > tabE.back())
 		return;
+	size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
+	double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
 
 	std::vector<double> cdf(500);
 	for (size_t j = 0; j < 500; j++)
@@ -155,11 +155,18 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	// draw random value between 0. and maximum of corresponding cdf
 	// choose bin of eps where cdf(eps) = cdf_rand -> eps_rand
 	Random &random = Random::instance();
-	size_t j = random.randBin(cdf); // draw random bin
-	double binWidth = (tabs[i+j+1] - tabs[i+j]);
-	double eps = (tabs[i+j] + random.rand() * binWidth)/4./E; // draw random uniform background photon energy in bin, note that one needs to convert tablulated eps back to s_kin and calculate right eps with real electron energy
-	if (4*E*eps < 8*mec2*mec2)
+	size_t j = random.randBin(cdf); // draw random bin (lower_bound(random value) <= bin value -> bin index returned)
+	double s_kin = tabs[i+j] * random.rand(); // j == 0 case: s_kin somewhere between 0 and first bin value
+	double binWidth = 0.;
+	if (j != 0){
+		binWidth = (tabs[i+j] - tabs[i+j-1]);
+		s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
+	}
+	double eps = s_kin/4./E; // random background photon energy for head on collisions
+	if (4*E*eps < 8*mec2*mec2){
 		std::cout << "ERROR" << std::endl;
+		return;
+	}
 
 	eps *= (1 + z);
 

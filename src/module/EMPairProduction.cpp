@@ -147,7 +147,7 @@ class PPSecondariesEnergyDistribution
 		double _dls;
 
 	public:
-		PPSecondariesEnergyDistribution(double s_min = 4. * mass_electron*c_squared * mass_electron*c_squared, double s_max =1e23,
+		PPSecondariesEnergyDistribution(double s_min = 4. * mass_electron*c_squared * mass_electron*c_squared, double s_max =1e23*eV*eV,
 				size_t Ns = 1000, size_t Nrer = 1000 )
 		{
 			if (s_min < 4.*mass_electron*c_squared * mass_electron*c_squared)
@@ -170,11 +170,11 @@ class PPSecondariesEnergyDistribution
 				
 				double x0 = log((1.-beta) / 2.);
 				double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (Nrer); 
-				_data[i *Nrer] = 0;
+				_data[i *Nrer] = dSigmadE_PPx(exp(x0),beta);
 				for (size_t j = 1; j < Nrer; j++)
 				{
 					double x = exp(x0 + j*dx); 
-					_data[i * Nrer + j] =	dSigmadE_PPx(x, beta) + _data[i*Nrer +j-1]; //TODO: tables contains some nans
+					_data[i * Nrer + j] =	dSigmadE_PPx(x, beta) + _data[i*Nrer +j-1];
 				}
 			}
 		}
@@ -232,10 +232,10 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 		double mec2 = mass_electron * c_squared;
 
 		// interpolate between tabulated electron energies to get corresponding cdf
-		size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
-		double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
 		if (E < tabE.front() || E > tabE.back())
 			return;
+		size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
+		double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
 
 		std::vector<double> cdf(500);
 		for (size_t j = 0; j < 500; j++)
@@ -244,12 +244,18 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 		// draw random value between 0. and maximum of corresponding cdf
 		// choose bin of s where cdf(s) = cdf_rand -> s_rand
 		Random &random = Random::instance();
-		size_t j = random.randBin(cdf); // draw random bin
-		double binWidth = (tabs[i+j+1] - tabs[i+j]);
-		double s_kin = tabs[i+j] + random.rand() * binWidth; // draw random s uniformly distributed in bin
+		size_t j = random.randBin(cdf); // draw random bin (lower_bound(random value) <= bin value -> bin index returned)
+		double s_kin = tabs[i+j] * random.rand(); // j == 0 case: s_kin somewhere between 0 and first bin value
+		double binWidth = 0.;
+		if (j != 0){
+			binWidth = (tabs[i+j] - tabs[i+j-1]);
+			s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
+		}
 		s_kin *(1 + z);
-		if (s_kin < 4*mec2*mec2)
+		if (s_kin < 4*mec2*mec2){
 			std::cout << "ERROR" << std::endl;
+			return;
+		}
 		Epos = __extractPPSecondariesEnergy(E,s_kin);
 
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());

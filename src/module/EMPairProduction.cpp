@@ -139,84 +139,76 @@ double dSigmadE_PPx(double x, double beta) {
 class PPSecondariesEnergyDistribution
 {
 	private:
-		double *_data;
-		size_t _Ns;
-		size_t _Nrer;
-		double _s_min;
-		double _s_max;
-		double _dls;
+		double ElectronMass;
+		std::vector< std::vector<double> > data;
+		std::vector<double> s_values;
+		size_t Ns;
+		size_t Nrer;
+		double s_min;
+		double s_max;
+		double dls;
 
 	public:
-		PPSecondariesEnergyDistribution(double s_min = 4. * mass_electron*c_squared * mass_electron*c_squared, double s_max =1e23*eV*eV,
-				size_t Ns = 1000, size_t Nrer = 1000 )
+		PPSecondariesEnergyDistribution()
 		{
-			if (s_min < 4.*mass_electron*c_squared * mass_electron*c_squared)
-			{
-				std::cerr << "Warning: Minimum COM Energy in PP Interpolation s = " << s_min << " <  (2*m_e)**2 selected. Setting to s_min = (2*m_e)**2.\n";
-				s_min = 4.*mass_electron*c_squared * mass_electron*c_squared;
-			}
-			_Ns = Ns;
-			_Nrer = Nrer;
-			_s_min =s_min;
-			_s_max = s_max;
-			_data = new double[Ns*Nrer];
-			_dls = (log(s_max) - log(s_min)) / (Ns);
-			double ElectronMass = mass_electron*c_squared;
+			ElectronMass = mass_electron*c_squared;
+			Ns = 1000;
+			Nrer = 1000;
+			s_min = 4. * ElectronMass * ElectronMass;
+			s_max = 1e23 * eV * eV;
+			dls = (log(s_max) - log(s_min)) / Ns;
+			data = std::vector< std::vector<double> >(1000,std::vector<double>(1000));
+			s_values = std::vector<double>(1001);
+
+			for (size_t i = 0; i < Ns + 1; ++i)
+				s_values[i] = s_min * exp(i*dls); // tabulate s bin borders
 
 			for (size_t i = 0; i < Ns; i++)
 			{
-				const double s = s_min * exp(i*_dls);
+				const double s = s_min * exp(i*dls + 0.5*dls); //choose bin centers for evaluation to stay away from critical lower boundary s = 4 * m_e**2
 				double beta = sqrt(1. - 4. * ElectronMass*ElectronMass /s);
-				
-				double x0 = log((1.-beta) / 2.);
-				double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (Nrer); 
-				_data[i *Nrer] = dSigmadE_PPx(exp(x0),beta);
+				double x0 = (1.-beta) / 2.;
+				double dx = (log((1. + beta)/2) -  log((1.-beta) / 2.)) / Nrer; 
+				std::vector<double> data_i(1000);
+				data_i[0] = dSigmadE_PPx(x0, beta)*(exp(dx)-1.);
 				for (size_t j = 1; j < Nrer; j++)
 				{
-					double x = exp(x0 + j*dx); 
-					_data[i * Nrer + j] =	dSigmadE_PPx(x, beta) + _data[i*Nrer +j-1];
+					double x = x0*exp(j*dx + 0.5*dx); 
+					data_i[j] = dSigmadE_PPx(x, beta)*(exp((j+1)*dx)-exp(j*dx)) + data_i[j-1]; //cumulative midpoint integration
 				}
+				data[i] = data_i;
 			}
 		}
 
 		// returns pointer to the the integrated distribution for a given s
-		double* getDistribution(double s)
+		std::vector<double> getDistribution(double s)
 		{
-			size_t idx = (log(s / _s_min)) / _dls;
-			double *s0 = &_data[idx * _Nrer];
+			if (s < s_values.front() || s > s_values.back())
+				std::cerr << "Warning tabulated s range not sufficient" << std::endl;
+			size_t idx = std::lower_bound(s_values.begin(), s_values.end(), s) - s_values.begin();
+			std::vector<double> s0 = data[idx];
 			return s0;
 		}
 
 		//samples the integrated distribution and returns Eer(Ee, s)
 		double sample(double E0,double s)
 		{
-			double ElectronMass = mass_electron*c_squared;
-			double *s0 = getDistribution(s); 
+			std::vector<double> s0 = getDistribution(s);
 			Random &random = Random::instance();
-			double rnd = random.rand() *s0[_Nrer-1];
-
-			for (size_t i=0; i < _Nrer; i++)
-			{
-				if (rnd < s0[i])
-				{
-					double beta = sqrt(1. - 4.* ElectronMass * ElectronMass / s);
-
-					double x0 = log((1.-beta) / 2.);
-					double dx = ( log((1. + beta)/2) -  log((1.-beta) / 2.)) / (_Nrer);
-					if (random.rand() < 0.5)
-						return exp(x0 + (i)*dx) * E0;
-					else
-						return E0 * (1-exp(x0 + (i)*dx));
-				}
-			}
-			std::cerr << "PPSecondariesEnergyDistribution out of bounds!" << std::endl;
-			std::cerr << "  s0[0] = " << s0[0] << "  s0[_Nrer-1] = " << s0[_Nrer-1] << "  rnd = " << rnd << std::endl;
-			throw std::runtime_error("Grave logic error in PPSecondariesEnergyDistribution!");
+			size_t j = random.randBin(s0) + 1; // draw random bin (upper bin boundary returned), cause 0 not in CDF +1 to get right x value 
+			double beta = sqrt(1. - 4.* ElectronMass * ElectronMass / s);
+			double x0 = (1.-beta) / 2.;
+			double dx = (log((1. + beta)/2) -  log((1.-beta) / 2.)) / Nrer;
+			double binWidth = x0*(exp(j*dx)-exp((j-1)*dx));
+			if (random.rand() < 0.5)
+				return (x0*exp((j-1)*dx) + binWidth) * E0;
+			else
+				return E0 * (1-(x0*exp((j-1)*dx)+binWidth));
 		}
 };
 
 // Helper function for actual Monte Carlo sampling to avoid code-duplication
-double __extractPPSecondariesEnergy(double E0, double s)
+double extractPPSecondariesEnergy(double E0, double s)
 {
 	static PPSecondariesEnergyDistribution interpolation;
 	return interpolation.sample(E0, s);
@@ -251,7 +243,7 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 		if (s_kin < 4*mec2*mec2){
 			return;
 		}
-		Epos = __extractPPSecondariesEnergy(E,s_kin);
+		Epos = extractPPSecondariesEnergy(E,s_kin);
 
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 		candidate->addSecondary(-11, (E-Epos), pos);

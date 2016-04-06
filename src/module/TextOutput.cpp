@@ -113,8 +113,11 @@ void TextOutput::printHeader() const {
 }
 
 void TextOutput::process(Candidate *c) const {
-	if (count == 0)
-		printHeader();
+#pragma omp critical
+	{
+		if (count == 0)
+			printHeader();
+	}
 
 	Output::process(c);
 

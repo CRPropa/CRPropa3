@@ -236,10 +236,15 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 		Random &random = Random::instance();
 		size_t j = random.randBin(cdf); // draw random bin (upper bin boundary returned)
 		double binWidth = (tabs[i+j] - tabs[i+j-1]);
-		if (tabs[i+j] - binWidth < 4*mec2*mec2) // cdf = 0 for s < 4*me**2, but bin edge not at s = 4*me**2. So bin ranges from 3.91*me**2 to 4.16*me**2 which can lead to s values below physical boundary of process by chosing s uniformly in binsize. Therefore bin size is restricted to physical range.
-			binWidth = (tabs[i+j] - 4.*mec2*mec2);
 		double s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
+		if (tabs[i+j] > 4*mec2*mec2 && tabs[i+j-1] < 4*mec2*mec2){ // cdf = 0 for s < 4*me**2, but bin edge not at s = 4*me**2. So bin ranges from 3.91*me**2 to 4.16*me**2 which can lead to s values below physical boundary of process by chosing s uniformly in binsize. Therefore bin size is restricted to physical range.
+			binWidth = (tabs[i+j] - 4.*mec2*mec2);
+			s_kin = 4*mec2*mec2 + random.rand()*binWidth;
+		}
 		s_kin *= (1 + z);
+		if (s_kin < 4*mec2*mec2){
+			return;
+		}
 		Epos = extractPPSecondariesEnergy(E,s_kin);
 
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());

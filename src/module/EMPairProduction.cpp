@@ -183,8 +183,6 @@ class PPSecondariesEnergyDistribution
 		// returns pointer to the the integrated distribution for a given s
 		std::vector<double> getDistribution(double s)
 		{
-			if (s < s_values.front() || s > s_values.back())
-				std::cerr << "Warning tabulated s range not sufficient" << std::endl;
 			size_t idx = std::lower_bound(s_values.begin(), s_values.end(), s) - s_values.begin();
 			std::vector<double> s0 = data[idx];
 			return s0;
@@ -238,11 +236,10 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 		Random &random = Random::instance();
 		size_t j = random.randBin(cdf); // draw random bin (upper bin boundary returned)
 		double binWidth = (tabs[i+j] - tabs[i+j-1]);
+		if (tabs[i+j] - binWidth < 4*mec2*mec2) // cdf = 0 for s < 4*me**2, but bin edge not at s = 4*me**2. So bin ranges from 3.91*me**2 to 4.16*me**2 which can lead to s values below physical boundary of process by chosing s uniformly in binsize. Therefore bin size is restricted to physical range.
+			binWidth = (tabs[i+j] - 4.*mec2*mec2);
 		double s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
 		s_kin *= (1 + z);
-		if (s_kin < 4*mec2*mec2){
-			return;
-		}
 		Epos = extractPPSecondariesEnergy(E,s_kin);
 
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());

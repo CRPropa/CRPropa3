@@ -181,8 +181,6 @@ class ICSSecondariesEnergyDistribution
 		// returns pointer to the the integrated distribution for a given s
 		std::vector<double> getDistribution(double s)
 		{
-			if (s < s_values.front() || s > s_values.back())
-				std::cerr << "Warning tabulated s range not sufficient" << std::endl;
 			size_t idx = std::lower_bound(s_values.begin(), s_values.end(), s) - s_values.begin();
 			std::vector<double> s0 = data[idx];
 			return s0;

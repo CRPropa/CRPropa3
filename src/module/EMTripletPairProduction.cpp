@@ -156,12 +156,9 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	// choose bin of eps where cdf(eps) = cdf_rand -> eps_rand
 	Random &random = Random::instance();
 	size_t j = random.randBin(cdf); // draw random bin (upper bin boundary returned)
-	double binWidth = (tabs[i+j] - tabs[i+j-1]);
+	double binWidth = (tabs[i+j] - tabs[i+j-1]); // resize of bin which includes physical boundary (comp. PP) not neccessary cause cross section formula used for CDF tabulation only valid for s_kin > 12.4*me**2 and this boundary is larger than the physical boundary s_kin > 8*me**2
 	double s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
 	double eps = s_kin/4./E; // random background photon energy for head on collisions
-	if (4*E*eps < 8*mec2*mec2){
-		return;
-	}
 
 	eps *= (1 + z);
 

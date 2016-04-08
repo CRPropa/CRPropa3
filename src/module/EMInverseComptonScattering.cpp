@@ -127,16 +127,16 @@ void EMInverseComptonScattering::initCumulativeRate(std::string filename) {
 	infile.close();
 }
 
-///Differential cross-section for inverse Compton scattering. from Lee, eq. 23 for x = Ee'/Ee
+// Differential cross-section for inverse Compton scattering. from Lee, eq. 23 for x = Ee'/Ee
+// compare Lee 96 arXiv:9604098
 double dSigmadE_ICSx(double x, double beta) {
 	double q = ((1 - beta) / beta) * (1 - 1./x);
 	double A = x + 1./x;
 	return ((1 + beta) / beta) * (A + 2 * q + q * q);
 }
 
-/// Hold an data array to interpolate the energy distribution on 
-class ICSSecondariesEnergyDistribution
-{
+// Hold an data array to interpolate the energy distribution on 
+class ICSSecondariesEnergyDistribution {
 	private:
 		double ElectronMass;
 		std::vector< std::vector<double> > data;
@@ -148,8 +148,7 @@ class ICSSecondariesEnergyDistribution
 		double dls;
 
 	public:
-		ICSSecondariesEnergyDistribution()
-		{
+		ICSSecondariesEnergyDistribution() {
 			ElectronMass = mass_electron * c_squared;
 			Ns = 1000;
 			Nrer = 1000;
@@ -162,8 +161,7 @@ class ICSSecondariesEnergyDistribution
 			for (size_t i = 0; i < Ns + 1; ++i)
 				s_values[i] = s_min * exp(i*dls); // tabulate s bin borders
 
-			for (size_t i = 0; i < Ns; i++)
-			{
+			for (size_t i = 0; i < Ns; i++) {
 				const double s = s_min * exp(i*dls + 0.5*dls); // choose bin centers for evaluation to stay away from critical lower boundary s = m_e**2
 				double beta = (s - ElectronMass * ElectronMass) / (s + ElectronMass * ElectronMass);
 				double x0 = (1.-beta) / (1.+beta);
@@ -179,16 +177,14 @@ class ICSSecondariesEnergyDistribution
 		}
 
 		// returns pointer to the the integrated distribution for a given s
-		std::vector<double> getDistribution(double s)
-		{
+		std::vector<double> getDistribution(double s) {
 			size_t idx = std::lower_bound(s_values.begin(), s_values.end(), s) - s_values.begin();
 			std::vector<double> s0 = data[idx];
 			return s0;
 		}
 
-		//samples the integrated distribution and returns Eer(Ee, s)
-		double sample(double Ee, double s)
-		{
+		// samples the integrated distribution and returns Eer(Ee, s)
+		double sample(double Ee, double s) {
 			std::vector<double> s0 = getDistribution(s); 
 			Random &random = Random::instance();
 			size_t j = random.randBin(s0) + 1; // draw random bin (upper bin boundary returned), cause 0 not in CDF +1 to get right x value
@@ -200,21 +196,10 @@ class ICSSecondariesEnergyDistribution
 		}
 };
 
-
-// Helper function for actual Monte Carlo sampling to avoid code-duplication
-double extractICSSecondaries(double Ee, double s)
-{
-	static ICSSecondariesEnergyDistribution interpolation;
-	return interpolation.sample(Ee, s);
-}
-
-
 void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {
 
-	int id = candidate->current.getId();
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
-	double Epost = 0.;
 	double mec2 = mass_electron * c_squared;
 
 	// interpolate between tabulated electron energies to get corresponding cdf
@@ -234,10 +219,11 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	double binWidth = (tabs[i+j] - tabs[i+j-1]);
 	double s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
 	s_kin *= (1 + z);
-	double s = s_kin + (mass_electron*c_squared)*(mass_electron*c_squared);
+	double s = s_kin + mec2*mec2;
 
-	Epost = extractICSSecondaries(E,s);
-	if (havePhotons){
+	static ICSSecondariesEnergyDistribution interpolation;
+	double Epost = interpolation.sample(E,s);
+	if (havePhotons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 		candidate->addSecondary(22, (E-Epost), pos);
 	}

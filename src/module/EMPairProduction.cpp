@@ -128,16 +128,16 @@ void EMPairProduction::initCumulativeRate(std::string filename) {
 	infile.close();
 }
 
-///	 Differential cross-section for pair production for x = Epositron/Egamma
+// Differential cross section for pair production for x = Epositron/Egamma
+// compare Lee 96 arXiv:9604098
 double dSigmadE_PPx(double x, double beta) {
 	const double A = (x / (1. - x) + (1. - x) / x );
 	const double B =  (1. / x + 1. / (1. - x) );
 	return A + (1. - beta*beta) * B - (1. - beta*beta) * (1. - beta*beta) / 4. * B*B;
 }
 
-/// Hold an data array to interpolate the energy distribution on
-class PPSecondariesEnergyDistribution
-{
+// Hold an data array to interpolate the energy distribution on
+class PPSecondariesEnergyDistribution {
 	private:
 		double ElectronMass;
 		std::vector< std::vector<double> > data;
@@ -149,8 +149,7 @@ class PPSecondariesEnergyDistribution
 		double dls;
 
 	public:
-		PPSecondariesEnergyDistribution()
-		{
+		PPSecondariesEnergyDistribution() {
 			ElectronMass = mass_electron*c_squared;
 			Ns = 1000;
 			Nrer = 1000;
@@ -163,34 +162,30 @@ class PPSecondariesEnergyDistribution
 			for (size_t i = 0; i < Ns + 1; ++i)
 				s_values[i] = s_min * exp(i*dls); // tabulate s bin borders
 
-			for (size_t i = 0; i < Ns; i++)
-			{
-				const double s = s_min * exp(i*dls + 0.5*dls); //choose bin centers for evaluation to stay away from critical lower boundary s = 4 * m_e**2
+			for (size_t i = 0; i < Ns; i++) {
+				const double s = s_min * exp(i*dls + 0.5*dls); // choose bin centers for evaluation to stay away from critical lower boundary s = 4 * m_e**2
 				double beta = sqrt(1. - 4. * ElectronMass*ElectronMass /s);
 				double x0 = (1.-beta) / 2.;
 				double dx = (log((1. + beta)/2) -  log((1.-beta) / 2.)) / Nrer; 
 				std::vector<double> data_i(1000);
 				data_i[0] = dSigmadE_PPx(x0, beta)*(exp(dx)-1.);
-				for (size_t j = 1; j < Nrer; j++)
-				{
+				for (size_t j = 1; j < Nrer; j++) {
 					double x = x0*exp(j*dx + 0.5*dx); 
-					data_i[j] = dSigmadE_PPx(x, beta)*(exp((j+1)*dx)-exp(j*dx)) + data_i[j-1]; //cumulative midpoint integration
+					data_i[j] = dSigmadE_PPx(x, beta)*(exp((j+1)*dx)-exp(j*dx)) + data_i[j-1]; // cumulative midpoint integration
 				}
 				data[i] = data_i;
 			}
 		}
 
 		// returns pointer to the the integrated distribution for a given s
-		std::vector<double> getDistribution(double s)
-		{
+		std::vector<double> getDistribution(double s) {
 			size_t idx = std::lower_bound(s_values.begin(), s_values.end(), s) - s_values.begin();
 			std::vector<double> s0 = data[idx];
 			return s0;
 		}
 
-		//samples the integrated distribution and returns Eer(Ee, s)
-		double sample(double E0,double s)
-		{
+		// samples the integrated distribution and returns Eer(Ee, s)
+		double sample(double E0,double s) {
 			std::vector<double> s0 = getDistribution(s);
 			Random &random = Random::instance();
 			size_t j = random.randBin(s0) + 1; // draw random bin (upper bin boundary returned), cause 0 not in CDF +1 to get right x value 
@@ -205,20 +200,11 @@ class PPSecondariesEnergyDistribution
 		}
 };
 
-// Helper function for actual Monte Carlo sampling to avoid code-duplication
-double extractPPSecondariesEnergy(double E0, double s)
-{
-	static PPSecondariesEnergyDistribution interpolation;
-	return interpolation.sample(E0, s);
-}
-
 void EMPairProduction::performInteraction(Candidate *candidate) const {
 
-	if (haveElectrons){
-		int id = candidate->current.getId();
+	if (haveElectrons) {
 		double z = candidate->getRedshift();
 		double E = candidate->current.getEnergy();
-		double Epos = 0.;
 		double mec2 = mass_electron * c_squared;
 
 		// interpolate between tabulated electron energies to get corresponding cdf
@@ -242,10 +228,8 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 			s_kin = 4*mec2*mec2 + random.rand()*binWidth;
 		}
 		s_kin *= (1 + z);
-		if (s_kin < 4*mec2*mec2){
-			return;
-		}
-		Epos = extractPPSecondariesEnergy(E,s_kin);
+		static PPSecondariesEnergyDistribution interpolation;
+		double Epos = interpolation.sample(E,s_kin);
 
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 		candidate->addSecondary(-11, (E-Epos), pos);

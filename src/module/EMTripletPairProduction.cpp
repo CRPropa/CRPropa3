@@ -129,17 +129,15 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 
 void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 
-	//approximation based on A. Mastichiadis et al.,
-	//Astroph. Journ. 300:178-189 (1986), eq. 30.
-	//This approx is valid only for   alpha >=100
-	//where alpha = p0*eps*costheta - E0*eps;
-	//for our purposes, me << E0 --> p0~ E0 -->
-	//alpha = E0*eps*(costheta - 1) >= 100;
+	// approximation based on A. Mastichiadis et al.,
+	// Astroph. Journ. 300:178-189 (1986), eq. 30.
+	// This approx is valid only for   alpha >=100
+	// where alpha = p0*eps*costheta - E0*eps;
+	// for our purposes, me << E0 --> p0~ E0 -->
+	// alpha = E0*eps*(costheta - 1) >= 100;
 
-	int id = candidate->current.getId();
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
-	double Epp = 0.;
 	double mec2 = mass_electron * c_squared;
 
 	// interpolate between tabulated electron energies to get corresponding cdf
@@ -162,9 +160,9 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 
 	eps *= (1 + z);
 
-	Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
+	double Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
 
-	if (haveElectrons){
+	if (haveElectrons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 		candidate->addSecondary(11, Epp, pos);
 		candidate->addSecondary(-11, Epp, pos);

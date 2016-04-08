@@ -129,24 +129,22 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 
 void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 
-	//approximation based on A. Mastichiadis et al.,
-	//Astroph. Journ. 300:178-189 (1986), eq. 30.
-	//This approx is valid only for   alpha >=100
-	//where alpha = p0*eps*costheta - E0*eps;
-	//for our purposes, me << E0 --> p0~ E0 -->
-	//alpha = E0*eps*(costheta - 1) >= 100;
+	// approximation based on A. Mastichiadis et al.,
+	// Astroph. Journ. 300:178-189 (1986), eq. 30.
+	// This approx is valid only for   alpha >=100
+	// where alpha = p0*eps*costheta - E0*eps;
+	// for our purposes, me << E0 --> p0~ E0 -->
+	// alpha = E0*eps*(costheta - 1) >= 100;
 
-	int id = candidate->current.getId();
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy();
-	double Epp = 0.;
 	double mec2 = mass_electron * c_squared;
 
 	// interpolate between tabulated electron energies to get corresponding cdf
-	size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
-	double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
 	if (E < tabE.front() || E > tabE.back())
 		return;
+	size_t i = std::upper_bound(tabE.begin(), tabE.end(), E) - tabE.begin() - 500;
+	double a = (E - tabE[i]) / (tabE[i + 500] - tabE[i]);
 
 	std::vector<double> cdf(500);
 	for (size_t j = 0; j < 500; j++)
@@ -155,17 +153,16 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	// draw random value between 0. and maximum of corresponding cdf
 	// choose bin of eps where cdf(eps) = cdf_rand -> eps_rand
 	Random &random = Random::instance();
-	size_t j = random.randBin(cdf); // draw random bin
-	double binWidth = (tabs[i+j+1] - tabs[i+j]);
-	double eps = (tabs[i+j] + random.rand() * binWidth)/4./E; // draw random uniform background photon energy in bin, note that one needs to convert tablulated eps back to s_kin and calculate right eps with real electron energy
-	if (4*E*eps < 8*mec2*mec2)
-		std::cout << "ERROR" << std::endl;
+	size_t j = random.randBin(cdf); // draw random bin (upper bin boundary returned)
+	double binWidth = (tabs[i+j] - tabs[i+j-1]); // resize of bin which includes physical boundary (comp. PP) not neccessary cause cross section formula used for CDF tabulation only valid for s_kin > 12.4*me**2 and this boundary is larger than the physical boundary s_kin > 8*me**2
+	double s_kin = tabs[i+j-1] + random.rand() * binWidth; // draw random s uniformly distributed in bin
+	double eps = s_kin/4./E; // random background photon energy for head on collisions
 
 	eps *= (1 + z);
 
-	Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
+	double Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
 
-	if (haveElectrons){
+	if (haveElectrons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
 		candidate->addSecondary(11, Epp, pos);
 		candidate->addSecondary(-11, Epp, pos);

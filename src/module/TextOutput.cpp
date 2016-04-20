@@ -47,6 +47,9 @@ void TextOutput::printHeader() const {
 		*out << "\tD";
 	if (fields.test(RedshiftColumn))
 		*out << "\tz";
+
+	if (fields.test(SerialNumberColumn))
+		*out << "\tSN";
 	if (fields.test(CurrentIdColumn))
 		*out << "\tID";
 	if (fields.test(CurrentEnergyColumn))
@@ -61,6 +64,8 @@ void TextOutput::printHeader() const {
 		if (not oneDimensional)
 			*out << "\tPx\tPy\tPz";
 
+	if (fields.test(SerialNumberColumn))
+		*out << "\tSN0";
 	if (fields.test(SourceIdColumn))
 		*out << "\tID0";
 	if (fields.test(SourceEnergyColumn))
@@ -75,6 +80,8 @@ void TextOutput::printHeader() const {
 		if (not oneDimensional)
 			*out << "\tP0x\tP0y\tP0z";
 
+	if (fields.test(SerialNumberColumn))
+		*out << "\tSN1";
 	if (fields.test(CreatedIdColumn))
 		*out << "\tID1";
 	if (fields.test(CreatedEnergyColumn))
@@ -95,6 +102,8 @@ void TextOutput::printHeader() const {
 				<< " Mpc]\n";
 	if (fields.test(RedshiftColumn))
 		*out << "# z             Redshift\n";
+	if (fields.test(SerialNumberColumn))
+		*out << "# SN/SN0/SN1    Serial number. Unique (within this run) id of the particle.\n";
 	if (fields.test(CurrentIdColumn) || fields.test(CreatedIdColumn)
 			|| fields.test(SourceIdColumn))
 		*out << "# ID/ID0/ID1    Particle type (PDG MC numbering scheme)\n";
@@ -126,6 +135,10 @@ void TextOutput::process(Candidate *c) const {
 				c->getTrajectoryLength() / lengthScale);
 	if (fields.test(RedshiftColumn))
 		p += sprintf(buffer + p, "%1.5f\t", c->getRedshift());
+
+	if (fields.test(SerialNumberColumn))
+		p += sprintf(buffer + p, "%10i\t",
+				c->getSerialNumber());
 	if (fields.test(CurrentIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->current.getId());
 	if (fields.test(CurrentEnergyColumn))
@@ -149,6 +162,9 @@ void TextOutput::process(Candidate *c) const {
 		}
 	}
 
+	if (fields.test(SerialNumberColumn))
+		p += sprintf(buffer + p, "%10i\t",
+				c->getSourceSerialNumber());
 	if (fields.test(SourceIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->source.getId());
 	if (fields.test(SourceEnergyColumn))
@@ -173,6 +189,9 @@ void TextOutput::process(Candidate *c) const {
 
 	}
 
+	if (fields.test(SerialNumberColumn))
+		p += sprintf(buffer + p, "%10i\t",
+				c->getCreatedSerialNumber());
 	if (fields.test(CreatedIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->created.getId());
 	if (fields.test(CreatedEnergyColumn))

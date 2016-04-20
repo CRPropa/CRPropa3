@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include <sstream>
+#include <stdint.h>
 
 namespace crpropa {
 
@@ -30,12 +31,18 @@ public:
 	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
 	PropertyMap properties; /**< Map of property names and their values. */
 
+	Candidate *parent;
+
 private:
 	bool active; /**< Active status */
 	double redshift; /**< Current simulation time-point in terms of redshift z */
 	double trajectoryLength; /**< Comoving distance [m] the candidate has travelled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
+
+	static uint64_t nextSerialNumber;
+
+	uint64_t serialNumber;
 
 public:
 	Candidate(int id = 0, double energy = 0,
@@ -101,6 +108,15 @@ public:
 	void clearSecondaries();
 
 	std::string getDescription() const;
+
+	/** Unique (inside process) serial number (id) of candidate */
+	uint64_t getSerialNumber() const;
+
+	/** Serial number of candidate at source*/
+	uint64_t getSourceSerialNumber() const;
+
+	/** Serial number of candidate at creation */
+	uint64_t getCreatedSerialNumber() const;
 
 	/**
 	 Create an exact clone of candidate

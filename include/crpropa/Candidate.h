@@ -31,6 +31,7 @@ public:
 	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
 	PropertyMap properties; /**< Map of property names and their values. */
 
+	/** Parent candidate. 0 if no parent (initial particle). Must not be a ref_ptr to prevent circular referencing. */
 	Candidate *parent;
 
 private:

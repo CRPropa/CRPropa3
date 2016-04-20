@@ -19,10 +19,7 @@ void Output::modify() {
 }
 
 void Output::process(Candidate *c) const {
-	#pragma omp critical
-	{
-		count++;
-	}
+	count++;
 }
 
 void Output::setOutputType(OutputType outputtype) {

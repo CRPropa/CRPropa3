@@ -27,6 +27,7 @@ void HDF5Output::open(const std::string& filename) {
 	H5Tinsert(sid, "D", HOFFSET(OutputRow, D), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "z", HOFFSET(OutputRow, z), H5T_NATIVE_DOUBLE);
 
+	H5Tinsert(sid, "SN", HOFFSET(OutputRow, SN), H5T_NATIVE_INT64);
 	H5Tinsert(sid, "ID", HOFFSET(OutputRow, ID), H5T_NATIVE_INT32);
 	H5Tinsert(sid, "E", HOFFSET(OutputRow, E), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "X", HOFFSET(OutputRow, X), H5T_NATIVE_DOUBLE);
@@ -36,6 +37,7 @@ void HDF5Output::open(const std::string& filename) {
 	H5Tinsert(sid, "Py", HOFFSET(OutputRow, Py), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "Pz", HOFFSET(OutputRow, Pz), H5T_NATIVE_DOUBLE);
 
+	H5Tinsert(sid, "SN0", HOFFSET(OutputRow, SN0), H5T_NATIVE_INT64);
 	H5Tinsert(sid, "ID0", HOFFSET(OutputRow, ID0), H5T_NATIVE_INT32);
 	H5Tinsert(sid, "E0", HOFFSET(OutputRow, E0), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "X0", HOFFSET(OutputRow, X0), H5T_NATIVE_DOUBLE);
@@ -45,6 +47,7 @@ void HDF5Output::open(const std::string& filename) {
 	H5Tinsert(sid, "P0y", HOFFSET(OutputRow, P0y), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "P0z", HOFFSET(OutputRow, P0z), H5T_NATIVE_DOUBLE);
 
+	H5Tinsert(sid, "SN1", HOFFSET(OutputRow, SN1), H5T_NATIVE_INT64);
 	H5Tinsert(sid, "ID1", HOFFSET(OutputRow, ID1), H5T_NATIVE_INT32);
 	H5Tinsert(sid, "E1", HOFFSET(OutputRow, E1), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "X1", HOFFSET(OutputRow, X1), H5T_NATIVE_DOUBLE);
@@ -83,12 +86,11 @@ void HDF5Output::close() {
 }
 
 void HDF5Output::process(Candidate* candidate) const {
-	Output::process(candidate);
-
 	OutputRow r;
 	r.D = candidate->getTrajectoryLength() / lengthScale;
 	r.z = candidate->getRedshift();
 
+	r.SN = candidate->getSerialNumber();
 	r.ID = candidate->current.getId();
 	r.E = candidate->current.getEnergy() / energyScale;
 	Vector3d v = candidate->current.getPosition() / lengthScale;
@@ -100,6 +102,7 @@ void HDF5Output::process(Candidate* candidate) const {
 	r.Py = v.y;
 	r.Pz = v.z;
 
+	r.SN0 = candidate->getSourceSerialNumber();
 	r.ID0 = candidate->source.getId();
 	r.E0 = candidate->source.getEnergy() / energyScale;
 	v = candidate->source.getPosition() / lengthScale;
@@ -111,6 +114,7 @@ void HDF5Output::process(Candidate* candidate) const {
 	r.P0y = v.y;
 	r.P0z = v.z;
 
+	r.SN1 = candidate->getCreatedSerialNumber();
 	r.ID1 = candidate->created.getId();
 	r.E1 = candidate->created.getEnergy() / energyScale;
 	v = candidate->created.getPosition() / lengthScale;
@@ -124,6 +128,8 @@ void HDF5Output::process(Candidate* candidate) const {
 
 	#pragma omp critical
 	{
+		Output::process(candidate);
+
 		buffer.push_back(r);
 
 		if (buffer.size() >= buffer.capacity())

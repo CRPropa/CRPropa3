@@ -35,7 +35,8 @@ public:
 		CreatedIdColumn,
 		CreatedEnergyColumn,
 		CreatedPositionColumn,
-		CreatedDirectionColumn
+		CreatedDirectionColumn,
+		SerialNumberColumn
 	};
 
 	enum OutputType {

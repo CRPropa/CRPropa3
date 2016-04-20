@@ -3,13 +3,24 @@
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
-		trajectoryLength(0), currentStep(0), nextStep(0), active(true) {
+		trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
 	previous = state;
 	current = state;
 	setRedshift(z);
+
+#if defined(OPENMP_3_1)
+		#pragma omp atomic capture
+		{serialNumber = nextSerialNumber++;}
+#elif defined(__GNUC__)
+		{serialNumber = __sync_add_and_fetch(&nextSerialNumber, 1);}
+#else
+		#pragma omp critical
+		{serialNumber = nextSerialNumber++;}
+#endif
+
 }
 
 Candidate::Candidate(const ParticleState &state) :
@@ -104,6 +115,7 @@ void Candidate::addSecondary(int id, double energy) {
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
+	secondary->parent = this;
 	secondaries.push_back(secondary);
 }
 
@@ -119,6 +131,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position) {
 	secondary->current.setEnergy(energy);
 	secondary->current.setPosition(position);
 	secondary->created.setPosition(position);
+	secondary->parent = this;
 	secondaries.push_back(secondary);
 }
 
@@ -150,10 +163,32 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 	if (recursive) {
 		cloned->secondaries.reserve(secondaries.size());
 		for (size_t i = 0; i < secondaries.size(); i++) {
-			cloned->secondaries.push_back(secondaries[i]->clone(recursive));
+			ref_ptr<Candidate> s = secondaries[i]->clone(recursive);
+			s->parent = cloned;
+			cloned->secondaries.push_back(s);
 		}
 	}
 	return cloned;
 }
+
+uint64_t Candidate::getSerialNumber() const {
+	return serialNumber;
+}
+
+uint64_t Candidate::getSourceSerialNumber() const {
+	if (parent)
+		return parent->getSourceSerialNumber();
+	else
+		return serialNumber;
+}
+
+uint64_t Candidate::getCreatedSerialNumber() const {
+	if (parent)
+		return parent->getSerialNumber();
+	else
+		return serialNumber;
+}
+
+uint64_t Candidate::nextSerialNumber = 0;
 
 } // namespace crpropa

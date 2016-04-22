@@ -16,7 +16,7 @@ class HDF5Output: public Output {
 		double D;
 		double z;
 		uint64_t SN;
-		uint32_t ID;
+		int32_t ID;
 		double E;
 		double X;
 		double Y;
@@ -25,7 +25,7 @@ class HDF5Output: public Output {
 		double Py;
 		double Pz;
 		uint64_t SN0;
-		uint32_t ID0;
+		int32_t ID0;
 		double E0;
 		double X0;
 		double Y0;
@@ -34,7 +34,7 @@ class HDF5Output: public Output {
 		double P0y;
 		double P0z;
 		uint64_t SN1;
-		uint32_t ID1;
+		int32_t ID1;
 		double E1;
 		double X1;
 		double Y1;

@@ -213,11 +213,11 @@ void DintPropagation(
 			double currentDistance = secondaries.back().D;
 
 			// add secondaries at the current distance to spectrum
-			while (secondaries.back().D < (currentDistance - dMargin) {
+			while (secondaries.back().D < (currentDistance - dMargin)) {
 				if (secondaries.size() == 0)
 					break;
 				if (secondaries.back().D == 0)
-					if currentDistance > 0.
+					if (currentDistance > 0)
 						break;
 
 				double E = secondaries.back().E * 1E18;

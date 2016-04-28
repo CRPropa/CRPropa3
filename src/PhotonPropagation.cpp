@@ -159,7 +159,8 @@ void DintPropagation(
 	// Initialize the bField
 	dCVector bField;
 	New_dCVector(&bField, 5);
-	for (size_t i = 0; i < 5; i++)	bField.vector[i] = magneticFieldStrength / gauss;
+	for (size_t i = 0; i < 5; i++)
+		bField.vector[i] = magneticFieldStrength / gauss;
 
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
@@ -174,13 +175,12 @@ void DintPropagation(
 	const size_t nBuffer = 1 << 20;
 	const double dMargin = 0.1; // Mpc;
 
-	size_t cnt = 0;
 	while (infile.good()) {
 		// buffer for secondaries
 		std::vector<_Secondary> secondaries;
 		secondaries.reserve(nBuffer);
 
-		// read secondaries from file
+		// read secondaries from file (maximum nBuffer)
 		size_t n = 0;
 		while (infile.good() && (n < nBuffer)) {
 			if (infile.peek() != '#') {
@@ -193,12 +193,11 @@ void DintPropagation(
 					secondaries.push_back(s);
 				}
 			}
-
 			infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 
 		if (secondaries.size() == 0)
-			continue;
+			break;
 
 		// sort by D
 		std::sort(secondaries.begin(), secondaries.end(),
@@ -208,37 +207,44 @@ void DintPropagation(
 		NewSpectrum(&inputSpectrum, NUM_MAIN_BINS);
 		NewSpectrum(&outputSpectrum, NUM_MAIN_BINS);
 		InitializeSpectrum(&inputSpectrum);
+
 		// process secondaries
 		while (secondaries.size() > 0) {
 			double currentDistance = secondaries.back().D;
+
 			// add secondaries at the current distance to spectrum
-			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
-				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
-				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-						- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
-				if (maxBin >= NUM_MAIN_BINS) {
+			while (secondaries.back().D < (currentDistance - dMargin) {
+				if (secondaries.size() == 0)
+					break;
+				if (secondaries.back().D == 0)
+					if currentDistance > 0.
+						break;
+
+				double E = secondaries.back().E * 1E18;
+				int iBin = (int) ((log10(E) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
+				iBin -= 1; // remove the additional 1 from line before
+				if (iBin >= NUM_MAIN_BINS) {
 					std::cout << "DintPropagation: Energy too high " << secondaries.back().E
-							<< std::endl;
+						<< std::endl;
 					secondaries.pop_back();
 					continue;
 				}
-				if (maxBin < 0) {
+				if (iBin < 0) {
 					std::cout << "DintPropagation: Energy too low " << secondaries.back().E
-							<< std::endl;
+						<< std::endl;
 					secondaries.pop_back();
 					continue;
 				}
 				int Id = secondaries.back().Id;
 				if (Id == 22)
-					inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
+					inputSpectrum.spectrum[PHOTON][iBin] += 1.;
 				else if (Id == 11)
-					inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
+					inputSpectrum.spectrum[ELECTRON][iBin] += 1.;
 				else if (Id == -11)
-					inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
-				else {
+					inputSpectrum.spectrum[POSITRON][iBin] += 1.;
+				else
 					std::cout << "DintPropagation: Unhandled particle ID " << Id
-							<< std::endl;
-				}
+						<< std::endl;
 				secondaries.pop_back();
 			}
 
@@ -248,10 +254,6 @@ void DintPropagation(
 				D = secondaries.back().D;
 
 			InitializeSpectrum(&outputSpectrum);
-			//prop_second(currentDistance, &bField, &energyGrid, &energyWidth, &inputSpectrum,
-			//		&outputSpectrum, dataPath, IRFlag, Zmax, RadioFlag, h, om,
-			//		ol, 0);
-
 			dint.propagate(currentDistance, D, &inputSpectrum, &outputSpectrum, aCutcascade_Magfield);
 			SetSpectrum(&inputSpectrum, &outputSpectrum);
 		}
@@ -378,7 +380,6 @@ void DintElecaPropagation(
 		// The vector is larger than ~1GB, or the infile is completley read - better call DINT.
 		if (ParticleAtGround.size() > 1000000 || !infile) {
 			const double dMargin = 0.1 * Mpc;
-			size_t cnt = 0;
 
 			std::sort(ParticleAtGround.begin(), ParticleAtGround.end(), _ParticlesAtGroundSortPredicate);
 
@@ -389,38 +390,43 @@ void DintElecaPropagation(
 			InitializeSpectrum(&inputSpectrum);
 			// process secondaries
 			while (ParticleAtGround.size() > 0) {
-				double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz()) ;
+				bool lastStep = false;
+				double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz());
+				if (currentDistance == 0.)
+					lastStep = true;
 				// add secondaries at the current distance to spectrum
-				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))
-				{
-					double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
-					int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-							- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
-					if (maxBin >= NUM_MAIN_BINS) {
-						std::cout << "DintPropagation: Energy too high " <<
-							ParticleAtGround.back().GetEnergy() << " eV"  <<
-							std::endl;
-						ParticleAtGround.pop_back();
-						continue;
-					}
-					if (maxBin < 0) {
-						std::cout << "DintPropagation: Energy too low " <<
-							ParticleAtGround.back().GetEnergy() << " eV"  << std::endl;
-						ParticleAtGround.pop_back();
-						continue;
-					}
-					int Id = ParticleAtGround.back().GetType();
-					if (Id == 22)
-						inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
-					else if (Id == 11)
-						inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
-					else if (Id == -11)
-						inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
-					else {
-						std::cout << "DintPropagation: Unhandled particle ID " << Id
+				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))	{
+					if (redshift2ComovingDistance(ParticleAtGround.back().Getz()) > 0. || lastStep) {
+						double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
+						int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
+						maxBin -= 1; // remove the additional 1 from line before
+						if (maxBin >= NUM_MAIN_BINS) {
+							std::cout << "DintPropagation: Energy too high " <<
+								ParticleAtGround.back().GetEnergy() << " eV"  <<
+								std::endl;
+							ParticleAtGround.pop_back();
+							continue;
+						}
+						if (maxBin < 0) {
+							std::cout << "DintPropagation: Energy too low " <<
+								ParticleAtGround.back().GetEnergy() << " eV"  << std::endl;
+							ParticleAtGround.pop_back();
+							continue;
+						}
+						int Id = ParticleAtGround.back().GetType();
+						if (Id == 22)
+							inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
+						else if (Id == 11)
+							inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
+						else if (Id == -11)
+							inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
+						else {
+							std::cout << "DintPropagation: Unhandled particle ID " << Id
 								<< std::endl;
-					}
-					ParticleAtGround.pop_back();
+						}
+						ParticleAtGround.pop_back();
+					} else
+						break;
 				}
 
 				double D = 0;

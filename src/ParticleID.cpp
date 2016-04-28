@@ -1,10 +1,10 @@
-#include <string>
-
 #include "crpropa/ParticleID.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include <HepPID/ParticleName.hh>
 #include <kiss/convert.h>
+
+#include <string>
 
 namespace crpropa {
 
@@ -55,8 +55,14 @@ int convertToCRPropa2NucleusId(int id) {
 }
 
 std::string convertIdToName(int id) {
-    return HepPID::particleName(id);
+	// handle a few extra cases that HepPID doesn't like
+	if (id == 1000000010) // neutron
+		id = 2112;
+	if (id == -1000000010) // anti-neutron
+		id = -2112;
+	if (id == -1000010010) // anti-proton
+		id = -2212;
+	return HepPID::particleName(id);
 }
-
 
 }

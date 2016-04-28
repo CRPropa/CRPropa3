@@ -210,36 +210,42 @@ void DintPropagation(
 		InitializeSpectrum(&inputSpectrum);
 		// process secondaries
 		while (secondaries.size() > 0) {
+			bool lastStep = false;
 			double currentDistance = secondaries.back().D;
+			if (currentDistance == 0.)
+				lastStep = true;
 			// add secondaries at the current distance to spectrum
 			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
-				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
-				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
-				maxBin -= 1; // remove the additional 1 from line before
-				if (maxBin >= NUM_MAIN_BINS) {
-					std::cout << "DintPropagation: Energy too high " << secondaries.back().E
+				if (secondaries.back().D > 0 || lastStep) {
+					double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
+					int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
+					maxBin -= 1; // remove the additional 1 from line before
+					if (maxBin >= NUM_MAIN_BINS) {
+						std::cout << "DintPropagation: Energy too high " << secondaries.back().E
 							<< std::endl;
+						secondaries.pop_back();
+						continue;
+					}
+					if (maxBin < 0) {
+						std::cout << "DintPropagation: Energy too low " << secondaries.back().E
+							<< std::endl;
+						secondaries.pop_back();
+						continue;
+					}
+					int Id = secondaries.back().Id;
+					if (Id == 22)
+						inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
+					else if (Id == 11)
+						inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
+					else if (Id == -11)
+						inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
+					else {
+						std::cout << "DintPropagation: Unhandled particle ID " << Id
+							<< std::endl;
+					}
 					secondaries.pop_back();
-					continue;
-				}
-				if (maxBin < 0) {
-					std::cout << "DintPropagation: Energy too low " << secondaries.back().E
-							<< std::endl;
-					secondaries.pop_back();
-					continue;
-				}
-				int Id = secondaries.back().Id;
-				if (Id == 22)
-					inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
-				else if (Id == 11)
-					inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
-				else if (Id == -11)
-					inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
-				else {
-					std::cout << "DintPropagation: Unhandled particle ID " << Id
-							<< std::endl;
-				}
-				secondaries.pop_back();
+				} else 
+					break;
 			}
 
 			double D = 0;
@@ -389,38 +395,43 @@ void DintElecaPropagation(
 			InitializeSpectrum(&inputSpectrum);
 			// process secondaries
 			while (ParticleAtGround.size() > 0) {
-				double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz()) ;
+				bool lastStep = false;
+				double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz());
+				if (currentDistance == 0.)
+					lastStep = true;
 				// add secondaries at the current distance to spectrum
-				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))
-				{
-					double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
-					int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
-					maxBin -= 1; // remove the additional 1 from line before
-					if (maxBin >= NUM_MAIN_BINS) {
-						std::cout << "DintPropagation: Energy too high " <<
-							ParticleAtGround.back().GetEnergy() << " eV"  <<
-							std::endl;
-						ParticleAtGround.pop_back();
-						continue;
-					}
-					if (maxBin < 0) {
-						std::cout << "DintPropagation: Energy too low " <<
-							ParticleAtGround.back().GetEnergy() << " eV"  << std::endl;
-						ParticleAtGround.pop_back();
-						continue;
-					}
-					int Id = ParticleAtGround.back().GetType();
-					if (Id == 22)
-						inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
-					else if (Id == 11)
-						inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
-					else if (Id == -11)
-						inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
-					else {
-						std::cout << "DintPropagation: Unhandled particle ID " << Id
+				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))	{
+					if (redshift2ComovingDistance(ParticleAtGround.back().Getz()) > 0. || lastStep) {
+						double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
+						int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
+						maxBin -= 1; // remove the additional 1 from line before
+						if (maxBin >= NUM_MAIN_BINS) {
+							std::cout << "DintPropagation: Energy too high " <<
+								ParticleAtGround.back().GetEnergy() << " eV"  <<
+								std::endl;
+							ParticleAtGround.pop_back();
+							continue;
+						}
+						if (maxBin < 0) {
+							std::cout << "DintPropagation: Energy too low " << 
+								ParticleAtGround.back().GetEnergy() << " eV"  << std::endl;
+							ParticleAtGround.pop_back();
+							continue;
+						}
+						int Id = ParticleAtGround.back().GetType();
+						if (Id == 22)
+							inputSpectrum.spectrum[PHOTON][maxBin] += 1.;
+						else if (Id == 11)
+							inputSpectrum.spectrum[ELECTRON][maxBin] += 1.;
+						else if (Id == -11)
+							inputSpectrum.spectrum[POSITRON][maxBin] += 1.;
+						else {
+							std::cout << "DintPropagation: Unhandled particle ID " << Id
 								<< std::endl;
-					}
-					ParticleAtGround.pop_back();
+						}
+						ParticleAtGround.pop_back();
+					} else
+						break;
 				}
 
 				double D = 0;

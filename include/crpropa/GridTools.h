@@ -5,6 +5,11 @@
 #include "crpropa/magneticField/MagneticField.h"
 #include <string>
 
+/**
+ @file
+ @brief Grid related functions: load, dump, save, create turbulent field ...
+ */
+
 namespace crpropa {
 
 /** Evaluate the mean vector of all grid points. */

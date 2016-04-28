@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 
+/**
+ @file
+ @brief Common helper functions
+ */
+
 namespace crpropa {
 
 // Returns the full path to a CRPropa data file

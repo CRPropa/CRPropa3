@@ -265,20 +265,6 @@ public:
 };
 
 /**
- @class SourceCylindricalProjectionEmission
- @brief Emission from cylindrical equal-area projection pixels.
- */
-/*
-class SourceCylindricalProjectionEmission: public SourceFeature {
-public:
-	SourceCylindricalProjectionEmission(size_t nx, size_t ny, const std::vector<float> &weights);
-	void prepareParticle(ParticleState &particle) const;
-	void setDescription();
-};
-*/
-
-
-/**
  @class SourceDirection
  @brief Emission in a discrete direction
  */
@@ -369,13 +355,13 @@ public:
 	void add(int A, int Z, double abundance);
 	void prepareParticle(ParticleState &particle) const;
 	void setDescription();
-	
+
     const std::vector<double> *getNucleusCDF(int id) const {
         for (size_t i = 0; i<nuclei.size(); i++)
             if (nuclei[i].id == id)
             	return &nuclei[i].cdf;
     	return 0;
-    }	
+    }
 
 protected:
 

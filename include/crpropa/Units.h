@@ -1,6 +1,11 @@
 #ifndef CRPROPA_UNITS_H
 #define CRPROPA_UNITS_H
 
+/**
+ @file
+ @brief Definition of SI base units
+ */
+
 namespace crpropa {
 
 // SI units

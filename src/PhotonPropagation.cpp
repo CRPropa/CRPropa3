@@ -214,8 +214,8 @@ void DintPropagation(
 			// add secondaries at the current distance to spectrum
 			while ((secondaries.size() > 0) && (secondaries.back().D >= (currentDistance - dMargin))) {
 				double criticalEnergy = secondaries.back().E * EeV / (eV * ELECTRON_MASS); // units of dint
-				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-						- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
+				int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
+				maxBin -= 1; // remove the additional 1 from line before
 				if (maxBin >= NUM_MAIN_BINS) {
 					std::cout << "DintPropagation: Energy too high " << secondaries.back().E
 							<< std::endl;
@@ -394,8 +394,8 @@ void DintElecaPropagation(
 				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))
 				{
 					double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
-					int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS)
-							- MAX_ENERGY_EXP) * BINS_PER_DECADE + NUM_MAIN_BINS);
+					int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
+					maxBin -= 1; // remove the additional 1 from line before
 					if (maxBin >= NUM_MAIN_BINS) {
 						std::cout << "DintPropagation: Energy too high " <<
 							ParticleAtGround.back().GetEnergy() << " eV"  <<

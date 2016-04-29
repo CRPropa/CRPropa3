@@ -209,7 +209,7 @@ void DintPropagation(
 			infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 
-		if (secondaries.size() == 0)
+		if (secondaries.empty())
 			break;  // all secondaries processed, nothing left to do
 
 		// sort by distance
@@ -222,7 +222,7 @@ void DintPropagation(
 		InitializeSpectrum(&inputSpectrum);
 
 		// process secondaries
-		while (secondaries.size() > 0) {
+		while ((secondaries.back().D > 0) and (secondaries.size() > 0)) {
 			double Dmax = secondaries.back().D;  // upper bound of distance bin
 			double Dmin = max(Dmax - dMargin, 0.);  // lower bound of distance bin
 
@@ -232,7 +232,7 @@ void DintPropagation(
 				secondaries.pop_back();
 			}
 
-			// propagate to next closer particle or to D = 0
+			// propagate to next closest particle or to D=0
 			double D = 0;
 			if (secondaries.size() > 0)
 				D = secondaries.back().D;
@@ -243,7 +243,7 @@ void DintPropagation(
 			SetSpectrum(&inputSpectrum, &outputSpectrum);
 		}
 
-		// add remaining secondaries to output spectrum
+		// add remaining secondaries at D=0 to output spectrum
 		while (secondaries.size() > 0) {
 			FillInSpectrum(&inputSpectrum, secondaries.back());
 			secondaries.pop_back();

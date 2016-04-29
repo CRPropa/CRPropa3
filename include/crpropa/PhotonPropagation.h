@@ -17,7 +17,7 @@ namespace crpropa {
  */
 void ElecaPropagation(
 	const std::string &inputfile,               //!< input in PhotonOutput1D format
-	const std::string &outputfile,              //!< ???
+	const std::string &outputfile,              //!< output in PhotonOutput1D format
 	bool showProgress = true,                   //!< show a progress bar
 	double lowerEnergyThreshold = 0.8010882435, //!< threshold energy [J], default = 5 EeV
 	double magneticFieldStrength = 1E-13,       //!< magnetic field strength [T], default = 1 nG
@@ -29,12 +29,11 @@ void ElecaPropagation(
  */
 void DintPropagation(
 	const std::string &inputfile,         //!< input in PhotonOutput1D format
-	const std::string &outputfile,        //!< output photon spectrum
-	double magneticFieldStrength = 1E-13, //!< magnetic field strength [T], default = 1 nG
+	const std::string &outputfile,        //!< output spectrum (photons, electrons, positrons)
 	int IRFlag = 4,                       //!< EBL background 0: high, 1: low, 2: Primack, 4: Stecker'06
 	int RadioFlag = 4,                    //!< radio background 0: high, 1: medium, 2: obs, 3: none, 4: Protheroe'96
-	double Zmax = 5,                      //!< ???
-	double aCutcascade_Magfield = 0       //!< ???
+	double magneticFieldStrength = 1E-13, //!< magnetic field strength [T], default = 1 nG
+	double aCutcascade_Magfield = 0       //!< a-parameter, see CRPropa 2 paper
 	);
 
 /**
@@ -42,11 +41,11 @@ void DintPropagation(
  */
 void DintElecaPropagation(
 	const std::string &inputfile,           //!< input in PhotonOutput1D format
-	const std::string &outputfile,          //!< ???
+	const std::string &outputfile,          //!< output spectrum (photons, electrons, positrons)
 	bool showProgress = true,               //!< show a progress bar
 	double crossOverEnergy = 0.08010882435, //!< crossover energy [J] between EleCa and DINT, default = 0.5 EeV
 	double magneticFieldStrength = 1E-13,   //!< magnetic field strength [T], default = 1 nG
-	double aCutcascade_Magfield = 0         //!< ???
+	double aCutcascade_Magfield = 0         //!< a-parameter, see CRPropa 2 paper
 	);
 
 } // namespace crpropa

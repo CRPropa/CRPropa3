@@ -6,6 +6,9 @@
 
 #include <HepPID/ParticleIDMethods.hh>
 
+#include <stdlib.h>
+#include <sstream>
+
 namespace crpropa {
 
 ParticleState::ParticleState(int id, double E, Vector3d pos, Vector3d dir) {
@@ -47,7 +50,8 @@ void ParticleState::setId(int newId) {
 		if (id < 0)
 			charge *= -1; // anti-nucleus
 	} else {
-		// pmass missing for non-nuclei
+		if (abs(id) == 11)
+			pmass = mass_electron;
 		charge = HepPID::charge(id) * eplus;
 	}
 }

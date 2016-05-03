@@ -14,9 +14,11 @@
 #include <fstream>
 #include <stdio.h>
 #include <stdexcept>
-#include <limits>
 #include <iostream>
+#include <iomanip>
 #include <algorithm>
+#include <limits>
+#include <math.h>
 
 namespace crpropa {
 
@@ -124,9 +126,7 @@ bool _SecondarySortPredicate(const _Secondary& s1, const _Secondary& s2) {
 
 void FillInSpectrum(Spectrum *a, const _Secondary &s) {
 	double logE = log10(s.E) + 18;  // log10(E/eV)
-	// find bin: add +1 to avoid conversion error for negative values (e.g. int(-0.7) = 0)
-	int iBin = (int) ((logE - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1);
-	iBin -= 1;
+	int iBin = floor((logE - MIN_ENERGY_EXP) / 0.1);  // bin number from 0 - NUM_MAIN_BINS-1
 	if (iBin >= NUM_MAIN_BINS) {
 		std::cout << "DintPropagation: Energy too high " << logE << std::endl;
 		return;
@@ -160,9 +160,8 @@ void DintPropagation(
 		double magneticFieldStrength,
 		double aCutcascade_Magfield) {
 
-	// Initialize the spectrum
+	// initialize the energy grids for DINT
 	dCVector energyGrid, energyWidth;
-	// Initialize the energy grids for dint
 	New_dCVector(&energyGrid, NUM_MAIN_BINS);
 	New_dCVector(&energyWidth, NUM_MAIN_BINS);
 	SetEnergyBins(MIN_ENERGY_EXP, &energyGrid, &energyWidth);
@@ -177,12 +176,13 @@ void DintPropagation(
 		throw std::runtime_error(
 				"DintPropagation: could not open file " + inputfile);
 
-	// Initialize the bField
+	// initialize the B-field
 	dCVector bField;
 	New_dCVector(&bField, 5);
 	for (size_t i = 0; i < 5; i++)
 		bField.vector[i] = magneticFieldStrength / gauss;
 
+	// initialize the spectrum
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
 	InitializeSpectrum(&finalSpectrum);
@@ -254,12 +254,15 @@ void DintPropagation(
 		DeleteSpectrum(&inputSpectrum);
 	}
 
-	outfile << "# BinCenter [EeV] BinWidth [EeV] Flux-Weights for photons electrons positrons ... \n";
+	// output
+	outfile << "# logE photons electrons positrons\n";
+	outfile << "#   - logE: energy bin center <log10(E/eV)>\n";
+	outfile << "#   - photons, electrons, positrons: total flux weights\n";
 	for (int j = 0; j < finalSpectrum.numberOfMainBins; j++) {
-		outfile << (energyGrid.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
-		outfile << (energyWidth.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
-		for (int i = 0; i < NUM_SPECIES; i++) {
-			outfile << finalSpectrum.spectrum[i][j] << " ";
+		double logEc = MIN_ENERGY_EXP + 0.05 + j * 1. / BINS_PER_DECADE;
+		outfile << std::setw(5) << logEc;
+		for (int i = 0; i < 3; i++) {
+			outfile << std::setw(13) << finalSpectrum.spectrum[i][j];
 		}
 		outfile << "\n";
 	}

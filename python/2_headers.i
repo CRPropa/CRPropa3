@@ -49,6 +49,7 @@
 #include "crpropa/module/EMDoublePairProduction.h"
 #include "crpropa/module/EMTripletPairProduction.h"
 #include "crpropa/module/EMInverseComptonScattering.h"
+#include "crpropa/module/SynchrotronRadiation.h"
 #include "crpropa/module/Tools.h"
 
 #include "crpropa/magneticField/MagneticField.h"
@@ -189,6 +190,7 @@
 %include "crpropa/module/EMDoublePairProduction.h"
 %include "crpropa/module/EMTripletPairProduction.h"
 %include "crpropa/module/EMInverseComptonScattering.h"
+%include "crpropa/module/SynchrotronRadiation.h"
 
 %template(IntSet) std::set<int>;
 %include "crpropa/module/Tools.h"

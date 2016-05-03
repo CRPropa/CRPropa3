@@ -18,12 +18,12 @@
 
 %include "crpropa/Version.h"
 %pythoncode %{
-    __version__ = g_GIT_DESC 
+    __version__ = g_GIT_DESC
 %}
 
 /* 3. Pretty print for Python */
 
-%define __REPR__( classname ) 
+%define __REPR__( classname )
 %feature("python:slot", "tp_str", functype="reprfunc") classname::repr();
 %feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
 
@@ -34,14 +34,14 @@
 }
 %enddef
 
-%define VECTOR3__REPR__( classname ) 
+%define VECTOR3__REPR__( classname )
 %feature("python:slot", "tp_str", functype="reprfunc") classname::repr();
 %feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
 
 %extend classname {
         const std::string repr() {
             char buffer[1024];
-            sprintf( buffer, "Vector( %.3g, %.3g, %.3g )", $self->x, $self->y, $self->z );
+            sprintf( buffer, "Vector( %.6G, %.6G, %.6G )", $self->x, $self->y, $self->z );
             return buffer;
         }
 }

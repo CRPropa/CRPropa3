@@ -34,10 +34,7 @@ static const double mass_neutron = 1.67492735e-27 * kilogram;
 static const double mass_electron = 9.10938291e-31 * kilogram;
 static const double h_planck = 6.62606957e-34 * joule * second;
 static const double k_boltzmann = 1.3806488e-23 * joule / kelvin;
-
-// other units
-static const double gram = 1e-3 * kilogram;
-static const double centimeter = 1e-2 * meter;
+static const double epsilon0 = 8.854187817e-12 * ampere * second / volt / meter;
 
 // gauss
 static const double gauss = 1e-4 * tesla;

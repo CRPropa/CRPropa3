@@ -78,7 +78,7 @@ void SynchrotronRadiation::initSpectrum() {
 void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 	double E = candidate->current.getEnergy();
 	double mass = candidate->current.getMass();
-	double charge = abs(candidate->current.getCharge() / eplus);
+	double charge = abs(candidate->current.getCharge());
 	double dE = loss; // energy loss
 	double z = candidate->getRedshift();
 	double B = 0.;
@@ -88,7 +88,7 @@ void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 	} else
 		B = sqrt(2./3.) * Brms; // represents average vertical component of RMS field strength
 	B *= pow(1 + z,2.); // cosmological scaling
-	double Ecrit = h_planck / 2. / M_PI * 3./2. * c_light / candidate->current.getMomentum().getR() * charge * eplus * B * pow(E / mass / c_squared,3.);
+	double Ecrit = h_planck / 2. / M_PI * 3./2. * c_light / candidate->current.getMomentum().getR() * charge * B * pow(E / mass / c_squared,3.);
 
 	// draw synchrotron photons as long as their energy is smaller than the energy loss in this propagation step
 	Random &random = Random::instance();
@@ -113,7 +113,7 @@ void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 }
 
 void SynchrotronRadiation::process(Candidate *candidate) const {
-	double charge = abs(candidate->current.getCharge() / eplus);
+	double charge = abs(candidate->current.getCharge());
 	if (charge == 0)
 		return; // only charged particles
 
@@ -128,7 +128,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	} else
 		B = sqrt(2./3.) * Brms; // represents average vertical component of RMS field strength
 	B *= pow(1 + z,2.); // cosmological scaling
-	double dEdx = 2./3./(4. * M_PI * epsilon0) * eplus * eplus * pow(gammaBeta,4.) * pow(charge * eplus * B / candidate->current.getMomentum().getR(),2.);
+	double dEdx = 2./3./(4. * M_PI * epsilon0) * eplus * eplus * pow(gammaBeta,4.) * pow(charge * B / candidate->current.getMomentum().getR(),2.);
 
 	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
 	double loss = step * dEdx; // energy loss
@@ -138,8 +138,8 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 
 	if (lf * mass * c_squared - loss <= 0) {
 		candidate->setActive(false);
-	}	else {
-	  candidate->current.setEnergy(lf * mass * c_squared - loss);
+	} else {
+		candidate->current.setEnergy(lf * mass * c_squared - loss);
 		double losslen = candidate->current.getEnergy() / dEdx;
 		candidate->limitNextStep(limit * losslen); // conservative estimate with old dEdx and new E
 	}
@@ -150,9 +150,9 @@ std::string SynchrotronRadiation::getDescription() const {
 	s << "Module for calculation of synchrotron energy loss and creation of synchrotron photons.";
 	s << " Have Synchrotron Photons: " << havePhotons;
 	if (field.valid())
-	  s << ", Use Magnetic Field";
+		s << ", Use Magnetic Field";
 	else
-	  s << ", Use Brms: " << Brms / nG << " nG";
+		s << ", Use Brms: " << Brms / nG << " nG";
 	return s.str();
 }
 

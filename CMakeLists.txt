@@ -349,6 +349,7 @@ add_library(crpropa SHARED
 	src/module/EMDoublePairProduction.cpp
 	src/module/EMTripletPairProduction.cpp
 	src/module/EMInverseComptonScattering.cpp
+	src/module/SynchrotronRadiation.cpp
 	src/module/Tools.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp

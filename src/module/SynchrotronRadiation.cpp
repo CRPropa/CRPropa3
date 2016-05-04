@@ -1,7 +1,5 @@
 #include "crpropa/module/SynchrotronRadiation.h"
 #include "crpropa/Units.h"
-#include "crpropa/ParticleID.h"
-#include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
 
 #include <fstream>
@@ -78,7 +76,7 @@ void SynchrotronRadiation::initSpectrum() {
 void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 	double E = candidate->current.getEnergy();
 	double mass = candidate->current.getMass();
-	double charge = abs(candidate->current.getCharge());
+	double charge = fabs(candidate->current.getCharge());
 	double dE = loss; // energy loss
 	double z = candidate->getRedshift();
 	double B = 0.;
@@ -113,7 +111,7 @@ void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 }
 
 void SynchrotronRadiation::process(Candidate *candidate) const {
-	double charge = abs(candidate->current.getCharge());
+	double charge = fabs(candidate->current.getCharge());
 	if (charge == 0)
 		return; // only charged particles
 

@@ -6,7 +6,7 @@
 #include "crpropa/module/Output.h"
 #include "stdint.h"
 
-typedef int hid_t;
+#include <H5Ipublic.h>
 
 namespace crpropa {
 
@@ -48,10 +48,6 @@ class HDF5Output: public Output {
 	hid_t dset, dataspace;
 	mutable std::vector<OutputRow> buffer;
 
-	void open(const std::string &filename);
-	void close();
-	void flush() const;
-
 public:
 	HDF5Output(const std::string &filename);
 	HDF5Output(const std::string &filename, OutputType outputtype);
@@ -59,6 +55,11 @@ public:
 
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
+
+	void open(const std::string &filename);
+	void close();
+	void flush() const;
+
 };
 
 } // namespace crpropa

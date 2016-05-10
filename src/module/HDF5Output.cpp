@@ -78,6 +78,7 @@ void HDF5Output::open(const std::string& filename) {
 void HDF5Output::close() {
 	if (file >= 0) {
 		flush();
+		H5Dclose(dset);
 		H5Tclose(sid);
 		H5Sclose(dataspace);
 		H5Fclose(file);
@@ -161,6 +162,8 @@ void HDF5Output::flush() const {
 	hid_t mspace_id = H5Screate_simple(RANK, cnt, NULL);
 
 	H5Dwrite(dset, sid, mspace_id, file_space, H5P_DEFAULT, buffer.data());
+
+	H5Sclose(mspace_id);
 	H5Sclose(file_space);
 
 	buffer.clear();

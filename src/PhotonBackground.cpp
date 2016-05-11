@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <limits>
+#include <math.h>
 
 namespace crpropa {
 
@@ -73,7 +74,12 @@ double photonFieldScaling(PhotonField photonField, double z) {
 	case IRB_withRedshift_Gilmore12:
 		return 1;  // no global evolution factor needed
 	case URB_Protheroe96:
-		return 1;  // no evolution available
+		if (z < 0.8)
+			return 1;
+		if (z < 6)
+			return pow((1 + 0.8) / (1 + z), 4);
+		else
+			return 0;
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");
 	}

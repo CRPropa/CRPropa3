@@ -26,8 +26,8 @@ void ComputeRedshifts(const int sourceTypeSwitch, const double leftRedshift,
 		      double* pCentralRedshift, int* pLastIndex) {
     double clusterRedshift,localRedshift,minRedshift,maxRedshift;
 
-    clusterRedshift = pow(1.-1.5e5*H_0/C*CLUSTER_DISTANCE,-2./3.)-1.;
-    localRedshift = pow(1.-1.5e5*H_0/C*SOURCE_CLUSTER_DISTANCE,-2./3.)-1.;
+    clusterRedshift = pow(1.-1.5e5*H_0/C_0*CLUSTER_DISTANCE,-2./3.)-1.;
+    localRedshift = pow(1.-1.5e5*H_0/C_0*SOURCE_CLUSTER_DISTANCE,-2./3.)-1.;
     maxRedshift = localRedshift;
     minRedshift = maxRedshift;
     if (clusterRedshift > maxRedshift)
@@ -69,7 +69,7 @@ void AdvanceNucleonStep(const int sourceTypeSwitch,
 			const double evolutionFactor,
 			const double convergeParameter,
 			const double bkgFactor,
-			const Spectrum* pQ_0, 
+			const Spectrum* pQ_0,
 			const DiffRate* elNeutProtonRate,
 			const DiffRate* muonNeutProtonRate,
 			const DiffRate* tauNeutProtonRate,
@@ -81,7 +81,7 @@ void AdvanceNucleonStep(const int sourceTypeSwitch,
 			const DiffRate* neutronProtonRate,
 			const DiffRate* neutronDecayProtonRate,
 			const dCVector* protonContinuousLoss,
-			const dCVector* deltaG, const Spectrum* pSpectrum, 
+			const dCVector* deltaG, const Spectrum* pSpectrum,
 			Spectrum* pSpectrumNew) {
   Spectrum spectrumTemp;
   Spectrum influx;
@@ -90,51 +90,51 @@ void AdvanceNucleonStep(const int sourceTypeSwitch,
   Spectrum outflux;
   int num_main_bins;
   double changeMax;
-  
+
   num_main_bins = pSpectrum->numberOfMainBins;
-  
+
   NewSpectrum(&spectrumTemp, num_main_bins);
   NewSpectrum(&influx, num_main_bins);
   NewSpectrum(&influx0, num_main_bins);
   NewSpectrum(&influxExt, num_main_bins);
   NewSpectrum(&outflux, num_main_bins);
-  
+
   GetExternalFlux(sourceTypeSwitch, evolutionFactor, PROTON, pQ_0,
 		  &influxExt);
-  GetExternalFlux(sourceTypeSwitch, evolutionFactor, NEUTRON, pQ_0, 
+  GetExternalFlux(sourceTypeSwitch, evolutionFactor, NEUTRON, pQ_0,
 		  &influxExt);
-  
+
   if (neutrinoNeutrinoSwitch == 1)
     GetNucleonInfluxFromNeutrinos(bkgFactor, elNeutProtonRate,
-				  muonNeutProtonRate, tauNeutProtonRate, 
+				  muonNeutProtonRate, tauNeutProtonRate,
 				  pSpectrumNew, &influx0);
-  
+
   do {
     SetNucleonSpectrum(&spectrumTemp, pSpectrumNew);
-    
+
     InitializeSpectrum(&influx);
     InitializeSpectrum(&outflux);
-    
-    if ((PPPSwitch == 1) || (NPPSwitch == 1) || 
+
+    if ((PPPSwitch == 1) || (NPPSwitch == 1) ||
 	(neutronDecaySwitch == 1)) {
       // call all the processes that produce nucleons from nucleons
-      GetNucleonFluxFromNucleons(neutronDecaySwitch, protonTotalRate, 
-				 neutronTotalRate, neutronDecayRate, protonScatRate, 
-				 neutronProtonRate, protonNeutronRate, 
-				 neutronDecayProtonRate, protonContinuousLoss, 
+      GetNucleonFluxFromNucleons(neutronDecaySwitch, protonTotalRate,
+				 neutronTotalRate, neutronDecayRate, protonScatRate,
+				 neutronProtonRate, protonNeutronRate,
+				 neutronDecayProtonRate, protonContinuousLoss,
 				 deltaG, pSpectrumNew, &influx, &outflux);
     }
-    
-    ImplicitEquation(smallDistanceStep, PROTON, &influx, &influx0, 
+
+    ImplicitEquation(smallDistanceStep, PROTON, &influx, &influx0,
 		     &influxExt, &outflux, pSpectrum, pSpectrumNew);
-    ImplicitEquation(smallDistanceStep, NEUTRON, &influx, &influx0, 
+    ImplicitEquation(smallDistanceStep, NEUTRON, &influx, &influx0,
 		     &influxExt, &outflux, pSpectrum, pSpectrumNew);
-    
+
     changeMax = 0.;
     ComputeChange(&spectrumTemp, pSpectrumNew, PROTON, &changeMax);
     ComputeChange(&spectrumTemp, pSpectrumNew, NEUTRON, &changeMax);
   } while (changeMax > convergeParameter);
-  
+
   DeleteSpectrum(&spectrumTemp);
   DeleteSpectrum(&influx);
   DeleteSpectrum(&influx0);
@@ -145,14 +145,14 @@ void AdvanceNucleonStep(const int sourceTypeSwitch,
 
 void AdvanceNeutrinoStep(const int sourceTypeSwitch,
 			 const int neutrinoNeutrinoSwitch,
-			 const int PPPSwitch, 
+			 const int PPPSwitch,
 			 const int neutronDecaySwitch,
 			 const int nucleonToSecondarySwitch,
 			 const double smallDistanceStep,
 			 const double evolutionFactor,
 			 const double convergeParameter,
 			 const double bkgFactor,
-			 const Spectrum* pQ_0, 
+			 const Spectrum* pQ_0,
 			 const DiffRate* protonMuonNeutrinoRate,
 			 const DiffRate* neutronAntiMuonNeutrinoRate,
 			 const DiffRate* protonAntiMuonNeutrinoRate,
@@ -194,11 +194,11 @@ void AdvanceNeutrinoStep(const int sourceTypeSwitch,
 
     GetExternalFlux(sourceTypeSwitch, evolutionFactor, MUON_NEUTRINO, pQ_0,
         &influxExt);
-    GetExternalFlux(sourceTypeSwitch, evolutionFactor, ANTI_MUON_NEUTRINO, 
+    GetExternalFlux(sourceTypeSwitch, evolutionFactor, ANTI_MUON_NEUTRINO,
         pQ_0, &influxExt);
     GetExternalFlux(sourceTypeSwitch, evolutionFactor, ELECTRON_NEUTRINO, pQ_0,
         &influxExt);
-    GetExternalFlux(sourceTypeSwitch, evolutionFactor, ANTI_ELECTRON_NEUTRINO, 
+    GetExternalFlux(sourceTypeSwitch, evolutionFactor, ANTI_ELECTRON_NEUTRINO,
         pQ_0, &influxExt);
     GetExternalFlux(sourceTypeSwitch, evolutionFactor, TAU_NEUTRINO, pQ_0,
         &influxExt);
@@ -213,11 +213,11 @@ void AdvanceNeutrinoStep(const int sourceTypeSwitch,
     {
         if ((PPPSwitch == 1) || (neutronDecaySwitch == 1))
 	{
-	    GetNeutrinoInfluxFromNucleons(neutronDecaySwitch, 
-                protonMuonNeutrinoRate, neutronAntiMuonNeutrinoRate, 
-                neutronMuonNeutrinoRate, protonAntiMuonNeutrinoRate, 
-                protonElectronNeutrinoRate, neutronAntiElectronNeutrinoRate, 
-                protonAntiElectronNeutrinoRate, neutronDecayElectronRate, 
+	    GetNeutrinoInfluxFromNucleons(neutronDecaySwitch,
+                protonMuonNeutrinoRate, neutronAntiMuonNeutrinoRate,
+                neutronMuonNeutrinoRate, protonAntiMuonNeutrinoRate,
+                protonElectronNeutrinoRate, neutronAntiElectronNeutrinoRate,
+                protonAntiElectronNeutrinoRate, neutronDecayElectronRate,
                 pSpectrumNew, &influx0);
 	}
     }
@@ -239,31 +239,31 @@ void AdvanceNeutrinoStep(const int sourceTypeSwitch,
                 tauNeutScatRate, pSpectrumNew, &influx, &outflux);
 	}
 
-	ImplicitEquation(smallDistanceStep, MUON_NEUTRINO, &influx, 
+	ImplicitEquation(smallDistanceStep, MUON_NEUTRINO, &influx,
             &influx0, &influxExt, &outflux, pSpectrum, pSpectrumNew);
-	ImplicitEquation(smallDistanceStep, ANTI_MUON_NEUTRINO, &influx, 
+	ImplicitEquation(smallDistanceStep, ANTI_MUON_NEUTRINO, &influx,
             &influx0, &influxExt, &outflux, pSpectrum, pSpectrumNew);
-	ImplicitEquation(smallDistanceStep, ELECTRON_NEUTRINO, &influx, 
+	ImplicitEquation(smallDistanceStep, ELECTRON_NEUTRINO, &influx,
             &influx0, &influxExt, &outflux, pSpectrum, pSpectrumNew);
-	ImplicitEquation(smallDistanceStep, ANTI_ELECTRON_NEUTRINO, &influx, 
+	ImplicitEquation(smallDistanceStep, ANTI_ELECTRON_NEUTRINO, &influx,
             &influx0, &influxExt, &outflux, pSpectrum, pSpectrumNew);
-	ImplicitEquation(smallDistanceStep, TAU_NEUTRINO, &influx, 
+	ImplicitEquation(smallDistanceStep, TAU_NEUTRINO, &influx,
             &influx0, &influxExt, &outflux, pSpectrum, pSpectrumNew);
-	ImplicitEquation(smallDistanceStep, ANTI_TAU_NEUTRINO, &influx, 
+	ImplicitEquation(smallDistanceStep, ANTI_TAU_NEUTRINO, &influx,
             &influx0, &influxExt, &outflux, pSpectrum, pSpectrumNew);
 
 	changeMax = 0.;
-	ComputeChange(&spectrumTemp, pSpectrumNew, ELECTRON_NEUTRINO, 
+	ComputeChange(&spectrumTemp, pSpectrumNew, ELECTRON_NEUTRINO,
             &changeMax);
-	ComputeChange(&spectrumTemp, pSpectrumNew, ANTI_ELECTRON_NEUTRINO, 
+	ComputeChange(&spectrumTemp, pSpectrumNew, ANTI_ELECTRON_NEUTRINO,
             &changeMax);
-	ComputeChange(&spectrumTemp, pSpectrumNew, MUON_NEUTRINO, 
+	ComputeChange(&spectrumTemp, pSpectrumNew, MUON_NEUTRINO,
             &changeMax);
-	ComputeChange(&spectrumTemp, pSpectrumNew, ANTI_MUON_NEUTRINO, 
+	ComputeChange(&spectrumTemp, pSpectrumNew, ANTI_MUON_NEUTRINO,
             &changeMax);
-	ComputeChange(&spectrumTemp, pSpectrumNew, TAU_NEUTRINO, 
+	ComputeChange(&spectrumTemp, pSpectrumNew, TAU_NEUTRINO,
             &changeMax);
-	ComputeChange(&spectrumTemp, pSpectrumNew, ANTI_TAU_NEUTRINO, 
+	ComputeChange(&spectrumTemp, pSpectrumNew, ANTI_TAU_NEUTRINO,
             &changeMax);
     } while (changeMax > convergeParameter);
 
@@ -274,7 +274,7 @@ void AdvanceNeutrinoStep(const int sourceTypeSwitch,
     DeleteSpectrum(&outflux);
 }
 
-void AdvanceNucNeutStep(const int sourceTypeSwitch, 
+void AdvanceNucNeutStep(const int sourceTypeSwitch,
 			const int PPPSwitch, const int NPPSwitch,
 			const int neutronDecaySwitch,
 			const int nucleonToSecondarySwitch,
@@ -322,7 +322,7 @@ void AdvanceNucNeutStep(const int sourceTypeSwitch,
     /*  temporary spectrum used in swapping spectra */
     double changeGlobal;
     int num_main_bins;
-    
+
     num_main_bins = pSpectrum->numberOfMainBins;
 
     NewSpectrum(&spectrumGlobalTemp, num_main_bins);
@@ -331,38 +331,38 @@ void AdvanceNucNeutStep(const int sourceTypeSwitch,
 	SetNucleonSpectrum(&spectrumGlobalTemp, pSpectrumNew);
 	SetNeutrinoSpectrum(&spectrumGlobalTemp, pSpectrumNew);
 
-	
+
 	AdvanceNucleonStep(sourceTypeSwitch, PPPSwitch, NPPSwitch,
             neutronDecaySwitch, neutrinoNeutrinoSwitch, smallDistanceStep,
-            evolutionFactor, convergeParameter, bkgFactor, pQ_0, 
-            elNeutProtonRate, muonNeutProtonRate, tauNeutProtonRate, 
-            protonTotalRate, neutronTotalRate, neutronDecayRate, 
-            protonScatRate, protonNeutronRate, neutronProtonRate, 
-            neutronDecayProtonRate, protonContinuousLoss, deltaG, pSpectrum, 
+            evolutionFactor, convergeParameter, bkgFactor, pQ_0,
+            elNeutProtonRate, muonNeutProtonRate, tauNeutProtonRate,
+            protonTotalRate, neutronTotalRate, neutronDecayRate,
+            protonScatRate, protonNeutronRate, neutronProtonRate,
+            neutronDecayProtonRate, protonContinuousLoss, deltaG, pSpectrum,
             pSpectrumNew);
-	
+
 	AdvanceNeutrinoStep(sourceTypeSwitch, neutrinoNeutrinoSwitch,
             PPPSwitch, neutronDecaySwitch, nucleonToSecondarySwitch,
-            smallDistanceStep, evolutionFactor, convergeParameter, bkgFactor, 
-            pQ_0, protonMuonNeutrinoRate, neutronAntiMuonNeutrinoRate, 
-            protonAntiMuonNeutrinoRate, neutronMuonNeutrinoRate, 
-            protonElectronNeutrinoRate, neutronAntiElectronNeutrinoRate, 
-            protonAntiElectronNeutrinoRate, neutronDecayElectronRate, 
-            elNeutTotalRate, muonNeutTotalRate, tauNeutTotalRate, 
-            elNeutScatRate, elNeutMuonNeutRate, elNeutTauNeutRate, 
-            muonNeutElNeutRate, muonNeutScatRate, muonNeutTauNeutRate, 
-            tauNeutElNeutRate, tauNeutMuonNeutRate, tauNeutScatRate, 
+            smallDistanceStep, evolutionFactor, convergeParameter, bkgFactor,
+            pQ_0, protonMuonNeutrinoRate, neutronAntiMuonNeutrinoRate,
+            protonAntiMuonNeutrinoRate, neutronMuonNeutrinoRate,
+            protonElectronNeutrinoRate, neutronAntiElectronNeutrinoRate,
+            protonAntiElectronNeutrinoRate, neutronDecayElectronRate,
+            elNeutTotalRate, muonNeutTotalRate, tauNeutTotalRate,
+            elNeutScatRate, elNeutMuonNeutRate, elNeutTauNeutRate,
+            muonNeutElNeutRate, muonNeutScatRate, muonNeutTauNeutRate,
+            tauNeutElNeutRate, tauNeutMuonNeutRate, tauNeutScatRate,
             pSpectrum, pSpectrumNew);
 
         /*global convergence */
         changeGlobal = 0.;
-	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, PROTON,   
+	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, PROTON,
             &changeGlobal);
-	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, NEUTRON,  
+	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, NEUTRON,
             &changeGlobal);
 	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, ELECTRON_NEUTRINO,
             &changeGlobal);
-	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, 
+	ComputeChange(&spectrumGlobalTemp, pSpectrumNew,
             ANTI_ELECTRON_NEUTRINO, &changeGlobal);
 	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, MUON_NEUTRINO,
             &changeGlobal);
@@ -380,17 +380,17 @@ void AdvanceNucNeutStep(const int sourceTypeSwitch,
 
 
 void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
-		   const int ICSSwitch, const int TPPSwitch, 
+		   const int ICSSwitch, const int TPPSwitch,
 		   const int DPPSwitch, const int synchrotronSwitch,
 		   const int PPPSwitch, const int NPPSwitch,
 		   const int neutronDecaySwitch,
 		   const int nucleonToSecondarySwitch,
 		   const int neutrinoNeutrinoSwitch,
-		   const double smallDistanceStep, 
-		   const double evolutionFactor, 
+		   const double smallDistanceStep,
+		   const double evolutionFactor,
 		   const double convergeParameter, const double bkgFactor,
 		   const Spectrum* pQ_0,
-		   const DiffRate* photonLeptonRate, 
+		   const DiffRate* photonLeptonRate,
 		   const DiffRate* protonElectronRate,
 		   const DiffRate* neutronPositronRate,
 		   const DiffRate* protonPositronRate,
@@ -403,13 +403,13 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
 		   const DiffRate* elNeutPhotonRate,
 		   const DiffRate* muonNeutPhotonRate,
 		   const DiffRate* tauNeutPhotonRate,
-		   const TotalRate* leptonTotalRate, 
+		   const TotalRate* leptonTotalRate,
 		   const DiffRate* leptonScatRate,
-		   const DiffRate* leptonExchRate, 
+		   const DiffRate* leptonExchRate,
 		   const dCVector* continuousLoss, const dCVector* deltaG,
 		   const TotalRate* photonTotalRate,
-		   const DiffRate* leptonPhotonRate, 
-		   const DiffRate* syncRate, const Spectrum* pSpectrum, 
+		   const DiffRate* leptonPhotonRate,
+		   const DiffRate* syncRate, const Spectrum* pSpectrum,
 		   Spectrum* pSpectrumNew)
 {
     int i;
@@ -456,19 +456,19 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
         /* influx from pair production/double pair production */
 	if ((PPSwitch == 1) || (DPPSwitch == 1))
 	{
-	    GetLeptonInfluxFromPhotons(photonLeptonRate, pSpectrumNew, 
+	    GetLeptonInfluxFromPhotons(photonLeptonRate, pSpectrumNew,
                 &influx0);
 	}
 
 	/* influx from nucleons */
 	if (nucleonToSecondarySwitch == 1)    /* secondary tables included */
 	{
-	    if ((PPPSwitch == 1) || (NPPSwitch == 1) || 
+	    if ((PPPSwitch == 1) || (NPPSwitch == 1) ||
 		(neutronDecaySwitch == 1))
 	    {
-	        GetLeptonInfluxFromNucleons(neutronDecaySwitch, 
-                    protonElectronRate, neutronPositronRate, 
-                    protonPositronRate, neutronElectronRate, 
+	        GetLeptonInfluxFromNucleons(neutronDecaySwitch,
+                    protonElectronRate, neutronPositronRate,
+                    protonPositronRate, neutronElectronRate,
                     neutronDecayElectronRate, pSpectrumNew, &influx0);
 	    }
 	}
@@ -476,36 +476,36 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
 	/* influx from neutrinos */
 	if (neutrinoNeutrinoSwitch == 1)
 	{
-	    GetLeptonInfluxFromNeutrinos(bkgFactor, elNeutElectronRate, 
-                muonNeutElectronRate, tauNeutElectronRate, pSpectrumNew, 
+	    GetLeptonInfluxFromNeutrinos(bkgFactor, elNeutElectronRate,
+                muonNeutElectronRate, tauNeutElectronRate, pSpectrumNew,
                 &influx0);
 	}
 
         do {
             for (i = 0; i < num_main_bins; i++)
             {
-                spectrumTemp.spectrum[ELECTRON][i] = 
+                spectrumTemp.spectrum[ELECTRON][i] =
 		    (pSpectrumNew->spectrum)[ELECTRON][i];
-                spectrumTemp.spectrum[POSITRON][i] = 
+                spectrumTemp.spectrum[POSITRON][i] =
 		    (pSpectrumNew->spectrum)[POSITRON][i];
             }
 
 	    InitializeSpectrum(&influx);
 	    InitializeSpectrum(&outflux);
 
-            /* influx & outflux from inverse Compton scattering/synchrotron 
+            /* influx & outflux from inverse Compton scattering/synchrotron
                 radiation */
-	    if ((ICSSwitch == 1) || (TPPSwitch == 1) || 
+	    if ((ICSSwitch == 1) || (TPPSwitch == 1) ||
 		(synchrotronSwitch == 1))
 	    {
-		GetLeptonFluxFromLeptons(leptonTotalRate, leptonScatRate, 
-                    leptonExchRate, continuousLoss, deltaG, pSpectrumNew, 
+		GetLeptonFluxFromLeptons(leptonTotalRate, leptonScatRate,
+                    leptonExchRate, continuousLoss, deltaG, pSpectrumNew,
 		    &influx, &outflux);
 	    }
 
-	    ImplicitEquation(smallDistanceStep, ELECTRON, &influx, &influx0, 
+	    ImplicitEquation(smallDistanceStep, ELECTRON, &influx, &influx0,
 		&influxExt, &outflux, pSpectrum, pSpectrumNew);
-	    ImplicitEquation(smallDistanceStep, POSITRON, &influx, &influx0, 
+	    ImplicitEquation(smallDistanceStep, POSITRON, &influx, &influx0,
 		&influxExt, &outflux, pSpectrum, pSpectrumNew);
             /* main difference equation part */
 
@@ -527,14 +527,14 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
         /* influx from electrons (ICS/synchrotron) */
 	if ((ICSSwitch == 1) || (synchrotronSwitch == 1))
 	{
-	    GetPhotonInfluxFromLeptons(leptonPhotonRate, synchrotronSwitch, 
+	    GetPhotonInfluxFromLeptons(leptonPhotonRate, synchrotronSwitch,
                 syncRate, pSpectrumNew, &influx0);
 	}
 
 	/* influx from nucleons */
 	if ((nucleonToSecondarySwitch == 1) && (PPPSwitch == 1))
 	{
-	    GetPhotonInfluxFromNucleons(protonPhotonRate, pSpectrumNew, 
+	    GetPhotonInfluxFromNucleons(protonPhotonRate, pSpectrumNew,
                 &influx0);
 	}
 	if (neutrinoNeutrinoSwitch == 1)
@@ -546,7 +546,7 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
         do {
             for (i = 0; i < num_main_bins; i++)
 	    {
-                spectrumTemp.spectrum[PHOTON][i] = 
+                spectrumTemp.spectrum[PHOTON][i] =
 		    (pSpectrumNew->spectrum)[PHOTON][i];
 	    }
 
@@ -557,7 +557,7 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
 		GetPhotonFluxFromPhotons(photonTotalRate, &outflux);
 	    }
 
-	    ImplicitEquation(smallDistanceStep, PHOTON, &influx, &influx0, 
+	    ImplicitEquation(smallDistanceStep, PHOTON, &influx, &influx0,
 		&influxExt, &outflux, pSpectrum, pSpectrumNew);
             /* main difference equation */
 
@@ -567,11 +567,11 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
 
         /*global convergence */
         changeGlobal = 0.;
-	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, ELECTRON, 
+	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, ELECTRON,
             &changeGlobal);
-	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, POSITRON, 
+	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, POSITRON,
             &changeGlobal);
-	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, PHOTON, 
+	ComputeChange(&spectrumGlobalTemp, pSpectrumNew, PHOTON,
             &changeGlobal);
     } while (changeGlobal > convergeParameter);
 
@@ -585,7 +585,7 @@ void AdvanceEMStep(const int sourceTypeSwitch, const int PPSwitch,
 
 
 void RedshiftDown(const int lastIndex, const double redshiftRatio,
-                  const dCVector* pEnergy, Spectrum* pSpectrum, 
+                  const dCVector* pEnergy, Spectrum* pSpectrum,
 		  Spectrum* pSpectrumNew)
 {
     int i;
@@ -602,8 +602,8 @@ void RedshiftDown(const int lastIndex, const double redshiftRatio,
 }
 
 
-void RedshiftBinsDown(const int lastIndex, const double redshiftRatio, 
-                      const dCVector* pEnergy, double* pSpectrum, 
+void RedshiftBinsDown(const int lastIndex, const double redshiftRatio,
+                      const dCVector* pEnergy, double* pSpectrum,
 		      double* pSpectrumNew)
 /* redshift particle distributions at the end of a big dx */
 {
@@ -661,7 +661,7 @@ void RedshiftBinsDown(const int lastIndex, const double redshiftRatio,
 		}
                 if (iMod < 0)
 		{
-                    Error("RedshiftBinsDown: iMod became negative.", 
+                    Error("RedshiftBinsDown: iMod became negative.",
 			PROGRAM_ERROR);   /* get the hell out of here! */
 		}
                 iMod2 = iMod + 1;
@@ -669,7 +669,7 @@ void RedshiftBinsDown(const int lastIndex, const double redshiftRatio,
 		{
                     inflow = pSpectrum[num_main_bins-1];
 		}
-                else if ((pSpectrum[iMod] < 1.e-40) || 
+                else if ((pSpectrum[iMod] < 1.e-40) ||
                     (pSpectrum[iMod2] < 1.e-40))
                 {
 #ifdef DEBUG
@@ -705,7 +705,7 @@ void RedshiftBinsDown(const int lastIndex, const double redshiftRatio,
         {
 	    if (spectrumTemp.vector[i] < 0.)
 	    {
-		Error("RedshiftBinsDown: spectrumTemp negative.", 
+		Error("RedshiftBinsDown: spectrumTemp negative.",
 		    PROGRAM_ERROR);
 	    }
             pSpectrum[i] = spectrumTemp.vector[i];
@@ -735,16 +735,16 @@ void GetExternalFlux(const int sourceTypeSwitch, const double evolutionFactor,
 	}
 	else
 	{
-	    (pInfluxExt->spectrum)[particle][i] = 
+	    (pInfluxExt->spectrum)[particle][i] =
 	        (pQ_0->spectrum)[particle][i]*evolutionFactor;
 	}
     }
 }
 
-void ImplicitEquation(const double smallDistanceStep, 
-		      const PARTICLE particle, const Spectrum* pInflux, 
-		      const Spectrum* pInflux0, const Spectrum* pInfluxExt, 
-		      const Spectrum* pOutflux, const Spectrum* pSpectrum, 
+void ImplicitEquation(const double smallDistanceStep,
+		      const PARTICLE particle, const Spectrum* pInflux,
+		      const Spectrum* pInflux0, const Spectrum* pInfluxExt,
+		      const Spectrum* pOutflux, const Spectrum* pSpectrum,
 		      Spectrum* pSpectrumNew)
 {
     /* influx: influx from the same KIND of species (e-: e+/-, p: p/n, etc.)
@@ -767,10 +767,10 @@ void ImplicitEquation(const double smallDistanceStep,
 
     for (i = 0; i < num_main_bins; i++)
     {
-	(pSpectrumNew->spectrum)[particle][i] = 
-	    ((pInflux->spectrum)[particle][i] + 
-            (pInflux0->spectrum)[particle][i] + 
-	    (pInfluxExt->spectrum)[particle][i] + 
+	(pSpectrumNew->spectrum)[particle][i] =
+	    ((pInflux->spectrum)[particle][i] +
+            (pInflux0->spectrum)[particle][i] +
+	    (pInfluxExt->spectrum)[particle][i] +
             (pSpectrum->spectrum)[particle][i]/smallDistanceStep)/
 	    ((pOutflux->spectrum)[particle][i] + 1./smallDistanceStep);
 	/* main difference equation */
@@ -783,7 +783,7 @@ void ImplicitEquation(const double smallDistanceStep,
     }
 }
 
-void ExplicitEquation(const double smallDistanceStep, 
+void ExplicitEquation(const double smallDistanceStep,
 		      const PARTICLE particle, const Spectrum* pInflux,
 		      const Spectrum* pInflux0, const Spectrum* pInfluxExt,
 		      const Spectrum* pOutflux, const Spectrum* pSpectrum,
@@ -805,11 +805,11 @@ void ExplicitEquation(const double smallDistanceStep,
 
     for (i = 0; i < num_main_bins; i++)
     {
-	(pSpectrumNew->spectrum)[particle][i] = 
+	(pSpectrumNew->spectrum)[particle][i] =
 	    (pSpectrum->spectrum)[particle][i] + smallDistanceStep*
-	    ((pInflux->spectrum)[particle][i] + 
-	    (pInflux0->spectrum)[particle][i] + 
-            (pInfluxExt->spectrum)[particle][i] - 
+	    ((pInflux->spectrum)[particle][i] +
+	    (pInflux0->spectrum)[particle][i] +
+            (pInfluxExt->spectrum)[particle][i] -
 	    (pSpectrum->spectrum)[particle][i]*
             (pOutflux->spectrum)[particle][i]);
 
@@ -820,8 +820,8 @@ void ExplicitEquation(const double smallDistanceStep,
     }
 }
 
-void ComputeChange(const Spectrum* pSpectrumTemp, 
-		   const Spectrum* pSpectrumNew, 
+void ComputeChange(const Spectrum* pSpectrumTemp,
+		   const Spectrum* pSpectrumNew,
 		   const PARTICLE particle, double* pChangeMax)
 {
     double change;
@@ -831,10 +831,10 @@ void ComputeChange(const Spectrum* pSpectrumTemp,
     {
 	Error("ComputeChange: inconsistent dimensions", PROGRAM_ERROR);
     }
-    
+
     for (i = 0; i < pSpectrumNew->numberOfMainBins; i++)
     {
-	change = fabs((pSpectrumNew->spectrum)[particle][i] - 
+	change = fabs((pSpectrumNew->spectrum)[particle][i] -
 	    (pSpectrumTemp->spectrum)[particle][i])/
 	    (fabs((pSpectrumTemp->spectrum)[particle][i]) + EPSILON);
 	if (change > *pChangeMax)

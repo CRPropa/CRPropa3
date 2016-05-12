@@ -6,11 +6,11 @@
 #define DISTANCE_UNIT 3.0856e18
 #define VOLUME_UNIT 6.652448e-25*3.0856e18
 #define PI 3.141592
-#define C 3.e10
+#define C_0 3.e10
+// Added July 2005 : cosmological parameters; if not specified as parameters, take these values
 #define H_0 71.
-// Added July 2005 : cosmological parameters
-#define OMEGA_M 0.3// NOW THEY ARE NOT defined like this, but taken as input parameters.
-#define OMEGA_LAMBDA 0.7 // if not specified as parameters, take these values
+#define OMEGA_M 0.3
+#define OMEGA_LAMBDA 0.7
 
 // CHANGE (Guenter; 7/20/1998)
 #define DMAX  1.e6

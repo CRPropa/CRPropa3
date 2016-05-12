@@ -4,8 +4,8 @@
 #include "dint/const.h"
 
 void CheckEnergy(const int sourceTypeSwitch, const double brightPhaseExp,
-                 const double startingRedshift, 
-		 const double rightRedshift, const Spectrum* pSpectrum, 
+                 const double startingRedshift,
+		 const double rightRedshift, const Spectrum* pSpectrum,
 		 const dCVector* pEnergy, const double initialTotalEnergy)
 {
     int i;
@@ -27,7 +27,7 @@ void CheckEnergy(const int sourceTypeSwitch, const double brightPhaseExp,
     {
         photonNumber += (pSpectrum->spectrum)[PHOTON][i];
         photonEnergy += (pSpectrum->spectrum)[PHOTON][i]*(pEnergy->vector)[i];
-        leptonNumber += (pSpectrum->spectrum)[ELECTRON][i] + 
+        leptonNumber += (pSpectrum->spectrum)[ELECTRON][i] +
 	    (pSpectrum->spectrum)[POSITRON][i];
         leptonEnergy += (pEnergy->vector)[i]*
 	    ((pSpectrum->spectrum)[ELECTRON][i] +
@@ -45,7 +45,7 @@ void CheckEnergy(const int sourceTypeSwitch, const double brightPhaseExp,
 	energyRedshiftFactor = 1./pow(tempFraction, 4);
     else
     {
-	energyRedshiftFactor = C/H_0*1.e6/1.e5*pow(1. + startingRedshift,
+	energyRedshiftFactor = C_0/H_0*1.e6/1.e5*pow(1. + startingRedshift,
             -1.5)/pow(tempFraction,1.5+brightPhaseExp)/(brightPhaseExp-2.5)*
 	    (pow(tempFraction,brightPhaseExp-2.5) - 1.);
     }
@@ -56,7 +56,7 @@ void CheckEnergy(const int sourceTypeSwitch, const double brightPhaseExp,
 }
 
 
-void FinalPrintOutToTheScreen(const double distance, 
+void FinalPrintOutToTheScreen(const double distance,
 			      const double startingRedshift,
 			      const double propagatingDistance)
 {
@@ -64,7 +64,7 @@ void FinalPrintOutToTheScreen(const double distance,
 
     printf("\n\nTotal distance was %g Mpc ",
         distance/DISTANCE_UNIT/1.e6);
-    analyticalDistance = 2./3.*C*1.e-5/H_0*(1. - 
+    analyticalDistance = 2./3.*C_0*1.e-5/H_0*(1. -
         pow(1. + startingRedshift, -3./2.));
     printf("vs. real distance %g Mpc.\n", analyticalDistance);
     printf("And total x was %g pc\n", propagatingDistance);

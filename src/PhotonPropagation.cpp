@@ -145,13 +145,6 @@ void FillInSpectrum(Spectrum *a, const _Secondary &s) {
 		std::cout << "DintPropagation: Unhandled particle ID " << s.Id << std::endl;
 }
 
-void AddSpectrum(Spectrum *a, const Spectrum *b) {
-	for (int i = 0; i < NUM_SPECIES; i++) {
-		for (int j = 0; j < a->numberOfMainBins; j++)
-			a->spectrum[i][j] += b->spectrum[i][j];
-	}
-}
-
 void DintPropagation(
 		const std::string &inputfile,
 		const std::string &outputfile,
@@ -176,19 +169,13 @@ void DintPropagation(
 		throw std::runtime_error(
 				"DintPropagation: could not open file " + inputfile);
 
-	// initialize the B-field
-	dCVector bField;
-	New_dCVector(&bField, 5);
-	for (size_t i = 0; i < 5; i++)
-		bField.vector[i] = magneticFieldStrength / gauss;
-
 	// initialize the spectrum
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
 	InitializeSpectrum(&finalSpectrum);
 
 	std::string dataPath = getDataPath("dint");
-	double B = magneticFieldStrength/gauss;
+	double B = magneticFieldStrength / gauss;
 	double h = H0() * Mpc / 1000;
 	DintEMCascade dint(IRBFlag, RadioFlag, dataPath, B, h, omegaM(), omegaL());
 
@@ -268,7 +255,6 @@ void DintPropagation(
 	}
 
 	DeleteSpectrum(&finalSpectrum);
-	Delete_dCVector(&bField);
 	Delete_dCVector(&energyGrid);
 	Delete_dCVector(&energyWidth);
 }

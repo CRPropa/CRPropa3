@@ -39,8 +39,7 @@
 #include "crpropa/module/OutputShell.h"
 #include "crpropa/module/OutputROOT.h"
 #include "crpropa/module/OutputCRPropa2.h"
-#include "crpropa/module/PhotonDINT.h"
-#include "crpropa/module/PhotonDINT1D.h"
+#include "crpropa/module/EMCascade.h"
 #include "crpropa/module/PhotonEleCa.h"
 #include "crpropa/module/PhotonOutput1D.h"
 #include "crpropa/module/SimplePropagation.h"
@@ -124,16 +123,16 @@
         std::string value;
         std::string input;
 
-        if (PyString_Check( name )){ 
+        if (PyString_Check( name )){
             input = PyString_AsString( name );
         } else {
             std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
             return NULL;
-        }   
+        }
         $self->getProperty( input, value );
 
         return PyString_FromString( value.c_str() );
-    }   
+    }
 };
 %template(CandidateVector) std::vector< crpropa::ref_ptr<crpropa::Candidate> >;
 %template(CandidateRefPtr) crpropa::ref_ptr<crpropa::Candidate>;
@@ -177,8 +176,7 @@
 %include "crpropa/module/OutputShell.h"
 %include "crpropa/module/OutputROOT.h"
 %include "crpropa/module/OutputCRPropa2.h"
-%include "crpropa/module/PhotonDINT.h"
-%include "crpropa/module/PhotonDINT1D.h"
+%include "crpropa/module/EMCascade.h"
 %include "crpropa/module/PhotonEleCa.h"
 %include "crpropa/module/PhotonOutput1D.h"
 %include "crpropa/module/ElectronPairProduction.h"

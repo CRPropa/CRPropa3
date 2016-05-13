@@ -2,9 +2,6 @@
 #define CRPROPA_EMCASCADE_H
 
 #include "crpropa/Module.h"
-#include "crpropa/Units.h"
-
-#include <fstream>
 
 namespace crpropa {
 
@@ -14,16 +11,9 @@ namespace crpropa {
  */
 class EMCascade: public Module {
 private:
-	// fixed energy binning of DINT
-	const int nE = 170;
-	const double logEmin = 7;
-	const double logEmax = 24;
-	const double dlogE = 0.1;
-
-	// distance binning
-	int nD;
-	double Dmax;
-	double dD;
+	// energy and distance binning
+	int nE, nD;
+	double logEmin, logEmax, dlogE, Dmax, dD;
 
 	// histograms (distance,energy) of photons, electrons and positrons
 	mutable std::vector<uint> photonHist;

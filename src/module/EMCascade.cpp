@@ -1,8 +1,10 @@
 #include "crpropa/module/EMCascade.h"
 #include "crpropa/Cosmology.h"
+#include "crpropa/Units.h"
 
 #include "dint/DintEMCascade.h"
 
+#include <fstream>
 #include <sstream>
 #include <iostream>
 #include <iomanip>
@@ -11,7 +13,7 @@
 
 namespace crpropa {
 
-EMCascade::EMCascade() {
+EMCascade::EMCascade() : nE(170), logEmin(7), logEmax(24), dlogE(0.1) {
 	setDistanceBinning(1000 * Mpc, 1000);
 }
 

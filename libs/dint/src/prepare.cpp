@@ -11,7 +11,7 @@
 #include "dint/decay.h"
 
 
-void SetEnergyBins(const int min_energy_exp, dCVector* pEnergy, 
+void SetEnergyBins(const int min_energy_exp, dCVector* pEnergy,
 		   dCVector* pEnergyWidth)
 {
     int i;
@@ -84,9 +84,9 @@ void GetModeOfInput(FILE* input, int* pInputMethodSwitch)
 }
 
 void BasicParameterInput(FILE* input, const int argc, int* pMinEnergyExp,
-			 int* pNumSmallSteps, 
+			 int* pNumSmallSteps,
 			 double* pConvergeParameter,
-			 double* pStartingRedshift, 
+			 double* pStartingRedshift,
 			 double* pStartingDistanceInMpc)
 {
     if (argc == 3)
@@ -99,7 +99,7 @@ void BasicParameterInput(FILE* input, const int argc, int* pMinEnergyExp,
         fscanf(input, "%i", pNumSmallSteps);
 	printf("2. Number of small steps: %i\n", *pNumSmallSteps);
         fscanf(input, "%lf", pConvergeParameter);
-	printf("3. Delta (convergence parameter): %12.3E\n", 
+	printf("3. Delta (convergence parameter): %12.3E\n",
             *pConvergeParameter);
         fscanf(input, "%lf", pStartingRedshift);
 	if (*pStartingRedshift != 0.)
@@ -107,14 +107,14 @@ void BasicParameterInput(FILE* input, const int argc, int* pMinEnergyExp,
 	    printf("4. Maximal redshift: %10.3f\n", *pStartingRedshift);
 	}
         fscanf(input, "%lf", pStartingDistanceInMpc);
-	if (*pStartingDistanceInMpc >= 2.*C/3./H_0*1.e-5)
+	if (*pStartingDistanceInMpc >= 2.*C_0/3./H_0*1.e-5)
 	{
 	    Error("BasicParameterInput: distance larger than horizon",
 		  PROGRAM_ERROR);
 	}
 	if (*pStartingDistanceInMpc != 0.)
 	{
-	    printf("4. Maximal distance (Mpc): %10.3f\n", 
+	    printf("4. Maximal distance (Mpc): %10.3f\n",
                 *pStartingDistanceInMpc);
 	}
     }
@@ -133,7 +133,7 @@ void BasicParameterInput(FILE* input, const int argc, int* pMinEnergyExp,
         printf("5. Maximal distance in Mpc ");
 	printf("(enter 0 if you typed in redshift): ");
         scanf("%lf", pStartingDistanceInMpc);
-	if (*pStartingDistanceInMpc >= 2.*C/3./H_0*1.e-5)
+	if (*pStartingDistanceInMpc >= 2.*C_0/3./H_0*1.e-5)
 	{
 	    Error("BasicParameterInput: distance larger than horizon",
 		  PROGRAM_ERROR);
@@ -142,25 +142,25 @@ void BasicParameterInput(FILE* input, const int argc, int* pMinEnergyExp,
 
     if (*pStartingDistanceInMpc == 0.)
     {
-        *pStartingDistanceInMpc = 2.*C/3./H_0/1.e5*(1. - 
+        *pStartingDistanceInMpc = 2.*C_0/3./H_0/1.e5*(1. -
             pow(1. + *pStartingRedshift, -3./2.));
 	printf("\n");
 	printf("Maximal distance (Mpc): %12.6f\n", *pStartingDistanceInMpc);
     }
     if (*pStartingRedshift == 0.)
     {
-        *pStartingRedshift = 
-            pow(1. - 3.*H_0*1.e5*(*pStartingDistanceInMpc)/2./C, -2./3.) - 1.;
+        *pStartingRedshift =
+            pow(1. - 3.*H_0*1.e5*(*pStartingDistanceInMpc)/2./C_0, -2./3.) - 1.;
 	printf("\n");
 	printf("Maximal redshift: %12.6f\n", *pStartingRedshift);
     }
 }
 
 void InteractionParameterInput(FILE* input, const int argc,
-			       int* pSynchrotronSwitch, double* pB_0, 
-			       int* pTauNeutrinoMassSwitch, int* pICSSwitch, 
-			       int* pPPSwitch, int* pTPPSwitch, 
-			       int* pDPPSwitch, int* pPPPSwitch, 
+			       int* pSynchrotronSwitch, double* pB_0,
+			       int* pTauNeutrinoMassSwitch, int* pICSSwitch,
+			       int* pPPSwitch, int* pTPPSwitch,
+			       int* pDPPSwitch, int* pPPPSwitch,
 			       int* pNPPSwitch, int* pNeutronDecaySwitch,
 			       int* pNucleonToSecondarySwitch,
 			       int* pNeutrinoNeutrinoSwitch)
@@ -259,7 +259,7 @@ void InteractionParameterInput(FILE* input, const int argc,
     /* quick check whether secondary table switch is consistent */
     if (*pNucleonToSecondarySwitch == 1)
     {
-        if ((*pPPPSwitch == 0) && (*pNPPSwitch == 0) && 
+        if ((*pPPPSwitch == 0) && (*pNPPSwitch == 0) &&
 	    (*pNeutronDecaySwitch == 0))
 	{
 	    printf("WARNING: secondary table on when all interactions off?\n");
@@ -318,8 +318,8 @@ void ModelParameterInput(FILE* input, const int argc,
     printf("\n\nParameter input complete.\n");
 }
 
-void PrepareSpectra(const int sourceTypeSwitch, const Spectrum* pQ_0, 
-                    Spectrum* pSpectrum, Spectrum* pSpectrumNew, 
+void PrepareSpectra(const int sourceTypeSwitch, const Spectrum* pQ_0,
+                    Spectrum* pSpectrum, Spectrum* pSpectrumNew,
 		    Spectrum* pDerivative)
 {
     if (pSpectrumNew->numberOfMainBins != pDerivative->numberOfMainBins)
@@ -338,9 +338,9 @@ void PrepareSpectra(const int sourceTypeSwitch, const Spectrum* pQ_0,
 }
 
 
-void ComputeTotalInitialContent(const dCVector* pEnergy, const Spectrum* pQ_0, 
+void ComputeTotalInitialContent(const dCVector* pEnergy, const Spectrum* pQ_0,
                                 double* initialPhotonEnergy,
-                                double* initialLeptonEnergy, 
+                                double* initialLeptonEnergy,
 				double* initialNucleonEnergy,
 				double* initialNeutrinoEnergy,
                                 double* initialTotalEnergy,
@@ -362,15 +362,15 @@ void ComputeTotalInitialContent(const dCVector* pEnergy, const Spectrum* pQ_0,
     *initialNucleonNumber = 0.;
     *initialNeutrinoNumber = 0.;
     *initialTotalNumber = 0.;
-    
+
     for (i = 0; i < pEnergy->dimension; i++)
     {
         *initialPhotonEnergy += (pQ_0->spectrum)[PHOTON][i]*
 	    (pEnergy->vector)[i];
         *initialPhotonNumber += (pQ_0->spectrum)[PHOTON][i];
-        *initialLeptonEnergy += ((pQ_0->spectrum)[ELECTRON][i] + 
+        *initialLeptonEnergy += ((pQ_0->spectrum)[ELECTRON][i] +
 	    (pQ_0->spectrum)[POSITRON][i])*(pEnergy->vector)[i];
-        *initialLeptonNumber += (pQ_0->spectrum)[ELECTRON][i] + 
+        *initialLeptonNumber += (pQ_0->spectrum)[ELECTRON][i] +
 	    (pQ_0->spectrum)[POSITRON][i];
     }
     *initialNucleonEnergy += GetNucleonEnergy(pQ_0, pEnergy);
@@ -384,9 +384,9 @@ void ComputeTotalInitialContent(const dCVector* pEnergy, const Spectrum* pQ_0,
 }
 
 
-void ComputeContinuousEnergyLoss(const int synchrotronSwitch, 
-                                 const dCVector* synchrotronLoss, 
-                                 const dCVector* otherLoss, 
+void ComputeContinuousEnergyLoss(const int synchrotronSwitch,
+                                 const dCVector* synchrotronLoss,
+                                 const dCVector* otherLoss,
                                  dCVector* continuousLoss)
 {
     int i;

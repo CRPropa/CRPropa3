@@ -173,22 +173,24 @@ class DintEMCascade {
 
 public:
 	DintEMCascade(
-		int _aIRFlag,       //!< IRB flag: 0 = high, 1 = low, 2 = Primack (default)
-		int _aRadioFlag,    //!< radio flag: 0 = high, 1 = medium, 2 = obs (default), 3 = null
-		string _aDirTables, //!< data path
-		double B = 1E-9,    //!< magnetic field strength in [G]
-		double _aH0 = H_0,  //!< Hubble parameter
-		double _aOmegaM = OMEGA_M,
-		double _aOmegaLambda = OMEGA_LAMBDA
+		int _aIRFlag,       //!< EBL background 0: high, 1: low, 2: Primack, 4: Stecker'06
+		int _aRadioFlag,    //!< radio background 0: high, 1: medium, 2: obs, 3: none, 4: Protheroe'96
+		string _aDirTables, //!< DINT data path
+		double B = 1E-9,    //!< magnetic field strength [G], default = 1 nG
+		double _aH0 = H_0,                   //!< Hubble parameter in [km/s/Mpc]
+		double _aOmegaM = OMEGA_M,           //!< omegaM parameter
+		double _aOmegaLambda = OMEGA_LAMBDA  //!< omegaL parameter
 		);
 
 	~DintEMCascade();
 
-	void propagate(const double start_distance,
-		const double stop_distance,
-		Spectrum* apInjectionSpectrum,
-		Spectrum* pSpectrum,
-		const double aCutcascade_Magfield = 0);
+	void propagate(
+		const double start_distance,    //<! start light travel distance [Mpc]
+		const double stop_distance,     //<! stop light travel distance [Mpc]
+		Spectrum* apInjectionSpectrum,  //<! input spectrum
+		Spectrum* pSpectrum,            //<! output spectrum
+		const double aCutcascade_Magfield = 0  //<! parameter describing cutoff of EM cascade due to deflections, see CRPropa2 paper
+		);
 
 };
 

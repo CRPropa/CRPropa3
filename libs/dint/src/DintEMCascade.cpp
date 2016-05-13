@@ -193,11 +193,8 @@ DintEMCascade::~DintEMCascade()
 
 
 void DintEMCascade::propagate(const double start_distance,
-		const double stop_distance,
-	 Spectrum* apInjectionSpectrum,
-	 Spectrum* pSpectrum,
-	 const double aCutcascade_Magfield)
-{
+		const double stop_distance, Spectrum* apInjectionSpectrum,
+		Spectrum* pSpectrum, const double aCutcascade_Magfield) {
 
 	double convergeParameter = 1.e-8;
 

@@ -253,6 +253,7 @@ void DintPropagation(
 		}
 		outfile << "\n";
 	}
+	outfile.close();
 
 	DeleteSpectrum(&finalSpectrum);
 	Delete_dCVector(&energyGrid);

@@ -163,8 +163,7 @@ void TextOutput::process(Candidate *c) const {
 	}
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10i\t",
-				c->getSourceSerialNumber());
+		p += sprintf(buffer + p, "%10i\t", c->getSourceSerialNumber());
 	if (fields.test(SourceIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->source.getId());
 	if (fields.test(SourceEnergyColumn))
@@ -223,7 +222,7 @@ void TextOutput::process(Candidate *c) const {
 	{
 		if (count == 0)
 			printHeader();
-        Output::process(c);
+		Output::process(c);
 		out->write(buffer, p);
 	}
 

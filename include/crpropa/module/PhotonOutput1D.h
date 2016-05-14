@@ -3,7 +3,6 @@
 
 #include "crpropa/Module.h"
 
-#include <memory>
 #include <fstream>
 
 namespace crpropa {

@@ -4,10 +4,10 @@ try:
     import unittest
     import tempfile
 except:
-    print("***********************************************************") 
-    print("* WARNING!! Couldn't import python unittesting framework! *") 
-    print("* No python tests have been executed                      *") 
-    print("***********************************************************") 
+    print("***********************************************************")
+    print("* WARNING!! Couldn't import python unittesting framework! *")
+    print("* No python tests have been executed                      *")
+    print("***********************************************************")
     sys.exit(0)
 
 try:
@@ -20,7 +20,6 @@ except Exception as e:
 class test1DChainWithSecondaries(unittest.TestCase):
     def runTest(self):
 
-        dintFile = tempfile.NamedTemporaryFile()
         outputFile = tempfile.NamedTemporaryFile()
 
         sim = crp.ModuleList()
@@ -35,6 +34,7 @@ class test1DChainWithSecondaries(unittest.TestCase):
         sim.add(crp.ElectronPairProduction(crp.CMB))
         sim.add(crp.ElectronPairProduction(crp.IRB))
         sim.add(crp.MinimumEnergy(1 * crp.EeV))
+        sim.add(crp.EMCascade())
 
         # observer
         obs = crp.Observer()
@@ -62,12 +62,8 @@ class test1DChainWithSecondaries(unittest.TestCase):
         source.add(composition)
 
         # run simulation
-        phot1 = crp.PhotonDINT1D(dintFile.name)
-        sim.add(phot1)
-
         sim.run(source, 1)
 
-        dintFile.close()
         outputFile.close()
 
 

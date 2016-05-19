@@ -70,11 +70,11 @@ bool PshirkovField::isUsingHalo() {
 
 Vector3d PshirkovField::getDiskField(const Vector3d& pos) const {
 	Vector3d b(0.);
-	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
-	if ((r < 0.1 * kpc) or (r > 20 * kpc))
-		return b;
+	if (pos.getR() < 0.1 * kpc)
+		return b; // no disk field for distances to galactic center < 0.1 kpc
 
-	double phi = pos.getPhi();
+	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
+	double phi = pos.getPhi(); // azimuth
 	double cos_phi = cos(phi);
 	double sin_phi = sin(phi);
 	b.x += sin_pitch * cos_phi - cos_pitch * sin_phi;

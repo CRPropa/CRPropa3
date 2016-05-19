@@ -110,11 +110,11 @@ std::string ReflectiveBox::getDescription() const {
 }
 
 CubicBoundary::CubicBoundary() :
-		origin(Vector3d(0, 0, 0)), size(0), margin(0), limitStep(false) {
+		origin(Vector3d(0, 0, 0)), size(0), limitStep(true), margin(0.1 * kpc) {
 }
 
 CubicBoundary::CubicBoundary(Vector3d o, double s) :
-		origin(o), size(s), margin(0), limitStep(false) {
+		origin(o), size(s), limitStep(true), margin(0.1 * kpc) {
 }
 
 void CubicBoundary::process(Candidate *c) const {
@@ -155,11 +155,11 @@ std::string CubicBoundary::getDescription() const {
 }
 
 SphericalBoundary::SphericalBoundary() :
-		center(Vector3d(0, 0, 0)), radius(0), limitStep(false), margin(0) {
+		center(Vector3d(0, 0, 0)), radius(0), limitStep(true), margin(0.1 * kpc) {
 }
 
 SphericalBoundary::SphericalBoundary(Vector3d c, double r) :
-		center(c), radius(r), limitStep(false), margin(0) {
+		center(c), radius(r), limitStep(true), margin(0.1 * kpc) {
 }
 
 void SphericalBoundary::process(Candidate *c) const {
@@ -196,13 +196,13 @@ std::string SphericalBoundary::getDescription() const {
 }
 
 EllipsoidalBoundary::EllipsoidalBoundary() :
-		focalPoint1(Vector3d(0, 0, 0)), focalPoint2(Vector3d(0, 0, 0)), majorAxis(
-				0), limitStep(false), margin(0) {
+		focalPoint1(Vector3d(0, 0, 0)), focalPoint2(Vector3d(0, 0, 0)),
+		majorAxis(0), limitStep(true), margin(0.1 * kpc) {
 }
 
 EllipsoidalBoundary::EllipsoidalBoundary(Vector3d f1, Vector3d f2, double a) :
-		focalPoint1(f1), focalPoint2(f2), majorAxis(a), limitStep(false), margin(
-				0) {
+		focalPoint1(f1), focalPoint2(f2), majorAxis(a), limitStep(true),
+		margin(0.1 * kpc) {
 }
 
 void EllipsoidalBoundary::process(Candidate *c) const {

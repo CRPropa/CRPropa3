@@ -91,29 +91,28 @@ void PropagationCK::process(Candidate *candidate) const {
 
 	Y yIn(current.getPosition(), current.getDirection());
 	Y yOut, yErr;
-	double h = step / c_light;
-	double hTry, r;
+	double newStep = step;
+	double r = 42;  // arbitrary value > 1
 	double z = candidate->getRedshift();
 
-	// try performing a step until the relative error is less than the desired
-	// tolerance or the minimum step size has been reached
-	do {
-		hTry = h;
-		tryStep(yIn, yOut, yErr, hTry, current, z);
+	// try performing step until the target error (tolerance) or the minimum step size has been reached
+	while (r > 1) {
+		step = newStep;
+		tryStep(yIn, yOut, yErr, step / c_light, current, z);
 
-		// determine absolute direction error relative to tolerance
-		r = yErr.u.getR() / tolerance;
-		// new step size to keep the error close to the tolerance
-		h *= 0.95 * pow(r, -0.2);
-		// limit change of new step size
-		h = clip(h, 0.1 * hTry, 5 * hTry);
+		r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
+		newStep = step * 0.95 * pow(r, -0.2);  // update step size to keep error close to tolerance
+		newStep = clip(newStep, 0.1 * step, 5 * step);  // limit the step size change
+		newStep = clip(newStep, minStep, maxStep);
 
-	} while (r > 1 && h > minStep / c_light);
+		if (step == minStep)
+			break;  // performed step already at the minimum
+	}
 
 	current.setPosition(yOut.x);
 	current.setDirection(yOut.u.getUnitVector());
-	candidate->setCurrentStep(hTry * c_light);
-	candidate->setNextStep(h * c_light);
+	candidate->setCurrentStep(step);
+	candidate->setNextStep(newStep);
 }
 
 void PropagationCK::setField(ref_ptr<MagneticField> f) {

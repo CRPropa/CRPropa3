@@ -8,6 +8,9 @@
 
 #include "quimby/MagneticField.h"
 
+#include <stdexcept>
+#include <sstream>
+
 namespace crpropa {
 
 /**
@@ -25,9 +28,11 @@ public:
 	Vector3d getField(const Vector3d &position) const {
 		quimby::Vector3f b, r = quimby::Vector3f(position.x, position.y, position.z);
 		bool isGood = field->getField(r / kpc, b);
-		if (!isGood)
-			std::cerr << "crpropa::SPHMagneticField invalid position : " << position
-					<< std::endl;
+		if (!isGood) {
+			std::ostringstream str;
+			str << "QuimbyMagneticField: invalid position at " << position;
+			throw std::runtime_error(str.str());
+		}
 		return Vector3d(b.x, b.y, b.z) * gauss;
 	}
 };

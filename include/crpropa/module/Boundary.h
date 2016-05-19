@@ -10,7 +10,7 @@ namespace crpropa {
  @brief Rectangular box with periodic boundaries.
 
  If a particle passes on of the sides it is placed at the opposite side and its initial (source) position changed accordingly.
- This realizes periodic boundaries, where the particle is kept inside the box and the source is moved away from the box.
+ This implements periodic boundaries, that keep the particle inside the box and instead move the source away periodically.
  Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
  */
 class PeriodicBox: public Module {
@@ -32,7 +32,7 @@ public:
  @brief Rectangular box with reflective boundaries.
 
  If a particle passes on of the sides it is reflected back inside (position and velocity) and its initial position changed as if the particle had come from that side.
- This realizes reflective boundaries, where the particle is kept inside the box and the source is moved away from the box.
+ This implements periodic boundaries, that keep the particle inside the box and instead move the source away reflectively.
  Particles can overshoot (be outside of the box during the step) since the step size is not limited by this module.
  */
 class ReflectiveBox: public Module {
@@ -53,9 +53,9 @@ public:
  @class CubicBoundary
  @brief Flags a particle when exiting the cube.
 
- This module flags particles when outside of the cube, defined by a lower corner and edge length.
- The particle is made inactive and by default is flagged "OutOfBounds".
- Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
+ The particle is made inactive and flagged as "Rejected".
+ By default the module prevents overshooting the boundary by more than a margin of 0.1 kpc.
+ This corresponds to the default minimum step size of the propagation modules (PropagationCK and SimplePropagation).
  */
 class CubicBoundary: public AbstractCondition {
 private:
@@ -63,6 +63,7 @@ private:
 	double size;
 	double margin;
 	bool limitStep;
+
 public:
 	CubicBoundary();
 	CubicBoundary(Vector3d origin, double size);
@@ -78,9 +79,9 @@ public:
  @class SphericalBoundary
  @brief Flag a particle when leaving the sphere.
 
- This module flags particles when outside of the sphere, defined by a center and radius.
- The particle is made inactive and by default is flagged "OutOfBounds".
- Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
+ The particle is made inactive and flagged as "Rejected".
+ By default the module prevents overshooting the boundary by more than a margin of 0.1 kpc.
+ This corresponds to the default minimum step size of the propagation modules (PropagationCK and SimplePropagation).
  */
 class SphericalBoundary: public AbstractCondition {
 private:
@@ -105,8 +106,9 @@ public:
  @brief Flags a particle when leaving the ellipsoid.
 
  This module flags particles when outside of the ellipsoid, defined by two focal points and a major axis (length).
- The particle is made inactive and by default is flagged "OutOfBounds".
- Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
+ The particle is made inactive and flagged as "Rejected".
+ By default the module prevents overshooting the boundary by more than a margin of 0.1 kpc.
+ This corresponds to the default minimum step size of the propagation modules (PropagationCK and SimplePropagation).
  */
 class EllipsoidalBoundary: public AbstractCondition {
 private:

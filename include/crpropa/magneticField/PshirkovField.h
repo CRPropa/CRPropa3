@@ -36,9 +36,8 @@ private:
 	// halo parameters
 	double z0_H;  // halo vertical position
 	double R0_H;  // halo radial position
-	double B0_H;  // halo magnetic field scale (north)
-	double B0_H_ASS; // halo magnetic field scale (south, ASS)
-	double B0_H_BSS; // halo magnetic field scale (south, BSS)
+	double B0_Hn; // halo magnetic field scale (north)
+	double B0_Hs; // halo magnetic field scale (south)
 	double z11_H; // halo vertical thickness towards disc
 	double z12_H; // halo vertical thickness off the disk
 

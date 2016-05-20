@@ -7,7 +7,7 @@ namespace crpropa {
 
 /**
  @class Redshift
- @brief Updates redshift and applies adiabatic energy loss according to the travelled distance.
+ @brief Updates redshift and applies adiabatic energy loss according to the traveled distance.
  */
 class Redshift: public Module {
 public:
@@ -17,7 +17,7 @@ public:
 
 /**
  @class FutureRedshift
- @brief Updates redshift and applies adiabatic energy loss according to the travelled distance.
+ @brief Updates redshift and applies adiabatic energy loss according to the traveled distance. Extends to negative redshift values to allow for symmetric time windows around z=0.
  */
 class FutureRedshift: public Module {
 public:

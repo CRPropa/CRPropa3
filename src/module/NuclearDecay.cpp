@@ -10,8 +10,9 @@
 
 namespace crpropa {
 
-NuclearDecay::NuclearDecay(bool electrons, bool neutrinos, double l) {
+NuclearDecay::NuclearDecay(bool electrons, bool photons, bool neutrinos, double l) {
 	haveElectrons = electrons;
+	havePhotons = photons;
 	haveNeutrinos = neutrinos;
 	limit = l;
 	setDescription("NuclearDecay");
@@ -24,23 +25,36 @@ NuclearDecay::NuclearDecay(bool electrons, bool neutrinos, double l) {
 				"crpropa::NuclearDecay: could not open file " + filename);
 
 	decayTable.resize(27 * 31);
-	while (infile.good()) {
-		if (infile.peek() != '#') {
-			DecayMode decay;
-			int Z, N;
-			double lifetime;
-			infile >> Z >> N >> decay.channel >> lifetime;
-			decay.rate = 1. / lifetime / c_light; // decay rate in [1/m]
-			if (infile)
-				decayTable[Z * 31 + N].push_back(decay);
+	std::string line;
+	while (std::getline(infile,line)) {
+		std::stringstream stream(line);
+		if (stream.peek() == '#')
+			continue;
+		DecayMode decay;
+		int Z, N;
+		double lifetime;
+		stream >> Z >> N >> decay.channel >> lifetime;
+		decay.rate = 1. / lifetime / c_light; // decay rate in [1/m]
+		std::vector<double> gamma;
+		double val;
+		while (stream >> val)
+			gamma.push_back(val);
+		for (int i = 0; i < gamma.size(); i += 2) {
+			decay.energy.push_back(gamma[i] * keV);
+			decay.intensity.push_back(gamma[i+1]);
 		}
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		if (infile)
+			decayTable[Z * 31 + N].push_back(decay);
 	}
 	infile.close();
 }
 
 void NuclearDecay::setHaveElectrons(bool b) {
 	haveElectrons = b;
+}
+
+void NuclearDecay::setHavePhotons(bool b) {
+	havePhotons = b;
 }
 
 void NuclearDecay::setHaveNeutrinos(bool b) {
@@ -108,10 +122,12 @@ void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
 	int nNeutron = digit(channel, 1);
 
 	// perform decays
+	double Egamma = 0.;
+	gammaEmission(candidate,channel, Egamma);
 	for (size_t i = 0; i < nBetaMinus; i++)
-		betaDecay(candidate, false);
+		betaDecay(candidate, false, Egamma);
 	for (size_t i = 0; i < nBetaPlus; i++)
-		betaDecay(candidate, true);
+		betaDecay(candidate, true, Egamma);
 	for (size_t i = 0; i < nAlpha; i++)
 		nucleonEmission(candidate, 4, 2);
 	for (size_t i = 0; i < nProton; i++)
@@ -120,7 +136,42 @@ void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
 		nucleonEmission(candidate, 1, 0);
 }
 
-void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
+void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egamma) const {
+	int id = candidate->current.getId();
+	int Z = chargeNumber(id);
+	int N = massNumber(id) - Z;
+	std::vector<double> energy, intensity;
+
+	std::vector<DecayMode> decays = decayTable[Z * 31 + N];
+	if (decays.size() == 0)
+		return;
+	
+	// get photon energy and emission probability for decay channel
+	for (int i = 0; i < decays.size(); ++i) {
+		if (decays[i].channel == channel); {
+			energy = decays[i].energy;
+			intensity = decays[i].intensity;
+		}
+	}
+	
+	// check if photon emission for decay mode
+	if (energy.size() == 0 || intensity.size() == 0)
+		return;
+	Random &random = Random::instance();
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
+	
+	// check if photon of specific energy is emitted 
+	for (int i = 0; i < energy.size(); ++i) {
+		if (random.rand() <= intensity[i]) {
+			Egamma += energy[i];
+			if (havePhotons) {
+				candidate->addSecondary(22, energy[i], pos);
+			}
+		}
+	}
+}
+
+void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamma) const {
 	double gamma = candidate->current.getLorentzFactor();
 	int id = candidate->current.getId();
 	int A = massNumber(id);
@@ -145,9 +196,9 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	if (not (haveElectrons or haveNeutrinos))
 		return;
 
-	// Q-value of the decay
+	// Q-value of the decay, subtract total energy of emitted photons 
 	double newMass = candidate->current.getMass();
-	double Q = (mass - newMass - mass_electron) * c_squared;
+	double Q = (mass - newMass - mass_electron) * c_squared - Egamma;
 
 	// generate cdf of electron energy, neglecting Coulomb correction
 	// see Basdevant, Fundamentals in Nuclear Physics, eq. (4.92)

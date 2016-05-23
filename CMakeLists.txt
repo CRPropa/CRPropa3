@@ -261,8 +261,8 @@ if(DISABLE_DOWNLOAD)
 	message("Download of data files disabled")
 else(DISABLE_DOWNLOAD)
 
-	set(DATA_URL "https://crpropa.desy.de/images/2/2e/Data_2016_03_21_TALYS.tar.gz")
-	set(EXPECTED_MD5SUM "5b898f474df136cb907c12139709b980")
+	set(DATA_URL "https://crpropa.desy.de/images/8/83/Data_2016_05_23.tar.gz")
+	set(EXPECTED_MD5SUM "6dd16796ba7517af562ab65a69fecac3")
 
 	function(GET_DATA)
 		message("Downloading from crpropa.desy.de ~ 60 MB")

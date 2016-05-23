@@ -243,4 +243,28 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos);
 }
 
+double NuclearDecay::lossLength(int id, double gamma, double z) {
+        if (not (isNucleus(id)))
+            return std::numeric_limits<double>::max();
+            
+        int A = massNumber(id);
+        int Z = chargeNumber(id);
+        int N = A - Z;
+        
+        // check if particle can decay
+        std::vector<DecayMode> decays = decayTable[Z * 31 + N];
+        if (decays.size() == 0)
+            return std::numeric_limits<double>::max();
+            
+        double totalRate = 0;
+        
+        for (size_t i = 0; i < decays.size(); i++) {
+            double rate = decays[i].rate;
+            rate /= gamma;
+            totalRate += rate;
+        }
+
+		return 1. / totalRate;
+}
+
 } // namespace crpropa

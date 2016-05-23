@@ -243,7 +243,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 double PhotoDisintegration::lossLength(int id, double gamma, double z) {
 	// check if nucleus
 	if (not (isNucleus(id)))
-		return 0;
+		return std::numeric_limits<double>::max();
 
 	int A = massNumber(id);
 	int Z = chargeNumber(id);

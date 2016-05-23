@@ -39,6 +39,15 @@ public:
 	void gammaEmission(Candidate *candidate, int channel, double &Egamma) const;
 	void betaDecay(Candidate *candidate, bool isBetaPlus, double Egamma) const;
 	void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
+
+    /**
+     Calculates the loss length E dx/dE in [m].
+     This is not used in the simulation.
+     @param id      PDG particle id
+     @param gamma   Lorentz factor of particle
+     @param z       redshift
+     */
+    double lossLength(int id, double gamma, double z = 0);
 };
 
 } // namespace crpropa

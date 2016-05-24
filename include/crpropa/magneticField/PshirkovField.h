@@ -21,8 +21,8 @@ namespace crpropa {
 
 class PshirkovField: public MagneticField {
 private:
-	bool useASS;     // switch for axisymmetric spiral field (ASS)
-	bool useBSS;     // switch for bisymmetric spiral field (BSS)
+	bool useASS;  // switch for axisymmetric spiral field (ASS)
+	bool useBSS;  // switch for bisymmetric spiral field (BSS)
 	bool useHalo; // switch for halo field
 
 	// disk parameters
@@ -52,13 +52,6 @@ public:
 	bool isUsingBSS();
 	bool isUsingHalo();
 
-	// Regular disk field component
-	Vector3d getDiskField(const Vector3d& pos) const;
-
-	// Regular BHM Halo field (Sun et al. 2008) component
-	Vector3d getHaloField(const Vector3d& pos) const;
-
-	// All set field components
 	Vector3d getField(const Vector3d& pos) const;
 };
 

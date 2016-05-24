@@ -1,9 +1,11 @@
 #include "crpropa/magneticField/PshirkovField.h"
 #include "crpropa/Units.h"
 
+#include <algorithm>
+
 namespace crpropa {
 
-PshirkovField::PshirkovField() {
+PshirkovField::PshirkovField() : useASS(false), useBSS(true), useHalo(true) {
 	// disk parameters
 	d = - 0.6 * kpc;
 	R_sun = 8.5 * kpc;
@@ -19,13 +21,16 @@ PshirkovField::PshirkovField() {
 	z11_H = 0.25 * kpc;
 	z12_H = 0.4 * kpc;
 
+	// set BSS specific parameters
 	setUseBSS(true);
-	setUseHalo(true);
 }
 
 void PshirkovField::setUseASS(bool use) {
 	useASS = use;
-	if ((use) and (useBSS)) {
+	if (not(use))
+		return;
+
+	if (useBSS) {
 		std::cout << "PshirkovField: Disk field changed to ASS" << std::endl;
 		useBSS = false;
 	}
@@ -40,7 +45,10 @@ void PshirkovField::setUseASS(bool use) {
 
 void PshirkovField::setUseBSS(bool use) {
 	useBSS = use;
-	if ((use) and (useASS)) {
+	if (not(use))
+		return;
+
+	if (useASS) {
 		std::cout << "PshirkovField: Disk field changed to BSS" << std::endl;
 		useASS = false;
 	}
@@ -69,39 +77,33 @@ bool PshirkovField::isUsingHalo() {
 	return useHalo;
 }
 
-Vector3d PshirkovField::getDiskField(const Vector3d& pos) const {
-	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
-	double phi = pos.getPhi(); // azimuth
-	double cos_phi = cos(phi);
-	double sin_phi = sin(phi);
-
-	Vector3d b(0.);
-	b.x = sin_pitch * cos_phi - cos_pitch * sin_phi;
-	b.y = sin_pitch * sin_phi + cos_pitch * cos_phi;
-
-	double bMag = cos(phi - cos_pitch / sin_pitch * log(r / R_sun) + theta);
-	if (useASS)
-		bMag = fabs(bMag);
-	bMag *= B0 * R_sun / cos_theta * exp(-fabs(pos.z) / z0);
-	bMag /= (r <= R_c ? R_c : r);
-
-	return bMag * b;
-}
-
-Vector3d PshirkovField::getHaloField(const Vector3d& pos) const {
-	double bMag = (pos.z > 0 ? B0_Hn : - B0_Hs);
-	double r = sqrt(pos.x * pos.x + pos.y * pos.y);
-	bMag *= r / R0_H * exp(1 - r / R0_H) / (1 + pow((fabs(pos.z) - z0_H) / z11_H, 2.));
-	double phi = pos.getPhi();
-	return bMag * Vector3d(-sin(phi), cos(phi), 0);
-}
-
 Vector3d PshirkovField::getField(const Vector3d& pos) const {
+	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
+	double phi = pos.getPhi();  // azimuth
+	double cos_phi = pos.x / r;
+	double sin_phi = pos.y / r;
+
 	Vector3d b(0.);
-	if (useHalo)
-		b += getHaloField(pos);
-	if ((useASS) or (useBSS))
-		b += getDiskField(pos);
+
+	// disk field
+	if ((useASS) or (useBSS)) {
+		b.x = sin_pitch * cos_phi - cos_pitch * sin_phi;
+		b.y = sin_pitch * sin_phi + cos_pitch * cos_phi;
+		double bMag = cos(phi - cos_pitch / sin_pitch * log(r / R_sun) + theta);
+		if (useASS)
+			bMag = fabs(bMag);
+		bMag *= B0 * R_sun / std::max(r, R_c) / cos_theta * exp(-fabs(pos.z) / z0);
+		b *= bMag;
+	}
+
+	// halo field
+	if (useHalo) {
+		double bMag = (pos.z > 0 ? B0_Hn : - B0_Hs);
+		double z1 = (fabs(pos.z) < z0_H ? z11_H : z12_H);
+		bMag *= r / R0_H * exp(1 - r / R0_H) / (1 + pow((fabs(pos.z) - z0_H) / z1, 2.));
+		b += bMag * Vector3d(- sin_phi, cos_phi, 0);
+	}
+
 	return b;
 }
 

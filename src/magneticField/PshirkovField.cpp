@@ -89,7 +89,7 @@ Vector3d PshirkovField::getDiskField(const Vector3d& pos) const {
 }
 
 Vector3d PshirkovField::getHaloField(const Vector3d& pos) const {
-	double bMag = (pos.z > 0 ? B0_Hn : B0_Hs);
+	double bMag = (pos.z > 0 ? B0_Hn : - B0_Hs);
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y);
 	bMag *= r / R0_H * exp(1 - r / R0_H) / (1 + pow((fabs(pos.z) - z0_H) / z11_H, 2.));
 	double phi = pos.getPhi();

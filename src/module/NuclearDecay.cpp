@@ -261,10 +261,10 @@ double NuclearDecay::lossLength(int id, double gamma, double z) {
 	for (size_t i = 0; i < decays.size(); i++) {
 		double rate = decays[i].rate;
 		rate /= gamma;
-		totalRate += rate
+		totalRate += rate;
 	}
 
-		return 1. / totalRate;
+	return 1. / totalRate;
 }
 
 } // namespace crpropa

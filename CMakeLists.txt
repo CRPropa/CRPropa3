@@ -1,7 +1,7 @@
 if(APPLE)
 	cmake_minimum_required(VERSION 2.8.12)
 else(APPLE)
-	cmake_minimum_required(VERSION 2.6.0)
+	cmake_minimum_required(VERSION 2.8.2)
 endif(APPLE)
 project(CRPropa Fortran C CXX)
 
@@ -19,12 +19,12 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
-# Add buildtype for profiling
+# Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
 
 # Set default build-type to release to enable performance improvements
 if (NOT CMAKE_BUILD_TYPE)
-		set(CMAKE_BUILD_TYPE Release)
+	set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 
@@ -34,21 +34,23 @@ message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 # ----------------------------------------------------------------------------
 # Embed the information about CRPropa version into the binaries for easier
 # debugging with a reproducibility in mind
-option(ENABLE_GIT "If CRPropa source is inside of a git version control" ON)
+option(ENABLE_GIT "Embed information about CRPropa version from git" ON)
 
 if(ENABLE_GIT)
+	message("foo")
 	include(GetGitRevisionDescription)
 	get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 	git_describe(GIT_DESC)
 else(ENABLE_GIT)
 	set(GIT_REFSPEC "")
 	set(GIT_SHA1 "")
-	set(GIT_DESC "v3.0.beta1")
+	set(GIT_DESC "v3.0")
 endif(ENABLE_GIT)
 
-message(STATUS "CRPropa version: ${GIT_DESC}")
+message(STATUS "CRPropa version: ${GIT_DESC} ${GIT_SHA1} ${GIT_REFSPEC}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp" @ONLY)
 list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
+
 
 # ----------------------------------------------------------------------------
 # Dependencies
@@ -174,15 +176,15 @@ endif(FFTW3F_FOUND)
 # Quimby (optional for SPH magnetic fields)
 option(ENABLE_QUIMBY "Quimby Support" ON)
 if (ENABLE_QUIMBY)
-  find_package(Quimby)
-  if(QUIMBY_FOUND)
-	list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
-	list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
-	add_definitions (-DCRPROPA_HAVE_QUIMBY)
-	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
-  endif(QUIMBY_FOUND)
+	find_package(Quimby)
+	if(QUIMBY_FOUND)
+		list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
+		list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
+		add_definitions (-DCRPROPA_HAVE_QUIMBY)
+		list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
+		list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
+		list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
+	endif(QUIMBY_FOUND)
 endif(ENABLE_QUIMBY)
 
 # SAGA (optinal for AMR grids)
@@ -196,7 +198,7 @@ if(SAGA_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${SAGA_INCLUDE_DIR})
 endif(SAGA_FOUND)
 
-# muparser (optional for genercic source spectra)
+# muparser (optional for generic source spectra)
 find_package(muParser)
 if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_EXTRA_INCLUDES ${MUPARSER_INCLUDE_DIR})
@@ -206,7 +208,7 @@ if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${MUPARSER_INCLUDE_DIR})
 endif(MUPARSER_FOUND)
 
-# zstream-cpp (for compressed input/output files)
+# zlib / zstream-cpp (optional for compressed output files)
 find_package(ZLIB)
 if(ZLIB_FOUND)
 	list(APPEND CRPROPA_EXTRA_INCLUDES ${ZLIB_INCLUDE_DIRS})
@@ -217,6 +219,7 @@ if(ZLIB_FOUND)
 	list(APPEND CRPROPA_SWIG_DEFINES -I${ZLIB_INCLUDE_DIRS})
 endif(ZLIB_FOUND)
 
+# HDF5 (optional for HDF5 output files)
 option(ENABLE_HDF5 "HDF5 Support" ON)
 if(ENABLE_HDF5)
 	find_package( HDF5 COMPONENTS C )
@@ -228,6 +231,7 @@ if(ENABLE_HDF5)
 		list(APPEND CRPROPA_SWIG_DEFINES -I${HDF5_INCLUDE_DIRS})
 	endif(HDF5_FOUND)
 endif(ENABLE_HDF5)
+
 
 # ----------------------------------------------------------------------------
 # Fix Apple RPATH
@@ -252,56 +256,17 @@ endif()
 
 
 # ----------------------------------------------------------------------------
-# Downloading data files (interaction data, masses, decay data)
+# Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
-# Needed fo compilation without internet connection
-option(DISABLE_DOWNLOAD "Disable download of data files" OFF)
+message("-- Downloading data file from crpropa.desy.de ~ 35 MB")
+file(DOWNLOAD
+	https://crpropa.desy.de/images/8/83/Data_2016_05_23.tar.gz
+	${CMAKE_BINARY_DIR}/data.tar.gz
+	EXPECTED_MD5 6dd16796ba7517af562ab65a69fecac3)
+message("-- Extracting data file")
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 
-if(DISABLE_DOWNLOAD)
-	message("Download of data files disabled")
-else(DISABLE_DOWNLOAD)
-
-	set(DATA_URL "https://crpropa.desy.de/images/8/83/Data_2016_05_23.tar.gz")
-	set(EXPECTED_MD5SUM "6dd16796ba7517af562ab65a69fecac3")
-
-	function(GET_DATA)
-		message("Downloading from crpropa.desy.de ~ 60 MB")
-		if(APPLE)
-			execute_process(COMMAND curl -o ${DATA_FILE} ${DATA_URL} --insecure)
-		else()
-			execute_process(COMMAND wget ${DATA_URL} -O ${DATA_FILE} --no-check-certificate)
-		endif()
-	endfunction(GET_DATA)
-
-	message("\nSearching for data archive")
-	find_file(DATA_FILE data.tar.gz ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
-	if(DATA_FILE STREQUAL "DATA_FILE-NOTFOUND")
-		message("File not found: data.tar.gz")
-		set(DATA_FILE ${CMAKE_BINARY_DIR}/data.tar.gz)
-		GET_DATA()
-	else()
-		message("File found: " ${DATA_FILE})
-		if(APPLE)
-			execute_process(COMMAND md5 ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
-		string(LENGTH ${MD5SUM} MD5LENGTH)
-			MATH(EXPR START "${MD5LENGTH} - 33")
-			string(SUBSTRING ${MD5SUM} ${START} 32 MD5SUM)
-		else()
-		execute_process(COMMAND md5sum ${DATA_FILE} OUTPUT_VARIABLE MD5SUM)
-			string(SUBSTRING ${MD5SUM} 0 32 MD5SUM)
-		endif()
-		if(MD5SUM STREQUAL EXPECTED_MD5SUM)
-			message("MD5sum matching\n")
-		else()
-			message("MD5sum not matching " ${EXPECTED_MD5SUM})
-			GET_DATA()
-		endif()
-	endif()
-
-	message("Unpacking to CRPropa3/data\n")
-	file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
-	execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
-endif(DISABLE_DOWNLOAD)
 
 # ----------------------------------------------------------------------------
 # Library and Binary
@@ -397,20 +362,15 @@ if(ENABLE_PYTHON)
 		COMMAND swig ${BUILTIN} -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
 				DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
-
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
 	set_target_properties(crpropa-swig PROPERTIES PREFIX "")
 	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
 	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
 
-
 	install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${PYTHON_SITE_PACKAGES}")
 	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
 	install(TARGETS crpropa-swig LIBRARY DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
 endif(ENABLE_PYTHON)
-
-
-
 
 
 # ----------------------------------------------------------------------------
@@ -421,6 +381,7 @@ install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
+
 
 # ----------------------------------------------------------------------------
 # Testing
@@ -477,5 +438,3 @@ if(ENABLE_TESTING)
 		ADD_TEST(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
 	endif(ENABLE_PYTHON)
 endif(ENABLE_TESTING)
-
-

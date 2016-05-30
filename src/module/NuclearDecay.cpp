@@ -68,6 +68,7 @@ void NuclearDecay::setLimit(double l) {
 void NuclearDecay::process(Candidate *candidate) const {
 	// the loop should be processed at least once for limiting the next step
 	double step = candidate->getCurrentStep();
+	double z = candidate->getRedshift();
 	do {
 		// check if nucleus
 		int id = candidate->current.getId();
@@ -91,7 +92,8 @@ void NuclearDecay::process(Candidate *candidate) const {
 
 		for (size_t i = 0; i < decays.size(); i++) {
 			double rate = decays[i].rate;
-			rate /= candidate->current.getLorentzFactor();
+			rate /= candidate->current.getLorentzFactor();  // relativistic time dilation
+			rate /= (1 + z);  // rate per light travel distance -> rate per comoving distance
 			totalRate += rate;
 			double d = -log(random.rand()) / rate;
 			if (d > randDistance)
@@ -140,27 +142,28 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 	int id = candidate->current.getId();
 	int Z = chargeNumber(id);
 	int N = massNumber(id) - Z;
-	std::vector<double> energy, intensity;
 
 	std::vector<DecayMode> decays = decayTable[Z * 31 + N];
 	if (decays.size() == 0)
 		return;
-	
+
 	// get photon energy and emission probability for decay channel
+	std::vector<double> energy, intensity;
 	for (int i = 0; i < decays.size(); ++i) {
 		if (decays[i].channel == channel); {
 			energy = decays[i].energy;
 			intensity = decays[i].intensity;
 		}
 	}
-	
+
 	// check if photon emission for decay mode
 	if (energy.size() == 0 || intensity.size() == 0)
 		return;
+
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
-	
-	// check if photon of specific energy is emitted 
+
+	// check if photon of specific energy is emitted
 	for (int i = 0; i < energy.size(); ++i) {
 		if (random.rand() <= intensity[i]) {
 			Egamma += energy[i];
@@ -196,7 +199,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamm
 	if (not (haveElectrons or haveNeutrinos))
 		return;
 
-	// Q-value of the decay, subtract total energy of emitted photons 
+	// Q-value of the decay, subtract total energy of emitted photons
 	double newMass = candidate->current.getMass();
 	double Q = (mass - newMass - mass_electron) * c_squared - Egamma;
 
@@ -243,7 +246,7 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos);
 }
 
-double NuclearDecay::lossLength(int id, double gamma, double z) {
+double NuclearDecay::meanFreePath(int id, double gamma) {
 	if (not (isNucleus(id)))
 		return std::numeric_limits<double>::max();
 

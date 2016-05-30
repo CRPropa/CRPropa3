@@ -28,8 +28,7 @@ private:
 	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
 
 public:
-	NuclearDecay(bool electrons = false, bool photons = false, bool neutrinos = false, double limit =
-			0.1);
+	NuclearDecay(bool electrons = false, bool photons = false, bool neutrinos = false, double limit = 0.1);
 	void setLimit(double limit);
 	void setHaveElectrons(bool b);
 	void setHavePhotons(bool b);
@@ -40,14 +39,13 @@ public:
 	void betaDecay(Candidate *candidate, bool isBetaPlus, double Egamma) const;
 	void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
 
-    /**
-     Calculates the loss length E dx/dE in [m].
-     This is not used in the simulation.
-     @param id      PDG particle id
-     @param gamma   Lorentz factor of particle
-     @param z       redshift
-     */
-    double lossLength(int id, double gamma, double z = 0);
+	/**
+	 Return the mean free path in [m].
+	 This is not used in the simulation.
+	 @param id      PDG particle id
+	 @param gamma   Lorentz factor of particle
+	 */
+	double meanFreePath(int id, double gamma);
 };
 
 } // namespace crpropa

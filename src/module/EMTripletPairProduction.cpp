@@ -192,7 +192,7 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	double randDistance = std::numeric_limits<double>::max();
 
 	// comological scaling of interaction distance (comoving)
-	double scaling = pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
 	double rate = scaling * interpolate(E, tabElectronEnergy, tabInteractionRate);
 	randDistance = -log(random.rand()) / rate;
 	candidate->limitNextStep(limit / rate);

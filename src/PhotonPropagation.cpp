@@ -190,6 +190,7 @@ void DintPropagation(
 			if (infile.peek() != '#') {
 				_Secondary s;
 				infile >> s.Id >> s.E >> s.D;
+				s.D = comoving2LightTravelDistance(s.D * Mpc) / Mpc;  // DintEMCascade expects light travel distance
 				if (infile)
 					secondaries.push_back(s);
 			}

@@ -148,7 +148,7 @@ void EMCascade::runCascade(const std::string &filename, int IRBFlag,
 
 		// start and stop distance [Mpc,light travel] from bin center to bin center
 		double D1 = comoving2LightTravelDistance( (iD + 0.5) * dD );
-		double D0 = comoving2LightTravelDistance( std::max(D1 - dD, 0.) );
+		double D0 = comoving2LightTravelDistance( std::max((iD - 0.5) * dD, 0.) );
 
 		// propagate distance step
 		dint.propagate(D1/Mpc, D0/Mpc, &inputSpectrum, &outputSpectrum, cutCascade);

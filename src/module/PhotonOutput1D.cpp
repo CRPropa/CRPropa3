@@ -15,7 +15,7 @@ PhotonOutput1D::PhotonOutput1D(const string &filename) :
 	output << "#\n";
 	output << "# ID          Id of particle (photon, electron, positron)\n";
 	output << "# E           Energy [EeV]\n";
-	output << "# D           Comoving trajectory length [Mpc]\n";
+	output << "# D           Comoving distance to origin [Mpc]\n";
 	output << "# pID         Id of parent particle\n";
 	output << "# pE          Energy [EeV] of parent particle\n";
 	output << "# iID         Id of source particle\n";
@@ -36,7 +36,7 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 
 	p += sprintf(buffer + p, "%4i\t", pid);
 	p += sprintf(buffer + p, "%g\t", candidate->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getPosition().getR() / Mpc);
+	p += sprintf(buffer + p, "%8.4f\t", candidate->current.getPosition().getR() / Mpc);
 
 	p += sprintf(buffer + p, "%10i\t", candidate->created.getId());
 	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getEnergy() / EeV);

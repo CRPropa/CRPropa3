@@ -34,17 +34,16 @@ message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 # ----------------------------------------------------------------------------
 # Embed the information about CRPropa version into the binaries for easier
 # debugging with a reproducibility in mind
-option(ENABLE_GIT "Embed information about CRPropa version from git" ON)
+option(ENABLE_GIT "Embedding information about CRPropa version from git" ON)
 
 if(ENABLE_GIT)
-	message("foo")
 	include(GetGitRevisionDescription)
 	get_git_head_revision(GIT_REFSPEC GIT_SHA1)
-	git_describe(GIT_DESC)
+	git_describe(GIT_DESC --tags)
 else(ENABLE_GIT)
 	set(GIT_REFSPEC "")
 	set(GIT_SHA1 "")
-	set(GIT_DESC "v3.0")
+	set(GIT_DESC "3.0-no-git")
 endif(ENABLE_GIT)
 
 message(STATUS "CRPropa version: ${GIT_DESC} ${GIT_SHA1} ${GIT_REFSPEC}")

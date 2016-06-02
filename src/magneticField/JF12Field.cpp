@@ -224,7 +224,7 @@ Vector3d JF12Field::getRegularField(const Vector3d& pos) const {
 	} else {
 		// constant elevation region
 		rp = r - fabs(pos.z) / tanThetaX0;
-		bMagX = bX * exp(-rp / rX) * (rXc / rc);
+		bMagX = bX * exp(-rp / rX) * (rp / r);
 		sinThetaX = sinThetaX0;
 		cosThetaX = cosThetaX0;
 	}

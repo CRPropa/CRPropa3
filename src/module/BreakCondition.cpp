@@ -17,22 +17,48 @@ double MaximumTrajectoryLength::getMaximumTrajectoryLength() const {
 	return maxLength;
 }
 
+void MaximumTrajectoryLength::addObserverPosition(const Vector3d& position) {
+	observerPositions.push_back(position);
+}
+
+const std::vector<Vector3d>& MaximumTrajectoryLength::getObserverPositions() const {
+	return observerPositions;
+}
+
 std::string MaximumTrajectoryLength::getDescription() const {
 	std::stringstream s;
 	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc, ";
 	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
 	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	s << "Observer positions: \n";
+	for (size_t i = 0; i < observerPositions.size(); i++)
+		s << "  - " << observerPositions[i];
 	if (rejectAction.valid())
 		s << ", Action: " << rejectAction->getDescription();
 	return s.str();
 }
 
 void MaximumTrajectoryLength::process(Candidate *c) const {
-	double l = c->getTrajectoryLength();
-	if (l >= maxLength) {
+	double length = c->getTrajectoryLength();
+	Vector3d position = c->current.getPosition();
+
+	if(observerPositions.size()) {
+		bool inRange = false;
+		for (size_t i = 0; i < observerPositions.size(); i++) {
+			double distance = position.getDistanceTo(observerPositions[i]);
+			if (distance + length < maxLength)
+				inRange = true;
+		}
+		if (!inRange) {
+			reject(c);
+			return;
+		}
+	}
+
+	if (length >= maxLength) {
 		reject(c);
 	} else {
-		c->limitNextStep(maxLength - l);
+		c->limitNextStep(maxLength - length);
 	}
 }
 

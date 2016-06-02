@@ -215,7 +215,7 @@ Vector3d JF12Field::getRegularField(const Vector3d& pos) const {
 	if (r < rc) {
 		// varying elevation region
 		rp = r * rXc / rc;
-		bMagX = bX * exp(-1 * rp / rX) * pow(rp / r, 2.);
+		bMagX = bX * exp(-1 * rp / rX) * pow(rXc / rc, 2.);
 		double thetaX = atan2(fabs(pos.z), (r - rp));
 		if (pos.z == 0)
 			thetaX = M_PI / 2.;

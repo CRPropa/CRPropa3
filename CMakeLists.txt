@@ -264,7 +264,7 @@ file(DOWNLOAD
 	EXPECTED_MD5 6dd16796ba7517af562ab65a69fecac3)
 message("-- Extracting data file")
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${DATA_FILE} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
 
 
 # ----------------------------------------------------------------------------

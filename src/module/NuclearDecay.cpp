@@ -167,8 +167,11 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 	for (int i = 0; i < energy.size(); ++i) {
 		if (random.rand() <= intensity[i]) {
 			Egamma += energy[i];
+			// boost to lab frame
+			double cosTheta = 2 * random.rand() - 1;
+			double E = energy[i] * candidate->current.getLorentzFactor() * (1. - cosTheta);
 			if (havePhotons) {
-				candidate->addSecondary(22, energy[i], pos);
+				candidate->addSecondary(22, E, pos);
 			}
 		}
 	}

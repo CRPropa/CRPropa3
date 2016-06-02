@@ -39,6 +39,21 @@ TEST(MaximumTrajectoryLength, test) {
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
+TEST(MaximumTrajectoryLength, observer) {
+	MaximumTrajectoryLength maxLength(12);
+	maxLength.addObserverPosition(Vector3d(10, 0, 0));
+	Candidate c;
+	c.current.setPosition(Vector3d(5, 0, 0));
+
+	c.setTrajectoryLength(5);
+	maxLength.process(&c);
+	EXPECT_TRUE(c.isActive());
+
+	c.setTrajectoryLength(8);
+	maxLength.process(&c);
+	EXPECT_FALSE(c.isActive());
+}
+
 TEST(MinimumRedshift, test) {
 	MinimumRedshift minZ; // default minimum redshift of 0
 	Candidate c;

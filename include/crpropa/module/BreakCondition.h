@@ -15,10 +15,13 @@ namespace crpropa {
  */
 class MaximumTrajectoryLength: public AbstractCondition {
 	double maxLength;
+	std::vector<Vector3d> observerPositions;
 public:
 	MaximumTrajectoryLength(double length = 0);
 	void setMaximumTrajectoryLength(double length);
 	double getMaximumTrajectoryLength() const;
+	void addObserverPosition(const Vector3d &position);
+	const std::vector<Vector3d>& getObserverPositions() const;
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };

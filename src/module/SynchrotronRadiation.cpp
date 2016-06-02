@@ -14,6 +14,7 @@ SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool ha
 	initSpectrum();
 	this->havePhotons = havePhotons;
 	this->limit = limit;
+	secondaryThreshold = 1e7 * eV;
 }
 
 SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double limit) {
@@ -21,6 +22,7 @@ SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double
 	initSpectrum();
 	this->havePhotons = havePhotons;
 	this->limit = limit;
+	secondaryThreshold = 1e7 * eV;
 }
 
 void SynchrotronRadiation::setField(ref_ptr<MagneticField> f) {
@@ -45,6 +47,14 @@ void SynchrotronRadiation::setHavePhotons(bool havePhotons) {
 
 void SynchrotronRadiation::setLimit(double limit) {
 	this->limit = limit;
+}
+
+void SynchrotronRadiation::setSecondaryThreshold(double t) {
+	secondaryThreshold = t;
+}
+
+double SynchrotronRadiation::getSecondaryThreshold() const {
+	return secondaryThreshold;
 }
 
 void SynchrotronRadiation::initSpectrum() {
@@ -106,7 +116,8 @@ void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 		// create synchrotron photon and repeat with remaining energy
 		dE -= Egamma;
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
-		candidate->addSecondary(22, Egamma, pos);
+		if (Egamma > secondaryThreshold) // create only photons with energies above threshold
+			candidate->addSecondary(22, Egamma, pos);
 	}
 }
 
@@ -119,6 +130,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	double z = candidate->getRedshift();
 	double mass = candidate->current.getMass();
 	double gammaBeta = sqrt(pow(lf,2.)-1);
+	double E = candidate->current.getEnergy();
 	double B = 0.;
 	if (field.valid()) {
 		Vector3d Bvec = field->getField(candidate->current.getPosition());
@@ -127,11 +139,12 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		B = sqrt(2./3.) * Brms; // represents average vertical component of RMS field strength
 	B *= pow(1 + z,2.); // cosmological scaling
 	double dEdx = 2./3./(4. * M_PI * epsilon0) * eplus * eplus * pow(gammaBeta,4.) * pow(charge * B / candidate->current.getMomentum().getR(),2.);
+	double Ecrit = h_planck / 2. / M_PI * 3./2. * c_light / candidate->current.getMomentum().getR() * charge * B * pow(E / mass / c_squared,3.);
 
 	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
 	double loss = step * dEdx; // energy loss
 
-	if (havePhotons)
+	if (havePhotons && Ecrit > secondaryThreshold / 14.) // CDF constant for x > 14 -> no photon energies above threshold possible for Ecrit < Ethr / 14
 		addPhotons(candidate, loss);
 
 	if (lf * mass * c_squared - loss <= 0) {
@@ -146,7 +159,8 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 std::string SynchrotronRadiation::getDescription() const {
 	std::stringstream s;
 	s << "Module for calculation of synchrotron energy loss and creation of synchrotron photons.";
-	s << " Have Synchrotron Photons: " << havePhotons;
+	s << " Have synchrotron photons: " << havePhotons;
+	s << ", Energy threshold for production of secondary particles: " << secondaryThreshold;
 	if (field.valid())
 		s << ", Use Magnetic Field";
 	else

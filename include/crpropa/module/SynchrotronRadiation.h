@@ -24,6 +24,7 @@ private:
 	std::vector<double> tabCDF; /*< tabulated cumulative synchrotron spectrum*/
 
 	double limit; ///< fraction of energy loss length to limit the next step
+	double secondaryThreshold; ///< energy threshold for production of secondaries
 	bool havePhotons;
 
 public:
@@ -38,6 +39,8 @@ public:
 	double getBrms();
 	void setHavePhotons(bool havePhotons);
 	void setLimit(double limit);
+	void setSecondaryThreshold(double t);
+	double getSecondaryThreshold() const;
 	void initSpectrum();
 	void process(Candidate *candidate) const;
 	void addPhotons(Candidate *candidate, double loss) const;

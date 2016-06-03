@@ -8,42 +8,47 @@ namespace crpropa {
 
 /**
  @class SynchrotronRadiation
- @brief Energy loss by synchrotron photons which are radiated off by charged particles deflected in magnetic fields.
+ @brief Synchrotron radiation of charged particles in magnetic fields.
 
- This module simulates the production of synchrotron photons as a continuous energy loss.\n
- The synchrotron spectrum is calculated from J.D. Jackson p. 785 (14.91).\n
- The radiated power is taken from J.D. Jackson p. 770 (14.31).\n
- The production of secondary photons can be activated.
+ This module simulates the continuous energy loss of charged particles in magnetic fields, c.f. Jackson.
+ The magnetic field is specified either by a MagneticField or by a RMS field strength value.
+ The module limits the next step size to ensure a fractional energy loss dE/E < limit (default = 0.1).
+ Optionally, synchrotron photons above a threshold (default E > 10^7 eV) are created as secondary particles.
+ Note that the large number of secondary photons per propagation can cause memory problems.
  */
 class SynchrotronRadiation: public Module {
 private:
-	ref_ptr<MagneticField> field;
-	double Brms;
-
-	std::vector<double> tabx; /*< tabulated fraction of omega_{photon} to omega_{critical} from 1e-6 to 1e2 in 801 steps logspaced*/
-	std::vector<double> tabCDF; /*< tabulated cumulative synchrotron spectrum*/
-
+	ref_ptr<MagneticField> field; ///< MagneticField instance
+	double Brms; ///< Brms value in case no MagneticField is specified
 	double limit; ///< fraction of energy loss length to limit the next step
-	double secondaryThreshold; ///< energy threshold for production of secondaries
-	bool havePhotons;
+
+	bool havePhotons; ///< flag for production of secondary photons
+	double secondaryThreshold; ///< threshold energy for secondary photons
+	std::vector<double> tabx; ///< tabulated fraction E_photon/E_critical from 10^-6 to 10^2 in 801 log-spaced steps
+	std::vector<double> tabCDF; ///< tabulated CDF of synchrotron spectrum
+
 
 public:
-	SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons =
-			false, double limit = 0.1);
-	SynchrotronRadiation(double Brms = 0., bool havePhotons =
-			false, double limit = 0.1);
+	SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double limit = 0.1);
+	SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double limit = 0.1);
 
 	void setField(ref_ptr<MagneticField> field);
-	void setField(double Brms);
 	ref_ptr<MagneticField> getField();
+
+	void setBrms(double Brms);
 	double getBrms();
+
 	void setHavePhotons(bool havePhotons);
+	bool getHavePhotons();
+
 	void setLimit(double limit);
-	void setSecondaryThreshold(double t);
+	double getLimit();
+
+	void setSecondaryThreshold(double threshold);
 	double getSecondaryThreshold() const;
+
 	void initSpectrum();
 	void process(Candidate *candidate) const;
-	void addPhotons(Candidate *candidate, double loss) const;
 	std::string getDescription() const;
 };
 

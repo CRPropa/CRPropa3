@@ -18,7 +18,7 @@ SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool ha
 }
 
 SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double limit) {
-	setField(Brms);
+	this->Brms = Brms;
 	initSpectrum();
 	this->havePhotons = havePhotons;
 	this->limit = limit;
@@ -29,12 +29,12 @@ void SynchrotronRadiation::setField(ref_ptr<MagneticField> f) {
 	this->field = f;
 }
 
-void SynchrotronRadiation::setField(double f) {
-	this->Brms = f;
-}
-
 ref_ptr<MagneticField> SynchrotronRadiation::getField() {
 	return field;
+}
+
+void SynchrotronRadiation::setBrms(double Brms) {
+	this->Brms = Brms;
 }
 
 double SynchrotronRadiation::getBrms() {
@@ -45,12 +45,20 @@ void SynchrotronRadiation::setHavePhotons(bool havePhotons) {
 	this->havePhotons = havePhotons;
 }
 
+bool SynchrotronRadiation::getHavePhotons() {
+	return havePhotons;
+}
+
 void SynchrotronRadiation::setLimit(double limit) {
 	this->limit = limit;
 }
 
-void SynchrotronRadiation::setSecondaryThreshold(double t) {
-	secondaryThreshold = t;
+double SynchrotronRadiation::getLimit() {
+	return limit;
+}
+
+void SynchrotronRadiation::setSecondaryThreshold(double threshold) {
+	secondaryThreshold = threshold;
 }
 
 double SynchrotronRadiation::getSecondaryThreshold() const {
@@ -83,25 +91,47 @@ void SynchrotronRadiation::initSpectrum() {
 	infile.close();
 }
 
-void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
-	double E = candidate->current.getEnergy();
-	double mass = candidate->current.getMass();
+void SynchrotronRadiation::process(Candidate *candidate) const {
 	double charge = fabs(candidate->current.getCharge());
-	double dE = loss; // energy loss
-	double z = candidate->getRedshift();
-	double B = 0.;
-	if (field.valid()) {
-		Vector3d Bvec = field->getField(candidate->current.getPosition());
-		B = Bvec.getPerpendicularTo(candidate->current.getDirection()).getR(); // get B field perpendicular to direction of flight
-	} else
-		B = sqrt(2./3.) * Brms; // represents average vertical component of RMS field strength
-	B *= pow(1 + z,2.); // cosmological scaling
-	double Ecrit = h_planck / 2. / M_PI * 3./2. * c_light / candidate->current.getMomentum().getR() * charge * B * pow(E / mass / c_squared,3.);
+	if (charge == 0)
+		return; // only charged particles
 
-	// draw synchrotron photons as long as their energy is smaller than the energy loss in this propagation step
+	// calculate gyroradius, evaluated at the current position
+	double z = candidate->getRedshift();
+	double B;
+	if (field.valid()) {
+		Vector3d Bvec = field->getField(candidate->current.getPosition(), z);
+		B = Bvec.cross(candidate->current.getDirection()).getR();
+	} else {
+		B = sqrt(2. / 3) * Brms; // average perpendicular field component
+	}
+	B *= pow(1 + z, 2); // cosmological scaling
+	double Rg = candidate->current.getMomentum().getR() / charge / B;
+
+	// calculate energy loss
+	double lf = candidate->current.getLorentzFactor();
+	double dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(eplus / Rg, 2); // Jackson p. 770 (14.31)
+	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
+	double dE = step * dEdx;
+
+	// apply energy loss and limit next step
+	double E = candidate->current.getEnergy();
+	candidate->current.setEnergy(E - dE);
+	candidate->limitNextStep(limit * E / dEdx);
+
+	// optionally add secondary photons
+	if (not(havePhotons))
+		return;
+
+	// check if photons with energies > 14 * Ecrit are possible
+	double Ecrit = 3. / 4 * h_planck * M_PI * c_light * pow(lf, 3) / Rg;
+	if (14 * Ecrit < secondaryThreshold)
+		return;
+
+	// draw photons up to the total energy loss
 	Random &random = Random::instance();
 	while (dE > 0) {
-		// draw random value between 0. and maximum of corresponding cdf
+		// draw random value between 0 and maximum of corresponding cdf
 		// choose bin of s where cdf(x) = cdf_rand -> x_rand
 		size_t i = random.randBin(tabCDF); // draw random bin (upper bin boundary returned)
 		double binWidth = (tabx[i] - tabx[i-1]);
@@ -115,56 +145,23 @@ void SynchrotronRadiation::addPhotons(Candidate *candidate, double loss) const {
 
 		// create synchrotron photon and repeat with remaining energy
 		dE -= Egamma;
-		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
+		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 		if (Egamma > secondaryThreshold) // create only photons with energies above threshold
 			candidate->addSecondary(22, Egamma, pos);
 	}
 }
 
-void SynchrotronRadiation::process(Candidate *candidate) const {
-	double charge = fabs(candidate->current.getCharge());
-	if (charge == 0)
-		return; // only charged particles
-
-	double lf = candidate->current.getLorentzFactor();
-	double z = candidate->getRedshift();
-	double mass = candidate->current.getMass();
-	double gammaBeta = sqrt(pow(lf,2.)-1);
-	double E = candidate->current.getEnergy();
-	double B = 0.;
-	if (field.valid()) {
-		Vector3d Bvec = field->getField(candidate->current.getPosition());
-		B = Bvec.getPerpendicularTo(candidate->current.getDirection()).getR(); // get B field perpendicular to direction of flight
-	} else
-		B = sqrt(2./3.) * Brms; // represents average vertical component of RMS field strength
-	B *= pow(1 + z,2.); // cosmological scaling
-	double dEdx = 2./3./(4. * M_PI * epsilon0) * eplus * eplus * pow(gammaBeta,4.) * pow(charge * B / candidate->current.getMomentum().getR(),2.);
-	double Ecrit = h_planck / 2. / M_PI * 3./2. * c_light / candidate->current.getMomentum().getR() * charge * B * pow(E / mass / c_squared,3.);
-
-	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
-	double loss = step * dEdx; // energy loss
-
-	if (havePhotons && Ecrit > secondaryThreshold / 14.) // CDF constant for x > 14 -> no photon energies above threshold possible for Ecrit < Ethr / 14
-		addPhotons(candidate, loss);
-
-	if (lf * mass * c_squared - loss <= 0) {
-		candidate->setActive(false);
-	} else {
-		candidate->current.setEnergy(lf * mass * c_squared - loss);
-		double losslen = candidate->current.getEnergy() / dEdx;
-		candidate->limitNextStep(limit * losslen); // conservative estimate with old dEdx and new E
-	}
-}
-
 std::string SynchrotronRadiation::getDescription() const {
 	std::stringstream s;
-	s << "Module for calculation of synchrotron energy loss and creation of synchrotron photons.";
-	s << " Have synchrotron photons: " << havePhotons;
-	s << ", Energy threshold for production of secondary particles: " << secondaryThreshold;
+	s << "Synchrotron radiation";
 	if (field.valid())
-		s << ", Use Magnetic Field";
+		s << " for specified magnetic field";
 	else
-		s << ", Use Brms: " << Brms / nG << " nG";
+		s << " for Brms = " << Brms / nG << " nG";
+	if (havePhotons)
+		s << ", synchrotron photons E > " << secondaryThreshold / eV << " eV";
+	else
+		s << ", no synchrotron photons";
 	return s.str();
 }
 

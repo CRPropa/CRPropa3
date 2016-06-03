@@ -85,7 +85,7 @@ void EMCascade::save(const std::string &filename) {
 		outfile << logE << "\t";
 		outfile << photonHist[i] << "\t";
 		outfile << electronHist[i] << "\t";
-		outfile << electronHist[i] << "\n";
+		outfile << positronHist[i] << "\n";
 	}
 	outfile.close();
 }

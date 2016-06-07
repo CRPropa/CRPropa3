@@ -6,16 +6,14 @@
 
 namespace crpropa {
 
-CylindricalProjectionMap::CylindricalProjectionMap() : nPhi(360), nTheta(180), dirty(true), pdf(nPhi* nTheta, 0), cdf(nPhi* nTheta, 0) {
+CylindricalProjectionMap::CylindricalProjectionMap() : nPhi(360), nTheta(180), dirty(false), pdf(nPhi* nTheta, 0), cdf(nPhi* nTheta, 0) {
 	sPhi = 2. * M_PI / nPhi;
 	sTheta = 2. / nTheta;
-	updateCdf();
 }
 
-CylindricalProjectionMap::CylindricalProjectionMap(size_t nPhi, size_t nTheta) : nPhi(nPhi), nTheta(nTheta), dirty(true), pdf(nPhi* nTheta, 0), cdf(nPhi* nTheta, 0) {
+CylindricalProjectionMap::CylindricalProjectionMap(size_t nPhi, size_t nTheta) : nPhi(nPhi), nTheta(nTheta), dirty(false), pdf(nPhi* nTheta, 0), cdf(nPhi* nTheta, 0) {
 	sPhi = 2 * M_PI / nPhi;
 	sTheta = 2. / nTheta;
-	updateCdf();
 }
 
 void CylindricalProjectionMap::fillBin(const Vector3d& direction, double weight) {
@@ -138,9 +136,9 @@ size_t EmissionMap::binFromEnergy(double energy) const {
 
 void EmissionMap::fillMap(int pid, double energy, const Vector3d& direction, double weight) {
 	key_t key(pid, binFromEnergy(energy));
-	map_t::const_iterator i = maps.find(key);
+	map_t::iterator i = maps.find(key);
 
-	if (i == maps.end()) {
+	if (i == maps.end() || !i->second.valid()) {
 		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi, nTheta);
 		cpm->fillBin(direction, weight);
 		maps[key] = cpm;

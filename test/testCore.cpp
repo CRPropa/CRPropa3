@@ -477,7 +477,7 @@ TEST(CylindricalProjectionMap, functions) {
 
 TEST(EmissionMap, functions) {
 
-	EmissionMap em(1 * EeV, 100 * EeV, 100, 360, 180);
+	EmissionMap em(360, 180, 100, 1 * EeV, 100 * EeV);
 	double e = em.energyFromBin(50);
 	size_t b = em.binFromEnergy(50 * EeV);
 

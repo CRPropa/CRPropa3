@@ -3,6 +3,7 @@
 
 #include "crpropa/Candidate.h"
 #include "crpropa/Grid.h"
+#include "crpropa/EmissionMap.h"
 
 #include <vector>
 
@@ -273,6 +274,19 @@ class SourceDirection: public SourceFeature {
 public:
 	SourceDirection(Vector3d direction = Vector3d(-1, 0, 0));
 	void prepareParticle(ParticleState &particle) const;
+	void setDescription();
+};
+
+/**
+ @class SourceEmissionMap
+ @brief Deactivate Candidate if it has zero probability in provided EmissionMap
+ */
+class SourceEmissionMap: public SourceFeature {
+	ref_ptr<EmissionMap> emissionMap;
+public:
+	SourceEmissionMap(EmissionMap *emissionMap);
+	void prepareCandidate(Candidate &candidate) const;
+	void setEmissionMap(EmissionMap *emissionMap);
 	void setDescription();
 };
 

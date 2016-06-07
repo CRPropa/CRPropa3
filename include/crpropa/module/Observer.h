@@ -73,6 +73,8 @@ private:
 public:
 	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
 	DetectionState checkDetection(Candidate *candidate) const;
+	void setCenter(const Vector3d &center);
+	void setRadius(float radius);
 	std::string getDescription() const;
 };
 

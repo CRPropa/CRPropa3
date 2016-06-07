@@ -60,6 +60,7 @@
 
 #include "crpropa/Referenced.h"
 #include "crpropa/Candidate.h"
+#include "crpropa/EmissionMap.h"
 #include "crpropa/ParticleState.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/ParticleMass.h"
@@ -157,6 +158,12 @@
 %implicitconv crpropa::ref_ptr<crpropa::Grid<float> >;
 %template(ScalarGridRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
 %template(ScalarGrid) crpropa::Grid<float>;
+
+%include "crpropa/EmissionMap.h"
+%implicitconv crpropa::ref_ptr<crpropa::EmissionMap>;
+%template(EmissionMapRefPtr) crpropa::ref_ptr<crpropa::EmissionMap>;
+%implicitconv crpropa::ref_ptr<crpropa::CylindricalProjectionMap>;
+%template(CylindricalProjectionMapRefPtr) crpropa::ref_ptr<crpropa::CylindricalProjectionMap>;
 
 %include "crpropa/magneticField/MagneticFieldGrid.h"
 %feature("notabstract") QuimbyMagneticFieldAdapter;

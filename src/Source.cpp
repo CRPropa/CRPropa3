@@ -443,6 +443,26 @@ void SourceDirection::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
+SourceEmissionMap::SourceEmissionMap(EmissionMap *emissionMap) : emissionMap(emissionMap) {
+	setDescription();
+}
+
+void SourceEmissionMap::prepareCandidate(Candidate &candidate) const {
+    if (emissionMap) {
+		bool accept = emissionMap->checkDirection(candidate.source);
+		candidate.setActive(accept);
+	}
+}
+
+void SourceEmissionMap::setDescription() {
+	description = "SourceEmissionMap: accept only directions from emission map\n";
+}
+
+void SourceEmissionMap::setEmissionMap(EmissionMap *emissionMap) {
+	this->emissionMap = emissionMap;
+}
+
+// ----------------------------------------------------------------------------
 SourceEmissionCone::SourceEmissionCone(Vector3d direction, double aperture) :
 		direction(direction), aperture(aperture) {
 	setDescription();
@@ -587,7 +607,7 @@ void SourceGenericComposition::add(int id, double weight) {
 		n.cdf[i] = (n.cdf[i-1] + n.cdf[i]) * (energy[i] - energy[i-1]) / 2;
 	}
 	n.cdf[0] = 0;
-	
+
 	// cumulate
 	for (std::size_t i=1; i<=bins; ++i) {
 		n.cdf[i] += n.cdf[i-1];

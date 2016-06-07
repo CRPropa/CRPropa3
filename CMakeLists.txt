@@ -281,6 +281,7 @@ add_library(crpropa SHARED
 	src/ModuleList.cpp
 	src/Module.cpp
 	src/Candidate.cpp
+	src/EmissionMap.cpp
 	src/ParticleState.cpp
 	src/ParticleID.cpp
 	src/ParticleMass.cpp

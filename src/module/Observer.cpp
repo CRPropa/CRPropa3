@@ -119,6 +119,14 @@ DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
 	return DETECTED;
 }
 
+void ObserverSmallSphere::setCenter(const Vector3d &center) {
+	this->center = center;
+}
+
+void ObserverSmallSphere::setRadius(float radius) {
+	this->radius = radius;
+}
+
 std::string ObserverSmallSphere::getDescription() const {
 	std::stringstream ss;
 	ss << "ObserverSmallSphere: ";

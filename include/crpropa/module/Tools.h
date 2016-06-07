@@ -2,6 +2,7 @@
 #define CRPROPA_MODULETOOLS_H
 
 #include "crpropa/Module.h"
+#include "crpropa/EmissionMap.h"
 
 #include <vector>
 #include <set>
@@ -35,6 +36,17 @@ public:
 	void removeId(int remove);
 	std::set<int> &getIds();
 
+	void process(Candidate* candidate) const;
+	std::string getDescription() const;
+};
+
+/**
+ * Fill EmissionMap with source particle state */
+class EmissionMapFiller: public Module {
+	ref_ptr<EmissionMap> emissionMap;
+public:
+	EmissionMapFiller(EmissionMap *emissionMap);
+	void setEmissionMap(EmissionMap *emissionMap);
 	void process(Candidate* candidate) const;
 	std::string getDescription() const;
 };

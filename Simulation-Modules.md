@@ -5,7 +5,7 @@ For a more detailed explanation refer to the Doxygen documentation.
 Propagation modules are responsible for proposing a step size, evaluating the bids for the step size of the previous round and spatially moving the particle according to this step. Every simulation needs exactly one propagation module, that is usually put at the beginning of the module list.
 
 * **SimplePropagation** 
-  * Rectalinear propagation
+  * Rectalinear propagation, i.e. propagates a candidate from a given starting position (e.g. source) with an initial direction onwards until one of the breaking conditions is fulfilled
 * **PropagationCK** 
   * Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5)
 
@@ -49,7 +49,7 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
 
 #### Observers
 Observers can be defined using a collection of ObserverFeatures.
-The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python sessen by typing "Observer" and pressing "tab". The list includes
+The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python sesion by typing "Observer" and pressing "tab". The list includes
 * **ObserverSmallSphere**
   * Detects particle when they enter the sphere
 * **ObserverLargeSphere**

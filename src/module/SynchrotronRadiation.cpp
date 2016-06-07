@@ -124,7 +124,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		return;
 
 	// check if photons with energies > 14 * Ecrit are possible
-	double Ecrit = 3. / 4 * h_planck * M_PI * c_light * pow(lf, 3) / Rg;
+	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;
 	if (14 * Ecrit < secondaryThreshold)
 		return;
 

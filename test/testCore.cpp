@@ -13,6 +13,7 @@
 #include "crpropa/Random.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/EmissionMap.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include "gtest/gtest.h"
@@ -457,6 +458,46 @@ TEST(VectorGrid, Speed) {
 	Vector3d b;
 	for (int i = 0; i < 100000; i++)
 		b = grid.interpolate(Vector3d(i));
+}
+
+TEST(CylindricalProjectionMap, functions) {
+	Vector3d v;
+	v.setRThetaPhi(1.0, 1.2, 2.4);
+	EXPECT_NEAR(v.getPhi(), 2.4, .00001);
+	EXPECT_NEAR(v.getTheta(), 1.2, .000001);
+
+
+
+	CylindricalProjectionMap cpm(360, 180);
+	size_t bin = 678;
+	Vector3d d = cpm.directionFromBin(bin);
+	size_t bin2 = cpm.binFromDirection(d);
+	EXPECT_EQ(bin, bin2);
+}
+
+TEST(EmissionMap, functions) {
+
+	EmissionMap em(1 * EeV, 100 * EeV, 100, 360, 180);
+	double e = em.energyFromBin(50);
+	size_t b = em.binFromEnergy(50 * EeV);
+
+	Vector3d d(1.0, 0.0, 0.0);
+
+	em.fillMap(1, 50 * EeV, d);
+
+	Vector3d d2;
+
+	bool r = em.drawDirection(1, 50 * EeV, d2);
+	EXPECT_TRUE(r);
+// 	printf("%f", d.getAngleTo(d2) );
+	EXPECT_TRUE(d.getAngleTo(d2) < (2. * M_PI / 180.));
+
+	r = em.drawDirection(1, 30 * EeV, d2);
+	EXPECT_FALSE(r);
+
+	r = em.drawDirection(2, 50 * EeV, d2);
+	EXPECT_FALSE(r);
+
 }
 
 int main(int argc, char **argv) {

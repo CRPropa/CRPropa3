@@ -63,6 +63,7 @@ string PerformanceModule::getDescription() const {
 	return sstr.str();
 }
 
+// ----------------------------------------------------------------------------
 ParticleFilter::ParticleFilter() {
 
 }
@@ -95,6 +96,26 @@ string ParticleFilter::getDescription() const {
 	}
 	sstr << ")";
 	return sstr.str();
+}
+
+// ----------------------------------------------------------------------------
+EmissionMapFiller::EmissionMapFiller(EmissionMap *emissionMap) : emissionMap(emissionMap) {
+
+}
+
+void EmissionMapFiller::setEmissionMap(EmissionMap *emissionMap) {
+	this->emissionMap = emissionMap;
+}
+
+void EmissionMapFiller::process(Candidate* candidate) const {
+	if (emissionMap) {
+		#pragma omp critical
+		emissionMap->fillMap(candidate->source);
+	}
+}
+
+string EmissionMapFiller::getDescription() const {
+	return "EmissionMapFiller";
 }
 
 } // namespace crpropa

@@ -1,0 +1,245 @@
+#include "crpropa/EmissionMap.h"
+#include "crpropa/Random.h"
+#include "crpropa/Units.h"
+
+#include <fstream>
+
+namespace crpropa {
+
+CylindricalProjectionMap::CylindricalProjectionMap() : nPhi(360), nTheta(180), dirty(true), pdf(nPhi* nTheta, 0), cdf(nPhi* nTheta, 0) {
+	sPhi = 2. * M_PI / nPhi;
+	sTheta = 2. / nTheta;
+	updateCdf();
+}
+
+CylindricalProjectionMap::CylindricalProjectionMap(size_t nPhi, size_t nTheta) : nPhi(nPhi), nTheta(nTheta), dirty(true), pdf(nPhi* nTheta, 0), cdf(nPhi* nTheta, 0) {
+	sPhi = 2 * M_PI / nPhi;
+	sTheta = 2. / nTheta;
+	updateCdf();
+}
+
+void CylindricalProjectionMap::fillBin(const Vector3d& direction, double weight) {
+	size_t bin = binFromDirection(direction);
+	pdf[bin] += weight;
+	dirty = true;
+}
+
+Vector3d CylindricalProjectionMap::drawDirection() const {
+	if (dirty)
+		updateCdf();
+
+	size_t bin = Random::instance().randBin(cdf);
+
+	return directionFromBin(bin);
+}
+
+bool CylindricalProjectionMap::checkDirection(const Vector3d &direction) const {
+	size_t bin = binFromDirection(direction);
+	return pdf[bin];
+}
+
+
+const std::vector<double>& CylindricalProjectionMap::getPdf() const {
+	return pdf;
+}
+
+std::vector<double>& CylindricalProjectionMap::getPdf() {
+	return pdf;
+}
+
+const std::vector<double>& CylindricalProjectionMap::getCdf() const {
+	return cdf;
+}
+
+size_t CylindricalProjectionMap::getNPhi() {
+	return nPhi;
+}
+
+size_t CylindricalProjectionMap::getNTheta() {
+	return nTheta;
+}
+
+/*
+ * Cylindrical Coordinates
+ * iPhi -> [0, 2*pi]
+ * iTheta -> [0, 2]
+ *
+ * Spherical Coordinates
+ * phi -> [-pi, pi]
+ * theta -> [0, pi]
+ */
+size_t CylindricalProjectionMap::binFromDirection(const Vector3d& direction) const {
+	// convert to cylindrical
+	double phi = direction.getPhi() + M_PI;
+	double theta = sin(M_PI_2 - direction.getTheta()) + 1;
+
+	// to indices
+	size_t iPhi = phi / sPhi;
+	size_t iTheta = 1 + theta / sTheta;
+
+	// interleave
+	size_t bin =  iTheta * nPhi + iPhi;
+	return bin;
+}
+
+Vector3d CylindricalProjectionMap::directionFromBin(size_t bin) const {
+	// deinterleave
+	double iPhi = bin % nPhi;
+	double iTheta = bin / nPhi;
+
+	// any where in the bin
+	iPhi += Random::instance().rand();
+	iTheta -= Random::instance().rand();
+
+	// cylindrical Coordinates
+	double phi = iPhi * sPhi;
+	double theta = iTheta * sTheta;
+
+	// sphericala Coordinates
+	phi = phi - M_PI;
+	theta = M_PI_2 - asin(theta - 1);
+
+	Vector3d v;
+	v.setRThetaPhi(1.0, theta, phi);
+	return v;
+}
+
+void CylindricalProjectionMap::updateCdf() const {
+	if (dirty) {
+		cdf[0] = pdf[0];
+		for (size_t i = 1; i < pdf.size(); i++) {
+			cdf[i] = cdf[i-1] + pdf[i];
+		}
+		dirty = false;
+	}
+}
+
+EmissionMap::EmissionMap() : minEnergy(0.0001 * EeV), maxEnergy(10000 * EeV),
+	nEnergy(8*2), nPhi(360), nTheta(180) {
+	logStep = log10(maxEnergy / minEnergy) / nEnergy;
+}
+
+EmissionMap::EmissionMap(size_t nPhi, size_t nTheta, size_t nEnergy) : minEnergy(0.0001 * EeV), maxEnergy(10000 * EeV),
+	nEnergy(nEnergy), nPhi(nPhi), nTheta(nTheta) {
+	logStep = log10(maxEnergy / minEnergy) / nEnergy;
+}
+
+EmissionMap::EmissionMap(size_t nPhi, size_t nTheta, size_t nEnergy, double minEnergy, double maxEnergy) : minEnergy(minEnergy), maxEnergy(maxEnergy), nEnergy(nEnergy), nPhi(nPhi), nTheta(nTheta) {
+	logStep = log10(maxEnergy / minEnergy) / nEnergy;
+}
+
+double EmissionMap::energyFromBin(size_t bin) const {
+	return pow(10, log10(minEnergy) + logStep * bin);
+}
+
+size_t EmissionMap::binFromEnergy(double energy) const {
+	return log10(energy / minEnergy) / logStep;
+}
+
+void EmissionMap::fillMap(int pid, double energy, const Vector3d& direction, double weight) {
+	key_t key(pid, binFromEnergy(energy));
+	map_t::const_iterator i = maps.find(key);
+
+	if (i == maps.end()) {
+		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi, nTheta);
+		cpm->fillBin(direction, weight);
+		maps[key] = cpm;
+	} else {
+		i->second->fillBin(direction, weight);
+	}
+}
+
+void EmissionMap::fillMap(const ParticleState& state, double weight) {
+	fillMap(state.getId(), state.getEnergy(), state.getDirection(), weight);
+}
+
+bool EmissionMap::drawDirection(int pid, double energy, Vector3d& direction) const {
+	key_t key(pid, binFromEnergy(energy));
+	map_t::const_iterator i = maps.find(key);
+
+	if (i == maps.end() || !i->second.valid()) {
+		return false;
+	} else {
+		direction = i->second->drawDirection();
+		return true;
+	}
+}
+
+bool EmissionMap::drawDirection(const ParticleState& state, Vector3d& direction) const {
+	return drawDirection(state.getId(), state.getEnergy(), direction);
+}
+
+bool EmissionMap::checkDirection(int pid, double energy, const Vector3d& direction) const {
+	key_t key(pid, binFromEnergy(energy));
+	map_t::const_iterator i = maps.find(key);
+
+	if (i == maps.end() || !i->second.valid()) {
+		return false;
+	} else {
+		return i->second->checkDirection(direction);
+	}
+}
+
+bool EmissionMap::checkDirection(const ParticleState& state) const {
+	return checkDirection(state.getId(), state.getEnergy(), state.getDirection());
+}
+
+ref_ptr<CylindricalProjectionMap> &EmissionMap::getMap(int pid, double energy) {
+	key_t key(pid, binFromEnergy(energy));
+	return maps[key];
+}
+
+void EmissionMap::save(const std::string &filename) {
+	std::ofstream out(filename.c_str());
+	out.imbue(std::locale("C"));
+
+	for (map_t::iterator i = maps.begin(); i != maps.end(); i++) {
+		if (!i->second.valid())
+			continue;
+		out << i->first.first << " " << i->first.second << " " << energyFromBin(i->first.second) << " ";
+		out << i->second->getNPhi() << " " << i->second->getNTheta();
+		const std::vector<double> &pdf = i->second->getPdf();
+		for (size_t i = 0; i < pdf.size(); i++)
+			out << " " << pdf[i];
+		out << std::endl;
+	}
+}
+
+void EmissionMap::load(const std::string &filename) {
+	maps.clear();
+	std::ifstream in(filename.c_str());
+	in.imbue(std::locale("C"));
+
+	while(in.good()) {
+		key_t key;
+		double tmp;
+		size_t nPhi_, nTheta_;
+		in >> key.first >> key.second >> tmp;
+		in >> nPhi_ >> nTheta_;
+
+		if (!in.good()) {
+			std::cout << "invalid line: " << key.first << " " << key.second << " " << nPhi_ << " " << nTheta_ << std::endl;
+			break;
+		}
+
+		if (nPhi != nPhi_)
+			std::cout << "Warning: nPhi mismatch: " << nPhi << " " << nPhi_ << std::endl;
+		if (nTheta != nTheta_)
+			std::cout << "Warning: nTheta mismatch: " << nTheta << " " << nTheta_ << std::endl;
+
+		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi_, nTheta_);
+		std::vector<double> &pdf = cpm->getPdf();
+		for (size_t i = 0; i < pdf.size(); i++)
+			in >> pdf[i];
+
+		if (in.good()) {
+			maps[key] = cpm;
+			std::cout << "added " << key.first << " " << key.second << std::endl;
+		} else {
+			std::cout << "invalid data in line: " << key.first << " " << key.second << " " << nPhi_ << " " << nTheta_ << std::endl;
+		}
+	}
+
+}
+
+} // namespace crpropa

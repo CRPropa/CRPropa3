@@ -468,8 +468,8 @@ TEST(CylindricalProjectionMap, functions) {
 
 
 
-	CylindricalProjectionMap cpm(360, 180);
-	size_t bin = 678;
+	CylindricalProjectionMap cpm(24, 12);
+	size_t bin = 50;
 	Vector3d d = cpm.directionFromBin(bin);
 	size_t bin2 = cpm.binFromDirection(d);
 	EXPECT_EQ(bin, bin2);
@@ -489,7 +489,6 @@ TEST(EmissionMap, functions) {
 
 	bool r = em.drawDirection(1, 50 * EeV, d2);
 	EXPECT_TRUE(r);
-// 	printf("%f", d.getAngleTo(d2) );
 	EXPECT_TRUE(d.getAngleTo(d2) < (2. * M_PI / 180.));
 
 	r = em.drawDirection(1, 30 * EeV, d2);

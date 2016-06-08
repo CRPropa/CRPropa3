@@ -110,7 +110,9 @@ void EmissionMapFiller::setEmissionMap(EmissionMap *emissionMap) {
 void EmissionMapFiller::process(Candidate* candidate) const {
 	if (emissionMap) {
 		#pragma omp critical
-		emissionMap->fillMap(candidate->source);
+		{
+			emissionMap->fillMap(candidate->source);
+		}
 	}
 }
 

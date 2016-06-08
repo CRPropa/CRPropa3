@@ -77,7 +77,7 @@ size_t CylindricalProjectionMap::binFromDirection(const Vector3d& direction) con
 
 	// to indices
 	size_t iPhi = phi / sPhi;
-	size_t iTheta = 1 + theta / sTheta;
+	size_t iTheta = theta / sTheta;
 
 	// interleave
 	size_t bin =  iTheta * nPhi + iPhi;
@@ -91,7 +91,7 @@ Vector3d CylindricalProjectionMap::directionFromBin(size_t bin) const {
 
 	// any where in the bin
 	iPhi += Random::instance().rand();
-	iTheta -= Random::instance().rand();
+	iTheta += Random::instance().rand();
 
 	// cylindrical Coordinates
 	double phi = iPhi * sPhi;

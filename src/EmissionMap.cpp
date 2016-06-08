@@ -18,6 +18,10 @@ CylindricalProjectionMap::CylindricalProjectionMap(size_t nPhi, size_t nTheta) :
 
 void CylindricalProjectionMap::fillBin(const Vector3d& direction, double weight) {
 	size_t bin = binFromDirection(direction);
+	fillBin(bin, weight);
+}
+
+void CylindricalProjectionMap::fillBin(size_t bin, double weight) {
 	pdf[bin] += weight;
 	dirty = true;
 }
@@ -135,20 +139,19 @@ size_t EmissionMap::binFromEnergy(double energy) const {
 }
 
 void EmissionMap::fillMap(int pid, double energy, const Vector3d& direction, double weight) {
-	key_t key(pid, binFromEnergy(energy));
-	map_t::iterator i = maps.find(key);
-
-	if (i == maps.end() || !i->second.valid()) {
-		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi, nTheta);
-		cpm->fillBin(direction, weight);
-		maps[key] = cpm;
-	} else {
-		i->second->fillBin(direction, weight);
-	}
+	getMap(pid, energy)->fillBin(direction, weight);
 }
 
 void EmissionMap::fillMap(const ParticleState& state, double weight) {
 	fillMap(state.getId(), state.getEnergy(), state.getDirection(), weight);
+}
+
+EmissionMap::map_t &EmissionMap::getMaps() {
+	return maps;
+}
+
+const EmissionMap::map_t &EmissionMap::getMaps() const {
+	return maps;
 }
 
 bool EmissionMap::drawDirection(int pid, double energy, Vector3d& direction) const {
@@ -182,9 +185,25 @@ bool EmissionMap::checkDirection(const ParticleState& state) const {
 	return checkDirection(state.getId(), state.getEnergy(), state.getDirection());
 }
 
-ref_ptr<CylindricalProjectionMap> &EmissionMap::getMap(int pid, double energy) {
+bool EmissionMap::hasMap(int pid, double energy) {
+    key_t key(pid, binFromEnergy(energy));
+    map_t::iterator i = maps.find(key);
+    if (i == maps.end() || !i->second.valid())
+		return false;
+	else
+		return true;
+}
+
+ref_ptr<CylindricalProjectionMap> EmissionMap::getMap(int pid, double energy) {
 	key_t key(pid, binFromEnergy(energy));
-	return maps[key];
+	map_t::iterator i = maps.find(key);
+	if (i == maps.end() || !i->second.valid()) {
+		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi, nTheta);
+		maps[key] = cpm;
+		return cpm;
+	} else {
+		return i->second;
+	}
 }
 
 void EmissionMap::save(const std::string &filename) {
@@ -203,8 +222,36 @@ void EmissionMap::save(const std::string &filename) {
 	}
 }
 
+void EmissionMap::merge(const EmissionMap *other) {
+	if (other == 0)
+		return;
+	map_t::const_iterator i = other->getMaps().begin();
+	map_t::const_iterator end = other->getMaps().end();
+	for(;i != end; i++) {
+		if (!i->second.valid())
+			continue;
+
+		std::vector<double> &otherpdf = i->second->getPdf();
+		ref_ptr<CylindricalProjectionMap> cpm = getMap(i->first.first, i->first.second);
+
+		if (otherpdf.size() != cpm->getPdf().size()) {
+			std::cout << "pdf size mismatch!" << std::endl;
+			break;
+		}
+
+		for (size_t k = 0; k < otherpdf.size(); k++) {
+			cpm->fillBin(k, otherpdf[k]);
+		}
+	}
+}
+
+void EmissionMap::merge(const std::string &filename) {
+	EmissionMap em;
+	em.load(filename);
+	merge(&em);
+}
+
 void EmissionMap::load(const std::string &filename) {
-	maps.clear();
 	std::ifstream in(filename.c_str());
 	in.imbue(std::locale("C"));
 

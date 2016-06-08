@@ -1,6 +1,6 @@
 /* 1. SWIG settings and workarounds */
 
-%module(directors="1", threads="1") crpropa
+%module(directors="1", threads="1", allprotected="1") crpropa
 
 %feature("director:except") {
     if( $error != NULL ) {

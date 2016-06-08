@@ -43,6 +43,24 @@ public:
 	void process(Candidate *candidate) const;
 };
 
+
+/**
+ @class MinimumRigidity
+ @brief Deactivates the candidate below a minimum rigidity
+
+ This modules deactivates the candidate below a given minimum rigidity (E/Z in EeV).
+ In that case the property ("Deactivated", module::description) is set.
+ */
+class MinimumRigidity: public AbstractCondition {
+	double minRigidity;
+public:
+	MinimumRigidity(double minRigidity = 0);
+	void setMinimumRigidity(double minRigidity);
+	double getMinimumRigidity() const;
+	std::string getDescription() const;
+	void process(Candidate *candidate) const;
+};
+
 /**
  @class MinimumRedshift
  @brief Deactivates the candidate below a minimum redshift

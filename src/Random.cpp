@@ -429,7 +429,7 @@ const static int MAX_THREAD = 256;
 
 struct RANDOM_TLS_ITEM {
 	Random r;
-	char padding[80*64 - sizeof(Random)];
+	char padding[(sizeof(r) / 64 + 1) * 64 - sizeof(r)];
 };
 
 #ifdef _MSC_VER

@@ -142,6 +142,7 @@
 %template(ModuleRefPtr) crpropa::ref_ptr<crpropa::Module>;
 %template(stdModuleList) std::list< crpropa::ref_ptr<crpropa::Module> >;
 %feature("director") crpropa::Module;
+%feature("director") crpropa::AbstractCondition;
 %include "crpropa/Module.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;

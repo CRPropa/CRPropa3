@@ -1,4 +1,5 @@
 #include "crpropa/module/BreakCondition.h"
+#include "crpropa/ParticleID.h"
 #include "crpropa/Units.h"
 
 #include <sstream>
@@ -62,6 +63,7 @@ void MaximumTrajectoryLength::process(Candidate *c) const {
 	}
 }
 
+//*****************************************************************************
 MinimumEnergy::MinimumEnergy(double minEnergy) :
 		minEnergy(minEnergy) {
 }
@@ -91,6 +93,36 @@ std::string MinimumEnergy::getDescription() const {
 	return s.str();
 }
 
+//*****************************************************************************
+MinimumRigidity::MinimumRigidity(double minRigidity) :
+		minRigidity(minRigidity) {
+}
+
+void MinimumRigidity::setMinimumRigidity(double minRigidity) {
+	this->minRigidity = minRigidity;
+}
+
+double MinimumRigidity::getMinimumRigidity() const {
+	return minRigidity;
+}
+
+void MinimumRigidity::process(Candidate *c) const {
+	double rigidity = fabs(c->current.getEnergy() / chargeNumber(c->current.getId()));
+	if (rigidity < minRigidity)
+		reject(c);
+}
+
+std::string MinimumRigidity::getDescription() const {
+	std::stringstream s;
+	s << "Minimum rigidity: " << minRigidity / EeV << " EeV, ";
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
+	return s.str();
+}
+
+//*****************************************************************************
 MinimumRedshift::MinimumRedshift(double zmin) :
 		zmin(zmin) {
 }

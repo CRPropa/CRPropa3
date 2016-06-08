@@ -32,8 +32,11 @@ public:
 	 */
 	CylindricalProjectionMap(size_t nPhi, size_t nTheta);
 
-	/** Increment the bin value b weight. */
+	/** Increment the bin value in direction by weight. */
 	void fillBin(const Vector3d& direction, double weight = 1.);
+
+	/** Increment the bin value by weight. */
+	void fillBin(size_t bin, double weight = 1.);
 	
 	/** Draw a random vector from the distribution. */
 	Vector3d drawDirection() const;
@@ -61,12 +64,10 @@ public:
  * Use SourceEmissionMap to suppress directions at the source. Use EmissionMapFiller to create EmissionMap from Observer.
  */
 class EmissionMap : public Referenced {
-	double minEnergy, maxEnergy, logStep;
-	size_t nPhi, nTheta, nEnergy;
+public:
 	typedef std::pair<int, size_t> key_t;
 	typedef std::map<key_t, ref_ptr<CylindricalProjectionMap> > map_t;
-	map_t maps;
-public:
+
 	EmissionMap();
 	/**
 	 * @param nPhi number of bins for phi (0-2pi)
@@ -90,6 +91,9 @@ public:
 	/** Calculate bin from energy */
 	size_t binFromEnergy(double energy) const;
 
+	map_t &getMaps();
+	const map_t &getMaps() const;
+
 	/** Increment the value for particle type, energy and direction by weight. */
 	void fillMap(int pid, double energy, const Vector3d& direction, double weight = 1.);
 	/** Increment the value for the particle state by weight. */
@@ -105,13 +109,27 @@ public:
 	/** Check if the direction has a non zero propabiliy. */
 	bool checkDirection(const ParticleState& state) const;
 
+	/** Check if a valid map exists */
+	bool hasMap(int pid, double energy);
+
 	/** Get the map for the specified pid and energy */
-	ref_ptr<CylindricalProjectionMap> &getMap(int pid, double energy);
+	ref_ptr<CylindricalProjectionMap> getMap(int pid, double energy);
 
 	/** Save the content of the maps into a text file */
 	void save(const std::string &filename);
 	/** Load the content of the maps from a text file */
 	void load(const std::string &filename);
+
+	/** Merge other maps, add pdfs */
+	void merge(const EmissionMap *other);
+
+	/** Merge maps from file */
+	void merge(const std::string &filename);
+
+protected:
+	double minEnergy, maxEnergy, logStep;
+	size_t nPhi, nTheta, nEnergy;
+	map_t maps;
 };
 
 } // namespace crpropa

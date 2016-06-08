@@ -500,6 +500,21 @@ TEST(EmissionMap, functions) {
 
 }
 
+TEST(EmissionMap, merge) {
+	EmissionMap em1, em2;
+	em1.fillMap(1, 50 * EeV, Vector3d(1.0, 0.0, 0.0));
+	em2.fillMap(1, 50 * EeV, Vector3d(0.0, 1.0, 0.0));
+	em2.fillMap(2, 50 * EeV, Vector3d(0.0, 1.0, 0.0));
+
+	em1.merge(&em2);
+
+	EXPECT_EQ(em1.getMaps().size(), 2);
+
+	ref_ptr<CylindricalProjectionMap> cpm = em1.getMap(1, 50 * EeV);
+	size_t bin = cpm->binFromDirection(Vector3d(0.0, 1.0, 0.0));
+	EXPECT_TRUE(cpm->getPdf()[bin] > 0);
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

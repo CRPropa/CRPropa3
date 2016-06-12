@@ -166,6 +166,13 @@ TEST(Candidate, addSecondary) {
 	EXPECT_TRUE(Vector3d(0,0,1) == s.created.getDirection());
 }
 
+
+TEST(Candidate, serialNumber) {
+	Candidate::setNextSerialNumber(42);
+	Candidate c;
+	EXPECT_EQ(43, c.getSourceSerialNumber());
+}
+
 TEST(common, digit) {
 	EXPECT_EQ(1, digit(1234, 1000));
 	EXPECT_EQ(2, digit(1234, 100));
@@ -513,6 +520,7 @@ TEST(EmissionMap, merge) {
 	size_t bin = cpm->binFromDirection(Vector3d(0.0, 1.0, 0.0));
 	EXPECT_TRUE(cpm->getPdf()[bin] > 0);
 }
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

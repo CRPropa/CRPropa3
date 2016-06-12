@@ -189,6 +189,14 @@ uint64_t Candidate::getCreatedSerialNumber() const {
 		return serialNumber;
 }
 
+void Candidate::setNextSerialNumber(uint64_t snr) {
+	nextSerialNumber = snr;
+}
+
+uint64_t Candidate::getNextSerialNumber() {
+	return nextSerialNumber;
+}
+
 uint64_t Candidate::nextSerialNumber = 0;
 
 } // namespace crpropa

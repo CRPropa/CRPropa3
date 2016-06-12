@@ -119,6 +119,12 @@ public:
 	/** Serial number of candidate at creation */
 	uint64_t getCreatedSerialNumber() const;
 
+	/** Set the next serial number to use */
+	static void setNextSerialNumber(uint64_t snr);
+
+	/** Get the next serial number that will be assigned */
+	static uint64_t getNextSerialNumber();
+
 	/**
 	 Create an exact clone of candidate
 	 @param recursive	Recursivly clone and add the secondaries 

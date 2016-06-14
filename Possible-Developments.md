@@ -9,7 +9,7 @@ Even if the calculations are not done on-the-fly, they could performed initially
 
 * **Photons from photo-disintegration**:
 Currently, photons from photo-disintegration of cosmic ray nuclei are neglected.
-Taking these photons into account would require a suitable implementation of predicted photon energies from e.g. TALYS (in progress)
+Taking these photons into account would require a suitable implementation of predicted photon energies from e.g. TALYS **(in progress)**
 
 * **Galactic magnetic field models**: Implementation of new models for the galactic magnetic field such as the revised random field of the JF12 model described in [arXiv:1409.5120](http://arxiv.org/abs/arXiv:1409.5120).
 

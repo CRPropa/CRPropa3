@@ -9,10 +9,7 @@ Even if the calculations are not done on-the-fly, they could performed initially
 
 * **Photons from photo-disintegration**:
 Currently, photons from photo-disintegration of cosmic ray nuclei are neglected.
-Taking these photons into account would require a suitable implementation of predicted photon energies from e.g. TALYS
-* **Direct implementation of EleCa**:
-EleCa is currently used after the actual CRPropa simulation.
-Since EleCa is a MC code for individual photons, the functionality could be directly implemented in CRPropa in the form of simulation modules. This would allow propagating photons in the same way as nuclei and neutrinos, using the potentially more efficient CRPropa framework and considerably reducing code complexity.
+Taking these photons into account would require a suitable implementation of predicted photon energies from e.g. TALYS (in progress)
 
 * **Galactic magnetic field models**: Implementation of new models for the galactic magnetic field such as the revised random field of the JF12 model described in [arXiv:1409.5120](http://arxiv.org/abs/arXiv:1409.5120).
 

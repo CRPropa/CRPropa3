@@ -24,17 +24,18 @@ Make sure the environment variables are set accordingly: E.g. for an installatio
 
 #### Recommended set-up
 
-There are different ways to install, set-up and use CRPropa, but for a common scenario we can recommend the following one.
+There are different ways to install, set-up and use CRPropa, but for a common use case we would recommend the following one.
 
-CRPropa is typically run on clusters where superuser access is not always available to a user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
-Hence, for the recommended way we will choose installation in user's space without privileged access to a system. Python provides the most flexible access to CRPropa features so in this case we will require Python and therefore SWIG. To avoid clashes with a system python and its libraries, we will use python's virtual environment for this set-up.
+CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
+Thus, the deployment in user's space without privileged access to the system would be the preferred way. Python provides the most flexible access to CRPropa features therefore for this case we will require Python and SWIG. To avoid clashes with the system python and its libraries, we will use Python virtual environment too.
 
-In this procedure there are few extra steps compared to the already given plain installation from source, but later this set-up will be a worthwhile.
+In the procedure there are a few extra steps compared to the already given plain installation from source, but later this kind of set-up will be a worthwhile effort.
 
-1. Choose a location of the set-up and save it to env variable to avoid retyping:
-`CRPROPA_DIR=$HOME"/crpropa_virtenv"`
+1. Choose a location of the set-up and save it in an environment variable to avoid retyping:
+`CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"`
+    and make the directory `mkdir -p $CRPROPA_DIR`
 
-2. Set-up python's virtual environment with a virtualenv.
+2. Initialize Python virtual environment with a virtualenv command.
     If the virtualenv is not already installed on a system (try `virtualenv` command), download it and un-zip it:
     ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip
@@ -44,12 +45,12 @@ In this procedure there are few extra steps compared to the already given plain 
 
     Or instead of all this, just `virtualenv $CRPROPA_DIR --no-site-packages` if there is system virtualenv available.
     
-    Finally, activate virtualenv:
+    Finally, activate the virtualenv:
     ```sh
     source $CRPROPA_DIR"/bin/activate"
     ```
 
-3. Check for dependencies and install required ones (see  [dependencies](#Dependencies) for details). During a compilation of dependency our prefix is needed:
+3. Check for the dependencies and install required ones (see  [dependencies](#Dependencies) for details). During a compilation of the dependency given prefix is also needed:
     ```sh
     ./configure --prefix=$CRPROPA_DIR
     make
@@ -79,12 +80,12 @@ In this procedure there are few extra steps compared to the already given plain 
     python
     import crpropa
     ```
-    The last command must complete without any output. To check if dependencies are installed and linked correctly use this python command, for example in case of FFTW3:
+    The last command must execute without any output. To check if dependencies are installed and linked correctly use the following Python command, e.g. to test the availability of FFTW3:
     ```python
     'initTurbulence' in dir(crpropa)
     ```
 
-There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate described procedure.
+There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
 #### CMake flags
 We recommend using ccmake to view and set the options through the user interface.

@@ -8,23 +8,34 @@
 /**
  @file
  @brief Grid related functions: load, dump, save, create turbulent field ...
+
+ This file contains a number of functions related to scalar and vector grids (Grid.h).
+
+ Dump/load functions are available for saving/loading grids to/from and binary and plain text files.
+ In the files the grid points are stored from (0, 0, 0) to (Nx, Ny, Nz) with the z-index changing the fastest.
+ Vector components are stored per grid point in xyz-order.
+ In case of plain-text files the vector components are separated by a blank or tab and grid points are stored one per line.
+ All functions offer a conversion factor that is multiplied to all values.
  */
 
 namespace crpropa {
 
-/** Evaluate the mean vector of all grid points. */
+/** Evaluate the mean vector of all grid points */
 Vector3f meanFieldVector(ref_ptr<VectorGrid> grid);
 
-/** Evaluate the mean of all grid points. */
+/** Evaluate the mean of all grid points */
 double meanFieldStrength(ref_ptr<ScalarGrid> grid);
+/** Evaluate the mean of all grid points */
 double meanFieldStrength(ref_ptr<VectorGrid> grid);
 
-/** Evaluate the RMS of all grid points. */
+/** Evaluate the RMS of all grid points */
 double rmsFieldStrength(ref_ptr<ScalarGrid> grid);
+/** Evaluate the RMS of all grid points */
 double rmsFieldStrength(ref_ptr<VectorGrid> grid);
 
-/** Multiply all grid values by a given factor. */
+/** Multiply all grid values by a given factor */
 void scaleGrid(ref_ptr<ScalarGrid> grid, double a);
+/** Multiply all grid values by a given factor */
 void scaleGrid(ref_ptr<VectorGrid> grid, double a);
 
 #ifdef CRPROPA_HAVE_FFTW3F
@@ -42,53 +53,43 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin,
 
 /** Analytically calculate the correlation length of a turbulent field */
 double turbulentCorrelationLength(double lMin, double lMax,
-		double alpha = -11./3.);
+		double alpha = (-11./3.));
 
-/** fill vector grid from provided magnetic field */
+/** Fill vector grid from provided magnetic field */
 void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field);
 
-/** fill scalar grid from provided magnetic field */
+/** Fill scalar grid from provided magnetic field */
 void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field);
 
-/**
- Dump / load functions for scalar / 3-vector grids and binary / plain text files.
- The grid points are stored from (0, 0, 0) to (Nx, Ny, Nz) with the z-index changing the fastest.
- Vector components are stored per grid point in xyz-order.
-
- In case of plain-text files the vector components are separated by a blank or tab and grid points are stored one per line.
- Also there can be any number of comment lines at the beginning of the file, started with a #.
-
- All functions offer a conversion factor that is multiplied to all values.
- */
-// Load a VectorGrid from a binary file with single precision.
+/** Load a VectorGrid from a binary file with single precision */
 void loadGrid(ref_ptr<VectorGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Load a ScalarGrid from a binary file with single precision.
+/** Load a ScalarGrid from a binary file with single precision */
 void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Dump a VectorGrid to a binary file.
+/** Dump a VectorGrid to a binary file */
 void dumpGrid(ref_ptr<VectorGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Dump a ScalarGrid to a binary file with single precision.
+/** Dump a ScalarGrid to a binary file with single precision */
 void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Load a VectorGrid grid from a plain text file.
+/** Load a VectorGrid grid from a plain text file */
 void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Load a ScalarGrid from a plain text file.
+/** Load a ScalarGrid from a plain text file */
 void loadGridFromTxt(ref_ptr<ScalarGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Dump a VectorGrid to a plain text file.
+/** Dump a VectorGrid to a plain text file */
 void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename,
 		double conversion = 1);
 
-// Dump a ScalarGrid to a plain text file.
+/** Dump a ScalarGrid to a plain text file */
 void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename,
 		double conversion = 1);
 

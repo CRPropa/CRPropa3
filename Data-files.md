@@ -10,5 +10,5 @@ Uses photodisintegration cross sections (for A > 12) from TALYS 1.6 with a parti
 **Alternative 1:** https://crpropa.desy.de/images/d/d3/Data_2016_03_21_Kossov.tar.gz  
 Photodisintegration interaction rates for the Kossov model.
 
-**Alternative 2:** https://crpropa.desy.de/images/d/d3/Data_2016_03_21_Kossov.tar.gz  
+**Alternative 2:** https://crpropa.desy.de/images/0/0a/Data_2016_03_21_PSB.tar.gz  
 Photodisintegration interaction rates for the PSB model.

@@ -33,7 +33,7 @@ public:
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
 	void setHaveAntiNucleons(bool b);
-        void setDoRedshiftDependent(bool b);
+	void setDoRedshiftDependent(bool b);
 	void setLimit(double limit);
 	void init();
 	void init(std::string filename);

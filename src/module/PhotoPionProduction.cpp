@@ -281,7 +281,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 
 	// check if below SOPHIA's energy threshold
 	double E_threshold = (photonField == CMB) ? 3.72e18 * eV : 5.83e15 * eV;
-	if (EpA < E_threshold)
+	if (EpA * (1 + z) < E_threshold)
 		return;
 
 #pragma omp critical

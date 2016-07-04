@@ -131,7 +131,7 @@ const static int MAX_THREAD = 256;
 
 struct CLOCK_TLS_ITEM {
 	Clock r;
-	char padding[(sizeof(r) / 64 + 1) * 64 - sizeof(r)];
+	char padding[(sizeof(Clock) / 64 + 1) * 64 - sizeof(Clock)];
 };
 
 Clock &Clock::getInstance() {

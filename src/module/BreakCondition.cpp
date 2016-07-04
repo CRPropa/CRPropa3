@@ -31,11 +31,11 @@ std::string MaximumTrajectoryLength::getDescription() const {
 	s << "Maximum trajectory length: " << maxLength / Mpc << " Mpc, ";
 	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
 	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
-	s << "Observer positions: \n";
-	for (size_t i = 0; i < observerPositions.size(); i++)
-		s << "  - " << observerPositions[i];
 	if (rejectAction.valid())
 		s << ", Action: " << rejectAction->getDescription();
+	s << "\n  Observer positions: \n";
+	for (size_t i = 0; i < observerPositions.size(); i++)
+		s << "    - " << observerPositions[i] / Mpc << " Mpc\n";
 	return s.str();
 }
 

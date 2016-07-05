@@ -16,9 +16,9 @@ private:
 	double logEmin, logEmax, dlogE, Dmax, dD;
 
 	// histograms (distance,energy) of photons, electrons and positrons
-	mutable std::vector<uint> photonHist;
-	mutable std::vector<uint> electronHist;
-	mutable std::vector<uint> positronHist;
+	mutable std::vector<uint64_t> photonHist;
+	mutable std::vector<uint64_t> electronHist;
+	mutable std::vector<uint64_t> positronHist;
 	void init();
 
 public:

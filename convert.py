@@ -2,7 +2,10 @@ from subprocess import call
 from sys import argv
 
 def convert(fname):
-    # jupyter-nbconvert --to=notebook --nbformat=3 xxx --output=yyy
+    """
+    Convert ipython notebook from nbformat=4 to 3
+    jupyter-nbconvert --to=notebook --nbformat=3 xxx --output=yyy
+    """
     ofname = fname.replace('.v4','.v3')
     call(['jupyter-nbconvert', '--to=notebook', '--nbformat=3', fname, '--output=%s'%ofname])
 
@@ -19,9 +22,10 @@ files = (
     )
 
 if len(argv) == 1:
-    # convert all notebooks from v4 to v3
+    # convert all listed notebooks from v4 to v3
     for f in files:
         convert(f)
 else:
+    # convert specific notebooks
     for f in argv[1:]:
         convert(f)

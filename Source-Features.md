@@ -19,8 +19,14 @@ Several sources can be combined in a SourceList, with individual (relative) lumi
   * Discrete initial position
 * **SourceMultiplePositions**
   * Multiple discrete initial positions with inividual luminosities
-* **SourceUniformDistribution**
-  * Initial position drawn from a uniform distribution
+* **SourceUniformSphere**
+  * Initial position drawn uniformly from within a sphere
+* **SourceUniformShell**
+  * Initial position drawn from a uniform shell
+* **SourceUniformBox**
+  * Initial position drawn from a uniform 3D box-shaped distribution
+* **SourceUniform1D**
+  * Initial position drawn from a uniform 1D distribution
 * **SourceDensityGrid**
   * Initial position drawn from a 3D grid
 * **SourceDensityGrid1D**

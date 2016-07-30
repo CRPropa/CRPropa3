@@ -80,7 +80,7 @@ void NuclearDecay::process(Candidate *candidate) const {
 		int N = A - Z;
 
 		// check if particle can decay
-		std::vector<DecayMode> decays = decayTable[Z * 31 + N];
+		const std::vector<DecayMode> &decays = decayTable[Z * 31 + N];
 		if (decays.size() == 0)
 			return;
 
@@ -143,18 +143,19 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 	int Z = chargeNumber(id);
 	int N = massNumber(id) - Z;
 
-	std::vector<DecayMode> decays = decayTable[Z * 31 + N];
+	const std::vector<DecayMode> &decays = decayTable[Z * 31 + N];
 	if (decays.size() == 0)
 		return;
 
 	// get photon energy and emission probability for decay channel
-	std::vector<double> energy, intensity;
-	for (int i = 0; i < decays.size(); ++i) {
-		if (decays[i].channel == channel); {
-			energy = decays[i].energy;
-			intensity = decays[i].intensity;
-		}
+	size_t idecay = decays.size();
+	while (--idecay >= 0) {
+		if (decays[idecay].channel == channel)
+			break;
 	}
+
+	const std::vector<double> &energy = decays[idecay].energy;
+	const std::vector<double> &intensity = decays[idecay].intensity;
 
 	// check if photon emission for decay mode
 	if (energy.size() == 0 || intensity.size() == 0)
@@ -211,6 +212,9 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamm
 	std::vector<double> energies;
 	std::vector<double> densities; // cdf(E), unnormalized
 
+	energies.reserve(51);
+	densities.reserve(51);
+
 	double me = mass_electron * c_squared;
 	double cdf = 0;
 	for (int i = 0; i <= 50; i++) {
@@ -258,7 +262,7 @@ double NuclearDecay::meanFreePath(int id, double gamma) {
 	int N = A - Z;
 
 	// check if particle can decay
-	std::vector<DecayMode> decays = decayTable[Z * 31 + N];
+	const std::vector<DecayMode> &decays = decayTable[Z * 31 + N];
 	if (decays.size() == 0)
 		return std::numeric_limits<double>::max();
 

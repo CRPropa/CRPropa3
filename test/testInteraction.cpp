@@ -170,7 +170,7 @@ TEST(NuclearDecay, lithium4) {
 }
 
 TEST(NuclearDecay, helium5) {
-	// Test neturon dripping of He-5 to He-4.
+	// Test neutron dripping of He-5 to He-4.
 	// This test can stochastically fail.
 	NuclearDecay d;
 	Candidate c;
@@ -198,7 +198,7 @@ TEST(NuclearDecay, limitNextStep) {
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
 
-TEST(NuclearDecay, allWorking) {
+TEST(NuclearDecay, allChannelsWorking) {
 	// Test if all nuclear decays are working.
 	NuclearDecay d;
 	Candidate c;
@@ -217,8 +217,42 @@ TEST(NuclearDecay, allWorking) {
 	infile.close();
 }
 
+TEST(NuclearDecay, secondaries) {
+	// Test if all types of secondaries are produced
+	NuclearDecay d;
+	d.setHaveElectrons(true);
+	d.setHaveNeutrinos(true);
+	d.setHavePhotons(true);
+	Candidate c;
+
+	// He-8 --> Li-8 + e- + neutrino
+	// additional photon emitted with 84% probability
+	// --> expect at least 1 photon out of 10 decays
+	for (int i = 0; i < 10; ++i) {
+		c.current.setId(nucleusId(8, 2));
+		c.current.setEnergy(5 * EeV);
+		d.performInteraction(&c, 10000);
+	}
+
+	// count number of secondaries
+	size_t nElectrons = 0;
+	size_t nNeutrinos = 0;
+	size_t nPhotons = 0;
+
+	for(size_t i = 0; i < c.secondaries.size(); ++i) {
+		int id = (*c.secondaries[i]).current.getId();
+		if (id == 22) nPhotons++;
+		if (id == 11) nElectrons++;
+		if (id == -12) nNeutrinos++;
+	}
+
+	EXPECT_EQ(nElectrons, 10);
+	EXPECT_EQ(nNeutrinos, 10);
+	EXPECT_GE(nPhotons, 1);
+}
+
 TEST(NuclearDecay, thisIsNotNucleonic) {
-	// Test if noting happens to an electron
+	// Test if nothing happens to an electron
 	NuclearDecay decay;
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());

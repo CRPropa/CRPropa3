@@ -12,6 +12,10 @@ namespace crpropa {
  @brief Nuclear decay of unstable nuclei.
 
  This module simulates the nuclear decay of unstable nuclei using data from NuDat2.
+ All decay modes are considered: alpha, beta+- and gamma decay, as well as proton- and neutron dripping.
+ The resulting non-hadronic secondary particles (e+, e-, neutrinos, gamma) can optionally be created.
+
+ For details on the preprocessing of the NuDat2 data refer to "CRPropa3-data/calc_decay.py".
  */
 class NuclearDecay: public Module {
 private:
@@ -22,8 +26,8 @@ private:
 	struct DecayMode {
 		int channel; // (#beta- #beta+ #alpha #proton #neutron)
 		double rate; // decay rate in [1/m]
-		std::vector<double> energy;
-		std::vector<double> intensity;
+		std::vector<double> energy; // photon energies of ensuing gamma decays
+		std::vector<double> intensity; // probabilities of ensuing gamma decays
 	};
 	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
 

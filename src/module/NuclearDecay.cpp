@@ -124,7 +124,7 @@ void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
 	int nNeutron = digit(channel, 1);
 
 	// perform decays
-	double Egamma = 0.;
+	double Egamma = 0.; // total energy of emitted photons; this energy is not available for the related beta-decay
 	gammaEmission(candidate,channel, Egamma);
 	for (size_t i = 0; i < nBetaMinus; i++)
 		betaDecay(candidate, false, Egamma);
@@ -143,11 +143,8 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 	int Z = chargeNumber(id);
 	int N = massNumber(id) - Z;
 
+	// get photon energies and emission probabilities for decay channel
 	const std::vector<DecayMode> &decays = decayTable[Z * 31 + N];
-	if (decays.size() == 0)
-		return;
-
-	// get photon energy and emission probability for decay channel
 	size_t idecay = decays.size();
 	while (--idecay >= 0) {
 		if (decays[idecay].channel == channel)
@@ -157,24 +154,24 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 	const std::vector<double> &energy = decays[idecay].energy;
 	const std::vector<double> &intensity = decays[idecay].intensity;
 
-	// check if photon emission for decay mode
-	if (energy.size() == 0 || intensity.size() == 0)
+	// check if photon emission available
+	if (energy.size() == 0)
 		return;
 
 	Random &random = Random::instance();
-	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 
-	// check if photon of specific energy is emitted
 	for (int i = 0; i < energy.size(); ++i) {
-		if (random.rand() <= intensity[i]) {
-			Egamma += energy[i];
-			// boost to lab frame
-			double cosTheta = 2 * random.rand() - 1;
-			double E = energy[i] * candidate->current.getLorentzFactor() * (1. - cosTheta);
-			if (havePhotons) {
-				candidate->addSecondary(22, E, pos);
-			}
-		}
+		// check if photon of specific energy is emitted
+		if (random.rand() > intensity[i])
+			continue;
+		Egamma += energy[i];
+		if (not(havePhotons))
+			continue;
+		// create secondary photon; boost to lab frame
+		double cosTheta = 2 * random.rand() - 1;
+		double E = energy[i] * candidate->current.getLorentzFactor() * (1. - cosTheta);
+		candidate->addSecondary(22, E, pos);
 	}
 }
 
@@ -206,6 +203,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamm
 	// Q-value of the decay, subtract total energy of emitted photons
 	double newMass = candidate->current.getMass();
 	double Q = (mass - newMass - mass_electron) * c_squared - Egamma;
+	Egamma = 0;  // set to 0 for further beta decays
 
 	// generate cdf of electron energy, neglecting Coulomb correction
 	// see Basdevant, Fundamentals in Nuclear Physics, eq. (4.92)
@@ -234,7 +232,7 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamm
 	double Ee = gamma * (E - p * cosTheta);
 	double Enu = gamma * (Q + me - E) * (1 + cosTheta);  // pnu*c ~ Enu
 
-	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 	if (haveElectrons)
 		candidate->addSecondary(electronId, Ee, pos);
 	if (haveNeutrinos)

@@ -430,16 +430,20 @@ void DintElecaPropagation(
 	}
 
 	infile.close();
-	// output spectrum
-	outfile << "# BinCenter [EeV] BinWidth [EeV] Flux-Weights for photons electrons positrons ... \n";
+
+	// output
+	outfile << "# logE photons electrons positrons\n";
+	outfile << "#   - logE: energy bin center <log10(E/eV)>\n";
+	outfile << "#   - photons, electrons, positrons: total flux weights\n";
 	for (int j = 0; j < finalSpectrum.numberOfMainBins; j++) {
-		outfile << (energyGrid.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
-		outfile << (energyWidth.vector[j] / EeV * (eV * ELECTRON_MASS)) << " ";
-		for (int i = 0; i < NUM_SPECIES; i++) {
-			outfile << finalSpectrum.spectrum[i][j] << " ";
+		double logEc = MIN_ENERGY_EXP + 0.05 + j * 1. / BINS_PER_DECADE;
+		outfile << std::setw(5) << logEc;
+		for (int i = 0; i < 3; i++) {
+			outfile << std::setw(13) << finalSpectrum.spectrum[i][j];
 		}
 		outfile << "\n";
 	}
+	outfile.close();
 
 	DeleteSpectrum(&finalSpectrum);
 	Delete_dCVector(&energyGrid);

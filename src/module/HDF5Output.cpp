@@ -8,11 +8,11 @@ const hsize_t BUFFER_SIZE = 1024 * 16;
 
 namespace crpropa {
 
-HDF5Output::HDF5Output(const std::string& filename) : Output(), file(-1), sid(-1),	dset(-1), dataspace(-1){
+HDF5Output::HDF5Output(const std::string& filename) : Output(), file(-1), sid(-1), dset(-1), dataspace(-1) {
 	open(filename);
 }
 
-HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) : Output(outputtype), file(-1), sid(-1),	dset(-1), dataspace(-1) {
+HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) : Output(outputtype), file(-1), sid(-1), dset(-1), dataspace(-1) {
 	open(filename);
 }
 

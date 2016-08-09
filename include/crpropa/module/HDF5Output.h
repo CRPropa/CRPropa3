@@ -12,7 +12,7 @@ namespace crpropa {
 
 class HDF5Output: public Output {
 
-	typedef struct OuputRow {
+	typedef struct OutputRow {
 		double D;
 		double z;
 		uint64_t SN;

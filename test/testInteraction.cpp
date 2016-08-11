@@ -401,14 +401,6 @@ TEST(PhotoPionProduction, allBackgrounds) {
 	PhotoPionProduction ppp7(IRB_Gilmore12);
 }
 
-TEST(PhotoPionProduction, allBackgroundsWithEvolution) {
-	// Test if interaction data files are loaded.
-	PhotoPionProduction ppp1(IRB_withRedshift_Kneiske04);
-	PhotoPionProduction ppp2(IRB_withRedshift_Franceschini08);
-	PhotoPionProduction ppp3(IRB_withRedshift_Finke10);
-	PhotoPionProduction ppp4(IRB_withRedshift_Gilmore12);
-}
-
 TEST(PhotoPionProduction, proton) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.

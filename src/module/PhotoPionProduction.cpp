@@ -14,19 +14,18 @@
 
 namespace crpropa {
 
-PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons,
-		bool neutrinos, bool antiNucleons, double l) {
+PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool neutrinos, bool antiNucleons, double l, bool redshift) {
 	photonField = field;
 	havePhotons = photons;
 	haveNeutrinos = neutrinos;
 	haveAntiNucleons = antiNucleons;
-	doRedshiftDependent = false;
+	haveRedshiftDependence = redshift;
 	limit = l;
 	init();
 }
 
-void PhotoPionProduction::setPhotonField(PhotonField photonField) {
-	this->photonField = photonField;
+void PhotoPionProduction::setPhotonField(PhotonField field) {
+	photonField = field;
 	init();
 }
 
@@ -42,8 +41,9 @@ void PhotoPionProduction::setHaveAntiNucleons(bool b) {
 	haveAntiNucleons = b;
 }
 
-void PhotoPionProduction::setDoRedshiftDependent(bool b) {
-	doRedshiftDependent = b;
+void PhotoPionProduction::setHaveRedshiftDependence(bool b) {
+	haveRedshiftDependence = b;
+	init();
 }
 
 void PhotoPionProduction::setLimit(double l) {
@@ -51,124 +51,113 @@ void PhotoPionProduction::setLimit(double l) {
 }
 
 void PhotoPionProduction::init() {
+	std::string fname;
 	switch (photonField) {
 	case CMB:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: CMB");
+		if (haveRedshiftDependence) {
+			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
+			setHaveRedshiftDependence(false);
+		}
 		init(getDataPath("ppp_CMB.txt"));
-		break;
+		return;
 	case IRB: // default: Kneiske '04 IRB model
 	case IRB_Kneiske04:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB (Kneiske 2004)");
-		init(getDataPath("ppp_IRB_Kneiske04.txt"));
+		fname = "Kneiske04";
 		break;
 	case IRB_Stecker05:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB (Stecker 2005)");
-		init(getDataPath("ppp_IRB_Stecker05.txt"));
+		fname = "Stecker05";
 		break;
 	case IRB_Franceschini08:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB (Franceschini 2008)");
-		init(getDataPath("ppp_IRB_Franceschini08.txt"));
+		fname = "Franceschini08";
 		break;
 	case IRB_Finke10:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB (Finke 2010)");
-		init(getDataPath("ppp_IRB_Finke10.txt"));
+		fname = "Finke10";
 		break;
 	case IRB_Dominguez11:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB (Dominguez 2011)");
-		init(getDataPath("ppp_IRB_Dominguez11.txt"));
+		fname = "Dominguez11";
 		break;
 	case IRB_Gilmore12:
-		doRedshiftDependent = false;
-		setDescription("PhotoPionProduction: IRB (Gilmore 2012)");
-		init(getDataPath("ppp_IRB_Gilmore12.txt"));
-		break;
-	case IRB_withRedshift_Kneiske04:
-		doRedshiftDependent = true;
-		setDescription(
-				"PhotoPionProduction: IRB (Kneiske 2004), redshift dependent shape");
-		init(getDataPath("ppp_IRBz_Kneiske04.txt"));
-		break;
-	case IRB_withRedshift_Stecker05:
-		doRedshiftDependent = true;
-		setDescription(
-				"PhotoPionProduction: IRB (Stecker 2005), redshift dependent shape");
-		init(getDataPath("ppp_IRBz_Stecker05.txt"));
-		break;
-	case IRB_withRedshift_Franceschini08:
-		doRedshiftDependent = true;
-		setDescription(
-				"PhotoPionProduction: IRB (Franceschini 2008), redshift dependent shape");
-		init(getDataPath("ppp_IRBz_Franceschini08.txt"));
-		break;
-	case IRB_withRedshift_Finke10:
-		doRedshiftDependent = true;
-		setDescription(
-				"PhotoPionProduction: IRB (Finke 2010), redshift dependent shape");
-		init(getDataPath("ppp_IRBz_Finke10.txt"));
-		break;
-	case IRB_withRedshift_Dominguez11:
-		doRedshiftDependent = true;
-		setDescription(
-				"PhotoPionProduction: IRB (Dominguez 2011), redshift dependent shape");
-		init(getDataPath("ppp_IRBz_Dominguez11.txt"));
-		break;
-	case IRB_withRedshift_Gilmore12:
-		doRedshiftDependent = true;
-		setDescription(
-				"PhotoPionProduction: IRB (Gilmore 2012), redshift dependent shape");
-		init(getDataPath("ppp_IRBz_Gilmore12.txt"));
+		fname = "Gilmore12";
 		break;
 	default:
-		throw std::runtime_error(
-				"PhotoPionProduction: unknown photon background");
+		throw std::runtime_error("PhotoPionProduction: photon background not implemented");
 	}
+	if (haveRedshiftDependence)
+		init(getDataPath("ppp_IRBz_" + fname + ".txt"));
+	else
+		init(getDataPath("ppp_IRB_" + fname + ".txt"));
 }
 
 void PhotoPionProduction::init(std::string filename) {
-	std::ifstream infile(filename.c_str());
-	if (!infile.good())
-		throw std::runtime_error(
-				"PhotoPionProduction: could not open file " + filename);
-
 	// clear previously loaded tables
 	tabLorentz.clear();
 	tabRedshifts.clear();
 	tabProtonRate.clear();
 	tabNeutronRate.clear();
 
-	double zOld = -1, aOld = -1;
-	bool doReadLorentz = true;
+	std::ifstream infile(filename.c_str());
+	if (!infile.good())
+		throw std::runtime_error("PhotoPionProduction: could not open file " + filename);
 
-	while (infile.good()) {
-		if (infile.peek() != '#') {
+	if (haveRedshiftDependence) {
+		double zOld = -1, aOld = -1;
+		while (infile.good()) {
+			if (infile.peek() == '#') {
+				infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				continue;
+			}
 			double z, a, b, c;
-			if (!doRedshiftDependent)
-				infile >> a >> b >> c;
-			else
-				infile >> z >> a >> b >> c;
-			if (infile) {
-				if (doRedshiftDependent && z != zOld)
-					tabRedshifts.push_back(z);
-				if (a < aOld)
-					doReadLorentz = false;
-				if (doReadLorentz)
-					tabLorentz.push_back(pow(10, a));
-				tabProtonRate.push_back(b / Mpc);
-				tabNeutronRate.push_back(c / Mpc);
+			infile >> z >> a >> b >> c;
+			if (!infile)
+				break;
+			if (z > zOld) {
+				tabRedshifts.push_back(z);
 				zOld = z;
+			}
+			if (a > aOld) {
+				tabLorentz.push_back(pow(10, a));
 				aOld = a;
 			}
+			tabProtonRate.push_back(b / Mpc);
+			tabNeutronRate.push_back(c / Mpc);
 		}
-		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	} else {
+		while (infile.good()) {
+			if (infile.peek() == '#') {
+				infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				continue;
+			}
+			double a, b, c;
+			infile >> a >> b >> c;
+			if (!infile)
+				break;
+			tabLorentz.push_back(pow(10, a));
+			tabProtonRate.push_back(b / Mpc);
+			tabNeutronRate.push_back(c / Mpc);
+		}
 	}
 
 	infile.close();
+}
+
+double PhotoPionProduction::nucleonMFP(double gamma, double z, bool onProton) const {
+	const std::vector<double> &tabRate = (onProton)? tabProtonRate : tabNeutronRate;
+
+	// scale nucleus energy instead of background photon energy
+	gamma *= (1 + z);
+	if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
+		return std::numeric_limits<double>::max();
+
+	double rate;
+	if (haveRedshiftDependence)
+		rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabRate);
+	else
+		rate = interpolate(gamma, tabLorentz, tabRate) * photonFieldScaling(photonField, z);
+
+	// cosmological scaling
+	rate *= pow(1 + z, 2);
+
+	return 1. / rate;
 }
 
 double PhotoPionProduction::nucleiModification(int A, int X) const {
@@ -180,82 +169,58 @@ double PhotoPionProduction::nucleiModification(int A, int X) const {
 }
 
 void PhotoPionProduction::process(Candidate *candidate) const {
-	// the loop should be processed at least once for limiting the next step
 	double step = candidate->getCurrentStep();
 	double z = candidate->getRedshift();
+	// the loop is processed at least once for limiting the next step
 	do {
 		// check if nucleus
 		int id = candidate->current.getId();
-		if (not (isNucleus(id)))
-			return;
-
-		// instead of scaling the photon energies, scale the nucleus energy
-		double gamma = (1 + z) * candidate->current.getLorentzFactor();
-
-		// check if in tabulated energy range
-		if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
+		if (!isNucleus(id))
 			return;
 
 		// find interaction with minimum random distance
 		Random &random = Random::instance();
 		double randDistance = std::numeric_limits<double>::max();
-		int channel; // interacting particle: 1 for proton, 0 for neutron
+		double meanFreePath;
 		double totalRate = 0;
-
-		// comological scaling of interaction distance (comoving)
-		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
+		bool onProton = true; // interacting particle: proton or neutron
 
 		int A = massNumber(id);
 		int Z = chargeNumber(id);
 		int N = A - Z;
+		double gamma = candidate->current.getLorentzFactor();
 
 		// check for interaction on protons
-		double rate;
 		if (Z > 0) {
-			if (doRedshiftDependent)
-				rate = scaling
-						* interpolate2d(z, gamma, tabRedshifts, tabLorentz,
-								tabProtonRate);
-			else
-				rate = scaling * interpolate(gamma, tabLorentz, tabProtonRate);
-			rate *= nucleiModification(A, Z);
-			totalRate += rate;
-			channel = 1;
-			randDistance = -log(random.rand()) / rate;
+			meanFreePath = nucleonMFP(gamma, z, true) * nucleiModification(A, Z);
+			randDistance = -log(random.rand()) * meanFreePath;
+			totalRate += 1. / meanFreePath;
 		}
-
 		// check for interaction on neutrons
 		if (N > 0) {
-			if (doRedshiftDependent)
-				rate = scaling
-						* interpolate2d(z, gamma, tabRedshifts, tabLorentz,
-								tabNeutronRate);
-			else
-				rate = scaling * interpolate(gamma, tabLorentz, tabNeutronRate);
-			rate *= nucleiModification(A, N);
-			totalRate += rate;
-			double d = -log(random.rand()) / rate;
+			meanFreePath = nucleonMFP(gamma, z, false) * nucleiModification(A, N);
+			totalRate += 1. / meanFreePath;
+			double d = -log(random.rand()) * meanFreePath;
 			if (d < randDistance) {
 				randDistance = d;
-				channel = 0;
+				onProton = false;
 			}
 		}
 
 		// check if interaction does not happen
 		if (step < randDistance) {
-			candidate->limitNextStep(limit / totalRate);
+			if (totalRate > 0.)
+				candidate->limitNextStep(limit / totalRate);
 			return;
 		}
 
 		// interact and repeat with remaining step
-		performInteraction(candidate, channel);
+		performInteraction(candidate, onProton);
 		step -= randDistance;
 	} while (step > 0);
 }
 
-void PhotoPionProduction::performInteraction(Candidate *candidate,
-		int channel) const {
-
+void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton) const {
 	int id = candidate->current.getId();
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
@@ -268,8 +233,8 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 	// interaction products from particle <--> anti-particle
 	int sign = (id > 0) ? 1 : -1;
 
-	// arguments for sophia
-	int nature = 1 - channel; // interacting particle: 0 for proton, 1 for neutron
+	// arguments for SOPHIA
+	int nature = 1 - int(onProton); // interacting particle: 0 for proton, 1 for neutron
 	double Ein = EpA / GeV; // energy of in-going nucleon in GeV
 	double momentaList[5][2000]; // momentum list, what are the five components?
 	int particleList[2000]; // particle id list
@@ -286,12 +251,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 
 #pragma omp critical
 	{
-		sophiaevent_(nature, Ein, momentaList, particleList, nParticles, z,
-				background, maxRedshift, dummy1, dummy2, dummy2);
+		sophiaevent_(nature, Ein, momentaList, particleList, nParticles, z, background, maxRedshift, dummy1, dummy2, dummy2);
 	}
 
 	Random &random = Random::instance();
-	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
@@ -305,7 +269,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 			} else {
 				// interacting nucleon is part of nucleus: it is emitted from the nucleus
 				candidate->current.setEnergy(E - EpA);
-				candidate->current.setId(sign * nucleusId(A - 1, Z - channel));
+				candidate->current.setId(sign * nucleusId(A - 1, Z - int(onProton)));
 				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout, pos);
 			}
 			break;
@@ -343,9 +307,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate,
 				candidate->addSecondary(sign * -14, Eout, pos);
 			break;
 		default:
-			throw std::runtime_error(
-					"PhotoPionProduction: unexpected particle "
-							+ kiss::str(pType));
+			throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(pType));
 		}
 	}
 }
@@ -355,34 +317,20 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	int Z = chargeNumber(id);
 	int N = A - Z;
 
-	// instead of scaling the photon energies, scale the nucleus energy
-	gamma *= (1 + z);
-	if (gamma < tabLorentz.front() or (gamma > tabLorentz.back()))
-		return std::numeric_limits<double>::max();
-
 	double lossRate = 0;
+	if (Z > 0)
+		lossRate += 1 / nucleonMFP(gamma, z, true) * nucleiModification(A, Z);
+	if (N > 0)
+		lossRate += 1 / nucleonMFP(gamma, z, false) * nucleiModification(A, N);
 
-	if (Z > 0) {
-		if (doRedshiftDependent)
-			lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabProtonRate);
-		else
-			lossRate += interpolate(gamma, tabLorentz, tabProtonRate);
-	}
-	if (N > 0) {
-		if (doRedshiftDependent)
-			lossRate += interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabNeutronRate);
-		else
-			lossRate += interpolate(gamma, tabLorentz, tabNeutronRate);
-	}
-	lossRate *= nucleiModification(A, Z);
-
-	// protons / neutrons keep as energy the fraction of mass to delta-resonance mass
-	// nuclei approximately lose the energy that the interacting nucleon is carrying
+	// approximate the relative energy loss
+	// - nucleons keep the fraction of mass to delta-resonance mass
+	// - nuclei lose the energy 1/A the interacting nucleon is carrying
 	double relativeEnergyLoss = (A == 1) ? 1 - 938. / 1232. : 1. / A;
 	lossRate *= relativeEnergyLoss;
 
-	// cosmological scaling of photon density
-	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	// scaling factor: interaction rate --> energy loss rate
+	lossRate *= (1 + z);
 
 	return 1. / lossRate;
 }

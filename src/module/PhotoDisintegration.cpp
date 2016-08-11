@@ -215,8 +215,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate,
 	double EpA = candidate->current.getEnergy() / A;
 
 	// update particle
-	int nA = A + dA;
-	if (nA > 0) {
+	if (A + dA > 0) {
 		candidate->current.setId(nucleusId(A + dA, Z + dZ));
 		candidate->current.setEnergy(EpA * (A + dA));
 	} else {

@@ -14,12 +14,6 @@ enum PhotonField {
 	IRB_Finke10,
 	IRB_Dominguez11,
 	IRB_Gilmore12,
-	IRB_withRedshift_Kneiske04,
-	IRB_withRedshift_Stecker05,
-	IRB_withRedshift_Franceschini08,
-	IRB_withRedshift_Finke10,
-	IRB_withRedshift_Dominguez11,
-	IRB_withRedshift_Gilmore12,
 	URB_Protheroe96
 };
 

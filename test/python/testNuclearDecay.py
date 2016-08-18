@@ -27,8 +27,8 @@ def readtable(pathtofile, comments):
             if line.startswith(comments):
                 continue
             items = line.split()
-            converted_line = map(int, items[0:3])
-            converted_line += map(float, items[3:])
+            converted_line = list(map(int, items[0:3]))
+            converted_line += list(map(float, items[3:]))
             data.append(converted_line)
     return data
 

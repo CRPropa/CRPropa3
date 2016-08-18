@@ -14,7 +14,7 @@ N = 4500000
 m = ModuleList()
 m.add(SimplePropagation(0, 1))
 m.add(PeriodicBox(Vector3d(-10), Vector3d(20)))
-m.add(OutputHDF5("test.h5"))
+m.add(HDF5Output("test.h5"))
 
 print ("Run...") 
 c = Candidate(p)

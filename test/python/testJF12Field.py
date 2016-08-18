@@ -1,6 +1,9 @@
 # CRPropa test script
 # Plots a sclice of the JF12 field
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 from matplotlib.colors import LogNorm

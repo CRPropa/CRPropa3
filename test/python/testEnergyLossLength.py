@@ -1,6 +1,9 @@
 # CRPRopa test script
 # Shows how to use the energy loss length method, provided by the interaction modules
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 

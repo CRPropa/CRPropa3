@@ -1,6 +1,9 @@
 # CRPropa test script
 # Tests the accuracy of the Cash-Karp numerical integration method in CRPropa
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 

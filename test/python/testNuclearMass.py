@@ -1,6 +1,9 @@
 # CRPRopa test script
 # Visualizes the nuclear masses in CRPropa
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 

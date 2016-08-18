@@ -1,6 +1,9 @@
 # CRPRopa test script
 # Plot and self consistency test for electron pair production.
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 

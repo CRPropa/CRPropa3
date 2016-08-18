@@ -1,6 +1,9 @@
 # CRPRopa test script
 # Simulate the p/n-ratio of the final baryon states in SOPHIA photo-pion interactions
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 
@@ -13,7 +16,7 @@ def getPNRatio(E):
     for i in range(2000):
         c.current.setId(nucleusId(1, 1))
         c.current.setEnergy(E * EeV)
-        ppp.performInteraction(c, 1)
+        ppp.performInteraction(c, True)
         if c.current.getId() == nucleusId(1,1):
             nP += 1
         if c.current.getId() == nucleusId(1,0):

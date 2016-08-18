@@ -1,6 +1,9 @@
 # CRPropa test script
 # Plots a slice of the Pshirkov field
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 from matplotlib.colors import LogNorm

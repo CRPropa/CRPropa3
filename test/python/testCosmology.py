@@ -1,6 +1,9 @@
 # CRPropa test script
 # Plots the different cosmological distance measures available in CRPropa.
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 

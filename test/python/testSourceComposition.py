@@ -6,6 +6,9 @@
 # Composition = p, He, C, O, Si, Fe with relative abundances
 #   from Allard 2006, DOI: 10.1088/1475-7516/2006/09/005
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 
@@ -14,7 +17,7 @@ nP = 5000 # number of particles per spectral index
 
 d = {1:zeros(nS), 2:zeros(nS), 6:zeros(nS), 8:zeros(nS), 14:zeros(nS), 26:zeros(nS)}
 
-print 'simulating for spectral index'
+# 'simulating for spectral index'
 for i in range(nS):
     beta = 2 + i/float(nS - 1)
 
@@ -29,7 +32,7 @@ for i in range(nS):
     ps = ParticleState()
 
     for j in range(nP):
-        composition.prepare(ps)
+        composition.prepareParticle(ps)
         z = chargeNumber(ps.getId())
         d[z][i] += 1
 

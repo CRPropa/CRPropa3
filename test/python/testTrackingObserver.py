@@ -1,3 +1,9 @@
+# CRPropa test script
+# Testing ObserverTracking
+#
+import matplotlib
+matplotlib.use('Agg')
+
 import pylab
 import numpy
 import sys

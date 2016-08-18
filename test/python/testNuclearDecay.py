@@ -1,6 +1,10 @@
 # CRPRopa test script
 # Visualizes the nuclear decay tables in CRPropa
 #
+import matplotlib
+matplotlib.use('Agg')
+import numpy as np
+
 from crpropa import *
 from pylab import *
 from matplotlib.colors import LogNorm
@@ -16,14 +20,30 @@ vBm = 0.75 # beta- decay
 modeDict = {1:vN, 2:vN, 10:vP, 20:vP, 100:vA, 200:vA, 10000:vBp, 20000:vBp, 10001:vBp, 10002:vBp, 10003:vBp, 10004:vBp, 10101:vBp, 10100:vBp, 10200:vBp, 10300:vBp, 1000:vBm, 2000:vBm, 1100:vBm, 1010:vBm, 1020:vBm, 1030:vBm}
 
 
+def readtable(pathtofile, comments):
+    data = []
+    with open(pathtofile, 'r') as f:
+        for line in f:
+            if line.startswith(comments):
+                continue
+            items = line.split()
+            converted_line = map(int, items[0:3])
+            converted_line += map(float, items[3:])
+            data.append(converted_line)
+    return data
+
 ### read and evaluate decay tables
-data = genfromtxt(getDataPath('nuclear_decay.txt'), comments='#')
+data = readtable(getDataPath('nuclear_decay.txt'), comments='#')
 modes = zeros((27, 31))
 times = zeros((27, 31))
 multi = zeros((27, 31))
 inclu = zeros((27, 31))
 
-for z, n, mode, time in data:
+for el in data:
+    z = el[0]
+    n = el[1]
+    mode = el[2]
+    time = el[3]
     inclu[z,n] += 1/time
     multi[z,n] += 1
     if modes[z, n] != 0:
@@ -31,6 +51,9 @@ for z, n, mode, time in data:
             continue
     modes[z,n] = modeDict[mode]
     times[z,n] = time
+
+### stable nuclei
+inclu[np.where(inclu == 0)] = 1e-99
 
 inclu = 1 / inclu
 

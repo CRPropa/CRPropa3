@@ -1,6 +1,9 @@
 # CRPropa test script
 # Tests and visualizes how periodic and reflective boundaries work.
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 from matplotlib.patches import Rectangle

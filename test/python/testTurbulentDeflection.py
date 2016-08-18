@@ -1,6 +1,9 @@
 # CRPropa test script
 # Simulate the propagation through a turbulent field and compare to theoretical predictions
 #
+import matplotlib
+matplotlib.use('Agg')
+
 from crpropa import *
 from pylab import *
 
@@ -26,7 +29,9 @@ distance, rms1, rms2 = zeros((3, nS))
 R = Random.instance()
 for j in range(nT):
     if j % (nT // 10) == 0:
-        print j
+        # uncomment this for "progress bar"
+        # print j
+        continue
 
     ps = ParticleState()
     ps.setId(nucleusId(1, 1))

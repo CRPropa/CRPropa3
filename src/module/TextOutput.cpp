@@ -137,7 +137,7 @@ void TextOutput::process(Candidate *c) const {
 		p += sprintf(buffer + p, "%1.5f\t", c->getRedshift());
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10i\t",
+		p += sprintf(buffer + p, "%10lu\t",
 				c->getSerialNumber());
 	if (fields.test(CurrentIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->current.getId());
@@ -163,7 +163,7 @@ void TextOutput::process(Candidate *c) const {
 	}
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10i\t", c->getSourceSerialNumber());
+		p += sprintf(buffer + p, "%10lu\t", c->getSourceSerialNumber());
 	if (fields.test(SourceIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->source.getId());
 	if (fields.test(SourceEnergyColumn))
@@ -189,7 +189,7 @@ void TextOutput::process(Candidate *c) const {
 	}
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10i\t",
+		p += sprintf(buffer + p, "%10lu\t",
 				c->getCreatedSerialNumber());
 	if (fields.test(CreatedIdColumn))
 		p += sprintf(buffer + p, "%10i\t", c->created.getId());

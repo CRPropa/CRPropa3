@@ -49,4 +49,4 @@ Compiler such as ``gcc`` should have an access to the header and to CPRropa's sh
 ```
 gcc example.cpp -o run -I$HOME/.local/include/ -L$HOME/.local/lib/ -lcrpropa -lstdc++
 ```
-although Makefile should be employed in a general case.
+however, Makefile should be employed in a general case.

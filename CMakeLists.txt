@@ -273,6 +273,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar
 # ----------------------------------------------------------------------------
 # Library and Binary
 # ----------------------------------------------------------------------------
+file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h) 
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
 
 add_library(crpropa SHARED
@@ -329,6 +330,13 @@ target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 add_executable(crpropa-xmlrun src/main.cpp)
 target_link_libraries(crpropa-xmlrun crpropa)
 
+# Creates a meta-header file for easy inclusion in 3rd party C++ projects
+file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h)
+foreach(filename ${CRPROPA_INCLUDES})
+    string(REPLACE "include/crpropa/" "" filename ${filename})
+    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h "#include \"${filename}\"\n")
+endforeach(filename)
+
 
 # ----------------------------------------------------------------------------
 # Python
@@ -361,7 +369,6 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		MESSAGE(STATUS "Numpy not found.")
 	endif(numpyIncludePath)
 
-	file(GLOB_RECURSE CRPROPA_INCLUDES include/*.h)
 	file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
@@ -386,6 +393,7 @@ add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 

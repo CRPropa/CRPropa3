@@ -30,6 +30,7 @@ CRPropa 2 compatibility (XML steering)
  * [Cosmic Ray Sources](Cosmic Ray Sources)
  * [Random Number Seed](Random Numbers)
  * [Extending CRPropa from Python](Extending CRPropa)
+ * [Using CRPropa within C++ projects](C++ projects)
 
 #### Developer Section
  * [How-to: Tutorials in form of ipython-notebooks](ipython-notebooks)

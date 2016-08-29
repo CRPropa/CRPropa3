@@ -27,11 +27,11 @@ Make sure the environment variables are set accordingly: E.g. for an installatio
 There are different ways to install, set-up and use CRPropa, but for a common use case we would recommend the following one.
 
 CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
-Thus, the deployment in user's space without privileged access to the system would be the preferred way. Python provides the most flexible access to CRPropa features therefore for this case we will require Python and SWIG. To avoid clashes with the system python and its libraries, we will use Python virtual environment too.
+Thus, the deployment in a user space without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, therefore, Python and SWIG will be required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.
 
-In the procedure there are a few extra steps compared to the already given plain installation from source, but later this kind of set-up will be a worthwhile effort.
+This procedure brings a few steps extra compared to the already given plain installation from the source, but later this kind of set-up will be a worthwhile effort.
 
-1. Choose a location of the set-up and save it in an environment variable to avoid retyping:
+1. Choose a location of the set-up and save it in the environment variable to avoid retyping:
 `CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"`
     and make the directory `mkdir -p $CRPROPA_DIR`
 
@@ -40,10 +40,10 @@ In the procedure there are a few extra steps compared to the already given plain
     ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip
     unzip develop.zip
-    python virtualenv-develop/virtualenv.py $CRPROPA_DIR --no-site-packages
+    python virtualenv-develop/virtualenv.py $CRPROPA_DIR
     ```
 
-    Or instead of all this, just `virtualenv $CRPROPA_DIR --no-site-packages` if there is system virtualenv available.
+    Or instead of all this, just `virtualenv $CRPROPA_DIR` if there is virtualenv available on the system.
     
     Finally, activate the virtualenv:
     ```sh
@@ -73,7 +73,7 @@ In the procedure there are a few extra steps compared to the already given plain
     ```sh
     echo "export LD_LIBRARY_PATH=$CRPROPA_DIR/lib:\$LD_LIBRARY_PATH" >> $CRPROPA_DIR"/bin/activate"
     ```
-    Then `deactivate` and activate again virtualenv: `source $CRPROPA_DIR"/bin/activate"`.
+    Then `deactivate` and activate virtualenv again: `source $CRPROPA_DIR"/bin/activate"`.
 
 6. Check the set-up.
     ```python

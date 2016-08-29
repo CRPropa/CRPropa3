@@ -31,7 +31,8 @@ int main(void){
         source->add(new SourceUniform1D(1*Mpc, 1000*Mpc));
         source->add(new SourceRedshift1D());
 
-        ref_ptr<SourceComposition> composition = new SourceComposition(1*EeV, 100*EeV, -1);
+        ref_ptr<SourceComposition> composition =
+            new SourceComposition(1*EeV, 100*EeV, -1);
         composition->add(1,  1,  1);
         composition->add(4,  2,  1);
         composition->add(14, 7,  1);
@@ -47,6 +48,6 @@ int main(void){
 
 Compiler such as ``gcc`` should have an access to the header and to CPRropa's shared library (``libcrpropa.so``). If one used paths from [here](Installation), gcc line would look like:
 ```
-gcc example.cpp -o run -I$HOME/.local/include/ -L$HOME/.local/lib/ -lcrpropa -lstdc++
+g++ example.cpp -o run -I$HOME/.local/include/ -L$HOME/.local/lib/ -lcrpropa
 ```
 however, Makefile should be employed in a general case.

@@ -1,4 +1,4 @@
-Although is highly recommended to use and [to extend](Extending CRPropa) CRPropa with the default Python binding, there is also a possibility to use it within a C++ code when Python or SWIG is not available or desirable.
+Although is highly recommended to use and [to extend](Extending CRPropa) CRPropa with the default Python binding, there is also a possibility to use it within a C++ code when Python or SWIG are not available or desirable.
 
 To include CRPropa classes and definitions it is sufficient to include ``crpropa/CRPropa.h``, example:
 

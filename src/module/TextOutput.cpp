@@ -54,47 +54,36 @@ void TextOutput::printHeader() const {
 		*out << "\tID";
 	if (fields.test(CurrentEnergyColumn))
 		*out << "\tE";
-	if (fields.test(CurrentPositionColumn)) {
-		if (oneDimensional)
-			*out << "\tX";
-		else
-			*out << "\tX\tY\tZ";
-	}
-	if (fields.test(CurrentDirectionColumn))
-		if (not oneDimensional)
-			*out << "\tPx\tPy\tPz";
-
+	if (fields.test(CurrentPositionColumn) && oneDimensional)
+		*out << "\tX";
+	if (fields.test(CurrentPositionColumn) && not oneDimensional)
+		*out << "\tX\tY\tZ";
+	if (fields.test(CurrentDirectionColumn) && not oneDimensional)
+		*out << "\tPx\tPy\tPz";
 	if (fields.test(SerialNumberColumn))
 		*out << "\tSN0";
 	if (fields.test(SourceIdColumn))
 		*out << "\tID0";
 	if (fields.test(SourceEnergyColumn))
 		*out << "\tE0";
-	if (fields.test(SourcePositionColumn)) {
-		if (oneDimensional)
-			*out << "\tX0";
-		else
-			*out << "\tX0\tY0\tZ0";
-	}
-	if (fields.test(SourceDirectionColumn))
-		if (not oneDimensional)
-			*out << "\tP0x\tP0y\tP0z";
-
+	if (fields.test(SourcePositionColumn) && oneDimensional) 
+		*out << "\tX0";
+	if (fields.test(SourcePositionColumn) && not oneDimensional)
+		*out << "\tX0\tY0\tZ0";
+	if (fields.test(SourceDirectionColumn) && not oneDimensional)
+		*out << "\tP0x\tP0y\tP0z";
 	if (fields.test(SerialNumberColumn))
 		*out << "\tSN1";
 	if (fields.test(CreatedIdColumn))
 		*out << "\tID1";
 	if (fields.test(CreatedEnergyColumn))
 		*out << "\tE1";
-	if (fields.test(CreatedPositionColumn)) {
-		if (oneDimensional)
-			*out << "\tX1";
-		else
-			*out << "\tX1\tY1\tZ1";
-	}
-	if (fields.test(CreatedDirectionColumn))
-		if (not oneDimensional)
-			*out << "\tP1x\tP1y\tP1z";
+	if (fields.test(CreatedPositionColumn) && oneDimensional)
+		*out << "\tX1";
+	if (fields.test(CreatedPositionColumn) && not oneDimensional)
+		*out << "\tX1\tY1\tZ1";
+	if (fields.test(CreatedDirectionColumn) && not oneDimensional)
+		*out << "\tP1x\tP1y\tP1z";
 
 	*out << "\n#\n";
 	if (fields.test(TrajectoryLengthColumn))

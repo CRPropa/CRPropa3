@@ -438,6 +438,10 @@ if(ENABLE_TESTING)
 	target_link_libraries(testSource crpropa gtest gtest_main pthread)
 	add_test(testSource testSource)
 
+	add_executable(testOutput test/testOutput.cpp)
+	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
+	add_test(testOutput testOutput)
+
 	if(WITH_GALACTIC_LENSES)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
 		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)

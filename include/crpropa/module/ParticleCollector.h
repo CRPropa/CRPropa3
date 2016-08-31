@@ -5,18 +5,18 @@
 namespace crpropa {
 
 /**
- @class ParticleContainerOutput
+ @class ParticleCollector
  @brief A helper ouput mechanism to directly transfer candidates to Python
  */
-class ParticleContainerOutput: public Module {
+class ParticleCollector: public Module {
 protected:
         typedef std::vector<ref_ptr<Candidate> > tContainer;
         mutable tContainer container;
         std::size_t nBuffer;
 
 public:
-        ParticleContainerOutput(std::size_t size = 1e6);
-        ~ParticleContainerOutput();
+        ParticleCollector(std::size_t size = 1e6);
+        ~ParticleCollector();
 
         void process(Candidate *candidate) const;
         std::size_t getCount() const;

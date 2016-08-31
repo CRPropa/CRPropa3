@@ -52,8 +52,8 @@
 %enddef
 
 %pythoncode %{
-class ParticleContainerOutput(ParticleContainerOutput):
-        __getitem__ = ParticleContainerOutput.__getitem__
+class ParticleCollector(ParticleCollector):
+        __getitem__ = ParticleCollector.__getitem__
 %}
 
 /* Division of vector fix #34 */

@@ -13,9 +13,11 @@ protected:
         typedef std::vector<ref_ptr<Candidate> > tContainer;
         mutable tContainer container;
         std::size_t nBuffer;
+	bool clone;
+	bool recursive;
 
 public:
-        ParticleCollector(std::size_t size = 1e6);
+        ParticleCollector();
         ~ParticleCollector();
 
         void process(Candidate *candidate) const;

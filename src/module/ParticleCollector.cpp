@@ -3,8 +3,7 @@
 
 namespace crpropa {
 
-ParticleCollector::ParticleCollector(std::size_t size) {
-        nBuffer = size;
+ParticleCollector::ParticleCollector() : nBuffer(10e6), clone(false), recursive(false)  {
         container.reserve(nBuffer); // for 1e6 candidates ~ 500MB of RAM
 }
 
@@ -12,7 +11,10 @@ void ParticleCollector::process(Candidate* c) const {
 #pragma omp critical
         {
                 if (container.size() < nBuffer)
-	        	container.push_back(c);
+			if(clone)
+		        	container.push_back(c->clone(recursive));
+			else
+				container.push_back(c);
         }
 }
 

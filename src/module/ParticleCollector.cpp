@@ -7,6 +7,20 @@ ParticleCollector::ParticleCollector() : nBuffer(10e6), clone(false), recursive(
         container.reserve(nBuffer); // for 1e6 candidates ~ 500MB of RAM
 }
 
+ParticleCollector::ParticleCollector(const std::size_t nBuffer) : clone(false), recursive(false)  {
+	container.reserve(nBuffer);
+}
+
+ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone) : recursive(false) {
+	container.reserve(nBuffer);
+}
+
+
+ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone, const bool recursive) {
+	container.reserve(nBuffer);
+}
+
+
 void ParticleCollector::process(Candidate* c) const {
 #pragma omp critical
         {

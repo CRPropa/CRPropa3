@@ -51,6 +51,11 @@
 
 %enddef
 
+%pythoncode %{
+class ParticleContainerOutput(ParticleContainerOutput):
+        __getitem__ = ParticleContainerOutput.__getitem__
+%}
+
 /* Division of vector fix #34 */
 %feature("python:slot", "nb_divide", functype="binaryfunc") *::operator/;
 

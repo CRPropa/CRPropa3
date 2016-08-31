@@ -47,7 +47,6 @@ void TextOutput::printHeader() const {
 		*out << "\tD";
 	if (fields.test(RedshiftColumn))
 		*out << "\tz";
-
 	if (fields.test(SerialNumberColumn))
 		*out << "\tSN";
 	if (fields.test(CurrentIdColumn))

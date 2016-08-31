@@ -1,16 +1,16 @@
 /* 2: SWIG and CRPropa headers */
 
-%include stl.i
-%include std_set.i
-%include std_multiset.i
-%include std_map.i
-%include std_pair.i
-%include std_multimap.i
-%include std_vector.i
-%include std_string.i
-%include std_list.i
-%include stdint.i
-%include std_container.i
+%include "stl.i"
+%include "std_set.i"
+%include "std_multiset.i"
+%include "std_map.i"
+%include "std_pair.i"
+%include "std_multimap.i"
+%include "std_vector.i"
+%include "std_string.i"
+%include "std_list.i"
+%include "stdint.i"
+%include "std_container.i"
 %include "exception.i"
 
 #ifdef CRPROPA_HAVE_QUIMBY
@@ -35,6 +35,7 @@
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/Observer.h"
 #include "crpropa/module/TextOutput.h"
+#include "crpropa/module/ParticleContainerOutput.h"
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/module/OutputShell.h"
 #include "crpropa/module/OutputROOT.h"
@@ -172,7 +173,6 @@
 %include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"
 %include "crpropa/magneticField/PshirkovField.h"
-
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 %include "crpropa/module/Observer.h"
@@ -180,6 +180,10 @@
 %include "crpropa/module/PropagationCK.h"
 %include "crpropa/module/Output.h"
 %include "crpropa/module/TextOutput.h"
+%inline %{
+class RangeError {};
+%}
+%include "crpropa/module/ParticleContainerOutput.h"
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
 %include "crpropa/module/OutputROOT.h"
@@ -209,3 +213,24 @@
 
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
+
+%exception crpropa::ParticleContainerOutput::__getitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+
+}
+
+%extend crpropa::ParticleContainerOutput {
+  crpropa::ref_ptr<crpropa::Candidate> __getitem__(size_t i) {
+        if (i >= $self->getCount()) {
+                throw RangeError();
+        }
+        return (*($self))[i];
+  }
+};
+

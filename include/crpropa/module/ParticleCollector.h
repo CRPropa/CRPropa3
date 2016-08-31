@@ -18,6 +18,9 @@ protected:
 
 public:
         ParticleCollector();
+        ParticleCollector(const std::size_t nBuffer);
+        ParticleCollector(const std::size_t nBuffer, const bool clone);
+        ParticleCollector(const std::size_t nBuffer, const bool clone, const bool recursive);
         ~ParticleCollector();
 
         void process(Candidate *candidate) const;

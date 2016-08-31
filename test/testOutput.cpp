@@ -1,6 +1,7 @@
 /** Unit tests for Output modules of CRPropa
 	Output
   	TextOutput
+	ParticleCollector
  */
 
 #include "crpropa/ParticleID.h"
@@ -8,7 +9,7 @@
 #include "crpropa/Units.h"
 #include "crpropa/module/Output.h"
 #include "crpropa/module/TextOutput.h"
-#include "crpropa/module/ParticleContainerOutput.h"
+#include "crpropa/module/ParticleCollector.h"
 
 #include <string>
 #include "gtest/gtest.h"
@@ -91,20 +92,20 @@ TEST(TextOutput, printHeader_Custom) {
 	          "#\tSN\tID\tE\tSN0\tID0\tE0\tSN1");
 }
 
-//-- ParticleContainerOutput
+//-- ParticleCollector
 
-TEST(ParticleContainerOutput, getCount) {
+TEST(ParticleCollector, getCount) {
 	ref_ptr<Candidate> c = new Candidate();
-	ParticleContainerOutput output;
+	ParticleCollector output;
 
 	for (int it=0; it<5; ++it, output.process(c));
 	
 	EXPECT_EQ(output.getCount(), 5);
 }
 
-TEST(ParticleContainerOutput, fetchItem) {
+TEST(ParticleCollector, fetchItem) {
 	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1*EeV);
-	ParticleContainerOutput output;
+	ParticleCollector output;
 
 	output.process(c);
 	

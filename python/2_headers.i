@@ -35,7 +35,7 @@
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/Observer.h"
 #include "crpropa/module/TextOutput.h"
-#include "crpropa/module/ParticleContainerOutput.h"
+#include "crpropa/module/ParticleCollector.h"
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/module/OutputShell.h"
 #include "crpropa/module/OutputROOT.h"
@@ -183,7 +183,7 @@
 %inline %{
 class RangeError {};
 %}
-%include "crpropa/module/ParticleContainerOutput.h"
+%include "crpropa/module/ParticleCollector.h"
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
 %include "crpropa/module/OutputROOT.h"
@@ -214,7 +214,7 @@ class RangeError {};
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 
-%exception crpropa::ParticleContainerOutput::__getitem__ {
+%exception crpropa::ParticleCollector::__getitem__ {
   try {
         $action
   }
@@ -225,7 +225,7 @@ class RangeError {};
 
 }
 
-%extend crpropa::ParticleContainerOutput {
+%extend crpropa::ParticleCollector {
   crpropa::ref_ptr<crpropa::Candidate> __getitem__(size_t i) {
         if (i >= $self->getCount()) {
                 throw RangeError();

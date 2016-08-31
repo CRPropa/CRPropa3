@@ -306,7 +306,7 @@ add_library(crpropa SHARED
 	src/module/Redshift.cpp
 	src/module/Output.cpp
 	src/module/TextOutput.cpp
-	src/module/ParticleContainerOutput.cpp
+	src/module/ParticleCollector.cpp
 	src/module/HDF5Output.cpp
 	src/module/OutputShell.cpp
 	src/module/OutputROOT.cpp

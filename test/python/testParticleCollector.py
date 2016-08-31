@@ -5,7 +5,7 @@ sim.add(SimplePropagation(1*kpc, 10*Mpc))
 
 obs = Observer()
 obs.add(ObserverPoint())
-output = ParticleContainerOutput()
+output = ParticleCollector()
 obs.onDetection(output)
 sim.add(obs)
 
@@ -17,5 +17,4 @@ source.add(SourceParticleType(nucleusId(1,1)))
 sim.setShowProgress(True)
 sim.run(source, 20000, True)
 
-for c in output:
-    print c
+print "Trajectory length of the 5th particle:", output[5].getTrajectoryLength()

@@ -306,6 +306,7 @@ add_library(crpropa SHARED
 	src/module/Redshift.cpp
 	src/module/Output.cpp
 	src/module/TextOutput.cpp
+	src/module/ParticleContainerOutput.cpp
 	src/module/HDF5Output.cpp
 	src/module/OutputShell.cpp
 	src/module/OutputROOT.cpp
@@ -354,8 +355,10 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 	option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
 	if(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "-builtin")
+		set(PY3 "-py3")
 	else(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "")
+		set(PY3 "")
 	endif(ENABLE_SWIG_BUILTIN)
 
 	# tries to import numpy
@@ -372,7 +375,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 	file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-		COMMAND swig ${BUILTIN} -py3 -c++ -python -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
+		COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
 		DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)

@@ -73,6 +73,7 @@ Main output modules
   * Customizable with the presets Event1D, Event3D, Trajectory1D, Trajectory3D, Everything.
   * If the filename ends with '.gz' the output is compressed 
 * **HDF5Output** Output in the HDF5 format
+* **ParticleContainerOutput** A temporary container for storing candidates in memory (use with care due to memory limitations, e.g. 1e6 candidates ~ 500MB of RAM)
 
 Legacy output modules (CRPropa 2 format)
 * **ROOTEventOutput1D**

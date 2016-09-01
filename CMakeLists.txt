@@ -260,20 +260,19 @@ endif()
 # ----------------------------------------------------------------------------
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
-message("-- Downloading data file from crpropa.desy.de ~ 35 MB")
+message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
-	https://crpropa.desy.de/images/8/83/Data_2016_05_23.tar.gz
+	https://crpropa.desy.de/images/3/3a/Data_2016_08_31.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz
-	EXPECTED_MD5 6dd16796ba7517af562ab65a69fecac3)
+	EXPECTED_MD5 959983f679ffd6ea1b65f4d764b81f72)
 message("-- Extracting data file")
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/data)
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/data)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 
 # ----------------------------------------------------------------------------
 # Library and Binary
 # ----------------------------------------------------------------------------
-file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h) 
+file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h)
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
 
 add_library(crpropa SHARED

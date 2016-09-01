@@ -4,6 +4,7 @@
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/PhotoDisintegration.h"
+#include "crpropa/module/ElasticScattering.h"
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/Redshift.h"
 #include "gtest/gtest.h"
@@ -266,13 +267,13 @@ TEST(NuclearDecay, thisIsNotNucleonic) {
 // PhotoDisintegration --------------------------------------------------------
 TEST(PhotoDisintegration, allBackgrounds) {
 	// Test if interaction data files are loaded.
-	PhotoDisintegration pd1(CMB);
-	PhotoDisintegration pd2(IRB_Kneiske04);
-	PhotoDisintegration pd3(IRB_Stecker05);
-	PhotoDisintegration pd4(IRB_Franceschini08);
-	PhotoDisintegration pd5(IRB_Finke10);
-	PhotoDisintegration pd6(IRB_Dominguez11);
-	PhotoDisintegration pd7(IRB_Gilmore12);
+	PhotoDisintegration pd(CMB);
+	pd.setPhotonField(IRB_Kneiske04);
+	pd.setPhotonField(IRB_Stecker05);
+	pd.setPhotonField(IRB_Franceschini08);
+	pd.setPhotonField(IRB_Finke10);
+	pd.setPhotonField(IRB_Dominguez11);
+	pd.setPhotonField(IRB_Gilmore12);
 }
 
 TEST(PhotoDisintegration, carbon) {
@@ -386,6 +387,35 @@ TEST(PhotoDisintegration, allIsotopes) {
 			c.current.setEnergy(80 * EeV);
 			pd2.process(&c);
 		}
+	}
+}
+
+// ElasticScattering ----------------------------------------------------------
+TEST(ElasticScattering, allBackgrounds) {
+	// Test if interaction data files are loaded.
+	ElasticScattering scattering(CMB);
+	scattering.setPhotonField(IRB);
+}
+
+TEST(ElasticScattering, secondaries) {
+	// Test the creation of cosmic ray photons.
+	// This test can stochastically fail.
+	ElasticScattering scattering(CMB);
+	Candidate c;
+	int id = nucleusId(12, 6);
+	c.current.setId(id);
+	c.current.setEnergy(200 * EeV);
+	c.setCurrentStep(100 * Mpc);
+	scattering.process(&c);
+
+	EXPECT_GT(c.secondaries.size(), 0);
+
+	for (int i = 0; i < c.secondaries.size(); i++) {
+		int id = (*c.secondaries[i]).current.getId();
+		EXPECT_EQ(id, 22);
+		double energy = (*c.secondaries[i]).current.getEnergy();
+		EXPECT_GT(energy, 0);
+		EXPECT_LT(energy, 200 * EeV);
 	}
 }
 

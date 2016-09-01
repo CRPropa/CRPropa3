@@ -302,6 +302,7 @@ add_library(crpropa SHARED
 	src/module/NuclearDecay.cpp
 	src/module/PhotoPionProduction.cpp
 	src/module/PhotoDisintegration.cpp
+	src/module/ElasticScattering.cpp
 	src/module/Redshift.cpp
 	src/module/Output.cpp
 	src/module/TextOutput.cpp

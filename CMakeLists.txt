@@ -264,7 +264,7 @@ message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
 	https://crpropa.desy.de/images/9/97/Data_2016_09_05.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz
-	EXPECTED_MD5 959983f679ffd6ea1b65f4d764b81f72)
+	EXPECTED_MD5 303ac410da26d91f4adec499288136ce)
 message("-- Extracting data file")
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 

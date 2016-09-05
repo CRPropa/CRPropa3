@@ -262,7 +262,7 @@ endif()
 # ----------------------------------------------------------------------------
 message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
-	https://crpropa.desy.de/images/3/3a/Data_2016_08_31.tar.gz
+	https://crpropa.desy.de/images/9/97/Data_2016_09_05.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz
 	EXPECTED_MD5 959983f679ffd6ea1b65f4d764b81f72)
 message("-- Extracting data file")

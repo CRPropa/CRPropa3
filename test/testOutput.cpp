@@ -109,7 +109,18 @@ TEST(ParticleCollector, fetchItem) {
 
 	output.process(c);
 	
-	EXPECT_EQ(output[0]->current.getEnergy(), 1*EeV);
+	EXPECT_EQ(output[0], c);
+}
+
+TEST(ParticleCollector, reprocess) {
+	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1*EeV);
+	ParticleCollector collector;
+	ParticleCollector output;
+
+	collector.process(c);
+	collector.reprocess(&output);
+	
+	EXPECT_EQ(output[0], c);
 }
 
 int main(int argc, char **argv) {

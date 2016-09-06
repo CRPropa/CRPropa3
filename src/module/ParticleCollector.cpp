@@ -32,6 +32,15 @@ void ParticleCollector::process(Candidate* c) const {
         }
 }
 
+void ParticleCollector::reprocess(Module *action) const {
+	for (ParticleCollector::iterator itr = container.begin(); itr != container.end(); ++itr){
+		if (clone)
+			action->process((*(itr->get())).clone(false));
+	       	else
+        	        action->process(itr->get());
+	}
+}
+
 ParticleCollector::~ParticleCollector() {
         clearContainer();
 }

@@ -24,6 +24,7 @@ public:
         ~ParticleCollector();
 
         void process(Candidate *candidate) const;
+	void reprocess(Module *action) const;
         std::size_t getCount() const;
 	ref_ptr<Candidate> operator[](const std::size_t i) const;
         void clearContainer();

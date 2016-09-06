@@ -343,6 +343,7 @@ endforeach(filename)
 # Python
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
+find_package(PythonInterp)
 find_package(PythonLibs)
 
 if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)

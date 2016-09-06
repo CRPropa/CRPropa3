@@ -38,13 +38,36 @@
 %feature("python:slot", "tp_str", functype="reprfunc") classname::repr();
 %feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
 
+%exception classname::__getitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+
+}
+
 %extend classname {
         const std::string repr() {
             char buffer[1024];
-            sprintf( buffer, "Vector( %.6G, %.6G, %.6G )", $self->x, $self->y, $self->z );
+            sprintf( buffer, "Vector(%.6G, %.6G, %.6G)", $self->x, $self->y, $self->z );
             return buffer;
         }
+        double __getitem__(size_t i) {
+                if (i > 2)
+                        throw RangeError();
+                if(i == 0)
+                        return $self->getX();
+                if(i == 1)
+                        return $self->getY();
+                if(i == 2)
+                        return $self->getZ();
+        }
 }
+
+
 
 %template(Vector3d) crpropa::Vector3<double>;
 %template(Vector3f) crpropa::Vector3<float>;

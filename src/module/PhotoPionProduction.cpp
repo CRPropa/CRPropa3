@@ -192,13 +192,13 @@ void PhotoPionProduction::process(Candidate *candidate) const {
 
 		// check for interaction on protons
 		if (Z > 0) {
-			meanFreePath = nucleonMFP(gamma, z, true) * nucleiModification(A, Z);
+			meanFreePath = nucleonMFP(gamma, z, true) / nucleiModification(A, Z);
 			randDistance = -log(random.rand()) * meanFreePath;
 			totalRate += 1. / meanFreePath;
 		}
 		// check for interaction on neutrons
 		if (N > 0) {
-			meanFreePath = nucleonMFP(gamma, z, false) * nucleiModification(A, N);
+			meanFreePath = nucleonMFP(gamma, z, false) / nucleiModification(A, N);
 			totalRate += 1. / meanFreePath;
 			double d = -log(random.rand()) * meanFreePath;
 			if (d < randDistance) {

@@ -405,7 +405,7 @@ TEST(ElasticScattering, secondaries) {
 	int id = nucleusId(12, 6);
 	c.current.setId(id);
 	c.current.setEnergy(200 * EeV);
-	c.setCurrentStep(100 * Mpc);
+	c.setCurrentStep(400 * Mpc);
 	scattering.process(&c);
 
 	EXPECT_GT(c.secondaries.size(), 0);

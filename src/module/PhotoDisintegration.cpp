@@ -283,6 +283,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 	// create photons
 	double z = candidate->getRedshift();
 	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
+	double lf = candidate->current.getLorentzFactor();
 
 	int l = round((lg - lgmin) / (lgmax - lgmin) * (nlg - 1));  // index of closest tabulation point
 	int key = Z*1e6 + (A-Z)*1e4 + (Z+dZ)*1e2 + (A+dA) - (Z+dZ);
@@ -294,7 +295,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 
 		// boost to lab frame
 		double cosTheta = 2 * random.rand() - 1;
-		double E = pdPhoton[key][i].energy * lg * (1 - cosTheta);
+		double E = pdPhoton[key][i].energy * lf * (1 - cosTheta);
 		candidate->addSecondary(22, E, pos);
 	}
 }

@@ -102,10 +102,13 @@ void ElasticScattering::process(Candidate *candidate) const {
 	if (not isNucleus(id))
 		return;
 
+	double lg = log10(candidate->current.getLorentzFactor() * (1 + z));
+	if ((lg < lgmin) or (lg > lgmax))
+		return;
+
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	int N = A - Z;
-	double lg = log10(candidate->current.getLorentzFactor());
 
 	double step = candidate->getCurrentStep();
 	while (step > 0) {
@@ -125,7 +128,6 @@ void ElasticScattering::process(Candidate *candidate) const {
 		size_t j = random.randBin(tabCDF[i]) - 1; // index of next lower tabulated eps value
 		double binWidth = (epsmax - epsmin) / (neps - 1); // logarithmic bin width
 		double eps = pow(10, epsmin + (j + random.rand()) * binWidth);
-		eps *= (1 + z);
 
 		// boost to lab frame
 		double cosTheta = 2 * random.rand() - 1;

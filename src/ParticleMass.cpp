@@ -44,11 +44,10 @@ double nuclearMass(int id) {
 }
 
 double nuclearMass(int A, int Z) {
-	int N = A - Z;
-	double mass = nuclearMassTable.table[Z * 31 + N];
-	if (mass == 0)
+	if ((A < 1) or (A > 56) or (Z < 0) or (Z > 26) or (Z > A))
 		throw std::runtime_error("nuclearMass: nucleus not found " + kiss::str(A) + ", " + kiss::str(Z));
-	return mass;
+	int N = A - Z;
+	return nuclearMassTable.table[Z * 31 + N];
 }
 
 } // namespace crpropa

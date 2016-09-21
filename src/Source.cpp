@@ -448,7 +448,7 @@ SourceEmissionMap::SourceEmissionMap(EmissionMap *emissionMap) : emissionMap(emi
 }
 
 void SourceEmissionMap::prepareCandidate(Candidate &candidate) const {
-    if (emissionMap) {
+	if (emissionMap) {
 		bool accept = emissionMap->checkDirection(candidate.source);
 		candidate.setActive(accept);
 	}

@@ -18,14 +18,9 @@ namespace crpropa {
 class ElectronPairProduction: public Module {
 private:
 	PhotonField photonField;
-
 	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0 */
 	std::vector<double> tabLorentzFactor; /*< tabulated Lorentz factor */
-
-	std::vector<std::vector<double> > tabSpectrum; /*< tabulated electron spectrum dN/dE in [a.u.] */
-	std::vector<double> tabE; /*< tabulated proton energy in [J], 70 steps from 10^15 - 10^22 eV */
-	std::vector<double> tabEe; /*< edges of electron energy bins in [J], 171 steps from 10^6.95 - 10^23.95 eV */
-	std::vector<double> tabEeWidth; /*< electron energy bin width in [J], 170 steps */
+	std::vector<std::vector<double> > tabSpectrum; /*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-24 in 170 steps and log10(gamma)=6-13 in 70 steps and*/
 	double limit; ///< fraction of energy loss length to limit the next step
 	bool haveElectrons;
 
@@ -47,15 +42,13 @@ public:
 	 @param lf		Lorentz factor
 	 @param z		redshift
 
-	 The energy loss length is tabulated for protons against CMB, IRB and
-	 CMB+IRB photon backgrounds.
+	 The energy loss length is tabulated for protons against CMB and IRB.
 	 Modification for nuclei and cosmological evolution of the photon background
 	 is considered with (cf. 10.1016/j.astropartphys.2012.07.010, eq. 3 and 5)
 	 beta_A,Z(E) = Z^2 / A * beta_p(E/A)
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
 	double lossLength(int id, double lf, double z=0) const;
-	void addElectrons(Candidate *candidate, double loss) const;
 };
 
 } // namespace crpropa

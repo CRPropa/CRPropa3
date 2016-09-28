@@ -96,15 +96,6 @@ void ElectronPairProduction::initRate(std::string filename) {
 }
 
 void ElectronPairProduction::initSpectrum(std::string filename) {
-	// proton energies: 70 energies from 10^15 - 10^22 eV
-	for (size_t i = 0; i < 70; i++)
-		tabE.push_back(pow(10, 15 + i * 7. / 69.) * eV);
-	// electron energies: 171 energies from 10^6.95 - 10^23.95 eV
-	for (size_t j = 0; j < 171; j++)
-		tabEe.push_back(pow(10, 6.95 + 0.1 * j) * eV);
-	for (size_t j = 0; j < 170; j++)
-		tabEeWidth.push_back(tabEe[j+1] - tabEe[j]);
-
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
 		throw std::runtime_error(
@@ -116,13 +107,12 @@ void ElectronPairProduction::initSpectrum(std::string filename) {
 		tabSpectrum[i].resize(170);
 		for (size_t j = 0; j < 170; j++) {
 			infile >> dNdE;
-			tabSpectrum[i][j] = dNdE * tabEe[j]; // read in spectrum: f(E) ~ dN/dE * E
+			tabSpectrum[i][j] = dNdE * pow(10, (7 + 0.1 * j)); // read electron distribution pdf(Ee) ~ dN/dEe * Ee
 		}
 		for (size_t j = 1; j < 170; j++) {
-			tabSpectrum[i][j] += tabSpectrum[i][j - 1]; // cumulate F(E), this does not need to be normalized
+			tabSpectrum[i][j] += tabSpectrum[i][j - 1]; // cdf(Ee), unnormalized
 		}
 	}
-
 	infile.close();
 }
 
@@ -146,43 +136,6 @@ double ElectronPairProduction::lossLength(int id, double lf, double z) const {
 	return 1. / rate;
 }
 
-void ElectronPairProduction::addElectrons(Candidate *c, double loss) const {
-	double E = c->current.getEnergy();
-	double dE = E * loss; // energy loss
-	double z = c->getRedshift();
-	double Eeff = E / massNumber(c->current.getId()) * (1 + z);
-
-	// interpolate spectrum in the Eff
-	size_t i = std::upper_bound(tabE.begin(), tabE.end(), Eeff) - tabE.begin() - 1;
-	double a = (Eeff - tabE[i]) / (tabE[i + 1] - tabE[i]);
-
-	std::vector<double> spectrum(170);
-	for (size_t j = 0; j < 170; j++)
-		spectrum[j] = tabSpectrum[i][j]
-				+ a * (tabSpectrum[i + 1][j] - tabSpectrum[i][j]);
-
-	// draw pairs as long as their energy is smaller than the pair production energy loss
-	Random &random = Random::instance();
-	while (dE > 0) {
-		size_t i = random.randBin(spectrum); // draw random bin
-		double Ee = tabEe[i] + random.rand() * tabEeWidth[i]; // draw random uniform energy in bin
-		Ee /= (1 + z); // dN/dE(Ep,Ee,z) = (1+z)^4 * dN/dE(Ep*(1+z),Ee*(1+z),0)
-
-		double Epair = 2 * Ee; // electron and positron should generally not have the same energy in the lab frame, however averaged over many draws the result of this method will be consistent with the correct implementation
-
-		// if the remaining energy is not sufficient check for random accepting
-		if (Epair > dE)
-			if (random.rand() > (dE / Epair))
-				break; // not accepted
-
-		// create pair and repeat with remaining energy
-		dE -= Epair;
-		Vector3d pos = random.randomInterpolatedPosition(c->previous.getPosition(),c->current.getPosition());
-		c->addSecondary(11, Ee, pos);
-		c->addSecondary(-11, Ee, pos);
-	}
-}
-
 void ElectronPairProduction::process(Candidate *c) const {
 	int id = c->current.getId();
 	if (not (isNucleus(id)))
@@ -197,8 +150,30 @@ void ElectronPairProduction::process(Candidate *c) const {
 	double step = c->getCurrentStep() / (1 + z); // step size in local frame
 	double loss = step / losslen;  // relative energy loss
 
-	if (haveElectrons)
-		addElectrons(c, loss);
+	if (haveElectrons) {
+		double dE = c->current.getEnergy() * loss;  // energy loss
+		int i = round((log10(lf) - 6.05) * 10);  // find closest cdf(Ee|log10(gamma))
+		i = std::min(std::max(i, 0), 69);
+		Random &random = Random::instance();
+
+		// draw pairs as long as their energy is smaller than the pair production energy loss
+		while (dE > 0) {
+			size_t j = random.randBin(tabSpectrum[i]);
+			double Ee = pow(10, 6.95 * j + random.rand() * 0.1);
+			double Epair = 2 * Ee; // NOTE: electron and positron in general don't have same lab frame energy, but averaged over many draws the result is consistent
+
+			// if the remaining energy is not sufficient check for random accepting
+			if (Epair > dE)
+				if (random.rand() > (dE / Epair))
+					break; // not accepted
+
+			// create pair and repeat with remaining energy
+			dE -= Epair;
+			Vector3d pos = random.randomInterpolatedPosition(c->previous.getPosition(), c->current.getPosition());
+			c->addSecondary( 11, Ee, pos);
+			c->addSecondary(-11, Ee, pos);
+		}
+	}
 
 	c->current.setLorentzFactor(lf * (1 - loss));
 	c->limitNextStep(limit * losslen);

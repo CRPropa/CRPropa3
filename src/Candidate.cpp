@@ -27,6 +27,15 @@ Candidate::Candidate(const ParticleState &state) :
 		source(state), created(state), current(state), previous(state), redshift(
 				0), trajectoryLength(0), currentStep(0), nextStep(0), active(
 				true) {
+#if defined(OPENMP_3_1)
+		#pragma omp atomic capture
+		{serialNumber = nextSerialNumber++;}
+#elif defined(__GNUC__)
+		{serialNumber = __sync_add_and_fetch(&nextSerialNumber, 1);}
+#else
+		#pragma omp critical
+		{serialNumber = nextSerialNumber++;}
+#endif
 }
 
 bool Candidate::isActive() const {

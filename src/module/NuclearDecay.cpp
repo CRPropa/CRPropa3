@@ -1,6 +1,7 @@
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
+#include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
 
 #include <fstream>
@@ -124,12 +125,12 @@ void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
 	int nNeutron = digit(channel, 1);
 
 	// perform decays
-	double Egamma = 0.; // total energy of emitted photons; this energy is not available for the related beta-decay
-	gammaEmission(candidate,channel, Egamma);
+	if (havePhotons)
+		gammaEmission(candidate,channel);
 	for (size_t i = 0; i < nBetaMinus; i++)
-		betaDecay(candidate, false, Egamma);
+		betaDecay(candidate, false);
 	for (size_t i = 0; i < nBetaPlus; i++)
-		betaDecay(candidate, true, Egamma);
+		betaDecay(candidate, true);
 	for (size_t i = 0; i < nAlpha; i++)
 		nucleonEmission(candidate, 4, 2);
 	for (size_t i = 0; i < nProton; i++)
@@ -138,7 +139,7 @@ void NuclearDecay::performInteraction(Candidate *candidate, int channel) const {
 		nucleonEmission(candidate, 1, 0);
 }
 
-void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egamma) const {
+void NuclearDecay::gammaEmission(Candidate *candidate, int channel) const {
 	int id = candidate->current.getId();
 	int Z = chargeNumber(id);
 	int N = massNumber(id) - Z;
@@ -165,9 +166,6 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 		// check if photon of specific energy is emitted
 		if (random.rand() > intensity[i])
 			continue;
-		Egamma += energy[i];
-		if (not(havePhotons))
-			continue;
 		// create secondary photon; boost to lab frame
 		double cosTheta = 2 * random.rand() - 1;
 		double E = energy[i] * candidate->current.getLorentzFactor() * (1. - cosTheta);
@@ -175,12 +173,11 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel, double &Egam
 	}
 }
 
-void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamma) const {
+void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	double gamma = candidate->current.getLorentzFactor();
 	int id = candidate->current.getId();
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
-	double mass = candidate->current.getMass();
 
 	// beta- decay
 	int electronId = 11; // electron
@@ -201,9 +198,9 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus, double Egamm
 		return;
 
 	// Q-value of the decay, subtract total energy of emitted photons
-	double newMass = candidate->current.getMass();
-	double Q = (mass - newMass - mass_electron) * c_squared - Egamma;
-	Egamma = 0;  // set to 0 for further beta decays
+	double m1 = nuclearMass(A, Z);
+	double m2 = nuclearMass(A, Z+dZ);
+	double Q = (m1 - m2 - mass_electron) * c_squared;
 
 	// generate cdf of electron energy, neglecting Coulomb correction
 	// see Basdevant, Fundamentals in Nuclear Physics, eq. (4.92)

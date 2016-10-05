@@ -39,8 +39,8 @@ public:
 	void setHaveNeutrinos(bool b);
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, int channel) const;
-	void gammaEmission(Candidate *candidate, int channel, double &Egamma) const;
-	void betaDecay(Candidate *candidate, bool isBetaPlus, double Egamma) const;
+	void gammaEmission(Candidate *candidate, int channel) const;
+	void betaDecay(Candidate *candidate, bool isBetaPlus) const;
 	void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
 
 	/**

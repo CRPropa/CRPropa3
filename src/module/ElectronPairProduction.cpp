@@ -159,9 +159,8 @@ void ElectronPairProduction::process(Candidate *c) const {
 		// draw pairs as long as their energy is smaller than the pair production energy loss
 		while (dE > 0) {
 			size_t j = random.randBin(tabSpectrum[i]);
-			double Ee = pow(10, 6.95 * j + random.rand() * 0.1);
+			double Ee = pow(10, 6.95 + (j + random.rand()) * 0.1) * eV;
 			double Epair = 2 * Ee; // NOTE: electron and positron in general don't have same lab frame energy, but averaged over many draws the result is consistent
-
 			// if the remaining energy is not sufficient check for random accepting
 			if (Epair > dE)
 				if (random.rand() > (dE / Epair))

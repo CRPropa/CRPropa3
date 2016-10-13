@@ -530,7 +530,7 @@ void SourceRedshiftEvolution::prepareCandidate(Candidate& candidate) const {
 	// special case: m=-1
 	if ((std::abs(m+1)) < std::numeric_limits<double>::epsilon()) {
 		norm = log(1+zmax) - log(1+zmin);
-		z = exp(norm*x) - 1;
+		z = exp(norm*x) * (1+zmin) - 1;
 	} else {
 		norm = ( pow(1+zmax, m+1) - pow(1+zmin, m+1) ) / (m+1);
 		z = pow( norm*(m+1)*x + pow(1+zmin, m+1), 1./(m+1)) - 1;

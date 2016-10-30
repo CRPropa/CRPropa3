@@ -22,9 +22,9 @@ Make sure the environment variables are set accordingly: E.g. for an installatio
     export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
     ```
 
-#### Recommended set-up
+#### Recommended deployment
 
-There are different ways to install, set-up and use CRPropa, but for a common use case we would recommend the following one.
+There are different ways to install, deploy and use CRPropa, but for a common use case we would recommend the following one.
 
 CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
 Thus, the deployment in a user space without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, therefore, Python and SWIG will be required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.

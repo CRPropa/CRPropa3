@@ -4,76 +4,69 @@ For a more detailed explanation refer to the Doxygen documentation.
 ### Propagation modules
 Propagation modules are responsible for proposing a step size, evaluating the bids for the step size of the previous round and spatially moving the particle according to this step. Every simulation needs exactly one propagation module, that is usually put at the beginning of the module list.
 
-* **SimplePropagation** 
-  * Rectalinear propagation, i.e. propagates a candidate from a given starting position (e.g. source) with an initial direction onwards until one of the breaking conditions is fulfilled
-* **PropagationCK** 
-  * Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5)
+* **SimplePropagation** - Simple rectalinear propagation
+* **PropagationCK** - Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5) with dynamic step size control
 
 ### Interaction modules
-Interaction modules implement physical interactions which modify the particle and possibly produce secondaries
+Interaction modules implement physical interactions which modify the particle and eventually produce secondary particles. Hadronic secondaries are always generated, non-hadronic secondaries are optionally generated.
+Currently, only interactions with extragalactic background photon fields (Radio, CMB, IRB) are implemented.
+Hadronic interactions with matter distributions is highly subdominant except for high density regions, and is currently not implemented.
 
-* **ElectronPairProduction**
-  * Electron pair production energy losses for charged nuclei using the continuous energy loss approximation
-* **PhotoPionProduction**
-  * Photo meson production for nuclei using free nucleon approximation
-  * Uses SOPHIA to calculate the outcome of a photopion interaction
-* **PhotoDisintegration**
-  * Photo disintegration using TALYS tables
-* **NuclearDecay**
-  * Nuclear decay
-  * Electron and neutrino secondaries
-* **Redshift**
-  * Redshift calculation
-  * Adiabatic energy loss
+Interactions of protons, neutrons and nuclei (Z = 1 - 26, N = 1 - 30)
 
-### Boundary modules
-Boundaray modules flag a particle once a certain condition is fulfilled. Optionally they can signal the termination of propagation
+* **ElectronPairProduction** - Electron pair production (Bethe-Heitler) for charged nuclei using the continuous energy loss approximation, optional secondaries: electrons/positrons
+* **PhotoPionProduction** - photo-meson production for protons, neutrinos and nuclei, uses SOPHIA as event generator, secondaries: protons/neutrons, optional secondaries: antiprotons/antineutrons, photons, electrons/positrons and neutrinos
+* **PhotoDisintegration** - photodisintegration using TALYS cross sections (alternatively, PSB and Kossov models are available), secondaries: protons, neutrons, deuterons, tritons, alpha-3, alpha-4, optional secondaries: photons
+* **NuclearDecay** - decay of neutrons and nuclei up to iron, optional secondaries: photons, electrons/positrons and neutrinos
 
-#### Break conditions
-* **MaximumTrajectoryLength**
-* **MinimumRedshift**
-* **MinimumEnergy**
+Interactions of photons, electrons and positrons
 
-#### Boundaries
-Cubic-, Spherical- and EllipsoidalBoundary flag (and optionally inactivate) particles that exit the volume they define. They can be used to limit the simulation volume.
-* **CubicBoundary**
-* **SphericalBoundary**
-* **EllipsoidalBoundary**
+* **EMPairProduction** - electron pair production (Breit-Wheeler process), optional secondaries: electrons/positrons
+* **EMDoublePairProduction** - double electron pair production, optional secondaries: electrons/positrons
+* **EMTripletPairProduction** - triplet pair production, optional secondaries: electrons/positrons
+* **EMInverseComptonScattering** - inverse compton scattering, optional secondaries: photons
+
+General interactions/processes
+
+* **Redshift** - updates the redshift and calculates the adiabatic energy loss
+* **SynchrotronRadiation** - Synchrotron radiation of charged particles in magnetic fields, optional secondaries: photons
+
+### Conditional modules
+Conditional modules implement certain conditions for stopping propagation.
+They provide interfaces to act onReject or onAccept of a cosmic ray.
+Boundary modules can be used to limit the simulation volume.
 Periodic- and ReflectiveBox implement boundary conditions for the particles. They are useful for a 3D setup where an initial volume is to be repeated (periodically or reflectively). When using them, a couple of things need to be considered. Observers will shadow the volume behind if they are set to inactivate particles. Also Observers should be placed at a distance to the boundaries that is larger than the maximum step size of the propagator, since step size limitation does not work beyond periodic/reflective boundaries.
-* **PeriodicBox**
-  * Periodic boundary conditions for the particle
-  * If a particle leaves the box it will enter from the opposite side and the initial position will be changed as if it had come from that side.
-* **ReflectiveBox**
-  * Reflective boundaray conditions for the particle
-  * If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
 
-#### Observers
+* **MaximumTrajectoryLength** - Stop after reaching maximum trajectory length
+* **MinimumEnergy** - Stop after reaching a minimum energy
+* **MinimumRedshift** - Stop after reaching a minimum redshift
+* **CubicBoundary** - Cubic simulation volume
+* **SphericalBoundary** - Spherical simulation volume
+* **EllipsoidalBoundary** - Ellipsoidal simulation volume
+* **PeriodicBox** - Periodic boundary conditions for the particle: If a particle leaves the box it will enter from the opposite side and the initial position will be changed as if it had come from that side.
+* **ReflectiveBox** - Reflective boundaray conditions for the particle: If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
+
+### Observers
 Observers can be defined using a collection of ObserverFeatures.
 The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python sesion by typing "Observer" and pressing "tab". The list includes
-* **ObserverSmallSphere**
-  * Detects particle when they enter the sphere
-* **ObserverLargeSphere**
-  * Detects particles when they leave the sphere
-* **ObserverTracking**
-  * For recording the tracks of particles inside a small observer sphere
-* **ObserverPoint**
-  * Observer for 1D simulations
-* **ObserverDetectAll**
-  * Detects all particles
-* **ObserverRedshiftWindow**
-  * Detect particles within a given redshift interval around z=0
-* **ObserverInactiveVeto**
-  * Prevent inactive particles from being detected
-* **ObserverPhotonVeto**, **ObserverElectronVeto**, **ObserverNeutrinoVeto**, **ObserverNucleusVeto**
+* **ObserverSmallSphere** - Detects particle when they enter the sphere
+* **ObserverLargeSphere** - Detects particles when they leave the sphere
+* **ObserverTracking** - For recording the tracks of particles inside a small observer sphere
+* **ObserverPoint** - Observer for 1D simulations
+* **ObserverDetectAll** - Detects all particles
+* **ObserverRedshiftWindow** - Detect particles within a given redshift interval around z=0
+* **ObserverInactiveVeto** - Veto for inactive particles
+* **ObserverPhotonVeto** - Veto for photons
+* **ObserverElectronVeto** - Veto for electrons/positrons
+* **ObserverNeutrinoVeto** - Veto for neutrinos
+* **ObserverNucleusVeto** - Veto for protons/neutrons and nuclei
 
 ### Output modules
 Main output modules
-* **ShellOutput** Output to the shell
-* **TextOutput** Plain text output
-  * Customizable with the presets Event1D, Event3D, Trajectory1D, Trajectory3D, Everything.
-  * If the filename ends with '.gz' the output is compressed 
-* **HDF5Output** Output in the HDF5 format
-* **ParticleCollector** A temporary container for storing candidates in memory (use with care due to memory limitations, e.g. 1e6 candidates ~ 500MB of RAM)
+* **ShellOutput** - Output to the shell
+* **TextOutput** - Plain text output, customizable with the presets Event1D, Event3D, Trajectory1D, Trajectory3D, Everything, or more fine grained control. If the filename ends with '.gz' the output is compressed.
+* **HDF5Output** - Output in the HDF5 format
+* **ParticleCollector** - A temporary container for storing candidates in memory (use with care due to memory limitations, e.g. 1e6 candidates ~ 500MB of RAM)
 
 Legacy output modules (CRPropa 2 format)
 * **ROOTEventOutput1D**
@@ -86,5 +79,4 @@ Legacy output modules (CRPropa 2 format)
 * **CRPropa2TrajectoryOutput3D**
 
 ### Other modules
-* **PerformanceModule**
-  * Measure execution time for a number of modules
+* **PerformanceModule** - Measure execution time for a number of modules

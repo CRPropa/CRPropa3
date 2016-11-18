@@ -59,6 +59,7 @@ void PhotoPionProduction::init() {
 			setHaveRedshiftDependence(false);
 		}
 		init(getDataPath("ppp_CMB.txt"));
+		setDescription("PhotoPionProduction: CMB");
 		return;
 	case IRB: // default: Kneiske '04 IRB model
 	case IRB_Kneiske04:
@@ -86,6 +87,7 @@ void PhotoPionProduction::init() {
 		init(getDataPath("ppp_IRBz_" + fname + ".txt"));
 	else
 		init(getDataPath("ppp_IRB_" + fname + ".txt"));
+	setDescription("PhotoPionProduction: IRB ("+ fname + ")");
 }
 
 void PhotoPionProduction::init(std::string filename) {

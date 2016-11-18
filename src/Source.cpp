@@ -336,7 +336,8 @@ void SourceUniform1D::prepareParticle(ParticleState& particle) const {
 
 void SourceUniform1D::setDescription() {
 	std::stringstream ss;
-	ss << "SourceUniform1D: Random uniform position in D = " << minD << " - " << maxD;
+	ss << "SourceUniform1D: Random uniform position in D = ";
+	ss << minD / Mpc << " - " << maxD / Mpc << " Mpc";
 	if (withCosmology)
 		ss << " (including cosmology)";
 	ss << "\n";

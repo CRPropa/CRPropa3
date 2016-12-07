@@ -29,15 +29,17 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 	container.reserve(nBuffer);
 }
 
+#include <iostream>
 
-void ParticleCollector::process(Candidate* c) const {
+void ParticleCollector::process(Candidate *c) const {
 #pragma omp critical
         {
-                if (container.size() < nBuffer)
+                if (container.size() < nBuffer){
 			if(clone)
 		        	container.push_back(c->clone(recursive));
 			else
 				container.push_back(c);
+		}
         }
 }
 
@@ -45,7 +47,7 @@ void ParticleCollector::reprocess(Module *action) const {
 	for (ParticleCollector::iterator itr = container.begin(); itr != container.end(); ++itr){
 		if (clone)
 			action->process((*(itr->get())).clone(false));
-	       	else
+		else
         	        action->process(itr->get());
 	}
 }

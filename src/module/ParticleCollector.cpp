@@ -3,6 +3,12 @@
 #include "crpropa/Units.h"
 
 #include <fstream>
+#include <stdexcept>
+#include <kiss/string.h>
+
+#ifdef CRPROPA_HAVE_ZLIB
+#include <izstream.hpp>
+#endif
 
 namespace crpropa {
 
@@ -45,24 +51,34 @@ void ParticleCollector::reprocess(Module *action) const {
 }
 
 void ParticleCollector::dump(const std::string &filename) const {
-	TextOutput output(filename, Output::Everything);
+	TextOutput output(filename.c_str(), Output::Everything);
 	reprocess(&output);
 	output.close();
 }
 
 void ParticleCollector::load(const std::string &filename){
 
-        std::ifstream infile(filename.c_str());
-        if (!infile.good())
-                throw std::runtime_error(
-                                "crpropa::ParticleCollector: could not open file " + filename);
-
         std::string line;
-
+        std::istream *in;
+        std::ifstream infile(filename.c_str());
+	
 	double lengthScale = Mpc; // default Mpc
 	double energyScale = EeV; // default EeV
 
-        while (std::getline(infile,line)) {
+        if (!infile.good())
+                throw std::runtime_error(
+                                "crpropa::ParticleCollector: could not open file " + filename);
+	in = &infile;
+	
+	if (kiss::ends_with(filename, ".gz")){
+#ifdef CRPROPA_HAVE_ZLIB
+	        in = new zstream::igzstream(*in);
+#else
+	        throw std::runtime_error("CRPropa was build without Zlib compression!");
+#endif
+	}
+
+        while (std::getline(*in,line)) {
                 std::stringstream stream(line);
                 if (stream.peek() == '#')
                         continue;
@@ -84,7 +100,7 @@ void ParticleCollector::load(const std::string &filename){
 		c->current.setPosition(Vector3d(x, y, z)*lengthScale); // X, Y, Z
 		stream >> x >> y >> z;
 		c->current.setDirection(Vector3d(x, y, z)*lengthScale); // Px, Py, Pz
-		stream >> val_i; // SN0
+		stream >> val_i; // SN0 (TODO: Reconstruct the parent-child relationship)
 		stream >> val_i;
 		c->source.setId(val_i); // ID0
 		stream >> val_d;

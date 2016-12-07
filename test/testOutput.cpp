@@ -137,8 +137,8 @@ TEST(ParticleCollector, dumpload) {
 		input.process(c);
 	}
 
-	input.dump("collector_test.txt");
-	output.load("collector_test.txt");
+	input.dump("ParticleCollector_DumpTest.txt");
+	output.load("ParticleCollector_DumpTest.txt");
 
 	EXPECT_EQ(output.getCount(), input.getCount());
 	EXPECT_EQ(output[0]->current.getEnergy(), c->current.getEnergy());

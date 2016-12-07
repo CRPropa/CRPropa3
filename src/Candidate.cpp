@@ -38,6 +38,8 @@ Candidate::Candidate(const ParticleState &state) :
 #endif
 }
 
+
+
 bool Candidate::isActive() const {
 	return active;
 }
@@ -182,6 +184,10 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 
 uint64_t Candidate::getSerialNumber() const {
 	return serialNumber;
+}
+
+void Candidate::setSerialNumber(const uint64_t snr) {
+	serialNumber = snr;
 }
 
 uint64_t Candidate::getSourceSerialNumber() const {

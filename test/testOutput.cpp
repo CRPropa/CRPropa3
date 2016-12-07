@@ -123,6 +123,30 @@ TEST(ParticleCollector, reprocess) {
 	EXPECT_EQ(output[0], c);
 }
 
+TEST(ParticleCollector, dumpload) {
+	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1.234*EeV);
+	c->current.setPosition(Vector3d(1,2,3));
+	c->current.setDirection(Vector3d(-1,-1,-1));
+	c->setTrajectoryLength(1*Mpc);
+	c->setRedshift(2);
+
+	ParticleCollector input;
+	ParticleCollector output;
+
+	for(int i; i<=100; ++i){
+		input.process(c);
+	}
+
+	input.dump("collector_test.txt");
+	output.load("collector_test.txt");
+
+	EXPECT_EQ(output.getCount(), input.getCount());
+	EXPECT_EQ(output[0]->current.getEnergy(), c->current.getEnergy());
+	EXPECT_EQ(output[5]->getTrajectoryLength(), c->getTrajectoryLength());
+	EXPECT_EQ(output[15]->current.getId(), c->current.getId());
+	EXPECT_EQ(output[35]->getRedshift(), c->getRedshift());
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

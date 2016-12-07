@@ -1,4 +1,7 @@
+#ifndef CRPROPA_PARTICLECOLLECTOR_H
+#define CRPROPA_PARTICLECOLLECTOR_H
 #include <vector>
+#include <string>
 
 #include "crpropa/Module.h"
 
@@ -25,6 +28,8 @@ public:
 
         void process(Candidate *candidate) const;
 	void reprocess(Module *action) const;
+	void dump(const std::string &filename) const;
+	void load(const std::string &filename);
         std::size_t getCount() const;
 	ref_ptr<Candidate> operator[](const std::size_t i) const;
         void clearContainer();
@@ -41,3 +46,5 @@ public:
 };
 
 } // namespace crpropa
+
+#endif // CRPROPA_PARTICLECOLLECTOR_H

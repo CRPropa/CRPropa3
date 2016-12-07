@@ -112,6 +112,7 @@ public:
 
 	/** Unique (inside process) serial number (id) of candidate */
 	uint64_t getSerialNumber() const;
+	void setSerialNumber(const uint64_t snr);
 
 	/** Serial number of candidate at source*/
 	uint64_t getSourceSerialNumber() const;

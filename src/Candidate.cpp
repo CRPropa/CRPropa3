@@ -38,8 +38,6 @@ Candidate::Candidate(const ParticleState &state) :
 #endif
 }
 
-
-
 bool Candidate::isActive() const {
 	return active;
 }

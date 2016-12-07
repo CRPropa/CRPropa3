@@ -123,6 +123,8 @@ TEST(ParticleCollector, reprocess) {
 	EXPECT_EQ(output[0], c);
 }
 
+#include <iostream>
+
 TEST(ParticleCollector, dumpload) {
 	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1.234*EeV);
 	c->current.setPosition(Vector3d(1,2,3));
@@ -133,18 +135,18 @@ TEST(ParticleCollector, dumpload) {
 	ParticleCollector input;
 	ParticleCollector output;
 
-	for(int i; i<=100; ++i){
+	for(int i=0; i<=10; ++i){
 		input.process(c);
 	}
 
 	input.dump("ParticleCollector_DumpTest.txt");
 	output.load("ParticleCollector_DumpTest.txt");
 
-	EXPECT_EQ(output.getCount(), input.getCount());
+	EXPECT_EQ(input.getCount(), output.getCount());
 	EXPECT_EQ(output[0]->current.getEnergy(), c->current.getEnergy());
-	EXPECT_EQ(output[5]->getTrajectoryLength(), c->getTrajectoryLength());
-	EXPECT_EQ(output[15]->current.getId(), c->current.getId());
-	EXPECT_EQ(output[35]->getRedshift(), c->getRedshift());
+	EXPECT_EQ(output[1]->getTrajectoryLength(), c->getTrajectoryLength());
+	EXPECT_EQ(output[2]->current.getId(), c->current.getId());
+	EXPECT_EQ(output[3]->getRedshift(), c->getRedshift());
 }
 
 int main(int argc, char **argv) {

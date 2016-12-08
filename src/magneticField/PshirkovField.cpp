@@ -10,8 +10,8 @@ PshirkovField::PshirkovField() : useASS(false), useBSS(true), useHalo(true) {
 	d = - 0.6 * kpc;
 	R_sun = 8.5 * kpc;
 	R_c = 5.0 * kpc;
-	z0 = 1.0 * kpc;
-	B0 = 2.0 * muG;
+	z0_D = 1.0 * kpc;
+	B0_D = 2.0 * muG;
 
 	// halo parameters
 	z0_H = 1.3 * kpc;
@@ -92,7 +92,7 @@ Vector3d PshirkovField::getField(const Vector3d& pos) const {
 		double bMag = cos(phi - cos_pitch / sin_pitch * log(r / R_sun) + theta);
 		if (useASS)
 			bMag = fabs(bMag);
-		bMag *= B0 * R_sun / std::max(r, R_c) / cos_theta * exp(-fabs(pos.z) / z0);
+		bMag *= B0_D * R_sun / std::max(r, R_c) / cos_theta * exp(-fabs(pos.z) / z0_D);
 		b *= bMag;
 	}
 

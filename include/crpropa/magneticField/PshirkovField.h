@@ -30,8 +30,8 @@ private:
 	double d;     // distance to first field reversal
 	double R_sun; // distance between sun and galactic center
 	double R_c;   // radius of central region
-	double z0;    // vertical thickness in the galactic disk
-	double B0;    // magnetic field scale
+	double z0_D;    // vertical thickness in the galactic disk
+	double B0_D;    // magnetic field scale
 
 	// halo parameters
 	double z0_H;  // halo vertical position

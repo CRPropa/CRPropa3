@@ -29,9 +29,11 @@
 
 namespace zstream {
 
+#ifndef OUTPUT_ZIP_STREAMHPP
 /// default gzip buffer size,
 /// change this to suite your needs
 const size_t default_buffer_size = 4096;
+#endif
 
 /** \brief A stream decorator that takes compressed input and unzips it to a istream.
 

@@ -29,9 +29,11 @@
 
 namespace zstream {
 
+#ifndef INPUT_ZIP_STREAM_HPP
 /// default gzip buffer size,
 /// change this to suite your needs
 const size_t default_buffer_size = 4096;
+#endif
 
 /// Compression strategy, see zlib doc.
 enum EStrategy {

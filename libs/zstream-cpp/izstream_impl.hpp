@@ -28,6 +28,7 @@
 namespace zstream {
 
 namespace detail {
+#ifndef OUTPUT_ZIP_STREAM_IMPL_HPP
 const int gz_magic[2] = { 0x1f, 0x8b }; /* gzip magic header */
 
 /* gzip flag byte */
@@ -37,6 +38,7 @@ const int gz_extra_field = 0x04; /* bit 2 set: extra field present */
 const int gz_orig_name = 0x08; /* bit 3 set: original file name present */
 const int gz_comment = 0x10; /* bit 4 set: file comment present */
 const int gz_reserved = 0xE0; /* bits 5..7: reserved */
+#endif
 }
 
 template<typename Elem, typename Tr, typename ElemA, typename ByteT,

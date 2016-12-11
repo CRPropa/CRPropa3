@@ -2,6 +2,7 @@
 #define CRPROPA_TEXTOUTPUT_H
 
 #include "crpropa/module/Output.h"
+#include "crpropa/module/ParticleCollector.h"
 
 #include <fstream>
 
@@ -32,6 +33,7 @@ public:
 	void gzip();
 
 	void process(Candidate *candidate) const;
+	static void load(const std::string &filename, ParticleCollector *collector);
 	std::string getDescription() const;
 };
 

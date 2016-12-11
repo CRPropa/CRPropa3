@@ -98,6 +98,8 @@
 %ignore operator crpropa::Module*;
 %ignore operator crpropa::ModuleList*;
 %ignore operator crpropa::MagneticField*;
+%ignore operator crpropa::ParticleCollector*;
+%ignore crpropa::TextOutput::load;
 
 %feature("ref")   crpropa::Referenced "$this->addReference();"
 %feature("unref") crpropa::Referenced "$this->removeReference();"
@@ -137,6 +139,7 @@
         return PyString_FromString( value.c_str() );
     }
 };
+
 %template(CandidateVector) std::vector< crpropa::ref_ptr<crpropa::Candidate> >;
 %template(CandidateRefPtr) crpropa::ref_ptr<crpropa::Candidate>;
 %include "crpropa/Candidate.h"
@@ -184,6 +187,9 @@
 %inline %{
 class RangeError {};
 %}
+
+%template(ParticleCollectorRefPtr) crpropa::ref_ptr<crpropa::ParticleCollector>;
+
 %include "crpropa/module/ParticleCollector.h"
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"

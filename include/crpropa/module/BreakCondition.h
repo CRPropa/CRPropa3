@@ -78,6 +78,22 @@ public:
 	void process(Candidate *candidate) const;
 };
 
+/**
+ @class DetectionLength
+ @brief Detects the candidate at a given trajectoryLength
+ 
+ This break condition can be used for non-regular time observation of the particle density. See also TimeEvolutionObserver.
+ */
+class DetectionLength: public AbstractCondition {
+	double detLength;
+public:
+	DetectionLength(double length = 0);
+	void setDetectionLength(double length);
+	double getDetectionLength() const;
+	std::string getDescription() const;
+	void process(Candidate *candidate) const;
+};
+
 } // namespace crpropa
 
 #endif // CRPROPA_BREAKCONDITION_H

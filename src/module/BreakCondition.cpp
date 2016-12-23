@@ -152,4 +152,40 @@ std::string MinimumRedshift::getDescription() const {
 	return s.str();
 }
 
+//*****************************************************************************
+DetectionLength::DetectionLength(double detLength) :
+		detLength(detLength) {
+}
++
+void DetectionLength::setDetectionLength(double length) {
+	detLength = length;
+}
+
+double DetectionLength::getDetectionLength() const {
+	return detLength;
+}
+
+
+std::string DetectionLength::getDescription() const {
+	std::stringstream s;
+	s << "Detection length: " << detLength / kpc << " kpc, ";
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
+	return s.str();
+}
+
+void DetectionLength::process(Candidate *c) const {
+	double length = c->getTrajectoryLength();
+	double step = c->getCurrentStep();
+
+	if (length >= detLength && length - step < detLength) {
+		reject(c);
+	} else {
+		c->limitNextStep(detLength - length);
+	}
+}
+
+
 } // namespace crpropa

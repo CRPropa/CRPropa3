@@ -296,4 +296,52 @@ std::string ObserverElectronVeto::getDescription() const {
 	return "ObserverElectronVeto";
 }
 
+// ObserverTimeEvolution --------------------------------------------------------
+ObserverTimeEvolution::ObserverTimeEvolution() {}
+
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
+  for (size_t i = 0; i < numb; i++) {
+    addTime(min + i * dist);
+  }
+}
+
+
+DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
+  
+if(detList.size()) {
+  bool detected = false;
+  double step = c->getCurrentStep();
+  double length = c->getTrajectoryLength();
+
+  for (size_t i = 0; i < detList.size(); i++) {
+    double distance = length - detList[i];
+    if (distance < 0.) {
+      c->limitNextStep(-distance);
+    }
+    if (distance >= 0. && distance < step){
+      detected = true;
+      return DETECTED;
+    }
+  }
+  return NOTHING;
+ }
+}
+
+
+void ObserverTimeEvolution::addTime(const double& t) {
+	detList.push_back(t);
+}
+
+const std::vector<double>& ObserverTimeEvolution::getTimes() const {
+	return detList;
+}
+
+std::string ObserverTimeEvolution::getDescription() const {
+	std::stringstream s;
+	s << "List of Detection lengths in kpc";
+	for (size_t i = 0; i < detList.size(); i++)
+	  s << "  - " << detList[i] / kpc;
+	return s.str();
+}
+
 } // namespace crpropa

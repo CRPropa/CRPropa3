@@ -241,4 +241,54 @@ std::string EllipsoidalBoundary::getDescription() const {
 	return s.str();
 }
 
+CylindricalBoundary::CylindricalBoundary() :
+  origin(Vector3d(0,0,0)), height(0), radius(0), limitStep(false), margin(0) {
+}
+
+CylindricalBoundary::CylindricalBoundary(Vector3d o, double h, double r) :
+  origin(o), height(h), radius(r), limitStep(false) , margin(0){
+}
+
+void CylindricalBoundary::process(Candidate *c) const {
+	Vector3d d = c->current.getPosition() - origin;
+	double R2 = pow(d.x, 2.)+pow(d.y, 2.);
+	double Z = fabs(d.z);
+	if ( R2 < pow(radius, 2.) and Z < height/2.) {
+	  if(limitStep) {
+	    c->limitNextStep(std::min(radius - pow(R2, 0.5), height/2. - Z) + margin);
+	  }
+	  return;
+	}
+	reject(c);
+}
+
+void CylindricalBoundary::setOrigin(Vector3d o) {
+	origin = o;
+}
+void CylindricalBoundary::setHeight(double h) {
+	height = h;
+}
+void CylindricalBoundary::setRadius(double r) {
+	radius = r;
+}
+void CylindricalBoundary::setLimitStep(bool b) {
+	limitStep = b;
+}
+void CylindricalBoundary::setMargin(double m) {
+        margin = m;
+}
+
+
+std::string CylindricalBoundary::getDescription() const {
+	std::stringstream s;
+	s << "Cylindrical Boundary: origin = " << origin / kpc << " kpc, ";
+	s << "radius = " << radius / kpc << " kpc, ";
+	s << "height" << height / kpc << " kpc; ";
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
+	return s.str();
+}
+
 } // namespace crpropa

@@ -320,6 +320,7 @@ add_library(crpropa SHARED
 	src/module/EMInverseComptonScattering.cpp
 	src/module/SynchrotronRadiation.cpp
 	src/module/Tools.cpp
+	src/module/DiffusionSDE.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/JF12Field.cpp
@@ -459,6 +460,9 @@ if(ENABLE_TESTING)
 		endif(numpyIncludePath)
 		CONFIGURE_FILE(test/testSimulationExecution.py.in testSimulationExecution.py)
 		add_test(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
+
+		CONFIGURE_FILE(test/testDiffusionSDE.py.in testDiffusionSDE.py)
+		add_test(testDiffusionSDE ${PYTHON_EXECUTABLE} testDiffusionSDE.py)
 
 		# Pure python tests
 		# matplotlib is mandatory for the following tests

@@ -52,6 +52,7 @@
 #include "crpropa/module/EMInverseComptonScattering.h"
 #include "crpropa/module/SynchrotronRadiation.h"
 #include "crpropa/module/Tools.h"
+#include "crpropa/module/DiffusionSDE.h"
 
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
@@ -183,6 +184,7 @@
 %include "crpropa/module/SimplePropagation.h"
 %include "crpropa/module/PropagationCK.h"
 %include "crpropa/module/Output.h"
+%include "crpropa/module/DiffusionSDE.h"
 %include "crpropa/module/TextOutput.h"
 %inline %{
 class RangeError {};

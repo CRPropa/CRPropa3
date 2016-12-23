@@ -130,6 +130,35 @@ public:
 	std::string getDescription() const;
 };
 
+
+/**
+ @class CylindricalBoundary
+ @brief Flags a particle when leaving the cylinder.
+ This module flags particles when outside of the cylinder, defined by a radius and a height.
+ The particle is made inactive and by default is flagged "OutOfBounds".
+ Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.
+ */
+class CylindricalBoundary: public AbstractCondition {
+private:
+	Vector3d origin;
+	double height;
+	double radius;
+double margin;
+	bool limitStep;
+
+public:
+	CylindricalBoundary();
+	CylindricalBoundary(Vector3d origin, double height,
+			double radius);
+	void process(Candidate *candidate) const;
+	void setOrigin(Vector3d origin);
+	void setHeight(double height);
+	void setRadius(double radius);
+	void setMargin(double margin);
+	void setLimitStep(bool limitStep);
+	std::string getDescription() const;
+};
+
 } // namespace crpropa
 
 #endif // CRPROPA_BOUNDARY_H

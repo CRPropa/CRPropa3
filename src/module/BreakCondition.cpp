@@ -156,7 +156,7 @@ std::string MinimumRedshift::getDescription() const {
 DetectionLength::DetectionLength(double detLength) :
 		detLength(detLength) {
 }
-+
+
 void DetectionLength::setDetectionLength(double length) {
 	detLength = length;
 }

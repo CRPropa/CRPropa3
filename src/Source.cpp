@@ -313,6 +313,29 @@ void SourceUniformBox::setDescription() {
 	description = ss.str();
 }
 
+// ---------------------------------------------------------------------------
+SourceUniformCylinder::SourceUniformCylinder(Vector3d origin, double height, double radius) :
+    origin(origin), height(height), radius(radius) {
+}
+
+void SourceUniformCylinder::prepareParticle(ParticleState& particle) const {
+  Random &random = Random::instance();
+  double phi = 2*M_PI*random.rand();
+  double RandRadius = radius*pow(random.rand(), 1. / 2.);
+  Vector3d pos(cos(phi)*RandRadius, sin(phi)*RandRadius, (-0.5+random.rand())*height);
+  particle.setPosition(pos + origin);
+  }
+
+void SourceUniformCylinder::setDescription() {
+	std::stringstream ss;
+	ss << "SourceUniformCylinder: Random uniform position in cylinder with ";
+	ss << "origin = " << origin / Mpc << " Mpc and ";
+	ss << "radius = " << radius / Mpc << " Mpc and";
+	ss << "height = " << height / Mpc << " Mpc\n";
+	description = ss.str();
+}
+
+
 // ----------------------------------------------------------------------------
 SourceUniform1D::SourceUniform1D(double minD, double maxD, bool withCosmology) {
 	this->withCosmology = withCosmology;

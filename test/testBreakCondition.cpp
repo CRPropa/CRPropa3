@@ -68,6 +68,23 @@ TEST(MinimumRedshift, test) {
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
+TEST(DetectionLength, test) {
+        DetectionLength detL(10);
+	detL.setMakeRejectedInactive(false);
+        Candidate c;
+        c.current.setPosition(Vector3d(5,0,0));
+
+        c.setTrajectoryLength(2);
+        detL.process(&c);
+        EXPECT_TRUE(c.isActive());
+	
+        c.setCurrentStep(10);
+	c.setTrajectoryLength(12);
+        detL.process(&c);
+        EXPECT_TRUE(c.isActive());
+        EXPECT_TRUE(c.hasProperty("Rejected"));
+}
+
 //** ============================= Observers ================================ */
 TEST(ObserverFeature, SmallSphere) {
 	// detect if the current position is inside and the previous outside of the sphere
@@ -142,6 +159,41 @@ TEST(ObserverFeature, DetectAll) {
 	Candidate c;
 	obs.process(&c);
 	EXPECT_FALSE(c.isActive());
+}
+
+TEST(ObserverFeature, TimeEvolution) {
+  Observer obs;
+  obs.setDeactivateOnDetection(false);
+  obs.setFlag("Detected", "Detected");
+  obs.add(new ObserverTimeEvolution(5, 5, 2));
+  Candidate c;
+  c.setNextStep(10);
+  c.setTrajectoryLength(3);
+  
+  // no detection, limit next step
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+
+  // limit step
+  EXPECT_DOUBLE_EQ(2, c.getNextStep());
+  
+  // detection one
+  c.setCurrentStep(0.1);
+  c.setTrajectoryLength(5);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // delete property
+  c.removeProperty("Detected");
+  EXPECT_FALSE(c.hasProperty("Detected"));
+
+  // detection two
+  c.setCurrentStep(0.1);
+  c.setTrajectoryLength(10.05);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
 }
 
 //** ========================= Boundaries =================================== */
@@ -328,6 +380,35 @@ TEST(EllipsoidalBoundary, limitStep) {
 	c.setNextStep(2);
 	c.current.setPosition(Vector3d(7, 0, 0));
 	ellipsoid.process(&c);
+	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
+}
+
+TEST(CylindricalBoundary, inside) {
+        CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
+	Candidate c;
+	c.current.setPosition(Vector3d(6, -3, 0.5));
+	cylinder.process(&c);
+	EXPECT_TRUE(c.isActive());
+	EXPECT_FALSE(c.hasProperty("Rejected"));
+}
+
+TEST(CylindricalBoundary, outside) {
+        CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
+	Candidate c;
+	c.current.setPosition(Vector3d(6, -3, 1.5));
+	cylinder.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Rejected"));
+}
+
+TEST(CylindricalBoundary, limitStep) {
+        CylindricalBoundary cylinder(Vector3d(0, 0, 0), 2, 15);
+	cylinder.setLimitStep(true);
+	cylinder.setMargin(0.5);
+	Candidate c;
+	c.setNextStep(2);
+	c.current.setPosition(Vector3d(7, 0, 0));
+	cylinder.process(&c);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
 }
 

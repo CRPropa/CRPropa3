@@ -58,6 +58,20 @@ TEST(SourceUniformBox, simpleTest) {
 	EXPECT_GE(size.z, pos.z);
 }
 
+TEST(SourceUniformCylinder, simpleTest) {
+	Vector3d center(0, 0, 0);
+	double radius = 15;
+	double height = 2;
+	SourceUniformCylinder cylinder(center, height, radius);
+	ParticleState ps;
+	cylinder.prepareParticle(ps);
+	Vector3d pos = ps.getPosition();
+	double R2 = pos.x*pos.x+pos.y*pos.y;
+	double H = pow(pos.z*pos.z, 0.5);
+	EXPECT_GE(radius*radius, R2);
+	EXPECT_GE(height/2., H);
+}
+
 TEST(SourceDensityGrid, withInRange) {
 	// Create a grid with 10^3 cells ranging from (0, 0, 0) to (10, 10, 10)
 	Vector3d origin(0, 0, 0);

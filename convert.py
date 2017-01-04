@@ -18,7 +18,8 @@ files = (
     'secondaries/neutrinos.v4.ipynb',
     'secondaries/photons.v4.ipynb',
     'sim1D/sim1D.v4.ipynb',
-    'trajectories/trajectories.v4.ipynb'
+    'trajectories/trajectories.v4.ipynb',
+    'Diffusion/DiffusionValidationI.v4.ipynb'
     )
 
 if len(argv) == 1:

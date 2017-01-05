@@ -11,22 +11,26 @@ namespace crpropa {
  @class EMDoublePairProduction
  @brief Electron double pair production of photons with background photons.
 
- This module simulates electron double pair production in photon background photon interactions.\n
- Several photon fields can be selected.\n
- By default, the module limits the step size to 10% of the energy loss length of the particle.
+ This module simulates electron double pair production of photons with background photons for several photon fields.
+ The secondary electrons from this interaction are optionally created (default = false).
+ The module limits the propagation step size to a fraction of the mean free path (default = 0.1).
  */
 class EMDoublePairProduction: public Module {
 private:
 	PhotonField photonField;
-
-	std::vector<double> tabInteractionRate; /*< tabulated interaction rate in [1/m] */
-	std::vector<double> tabPhotonEnergy; /*< tabulated photon energy in [J] */
-	double limit; ///< fraction of energy loss length to limit the next step
 	bool haveElectrons;
+	double limit;
+
+	// tabulated interaction rate 1/lambda(E)
+	std::vector<double> tabEnergy;  //!< electron energy in [J]
+	std::vector<double> tabRate;  //!< interaction rate in [1/m]
 
 public:
-	EMDoublePairProduction(PhotonField photonField = CMB, bool haveElectrons =
-			false, double limit = 0.1);
+	EMDoublePairProduction(
+		PhotonField photonField = CMB, //!< target photon background
+		bool haveElectrons = false,    //!< switch to create the secondary electron pair
+		double limit = 0.1             //!< step size limit as fraction of mean free path
+		);
 
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);

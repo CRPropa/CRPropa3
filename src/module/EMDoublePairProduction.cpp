@@ -1,7 +1,5 @@
 #include "crpropa/module/EMDoublePairProduction.h"
 #include "crpropa/Units.h"
-#include "crpropa/ParticleID.h"
-#include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
 
 #include <fstream>
@@ -10,8 +8,7 @@
 
 namespace crpropa {
 
-EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField,
-		bool haveElectrons, double limit) {
+EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField, bool haveElectrons, double limit) {
 	setPhotonField(photonField);
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
@@ -19,44 +16,9 @@ EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField,
 
 void EMDoublePairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	switch (photonField) {
-	case CMB:
-		setDescription("EMDoublePairProduction: CMB");
-		initRate(getDataPath("EMDoublePairProduction_CMB.txt"));
-		break;
-	case IRB:  // default: Kneiske '04 IRB model
-	case IRB_Kneiske04:
-		setDescription("EMDoublePairProduction: IRB (Kneiske 2004)");
-		initRate(getDataPath("EMDoublePairProduction_IRB_Kneiske04.txt"));
-		break;
-	case IRB_Stecker05:
-		setDescription("EMDoublePairProduction: IRB (Stecker 2005)");
-		initRate(getDataPath("EMDoublePairProduction_IRB_Stecker05.txt"));
-		break;
-	case IRB_Franceschini08:
-		setDescription("EMDoublePairProduction: IRB (Franceschini 2008)");
-		initRate(getDataPath("EMDoublePairProduction_IRB_Franceschini08.txt"));
-		break;
-	case IRB_Finke10:
-		setDescription("EMDoublePairProduction: IRB (Finke 2010)");
-		initRate(getDataPath("EMDoublePairProduction_IRB_Finke10.txt"));
-		break;
-	case IRB_Dominguez11:
-		setDescription("EMDoublePairProduction: IRB (Dominguez 2011)");
-		initRate(getDataPath("EMDoublePairProduction_IRB_Dominguez11.txt"));
-		break;
-	case IRB_Gilmore12:
-		setDescription("EMDoublePairProduction: IRB (Gilmore 2012)");
-		initRate(getDataPath("EMDoublePairProduction_IRB_Gilmore12.txt"));
-		break;
-	case URB_Protheroe96:
-		setDescription("EMDoublePairProduction: URB (Protheroe 1996)");
-		initRate(getDataPath("EMDoublePairProduction_URB_Protheroe96.txt"));
-		break;
-	default:
-		throw std::runtime_error(
-				"EMDoublePairProduction: unknown photon background");
-	}
+	std::string fname = photonFieldName(photonField);
+	setDescription("EMDoublePairProduction: " + fname);
+	initRate(getDataPath("EMDoublePairProduction/rate_" + fname + ".txt"));
 }
 
 void EMDoublePairProduction::setHaveElectrons(bool haveElectrons) {
@@ -71,20 +33,19 @@ void EMDoublePairProduction::initRate(std::string filename) {
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error(
-				"EMDoublePairProduction: could not open file " + filename);
+		throw std::runtime_error("EMDoublePairProduction: could not open file " + filename);
 
 	// clear previously loaded interaction rates
-	tabPhotonEnergy.clear();
-	tabInteractionRate.clear();
+	tabEnergy.clear();
+	tabRate.clear();
 
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double a, b;
 			infile >> a >> b;
 			if (infile) {
-				tabPhotonEnergy.push_back(pow(10, a) * eV);
-				tabInteractionRate.push_back(b / Mpc);
+				tabEnergy.push_back(pow(10, a) * eV);
+				tabRate.push_back(b / Mpc);
 			}
 		}
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
@@ -93,51 +54,49 @@ void EMDoublePairProduction::initRate(std::string filename) {
 }
 
 void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
-	Random &random = Random::instance();
-	double E = candidate->current.getEnergy();
-
-	if (haveElectrons) {
-		double Ee = (E-2.*mass_electron*c_squared)/2.; // Use assumption of Lee 96 arXiv:9604098 (i.e., all the energy goes equaly shared between only 1 couple of e+e- but take mass of second e+e- pair into account. In DPPpaper has been shown that this approximation is valid within -1.5%
-		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
-		candidate->addSecondary(11, Ee, pos);
-		candidate->addSecondary(-11, Ee, pos);
-	}
+	// the photon is lost in interaction
 	candidate->setActive(false);
+
+	if (not haveElectrons)
+		return;
+
+	// Use assumption of Lee 96 arXiv:9604098
+	// Energy is equally shared between one e+e- pair, but take mass of second e+e- pair into account.
+	// This approximation has been shown to be valid within -1.5%.
+	double E = candidate->current.getEnergy();
+	double Ee = (E - 2 * mass_electron * c_squared) / 2;
+
+	Random &random = Random::instance();
+	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
+
+	candidate->addSecondary( 11, Ee, pos);
+	candidate->addSecondary(-11, Ee, pos);
 }
 
 void EMDoublePairProduction::process(Candidate *candidate) const {
-	double step = candidate->getCurrentStep();
-	double z = candidate->getRedshift();
-
 	// check if photon
-	int id = candidate->current.getId();
-	if (id != 22)
+	if (candidate->current.getId() != 22)
 		return;
 
-	// instead of scaling the background photon energies, scale the photon energy
+	// scale the electron energy instead of background photons
+	double z = candidate->getRedshift();
 	double E = (1 + z) * candidate->current.getEnergy();
 
 	// check if in tabulated energy range
-	if (E < tabPhotonEnergy.front() or (E > tabPhotonEnergy.back()))
+	if (E < tabEnergy.front() or (E > tabEnergy.back()))
 		return;
 
-	// find interaction with minimum random distance
+	// interaction rate
+	double rate = interpolate(E, tabEnergy, tabRate);
+	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+
+	// check for interaction
 	Random &random = Random::instance();
-	double randDistance = std::numeric_limits<double>::max();
-
-	// comological scaling of interaction distance (comoving)
-	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
-	double rate = scaling * interpolate(E, tabPhotonEnergy, tabInteractionRate);
-	randDistance = -log(random.rand()) / rate;
-
-	candidate->limitNextStep(limit / rate);
-	// check if interaction does not happen
-	if (step < randDistance) {
-		return;
-	}
-
-	// interact
-	performInteraction(candidate);
+	double randDistance = -log(random.rand()) / rate;
+	if (candidate->getCurrentStep() > randDistance)
+		performInteraction(candidate);
+	else
+		candidate->limitNextStep(limit / rate);
 }
 
 } // namespace crpropa

@@ -11,25 +11,31 @@ namespace crpropa {
  @class EMTripletPairProduction
  @brief Electron triplet pair production of electrons with background photons.
 
- This module simulates electron triplet pair production in electron background photon interactions.\n
- Several photon fields can be selected.\n
- By default, the module limits the step size to 10% of the energy loss length of the particle.
- */
+ This module simulates electron triplet pair production of electrons with background photons for several photon fields.
+ The secondary electrons from this interaction are optionally created (default = false).
+ The module limits the propagation step size to a fraction of the mean free path (default = 0.1).
+*/
 class EMTripletPairProduction: public Module {
 private:
 	PhotonField photonField;
-
-	std::vector<double> tabInteractionRate; /*< tabulated interaction rate in [1/m] */
-	std::vector<double> tabElectronEnergy; /*< tabulated electron energy in [J] */
-	std::vector<double> tabCumulativeRate; /*< tabulated cumulative interaction rate in [1/m] */
-	std::vector<double> tabE; /*< tabulated electron energy in [J], 111 steps from 10^12 - 10^23 eV other stepsize than tabElectronEnergy*/
-	std::vector<double> tabs; /*< tabulated Mandelstam s in [J**2], 500 steps */
-	double limit; ///< fraction of energy loss length to limit the next step
 	bool haveElectrons;
+	double limit;
+
+	// tabulated interaction rate 1/lambda(E)
+	std::vector<double> tabEnergy;  //!< electron energy in [J]
+	std::vector<double> tabRate;  //!< interaction rate in [1/m]
+	
+	// tabulated CDF(s_kin, E) = cumulative differential interaction rate
+	std::vector<double> tabE;  //!< electron energy in [J]
+	std::vector<double> tabs;  //!< s_kin = s - m^2 in [J**2]
+	std::vector< std::vector<double> > tabCDF;  //!< cumulative interaction rate
 
 public:
-	EMTripletPairProduction(PhotonField photonField = CMB, bool haveElectrons =
-			false, double limit = 0.1);
+	EMTripletPairProduction(
+		PhotonField photonField = CMB, //!< target photon background
+		bool haveElectrons = false,    //!< switch to create secondary electron pair
+		double limit = 0.1             //!< step size limit as fraction of mean free path
+		);
 
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);
@@ -37,6 +43,7 @@ public:
 
 	void initRate(std::string filename);
 	void initCumulativeRate(std::string filename);
+
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate) const;
 

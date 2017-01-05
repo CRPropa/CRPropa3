@@ -1,6 +1,8 @@
 #ifndef CRPROPA_PHOTONBACKGROUND_H
 #define CRPROPA_PHOTONBACKGROUND_H
 
+#include <string>
+
 namespace crpropa {
 
 // Photon fields
@@ -19,6 +21,9 @@ enum PhotonField {
 
 // Returns overall comoving scaling factor
 double photonFieldScaling(PhotonField photonField, double z);
+
+// Returns a string representation of the field
+std::string photonFieldName(PhotonField photonField);
 
 } // namespace crpropa
 

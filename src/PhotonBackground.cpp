@@ -78,4 +78,28 @@ double photonFieldScaling(PhotonField photonField, double z) {
 	}
 }
 
+std::string photonFieldName(PhotonField photonField) {
+	switch (photonField) {
+	case CMB:
+		return "CMB";
+	case IRB:
+	case IRB_Kneiske04:
+		return "IRB_Kneiske04";
+	case IRB_Stecker05:
+		return "IRB_Stecker05";
+	case IRB_Franceschini08:
+		return "IRB_Franceschini08";
+	case IRB_Finke10:
+		return "IRB_Finke10";
+	case IRB_Dominguez11:
+		return "IRB_Dominguez11";
+	case IRB_Gilmore12:
+		return "IRB_Gilmore12";
+	case URB_Protheroe96:
+		return "URB_Protheroe96";
+	default:
+		throw std::runtime_error("PhotonField: unknown photon background");
+	}
+}
+
 } // namespace crpropa

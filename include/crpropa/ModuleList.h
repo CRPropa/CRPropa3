@@ -30,9 +30,9 @@ public:
 	void process(Candidate *candidate) const; ///< call process in all modules
 	void process(ref_ptr<Candidate> candidate) const; ///< call process in all modules
 
-	void run(Candidate *candidate, bool recursive = true); ///< run simulation for a single candidate
-	void run(candidate_vector_t &candidates, bool recursive = true); ///< run simulation for a candidate vector
-	void run(SourceInterface *source, size_t count, bool recursive = true); ///< run simulation for n candidates from the given source
+	void run(Candidate *candidate, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a single candidate
+	void run(candidate_vector_t &candidates, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a candidate vector
+	void run(SourceInterface *source, size_t count, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a number of candidates from the given source
 
 	std::string getDescription() const;
 	void showModules() const;

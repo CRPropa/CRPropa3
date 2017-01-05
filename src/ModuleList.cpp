@@ -47,21 +47,32 @@ void ModuleList::process(ref_ptr<Candidate> candidate) const {
 		(*m)->process(candidate);
 }
 
-void ModuleList::run(Candidate *candidate, bool recursive) {
-	while (candidate->isActive() && !g_cancel_signal_flag)
+void ModuleList::run(Candidate *candidate, bool recursive, bool secondariesFirst) {
+	// propagate primary candidate until finished
+	while (candidate->isActive() && !g_cancel_signal_flag) {
 		process(candidate);
 
-	// propagate secondaries
-	if (recursive) {
+		// propagate all secondaries before next step of primary
+		if (recursive and secondariesFirst) {
+			for (size_t i = 0; i < candidate->secondaries.size(); i++) {
+				if (g_cancel_signal_flag)
+					break;				
+				run(candidate->secondaries[i], recursive, secondariesFirst);
+			}
+		}
+	}
+
+	// propagate secondaries after completing primary
+	if (recursive and not secondariesFirst) {
 		for (size_t i = 0; i < candidate->secondaries.size(); i++) {
 			if (g_cancel_signal_flag)
 				break;
-			run(candidate->secondaries[i], recursive);
+			run(candidate->secondaries[i], recursive, secondariesFirst);
 		}
 	}
 }
 
-void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
+void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool secondariesFirst) {
 	size_t count = candidates.size();
 
 #if _OPENMP
@@ -101,7 +112,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive) {
 	::signal(SIGTERM, old_sigterm_handler);
 }
 
-void ModuleList::run(SourceInterface *source, size_t count, bool recursive) {
+void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool secondariesFirst) {
 
 #if _OPENMP
 	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;

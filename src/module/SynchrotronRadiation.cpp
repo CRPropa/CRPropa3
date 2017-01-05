@@ -66,7 +66,7 @@ double SynchrotronRadiation::getSecondaryThreshold() const {
 }
 
 void SynchrotronRadiation::initSpectrum() {
-	std::string filename = getDataPath("synchrotron_spectrum.txt");
+	std::string filename = getDataPath("Synchrotron/spectrum.txt");
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())

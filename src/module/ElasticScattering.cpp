@@ -25,26 +25,10 @@ ElasticScattering::ElasticScattering(PhotonField f) {
 
 void ElasticScattering::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	switch (photonField) {
-	case CMB:
-		setDescription("ElasticScattering: CMB");
-		initRate(getDataPath("ElasticScattering_CMB.txt"));
-		initCDF(getDataPath("ElasticScattering_CDF_CMB.txt"));
-		break;
-	case IRB:  // small dependence on IRB model --> only provide Gilmore '12
-	case IRB_Kneiske04:
-	case IRB_Stecker05:
-	case IRB_Franceschini08:
-	case IRB_Finke10:
-	case IRB_Dominguez11:
-	case IRB_Gilmore12:
-		setDescription("ElasticScattering: IRB (Gilmore 12)");
-		initRate(getDataPath("ElasticScattering_IRB.txt"));
-		initCDF(getDataPath("ElasticScattering_CDF_IRB.txt"));
-		break;
-	default:
-		throw std::runtime_error("ElasticScattering: unknown photon background");
-	}
+	std::string fname = photonFieldName(photonField);
+	setDescription("ElasticScattering: " + fname);
+	initRate(getDataPath("ElasticScattering/rate_" + fname.substr(0,3) + ".txt"));
+	initCDF(getDataPath("ElasticScattering/cdf_" + fname.substr(0,3) + ".txt"));
 }
 
 void ElasticScattering::initRate(std::string filename) {

@@ -16,6 +16,8 @@ enum PhotonField {
 	IRB_Finke10,
 	IRB_Dominguez11,
 	IRB_Gilmore12,
+	IRB_Stecker16_upper,
+	IRB_Stecker16_lower,
 	URB_Protheroe96
 };
 

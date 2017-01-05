@@ -19,47 +19,10 @@ ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
 
 void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	switch (photonField) {
-	case CMB:
-		setDescription("ElectronPairProduction: CMB");
-		initRate(getDataPath("epp_CMB.txt"));
-		initSpectrum(getDataPath("epp_spectrum_CMB.txt"));
-		break;
-	case IRB:  // default: Kneiske '04 IRB model
-	case IRB_Kneiske04:
-		setDescription("ElectronPairProduction: IRB (Kneiske 2004)");
-		initRate(getDataPath("epp_IRB_Kneiske04.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
-	case IRB_Stecker05:
-		setDescription("ElectronPairProduction: IRB (Stecker 2005)");
-		initRate(getDataPath("epp_IRB_Stecker05.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
-	case IRB_Franceschini08:
-		setDescription("ElectronPairProduction: IRB (Franceschini 2008)");
-		initRate(getDataPath("epp_IRB_Franceschini08.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
-	case IRB_Finke10:
-		setDescription("ElectronPairProduction: IRB (Finke 2010)");
-		initRate(getDataPath("epp_IRB_Finke10.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
-	case IRB_Dominguez11:
-		setDescription("ElectronPairProduction: IRB (Dominguez 2011)");
-		initRate(getDataPath("epp_IRB_Dominguez11.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
-	case IRB_Gilmore12:
-		setDescription("ElectronPairProduction: IRB (Gilmore 2012)");
-		initRate(getDataPath("epp_IRB_Gilmore12.txt"));
-		initSpectrum(getDataPath("epp_spectrum_IRB.txt"));
-		break;
-	default:
-		throw std::runtime_error(
-				"ElectronPairProduction: unknown photon background");
-	}
+	std::string fname = photonFieldName(photonField);
+	setDescription("ElectronPairProduction: " + fname);
+	initRate(getDataPath("ElectronPairProduction/lossrate_" + fname + ".txt"));
+	initSpectrum(getDataPath("ElectronPairProduction/spectrum_" + fname.substr(0,3) + ".txt"));
 }
 
 void ElectronPairProduction::setHaveElectrons(bool haveElectrons) {
@@ -74,8 +37,7 @@ void ElectronPairProduction::initRate(std::string filename) {
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error(
-				"ElectronPairProduction: could not open file " + filename);
+		throw std::runtime_error("ElectronPairProduction: could not open file " + filename);
 
 	// clear previously loaded interaction rates
 	tabLorentzFactor.clear();
@@ -98,8 +60,7 @@ void ElectronPairProduction::initRate(std::string filename) {
 void ElectronPairProduction::initSpectrum(std::string filename) {
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())
-		throw std::runtime_error(
-				"ElectronPairProduction: could not open file " + filename);
+		throw std::runtime_error("ElectronPairProduction: could not open file " + filename);
 
 	double dNdE;
 	tabSpectrum.resize(70);

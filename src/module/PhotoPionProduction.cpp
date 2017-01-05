@@ -15,18 +15,26 @@
 namespace crpropa {
 
 PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool neutrinos, bool antiNucleons, double l, bool redshift) {
-	photonField = field;
 	havePhotons = photons;
 	haveNeutrinos = neutrinos;
 	haveAntiNucleons = antiNucleons;
 	haveRedshiftDependence = redshift;
 	limit = l;
-	init();
+	setPhotonField(field);
 }
 
 void PhotoPionProduction::setPhotonField(PhotonField field) {
 	photonField = field;
-	init();
+	if (haveRedshiftDependence) {
+		std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
+		haveRedshiftDependence = false;
+	}
+	std::string fname = photonFieldName(field);
+	setDescription("PhotoPionProduction: " + fname);
+	if (haveRedshiftDependence)
+		initRate(getDataPath("PhotoPionProduction/rate_" + fname.replace(0, 3, "IRBz") + ".txt"));
+	else
+		initRate(getDataPath("PhotoPionProduction/rate_" + fname + ".txt"));
 }
 
 void PhotoPionProduction::setHavePhotons(bool b) {
@@ -43,54 +51,14 @@ void PhotoPionProduction::setHaveAntiNucleons(bool b) {
 
 void PhotoPionProduction::setHaveRedshiftDependence(bool b) {
 	haveRedshiftDependence = b;
-	init();
+	setPhotonField(photonField);
 }
 
 void PhotoPionProduction::setLimit(double l) {
 	limit = l;
 }
 
-void PhotoPionProduction::init() {
-	std::string fname;
-	switch (photonField) {
-	case CMB:
-		if (haveRedshiftDependence) {
-			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
-			setHaveRedshiftDependence(false);
-		}
-		init(getDataPath("ppp_CMB.txt"));
-		setDescription("PhotoPionProduction: CMB");
-		return;
-	case IRB: // default: Kneiske '04 IRB model
-	case IRB_Kneiske04:
-		fname = "Kneiske04";
-		break;
-	case IRB_Stecker05:
-		fname = "Stecker05";
-		break;
-	case IRB_Franceschini08:
-		fname = "Franceschini08";
-		break;
-	case IRB_Finke10:
-		fname = "Finke10";
-		break;
-	case IRB_Dominguez11:
-		fname = "Dominguez11";
-		break;
-	case IRB_Gilmore12:
-		fname = "Gilmore12";
-		break;
-	default:
-		throw std::runtime_error("PhotoPionProduction: photon background not implemented");
-	}
-	if (haveRedshiftDependence)
-		init(getDataPath("ppp_IRBz_" + fname + ".txt"));
-	else
-		init(getDataPath("ppp_IRB_" + fname + ".txt"));
-	setDescription("PhotoPionProduction: IRB ("+ fname + ")");
-}
-
-void PhotoPionProduction::init(std::string filename) {
+void PhotoPionProduction::initRate(std::string filename) {
 	// clear previously loaded tables
 	tabLorentz.clear();
 	tabRedshifts.clear();

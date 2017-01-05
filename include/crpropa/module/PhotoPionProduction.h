@@ -39,8 +39,7 @@ public:
 	void setHaveAntiNucleons(bool b);
 	void setHaveRedshiftDependence(bool b);
 	void setLimit(double limit);
-	void init();
-	void init(std::string filename);
+	void initRate(std::string filename);
 	double nucleonMFP(double gamma, double z, bool onProton) const;
 	double nucleiModification(int A, int X) const;
 	void process(Candidate *candidate) const;

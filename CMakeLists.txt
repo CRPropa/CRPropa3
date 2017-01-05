@@ -262,9 +262,9 @@ endif()
 # ----------------------------------------------------------------------------
 message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
-	https://crpropa.desy.de/images/9/97/Data_2016_09_05.tar.gz
+	https://crpropa.desy.de/images/3/33/Data_2017_01_05.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz
-	EXPECTED_MD5 303ac410da26d91f4adec499288136ce)
+	EXPECTED_MD5 44aa223904fd896887672b32cead2d65)
 message("-- Extracting data file")
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
@@ -469,7 +469,6 @@ if(ENABLE_TESTING)
 
 			add_test(testPythonBoundaries ${PYTHON_EXECUTABLE} testBoundaries.py)
 			add_test(testPythonCosmology ${PYTHON_EXECUTABLE} testCosmology.py)
-			add_test(testPythonElectronPairProduction ${PYTHON_EXECUTABLE} testElectronPairProduction.py)
 			add_test(testPythonEnergyLossLength ${PYTHON_EXECUTABLE} testEnergyLossLength.py)
 			if(WITH_GALACTIC_LENSES)
 				add_test(testPythonJF12Field ${PYTHON_EXECUTABLE} testJF12Field.py)

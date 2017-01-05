@@ -24,53 +24,11 @@ PhotoDisintegration::PhotoDisintegration(PhotonField f, bool havePhotons, double
 
 void PhotoDisintegration::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	switch (photonField) {
-	case CMB:
-		setDescription("PhotoDisintegration: CMB");
-		initRate(getDataPath("pd_CMB.txt"));
-		initBranching(getDataPath("pd_branching_CMB.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_CMB.txt"));
-		break;
-	case IRB:  // default: Kneiske '04 IRB model
-	case IRB_Kneiske04:
-		setDescription("PhotoDisintegration: IRB (Kneiske 2004)");
-		initRate(getDataPath("pd_IRB_Kneiske04.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Kneiske04.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_IRB.txt"));
-		break;
-	case IRB_Stecker05:
-		setDescription("PhotoDisintegration: IRB (Stecker 2005)");
-		initRate(getDataPath("pd_IRB_Stecker05.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Stecker05.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_IRB.txt"));
-		break;
-	case IRB_Franceschini08:
-		setDescription("PhotoDisintegration: IRB (Franceschini 2008)");
-		initRate(getDataPath("pd_IRB_Franceschini08.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Franceschini08.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_IRB.txt"));
-		break;
-	case IRB_Finke10:
-		setDescription("PhotoDisintegration: IRB (Finke 2010)");
-		initRate(getDataPath("pd_IRB_Finke10.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Finke10.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_IRB.txt"));
-		break;
-	case IRB_Dominguez11:
-		setDescription("PhotoDisintegration: IRB (Dominguez 2011)");
-		initRate(getDataPath("pd_IRB_Dominguez11.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Dominguez11.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_IRB.txt"));
-		break;
-	case IRB_Gilmore12:
-		setDescription("PhotoDisintegration: IRB (Gilmore 12)");
-		initRate(getDataPath("pd_IRB_Gilmore12.txt"));
-		initBranching(getDataPath("pd_branching_IRB_Gilmore12.txt"));
-		initPhotonEmission(getDataPath("pd_photon_emission_IRB.txt"));
-		break;
-	default:
-		throw std::runtime_error("PhotoDisintegration: unknown photon background");
-	}
+	std::string fname = photonFieldName(photonField);
+	setDescription("PhotoDisintegration: " + fname);
+	initRate(getDataPath("Photodisintegration/rate_" + fname + ".txt"));
+	initBranching(getDataPath("Photodisintegration/branching_" + fname + ".txt"));
+	initPhotonEmission(getDataPath("Photodisintegration/photon_emission_" + fname.substr(0,3) + ".txt"));
 }
 
 void PhotoDisintegration::setHavePhotons(bool havePhotons) {

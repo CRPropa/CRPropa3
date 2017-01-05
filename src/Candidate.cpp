@@ -1,15 +1,16 @@
 #include "crpropa/Candidate.h"
+#include "crpropa/ParticleID.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
-		trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+		redshift(z), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
 	previous = state;
 	current = state;
-	setRedshift(z);
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -24,9 +25,8 @@ Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		source(state), created(state), current(state), previous(state), redshift(
-				0), trajectoryLength(0), currentStep(0), nextStep(0), active(
-				true) {
+		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
 		{serialNumber = nextSerialNumber++;}
@@ -36,6 +36,7 @@ Candidate::Candidate(const ParticleState &state) :
 		#pragma omp critical
 		{serialNumber = nextSerialNumber++;}
 #endif
+
 }
 
 bool Candidate::isActive() const {
@@ -131,7 +132,7 @@ void Candidate::addSecondary(int id, double energy) {
 void Candidate::addSecondary(int id, double energy, Vector3d position) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
-	secondary->setTrajectoryLength(trajectoryLength-(current.getPosition()-position).getR());
+	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = current;

@@ -37,19 +37,20 @@ public:
 private:
 	bool active; /**< Active status */
 	double redshift; /**< Current simulation time-point in terms of redshift z */
-	double trajectoryLength; /**< Comoving distance [m] the candidate has travelled so far */
+	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
 
 	static uint64_t nextSerialNumber;
-
 	uint64_t serialNumber;
 
 public:
-	Candidate(int id = 0, double energy = 0,
-			Vector3d position = Vector3d(0, 0, 0),
-			Vector3d direction = Vector3d(-1, 0, 0),
-			double z = 0);
+	Candidate(
+		int id = 0,
+		double energy = 0,
+		Vector3d position = Vector3d(0, 0, 0),
+		Vector3d direction = Vector3d(-1, 0, 0),
+		double z = 0);
 
 	/**
 	 Creates a candidate, initializing the Candidate::source, Candidate::created,
@@ -96,11 +97,8 @@ public:
 	 @param energy	energy of the secondary
 
 	 Adds a new candidate to the list of secondaries of this candidate.
-	 The secondaries Candidate::source and Candidate::previous state are set to
-	 the _source_ and _previous_ state of its parent.
-	 The secondaries Candidate::created and Candidate::current state are set to
-	 the _current_ state its parent, except for the secondaries current energy
-	 and particle id.
+	 The secondaries Candidate::source and Candidate::previous state are set to the _source_ and _previous_ state of its parent.
+	 The secondaries Candidate::created and Candidate::current state are set to the _current_ state of its parent, except for the secondaries current energy and particle id.
 	 Trajectory length and redshift are copied from the parent.
 	 */
 	void addSecondary(Candidate *c);
@@ -128,9 +126,10 @@ public:
 
 	/**
 	 Create an exact clone of candidate
-	 @param recursive	Recursivly clone and add the secondaries 
+	 @param recursive	recursively clone and add the secondaries
 	 */
 	ref_ptr<Candidate> clone(bool recursive = false) const;
+
 };
 
 } // namespace crpropa

@@ -111,5 +111,16 @@ double interpolateEquidistant(double x, double lo, double hi,
 	return Y[i] + (p - i) * (Y[i + 1] - Y[i]);
 }
 
+size_t closestIndex(double x, const std::vector<double> &X) {
+	size_t i1 = std::lower_bound(X.begin(), X.end(), x) - X.begin();
+	if (i1 == 0)
+		return i1;
+	size_t i0 = i1 - 1;
+	if (abs(X[i0] - x) < abs(X[i1] - x))
+		return i0;
+	else
+		return i1;
+}
+
 } // namespace crpropa
 

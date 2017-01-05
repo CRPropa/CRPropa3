@@ -7,6 +7,10 @@
 #include "crpropa/module/ElasticScattering.h"
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/Redshift.h"
+#include "crpropa/module/EMPairProduction.h"
+#include "crpropa/module/EMDoublePairProduction.h"
+#include "crpropa/module/EMTripletPairProduction.h"
+#include "crpropa/module/EMInverseComptonScattering.h"
 #include "gtest/gtest.h"
 
 #include <fstream>
@@ -16,17 +20,19 @@ namespace crpropa {
 // ElectronPairProduction -----------------------------------------------------
 TEST(ElectronPairProduction, allBackgrounds) {
 	// Test if interaction data files are loaded.
-	ElectronPairProduction epp1(CMB);
-	ElectronPairProduction epp2(IRB_Kneiske04);
-	ElectronPairProduction epp3(IRB_Stecker05);
-	ElectronPairProduction epp4(IRB_Franceschini08);
-	ElectronPairProduction epp5(IRB_Finke10);
-	ElectronPairProduction epp6(IRB_Dominguez11);
-	ElectronPairProduction epp7(IRB_Gilmore12);
+	ElectronPairProduction epp(CMB);
+	epp.setPhotonField(IRB_Kneiske04);
+	epp.setPhotonField(IRB_Stecker05);
+	epp.setPhotonField(IRB_Franceschini08);
+	epp.setPhotonField(IRB_Finke10);
+	epp.setPhotonField(IRB_Dominguez11);
+	epp.setPhotonField(IRB_Gilmore12);
+	epp.setPhotonField(IRB_Stecker16_upper);
+	epp.setPhotonField(IRB_Stecker16_lower);
 }
 
 TEST(ElectronPairProduction, energyDecreasing) {
-	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV
+	// Test if energy loss occurs for protons with energies from 1e15 - 1e23 eV.
 	Candidate c;
 	c.setCurrentStep(2 * Mpc);
 	c.current.setId(nucleusId(1, 1)); // proton
@@ -49,25 +55,19 @@ TEST(ElectronPairProduction, energyDecreasing) {
 }
 
 TEST(ElectronPairProduction, belowEnergyTreshold) {
-	// Test if nothing happens below 1e15 eV
+	// Test if nothing happens below 1e15 eV.
 	ElectronPairProduction epp(CMB);
-	Candidate c;
-	c.current.setId(nucleusId(1, 1)); // proton
-	double E = 1e14 * eV;
-	c.current.setEnergy(E);
+	Candidate c(nucleusId(1, 1), 1E14 * eV);
 	epp.process(&c);
-	EXPECT_DOUBLE_EQ(E, c.current.getEnergy());
+	EXPECT_DOUBLE_EQ(1E14 * eV, c.current.getEnergy());
 }
 
 TEST(ElectronPairProduction, thisIsNotNucleonic) {
-	// Test if non-nuclei are skipped
+	// Test if non-nuclei are skipped.
 	ElectronPairProduction epp(CMB);
-	Candidate c;
-	c.current.setId(11); // electron
-	double E = 1e20 * eV;
-	c.current.setEnergy(E);
+	Candidate c(11, 1E20 * eV);  // electron
 	epp.process(&c);
-	EXPECT_DOUBLE_EQ(E, c.current.getEnergy());
+	EXPECT_DOUBLE_EQ(1E20 * eV, c.current.getEnergy());
 }
 
 TEST(ElectronPairProduction, valuesCMB) {
@@ -136,53 +136,55 @@ TEST(ElectronPairProduction, valuesIRB) {
 
 // NuclearDecay ---------------------------------------------------------------
 TEST(NuclearDecay, scandium44) {
-	// Test beta+ decay of 44Sc 44Ca.
+	// Test beta+ decay of 44Sc to 44Ca.
 	// This test can stochastically fail.
 	NuclearDecay d(true, true);
-	Candidate c;
-	c.current.setId(nucleusId(44, 21));
-	c.current.setEnergy(1 * EeV);
+	Candidate c(nucleusId(44, 21), 1E18 * eV);
 	c.setCurrentStep(100 * Mpc);
 	double gamma = c.current.getLorentzFactor();
 	d.process(&c);
-	// primary
+	
+	// expected decay product: 44Ca
 	EXPECT_EQ(nucleusId(44, 20), c.current.getId());
+
+	// expect Lorentz factor to be conserved
 	EXPECT_DOUBLE_EQ(gamma, c.current.getLorentzFactor());
+	
 	// expect at least two secondaries: positron + electron neutrino
 	EXPECT_GE(2, c.secondaries.size());
 }
 
 TEST(NuclearDecay, lithium4) {
-	// Test proton dripping of Li-4 to He-3.
-	// This test can stochastically fail.
+	// Test proton dripping of Li-4 to He-3
+	// This test can stochastically fail
 	NuclearDecay d;
-	Candidate c;
-	c.current.setId(nucleusId(4, 3));
-	c.current.setEnergy(4 * EeV);
+	Candidate c(nucleusId(4, 3), 4 * EeV);
 	c.setCurrentStep(100 * Mpc);
 	d.process(&c);
-	// primary
+	
+	// expected decay product: He-3
 	EXPECT_EQ(nucleusId(3, 2), c.current.getId());
+
+	// expected secondary: proton
 	EXPECT_EQ(1, c.secondaries.size());
-	// secondary
 	Candidate c1 = *c.secondaries[0];
 	EXPECT_EQ(nucleusId(1, 1), c1.current.getId());
-	EXPECT_EQ(1, c1.current.getEnergy() / EeV);
+	EXPECT_EQ(1 * EeV, c1.current.getEnergy());
 }
 
 TEST(NuclearDecay, helium5) {
 	// Test neutron dripping of He-5 to He-4.
 	// This test can stochastically fail.
 	NuclearDecay d;
-	Candidate c;
-	c.current.setId(nucleusId(5, 2));
-	c.current.setEnergy(5 * EeV);
+	Candidate c(nucleusId(5, 2), 5 * EeV);
 	c.setCurrentStep(100 * Mpc);
 	d.process(&c);
-	// primary
+
+	// expected primary: He-4
 	EXPECT_EQ(nucleusId(4, 2), c.current.getId());
 	EXPECT_EQ(4, c.current.getEnergy() / EeV);
-	// secondary
+	
+	// expected secondary: neutron
 	Candidate c2 = *c.secondaries[0];
 	EXPECT_EQ(nucleusId(1, 0), c2.current.getId());
 	EXPECT_EQ(1, c2.current.getEnergy() / EeV);
@@ -191,10 +193,8 @@ TEST(NuclearDecay, helium5) {
 TEST(NuclearDecay, limitNextStep) {
 	// Test if next step is limited in case of a neutron.
 	NuclearDecay decay;
-	Candidate c;
+	Candidate c(nucleusId(1, 0), 10 * EeV);
 	c.setNextStep(std::numeric_limits<double>::max());
-	c.current.setId(nucleusId(1, 0));
-	c.current.setEnergy(10 * EeV);
 	decay.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
@@ -219,7 +219,7 @@ TEST(NuclearDecay, allChannelsWorking) {
 }
 
 TEST(NuclearDecay, secondaries) {
-	// Test if all types of secondaries are produced
+	// Test if all types of secondaries are produced.
 	NuclearDecay d;
 	d.setHaveElectrons(true);
 	d.setHaveNeutrinos(true);
@@ -255,10 +255,8 @@ TEST(NuclearDecay, secondaries) {
 TEST(NuclearDecay, thisIsNotNucleonic) {
 	// Test if nothing happens to an electron
 	NuclearDecay decay;
-	Candidate c;
+	Candidate c(11, 10 * EeV);
 	c.setNextStep(std::numeric_limits<double>::max());
-	c.current.setId(11); // electron
-	c.current.setEnergy(10 * EeV);
 	decay.process(&c);
 	EXPECT_EQ(11, c.current.getId());
 	EXPECT_EQ(10 * EeV, c.current.getEnergy());
@@ -274,6 +272,8 @@ TEST(PhotoDisintegration, allBackgrounds) {
 	pd.setPhotonField(IRB_Finke10);
 	pd.setPhotonField(IRB_Dominguez11);
 	pd.setPhotonField(IRB_Gilmore12);
+	pd.setPhotonField(IRB_Stecker16_upper);
+	pd.setPhotonField(IRB_Stecker16_lower);
 }
 
 TEST(PhotoDisintegration, carbon) {
@@ -322,10 +322,11 @@ TEST(PhotoDisintegration, iron) {
 	c.setCurrentStep(1000 * Mpc);
 	pd.process(&c);
 
+	// expect energy loss
 	EXPECT_TRUE(c.current.getEnergy() < 200 * EeV);
-	// energy loss
+	
+	// expect secondaries produced
 	EXPECT_TRUE(c.secondaries.size() > 0);
-	// secondaries produced
 
 	double E = c.current.getEnergy();
 	id = c.current.getId();
@@ -338,16 +339,19 @@ TEST(PhotoDisintegration, iron) {
 		A += massNumber(id);
 		Z += chargeNumber(id);
 	}
-	EXPECT_EQ(56, A);
+
 	// nucleon number conserved
+	EXPECT_EQ(56, A);
+	
+	// proton number conserved (no decay active)
 	EXPECT_EQ(26, Z);
-	// proton number conserved
-	EXPECT_DOUBLE_EQ(200 * EeV, E);
+	
 	// energy conserved
+	EXPECT_DOUBLE_EQ(200 * EeV, E);
 }
 
 TEST(PhotoDisintegration, thisIsNotNucleonic) {
-	// Test that nothing happens to an electron
+	// Test that nothing happens to an electron.
 	PhotoDisintegration pd;
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
@@ -421,29 +425,34 @@ TEST(ElasticScattering, secondaries) {
 
 // PhotoPionProduction --------------------------------------------------------
 TEST(PhotoPionProduction, allBackgrounds) {
-	// Test if interaction data files are loaded.
-	PhotoPionProduction ppp1(CMB);
-	PhotoPionProduction ppp2(IRB_Kneiske04);
-	PhotoPionProduction ppp3(IRB_Stecker05);
-	PhotoPionProduction ppp4(IRB_Franceschini08);
-	PhotoPionProduction ppp5(IRB_Finke10);
-	PhotoPionProduction ppp6(IRB_Dominguez11);
-	PhotoPionProduction ppp7(IRB_Gilmore12);
+	// Test if all interaction data files can be loaded.
+	PhotoPionProduction ppp;
+	ppp.setPhotonField(IRB_Kneiske04);
+	ppp.setPhotonField(IRB_Stecker05);
+	ppp.setPhotonField(IRB_Franceschini08);
+	ppp.setPhotonField(IRB_Finke10);
+	ppp.setPhotonField(IRB_Dominguez11);
+	ppp.setPhotonField(IRB_Gilmore12);
+	ppp.setPhotonField(IRB_Stecker16_upper);
+	ppp.setPhotonField(IRB_Stecker16_lower);
 }
 
 TEST(PhotoPionProduction, proton) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.
 	PhotoPionProduction ppp;
-	Candidate c;
-	c.current.setId(nucleusId(1, 1));
-	c.current.setEnergy(100 * EeV);
+	Candidate c(nucleusId(1, 1), 100 * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
-	EXPECT_TRUE(c.current.getEnergy() / EeV < 100); // energy loss
-	int id = c.current.getId();
-	EXPECT_EQ(1, massNumber(id)); // nucleon number conserved
-	EXPECT_EQ(0, c.secondaries.size()); // no (nucleonic) secondaries
+
+	// expect energy loss
+	EXPECT_LT(c.current.getEnergy(), 100 * EeV);
+
+	// expect nucleon number conservation
+	EXPECT_EQ(1, massNumber(c.current.getId()));
+
+	// expect no (nucleonic) secondaries
+	EXPECT_EQ(0, c.secondaries.size());
 }
 
 TEST(PhotoPionProduction, helium) {
@@ -462,7 +471,7 @@ TEST(PhotoPionProduction, helium) {
 }
 
 TEST(PhotoPionProduction, thisIsNotNucleonic) {
-	// Test if noting happens to an electron
+	// Test if noting happens to an electron.
 	PhotoPionProduction ppp;
 	Candidate c;
 	c.current.setId(11); // electron
@@ -476,10 +485,8 @@ TEST(PhotoPionProduction, thisIsNotNucleonic) {
 TEST(PhotoPionProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
 	PhotoPionProduction ppp;
-	Candidate c;
+	Candidate c(nucleusId(1, 1), 200 * EeV);
 	c.setNextStep(std::numeric_limits<double>::max());
-	c.current.setId(nucleusId(1, 1));
-	c.current.setEnergy(200 * EeV);
 	ppp.process(&c);
 	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
 }
@@ -488,9 +495,7 @@ TEST(PhotoPionProduction, secondaries) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.
 	PhotoPionProduction ppp(CMB, true, true, true);
-	Candidate c;
-	c.current.setId(nucleusId(1, 1));
-	c.current.setEnergy(100 * EeV);
+	Candidate c(nucleusId(1, 1), 100 * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
 	// there should be secondaries
@@ -523,6 +528,226 @@ TEST(Redshift, limitRedshiftDecrease) {
 	redshift.process(&c);
 	EXPECT_DOUBLE_EQ(0, c.getRedshift());
 }
+
+// EMPairProduction -----------------------------------------------------------
+TEST(EMPairProduction, limitNextStep) {
+	// Test if the interaction limits the next propagation step.
+	EMPairProduction m;
+	Candidate c(22, 1E17 * eV);
+	c.setNextStep(std::numeric_limits<double>::max());
+	m.process(&c);
+	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+}
+
+TEST(EMPairProduction, secondaries) {
+	// Test if secondaries are correctly produced.
+	EMPairProduction m;
+	m.setHaveElectrons(true);
+
+	std::vector<PhotonField> fields;
+	fields.push_back(CMB);
+	fields.push_back(IRB_Gilmore12);
+	fields.push_back(URB_Protheroe96);
+
+	// loop over photon backgrounds
+	for (int f = 0; f < fields.size(); f++) {
+		m.setPhotonField(fields[f]);
+		
+		// loop over energies Ep = (1E10 - 1E23) eV
+		for (int i = 0; i < 130; i++) {
+			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
+			Candidate c(22, Ep);
+			c.setCurrentStep(std::numeric_limits<double>::max());
+			m.process(&c);
+
+			// pass if no interaction has occured (no tabulated rates)
+			if (c.isActive())
+				continue;
+			
+			// expect 2 secondaries
+			EXPECT_EQ(c.secondaries.size(), 2);
+
+			// expect electron / positron with energies 0 < E < Ephoton
+			double Etot = 0;
+			for (int j = 0; j < c.secondaries.size(); j++) {
+				Candidate s = *c.secondaries[j];
+				EXPECT_EQ(abs(s.current.getId()), 11);
+				EXPECT_GT(s.current.getEnergy(), 0);
+				EXPECT_LT(s.current.getEnergy(), Ep);
+				Etot += s.current.getEnergy();
+			}
+
+			// test energy conservation
+			EXPECT_DOUBLE_EQ(Ep, Etot);
+		}
+	}
+}
+
+// EMDoublePairProduction -----------------------------------------------------
+TEST(EMDoublePairProduction, limitNextStep) {
+	// Test if the interaction limits the next propagation step.
+	EMDoublePairProduction m;
+	Candidate c(22, 1E17 * eV);
+	c.setNextStep(std::numeric_limits<double>::max());
+	m.process(&c);
+	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+}
+
+TEST(EMDoublePairProduction, secondaries) {
+	// Test if secondaries are correctly produced.
+	EMDoublePairProduction m;
+	m.setHaveElectrons(true);
+
+	std::vector<PhotonField> fields;
+	fields.push_back(CMB);
+	fields.push_back(IRB_Gilmore12);
+	fields.push_back(URB_Protheroe96);
+
+	// loop over photon backgrounds
+	for (int f = 0; f < fields.size(); f++) {
+		m.setPhotonField(fields[f]);
+		
+		// loop over energies Ep = (1E10 - 1E23) eV
+		for (int i = 0; i < 130; i++) {
+			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
+			Candidate c(22, Ep);
+			c.setCurrentStep(std::numeric_limits<double>::max());
+			m.process(&c);
+
+			// pass if no interaction has occured (no tabulated rates)
+			if (c.isActive())
+				continue;
+			
+			// expect 2 secondaries (only one pair is considered)
+			EXPECT_EQ(c.secondaries.size(), 2);
+
+			// expect electron / positron with energies 0 < E < Ephoton
+			double Etot = 0;
+			for (int j = 0; j < c.secondaries.size(); j++) {
+				Candidate s = *c.secondaries[j];
+				EXPECT_EQ(abs(s.current.getId()), 11);
+				EXPECT_GT(s.current.getEnergy(), 0);
+				EXPECT_LT(s.current.getEnergy(), Ep);
+				Etot += s.current.getEnergy();
+			}
+
+			// test energy conservation
+			EXPECT_NEAR(Ep, Etot, 1E-9);
+		}
+	}
+}
+
+// EMTripletPairProduction ----------------------------------------------------
+TEST(EMTripletPairProduction, limitNextStep) {
+	// Test if the interaction limits the next propagation step.
+	EMTripletPairProduction m;
+	Candidate c(11, 1E17 * eV);
+	c.setNextStep(std::numeric_limits<double>::max());
+	m.process(&c);
+	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+}
+
+TEST(EMTripletPairProduction, secondaries) {
+	// Test if secondaries are correctly produced.
+	EMTripletPairProduction m;
+	m.setHaveElectrons(true);
+
+	std::vector<PhotonField> fields;
+	fields.push_back(CMB);
+	fields.push_back(IRB_Gilmore12);
+	fields.push_back(URB_Protheroe96);
+
+	// loop over photon backgrounds
+	for (int f = 0; f < fields.size(); f++) {
+		m.setPhotonField(fields[f]);
+		
+		// loop over energies Ep = (1E10 - 1E23) eV
+		for (int i = 0; i < 130; i++) {
+			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
+			Candidate c(11, Ep);
+			c.setCurrentStep(std::numeric_limits<double>::max());
+			m.process(&c);
+
+			// pass if no interaction has occured (no tabulated rates)
+			if (c.current.getEnergy() == Ep)
+				continue;
+
+			// expect positive energy of primary electron
+			EXPECT_GT(c.current.getEnergy(), 0);
+			double Etot = c.current.getEnergy();
+
+			// expect 2 secondaries
+			EXPECT_EQ(c.secondaries.size(), 2);
+
+			// expect electron / positron with energies 0 < E < Ephoton
+			for (int j = 0; j < c.secondaries.size(); j++) {
+				Candidate s = *c.secondaries[j];
+				EXPECT_EQ(abs(s.current.getId()), 11);
+				EXPECT_GT(s.current.getEnergy(), 0);
+				EXPECT_LT(s.current.getEnergy(), Ep);
+				Etot += s.current.getEnergy();
+			}
+
+			// test energy conservation
+			EXPECT_NEAR(Ep, Etot, 1E-9);
+		}
+	}
+}
+
+// EMInverseComptonScattering -------------------------------------------------
+TEST(EMInverseComptonScattering, limitNextStep) {
+	// Test if the interaction limits the next propagation step.
+	EMInverseComptonScattering m;
+	Candidate c(11, 1E17 * eV);
+	c.setNextStep(std::numeric_limits<double>::max());
+	m.process(&c);
+	EXPECT_LT(c.getNextStep(), std::numeric_limits<double>::max());
+}
+
+TEST(EMInverseComptonScattering, secondaries) {
+	// Test if secondaries are correctly produced.
+	EMInverseComptonScattering m;
+	m.setHavePhotons(true);
+
+	std::vector<PhotonField> fields;
+	fields.push_back(CMB);
+	fields.push_back(IRB_Gilmore12);
+	fields.push_back(URB_Protheroe96);
+
+	// loop over photon backgrounds
+	for (int f = 0; f < fields.size(); f++) {
+		m.setPhotonField(fields[f]);
+		
+		// loop over energies Ep = (1E10 - 1E23) eV
+		for (int i = 0; i < 130; i++) {
+			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
+			Candidate c(11, Ep);
+			c.setCurrentStep(std::numeric_limits<double>::max());
+			m.process(&c);
+
+			// pass if no interaction has occured (no tabulated rates)
+			if (c.current.getEnergy() == Ep)
+				continue;
+			
+			// expect positive energy of primary electron
+			EXPECT_GT(c.current.getEnergy(), 0);
+
+			// expect 1 secondary photon
+			EXPECT_EQ(c.secondaries.size(), 1);
+
+			// expect photon with energy 0 < E < Ephoton
+			Candidate s = *c.secondaries[0];
+			EXPECT_EQ(abs(s.current.getId()), 22);
+			EXPECT_GT(s.current.getEnergy(), 0);
+			EXPECT_LT(s.current.getEnergy(), Ep);
+
+			// test energy conservation
+			double Etot = c.current.getEnergy() + s.current.getEnergy();
+			EXPECT_DOUBLE_EQ(Ep, Etot);
+		}
+	}
+}
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

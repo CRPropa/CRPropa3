@@ -8,12 +8,16 @@ CRPropa is a publicly available code to study the propagation of ultra high ener
 This is the current version of CRPropa.
 It features a very flexible simulation setup, support for specialized extragalactic magnetic fields, galactic propagation and galactic lensing, python steering and shared-memory parallelization.
 
-## Testing
+### Try it out
 You can try out CRPropa online at [vispa.physik.rwth-aachen.de](https://vispa.physik.rwth-aachen.de/).  
 Use the guest login and go to the CRPropa example via "VISPA Cluster" --> "Open Examples".
 
-## Installation and Manual
-Installation instructions and documentation are found on the [wiki page](https://github.com/CRPropa/CRPropa3/wiki).
+### Installation and getting started
+Installation instructions and documentation are found on the [wiki page](https://github.com/CRPropa/CRPropa3/wiki).  
+To get started we suggest to look at the [tutorials and examples](https://github.com/CRPropa/CRPropa3-notebooks#crpropa-3-notebooks).
 
-## Support
-If you have general questions or encounter any problems during installation or when running CRPropa, please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues).  
+### Support
+Please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues) for support and in case of general questions.
+
+### Publications
+The CRPropa 3 release is described in JCAP 1605 (2016) no.05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142).

@@ -1,0 +1,45 @@
+import sys
+
+try:
+    import unittest
+except:
+    print("***********************************************************")
+    print("* WARNING!! Couldn't import python unittesting framework! *")
+    print("* No python tests have been executed                      *")
+    print("***********************************************************")
+    sys.exit(0)
+
+try:
+    import crpropa as crp
+except Exception as e:
+    print("*** CRPropa import failed")
+    print(type(e), str(e))
+    sys.exit(-1)
+
+
+class testPythonExtension(unittest.TestCase):
+
+    def runTest(self):
+
+        class CountingModule(crp.Module):
+            def __init__(self):
+                crp.Module.__init__(self)
+                self.count = 0
+            def process(self, c):
+                self.count += 1
+
+        count_accept = CountingModule()
+        count_reject = CountingModule()
+        filter = crp.ParticleFilter([-1, 1])
+        filter.onAccept(count_accept)
+        filter.onReject(count_reject)
+    
+        c = crp.Candidate()
+    
+        for id in [-1 , 1, 6, 9, -19, 23, 100010001]:
+          c.current.setId(id)
+          filter.process(c)
+
+
+if __name__ == '__main__':
+    unittest.main()

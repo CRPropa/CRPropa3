@@ -5,15 +5,17 @@ Welcome to the CRPropa3 wiki!
  * [Installation](Installation)
 
 #### Tutorials
- * [Basics](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.v3.ipynb)
- * [1D Simulation](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.v3.ipynb)
- * [3D Trajectories](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.v3.ipynb)
- * [Galactic backtracking (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.v3.ipynb)
- * [Galactic backtracking (2)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v3.ipynb)
- * [Galactic Lensing (1)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_cr.v3.ipynb)
- * [Galactic Lensing (2)](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_maps.v3.ipynb)
- * [Secondary Photons](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/secondaries/photons.v3.ipynb)
- * [Secondary Neutrinos](http://nbviewer.ipython.org/github/CRPropa/CRPropa3-notebooks/blob/master/secondaries/neutrinos.v3.ipynb)
+ * [Basics](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/basics/basics.v3.ipynb)
+ * [1D Simulation](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/sim1D/sim1D.v3.ipynb)
+ * [3D Trajectories](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/trajectories/trajectories.v3.ipynb)
+ * [Galactic backtracking (1)](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_backtracking/galactic_backtracking.v3.ipynb)
+ * [Galactic backtracking (2)](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v3.ipynb)
+ * [Galactic Lensing (1)](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_cr.v3.ipynb)
+ * [Galactic Lensing (2)](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_maps.v3.ipynb)
+ * [Secondary Photons](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/secondaries/photons.v3.ipynb)
+ * [Secondary Neutrinos](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/secondaries/neutrinos.v3.ipynb)
+ * [Diffusion](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/Diffusion/DiffusionValidationI.v3.ipynb)
+
 
 CRPropa 2 compatibility (XML steering)
  * [XML steering](XML steering)

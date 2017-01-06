@@ -21,7 +21,8 @@ except:
     sys.exit(-1)
 
 try:
-    from crpropa import *
+    import crpropa
+    from crpropa import nG, kpc, pc, TeV, PeV, c_light
 except Exception as e:
     print("*** CRPropa import failed")
     print(type(e), str(e))
@@ -29,11 +30,11 @@ except Exception as e:
 
 class DiffusionOneDirection(unittest.TestCase):
     # magnetic field
-    ConstMagVec = Vector3d(0*nG,0*nG,1*nG)
-    BField = UniformMagneticField(ConstMagVec)
-    Dif = DiffusionSDE(BField, 1e-4, 1*pc, 10*kpc, 0.)
+    ConstMagVec = crpropa.Vector3d(0*nG,0*nG,1*nG)
+    BField = crpropa.UniformMagneticField(ConstMagVec)
+    Dif = crpropa.DiffusionSDE(BField, 1e-4, 1*pc, 10*kpc, 0.)
 
-    maxTra = MaximumTrajectoryLength(50 *kpc)
+    maxTra = crpropa.MaximumTrajectoryLength(50 *kpc)
     msg1 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.01)! You should rerun the test to make sure there is a bug."
     msg2 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.001)! You should rerun the test to make sure there is a bug."
     
@@ -44,8 +45,8 @@ class DiffusionOneDirection(unittest.TestCase):
     def test_DiffusionEnergy10(self):
         E = 10 * TeV
         for i in range(10**3):
-            c = Candidate()
-            c.current.setId(nucleusId(1,1))
+            c = crpropa.Candidate()
+            c.current.setId(crpropa.nucleusId(1,1))
             c.current.setEnergy(E)
             while c.getTrajectoryLength() < 50 * kpc:
                 self.maxTra.process(c)
@@ -57,8 +58,8 @@ class DiffusionOneDirection(unittest.TestCase):
     def test_DiffusionEnergy1000(self):
         E = 1 * PeV
         for i in range(10**3):
-            c = Candidate()
-            c.current.setId(nucleusId(1,1))
+            c = crpropa.Candidate()
+            c.current.setId(crpropa.nucleusId(1,1))
             c.current.setEnergy(E)
             while c.getTrajectoryLength() < 50 * kpc:
                 self.maxTra.process(c)
@@ -70,8 +71,8 @@ class DiffusionOneDirection(unittest.TestCase):
     def test_DiffusionEnergy100000(self):
         E = 100 * PeV
         for i in range(10**3):
-            c = Candidate()
-            c.current.setId(nucleusId(1,1))
+            c = crpropa.Candidate()
+            c.current.setId(crpropa.nucleusId(1,1))
             c.current.setEnergy(E)
             while c.getTrajectoryLength() < 50 * kpc:
                 self.maxTra.process(c)

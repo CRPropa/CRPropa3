@@ -44,12 +44,13 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
 * **CubicBoundary** - Cubic simulation volume
 * **SphericalBoundary** - Spherical simulation volume
 * **EllipsoidalBoundary** - Ellipsoidal simulation volume
+* **CylindricalBoundary** - Cylindric simulation volume
 * **PeriodicBox** - Periodic boundary conditions for the particle: If a particle leaves the box it will enter from the opposite side and the initial position will be changed as if it had come from that side.
 * **ReflectiveBox** - Reflective boundaray conditions for the particle: If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
 
 ### Observers
 Observers can be defined using a collection of ObserverFeatures.
-The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python sesion by typing "Observer" and pressing "tab". The list includes
+The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python session by typing "Observer" and pressing "tab". The list includes
 * **ObserverSmallSphere** - Detects particle when they enter the sphere
 * **ObserverLargeSphere** - Detects particles when they leave the sphere
 * **ObserverTracking** - For recording the tracks of particles inside a small observer sphere
@@ -61,6 +62,7 @@ The names of ObserverFeatures all start with "Observer" so you can discover the 
 * **ObserverElectronVeto** - Veto for electrons/positrons
 * **ObserverNeutrinoVeto** - Veto for neutrinos
 * **ObserverNucleusVeto** - Veto for protons/neutrons and nuclei
+* **ObserverTimeEvolution** - Records all candidates at a series of equidistant trajectorylength intervals.
 
 ### Output modules
 Main output modules

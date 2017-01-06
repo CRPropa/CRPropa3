@@ -25,6 +25,8 @@ Several sources can be combined in a SourceList, with individual (relative) lumi
   * Initial position drawn from a uniform shell
 * **SourceUniformBox**
   * Initial position drawn from a uniform 3D box-shaped distribution
+* **SourceUniformCylinder**
+  * Initial position drawn from a uniform 3D cylinder-shaped distribution
 * **SourceUniform1D**
   * Initial position drawn from a uniform 1D distribution
 * **SourceDensityGrid**

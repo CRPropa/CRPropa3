@@ -24,13 +24,12 @@ class DiffusionSDE : public Module{
 
 private:
 	    ref_ptr<MagneticField> field;
-	    double minStep;
-	    double maxStep;
-	    double tolerance;
-	    double epsilon;
-	    double alpha;
-	    double scale;
-	    bool isTurbulent;
+	    double minStep; // minStep/c_light is the minimum integration timestep
+	    double maxStep; // maxStep/c_light is the maximum integration timestep
+	    double tolerance; // tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.
+	    double epsilon; // ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
+	    double alpha; // power law index of the energy dependent diffusion coefficient: D\propto E^alpha
+	    double scale; // scaling factor for the diffusion coefficient D = scale*D_0
 	    
 
 public:

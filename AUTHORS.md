@@ -1,18 +1,11 @@
-### CRPropa 3 Team
-##### Project lead
- * Daniel Kuempel
- * Guenter Sigl
-
-##### Main developers
-* Gero Müller
-* David Walz
-
-##### Developers & Contributors
-* Rafael Alves Batista
-* Martin Erdmann
-* Carmelo Evoli
-* Karl-Heinz Kampert
-* Peter Schiffer
-* Mariangela Settimo
-* Arjen van Vliet
-* Tobias Winchen
+###CRPropa 3 Developers
+In chronological order with main contributions, see also [contributor list](https://github.com/CRPropa/CRPropa3/graphs/contributors).
+* David Walz -- main developer
+* Gero Müller -- main developer
+* Daniel Kuempel -- ROOT output
+* Rafael Alves Batista -- SAGA interface
+* Tobias Winchen -- Galactic lensing, DINT & EleCa integration
+* Andrej Dundovic -- ParticleCollector, SWIG and github integration
+* Marcus Wirtz -- Pshirkov GMF
+* Christopher Heiter -- EM interactions, EM production channels
+* Lukas Merten -- Diffusion module & infrastructure

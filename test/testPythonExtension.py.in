@@ -17,14 +17,14 @@ except Exception as e:
     sys.exit(-1)
 
 
-class testPythonExtension(unittest.TestCase):
+class testCrossLanguagePolymorphism(unittest.TestCase):
 
-    def runTest(self):
-
+    def test_module(self):
         class CountingModule(crp.Module):
             def __init__(self):
                 crp.Module.__init__(self)
                 self.count = 0
+
             def process(self, c):
                 self.count += 1
 
@@ -33,12 +33,31 @@ class testPythonExtension(unittest.TestCase):
         filter = crp.ParticleFilter([-1, 1])
         filter.onAccept(count_accept)
         filter.onReject(count_reject)
-    
+
         c = crp.Candidate()
-    
-        for id in [-1 , 1, 6, 9, -19, 23, 100010001]:
-          c.current.setId(id)
-          filter.process(c)
+
+        for id in [-1, 1, 6, 9, -19, 23, 100010001]:
+            c.current.setId(id)
+            filter.process(c)
+
+    def test_ObserverFeature(self):
+        class CountingFeature(crp.ObserverFeature):
+            def __init__(self):
+                crp.ObserverFeature.__init__(self)
+                self.value = 0
+
+            def checkDetection(self, candidate):
+                self.value += 1
+                return crp.DETECTED
+
+        obs = crp.Observer()
+        counter = CountingFeature()
+        obs.add(counter)
+        for i in range(5):
+            candidate = crp.Candidate()
+            obs.process(candidate)
+            self.assertEqual(i + 1, counter.value)
+
 
 
 if __name__ == '__main__':

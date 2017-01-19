@@ -98,6 +98,8 @@
 %ignore operator crpropa::Candidate*;
 %ignore operator crpropa::Module*;
 %ignore operator crpropa::ModuleList*;
+%ignore operator crpropa::Observer*;
+%ignore operator crpropa::ObserverFeature*;
 %ignore operator crpropa::MagneticField*;
 %ignore operator crpropa::ParticleCollector*;
 %ignore crpropa::TextOutput::load;
@@ -180,6 +182,9 @@
 %include "crpropa/magneticField/PshirkovField.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
+
+%feature("director") crpropa::Observer;
+%feature("director") crpropa::ObserverFeature;
 %include "crpropa/module/Observer.h"
 %include "crpropa/module/SimplePropagation.h"
 %include "crpropa/module/PropagationCK.h"

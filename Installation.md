@@ -1,6 +1,7 @@
 #### Install from source
 
-1. Download and unzip the [source file](https://github.com/CRPropa/CRPropa3/archive/master.zip) or clone the repository with
+1. Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) or the
+[current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the repository with
     ```
     git clone https://github.com/CRPropa/CRPropa3.git
     ```

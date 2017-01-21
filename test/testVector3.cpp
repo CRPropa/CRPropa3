@@ -5,7 +5,7 @@ namespace crpropa {
 
 TEST(Vector3, comparison) {
 	EXPECT_TRUE(Vector3d(1, 2, 3) == Vector3d(1, 2, 3));
-	EXPECT_TRUE(Vector3d(1, 2, 3) < Vector3d(2, 3, 4));
+	EXPECT_FALSE(Vector3d(1, 2, 3) == Vector3d(2, 3, 4));
 }
 
 TEST(Vector3, multiplication) {

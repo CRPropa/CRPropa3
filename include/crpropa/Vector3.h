@@ -236,22 +236,6 @@ public:
 				x * v.y - v.x * y);
 	}
 
-	// returns true if all elements of the first vector are smaller than those in the second vector
-	bool operator <(const Vector3<T> &v) const {
-		if (x > v.x)
-			return false;
-		else if (x < v.x)
-			return true;
-		if (y > v.y)
-			return false;
-		else if (y < v.y)
-			return true;
-		if (z >= v.z)
-			return false;
-		else
-			return true;
-	}
-
 	// returns true if all elements of the two vectors are equal
 	bool operator ==(const Vector3<T> &v) const {
 		if (x != v.x)

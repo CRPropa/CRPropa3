@@ -141,7 +141,7 @@ void TextOutput::process(Candidate *c) const {
 					c->current.getPosition().x / lengthScale);
 		} else {
 			const Vector3d pos = c->current.getPosition() / lengthScale;
-			p += sprintf(buffer + p, "%8.5E\t%8.Ef\t%8.5E\t", pos.x, pos.y,
+			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 	}

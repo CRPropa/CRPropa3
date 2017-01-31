@@ -1,13 +1,22 @@
 from subprocess import call
 from sys import argv
+import os
 
-def convert(fname):
+def convert_4to3(fname):
     """
     Convert ipython notebook from nbformat=4 to 3
-    jupyter-nbconvert --to=notebook --nbformat=3 xxx --output=yyy
+    >>> jupyter-nbconvert --to=notebook --nbformat=3 xxx --output=yyy
     """
-    ofname = fname.replace('.v4','.v3')
+    ofname = fname.replace('.v4','.v3').split('/')[-1]
     call(['jupyter-nbconvert', '--to=notebook', '--nbformat=3', fname, '--output=%s'%ofname])
+
+def convert_topython(fname):
+    """
+    Convert ipython notebook to python script
+    >>> jupyter-nbconvert --to=python xxx --output=yyy
+    """
+    ofname = fname.replace('.v4.ipynb','.py').split('/')[-1]
+    call(['jupyter-nbconvert', '--to=python', fname, '--output=%s'%ofname])
 
 files = (
     'basics/basics.v4.ipynb',
@@ -25,8 +34,11 @@ files = (
 if len(argv) == 1:
     # convert all listed notebooks from v4 to v3
     for f in files:
-        convert(f)
+        print(f)
+        convert_4to3(f)
+        convert_topython(f)
 else:
     # convert specific notebooks
     for f in argv[1:]:
-        convert(f)
+        convert_4to3(f)
+        convert_topython(f)

@@ -125,6 +125,7 @@
 /* override Candidate::getProperty() */
 %ignore crpropa::Candidate::getProperty(const std::string &, std::string &) const;
 
+%nothread; /* disable threading for extend*/
 %extend crpropa::Candidate {
     PyObject * getProperty(PyObject * name){
 
@@ -137,11 +138,12 @@
             std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
             return NULL;
         }
-        $self->getProperty( input, value );
+        $self->getProperty( input, value ); 
 
         return PyString_FromString( value.c_str() );
     }
-};
+}; 
+%thread; /* reenable threading */
 
 %template(CandidateVector) std::vector< crpropa::ref_ptr<crpropa::Candidate> >;
 %template(CandidateRefPtr) crpropa::ref_ptr<crpropa::Candidate>;

@@ -3,6 +3,8 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
+#include <iostream>
+
 namespace crpropa {
 
 // Observer -------------------------------------------------------------------
@@ -307,26 +309,57 @@ ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double num
 
 
 DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
-  
-if(detList.size()) {
-  bool detected = false;
-  double step = c->getCurrentStep();
-  double length = c->getTrajectoryLength();
 
-  for (size_t i = 0; i < detList.size(); i++) {
-    double distance = length - detList[i];
-    if (distance < 0.) {
-      c->limitNextStep(-distance);
-    }
-    if (distance >= 0. && distance < step){
-      detected = true;
-      return DETECTED;
-    }
-  }
-  return NOTHING;
- }
+	if (detList.size()) {
+		bool detected = false;
+		double length = c->getTrajectoryLength();
+		std::stringstream ss;
+		size_t index;
+		const std::string DI = "DetectionIndex";
+		std::string value;
+		
+		// Load the last detection index	
+		if (c->hasProperty(DI)) {
+			std::string DIstring;
+			c->getProperty(DI, DIstring);
+			index = ::atoi(DIstring.c_str());
+				
+		} 
+		else {
+			index = 0;
+		}
+
+		// Break if the particle has been detected once for all detList entries.
+		if (index > detList.size()) {
+			return NOTHING;
+		}
+		
+		// Calculate the distance to next detection
+		double distance = length - detList[index];
+		
+		// Limit next Step and detect candidate
+		// Increase the index by one in case of detection
+		if (distance < 0.) {
+			c->limitNextStep(-distance);
+			return NOTHING;	
+		}
+		else {
+
+			if (index < detList.size()-1) {
+				c->limitNextStep(detList[index+1]-length);	
+			}
+			ss << index+1;
+			value =  ss.str();
+			c->setProperty(DI, value);
+
+			detected=true;
+			return DETECTED;
+		}
+
+	}
+	return NOTHING;
+
 }
-
 
 void ObserverTimeEvolution::addTime(const double& t) {
 	detList.push_back(t);

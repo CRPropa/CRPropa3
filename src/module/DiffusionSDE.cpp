@@ -40,23 +40,24 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> field, double tolerance,
 
 
 void DiffusionSDE::process(Candidate *candidate) const {
-	// save the new previous particle state
+
+    // save the new previous particle state
 	ParticleState &current = candidate->current;
 	candidate->previous = current;
 	
-	double step = clip(candidate->getNextStep(), minStep, maxStep);
+	double h = clip(candidate->getNextStep(), minStep, maxStep) / c_light;
+	Vector3d PosIn = current.getPosition();
+	Vector3d DirIn = current.getDirection();
 
-	// rectilinear propagation for neutral particles
+    // rectilinear propagation for neutral particles
 	if (current.getCharge() == 0) {
 		Vector3d dir = current.getDirection();
-		current.setPosition(current.getPosition() + dir * step);
-		candidate->setCurrentStep(step);
+		current.setPosition(current.getPosition() + dir * h * c_light);
+		candidate->setCurrentStep(h * c_light);
 		candidate->setNextStep(maxStep);
 		return;
 	}
-
-	Vector3d PosIn = current.getPosition();
-	Vector3d DirIn = current.getDirection();
+	
 	double z = candidate->getRedshift();
 	double rig = current.getEnergy() / current.getCharge();
 
@@ -64,83 +65,132 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	double BTensor[] = {0., 0., 0., 0., 0., 0., 0., 0., 0.};
 	calculateBTensor(rig, BTensor, PosIn, DirIn, z);
     
-    // Generate random numers
+    // Generate random numbers
 	double eta[] = {0., 0., 0.};
 	for(size_t i=0; i < 3; i++) {
-	  eta[i] =  Random::instance().randNorm();
+	  	eta[i] =  Random::instance().randNorm();
 	}
-
+	
 	double TStep = BTensor[0] * eta[0];
 	double NStep = BTensor[4] * eta[1];
 	double BStep = BTensor[8] * eta[2];
 
-	double h = step / c_light;
-	double hTry, r;
-
 	Vector3d TVec(0.);
 	Vector3d NVec(0.);
 	Vector3d BVec(0.);
-	Vector3d PosOut = Vector3d(0.);
+	
 	Vector3d DirOut = Vector3d(0.);
-	Vector3d PosErr = Vector3d(0.);
-	Vector3d PosTest = Vector3d(0.);
 
+
+	double propTime = TStep * pow(h, 0.5) / c_light;
+	size_t counter = 0;
+	double r=42.; //arbitrary number larger than one
 
 
 	do {
-	  hTry = h;
-	  double propStep =  TStep * pow(hTry, 0.5) / c_light;
-	  tryStep(PosIn, PosOut, PosErr,PosTest, TVec, NVec, BVec, z, propStep);
-	  // calculate the relative position error r and the next time step h
-	  r = PosErr.getR() / tolerance;
-	  h *= 0.95 * pow(r, -0.2);
-	  // prevent h from too strong variations
-	  h = clip(h, 0.1 * hTry, 5 * hTry);
+		Vector3d PosOut = Vector3d(0.);
+		Vector3d PosErr = Vector3d(0.);
+	  	tryStep(PosIn, PosOut, PosErr, z, propTime);
+	    // calculate the relative position error r and the next time step h
+	  	r = PosErr.getR() / tolerance;
+	  	propTime *= 0.5;
+		counter += 1;
 
-	} while (r > 1 && hTry >= minStep / c_light && TVec.getR()==TVec.getR());
+    //Check for better break condition
+    // Check zero magnetic field
+	} while (r > 1 && fabs(propTime) >= minStep/c_light); 
+	//std::cout << "r = " << r << "\n";
+	//std::cout << "propTime = " << propTime*c_light/kpc << "\n";
+	//std::cout << "counter = " << counter << "\n";
 	
-	// Exception: Rectilinear propagation in case of vanishing magnetic field.
+	size_t stepNumber = pow(2, counter-1);
+	double allowedTime = TStep * pow(h, 0.5) / c_light / stepNumber ;
+	//std::cout << "allowed Time = " << allowedTime * c_light / kpc << "\n";
+	Vector3d Start = PosIn;
+	Vector3d PosOut = Vector3d(0.);
+	Vector3d PosErr = Vector3d(0.);
+	for (size_t j=0; j<stepNumber; j++) {
+		tryStep(Start, PosOut, PosErr, z, allowedTime);
+		Start = PosOut;
+	}		
+	
+    // Normalize the tangent vector
+	TVec = (PosOut-PosIn).getUnitVector();
+
+    // Exception: Rectilinear propagation in case of vanishing magnetic field.
 	if (TVec.getR() != TVec.getR()) {
-	  Vector3d dir = current.getDirection();
-      current.setPosition(current.getPosition() + dir * step);
-	  candidate->setCurrentStep(step);
-	  candidate->setNextStep(step);
-	  return;
+	  	Vector3d dir = current.getDirection();
+      		current.setPosition(current.getPosition() + dir * h *c_light);
+	 	candidate->setCurrentStep(h *c_light);
+	  	candidate->setNextStep(h *c_light);
+	  	return;
 	}
-	// Integration of the SDE with a Mayorama-Euler-method
-	Vector3d PO = PosOut + (NVec * NStep + BVec * BStep) * pow(hTry, 0.5) ;
+	
+    // Choose a random perpendicular vector as the Normal-vector.
+    // Prevent 'nan's in the NVec-vector in the case of <TVec, NVec> = 0.
+	while (NVec.getR()==0.){
+	  	Vector3d RandomVector = Random::instance().randVector();
+	  	NVec = TVec.cross( RandomVector );
+	}
+	NVec = NVec.getUnitVector();
+
+   // Calculate the Binormal-vector
+	BVec = (TVec.cross(NVec)).getUnitVector();
+   
+
+    // Integration of the SDE with a Mayorama-Euler-method
+	Vector3d PO = PosOut + (NVec * NStep + BVec * BStep) * pow(h, 0.5) ;
     
-    // Throw error message if somethin went wrong with propagation.
+    // Throw error message if something went wrong with propagation.
     // Deactivate candidate.
 	bool NaN = std::isnan(PO.getR());
 	if (NaN == true){
-	  std::cout << "\nCandidate with 'nan'-position occured: \n";
-	  std::cout << "position = " << PO << "\n";
-	  std::cout << "PosIn = " << PosIn << "\n";
-	  std::cout << "TVec = " << TVec << "\n";
-	  std::cout << "TStep = " << std::abs(TStep) << "\n";
-	  std::cout << "NVec = " << NVec << "\n";
-	  std::cout << "NStep = " << NStep << "\n";
-	  std::cout << "BVec = " << BVec << "\n";
-	  std::cout << "BStep = " << BStep << "\n";
-	  candidate->setActive(false);
-	  std::cout << "Candidate is deactivated!\n";
-	  std::cout << "-------------------------\n";
-	  return;
+		  std::cout << "\nCandidate with 'nan'-position occured: \n";
+		  std::cout << "position = " << PO << "\n";
+		  std::cout << "PosIn = " << PosIn << "\n";
+		  std::cout << "TVec = " << TVec << "\n";
+		  std::cout << "TStep = " << std::abs(TStep) << "\n";
+		  std::cout << "NVec = " << NVec << "\n";
+		  std::cout << "NStep = " << NStep << "\n";
+		  std::cout << "BVec = " << BVec << "\n";
+		  std::cout << "BStep = " << BStep << "\n";
+		  candidate->setActive(false);
+		  std::cout << "Candidate is deactivated!\n";
+		  std::cout << "-------------------------\n";
+		  return;
 	}
 	
-	DirOut = (PO -PosIn).getUnitVector();
+	DirOut = (PO - PosIn).getUnitVector();
 	current.setPosition(PO);
 	current.setDirection(DirOut);
-	candidate->setCurrentStep(hTry * c_light);
-	candidate->setNextStep(h * c_light);
+	candidate->setCurrentStep(h * c_light);
+/*
+	double nextStep = allowedTime * 0.95 * pow(r, -0.2);
+	nextStep = clip(nextStep, 0.1*allowedTime, 5.*allowedTime)*c_light;
+	nextStep = pow(nextStep/(BTensor[0]*0.8), 2.);
+*/
+	//double nextTime = pow((allowedTime*c_light)/(BTensor[0]*0.8), 2.);
+	//std::cout << "nextTime = " << nextTime*c_light/kpc << "\n";
+	//nextTime = nextTime * 0.95 *pow(r, -0.2);
+	//std::cout << "nextTime = " << nextTime*c_light/kpc << "\n";
+	//double nextStep = clip(nextTime, 0.1*h, 5.*h)*c_light;
+	double nextStep;
+	if (stepNumber>1){
+		nextStep = h*pow(stepNumber, -2.)*c_light;
+	}
+	else {
+		nextStep = 4 * h*c_light;
+	}
+
+	candidate->setNextStep(nextStep);
+	//candidate->setNextStep(maxStep);
     // Debugging and Testing
     // Delete comments if additional information should be stored in candidate
-    /*
+    
 	std::stringstream s;
 	const std::string AL = "arcLength";
 	if (candidate->hasProperty(AL) == false){
-	  s << (TStep + NStep + BStep) * pow(hTry, 0.5);
+	  s << (TStep + NStep + BStep) * pow(h, 0.5);
 	  const std::string value = s.str();
 	  candidate->setProperty(AL, value);
 	  return;
@@ -149,21 +199,20 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	  std::string arcLenString;
 	  candidate->getProperty(AL, arcLenString);
 	  double arcLen = ::atof(arcLenString.c_str());
-	  arcLen += (TStep + NStep + BStep) * pow(hTry, 0.5);
+	  arcLen += (TStep + NStep + BStep) * pow(h, 0.5);
 	  s << arcLen;
 	  const std::string value = s.str();
 	  candidate->setProperty(AL, value);
 	}
-*/
+
 }
 
 
-void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosErr,Vector3d &PosTest, Vector3d &TVec,Vector3d &NVec,Vector3d &BVec,double z, double propStep) const {
+void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosErr,double z, double propStep) const {
 
 	Vector3d k[] = {Vector3d(0.),Vector3d(0.),Vector3d(0.),Vector3d(0.),Vector3d(0.),Vector3d(0.)};
 	POut = PosIn;
-	PosTest = PosIn;
-	//calculate the sume k_i * b_i
+	//calculate the sum k_i * b_i
 	for (size_t i = 0; i < 6; i++) {
 
 		Vector3d y_n = PosIn;
@@ -183,21 +232,11 @@ void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosE
 		k[i] = BField.getUnitVector() * c_light;
 
 		POut += k[i] * b[i] * propStep;
-		PosTest += k[i] * bs[i] * propStep;
-
-		PosErr +=  (k[i] * (b[i] - bs[i])) / c_light;
+		//PosErr +=  (k[i] * (b[i] - bs[i])) / c_light;
+		PosErr +=  (k[i] * (b[i] - bs[i])) * propStep / kpc;
+		
 	}
-	TVec = (POut-PosIn).getUnitVector();
-	// Choose a random perpendicular vector as the Normal-vector.
-	// Prevent 'nan's in the NVec-vector in the case of <TVec, NVec> = 0.
-	while (NVec.getR()==0.){
-	  Vector3d RandomVector = Random::instance().randVector();
-	  NVec = TVec.cross( RandomVector );
-	}
-	NVec = NVec.getUnitVector();
-
-	// Calculate the Binormal-vector
-	BVec = (TVec.cross(NVec)).getUnitVector();
+	//std::cout << "PosErr = " << PosErr <<"\n";
 }
 
 void DiffusionSDE::calculateBTensor(double r, double BTen[], Vector3d pos, Vector3d dir, double z) const {

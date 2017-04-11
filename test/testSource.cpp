@@ -72,6 +72,31 @@ TEST(SourceUniformCylinder, simpleTest) {
 	EXPECT_GE(height/2., H);
 }
 
+TEST(SourceSNRDistribution, simpleTest) {
+	double R_earth = 8.5*kpc;
+	double beta = 3.53;
+	double Z_G = 0.3*kpc;
+	SourceSNRDistribution snr(R_earth, beta, Z_G);
+	ParticleState ps;
+	snr.prepareParticle(ps);
+	Vector3d pos = ps.getPosition();
+	double R2 = pos.x*pos.x+pos.y*pos.y;
+	EXPECT_GE(20*kpc*20*kpc, R2); // radius must be smaller than 20 kpc
+	
+	double R2_mean = 0.;
+	double Z_mean = 0.;
+	for (size_t i=0; i<100000; i++) {
+		snr.prepareParticle(ps);
+		Vector3d pos = ps.getPosition();
+		R2_mean += pow(pos.x/kpc, 2.)+pow(pos.y/kpc, 2.);
+		Z_mean += pos.z/kpc;
+	}
+	R2_mean/=100000.;
+	Z_mean/=100000.;
+	EXPECT_NEAR(64.4, R2_mean, 0.4);
+	EXPECT_NEAR(0., Z_mean, 0.02);
+}
+
 TEST(SourceDensityGrid, withInRange) {
 	// Create a grid with 10^3 cells ranging from (0, 0, 0) to (10, 10, 10)
 	Vector3d origin(0, 0, 0);

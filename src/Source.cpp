@@ -335,6 +335,87 @@ void SourceUniformCylinder::setDescription() {
 	description = ss.str();
 }
 
+// ---------------------------------------------------------------------------
+SourceSNRDistribution::SourceSNRDistribution() :
+    R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
+	set_frMax(8.5*kpc, 3.53);
+	set_fzMax(0.3*kpc);
+}
+
+SourceSNRDistribution::SourceSNRDistribution(double R_earth, double beta, double Zg) :
+    R_earth(R_earth), beta(beta), Zg(Zg) {
+	set_frMax(R_earth, beta);
+	set_fzMax(Zg);
+}
+
+void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
+  	Random &random = Random::instance();
+	double RPos;
+	while (true){
+		RPos = random.rand()*20.*kpc;
+		double fTest = random.rand()*frMax;
+		double fR=0.;
+		f_r(RPos, fR);
+		if (fTest<=fR) {
+			break;
+		}
+	}
+	double ZPos;
+	while (true){
+		ZPos = (random.rand()-0.5)*12.*kpc;
+		double fTest = random.rand()*fzMax;
+		double fz=0.;
+		f_z(ZPos, fz);
+		if (fTest<=fz) {
+			break;
+		}
+	}
+	double phi = random.rand()*2*M_PI;
+	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
+	particle.setPosition(pos);
+  }
+
+void SourceSNRDistribution::set_frMax(double R, double b) {
+	frMax = pow(b, 2.) / (3*pow(R, 2.)*M_PI) * exp(-2.);
+	return;
+}
+
+void SourceSNRDistribution::set_fzMax(double Zg) {
+	fzMax = 1./Zg;
+	return;
+}
+
+double SourceSNRDistribution::get_frMax() {
+	return frMax;
+}
+
+double SourceSNRDistribution::get_fzMax() {
+	return fzMax;
+}
+
+void SourceSNRDistribution::f_r(double r, double &fr) const{
+	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(R_earth, 2.));
+ 	double f = pow(r/R_earth, 2.) * exp(-beta * (r-R_earth)/R_earth);
+	fr = Atilde*f;
+	return;
+}
+
+void SourceSNRDistribution::f_z(double z, double &fz) const{
+	double Az = 1.;
+	double f = 1./Zg * exp(-fabs(z)/Zg);
+	fz = Az*f;
+	return;
+}
+
+void SourceSNRDistribution::setDescription() {
+	std::stringstream ss;
+	ss << "SourceSNRDistribution: Random position according to SNR distribution";
+	ss << "R_earth = " << R_earth / kpc << " kpc and ";
+	ss << "Zg = " << Zg / kpc << " kpc and";
+	ss << "beta = " << beta << " \n";
+	description = ss.str();
+}
+
 
 // ----------------------------------------------------------------------------
 SourceUniform1D::SourceUniform1D(double minD, double maxD, bool withCosmology) {

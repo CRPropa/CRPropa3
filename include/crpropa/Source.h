@@ -226,6 +226,35 @@ public:
 	void setDescription();
 };
 
+/**
+@class SourceSNRDistribution
+@brief Source distribution that follows the Galactic SNR distribution
+
+The origin of the distribution is the Galactic center. The maximum radius is set 
+to R_max=20 kpc.
+See G. Case and D. Bhattacharya (1996) for the details.
+*/
+
+class SourceSNRDistribution: public SourceFeature {
+	double R_earth; // parameter given by observation
+	double beta; // parameter to shift the maximum in R direction
+	double Zg; // exponential cut parameter in z direction
+	double frMax; // helper for efficient sampling
+	double fzMax; // helper for efficient sampling
+
+public:
+	SourceSNRDistribution();	
+	SourceSNRDistribution(double R_earth, double beta, double Zg);
+	void prepareParticle(ParticleState &particle) const;
+	void f_r(double r, double &fr) const;
+	void f_z(double z, double &fz) const;
+	void set_frMax(double R, double b);
+	void set_fzMax(double Zg);
+	double get_frMax();
+	double get_fzMax();
+	void setDescription();
+};
+
 
 /**
  @class SourceUniform1D

@@ -232,7 +232,7 @@ public:
 @brief Source distribution that follows the Galactic SNR distribution
 
 The origin of the distribution is the Galactic center. The default maximum radius is set 
-to R_max=20 kpc and the default maximum height is Z_max = 6 kpc.
+to R_max=20 kpc and the default maximum height is Z_max = 5 kpc.
 See G. Case and D. Bhattacharya (1996) for the details of the distribution.
 */
 

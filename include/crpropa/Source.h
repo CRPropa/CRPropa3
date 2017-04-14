@@ -5,6 +5,7 @@
 #include "crpropa/Grid.h"
 #include "crpropa/EmissionMap.h"
 
+
 #include <vector>
 
 namespace crpropa {
@@ -230,9 +231,9 @@ public:
 @class SourceSNRDistribution
 @brief Source distribution that follows the Galactic SNR distribution
 
-The origin of the distribution is the Galactic center. The maximum radius is set 
-to R_max=20 kpc.
-See G. Case and D. Bhattacharya (1996) for the details.
+The origin of the distribution is the Galactic center. The default maximum radius is set 
+to R_max=20 kpc and the default maximum height is Z_max = 5 kpc.
+See G. Case and D. Bhattacharya (1996) for the details of the distribution.
 */
 
 class SourceSNRDistribution: public SourceFeature {
@@ -241,17 +242,24 @@ class SourceSNRDistribution: public SourceFeature {
 	double Zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
+	double R_max; // maximum radial distance - default 20 kpc 
+		      // (due to the extension of the JF12 field)
+	double Z_max; // maximum distance from galactic plane - default 5 kpc
 
 public:
 	SourceSNRDistribution();	
 	SourceSNRDistribution(double R_earth, double beta, double Zg);
 	void prepareParticle(ParticleState &particle) const;
-	void f_r(double r, double &fr) const;
-	void f_z(double z, double &fz) const;
+	double f_r(double r) const;
+	double f_z(double z) const;
 	void set_frMax(double R, double b);
 	void set_fzMax(double Zg);
+	void set_RMax(double R_max);
+	void set_ZMax(double Z_max);
 	double get_frMax();
 	double get_fzMax();
+	double get_RMax();
+	double get_ZMax();
 	void setDescription();
 };
 

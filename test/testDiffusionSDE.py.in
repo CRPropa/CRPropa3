@@ -35,7 +35,7 @@ class DiffusionOneDirection(unittest.TestCase):
     Dif = crpropa.DiffusionSDE(BField, 1e-4, 1*pc, 10*kpc, 0.)
 
     maxTra = crpropa.MaximumTrajectoryLength(50 *kpc)
-    msg1 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.0001)! You should rerun the test to make sure there is a bug."
+    msg1 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.00001)! You should rerun the test to make sure there is a bug."
     msg2 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.0001)! You should rerun the test to make sure there is a bug."
     
     zPosition10 = []
@@ -53,7 +53,7 @@ class DiffusionOneDirection(unittest.TestCase):
                 self.Dif.process(c)
             self.zPosition10.append(c.current.getPosition().z)
         A2, Level, significant = anderson(self.zPosition10, 'norm')
-        self.assertLess(A2, 2.2, msg=self.msg1)
+        self.assertLess(A2, 2.27, msg=self.msg1)
     
     def test_DiffusionEnergy1000(self):
         E = 1 * PeV
@@ -66,7 +66,7 @@ class DiffusionOneDirection(unittest.TestCase):
                 self.Dif.process(c)
             self.zPosition1000.append(c.current.getPosition().z)
         A2, Level, significant = anderson(self.zPosition1000, 'norm')
-        self.assertLess(A2, 2.2, msg=self.msg1)
+        self.assertLess(A2, 2.27, msg=self.msg1)
         
     def test_DiffusionEnergy100000(self):
         E = 100 * PeV
@@ -79,7 +79,7 @@ class DiffusionOneDirection(unittest.TestCase):
                 self.Dif.process(c)
             self.zPosition100000.append(c.current.getPosition().z)
         A2, Level, significant = anderson(self.zPosition100000, 'norm')
-        self.assertLess(A2, 2.2, msg=self.msg1)
+        self.assertLess(A2, 2.27, msg=self.msg1)
         
     def test_DiffusionEnergy10ChiSquare(self):
         N = len(self.zPosition10)

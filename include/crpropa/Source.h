@@ -264,38 +264,52 @@ public:
 };
 /**
 @class SourcePulsurDistribution
-@brief Source distribution following the Galactic pulsur distribution
+@brief Source distribution following the Galactic pulsar distribution
 
 Four major arms are used. The details of the distribution can be found in
 Blasi (2012)
 */
-
-class SourcePulsurDistribution: public SourceFeature {
+const double r_0[] = {3.48, 3.48, 4.9, 4.9};
+const double theta_0[] = {0., 3.14, 2.52, -0.62};
+const double k_0[] = {4.25, 4.25, 4.89, 4.89};
+class SourcePulsarDistribution: public SourceFeature {
 	double R_earth; // parameter given by observation
 	double beta; // parameter to shift the maximum in R direction
 	double Zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
+	double R_max;// maximum radial distance - default 20 kpc 
+		      // (due to the extension of the JF12 field)
+	double Z_max; // maximum distance from galactic plane - default 5 kpc 
 	double r_blur; // relative smearing factor for the radius
-	double theta_blur; // smearing factor for the angle
+	double theta_blur; // smearing factor for the angle. Unit = [1/length]
+
+
 	
-	// Model parameters of the four arms
-	std::Vector<double> K = {4.25, 4.25, 4.89, 4.89};
-	std::Vector<double> r_0 = {3.48, 3.48, 4.9, 4.9};
-	std::Vector<double> theta_0 = {0., 3.14, 2.52, -0.62};
 
 public:
-	SourceSNRDistribution();	
-	SourceSNRDistribution(double R_earth, double beta, double Zg);
+	SourcePulsarDistribution();	
+	SourcePulsarDistribution(double R_earth, double beta, double Zg, double r_blur, double theta_blur);
 	void prepareParticle(ParticleState &particle) const;
-	void f_r(double r, double &fr) const;
-	void f_z(double z, double &fz) const;
+	double f_r(double r) const;
+	double f_z(double z) const;
+	double f_theta(int i, double r) const;
+	double blur_r(double r_tilde) const;
+	double blur_theta(double theta_tilde, double r_tilde) const;
 	void set_frMax(double R, double b);
 	void set_fzMax(double Zg);
+	void set_RMax(double R_max);
+	void set_ZMax(double Z_max);
+	void set_rBlur(double r_blur);
+	void set_thetaBlur(double theta_blur);
 	double get_frMax();
 	double get_fzMax();
+	double get_RMax();
+	double get_ZMax();
+	double get_rBlur();
+	double get_thetaBlur();
 	void setDescription();
-}
+};
 
 /**
  @class SourceUniform1D

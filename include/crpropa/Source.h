@@ -262,7 +262,40 @@ public:
 	double get_ZMax();
 	void setDescription();
 };
+/**
+@class SourcePulsurDistribution
+@brief Source distribution following the Galactic pulsur distribution
 
+Four major arms are used. The details of the distribution can be found in
+Blasi (2012)
+*/
+
+class SourcePulsurDistribution: public SourceFeature {
+	double R_earth; // parameter given by observation
+	double beta; // parameter to shift the maximum in R direction
+	double Zg; // exponential cut parameter in z direction
+	double frMax; // helper for efficient sampling
+	double fzMax; // helper for efficient sampling
+	double r_blur; // relative smearing factor for the radius
+	double theta_blur; // smearing factor for the angle
+	
+	// Model parameters of the four arms
+	std::Vector<double> K = {4.25, 4.25, 4.89, 4.89};
+	std::Vector<double> r_0 = {3.48, 3.48, 4.9, 4.9};
+	std::Vector<double> theta_0 = {0., 3.14, 2.52, -0.62};
+
+public:
+	SourceSNRDistribution();	
+	SourceSNRDistribution(double R_earth, double beta, double Zg);
+	void prepareParticle(ParticleState &particle) const;
+	void f_r(double r, double &fr) const;
+	void f_z(double z, double &fz) const;
+	void set_frMax(double R, double b);
+	void set_fzMax(double Zg);
+	double get_frMax();
+	double get_fzMax();
+	void setDescription();
+}
 
 /**
  @class SourceUniform1D

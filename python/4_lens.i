@@ -23,7 +23,7 @@ __WITHNUMPY = True
 
 #else
 %pythoncode %{
-__WITHNUMPY = False 
+__WITHNUMPY = False
 %}
 #endif
 
@@ -74,10 +74,10 @@ __WITHNUMPY = False
       npy_intp dims[NPY_MAXDIMS];
       if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0)
       {
-        Py_RETURN_NONE; 
+        Py_RETURN_NONE;
       }
 
-      if (arr == NULL) 
+      if (arr == NULL)
       {
         Py_RETURN_NONE;
       }
@@ -110,14 +110,14 @@ __WITHNUMPY = False
 #ifdef WITHNUMPY
 %extend crpropa::ParticleMapsContainer{
 
-		PyObject *addParticles(PyObject *particleIds, 
-        PyObject *energies, 
-        PyObject *galacticLongitudes, 
-        PyObject *galacticLatitudes, 
+		PyObject *addParticles(PyObject *particleIds,
+        PyObject *energies,
+        PyObject *galacticLongitudes,
+        PyObject *galacticLatitudes,
         PyObject *weights)
     {
-      //ToDo: Handle strided arrays 
-      
+      //ToDo: Handle strided arrays
+
       //ToDo: Check that input objects are arrays  PyArray_Check
       if (!PyArray_Check(particleIds))
       {
@@ -144,7 +144,7 @@ __WITHNUMPY = False
         std::cerr << "ParticleMapsContainer::addParticles -  require array as input for weights\n";
         Py_RETURN_NONE;
       }
-      
+
       int ndim = 0;
       npy_intp dims[NPY_MAXDIMS];
 
@@ -155,13 +155,20 @@ __WITHNUMPY = False
         { Py_RETURN_NONE; };
       if (particleIds_arr == NULL)
         Py_RETURN_NONE;
-      
+
+      // check type
+      if(PyArray_TYPE(particleIds_arr) != NPY_INT)
+      {
+        std::cerr << "";
+        throw std::runtime_error("ParticleMapsContainer::addParticles -  require array of type int as input for ids");
+      }
+
       npy_intp *D = PyArray_DIMS(particleIds_arr);
       int arraySize = D[0];
 
       PyArrayObject *energies_arr = NULL;
       PyArray_Descr *energies_dtype = NULL;
-      
+
       if (PyArray_GetArrayParamsFromObject(energies, NULL, 1,
             &energies_dtype, &ndim, dims, &energies_arr,
             NULL) < 0)
@@ -210,7 +217,7 @@ __WITHNUMPY = False
       }
       Py_RETURN_TRUE;
     }
-      
+
 
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
@@ -226,7 +233,7 @@ __WITHNUMPY = False
       npy_intp size = v.size();
       PyObject *out = PyArray_SimpleNew(1, &size, NPY_INT);
       memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(int));
-      return out; 
+      return out;
   }
 
   PyObject *getEnergies_numpyArray(const int pid)
@@ -235,7 +242,7 @@ __WITHNUMPY = False
       npy_intp size = v.size();
       PyObject *out = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
       memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(double));
-      return out; 
+      return out;
   }
 
   PyObject *getRandomParticles_numpyArray(size_t N)
@@ -246,7 +253,7 @@ __WITHNUMPY = False
 			vector<double> galacticLatitudes;
       $self->getRandomParticles(N, particleId, energy, galacticLongitudes,
           galacticLatitudes);
-      
+
       npy_intp size = N;
       PyObject *oId = PyArray_SimpleNew(1, &size, NPY_INT);
       PyObject *oEnergy = PyArray_SimpleNew(1, &size, NPY_DOUBLE);

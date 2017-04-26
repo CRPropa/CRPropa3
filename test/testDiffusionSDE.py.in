@@ -35,8 +35,8 @@ class DiffusionOneDirection(unittest.TestCase):
     Dif = crpropa.DiffusionSDE(BField, 1e-4, 1*pc, 10*kpc, 0.)
 
     maxTra = crpropa.MaximumTrajectoryLength(50 *kpc)
-    msg1 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.01)! You should rerun the test to make sure there is a bug."
-    msg2 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.001)! You should rerun the test to make sure there is a bug."
+    msg1 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.00001)! You should rerun the test to make sure there is a bug."
+    msg2 = "Note that this is a statistical test. It might fail by chance with a probabilty O(0.00001)! You should rerun the test to make sure there is a bug."
     
     zPosition10 = []
     zPosition1000 = []
@@ -44,7 +44,7 @@ class DiffusionOneDirection(unittest.TestCase):
 
     def test_DiffusionEnergy10(self):
         E = 10 * TeV
-        for i in range(10**3):
+        for i in range(10**4):
             c = crpropa.Candidate()
             c.current.setId(crpropa.nucleusId(1,1))
             c.current.setEnergy(E)
@@ -53,11 +53,11 @@ class DiffusionOneDirection(unittest.TestCase):
                 self.Dif.process(c)
             self.zPosition10.append(c.current.getPosition().z)
         A2, Level, significant = anderson(self.zPosition10, 'norm')
-        self.assertLess(A2, Level[4], msg=self.msg1)
+        self.assertLess(A2, 2.27, msg=self.msg1)
     
     def test_DiffusionEnergy1000(self):
         E = 1 * PeV
-        for i in range(10**3):
+        for i in range(10**4):
             c = crpropa.Candidate()
             c.current.setId(crpropa.nucleusId(1,1))
             c.current.setEnergy(E)
@@ -66,11 +66,11 @@ class DiffusionOneDirection(unittest.TestCase):
                 self.Dif.process(c)
             self.zPosition1000.append(c.current.getPosition().z)
         A2, Level, significant = anderson(self.zPosition1000, 'norm')
-        self.assertLess(A2, Level[4], msg=self.msg1)
+        self.assertLess(A2, 2.27, msg=self.msg1)
         
     def test_DiffusionEnergy100000(self):
         E = 100 * PeV
-        for i in range(10**3):
+        for i in range(10**4):
             c = crpropa.Candidate()
             c.current.setId(crpropa.nucleusId(1,1))
             c.current.setEnergy(E)
@@ -79,7 +79,7 @@ class DiffusionOneDirection(unittest.TestCase):
                 self.Dif.process(c)
             self.zPosition100000.append(c.current.getPosition().z)
         A2, Level, significant = anderson(self.zPosition100000, 'norm')
-        self.assertLess(A2, Level[4], msg=self.msg1)
+        self.assertLess(A2, 2.27, msg=self.msg1)
         
     def test_DiffusionEnergy10ChiSquare(self):
         N = len(self.zPosition10)
@@ -108,8 +108,8 @@ class DiffusionOneDirection(unittest.TestCase):
         f_obs = np.histogram(Data, bins=bins)[0]
         chi2, pValue = chisquare(f_obs, f_exp)
         
-        self.assertLess(pValue, 0.995)
-        self.assertGreater(pValue, 0.005)
+        self.assertLess(pValue, 0.99999)
+        self.assertGreater(pValue, 0.00001)
         
     def test_DiffusionEnergy1000ChiSquare(self):
         N = len(self.zPosition1000)
@@ -138,8 +138,8 @@ class DiffusionOneDirection(unittest.TestCase):
         f_obs = np.histogram(Data, bins=bins)[0]
         chi2, pValue = chisquare(f_obs, f_exp)
        
-        self.assertLess(pValue, 0.995)
-        self.assertGreater(pValue, 0.005)
+        self.assertLess(pValue, 0.99999)
+        self.assertGreater(pValue, 0.00001)
         
     def test_DiffusionEnergy100000ChiSquare(self):
         N = len(self.zPosition100000)
@@ -168,8 +168,8 @@ class DiffusionOneDirection(unittest.TestCase):
         f_obs = np.histogram(Data, bins=bins)[0]
         chi2, pValue = chisquare(f_obs, f_exp)
         
-        self.assertLess(pValue, 0.995)
-        self.assertGreater(pValue, 0.005)
+        self.assertLess(pValue, 0.99999)
+        self.assertGreater(pValue, 0.00001)
 
 
 if __name__ == '__main__':

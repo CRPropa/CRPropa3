@@ -263,23 +263,23 @@ public:
 	void setDescription();
 };
 /**
-@class SourcePulsurDistribution
+@class SourcePulsarDistribution
 @brief Source distribution following the Galactic pulsar distribution
 
-Four major arms are used. The details of the distribution can be found in
-Blasi (2012)
+A logarithmic spiral with four arms is used for the radial distribution.
+The z-distribution is a simple exponentially decaying distribution.
+The pulsar distribution is explained in detail in C.-A. Faucher-Giguere
+and V. M. Kaspi, ApJ 643 (May, 2006) 332. The radial distribution is 
+parametrized as in Blasi and Amato, JCAP 1 (Jan., 2012) 10.
 */
-const double r_0[] = {3.48, 3.48, 4.9, 4.9};
-const double theta_0[] = {0., 3.14, 2.52, -0.62};
-const double k_0[] = {4.25, 4.25, 4.89, 4.89};
+
 class SourcePulsarDistribution: public SourceFeature {
 	double R_earth; // parameter given by observation
 	double beta; // parameter to shift the maximum in R direction
 	double Zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
-	double R_max;// maximum radial distance - default 20 kpc 
-		      // (due to the extension of the JF12 field)
+	double R_max;// maximum radial distance - default 22 kpc 
 	double Z_max; // maximum distance from galactic plane - default 5 kpc 
 	double r_blur; // relative smearing factor for the radius
 	double theta_blur; // smearing factor for the angle. Unit = [1/length]

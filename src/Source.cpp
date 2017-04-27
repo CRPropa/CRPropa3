@@ -443,7 +443,7 @@ SourcePulsarDistribution::SourcePulsarDistribution() :
     R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
 	set_frMax(8.5*kpc, 3.53);
 	set_fzMax(0.3*kpc);
-	set_RMax(20*kpc);
+	set_RMax(22*kpc);
 	set_ZMax(5*kpc);
 	set_rBlur(0.07);
 	set_thetaBlur(0.35/kpc);
@@ -455,7 +455,7 @@ SourcePulsarDistribution::SourcePulsarDistribution(double R_earth, double beta, 
 	set_fzMax(Zg);
 	set_rBlur(rB);
 	set_thetaBlur(tB);
-	set_RMax(20*kpc);
+	set_RMax(22*kpc);
 	set_ZMax(5*kpc);
 }
 
@@ -485,6 +485,7 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
 	double RPos = blur_r(Rtilde);
 	double phi = blur_theta(theta_tilde, Rtilde);
 	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
+	
 	particle.setPosition(pos);
   }
 
@@ -503,11 +504,15 @@ double SourcePulsarDistribution::f_z(double z) const{
 }
 
 double SourcePulsarDistribution::f_theta(int i, double r) const {
+	const double k_0[] = {4.25, 4.25, 4.89, 4.89};
+	const double r_0[] = {3.48*kpc, 3.48*kpc, 4.9*kpc, 4.9*kpc};
+	const double theta_0[] = {0., 3.14, 2.52, -0.62};
 	double K = k_0[i];
 	double R = r_0[i];
 	double Theta = theta_0[i];
 
 	double theta = K * log(r/R) + Theta;
+
 	return theta;
 
 }
@@ -583,8 +588,10 @@ void SourcePulsarDistribution::setDescription() {
 	std::stringstream ss;
 	ss << "SourcePulsarDistribution: Random position according to pulsar distribution";
 	ss << "R_earth = " << R_earth / kpc << " kpc and ";
-	ss << "Zg = " << Zg / kpc << " kpc and";
-	ss << "beta = " << beta << " \n";
+	ss << "Zg = " << Zg / kpc << " kpc and ";
+	ss << "beta = " << beta << " and ";
+	ss << "r_blur = " << r_blur << " and ";
+	ss << "theta_blur = " << theta_blur << "\n";
 	description = ss.str();
 }
 

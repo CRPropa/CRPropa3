@@ -262,7 +262,54 @@ public:
 	double get_ZMax();
 	void setDescription();
 };
+/**
+@class SourcePulsarDistribution
+@brief Source distribution following the Galactic pulsar distribution
 
+A logarithmic spiral with four arms is used for the radial distribution.
+The z-distribution is a simple exponentially decaying distribution.
+The pulsar distribution is explained in detail in C.-A. Faucher-Giguere
+and V. M. Kaspi, ApJ 643 (May, 2006) 332. The radial distribution is 
+parametrized as in Blasi and Amato, JCAP 1 (Jan., 2012) 10.
+*/
+
+class SourcePulsarDistribution: public SourceFeature {
+	double R_earth; // parameter given by observation
+	double beta; // parameter to shift the maximum in R direction
+	double Zg; // exponential cut parameter in z direction
+	double frMax; // helper for efficient sampling
+	double fzMax; // helper for efficient sampling
+	double R_max;// maximum radial distance - default 22 kpc 
+	double Z_max; // maximum distance from galactic plane - default 5 kpc 
+	double r_blur; // relative smearing factor for the radius
+	double theta_blur; // smearing factor for the angle. Unit = [1/length]
+
+
+	
+
+public:
+	SourcePulsarDistribution();	
+	SourcePulsarDistribution(double R_earth, double beta, double Zg, double r_blur, double theta_blur);
+	void prepareParticle(ParticleState &particle) const;
+	double f_r(double r) const;
+	double f_z(double z) const;
+	double f_theta(int i, double r) const;
+	double blur_r(double r_tilde) const;
+	double blur_theta(double theta_tilde, double r_tilde) const;
+	void set_frMax(double R, double b);
+	void set_fzMax(double Zg);
+	void set_RMax(double R_max);
+	void set_ZMax(double Z_max);
+	void set_rBlur(double r_blur);
+	void set_thetaBlur(double theta_blur);
+	double get_frMax();
+	double get_fzMax();
+	double get_RMax();
+	double get_ZMax();
+	double get_rBlur();
+	double get_thetaBlur();
+	void setDescription();
+};
 
 /**
  @class SourceUniform1D

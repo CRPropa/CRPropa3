@@ -438,6 +438,163 @@ void SourceSNRDistribution::setDescription() {
 }
 
 
+// ---------------------------------------------------------------------------
+SourcePulsarDistribution::SourcePulsarDistribution() :
+    R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
+	set_frMax(8.5*kpc, 3.53);
+	set_fzMax(0.3*kpc);
+	set_RMax(22*kpc);
+	set_ZMax(5*kpc);
+	set_rBlur(0.07);
+	set_thetaBlur(0.35/kpc);
+}
+
+SourcePulsarDistribution::SourcePulsarDistribution(double R_earth, double beta, double Zg, double rB, double tB) :
+    R_earth(R_earth), beta(beta), Zg(Zg) {
+	set_frMax(R_earth, beta);
+	set_fzMax(Zg);
+	set_rBlur(rB);
+	set_thetaBlur(tB);
+	set_RMax(22*kpc);
+	set_ZMax(5*kpc);
+}
+
+void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
+  	Random &random = Random::instance();
+	double Rtilde;
+	while (true){
+		Rtilde = random.rand()*R_max;
+		double fTest = random.rand()*frMax;
+		double fR=f_r(Rtilde);
+		if (fTest<=fR) {
+			break;
+		}
+	}
+	double ZPos;
+	while (true){
+		ZPos = (random.rand()-0.5)*2*Z_max;
+		double fTest = random.rand()*fzMax;
+		double fz=f_z(ZPos);
+		if (fTest<=fz) {
+			break;
+		}
+	}
+
+	int i = random.randInt(3);
+	double theta_tilde = f_theta(i, Rtilde);
+	double RPos = blur_r(Rtilde);
+	double phi = blur_theta(theta_tilde, Rtilde);
+	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
+	
+	particle.setPosition(pos);
+  }
+
+double SourcePulsarDistribution::f_r(double r) const{
+	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(R_earth, 2.));
+ 	double f = pow(r/R_earth, 2.) * exp(-beta * (r-R_earth)/R_earth);
+	double fr = Atilde*f;
+	return fr;
+}
+
+double SourcePulsarDistribution::f_z(double z) const{
+	double Az = 1.;
+	double f = 1./Zg * exp(-fabs(z)/Zg);
+	double fz = Az*f;
+	return fz;
+}
+
+double SourcePulsarDistribution::f_theta(int i, double r) const {
+	const double k_0[] = {4.25, 4.25, 4.89, 4.89};
+	const double r_0[] = {3.48*kpc, 3.48*kpc, 4.9*kpc, 4.9*kpc};
+	const double theta_0[] = {0., 3.14, 2.52, -0.62};
+	double K = k_0[i];
+	double R = r_0[i];
+	double Theta = theta_0[i];
+
+	double theta = K * log(r/R) + Theta;
+
+	return theta;
+
+}
+
+double SourcePulsarDistribution::blur_r(double r_tilde) const {
+	Random &random = Random::instance();
+	return random.randNorm(r_tilde, r_blur*r_tilde);
+}
+
+double SourcePulsarDistribution::blur_theta(double theta_tilde, double r_tilde) const {
+	Random &random = Random::instance();
+	double theta_corr = (random.rand()-0.5)*2*M_PI;
+	double tau = theta_corr*exp(-theta_blur*r_tilde);
+	return theta_tilde + tau;
+}
+
+void SourcePulsarDistribution::set_frMax(double R, double b) {
+	frMax = pow(b, 2.) / (3*pow(R, 2.)*M_PI) * exp(-2.);
+	return;
+}
+
+void SourcePulsarDistribution::set_fzMax(double Zg) {
+	fzMax = 1./Zg;
+	return;
+}
+
+void SourcePulsarDistribution::set_RMax(double R_m) {
+	R_max = R_m;
+	return;
+}
+
+void SourcePulsarDistribution::set_ZMax(double Z_m) {
+	Z_max = Z_m;
+	return;
+}
+
+void SourcePulsarDistribution::set_rBlur(double r_B) {
+	r_blur = r_B;
+	return;
+}
+
+void SourcePulsarDistribution::set_thetaBlur(double theta_B) {
+	theta_blur = theta_B;
+	return;
+}
+
+double SourcePulsarDistribution::get_frMax() {
+	return frMax;
+}
+
+double SourcePulsarDistribution::get_fzMax() {
+	return fzMax;
+}
+
+double SourcePulsarDistribution::get_RMax() {
+	return R_max;
+}
+
+double SourcePulsarDistribution::get_ZMax() {
+	return Z_max;
+}
+
+double SourcePulsarDistribution::get_rBlur() {
+	return r_blur;
+}
+
+double SourcePulsarDistribution::get_thetaBlur() {
+	return theta_blur;
+}
+
+
+void SourcePulsarDistribution::setDescription() {
+	std::stringstream ss;
+	ss << "SourcePulsarDistribution: Random position according to pulsar distribution";
+	ss << "R_earth = " << R_earth / kpc << " kpc and ";
+	ss << "Zg = " << Zg / kpc << " kpc and ";
+	ss << "beta = " << beta << " and ";
+	ss << "r_blur = " << r_blur << " and ";
+	ss << "theta_blur = " << theta_blur << "\n";
+	description = ss.str();
+}
+
 // ----------------------------------------------------------------------------
 SourceUniform1D::SourceUniform1D(double minD, double maxD, bool withCosmology) {
 	this->withCosmology = withCosmology;

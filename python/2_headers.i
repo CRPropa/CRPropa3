@@ -279,6 +279,10 @@
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
 %include "crpropa/magneticField/MagneticField.h"
 
+%implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
+%template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;
+%include "crpropa/advectionField/AdvectionField.h"
+
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
 

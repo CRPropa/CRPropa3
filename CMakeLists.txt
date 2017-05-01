@@ -391,6 +391,7 @@ add_library(crpropa SHARED
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/PshirkovField.cpp
+	src/advectionField/AdvectionField.cpp
 	${CRPROPA_EXTRA_SOURCES}
 )
 target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})

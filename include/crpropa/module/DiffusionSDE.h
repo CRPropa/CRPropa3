@@ -6,6 +6,7 @@
 
 #include <crpropa/Module.h>
 #include <crpropa/magneticField/MagneticField.h>
+#include <crpropa/advectionField/AdvectionField.h>
 #include <crpropa/Units.h>
 
 namespace crpropa {
@@ -23,7 +24,8 @@ namespace crpropa {
 class DiffusionSDE : public Module{
 
 private:
-	    ref_ptr<MagneticField> field;
+	    ref_ptr<MagneticField> magneticField;
+	    ref_ptr<AdvectionField> advectionField;
 	    double minStep; // minStep/c_light is the minimum integration timestep
 	    double maxStep; // maxStep/c_light is the maximum integration timestep
 	    double tolerance; // tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.
@@ -33,13 +35,14 @@ private:
 	    
 
 public:
-	    DiffusionSDE(ref_ptr<crpropa::MagneticField> field, double tolerance = 1e-4, 
-	    		    double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+
+	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
 
 	    void process(crpropa::Candidate *candidate) const;
 	   
 	    void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
-	    
+	    void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;    
 	    void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
 
 	    void setMinimumStep(double minStep);
@@ -48,7 +51,8 @@ public:
 	    void setEpsilon(double kappa);
 	    void setAlpha(double alpha);
 	    void setScale(double Scale);
-	    void setField(ref_ptr<crpropa::MagneticField> field);
+	    void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
+	    void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
 
 	    double getMinimumStep() const;
 	    double getMaximumStep() const;

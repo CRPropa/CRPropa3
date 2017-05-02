@@ -47,6 +47,7 @@
 %ignore operator crpropa::Observer*;
 %ignore operator crpropa::ObserverFeature*;
 %ignore operator crpropa::MagneticField*;
+%ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
 %ignore crpropa::TextOutput::load;
 

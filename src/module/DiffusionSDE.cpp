@@ -25,11 +25,11 @@ const double bs[] = { 2825. / 27648., 0., 18575. / 48384., 13525.
 
 
 
-DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> field, double tolerance, 
+DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, double tolerance, 
 				 double minStep, double maxStep, double epsilon) :
   minStep(0)
 {
-  setField(field);
+  setMagneticField(magneticField);
   setMaximumStep(maxStep);
   setMinimumStep(minStep);
   setTolerance(tolerance);
@@ -38,6 +38,18 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> field, double tolerance,
   setAlpha(1./3.);
   }
 
+DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> field, ref_ptr<AdvectionField> advectionField, double tolerance, double minStep, double maxStep, double epsilon) :
+  minStep(0)
+{
+  setMagneticField(magneticField);
+  setAdvectionField(magneticField);
+  setMaximumStep(maxStep);
+  setMinimumStep(minStep);
+  setTolerance(tolerance);
+  setEpsilon(epsilon);
+  setScale(1.);
+  setAlpha(1./3.);
+  }
 
 void DiffusionSDE::process(Candidate *candidate) const {
 
@@ -134,12 +146,15 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	}
 	NVec = NVec.getUnitVector();
 
-   // Calculate the Binormal-vector
+    // Calculate the Binormal-vector
 	BVec = (TVec.cross(NVec)).getUnitVector();
    
+    // Calculate the advection step
+	Vector3d LinProp(0.);
+	driftStep(PosIn, LinProp, h);
 
     // Integration of the SDE with a Mayorama-Euler-method
-	Vector3d PO = PosOut + (NVec * NStep + BVec * BStep) * pow(h, 0.5) ;
+	Vector3d PO = PosOut + LinProp + (NVec * NStep + BVec * BStep) * pow(h, 0.5) ;
     
     // Throw error message if something went wrong with propagation.
     // Deactivate candidate.
@@ -217,7 +232,7 @@ void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosE
 		// update k_i = direction of the regular magnetic mean field
 		Vector3d BField(0.);
 		try {
-		  BField = field->getField(y_n, z);
+		  BField = magneticField->getField(y_n, z);
 		} 
 		catch (std::exception &e) {
 		  std::cerr << "DiffusionSDE: Exception in getField." << std::endl;
@@ -232,6 +247,19 @@ void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosE
 		
 	}
 	//std::cout << "PosErr = " << PosErr <<"\n";
+}
+
+void DiffusionSDE::driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const {
+	Vector3d AdvField(0.);
+	try {
+		AdvField = advectionField->getField(Pos);
+	} 
+	catch (std::exception &e) {
+		std::cerr << "DiffusionSDE: Exception in getField." << std::endl;
+		std::cerr << e.what() << std::endl;
+	}
+	LinProp += AdvField * h;
+	return;
 }
 
 void DiffusionSDE::calculateBTensor(double r, double BTen[], Vector3d pos, Vector3d dir, double z) const {
@@ -289,8 +317,12 @@ void DiffusionSDE::setScale(double s) {
 	scale = s;
 }
 
-void DiffusionSDE::setField(ref_ptr<MagneticField> f) {
-	field = f;
+void DiffusionSDE::setMagneticField(ref_ptr<MagneticField> f) {
+	magneticField = f;
+}
+
+void DiffusionSDE::setAdvectionField(ref_ptr<AdvectionField> f) {
+	advectionField = f;
 }
 
 double DiffusionSDE::getMinimumStep() const {

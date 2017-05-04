@@ -1,8 +1,16 @@
 #ifndef CRPROPA_ADVECTIONFIELD_H
 #define CRPROPA_ADVECTIONFIELD_H
 
+#pragma once
+#include <string>
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#include <sstream>
+
 #include "crpropa/Vector3.h"
 #include "crpropa/Referenced.h"
+#include "crpropa/Units.h"
 
 namespace crpropa {
 
@@ -41,6 +49,41 @@ public:
 	UniformAdvectionField(const Vector3d &value);
 	Vector3d getField(const Vector3d &position) const;
 };
+
+
+/**
+ @class SphericalAdvectionField
+ @brief Spherical advection with a exponentially increasing and
+	exponentially constant velocity.
+*/
+
+class SphericalAdvectionField: public AdvectionField {
+	Vector3d origin; //origin of the advection sphere
+	double radius; //radius of the advection sphere
+	double vMax; // maximum wind velocity
+	double tau; // transition distance
+	double alpha; //tuning parameter
+public:
+	SphericalAdvectionField(Vector3d origin, double radius, double vMax, double tau, double alpha);
+	Vector3d getField(const Vector3d &position) const;
+
+	double getV(const double &r) const;
+
+	void setOrigin(Vector3d origin);
+	void setRadius(double radius);
+	void setVMax(double vMax);
+	void setTau(double tau);
+	void setAlpha(double alpha);
+
+	Vector3d getOrigin() const;
+	double getRadius() const;
+	double getVMax() const;
+	double getTau() const;
+	double getAlpha() const;
+	
+	std::string getDescription() const;
+};
+
 
 } // namespace crpropa
 

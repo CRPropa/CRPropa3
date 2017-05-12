@@ -374,7 +374,7 @@ std::string DiffusionSDE::getDescription() const {
 	  }
 
 	if (scale != 1.) {
-	  s << "scale: " << scale << "\n";
+	  s << "D_0: " << scale*6.1e24 << " m^2/s" << "\n";
 	  }
 
 	return s.str();

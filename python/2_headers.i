@@ -417,6 +417,7 @@ class RangeError {};
 %include "crpropa/module/EMTripletPairProduction.h"
 %include "crpropa/module/EMInverseComptonScattering.h"
 %include "crpropa/module/SynchrotronRadiation.h"
+%include "crpropa/module/AdiabaticCooling.h"
 
 %template(IntSet) std::set<int>;
 %include "crpropa/module/Tools.h"

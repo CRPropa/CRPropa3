@@ -386,6 +386,7 @@ add_library(crpropa SHARED
 	src/module/SimplePropagation.cpp
 	src/module/SynchrotronRadiation.cpp
 	src/module/TextOutput.cpp
+	src/module/AdiabaticCooling.cpp
 	src/module/Tools.cpp
 	src/magneticField/JF12Field.cpp
 	src/magneticField/MagneticField.cpp

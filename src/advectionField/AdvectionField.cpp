@@ -16,6 +16,14 @@ Vector3d AdvectionFieldList::getField(const Vector3d &position) const {
 	return b;
 }
 
+double AdvectionFieldList::getDivergence(const Vector3d &position) const {
+	double D=0.;
+	// Work on default values for divergence or an error handling
+	for (int i = 0; i < fields.size(); i++)
+		D += fields[i]->getDivergence(position);
+	return D;
+}
+
 
 //----------------------------------------------------------------
 UniformAdvectionField::UniformAdvectionField(const Vector3d &value) :
@@ -23,7 +31,11 @@ UniformAdvectionField::UniformAdvectionField(const Vector3d &value) :
 	}
 
 Vector3d UniformAdvectionField::getField(const Vector3d &position) const {
-		return value;
+	return value;
+	}
+
+double UniformAdvectionField::getDivergence(const Vector3d &position) const {
+	return 0.;
 	}
 
 //----------------------------------------------------------------
@@ -44,6 +56,15 @@ Vector3d SphericalAdvectionField::getField(const Vector3d &position) const {
 	}
 	double v_R = getV(R);
 	return v_R * Pos.getUnitVector();
+}
+
+double SphericalAdvectionField::getDivergence(const Vector3d &position) const {
+	double R = (position-origin).getR();
+	if (R>radius) {
+		return 0.;
+	}
+	double D = vMax/R * ( 1-( 1-alpha*(pow(R, alpha)/tau) )*exp(-( pow(R, alpha)/tau )) );
+	return D;
 }
 
 double SphericalAdvectionField::getV(const double &r) const {

@@ -17,13 +17,15 @@ namespace crpropa {
 /**
  @class AdvectionField
  @brief Abstract base class for advection fields. These are used to model 
-	the deterministic part of the Fokker-Planck equation.
+	the deterministic part of the Fokker-Planck equation. The getDivergence()
+	method is used to model the adibatic cooling/heating.
  */
 class AdvectionField: public Referenced {
 public:
 	virtual ~AdvectionField() {
 	}
 	virtual Vector3d getField(const Vector3d &position) const {};
+	virtual double getDivergence(const Vector3d &position) const {};
 };
 
 
@@ -36,6 +38,7 @@ class AdvectionFieldList: public AdvectionField {
 public:
 	void addField(ref_ptr<AdvectionField> field);
 	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
 };
 
 
@@ -48,6 +51,7 @@ class UniformAdvectionField: public AdvectionField {
 public:
 	UniformAdvectionField(const Vector3d &value);
 	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
 };
 
 
@@ -66,6 +70,7 @@ class SphericalAdvectionField: public AdvectionField {
 public:
 	SphericalAdvectionField(Vector3d origin, double radius, double vMax, double tau, double alpha);
 	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
 
 	double getV(const double &r) const;
 

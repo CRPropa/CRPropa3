@@ -27,9 +27,9 @@ void AdiabaticCooling::process(Candidate *c) const {
 		std::cerr << e.what() << std::endl;
 	}
 
-	double dEdt = -E / 3. * Div; 	// cooling due to advection 
+	double dEdt = -E / 3. * Div; 	// cooling due to advection -p/3 * div(V_wind)
 					// (see e.g. Kopp et al. Computer Physics Communication 183
-					// (201) 530-542)
+					// (2012) 530-542)
 	double dt = c->getCurrentStep() / c_light;
 	double dE = dEdt * dt;
 	

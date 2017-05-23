@@ -56,6 +56,29 @@ public:
 
 
 /**
+@class ConstantSphericalAdvectionField
+@brief Spherical advection with a constant wind speed
+
+*/
+
+class ConstantSphericalAdvectionField: public AdvectionField {
+	Vector3d origin; //origin of the advection sphere
+	double vWind; // maximum wind velocity
+public:
+	ConstantSphericalAdvectionField(Vector3d origin, double vWind);
+	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
+
+	void setOrigin(Vector3d origin);
+	void setVWind(double vMax);
+
+	Vector3d getOrigin() const;
+	double getVWind() const;
+
+	//Add description method
+};
+	
+/**
  @class SphericalAdvectionField
  @brief Spherical advection with a exponentially increasing and
 	exponentially constant velocity.

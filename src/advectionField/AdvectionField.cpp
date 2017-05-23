@@ -40,6 +40,43 @@ double UniformAdvectionField::getDivergence(const Vector3d &position) const {
 
 //----------------------------------------------------------------
 
+ConstantSphericalAdvectionField::ConstantSphericalAdvectionField(Vector3d origin, double vWind) {
+	setOrigin(origin);
+	setVWind(vWind);
+}
+
+Vector3d ConstantSphericalAdvectionField::getField(const Vector3d &position) const {
+	Vector3d Pos = position-origin;
+	return vWind * Pos.getUnitVector();
+}
+
+double ConstantSphericalAdvectionField::getDivergence(const Vector3d &position) const {
+	double R = (position-origin).getR();	
+	return 2*vWind/R;
+}
+
+void ConstantSphericalAdvectionField::setOrigin(Vector3d o) {
+	origin=o;
+	return;
+}
+
+void ConstantSphericalAdvectionField::setVWind(double v) {
+	vWind = v;
+	return;
+}
+
+Vector3d ConstantSphericalAdvectionField::getOrigin() const {
+	return origin;
+}
+
+double ConstantSphericalAdvectionField::getVWind() const {
+	return vWind;
+}
+
+
+
+//----------------------------------------------------------------
+
 SphericalAdvectionField::SphericalAdvectionField(Vector3d origin, double radius, double vMax, double tau, double alpha) {
 	setOrigin(origin);
 	setRadius(radius);

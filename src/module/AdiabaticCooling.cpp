@@ -34,12 +34,14 @@ void AdiabaticCooling::process(Candidate *c) const {
 	double dE = dEdt * dt;
 	
 	c->current.setEnergy(E + dE);
+	if (dEdt==0) {
+		return;
+	}	
 	c->limitNextStep(limit * E / fabs(dEdt) *c_light);
 }
 
 void AdiabaticCooling::setLimit(double l) {
 	limit = l;
-	return;
 }
 
 double AdiabaticCooling::getLimit() const {

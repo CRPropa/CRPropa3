@@ -100,7 +100,7 @@ double SphericalAdvectionField::getDivergence(const Vector3d &position) const {
 	if (R>radius) {
 		return 0.;
 	}
-	double D = vMax/R * ( 1-( 1-alpha*(pow(R, alpha)/tau) )*exp(-( pow(R, alpha)/tau )) );
+	double D = 2*vMax/R * ( 1-( 1-alpha*(pow(R, alpha)/(2*tau)) )*exp(-( pow(R, alpha)/tau )) );
 	return D;
 }
 

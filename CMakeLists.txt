@@ -495,6 +495,10 @@ if(ENABLE_TESTING)
 	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testMagneticField testMagneticField)
 
+	add_executable(testAdvectionField test/testAdvectionField.cpp)
+	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread)
+	add_test(testAdvectionField testAdvectionField)
+
 	add_executable(testDINT test/testDINT.cpp)
 	target_link_libraries(testDINT crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDINT testDINT)
@@ -519,10 +523,16 @@ if(ENABLE_TESTING)
 	target_link_libraries(testOutput crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testOutput testOutput)
 
+
 	CONFIGURE_FILE(test/testFunctionalGroups.cpp.in testFunctionalGroups.cpp)
 	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
 	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testFunctionalGroups testFunctionalGroups)
+
+	add_executable(testAdiabaticCooling test/testAdiabaticCooling.cpp)
+	target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread)
+	add_test(testAdiabaticCooling testAdiabaticCooling)
+
 
 	if(WITH_GALACTIC_LENSES)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)

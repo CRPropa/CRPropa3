@@ -42,6 +42,10 @@ double ParticleState::getEnergy() const {
 	return energy;
 }
 
+double ParticleState::getRigidity() const {
+	return fabs(energy / charge);
+}
+
 void ParticleState::setId(int newId) {
 	id = newId;
 	if (isNucleus(id)) {

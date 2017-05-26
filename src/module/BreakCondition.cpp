@@ -107,8 +107,7 @@ double MinimumRigidity::getMinimumRigidity() const {
 }
 
 void MinimumRigidity::process(Candidate *c) const {
-	double rigidity = fabs(c->current.getEnergy() / chargeNumber(c->current.getId()));
-	if (rigidity < minRigidity)
+	if (c->current.getRigidity() < minRigidity)
 		reject(c);
 }
 

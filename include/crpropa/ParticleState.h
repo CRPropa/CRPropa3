@@ -43,6 +43,8 @@ public:
 	void setEnergy(double newEnergy);
 	/// Get energy in [J]
 	double getEnergy() const;
+	/// Get rigidity defined as E/(Z*e) in [V]
+	double getRigidity() const;
 
 	/// Set particle ID
 	void setId(int);

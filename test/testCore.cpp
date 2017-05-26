@@ -87,6 +87,14 @@ TEST(ParticleState, Charge) {
 	EXPECT_DOUBLE_EQ(0, particle.getCharge());
 }
 
+TEST(ParticleState, Rigidity) {
+	ParticleState particle;
+
+	particle.setId(nucleusId(1, 1)); // proton
+	particle.setEnergy(1 * EeV);
+	EXPECT_EQ(particle.getRigidity(), 1e18);
+}
+
 TEST(ParticleState, Mass) {
 	ParticleState particle;
 

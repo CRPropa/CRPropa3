@@ -4,13 +4,14 @@
 
 namespace crpropa {
 
-Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
-		redshift(z), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
+		redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
 	previous = state;
 	current = state;
+	setWeight(1);
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -63,6 +64,10 @@ double Candidate::getNextStep() const {
 	return nextStep;
 }
 
+double Candidate::getWeight() const {
+    return weight;
+}
+
 void Candidate::setRedshift(double z) {
 	redshift = z;
 }
@@ -78,6 +83,10 @@ void Candidate::setCurrentStep(double lstep) {
 
 void Candidate::setNextStep(double step) {
 	nextStep = step;
+}
+
+void Candidate::setWeight(double w) {
+    weight = w;
 }
 
 void Candidate::limitNextStep(double step) {
@@ -115,10 +124,11 @@ void Candidate::addSecondary(Candidate *c) {
 	secondaries.push_back(c);
 }
 
-void Candidate::addSecondary(int id, double energy) {
+void Candidate::addSecondary(int id, double energy, double weight) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = current;
@@ -129,10 +139,11 @@ void Candidate::addSecondary(int id, double energy) {
 	secondaries.push_back(secondary);
 }
 
-void Candidate::addSecondary(int id, double energy, Vector3d position) {
+void Candidate::addSecondary(int id, double energy, Vector3d position, double weight) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
+	secondary->setWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = current;
@@ -166,6 +177,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 
 	cloned->properties = properties;
 	cloned->active = active;
+	cloned->weight = weight;
 	cloned->redshift = redshift;
 	cloned->trajectoryLength = trajectoryLength;
 	cloned->currentStep = currentStep;

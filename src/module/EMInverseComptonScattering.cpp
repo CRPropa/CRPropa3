@@ -187,11 +187,11 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	double Esecondary = E - Enew;
 	if (havePhotons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary(22, Esecondary, pos);
+		candidate->addSecondary(22, Esecondary / (1 + z), pos);
 	}
 
 	// update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent
-	candidate->current.setEnergy(Enew);
+	candidate->current.setEnergy(Enew / (1 + z));
 }
 
 void EMInverseComptonScattering::process(Candidate *candidate) const {

@@ -5,11 +5,11 @@
 
 namespace crpropa {
 
-Output::Output() : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+Output::Output() : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), weights(false), count(0) {
 	enableAll();
 }
 
-Output::Output(OutputType outputtype) : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+Output::Output(OutputType outputtype) : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), weights(false), count(0) {
 		setOutputType(outputtype);
 }
 
@@ -31,7 +31,9 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentEnergyColumn, true);
 		set1D(true);
 	} else if (outputtype == Event1D) {
-		// D, ID, E, ID0, E0
+		// (W), D, ID, E, ID0, E0
+		if (weights)
+			set(WeightColumn, true);	
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
@@ -47,7 +49,9 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentDirectionColumn, true);
 		set1D(false);
 	} else if (outputtype == Event3D) {
-		// D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0
+		// (W), D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0
+		if (weights)
+			set(WeightColumn, true);
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
@@ -74,6 +78,13 @@ void Output::setEnergyScale(double scale) {
 void Output::setLengthScale(double scale) {
 	modify();
 	lengthScale = scale;
+}
+
+void Output::enableWeights(bool value) {
+	modify();
+	weights = value;
+	fields.set(WeightColumn, value);
+	std::cout << "weights = " << value << std::endl;
 }
 
 void Output::set1D(bool value) {

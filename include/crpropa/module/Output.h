@@ -16,6 +16,7 @@ protected:
 	double lengthScale, energyScale;
 	std::bitset<64> fields;
 	bool oneDimensional;
+	bool weights;
 	mutable size_t count;
 	
 	void modify();
@@ -53,6 +54,8 @@ public:
 	
 	void setEnergyScale(double scale);
 	void setLengthScale(double scale);
+
+	void enableWeights(bool value);
 
 	void setOutputType(OutputType outputtype);
 	void set(OutputColumn field, bool value);

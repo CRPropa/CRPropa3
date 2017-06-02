@@ -282,7 +282,7 @@ SourceUniformShell::SourceUniformShell(Vector3d center, double radius) :
 
 void SourceUniformShell::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
-	particle.setPosition(random.randVector() * radius);
+	particle.setPosition(center + random.randVector() * radius);
 }
 
 void SourceUniformShell::setDescription() {

@@ -192,7 +192,9 @@ void DiffusionSDE::process(Candidate *candidate) const {
 		  return;
 	}
 	
-	DirOut = (PO - PosIn - LinProp).getUnitVector(); //Advection does not change the momentum vector
+	//DirOut = (PO - PosIn - LinProp).getUnitVector(); //Advection does not change the momentum vector
+	// Random direction around the tangential direction accounts for the pitch angle average.	
+	DirOut = Random::instance().randConeVector(TVec, M_PI/2.);
 	current.setPosition(PO);
 	current.setDirection(DirOut);
 	candidate->setCurrentStep(h * c_light);

@@ -455,7 +455,8 @@ if(ENABLE_TESTING)
 	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
 	add_test(testOutput testOutput)
 	
-	add_executable(testFunctionalGroups test/testFunctionalGroups.cpp)
+	CONFIGURE_FILE(test/testFunctionalGroups.cpp.in testFunctionalGroups.cpp)
+	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
 	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread)
 	add_test(testFunctionalGroups testFunctionalGroups)
 

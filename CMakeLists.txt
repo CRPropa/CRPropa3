@@ -454,6 +454,10 @@ if(ENABLE_TESTING)
 	add_executable(testOutput test/testOutput.cpp)
 	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
 	add_test(testOutput testOutput)
+	
+	add_executable(testFunctionalGroups test/testFunctionalGroups.cpp)
+	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread)
+	add_test(testFunctionalGroups testFunctionalGroups)
 
 	if(WITH_GALACTIC_LENSES)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)

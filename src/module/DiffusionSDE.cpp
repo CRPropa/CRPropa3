@@ -138,16 +138,20 @@ void DiffusionSDE::process(Candidate *candidate) const {
     // Normalize the tangent vector
 	TVec = (PosOut-PosIn).getUnitVector();
 
-    // Exception: Rectilinear propagation in case of vanishing magnetic field.
-    // Include advection when provided.
+    // Exception: If the magnetic field vanishes: Use only advection.
+    // If an advection field is not provided --> rectilinear propagation.
 	if (TVec.getR() != TVec.getR()) {
 	  	Vector3d dir = current.getDirection();
 		Vector3d Pos = current.getPosition();
 		Vector3d LinProp(0.);
 		if (advectionField){
 			driftStep(Pos, LinProp, h);
+			current.setPosition(Pos + LinProp);
+	 		candidate->setCurrentStep(h*c_light);
+	  		candidate->setNextStep(h*c_light);
+	  		return;
 		}
-		current.setPosition(Pos + LinProp + dir*h*c_light);
+		current.setPosition(Pos + dir*h*c_light);
 	 	candidate->setCurrentStep(h*c_light);
 	  	candidate->setNextStep(h*c_light);
 	  	return;

@@ -23,6 +23,7 @@ Welcome to the CRPropa3 wiki!
  * [Using CRPropa within C++ projects](Cpp-projects)
 
 #### Developer Section
+ * [How-to: Debugging](Debugging)
  * [How-to: Tutorials in form of ipython-notebooks](ipython-notebooks)
  * [How-to: Doxygen on github-pages](github-pages)
  * [Possible developments](Possible-Developments)

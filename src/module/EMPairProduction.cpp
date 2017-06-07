@@ -193,8 +193,8 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-	candidate->addSecondary(-11, Ee, pos);
-	candidate->addSecondary(11, Ep, pos);
+	candidate->addSecondary(-11, Ee / (1 + z), pos);
+	candidate->addSecondary(11, Ep / (1 + z), pos);
 }
 
 void EMPairProduction::process(Candidate *candidate) const {

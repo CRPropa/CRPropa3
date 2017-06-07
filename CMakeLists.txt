@@ -270,13 +270,23 @@ file(DOWNLOAD
 	EXPECTED_MD5 44aa223904fd896887672b32cead2d65)
 message("-- Extracting data file")
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-
-
 # ----------------------------------------------------------------------------
 # Library and Binary
 # ----------------------------------------------------------------------------
 file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h)
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
+
+# Creates a meta-header file for easy inclusion in 3rd party C++ projects
+file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h)
+foreach(filename ${CRPROPA_INCLUDES})
+	# skip magneticLens due to additional requirements which are not available as compiled libraries later
+	if(filename MATCHES "(.*)/magneticLens/(.*)")
+		continue()
+	endif()
+	string(REPLACE "include/" "" filename ${filename})
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h "#include \"${filename}\"\n")
+endforeach(filename)
+include_directories(include ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 add_library(crpropa SHARED
 	src/Random.cpp
@@ -334,14 +344,6 @@ target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 
 add_executable(crpropa-xmlrun src/main.cpp)
 target_link_libraries(crpropa-xmlrun crpropa)
-
-# Creates a meta-header file for easy inclusion in 3rd party C++ projects
-file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h)
-foreach(filename ${CRPROPA_INCLUDES})
-    string(REPLACE "include/crpropa/" "" filename ${filename})
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h "#include \"${filename}\"\n")
-endforeach(filename)
-
 
 # ----------------------------------------------------------------------------
 # Python

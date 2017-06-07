@@ -47,7 +47,7 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentDirectionColumn, true);
 		set1D(false);
 	} else if (outputtype == Event3D) {
-		// D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0
+		// D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
@@ -56,6 +56,7 @@ void Output::setOutputType(OutputType outputtype) {
 		set(SourceIdColumn, true);
 		set(SourceEnergyColumn, true);
 		set(SourcePositionColumn, true);
+		set(SourceDirectionColumn, true);
 		set1D(false);
 	} else if (outputtype == Everything) {
 		enableAll();

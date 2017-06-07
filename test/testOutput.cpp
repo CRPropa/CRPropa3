@@ -1,7 +1,7 @@
 /** Unit tests for Output modules of CRPropa
-	Output
-  	TextOutput
-	ParticleCollector
+    Output
+    TextOutput
+    ParticleCollector
  */
 
 #include "crpropa/ParticleID.h"
@@ -22,7 +22,7 @@ TEST(Output, getCount) {
 	Candidate c;
 	Output output;
 	for (int it=0; it<5; ++it, output.process(&c));
-	
+
 	EXPECT_EQ(output.getCount(), 5);
 }
 
@@ -31,7 +31,7 @@ TEST(Output, getCount) {
 TEST(TextOutput, printHeader_Trajectory1D) {
 	Candidate c;
 	TextOutput output(Output::Trajectory1D);
-	
+
 	::testing::internal::CaptureStdout();
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
@@ -43,7 +43,7 @@ TEST(TextOutput, printHeader_Trajectory1D) {
 TEST(TextOutput, printHeader_Event1D) {
 	Candidate c;
 	TextOutput output(Output::Event1D);
-	
+
 	::testing::internal::CaptureStdout();
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
@@ -55,7 +55,7 @@ TEST(TextOutput, printHeader_Event1D) {
 TEST(TextOutput, printHeader_Trajectory3D) {
 	Candidate c;
 	TextOutput output(Output::Trajectory3D);
-	
+
 	::testing::internal::CaptureStdout();
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
@@ -67,13 +67,13 @@ TEST(TextOutput, printHeader_Trajectory3D) {
 TEST(TextOutput, printHeader_Event3D) {
 	Candidate c;
 	TextOutput output(Output::Event3D);
-	
+
 	::testing::internal::CaptureStdout();
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0");
+	          "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
 }
 
 TEST(TextOutput, printHeader_Custom) {
@@ -82,7 +82,7 @@ TEST(TextOutput, printHeader_Custom) {
 
 	output.enable(Output::SerialNumberColumn);
 	output.disable(Output::TrajectoryLengthColumn);
-	output.set(Output::RedshiftColumn, false);	
+	output.set(Output::RedshiftColumn, false);
 
 	::testing::internal::CaptureStdout();
 	output.process(&c);
@@ -99,7 +99,7 @@ TEST(ParticleCollector, getCount) {
 	ParticleCollector output;
 
 	for (int it=0; it<5; ++it, output.process(c));
-	
+
 	EXPECT_EQ(output.getCount(), 5);
 }
 
@@ -108,7 +108,7 @@ TEST(ParticleCollector, fetchItem) {
 	ParticleCollector output;
 
 	output.process(c);
-	
+
 	EXPECT_EQ(output[0], c);
 }
 
@@ -119,7 +119,7 @@ TEST(ParticleCollector, reprocess) {
 
 	collector.process(c);
 	collector.reprocess(&output);
-	
+
 	EXPECT_EQ(output[0], c);
 }
 

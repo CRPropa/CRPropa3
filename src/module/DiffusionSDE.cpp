@@ -133,14 +133,14 @@ void DiffusionSDE::process(Candidate *candidate) const {
 		tryStep(Start, PosOut, PosErr, z, allowedTime);
 		Start = PosOut;
 	}		
+	//std::cout << "In, Out, Diff" << PosIn/kpc << PosOut/kpc<< (PosOut-PosIn)/kpc <<"\n";
 	
-
     // Normalize the tangent vector
 	TVec = (PosOut-PosIn).getUnitVector();
-
     // Exception: If the magnetic field vanishes: Use only advection.
     // If an advection field is not provided --> rectilinear propagation.
-	if (TVec.getR() != TVec.getR()) {
+	double tTest = TVec.getR();
+	if (tTest != tTest) {
 	  	Vector3d dir = current.getDirection();
 		Vector3d Pos = current.getPosition();
 		Vector3d LinProp(0.);

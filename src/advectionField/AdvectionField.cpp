@@ -174,7 +174,8 @@ SphericalAdvectionShock::SphericalAdvectionShock(Vector3d origin, double r_0, do
 	setLambda(l);
 }
 
-Vector3d SphericalAdvectionShock::getField(Vector3d pos) const {
+
+Vector3d SphericalAdvectionShock::getField(const Vector3d &pos) const {
 	Vector3d R = pos-origin;
 	Vector3d e_r = R.getUnitVector();
 	double r = R.getR();
@@ -184,7 +185,8 @@ Vector3d SphericalAdvectionShock::getField(Vector3d pos) const {
 	return v * e_r;
 }
 
-double SphericalAdvectionShock::getDivergence(Vector3d pos) const {
+
+double SphericalAdvectionShock::getDivergence(const Vector3d &pos) const {
 	double r = (pos-origin).getR();
 
 	double d1 = 2./r*(1-g(r));

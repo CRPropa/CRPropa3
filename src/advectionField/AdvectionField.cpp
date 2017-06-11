@@ -164,4 +164,78 @@ std::string SphericalAdvectionField::getDescription() const {
 	return s.str();
 }
 
+
+//-----------------------------------------------------------------
+
+SphericalAdvectionShock::SphericalAdvectionShock(Vector3d origin, double r_0, double v_0, double l) {
+	setOrigin(origin);
+	setR0(r_0);
+	setV0(v_0);
+	setLambda(l);
+}
+
+Vector3d SphericalAdvectionShock::getField(Vector3d pos) const {
+	Vector3d R = pos-origin;
+	Vector3d e_r = R.getUnitVector();
+	double r = R.getR();
+
+	double v = v_0 * ( 1 + (pow(r_0/(2*r), 2.) -1 ) * g(r));
+
+	return v * e_r;
+}
+
+double SphericalAdvectionShock::getDivergence(Vector3d pos) const {
+	double r = (pos-origin).getR();
+
+	double d1 = 2./r*(1-g(r));
+	double d2 = (pow(r_0/(2*r), 2.)-1)*g_prime(r);
+
+	return v_0 * (d1+d2);
+}
+
+
+double SphericalAdvectionShock::g(double r) const {
+	double a = (r-r_0)/lambda;
+	return 1. / (1+exp(-a));
+}
+
+double SphericalAdvectionShock::g_prime(double r) const {
+	double a = (r-r_0)/lambda;
+	return 1. / (2*lambda*(1+cosh(-a)));
+}	
+
+
+void SphericalAdvectionShock::setOrigin(Vector3d o) {
+	origin = o;
+}
+
+void SphericalAdvectionShock::setR0(double r) {
+	r_0 = r;
+}
+
+void SphericalAdvectionShock::setV0(double v) {
+	v_0 = v;
+}
+
+void SphericalAdvectionShock::setLambda(double l) {
+	lambda = l;
+}
+
+Vector3d SphericalAdvectionShock::getOrigin() const {
+	return origin;
+}
+
+double SphericalAdvectionShock::getR0() const {
+	return r_0;
+}
+
+double SphericalAdvectionShock::getV0() const {
+	return v_0;
+}
+
+double SphericalAdvectionShock::getLambda() const {
+	return lambda;
+}
+
+
 } // namespace crpropa

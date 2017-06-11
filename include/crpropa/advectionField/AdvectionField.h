@@ -113,6 +113,38 @@ public:
 };
 
 
+/**
+ @class SphericalAdvectionShock
+ @brief Spherical advection with a constant velocity for r<r_0
+	at the the shock the velocity drops to v_0/4. followed by
+	a decrease proportional to 1/r^2.
+*/
+
+class SphericalAdvectionShock: public AdvectionField {
+	Vector3d origin; // origin of the advection sphere
+	double r_0; // position of the shock
+	double v_0; // constant velocity
+	double lambda; //transition width
+
+public:
+	SphericalAdvectionShock(Vector3d origin, double r_0, double v_0, double lambda);
+	Vector3d getField(Vector3d pos) const;
+	double getDivergence(Vector3d pos) const;
+
+	double g(double R) const;
+	double g_prime(double R) const;
+
+	void setOrigin(Vector3d Origin);
+	void setR0(double r);
+	void setV0(double v);
+	void setLambda(double l);
+
+	Vector3d getOrigin() const;
+	double getR0() const;
+	double getV0() const;
+	double getLambda() const;
+};
+
 } // namespace crpropa
 
 #endif // CRPROPA_ADVECTIONFIELD_H

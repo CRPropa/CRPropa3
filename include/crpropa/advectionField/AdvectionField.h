@@ -128,8 +128,9 @@ class SphericalAdvectionShock: public AdvectionField {
 
 public:
 	SphericalAdvectionShock(Vector3d origin, double r_0, double v_0, double lambda);
-	Vector3d getField(Vector3d pos) const;
-	double getDivergence(Vector3d pos) const;
+
+	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
 
 	double g(double R) const;
 	double g_prime(double R) const;

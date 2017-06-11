@@ -17,16 +17,15 @@ void AdiabaticCooling::process(Candidate *c) const {
 	Vector3d pos = c->current.getPosition();
 	double E = c->current.getEnergy(); // Note we use E=p/c (relativistic limit)
 	
-	double Div = 0.;
-	
+	double Div = 0.;	
 	try {
-		Div = advectionField->getDivergence(pos);
+		Div +=  advectionField->getDivergence(pos);
 	} 
 	catch (std::exception &e) {
 		std::cerr << "AdiabaticCooling: Exception in getDivergence." << std::endl;
 		std::cerr << e.what() << std::endl;
 	}
-
+	
 	double dEdt = -E / 3. * Div; 	// cooling due to advection -p/3 * div(V_wind)
 					// (see e.g. Kopp et al. Computer Physics Communication 183
 					// (2012) 530-542)

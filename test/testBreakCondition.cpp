@@ -100,7 +100,7 @@ TEST(ObserverFeature, SmallSphere) {
 	EXPECT_TRUE(c.isActive());
 
 	// limit step
-	EXPECT_DOUBLE_EQ(c.getNextStep(), 0.1);
+	EXPECT_NEAR(c.getNextStep(), 0.436, 0.001);
 
 	// detection: particle just entered
 	c.current.setPosition(Vector3d(0.9, 0, 0));

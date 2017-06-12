@@ -104,7 +104,7 @@ DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
 	double d = (candidate->current.getPosition() - center).getR();
 
 	// conservatively limit next step to prevent overshooting
-	candidate->limitNextStep(fabs(d - radius));
+	candidate->limitNextStep(sqrt(fabs(d*d - radius*radius)));
 
 	// no detection if outside of observer sphere
 	if (d > radius)

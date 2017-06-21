@@ -48,6 +48,8 @@ void TextOutput::printHeader() const {
 	*out << "#";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "\tD";
+	if (fields.test(ColumnDensityColumn))
+		*out << "\tN";
 	if (fields.test(RedshiftColumn))
 		*out << "\tz";
 	if (fields.test(SerialNumberColumn))
@@ -98,6 +100,8 @@ void TextOutput::printHeader() const {
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "# D             Trajectory length [" << lengthScale / Mpc
 				<< " Mpc]\n";
+	if (fields.test(ColumnDensityColumn))
+		*out << "# N             Column density [a.u.]\n";
 	if (fields.test(RedshiftColumn))
 		*out << "# z             Redshift\n";
 	if (fields.test(SerialNumberColumn))
@@ -138,6 +142,13 @@ void TextOutput::process(Candidate *c) const {
 	if (fields.test(TrajectoryLengthColumn))
 		p += sprintf(buffer + p, "%8.5E\t",
 				c->getTrajectoryLength() / lengthScale);
+	if (fields.test(ColumnDensityColumn)){
+		std::string sigmaString;
+		std::string CD = "S";
+	  	c->getProperty(CD, sigmaString);
+		double sigma = ::atof(sigmaString.c_str());
+		p += sprintf(buffer + p, "%8.5E\t", sigma);
+	}
 	if (fields.test(RedshiftColumn))
 		p += sprintf(buffer + p, "%1.5E\t", c->getRedshift());
 

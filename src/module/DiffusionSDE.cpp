@@ -213,9 +213,8 @@ void DiffusionSDE::process(Candidate *candidate) const {
 
 	candidate->setNextStep(nextStep);
     
-    // Debugging and Testing
-    // Delete comments if additional information should be stored in candidate
-
+    	// Debugging and Testing
+    	// Delete comments if additional information should be stored in candidate
 /*   
 	std::stringstream s;
 	const std::string AL = "arcLength";
@@ -231,6 +230,30 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	  candidate->setProperty(AL, arcLen);
 	}
 */
+	// Column density
+	// Delete comments if the column density should be stored
+	// Only a simple 1/r^2 behavior can be used
+	// Works only for spherical symmetric problem with r_0=0
+  
+	std::stringstream s;
+	const std::string CD = "S";
+	if (candidate->hasProperty(CD) == false){
+	  s << pow(PosIn.getR()/kpc, -2.) * c_light * h;
+	  const std::string value = s.str();
+	  candidate->setProperty(CD, value);
+	  return;
+	}
+	else {
+	  std::string sigmaString;
+	  candidate->getProperty(CD, sigmaString);
+	  double sigma = ::atof(sigmaString.c_str());
+	  sigma += pow(PosIn.getR()/kpc, -2.) * c_light * h;
+	  s << sigma;
+	  const std::string value = s.str();
+	  candidate->setProperty(CD, value);
+	}
+
+	
 }
 
 

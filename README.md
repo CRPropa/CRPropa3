@@ -21,3 +21,4 @@ Please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues) for s
 
 ### Publications
 The CRPropa 3 release is described in JCAP 1605 (2016) no.05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142).
+The DiffusionSDE module is described in JCAP (2017) no.06, 046; [arxiv:1704.07484](https://arxiv.org/abs/1704.07484).

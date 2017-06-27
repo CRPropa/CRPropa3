@@ -292,7 +292,7 @@ bool XmlExecute::load(const string &filename) {
 	loadSpectrumComposition(node);
 
 	// ----- observers -----
-	ref_ptr<Observer> observer = new Observer();
+	observer = new Observer();
 	modules.add(observer);
 	if (is1D) {
 		observer->add(new ObserverPoint());
@@ -497,7 +497,7 @@ void XmlExecute::loadSpheresAroundObserver(xml_node &node) {
 		pos.z = childValue(n, "CoordZ_Mpc") * Mpc;
 		cout << "  - Postion: " << pos / Mpc << " Mpc";
 		cout << ", Detection does not stop propagation" << endl;
-		observer.add(new ObserverSmallSphere(pos, r));
+		observer->add(new ObserverSmallSphere(pos, r));
 	}
 }
 
@@ -513,7 +513,7 @@ void XmlExecute::loadSpheresAroundSource(pugi::xml_node &node) {
 		double r = childValue(n, "Radius_Mpc") * Mpc;
 		cout << "  - Radius: " << r / Mpc << " Mpc" << endl;
 		cout << "  - Detection does not stop propagation" << endl;
-		observer.add(new ObserverLargeSphere(pos, r));
+		observer->add(new ObserverLargeSphere(pos, r));
 	}
 }
 
@@ -706,9 +706,9 @@ void XmlExecute::loadOutput(xml_node &node) {
 				modules.add(new CRPropa2TrajectoryOutput3D(filename));
 		} else if (type == "Events") {
 			if (is1D)
-				observer.onDetection(new CRPropa2EventOutput1D(filename));
+				observer->onDetection(new CRPropa2EventOutput1D(filename));
 			else
-				observer.onDetection(new CRPropa2EventOutput3D(filename));
+				observer->onDetection(new CRPropa2EventOutput3D(filename));
 		} else if (type == "None") {
 			return;
 		} else {
@@ -725,9 +725,9 @@ void XmlExecute::loadOutput(xml_node &node) {
 				modules.add(new CRPropa2ROOTTrajectoryOutput3D(filename));
 		else if (type == "Events")
 			if (is1D)
-				observer.onDetection(new CRPropa2ROOTEventOutput1D(filename));
+				observer->onDetection(new CRPropa2ROOTEventOutput1D(filename));
 			else
-				observer.onDetection(new CRPropa2ROOTEventOutput3D(filename));
+				observer->onDetection(new CRPropa2ROOTEventOutput3D(filename));
 		else if (type == "None")
 			return;
 		else

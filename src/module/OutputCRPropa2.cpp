@@ -6,7 +6,7 @@
 namespace crpropa {
 
 CRPropa2EventOutput3D::CRPropa2EventOutput3D(std::string filename) {
-	setDescription("Event output in CRPropa2 format");
+	setDescription("Event output (3D, CRPropa2 format), Filename: " + filename);
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
 			<< "#Format - Particle_Type "
@@ -57,7 +57,7 @@ void CRPropa2EventOutput3D::close() {
 }
 
 CRPropa2TrajectoryOutput3D::CRPropa2TrajectoryOutput3D(std::string filename) {
-	setDescription("Trajectory output in CRPropa2 format");
+	setDescription("Trajectory output (3D, CRPropa2 format), Filename: " + filename);
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
 			<< "#Format - Particle_Type "
@@ -99,7 +99,7 @@ void CRPropa2TrajectoryOutput3D::close() {
 }
 
 CRPropa2TrajectoryOutput1D::CRPropa2TrajectoryOutput1D(std::string filename) {
-	setDescription("Trajectory output");
+	setDescription("Trajectory output (1D, CRPropa2 format), Filename: " + filename);
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
 			<< "#Format - Position(Mpc) "
@@ -128,7 +128,7 @@ void CRPropa2TrajectoryOutput1D::close() {
 }
 
 CRPropa2EventOutput1D::CRPropa2EventOutput1D(std::string filename) {
-	setDescription("Conditional output, Filename: " + filename);
+	setDescription("Event output (1D, CRPropa2 format), Filename: " + filename);
 	outfile.open(filename.c_str());
 	outfile << "#CRPropa - Output data file\n"
 			<< "#Format - Energy(EeV) "

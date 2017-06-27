@@ -29,7 +29,7 @@ class XmlExecute {
 	ref_ptr<MagneticField> magnetic_field;
 	ModuleList modules;
 	Source source;
-	Observer observer;
+	ref_ptr<Observer> observer;
 	bool is1D;
 	bool hasRedshift;
 	size_t nTrajectories;

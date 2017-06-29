@@ -125,6 +125,8 @@ class SphericalAdvectionShock: public AdvectionField {
 	double r_0; // position of the shock
 	double v_0; // constant velocity
 	double lambda; //transition width
+	double r_rot; // normalization radius for rotation speed
+	double v_phi; // rotation speed at r_rot
 
 public:
 	SphericalAdvectionShock(Vector3d origin, double r_0, double v_0, double lambda);
@@ -139,11 +141,15 @@ public:
 	void setR0(double r);
 	void setV0(double v);
 	void setLambda(double l);
+	void setRRot(double r);
+	void setAzimuthalSpeed(double vPhi);
 
 	Vector3d getOrigin() const;
 	double getR0() const;
 	double getV0() const;
 	double getLambda() const;
+	double getRRot() const;
+	double getAzimuthalSpeed() const;
 };
 
 } // namespace crpropa

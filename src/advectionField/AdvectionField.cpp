@@ -172,17 +172,21 @@ SphericalAdvectionShock::SphericalAdvectionShock(Vector3d origin, double r_0, do
 	setR0(r_0);
 	setV0(v_0);
 	setLambda(l);
+	setRRot(r_0);
+	setAzimuthalSpeed(0.);
 }
 
 
 Vector3d SphericalAdvectionShock::getField(const Vector3d &pos) const {
 	Vector3d R = pos-origin;
 	Vector3d e_r = R.getUnitVector();
+	Vector3d e_phi = R.getUnitVectorPhi();
 	double r = R.getR();
 
-	double v = v_0 * ( 1 + (pow(r_0/(2*r), 2.) -1 ) * g(r));
+	double v_r = v_0 * ( 1 + (pow(r_0/(2*r), 2.) -1 ) * g(r));
+	double v_p = v_phi * (r_rot/r); 
 
-	return v * e_r;
+	return v_r * e_r + v_p * e_phi;
 }
 
 
@@ -206,7 +210,6 @@ double SphericalAdvectionShock::g_prime(double r) const {
 	return 1. / (2*lambda*(1+cosh(-a)));
 }	
 
-
 void SphericalAdvectionShock::setOrigin(Vector3d o) {
 	origin = o;
 }
@@ -223,6 +226,14 @@ void SphericalAdvectionShock::setLambda(double l) {
 	lambda = l;
 }
 
+void SphericalAdvectionShock::setRRot(double r) {
+	r_rot = r;
+}
+
+void SphericalAdvectionShock::setAzimuthalSpeed(double v) {
+	v_phi = v;
+}
+
 Vector3d SphericalAdvectionShock::getOrigin() const {
 	return origin;
 }
@@ -237,6 +248,14 @@ double SphericalAdvectionShock::getV0() const {
 
 double SphericalAdvectionShock::getLambda() const {
 	return lambda;
+}
+
+double SphericalAdvectionShock::getRRot() const {
+	return r_rot;
+}
+
+double SphericalAdvectionShock::getAzimuthalSpeed() const {
+	return v_phi;
 }
 
 

@@ -3,8 +3,17 @@
 
 /**
  @file
- @brief Definition of SI base units
+ @brief Definition of SI base units and constants
+
+ Definition of SI base units and constants used elsewhere in the code
+ Based on:
+ - CODATA recommended values of the fundamental physical constants: 2006
+ 	doi:10.1103/RevModPhys.80.633
+ - IAU 2012 Resolution B2, IAU 2015 Resolution B2
+ 	https://www.iau.org/administration/resolutions/
  */
+
+#include <cmath>
 
 namespace crpropa {
 
@@ -17,12 +26,12 @@ static const double mol = 1;
 static const double kelvin = 1;
 
 // derived units
-static const double newton = 1;
-static const double pascal = 1;
-static const double joule = 1;
-static const double tesla = 1;
-static const double volt = 1;
-static const double coulomb = 1;
+static const double newton = 1 * kilogram * meter / second / second;
+static const double pascal = 1 * newton / meter / meter;
+static const double joule = 1 * newton * meter;
+static const double tesla = 1 * newton / ampere / meter;
+static const double volt = 1 * kilogram * meter * meter / ampere / second / second / second;
+static const double coulomb = 1 * ampere * second;
 
 // physical constants
 static const double eplus = 1.602176487e-19 * ampere * second;
@@ -34,7 +43,8 @@ static const double mass_neutron = 1.67492735e-27 * kilogram;
 static const double mass_electron = 9.10938291e-31 * kilogram;
 static const double h_planck = 6.62606957e-34 * joule * second;
 static const double k_boltzmann = 1.3806488e-23 * joule / kelvin;
-static const double epsilon0 = 8.854187817e-12 * ampere * second / volt / meter;
+static const double mu0 = 4*M_PI*1e-7 * newton / ampere / ampere;
+static const double epsilon0 = 1.0 / mu0 / c_squared * ampere * second / volt / meter;
 
 // gauss
 static const double gauss = 1e-4 * tesla;
@@ -60,7 +70,8 @@ static const double PeV = petaelectronvolt;
 static const double EeV = exaelectronvolt;
 
 // parsec
-static const double parsec = 3.0856775807e16 * meter;
+static const double au = 149597870700 * meter;
+static const double parsec = 648000 / M_PI * au;
 static const double kiloparsec = 1e3 * parsec;
 static const double megaparsec = 1e6 * parsec;
 static const double gigaparsec = 1e9 * parsec;

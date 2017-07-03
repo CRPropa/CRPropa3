@@ -15,7 +15,9 @@ class MagneticField: public Referenced {
 public:
 	virtual ~MagneticField() {
 	}
-	virtual Vector3d getField(const Vector3d &position) const {};
+	virtual Vector3d getField(const Vector3d &position) const {
+		return Vector3d(0,0,0);
+	};
 	virtual Vector3d getField(const Vector3d &position, double z) const {
 		return getField(position);
 	};
@@ -90,15 +92,16 @@ class MagneticDipoleField: public MagneticField {
 	Vector3d moment;
 	double radius;
 public:
-	MagneticDipoleField(const Vector3d &pos, const Vector3d &moment, const double radius) :
+	MagneticDipoleField(const Vector3d &origin, const Vector3d &moment, const double radius) :
 			origin(origin), moment(moment), radius(radius) {
 	}
 	Vector3d getField(const Vector3d &position) const {
 		Vector3d r = (position - origin);
 		Vector3d unit_r = r.getUnitVector();
 		
-		if (r.getR() == 0) // skip singularity
-			return Vector3d(0, 0, 0);
+		if (r.getR() == 0) { // skip singularity
+			return Vector3d(0,0,0);
+		}
 		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
 	}
 };

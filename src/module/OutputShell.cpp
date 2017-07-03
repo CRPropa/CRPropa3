@@ -45,7 +45,7 @@ void ShellPropertyOutput::process(Candidate* c) const {
 		PropertyMap::const_iterator i = c->properties.begin();
 #pragma omp critical
 	{
-		for (i; i != c->properties.end(); i++) {
+		for ( ; i != c->properties.end(); i++) {
 			std::cout << "  " << i->first << ", " << i->second << std::endl;
 		}
 	}

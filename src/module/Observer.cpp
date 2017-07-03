@@ -92,6 +92,7 @@ DetectionState ObserverDetectAll::checkDetection(Candidate *candidate) const {
 }
 
 std::string ObserverDetectAll::getDescription() const {
+	return description;
 }
 
 // ObserverSmallSphere --------------------------------------------------------

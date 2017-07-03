@@ -156,7 +156,7 @@ double maximumOfSumsOfColumns(const ModelMatrixType &matrix)
 	modelVectorAdaptor = matrix * origVectorAdaptor;
 
 	// clean up
-	delete origVectorStorage;
+	delete[] origVectorStorage;
 }
 
 

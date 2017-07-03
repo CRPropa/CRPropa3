@@ -147,7 +147,7 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel) const {
 	// get photon energies and emission probabilities for decay channel
 	const std::vector<DecayMode> &decays = decayTable[Z * 31 + N];
 	size_t idecay = decays.size();
-	while (--idecay >= 0) {
+	while (idecay-- != 0) {
 		if (decays[idecay].channel == channel)
 			break;
 	}

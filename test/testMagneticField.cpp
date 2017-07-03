@@ -13,15 +13,17 @@ using namespace crpropa;
 TEST(testUniformMagneticField, SimpleTest) {
 	UniformMagneticField B(Vector3d(-1, 5, 3));
 	Vector3d b = B.getField(Vector3d(1, 0, 0));
-	EXPECT_DOUBLE_EQ(b.x, -1);
-	EXPECT_DOUBLE_EQ(b.y, 5);
-	EXPECT_DOUBLE_EQ(b.z, 3);
+	EXPECT_DOUBLE_EQ(b.getX(), -1);
+	EXPECT_DOUBLE_EQ(b.getY(), 5);
+	EXPECT_DOUBLE_EQ(b.getZ(), 3);
 }
 
 TEST(testMagneticDipoleField, SimpleTest) {
 	MagneticDipoleField B(Vector3d(0,0,0), Vector3d(0,0,1), 1);
 	Vector3d b = B.getField(Vector3d(0, 0, 1));
-	EXPECT_NEAR(b.z, 1E-07, 1E-8);
+	EXPECT_NEAR(b.getX(), 0, 1E-8);
+	EXPECT_NEAR(b.getY(), 0, 1E-8);
+	EXPECT_NEAR(b.getZ(), 1E-07, 1E-8);
 }
 
 TEST(testMagneticFieldList, SimpleTest) {

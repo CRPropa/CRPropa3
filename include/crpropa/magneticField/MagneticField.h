@@ -1,6 +1,7 @@
 #ifndef CRPROPA_MAGNETICFIELD_H
 #define CRPROPA_MAGNETICFIELD_H
 
+#include "crpropa/Units.h"
 #include "crpropa/Vector3.h"
 #include "crpropa/Referenced.h"
 
@@ -77,6 +78,28 @@ public:
 	}
 	Vector3d getField(const Vector3d &position) const {
 		return value;
+	}
+};
+
+/**
+ @class MagneticDipoleField
+ @brief Magnetic dipole field defined by the magnetic moment and the 'core' radius.
+ */
+class MagneticDipoleField: public MagneticField {
+	Vector3d origin;
+	Vector3d moment;
+	double radius;
+public:
+	MagneticDipoleField(const Vector3d &pos, const Vector3d &moment, const double radius) :
+			origin(origin), moment(moment), radius(radius) {
+	}
+	Vector3d getField(const Vector3d &position) const {
+		Vector3d r = (position - origin);
+		Vector3d unit_r = r.getUnitVector();
+		
+		if (r.getR() == 0) // skip singularity
+			return Vector3d(0, 0, 0);
+		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
 	}
 };
 

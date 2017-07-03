@@ -18,6 +18,12 @@ TEST(testUniformMagneticField, SimpleTest) {
 	EXPECT_DOUBLE_EQ(b.z, 3);
 }
 
+TEST(testMagneticDipoleField, SimpleTest) {
+	MagneticDipoleField B(Vector3d(0,0,0), Vector3d(0,0,1), 1);
+	Vector3d b = B.getField(Vector3d(0, 0, 1));
+	EXPECT_DOUBLE_EQ(b.z, 1E-07);
+}
+
 TEST(testMagneticFieldList, SimpleTest) {
 	// Test a list of three magnetic fields
 	MagneticFieldList B;

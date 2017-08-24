@@ -276,7 +276,7 @@ double PhotoDisintegration::lossLength(int id, double gamma, double z) {
 		return std::numeric_limits<double>::max();
 
 	// check if in tabulated energy range
-	double lg = log10(gamma) * (1 + z);
+	double lg = log10(gamma * (1 + z));
 	if ((lg <= lgmin) or (lg >= lgmax))
 		return std::numeric_limits<double>::max();
 

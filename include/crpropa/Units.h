@@ -69,8 +69,9 @@ static const double TeV = teraelectronvolt;
 static const double PeV = petaelectronvolt;
 static const double EeV = exaelectronvolt;
 
-// parsec
+// astronomical distances
 static const double au = 149597870700 * meter;
+static const double ly = 365.25 * 24 * 3600 * second * c_light;
 static const double parsec = 648000 / M_PI * au;
 static const double kiloparsec = 1e3 * parsec;
 static const double megaparsec = 1e6 * parsec;

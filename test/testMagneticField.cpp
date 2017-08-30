@@ -26,6 +26,15 @@ TEST(testMagneticDipoleField, SimpleTest) {
 	EXPECT_NEAR(b.getZ(), 1E-07, 1E-8);
 }
 
+#ifdef CRPROPA_HAVE_MUPARSER
+TEST(testRenormalizeMagneticField, simpleTest) {
+	ref_ptr<UniformMagneticField> field = new UniformMagneticField(Vector3d(2*nG, 0, 0));
+	RenormalizeMagneticField modField(field, "B^2-1*nG");
+	Vector3d b = modField.getField(Vector3d(5, 5, 5));
+	EXPECT_NEAR(b.getR(), 3*nG, 0.001);
+}
+#endif
+
 TEST(testMagneticFieldList, SimpleTest) {
 	// Test a list of three magnetic fields
 	MagneticFieldList B;

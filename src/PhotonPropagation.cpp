@@ -372,10 +372,8 @@ void DintElecaPropagation(
 			InitializeSpectrum(&inputSpectrum);
 			// process secondaries
 			while (ParticleAtGround.size() > 0) {
-				bool lastStep = false;
-				double currentDistance =  redshift2ComovingDistance(ParticleAtGround.back().Getz());
-				if (currentDistance == 0.)
-					lastStep = true;
+				double currentDistance =  redshift2LightTravelDistance(ParticleAtGround.back().Getz());  // dint expects light travel distance
+				bool lastStep = (currentDistance == 0.);
 				// add secondaries at the current distance to spectrum
 				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))	{
 					if (redshift2ComovingDistance(ParticleAtGround.back().Getz()) > 0. || lastStep) {
@@ -414,7 +412,7 @@ void DintElecaPropagation(
 				double D = 0;
 				// only propagate to next particle
 				if (ParticleAtGround.size() > 0)
-					D = redshift2ComovingDistance(ParticleAtGround.back().Getz());
+					D = redshift2LightTravelDistance(ParticleAtGround.back().Getz());
 
 				InitializeSpectrum(&outputSpectrum);
 				dint.propagate(currentDistance / Mpc, D / Mpc, &inputSpectrum,

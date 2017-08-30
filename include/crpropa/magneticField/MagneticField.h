@@ -5,6 +5,10 @@
 #include "crpropa/Vector3.h"
 #include "crpropa/Referenced.h"
 
+#ifdef CRPROPA_HAVE_MUPARSER
+#include "muParser.h"
+#endif
+
 namespace crpropa {
 
 /**
@@ -105,6 +109,43 @@ public:
 		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
 	}
 };
+
+#ifdef CRPROPA_HAVE_MUPARSER
+/**
+ @class RenormalizeMagneticField
+ @brief Renormalize strength of a given field by expression in which B is the strength variable.
+ */
+class RenormalizeMagneticField: public MagneticField {
+	ref_ptr<MagneticField> field;
+	std::string expression;
+	mu::Parser *p;
+	double Bmag;
+public:
+	RenormalizeMagneticField(ref_ptr<MagneticField> field, std::string expression) :
+		field(field), expression(expression) {
+	
+		p =  new mu::Parser();
+		p->DefineVar("B", &Bmag);
+		p->DefineConst("tesla", tesla);
+		p->DefineConst("gauss", gauss);
+		p->DefineConst("muG", muG);
+		p->DefineConst("nG", nG);
+		p->SetExpr(expression);
+	}
+
+	~RenormalizeMagneticField() {
+		delete p;
+	}
+	
+	Vector3d getField(const Vector3d &position) {
+		double norm;
+		Vector3d B = field->getField(position);
+		Bmag = B.getR();
+		norm = p->Eval();
+		return field->getField(position) * norm;
+	}
+};
+#endif
 
 } // namespace crpropa
 

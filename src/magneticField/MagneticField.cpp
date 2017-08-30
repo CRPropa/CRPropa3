@@ -78,4 +78,35 @@ Vector3d MagneticFieldEvolution::getField(const Vector3d &position,
 	return field->getField(position) * pow(1+z, m);
 }
 
+Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
+		Vector3d r = (position - origin);
+		Vector3d unit_r = r.getUnitVector();
+		
+		if (r.getR() == 0) { // skip singularity
+			return Vector3d(0,0,0);
+		}
+		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
+}
+
+#ifdef CRPROPA_HAVE_MUPARSER
+RenormalizeMagneticField::RenormalizeMagneticField(ref_ptr<MagneticField> field,
+		std::string expression) :
+		field(field), expression(expression) {
+
+	p =  new mu::Parser();
+	p->DefineVar("B", &Bmag);
+	p->DefineConst("tesla", tesla);
+	p->DefineConst("gauss", gauss);
+	p->DefineConst("muG", muG);
+	p->DefineConst("nG", nG);
+	p->SetExpr(expression);
+}
+
+Vector3d RenormalizeMagneticField::getField(const Vector3d &position) {
+	Vector3d B = field->getField(position);
+	Bmag = B.getR();
+	return B * p->Eval();
+}
+#endif
+
 } // namespace crpropa

@@ -99,15 +99,7 @@ public:
 	MagneticDipoleField(const Vector3d &origin, const Vector3d &moment, const double radius) :
 			origin(origin), moment(moment), radius(radius) {
 	}
-	Vector3d getField(const Vector3d &position) const {
-		Vector3d r = (position - origin);
-		Vector3d unit_r = r.getUnitVector();
-		
-		if (r.getR() == 0) { // skip singularity
-			return Vector3d(0,0,0);
-		}
-		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
-	}
+	Vector3d getField(const Vector3d &position) const;
 };
 
 #ifdef CRPROPA_HAVE_MUPARSER
@@ -121,29 +113,9 @@ class RenormalizeMagneticField: public MagneticField {
 	mu::Parser *p;
 	double Bmag;
 public:
-	RenormalizeMagneticField(ref_ptr<MagneticField> field, std::string expression) :
-		field(field), expression(expression) {
-	
-		p =  new mu::Parser();
-		p->DefineVar("B", &Bmag);
-		p->DefineConst("tesla", tesla);
-		p->DefineConst("gauss", gauss);
-		p->DefineConst("muG", muG);
-		p->DefineConst("nG", nG);
-		p->SetExpr(expression);
-	}
-
-	~RenormalizeMagneticField() {
-		delete p;
-	}
-	
-	Vector3d getField(const Vector3d &position) {
-		double norm;
-		Vector3d B = field->getField(position);
-		Bmag = B.getR();
-		norm = p->Eval();
-		return field->getField(position) * norm;
-	}
+	RenormalizeMagneticField(ref_ptr<MagneticField> field, std::string expression); 
+	~RenormalizeMagneticField() { delete p;	}
+	Vector3d getField(const Vector3d &position);
 };
 #endif
 

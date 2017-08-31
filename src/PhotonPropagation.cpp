@@ -375,8 +375,8 @@ void DintElecaPropagation(
 				double currentDistance =  redshift2LightTravelDistance(ParticleAtGround.back().Getz());  // dint expects light travel distance
 				bool lastStep = (currentDistance == 0.);
 				// add secondaries at the current distance to spectrum
-				while ((ParticleAtGround.size() > 0) && (redshift2ComovingDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))	{
-					if (redshift2ComovingDistance(ParticleAtGround.back().Getz()) > 0. || lastStep) {
+				while ((ParticleAtGround.size() > 0) && (redshift2LightTravelDistance(ParticleAtGround.back().Getz()) >= (currentDistance - dMargin)))	{
+					if (redshift2LightTravelDistance(ParticleAtGround.back().Getz()) > 0. || lastStep) {
 						double criticalEnergy = ParticleAtGround.back().GetEnergy() / (ELECTRON_MASS); // units of dint
 						int maxBin = (int) ((log10(criticalEnergy * ELECTRON_MASS) - MIN_ENERGY_EXP) * BINS_PER_DECADE + 0.5 + 1); // +1 line before to avoid conversion error to int for negative values (int(-0.7) = 0)
 						maxBin -= 1; // remove the additional 1 from line before

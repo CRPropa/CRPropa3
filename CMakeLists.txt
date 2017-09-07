@@ -54,6 +54,8 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT
 list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
 
 
+
+
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
@@ -67,6 +69,52 @@ if(ENABLE_TESTING)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGTEST_USE_OWN_TR1_TUPLE=1")
 	endif(APPLE)
 endif(ENABLE_TESTING)
+
+#
+OPTION(ENABLE_COVERAGE "Add code for coverage analysis." OFF)
+if(ENABLE_COVERAGE)
+	find_program(LCOV_PATH lcov)
+	find_program(GENHTML_PATH genhtml)
+	if(LCOV_PATH AND GENHTML_PATH)
+		message("Enabling coverage report via $make coverage")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+		list(APPEND CRPROPA_EXTRA_LIBRARIES "-lgcov")
+		list(APPEND CRPROPA_EXTRA_LIBRARIES "-fprofile-arcs")
+
+		if(ENABLE_TESTING)
+			SET(COVERAGE_LIBS "-coverage -lgcov")
+			add_custom_target(coverage_clean
+				COMMAND ${LCOV_PATH} --directory . --zerocounters
+			)
+		add_custom_target(coverage
+
+				# generate coverage data
+				COMMAND ${LCOV_PATH} --directory . --capture --output-file coverage.info VERBATIM
+
+				# clean external libs
+				COMMAND ${LCOV_PATH} --remove coverage.info "/usr/include/*" "/usr/lib/*" "*/libs/gtest/*" "*/libs/eigen3/*" "*/libs/zstream-cpp/*" "*/libs/pugixml/*" "*/build/*" -o coverage.info.cleaned VERBATIM
+
+				# Generate html output
+				COMMAND ${GENHTML_PATH} -o coverageReport coverage.info.cleaned VERBATIM
+				COMMAND echo "Generated coverage report in coverageReport/index.html"
+				)
+		endif(ENABLE_TESTING)
+
+	else(LCOV_PATH AND GENHTML_PATH)
+		if(NOT LCOV_PATH)
+			message(WARNING "lcov not found, coverage report generation  not possible!")
+		endif(NOT LCOV_PATH)
+		if(NOT GENHTML_PATH)
+			message(WARNING "genhtml not found, coverage report generation not possible!")
+		endif(NOT GENHTML_PATH)
+	endif(LCOV_PATH AND GENHTML_PATH)
+
+
+
+endif(ENABLE_COVERAGE)
+
+list(APPEND CRPROPA_EXTRA_INCLUDES libs/pugixml)
+
 
 # kiss (provided)
 add_subdirectory(libs/kiss)
@@ -363,7 +411,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
 		option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
 	endif (SWIG_VERSION VERSION_LESS "2.0")
-	
+
 	if(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "-builtin")
 		set(PY3 "-py3")
@@ -414,56 +462,57 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN "
 # ----------------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------------
+
 if(ENABLE_TESTING)
 	enable_testing()
 	add_executable(testCore test/testCore.cpp)
-	target_link_libraries(testCore crpropa gtest gtest_main pthread)
+	target_link_libraries(testCore  crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testCore testCore)
 
 	add_executable(testVector3 test/testVector3.cpp)
-	target_link_libraries(testVector3 crpropa gtest gtest_main pthread)
+	target_link_libraries(testVector3 crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testVector3 testVector3)
 
 	add_executable(testModuleList test/testModuleList.cpp)
-	target_link_libraries(testModuleList crpropa gtest gtest_main pthread)
+	target_link_libraries(testModuleList crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testModuleList testModuleList)
 
 	add_executable(testMagneticField test/testMagneticField.cpp)
-	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread)
+	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testMagneticField testMagneticField)
 
 	add_executable(testDINT test/testDINT.cpp)
-	target_link_libraries(testDINT crpropa gtest gtest_main pthread)
+	target_link_libraries(testDINT crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDINT testDINT)
 
 	add_executable(testPropagation test/testPropagation.cpp)
-	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
+	target_link_libraries(testPropagation crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testPropagation testPropagation)
 
 	add_executable(testBreakCondition test/testBreakCondition.cpp)
-	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread)
+	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testBreakCondition testBreakCondition)
 
 	add_executable(testInteraction test/testInteraction.cpp)
-	target_link_libraries(testInteraction crpropa gtest gtest_main pthread)
+	target_link_libraries(testInteraction crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testInteraction testInteraction)
 
 	add_executable(testSource test/testSource.cpp)
-	target_link_libraries(testSource crpropa gtest gtest_main pthread)
+	target_link_libraries(testSource crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testSource testSource)
 
 	add_executable(testOutput test/testOutput.cpp)
-	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
+	target_link_libraries(testOutput crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testOutput testOutput)
-	
+
 	CONFIGURE_FILE(test/testFunctionalGroups.cpp.in testFunctionalGroups.cpp)
 	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
-	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread)
+	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testFunctionalGroups testFunctionalGroups)
 
 	if(WITH_GALACTIC_LENSES)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
-		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
+		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 		add_test(testGalacticMagneticLens testGalacticMagneticLens)
 	endif(WITH_GALACTIC_LENSES)
 
@@ -473,7 +522,7 @@ if(ENABLE_TESTING)
 		if(numpyIncludePath AND WITH_GALACTIC_LENSES)
 			add_test(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
 		endif(numpyIncludePath AND WITH_GALACTIC_LENSES)
-		
+
 		CONFIGURE_FILE(test/testSimulationExecution.py.in testSimulationExecution.py)
 		add_test(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
 

@@ -24,6 +24,7 @@ Welcome to the CRPropa3 wiki!
 
 #### Developer Section
  * [How-to: Debugging](Debugging)
+ * [How-to: Code coverage](Code-Coverage)
  * [How-to: Tutorials in form of ipython-notebooks](ipython-notebooks)
  * [How-to: Doxygen on github-pages](github-pages)
  * [Possible developments](Possible-Developments)

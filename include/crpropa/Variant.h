@@ -17,6 +17,7 @@
 #include <limits>
 #include <stdint.h>
 
+// Helper to set POD type methods to variant
 #define VARIANT_ADD_TYPE_DECL_POD(NAME, TYPE, VALUE) \
 	bool is ## NAME() const { return (type == TYPE); } \
 	operator VALUE () const { return to ## NAME(); } \
@@ -29,12 +30,14 @@
 	bool operator == (const VALUE &a) const { check(TYPE); return data._##NAME == a; } \
 	Variant(const VALUE &a) { data._ ## NAME = a; type = TYPE; }
 
+// Helper to set pointer type methods to variant
 #define VARIANT_ADD_TYPE_DECL_PTR_BASE(NAME, TYPE, VALUE) \
 	bool is ## NAME() const { return (type == TYPE); } \
 	VALUE &as ## NAME() { check(TYPE); return *data._##NAME; } \
 	const VALUE &as ## NAME() const	{ check(TYPE); return *data._##NAME; } \
 	static Variant from ## NAME(const VALUE &a) { return Variant(a); } \
 
+// Helper to set pointer type methods to variant
 #define VARIANT_ADD_TYPE_DECL_PTR(NAME, TYPE, VALUE) \
 	bool operator != (const VALUE &a) const { check(TYPE); return *data._##NAME != a; } \
 	bool operator == (const VALUE &a) const { check(TYPE); return *data._##NAME == a; } \
@@ -172,7 +175,7 @@ public:
 		return data._String->compare(a) != 0;
 	}
 
-	// io
+	// clear pointer based data types
 	void clear();
 
 protected:

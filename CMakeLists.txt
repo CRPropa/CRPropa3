@@ -336,54 +336,55 @@ endforeach(filename)
 include_directories(include ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 add_library(crpropa SHARED
-	src/Random.cpp
-	src/Clock.cpp
-	src/ModuleList.cpp
-	src/Module.cpp
 	src/Candidate.cpp
+	src/Clock.cpp
+	src/Common.cpp
+	src/Cosmology.cpp
 	src/EmissionMap.cpp
-	src/ParticleState.cpp
+	src/GridTools.cpp
+	src/Module.cpp
+	src/ModuleList.cpp
 	src/ParticleID.cpp
 	src/ParticleMass.cpp
-	src/ProgressBar.cpp
-	src/Cosmology.cpp
-	src/Source.cpp
-	src/Common.cpp
+	src/ParticleState.cpp
 	src/PhotonBackground.cpp
 	src/PhotonPropagation.cpp
-	src/GridTools.cpp
+	src/ProgressBar.cpp
+	src/Random.cpp
+	src/Source.cpp
+	src/Variant.cpp
 	src/XmlExecute.cpp
-	src/module/BreakCondition.cpp
 	src/module/Boundary.cpp
-	src/module/Observer.cpp
-	src/module/SimplePropagation.cpp
-	src/module/PropagationCK.cpp
-	src/module/ElectronPairProduction.cpp
-	src/module/NuclearDecay.cpp
-	src/module/PhotoPionProduction.cpp
-	src/module/PhotoDisintegration.cpp
-	src/module/ElasticScattering.cpp
-	src/module/Redshift.cpp
-	src/module/Output.cpp
-	src/module/TextOutput.cpp
-	src/module/ParticleCollector.cpp
-	src/module/HDF5Output.cpp
-	src/module/OutputShell.cpp
-	src/module/OutputROOT.cpp
-	src/module/OutputCRPropa2.cpp
-	src/module/PhotonOutput1D.cpp
-	src/module/PhotonEleCa.cpp
-	src/module/EMCascade.cpp
-	src/module/EMPairProduction.cpp
-	src/module/EMDoublePairProduction.cpp
-	src/module/EMTripletPairProduction.cpp
-	src/module/EMInverseComptonScattering.cpp
-	src/module/SynchrotronRadiation.cpp
-	src/module/Tools.cpp
+	src/module/BreakCondition.cpp
 	src/module/DiffusionSDE.cpp
+	src/module/EMCascade.cpp
+	src/module/EMDoublePairProduction.cpp
+	src/module/EMInverseComptonScattering.cpp
+	src/module/EMPairProduction.cpp
+	src/module/EMTripletPairProduction.cpp
+	src/module/ElasticScattering.cpp
+	src/module/ElectronPairProduction.cpp
+	src/module/HDF5Output.cpp
+	src/module/NuclearDecay.cpp
+	src/module/Observer.cpp
+	src/module/Output.cpp
+	src/module/OutputCRPropa2.cpp
+	src/module/OutputROOT.cpp
+	src/module/OutputShell.cpp
+	src/module/ParticleCollector.cpp
+	src/module/PhotoDisintegration.cpp
+	src/module/PhotoPionProduction.cpp
+	src/module/PhotonEleCa.cpp
+	src/module/PhotonOutput1D.cpp
+	src/module/PropagationCK.cpp
+	src/module/Redshift.cpp
+	src/module/SimplePropagation.cpp
+	src/module/SynchrotronRadiation.cpp
+	src/module/TextOutput.cpp
+	src/module/Tools.cpp
+	src/magneticField/JF12Field.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
-	src/magneticField/JF12Field.cpp
 	src/magneticField/PshirkovField.cpp
 	${CRPROPA_EXTRA_SOURCES}
 )

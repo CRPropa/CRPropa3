@@ -4,6 +4,7 @@
 #include "crpropa/ParticleState.h"
 #include "crpropa/Referenced.h"
 #include "crpropa/AssocVector.h"
+#include "crpropa/Variant.h"
 
 #include <vector>
 #include <map>
@@ -28,7 +29,7 @@ public:
 
 	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles from interactions */
 
-	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
+	typedef Loki::AssocVector<std::string, Variant> PropertyMap;
 	PropertyMap properties; /**< Map of property names and their values. */
 
 	/** Parent candidate. 0 if no parent (initial particle). Must not be a ref_ptr to prevent circular referencing. */
@@ -86,8 +87,8 @@ public:
 	 */
 	void limitNextStep(double step);
 
-	void setProperty(const std::string &name, const std::string &value);
-	bool getProperty(const std::string &name, std::string &value) const;
+	void setProperty(const std::string &name, const Variant &value);
+	const Variant &getProperty(const std::string &name) const;
 	bool removeProperty(const std::string &name);
 	bool hasProperty(const std::string &name) const;
 

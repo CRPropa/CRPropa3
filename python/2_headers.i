@@ -79,6 +79,7 @@
 #include "crpropa/PhotonPropagation.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/Variant.h"
 
 #include "crpropa/Version.h"
 %}
@@ -122,14 +123,40 @@
 %include "crpropa/ParticleID.h"
 %include "crpropa/ParticleMass.h"
 
+%ignore pxl::Variant::Variant(Variant const *);
+%ignore pxl::Variant::operator bool&;
+%ignore pxl::Variant::operator const bool&;
+%ignore pxl::Variant::operator char&;
+%ignore pxl::Variant::operator const char&;
+%ignore pxl::Variant::operator unsigned char&;
+%ignore pxl::Variant::operator const unsigned char&;
+%ignore pxl::Variant::operator int16_t&;
+%ignore pxl::Variant::operator const int16_t&;
+%ignore pxl::Variant::operator uint16_t&;
+%ignore pxl::Variant::operator const uint16_t&;
+%ignore pxl::Variant::operator int32_t&;
+%ignore pxl::Variant::operator const int32_t&;
+%ignore pxl::Variant::operator uint32_t&;
+%ignore pxl::Variant::operator const uint32_t&;
+%ignore pxl::Variant::operator int64_t&;
+%ignore pxl::Variant::operator const int64_t&;
+%ignore pxl::Variant::operator uint64_t&;
+%ignore pxl::Variant::operator const uint64_t&;
+%ignore pxl::Variant::operator std::string&;
+%ignore pxl::Variant::operator const std::string&;
+%ignore pxl::Variant::operator double&;
+%ignore pxl::Variant::operator const double&;
+%ignore pxl::Variant::operator float&;
+%ignore pxl::Variant::operator const float&;
+%include "crpropa/Variant.h"
+
 /* override Candidate::getProperty() */
-%ignore crpropa::Candidate::getProperty(const std::string &, std::string &) const;
+%ignore crpropa::Candidate::getProperty(const std::string &) const;
 
 %nothread; /* disable threading for extend*/
 %extend crpropa::Candidate {
     PyObject * getProperty(PyObject * name){
 
-        std::string value;
         std::string input;
 
         if (PyString_Check( name )){
@@ -138,16 +165,142 @@
             std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
             return NULL;
         }
-        $self->getProperty( input, value ); 
 
-        return PyString_FromString( value.c_str() );
+        crpropa::Variant value = $self->getProperty( input);
+
+        crpropa::Variant::Type t = value.getType();
+
+        if (t == crpropa::Variant::Type::TYPE_NONE)
+        {
+          Py_INCREF(Py_None);
+          return Py_None;
+        }
+        else if (t == crpropa::Variant::Type::TYPE_BOOL)
+        {
+         if(value.toBool())
+         {
+          Py_RETURN_TRUE;
+         }
+         else
+         {
+          Py_RETURN_FALSE;
+         }
+        }
+        else if (t == crpropa::Variant::Type::TYPE_CHAR)
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_UCHAR)
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_INT16)
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_UINT16)
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_INT32)
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_UINT32)
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_INT64)
+        {
+          return PyLong_FromLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_UINT64)
+        {
+          return PyLong_FromUnsignedLong(value.toInt64());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_FLOAT)
+        {
+          return PyFloat_FromDouble(value.toDouble());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_DOUBLE)
+        {
+          return PyFloat_FromDouble(value.toDouble());
+        }
+        else if (t == crpropa::Variant::Type::TYPE_STRING)
+        {
+          return PyString_FromString(value.toString().c_str());
+        }
+        else
+        {
+          std::cerr << "ERROR: Unknown Type" << std::endl;
+          return NULL;
+        }
     }
-}; 
+
+
+    PyObject * setProperty(PyObject * name, PyObject * value){
+
+        std::string input;
+
+        if (PyString_Check( name )){
+            input = PyString_AsString( name );
+        } else {
+            std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
+            return NULL;
+        }
+
+        if (value == Py_None)
+        {
+          $self->setProperty(input, crpropa::Variant());
+        Py_RETURN_TRUE;
+        }
+        else if (PyBool_Check(value))
+        {
+         if(value == Py_True)
+         {
+          $self->setProperty(input, true);
+         }
+         else
+         {
+          $self->setProperty(input, false);
+         }
+          Py_RETURN_TRUE;
+        }
+        else if (PyInt_Check(value))
+        {
+          $self->setProperty(input, PyInt_AsLong(value));
+          Py_RETURN_TRUE;
+        }
+        else if (PyLong_Check(value))
+        {
+          $self->setProperty(input, PyLong_AsLong(value));
+          Py_RETURN_TRUE;
+        }
+        else if (PyFloat_Check(value))
+        {
+          $self->setProperty(input, PyFloat_AsDouble(value));
+          Py_RETURN_TRUE;
+        } else if (PyString_Check( value))
+        {
+          $self->setProperty(input, PyString_AsString(value));
+          Py_RETURN_TRUE;
+        }
+        else
+        {
+          PyObject *t = PyObject_Str(PyObject_Type(value));
+          std::string ot = PyString_AsString(t);
+          std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
+          return NULL;
+        }
+    }
+};
 %thread; /* reenable threading */
+
 
 %template(CandidateVector) std::vector< crpropa::ref_ptr<crpropa::Candidate> >;
 %template(CandidateRefPtr) crpropa::ref_ptr<crpropa::Candidate>;
 %include "crpropa/Candidate.h"
+
 
 %template(ModuleRefPtr) crpropa::ref_ptr<crpropa::Module>;
 %template(stdModuleList) std::list< crpropa::ref_ptr<crpropa::Module> >;

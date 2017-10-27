@@ -147,8 +147,7 @@ TEST(Candidate, property) {
 	Candidate candidate;
 	candidate.setProperty("foo", "bar");
 	EXPECT_TRUE(candidate.hasProperty("foo"));
-	std::string value;
-	candidate.getProperty("foo", value);
+	std::string value = candidate.getProperty("foo");
 	EXPECT_EQ("bar", value);
 }
 

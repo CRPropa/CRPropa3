@@ -2,6 +2,8 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Units.h"
 
+#include <stdexcept>
+
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
@@ -84,16 +86,15 @@ void Candidate::limitNextStep(double step) {
 	nextStep = std::min(nextStep, step);
 }
 
-void Candidate::setProperty(const std::string &name, const std::string &value) {
+void Candidate::setProperty(const std::string &name, const Variant &value) {
 	properties[name] = value;
 }
 
-bool Candidate::getProperty(const std::string &name, std::string &value) const {
+const Variant &Candidate::getProperty(const std::string &name) const {
 	PropertyMap::const_iterator i = properties.find(name);
 	if (i == properties.end())
-		return false;
-	value = i->second;
-	return true;
+		throw std::runtime_error("Unknown candidate property: " + name);
+	return i->second;
 }
 
 bool Candidate::removeProperty(const std::string& name) {

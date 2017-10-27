@@ -16,6 +16,13 @@ except Exception as e:
     print(type(e), str(e))
     sys.exit(-1)
 
+numpy_available = True
+try:
+    import numpy as np
+except Exception as e:
+    print("*** numpy import failed. Not testing numpy interface")
+    numpy_available = False
+
 
 class testCrossLanguagePolymorphism(unittest.TestCase):
 
@@ -70,11 +77,22 @@ class testCandidatePropertymap(unittest.TestCase):
     def testString(self):
         self.__propertySetGet('Bar')
 
+    def testBool(self):
+        self.__propertySetGet(True)
+        self.__propertySetGet(False)
+
     def testInt(self):
         self.__propertySetGet(42)
+        if numpy_available:
+            v = np.array([2], dtype=int)
+            self.__propertySetGet(v[0])
 
     def testFloat(self):
         self.__propertySetGet(3.14)
+        if numpy_available:
+            v = np.array([2.])
+            self.__propertySetGet(v[0])
+
 
 if __name__ == '__main__':
     unittest.main()

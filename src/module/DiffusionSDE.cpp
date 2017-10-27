@@ -187,22 +187,17 @@ void DiffusionSDE::process(Candidate *candidate) const {
     // Debugging and Testing
     // Delete comments if additional information should be stored in candidate
     
-	std::stringstream s;
 	const std::string AL = "arcLength";
 	if (candidate->hasProperty(AL) == false){
-	  s << (TStep + NStep + BStep) * pow(h, 0.5);
-	  const std::string value = s.str();
+	  double value = (TStep + NStep + BStep) * pow(h, 0.5);
 	  candidate->setProperty(AL, value);
 	  return;
 	}
 	else {
 	  std::string arcLenString;
-	  candidate->getProperty(AL, arcLenString);
-	  double arcLen = ::atof(arcLenString.c_str());
+	  double arcLen = candidate->getProperty(AL);
 	  arcLen += (TStep + NStep + BStep) * pow(h, 0.5);
-	  s << arcLen;
-	  const std::string value = s.str();
-	  candidate->setProperty(AL, value);
+	  candidate->setProperty(AL, arcLen);
 	}
 
 }

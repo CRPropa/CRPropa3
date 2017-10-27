@@ -45,6 +45,14 @@
 namespace crpropa
 {
 
+/**
+ @class Variant
+ @brief storage container for data types as e.g. int, float, string, etc.
+
+ Allows storage of multiple data types in one base class. used to construct a
+ map of `arbitrarry' data types.
+
+ */
 class Variant
 {
 public:

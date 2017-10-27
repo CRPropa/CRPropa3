@@ -59,6 +59,22 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
             self.assertEqual(i + 1, counter.value)
 
 
+class testCandidatePropertymap(unittest.TestCase):
+    def setUp(self):
+        self.candidate = crp.Candidate()
+
+    def __propertySetGet(self, value):
+        self.candidate.setProperty('Foo', value)
+        self.assertEqual(value, self.candidate.getProperty('Foo'))
+
+    def testString(self):
+        self.__propertySetGet('Bar')
+
+    def testInt(self):
+        self.__propertySetGet(42)
+
+    def testFloat(self):
+        self.__propertySetGet(3.14)
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,6 +31,9 @@ Custom SourceFeatures can be written in the following way:
 ```python
 class MySourceFeature(SourceFeature):
     """ Set the initial energy to 10 EeV """
+    def __init__(self):
+        SourceFeature.__init__(self)
+
     def prepareParticle(self, particleState):
         particleState.setEnergy(10 * EeV)
 
@@ -44,6 +47,9 @@ The redshift is stored in the Candidate, not in the ParticleState. To set it wit
 ```python
 class MySourceFeature(SourceFeature):
     """ Set the initial redshift """
+    def __init__(self):
+        SourceFeature.__init__(self)
+
     def prepareCandidate(self, candidate):
         candidate.setRedshift(0.6)
 

@@ -7,7 +7,7 @@
 
 #include <algorithm>
 
-namespace crpropa 
+namespace crpropa
 {
 
 Variant::Variant() :
@@ -44,7 +44,7 @@ void Variant::clear()
 		}
 
 	}
-	
+
 	type = TYPE_NONE;
 }
 

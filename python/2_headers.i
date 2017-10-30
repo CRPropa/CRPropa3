@@ -79,6 +79,7 @@
 #include "crpropa/PhotonPropagation.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/Variant.h"
 
 #include "crpropa/Version.h"
 %}
@@ -122,32 +123,231 @@
 %include "crpropa/ParticleID.h"
 %include "crpropa/ParticleMass.h"
 
+%ignore pxl::Variant::Variant(Variant const *);
+%ignore pxl::Variant::operator bool&;
+%ignore pxl::Variant::operator const bool&;
+%ignore pxl::Variant::operator char&;
+%ignore pxl::Variant::operator const char&;
+%ignore pxl::Variant::operator unsigned char&;
+%ignore pxl::Variant::operator const unsigned char&;
+%ignore pxl::Variant::operator int16_t&;
+%ignore pxl::Variant::operator const int16_t&;
+%ignore pxl::Variant::operator uint16_t&;
+%ignore pxl::Variant::operator const uint16_t&;
+%ignore pxl::Variant::operator int32_t&;
+%ignore pxl::Variant::operator const int32_t&;
+%ignore pxl::Variant::operator uint32_t&;
+%ignore pxl::Variant::operator const uint32_t&;
+%ignore pxl::Variant::operator int64_t&;
+%ignore pxl::Variant::operator const int64_t&;
+%ignore pxl::Variant::operator uint64_t&;
+%ignore pxl::Variant::operator const uint64_t&;
+%ignore pxl::Variant::operator std::string&;
+%ignore pxl::Variant::operator const std::string&;
+%ignore pxl::Variant::operator double&;
+%ignore pxl::Variant::operator const double&;
+%ignore pxl::Variant::operator float&;
+%ignore pxl::Variant::operator const float&;
+%include "crpropa/Variant.h"
+
 /* override Candidate::getProperty() */
-%ignore crpropa::Candidate::getProperty(const std::string &, std::string &) const;
+%ignore crpropa::Candidate::getProperty(const std::string &) const;
 
 %nothread; /* disable threading for extend*/
 %extend crpropa::Candidate {
     PyObject * getProperty(PyObject * name){
 
-        std::string value;
         std::string input;
 
-        if (PyString_Check( name )){
-            input = PyString_AsString( name );
-        } else {
-            std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
+        if (PyUnicode_Check(name)){
+          #ifdef SWIG_PYTHON3
+          // test on PY_MAJOR_VERSION >= 3 wont work with swig
+              input = PyUnicode_AsUTF8(name);
+          #else
+              PyObject *s =  PyUnicode_AsUTF8String(name);
+              input = PyString_AsString(s);
+          #endif
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check(name)){
+            input = PyString_AsString(name);
+        }
+        #endif
+        else {
+            std::cerr << "ERROR: The argument of getProperty() must be a string/unicode object!" << std::endl;
             return NULL;
         }
-        $self->getProperty( input, value ); 
 
-        return PyString_FromString( value.c_str() );
+        crpropa::Variant value = $self->getProperty(input);
+
+        // implement this conversion here and not in the Variant as
+        // __asPythonObject, as extensions cannot be called from extension.
+        if (! value.isValid())
+        {
+          Py_INCREF(Py_None);
+          return Py_None;
+        }
+        else if (value.getTypeInfo() == typeid(bool))
+        {
+         if(value.toBool())
+         {
+          Py_RETURN_TRUE;
+         }
+         else
+         {
+          Py_RETURN_FALSE;
+         }
+        }
+        // convert all integer types to python long
+        else if (value.getTypeInfo() == typeid(char))
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(unsigned char))
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(int16_t))
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(uint16_t))
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(int32_t))
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(uint32_t))
+        {
+          return PyInt_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(int64_t))
+        {
+          return PyLong_FromLong(value.toInt64());
+        }
+        else if (value.getTypeInfo() == typeid(uint64_t))
+        {
+          return PyLong_FromUnsignedLong(value.toInt64());
+        }
+        // convert float and double to pyfloat which is double precision
+        else if (value.getTypeInfo() == typeid(float))
+        {
+          return PyFloat_FromDouble(value.toDouble());
+        }
+        else if (value.getTypeInfo() == typeid(double))
+        {
+          return PyFloat_FromDouble(value.toDouble());
+        }
+        else if (value.getTypeInfo() == typeid(std::string))
+        {
+        #ifdef SWIG_PYTHON3
+          return PyUnicode_FromString(value.toString().c_str());
+        #else
+          return PyString_FromString(value.toString().c_str());
+        #endif
+        }
+
+        std::cerr << "ERROR: Unknown Type" << std::endl;
+        return NULL;
     }
-}; 
+
+
+    PyObject * setProperty(PyObject * name, PyObject * value){
+
+        std::string input;
+
+        if (PyUnicode_Check(name)){
+          #ifdef SWIG_PYTHON3
+              input = PyUnicode_AsUTF8(name);
+          #else
+              input = PyUnicode_AS_DATA(name);
+              PyObject *s =  PyUnicode_AsUTF8String(name);
+              input = PyString_AsString(s);
+          #endif
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check( name )){
+            input = PyString_AsString( name );
+        }
+        #endif
+        else {
+            std::cerr << "ERROR: The argument of setProperty() must be a string/unicode object!" << std::endl;
+            return NULL;
+        }
+
+
+        if (value == Py_None)
+        {
+          $self->setProperty(input, crpropa::Variant());
+        Py_RETURN_TRUE;
+        }
+        else if (PyBool_Check(value))
+        {
+         if(value == Py_True)
+         {
+          $self->setProperty(input, true);
+         }
+         else
+         {
+          $self->setProperty(input, false);
+         }
+          Py_RETURN_TRUE;
+        }
+        else if (PyInt_Check(value))
+        {
+          $self->setProperty(input, PyInt_AsLong(value));
+          Py_RETURN_TRUE;
+        }
+        else if (PyLong_Check(value))
+        {
+          $self->setProperty(input, PyLong_AsLong(value));
+          Py_RETURN_TRUE;
+        }
+        else if (PyFloat_Check(value))
+        {
+          $self->setProperty(input, PyFloat_AsDouble(value));
+          Py_RETURN_TRUE;
+        }
+        else if (PyUnicode_Check(value)){
+        #ifdef SWIG_PYTHON3
+          $self->setProperty(input, PyUnicode_AsUTF8(value));
+        #else
+          PyObject *s =  PyUnicode_AsUTF8String(value);
+          $self->setProperty(input, PyString_AsString(s));
+        #endif
+          Py_RETURN_TRUE;
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check( value))
+        {
+          $self->setProperty(input, PyString_AsString(value));
+          Py_RETURN_TRUE;
+        }
+        #endif
+        else
+        {
+          PyObject *t = PyObject_Str(PyObject_Type(value));
+          std::string ot;
+
+          #ifdef SWIG_PYTHON3
+            ot = PyUnicode_AsUTF8(t);
+          #else
+            ot = PyString_AsString(t);
+          #endif
+          std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
+          return NULL;
+        }
+    }
+};
 %thread; /* reenable threading */
+
 
 %template(CandidateVector) std::vector< crpropa::ref_ptr<crpropa::Candidate> >;
 %template(CandidateRefPtr) crpropa::ref_ptr<crpropa::Candidate>;
 %include "crpropa/Candidate.h"
+
 
 %template(ModuleRefPtr) crpropa::ref_ptr<crpropa::Module>;
 %template(stdModuleList) std::list< crpropa::ref_ptr<crpropa::Module> >;

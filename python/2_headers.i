@@ -159,14 +159,26 @@
 
         std::string input;
 
-        if (PyString_Check( name )){
-            input = PyString_AsString( name );
-        } else {
-            std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
+        if (PyUnicode_Check(name)){
+          #ifdef SWIG_PYTHON3
+          // test on PY_MAJOR_VERSION >= 3 wont work with swig
+              input = PyUnicode_AsUTF8(name);
+          #else
+              PyObject *s =  PyUnicode_AsUTF8String(name);
+              input = PyString_AsString(s);
+          #endif
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check(name)){
+            input = PyString_AsString(name);
+        }
+        #endif
+        else {
+            std::cerr << "ERROR: The argument of getProperty() must be a string/unicode object!" << std::endl;
             return NULL;
         }
 
-        crpropa::Variant value = $self->getProperty( input);
+        crpropa::Variant value = $self->getProperty(input);
 
         // implement this conversion here and not in the Variant as
         // __asPythonObject, as extensions cannot be called from extension.
@@ -219,7 +231,7 @@
         {
           return PyLong_FromUnsignedLong(value.toInt64());
         }
-        // convert float and double to pyfloat which is double precision 
+        // convert float and double to pyfloat which is double precision
         else if (value.getTypeInfo() == typeid(float))
         {
           return PyFloat_FromDouble(value.toDouble());
@@ -230,7 +242,11 @@
         }
         else if (value.getTypeInfo() == typeid(std::string))
         {
+        #ifdef SWIG_PYTHON3
+          return PyUnicode_FromString(value.toString().c_str());
+        #else
           return PyString_FromString(value.toString().c_str());
+        #endif
         }
 
         std::cerr << "ERROR: Unknown Type" << std::endl;
@@ -242,12 +258,25 @@
 
         std::string input;
 
-        if (PyString_Check( name )){
+        if (PyUnicode_Check(name)){
+          #ifdef SWIG_PYTHON3
+              input = PyUnicode_AsUTF8(name);
+          #else
+              input = PyUnicode_AS_DATA(name);
+              PyObject *s =  PyUnicode_AsUTF8String(name);
+              input = PyString_AsString(s);
+          #endif
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check( name )){
             input = PyString_AsString( name );
-        } else {
-            std::cerr << "ERROR: The argument of getProperty() must be a string!" << std::endl;
+        }
+        #endif
+        else {
+            std::cerr << "ERROR: The argument of setProperty() must be a string/unicode object!" << std::endl;
             return NULL;
         }
+
 
         if (value == Py_None)
         {
@@ -280,15 +309,33 @@
         {
           $self->setProperty(input, PyFloat_AsDouble(value));
           Py_RETURN_TRUE;
-        } else if (PyString_Check( value))
+        }
+        else if (PyUnicode_Check(value)){
+        #ifdef SWIG_PYTHON3
+          $self->setProperty(input, PyUnicode_AsUTF8(value));
+        #else
+          PyObject *s =  PyUnicode_AsUTF8String(value);
+          $self->setProperty(input, PyString_AsString(s));
+        #endif
+          Py_RETURN_TRUE;
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check( value))
         {
           $self->setProperty(input, PyString_AsString(value));
           Py_RETURN_TRUE;
         }
+        #endif
         else
         {
           PyObject *t = PyObject_Str(PyObject_Type(value));
-          std::string ot = PyString_AsString(t);
+          std::string ot;
+
+          #ifdef SWIG_PYTHON3
+            ot = PyUnicode_AsUTF8(t);
+          #else
+            ot = PyString_AsString(t);
+          #endif
           std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
           return NULL;
         }

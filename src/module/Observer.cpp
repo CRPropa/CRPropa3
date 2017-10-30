@@ -314,18 +314,14 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	if (detList.size()) {
 		bool detected = false;
 		double length = c->getTrajectoryLength();
-		std::stringstream ss;
 		size_t index;
 		const std::string DI = "DetectionIndex";
 		std::string value;
-		
-		// Load the last detection index	
+
+		// Load the last detection index
 		if (c->hasProperty(DI)) {
-			std::string DIstring;
-			c->getProperty(DI, DIstring);
-			index = ::atoi(DIstring.c_str());
-				
-		} 
+			index = c->getProperty(DI);
+		}
 		else {
 			index = 0;
 		}
@@ -334,24 +330,22 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		if (index > detList.size()) {
 			return NOTHING;
 		}
-		
+
 		// Calculate the distance to next detection
 		double distance = length - detList[index];
-		
+
 		// Limit next Step and detect candidate
 		// Increase the index by one in case of detection
 		if (distance < 0.) {
 			c->limitNextStep(-distance);
-			return NOTHING;	
+			return NOTHING;
 		}
 		else {
 
 			if (index < detList.size()-1) {
-				c->limitNextStep(detList[index+1]-length);	
+				c->limitNextStep(detList[index+1]-length);
 			}
-			ss << index+1;
-			value =  ss.str();
-			c->setProperty(DI, value);
+			c->setProperty(DI, index+1);
 
 			detected=true;
 			return DETECTED;

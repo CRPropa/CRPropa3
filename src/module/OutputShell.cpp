@@ -42,7 +42,7 @@ std::string ShellOutput1D::getDescription() const {
 }
 
 void ShellPropertyOutput::process(Candidate* c) const {
-		PropertyMap::const_iterator i = c->properties.begin();
+	Candidate::PropertyMap::const_iterator i = c->properties.begin();
 #pragma omp critical
 	{
 		for ( ; i != c->properties.end(); i++) {

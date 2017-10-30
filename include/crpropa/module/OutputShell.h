@@ -3,6 +3,7 @@
 
 #include "crpropa/Module.h"
 #include "crpropa/AssocVector.h"
+#include "crpropa/Variant.h"
 
 namespace crpropa {
 
@@ -32,7 +33,7 @@ public:
  */
 class ShellPropertyOutput: public Module {
 public:
-	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
+	typedef Loki::AssocVector<std::string, Variant> PropertyMap;
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };

@@ -16,6 +16,13 @@ except Exception as e:
     print(type(e), str(e))
     sys.exit(-1)
 
+numpy_available = True
+try:
+    import numpy as np
+except Exception as e:
+    print("*** numpy import failed. Not testing numpy interface")
+    numpy_available = False
+
 
 class testCrossLanguagePolymorphism(unittest.TestCase):
 
@@ -58,6 +65,41 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
             obs.process(candidate)
             self.assertEqual(i + 1, counter.value)
 
+
+class testCandidatePropertymap(unittest.TestCase):
+    def setUp(self):
+        self.candidate = crp.Candidate()
+
+    def __propertySetGet(self, value):
+        self.candidate.setProperty('Foo', value)
+        self.assertEqual(value, self.candidate.getProperty('Foo'))
+
+    def testString(self):
+        self.__propertySetGet('Bar')
+
+    def testUnicode(self):
+        self.__propertySetGet(u'Bar')
+
+    def testUnicodeName(self):
+        self.candidate.setProperty(u'Foo', 23)
+        self.assertEqual(23, self.candidate.getProperty(u'Foo'))
+
+    def testBool(self):
+        self.__propertySetGet(True)
+        self.__propertySetGet(False)
+
+    def testInt(self):
+        self.__propertySetGet(42)
+        # thsi won't work in python3 
+        #if numpy_available:
+        #    v = np.array([2], dtype=int)
+        #    self.__propertySetGet(v[0])
+
+    def testFloat(self):
+        self.__propertySetGet(3.14)
+        if numpy_available:
+            v = np.array([2.])
+            self.__propertySetGet(v[0])
 
 
 if __name__ == '__main__':

@@ -168,14 +168,14 @@
 
         crpropa::Variant value = $self->getProperty( input);
 
-        crpropa::Variant::Type t = value.getType();
-
-        if (t == crpropa::Variant::Type::TYPE_NONE)
+        // implement this conversion here and not in the Variant as
+        // __asPythonObject, as extensions cannot be called from extension.
+        if (! value.isValid())
         {
           Py_INCREF(Py_None);
           return Py_None;
         }
-        else if (t == crpropa::Variant::Type::TYPE_BOOL)
+        else if (value.getTypeInfo() == typeid(bool))
         {
          if(value.toBool())
          {
@@ -186,55 +186,55 @@
           Py_RETURN_FALSE;
          }
         }
-        else if (t == crpropa::Variant::Type::TYPE_CHAR)
+        // convert all integer types to python long
+        else if (value.getTypeInfo() == typeid(char))
         {
           return PyInt_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_UCHAR)
+        else if (value.getTypeInfo() == typeid(unsigned char))
         {
           return PyInt_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_INT16)
+        else if (value.getTypeInfo() == typeid(int16_t))
         {
           return PyInt_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_UINT16)
+        else if (value.getTypeInfo() == typeid(uint16_t))
         {
           return PyInt_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_INT32)
+        else if (value.getTypeInfo() == typeid(int32_t))
         {
           return PyInt_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_UINT32)
+        else if (value.getTypeInfo() == typeid(uint32_t))
         {
           return PyInt_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_INT64)
+        else if (value.getTypeInfo() == typeid(int64_t))
         {
           return PyLong_FromLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_UINT64)
+        else if (value.getTypeInfo() == typeid(uint64_t))
         {
           return PyLong_FromUnsignedLong(value.toInt64());
         }
-        else if (t == crpropa::Variant::Type::TYPE_FLOAT)
+        // convert float and double to pyfloat which is double precision 
+        else if (value.getTypeInfo() == typeid(float))
         {
           return PyFloat_FromDouble(value.toDouble());
         }
-        else if (t == crpropa::Variant::Type::TYPE_DOUBLE)
+        else if (value.getTypeInfo() == typeid(double))
         {
           return PyFloat_FromDouble(value.toDouble());
         }
-        else if (t == crpropa::Variant::Type::TYPE_STRING)
+        else if (value.getTypeInfo() == typeid(std::string))
         {
           return PyString_FromString(value.toString().c_str());
         }
-        else
-        {
-          std::cerr << "ERROR: Unknown Type" << std::endl;
-          return NULL;
-        }
+
+        std::cerr << "ERROR: Unknown Type" << std::endl;
+        return NULL;
     }
 
 

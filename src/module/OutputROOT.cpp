@@ -8,9 +8,12 @@
 #include <TObject.h>
 
 namespace crpropa {
+  
+const std::string rootDeprecationWarning = "!!! Deprecation Warning !!! Output to CERN ROOT will soon be removed from future CRPropa versions. Please switch to HDF5 or (compressed) txt output.\n";
 
 /////////////////////// CRPropa2ROOT EVENT OUTPUT 1D ///////////////////////////
 CRPropa2ROOTEventOutput1D::CRPropa2ROOTEventOutput1D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("CRPropa2ROOTEventOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -21,6 +24,7 @@ CRPropa2ROOTEventOutput1D::CRPropa2ROOTEventOutput1D(std::string filename) {
 }
 
 void CRPropa2ROOTEventOutput1D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -53,6 +57,7 @@ void CRPropa2ROOTEventOutput1D::process(Candidate *c) const {
 
 /////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 1D //////////////////////
 CRPropa2ROOTTrajectoryOutput1D::CRPropa2ROOTTrajectoryOutput1D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("CRPropa2ROOTTrajectoryOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -63,6 +68,7 @@ CRPropa2ROOTTrajectoryOutput1D::CRPropa2ROOTTrajectoryOutput1D(std::string filen
 }
 
 void CRPropa2ROOTTrajectoryOutput1D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -94,6 +100,7 @@ void CRPropa2ROOTTrajectoryOutput1D::process(Candidate *c) const {
 
 /////////////////////// CRPropa2ROOT EVENT OUTPUT 3D ///////////////////////////
 CRPropa2ROOTEventOutput3D::CRPropa2ROOTEventOutput3D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("CRPropa2ROOTEventOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -104,6 +111,7 @@ CRPropa2ROOTEventOutput3D::CRPropa2ROOTEventOutput3D(std::string filename) {
 }
 
 void CRPropa2ROOTEventOutput3D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -148,6 +156,7 @@ void CRPropa2ROOTEventOutput3D::process(Candidate *c) const {
 
 /////////////////////// CRPropa2ROOT TRAJECTORY OUTPUT 3D //////////////////////
 CRPropa2ROOTTrajectoryOutput3D::CRPropa2ROOTTrajectoryOutput3D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("CRPropa2ROOTTrajectoryOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -158,6 +167,7 @@ CRPropa2ROOTTrajectoryOutput3D::CRPropa2ROOTTrajectoryOutput3D(std::string filen
 }
 
 void CRPropa2ROOTTrajectoryOutput3D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -198,6 +208,7 @@ void CRPropa2ROOTTrajectoryOutput3D::process(Candidate *c) const {
 
 /////////////////////// ROOT EVENT OUTPUT 1D //////////////////////////////////
 ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("ROOTEventOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -211,8 +222,8 @@ ROOTEventOutput1D::ROOTEventOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTEventOutput1D::close()
-{
+void ROOTEventOutput1D::close(){
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -248,6 +259,7 @@ void ROOTEventOutput1D::process(Candidate *c) const {
 
 /////////////////////// ROOT PHOTON OUTPUT 1D //////////////////////////////////
 ROOTPhotonOutput1D::ROOTPhotonOutput1D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("ROOTPHOTONOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -265,8 +277,8 @@ ROOTPhotonOutput1D::ROOTPhotonOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTPhotonOutput1D::close()
-{
+void ROOTPhotonOutput1D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -307,6 +319,7 @@ void ROOTPhotonOutput1D::process(Candidate *c) const {
 
 /////////////////////// ROOT TRAJECTORY OUTPUT 1D //////////////////////////////
 ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("ROOTTrajectoryOutput1D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -320,8 +333,8 @@ ROOTTrajectoryOutput1D::ROOTTrajectoryOutput1D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTTrajectoryOutput1D::close()
-{
+void ROOTTrajectoryOutput1D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -353,6 +366,7 @@ void ROOTTrajectoryOutput1D::process(Candidate *c) const {
 
 /////////////////////// ROOT EVENT OUTPUT 3D ///////////////////////////////////
 ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("ROOTEventOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -377,8 +391,8 @@ ROOTEventOutput3D::ROOTEventOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTEventOutput3D::close()
-{
+void ROOTEventOutput3D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();
@@ -422,6 +436,7 @@ void ROOTEventOutput3D::process(Candidate *c) const {
 
 /////////////////////// ROOT TRAJECTORY OUTPUT 3D //////////////////////////////
 ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
+  std::cerr << rootDeprecationWarning;
 	setDescription("ROOTTrajectoryOutput3D, filename: " + filename);
 	TThread::Lock();
 	ROOTFile = new TFile(filename.c_str(), "RECREATE",
@@ -441,8 +456,8 @@ ROOTTrajectoryOutput3D::ROOTTrajectoryOutput3D(std::string filename) {
 	TThread::UnLock();
 }
 
-void ROOTTrajectoryOutput3D::close()
-{
+void ROOTTrajectoryOutput3D::close() {
+  std::cerr << rootDeprecationWarning;
 	TThread::Lock();
 	if (ROOTFile) {
 		ROOTFile->Write();

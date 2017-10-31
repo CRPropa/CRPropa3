@@ -131,6 +131,7 @@ ref_ptr<SourceDensityGrid1D> loadSourceDensityGrid1D(pugi::xml_node &node) {
 
 XmlExecute::XmlExecute() :
 		is1D(false), hasRedshift(false), nTrajectories(0), Emin(0), maxStep(0) {
+			std::cerr <<  "!!! Deprecation Warning !!! Support for legacy XML steering will soon be removed from future CRPropa versions. Please switch to python based steering.\n";
 }
 
 bool XmlExecute::load(const string &filename) {

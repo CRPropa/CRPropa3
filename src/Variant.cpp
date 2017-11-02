@@ -367,11 +367,11 @@ std::string Variant::toString() const
 	}
 	else if (type == TYPE_FLOAT)
 	{
-		sstr << data._Float;
+		sstr << std::scientific << data._Float;
 	}
 	else if (type == TYPE_DOUBLE)
 	{
-		sstr << data._Double;
+		sstr << std::scientific << data._Double;
 	}
 
 	return sstr.str();

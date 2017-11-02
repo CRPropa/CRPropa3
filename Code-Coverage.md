@@ -1,6 +1,6 @@
 ## Code Coverage
 
-* compile crpropa with coverage spport
+* compile crpropa with coverage support
 ```
 cmake -DENABLE_COVERAGE=TRUE ..
 ```

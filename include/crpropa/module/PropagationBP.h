@@ -14,9 +14,8 @@ namespace crpropa {
 	double Step;
 	
 public:
-	//~ PropagationBP(ref_ptr<MagneticField> field = NULL,
-			//~ double Step = (0.1 * kpc));
-	PropagationBP();
+	PropagationBP(ref_ptr<MagneticField> field = NULL,
+			double Step = (0.1 * kpc));
 			
 	void process(Candidate &candidate) const;
 	

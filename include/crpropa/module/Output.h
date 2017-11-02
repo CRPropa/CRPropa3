@@ -2,8 +2,12 @@
 #define CRPROPA_ABSTRACT_OUTPUT_H
 
 #include "crpropa/Module.h"
+#include "crpropa/Variant.h"
 
 #include <bitset>
+#include <vector>
+#include <string>
+
 
 namespace crpropa {
 
@@ -15,9 +19,18 @@ class Output: public Module {
 protected:
 	double lengthScale, energyScale;
 	std::bitset<64> fields;
+
+	struct Property
+	{
+		std::string name;
+		std::string comment;
+		Variant defaultValue;
+	};
+	std::vector<Property> properties;
+
 	bool oneDimensional;
 	mutable size_t count;
-	
+
 	void modify();
 
 public:
@@ -49,12 +62,15 @@ public:
 
 	Output();
 	Output(OutputType outputtype);
-	
+
 	void setEnergyScale(double scale);
 	void setLengthScale(double scale);
 
 	void setOutputType(OutputType outputtype);
 	void set(OutputColumn field, bool value);
+	/// Add a property to output. Default value is required to assign a type in
+	/// the output
+	void enableProperty(const std::string &property, const Variant& defaultValue, const std::string &comment = "");
 	void enable(OutputColumn field);
 	void disable(OutputColumn field);
 	void enableAll();

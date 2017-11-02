@@ -86,6 +86,11 @@ void TextOutput::printHeader() const {
 		*out << "\tX1\tY1\tZ1";
 	if (fields.test(CreatedDirectionColumn) && not oneDimensional)
 		*out << "\tP1x\tP1y\tP1z";
+	for(std::vector<Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+		*out << "\t" << (*iter).name;
+	}
 
 	*out << "\n#\n";
 	if (fields.test(TrajectoryLengthColumn))
@@ -108,12 +113,18 @@ void TextOutput::printHeader() const {
 			|| fields.test(CreatedDirectionColumn)
 			|| fields.test(SourceDirectionColumn))
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
+	for(std::vector<Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+			*out << "# " << (*iter).name << " " << (*iter).comment << "\n";
+	}
+
 	*out
 			<< "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
 }
 
 void TextOutput::process(Candidate *c) const {
-	if (fields.none())
+	if (fields.none() && properties.empty())
 		return;
 
 	char buffer[1024];
@@ -204,7 +215,21 @@ void TextOutput::process(Candidate *c) const {
 					pos.z);
 		}
 	}
-
+	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+		  Variant v;
+			if (c->hasProperty((*iter).name))
+			{
+				v = c->getProperty((*iter).name);
+			}
+			else
+			{
+				v = (*iter).defaultValue;
+			}
+			p += sprintf(buffer + p, v.toString().c_str());
+			p += sprintf(buffer + p, "\t");
+	}
 	buffer[p - 1] = '\n';
 
 	std::locale::global(old_locale);

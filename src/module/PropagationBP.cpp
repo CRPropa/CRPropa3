@@ -5,19 +5,15 @@
 #include <vector>
 
 namespace crpropa {
-/*
+
 PropagationBP::PropagationBP(ref_ptr<MagneticField> field,
 		double Step):Step(0)
 		 {
-	//setField(field);
-	//setStep(Step);
+	setField(field);
+	setStep(Step);
 }
-*/
 
-PropagationBP::PropagationBP()
-		 {
-	std::cout << "Ich lebe!";
-}
+
 void PropagationBP::process(Candidate &c) const {
 	
 	// update

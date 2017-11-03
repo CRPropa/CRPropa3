@@ -1,4 +1,3 @@
-
 #ifndef CRPROPA_PROPAGATIONBP_H
 #define CRPROPA_PROPAGATIONBP_H
 
@@ -13,11 +12,12 @@ namespace crpropa {
 	ref_ptr<MagneticField> field;
 	double Step;
 	
+	
 public:
 	PropagationBP(ref_ptr<MagneticField> field = NULL,
-			double Step = (0.1 * kpc));
+			double Step = (0.1 * Mpc));
 			
-	void process(Candidate &candidate) const;
+	void process(Candidate *candidate) const;
 	
 	void setField(ref_ptr<MagneticField> field);
 	void setStep(double Step);

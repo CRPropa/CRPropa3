@@ -7,40 +7,42 @@
 namespace crpropa {
 
 PropagationBP::PropagationBP(ref_ptr<MagneticField> field,
-		double Step):Step(0)
+		double Step):Step(1* Mpc)
 		 {
 	setField(field);
 	setStep(Step);
 }
 
 
-void PropagationBP::process(Candidate &c) const {
+void PropagationBP::process(Candidate *c) const {
 	
 	// update
-	c.previous = c.current;
+	c->previous = c->current;
 	
 
 	double step = getStep();
+	c->setCurrentStep(step);
 	
-	// get particle properties
-	double q = c.current.getCharge();                    
-	double m = c.current.getEnergy()/(c_light*c_light);  
-	Vector3d x = c.current.getPosition();                
-	Vector3d v = c.current.getDirection();
+	//get particle properties
+	double q = c->current.getCharge();                    
+	double m = c->current.getEnergy()/(c_light*c_light);  
+	Vector3d x = c->current.getPosition();                
+	Vector3d v = c->current.getDirection();
 	
 	// half leap frog step in the position
-	c.current.setPosition(x + c_light * v * step *1/2); 
+	c->current.setPosition(x +  v * step * 1/2 ); 
 	
 	// get B field at particle position
+	//Vector3d B(1 * nG, 0, 0);
 	Vector3d B(0, 0, 0);
 	double z = 1; // <- Lukas fragen!
-	try {
-		B = field->getField(x, z);
-	} catch (std::exception &e) {
-		std::cerr << "PropagationBP: Exception in getField." << std::endl;
-		std::cerr << e.what() << std::endl;
-	}
-	
+	//~ try {
+		//~ B = field->getField(x, z);
+	//~ } catch (std::exception &e) {
+		//~ std::cerr << "PropagationBP: Exception in getField." << std::endl;
+		//~ std::cerr << e.what() << std::endl;
+	//~ }
+	//~ 
 	// Boris help vectors 
 	Vector3d t = B * q/2/m * step;
 	Vector3d s = t *2. /(1+t.dot(t));
@@ -51,12 +53,15 @@ void PropagationBP::process(Candidate &c) const {
 	v = v + v_help.cross(s);
 	
 	// full leap frog step in the velocity 
-	c.current.setDirection(v);
+	c->current.setDirection(v);
 	
-	// the other half leap frog step in the position
-	c.current.setPosition(x + v * step *1/2);
+	//~ // the other half leap frog step in the position
+	c->current.setPosition(x +  v * step *1/2);
+	
+	c->setNextStep(step);
 	
 }
+
 
 void PropagationBP::setField(ref_ptr<MagneticField> f) {
 	field = f;

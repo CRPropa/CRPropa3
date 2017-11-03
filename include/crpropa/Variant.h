@@ -113,6 +113,11 @@ public:
 
 	static const char *getTypeName(Type type);
 
+	// copy the data to buffer via memcpy. Returns the size of the data
+	size_t copyToBuffer(void* buffer);
+	/// returns size of used data type in bytes
+	size_t getSize() const;
+
 	template<class T>
 	T to() const
 	{

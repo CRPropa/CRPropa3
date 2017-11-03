@@ -529,6 +529,16 @@ TEST(EmissionMap, merge) {
 }
 
 
+TEST(Variant, copyToBuffer)
+{
+	double a = 23.42;
+	Variant v(a);
+	double b;
+	v.copyToBuffer(&b);
+	EXPECT_EQ(a, b);
+}
+
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

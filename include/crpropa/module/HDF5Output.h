@@ -10,6 +10,8 @@
 
 namespace crpropa {
 
+const size_t propertyBufferSize = 1024;
+
 class HDF5Output: public Output {
 
 	typedef struct OutputRow {
@@ -42,7 +44,10 @@ class HDF5Output: public Output {
 		double P1x;
 		double P1y;
 		double P1z;
+		unsigned char propertyBuffer[propertyBufferSize];
 	} OutputRow;
+
+	std::string filename;
 
 	hid_t file, sid;
 	hid_t dset, dataspace;

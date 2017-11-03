@@ -18,7 +18,7 @@ m.process(c)
 print c.current.getEnergy()
 ```
 
-When redefining the init function make sure to call the super classes init function as well.
+When redefining the init function make sure to call the super classes init function as well, otherwise the code will segfault.
 ```python
 class MyModule(Module):
     def __init__(self):

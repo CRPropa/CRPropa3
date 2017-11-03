@@ -538,6 +538,28 @@ TEST(Variant, copyToBuffer)
 	EXPECT_EQ(a, b);
 }
 
+TEST(Variant, stringConversion)
+{
+	Variant v, w;
+	{
+		int32_t a = 12;
+		v = Variant::fromInt32(a);
+		EXPECT_EQ(a, v.asInt32());
+
+		w = Variant::fromString(v.toString(), v.getType());
+		EXPECT_EQ(a, w.asInt32());
+	}
+
+	{
+		int64_t a = 12;
+		v = Variant::fromInt64(a);
+		EXPECT_EQ(a, v.asInt64());
+
+		w = Variant::fromString(v.toString(), v.getType());
+		EXPECT_EQ(a, w.asInt64());
+	}
+}
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

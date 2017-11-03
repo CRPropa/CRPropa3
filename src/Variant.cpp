@@ -835,4 +835,128 @@ double Variant::toDouble() const
 	}
 }
 
+
+#define MEMCPYRET(VAR) \
+	memcpy(buffer, &VAR, sizeof( VAR) );\
+  return sizeof( VAR );
+
+size_t Variant::copyToBuffer(void* buffer)
+{
+  if (type == TYPE_CHAR)
+	{
+		MEMCPYRET( data._Char )
+	}
+	else if (type == TYPE_UCHAR)
+	{
+		MEMCPYRET( data._UChar )
+	}
+	else if (type == TYPE_INT16)
+	{
+		MEMCPYRET(data._Int16);
+	}
+	else if (type == TYPE_UINT16)
+	{
+		MEMCPYRET(data._UInt16);
+	}
+	else if (type == TYPE_INT32)
+	{
+		MEMCPYRET(data._Int32);
+	}
+	else if (type == TYPE_UINT32)
+	{
+		MEMCPYRET(data._UInt32);
+	}
+	else if (type == TYPE_INT64)
+	{
+		MEMCPYRET(data._Int64);
+	}
+	else if (type == TYPE_UINT64)
+	{
+		MEMCPYRET(data._UInt64);
+	}
+	else if (type == TYPE_FLOAT)
+	{
+		MEMCPYRET(data._Float);
+	}
+	else if (type == TYPE_DOUBLE)
+	{
+		MEMCPYRET(data._Double);
+	}
+	else if (type == TYPE_STRING)
+	{
+		size_t len = data._String->size();
+		memcpy(buffer, data._String->c_str(), len);
+		return len;
+	}
+	else if (type == TYPE_BOOL)
+	{
+		MEMCPYRET(data._Bool);
+	}
+	else if (type == TYPE_NONE)
+	{
+		return 0;
+	}
+	throw std::runtime_error("This is serious: Type not handled in copyToBuffer()!");
+};
+
+size_t Variant::getSize() const
+{
+  if (type == TYPE_CHAR)
+	{
+		return sizeof(data._Char);
+	}
+	else if (type == TYPE_UCHAR)
+	{
+		return sizeof(data._UChar);
+	}
+	else if (type == TYPE_INT16)
+	{
+		return sizeof(data._Int16);
+	}
+	else if (type == TYPE_UINT16)
+	{
+		return sizeof(data._UInt16);
+	}
+	else if (type == TYPE_INT32)
+	{
+		return sizeof(data._Int32);
+	}
+	else if (type == TYPE_UINT32)
+	{
+		return sizeof(data._UInt32);
+	}
+	else if (type == TYPE_INT64)
+	{
+		return sizeof(data._Int64);
+	}
+	else if (type == TYPE_UINT64)
+	{
+		return sizeof(data._UInt64);
+	}
+	else if (type == TYPE_FLOAT)
+	{
+		return sizeof(data._Float);
+	}
+	else if (type == TYPE_DOUBLE)
+	{
+		return sizeof(data._Double);
+	}
+	else if (type == TYPE_STRING)
+	{
+		size_t len = strlen(data._String->c_str()+1);
+		return len;
+	}
+	else if (type == TYPE_BOOL)
+	{
+		return sizeof(data._Bool);
+	}
+	else if (type == TYPE_NONE)
+	{
+		return 0;
+	}
+	throw std::runtime_error("This is serious: Type not handled in getSize()!");
+};
+
+
+
 } // namespace pxl

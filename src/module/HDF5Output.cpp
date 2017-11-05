@@ -1,6 +1,7 @@
 #ifdef CRPROPA_HAVE_HDF5
 
 #include "crpropa/module/HDF5Output.h"
+#include "kiss/logger.h"
 #include <hdf5.h>
 
 const hsize_t RANK = 1;
@@ -8,12 +9,48 @@ const hsize_t BUFFER_SIZE = 1024 * 16;
 
 namespace crpropa {
 
-HDF5Output::HDF5Output(const std::string& filename) : Output(), file(-1), sid(-1), dset(-1), dataspace(-1) {
-	open(filename);
+// map variant types to H5T_NATIVE 
+
+	hid_t variantTypeToH5T_NATIVE(Variant::Type type)
+	{
+		if (type == Variant::TYPE_INT64)
+			return H5T_NATIVE_INT64;
+		else if(type == Variant::TYPE_BOOL)
+			return H5T_NATIVE_HBOOL;
+		else if(type == Variant::TYPE_CHAR)
+			return H5T_NATIVE_CHAR;
+		else if(type == Variant::TYPE_UCHAR)
+			return H5T_NATIVE_UCHAR;
+		else if(type == Variant::TYPE_INT16)
+			return H5T_NATIVE_INT16;
+		else if(type == Variant::TYPE_UINT16)
+			return H5T_NATIVE_UINT16;
+		else if(type == Variant::TYPE_INT32)
+			return H5T_NATIVE_INT32;
+		else if(type == Variant::TYPE_UINT32)
+			return H5T_NATIVE_UINT32;
+		else if(type == Variant::TYPE_INT64)
+			return H5T_NATIVE_INT64;
+		else if(type == Variant::TYPE_UINT64)
+			return H5T_NATIVE_UINT64;
+		else if(type == Variant::TYPE_FLOAT)
+			return H5T_NATIVE_FLOAT;
+		else if(type == Variant::TYPE_DOUBLE)
+			return H5T_NATIVE_DOUBLE;
+		else if(type == Variant::TYPE_STRING)
+			return H5T_C_S1;
+		else
+		{
+			KISS_LOG_ERROR << "variantTypeToH5T_NATIVE:: Type: " << Variant::getTypeName(type) << " unknown.";
+			throw std::runtime_error("No matching HDF type for Variant type");
+		}
+	}
+
+
+HDF5Output::HDF5Output(const std::string& filename) :  Output(), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1) {
 }
 
-HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) : Output(outputtype), file(-1), sid(-1), dset(-1), dataspace(-1) {
-	open(filename);
+HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) :  Output(outputtype), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1) {
 }
 
 HDF5Output::~HDF5Output() {
@@ -57,6 +94,26 @@ void HDF5Output::open(const std::string& filename) {
 	H5Tinsert(sid, "P1y", HOFFSET(OutputRow, P1y), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "P1z", HOFFSET(OutputRow, P1z), H5T_NATIVE_DOUBLE);
 
+	size_t pos = 0;
+	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+			hid_t type = variantTypeToH5T_NATIVE((*iter).defaultValue.getType());
+			if (type == H5T_C_S1)
+			{ // set size of string field to size of default value!
+				type = H5Tcopy (H5T_C_S1);
+				H5Tset_size(type, (*iter).defaultValue.toString().size());
+			}
+
+			H5Tinsert(sid, (*iter).name.c_str(), HOFFSET(OutputRow, propertyBuffer) + pos, type);
+		  pos += (*iter).defaultValue.getSize();
+	}
+	if (pos >= propertyBufferSize)
+	{
+		KISS_LOG_ERROR << "Using " << pos << " bytes for properties output. Maximum is " << propertyBufferSize << " bytes.";
+		throw std::runtime_error("Size of property buffer exceeded");
+	}
+
 	// chunked prop
 	hid_t plist = H5Pcreate(H5P_DATASET_CREATE);
 	H5Pset_layout(plist, H5D_CHUNKED);
@@ -87,6 +144,14 @@ void HDF5Output::close() {
 }
 
 void HDF5Output::process(Candidate* candidate) const {
+	#pragma omp critical
+	{
+	if (file == -1)
+		// This is ugly, but necesary as otherwise the user has to manually open the
+		// file before processing the first candidate 
+		const_cast<HDF5Output*>(this)->open(filename);
+	}
+
 	OutputRow r;
 	r.D = candidate->getTrajectoryLength() / lengthScale;
 	r.z = candidate->getRedshift();
@@ -126,6 +191,22 @@ void HDF5Output::process(Candidate* candidate) const {
 	r.P1x = v.x;
 	r.P1y = v.y;
 	r.P1z = v.z;
+
+	size_t pos = 0;
+	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+		  Variant v;
+			if (candidate->hasProperty((*iter).name))
+			{
+				v = candidate->getProperty((*iter).name);
+			}
+			else
+			{
+				v = (*iter).defaultValue;
+			}
+			pos += v.copyToBuffer(&r.propertyBuffer[pos]);
+	}
 
 	#pragma omp critical
 	{

@@ -111,4 +111,14 @@ size_t Output::getCount() const {
 	return count;
 }
 
+void Output::enableProperty(const std::string &property, const Variant &defaultValue, const std::string &comment)
+{
+	modify();
+	Property prop;
+	prop.name = property;
+	prop.comment = comment;
+	prop.defaultValue = defaultValue;
+	properties.push_back(prop);
+}
+;
 } // namespace crpropa

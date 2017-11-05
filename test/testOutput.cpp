@@ -92,6 +92,21 @@ TEST(TextOutput, printHeader_Custom) {
 	          "#\tSN\tID\tE\tSN0\tID0\tE0\tSN1");
 }
 
+TEST(TextOutput, printProperty) {
+	Candidate c;
+	TextOutput output(Output::Event1D);
+	output.disableAll();
+	output.enableProperty("foo", 2.0, "Bar");
+
+	::testing::internal::CaptureStdout();
+	output.process(&c);
+	std::string captured = testing::internal::GetCapturedStdout();
+
+	// name in first line of header
+	EXPECT_EQ(captured.substr(0, captured.find("\n")),
+	          "#\tfoo");
+}
+
 //-- ParticleCollector
 
 TEST(ParticleCollector, getCount) {

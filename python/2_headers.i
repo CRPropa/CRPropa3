@@ -123,32 +123,7 @@
 %include "crpropa/ParticleID.h"
 %include "crpropa/ParticleMass.h"
 
-%ignore pxl::Variant::Variant(Variant const *);
-%ignore pxl::Variant::operator bool&;
-%ignore pxl::Variant::operator const bool&;
-%ignore pxl::Variant::operator char&;
-%ignore pxl::Variant::operator const char&;
-%ignore pxl::Variant::operator unsigned char&;
-%ignore pxl::Variant::operator const unsigned char&;
-%ignore pxl::Variant::operator int16_t&;
-%ignore pxl::Variant::operator const int16_t&;
-%ignore pxl::Variant::operator uint16_t&;
-%ignore pxl::Variant::operator const uint16_t&;
-%ignore pxl::Variant::operator int32_t&;
-%ignore pxl::Variant::operator const int32_t&;
-%ignore pxl::Variant::operator uint32_t&;
-%ignore pxl::Variant::operator const uint32_t&;
-%ignore pxl::Variant::operator int64_t&;
-%ignore pxl::Variant::operator const int64_t&;
-%ignore pxl::Variant::operator uint64_t&;
-%ignore pxl::Variant::operator const uint64_t&;
-%ignore pxl::Variant::operator std::string&;
-%ignore pxl::Variant::operator const std::string&;
-%ignore pxl::Variant::operator double&;
-%ignore pxl::Variant::operator const double&;
-%ignore pxl::Variant::operator float&;
-%ignore pxl::Variant::operator const float&;
-%include "crpropa/Variant.h"
+%import "crpropa/Variant.h"
 
 /* override Candidate::getProperty() */
 %ignore crpropa::Candidate::getProperty(const std::string &) const;
@@ -390,6 +365,79 @@
 %include "crpropa/module/Observer.h"
 %include "crpropa/module/SimplePropagation.h"
 %include "crpropa/module/PropagationCK.h"
+
+%ignore crpropa::Output::enableProperty(const std::string &property, const Variant& defaultValue, const std::string &comment = "");
+%extend crpropa::Output{
+  PyObject * enableProperty(const std::string &name, PyObject* defaultValue, const std::string &comment="")
+  {
+
+       if (defaultValue == Py_None)
+        {
+          Py_RETURN_TRUE;
+        }
+        else if (PyBool_Check(defaultValue))
+        {
+         if(defaultValue == Py_True)
+         {
+          $self->enableProperty(name, true, comment);
+         }
+         else
+         {
+          $self->enableProperty(name, false, comment);
+         }
+          Py_RETURN_TRUE;
+        }
+        else if (PyInt_Check(defaultValue))
+        {
+          $self->enableProperty(name, PyInt_AsLong(defaultValue), comment);
+          Py_RETURN_TRUE;
+        }
+        else if (PyLong_Check(defaultValue))
+        {
+          $self->enableProperty(name, PyLong_AsLong(defaultValue), comment);
+          Py_RETURN_TRUE;
+        }
+        else if (PyFloat_Check(defaultValue))
+        {
+          $self->enableProperty(name, PyFloat_AsDouble(defaultValue), comment);
+          Py_RETURN_TRUE;
+        }
+        else if (PyUnicode_Check(defaultValue)){
+        #ifdef SWIG_PYTHON3
+          std::string ss = PyUnicode_AsUTF8(defaultValue);
+        #else
+          PyObject *s =  PyUnicode_AsUTF8String(defaultValue);
+          std::string ss = PyString_AsString(s);
+        #endif
+          $self->enableProperty(name, ss, comment);
+          Py_RETURN_TRUE;
+        }
+        #ifndef SWIG_PYTHON3
+        else if (PyString_Check( defaultValue))
+        {
+          std::string ss = PyString_AsString(defaultValue);
+          $self->enableProperty(name, ss, comment);
+          Py_RETURN_TRUE;
+        }
+        #endif
+        else
+        {
+          PyObject *t = PyObject_Str(PyObject_Type(defaultValue));
+          std::string ot;
+
+          #ifdef SWIG_PYTHON3
+            ot = PyUnicode_AsUTF8(t);
+          #else
+            ot = PyString_AsString(t);
+          #endif
+          std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
+          return NULL;
+        }
+
+  }
+}
+
+
 %include "crpropa/module/Output.h"
 %include "crpropa/module/DiffusionSDE.h"
 %include "crpropa/module/TextOutput.h"

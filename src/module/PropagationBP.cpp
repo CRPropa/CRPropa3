@@ -22,6 +22,7 @@ void PropagationBP::process(Candidate *c) const {
 
 	double step = getStep();
 	c->setCurrentStep(step);
+	step = step / c_light;
 	
 	//get particle properties
 	double q = c->current.getCharge();                    
@@ -30,19 +31,19 @@ void PropagationBP::process(Candidate *c) const {
 	Vector3d v = c->current.getDirection();
 	
 	// half leap frog step in the position
-	c->current.setPosition(x +  v * step * 1/2 ); 
+	c->current.setPosition(x + c_light * v * step  ); 
 	
 	// get B field at particle position
 	//Vector3d B(1 * nG, 0, 0);
 	Vector3d B(0, 0, 0);
-	double z = 1; // <- Lukas fragen!
-	//~ try {
-		//~ B = field->getField(x, z);
-	//~ } catch (std::exception &e) {
-		//~ std::cerr << "PropagationBP: Exception in getField." << std::endl;
-		//~ std::cerr << e.what() << std::endl;
-	//~ }
-	//~ 
+	//~ double z = 1; // <- Lukas fragen!
+	double z = c->getRedshift();
+	try {
+		B = field->getField(x, z);
+	} catch (std::exception &e) {
+		std::cerr << "PropagationBP: Exception in getField." << std::endl;
+		std::cerr << e.what() << std::endl;
+	}
 	// Boris help vectors 
 	Vector3d t = B * q/2/m * step;
 	Vector3d s = t *2. /(1+t.dot(t));
@@ -56,8 +57,9 @@ void PropagationBP::process(Candidate *c) const {
 	c->current.setDirection(v);
 	
 	//~ // the other half leap frog step in the position
-	c->current.setPosition(x +  v * step *1/2);
+	c->current.setPosition(x +  c_light * v * step );
 	
+	c->setCurrentStep(step);
 	c->setNextStep(step);
 	
 }

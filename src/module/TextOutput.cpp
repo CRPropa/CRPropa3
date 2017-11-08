@@ -46,6 +46,8 @@ TextOutput::TextOutput(const std::string &filename,
 
 void TextOutput::printHeader() const {
 	*out << "#";
+	if (fields.test(WeightColumn))
+		*out << "\tW";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "\tD";
 	if (fields.test(RedshiftColumn))
@@ -93,6 +95,8 @@ void TextOutput::printHeader() const {
 	}
 
 	*out << "\n#\n";
+	if (fields.test(WeightColumn))
+		*out << "# W             Weights" << " \n";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "# D             Trajectory length [" << lengthScale / Mpc
 				<< " Mpc]\n";
@@ -131,6 +135,9 @@ void TextOutput::process(Candidate *c) const {
 	size_t p = 0;
 
 	std::locale old_locale = std::locale::global(std::locale::classic());
+
+	if (fields.test(WeightColumn))
+		p += sprintf(buffer + p, "%8.5E\t", c->getWeight());
 
 	if (fields.test(TrajectoryLengthColumn))
 		p += sprintf(buffer + p, "%8.5E\t",
@@ -274,6 +281,8 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		ref_ptr<Candidate> c = new Candidate(); 
 		double val_d; int val_i;
 		double x, y, z;
+		stream >> val_d;
+		c->setWeight(val_d); // W
 		stream >> val_d;
 		c->setTrajectoryLength(val_d*lengthScale); // D
 		stream >> val_d;

@@ -37,6 +37,7 @@ public:
 
 private:
 	bool active; /**< Active status */
+	double weight; /**< Weight of the candidate */
 	double redshift; /**< Current simulation time-point in terms of redshift z */
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
@@ -51,7 +52,8 @@ public:
 		double energy = 0,
 		Vector3d position = Vector3d(0, 0, 0),
 		Vector3d direction = Vector3d(-1, 0, 0),
-		double z = 0);
+		double z = 0,
+		double weight = 1);
 
 	/**
 	 Creates a candidate, initializing the Candidate::source, Candidate::created,
@@ -67,6 +69,13 @@ public:
 
 	void setRedshift(double z);
 	double getRedshift() const;
+
+	/**
+	 Sets weight of each candidate.
+	 Weights are calculated for each tracked secondary.
+	 */
+	void setWeight(double weight);
+	double getWeight() const;
 
 	/**
 	 Sets the current step and increases the trajectory length accordingly.
@@ -103,8 +112,8 @@ public:
 	 Trajectory length and redshift are copied from the parent.
 	 */
 	void addSecondary(Candidate *c);
-	void addSecondary(int id, double energy);
-	void addSecondary(int id, double energy, Vector3d position);
+	void addSecondary(int id, double energy, double weight = 1);
+	void addSecondary(int id, double energy, Vector3d position, double weight = 1);
 	void clearSecondaries();
 
 	std::string getDescription() const;

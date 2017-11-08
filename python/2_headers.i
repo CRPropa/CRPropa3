@@ -272,17 +272,17 @@
         }
         else if (PyInt_Check(value))
         {
-          $self->setProperty(input, PyInt_AsLong(value));
+          $self->setProperty(input, crpropa::Variant::fromInt32(PyInt_AsLong(value)));
           Py_RETURN_TRUE;
         }
         else if (PyLong_Check(value))
         {
-          $self->setProperty(input, PyLong_AsLong(value));
+          $self->setProperty(input, crpropa::Variant::fromUInt64(PyLong_AsLong(value)));
           Py_RETURN_TRUE;
         }
         else if (PyFloat_Check(value))
         {
-          $self->setProperty(input, PyFloat_AsDouble(value));
+          $self->setProperty(input, crpropa::Variant::fromDouble(PyFloat_AsDouble(value)));
           Py_RETURN_TRUE;
         }
         else if (PyUnicode_Check(value)){
@@ -389,17 +389,17 @@
         }
         else if (PyInt_Check(defaultValue))
         {
-          $self->enableProperty(name, PyInt_AsLong(defaultValue), comment);
+          $self->enableProperty(name, crpropa::Variant::fromInt32(PyInt_AsLong(defaultValue)), comment);
           Py_RETURN_TRUE;
         }
         else if (PyLong_Check(defaultValue))
         {
-          $self->enableProperty(name, PyLong_AsLong(defaultValue), comment);
+          $self->enableProperty(name, crpropa::Variant::fromInt64(PyLong_AsLong(defaultValue)), comment);
           Py_RETURN_TRUE;
         }
         else if (PyFloat_Check(defaultValue))
         {
-          $self->enableProperty(name, PyFloat_AsDouble(defaultValue), comment);
+          $self->enableProperty(name, crpropa::Variant::fromDouble(PyFloat_AsDouble(defaultValue)), comment);
           Py_RETURN_TRUE;
         }
         else if (PyUnicode_Check(defaultValue)){

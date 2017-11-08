@@ -234,7 +234,7 @@ void TextOutput::process(Candidate *c) const {
 			{
 				v = (*iter).defaultValue;
 			}
-			p += sprintf(buffer + p, v.toString().c_str());
+			p += sprintf(buffer + p, "%s", v.toString().c_str());
 			p += sprintf(buffer + p, "\t");
 	}
 	buffer[p - 1] = '\n';

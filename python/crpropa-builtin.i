@@ -56,14 +56,13 @@
             return buffer;
         }
         double __getitem__(size_t i) {
-                if (i > 2)
-                        throw RangeError();
                 if(i == 0)
                         return $self->getX();
                 if(i == 1)
                         return $self->getY();
                 if(i == 2)
                         return $self->getZ();
+                throw RangeError();
         }
 }
 

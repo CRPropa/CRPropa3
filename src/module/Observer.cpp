@@ -320,7 +320,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 
 		// Load the last detection index
 		if (c->hasProperty(DI)) {
-			index = c->getProperty(DI);
+			index = c->getProperty(DI).asUInt64();
 		}
 		else {
 			index = 0;
@@ -345,7 +345,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 			if (index < detList.size()-1) {
 				c->limitNextStep(detList[index+1]-length);
 			}
-			c->setProperty(DI, index+1);
+			c->setProperty(DI, Variant::fromUInt64(index+1));
 
 			detected=true;
 			return DETECTED;

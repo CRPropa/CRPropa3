@@ -49,7 +49,7 @@ TEST(TextOutput, printHeader_Event1D) {
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tW\tD\tID\tE\tID0\tE0");
+	          "#\tD\tID\tE\tID0\tE0");
 }
 
 TEST(TextOutput, printHeader_Trajectory3D) {
@@ -73,7 +73,7 @@ TEST(TextOutput, printHeader_Event3D) {
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tW\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
+	          "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
 }
 
 TEST(TextOutput, printHeader_Custom) {
@@ -82,7 +82,6 @@ TEST(TextOutput, printHeader_Custom) {
 
 	output.enable(Output::SerialNumberColumn);
 	output.disable(Output::TrajectoryLengthColumn);
-	output.disable(Output::WeightColumn);
 	output.set(Output::RedshiftColumn, false);
 
 	::testing::internal::CaptureStdout();

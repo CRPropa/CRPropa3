@@ -46,8 +46,6 @@ TextOutput::TextOutput(const std::string &filename,
 
 void TextOutput::printHeader() const {
 	*out << "#";
-	if (fields.test(WeightColumn))
-		*out << "\tW";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "\tD";
 	if (fields.test(RedshiftColumn))
@@ -88,6 +86,8 @@ void TextOutput::printHeader() const {
 		*out << "\tX1\tY1\tZ1";
 	if (fields.test(CreatedDirectionColumn) && not oneDimensional)
 		*out << "\tP1x\tP1y\tP1z";
+	if (fields.test(WeightColumn))
+		*out << "\tW";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -95,8 +95,6 @@ void TextOutput::printHeader() const {
 	}
 
 	*out << "\n#\n";
-	if (fields.test(WeightColumn))
-		*out << "# W             Weights" << " \n";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "# D             Trajectory length [" << lengthScale / Mpc
 				<< " Mpc]\n";
@@ -117,14 +115,15 @@ void TextOutput::printHeader() const {
 			|| fields.test(CreatedDirectionColumn)
 			|| fields.test(SourceDirectionColumn))
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
+	if (fields.test(WeightColumn))
+		*out << "# W             Weights" << " \n";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
 			*out << "# " << (*iter).name << " " << (*iter).comment << "\n";
 	}
 
-	*out
-			<< "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
+	*out << "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
 }
 
 void TextOutput::process(Candidate *c) const {
@@ -135,9 +134,6 @@ void TextOutput::process(Candidate *c) const {
 	size_t p = 0;
 
 	std::locale old_locale = std::locale::global(std::locale::classic());
-
-	if (fields.test(WeightColumn))
-		p += sprintf(buffer + p, "%8.5E\t", c->getWeight());
 
 	if (fields.test(TrajectoryLengthColumn))
 		p += sprintf(buffer + p, "%8.5E\t",
@@ -222,6 +218,10 @@ void TextOutput::process(Candidate *c) const {
 					pos.z);
 		}
 	}
+	if (fields.test(WeightColumn)) {
+		p += sprintf(buffer + p, "%8.5E\t", c->getWeight());
+	}
+
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -282,8 +282,6 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		double val_d; int val_i;
 		double x, y, z;
 		stream >> val_d;
-		c->setWeight(val_d); // W
-		stream >> val_d;
 		c->setTrajectoryLength(val_d*lengthScale); // D
 		stream >> val_d;
 		c->setRedshift(val_d); // z
@@ -315,6 +313,8 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
                 c->created.setPosition(Vector3d(x, y, z)*lengthScale); // X1, Y1, Z1
                 stream >> x >> y >> z;
                 c->created.setDirection(Vector3d(x, y, z)*lengthScale); // P1x, P1y, P1z
+		stream >> val_d;
+		c->setWeight(val_d); // W
 
 		collector->process(c);
         }

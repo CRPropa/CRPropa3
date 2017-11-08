@@ -35,7 +35,6 @@ protected:
 
 public:
 	enum OutputColumn {
-		WeightColumn,
 		TrajectoryLengthColumn,
 		RedshiftColumn,
 		CurrentIdColumn,
@@ -50,7 +49,8 @@ public:
 		CreatedEnergyColumn,
 		CreatedPositionColumn,
 		CreatedDirectionColumn,
-		SerialNumberColumn
+		SerialNumberColumn,
+		WeightColumn
 	};
 
 	enum OutputType {

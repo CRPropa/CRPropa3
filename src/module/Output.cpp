@@ -31,7 +31,8 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentEnergyColumn, true);
 		set1D(true);
 	} else if (outputtype == Event1D) {
-		// D, ID, E, ID0, E0
+		// W, D, ID, E, ID0, E0
+		set(WeightColumn, true);
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
@@ -47,7 +48,8 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentDirectionColumn, true);
 		set1D(false);
 	} else if (outputtype == Event3D) {
-		// D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z
+		// W, D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z
+		set(WeightColumn, true);
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);

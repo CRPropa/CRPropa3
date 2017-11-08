@@ -31,7 +31,7 @@ void PropagationBP::process(Candidate *c) const {
 	Vector3d v = c->current.getDirection();
 	
 	// half leap frog step in the position
-	c->current.setPosition(x + c_light * v * step  ); 
+	x += c_light * v * step /2. ;
 	
 	// get B field at particle position
 	//Vector3d B(1 * nG, 0, 0);
@@ -57,7 +57,8 @@ void PropagationBP::process(Candidate *c) const {
 	c->current.setDirection(v);
 	
 	//~ // the other half leap frog step in the position
-	c->current.setPosition(x +  c_light * v * step );
+	x += c_light * v * step /2. ;
+	c->current.setPosition(x);
 	
 	c->setCurrentStep(step);
 	c->setNextStep(step);

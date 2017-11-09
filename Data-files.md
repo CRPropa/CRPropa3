@@ -13,7 +13,7 @@ Photodisintegration interaction rates for the Kossov model.
 **Alternative 2:** https://crpropa.desy.de/images/0/0a/Data_2016_03_21_PSB.tar.gz  
 Photodisintegration interaction rates for the PSB model.
 
-== Verify the data files integrity ==
+### Verify the data files integrity
 
 Every data file should have a corresponding -CHECKSUM file in which appropriate MD5 sums are stored. The checksum file can be generated with, for example:
 ```

@@ -56,7 +56,7 @@ void ModuleList::run(Candidate *candidate, bool recursive, bool secondariesFirst
 		if (recursive and secondariesFirst) {
 			for (size_t i = 0; i < candidate->secondaries.size(); i++) {
 				if (g_cancel_signal_flag)
-					break;				
+					break;
 				run(candidate->secondaries[i], recursive, secondariesFirst);
 			}
 		}

@@ -15,7 +15,7 @@ Photodisintegration interaction rates for the PSB model.
 
 ### Verify the data files integrity
 
-Every data file should have a corresponding -CHECKSUM file in which appropriate MD5 sums are stored. The checksum file can be generated with, for example:
+Every data file should have a corresponding -CHECKSUM file in which appropriate MD5 sums are stored. A checksum file can be generated with, for example:
 ```
 $ ls data.tar.gz | xargs -I{} sh -c 'md5sum "$1" > "$1-CHECKSUM"' -- {}
 ```

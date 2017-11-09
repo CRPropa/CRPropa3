@@ -12,3 +12,15 @@ Photodisintegration interaction rates for the Kossov model.
 
 **Alternative 2:** https://crpropa.desy.de/images/0/0a/Data_2016_03_21_PSB.tar.gz  
 Photodisintegration interaction rates for the PSB model.
+
+== Verify the data files integrity ==
+
+Every data file should have a corresponding -CHECKSUM file in which appropriate MD5 sums are stored. The checksum file can be generated with, for example:
+```
+$ ls data.tar.gz | xargs -I{} sh -c 'md5sum "$1" > "$1-CHECKSUM"' -- {}
+```
+To verify the integrity of the data files, a it is enough to download the checksum file in the same directory with the data file:
+```
+$ md5sum -c *-CHECKSUM
+```
+Files that are automatically downloaded with CMake are also automatically verified by CMake.

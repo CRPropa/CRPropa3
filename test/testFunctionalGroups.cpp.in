@@ -1,4 +1,4 @@
-#include "crpropa/CRPropa.h"
+#include "CRPropa.h"
 #include "gtest/gtest.h"
 
 namespace crpropa {

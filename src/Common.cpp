@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 #define index(i,j) ((j)+(i)*Y.size())

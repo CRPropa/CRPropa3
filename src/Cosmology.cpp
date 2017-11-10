@@ -3,7 +3,7 @@
 #include "crpropa/Common.h"
 
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 namespace crpropa {

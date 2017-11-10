@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <limits>
-#include <math.h>
+#include <cmath>
 
 namespace crpropa {
 

@@ -1,7 +1,7 @@
 #ifndef CRPROPA_PROGRESSBAR_H
 #define CRPROPA_PROGRESSBAR_H
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <iostream>
 #include <ctime>

@@ -2,7 +2,7 @@
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/Units.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 #include <iostream>
 #include <kiss/string.h>

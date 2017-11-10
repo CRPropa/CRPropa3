@@ -12,7 +12,7 @@
 #include "dint/DintEMCascade.h"
 
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 #include <iostream>
 #include <iomanip>

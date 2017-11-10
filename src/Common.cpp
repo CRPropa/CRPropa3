@@ -116,7 +116,7 @@ size_t closestIndex(double x, const std::vector<double> &X) {
 	if (i1 == 0)
 		return i1;
 	size_t i0 = i1 - 1;
-	if (abs(X[i0] - x) < abs(X[i1] - x))
+	if (std::fabs(X[i0] - x) < std::fabs(X[i1] - x))
 		return i0;
 	else
 		return i1;

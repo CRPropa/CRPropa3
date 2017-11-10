@@ -313,9 +313,14 @@ endif()
 # ----------------------------------------------------------------------------
 message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
-	https://crpropa.desy.de/images/3/33/Data_2017_01_05.tar.gz
+	https://www.desy.de/~crpropa/data/data.tar.gz-CHECKSUM
+	${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM)
+file(READ ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM_TMP LIMIT 32)
+string(SUBSTRING ${DATA_CHECKSUM_TMP} 0 32 DATA_CHECKSUM)
+file(DOWNLOAD
+	https://www.desy.de/~crpropa/data/data.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz
-	EXPECTED_MD5 44aa223904fd896887672b32cead2d65)
+	EXPECTED_MD5 "${DATA_CHECKSUM}")
 message("-- Extracting data file")
 execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 # ----------------------------------------------------------------------------

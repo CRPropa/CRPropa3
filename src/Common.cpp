@@ -55,6 +55,16 @@ std::string getDataPath(std::string filename) {
 	return concat_path(dataPath, filename);
 }
 
+
+std::string getInstallPrefix()
+{
+  std::string _path = "";
+  #ifdef CRPROPA_INSTALL_PREFIX
+    _path += CRPROPA_INSTALL_PREFIX;
+  #endif
+  return _path;
+};
+
 double interpolate(double x, const std::vector<double> &X,
 		const std::vector<double> &Y) {
 	std::vector<double>::const_iterator it = std::upper_bound(X.begin(),

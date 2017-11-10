@@ -14,6 +14,9 @@ namespace crpropa {
 // Returns the full path to a CRPropa data file
 std::string getDataPath(std::string filename);
 
+// Returns the install prefix
+std::string getInstallPrefix();
+
 // Returns a certain digit from a given integer
 inline int digit(const int& value, const int& d) {
 	return (value % (d * 10)) / d;

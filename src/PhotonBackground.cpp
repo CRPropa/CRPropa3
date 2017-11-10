@@ -5,7 +5,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <limits>
-#include <math.h>
+#include <cmath>
 
 namespace crpropa {
 

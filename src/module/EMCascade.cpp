@@ -9,7 +9,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
-#include <math.h>
+#include <cmath>
 
 namespace crpropa {
 

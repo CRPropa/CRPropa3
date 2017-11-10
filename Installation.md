@@ -1,12 +1,20 @@
+#### Download
+
+Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) or the
+[current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the
+repository with
+
+```
+git clone https://github.com/CRPropa/CRPropa3.git
+```
+
+If you encounter any problems during installation, please follow this guide and
+browse [previous issues on installation](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=label%3Ainstallation%20) before asking for support.
+
 #### Install from source
 
-1. Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) or the
-[current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the repository with
-    ```
-    git clone https://github.com/CRPropa/CRPropa3.git
-    ```
-
-2. CRPropa uses CMAKE to configure the Makefile. From the build directory call ccmake or cmake. See the next section for a list of configuration flags.
+1. CRPropa uses CMAKE to configure the Makefile. From the build directory call
+   ccmake or cmake. See the next section for a list of configuration flags.
     ```
     mkdir build
     cd build
@@ -14,8 +22,11 @@
     make
     ```
 
-3. A set of unit tests can be run with ```make test```. If the tests are successful continue with ```make install``` to install CRPropa at the specified path, or leave it in the build directory.
-Make sure the environment variables are set accordingly: E.g. for an installation under $HOME/.local and using Python 2.7 set
+2. A set of unit tests can be run with ```make test```. If the tests are
+   successful continue with ```make install``` to install CRPropa at the
+   specified path, or leave it in the build directory.  Make sure the
+   environment variables are set accordingly: E.g. for an installation under
+   $HOME/.local and using Python 2.7 set
     ```sh
     export PATH=$HOME/.local/bin:$PATH
     export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
@@ -23,9 +34,9 @@ Make sure the environment variables are set accordingly: E.g. for an installatio
     export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
     ```
 
-#### Recommended deployment
+We highly recommend to use a virtualenv setup to install CRPropa!
 
-There are different ways to install, deploy and use CRPropa, but for a common use case we would recommend the following one.
+#### Deployment in python virtualenv (RECOMMENDED)
 
 CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
 Thus, the deployment in a user space without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, therefore, Python and SWIG will be required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.
@@ -45,7 +56,7 @@ This procedure brings a few steps extra compared to the already given plain inst
     ```
 
     Or instead of all this, just `virtualenv $CRPROPA_DIR` if there is virtualenv available on the system.
-    
+
     Finally, activate the virtualenv:
     ```sh
     source $CRPROPA_DIR"/bin/activate"
@@ -89,8 +100,7 @@ This procedure brings a few steps extra compared to the already given plain inst
 There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
 #### CMake flags
-We recommend using ccmake to view and set the options through the user interface.
-When using cmake, options can be set by adding flags to the cmake command, e.g. 
+When using cmake, the following options can be set by adding flags to the cmake command, e.g.
 ```
 cmake -DENABLE_PYTHON=ON ..
 ```
@@ -108,12 +118,11 @@ cmake -DENABLE_PYTHON=ON ..
   ```
 
 #### <a name="Dependencies"></a>Dependencies
-+ C++ Compiler
++ C++ Compiler (gcc, clang and icc are known to work)
 + Fortran Compiler: to compile SOPHIA
 
 Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
 + Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 2.0.4)
-+ ROOT: for ROOT output
 + FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
 + Gadget: magnetic fields for large scale structure data
 + OpenMP: for shared memory parallelization
@@ -127,3 +136,5 @@ The following packages are provided with the source code and do not need to be i
 + HepPID: particle ID library
 + kiss: small tool collection
 + pugixml: for xml steering
++ eigen: Linear algebra
++ healpix_base: Equal area pixelization of the sphere

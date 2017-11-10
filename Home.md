@@ -1,16 +1,15 @@
 Welcome to the CRPropa3 wiki!
 
 ***
-#### Installation
+#### Quick Start
  * [Installation](Installation)
+ * [Examples](https://github.com/CRPropa/CRPropa3-notebooks)
 
-#### Examples and Tutorials
- * [Python Examples](https://github.com/CRPropa/CRPropa3-notebooks)
- * [XML steering (CRPropa 2 compatibility)](XML-steering)
+#### Extending CRPropa
+ * [Basic concepts](Basic-concepts)
 
 #### Manual
-[Doxygen documentation (version 3.0)](http://crpropa.github.io/CRPropa3/)
- * [Basic concepts](Basic-concepts)
+ * [Doxygen documentation (version 3.0)](http://crpropa.github.io/CRPropa3/)
  * [List of simulation modules](Simulation-Modules)
  * [List of source features](Source-Features)
  * [List of magnetic fields](Magnetic-Fields)

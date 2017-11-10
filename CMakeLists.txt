@@ -315,8 +315,8 @@ message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
 	https://www.desy.de/~crpropa/data/data.tar.gz-CHECKSUM
 	${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM)
-file(READ ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM_TMP LIMIT 32)
-string(SUBSTRING ${DATA_CHECKSUM_TMP} 0 32 DATA_CHECKSUM)
+file(STRINGS ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
+file(WRITE ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM2 ${DATA_CHECKSUM})
 file(DOWNLOAD
 	https://www.desy.de/~crpropa/data/data.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz

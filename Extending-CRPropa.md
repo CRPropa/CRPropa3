@@ -1,8 +1,10 @@
-CRPropa uses SWIG to provide a python interface. 
-The CRPropa functionality can be extended in Python in several ways.
+The CRPropa functionality can be extended in several ways using the provided
+python interface.
 
-### Implementing base classes
-The base classes Module, Source and SourceProperty can be implemented in Python and used like the built-in classes. Here is an example for a custom Module:
+### Implementing additional Modules and Features using Python only
+Derivatives of base classes such as Module, Source, SourceProperty, etc. can be implemented in
+Python and used like the built-in classes. Here is an example for a custom
+Module:
 ```python
 class MyModule(Module):
     """ Reduces the cosmic ray energy by 10% in each step """
@@ -18,7 +20,8 @@ m.process(c)
 print c.current.getEnergy()
 ```
 
-When redefining the init function make sure to call the super classes init function as well, otherwise the code will segfault.
+When redefining the constructor make sure to call the constructor of the super
+classes as well, as otherwise the code will segfault.
 ```python
 class MyModule(Module):
     def __init__(self):
@@ -59,9 +62,11 @@ c = s.getCandidate()
 print c.getRedshift()
 ```
 
-### Replacing base classes
-Alternatively the simulation chain (ModuleList) and the cosmic ray source (Source, SourceFeature) can be explicitly written down and replaced.
-The following code replaces a ModuleList:
+
+### Manual simulation processing
+If necessary, the simulation chain (ModuleList) and the cosmic ray source (Source, SourceFeature) can be
+replaced by custom loops.
+
 ```python
 m1 = SimplePropagation()
 m2 = ElectronPairProduction()
@@ -77,7 +82,8 @@ while mycandidate.isActive():
 ```
 
 A source can be replaced by setting all necessary cosmic rays properties by hand.
-The created Candidates can either be propagated one-by-one, or first collected in a CandidateVector and then propagated.
+The created Candidates can either be propagated one-by-one, or first collected
+in a CandidateVector and then propagated.
 ```python
 for i in range(1000):
     p = ParticleState()
@@ -91,7 +97,39 @@ for i in range(1000):
 ```
 
 
+### Custom C++ Plugins with Python Steering
+Extending CRPropa with C++ code and keep python steering is also possible using
+SWIG.  This allows to integrate your code seamless as e.g.
+```
+import crpropa
+import myPlugin
 
- 
+ml = crpropa.ModuleList()
+ml.add(crpropa.MaximumTrajectoryLength(1000*crpropa.parsec))
+ml.add(myPlugin.MyModule())
 
+source = crpropa.Source()
+source.add(myPlugin.AddMyProperty())
+```
+A template  is in the [plugin-template
+folder](https://github.com/CRPropa/CRPropa3/tree/master/plugin-template) of the
+CRPropa source. Although the template is complete with build and SWIG wrapper
+code, deeper knowledge of SWIG, C++, and CMake are likely required for complex
+projects.
 
+To get started with your own plugin
+
+1. Copy the folder to a new location. We highly recommended to manage the files
+in a (git) repository from the beginning.
+2. Test compiling the template
+```
+mkdir build
+cd build
+cmake ..
+make && python ../testPlugin.py
+```
+This should work if CRPropa is installed and can be found by python.
+
+3. Customize the template to your needs, starting with
+naming your plugin by modifying the according line in `CMakeLists.txt' and
+renaming the files accordingly.

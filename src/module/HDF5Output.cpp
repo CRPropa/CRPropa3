@@ -93,6 +93,7 @@ void HDF5Output::open(const std::string& filename) {
 	H5Tinsert(sid, "P1x", HOFFSET(OutputRow, P1x), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "P1y", HOFFSET(OutputRow, P1y), H5T_NATIVE_DOUBLE);
 	H5Tinsert(sid, "P1z", HOFFSET(OutputRow, P1z), H5T_NATIVE_DOUBLE);
+	H5Tinsert(sid, "weight", HOFFSET(OutputRow, weight), H5T_NATIVE_DOUBLE);
 
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
@@ -191,6 +192,8 @@ void HDF5Output::process(Candidate* candidate) const {
 	r.P1x = v.x;
 	r.P1y = v.y;
 	r.P1z = v.z;
+	
+	r.weight= candidate->getWeight();
 
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

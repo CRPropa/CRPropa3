@@ -44,6 +44,7 @@ class HDF5Output: public Output {
 		double P1x;
 		double P1y;
 		double P1z;
+		double weight;
 		unsigned char propertyBuffer[propertyBufferSize];
 	} OutputRow;
 

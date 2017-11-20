@@ -102,6 +102,25 @@ public:
 	Vector3d getField(const Vector3d &position) const;
 };
 
+/**
+ @class MagneticBottle
+ @brief Magnetic bottle along the z-axis. The field has the constant value Bz_strength for z in [-width, width]. 
+		Out of this range, the field lines run together and the B-field strength raises linearly.
+ */
+class MagneticBottle: public MagneticField {
+	
+	double Br_strength;
+	double Bz_strength;
+	double Bz_slope;
+	double width;
+	
+public:
+	MagneticBottle(double Br_strength, double Bz_strength , double Bz_slope, double width) : 
+			Br_strength(Br_strength), Bz_strength(Bz_strength), Bz_slope(Bz_slope), width(width) {}
+	Vector3d getField(const Vector3d &position) const;	
+	
+};
+
 #ifdef CRPROPA_HAVE_MUPARSER
 /**
  @class RenormalizeMagneticField

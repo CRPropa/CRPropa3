@@ -88,6 +88,85 @@ Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
 }
 
+Vector3d MagneticBottle::getField(const Vector3d &position) const {
+
+/****************PARAMETER****************/
+	//~ //double Br_strength = 1.;
+	//~ //double Bz_strength = 4.;
+	//~ //double Bz_slope   = 4.;
+	//~ //double width      = 0.5;
+/*****************************************/
+
+	double x = position.x;
+	double y = position.y;
+	double z = position.z;
+	
+	double R = sqrt(x*x + y*y);
+	
+	double Br, Bz;
+	
+	if(fabs(z) > width){
+		Br = Br_strength * fabs(fabs(z)-width)/kpc*fabs(fabs(z)-width)/kpc;//-cosh((fabs(z)-width)/kpc);
+	}else{
+		Br = 0.;
+	}
+	
+	if(fabs(z) < width){
+		Bz = Bz_strength;
+	}else{
+		Bz = Bz_strength + Bz_strength* 0.1 * fabs(fabs(z)) / width;
+	}
+	
+	Vector3d B(Br * fabs(x) / R,Br * fabs(y) / R, Bz);
+	
+	return B;
+	
+	
+}
+
+
+//~ Vector3d MagneticBottle::getField(const Vector3d &position) const {
+//~ 
+//~ /****************PARAMETER****************/
+	double Br_strength = 1.;
+	double Bz_strength = 4.;
+	double Bz_slope   = 4.;
+	double width      = 0.5;
+//~ /*****************************************/
+//~ 
+	//~ double x = position.x;
+	//~ double y = position.y;
+	//~ double z = position.z;
+	//~ 
+	//~ double R = sqrt(x*x + y*y);
+	//~ 
+	//~ double Br, Bz, B;
+	//~ 
+	//~ double r_xy;
+	//~ 
+	//~ if(fabs(z) > width){
+		//~ r_xy = (1 - width/fabs(z))  ;
+	//~ }else{
+		//~ r_xy = 0.;
+	//~ }
+	//~ 
+	//~ double r_z = sqrt(1-2*r_xy*r_xy);
+	//~ 
+	//~ if(fabs(z) < width){
+		//~ B = Bz_strength;
+	//~ }else{
+		//~ B = Bz_strength + Bz_strength * fabs(fabs(z)) / width;
+	//~ }
+	//~ 
+//~ //	Vector3d B(Br * fabs(x) / R,Br * fabs(y) / R, Bz);
+	//~ 
+	//~ Vector3d B_field(r_xy * x/R,r_xy * y/R,r_z);
+	//~ 
+	//~ return B_field;
+	//~ 
+	//~ 
+//~ }
+
 #ifdef CRPROPA_HAVE_MUPARSER
 RenormalizeMagneticField::RenormalizeMagneticField(ref_ptr<MagneticField> field,
 		std::string expression) :

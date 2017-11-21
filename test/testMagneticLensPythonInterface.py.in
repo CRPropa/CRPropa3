@@ -87,6 +87,7 @@ class testParticleMapsContainer(unittest.TestCase):
                 crMap += self.maps.getMap(int(pid), energy * crpropa.eV)
         self.assertAlmostEqual(sum(crMap), 1.)
 
+
     def testAddParticlesNumpyInterfaceIDType(self):
         try:
             import numpy as np
@@ -95,13 +96,23 @@ class testParticleMapsContainer(unittest.TestCase):
             return
 
         N = 13
-        ids = np.ones(N, dtype='f')
         lats = np.random.rand(N) * np.pi - np.pi/2.
         lons = np.random.rand(N) * np.pi * 2. - np.pi
         energy = 10 ** (18 + np.random.rand(N) * 3.) * crpropa.eV
         weights = np.ones(N) / N
+
+        # raise on flaot
+        ids = np.ones(N, dtype='f')
         self.assertRaises(Exception, self.maps.addParticles, ids, energy, lons, lats, weights )
 
+        # accept int32 and int64
+        ids = np.ones(N, dtype='int32')
+        self.maps.addParticles(ids, energy, lons, lats, weights )
+        self.assertEquals(self.maps.getParticleIds()[0], ids[0])
+
+        ids = np.ones(N, dtype='int64')
+        self.maps.addParticles(ids, energy, lons, lats, weights)
+        self.assertEquals(self.maps.getParticleIds()[0], ids[0])
 
     def testAddParticleVectorInterface(self):
         try:

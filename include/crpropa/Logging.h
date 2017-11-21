@@ -27,32 +27,14 @@ void inline logDebug(const std::string &log)
   KISS_LOG_DEBUG << log;
 }
 
-// A simple file logger
-class LogFile
+void setLogStream(std::ostream &stream)
 {
-  std::ofstream of;
-  public:
-    LogFile(std::string _name)
-    {
-      of.open(_name);
-      of << "CRPropa Version: " << g_GIT_REFSPEC << std::endl;
-      of << "\n";
-    }
+  kiss::Logger::setLogStream(stream);
+}
 
-    std::ostream& getStream()
-    {
-      return of;
-    }
-};
-
-//void setLogStream(std::ofstream *stream)
-//{
-//  kiss::Logger::setLogStream(stream);
-//}
-
-//void setLogLevel(kiss::eLogLevel level)
-//{
-//  kiss::Logger::setLogLevel(level);
-//}
+void setLogLevel(int level)
+{
+  kiss::Logger::setLogLevel(static_cast<kiss::eLogLevel>(level));
+}
 
 #endif // LOGGING_H

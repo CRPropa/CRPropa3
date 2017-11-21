@@ -156,12 +156,24 @@ __WITHNUMPY = False
       if (particleIds_arr == NULL)
         Py_RETURN_NONE;
 
-      // check type
-      if(PyArray_TYPE(particleIds_arr) != NPY_INT)
+
+      int intSize = 0;
+      // check integer type
+      if((PyArray_TYPE(particleIds_arr) == NPY_INT32) || (PyArray_TYPE(particleIds_arr) == NPY_UINT32))
+      {
+        intSize = 32;
+      }
+      else if((PyArray_TYPE(particleIds_arr) == NPY_INT64) || (PyArray_TYPE(particleIds_arr) == NPY_UINT64))
+      {
+        intSize = 64;
+      }
+      else
       {
         std::cerr << "";
         throw std::runtime_error("ParticleMapsContainer::addParticles -  require array of type int as input for ids");
       }
+
+
 
       npy_intp *D = PyArray_DIMS(particleIds_arr);
       int arraySize = D[0];
@@ -203,7 +215,7 @@ __WITHNUMPY = False
       if (weights_arr == NULL)
         Py_RETURN_NONE;
 
-      int *particleIds_dp = (int*) PyArray_DATA(particleIds_arr);
+      void *particleIds_dp = PyArray_DATA(particleIds_arr);
       double *energies_dp = (double*) PyArray_DATA(energies_arr);
       double *galacticLongitudes_dp = (double*) PyArray_DATA(galacticLongitudes_arr);
       double *galacticLatitudes_dp = (double*) PyArray_DATA(galacticLatitudes_arr);
@@ -211,8 +223,20 @@ __WITHNUMPY = False
 
       for(size_t i =0; i < arraySize; i++ )
       {
-        $self->addParticle(particleIds_dp[i], energies_dp[i],
-            galacticLongitudes_dp[i], galacticLatitudes_dp[i], weights_dp[i]);
+        if (intSize == 32)
+        {
+          $self->addParticle(((int32_t*) particleIds_dp)[i], energies_dp[i],
+              galacticLongitudes_dp[i], galacticLatitudes_dp[i], weights_dp[i]);
+        }
+        else if (intSize == 64)
+        {
+          $self->addParticle(((int64_t*) particleIds_dp)[i], energies_dp[i],
+              galacticLongitudes_dp[i], galacticLatitudes_dp[i], weights_dp[i]);
+        }
+        else
+        {
+          throw std::runtime_error("ParticleMapsContainer::addParticles - unknown int size");
+        }
 
       }
       Py_RETURN_TRUE;

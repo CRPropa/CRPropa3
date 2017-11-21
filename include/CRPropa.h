@@ -50,6 +50,7 @@
 #include "crpropa/module/SynchrotronRadiation.h"
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/Tools.h"
+#include "crpropa/module/AdiabaticCooling.h"
 
 #include "crpropa/magneticField/AMRMagneticField.h"
 #include "crpropa/magneticField/JF12Field.h"
@@ -57,6 +58,9 @@
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PshirkovField.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
+#include "crpropa/magneticField/ArchmedeanSpiralField.h"
+
+#include "crpropa/advectionField/AdvectionField.h"
 
 
 #endif // CRPROPA_H

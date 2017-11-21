@@ -496,7 +496,7 @@ if(ENABLE_TESTING)
 	add_test(testMagneticField testMagneticField)
 
 	add_executable(testAdvectionField test/testAdvectionField.cpp)
-	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread)
+	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testAdvectionField testAdvectionField)
 
 	add_executable(testDINT test/testDINT.cpp)
@@ -530,7 +530,7 @@ if(ENABLE_TESTING)
 	add_test(testFunctionalGroups testFunctionalGroups)
 
 	add_executable(testAdiabaticCooling test/testAdiabaticCooling.cpp)
-	target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread)
+	target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testAdiabaticCooling testAdiabaticCooling)
 
 

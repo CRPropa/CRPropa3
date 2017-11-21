@@ -8,6 +8,7 @@
 #include "crpropa/EmissionMap.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/Logging.h"
 #include "crpropa/Module.h"
 #include "crpropa/ModuleList.h"
 #include "crpropa/ParticleID.h"

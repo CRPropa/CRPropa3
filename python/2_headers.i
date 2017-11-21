@@ -12,6 +12,7 @@
 %include "stdint.i"
 %include "std_container.i"
 %include "exception.i"
+%include "std_iostream.i"
 
 #ifdef CRPROPA_HAVE_QUIMBY
 %import (module="quimby") "quimby/Referenced.h"
@@ -54,9 +55,9 @@
 %feature("unref") crpropa::Referenced "$this->removeReference();"
 
 
+%include "crpropa/Logging.h"
+
 %include "crpropa/Vector3.h"
-
-
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"

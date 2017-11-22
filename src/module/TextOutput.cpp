@@ -142,13 +142,7 @@ void TextOutput::process(Candidate *c) const {
 	if (fields.test(TrajectoryLengthColumn))
 		p += sprintf(buffer + p, "%8.5E\t",
 				c->getTrajectoryLength() / lengthScale);
-	if (fields.test(ColumnDensityColumn)){
-		std::string sigmaString;
-		std::string CD = "S";
-	  	c->getProperty(CD, sigmaString);
-		double sigma = ::atof(sigmaString.c_str());
-		p += sprintf(buffer + p, "%8.5E\t", sigma);
-	}
+
 	if (fields.test(RedshiftColumn))
 		p += sprintf(buffer + p, "%1.5E\t", c->getRedshift());
 

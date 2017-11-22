@@ -8,6 +8,8 @@
 #include <vector>
 #include <stdexcept>
 
+#include "kiss/logger.h"
+
 using namespace crpropa;
 
 // Defining Cash-Karp coefficients
@@ -54,6 +56,7 @@ DiffusionSDE::DiffusionSDE(ref_ptr<MagneticField> magneticField, ref_ptr<Advecti
 void DiffusionSDE::process(Candidate *candidate) const {
 
     // save the new previous particle state
+
 	ParticleState &current = candidate->current;
 	candidate->previous = current;
 	
@@ -181,18 +184,18 @@ void DiffusionSDE::process(Candidate *candidate) const {
     // Deactivate candidate.
 	bool NaN = std::isnan(PO.getR());
 	if (NaN == true){
-		  std::cout << "\nCandidate with 'nan'-position occured: \n";
-		  std::cout << "position = " << PO << "\n";
-		  std::cout << "PosIn = " << PosIn << "\n";
-		  std::cout << "TVec = " << TVec << "\n";
-		  std::cout << "TStep = " << std::abs(TStep) << "\n";
-		  std::cout << "NVec = " << NVec << "\n";
-		  std::cout << "NStep = " << NStep << "\n";
-		  std::cout << "BVec = " << BVec << "\n";
-		  std::cout << "BStep = " << BStep << "\n";
 		  candidate->setActive(false);
-		  std::cout << "Candidate is deactivated!\n";
-		  std::cout << "-------------------------\n";
+		  KISS_LOG_WARING 
+			<< "\nCandidate with 'nan'-position occured: \n"
+		 	<< "position = " << PO << "\n"
+		  	<< "PosIn = " << PosIn << "\n"
+		  	<< "TVec = " << TVec << "\n"
+		  	<< "TStep = " << std::abs(TStep) << "\n"
+		  	<< "NVec = " << NVec << "\n"
+		  	<< "NStep = " << NStep << "\n"
+		  	<< "BVec = " << BVec << "\n"
+		  	<< "BStep = " << BStep << "\n"
+			<< "Candidate is deactivated!\n";
 		  return;
 	}
 	
@@ -215,44 +218,22 @@ void DiffusionSDE::process(Candidate *candidate) const {
     
     	// Debugging and Testing
     	// Delete comments if additional information should be stored in candidate
-/*   
-	std::stringstream s;
+	// This property "arcLength" can be interpreted as the effective arclength 
+	// of the propagation along a magnetic field line.
+	
+/*
 	const std::string AL = "arcLength";
 	if (candidate->hasProperty(AL) == false){
-	  double value = (TStep + NStep + BStep) * pow(h, 0.5);
-	  candidate->setProperty(AL, value);
+	  double arcLen = (TStep + NStep + BStep) * pow(h, 0.5);
+	  candidate->setProperty(AL, arcLen);
 	  return;
 	}
 	else {
-	  std::string arcLenString;
 	  double arcLen = candidate->getProperty(AL);
 	  arcLen += (TStep + NStep + BStep) * pow(h, 0.5);
 	  candidate->setProperty(AL, arcLen);
 	}
 */
-	// Column density
-	// Delete comments if the column density should be stored
-	// Only a simple 1/r^2 behavior can be used
-	// Works only for spherical symmetric problem with r_0=0
-  
-	std::stringstream s;
-	const std::string CD = "S";
-	if (candidate->hasProperty(CD) == false){
-	  s << pow(PosIn.getR()/kpc, -2.) * c_light * h;
-	  const std::string value = s.str();
-	  candidate->setProperty(CD, value);
-	  return;
-	}
-	else {
-	  std::string sigmaString;
-	  candidate->getProperty(CD, sigmaString);
-	  double sigma = ::atof(sigmaString.c_str());
-	  sigma += pow(PosIn.getR()/kpc, -2.) * c_light * h;
-	  s << sigma;
-	  const std::string value = s.str();
-	  candidate->setProperty(CD, value);
-	}
-
 	
 }
 

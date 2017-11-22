@@ -185,7 +185,7 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	bool NaN = std::isnan(PO.getR());
 	if (NaN == true){
 		  candidate->setActive(false);
-		  KISS_LOG_WARING 
+		  KISS_LOG_WARNING 
 			<< "\nCandidate with 'nan'-position occured: \n"
 		 	<< "position = " << PO << "\n"
 		  	<< "PosIn = " << PosIn << "\n"

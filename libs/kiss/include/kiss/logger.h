@@ -29,7 +29,7 @@ public:
 	}
 
 	template<typename T> inline Logger& operator<<(T& data) {
-		#pragma omp critical
+		#pragma omp critical (KISS_LOGGER)
 		{
 		getLogStream() << data;
 		}
@@ -37,7 +37,7 @@ public:
 	}
 
 	inline Logger& operator<<(std::ostream& (*func)(std::ostream&)) {
-		#pragma omp critical
+		#pragma omp critical (KISS_LOGGER)
 		{
 		getLogStream() << func;
 		}

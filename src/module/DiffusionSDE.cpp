@@ -151,12 +151,16 @@ void DiffusionSDE::process(Candidate *candidate) const {
 			driftStep(Pos, LinProp, h);
 			current.setPosition(Pos + LinProp);
 	 		candidate->setCurrentStep(h*c_light);
-	  		candidate->setNextStep(h*c_light);
+	  		double newStep = 5*h*c_light;
+			newStep = clip(newStep, minStep, maxStep);
+	  		candidate->setNextStep(newStep);
 	  		return;
 		}
 		current.setPosition(Pos + dir*h*c_light);
 	 	candidate->setCurrentStep(h*c_light);
-	  	candidate->setNextStep(h*c_light);
+		double newStep = 5*h*c_light;
+		newStep = clip(newStep, minStep, maxStep);
+	  	candidate->setNextStep(newStep);
 	  	return;
 	}
 	

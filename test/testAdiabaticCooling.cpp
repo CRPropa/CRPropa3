@@ -25,6 +25,13 @@ TEST (AdiabaticCooling, UniformField) {
 	EXPECT_DOUBLE_EQ(c.current.getEnergy(), E);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 10*kpc);
 
+	double limit = 0.2;
+	AdiabaticCooling AC2(new UniformAdvectionField(Vector3d(1,0,0)), limit);
+	
+	EXPECT_DOUBLE_EQ(AC2.getLimit(), limit);
+
+	//
+
 }
 
 TEST (AdiabaticCooling, ConstantSphericalField) {

@@ -105,4 +105,65 @@ TEST(testSphericalAdvectionField, SimpleTest) {
 }
 
 
+TEST(testSphericalAdvectionShock, SimpleTest) {
+
+	Vector3d origin(0, 0, 0);
+	double R_0(10);
+	double V_0(1000);
+	double lambda(0.1);
+	double R_rot(1.);
+	double V_rot(100);
+	
+
+	SphericalAdvectionShock A(origin, R_0, V_0, lambda);
+
+	// Check the properties of the advection field
+	EXPECT_DOUBLE_EQ(A.getOrigin().x, origin.x);
+	EXPECT_DOUBLE_EQ(A.getOrigin().y, origin.y);
+	EXPECT_DOUBLE_EQ(A.getOrigin().z, origin.z);
+	
+	EXPECT_DOUBLE_EQ(A.getR0(), R_0);
+	EXPECT_DOUBLE_EQ(A.getV0(), V_0);
+	EXPECT_DOUBLE_EQ(A.getLambda(), lambda);
+
+	// Default values for R_Rot is R_0
+	// Default value for Azimuthal speed is 0
+	EXPECT_DOUBLE_EQ(A.getRRot(), R_0);
+	EXPECT_DOUBLE_EQ(A.getAzimuthalSpeed(), 0.);	
+
+	// Field should drop to 0.625*V_0 at the shock 
+	// That's a difference to the analytic shock model where it should
+	// drop to v_r(R_0)=0.25*V_0.
+	EXPECT_DOUBLE_EQ(A.getField(Vector3d(R_0,0,0)).getR(), 0.625*V_0);
+
+	// Field divergence should be zero for R>>R_0
+	EXPECT_NEAR(A.getDivergence(Vector3d(15,0,0)), 0., 1e-10);
+
+	// Check field and divergence
+	Vector3d Pos(2, 0, 0);
+	Vector3d a = A.getField(Pos);
+	Vector3d a0 = a.getUnitVector();
+	double d = A.getDivergence(Pos);
+
+	EXPECT_DOUBLE_EQ(a0.x, 1.);
+	EXPECT_DOUBLE_EQ(a0.y, 0.);
+	EXPECT_DOUBLE_EQ(a0.z, 0.);
+	EXPECT_DOUBLE_EQ(a.getR(), V_0);
+	
+	//Set explicitely the azimuthal rotation speed 
+	A.setRRot(R_rot);
+	A.setAzimuthalSpeed(V_rot);
+	
+	EXPECT_DOUBLE_EQ(A.getRRot(), R_rot);
+	EXPECT_DOUBLE_EQ(A.getAzimuthalSpeed(), V_rot);	
+	
+	Vector3d pos(1., 0., 0.);
+	Vector3d f = A.getField(pos);
+	EXPECT_DOUBLE_EQ(f.x, 1000.);
+	EXPECT_DOUBLE_EQ(f.y, 100.);
+	EXPECT_DOUBLE_EQ(f.z, 0.);	
+
+	
+}
+
 } //namespace crpropa

@@ -5,6 +5,7 @@
 
 #include "crpropa/module/Output.h"
 #include "stdint.h"
+#include <ctime>
 
 #include <H5Ipublic.h>
 
@@ -54,6 +55,7 @@ class HDF5Output: public Output {
 	hid_t dset, dataspace;
 	mutable std::vector<OutputRow> buffer;
 
+	time_t lastFlush;
 public:
 	HDF5Output(const std::string &filename);
 	HDF5Output(const std::string &filename, OutputType outputtype);

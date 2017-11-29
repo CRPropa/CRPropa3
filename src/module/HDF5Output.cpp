@@ -131,6 +131,7 @@ void HDF5Output::open(const std::string& filename) {
 	H5Pclose(plist);
 
 	buffer.reserve(BUFFER_SIZE);
+	time(&lastFlush);
 }
 
 void HDF5Output::close() {
@@ -211,18 +212,29 @@ void HDF5Output::process(Candidate* candidate) const {
 			pos += v.copyToBuffer(&r.propertyBuffer[pos]);
 	}
 
-	#pragma omp critical
+	#pragma omp critical 
 	{
 		Output::process(candidate);
 
 		buffer.push_back(r);
 
+
 		if (buffer.size() >= buffer.capacity())
+		{
+			KISS_LOG_DEBUG << "HDF5Output: Flush due to buffer capacity exceeded";
 			flush();
+		}
+		else if (difftime(time(NULL), lastFlush) > 60*10)
+		{
+			KISS_LOG_DEBUG << "HDF5Output: Flush due to time exceeded";
+			flush();
+		}
 	}
 }
 
 void HDF5Output::flush() const {
+	const_cast<HDF5Output*>(this)->lastFlush = time(NULL);
+
 	hsize_t n = buffer.size();
 
 	if (n == 0)

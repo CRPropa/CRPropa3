@@ -22,8 +22,8 @@ void AdiabaticCooling::process(Candidate *c) const {
 		Div +=  advectionField->getDivergence(pos);
 	} 
 	catch (std::exception &e) {
-		std::cerr << "AdiabaticCooling: Exception in getDivergence." << std::endl;
-		std::cerr << e.what() << std::endl;
+		KISS_LOG_ERROR 	<< "AdiabaticCooling: Exception in getDivergence.\n" 
+				<< e.what();
 	}
 	
 	double dEdt = -E / 3. * Div; 	// cooling due to advection -p/3 * div(V_wind)

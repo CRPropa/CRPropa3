@@ -1,15 +1,15 @@
-#include "crpropa/magneticField/ArchmedeanSpiralField.h"
+#include "crpropa/magneticField/ArchimedeanSpiralField.h"
 
 namespace crpropa {
 
-ArchmedeanSpiralField::ArchmedeanSpiralField(double B_0, double R_0, double Omega, double V_w) {
+ArchimedeanSpiralField::ArchimedeanSpiralField(double B_0, double R_0, double Omega, double V_w) {
 	setB0(B_0);
 	setR0(R_0);
 	setOmega(Omega);
 	setVw(V_w);
 }
 
-Vector3d ArchmedeanSpiralField::getField(const Vector3d &pos) const {
+Vector3d ArchimedeanSpiralField::getField(const Vector3d &pos) const {
 	
 	double r = pos.getR();
 	double theta = pos.getTheta();
@@ -45,40 +45,40 @@ Vector3d ArchmedeanSpiralField::getField(const Vector3d &pos) const {
 	return B;
 }
 
-void ArchmedeanSpiralField::setR0(double R) {
+void ArchimedeanSpiralField::setR0(double R) {
 	R_0 = R;
 	return;
 }
 
-void ArchmedeanSpiralField::setB0(double B) {
+void ArchimedeanSpiralField::setB0(double B) {
 	B_0 = B;
 	return;
 }
 
-void ArchmedeanSpiralField::setOmega(double Om) {
+void ArchimedeanSpiralField::setOmega(double Om) {
 	Omega = Om;
 	return;
 }
 
-void ArchmedeanSpiralField::setVw(double v) {
+void ArchimedeanSpiralField::setVw(double v) {
 	V_w = v;
 	return;
 }
 
 
-double ArchmedeanSpiralField::getR0() const {
+double ArchimedeanSpiralField::getR0() const {
 	return R_0;
 }
 
-double ArchmedeanSpiralField::getB0() const{
+double ArchimedeanSpiralField::getB0() const{
 	return B_0;
 }
 
-double ArchmedeanSpiralField::getOmega() const{
+double ArchimedeanSpiralField::getOmega() const{
 	return Omega;
 }
 
-double ArchmedeanSpiralField::getVw() const {
+double ArchimedeanSpiralField::getVw() const {
 	return V_w;
 }
 

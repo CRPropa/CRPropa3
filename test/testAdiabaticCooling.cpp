@@ -5,7 +5,7 @@
 #include "crpropa/module/AdiabaticCooling.h"
 #include "gtest/gtest.h"
 
-#include <fstream>
+//#include <fstream>
 
 namespace crpropa {
 

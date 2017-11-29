@@ -89,16 +89,15 @@ static const double cm = centimeter;
 
 // second
 static const double nanosecond = 1e-9 * second;
-static const double mikrosecond = 1e-6 * second;
+static const double microsecond = 1e-6 * second;
 static const double millisecond = 1e-3 * second;
 static const double minute = 60 * second;
 static const double hour = 3600 * second;
 static const double ns = nanosecond;
-static const double mus = mikrosecond;
+static const double mus = microsecond;
 static const double ms = millisecond;
 static const double sec = second;
 static const double min = minute;
-static const double h = hour;
 
 } // namespace crpropa
 

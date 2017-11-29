@@ -1,9 +1,9 @@
-#ifndef CRPROPA_ARCHMEDEANSPIRALFIELD_H
-#define CRPROPA_ARCHMEDEANSPIRALFIELD_H
+#ifndef CRPROPA_ARCHIMEDEANSPIRALFIELD_H
+#define CRPROPA_ARCHIMEDEANSPIRALFIELD_H
 
 #include "crpropa/magneticField/MagneticField.h"
 
-#pragma once
+
 #include <string>
 #include <iostream>
 #include <cmath>
@@ -18,13 +18,13 @@ namespace crpropa {
 
 /**
 
-@class ArchmedeanSpiralField
-@brief Magnetic field model following a archmedean spiral
+@class ArchimedeanSpiralField
+@brief Magnetic field model following a Archimedean spiral
 
 See e.g. Jokipii, Levy & Hubbard 1977
 */
 
-class ArchmedeanSpiralField: public MagneticField {
+class ArchimedeanSpiralField: public MagneticField {
 private:
 	double B_0; // Magnetic field strength at reference level
 	double R_0; // Reference level
@@ -32,7 +32,13 @@ private:
 	double V_w; // Asymptotic wind speed
 
 public:
-	ArchmedeanSpiralField(double B_0, double R_0, double Omega, double V_w);
+/** Constructor
+	@param B_0	Magnetic field strength at reference level
+	@param R_0	Reference level
+	@param Omega	Angular velocity of the rotation
+	@param V_w	Asymptotic wind speed
+*/
+	ArchimedeanSpiralField(double B_0, double R_0, double Omega, double V_w);
 
 	Vector3d getField(const Vector3d &pos) const;	
 		
@@ -50,4 +56,4 @@ public:
 	 
 } // end namespace crpropa
 
-#endif // CRPROPA_ACHMEDEANSPIRALFIELD_H
+#endif // CRPROPA_ACHIMEDEANSPIRALFIELD_H

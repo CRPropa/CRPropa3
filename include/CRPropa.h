@@ -59,7 +59,7 @@
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PshirkovField.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
-#include "crpropa/magneticField/ArchmedeanSpiralField.h"
+#include "crpropa/magneticField/ArchimedeanSpiralField.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
 

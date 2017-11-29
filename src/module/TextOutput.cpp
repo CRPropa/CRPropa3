@@ -48,8 +48,6 @@ void TextOutput::printHeader() const {
 	*out << "#";
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "\tD";
-	if (fields.test(ColumnDensityColumn))
-		*out << "\tN";
 	if (fields.test(RedshiftColumn))
 		*out << "\tz";
 	if (fields.test(SerialNumberColumn))
@@ -100,8 +98,6 @@ void TextOutput::printHeader() const {
 	if (fields.test(TrajectoryLengthColumn))
 		*out << "# D             Trajectory length [" << lengthScale / Mpc
 				<< " Mpc]\n";
-	if (fields.test(ColumnDensityColumn))
-		*out << "# N             Column density [a.u.]\n";
 	if (fields.test(RedshiftColumn))
 		*out << "# z             Redshift\n";
 	if (fields.test(SerialNumberColumn))

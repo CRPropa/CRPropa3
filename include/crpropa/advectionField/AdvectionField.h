@@ -1,7 +1,7 @@
 #ifndef CRPROPA_ADVECTIONFIELD_H
 #define CRPROPA_ADVECTIONFIELD_H
 
-#pragma once
+
 #include <string>
 #include <iostream>
 #include <cmath>
@@ -44,7 +44,7 @@ public:
 
 /**
  @class UniformAdvectionField
- @brief Advection field with one B-field vector.
+ @brief Advection field with one velocity/advection-field vector.
  */
 class UniformAdvectionField: public AdvectionField {
 	Vector3d value;
@@ -52,30 +52,39 @@ public:
 	UniformAdvectionField(const Vector3d &value);
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
+
+	std::string getDescription() const;
 };
 
 
 /**
 @class ConstantSphericalAdvectionField
-@brief Spherical advection with a constant wind speed
-
+@brief Spherical advection field with a constant wind speed
 */
 
 class ConstantSphericalAdvectionField: public AdvectionField {
 	Vector3d origin; //origin of the advection sphere
-	double vWind; // maximum wind velocity
+	double vWind; // wind velocity
 public:
-	ConstantSphericalAdvectionField(Vector3d origin, double vWind);
+	/** Constructor
+	 @param origin	Origin of the advection field
+	 @param vWind	Constant wind velocity
+
+*/
+
+	ConstantSphericalAdvectionField(const Vector3d origin, double vWind);
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
 
-	void setOrigin(Vector3d origin);
+	void setOrigin(const Vector3d origin);
 	void setVWind(double vMax);
 
 	Vector3d getOrigin() const;
 	double getVWind() const;
 
-	//Add description method
+	std::string getDescription() const;
+
+	
 };
 	
 /**
@@ -91,13 +100,20 @@ class SphericalAdvectionField: public AdvectionField {
 	double tau; // transition distance
 	double alpha; //tuning parameter
 public:
-	SphericalAdvectionField(Vector3d origin, double radius, double vMax, double tau, double alpha);
+	/** Constructor
+	@param origin 	Origin of the advection sphere
+	@param radius 	Radius of the advection sphere
+	@param vMax	Maximum wind velocity
+	@param tau	Transition distance
+	@param alpha	Tuning parameter
+*/
+	SphericalAdvectionField(const Vector3d origin, double radius, double vMax, double tau, double alpha);
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
 
 	double getV(const double &r) const;
 
-	void setOrigin(Vector3d origin);
+	void setOrigin(const Vector3d origin);
 	void setRadius(double radius);
 	void setVMax(double vMax);
 	void setTau(double tau);
@@ -129,7 +145,15 @@ class SphericalAdvectionShock: public AdvectionField {
 	double v_phi; // rotation speed at r_rot
 
 public:
-	SphericalAdvectionShock(Vector3d origin, double r_0, double v_0, double lambda);
+	/** Constructor
+	@param origin 	Origin of the advection sphere
+	@param r_0 	Position of the shock
+	@param v_0 	Constant velocity (r<<r_o)
+	@param lambda 	Transition width / width of the shock
+	@param r_rot 	Normalization radius for rotation speed
+	@param v_phi 	Rotation speed at r_rot
+*/
+	SphericalAdvectionShock(const Vector3d origin, double r_0, double v_0, double lambda);
 
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
@@ -137,7 +161,7 @@ public:
 	double g(double R) const;
 	double g_prime(double R) const;
 
-	void setOrigin(Vector3d Origin);
+	void setOrigin(const Vector3d Origin);
 	void setR0(double r);
 	void setV0(double v);
 	void setLambda(double l);
@@ -150,6 +174,8 @@ public:
 	double getLambda() const;
 	double getRRot() const;
 	double getAzimuthalSpeed() const;
+
+	std::string getDescription() const;
 };
 
 } // namespace crpropa

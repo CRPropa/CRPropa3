@@ -1,13 +1,20 @@
-#pragma once
+#ifndef CRPROPA_DIFFUSIONSDE_H
+#define CRPROPA_DIFFUSIONSDE_H
+
 #include <iostream>
 #include <vector>
 #include <cmath>
 #include <string>
+#include <cstdlib>
+#include <stdexcept>
 
 #include <crpropa/Module.h>
 #include <crpropa/magneticField/MagneticField.h>
 #include <crpropa/advectionField/AdvectionField.h>
 #include <crpropa/Units.h>
+#include <crpropa/Random.h>
+
+#include "kiss/logger.h"
 
 namespace crpropa {
 
@@ -35,6 +42,14 @@ private:
 	    
 
 public:
+/** Constructor
+	@param minStep		minStep/c_light is the minimum integration timestep
+	@param maxStep		maxStep/c_light is the maximum integration timestep
+	@param tolerance	Tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.
+	@param epsilon		Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
+	@param alpha 		Power law index of the energy dependent diffusion coefficient: D\propto E^alpha
+	@param scale 		Scaling factor for the diffusion coefficient D = scale*D_0
+*/
 	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
 
 	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
@@ -65,3 +80,5 @@ public:
 }; 
 
 } //namespace crpropa
+
+#endif // CRPROPA_DIFFUSIONSDE_H

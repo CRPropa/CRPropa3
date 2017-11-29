@@ -1,14 +1,5 @@
 #include "crpropa/module/DiffusionSDE.h"
 
-#include <crpropa/Random.h>
-
-#include <iostream>
-#include <cmath>
-#include <cstdlib>
-#include <vector>
-#include <stdexcept>
-
-#include "kiss/logger.h"
 
 using namespace crpropa;
 
@@ -107,7 +98,7 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	Vector3d DirOut = Vector3d(0.);
 
 
-	double propTime = TStep * pow(h, 0.5) / c_light;
+	double propTime = TStep * sqrt(h) / c_light;
 	size_t counter = 0;
 	double r=42.; //arbitrary number larger than one
 
@@ -128,7 +119,7 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	//std::cout << "counter = " << counter << "\n";
 	
 	size_t stepNumber = pow(2, counter-1);
-	double allowedTime = TStep * pow(h, 0.5) / c_light / stepNumber;
+	double allowedTime = TStep * sqrt(h) / c_light / stepNumber;
 	Vector3d Start = PosIn;
 	Vector3d PosOut = Vector3d(0.);
 	Vector3d PosErr = Vector3d(0.);
@@ -182,7 +173,7 @@ void DiffusionSDE::process(Candidate *candidate) const {
 	}
 
     // Integration of the SDE with a Mayorama-Euler-method
-	Vector3d PO = PosOut + LinProp + (NVec * NStep + BVec * BStep) * pow(h, 0.5) ;
+	Vector3d PO = PosOut + LinProp + (NVec * NStep + BVec * BStep) * sqrt(h) ;
     
     // Throw error message if something went wrong with propagation.
     // Deactivate candidate.
@@ -228,13 +219,13 @@ void DiffusionSDE::process(Candidate *candidate) const {
 /*
 	const std::string AL = "arcLength";
 	if (candidate->hasProperty(AL) == false){
-	  double arcLen = (TStep + NStep + BStep) * pow(h, 0.5);
+	  double arcLen = (TStep + NStep + BStep) * sqrt(h);
 	  candidate->setProperty(AL, arcLen);
 	  return;
 	}
 	else {
 	  double arcLen = candidate->getProperty(AL);
-	  arcLen += (TStep + NStep + BStep) * pow(h, 0.5);
+	  arcLen += (TStep + NStep + BStep) * sqrt(h);
 	  candidate->setProperty(AL, arcLen);
 	}
 */
@@ -259,8 +250,8 @@ void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosE
 		  	BField = magneticField->getField(y_n, z);
 		} 
 		catch (std::exception &e) {
-		  std::cerr << "DiffusionSDE: Exception in getField." << std::endl;
-		  std::cerr << e.what() << std::endl;
+			KISS_LOG_ERROR 	<< "DiffusionSDE: Exception in magneticField::getField.\n"
+					<< e.what();
 		}
 		
 		k[i] = BField.getUnitVector() * c_light;
@@ -277,8 +268,8 @@ void DiffusionSDE::driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) c
 		AdvField = advectionField->getField(Pos);
 	} 
 	catch (std::exception &e) {
-		std::cerr << "DiffusionSDE: Exception in getField." << std::endl;
-		std::cerr << e.what() << std::endl;
+		KISS_LOG_ERROR 	<< "DiffusionSDE: Exception in advectionField::getField.\n"
+				<< e.what();
 	}
 	LinProp += AdvField * h;
 	return;

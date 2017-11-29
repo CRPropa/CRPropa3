@@ -38,9 +38,15 @@ double UniformAdvectionField::getDivergence(const Vector3d &position) const {
 	return 0.;
 	}
 
+std::string UniformAdvectionField::getDescription() const {
+	std::stringstream s;
+	s << "v0: " << value / km * sec << " km/s, ";
+	return s.str();
+}
+
 //----------------------------------------------------------------
 
-ConstantSphericalAdvectionField::ConstantSphericalAdvectionField(Vector3d origin, double vWind) {
+ConstantSphericalAdvectionField::ConstantSphericalAdvectionField(const Vector3d origin, double vWind) {
 	setOrigin(origin);
 	setVWind(vWind);
 }
@@ -55,7 +61,7 @@ double ConstantSphericalAdvectionField::getDivergence(const Vector3d &position) 
 	return 2*vWind/R;
 }
 
-void ConstantSphericalAdvectionField::setOrigin(Vector3d o) {
+void ConstantSphericalAdvectionField::setOrigin(const Vector3d o) {
 	origin=o;
 	return;
 }
@@ -73,11 +79,18 @@ double ConstantSphericalAdvectionField::getVWind() const {
 	return vWind;
 }
 
+std::string ConstantSphericalAdvectionField::getDescription() const {
+	std::stringstream s;
+	s << "Origin: " << origin / kpc  << " kpc, ";
+	s << "v0: " << vWind / km * sec << " km/s, ";
+	return s.str();
+}
+
 
 
 //----------------------------------------------------------------
 
-SphericalAdvectionField::SphericalAdvectionField(Vector3d origin, double radius, double vMax, double tau, double alpha) {
+SphericalAdvectionField::SphericalAdvectionField(const Vector3d origin, double radius, double vMax, double tau, double alpha) {
 	setOrigin(origin);
 	setRadius(radius);
 	setVMax(vMax);
@@ -109,7 +122,7 @@ double SphericalAdvectionField::getV(const double &r) const {
 	return f;
 }
 
-void SphericalAdvectionField::setOrigin(Vector3d o) {
+void SphericalAdvectionField::setOrigin(const Vector3d o) {
 	origin = o;
 	return;
 }
@@ -167,7 +180,7 @@ std::string SphericalAdvectionField::getDescription() const {
 
 //-----------------------------------------------------------------
 
-SphericalAdvectionShock::SphericalAdvectionShock(Vector3d origin, double r_0, double v_0, double l) {
+SphericalAdvectionShock::SphericalAdvectionShock(const Vector3d origin, double r_0, double v_0, double l) {
 	setOrigin(origin);
 	setR0(r_0);
 	setV0(v_0);
@@ -210,7 +223,7 @@ double SphericalAdvectionShock::g_prime(double r) const {
 	return 1. / (2*lambda*(1+cosh(-a)));
 }	
 
-void SphericalAdvectionShock::setOrigin(Vector3d o) {
+void SphericalAdvectionShock::setOrigin(const Vector3d o) {
 	origin = o;
 }
 
@@ -258,5 +271,15 @@ double SphericalAdvectionShock::getAzimuthalSpeed() const {
 	return v_phi;
 }
 
+std::string SphericalAdvectionShock::getDescription() const {
+	std::stringstream s;
+	s << "Origin: " << origin / kpc  << " kpc, ";
+	s << "r0 (shock radius): " << r_0 / kpc  << " kpc, ";
+	s << "r_rot (norm. azimuthal velocity): " << r_rot / kpc  << " kpc, ";
+	s << "v0 (maximum radial speed): " << v_0 / km * sec << " km/s, ";
+	s << "v_phi (azimuthal speed @ r_rot): " << v_phi / km * sec << " km/s, ";
+	s << "lambda: " << lambda / pc << " pc";
+	return s.str();
+}
 
 } // namespace crpropa

@@ -48,6 +48,7 @@
 %ignore operator crpropa::Observer*;
 %ignore operator crpropa::ObserverFeature*;
 %ignore operator crpropa::MagneticField*;
+%ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
 %ignore crpropa::TextOutput::load;
 
@@ -280,6 +281,10 @@
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
 %include "crpropa/magneticField/MagneticField.h"
 
+%implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
+%template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;
+%include "crpropa/advectionField/AdvectionField.h"
+
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
 
@@ -303,6 +308,7 @@
 %include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"
 %include "crpropa/magneticField/PshirkovField.h"
+%include "crpropa/magneticField/ArchimedeanSpiralField.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 
@@ -412,6 +418,7 @@ class RangeError {};
 %include "crpropa/module/EMTripletPairProduction.h"
 %include "crpropa/module/EMInverseComptonScattering.h"
 %include "crpropa/module/SynchrotronRadiation.h"
+%include "crpropa/module/AdiabaticCooling.h"
 
 %template(IntSet) std::set<int>;
 %include "crpropa/module/Tools.h"

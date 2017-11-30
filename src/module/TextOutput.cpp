@@ -138,6 +138,7 @@ void TextOutput::process(Candidate *c) const {
 	if (fields.test(TrajectoryLengthColumn))
 		p += sprintf(buffer + p, "%8.5E\t",
 				c->getTrajectoryLength() / lengthScale);
+
 	if (fields.test(RedshiftColumn))
 		p += sprintf(buffer + p, "%1.5E\t", c->getRedshift());
 

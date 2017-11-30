@@ -81,6 +81,24 @@ static const double kpc = kiloparsec;
 static const double Mpc = megaparsec;
 static const double Gpc = gigaparsec;
 
+// meter
+static const double kilometer = 1000 * meter;
+static const double centimeter = 0.01 * meter;
+static const double km = kilometer;
+static const double cm = centimeter;
+
+// second
+static const double nanosecond = 1e-9 * second;
+static const double microsecond = 1e-6 * second;
+static const double millisecond = 1e-3 * second;
+static const double minute = 60 * second;
+static const double hour = 3600 * second;
+static const double ns = nanosecond;
+static const double mus = microsecond;
+static const double ms = millisecond;
+static const double sec = second;
+static const double min = minute;
+
 } // namespace crpropa
 
 #endif // CRPROPA_UNITS_H

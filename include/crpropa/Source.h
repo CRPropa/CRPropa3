@@ -11,6 +11,20 @@
 namespace crpropa {
 
 /**
+ @class SourceFeature
+ @brief Abstract base class cosmic ray source features
+ */
+class SourceFeature: public Referenced {
+protected:
+	std::string description;
+public:
+	virtual void prepareParticle(ParticleState& particle) const {};
+	virtual void prepareCandidate(Candidate& candidate) const;
+	std::string getDescription() const;
+};
+
+
+/**
  @class SourceInterface
  @brief Abstract base class for cosmic ray sources
  */
@@ -58,20 +72,6 @@ public:
  *  emitted candidate.
  *  @{
  */
-
-/**
- @class SourceFeature
- @brief Abstract base class cosmic ray source features
- */
-class SourceFeature: public Referenced {
-protected:
-	std::string description;
-public:
-	virtual void prepareParticle(ParticleState& particle) const {};
-	virtual void prepareCandidate(Candidate& candidate) const;
-	std::string getDescription() const;
-}; 
-
 
 
 /**

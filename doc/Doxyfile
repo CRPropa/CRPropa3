@@ -308,7 +308,7 @@ SUBGROUPING            = YES
 # @ingroup) instead of on a separate page (for HTML and Man pages) or
 # section (for LaTeX and RTF).
 
-INLINE_GROUPED_CLASSES = NO
+INLINE_GROUPED_CLASSES = YES
 
 # When the INLINE_SIMPLE_STRUCTS tag is set to YES, structs, classes, and
 # unions with only public data fields or simple typedef fields will be shown
@@ -482,7 +482,7 @@ SORT_MEMBERS_CTORS_1ST = NO
 # hierarchy of group names into alphabetical order. If set to NO (the default)
 # the group names will appear in their defined order.
 
-SORT_GROUP_NAMES       = NO
+SORT_GROUP_NAMES       = YES
 
 # If the SORT_BY_SCOPE_NAME tag is set to YES, the class list will be
 # sorted by fully-qualified names, including namespaces. If set to

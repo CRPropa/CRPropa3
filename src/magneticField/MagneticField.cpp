@@ -88,84 +88,61 @@ Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
 }
 
-Vector3d MagneticBottle::getField(const Vector3d &position) const {
+Vector3d MagneticBottle::getField(const Vector3d &position) const { // Ulrich Stroth
 
-/****************PARAMETER****************/
-	//~ //double Br_strength = 1.;
-	//~ //double Bz_strength = 4.;
-	//~ //double Bz_slope   = 4.;
-	//~ //double width      = 0.5;
-/*****************************************/
+	double x = position.x;
+	double y = position.y;
+	double z = position.z;
+
+	if(fabs(z) <= L/2){
+	
+	double r = sqrt( x*x + y*y );
+	double phi = atan2(y,x);
+	
+	
+	double B0 = (Bz_max + Bz_min)/2;
+	double b = Bz_max/ B0 -1;
+	
+	double k = 2 * M_PI /L;
+	
+	double Bz =  B0 * ( 1 - b * ( 1 + k*k * r*r / 4 ) * cos (k*z) );
+	double Br = -B0 * ( b * k*r/2 * sin(k*z) );
+	
+	double Bx = Br * cos(phi);
+	double By = Br * sin(phi);
+	
+	return Vector3d(Bx, By, Bz);
+		
+	}else{
+	
+	return Vector3d(0., 0., Bz_max);
+		
+	}
+	
+}
+
+Vector3d GyroField::getField(const Vector3d &position) const {
 
 	double x = position.x;
 	double y = position.y;
 	double z = position.z;
 	
-	double R = sqrt(x*x + y*y);
+	double r = sqrt( x*x + y*y );
 	
-	double Br, Bz;
+	double B;
 	
-	if(fabs(z) > width){
-		Br = Br_strength * fabs(fabs(z)-width)/kpc*fabs(fabs(z)-width)/kpc;//-cosh((fabs(z)-width)/kpc);
-	}else{
-		Br = 0.;
+	if (r < radius){
+		B = B_max + r/radius * (B_min - B_max);
+	}	
+	else{
+		B = B_min;
 	}
 	
-	if(fabs(z) < width){
-		Bz = Bz_strength;
-	}else{
-		Bz = Bz_strength + Bz_strength* 0.1 * fabs(fabs(z)) / width;
-	}
-	
-	Vector3d B(Br * fabs(x) / R,Br * fabs(y) / R, Bz);
-	
-	return B;
+	return Vector3d(0., 0., B);
 	
 	
 }
 
-
-//~ Vector3d MagneticBottle::getField(const Vector3d &position) const {
-//~ 
-//~ /****************PARAMETER****************/
-	double Br_strength = 1.;
-	double Bz_strength = 4.;
-	double Bz_slope   = 4.;
-	double width      = 0.5;
-//~ /*****************************************/
-//~ 
-	//~ double x = position.x;
-	//~ double y = position.y;
-	//~ double z = position.z;
-	//~ 
-	//~ double R = sqrt(x*x + y*y);
-	//~ 
-	//~ double Br, Bz, B;
-	//~ 
-	//~ double r_xy;
-	//~ 
-	//~ if(fabs(z) > width){
-		//~ r_xy = (1 - width/fabs(z))  ;
-	//~ }else{
-		//~ r_xy = 0.;
-	//~ }
-	//~ 
-	//~ double r_z = sqrt(1-2*r_xy*r_xy);
-	//~ 
-	//~ if(fabs(z) < width){
-		//~ B = Bz_strength;
-	//~ }else{
-		//~ B = Bz_strength + Bz_strength * fabs(fabs(z)) / width;
-	//~ }
-	//~ 
-//~ //	Vector3d B(Br * fabs(x) / R,Br * fabs(y) / R, Bz);
-	//~ 
-	//~ Vector3d B_field(r_xy * x/R,r_xy * y/R,r_z);
-	//~ 
-	//~ return B_field;
-	//~ 
-	//~ 
-//~ }
 
 #ifdef CRPROPA_HAVE_MUPARSER
 RenormalizeMagneticField::RenormalizeMagneticField(ref_ptr<MagneticField> field,

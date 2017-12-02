@@ -106,20 +106,34 @@ public:
  @class MagneticBottle
  @brief Magnetic bottle along the z-axis. The field has the constant value Bz_strength for z in [-width, width]. 
 		Out of this range, the field lines run together and the B-field strength raises linearly.
- */
+		This B-field was inspired by the magnetic bottle in Computer Algebra Recipes by Enns and McGuire
+ **/
 class MagneticBottle: public MagneticField {
 	
-	double Br_strength;
-	double Bz_strength;
-	double Bz_slope;
-	double width;
+	double Bz_max;
+	double Bz_min;
+	double L;
 	
 public:
-	MagneticBottle(double Br_strength, double Bz_strength , double Bz_slope, double width) : 
-			Br_strength(Br_strength), Bz_strength(Bz_strength), Bz_slope(Bz_slope), width(width) {}
+	MagneticBottle(double Bz_max, double Bz_min, double lenght) : 
+			 Bz_max(Bz_max), Bz_min(Bz_min), L(lenght) {}
 	Vector3d getField(const Vector3d &position) const;	
 	
 };
+
+class GyroField: public MagneticField {
+
+	const double B_max;
+	const double B_min;
+	const double radius;
+	
+public:
+	GyroField(const double B_max, const double B_min, const double radius) : 
+			 B_max(B_max), B_min(B_min), radius(radius) {}
+	Vector3d getField(const Vector3d &position) const;	
+	
+};
+
 
 #ifdef CRPROPA_HAVE_MUPARSER
 /**

@@ -1,6 +1,7 @@
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/Units.h"
+#include "crpropa/Version.h"
 
 #include <cstdio>
 #include <stdexcept>
@@ -42,7 +43,6 @@ TextOutput::TextOutput(const std::string &filename,
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 }
-
 
 void TextOutput::printHeader() const {
 	*out << "#";
@@ -124,6 +124,7 @@ void TextOutput::printHeader() const {
 	}
 
 	*out << "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
+	*out << "# CRPropa version: " << g_GIT_DESC << "\n#\n";
 }
 
 void TextOutput::process(Candidate *c) const {

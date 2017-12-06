@@ -7,12 +7,14 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Candidate.h"
 #include "crpropa/Units.h"
+#include "crpropa/Version.h"
 #include "crpropa/module/Output.h"
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/ParticleCollector.h"
 
 #include <string>
 #include "gtest/gtest.h"
+#include <iostream>
 
 namespace crpropa {
 
@@ -107,6 +109,23 @@ TEST(TextOutput, printProperty) {
 	          "#\tfoo");
 }
 
+TEST(TextOutput, printHeader_Version) {
+	Candidate c;
+	TextOutput output(Output::Event1D);
+
+	::testing::internal::CaptureStdout();
+	output.process(&c);
+	std::string captured = testing::internal::GetCapturedStdout();
+
+	EXPECT_EQ(
+		captured.substr(
+			// length of the prefix is 19 chars
+			captured.find("# CRPropa version: ") + 19,
+		      	captured.find("\n") + 1
+			),
+	         g_GIT_DESC);
+}
+
 //-- ParticleCollector
 
 TEST(ParticleCollector, getCount) {
@@ -137,8 +156,6 @@ TEST(ParticleCollector, reprocess) {
 
 	EXPECT_EQ(output[0], c);
 }
-
-#include <iostream>
 
 TEST(ParticleCollector, dumpload) {
 	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1.234*EeV);

@@ -117,11 +117,13 @@ TEST(TextOutput, printHeader_Version) {
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
+	// length of the prefix is 19 chars
+	size_t version_pos = captured.find("# CRPropa version: ") + 19;
+
 	EXPECT_EQ(
 		captured.substr(
-			// length of the prefix is 19 chars
-			captured.find("# CRPropa version: ") + 19,
-		      	captured.find("\n") + 1
+			version_pos,
+		      	captured.find("\n", version_pos) - version_pos
 			),
 	         g_GIT_DESC);
 }

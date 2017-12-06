@@ -1,8 +1,11 @@
 #ifdef CRPROPA_HAVE_HDF5
 
 #include "crpropa/module/HDF5Output.h"
+#include "crpropa/Version.h"
 #include "kiss/logger.h"
+
 #include <hdf5.h>
+#include <cstring>
 
 const hsize_t RANK = 1;
 const hsize_t BUFFER_SIZE = 1024 * 16;
@@ -10,91 +13,133 @@ const hsize_t BUFFER_SIZE = 1024 * 16;
 namespace crpropa {
 
 // map variant types to H5T_NATIVE 
-
-	hid_t variantTypeToH5T_NATIVE(Variant::Type type)
+hid_t variantTypeToH5T_NATIVE(Variant::Type type) {
+	if (type == Variant::TYPE_INT64)
+		return H5T_NATIVE_INT64;
+	else if(type == Variant::TYPE_BOOL)
+		return H5T_NATIVE_HBOOL;
+	else if(type == Variant::TYPE_CHAR)
+		return H5T_NATIVE_CHAR;
+	else if(type == Variant::TYPE_UCHAR)
+		return H5T_NATIVE_UCHAR;
+	else if(type == Variant::TYPE_INT16)
+		return H5T_NATIVE_INT16;
+	else if(type == Variant::TYPE_UINT16)
+		return H5T_NATIVE_UINT16;
+	else if(type == Variant::TYPE_INT32)
+		return H5T_NATIVE_INT32;
+	else if(type == Variant::TYPE_UINT32)
+		return H5T_NATIVE_UINT32;
+	else if(type == Variant::TYPE_INT64)
+		return H5T_NATIVE_INT64;
+	else if(type == Variant::TYPE_UINT64)
+		return H5T_NATIVE_UINT64;
+	else if(type == Variant::TYPE_FLOAT)
+		return H5T_NATIVE_FLOAT;
+	else if(type == Variant::TYPE_DOUBLE)
+		return H5T_NATIVE_DOUBLE;
+	else if(type == Variant::TYPE_STRING)
+		return H5T_C_S1;
+	else
 	{
-		if (type == Variant::TYPE_INT64)
-			return H5T_NATIVE_INT64;
-		else if(type == Variant::TYPE_BOOL)
-			return H5T_NATIVE_HBOOL;
-		else if(type == Variant::TYPE_CHAR)
-			return H5T_NATIVE_CHAR;
-		else if(type == Variant::TYPE_UCHAR)
-			return H5T_NATIVE_UCHAR;
-		else if(type == Variant::TYPE_INT16)
-			return H5T_NATIVE_INT16;
-		else if(type == Variant::TYPE_UINT16)
-			return H5T_NATIVE_UINT16;
-		else if(type == Variant::TYPE_INT32)
-			return H5T_NATIVE_INT32;
-		else if(type == Variant::TYPE_UINT32)
-			return H5T_NATIVE_UINT32;
-		else if(type == Variant::TYPE_INT64)
-			return H5T_NATIVE_INT64;
-		else if(type == Variant::TYPE_UINT64)
-			return H5T_NATIVE_UINT64;
-		else if(type == Variant::TYPE_FLOAT)
-			return H5T_NATIVE_FLOAT;
-		else if(type == Variant::TYPE_DOUBLE)
-			return H5T_NATIVE_DOUBLE;
-		else if(type == Variant::TYPE_STRING)
-			return H5T_C_S1;
-		else
-		{
-			KISS_LOG_ERROR << "variantTypeToH5T_NATIVE:: Type: " << Variant::getTypeName(type) << " unknown.";
-			throw std::runtime_error("No matching HDF type for Variant type");
-		}
+		KISS_LOG_ERROR << "variantTypeToH5T_NATIVE:: Type: " << Variant::getTypeName(type) << " unknown.";
+		throw std::runtime_error("No matching HDF type for Variant type");
 	}
-
+}
 
 HDF5Output::HDF5Output(const std::string& filename) :  Output(), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1) {
 }
 
 HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) :  Output(outputtype), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1) {
+	outputtype = outputtype;
 }
 
 HDF5Output::~HDF5Output() {
 	close();
 }
 
+herr_t HDF5Output::insertVersion() {
+	hid_t 	strtype, attr_space, version_attr;
+	hsize_t dims = 0;
+	herr_t 	status;
+
+	strtype = H5Tcopy(H5T_C_S1);
+	status = H5Tset_size(strtype, 100);
+
+	attr_space = H5Screate_simple(0, &dims, NULL);
+	version_attr = H5Acreate2(dset, "Version", strtype, attr_space, H5P_DEFAULT, H5P_DEFAULT);
+	status = H5Awrite(version_attr, strtype, g_GIT_DESC);
+	status = H5Aclose(version_attr);
+	status = H5Sclose(attr_space);
+
+	return status;
+}
+
 void HDF5Output::open(const std::string& filename) {
 	file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
 	sid = H5Tcreate(H5T_COMPOUND, sizeof(OutputRow));
-	H5Tinsert(sid, "D", HOFFSET(OutputRow, D), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "z", HOFFSET(OutputRow, z), H5T_NATIVE_DOUBLE);
-
-	H5Tinsert(sid, "SN", HOFFSET(OutputRow, SN), H5T_NATIVE_UINT64);
-	H5Tinsert(sid, "ID", HOFFSET(OutputRow, ID), H5T_NATIVE_INT32);
-	H5Tinsert(sid, "E", HOFFSET(OutputRow, E), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "X", HOFFSET(OutputRow, X), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Y", HOFFSET(OutputRow, Y), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Z", HOFFSET(OutputRow, Z), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Px", HOFFSET(OutputRow, Px), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Py", HOFFSET(OutputRow, Py), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Pz", HOFFSET(OutputRow, Pz), H5T_NATIVE_DOUBLE);
-
-	H5Tinsert(sid, "SN0", HOFFSET(OutputRow, SN0), H5T_NATIVE_UINT64);
-	H5Tinsert(sid, "ID0", HOFFSET(OutputRow, ID0), H5T_NATIVE_INT32);
-	H5Tinsert(sid, "E0", HOFFSET(OutputRow, E0), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "X0", HOFFSET(OutputRow, X0), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Y0", HOFFSET(OutputRow, Y0), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Z0", HOFFSET(OutputRow, Z0), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "P0x", HOFFSET(OutputRow, P0x), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "P0y", HOFFSET(OutputRow, P0y), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "P0z", HOFFSET(OutputRow, P0z), H5T_NATIVE_DOUBLE);
-
-	H5Tinsert(sid, "SN1", HOFFSET(OutputRow, SN1), H5T_NATIVE_UINT64);
-	H5Tinsert(sid, "ID1", HOFFSET(OutputRow, ID1), H5T_NATIVE_INT32);
-	H5Tinsert(sid, "E1", HOFFSET(OutputRow, E1), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "X1", HOFFSET(OutputRow, X1), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Y1", HOFFSET(OutputRow, Y1), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "Z1", HOFFSET(OutputRow, Z1), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "P1x", HOFFSET(OutputRow, P1x), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "P1y", HOFFSET(OutputRow, P1y), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "P1z", HOFFSET(OutputRow, P1z), H5T_NATIVE_DOUBLE);
-	H5Tinsert(sid, "weight", HOFFSET(OutputRow, weight), H5T_NATIVE_DOUBLE);
-
+	if (fields.test(TrajectoryLengthColumn))
+		H5Tinsert(sid, "D", HOFFSET(OutputRow, D), H5T_NATIVE_DOUBLE);
+	if (fields.test(RedshiftColumn))
+		H5Tinsert(sid, "z", HOFFSET(OutputRow, z), H5T_NATIVE_DOUBLE);
+	if (fields.test(SerialNumberColumn))
+		H5Tinsert(sid, "SN", HOFFSET(OutputRow, SN), H5T_NATIVE_UINT64);
+	if (fields.test(CurrentIdColumn))
+		H5Tinsert(sid, "ID", HOFFSET(OutputRow, ID), H5T_NATIVE_INT32);
+	if (fields.test(CurrentEnergyColumn))
+		H5Tinsert(sid, "E", HOFFSET(OutputRow, E), H5T_NATIVE_DOUBLE);
+	if (fields.test(CurrentPositionColumn) && oneDimensional)
+		H5Tinsert(sid, "X", HOFFSET(OutputRow, X), H5T_NATIVE_DOUBLE);
+	if (fields.test(CurrentPositionColumn) && not oneDimensional) {
+		H5Tinsert(sid, "X", HOFFSET(OutputRow, X), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Y", HOFFSET(OutputRow, Y), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Z", HOFFSET(OutputRow, Z), H5T_NATIVE_DOUBLE);
+	}
+	if (fields.test(CurrentDirectionColumn) && not oneDimensional) {
+		H5Tinsert(sid, "Px", HOFFSET(OutputRow, Px), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Py", HOFFSET(OutputRow, Py), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Pz", HOFFSET(OutputRow, Pz), H5T_NATIVE_DOUBLE);
+	}
+	if (fields.test(SerialNumberColumn))
+		H5Tinsert(sid, "SN0", HOFFSET(OutputRow, SN0), H5T_NATIVE_UINT64);
+	if (fields.test(SourceIdColumn))
+		H5Tinsert(sid, "ID0", HOFFSET(OutputRow, ID0), H5T_NATIVE_INT32);
+	if (fields.test(SourceEnergyColumn))
+		H5Tinsert(sid, "E0", HOFFSET(OutputRow, E0), H5T_NATIVE_DOUBLE);
+	if (fields.test(SourcePositionColumn) && oneDimensional) 
+		H5Tinsert(sid, "X0", HOFFSET(OutputRow, X0), H5T_NATIVE_DOUBLE);
+	if (fields.test(SourcePositionColumn) && not oneDimensional){
+		H5Tinsert(sid, "X0", HOFFSET(OutputRow, X0), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Y0", HOFFSET(OutputRow, Y0), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Z0", HOFFSET(OutputRow, Z0), H5T_NATIVE_DOUBLE);
+	}
+	if (fields.test(SourceDirectionColumn) && not oneDimensional) {
+		H5Tinsert(sid, "P0x", HOFFSET(OutputRow, P0x), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "P0y", HOFFSET(OutputRow, P0y), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "P0z", HOFFSET(OutputRow, P0z), H5T_NATIVE_DOUBLE);
+	}
+	if (fields.test(SerialNumberColumn))
+		H5Tinsert(sid, "SN1", HOFFSET(OutputRow, SN1), H5T_NATIVE_UINT64);
+	if (fields.test(CreatedIdColumn))
+		H5Tinsert(sid, "ID1", HOFFSET(OutputRow, ID1), H5T_NATIVE_INT32);
+	if (fields.test(CreatedEnergyColumn))
+		H5Tinsert(sid, "E1", HOFFSET(OutputRow, E1), H5T_NATIVE_DOUBLE);
+	if (fields.test(CreatedPositionColumn) && oneDimensional)
+		H5Tinsert(sid, "X1", HOFFSET(OutputRow, X1), H5T_NATIVE_DOUBLE);
+	if (fields.test(CreatedPositionColumn) && not oneDimensional) {
+		H5Tinsert(sid, "X1", HOFFSET(OutputRow, X1), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Y1", HOFFSET(OutputRow, Y1), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "Z1", HOFFSET(OutputRow, Z1), H5T_NATIVE_DOUBLE);
+	}
+	if (fields.test(CreatedDirectionColumn) && not oneDimensional) {
+		H5Tinsert(sid, "P1x", HOFFSET(OutputRow, P1x), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "P1y", HOFFSET(OutputRow, P1y), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "P1z", HOFFSET(OutputRow, P1z), H5T_NATIVE_DOUBLE);
+	}
+	if (fields.test(WeightColumn))
+		H5Tinsert(sid, "weight", HOFFSET(OutputRow, weight), H5T_NATIVE_DOUBLE);
+	
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
@@ -102,7 +147,7 @@ void HDF5Output::open(const std::string& filename) {
 			hid_t type = variantTypeToH5T_NATIVE((*iter).defaultValue.getType());
 			if (type == H5T_C_S1)
 			{ // set size of string field to size of default value!
-				type = H5Tcopy (H5T_C_S1);
+				type = H5Tcopy(H5T_C_S1);
 				H5Tset_size(type, (*iter).defaultValue.toString().size());
 			}
 
@@ -126,7 +171,8 @@ void HDF5Output::open(const std::string& filename) {
 	hsize_t max_dims[RANK] = {H5S_UNLIMITED};
 	dataspace = H5Screate_simple(RANK, dims, max_dims);
 
-	dset = H5Dcreate2(file, "CRPROPA3", sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
+	dset = H5Dcreate2(file, outputName.c_str(), sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
+	insertVersion();	
 
 	H5Pclose(plist);
 

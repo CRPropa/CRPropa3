@@ -5,12 +5,24 @@
 
 namespace crpropa {
 
-Output::Output() : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+Output::Output() : outputName(OutputTypeName(Everything)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
 	enableAll();
 }
 
-Output::Output(OutputType outputtype) : lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
-		setOutputType(outputtype);
+Output::Output(OutputType outputtype) : outputName(OutputTypeName(outputtype)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+	setOutputType(outputtype);
+}
+
+std::string Output::OutputTypeName(OutputType outputtype){
+	if (outputtype == Trajectory1D)
+		return "Trajectory1D";
+	if (outputtype == Event1D)
+		return "Event1D";
+	if (outputtype == Trajectory3D)
+		return "Trajectory3D";
+	if (outputtype == Event3D);
+		return "Event3D";
+	return "Everything";
 }
 
 void Output::modify() {

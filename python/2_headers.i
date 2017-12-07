@@ -57,6 +57,10 @@
 
 
 %include "crpropa/Logging.h"
+%include "crpropa/Version.h"
+%pythoncode %{
+        __version__ = g_GIT_DESC 
+%}
 
 %include "crpropa/Vector3.h"
 %include "crpropa/Referenced.h"

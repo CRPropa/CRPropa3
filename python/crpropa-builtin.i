@@ -16,11 +16,6 @@
 /* 2: SWIG and CRPropa headers */
 %include "2_headers.i"
 
-%include "crpropa/Version.h"
-%pythoncode %{
-    __version__ = g_GIT_DESC
-%}
-
 /* 3. Pretty print for Python */
 
 %define __REPR__( classname )

@@ -1,9 +1,7 @@
 #ifndef CRPROPA_PROGRESSBAR_H
 #define CRPROPA_PROGRESSBAR_H
 
-#include <cstdio>
 #include <string>
-#include <iostream>
 #include <ctime>
 
 namespace crpropa {

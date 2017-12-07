@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdio>
 #include <stdexcept>
 
 using namespace std;
@@ -34,15 +35,15 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 	char buffer[1024];
 	size_t p = 0;
 
-	p += sprintf(buffer + p, "%4i\t", pid);
-	p += sprintf(buffer + p, "%g\t", candidate->current.getEnergy() / EeV);
-	p += sprintf(buffer + p, "%8.4f\t", candidate->current.getPosition().getR() / Mpc);
+	p += std::sprintf(buffer + p, "%4i\t", pid);
+	p += std::sprintf(buffer + p, "%g\t", candidate->current.getEnergy() / EeV);
+	p += std::sprintf(buffer + p, "%8.4f\t", candidate->current.getPosition().getR() / Mpc);
 
-	p += sprintf(buffer + p, "%10i\t", candidate->created.getId());
-	p += sprintf(buffer + p, "%8.4f\t", candidate->created.getEnergy() / EeV);
+	p += std::sprintf(buffer + p, "%10i\t", candidate->created.getId());
+	p += std::sprintf(buffer + p, "%8.4f\t", candidate->created.getEnergy() / EeV);
 
-	p += sprintf(buffer + p, "%10i\t", candidate->source.getId());
-	p += sprintf(buffer + p, "%8.4f\n", candidate->source.getEnergy() / EeV);
+	p += std::sprintf(buffer + p, "%10i\t", candidate->source.getId());
+	p += std::sprintf(buffer + p, "%8.4f\n", candidate->source.getEnergy() / EeV);
 
 
 #pragma omp critical

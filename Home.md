@@ -15,7 +15,7 @@ Welcome to the CRPropa3 wiki!
 
 #### Extending CRPropa
  * [Extending CRPropa](Extending-CRPropa)
- * [Compiling the simulaton as C++ programm](Cpp-projects)
+ * [Compiling the simulaton as C++ program](Cpp-projects)
  * [Data files](Data-files)
 
 #### Developer Section

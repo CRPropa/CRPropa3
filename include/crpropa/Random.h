@@ -66,7 +66,6 @@
 
 #include <iostream>
 #include <limits>
-#include <cstdio>
 #include <time.h>
 #include <cmath>
 #include <stdexcept>

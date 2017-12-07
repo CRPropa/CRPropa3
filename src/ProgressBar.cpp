@@ -1,5 +1,8 @@
 #include "crpropa/ProgressBar.h"
 
+#include <cstdio>
+#include <iostream>
+
 namespace crpropa {
 
 /// Initialize a ProgressBar with [steps] number of steps, updated at [updateSteps] intervalls
@@ -41,7 +44,7 @@ void ProgressBar::setPosition(unsigned long position) {
 			arrow.insert(0, "=");
 		float tElapsed = currentTime - _startTime;
 		float tToGo = (_steps - position) * tElapsed / position;
-		printf(stringTmpl.c_str(), arrow.c_str(), percentage, "Finish in",
+		std::printf(stringTmpl.c_str(), arrow.c_str(), percentage, "Finish in",
 				int(tToGo / 3600), (int(tToGo) % 3600) / 60,
 				int(tToGo) % 60, "");
 		fflush(stdout);
@@ -50,8 +53,8 @@ void ProgressBar::setPosition(unsigned long position) {
 		std::string s = " - Finished at ";
 		s.append(ctime(&currentTime));
 		char fs[255];
-		sprintf(fs, "%c[%d;%dm Finished %c[%dm", 27, 1, 32, 27, 0);
-		printf(stringTmpl.c_str(), fs, 100, "Needed",
+		std::sprintf(fs, "%c[%d;%dm Finished %c[%dm", 27, 1, 32, 27, 0);
+		std::printf(stringTmpl.c_str(), fs, 100, "Needed",
 				int(tElapsed / 3600), (int(tElapsed) % 3600) / 60,
 				int(tElapsed) % 60, s.c_str());
 	}
@@ -66,8 +69,8 @@ void ProgressBar::setError() {
 	std::string s = " - Finished at ";
 	s.append(ctime(&currentTime));
 	char fs[255];
-	sprintf(fs, "%c[%d;%dm  ERROR   %c[%dm", 27, 1, 31, 27, 0);
-	printf(stringTmpl.c_str(), fs, _currentCount, "Needed",
+	std::sprintf(fs, "%c[%d;%dm  ERROR   %c[%dm", 27, 1, 31, 27, 0);
+	std::printf(stringTmpl.c_str(), fs, _currentCount, "Needed",
 			int(tElapsed / 3600), (int(tElapsed) % 3600) / 60,
 			int(tElapsed) % 60, s.c_str());
 }

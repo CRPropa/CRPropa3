@@ -28,3 +28,20 @@ for i in range(n):
     pos.add(p.getPosition())
 source.add(positions)
 ```
+
+#### Version tracking of a python steering card
+
+Good practice to secure the reproducibility of results obtained with CRPropa is to track which version of CRPropa is used for particular steering card (python code). CRPropa provides the following helper function:
+``crpropa.declare_version("3.1-135-g9ec850f")``
+When a new crpropa version is installed a warning message will be displayed to remind the user of potential differences:
+```
+2017-12-07 09:32:00 [WARNING] Version mismatch! To clear this warning
+review the python code for potential incompatibilities and update
+its version declaration or install the declared version of CRPropa.
+- CRPropa version: 3.1-136-g75fcd3b
+- Python code version: 3.1-135-g9ec850f
+Use git diff to inspect the differences:
+  git diff 3.1-135-g9ec850f 3.1-136-g75fcd3b
+```
+
+A more casual check of versions is also allowed ``crpropa.declare_version("3.1")`` where the warning will be displayed only when the tag is different, e.g., 3.1 != 3.2.

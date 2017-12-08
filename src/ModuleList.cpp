@@ -47,7 +47,7 @@ void ModuleList::process(ref_ptr<Candidate> candidate) const {
 		(*m)->process(candidate);
 }
 
-void ModuleList::run(Candidate *candidate, bool recursive, bool secondariesFirst) {
+void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondariesFirst) {
 	// propagate primary candidate until finished
 	while (candidate->isActive() && !g_cancel_signal_flag) {
 		process(candidate);

@@ -16,7 +16,7 @@ namespace crpropa {
 
 class PhotonEleCa: public Module {
 private:
-	std::auto_ptr<eleca::Propagation> propagation;
+	std::unique_ptr<eleca::Propagation> propagation;
 	mutable std::ofstream output;
 	Vector3d observer;
 	bool saveOnlyPhotonEnergies;

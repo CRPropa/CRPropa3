@@ -35,19 +35,17 @@ void ModuleList::add(Module *module) {
 	modules.push_back(module);
 }
 
-void ModuleList::process(Candidate *candidate) const {
+void ModuleList::process(Candidate* candidate) const {
 	module_list_t::const_iterator m;
 	for (m = modules.begin(); m != modules.end(); m++)
 		(*m)->process(candidate);
 }
 
 void ModuleList::process(ref_ptr<Candidate> candidate) const {
-	module_list_t::const_iterator m;
-	for (m = modules.begin(); m != modules.end(); m++)
-		(*m)->process(candidate);
+	process((Candidate*) candidate);
 }
 
-void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondariesFirst) {
+void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst) {
 	// propagate primary candidate until finished
 	while (candidate->isActive() && !g_cancel_signal_flag) {
 		process(candidate);
@@ -70,6 +68,10 @@ void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondar
 			run(candidate->secondaries[i], recursive, secondariesFirst);
 		}
 	}
+}
+
+void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondariesFirst) {
+	run((Candidate*) candidate, recursive, secondariesFirst);
 }
 
 void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool secondariesFirst) {

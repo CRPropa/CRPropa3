@@ -3,6 +3,7 @@
 
 #include "crpropa/Module.h"
 #include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Referenced.h"
 
 #include <memory>
 #include <fstream>
@@ -16,7 +17,7 @@ namespace crpropa {
 
 class PhotonEleCa: public Module {
 private:
-	std::unique_ptr<eleca::Propagation> propagation;
+	std::auto_ptr<eleca::Propagation> propagation;
 	mutable std::ofstream output;
 	Vector3d observer;
 	bool saveOnlyPhotonEnergies;

@@ -225,4 +225,10 @@ uint64_t Candidate::getNextSerialNumber() {
 
 uint64_t Candidate::nextSerialNumber = 0;
 
+void Candidate::restart() {
+	setActive(true);
+	previous = source;
+	current = source;
+}
+
 } // namespace crpropa

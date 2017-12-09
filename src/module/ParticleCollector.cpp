@@ -71,28 +71,46 @@ void ParticleCollector::clearContainer() {
 std::vector<ref_ptr<Candidate> > ParticleCollector::getAll() const {
         return container;
 }
+
+void ParticleCollector::setClone(bool b) {
+        clone = b;
+}
+
 std::string ParticleCollector::getDescription() const {
         return "ParticleCollector";
 }
 
-ParticleCollector::iterator ParticleCollector::begin()
-{
-  return container.begin();
+ParticleCollector::iterator ParticleCollector::begin() {
+	return container.begin();
 }
 
-ParticleCollector::const_iterator ParticleCollector::begin() const
-{
-  return container.begin();
+ParticleCollector::const_iterator ParticleCollector::begin() const {
+	return container.begin();
 }
 
-ParticleCollector::iterator ParticleCollector::end()
-{
-  return container.end();
+ParticleCollector::iterator ParticleCollector::end() {
+	return container.end();
 }
 
-ParticleCollector::const_iterator ParticleCollector::end() const
-{
-  return container.end();
+ParticleCollector::const_iterator ParticleCollector::end() const {
+	return container.end();
+}
+
+ref_ptr<ParticleCollector> ParticleCollector::getTrajectory(ModuleList* mlist, std::size_t i) const {
+	ref_ptr<ParticleCollector> trajectory = new ParticleCollector();
+	ref_ptr<Candidate> c_tmp = container[i]->clone();
+
+	trajectory->setClone(true);
+	c_tmp->restart();
+
+	mlist->add(trajectory);
+	mlist->run(c_tmp);
+
+	return trajectory;
+}
+
+ref_ptr<ParticleCollector> ParticleCollector::getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i) const {
+	return ParticleCollector::getTrajectory((ModuleList*) mlist, i);
 }
 
 } // namespace crpropa

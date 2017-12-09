@@ -4,17 +4,27 @@
     ParticleCollector
  */
 
-#include "crpropa/ParticleID.h"
-#include "crpropa/Candidate.h"
-#include "crpropa/Units.h"
-#include "crpropa/Version.h"
-#include "crpropa/module/Output.h"
-#include "crpropa/module/TextOutput.h"
-#include "crpropa/module/ParticleCollector.h"
+#include "CRPropa.h"
 
 #include <string>
 #include "gtest/gtest.h"
 #include <iostream>
+
+// compare two arrays (intead of using Google Mock)
+// https://stackoverflow.com/a/10062016/6819103
+template<typename T, size_t size>
+::testing::AssertionResult ArraysMatch(const T (&expected)[size], 
+		const T (&actual)[size]){
+	for (size_t i(0); i < size; ++i){
+		if (expected[i] != actual[i]){
+			return ::testing::AssertionFailure() << "array[" << i
+			<< "] (" << actual[i] << ") != expected[" << i
+			<< "] (" << expected[i] << ")";
+		}
+	}
+
+	return ::testing::AssertionSuccess();
+}
 
 namespace crpropa {
 
@@ -173,6 +183,7 @@ TEST(ParticleCollector, dumpload) {
 		input.process(c);
 	}
 
+	// Well, it would be nicer if we don't need to receate any file
 	input.dump("ParticleCollector_DumpTest.txt");
 	output.load("ParticleCollector_DumpTest.txt");
 
@@ -181,6 +192,43 @@ TEST(ParticleCollector, dumpload) {
 	EXPECT_EQ(output[1]->getTrajectoryLength(), c->getTrajectoryLength());
 	EXPECT_EQ(output[2]->current.getId(), c->current.getId());
 	EXPECT_EQ(output[3]->getRedshift(), c->getRedshift());
+}
+
+// Just test if the trajectory is on a line for rectilinear propagation
+TEST(ParticleCollector, getTrajectory) {
+	int pos_x[10];
+	int pos_x_expected[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+
+
+	ParticleState p;
+	p.setPosition(Vector3d(10, 0, 0));
+	p.setDirection(Vector3d(-1, 0, 0));
+	ref_ptr<Candidate> c = new Candidate(p);
+
+	ref_ptr<ParticleCollector> output = new ParticleCollector();
+	ref_ptr<ParticleCollector> trajectory = new ParticleCollector();
+
+	ref_ptr<ModuleList> sim = new ModuleList();
+	sim->add(new SimplePropagation(1, 1));
+
+	ref_ptr<Observer> obs = new Observer();
+        obs->add(new ObserverPoint());
+	obs->onDetection(output);
+	sim->add(obs);
+
+	sim->run(c);
+
+	trajectory = output->getTrajectory(sim, 0);
+
+	Vector3d pos; int i;
+
+	for (ParticleCollector::iterator itr = trajectory->begin(); itr != trajectory->end(); ++itr){
+		pos = (*(itr->get())).current.getPosition();
+		pos_x[i] = pos.getX();
+		++i;
+	}
+
+	EXPECT_TRUE(ArraysMatch(pos_x_expected, pos_x));
 }
 
 int main(int argc, char **argv) {

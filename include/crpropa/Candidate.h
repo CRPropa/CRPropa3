@@ -53,7 +53,8 @@ public:
 		Vector3d position = Vector3d(0, 0, 0),
 		Vector3d direction = Vector3d(-1, 0, 0),
 		double z = 0,
-		double weight = 1);
+		double weight = 1
+	);
 
 	/**
 	 Creates a candidate, initializing the Candidate::source, Candidate::created,
@@ -112,7 +113,7 @@ public:
 	 Trajectory length and redshift are copied from the parent.
 	 */
 	void addSecondary(Candidate *c);
-  inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
+	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
 	void addSecondary(int id, double energy, double weight = 1);
 	void addSecondary(int id, double energy, Vector3d position, double weight = 1);
 	void clearSecondaries();
@@ -141,6 +142,11 @@ public:
 	 */
 	ref_ptr<Candidate> clone(bool recursive = false) const;
 
+	/**
+	 Copy the source particle state to the current state
+	 and activate it if inactive, e.g. restart it
+	*/ 
+	void restart();
 };
 
 } // namespace crpropa

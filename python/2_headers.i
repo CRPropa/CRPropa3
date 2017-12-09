@@ -401,9 +401,6 @@
 class RangeError {};
 %}
 
-%template(ParticleCollectorRefPtr) crpropa::ref_ptr<crpropa::ParticleCollector>;
-
-%include "crpropa/module/ParticleCollector.h"
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
 %include "crpropa/module/OutputROOT.h"
@@ -435,6 +432,9 @@ class RangeError {};
 
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
+
+%template(ParticleCollectorRefPtr) crpropa::ref_ptr<crpropa::ParticleCollector>;
+%include "crpropa/module/ParticleCollector.h"
 
 %exception crpropa::ParticleCollector::__getitem__ {
   try {

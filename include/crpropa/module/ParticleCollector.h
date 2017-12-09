@@ -4,6 +4,7 @@
 #include <string>
 
 #include "crpropa/Module.h"
+#include "crpropa/ModuleList.h"
 
 namespace crpropa {
 
@@ -30,19 +31,29 @@ public:
 	void reprocess(Module *action) const;
 	void dump(const std::string &filename) const;
 	void load(const std::string &filename);
+
         std::size_t getCount() const;
 	ref_ptr<Candidate> operator[](const std::size_t i) const;
         void clearContainer();
-        std::string getDescription() const;
+        
+	std::string getDescription() const;
 	std::vector<ref_ptr<Candidate> > getAll() const;
+	void setClone(bool b);
 
-	// iterator goodies
+	/** iterator goodies */
         typedef tContainer::iterator iterator;
         typedef tContainer::const_iterator const_iterator;
         iterator begin();
         const_iterator begin() const;
         iterator end();
         const_iterator end() const;
+
+	/**
+	 Retrieves the trajectory of a detected particle
+	 Procedure: take the initial state of the particle, re-run the ModuleList for that particle, save trajectory
+	*/
+	ref_ptr<ParticleCollector> getTrajectory(ModuleList* mlist, std::size_t i) const;
+	ref_ptr<ParticleCollector> getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i) const;
 };
 
 } // namespace crpropa

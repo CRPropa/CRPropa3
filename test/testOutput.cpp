@@ -218,7 +218,7 @@ TEST(ParticleCollector, getTrajectory) {
 
 	sim->run(c);
 
-	trajectory = output->getTrajectory(sim, 0);
+	output->getTrajectory(sim, 0, trajectory);
 
 	Vector3d pos; int i;
 

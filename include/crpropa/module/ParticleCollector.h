@@ -52,8 +52,8 @@ public:
 	 Retrieves the trajectory of a detected particle
 	 Procedure: take the initial state of the particle, re-run the ModuleList for that particle, save trajectory
 	*/
-	ref_ptr<ParticleCollector> getTrajectory(ModuleList* mlist, std::size_t i) const;
-	ref_ptr<ParticleCollector> getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i) const;
+	void getTrajectory(ModuleList* mlist, std::size_t i, ParticleCollector* trajectory) const;
+	void getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i, ref_ptr<ParticleCollector> trajectory) const;
 };
 
 } // namespace crpropa

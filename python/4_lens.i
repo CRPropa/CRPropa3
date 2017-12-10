@@ -109,12 +109,11 @@ __WITHNUMPY = False
 
 #ifdef WITHNUMPY
 %extend crpropa::ParticleMapsContainer{
-
-		PyObject *addParticles(PyObject *particleIds,
-        PyObject *energies,
-        PyObject *galacticLongitudes,
-        PyObject *galacticLatitudes,
-        PyObject *weights)
+        PyObject *addParticles(PyObject *particleIds,
+                PyObject *energies,
+                PyObject *galacticLongitudes,
+                PyObject *galacticLatitudes,
+                PyObject *weights)
     {
       //ToDo: Handle strided arrays
 

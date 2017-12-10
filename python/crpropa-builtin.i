@@ -68,11 +68,6 @@
 
 %enddef
 
-%pythoncode %{
-class ParticleCollector(ParticleCollector):
-        __getitem__ = ParticleCollector.__getitem__
-%}
-
 /* Division of vector fix #34 */
 %feature("python:slot", "nb_divide", functype="binaryfunc") *::operator/;
 

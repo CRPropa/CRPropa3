@@ -57,11 +57,6 @@
 
 
 %include "crpropa/Logging.h"
-%include "crpropa/Version.h"
-%pythoncode %{
-        __version__ = g_GIT_DESC 
-%}
-
 %include "crpropa/Vector3.h"
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
@@ -73,6 +68,7 @@
 %include "crpropa/ParticleState.h"
 %include "crpropa/ParticleID.h"
 %include "crpropa/ParticleMass.h"
+%include "crpropa/Version.h"
 
 %import "crpropa/Variant.h"
 
@@ -445,7 +441,7 @@ class RangeError {};
         return NULL;
   }
 
-}
+};
 
 %extend crpropa::ParticleCollector {
   crpropa::ref_ptr<crpropa::Candidate> __getitem__(size_t i) {
@@ -453,6 +449,9 @@ class RangeError {};
                 throw RangeError();
         }
         return (*($self))[i];
+  }
+  size_t __len__() {
+        return $self->getCount();
   }
 };
 

@@ -42,7 +42,6 @@ Vector3f.__repr__ = Vector3__repr__
 
 %enddef
 
-
 %include "3_repr.i"
 
 /* 4. Magnetic Lens */

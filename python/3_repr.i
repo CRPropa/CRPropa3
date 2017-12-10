@@ -17,3 +17,7 @@ VECTOR3__REPR__( crpropa::Vector3 );
     DeflectionCK = PropagationCK  # legacy name
 %}
 
+%pythoncode %{
+        __version__ = g_GIT_DESC 
+%}
+

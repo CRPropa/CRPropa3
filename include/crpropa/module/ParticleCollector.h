@@ -32,7 +32,7 @@ public:
 	void dump(const std::string &filename) const;
 	void load(const std::string &filename);
 
-        std::size_t getCount() const;
+        std::size_t size() const;
 	ref_ptr<Candidate> operator[](const std::size_t i) const;
         void clearContainer();
         

@@ -25,7 +25,7 @@ public:
 
 	void add(Module* module);
 	void remove(std::size_t i);
-	std::size_t getCount() const;
+	std::size_t size() const;
 	ref_ptr<Module> operator[](const std::size_t i);
 
 	void process(Candidate* candidate) const; ///< call process in all modules

@@ -79,7 +79,7 @@ public:
 	void enableAll();
 	void disableAll();
 	void set1D(bool value);
-	size_t getCount() const;
+	size_t size() const;
 
 	void process(Candidate *) const;
 };

@@ -56,7 +56,7 @@ ParticleCollector::~ParticleCollector() {
         clearContainer();
 }
 
-std::size_t ParticleCollector::getCount() const {
+std::size_t ParticleCollector::size() const {
         return container.size();
 }
 

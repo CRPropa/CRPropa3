@@ -30,12 +30,12 @@ namespace crpropa {
 
 //-- Output
 
-TEST(Output, getCount) {
+TEST(Output, size) {
 	Candidate c;
 	Output output;
 	for (int it=0; it<5; ++it, output.process(&c));
 
-	EXPECT_EQ(output.getCount(), 5);
+	EXPECT_EQ(output.size(), 5);
 }
 
 //-- TextOutput
@@ -140,13 +140,13 @@ TEST(TextOutput, printHeader_Version) {
 
 //-- ParticleCollector
 
-TEST(ParticleCollector, getCount) {
+TEST(ParticleCollector, size) {
 	ref_ptr<Candidate> c = new Candidate();
 	ParticleCollector output;
 
 	for (int it=0; it<5; ++it, output.process(c));
 
-	EXPECT_EQ(output.getCount(), 5);
+	EXPECT_EQ(output.size(), 5);
 }
 
 TEST(ParticleCollector, fetchItem) {
@@ -187,7 +187,7 @@ TEST(ParticleCollector, dumpload) {
 	input.dump("ParticleCollector_DumpTest.txt");
 	output.load("ParticleCollector_DumpTest.txt");
 
-	EXPECT_EQ(input.getCount(), output.getCount());
+	EXPECT_EQ(input.size(), output.size());
 	EXPECT_EQ(output[0]->current.getEnergy(), c->current.getEnergy());
 	EXPECT_EQ(output[1]->getTrajectoryLength(), c->getTrajectoryLength());
 	EXPECT_EQ(output[2]->current.getId(), c->current.getId());

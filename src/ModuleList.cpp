@@ -41,7 +41,7 @@ void ModuleList::remove(std::size_t i) {
 	modules.erase(module_i);
 }
 
-std::size_t ModuleList::getCount() const {
+std::size_t ModuleList::size() const {
         return modules.size();
 }
 

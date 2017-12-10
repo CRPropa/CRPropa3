@@ -36,7 +36,7 @@ void ModuleList::add(Module *module) {
 }
 
 void ModuleList::remove(std::size_t i) {
-	auto module_i = modules.begin();
+	iterator module_i = modules.begin();
 	std::advance(module_i, i);
 	modules.erase(module_i);
 }
@@ -46,7 +46,7 @@ std::size_t ModuleList::getCount() const {
 }
 
 ref_ptr<Module> ModuleList::operator[](const std::size_t i) {
-	auto module_i = modules.begin();
+	iterator module_i = modules.begin();
 	std::advance(module_i, i);
 	return *module_i;
 }

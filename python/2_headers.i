@@ -443,13 +443,13 @@ class RangeError {};
 
 %extend crpropa::ModuleList {
   crpropa::ref_ptr<crpropa::Module> __getitem__(size_t i) {
-        if (i >= $self->getCount()) {
+        if (i >= $self->size()) {
                 throw RangeError();
         }
         return (*($self))[i];
   }
   size_t __len__() {
-        return $self->getCount();
+        return $self->size();
   }
 };
 
@@ -471,13 +471,37 @@ class RangeError {};
 
 %extend crpropa::ParticleCollector {
   crpropa::ref_ptr<crpropa::Candidate> __getitem__(size_t i) {
-        if (i >= $self->getCount()) {
+        if (i >= $self->size()) {
                 throw RangeError();
         }
         return (*($self))[i];
   }
+  std::vector< crpropa::ref_ptr<crpropa::Candidate> > __getitem__(PyObject *param) {
+        std::vector< crpropa::ref_ptr<crpropa::Candidate> > result;
+
+        if (PySlice_Check(param)) {
+                Py_ssize_t len = 0, start = 0, stop = 0, step = 0, slicelength = 0, i = 0;
+                len = $self->size();
+
+                #ifdef SWIG_PYTHON3
+                    PySlice_GetIndicesEx(param, len, &start, &stop, &step, &slicelength);
+                #else
+                    PySlice_GetIndicesEx((PySliceObject*)param, len, &start, &stop, &step, &slicelength);
+                #endif
+                
+                for(crpropa::ParticleCollector::iterator itr = $self->begin(); itr != $self->end(); ++itr){
+                        if( i >= start && i < stop){
+                                result.push_back(itr->get());
+                        }
+                        ++i;
+                }
+                return result;
+        } else {
+                throw RangeError();
+        }        
+  }
   size_t __len__() {
-        return $self->getCount();
+        return $self->size();
   }
 };
 

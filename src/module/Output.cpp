@@ -119,7 +119,7 @@ void Output::disableAll() {
 	fields.reset();
 }
 
-size_t Output::getCount() const {
+size_t Output::size() const {
 	return count;
 }
 

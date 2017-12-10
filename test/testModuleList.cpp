@@ -28,7 +28,7 @@ TEST(ModuleList, removeModule) {
 	ref_ptr<SimplePropagation> prop = new SimplePropagation();
 	modules.add(prop);
 	modules.remove(0);
-	EXPECT_EQ(modules.getCount(), 0);
+	EXPECT_EQ(modules.size(), 0);
 }
 
 TEST(ModuleList, runCandidateList) {

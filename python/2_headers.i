@@ -14,6 +14,10 @@
 %include "exception.i"
 %include "std_iostream.i"
 
+/* slots */
+%feature("python:slot", "sq_length", functype="lenfunc") __len__;
+%feature("python:slot", "mp_subscript", functype="binaryfunc") __getitem__;
+
 #ifdef CRPROPA_HAVE_QUIMBY
 %import (module="quimby") "quimby/Referenced.h"
 %import (module="quimby") "quimby/Vector3.h"
@@ -426,11 +430,33 @@ class RangeError {};
 %feature("director") crpropa::SourceFeature;
 %include "crpropa/Source.h"
 
+%exception crpropa::ModuleList::__getitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+
+};
+
+%extend crpropa::ModuleList {
+  crpropa::ref_ptr<crpropa::Module> __getitem__(size_t i) {
+        if (i >= $self->getCount()) {
+                throw RangeError();
+        }
+        return (*($self))[i];
+  }
+  size_t __len__() {
+        return $self->getCount();
+  }
+};
+
 %template(ModuleListRefPtr) crpropa::ref_ptr<crpropa::ModuleList>;
 %include "crpropa/ModuleList.h"
 
 %template(ParticleCollectorRefPtr) crpropa::ref_ptr<crpropa::ParticleCollector>;
-%include "crpropa/module/ParticleCollector.h"
 
 %exception crpropa::ParticleCollector::__getitem__ {
   try {
@@ -455,3 +481,4 @@ class RangeError {};
   }
 };
 
+%include "crpropa/module/ParticleCollector.h"

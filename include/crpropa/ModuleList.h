@@ -24,8 +24,9 @@ public:
 	void setShowProgress(bool show = true); ///< activate a progress bar
 
 	void add(Module* module);
-	module_list_t &getModules();
-	const module_list_t &getModules() const;
+	void remove(std::size_t i);
+	std::size_t getCount() const;
+	ref_ptr<Module> operator[](const std::size_t i);
 
 	void process(Candidate* candidate) const; ///< call process in all modules
 	void process(ref_ptr<Candidate> candidate) const; ///< call process in all modules
@@ -37,6 +38,14 @@ public:
 
 	std::string getDescription() const;
 	void showModules() const;
+	
+	/** iterator goodies */
+        typedef module_list_t::iterator iterator;
+        typedef module_list_t::const_iterator const_iterator;
+        iterator begin();
+        const_iterator begin() const;
+        iterator end();
+        const_iterator end() const;
 
 private:
 	module_list_t modules;

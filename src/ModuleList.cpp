@@ -35,6 +35,23 @@ void ModuleList::add(Module *module) {
 	modules.push_back(module);
 }
 
+void ModuleList::remove(std::size_t i) {
+	auto module_i = modules.begin();
+	std::advance(module_i, i);
+	modules.erase(module_i);
+}
+
+std::size_t ModuleList::getCount() const {
+        return modules.size();
+}
+
+ref_ptr<Module> ModuleList::operator[](const std::size_t i) {
+	auto module_i = modules.begin();
+	std::advance(module_i, i);
+	return *module_i;
+}
+
+
 void ModuleList::process(Candidate* candidate) const {
 	module_list_t::const_iterator m;
 	for (m = modules.begin(); m != modules.end(); m++)
@@ -163,12 +180,20 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 	::signal(SIGINT, old_signal_handler);
 }
 
-ModuleList::module_list_t &ModuleList::getModules() {
-	return modules;
+ModuleList::iterator ModuleList::begin() {
+	return modules.begin();
 }
 
-const ModuleList::module_list_t &ModuleList::getModules() const {
-	return modules;
+ModuleList::const_iterator ModuleList::begin() const {
+	return modules.begin();
+}
+
+ModuleList::iterator ModuleList::end() {
+	return modules.end();
+}
+
+ModuleList::const_iterator ModuleList::end() const {
+	return modules.end();
 }
 
 std::string ModuleList::getDescription() const {

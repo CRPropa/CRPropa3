@@ -97,7 +97,6 @@ static const double ns = nanosecond;
 static const double mus = microsecond;
 static const double ms = millisecond;
 static const double sec = second;
-static const double min = minute;
 
 } // namespace crpropa
 

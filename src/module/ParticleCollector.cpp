@@ -96,18 +96,18 @@ ParticleCollector::const_iterator ParticleCollector::end() const {
 	return container.end();
 }
 
-void ParticleCollector::getTrajectory(ModuleList* mlist, std::size_t i, ParticleCollector* trajectory) const {
+void ParticleCollector::getTrajectory(ModuleList* mlist, std::size_t i, Module *output) const {
 	ref_ptr<Candidate> c_tmp = container[i]->clone();
 
-	trajectory->setClone(true);
 	c_tmp->restart();
 
-	mlist->add(trajectory);
+	mlist->add(output);
 	mlist->run(c_tmp);
+	mlist->remove(mlist->size()-1);
 }
 
-void ParticleCollector::getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i, ref_ptr<ParticleCollector> trajectory) const {
-	ParticleCollector::getTrajectory((ModuleList*) mlist, i, (ParticleCollector*) trajectory);
+void ParticleCollector::getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i, ref_ptr<Module> output) const {
+	ParticleCollector::getTrajectory((ModuleList*) mlist, i, (Module*) output);
 }
 
 } // namespace crpropa

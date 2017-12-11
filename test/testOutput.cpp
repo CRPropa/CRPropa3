@@ -207,6 +207,7 @@ TEST(ParticleCollector, getTrajectory) {
 
 	ref_ptr<ParticleCollector> output = new ParticleCollector();
 	ref_ptr<ParticleCollector> trajectory = new ParticleCollector();
+	trajectory->setClone(true);
 
 	ref_ptr<ModuleList> sim = new ModuleList();
 	sim->add(new SimplePropagation(1, 1));

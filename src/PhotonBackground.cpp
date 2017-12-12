@@ -50,7 +50,6 @@ static PhotonFieldScaling scalingDominguez11("IRB_Dominguez11");
 static PhotonFieldScaling scalingGilmore12("IRB_Gilmore12");
 static PhotonFieldScaling scalingStecker16_upper("IRB_Stecker16_upper");
 static PhotonFieldScaling scalingStecker16_lower("IRB_Stecker16_lower");
-static PhotonFieldScaling scalingCustomPhotonField("custom_photon_field");
 
 double photonFieldScaling(PhotonField photonField, double z) {
 	switch (photonField) {
@@ -80,8 +79,6 @@ double photonFieldScaling(PhotonField photonField, double z) {
 			return pow((1 + 0.8) / (1 + z), 4);
 		else
 			return 0;
-	case custom_photon_field:
-		return custom_photon_field.scalingFactor(z);
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");
 	}
@@ -110,8 +107,6 @@ std::string photonFieldName(PhotonField photonField) {
 		return "IRB_Stecker16_lower";
 	case URB_Protheroe96:
 		return "URB_Protheroe96";
-	case custom_photon_field:
-		return "custom_photon_field"
 	default:
 		throw std::runtime_error("PhotonField: unknown photon background");
 	}

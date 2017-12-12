@@ -17,6 +17,17 @@
 /* slots */
 %feature("python:slot", "sq_length", functype="lenfunc") __len__;
 %feature("python:slot", "mp_subscript", functype="binaryfunc") __getitem__;
+%feature("python:slot", "tp_iter", functype="unaryfunc") __iter__;
+#ifdef SWIG_PYTHON3
+%feature("python:slot", "tp_iternext", functype="iternextfunc") __next__;
+#else
+%feature("python:slot", "tp_iternext", functype="iternextfunc") next;
+#endif
+
+%inline %{
+class RangeError {};
+class StopIterator {};
+%}
 
 #ifdef CRPROPA_HAVE_QUIMBY
 %import (module="quimby") "quimby/Referenced.h"
@@ -397,9 +408,6 @@
 %include "crpropa/module/Output.h"
 %include "crpropa/module/DiffusionSDE.h"
 %include "crpropa/module/TextOutput.h"
-%inline %{
-class RangeError {};
-%}
 
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
@@ -430,6 +438,29 @@ class RangeError {};
 %feature("director") crpropa::SourceFeature;
 %include "crpropa/Source.h"
 
+%inline %{
+class ModuleListIterator {
+  public:
+        ModuleListIterator(
+                crpropa::ModuleList::iterator _cur,
+                crpropa::ModuleList::iterator _end) : 
+                        cur(_cur), end(_end) {}
+        ModuleListIterator* __iter__() { return this; }
+        crpropa::ModuleList::iterator cur;
+        crpropa::ModuleList::iterator end;
+  };
+%}
+
+%exception ModuleListIterator::__next__ {
+  try {
+        $action
+  }
+  catch (StopIterator) {
+        PyErr_SetString(PyExc_StopIteration, "End of iterator");
+        return NULL;
+  }
+}
+
 %exception crpropa::ModuleList::__getitem__ {
   try {
         $action
@@ -441,7 +472,19 @@ class RangeError {};
 
 };
 
+%extend ModuleListIterator {
+  crpropa::ref_ptr<crpropa::Module>& __next__() {
+    if ($self->cur != $self->end) {
+        return *$self->cur++;
+    }
+    throw StopIterator();
+  }
+}
+
 %extend crpropa::ModuleList {
+  ModuleListIterator __iter__() {
+        return ModuleListIterator($self->begin(), $self->end()); 
+  }
   crpropa::ref_ptr<crpropa::Module> __getitem__(size_t i) {
         if (i >= $self->size()) {
                 throw RangeError();
@@ -458,6 +501,29 @@ class RangeError {};
 
 %template(ParticleCollectorRefPtr) crpropa::ref_ptr<crpropa::ParticleCollector>;
 
+%inline %{
+class ParticleCollectorIterator {
+  public:
+        ParticleCollectorIterator(
+                crpropa::ParticleCollector::iterator _cur,
+                crpropa::ParticleCollector::iterator _end) : 
+                        cur(_cur), end(_end) {}
+        ParticleCollectorIterator* __iter__() { return this; }
+        crpropa::ParticleCollector::iterator cur;
+        crpropa::ParticleCollector::iterator end;
+  };
+%}
+
+%exception ParticleCollectorIterator::__next__ {
+  try {
+        $action
+  }
+  catch (StopIterator) {
+        PyErr_SetString(PyExc_StopIteration, "End of iterator");
+        return NULL;
+  }
+}
+
 %exception crpropa::ParticleCollector::__getitem__ {
   try {
         $action
@@ -466,10 +532,21 @@ class RangeError {};
         SWIG_exception(SWIG_IndexError, "Index out of bounds");
         return NULL;
   }
-
 };
 
+%extend ParticleCollectorIterator {
+  crpropa::ref_ptr<crpropa::Candidate>& __next__() {
+    if ($self->cur != $self->end) {
+        return *$self->cur++;
+    }
+    throw StopIterator();
+  }
+}
+
 %extend crpropa::ParticleCollector {
+  ParticleCollectorIterator __iter__() {
+        return ParticleCollectorIterator($self->begin(), $self->end()); 
+  }
   crpropa::ref_ptr<crpropa::Candidate> __getitem__(size_t i) {
         if (i >= $self->size()) {
                 throw RangeError();

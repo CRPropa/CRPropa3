@@ -13,6 +13,8 @@
 
 # In[1]:
 
+
+from __future__ import print_function
 from crpropa import *
 
 randomSeed = 42
@@ -21,10 +23,10 @@ initTurbulence(vgrid, 8*nG, 60*kpc, 800*kpc, -11./3., randomSeed)
 Bfield = MagneticFieldGrid(vgrid)
 
 # print some properties of our field
-print 'Lc = %.1f kpc' % turbulentCorrelationLength(60, 800, -11./3.)  # correlation length
-print '<B^2> = %.1f nG' % (rmsFieldStrength(vgrid) / nG)   # RMS
-print '<|B|> = %.1f nG' % (meanFieldStrength(vgrid) / nG)  # mean
-print 'B(10 Mpc, 0, 0) =', Bfield.getField(Vector3d(10,0,0) * Mpc) / nG, 'nG'
+print('Lc = {:.1f} kpc'.format(turbulentCorrelationLength(60, 800, -11./3.))) # correlation length
+print('<B^2> = {:.1f} nG'.format((rmsFieldStrength(vgrid) / nG)))   # RMS
+print('<|B|> = {:.1f} nG'.format((meanFieldStrength(vgrid) / nG)))  # mean
+print('B(10 Mpc, 0, 0) = {}'.format(Bfield.getField(Vector3d(10,0,0) * Mpc) / nG, 'nG'))
 
 
 # ### Saving and loading fields
@@ -33,6 +35,7 @@ print 'B(10 Mpc, 0, 0) =', Bfield.getField(Vector3d(10,0,0) * Mpc) / nG, 'nG'
 # As input and output we currently support binary files in single precision and ASCII files.
 
 # In[2]:
+
 
 # save the field
 # format: (Bx, By, Bz)(x, y, z) with z changing the quickest.
@@ -46,8 +49,11 @@ print 'B(10 Mpc, 0, 0) =', Bfield.getField(Vector3d(10,0,0) * Mpc) / nG, 'nG'
 
 # ### Running the simulation
 # Now that we have our magnetic field ready we can fire up our simulation and hope that something visually interesting is going to happen.
+# 
+# Note that we use ParticleCollector to save the trajectory in memory. Alternatively, we could also use `TextOutput()`.
 
 # In[3]:
+
 
 sim = ModuleList()
 sim.add(PropagationCK(Bfield))
@@ -59,7 +65,9 @@ sim.add(ElectronPairProduction(CMB))
 sim.add(ElectronPairProduction(IRB))
 sim.add(NuclearDecay())
 sim.add(MaximumTrajectoryLength(25 * Mpc))
-output = TextOutput('trajectory.txt', Output.Trajectory3D) 
+output = ParticleCollector()
+output.setClone(True)
+#output = TextOutput('trajectory.txt', Output.Trajectory3D) 
 sim.add(output)
 
 x = Vector3d(0,0,0)  # position
@@ -72,21 +80,28 @@ sim.run(c, True)
 # ### (Optional) Plotting
 # 
 # We plot the trajectory of our oxygen-16 nucleus. To distinguish between secondary nuclei the following colors are used: protons are blue, alpha particles are green, everthing heavier is red.
+# 
+# If `TextOutput` is used, the trajectory data can be loaded with `data = genfromtxt('trajectory.txt', names=True)`.
 
 # In[4]:
 
-get_ipython().magic('matplotlib inline')
+
+get_ipython().run_line_magic('matplotlib', 'inline')
 from pylab import *
 from mpl_toolkits.mplot3d import axes3d
 
-output.close()
-data = genfromtxt('trajectory.txt', names=True)
+data = {'X': [], 'Y': [], 'Z': [], 'ID': []}
+for c in output:
+    data['X'].append(c.current.getPosition().getX())
+    data['Y'].append(c.current.getPosition().getY())
+    data['Z'].append(c.current.getPosition().getZ())
+    data['ID'].append(c.current.getId())
 
 # trajectory points
-x, y, z = data['X'], data['Y'], data['Z']
+x, y, z = np.array(data['X']), np.array(data['Y']), np.array(data['Z'])
 
 # translate particle ID to charge number
-Z = [chargeNumber(id) for id in data['ID'].astype(int)]
+Z = [chargeNumber(int(id)) for id in data['ID']]
 
 # translate the charge number to color and size
 # --> protons are blue, Helium is green, everthing else is red
@@ -98,7 +113,7 @@ sizes  = [sizeDict[z] for z in Z]
 fig = plt.figure(figsize=(14, 7))#plt.figaspect(0.5))
 ax = fig.gca(projection='3d')# , aspect='equal'
 
-ax.scatter(x,y,z+6, 'o', s=sizes, lw=0, facecolor=colors)
+ax.scatter(x/Mpc,y/Mpc,z/Mpc, 'o', s=sizes, lw=0, facecolor=colors)
 
 ax.set_xlabel('x / Mpc', fontsize=18)
 ax.set_ylabel('y / Mpc', fontsize=18)
@@ -111,9 +126,4 @@ ax.yaxis.set_ticks((0, 5, 10, 15))
 ax.zaxis.set_ticks((0, 5, 10, 15))
 
 show()
-
-
-# In[ ]:
-
-
 

@@ -2,6 +2,8 @@ from subprocess import call
 from sys import argv
 import os
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
 def convert_4to3(fname):
     """
     Convert ipython notebook from nbformat=4 to 3
@@ -34,11 +36,12 @@ files = (
 if len(argv) == 1:
     # convert all listed notebooks from v4 to v3
     for f in files:
-        print(f)
-        convert_4to3(f)
-        convert_topython(f)
+        fullf = os.path.join(current_dir, f)
+        convert_4to3(fullf)
+        convert_topython(fullf)
 else:
     # convert specific notebooks
     for f in argv[1:]:
-        convert_4to3(f)
-        convert_topython(f)
+        fullf = os.path.join(current_dir, f)
+        convert_4to3(fullf)
+        convert_topython(fullf)

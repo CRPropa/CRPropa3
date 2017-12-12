@@ -1,20 +1,6 @@
-/* 2: SWIG and CRPropa headers */
+/* 2: CRPropa headers and Python extensions */
 
-%include "stl.i"
-%include "std_set.i"
-%include "std_multiset.i"
-%include "std_map.i"
-%include "std_pair.i"
-%include "std_multimap.i"
-%include "std_vector.i"
-%include "std_string.i"
-%include "std_list.i"
-%include "stdint.i"
-%include "std_container.i"
-%include "exception.i"
-%include "std_iostream.i"
-
-/* slots */
+/* Python slots */
 %feature("python:slot", "sq_length", functype="lenfunc") __len__;
 %feature("python:slot", "mp_subscript", functype="binaryfunc") __getitem__;
 %feature("python:slot", "tp_iter", functype="unaryfunc") __iter__;
@@ -24,10 +10,7 @@
 %feature("python:slot", "tp_iternext", functype="iternextfunc") next;
 #endif
 
-%inline %{
-class RangeError {};
-class StopIterator {};
-%}
+/* Include headers */
 
 #ifdef CRPROPA_HAVE_QUIMBY
 %import (module="quimby") "quimby/Referenced.h"
@@ -39,7 +22,6 @@ class StopIterator {};
 #ifdef CRPROPA_HAVE_SAGA
 %import (module="saga") saga.i
 #endif
-
 
 %{
 #include "CRPropa.h"
@@ -451,29 +433,12 @@ class ModuleListIterator {
   };
 %}
 
-%exception ModuleListIterator::__next__ {
-  try {
-        $action
-  }
-  catch (StopIterator) {
-        PyErr_SetString(PyExc_StopIteration, "End of iterator");
-        return NULL;
-  }
-}
-
-%exception crpropa::ModuleList::__getitem__ {
-  try {
-        $action
-  }
-  catch (RangeError) {
-        SWIG_exception(SWIG_IndexError, "Index out of bounds");
-        return NULL;
-  }
-
-};
-
 %extend ModuleListIterator {
+#ifdef SWIG_PYTHON3
   crpropa::ref_ptr<crpropa::Module>& __next__() {
+#else
+  crpropa::ref_ptr<crpropa::Module>& next() {
+#endif
     if ($self->cur != $self->end) {
         return *$self->cur++;
     }
@@ -514,28 +479,12 @@ class ParticleCollectorIterator {
   };
 %}
 
-%exception ParticleCollectorIterator::__next__ {
-  try {
-        $action
-  }
-  catch (StopIterator) {
-        PyErr_SetString(PyExc_StopIteration, "End of iterator");
-        return NULL;
-  }
-}
-
-%exception crpropa::ParticleCollector::__getitem__ {
-  try {
-        $action
-  }
-  catch (RangeError) {
-        SWIG_exception(SWIG_IndexError, "Index out of bounds");
-        return NULL;
-  }
-};
-
 %extend ParticleCollectorIterator {
+#ifdef SWIG_PYTHON3
   crpropa::ref_ptr<crpropa::Candidate>& __next__() {
+#else
+  crpropa::ref_ptr<crpropa::Candidate>& next() {
+#endif
     if ($self->cur != $self->end) {
         return *$self->cur++;
     }

@@ -305,11 +305,11 @@ endif()
 # ----------------------------------------------------------------------------
 message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 file(DOWNLOAD
-	https://www.desy.de/~crpropa/data/data.tar.gz-CHECKSUM
+	https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz-CHECKSUM
 	${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM)
 file(STRINGS ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
 file(DOWNLOAD
-	https://www.desy.de/~crpropa/data/data.tar.gz
+	https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz
 	${CMAKE_BINARY_DIR}/data.tar.gz
 	EXPECTED_MD5 "${DATA_CHECKSUM}")
 message("-- Extracting data file")

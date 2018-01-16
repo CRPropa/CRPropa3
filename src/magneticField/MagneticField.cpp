@@ -143,6 +143,50 @@ Vector3d GyroField::getField(const Vector3d &position) const {
 	
 }
 
+Vector3d LongConductorField::getField(const Vector3d &position) const {
+
+	double x = position.x;
+	double y = position.y;
+	double z = position.z;
+	
+	double r = sqrt( x*x + y*y );
+	double phi = atan2(y,x);
+	
+	double B = radius/r * (B_radius);
+	
+	
+	return Vector3d(-B*sin(phi), B*cos(phi), 0);
+	
+	
+}
+
+Vector3d CircleField::getField(const Vector3d &position) const {
+
+	double x = position.x;
+	double y = position.y;
+	double z = position.z;
+	
+	double phi = atan2(y,x);
+	
+	return Vector3d(-B*sin(phi), B*cos(phi), 0);
+	
+	
+}
+
+Vector3d HongQinField::getField(const Vector3d &position) const {
+
+	double x = position.x;
+	double y = position.y;
+	double z = position.z;
+	
+	double Bxy = 1. + delta * (x*x/4 +  y*y)/ (x*x+y*y);
+	
+	
+	return Vector3d(0, 0, B * Bxy);
+	
+	
+}
+
 
 #ifdef CRPROPA_HAVE_MUPARSER
 RenormalizeMagneticField::RenormalizeMagneticField(ref_ptr<MagneticField> field,

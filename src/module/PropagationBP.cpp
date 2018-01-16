@@ -22,7 +22,7 @@ void PropagationBP::process(Candidate *c) const {
 
 	double step = getStep();
 	c->setCurrentStep(step);
-	step = step / c_light;
+	double h = step / c_light;
 	
 	//get particle properties
 	double q = c->current.getCharge();                    
@@ -31,7 +31,7 @@ void PropagationBP::process(Candidate *c) const {
 	Vector3d v = c->current.getDirection();
 	
 	// half leap frog step in the position
-	x += c_light * v * step /2. ;
+	x += c_light * v * h /2. ;
 	
 	// get B field at particle position
 	//Vector3d B(1 * nG, 0, 0);
@@ -45,7 +45,7 @@ void PropagationBP::process(Candidate *c) const {
 		std::cerr << e.what() << std::endl;
 	}
 	// Boris help vectors 
-	Vector3d t = B * q/2/m * step;
+	Vector3d t = B * q/2/m * h;
 	Vector3d s = t *2. /(1+t.dot(t));
 	Vector3d v_help;
 	
@@ -57,11 +57,11 @@ void PropagationBP::process(Candidate *c) const {
 	c->current.setDirection(v);
 	
 	//~ // the other half leap frog step in the position
-	x += c_light * v * step /2. ;
+	x += c_light * v * h /2. ;
 	c->current.setPosition(x);
 	
-	c->setCurrentStep(step);
-	c->setNextStep(step);
+	c->setCurrentStep(h);
+	c->setNextStep(h);
 	
 }
 

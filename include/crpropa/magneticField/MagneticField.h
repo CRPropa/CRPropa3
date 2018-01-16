@@ -134,6 +134,41 @@ public:
 	
 };
 
+class LongConductorField: public MagneticField {
+
+	const double B_radius;
+	const double radius;
+	
+public:
+	LongConductorField(const double B_radius, const double radius) : 
+			 B_radius(B_radius), radius(radius) {}
+	Vector3d getField(const Vector3d &position) const;	
+	
+};
+
+class CircleField: public MagneticField {
+
+	const double B;
+	
+public:
+	CircleField(const double B) : 
+			 B(B) {}
+	Vector3d getField(const Vector3d &position) const;	
+	
+};
+
+class HongQinField: public MagneticField {
+
+	const double B;
+	const double delta;
+	
+public:
+	HongQinField(const double B, const double delta) : 
+			 B(B), delta(delta) {}
+	Vector3d getField(const Vector3d &position) const;	
+	
+};
+
 
 #ifdef CRPROPA_HAVE_MUPARSER
 /**

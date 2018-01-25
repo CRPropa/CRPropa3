@@ -28,6 +28,7 @@ public:
         ~ParticleCollector();
 
         void process(Candidate *candidate) const;
+	void process(ref_ptr<Candidate> c) const;
 	void reprocess(Module *action) const;
 	void dump(const std::string &filename) const;
 	void load(const std::string &filename);

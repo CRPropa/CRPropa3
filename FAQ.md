@@ -54,7 +54,7 @@ A more casual check of versions is also allowed ``crpropa.declare_version("3.1")
 
 ### I did not find an answer to my question...
 
-Before opening should open [a new ticket](https://github.com/CRPropa/CRPropa3/issues/new), one should first try to:
+Before opening [a new ticket](https://github.com/CRPropa/CRPropa3/issues/new), one should first try to:
 1. Look at [the wiki page](https://github.com/CRPropa/CRPropa3/wiki)
 2. Browse [the code documentation](http://crpropa.github.io/CRPropa3/classes.html)
 3. Use search in [the issue tracker](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue)

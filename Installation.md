@@ -1,21 +1,18 @@
-#### Download
+### <a name="Download">Download the source code
 
 Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) or the
 [current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the
 repository with
 
-```
+```sh
 git clone https://github.com/CRPropa/CRPropa3.git
 ```
 
-If you encounter any problems during installation, please follow this guide and
-browse [previous issues on installation](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=label%3Ainstallation%20) before asking for support.
-
-#### Install from source
+### <a name="Install">Install from source (experienced users)
 
 1. CRPropa uses CMAKE to configure the Makefile. From the build directory call
    ccmake or cmake. See the next section for a list of configuration flags.
-    ```
+    ```sh
     mkdir build
     cd build
     ccmake ..
@@ -36,38 +33,38 @@ browse [previous issues on installation](https://github.com/CRPropa/CRPropa3/iss
 
 We highly recommend to use a virtualenv setup to install CRPropa!
 
-#### Deployment in python virtualenv (RECOMMENDED)
+### <a name="virtualenv">Install from source in python virtualenv - a detailed guide (RECOMMENDED)
 
-CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to secure reproducibility of simulations in a user controlled and clean environment.
-Thus, the deployment in a user space without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, therefore, Python and SWIG will be required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.
+CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to ensure the reproducibility of simulations in a user controlled and clean environment.
+Thus, the user space deployment without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, hence, Python and SWIG are required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.
 
-This procedure brings a few steps extra compared to the already given plain installation from the source, but later this kind of set-up will be a worthwhile effort.
+This procedure brings a few extra steps compared to the already given plain installation from source, but this kind of CRPropa deployment will be a worthwhile effort afterwards.
 
-1. Choose a location of the set-up and save it in the environment variable to avoid retyping:
-`CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"`
+1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example:
+`export CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"`
     and make the directory `mkdir -p $CRPROPA_DIR`
 
-2. Initialize Python virtual environment with a virtualenv command.
-    If the virtualenv is not already installed on a system (try `virtualenv` command), download it and un-zip it:
+2. Initialize the Python virtual environment with the virtualenv command.
+    `virtualenv $CRPROPA_DIR` if there is virtualenv available on the system.
+    If the virtualenv is not installed on a system, try to use your operating system software repository to install it (usually the package is called `virtualenv`, `python-virtualenv`, `python3-virtualenv` or `python2-virtualenv`). There is also an option to manually download it, un-zip it and run it:
     ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip
     unzip develop.zip
     python virtualenv-develop/virtualenv.py $CRPROPA_DIR
     ```
 
-    Or instead of all this, just `virtualenv $CRPROPA_DIR` if there is virtualenv available on the system.
-
-    Finally, activate the virtualenv:
+    Finally, activate the newly created virtual environment:
     ```sh
     source $CRPROPA_DIR"/bin/activate"
     ```
 
-3. Check for the dependencies and install required ones (see  [dependencies](#Dependencies) for details). During a compilation of the dependency given prefix is also needed:
+3. Check the dependencies and install at least mandatory ones (see  [dependencies](#Dependencies) for details). During the compilation of a dependency the installation prefix should be specified:
     ```sh
     ./configure --prefix=$CRPROPA_DIR
     make
     make install
     ```
+    
     To install python dependencies and libraries use `pip`. Example: `pip install numpy`.
 
 4. Compile and install CRPropa.
@@ -87,7 +84,7 @@ This procedure brings a few steps extra compared to the already given plain inst
     ```
     Then `deactivate` and activate virtualenv again: `source $CRPROPA_DIR"/bin/activate"`.
 
-6. Check the set-up.
+6. (optional) Check the installation.
     ```python
     python
     import crpropa
@@ -99,7 +96,7 @@ This procedure brings a few steps extra compared to the already given plain inst
 
 There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
-#### CMake flags
+### CMake flags
 When using cmake, the following options can be set by adding flags to the cmake command, e.g.
 ```
 cmake -DENABLE_PYTHON=ON ..
@@ -117,7 +114,7 @@ cmake -DENABLE_PYTHON=ON ..
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
-#### <a name="Dependencies"></a>Dependencies
+### <a name="Dependencies"></a>Dependencies
 + C++ Compiler (gcc, clang and icc are known to work)
 + Fortran Compiler: to compile SOPHIA
 

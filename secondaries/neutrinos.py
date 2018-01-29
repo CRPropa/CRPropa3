@@ -14,6 +14,7 @@ from crpropa import *
 
 neutrinos = True
 photons = False
+electrons = False
 
 # module setup
 m = ModuleList()
@@ -23,7 +24,7 @@ m.add(PhotoPionProduction(CMB, photons, neutrinos))
 m.add(PhotoPionProduction(IRB, photons, neutrinos))
 # m.add(PhotoDisintegration(CMB))  # we are propagating only protons
 # m.add(PhotoDisintegration(EBL))
-m.add(NuclearDecay(photons, neutrinos))
+m.add(NuclearDecay(electrons, photons, neutrinos))
 m.add(ElectronPairProduction(CMB))
 m.add(ElectronPairProduction(IRB))
 m.add(MinimumEnergy(10**17 * eV))

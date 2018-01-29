@@ -7,6 +7,10 @@
 #include <vector>
 
 namespace crpropa {
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
 
 /**
  @class PhotoPionProduction
@@ -54,6 +58,7 @@ public:
 	 */
 	double lossLength(int id, double gamma, double z = 0);
 };
+/** @}*/
 
 } // namespace crpropa
 

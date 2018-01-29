@@ -60,7 +60,6 @@ public:
 	void setRejectFlag(std::string key, std::string value);
 	void setAcceptFlag(std::string key, std::string value);
 };
-
 } // namespace crpropa
 
 #endif /* CRPROPA_MODULE_H */

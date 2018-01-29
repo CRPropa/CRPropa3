@@ -8,6 +8,10 @@
 #include <set>
 
 namespace crpropa {
+/**
+ * \addtogroup Tools
+ * @{
+ */
 
 class PerformanceModule: public Module {
 private:
@@ -51,6 +55,7 @@ public:
 	std::string getDescription() const;
 };
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_MODULETOOLS_H

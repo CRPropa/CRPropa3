@@ -43,7 +43,7 @@ static const double mass_neutron = 1.67492735e-27 * kilogram;
 static const double mass_electron = 9.10938291e-31 * kilogram;
 static const double h_planck = 6.62606957e-34 * joule * second;
 static const double k_boltzmann = 1.3806488e-23 * joule / kelvin;
-static const double mu0 = 4*M_PI*1e-7 * newton / ampere / ampere;
+static const double mu0 = 4 * M_PI * 1e-7 * newton / ampere / ampere;
 static const double epsilon0 = 1.0 / mu0 / c_squared * ampere * second / volt / meter;
 
 // gauss

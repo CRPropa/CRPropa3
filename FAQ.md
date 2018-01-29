@@ -1,11 +1,17 @@
-#### Seed the random number generator 
+### I have an installation issue...
+
+In case of an installation issue first take a look at the list of already reported [issues tagged wth "Installation"](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+). If your issue is not listed, open a new ticket.
+
+Please be aware that we cannot support general issues regarding an operating system setup, a third party package installation, an unsupported third party package (libraries, compilers) version or similar, therefore do not report them to us. In case of doubt whether something is an CRPropa issue or not, report the problem to the issue tracker.
+
+### How to specify the seed for the random number generator?
 The random number seed can be set with
 ```python
 Random_seedThreads(seed)  # seed from 0 - 2^32-1
 ```
 
 
-#### Source positions from a matter density grid
+### How to define source positions from a matter density grid?
 
 ```python
 grid = ScalarGrid(Vector3d(0, 0, 0), 256, 256, 256, 100 * kpc)
@@ -29,7 +35,7 @@ for i in range(n):
 source.add(positions)
 ```
 
-#### Version tracking of a python steering card
+### How to use version tracking of a python steering card?
 
 Good practice to secure the reproducibility of results obtained with CRPropa is to track which version of CRPropa is used for particular steering card (python code). CRPropa provides the following helper function:
 ``crpropa.declare_version("3.1-135-g9ec850f")``

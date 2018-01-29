@@ -4,7 +4,7 @@ Welcome to the CRPropa3 wiki!
 #### Quick Start
  * [Installation](Installation)
  * [Examples](https://github.com/CRPropa/CRPropa3-notebooks)
- * [FAQ](FAQ)
+ * [FAQ](FAQ) - Frequently Asked Questions
 
 #### Manual
  * [Basic concepts](Basic-concepts)

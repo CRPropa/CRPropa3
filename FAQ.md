@@ -51,3 +51,12 @@ Use git diff to inspect the differences:
 ```
 
 A more casual check of versions is also allowed ``crpropa.declare_version("3.1")`` where the warning will be displayed only when the tag is different, e.g., 3.1 != 3.2.
+
+### I did not find an answer to my question...
+
+One should first try to:
+1. Look at (the wiki page)[https://github.com/CRPropa/CRPropa3/wiki]
+2. Browse (the code documentation)[http://crpropa.github.io/CRPropa3/classes.html]
+3. Use search in (the issue tracker)[https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue]
+
+If nothing from above solves the problem, you should open (a new ticket)[https://github.com/CRPropa/CRPropa3/issues/new].

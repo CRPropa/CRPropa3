@@ -110,7 +110,22 @@ cmake -DENABLE_PYTHON=ON ..
 + Enable Python ```-DENABLE_PYTHON=ON```
 + Enable ROOT ```-DENABLE_ROOT=ON```
 + Enable FFTW3 ```-DENABLE_FFTW3F=ON```
++ Enable HDF5 ```-DENABLE_HDF5=ON```
++ Enable OpenMP ```-DENABLE_OPENMP=ON```
++ Enable Quimby ```-DENABLE_QUIMBY=ON```
 + Enable unit-tests ```-DENABLE_TESTING=ON```
++ Enable Coverage ```-DENABLE_COVERAGE=ON```
++ Enable data file download ```-DDOWNLOAD_DATA=ON```
++ Enable Galactic magnetic lens ```-DENABLE_GALACTICMAGETICLENS=ON```
++ Enable Git ```-DENABLE_GIT=ON```
++ Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```                                                                                                                                                                  
+
+  Generally, for compilers CMake recognise the following env variables: CC, CXX, FC. For example:
+  ```
+  export FC=/usr/bin/gfortran
+  ```
+  while CC and CXX are used C and C++ compilers, respectively.
+
 + Additional flags for Intel compiler
   ```
   -DCMAKE_SHARED_LINKER_FLAGS="-lifcore"

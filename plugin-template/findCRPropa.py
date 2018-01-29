@@ -2,11 +2,11 @@
 # crpropa is not found
 import sys
 try:
-  import crpropa
+	import crpropa
 except ImportError:
-  sys.exit(-1)
+	sys.exit(-1)
 
 if sys.argv[1] == 'swig_interface':
-  sys.stdout.write(crpropa.getDataPath('swig_interface'))
+	sys.stdout.write(crpropa.getDataPath('swig_interface'))
 elif sys.argv[1] == 'install_prefix':
-  sys.stdout.write(crpropa.getInstallPrefix())
+	sys.stdout.write(crpropa.getInstallPrefix())

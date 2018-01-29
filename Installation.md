@@ -40,12 +40,15 @@ Thus, the user space deployment without privileged access to the system would be
 
 This procedure brings a few extra steps compared to the already given plain installation from source, but this kind of CRPropa deployment will be a worthwhile effort afterwards.
 
-1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example:
+1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example, 
 `export CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"`
     and make the directory `mkdir -p $CRPROPA_DIR`
 
 2. Initialize the Python virtual environment with the virtualenv command.
-    `virtualenv $CRPROPA_DIR` if there is virtualenv available on the system.
+    ```sh
+    virtualenv $CRPROPA_DIR`
+    ```
+    if there is virtualenv available on the system.
     If the virtualenv is not installed on a system, try to use your operating system software repository to install it (usually the package is called `virtualenv`, `python-virtualenv`, `python3-virtualenv` or `python2-virtualenv`). There is also an option to manually download it, un-zip it and run it:
     ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip

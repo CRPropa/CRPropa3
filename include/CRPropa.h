@@ -64,4 +64,57 @@
 #include "crpropa/advectionField/AdvectionField.h"
 
 
+// Groups of Modules for Doxygen
+
+/**
+ * \defgroup RectilinearPropagation Rectilinear Propagation
+ * @{ @brief Rectilinear propagation of candidates
+ * @}
+ *
+ * \defgroup EnergyLosses Energy Loss Processes
+ * @{ @brief Energy losses of candidates.
+ * @}
+ *
+ * \defgroup MagneticFields Magnetic Fields
+ * @{ @brief Magnetic field models
+ * @}
+ *
+ * \defgroup Observer Observer
+ * @{ @brief Observers and ObserverFeatures
+ * 
+ * ObserverFeatures are added to the ObserverModule to check for detection and perform actions on detection.
+ * @}
+ *
+ * \defgroup SourceFeatures Source
+ * @{ @brief Source and SourceFeatures
+ * 
+ *  Sourcefeatures are added to sources and manipulate the properties of the
+ *  emitted candidate.
+ * @}
+ *
+ * \defgroup Output Output
+ * @{ @brief File outputs.
+ * @}
+ *
+ * \defgroup DiffusivePropagation Diffusive Propagation
+ * @{ @brief Modules for solving the Fokker Planck Equation using stochastic
+ * differnential equations.
+ *
+ *  These modules are used to solve the Fokker Planck equation
+ *  \f{equation}{
+ *		 dX_t = \mu(X_t, t) dt + \sigma(X_t, t) dW_t
+ *	\f}
+ *
+ * @}
+ *
+ * \defgroup Tools Tools
+ * @{ @brief Additional modules.
+ * @}
+ */
+
+
+
+
+
+
 #endif // CRPROPA_H

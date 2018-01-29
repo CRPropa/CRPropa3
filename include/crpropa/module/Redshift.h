@@ -4,6 +4,10 @@
 #include "crpropa/Module.h"
 
 namespace crpropa {
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
 
 /**
  @class Redshift
@@ -25,6 +29,7 @@ public:
 	std::string getDescription() const;
 };
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_REDSHIFT_H

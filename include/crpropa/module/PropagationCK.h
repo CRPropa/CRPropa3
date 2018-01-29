@@ -6,6 +6,10 @@
 #include "crpropa/magneticField/MagneticField.h"
 
 namespace crpropa {
+/**
+ * \addtogroup RectilinearPropagation 
+ * @{
+ */
 
 /**
  @class PropagationCK
@@ -74,6 +78,7 @@ public:
 	double getMaximumStep() const;
 	std::string getDescription() const;
 };
+/** @}*/
 
 } // namespace crpropa
 

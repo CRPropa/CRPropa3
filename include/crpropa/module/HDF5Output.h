@@ -39,6 +39,10 @@
 namespace crpropa {
 
 const size_t propertyBufferSize = 1024;
+/**
+ * \addtogroup Output
+ * @{
+ */
 
 class HDF5Output: public Output {
 
@@ -97,6 +101,7 @@ public:
 	void flush() const;
 
 };
+/** @}*/
 
 } // namespace crpropa
 

@@ -6,6 +6,10 @@
 #include <fstream>
 
 namespace crpropa {
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
 
 /**
  @class EMTripletPairProduction
@@ -48,6 +52,7 @@ public:
 	void performInteraction(Candidate *candidate) const;
 
 };
+/** @}*/
 
 } // namespace crpropa
 

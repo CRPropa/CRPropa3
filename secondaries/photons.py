@@ -58,7 +58,7 @@ crpropa.DintElecaPropagation("photon_monoenergetic_source.dat", "spectrum_dint_e
 
 # In[6]:
 
-get_ipython().magic('matplotlib inline')
+get_ipython().magic(u'matplotlib inline')
 from pylab import *
 
 figure(figsize=(6,6))

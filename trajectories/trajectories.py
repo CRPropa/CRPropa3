@@ -38,10 +38,9 @@ print 'B(10 Mpc, 0, 0) =', Bfield.getField(Vector3d(10,0,0) * Mpc) / nG, 'nG'
 # format: (Bx, By, Bz)(x, y, z) with z changing the quickest.
 #dumpGrid(vgrid, 'myfield.dat')       # binary, single precision
 #dumpGridToTxt(vgrid, 'myfield.txt')  # ASCII
-
 # load your own field
 #loadGrid(vgrid, 'myfield.dat')
-#loadGridToTxt(vgrid, 'myfield.txt')
+#loadGridFromTxt(vgrid, 'myfield.txt')
 
 
 # ### Running the simulation
@@ -75,7 +74,7 @@ sim.run(c, True)
 
 # In[4]:
 
-get_ipython().magic('matplotlib inline')
+get_ipython().magic(u'matplotlib notebook')
 from pylab import *
 from mpl_toolkits.mplot3d import axes3d
 
@@ -86,7 +85,7 @@ data = genfromtxt('trajectory.txt', names=True)
 x, y, z = data['X'], data['Y'], data['Z']
 
 # translate particle ID to charge number
-Z = [chargeNumber(id) for id in data['ID'].astype(int)]
+Z = [chargeNumber(Id) for Id in data['ID'].astype(int)]
 
 # translate the charge number to color and size
 # --> protons are blue, Helium is green, everthing else is red
@@ -95,10 +94,10 @@ sizeDict = {0:4, 1:4, 2:8, 3:10, 4:10, 5:10, 6:10, 7:10, 8:10}
 colors = [colorDict[z] for z in Z]
 sizes  = [sizeDict[z] for z in Z]
 
-fig = plt.figure(figsize=(14, 7))#plt.figaspect(0.5))
+fig = plt.figure(figsize=(12, 5))#plt.figaspect(0.5))
 ax = fig.gca(projection='3d')# , aspect='equal'
 
-ax.scatter(x,y,z+6, 'o', s=sizes, lw=0, facecolor=colors)
+ax.scatter(x,y,z+6, 'o', s=sizes, color=colors)
 
 ax.set_xlabel('x / Mpc', fontsize=18)
 ax.set_ylabel('y / Mpc', fontsize=18)
@@ -111,9 +110,4 @@ ax.yaxis.set_ticks((0, 5, 10, 15))
 ax.zaxis.set_ticks((0, 5, 10, 15))
 
 show()
-
-
-# In[ ]:
-
-
 

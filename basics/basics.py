@@ -64,7 +64,7 @@ print obs
 # For the type of information being stored we can use one of five presets: Event1D, Event3D, Trajectory1D, Trajectory3D and Everything.  
 # We can also fine tune with ```enable(XXXColumn)``` and ```disable(XXXColumn)```
 
-# In[4]:
+# In[9]:
 
 # trajectory output
 output1 = TextOutput('trajectories.txt', Output.Trajectory1D)
@@ -126,7 +126,7 @@ sim.run(source, 10000)
 
 # In[8]:
 
-get_ipython().magic('matplotlib inline')
+get_ipython().magic(u'matplotlib inline')
 import matplotlib.pyplot as plt
 import numpy as np
 

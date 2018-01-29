@@ -4,14 +4,16 @@
 # ## Example 1D simulation
 # 
 # The following is a 1D simulation including cosmic evolution. 
-# The source are modeled to be uniformly distributed and emit a mixed composition of H, He, N and Fe with a power-law spectrum and a charge dependent maximum energy.
+# The sources are modeled to be uniformly distributed and emit a mixed composition of H, He, N and Fe with a power-law spectrum and a charge dependent maximum energy.
 # 
-# To have cosmological effects in this 1D simulation we need two things:
+# To include cosmological effects in this 1D simulation we need two things:
 # 
 # First, the ```Redshift``` module updates the current redshift of the particle in each propagation step. It is best added directly after the propagation module, although the postion shouldn't matter much for the typically small propagation steps.
 # 
 # Second, we need to set the initial redshift of the particles.
 # In 1D simulations the intial redshift is determined by the source distance. To have the source automatically set the redshift we add ```SourceRedshift1D```. **Please note** that it has to be added after the source property that defines the source position.
+# 
+# #### Note: The simulation might take a few minutes
 
 # In[1]:
 
@@ -58,21 +60,20 @@ sim.run(source, 20000, True)
 
 # ### (Optional) Plotting
 
-# In[4]:
+# In[2]:
 
-get_ipython().magic('matplotlib inline')
-from pylab import *
-
+get_ipython().magic(u'matplotlib inline')
+import pylab as pl
 # load events
 output.close()
-d = genfromtxt('events.txt', names=True)
+d = pl.genfromtxt('events.txt', names=True)
 
 # observed quantities
-Z = array([chargeNumber(id) for id in d['ID'].astype(int)])  # element
-A = array([massNumber(id) for id in d['ID'].astype(int)])  # atomic mass number
-lE = log10(d['E']) + 18  # energy in log10(E/eV))
+Z = pl.array([chargeNumber(id) for id in d['ID'].astype(int)])  # element
+A = pl.array([massNumber(id) for id in d['ID'].astype(int)])  # atomic mass number
+lE = pl.log10(d['E']) + 18  # energy in log10(E/eV))
 
-lEbins = arange(18, 20.51, 0.1)  # logarithmic bins
+lEbins = pl.arange(18, 20.51, 0.1)  # logarithmic bins
 lEcens = (lEbins[1:] + lEbins[:-1]) / 2  # logarithmic bin centers
 dE = 10**lEbins[1:] - 10**lEbins[:-1]  # bin widths
 
@@ -83,35 +84,30 @@ idx3 = (A > 7) * (A <= 28)
 idx4 = (A > 28)
 
 # calculate spectrum: J(E) = dN/dE 
-J  = histogram(lE, bins=lEbins)[0] / dE
-J1 = histogram(lE[idx1], bins=lEbins)[0] / dE
-J2 = histogram(lE[idx2], bins=lEbins)[0] / dE
-J3 = histogram(lE[idx3], bins=lEbins)[0] / dE
-J4 = histogram(lE[idx4], bins=lEbins)[0] / dE
+J  = pl.histogram(lE, bins=lEbins)[0] / dE
+J1 = pl.histogram(lE[idx1], bins=lEbins)[0] / dE
+J2 = pl.histogram(lE[idx2], bins=lEbins)[0] / dE
+J3 = pl.histogram(lE[idx3], bins=lEbins)[0] / dE
+J4 = pl.histogram(lE[idx4], bins=lEbins)[0] / dE
 
 # normalize
 J1 /= J[0]
 J2 /= J[0]
-J3 /= J[0]
+J3 /= J[0] 
 J4 /= J[0]
 J /= J[0]
 
-figure(figsize=(10,7))
-plot(lEcens, J,  color='SaddleBrown')
-plot(lEcens, J1, color='blue', label='A = 1')
-plot(lEcens, J2, color='grey', label='A = 2-7')
-plot(lEcens, J3, color='green', label='A = 8-28')
-plot(lEcens, J4, color='red', label='A $>$ 28')
-legend(fontsize=20, frameon=True)
-semilogy()
-ylim(1e-5)
-grid()
-ylabel('$J(E)$ [a.u.]')
-xlabel('$\log_{10}$(E/eV)')
-savefig('sim1D_spectrum.png')
-
-
-# In[ ]:
-
-
+pl.figure(figsize=(10,7))
+pl.plot(lEcens, J,  color='SaddleBrown')
+pl.plot(lEcens, J1, color='blue', label='A = 1')
+pl.plot(lEcens, J2, color='grey', label='A = 2-7')
+pl.plot(lEcens, J3, color='green', label='A = 8-28')
+pl.plot(lEcens, J4, color='red', label='A $>$ 28')
+pl.legend(fontsize=20, frameon=True)
+pl.semilogy()
+pl.ylim(1e-5)
+pl.grid()
+pl.ylabel('$J(E)$ [a.u.]')
+pl.xlabel('$\log_{10}$(E/eV)')
+pl.savefig('sim1D_spectrum.png')
 

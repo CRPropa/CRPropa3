@@ -77,6 +77,7 @@ This procedure brings a few extra steps compared to the already given plain inst
 
 4. Compile and install CRPropa.
     ```sh
+    cd $CRPROPA_DIR
     git clone https://github.com/CRPropa/CRPropa3.git
     cd CRPropa3
     mkdir build
@@ -86,13 +87,7 @@ This procedure brings a few extra steps compared to the already given plain inst
     make install
     ```
 
-5. Add CRPropa to the virtualenv path.
-    ```sh
-    echo "export LD_LIBRARY_PATH=$CRPROPA_DIR/lib:\$LD_LIBRARY_PATH" >> $CRPROPA_DIR"/bin/activate"
-    ```
-    Then `deactivate` and activate virtualenv again: `source $CRPROPA_DIR"/bin/activate"`.
-
-6. (optional) Check the installation.
+5. (optional) Check the installation.
     ```python
     python
     import crpropa
@@ -143,3 +138,13 @@ The following packages are provided with the source code and do not need to be i
 + pugixml: for xml steering
 + eigen: Linear algebra
 + healpix_base: Equal area pixelization of the sphere
+
+#### <a name="OS"></a>Dependencies in different OSes:
+
+In a clean minimal **Ubuntu (17.10)** installation the following packages should be installed to build and run CRPropa with most of the options:
+
+    ```sh
+    sudo apt install python-virtualenv build-essential git cmake swig \
+    gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
+    ```
+

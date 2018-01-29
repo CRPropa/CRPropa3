@@ -142,9 +142,8 @@ The following packages are provided with the source code and do not need to be i
 #### <a name="OS"></a>Dependencies in different OSes:
 
 In a clean minimal **Ubuntu (17.10)** installation the following packages should be installed to build and run CRPropa with most of the options:
-
-    ```sh
-    sudo apt install python-virtualenv build-essential git cmake swig \
-    gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
-    ```
+  ```sh
+  sudo apt install python-virtualenv build-essential git cmake swig \
+  gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
+  ```
 

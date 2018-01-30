@@ -16,7 +16,7 @@
 
 namespace crpropa {
 /**
- * \addtogroup DiffusivePropagation
+ * \addtogroup EnergyLosses
  * @{
  */
 

@@ -27,6 +27,10 @@ inline double round(double r) {
 }
 
 /**
+ * \addtogroup Core
+ * @{
+ */
+/**
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
 
@@ -219,6 +223,7 @@ public:
 
 typedef Grid<Vector3f> VectorGrid;
 typedef Grid<float> ScalarGrid;
+/** @}*/
 
 } // namespace crpropa
 

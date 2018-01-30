@@ -9,6 +9,10 @@
 #endif
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 /**
  @class Referenced
@@ -230,6 +234,7 @@ template<class T, class Y> inline ref_ptr<T> const_pointer_cast(
 	return const_cast<T*>(rp.get());
 }
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_REFERENCED_H

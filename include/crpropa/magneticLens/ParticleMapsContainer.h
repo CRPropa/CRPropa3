@@ -1,5 +1,5 @@
 #ifndef PARTICLEMAPSCONTAINER_HH
-#define PARTICLEMAPSCONTAINER_HH 
+#define PARTICLEMAPSCONTAINER_HH
 
 #include <map>
 #include <vector>
@@ -9,15 +9,19 @@
 #include "crpropa/Vector3.h"
 
 namespace crpropa{
+/**
+ * \addtogroup MagneticLenses 
+ * @{
+ */
 
 /// Container for particlemaps
 /// The maps are stored with discrete energies on a logarithmic scale. The
 /// default energy width is 0.02 with an energy bin from 10**17.99 - 10**18.01
 /// eV
-class ParticleMapsContainer 
+class ParticleMapsContainer
 {
 	private:
-    std::map< int , std::map <int , double*> > _data;				
+    std::map< int , std::map <int , double*> > _data;
 		Pixelization _pixelization;
     double _deltaLogE;
     double _bin0lowerEdge;
@@ -29,10 +33,10 @@ class ParticleMapsContainer
 
 		// weights of the particles
 		double _sumOfWeights;
-		std::map< int , double > _weightsPID;				
-		std::map< int , map<int, double> > _weights_pidEnergy;				
+		std::map< int , double > _weightsPID;
+		std::map< int , map<int, double> > _weights_pidEnergy;
 
-		// lazy update of weights 
+		// lazy update of weights
 		bool _weightsUpToDate;
 		void _updateWeights();
   public:
@@ -51,14 +55,14 @@ class ParticleMapsContainer
 		/// returns the map for the particleId with the given energy,. energy in
 		/// Joule
 		double *getMap(const int particleId, double energy);
-			
+
 		/// adds a particle to the map container
     /// particleId is HEP particleId, energy [Joule], galacticLongitude and
     /// galacticLatitude in [rad]
 		void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight = 1);
-			
+
 		void addParticle(const int particleId, double energy, const Vector3d &v, double weight = 1);
-		
+
 		// returns a vector of all particle ids in th
 		std::vector<int> getParticleIds();
 
@@ -68,7 +72,7 @@ class ParticleMapsContainer
 		void applyLens(MagneticLens &lens);;
 
 		// energy in eV , galacticLongitude in rad [-pi ... pi], galacticLatitudes in rad [-pi/2 ... pi/2]
-		void getRandomParticles(size_t N, vector<int> &particleId, 
+		void getRandomParticles(size_t N, vector<int> &particleId,
 			vector<double> &energy, vector<double> &galacticLongitudes,
 			vector<double> &galacticLatitudes);
 
@@ -91,25 +95,11 @@ class ParticleMapsContainer
 		{
 			if (!_weightsUpToDate)
 				_updateWeights();
-			return _weights_pidEnergy[pid][energy2Idx(energy)];				
+			return _weights_pidEnergy[pid][energy2Idx(energy)];
 		}
 };
 
-
-/*
-Python code that we have to write
-
-
-
-
-
-
-
-*/
-
-
-
-
+/** @}*/
 } // namespace parsec
 
 #endif // PARTICLEMAPSCONTAINER_HH

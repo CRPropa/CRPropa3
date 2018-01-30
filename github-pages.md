@@ -1,6 +1,7 @@
 The Doxygen documentation is tracked in the branch gh-pages and is hosted on https://crpropa.github.io/CRPropa3.
-The documentation has to be updated and committed manually.
-To update use the following procedure:
+It is updated automatically using travis. 
+
+The documentation can be updated and committed manually using the following procedure. Note that the cahanges are overwritten by the next commit by travis!
 
 1) go to CRPropa3/doc
 ```

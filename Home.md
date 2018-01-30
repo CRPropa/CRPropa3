@@ -8,10 +8,8 @@ Welcome to the CRPropa3 wiki!
 
 #### Manual
  * [Basic concepts](Basic-concepts)
- * [Doxygen documentation (version 3.0)](http://crpropa.github.io/CRPropa3/)
- * [List of simulation modules](Simulation-Modules)
- * [List of source features](Source-Features)
- * [List of magnetic fields](Magnetic-Fields)
+ * [Doxygen documentation](http://crpropa.github.io/CRPropa3/)
+ * [List of features](http://crpropa.github.io/CRPropa3/modules.html)
 
 #### Extending CRPropa
  * [Extending CRPropa](Extending-CRPropa)

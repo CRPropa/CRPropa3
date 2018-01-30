@@ -7,7 +7,7 @@ before_install:
 - sudo apt-get install -qq swig gfortran libfftw3-dev libcfitsio3-dev libmuparser-dev
   python-dev python-numpy python-setuptools python3-setuptools python3-dev cmake libhdf5-serial-dev
   python-matplotlib python3-matplotlib python-scipy python3-scipy libiomp5 libiomp-dev
-- sudo apt-get install doxygen graphviz
+- sudo apt-get install -qq doxygen graphviz
 compiler:
 - gcc
 - clang

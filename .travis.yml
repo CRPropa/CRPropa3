@@ -40,7 +40,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: git push --set-upstream -f git@github.com:${TRAVIS_REPO_SLUG}.git
+  script: git push --set-upstream git@github.com:${TRAVIS_REPO_SLUG}.git
   on:
     branch: master
     condition: ($CC=gcc && $PYTHON_EXECUTABLE=/usr/bin/python3)

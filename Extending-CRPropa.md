@@ -56,8 +56,11 @@ class MySourceFeature(SourceFeature):
     def prepareCandidate(self, candidate):
         candidate.setRedshift(0.6)
 
+# The source feature has to be created outside of the class attribute
+# s.add(MySourceFeature()) wil NOT work!
+srcFtr = MySourceFeature()
 s = Source()
-s.add(MySourceFeature())
+s.add(srcFtr)
 c = s.getCandidate()
 print c.getRedshift()
 ```

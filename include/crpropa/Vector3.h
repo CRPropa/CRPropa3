@@ -9,6 +9,11 @@
 namespace crpropa {
 
 /**
+ * \addtogroup Core
+ * @{
+ */
+
+/**
  @class Vector3
  @brief Template class for 3-vectors of type float, double, ...
 
@@ -400,6 +405,7 @@ inline Vector3<T> operator *(T f, const Vector3<T> &v) {
 typedef Vector3<double> Vector3d;
 typedef Vector3<float> Vector3f;
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_VECTOR3_H

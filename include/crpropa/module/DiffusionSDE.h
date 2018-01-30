@@ -18,7 +18,7 @@
 
 namespace crpropa {
 /**
- * \addtogroup DiffusivePropagation
+ * \addtogroup Propagation
  * @{
  */
 

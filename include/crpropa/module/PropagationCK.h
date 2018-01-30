@@ -7,13 +7,13 @@
 
 namespace crpropa {
 /**
- * \addtogroup RectilinearPropagation 
+ * \addtogroup Propagation 
  * @{
  */
 
 /**
  @class PropagationCK
- @brief Propagation through magnetic fields using the Cash-Karp method.
+ @brief Rectilinear propagation through magnetic fields using the Cash-Karp method.
 
  This module solves the equations of motion of a relativistic charged particle when propagating through a magnetic field.\n
  It uses the Runge-Kutta integration method with Cash-Karp coefficients.\n

@@ -67,8 +67,16 @@
 // Groups of Modules for Doxygen
 
 /**
- * \defgroup RectilinearPropagation Rectilinear Propagation
- * @{ @brief Rectilinear propagation of candidates
+ * \defgroup Core Core Classes
+ * @{ @brief Core classes used to build CRPropa
+ * @}
+ *
+ * \defgroup PhysicsDefinitions
+ * @{ @brief Fundamental physical data, function, units, constants, etc.
+ * @}
+ *
+ * \defgroup Propagation Propagation Modules
+ * @{ @brief Modules that propagate a Candidate
  * @}
  *
  * \defgroup EnergyLosses Energy Loss Processes
@@ -81,13 +89,13 @@
  *
  * \defgroup Observer Observer
  * @{ @brief Observers and ObserverFeatures
- * 
+ *
  * ObserverFeatures are added to the ObserverModule to check for detection and perform actions on detection.
  * @}
  *
  * \defgroup SourceFeatures Source
  * @{ @brief Source and SourceFeatures
- * 
+ *
  *  Sourcefeatures are added to sources and manipulate the properties of the
  *  emitted candidate.
  * @}
@@ -96,15 +104,9 @@
  * @{ @brief File outputs.
  * @}
  *
- * \defgroup DiffusivePropagation Diffusive Propagation
- * @{ @brief Modules for solving the Fokker Planck Equation using stochastic
- * differnential equations.
- *
- *  These modules are used to solve the Fokker Planck equation
- *  \f{equation}{
- *		 dX_t = \mu(X_t, t) dt + \sigma(X_t, t) dW_t
- *	\f}
- *
+ * \defgroup MagneticLenses Magnetic Lenses
+ * @{ @brief Lensing technique to account for deflections in the galactic
+ * magnetic field.
  * @}
  *
  * \defgroup Tools Tools

@@ -10,6 +10,10 @@
  */
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 // Returns the full path to a CRPropa data file
 std::string getDataPath(std::string filename);
@@ -46,6 +50,7 @@ double interpolateEquidistant(double x, double lo, double hi,
 
 // Find index of value in a sorted vector X that is closest to x
 size_t closestIndex(double x, const std::vector<double> &X);
+/** @}*/
 
 } // namespace crpropa
 

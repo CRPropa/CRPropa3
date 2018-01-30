@@ -19,6 +19,10 @@
  */
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 /** Evaluate the mean vector of all grid points */
 Vector3f meanFieldVector(ref_ptr<VectorGrid> grid);
@@ -93,6 +97,7 @@ void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename,
 void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename,
 		double conversion = 1);
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_GRIDTOOLS_H

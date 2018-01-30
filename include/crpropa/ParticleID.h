@@ -6,6 +6,15 @@
 #include <string>
 
 namespace crpropa {
+/**
+ * \addtogroup PhysicsDefinitions
+ * @{
+ */
+
+/**
+ @file
+ @brief 2012 Monte Carlo nuclear code scheme
+ */
 
 /** This implements the 2012 Monte Carlo nuclear code scheme.
  * Ion numbers are +/- 10LZZZAAAI.
@@ -27,6 +36,7 @@ std::string convertIdToName(int id);
 int convertFromCRPropa2NucleusId(int id);
 int convertToCRPropa2NucleusId(int id);
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_PARTICLE_ID_H

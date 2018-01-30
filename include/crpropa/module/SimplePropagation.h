@@ -6,7 +6,7 @@
 
 namespace crpropa {
 /**
- * \addtogroup RectilinearPropagation 
+ * \addtogroup Propagation 
  * @{
  */
 

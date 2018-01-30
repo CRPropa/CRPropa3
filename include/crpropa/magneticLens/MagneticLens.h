@@ -20,8 +20,8 @@
 //	along with this program. If not, see <http://www.gnu.org/licenses/>.
 //----------------------------------------------------------------------
 
-#ifndef MAGNETICLENS_HH 
-#define MAGNETICLENS_HH 
+#ifndef MAGNETICLENS_HH
+#define MAGNETICLENS_HH
 
 #include "crpropa/magneticLens/ModelMatrix.h"
 #include "crpropa/magneticLens/Pixelization.h"
@@ -37,7 +37,7 @@
 #include <stdint.h>
 
 
-namespace crpropa 
+namespace crpropa
 {
 
 /// Holds one matrix for the lens and information about the rigidity range
@@ -55,7 +55,7 @@ public:
 	{
 	}
 	/// File containing the matrix to be used in the range rigidityMin,
-	/// rigidityMax in Joule 
+	/// rigidityMax in Joule
 	LensPart(const std::string &filename, double rigidityMin, double rigidityMax) :
 			_filename(filename), _rigidityMin(rigidityMin), _rigidityMax(rigidityMax), _maximumSumOfColumns_calculated(
 					false), _maximumSumOfColumns(0)
@@ -88,8 +88,8 @@ public:
 		}
 		return _maximumSumOfColumns;
 	}
- 
-	/// Returns the minimum of the rigidity range for the lenspart in eV 
+
+	/// Returns the minimum of the rigidity range for the lenspart in eV
 	double getMinimumRigidity()
 	{
 		return _rigidityMin / eV;
@@ -113,7 +113,7 @@ public:
 		M = m;
 	}
 
-	
+
 };
 
 /// Function to calculate the mean deflection [rad] of the matrix M, given a pixelization
@@ -137,13 +137,18 @@ public:
 typedef std::vector<LensPart*>::iterator LensPartIter;
 typedef std::vector<LensPart*>::const_iterator const_LensPartIter;
 
+/**
+ * \addtogroup MagneticLenses 
+ * @{
+ */
+
 /// The lens for the galactic magnetic field.
 /// Note that the energies refer to protons (Z=1). To be used with other particles with a different charge number please select the rigidity accordingly.
 class MagneticLens
 {
-	
+
 	void updateRigidityBounds(double rigidityMin, double rigidityMax);
-	
+
 	/// Loads part of a lens (one matrix) from file to use it in given rigidity range.
 	void loadLensPart(const string &filename, double rigidityMin,
 			double rigidityMax);
@@ -192,7 +197,7 @@ public:
 	{
 		if (_pixelization)
 			delete _pixelization;
-		for (std::vector<LensPart*>::iterator iter = _lensParts.begin(); 
+		for (std::vector<LensPart*>::iterator iter = _lensParts.begin();
 				iter != _lensParts.end(); iter++)
 		{
 			delete (*iter);
@@ -206,7 +211,7 @@ public:
 	/// Rigidity is given in Joule, phi and theta in rad
 	bool transformCosmicRay(double rigidity, double& phi, double& theta);
 
-	/// Tries transform a cosmic ray with momentum vector p 
+	/// Tries transform a cosmic ray with momentum vector p
 	bool transformCosmicRay(double rigidity, Vector3d &p);
 
 	/// transforms the model array assuming that model points to an array of the
@@ -214,7 +219,7 @@ public:
 	void transformModelVector(double* model, double rigidity) const;
 
 	/// Loads M as part of a lens and use it in given rigidity range with
-	/// rigidities given in Joule 
+	/// rigidities given in Joule
 	void setLensPart(const ModelMatrixType &M, double rigidityMin, double rigidityMax);
 
 	/// Loads a lens from a given file, containing lines like
@@ -235,7 +240,7 @@ public:
 	bool rigidityCovered(double rigidity) const;
 
 	/// Normalizes all matrix columns - the lens will then create fake
-	/// anisotropies, but won't drop particles 
+	/// anisotropies, but won't drop particles
 	void normalizeMatrixColumns();
 
 	/// Returns minimum rigidity covered by lens, in eV
@@ -255,7 +260,7 @@ public:
 		return _norm;
 	}
 
-	/// Returns iterator to the lens part with rigidity Joule 
+	/// Returns iterator to the lens part with rigidity Joule
 	LensPart* getLensPart(double rigidity) const;
 
 	/// Returns all lens parts
@@ -265,10 +270,7 @@ public:
 	}
 };
 
-
-	
-
-
+/** @}*/
 } // namespace
 
-#endif // MAGNETICLENS_HH 
+#endif // MAGNETICLENS_HH

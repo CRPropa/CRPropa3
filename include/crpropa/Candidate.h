@@ -12,6 +12,10 @@
 #include <stdint.h>
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 /**
  @class Candidate
@@ -145,10 +149,11 @@ public:
 	/**
 	 Copy the source particle state to the current state
 	 and activate it if inactive, e.g. restart it
-	*/ 
+	*/
 	void restart();
 };
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_CANDIDATE_H

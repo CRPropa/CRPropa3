@@ -25,7 +25,7 @@ script:
 after_failure:
   - cat Testing/Temporary/LastTest.log
 
-before_deploy:
+after_sucess:
   - make doc
   - openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
   - chmod 600 travis_deploy
@@ -36,11 +36,4 @@ before_deploy:
   - git checkout -b gh-pages
   - git add .
   - git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: git push --set-upstream git@github.com:${TRAVIS_REPO_SLUG}.git
-  on:
-    branch: master
-    condition: ($CC=gcc && $PYTHON_EXECUTABLE=/usr/bin/python3)
+  - git push -f --set-upstream git@github.com:${TRAVIS_REPO_SLUG}.git

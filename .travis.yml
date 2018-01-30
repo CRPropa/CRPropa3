@@ -29,6 +29,7 @@ after_failure:
 before_deploy:
   - make doc
   - openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
+  - chmod 600 travis_deploy
   - eval "$(ssh-agent -s)"
   - ssh-add travis_deploy
   - cd html

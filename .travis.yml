@@ -36,5 +36,4 @@ after_success:
   - git checkout -b gh-pages
   - git add .
   - git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
-  - if [[ ($CC = gcc && $PYTHON_EXECUTABLE = /usr/bin/python3) ]]; then
-; git push -f --set-upstream git@github.com:${TRAVIS_REPO_SLUG}.git; fi
+  - git push -f --set-upstream git@github.com:${TRAVIS_REPO_SLUG}.git

@@ -1,8 +1,8 @@
 This is the automatically generated class documentation of [CRPropa](https://crpropa.desy.de). This version of the documentation was generated for the [latest](https://github.com/CRPropa/CRPropa3/commit/@GIT_SHA1@) version of CRPropa.
 
 The purpose of this documentation is to provide a programming reference. See
-[Features](modules.html) for an overview of implemented SourceFeatures,
-ObserveFeatures, Propagation Modules, etc. See [classes](annotated.html) for a
+[Building Blocks](modules.html) for an overview of the implemented SourceFeatures,
+ObserveFeatures, Propagation Modules, etc. used to build a CRPRopa simulation. See [classes](annotated.html) for a
 list of all classes in CRPRopa.
 
 

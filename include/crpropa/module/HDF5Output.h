@@ -3,32 +3,6 @@
 #ifndef CRPROPA_HDF5OUTPUT_H
 #define CRPROPA_HDF5OUTPUT_H
 
-/*
- * HDF5 structure:
- *
- * HDF5 "FILENAME.h5" {
- * GROUP "/" {
- * DATASET "OUTPUTTYPE" {
- * 	DATATYPE  H5T_COMPOUND {
- *		...
- *	}
- *	DATASPACE  SIMPLE { ( 1 ) / ( H5S_UNLIMITED ) }
- *	DATA {
- *		...
- *	}
- *     	ATTRIBUTE "Version" {
- *		DATATYPE  H5T_STRING {
- *	     		STRSIZE 100;
- *	     		STRPAD H5T_STR_NULLTERM;
- *			CSET H5T_CSET_ASCII;
- *			CTYPE H5T_C_S1;
- *       	}
- *		DATASPACE  SCALAR
- *		DATA { (0): "VERSION" }
- *	}
- * } } }
- *
- */
 
 #include "crpropa/module/Output.h"
 #include "stdint.h"
@@ -48,6 +22,33 @@ const size_t propertyBufferSize = 1024;
 /**
  @class HDF5Output
  @brief Output to HDF5 Format.
+
+
+HDF5 structure:
+```
+HDF5 "FILENAME.h5" {
+GROUP "/" {
+DATASET "OUTPUTTYPE" {
+  DATATYPE  H5T_COMPOUND {
+  ...
+ }
+ DATASPACE  SIMPLE { ( 1 ) / ( H5S_UNLIMITED ) }
+ DATA {
+  ...
+ }
+  ATTRIBUTE "Version" {
+  DATATYPE  H5T_STRING {
+      STRSIZE 100;
+      STRPAD H5T_STR_NULLTERM;
+      CSET H5T_CSET_ASCII;
+      CTYPE H5T_C_S1;
+      }
+  DATASPACE  SCALAR
+  DATA { (0): "VERSION" }
+ }
+} } }
+```
+
  */
 class HDF5Output: public Output {
 

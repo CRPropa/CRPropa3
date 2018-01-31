@@ -15,10 +15,11 @@ using namespace std;
 
 namespace crpropa {
 
-bool g_cancel_signal_flag = false;
+int g_cancel_signal_flag = 0;
+
 void g_cancel_signal_callback(int sig) {
-	std::cerr << "crpropa::ModuleList: SIGINT/SIGTERM received" << std::endl;
-	g_cancel_signal_flag = true;
+	std::cerr << "crpropa::ModuleList: Signal " << sig << " (SIGINT/SIGTERM) received" << std::endl;
+	g_cancel_signal_flag = sig;
 }
 
 ModuleList::ModuleList() : showProgress(false) {
@@ -64,13 +65,13 @@ void ModuleList::process(ref_ptr<Candidate> candidate) const {
 
 void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst) {
 	// propagate primary candidate until finished
-	while (candidate->isActive() && !g_cancel_signal_flag) {
+	while (candidate->isActive() && (g_cancel_signal_flag == 0)) {
 		process(candidate);
 
 		// propagate all secondaries before next step of primary
 		if (recursive and secondariesFirst) {
 			for (size_t i = 0; i < candidate->secondaries.size(); i++) {
-				if (g_cancel_signal_flag)
+				if (g_cancel_signal_flag != 0)
 					break;
 				run(candidate->secondaries[i], recursive, secondariesFirst);
 			}
@@ -80,7 +81,7 @@ void ModuleList::run(Candidate* candidate, bool recursive, bool secondariesFirst
 	// propagate secondaries after completing primary
 	if (recursive and not secondariesFirst) {
 		for (size_t i = 0; i < candidate->secondaries.size(); i++) {
-			if (g_cancel_signal_flag)
+			if (g_cancel_signal_flag != 0)
 				break;
 			run(candidate->secondaries[i], recursive, secondariesFirst);
 		}
@@ -104,7 +105,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool second
 		progressbar.start("Run ModuleList");
 	}
 
-	g_cancel_signal_flag = false;
+	g_cancel_signal_flag = 0;
 	sighandler_t old_sigint_handler = ::signal(SIGINT,
 			g_cancel_signal_callback);
 	sighandler_t old_sigterm_handler = ::signal(SIGTERM,
@@ -112,7 +113,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool second
 
 #pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
-		if (g_cancel_signal_flag)
+		if (g_cancel_signal_flag != 0)
 			continue;
 
 		try {
@@ -129,6 +130,9 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool second
 
 	::signal(SIGINT, old_sigint_handler);
 	::signal(SIGTERM, old_sigterm_handler);
+	// Propagate signal to old handler.
+	if (g_cancel_signal_flag > 0)
+		raise(g_cancel_signal_flag);
 }
 
 void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool secondariesFirst) {
@@ -143,8 +147,10 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 		progressbar.start("Run ModuleList");
 	}
 
-	g_cancel_signal_flag = false;
+	g_cancel_signal_flag = 0;
 	sighandler_t old_signal_handler = ::signal(SIGINT,
+			g_cancel_signal_callback);
+	sighandler_t old_sigterm_handler = ::signal(SIGTERM,
 			g_cancel_signal_callback);
 
 #pragma omp parallel for schedule(static, 1000)
@@ -159,7 +165,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 		} catch (std::exception &e) {
 			std::cerr << "Exception in crpropa::ModuleList::run: source->getCandidate" << std::endl;
 			std::cerr << e.what() << std::endl;
-			g_cancel_signal_flag = true;
+			g_cancel_signal_flag = -1;
 		}
 
 		if (candidate.valid()) {
@@ -168,7 +174,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 			} catch (std::exception &e) {
 				std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
 				std::cerr << e.what() << std::endl;
-				g_cancel_signal_flag = true;
+				g_cancel_signal_flag = -1;
 			}
 		}
 
@@ -178,6 +184,10 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 	}
 
 	::signal(SIGINT, old_signal_handler);
+	::signal(SIGTERM, old_sigterm_handler);
+	// Propagate signal to old handler.
+	if (g_cancel_signal_flag > 0)
+		raise(g_cancel_signal_flag);
 }
 
 ModuleList::iterator ModuleList::begin() {

@@ -38,7 +38,6 @@
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/Observer.h"
 #include "crpropa/module/OutputCRPropa2.h"
-#include "crpropa/module/OutputROOT.h"
 #include "crpropa/module/OutputShell.h"
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/module/PhotoDisintegration.h"

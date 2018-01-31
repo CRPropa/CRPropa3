@@ -169,20 +169,7 @@ if (ENABLE_GALACTICMAGETICLENS)
 	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
 endif (ENABLE_GALACTICMAGETICLENS)
 
-# ROOT (optional for ROOT output)
-option(ENABLE_ROOT "ROOT Output" ON)
-if(ENABLE_ROOT)
-	find_package(ROOT)
-	if(ROOT_FOUND)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CFLAGS}")
-		set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ROOT_LIBS}")
-		set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ROOT_LIBS}")
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
-		add_definitions(-DCRPROPA_HAVE_ROOT)
-		list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ROOT)
-		list(APPEND CRPROPA_EXTRA_LIBRARIES Core RIO Tree)
-	endif(ROOT_FOUND)
-endif(ENABLE_ROOT)
+
 
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)
@@ -361,7 +348,6 @@ add_library(crpropa SHARED
 	src/module/Observer.cpp
 	src/module/Output.cpp
 	src/module/OutputCRPropa2.cpp
-	src/module/OutputROOT.cpp
 	src/module/OutputShell.cpp
 	src/module/ParticleCollector.cpp
 	src/module/PhotoDisintegration.cpp

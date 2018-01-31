@@ -1,4 +1,4 @@
-This is the automatically generated class documentation of [CRPropa](https://crpropa.desy.de). This version of the documentation was for CRPRopa revision [@GIT_DESC@](https://github.com/CRPropa/CRPropa3/commit/@GIT_SHA1@).
+This is the automatically generated class documentation of [CRPropa](https://crpropa.desy.de). This version of the documentation was generated for the [latest](https://github.com/CRPropa/CRPropa3/commit/@GIT_SHA1@) version of CRPropa.
 
 The purpose of this documentation is to provide a programming reference. See
 [Features](modules.html) for an overview of implemented SourceFeatures,

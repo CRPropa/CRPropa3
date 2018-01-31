@@ -105,6 +105,10 @@ inline void intrusive_ptr_release(Referenced* p) {
 	p->removeReference();
 }
 
+/**
+ @class ref_ptr
+ @brief Referenced pointer
+ */
 template<class T>
 class ref_ptr {
 public:

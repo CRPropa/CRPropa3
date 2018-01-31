@@ -99,7 +99,7 @@ public:
 	~HDF5Output();
 
 	void process(Candidate *candidate) const;
-	herr_t insertVersion();
+	herr_t insertStringAttribute(const std::string &key, const std::string &value);
 	std::string getDescription() const;
 
 	void open(const std::string &filename);

@@ -29,8 +29,8 @@ TEST(SourceMultiplePositions, simpleTest) {
 		else if (ps.getPosition().x == 2)
 			n2++;
 	}
-	EXPECT_NEAR(n1, 2500, 2 * sqrt(2500));
-	EXPECT_NEAR(n2, 7500, 2 * sqrt(7500));
+	EXPECT_NEAR(n1, 2500, 5 * sqrt(2500));
+	EXPECT_NEAR(n2, 7500, 5 * sqrt(7500));
 }
 
 TEST(SourceUniformSphere, simpleTest) {

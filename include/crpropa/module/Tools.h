@@ -13,6 +13,12 @@ namespace crpropa {
  * @{
  */
 
+/**
+ @class PerformanceModule
+ @brief Module to monitor the simulation performance
+
+ Add modules under investigation to this module instead of the ModuleList.
+ */
 class PerformanceModule: public Module {
 private:
 	struct _module_info {
@@ -30,6 +36,10 @@ public:
 	std::string getDescription() const;
 };
 
+/**
+  @class ParticleFilter
+  @brief Reject Particles not listed in filter.
+*/
 class ParticleFilter: public AbstractCondition {
 	std::set<int> ids;
 
@@ -44,8 +54,11 @@ public:
 	std::string getDescription() const;
 };
 
+
 /**
- * Fill EmissionMap with source particle state */
+  @class EmissionMapFiller
+  @brief Fill EmissionMap with source particle state
+*/
 class EmissionMapFiller: public Module {
 	ref_ptr<EmissionMap> emissionMap;
 public:

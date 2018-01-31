@@ -110,7 +110,7 @@
  * @}
  *
  * \defgroup Tools Tools
- * @{ @brief Additional modules.
+ * @{ @brief Collection of handy functinos and modules.
  * @}
  */
 

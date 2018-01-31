@@ -2,9 +2,16 @@
 #define CRPROPA_CLOCK_H
 
 namespace crpropa {
+/**
+ * \addtogroup Tools
+ * @{
+ */
 
-//class ClockImpl;
+/**
+ @class Clock
+ @brief Provides a clock / timer.
 
+ */
 class Clock {
 private:
 	class Impl;
@@ -18,6 +25,7 @@ public:
 	double getMillisecond();
 	static Clock &getInstance();
 };
+/** @} */
 
 } // namespace crpropa
 

@@ -1,3 +1,5 @@
 *.txt
 *.png
+*.pdf
 *.dat
+*.ipynb_checkpoints

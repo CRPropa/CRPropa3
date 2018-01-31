@@ -12,8 +12,8 @@ from crpropa import *
 # magnetic field setup
 B = JF12Field()
 randomSeed = 691342
-#B.randomStriated(randomSeed)
-#B.randomTurbulent(randomSeed)
+B.randomStriated(randomSeed)
+B.randomTurbulent(randomSeed)
 
 # simulation setup
 sim = ModuleList()
@@ -38,7 +38,10 @@ class MyTrajectoryOutput(Module):
         z = v.z / kpc
         self.fout.write('%i\t%.3f\t%.3f\t%.3f\n'%(self.i, x, y, z))
         if not(c.isActive()):
-            self.i += 1
+            self.i += 1       
+    def close(self):
+        self.fout.close()
+    
 
 output = MyTrajectoryOutput('galactic_trajectories.txt')
 sim.add(output)
@@ -47,35 +50,37 @@ sim.add(output)
 source = Source()
 source.add(SourcePosition(Vector3d(-8.5, 0, 0) * kpc))
 source.add(SourceIsotropicEmission())
-source.add(SourceParticleType(- nucleusId(1,1)))
+source.add(SourceParticleType(-nucleusId(1,1)))
 source.add(SourceEnergy(1 * EeV))
 
-sim.run(source, 20)  # backtrack 10 random cosmic rays
+sim.run(source, 10)  # backtrack 10 random cosmic rays
+output.close() # flush particles to ouput file
 
 
 # ## 3D trajectory plot
 
-# In[2]:
+# In[5]:
 
-get_ipython().magic('matplotlib inline')
+get_ipython().magic(u'matplotlib inline')
 from mpl_toolkits.mplot3d import axes3d
-from pylab import *
+import  numpy as np
+import matplotlib.pyplot as plt
 
-figure(figsize=(12,12))
-ax = subplot(111, projection='3d', aspect='equal')
+plt.figure(figsize=(12,12))
+ax = plt.subplot(111, projection='3d', aspect='equal')
 
 # plot trajectories
-I,X,Y,Z = genfromtxt('galactic_trajectories.txt', unpack=True, skip_footer=1)
+I,X,Y,Z = np.genfromtxt('galactic_trajectories.txt', unpack=True, skip_footer=1)
 for i in range(int(max(I))):
     idx = I == i
     ax.plot(X[idx], Y[idx], Z[idx], c='b', lw=1, alpha=0.5)
 
 # plot galactic border
 r = 20
-u, v = meshgrid(linspace(0, 2*pi, 100), linspace(0, pi, 100))
-x = r * cos(u) * sin(v)
-y = r * sin(u) * sin(v)
-z = r * cos(v)
+u, v = np.meshgrid(np.linspace(0, 2*np.pi, 100), np.linspace(0, np.pi, 100))
+x = r * np.cos(u) * np.sin(v)
+y = r * np.sin(u) * np.sin(v)
+z = r * np.cos(v)
 ax.plot_surface(x, y, z, rstride=2, cstride=2, color='r', alpha=0.1, lw=0)
 ax.plot_wireframe(x, y, z, rstride=10, cstride=10, color='k', alpha=0.5, lw=0.3)
 
@@ -95,9 +100,5 @@ ax.set_zlim((-20, 20))
 ax.xaxis.set_ticks((-20,-10,0,10,20))
 ax.yaxis.set_ticks((-20,-10,0,10,20))
 ax.zaxis.set_ticks((-20,-10,0,10,20))
-
-
-# In[ ]:
-
-
+plt.show()
 

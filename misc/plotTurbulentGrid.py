@@ -41,6 +41,7 @@ xlabel('$x$')
 ylabel('$y$')
 text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentGrid_slicePositionSpace_xy.png', bbox_inches='tight')
+show()
 
 figure(figsize=(8,6))
 im = imshow(sxz, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
@@ -50,6 +51,7 @@ xlabel('$x$')
 ylabel('$z$')
 text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentGrid_slicePositionSpace_xz.png', bbox_inches='tight')
+show()
 
 figure(figsize=(8,6))
 im = imshow(syz, origin='lower', extent=[0,n,0,n], vmin=0, vmax=3)
@@ -59,6 +61,7 @@ xlabel('$y$')
 ylabel('$z$')
 text(0.8, 1.05, '$z=%i$'%(n/2), transform=gca().transAxes)
 savefig('TurbulentGrid_slicePositionSpace_yz.png', bbox_inches='tight')
+show()
 
 """
 # Plot slice in configuration space

@@ -5,6 +5,8 @@
 # 
 # The following is a 1D simulation including secondary neutrinos from photopion production and nuclear decay.
 # Hadrons and Neutrinos are stored separately using two observers.
+# 
+# #### Note: the simulation might take a minute
 
 # In[1]:
 
@@ -49,30 +51,24 @@ source.add(SourceRedshift1D())
 source.add(SourcePowerLawSpectrum(10**17 * eV, 10**22 * eV, -1))
 source.add(SourceParticleType(nucleusId(1, 1)))
 
-# run simulation for 1000 primaries and propagate all secondaries
+# run simulation for 5000 primaries and propagate all secondaries
 m.setShowProgress(True)
 m.run(source, 5000, True)
 
 
-
 # ### Plotting the neutrino energy distribution
 
-# In[3]:
+# In[4]:
 
-get_ipython().magic('matplotlib inline')
-from pylab import *
+get_ipython().magic(u'matplotlib inline')
+import numpy as np
+import matplotlib.pyplot as plt
 
 output1.close()
 output2.close()
-d = genfromtxt('out-neutrinos.txt', names=True)
-hist(log10(d['E']) + 18, bins=linspace(17, 22, 51), histtype='step', normed=True)
-xlabel(r'$\log_{10}(E/{\rm eV})$')
-ylabel(r'$n_\nu$ [a.u.]')
-
-
-
-
-# In[ ]:
-
-
+d = np.genfromtxt('out-neutrinos.txt', names=True)
+plt.hist(np.log10(d['E']) + 18, bins=np.linspace(17, 22, 51), histtype='step', normed=True)
+plt.xlabel(r'$\log_{10}(E/{\rm eV})$')
+plt.ylabel(r'$n_\nu$ [a.u.]')
+plt.show()
 

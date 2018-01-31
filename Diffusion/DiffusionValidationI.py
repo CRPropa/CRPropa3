@@ -3,13 +3,13 @@
 
 # # Diffusion Validation I
 
-# #### This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component ($\kappa_{\mathrm par} = 10\cdot\kappa_{\mathrm perp}$).
+# #### This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component ($\kappa_\parallel = 10\cdot\kappa_\perp$).
 
 # Load modules and use jupyter inline magic to use interactive plots.
 
-# In[4]:
+# In[7]:
 
-get_ipython().magic('matplotlib notebook')
+get_ipython().magic(u'matplotlib notebook')
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -23,12 +23,14 @@ from crpropa import *
 A4heigth = 29.7/2.54
 A4width = 21./2.54
 
+sns.set_palette("Set2")
+
 
 # Definition of the probability distribution function of the particle density in one dimension: <br>
 # $\psi(R, t) = \frac{2}{\sqrt{4 \pi D t}} \cdot \exp{-\frac{R^2}{4 D t}}$ <br>
 # Here, $R=||\vec{R}||$ is the norm of the position.
 
-# In[43]:
+# In[2]:
 
 def pdf(R, t, epsilon):
     D = 1e24*epsilon
@@ -39,7 +41,7 @@ def pdf(R, t, epsilon):
 # Simulation set-up <br>
 # Using 10000 pseudo particle to trace the phase space.
 
-# In[99]:
+# In[3]:
 
 N = 10000
 
@@ -81,7 +83,7 @@ Obs.onDetection(Out)
 
 #Difffusion Module
 # D_xx=D_yy= 1e24 m^2 / s, D_zz=10*D_xx
-Dif = DiffusionModule(BField, precision, minStep, maxStep, epsilon)
+Dif = DiffusionSDE(BField, precision, minStep, maxStep, epsilon)
 Dif.setScale(1./6.1)
 Dif.setAlpha(0.)
 
@@ -98,12 +100,12 @@ sim.add(Obs)
 sim.add(maxTra)
 
 sim.run(source, N, True)
-print "Simulation finished"
+print("Simulation finished")
 
 
 # Load the simulation data and add a time column
 
-# In[100]:
+# In[4]:
 
 df = pd.read_csv('Test.txt', header=6, delimiter='\t', names=["D", "X", "Y", "Z"])
 df['t'] = df.D * kpc / c_light #time in seconds
@@ -113,9 +115,9 @@ df['t'] = df.D * kpc / c_light #time in seconds
 # #### Distribution in x, y and z
 # Plot the density distribution in all three coordinates.
 
-# In[101]:
+# In[26]:
 
-fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(1.4*A4width,A4heigth/3.))
+fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(1.*A4width,A4heigth/4.))
 
 coord = ['X', 'Y', 'Z']
 
@@ -135,7 +137,7 @@ for i, x_i in enumerate(coord):
         axes[i].set_ylabel("number density")
 
 plt.tight_layout()
-plt.savefig('Diffusion1.png')
+plt.savefig('Diffusion1.pdf')
 plt.show()
 
 
@@ -143,9 +145,9 @@ plt.show()
 
 # #### Use the absolute distance from origin $|x|, |y|, |z|$ and compare to analytical expectations.
 
-# In[94]:
+# In[27]:
 
-fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(1.4*A4width,A4heigth/3.))
+fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(1.*A4width,A4heigth/4.))
 
 coord = ['X', 'Y', 'Z']
 
@@ -155,11 +157,11 @@ for i, x_i in enumerate(coord):
     ChiDict[str(x_i)] = {}
     
     L = [10, 50, 100]
-    colors = ['blue', 'red', 'green']
+    colors = sns.color_palette()
     for j, l in enumerate(L):
         ChiDict[str(x_i)][str(l)] = {}
         if i <2:
-            abs(df[df.D==l][x_i]).hist(bins=np.linspace(0, 0.1, 11), ax=axes[i], alpha=0.5, zorder=3-j, color=colors[j])
+            abs(df[df.D==l][x_i]).hist(bins=np.linspace(0, 0.1, 11), ax=axes[i], alpha=1., zorder=3-j, color=colors[j])
             hist = np.histogram(abs(df[df.D==l][x_i]), bins=np.linspace(0,0.1,11))
             
             PDF = np.zeros(len(hist[0]))
@@ -170,10 +172,11 @@ for i, x_i in enumerate(coord):
                 PDF[k] = quad(pdf, a,b, args=(l*kpc/c_light, 0.1))[0]*N
             t = l*kpc/c_light
             s = '%.2e' % t
-            axes[i].plot(xP, PDF, color=colors[j], label='t = '+s+' s') 
+            axes[i].plot(xP, PDF, color=colors[j], label='t = '+s+' s', zorder=10)
+            #axes[i].legend(loc='best')
             axes[i].set_xlim(0., 0.1)
         else:
-            abs(df[df.D==l][x_i]).hist(bins=np.linspace(0, 0.5, 11), ax=axes[i], alpha=0.5, zorder=3-j, color=colors[j])
+            abs(df[df.D==l][x_i]).hist(bins=np.linspace(0, 0.5, 11), ax=axes[i], alpha=1., zorder=3-j, color=colors[j])
             hist = np.histogram(abs(df[df.D==l][x_i]), bins=np.linspace(0,0.5,11))
             PDF = np.zeros(len(hist[0]))
             xP = np.zeros(len(hist[0]))
@@ -182,12 +185,13 @@ for i, x_i in enumerate(coord):
                 xP[k] = (a+b)/2./kpc
                 PDF[k] = quad(pdf, a,b, args=(l*kpc/c_light, 1.))[0]*N
             
-            axes[i].plot(xP, PDF, color=colors[j]) 
+            axes[i].plot(xP, PDF, color=colors[j], label='t = '+s+' s', zorder=10) 
             axes[i].set_xlim(0., 0.5)
         ChiDict[str(x_i)][str(l)]['Obs'] = hist[0]
         ChiDict[str(x_i)][str(l)]['Exp'] = PDF
 
         axes[i].set_xlabel('Distance [kpc]')
+        axes[i].legend(loc='best')
         axes[i].set_title(x_i)
     if i>0:
         axes[i].set_yticklabels([])
@@ -196,7 +200,7 @@ for i, x_i in enumerate(coord):
         
 plt.legend()
 plt.tight_layout()
-plt.savefig('Diffusion2.png')
+plt.savefig('Diffusion2.pdf')
 plt.show()
 
 

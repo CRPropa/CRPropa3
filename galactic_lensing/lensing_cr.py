@@ -15,7 +15,7 @@ import numpy as np
 # The data is weighted with the source energy ~E**-1
 M = crpropa.ParticleMapsContainer()
 crdata = np.genfromtxt("crpropa_output.txt")
-id = crdata[:,0]
+Id = [int(x) for x in crdata[:,0]]
 E = crdata[:,3] * crpropa.EeV
 E0 = crdata[:,4] * crpropa.EeV
 px = crdata[:,11]
@@ -24,7 +24,7 @@ pz = crdata[:,13]
 galactic_longitude = np.arctan2(-1. * py, -1. *px)
 galactic_latitude = np.pi / 2 - np.arccos( -pz / (px*px + py*py+ pz*pz) )
 
-M.addParticles(id, E, galactic_longitude, galactic_latitude, E0**-1)
+M.addParticles(Id, E, galactic_longitude, galactic_latitude, E0**-1)
 
 
 # Alternatively, data can be added manually. 
@@ -43,16 +43,16 @@ for i in xrange(1000):
 # The probability maps for the individual particles can be accessed directly and plotted with healpy. 
 # 
 
-# In[2]:
+# In[3]:
 
-get_ipython().magic('matplotlib inline')
+get_ipython().magic(u'matplotlib inline')
 
 import healpy
-from pylab import *
+import matplotlib.pyplot as plt
 
 
 #stack all maps
-crMap = zeros(49152)
+crMap = np.zeros(49152)
 for pid in M.getParticleIds():
     energies = M.getEnergies(int(pid))
     for i, energy in enumerate(energies):
@@ -60,23 +60,24 @@ for pid in M.getParticleIds():
 
 #plot maps using healpy
 healpy.mollview(map=crMap, title='Unlensed')
-savefig('unlensed_map.png')
+plt.savefig('unlensed_map.png')
 
 
 # ## Apply Galactic Lenses
 # 
 # To apply a lens to a map, a lens object needs to be created and then applied to the map. The normalization of the lens ensures that the lens does not distort the spectra.
 
-# In[3]:
+# In[5]:
 
-get_ipython().magic('matplotlib inline')
+get_ipython().magic(u'matplotlib inline')
 
+# The lens can be downloaded here: https://crpropa.desy.de/ --> Additional downloads
 lens = crpropa.MagneticLens('pathto/lens.cfg')
 lens.normalizeLens()
 M.applyLens(lens)
 
 #stack all maps
-crMap = zeros(49152)
+crMap = np.zeros(49152)
 for pid in M.getParticleIds():
     energies = M.getEnergies(int(pid))
     for i, energy in enumerate(energies):
@@ -84,19 +85,20 @@ for pid in M.getParticleIds():
 
 #plot maps using healpy
 healpy.mollview(map=crMap, title='Lensed')
-savefig('lensed_map.png')
+plt.savefig('lensed_map.png')
 
 
 # ## Generate Particles from Map
 # 
 # If neeeded, sets of individual particles can then be generated from the maps under preservation of the relative (transformed) input weights. Note that the numbr of particles you can draw from a map depends on the quality of sampling on the input pdf. As a rule of thumb it is most likely not safe to draw more particles from the map than have been used to create the map. 
 
-# In[4]:
+# In[8]:
 
 pids, energies, lons, lats = M.getRandomParticles(10)
 
 # create a scatter plot of the particles
-subplot(111, projection='hammer')
-scatter(lons, lats, c=log10(energies), lw=0)
-savefig('scatterd_particles.png')
+plt.subplot(111, projection='hammer')
+plt.scatter(lons, lats, c=np.log10(energies), lw=0)
+plt.grid()
+plt.savefig('scatterd_particles.png')
 

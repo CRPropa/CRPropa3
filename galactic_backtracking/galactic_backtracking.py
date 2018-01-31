@@ -85,10 +85,11 @@ for i in range(100):
 # ## (Optional) Plotting
 # Finally we are plotting a skymap of the observed direction along with the distribution of directions at the galactic border.
 
-# In[7]:
+# In[4]:
 
-get_ipython().magic('matplotlib inline')
-from pylab import *
+get_ipython().magic(u'matplotlib inline')
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Angle definitions:
 # CRPropa uses
@@ -97,17 +98,12 @@ from pylab import *
 # matplotlib expects
 #   longitude [-pi, pi] with 0 = 0 degrees
 #   latitude [pi/2, -pi/2] with pi/2 = 90 degrees (north)
-lat0 = pi/2 - lat0
-lats = pi/2 - array(lats)
+lat0 = np.pi/2 - lat0
+lats = np.pi/2 - np.array(lats)
 
-figure(figsize=(12,7))
-subplot(111, projection = 'hammer')
-scatter(lon0, lat0, marker='+', c='black', s=100)
-scatter(lons, lats, marker='o', c='blue', linewidths=0, alpha=0.2)
-grid(True)
-
-
-# In[ ]:
-
-
+plt.figure(figsize=(12,7))
+plt.subplot(111, projection = 'hammer')
+plt.scatter(lon0, lat0, marker='+', c='black', s=100)
+plt.scatter(lons, lats, marker='o', c='blue', linewidths=0, alpha=0.2)
+plt.grid(True)
 

@@ -4,9 +4,9 @@
 import pylab
 import numpy
 import sys
+from crpropa import *
 
 def simulate():
-	from crpropa import *
 	vgrid = VectorGrid(Vector3d(0), 128, 1*Mpc)
 	initTurbulence(vgrid, 1*nG, 2*Mpc, 5*Mpc, -11./3.)
 	BField = MagneticFieldGrid(vgrid)

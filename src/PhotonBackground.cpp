@@ -11,22 +11,22 @@ namespace crpropa {
 
 // Class to handle global evolution of IRB models (cf. CRPropa3-data/calc_scaling.py)
 struct PhotonFieldScaling {
-	bool inizialized = false;
-	std::string filename;
+	bool initialized = false;
+	std::string name;
 	std::vector<double> tab_z;
 	std::vector<double> tab_s;
 
 	PhotonFieldScaling(std::string filename) {
-		filename = filename;
+		name = filename;
 	}
 
 	void init() {
-		std::string path = getDataPath("Scaling/scaling_" + filename + ".txt");
+		std::string path = getDataPath("Scaling/scaling_" + name + ".txt");
 		std::ifstream infile(path.c_str());
 
 		if (!infile.good())
 			throw std::runtime_error(
-					"crpropa: could not open file scaling_" + filename);
+					"crpropa: could not open file scaling_" + name);
 
 		double z, s;
 		while (infile.good()) {
@@ -39,11 +39,11 @@ struct PhotonFieldScaling {
 		}
 
 		infile.close();
-		inizialized = true;
+		initialized = true;
 	}
 
 	double scalingFactor(double z) {
-		if (!inizialized) init();
+		if (!initialized) init();
 		if (z > tab_z.back())
 			return 0;  // zero photon background beyond maximum tabulated value
 		return interpolate(z, tab_z, tab_s);

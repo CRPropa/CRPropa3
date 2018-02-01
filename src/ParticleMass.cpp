@@ -14,7 +14,7 @@
 namespace crpropa {
 
 struct NuclearMassTable {
-	bool inizialized = false;
+	bool initialized = false;
 	std::vector<double> table;
 
 	NuclearMassTable() {
@@ -38,11 +38,11 @@ struct NuclearMassTable {
 		}
 
 		infile.close();
-		inizialized = true;
+		initialized = true;
 	}
 
 	double getMass(std::size_t idx) {
-		if (!inizialized) init();
+		if (!initialized) init();
 		return table[idx];
 	}
 };

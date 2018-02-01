@@ -111,7 +111,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool second
 	sighandler_t old_sigterm_handler = ::signal(SIGTERM,
 			g_cancel_signal_callback);
 
-#pragma omp parallel for schedule(static, 1000)
+#pragma omp parallel for schedule(static, 1)
 	for (size_t i = 0; i < count; i++) {
 		if (g_cancel_signal_flag != 0)
 			continue;
@@ -153,7 +153,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 	sighandler_t old_sigterm_handler = ::signal(SIGTERM,
 			g_cancel_signal_callback);
 
-#pragma omp parallel for schedule(static, 1000)
+#pragma omp parallel for schedule(static, 1)
 	for (size_t i = 0; i < count; i++) {
 		if (g_cancel_signal_flag)
 			continue;

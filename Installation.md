@@ -161,3 +161,8 @@ In a clean minimal **Ubuntu (17.10)** installation the following packages should
   gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
   ```
 
+Fedora/CentOS/RHEL:
+   ```sh
+   yum install git cmake gcc gcc-gfortran gcc-c++ make swig zlib-devel \
+   muParser-devel hdf5-devel fftw-devel python-devel
+  ```

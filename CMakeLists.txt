@@ -347,7 +347,6 @@ add_library(crpropa SHARED
 	src/module/NuclearDecay.cpp
 	src/module/Observer.cpp
 	src/module/Output.cpp
-	src/module/OutputCRPropa2.cpp
 	src/module/OutputShell.cpp
 	src/module/ParticleCollector.cpp
 	src/module/PhotoDisintegration.cpp

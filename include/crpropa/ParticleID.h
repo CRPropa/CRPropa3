@@ -32,10 +32,6 @@ bool isNucleus(int id);
 /* Additional modules */
 std::string convertIdToName(int id); 
 
-/* CRPropa2.0 code scheme */
-int convertFromCRPropa2NucleusId(int id);
-int convertToCRPropa2NucleusId(int id);
-
 /** @}*/
 } // namespace crpropa
 

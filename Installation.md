@@ -106,19 +106,18 @@ cmake -DENABLE_PYTHON=ON ..
 ```
 
 + Set the install path ```-DCMAKE_INSTALL_PREFIX=/my/install/path```
-+ Enable OpenMP ```-DENABLE_OPENMP=ON```
-+ Enable Python ```-DENABLE_PYTHON=ON```
-+ Enable ROOT ```-DENABLE_ROOT=ON```
-+ Enable FFTW3 ```-DENABLE_FFTW3F=ON```
-+ Enable HDF5 ```-DENABLE_HDF5=ON```
-+ Enable OpenMP ```-DENABLE_OPENMP=ON```
-+ Enable Quimby ```-DENABLE_QUIMBY=ON```
-+ Enable unit-tests ```-DENABLE_TESTING=ON```
-+ Enable Coverage ```-DENABLE_COVERAGE=ON```
-+ Enable data file download ```-DDOWNLOAD_DATA=ON```
 + Enable Galactic magnetic lens ```-DENABLE_GALACTICMAGETICLENS=ON```
++ Enable FFTW3 (turbulent magnetic fields) ```-DENABLE_FFTW3F=ON```
++ Enable OpenMP (multi-core parallel computing) ```-DENABLE_OPENMP=ON```
++ Enable Python (Python interface with SWIG) ```-DENABLE_PYTHON=ON```
++ Enable HDF5 (HDF5 output) ```-DENABLE_HDF5=ON```
++ Enable [Quimby](https://forge.physik.rwth-aachen.de/public/quimby/mhd/) (multiresolution MHD fields) ```-DENABLE_QUIMBY=ON```
++ Enable the data file download (can be set to "off" if it is manually provided) ```-DDOWNLOAD_DATA=ON```
++ Enable unit-tests ```-DENABLE_TESTING=ON```
++ Enable Coverage (code coverage tool) ```-DENABLE_COVERAGE=ON```
 + Enable Git ```-DENABLE_GIT=ON```
-+ Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```                                                                                                                                                                  
++ Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```     
++ Debugging symbols included: ```-DCMAKE_BUILD_TYPE:STRING=Debug```                                                                                                                                                             
 
   Generally, for compilers CMake recognise the following env variables: CC, CXX, FC. For example:
   ```

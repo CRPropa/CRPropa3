@@ -10,6 +10,8 @@ CRPropa is a publicly available code to study the propagation of ultra high ener
 This is the current version of CRPropa.
 It features a very flexible simulation setup, support for specialized extragalactic magnetic fields, galactic propagation and galactic lensing, python steering and shared-memory parallelization.
 
+The official web site of CRPropa is [crpropa.desy.de](https://crpropa.desy.de/).
+
 ### Try it out
 You can try out CRPropa online at [vispa.physik.rwth-aachen.de](https://vispa.physik.rwth-aachen.de/).  
 Use the guest login and go to the CRPropa example via "VISPA Cluster" --> "Open Examples".

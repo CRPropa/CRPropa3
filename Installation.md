@@ -161,8 +161,9 @@ In a clean minimal **Ubuntu (17.10)** installation the following packages should
   gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
   ```
 
-Fedora/CentOS/RHEL:
+For Fedora/CentOS/RHEL the required packages to build CRPropa:
    ```sh
    yum install git cmake gcc gcc-gfortran gcc-c++ make swig zlib-devel \
    muParser-devel hdf5-devel fftw-devel python-devel
   ```
+In case of CentOS/RHEL 7, the SWIG version is too old and has to be built from source.

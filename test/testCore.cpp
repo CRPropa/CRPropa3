@@ -110,6 +110,10 @@ TEST(ParticleState, Mass) {
 
 	particle.setId(-id); // anti-iron
 	EXPECT_DOUBLE_EQ(nuclearMass(-id), particle.getMass());
+
+	// approximation for unkown nucleus A * amu - Z * mass_electron
+	int A = 238; int Z = 92; // Uranium92
+	EXPECT_DOUBLE_EQ(nuclearMass(A, Z), A*amu - Z*mass_electron);
 }
 
 TEST(ParticleState, lorentzFactor) {

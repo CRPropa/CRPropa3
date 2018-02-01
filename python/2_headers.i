@@ -393,7 +393,6 @@
 
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
-%include "crpropa/module/OutputCRPropa2.h"
 %include "crpropa/module/EMCascade.h"
 %include "crpropa/module/PhotonEleCa.h"
 %include "crpropa/module/PhotonOutput1D.h"

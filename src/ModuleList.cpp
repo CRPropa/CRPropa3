@@ -155,7 +155,7 @@ void ModuleList::run(SourceInterface *source, size_t count, bool recursive, bool
 
 #pragma omp parallel for schedule(static, 1000)
 	for (size_t i = 0; i < count; i++) {
-		if (g_cancel_signal_flag)
+		if (g_cancel_signal_flag !=0)
 			continue;
 
 		ref_ptr<Candidate> candidate;

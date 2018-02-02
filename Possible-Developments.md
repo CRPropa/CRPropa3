@@ -11,7 +11,7 @@ Even if the calculations are not done on-the-fly, they could performed initially
 Currently, photons from photo-disintegration of cosmic ray nuclei are neglected.
 Taking these photons into account would require a suitable implementation of predicted photon energies from e.g. TALYS **(in progress)**
 
-* **Thinning**: Going to lower energies E < 10^17 eV the number of electrons, positrons and photons quickly becomes prohibitively large. We need a thinning technique in order to use CRPropa at lower energies.
+* **Thinning**: Going to lower energies E < 10^17 eV the number of electrons, positrons and photons quickly becomes prohibitively large. We need a thinning technique in order to use CRPropa at lower energies.**(in progress)**
 
 * **Galactic magnetic field models**: Implementation of new models for the galactic magnetic field such as the revised random field of the JF12 model described in [arXiv:1409.5120](http://arxiv.org/abs/arXiv:1409.5120).
 

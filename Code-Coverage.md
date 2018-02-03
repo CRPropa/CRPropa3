@@ -1,4 +1,5 @@
 ## Code Coverage
+`lcov` is needed for this feature.
 
 * compile crpropa with coverage support
 ```

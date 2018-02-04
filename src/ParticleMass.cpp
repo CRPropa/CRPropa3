@@ -42,7 +42,10 @@ struct NuclearMassTable {
 	}
 
 	double getMass(std::size_t idx) {
-		if (!initialized) init();
+		if (!initialized) {
+#pragma omp critical(init)
+			init();
+		}
 		return table[idx];
 	}
 };

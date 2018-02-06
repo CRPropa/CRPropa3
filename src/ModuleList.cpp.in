@@ -3,7 +3,7 @@
 
 #if _OPENMP
 #include <omp.h>
-#define OMP_SCHEDULE static,10 /* format TYPE,CHUNKSIZE */
+#define OMP_SCHEDULE @OMP_SCHEDULE@
 #endif
 
 #include <algorithm>

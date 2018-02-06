@@ -11,13 +11,14 @@ namespace crpropa {
 
 // Class to handle global evolution of IRB models (cf. CRPropa3-data/calc_scaling.py)
 struct PhotonFieldScaling {
-	bool initialized = false;
+	bool initialized;
 	std::string name;
 	std::vector<double> tab_z;
 	std::vector<double> tab_s;
 
 	PhotonFieldScaling(std::string filename) {
 		name = filename;
+		initialized = false;
 	}
 
 	void init() {

@@ -182,6 +182,11 @@ include(FindOpenMP)
 	endif(OPENMP_FOUND)
 endif(ENABLE_OPENMP)
 
+# Additional configuration OMP_SCHEDULE
+set(OMP_SCHEDULE "static,100" CACHE STRING "FORMAT type,chunksize")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/ModuleList.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/ModuleList.cpp" @ONLY)
+list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/ModuleList.cpp")
+
 # Google Performance Tools (optional as possible performance tweak for OpenMP)
 find_package(GooglePerfTools)
 set(TCMALLOC)

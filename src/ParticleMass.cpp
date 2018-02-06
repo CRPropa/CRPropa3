@@ -14,10 +14,11 @@
 namespace crpropa {
 
 struct NuclearMassTable {
-	bool initialized = false;
+	bool initialized;
 	std::vector<double> table;
 
 	NuclearMassTable() {
+		initialized = false;
 	}
 
 	void init() {

@@ -44,7 +44,9 @@ struct PhotonFieldScaling {
 	}
 
 	double scalingFactor(double z) {
-		if (!initialized) init();
+		if (!initialized) 
+#pragma omp critical(init)
+			init();
 		if (z > tab_z.back())
 			return 0;  // zero photon background beyond maximum tabulated value
 		return interpolate(z, tab_z, tab_s);

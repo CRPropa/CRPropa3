@@ -12,7 +12,7 @@ const hsize_t BUFFER_SIZE = 1024 * 16;
 
 namespace crpropa {
 
-// map variant types to H5T_NATIVE 
+// map variant types to H5T_NATIVE
 hid_t variantTypeToH5T_NATIVE(Variant::Type type) {
 	if (type == Variant::TYPE_INT64)
 		return H5T_NATIVE_INT64;
@@ -58,17 +58,17 @@ HDF5Output::~HDF5Output() {
 	close();
 }
 
-herr_t HDF5Output::insertVersion() {
-	hid_t 	strtype, attr_space, version_attr;
+herr_t HDF5Output::insertStringAttribute(const std::string &key, const std::string &value){
+	hid_t   strtype, attr_space, version_attr;
 	hsize_t dims = 0;
-	herr_t 	status;
+	herr_t  status;
 
 	strtype = H5Tcopy(H5T_C_S1);
-	status = H5Tset_size(strtype, 100);
+	status = H5Tset_size(strtype, value.size());
 
 	attr_space = H5Screate_simple(0, &dims, NULL);
-	version_attr = H5Acreate2(dset, "Version", strtype, attr_space, H5P_DEFAULT, H5P_DEFAULT);
-	status = H5Awrite(version_attr, strtype, g_GIT_DESC);
+	version_attr = H5Acreate2(dset, key.c_str(), strtype, attr_space, H5P_DEFAULT, H5P_DEFAULT);
+	status = H5Awrite(version_attr, strtype, value.c_str());
 	status = H5Aclose(version_attr);
 	status = H5Sclose(attr_space);
 
@@ -107,7 +107,7 @@ void HDF5Output::open(const std::string& filename) {
 		H5Tinsert(sid, "ID0", HOFFSET(OutputRow, ID0), H5T_NATIVE_INT32);
 	if (fields.test(SourceEnergyColumn))
 		H5Tinsert(sid, "E0", HOFFSET(OutputRow, E0), H5T_NATIVE_DOUBLE);
-	if (fields.test(SourcePositionColumn) && oneDimensional) 
+	if (fields.test(SourcePositionColumn) && oneDimensional)
 		H5Tinsert(sid, "X0", HOFFSET(OutputRow, X0), H5T_NATIVE_DOUBLE);
 	if (fields.test(SourcePositionColumn) && not oneDimensional){
 		H5Tinsert(sid, "X0", HOFFSET(OutputRow, X0), H5T_NATIVE_DOUBLE);
@@ -139,7 +139,7 @@ void HDF5Output::open(const std::string& filename) {
 	}
 	if (fields.test(WeightColumn))
 		H5Tinsert(sid, "weight", HOFFSET(OutputRow, weight), H5T_NATIVE_DOUBLE);
-	
+
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
@@ -171,8 +171,11 @@ void HDF5Output::open(const std::string& filename) {
 	hsize_t max_dims[RANK] = {H5S_UNLIMITED};
 	dataspace = H5Screate_simple(RANK, dims, max_dims);
 
-	dset = H5Dcreate2(file, outputName.c_str(), sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
-	insertVersion();	
+	dset = H5Dcreate2(file, "CRPROPA3", sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
+
+
+	insertStringAttribute("OutputType", outputName);
+	insertStringAttribute("Version", g_GIT_DESC);
 
 	H5Pclose(plist);
 
@@ -196,7 +199,7 @@ void HDF5Output::process(Candidate* candidate) const {
 	{
 	if (file == -1)
 		// This is ugly, but necesary as otherwise the user has to manually open the
-		// file before processing the first candidate 
+		// file before processing the first candidate
 		const_cast<HDF5Output*>(this)->open(filename);
 	}
 
@@ -239,7 +242,7 @@ void HDF5Output::process(Candidate* candidate) const {
 	r.P1x = v.x;
 	r.P1y = v.y;
 	r.P1z = v.z;
-	
+
 	r.weight= candidate->getWeight();
 
 	size_t pos = 0;
@@ -258,7 +261,7 @@ void HDF5Output::process(Candidate* candidate) const {
 			pos += v.copyToBuffer(&r.propertyBuffer[pos]);
 	}
 
-	#pragma omp critical 
+	#pragma omp critical
 	{
 		Output::process(candidate);
 

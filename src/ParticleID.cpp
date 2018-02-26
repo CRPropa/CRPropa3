@@ -40,20 +40,6 @@ bool isNucleus(int id) {
 	return HepPID::isNucleus(id);
 }
 
-int convertFromCRPropa2NucleusId(int crp_id) {
-	int Z = crp_id / 1000;
-	int A = crp_id % 1000;
-	return nucleusId(A, Z);
-}
-
-int convertToCRPropa2NucleusId(int id) {
-	if (not HepPID::isNucleus(id)) // if not nucleus, just return the id
-		return id;
-	int Z = chargeNumber(id);
-	int A = massNumber(id);
-	return Z * 1000 + A;
-}
-
 std::string convertIdToName(int id) {
 	// handle a few extra cases that HepPID doesn't like
 	if (id == 1000000010) // neutron

@@ -7,6 +7,10 @@
 #include <fstream>
 
 namespace crpropa {
+/**
+ * \addtogroup Output
+ * @{
+ */
 
 /**
  @class TextOutput
@@ -36,6 +40,7 @@ public:
 	static void load(const std::string &filename, ParticleCollector *collector);
 	std::string getDescription() const;
 };
+/** @}*/
 
 } // namespace crpropa
 

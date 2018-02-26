@@ -2,6 +2,10 @@
 #define CRPROPA_COSMOLOGY_H
 
 namespace crpropa {
+/**
+ * \addtogroup PhysicsDefinitions
+ * @{
+ */
 
 /**
  @file
@@ -72,6 +76,7 @@ double comoving2LightTravelDistance(double distance);
 // Conversion from light travel distance to comoving distance.
 double lightTravel2ComovingDistance(double distance);
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_COSMOLOGY_H

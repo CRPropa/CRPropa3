@@ -5,6 +5,10 @@
 #include "crpropa/Units.h"
 
 namespace crpropa {
+/**
+ * \addtogroup Propagation 
+ * @{
+ */
 
 /**
  @class SimplePropagation
@@ -27,6 +31,7 @@ public:
 	double getMaximumStep() const;
 	std::string getDescription() const;
 };
+/** @}*/
 
 } // namespace crpropa
 

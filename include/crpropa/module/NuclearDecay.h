@@ -6,6 +6,10 @@
 #include <vector>
 
 namespace crpropa {
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
 
 /**
  @class NuclearDecay
@@ -51,6 +55,7 @@ public:
 	 */
 	double meanFreePath(int id, double gamma);
 };
+/** @}*/
 
 } // namespace crpropa
 

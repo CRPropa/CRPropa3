@@ -3,7 +3,7 @@
 
 #ifdef CRPROPA_HAVE_SAGA
 
-#include <iostream> 
+#include <iostream>
 #include <string>
 #include <cstdio>
 
@@ -23,6 +23,10 @@
 
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class AMRMagneticField
@@ -36,8 +40,8 @@ private:
     double cfDensity;
     double cfMagneticField;
 
-public:        
-    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)            
+public:
+    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
     {
         field = field_;
         cfLength = convLength;
@@ -56,10 +60,11 @@ public:
         B.setXYZ(b[0], b[1], b[2]);
         B = B * cfMagneticField;
 
-		return B;   
+		return B;
     }
 
 };
+/** @} */
 
 } // namespace crpropa
 

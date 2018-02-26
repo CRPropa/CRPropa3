@@ -7,6 +7,11 @@
 namespace crpropa {
 
 /**
+ * \addtogroup EnergyLosses
+ * @{
+ */
+
+/**
  @class ElectronPairProduction
  @brief Electron-pair production of charged nuclei with background photons.
 
@@ -50,6 +55,7 @@ public:
 	 */
 	double lossLength(int id, double lf, double z=0) const;
 };
+/** @}*/
 
 } // namespace crpropa
 

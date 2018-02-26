@@ -37,8 +37,6 @@
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/Observer.h"
-#include "crpropa/module/OutputCRPropa2.h"
-#include "crpropa/module/OutputROOT.h"
 #include "crpropa/module/OutputShell.h"
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/module/PhotoDisintegration.h"
@@ -63,6 +61,61 @@
 #include "crpropa/magneticField/ArchimedeanSpiralField.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
+
+
+// Groups of Modules for Doxygen
+
+/**
+ * \defgroup Core Core Classes
+ * @{ @brief Core classes used to build CRPropa
+ * @}
+ *
+ * \defgroup PhysicsDefinitions
+ * @{ @brief Fundamental physical data, function, units, constants, etc.
+ * @}
+ *
+ * \defgroup Propagation Propagation Modules
+ * @{ @brief Modules that propagate a Candidate
+ * @}
+ *
+ * \defgroup EnergyLosses Energy Loss Processes
+ * @{ @brief Energy losses of candidates.
+ * @}
+ *
+ * \defgroup MagneticFields Magnetic Fields
+ * @{ @brief Magnetic field models
+ * @}
+ *
+ * \defgroup Observer Observer
+ * @{ @brief Observers and ObserverFeatures
+ *
+ * ObserverFeatures are added to the ObserverModule to check for detection and perform actions on detection.
+ * @}
+ *
+ * \defgroup SourceFeatures Source
+ * @{ @brief Source and SourceFeatures
+ *
+ *  Sourcefeatures are added to sources and manipulate the properties of the
+ *  emitted candidate.
+ * @}
+ *
+ * \defgroup Output Output
+ * @{ @brief File outputs.
+ * @}
+ *
+ * \defgroup MagneticLenses Magnetic Lenses
+ * @{ @brief Lensing technique to account for deflections in the galactic
+ * magnetic field.
+ * @}
+ *
+ * \defgroup Tools Tools
+ * @{ @brief Collection of handy functinos and modules.
+ * @}
+ */
+
+
+
+
 
 
 #endif // CRPROPA_H

@@ -27,6 +27,10 @@ inline double round(double r) {
 }
 
 /**
+ * \addtogroup Core
+ * @{
+ */
+/**
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
 
@@ -131,6 +135,10 @@ public:
 		return grid[ix * Ny * Nz + iy * Nz + iz];
 	}
 
+	void setValue(size_t ix, size_t iy, size_t iz, T value) {
+		grid[ix * Ny * Nz + iy * Nz + iz] = value;
+	}
+
 	/** Return a reference to the grid values */
 	std::vector<T> &getGrid() {
 		return grid;
@@ -215,6 +223,7 @@ public:
 
 typedef Grid<Vector3f> VectorGrid;
 typedef Grid<float> ScalarGrid;
+/** @}*/
 
 } // namespace crpropa
 

@@ -5,6 +5,10 @@
 #include "crpropa/magneticField/MagneticField.h"
 
 namespace crpropa {
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
 
 /**
  @class SynchrotronRadiation
@@ -51,6 +55,7 @@ public:
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
+/** @}*/
 
 } // namespace crpropa
 

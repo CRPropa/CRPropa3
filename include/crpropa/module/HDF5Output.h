@@ -3,32 +3,6 @@
 #ifndef CRPROPA_HDF5OUTPUT_H
 #define CRPROPA_HDF5OUTPUT_H
 
-/*
- * HDF5 structure:
- *
- * HDF5 "FILENAME.h5" {
- * GROUP "/" {
- * DATASET "OUTPUTTYPE" {
- * 	DATATYPE  H5T_COMPOUND {
- *		...
- *	}
- *	DATASPACE  SIMPLE { ( 1 ) / ( H5S_UNLIMITED ) }
- *	DATA {
- *		...
- *	}
- *     	ATTRIBUTE "Version" {
- *		DATATYPE  H5T_STRING {
- *	     		STRSIZE 100;
- *	     		STRPAD H5T_STR_NULLTERM;
- *			CSET H5T_CSET_ASCII;
- *			CTYPE H5T_C_S1;
- *       	}
- *		DATASPACE  SCALAR
- *		DATA { (0): "VERSION" }
- *	}
- * } } }
- *
- */
 
 #include "crpropa/module/Output.h"
 #include "stdint.h"
@@ -40,6 +14,42 @@ namespace crpropa {
 
 const size_t propertyBufferSize = 1024;
 
+/**
+ * \addtogroup Output
+ * @{
+ */
+
+/**
+ @class HDF5Output
+ @brief Output to HDF5 Format.
+
+
+HDF5 structure:
+```
+HDF5 "FILENAME.h5" {
+GROUP "/" {
+DATASET "OUTPUTTYPE" {
+  DATATYPE  H5T_COMPOUND {
+  ...
+ }
+ DATASPACE  SIMPLE { ( 1 ) / ( H5S_UNLIMITED ) }
+ DATA {
+  ...
+ }
+  ATTRIBUTE "Version" {
+  DATATYPE  H5T_STRING {
+      STRSIZE 100;
+      STRPAD H5T_STR_NULLTERM;
+      CSET H5T_CSET_ASCII;
+      CTYPE H5T_C_S1;
+      }
+  DATASPACE  SCALAR
+  DATA { (0): "VERSION" }
+ }
+} } }
+```
+
+ */
 class HDF5Output: public Output {
 
 	typedef struct OutputRow {
@@ -75,7 +85,7 @@ class HDF5Output: public Output {
 		double weight;
 		unsigned char propertyBuffer[propertyBufferSize];
 	} OutputRow;
-	
+
 	std::string filename;
 
 	hid_t file, sid;
@@ -89,7 +99,7 @@ public:
 	~HDF5Output();
 
 	void process(Candidate *candidate) const;
-	herr_t insertVersion();
+	herr_t insertStringAttribute(const std::string &key, const std::string &value);
 	std::string getDescription() const;
 
 	void open(const std::string &filename);
@@ -97,6 +107,7 @@ public:
 	void flush() const;
 
 };
+/** @}*/
 
 } // namespace crpropa
 

@@ -6,6 +6,10 @@
 #include "crpropa/Variant.h"
 
 namespace crpropa {
+/**
+ * \addtogroup Output
+ * @{
+ */
 
 /**
  @class ShellOutput
@@ -37,6 +41,7 @@ public:
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
+/** @}*/
 
 } // namespace cprpropa
 

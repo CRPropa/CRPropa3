@@ -110,6 +110,10 @@ TEST(ParticleState, Mass) {
 
 	particle.setId(-id); // anti-iron
 	EXPECT_DOUBLE_EQ(nuclearMass(-id), particle.getMass());
+
+	// approximation for unkown nucleus A * amu - Z * mass_electron
+	int A = 238; int Z = 92; // Uranium92
+	EXPECT_DOUBLE_EQ(nuclearMass(A, Z), A*amu - Z*mass_electron);
 }
 
 TEST(ParticleState, lorentzFactor) {
@@ -239,12 +243,6 @@ TEST(common, interpolateEquidistant) {
 
 	// value out of range, return lower bound
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
-}
-
-TEST(NucleusId, crpropaScheme) {
-	// test conversion to and from the CRPropa2 naming scheme
-	EXPECT_EQ(nucleusId(56, 26), convertFromCRPropa2NucleusId(26056));
-	EXPECT_EQ(26056, convertToCRPropa2NucleusId(nucleusId(56, 26)));
 }
 
 TEST(PIDdigit, consistencyWithReferenceImplementation){

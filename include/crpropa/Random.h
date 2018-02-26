@@ -17,7 +17,7 @@
 
 // Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
 // Copyright (C) 2000 - 2003, Richard J. Wagner
-// All rights reserved.                          
+// All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
@@ -30,8 +30,8 @@
 //      notice, this list of conditions and the following disclaimer in the
 //      documentation and/or other materials provided with the distribution.
 //
-//   3. The names of its contributors may not be used to endorse or promote 
-//      products derived from this software without specific prior written 
+//   3. The names of its contributors may not be used to endorse or promote
+//      products derived from this software without specific prior written
 //      permission.
 //
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -81,8 +81,16 @@
 namespace crpropa {
 
 /**
+ * \addtogroup Core
+ * @{
+ */
+/**
  @class Random
  @brief Random number generator.
+
+ Mersenne Twister random number generator -- a C++ class Random
+ Based on code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus
+ Richard J. Wagner  v1.0  15 May 2003  rjwagner@writeme.com
  */
 class Random {
 public:
@@ -123,7 +131,7 @@ public:
 
 	uint64_t randInt64(); ///< integer in [0, 2**64 -1]. PROBABLY NOT SECURE TO USE
 	uint64_t randInt64(const uint64_t &n); ///< integer in [0, n] for n < 2**64 -1. PROBABLY NOT SECURE TO USE
- 
+
 	double operator()() {return rand();} ///< same as rand()
 
 	/// Access to 53-bit random numbers (capacity of IEEE double precision)
@@ -134,12 +142,12 @@ public:
 	double randNorm( const double& mean = 0.0, const double& variance = 1.0 );
 	/// Uniform distribution in [min, max]
 	double randUniform(double min, double max);
-	/// Rayleigh distributed random number	
+	/// Rayleigh distributed random number
 	double randRayleigh(double sigma);
 	/// Fisher distributed random number
 	double randFisher(double k);
 
-	/// Draw a random bin from a (unnormalized) cumulative distribution function, without leading zero. 
+	/// Draw a random bin from a (unnormalized) cumulative distribution function, without leading zero.
 	size_t randBin(const std::vector<float> &cdf);
 	size_t randBin(const std::vector<double> &cdf);
 
@@ -156,7 +164,7 @@ public:
 
 	/// Power-law distribution of a given differential spectral index
 	double randPowerLaw(double index, double min, double max);
-	/// Broken power-law distribution 
+	/// Broken power-law distribution
 	double randBrokenPowerLaw(double index1, double index2, double breakpoint, double min, double max );
 
 	/// Seed the generator with a simple uint32
@@ -180,7 +188,7 @@ public:
 
 	static Random &instance();
 	static void seedThreads(const uint32 oneSeed);
-	
+
 protected:
 	/// Initialize generator state with seed
 	/// See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
@@ -214,6 +222,7 @@ protected:
 	static uint32 hash( time_t t, clock_t c );
 
 };
+/** @}*/
 
 } //namespace crpropa
 

@@ -6,6 +6,10 @@
 #include <fstream>
 
 namespace crpropa {
+/**
+ * \addtogroup Output
+ * @{
+ */
 
 class PhotonOutput1D: public Module {
 private:
@@ -18,6 +22,7 @@ public:
 	std::string getDescription() const;
 	void close();
 };
+/** @}*/
 
 } // namespace crpropa
 

@@ -9,6 +9,9 @@
 #include <vector>
 
 namespace crpropa {
+/** @addtogroup SourceFeatures
+ *  @{
+ */
 
 /**
  @class SourceFeature
@@ -67,11 +70,6 @@ public:
 };
 
 
-/** @defgroup SourceFeature SourceFeatures
- *  Sourcefeatures are added to sources and manipulate the proeprties of the
- *  emitted candidate.
- *  @{
- */
 
 
 /**

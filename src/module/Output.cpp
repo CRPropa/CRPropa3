@@ -59,7 +59,7 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentDirectionColumn, true);
 		set1D(false);
 	} else if (outputtype == Event3D) {
-		// W, D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z
+		// D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z
 		set(TrajectoryLengthColumn, true);
 		set(CurrentIdColumn, true);
 		set(CurrentEnergyColumn, true);
@@ -123,8 +123,7 @@ size_t Output::size() const {
 	return count;
 }
 
-void Output::enableProperty(const std::string &property, const Variant &defaultValue, const std::string &comment)
-{
+void Output::enableProperty(const std::string &property, const Variant &defaultValue, const std::string &comment) {
 	modify();
 	Property prop;
 	prop.name = property;

@@ -5,6 +5,10 @@
 #include "crpropa/Grid.h"
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class MagneticFieldGrid
@@ -22,7 +26,7 @@ public:
 };
 
 /**
- @class MagneticFieldGrid
+ @class ModulatedMagneticFieldGrid
  @brief Modulated magnetic field on a periodic grid.
 
  This class wraps a VectorGrid to serve as a MagneticField.
@@ -43,7 +47,7 @@ public:
 	void setReflective(bool gridReflective, bool modGridReflective);
 	Vector3d getField(const Vector3d &position) const;
 };
-
+/** @} */
 } // namespace crpropa
 
 #endif // CRPROPA_MAGNETICFIELDGRID_H

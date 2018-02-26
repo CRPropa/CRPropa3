@@ -16,6 +16,9 @@ namespace crpropa {
 enum DetectionState {
 	DETECTED, VETO, NOTHING
 };
+/** \addtogroup Observer
+ * @{
+ */
 
 /**
  @class ObserverFeature
@@ -51,6 +54,8 @@ public:
 	void setFlag(std::string key, std::string value);
 	void setDeactivateOnDetection(bool deactivate);
 };
+
+
 
 /**
  @class ObserverDetectAll
@@ -199,6 +204,7 @@ public:
   DetectionState checkDetection(Candidate *candidate) const;
   std::string getDescription() const;
 };
+/** @} */
 
 }
 

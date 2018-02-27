@@ -4,6 +4,10 @@
 #include "crpropa/Module.h"
 
 namespace crpropa {
+/**
+ * \addtogroup Condition
+ * @{
+ */
 
 /**
  @class PeriodicBox
@@ -158,6 +162,7 @@ public:
 	void setLimitStep(bool limitStep);
 	std::string getDescription() const;
 };
+/** @}*/
 
 } // namespace crpropa
 

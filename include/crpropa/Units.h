@@ -103,6 +103,7 @@ static const double ms = millisecond;
 static const double sec = second;
 
 /** @}*/
+
 } // namespace crpropa
 
 #endif // CRPROPA_UNITS_H

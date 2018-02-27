@@ -69,7 +69,7 @@
  * @{ @brief Core classes used to build CRPropa
  * @}
  *
- * \defgroup PhysicsDefinitions
+ * \defgroup PhysicsDefinitions Physics Definitions
  * @{ @brief Fundamental physical data, function, units, constants, etc.
  * @}
  *
@@ -85,20 +85,26 @@
  * @{ @brief Magnetic field models
  * @}
  *
- * \defgroup Observer Observer
+ * \defgroup Observer Observers
  * @{ @brief Observers and ObserverFeatures
  *
  * ObserverFeatures are added to the ObserverModule to check for detection and perform actions on detection.
  * @}
  *
- * \defgroup SourceFeatures Source
+ * \defgroup Condition Conditions
+ * @{ @brief Propagation boundaries and breaking conditions
+ *
+ * Conditions are set of modules similar to the Observer as they can perform an action if fulfilled.
+ * @}
+ *
+ * \defgroup SourceFeatures Sources
  * @{ @brief Source and SourceFeatures
  *
  *  Sourcefeatures are added to sources and manipulate the properties of the
  *  emitted candidate.
  * @}
  *
- * \defgroup Output Output
+ * \defgroup Output Output Modules
  * @{ @brief File outputs.
  * @}
  *
@@ -108,7 +114,7 @@
  * @}
  *
  * \defgroup Tools Tools
- * @{ @brief Collection of handy functinos and modules.
+ * @{ @brief Collection of helper functinos and modules.
  * @}
  */
 

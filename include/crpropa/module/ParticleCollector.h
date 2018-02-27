@@ -9,12 +9,13 @@
 namespace crpropa {
 /**
  * \addtogroup Tools
+ * \addtogroup Output
  * @{
  */
 
 /**
  @class ParticleCollector
- @brief A helper ouput mechanism to directly transfer candidates to Python
+ @brief A helper ouput mechanism to keep candidates in-memory and directly transfer them to Python
  */
 class ParticleCollector: public Module {
 protected:

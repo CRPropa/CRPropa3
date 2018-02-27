@@ -59,7 +59,7 @@ public:
 
 	// ======== Helper methods ========
 
-	/// Electrical charge of the particle in [A]
+	/// Electrical charge of the particle in [C]
 	double getCharge() const;
 	/// Mass of the particle in [kg]
 	double getMass() const;

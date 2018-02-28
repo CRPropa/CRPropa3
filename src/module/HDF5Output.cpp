@@ -47,10 +47,10 @@ hid_t variantTypeToH5T_NATIVE(Variant::Type type) {
 	}
 }
 
-HDF5Output::HDF5Output(const std::string& filename) :  Output(), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1) {
+HDF5Output::HDF5Output(const std::string& filename) :  Output(), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1), candidatesSinceFlush(0), flushLimit(std::numeric_limits<unsigned int>::max()) {
 }
 
-HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) :  Output(outputtype), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1) {
+HDF5Output::HDF5Output(const std::string& filename, OutputType outputtype) :  Output(outputtype), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1), candidatesSinceFlush(0), flushLimit(std::numeric_limits<unsigned int>::max()) {
 	outputtype = outputtype;
 }
 
@@ -263,6 +263,7 @@ void HDF5Output::process(Candidate* candidate) const {
 
 	#pragma omp critical
 	{
+		const_cast<HDF5Output*>(this)->candidatesSinceFlush++;
 		Output::process(candidate);
 
 		buffer.push_back(r);
@@ -271,6 +272,11 @@ void HDF5Output::process(Candidate* candidate) const {
 		if (buffer.size() >= buffer.capacity())
 		{
 			KISS_LOG_DEBUG << "HDF5Output: Flush due to buffer capacity exceeded";
+			flush();
+		}
+		else if (candidatesSinceFlush >= flushLimit)
+		{
+			KISS_LOG_DEBUG << "HDF5Output: Flush due to number of candidates";
 			flush();
 		}
 		else if (difftime(time(NULL), lastFlush) > 60*10)
@@ -283,6 +289,7 @@ void HDF5Output::process(Candidate* candidate) const {
 
 void HDF5Output::flush() const {
 	const_cast<HDF5Output*>(this)->lastFlush = time(NULL);
+	const_cast<HDF5Output*>(this)->candidatesSinceFlush = 0;
 
 	hsize_t n = buffer.size();
 
@@ -312,10 +319,17 @@ void HDF5Output::flush() const {
 	H5Sclose(file_space);
 
 	buffer.clear();
+
+	H5Fflush(file, H5F_SCOPE_GLOBAL);
 }
 
 std::string HDF5Output::getDescription() const  {
 	return "HDF5Output";
+}
+
+void HDF5Output::setFlushLimit(unsigned int N)
+{
+	flushLimit = N;	
 }
 
 } // namespace crpropa

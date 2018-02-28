@@ -75,6 +75,24 @@ herr_t HDF5Output::insertStringAttribute(const std::string &key, const std::stri
 	return status;
 }
 
+herr_t HDF5Output::insertDoubleAttribute(const std::string &key, const double &value){
+	hid_t   type, attr_space, version_attr;
+	hsize_t dims = 0;
+	herr_t  status;
+
+	type = H5Tcopy(H5T_NATIVE_DOUBLE);
+
+	attr_space = H5Screate_simple(0, &dims, NULL);
+	version_attr = H5Acreate2(dset, key.c_str(), type, attr_space, H5P_DEFAULT, H5P_DEFAULT);
+	status = H5Awrite(version_attr, type, &value);
+	status = H5Aclose(version_attr);
+	status = H5Sclose(attr_space);
+
+	return status;
+}
+
+
+
 void HDF5Output::open(const std::string& filename) {
 	file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
@@ -176,6 +194,10 @@ void HDF5Output::open(const std::string& filename) {
 
 	insertStringAttribute("OutputType", outputName);
 	insertStringAttribute("Version", g_GIT_DESC);
+
+	insertDoubleAttribute("LengthScale", this->lengthScale);
+	insertDoubleAttribute("EnergyScale", this->energyScale);
+
 
 	H5Pclose(plist);
 

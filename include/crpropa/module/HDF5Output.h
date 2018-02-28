@@ -102,6 +102,7 @@ public:
 
 	void process(Candidate *candidate) const;
 	herr_t insertStringAttribute(const std::string &key, const std::string &value);
+	herr_t insertDoubleAttribute(const std::string &key, const double &value);
 	std::string getDescription() const;
 
 	/// Force flush after N events. In long running applications with scarse

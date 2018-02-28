@@ -93,6 +93,8 @@ class HDF5Output: public Output {
 	mutable std::vector<OutputRow> buffer;
 
 	time_t lastFlush;
+	unsigned int flushLimit;
+	unsigned int candidatesSinceFlush;
 public:
 	HDF5Output(const std::string &filename);
 	HDF5Output(const std::string &filename, OutputType outputtype);
@@ -101,6 +103,11 @@ public:
 	void process(Candidate *candidate) const;
 	herr_t insertStringAttribute(const std::string &key, const std::string &value);
 	std::string getDescription() const;
+
+	/// Force flush after N events. In long running applications with scarse
+	/// output this can be set to 1 to avoid data corruption. In applications
+	/// with frequent output this should be set to a high umber (default)
+	void setFlushLimit(unsigned int N);
 
 	void open(const std::string &filename);
 	void close();

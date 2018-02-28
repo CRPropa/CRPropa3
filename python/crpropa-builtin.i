@@ -98,5 +98,6 @@ class ParticleMapsContainer( ParticleMapsContainer ):
 
 %}
 
+%include "5_hepid.i"
 #endif // WITH_GALACTIC_LENSES_
 

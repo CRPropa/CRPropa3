@@ -69,5 +69,8 @@ ParticleMapsContainer.getRandomParticles = ParticleMapsContainer.getRandomPartic
 
 %}
 
+
+%include "5_hepid.i"
+
 #endif // WITH_GALACTIC_LENSES_
 

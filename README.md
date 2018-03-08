@@ -21,7 +21,14 @@ Installation instructions and documentation are found on the [wiki page](https:/
 To get started we suggest to look at the [tutorials and examples](https://github.com/CRPropa/CRPropa3-notebooks#crpropa-3-notebooks).
 
 ### Support
-Please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues) for support and in case of general questions. Please browse also the closed issues and [wiki](https://github.com/CRPropa/CRPropa3/wiki) to check if your problem has been already answered.
+Please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues) for support and in case of general questions.
+Please browse the [wiki](https://github.com/CRPropa/CRPropa3/wiki) and previous
+support requests on
+[installation](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+)
+and
+[usage](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=label%3Ausage-question+)
+of CRPropa before opening a new ticket.
+
 
 ### Howto cite CRPropa
 If you use CRPropa 3 for your research, please cite:

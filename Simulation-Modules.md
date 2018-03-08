@@ -31,6 +31,7 @@ General interactions/processes
 
 * **Redshift** - updates the redshift and calculates the adiabatic energy loss
 * **SynchrotronRadiation** - Synchrotron radiation of charged particles in magnetic fields, optional secondaries: photons
+* **AdiabaticCooling** - Takes adiabatic cooling (or heating) of the particles due to expansion (or compression) of the plasma into account
 
 ### Conditional modules
 Conditional modules implement certain conditions for stopping propagation.

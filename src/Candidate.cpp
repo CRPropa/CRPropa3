@@ -227,6 +227,7 @@ uint64_t Candidate::nextSerialNumber = 0;
 
 void Candidate::restart() {
 	setActive(true);
+	setTrajectoryLength(0);
 	previous = source;
 	current = source;
 }

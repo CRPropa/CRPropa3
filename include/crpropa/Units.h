@@ -1,5 +1,9 @@
 #ifndef CRPROPA_UNITS_H
 #define CRPROPA_UNITS_H
+
+#include <cmath>
+
+namespace crpropa {
 /**
  * \addtogroup PhysicsDefinitions
  * @{
@@ -16,10 +20,6 @@
  - IAU 2012 Resolution B2, IAU 2015 Resolution B2
  	https://www.iau.org/administration/resolutions/
  */
-
-#include <cmath>
-
-namespace crpropa {
 
 // SI units
 static const double meter = 1;

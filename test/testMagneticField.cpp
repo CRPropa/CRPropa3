@@ -19,11 +19,17 @@ TEST(testUniformMagneticField, SimpleTest) {
 }
 
 TEST(testMagneticDipoleField, SimpleTest) {
+	// Test magnetic dipole
+	// mu0 / (4*M_PI) * m / r^3 (2*cos(theta)*e_r + sin(theta)*e_theta)
 	MagneticDipoleField B(Vector3d(0,0,0), Vector3d(0,0,1), 1);
-	Vector3d b = B.getField(Vector3d(0, 0, 1));
-	EXPECT_NEAR(b.getX(), 0, 1E-8);
-	EXPECT_NEAR(b.getY(), 0, 1E-8);
-	EXPECT_NEAR(b.getZ(), 1E-07, 1E-8);
+	Vector3d b1 = B.getField(Vector3d(0, 0, 1)); // theta = 0
+	Vector3d b2 = B.getField(Vector3d(1, 0, 0)); // theta = 0
+	EXPECT_NEAR(b1.getX(), 0, 1E-8);
+	EXPECT_NEAR(b1.getY(), 0, 1E-8);
+	EXPECT_NEAR(b1.getZ(), mu0 / (4*M_PI) * 2, 1E-8);
+	EXPECT_NEAR(b2.getX(), 0, 1E-8);
+	EXPECT_NEAR(b2.getY(), 0, 1E-8);
+	EXPECT_NEAR(b2.getZ(), -1 * mu0 / (4*M_PI), 1E-8);
 }
 
 #ifdef CRPROPA_HAVE_MUPARSER

@@ -19,14 +19,14 @@ namespace crpropa {
  See: Pshirkov, Tinyakov, Kronberg Newton-McGee 2011 - Deriving global structure of the Galactic Magnetic Field from Faraday Rotation Measures of extragalactic sources, DOI: 10.1088/0004-637X/738/2/192, arXiv:1103.0814
  */
 
-class PshirkovField: public MagneticField {
+class PT11Field: public MagneticField {
 private:
 	bool useASS;  // switch for axisymmetric spiral field (ASS)
 	bool useBSS;  // switch for bisymmetric spiral field (BSS)
 	bool useHalo; // switch for halo field
 
 	// disk parameters
-	double pitch, cos_pitch, sin_pitch, theta, cos_theta;  // pitch angle parameters
+	double pitch, cos_pitch, cos_pitch_pt, sin_pitch, theta, cos_theta;  // pitch angle parameters
 	double d;     // distance to first field reversal
 	double R_sun; // distance between sun and galactic center
 	double R_c;   // radius of central region
@@ -42,7 +42,7 @@ private:
 	double z12_H; // halo vertical thickness off the disk
 
 public:
-	PshirkovField();
+	PT11Field();
 
 	void setUseASS(bool use);
 	void setUseBSS(bool use);

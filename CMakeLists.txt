@@ -310,7 +310,7 @@ endif(DOWNLOAD_DATA)
 if(EXISTS ${CMAKE_BINARY_DIR}/data.tar.gz)
 	execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 else()
-	message(WARNING "CRPropa data file not found at ${CMAKE_BINARY_DIR}/data.tar.gz 
+	message(WARNING "CRPropa data file not found at ${CMAKE_BINARY_DIR}/data.tar.gz
 CRPropa should compile, but will likely not work properly! Please install data file manually, or use the automatic download which is enabled by default.")
 endif()
 
@@ -368,7 +368,7 @@ add_library(crpropa SHARED
 	src/magneticField/JF12Field.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
-	src/magneticField/PshirkovField.cpp
+	src/magneticField/PT11Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
 	src/advectionField/AdvectionField.cpp
 	${CRPROPA_EXTRA_SOURCES}

@@ -16,7 +16,6 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 	container.reserve(nBuffer);
 }
 
-
 ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone, const bool recursive) {
 	container.reserve(nBuffer);
 }
@@ -24,12 +23,10 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 void ParticleCollector::process(Candidate *c) const {
 #pragma omp critical
         {
-                if (container.size() < nBuffer){
-			if(clone)
-		        	container.push_back(c->clone(recursive));
-			else
-				container.push_back(c);
-		}
+		if(clone)
+		       	container.push_back(c->clone(recursive));
+		else
+			container.push_back(c);
         }
 }
 
@@ -78,6 +75,10 @@ std::vector<ref_ptr<Candidate> > ParticleCollector::getAll() const {
 
 void ParticleCollector::setClone(bool b) {
         clone = b;
+}
+
+bool ParticleCollector::getClone() const {
+        return clone;
 }
 
 std::string ParticleCollector::getDescription() const {

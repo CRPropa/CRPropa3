@@ -45,6 +45,7 @@ public:
 	std::string getDescription() const;
 	std::vector<ref_ptr<Candidate> > getAll() const;
 	void setClone(bool b);
+	bool getClone() const;
 
 	/** iterator goodies */
         typedef tContainer::iterator iterator;

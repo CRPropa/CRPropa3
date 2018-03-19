@@ -4,7 +4,7 @@
 namespace crpropa {
 
 /*
- * Functional test which calculates particle's gyroradius in a uniform field
+ * Functional test which calculates the particle's gyroradius in a uniform field
  * r_g = R / (B*c) = 1 EV / (1 nG * c) \approx 1.08*Mpc
  */
 TEST(testFunctionalGroups, gyroradius) {
@@ -19,7 +19,8 @@ TEST(testFunctionalGroups, gyroradius) {
 
 	ref_ptr<Candidate> c = new Candidate(p);
 	ref_ptr<PropagationCK> propa = new PropagationCK(new UniformMagneticField(Vector3d(field, 0, 0)));
-	ref_ptr<ParticleCollector> collector = new ParticleCollector(1000, true);
+	ref_ptr<ParticleCollector> collector = new ParticleCollector();
+	collector->setClone(true);
 	ref_ptr<ModuleList> sim = new ModuleList();
 
 	Vector3d pos;

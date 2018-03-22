@@ -1,11 +1,11 @@
-#include "crpropa/magneticField/PshirkovField.h"
+#include "crpropa/magneticField/PT11Field.h"
 #include "crpropa/Units.h"
 
 #include <algorithm>
 
 namespace crpropa {
 
-PshirkovField::PshirkovField() : useASS(false), useBSS(true), useHalo(true) {
+PT11Field::PT11Field() : useASS(false), useBSS(true), useHalo(true) {
 	// disk parameters
 	d = - 0.6 * kpc;
 	R_sun = 8.5 * kpc;
@@ -25,13 +25,13 @@ PshirkovField::PshirkovField() : useASS(false), useBSS(true), useHalo(true) {
 	setUseBSS(true);
 }
 
-void PshirkovField::setUseASS(bool use) {
+void PT11Field::setUseASS(bool use) {
 	useASS = use;
 	if (not(use))
 		return;
 
 	if (useBSS) {
-		std::cout << "PshirkovField: Disk field changed to ASS" << std::endl;
+		std::cout << "PT11Field: Disk field changed to ASS" << std::endl;
 		useBSS = false;
 	}
 
@@ -43,13 +43,13 @@ void PshirkovField::setUseASS(bool use) {
 	B0_Hs = 2.0 * muG;
 }
 
-void PshirkovField::setUseBSS(bool use) {
+void PT11Field::setUseBSS(bool use) {
 	useBSS = use;
 	if (not(use))
 		return;
 
 	if (useASS) {
-		std::cout << "PshirkovField: Disk field changed to BSS" << std::endl;
+		std::cout << "PT11Field: Disk field changed to BSS" << std::endl;
 		useASS = false;
 	}
 
@@ -61,25 +61,25 @@ void PshirkovField::setUseBSS(bool use) {
 	B0_Hs = 4.0 * muG;
 }
 
-void PshirkovField::setUseHalo(bool use) {
+void PT11Field::setUseHalo(bool use) {
 	useHalo = use;
 }
 
-bool PshirkovField::isUsingASS() {
+bool PT11Field::isUsingASS() {
 	return useASS;
 }
 
-bool PshirkovField::isUsingBSS() {
+bool PT11Field::isUsingBSS() {
 	return useBSS;
 }
 
-bool PshirkovField::isUsingHalo() {
+bool PT11Field::isUsingHalo() {
 	return useHalo;
 }
 
-Vector3d PshirkovField::getField(const Vector3d& pos) const {
+Vector3d PT11Field::getField(const Vector3d& pos) const {
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
-	double phi = pos.getPhi();  // azimuth
+
 	double cos_phi = pos.x / r;
 	double sin_phi = pos.y / r;
 
@@ -87,9 +87,15 @@ Vector3d PshirkovField::getField(const Vector3d& pos) const {
 
 	// disk field
 	if ((useASS) or (useBSS)) {
-		b.x = sin_pitch * cos_phi - cos_pitch * sin_phi;
-		b.y = sin_pitch * sin_phi + cos_pitch * cos_phi;
+		// PT11 paper has B * cos(p) but this seems because they define azimuth clockwise, while we have anticlockwise.
+		// see Tinyakov 2002 APh 18,165: "local field points to l=90+p" so p=-5 deg gives l=85 and hence clockwise from above.
+		// so to get local B clockwise in our system, need minus (like Sun etal).
+		// Ps base their system on Han and Qiao 1994 A&A 288,759 which has a diagram with azimuth clockwise, hence confirmed.
+		double phi = -pos.getPhi();  // azimuth; since PT11 paper uses opposite convention for phi
 		double bMag = cos(phi - cos_pitch / sin_pitch * log(r / R_sun) + theta);
+		double cos_pitch_pt = - cos_pitch; // azimuthal field in direction of increasing azimuth angle theta
+		b.x = sin_pitch * cos_phi - cos_pitch_pt * sin_phi;
+		b.y = sin_pitch * sin_phi + cos_pitch_pt * cos_phi;
 		if (useASS)
 			bMag = fabs(bMag);
 		bMag *= B0_D * R_sun / std::max(r, R_c) / cos_theta * exp(-fabs(pos.z) / z0_D);

@@ -8,6 +8,16 @@ build/*
 data/*
 data-tools/*
 data.tar.gz
+CMakeCache.txt
+
+CMakeFiles/
+bin/
+install/
+lib/
+share/
+
+cmake/CMakeCache.txt
+cmake/CMakeFiles/
 
 *.png
 *.pyc

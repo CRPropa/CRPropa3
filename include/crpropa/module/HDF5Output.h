@@ -106,8 +106,8 @@ public:
 	std::string getDescription() const;
 
 	/// Force flush after N events. In long running applications with scarse
-	/// output this can be set to 1 to avoid data corruption. In applications
-	/// with frequent output this should be set to a high umber (default)
+	/// output this can be set to 1 or 0 to avoid data corruption. In applications
+	/// with frequent output this should be set to a high number (default)
 	void setFlushLimit(unsigned int N);
 
 	void open(const std::string &filename);

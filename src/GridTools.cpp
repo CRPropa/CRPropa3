@@ -120,13 +120,13 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 	// construct the field in configuration space
 	int i;
 	double k;
-	
+
 	// only used if there is a helicity
 	double Bktot, Bkplus, Bkminus, thetaplus, thetaminus;
-	
+
 	// parameters goes for non helical calculations
 	double theta, phase, cosPhase, sinPhase;
-	
+
 	double kMin = spacing / lMax;
 	double kMax = spacing / lMin;
 	Vector3f b; // real b-field vector
@@ -184,7 +184,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 					Bky[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.y + ( Bkplus * ctp - Bkminus * ctm) * e2.y) / sqrt(2);
 					Bkz[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.z + (-Bkplus * stp + Bkminus * stm) * e2.z) / sqrt(2);
 					Bkz[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.z + ( Bkplus * ctp - Bkminus * ctm) * e2.z) / sqrt(2);
-					
+
 					Vector3f BkRe(Bkx[i][0], Bky[i][0], Bkz[i][0]);
 					Vector3f BkIm(Bkx[i][1], Bky[i][1], Bkz[i][1]);
 

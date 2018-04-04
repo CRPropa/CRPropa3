@@ -22,10 +22,10 @@ PhotonOutput1D::PhotonOutput1D(std::ostream &out) : out(&out) {
 }
 
 PhotonOutput1D::PhotonOutput1D(const std::string &filename) : outfile(
-    filename.c_str(), std::ios::binary), out(&outfile), filename(filename) {
+	filename.c_str(), std::ios::binary), out(&outfile), filename(filename) {
 
-    if (kiss::ends_with(filename, ".gz"))
-        gzip();
+	if (kiss::ends_with(filename, ".gz"))
+		gzip();
 
 	*out << "#ID\tE\tD\tpID\tpE\tiID\tiE\tiD\n";
 	*out << "#\n";
@@ -36,12 +36,9 @@ PhotonOutput1D::PhotonOutput1D(const std::string &filename) : outfile(
 	*out << "# pE          Energy [EeV] of parent particle\n";
 	*out << "# iID         Id of source particle\n";
 	*out << "# iE          Energy [EeV] of source particle\n";
-    *out << "# iD          Comoving distance [Mpc] to source\n";
+	*out << "# iD          Comoving distance [Mpc] to source\n";
 	*out << "#\n";
 }
-
-//PhotonOutput1D::~PhotonOutput1D() {
-//}
 
 void PhotonOutput1D::process(Candidate *candidate) const {
 	int pid = candidate->current.getId();
@@ -60,7 +57,7 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 
 	p += std::sprintf(buffer + p, "%10i\t", candidate->source.getId());
 	p += std::sprintf(buffer + p, "%8.4f\t", candidate->source.getEnergy() / EeV);
-    p += std::sprintf(buffer + p, "%8.4f\n", candidate->source.getPosition().getR() / Mpc);
+	p += std::sprintf(buffer + p, "%8.4f\n", candidate->source.getPosition().getR() / Mpc);
 
 #pragma omp critical
 	{
@@ -71,14 +68,14 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 }
 
 void PhotonOutput1D::close() {
-#ifdef CRPROPA_HAVE_ZLIB
-    zstream::ogzstream *zs = dynamic_cast<zstream::ogzstream *>(out);
-    if (zs) {
-        zs->close();
-        delete out;
-        out = 0;
-    }
-#endif
+	#ifdef CRPROPA_HAVE_ZLIB
+		zstream::ogzstream *zs = dynamic_cast<zstream::ogzstream *>(out);
+		if (zs) {
+			zs->close();
+			delete out;
+			out = 0;
+		}
+	#endif
 	outfile.flush();
 }
 
@@ -89,15 +86,15 @@ string PhotonOutput1D::getDescription() const {
 }
 
 PhotonOutput1D::~PhotonOutput1D() {
-    close();
+	close();
 }
 
 void PhotonOutput1D::gzip() {
-#ifdef CRPROPA_HAVE_ZLIB
-    out = new zstream::ogzstream(*out);
-#else
-    throw std::runtime_error("CRPropa was build without Zlib compression!");
-#endif
+	#ifdef CRPROPA_HAVE_ZLIB
+		out = new zstream::ogzstream(*out);
+	#else
+		throw std::runtime_error("CRPropa was build without Zlib compression!");
+	#endif
 }
 
 } // namespace crpropa

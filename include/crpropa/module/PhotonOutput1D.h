@@ -13,19 +13,19 @@ namespace crpropa {
 
 class PhotonOutput1D: public Module {
 private:
-    std::ostream *out;
+	std::ostream *out;
 	std::string filename;
 	mutable std::ofstream outfile;
 
 public:
-    PhotonOutput1D();
-    PhotonOutput1D(std::ostream &out);
-    PhotonOutput1D(const std::string &filename);
+	PhotonOutput1D();
+	PhotonOutput1D(std::ostream &out);
+	PhotonOutput1D(const std::string &filename);
 	~PhotonOutput1D();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 	void close();
-    void gzip();
+	void gzip();
 };
 /** @}*/
 

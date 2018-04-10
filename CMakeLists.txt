@@ -389,6 +389,7 @@ add_library(crpropa SHARED
 	src/module/SynchrotronRadiation.cpp
 	src/module/TextOutput.cpp
 	src/module/AdiabaticCooling.cpp
+	src/module/MomentumDiffusion.cpp
 	src/module/Tools.cpp
 	src/magneticField/JF12Field.cpp
 	src/magneticField/JF12FieldSolenoidal.cpp

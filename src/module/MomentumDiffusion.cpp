@@ -5,59 +5,63 @@ using namespace crpropa;
 
 
 MomentumDiffusion::MomentumDiffusion() : 
-scale(1.)
+limit(0.1)
 {
-  	setAlpha(1./2.);
+	setScale(1.);  	
+	setAlpha(1./2.);
+	setAlvenSpeed(40 * km / second);
 	}
 
 MomentumDiffusion::MomentumDiffusion(double alpha, double scale) :
-scale(scale)
+limit(0.1)
 {
+	setScale(1.);
 	setAlpha(alpha);
+	setAlvenSpeed(40 * km / second);
   	}
 
 void MomentumDiffusion::process(Candidate *c) const {
 
 	double p = c->current.getEnergy(); // Note we use E=p/c (relativistic limit)
 	double rig = p / c->current.getCharge();
-	int id = c->current.getId();
 	double dt = c->getCurrentStep() / c_light;
-
-	double eta =  Random::instance().randNorm();
-	double domega = eta * pow(dt, 0.5);
 	
-	double AScal = 0.;
-	double BScal = 0.;
+	std::cout <<dt<<"\n";
+	double eta =  Random::instance().randNorm();
+	double domega = eta * sqrt(dt);
+	
 
-	calculateAScalar(rig, p, id, AScal);
-	calculateBScalar(rig, BScal);
+	double AScal = calculateAScalar(rig, p);
+	double BScal = calculateBScalar(rig, p);
 
 	double dp = AScal * dt + BScal * domega;
-
+	std::cout <<dp<<"\n";
 	c->current.setEnergy(p + dp);
 
-	//c->limitNextStep(limit * E / fabs(dEdt) *c_light);
+	c->limitNextStep(limit * p / ((AScal + BScal/sqrt(dt)) * c_light));
 
 }
 
 
 
 
-void MomentumDiffusion::calculateBScalar(double rig, double BScal) const {
+double MomentumDiffusion::calculateBScalar(double rig, double p) const{
 
-    double Dpp = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
-    BScal = pow( 2  * Dpp, 0.5);   
-    return;
+    	double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
+	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx; // Astroparticle Physics: Theory and Phenomenology, G. Sigl, Atlantis Press (2017); Eq. (7.34) 
+    	double BScal = sqrt( 2  * Dpp);   
+    	return BScal;
 
 }
 
-void MomentumDiffusion::calculateAScalar(double rig, double p, int id, double AScal) const {
+double MomentumDiffusion::calculateAScalar(double rig, double p) const {
 	
-	double Dpp = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
-    	double partialDpp = alpha * scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha-1);
-	int sign = (id < 0) ? -1 : 1; // Different behavior for time forward (particles) and time backward (anti-particles) propagation  
-    	AScal = partialDpp - sign * 2. / p * Dpp;   
-   	return;
+    	double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
+	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx;
+    	double partialDpp = (2 + alpha) / p * Dpp; //check the sign
+
+    	double AScal = partialDpp -2. / p * Dpp;   
+   	return AScal;
 
 }
 
@@ -76,6 +80,27 @@ void MomentumDiffusion::setScale(double s) {
 	scale = s;
 }
 
+void MomentumDiffusion::setAlvenSpeed(double v) {
+	if (v < 0)
+		throw std::runtime_error(
+				"MomentumDiffusion: Alvenspeed error: v_A < 0");
+	if (v > c_light)
+		throw std::runtime_error(
+				"MomentumDiffusion: Alvenspeed error: v_A > c");
+	vA = v;
+}
+
+void MomentumDiffusion::setLimit(double l) {
+	if (l < 0)
+		throw std::runtime_error(
+				"MomentumDiffusion: Limit error: limit < 0");
+	if (l > 1)
+		throw std::runtime_error(
+				"MomentumDiffusion: Limit error: limit > 1");
+	limit = l;
+}
+
+
 
 double MomentumDiffusion::getAlpha() const {
 	return alpha;
@@ -85,4 +110,11 @@ double MomentumDiffusion::getScale() const {
 	return scale;
 }
 
+double MomentumDiffusion::getAlvenSpeed() const {
+	return vA;
+}
+
+double MomentumDiffusion::getLimit() const {
+	return limit;
+}
 

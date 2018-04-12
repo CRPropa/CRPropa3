@@ -275,6 +275,31 @@ void SourceUniformSphere::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
+SourceUniformHollowSphere::SourceUniformHollowSphere(
+		Vector3d center,
+		double radius_inner,
+		double radius_outer) :
+		center(center), radius_inner(radius_inner),
+		radius_outer(radius_outer) {
+	setDescription();
+}
+
+void SourceUniformHollowSphere::prepareParticle(ParticleState& particle) const {
+	Random &random = Random::instance();
+	double r = radius_inner + pow(random.rand(), 1. / 3.) * (radius_outer - radius_inner);
+	particle.setPosition(center + random.randVector() * r);
+}
+
+void SourceUniformHollowSphere::setDescription() {
+	std::stringstream ss;
+	ss << "SourceUniformHollowSphere: Random position within a sphere at ";
+	ss << center / Mpc << " Mpc with";
+	ss << radius_inner / Mpc << " Mpc inner radius\n";
+	ss << radius_outer / Mpc << " Mpc outer radius\n";
+	description = ss.str();
+}
+
+// ----------------------------------------------------------------------------
 SourceUniformShell::SourceUniformShell(Vector3d center, double radius) :
 		center(center), radius(radius) {
 	setDescription();

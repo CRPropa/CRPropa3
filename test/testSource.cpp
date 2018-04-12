@@ -43,6 +43,22 @@ TEST(SourceUniformSphere, simpleTest) {
 	EXPECT_GE(radius, distance);
 }
 
+TEST(SourceUniformHollowSphere, simpleTest) {
+	Vector3d center(0, 0, 0);
+	double radius_inner = 50;
+	double radius_outer = 110;
+	SourceUniformHollowSphere source(center,
+			radius_inner,
+			radius_outer);
+	for (int i=0; i < 100; ++i) {
+		ParticleState ps;
+		source.prepareParticle(ps);
+		double distance = ps.getPosition().getDistanceTo(center);
+		EXPECT_GE(radius_outer, distance);
+		EXPECT_LE(radius_inner, distance);
+	}
+}
+
 TEST(SourceUniformBox, simpleTest) {
 	Vector3d origin(-7, -2, 0);
 	Vector3d size(13, 55, 192);

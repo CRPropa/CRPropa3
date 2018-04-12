@@ -185,6 +185,21 @@ public:
 };
 
 /**
+ @class SourceUniformHollowSphere
+ @brief Uniform random source positions inside of a hollow sphere wall
+ */
+class SourceUniformHollowSphere: public SourceFeature {
+	Vector3d center;
+	double radius_inner;
+	double radius_outer;
+public:
+	SourceUniformHollowSphere(Vector3d center,
+			double radius_inner, double double_outer);
+	void prepareParticle(ParticleState &particle) const;
+	void setDescription();
+};
+
+/**
  @class SourceUniformShell
  @brief Uniform random source positions on a sphere
  */

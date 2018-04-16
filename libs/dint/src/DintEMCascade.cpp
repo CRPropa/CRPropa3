@@ -352,7 +352,8 @@ void DintEMCascade::propagate(const double start_distance,
 		propagatingDistance += x;   // increment distance
 
 		//---- redshift bins down ----
-		RedshiftDown(lastIndex, redshiftRatio, &pEnergy, pSpectrum, &spectrumNew);
+		// Force redshiftdown to use more accurate method, see issue  #174
+		RedshiftDown(-1, redshiftRatio, &pEnergy, pSpectrum, &spectrumNew);
 
 		//---- prepare for new step ----
 		leftRedshift = rightRedshift;

@@ -5,7 +5,7 @@
 
 namespace crpropa {
 
-PT11Field::PT11Field() : useASS(false), useBSS(true), useHalo(true) {
+PT11Field::PT11Field() : useASS(true), useBSS(false), useHalo(true) {
 	// disk parameters
 	d = - 0.6 * kpc;
 	R_sun = 8.5 * kpc;
@@ -21,8 +21,15 @@ PT11Field::PT11Field() : useASS(false), useBSS(true), useHalo(true) {
 	z11_H = 0.25 * kpc;
 	z12_H = 0.4 * kpc;
 
-	// set BSS specific parameters
-	setUseBSS(true);
+	// set ASS specific parameters
+	setUseASS(true);
+}
+
+void PT11Field::SetParams() {
+	cos_pitch = cos(pitch);
+	sin_pitch = sin(pitch);
+	PHI = cos_pitch / sin_pitch * log(1 + d / R_sun) - M_PI / 2;
+	cos_PHI = cos(PHI);
 }
 
 void PT11Field::setUseASS(bool use) {
@@ -36,11 +43,8 @@ void PT11Field::setUseASS(bool use) {
 	}
 
 	pitch = -5.0 * M_PI / 180;
-	cos_pitch = cos(pitch);
-	sin_pitch = sin(pitch);
-	theta = cos_pitch / sin_pitch * log(1 + d / R_sun) - M_PI / 2;
-	cos_theta = cos(theta);
 	B0_Hs = 2.0 * muG;
+	SetParams();
 }
 
 void PT11Field::setUseBSS(bool use) {
@@ -54,11 +58,8 @@ void PT11Field::setUseBSS(bool use) {
 	}
 
 	pitch = -6.0 * M_PI / 180;
-	cos_pitch = cos(pitch);
-	sin_pitch = sin(pitch);
-	theta = cos_pitch / sin_pitch * log(1 + d / R_sun) - M_PI / 2;
-	cos_theta = cos(theta);
 	B0_Hs = 4.0 * muG;
+	SetParams();
 }
 
 void PT11Field::setUseHalo(bool use) {
@@ -80,25 +81,34 @@ bool PT11Field::isUsingHalo() {
 Vector3d PT11Field::getField(const Vector3d& pos) const {
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
 
-	double cos_phi = pos.x / r;
-	double sin_phi = pos.y / r;
-
 	Vector3d b(0.);
 
 	// disk field
 	if ((useASS) or (useBSS)) {
-		// PT11 paper has B * cos(p) but this seems because they define azimuth clockwise, while we have anticlockwise.
+		// PT11 paper has B_theta = B * cos(p) but this seems because they define azimuth clockwise, while we have anticlockwise.
 		// see Tinyakov 2002 APh 18,165: "local field points to l=90+p" so p=-5 deg gives l=85 and hence clockwise from above.
 		// so to get local B clockwise in our system, need minus (like Sun etal).
 		// Ps base their system on Han and Qiao 1994 A&A 288,759 which has a diagram with azimuth clockwise, hence confirmed.
-		double phi = -pos.getPhi();  // azimuth; since PT11 paper uses opposite convention for phi
-		double bMag = cos(phi - cos_pitch / sin_pitch * log(r / R_sun) + theta);
-		double cos_pitch_pt = - cos_pitch; // azimuthal field in direction of increasing azimuth angle theta
-		b.x = sin_pitch * cos_phi - cos_pitch_pt * sin_phi;
-		b.y = sin_pitch * sin_phi + cos_pitch_pt * cos_phi;
+
+		// PT11 paper define Earth position at (+8.5, 0, 0) kpc; but usual convention is (-8.5, 0, 0)
+		// thus we have to rotate our position by 180 degree in azimuth
+		double theta = M_PI - pos.getPhi();  // azimuth angle theta: PT11 paper uses opposite convention for azimuth
+		// the following is equivalent to sin(pi - phi) and cos(pi - phi) which is computationally slower
+		double cos_theta = - pos.x / r;
+		double sin_theta = pos.y / r;
+
+		// After some geometry calculations (on whiteboard) one finds:
+		// Bx = +cos(theta) * B_r - sin(theta) * B_{theta}
+		// By = -sin(theta) * B_r - cos(theta) * B_{theta}
+		// Use from paper: B_theta = B * cos(pitch)	and B_r = B * sin(pitch)
+		b.x = sin_pitch * cos_theta - cos_pitch * sin_theta;
+		b.y = - sin_pitch * sin_theta - cos_pitch * cos_theta;
+		b *= -1;	// flip magnetic field direction, as B_{theta} and B_{phi} refering to 180 degree rotated field
+
+		double bMag = cos(theta - cos_pitch / sin_pitch * log(r / R_sun) + PHI);
 		if (useASS)
 			bMag = fabs(bMag);
-		bMag *= B0_D * R_sun / std::max(r, R_c) / cos_theta * exp(-fabs(pos.z) / z0_D);
+		bMag *= B0_D * R_sun / std::max(r, R_c) / cos_PHI * exp(-fabs(pos.z) / z0_D);
 		b *= bMag;
 	}
 
@@ -107,7 +117,11 @@ Vector3d PT11Field::getField(const Vector3d& pos) const {
 		double bMag = (pos.z > 0 ? B0_Hn : - B0_Hs);
 		double z1 = (fabs(pos.z) < z0_H ? z11_H : z12_H);
 		bMag *= r / R0_H * exp(1 - r / R0_H) / (1 + pow((fabs(pos.z) - z0_H) / z1, 2.));
-		b += bMag * Vector3d(- sin_phi, cos_phi, 0);
+		// equation (8) in paper: theta uses now the conventional azimuth definition in contrast to equation (3)
+		// cos(phi) = pos.x / r (phi going counter-clockwise)
+		// sin(phi) = pos.y / r
+		// unitvector of phi in polar coordinates: (-sin(phi), cos(phi), 0)
+		b += bMag * Vector3d(-pos.y / r, pos.x / r, 0);
 	}
 
 	return b;

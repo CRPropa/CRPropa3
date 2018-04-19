@@ -26,7 +26,7 @@ private:
 	bool useHalo; // switch for halo field
 
 	// disk parameters
-	double pitch, cos_pitch, cos_pitch_pt, sin_pitch, theta, cos_theta;  // pitch angle parameters
+	double pitch, cos_pitch, sin_pitch, PHI, cos_PHI;  // pitch angle parameters
 	double d;     // distance to first field reversal
 	double R_sun; // distance between sun and galactic center
 	double R_c;   // radius of central region
@@ -40,6 +40,8 @@ private:
 	double B0_Hs; // halo magnetic field scale (south)
 	double z11_H; // halo vertical thickness towards disc
 	double z12_H; // halo vertical thickness off the disk
+
+	void SetParams();
 
 public:
 	PT11Field();

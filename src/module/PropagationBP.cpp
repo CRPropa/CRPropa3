@@ -81,3 +81,4 @@ double PropagationBP::getStep() const {
 }
 
 }
+

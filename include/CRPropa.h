@@ -45,6 +45,7 @@
 #include "crpropa/module/PhotonOutput1D.h"
 #include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/PropagationBP.h"
+#include "crpropa/module/PropagationBP_step.h"
 #include "crpropa/module/Redshift.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/SynchrotronRadiation.h"

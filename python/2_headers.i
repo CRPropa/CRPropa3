@@ -315,6 +315,7 @@
 %include "crpropa/module/SimplePropagation.h"
 %include "crpropa/module/PropagationCK.h"
 %include "crpropa/module/PropagationBP.h"
+%include "crpropa/module/PropagationBP_step.h"
 
 %ignore crpropa::Output::enableProperty(const std::string &property, const Variant& defaultValue, const std::string &comment = "");
 %extend crpropa::Output{

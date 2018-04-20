@@ -187,6 +187,90 @@ Vector3d HongQinField::getField(const Vector3d &position) const {
 	
 }
 
+JF12Field_disk::JF12Field_disk() {
+
+	// spiral arm parameters
+	pitch = 11.5 * M_PI / 180;
+	sinPitch = sin(pitch);
+	cosPitch = cos(pitch);
+	tan90MinusPitch = tan(M_PI / 2 - pitch);
+
+	rArms[0] = 5.1 * kpc;
+	rArms[1] = 6.3 * kpc;
+	rArms[2] = 7.1 * kpc;
+	rArms[3] = 8.3 * kpc;
+	rArms[4] = 9.8 * kpc;
+	rArms[5] = 11.4 * kpc;
+	rArms[6] = 12.7 * kpc;
+	rArms[7] = 15.5 * kpc;
+
+	// regular field parameters
+
+	bRing = 0.1 * muG;
+	hDisk = 0.40 * kpc;
+	wDisk = 0.27 * kpc;
+
+	bDisk[0] = 0.1 * muG;
+	bDisk[1] = 3.0 * muG;
+	bDisk[2] = -0.9 * muG;
+	bDisk[3] = -0.8 * muG;
+	bDisk[4] = -2.0 * muG;
+	bDisk[5] = -4.2 * muG;
+	bDisk[6] = 0.0 * muG;
+	bDisk[7] = 2.7 * muG;
+	
+}
+
+double logisticFunction_disk(double x, double x0, double w) {
+	return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));
+}
+
+Vector3d JF12Field_disk::getField(const Vector3d &pos) const {
+	
+	Vector3d b(0.);
+
+	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
+	double d = pos.getR(); // distance to galactic center
+	if ((d < 1 * kpc) or (d > 20 * kpc))
+		return b; // 0 field for d < 1 kpc or d > 20 kpc
+
+	double phi = pos.getPhi(); // azimuth
+	double sinPhi = sin(phi);
+	double cosPhi = cos(phi);
+
+	double lfDisk = logisticFunction_disk(pos.z, hDisk, wDisk);
+	
+	if (r > 3 * kpc) {
+		double bMag;
+		if (r < 5 * kpc) {
+			// molecular ring
+			bMag = bRing * (5 * kpc / r) * (1 - lfDisk);
+			b.x += -bMag * sinPhi;
+			b.y += bMag * cosPhi;
+
+		} else {
+			// spiral region
+			double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);
+			if (r_negx > rArms[7])
+				r_negx = r * exp(-(phi + M_PI) / tan90MinusPitch);
+			if (r_negx > rArms[7])
+				r_negx = r * exp(-(phi + 3 * M_PI) / tan90MinusPitch);
+
+			for (int i = 7; i >= 0; i--)
+				if (r_negx < rArms[i])
+					bMag = bDisk[i];
+
+			bMag *= (5 * kpc / r) * (1 - lfDisk);
+			b.x += bMag * (sinPitch * cosPhi - cosPitch * sinPhi);
+			b.y += bMag * (sinPitch * sinPhi + cosPitch * cosPhi);
+		}
+	}
+
+	return b;
+}
+
+
+
 
 #ifdef CRPROPA_HAVE_MUPARSER
 RenormalizeMagneticField::RenormalizeMagneticField(ref_ptr<MagneticField> field,

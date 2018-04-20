@@ -5,7 +5,7 @@
 
 namespace crpropa {
 
-PshirkovField::PshirkovField() : useASS(false), useBSS(true), useHalo(true) {
+PshirkovField::PshirkovField() : useASS(false), useBSS(false), useHalo(true) {
 	// disk parameters
 	d = - 0.6 * kpc;
 	R_sun = 8.5 * kpc;

@@ -173,6 +173,25 @@ public:
 	
 };
 
+class JF12Field_disk: public MagneticField {
+	private:
+		// disk spiral arms
+		double rArms[8];       // radii where each arm crosses the negative x-axis
+		double pitch;          // pitch angle
+		double sinPitch, cosPitch, tan90MinusPitch;
+
+		// Regular field ----------------------------------------------------------
+		// disk
+		double bDisk[8];       // field strengths of arms at r=5 kpc
+		double bRing;          // ring field strength 3<r<5 kpc
+		double hDisk, wDisk;   // disk/halo transistion and width
+	
+	public:
+		JF12Field_disk();
+		Vector3d getField(const Vector3d &position) const;	
+	
+};
+
 
 #ifdef CRPROPA_HAVE_MUPARSER
 /**

@@ -326,6 +326,7 @@ add_library(crpropa SHARED
 	src/Common.cpp
 	src/Cosmology.cpp
 	src/EmissionMap.cpp
+	src/Geometry.cpp
 	src/GridTools.cpp
 	src/Module.cpp
 	src/ModuleList.cpp

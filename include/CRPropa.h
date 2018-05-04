@@ -6,6 +6,7 @@
 #include "crpropa/Common.h"
 #include "crpropa/Cosmology.h"
 #include "crpropa/EmissionMap.h"
+#include "crpropa/Geometry.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
 #include "crpropa/Logging.h"

@@ -97,7 +97,19 @@ double TD13Field::getLc() const {
 
 namespace crpropa {
 
-  TD13Field::TD13Field(double kmin, double kmax, double gamma, double Nm) {
+  TD13Field::TD13Field(double kmin, double kmax, double gamma, int Nm) {
+
+    if (kmin > kmax) {
+      throw std::runtime_error("TD13Field: kmin > kmax");
+    }
+
+    if (Nm <= 1) {
+      throw std::runtime_error("TD13Field: Nm <= 1. We need at least two wavemodes in order to generate the k distribution properly, and besides -- *what are you doing?!*");
+    }
+
+    if (kmin < std::numeric_limits<double>::epsilon()) {
+      throw std::runtime_error("TD13Field: kmin ~<= 0");
+    } 
 
     Random random;
 

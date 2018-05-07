@@ -3,6 +3,7 @@
 #include "kiss/logger.h"
 #include "crpropa/Geometry.h"
 
+#include <iostream>
 namespace crpropa
 {
 Plane::Plane(const Vector3d& _x0, const Vector3d& _n) : x0(_x0), n(_n) {};
@@ -19,6 +20,15 @@ double Plane::distance(const Vector3d &x) const
 	return n.dot(dX);
 };
 
+std::string Plane::getDescription() const
+{
+	std::stringstream ss;
+	ss << "Plane: " << std::endl
+		 << "   x0: " << x0 << std::endl
+		 << "    n: " << n << std::endl;
+	return ss.str();
+};
+
 
 Sphere::Sphere(const Vector3d& _center, double _radius) : center(_center), radius(_radius) {};
 double Sphere::distance(const Vector3d &point) const
@@ -26,6 +36,15 @@ double Sphere::distance(const Vector3d &point) const
 	Vector3d dR = point - center;
 	return dR.getR() - radius;
 }
+
+std::string Sphere::getDescription() const
+{
+	std::stringstream ss;
+	ss << "Sphere: " << std::endl
+		 << "   Center: " << center << std::endl
+		 << "   Radius: " << radius << std::endl;
+	return ss.str();
+};
 
 
 ParaxialBox::ParaxialBox(const Vector3d& _corner, const Vector3d& _size) : corner(_corner), size(_size) {};
@@ -46,6 +65,14 @@ double ParaxialBox::distance(const Vector3d &point) const
 
 	return sqrt(a*a + b*b +c*c);
 }
+std::string ParaxialBox::getDescription() const
+{
+	std::stringstream ss;
+	ss << "ParaxialBox: " << std::endl
+		 << "   corner: " << corner << std::endl
+		 << "     size: " << size << std::endl;
+	return ss.str();
+};
 
 
 } // namespace

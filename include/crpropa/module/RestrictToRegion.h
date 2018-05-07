@@ -1,6 +1,10 @@
+#ifndef CRPROPA_RESTRICTTOREGION_H
+#define CRPROPA_RESTRICTTOREGION_H
+
 #include "crpropa/Referenced.h"
+#include "crpropa/Candidate.h"
 #include "crpropa/Module.h"
-#include "crpropa/Surface.h"
+#include "crpropa/Geometry.h"
 
 namespace crpropa {
 /**
@@ -16,9 +20,9 @@ namespace crpropa {
 class RestrictToRegion: public Module {
 private:
 	ref_ptr<Surface> surface;
-	ref_ptr<module> module;
+	ref_ptr<Module> module;
 public:
-	RestrictToRegion(ref_ptr<Module> _module, ref_ptr<Surface> _surface);
+	RestrictToRegion(Module* _module, Surface* _surface);
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 };
@@ -27,3 +31,4 @@ public:
 
 } // namespace crpropa
 
+#endif // CRPROPA_RESTRICTTOREGION_H

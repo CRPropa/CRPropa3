@@ -405,6 +405,7 @@
 %include "crpropa/module/PhotoDisintegration.h"
 %include "crpropa/module/ElasticScattering.h"
 %include "crpropa/module/Redshift.h"
+%include "crpropa/module/RestrictToRegion.h"
 %include "crpropa/module/EMPairProduction.h"
 %include "crpropa/module/EMDoublePairProduction.h"
 %include "crpropa/module/EMTripletPairProduction.h"

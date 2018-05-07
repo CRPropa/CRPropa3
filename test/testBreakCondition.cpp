@@ -4,6 +4,7 @@
 #include "crpropa/module/Observer.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/Tools.h"
+#include "crpropa/module/RestrictToRegion.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/Geometry.h"
 
@@ -412,6 +413,23 @@ TEST(CylindricalBoundary, limitStep) {
 	cylinder.process(&c);
 	EXPECT_DOUBLE_EQ(c.getNextStep(), 1.5);
 }
+
+TEST(RestrictToRegion, RestrictToRegion) {
+
+	ref_ptr<Observer> obs = new Observer();
+	obs->add(new ObserverDetectAll());
+	RestrictToRegion R(obs, new Sphere(Vector3d(0, 0, 0), 10));
+
+	Candidate c;
+	c.previous.setPosition(Vector3d(13,0,0));
+	c.current.setPosition(Vector3d(12,0,0));
+	R.process(&c);
+	EXPECT_TRUE(c.isActive());
+	c.current.setPosition(Vector3d(9,0,0));
+	R.process(&c);
+	EXPECT_FALSE(c.isActive());
+}
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

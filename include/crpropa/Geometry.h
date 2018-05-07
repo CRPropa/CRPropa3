@@ -2,9 +2,11 @@
 #define GEOMETRY_H
 
 #include <vector>
+#include <string>
 
 #include "crpropa/Candidate.h"
 #include "crpropa/Vector3.h"
+#include "crpropa/Referenced.h"
 
 namespace crpropa
 {
@@ -20,7 +22,7 @@ namespace crpropa
  Defines a surface. Can be queried if the candidate has crossed the surface in the last step.
  */
 
-class Surface
+class Surface : public Referenced
 {
 	public:
 
@@ -29,6 +31,7 @@ class Surface
 		positive on the other. For closed surfaces it is negative on the inside.
 	 */
     virtual double distance(const Vector3d& point) const = 0;
+		virtual std::string getDescription() const {return "Surface without description.";};
 };
 
 /**
@@ -43,6 +46,7 @@ class Plane: public Surface
 		Plane(const Vector3d& _x0, const Vector3d& v1,const Vector3d& v2);
 		Plane(const Vector3d& _x0, const Vector3d& _n);
     virtual double distance(const Vector3d &x) const;
+		virtual std::string getDescription() const;
 };
 
 
@@ -58,6 +62,7 @@ class Sphere: public Surface
 	public:
 		Sphere(const Vector3d& _center, double _radius);
     virtual double distance(const Vector3d &point) const;
+		virtual std::string getDescription() const;
 };
 
 
@@ -88,6 +93,7 @@ class ParaxialBox: public Surface
 	public:
 		ParaxialBox(const Vector3d& _corner, const Vector3d& _size);
     virtual double distance(const Vector3d &point) const;
+		virtual std::string getDescription() const;
 };
 
 

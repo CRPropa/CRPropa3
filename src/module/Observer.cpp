@@ -377,6 +377,7 @@ std::string ObserverTimeEvolution::getDescription() const {
 	return s.str();
 }
 
+// ObserverSurface--------------------------------------------------------------
 ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { };
 
 DetectionState ObserverSurface::checkDetection(Candidate *candidate) const

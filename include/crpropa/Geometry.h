@@ -65,26 +65,9 @@ class Sphere: public Surface
 		virtual std::string getDescription() const;
 };
 
-
-///**
-// @class Box
-// @brief A box with arbitrary orientation and not necessarily perpendicular surfaces (Rhombohedron). For performance reasons use the ParaxialBox if applicable.
-// */
-//class Box: public Surface
-//{
-//	private:
-//		Vector3d corner, x1, x2, x3, u, v, w;
-//		std::vector<Plane> facets;
-//		double A,B,C;
-//	public:
-//		Box(const Vector3d& _corner, const Vector3d& _x1,const Vector3d& _x2, const Vector3d& _x3);
-//    virtual double distance(const Vector3d &point) const;
-//};
-
-
 /**
  @class ParaxialBox
- @brief A box with arbitrary orientation and not necessarily perpendicular surfaces (Rhombohedron)
+ @brief A box with perpendicular surfaces aligned to the x,y,z-axes.
  */
 class ParaxialBox: public Surface
 {
@@ -95,10 +78,6 @@ class ParaxialBox: public Surface
     virtual double distance(const Vector3d &point) const;
 		virtual std::string getDescription() const;
 };
-
-
-
-
 /** @}*/
 } // namespace crpropa
 

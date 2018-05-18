@@ -31,8 +31,14 @@ class Surface : public Referenced
 		positive on the other. For closed surfaces it is negative on the inside.
 	 */
     virtual double distance(const Vector3d& point) const = 0;
+	/**
+		Returns the normal to the surface at a point. Negative on the one side,
+		positive on the other. For closed surfaces it is negative on the inside.
+	 */
+    virtual Vector3d normal(const Vector3d& point) const = 0;
 		virtual std::string getDescription() const {return "Surface without description.";};
 };
+
 
 /**
  @class Plane
@@ -46,6 +52,7 @@ class Plane: public Surface
 		Plane(const Vector3d& _x0, const Vector3d& v1,const Vector3d& v2);
 		Plane(const Vector3d& _x0, const Vector3d& _n);
     virtual double distance(const Vector3d &x) const;
+    virtual Vector3d normal(const Vector3d& point) const;
 		virtual std::string getDescription() const;
 };
 
@@ -62,8 +69,10 @@ class Sphere: public Surface
 	public:
 		Sphere(const Vector3d& _center, double _radius);
     virtual double distance(const Vector3d &point) const;
+    virtual Vector3d normal(const Vector3d& point) const;
 		virtual std::string getDescription() const;
 };
+
 
 /**
  @class ParaxialBox
@@ -76,8 +85,11 @@ class ParaxialBox: public Surface
 	public:
 		ParaxialBox(const Vector3d& _corner, const Vector3d& _size);
     virtual double distance(const Vector3d &point) const;
+    virtual Vector3d normal(const Vector3d& point) const;
 		virtual std::string getDescription() const;
 };
+
+
 /** @}*/
 } // namespace crpropa
 

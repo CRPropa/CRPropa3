@@ -92,6 +92,7 @@ private:
 
 public:
   /** Constructor
+      @param root mean square field strength for generated field
       @param kmin wave number of the mode with the largest wavelength to be included in the spectrum
       @param kmax wave number of the mode with the smallest wavelength to be included in the spectrum
       @param gamma spectral index

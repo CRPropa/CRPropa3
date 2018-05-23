@@ -97,7 +97,7 @@ public:
       @param gamma spectral index
       @param Nm number of wavemodes that will be used when computing the field. A higher value will give a more accurate representation of the turbulence, but increase the runtime for getField.
 */
-  TD13Field(double kmin, double kmax, double gamma, double Nm);
+  TD13Field(double Brms, double kmin, double kmax, double gamma, int Nm);
 
   /**
      Theoretical runtime is O(Nm).

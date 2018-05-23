@@ -97,7 +97,7 @@ double TD13Field::getLc() const {
 
 namespace crpropa {
 
-  TD13Field::TD13Field(double kmin, double kmax, double gamma, int Nm) {
+  TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, int Nm) {
 
     if (kmin > kmax) {
       throw std::runtime_error("TD13Field: kmin > kmax");
@@ -132,13 +132,16 @@ namespace crpropa {
     double delta_k0 = (k[1] - k[0]) / k[1]; // multiply this by k[i] to get delta_k[i]
 
     double Ak2_sum = 0; // sum of Ak^2 over all k
+    //for this loop, the Ak array actually contains Gk*delta_k (ie non-normalized Ak^2)
     for (int i=0; i<Nm; i++) {
       double Gk = pow(k[i], q) / pow(1 + k[i]*k[i], (s+q)/2);
       Ak[i] = Gk * delta_k0 * k[i];
       Ak2_sum += Ak[i];
     }
+    //only in this loop are the actual Ak computed and stored
+    //(this two-step process is necessary in order to normalize the values properly)
     for (int i=0; i<Nm; i++) {
-      Ak[i] = sqrt(Ak[i] / Ak2_sum);
+      Ak[i] = sqrt(Ak[i] / Ak2_sum * 2) * Brms;
     }
 
     // generate direction, phase, and polarizarion for each wavemode

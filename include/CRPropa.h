@@ -34,6 +34,7 @@
 #include "crpropa/module/EMTripletPairProduction.h"
 #include "crpropa/module/ElasticScattering.h"
 #include "crpropa/module/ElectronPairProduction.h"
+#include "crpropa/module/HadronicInteraction.h"
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/Observer.h"
@@ -58,6 +59,15 @@
 #include "crpropa/magneticField/PT11Field.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
 #include "crpropa/magneticField/ArchimedeanSpiralField.h"
+
+#include "crpropa/Massdistribution/Density.h"
+#include "crpropa/Massdistribution/Nakanshi.h"
+#include "crpropa/Massdistribution/Massdistribution.h"
+#include "crpropa/Massdistribution/Cordes.h"
+#include "crpropa/Massdistribution/Nakanshi.h"
+#include "crpropa/Massdistribution/Ferrie07.h"
+#include "crpropa/Massdistribution/NE2001.h"
+#include "crpropa/Massdistribution/Pohl2008.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
 

@@ -18,12 +18,11 @@ c**      Conf. (Salt Lake City, Utah)                                      ***
 c*****************************************************************************
 
 
-       subroutine eventgen(L0,E0,eps,theta,Imode)
-
+      SUBROUTINE eventgen(L0,E0,eps,theta,Imode)
 c*******************************************************
-c** subroutine for photopion production of            **
+c** SUBROUTINE for photopion production of            **
 c** relativistic nucleons in a soft photon field      **
-c** subroutine for SOPHIA inVersion 1.2                 **
+c** SUBROUTINE for SOPHIA inVersion 1.2               **
 c****** INPUT ******************************************
 c E0 = energy of incident proton (in lab frame) [in GeV]
 c eps = energy of incident photon [in GeV] (in lab frame)
@@ -33,22 +32,15 @@ c****** OUTPUT *************************************************
 c P(2000,5) = 5-momentum of produced particles 
 c LLIST(2000) = code numbers of produced particles
 c NP = number of produced particles
-c***************************************************************
-c** Date: 20/01/98       **
-c** correct.:19/02/98    **
-c** change:  23/05/98    **
-c** last change:06/09/98 **
-c** authors: A.Muecke    **
-c**          R.Engel     **
-c**************************
+C c***************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE
 
-       COMMON /S_RUN/ SQS, S, Q2MIN, XMIN, ZMIN, kb, kt, a1, a2, Nproc
-       COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /S_CHP/ S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
-       COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
+      COMMON /S_RUN/ SQS, S, Q2MIN, XMIN, ZMIN, kb, kt, a1, a2, Nproc
+      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
+      COMMON /S_MASS1/ AM(49), AM2(49)
+      COMMON /S_CHP/ S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
+      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
 
       CHARACTER NAMPRES*6
       COMMON /RES_PROP/ AMRES(9), SIG0(9),WIDTH(9),
@@ -62,153 +54,95 @@ c**************************
       COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9),WIDTHn(9),
      +                    RATIOJn(9),NAMPRESn(0:9)
 
-       DOUBLE PRECISION P_nuc(4),P_gam(4),P_sum(4),PC(4),GamBet(4)
+      DOUBLE PRECISION P_nuc(4),P_gam(4),P_sum(4),PC(4),GamBet(4)
 
-       DATA pi /3.141593D0/
-       DATA IRESMAX /9/
-       DATA Icount / 0 /
-
-c****** INPUT **************************************************
-c E0 = energy of incident proton (in lab frame) [in GeV]
-c eps = energy of incident photon [in GeV] (in lab frame)
-c theta = angle between incident proton and photon [in degrees]
-c L0 = code number of the incident nucleon
+      DATA pi /3.141593D0/
+      DATA IRESMAX /9/
+      DATA Icount / 0 /
 c***************************************************************
-c** calculate eps_prime = photon energy in nuclear rest frame,
-c**             sqrt(s) = CMF energy of the N\gamma-system
+c**   calculate eps_prime = photon energy in nuclear rest frame,
+c**               sqrt(s) = CMF energy of the N\gamma-system
 
-c... declare stable particles:
+C     incoming nucleon
+      pm = AM(L0)
+      P_nuc(1) = 0.D0
+      P_nuc(2) = 0.D0
+      P_nuc(3) = SQRT(MAX((E0-pm)*(E0+pm),0.D0))
+      P_nuc(4) = E0
+C     incoming photon
+      P_gam(1) = EPS*SIN(theta*pi/180.D0)
+      P_gam(2) = 0.D0
+      P_gam(3) = -EPS*COS(theta*pi/180.D0)
+      P_gam(4) = EPS
 
-C  muons stable
-c      IDB(4) = -ABS(IDB(4))
-c      IDB(5) = -ABS(IDB(5))
-C
-C  pi+,pi0,pi- stable
-c      IDB(6) = -ABS(IDB(6))
-c      IDB(7) = -ABS(IDB(7))
-c      IDB(8) = -ABS(IDB(8))
-C
-C  Deltas stable
-C      IDB(40) = -ABS(IDB(40))
-C      IDB(41) = -ABS(IDB(41))
-C      IDB(42) = -ABS(IDB(42))
-C      IDB(43) = -ABS(IDB(43))
-C  rho, omega, phi stable
-C      IDB(25) = -ABS(IDB(25))
-C      IDB(26) = -ABS(IDB(26))
-C      IDB(27) = -ABS(IDB(27))
-C      IDB(32) = -ABS(IDB(32))
-C      IDB(33) = -ABS(IDB(33))
-C      print *,' WARNING: Deltas, eta, VMs are stable in this version'
+      Esum  = P_nuc(4)+P_gam(4)
+      PXsum = P_nuc(1)+P_gam(1)
+      PYsum = P_nuc(2)+P_gam(2)
+      PZsum = P_nuc(3)+P_gam(3)
+      IQchr = ICHP(1)+ICHP(L0)
+      IQbar = IBAR(1)+IBAR(L0)
 
-C  rho0,omega stable
-c      IDB(27) = -ABS(IDB(27))
-c      IDB(32) = -ABS(IDB(32))
-
-C STRANGE PARTICLES:
-C  kaons stable
-c      IDB(9)  = -ABS(IDB(9))
-c      IDB(10) = -ABS(IDB(10))
-
-C      IDB(11) = -ABS(IDB(11))
-C      IDB(12) = -ABS(IDB(12))
-C      IDB(21) = -ABS(IDB(21))
-C      IDB(22) = -ABS(IDB(22))
-C  kaons* stable
-c      IDB(28) = -ABS(IDB(28))
-c      IDB(29) = -ABS(IDB(29))
-c      IDB(30) = -ABS(IDB(30))
-c      IDB(31) = -ABS(IDB(31))
-
-C  eta stable
-C      IDB(23) = -ABS(IDB(23))
-
-
-C  incoming nucleon
-       pm = AM(L0)
-       P_nuc(1) = 0.D0
-       P_nuc(2) = 0.D0
-       P_nuc(3) = SQRT(MAX((E0-pm)*(E0+pm),0.D0))
-       P_nuc(4) = E0
-C  incoming photon
-       P_gam(1) = EPS*SIN(theta*pi/180.D0)
-       P_gam(2) = 0.D0
-       P_gam(3) = -EPS*COS(theta*pi/180.D0)
-       P_gam(4) = EPS
-
-       Esum  = P_nuc(4)+P_gam(4)
-       PXsum = P_nuc(1)+P_gam(1)
-       PYsum = P_nuc(2)+P_gam(2)
-       PZsum = P_nuc(3)+P_gam(3)
-       IQchr = ICHP(1)+ICHP(L0)
-       IQbar = IBAR(1)+IBAR(L0)
-
-       gammap = E0/pm
-       xx = 1.D0/gammap
-       if(gammap.gt.1000.D0) then
-         betap = 1.D0 - 0.5D0*xx**2 - 0.125D0*xx**4
-       else
-         betap = sqrt(1.D0-xx)*sqrt(1.D0+xx)
-       endif
-c       Etot = E0+eps
-       s = pm*pm + 2.D0*eps*E0*(1.D0-betap*cos(theta*pi/180.D0))
-
-       sqsm = sqrt(s)
-       eps_prime = (s-pm*pm)/2.D0/pm
-
-C  calculate Lorentz boots and rotation
-       P_sum(1) = P_nuc(1)+P_gam(1)
-       P_sum(2) = P_nuc(2)+P_gam(2)
-       P_sum(3) = P_nuc(3)+P_gam(3)
-       P_sum(4) = P_nuc(4)+P_gam(4)
-C  Lorentz transformation into c.m. system
-      DO I=1,4
-        GamBet(I) = P_sum(I)/sqsm
-      ENDDO   
-C  calculate rotation angles
-      IF(GamBet(4).lt.1.d5) then
-C  transform nucleon vector
-        GamBet(1) = -GamBet(1)
-        GamBet(2) = -GamBet(2)
-        GamBet(3) = -GamBet(3)
-        CALL PO_ALTRA(GamBet(4),GamBet(1),GamBet(2),GamBet(3),
-     &                P_nuc(1),P_nuc(2),P_nuc(3),P_nuc(4),Ptot,
-     &                PC(1),PC(2),PC(3),PC(4))
-        GamBet(1) = -GamBet(1)
-        GamBet(2) = -GamBet(2)
-        GamBet(3) = -GamBet(3)
-C  rotation angle: nucleon moves along +z
-        COD = PC(3)/Ptot
-        SID = SQRT(PC(1)**2+PC(2)**2)/Ptot
-        COF = 1.D0
-        SIF = 0.D0
-        IF(Ptot*SID.GT.1.D-5) THEN
-          COF=PC(1)/(SID*Ptot)
-          SIF=PC(2)/(SID*Ptot)
-          Anorf=SQRT(COF*COF+SIF*SIF)
-          COF=COF/Anorf
-          SIF=SIF/Anorf
-        ENDIF
+      gammap = E0/pm
+      xx = 1.D0/gammap
+      if(gammap.gt.1000.D0) then
+          betap = 1.D0 - 0.5D0*xx**2 - 0.125D0*xx**4
       else
-        COD = 1.D0
-        SID = 0.D0
-        COF = 1.D0
-        SIF = 0.D0
+          betap = sqrt(1.D0-xx)*sqrt(1.D0+xx)
+      endif
+      s = pm*pm + 2.D0*eps*E0*(1.D0-betap*cos(theta*pi/180.D0))
+      sqsm = sqrt(s)
+      eps_prime = (s-pm*pm)/2.D0/pm
+C     calculate Lorentz boots and rotation
+      P_sum(1) = P_nuc(1)+P_gam(1)
+      P_sum(2) = P_nuc(2)+P_gam(2)
+      P_sum(3) = P_nuc(3)+P_gam(3)
+      P_sum(4) = P_nuc(4)+P_gam(4)
+C     Lorentz transformation into c.m. system
+      DO I=1,4
+          GamBet(I) = P_sum(I)/sqsm
+      ENDDO   
+C     calculate rotation angles
+      if (GamBet(4).lt.1.d5) then
+C     transform nucleon vector
+          GamBet(1) = -GamBet(1)
+          GamBet(2) = -GamBet(2)
+          GamBet(3) = -GamBet(3)
+          CALL PO_ALTRA(GamBet(4),GamBet(1),GamBet(2),GamBet(3),
+     &         P_nuc(1),P_nuc(2),P_nuc(3),P_nuc(4),Ptot,
+     &         PC(1),PC(2),PC(3),PC(4))
+          GamBet(1) = -GamBet(1)
+          GamBet(2) = -GamBet(2)
+          GamBet(3) = -GamBet(3)
+C     rotation angle: nucleon moves along +z
+          COD = PC(3)/Ptot
+          SID = SQRT(PC(1)**2+PC(2)**2)/Ptot
+          COF = 1.D0
+          SIF = 0.D0
+          IF(Ptot*SID.GT.1.D-5) THEN
+              COF=PC(1)/(SID*Ptot)
+              SIF=PC(2)/(SID*Ptot)
+              Anorf=SQRT(COF*COF+SIF*SIF)
+              COF=COF/Anorf
+              SIF=SIF/Anorf
+          ENDIF
+      else
+          COD = 1.D0
+          SID = 0.D0
+          COF = 1.D0
+          SIF = 0.D0
+      endif
+c... check for threshold:
+      sth = 1.1646D0       
+      if (s.lt.sth) then
+          PRINT*,'input energy below threshold for 
+     &    photopion production !'
+          PRINT*,'sqrt(s) = ',sqrt(s)
+          NP = 0
+          RETURN
       endif
 
-c... check for threshold:
-       sth = 1.1646D0       
-       if (s.lt.sth) then
-        print*,'input energy below threshold for photopion production !'
-        print*,'sqrt(s) = ',sqrt(s)
-        NP = 0
-        RETURN
-       endif
-
- 200  continue
       Icount = Icount+1
       Imode = 0
-
 c*******************************************************************
 c decide which process occurs:                                   ***
 c (1) decay of resonance                                         ***
@@ -216,99 +150,89 @@ c (2) direct pion production (interaction of photon with         ***
 c     virtual pions in nucleon cloud) and diffractive scattering ***
 c (3) multipion production                                       ***
 c*******************************************************************
-
-       call dec_inter3(eps_prime,Imode,L0)
-
+      call dec_inter3(eps_prime,Imode,L0)
 c*********************************************
 c******* PARTICLE PRODUCTION *****************
 c*********************************************
-c  42   continue
-       if (Imode.le.5) then
+      if (Imode.le.5) then
 c... direct/multipion/diffractive scattering production channel:
-        call GAMMA_H(sqsm,L0,Imode,Ifbad)
-        if(Ifbad.ne.0) then
-           print *,' eventgen: simulation of particle production failed'
-           goto 200
-        endif
+          call GAMMA_H(sqsm,L0,Imode,Ifbad)
+          if(Ifbad.ne.0) then
+              PRINT *,' eventgen: simulation of particle
+     &        production failed'
+          endif
       else if (Imode.eq.6) then
-c... Resonances:
-c... decide which resonance decays with ID=IRES in list:  
-c... IRESMAX = number of considered resonances = 9 so far 
-         IRES = 0
- 46      call dec_res2(eps_prime,IRES,IRESMAX,L0)
-         Nproc = 10+IRES
-         call dec_proc2(eps_prime,IPROC,IRANGE,IRES,L0)
+c...  Resonances:
+c...  decide which resonance decays with ID=IRES in list:  
+c...  IRESMAX = number of considered resonances = 9 so far 
+          IRES = 0
+ 46       call dec_res2(eps_prime,IRES,IRESMAX,L0)
+          Nproc = 10+IRES
+          call dec_proc2(eps_prime,IPROC,IRANGE,IRES,L0)
 c     2-particle decay of resonance in CM system:
-         NP = 2
-         call res_decay3(IRES,IPROC,IRANGE,s,L0,nbad)
-         if (nbad.eq.1) then
-            print *,' eventgen: event rejected by res_decay3'
-            goto 46
-         endif
-         call DECSIB
+          NP = 2
+          call res_decay3(IRES,IPROC,IRANGE,s,L0,nbad)
+          if (nbad.eq.1) then
+              PRINT *,' eventgen: event rejected by res_decay3'
+              goto 46
+          endif
+          call DECSIB
       else
-         print*,'invalid Imode !!'
+         PRINT*,'invalid Imode !!'
          STOP
       endif
-       
 c... consider only stable particles:
- 18     istable=0
-        do 16 i=1,NP
-         if (abs(LLIST(i)).lt.10000) then
-          istable = istable+1
-          LLIST(istable) = LLIST(i)
-          P(istable,1) = P(i,1)
-          P(istable,2) = P(i,2)
-          P(istable,3) = P(i,3)
-          P(istable,4) = P(i,4)
-          P(istable,5) = P(i,5)
-         endif
-  16    continue
-        if (NP.gt.istable) then
-         do i=istable+1,NP
-          LLIST(i) = 0
-          P(i,1) = 0.
-          P(i,2) = 0.
-          P(i,3) = 0.
-          P(i,4) = 0.
-          P(i,5) = 0.
+      istable=0
+      do 16 i=1,NP
+          if (abs(LLIST(i)).lt.10000) then
+              istable = istable+1
+              LLIST(istable) = LLIST(i)
+              P(istable,1) = P(i,1)
+              P(istable,2) = P(i,2)
+              P(istable,3) = P(i,3)
+              P(istable,4) = P(i,4)
+              P(istable,5) = P(i,5)
+          endif
+  16  CONTINUE
+      if (NP.gt.istable) then
+          do i=istable+1,NP
+              LLIST(i) = 0
+              P(i,1) = 0.
+              P(i,2) = 0.
+              P(i,3) = 0.
+              P(i,4) = 0.
+              P(i,5) = 0.
          enddo
-        endif
-        NP = istable       
-
+      endif
+      NP = istable       
 c***********************************************
 c transformation from CM-system to lab-system: *
 c***********************************************
-
       DO I=1,NP
-        CALL PO_TRANS(P(I,1),P(I,2),P(I,3),COD,SID,COF,SIF,
-     &    PC(1),PC(2),PC(3))
-        PC(4) = P(I,4)
-        CALL PO_ALTRA(GamBet(4),GamBet(1),GamBet(2),GamBet(3),
-     &    PC(1),PC(2),PC(3),PC(4),Ptot,
-     &    P(I,1),P(I,2),P(I,3),P(I,4))
+          CALL PO_TRANS(P(I,1),P(I,2),P(I,3),COD,SID,COF,SIF,
+     &         PC(1),PC(2),PC(3))
+          PC(4) = P(I,4)
+          CALL PO_ALTRA(GamBet(4),GamBet(1),GamBet(2),GamBet(3),
+     &         PC(1),PC(2),PC(3),PC(4),Ptot,
+     &         P(I,1),P(I,2),P(I,3),P(I,4))
       ENDDO
 
-c      call check_event(Icount,Esum,PXsum,PYsum,PZsum,IQchr,IQbar,Irej)
-c      if(Irej.ne.0) then
-c        print *,' eventgen: event rejected by check_event'
-c        goto 200
-c      endif
-
-      return
-
-      END
+      RETURN
+      END SUBROUTINE eventgen
 
 
-c*****************************
-c*** List of SUBROUTINES *****
-C*****************************
+c*******************************
+c*** FUNCTIONS & SUBROUTINES ***
+C*******************************
 
       DOUBLE PRECISION function crossection(x,NDIR,NL0)
-
+c*****************************************************
+C calculates crossection of Nucleon-gamma-interaction
+C (see thesis of J.Rachen, p.45ff and corrections 
+C  report from 27/04/98, 5/05/98, 22/05/98 of J.Rachen)
+C*****************************************************
       IMPLICIT DOUBLE PRECISION (A-M,O-Z)
       IMPLICIT INTEGER (N)
-
       SAVE
 
       CHARACTER NAMPRES*6
@@ -318,278 +242,211 @@ C*****************************
 
       DIMENSION sig_res(9)
 
-       external breitwigner, Ef, singleback, twoback
+      EXTERNAL breitwigner, Ef, singleback, twoback
 
-       DATA sth /1.1646D0/
+      DATA sth /1.1646D0/
 
-c*****************************************************
-C calculates crossection of N-gamma-interaction
-C (see thesis of J.Rachen, p.45ff and corrections 
-C  report from 27/04/98, 5/05/98, 22/05/98 of J.Rachen)
-C*****************************************************
-c** Date: 20/01/98   **
-c** correct.:27/04/98**
-c** update: 23/05/98 **
-c** author: A.Muecke **
-c**********************
-c
-c x = eps_prime in GeV
-       pm = AM(NL0)       
-       s = pm*pm+2.D0*pm*x
+c     x = eps_prime in GeV
+      pm = AM(NL0)       
+      s = pm*pm+2.D0*pm*x
        
-       if (s.lt.sth) then
-        crossection = 0.
-        RETURN
-       endif
-       if (x.gt.10.D0) then
-c only multipion production:
-        cross_res = 0.D0
-        cross_dir = 0.D0
-        cross_dir1 = 0.D0
-        cross_dir2 = 0.D0
-        goto 10
-       endif
-
+      if (s.lt.sth) then
+          crossection = 0.
+          RETURN
+      endif
+      if (x.gt.10.D0) then
+c     only multipion production:
+          cross_res = 0.D0
+          cross_dir = 0.D0
+          cross_dir1 = 0.D0
+          cross_dir2 = 0.D0
+          goto 10
+      endif
 c****************************
 c RESONANCES:
 c****************************  
-
       cross_res = 0.D0
-
       cross_res = breitwigner(SIG0(1),WIDTH(1),AMRES(1),x)
-     &     *Ef(x,0.152D0,0.17D0)
-       sig_res(1) = cross_res
+     &          * Ef(x,0.152D0,0.17D0)
+      sig_res(1) = cross_res
+
       DO N=2,9
-
-        sig_res(N) = breitwigner(SIG0(N),WIDTH(N),AMRES(N),x)
-     &              *Ef(x,0.15D0,0.38D0)
-        cross_res = cross_res + sig_res(N)
-
+          sig_res(N) = breitwigner(SIG0(N),WIDTH(N),AMRES(N),x)
+     &               * Ef(x,0.15D0,0.38D0)
+          cross_res = cross_res + sig_res(N)
       ENDDO
-
 c****************************
 c DIRECT CHANNEL:
 c****************************  
-
-       if((x.gt.0.1D0).and.(x.lt.0.6D0)) then
-         cross_dir1 = singleback(x)
+      if((x.gt.0.1D0).and.(x.lt.0.6D0)) then
+          cross_dir1 = singleback(x)
      &               + 40.D0*exp(-(x-0.29D0)**2/0.002D0)
      &               - 15.D0*exp(-(x-0.37D0)**2/0.002D0)
-       else
-         cross_dir1 = singleback(x)
-       endif
-       cross_dir2 = twoback(x)
-
-       cross_dir = cross_dir1 + cross_dir2
-
+      else
+          cross_dir1 = singleback(x)
+      endif
+      cross_dir2 = twoback(x)
+      cross_dir = cross_dir1 + cross_dir2
 c****************************
 c FRAGMENTATION 2:
 c**************************** 
- 10   continue 
-       if (NL0.eq.13) then
-        cross_frag2 = 80.3D0*Ef(x,0.5D0,0.1D0)*(s**(-0.34D0)) 
-       else if (NL0.eq.14) then
-        cross_frag2 = 60.2D0*Ef(x,0.5D0,0.1D0)*(s**(-0.34D0))
-       endif
-
+ 10   CONTINUE 
+      if (NL0.eq.13) then
+          cross_frag2 = 80.3D0*Ef(x,0.5D0,0.1D0)*(s**(-0.34D0)) 
+      else if (NL0.eq.14) then
+          cross_frag2 = 60.2D0*Ef(x,0.5D0,0.1D0)*(s**(-0.34D0))
+      endif
 c****************************************************
 c MULTIPION PRODUCTION/FRAGMENTATION 1 CROSS SECTION
 c****************************************************
-       if (x.gt.0.85D0) then
-         ss1 = (x-.85D0)/.69D0
-         if (NL0.eq.13) then
-          ss2 = 29.3D0*(s**(-.34D0))+59.3D0*(s**.095D0)
-         else if (NL0.eq.14) then
-          ss2 = 26.4D0*(s**(-.34D0))+59.3D0*(s**.095D0)
-         endif
-         cs_multidiff = (1.-exp(-ss1))*ss2
-         cs_multi = 0.89D0*cs_multidiff
-
+      if (x.gt.0.85D0) then
+          ss1 = (x-.85D0)/.69D0
+          if (NL0.eq.13) then
+              ss2 = 29.3D0*(s**(-.34D0))+59.3D0*(s**.095D0)
+          else if (NL0.eq.14) then
+              ss2 = 26.4D0*(s**(-.34D0))+59.3D0*(s**.095D0)
+          endif
+          cs_multidiff = (1.-exp(-ss1))*ss2
+          cs_multi = 0.89D0*cs_multidiff
 c****************************
 c DIFFRACTIVE SCATTERING:
 c****************************  
-
-        cross_diffr1 = .099D0*cs_multidiff
-        cross_diffr2 = .011D0*cs_multidiff
-        cross_diffr = 0.11D0*cs_multidiff
-
+          cross_diffr1 = .099D0*cs_multidiff
+          cross_diffr2 = .011D0*cs_multidiff
+          cross_diffr = 0.11D0*cs_multidiff
 C***********************************************************************
-
-        ss1 = ((x-.85D0)**.75D0)/.64D0
-        ss2 = 74.1D0*(x**(-.44D0))+62.D0*(s**.08D0)
-        cs_tmp = 0.96D0*(1.D0-exp(-ss1))*ss2
-        cross_diffr1 = 0.14D0*cs_tmp
-        cross_diffr2 = 0.013D0*cs_tmp
-        cs_delta = cross_frag2 - (cross_diffr1+cross_diffr2-cross_diffr)
-        if(cs_delta.lt.0.D0) then
-          cross_frag2 = 0.D0
-          cs_multi = cs_multi+cs_delta
-        else
-          cross_frag2 = cs_delta
-        endif
-        cross_diffr = cross_diffr1 + cross_diffr2
-        cs_multidiff = cs_multi + cross_diffr
-
+          ss1 = ((x-.85D0)**.75D0)/.64D0
+          ss2 = 74.1D0*(x**(-.44D0))+62.D0*(s**.08D0)
+          cs_tmp = 0.96D0*(1.D0-exp(-ss1))*ss2
+          cross_diffr1 = 0.14D0*cs_tmp
+          cross_diffr2 = 0.013D0*cs_tmp
+          cs_delta = cross_frag2 
+     &             - (cross_diffr1+cross_diffr2-cross_diffr)
+          if(cs_delta.lt.0.D0) then
+              cross_frag2 = 0.D0
+              cs_multi = cs_multi+cs_delta
+          else
+              cross_frag2 = cs_delta
+          endif
+          cross_diffr = cross_diffr1 + cross_diffr2
+          cs_multidiff = cs_multi + cross_diffr
 C***********************************************************************
+      else
+          cross_diffr = 0.D0
+          cross_diffr1 = 0.D0
+          cross_diffr2 = 0.D0
+          cs_multidiff = 0.D0
+          cs_multi = 0.D0
+      endif
 
-
-       else
-        cross_diffr = 0.D0
-        cross_diffr1 = 0.D0
-        cross_diffr2 = 0.D0
-        cs_multidiff = 0.D0
-        cs_multi = 0.D0
-       endif
-
-       if (NDIR.eq.3) then
-
-        crossection = cross_res+cross_dir+cs_multidiff+cross_frag2
-        RETURN
-
-       else if (NDIR.eq.0) then
-
-        crossection = cross_res+cross_dir+cross_diffr+cross_frag2
-        RETURN
-
-       else if (NDIR.eq.2) then
-
-        crossection = cross_res+cross_dir
-        RETURN
-
-       else if (NDIR.eq.1) then
-
-        crossection = cross_res
-        RETURN
-
-       else if (NDIR.eq.4) then
-
-        crossection = cross_dir
-        RETURN
-
-       else if (NDIR.eq.5) then
-
-        crossection = cs_multi
-        RETURN
-
-       else if (NDIR.eq.6) then
-
-        crossection = cross_res+cross_dir2
-        RETURN
-
-       else if (NDIR.eq.7) then
-
-        crossection = cross_res+cross_dir1
-        RETURN
-
-       else if (NDIR.eq.8) then
-
-        crossection = cross_res+cross_dir+cross_diffr1
-        RETURN
-
-       else if (NDIR.eq.9) then
-
-        crossection = cross_res+cross_dir+cross_diffr
-        RETURN
-
-       else if (NDIR.eq.10) then
-
-        crossection = cross_diffr
-        RETURN
-
-       else if ((NDIR.ge.11).and.(NDIR.le.19)) then
-
-        crossection = sig_res(NDIR-10)
-        RETURN
-
-       else
-
-        print*,'wrong input NDIR in crossection.f !'
-        STOP
-
-       endif
+      if (NDIR.eq.3) then
+          crossection = cross_res+cross_dir+cs_multidiff+cross_frag2
+          RETURN
+      else if (NDIR.eq.0) then
+          crossection = cross_res+cross_dir+cross_diffr+cross_frag2
+          RETURN
+      else if (NDIR.eq.2) then
+          crossection = cross_res+cross_dir
+          RETURN
+      else if (NDIR.eq.1) then
+          crossection = cross_res
+          RETURN
+      else if (NDIR.eq.4) then
+          crossection = cross_dir
+          RETURN
+      else if (NDIR.eq.5) then
+          crossection = cs_multi
+          RETURN
+      else if (NDIR.eq.6) then
+          crossection = cross_res+cross_dir2
+          RETURN
+      else if (NDIR.eq.7) then
+          crossection = cross_res+cross_dir1
+          RETURN
+      else if (NDIR.eq.8) then
+          crossection = cross_res+cross_dir+cross_diffr1
+          RETURN
+      else if (NDIR.eq.9) then
+          crossection = cross_res+cross_dir+cross_diffr
+          RETURN
+      else if (NDIR.eq.10) then
+          crossection = cross_diffr
+          RETURN
+      else if ((NDIR.ge.11).and.(NDIR.le.19)) then
+          crossection = sig_res(NDIR-10)
+          RETURN
+      else
+          PRINT*,'wrong input NDIR in crossection.f !'
+          STOP
+      endif
       
-       END
+      END FUNCTION crossection
 
 
-       DOUBLE PRECISION function breitwigner(sigma_0,Gamma,
-     &                     DMM,eps_prime)
-
-       IMPLICIT DOUBLE PRECISION (A-M,O-Z)
-       IMPLICIT INTEGER (N)
-
-       SAVE
-
+      DOUBLE PRECISION function breitwigner(sigma_0,Gamma,DMM,eps_prime)
 c***************************************************************************
 c calculates Breit-Wigner cross section of a resonance with width Gamma [GeV],
 c mass DMM [GeV], max. cross section sigma_0 [mubarn] and total mass of the 
 c interaction s [GeV] 
 c***************************************************************************
-       pm = 0.93827D0
-       s = pm*pm+2.D0*pm*eps_prime
-       gam2s = Gamma*Gamma*s
-       breitwigner = sigma_0
-     &              *(s/eps_prime**2)*gam2s/((s-DMM*DMM)**2+gam2s)
+      IMPLICIT DOUBLE PRECISION (A-M,O-Z)
+      IMPLICIT INTEGER (N)
+      SAVE
 
-       RETURN
-       
-       END
+      pm = 0.93827D0
+      s = pm*pm+2.D0*pm*eps_prime
+      gam2s = Gamma*Gamma*s
+      breitwigner = sigma_0
+     &            * (s/eps_prime**2)*gam2s/((s-DMM*DMM)**2+gam2s)
+
+      RETURN
+      END FUNCTION breitwigner
 
 
       DOUBLE PRECISION function Pl(x,xth,xmax,alpha)
 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
+      SAVE
 
-       SAVE
+      if (xth.gt.x) then
+          Pl = 0.
+          RETURN
+      endif
 
-       if (xth.gt.x) then
-        Pl = 0.
-        RETURN
-       endif
+      a = alpha*xmax/xth
+      prod1 = ((x-xth)/(xmax-xth))**(a-alpha)
+      prod2 = (x/xmax)**(-a)
+      Pl = prod1*prod2
 
-       a = alpha*xmax/xth
-       prod1 = ((x-xth)/(xmax-xth))**(a-alpha)
-       prod2 = (x/xmax)**(-a)
-       Pl = prod1*prod2
-
-       END
+      END FUNCTION Pl
 
 
       DOUBLE PRECISION function Ef(x,th,w)
 
       IMPLICIT DOUBLE PRECISION (A-M,O-Z)
       IMPLICIT INTEGER (N)
-
-       SAVE
-
-       wth = w+th
-       if (x.le.th) then
-        Ef = 0.
-        RETURN
-       else if (x.gt.th.and.x.lt.wth) then
-        Ef = (x-th)/w
-        RETURN
-       else if (x.ge.wth) then
-        Ef = 1.
-        RETURN
-       else
-        print*,'error in function EF'
-        STOP
-       endif
-
-       END
-
-
-
-      subroutine dec_inter3(eps_prime,Imode,L0)
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
       SAVE
 
-       DOUBLE PRECISION RNDM
-       external RNDM
+      wth = w+th
+      if (x.le.th) then
+          Ef = 0.
+          RETURN
+      else if (x.gt.th.and.x.lt.wth) then
+          Ef = (x-th)/w
+          RETURN
+      else if (x.ge.wth) then
+          Ef = 1.
+          RETURN
+      else
+          PRINT*,'error in function EF'
+          STOP
+      endif
 
+      END FUNCTION Ef
+
+
+      SUBROUTINE dec_inter3(eps_prime,Imode,L0)
 c*** decides which process takes place at eps_prime ********
 c (6) excitation/decay of resonance                      ***
 c (2) direct pion production: N\gamma --> N \pi          *** 
@@ -599,68 +456,56 @@ c (4) diffractive scattering: N\gamma --> N \omega       ***
 c (0) multipion production (fragmentation)               ***
 c (5) fragmentation in resonance region                  ***
 c***********************************************************
-c** Date: 15/04/98   **
-c** author: A.Muecke **
-c**********************
-       tot = crossection(eps_prime,3,L0)
-       if (tot.eq.0.) tot = 1.D0
-       prob1 = crossection(eps_prime,1,L0)/tot
-       prob2 = crossection(eps_prime,7,L0)/tot
-       prob3 = crossection(eps_prime,2,L0)/tot
-       prob4 = crossection(eps_prime,8,L0)/tot
-       prob5 = crossection(eps_prime,9,L0)/tot
-       prob6 = crossection(eps_prime,0,L0)/tot
-       prob7 = 1.D0
-       rn = RNDM(0)
-       if (rn.lt.prob1) then
-        Imode = 6
-c ... --> resonance decay
-        RETURN
-       else if (prob1.le.rn.and.rn.lt.prob2) then
-        Imode = 2
-c ... --> direct channel: N\gamma --> N\pi
-        RETURN
-       else if (prob2.le.rn.and.rn.lt.prob3) then
-        Imode = 3
-c ... --> direct channel: N\gamma --> \Delta \pi
-        RETURN
-       else if (prob3.le.rn.and.rn.lt.prob4) then
-        Imode = 1
-c ... --> diffractive scattering: N\gamma --> N \rho
-        RETURN
-       else if (prob4.le.rn.and.rn.lt.prob5) then
-        Imode = 4
-c ... --> diffractive scattering: N\gamma --> N \omega
-        RETURN
-       else if (prob5.le.rn.and.rn.lt.prob6) then
-        Imode = 5
-c ... --> fragmentation (2) in resonance region
-        return
-       else if (prob6.le.rn.and.rn.lt.1.D0) then
-        Imode = 0
-c ... --> fragmentation mode/multipion production
-        RETURN
-       else if (rn.eq.1.D0) then
-        Imode = 0
-        RETURN
-       else
-        print*,'error in dec_inter.f !'
-        STOP
-       endif
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 
-        END
+      DOUBLE PRECISION RNDM
+      EXTERNAL RNDM
+
+      tot = crossection(eps_prime,3,L0)
+      if (tot.eq.0.) tot = 1.D0
+      prob1 = crossection(eps_prime,1,L0)/tot
+      prob2 = crossection(eps_prime,7,L0)/tot
+      prob3 = crossection(eps_prime,2,L0)/tot
+      prob4 = crossection(eps_prime,8,L0)/tot
+      prob5 = crossection(eps_prime,9,L0)/tot
+      prob6 = crossection(eps_prime,0,L0)/tot
+      prob7 = 1.D0
+      rn = RNDM(0)
+      if (rn.lt.prob1) then
+          Imode = 6 ! --> resonance decay
+          RETURN
+      else if (prob1.le.rn.and.rn.lt.prob2) then
+          Imode = 2 ! --> direct channel: N\gamma --> N\pi
+          RETURN
+      else if (prob2.le.rn.and.rn.lt.prob3) then
+          Imode = 3 ! --> direct channel: N\gamma --> \Delta \pi
+          RETURN
+      else if (prob3.le.rn.and.rn.lt.prob4) then
+          Imode = 1 ! --> diffractive scattering: N\gamma --> N \rho
+          RETURN
+      else if (prob4.le.rn.and.rn.lt.prob5) then
+          Imode = 4 ! --> diffractive scattering: N\gamma --> N \omega 
+          RETURN
+      else if (prob5.le.rn.and.rn.lt.prob6) then
+          Imode = 5 ! --> fragmentation (2) in resonance region
+          RETURN
+      else if (prob6.le.rn.and.rn.lt.1.D0) then
+          Imode = 0 ! --> fragmentation mode/multipion production
+          RETURN
+      else if (rn.eq.1.D0) then
+          Imode = 0
+          RETURN
+      else
+          PRINT*,'error in dec_inter.f !'
+          STOP
+      endif
+
+      END SUBROUTINE dec_inter3
 
 
       SUBROUTINE PROC_TWOPART(LA,LB,AMD,Lres,Pres,costheta,nbad)
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-
-      COMMON /S_MASS1/ AM(49), AM2(49)
-      COMMON /RES_FLAG/ FRES(49),XLIMRES(49)
-      SAVE
-      DIMENSION Pres(2000,5),Lres(2000)
-
 c***********************************************************
 c  2-particle decay of CMF mass AMD INTO  M1 + M2
 C  NUCLEON ENERGY E0 [in GeV];
@@ -673,362 +518,309 @@ c  this program also checks if the resulting particles are
 c  resonances; if yes, it is also allowed to decay a
 c  mass AMD < M1 + M2 by using the width of the resonance(s)
 c***********************************************************
-c** Date: 20/01/98   **
-c** correct.:19/02/98**
-c** author: A.Muecke **
-c**********************
-
-        nbad = 0
-        SM1 = AM(LA)
-        if (LB.eq.0) then
-         SM2 = 2.D0*AM(7)
-        else
-         SM2 = AM(LB)
-        endif
-	E1 = (AMD*AMD + SM1*SM1 - SM2*SM2)/AMD/2.D0
-	E2 = (AMD*AMD + SM2*SM2 - SM1*SM1)/AMD/2.D0
-c... check if SM1+SM2 < AMD:
-        if ((SM1+SM2).gt.AMD) then
-c... if one of the decay products is a resonance, this 'problem' can
-c    be solved by using a reduced mass for the resonance and assume that
-c    this resonance is produced at its threshold;
-         if (FRES(LA).eq.1.D0) then
-c ...      particle LA is a resonance:
-          SM1 = AMD-SM2
-	  E1 = SM1
-	  E2 = AMD-E1
-         if (E1.lt.XLIMRES(LA).or.E2.lt.XLIMRES(LB)) nbad = 1
-         endif
-        if (FRES(LB).eq.1.D0) then
-c ...      particle LB is a resonance:
-          SM2 = AMD-SM1
-	  E2 = SM2
-         E1 = AMD-E2
-          if (E1.lt.XLIMRES(LA).or.E2.lt.XLIMRES(LB)) nbad = 1
-         endif
-c ...     both particles are NOT resonances: -> error !  
-         if (FRES(LA).eq.0.D0.and.FRES(LB).eq.0.D0) then
-          print*,'SM1 + SM2 > AMD in PROC_TWOPART',SM1,SM2,AMD,LA,LB
-          STOP
-         endif
-        endif
-
-       if (nbad.eq.0) then
-	PC = SQRT((E1*E1 - SM1*SM1))
-        Pres(1,4) = E1
-        Pres(2,4) = E2
-        Pres(1,5) = SM1
-        Pres(2,5) = SM2
-        
-        
-C *********************************************************
-c theta is scattering angle in CM frame: 
-        r = RNDM(0)
-        P1Z= PC*costheta
-        P2Z=-PC*costheta
-
-        P1X = sqrt(r*(PC*PC-P1Z*P1Z))
-        P2X = sqrt(r*(PC*PC-P2Z*P2Z))
-        P1Y = sqrt((1.D0-r)*(PC*PC-P1Z*P1Z))
-        P2Y = sqrt((1.D0-r)*(PC*PC-P2Z*P2Z))
-        if(RNDM(0).lt.0.5D0) then
-          P1X = -P1X
-        else
-          P2X = -P2X
-        endif
-        if(RNDM(0).lt.0.5D0) then
-          P1Y = -P1Y
-        else
-          P2Y = -P2Y
-        endif
-
-        Pres(1,1) = P1X
-        Pres(1,2) = P1Y
-        Pres(1,3) = P1Z
-        Pres(2,1) = P2X
-        Pres(2,2) = P2Y
-        Pres(2,3) = P2Z
-        Lres(1) = LA
-        Lres(2) = LB
-       endif
-
-        RETURN
- 
-        END
-
-
-      subroutine dec_res2(eps_prime,IRES,IRESMAX,L0)
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
-       SAVE
+      COMMON /S_MASS1/ AM(49), AM2(49)
+      COMMON /RES_FLAG/ FRES(49),XLIMRES(49)
+      SAVE
 
+      DIMENSION Pres(2000,5),Lres(2000)
+
+      nbad = 0
+      SM1 = AM(LA)
+      if (LB.eq.0) then
+          SM2 = 2.D0*AM(7)
+      else
+          SM2 = AM(LB)
+      endif
+      
+      E1 = (AMD*AMD + SM1*SM1 - SM2*SM2)/AMD/2.D0
+      E2 = (AMD*AMD + SM2*SM2 - SM1*SM1)/AMD/2.D0
+c...  check if SM1+SM2 < AMD:
+      if ((SM1+SM2).gt.AMD) then
+c...  if one of the decay products is a resonance, this 'problem' can
+c     be solved by using a reduced mass for the resonance and assume that
+c     this resonance is produced at its threshold;
+          if (FRES(LA).eq.1.D0) then
+c ...         particle LA is a resonance:
+              SM1 = AMD-SM2
+              E1 = SM1
+              E2 = AMD-E1
+              if (E1.lt.XLIMRES(LA).or.E2.lt.XLIMRES(LB)) nbad = 1
+          endif
+          if (FRES(LB).eq.1.D0) then
+c ...         particle LB is a resonance:
+              SM2 = AMD-SM1
+              E2 = SM2
+              E1 = AMD-E2
+              if (E1.lt.XLIMRES(LA).or.E2.lt.XLIMRES(LB)) nbad = 1
+          endif
+c ...     both particles are NOT resonances: -> error !  
+          if (FRES(LA).eq.0.D0.and.FRES(LB).eq.0.D0) then
+              PRINT*,'SM1 + SM2 > AMD in PROC_TWOPART',SM1,SM2,AMD,LA,LB
+              STOP
+          endif
+      endif
+
+      if (nbad.eq.0) then
+          PC = SQRT((E1*E1 - SM1*SM1))
+          Pres(1,4) = E1
+          Pres(2,4) = E2
+          Pres(1,5) = SM1
+          Pres(2,5) = SM2
+C *********************************************************
+c theta is scattering angle in CM frame: 
+          r = RNDM(0)
+          P1Z= PC*costheta
+          P2Z=-PC*costheta
+
+          P1X = sqrt(r*(PC*PC-P1Z*P1Z))
+          P2X = sqrt(r*(PC*PC-P2Z*P2Z))
+          P1Y = sqrt((1.D0-r)*(PC*PC-P1Z*P1Z))
+          P2Y = sqrt((1.D0-r)*(PC*PC-P2Z*P2Z))
+          if(RNDM(0).lt.0.5D0) then
+              P1X = -P1X
+          else
+              P2X = -P2X
+          endif
+          if(RNDM(0).lt.0.5D0) then
+              P1Y = -P1Y
+          else
+              P2Y = -P2Y
+          endif
+
+          Pres(1,1) = P1X
+          Pres(1,2) = P1Y
+          Pres(1,3) = P1Z
+          Pres(2,1) = P2X
+          Pres(2,2) = P2Y
+          Pres(2,3) = P2Z
+          Lres(1) = LA
+          Lres(2) = LB
+      endif
+
+      RETURN
+      END SUBROUTINE PROC_TWOPART
+
+
+      SUBROUTINE dec_res2(eps_prime,IRES,IRESMAX,L0)
+
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 c*****************************************************************************
 c*** decides which resonance with ID=IRES in list takes place at eps_prime ***
 c*****************************************************************************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
+      DIMENSION prob_sum(9)
+c***  sum of all resonances:
+      sumres = 0.D0
+      do 12 j=1,IRESMAX
+          j10 = j+10
+          sumres = sumres+crossection(eps_prime,j10,L0)
+          prob_sum(j) = sumres
+  12  CONTINUE
 
-       DIMENSION prob_sum(9)
+      r = RNDM(0)
+      IRES = 0
+      i = 0
+      prob = 0.D0
 
+  10  CONTINUE
+      i = i+1
+      probold = prob
+      prob = prob_sum(i)/sumres
+      if (r.ge.probold.and.r.lt.prob) then
+          IRES = i
+          RETURN
+      endif
+      if (i.lt.IRESMAX) goto 10
+      if (r.eq.1.D0) IRES = i
+      if (IRES.eq.0) then
+          PRINT*,'no resonance possible !'
+          STOP
+      endif
 
-c*** sum of all resonances:
-       sumres = 0.D0
-       do 12 j=1,IRESMAX
-        j10 = j+10
-        sumres = sumres+crossection(eps_prime,j10,L0)
-        prob_sum(j) = sumres
-  12   continue
-
-
-       r = RNDM(0)
-
-       IRES = 0
-       i = 0
-       prob = 0.D0
- 10    continue
-       i = i+1
-       probold = prob
-       prob = prob_sum(i)/sumres
-       if (r.ge.probold.and.r.lt.prob) then
-         IRES = i
-         RETURN
-       endif
-       if (i.lt.IRESMAX) goto 10
-       if (r.eq.1.D0) IRES = i
-       if (IRES.eq.0) then
-         print*,'no resonance possible !'
-         STOP
-       endif
-
-       RETURN
-
-       END
+      RETURN
+      END SUBROUTINE dec_res2
 
 
-      subroutine dec_proc2(x,IPROC,IRANGE,IRES,L0)
+      SUBROUTINE dec_proc2(x,IPROC,IRANGE,IRES,L0)
 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
-
-       SAVE
-
+      SAVE
 c**********************************************************************
 c*** decide which decay with ID=IPROC of resonance IRES takes place ***
 c**********************************************************************
-c** Date: 20/01/98   **
-c** correct.: 27/04/98*
-c** author: A.Muecke **
-c**********************
-
-       COMMON /S_RESp/ CBRRES1p(18),CBRRES2p(36),CBRRES3p(26),
-     +  RESLIMp(36),ELIMITSp(9),KDECRES1p(90),KDECRES2p(180),
-     +  KDECRES3p(130),IDBRES1p(9),IDBRES2p(9),IDBRES3p(9)
-       COMMON /S_RESn/ CBRRES1n(18),CBRRES2n(36),CBRRES3n(22),
-     +  RESLIMn(36),ELIMITSn(9),KDECRES1n(90),KDECRES2n(180),
-     +  KDECRES3n(110),IDBRES1n(9),IDBRES2n(9),IDBRES3n(9)
+      COMMON /S_RESp/ CBRRES1p(18),CBRRES2p(36),CBRRES3p(26),
+     + RESLIMp(36),ELIMITSp(9),KDECRES1p(90),KDECRES2p(180),
+     + KDECRES3p(130),IDBRES1p(9),IDBRES2p(9),IDBRES3p(9)
+      COMMON /S_RESn/ CBRRES1n(18),CBRRES2n(36),CBRRES3n(22),
+     + RESLIMn(36),ELIMITSn(9),KDECRES1n(90),KDECRES2n(180),
+     + KDECRES3n(110),IDBRES1n(9),IDBRES2n(9),IDBRES3n(9)
        DIMENSION prob_sum(0:9)
-
-c      x = eps_prime
 c ... choose arrays /S_RESp/ for charged resonances,
 c ...        arrays /S_RESn/ for neutral resonances
-       if (L0.eq.13) then
+      if (L0.eq.13) then
 c ... charged resonances:
+          r = RNDM(0)
+c...  determine the energy range of the resonance:
+          nlim = ELIMITSp(IRES)
+          istart = (IRES-1)*4+1
+          if (nlim.gt.0) then
+              do ie=istart,nlim-2+istart
+                  reslimp1 = RESLIMp(ie)
+                  reslimp2 = RESLIMp(ie+1)
+                  if (x.le.reslimp2.and.x.gt.reslimp1) then
+                      IRANGE = ie+1-istart
+                  endif
+              enddo
+          else
+              irange = 1
+  13      endif
 
-       r = RNDM(0)
-c... determine the energy range of the resonance:
-       nlim = ELIMITSp(IRES)
-       istart = (IRES-1)*4+1
-       if (nlim.gt.0) then
-         do ie=istart,nlim-2+istart
-           reslimp1 = RESLIMp(ie)
-           reslimp2 = RESLIMp(ie+1)
-          if (x.le.reslimp2.and.x.gt.reslimp1) then
-           IRANGE = ie+1-istart
+          IPROC = -1
+          i = 0
+          prob_sum(0) = 0.D0
+
+          if (IRANGE.eq.1) then
+              j = IDBRES1p(IRES)-1
+              if (j.eq.-1) then
+                  PRINT*,'invalid resonance in energy range 1'
+              endif
+ 10           CONTINUE
+              j = j+1
+              i = i+1
+              prob_sum(i) = CBRRES1p(j)
+              if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) IPROC = j
+              if (prob_sum(i).lt.1.D0) goto 10
+              if (r.eq.1.D0) IPROC = j
+              if (IPROC.eq.-1) then
+                  PRINT*,'no resonance decay possible !'
+              endif
+          else if (IRANGE.eq.2) then
+              j = IDBRES2p(IRES)-1
+              if (j.eq.-1) then
+                  PRINT*,'invalid resonance in energy range 2'
+              endif
+ 11           CONTINUE
+              j = j+1
+              i = i+1
+              prob_sum(i) = CBRRES2p(j)
+              if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) IPROC = j
+              if (prob_sum(i).lt.1.D0) goto 11
+              if (r.eq.1.D0) IPROC = j
+              if (IPROC.eq.-1) then
+                  PRINT*,'no resonance decay possible !'
+              endif
+          else if (IRANGE.eq.3) then
+              j = IDBRES3p(IRES)-1
+              if (j.eq.-1) then
+                  PRINT*,'invalid resonance in energy range 3'
+              endif
+ 12           CONTINUE
+              j = j+1
+              i = i+1
+              prob_sum(i) = CBRRES3p(j)
+              if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) IPROC = j
+              if (prob_sum(i).lt.1.D0) goto 12
+              if (r.eq.1.D0) IPROC = j
+              if (IPROC.eq.-1) then
+                  PRINT*,'no resonance decay possible !'
+              endif
+          else
+              PRINT*,'invalid IRANGE in DEC_PROC2'
           endif
-         enddo
-       else
-         irange = 1
-  13   endif
-
-
-
-       IPROC = -1
-       i = 0
-       prob_sum(0) = 0.D0
-
-       if (IRANGE.eq.1) then
-        j = IDBRES1p(IRES)-1
-        if (j.eq.-1) then
-         print*,'invalid resonance in energy range 1'
-        endif
- 10     continue
-        j = j+1
-        i = i+1
-        prob_sum(i) = CBRRES1p(j)
-        if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) then
-         IPROC = j
-        endif
-        if (prob_sum(i).lt.1.D0) goto 10
-        if (r.eq.1.D0) IPROC = j
-        if (IPROC.eq.-1) then
-         print*,'no resonance decay possible !'
-        endif
-
-       else if (IRANGE.eq.2) then
-        j = IDBRES2p(IRES)-1
-        if (j.eq.-1) then
-         print*,'invalid resonance in energy range 2'
-        endif
- 11     continue
-        j = j+1
-        i = i+1
-        prob_sum(i) = CBRRES2p(j)
-        if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) then
-         IPROC = j
-        endif
-        if (prob_sum(i).lt.1.D0) goto 11
-        if (r.eq.1.D0) IPROC = j
-        if (IPROC.eq.-1) then
-         print*,'no resonance decay possible !'
-        endif
-
-       else if (IRANGE.eq.3) then
-        j = IDBRES3p(IRES)-1
-        if (j.eq.-1) then
-         print*,'invalid resonance in energy range 3'
-        endif
- 12     continue
-        j = j+1
-        i = i+1
-        prob_sum(i) = CBRRES3p(j)
-        if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) then
-         IPROC = j
-        endif
-        if (prob_sum(i).lt.1.D0) goto 12
-        if (r.eq.1.D0) IPROC = j
-        if (IPROC.eq.-1) then
-         print*,'no resonance decay possible !'
-        endif
-
-        else
-         print*,'invalid IRANGE in DEC_PROC2'
-        endif
-
-       RETURN
-
-
-         else if (L0.eq.14) then
+          RETURN
+      else if (L0.eq.14) then
 c ... neutral resonances:
-
-       r = RNDM(0)
+          r = RNDM(0)
 c... determine the energy range of the resonance:
-       nlim = ELIMITSn(IRES)
-       istart = (IRES-1)*4+1
-       if (nlim.gt.0) then
-         do ie=istart,nlim-2+istart
-          if (x.le.RESLIMn(ie+1).and.x.gt.RESLIMn(ie)) then
-           IRANGE = ie+1-istart
+          nlim = ELIMITSn(IRES)
+          istart = (IRES-1)*4+1
+          if (nlim.gt.0) then
+              do ie=istart,nlim-2+istart
+                  if (x.le.RESLIMn(ie+1).and.x.gt.RESLIMn(ie)) then
+                  IRANGE = ie+1-istart
+                  endif
+              enddo
+          else  
+              irange = 1
           endif
-         enddo
-       else
-         irange = 1
-       endif
+          IPROC = -1
+          i = 0
+          prob_sum(0) = 0.D0
+          if (IRANGE.eq.1) then
+              j = IDBRES1n(IRES)-1
+              if (j.eq.-1) then
+                  PRINT*,'invalid resonance in this energy range'
+              endif
+ 20           CONTINUE
+              j = j+1
+              i = i+1
+              prob_sum(i) = CBRRES1n(j)
+              if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) IPROC = j
+              if (prob_sum(i).lt.1.D0) goto 20
+              if (r.eq.1.D0) IPROC = j
+              if (IPROC.eq.-1) then
+                  PRINT*,'no resonance decay possible !'
+              endif
+          else if (IRANGE.eq.2) then
+              j = IDBRES2n(IRES)-1
+              if (j.eq.-1) then
+                  PRINT*,'invalid resonance in this energy range'
+              endif
+ 21           CONTINUE
+              j = j+1
+              i = i+1
+              prob_sum(i) = CBRRES2n(j)
+              if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) IPROC = j
+              if (prob_sum(i).lt.1.D0) goto 21
+              if (r.eq.1.) IPROC = j
+              if (IPROC.eq.-1) then
+                  PRINT*,'no resonance decay possible !'
+              endif
+          else if (IRANGE.eq.3) then
+              j = IDBRES3n(IRES)-1
+              if (j.eq.-1) then
+                  PRINT*,'invalid resonance in this energy range'
+              endif
+ 22           CONTINUE
+              j = j+1
+              i = i+1
+              prob_sum(i) = CBRRES3n(j)
+              if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) IPROC = j
+              if (prob_sum(i).lt.1.D0) goto 22
+              if (r.eq.1.D0) IPROC = j
+              if (IPROC.eq.-1) then
+                  PRINT*,'no resonance decay possible !'
+              endif
+          else
+              PRINT*,'invalid IRANGE in DEC_PROC2'
+          endif
+          RETURN
+      else
+          PRINT*,'no valid L0 in DEC_PROC !'
+          STOP
+      endif
+
+      END SUBROUTINE dec_proc2
 
 
-       IPROC = -1
-       i = 0
-       prob_sum(0) = 0.D0
-
-       if (IRANGE.eq.1) then
-        j = IDBRES1n(IRES)-1
-        if (j.eq.-1) then
-         print*,'invalid resonance in this energy range'
-        endif
- 20     continue
-        j = j+1
-        i = i+1
-        prob_sum(i) = CBRRES1n(j)
-        if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) then
-         IPROC = j
-        endif
-        if (prob_sum(i).lt.1.D0) goto 20
-        if (r.eq.1.D0) IPROC = j
-        if (IPROC.eq.-1) then
-         print*,'no resonance decay possible !'
-        endif
-
-       else if (IRANGE.eq.2) then
-        j = IDBRES2n(IRES)-1
-        if (j.eq.-1) then
-         print*,'invalid resonance in this energy range'
-        endif
- 21     continue
-        j = j+1
-        i = i+1
-        prob_sum(i) = CBRRES2n(j)
-        if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) then
-         IPROC = j
-        endif
-        if (prob_sum(i).lt.1.D0) goto 21
-        if (r.eq.1.) IPROC = j
-        if (IPROC.eq.-1) then
-         print*,'no resonance decay possible !'
-        endif
-
-       else if (IRANGE.eq.3) then
-        j = IDBRES3n(IRES)-1
-        if (j.eq.-1) then
-         print*,'invalid resonance in this energy range'
-        endif
- 22     continue
-        j = j+1
-        i = i+1
-        prob_sum(i) = CBRRES3n(j)
-        if (r.ge.prob_sum(i-1).and.r.lt.prob_sum(i)) then
-         IPROC = j
-        endif
-        if (prob_sum(i).lt.1.D0) goto 22
-        if (r.eq.1.D0) IPROC = j
-        if (IPROC.eq.-1) then
-         print*,'no resonance decay possible !'
-        endif
-
-        else
-         print*,'invalid IRANGE in DEC_PROC2'
-        endif
-
-       RETURN
-
-       else
-        print*,'no valid L0 in DEC_PROC !'
-        STOP
-       endif
-
-       END
-
-
-       SUBROUTINE RES_DECAY3(IRES,IPROC,IRANGE,s,L0,nbad)
+      SUBROUTINE RES_DECAY3(IRES,IPROC,IRANGE,s,L0,nbad)
 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
+      SAVE
 
-       SAVE
-
-       COMMON /S_RESp/ CBRRES1p(18),CBRRES2p(36),CBRRES3p(26),
+      COMMON /S_RESp/ CBRRES1p(18),CBRRES2p(36),CBRRES3p(26),
      +  RESLIMp(36),ELIMITSp(9),KDECRES1p(90),KDECRES2p(180),
      +  KDECRES3p(130),IDBRES1p(9),IDBRES2p(9),IDBRES3p(9) 
-       COMMON /S_RESn/ CBRRES1n(18),CBRRES2n(36),CBRRES3n(22),
+      COMMON /S_RESn/ CBRRES1n(18),CBRRES2n(36),CBRRES3n(22),
      +  RESLIMn(36),ELIMITSn(9),KDECRES1n(90),KDECRES2n(180),
      +  KDECRES3n(110),IDBRES1n(9),IDBRES2n(9),IDBRES3n(9) 
-       COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-c       COMMON /S_CNAM/ NAMP (0:49)
-c      CHARACTER NAMP*6, NAMPRESp*6, NAMPRESn*6
-
-*      external scatangle, proc_twopart
-
+      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
 c********************************************************
 c  RESONANCE AMD with code number IRES  INTO  M1 + M2
 C  PROTON ENERGY E0 [in GeV] IN DMM [in GeV]
@@ -1038,59 +830,50 @@ c  P(1,1:5),P(2,1:5) are 5-momenta of particles LA,LB;
 c  resulting momenta are calculated in CM frame;
 c  ANGLESCAT is cos of scattering angle in CM frame
 c********************************************************
-c** Date: 20/01/98   **
-c** correct.:28/04/98**
-c** author: A.Muecke **
-c**********************
-
 c... determine decay products LA, LB:
-        NP = 2
-        if (L0.eq.13) then
+      NP = 2
+      if (L0.eq.13) then
 c ... proton is incident nucleon:
-        if (IRANGE.eq.1) then
-         LA = KDECRES1p(5*(IPROC-1)+3)
-         LB = KDECRES1p(5*(IPROC-1)+4)
-        else if (IRANGE.eq.2) then
-         LA = KDECRES2p(5*(IPROC-1)+3)
-         LB = KDECRES2p(5*(IPROC-1)+4)
-        else if (IRANGE.eq.3) then
-         LA = KDECRES3p(5*(IPROC-1)+3)
-         LB = KDECRES3p(5*(IPROC-1)+4)
-        else 
-          print*,'error in res_decay3'
-        endif
-        else if (L0.eq.14) then
+          if (IRANGE.eq.1) then
+              LA = KDECRES1p(5*(IPROC-1)+3)
+              LB = KDECRES1p(5*(IPROC-1)+4)
+          else if (IRANGE.eq.2) then
+              LA = KDECRES2p(5*(IPROC-1)+3)
+              LB = KDECRES2p(5*(IPROC-1)+4)
+          else if (IRANGE.eq.3) then
+              LA = KDECRES3p(5*(IPROC-1)+3)
+              LB = KDECRES3p(5*(IPROC-1)+4)
+          else 
+              PRINT*,'error in res_decay3'
+          endif
+      else if (L0.eq.14) then
 c ... neutron is incident nucleon:
-        if (IRANGE.eq.1) then
-         LA = KDECRES1n(5*(IPROC-1)+3)
-         LB = KDECRES1n(5*(IPROC-1)+4)
-        else if (IRANGE.eq.2) then
-         LA = KDECRES2n(5*(IPROC-1)+3)
-         LB = KDECRES2n(5*(IPROC-1)+4)
-        else if (IRANGE.eq.3) then
-         LA = KDECRES3n(5*(IPROC-1)+3)
-         LB = KDECRES3n(5*(IPROC-1)+4)
-        else 
-          print*,'error in res_decay3'
-        endif
+          if (IRANGE.eq.1) then
+              LA = KDECRES1n(5*(IPROC-1)+3)
+              LB = KDECRES1n(5*(IPROC-1)+4)
+          else if (IRANGE.eq.2) then
+              LA = KDECRES2n(5*(IPROC-1)+3)
+              LB = KDECRES2n(5*(IPROC-1)+4)
+          else if (IRANGE.eq.3) then
+              LA = KDECRES3n(5*(IPROC-1)+3)
+              LB = KDECRES3n(5*(IPROC-1)+4)
+          else 
+              PRINT*,'error in res_decay3'
+          endif
+      else
+          PRINT*,'no valid L0 in RES_DECAY'
+          STOP
+      endif
 
-        else
-         print*,'no valid L0 in RES_DECAY'
-         STOP
-        endif
-
-        LLIST(1) = LA
-        LLIST(2) = LB
-
-c... sample scattering angle:
-       call scatangle(anglescat,IRES,L0)
-       
+      LLIST(1) = LA
+      LLIST(2) = LB
+c...  sample scattering angle:
+      call scatangle(anglescat,IRES,L0)       
 c ... 2-particle decay:
-        call proc_twopart(LA,LB,sqrt(s),LLIST,P,anglescat,nbad)
+      call proc_twopart(LA,LB,sqrt(s),LLIST,P,anglescat,nbad)
 
-        RETURN
-
-        END
+      RETURN
+      END SUBROUTINE RES_DECAY3
 
 c***********************************************************
 C calculates functions for crossection of direct channel 
@@ -1099,45 +882,33 @@ c x is eps_prime in GeV (see main program)
 C (see thesis of J.Rachen, p.45ff)
 c note: neglect strange- and eta-channel
 C***********************************************************
-c** Date: 27/04/98   **
-c** last chg:23/05/98**
-c** author: A.Muecke **
-c**********************
-c
-
-       DOUBLE PRECISION FUNCTION singleback(x)
+      DOUBLE PRECISION FUNCTION singleback(x)
 c****************************
 c SINGLE PION CHANNEL
 c****************************  
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
+      SAVE
 
-       SAVE
-       singleback = 92.7D0*Pl(x,.152D0,.25D0,2.D0)
+      singleback = 92.7D0*Pl(x,.152D0,.25D0,2.D0)
 
-       END
+      END FUNCTION singleback
 
 
-       DOUBLE PRECISION FUNCTION twoback(x)
+      DOUBLE PRECISION FUNCTION twoback(x)
 c*****************************
 c TWO PION PRODUCTION
 c*****************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
+      SAVE
 
-       SAVE
-       twoback = 37.7D0*Pl(x,.4D0,.6D0,2.D0)
+      twoback = 37.7D0*Pl(x,.4D0,.6D0,2.D0)
 
-       END
+      END FUNCTION twoback
 
 
-      subroutine scatangle(anglescat,IRES,L0)
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-
-       SAVE
-
+      SUBROUTINE scatangle(anglescat,IRES,L0)
 c*******************************************************************
 c This routine samples the cos of the scattering angle for a given *
 c resonance IRES and incident nucleon L0; it is exact for         **
@@ -1147,158 +918,124 @@ c and an approximation for an overlay of resonances;              **
 c for decay channels other than the one-pion decay a isotropic    **
 c distribution is used                                            **
 c*******************************************************************
-c** Date: 16/02/98   **
-c** author: A.Muecke **
-c**********************
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 
-       COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
+      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
 
 c ... use rejection method for sampling:
-       LA = LLIST(1)
-       LB = LLIST(2)
-  10   continue
-       r = RNDM(0)
+      LA = LLIST(1)
+      LB = LLIST(2)
+  10  CONTINUE
+      
+      r = RNDM(0)
 c*** sample anglescat random between -1 ... 1 **
       anglescat = 2.D0*(r-0.5D0) 
 c ... distribution is isotropic for other than one-pion decays:
-       if ((LA.eq.13.or.LA.eq.14).and.LB.ge.6.and.LB.le.8) then
-        prob = probangle(IRES,L0,anglescat)
-       else
-        prob = 0.5D0
-       endif
-       r = RNDM(0)
-       if (r.le.prob) then
+      if ((LA.eq.13.or.LA.eq.14).and.LB.ge.6.and.LB.le.8) then
+          prob = probangle(IRES,L0,anglescat)
+      else
+          prob = 0.5D0
+      endif
+      
+      r = RNDM(0)
+      if (r.le.prob) then
           RETURN
-        else
-         goto 10
-       endif       
- 12   continue
+      else
+          goto 10
+      endif
 
-       END
+      END SUBROUTINE scatangle
+
 
       DOUBLE PRECISION function probangle(IRES,L0,z)
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-
-       SAVE
-
 c********************************************************************
 c probability distribution for scattering angle of given resonance **
 c IRES and incident nucleon L0 ;                                   **
 c z is cosine of scattering angle in CMF frame                     **
 c********************************************************************
-
-       if (IRES.eq.4.or.IRES.eq.5.or.IRES.eq.2) then  
-c ... N1535 andf N1650 decay isotropically. 
-        probangle = 0.5D0 
-        return
-       endif
-
-       if (IRES.eq.1) then
-c ... for D1232:  
-        probangle =  0.636263D0 - 0.408790D0*z*z
-        return
-       endif
-
-       if (IRES.eq.3.and.L0.eq.14) then
-c ... for N1520 and incident n: 
-        probangle =  0.673669D0 - 0.521007D0*z*z
-        return
-       endif
-
-       if (IRES.eq.3.and.L0.eq.13) then
-c ... for N1520 and incident p: 
-        probangle =  0.739763D0 - 0.719288D0*z*z
-        return
-       endif
-
-       if (IRES.eq.6.and.L0.eq.14) then
-c ... for N1680 (more precisely: N1675) and incident n: 
-        q=z*z
-        probangle = 0.254005D0 + 1.427918D0*q - 1.149888D0*q*q
-        return
-       endif
-
-
-       if (IRES.eq.6.and.L0.eq.13) then
-c ... for N1680 and incident p: 
-        q=z*z
-        probangle = 0.189855D0 + 2.582610D0*q - 2.753625D0*q*q
-        return
-       endif
-
-      if (IRES.eq.7) then
-c ... for D1700:  
-       probangle =  0.450238D0 + 0.149285D0*z*z
-       return
-      endif
-
-
-      if (IRES.eq.8) then
-c ... for D1905:  
-       q=z*z
-       probangle = 0.230034D0 + 1.859396D0*q - 1.749161D0*q*q
-       return
-      endif
-
-
-      if (IRES.eq.9) then
-c ... for D1950:  
-       q=z*z
-       probangle = 0.397430D0 - 1.498240D0*q + 5.880814D0*q*q
-     &                - 4.019252D0*q*q*q
-       return
-      endif
-
-      print*,'error in function probangle !'
-      STOP
-      END
-
-C->
-       DOUBLE PRECISION FUNCTION GAUSS (FUN, A,B)
-c*********************************************************
-C	Returns the  8 points Gauss-Legendre integral
-C	of function FUN from A to B
-c       this routine was provided by T.Stanev
-c*********************************************************
-c** Date: 20/01/98   **
-c** A.Muecke         **
-c**********************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
-c      SAVE  c modified Sept 2005 because of recursive calls in Total_rate_ir
+      SAVE
+
+      if (IRES.eq.4.or.IRES.eq.5.or.IRES.eq.2) then  
+c ... N1535 andf N1650 decay isotropically. 
+          probangle = 0.5D0 
+          RETURN
+      else if (IRES.eq.1) then
+c ... for D1232:  
+          probangle =  0.636263D0 - 0.408790D0*z*z
+          RETURN
+      else if (IRES.eq.3.and.L0.eq.14) then
+c ... for N1520 and incident n: 
+          probangle =  0.673669D0 - 0.521007D0*z*z
+          RETURN
+      else if (IRES.eq.3.and.L0.eq.13) then
+c ... for N1520 and incident p: 
+          probangle =  0.739763D0 - 0.719288D0*z*z
+          RETURN
+      else if (IRES.eq.6.and.L0.eq.14) then
+c ... for N1680 (more precisely: N1675) and incident n: 
+          q=z*z
+          probangle = 0.254005D0 + 1.427918D0*q - 1.149888D0*q*q
+          RETURN
+      else if (IRES.eq.6.and.L0.eq.13) then
+c ... for N1680 and incident p: 
+          q=z*z
+          probangle = 0.189855D0 + 2.582610D0*q - 2.753625D0*q*q
+          RETURN
+      else if (IRES.eq.7) then
+c ... for D1700:  
+          probangle =  0.450238D0 + 0.149285D0*z*z
+          RETURN
+      else if (IRES.eq.8) then
+c ... for D1905:  
+          q=z*z
+          probangle = 0.230034D0 + 1.859396D0*q - 1.749161D0*q*q
+          RETURN
+      else if (IRES.eq.9) then
+c ... for D1950:  
+          q=z*z
+          probangle = 0.397430D0 - 1.498240D0*q + 5.880814D0*q*q
+     &              - 4.019252D0*q*q*q
+          RETURN
+      endif
+
+      PRINT*,'error in function probangle !'
+      
+      STOP
+      END FUNCTION probangle
+
+
+      DOUBLE PRECISION FUNCTION GAUSS(FUN, A,B)
+c*********************************************************
+C	RETURNs the 8 points Gauss-Legendre integral of function FUN from A to B
+c*********************************************************
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
 
       EXTERNAL FUN
-
 C...........................................................
-	DIMENSION X(8), W(8)
-	DATA X /.0950125098D0,.2816035507D0,.4580167776D0,.6178762444D0
-     +         ,.7554044083D0,.8656312023D0,.9445750230D0,.9894009349D0/
-	DATA W /.1894506104D0,.1826034150D0,.1691565193D0,.1495959888D0
-     +        ,.1246289712D0,.0951585116D0,.0622535239D0, .0271524594D0/
+      DIMENSION X(8), W(8)
+      DATA X /.0950125098D0,.2816035507D0,.4580167776D0,.6178762444D0
+     +       ,.7554044083D0,.8656312023D0,.9445750230D0,.9894009349D0/
+      DATA W /.1894506104D0,.1826034150D0,.1691565193D0,.1495959888D0
+     +       ,.1246289712D0,.0951585116D0,.0622535239D0,.0271524594D0/
 
-	XM = 0.5D0*(B+A)
-	XR = 0.5D0*(B-A)
-	SS = 0.D0
-	DO NJ=1,8
-	  DX = XR*X(NJ)
-	  SS = SS + W(NJ) * (FUN(XM+DX) + FUN(XM-DX))
-	ENDDO
-	GAUSS = XR*SS
-	RETURN
-	END
-
-
-
+      XM = 0.5D0*(B+A)
+      XR = 0.5D0*(B-A)
+      SS = 0.D0
+      DO NJ=1,8
+          DX = XR*X(NJ)
+          SS = SS + W(NJ) * (FUN(XM+DX) + FUN(XM-DX))
+      ENDDO
+      GAUSS = XR*SS
+      
+      RETURN
+      END FUNCTION gauss
 
 
-C->
-c***************************
-c** last change: 12/10/98 **
-c** author:      A.Muecke **
-c***************************
       BLOCK DATA DATDEC
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
@@ -1521,7 +1258,8 @@ C************************** settings of versions 1.4 - 2.0 *********
      + 0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,
      + 0.,0.,0./
       END
-C->
+
+
       BLOCK DATA PARAM_INI
 C....This block data contains default values
 C.   of the parameters used in fragmentation
@@ -1562,8 +1300,6 @@ C     changed to simulate superposition of reggeon and pomeron exchange
 C     interface to Lund / JETSET 7.4 fragmentation
 C                                                  (R.E. 08/98)
 C
-C     
-C
 C     input: ip1    incoming particle
 C                   13 - p
 C                   14 - n
@@ -1582,7 +1318,6 @@ C                  (0  all OK,
 C                   1  generation of interaction not possible)
 C
 C**********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
@@ -1616,193 +1351,175 @@ C  slope of pomeron trajectory
       S = SQS*SQS
       Ic = Ic+1
 
-
       IF((Imode.eq.1).or.(Imode.eq.4)) THEN
-
 C***********************************************************************
-
 C  simulation of diffraction
-
-        ipa = ip1
-        ipb = ip2
-
-        if(Imode.eq.1) then
-          Nproc = 1
-          if(ip1.eq.1) then
-            ipa = 27
-          else if(ip2.eq.1) then
-            ipb = 27
+          ipa = ip1
+          ipb = ip2
+          if(Imode.eq.1) then
+              Nproc = 1
+              if(ip1.eq.1) then
+                  ipa = 27
+              else if(ip2.eq.1) then
+                  ipb = 27
+              endif
+          else if(Imode.eq.4) then
+              Nproc = 4
+              if(ip1.eq.1) then
+                  ipa = 32
+              else if(ip2.eq.1) then
+                  ipb = 32
+              endif
           endif
-        else if(Imode.eq.4) then
-          Nproc = 4
-          if(ip1.eq.1) then
-            ipa = 32
-          else if(ip2.eq.1) then
-            ipb = 32
+
+          am_a = AM(ipa)
+          am_b = AM(ipb)
+          if(am_a+am_b.ge.Ecm-1.D-2) am_a = Ecm - am_b-1.D-2
+C     find t range
+          e1 = 0.5D0*(Ecm + AM(ip1)**2/Ecm - AM(ip2)**2/Ecm)
+          if(e1.gt.100.D0*AM(ip1)) then
+              pcm1 = e1 - 0.5D0*AM(ip1)**2/e1
+          else
+              pcm1 = sqrt((e1-AM(ip1))*(e1+AM(ip1)))
           endif
-        endif
+          e3 = 0.5D0*(Ecm + am_a**2/Ecm - am_b**2/Ecm)
+          if(e3.gt.100.D0*am_a) then
+              pcm3 = e3 - 0.5D0*am_a**2/e3
+          else
+              pcm3 = sqrt((e3-am_a)*(e3+am_a))
+          endif
+          t0 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
+     &       -(pcm1-pcm3)**2-0.0001D0
+          t1 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
+     &       -(pcm1+pcm3)**2+0.0001D0
+C     sample t
+          b = 6.5D0+2.D0*alphap*log(S)
+          t = 1.D0/b*log((exp(b*t0)-exp(b*t1))*RNDM(0)+exp(b*t1))
+C     kinematics
+          pl = (2.D0*e1*e3+t-AM(ip1)**2-am_a**2)/(2.D0*pcm1)
+          pt = (pcm3-pl)*(pcm3+pl)
+          if(pt.lt.0.D0) then
+              pl = sign(pcm3,pl)
+              pt = 1.D-6
+          else
+              pt = sqrt(pt)
+          endif
+          phi = 6.28318530717959D0*RNDM(0)
 
-        am_a = AM(ipa)
-        am_b = AM(ipb)
-        if(am_a+am_b.ge.Ecm-1.D-2) am_a = Ecm - am_b-1.D-2
+          LLIST(1) = ipa
+          P(1,4) = e3
+          P(1,1) = SIN(phi)*pt
+          P(1,2) = COS(phi)*pt
+          P(1,3) = pl
+          P(1,5) = am_a
+          LLIST(2) = ipb
+          P(2,1) = -P(1,1)
+          P(2,2) = -P(1,2)
+          P(2,3) = -P(1,3)
+          P(2,4) = Ecm - P(1,4)
+          P(2,5) = am_b
+          np = 2
 
-C  find t range
-        e1 = 0.5D0*(Ecm + AM(ip1)**2/Ecm - AM(ip2)**2/Ecm)
-        if(e1.gt.100.D0*AM(ip1)) then
-          pcm1 = e1 - 0.5D0*AM(ip1)**2/e1
-        else
-          pcm1 = sqrt((e1-AM(ip1))*(e1+AM(ip1)))
-        endif
-        e3 = 0.5D0*(Ecm + am_a**2/Ecm - am_b**2/Ecm)
-        if(e3.gt.100.D0*am_a) then
-          pcm3 = e3 - 0.5D0*am_a**2/e3
-        else
-          pcm3 = sqrt((e3-am_a)*(e3+am_a))
-        endif
-        t0 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
-     &      -(pcm1-pcm3)**2-0.0001D0
-        t1 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
-     &      -(pcm1+pcm3)**2+0.0001D0
-
-C  sample t
-        b = 6.5D0+2.D0*alphap*log(S)
-        t = 1.D0/b*log((exp(b*t0)-exp(b*t1))*RNDM(0)+exp(b*t1))
-
-C  kinematics
-        pl = (2.D0*e1*e3+t-AM(ip1)**2-am_a**2)/(2.D0*pcm1)
-        pt = (pcm3-pl)*(pcm3+pl)
-        if(pt.lt.0.D0) then
-          pl = sign(pcm3,pl)
-          pt = 1.D-6
-        else
-          pt = sqrt(pt)
-        endif
-        phi = 6.28318530717959D0*RNDM(0)
-
-        LLIST(1) = ipa
-        P(1,4) = e3
-        P(1,1) = SIN(phi)*pt
-        P(1,2) = COS(phi)*pt
-        P(1,3) = pl
-        P(1,5) = am_a
-        LLIST(2) = ipb
-        P(2,1) = -P(1,1)
-        P(2,2) = -P(1,2)
-        P(2,3) = -P(1,3)
-        P(2,4) = Ecm - P(1,4)
-        P(2,5) = am_b
-        np = 2
-
-        call DECSIB
+          call DECSIB
 
       ELSE IF((Imode.eq.2).or.(Imode.eq.3)) THEN
-
 C***********************************************************************
-
-C  simulation of direct p-gamma process
-
-        if(ip1.eq.13) then
-C  projectile is a proton
-          if(Imode.eq.2) then
-            Nproc = 2
-            ipa = 14
-            ipb = 7
-          else
-            Nproc = 3
-            if(rndm(0).gt.0.25) then
-              ipa = 40
-              ipb = 8
-            else
-              ipa = 42
-              ipb = 7
-            endif
+C     simulation of direct p-gamma process
+          if(ip1.eq.13) then
+C     projectile is a proton
+              if(Imode.eq.2) then
+                  Nproc = 2
+                  ipa = 14
+                  ipb = 7
+              else
+                  Nproc = 3
+                  if(rndm(0).gt.0.25) then
+                      ipa = 40
+                      ipb = 8
+                  else
+                      ipa = 42
+                      ipb = 7
+                  endif
+              endif
+          else if(ip1.eq.14) then
+C     projectile is a neutron
+              if(Imode.eq.2) then
+                  Nproc = 2
+                  ipa = 13
+                  ipb = 8
+              else
+                  Nproc = 3
+                  if(rndm(0).gt.0.25) then
+                      ipa = 43
+                      ipb = 7
+                  else
+                      ipa = 41
+                      ipb = 8
+                  endif
+              endif
           endif
-        else if(ip1.eq.14) then
-C  projectile is a neutron
-          if(Imode.eq.2) then
-            Nproc = 2
-            ipa = 13
-            ipb = 8
+
+          am_a = AM(ipa)
+          am_b = AM(ipb)
+          if(am_a+am_b.ge.Ecm-1.e-3) am_a = Ecm - am_b-1.D-3
+C     find t range
+          e1 = 0.5D0*(Ecm + AM(ip1)**2/Ecm - AM(ip2)**2/Ecm)
+          if(e1.gt.100.D0*AM(ip1)) then
+              pcm1 = e1 - 0.5D0*AM(ip1)**2/e1
           else
-            Nproc = 3
-            if(rndm(0).gt.0.25) then
-              ipa = 43
-              ipb = 7
-            else
-              ipa = 41
-              ipb = 8
-            endif
+              pcm1 = sqrt((e1-AM(ip1))*(e1+AM(ip1)))
           endif
-        endif
+              e3 = 0.5D0*(Ecm + am_a**2/Ecm - am_b**2/Ecm)
+          if(e3.gt.100.D0*am_a) then
+              pcm3 = e3 - 0.5D0*am_a**2/e3
+          else
+              pcm3 = sqrt((e3-am_a)*(e3+am_a))
+          endif
+          t0 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
+     &       -(pcm1-pcm3)**2-0.0001D0
+          t1 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
+     &       -(pcm1+pcm3)**2+0.0001D0
+C     sample t
+          b = 12.D0
+          t = 1./b*log((exp(b*t0)-exp(b*t1))*RNDM(0)+exp(b*t1))
+C     kinematics
+          pl = (2.D0*e1*e3+t-AM(ip1)**2-am_a**2)/(2.D0*pcm1)
+          pt = (pcm3-pl)*(pcm3+pl)
+          if(pt.lt.0.D0) then
+              pl = sign(pcm3,pl)
+              pt = 1.D-6
+          else
+              pt = sqrt(pt)
+          endif
+          phi = 6.28318530717959D0*RNDM(0)
 
-        am_a = AM(ipa)
-        am_b = AM(ipb)
-        if(am_a+am_b.ge.Ecm-1.e-3) am_a = Ecm - am_b-1.D-3
+          LLIST(1) = ipa
+          P(1,4) = e3
+          P(1,1) = SIN(phi)*pt
+          P(1,2) = COS(phi)*pt
+          P(1,3) = pl
+          P(1,5) = am_a
+          LLIST(2) = ipb
+          P(2,1) = -P(1,1)
+          P(2,2) = -P(1,2)
+          P(2,3) = -P(1,3)
+          P(2,4) = Ecm - P(1,4)
+          P(2,5) = am_b
+          np = 2
 
-C  find t range
-        e1 = 0.5D0*(Ecm + AM(ip1)**2/Ecm - AM(ip2)**2/Ecm)
-        if(e1.gt.100.D0*AM(ip1)) then
-          pcm1 = e1 - 0.5D0*AM(ip1)**2/e1
-        else
-          pcm1 = sqrt((e1-AM(ip1))*(e1+AM(ip1)))
-        endif
-        e3 = 0.5D0*(Ecm + am_a**2/Ecm - am_b**2/Ecm)
-        if(e3.gt.100.D0*am_a) then
-          pcm3 = e3 - 0.5D0*am_a**2/e3
-        else
-          pcm3 = sqrt((e3-am_a)*(e3+am_a))
-        endif
-        t0 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
-     &      -(pcm1-pcm3)**2-0.0001D0
-        t1 = ((AM(ip1)**2-am_a**2-AM(ip2)**2+am_b**2)/(2.D0*Ecm))**2
-     &      -(pcm1+pcm3)**2+0.0001D0
-
-C  sample t
-        b = 12.D0
-        t = 1./b*log((exp(b*t0)-exp(b*t1))*RNDM(0)+exp(b*t1))
-
-C  kinematics
-        pl = (2.D0*e1*e3+t-AM(ip1)**2-am_a**2)/(2.D0*pcm1)
-        pt = (pcm3-pl)*(pcm3+pl)
-        if(pt.lt.0.D0) then
-          pl = sign(pcm3,pl)
-          pt = 1.D-6
-        else
-          pt = sqrt(pt)
-        endif
-        phi = 6.28318530717959D0*RNDM(0)
-
-        LLIST(1) = ipa
-        P(1,4) = e3
-        P(1,1) = SIN(phi)*pt
-        P(1,2) = COS(phi)*pt
-        P(1,3) = pl
-        P(1,5) = am_a
-        LLIST(2) = ipb
-        P(2,1) = -P(1,1)
-        P(2,2) = -P(1,2)
-        P(2,3) = -P(1,3)
-        P(2,4) = Ecm - P(1,4)
-        P(2,5) = am_b
-        np = 2
-
-        call DECSIB
-
+          call DECSIB
       ELSE
-
 C***********************************************************************
-
 C  simulation of multiparticle production via fragmentation
-
           Nproc = 0
 
           SIG_reg  = 129.D0*(S-AM(13)**2)**(-0.4525D0)
           SIG_pom  = 67.7D0*(S-AM(13)**2)**0.0808D0
 
           if(S.gt.2.6D0) then
-            prob_reg = SIG_reg/(SIG_pom+SIG_reg)
+              prob_reg = SIG_reg/(SIG_pom+SIG_reg)
           else
-            prob_reg = 1.D0
+              prob_reg = 1.D0
           endif
 
           ptu =.36D0+.08D0*log10(sqs/30.D0)
@@ -1811,236 +1528,222 @@ C  simulation of multiparticle production via fragmentation
           s2 = 0.6D0
           as1 = s1**2/S
           as2 = s2**2/S
-          if(s1+s2.ge.sqs-0.2) then
-            prob_reg = 1.D0
-          endif
+          if(s1+s2.ge.sqs-0.2) prob_reg = 1.D0
 
           itry = 0
- 100      continue
-          Istring = 0
 
+ 100      CONTINUE
+          Istring = 0
 C  avoid infinite looping
           itry = itry+1
           if(itry.gt.50) then
-            print *,' gamma_h: more than 50 internal rejections,'
-            print *,' called with ip1,ip2,Ecm,Imode:',ip1,ip2,Ecm,Imode
-C            PAUSE
-            ifbad = 1
-            return
+              PRINT *,' gamma_h: more than 50 internal rejections,'
+              PRINT *,' called with ip1,ip2,Ecm,Imode:'
+     &        ,ip1,ip2,Ecm,Imode
+              ifbad = 1
+              RETURN
           endif
-
-C  simulate reggeon (one-string topology)
-
+C     simulate reggeon (one-string topology)
           if(RNDM(0).lt.prob_reg) then
+              do i=1,1000
+                  call valences(IP1,Ifl1a,Ifl1b)
+                  call valences(IP2,Ifl2a,Ifl2b)
+                  if(Ifl1b.eq.-Ifl2b) goto 200
+              enddo
+              PRINT *,'gamma_h: simulation of reggeon impossible:'
+     &        ,ip1,ip2
+              goto 100
+            
+ 200          CONTINUE
+              np = 0
+              Istring = 1
 
-            do i=1,1000
+              ee = Ecm/2.D0
+
+ 250          CONTINUE
+              pt = ptu*sqrt(-log(max(1.D-10,RNDM(0))))
+              if(pt.ge.ee) goto 250
+
+              phi = 6.2831853D0*RNDM(0)
+              px = pt*COS(phi)
+              py = pt*SIN(phi)
+            
+              pz = SQRT(ee**2-px**2-py**2)
+              call lund_put(1,Ifl1a,px,py,pz,ee)
+              px = -px
+              py = -py
+              pz = -pz
+              call lund_put(2,Ifl2a,px,py,pz,ee)
+              Ijoin(1) = 1
+              Ijoin(2) = 2
+              call lujoin(2,Ijoin)
+
+              call lund_frag(Ecm,NP)
+              if(NP.lt.0) then
+                  if(Ideb.ge.5) 
+     &                PRINT *,' gamma_h: rejection (1) by lund_frag,
+     &                sqs:',Ecm
+                  NP = 0
+                  goto 100
+              endif
+              do i=1,NP
+                  call lund_get(i,LLIST(i),
+     &                 P(i,1),P(i,2),P(i,3),P(i,4),P(i,5))
+              enddo
+C  simulate pomeron (two-string topology)
+          else
               call valences(IP1,Ifl1a,Ifl1b)
               call valences(IP2,Ifl2a,Ifl2b)
-              if(Ifl1b.eq.-Ifl2b) goto 200
-            enddo
-            print *,'gamma_h: simulation of reggeon impossible:',ip1,ip2
-            goto 100
-            
- 200        continue
+              if(Ifl1a*Ifl2a.lt.0) then
+                  j = Ifl2a
+                  Ifl2a = Ifl2b
+                  Ifl2b = j
+              endif
 
-            np = 0
-            Istring = 1
+              pl1 = (1.D0+as1-as2)
+              ps1 = 0.25D0*pl1**2-as1
+              if(ps1.le.0.D0) then
+                  if(Ideb.ge.5) PRINT*,' rejection by x-limits (1) ',Ecm
+                  prob_reg = 1.D0
+                  goto 100
+              endif
+              ps1 = sqrt(ps1)
+              xmi(1) = 0.5D0*pl1-ps1
+              xma(1) = 0.5D0*pl1+ps1
 
-            ee = Ecm/2.D0
- 250        continue
-              pt = ptu*sqrt(-log(max(1.D-10,RNDM(0))))
-            if(pt.ge.ee) goto 250
-            phi = 6.2831853D0*RNDM(0)
-            px = pt*COS(phi)
-            py = pt*SIN(phi)
-            
-            pz = SQRT(ee**2-px**2-py**2)
-            call lund_put(1,Ifl1a,px,py,pz,ee)
-            px = -px
-            py = -py
-            pz = -pz
-            call lund_put(2,Ifl2a,px,py,pz,ee)
-            Ijoin(1) = 1
-            Ijoin(2) = 2
-            call lujoin(2,Ijoin)
+              pl2 = (1.D0+as2-as1)
+              ps2 = 0.25D0*pl2**2-as2
+              if(ps2.le.0.D0) then
+                  if(Ideb.ge.5) PRINT*,' rejection by x-limits (2) ',Ecm
+                  prob_reg = 1.D0
+                  goto 100
+              endif
+              ps2 = sqrt(ps2)
+              xmi(2) = 0.5D0*pl2-ps2
+              xma(2) = 0.5D0*pl2+ps2
 
-            call lund_frag(Ecm,NP)
-            if(NP.lt.0) then
-              if(Ideb.ge.5) 
-     &          print *,' gamma_h: rejection (1) by lund_frag, sqs:',Ecm
+              if((xmi(1).ge.xma(1)+0.05D0).or.
+     &        (xmi(2).ge.xma(2)+0.05D0)) then
+                  if(Ideb.ge.5) PRINT*,' rejection by x-limits (3) ',Ecm
+                  prob_reg = 1.D0
+                  goto 100
+              endif
+              call PO_SELSX2(xs1,xs2,xmi,xma,as1,as2,Irej)
+              if(Irej.ne.0) then
+                  if(Ideb.ge.5) PRINT *,'gamma_h: rejection by PO_SELSX2
+     &            , sqs,m1,m2:',Ecm,s1,s2
+                  prob_reg = 1.D0
+                  goto 100
+              endif
+
               NP = 0
-              goto 100
-            endif
+              Istring = 1
 
-            do i=1,NP
-              call lund_get(i,LLIST(i),
-     &                      P(i,1),P(i,2),P(i,3),P(i,4),P(i,5))
-            enddo
-              
+              ee = SQRT(XS1(1)*XS2(1))*Ecm/2.D0
 
-C  simulate pomeron (two-string topology)
-
-          else
-
-            call valences(IP1,Ifl1a,Ifl1b)
-            call valences(IP2,Ifl2a,Ifl2b)
-            if(Ifl1a*Ifl2a.lt.0) then
-              j = Ifl2a
-              Ifl2a = Ifl2b
-              Ifl2b = j
-            endif
-
-            pl1 = (1.D0+as1-as2)
-            ps1 = 0.25D0*pl1**2-as1
-            if(ps1.le.0.D0) then
-              if(Ideb.ge.5) print *,' rejection by x-limits (1) ',Ecm
-              prob_reg = 1.D0
-              goto 100
-            endif
-            ps1 = sqrt(ps1)
-            xmi(1) = 0.5D0*pl1-ps1
-            xma(1) = 0.5D0*pl1+ps1
-
-            pl2 = (1.D0+as2-as1)
-            ps2 = 0.25D0*pl2**2-as2
-            if(ps2.le.0.D0) then
-              if(Ideb.ge.5) print *,' rejection by x-limits (2) ',Ecm
-              prob_reg = 1.D0
-              goto 100
-            endif
-            ps2 = sqrt(ps2)
-            xmi(2) = 0.5D0*pl2-ps2
-            xma(2) = 0.5D0*pl2+ps2
-
-            if((xmi(1).ge.xma(1)+0.05D0).or.
-     &         (xmi(2).ge.xma(2)+0.05D0)) then
-              if(Ideb.ge.5) print *,' rejection by x-limits (3) ',Ecm
-              prob_reg = 1.D0
-              goto 100
-            endif
-            call PO_SELSX2(xs1,xs2,xmi,xma,as1,as2,Irej)
-            if(Irej.ne.0) then
-              if(Ideb.ge.5) print *,
-     &          'gamma_h: rejection by PO_SELSX2, sqs,m1,m2:',Ecm,s1,s2
-              prob_reg = 1.D0
-              goto 100
-            endif
-
-            NP = 0
-            Istring = 1
-
-            ee = SQRT(XS1(1)*XS2(1))*Ecm/2.D0
- 260        continue
+ 260          CONTINUE
               pt = ptu*sqrt(-log(max(1.D-10,RNDM(0))))
-            if(pt.ge.ee) goto 260
-            phi = 6.2831853D0*RNDM(0)
-            px = pt*COS(phi)
-            py = pt*SIN(phi)
+              if(pt.ge.ee) goto 260
+              phi = 6.2831853D0*RNDM(0)
+              px = pt*COS(phi)
+              py = pt*SIN(phi)
 
-            PA1(1) = px
-            PA1(2) = py
-            PA1(3) = XS1(1)*Ecm/2.D0
-            PA1(4) = PA1(3)
+              PA1(1) = px
+              PA1(2) = py
+              PA1(3) = XS1(1)*Ecm/2.D0
+              PA1(4) = PA1(3)
 
-            PA2(1) = -px
-            PA2(2) = -py
-            PA2(3) = -XS2(1)*Ecm/2.D0
-            PA2(4) = -PA2(3)
+              PA2(1) = -px
+              PA2(2) = -py
+              PA2(3) = -XS2(1)*Ecm/2.D0
+              PA2(4) = -PA2(3)
 
-            XM1 = 0.D0
-            XM2 = 0.D0
-            call PO_MSHELL(PA1,PA2,XM1,XM2,P1,P2)
-            px = P1(1)
-            py = P1(2)
-            pz = P1(3)
-            ee = P1(4)
-            call lund_put(1,Ifl1a,px,py,pz,ee)
-            px = P2(1)
-            py = P2(2)
-            pz = P2(3)
-            ee = P2(4)
-            call lund_put(2,Ifl2a,px,py,pz,ee)
+              XM1 = 0.D0
+              XM2 = 0.D0
+              call PO_MSHELL(PA1,PA2,XM1,XM2,P1,P2)
+              px = P1(1)
+              py = P1(2)
+              pz = P1(3)
+              ee = P1(4)
+              call lund_put(1,Ifl1a,px,py,pz,ee)
+              px = P2(1)
+              py = P2(2)
+              pz = P2(3)
+              ee = P2(4)
+              call lund_put(2,Ifl2a,px,py,pz,ee)
 
-            Ijoin(1) = 1
-            Ijoin(2) = 2
-            call lujoin(2,Ijoin)
+              Ijoin(1) = 1
+              Ijoin(2) = 2
+              call lujoin(2,Ijoin)
 
-            ee = SQRT(XS1(2)*XS2(2))*Ecm/2.D0
- 270        continue
+              ee = SQRT(XS1(2)*XS2(2))*Ecm/2.D0
+
+ 270          CONTINUE
               pt = ptu*sqrt(-log(max(1.D-10,RNDM(0))))
-            if(pt.ge.ee) goto 270
-            phi = 6.2831853D0*RNDM(0)
-            px = pt*COS(phi)
-            py = pt*SIN(phi)
+              if(pt.ge.ee) goto 270
+              phi = 6.2831853D0*RNDM(0)
+              px = pt*COS(phi)
+              py = pt*SIN(phi)
 
-            PA1(1) = px
-            PA1(2) = py
-            PA1(3) = XS1(2)*Ecm/2.D0
-            PA1(4) = PA1(3)
+              PA1(1) = px
+              PA1(2) = py
+              PA1(3) = XS1(2)*Ecm/2.D0
+              PA1(4) = PA1(3)
 
-            PA2(1) = -px
-            PA2(2) = -py
-            PA2(3) = -XS2(2)*Ecm/2.D0
-            PA2(4) = -PA2(3)
+              PA2(1) = -px
+              PA2(2) = -py
+              PA2(3) = -XS2(2)*Ecm/2.D0
+              PA2(4) = -PA2(3)
 
-            XM1 = 0.D0
-            XM2 = 0.D0
-            call PO_MSHELL(PA1,PA2,XM1,XM2,P1,P2)
+              XM1 = 0.D0
+              XM2 = 0.D0
+              call PO_MSHELL(PA1,PA2,XM1,XM2,P1,P2)
 
-            px = P1(1)
-            py = P1(2)
-            pz = P1(3)
-            ee = P1(4)
-            call lund_put(3,Ifl1b,px,py,pz,ee)
-            px = P2(1)
-            py = P2(2)
-            pz = P2(3)
-            ee = P2(4)
-            call lund_put(4,Ifl2b,px,py,pz,ee)
+              px = P1(1)
+              py = P1(2)
+              pz = P1(3)
+              ee = P1(4)
+              call lund_put(3,Ifl1b,px,py,pz,ee)
+              px = P2(1)
+              py = P2(2)
+              pz = P2(3)
+              ee = P2(4)
+              call lund_put(4,Ifl2b,px,py,pz,ee)
 
-            Ijoin(1) = 3
-            Ijoin(2) = 4
-            call lujoin(2,Ijoin)
+              Ijoin(1) = 3
+              Ijoin(2) = 4
+              call lujoin(2,Ijoin)
 
-            call lund_frag(Ecm,NP)
-            if(NP.lt.0) then
-              if(Ideb.ge.5) 
-     &          print *,' gamma_h: rejection (2) by lund_frag, sqs:',Ecm
-              NP = 0
-              prob_reg = prob_reg+0.1D0
-              goto 100
-            endif
+              call lund_frag(Ecm,NP)
+              if(NP.lt.0) then
+                  if(Ideb.ge.5) 
+     &            PRINT *,' gamma_h: rejection (2) by lund_frag, sqs:'
+     &            ,Ecm
+                  NP = 0
+                  prob_reg = prob_reg+0.1D0
+                  goto 100
+              endif
 
-            do i=1,NP
-              call lund_get(i,LLIST(i),
-     &                      P(i,1),P(i,2),P(i,3),P(i,4),P(i,5))
-            enddo
-              
+              do i=1,NP
+                  call lund_get(i,LLIST(i),
+     &                 P(i,1),P(i,2),P(i,3),P(i,4),P(i,5))
+              enddo
           endif
-
-          if(Ideb.ge.10) then
-            print *,' multi-pion event',Istring,NP
-            call print_event(1)
-          endif
-
-C... for fragmentation in resonance region:
+          if(Ideb.ge.10) PRINT *,' multi-pion event',Istring,NP
+C...  for fragmentation in resonance region:
           if (Imode.eq.5) goto 400
-
-C  leading baryon/meson effect
-
+C     leading baryon/meson effect
           do j=1,np
-            if(((LLIST(J).eq.13).or.(LLIST(J).eq.14))
-     &         .and.(p(j,3).lt.0.D0)) then
-              if(rndm(0).lt.(2.D0*p(j,4)/Ecm)**2) goto 100
-            endif
-            if((LLIST(J).ge.6).and.(LLIST(J).le.8)
-     &         .and.(p(j,3).lt.-0.4D0)) then
-              if(rndm(0).lt.(2.D0*p(j,4)/Ecm)**2) goto 100
-            endif
+              if(((LLIST(J).eq.13).or.(LLIST(J).eq.14))
+     &        .and.(p(j,3).lt.0.D0)) then
+                  if(rndm(0).lt.(2.D0*p(j,4)/Ecm)**2) goto 100
+              endif
+              if((LLIST(J).ge.6).and.(LLIST(J).le.8)
+     &        .and.(p(j,3).lt.-0.4D0)) then
+                  if(rndm(0).lt.(2.D0*p(j,4)/Ecm)**2) goto 100
+              endif
           enddo
-
-C  remove elastic/diffractive channels
-
+C     remove elastic/diffractive channels
           ima_0  = 0
           imb_0  = 0
           ima_1  = 0
@@ -2050,394 +1753,277 @@ C  remove elastic/diffractive channels
           imul = 0
 
           if(ip1.eq.1) then
-            iba_0 = 6
-            iba_1 = 27
-            iba_2 = 32
+              iba_0 = 6
+              iba_1 = 27
+              iba_2 = 32
           else
-            iba_0 = ip1
-            iba_1 = ip1
-            iba_2 = ip1
+              iba_0 = ip1
+              iba_1 = ip1
+              iba_2 = ip1
           endif
           if(ip2.eq.1) then
-            ibb_0 = 6
-            ibb_1 = 27
-            ibb_2 = 32
+              ibb_0 = 6
+              ibb_1 = 27
+              ibb_2 = 32
           else
-            ibb_0 = ip2
-            ibb_1 = ip2
-            ibb_2 = ip2
+              ibb_0 = ip2
+              ibb_1 = ip2
+              ibb_2 = ip2
           endif
 
           do j=1,np
-            l1 = abs(LLIST(J))
-            if(l1.lt.10000) then
-              if(LLIST(J).eq.iba_0) ima_0 = 1
-              if(LLIST(J).eq.iba_1) ima_1 = 1
-              if(LLIST(J).eq.iba_2) ima_2 = 1
-              if(LLIST(J).eq.ibb_0) imb_0 = 1
-              if(LLIST(J).eq.ibb_1) imb_1 = 1
-              if(LLIST(J).eq.ibb_2) imb_2 = 1
-              imul = imul+1
-            endif
+              l1 = abs(LLIST(J))
+              if(l1.lt.10000) then
+                  if(LLIST(J).eq.iba_0) ima_0 = 1
+                  if(LLIST(J).eq.iba_1) ima_1 = 1
+                  if(LLIST(J).eq.iba_2) ima_2 = 1
+                  if(LLIST(J).eq.ibb_0) imb_0 = 1
+                  if(LLIST(J).eq.ibb_1) imb_1 = 1
+                  if(LLIST(J).eq.ibb_2) imb_2 = 1
+                  imul = imul+1
+              endif
           enddo 
 
           if(imul.eq.2) then
-            if(ima_0*imb_0.eq.1) goto 100
-            if(ima_1*imb_1.eq.1) goto 100
-            if(ima_2*imb_2.eq.1) goto 100
+              if(ima_0*imb_0.eq.1) goto 100
+              if(ima_1*imb_1.eq.1) goto 100
+              if(ima_2*imb_2.eq.1) goto 100
           endif
 
 C  remove direct channels
-
           if((imul.eq.2).and.
-     &       (ip2.eq.1).and.((ip1.eq.13).or.(ip1.eq.14))) then
+     &        (ip2.eq.1).and.((ip1.eq.13).or.(ip1.eq.14))) then
 
-            ima_0  = 0
-            imb_0  = 0
-            ima_1  = 0
-            imb_1  = 0
-            ima_2  = 0
-            imb_2  = 0
-            ima_3  = 0
-            imb_3  = 0
+              ima_0  = 0
+              imb_0  = 0
+              ima_1  = 0
+              imb_1  = 0
+              ima_2  = 0
+              imb_2  = 0
+              ima_3  = 0
+              imb_3  = 0
 
-            if(ip1.eq.13) then
-              iba_0 = 14
-              ibb_0 = 7
-              iba_1 = 40
-              ibb_1 = 8
-              iba_2 = 42
-              ibb_2 = 7
-              iba_3 = 13
-              ibb_3 = 23
-            else
-              iba_0 = 13
-              ibb_0 = 8
-              iba_1 = 43
-              ibb_1 = 7
-              iba_2 = 41
-              ibb_2 = 8
-              iba_3 = 14
-              ibb_3 = 23
-            endif
-  
-            do j=1,np
-              l1 = abs(LLIST(J))
-              if(l1.lt.10000) then
-                if(LLIST(J).eq.iba_0) ima_0 = 1
-                if(LLIST(J).eq.iba_1) ima_1 = 1
-                if(LLIST(J).eq.iba_2) ima_2 = 1
-                if(LLIST(J).eq.iba_3) ima_3 = 1
-                if(LLIST(J).eq.ibb_0) imb_0 = 1
-                if(LLIST(J).eq.ibb_1) imb_1 = 1
-                if(LLIST(J).eq.ibb_2) imb_2 = 1
-                if(LLIST(J).eq.ibb_3) imb_3 = 1
+              if(ip1.eq.13) then
+                  iba_0 = 14
+                  ibb_0 = 7
+                  iba_1 = 40
+                  ibb_1 = 8
+                  iba_2 = 42
+                  ibb_2 = 7
+                  iba_3 = 13
+                  ibb_3 = 23
+              else
+                  iba_0 = 13
+                  ibb_0 = 8
+                  iba_1 = 43
+                  ibb_1 = 7
+                  iba_2 = 41
+                  ibb_2 = 8
+                  iba_3 = 14
+                  ibb_3 = 23
               endif
-            enddo
-            
-            if(ima_0*imb_0.eq.1) goto 100
-            if(ima_1*imb_1.eq.1) goto 100
-            if(ima_2*imb_2.eq.1) goto 100
-            if(ima_3*imb_3.eq.1) goto 100
-
+              do j=1,np
+                  l1 = abs(LLIST(J))
+                  if(l1.lt.10000) then
+                      if(LLIST(J).eq.iba_0) ima_0 = 1
+                      if(LLIST(J).eq.iba_1) ima_1 = 1
+                      if(LLIST(J).eq.iba_2) ima_2 = 1
+                      if(LLIST(J).eq.iba_3) ima_3 = 1
+                      if(LLIST(J).eq.ibb_0) imb_0 = 1
+                      if(LLIST(J).eq.ibb_1) imb_1 = 1
+                      if(LLIST(J).eq.ibb_2) imb_2 = 1
+                      if(LLIST(J).eq.ibb_3) imb_3 = 1
+                  endif
+              enddo
+              if(ima_0*imb_0.eq.1) goto 100
+              if(ima_1*imb_1.eq.1) goto 100
+              if(ima_2*imb_2.eq.1) goto 100
+              if(ima_3*imb_3.eq.1) goto 100
           endif
-
-C  suppress events with many pi0's
-
+C     suppress events with many pi0's
           ima_0 = 0
           imb_0 = 0
           do j=1,np
-C  neutral mesons
-            if(LLIST(J).eq.6) ima_0 = ima_0+1
-            if(LLIST(J).eq.11) ima_0 = ima_0+1
-            if(LLIST(J).eq.12) ima_0 = ima_0+1
-            if(LLIST(J).eq.21) ima_0 = ima_0+1
-            if(LLIST(J).eq.22) ima_0 = ima_0+1
-            if(LLIST(J).eq.23) ima_0 = ima_0+1
-            if(LLIST(J).eq.24) ima_0 = ima_0+1
-            if(LLIST(J).eq.27) ima_0 = ima_0+1
-            if(LLIST(J).eq.32) ima_0 = ima_0+1
-            if(LLIST(J).eq.33) ima_0 = ima_0+1
-C  charged mesons
-            if(LLIST(J).eq.7) imb_0 = imb_0+1
-            if(LLIST(J).eq.8) imb_0 = imb_0+1
-            if(LLIST(J).eq.9) imb_0 = imb_0+1
-            if(LLIST(J).eq.10) imb_0 = imb_0+1
-            if(LLIST(J).eq.25) imb_0 = imb_0+1
-            if(LLIST(J).eq.26) imb_0 = imb_0+1
+C     neutral mesons
+              if(LLIST(J).eq.6) ima_0 = ima_0+1
+              if(LLIST(J).eq.11) ima_0 = ima_0+1
+              if(LLIST(J).eq.12) ima_0 = ima_0+1
+              if(LLIST(J).eq.21) ima_0 = ima_0+1
+              if(LLIST(J).eq.22) ima_0 = ima_0+1
+              if(LLIST(J).eq.23) ima_0 = ima_0+1
+              if(LLIST(J).eq.24) ima_0 = ima_0+1
+              if(LLIST(J).eq.27) ima_0 = ima_0+1
+              if(LLIST(J).eq.32) ima_0 = ima_0+1
+              if(LLIST(J).eq.33) ima_0 = ima_0+1
+C     charged mesons
+              if(LLIST(J).eq.7) imb_0 = imb_0+1
+              if(LLIST(J).eq.8) imb_0 = imb_0+1
+              if(LLIST(J).eq.9) imb_0 = imb_0+1
+              if(LLIST(J).eq.10) imb_0 = imb_0+1
+              if(LLIST(J).eq.25) imb_0 = imb_0+1
+              if(LLIST(J).eq.26) imb_0 = imb_0+1
           enddo
 
           prob_1 = a1*DBLE(imb_0)/max(DBLE(ima_0+imb_0),1.D0)+a2
 
           if(RNDM(0).GT.prob_1) goto 100
-
-
-C  correct multiplicity at very low energies
-
+C     correct multiplicity at very low energies
           ND = 0
 
           E_ref_1 = 1.6D0
           E_ref_2 = 1.95D0
 
           if((imul.eq.3)
-     &       .and.(Ecm.gt.E_ref_1).and.(Ecm.lt.E_ref_2)) then
+     &    .and.(Ecm.gt.E_ref_1).and.(Ecm.lt.E_ref_2)) then
 
-            ima_0 = 0
-            ima_1 = 0
-            ima_2 = 0
-            imb_0 = 0
-            imb_1 = 0
-            iba_0 = 0
-            iba_1 = 0
-            iba_2 = 0
-            ibb_0 = 0
-            ibb_1 = 0
-C  incoming proton
-            if(ip1.eq.13) then
-              iba_0 = 13
-              iba_1 = 7
-              iba_2 = 8
-              ibb_0 = 14
-              ibb_1 = 6
-C  incoming neutron
-            else if(ip1.eq.14) then
-              iba_0 = 14
-              iba_1 = 7
-              iba_2 = 8
-              ibb_0 = 13
-              ibb_1 = 6
-            endif
-            do j=1,np
-              if(LLIST(J).eq.iba_0) ima_0 = ima_0+1
-              if(LLIST(J).eq.iba_1) ima_1 = ima_1+1
-              if(LLIST(J).eq.iba_2) ima_2 = ima_2+1
-              if(LLIST(J).eq.ibb_0) imb_0 = imb_0+1
-              if(LLIST(J).eq.ibb_1) imb_1 = imb_1+1
-            enddo
-
-C  N gamma --> N pi+ pi-
-            if(ima_0*ima_1*ima_2.eq.1) then
-              Elog = LOG(Ecm)
-              Elog_1 = LOG(E_ref_1) 
-              Elog_2 = LOG(E_ref_2) 
-              prob = 0.1D0*4.D0/(Elog_2-Elog_1)**2
-     &                   *(Elog-Elog_1)*(Elog_2-Elog)
-
-              if(RNDM(0).lt.prob) then
-                LL(1) = ip1
-                LL(2) = 7
-                LL(3) = 8
-                LL(4) = 6
-                ND = 4
+              ima_0 = 0
+              ima_1 = 0
+              ima_2 = 0
+              imb_0 = 0
+              imb_1 = 0
+              iba_0 = 0
+              iba_1 = 0
+              iba_2 = 0
+              ibb_0 = 0
+              ibb_1 = 0
+C     incoming proton
+              if(ip1.eq.13) then
+                  iba_0 = 13
+                  iba_1 = 7
+                  iba_2 = 8
+                  ibb_0 = 14
+                  ibb_1 = 6
+C     incoming neutron
+              else if(ip1.eq.14) then
+                  iba_0 = 14
+                  iba_1 = 7
+                  iba_2 = 8
+                  ibb_0 = 13
+                  ibb_1 = 6
               endif
-
-            endif
-
+              do j=1,np
+                  if(LLIST(J).eq.iba_0) ima_0 = ima_0+1
+                  if(LLIST(J).eq.iba_1) ima_1 = ima_1+1
+                  if(LLIST(J).eq.iba_2) ima_2 = ima_2+1
+                  if(LLIST(J).eq.ibb_0) imb_0 = imb_0+1
+                  if(LLIST(J).eq.ibb_1) imb_1 = imb_1+1
+              enddo
+C  N gamma --> N pi+ pi-
+              if(ima_0*ima_1*ima_2.eq.1) then
+                  Elog = LOG(Ecm)
+                  Elog_1 = LOG(E_ref_1) 
+                  Elog_2 = LOG(E_ref_2) 
+                  prob = 0.1D0*4.D0/(Elog_2-Elog_1)**2
+     &                 *(Elog-Elog_1)*(Elog_2-Elog)
+                  if(RNDM(0).lt.prob) then
+                    LL(1) = ip1
+                    LL(2) = 7
+                    LL(3) = 8
+                    LL(4) = 6
+                    ND = 4
+                  endif
+              endif
           endif
-
 
           E_ref_1 = 1.95D0
           E_ref_2 = 2.55D0
 
           if((imul.eq.4)
-     &       .and.(Ecm.gt.E_ref_1).and.(Ecm.lt.E_ref_2)) then
-
-            ima_0 = 0
-            ima_1 = 0
-            ima_2 = 0
-            imb_0 = 0
-            imb_1 = 0
-            iba_0 = 0
-            iba_1 = 0
-            iba_2 = 0
-            ibb_0 = 0
-            ibb_1 = 0
-C  incoming proton
-            if(ip1.eq.13) then
-              iba_0 = 13
-              iba_1 = 7
-              iba_2 = 8
-              ibb_0 = 14
-              ibb_1 = 6
-C  incoming neutron
-            else if(ip1.eq.14) then
-              iba_0 = 14
-              iba_1 = 7
-              iba_2 = 8
-              ibb_0 = 13
-              ibb_1 = 6
-            endif
-            do j=1,np
-              if(LLIST(J).eq.iba_0) ima_0 = ima_0+1
-              if(LLIST(J).eq.iba_1) ima_1 = ima_1+1
-              if(LLIST(J).eq.iba_2) ima_2 = ima_2+1
-              if(LLIST(J).eq.ibb_0) imb_0 = imb_0+1
-              if(LLIST(J).eq.ibb_1) imb_1 = imb_1+1
-            enddo
-
-C  N gamma --> N pi+ pi- pi0
-            if(ima_0*ima_1*ima_2*imb_1.eq.1) then
-              Elog = LOG(Ecm)
-              Elog_2 = LOG(E_ref_2) 
-              Elog_1 = LOG(E_ref_1) 
-              prob = 0.1D0*4.D0/(Elog_2-Elog_1)**2
-     &                   *(Elog-Elog_1)*(Elog_2-Elog)
-
-              if(RNDM(0).lt.prob) then
-                if(ip1.eq.13) then
-                  LL(1) = 14
-                  LL(2) = 7
-                  LL(3) = 7
-                  LL(4) = 8
-                else
-                  LL(1) = 13
-                  LL(2) = 7
-                  LL(3) = 8
-                  LL(4) = 8
-                endif
-                ND = 4
+     &    .and.(Ecm.gt.E_ref_1).and.(Ecm.lt.E_ref_2)) then
+              ima_0 = 0
+              ima_1 = 0
+              ima_2 = 0
+              imb_0 = 0
+              imb_1 = 0
+              iba_0 = 0
+              iba_1 = 0
+              iba_2 = 0
+              ibb_0 = 0
+              ibb_1 = 0
+C     incoming proton
+              if(ip1.eq.13) then
+                  iba_0 = 13
+                  iba_1 = 7
+                  iba_2 = 8
+                  ibb_0 = 14
+                  ibb_1 = 6
+C     incoming neutron
+              else if(ip1.eq.14) then
+                  iba_0 = 14
+                  iba_1 = 7
+                  iba_2 = 8
+                  ibb_0 = 13
+                  ibb_1 = 6
               endif
-
-            endif
-
+              do j=1,np
+                  if(LLIST(J).eq.iba_0) ima_0 = ima_0+1
+                  if(LLIST(J).eq.iba_1) ima_1 = ima_1+1
+                  if(LLIST(J).eq.iba_2) ima_2 = ima_2+1
+                  if(LLIST(J).eq.ibb_0) imb_0 = imb_0+1
+                  if(LLIST(J).eq.ibb_1) imb_1 = imb_1+1
+              enddo
+C     N gamma --> N pi+ pi- pi0
+              if(ima_0*ima_1*ima_2*imb_1.eq.1) then
+                  Elog = LOG(Ecm)
+                  Elog_2 = LOG(E_ref_2) 
+                  Elog_1 = LOG(E_ref_1) 
+                  prob = 0.1D0*4.D0/(Elog_2-Elog_1)**2
+     &                 *(Elog-Elog_1)*(Elog_2-Elog)
+                  if(RNDM(0).lt.prob) then
+                      if(ip1.eq.13) then
+                          LL(1) = 14
+                          LL(2) = 7
+                          LL(3) = 7
+                          LL(4) = 8
+                      else
+                          LL(1) = 13
+                          LL(2) = 7
+                          LL(3) = 8
+                          LL(4) = 8
+                      endif
+                      ND = 4
+                  endif
+              endif
           endif
-
-
           if(ND.gt.0) then
-            P_in(1) = 0.D0
-            P_in(2) = 0.D0
-            P_in(3) = 0.D0
-            P_in(4) = Ecm
-            P_in(5) = Ecm
-            call DECPAR(0,P_in,ND,LL,P_dec)
-            Iflip = 0
-            do j=1,ND
-              LLIST(j) = LL(j)
-              do k=1,5
-                P(j,k) = P_dec(j,k)
-              enddo
-              if(((LLIST(j).eq.13).or.(LLIST(j).eq.14))
-     &           .and.(P(j,3).lt.0.D0)) Iflip = 1
-            enddo
-            if(Iflip.ne.0) then
+              P_in(1) = 0.D0
+              P_in(2) = 0.D0
+              P_in(3) = 0.D0
+              P_in(4) = Ecm
+              P_in(5) = Ecm
+              call DECPAR(0,P_in,ND,LL,P_dec)
+              Iflip = 0
               do j=1,ND
-                P(j,3) = -P(j,3)
+                  LLIST(j) = LL(j)
+                  do k=1,5
+                      P(j,k) = P_dec(j,k)
+                  enddo
+                  if(((LLIST(j).eq.13).or.(LLIST(j).eq.14))
+     &            .and.(P(j,3).lt.0.D0)) Iflip = 1
               enddo
-            endif
-            NP = ND
+              if(Iflip.ne.0) then
+                  do j=1,ND
+                      P(j,3) = -P(j,3)
+                  enddo
+              endif
+              NP = ND
           endif
-
-C... for fragmentation in resonance region:
-  400     continue
-
+C...  for fragmentation in resonance region:
+  400     CONTINUE
           call DECSIB
-
       ENDIF
-
-      if(Ideb.ge.10) then
-        if(Ideb.ge.20) then
-          call print_event(2)
-        else
-          call print_event(1)
-        endif
-      endif
 
       IQchr = ICHP(ip1)+ICHP(ip2)
       IQbar = IBAR(ip1)+IBAR(ip2)
       call check_event(-Ic,Ecm,0.D0,0.D0,0.D0,IQchr,IQbar,Irej)
 
-      end
-
-
-      SUBROUTINE print_event(Iout)
-C*********************************************************************
-C
-C     print final state particles
-C
-C                                                  (R.E. 03/98)
-C
-C**********************************************************************
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-
-      COMMON /S_RUN/ SQS, S, Q2MIN, XMIN, ZMIN, kb, kt, a1, a2, Nproc
-      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
-      COMMON /S_CHP/ S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
-      COMMON /S_MASS1/ AM(49), AM2(49)
-      COMMON /S_CNAM/ NAMP (0:49)
-      CHARACTER*6 NAMP
-      CHARACTER CODE*18
-      SAVE
-
-      if(iout.gt.0) then
-       
-        print *,' --------------------------------------------------'
-
-        if(Nproc.eq.1) then
-           print *,' diffractive rho-0 production',Nproc
-        else if(Nproc.eq.2) then
-           print *,' direct interaction 1',Nproc
-        else if(Nproc.eq.3) then
-           print *,' direct interaction 2',Nproc
-        else if(Nproc.eq.4) then
-           print *,' diffractive omega production',Nproc
-        else if(Nproc.eq.0) then
-           print *,' multi-pion/fragmentation contribution',Nproc
-        else if((Nproc.gt.10).and.(Nproc.lt.20)) then
-           print *,' resonance production and decay',Nproc-10
-        else
-           print *,' unknown process',Nproc
-        endif
-
-        i0 = 0
-        px = 0.D0
-        py = 0.D0
-        pz = 0.D0
-        ee = 0.D0
-        ichar = 0
-        ibary = 0
-        do j=1,np
-          l1 = abs(LLIST(J))
-          l = mod(llist(j),10000)
-          if(l1.lt.10000) then
-            px = px + P(j,1)
-            py = py + P(j,2)
-            pz = pz + P(j,3)
-            ee = ee + P(j,4)
-            ichar = ichar+sign(1,l)*ICHP(iabs(l))
-            ibary = ibary+sign(1,l)*IBAR(iabs(l))
-          endif
-          if((l1.lt.10000).or.(Iout.GE.2)) then
-            i0 = i0+1
-            code = '                  '
-            code(1:6) = namp(iabs(l))
-            if (l .lt. 0) code(7:9) = 'bar'
-            write (6,120) i0,CODE,l1*sign(1,l),sign(1,l)*ICHP(iabs(l)),
-     &        (P(j,k),k=1,4)
-          endif
-        enddo
-        write (6,122) '   sum: ',px,py,pz,ee
-        print *,' charge QN: ',ichar,'    baryon QN: ',ibary
-        print *,' --------------------------------------------------'
-120     FORMAT(1X,I4,1X,A18,1X,I6,1X,I2,1X,2(F9.3,2X),2(E9.3,2X))
-122     FORMAT(7X,A8,20X,2(F9.3,2X),2(E9.3,2X))
-
-      endif
-
-      END
+      END SUBROUTINE gamma_h
 
 
       SUBROUTINE check_event(Ic,Esum,PXsum,PYsum,PZsum,IQchr,IQbar,Irej)
 C***********************************************************************
-C
 C     check energy-momentum and quantum number conservation
-C
-C                                                (R.E. 08/98)
-C
 C***********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
@@ -2456,136 +2042,121 @@ C***********************************************************************
       ee = 0.D0
       ichar = 0
       ibary = 0
-      Iprint = 0
+      IPRINT = 0
       
       PLscale = Esum
       PTscale = 1.D0
 
       do j=1,np
-        l1 = abs(LLIST(J))
-        l = mod(llist(j),10000)
-        if(l1.lt.10000) then
-          px = px + P(j,1)
-          py = py + P(j,2)
-          pz = pz + P(j,3)
-          ee = ee + P(j,4)
-          ichar = ichar+sign(1,l)*ICHP(iabs(l))
-          ibary = ibary+sign(1,l)*IBAR(iabs(l))
-        endif
+          l1 = abs(LLIST(J))
+          l = mod(llist(j),10000)
+          if(l1.lt.10000) then
+              px = px + P(j,1)
+              py = py + P(j,2)
+              pz = pz + P(j,3)
+              ee = ee + P(j,4)
+              ichar = ichar+sign(1,l)*ICHP(iabs(l))
+              ibary = ibary+sign(1,l)*IBAR(iabs(l))
+          endif
       enddo
 
       if(ichar.ne.IQchr) then
-        print *,' charge conservation violated',Ic
-        Iprint = 1
-      endif
-      if(ibary.ne.IQbar) then
-        print *,' baryon number conservation violated',Ic
-        Iprint = 1
-      endif
-      if(abs((px-PXsum)/MAX(PXsum,PTscale)).gt.1.D-3) then
-        print *,' x momentum conservation violated',Ic
-        Iprint = 1
-      endif
-      if(abs((py-PYsum)/MAX(PYsum,PTscale)).gt.1.D-3) then
-        print *,' y momentum conservation violated',Ic
-        Iprint = 1
-      endif
-      if(abs((pz-Pzsum)/MAX(ABS(PZsum),PLscale)).gt.1.D-3) then
-        print *,' z momentum conservation violated',Ic
-        Iprint = 1
-      endif
-      if(abs((ee-Esum)/MAX(Esum,1.D0)).gt.1.D-3) then
-        print *,' energy conservation violated',Ic
-        Iprint = 1
+          PRINT *,' charge conservation violated',Ic
+          IPRINT = 1
+      else if(ibary.ne.IQbar) then
+          PRINT *,' baryon number conservation violated',Ic
+          IPRINT = 1
+      else if(abs((px-PXsum)/MAX(PXsum,PTscale)).gt.1.D-3) then
+          PRINT *,' x momentum conservation violated',Ic
+          IPRINT = 1
+      else if(abs((py-PYsum)/MAX(PYsum,PTscale)).gt.1.D-3) then
+          PRINT *,' y momentum conservation violated',Ic
+          IPRINT = 1
+      else if(abs((pz-Pzsum)/MAX(ABS(PZsum),PLscale)).gt.1.D-3) then
+          PRINT *,' z momentum conservation violated',Ic
+          IPRINT = 1
+      else if(abs((ee-Esum)/MAX(Esum,1.D0)).gt.1.D-3) then
+          PRINT *,' energy conservation violated',Ic
+          IPRINT = 1
       endif
 
-      if(Iprint.ne.0) call print_event(1)
+      Irej = IPRINT
 
-      Irej = Iprint
-
-      END
+      END SUBROUTINE check_event
 
 
       SUBROUTINE valences(ip,ival1,ival2)
 C**********************************************************************
-C
 C     valence quark composition of various particles  (R.E. 03/98)
 C     (with special treatment of photons)
-C
 C**********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
-
       SAVE
 
       if(ip.eq.1) then
-        if(rndm(0).gt.0.2D0) then
-          ival1 = 1
-          ival2 = -1
-        else
-          ival1 = 2
-          ival2 = -2
-        endif
+          if(rndm(0).gt.0.2D0) then
+              ival1 = 1
+              ival2 = -1
+          else
+              ival1 = 2
+              ival2 = -2
+          endif
       else if(ip.eq.6) then
-        if(rndm(0).gt.0.5D0) then
-          ival1 = 1
-          ival2 = -1
-        else
-          ival1 = 2
-          ival2 = -2
-        endif
+          if(rndm(0).gt.0.5D0) then
+              ival1 = 1
+              ival2 = -1
+          else
+              ival1 = 2
+              ival2 = -2
+          endif
       else if(ip.eq.7) then
-        ival1 = 1
-        ival2 = -2
+          ival1 = 1
+          ival2 = -2
       else if(ip.eq.8) then
-        ival1 = 2
-        ival2 = -1
+          ival1 = 2
+          ival2 = -1
       else if(ip.eq.13) then
-        Xi = rndm(0)
-        if(Xi.lt.0.3333D0) then
-          ival1 = 12
-          ival2 = 1
-        else if(Xi.lt.0.6666D0) then
-          ival1 = 21
-          ival2 = 1
-        else
-          ival1 = 11
-          ival2 = 2
-        endif
+          Xi = rndm(0)
+          if(Xi.lt.0.3333D0) then
+              ival1 = 12
+              ival2 = 1
+          else if(Xi.lt.0.6666D0) then
+              ival1 = 21
+              ival2 = 1
+          else
+              ival1 = 11
+              ival2 = 2
+          endif
       else if(ip.eq.14) then
-        Xi = rndm(0)
-        if(Xi.lt.0.3333D0) then
-          ival1 = 12
-          ival2 = 2
-        else if(Xi.lt.0.6666D0) then
-          ival1 = 21
-          ival2 = 2
-        else
-          ival1 = 22
-          ival2 = 1
-        endif
+          Xi = rndm(0)
+          if(Xi.lt.0.3333D0) then
+              ival1 = 12
+              ival2 = 2
+          else if(Xi.lt.0.6666D0) then
+              ival1 = 21
+              ival2 = 2
+          else
+              ival1 = 22
+              ival2 = 1
+          endif
       endif
 
       if((ip.lt.13).and.(rndm(0).lt.0.5D0)) then
-        k = ival1
-        ival1 = ival2
-        ival2 = k
+          k = ival1
+          ival1 = ival2
+          ival2 = k
       endif
 
-      END
+      END SUBROUTINE valences
 
 
       SUBROUTINE DECSIB
 C***********************************************************************
-C
 C     Decay all unstable particle in SIBYLL
 C     decayed particle have the code increased by 10000
-C
 C     (taken from SIBYLL 1.7, R.E. 04/98)
-C
 C***********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
@@ -2598,27 +2169,27 @@ C***********************************************************************
 
       NN = 1
       DO J=1,NP
-         LLIST1(J) = 0
+          LLIST1(J) = 0
       ENDDO
       DO WHILE (NN .LE. NP)
-         L= LLIST(NN)
-         IF (IDB(IABS(L)) .GT. 0)  THEN
-            DO K=1,5
-              P0(K) = P(NN,K)
-            ENDDO
-            ND = 0
-            CALL DECPAR (L,P0,ND,LL,PD)
-            LLIST(NN) = LLIST(NN)+ISIGN(10000,LLIST(NN))
-            DO J=1,ND
-               DO K=1,5
-                  P(NP+J,K) = PD(J,K)
-               ENDDO
-               LLIST(NP+J)=LL(J)
-               LLIST1(NP+J)=NN
-            ENDDO
-            NP=NP+ND
-         ENDIF
-         NN = NN+1
+          L= LLIST(NN)
+          IF (IDB(IABS(L)) .GT. 0)  THEN
+              DO K=1,5
+                  P0(K) = P(NN,K)
+              ENDDO
+              ND = 0
+              CALL DECPAR (L,P0,ND,LL,PD)
+              LLIST(NN) = LLIST(NN)+ISIGN(10000,LLIST(NN))
+              DO J=1,ND
+                  DO K=1,5
+                      P(NP+J,K) = PD(J,K)
+                  ENDDO
+                  LLIST(NP+J)=LL(J)
+                  LLIST1(NP+J)=NN
+              ENDDO
+              NP=NP+ND
+          ENDIF
+          NN = NN+1
       ENDDO
 
       END
@@ -2626,8 +2197,7 @@ C***********************************************************************
 
       SUBROUTINE DECPAR(LA,P0,ND,LL,P)
 C***********************************************************************
-C
-C     This subroutine generates the decay of a particle
+C     This SUBROUTINE generates the decay of a particle
 C     with ID = LA, and 5-momentum P0(1:5)
 C     into ND particles of 5-momenta P(j,1:5) (j=1:ND)
 C 
@@ -2637,13 +2207,11 @@ C     the routine generates a phase space decay into ND
 C     particles of codes LL(1:nd)
 C
 C     (taken from SIBYLL 1.7, muon decay corrected, R.E. 04/98)
-C 
 C***********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
-       COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
+      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
       COMMON /S_MASS1/ AM(49), AM2(49)
       SAVE
 
@@ -2654,34 +2222,32 @@ C***********************************************************************
      +          1500.D0,12000.D0,120000.D0/
       DATA PI /3.1415926D0/
 
-C...c.m.s. Momentum in two particle decays
+C...  c.m.s. Momentum in two particle decays
       PAWT(A,B,C) = SQRT((A**2-(B+C)**2)*(A**2-(B-C)**2))/(2.D0*A)
-
-C...Phase space decay into the particles in the list
-      IF (LA .EQ. 0)  THEN
+C...  Phase space decay into the particles in the list
+      IF (LA .EQ. 0) THEN
           MAT = 0
           MBST = 0
           PS = 0.
           DO J=1,ND
-             P (J,5) = AM(IABS(LL(J)))
-             PV(J,5) = AM(IABS(LL(J)))
-             PS = PS+P(J,5)
+              P (J,5) = AM(IABS(LL(J)))
+              PV(J,5) = AM(IABS(LL(J)))
+              PS = PS+P(J,5)
           ENDDO
           DO J=1,4
-             PV(1,J) = P0(J)
+              PV(1,J) = P0(J)
           ENDDO
           PV(1,5) = P0(5)
           GOTO 140
       ENDIF
-
-C...Choose decay channel
+C...  Choose decay channel
       L = IABS(LA)
       ND=0
       IDC = IDB(L)-1
-      IF (IDC+1 .LE.0)  RETURN
+      IF (IDC+1 .LE.0) RETURN
       RBR = RNDM(0)
 110   IDC=IDC+1
-      IF(RBR.GT.CBR(IDC))  GOTO 110
+      IF(RBR.GT.CBR(IDC)) GOTO 110
 
       KD =6*(IDC-1)+1
       ND = KDEC(KD)
@@ -2694,119 +2260,108 @@ C...Choose decay channel
 
       PS = 0.D0
       DO J=1,ND
-         LL(J) = KDEC(KD+1+J)
-         P(J,5)  = AM(LL(J))
-         PV(J,5) = AM(LL(J))
-         PS = PS + P(J,5)
+          LL(J) = KDEC(KD+1+J)
+          P(J,5) = AM(LL(J))
+          PV(J,5) = AM(LL(J))
+          PS = PS + P(J,5)
       ENDDO
       DO J=1,4
-         PV(1,J) = 0.D0
-         IF (MBST .EQ. 0)  PV(1,J) = P0(J)
+          PV(1,J) = 0.D0
+          IF (MBST .EQ. 0) PV(1,J) = P0(J)
       ENDDO
-      IF (MBST .EQ. 1)  PV(1,4) = P0(5)
+      IF (MBST .EQ. 1) PV(1,4) = P0(5)
       PV(1,5) = P0(5)
 
 140   IF (ND .EQ. 2) GOTO 280
 
-      IF (ND .EQ. 1)  THEN
-         DO J=1,4
-            P(1,J) = P0(J)
-         ENDDO
-         RETURN
+      IF (ND .EQ. 1) THEN
+          DO J=1,4
+              P(1,J) = P0(J)
+          ENDDO
+          RETURN
       ENDIF
-
-C...Calculate maximum weight for ND-particle decay
+C...  Calculate maximum weight for ND-particle decay
       WWTMAX = 1.D0/FACN(ND)
       PMAX=PV(1,5)-PS+P(ND,5)
       PMIN=0.D0
       DO IL=ND-1,1,-1
-         PMAX = PMAX+P(IL,5)
-         PMIN = PMIN+P(IL+1,5)
-         WWTMAX = WWTMAX*PAWT(PMAX,PMIN,P(IL,5))
+          PMAX = PMAX+P(IL,5)
+          PMIN = PMIN+P(IL+1,5)
+          WWTMAX = WWTMAX*PAWT(PMAX,PMIN,P(IL,5))
       ENDDO
-
-C...generation of the masses, compute weight, if rejected try again
+C...  generation of the masses, compute weight, if rejected try again
 240   RORD(1) = 1.D0
       DO 260 IL1=2,ND-1
-      RSAV = RNDM(0)
-      DO 250 IL2=IL1-1,1,-1
-      IF(RSAV.LE.RORD(IL2))   GOTO 260
-250     RORD(IL2+1)=RORD(IL2)
-260     RORD(IL2+1)=RSAV
+          RSAV = RNDM(0)
+          DO 250 IL2=IL1-1,1,-1
+              IF(RSAV.LE.RORD(IL2)) GOTO 260
+250       RORD(IL2+1)=RORD(IL2)
+260   RORD(IL2+1)=RSAV
       RORD(ND) = 0.D0
       WT = 1.D0
       DO 270 IL=ND-1,1,-1
-      PV(IL,5)=PV(IL+1,5)+P(IL,5)+(RORD(IL)-RORD(IL+1))*(PV(1,5)-PS)
+          PV(IL,5)=PV(IL+1,5)+P(IL,5)+(RORD(IL)-RORD(IL+1))*(PV(1,5)-PS)
 270   WT=WT*PAWT(PV(IL,5),PV(IL+1,5),P(IL,5))
-      IF (WT.LT.RNDM(0)*WWTMAX)   GOTO 240
-
-C...Perform two particle decays in respective cm frame
+      IF (WT.LT.RNDM(0)*WWTMAX) GOTO 240
+C...  Perform two particle decays in respective cm frame
 280   DO 300 IL=1,ND-1
-      PA=PAWT(PV(IL,5),PV(IL+1,5),P(IL,5))
-      UE(3)=2.D0*RNDM(0)-1.D0
-      PHI=2.D0*PI*RNDM(0)
-      UT = SQRT(1.D0-UE(3)**2)
-      UE(1) = UT*COS(PHI)
-      UE(2) = UT*SIN(PHI)
-      DO 290 J=1,3
-      P(IL,J)=PA*UE(J)
-290   PV(IL+1,J)=-PA*UE(J)
-      P(IL,4)=SQRT(PA**2+P(IL,5)**2)
+          PA=PAWT(PV(IL,5),PV(IL+1,5),P(IL,5))
+          UE(3)=2.D0*RNDM(0)-1.D0
+          PHI=2.D0*PI*RNDM(0)
+          UT = SQRT(1.D0-UE(3)**2)
+          UE(1) = UT*COS(PHI)
+          UE(2) = UT*SIN(PHI)
+          DO 290 J=1,3
+              P(IL,J)=PA*UE(J)
+290       PV(IL+1,J)=-PA*UE(J)
+          P(IL,4)=SQRT(PA**2+P(IL,5)**2)
 300   PV(IL+1,4)=SQRT(PA**2+PV(IL+1,5)**2)
-
-C...Lorentz transform decay products to lab frame
+C...  Lorentz transform decay products to lab frame
       DO 310 J=1,4
-310   P(ND,J)=PV(ND,J)
+310       P(ND,J)=PV(ND,J)
       DO 340 IL=ND-1,1,-1
-      DO 320 J=1,3
-320   BE(J)=PV(IL,J)/PV(IL,4)
-      GA=PV(IL,4)/PV(IL,5)
+          DO 320 J=1,3
+320           BE(J)=PV(IL,J)/PV(IL,4)
+          GA=PV(IL,4)/PV(IL,5)
       DO 340 I=IL,ND
-      BEP = BE(1)*P(I,1)+BE(2)*P(I,2)+BE(3)*P(I,3)
-      DO 330 J=1,3
-330   P(I,J)=P(I,J)+GA*(GA*BEP/(1.+GA)+P(I,4))*BE(J)
-340   P(I,4)=GA*(P(I,4)+BEP)
-
-C...Weak decays
-        IF (MAT .EQ. 1)  THEN
-           F1=P(2,4)*P(3,4)-P(2,1)*P(3,1)-P(2,2)*P(3,2)-P(2,3)*P(3,3)   
-           IF (MBST.EQ.1)  WT = P0(5)*P(1,4)*F1
-           IF (MBST.EQ.0)  
-     +     WT=F1*(P(1,4)*P0(4)-P(1,1)*P0(1)-P(1,2)*P0(2)-P(1,3)*P0(3))
-           WTMAX = P0(5)**4/16.D0
-           IF(WT.LT.RNDM(0)*WTMAX)   GOTO 240
-        ENDIF
-
-
-C...Boost back for rapidly moving particle
-      IF (MBST .EQ. 1)   THEN
-         DO 440 J=1,3
-440      BE(J)=P0(J)/P0(4)
-         GA= P0(4)/P0(5)
-         DO 460 I=1,ND
-         BEP=BE(1)*P(I,1)+BE(2)*P(I,2)+BE(3)*P(I,3)
-         DO 450 J=1,3
-450         P(I,J)=P(I,J)+GA*(GA*BEP/(1.+GA)+P(I,4))*BE(J)
-460         P(I,4)=GA*(P(I,4)+BEP)
+          BEP = BE(1)*P(I,1)+BE(2)*P(I,2)+BE(3)*P(I,3)
+          DO 330 J=1,3
+330           P(I,J)=P(I,J)+GA*(GA*BEP/(1.+GA)+P(I,4))*BE(J)
+340       P(I,4)=GA*(P(I,4)+BEP)
+C...  Weak decays
+      IF (MAT .EQ. 1) THEN
+          F1=P(2,4)*P(3,4)-P(2,1)*P(3,1)-P(2,2)*P(3,2)-P(2,3)*P(3,3)   
+          IF (MBST.EQ.1)  WT = P0(5)*P(1,4)*F1
+          IF (MBST.EQ.0)  
+     +    WT=F1*(P(1,4)*P0(4)-P(1,1)*P0(1)-P(1,2)*P0(2)-P(1,3)*P0(3))
+          WTMAX = P0(5)**4/16.D0
+          IF(WT.LT.RNDM(0)*WTMAX) GOTO 240
       ENDIF
-
+C...  sBoost back for rapidly moving particle
+      IF (MBST .EQ. 1)   THEN
+          DO 440 J=1,3
+440           BE(J)=P0(J)/P0(4)
+          GA= P0(4)/P0(5)
+          DO 460 I=1,ND
+              BEP=BE(1)*P(I,1)+BE(2)*P(I,2)+BE(3)*P(I,3)
+              DO 450 J=1,3
+450               P(I,J)=P(I,J)+GA*(GA*BEP/(1.+GA)+P(I,4))*BE(J)
+460           P(I,4)=GA*(P(I,4)+BEP)
+      ENDIF
 C...labels for antiparticle decay
       IF (LA .LT. 0 .AND. L .GT. 18)  THEN
-           DO J=1,ND
-            LL(J) = LBARP(LL(J))
-         ENDDO
+          DO J=1,ND
+              LL(J) = LBARP(LL(J))
+          ENDDO
       ENDIF
 
-      END
+      END SUBROUTINE DECPAR
 
 
       SUBROUTINE PO_ALTRA(GA,BGX,BGY,BGZ,PCX,PCY,PCZ,EC,P,PX,PY,PZ,E)
 C*********************************************************************
-C
 C     arbitrary Lorentz transformation
-C
 C     (taken from PHOJET v1.12, R.E. 08/98)
-C
 C*********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE
@@ -2819,17 +2374,14 @@ C*********************************************************************
       P=SQRT(PX*PX+PY*PY+PZ*PZ)
       E=GA*EC+EP
 
-      END
+      END SUBROUTINE PO_ALTRA
 
 
       SUBROUTINE PO_TRANS(XO,YO,ZO,CDE,SDE,CFE,SFE,X,Y,Z)
 C**********************************************************************
-C
 C     rotation of coordinate frame (1) de rotation around y axis
 C                                  (2) fe rotation around z axis
-C
 C     (taken from PHOJET v1.12, R.E. 08/98)
-C
 C**********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE
@@ -2838,16 +2390,13 @@ C**********************************************************************
       Y= CDE*SFE*XO+CFE*YO+SDE*SFE*ZO
       Z=-SDE    *XO       +CDE    *ZO
 
-      END
+      END SUBROUTINE PO_TRANS
 
 
       SUBROUTINE PO_SELSX2(XS1,XS2,XMIN,XMAX,AS1,AS2,IREJ)
 C***********************************************************************
-C
 C     select x values of soft string ends using PO_RNDBET
-C
 C     (taken from PHOJET v1.12, R.E. 08/98)
-C
 C***********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
@@ -2865,34 +2414,30 @@ C***********************************************************************
 
       ITRY0 = 0
       DO 100 I=1,100
-
-        ITRY1 = 0
- 10     CONTINUE
+          ITRY1 = 0
+ 10       CONTINUE
           X1 = PO_RNDBET(GAM1,BET1)
           ITRY1 = ITRY1+1
           IF(ITRY1.GE.50) THEN
-            IREJ = 1
-            RETURN
+              IREJ = 1
+              RETURN
           ENDIF
-        IF((X1.LE.XMIN(1)).OR.(X1.GE.XMAX(1))) GOTO 10
-
-        ITRY2 = 0
- 11     CONTINUE
+          IF((X1.LE.XMIN(1)).OR.(X1.GE.XMAX(1))) GOTO 10
+          ITRY2 = 0
+ 11       CONTINUE
           X2 = PO_RNDBET(GAM2,BET2)
           ITRY2 = ITRY2+1
           IF(ITRY2.GE.50) THEN
-            IREJ = 2
-            RETURN
+              IREJ = 2
+              RETURN
           ENDIF
-        IF((X2.LE.XMIN(2)).OR.(X2.GE.XMAX(2))) GOTO 11
-
-        X3 = 1.D0 - X1
-        X4 = 1.D0 - X2
-        IF(X1*X2.GT.AS1) THEN
-          IF(X3*X4.GT.AS2) GOTO 300
-        ENDIF
-        ITRY0 = ITRY0+1
-
+          IF((X2.LE.XMIN(2)).OR.(X2.GE.XMAX(2))) GOTO 11
+          X3 = 1.D0 - X1
+          X4 = 1.D0 - X2
+          IF(X1*X2.GT.AS1) THEN
+              IF(X3*X4.GT.AS2) GOTO 300
+          ENDIF
+          ITRY0 = ITRY0+1
  100  CONTINUE
 
       IREJ = 3
@@ -2906,19 +2451,16 @@ C***********************************************************************
       XS2(1) = X2
       XS2(2) = X4
 
-      END
+      END SUBROUTINE PO_SELSX2
 
 
       DOUBLE PRECISION FUNCTION PO_RNDBET(GAM,ETA)
 C********************************************************************
-C
 C     random number generation from beta
 C     distribution in region  0 < X < 1.
 C     F(X) = X**(GAM-1.)*(1.-X)**(ETA-1)*GAMM(ETA+GAM) / (GAMM(GAM
 C                                                         *GAMM(ETA))
-C
 C     (taken from PHOJET v1.12, R.E. 08/98)
-C
 C********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
@@ -2928,17 +2470,14 @@ C********************************************************************
       Z = PO_RNDGAM(1.D0,ETA)
       PO_RNDBET = Y/(Y+Z)
 
-      END
+      END FUNCTION PO_RNDBET
 
 
       DOUBLE PRECISION FUNCTION PO_RNDGAM(ALAM,ETA)
 C********************************************************************
-C
 C     random number selection from gamma distribution
 C     F(X) = ALAM**ETA*X**(ETA-1)*EXP(-ALAM*X) / GAM(ETA)
-C       
 C     (taken from PHOJET v1.12, R.E. 08/98)
-C
 C********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
@@ -2968,18 +2507,13 @@ C********************************************************************
       Y = Y-LOG(Z+1.D-7)
    70 PO_RNDGAM = Y/ALAM
 
-      END
+      END FUNCTION PO_RNDGAM
 
 
       SUBROUTINE lund_frag(SQS,NP)
 C***********************************************************************
-C
 C     interface to Lund/Jetset fragmentation
-C
-C                                    (R.E. 08/98)
-C
 C***********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
@@ -2990,76 +2524,52 @@ C***********************************************************************
 
       DATA init / 0 /
 
-
       if(init.eq.0) then
+C     no title page
+          MSTU(12) = 0
+C     define some particles as stable
+          MSTJ(22) = 2
+C     in addition pi0 stable
+          KC=LUCOMP(111)
+          MDCY(KC,1)=0
+C     switch popcorn effect off
+          MSTJ(12) = 1
+C     suppress all warning and error messages
+          MSTU(22) = 0
+          MSTU(25) = 0
 
-C  no title page
-
-        MSTU(12) = 0
-
-C  define some particles as stable
-
-        MSTJ(22) = 2
-
-C  in addition pi0 stable
-
-        KC=LUCOMP(111)
-        MDCY(KC,1)=0
-
-C  switch popcorn effect off
-
-        MSTJ(12) = 1
-
-C  suppress all warning and error messages
-
-        MSTU(22) = 0
-        MSTU(25) = 0
-
-        init = 1
-
+          init = 1
       endif
-
-
-C  set energy dependent parameters
-
+C     set energy-dependent parameters
       IF(SQS.LT.2.D0) THEN
-        PARJ(36) = 0.1D0
+          PARJ(36) = 0.1D0
       ELSE IF(SQS.LT.4.D0) THEN
-        PARJ(36) = 0.7D0*(SQS-2.D0)/2.D0+0.1D0
+          PARJ(36) = 0.7D0*(SQS-2.D0)/2.D0+0.1D0
       ELSE
-        PARJ(36) = 0.8D0
+          PARJ(36) = 0.8D0
       ENDIF
-
-C  fragment string configuration
-
+C     fragment string configuration
       II = MSTU(21)
       MSTU(21) = 1
       CALL LUEXEC
       MSTU(21) = II
-
-C  event accepted?
-
+C     event accepted?
       if(MSTU(24).ne.0) then
-        NP = -1
-        return
+          NP = -1
+          RETURN
       endif
 
       CALL LUEDIT(1)
 
       NP = KLU(0,1)
 
-      END
+      END SUBROUTINE lund_frag
 
 
       SUBROUTINE lund_put(I,IFL,PX,PY,PZ,EE)
 C***********************************************************************
-C
-C     store initial configuration into Lund common block
-C
-C                                                      (R.E. 08/98)
-C
+C     store initial configuration into Lund COMMON block
 C***********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
@@ -3069,23 +2579,23 @@ C***********************************************************************
       SAVE
 
       if(IFL.eq.1) then
-        Il = 2
+          Il = 2
       else if(IFL.eq.-1) then
-        Il = -2
+          Il = -2
       else if(IFL.eq.2) then
-        Il = 1
+          Il = 1
       else if(IFL.eq.-2) then
-        Il = -1
+          Il = -1
       else if(IFL.eq.11) then
-        Il = 2203
+          Il = 2203
       else if(IFL.eq.12) then
-        Il = 2101
+          Il = 2101
       else if(IFL.eq.21) then
-        Il = 2103
+          Il = 2103
       else if(IFL.eq.22) then
-        Il = 1103
+          Il = 1103
       else
-        print *,' lund_put: unkown flavor code',IFL
+          PRINT *,' lund_put: unkown flavor code',IFL
       endif
 
       P(I,1) = PX
@@ -3102,18 +2612,13 @@ C***********************************************************************
 
       N = I
 
-      END
+      END SUBROUTINE lund_put
 
 
       SUBROUTINE lund_get(I,IFL,PX,PY,PZ,EE,XM)
 C***********************************************************************
-C
-C     read final states from Lund common block
-C
-C                                                      (R.E. 08/98)
-C
+C     read final states from Lund COMMON block
 C***********************************************************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
 
@@ -3129,22 +2634,15 @@ C***********************************************************************
       XM = PLU(I,5)
 
       Il = KLU(I,8)
-
-C  convert particle ID
-
+C     convert particle ID
       IFL = ICON_PDG_SIB(Il)
 
-      END
-
-
+      END SUBROUTINE lund_get
       
+
       INTEGER FUNCTION ICON_PDG_SIB(ID)
 C************************************************************************
-C
 C     convert PDG particle codes to SIBYLL particle codes
-C
-C                                         (R.E. 09/97)
-C
 C************************************************************************
       SAVE
 
@@ -3157,49 +2655,41 @@ C************************************************************************
      &  3114, 3324, 3314, 3334 / 
 
       IDPDG = ID
-
- 100  CONTINUE
       IDA = ABS(ID)
 
       IF(IDA.GT.1000) THEN
-        IS = IDA
-        IC = SIGN(1,IDPDG)
+          IS = IDA
+          IC = SIGN(1,IDPDG)
       ELSE
-        IS = IDPDG
-        IC = 1
+          IS = IDPDG
+          IC = 1
       ENDIF
 
       DO I=1,49
-        IF(IS.EQ.ITABLE(I)) THEN
-          ICON_PDG_SIB = I*IC
-          RETURN
-        ENDIF
+          IF(IS.EQ.ITABLE(I)) THEN
+              ICON_PDG_SIB = I*IC
+              RETURN
+          ENDIF
       ENDDO
 
       IF(IDPDG.EQ.80000) THEN
-        ICON_PDG_SIB = 13
+          ICON_PDG_SIB = 13
       ELSE  
-        print *,'ICON_PDG_DTU: no particle found for ',IDPDG
-        ICON_PDG_SIB = 0
-        RETURN
+          PRINT *,'ICON_PDG_DTU: no particle found for ',IDPDG
+          ICON_PDG_SIB = 0
+          RETURN
       ENDIF
 
-      END
-
+      END FUNCTION ICON_PDG_SIB
 
 
       SUBROUTINE PO_MSHELL(PA1,PA2,XM1,XM2,P1,P2)
 C********************************************************************
-C
-C     rescaling of momenta of two partons to put both
-C                                       on mass shell
-C
+C     rescaling of momenta of two partons to put both on mass shell
 C     input:       PA1,PA2   input momentum vectors
 C                  XM1,2     desired masses of particles afterwards
 C                  P1,P2     changed momentum vectors
-C
 C     (taken from PHOJET 1.12, R.E. 08/98)
-C
 C********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE
@@ -3221,45 +2711,42 @@ C  Lorentz transformation into system CMS
       GAM = EE/XMS
       CALL PO_ALTRA(GAM,-BGX,-BGY,-BGZ,PA1(1),PA1(2),PA1(3),
      &           PA1(4),PTOT1,P1(1),P1(2),P1(3),P1(4))
-C  rotation angles
+C     rotation angles
       PTOT1 = MAX(DEPS,PTOT1)
       COD= P1(3)/PTOT1
       SID= SQRT((1.D0-COD)*(1.D0+COD))
       COF=1.D0
       SIF=0.D0
       IF(PTOT1*SID.GT.1.D-5) THEN
-        COF=P1(1)/(SID*PTOT1)
-        SIF=P1(2)/(SID*PTOT1)
-        ANORF=SQRT(COF*COF+SIF*SIF)
-        COF=COF/ANORF
-        SIF=SIF/ANORF
+          COF=P1(1)/(SID*PTOT1)
+          SIF=P1(2)/(SID*PTOT1)
+          ANORF=SQRT(COF*COF+SIF*SIF)
+          COF=COF/ANORF
+          SIF=SIF/ANORF
       ENDIF
 
-C  new CM momentum and energies (for masses XM1,XM2)
+C     new CM momentum and energies (for masses XM1,XM2)
       XM12 = XM1**2
       XM22 = XM2**2
       SS   = XMS**2
       PCMP = PO_XLAM(SS,XM12,XM22)/(2.D0*XMS)
       EE1  = SQRT(XM12+PCMP**2)
       EE2  = XMS-EE1
-C  back rotation
+C     back rotation
       CALL PO_TRANS(0.D0,0.D0,PCMP,COD,SID,COF,SIF,XX,YY,ZZ)
       CALL PO_ALTRA(GAM,BGX,BGY,BGZ,XX,YY,ZZ,EE1,
      &           PTOT1,P1(1),P1(2),P1(3),P1(4))
       CALL PO_ALTRA(GAM,BGX,BGY,BGZ,-XX,-YY,-ZZ,EE2,
      &           PTOT2,P2(1),P2(2),P2(3),P2(4))
 
-      END
+      END SUBROUTINE PO_MSHELL
 
 
       DOUBLE PRECISION FUNCTION PO_XLAM(X,Y,Z)
 C**********************************************************************
-C
 C     auxiliary function for two/three particle decay mode
 C     (standard LAMBDA**(1/2) function)
-C
 C     (taken from PHOJET 1.12, R.E. 08/98)
-C
 C**********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       SAVE
@@ -3269,12 +2756,10 @@ C**********************************************************************
       IF(XLAM.LT.0.D0) XLAM=-XLAM
       PO_XLAM=SQRT(XLAM)
 
-      END
+      END FUNCTION PO_XLAM
 
-
-
+ 
       SUBROUTINE INITIAL(L0)
-
 c*******************************************************************
 c initialization routine for setting parameters of resonances
 c*******************************************************************
@@ -3290,693 +2775,39 @@ c*******************************************************************
       CHARACTER NAMPRESp*6, NAMPRESn*6
       CHARACTER NAMPRES*6
 
-       if (L0.eq.13) then
-       do i=1,9
-        SIG0(i) = 4.893089117D0/AM2(13)*RATIOJp(i)*BGAMMAp(i)
-        AMRES(i) = AMRESp(i)
-        WIDTH(i) = WIDTHp(i)
-        NAMPRES(i) = NAMPRESp(i)
-       enddo
-       endif
-
-       if (L0.eq.14) then
-       do i=1,9
-        SIG0(i) = 4.893089117D0/AM2(14)*RATIOJn(i)*BGAMMAn(i)
-        AMRES(i) = AMRESn(i)
-        WIDTH(i) = WIDTHn(i)
-        NAMPRES(i) = NAMPRESn(i)
-       enddo
-       endif
-
-       RETURN
-       END
-c*****************************************************************************
-c**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***
-c**!!              IF YOU USE THIS PROGRAM, PLEASE CITE:                 !!***
-c**!! A.M"ucke, Ralph Engel, J.P.Rachen, R.J.Protheroe and Todor Stanev, !!***
-c**!!  1999, astro-ph/9903478, to appear in Comp.Phys.Commun.            !!***
-c**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***
-c*****************************************************************************
-c** Further SOPHIA related papers:                                         ***
-c** (1) M"ucke A., et al 1999, astro-ph/9808279, to appear in PASA.        ***
-c** (2) M"ucke A., et al 1999, to appear in: Proc. of the                  ***
-c**      19th Texas Symposium on Relativistic Astrophysics, Paris, France, ***
-c**      Dec. 1998. Eds.: J.~Paul, T.~Montmerle \& E.~Aubourg (CEA Saclay) ***
-c** (3) M"ucke A., et al 1999, astro-ph/9905153, to appear in: Proc. of    ***
-c**      19th Texas Symposium on Relativistic Astrophysics, Paris, France, ***
-c**      Dec. 1998. Eds.: J.~Paul, T.~Montmerle \& E.~Aubourg (CEA Saclay) ***
-c** (4) M"ucke A., et al 1999, to appear in: Proc. of 26th Int.Cosmic Ray  ***
-c**      Conf. (Salt Lake City, Utah)                                      ***
-c*****************************************************************************
-
-
-c*********************************
-c*** Routines related to output: *
-c*********************************
-
-
-       subroutine LISTDISTR(E0,Dg,Dnum,Dnuma,Dnue,Dnuea,Dp,Dn,Dem,
-     &                    Dep,nbins,delx)
-
-c*********************************************************************
-c** calculates distribution of energy of given particle to incident **
-c** proton energy; considered particles are:                        **
-c** photons, protons, neutrons, e-neutrinos, nu-neutrinos           **
-c** Note: Dg(),Dnum(),Dnue(),Dp(),Dn(),Dem(),Dep(),Dnuea(),Dnuma()  **
-c**       gives # of photons per logarithmic bin width: dN/dlog(f)  **
-c*********************************************************************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
-
-       COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-       DIMENSION Dg(201),Dnum(201),Dnue(201),Dp(201),Dn(201)
-       DIMENSION Dem(201),Dep(201),Dnuea(201),Dnuma(201)
-
-        do i=1,201
-          Dg(i) = 0.
-          Dnum(i) = 0.
-          Dnue(i) = 0.
-          Dp(i) = 0.
-          Dn(i) = 0.
-          Dem(i) = 0.
-          Dep(i) = 0.
-          Dnuma(i) = 0.
-          Dnuea(i) = 0.
-       enddo
-
-       xini = -nbins*delx
-c go through LLIST:
-       do 10 i=1,NP
-        LA = abs(LLIST(i))
-        EI = abs(P(i,4))
-        Ep = E0/1.D10
-        r = EI/Ep/1.D10
-        x = log10(r)
-        if (LA.lt.10000) then
-c** gamma ray distribution
-        if (LA.eq.1) then
-        do 20 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dg(j) = Dg(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dg(nbins) = Dg(nbins)+1.D0
-         endif
- 20     continue
-        endif
-c** neutron distribution
-        if (LA.eq.14) then
-        do 21 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dn(j) = Dn(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dn(nbins) = Dn(nbins)+1.D0
-         endif
- 21     continue
-        endif
-c** proton distribution
-        if (LA.eq.13) then
-        do 22 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dp(j) = Dp(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dp(nbins) = Dp(nbins)+1.D0
-         endif
- 22     continue
-        endif
-c** neutrino distribution
-        if (LA.eq.17) then
-        do 23 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dnum(j) = Dnum(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dnum(nbins) = Dnum(nbins)+1.D0
-         endif
- 23     continue
-        endif
-
-        if (LA.eq.18) then
-        do 27 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dnuma(j) = Dnuma(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dnuma(nbins) = Dnuma(nbins)+1.D0
-         endif
- 27     continue
-        endif
-
-
-        if (LA.eq.15) then
-        do 24 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dnue(j) = Dnue(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dnue(nbins) = Dnue(nbins)+1.D0
-         endif
- 24     continue
-        endif
-
-        if (LA.eq.16) then
-        do 28 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dnuea(j) = Dnuea(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dnuea(nbins) = Dnuea(nbins)+1.D0
-         endif
- 28     continue
-        endif
-
-c** electron distribution
-        if (LA.eq.3) then
-        do 25 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dem(j) = Dem(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dem(nbins) = Dem(nbins)+1.D0
-         endif
- 25     continue
-        endif
-
-c** positron distribution
-        if (LA.eq.2) then
-        do 26 j=1,nbins
-         x1 = xini+delx*(j-1)
-         x2 = xini+delx*j
-         if (x.ge.x1.and.x.lt.x2) then
-          Dep(j) = Dep(j)+1.D0
-         endif
-         if (x.eq.0.D0) then
-          Dep(nbins) = Dep(nbins)+1.D0
-         endif
- 26     continue
-        endif
-
-        endif
- 10     continue
-
-        RETURN
-
-        END
-
-       subroutine output(Dg,Dnum,Dnuma,Dnue,Dnuea,Dp,Dn,Dem,Dep,nbins,
-     &   ninc,nameinc,delx,Emin,Emax,E0_arr,epsmin,epsmax)
-
-c********************************************************************
-c*** OUTPUT ROUTINE for particle spectra:                     *******
-c*** considered particles:                                    *******
-c*** photons, protons, neutrons, e-neutrinos, nu-neutrinos,   *******
-c*** electron, positron                                       *******
-c*** spectra of each particle stored in separate files        *******
-c********************************************************************
-c** Date: 20/02/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-M)
-       SAVE
-
-       COMMON/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-       DIMENSION Dg(101,201),Dnum(101,201),Dnue(101,201)
-       DIMENSION Dp(101,201),Dn(101,201),Dnuma(101,201),E0_arr(101)
-       DIMENSION Dem(101,201),Dep(101,201),Dnuea(101,201)
-       character*5 particle
-       character*7 spart,fpart
-       character*13 filename
-       character*6 nameinc
-       character mat*20, strnm1*2
-       character mat1*20, strnm11*2
-       character mat2*20, strnm12*2
-
- 571  format(2(3x,E10.5),3x,I3,5(3x,E10.5),
-     &     3x,I3,3x,E10.5,3x,A10,3x,A10)
- 572  format(E10.5,3x,2(I3,3x))
- 573  format(2x,E10.5)
-
-      print*
-      print*,'OUTPUT files:'
-c**********************************************
-c******** GAMMA spectra: **********************
-      particle = 'gamma'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      if (L0.eq.13) spart = 'proton'
-      if (L0.eq.14) spart = 'neutron'
-      fpart = 'photon'
-      if (tbb.gt.0.) then 
-        target1 = tbb
-        target2 = 0.
-      else
-        target1 = alpha1
-        target2 = alpha2
+      if (L0.eq.13) then
+          do i=1,9
+              SIG0(i) = 4.893089117D0/AM2(13)*RATIOJp(i)*BGAMMAp(i)
+              AMRES(i) = AMRESp(i)
+              WIDTH(i) = WIDTHp(i)
+              NAMPRES(i) = NAMPRESp(i)
+          enddo 
       endif
-      open(1,file=filename)
-c... write input parameters:
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dg(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dg(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dg(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dg(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
 
-c**********************************************
-c******** MU-NEUTRINO spectra: **********************
-      particle = 'muneu'
-      filename = nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dnum(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dnum(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dnum(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dnum(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-      particle = 'muane'
-      filename = nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dnuma(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dnuma(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dnuma(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dnuma(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-c**********************************************
-c******** ELECTRON NEUTRINO spectra: **********
-      particle = 'e_neu'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dnue(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dnue(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dnue(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dnue(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-      particle = 'eaneu'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dnuea(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dnuea(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dnuea(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dnuea(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-c**********************************************
-c******** ELECTRON spectra: **********************
-      particle = 'elect'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dem(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dem(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dem(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dem(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-c**********************************************
-c******** POSITRON spectra: **********************
-      particle = 'posit'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dep(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dep(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dep(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dep(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-c**********************************************
-c******** PROTON spectra: **********************
-      particle = 'proto'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dp(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dp(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dp(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dp(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
-
-c**********************************************
-c******** NEUTRON spectra: **********************
-      particle = 'neutr'
-      filename =  nameinc // '.' // particle
-      print*,'filename = ',filename
-      open(1,file=filename)
-       write(1,571) Emin,Emax,ninc,target1,target2,
-     &     epsmin,epsb,epsmax,nbins,delx,spart,fpart
-c... nucleon energy loop:
-       do i=1,ninc
-c ... determine j-range = range of energy bins not equal zero
-        jini = 0
-        jfin = 0
-c... particle spectrum loop:
-        do j=1,nbins
-        if (Dn(i,j).gt.0.D0) then
-         jfin = j
-         if (jini.eq.0) jini = j
-        endif
-        enddo
-      nm = jfin-jini+1
-      nm1 = nm+1
-      write(strnm1,'(I2)') nm1
-      mat = '(' // strnm1 // '(5X,E10.4))'
-      nmc = 81
-      nmc2 = 82
-      write(strnm11,'(I2)') nmc2
-      mat1 = '(' // strnm11 // '(5X,E10.4))'
-      nmcf = jfin-jini-80+1
-      nmcf2 = nmcf+1
-      write(strnm12,'(I2)') nmcf2
-      mat2 = '(' // strnm12 // '(5X,E10.4))'
-        if (jfin.gt.0) then
-        write(1,572) E0_arr(i),jini,jfin
-c... values written in one line:
-         if (jfin-jini.lt.80) then
-          write(1,FMT=mat) (Dn(i,jl),jl=jini,jfin)
-         else
-          jfin0 = jini+80
-          write(1,FMT=mat1) (Dn(i,jl),jl=jini,jfin0)
-          write(1,FMT=mat2) (Dn(i,jl),jl=jfin0+1,jfin)
-         endif
-        endif
-       enddo
-      close(1)
+      if (L0.eq.14) then
+          do i=1,9
+              SIG0(i) = 4.893089117D0/AM2(14)*RATIOJn(i)*BGAMMAn(i)
+              AMRES(i) = AMRESn(i)
+              WIDTH(i) = WIDTHn(i)
+              NAMPRES(i) = NAMPRESn(i)
+          enddo
+      endif
 
       RETURN
-      END
+      END SUBROUTINE initial
+
+
+C###################################################################
+C Here, SOPHIA ends and JETSET v7.4 begins. Later, SOPHIA resumes. #
+C###################################################################
+
+
 cFrom eng@lepton.bartol.udel.edu
 cDate: Sun, 15 Nov 1998 18:18:44 -0500
 cFrom: Ralph R Engel <eng@lepton.bartol.udel.edu>
 cTo: amuecke@physics.adelaide.edu.au
 cSubject: File: jetset74dp.f
-c
-C
-C  WARNING: this file has been changed to double precision,
-C           alignment problems made it necessary to change also
-C           /LUJETS/, /PYSUBS/, and /PYINT5/
-C
+
 C********************************************************************* 
 C********************************************************************* 
 C*                                                                  ** 
@@ -4004,14 +2835,9 @@ C*********************************************************************
 C********************************************************************* 
 C                                                                    * 
 C  List of subprograms in order of appearance, with main purpose     * 
-C  (S = subroutine, F = function, B = block data)                    * 
-C                                                                    * 
-C  S   LU1ENT   to fill one entry (= parton or particle)             * 
-C  S   LU2ENT   to fill two entries                                  * 
-C  S   LU3ENT   to fill three entries                                * 
-C  S   LU4ENT   to fill four entries                                 * 
+C  (S = SUBROUTINE, F = function, B = block data)                    * 
+C 
 C  S   LUJOIN   to connect entries with colour flow information      * 
-C  S   LUGIVE   to fill (or query) commonblock variables             * 
 C  S   LUEXEC   to administrate fragmentation and decay chain        * 
 C  S   LUPREP   to rearrange showered partons along strings          * 
 C  S   LUSTRF   to do string fragmentation of jet system             * 
@@ -4023,461 +2849,19 @@ C  S   LUZDIS   to select longitudinal scaling variable in fragm     *
 C  S   LUSHOW   to do timelike parton shower evolution               * 
 C  S   LUBOEI   to include Bose-Einstein effects (crudely)           * 
 C  F   ULMASS   to give the mass of a particle or parton             * 
-C  S   LUNAME   to give the name of a particle or parton             * 
 C  F   LUCHGE   to give three times the electric charge              * 
 C  F   LUCOMP   to compress standard KF flavour code to internal KC  * 
 C  S   LUERRM   to write error messages and abort faulty run         * 
-C  F   ULALEM   to give the alpha_electromagnetic value              * 
-C  F   ULALPS   to give the alpha_strong value                       * 
 C  F   ULANGL   to give the angle from known x and y components      * 
 C  F   RLU      to provide a random number generator                 * 
-C  S   RLUGET   to save the state of the random number generator     * 
-C  S   RLUSET   to set the state of the random number generator      * 
 C  S   LUROBO   to rotate and/or boost an event                      * 
 C  S   LUEDIT   to remove unwanted entries from record               * 
-C  S   LULIST   to list event record or particle data                * 
-C  S   LULOGO   to write a logo for JETSET and PYTHIA                * 
-C  S   LUUPDA   to update particle data                              * 
-C  F   KLU      to provide integer-valued event information          * 
+C  F   KLU      to provide INTEGER-valued event information          * 
 C  F   PLU      to provide real-valued event information             * 
-C  S   LUSPHE   to perform sphericity analysis                       * 
-C  S   LUTHRU   to perform thrust analysis                           * 
-C  S   LUCLUS   to perform three-dimensional cluster analysis        * 
-C  S   LUCELL   to perform cluster analysis in (eta, phi, E_T)       * 
-C  S   LUJMAS   to give high and low jet mass of event               * 
-C  S   LUFOWO   to give Fox-Wolfram moments                          * 
-C  S   LUTABU   to analyze events, with tabular output               * 
-C                                                                    * 
-C  S   LUEEVT   to administrate the generation of an e+e- event      * 
-C  S   LUXTOT   to give the total cross-section at given CM energy   * 
-C  S   LURADK   to generate initial state photon radiation           * 
-C  S   LUXKFL   to select flavour of primary qqbar pair              * 
-C  S   LUXJET   to select (matrix element) jet multiplicity          * 
-C  S   LUX3JT   to select kinematics of three-jet event              * 
-C  S   LUX4JT   to select kinematics of four-jet event               * 
-C  S   LUXDIF   to select angular orientation of event               * 
-C  S   LUONIA   to perform generation of onium decay to gluons       * 
-C                                                                    * 
-C  S   LUHEPC   to convert between /LUJETS/ and /HEPEVT/ records     * 
-C  S   LUTEST   to test the proper functioning of the package        * 
 C  B   LUDATA   to contain default values and particle data          * 
 C                                                                    * 
 C********************************************************************* 
- 
-CDECK  ID>, LU1ENT
-      SUBROUTINE LU1ENT(IP,KF,PE,THE,PHI) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to store one parton/particle in commonblock LUJETS. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Standard checks. 
-      MSTU(28)=0 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IPA=MAX(1,IABS(IP)) 
-      IF(IPA.GT.MSTU(4)) CALL LUERRM(21, 
-     &'(LU1ENT:) writing outside LUJETS memory') 
-      KC=LUCOMP(KF) 
-      IF(KC.EQ.0) CALL LUERRM(12,'(LU1ENT:) unknown flavour code') 
- 
-C...Find mass. Reset K, P and V vectors. 
-      PM=0. 
-      IF(MSTU(10).EQ.1) PM=P(IPA,5) 
-      IF(MSTU(10).GE.2) PM=ULMASS(KF) 
-      DO 100 J=1,5 
-      K(IPA,J)=0 
-      P(IPA,J)=0. 
-      V(IPA,J)=0. 
-  100 CONTINUE 
- 
-C...Store parton/particle in K and P vectors. 
-      K(IPA,1)=1 
-      IF(IP.LT.0) K(IPA,1)=2 
-      K(IPA,2)=KF 
-      P(IPA,5)=PM 
-      P(IPA,4)=MAX(PE,PM) 
-      PA=SQRT(P(IPA,4)**2-P(IPA,5)**2) 
-      P(IPA,1)=PA*SIN(THE)*COS(PHI) 
-      P(IPA,2)=PA*SIN(THE)*SIN(PHI) 
-      P(IPA,3)=PA*COS(THE) 
- 
-C...Set N. Optionally fragment/decay. 
-      N=IPA 
-      IF(IP.EQ.0) CALL LUEXEC 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LU2ENT
-      SUBROUTINE LU2ENT(IP,KF1,KF2,PECM) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to store two partons/particles in their CM frame, 
-C...with the first along the +z axis. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Standard checks. 
-      MSTU(28)=0 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IPA=MAX(1,IABS(IP)) 
-      IF(IPA.GT.MSTU(4)-1) CALL LUERRM(21, 
-     &'(LU2ENT:) writing outside LUJETS memory') 
-      KC1=LUCOMP(KF1) 
-      KC2=LUCOMP(KF2) 
-      IF(KC1.EQ.0.OR.KC2.EQ.0) CALL LUERRM(12, 
-     &'(LU2ENT:) unknown flavour code') 
- 
-C...Find masses. Reset K, P and V vectors. 
-      PM1=0. 
-      IF(MSTU(10).EQ.1) PM1=P(IPA,5) 
-      IF(MSTU(10).GE.2) PM1=ULMASS(KF1) 
-      PM2=0. 
-      IF(MSTU(10).EQ.1) PM2=P(IPA+1,5) 
-      IF(MSTU(10).GE.2) PM2=ULMASS(KF2) 
-      DO 110 I=IPA,IPA+1 
-      DO 100 J=1,5 
-      K(I,J)=0 
-      P(I,J)=0. 
-      V(I,J)=0. 
-  100 CONTINUE 
-  110 CONTINUE 
- 
-C...Check flavours. 
-      KQ1=KCHG(KC1,2)*ISIGN(1,KF1) 
-      KQ2=KCHG(KC2,2)*ISIGN(1,KF2) 
-      IF(MSTU(19).EQ.1) THEN 
-        MSTU(19)=0 
-      ELSE 
-        IF(KQ1+KQ2.NE.0.AND.KQ1+KQ2.NE.4) CALL LUERRM(2, 
-     &  '(LU2ENT:) unphysical flavour combination') 
-      ENDIF 
-      K(IPA,2)=KF1 
-      K(IPA+1,2)=KF2 
- 
-C...Store partons/particles in K vectors for normal case. 
-      IF(IP.GE.0) THEN 
-        K(IPA,1)=1 
-        IF(KQ1.NE.0.AND.KQ2.NE.0) K(IPA,1)=2 
-        K(IPA+1,1)=1 
- 
-C...Store partons in K vectors for parton shower evolution. 
-      ELSE 
-        K(IPA,1)=3 
-        K(IPA+1,1)=3 
-        K(IPA,4)=MSTU(5)*(IPA+1) 
-        K(IPA,5)=K(IPA,4) 
-        K(IPA+1,4)=MSTU(5)*IPA 
-        K(IPA+1,5)=K(IPA+1,4) 
-      ENDIF 
- 
-C...Check kinematics and store partons/particles in P vectors. 
-      IF(PECM.LE.PM1+PM2) CALL LUERRM(13, 
-     &'(LU2ENT:) energy smaller than sum of masses') 
-      PA=SQRT(MAX(0.D0,(PECM**2-PM1**2-PM2**2)**2-(2.*PM1*PM2)**2))/ 
-     &(2.*PECM) 
-      P(IPA,3)=PA 
-      P(IPA,4)=SQRT(PM1**2+PA**2) 
-      P(IPA,5)=PM1 
-      P(IPA+1,3)=-PA 
-      P(IPA+1,4)=SQRT(PM2**2+PA**2) 
-      P(IPA+1,5)=PM2 
- 
-C...Set N. Optionally fragment/decay. 
-      N=IPA+1 
-      IF(IP.EQ.0) CALL LUEXEC 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LU3ENT
-      SUBROUTINE LU3ENT(IP,KF1,KF2,KF3,PECM,X1,X3) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to store three partons or particles in their CM frame, 
-C...with the first along the +z axis and the third in the (x,z) 
-C...plane with x > 0. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Standard checks. 
-      MSTU(28)=0 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IPA=MAX(1,IABS(IP)) 
-      IF(IPA.GT.MSTU(4)-2) CALL LUERRM(21, 
-     &'(LU3ENT:) writing outside LUJETS memory') 
-      KC1=LUCOMP(KF1) 
-      KC2=LUCOMP(KF2) 
-      KC3=LUCOMP(KF3) 
-      IF(KC1.EQ.0.OR.KC2.EQ.0.OR.KC3.EQ.0) CALL LUERRM(12, 
-     &'(LU3ENT:) unknown flavour code') 
- 
-C...Find masses. Reset K, P and V vectors. 
-      PM1=0. 
-      IF(MSTU(10).EQ.1) PM1=P(IPA,5) 
-      IF(MSTU(10).GE.2) PM1=ULMASS(KF1) 
-      PM2=0. 
-      IF(MSTU(10).EQ.1) PM2=P(IPA+1,5) 
-      IF(MSTU(10).GE.2) PM2=ULMASS(KF2) 
-      PM3=0. 
-      IF(MSTU(10).EQ.1) PM3=P(IPA+2,5) 
-      IF(MSTU(10).GE.2) PM3=ULMASS(KF3) 
-      DO 110 I=IPA,IPA+2 
-      DO 100 J=1,5 
-      K(I,J)=0 
-      P(I,J)=0. 
-      V(I,J)=0. 
-  100 CONTINUE 
-  110 CONTINUE 
- 
-C...Check flavours. 
-      KQ1=KCHG(KC1,2)*ISIGN(1,KF1) 
-      KQ2=KCHG(KC2,2)*ISIGN(1,KF2) 
-      KQ3=KCHG(KC3,2)*ISIGN(1,KF3) 
-      IF(MSTU(19).EQ.1) THEN 
-        MSTU(19)=0 
-      ELSEIF(KQ1.EQ.0.AND.KQ2.EQ.0.AND.KQ3.EQ.0) THEN 
-      ELSEIF(KQ1.NE.0.AND.KQ2.EQ.2.AND.(KQ1+KQ3.EQ.0.OR. 
-     &KQ1+KQ3.EQ.4)) THEN 
-      ELSE 
-        CALL LUERRM(2,'(LU3ENT:) unphysical flavour combination') 
-      ENDIF 
-      K(IPA,2)=KF1 
-      K(IPA+1,2)=KF2 
-      K(IPA+2,2)=KF3 
- 
-C...Store partons/particles in K vectors for normal case. 
-      IF(IP.GE.0) THEN 
-        K(IPA,1)=1 
-        IF(KQ1.NE.0.AND.(KQ2.NE.0.OR.KQ3.NE.0)) K(IPA,1)=2 
-        K(IPA+1,1)=1 
-        IF(KQ2.NE.0.AND.KQ3.NE.0) K(IPA+1,1)=2 
-        K(IPA+2,1)=1 
- 
-C...Store partons in K vectors for parton shower evolution. 
-      ELSE 
-        K(IPA,1)=3 
-        K(IPA+1,1)=3 
-        K(IPA+2,1)=3 
-        KCS=4 
-        IF(KQ1.EQ.-1) KCS=5 
-        K(IPA,KCS)=MSTU(5)*(IPA+1) 
-        K(IPA,9-KCS)=MSTU(5)*(IPA+2) 
-        K(IPA+1,KCS)=MSTU(5)*(IPA+2) 
-        K(IPA+1,9-KCS)=MSTU(5)*IPA 
-        K(IPA+2,KCS)=MSTU(5)*IPA 
-        K(IPA+2,9-KCS)=MSTU(5)*(IPA+1) 
-      ENDIF 
- 
-C...Check kinematics. 
-      MKERR=0 
-      IF(0.5*X1*PECM.LE.PM1.OR.0.5*(2.-X1-X3)*PECM.LE.PM2.OR. 
-     &0.5*X3*PECM.LE.PM3) MKERR=1 
-      PA1=SQRT(MAX(1D-10,(0.5*X1*PECM)**2-PM1**2)) 
-      PA2=SQRT(MAX(1D-10,(0.5*(2.-X1-X3)*PECM)**2-PM2**2)) 
-      PA3=SQRT(MAX(1D-10,(0.5*X3*PECM)**2-PM3**2)) 
-      CTHE2=(PA3**2-PA1**2-PA2**2)/(2.*PA1*PA2) 
-      CTHE3=(PA2**2-PA1**2-PA3**2)/(2.*PA1*PA3) 
-      IF(ABS(CTHE2).GE.1.001.OR.ABS(CTHE3).GE.1.001) MKERR=1 
-      CTHE3=MAX(-1.D0,MIN(1.D0,CTHE3)) 
-      IF(MKERR.NE.0) CALL LUERRM(13, 
-     &'(LU3ENT:) unphysical kinematical variable setup') 
- 
-C...Store partons/particles in P vectors. 
-      P(IPA,3)=PA1 
-      P(IPA,4)=SQRT(PA1**2+PM1**2) 
-      P(IPA,5)=PM1 
-      P(IPA+2,1)=PA3*SQRT(1.-CTHE3**2) 
-      P(IPA+2,3)=PA3*CTHE3 
-      P(IPA+2,4)=SQRT(PA3**2+PM3**2) 
-      P(IPA+2,5)=PM3 
-      P(IPA+1,1)=-P(IPA+2,1) 
-      P(IPA+1,3)=-P(IPA,3)-P(IPA+2,3) 
-      P(IPA+1,4)=SQRT(P(IPA+1,1)**2+P(IPA+1,3)**2+PM2**2) 
-      P(IPA+1,5)=PM2 
- 
-C...Set N. Optionally fragment/decay. 
-      N=IPA+2 
-      IF(IP.EQ.0) CALL LUEXEC 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LU4ENT
-      SUBROUTINE LU4ENT(IP,KF1,KF2,KF3,KF4,PECM,X1,X2,X4,X12,X14) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to store four partons or particles in their CM frame, with 
-C...the first along the +z axis, the last in the xz plane with x > 0 
-C...and the second having y < 0 and y > 0 with equal probability. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Standard checks. 
-      MSTU(28)=0 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IPA=MAX(1,IABS(IP)) 
-      IF(IPA.GT.MSTU(4)-3) CALL LUERRM(21, 
-     &'(LU4ENT:) writing outside LUJETS momory') 
-      KC1=LUCOMP(KF1) 
-      KC2=LUCOMP(KF2) 
-      KC3=LUCOMP(KF3) 
-      KC4=LUCOMP(KF4) 
-      IF(KC1.EQ.0.OR.KC2.EQ.0.OR.KC3.EQ.0.OR.KC4.EQ.0) CALL LUERRM(12, 
-     &'(LU4ENT:) unknown flavour code') 
- 
-C...Find masses. Reset K, P and V vectors. 
-      PM1=0. 
-      IF(MSTU(10).EQ.1) PM1=P(IPA,5) 
-      IF(MSTU(10).GE.2) PM1=ULMASS(KF1) 
-      PM2=0. 
-      IF(MSTU(10).EQ.1) PM2=P(IPA+1,5) 
-      IF(MSTU(10).GE.2) PM2=ULMASS(KF2) 
-      PM3=0. 
-      IF(MSTU(10).EQ.1) PM3=P(IPA+2,5) 
-      IF(MSTU(10).GE.2) PM3=ULMASS(KF3) 
-      PM4=0. 
-      IF(MSTU(10).EQ.1) PM4=P(IPA+3,5) 
-      IF(MSTU(10).GE.2) PM4=ULMASS(KF4) 
-      DO 110 I=IPA,IPA+3 
-      DO 100 J=1,5 
-      K(I,J)=0 
-      P(I,J)=0. 
-      V(I,J)=0. 
-  100 CONTINUE 
-  110 CONTINUE 
- 
-C...Check flavours. 
-      KQ1=KCHG(KC1,2)*ISIGN(1,KF1) 
-      KQ2=KCHG(KC2,2)*ISIGN(1,KF2) 
-      KQ3=KCHG(KC3,2)*ISIGN(1,KF3) 
-      KQ4=KCHG(KC4,2)*ISIGN(1,KF4) 
-      IF(MSTU(19).EQ.1) THEN 
-        MSTU(19)=0 
-      ELSEIF(KQ1.EQ.0.AND.KQ2.EQ.0.AND.KQ3.EQ.0.AND.KQ4.EQ.0) THEN 
-      ELSEIF(KQ1.NE.0.AND.KQ2.EQ.2.AND.KQ3.EQ.2.AND.(KQ1+KQ4.EQ.0.OR. 
-     &KQ1+KQ4.EQ.4)) THEN 
-      ELSEIF(KQ1.NE.0.AND.KQ1+KQ2.EQ.0.AND.KQ3.NE.0.AND.KQ3+KQ4.EQ.0.) 
-     &THEN 
-      ELSE 
-        CALL LUERRM(2,'(LU4ENT:) unphysical flavour combination') 
-      ENDIF 
-      K(IPA,2)=KF1 
-      K(IPA+1,2)=KF2 
-      K(IPA+2,2)=KF3 
-      K(IPA+3,2)=KF4 
- 
-C...Store partons/particles in K vectors for normal case. 
-      IF(IP.GE.0) THEN 
-        K(IPA,1)=1 
-        IF(KQ1.NE.0.AND.(KQ2.NE.0.OR.KQ3.NE.0.OR.KQ4.NE.0)) K(IPA,1)=2 
-        K(IPA+1,1)=1 
-        IF(KQ2.NE.0.AND.KQ1+KQ2.NE.0.AND.(KQ3.NE.0.OR.KQ4.NE.0)) 
-     &  K(IPA+1,1)=2 
-        K(IPA+2,1)=1 
-        IF(KQ3.NE.0.AND.KQ4.NE.0) K(IPA+2,1)=2 
-        K(IPA+3,1)=1 
- 
-C...Store partons for parton shower evolution from q-g-g-qbar or 
-C...g-g-g-g event. 
-      ELSEIF(KQ1+KQ2.NE.0) THEN 
-        K(IPA,1)=3 
-        K(IPA+1,1)=3 
-        K(IPA+2,1)=3 
-        K(IPA+3,1)=3 
-        KCS=4 
-        IF(KQ1.EQ.-1) KCS=5 
-        K(IPA,KCS)=MSTU(5)*(IPA+1) 
-        K(IPA,9-KCS)=MSTU(5)*(IPA+3) 
-        K(IPA+1,KCS)=MSTU(5)*(IPA+2) 
-        K(IPA+1,9-KCS)=MSTU(5)*IPA 
-        K(IPA+2,KCS)=MSTU(5)*(IPA+3) 
-        K(IPA+2,9-KCS)=MSTU(5)*(IPA+1) 
-        K(IPA+3,KCS)=MSTU(5)*IPA 
-        K(IPA+3,9-KCS)=MSTU(5)*(IPA+2) 
- 
-C...Store partons for parton shower evolution from q-qbar-q-qbar event. 
-      ELSE 
-        K(IPA,1)=3 
-        K(IPA+1,1)=3 
-        K(IPA+2,1)=3 
-        K(IPA+3,1)=3 
-        K(IPA,4)=MSTU(5)*(IPA+1) 
-        K(IPA,5)=K(IPA,4) 
-        K(IPA+1,4)=MSTU(5)*IPA 
-        K(IPA+1,5)=K(IPA+1,4) 
-        K(IPA+2,4)=MSTU(5)*(IPA+3) 
-        K(IPA+2,5)=K(IPA+2,4) 
-        K(IPA+3,4)=MSTU(5)*(IPA+2) 
-        K(IPA+3,5)=K(IPA+3,4) 
-      ENDIF 
- 
-C...Check kinematics. 
-      MKERR=0 
-      IF(0.5*X1*PECM.LE.PM1.OR.0.5*X2*PECM.LE.PM2.OR.0.5*(2.-X1-X2-X4)* 
-     &PECM.LE.PM3.OR.0.5*X4*PECM.LE.PM4) MKERR=1 
-      PA1=SQRT(MAX(1D-10,(0.5*X1*PECM)**2-PM1**2)) 
-      PA2=SQRT(MAX(1D-10,(0.5*X2*PECM)**2-PM2**2)) 
-      PA4=SQRT(MAX(1D-10,(0.5*X4*PECM)**2-PM4**2)) 
-      X24=X1+X2+X4-1.-X12-X14+(PM3**2-PM1**2-PM2**2-PM4**2)/PECM**2 
-      CTHE4=(X1*X4-2.*X14)*PECM**2/(4.*PA1*PA4) 
-      IF(ABS(CTHE4).GE.1.002) MKERR=1 
-      CTHE4=MAX(-1.D0,MIN(1.D0,CTHE4)) 
-      STHE4=SQRT(1.-CTHE4**2) 
-      CTHE2=(X1*X2-2.*X12)*PECM**2/(4.*PA1*PA2) 
-      IF(ABS(CTHE2).GE.1.002) MKERR=1 
-      CTHE2=MAX(-1.D0,MIN(1.D0,CTHE2)) 
-      STHE2=SQRT(1.-CTHE2**2) 
-      CPHI2=((X2*X4-2.*X24)*PECM**2-4.*PA2*CTHE2*PA4*CTHE4)/ 
-     &MAX(1D-8*PECM**2,4.*PA2*STHE2*PA4*STHE4) 
-      IF(ABS(CPHI2).GE.1.05) MKERR=1 
-      CPHI2=MAX(-1.D0,MIN(1.D0,CPHI2)) 
-      IF(MKERR.EQ.1) CALL LUERRM(13, 
-     &'(LU4ENT:) unphysical kinematical variable setup') 
- 
-C...Store partons/particles in P vectors. 
-      P(IPA,3)=PA1 
-      P(IPA,4)=SQRT(PA1**2+PM1**2) 
-      P(IPA,5)=PM1 
-      P(IPA+3,1)=PA4*STHE4 
-      P(IPA+3,3)=PA4*CTHE4 
-      P(IPA+3,4)=SQRT(PA4**2+PM4**2) 
-      P(IPA+3,5)=PM4 
-      P(IPA+1,1)=PA2*STHE2*CPHI2 
-      P(IPA+1,2)=PA2*STHE2*SQRT(1.-CPHI2**2)*(-1.)**INT(RLU(0)+0.5) 
-      P(IPA+1,3)=PA2*CTHE2 
-      P(IPA+1,4)=SQRT(PA2**2+PM2**2) 
-      P(IPA+1,5)=PM2 
-      P(IPA+2,1)=-P(IPA+1,1)-P(IPA+3,1) 
-      P(IPA+2,2)=-P(IPA+1,2) 
-      P(IPA+2,3)=-P(IPA,3)-P(IPA+1,3)-P(IPA+3,3) 
-      P(IPA+2,4)=SQRT(P(IPA+2,1)**2+P(IPA+2,2)**2+P(IPA+2,3)**2+PM3**2) 
-      P(IPA+2,5)=PM3 
- 
-C...Set N. Optionally fragment/decay. 
-      N=IPA+3 
-      IF(IP.EQ.0) CALL LUEXEC 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
+  
 CDECK  ID>, LUJOIN
       SUBROUTINE LUJOIN(NJOIN,IJOIN) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -4529,417 +2913,7 @@ C...Error exit: no action taken.
      &'(LUJOIN:) given entries can not be joined by one string') 
  
       RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUGIVE
-      SUBROUTINE LUGIVE(CHIN) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to set values of commonblock variables (also in PYTHIA!). 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      COMMON/LUDAT3/MDCY(500,3),MDME(2000,2),BRAT(2000),KFDP(2000,5) 
-      COMMON/LUDAT4/CHAF(500) 
-      CHARACTER CHAF*8 
-      COMMON/LUDATR/MRLU(6),RRLU(100) 
-      COMMON/PYSUBS/MSUB(200),KFIN(2,-40:40),CKIN(200),MSEL
-      COMMON/PYPARS/MSTP(200),PARP(200),MSTI(200),PARI(200) 
-      COMMON/PYINT1/MINT(400),VINT(400) 
-      COMMON/PYINT2/ISET(200),KFPR(200,2),COEF(200,20),ICOL(40,4,2) 
-      COMMON/PYINT3/XSFX(2,-40:40),ISIG(1000,3),SIGH(1000) 
-      COMMON/PYINT4/WIDP(21:40,0:40),WIDE(21:40,0:40),WIDS(21:40,3) 
-      COMMON/PYINT5/XSEC(0:200,3),NGEN(0:200,3)
-      COMMON/PYINT6/PROC(0:200) 
-      COMMON/PYINT7/SIGT(0:6,0:6,0:5) 
-      CHARACTER PROC*28 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/,/LUDAT3/,/LUDAT4/,/LUDATR/ 
-      SAVE /PYSUBS/,/PYPARS/,/PYINT1/,/PYINT2/,/PYINT3/,/PYINT4/, 
-     &/PYINT5/,/PYINT6/,/PYINT7/ 
-      CHARACTER CHIN*(*),CHFIX*104,CHBIT*104,CHOLD*8,CHNEW*8,CHOLD2*28, 
-     &CHNEW2*28,CHNAM*4,CHVAR(43)*4,CHALP(2)*26,CHIND*8,CHINI*10, 
-     &CHINR*16 
-      DIMENSION MSVAR(43,8) 
- 
-C...For each variable to be translated give: name, 
-C...integer/real/character, no. of indices, lower&upper index bounds. 
-      DATA CHVAR/'N','K','P','V','MSTU','PARU','MSTJ','PARJ','KCHG', 
-     &'PMAS','PARF','VCKM','MDCY','MDME','BRAT','KFDP','CHAF','MRLU', 
-     &'RRLU','MSEL','MSUB','KFIN','CKIN','MSTP','PARP','MSTI','PARI', 
-     &'MINT','VINT','ISET','KFPR','COEF','ICOL','XSFX','ISIG','SIGH', 
-     &'WIDP','WIDE','WIDS','NGEN','XSEC','PROC','SIGT'/ 
-      DATA ((MSVAR(I,J),J=1,8),I=1,43)/ 1,7*0,  1,2,1,4000,1,5,2*0, 
-     & 2,2,1,4000,1,5,2*0,  2,2,1,4000,1,5,2*0,  1,1,1,200,4*0, 
-     & 2,1,1,200,4*0,  1,1,1,200,4*0,  2,1,1,200,4*0, 
-     & 1,2,1,500,1,3,2*0,  2,2,1,500,1,4,2*0,  2,1,1,2000,4*0, 
-     & 2,2,1,4,1,4,2*0,  1,2,1,500,1,3,2*0,  1,2,1,2000,1,2,2*0, 
-     & 2,1,1,2000,4*0,  1,2,1,2000,1,5,2*0,  3,1,1,500,4*0, 
-     & 1,1,1,6,4*0,  2,1,1,100,4*0, 
-     & 1,7*0,  1,1,1,200,4*0,  1,2,1,2,-40,40,2*0,  2,1,1,200,4*0, 
-     & 1,1,1,200,4*0,  2,1,1,200,4*0,  1,1,1,200,4*0,  2,1,1,200,4*0, 
-     & 1,1,1,400,4*0,  2,1,1,400,4*0,  1,1,1,200,4*0, 
-     & 1,2,1,200,1,2,2*0,  2,2,1,200,1,20,2*0,  1,3,1,40,1,4,1,2, 
-     & 2,2,1,2,-40,40,2*0,  1,2,1,1000,1,3,2*0,  2,1,1,1000,4*0, 
-     & 2,2,21,40,0,40,2*0,  2,2,21,40,0,40,2*0,  2,2,21,40,1,3,2*0, 
-     & 1,2,0,200,1,3,2*0,  2,2,0,200,1,3,2*0,  4,1,0,200,4*0, 
-     & 2,3,0,6,0,6,0,5/ 
-      DATA CHALP/'abcdefghijklmnopqrstuvwxyz', 
-     &'ABCDEFGHIJKLMNOPQRSTUVWXYZ'/ 
- 
-C...Length of character variable. Subdivide it into instructions. 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      CHBIT=CHIN//' ' 
-      LBIT=101 
-  100 LBIT=LBIT-1 
-      IF(CHBIT(LBIT:LBIT).EQ.' ') GOTO 100 
-      LTOT=0 
-      DO 110 LCOM=1,LBIT 
-      IF(CHBIT(LCOM:LCOM).EQ.' ') GOTO 110 
-      LTOT=LTOT+1 
-      CHFIX(LTOT:LTOT)=CHBIT(LCOM:LCOM) 
-  110 CONTINUE 
-      LLOW=0 
-  120 LHIG=LLOW+1 
-  130 LHIG=LHIG+1 
-      IF(LHIG.LE.LTOT.AND.CHFIX(LHIG:LHIG).NE.';') GOTO 130 
-      LBIT=LHIG-LLOW-1 
-      CHBIT(1:LBIT)=CHFIX(LLOW+1:LHIG-1) 
- 
-C...Identify commonblock variable. 
-      LNAM=1 
-  140 LNAM=LNAM+1 
-      IF(CHBIT(LNAM:LNAM).NE.'('.AND.CHBIT(LNAM:LNAM).NE.'='.AND. 
-     &LNAM.LE.4) GOTO 140 
-      CHNAM=CHBIT(1:LNAM-1)//' ' 
-      DO 160 LCOM=1,LNAM-1 
-      DO 150 LALP=1,26 
-      IF(CHNAM(LCOM:LCOM).EQ.CHALP(1)(LALP:LALP)) CHNAM(LCOM:LCOM)= 
-     &CHALP(2)(LALP:LALP) 
-  150 CONTINUE 
-  160 CONTINUE 
-      IVAR=0 
-      DO 170 IV=1,43 
-      IF(CHNAM.EQ.CHVAR(IV)) IVAR=IV 
-  170 CONTINUE 
-      IF(IVAR.EQ.0) THEN 
-        CALL LUERRM(18,'(LUGIVE:) do not recognize variable '//CHNAM) 
-        LLOW=LHIG 
-        IF(LLOW.LT.LTOT) GOTO 120 
-        RETURN 
-      ENDIF 
- 
-C...Identify any indices. 
-      I1=0 
-      I2=0 
-      I3=0 
-      NINDX=0 
-      IF(CHBIT(LNAM:LNAM).EQ.'(') THEN 
-        LIND=LNAM 
-  180   LIND=LIND+1 
-        IF(CHBIT(LIND:LIND).NE.')'.AND.CHBIT(LIND:LIND).NE.',') GOTO 180 
-        CHIND=' ' 
-        IF((CHBIT(LNAM+1:LNAM+1).EQ.'C'.OR.CHBIT(LNAM+1:LNAM+1).EQ.'c'). 
-     &  AND.(IVAR.EQ.9.OR.IVAR.EQ.10.OR.IVAR.EQ.13.OR.IVAR.EQ.17)) THEN 
-          CHIND(LNAM-LIND+11:8)=CHBIT(LNAM+2:LIND-1) 
-          READ(CHIND,'(I8)') KF 
-          I1=LUCOMP(KF) 
-        ELSEIF(CHBIT(LNAM+1:LNAM+1).EQ.'C'.OR.CHBIT(LNAM+1:LNAM+1).EQ. 
-     &  'c') THEN 
-          CALL LUERRM(18,'(LUGIVE:) not allowed to use C index for '// 
-     &    CHNAM) 
-          LLOW=LHIG 
-          IF(LLOW.LT.LTOT) GOTO 120 
-          RETURN 
-        ELSE 
-          CHIND(LNAM-LIND+10:8)=CHBIT(LNAM+1:LIND-1) 
-          READ(CHIND,'(I8)') I1 
-        ENDIF 
-        LNAM=LIND 
-        IF(CHBIT(LNAM:LNAM).EQ.')') LNAM=LNAM+1 
-        NINDX=1 
-      ENDIF 
-      IF(CHBIT(LNAM:LNAM).EQ.',') THEN 
-        LIND=LNAM 
-  190   LIND=LIND+1 
-        IF(CHBIT(LIND:LIND).NE.')'.AND.CHBIT(LIND:LIND).NE.',') GOTO 190 
-        CHIND=' ' 
-        CHIND(LNAM-LIND+10:8)=CHBIT(LNAM+1:LIND-1) 
-        READ(CHIND,'(I8)') I2 
-        LNAM=LIND 
-        IF(CHBIT(LNAM:LNAM).EQ.')') LNAM=LNAM+1 
-        NINDX=2 
-      ENDIF 
-      IF(CHBIT(LNAM:LNAM).EQ.',') THEN 
-        LIND=LNAM 
-  200   LIND=LIND+1 
-        IF(CHBIT(LIND:LIND).NE.')'.AND.CHBIT(LIND:LIND).NE.',') GOTO 200 
-        CHIND=' ' 
-        CHIND(LNAM-LIND+10:8)=CHBIT(LNAM+1:LIND-1) 
-        READ(CHIND,'(I8)') I3 
-        LNAM=LIND+1 
-        NINDX=3 
-      ENDIF 
- 
-C...Check that indices allowed. 
-      IERR=0 
-      IF(NINDX.NE.MSVAR(IVAR,2)) IERR=1 
-      IF(NINDX.GE.1.AND.(I1.LT.MSVAR(IVAR,3).OR.I1.GT.MSVAR(IVAR,4))) 
-     &IERR=2 
-      IF(NINDX.GE.2.AND.(I2.LT.MSVAR(IVAR,5).OR.I2.GT.MSVAR(IVAR,6))) 
-     &IERR=3 
-      IF(NINDX.EQ.3.AND.(I3.LT.MSVAR(IVAR,7).OR.I3.GT.MSVAR(IVAR,8))) 
-     &IERR=4 
-      IF(CHBIT(LNAM:LNAM).NE.'=') IERR=5 
-      IF(IERR.GE.1) THEN 
-        CALL LUERRM(18,'(LUGIVE:) unallowed indices for '// 
-     &  CHBIT(1:LNAM-1)) 
-        LLOW=LHIG 
-        IF(LLOW.LT.LTOT) GOTO 120 
-        RETURN 
-      ENDIF 
- 
-C...Save old value of variable. 
-      IF(IVAR.EQ.1) THEN 
-        IOLD=N 
-      ELSEIF(IVAR.EQ.2) THEN 
-        IOLD=K(I1,I2) 
-      ELSEIF(IVAR.EQ.3) THEN 
-        ROLD=P(I1,I2) 
-      ELSEIF(IVAR.EQ.4) THEN 
-        ROLD=V(I1,I2) 
-      ELSEIF(IVAR.EQ.5) THEN 
-        IOLD=MSTU(I1) 
-      ELSEIF(IVAR.EQ.6) THEN 
-        ROLD=PARU(I1) 
-      ELSEIF(IVAR.EQ.7) THEN 
-        IOLD=MSTJ(I1) 
-      ELSEIF(IVAR.EQ.8) THEN 
-        ROLD=PARJ(I1) 
-      ELSEIF(IVAR.EQ.9) THEN 
-        IOLD=KCHG(I1,I2) 
-      ELSEIF(IVAR.EQ.10) THEN 
-        ROLD=PMAS(I1,I2) 
-      ELSEIF(IVAR.EQ.11) THEN 
-        ROLD=PARF(I1) 
-      ELSEIF(IVAR.EQ.12) THEN 
-        ROLD=VCKM(I1,I2) 
-      ELSEIF(IVAR.EQ.13) THEN 
-        IOLD=MDCY(I1,I2) 
-      ELSEIF(IVAR.EQ.14) THEN 
-        IOLD=MDME(I1,I2) 
-      ELSEIF(IVAR.EQ.15) THEN 
-        ROLD=BRAT(I1) 
-      ELSEIF(IVAR.EQ.16) THEN 
-        IOLD=KFDP(I1,I2) 
-      ELSEIF(IVAR.EQ.17) THEN 
-        CHOLD=CHAF(I1) 
-      ELSEIF(IVAR.EQ.18) THEN 
-        IOLD=MRLU(I1) 
-      ELSEIF(IVAR.EQ.19) THEN 
-        ROLD=RRLU(I1) 
-      ELSEIF(IVAR.EQ.20) THEN 
-        IOLD=MSEL 
-      ELSEIF(IVAR.EQ.21) THEN 
-        IOLD=MSUB(I1) 
-      ELSEIF(IVAR.EQ.22) THEN 
-        IOLD=KFIN(I1,I2) 
-      ELSEIF(IVAR.EQ.23) THEN 
-        ROLD=CKIN(I1) 
-      ELSEIF(IVAR.EQ.24) THEN 
-        IOLD=MSTP(I1) 
-      ELSEIF(IVAR.EQ.25) THEN 
-        ROLD=PARP(I1) 
-      ELSEIF(IVAR.EQ.26) THEN 
-        IOLD=MSTI(I1) 
-      ELSEIF(IVAR.EQ.27) THEN 
-        ROLD=PARI(I1) 
-      ELSEIF(IVAR.EQ.28) THEN 
-        IOLD=MINT(I1) 
-      ELSEIF(IVAR.EQ.29) THEN 
-        ROLD=VINT(I1) 
-      ELSEIF(IVAR.EQ.30) THEN 
-        IOLD=ISET(I1) 
-      ELSEIF(IVAR.EQ.31) THEN 
-        IOLD=KFPR(I1,I2) 
-      ELSEIF(IVAR.EQ.32) THEN 
-        ROLD=COEF(I1,I2) 
-      ELSEIF(IVAR.EQ.33) THEN 
-        IOLD=ICOL(I1,I2,I3) 
-      ELSEIF(IVAR.EQ.34) THEN 
-        ROLD=XSFX(I1,I2) 
-      ELSEIF(IVAR.EQ.35) THEN 
-        IOLD=ISIG(I1,I2) 
-      ELSEIF(IVAR.EQ.36) THEN 
-        ROLD=SIGH(I1) 
-      ELSEIF(IVAR.EQ.37) THEN 
-        ROLD=WIDP(I1,I2) 
-      ELSEIF(IVAR.EQ.38) THEN 
-        ROLD=WIDE(I1,I2) 
-      ELSEIF(IVAR.EQ.39) THEN 
-        ROLD=WIDS(I1,I2) 
-      ELSEIF(IVAR.EQ.40) THEN 
-        IOLD=NGEN(I1,I2) 
-      ELSEIF(IVAR.EQ.41) THEN 
-        ROLD=XSEC(I1,I2) 
-      ELSEIF(IVAR.EQ.42) THEN 
-        CHOLD2=PROC(I1) 
-      ELSEIF(IVAR.EQ.43) THEN 
-        ROLD=SIGT(I1,I2,I3) 
-      ENDIF 
- 
-C...Print current value of variable. Loop back. 
-      IF(LNAM.GE.LBIT) THEN 
-        CHBIT(LNAM:14)=' ' 
-        CHBIT(15:60)=' has the value                                ' 
-        IF(MSVAR(IVAR,1).EQ.1) THEN 
-          WRITE(CHBIT(51:60),'(I10)') IOLD 
-        ELSEIF(MSVAR(IVAR,1).EQ.2) THEN 
-          WRITE(CHBIT(47:60),'(F14.5)') ROLD 
-        ELSEIF(MSVAR(IVAR,1).EQ.3) THEN 
-          CHBIT(53:60)=CHOLD 
-        ELSE 
-          CHBIT(33:60)=CHOLD 
-        ENDIF 
-        IF(MSTU(13).GE.1) WRITE(MSTU(11),5000) CHBIT(1:60) 
-        LLOW=LHIG 
-        IF(LLOW.LT.LTOT) GOTO 120 
-        RETURN 
-      ENDIF 
- 
-C...Read in new variable value. 
-      IF(MSVAR(IVAR,1).EQ.1) THEN 
-        CHINI=' ' 
-        CHINI(LNAM-LBIT+11:10)=CHBIT(LNAM+1:LBIT) 
-        READ(CHINI,'(I10)') INEW 
-      ELSEIF(MSVAR(IVAR,1).EQ.2) THEN 
-        CHINR=' ' 
-        CHINR(LNAM-LBIT+17:16)=CHBIT(LNAM+1:LBIT) 
-        READ(CHINR,'(F16.2)') RNEW 
-      ELSEIF(MSVAR(IVAR,1).EQ.3) THEN 
-        CHNEW=CHBIT(LNAM+1:LBIT)//' ' 
-      ELSE 
-        CHNEW2=CHBIT(LNAM+1:LBIT)//' ' 
-      ENDIF 
- 
-C...Store new variable value. 
-      IF(IVAR.EQ.1) THEN 
-        N=INEW 
-      ELSEIF(IVAR.EQ.2) THEN 
-        K(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.3) THEN 
-        P(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.4) THEN 
-        V(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.5) THEN 
-        MSTU(I1)=INEW 
-      ELSEIF(IVAR.EQ.6) THEN 
-        PARU(I1)=RNEW 
-      ELSEIF(IVAR.EQ.7) THEN 
-        MSTJ(I1)=INEW 
-      ELSEIF(IVAR.EQ.8) THEN 
-        PARJ(I1)=RNEW 
-      ELSEIF(IVAR.EQ.9) THEN 
-        KCHG(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.10) THEN 
-        PMAS(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.11) THEN 
-        PARF(I1)=RNEW 
-      ELSEIF(IVAR.EQ.12) THEN 
-        VCKM(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.13) THEN 
-        MDCY(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.14) THEN 
-        MDME(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.15) THEN 
-        BRAT(I1)=RNEW 
-      ELSEIF(IVAR.EQ.16) THEN 
-        KFDP(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.17) THEN 
-        CHAF(I1)=CHNEW 
-      ELSEIF(IVAR.EQ.18) THEN 
-        MRLU(I1)=INEW 
-      ELSEIF(IVAR.EQ.19) THEN 
-        RRLU(I1)=RNEW 
-      ELSEIF(IVAR.EQ.20) THEN 
-        MSEL=INEW 
-      ELSEIF(IVAR.EQ.21) THEN 
-        MSUB(I1)=INEW 
-      ELSEIF(IVAR.EQ.22) THEN 
-        KFIN(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.23) THEN 
-        CKIN(I1)=RNEW 
-      ELSEIF(IVAR.EQ.24) THEN 
-        MSTP(I1)=INEW 
-      ELSEIF(IVAR.EQ.25) THEN 
-        PARP(I1)=RNEW 
-      ELSEIF(IVAR.EQ.26) THEN 
-        MSTI(I1)=INEW 
-      ELSEIF(IVAR.EQ.27) THEN 
-        PARI(I1)=RNEW 
-      ELSEIF(IVAR.EQ.28) THEN 
-        MINT(I1)=INEW 
-      ELSEIF(IVAR.EQ.29) THEN 
-        VINT(I1)=RNEW 
-      ELSEIF(IVAR.EQ.30) THEN 
-        ISET(I1)=INEW 
-      ELSEIF(IVAR.EQ.31) THEN 
-        KFPR(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.32) THEN 
-        COEF(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.33) THEN 
-        ICOL(I1,I2,I3)=INEW 
-      ELSEIF(IVAR.EQ.34) THEN 
-        XSFX(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.35) THEN 
-        ISIG(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.36) THEN 
-        SIGH(I1)=RNEW 
-      ELSEIF(IVAR.EQ.37) THEN 
-        WIDP(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.38) THEN 
-        WIDE(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.39) THEN 
-        WIDS(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.40) THEN 
-        NGEN(I1,I2)=INEW 
-      ELSEIF(IVAR.EQ.41) THEN 
-        XSEC(I1,I2)=RNEW 
-      ELSEIF(IVAR.EQ.42) THEN 
-        PROC(I1)=CHNEW2 
-      ELSEIF(IVAR.EQ.43) THEN 
-        SIGT(I1,I2,I3)=RNEW 
-      ENDIF 
- 
-C...Write old and new value. Loop back. 
-      CHBIT(LNAM:14)=' ' 
-      CHBIT(15:60)=' changed from                to               ' 
-      IF(MSVAR(IVAR,1).EQ.1) THEN 
-        WRITE(CHBIT(33:42),'(I10)') IOLD 
-        WRITE(CHBIT(51:60),'(I10)') INEW 
-        IF(MSTU(13).GE.1) WRITE(MSTU(11),5000) CHBIT(1:60) 
-      ELSEIF(MSVAR(IVAR,1).EQ.2) THEN 
-        WRITE(CHBIT(29:42),'(F14.5)') ROLD 
-        WRITE(CHBIT(47:60),'(F14.5)') RNEW 
-        IF(MSTU(13).GE.1) WRITE(MSTU(11),5000) CHBIT(1:60) 
-      ELSEIF(MSVAR(IVAR,1).EQ.3) THEN 
-        CHBIT(35:42)=CHOLD 
-        CHBIT(53:60)=CHNEW 
-        IF(MSTU(13).GE.1) WRITE(MSTU(11),5000) CHBIT(1:60) 
-      ELSE 
-        CHBIT(15:88)=' changed from '//CHOLD2//' to '//CHNEW2 
-        IF(MSTU(13).GE.1) WRITE(MSTU(11),5100) CHBIT(1:88) 
-      ENDIF 
-      LLOW=LHIG 
-      IF(LLOW.LT.LTOT) GOTO 120 
- 
-C...Format statement for output on unit MSTU(11) (by default 6). 
- 5000 FORMAT(5X,A60) 
- 5100 FORMAT(5X,A88) 
- 
-      RETURN 
-      END 
+      END SUBROUTINE LUJOIN
  
 C********************************************************************* 
  
@@ -4957,7 +2931,7 @@ C...Purpose: to administrate the fragmentation and decay chain.
  
 C...Initialize and reset. 
       MSTU(24)=0 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
+      IF(MSTU(12).GE.1) PRINT*, "LULIST(0), Method removed." 
       MSTU(31)=MSTU(31)+1 
       MSTU(1)=0 
       MSTU(2)=0 
@@ -6382,7 +4356,7 @@ C...Final hadron: side, flavour, hadron, mass.
       P(I,5)=ULMASS(K(I,2)) 
       PR(JR)=P(I,5)**2+(PX(JR)-PX(3))**2+(PY(JR)-PY(3))**2 
  
-C...Final two hadrons: find common setup of four-vectors. 
+C...Final two hadrons: find COMMON setup of four-vectors. 
       JQ=1 
       IF(P(IN(4)+2,3)*P(IN(5)+2,3)*FOUR(IN(4),IN(5)).LT.P(IN(7),3)* 
      &P(IN(8),3)*FOUR(IN(7),IN(8))) JQ=2 
@@ -7052,7 +5026,7 @@ C...Determine whether decay allowed or not.
         RETURN 
       ENDIF 
  
-C...Interface to external tau decay library (for tau polarization). 
+C...Interface to EXTERNAL tau decay library (for tau polarization). 
       IF(KFA.EQ.15.AND.MSTJ(28).GE.1) THEN 
  
 C...Starting values for pointers and momenta. 
@@ -9329,7 +7303,7 @@ C...Azimuthal anisotropy due to interference with initial state partons.
         ENDIF 
       ENDIF 
  
-C...Continue loop over partons that may branch, until none left. 
+C...CONTINUE loop over partons that may branch, until none left. 
       IF(IGM.GE.0) K(IM,1)=14 
       N=N+NEP 
       NEP=2 
@@ -9708,150 +7682,6 @@ C...(either in m or in m^2).
  
 C********************************************************************* 
  
-CDECK  ID>, LUNAME
-      SUBROUTINE LUNAME(KF,CHAU) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to give the particle/parton name as a character string. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      COMMON/LUDAT4/CHAF(500) 
-      CHARACTER CHAF*8 
-      SAVE /LUDAT1/,/LUDAT2/,/LUDAT4/ 
-      CHARACTER CHAU*16 
- 
-C...Initial values. Charge. Subdivide code. 
-      CHAU=' ' 
-      KFA=IABS(KF) 
-      KC=LUCOMP(KF) 
-      IF(KC.EQ.0) RETURN 
-      KQ=LUCHGE(KF) 
-      KFLA=MOD(KFA/1000,10) 
-      KFLB=MOD(KFA/100,10) 
-      KFLC=MOD(KFA/10,10) 
-      KFLS=MOD(KFA,10) 
-      KFLR=MOD(KFA/10000,10) 
- 
-C...Read out root name and spin for simple particle. 
-      IF(KFA.LE.100.OR.(KFA.GT.100.AND.KC.GT.100)) THEN 
-        CHAU=CHAF(KC) 
-        LEN=0 
-        DO 100 LEM=1,8 
-        IF(CHAU(LEM:LEM).NE.' ') LEN=LEM 
-  100   CONTINUE 
- 
-C...Construct root name for diquark. Add on spin. 
-      ELSEIF(KFLC.EQ.0) THEN 
-        CHAU(1:2)=CHAF(KFLA)(1:1)//CHAF(KFLB)(1:1) 
-        IF(KFLS.EQ.1) CHAU(3:4)='_0' 
-        IF(KFLS.EQ.3) CHAU(3:4)='_1' 
-        LEN=4 
- 
-C...Construct root name for heavy meson. Add on spin and heavy flavour. 
-      ELSEIF(KFLA.EQ.0) THEN 
-        IF(KFLB.EQ.5) CHAU(1:1)='B' 
-        IF(KFLB.EQ.6) CHAU(1:1)='T' 
-        IF(KFLB.EQ.7) CHAU(1:1)='L' 
-        IF(KFLB.EQ.8) CHAU(1:1)='H' 
-        LEN=1 
-        IF(KFLR.EQ.0.AND.KFLS.EQ.1) THEN 
-        ELSEIF(KFLR.EQ.0.AND.KFLS.EQ.3) THEN 
-          CHAU(2:2)='*' 
-          LEN=2 
-        ELSEIF(KFLR.EQ.1.AND.KFLS.EQ.3) THEN 
-          CHAU(2:3)='_1' 
-          LEN=3 
-        ELSEIF(KFLR.EQ.1.AND.KFLS.EQ.1) THEN 
-          CHAU(2:4)='*_0' 
-          LEN=4 
-        ELSEIF(KFLR.EQ.2) THEN 
-          CHAU(2:4)='*_1' 
-          LEN=4 
-        ELSEIF(KFLS.EQ.5) THEN 
-          CHAU(2:4)='*_2' 
-          LEN=4 
-        ENDIF 
-        IF(KFLC.GE.3.AND.KFLR.EQ.0.AND.KFLS.LE.3) THEN 
-          CHAU(LEN+1:LEN+2)='_'//CHAF(KFLC)(1:1) 
-          LEN=LEN+2 
-        ELSEIF(KFLC.GE.3) THEN 
-          CHAU(LEN+1:LEN+1)=CHAF(KFLC)(1:1) 
-          LEN=LEN+1 
-        ENDIF 
- 
-C...Construct root name and spin for heavy baryon. 
-      ELSE 
-        IF(KFLB.LE.2.AND.KFLC.LE.2) THEN 
-          CHAU='Sigma ' 
-          IF(KFLC.GT.KFLB) CHAU='Lambda' 
-          IF(KFLS.EQ.4) CHAU='Sigma*' 
-          LEN=5 
-          IF(CHAU(6:6).NE.' ') LEN=6 
-        ELSEIF(KFLB.LE.2.OR.KFLC.LE.2) THEN 
-          CHAU='Xi ' 
-          IF(KFLA.GT.KFLB.AND.KFLB.GT.KFLC) CHAU='Xi''' 
-          IF(KFLS.EQ.4) CHAU='Xi*' 
-          LEN=2 
-          IF(CHAU(3:3).NE.' ') LEN=3 
-        ELSE 
-          CHAU='Omega ' 
-          IF(KFLA.GT.KFLB.AND.KFLB.GT.KFLC) CHAU='Omega''' 
-          IF(KFLS.EQ.4) CHAU='Omega*' 
-          LEN=5 
-          IF(CHAU(6:6).NE.' ') LEN=6 
-        ENDIF 
- 
-C...Add on heavy flavour content for heavy baryon. 
-        CHAU(LEN+1:LEN+2)='_'//CHAF(KFLA)(1:1) 
-        LEN=LEN+2 
-        IF(KFLB.GE.KFLC.AND.KFLC.GE.4) THEN 
-          CHAU(LEN+1:LEN+2)=CHAF(KFLB)(1:1)//CHAF(KFLC)(1:1) 
-          LEN=LEN+2 
-        ELSEIF(KFLB.GE.KFLC.AND.KFLB.GE.4) THEN 
-          CHAU(LEN+1:LEN+1)=CHAF(KFLB)(1:1) 
-          LEN=LEN+1 
-        ELSEIF(KFLC.GT.KFLB.AND.KFLB.GE.4) THEN 
-          CHAU(LEN+1:LEN+2)=CHAF(KFLC)(1:1)//CHAF(KFLB)(1:1) 
-          LEN=LEN+2 
-        ELSEIF(KFLC.GT.KFLB.AND.KFLC.GE.4) THEN 
-          CHAU(LEN+1:LEN+1)=CHAF(KFLC)(1:1) 
-          LEN=LEN+1 
-        ENDIF 
-      ENDIF 
- 
-C...Add on bar sign for antiparticle (where necessary). 
-      IF(KF.GT.0.OR.LEN.EQ.0) THEN 
-      ELSEIF(KFA.GT.10.AND.KFA.LE.40.AND.KQ.NE.0.AND.MOD(KQ,3).EQ.0) 
-     &THEN 
-      ELSEIF(KFA.EQ.89.OR.(KFA.GE.91.AND.KFA.LE.99)) THEN 
-      ELSEIF(KFA.GT.100.AND.KFLA.EQ.0.AND.KQ.NE.0) THEN 
-      ELSEIF(MSTU(15).LE.1) THEN 
-        CHAU(LEN+1:LEN+1)='~' 
-        LEN=LEN+1 
-      ELSE 
-        CHAU(LEN+1:LEN+3)='bar' 
-        LEN=LEN+3 
-      ENDIF 
- 
-C...Add on charge where applicable (conventional cases skipped). 
-      IF(KQ.EQ.6) CHAU(LEN+1:LEN+2)='++' 
-      IF(KQ.EQ.-6) CHAU(LEN+1:LEN+2)='--' 
-      IF(KQ.EQ.3) CHAU(LEN+1:LEN+1)='+' 
-      IF(KQ.EQ.-3) CHAU(LEN+1:LEN+1)='-' 
-      IF(KQ.EQ.0.AND.(KFA.LE.22.OR.LEN.EQ.0)) THEN 
-      ELSEIF(KQ.EQ.0.AND.(KFA.GE.81.AND.KFA.LE.100)) THEN 
-      ELSEIF(KFA.EQ.28.OR.KFA.EQ.29) THEN 
-      ELSEIF(KFA.GT.100.AND.KFLA.EQ.0.AND.KFLB.EQ.KFLC.AND. 
-     &KFLB.NE.1) THEN 
-      ELSEIF(KQ.EQ.0) THEN 
-        CHAU(LEN+1:LEN+1)='0' 
-      ENDIF 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
 CDECK  ID>, LUCHGE
       FUNCTION LUCHGE(KF) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
@@ -10001,7 +7831,7 @@ C...Spin 3/2 baryons.
       ENDIF 
  
       RETURN 
-      END 
+      END FUNCTION LUCOMP
  
 C********************************************************************* 
  
@@ -10022,7 +7852,7 @@ C...Write first few warnings, then be silent.
         IF(MSTU(25).EQ.1.AND.MSTU(27).LE.MSTU(26)) WRITE(MSTU(11),5000) 
      &  MERR,MSTU(31),CHMESS 
  
-C...Write first few errors, then be silent or stop program. 
+C...Write first few errors, then be silent or STOP program. 
       ELSEIF(MERR.LE.20) THEN 
         MSTU(23)=MSTU(23)+1 
         MSTU(24)=MERR-10 
@@ -10031,11 +7861,11 @@ C...Write first few errors, then be silent or stop program.
         IF(MSTU(21).GE.2.AND.MSTU(23).GT.MSTU(22)) THEN 
           WRITE(MSTU(11),5100) MERR-10,MSTU(31),CHMESS 
           WRITE(MSTU(11),5200) 
-          IF(MERR.NE.17) CALL LULIST(2) 
+          IF(MERR.NE.17) PRINT*, "LULIST(2), Method removed"
           STOP 
         ENDIF 
  
-C...Stop program in case of irreparable error. 
+C...STOP program in case of irreparable error. 
       ELSE 
         WRITE(MSTU(11),5300) MERR-20,MSTU(31),CHMESS 
         STOP 
@@ -10046,108 +7876,10 @@ C...Formats for output.
      &' LUEXEC calls:'/5X,A) 
  5100 FORMAT(/5X,'Error type',I2,' has occured after',I6, 
      &' LUEXEC calls:'/5X,A) 
- 5200 FORMAT(5X,'Execution will be stopped after listing of last ', 
+ 5200 FORMAT(5X,'Execution will be STOPped after listing of last ', 
      &'event!') 
  5300 FORMAT(/5X,'Fatal error type',I2,' has occured after',I6, 
-     &' LUEXEC calls:'/5X,A/5X,'Execution will now be stopped!') 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, ULALEM
-      FUNCTION ULALEM(Q2) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to calculate the running alpha_electromagnetic. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUDAT1/ 
- 
-C...Calculate real part of photon vacuum polarization. 
-C...For leptons simplify by using asymptotic (Q^2 >> m^2) expressions. 
-C...For hadrons use parametrization of H. Burkhardt et al. 
-C...See R. Kleiss et al, CERN 89-08, vol. 3, pp. 129-131. 
-      AEMPI=PARU(101)/(3.*PARU(1)) 
-      IF(MSTU(101).LE.0.OR.Q2.LT.2D-6) THEN 
-        RPIGG=0. 
-      ELSEIF(MSTU(101).EQ.2.AND.Q2.LT.PARU(104)) THEN
-        RPIGG=0.
-      ELSEIF(MSTU(101).EQ.2) THEN
-        RPIGG=1.-PARU(101)/PARU(103) 
-      ELSEIF(Q2.LT.0.09) THEN 
-        RPIGG=AEMPI*(13.4916+LOG(Q2))+0.00835*LOG(1.+Q2) 
-      ELSEIF(Q2.LT.9.) THEN 
-        RPIGG=AEMPI*(16.3200+2.*LOG(Q2))+0.00238*LOG(1.+3.927*Q2) 
-      ELSEIF(Q2.LT.1E4) THEN 
-        RPIGG=AEMPI*(13.4955+3.*LOG(Q2))+0.00165+0.00299*LOG(1.+Q2) 
-      ELSE 
-        RPIGG=AEMPI*(13.4955+3.*LOG(Q2))+0.00221+0.00293*LOG(1.+Q2) 
-      ENDIF 
- 
-C...Calculate running alpha_em. 
-      ULALEM=PARU(101)/(1.-RPIGG) 
-      PARU(108)=ULALEM 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, ULALPS
-      FUNCTION ULALPS(Q2) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to give the value of alpha_strong. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUDAT1/,/LUDAT2/ 
- 
-C...Constant alpha_strong trivial. 
-      IF(MSTU(111).LE.0) THEN 
-        ULALPS=PARU(111) 
-        MSTU(118)=MSTU(112) 
-        PARU(117)=0. 
-        PARU(118)=PARU(111) 
-        RETURN 
-      ENDIF 
- 
-C...Find effective Q2, number of flavours and Lambda. 
-      Q2EFF=Q2 
-      IF(MSTU(115).GE.2) Q2EFF=MAX(Q2,PARU(114)) 
-      NF=MSTU(112) 
-      ALAM2=PARU(112)**2 
-  100 IF(NF.GT.MAX(2,MSTU(113))) THEN 
-        Q2THR=PARU(113)*PMAS(NF,1)**2 
-        IF(Q2EFF.LT.Q2THR) THEN 
-          NF=NF-1 
-          ALAM2=ALAM2*(Q2THR/ALAM2)**(2./(33.-2.*NF)) 
-          GOTO 100 
-        ENDIF 
-      ENDIF 
-  110 IF(NF.LT.MIN(8,MSTU(114))) THEN 
-        Q2THR=PARU(113)*PMAS(NF+1,1)**2 
-        IF(Q2EFF.GT.Q2THR) THEN 
-          NF=NF+1 
-          ALAM2=ALAM2*(ALAM2/Q2THR)**(2./(33.-2.*NF)) 
-          GOTO 110 
-        ENDIF 
-      ENDIF 
-      IF(MSTU(115).EQ.1) Q2EFF=Q2EFF+ALAM2 
-      PARU(117)=SQRT(ALAM2) 
- 
-C...Evaluate first or second order alpha_strong. 
-      B0=(33.-2.*NF)/6. 
-      ALGQ=LOG(MAX(1.0001D0,Q2EFF/ALAM2)) 
-      IF(MSTU(111).EQ.1) THEN 
-        ULALPS=MIN(PARU(115),PARU(2)/(B0*ALGQ)) 
-      ELSE 
-        B1=(153.-19.*NF)/6. 
-        ULALPS=MIN(PARU(115),PARU(2)/(B0*ALGQ)*(1.-B1*LOG(ALGQ)/ 
-     &  (B0**2*ALGQ))) 
-      ENDIF 
-      MSTU(118)=NF 
-      PARU(118)=ULALPS 
+     &' LUEXEC calls:'/5X,A/5X,'Execution will now be STOPped!') 
  
       RETURN 
       END 
@@ -10253,80 +7985,7 @@ C...Update counters. Random number to output.
       RETURN 
       END 
  
-C********************************************************************* 
- 
-CDECK  ID>, RLUGET
-      SUBROUTINE RLUGET(LFN,MOVE) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to dump the state of the random number generator on a file 
-C...for subsequent startup from this state onwards. 
-      COMMON/LUDATR/MRLU(6),RRLU(100) 
-      SAVE /LUDATR/ 
-      CHARACTER CHERR*8 
- 
-C...Backspace required number of records (or as many as there are). 
-      IF(MOVE.LT.0) THEN 
-        NBCK=MIN(MRLU(6),-MOVE) 
-        DO 100 IBCK=1,NBCK 
-        BACKSPACE(LFN,ERR=110,IOSTAT=IERR) 
-  100   CONTINUE 
-        MRLU(6)=MRLU(6)-NBCK 
-      ENDIF 
- 
-C...Unformatted write on unit LFN. 
-      WRITE(LFN,ERR=110,IOSTAT=IERR) (MRLU(I1),I1=1,5), 
-     &(RRLU(I2),I2=1,100) 
-      MRLU(6)=MRLU(6)+1 
-      RETURN 
- 
-C...Write error. 
-  110 WRITE(CHERR,'(I8)') IERR 
-      CALL LUERRM(18,'(RLUGET:) error when accessing file, IOSTAT ='// 
-     &CHERR) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, RLUSET
-      SUBROUTINE RLUSET(LFN,MOVE) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to read a state of the random number generator from a file 
-C...for subsequent generation from this state onwards. 
-      COMMON/LUDATR/MRLU(6),RRLU(100) 
-      SAVE /LUDATR/ 
-      CHARACTER CHERR*8 
- 
-C...Backspace required number of records (or as many as there are). 
-      IF(MOVE.LT.0) THEN 
-        NBCK=MIN(MRLU(6),-MOVE) 
-        DO 100 IBCK=1,NBCK 
-        BACKSPACE(LFN,ERR=120,IOSTAT=IERR) 
-  100   CONTINUE 
-        MRLU(6)=MRLU(6)-NBCK 
-      ENDIF 
- 
-C...Unformatted read from unit LFN. 
-      NFOR=1+MAX(0,MOVE) 
-      DO 110 IFOR=1,NFOR 
-      READ(LFN,ERR=120,IOSTAT=IERR) (MRLU(I1),I1=1,5), 
-     &(RRLU(I2),I2=1,100) 
-  110 CONTINUE 
-      MRLU(6)=MRLU(6)+NFOR 
-      RETURN 
- 
-C...Write error. 
-  120 WRITE(CHERR,'(I8)') IERR 
-      CALL LUERRM(18,'(RLUSET:) error when accessing file, IOSTAT ='// 
-     &CHERR) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
+C*********************************************************************  
  
 CDECK  ID>, LUROBO
       SUBROUTINE LUROBO(THE,PHI,BEX,BEY,BEZ) 
@@ -10339,7 +7998,7 @@ C     IMPLICIT DOUBLE PRECISION(D)
       SAVE /LUJETS/,/LUDAT1/ 
       DIMENSION ROT(3,3),PR(3),VR(3),DP(4),DV(4) 
  
-C...Find range of rotation/boost. Convert boost to double precision. 
+C...Find range of rotation/boost. Convert boost to DOUBLE PRECISION. 
       IMIN=1 
       IF(MSTU(1).GT.0) IMIN=MSTU(1) 
       IMAX=N 
@@ -10349,7 +8008,7 @@ C...Find range of rotation/boost. Convert boost to double precision.
       DBZ=BEZ 
       GOTO 120 
  
-C...Entry for specific range and double precision boost. 
+C...Entry for specific range and DOUBLE PRECISION boost. 
       ENTRY LUDBRB(IMI,IMA,THE,PHI,DBEX,DBEY,DBEZ) 
       IMIN=IMI 
       IF(IMIN.LE.0) IMIN=1 
@@ -10619,7 +8278,7 @@ C...in their turn, point to documentation mother.
         IF(K(I,5).EQ.0) K(I,5)=K(I,4)
   190   CONTINUE 
  
-C...Save top entries at bottom of LUJETS commonblock. 
+C...Save top entries at bottom of LUJETS COMMONblock. 
       ELSEIF(MEDIT.EQ.21) THEN 
         IF(2*N.GE.MSTU(4)) THEN 
           CALL LUERRM(11,'(LUEDIT:) no more memory left in LUJETS') 
@@ -10634,7 +8293,7 @@ C...Save top entries at bottom of LUJETS commonblock.
   210   CONTINUE 
         MSTU(32)=N 
  
-C...Restore bottom entries of commonblock LUJETS to top. 
+C...Restore bottom entries of COMMONblock LUJETS to top. 
       ELSEIF(MEDIT.EQ.22) THEN 
         DO 230 I=1,MSTU(32) 
         DO 220 J=1,5 
@@ -10645,7 +8304,7 @@ C...Restore bottom entries of commonblock LUJETS to top.
   230   CONTINUE 
         N=MSTU(32) 
  
-C...Mark primary entries at top of commonblock LUJETS as untreated. 
+C...Mark primary entries at top of COMMONblock LUJETS as untreated. 
       ELSEIF(MEDIT.EQ.23) THEN 
         I1=0 
         DO 240 I=1,N 
@@ -10710,710 +8369,15 @@ C...Rotate to put second largest jet into -z,+x quadrant.
       ENDIF 
  
       RETURN 
-      END 
+      END SUBROUTINE LUEDIT
  
-C********************************************************************* 
- 
-CDECK  ID>, LULIST
-      SUBROUTINE LULIST(MLIST) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to give program heading, or list an event, or particle 
-C...data, or current parameter values. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      COMMON/LUDAT3/MDCY(500,3),MDME(2000,2),BRAT(2000),KFDP(2000,5) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/,/LUDAT3/ 
-      CHARACTER CHAP*16,CHAC*16,CHAN*16,CHAD(5)*16,CHDL(7)*4 
-      DIMENSION PS(6) 
-      DATA CHDL/'(())',' ','()','!!','<>','==','(==)'/ 
- 
-C...Initialization printout: version number and date of last change. 
-      IF(MLIST.EQ.0.OR.MSTU(12).EQ.1) THEN 
-        CALL LULOGO 
-        MSTU(12)=0 
-        IF(MLIST.EQ.0) RETURN 
-      ENDIF 
- 
-C...List event data, including additional lines after N. 
-      IF(MLIST.GE.1.AND.MLIST.LE.3) THEN 
-        IF(MLIST.EQ.1) WRITE(MSTU(11),5100) 
-        IF(MLIST.EQ.2) WRITE(MSTU(11),5200) 
-        IF(MLIST.EQ.3) WRITE(MSTU(11),5300) 
-        LMX=12 
-        IF(MLIST.GE.2) LMX=16 
-        ISTR=0 
-        IMAX=N 
-        IF(MSTU(2).GT.0) IMAX=MSTU(2) 
-        DO 120 I=MAX(1,MSTU(1)),MAX(IMAX,N+MAX(0,MSTU(3))) 
-        IF((I.GT.IMAX.AND.I.LE.N).OR.K(I,1).LT.0) GOTO 120 
- 
-C...Get particle name, pad it and check it is not too long. 
-        CALL LUNAME(K(I,2),CHAP) 
-        LEN=0 
-        DO 100 LEM=1,16 
-        IF(CHAP(LEM:LEM).NE.' ') LEN=LEM 
-  100   CONTINUE 
-        MDL=(K(I,1)+19)/10 
-        LDL=0 
-        IF(MDL.EQ.2.OR.MDL.GE.8) THEN 
-          CHAC=CHAP 
-          IF(LEN.GT.LMX) CHAC(LMX:LMX)='?' 
-        ELSE 
-          LDL=1 
-          IF(MDL.EQ.1.OR.MDL.EQ.7) LDL=2 
-          IF(LEN.EQ.0) THEN 
-            CHAC=CHDL(MDL)(1:2*LDL)//' ' 
-          ELSE 
-            CHAC=CHDL(MDL)(1:LDL)//CHAP(1:MIN(LEN,LMX-2*LDL))// 
-     &      CHDL(MDL)(LDL+1:2*LDL)//' ' 
-            IF(LEN+2*LDL.GT.LMX) CHAC(LMX:LMX)='?' 
-          ENDIF 
-        ENDIF 
- 
-C...Add information on string connection. 
-        IF(K(I,1).EQ.1.OR.K(I,1).EQ.2.OR.K(I,1).EQ.11.OR.K(I,1).EQ.12) 
-     &  THEN 
-          KC=LUCOMP(K(I,2)) 
-          KCC=0 
-          IF(KC.NE.0) KCC=KCHG(KC,2) 
-          IF(IABS(K(I,2)).EQ.39) THEN 
-            IF(LEN+2*LDL+3.LE.LMX) CHAC(LMX-1:LMX-1)='X' 
-          ELSEIF(KCC.NE.0.AND.ISTR.EQ.0) THEN 
-            ISTR=1 
-            IF(LEN+2*LDL+3.LE.LMX) CHAC(LMX-1:LMX-1)='A' 
-          ELSEIF(KCC.NE.0.AND.(K(I,1).EQ.2.OR.K(I,1).EQ.12)) THEN 
-            IF(LEN+2*LDL+3.LE.LMX) CHAC(LMX-1:LMX-1)='I' 
-          ELSEIF(KCC.NE.0) THEN 
-            ISTR=0 
-            IF(LEN+2*LDL+3.LE.LMX) CHAC(LMX-1:LMX-1)='V' 
-          ENDIF 
-        ENDIF 
- 
-C...Write data for particle/jet. 
-        IF(MLIST.EQ.1.AND.ABS(P(I,4)).LT.9999.) THEN 
-          WRITE(MSTU(11),5400) I,CHAC(1:12),(K(I,J1),J1=1,3), 
-     &    (P(I,J2),J2=1,5) 
-        ELSEIF(MLIST.EQ.1.AND.ABS(P(I,4)).LT.99999.) THEN 
-          WRITE(MSTU(11),5500) I,CHAC(1:12),(K(I,J1),J1=1,3), 
-     &    (P(I,J2),J2=1,5) 
-        ELSEIF(MLIST.EQ.1) THEN 
-          WRITE(MSTU(11),5600) I,CHAC(1:12),(K(I,J1),J1=1,3), 
-     &    (P(I,J2),J2=1,5) 
-        ELSEIF(MSTU(5).EQ.10000.AND.(K(I,1).EQ.3.OR.K(I,1).EQ.13.OR. 
-     &  K(I,1).EQ.14)) THEN 
-          WRITE(MSTU(11),5700) I,CHAC,(K(I,J1),J1=1,3), 
-     &    K(I,4)/100000000,MOD(K(I,4)/10000,10000),MOD(K(I,4),10000), 
-     &    K(I,5)/100000000,MOD(K(I,5)/10000,10000),MOD(K(I,5),10000), 
-     &    (P(I,J2),J2=1,5) 
-        ELSE 
-          WRITE(MSTU(11),5800) I,CHAC,(K(I,J1),J1=1,5),(P(I,J2),J2=1,5) 
-        ENDIF 
-        IF(MLIST.EQ.3) WRITE(MSTU(11),5900) (V(I,J),J=1,5) 
- 
-C...Insert extra separator lines specified by user. 
-        IF(MSTU(70).GE.1) THEN 
-          ISEP=0 
-          DO 110 J=1,MIN(10,MSTU(70)) 
-          IF(I.EQ.MSTU(70+J)) ISEP=1 
-  110     CONTINUE 
-          IF(ISEP.EQ.1.AND.MLIST.EQ.1) WRITE(MSTU(11),6000) 
-          IF(ISEP.EQ.1.AND.MLIST.GE.2) WRITE(MSTU(11),6100) 
-        ENDIF 
-  120   CONTINUE 
- 
-C...Sum of charges and momenta. 
-        DO 130 J=1,6 
-        PS(J)=PLU(0,J) 
-  130   CONTINUE 
-        IF(MLIST.EQ.1.AND.ABS(PS(4)).LT.9999.) THEN 
-          WRITE(MSTU(11),6200) PS(6),(PS(J),J=1,5) 
-        ELSEIF(MLIST.EQ.1.AND.ABS(PS(4)).LT.99999.) THEN 
-          WRITE(MSTU(11),6300) PS(6),(PS(J),J=1,5) 
-        ELSEIF(MLIST.EQ.1) THEN 
-          WRITE(MSTU(11),6400) PS(6),(PS(J),J=1,5) 
-        ELSE 
-          WRITE(MSTU(11),6500) PS(6),(PS(J),J=1,5) 
-        ENDIF 
- 
-C...Give simple list of KF codes defined in program. 
-      ELSEIF(MLIST.EQ.11) THEN 
-        WRITE(MSTU(11),6600) 
-        DO 140 KF=1,40 
-        CALL LUNAME(KF,CHAP) 
-        CALL LUNAME(-KF,CHAN) 
-        IF(CHAP.NE.' '.AND.CHAN.EQ.' ') WRITE(MSTU(11),6700) KF,CHAP 
-        IF(CHAN.NE.' ') WRITE(MSTU(11),6700) KF,CHAP,-KF,CHAN 
-  140   CONTINUE 
-        DO 170 KFLS=1,3,2 
-        DO 160 KFLA=1,8 
-        DO 150 KFLB=1,KFLA-(3-KFLS)/2 
-        KF=1000*KFLA+100*KFLB+KFLS 
-        CALL LUNAME(KF,CHAP) 
-        CALL LUNAME(-KF,CHAN) 
-        WRITE(MSTU(11),6700) KF,CHAP,-KF,CHAN 
-  150   CONTINUE 
-  160   CONTINUE 
-  170   CONTINUE 
-        KF=130 
-        CALL LUNAME(KF,CHAP) 
-        WRITE(MSTU(11),6700) KF,CHAP 
-        KF=310 
-        CALL LUNAME(KF,CHAP) 
-        WRITE(MSTU(11),6700) KF,CHAP 
-        DO 200 KMUL=0,5 
-        KFLS=3 
-        IF(KMUL.EQ.0.OR.KMUL.EQ.3) KFLS=1 
-        IF(KMUL.EQ.5) KFLS=5 
-        KFLR=0 
-        IF(KMUL.EQ.2.OR.KMUL.EQ.3) KFLR=1 
-        IF(KMUL.EQ.4) KFLR=2 
-        DO 190 KFLB=1,8 
-        DO 180 KFLC=1,KFLB-1 
-        KF=10000*KFLR+100*KFLB+10*KFLC+KFLS 
-        CALL LUNAME(KF,CHAP) 
-        CALL LUNAME(-KF,CHAN) 
-        WRITE(MSTU(11),6700) KF,CHAP,-KF,CHAN 
-  180   CONTINUE 
-        KF=10000*KFLR+110*KFLB+KFLS 
-        CALL LUNAME(KF,CHAP) 
-        WRITE(MSTU(11),6700) KF,CHAP 
-  190   CONTINUE 
-  200 CONTINUE 
-        KF=30443 
-        CALL LUNAME(KF,CHAP) 
-        WRITE(MSTU(11),6700) KF,CHAP 
-        KF=30553 
-        CALL LUNAME(KF,CHAP) 
-        WRITE(MSTU(11),6700) KF,CHAP 
-        DO 240 KFLSP=1,3 
-        KFLS=2+2*(KFLSP/3) 
-        DO 230 KFLA=1,8 
-        DO 220 KFLB=1,KFLA 
-        DO 210 KFLC=1,KFLB 
-        IF(KFLSP.EQ.1.AND.(KFLA.EQ.KFLB.OR.KFLB.EQ.KFLC)) GOTO 210 
-        IF(KFLSP.EQ.2.AND.KFLA.EQ.KFLC) GOTO 210 
-        IF(KFLSP.EQ.1) KF=1000*KFLA+100*KFLC+10*KFLB+KFLS 
-        IF(KFLSP.GE.2) KF=1000*KFLA+100*KFLB+10*KFLC+KFLS 
-        CALL LUNAME(KF,CHAP) 
-        CALL LUNAME(-KF,CHAN) 
-        WRITE(MSTU(11),6700) KF,CHAP,-KF,CHAN 
-  210   CONTINUE 
-  220   CONTINUE 
-  230   CONTINUE 
-  240   CONTINUE 
- 
-C...List parton/particle data table. Check whether to be listed. 
-      ELSEIF(MLIST.EQ.12) THEN 
-        WRITE(MSTU(11),6800) 
-        MSTJ24=MSTJ(24) 
-        MSTJ(24)=0 
-        KFMAX=30553 
-        IF(MSTU(2).NE.0) KFMAX=MSTU(2) 
-        DO 270 KF=MAX(1,MSTU(1)),KFMAX 
-        KC=LUCOMP(KF) 
-        IF(KC.EQ.0) GOTO 270 
-        IF(MSTU(14).EQ.0.AND.KF.GT.100.AND.KC.LE.100) GOTO 270 
-        IF(MSTU(14).GT.0.AND.KF.GT.100.AND.MAX(MOD(KF/1000,10), 
-     &  MOD(KF/100,10)).GT.MSTU(14)) GOTO 270 
-        IF(MSTU(14).GT.0.AND.KF.GT.100.AND.KC.EQ.90) GOTO 270 
- 
-C...Find particle name and mass. Print information. 
-        CALL LUNAME(KF,CHAP) 
-        IF(KF.LE.100.AND.CHAP.EQ.' '.AND.MDCY(KC,2).EQ.0) GOTO 270 
-        CALL LUNAME(-KF,CHAN) 
-        PM=ULMASS(KF) 
-        WRITE(MSTU(11),6900) KF,KC,CHAP,CHAN,KCHG(KC,1),KCHG(KC,2), 
-     &  KCHG(KC,3),PM,PMAS(KC,2),PMAS(KC,3),PMAS(KC,4),MDCY(KC,1) 
- 
-C...Particle decay: channel number, branching ration, matrix element, 
-C...decay products. 
-        IF(KF.GT.100.AND.KC.LE.100) GOTO 270 
-        DO 260 IDC=MDCY(KC,2),MDCY(KC,2)+MDCY(KC,3)-1 
-        DO 250 J=1,5 
-        CALL LUNAME(KFDP(IDC,J),CHAD(J)) 
-  250   CONTINUE 
-        WRITE(MSTU(11),7000) IDC,MDME(IDC,1),MDME(IDC,2),BRAT(IDC), 
-     &  (CHAD(J),J=1,5) 
-  260   CONTINUE 
-  270   CONTINUE 
-        MSTJ(24)=MSTJ24 
- 
-C...List parameter value table. 
-      ELSEIF(MLIST.EQ.13) THEN 
-        WRITE(MSTU(11),7100) 
-        DO 280 I=1,200 
-        WRITE(MSTU(11),7200) I,MSTU(I),PARU(I),MSTJ(I),PARJ(I),PARF(I) 
-  280   CONTINUE 
-      ENDIF 
- 
-C...Format statements for output on unit MSTU(11) (by default 6). 
- 5100 FORMAT(///28X,'Event listing (summary)'//4X,'I  particle/jet KS', 
-     &5X,'KF orig    p_x      p_y      p_z       E        m'/) 
- 5200 FORMAT(///28X,'Event listing (standard)'//4X,'I  particle/jet', 
-     &'  K(I,1)   K(I,2) K(I,3)     K(I,4)      K(I,5)       P(I,1)', 
-     &'       P(I,2)       P(I,3)       P(I,4)       P(I,5)'/) 
- 5300 FORMAT(///28X,'Event listing (with vertices)'//4X,'I  particle/j', 
-     &'et  K(I,1)   K(I,2) K(I,3)     K(I,4)      K(I,5)       P(I,1)', 
-     &'       P(I,2)       P(I,3)       P(I,4)       P(I,5)'/73X, 
-     &'V(I,1)       V(I,2)       V(I,3)       V(I,4)       V(I,5)'/) 
- 5400 FORMAT(1X,I4,2X,A12,1X,I2,1X,I6,1X,I4,5F9.3) 
- 5500 FORMAT(1X,I4,2X,A12,1X,I2,1X,I6,1X,I4,5F9.2) 
- 5600 FORMAT(1X,I4,2X,A12,1X,I2,1X,I6,1X,I4,5F9.1) 
- 5700 FORMAT(1X,I4,2X,A16,1X,I3,1X,I8,2X,I4,2(3X,I1,2I4),5F13.5) 
- 5800 FORMAT(1X,I4,2X,A16,1X,I3,1X,I8,2X,I4,2(3X,I9),5F13.5) 
- 5900 FORMAT(66X,5(1X,F12.3)) 
- 6000 FORMAT(1X,78('=')) 
- 6100 FORMAT(1X,130('=')) 
- 6200 FORMAT(19X,'sum:',F6.2,5X,5F9.3) 
- 6300 FORMAT(19X,'sum:',F6.2,5X,5F9.2) 
- 6400 FORMAT(19X,'sum:',F6.2,5X,5F9.1) 
- 6500 FORMAT(19X,'sum charge:',F6.2,3X,'sum momentum and inv. mass:', 
-     &5F13.5) 
- 6600 FORMAT(///20X,'List of KF codes in program'/) 
- 6700 FORMAT(4X,I6,4X,A16,6X,I6,4X,A16) 
- 6800 FORMAT(///30X,'Particle/parton data table'//5X,'KF',5X,'KC',4X, 
-     &'particle',8X,'antiparticle',6X,'chg  col  anti',8X,'mass',7X, 
-     &'width',7X,'w-cut',5X,'lifetime',1X,'decay'/11X,'IDC',1X,'on/off', 
-     &1X,'ME',3X,'Br.rat.',4X,'decay products') 
- 6900 FORMAT(/1X,I6,3X,I4,4X,A16,A16,3I5,1X,F12.5,2(1X,F11.5), 
-     &2X,F12.5,3X,I2) 
- 7000 FORMAT(10X,I4,2X,I3,2X,I3,2X,F8.5,4X,5A16) 
- 7100 FORMAT(///20X,'Parameter value table'//4X,'I',3X,'MSTU(I)', 
-     &8X,'PARU(I)',3X,'MSTJ(I)',8X,'PARJ(I)',8X,'PARF(I)') 
- 7200 FORMAT(1X,I4,1X,I9,1X,F14.5,1X,I9,1X,F14.5,1X,F14.5) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LULOGO
-      SUBROUTINE LULOGO 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to write logo for JETSET and PYTHIA programs. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/PYPARS/MSTP(200),PARP(200),MSTI(200),PARI(200) 
-      SAVE /LUDAT1/ 
-      SAVE /PYPARS/ 
-      CHARACTER MONTH(12)*3, LOGO(48)*32, REFER(22)*36, LINE*79, 
-     &VERS*1, SUBV*3, DATE*2, YEAR*4 
- 
-C...Data on months, logo, titles, and references. 
-      DATA MONTH/'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep', 
-     &'Oct','Nov','Dec'/ 
-      DATA (LOGO(J),J=1,10)/ 
-     &'PPP  Y   Y TTTTT H   H III   A  ', 
-     &'P  P  Y Y    T   H   H  I   A A ', 
-     &'PPP    Y     T   HHHHH  I  AAAAA', 
-     &'P      Y     T   H   H  I  A   A', 
-     &'P      Y     T   H   H III A   A', 
-     &'JJJJ EEEE TTTTT  SSS  EEEE TTTTT', 
-     &'   J E      T   S     E      T  ', 
-     &'   J EEE    T    SSS  EEE    T  ', 
-     &'J  J E      T       S E      T  ', 
-     &' JJ  EEEE   T    SSS  EEEE   T  '/ 
-      DATA (LOGO(J),J=11,29)/ 
-     &'            *......*            ', 
-     &'       *:::!!:::::::::::*       ', 
-     &'    *::::::!!::::::::::::::*    ', 
-     &'  *::::::::!!::::::::::::::::*  ', 
-     &' *:::::::::!!:::::::::::::::::* ', 
-     &' *:::::::::!!:::::::::::::::::* ', 
-     &'  *::::::::!!::::::::::::::::*! ', 
-     &'    *::::::!!::::::::::::::* !! ', 
-     &'    !! *:::!!:::::::::::*    !! ', 
-     &'    !!     !* -><- *         !! ', 
-     &'    !!     !!                !! ', 
-     &'    !!     !!                !! ', 
-     &'    !!                       !! ', 
-     &'    !!        ep             !! ', 
-     &'    !!                       !! ', 
-     &'    !!                 pp    !! ', 
-     &'    !!   e+e-                !! ', 
-     &'    !!                       !! ', 
-     &'    !!                          '/ 
-      DATA (LOGO(J),J=30,48)/ 
-     &'Welcome to the Lund Monte Carlo!', 
-     &'                                ', 
-     &'  This is PYTHIA version x.xxx  ', 
-     &'Last date of change: xx xxx 199x', 
-     &'                                ', 
-     &'  This is JETSET version x.xxx  ', 
-     &'Last date of change: xx xxx 199x', 
-     &'                                ', 
-     &'          Main author:          ', 
-     &'       Torbjorn Sjostrand       ', 
-     &' Dept. of theoretical physics 2 ', 
-     &'       University of Lund       ', 
-     &'         Solvegatan 14A         ', 
-     &'      S-223 62 Lund, Sweden     ', 
-     &'   phone: +46 - 46 - 222 48 16  ', 
-     &'   E-mail: torbjorn@thep.lu.se  ', 
-     &'                                ', 
-     &'  Copyright Torbjorn Sjostrand  ', 
-     &'     and CERN, Geneva 1993      '/ 
-      DATA (REFER(J),J=1,6)/ 
-     &'The latest program versions and docu',
-     &'mentation is found on WWW address   ',
-     &'http://thep.lu.se/tf2/staff/torbjorn',
-     &'/Welcome.html                       ',
-     &'                                    ',
-     &'                                    '/
-      DATA (REFER(J),J=7,22)/ 
-     &'When you cite these programs, priori', 
-     &'ty should always be given to the    ', 
-     &'latest published description. Curren', 
-     &'tly this is                         ', 
-     &'T. Sjostrand, Computer Physics Commu', 
-     &'n. 82 (1994) 74.                    ', 
-     &'The most recent long description (un', 
-     &'published) is                       ', 
-     &'T. Sjostrand, LU TP 95-20 and CERN-T',
-     &'H.7112/93 (revised August 1995).    ', 
-     &'Also remember that the programs, to ', 
-     &'a large extent, represent original  ', 
-     &'physics research. Other publications', 
-     &' of special relevance to your       ', 
-     &'studies may therefore deserve separa', 
-     &'te mention.                         '/ 
- 
-C...Check if PYTHIA linked. 
-      IF(MSTP(183)/10.NE.199) THEN 
-        LOGO(32)=' Warning: PYTHIA is not loaded! ' 
-        LOGO(33)='Did you remember to link PYDATA?' 
-      ELSE 
-        WRITE(VERS,'(I1)') MSTP(181) 
-        LOGO(32)(26:26)=VERS 
-        WRITE(SUBV,'(I3)') MSTP(182) 
-        LOGO(32)(28:30)=SUBV 
-        WRITE(DATE,'(I2)') MSTP(185) 
-        LOGO(33)(22:23)=DATE 
-        LOGO(33)(25:27)=MONTH(MSTP(184)) 
-        WRITE(YEAR,'(I4)') MSTP(183) 
-        LOGO(33)(29:32)=YEAR 
-      ENDIF 
- 
-C...Check if JETSET linked. 
-      IF(MSTU(183)/10.NE.199) THEN 
-        LOGO(35)='  Error: JETSET is not loaded!  ' 
-        LOGO(36)='Did you remember to link LUDATA?' 
-      ELSE 
-        WRITE(VERS,'(I1)') MSTU(181) 
-        LOGO(35)(26:26)=VERS 
-        WRITE(SUBV,'(I3)') MSTU(182) 
-        LOGO(35)(28:30)=SUBV 
-        WRITE(DATE,'(I2)') MSTU(185) 
-        LOGO(36)(22:23)=DATE 
-        LOGO(36)(25:27)=MONTH(MSTU(184)) 
-        WRITE(YEAR,'(I4)') MSTU(183) 
-        LOGO(36)(29:32)=YEAR 
-      ENDIF 
- 
-C...Loop over lines in header. Define page feed and side borders. 
-      DO 100 ILIN=1,48 
-      LINE=' ' 
-      IF(ILIN.EQ.1) THEN 
-        LINE(1:1)='1' 
-      ELSE 
-        LINE(2:3)='**' 
-        LINE(78:79)='**' 
-      ENDIF 
- 
-C...Separator lines and logos. 
-      IF(ILIN.EQ.2.OR.ILIN.EQ.3.OR.ILIN.EQ.47.OR.ILIN.EQ.48) THEN 
-        LINE(4:77)='***********************************************'// 
-     &  '***************************' 
-      ELSEIF(ILIN.GE.6.AND.ILIN.LE.10) THEN 
-        LINE(6:37)=LOGO(ILIN-5) 
-        LINE(44:75)=LOGO(ILIN) 
-      ELSEIF(ILIN.GE.13.AND.ILIN.LE.31) THEN 
-        LINE(6:37)=LOGO(ILIN-2) 
-        LINE(44:75)=LOGO(ILIN+17) 
-      ELSEIF(ILIN.GE.34.AND.ILIN.LE.44) THEN 
-        LINE(5:40)=REFER(2*ILIN-67) 
-        LINE(41:76)=REFER(2*ILIN-66) 
-      ENDIF 
- 
-C...Write lines to appropriate unit. 
-      IF(MSTU(183)/10.EQ.199) THEN 
-        WRITE(MSTU(11),'(A79)') LINE 
-      ELSE 
-        WRITE(*,'(A79)') LINE 
-      ENDIF 
-  100 CONTINUE 
- 
-C...Check that matching subversions are linked. 
-      IF(MSTU(183)/10.EQ.199.AND.MSTP(183)/10.EQ.199) THEN 
-        IF(MSTU(182).LT.MSTP(186)) WRITE(MSTU(11), 
-     &  '(/'' Warning: JETSET subversion too old for PYTHIA''/)') 
-        IF(MSTP(182).LT.MSTU(186)) WRITE(MSTU(11), 
-     &  '(/'' Warning: PYTHIA subversion too old for JETSET''/)') 
-      ENDIF 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUUPDA
-      SUBROUTINE LUUPDA(MUPDA,LFN) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to facilitate the updating of particle and decay data. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      COMMON/LUDAT3/MDCY(500,3),MDME(2000,2),BRAT(2000),KFDP(2000,5) 
-      COMMON/LUDAT4/CHAF(500) 
-      CHARACTER CHAF*8 
-      SAVE /LUDAT1/,/LUDAT2/,/LUDAT3/,/LUDAT4/ 
-      CHARACTER CHINL*80,CHKC*4,CHVAR(19)*9,CHLIN*72, 
-     &CHBLK(20)*72,CHOLD*12,CHTMP*12,CHNEW*12,CHCOM*12 
-      DATA CHVAR/ 'KCHG(I,1)','KCHG(I,2)','KCHG(I,3)','PMAS(I,1)', 
-     &'PMAS(I,2)','PMAS(I,3)','PMAS(I,4)','MDCY(I,1)','MDCY(I,2)', 
-     &'MDCY(I,3)','MDME(I,1)','MDME(I,2)','BRAT(I)  ','KFDP(I,1)', 
-     &'KFDP(I,2)','KFDP(I,3)','KFDP(I,4)','KFDP(I,5)','CHAF(I)  '/ 
- 
-C...Write information on file for editing. 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IF(MUPDA.EQ.1) THEN 
-        DO 110 KC=1,MSTU(6) 
-        WRITE(LFN,5000) KC,CHAF(KC),(KCHG(KC,J1),J1=1,3), 
-     &  (PMAS(KC,J2),J2=1,4),MDCY(KC,1) 
-        DO 100 IDC=MDCY(KC,2),MDCY(KC,2)+MDCY(KC,3)-1 
-        WRITE(LFN,5100) MDME(IDC,1),MDME(IDC,2),BRAT(IDC), 
-     &  (KFDP(IDC,J),J=1,5) 
-  100   CONTINUE 
-  110   CONTINUE 
- 
-C...Reset variables and read information from edited file. 
-      ELSEIF(MUPDA.EQ.2) THEN 
-        DO 130 I=1,MSTU(7) 
-        MDME(I,1)=1 
-        MDME(I,2)=0 
-        BRAT(I)=0. 
-        DO 120 J=1,5 
-        KFDP(I,J)=0 
-  120   CONTINUE 
-  130   CONTINUE 
-        KC=0 
-        IDC=0 
-        NDC=0 
-  140   READ(LFN,5200,END=150) CHINL 
-        IF(CHINL(2:5).NE.'    ') THEN 
-          CHKC=CHINL(2:5) 
-          IF(KC.NE.0) THEN 
-            MDCY(KC,2)=0 
-            IF(NDC.NE.0) MDCY(KC,2)=IDC+1-NDC 
-            MDCY(KC,3)=NDC 
-          ENDIF 
-          READ(CHKC,5300) KC 
-          IF(KC.LE.0.OR.KC.GT.MSTU(6)) CALL LUERRM(27, 
-     &    '(LUUPDA:) Read KC code illegal, KC ='//CHKC) 
-          READ(CHINL,5000) KCR,CHAF(KC),(KCHG(KC,J1),J1=1,3), 
-     &    (PMAS(KC,J2),J2=1,4),MDCY(KC,1) 
-          NDC=0 
-        ELSE 
-          IDC=IDC+1 
-          NDC=NDC+1 
-          IF(IDC.GE.MSTU(7)) CALL LUERRM(27, 
-     &    '(LUUPDA:) Decay data arrays full by KC ='//CHKC) 
-          READ(CHINL,5100) MDME(IDC,1),MDME(IDC,2),BRAT(IDC), 
-     &    (KFDP(IDC,J),J=1,5) 
-        ENDIF 
-        GOTO 140 
-  150   MDCY(KC,2)=0 
-        IF(NDC.NE.0) MDCY(KC,2)=IDC+1-NDC 
-        MDCY(KC,3)=NDC 
- 
-C...Perform possible tests that new information is consistent. 
-        MSTJ24=MSTJ(24) 
-        MSTJ(24)=0 
-        DO 180 KC=1,MSTU(6) 
-        WRITE(CHKC,5300) KC 
-        IF(MIN(PMAS(KC,1),PMAS(KC,2),PMAS(KC,3),PMAS(KC,1)-PMAS(KC,3), 
-     &  PMAS(KC,4)).LT.0..OR.MDCY(KC,3).LT.0) CALL LUERRM(17, 
-     &  '(LUUPDA:) Mass/width/life/(# channels) wrong for KC ='//CHKC) 
-        BRSUM=0. 
-        DO 170 IDC=MDCY(KC,2),MDCY(KC,2)+MDCY(KC,3)-1 
-        IF(MDME(IDC,2).GT.80) GOTO 170 
-        KQ=KCHG(KC,1) 
-        PMS=PMAS(KC,1)-PMAS(KC,3)-PARJ(64) 
-        MERR=0 
-        DO 160 J=1,5 
-        KP=KFDP(IDC,J) 
-        IF(KP.EQ.0.OR.KP.EQ.81.OR.IABS(KP).EQ.82) THEN 
-        ELSEIF(LUCOMP(KP).EQ.0) THEN 
-          MERR=3 
-        ELSE 
-          KQ=KQ-LUCHGE(KP) 
-          PMS=PMS-ULMASS(KP) 
-        ENDIF 
-  160   CONTINUE 
-        IF(KQ.NE.0) MERR=MAX(2,MERR) 
-        IF(KFDP(IDC,2).NE.0.AND.(KC.LE.20.OR.KC.GT.40).AND. 
-     &  (KC.LE.80.OR.KC.GT.100).AND.MDME(IDC,2).NE.34.AND. 
-     &  MDME(IDC,2).NE.61.AND.PMS.LT.0.) MERR=MAX(1,MERR) 
-        IF(MERR.EQ.3) CALL LUERRM(17, 
-     &  '(LUUPDA:) Unknown particle code in decay of KC ='//CHKC) 
-        IF(MERR.EQ.2) CALL LUERRM(17, 
-     &  '(LUUPDA:) Charge not conserved in decay of KC ='//CHKC) 
-        IF(MERR.EQ.1) CALL LUERRM(7, 
-     &  '(LUUPDA:) Kinematically unallowed decay of KC ='//CHKC) 
-        BRSUM=BRSUM+BRAT(IDC) 
-  170   CONTINUE 
-        WRITE(CHTMP,5500) BRSUM 
-        IF(ABS(BRSUM).GT.0.0005.AND.ABS(BRSUM-1.).GT.0.0005) CALL 
-     &  LUERRM(7,'(LUUPDA:) Sum of branching ratios is '//CHTMP(5:12)// 
-     &  ' for KC ='//CHKC) 
-  180   CONTINUE 
-        MSTJ(24)=MSTJ24 
- 
-C...Initialize writing of DATA statements for inclusion in program. 
-      ELSEIF(MUPDA.EQ.3) THEN 
-        DO 250 IVAR=1,19 
-        NDIM=MSTU(6) 
-        IF(IVAR.GE.11.AND.IVAR.LE.18) NDIM=MSTU(7) 
-        NLIN=1 
-        CHLIN=' ' 
-        CHLIN(7:35)='DATA ('//CHVAR(IVAR)//',I=   1,    )/' 
-        LLIN=35 
-        CHOLD='START' 
- 
-C...Loop through variables for conversion to characters. 
-        DO 230 IDIM=1,NDIM 
-        IF(IVAR.EQ.1) WRITE(CHTMP,5400) KCHG(IDIM,1) 
-        IF(IVAR.EQ.2) WRITE(CHTMP,5400) KCHG(IDIM,2) 
-        IF(IVAR.EQ.3) WRITE(CHTMP,5400) KCHG(IDIM,3) 
-        IF(IVAR.EQ.4) WRITE(CHTMP,5500) PMAS(IDIM,1) 
-        IF(IVAR.EQ.5) WRITE(CHTMP,5500) PMAS(IDIM,2) 
-        IF(IVAR.EQ.6) WRITE(CHTMP,5500) PMAS(IDIM,3) 
-        IF(IVAR.EQ.7) WRITE(CHTMP,5500) PMAS(IDIM,4) 
-        IF(IVAR.EQ.8) WRITE(CHTMP,5400) MDCY(IDIM,1) 
-        IF(IVAR.EQ.9) WRITE(CHTMP,5400) MDCY(IDIM,2) 
-        IF(IVAR.EQ.10) WRITE(CHTMP,5400) MDCY(IDIM,3) 
-        IF(IVAR.EQ.11) WRITE(CHTMP,5400) MDME(IDIM,1) 
-        IF(IVAR.EQ.12) WRITE(CHTMP,5400) MDME(IDIM,2) 
-        IF(IVAR.EQ.13) WRITE(CHTMP,5500) BRAT(IDIM) 
-        IF(IVAR.EQ.14) WRITE(CHTMP,5400) KFDP(IDIM,1) 
-        IF(IVAR.EQ.15) WRITE(CHTMP,5400) KFDP(IDIM,2) 
-        IF(IVAR.EQ.16) WRITE(CHTMP,5400) KFDP(IDIM,3) 
-        IF(IVAR.EQ.17) WRITE(CHTMP,5400) KFDP(IDIM,4) 
-        IF(IVAR.EQ.18) WRITE(CHTMP,5400) KFDP(IDIM,5) 
-        IF(IVAR.EQ.19) CHTMP=CHAF(IDIM) 
- 
-C...Length of variable, trailing decimal zeros, quotation marks. 
-        LLOW=1 
-        LHIG=1 
-        DO 190 LL=1,12 
-        IF(CHTMP(13-LL:13-LL).NE.' ') LLOW=13-LL 
-        IF(CHTMP(LL:LL).NE.' ') LHIG=LL 
-  190   CONTINUE 
-        CHNEW=CHTMP(LLOW:LHIG)//' ' 
-        LNEW=1+LHIG-LLOW 
-        IF((IVAR.GE.4.AND.IVAR.LE.7).OR.IVAR.EQ.13) THEN 
-          LNEW=LNEW+1 
-  200     LNEW=LNEW-1 
-          IF(CHNEW(LNEW:LNEW).EQ.'0') GOTO 200 
-          IF(LNEW.EQ.1) CHNEW(1:2)='0.' 
-          IF(LNEW.EQ.1) LNEW=2 
-        ELSEIF(IVAR.EQ.19) THEN 
-          DO 210 LL=LNEW,1,-1 
-          IF(CHNEW(LL:LL).EQ.'''') THEN 
-            CHTMP=CHNEW 
-            CHNEW=CHTMP(1:LL)//''''//CHTMP(LL+1:11) 
-            LNEW=LNEW+1 
-          ENDIF 
-  210     CONTINUE 
-          CHTMP=CHNEW 
-          CHNEW(1:LNEW+2)=''''//CHTMP(1:LNEW)//'''' 
-          LNEW=LNEW+2 
-        ENDIF 
- 
-C...Form composite character string, often including repetition counter. 
-        IF(CHNEW.NE.CHOLD) THEN 
-          NRPT=1 
-          CHOLD=CHNEW 
-          CHCOM=CHNEW 
-          LCOM=LNEW 
-        ELSE 
-          LRPT=LNEW+1 
-          IF(NRPT.GE.2) LRPT=LNEW+3 
-          IF(NRPT.GE.10) LRPT=LNEW+4 
-          IF(NRPT.GE.100) LRPT=LNEW+5 
-          IF(NRPT.GE.1000) LRPT=LNEW+6 
-          LLIN=LLIN-LRPT 
-          NRPT=NRPT+1 
-          WRITE(CHTMP,5400) NRPT 
-          LRPT=1 
-          IF(NRPT.GE.10) LRPT=2 
-          IF(NRPT.GE.100) LRPT=3 
-          IF(NRPT.GE.1000) LRPT=4 
-          CHCOM(1:LRPT+1+LNEW)=CHTMP(13-LRPT:12)//'*'//CHNEW(1:LNEW) 
-          LCOM=LRPT+1+LNEW 
-        ENDIF 
- 
-C...Add characters to end of line, to new line (after storing old line), 
-C...or to new block of lines (after writing old block). 
-        IF(LLIN+LCOM.LE.70) THEN 
-          CHLIN(LLIN+1:LLIN+LCOM+1)=CHCOM(1:LCOM)//',' 
-          LLIN=LLIN+LCOM+1 
-        ELSEIF(NLIN.LE.19) THEN 
-          CHLIN(LLIN+1:72)=' ' 
-          CHBLK(NLIN)=CHLIN 
-          NLIN=NLIN+1 
-          CHLIN(6:6+LCOM+1)='&'//CHCOM(1:LCOM)//',' 
-          LLIN=6+LCOM+1 
-        ELSE 
-          CHLIN(LLIN:72)='/'//' ' 
-          CHBLK(NLIN)=CHLIN 
-          WRITE(CHTMP,5400) IDIM-NRPT 
-          CHBLK(1)(30:33)=CHTMP(9:12) 
-          DO 220 ILIN=1,NLIN 
-          WRITE(LFN,5600) CHBLK(ILIN) 
-  220     CONTINUE 
-          NLIN=1 
-          CHLIN=' ' 
-          CHLIN(7:35+LCOM+1)='DATA ('//CHVAR(IVAR)//',I=    ,    )/'// 
-     &    CHCOM(1:LCOM)//',' 
-          WRITE(CHTMP,5400) IDIM-NRPT+1 
-          CHLIN(25:28)=CHTMP(9:12) 
-          LLIN=35+LCOM+1 
-        ENDIF 
-  230   CONTINUE 
- 
-C...Write final block of lines. 
-        CHLIN(LLIN:72)='/'//' ' 
-        CHBLK(NLIN)=CHLIN 
-        WRITE(CHTMP,5400) NDIM 
-        CHBLK(1)(30:33)=CHTMP(9:12) 
-        DO 240 ILIN=1,NLIN 
-        WRITE(LFN,5600) CHBLK(ILIN) 
-  240   CONTINUE 
-  250   CONTINUE 
-      ENDIF 
- 
-C...Formats for reading and writing particle data. 
- 5000 FORMAT(1X,I4,2X,A8,3I3,3F12.5,2X,F12.5,I3) 
- 5100 FORMAT(5X,2I5,F12.5,5I8) 
- 5200 FORMAT(A80) 
- 5300 FORMAT(I4) 
- 5400 FORMAT(I12) 
- 5500 FORMAT(F12.5) 
- 5600 FORMAT(A72) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
+C*********************************************************************  
  
 CDECK  ID>, KLU
       FUNCTION KLU(I,J) 
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
  
-C...Purpose: to provide various integer-valued event related data. 
+C...Purpose: to provide various INTEGER-valued event related data. 
       COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
       COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
       COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
@@ -11614,3538 +8578,7 @@ C...Energy and momentum fractions (only to be used in CM frame).
       RETURN 
       END 
  
-C********************************************************************* 
- 
-CDECK  ID>, LUSPHE
-      SUBROUTINE LUSPHE(SPH,APL) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to perform sphericity tensor analysis to give sphericity, 
-C...aplanarity and the related event axes. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
-      DIMENSION SM(3,3),SV(3,3) 
- 
-C...Calculate matrix to be diagonalized. 
-      NP=0 
-      DO 110 J1=1,3 
-      DO 100 J2=J1,3 
-      SM(J1,J2)=0. 
-  100 CONTINUE 
-  110 CONTINUE 
-      PS=0. 
-      DO 140 I=1,N 
-      IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 140 
-      IF(MSTU(41).GE.2) THEN 
-        KC=LUCOMP(K(I,2)) 
-        IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &  KC.EQ.18) GOTO 140 
-        IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &  GOTO 140 
-      ENDIF 
-      NP=NP+1 
-      PA=SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-      PWT=1. 
-      IF(ABS(PARU(41)-2.).GT.0.001) PWT=MAX(1D-10,PA)**(PARU(41)-2.) 
-      DO 130 J1=1,3 
-      DO 120 J2=J1,3 
-      SM(J1,J2)=SM(J1,J2)+PWT*P(I,J1)*P(I,J2) 
-  120 CONTINUE 
-  130 CONTINUE 
-      PS=PS+PWT*PA**2 
-  140 CONTINUE 
- 
-C...Very low multiplicities (0 or 1) not considered. 
-      IF(NP.LE.1) THEN 
-        CALL LUERRM(8,'(LUSPHE:) too few particles for analysis') 
-        SPH=-1. 
-        APL=-1. 
-        RETURN 
-      ENDIF 
-      DO 160 J1=1,3 
-      DO 150 J2=J1,3 
-      SM(J1,J2)=SM(J1,J2)/PS 
-  150 CONTINUE 
-  160 CONTINUE 
- 
-C...Find eigenvalues to matrix (third degree equation). 
-      SQ=(SM(1,1)*SM(2,2)+SM(1,1)*SM(3,3)+SM(2,2)*SM(3,3)-SM(1,2)**2- 
-     &SM(1,3)**2-SM(2,3)**2)/3.-1./9. 
-      SR=-0.5*(SQ+1./9.+SM(1,1)*SM(2,3)**2+SM(2,2)*SM(1,3)**2+SM(3,3)* 
-     &SM(1,2)**2-SM(1,1)*SM(2,2)*SM(3,3))+SM(1,2)*SM(1,3)*SM(2,3)+1./27. 
-      SP=COS(ACOS(MAX(MIN(SR/SQRT(-SQ**3),1.D0),-1.D0))/3.) 
-      P(N+1,4)=1./3.+SQRT(-SQ)*MAX(2.*SP,SQRT(3.*(1.-SP**2))-SP) 
-      P(N+3,4)=1./3.+SQRT(-SQ)*MIN(2.*SP,-SQRT(3.*(1.-SP**2))-SP) 
-      P(N+2,4)=1.-P(N+1,4)-P(N+3,4) 
-      IF(P(N+2,4).LT.1D-5) THEN 
-        CALL LUERRM(8,'(LUSPHE:) all particles back-to-back') 
-        SPH=-1. 
-        APL=-1. 
-        RETURN 
-      ENDIF 
- 
-C...Find first and last eigenvector by solving equation system. 
-      DO 240 I=1,3,2 
-      DO 180 J1=1,3 
-      SV(J1,J1)=SM(J1,J1)-P(N+I,4) 
-      DO 170 J2=J1+1,3 
-      SV(J1,J2)=SM(J1,J2) 
-      SV(J2,J1)=SM(J1,J2) 
-  170 CONTINUE 
-  180 CONTINUE 
-      SMAX=0. 
-      DO 200 J1=1,3 
-      DO 190 J2=1,3 
-      IF(ABS(SV(J1,J2)).LE.SMAX) GOTO 190 
-      JA=J1 
-      JB=J2 
-      SMAX=ABS(SV(J1,J2)) 
-  190 CONTINUE 
-  200 CONTINUE 
-      SMAX=0. 
-      DO 220 J3=JA+1,JA+2 
-      J1=J3-3*((J3-1)/3) 
-      RL=SV(J1,JB)/SV(JA,JB) 
-      DO 210 J2=1,3 
-      SV(J1,J2)=SV(J1,J2)-RL*SV(JA,J2) 
-      IF(ABS(SV(J1,J2)).LE.SMAX) GOTO 210 
-      JC=J1 
-      SMAX=ABS(SV(J1,J2)) 
-  210 CONTINUE 
-  220 CONTINUE 
-      JB1=JB+1-3*(JB/3) 
-      JB2=JB+2-3*((JB+1)/3) 
-      P(N+I,JB1)=-SV(JC,JB2) 
-      P(N+I,JB2)=SV(JC,JB1) 
-      P(N+I,JB)=-(SV(JA,JB1)*P(N+I,JB1)+SV(JA,JB2)*P(N+I,JB2))/ 
-     &SV(JA,JB) 
-      PA=SQRT(P(N+I,1)**2+P(N+I,2)**2+P(N+I,3)**2) 
-      SGN=(-1.)**INT(RLU(0)+0.5) 
-      DO 230 J=1,3 
-      P(N+I,J)=SGN*P(N+I,J)/PA 
-  230 CONTINUE 
-  240 CONTINUE 
- 
-C...Middle axis orthogonal to other two. Fill other codes. 
-      SGN=(-1.)**INT(RLU(0)+0.5) 
-      P(N+2,1)=SGN*(P(N+1,2)*P(N+3,3)-P(N+1,3)*P(N+3,2)) 
-      P(N+2,2)=SGN*(P(N+1,3)*P(N+3,1)-P(N+1,1)*P(N+3,3)) 
-      P(N+2,3)=SGN*(P(N+1,1)*P(N+3,2)-P(N+1,2)*P(N+3,1)) 
-      DO 260 I=1,3 
-      K(N+I,1)=31 
-      K(N+I,2)=95 
-      K(N+I,3)=I 
-      K(N+I,4)=0 
-      K(N+I,5)=0 
-      P(N+I,5)=0. 
-      DO 250 J=1,5 
-      V(I,J)=0. 
-  250 CONTINUE 
-  260 CONTINUE 
- 
-C...Calculate sphericity and aplanarity. Select storing option. 
-      SPH=1.5*(P(N+2,4)+P(N+3,4)) 
-      APL=1.5*P(N+3,4) 
-      MSTU(61)=N+1 
-      MSTU(62)=NP 
-      IF(MSTU(43).LE.1) MSTU(3)=3 
-      IF(MSTU(43).GE.2) N=N+3 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUTHRU
-      SUBROUTINE LUTHRU(THR,OBL) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to perform thrust analysis to give thrust, oblateness 
-C...and the related event axes. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
-      DIMENSION TDI(3),TPR(3) 
- 
-C...Take copy of particles that are to be considered in thrust analysis. 
-      NP=0 
-      PS=0. 
-      DO 100 I=1,N 
-      IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 100 
-      IF(MSTU(41).GE.2) THEN 
-        KC=LUCOMP(K(I,2)) 
-        IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &  KC.EQ.18) GOTO 100 
-        IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &  GOTO 100 
-      ENDIF 
-      IF(N+NP+MSTU(44)+15.GE.MSTU(4)-MSTU(32)-5) THEN 
-        CALL LUERRM(11,'(LUTHRU:) no more memory left in LUJETS') 
-        THR=-2. 
-        OBL=-2. 
-        RETURN 
-      ENDIF 
-      NP=NP+1 
-      K(N+NP,1)=23 
-      P(N+NP,1)=P(I,1) 
-      P(N+NP,2)=P(I,2) 
-      P(N+NP,3)=P(I,3) 
-      P(N+NP,4)=SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-      P(N+NP,5)=1. 
-      IF(ABS(PARU(42)-1.).GT.0.001) P(N+NP,5)=P(N+NP,4)**(PARU(42)-1.) 
-      PS=PS+P(N+NP,4)*P(N+NP,5) 
-  100 CONTINUE 
- 
-C...Very low multiplicities (0 or 1) not considered. 
-      IF(NP.LE.1) THEN 
-        CALL LUERRM(8,'(LUTHRU:) too few particles for analysis') 
-        THR=-1. 
-        OBL=-1. 
-        RETURN 
-      ENDIF 
- 
-C...Loop over thrust and major. T axis along z direction in latter case. 
-      DO 320 ILD=1,2 
-      IF(ILD.EQ.2) THEN 
-        K(N+NP+1,1)=31 
-        PHI=ULANGL(P(N+NP+1,1),P(N+NP+1,2)) 
-        MSTU(33)=1 
-        CALL LUDBRB(N+1,N+NP+1,0.D0,-PHI,0D0,0D0,0D0) 
-        THE=ULANGL(P(N+NP+1,3),P(N+NP+1,1)) 
-        CALL LUDBRB(N+1,N+NP+1,-THE,0.D0,0D0,0D0,0D0) 
-      ENDIF 
- 
-C...Find and order particles with highest p (pT for major). 
-      DO 110 ILF=N+NP+4,N+NP+MSTU(44)+4 
-      P(ILF,4)=0. 
-  110 CONTINUE 
-      DO 160 I=N+1,N+NP 
-      IF(ILD.EQ.2) P(I,4)=SQRT(P(I,1)**2+P(I,2)**2) 
-      DO 130 ILF=N+NP+MSTU(44)+3,N+NP+4,-1 
-      IF(P(I,4).LE.P(ILF,4)) GOTO 140 
-      DO 120 J=1,5 
-      P(ILF+1,J)=P(ILF,J) 
-  120 CONTINUE 
-  130 CONTINUE 
-      ILF=N+NP+3 
-  140 DO 150 J=1,5 
-      P(ILF+1,J)=P(I,J) 
-  150 CONTINUE 
-  160 CONTINUE 
- 
-C...Find and order initial axes with highest thrust (major). 
-      DO 170 ILG=N+NP+MSTU(44)+5,N+NP+MSTU(44)+15 
-      P(ILG,4)=0. 
-  170 CONTINUE 
-      NC=2**(MIN(MSTU(44),NP)-1) 
-      DO 250 ILC=1,NC 
-      DO 180 J=1,3 
-      TDI(J)=0. 
-  180 CONTINUE 
-      DO 200 ILF=1,MIN(MSTU(44),NP) 
-      SGN=P(N+NP+ILF+3,5) 
-      IF(2**ILF*((ILC+2**(ILF-1)-1)/2**ILF).GE.ILC) SGN=-SGN 
-      DO 190 J=1,4-ILD 
-      TDI(J)=TDI(J)+SGN*P(N+NP+ILF+3,J) 
-  190 CONTINUE 
-  200 CONTINUE 
-      TDS=TDI(1)**2+TDI(2)**2+TDI(3)**2 
-      DO 220 ILG=N+NP+MSTU(44)+MIN(ILC,10)+4,N+NP+MSTU(44)+5,-1 
-      IF(TDS.LE.P(ILG,4)) GOTO 230 
-      DO 210 J=1,4 
-      P(ILG+1,J)=P(ILG,J) 
-  210 CONTINUE 
-  220 CONTINUE 
-      ILG=N+NP+MSTU(44)+4 
-  230 DO 240 J=1,3 
-      P(ILG+1,J)=TDI(J) 
-  240 CONTINUE 
-      P(ILG+1,4)=TDS 
-  250 CONTINUE 
- 
-C...Iterate direction of axis until stable maximum. 
-      P(N+NP+ILD,4)=0. 
-      ILG=0 
-  260 ILG=ILG+1 
-      THP=0. 
-  270 THPS=THP 
-      DO 280 J=1,3 
-      IF(THP.LE.1D-10) TDI(J)=P(N+NP+MSTU(44)+4+ILG,J) 
-      IF(THP.GT.1D-10) TDI(J)=TPR(J) 
-      TPR(J)=0. 
-  280 CONTINUE 
-      DO 300 I=N+1,N+NP 
-      SGN=SIGN(P(I,5),TDI(1)*P(I,1)+TDI(2)*P(I,2)+TDI(3)*P(I,3)) 
-      DO 290 J=1,4-ILD 
-      TPR(J)=TPR(J)+SGN*P(I,J) 
-  290 CONTINUE 
-  300 CONTINUE 
-      THP=SQRT(TPR(1)**2+TPR(2)**2+TPR(3)**2)/PS 
-      IF(THP.GE.THPS+PARU(48)) GOTO 270 
- 
-C...Save good axis. Try new initial axis until a number of tries agree. 
-      IF(THP.LT.P(N+NP+ILD,4)-PARU(48).AND.ILG.LT.MIN(10,NC)) GOTO 260 
-      IF(THP.GT.P(N+NP+ILD,4)+PARU(48)) THEN 
-        IAGR=0 
-        SGN=(-1.)**INT(RLU(0)+0.5) 
-        DO 310 J=1,3 
-        P(N+NP+ILD,J)=SGN*TPR(J)/(PS*THP) 
-  310   CONTINUE 
-        P(N+NP+ILD,4)=THP 
-        P(N+NP+ILD,5)=0. 
-      ENDIF 
-      IAGR=IAGR+1 
-      IF(IAGR.LT.MSTU(45).AND.ILG.LT.MIN(10,NC)) GOTO 260 
-  320 CONTINUE 
- 
-C...Find minor axis and value by orthogonality. 
-      SGN=(-1.)**INT(RLU(0)+0.5) 
-      P(N+NP+3,1)=-SGN*P(N+NP+2,2) 
-      P(N+NP+3,2)=SGN*P(N+NP+2,1) 
-      P(N+NP+3,3)=0. 
-      THP=0. 
-      DO 330 I=N+1,N+NP 
-      THP=THP+P(I,5)*ABS(P(N+NP+3,1)*P(I,1)+P(N+NP+3,2)*P(I,2)) 
-  330 CONTINUE 
-      P(N+NP+3,4)=THP/PS 
-      P(N+NP+3,5)=0. 
- 
-C...Fill axis information. Rotate back to original coordinate system. 
-      DO 350 ILD=1,3 
-      K(N+ILD,1)=31 
-      K(N+ILD,2)=96 
-      K(N+ILD,3)=ILD 
-      K(N+ILD,4)=0 
-      K(N+ILD,5)=0 
-      DO 340 J=1,5 
-      P(N+ILD,J)=P(N+NP+ILD,J) 
-      V(N+ILD,J)=0. 
-  340 CONTINUE 
-  350 CONTINUE 
-      CALL LUDBRB(N+1,N+3,THE,PHI,0D0,0D0,0D0) 
- 
-C...Calculate thrust and oblateness. Select storing option. 
-      THR=P(N+1,4) 
-      OBL=P(N+2,4)-P(N+3,4) 
-      MSTU(61)=N+1 
-      MSTU(62)=NP 
-      IF(MSTU(43).LE.1) MSTU(3)=3 
-      IF(MSTU(43).GE.2) N=N+3 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUCLUS
-      SUBROUTINE LUCLUS(NJET) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to subdivide the particle content of an event into 
-C...jets/clusters. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
-      DIMENSION PS(5) 
-      SAVE NSAV,NP,PS,PSS,RINIT,NPRE,NREM 
- 
-C...Functions: distance measure in pT or (pseudo)mass. 
-      R2T(I1,I2)=(P(I1,5)*P(I2,5)-P(I1,1)*P(I2,1)-P(I1,2)*P(I2,2)- 
-     &P(I1,3)*P(I2,3))*2.*P(I1,5)*P(I2,5)/(0.0001+P(I1,5)+P(I2,5))**2 
-      R2M(I1,I2)=2.*P(I1,4)*P(I2,4)*(1.-(P(I1,1)*P(I2,1)+P(I1,2)* 
-     &P(I2,2)+P(I1,3)*P(I2,3))/(P(I1,5)*P(I2,5))) 
- 
-C...If first time, reset. If reentering, skip preliminaries. 
-      IF(MSTU(48).LE.0) THEN 
-        NP=0 
-        DO 100 J=1,5 
-        PS(J)=0. 
-  100   CONTINUE 
-        PSS=0. 
-      ELSE 
-        NJET=NSAV 
-        IF(MSTU(43).GE.2) N=N-NJET 
-        DO 110 I=N+1,N+NJET 
-        P(I,5)=SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-  110   CONTINUE 
-        IF(MSTU(46).LE.3) R2ACC=PARU(44)**2 
-        IF(MSTU(46).GE.4) R2ACC=PARU(45)*PS(5)**2 
-        NLOOP=0 
-        GOTO 300 
-      ENDIF 
- 
-C...Find which particles are to be considered in cluster search. 
-      DO 140 I=1,N 
-      IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 140 
-      IF(MSTU(41).GE.2) THEN 
-        KC=LUCOMP(K(I,2)) 
-        IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &  KC.EQ.18) GOTO 140 
-        IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &  GOTO 140 
-      ENDIF 
-      IF(N+2*NP.GE.MSTU(4)-MSTU(32)-5) THEN 
-        CALL LUERRM(11,'(LUCLUS:) no more memory left in LUJETS') 
-        NJET=-1 
-        RETURN 
-      ENDIF 
- 
-C...Take copy of these particles, with space left for jets later on. 
-      NP=NP+1 
-      K(N+NP,3)=I 
-      DO 120 J=1,5 
-      P(N+NP,J)=P(I,J) 
-  120 CONTINUE 
-      IF(MSTU(42).EQ.0) P(N+NP,5)=0. 
-      IF(MSTU(42).EQ.1.AND.K(I,2).NE.22) P(N+NP,5)=PMAS(101,1) 
-      P(N+NP,4)=SQRT(P(N+NP,5)**2+P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-      P(N+NP,5)=SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-      DO 130 J=1,4 
-      PS(J)=PS(J)+P(N+NP,J) 
-  130 CONTINUE 
-      PSS=PSS+P(N+NP,5) 
-  140 CONTINUE 
-      DO 160 I=N+1,N+NP 
-      K(I+NP,3)=K(I,3) 
-      DO 150 J=1,5 
-      P(I+NP,J)=P(I,J) 
-  150 CONTINUE 
-  160 CONTINUE 
-      PS(5)=SQRT(MAX(0.D0,PS(4)**2-PS(1)**2-PS(2)**2-PS(3)**2)) 
- 
-C...Very low multiplicities not considered. 
-      IF(NP.LT.MSTU(47)) THEN 
-        CALL LUERRM(8,'(LUCLUS:) too few particles for analysis') 
-        NJET=-1 
-        RETURN 
-      ENDIF 
- 
-C...Find precluster configuration. If too few jets, make harder cuts. 
-      NLOOP=0 
-      IF(MSTU(46).LE.3) R2ACC=PARU(44)**2 
-      IF(MSTU(46).GE.4) R2ACC=PARU(45)*PS(5)**2 
-      RINIT=1.25*PARU(43) 
-      IF(NP.LE.MSTU(47)+2) RINIT=0. 
-  170 RINIT=0.8*RINIT 
-      NPRE=0 
-      NREM=NP 
-      DO 180 I=N+NP+1,N+2*NP 
-      K(I,4)=0 
-  180 CONTINUE 
- 
-C...Sum up small momentum region. Jet if enough absolute momentum. 
-      IF(MSTU(46).LE.2) THEN 
-        DO 190 J=1,4 
-        P(N+1,J)=0. 
-  190   CONTINUE 
-        DO 210 I=N+NP+1,N+2*NP 
-        IF(P(I,5).GT.2.*RINIT) GOTO 210 
-        NREM=NREM-1 
-        K(I,4)=1 
-        DO 200 J=1,4 
-        P(N+1,J)=P(N+1,J)+P(I,J) 
-  200   CONTINUE 
-  210   CONTINUE 
-        P(N+1,5)=SQRT(P(N+1,1)**2+P(N+1,2)**2+P(N+1,3)**2) 
-        IF(P(N+1,5).GT.2.*RINIT) NPRE=1 
-        IF(RINIT.GE.0.2*PARU(43).AND.NPRE+NREM.LT.MSTU(47)) GOTO 170 
-        IF(NREM.EQ.0) GOTO 170 
-      ENDIF 
- 
-C...Find fastest remaining particle. 
-  220 NPRE=NPRE+1 
-      PMAX=0. 
-      DO 230 I=N+NP+1,N+2*NP 
-      IF(K(I,4).NE.0.OR.P(I,5).LE.PMAX) GOTO 230 
-      IMAX=I 
-      PMAX=P(I,5) 
-  230 CONTINUE 
-      DO 240 J=1,5 
-      P(N+NPRE,J)=P(IMAX,J) 
-  240 CONTINUE 
-      NREM=NREM-1 
-      K(IMAX,4)=NPRE 
- 
-C...Sum up precluster around it according to pT separation. 
-      IF(MSTU(46).LE.2) THEN 
-        DO 260 I=N+NP+1,N+2*NP 
-        IF(K(I,4).NE.0) GOTO 260 
-        R2=R2T(I,IMAX) 
-        IF(R2.GT.RINIT**2) GOTO 260 
-        NREM=NREM-1 
-        K(I,4)=NPRE 
-        DO 250 J=1,4 
-        P(N+NPRE,J)=P(N+NPRE,J)+P(I,J) 
-  250   CONTINUE 
-  260   CONTINUE 
-        P(N+NPRE,5)=SQRT(P(N+NPRE,1)**2+P(N+NPRE,2)**2+P(N+NPRE,3)**2) 
- 
-C...Sum up precluster around it according to mass separation. 
-      ELSE 
-  270   IMIN=0 
-        R2MIN=RINIT**2 
-        DO 280 I=N+NP+1,N+2*NP 
-        IF(K(I,4).NE.0) GOTO 280 
-        R2=R2M(I,N+NPRE) 
-        IF(R2.GE.R2MIN) GOTO 280 
-        IMIN=I 
-        R2MIN=R2 
-  280   CONTINUE 
-        IF(IMIN.NE.0) THEN 
-          DO 290 J=1,4 
-          P(N+NPRE,J)=P(N+NPRE,J)+P(IMIN,J) 
-  290     CONTINUE 
-          P(N+NPRE,5)=SQRT(P(N+NPRE,1)**2+P(N+NPRE,2)**2+P(N+NPRE,3)**2) 
-          NREM=NREM-1 
-          K(IMIN,4)=NPRE 
-          GOTO 270 
-        ENDIF 
-      ENDIF 
- 
-C...Check if more preclusters to be found. Start over if too few. 
-      IF(RINIT.GE.0.2*PARU(43).AND.NPRE+NREM.LT.MSTU(47)) GOTO 170 
-      IF(NREM.GT.0) GOTO 220 
-      NJET=NPRE 
- 
-C...Reassign all particles to nearest jet. Sum up new jet momenta. 
-  300 TSAV=0. 
-      PSJT=0. 
-  310 IF(MSTU(46).LE.1) THEN 
-        DO 330 I=N+1,N+NJET 
-        DO 320 J=1,4 
-        V(I,J)=0. 
-  320   CONTINUE 
-  330 CONTINUE 
-        DO 360 I=N+NP+1,N+2*NP 
-        R2MIN=PSS**2 
-        DO 340 IJET=N+1,N+NJET 
-        IF(P(IJET,5).LT.RINIT) GOTO 340 
-        R2=R2T(I,IJET) 
-        IF(R2.GE.R2MIN) GOTO 340 
-        IMIN=IJET 
-        R2MIN=R2 
-  340   CONTINUE 
-        K(I,4)=IMIN-N 
-        DO 350 J=1,4 
-        V(IMIN,J)=V(IMIN,J)+P(I,J) 
-  350   CONTINUE 
-  360   CONTINUE 
-        PSJT=0. 
-        DO 380 I=N+1,N+NJET 
-        DO 370 J=1,4 
-        P(I,J)=V(I,J) 
-  370   CONTINUE 
-        P(I,5)=SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-        PSJT=PSJT+P(I,5) 
-  380   CONTINUE 
-      ENDIF 
- 
-C...Find two closest jets. 
-      R2MIN=2.*MAX(R2ACC,PS(5)**2) 
-      DO 400 ITRY1=N+1,N+NJET-1 
-      DO 390 ITRY2=ITRY1+1,N+NJET 
-      IF(MSTU(46).LE.2) R2=R2T(ITRY1,ITRY2) 
-      IF(MSTU(46).GE.3) R2=R2M(ITRY1,ITRY2) 
-      IF(R2.GE.R2MIN) GOTO 390 
-      IMIN1=ITRY1 
-      IMIN2=ITRY2 
-      R2MIN=R2 
-  390 CONTINUE 
-  400 CONTINUE 
- 
-C...If allowed, join two closest jets and start over. 
-      IF(NJET.GT.MSTU(47).AND.R2MIN.LT.R2ACC) THEN 
-        IREC=MIN(IMIN1,IMIN2) 
-        IDEL=MAX(IMIN1,IMIN2) 
-        DO 410 J=1,4 
-        P(IREC,J)=P(IMIN1,J)+P(IMIN2,J) 
-  410   CONTINUE 
-        P(IREC,5)=SQRT(P(IREC,1)**2+P(IREC,2)**2+P(IREC,3)**2) 
-        DO 430 I=IDEL+1,N+NJET 
-        DO 420 J=1,5 
-        P(I-1,J)=P(I,J) 
-  420   CONTINUE 
-  430 CONTINUE 
-        IF(MSTU(46).GE.2) THEN 
-          DO 440 I=N+NP+1,N+2*NP 
-          IORI=N+K(I,4) 
-          IF(IORI.EQ.IDEL) K(I,4)=IREC-N 
-          IF(IORI.GT.IDEL) K(I,4)=K(I,4)-1 
-  440     CONTINUE 
-        ENDIF 
-        NJET=NJET-1 
-        GOTO 300 
- 
-C...Divide up broad jet if empty cluster in list of final ones. 
-      ELSEIF(NJET.EQ.MSTU(47).AND.MSTU(46).LE.1.AND.NLOOP.LE.2) THEN 
-        DO 450 I=N+1,N+NJET 
-        K(I,5)=0 
-  450   CONTINUE 
-        DO 460 I=N+NP+1,N+2*NP 
-        K(N+K(I,4),5)=K(N+K(I,4),5)+1 
-  460   CONTINUE 
-        IEMP=0 
-        DO 470 I=N+1,N+NJET 
-        IF(K(I,5).EQ.0) IEMP=I 
-  470   CONTINUE 
-        IF(IEMP.NE.0) THEN 
-          NLOOP=NLOOP+1 
-          ISPL=0 
-          R2MAX=0. 
-          DO 480 I=N+NP+1,N+2*NP 
-          IF(K(N+K(I,4),5).LE.1.OR.P(I,5).LT.RINIT) GOTO 480 
-          IJET=N+K(I,4) 
-          R2=R2T(I,IJET) 
-          IF(R2.LE.R2MAX) GOTO 480 
-          ISPL=I 
-          R2MAX=R2 
-  480     CONTINUE 
-          IF(ISPL.NE.0) THEN 
-            IJET=N+K(ISPL,4) 
-            DO 490 J=1,4 
-            P(IEMP,J)=P(ISPL,J) 
-            P(IJET,J)=P(IJET,J)-P(ISPL,J) 
-  490       CONTINUE 
-            P(IEMP,5)=P(ISPL,5) 
-            P(IJET,5)=SQRT(P(IJET,1)**2+P(IJET,2)**2+P(IJET,3)**2) 
-            IF(NLOOP.LE.2) GOTO 300 
-          ENDIF 
-        ENDIF 
-      ENDIF 
- 
-C...If generalized thrust has not yet converged, continue iteration. 
-      IF(MSTU(46).LE.1.AND.NLOOP.LE.2.AND.PSJT/PSS.GT.TSAV+PARU(48)) 
-     &THEN 
-        TSAV=PSJT/PSS 
-        GOTO 310 
-      ENDIF 
- 
-C...Reorder jets according to energy. 
-      DO 510 I=N+1,N+NJET 
-      DO 500 J=1,5 
-      V(I,J)=P(I,J) 
-  500 CONTINUE 
-  510 CONTINUE 
-      DO 540 INEW=N+1,N+NJET 
-      PEMAX=0. 
-      DO 520 ITRY=N+1,N+NJET 
-      IF(V(ITRY,4).LE.PEMAX) GOTO 520 
-      IMAX=ITRY 
-      PEMAX=V(ITRY,4) 
-  520 CONTINUE 
-      K(INEW,1)=31 
-      K(INEW,2)=97 
-      K(INEW,3)=INEW-N 
-      K(INEW,4)=0 
-      DO 530 J=1,5 
-      P(INEW,J)=V(IMAX,J) 
-  530 CONTINUE 
-      V(IMAX,4)=-1. 
-      K(IMAX,5)=INEW 
-  540 CONTINUE 
- 
-C...Clean up particle-jet assignments and jet information. 
-      DO 550 I=N+NP+1,N+2*NP 
-      IORI=K(N+K(I,4),5) 
-      K(I,4)=IORI-N 
-      IF(K(K(I,3),1).NE.3) K(K(I,3),4)=IORI-N 
-      K(IORI,4)=K(IORI,4)+1 
-  550 CONTINUE 
-      IEMP=0 
-      PSJT=0. 
-      DO 570 I=N+1,N+NJET 
-      K(I,5)=0 
-      PSJT=PSJT+P(I,5) 
-      P(I,5)=SQRT(MAX(P(I,4)**2-P(I,5)**2,0.D0)) 
-      DO 560 J=1,5 
-      V(I,J)=0. 
-  560 CONTINUE 
-      IF(K(I,4).EQ.0) IEMP=I 
-  570 CONTINUE 
- 
-C...Select storing option. Output variables. Check for failure. 
-      MSTU(61)=N+1 
-      MSTU(62)=NP 
-      MSTU(63)=NPRE 
-      PARU(61)=PS(5) 
-      PARU(62)=PSJT/PSS 
-      PARU(63)=SQRT(R2MIN) 
-      IF(NJET.LE.1) PARU(63)=0. 
-      IF(IEMP.NE.0) THEN 
-        CALL LUERRM(8,'(LUCLUS:) failed to reconstruct as requested') 
-        NJET=-1 
-      ENDIF 
-      IF(MSTU(43).LE.1) MSTU(3)=NJET 
-      IF(MSTU(43).GE.2) N=N+NJET 
-      NSAV=NJET 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUCELL
-      SUBROUTINE LUCELL(NJET) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to provide a simple way of jet finding in an eta-phi-ET 
-C...coordinate frame, as used for calorimeters at hadron colliders. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Loop over all particles. Find cell that was hit by given particle. 
-      PTLRAT=1./SINH(PARU(51))**2 
-      NP=0 
-      NC=N 
-      DO 110 I=1,N 
-      IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 110 
-      IF(P(I,1)**2+P(I,2)**2.LE.PTLRAT*P(I,3)**2) GOTO 110 
-      IF(MSTU(41).GE.2) THEN 
-        KC=LUCOMP(K(I,2)) 
-        IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &  KC.EQ.18) GOTO 110 
-        IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &  GOTO 110 
-      ENDIF 
-      NP=NP+1 
-      PT=SQRT(P(I,1)**2+P(I,2)**2) 
-      ETA=SIGN(LOG((SQRT(PT**2+P(I,3)**2)+ABS(P(I,3)))/PT),P(I,3)) 
-      IETA=MAX(1,MIN(MSTU(51),1+INT(MSTU(51)*0.5*(ETA/PARU(51)+1.)))) 
-      PHI=ULANGL(P(I,1),P(I,2)) 
-      IPHI=MAX(1,MIN(MSTU(52),1+INT(MSTU(52)*0.5*(PHI/PARU(1)+1.)))) 
-      IETPH=MSTU(52)*IETA+IPHI 
- 
-C...Add to cell already hit, or book new cell. 
-      DO 100 IC=N+1,NC 
-      IF(IETPH.EQ.K(IC,3)) THEN 
-        K(IC,4)=K(IC,4)+1 
-        P(IC,5)=P(IC,5)+PT 
-        GOTO 110 
-      ENDIF 
-  100 CONTINUE 
-      IF(NC.GE.MSTU(4)-MSTU(32)-5) THEN 
-        CALL LUERRM(11,'(LUCELL:) no more memory left in LUJETS') 
-        NJET=-2 
-        RETURN 
-      ENDIF 
-      NC=NC+1 
-      K(NC,3)=IETPH 
-      K(NC,4)=1 
-      K(NC,5)=2 
-      P(NC,1)=(PARU(51)/MSTU(51))*(2*IETA-1-MSTU(51)) 
-      P(NC,2)=(PARU(1)/MSTU(52))*(2*IPHI-1-MSTU(52)) 
-      P(NC,5)=PT 
-  110 CONTINUE 
- 
-C...Smear true bin content by calorimeter resolution. 
-      IF(MSTU(53).GE.1) THEN 
-        DO 130 IC=N+1,NC 
-        PEI=P(IC,5) 
-        IF(MSTU(53).EQ.2) PEI=P(IC,5)*COSH(P(IC,1)) 
-  120   PEF=PEI+PARU(55)*SQRT(-2.*LOG(MAX(1D-10,RLU(0)))*PEI)* 
-     &  COS(PARU(2)*RLU(0)) 
-        IF(PEF.LT.0..OR.PEF.GT.PARU(56)*PEI) GOTO 120 
-        P(IC,5)=PEF 
-        IF(MSTU(53).EQ.2) P(IC,5)=PEF/COSH(P(IC,1)) 
-  130   CONTINUE 
-      ENDIF 
- 
-C...Remove cells below threshold. 
-      IF(PARU(58).GT.0.) THEN 
-        NCC=NC 
-        NC=N 
-        DO 140 IC=N+1,NCC 
-        IF(P(IC,5).GT.PARU(58)) THEN 
-          NC=NC+1 
-          K(NC,3)=K(IC,3) 
-          K(NC,4)=K(IC,4) 
-          K(NC,5)=K(IC,5) 
-          P(NC,1)=P(IC,1) 
-          P(NC,2)=P(IC,2) 
-          P(NC,5)=P(IC,5) 
-        ENDIF 
-  140   CONTINUE 
-      ENDIF 
- 
-C...Find initiator cell: the one with highest pT of not yet used ones. 
-      NJ=NC 
-  150 ETMAX=0. 
-      DO 160 IC=N+1,NC 
-      IF(K(IC,5).NE.2) GOTO 160 
-      IF(P(IC,5).LE.ETMAX) GOTO 160 
-      ICMAX=IC 
-      ETA=P(IC,1) 
-      PHI=P(IC,2) 
-      ETMAX=P(IC,5) 
-  160 CONTINUE 
-      IF(ETMAX.LT.PARU(52)) GOTO 220 
-      IF(NJ.GE.MSTU(4)-MSTU(32)-5) THEN 
-        CALL LUERRM(11,'(LUCELL:) no more memory left in LUJETS') 
-        NJET=-2 
-        RETURN 
-      ENDIF 
-      K(ICMAX,5)=1 
-      NJ=NJ+1 
-      K(NJ,4)=0 
-      K(NJ,5)=1 
-      P(NJ,1)=ETA 
-      P(NJ,2)=PHI 
-      P(NJ,3)=0. 
-      P(NJ,4)=0. 
-      P(NJ,5)=0. 
- 
-C...Sum up unused cells within required distance of initiator. 
-      DO 170 IC=N+1,NC 
-      IF(K(IC,5).EQ.0) GOTO 170 
-      IF(ABS(P(IC,1)-ETA).GT.PARU(54)) GOTO 170 
-      DPHIA=ABS(P(IC,2)-PHI) 
-      IF(DPHIA.GT.PARU(54).AND.DPHIA.LT.PARU(2)-PARU(54)) GOTO 170 
-      PHIC=P(IC,2) 
-      IF(DPHIA.GT.PARU(1)) PHIC=PHIC+SIGN(PARU(2),PHI) 
-      IF((P(IC,1)-ETA)**2+(PHIC-PHI)**2.GT.PARU(54)**2) GOTO 170 
-      K(IC,5)=-K(IC,5) 
-      K(NJ,4)=K(NJ,4)+K(IC,4) 
-      P(NJ,3)=P(NJ,3)+P(IC,5)*P(IC,1) 
-      P(NJ,4)=P(NJ,4)+P(IC,5)*PHIC 
-      P(NJ,5)=P(NJ,5)+P(IC,5) 
-  170 CONTINUE 
- 
-C...Reject cluster below minimum ET, else accept. 
-      IF(P(NJ,5).LT.PARU(53)) THEN 
-        NJ=NJ-1 
-        DO 180 IC=N+1,NC 
-        IF(K(IC,5).LT.0) K(IC,5)=-K(IC,5) 
-  180   CONTINUE 
-      ELSEIF(MSTU(54).LE.2) THEN 
-        P(NJ,3)=P(NJ,3)/P(NJ,5) 
-        P(NJ,4)=P(NJ,4)/P(NJ,5) 
-        IF(ABS(P(NJ,4)).GT.PARU(1)) P(NJ,4)=P(NJ,4)-SIGN(PARU(2), 
-     &  P(NJ,4)) 
-        DO 190 IC=N+1,NC 
-        IF(K(IC,5).LT.0) K(IC,5)=0 
-  190   CONTINUE 
-      ELSE 
-        DO 200 J=1,4 
-        P(NJ,J)=0. 
-  200   CONTINUE 
-        DO 210 IC=N+1,NC 
-        IF(K(IC,5).GE.0) GOTO 210 
-        P(NJ,1)=P(NJ,1)+P(IC,5)*COS(P(IC,2)) 
-        P(NJ,2)=P(NJ,2)+P(IC,5)*SIN(P(IC,2)) 
-        P(NJ,3)=P(NJ,3)+P(IC,5)*SINH(P(IC,1)) 
-        P(NJ,4)=P(NJ,4)+P(IC,5)*COSH(P(IC,1)) 
-        K(IC,5)=0 
-  210   CONTINUE 
-      ENDIF 
-      GOTO 150 
- 
-C...Arrange clusters in falling ET sequence. 
-  220 DO 250 I=1,NJ-NC 
-      ETMAX=0. 
-      DO 230 IJ=NC+1,NJ 
-      IF(K(IJ,5).EQ.0) GOTO 230 
-      IF(P(IJ,5).LT.ETMAX) GOTO 230 
-      IJMAX=IJ 
-      ETMAX=P(IJ,5) 
-  230 CONTINUE 
-      K(IJMAX,5)=0 
-      K(N+I,1)=31 
-      K(N+I,2)=98 
-      K(N+I,3)=I 
-      K(N+I,4)=K(IJMAX,4) 
-      K(N+I,5)=0 
-      DO 240 J=1,5 
-      P(N+I,J)=P(IJMAX,J) 
-      V(N+I,J)=0. 
-  240 CONTINUE 
-  250 CONTINUE 
-      NJET=NJ-NC 
- 
-C...Convert to massless or massive four-vectors. 
-      IF(MSTU(54).EQ.2) THEN 
-        DO 260 I=N+1,N+NJET 
-        ETA=P(I,3) 
-        P(I,1)=P(I,5)*COS(P(I,4)) 
-        P(I,2)=P(I,5)*SIN(P(I,4)) 
-        P(I,3)=P(I,5)*SINH(ETA) 
-        P(I,4)=P(I,5)*COSH(ETA) 
-        P(I,5)=0. 
-  260   CONTINUE 
-      ELSEIF(MSTU(54).GE.3) THEN 
-        DO 270 I=N+1,N+NJET 
-        P(I,5)=SQRT(MAX(0.D0,P(I,4)**2-P(I,1)**2-P(I,2)**2-P(I,3)**2)) 
-  270   CONTINUE 
-      ENDIF 
- 
-C...Information about storage. 
-      MSTU(61)=N+1 
-      MSTU(62)=NP 
-      MSTU(63)=NC-N 
-      IF(MSTU(43).LE.1) MSTU(3)=NJET 
-      IF(MSTU(43).GE.2) N=N+NJET 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUJMAS
-      SUBROUTINE LUJMAS(PMH,PML) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to determine, approximately, the two jet masses that 
-C...minimize the sum m_H^2 + m_L^2, a la Clavelli and Wyler. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
-      DIMENSION SM(3,3),SAX(3),PS(3,5) 
- 
-C...Reset. 
-      NP=0 
-      DO 120 J1=1,3 
-      DO 100 J2=J1,3 
-      SM(J1,J2)=0. 
-  100 CONTINUE 
-      DO 110 J2=1,4 
-      PS(J1,J2)=0. 
-  110 CONTINUE 
-  120 CONTINUE 
-      PSS=0. 
- 
-C...Take copy of particles that are to be considered in mass analysis. 
-      DO 170 I=1,N 
-      IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 170 
-      IF(MSTU(41).GE.2) THEN 
-        KC=LUCOMP(K(I,2)) 
-        IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &  KC.EQ.18) GOTO 170 
-        IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &  GOTO 170 
-      ENDIF 
-      IF(N+NP+1.GE.MSTU(4)-MSTU(32)-5) THEN 
-        CALL LUERRM(11,'(LUJMAS:) no more memory left in LUJETS') 
-        PMH=-2. 
-        PML=-2. 
-        RETURN 
-      ENDIF 
-      NP=NP+1 
-      DO 130 J=1,5 
-      P(N+NP,J)=P(I,J) 
-  130 CONTINUE 
-      IF(MSTU(42).EQ.0) P(N+NP,5)=0. 
-      IF(MSTU(42).EQ.1.AND.K(I,2).NE.22) P(N+NP,5)=PMAS(101,1) 
-      P(N+NP,4)=SQRT(P(N+NP,5)**2+P(I,1)**2+P(I,2)**2+P(I,3)**2) 
- 
-C...Fill information in sphericity tensor and total momentum vector. 
-      DO 150 J1=1,3 
-      DO 140 J2=J1,3 
-      SM(J1,J2)=SM(J1,J2)+P(I,J1)*P(I,J2) 
-  140 CONTINUE 
-  150 CONTINUE 
-      PSS=PSS+(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-      DO 160 J=1,4 
-      PS(3,J)=PS(3,J)+P(N+NP,J) 
-  160 CONTINUE 
-  170 CONTINUE 
- 
-C...Very low multiplicities (0 or 1) not considered. 
-      IF(NP.LE.1) THEN 
-        CALL LUERRM(8,'(LUJMAS:) too few particles for analysis') 
-        PMH=-1. 
-        PML=-1. 
-        RETURN 
-      ENDIF 
-      PARU(61)=
-     &SQRT(MAX(0.D0,PS(3,4)**2-PS(3,1)**2-PS(3,2)**2-PS(3,3)**2)) 
- 
-C...Find largest eigenvalue to matrix (third degree equation). 
-      DO 190 J1=1,3 
-      DO 180 J2=J1,3 
-      SM(J1,J2)=SM(J1,J2)/PSS 
-  180 CONTINUE 
-  190 CONTINUE 
-      SQ=(SM(1,1)*SM(2,2)+SM(1,1)*SM(3,3)+SM(2,2)*SM(3,3)-SM(1,2)**2- 
-     &SM(1,3)**2-SM(2,3)**2)/3.-1./9. 
-      SR=-0.5*(SQ+1./9.+SM(1,1)*SM(2,3)**2+SM(2,2)*SM(1,3)**2+SM(3,3)* 
-     &SM(1,2)**2-SM(1,1)*SM(2,2)*SM(3,3))+SM(1,2)*SM(1,3)*SM(2,3)+1./27. 
-      SP=COS(ACOS(MAX(MIN(SR/SQRT(-SQ**3),1.D0),-1.D0))/3.) 
-      SMA=1./3.+SQRT(-SQ)*MAX(2.*SP,SQRT(3.*(1.-SP**2))-SP) 
- 
-C...Find largest eigenvector by solving equation system. 
-      DO 210 J1=1,3 
-      SM(J1,J1)=SM(J1,J1)-SMA 
-      DO 200 J2=J1+1,3 
-      SM(J2,J1)=SM(J1,J2) 
-  200 CONTINUE 
-  210 CONTINUE 
-      SMAX=0. 
-      DO 230 J1=1,3 
-      DO 220 J2=1,3 
-      IF(ABS(SM(J1,J2)).LE.SMAX) GOTO 220 
-      JA=J1 
-      JB=J2 
-      SMAX=ABS(SM(J1,J2)) 
-  220 CONTINUE 
-  230 CONTINUE 
-      SMAX=0. 
-      DO 250 J3=JA+1,JA+2 
-      J1=J3-3*((J3-1)/3) 
-      RL=SM(J1,JB)/SM(JA,JB) 
-      DO 240 J2=1,3 
-      SM(J1,J2)=SM(J1,J2)-RL*SM(JA,J2) 
-      IF(ABS(SM(J1,J2)).LE.SMAX) GOTO 240 
-      JC=J1 
-      SMAX=ABS(SM(J1,J2)) 
-  240 CONTINUE 
-  250 CONTINUE 
-      JB1=JB+1-3*(JB/3) 
-      JB2=JB+2-3*((JB+1)/3) 
-      SAX(JB1)=-SM(JC,JB2) 
-      SAX(JB2)=SM(JC,JB1) 
-      SAX(JB)=-(SM(JA,JB1)*SAX(JB1)+SM(JA,JB2)*SAX(JB2))/SM(JA,JB) 
- 
-C...Divide particles into two initial clusters by hemisphere. 
-      DO 270 I=N+1,N+NP 
-      PSAX=P(I,1)*SAX(1)+P(I,2)*SAX(2)+P(I,3)*SAX(3) 
-      IS=1 
-      IF(PSAX.LT.0.) IS=2 
-      K(I,3)=IS 
-      DO 260 J=1,4 
-      PS(IS,J)=PS(IS,J)+P(I,J) 
-  260 CONTINUE 
-  270 CONTINUE 
-      PMS=MAX(1D-10,PS(1,4)**2-PS(1,1)**2-PS(1,2)**2-PS(1,3)**2)+ 
-     &MAX(1D-10,PS(2,4)**2-PS(2,1)**2-PS(2,2)**2-PS(2,3)**2) 
- 
-C...Reassign one particle at a time; find maximum decrease of m^2 sum. 
-  280 PMD=0. 
-      IM=0 
-      DO 290 J=1,4 
-      PS(3,J)=PS(1,J)-PS(2,J) 
-  290 CONTINUE 
-      DO 300 I=N+1,N+NP 
-      PPS=P(I,4)*PS(3,4)-P(I,1)*PS(3,1)-P(I,2)*PS(3,2)-P(I,3)*PS(3,3) 
-      IF(K(I,3).EQ.1) PMDI=2.*(P(I,5)**2-PPS) 
-      IF(K(I,3).EQ.2) PMDI=2.*(P(I,5)**2+PPS) 
-      IF(PMDI.LT.PMD) THEN 
-        PMD=PMDI 
-        IM=I 
-      ENDIF 
-  300 CONTINUE 
- 
-C...Loop back if significant reduction in sum of m^2. 
-      IF(PMD.LT.-PARU(48)*PMS) THEN 
-        PMS=PMS+PMD 
-        IS=K(IM,3) 
-        DO 310 J=1,4 
-        PS(IS,J)=PS(IS,J)-P(IM,J) 
-        PS(3-IS,J)=PS(3-IS,J)+P(IM,J) 
-  310   CONTINUE 
-        K(IM,3)=3-IS 
-        GOTO 280 
-      ENDIF 
- 
-C...Final masses and output. 
-      MSTU(61)=N+1 
-      MSTU(62)=NP 
-      PS(1,5)=
-     &SQRT(MAX(0.D0,PS(1,4)**2-PS(1,1)**2-PS(1,2)**2-PS(1,3)**2)) 
-      PS(2,5)=
-     &SQRT(MAX(0.D0,PS(2,4)**2-PS(2,1)**2-PS(2,2)**2-PS(2,3)**2)) 
-      PMH=MAX(PS(1,5),PS(2,5)) 
-      PML=MIN(PS(1,5),PS(2,5)) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUFOWO
-      SUBROUTINE LUFOWO(H10,H20,H30,H40) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to calculate the first few Fox-Wolfram moments. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Copy momenta for particles and calculate H0. 
-      NP=0 
-      H0=0. 
-      HD=0. 
-      DO 110 I=1,N 
-      IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 110 
-      IF(MSTU(41).GE.2) THEN 
-        KC=LUCOMP(K(I,2)) 
-        IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &  KC.EQ.18) GOTO 110 
-        IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &  GOTO 110 
-      ENDIF 
-      IF(N+NP.GE.MSTU(4)-MSTU(32)-5) THEN 
-        CALL LUERRM(11,'(LUFOWO:) no more memory left in LUJETS') 
-        H10=-1. 
-        H20=-1. 
-        H30=-1. 
-        H40=-1. 
-        RETURN 
-      ENDIF 
-      NP=NP+1 
-      DO 100 J=1,3 
-      P(N+NP,J)=P(I,J) 
-  100 CONTINUE 
-      P(N+NP,4)=SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-      H0=H0+P(N+NP,4) 
-      HD=HD+P(N+NP,4)**2 
-  110 CONTINUE 
-      H0=H0**2 
- 
-C...Very low multiplicities (0 or 1) not considered. 
-      IF(NP.LE.1) THEN 
-        CALL LUERRM(8,'(LUFOWO:) too few particles for analysis') 
-        H10=-1. 
-        H20=-1. 
-        H30=-1. 
-        H40=-1. 
-        RETURN 
-      ENDIF 
- 
-C...Calculate H1 - H4. 
-      H10=0. 
-      H20=0. 
-      H30=0. 
-      H40=0. 
-      DO 130 I1=N+1,N+NP 
-      DO 120 I2=I1+1,N+NP 
-      CTHE=(P(I1,1)*P(I2,1)+P(I1,2)*P(I2,2)+P(I1,3)*P(I2,3))/ 
-     &(P(I1,4)*P(I2,4)) 
-      H10=H10+P(I1,4)*P(I2,4)*CTHE 
-      H20=H20+P(I1,4)*P(I2,4)*(1.5*CTHE**2-0.5) 
-      H30=H30+P(I1,4)*P(I2,4)*(2.5*CTHE**3-1.5*CTHE) 
-      H40=H40+P(I1,4)*P(I2,4)*(4.375*CTHE**4-3.75*CTHE**2+0.375) 
-  120 CONTINUE 
-  130 CONTINUE 
- 
-C...Calculate H1/H0 - H4/H0. Output. 
-      MSTU(61)=N+1 
-      MSTU(62)=NP 
-      H10=(HD+2.*H10)/H0 
-      H20=(HD+2.*H20)/H0 
-      H30=(HD+2.*H30)/H0 
-      H40=(HD+2.*H40)/H0 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUTABU
-      SUBROUTINE LUTABU(MTABU) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to evaluate various properties of an event, with 
-C...statistics accumulated during the course of the run and 
-C...printed at the end. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      COMMON/LUDAT3/MDCY(500,3),MDME(2000,2),BRAT(2000),KFDP(2000,5) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/,/LUDAT3/ 
-      DIMENSION KFIS(100,2),NPIS(100,0:10),KFFS(400),NPFS(400,4), 
-     &FEVFM(10,4),FM1FM(3,10,4),FM2FM(3,10,4),FMOMA(4),FMOMS(4), 
-     &FEVEE(50),FE1EC(50),FE2EC(50),FE1EA(25),FE2EA(25), 
-     &KFDM(8),KFDC(200,0:8),NPDC(200) 
-      SAVE NEVIS,NKFIS,KFIS,NPIS,NEVFS,NPRFS,NFIFS,NCHFS,NKFFS, 
-     &KFFS,NPFS,NEVFM,NMUFM,FM1FM,FM2FM,NEVEE,FE1EC,FE2EC,FE1EA, 
-     &FE2EA,NEVDC,NKFDC,NREDC,KFDC,NPDC 
-      CHARACTER CHAU*16,CHIS(2)*12,CHDC(8)*12 
-      DATA NEVIS/0/,NKFIS/0/,NEVFS/0/,NPRFS/0/,NFIFS/0/,NCHFS/0/, 
-     &NKFFS/0/,NEVFM/0/,NMUFM/0/,FM1FM/120*0./,FM2FM/120*0./, 
-     &NEVEE/0/,FE1EC/50*0./,FE2EC/50*0./,FE1EA/25*0./,FE2EA/25*0./, 
-     &NEVDC/0/,NKFDC/0/,NREDC/0/ 
- 
-C...Reset statistics on initial parton state. 
-      IF(MTABU.EQ.10) THEN 
-        NEVIS=0 
-        NKFIS=0 
- 
-C...Identify and order flavour content of initial state. 
-      ELSEIF(MTABU.EQ.11) THEN 
-        NEVIS=NEVIS+1 
-        KFM1=2*IABS(MSTU(161)) 
-        IF(MSTU(161).GT.0) KFM1=KFM1-1 
-        KFM2=2*IABS(MSTU(162)) 
-        IF(MSTU(162).GT.0) KFM2=KFM2-1 
-        KFMN=MIN(KFM1,KFM2) 
-        KFMX=MAX(KFM1,KFM2) 
-        DO 100 I=1,NKFIS 
-        IF(KFMN.EQ.KFIS(I,1).AND.KFMX.EQ.KFIS(I,2)) THEN 
-          IKFIS=-I 
-          GOTO 110 
-        ELSEIF(KFMN.LT.KFIS(I,1).OR.(KFMN.EQ.KFIS(I,1).AND. 
-     &  KFMX.LT.KFIS(I,2))) THEN 
-          IKFIS=I 
-          GOTO 110 
-        ENDIF 
-  100   CONTINUE 
-        IKFIS=NKFIS+1 
-  110   IF(IKFIS.LT.0) THEN 
-          IKFIS=-IKFIS 
-        ELSE 
-          IF(NKFIS.GE.100) RETURN 
-          DO 130 I=NKFIS,IKFIS,-1 
-          KFIS(I+1,1)=KFIS(I,1) 
-          KFIS(I+1,2)=KFIS(I,2) 
-          DO 120 J=0,10 
-          NPIS(I+1,J)=NPIS(I,J) 
-  120     CONTINUE 
-  130   CONTINUE 
-          NKFIS=NKFIS+1 
-          KFIS(IKFIS,1)=KFMN 
-          KFIS(IKFIS,2)=KFMX 
-          DO 140 J=0,10 
-          NPIS(IKFIS,J)=0 
-  140     CONTINUE 
-        ENDIF 
-        NPIS(IKFIS,0)=NPIS(IKFIS,0)+1 
- 
-C...Count number of partons in initial state. 
-        NP=0 
-        DO 160 I=1,N 
-        IF(K(I,1).LE.0.OR.K(I,1).GT.12) THEN 
-        ELSEIF(IABS(K(I,2)).GT.80.AND.IABS(K(I,2)).LE.100) THEN 
-        ELSEIF(IABS(K(I,2)).GT.100.AND.MOD(IABS(K(I,2))/10,10).NE.0) 
-     &  THEN 
-        ELSE 
-          IM=I 
-  150     IM=K(IM,3) 
-          IF(IM.LE.0.OR.IM.GT.N) THEN 
-            NP=NP+1 
-          ELSEIF(K(IM,1).LE.0.OR.K(IM,1).GT.20) THEN 
-            NP=NP+1 
-          ELSEIF(IABS(K(IM,2)).GT.80.AND.IABS(K(IM,2)).LE.100) THEN 
-          ELSEIF(IABS(K(IM,2)).GT.100.AND.MOD(IABS(K(IM,2))/10,10).NE.0) 
-     &    THEN 
-          ELSE 
-            GOTO 150 
-          ENDIF 
-        ENDIF 
-  160   CONTINUE 
-        NPCO=MAX(NP,1) 
-        IF(NP.GE.6) NPCO=6 
-        IF(NP.GE.8) NPCO=7 
-        IF(NP.GE.11) NPCO=8 
-        IF(NP.GE.16) NPCO=9 
-        IF(NP.GE.26) NPCO=10 
-        NPIS(IKFIS,NPCO)=NPIS(IKFIS,NPCO)+1 
-        MSTU(62)=NP 
- 
-C...Write statistics on initial parton state. 
-      ELSEIF(MTABU.EQ.12) THEN 
-        FAC=1./MAX(1,NEVIS) 
-        WRITE(MSTU(11),5000) NEVIS 
-        DO 170 I=1,NKFIS 
-        KFMN=KFIS(I,1) 
-        IF(KFMN.EQ.0) KFMN=KFIS(I,2) 
-        KFM1=(KFMN+1)/2 
-        IF(2*KFM1.EQ.KFMN) KFM1=-KFM1 
-        CALL LUNAME(KFM1,CHAU) 
-        CHIS(1)=CHAU(1:12) 
-        IF(CHAU(13:13).NE.' ') CHIS(1)(12:12)='?' 
-        KFMX=KFIS(I,2) 
-        IF(KFIS(I,1).EQ.0) KFMX=0 
-        KFM2=(KFMX+1)/2 
-        IF(2*KFM2.EQ.KFMX) KFM2=-KFM2 
-        CALL LUNAME(KFM2,CHAU) 
-        CHIS(2)=CHAU(1:12) 
-        IF(CHAU(13:13).NE.' ') CHIS(2)(12:12)='?' 
-        WRITE(MSTU(11),5100) CHIS(1),CHIS(2),FAC*NPIS(I,0), 
-     &  (NPIS(I,J)/ DBLE(NPIS(I,0)),J=1,10) 
-  170   CONTINUE 
- 
-C...Copy statistics on initial parton state into /LUJETS/. 
-      ELSEIF(MTABU.EQ.13) THEN 
-        FAC=1./MAX(1,NEVIS) 
-        DO 190 I=1,NKFIS 
-        KFMN=KFIS(I,1) 
-        IF(KFMN.EQ.0) KFMN=KFIS(I,2) 
-        KFM1=(KFMN+1)/2 
-        IF(2*KFM1.EQ.KFMN) KFM1=-KFM1 
-        KFMX=KFIS(I,2) 
-        IF(KFIS(I,1).EQ.0) KFMX=0 
-        KFM2=(KFMX+1)/2 
-        IF(2*KFM2.EQ.KFMX) KFM2=-KFM2 
-        K(I,1)=32 
-        K(I,2)=99 
-        K(I,3)=KFM1 
-        K(I,4)=KFM2 
-        K(I,5)=NPIS(I,0) 
-        DO 180 J=1,5 
-        P(I,J)=FAC*NPIS(I,J) 
-        V(I,J)=FAC*NPIS(I,J+5) 
-  180   CONTINUE 
-  190   CONTINUE 
-        N=NKFIS 
-        DO 200 J=1,5 
-        K(N+1,J)=0 
-        P(N+1,J)=0. 
-        V(N+1,J)=0. 
-  200   CONTINUE 
-        K(N+1,1)=32 
-        K(N+1,2)=99 
-        K(N+1,5)=NEVIS 
-        MSTU(3)=1 
- 
-C...Reset statistics on number of particles/partons. 
-      ELSEIF(MTABU.EQ.20) THEN 
-        NEVFS=0 
-        NPRFS=0 
-        NFIFS=0 
-        NCHFS=0 
-        NKFFS=0 
- 
-C...Identify whether particle/parton is primary or not. 
-      ELSEIF(MTABU.EQ.21) THEN 
-        NEVFS=NEVFS+1 
-        MSTU(62)=0 
-        DO 260 I=1,N 
-        IF(K(I,1).LE.0.OR.K(I,1).GT.20.OR.K(I,1).EQ.13) GOTO 260 
-        MSTU(62)=MSTU(62)+1 
-        KC=LUCOMP(K(I,2)) 
-        MPRI=0 
-        IF(K(I,3).LE.0.OR.K(I,3).GT.N) THEN 
-          MPRI=1 
-        ELSEIF(K(K(I,3),1).LE.0.OR.K(K(I,3),1).GT.20) THEN 
-          MPRI=1 
-        ELSEIF(K(K(I,3),2).GE.91.AND.K(K(I,3),2).LE.93) THEN 
-          MPRI=1 
-        ELSEIF(KC.EQ.0) THEN 
-        ELSEIF(K(K(I,3),1).EQ.13) THEN 
-          IM=K(K(I,3),3) 
-          IF(IM.LE.0.OR.IM.GT.N) THEN 
-            MPRI=1 
-          ELSEIF(K(IM,1).LE.0.OR.K(IM,1).GT.20) THEN 
-            MPRI=1 
-          ENDIF 
-        ELSEIF(KCHG(KC,2).EQ.0) THEN 
-          KCM=LUCOMP(K(K(I,3),2)) 
-          IF(KCM.NE.0) THEN 
-            IF(KCHG(KCM,2).NE.0) MPRI=1 
-          ENDIF 
-        ENDIF 
-        IF(KC.NE.0.AND.MPRI.EQ.1) THEN 
-          IF(KCHG(KC,2).EQ.0) NPRFS=NPRFS+1 
-        ENDIF 
-        IF(K(I,1).LE.10) THEN 
-          NFIFS=NFIFS+1 
-          IF(LUCHGE(K(I,2)).NE.0) NCHFS=NCHFS+1 
-        ENDIF 
- 
-C...Fill statistics on number of particles/partons in event. 
-        KFA=IABS(K(I,2)) 
-        KFS=3-ISIGN(1,K(I,2))-MPRI 
-        DO 210 IP=1,NKFFS 
-        IF(KFA.EQ.KFFS(IP)) THEN 
-          IKFFS=-IP 
-          GOTO 220 
-        ELSEIF(KFA.LT.KFFS(IP)) THEN 
-          IKFFS=IP 
-          GOTO 220 
-        ENDIF 
-  210   CONTINUE 
-        IKFFS=NKFFS+1 
-  220   IF(IKFFS.LT.0) THEN 
-          IKFFS=-IKFFS 
-        ELSE 
-          IF(NKFFS.GE.400) RETURN 
-          DO 240 IP=NKFFS,IKFFS,-1 
-          KFFS(IP+1)=KFFS(IP) 
-          DO 230 J=1,4 
-          NPFS(IP+1,J)=NPFS(IP,J) 
-  230     CONTINUE 
-  240   CONTINUE 
-          NKFFS=NKFFS+1 
-          KFFS(IKFFS)=KFA 
-          DO 250 J=1,4 
-          NPFS(IKFFS,J)=0 
-  250     CONTINUE 
-        ENDIF 
-        NPFS(IKFFS,KFS)=NPFS(IKFFS,KFS)+1 
-  260   CONTINUE 
- 
-C...Write statistics on particle/parton composition of events. 
-      ELSEIF(MTABU.EQ.22) THEN 
-        FAC=1./MAX(1,NEVFS) 
-        WRITE(MSTU(11),5200) NEVFS,FAC*NPRFS,FAC*NFIFS,FAC*NCHFS 
-        DO 270 I=1,NKFFS 
-        CALL LUNAME(KFFS(I),CHAU) 
-        KC=LUCOMP(KFFS(I)) 
-        MDCYF=0 
-        IF(KC.NE.0) MDCYF=MDCY(KC,1) 
-        WRITE(MSTU(11),5300) KFFS(I),CHAU,MDCYF,(FAC*NPFS(I,J),J=1,4), 
-     &  FAC*(NPFS(I,1)+NPFS(I,2)+NPFS(I,3)+NPFS(I,4)) 
-  270   CONTINUE 
- 
-C...Copy particle/parton composition information into /LUJETS/. 
-      ELSEIF(MTABU.EQ.23) THEN 
-        FAC=1./MAX(1,NEVFS) 
-        DO 290 I=1,NKFFS 
-        K(I,1)=32 
-        K(I,2)=99 
-        K(I,3)=KFFS(I) 
-        K(I,4)=0 
-        K(I,5)=NPFS(I,1)+NPFS(I,2)+NPFS(I,3)+NPFS(I,4) 
-        DO 280 J=1,4 
-        P(I,J)=FAC*NPFS(I,J) 
-        V(I,J)=0. 
-  280   CONTINUE 
-        P(I,5)=FAC*K(I,5) 
-        V(I,5)=0. 
-  290   CONTINUE 
-        N=NKFFS 
-        DO 300 J=1,5 
-        K(N+1,J)=0 
-        P(N+1,J)=0. 
-        V(N+1,J)=0. 
-  300   CONTINUE 
-        K(N+1,1)=32 
-        K(N+1,2)=99 
-        K(N+1,5)=NEVFS 
-        P(N+1,1)=FAC*NPRFS 
-        P(N+1,2)=FAC*NFIFS 
-        P(N+1,3)=FAC*NCHFS 
-        MSTU(3)=1 
- 
-C...Reset factorial moments statistics. 
-      ELSEIF(MTABU.EQ.30) THEN 
-        NEVFM=0 
-        NMUFM=0 
-        DO 330 IM=1,3 
-        DO 320 IB=1,10 
-        DO 310 IP=1,4 
-        FM1FM(IM,IB,IP)=0. 
-        FM2FM(IM,IB,IP)=0. 
-  310   CONTINUE 
-  320   CONTINUE 
-  330   CONTINUE 
- 
-C...Find particles to include, with (pion,pseudo)rapidity and azimuth. 
-      ELSEIF(MTABU.EQ.31) THEN 
-        NEVFM=NEVFM+1 
-        NLOW=N+MSTU(3) 
-        NUPP=NLOW 
-        DO 410 I=1,N 
-        IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 410 
-        IF(MSTU(41).GE.2) THEN 
-          KC=LUCOMP(K(I,2)) 
-          IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &    KC.EQ.18) GOTO 410 
-          IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &    GOTO 410 
-        ENDIF 
-        PMR=0. 
-        IF(MSTU(42).EQ.1.AND.K(I,2).NE.22) PMR=ULMASS(211) 
-        IF(MSTU(42).GE.2) PMR=P(I,5) 
-        PR=MAX(1D-20,PMR**2+P(I,1)**2+P(I,2)**2) 
-        YETA=SIGN(LOG(MIN((SQRT(PR+P(I,3)**2)+ABS(P(I,3)))/SQRT(PR), 
-     &  1D20)),P(I,3)) 
-        IF(ABS(YETA).GT.PARU(57)) GOTO 410 
-        PHI=ULANGL(P(I,1),P(I,2)) 
-        IYETA=512.*(YETA+PARU(57))/(2.*PARU(57)) 
-        IYETA=MAX(0,MIN(511,IYETA)) 
-        IPHI=512.*(PHI+PARU(1))/PARU(2) 
-        IPHI=MAX(0,MIN(511,IPHI)) 
-        IYEP=0 
-        DO 340 IB=0,9 
-        IYEP=IYEP+4**IB*(2*MOD(IYETA/2**IB,2)+MOD(IPHI/2**IB,2)) 
-  340   CONTINUE 
- 
-C...Order particles in (pseudo)rapidity and/or azimuth. 
-        IF(NUPP.GT.MSTU(4)-5-MSTU(32)) THEN 
-          CALL LUERRM(11,'(LUTABU:) no more memory left in LUJETS') 
-          RETURN 
-        ENDIF 
-        NUPP=NUPP+1 
-        IF(NUPP.EQ.NLOW+1) THEN 
-          K(NUPP,1)=IYETA 
-          K(NUPP,2)=IPHI 
-          K(NUPP,3)=IYEP 
-        ELSE 
-          DO 350 I1=NUPP-1,NLOW+1,-1 
-          IF(IYETA.GE.K(I1,1)) GOTO 360 
-          K(I1+1,1)=K(I1,1) 
-  350     CONTINUE 
-  360     K(I1+1,1)=IYETA 
-          DO 370 I1=NUPP-1,NLOW+1,-1 
-          IF(IPHI.GE.K(I1,2)) GOTO 380 
-          K(I1+1,2)=K(I1,2) 
-  370     CONTINUE 
-  380     K(I1+1,2)=IPHI 
-          DO 390 I1=NUPP-1,NLOW+1,-1 
-          IF(IYEP.GE.K(I1,3)) GOTO 400 
-          K(I1+1,3)=K(I1,3) 
-  390     CONTINUE 
-  400     K(I1+1,3)=IYEP 
-        ENDIF 
-  410   CONTINUE 
-        K(NUPP+1,1)=2**10 
-        K(NUPP+1,2)=2**10 
-        K(NUPP+1,3)=4**10 
- 
-C...Calculate sum of factorial moments in event. 
-        DO 480 IM=1,3 
-        DO 430 IB=1,10 
-        DO 420 IP=1,4 
-        FEVFM(IB,IP)=0. 
-  420   CONTINUE 
-  430   CONTINUE 
-        DO 450 IB=1,10 
-        IF(IM.LE.2) IBIN=2**(10-IB) 
-        IF(IM.EQ.3) IBIN=4**(10-IB) 
-        IAGR=K(NLOW+1,IM)/IBIN 
-        NAGR=1 
-        DO 440 I=NLOW+2,NUPP+1 
-        ICUT=K(I,IM)/IBIN 
-        IF(ICUT.EQ.IAGR) THEN 
-          NAGR=NAGR+1 
-        ELSE 
-          IF(NAGR.EQ.1) THEN 
-          ELSEIF(NAGR.EQ.2) THEN 
-            FEVFM(IB,1)=FEVFM(IB,1)+2. 
-          ELSEIF(NAGR.EQ.3) THEN 
-            FEVFM(IB,1)=FEVFM(IB,1)+6. 
-            FEVFM(IB,2)=FEVFM(IB,2)+6. 
-          ELSEIF(NAGR.EQ.4) THEN 
-            FEVFM(IB,1)=FEVFM(IB,1)+12. 
-            FEVFM(IB,2)=FEVFM(IB,2)+24. 
-            FEVFM(IB,3)=FEVFM(IB,3)+24. 
-          ELSE 
-            FEVFM(IB,1)=FEVFM(IB,1)+NAGR*(NAGR-1.) 
-            FEVFM(IB,2)=FEVFM(IB,2)+NAGR*(NAGR-1.)*(NAGR-2.) 
-            FEVFM(IB,3)=FEVFM(IB,3)+NAGR*(NAGR-1.)*(NAGR-2.)*(NAGR-3.) 
-            FEVFM(IB,4)=FEVFM(IB,4)+NAGR*(NAGR-1.)*(NAGR-2.)*(NAGR-3.)* 
-     &      (NAGR-4.) 
-          ENDIF 
-          IAGR=ICUT 
-          NAGR=1 
-        ENDIF 
-  440   CONTINUE 
-  450   CONTINUE 
- 
-C...Add results to total statistics. 
-        DO 470 IB=10,1,-1 
-        DO 460 IP=1,4 
-        IF(FEVFM(1,IP).LT.0.5) THEN 
-          FEVFM(IB,IP)=0. 
-        ELSEIF(IM.LE.2) THEN 
-          FEVFM(IB,IP)=2.**((IB-1)*IP)*FEVFM(IB,IP)/FEVFM(1,IP) 
-        ELSE 
-          FEVFM(IB,IP)=4.**((IB-1)*IP)*FEVFM(IB,IP)/FEVFM(1,IP) 
-        ENDIF 
-        FM1FM(IM,IB,IP)=FM1FM(IM,IB,IP)+FEVFM(IB,IP) 
-        FM2FM(IM,IB,IP)=FM2FM(IM,IB,IP)+FEVFM(IB,IP)**2 
-  460   CONTINUE 
-  470   CONTINUE 
-  480   CONTINUE 
-        NMUFM=NMUFM+(NUPP-NLOW) 
-        MSTU(62)=NUPP-NLOW 
- 
-C...Write accumulated statistics on factorial moments. 
-      ELSEIF(MTABU.EQ.32) THEN 
-        FAC=1./MAX(1,NEVFM) 
-        IF(MSTU(42).LE.0) WRITE(MSTU(11),5400) NEVFM,'eta' 
-        IF(MSTU(42).EQ.1) WRITE(MSTU(11),5400) NEVFM,'ypi' 
-        IF(MSTU(42).GE.2) WRITE(MSTU(11),5400) NEVFM,'y  ' 
-        DO 510 IM=1,3 
-        WRITE(MSTU(11),5500) 
-        DO 500 IB=1,10 
-        BYETA=2.*PARU(57) 
-        IF(IM.NE.2) BYETA=BYETA/2**(IB-1) 
-        BPHI=PARU(2) 
-        IF(IM.NE.1) BPHI=BPHI/2**(IB-1) 
-        IF(IM.LE.2) BNAVE=FAC*NMUFM/ DBLE(2**(IB-1)) 
-        IF(IM.EQ.3) BNAVE=FAC*NMUFM/ DBLE(4**(IB-1)) 
-        DO 490 IP=1,4 
-        FMOMA(IP)=FAC*FM1FM(IM,IB,IP) 
-        FMOMS(IP)=SQRT(MAX(0.D0,FAC*(FAC*FM2FM(IM,IB,IP)-FMOMA(IP)**2))) 
-  490   CONTINUE 
-        WRITE(MSTU(11),5600) BYETA,BPHI,BNAVE,(FMOMA(IP),FMOMS(IP), 
-     &  IP=1,4) 
-  500   CONTINUE 
-  510   CONTINUE 
- 
-C...Copy statistics on factorial moments into /LUJETS/. 
-      ELSEIF(MTABU.EQ.33) THEN 
-        FAC=1./MAX(1,NEVFM) 
-        DO 540 IM=1,3 
-        DO 530 IB=1,10 
-        I=10*(IM-1)+IB 
-        K(I,1)=32 
-        K(I,2)=99 
-        K(I,3)=1 
-        IF(IM.NE.2) K(I,3)=2**(IB-1) 
-        K(I,4)=1 
-        IF(IM.NE.1) K(I,4)=2**(IB-1) 
-        K(I,5)=0 
-        P(I,1)=2.*PARU(57)/K(I,3) 
-        V(I,1)=PARU(2)/K(I,4) 
-        DO 520 IP=1,4 
-        P(I,IP+1)=FAC*FM1FM(IM,IB,IP) 
-        V(I,IP+1)=SQRT(MAX(0.D0,FAC*(FAC*FM2FM(IM,IB,IP)-P(I,IP+1)**2))) 
-  520   CONTINUE 
-  530   CONTINUE 
-  540   CONTINUE 
-        N=30 
-        DO 550 J=1,5 
-        K(N+1,J)=0 
-        P(N+1,J)=0. 
-        V(N+1,J)=0. 
-  550   CONTINUE 
-        K(N+1,1)=32 
-        K(N+1,2)=99 
-        K(N+1,5)=NEVFM 
-        MSTU(3)=1 
- 
-C...Reset statistics on Energy-Energy Correlation. 
-      ELSEIF(MTABU.EQ.40) THEN 
-        NEVEE=0 
-        DO 560 J=1,25 
-        FE1EC(J)=0. 
-        FE2EC(J)=0. 
-        FE1EC(51-J)=0. 
-        FE2EC(51-J)=0. 
-        FE1EA(J)=0. 
-        FE2EA(J)=0. 
-  560   CONTINUE 
- 
-C...Find particles to include, with proper assumed mass. 
-      ELSEIF(MTABU.EQ.41) THEN 
-        NEVEE=NEVEE+1 
-        NLOW=N+MSTU(3) 
-        NUPP=NLOW 
-        ECM=0. 
-        DO 570 I=1,N 
-        IF(K(I,1).LE.0.OR.K(I,1).GT.10) GOTO 570 
-        IF(MSTU(41).GE.2) THEN 
-          KC=LUCOMP(K(I,2)) 
-          IF(KC.EQ.0.OR.KC.EQ.12.OR.KC.EQ.14.OR.KC.EQ.16.OR. 
-     &    KC.EQ.18) GOTO 570 
-          IF(MSTU(41).GE.3.AND.KCHG(KC,2).EQ.0.AND.LUCHGE(K(I,2)).EQ.0) 
-     &    GOTO 570 
-        ENDIF 
-        PMR=0. 
-        IF(MSTU(42).EQ.1.AND.K(I,2).NE.22) PMR=ULMASS(211) 
-        IF(MSTU(42).GE.2) PMR=P(I,5) 
-        IF(NUPP.GT.MSTU(4)-5-MSTU(32)) THEN 
-          CALL LUERRM(11,'(LUTABU:) no more memory left in LUJETS') 
-          RETURN 
-        ENDIF 
-        NUPP=NUPP+1 
-        P(NUPP,1)=P(I,1) 
-        P(NUPP,2)=P(I,2) 
-        P(NUPP,3)=P(I,3) 
-        P(NUPP,4)=SQRT(PMR**2+P(I,1)**2+P(I,2)**2+P(I,3)**2) 
-        P(NUPP,5)=MAX(1D-10,SQRT(P(I,1)**2+P(I,2)**2+P(I,3)**2)) 
-        ECM=ECM+P(NUPP,4) 
-  570   CONTINUE 
-        IF(NUPP.EQ.NLOW) RETURN 
- 
-C...Analyze Energy-Energy Correlation in event. 
-        FAC=(2./ECM**2)*50./PARU(1) 
-        DO 580 J=1,50 
-        FEVEE(J)=0. 
-  580   CONTINUE 
-        DO 600 I1=NLOW+2,NUPP 
-        DO 590 I2=NLOW+1,I1-1 
-        CTHE=(P(I1,1)*P(I2,1)+P(I1,2)*P(I2,2)+P(I1,3)*P(I2,3))/ 
-     &  (P(I1,5)*P(I2,5)) 
-        THE=ACOS(MAX(-1.D0,MIN(1.D0,CTHE))) 
-        ITHE=MAX(1,MIN(50,1+INT(50.*THE/PARU(1)))) 
-        FEVEE(ITHE)=FEVEE(ITHE)+FAC*P(I1,4)*P(I2,4) 
-  590   CONTINUE 
-  600   CONTINUE 
-        DO 610 J=1,25 
-        FE1EC(J)=FE1EC(J)+FEVEE(J) 
-        FE2EC(J)=FE2EC(J)+FEVEE(J)**2 
-        FE1EC(51-J)=FE1EC(51-J)+FEVEE(51-J) 
-        FE2EC(51-J)=FE2EC(51-J)+FEVEE(51-J)**2 
-        FE1EA(J)=FE1EA(J)+(FEVEE(51-J)-FEVEE(J)) 
-        FE2EA(J)=FE2EA(J)+(FEVEE(51-J)-FEVEE(J))**2 
-  610   CONTINUE 
-        MSTU(62)=NUPP-NLOW 
- 
-C...Write statistics on Energy-Energy Correlation. 
-      ELSEIF(MTABU.EQ.42) THEN 
-        FAC=1./MAX(1,NEVEE) 
-        WRITE(MSTU(11),5700) NEVEE 
-        DO 620 J=1,25 
-        FEEC1=FAC*FE1EC(J) 
-        FEES1=SQRT(MAX(0.D0,FAC*(FAC*FE2EC(J)-FEEC1**2))) 
-        FEEC2=FAC*FE1EC(51-J) 
-        FEES2=SQRT(MAX(0.D0,FAC*(FAC*FE2EC(51-J)-FEEC2**2))) 
-        FEECA=FAC*FE1EA(J) 
-        FEESA=SQRT(MAX(0.D0,FAC*(FAC*FE2EA(J)-FEECA**2))) 
-        WRITE(MSTU(11),5800) 3.6*(J-1),3.6*J,FEEC1,FEES1,FEEC2,FEES2, 
-     &  FEECA,FEESA 
-  620   CONTINUE 
- 
-C...Copy statistics on Energy-Energy Correlation into /LUJETS/. 
-      ELSEIF(MTABU.EQ.43) THEN 
-        FAC=1./MAX(1,NEVEE) 
-        DO 630 I=1,25 
-        K(I,1)=32 
-        K(I,2)=99 
-        K(I,3)=0 
-        K(I,4)=0 
-        K(I,5)=0 
-        P(I,1)=FAC*FE1EC(I) 
-        V(I,1)=SQRT(MAX(0.D0,FAC*(FAC*FE2EC(I)-P(I,1)**2))) 
-        P(I,2)=FAC*FE1EC(51-I) 
-        V(I,2)=SQRT(MAX(0.D0,FAC*(FAC*FE2EC(51-I)-P(I,2)**2))) 
-        P(I,3)=FAC*FE1EA(I) 
-        V(I,3)=SQRT(MAX(0.D0,FAC*(FAC*FE2EA(I)-P(I,3)**2))) 
-        P(I,4)=PARU(1)*(I-1)/50. 
-        P(I,5)=PARU(1)*I/50. 
-        V(I,4)=3.6*(I-1) 
-        V(I,5)=3.6*I 
-  630   CONTINUE 
-        N=25 
-        DO 640 J=1,5 
-        K(N+1,J)=0 
-        P(N+1,J)=0. 
-        V(N+1,J)=0. 
-  640   CONTINUE 
-        K(N+1,1)=32 
-        K(N+1,2)=99 
-        K(N+1,5)=NEVEE 
-        MSTU(3)=1 
- 
-C...Reset statistics on decay channels. 
-      ELSEIF(MTABU.EQ.50) THEN 
-        NEVDC=0 
-        NKFDC=0 
-        NREDC=0 
- 
-C...Identify and order flavour content of final state. 
-      ELSEIF(MTABU.EQ.51) THEN 
-        NEVDC=NEVDC+1 
-        NDS=0 
-        DO 670 I=1,N 
-        IF(K(I,1).LE.0.OR.K(I,1).GE.6) GOTO 670 
-        NDS=NDS+1 
-        IF(NDS.GT.8) THEN 
-          NREDC=NREDC+1 
-          RETURN 
-        ENDIF 
-        KFM=2*IABS(K(I,2)) 
-        IF(K(I,2).LT.0) KFM=KFM-1 
-        DO 650 IDS=NDS-1,1,-1 
-        IIN=IDS+1 
-        IF(KFM.LT.KFDM(IDS)) GOTO 660 
-        KFDM(IDS+1)=KFDM(IDS) 
-  650   CONTINUE 
-        IIN=1 
-  660   KFDM(IIN)=KFM 
-  670   CONTINUE 
- 
-C...Find whether old or new final state. 
-        DO 690 IDC=1,NKFDC 
-        IF(NDS.LT.KFDC(IDC,0)) THEN 
-          IKFDC=IDC 
-          GOTO 700 
-        ELSEIF(NDS.EQ.KFDC(IDC,0)) THEN 
-          DO 680 I=1,NDS 
-          IF(KFDM(I).LT.KFDC(IDC,I)) THEN 
-            IKFDC=IDC 
-            GOTO 700 
-          ELSEIF(KFDM(I).GT.KFDC(IDC,I)) THEN 
-            GOTO 690 
-          ENDIF 
-  680     CONTINUE 
-          IKFDC=-IDC 
-          GOTO 700 
-        ENDIF 
-  690   CONTINUE 
-        IKFDC=NKFDC+1 
-  700   IF(IKFDC.LT.0) THEN 
-          IKFDC=-IKFDC 
-        ELSEIF(NKFDC.GE.200) THEN 
-          NREDC=NREDC+1 
-          RETURN 
-        ELSE 
-          DO 720 IDC=NKFDC,IKFDC,-1 
-          NPDC(IDC+1)=NPDC(IDC) 
-          DO 710 I=0,8 
-          KFDC(IDC+1,I)=KFDC(IDC,I) 
-  710     CONTINUE 
-  720     CONTINUE 
-          NKFDC=NKFDC+1 
-          KFDC(IKFDC,0)=NDS 
-          DO 730 I=1,NDS 
-          KFDC(IKFDC,I)=KFDM(I) 
-  730     CONTINUE 
-          NPDC(IKFDC)=0 
-        ENDIF 
-        NPDC(IKFDC)=NPDC(IKFDC)+1 
- 
-C...Write statistics on decay channels. 
-      ELSEIF(MTABU.EQ.52) THEN 
-        FAC=1./MAX(1,NEVDC) 
-        WRITE(MSTU(11),5900) NEVDC 
-        DO 750 IDC=1,NKFDC 
-        DO 740 I=1,KFDC(IDC,0) 
-        KFM=KFDC(IDC,I) 
-        KF=(KFM+1)/2 
-        IF(2*KF.NE.KFM) KF=-KF 
-        CALL LUNAME(KF,CHAU) 
-        CHDC(I)=CHAU(1:12) 
-        IF(CHAU(13:13).NE.' ') CHDC(I)(12:12)='?' 
-  740   CONTINUE 
-        WRITE(MSTU(11),6000) FAC*NPDC(IDC),(CHDC(I),I=1,KFDC(IDC,0)) 
-  750   CONTINUE 
-        IF(NREDC.NE.0) WRITE(MSTU(11),6100) FAC*NREDC 
- 
-C...Copy statistics on decay channels into /LUJETS/. 
-      ELSEIF(MTABU.EQ.53) THEN 
-        FAC=1./MAX(1,NEVDC) 
-        DO 780 IDC=1,NKFDC 
-        K(IDC,1)=32 
-        K(IDC,2)=99 
-        K(IDC,3)=0 
-        K(IDC,4)=0 
-        K(IDC,5)=KFDC(IDC,0) 
-        DO 760 J=1,5 
-        P(IDC,J)=0. 
-        V(IDC,J)=0. 
-  760   CONTINUE 
-        DO 770 I=1,KFDC(IDC,0) 
-        KFM=KFDC(IDC,I) 
-        KF=(KFM+1)/2 
-        IF(2*KF.NE.KFM) KF=-KF 
-        IF(I.LE.5) P(IDC,I)=KF 
-        IF(I.GE.6) V(IDC,I-5)=KF 
-  770   CONTINUE 
-        V(IDC,5)=FAC*NPDC(IDC) 
-  780   CONTINUE 
-        N=NKFDC 
-        DO 790 J=1,5 
-        K(N+1,J)=0 
-        P(N+1,J)=0. 
-        V(N+1,J)=0. 
-  790   CONTINUE 
-        K(N+1,1)=32 
-        K(N+1,2)=99 
-        K(N+1,5)=NEVDC 
-        V(N+1,5)=FAC*NREDC 
-        MSTU(3)=1 
-      ENDIF 
- 
-C...Format statements for output on unit MSTU(11) (default 6). 
- 5000 FORMAT(///20X,'Event statistics - initial state'/ 
-     &20X,'based on an analysis of ',I6,' events'// 
-     &3X,'Main flavours after',8X,'Fraction',4X,'Subfractions ', 
-     &'according to fragmenting system multiplicity'/ 
-     &4X,'hard interaction',24X,'1',7X,'2',7X,'3',7X,'4',7X,'5', 
-     &6X,'6-7',5X,'8-10',3X,'11-15',3X,'16-25',4X,'>25'/) 
- 5100 FORMAT(3X,A12,1X,A12,F10.5,1X,10F8.4) 
- 5200 FORMAT(///20X,'Event statistics - final state'/ 
-     &20X,'based on an analysis of ',I7,' events'// 
-     &5X,'Mean primary multiplicity =',F10.4/ 
-     &5X,'Mean final   multiplicity =',F10.4/ 
-     &5X,'Mean charged multiplicity =',F10.4// 
-     &5X,'Number of particles produced per event (directly and via ', 
-     &'decays/branchings)'/ 
-     &5X,'KF    Particle/jet  MDCY',10X,'Particles',13X,'Antiparticles', 
-     &8X,'Total'/35X,'prim        seco        prim        seco'/) 
- 5300 FORMAT(1X,I6,4X,A16,I2,5(1X,F11.6)) 
- 5400 FORMAT(///20X,'Factorial moments analysis of multiplicity'/ 
-     &20X,'based on an analysis of ',I6,' events'// 
-     &3X,'delta-',A3,' delta-phi     <n>/bin',10X,'<F2>',18X,'<F3>', 
-     &18X,'<F4>',18X,'<F5>'/35X,4('     value     error  ')) 
- 5500 FORMAT(10X) 
- 5600 FORMAT(2X,2F10.4,F12.4,4(F12.4,F10.4)) 
- 5700 FORMAT(///20X,'Energy-Energy Correlation and Asymmetry'/ 
-     &20X,'based on an analysis of ',I6,' events'// 
-     &2X,'theta range',8X,'EEC(theta)',8X,'EEC(180-theta)',7X, 
-     &'EECA(theta)'/2X,'in degrees ',3('      value    error')/) 
- 5800 FORMAT(2X,F4.1,' - ',F4.1,3(F11.4,F9.4)) 
- 5900 FORMAT(///20X,'Decay channel analysis - final state'/ 
-     &20X,'based on an analysis of ',I6,' events'// 
-     &2X,'Probability',10X,'Complete final state'/) 
- 6000 FORMAT(2X,F9.5,5X,8(A12,1X)) 
- 6100 FORMAT(2X,F9.5,5X,'into other channels (more than 8 particles ', 
-     &'or table overflow)') 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUEEVT
-      SUBROUTINE LUEEVT(KFL,ECM) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to handle the generation of an e+e- annihilation jet event. 
-C     IMPLICIT DOUBLE PRECISION(D) 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Check input parameters. 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IF(KFL.LT.0.OR.KFL.GT.8) THEN 
-        CALL LUERRM(16,'(LUEEVT:) called with unknown flavour code') 
-        IF(MSTU(21).GE.1) RETURN 
-      ENDIF 
-      IF(KFL.LE.5) ECMMIN=PARJ(127)+2.02*PARF(100+MAX(1,KFL)) 
-      IF(KFL.GE.6) ECMMIN=PARJ(127)+2.02*PMAS(KFL,1) 
-      IF(ECM.LT.ECMMIN) THEN 
-        CALL LUERRM(16,'(LUEEVT:) called with too small CM energy') 
-        IF(MSTU(21).GE.1) RETURN 
-      ENDIF 
- 
-C...Check consistency of MSTJ options set. 
-      IF(MSTJ(109).EQ.2.AND.MSTJ(110).NE.1) THEN 
-        CALL LUERRM(6, 
-     &  '(LUEEVT:) MSTJ(109) value requires MSTJ(110) = 1') 
-        MSTJ(110)=1 
-      ENDIF 
-      IF(MSTJ(109).EQ.2.AND.MSTJ(111).NE.0) THEN 
-        CALL LUERRM(6, 
-     &  '(LUEEVT:) MSTJ(109) value requires MSTJ(111) = 0') 
-        MSTJ(111)=0 
-      ENDIF 
- 
-C...Initialize alpha_strong and total cross-section. 
-      MSTU(111)=MSTJ(108) 
-      IF(MSTJ(108).EQ.2.AND.(MSTJ(101).EQ.0.OR.MSTJ(101).EQ.1)) 
-     &MSTU(111)=1 
-      PARU(112)=PARJ(121) 
-      IF(MSTU(111).EQ.2) PARU(112)=PARJ(122) 
-      IF(MSTJ(116).GT.0.AND.(MSTJ(116).GE.2.OR.ABS(ECM-PARJ(151)).GE. 
-     &PARJ(139).OR.10*MSTJ(102)+KFL.NE.MSTJ(119))) CALL LUXTOT(KFL,ECM, 
-     &XTOT) 
-      IF(MSTJ(116).GE.3) MSTJ(116)=1 
-      PARJ(171)=0. 
- 
-C...Add initial e+e- to event record (documentation only). 
-      NTRY=0 
-  100 NTRY=NTRY+1 
-      IF(NTRY.GT.100) THEN 
-        CALL LUERRM(14,'(LUEEVT:) caught in an infinite loop') 
-        RETURN 
-      ENDIF 
-      MSTU(24)=0 
-      NC=0 
-      IF(MSTJ(115).GE.2) THEN 
-        NC=NC+2 
-        CALL LU1ENT(NC-1,11,0.5*ECM,0.D0,0.D0) 
-        K(NC-1,1)=21 
-        CALL LU1ENT(NC,-11,0.5*ECM,PARU(1),0.D0) 
-        K(NC,1)=21 
-      ENDIF 
- 
-C...Radiative photon (in initial state). 
-      MK=0 
-      ECMC=ECM 
-      IF(MSTJ(107).GE.1.AND.MSTJ(116).GE.1) CALL LURADK(ECM,MK,PAK, 
-     &THEK,PHIK,ALPK) 
-      IF(MK.EQ.1) ECMC=SQRT(ECM*(ECM-2.*PAK)) 
-      IF(MSTJ(115).GE.1.AND.MK.EQ.1) THEN 
-        NC=NC+1 
-        CALL LU1ENT(NC,22,PAK,THEK,PHIK) 
-        K(NC,3)=MIN(MSTJ(115)/2,1) 
-      ENDIF 
- 
-C...Virtual exchange boson (gamma or Z0). 
-      IF(MSTJ(115).GE.3) THEN 
-        NC=NC+1 
-        KF=22 
-        IF(MSTJ(102).EQ.2) KF=23 
-        MSTU10=MSTU(10) 
-        MSTU(10)=1 
-        P(NC,5)=ECMC 
-        CALL LU1ENT(NC,KF,ECMC,0.D0,0.D0) 
-        K(NC,1)=21 
-        K(NC,3)=1 
-        MSTU(10)=MSTU10 
-      ENDIF 
- 
-C...Choice of flavour and jet configuration. 
-      CALL LUXKFL(KFL,ECM,ECMC,KFLC) 
-      IF(KFLC.EQ.0) GOTO 100 
-      CALL LUXJET(ECMC,NJET,CUT) 
-      KFLN=21 
-      IF(NJET.EQ.4) CALL LUX4JT(NJET,CUT,KFLC,ECMC,KFLN,X1,X2,X4, 
-     &X12,X14) 
-      IF(NJET.EQ.3) CALL LUX3JT(NJET,CUT,KFLC,ECMC,X1,X3) 
-      IF(NJET.EQ.2) MSTJ(120)=1 
- 
-C...Fill jet configuration and origin. 
-      IF(NJET.EQ.2.AND.MSTJ(101).NE.5) CALL LU2ENT(NC+1,KFLC,-KFLC,ECMC) 
-      IF(NJET.EQ.2.AND.MSTJ(101).EQ.5) CALL LU2ENT(-(NC+1),KFLC,-KFLC, 
-     &ECMC) 
-      IF(NJET.EQ.3) CALL LU3ENT(NC+1,KFLC,21,-KFLC,ECMC,X1,X3) 
-      IF(NJET.EQ.4.AND.KFLN.EQ.21) CALL LU4ENT(NC+1,KFLC,KFLN,KFLN, 
-     &-KFLC,ECMC,X1,X2,X4,X12,X14) 
-      IF(NJET.EQ.4.AND.KFLN.NE.21) CALL LU4ENT(NC+1,KFLC,-KFLN,KFLN, 
-     &-KFLC,ECMC,X1,X2,X4,X12,X14) 
-      IF(MSTU(24).NE.0) GOTO 100 
-      DO 110 IP=NC+1,N 
-      K(IP,3)=K(IP,3)+MIN(MSTJ(115)/2,1)+(MSTJ(115)/3)*(NC-1) 
-  110 CONTINUE 
- 
-C...Angular orientation according to matrix element. 
-      IF(MSTJ(106).EQ.1) THEN 
-        CALL LUXDIF(NC,NJET,KFLC,ECMC,CHI,THE,PHI) 
-        CALL LUDBRB(NC+1,N,0.D0,CHI,0D0,0D0,0D0) 
-        CALL LUDBRB(NC+1,N,THE,PHI,0D0,0D0,0D0) 
-      ENDIF 
- 
-C...Rotation and boost from radiative photon. 
-      IF(MK.EQ.1) THEN 
-        DBEK=-PAK/(ECM-PAK) 
-        NMIN=NC+1-MSTJ(115)/3 
-        CALL LUDBRB(NMIN,N,0.D0,-PHIK,0D0,0D0,0D0) 
-        CALL LUDBRB(NMIN,N,ALPK,0.D0,DBEK*SIN(THEK),0D0,DBEK*COS(THEK)) 
-        CALL LUDBRB(NMIN,N,0.D0,PHIK,0D0,0D0,0D0) 
-      ENDIF 
- 
-C...Generate parton shower. Rearrange along strings and check. 
-      IF(MSTJ(101).EQ.5) THEN 
-        CALL LUSHOW(N-1,N,ECMC) 
-        MSTJ14=MSTJ(14) 
-        IF(MSTJ(105).EQ.-1) MSTJ(14)=-1 
-        IF(MSTJ(105).GE.0) MSTU(28)=0 
-        CALL LUPREP(0) 
-        MSTJ(14)=MSTJ14 
-        IF(MSTJ(105).GE.0.AND.MSTU(28).NE.0) GOTO 100 
-      ENDIF 
- 
-C...Fragmentation/decay generation. Information for LUTABU. 
-      IF(MSTJ(105).EQ.1) CALL LUEXEC 
-      MSTU(161)=KFLC 
-      MSTU(162)=-KFLC 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUXTOT
-      SUBROUTINE LUXTOT(KFL,ECM,XTOT) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to calculate total cross-section, including initial 
-C...state radiation effects. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUDAT1/,/LUDAT2/ 
- 
-C...Status, (optimized) Q^2 scale, alpha_strong. 
-      PARJ(151)=ECM 
-      MSTJ(119)=10*MSTJ(102)+KFL 
-      IF(MSTJ(111).EQ.0) THEN 
-        Q2R=ECM**2 
-      ELSEIF(MSTU(111).EQ.0) THEN 
-        PARJ(168)=MIN(1.D0,MAX(PARJ(128),EXP(-12.*PARU(1)/ 
-     &  ((33.-2.*MSTU(112))*PARU(111))))) 
-        Q2R=PARJ(168)*ECM**2 
-      ELSE 
-        PARJ(168)=MIN(1.D0,MAX(PARJ(128),PARU(112)/ECM, 
-     &  (2.*PARU(112)/ECM)**2)) 
-        Q2R=PARJ(168)*ECM**2 
-      ENDIF 
-      ALSPI=ULALPS(Q2R)/PARU(1) 
- 
-C...QCD corrections factor in R. 
-      IF(MSTJ(101).EQ.0.OR.MSTJ(109).EQ.1) THEN 
-        RQCD=1. 
-      ELSEIF(IABS(MSTJ(101)).EQ.1.AND.MSTJ(109).EQ.0) THEN 
-        RQCD=1.+ALSPI 
-      ELSEIF(MSTJ(109).EQ.0) THEN 
-        RQCD=1.+ALSPI+(1.986-0.115*MSTU(118))*ALSPI**2 
-        IF(MSTJ(111).EQ.1) RQCD=MAX(1.D0,RQCD+(33.-2.*MSTU(112))/12.* 
-     &  LOG(PARJ(168))*ALSPI**2) 
-      ELSEIF(IABS(MSTJ(101)).EQ.1) THEN 
-        RQCD=1.+(3./4.)*ALSPI 
-      ELSE 
-        RQCD=1.+(3./4.)*ALSPI-(3./32.+0.519*MSTU(118))*ALSPI**2 
-      ENDIF 
- 
-C...Calculate Z0 width if default value not acceptable. 
-      IF(MSTJ(102).GE.3) THEN 
-        RVA=3.*(3.+(4.*PARU(102)-1.)**2)+6.*RQCD*(2.+(1.-8.*PARU(102)/ 
-     &  3.)**2+(4.*PARU(102)/3.-1.)**2) 
-        DO 100 KFLC=5,6 
-        VQ=1. 
-        IF(MOD(MSTJ(103),2).EQ.1) VQ=SQRT(MAX(0.D0,1.-(2.*ULMASS(KFLC)/ 
-     &  ECM)**2)) 
-        IF(KFLC.EQ.5) VF=4.*PARU(102)/3.-1. 
-        IF(KFLC.EQ.6) VF=1.-8.*PARU(102)/3. 
-        RVA=RVA+3.*RQCD*(0.5*VQ*(3.-VQ**2)*VF**2+VQ**3) 
-  100   CONTINUE 
-        PARJ(124)=PARU(101)*PARJ(123)*RVA/(48.*PARU(102)*(1.-PARU(102))) 
-      ENDIF 
- 
-C...Calculate propagator and related constants for QFD case. 
-      POLL=1.-PARJ(131)*PARJ(132) 
-      IF(MSTJ(102).GE.2) THEN 
-        SFF=1./(16.*PARU(102)*(1.-PARU(102))) 
-        SFW=ECM**4/((ECM**2-PARJ(123)**2)**2+(PARJ(123)*PARJ(124))**2) 
-        SFI=SFW*(1.-(PARJ(123)/ECM)**2) 
-        VE=4.*PARU(102)-1. 
-        SF1I=SFF*(VE*POLL+PARJ(132)-PARJ(131)) 
-        SF1W=SFF**2*((VE**2+1.)*POLL+2.*VE*(PARJ(132)-PARJ(131))) 
-        HF1I=SFI*SF1I 
-        HF1W=SFW*SF1W 
-      ENDIF 
- 
-C...Loop over different flavours: charge, velocity. 
-      RTOT=0. 
-      RQQ=0. 
-      RQV=0. 
-      RVA=0. 
-      DO 110 KFLC=1,MAX(MSTJ(104),KFL) 
-      IF(KFL.GT.0.AND.KFLC.NE.KFL) GOTO 110 
-      MSTJ(93)=1 
-      PMQ=ULMASS(KFLC) 
-      IF(ECM.LT.2.*PMQ+PARJ(127)) GOTO 110 
-      QF=KCHG(KFLC,1)/3. 
-      VQ=1. 
-      IF(MOD(MSTJ(103),2).EQ.1) VQ=SQRT(1.-(2.*PMQ/ECM)**2) 
- 
-C...Calculate R and sum of charges for QED or QFD case. 
-      RQQ=RQQ+3.*QF**2*POLL 
-      IF(MSTJ(102).LE.1) THEN 
-        RTOT=RTOT+3.*0.5*VQ*(3.-VQ**2)*QF**2*POLL 
-      ELSE 
-        VF=SIGN(1.D0,QF)-4.*QF*PARU(102) 
-        RQV=RQV-6.*QF*VF*SF1I 
-        RVA=RVA+3.*(VF**2+1.)*SF1W 
-        RTOT=RTOT+3.*(0.5*VQ*(3.-VQ**2)*(QF**2*POLL-2.*QF*VF*HF1I+ 
-     &  VF**2*HF1W)+VQ**3*HF1W) 
-      ENDIF 
-  110 CONTINUE 
-      RSUM=RQQ 
-      IF(MSTJ(102).GE.2) RSUM=RQQ+SFI*RQV+SFW*RVA 
- 
-C...Calculate cross-section, including QCD corrections. 
-      PARJ(141)=RQQ 
-      PARJ(142)=RTOT 
-      PARJ(143)=RTOT*RQCD 
-      PARJ(144)=PARJ(143) 
-      PARJ(145)=PARJ(141)*86.8/ECM**2 
-      PARJ(146)=PARJ(142)*86.8/ECM**2 
-      PARJ(147)=PARJ(143)*86.8/ECM**2 
-      PARJ(148)=PARJ(147) 
-      PARJ(157)=RSUM*RQCD 
-      PARJ(158)=0. 
-      PARJ(159)=0. 
-      XTOT=PARJ(147) 
-      IF(MSTJ(107).LE.0) RETURN 
- 
-C...Virtual cross-section. 
-      XKL=PARJ(135) 
-      XKU=MIN(PARJ(136),1.-(2.*PARJ(127)/ECM)**2) 
-      ALE=2.*LOG(ECM/ULMASS(11))-1. 
-      SIGV=ALE/3.+2.*LOG(ECM**2/(ULMASS(13)*ULMASS(15)))/3.-4./3.+ 
-     &1.526*LOG(ECM**2/0.932) 
- 
-C...Soft and hard radiative cross-section in QED case. 
-      IF(MSTJ(102).LE.1) THEN 
-        SIGV=1.5*ALE-0.5+PARU(1)**2/3.+2.*SIGV 
-        SIGS=ALE*(2.*LOG(XKL)-LOG(1.-XKL)-XKL) 
-        SIGH=ALE*(2.*LOG(XKU/XKL)-LOG((1.-XKU)/(1.-XKL))-(XKU-XKL)) 
- 
-C...Soft and hard radiative cross-section in QFD case. 
-      ELSE 
-        SZM=1.-(PARJ(123)/ECM)**2 
-        SZW=PARJ(123)*PARJ(124)/ECM**2 
-        PARJ(161)=-RQQ/RSUM 
-        PARJ(162)=-(RQQ+RQV+RVA)/RSUM 
-        PARJ(163)=(RQV*(1.-0.5*SZM-SFI)+RVA*(1.5-SZM-SFW))/RSUM 
-        PARJ(164)=(RQV*SZW**2*(1.-2.*SFW)+RVA*(2.*SFI+SZW**2-4.+3.*SZM- 
-     &  SZM**2))/(SZW*RSUM) 
-        SIGV=1.5*ALE-0.5+PARU(1)**2/3.+((2.*RQQ+SFI*RQV)/RSUM)*SIGV+ 
-     &  (SZW*SFW*RQV/RSUM)*PARU(1)*20./9. 
-        SIGS=ALE*(2.*LOG(XKL)+PARJ(161)*LOG(1.-XKL)+PARJ(162)*XKL+ 
-     &  PARJ(163)*LOG(((XKL-SZM)**2+SZW**2)/(SZM**2+SZW**2))+ 
-     &  PARJ(164)*(ATAN((XKL-SZM)/SZW)-ATAN(-SZM/SZW))) 
-        SIGH=ALE*(2.*LOG(XKU/XKL)+PARJ(161)*LOG((1.-XKU)/(1.-XKL))+ 
-     &  PARJ(162)*(XKU-XKL)+PARJ(163)*LOG(((XKU-SZM)**2+SZW**2)/ 
-     &  ((XKL-SZM)**2+SZW**2))+PARJ(164)*(ATAN((XKU-SZM)/SZW)- 
-     &  ATAN((XKL-SZM)/SZW))) 
-      ENDIF 
- 
-C...Total cross-section and fraction of hard photon events. 
-      PARJ(160)=SIGH/(PARU(1)/PARU(101)+SIGV+SIGS+SIGH) 
-      PARJ(157)=RSUM*(1.+(PARU(101)/PARU(1))*(SIGV+SIGS+SIGH))*RQCD 
-      PARJ(144)=PARJ(157) 
-      PARJ(148)=PARJ(144)*86.8/ECM**2 
-      XTOT=PARJ(148) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LURADK
-      SUBROUTINE LURADK(ECM,MK,PAK,THEK,PHIK,ALPK) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to generate initial state photon radiation. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUDAT1/ 
- 
-C...Function: cumulative hard photon spectrum in QFD case. 
-      FXK(XX)=2.*LOG(XX)+PARJ(161)*LOG(1.-XX)+PARJ(162)*XX+ 
-     &PARJ(163)*LOG((XX-SZM)**2+SZW**2)+PARJ(164)*ATAN((XX-SZM)/SZW) 
- 
-C...Determine whether radiative photon or not. 
-      MK=0 
-      PAK=0. 
-      IF(PARJ(160).LT.RLU(0)) RETURN 
-      MK=1 
- 
-C...Photon energy range. Find photon momentum in QED case. 
-      XKL=PARJ(135) 
-      XKU=MIN(PARJ(136),1.-(2.*PARJ(127)/ECM)**2) 
-      IF(MSTJ(102).LE.1) THEN 
-  100   XK=1./(1.+(1./XKL-1.)*((1./XKU-1.)/(1./XKL-1.))**RLU(0)) 
-        IF(1.+(1.-XK)**2.LT.2.*RLU(0)) GOTO 100 
- 
-C...Ditto in QFD case, by numerical inversion of integrated spectrum. 
-      ELSE 
-        SZM=1.-(PARJ(123)/ECM)**2 
-        SZW=PARJ(123)*PARJ(124)/ECM**2 
-        FXKL=FXK(XKL) 
-        FXKU=FXK(XKU) 
-        FXKD=1D-4*(FXKU-FXKL) 
-        FXKR=FXKL+RLU(0)*(FXKU-FXKL) 
-        NXK=0 
-  110   NXK=NXK+1 
-        XK=0.5*(XKL+XKU) 
-        FXKV=FXK(XK) 
-        IF(FXKV.GT.FXKR) THEN 
-          XKU=XK 
-          FXKU=FXKV 
-        ELSE 
-          XKL=XK 
-          FXKL=FXKV 
-        ENDIF 
-        IF(NXK.LT.15.AND.FXKU-FXKL.GT.FXKD) GOTO 110 
-        XK=XKL+(XKU-XKL)*(FXKR-FXKL)/(FXKU-FXKL) 
-      ENDIF 
-      PAK=0.5*ECM*XK 
- 
-C...Photon polar and azimuthal angle. 
-      PME=2.*(ULMASS(11)/ECM)**2 
-  120 CTHM=PME*(2./PME)**RLU(0) 
-      IF(1.-(XK**2*CTHM*(1.-0.5*CTHM)+2.*(1.-XK)*PME/MAX(PME, 
-     &CTHM*(1.-0.5*CTHM)))/(1.+(1.-XK)**2).LT.RLU(0)) GOTO 120 
-      CTHE=1.-CTHM 
-      IF(RLU(0).GT.0.5) CTHE=-CTHE 
-      STHE=SQRT(MAX(0.D0,(CTHM-PME)*(2.-CTHM))) 
-      THEK=ULANGL(CTHE,STHE) 
-      PHIK=PARU(2)*RLU(0) 
- 
-C...Rotation angle for hadronic system. 
-      SGN=1. 
-      IF(0.5*(2.-XK*(1.-CTHE))**2/((2.-XK)**2+(XK*CTHE)**2).GT. 
-     &RLU(0)) SGN=-1. 
-      ALPK=ASIN(SGN*STHE*(XK-SGN*(2.*SQRT(1.-XK)-2.+XK)*CTHE)/ 
-     &(2.-XK*(1.-SGN*CTHE))) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUXKFL
-      SUBROUTINE LUXKFL(KFL,ECM,ECMC,KFLC) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to select flavour for produced qqbar pair. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUDAT1/,/LUDAT2/ 
- 
-C...Calculate maximum weight in QED or QFD case. 
-      IF(MSTJ(102).LE.1) THEN 
-        RFMAX=4./9. 
-      ELSE 
-        POLL=1.-PARJ(131)*PARJ(132) 
-        SFF=1./(16.*PARU(102)*(1.-PARU(102))) 
-        SFW=ECMC**4/((ECMC**2-PARJ(123)**2)**2+(PARJ(123)*PARJ(124))**2) 
-        SFI=SFW*(1.-(PARJ(123)/ECMC)**2) 
-        VE=4.*PARU(102)-1. 
-        HF1I=SFI*SFF*(VE*POLL+PARJ(132)-PARJ(131)) 
-        HF1W=SFW*SFF**2*((VE**2+1.)*POLL+2.*VE*(PARJ(132)-PARJ(131))) 
-        RFMAX=MAX(4./9.*POLL-4./3.*(1.-8.*PARU(102)/3.)*HF1I+ 
-     &  ((1.-8.*PARU(102)/3.)**2+1.)*HF1W,1./9.*POLL+2./3.* 
-     &  (-1.+4.*PARU(102)/3.)*HF1I+((-1.+4.*PARU(102)/3.)**2+1.)*HF1W) 
-      ENDIF 
- 
-C...Choose flavour. Gives charge and velocity. 
-      NTRY=0 
-  100 NTRY=NTRY+1 
-      IF(NTRY.GT.100) THEN 
-        CALL LUERRM(14,'(LUXKFL:) caught in an infinite loop') 
-        KFLC=0 
-        RETURN 
-      ENDIF 
-      KFLC=KFL 
-      IF(KFL.LE.0) KFLC=1+INT(MSTJ(104)*RLU(0)) 
-      MSTJ(93)=1 
-      PMQ=ULMASS(KFLC) 
-      IF(ECM.LT.2.*PMQ+PARJ(127)) GOTO 100 
-      QF=KCHG(KFLC,1)/3. 
-      VQ=1. 
-      IF(MOD(MSTJ(103),2).EQ.1) VQ=SQRT(MAX(0.D0,1.-(2.*PMQ/ECMC)**2)) 
- 
-C...Calculate weight in QED or QFD case. 
-      IF(MSTJ(102).LE.1) THEN 
-        RF=QF**2 
-        RFV=0.5*VQ*(3.-VQ**2)*QF**2 
-      ELSE 
-        VF=SIGN(1.D0,QF)-4.*QF*PARU(102) 
-        RF=QF**2*POLL-2.*QF*VF*HF1I+(VF**2+1.)*HF1W 
-        RFV=0.5*VQ*(3.-VQ**2)*(QF**2*POLL-2.*QF*VF*HF1I+VF**2*HF1W)+ 
-     &  VQ**3*HF1W 
-        IF(RFV.GT.0.) PARJ(171)=MIN(1.D0,VQ**3*HF1W/RFV) 
-      ENDIF 
- 
-C...Weighting or new event (radiative photon). Cross-section update. 
-      IF(KFL.LE.0.AND.RF.LT.RLU(0)*RFMAX) GOTO 100 
-      PARJ(158)=PARJ(158)+1. 
-      IF(ECMC.LT.2.*PMQ+PARJ(127).OR.RFV.LT.RLU(0)*RF) KFLC=0 
-      IF(MSTJ(107).LE.0.AND.KFLC.EQ.0) GOTO 100 
-      IF(KFLC.NE.0) PARJ(159)=PARJ(159)+1. 
-      PARJ(144)=PARJ(157)*PARJ(159)/PARJ(158) 
-      PARJ(148)=PARJ(144)*86.8/ECM**2 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUXJET
-      SUBROUTINE LUXJET(ECM,NJET,CUT) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to select number of jets in matrix element approach. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUDAT1/ 
-      DIMENSION ZHUT(5) 
- 
-C...Relative three-jet rate in Zhu second order parametrization. 
-      DATA ZHUT/3.0922, 6.2291, 7.4782, 7.8440, 8.2560/ 
- 
-C...Trivial result for two-jets only, including parton shower. 
-      IF(MSTJ(101).EQ.0.OR.MSTJ(101).EQ.5) THEN 
-        CUT=0. 
- 
-C...QCD and Abelian vector gluon theory: Q^2 for jet rate and R. 
-      ELSEIF(MSTJ(109).EQ.0.OR.MSTJ(109).EQ.2) THEN 
-        CF=4./3. 
-        IF(MSTJ(109).EQ.2) CF=1. 
-        IF(MSTJ(111).EQ.0) THEN 
-          Q2=ECM**2 
-          Q2R=ECM**2 
-        ELSEIF(MSTU(111).EQ.0) THEN 
-          PARJ(169)=MIN(1.D0,PARJ(129)) 
-          Q2=PARJ(169)*ECM**2 
-          PARJ(168)=MIN(1.D0,MAX(PARJ(128),EXP(-12.*PARU(1)/ 
-     &    ((33.-2.*MSTU(112))*PARU(111))))) 
-          Q2R=PARJ(168)*ECM**2 
-        ELSE 
-          PARJ(169)=MIN(1.D0,MAX(PARJ(129),(2.*PARU(112)/ECM)**2)) 
-          Q2=PARJ(169)*ECM**2 
-          PARJ(168)=MIN(1.D0,MAX(PARJ(128),PARU(112)/ECM, 
-     &    (2.*PARU(112)/ECM)**2)) 
-          Q2R=PARJ(168)*ECM**2 
-        ENDIF 
- 
-C...alpha_strong for R and R itself. 
-        ALSPI=(3./4.)*CF*ULALPS(Q2R)/PARU(1) 
-        IF(IABS(MSTJ(101)).EQ.1) THEN 
-          RQCD=1.+ALSPI 
-        ELSEIF(MSTJ(109).EQ.0) THEN 
-          RQCD=1.+ALSPI+(1.986-0.115*MSTU(118))*ALSPI**2 
-          IF(MSTJ(111).EQ.1) RQCD=MAX(1.D0,RQCD+(33.-2.*MSTU(112))/12.* 
-     &    LOG(PARJ(168))*ALSPI**2) 
-        ELSE 
-          RQCD=1.+ALSPI-(3./32.+0.519*MSTU(118))*(4.*ALSPI/3.)**2 
-        ENDIF 
- 
-C...alpha_strong for jet rate. Initial value for y cut. 
-        ALSPI=(3./4.)*CF*ULALPS(Q2)/PARU(1) 
-        CUT=MAX(0.001D0,PARJ(125),(PARJ(126)/ECM)**2) 
-        IF(IABS(MSTJ(101)).LE.1.OR.(MSTJ(109).EQ.0.AND.MSTJ(111).EQ.0)) 
-     &  CUT=MAX(CUT,EXP(-SQRT(0.75/ALSPI))/2.) 
-        IF(MSTJ(110).EQ.2) CUT=MAX(0.01D0,MIN(0.05D0,CUT)) 
- 
-C...Parametrization of first order three-jet cross-section. 
-  100   IF(MSTJ(101).EQ.0.OR.CUT.GE.0.25) THEN 
-          PARJ(152)=0. 
-        ELSE 
-          PARJ(152)=(2.*ALSPI/3.)*((3.-6.*CUT+2.*LOG(CUT))* 
-     &    LOG(CUT/(1.-2.*CUT))+(2.5+1.5*CUT-6.571)*(1.-3.*CUT)+ 
-     &    5.833*(1.-3.*CUT)**2-3.894*(1.-3.*CUT)**3+ 
-     &    1.342*(1.-3.*CUT)**4)/RQCD 
-          IF(MSTJ(109).EQ.2.AND.(MSTJ(101).EQ.2.OR.MSTJ(101).LE.-2)) 
-     &    PARJ(152)=0. 
-        ENDIF 
- 
-C...Parametrization of second order three-jet cross-section. 
-        IF(IABS(MSTJ(101)).LE.1.OR.MSTJ(101).EQ.3.OR.MSTJ(109).EQ.2.OR. 
-     &  CUT.GE.0.25) THEN 
-          PARJ(153)=0. 
-        ELSEIF(MSTJ(110).LE.1) THEN 
-          CT=LOG(1./CUT-2.) 
-          PARJ(153)=ALSPI**2*CT**2*(2.419+0.5989*CT+0.6782*CT**2- 
-     &    0.2661*CT**3+0.01159*CT**4)/RQCD 
- 
-C...Interpolation in second/first order ratio for Zhu parametrization. 
-        ELSEIF(MSTJ(110).EQ.2) THEN 
-          IZA=0 
-          DO 110 IY=1,5 
-          IF(ABS(CUT-0.01*IY).LT.0.0001) IZA=IY 
-  110     CONTINUE 
-          IF(IZA.NE.0) THEN 
-            ZHURAT=ZHUT(IZA) 
-          ELSE 
-            IZ=100.*CUT 
-            ZHURAT=ZHUT(IZ)+(100.*CUT-IZ)*(ZHUT(IZ+1)-ZHUT(IZ)) 
-          ENDIF 
-          PARJ(153)=ALSPI*PARJ(152)*ZHURAT 
-        ENDIF 
- 
-C...Shift in second order three-jet cross-section with optimized Q^2. 
-        IF(MSTJ(111).EQ.1.AND.IABS(MSTJ(101)).GE.2.AND.MSTJ(101).NE.3. 
-     &  AND.CUT.LT.0.25) PARJ(153)=PARJ(153)+(33.-2.*MSTU(112))/12.* 
-     &  LOG(PARJ(169))*ALSPI*PARJ(152) 
- 
-C...Parametrization of second order four-jet cross-section. 
-        IF(IABS(MSTJ(101)).LE.1.OR.CUT.GE.0.125) THEN 
-          PARJ(154)=0. 
-        ELSE 
-          CT=LOG(1./CUT-5.) 
-          IF(CUT.LE.0.018) THEN 
-            XQQGG=6.349-4.330*CT+0.8304*CT**2 
-            IF(MSTJ(109).EQ.2) XQQGG=(4./3.)**2*(3.035-2.091*CT+ 
-     &      0.4059*CT**2) 
-            XQQQQ=1.25*(-0.1080+0.01486*CT+0.009364*CT**2) 
-            IF(MSTJ(109).EQ.2) XQQQQ=8.*XQQQQ 
-          ELSE 
-            XQQGG=-0.09773+0.2959*CT-0.2764*CT**2+0.08832*CT**3 
-            IF(MSTJ(109).EQ.2) XQQGG=(4./3.)**2*(-0.04079+0.1340*CT- 
-     &      0.1326*CT**2+0.04365*CT**3) 
-            XQQQQ=1.25*(0.003661-0.004888*CT-0.001081*CT**2+0.002093* 
-     &      CT**3) 
-            IF(MSTJ(109).EQ.2) XQQQQ=8.*XQQQQ 
-          ENDIF 
-          PARJ(154)=ALSPI**2*CT**2*(XQQGG+XQQQQ)/RQCD 
-          PARJ(155)=XQQQQ/(XQQGG+XQQQQ) 
-        ENDIF 
- 
-C...If negative three-jet rate, change y' optimization parameter. 
-        IF(MSTJ(111).EQ.1.AND.PARJ(152)+PARJ(153).LT.0..AND. 
-     &  PARJ(169).LT.0.99) THEN 
-          PARJ(169)=MIN(1.D0,1.2*PARJ(169)) 
-          Q2=PARJ(169)*ECM**2 
-          ALSPI=(3./4.)*CF*ULALPS(Q2)/PARU(1) 
-          GOTO 100 
-        ENDIF 
- 
-C...If too high cross-section, use harder cuts, or fail. 
-        IF(PARJ(152)+PARJ(153)+PARJ(154).GE.1) THEN 
-          IF(MSTJ(110).EQ.2.AND.CUT.GT.0.0499.AND.MSTJ(111).EQ.1.AND. 
-     &    PARJ(169).LT.0.99) THEN 
-            PARJ(169)=MIN(1.D0,1.2*PARJ(169)) 
-            Q2=PARJ(169)*ECM**2 
-            ALSPI=(3./4.)*CF*ULALPS(Q2)/PARU(1) 
-            GOTO 100 
-          ELSEIF(MSTJ(110).EQ.2.AND.CUT.GT.0.0499) THEN 
-            CALL LUERRM(26, 
-     &      '(LUXJET:) no allowed y cut value for Zhu parametrization') 
-          ENDIF 
-          CUT=0.26*(4.*CUT)**(PARJ(152)+PARJ(153)+PARJ(154))**(-1./3.) 
-          IF(MSTJ(110).EQ.2) CUT=MAX(0.01D0,MIN(0.05D0,CUT)) 
-          GOTO 100 
-        ENDIF 
- 
-C...Scalar gluon (first order only). 
-      ELSE 
-        ALSPI=ULALPS(ECM**2)/PARU(1) 
-        CUT=MAX(0.001D0,PARJ(125),(PARJ(126)/ECM)**2,EXP(-3./ALSPI)) 
-        PARJ(152)=0. 
-        IF(CUT.LT.0.25) PARJ(152)=(ALSPI/3.)*((1.-2.*CUT)* 
-     &  LOG((1.-2.*CUT)/CUT)+0.5*(9.*CUT**2-1.)) 
-        PARJ(153)=0. 
-        PARJ(154)=0. 
-      ENDIF 
- 
-C...Select number of jets. 
-      PARJ(150)=CUT 
-      IF(MSTJ(101).EQ.0.OR.MSTJ(101).EQ.5) THEN 
-        NJET=2 
-      ELSEIF(MSTJ(101).LE.0) THEN 
-        NJET=MIN(4,2-MSTJ(101)) 
-      ELSE 
-        RNJ=RLU(0) 
-        NJET=2 
-        IF(PARJ(152)+PARJ(153)+PARJ(154).GT.RNJ) NJET=3 
-        IF(PARJ(154).GT.RNJ) NJET=4 
-      ENDIF 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUX3JT
-      SUBROUTINE LUX3JT(NJET,CUT,KFL,ECM,X1,X2) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to select the kinematical variables of three-jet events. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUDAT1/ 
-      DIMENSION ZHUP(5,12) 
- 
-C...Coefficients of Zhu second order parametrization. 
-      DATA ((ZHUP(IC1,IC2),IC2=1,12),IC1=1,5)/ 
-     &    18.29,    89.56,    4.541,   -52.09,   -109.8,    24.90, 
-     &    11.63,    3.683,    17.50, 0.002440,   -1.362,  -0.3537, 
-     &    11.42,    6.299,   -22.55,   -8.915,    59.25,   -5.855, 
-     &   -32.85,   -1.054,   -16.90, 0.006489,  -0.8156,  0.01095, 
-     &    7.847,   -3.964,   -35.83,    1.178,    29.39,   0.2806, 
-     &    47.82,   -12.36,   -56.72,  0.04054,  -0.4365,   0.6062, 
-     &    5.441,   -56.89,   -50.27,    15.13,    114.3,   -18.19, 
-     &    97.05,   -1.890,   -139.9,  0.08153,  -0.4984,   0.9439, 
-     &   -17.65,    51.44,   -58.32,    70.95,   -255.7,   -78.99, 
-     &    476.9,    29.65,   -239.3,   0.4745,   -1.174,    6.081/ 
- 
-C...Dilogarithm of x for x<0.5 (x>0.5 obtained by analytic trick). 
-      DILOG(X)=X+X**2/4.+X**3/9.+X**4/16.+X**5/25.+X**6/36.+X**7/49. 
- 
-C...Event type. Mass effect factors and other common constants. 
-      MSTJ(120)=2 
-      MSTJ(121)=0 
-      PMQ=ULMASS(KFL) 
-      QME=(2.*PMQ/ECM)**2 
-      IF(MSTJ(109).NE.1) THEN 
-        CUTL=LOG(CUT) 
-        CUTD=LOG(1./CUT-2.) 
-        IF(MSTJ(109).EQ.0) THEN 
-          CF=4./3. 
-          CN=3. 
-          TR=2. 
-          WTMX=MIN(20.D0,37.-6.*CUTD) 
-          IF(MSTJ(110).EQ.2) WTMX=2.*(7.5+80.*CUT) 
-        ELSE 
-          CF=1. 
-          CN=0. 
-          TR=12. 
-          WTMX=0. 
-        ENDIF 
- 
-C...Alpha_strong and effects of optimized Q^2 scale. Maximum weight. 
-        ALS2PI=PARU(118)/PARU(2) 
-        WTOPT=0. 
-        IF(MSTJ(111).EQ.1) WTOPT=(33.-2.*MSTU(112))/6.*LOG(PARJ(169))* 
-     &  ALS2PI 
-        WTMAX=MAX(0.D0,1.+WTOPT+ALS2PI*WTMX) 
- 
-C...Choose three-jet events in allowed region. 
-  100   NJET=3 
-  110   Y13L=CUTL+CUTD*RLU(0) 
-        Y23L=CUTL+CUTD*RLU(0) 
-        Y13=EXP(Y13L) 
-        Y23=EXP(Y23L) 
-        Y12=1.-Y13-Y23 
-        IF(Y12.LE.CUT) GOTO 110 
-        IF(Y13**2+Y23**2+2.*Y12.LE.2.*RLU(0)) GOTO 110 
- 
-C...Second order corrections. 
-        IF(MSTJ(101).EQ.2.AND.MSTJ(110).LE.1) THEN 
-          Y12L=LOG(Y12) 
-          Y13M=LOG(1.-Y13) 
-          Y23M=LOG(1.-Y23) 
-          Y12M=LOG(1.-Y12) 
-          IF(Y13.LE.0.5) Y13I=DILOG(Y13) 
-          IF(Y13.GE.0.5) Y13I=1.644934-Y13L*Y13M-DILOG(1.-Y13) 
-          IF(Y23.LE.0.5) Y23I=DILOG(Y23) 
-          IF(Y23.GE.0.5) Y23I=1.644934-Y23L*Y23M-DILOG(1.-Y23) 
-          IF(Y12.LE.0.5) Y12I=DILOG(Y12) 
-          IF(Y12.GE.0.5) Y12I=1.644934-Y12L*Y12M-DILOG(1.-Y12) 
-          WT1=(Y13**2+Y23**2+2.*Y12)/(Y13*Y23) 
-          WT2=CF*(-2.*(CUTL-Y12L)**2-3.*CUTL-1.+3.289868+ 
-     &    2.*(2.*CUTL-Y12L)*CUT/Y12)+ 
-     &    CN*((CUTL-Y12L)**2-(CUTL-Y13L)**2-(CUTL-Y23L)**2-11.*CUTL/6.+ 
-     &    67./18.+1.644934-(2.*CUTL-Y12L)*CUT/Y12+(2.*CUTL-Y13L)* 
-     &    CUT/Y13+(2.*CUTL-Y23L)*CUT/Y23)+ 
-     &    TR*(2.*CUTL/3.-10./9.)+ 
-     &    CF*(Y12/(Y12+Y13)+Y12/(Y12+Y23)+(Y12+Y23)/Y13+(Y12+Y13)/Y23+ 
-     &    Y13L*(4.*Y12**2+2.*Y12*Y13+4.*Y12*Y23+Y13*Y23)/(Y12+Y23)**2+ 
-     &    Y23L*(4.*Y12**2+2.*Y12*Y23+4.*Y12*Y13+Y13*Y23)/(Y12+Y13)**2)/ 
-     &    WT1+ 
-     &    CN*(Y13L*Y13/(Y12+Y23)+Y23L*Y23/(Y12+Y13))/WT1+ 
-     &    (CN-2.*CF)*((Y12**2+(Y12+Y13)**2)*(Y12L*Y23L-Y12L*Y12M-Y23L* 
-     &    Y23M+1.644934-Y12I-Y23I)/(Y13*Y23)+(Y12**2+(Y12+Y23)**2)* 
-     &    (Y12L*Y13L-Y12L*Y12M-Y13L*Y13M+1.644934-Y12I-Y13I)/ 
-     &    (Y13*Y23)+(Y13**2+Y23**2)/(Y13*Y23*(Y13+Y23))- 
-     &    2.*Y12L*Y12**2/(Y13+Y23)**2-4.*Y12L*Y12/(Y13+Y23))/WT1- 
-     &    CN*(Y13L*Y23L-Y13L*Y13M-Y23L*Y23M+1.644934-Y13I-Y23I) 
-          IF(1.+WTOPT+ALS2PI*WT2.LE.0.) MSTJ(121)=1 
-          IF(1.+WTOPT+ALS2PI*WT2.LE.WTMAX*RLU(0)) GOTO 110 
-          PARJ(156)=(WTOPT+ALS2PI*WT2)/(1.+WTOPT+ALS2PI*WT2) 
- 
-        ELSEIF(MSTJ(101).EQ.2.AND.MSTJ(110).EQ.2) THEN 
-C...Second order corrections; Zhu parametrization of ERT. 
-          ZX=(Y23-Y13)**2 
-          ZY=1.-Y12 
-          IZA=0 
-          DO 120 IY=1,5 
-          IF(ABS(CUT-0.01*IY).LT.0.0001) IZA=IY 
-  120     CONTINUE 
-          IF(IZA.NE.0) THEN 
-            IZ=IZA 
-            WT2=ZHUP(IZ,1)+ZHUP(IZ,2)*ZX+ZHUP(IZ,3)*ZX**2+(ZHUP(IZ,4)+ 
-     &      ZHUP(IZ,5)*ZX)*ZY+(ZHUP(IZ,6)+ZHUP(IZ,7)*ZX)*ZY**2+ 
-     &      (ZHUP(IZ,8)+ZHUP(IZ,9)*ZX)*ZY**3+ZHUP(IZ,10)/(ZX-ZY**2)+ 
-     &      ZHUP(IZ,11)/(1.-ZY)+ZHUP(IZ,12)/ZY 
-          ELSE 
-            IZ=100.*CUT 
-            WTL=ZHUP(IZ,1)+ZHUP(IZ,2)*ZX+ZHUP(IZ,3)*ZX**2+(ZHUP(IZ,4)+ 
-     &      ZHUP(IZ,5)*ZX)*ZY+(ZHUP(IZ,6)+ZHUP(IZ,7)*ZX)*ZY**2+ 
-     &      (ZHUP(IZ,8)+ZHUP(IZ,9)*ZX)*ZY**3+ZHUP(IZ,10)/(ZX-ZY**2)+ 
-     &      ZHUP(IZ,11)/(1.-ZY)+ZHUP(IZ,12)/ZY 
-            IZ=IZ+1 
-            WTU=ZHUP(IZ,1)+ZHUP(IZ,2)*ZX+ZHUP(IZ,3)*ZX**2+(ZHUP(IZ,4)+ 
-     &      ZHUP(IZ,5)*ZX)*ZY+(ZHUP(IZ,6)+ZHUP(IZ,7)*ZX)*ZY**2+ 
-     &      (ZHUP(IZ,8)+ZHUP(IZ,9)*ZX)*ZY**3+ZHUP(IZ,10)/(ZX-ZY**2)+ 
-     &      ZHUP(IZ,11)/(1.-ZY)+ZHUP(IZ,12)/ZY 
-            WT2=WTL+(WTU-WTL)*(100.*CUT+1.-IZ) 
-          ENDIF 
-          IF(1.+WTOPT+2.*ALS2PI*WT2.LE.0.) MSTJ(121)=1 
-          IF(1.+WTOPT+2.*ALS2PI*WT2.LE.WTMAX*RLU(0)) GOTO 110 
-          PARJ(156)=(WTOPT+2.*ALS2PI*WT2)/(1.+WTOPT+2.*ALS2PI*WT2) 
-        ENDIF 
- 
-C...Impose mass cuts (gives two jets). For fixed jet number new try. 
-        X1=1.-Y23 
-        X2=1.-Y13 
-        X3=1.-Y12 
-        IF(4.*Y23*Y13*Y12/X3**2.LE.QME) NJET=2 
-        IF(MOD(MSTJ(103),4).GE.2.AND.IABS(MSTJ(101)).LE.1.AND.QME*X3+ 
-     &  0.5*QME**2+(0.5*QME+0.25*QME**2)*((1.-X2)/(1.-X1)+ 
-     &  (1.-X1)/(1.-X2)).GT.(X1**2+X2**2)*RLU(0)) NJET=2 
-        IF(MSTJ(101).EQ.-1.AND.NJET.EQ.2) GOTO 100 
- 
-C...Scalar gluon model (first order only, no mass effects). 
-      ELSE 
-  130   NJET=3 
-  140   X3=SQRT(4.*CUT**2+RLU(0)*((1.-CUT)**2-4.*CUT**2)) 
-        IF(LOG((X3-CUT)/CUT).LE.RLU(0)*LOG((1.-2.*CUT)/CUT)) GOTO 140 
-        YD=SIGN(2.*CUT*((X3-CUT)/CUT)**RLU(0)-X3,RLU(0)-0.5) 
-        X1=1.-0.5*(X3+YD) 
-        X2=1.-0.5*(X3-YD) 
-        IF(4.*(1.-X1)*(1.-X2)*(1.-X3)/X3**2.LE.QME) NJET=2 
-        IF(MSTJ(102).GE.2) THEN 
-          IF(X3**2-2.*(1.+X3)*(1.-X1)*(1.-X2)*PARJ(171).LT. 
-     &    X3**2*RLU(0)) NJET=2 
-        ENDIF 
-        IF(MSTJ(101).EQ.-1.AND.NJET.EQ.2) GOTO 130 
-      ENDIF 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUX4JT
-      SUBROUTINE LUX4JT(NJET,CUT,KFL,ECM,KFLN,X1,X2,X4,X12,X14) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to select the kinematical variables of four-jet events. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUDAT1/ 
-      DIMENSION WTA(4),WTB(4),WTC(4),WTD(4),WTE(4) 
- 
-C...Common constants. Colour factors for QCD and Abelian gluon theory. 
-      PMQ=ULMASS(KFL) 
-      QME=(2.*PMQ/ECM)**2 
-      CT=LOG(1./CUT-5.) 
-      IF(MSTJ(109).EQ.0) THEN 
-        CF=4./3. 
-        CN=3. 
-        TR=2.5 
-      ELSE 
-        CF=1. 
-        CN=0. 
-        TR=15. 
-      ENDIF 
- 
-C...Choice of process (qqbargg or qqbarqqbar). 
-  100 NJET=4 
-      IT=1 
-      IF(PARJ(155).GT.RLU(0)) IT=2 
-      IF(MSTJ(101).LE.-3) IT=-MSTJ(101)-2 
-      IF(IT.EQ.1) WTMX=0.7/CUT**2 
-      IF(IT.EQ.1.AND.MSTJ(109).EQ.2) WTMX=0.6/CUT**2 
-      IF(IT.EQ.2) WTMX=0.1125*CF*TR/CUT**2 
-      ID=1 
- 
-C...Sample the five kinematical variables (for qqgg preweighted in y34). 
-  110 Y134=3.*CUT+(1.-6.*CUT)*RLU(0) 
-      Y234=3.*CUT+(1.-6.*CUT)*RLU(0) 
-      IF(IT.EQ.1) Y34=(1.-5.*CUT)*EXP(-CT*RLU(0)) 
-      IF(IT.EQ.2) Y34=CUT+(1.-6.*CUT)*RLU(0) 
-      IF(Y34.LE.Y134+Y234-1..OR.Y34.GE.Y134*Y234) GOTO 110 
-      VT=RLU(0) 
-      CP=COS(PARU(1)*RLU(0)) 
-      Y14=(Y134-Y34)*VT 
-      Y13=Y134-Y14-Y34 
-      VB=Y34*(1.-Y134-Y234+Y34)/((Y134-Y34)*(Y234-Y34)) 
-      Y24=0.5*(Y234-Y34)*(1.-4.*SQRT(MAX(0.D0,VT*(1.-VT)*VB*(1.-VB)))* 
-     &CP-(1.-2.*VT)*(1.-2.*VB)) 
-      Y23=Y234-Y34-Y24 
-      Y12=1.-Y134-Y23-Y24 
-      IF(MIN(Y12,Y13,Y14,Y23,Y24).LE.CUT) GOTO 110 
-      Y123=Y12+Y13+Y23 
-      Y124=Y12+Y14+Y24 
- 
-C...Calculate matrix elements for qqgg or qqqq process. 
-      IC=0 
-      WTTOT=0. 
-  120 IC=IC+1 
-      IF(IT.EQ.1) THEN 
-        WTA(IC)=(Y12*Y34**2-Y13*Y24*Y34+Y14*Y23*Y34+3.*Y12*Y23*Y34+ 
-     &  3.*Y12*Y14*Y34+4.*Y12**2*Y34-Y13*Y23*Y24+2.*Y12*Y23*Y24- 
-     &  Y13*Y14*Y24-2.*Y12*Y13*Y24+2.*Y12**2*Y24+Y14*Y23**2+2.*Y12* 
-     &  Y23**2+Y14**2*Y23+4.*Y12*Y14*Y23+4.*Y12**2*Y23+2.*Y12*Y14**2+ 
-     &  2.*Y12*Y13*Y14+4.*Y12**2*Y14+2.*Y12**2*Y13+2.*Y12**3)/(2.*Y13* 
-     &  Y134*Y234*Y24)+(Y24*Y34+Y12*Y34+Y13*Y24-Y14*Y23+Y12*Y13)/(Y13* 
-     &  Y134**2)+2.*Y23*(1.-Y13)/(Y13*Y134*Y24)+Y34/(2.*Y13*Y24) 
-        WTB(IC)=(Y12*Y24*Y34+Y12*Y14*Y34-Y13*Y24**2+Y13*Y14*Y24+2.*Y12* 
-     &  Y14*Y24)/(Y13*Y134*Y23*Y14)+Y12*(1.+Y34)*Y124/(Y134*Y234*Y14* 
-     &  Y24)-(2.*Y13*Y24+Y14**2+Y13*Y23+2.*Y12*Y13)/(Y13*Y134*Y14)+ 
-     &  Y12*Y123*Y124/(2.*Y13*Y14*Y23*Y24) 
-        WTC(IC)=-(5.*Y12*Y34**2+2.*Y12*Y24*Y34+2.*Y12*Y23*Y34+2.*Y12* 
-     &  Y14*Y34+2.*Y12*Y13*Y34+4.*Y12**2*Y34-Y13*Y24**2+Y14*Y23*Y24+ 
-     &  Y13*Y23*Y24+Y13*Y14*Y24-Y12*Y14*Y24-Y13**2*Y24-3.*Y12*Y13*Y24- 
-     &  Y14*Y23**2-Y14**2*Y23+Y13*Y14*Y23-3.*Y12*Y14*Y23-Y12*Y13*Y23)/ 
-     &  (4.*Y134*Y234*Y34**2)+(3.*Y12*Y34**2-3.*Y13*Y24*Y34+3.*Y12*Y24* 
-     &  Y34+3.*Y14*Y23*Y34-Y13*Y24**2-Y12*Y23*Y34+6.*Y12*Y14*Y34+2.*Y12* 
-     &  Y13*Y34-2.*Y12**2*Y34+Y14*Y23*Y24-3.*Y13*Y23*Y24-2.*Y13*Y14* 
-     &  Y24+4.*Y12*Y14*Y24+2.*Y12*Y13*Y24+3.*Y14*Y23**2+2.*Y14**2*Y23+ 
-     &  2.*Y14**2*Y12+2.*Y12**2*Y14+6.*Y12*Y14*Y23-2.*Y12*Y13**2- 
-     &  2.*Y12**2*Y13)/(4.*Y13*Y134*Y234*Y34) 
-        WTC(IC)=WTC(IC)+(2.*Y12*Y34**2-2.*Y13*Y24*Y34+Y12*Y24*Y34+ 
-     &  4.*Y13*Y23*Y34+4.*Y12*Y14*Y34+2.*Y12*Y13*Y34+2.*Y12**2*Y34- 
-     &  Y13*Y24**2+3.*Y14*Y23*Y24+4.*Y13*Y23*Y24-2.*Y13*Y14*Y24+ 
-     &  4.*Y12*Y14*Y24+2.*Y12*Y13*Y24+2.*Y14*Y23**2+4.*Y13*Y23**2+ 
-     &  2.*Y13*Y14*Y23+2.*Y12*Y14*Y23+4.*Y12*Y13*Y23+2.*Y12*Y14**2+4.* 
-     &  Y12**2*Y13+4.*Y12*Y13*Y14+2.*Y12**2*Y14)/(4.*Y13*Y134*Y24*Y34)- 
-     &  (Y12*Y34**2-2.*Y14*Y24*Y34-2.*Y13*Y24*Y34-Y14*Y23*Y34+Y13*Y23* 
-     &  Y34+Y12*Y14*Y34+2.*Y12*Y13*Y34-2.*Y14**2*Y24-4.*Y13*Y14*Y24- 
-     &  4.*Y13**2*Y24-Y14**2*Y23-Y13**2*Y23+Y12*Y13*Y14-Y12*Y13**2)/ 
-     &  (2.*Y13*Y34*Y134**2)+(Y12*Y34**2-4.*Y14*Y24*Y34-2.*Y13*Y24*Y34- 
-     &  2.*Y14*Y23*Y34-4.*Y13*Y23*Y34-4.*Y12*Y14*Y34-4.*Y12*Y13*Y34- 
-     &  2.*Y13*Y14*Y24+2.*Y13**2*Y24+2.*Y14**2*Y23-2.*Y13*Y14*Y23- 
-     &  Y12*Y14**2-6.*Y12*Y13*Y14-Y12*Y13**2)/(4.*Y34**2*Y134**2) 
-        WTTOT=WTTOT+Y34*CF*(CF*WTA(IC)+(CF-0.5*CN)*WTB(IC)+CN*WTC(IC))/ 
-     &  8. 
-      ELSE 
-        WTD(IC)=(Y13*Y23*Y34+Y12*Y23*Y34-Y12**2*Y34+Y13*Y23*Y24+2.*Y12* 
-     &  Y23*Y24-Y14*Y23**2+Y12*Y13*Y24+Y12*Y14*Y23+Y12*Y13*Y14)/(Y13**2* 
-     &  Y123**2)-(Y12*Y34**2-Y13*Y24*Y34+Y12*Y24*Y34-Y14*Y23*Y34-Y12* 
-     &  Y23*Y34-Y13*Y24**2+Y14*Y23*Y24-Y13*Y23*Y24-Y13**2*Y24+Y14* 
-     &  Y23**2)/(Y13**2*Y123*Y134)+(Y13*Y14*Y12+Y34*Y14*Y12-Y34**2*Y12+ 
-     &  Y13*Y14*Y24+2.*Y34*Y14*Y24-Y23*Y14**2+Y34*Y13*Y24+Y34*Y23*Y14+ 
-     &  Y34*Y13*Y23)/(Y13**2*Y134**2)-(Y34*Y12**2-Y13*Y24*Y12+Y34*Y24* 
-     &  Y12-Y23*Y14*Y12-Y34*Y14*Y12-Y13*Y24**2+Y23*Y14*Y24-Y13*Y14*Y24- 
-     &  Y13**2*Y24+Y23*Y14**2)/(Y13**2*Y134*Y123) 
-        WTE(IC)=(Y12*Y34*(Y23-Y24+Y14+Y13)+Y13*Y24**2-Y14*Y23*Y24+Y13* 
-     &  Y23*Y24+Y13*Y14*Y24+Y13**2*Y24-Y14*Y23*(Y14+Y23+Y13))/(Y13*Y23* 
-     &  Y123*Y134)-Y12*(Y12*Y34-Y23*Y24-Y13*Y24-Y14*Y23-Y14*Y13)/(Y13* 
-     &  Y23*Y123**2)-(Y14+Y13)*(Y24+Y23)*Y34/(Y13*Y23*Y134*Y234)+ 
-     &  (Y12*Y34*(Y14-Y24+Y23+Y13)+Y13*Y24**2-Y23*Y14*Y24+Y13*Y14*Y24+ 
-     &  Y13*Y23*Y24+Y13**2*Y24-Y23*Y14*(Y14+Y23+Y13))/(Y13*Y14*Y134* 
-     &  Y123)-Y34*(Y34*Y12-Y14*Y24-Y13*Y24-Y23*Y14-Y23*Y13)/(Y13*Y14* 
-     &  Y134**2)-(Y23+Y13)*(Y24+Y14)*Y12/(Y13*Y14*Y123*Y124) 
-        WTTOT=WTTOT+CF*(TR*WTD(IC)+(CF-0.5*CN)*WTE(IC))/16. 
-      ENDIF 
- 
-C...Permutations of momenta in matrix element. Weighting. 
-  130 IF(IC.EQ.1.OR.IC.EQ.3.OR.ID.EQ.2.OR.ID.EQ.3) THEN 
-        YSAV=Y13 
-        Y13=Y14 
-        Y14=YSAV 
-        YSAV=Y23 
-        Y23=Y24 
-        Y24=YSAV 
-        YSAV=Y123 
-        Y123=Y124 
-        Y124=YSAV 
-      ENDIF 
-      IF(IC.EQ.2.OR.IC.EQ.4.OR.ID.EQ.3.OR.ID.EQ.4) THEN 
-        YSAV=Y13 
-        Y13=Y23 
-        Y23=YSAV 
-        YSAV=Y14 
-        Y14=Y24 
-        Y24=YSAV 
-        YSAV=Y134 
-        Y134=Y234 
-        Y234=YSAV 
-      ENDIF 
-      IF(IC.LE.3) GOTO 120 
-      IF(ID.EQ.1.AND.WTTOT.LT.RLU(0)*WTMX) GOTO 110 
-      IC=5 
- 
-C...qqgg events: string configuration and event type. 
-      IF(IT.EQ.1) THEN 
-        IF(MSTJ(109).EQ.0.AND.ID.EQ.1) THEN 
-          PARJ(156)=Y34*(2.*(WTA(1)+WTA(2)+WTA(3)+WTA(4))+4.*(WTC(1)+ 
-     &    WTC(2)+WTC(3)+WTC(4)))/(9.*WTTOT) 
-          IF(WTA(2)+WTA(4)+2.*(WTC(2)+WTC(4)).GT.RLU(0)*(WTA(1)+WTA(2)+ 
-     &    WTA(3)+WTA(4)+2.*(WTC(1)+WTC(2)+WTC(3)+WTC(4)))) ID=2 
-          IF(ID.EQ.2) GOTO 130 
-        ELSEIF(MSTJ(109).EQ.2.AND.ID.EQ.1) THEN 
-          PARJ(156)=Y34*(WTA(1)+WTA(2)+WTA(3)+WTA(4))/(8.*WTTOT) 
-          IF(WTA(2)+WTA(4).GT.RLU(0)*(WTA(1)+WTA(2)+WTA(3)+WTA(4))) ID=2 
-          IF(ID.EQ.2) GOTO 130 
-        ENDIF 
-        MSTJ(120)=3 
-        IF(MSTJ(109).EQ.0.AND.0.5*Y34*(WTC(1)+WTC(2)+WTC(3)+WTC(4)).GT. 
-     &  RLU(0)*WTTOT) MSTJ(120)=4 
-        KFLN=21 
- 
-C...Mass cuts. Kinematical variables out. 
-        IF(Y12.LE.CUT+QME) NJET=2 
-        IF(NJET.EQ.2) GOTO 150 
-        Q12=0.5*(1.-SQRT(1.-QME/Y12)) 
-        X1=1.-(1.-Q12)*Y234-Q12*Y134 
-        X4=1.-(1.-Q12)*Y134-Q12*Y234 
-        X2=1.-Y124 
-        X12=(1.-Q12)*Y13+Q12*Y23 
-        X14=Y12-0.5*QME 
-        IF(Y134*Y234/((1.-X1)*(1.-X4)).LE.RLU(0)) NJET=2 
- 
-C...qqbarqqbar events: string configuration, choose new flavour. 
-      ELSE 
-        IF(ID.EQ.1) THEN 
-          WTR=RLU(0)*(WTD(1)+WTD(2)+WTD(3)+WTD(4)) 
-          IF(WTR.LT.WTD(2)+WTD(3)+WTD(4)) ID=2 
-          IF(WTR.LT.WTD(3)+WTD(4)) ID=3 
-          IF(WTR.LT.WTD(4)) ID=4 
-          IF(ID.GE.2) GOTO 130 
-        ENDIF 
-        MSTJ(120)=5 
-        PARJ(156)=CF*TR*(WTD(1)+WTD(2)+WTD(3)+WTD(4))/(16.*WTTOT) 
-  140   KFLN=1+INT(5.*RLU(0)) 
-        IF(KFLN.NE.KFL.AND.0.2*PARJ(156).LE.RLU(0)) GOTO 140 
-        IF(KFLN.EQ.KFL.AND.1.-0.8*PARJ(156).LE.RLU(0)) GOTO 140 
-        IF(KFLN.GT.MSTJ(104)) NJET=2 
-        PMQN=ULMASS(KFLN) 
-        QMEN=(2.*PMQN/ECM)**2 
- 
-C...Mass cuts. Kinematical variables out. 
-        IF(Y24.LE.CUT+QME.OR.Y13.LE.1.1*QMEN) NJET=2 
-        IF(NJET.EQ.2) GOTO 150 
-        Q24=0.5*(1.-SQRT(1.-QME/Y24)) 
-        Q13=0.5*(1.-SQRT(1.-QMEN/Y13)) 
-        X1=1.-(1.-Q24)*Y123-Q24*Y134 
-        X4=1.-(1.-Q24)*Y134-Q24*Y123 
-        X2=1.-(1.-Q13)*Y234-Q13*Y124 
-        X12=(1.-Q24)*((1.-Q13)*Y14+Q13*Y34)+Q24*((1.-Q13)*Y12+Q13*Y23) 
-        X14=Y24-0.5*QME 
-        X34=(1.-Q24)*((1.-Q13)*Y23+Q13*Y12)+Q24*((1.-Q13)*Y34+Q13*Y14) 
-        IF(PMQ**2+PMQN**2+MIN(X12,X34)*ECM**2.LE. 
-     &  (PARJ(127)+PMQ+PMQN)**2) NJET=2 
-        IF(Y123*Y134/((1.-X1)*(1.-X4)).LE.RLU(0)) NJET=2 
-      ENDIF 
-  150 IF(MSTJ(101).LE.-2.AND.NJET.EQ.2) GOTO 100 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUXDIF
-      SUBROUTINE LUXDIF(NC,NJET,KFL,ECM,CHI,THE,PHI) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to give the angular orientation of events. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Charge. Factors depending on polarization for QED case. 
-      QF=KCHG(KFL,1)/3. 
-      POLL=1.-PARJ(131)*PARJ(132) 
-      POLD=PARJ(132)-PARJ(131) 
-      IF(MSTJ(102).LE.1.OR.MSTJ(109).EQ.1) THEN 
-        HF1=POLL 
-        HF2=0. 
-        HF3=PARJ(133)**2 
-        HF4=0. 
- 
-C...Factors depending on flavour, energy and polarization for QFD case. 
-      ELSE 
-        SFF=1./(16.*PARU(102)*(1.-PARU(102))) 
-        SFW=ECM**4/((ECM**2-PARJ(123)**2)**2+(PARJ(123)*PARJ(124))**2) 
-        SFI=SFW*(1.-(PARJ(123)/ECM)**2) 
-        AE=-1. 
-        VE=4.*PARU(102)-1. 
-        AF=SIGN(1.D0,QF) 
-        VF=AF-4.*QF*PARU(102) 
-        HF1=QF**2*POLL-2.*QF*VF*SFI*SFF*(VE*POLL-AE*POLD)+ 
-     &  (VF**2+AF**2)*SFW*SFF**2*((VE**2+AE**2)*POLL-2.*VE*AE*POLD) 
-        HF2=-2.*QF*AF*SFI*SFF*(AE*POLL-VE*POLD)+2.*VF*AF*SFW*SFF**2* 
-     &  (2.*VE*AE*POLL-(VE**2+AE**2)*POLD) 
-        HF3=PARJ(133)**2*(QF**2-2.*QF*VF*SFI*SFF*VE+(VF**2+AF**2)* 
-     &  SFW*SFF**2*(VE**2-AE**2)) 
-        HF4=-PARJ(133)**2*2.*QF*VF*SFW*(PARJ(123)*PARJ(124)/ECM**2)* 
-     &  SFF*AE 
-      ENDIF 
- 
-C...Mass factor. Differential cross-sections for two-jet events. 
-      SQ2=SQRT(2.) 
-      QME=0. 
-      IF(MSTJ(103).GE.4.AND.IABS(MSTJ(101)).LE.1.AND.MSTJ(102).LE.1.AND. 
-     &MSTJ(109).NE.1) QME=(2.*ULMASS(KFL)/ECM)**2 
-      IF(NJET.EQ.2) THEN 
-        SIGU=4.*SQRT(1.-QME) 
-        SIGL=2.*QME*SQRT(1.-QME) 
-        SIGT=0. 
-        SIGI=0. 
-        SIGA=0. 
-        SIGP=4. 
- 
-C...Kinematical variables. Reduce four-jet event to three-jet one. 
-      ELSE 
-        IF(NJET.EQ.3) THEN 
-          X1=2.*P(NC+1,4)/ECM 
-          X2=2.*P(NC+3,4)/ECM 
-        ELSE 
-          ECMR=P(NC+1,4)+P(NC+4,4)+SQRT((P(NC+2,1)+P(NC+3,1))**2+ 
-     &    (P(NC+2,2)+P(NC+3,2))**2+(P(NC+2,3)+P(NC+3,3))**2) 
-          X1=2.*P(NC+1,4)/ECMR 
-          X2=2.*P(NC+4,4)/ECMR 
-        ENDIF 
- 
-C...Differential cross-sections for three-jet (or reduced four-jet). 
-        XQ=(1.-X1)/(1.-X2) 
-        CT12=(X1*X2-2.*X1-2.*X2+2.+QME)/SQRT((X1**2-QME)*(X2**2-QME)) 
-        ST12=SQRT(1.-CT12**2) 
-        IF(MSTJ(109).NE.1) THEN 
-          SIGU=2.*X1**2+X2**2*(1.+CT12**2)-QME*(3.+CT12**2-X1-X2)- 
-     &    QME*X1/XQ+0.5*QME*((X2**2-QME)*ST12**2-2.*X2)*XQ 
-          SIGL=(X2*ST12)**2-QME*(3.-CT12**2-2.5*(X1+X2)+X1*X2+QME)+ 
-     &    0.5*QME*(X1**2-X1-QME)/XQ+0.5*QME*((X2**2-QME)*CT12**2-X2)*XQ 
-          SIGT=0.5*(X2**2-QME-0.5*QME*(X2**2-QME)/XQ)*ST12**2 
-          SIGI=((1.-0.5*QME*XQ)*(X2**2-QME)*ST12*CT12+QME*(1.-X1-X2+ 
-     &    0.5*X1*X2+0.5*QME)*ST12/CT12)/SQ2 
-          SIGA=X2**2*ST12/SQ2 
-          SIGP=2.*(X1**2-X2**2*CT12) 
- 
-C...Differential cross-sect for scalar gluons (no mass effects). 
-        ELSE 
-          X3=2.-X1-X2 
-          XT=X2*ST12 
-          CT13=SQRT(MAX(0.D0,1.-(XT/X3)**2)) 
-          SIGU=(1.-PARJ(171))*(X3**2-0.5*XT**2)+ 
-     &    PARJ(171)*(X3**2-0.5*XT**2-4.*(1.-X1)*(1.-X2)**2/X1) 
-          SIGL=(1.-PARJ(171))*0.5*XT**2+ 
-     &    PARJ(171)*0.5*(1.-X1)**2*XT**2 
-          SIGT=(1.-PARJ(171))*0.25*XT**2+ 
-     &    PARJ(171)*0.25*XT**2*(1.-2.*X1) 
-          SIGI=-(0.5/SQ2)*((1.-PARJ(171))*XT*X3*CT13+ 
-     &    PARJ(171)*XT*((1.-2.*X1)*X3*CT13-X1*(X1-X2))) 
-          SIGA=(0.25/SQ2)*XT*(2.*(1.-X1)-X1*X3) 
-          SIGP=X3**2-2.*(1.-X1)*(1.-X2)/X1 
-        ENDIF 
-      ENDIF 
- 
-C...Upper bounds for differential cross-section. 
-      HF1A=ABS(HF1) 
-      HF2A=ABS(HF2) 
-      HF3A=ABS(HF3) 
-      HF4A=ABS(HF4) 
-      SIGMAX=(2.*HF1A+HF3A+HF4A)*ABS(SIGU)+2.*(HF1A+HF3A+HF4A)* 
-     &ABS(SIGL)+2.*(HF1A+2.*HF3A+2.*HF4A)*ABS(SIGT)+2.*SQ2* 
-     &(HF1A+2.*HF3A+2.*HF4A)*ABS(SIGI)+4.*SQ2*HF2A*ABS(SIGA)+ 
-     &2.*HF2A*ABS(SIGP) 
- 
-C...Generate angular orientation according to differential cross-sect. 
-  100 CHI=PARU(2)*RLU(0) 
-      CTHE=2.*RLU(0)-1. 
-      PHI=PARU(2)*RLU(0) 
-      CCHI=COS(CHI) 
-      SCHI=SIN(CHI) 
-      C2CHI=COS(2.*CHI) 
-      S2CHI=SIN(2.*CHI) 
-      THE=ACOS(CTHE) 
-      STHE=SIN(THE) 
-      C2PHI=COS(2.*(PHI-PARJ(134))) 
-      S2PHI=SIN(2.*(PHI-PARJ(134))) 
-      SIG=((1.+CTHE**2)*HF1+STHE**2*(C2PHI*HF3-S2PHI*HF4))*SIGU+ 
-     &2.*(STHE**2*HF1-STHE**2*(C2PHI*HF3-S2PHI*HF4))*SIGL+ 
-     &2.*(STHE**2*C2CHI*HF1+((1.+CTHE**2)*C2CHI*C2PHI-2.*CTHE*S2CHI* 
-     &S2PHI)*HF3-((1.+CTHE**2)*C2CHI*S2PHI+2.*CTHE*S2CHI*C2PHI)*HF4)* 
-     &SIGT-2.*SQ2*(2.*STHE*CTHE*CCHI*HF1-2.*STHE*(CTHE*CCHI*C2PHI- 
-     &SCHI*S2PHI)*HF3+2.*STHE*(CTHE*CCHI*S2PHI+SCHI*C2PHI)*HF4)*SIGI+ 
-     &4.*SQ2*STHE*CCHI*HF2*SIGA+2.*CTHE*HF2*SIGP 
-      IF(SIG.LT.SIGMAX*RLU(0)) GOTO 100 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUONIA
-      SUBROUTINE LUONIA(KFL,ECM) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to generate Upsilon and toponium decays into three 
-C...gluons or two gluons and a photon. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Printout. Check input parameters. 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
-      IF(KFL.LT.0.OR.KFL.GT.8) THEN 
-        CALL LUERRM(16,'(LUONIA:) called with unknown flavour code') 
-        IF(MSTU(21).GE.1) RETURN 
-      ENDIF 
-      IF(ECM.LT.PARJ(127)+2.02*PARF(101)) THEN 
-        CALL LUERRM(16,'(LUONIA:) called with too small CM energy') 
-        IF(MSTU(21).GE.1) RETURN 
-      ENDIF 
- 
-C...Initial e+e- and onium state (optional). 
-      NC=0 
-      IF(MSTJ(115).GE.2) THEN 
-        NC=NC+2 
-        CALL LU1ENT(NC-1,11,0.5*ECM,0.D0,0.D0) 
-        K(NC-1,1)=21 
-        CALL LU1ENT(NC,-11,0.5*ECM,PARU(1),0.D0) 
-        K(NC,1)=21 
-      ENDIF 
-      KFLC=IABS(KFL) 
-      IF(MSTJ(115).GE.3.AND.KFLC.GE.5) THEN 
-        NC=NC+1 
-        KF=110*KFLC+3 
-        MSTU10=MSTU(10) 
-        MSTU(10)=1 
-        P(NC,5)=ECM 
-        CALL LU1ENT(NC,KF,ECM,0.D0,0.D0) 
-        K(NC,1)=21 
-        K(NC,3)=1 
-        MSTU(10)=MSTU10 
-      ENDIF 
- 
-C...Choose x1 and x2 according to matrix element. 
-      NTRY=0 
-  100 X1=RLU(0) 
-      X2=RLU(0) 
-      X3=2.-X1-X2 
-      IF(X3.GE.1..OR.((1.-X1)/(X2*X3))**2+((1.-X2)/(X1*X3))**2+ 
-     &((1.-X3)/(X1*X2))**2.LE.2.*RLU(0)) GOTO 100 
-      NTRY=NTRY+1 
-      NJET=3 
-      IF(MSTJ(101).LE.4) CALL LU3ENT(NC+1,21,21,21,ECM,X1,X3) 
-      IF(MSTJ(101).GE.5) CALL LU3ENT(-(NC+1),21,21,21,ECM,X1,X3) 
- 
-C...Photon-gluon-gluon events. Small system modifications. Jet origin. 
-      MSTU(111)=MSTJ(108) 
-      IF(MSTJ(108).EQ.2.AND.(MSTJ(101).EQ.0.OR.MSTJ(101).EQ.1)) 
-     &MSTU(111)=1 
-      PARU(112)=PARJ(121) 
-      IF(MSTU(111).EQ.2) PARU(112)=PARJ(122) 
-      QF=0. 
-      IF(KFLC.NE.0) QF=KCHG(KFLC,1)/3. 
-      RGAM=7.2*QF**2*PARU(101)/ULALPS(ECM**2) 
-      MK=0 
-      ECMC=ECM 
-      IF(RLU(0).GT.RGAM/(1.+RGAM)) THEN 
-        IF(1.-MAX(X1,X2,X3).LE.MAX((PARJ(126)/ECM)**2,PARJ(125))) 
-     &  NJET=2 
-        IF(NJET.EQ.2.AND.MSTJ(101).LE.4) CALL LU2ENT(NC+1,21,21,ECM) 
-        IF(NJET.EQ.2.AND.MSTJ(101).GE.5) CALL LU2ENT(-(NC+1),21,21,ECM) 
-      ELSE 
-        MK=1 
-        ECMC=SQRT(1.-X1)*ECM 
-        IF(ECMC.LT.2.*PARJ(127)) GOTO 100 
-        K(NC+1,1)=1 
-        K(NC+1,2)=22 
-        K(NC+1,4)=0 
-        K(NC+1,5)=0 
-        IF(MSTJ(101).GE.5) K(NC+2,4)=MSTU(5)*(NC+3) 
-        IF(MSTJ(101).GE.5) K(NC+2,5)=MSTU(5)*(NC+3) 
-        IF(MSTJ(101).GE.5) K(NC+3,4)=MSTU(5)*(NC+2) 
-        IF(MSTJ(101).GE.5) K(NC+3,5)=MSTU(5)*(NC+2) 
-        NJET=2 
-        IF(ECMC.LT.4.*PARJ(127)) THEN 
-          MSTU10=MSTU(10) 
-          MSTU(10)=1 
-          P(NC+2,5)=ECMC 
-          CALL LU1ENT(NC+2,83,0.5*(X2+X3)*ECM,PARU(1),0.D0) 
-          MSTU(10)=MSTU10 
-          NJET=0 
-        ENDIF 
-      ENDIF 
-      DO 110 IP=NC+1,N 
-      K(IP,3)=K(IP,3)+(MSTJ(115)/2)+(KFLC/5)*(MSTJ(115)/3)*(NC-1) 
-  110 CONTINUE 
- 
-C...Differential cross-sections. Upper limit for cross-section. 
-      IF(MSTJ(106).EQ.1) THEN 
-        SQ2=SQRT(2.) 
-        HF1=1.-PARJ(131)*PARJ(132) 
-        HF3=PARJ(133)**2 
-        CT13=(X1*X3-2.*X1-2.*X3+2.)/(X1*X3) 
-        ST13=SQRT(1.-CT13**2) 
-        SIGL=0.5*X3**2*((1.-X2)**2+(1.-X3)**2)*ST13**2 
-        SIGU=(X1*(1.-X1))**2+(X2*(1.-X2))**2+(X3*(1.-X3))**2-SIGL 
-        SIGT=0.5*SIGL 
-        SIGI=(SIGL*CT13/ST13+0.5*X1*X3*(1.-X2)**2*ST13)/SQ2 
-        SIGMAX=(2.*HF1+HF3)*ABS(SIGU)+2.*(HF1+HF3)*ABS(SIGL)+2.*(HF1+ 
-     &  2.*HF3)*ABS(SIGT)+2.*SQ2*(HF1+2.*HF3)*ABS(SIGI) 
- 
-C...Angular orientation of event. 
-  120   CHI=PARU(2)*RLU(0) 
-        CTHE=2.*RLU(0)-1. 
-        PHI=PARU(2)*RLU(0) 
-        CCHI=COS(CHI) 
-        SCHI=SIN(CHI) 
-        C2CHI=COS(2.*CHI) 
-        S2CHI=SIN(2.*CHI) 
-        THE=ACOS(CTHE) 
-        STHE=SIN(THE) 
-        C2PHI=COS(2.*(PHI-PARJ(134))) 
-        S2PHI=SIN(2.*(PHI-PARJ(134))) 
-        SIG=((1.+CTHE**2)*HF1+STHE**2*C2PHI*HF3)*SIGU+2.*(STHE**2*HF1- 
-     &  STHE**2*C2PHI*HF3)*SIGL+2.*(STHE**2*C2CHI*HF1+((1.+CTHE**2)* 
-     &  C2CHI*C2PHI-2.*CTHE*S2CHI*S2PHI)*HF3)*SIGT-2.*SQ2*(2.*STHE*CTHE* 
-     &  CCHI*HF1-2.*STHE*(CTHE*CCHI*C2PHI-SCHI*S2PHI)*HF3)*SIGI 
-        IF(SIG.LT.SIGMAX*RLU(0)) GOTO 120 
-        CALL LUDBRB(NC+1,N,0.D0,CHI,0D0,0D0,0D0) 
-        CALL LUDBRB(NC+1,N,THE,PHI,0D0,0D0,0D0) 
-      ENDIF 
- 
-C...Generate parton shower. Rearrange along strings and check. 
-      IF(MSTJ(101).GE.5.AND.NJET.GE.2) THEN 
-        CALL LUSHOW(NC+MK+1,-NJET,ECMC) 
-        MSTJ14=MSTJ(14) 
-        IF(MSTJ(105).EQ.-1) MSTJ(14)=-1 
-        IF(MSTJ(105).GE.0) MSTU(28)=0 
-        CALL LUPREP(0) 
-        MSTJ(14)=MSTJ14 
-        IF(MSTJ(105).GE.0.AND.MSTU(28).NE.0) GOTO 100 
-      ENDIF 
- 
-C...Generate fragmentation. Information for LUTABU: 
-      IF(MSTJ(105).EQ.1) CALL LUEXEC 
-      MSTU(161)=110*KFLC+3 
-      MSTU(162)=0 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUHEPC
-      SUBROUTINE LUHEPC(MCONV) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to convert JETSET event record contents to or from 
-C...the standard event record commonblock. 
-C...Note that HEPEVT is in double precision according to LEP 2 standard.
-      PARAMETER (NMXHEP=2000) 
-      COMMON/HEPEVT/NEVHEP,NHEP,ISTHEP(NMXHEP),IDHEP(NMXHEP), 
-     &JMOHEP(2,NMXHEP),JDAHEP(2,NMXHEP),PHEP(5,NMXHEP),VHEP(4,NMXHEP) 
-C     DOUBLE PRECISION PHEP,VHEP
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /HEPEVT/ 
-      SAVE /LUJETS/,/LUDAT1/,/LUDAT2/ 
- 
-C...Conversion from JETSET to standard, the easy part. 
-      IF(MCONV.EQ.1) THEN 
-        NEVHEP=0 
-        IF(N.GT.NMXHEP) CALL LUERRM(8, 
-     &  '(LUHEPC:) no more space in /HEPEVT/') 
-        NHEP=MIN(N,NMXHEP) 
-        DO 140 I=1,NHEP 
-        ISTHEP(I)=0 
-        IF(K(I,1).GE.1.AND.K(I,1).LE.10) ISTHEP(I)=1 
-        IF(K(I,1).GE.11.AND.K(I,1).LE.20) ISTHEP(I)=2 
-        IF(K(I,1).GE.21.AND.K(I,1).LE.30) ISTHEP(I)=3 
-        IF(K(I,1).GE.31.AND.K(I,1).LE.100) ISTHEP(I)=K(I,1) 
-        IDHEP(I)=K(I,2) 
-        JMOHEP(1,I)=K(I,3) 
-        JMOHEP(2,I)=0 
-        IF(K(I,1).NE.3.AND.K(I,1).NE.13.AND.K(I,1).NE.14) THEN 
-          JDAHEP(1,I)=K(I,4) 
-          JDAHEP(2,I)=K(I,5) 
-        ELSE 
-          JDAHEP(1,I)=0 
-          JDAHEP(2,I)=0 
-        ENDIF 
-        DO 100 J=1,5 
-        PHEP(J,I)=P(I,J) 
-  100   CONTINUE 
-        DO 110 J=1,4 
-        VHEP(J,I)=V(I,J) 
-  110   CONTINUE 
- 
-C...Check if new event (from pileup). 
-        IF(I.EQ.1) THEN 
-          INEW=1 
-        ELSE 
-          IF(K(I,1).EQ.21.AND.K(I-1,1).NE.21) INEW=I 
-        ENDIF 
- 
-C...Fill in missing mother information. 
-        IF(I.GE.INEW+2.AND.K(I,1).EQ.21.AND.K(I,3).EQ.0) THEN 
-          IMO1=I-2 
-          IF(I.GE.INEW+3.AND.K(I-1,1).EQ.21.AND.K(I-1,3).EQ.0) 
-     &    IMO1=IMO1-1 
-          JMOHEP(1,I)=IMO1 
-          JMOHEP(2,I)=IMO1+1 
-        ELSEIF(K(I,2).GE.91.AND.K(I,2).LE.93) THEN 
-          I1=K(I,3)-1 
-  120     I1=I1+1 
-          IF(I1.GE.I) CALL LUERRM(8, 
-     &    '(LUHEPC:) translation of inconsistent event history') 
-          IF(I1.LT.I.AND.K(I1,1).NE.1.AND.K(I1,1).NE.11) GOTO 120 
-          KC=LUCOMP(K(I1,2)) 
-          IF(I1.LT.I.AND.KC.EQ.0) GOTO 120 
-          IF(I1.LT.I.AND.KCHG(KC,2).EQ.0) GOTO 120 
-          JMOHEP(2,I)=I1 
-        ELSEIF(K(I,2).EQ.94) THEN 
-          NJET=2 
-          IF(NHEP.GE.I+3.AND.K(I+3,3).LE.I) NJET=3 
-          IF(NHEP.GE.I+4.AND.K(I+4,3).LE.I) NJET=4 
-          JMOHEP(2,I)=MOD(K(I+NJET,4)/MSTU(5),MSTU(5)) 
-          IF(JMOHEP(2,I).EQ.JMOHEP(1,I)) JMOHEP(2,I)= 
-     &    MOD(K(I+1,4)/MSTU(5),MSTU(5)) 
-        ENDIF 
- 
-C...Fill in missing daughter information. 
-        IF(K(I,2).EQ.94.AND.MSTU(16).NE.2) THEN 
-          DO 130 I1=JDAHEP(1,I),JDAHEP(2,I) 
-          I2=MOD(K(I1,4)/MSTU(5),MSTU(5)) 
-          JDAHEP(1,I2)=I 
-  130     CONTINUE 
-        ENDIF 
-        IF(K(I,2).GE.91.AND.K(I,2).LE.94) GOTO 140 
-        I1=JMOHEP(1,I) 
-        IF(I1.LE.0.OR.I1.GT.NHEP) GOTO 140 
-        IF(K(I1,1).NE.13.AND.K(I1,1).NE.14) GOTO 140 
-        IF(JDAHEP(1,I1).EQ.0) THEN 
-          JDAHEP(1,I1)=I 
-        ELSE 
-          JDAHEP(2,I1)=I 
-        ENDIF 
-  140   CONTINUE 
-        DO 150 I=1,NHEP 
-        IF(K(I,1).NE.13.AND.K(I,1).NE.14) GOTO 150 
-        IF(JDAHEP(2,I).EQ.0) JDAHEP(2,I)=JDAHEP(1,I) 
-  150   CONTINUE 
- 
-C...Conversion from standard to JETSET, the easy part. 
-      ELSE 
-        IF(NHEP.GT.MSTU(4)) CALL LUERRM(8, 
-     &  '(LUHEPC:) no more space in /LUJETS/') 
-        N=MIN(NHEP,MSTU(4)) 
-        NKQ=0 
-        KQSUM=0 
-        DO 180 I=1,N 
-        K(I,1)=0 
-        IF(ISTHEP(I).EQ.1) K(I,1)=1 
-        IF(ISTHEP(I).EQ.2) K(I,1)=11 
-        IF(ISTHEP(I).EQ.3) K(I,1)=21 
-        K(I,2)=IDHEP(I) 
-        K(I,3)=JMOHEP(1,I) 
-        K(I,4)=JDAHEP(1,I) 
-        K(I,5)=JDAHEP(2,I) 
-        DO 160 J=1,5 
-        P(I,J)=PHEP(J,I) 
-  160   CONTINUE 
-        DO 170 J=1,4 
-        V(I,J)=VHEP(J,I) 
-  170   CONTINUE 
-        V(I,5)=0. 
-        IF(ISTHEP(I).EQ.2.AND.PHEP(4,I).GT.PHEP(5,I)) THEN 
-          I1=JDAHEP(1,I) 
-          IF(I1.GT.0.AND.I1.LE.NHEP) V(I,5)=(VHEP(4,I1)-VHEP(4,I))* 
-     &    PHEP(5,I)/PHEP(4,I) 
-        ENDIF 
- 
-C...Fill in missing information on colour connection in jet systems. 
-        IF(ISTHEP(I).EQ.1) THEN 
-          KC=LUCOMP(K(I,2)) 
-          KQ=0 
-          IF(KC.NE.0) KQ=KCHG(KC,2)*ISIGN(1,K(I,2)) 
-          IF(KQ.NE.0) NKQ=NKQ+1 
-          IF(KQ.NE.2) KQSUM=KQSUM+KQ 
-          IF(KQ.NE.0.AND.KQSUM.NE.0) THEN 
-            K(I,1)=2 
-          ELSEIF(KQ.EQ.2.AND.I.LT.N) THEN 
-            IF(K(I+1,2).EQ.21) K(I,1)=2 
-          ENDIF 
-        ENDIF 
-  180   CONTINUE 
-        IF(NKQ.EQ.1.OR.KQSUM.NE.0) CALL LUERRM(8, 
-     &  '(LUHEPC:) input parton configuration not colour singlet') 
-      ENDIF 
- 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, LUTEST
-      SUBROUTINE LUTEST(MTEST) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to provide a simple program (disguised as subroutine) to 
-C...run at installation as a check that the program works as intended. 
-      COMMON/LUJETS/K(4000,5),P(4000,5),V(4000,5),N 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUJETS/,/LUDAT1/ 
-      DIMENSION PSUM(5),PINI(6),PFIN(6) 
- 
-C...Loop over events to be generated. 
-      IF(MTEST.GE.1) CALL LUTABU(20) 
-      NERR=0 
-      DO 180 IEV=1,600 
- 
-C...Reset parameter values. Switch on some nonstandard features. 
-      MSTJ(1)=1 
-      MSTJ(3)=0 
-      MSTJ(11)=1 
-      MSTJ(42)=2 
-      MSTJ(43)=4 
-      MSTJ(44)=2 
-      PARJ(17)=0.1 
-      PARJ(22)=1.5 
-      PARJ(43)=1. 
-      PARJ(54)=-0.05 
-      MSTJ(101)=5 
-      MSTJ(104)=5 
-      MSTJ(105)=0 
-      MSTJ(107)=1 
-      IF(IEV.EQ.301.OR.IEV.EQ.351.OR.IEV.EQ.401) MSTJ(116)=3 
- 
-C...Ten events each for some single jets configurations. 
-      IF(IEV.LE.50) THEN 
-        ITY=(IEV+9)/10 
-        MSTJ(3)=-1 
-        IF(ITY.EQ.3.OR.ITY.EQ.4) MSTJ(11)=2 
-        IF(ITY.EQ.1) CALL LU1ENT(1,1,15.D0,0.D0,0.D0) 
-        IF(ITY.EQ.2) CALL LU1ENT(1,3101,15.D0,0.D0,0.D0) 
-        IF(ITY.EQ.3) CALL LU1ENT(1,-2203,15.D0,0.D0,0.D0) 
-        IF(ITY.EQ.4) CALL LU1ENT(1,-4,30.D0,0.D0,0.D0) 
-        IF(ITY.EQ.5) CALL LU1ENT(1,21,15.D0,0.D0,0.D0) 
- 
-C...Ten events each for some simple jet systems; string fragmentation. 
-      ELSEIF(IEV.LE.130) THEN 
-        ITY=(IEV-41)/10 
-        IF(ITY.EQ.1) CALL LU2ENT(1,1,-1,40.D0) 
-        IF(ITY.EQ.2) CALL LU2ENT(1,4,-4,30.D0) 
-        IF(ITY.EQ.3) CALL LU2ENT(1,2,2103,100.D0) 
-        IF(ITY.EQ.4) CALL LU2ENT(1,21,21,40.D0) 
-        IF(ITY.EQ.5) CALL LU3ENT(1,2101,21,-3203,30.D0,0.6D0,0.8D0) 
-        IF(ITY.EQ.6) CALL LU3ENT(1,5,21,-5,40.D0,0.9D0,0.8D0) 
-        IF(ITY.EQ.7) CALL LU3ENT(1,21,21,21,60.D0,0.7D0,0.5D0) 
-        IF(ITY.EQ.8) 
-     &  CALL LU4ENT(1,2,21,21,-2,40.D0,0.4D0,0.64D0,0.6D0,0.12D0,0.2D0) 
- 
-C...Seventy events with independent fragmentation and momentum cons. 
-      ELSEIF(IEV.LE.200) THEN 
-        ITY=1+(IEV-131)/16 
-        MSTJ(2)=1+MOD(IEV-131,4) 
-        MSTJ(3)=1+MOD((IEV-131)/4,4) 
-        IF(ITY.EQ.1) CALL LU2ENT(1,4,-5,40.D0) 
-        IF(ITY.EQ.2) CALL LU3ENT(1,3,21,-3,40.D0,0.9D0,0.4D0) 
-        IF(ITY.EQ.3) 
-     &  CALL LU4ENT(1,2,21,21,-2,40.D0,0.4D0,0.64D0,0.6D0,0.12D0,0.2D0) 
-        IF(ITY.GE.4) 
-     &  CALL LU4ENT(1,2,-3,3,-2,40.D0,0.4D0,0.64D0,0.6D0,0.12D0,0.2D0) 
- 
-C...A hundred events with random jets (check invariant mass). 
-      ELSEIF(IEV.LE.300) THEN 
-  100   DO 110 J=1,5 
-        PSUM(J)=0. 
-  110   CONTINUE 
-        NJET=2.+6.*RLU(0) 
-        DO 130 I=1,NJET 
-        KFL=21 
-        IF(I.EQ.1) KFL=INT(1.+4.*RLU(0)) 
-        IF(I.EQ.NJET) KFL=-INT(1.+4.*RLU(0)) 
-        EJET=5.+20.*RLU(0) 
-        THETA=ACOS(2.*RLU(0)-1.) 
-        PHI=6.2832*RLU(0) 
-        IF(I.LT.NJET) CALL LU1ENT(-I,KFL,EJET,THETA,PHI) 
-        IF(I.EQ.NJET) CALL LU1ENT(I,KFL,EJET,THETA,PHI) 
-        IF(I.EQ.1.OR.I.EQ.NJET) MSTJ(93)=1 
-        IF(I.EQ.1.OR.I.EQ.NJET) PSUM(5)=PSUM(5)+ULMASS(KFL) 
-        DO 120 J=1,4 
-        PSUM(J)=PSUM(J)+P(I,J) 
-  120   CONTINUE 
-  130   CONTINUE 
-        IF(PSUM(4)**2-PSUM(1)**2-PSUM(2)**2-PSUM(3)**2.LT. 
-     &  (PSUM(5)+PARJ(32))**2) GOTO 100 
- 
-C...Fifty e+e- continuum events with matrix elements. 
-      ELSEIF(IEV.LE.350) THEN 
-        MSTJ(101)=2 
-        CALL LUEEVT(0,40.D0) 
- 
-C...Fifty e+e- continuum event with varying shower options. 
-      ELSEIF(IEV.LE.400) THEN 
-        MSTJ(42)=1+MOD(IEV,2) 
-        MSTJ(43)=1+MOD(IEV/2,4) 
-        MSTJ(44)=MOD(IEV/8,3) 
-        CALL LUEEVT(0,90.D0) 
- 
-C...Fifty e+e- continuum events with coherent shower, including top. 
-      ELSEIF(IEV.LE.450) THEN 
-        MSTJ(104)=6 
-        CALL LUEEVT(0,500.D0) 
- 
-C...Fifty Upsilon decays to ggg or gammagg with coherent shower. 
-      ELSEIF(IEV.LE.500) THEN 
-        CALL LUONIA(5,9.46D0) 
- 
-C...One decay each for some heavy mesons. 
-      ELSEIF(IEV.LE.560) THEN 
-        ITY=IEV-501 
-        KFLS=2*(ITY/20)+1 
-        KFLB=8-MOD(ITY/5,4) 
-        KFLC=KFLB-MOD(ITY,5) 
-        CALL LU1ENT(1,100*KFLB+10*KFLC+KFLS,0.D0,0.D0,0.D0) 
- 
-C...One decay each for some heavy baryons. 
-      ELSEIF(IEV.LE.600) THEN 
-        ITY=IEV-561 
-        KFLS=2*(ITY/20)+2 
-        KFLA=8-MOD(ITY/5,4) 
-        KFLB=KFLA-MOD(ITY,5) 
-        KFLC=MAX(1,KFLB-1) 
-        CALL LU1ENT(1,1000*KFLA+100*KFLB+10*KFLC+KFLS,0.D0,0.D0,0.D0) 
-      ENDIF 
- 
-C...Generate event. Find total momentum, energy and charge. 
-      DO 140 J=1,4 
-      PINI(J)=PLU(0,J) 
-  140 CONTINUE 
-      PINI(6)=PLU(0,6) 
-      CALL LUEXEC 
-      DO 150 J=1,4 
-      PFIN(J)=PLU(0,J) 
-  150 CONTINUE 
-      PFIN(6)=PLU(0,6) 
- 
-C...Check conservation of energy, momentum and charge; 
-C...usually exact, but only approximate for single jets. 
-      MERR=0 
-      IF(IEV.LE.50) THEN 
-        IF((PFIN(1)-PINI(1))**2+(PFIN(2)-PINI(2))**2.GE.4.) MERR=MERR+1 
-        EPZREM=PINI(4)+PINI(3)-PFIN(4)-PFIN(3) 
-        IF(EPZREM.LT.0..OR.EPZREM.GT.2.*PARJ(31)) MERR=MERR+1 
-        IF(ABS(PFIN(6)-PINI(6)).GT.2.1) MERR=MERR+1 
-      ELSE 
-        DO 160 J=1,4 
-        IF(ABS(PFIN(J)-PINI(J)).GT.0.0001*PINI(4)) MERR=MERR+1 
-  160   CONTINUE 
-        IF(ABS(PFIN(6)-PINI(6)).GT.0.1) MERR=MERR+1 
-      ENDIF 
-      IF(MERR.NE.0) WRITE(MSTU(11),5000) (PINI(J),J=1,4),PINI(6), 
-     &(PFIN(J),J=1,4),PFIN(6) 
- 
-C...Check that all KF codes are known ones, and that partons/particles 
-C...satisfy energy-momentum-mass relation. Store particle statistics. 
-      DO 170 I=1,N 
-      IF(K(I,1).GT.20) GOTO 170 
-      IF(LUCOMP(K(I,2)).EQ.0) THEN 
-        WRITE(MSTU(11),5100) I 
-        MERR=MERR+1 
-      ENDIF 
-      PD=P(I,4)**2-P(I,1)**2-P(I,2)**2-P(I,3)**2-P(I,5)**2 
-      IF(ABS(PD).GT.MAX(0.1D0,0.001*P(I,4)**2).OR.P(I,4).LT.0.) THEN 
-        WRITE(MSTU(11),5200) I 
-        MERR=MERR+1 
-      ENDIF 
-  170 CONTINUE 
-      IF(MTEST.GE.1) CALL LUTABU(21) 
- 
-C...List all erroneous events and some normal ones. 
-      IF(MERR.NE.0.OR.MSTU(24).NE.0.OR.MSTU(28).NE.0) THEN 
-        CALL LULIST(2) 
-      ELSEIF(MTEST.GE.1.AND.MOD(IEV-5,100).EQ.0) THEN 
-        CALL LULIST(1) 
-      ENDIF 
- 
-C...Stop execution if too many errors. 
-      IF(MERR.NE.0) NERR=NERR+1 
-      IF(NERR.GE.10) THEN 
-        WRITE(MSTU(11),5300) IEV 
-        STOP 
-      ENDIF 
-  180 CONTINUE 
- 
-C...Summarize result of run. 
-      IF(MTEST.GE.1) CALL LUTABU(22) 
-      IF(NERR.EQ.0) WRITE(MSTU(11),5400) 
-      IF(NERR.GT.0) WRITE(MSTU(11),5500) NERR 
- 
-C...Reset commonblock variables changed during run. 
-      MSTJ(2)=3 
-      PARJ(17)=0. 
-      PARJ(22)=1. 
-      PARJ(43)=0.5 
-      PARJ(54)=0. 
-      MSTJ(105)=1 
-      MSTJ(107)=0 
- 
-C...Format statements for output. 
- 5000 FORMAT(/' Momentum, energy and/or charge were not conserved ', 
-     &'in following event'/' sum of',9X,'px',11X,'py',11X,'pz',11X, 
-     &'E',8X,'charge'/' before',2X,4(1X,F12.5),1X,F8.2/' after',3X, 
-     &4(1X,F12.5),1X,F8.2) 
- 5100 FORMAT(/5X,'Entry no.',I4,' in following event not known code') 
- 5200 FORMAT(/5X,'Entry no.',I4,' in following event has faulty ', 
-     &'kinematics') 
- 5300 FORMAT(/5X,'Ten errors experienced by event ',I3/ 
-     &5X,'Something is seriously wrong! Execution stopped now!') 
- 5400 FORMAT(//5X,'End result of LUTEST: no errors detected.') 
- 5500 FORMAT(//5X,'End result of LUTEST:',I2,' errors detected.'/ 
-     &5X,'This should not have happened!') 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
+C*********************************************************************  
  
 CDECK  ID>, LUDATA
       BLOCK DATA LUDATA 
@@ -15156,10 +8589,8 @@ C...decay data.
       COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
       COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
       COMMON/LUDAT3/MDCY(500,3),MDME(2000,2),BRAT(2000),KFDP(2000,5) 
-      COMMON/LUDAT4/CHAF(500) 
-      CHARACTER CHAF*8 
       COMMON/LUDATR/MRLU(6),RRLU(100) 
-      SAVE /LUDAT1/,/LUDAT2/,/LUDAT3/,/LUDAT4/,/LUDATR/ 
+      SAVE /LUDAT1/,/LUDAT2/,/LUDAT3/,/LUDATR/ 
  
 C...LUDAT1, containing status codes and most parameters. 
       DATA MSTU/ 
@@ -15559,36 +8990,7 @@ C...LUDAT3, with particle decay parameters and data.
       DATA (KFDP(I,5),I=   1,2000)/90*0,111,16*0,111,7*0,111,0,2*111, 
      &303*0,-211,2*111,-211,111,-211,111,54*0,111,-211,3*111,-211,111, 
      &1510*0/ 
- 
-C...LUDAT4, with character strings. 
-      DATA (CHAF(I)  ,I=   1, 281)/'d','u','s','c','b','t','l','h', 
-     &2*' ','e','nu_e','mu','nu_mu','tau','nu_tau','chi','nu_chi', 
-     &2*' ','g','gamma','Z','W','H',2*' ','reggeon','pomeron',2*' ', 
-     &'Z''','Z"','W''','H''','A','H','eta_tech','LQ_ue','R',40*' ', 
-     &'specflav','rndmflav','phasespa','c-hadron','b-hadron', 
-     &'t-hadron','l-hadron','h-hadron','Wvirt','diquark','cluster', 
-     &'string','indep.','CMshower','SPHEaxis','THRUaxis','CLUSjet', 
-     &'CELLjet','table',' ','pi',2*'K',2*'D','D_s',2*'B','B_s','B_c', 
-     &'pi','eta','eta''','eta_c','eta_b','eta_t','eta_l','eta_h',2*' ', 
-     &'rho',2*'K*',2*'D*','D*_s',2*'B*','B*_s','B*_c','rho','omega', 
-     &'phi','J/psi','Upsilon','Theta','Theta_l','Theta_h',2*' ','b_1', 
-     &2*'K_1',2*'D_1','D_1s',2*'B_1','B_1s','B_1c','b_1','h_1','h''_1', 
-     &'h_1c','h_1b','h_1t','h_1l','h_1h',2*' ','a_0',2*'K*_0',2*'D*_0', 
-     &'D*_0s',2*'B*_0','B*_0s','B*_0c','a_0','f_0','f''_0','chi_0c', 
-     &'chi_0b','chi_0t','chi_0l','chi_0h',2*' ','a_1',2*'K*_1', 
-     &2*'D*_1','D*_1s',2*'B*_1','B*_1s','B*_1c','a_1','f_1','f''_1', 
-     &'chi_1c','chi_1b','chi_1t','chi_1l','chi_1h',2*' ','a_2', 
-     &2*'K*_2',2*'D*_2','D*_2s',2*'B*_2','B*_2s','B*_2c','a_2','f_2', 
-     &'f''_2','chi_2c','chi_2b','chi_2t','chi_2l','chi_2h',2*' ','K_L', 
-     &'K_S',8*' ','psi''',3*' ','Upsilon''',45*' ','pi_diffr'/ 
-      DATA (CHAF(I)  ,I= 282, 500)/'n_diffr','p_diffr','rho_diff', 
-     &'omega_di','phi_diff','J/psi_di',18*' ','Lambda',5*' ', 
-     &'Lambda_c',' ',2*'Xi_c',6*' ','Lambda_b',' ',2*'Xi_b',6*' ','n', 
-     &'p',' ',3*'Sigma',2*'Xi',' ',3*'Sigma_c',2*'Xi''_c','Omega_c', 
-     &4*' ',3*'Sigma_b',2*'Xi''_b','Omega_b',4*' ',4*'Delta', 
-     &3*'Sigma*',2*'Xi*','Omega',3*'Sigma*_c',2*'Xi*_c','Omega*_c', 
-     &4*' ',3*'Sigma*_b',2*'Xi*_b','Omega*_b',114*' '/ 
- 
+  
 C...LUDATR, with initial values for the random number generator. 
       DATA MRLU/19780503,0,0,97,33,0/ 
  
@@ -15613,7 +9015,7 @@ C...     e.g. in B hadron semileptonic decays the W  propagator
 C...     is not explicitly stored but the W code is still unambiguous. 
 C...Output: 
 C...NDECAY is the number of decay products in the current tau decay. 
-C...These decay products should be added to the /LUJETS/ common block, 
+C...These decay products should be added to the /LUJETS/ COMMON block, 
 C...in positions N+1 through N+NDECAY. For each product I you must 
 C...give the flavour codes K(I,2) and the five-momenta P(I,1), P(I,2), 
 C...P(I,3), P(I,4) and P(I,5). The rest will be stored automatically. 
@@ -15622,16 +9024,16 @@ C...P(I,3), P(I,4) and P(I,5). The rest will be stored automatically.
       COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
       SAVE /LUJETS/,/LUDAT1/ 
  
-C...Stop program if this routine is ever called. 
+C...STOP program if this routine is ever called. 
 C...You should not copy these lines to your own routine. 
       NDECAY=ITAU+IORIG+KFORIG      
       WRITE(MSTU(11),5000) 
       IF(RLU(0).LT.10.) STOP 
  
-C...Format for error printout. 
+C...Format for error PRINTout. 
  5000 FORMAT(1X,'Error: you did not link your LUTAUD routine ', 
      &'correctly.'/1X,'Dummy routine in JETSET file called instead.'/ 
-     &1X,'Execution stopped!') 
+     &1X,'Execution STOPped!') 
  
  
       RETURN 
@@ -15709,25 +9111,12 @@ C     RLU=RUNI
       RNDM=RUNI
       RETURN
       END
-c*****************************************************************************
-c**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***
-c**!!              IF YOU USE THIS PROGRAM, PLEASE CITE:                 !!***
-c**!! A.M"ucke, Ralph Engel, J.P.Rachen, R.J.Protheroe and Todor Stanev, !!***
-c**!!  1999, astro-ph/9903478, to appear in Comp.Phys.Commun.            !!***
-c**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***
-c*****************************************************************************
-c** Further SOPHIA related papers:                                         ***
-c** (1) M"ucke A., et al 1999, astro-ph/9808279, to appear in PASA.        ***
-c** (2) M"ucke A., et al 1999, to appear in: Proc. of the                  ***
-c**      19th Texas Symposium on Relativistic Astrophysics, Paris, France, ***
-c**      Dec. 1998. Eds.: J.~Paul, T.~Montmerle \& E.~Aubourg (CEA Saclay) ***
-c** (3) M"ucke A., et al 1999, astro-ph/9905153, to appear in: Proc. of    ***
-c**      19th Texas Symposium on Relativistic Astrophysics, Paris, France, ***
-c**      Dec. 1998. Eds.: J.~Paul, T.~Montmerle \& E.~Aubourg (CEA Saclay) ***
-c** (4) M"ucke A., et al 1999, to appear in: Proc. of 26th Int.Cosmic Ray  ***
-c**      Conf. (Salt Lake City, Utah)                                      ***
-c*****************************************************************************
 
+C########################################################
+C This is the end of JETSET v 7.4 - Now SOPHIA resumes. #
+C########################################################
+    
+    
 
 c**********************************************
 c** Routines/functions related to sampling  ***
@@ -15735,26 +9124,20 @@ c**  photon energy and squared CMF energy:  ***
 c**********************************************
 
 
-
-       subroutine sample_s(s,eps)
-
+      SUBROUTINE sample_s(s,eps)
 c***********************************************************************
 c samples distribution of s: p(s) = (s-mp^2)sigma_Ngamma
 c rejection for s=[sth,s0], analyt.inversion for s=[s0,smax]
 c***********************************************************************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
+      COMMON /input/ tbb,E0,epsm1,epsm2,L0
+      COMMON /S_MASS1/ AM(49), AM2(49)
 
-      external functs,gauss,rndm
-      double precision functs,gauss,rndm
+      EXTERNAL functs,gauss,rndm
+      DOUBLE PRECISION functs,gauss,rndm
 
 c*** calculate smin,smax : ************************
       xmpi = AM(7)
@@ -15763,8 +9146,8 @@ c*** calculate smin,smax : ************************
       smin = 1.1646D0
       smax = max(smin,xmp*xmp+2.D0*eps*(E0+Pp))
       if ((smax-smin).le.1.D-8) then
-       s = smin+rndm(0)*1.d-6
-       RETURN
+          s = smin+rndm(0)*1.d-6
+          RETURN
       endif
       s0 = 10.D0
 c*** determine which method applies: rejection or analyt.inversion: **
@@ -15772,801 +9155,308 @@ c*** determine which method applies: rejection or analyt.inversion: **
       sintegr2 = gauss(functs,s0,smax)
       if (smax.le.s0) then
 c rejection method:
-       nmethod=1
-       goto 41
+          nmethod=1
+          goto 41
       endif
       r1 = rndm(0)
       quo = sintegr1/(sintegr1+sintegr2)
       if (r1.le.quo) then
 c rejection method:
-       nmethod=1
+          nmethod=1
       else
 c analyt. inversion:
-       nmethod=2
+          nmethod=2
       endif
 
-  41  continue
-
+  41  CONTINUE
 
 c*** rejection method: ************************
       if (nmethod.eq.1) then
-         i_rept = 0
- 10      continue
+          i_rept = 0
+ 10       CONTINUE
 c***  sample s random between smin ... s0 **
-         if (i_rept.ge.100000) RETURN    !LM
-         r2 = rndm(0)
-         s = smin+r2*(smax-smin)
+          if (i_rept.ge.100000) RETURN !LM
+          r2 = rndm(0)
+          s = smin+r2*(smax-smin)
 c***  calculate p(s) = pes **********************
-         ps = functs(s)
+          ps = functs(s)
 c***  rejection method to sample s *********************
-         r3 = rndm(1)
+          r3 = rndm(1)
 c     pmax is roughly p(s) at s=s0
-         pmax = 1300.D0/sintegr1
-         i_rept = i_rept+1
-         if (r3*pmax.le.ps/sintegr1) then
-            RETURN
-         else
-            goto 10
-         endif
+          pmax = 1300.D0/sintegr1
+          i_rept = i_rept+1
+          if (r3*pmax.le.ps/sintegr1) then
+              RETURN
+          else
+              goto 10
+          endif
       endif
 
 c*** analyt. inversion method: *******************
       if (nmethod.eq.2) then
-       r4 = rndm(0)
-       beta = 2.04D0
-       betai = 1.D0/beta
-       term1 = r4*(smax**beta)
-       term2 = (r4-1.D0)*(s0**beta)
-       s = (term1-term2)**betai
-       RETURN
+          r4 = rndm(0)
+          beta = 2.04D0
+          betai = 1.D0/beta
+          term1 = r4*(smax**beta)
+          term2 = (r4-1.D0)*(s0**beta)
+          s = (term1-term2)**betai
+          RETURN
       endif
 
-       RETURN
-       END
+      RETURN
+      END SUBROUTINE sample_s
 
 
-      subroutine sample_ir_eps(eps,epsmin,epsmax)
+      SUBROUTINE sample_eps_blackbody(eps)
+c********************************************************************
+c     samples distribution of epsilon p(epsilon) for blackbody spectrum
+C     calling function is sophiaevent
+c********************************************************************
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 
+      COMMON /input/ tbb,E0,epsm1,epsm2,L0
+      COMMON /S_MASS1/ AM(49), AM2(49)
+
+      EXTERNAL prob_epskt,rndm,gauss
+      DOUBLE PRECISION prob_epskt,rndm,gauss
+
+      xmp = AM(L0)
+      Pp = sqrt(E0*E0-xmp*xmp)
+
+      facpmax = 1.6D0
+  1   CONTINUE
+
+      epsm1 = (1.1646D0-xmp*xmp)/2.D0/(E0+Pp)
+      epsm1 = epsm1*1.D9
+      epsm2 = 0.007D0*tbb
+      epskt = 8.619D-5*tbb
+      epspmax = (3.D-3*((E0*epskt*1.D-9)**(-0.97D0))
+     &          +0.047D0)/3.9D2*tbb
+      if (epsm1.gt.epsm2) then
+          PRINT*, 'CMF energy is below threshold for nucleon energy '
+     &    ,E0,' GeV !'
+          eps = 0.D0
+          RETURN
+      endif
+      cnorm = gauss(prob_epskt,epsm1,epsm2)
+      pmaxc = prob_epskt(epspmax)/cnorm
+      pmax = facpmax*pmaxc 
+
+      epsmx1 = epsm1
+      epsmx2 = epsm2
+
+  10  CONTINUE
+c*** sample eps randomly between epsmin ... epsmax **
+      eps = epsm1+rndm(0)*(epsm2-epsm1)
+      peps = prob_epskt(eps)/cnorm
+
+c*** rejection method to sample eps *********************
+      if (rndm(0)*pmax.gt.peps) then
+          goto 10
+      endif
+
+      epsm1 = epsmx1
+      epsm2 = epsmx2
+
+c... check maximum of epsilon distribution:
+      if (pmax.lt.peps) then
+          facpmax = facpmax + 0.1D0
+          goto 1
+      endif
+
+      RETURN
+      END SUBROUTINE sample_eps_blackbody
+
+
+      DOUBLE PRECISION FUNCTION prob_epskt(eps)
+c     calculates probability distribution for thermal photon field
+c     with temerature tbb (in K), eps (in eV)
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
+
+      COMMON /input/ tbb,E0,epsm1,epsm2,L0
+
+      EXTERNAL functs,photon_density_blackbody,gauss
+      DOUBLE PRECISION functs,photon_density_blackbody,gauss
+
+      xmp = 0.93827D0
+      gammap = E0/xmp
+      betap = sqrt(1.D0-1.D0/gammap/gammap)
+      deps = photon_density_blackbody(eps,tbb)
+      if (deps.eq.0.D0) then
+          prob_epskt = 0.D0
+          RETURN
+      else
+c     calculate \int_sth^smax ds (s-mp^2) sigma_pg
+c     smin is for head-on collision
+          smin = 1.1646D0
+          smax = max(smin,xmp*xmp+2.D0*eps/1.D9*E0*(1.D0+betap))
+          sintegr = gauss(functs,smin,smax)
+
+          prob_epskt = deps/eps/eps*sintegr/8.D0/betap/E0/E0*1.D18*1.D6
+      endif
+
+      RETURN
+      END FUNCTION prob_epskt
+
+
+      DOUBLE PRECISION FUNCTION functs(s)
+c     Returns (s-pm^2)*sigma_Nucleon/gamma
+c     calling program is SAMPLE_S & sample_eps_blackbody
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
+
+      COMMON /input/ tbb,E0,epsm1,epsm2,L0
+
+      EXTERNAL crossection
+      DOUBLE PRECISION crossection
+
+      pm = 0.93827D0
+      factor = (s-pm*pm)
+      epsprime = factor/2.D0/pm
+      sigma_pg = crossection(epsprime,3,L0)
+      functs = factor*sigma_pg 
+
+      RETURN
+      END FUNCTION functs
+
+
+      DOUBLE PRECISION FUNCTION photon_density_blackbody(eps,tbb)
+C **************************************************************
+C     Returns the density of blackbody radiation of temperature 
+C     "tbb" in degrees (DENS1). eps in eV, photon_density in #/(cm^3.eV)
+C     calling program is prob_epskt
+C **************************************************************
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      SAVE
+
+C     Convert temperature to eV
+      EKT = 8.619D-5*tbb
+      EPHKT = eps/EKT
+
+      if (EPHKT .gt. 80.D0) then
+          photon_density_blackbody = 0.D0
+          RETURN
+      else if (EPHKT .lt. 1.D-4) then
+          FEE = EPHKT
+      else
+          FEE = exp(EPHKT) - 1.D0
+      endif
+      photon_density_blackbody = 1.318D13*eps*eps/FEE ! 1.318D13 = 8Pi/(hc)^3*(1eV)^2
+
+      RETURN      
+      END FUNCTION photon_density_blackbody
+
+
+      SUBROUTINE sample_eps_IRB(eps,epsmin,epsmax)
 c****************************************************************************
-c     samples distribution of n(epsilon)/epsilon^2 for ir background using
-c     rejection technique
+c     samples distribution of n(epsilon)/epsilon^2 for ir background 
+C     using rejection technique
+C     calling program is sophiaevent
 c****************************************************************************
-c**   Date: Aug '05   **
-c**   author: G.Sigl **
-c**********************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
       SAVE
       
-      common/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-      common/PLindex/ alphaxx
+      COMMON /input/ tbb,E0,epsm1,epsm2,L0
       COMMON /S_MASS1/ AM(49), AM2(49)
       
-      external photd_ir,rndm
-      double precision prob_epskt,prob_epspl,rndm,gauss
-      double precision functs,probint_pl
-      
-      xmpi = AM(7)
+      EXTERNAL photon_density_ir,rndm
+      DOUBLE PRECISION photon_density_ir, rndm
+
       xmp = AM(L0)
       Pp = sqrt(E0*E0-xmp*xmp)
       epsm1 = max(epsmin,1.D9*(1.1646D0-xmp*xmp)/2.D0/(E0+Pp))
       
       if (epsmax.gt.epsm1) then
-         i_max=idint(10.d0*dlog(epsmax/epsm1))+1
-         de=dlog(epsmax/epsm1)/dble(i_max)
-         rmax=0.d0
-         do i=0,i_max
-            eps_dum=epsm1*dexp(dble(i)*de)
-            dum=eps_dum**2*PHOTD_IR(eps_dum)
-            if (dum.gt.rmax) rmax=dum
-         enddo
-         beta=4.d0
-         e1=epsm1**(1.d0-beta)
-         e2=epsmax**(1.d0-beta)
-         i_try=1
-         i_rep = 0
-         do while(i_try.eq.1)
-            if (i_rep.ge.100000) then
-               i_try = 0
-               result = 0.
-            endif
-            r1 = rndm(0)
-            result=(r1*(e1-e2)+e2)**(1.d0/(1.d0-beta))
-            r1 = rndm(1)
-            i_rep = i_rep + 1
-            if (r1.lt.result**2*PHOTD_IR(result)/rmax) i_try=0
-         enddo
+          i_max = idint(10.d0*log(epsmax/epsm1))+1
+          de = log(epsmax/epsm1)/dble(i_max)
+          rmax = 0.d0
+          do i=0,i_max
+              eps_dum = epsm1*exp(dble(i)*de)
+              dum = eps_dum**2*photon_density_IR(eps_dum)
+              if (dum.gt.rmax) then
+                  rmax = dum
+              endif
+          enddo
+          beta = 4.d0
+          e1 = epsm1**(1.d0-beta)
+          e2 = epsmax**(1.d0-beta)
+          i_try=1
+          i_rep = 0
+          do while(i_try.eq.1)
+              if (i_rep.ge.100000) then
+                  i_try = 0
+                  result = 0.
+              endif
+              r1 = rndm(0)
+              result = (r1*(e1-e2)+e2)**(1.d0/(1.d0-beta))
+              r1 = rndm(1)
+              i_rep = i_rep + 1
+              if (r1.lt.result**2*photon_density_IR(result)/rmax) then
+                  i_try = 0
+              endif
+          enddo
       else
-         result=0.
+          result = 0.
       endif
-      eps=result
+      eps = result
+
       RETURN
-      END
+      END SUBROUTINE sample_eps_IRB
       
-      subroutine sample_eps(eps,epsmin,epsmax)
 
-c****************************************************************************
-c samples distribution of epsilon p(epsilon) for blackbody spectrum if tbb>0
-c  and power law \sim eps^-alpha, epsm1 [eV] < eps [eV] < epsm2 [eV], 
-c                       eps in LAB frame if tbb \leq 0
-c****************************************************************************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       common/PLindex/ alphaxx
-       COMMON /S_MASS1/ AM(49), AM2(49)
-
-      external prob_epskt,prob_epspl,rndm,gauss,functs,probint_pl
-      double precision prob_epskt,prob_epspl,rndm,gauss
-      double precision functs,probint_pl
-
-      xmpi = AM(7)
-      xmp = AM(L0)
-      gammap = E0/xmp
-      betap = sqrt(1.-1./gammap/gammap)
-      Pp = sqrt(E0*E0-xmp*xmp)
-  1   continue
-      facpmax = 1.6D0
-c*** for tbb<=0: power law photon spectrum n(eps) ~ eps^-alpha *********
-      if (tbb.gt.0.D0) then
-       epsm1 = (1.1646D0-xmp*xmp)/2.D0/(E0+Pp)
-       epsm1 = epsm1*1.D9
-       epsm2 = 0.007D0*tbb
-       epskt = 8.619D-5*tbb
-       epspmax = (3.D-3*((E0*epskt*1.D-9)**(-0.97D0))
-     &              +0.047D0)/3.9D2*tbb
-        if (epsm1.gt.epsm2) then
-         print*,
-     & 'CMF energy is below threshold for nucleon energy '
-     &   ,E0,' GeV !'
-         eps = 0.D0
-         RETURN
-        endif
-        cnorm = gauss(prob_epskt,epsm1,epsm2)
-         pmaxc = prob_epskt(epspmax)/cnorm
-         pmax = facpmax*pmaxc
- 
-        else
-c*** determine distribution:
-       epsth = (1.1646D0-xmp*xmp)/2.D0/(E0+Pp)
-       epsth = epsth*1.D9
-       epsm1 = max(epsmin,epsth)
-       epsm2 = epsmax
-       if (epsm1.ge.epsm2) then
-        eps = 0.
-        RETURN
-       endif
-      endif
-
-      epsmx1 = epsm1
-      epsmx2 = epsm2
-      epsbx = epsb
-      epsdelta = 0.159368/E0*1.d9
-      epsxx = 126.D0/E0*1.d9
-      alpha12 = alpha2-alpha1
-      a1 = 1.D0
-  10  continue
-c*** sample eps randomly between epsmin ... epsmax **
-      r1 = rndm(0)
-c*** calculate p(eps) = peps ***************************************
-      if (tbb.le.0.D0) then
-       rn = rndm(0)
-c*******************************************************************
-c... sample from straight power law (alpha = alpha2, epsb < epsm1):
-      if (alpha12.eq.0.D0.or.epsm1.ge.epsb) then
-       if (epsxx.ge.epsm2) then
-        alphaxx = alpha2
-       else if (epsxx.le.epsm1) then
-        alphaxx = (alpha2+2.D0)
-       else if (epsm1.lt.epsxx.and.epsxx.lt.epsm2) then
-          a2 = epxx*epsxx
-          alphaxx = alpha2
-          pintegr1 = a1*probint_pl(epsm1,epsxx,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr2 = a2*probint_pl(epsxx,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2)
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha2 
-            epsm2 = epsxx 
-            ampl = a1          
-          else if (pintegr1.le.rn.and.rn.lt.1.D0) then
-            alphaxx = alpha2+2.D0
-            epsm1  = epsxx
-            ampl = a2 
-          endif
-       endif    
-      endif
-c... sample from broken power law: input always epsm1 < epsb < epsm2 
-      if (epsm1.lt.epsb) then
-c... determine where epsb,epsxx lies:
-        if (epsm1.lt.epsxx.and.epsxx.lt.epsb) then
-          a2 = epxx*epsxx
-          a3 = a2*(epsb**(alpha2-alpha1))
-          alphaxx = alpha1
-          pintegr1 = a1*probint_pl(epsm1,epsxx,alphaxx)
-          alphaxx = (alpha1+2.D0)
-          pintegr2 = a2*probint_pl(epsxx,epsb,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr3 = a3*probint_pl(epsb,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2+pintegr3)
-          pintegr2 = (pintegr1+pintegr2)/(pintegr1+pintegr2+pintegr3)
-          pintegr3 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1 
-            epsm2 = epsxx 
-            ampl = a1          
-          else if (pintegr1.le.rn.and.rn.lt.pintegr2) then
-            alphaxx = alpha1+2.D0
-            epsm1  = epsxx
-            epsm2 = epsb
-            ampl = a2 
-          else if (pintegr2.le.rn.and.rn.le.pintegr3) then
-            alphaxx = alpha2+2.D0
-            epsm1 = epsb
-            ampl = a3 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (1)!'
-            STOP
-          endif
-
-         else if (epsb.le.epsxx.and.epsxx.lt.epsm2) then
-          a2 = epsb**(alpha2-alpha1)
-          a3 = a2*epsxx*epsxx
-          alphaxx = alpha1
-          pintegr1 = a1*probint_pl(epsm1,epsb,alphaxx)
-          alphaxx = alpha2
-          pintegr2 = a2*probint_pl(epsb,epsxx,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr3 = a3*probint_pl(epsxx,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2+pintegr3)
-          pintegr2 = (pintegr1+pintegr2)/(pintegr1+pintegr2+pintegr3)
-          pintegr3 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1 
-            epsm2 = epsb 
-            ampl = a1         
-          else if (pintegr1.le.rn.and.rn.lt.pintegr2) then
-            alphaxx = alpha2
-            epsm1  = epsb
-            epsm2 = epsxx
-            ampl = a2 
-          else if (pintegr2.le.rn.and.rn.le.pintegr3) then
-            alphaxx = alpha2+2.D0
-            epsm1 = epsxx
-            ampl = a3 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (2)!'
-            STOP
-          endif
-
-         else if (epsxx.ge.epsm2) then
-          a2 = epsb**(alpha2-alpha1)
-          a3 = 0.D0
-          alphaxx = alpha1
-          pintegr1 = a1*probint_pl(epsm1,epsb,alphaxx)
-          alphaxx = alpha2
-          pintegr2 = a2*probint_pl(epsb,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2)
-          pintegr2 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1 
-            epsm2 = epsb 
-            ampl = a1         
-          else if (pintegr1.le.rn.and.rn.le.pintegr2) then
-            alphaxx = alpha2
-            epsm1 = epsb
-            ampl = a2 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (3)!'
-            STOP
-          endif
-
-         else if (epsxx.le.epsm1) then
-          a2 = epsb**(alpha2-alpha1)
-          a3 = 0.D0
-          alphaxx = (alpha1+2.D0)
-          pintegr1 = a1*probint_pl(epsm1,epsb,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr2 = a2*probint_pl(epsb,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2)
-          pintegr2 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1+2.D0 
-            epsm2 = epsb 
-            ampl = a1         
-          else if (pintegr1.le.rn.and.rn.le.pintegr2) then
-            alphaxx = alpha2+2.D0
-            epsm1 = epsb
-            ampl = a2 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (4)!'
-            STOP
-          endif
-
-         endif
-cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-c... END: sample from broken power law:
-       endif
-c*****************************************************     
-       if (alphaxx.eq.1.D0) then
-        term1 = r1*log(epsm2/epsm1)
-        eps = epsm1*exp(term1)
-       else
-        beta = 1.D0-alphaxx
-        betai = 1.D0/beta
-        term1 = r1*(epsm2**beta)
-        term2 = (r1-1.D0)*(epsm1**beta)
-        eps = (term1-term2)**betai
-       endif
-
-
-c******************************************************
-c*** for thermal spectrum: ***
-      else
-       eps = epsm1+r1*(epsm2-epsm1)
-       peps = prob_epskt(eps)/cnorm
-c      endif
-c*** rejection method to sample eps *********************
-        r2 = rndm(0)
-        if (r2*pmax.gt.peps) then
-         goto 10
-        endif
-
-       endif
-
-       epsm1 = epsmx1
-       epsm2 = epsmx2
-       epsb = epsbx
-
-c... check maximum of epsilon distribution:
-       if (pmax.lt.peps) then
-        facpmax = facpmax + 0.1D0
-        goto 1
-       endif
-
-       RETURN
-       END
-
-
-        DOUBLE PRECISION function prob_epskt(eps)
-
-c*** calculates probability distribution for thermal photon field ***
-c*** with temerature tbb (in K), eps (in eV)            *************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-       external functs,photd,gauss
-       double precision functs,photd,gauss
-
-       xmpi = 0.135D0
-       xmp = 0.93827D0
-       Pp = sqrt(E0*E0-xmp*xmp)
-       gammap = E0/xmp
-       betap = sqrt(1.D0-1.D0/gammap/gammap)
-       deps = photd(eps,tbb)
-       if (deps.eq.0.D0) then
-        prob_epskt = 0.D0
-        RETURN
-       else
-c*** calculate \int_sth^smax ds (s-mp^2) sigma_pg *******
-c*** smin is for head-on collision **********************
-        smin = 1.1646D0
-        smax = max(smin,xmp*xmp+2.D0*eps/1.D9*E0*(1.D0+betap))
-        sintegr = gauss(functs,smin,smax)
-
-        prob_epskt = deps/eps/eps*sintegr/
-     &     8.D0/betap/E0/E0*1.D18*1.D6
-       endif
-
-        RETURN
-
-        END
-
-        DOUBLE PRECISION function prob_epspl(eps)
-
-c*** calculates probability distribution for power law photon field ***
-c*** n = anorm*eps^-alpha, eps=[epsm1,epsm2], eps in eV *************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-        SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-       external functs,gauss
-       double precision functs,gauss
-
-       xmpi = 0.135D0
-       xmp = 0.93827D0
-       Pp = sqrt(E0*E0-xmp*xmp)
-       gammap = E0/xmp
-       betap = sqrt(1.D0-1.D0/gammap/gammap)
-       alpha12 = alpha2-alpha1
-       ampl = epsb**alpha12
-       if (eps.lt.epsb) then
-         deps = eps**(-alpha1)
-       else
-         deps = ampl*(eps**(-alpha2))
-       endif
-
-c*** calculate \int_sth^smax ds (s-mp^2) sigma_pg *******
-c*** smin is for head-on collision **********************
-        smin = 1.1646D0
-        smax = max(smin,xmp*xmp+2.D0*eps/1.D9*(E0+Pp))
-
-         sintegr = gauss(functs,smin,smax)
-
-        prob_epspl = deps/eps/eps*sintegr/
-     &     8.D0/betap/E0/E0*1.D18*1.D6
-
-        RETURN
-
-        END
-
-        DOUBLE PRECISION function probint_pl(epsi,epsf,p)
-
-c*** returns \int_epsi^epsf eps^-p   **************
-c*** calling program is SAMPLE_EPS ****************
-c** Date: 03/03/99   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-        SAVE
-
-        if (p.eq.1.D0) then
-          probint_pl = log(epsf/epsi)
-        else
-         p1 = 1.D0-p
-         probint_pl = ((epsf**p1)-(epsi**p1))/p1
-        endif
-  
-        RETURN
-
-        END
-
-
-      DOUBLE PRECISION function functs(s)
-
-c*** returns (s-pm^2)*sigma_Ngamma **************
-c*** calling program is SAMPLE_S ****************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-        SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-        external crossection
-        double precision crossection
-
-
-        pm = 0.93827D0
-        factor = (s-pm*pm)
-        epsprime = factor/2.D0/pm
-        sigma_pg = crossection(epsprime,3,L0)
-        functs = factor*sigma_pg 
-
-        RETURN
-
-        END
-
-	DOUBLE PRECISION FUNCTION PHOTD(EPS,TBB)
+      DOUBLE PRECISION FUNCTION photon_density_IR(EPS)
 C **************************************************************
-C    RETURNS THE DENSITY OF BLACKBODY RADIATION OF TEMPERATURE *
-C "TBB" DEGREES (DENS1). EPS IN eV, PHOTD IN #/(cm^3.eV)       *
-C                                    TSS,  May '92             *
+C     Returns the density of IR background at redshift Z
+C     EPS IN eV, photon_density_IR IN #/(cm^3.eV)
+C     IR background from Primack et al. (1999)
+C     calling program is sample_eps_IRB
 C **************************************************************
-	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-        SAVE
-C CONVERT TEMPERATURE TO eV
-	EPH = EPS
-        EKT = 8.619D-5*TBB
-        EPHKT = EPS/EKT
-        IF (EPHKT .GT. 80.D0)     GO TO 10
-        IF (EPHKT .LT. 1.D-4)   GO TO 11
-        FEE = DEXP(EPHKT) - 1.D0
-        GO TO 12
-   11   FEE = EPHKT
-   12   BB = 1.318D13*EPH*EPH/FEE
-	GO TO 15
-   10   BB = 0.D0
-   15	PHOTD = BB
-	END
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 
-	DOUBLE PRECISION FUNCTION PHOTD_IR(EPS)
-C **************************************************************
-C    RETURNS THE DENSITY OF IR background at redshift Z*
-C    EPS IN eV, PHOTD_IR IN #/(cm^3.eV)       *
-C                                    G.Sigl,  Aug '05             *
-C    At the moment, redshift is a dummy variable within the program
-C    IR background from Primack et al. (1999)
-C **************************************************************
-	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-        IMPLICIT INTEGER (I-N)
-        SAVE
-c       NN put the following line up from some line below (f77 error)
-        COMMON /REDSHIFT/ Z,ZMAX_IR
-        PARAMETER  (FLUX_CONVERSION = 3.82182d3)
+      COMMON /REDSHIFT/ Z,ZMAX_IR
+      PARAMETER  (FLUX_CONVERSION = 3.82182d3)
 
-        DIMENSION XData(15), YData(15)
-        DATA (XData(I),I=1,15)/ -1., -0.75, -0.5, -0.25, 0.,
-c        COMMON /REDSHIFT/ Z,ZMAX_IR
+      DIMENSION XData(15), YData(15)
+      DATA (XData(I),I=1,15)/ -1., -0.75, -0.5, -0.25, 0.,
      & 0.25, 0.5, 0.75, 1., 1.25, 1.5, 1.75, 2., 2.25, 2.5/
-c       DATA (YData(I),I=1,15)/ 0.8, 1.1, 1.15, 1.2, 1.3,
-c     & 1.2, 1.05, 0.7, 0.4, 0.3, 0.5, 0.8, 1.1, 1.3, 1./
 c     Kneiske background
-        DATA (YData(I),I=1,15)/-0.214401, 0.349313, 0.720354, 0.890389, 
+      DATA (YData(I),I=1,15)/-0.214401, 0.349313, 0.720354, 0.890389, 
      & 1.16042, 1.24692, 1.06525, 0.668659, 0.536312, 0.595859,
      & 0.457456, 0.623521, 1.20208, 1.33657, 1.04461/
-c Redshift evolution as for CMB. (added Dec.'05)
-c conversion from nW/cm^3/sr to eV/cm^3
-c        FLUX_CONVERSION = 
-c     & 2.9979e10/4./dacos(-1.d0)*1.602e-19*1.e9*1.e4
-c       PARAMETER  (FLUX_CONVERSION = 3.82182d3)
 
-c        print*,Z
+c     conversion from eV to micrometers
+      X = 1.2398d0*(1.+Z)/EPS ! 1.2398d0 µm = hc/1eV 
+      if (X.gt.500. .or.(log10(X).le.XData(1)) .or.(Z.gt.ZMAX_IR)) then
+          photon_density_IR = 0.
+      else if ((log10(X).lt.XData(15)).and.(log10(X).gt.XData(1))) then
+          i = 2
+          do while (XData(i).lt.log10(X))
+              i = i+1
+          enddo
+      else if (log10(X).ge.XData(15)) then
+          i = 15
+      endif
+      RESULT = (YData(i) - YData(i-1))/(XData(i) - XData(i-1))*
+     & (log10(X) - XData(i-1)) + YData(i-1)
+      RESULT = 10.d0**RESULT
 
-c conversion from eV to micrometers
-        X = 1.2398d0*(1.+Z)/EPS
-        if (X.gt.500.) then
-           RESULT=0.
-        else
-           if (dlog10(X).ge.XData(15)) then
-              RESULT = (YData(15) - YData(14))/(XData(15) - XData(14))*
-     & (dlog10(X) - XData(14)) + YData(14)
-              RESULT = 10.d0**RESULT
-           endif
-        endif
-        if (dlog10(X).le.XData(1)) RESULT=0.
-        if ((dlog10(X).lt.XData(15)).and.(dlog10(X).gt.XData(1))) then
-           INDEX = 2
-           do while (XData(INDEX).lt.dlog10(X))
-              INDEX = INDEX+1
-           enddo
-           RESULT = (YData(INDEX) - YData(INDEX-1))/
-     & (XData(INDEX) - XData(INDEX-1))*(dlog10(X) - XData(INDEX-1))+ 
-     &  YData(INDEX-1)
-           RESULT = 10.d0**RESULT
-        endif
-        PHOTD_IR = RESULT*(1.+Z)**2/(EPS/(1.+Z))**2/FLUX_CONVERSION
+      photon_density_IR = RESULT*(1.+Z)**2/
+     & (EPS/(1.+Z))**2/FLUX_CONVERSION
 
-        if (Z.gt.ZMAX_IR) then
-           PHOTD_IR = 0.d0
-        endif
-
-        RETURN
-        END
-
-       DOUBLE PRECISION function plinterpol(alpha)
-
-c*** interpolates p(Ep) to give the max. probability p(eps) for ***
-c*** a given initial proton energy                              ***
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
-
-       DIMENSION AINDEX(4), A(4)
-       DATA A / 0.D0,1.D0,2.D0,3.D0/
-       DATA AINDEX / 8.D8,5.D8,5.D8,1.D9/
-
-       plinterpol = 0.D0
-
-       do 1 ni=1,3
-        p1 = A(ni)
-        p2 = A(ni+1)
-        if (alpha.le.p2.and.alpha.gt.p1) then
-         tang = (log10(AINDEX(ni+1))-log10(AINDEX(ni)))/(p2-p1)
-         plinterpol = log10(AINDEX(ni))+(alpha-p1)*tang
-         plinterpol = 10.D0**plinterpol
-        endif
-  1    continue
-
-       if (alpha.eq.0.D0) plinterpol = 5.D8
-
-       if (plinterpol.eq.0.D0) then
-        print*,'interpolation not sucessful !'
-C        pause
-       endif
-
-       END
-
-       DOUBLE PRECISION function f_epspl(eps)
-
-c*** gives energy density law of power law photon field    ***
-c*** f(epsilon) = eps^-alpha, eps=[epsm1,epsm2], eps in eV *************
-c** Date: 14/03/99   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
+      RETURN
+      END FUNCTION photon_density_IR
 
 
-       alpha12 = alpha2-alpha1
-       ampl = epsb**alpha12
-       if (eps.lt.epsb) then
-         f_epspl = eps*(eps**(-alpha1))
-       else
-         f_epspl = eps*ampl*(eps**(-alpha2))
-       endif
-
-       RETURN
-
-       END
-
-
-
-
-C **************************************************************
-C    integrand for Total_rate_ir
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function functs_int_ir(eps_ln)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs,gauss
-
-       eps=dexp(eps_ln)
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       smin = 1.1646D0
-       smax = xmp*xmp+2.D0*eps*1.d-9*(E0+Pp)
-       s0 = 10.D0
-       if (smax.lt.smin) result=0.d0
-       if (smax.gt.smin) then
-          if (smax.le.s0) result=gauss(functs,smin,smax)
-          if (smax.gt.s0) result=gauss(functs,smin,s0)+
-     & gauss(functs,s0,smax)
-       endif
-       functs_int_ir=photd_ir(eps)/eps*result
-       RETURN
-       END
-
-C **************************************************************
-C    RETURNS interaction rate with IRB in Mpc^-1
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function Total_rate_ir(epsmin,epsmax)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs_int_ir,gauss
-
-       pm = 0.93827D0
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       epsm1 = max(epsmin,1.D9*(1.1646D0-xmp*xmp)/2.D0/(E0+Pp))
-       if (epsmax.gt.epsm1) then
-          result=2.d0*xmp*gauss(functs_int_ir,dlog(epsm1),dlog(epsmax))
-       else
-          result=0.d0
-       endif
-       Total_rate_ir=1.d18/8.d0/E0/Pp*result*1.d-30*3.0856d24
-
-       RETURN
-       END
-
-C **************************************************************
-C    integrand for Total_rate_cmb
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function functs_int_cmb(eps_ln)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs,gauss
-
-       eps=dexp(eps_ln)
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       smin = 1.1646D0
-       smax = xmp*xmp+2.D0*eps*1.d-9*(E0+Pp)
-       s0 = 10.D0
-       if (smax.lt.smin) result=0.d0
-       if (smax.gt.smin) then
-          if (smax.le.s0) result=gauss(functs,smin,smax)
-          if (smax.gt.s0) result=gauss(functs,smin,s0)+
-     & gauss(functs,s0,smax)
-       endif
-       functs_int_cmb=photd(eps,(1.d0+Z)*2.75)/eps*result
-       RETURN
-       END
-
-C **************************************************************
-C    RETURNS total interaction rate with CMB in Mpc^-1
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function Total_rate_cmb(epsmin,epsmax)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs_int_cmb,gauss
-
-       pm = 0.93827D0
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       epsm1 = max(epsmin,1.D9*(1.1646D0-xmp*xmp)/2.D0/(E0+Pp))
-       if (epsmax.gt.epsm1) then
-          result=2.d0*xmp*gauss(functs_int_cmb,dlog(epsm1),dlog(epsmax))
-       else
-          result=0.d0
-       endif
-       Total_rate_cmb=1.d18/8.d0/E0/Pp*result*1.d-30*3.0856d24
-
-       RETURN
-       END
-c****************************************************************************
-c
-c   SOPHIAEVENT
-c
-c   interface between Sophia and CRPropa
-c   simulate an interaction between p/n of given energy and the CMB
-c
-c   Eric Armengaud, 2005
-c*******************************
-c add Sept 2005 : redshift effect and interactions on IRB (from Primack 1999)
-c****************************************************************************
-
-c      subroutine sophiaevent(nature,Ein,OutPart,OutPartType,NbOutPart,
-c     &     z_particle,bgFlag,Zmax_IRB)
-
+      SUBROUTINE sophiaevent(nature,Ein,OutPart,OutPartType,NbOut
+     &     Part,z_particle,bgFlag,Zmax_IRB,T_blackbody)
 c**********************************
 c nature, Ein = input nature and energy of the nucleon
 c        nature = 0 -> p ; 1 -> n
@@ -16583,146 +9473,11 @@ c Added Dec. 2005 :
 c        zmax : now there is a "standard" IRB evolution which requires to 
 c           know the redshift and z_max of the irb.
 c**********************************
-
-c      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-c      IMPLICIT INTEGER (I-N)
-c      SAVE
-      
-c      COMMON/input/ tbb,E0,alpha1,alpha2,
-c     &     epsm1,epsm2,epsb,L0cc
-
-c      COMMON /REDSHIFT/ Z, ZMAX_IR
-
-c      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-c      COMMON /S_MASS1/ AM(49), AM2(49)
-c      COMMON /S_CHP/  S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
-c      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
-c      
-c      CHARACTER*6 NAMPRES
-c      COMMON /RES_PROP/ AMRES(9), SIG0(9),WIDTH(9), 
-c     +                    NAMPRES(0:9)
-
-c      CHARACTER*6 NAMPRESp
-c      COMMON /RES_PROPp/ AMRESp(9), BGAMMAp(9),WIDTHp(9),  
-c     +                    RATIOJp(9),NAMPRESp(0:9)
-
-c      CHARACTER*6 NAMPRESn
-c      COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9),WIDTHn(9),  
-c     +                    RATIOJn(9),NAMPRESn(0:9)
-
-
-c      external sample_eps,sample_s,eventgen,initial,prob_epskt,
-c     &     sample_ir_eps
-      
-c      integer nature
-c      integer bgFlag
-c      double precision Ein
-c      double precision z_particle
-c      double precision OutPart(2000,5)
-c      integer OutPartType(2000)      
-c      integer NbOutPart
-
-c      double precision epsmin,epsmax
-
-c      DATA pi /3.141593D0/
-
-c      if (nature.eq.0) then 
-c         L0=13
-c      else if (nature.eq.1) then
-c         L0=14
-c      else
-c         print*,'sophiaevent: incoming particle incorrectly specified'
-c         stop
-c      endif
-
-c$$$      call initial(L0)
-c$$$      E0 = Ein
-c$$$      pm = AM(L0)
-c$$$
-c$$$      tbb=2.73*(1.D0+z_particle)
-c$$$      Z = z_particle
-c$$$      ZMAX_IR = Zmax_IRB
-c$$$
-c$$$      if (bgFlag.eq.1) then
-c$$$         epsmin = 0.
-c$$$         epsmax = 0.
-c$$$         call sample_eps(epseV,epsmin,epsmax)
-c$$$      else if (bgFlag.eq.2) then
-c$$$c Choice for epsmin/epsmax : the Primack data is for -1<log(lambda/mumeter)<2.5
-c$$$c  i.e. E in [3.93e-3,12.4] eV. We choose epsmin/max inside this range for security
-c$$$         epsmin = 0.00395D0
-c$$$         epsmax = 12.2D0
-c$$$         call sample_ir_eps(epseV,epsmin,epsmax)
-c$$$      else
-c$$$         print*,'sophiaevent: incorrect background flag'
-c$$$         stop
-c$$$      endif
-c$$$      eps = epseV/1.D9
-c$$$      Etot = E0+eps
-c$$$      call sample_s(s,eps)
-c$$$      gammap = E0/pm
-c$$$      betap = sqrt(1.D0-1.D0/gammap/gammap)
-c$$$      theta = ((pm*pm-s)/2.D0/E0/eps+1.D0)/betap
-c$$$      if (abs(theta).gt.1.D0) STOP
-c$$$      theta = acos(theta)*180.D0/pi 
-c$$$
-c$$$      call eventgen(L0,E0,eps,theta,Imode)
-c$$$        
-c$$$      do i=1,2000
-c$$$         do j=1,5
-c$$$            OutPart(i,j)=P(i,j)
-c$$$         end do
-c$$$         OutPartType(i)=LLIST(i)
-c$$$      end do
-c$$$      NbOutPart=NP
-c$$$
-c$$$      return
-c$$$      end
-
-
-c****************************************************************************
-c
-c   SOPHIAEVENT
-c
-c   interface between Sophia and CRPropa
-c   simulate an interaction between p/n of given energy and the CMB
-c
-c   Eric Armengaud, 2005
-c*******************************
-c add Sept 2005 : redshift effect and interactions on IRB (from Primack 1999)
-c****************************************************************************
-c
-c     Modified in Sept 2009 to include a radial dependence of IRB.
-c
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      subroutine sophiaevent(nature,Ein,OutPart,OutPartType,NbOut
-     &     Part,z_particle,bgFlag,Zmax_IRB,idatamax,en_data,flux_data)
-
-c**********************************
-c nature, Ein = input nature and energy of the nucleon
-c        nature = 0 -> p ; 1 -> n
-c        Ein : in GeV (SOPHIA standard energy unit)
-c OutPart,OutPartType,NbOutPart = output data:
-c        P(2000,5) list of 4-momenta + masses of output particles
-c        LList(2000) list of output particle IDs
-c        NP nb of output particles
-c Added Sept. 2005 :
-c        z_particle : needed to estimate the CMB temperature (no redshift 
-c           evolution of IRB at the moment)
-c        bgFlag = 1 for CMB, 2 for Primack et al. (1999) IRB
-c Added Dec. 2005 :
-c        zmax : now there is a "standard" IRB evolution which requires to 
-c           know the redshift and z_max of the irb.
-c**********************************
-
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
       SAVE
       
-      COMMON/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-
+      COMMON /input/ tbb,E0,epsm1,epsm2,L0
       COMMON /REDSHIFT/ Z, ZMAX_IR
 
       COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
@@ -16743,425 +9498,76 @@ c**********************************
      +                    RATIOJn(9),NAMPRESn(0:9)
 
 
-      external sample_eps,sample_s,eventgen,initial,prob_epskt,
-     &     sample_ir_eps
+      EXTERNAL sample_eps_blackbody,sample_s,eventgen,initial,prob_epskt,
+     &     sample_eps_IRB
       
-      integer nature
-      integer bgFlag
-      double precision Ein,Pp
-      double precision z_particle
-      double precision OutPart(2000,5)
-      integer OutPartType(2000)      
-      integer NbOutPart
+      INTEGER nature
+      INTEGER bgFlag
+      DOUBLE PRECISION Ein,Pp
+      DOUBLE PRECISION z_particle
+      DOUBLE PRECISION OutPart(2000,5)
+      INTEGER OutPartType(2000)
+      INTEGER NbOutPart
 
-      double precision epsmin,epsmax
+      DOUBLE PRECISION epsmin,epsmax
+      DOUBLE PRECISION T_blackbody
 
       DATA pi /3.141593D0/
-
-
-cc 15.09.2009
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
 cc
       if (nature.eq.0) then 
-         L0=13
+          L0=13
       else if (nature.eq.1) then
-         L0=14
+          L0=14
       else
-         print*,'sophiaevent: incoming particle incorrectly specified'
-         stop
+          PRINT*,'sophiaevent: incoming particle incorrectly specified'
+          STOP
       endif
 
-      call initial(L0)
+      CALL initial(L0)
 
       E0 = Ein
       pm = AM(L0)
-
-      tbb=2.73*(1.D0+z_particle)
+      tbb = T_blackbody*(1.D0+z_particle)
       Z = z_particle
       ZMAX_IR = Zmax_IRB
 
-* check
-c      return
-***
-      if (bgFlag.eq.1) then
-         epsmin = 0.
-         epsmax = 0.
-         call sample_eps(epseV,epsmin,epsmax)
+      if ((bgFlag.eq.1) .or. (bgFlag.eq.3)) then
+          CALL sample_eps_blackbody(epseV)
       else if (bgFlag.eq.2) then
 c Choice for epsmin/epsmax : the Primack data is for -1<log(lambda/mumeter)<2.5
-c  i.e. E in [3.93e-3,12.4] eV. We choose epsmin/max inside this range for security
-         epsmin = 0.00395D0
-         epsmax = 12.2D0
-         call sample_ir_eps(epseV,epsmin,epsmax)
-c     c 15.09.2009
-c     Limits are defined by the provided background 
-      else if (bgflag.eq.3) then
-         epsmin = en_data(1) 
-         epsmax = en_data(idatamax) 
-         call sample_ir_eps2(epseV,epsmin,epsmax
-     $        ,idatamax,en_data,flux_data)
-
-cc
-
+c i.e. E in [3.93e-3,12.4] eV. We choose epsmin/max inside this range for security
+          epsmin = 0.00395D0
+          epsmax = 12.2D0
+          CALL sample_eps_IRB(epseV,epsmin,epsmax)
       else
-         print*,'sophiaevent: incorrect background flag'
-         stop
+          PRINT*,'sophiaevent: incorrect background flag'
+          STOP
       endif
       eps = epseV/1.D9
-c      Etot = E0+eps
 
-c      print*,'Before sample_s'
-      call sample_s(s,eps)
-c      print*,'After sample_s'
+      CALL sample_s(s,eps)
 
-c      gammap = E0/pm
-c      betap = sqrt(1.D0-1.D0/gammap/gammap)
       Pp = sqrt(E0*E0-pm*pm)
       theta = ((pm*pm-s)/2.D0/eps+E0)/Pp
       if (theta.gt.1.D0) then
-         print*,'sophiaevent: theta > 1.D0: ', theta
-         theta = 0.D0
+          PRINT*,'sophiaevent: theta > 1.D0: ', theta
+          theta = 0.D0
       else if (theta.lt.-1.D0) then
-         print*,'sophiaevent: theta < -1.D0: ', theta
-         theta = 180.D0
+          PRINT*,'sophiaevent: theta < -1.D0: ', theta
+          theta = 180.D0
       else
-          theta = acos(theta)*180.D0/pi 
+          theta = acos(theta)*180.D0/pi
       endif
 
-      call eventgen(L0,E0,eps,theta,Imode)
+      CALL eventgen(L0,E0,eps,theta,Imode)
 
       do i=1,2000
-         do j=1,5
-            OutPart(i,j)=P(i,j)
-         end do
-         OutPartType(i)=LLIST(i)
+          do j=1,5
+              OutPart(i,j)=P(i,j)
+          end do
+          OutPartType(i)=LLIST(i)
       end do
       NbOutPart=NP
 
-      return
-      end
-
-
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      subroutine  sample_ir_eps2(eps,epsmin,epsmax
-     $     ,idatamax,en_data,flux_data)
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-      SAVE
-
-      common/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-      common/PLindex/ alphaxx
-      COMMON /S_MASS1/ AM(49), AM2(49)
-
-cc 15.09.2009
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-      double precision prob_ir(idatamax)
-ccc
-
-
-      xmpi = AM(7)              ! Mpion (GeV)
-      xmp = AM(L0)              ! Mp (GeV) 
-      smin = 1.1646D0 ! (xmpi+xmp)**2      
-c      gammap = E0/xmp
-c      betap = sqrt(1.d0-1.d0/gammap/gammap)
-      Pp = sqrt(E0*E0-xmp*xmp)
-
-      epsth = (smin-xmp*xmp)/2.D0/(E0+Pp) 
-      epsth = epsth*1.D9
-      epsm1 = max(epsmin,epsth)
-
-
-      factor = 2.d0
-
-      if (epsm1.ge.epsmax) then
-         eps = 0.d0             
-
-      else
-c find the maximum of E**2*prob_eps_ir -> calculation of alpha        
-         e2prob_max = -1d100
-         do i = 1,idatamax
-            eps = en_data(i)  ! eV
-            prob_ir(i) = prob_eps_ir(eps
-     $           ,idatamax,en_data,flux_data)
-
-
-            if(eps**2*prob_ir(i) .gt. e2prob_max) then
-               eps_max = eps
-               e2prob_max = eps**2*prob_ir(i)
-            endif
-         enddo         
-         alpha = e2prob_max
-
-c loop -> acceptance-rejection method, comparison function alpha*E^(-2) 
-         do
-            r1 = rndm(0)
-           
-            eps = 1.d0/epsm1 - r1*(1.d0/epsm1 - 1.d0/epsmax)
-            eps = 1.d0/eps
-            
-            f_comp = factor*alpha*eps**(-2.d0)
-            
-            r2 = rndm(1)         
-            Prob = divdif(prob_ir,en_data,idatamax,eps,1)
-
-            if(Prob .gt. f_comp*r2) exit
-         enddo
-      endif      
-
-*** check
-c      write(14,*)eps,Prob,f_comp
-* 5    format(5E16.6)
-***
-
-
-      return
-      end
-
-
-c....
-      
-      double precision  function prob_eps_ir(eps
-     $     ,idatamax,en_data,flux_data) ! eps (eV)
-      implicit none
-
-      integer L0
-      double precision tbb,E0,alpha1,alpha2,epsm1,epsm2,epsb,am
-     $     ,am2
-
-      common/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-      COMMON /S_MASS1/ AM(49), AM2(49) 
-      
-      external functs,photd,gauss
-      double precision functs,photd,gauss
-
-      external n_ir
-      double precision n_ir
-
-      double precision xmpi,xmp,Pp,gammap,betap,deps,eps
-      double precision smin,smax,sintegr
-
-c
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-c
-
-      xmpi = 0.135D0
-      xmp = am(l0)              
-      Pp = sqrt(E0*E0-xmp*xmp)
-      gammap = E0/xmp
-      betap = sqrt(1.D0-1.D0/gammap/gammap)
-      deps = n_ir(eps,idatamax,en_data,flux_data)  ! n_photon(eps) 1/(cm^3 eV)
-
-      if (deps.eq.0.D0) then
-         prob_eps_ir = 0.D0
-         RETURN
-      else
-c***  calculate \int_sth^smax ds (s-mp^2) sigma_pg *******
-c*** smin is for head-on collision **********************
-         smin = (xmpi+xmp)**2   ! GeV^2              
-
-c isotropy
-         smax = xmp*xmp+2.D0*eps/1.D9*E0*(1.D0+betap)
-
-      endif
-
-
-      if(smax .gt. smin)then
-c isotropy
-         sintegr = gauss(functs,smin,smax) ! GeV^4 microbn
-
-         prob_eps_ir = deps/eps/eps*sintegr/
-     &           8.D0/betap/E0/E0*1.D-12 ! 1/(cm^3 eV)*1/eV^2*GeV^4*microbn/GeV^2 -> 1/(cm*eV)           
-         
-      else
-         prob_eps_ir = 0.d0         
-      endif
-
-      return
-      end
-
-
-c........
-
-      double precision function n_ir(eps,idatamax,en_data,flux_data)! 1/(eV cm3)
-      implicit none
-
-      integer idatairmax
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-
-      double precision eps
-      external divdif
-      double precision divdif
-
-      n_ir = divdif(flux_data,en_data,idatamax,eps,1) ! eV/cm^3
-      n_ir = n_ir/eps**2
-
-      if(n_ir .lt. 0.d0)n_ir = 0.d0
-
-      return
-      end
-
-
-c..............................................................................
-c Performs polynomial interpolation. The first term F(NN) contains the  values.
-c of the function to interpolate, A(NN) contains the corresponding x-values,  .
-c x is the point at which we want to evaluate the function and the last 
-c parameter MM corresponds to the order of the polynomial 
-c interpolation 1<MM<9 (set MM=3 if you don't know). This interpolating 
-c routine requires real numbers in singol precision and an ordering
-c AA(i)<AA(i+1) as input.
-c..............................................................................
-      double precision function DIVDIF(F,A,NN,X,MM)
-      implicit none
-      integer n,m,nn,mm,mplus,i,ip,ix,iy,isub,j,l,mid,npts,mmax
-      double precision x,A(NN),F(NN),T(20),D(20),sum
-      LOGICAL EXTRA
-      LOGICAL MFLAG,RFLAG
-      DATA MMAX/10/
-C
-C  TABULAR INTERPOLATION USING SYMMETRICALLY PLACED ARGUMENT POINTS.
-C
-C  START.  FIND SUBSCRIPT IX OF X IN ARRAY A.
-      IF( (NN.LT.2) .OR. (MM.LT.1) ) GO TO 20
-      N=NN
-      M=MM
-      MPLUS=M+1
-      IX=0
-      IY=N+1
-C     (SEARCH INCREASING ARGUMENTS.)
-    1    MID=(IX+IY)/2
-         IF(X.GE.A(MID)) GO TO 2
-            IY=MID
-            GO TO 3
-C        (IF TRUE.)
-    2       IX=MID
-    3    IF(IY-IX.GT.1) GO TO 1
-         GO TO 7
-C  COPY REORDERED INTERPOLATION POINTS INTO (T(I),D(I)), SETTING
-C  *EXTRA* TO TRUE IF M+2 POINTS TO BE USED.
-    7 NPTS=M+2-MOD(M,2)
-      IP=0
-      L=0
-      GO TO 9
-    8    L=-L
-         IF(L.GE.0) L=L+1
-    9    ISUB=IX+L
-         IF((1.LE.ISUB).AND.(ISUB.LE.N)) GO TO 10
-C        (SKIP POINT.)
-            NPTS=MPLUS
-            GO TO 11
-C        (INSERT POINT.)
-   10       IP=IP+1
-            T(IP)=A(ISUB)
-            D(IP)=F(ISUB)
-   11    IF(IP.LT.NPTS) GO TO 8
-      EXTRA=NPTS.NE.MPLUS
-C
-C  REPLACE D BY THE LEADING DIAGONAL OF A DIVIDED-DIFFERENCE TABLE, SUP-
-C  PLEMENTED BY AN EXTRA LINE IF *EXTRA* IS TRUE.
-      DO 14 L=1,M
-         IF(.NOT.EXTRA) GO TO 12
-            ISUB=MPLUS-L
-            D(M+2)=(D(M+2)-D(M))/(T(M+2)-T(ISUB))
-   12    I=MPLUS
-         DO 13 J=L,M
-            ISUB=I-L
-            D(I)=(D(I)-D(I-1))/(T(I)-T(ISUB))
-            I=I-1
-   13    CONTINUE
-   14 CONTINUE
-C
-C  EVALUATE THE NEWTON INTERPOLATION FORMULA AT X, AVERAGING TWO VALUES
-C  OF LAST DIFFERENCE IF *EXTRA* IS TRUE.
-      SUM=D(MPLUS)
-      IF(EXTRA) SUM=0.5d0*(SUM+D(M+2))
-      J=M
-      DO 15 L=1,M
-         SUM=D(J)+(X-T(J))*SUM
-         J=J-1
-   15 CONTINUE
-      DIVDIF=SUM
       RETURN
-
-20          IF(MM.LT.1) WRITE(*,101) MM
-            IF(NN.LT.2) WRITE(*,102) NN
-
-c            DIVDIF=999999999999999999.
-             DIVDIF=999999999.d9
-
-  101 FORMAT( 7X, 'FUNCTION DIVDIF ... M =',I6,' IS LESS THAN 1')
-  102 FORMAT( 7X, 'FUNCTION DIVDIF ... N =',I6,' IS LESS THAN 2')
-
-      END
-
-      subroutine xsection_interface(Ein, epsprime, Nsec_arg, Npartid,
-     $     crosssection)
-
-c**********************************
-c        L. Maccione, R. Tomas, 2009
-c Npartid, Ein = input nature and energy of the nucleon
-c        Npartid = 13 -> p ; 14 -> n
-c        Ein : in GeV (SOPHIA standard energy unit)
-c        Nsec_arg : flag to request the total cross section
-c        crosssection : output. Total cross section (mub)
-c**********************************
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-      SAVE
-      
-      COMMON/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-
-      COMMON /REDSHIFT/ Z, ZMAX_IR
-
-      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-      COMMON /S_MASS1/ AM(49), AM2(49)
-      COMMON /S_CHP/  S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
-      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
-      
-      CHARACTER*6 NAMPRES
-      COMMON /RES_PROP/ AMRES(9), SIG0(9),WIDTH(9), 
-     +                    NAMPRES(0:9)
-
-      CHARACTER*6 NAMPRESp
-      COMMON /RES_PROPp/ AMRESp(9), BGAMMAp(9),WIDTHp(9),  
-     +                    RATIOJp(9),NAMPRESp(0:9)
-
-      CHARACTER*6 NAMPRESn
-      COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9),WIDTHn(9),  
-     +                    RATIOJn(9),NAMPRESn(0:9)
-
-
-      external sample_eps,sample_s,eventgen,initial,prob_epskt,
-     &     sample_ir_eps, crossection
-      
-      integer Npartid
-      integer Nsec_arg
-      double precision Ein
-      double precision crosssection
-      double precision epsprime
-
-      DATA pi /3.141593D0/
-
-      L0=Npartid
-
-      call initial(L0)
-
-      E0 = Ein
-      pm = AM(L0)
-      tbb=2.73*(1.D0)
-      Z = 0
-
-      ZMAX_IR = 0
-
-      crosssection = crossection(epsprime, Nsec_arg, Npartid)
-      return 
-      END
+      END SUBROUTINE sophiaevent

@@ -4,7 +4,7 @@
 extern "C" {
 void sophiaevent_(int& channel, double& inputenergy, double momentum[][2000],
 		int id[], int& n, double& redshift, int& photonbackground, double& maxz,
-		int&, double[], double[]);
+		double&);
 }
 
 /*

@@ -5,14 +5,11 @@
 
 namespace crpropa {
 
-/**
- * \addtogroup EnergyLosses
- * @{
- */
 // Photon fields
 // The default IRB model is that of Kneiske et al. 2004
 enum PhotonField {
 	CMB,
+	Blackbody, // Added by Mario
 	IRB,  // same as IRB_Kneiske04
 	IRB_Kneiske04,
 	IRB_Stecker05,
@@ -31,7 +28,6 @@ double photonFieldScaling(PhotonField photonField, double z);
 // Returns a string representation of the field
 std::string photonFieldName(PhotonField photonField);
 
-/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_PHOTONBACKGROUND_H

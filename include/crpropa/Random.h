@@ -68,6 +68,7 @@
 #include <limits>
 #include <time.h>
 #include <cmath>
+#include <vector>
 #include <stdexcept>
 #include <algorithm>
 
@@ -103,6 +104,7 @@ public:
 protected:
 	enum {M = 397}; // period parameter
 	uint32 state[N];// internal state
+	std::vector<uint32> initial_seed;//
 	uint32 *pNext;// next value to get from state
 	int left;// number of values left before reload needed
 
@@ -183,6 +185,7 @@ public:
 	// Saving and loading generator state
 	void save( uint32* saveArray ) const;// to array of size SAVE
 	void load( uint32 *const loadArray );// from such array
+	const std::vector<Random::uint32> &getSeed() const; // copy the seed to the array
 	friend std::ostream& operator<<( std::ostream& os, const Random& mtrand );
 	friend std::istream& operator>>( std::istream& is, Random& mtrand );
 

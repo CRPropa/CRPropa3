@@ -279,6 +279,39 @@ TEST(Random, seed) {
 	EXPECT_EQ(r1, r3);
 }
 
+TEST(Random, bigSeedStorage) {
+	Random a;
+	std::vector<Random::uint32> bigSeed;
+
+	const size_t nComp = 42;
+	double values[nComp];
+	for (size_t i = 0; i < nComp; i++)
+	{
+		values[i] = a.rand();
+	}
+	bigSeed = a.getSeed();
+	Random b;
+	//b.load(bigSeed);
+	b.seed(&bigSeed[0], bigSeed.size());
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(values[i], b.rand());
+	}
+
+	a.seed(42);
+	bigSeed = a.getSeed();
+	EXPECT_EQ(bigSeed.size(), 1);
+	EXPECT_EQ(bigSeed[0], 42);
+	b.seed(bigSeed[0]);
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(a.rand(), b.rand());
+	}
+
+}
+
+
+
 TEST(Grid, PeriodicClamp) {
 	// Test correct determination of lower and upper neighbor
 	int lo, hi;

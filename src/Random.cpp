@@ -285,11 +285,20 @@ uint64_t Random::randInt64(const uint64_t &n)
 
 
 void Random::seed(const uint32 oneSeed) {
+	initial_seed.resize(1);
+	initial_seed[0] = oneSeed;
 	initialize(oneSeed);
 	reload();
 }
 
 void Random::seed(uint32 * const bigSeed, const uint32 seedLength) {
+
+	initial_seed.resize(seedLength);
+	for (size_t i =0; i< seedLength; i++)
+	{
+		initial_seed[i] = bigSeed[i];
+	}
+
 	initialize(19650218UL);
 	int i = 1;
 	uint32 j = 0;
@@ -344,6 +353,7 @@ void Random::seed() {
 	seed(hash(time(NULL), clock()));
 }
 
+
 void Random::initialize(const uint32 seed) {
 	uint32 *s = state;
 	uint32 *r = state;
@@ -392,6 +402,11 @@ void Random::save(uint32* saveArray) const {
 	for (; i--; *sa++ = *s++) {
 	}
 	*sa = left;
+}
+
+const std::vector<Random::uint32> &Random::getSeed() const
+{
+	return initial_seed;
 }
 
 void Random::load(uint32 * const loadArray) {

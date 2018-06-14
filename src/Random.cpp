@@ -466,6 +466,16 @@ void Random::seedThreads(const uint32 oneSeed) {
 	for(size_t i = 0; i < MAX_THREAD; ++i)
 	_tls[i].r.seed(oneSeed + i);
 }
+
+std::vector< std::vector<Random::uint32> > Random::getSeedThreads()
+{
+	std::vector< std::vector<Random::uint32> > seeds;
+	for(size_t i = 0; i < omp_get_num_threads(); ++i)
+		seeds.push_back(_tls[i].r.getSeed() ); 
+	return seeds;
+}
+
+
 #else
 static Random _random;
 Random &Random::instance() {
@@ -473,6 +483,12 @@ Random &Random::instance() {
 }
 void Random::seedThreads(const uint32 oneSeed) {
 	_random.seed(oneSeed);
+}
+std::vector< std::vector<Random::uint32> > Random::getSeedThreads()
+{
+	std::vector< std::vector<Random::uint32> > seeds;
+		seeds.push_back(_random.getSeed() ); 
+	return seeds;
 }
 #endif
 

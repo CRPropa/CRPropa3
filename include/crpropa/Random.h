@@ -191,6 +191,7 @@ public:
 
 	static Random &instance();
 	static void seedThreads(const uint32 oneSeed);
+	static std::vector< std::vector<Random::uint32> > getSeedThreads(); 
 
 protected:
 	/// Initialize generator state with seed

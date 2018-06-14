@@ -2,6 +2,7 @@
 
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/Version.h"
+#include "crpropa/Random.h"
 #include "kiss/logger.h"
 
 #include <hdf5.h>
@@ -191,12 +192,33 @@ void HDF5Output::open(const std::string& filename) {
 
 	dset = H5Dcreate2(file, "CRPROPA3", sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
 
-
 	insertStringAttribute("OutputType", outputName);
 	insertStringAttribute("Version", g_GIT_DESC);
-
 	insertDoubleAttribute("LengthScale", this->lengthScale);
 	insertDoubleAttribute("EnergyScale", this->energyScale);
+
+	// add ranom seeds
+	std::vector< std::vector<Random::uint32> > seeds = Random::getSeedThreads();
+	for (size_t i =0; i < seeds.size(); i++)
+	{
+		hid_t   type, attr_space, version_attr;
+		herr_t  status;
+		hsize_t dims[] = {1, 0};
+		dims[1] = seeds[i].size();
+
+		type = H5Tarray_create(H5T_NATIVE_ULONG, 2, dims);
+
+		attr_space = H5Screate_simple(0, dims, NULL);
+		char nameBuffer[256];
+		sprintf(nameBuffer, "SEED_%03i", i);
+		KISS_LOG_DEBUG << "Creating HDF5 attribute: " << nameBuffer << " with dimensions " << dims[0] << "x" << dims[1] ;
+		
+		version_attr = H5Acreate2(dset, nameBuffer, type, attr_space, H5P_DEFAULT, H5P_DEFAULT);
+		status = H5Awrite(version_attr, type, &seeds[i][0]);
+		status = H5Aclose(version_attr);
+		status = H5Sclose(attr_space);
+
+	}
 
 
 	H5Pclose(plist);

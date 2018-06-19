@@ -73,6 +73,7 @@
 #include <algorithm>
 
 #include <stdint.h>
+#include <string>
 
 //necessary for win32
 #ifndef M_PI
@@ -178,6 +179,8 @@ public:
 	/// in each element are discarded.
 	/// Just call seed() if you want to get array from /dev/urandom
 	void seed( uint32 *const bigSeed, const uint32 seedLength = N );
+	// seed via an b64 encoded string
+	void seed( const std::string &b64Seed);
 	/// Seed the generator with an array from /dev/urandom if available
 	/// Otherwise use a hash of time() and clock() values
 	void seed();
@@ -186,12 +189,14 @@ public:
 	void save( uint32* saveArray ) const;// to array of size SAVE
 	void load( uint32 *const loadArray );// from such array
 	const std::vector<Random::uint32> &getSeed() const; // copy the seed to the array
+	const std::string getSeed_base64() const; // get the base 64 encoded seed
+
 	friend std::ostream& operator<<( std::ostream& os, const Random& mtrand );
 	friend std::istream& operator>>( std::istream& is, Random& mtrand );
 
 	static Random &instance();
 	static void seedThreads(const uint32 oneSeed);
-	static std::vector< std::vector<Random::uint32> > getSeedThreads(); 
+	static std::vector< std::vector<Random::uint32> > getSeedThreads();
 
 protected:
 	/// Initialize generator state with seed

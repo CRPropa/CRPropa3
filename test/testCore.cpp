@@ -6,6 +6,7 @@
  */
 
 #include "crpropa/Candidate.h"
+#include "crpropa/base64.h"
 #include "crpropa/Common.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
@@ -308,6 +309,44 @@ TEST(Random, bigSeedStorage) {
 		EXPECT_EQ(a.rand(), b.rand());
 	}
 
+}
+
+TEST(base64, de_en_coding)
+{
+	Random a;
+	for (int N=1; N < 100; N++)
+	{
+		std::vector<Random::uint32> data; 
+		data.reserve(N);
+		for (int i =0; i<N; i++)
+			data.push_back(a.randInt());
+
+		std::string encoded_data = Base64::encode((unsigned char*)&data[0], sizeof(data[0]) * data.size() / sizeof(unsigned char));
+
+		std::string decoded_data = Base64::decode(encoded_data);
+		size_t S = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(Random::uint32);
+		for (int i=0; i < S; i++)
+		{
+			EXPECT_EQ(((Random::uint32*)decoded_data.c_str())[i], data[i]);
+		}
+	}
+
+}
+
+TEST(Random, base64Seed) {
+
+	std::string seed =  "I1+8AAAAAADc12MAAAAAACoAAAAAAAAAAwAAAAAAAAA=";
+	std::vector<Random::uint32> bigSeed = {12345123, 6543324, 42, 3};
+	Random a, b;
+	a.seed(seed);
+	b.seed(&bigSeed[0], bigSeed.size());
+
+	const size_t nComp = 42;
+	double values[nComp];
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(a.rand(), b.rand());
+	}
 }
 
 

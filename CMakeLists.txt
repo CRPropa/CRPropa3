@@ -321,6 +321,7 @@ file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h)
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
 
 add_library(crpropa SHARED
+	src/base64.cpp
 	src/Candidate.cpp
 	src/Clock.cpp
 	src/Common.cpp

@@ -27,16 +27,16 @@ after_failure:
 
 after_success:
   - make doc
-  - openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
-  - chmod 600 travis_deploy
-  - eval "$(ssh-agent -s)"
-  - ssh-add travis_deploy
-  - cd html
-  - git init
-  - git checkout -b gh-pages
-  - git add .
-  - git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
   - |
     if [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ]; then
+      openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
+      chmod 600 travis_deploy
+      eval "$(ssh-agent -s)"
+      ssh-add travis_deploy
+      cd html
+      git init
+      git checkout -b gh-pages
+      git add .
+      git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
       git push -f --set-upstream git@github.com:CRPropa/CRPropa3.git gh-pages
     fi

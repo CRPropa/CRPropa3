@@ -4,6 +4,7 @@
 #include "crpropa/Random.h"
 
 #include <kiss/convert.h>
+#include <kiss/logger.h>
 #include "sophia.h"
 
 #include <limits>
@@ -235,18 +236,42 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 			if (A == 1) {
 				// single interacting nucleon
 				candidate->current.setEnergy(Eout);
-				candidate->current.setId(sign * nucleusId(1, 14 - pType));
+				try
+				{
+					candidate->current.setId(sign * nucleusId(1, 14 - pType));
+				}
+				catch (std::runtime_error &e)
+				{
+					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+					throw;
+				}
 			} else {
 				// interacting nucleon is part of nucleus: it is emitted from the nucleus
 				candidate->current.setEnergy(E - EpA);
-				candidate->current.setId(sign * nucleusId(A - 1, Z - int(onProton)));
-				candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout, pos);
+				try
+				{
+					candidate->current.setId(sign * nucleusId(A - 1, Z - int(onProton)));
+					candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout, pos);
+				}
+				catch (std::runtime_error &e)
+				{
+					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+					throw;
+				}
 			}
 			break;
 		case -13: // anti-proton
 		case -14: // anti-neutron
 			if (haveAntiNucleons)
-				candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout, pos);
+				try
+				{
+					candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout, pos);
+				}
+				catch (std::runtime_error &e)
+				{
+					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction\n" << "Something went wrong in the PhotoPionProduction\n"<< "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+					throw;
+				}
 			break;
 		case 1: // photon
 			if (havePhotons)

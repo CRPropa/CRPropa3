@@ -198,7 +198,7 @@ void HDF5Output::open(const std::string& filename) {
 	insertDoubleAttribute("EnergyScale", this->energyScale);
 
 	// add ranom seeds
-	std::vector< std::vector<Random::uint32> > seeds = Random::getSeedThreads();
+	std::vector< std::vector<uint32_t> > seeds = Random::getSeedThreads();
 	for (size_t i =0; i < seeds.size(); i++)
 	{
 		hid_t   type, attr_space, version_attr;

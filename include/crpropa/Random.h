@@ -96,25 +96,22 @@ namespace crpropa {
  */
 class Random {
 public:
-#ifndef uint32
-	typedef unsigned long uint32; // unsigned integer type, at least 32 bits
-#endif
 	enum {N = 624}; // length of state vector
 	enum {SAVE = N + 1}; // length of array for save()
 
 protected:
 	enum {M = 397}; // period parameter
-	uint32 state[N];// internal state
-	std::vector<uint32> initial_seed;//
-	uint32 *pNext;// next value to get from state
+	uint32_t state[N];// internal state
+	std::vector<uint32_t> initial_seed;//
+	uint32_t *pNext;// next value to get from state
 	int left;// number of values left before reload needed
 
 //Methods
 public:
-	/// initialize with a simple uint32
-	Random( const uint32& oneSeed );
+	/// initialize with a simple uint32_t
+	Random( const uint32_t& oneSeed );
 	// initialize with an array
-	Random( uint32 *const bigSeed, uint32 const seedLength = N );
+	Random( uint32_t *const bigSeed, uint32_t const seedLength = N );
 	/// auto-initialize with /dev/urandom or time() and clock()
 	/// Do NOT use for CRYPTOGRAPHY without securely hashing several returned
 	/// values together, otherwise the generator state can be learned after
@@ -129,8 +126,8 @@ public:
 	double randDblExc( const double& n );///< real number in (0,n)
 	/// Pull a 32-bit integer from the generator state
 	/// Every other access function simply transforms the numbers extracted here
-	uint32 randInt();///< integer in [0,2^32-1]
-	uint32 randInt( const uint32& n );///< integer in [0,n] for n < 2^32
+	uint32_t randInt();///< integer in [0,2^32-1]
+	uint32_t randInt( const uint32_t& n );///< integer in [0,n] for n < 2^32
 
 	uint64_t randInt64(); ///< integer in [0, 2**64 -1]. PROBABLY NOT SECURE TO USE
 	uint64_t randInt64(const uint64_t &n); ///< integer in [0, n] for n < 2**64 -1. PROBABLY NOT SECURE TO USE
@@ -170,15 +167,15 @@ public:
 	/// Broken power-law distribution
 	double randBrokenPowerLaw(double index1, double index2, double breakpoint, double min, double max );
 
-	/// Seed the generator with a simple uint32
-	void seed( const uint32 oneSeed );
-	/// Seed the generator with an array of uint32's
+	/// Seed the generator with a simple uint32_t
+	void seed( const uint32_t oneSeed );
+	/// Seed the generator with an array of uint32_t's
 	/// There are 2^19937-1 possible initial states.  This function allows
 	/// all of those to be accessed by providing at least 19937 bits (with a
-	/// default seed length of N = 624 uint32's).  Any bits above the lower 32
+	/// default seed length of N = 624 uint32_t's).  Any bits above the lower 32
 	/// in each element are discarded.
 	/// Just call seed() if you want to get array from /dev/urandom
-	void seed( uint32 *const bigSeed, const uint32 seedLength = N );
+	void seed( uint32_t *const bigSeed, const uint32_t seedLength = N );
 	// seed via an b64 encoded string
 	void seed( const std::string &b64Seed);
 	/// Seed the generator with an array from /dev/urandom if available
@@ -186,49 +183,49 @@ public:
 	void seed();
 
 	// Saving and loading generator state
-	void save( uint32* saveArray ) const;// to array of size SAVE
-	void load( uint32 *const loadArray );// from such array
-	const std::vector<Random::uint32> &getSeed() const; // copy the seed to the array
+	void save( uint32_t* saveArray ) const;// to array of size SAVE
+	void load( uint32_t *const loadArray );// from such array
+	const std::vector<uint32_t> &getSeed() const; // copy the seed to the array
 	const std::string getSeed_base64() const; // get the base 64 encoded seed
 
 	friend std::ostream& operator<<( std::ostream& os, const Random& mtrand );
 	friend std::istream& operator>>( std::istream& is, Random& mtrand );
 
 	static Random &instance();
-	static void seedThreads(const uint32 oneSeed);
-	static std::vector< std::vector<Random::uint32> > getSeedThreads();
+	static void seedThreads(const uint32_t oneSeed);
+	static std::vector< std::vector<uint32_t> > getSeedThreads();
 
 protected:
 	/// Initialize generator state with seed
 	/// See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
 	/// In previous versions, most significant bits (MSBs) of the seed affect
 	/// only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
-	void initialize( const uint32 oneSeed );
+	void initialize( const uint32_t oneSeed );
 
 	/// Generate N new values in state
 	/// Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)
 	void reload();
-	uint32 hiBit( const uint32& u ) const {return u & 0x80000000UL;}
-	uint32 loBit( const uint32& u ) const {return u & 0x00000001UL;}
-	uint32 loBits( const uint32& u ) const {return u & 0x7fffffffUL;}
-	uint32 mixBits( const uint32& u, const uint32& v ) const
+	uint32_t hiBit( const uint32_t& u ) const {return u & 0x80000000UL;}
+	uint32_t loBit( const uint32_t& u ) const {return u & 0x00000001UL;}
+	uint32_t loBits( const uint32_t& u ) const {return u & 0x7fffffffUL;}
+	uint32_t mixBits( const uint32_t& u, const uint32_t& v ) const
 	{	return hiBit(u) | loBits(v);}
 
 #ifdef _MSC_VER
 #pragma warning( push )
 #pragma warning( disable : 4146 )
 #endif
-	uint32 twist( const uint32& m, const uint32& s0, const uint32& s1 ) const
+	uint32_t twist( const uint32_t& m, const uint32_t& s0, const uint32_t& s1 ) const
 	{	return m ^ (mixBits(s0,s1)>>1) ^ (-loBit(s1) & 0x9908b0dfUL);}
 
 #ifdef _MSC_VER
 #pragma warning( pop )
 #endif
 
-	/// Get a uint32 from t and c
-	/// Better than uint32(x) in case x is floating point in [0,1]
+	/// Get a uint32_t from t and c
+	/// Better than uint32_t(x) in case x is floating point in [0,1]
 	/// Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
-	static uint32 hash( time_t t, clock_t c );
+	static uint32_t hash( time_t t, clock_t c );
 
 };
 /** @}*/

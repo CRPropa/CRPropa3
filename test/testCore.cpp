@@ -282,7 +282,7 @@ TEST(Random, seed) {
 
 TEST(Random, bigSeedStorage) {
 	Random a;
-	std::vector<Random::uint32> bigSeed;
+	std::vector<uint32_t> bigSeed;
 
 	const size_t nComp = 42;
 	double values[nComp];
@@ -316,7 +316,7 @@ TEST(base64, de_en_coding)
 	Random a;
 	for (int N=1; N < 100; N++)
 	{
-		std::vector<Random::uint32> data; 
+		std::vector<uint32_t> data; 
 		data.reserve(N);
 		for (int i =0; i<N; i++)
 			data.push_back(a.randInt());
@@ -324,10 +324,10 @@ TEST(base64, de_en_coding)
 		std::string encoded_data = Base64::encode((unsigned char*)&data[0], sizeof(data[0]) * data.size() / sizeof(unsigned char));
 
 		std::string decoded_data = Base64::decode(encoded_data);
-		size_t S = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(Random::uint32);
+		size_t S = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
 		for (int i=0; i < S; i++)
 		{
-			EXPECT_EQ(((Random::uint32*)decoded_data.c_str())[i], data[i]);
+			EXPECT_EQ(((uint32_t*)decoded_data.c_str())[i], data[i]);
 		}
 	}
 
@@ -335,8 +335,8 @@ TEST(base64, de_en_coding)
 
 TEST(Random, base64Seed) {
 
-	std::string seed =  "I1+8AAAAAADc12MAAAAAACoAAAAAAAAAAwAAAAAAAAA=";
-	std::vector<Random::uint32> bigSeed = {12345123, 6543324, 42, 3};
+	std::string seed =  "I1+8ANzXYwAqAAAAAwAAAA==";
+	std::vector<uint32_t> bigSeed = {12345123, 6543324, 42, 3};
 	Random a, b;
 	a.seed(seed);
 	b.seed(&bigSeed[0], bigSeed.size());

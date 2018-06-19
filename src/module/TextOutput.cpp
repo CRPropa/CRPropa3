@@ -131,7 +131,7 @@ void TextOutput::printHeader() const {
 	if (storeRandomSeeds)
 	{
 		*out << "# Random seeds:\n";
-		std::vector< std::vector<Random::uint32> > seeds = Random::getSeedThreads();
+		std::vector< std::vector<uint32_t> > seeds = Random::getSeedThreads();
 
 		for (size_t i =0; i < seeds.size(); i++)
 		{

@@ -59,6 +59,8 @@
 
 #include "crpropa/Random.h"
 
+#include "crpropa/base64.h"
+
 #include <cstdio>
 
 namespace crpropa {
@@ -473,6 +475,18 @@ std::vector< std::vector<Random::uint32> > Random::getSeedThreads()
 	for(size_t i = 0; i < omp_get_num_threads(); ++i)
 		seeds.push_back(_tls[i].r.getSeed() ); 
 	return seeds;
+}
+
+void Random::seed(const std::string &b64Seed)
+{
+	std::string decoded_data = Base64::decode(b64Seed);
+	size_t seedSize = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32);
+	seed((uint32*)decoded_data.c_str(), seedSize );
+}
+
+const std::string Random::getSeed_base64() const
+{
+	return Base64::encode((unsigned char*) &initial_seed[0], sizeof(initial_seed[0]) * initial_seed.size() / sizeof(unsigned char));
 }
 
 

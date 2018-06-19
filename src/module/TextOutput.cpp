@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <kiss/string.h>
+#include <crpropa/base64.h>
 
 #ifdef CRPROPA_HAVE_ZLIB
 #include <izstream.hpp>
@@ -131,13 +132,12 @@ void TextOutput::printHeader() const {
 	{
 		*out << "# Random seeds:\n";
 		std::vector< std::vector<Random::uint32> > seeds = Random::getSeedThreads();
+
 		for (size_t i =0; i < seeds.size(); i++)
 		{
+			std::string encoded_data = Base64::encode((unsigned char*) &seeds[i][0], sizeof(seeds[i][0]) * seeds[i].size() / sizeof(unsigned char));
 			*out << "#   Thread " << i << ": ";
-			for (size_t j =0; j< seeds[i].size(); j++)
-			{
-				*out << seeds[i][j] << ", ";
-			}
+			*out << encoded_data;
 			*out << "\n";
 		}
 	}

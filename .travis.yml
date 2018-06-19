@@ -37,6 +37,6 @@ after_success:
   - git add .
   - git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
   - |
-    if [ $TRAVIS_BRANCH == "master" ] && [$TRAVIS_PULL_REQUEST == "false" ]; then
+    if [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ]; then
       git push -f --set-upstream git@github.com:CRPropa/CRPropa3.git gh-pages
     fi

@@ -336,7 +336,11 @@ TEST(base64, de_en_coding)
 TEST(Random, base64Seed) {
 
 	std::string seed =  "I1+8ANzXYwAqAAAAAwAAAA==";
-	std::vector<uint32_t> bigSeed = {12345123, 6543324, 42, 3};
+	std::vector<uint32_t> bigSeed;
+	bigSeed.push_back(12345123);
+	bigSeed.push_back(6543324);
+	bigSeed.push_back(42);
+	bigSeed.push_back(3);
 	Random a, b;
 	a.seed(seed);
 	b.seed(&bigSeed[0], bigSeed.size());

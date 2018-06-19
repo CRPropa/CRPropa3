@@ -3,7 +3,10 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
+#include "kiss/logger.h"
+
 #include <iostream>
+#include <cmath>
 
 namespace crpropa {
 
@@ -98,6 +101,7 @@ std::string ObserverDetectAll::getDescription() const {
 // ObserverSmallSphere --------------------------------------------------------
 ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
+			KISS_LOG_WARNING << "ObserverSmallSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius)).";
 }
 
 DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
@@ -176,6 +180,7 @@ std::string ObserverTracking::getDescription() const {
 // ObserverLargeSphere --------------------------------------------------------
 ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
+		KISS_LOG_WARNING << "ObserverLargeSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius) ).";
 }
 
 DetectionState ObserverLargeSphere::checkDetection(Candidate *candidate) const {
@@ -371,5 +376,28 @@ std::string ObserverTimeEvolution::getDescription() const {
 	  s << "  - " << detList[i] / kpc;
 	return s.str();
 }
+
+// ObserverSurface--------------------------------------------------------------
+ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { };
+
+DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
+{
+		double currentDistance = surface->distance(candidate->current.getPosition());
+		double previousDistance = surface->distance(candidate->previous.getPosition());
+		candidate->limitNextStep(fabs(currentDistance));
+
+		if (currentDistance * previousDistance > 0)
+			return NOTHING;
+		else if (previousDistance == 0)
+			return NOTHING;
+		else
+			return DETECTED;
+};
+
+std::string ObserverSurface::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverSurface: << " << surface->getDescription();
+	return ss.str();
+};
 
 } // namespace crpropa

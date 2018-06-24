@@ -58,7 +58,7 @@ static const double muG = microgauss;
 static const double nG = nanogauss;
 
 // electron volt
-static const double electronvolt = eplus * joule;
+static const double electronvolt = eplus * volt;
 static const double kiloelectronvolt = 1e3 * electronvolt;
 static const double megaelectronvolt = 1e6 * electronvolt;
 static const double gigaelectronvolt = 1e9 * electronvolt;

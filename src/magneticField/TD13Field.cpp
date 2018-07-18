@@ -133,6 +133,8 @@ namespace crpropa {
     double q = 0; // TODO: what is q
     double s = gamma;
     double delta_k0 = (k[1] - k[0]) / k[1]; // multiply this by k[i] to get delta_k[i]
+    //on second thought, this is probably unnecessary since it's just a factor and will get
+    //normalized out anyways.
 
     double Ak2_sum = 0; // sum of Ak^2 over all k
     //for this loop, the Ak array actually contains Gk*delta_k (ie non-normalized Ak^2)
@@ -147,10 +149,13 @@ namespace crpropa {
       Ak[i] = sqrt(Ak[i] / Ak2_sum * 2) * Brms;
     }
 
-    // generate direction, phase, and polarizarion for each wavemode
+    // generate direction, phase, and polarization for each wavemode
     for (int i=0; i<Nm; i++) {
       double phi = random.randUniform(-M_PI, M_PI);
       double costheta = random.randUniform(-1., 1.);
+      //// DEBUG set these to zero for aligned FFT
+      //phi = 0.;
+      //costheta = 0.;
       double sintheta = sqrt(1 - costheta*costheta);
 
       double alpha = random.randUniform(0, 2*M_PI);

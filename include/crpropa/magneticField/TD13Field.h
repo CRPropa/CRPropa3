@@ -84,19 +84,21 @@ private:
   std::vector<double> phi;
   std::vector<double> costheta;
   std::vector<double> beta;
-  std::vector<double> k;
-  std::vector<double> Ak;
 
   double gamma;
   double Nm;
 
 public:
+  //DEBUG put these in public so I can read them in python
+  std::vector<double> Ak;
+  std::vector<double> k;
   /** Constructor
       @param root mean square field strength for generated field
       @param kmin wave number of the mode with the largest wavelength to be included in the spectrum
       @param kmax wave number of the mode with the smallest wavelength to be included in the spectrum
       @param gamma spectral index
       @param Nm number of wavemodes that will be used when computing the field. A higher value will give a more accurate representation of the turbulence, but increase the runtime for getField.
+      @param seed can be used to seed the random number generator used to generate the field. This works just like in initTurbulence: a seed of 0 will lead to a randomly initialized RNG.
 */
   TD13Field(double Brms, double kmin, double kmax, double gamma, int Nm, int seed = 0);
 

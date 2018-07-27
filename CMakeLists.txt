@@ -34,6 +34,7 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mavx -mavx2 -mfma" )
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
@@ -75,6 +76,10 @@ list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
+
+list(APPEND CRPROPA_EXTRA_LIBRARIES sleef)
+link_directories(/rest/friean6k/crpropaa/lib)
+
 # googletest (provided, see https://code.google.com/p/googletest/wiki/FAQ
 #     Why is it not recommended use a pre-compiled copy of Google Test?)
 option(ENABLE_TESTING "Build tests and enable test target" ON)

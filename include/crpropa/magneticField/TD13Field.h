@@ -58,6 +58,8 @@ public:
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/Grid.h"
 
+#include <immintrin.h>
+
 namespace crpropa {
 
 std::vector<double> logspace(double start, double stop, size_t N) {
@@ -69,6 +71,8 @@ std::vector<double> logspace(double start, double stop, size_t N) {
   }
   return values;
 } 
+
+double hsum_double_avx(__m256d v);
 
 /**
  @class TD13Field
@@ -88,8 +92,24 @@ private:
   double gamma;
   double Nm;
 
+
+  int avx_Nm;
+  int align_offset;
+
+  static const int ixi0 = 0;
+  static const int ixi1 = 1;
+  static const int ixi2 = 2;
+  static const int ikappa0 = 3;
+  static const int ikappa1 = 4;
+  static const int ikappa2 = 5;
+  static const int iAk = 6;
+  static const int ik = 7;
+  static const int ibeta = 8;
+  static const int itotal = 9;
+
 public:
   //DEBUG put these in public so I can read them in python
+  std::vector<double> avx_data;
   std::vector<double> Ak;
   std::vector<double> k;
   /** Constructor

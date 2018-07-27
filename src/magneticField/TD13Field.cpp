@@ -95,7 +95,27 @@ double TD13Field::getLc() const {
 
 #include <iostream>
 
+#include <immintrin.h>
+#include <sleef.h>
+
+#define USE_SIMD
+
 namespace crpropa {
+
+  void print_m256d (__m256d v) {
+    const double *testptr = (double *) &v;
+    std::cout << testptr[0] << " " << testptr[1] << " " << testptr[2] << " " << testptr[3] << std::endl;
+  }
+
+//see https://stackoverflow.com/questions/49941645/get-sum-of-values-stored-in-m256d-with-sse-avx
+double hsum_double_avx(__m256d v) {
+  __m128d vlow  = _mm256_castpd256_pd128(v);
+  __m128d vhigh = _mm256_extractf128_pd(v, 1); // high 128
+  vlow  = _mm_add_pd(vlow, vhigh);     // reduce down to 128
+
+  __m128d high64 = _mm_unpackhi_pd(vlow, vlow);
+  return  _mm_cvtsd_f64(_mm_add_sd(vlow, high64));  // reduce to scalar
+}
 
   TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, int Nm, int seed) {
 
@@ -172,16 +192,93 @@ namespace crpropa {
       this->costheta[i] = costheta;
       this->beta[i] = beta;
     }
+    //copy data into AVX-compatible arrays
+    avx_Nm = ( (Nm + 4 - 1)/4 ) * 4; //round up to next larger multiple of 4: align is 256 = 4 * sizeof(double) bit
+    std::cout << avx_Nm <<std::endl;
+    std::cout << itotal << std::endl;
+    std::cout << (itotal*avx_Nm + 3) << std::endl;
+    avx_data = std::vector<double>(itotal*avx_Nm + 3, 0.);
+
+    //get the first 256-bit aligned element
+    size_t size = avx_data.size()*sizeof(double);
+    void *pointer = avx_data.data();
+    align_offset = (double *) std::align(32, 32, pointer, size) - avx_data.data();
+
+    //copy
+    for (int i=0; i<Nm; i++) {
+      std::cout << xi[i] << std::endl;
+      std::cout << "writing to " << i + align_offset + avx_Nm*ixi0 << std::endl;
+      avx_data[i + align_offset + avx_Nm*ixi0] = xi[i].x;
+      avx_data[i + align_offset + avx_Nm*ixi1] = xi[i].y;
+      avx_data[i + align_offset + avx_Nm*ixi2] = xi[i].z;
+
+      avx_data[i + align_offset + avx_Nm*ikappa0] = kappa[i].x;
+      avx_data[i + align_offset + avx_Nm*ikappa1] = kappa[i].y;
+      avx_data[i + align_offset + avx_Nm*ikappa2] = kappa[i].z;
+
+      avx_data[i + align_offset + avx_Nm*iAk] = Ak[i];
+      avx_data[i + align_offset + avx_Nm*ik] = k[i];
+      avx_data[i + align_offset + avx_Nm*ibeta] = beta[i];
+    }
+    std::cout << "last index: " << (Nm + align_offset + avx_Nm*ibeta) << std::endl;
 }
 
 Vector3d TD13Field::getField(const Vector3d& pos) const {
-  Vector3d B(0.);
 
+#ifndef USE_SIMD
+  Vector3d B(0.);
+  
   for (int i=0; i<Nm; i++) {
     double z_ = pos.dot(kappa[i]);
     B += xi[i] * Ak[i] * cos(k[i] * z_ + beta[i]);
   }
+
   return B;
+
+#else
+  __m256d acc0 = _mm256_setzero_pd();
+  __m256d acc1 = _mm256_setzero_pd();
+  __m256d acc2 = _mm256_setzero_pd();
+
+  __m256d pos0 = _mm256_set1_pd(pos.x);
+  __m256d pos1 = _mm256_set1_pd(pos.y);
+  __m256d pos2 = _mm256_set1_pd(pos.z);
+
+  __m256d test;
+
+  for (int i=0; i<avx_Nm; i+=4) {
+
+    __m256d xi0 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi0);
+    __m256d xi1 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi1);
+    __m256d xi2 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi2);
+
+    __m256d kappa0 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ikappa0);
+    __m256d kappa1 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ikappa1);
+    __m256d kappa2 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ikappa2);
+
+    __m256d Ak = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*iAk);
+    __m256d k = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ik);
+    __m256d beta = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ibeta);
+
+    __m256d z = _mm256_fmadd_pd(pos0, kappa0,
+                                _mm256_fmadd_pd(pos1, kappa1,
+                                               _mm256_mul_pd(pos2, kappa2)
+                                               )
+                                );
+
+    __m256d cos_arg = _mm256_fmadd_pd(k, z, beta);
+    __m256d mag = _mm256_mul_pd(Ak, Sleef_cosd4_u10avx2(cos_arg));
+
+    acc0 = _mm256_fmadd_pd(mag, xi0, acc0);
+    acc1 = _mm256_fmadd_pd(mag, xi1, acc1);
+    acc2 = _mm256_fmadd_pd(mag, xi2, acc2);
+  }
+  
+  return Vector3d(hsum_double_avx(acc0),
+                  hsum_double_avx(acc1),
+                  hsum_double_avx(acc2)
+                  );
+#endif
 }
 
 } // namespace crpropa

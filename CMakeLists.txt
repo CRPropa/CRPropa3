@@ -34,7 +34,7 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mavx -mfma -mavx2" )
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mavx" )
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")

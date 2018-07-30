@@ -258,6 +258,7 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
 
   for (int i=0; i<avx_Nm; i+=4) {
 
+    //load data from memory into AVX registers
     __m256d xi0 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi0);
     __m256d xi1 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi1);
     __m256d xi2 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi2);
@@ -270,18 +271,19 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
     __m256d k = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ik);
     __m256d beta = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ibeta);
 
-    __m256d z = _mm256_fmadd_pd(pos0, kappa0,
-                                _mm256_fmadd_pd(pos1, kappa1,
-                                               _mm256_mul_pd(pos2, kappa2)
-                                               )
-                                );
+    //do the computation
+    __m256d z = _mm256_add_pd(_mm256_mul_pd(pos0, kappa0),
+			      _mm256_add_pd(_mm256_mul_pd(pos1, kappa1),
+					    _mm256_mul_pd(pos2, kappa2)
+					    )
+			      );
 
-    __m256d cos_arg = _mm256_fmadd_pd(k, z, beta);
-    __m256d mag = _mm256_mul_pd(Ak, Sleef_cosd4_u10avx2(cos_arg));
+    __m256d cos_arg = _mm256_add_pd(_mm256_mul_pd(k, z), beta);
+    __m256d mag = _mm256_mul_pd(Ak, Sleef_cosd4_u10(cos_arg));
 
-    acc0 = _mm256_fmadd_pd(mag, xi0, acc0);
-    acc1 = _mm256_fmadd_pd(mag, xi1, acc1);
-    acc2 = _mm256_fmadd_pd(mag, xi2, acc2);
+    acc0 = _mm256_add_pd(_mm256_mul_pd(mag, xi0), acc0);
+    acc1 = _mm256_add_pd(_mm256_mul_pd(mag, xi1), acc1);
+    acc2 = _mm256_add_pd(_mm256_mul_pd(mag, xi2), acc2);
   }
   
   return Vector3d(hsum_double_avx(acc0),

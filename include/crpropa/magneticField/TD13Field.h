@@ -109,10 +109,12 @@ public:
       @param kmin wave number of the mode with the largest wavelength to be included in the spectrum
       @param kmax wave number of the mode with the smallest wavelength to be included in the spectrum
       @param gamma spectral index
+      @param bendoverScale the turbulence bend-over scale, used to scale the wavenumbers. As per the TD13 paper, this is set to 0.03AU by default.
       @param Nm number of wavemodes that will be used when computing the field. A higher value will give a more accurate representation of the turbulence, but increase the runtime for getField.
       @param seed can be used to seed the random number generator used to generate the field. This works just like in initTurbulence: a seed of 0 will lead to a randomly initialized RNG.
 */
-  TD13Field(double Brms, double kmin, double kmax, double gamma, int Nm, int seed = 0);
+  TD13Field(double Brms, double kmin, double kmax, double gamma,
+	    double bendoverScale = 4.5e6, int Nm = 100, int seed = 0);
 
   /**
      Theoretical runtime is O(Nm).

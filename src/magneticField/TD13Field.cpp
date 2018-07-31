@@ -127,7 +127,14 @@ double hsum_double_avx(__m256d v) {
   return  _mm_cvtsd_f64(_mm_add_sd(vlow, high64));  // reduce to scalar
 }
 
-  TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, int Nm, int seed) {
+  TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, double bendoverScale, int Nm, int seed) {
+
+    // NOTE: the use of the turbulence bend-over scale in the TD13 paper is quite confusing to
+    // me. The paper states that k = l_0 * <k tilde> would be used throughout, yet
+    // surely they do not mean to say that l_0 * <k tilde> should be used for the k in the
+    // scalar product in eq. 2? In this implementation, I've only multiplied in the l_0
+    // in the computation of the Gk, not the actual <k>s used for planar wave evaluation,
+    // since this would yield obviously wrong results...
 
     if (kmin > kmax) {
       throw std::runtime_error("TD13Field: kmin > kmax");
@@ -169,8 +176,9 @@ double hsum_double_avx(__m256d v) {
     double Ak2_sum = 0; // sum of Ak^2 over all k
     //for this loop, the Ak array actually contains Gk*delta_k (ie non-normalized Ak^2)
     for (int i=0; i<Nm; i++) {
-      double Gk = pow(k[i], q) / pow(1 + k[i]*k[i], (s+q)/2);
-      Ak[i] = Gk * delta_k0 * k[i];
+      double k = this->k[i] * bendoverScale;
+      double Gk = pow(k, q) / pow(1 + k*k, (s+q)/2);
+      Ak[i] = Gk * delta_k0 * k;
       Ak2_sum += Ak[i];
     }
     //only in this loop are the actual Ak computed and stored

@@ -26,6 +26,7 @@ protected:
 	double limit; ///< fraction of mean free path to limit the next step
 	bool havePhotons;
 	bool haveNeutrinos;
+	bool haveElectrons;
 	bool haveAntiNucleons;
 	bool haveRedshiftDependence;
 
@@ -34,12 +35,14 @@ public:
 		PhotonField photonField = CMB,
 		bool photons = false,
 		bool neutrinos = false,
+		bool electrons = false,
 		bool antiNucleons = false,
 		double limit = 0.1,
 		bool haveRedshiftDependence = false);
 	void setPhotonField(PhotonField photonField);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
+	void setHaveElectrons(bool b);
 	void setHaveAntiNucleons(bool b);
 	void setHaveRedshiftDependence(bool b);
 	void setLimit(double limit);

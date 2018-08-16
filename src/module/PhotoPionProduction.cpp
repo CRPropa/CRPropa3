@@ -14,9 +14,10 @@
 
 namespace crpropa {
 
-PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool neutrinos, bool antiNucleons, double l, bool redshift) {
+PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool neutrinos, bool electrons, bool antiNucleons, double l, bool redshift) {
 	havePhotons = photons;
 	haveNeutrinos = neutrinos;
+	haveElectrons = electrons;
 	haveAntiNucleons = antiNucleons;
 	haveRedshiftDependence = redshift;
 	limit = l;
@@ -39,6 +40,10 @@ void PhotoPionProduction::setPhotonField(PhotonField field) {
 
 void PhotoPionProduction::setHavePhotons(bool b) {
 	havePhotons = b;
+}
+	
+void PhotoPionProduction::setHaveElectrons(bool b) {
+	haveElectrons = b;
 }
 
 void PhotoPionProduction::setHaveNeutrinos(bool b) {

@@ -253,11 +253,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 				candidate->addSecondary(22, Eout, pos);
 			break;
 		case 2: // positron
-			if (havePhotons)
+			if (haveElectrons)
 				candidate->addSecondary(sign * -11, Eout, pos);
 			break;
 		case 3: // electron
-			if (havePhotons)
+			if (haveElectrons)
 				candidate->addSecondary(sign * 11, Eout, pos);
 			break;
 		case 15: // nu_e

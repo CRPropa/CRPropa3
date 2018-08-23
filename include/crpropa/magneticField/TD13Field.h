@@ -120,6 +120,13 @@ public:
      Theoretical runtime is O(Nm).
 */
   Vector3d getField(const Vector3d& pos) const;
+
+  // versions:
+  // 4: introduce field versioning;
+  //    add volume correction factor   
+  static int fieldVersion() {
+    return 4;
+  }
 };
 
 } // namespace crpropa

@@ -115,7 +115,7 @@ std::vector<double> logspace(double start, double stop, size_t N) {
     values[i] = pow(10, ((double) i) / ((double) (N-1)) * delta + start);
   }
   return values;
-} 
+}
 
 //see https://stackoverflow.com/questions/49941645/get-sum-of-values-stored-in-m256d-with-sse-avx
 double hsum_double_avx(__m256d v) {
@@ -144,9 +144,10 @@ double hsum_double_avx(__m256d v) {
       throw std::runtime_error("TD13Field: Nm <= 1. We need at least two wavemodes in order to generate the k distribution properly, and besides -- *what are you doing?!*");
     }
 
-    if (kmin < std::numeric_limits<double>::epsilon()) {
-      throw std::runtime_error("TD13Field: kmin ~<= 0");
-    } 
+    // DEBUG
+    //if (kmin < std::numeric_limits<double>::epsilon()) {
+    //  throw std::runtime_error("TD13Field: kmin ~<= 0");
+    //} 
 
     Random random;
     if (seed != 0) { // copied from initTurbulence
@@ -178,7 +179,7 @@ double hsum_double_avx(__m256d v) {
     for (int i=0; i<Nm; i++) {
       double k = this->k[i] * bendoverScale;
       double Gk = pow(k, q) / pow(1 + k*k, (s+q)/2);
-      Ak[i] = Gk * delta_k0 * k;
+      Ak[i] = Gk * delta_k0 * k  *k*k; //DEBUG volume correction factor
       Ak2_sum += Ak[i];
     }
     //only in this loop are the actual Ak computed and stored

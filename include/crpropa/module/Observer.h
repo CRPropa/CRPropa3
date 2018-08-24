@@ -10,12 +10,16 @@
 #include "../Module.h"
 #include "../Referenced.h"
 #include "../Vector3.h"
+#include "../Geometry.h"
 
 namespace crpropa {
 
 enum DetectionState {
 	DETECTED, VETO, NOTHING
 };
+/** \addtogroup Observer
+ * @{
+ */
 
 /**
  @class ObserverFeature
@@ -52,6 +56,8 @@ public:
 	void setDeactivateOnDetection(bool deactivate);
 };
 
+
+
 /**
  @class ObserverDetectAll
  @brief Detects all particles
@@ -60,6 +66,21 @@ class ObserverDetectAll: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
+};
+
+
+/**
+ @class ObserverSurface
+ @brief Detects particles crossing the durface
+ */
+class ObserverSurface: public ObserverFeature {
+	private:
+		ref_ptr<Surface> surface;
+
+	public:
+		ObserverSurface(Surface* _surface);
+		DetectionState checkDetection(Candidate *candidate) const;
+		std::string getDescription() const;
 };
 
 /**
@@ -199,6 +220,7 @@ public:
   DetectionState checkDetection(Candidate *candidate) const;
   std::string getDescription() const;
 };
+/** @} */
 
 }
 

@@ -12,13 +12,13 @@
 #include "dint/DintEMCascade.h"
 
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
 #include <limits>
-#include <math.h>
+#include <cmath>
 
 namespace crpropa {
 
@@ -97,12 +97,12 @@ void ElecaPropagation(
 						continue;
 					char buffer[256];
 					size_t bufferPos = 0;
-					bufferPos += sprintf(buffer + bufferPos, "%i\t", p.GetType());
-					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
-					bufferPos += sprintf(buffer + bufferPos, "%i\t", iId);
-					bufferPos += sprintf(buffer + bufferPos, "%.4E\t", iE );
-					bufferPos += sprintf(buffer + bufferPos, "%i", p.Generation());
-					bufferPos += sprintf(buffer + bufferPos, "\n");
+					bufferPos += std::sprintf(buffer + bufferPos, "%i\t", p.GetType());
+					bufferPos += std::sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
+					bufferPos += std::sprintf(buffer + bufferPos, "%i\t", iId);
+					bufferPos += std::sprintf(buffer + bufferPos, "%.4E\t", iE );
+					bufferPos += std::sprintf(buffer + bufferPos, "%i", p.Generation());
+					bufferPos += std::sprintf(buffer + bufferPos, "\n");
 
 					output.write(buffer, bufferPos);
 				}

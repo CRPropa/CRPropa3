@@ -3,6 +3,7 @@
 
 #include "crpropa/Module.h"
 #include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/Referenced.h"
 
 #include <memory>
 #include <fstream>

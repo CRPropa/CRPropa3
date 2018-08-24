@@ -2,10 +2,12 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Units.h"
 
+#include <stdexcept>
+
 namespace crpropa {
 
-Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z) :
-		redshift(z), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
+		redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
@@ -55,6 +57,10 @@ double Candidate::getTrajectoryLength() const {
 	return trajectoryLength;
 }
 
+double Candidate::getWeight() const {
+	return weight;
+}
+
 double Candidate::getCurrentStep() const {
 	return currentStep;
 }
@@ -71,6 +77,10 @@ void Candidate::setTrajectoryLength(double a) {
 	trajectoryLength = a;
 }
 
+void Candidate::setWeight(double w) {
+	weight = w;
+}
+
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
 	trajectoryLength += lstep;
@@ -84,16 +94,15 @@ void Candidate::limitNextStep(double step) {
 	nextStep = std::min(nextStep, step);
 }
 
-void Candidate::setProperty(const std::string &name, const std::string &value) {
+void Candidate::setProperty(const std::string &name, const Variant &value) {
 	properties[name] = value;
 }
 
-bool Candidate::getProperty(const std::string &name, std::string &value) const {
+const Variant &Candidate::getProperty(const std::string &name) const {
 	PropertyMap::const_iterator i = properties.find(name);
 	if (i == properties.end())
-		return false;
-	value = i->second;
-	return true;
+		throw std::runtime_error("Unknown candidate property: " + name);
+	return i->second;
 }
 
 bool Candidate::removeProperty(const std::string& name) {
@@ -115,10 +124,11 @@ void Candidate::addSecondary(Candidate *c) {
 	secondaries.push_back(c);
 }
 
-void Candidate::addSecondary(int id, double energy) {
+void Candidate::addSecondary(int id, double energy, double weight) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = current;
@@ -129,10 +139,11 @@ void Candidate::addSecondary(int id, double energy) {
 	secondaries.push_back(secondary);
 }
 
-void Candidate::addSecondary(int id, double energy, Vector3d position) {
+void Candidate::addSecondary(int id, double energy, Vector3d position, double weight) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
+	secondary->setWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = current;
@@ -167,6 +178,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 	cloned->properties = properties;
 	cloned->active = active;
 	cloned->redshift = redshift;
+	cloned->weight = weight;
 	cloned->trajectoryLength = trajectoryLength;
 	cloned->currentStep = currentStep;
 	cloned->nextStep = nextStep;
@@ -212,5 +224,12 @@ uint64_t Candidate::getNextSerialNumber() {
 }
 
 uint64_t Candidate::nextSerialNumber = 0;
+
+void Candidate::restart() {
+	setActive(true);
+	setTrajectoryLength(0);
+	previous = source;
+	current = source;
+}
 
 } // namespace crpropa

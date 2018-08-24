@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 #define index(i,j) ((j)+(i)*Y.size())
@@ -54,6 +54,16 @@ std::string getDataPath(std::string filename) {
 	KISS_LOG_INFO << "getDataPath: use default, " << dataPath << std::endl;
 	return concat_path(dataPath, filename);
 }
+
+
+std::string getInstallPrefix()
+{
+  std::string _path = "";
+  #ifdef CRPROPA_INSTALL_PREFIX
+    _path += CRPROPA_INSTALL_PREFIX;
+  #endif
+  return _path;
+};
 
 double interpolate(double x, const std::vector<double> &X,
 		const std::vector<double> &Y) {
@@ -116,7 +126,7 @@ size_t closestIndex(double x, const std::vector<double> &X) {
 	if (i1 == 0)
 		return i1;
 	size_t i0 = i1 - 1;
-	if (abs(X[i0] - x) < abs(X[i1] - x))
+	if (std::fabs(X[i0] - x) < std::fabs(X[i1] - x))
 		return i0;
 	else
 		return i1;

@@ -3,7 +3,10 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Cosmology.h"
 
+#include "kiss/logger.h"
+
 #include <iostream>
+#include <cmath>
 
 namespace crpropa {
 
@@ -98,6 +101,7 @@ std::string ObserverDetectAll::getDescription() const {
 // ObserverSmallSphere --------------------------------------------------------
 ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
+			KISS_LOG_WARNING << "ObserverSmallSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius)).";
 }
 
 DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
@@ -176,6 +180,7 @@ std::string ObserverTracking::getDescription() const {
 // ObserverLargeSphere --------------------------------------------------------
 ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
 		center(center), radius(radius) {
+		KISS_LOG_WARNING << "ObserverLargeSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius) ).";
 }
 
 DetectionState ObserverLargeSphere::checkDetection(Candidate *candidate) const {
@@ -314,18 +319,14 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 	if (detList.size()) {
 		bool detected = false;
 		double length = c->getTrajectoryLength();
-		std::stringstream ss;
 		size_t index;
 		const std::string DI = "DetectionIndex";
 		std::string value;
-		
-		// Load the last detection index	
+
+		// Load the last detection index
 		if (c->hasProperty(DI)) {
-			std::string DIstring;
-			c->getProperty(DI, DIstring);
-			index = ::atoi(DIstring.c_str());
-				
-		} 
+			index = c->getProperty(DI).asUInt64();
+		}
 		else {
 			index = 0;
 		}
@@ -334,24 +335,22 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		if (index > detList.size()) {
 			return NOTHING;
 		}
-		
+
 		// Calculate the distance to next detection
 		double distance = length - detList[index];
-		
+
 		// Limit next Step and detect candidate
 		// Increase the index by one in case of detection
 		if (distance < 0.) {
 			c->limitNextStep(-distance);
-			return NOTHING;	
+			return NOTHING;
 		}
 		else {
 
 			if (index < detList.size()-1) {
-				c->limitNextStep(detList[index+1]-length);	
+				c->limitNextStep(detList[index+1]-length);
 			}
-			ss << index+1;
-			value =  ss.str();
-			c->setProperty(DI, value);
+			c->setProperty(DI, Variant::fromUInt64(index+1));
 
 			detected=true;
 			return DETECTED;
@@ -377,5 +376,28 @@ std::string ObserverTimeEvolution::getDescription() const {
 	  s << "  - " << detList[i] / kpc;
 	return s.str();
 }
+
+// ObserverSurface--------------------------------------------------------------
+ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { };
+
+DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
+{
+		double currentDistance = surface->distance(candidate->current.getPosition());
+		double previousDistance = surface->distance(candidate->previous.getPosition());
+		candidate->limitNextStep(fabs(currentDistance));
+
+		if (currentDistance * previousDistance > 0)
+			return NOTHING;
+		else if (previousDistance == 0)
+			return NOTHING;
+		else
+			return DETECTED;
+};
+
+std::string ObserverSurface::getDescription() const {
+	std::stringstream ss;
+	ss << "ObserverSurface: << " << surface->getDescription();
+	return ss.str();
+};
 
 } // namespace crpropa

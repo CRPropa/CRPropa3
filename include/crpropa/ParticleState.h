@@ -4,6 +4,10 @@
 #include "crpropa/Vector3.h"
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 /**
  @class ParticleState
@@ -55,7 +59,7 @@ public:
 
 	// ======== Helper methods ========
 
-	/// Electrical charge of the particle in [A]
+	/// Electrical charge of the particle in [C]
 	double getCharge() const;
 	/// Mass of the particle in [kg]
 	double getMass() const;
@@ -70,6 +74,7 @@ public:
 	/// Momentum: direction times energy divided by the speed of light [kg m/s]
 	Vector3d getMomentum() const;
 };
+/** @}*/
 
 } // namespace crpropa
 

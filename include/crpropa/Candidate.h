@@ -4,6 +4,7 @@
 #include "crpropa/ParticleState.h"
 #include "crpropa/Referenced.h"
 #include "crpropa/AssocVector.h"
+#include "crpropa/Variant.h"
 
 #include <vector>
 #include <map>
@@ -11,6 +12,10 @@
 #include <stdint.h>
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 /**
  @class Candidate
@@ -28,7 +33,7 @@ public:
 
 	std::vector<ref_ptr<Candidate> > secondaries; /**< Secondary particles from interactions */
 
-	typedef Loki::AssocVector<std::string, std::string> PropertyMap;
+	typedef Loki::AssocVector<std::string, Variant> PropertyMap;
 	PropertyMap properties; /**< Map of property names and their values. */
 
 	/** Parent candidate. 0 if no parent (initial particle). Must not be a ref_ptr to prevent circular referencing. */
@@ -36,6 +41,7 @@ public:
 
 private:
 	bool active; /**< Active status */
+	double weight; /**< Weight of the candidate */
 	double redshift; /**< Current simulation time-point in terms of redshift z */
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
@@ -50,7 +56,9 @@ public:
 		double energy = 0,
 		Vector3d position = Vector3d(0, 0, 0),
 		Vector3d direction = Vector3d(-1, 0, 0),
-		double z = 0);
+		double z = 0,
+		double weight = 1
+	);
 
 	/**
 	 Creates a candidate, initializing the Candidate::source, Candidate::created,
@@ -66,6 +74,13 @@ public:
 
 	void setRedshift(double z);
 	double getRedshift() const;
+
+	/**
+	 Sets weight of each candidate.
+	 Weights are calculated for each tracked secondary.
+	 */
+	void setWeight(double weight);
+	double getWeight() const;
 
 	/**
 	 Sets the current step and increases the trajectory length accordingly.
@@ -86,8 +101,8 @@ public:
 	 */
 	void limitNextStep(double step);
 
-	void setProperty(const std::string &name, const std::string &value);
-	bool getProperty(const std::string &name, std::string &value) const;
+	void setProperty(const std::string &name, const Variant &value);
+	const Variant &getProperty(const std::string &name) const;
 	bool removeProperty(const std::string &name);
 	bool hasProperty(const std::string &name) const;
 
@@ -102,8 +117,9 @@ public:
 	 Trajectory length and redshift are copied from the parent.
 	 */
 	void addSecondary(Candidate *c);
-	void addSecondary(int id, double energy);
-	void addSecondary(int id, double energy, Vector3d position);
+	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
+	void addSecondary(int id, double energy, double weight = 1);
+	void addSecondary(int id, double energy, Vector3d position, double weight = 1);
 	void clearSecondaries();
 
 	std::string getDescription() const;
@@ -130,8 +146,14 @@ public:
 	 */
 	ref_ptr<Candidate> clone(bool recursive = false) const;
 
+	/**
+	 Copy the source particle state to the current state
+	 and activate it if inactive, e.g. restart it
+	*/
+	void restart();
 };
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_CANDIDATE_H

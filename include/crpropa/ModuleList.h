@@ -24,18 +24,28 @@ public:
 	void setShowProgress(bool show = true); ///< activate a progress bar
 
 	void add(Module* module);
-	module_list_t &getModules();
-	const module_list_t &getModules() const;
+	void remove(std::size_t i);
+	std::size_t size() const;
+	ref_ptr<Module> operator[](const std::size_t i);
 
-	void process(Candidate *candidate) const; ///< call process in all modules
+	void process(Candidate* candidate) const; ///< call process in all modules
 	void process(ref_ptr<Candidate> candidate) const; ///< call process in all modules
 
-	void run(Candidate *candidate, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a single candidate
+	void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a single candidate
+	void run(ref_ptr<Candidate> candidate, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a single candidate
 	void run(candidate_vector_t &candidates, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a candidate vector
-	void run(SourceInterface *source, size_t count, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a number of candidates from the given source
+	void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = false); ///< run simulation for a number of candidates from the given source
 
 	std::string getDescription() const;
 	void showModules() const;
+	
+	/** iterator goodies */
+        typedef module_list_t::iterator iterator;
+        typedef module_list_t::const_iterator const_iterator;
+        iterator begin();
+        const_iterator begin() const;
+        iterator end();
+        const_iterator end() const;
 
 private:
 	module_list_t modules;

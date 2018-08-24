@@ -8,7 +8,11 @@
 #include <map>
 
 namespace crpropa {
-
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
+ 
 /**
  @class PhotoDisintegration
  @brief Photodisintegration of nuclei by background photons.
@@ -61,6 +65,7 @@ public:
 	double lossLength(int id, double gamma, double z = 0);
 };
 
+/** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_PHOTODISINTEGRATION_H

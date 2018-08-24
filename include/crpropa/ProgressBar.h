@@ -1,13 +1,15 @@
 #ifndef CRPROPA_PROGRESSBAR_H
 #define CRPROPA_PROGRESSBAR_H
 
-#include <stdio.h>
 #include <string>
-#include <iostream>
 #include <ctime>
 
 namespace crpropa {
 
+/**
+ * \addtogroup Core
+ * @{
+ */
 class ProgressBar {
 private:
 	unsigned long _steps;
@@ -34,6 +36,7 @@ public:
 	/// Mark the progressbar with an error
 	void setError();
 };
+/** @}*/
 
 } // namespace crpropa
 

@@ -1,6 +1,14 @@
 #ifndef CRPROPA_UNITS_H
 #define CRPROPA_UNITS_H
 
+#include <cmath>
+
+namespace crpropa {
+/**
+ * \addtogroup PhysicsDefinitions
+ * @{
+ */
+
 /**
  @file
  @brief Definition of SI base units and constants
@@ -12,10 +20,6 @@
  - IAU 2012 Resolution B2, IAU 2015 Resolution B2
  	https://www.iau.org/administration/resolutions/
  */
-
-#include <cmath>
-
-namespace crpropa {
 
 // SI units
 static const double meter = 1;
@@ -43,7 +47,7 @@ static const double mass_neutron = 1.67492735e-27 * kilogram;
 static const double mass_electron = 9.10938291e-31 * kilogram;
 static const double h_planck = 6.62606957e-34 * joule * second;
 static const double k_boltzmann = 1.3806488e-23 * joule / kelvin;
-static const double mu0 = 4*M_PI*1e-7 * newton / ampere / ampere;
+static const double mu0 = 4 * M_PI * 1e-7 * newton / ampere / ampere;
 static const double epsilon0 = 1.0 / mu0 / c_squared * ampere * second / volt / meter;
 
 // gauss
@@ -54,7 +58,7 @@ static const double muG = microgauss;
 static const double nG = nanogauss;
 
 // electron volt
-static const double electronvolt = eplus * joule;
+static const double electronvolt = eplus * volt;
 static const double kiloelectronvolt = 1e3 * electronvolt;
 static const double megaelectronvolt = 1e6 * electronvolt;
 static const double gigaelectronvolt = 1e9 * electronvolt;
@@ -80,6 +84,25 @@ static const double pc = parsec;
 static const double kpc = kiloparsec;
 static const double Mpc = megaparsec;
 static const double Gpc = gigaparsec;
+
+// meter
+static const double kilometer = 1000 * meter;
+static const double centimeter = 0.01 * meter;
+static const double km = kilometer;
+static const double cm = centimeter;
+
+// second
+static const double nanosecond = 1e-9 * second;
+static const double microsecond = 1e-6 * second;
+static const double millisecond = 1e-3 * second;
+static const double minute = 60 * second;
+static const double hour = 3600 * second;
+static const double ns = nanosecond;
+static const double mus = microsecond;
+static const double ms = millisecond;
+static const double sec = second;
+
+/** @}*/
 
 } // namespace crpropa
 

@@ -4,6 +4,10 @@
 #include "crpropa/Module.h"
 
 namespace crpropa {
+/**
+ * \addtogroup Condition 
+ * @{
+ */
 
 /**
  @class MaximumTrajectoryLength
@@ -93,6 +97,7 @@ public:
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;
 };
+/** @}*/
 
 } // namespace crpropa
 

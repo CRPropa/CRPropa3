@@ -151,7 +151,7 @@ TEST(NuclearDecay, scandium44) {
 	EXPECT_DOUBLE_EQ(gamma, c.current.getLorentzFactor());
 	
 	// expect at least two secondaries: positron + electron neutrino
-	EXPECT_GE(2, c.secondaries.size());
+	EXPECT_GE(c.secondaries.size(), 2);
 }
 
 TEST(NuclearDecay, lithium4) {

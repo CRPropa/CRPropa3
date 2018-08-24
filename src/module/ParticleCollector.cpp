@@ -16,7 +16,6 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 	container.reserve(nBuffer);
 }
 
-
 ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone, const bool recursive) {
 	container.reserve(nBuffer);
 }
@@ -24,13 +23,15 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 void ParticleCollector::process(Candidate *c) const {
 #pragma omp critical
         {
-                if (container.size() < nBuffer){
-			if(clone)
-		        	container.push_back(c->clone(recursive));
-			else
-				container.push_back(c);
-		}
+		if(clone)
+		       	container.push_back(c->clone(recursive));
+		else
+			container.push_back(c);
         }
+}
+
+void ParticleCollector::process(ref_ptr<Candidate> c) const {
+	ParticleCollector::process((Candidate*) c);
 }
 
 void ParticleCollector::reprocess(Module *action) const {
@@ -56,7 +57,7 @@ ParticleCollector::~ParticleCollector() {
         clearContainer();
 }
 
-std::size_t ParticleCollector::getCount() const {
+std::size_t ParticleCollector::size() const {
         return container.size();
 }
 
@@ -71,28 +72,47 @@ void ParticleCollector::clearContainer() {
 std::vector<ref_ptr<Candidate> > ParticleCollector::getAll() const {
         return container;
 }
+
+void ParticleCollector::setClone(bool b) {
+        clone = b;
+}
+
+bool ParticleCollector::getClone() const {
+        return clone;
+}
+
 std::string ParticleCollector::getDescription() const {
         return "ParticleCollector";
 }
 
-ParticleCollector::iterator ParticleCollector::begin()
-{
-  return container.begin();
+ParticleCollector::iterator ParticleCollector::begin() {
+	return container.begin();
 }
 
-ParticleCollector::const_iterator ParticleCollector::begin() const
-{
-  return container.begin();
+ParticleCollector::const_iterator ParticleCollector::begin() const {
+	return container.begin();
 }
 
-ParticleCollector::iterator ParticleCollector::end()
-{
-  return container.end();
+ParticleCollector::iterator ParticleCollector::end() {
+	return container.end();
 }
 
-ParticleCollector::const_iterator ParticleCollector::end() const
-{
-  return container.end();
+ParticleCollector::const_iterator ParticleCollector::end() const {
+	return container.end();
+}
+
+void ParticleCollector::getTrajectory(ModuleList* mlist, std::size_t i, Module *output) const {
+	ref_ptr<Candidate> c_tmp = container[i]->clone();
+
+	c_tmp->restart();
+
+	mlist->add(output);
+	mlist->run(c_tmp);
+	mlist->remove(mlist->size()-1);
+}
+
+void ParticleCollector::getTrajectory(ref_ptr<ModuleList> mlist, std::size_t i, ref_ptr<Module> output) const {
+	ParticleCollector::getTrajectory((ModuleList*) mlist, i, (Module*) output);
 }
 
 } // namespace crpropa

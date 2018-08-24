@@ -16,11 +16,6 @@
 /* 2: SWIG and CRPropa headers */
 %include "2_headers.i"
 
-%include "crpropa/Version.h"
-%pythoncode %{
-    __version__ = g_GIT_DESC
-%}
-
 /* 3. Pretty print for Python */
 
 %define __REPR__( classname )
@@ -56,14 +51,13 @@
             return buffer;
         }
         double __getitem__(size_t i) {
-                if (i > 2)
-                        throw RangeError();
                 if(i == 0)
                         return $self->getX();
                 if(i == 1)
                         return $self->getY();
                 if(i == 2)
                         return $self->getZ();
+                throw RangeError();
         }
 }
 
@@ -73,11 +67,6 @@
 %template(Vector3f) crpropa::Vector3<float>;
 
 %enddef
-
-%pythoncode %{
-class ParticleCollector(ParticleCollector):
-        __getitem__ = ParticleCollector.__getitem__
-%}
 
 /* Division of vector fix #34 */
 %feature("python:slot", "nb_divide", functype="binaryfunc") *::operator/;
@@ -109,5 +98,6 @@ class ParticleMapsContainer( ParticleMapsContainer ):
 
 %}
 
+%include "5_hepid.i"
 #endif // WITH_GALACTIC_LENSES_
 

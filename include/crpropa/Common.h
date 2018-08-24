@@ -10,9 +10,16 @@
  */
 
 namespace crpropa {
+/**
+ * \addtogroup Core
+ * @{
+ */
 
 // Returns the full path to a CRPropa data file
 std::string getDataPath(std::string filename);
+
+// Returns the install prefix
+std::string getInstallPrefix();
 
 // Returns a certain digit from a given integer
 inline int digit(const int& value, const int& d) {
@@ -43,6 +50,7 @@ double interpolateEquidistant(double x, double lo, double hi,
 
 // Find index of value in a sorted vector X that is closest to x
 size_t closestIndex(double x, const std::vector<double> &X);
+/** @}*/
 
 } // namespace crpropa
 

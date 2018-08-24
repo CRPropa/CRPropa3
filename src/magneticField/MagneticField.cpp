@@ -82,10 +82,10 @@ Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 		Vector3d r = (position - origin);
 		Vector3d unit_r = r.getUnitVector();
 		
-		if (r.getR() == 0) { // skip singularity
-			return Vector3d(0,0,0);
+		if (r.getR() == 0) { // singularity
+			return moment * 2 * mu0 / 3;
 		}
-		return unit_r * moment.dot(unit_r) / pow((r.getR()/radius), 3) * mu0 / (4*M_PI);
+		return (unit_r * (unit_r.dot(moment)) * 3 - moment) / pow(r.getR() / radius, 3) * mu0 / (4*M_PI);
 }
 
 #ifdef CRPROPA_HAVE_MUPARSER

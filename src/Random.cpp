@@ -59,6 +59,8 @@
 
 #include "crpropa/Random.h"
 
+#include <cstdio>
+
 namespace crpropa {
 
 Random::Random(const uint32& oneSeed) {
@@ -323,15 +325,15 @@ void Random::seed(uint32 * const bigSeed, const uint32 seedLength) {
 
 void Random::seed() {
 // First try getting an array from /dev/urandom
-	FILE* urandom = fopen("/dev/urandom", "rb");
+	FILE* urandom = std::fopen("/dev/urandom", "rb");
 	if (urandom) {
 		uint32 bigSeed[N];
 		uint32 *s = bigSeed;
 		int i = N;
 		bool success = true;
 		while (success && i--)
-			success = fread(s++, sizeof(uint32), 1, urandom) != 0;
-		fclose(urandom);
+			success = std::fread(s++, sizeof(uint32), 1, urandom) != 0;
+		std::fclose(urandom);
 		if (success) {
 			seed(bigSeed, N);
 			return;

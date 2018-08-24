@@ -10,6 +10,10 @@
 #endif
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class MagneticField
@@ -113,12 +117,13 @@ class RenormalizeMagneticField: public MagneticField {
 	mu::Parser *p;
 	double Bmag;
 public:
-	RenormalizeMagneticField(ref_ptr<MagneticField> field, std::string expression); 
+	RenormalizeMagneticField(ref_ptr<MagneticField> field, std::string expression);
 	~RenormalizeMagneticField() { delete p;	}
 	Vector3d getField(const Vector3d &position);
 };
 #endif
 
+/** @} */
 } // namespace crpropa
 
 #endif // CRPROPA_MAGNETICFIELD_H

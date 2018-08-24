@@ -6,6 +6,6 @@ In chronological order with main contributions, see also [contributor list](http
 * Rafael Alves Batista -- SAGA interface
 * Tobias Winchen -- Galactic lensing, DINT & EleCa integration
 * Andrej Dundovic -- ParticleCollector, SWIG and github integration
-* Marcus Wirtz -- Pshirkov GMF
+* Marcus Wirtz -- PT11 GMF
 * Christopher Heiter -- EM interactions, EM production channels
 * Lukas Merten -- Diffusion module & infrastructure

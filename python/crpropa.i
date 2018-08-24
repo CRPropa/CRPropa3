@@ -42,7 +42,6 @@ Vector3f.__repr__ = Vector3__repr__
 
 %enddef
 
-
 %include "3_repr.i"
 
 /* 4. Magnetic Lens */
@@ -69,6 +68,9 @@ ParticleMapsContainer.getEnergies = ParticleMapsContainer.getEnergies_numpyArray
 ParticleMapsContainer.getRandomParticles = ParticleMapsContainer.getRandomParticles_numpyArray
 
 %}
+
+
+%include "5_hepid.i"
 
 #endif // WITH_GALACTIC_LENSES_
 

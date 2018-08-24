@@ -1,8 +1,9 @@
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/Units.h"
+#include "crpropa/Version.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 #include <iostream>
 #include <kiss/string.h>
@@ -36,13 +37,12 @@ TextOutput::TextOutput(const std::string &filename) :  Output(), outfile(filenam
 }
 
 TextOutput::TextOutput(const std::string &filename,
-               OutputType outputtype) : Output(outputtype), outfile(filename.c_str(),
-                               std::ios::binary), out(&outfile), filename(
-                               filename) {
-       if (kiss::ends_with(filename, ".gz"))
-               gzip();
+				OutputType outputtype) : Output(outputtype), outfile(filename.c_str(),
+				std::ios::binary), out(&outfile), filename(
+				filename) {
+	if (kiss::ends_with(filename, ".gz"))
+		gzip();
 }
-
 
 void TextOutput::printHeader() const {
 	*out << "#";
@@ -86,6 +86,13 @@ void TextOutput::printHeader() const {
 		*out << "\tX1\tY1\tZ1";
 	if (fields.test(CreatedDirectionColumn) && not oneDimensional)
 		*out << "\tP1x\tP1y\tP1z";
+	if (fields.test(WeightColumn))
+		*out << "\tW";
+	for(std::vector<Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+		*out << "\t" << (*iter).name;
+	}
 
 	*out << "\n#\n";
 	if (fields.test(TrajectoryLengthColumn))
@@ -108,12 +115,20 @@ void TextOutput::printHeader() const {
 			|| fields.test(CreatedDirectionColumn)
 			|| fields.test(SourceDirectionColumn))
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
-	*out
-			<< "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
+	if (fields.test(WeightColumn))
+		*out << "# W             Weights" << " \n";
+	for(std::vector<Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+			*out << "# " << (*iter).name << " " << (*iter).comment << "\n";
+	}
+
+	*out << "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
+	*out << "# CRPropa version: " << g_GIT_DESC << "\n#\n";
 }
 
 void TextOutput::process(Candidate *c) const {
-	if (fields.none())
+	if (fields.none() && properties.empty())
 		return;
 
 	char buffer[1024];
@@ -122,89 +137,108 @@ void TextOutput::process(Candidate *c) const {
 	std::locale old_locale = std::locale::global(std::locale::classic());
 
 	if (fields.test(TrajectoryLengthColumn))
-		p += sprintf(buffer + p, "%8.5E\t",
+		p += std::sprintf(buffer + p, "%8.5E\t",
 				c->getTrajectoryLength() / lengthScale);
+
 	if (fields.test(RedshiftColumn))
-		p += sprintf(buffer + p, "%1.5E\t", c->getRedshift());
+		p += std::sprintf(buffer + p, "%1.5E\t", c->getRedshift());
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10lu\t",
+		p += std::sprintf(buffer + p, "%10lu\t",
 				c->getSerialNumber());
 	if (fields.test(CurrentIdColumn))
-		p += sprintf(buffer + p, "%10i\t", c->current.getId());
+		p += std::sprintf(buffer + p, "%10i\t", c->current.getId());
 	if (fields.test(CurrentEnergyColumn))
-		p += sprintf(buffer + p, "%8.5E\t",
+		p += std::sprintf(buffer + p, "%8.5E\t",
 				c->current.getEnergy() / energyScale);
 	if (fields.test(CurrentPositionColumn)) {
 		if (oneDimensional) {
-			p += sprintf(buffer + p, "%8.5E\t",
+			p += std::sprintf(buffer + p, "%8.5E\t",
 					c->current.getPosition().x / lengthScale);
 		} else {
 			const Vector3d pos = c->current.getPosition() / lengthScale;
-			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
+			p += std::sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 	}
 	if (fields.test(CurrentDirectionColumn)) {
 		if (not oneDimensional) {
 			const Vector3d pos = c->current.getDirection();
-			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
+			p += std::sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 	}
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10lu\t", c->getSourceSerialNumber());
+		p += std::sprintf(buffer + p, "%10lu\t", c->getSourceSerialNumber());
 	if (fields.test(SourceIdColumn))
-		p += sprintf(buffer + p, "%10i\t", c->source.getId());
+		p += std::sprintf(buffer + p, "%10i\t", c->source.getId());
 	if (fields.test(SourceEnergyColumn))
-		p += sprintf(buffer + p, "%8.5E\t",
+		p += std::sprintf(buffer + p, "%8.5E\t",
 				c->source.getEnergy() / energyScale);
 	if (fields.test(SourcePositionColumn)) {
 		if (oneDimensional) {
-			p += sprintf(buffer + p, "%8.5E\t",
+			p += std::sprintf(buffer + p, "%8.5E\t",
 					c->source.getPosition().x / lengthScale);
 		} else {
 			const Vector3d pos = c->source.getPosition() / lengthScale;
-			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
+			p += std::sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 	}
 	if (fields.test(SourceDirectionColumn)) {
 		if (not oneDimensional) {
 			const Vector3d pos = c->source.getDirection();
-			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
+			p += std::sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 
 	}
 
 	if (fields.test(SerialNumberColumn))
-		p += sprintf(buffer + p, "%10lu\t",
+		p += std::sprintf(buffer + p, "%10lu\t",
 				c->getCreatedSerialNumber());
 	if (fields.test(CreatedIdColumn))
-		p += sprintf(buffer + p, "%10i\t", c->created.getId());
+		p += std::sprintf(buffer + p, "%10i\t", c->created.getId());
 	if (fields.test(CreatedEnergyColumn))
-		p += sprintf(buffer + p, "%8.5E\t",
+		p += std::sprintf(buffer + p, "%8.5E\t",
 				c->created.getEnergy() / energyScale);
 	if (fields.test(CreatedPositionColumn)) {
 		if (oneDimensional) {
-			p += sprintf(buffer + p, "%8.5E\t",
+			p += std::sprintf(buffer + p, "%8.5E\t",
 					c->created.getPosition().x / lengthScale);
 		} else {
 			const Vector3d pos = c->created.getPosition() / lengthScale;
-			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
+			p += std::sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 	}
 	if (fields.test(CreatedDirectionColumn)) {
 		if (not oneDimensional) {
 			const Vector3d pos = c->created.getDirection();
-			p += sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
+			p += std::sprintf(buffer + p, "%8.5E\t%8.5E\t%8.5E\t", pos.x, pos.y,
 					pos.z);
 		}
 	}
+	if (fields.test(WeightColumn)) {
+		p += std::sprintf(buffer + p, "%8.5E\t", c->getWeight());
+	}
 
+	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
+			iter != properties.end(); ++iter)
+	{
+		  Variant v;
+			if (c->hasProperty((*iter).name))
+			{
+				v = c->getProperty((*iter).name);
+			}
+			else
+			{
+				v = (*iter).defaultValue;
+			}
+			p += std::sprintf(buffer + p, "%s", v.toString().c_str());
+			p += std::sprintf(buffer + p, "\t");
+	}
 	buffer[p - 1] = '\n';
 
 	std::locale::global(old_locale);
@@ -221,30 +255,29 @@ void TextOutput::process(Candidate *c) const {
 
 void TextOutput::load(const std::string &filename, ParticleCollector *collector){
 
-        std::string line;
-        std::istream *in;
-        std::ifstream infile(filename.c_str());
+	std::string line;
+	std::istream *in;
+	std::ifstream infile(filename.c_str());
 	
 	double lengthScale = Mpc; // default Mpc
 	double energyScale = EeV; // default EeV
 
-        if (!infile.good())
-                throw std::runtime_error(
-                                "crpropa::TextOutput: could not open file " + filename);
+	if (!infile.good())
+		throw std::runtime_error("crpropa::TextOutput: could not open file " + filename);
 	in = &infile;
 	
 	if (kiss::ends_with(filename, ".gz")){
 #ifdef CRPROPA_HAVE_ZLIB
-	        in = new zstream::igzstream(*in);
+		in = new zstream::igzstream(*in);
 #else
-	        throw std::runtime_error("CRPropa was build without Zlib compression!");
+		throw std::runtime_error("CRPropa was build without Zlib compression!");
 #endif
 	}
 
-        while (std::getline(*in,line)) {
-                std::stringstream stream(line);
-                if (stream.peek() == '#')
-                        continue;
+	while (std::getline(*in,line)) {
+		std::stringstream stream(line);
+		if (stream.peek() == '#')
+			continue;
 
 		ref_ptr<Candidate> c = new Candidate(); 
 		double val_d; int val_i;
@@ -256,7 +289,7 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		stream >> val_i;
 		c->setSerialNumber(val_i); // SN
 		stream >> val_i;
-        	c->current.setId(val_i); // ID
+		c->current.setId(val_i); // ID
 		stream >> val_d;
 		c->current.setEnergy(val_d*energyScale); // E
 		stream >> x >> y >> z;
@@ -277,14 +310,16 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		c->created.setId(val_i); // ID1
 		stream >> val_d;
 		c->created.setEnergy(val_d*energyScale); // E1
-	        stream >> x >> y >> z;
-                c->created.setPosition(Vector3d(x, y, z)*lengthScale); // X1, Y1, Z1
-                stream >> x >> y >> z;
-                c->created.setDirection(Vector3d(x, y, z)*lengthScale); // P1x, P1y, P1z
+		stream >> x >> y >> z;
+		c->created.setPosition(Vector3d(x, y, z)*lengthScale); // X1, Y1, Z1
+		stream >> x >> y >> z;
+		c->created.setDirection(Vector3d(x, y, z)*lengthScale); // P1x, P1y, P1z
+		stream >> val_d;
+		c->setWeight(val_d); // W
 
 		collector->process(c);
-        }
-        infile.close();
+	}
+	infile.close();
 }
 
 std::string TextOutput::getDescription() const {

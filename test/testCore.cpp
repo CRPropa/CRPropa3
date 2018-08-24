@@ -13,6 +13,7 @@
 #include "crpropa/Random.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/Geometry.h"
 #include "crpropa/EmissionMap.h"
 
 #include <HepPID/ParticleIDMethods.hh>
@@ -110,6 +111,10 @@ TEST(ParticleState, Mass) {
 
 	particle.setId(-id); // anti-iron
 	EXPECT_DOUBLE_EQ(nuclearMass(-id), particle.getMass());
+
+	// approximation for unkown nucleus A * amu - Z * mass_electron
+	int A = 238; int Z = 92; // Uranium92
+	EXPECT_DOUBLE_EQ(nuclearMass(A, Z), A*amu - Z*mass_electron);
 }
 
 TEST(ParticleState, lorentzFactor) {
@@ -147,8 +152,7 @@ TEST(Candidate, property) {
 	Candidate candidate;
 	candidate.setProperty("foo", "bar");
 	EXPECT_TRUE(candidate.hasProperty("foo"));
-	std::string value;
-	candidate.getProperty("foo", value);
+	std::string value = candidate.getProperty("foo");
 	EXPECT_EQ("bar", value);
 }
 
@@ -240,12 +244,6 @@ TEST(common, interpolateEquidistant) {
 
 	// value out of range, return lower bound
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
-}
-
-TEST(NucleusId, crpropaScheme) {
-	// test conversion to and from the CRPropa2 naming scheme
-	EXPECT_EQ(nucleusId(56, 26), convertFromCRPropa2NucleusId(26056));
-	EXPECT_EQ(26056, convertToCRPropa2NucleusId(nucleusId(56, 26)));
 }
 
 TEST(PIDdigit, consistencyWithReferenceImplementation){
@@ -529,6 +527,63 @@ TEST(EmissionMap, merge) {
 	EXPECT_TRUE(cpm->getPdf()[bin] > 0);
 }
 
+
+TEST(Variant, copyToBuffer)
+{
+	double a = 23.42;
+	Variant v(a);
+	double b;
+	v.copyToBuffer(&b);
+	EXPECT_EQ(a, b);
+}
+
+TEST(Variant, stringConversion)
+{
+	Variant v, w;
+	{
+		int32_t a = 12;
+		v = Variant::fromInt32(a);
+		EXPECT_EQ(a, v.asInt32());
+
+		w = Variant::fromString(v.toString(), v.getType());
+		EXPECT_EQ(a, w.asInt32());
+	}
+
+	{
+		int64_t a = 12;
+		v = Variant::fromInt64(a);
+		EXPECT_EQ(a, v.asInt64());
+
+		w = Variant::fromString(v.toString(), v.getType());
+		EXPECT_EQ(a, w.asInt64());
+	}
+}
+
+
+TEST(Geometry, Plane)
+{
+	Plane p(Vector3d(0,0,1), Vector3d(0,0,1));
+	EXPECT_DOUBLE_EQ(-1., p.distance(Vector3d(0, 0, 0)));
+	EXPECT_DOUBLE_EQ(9., p.distance(Vector3d(1, 1, 10)));
+}
+
+TEST(Geometry, Sphere)
+{
+	Sphere s(Vector3d(0,0,0), 1.);
+	EXPECT_DOUBLE_EQ(-1., s.distance(Vector3d(0, 0, 0)));
+	EXPECT_DOUBLE_EQ(9., s.distance(Vector3d(10, 0, 0)));
+}
+
+TEST(Geometry, ParaxialBox)
+{
+	ParaxialBox b(Vector3d(0,0,0), Vector3d(3,4,5));
+	EXPECT_NEAR(-.1, b.distance(Vector3d(0.1, 0.1, 0.1)), 1E-10);
+	EXPECT_NEAR(-.1, b.distance(Vector3d(0.1, 3.8, 0.1)), 1E-10);
+	EXPECT_NEAR(-.2, b.distance(Vector3d(0.9, 3.8, 0.9)), 1E-10);
+	EXPECT_NEAR(7., b.distance(Vector3d(10., 0., 0.)), 1E-10);
+	EXPECT_NEAR(7., b.distance(Vector3d(10., 2., 0.)), 1E-10);
+	EXPECT_NEAR(8., b.distance(Vector3d(-8., 0., 0.)), 1E-10);
+}
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

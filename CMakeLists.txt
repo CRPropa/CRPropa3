@@ -54,6 +54,8 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT
 list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
 
 
+
+
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
@@ -68,15 +70,50 @@ if(ENABLE_TESTING)
 	endif(APPLE)
 endif(ENABLE_TESTING)
 
+#
+OPTION(ENABLE_COVERAGE "Add code for coverage analysis." OFF)
+if(ENABLE_COVERAGE)
+	find_program(LCOV_PATH lcov)
+	find_program(GENHTML_PATH genhtml)
+	if(LCOV_PATH AND GENHTML_PATH)
+		message("Enabling coverage report via $make coverage")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+		list(APPEND CRPROPA_EXTRA_LIBRARIES "-lgcov")
+		list(APPEND CRPROPA_EXTRA_LIBRARIES "-fprofile-arcs")
+
+		if(ENABLE_TESTING)
+			SET(COVERAGE_LIBS "-coverage -lgcov")
+			add_custom_target(coverage_clean
+				COMMAND ${LCOV_PATH} --directory . --zerocounters
+			)
+		add_custom_target(coverage
+
+				# generate coverage data
+				COMMAND ${LCOV_PATH} --directory . --capture --output-file coverage.info VERBATIM
+
+				# clean external libs
+				COMMAND ${LCOV_PATH} --remove coverage.info "/usr/include/*" "/usr/lib/*" "*/libs/gtest/*" "*/libs/eigen3/*" "*/libs/zstream-cpp/*" "*/build/*" -o coverage.info.cleaned VERBATIM
+
+				# Generate html output
+				COMMAND ${GENHTML_PATH} -o coverageReport coverage.info.cleaned VERBATIM
+				COMMAND echo "Generated coverage report in coverageReport/index.html"
+				)
+		endif(ENABLE_TESTING)
+
+	else(LCOV_PATH AND GENHTML_PATH)
+		if(NOT LCOV_PATH)
+			message(WARNING "lcov not found, coverage report generation  not possible!")
+		endif(NOT LCOV_PATH)
+		if(NOT GENHTML_PATH)
+			message(WARNING "genhtml not found, coverage report generation not possible!")
+		endif(NOT GENHTML_PATH)
+	endif(LCOV_PATH AND GENHTML_PATH)
+endif(ENABLE_COVERAGE)
+
 # kiss (provided)
 add_subdirectory(libs/kiss)
 list(APPEND CRPROPA_EXTRA_LIBRARIES kiss)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/kiss/include)
-
-# pugixml (provided)
-add_subdirectory(libs/pugixml)
-list(APPEND CRPROPA_EXTRA_LIBRARIES pugixml)
-list(APPEND CRPROPA_EXTRA_INCLUDES libs/pugixml)
 
 # HepID (provided)
 add_subdirectory(libs/HepPID)
@@ -132,20 +169,7 @@ if (ENABLE_GALACTICMAGETICLENS)
 	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
 endif (ENABLE_GALACTICMAGETICLENS)
 
-# ROOT (optional for ROOT output)
-option(ENABLE_ROOT "ROOT Output" ON)
-if(ENABLE_ROOT)
-	find_package(ROOT)
-	if(ROOT_FOUND)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CFLAGS}")
-		set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ROOT_LIBS}")
-		set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ROOT_LIBS}")
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LIBS}")
-		add_definitions(-DCRPROPA_HAVE_ROOT)
-		list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ROOT)
-		list(APPEND CRPROPA_EXTRA_LIBRARIES Core RIO Tree)
-	endif(ROOT_FOUND)
-endif(ENABLE_ROOT)
+
 
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)
@@ -157,6 +181,11 @@ include(FindOpenMP)
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 	endif(OPENMP_FOUND)
 endif(ENABLE_OPENMP)
+
+# Additional configuration OMP_SCHEDULE
+set(OMP_SCHEDULE "static,100" CACHE STRING "FORMAT type,chunksize")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/ModuleList.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/ModuleList.cpp" @ONLY)
+list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/ModuleList.cpp")
 
 # Google Performance Tools (optional as possible performance tweak for OpenMP)
 find_package(GooglePerfTools)
@@ -263,86 +292,90 @@ endif()
 # ----------------------------------------------------------------------------
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
-message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
-file(DOWNLOAD
-	https://crpropa.desy.de/images/3/33/Data_2017_01_05.tar.gz
-	${CMAKE_BINARY_DIR}/data.tar.gz
-	EXPECTED_MD5 44aa223904fd896887672b32cead2d65)
-message("-- Extracting data file")
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+OPTION(DOWNLOAD_DATA "Download CRProap Data files" ON)
+if(DOWNLOAD_DATA)
+	message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
+	file(DOWNLOAD
+		https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz-CHECKSUM
+		${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM)
+	file(STRINGS ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
+	file(DOWNLOAD
+		https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz
+		${CMAKE_BINARY_DIR}/data.tar.gz
+		EXPECTED_MD5 "${DATA_CHECKSUM}")
+	message("-- Extracting data file")
+else()
+	message("-- Downloading of data file disabled")
+endif(DOWNLOAD_DATA)
+if(EXISTS ${CMAKE_BINARY_DIR}/data.tar.gz)
+	execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+else()
+	message(WARNING "CRPropa data file not found at ${CMAKE_BINARY_DIR}/data.tar.gz
+CRPropa should compile, but will likely not work properly! Please install data file manually, or use the automatic download which is enabled by default.")
+endif()
+
 # ----------------------------------------------------------------------------
 # Library and Binary
 # ----------------------------------------------------------------------------
 file(GLOB_RECURSE CRPROPA_INCLUDES RELATIVE ${CMAKE_SOURCE_DIR} include/*.h)
 include_directories(include ${CRPROPA_EXTRA_INCLUDES})
 
-# Creates a meta-header file for easy inclusion in 3rd party C++ projects
-file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h)
-foreach(filename ${CRPROPA_INCLUDES})
-	# skip magneticLens due to additional requirements which are not available as compiled libraries later
-    if(NOT filename MATCHES "(.*)/magneticLens/(.*)")
-	    string(REPLACE "include/" "" filename ${filename})
-    	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/include/crpropa/CRPropa.h "#include \"${filename}\"\n")
-	endif()
-endforeach(filename)
-include_directories(include ${CMAKE_CURRENT_BINARY_DIR}/include)
-
 add_library(crpropa SHARED
-	src/Random.cpp
-	src/Clock.cpp
-	src/ModuleList.cpp
-	src/Module.cpp
 	src/Candidate.cpp
+	src/Clock.cpp
+	src/Common.cpp
+	src/Cosmology.cpp
 	src/EmissionMap.cpp
-	src/ParticleState.cpp
+	src/Geometry.cpp
+	src/GridTools.cpp
+	src/Module.cpp
+	src/ModuleList.cpp
 	src/ParticleID.cpp
 	src/ParticleMass.cpp
-	src/ProgressBar.cpp
-	src/Cosmology.cpp
-	src/Source.cpp
-	src/Common.cpp
+	src/ParticleState.cpp
 	src/PhotonBackground.cpp
 	src/PhotonPropagation.cpp
-	src/GridTools.cpp
-	src/XmlExecute.cpp
-	src/module/BreakCondition.cpp
+	src/ProgressBar.cpp
+	src/Random.cpp
+	src/Source.cpp
+	src/Variant.cpp
 	src/module/Boundary.cpp
-	src/module/Observer.cpp
-	src/module/SimplePropagation.cpp
-	src/module/PropagationCK.cpp
-	src/module/ElectronPairProduction.cpp
-	src/module/NuclearDecay.cpp
-	src/module/PhotoPionProduction.cpp
-	src/module/PhotoDisintegration.cpp
-	src/module/ElasticScattering.cpp
-	src/module/Redshift.cpp
-	src/module/Output.cpp
-	src/module/TextOutput.cpp
-	src/module/ParticleCollector.cpp
-	src/module/HDF5Output.cpp
-	src/module/OutputShell.cpp
-	src/module/OutputROOT.cpp
-	src/module/OutputCRPropa2.cpp
-	src/module/PhotonOutput1D.cpp
-	src/module/PhotonEleCa.cpp
-	src/module/EMCascade.cpp
-	src/module/EMPairProduction.cpp
-	src/module/EMDoublePairProduction.cpp
-	src/module/EMTripletPairProduction.cpp
-	src/module/EMInverseComptonScattering.cpp
-	src/module/SynchrotronRadiation.cpp
-	src/module/Tools.cpp
+	src/module/BreakCondition.cpp
 	src/module/DiffusionSDE.cpp
+	src/module/EMCascade.cpp
+	src/module/EMDoublePairProduction.cpp
+	src/module/EMInverseComptonScattering.cpp
+	src/module/EMPairProduction.cpp
+	src/module/EMTripletPairProduction.cpp
+	src/module/ElasticScattering.cpp
+	src/module/ElectronPairProduction.cpp
+	src/module/HDF5Output.cpp
+	src/module/NuclearDecay.cpp
+	src/module/Observer.cpp
+	src/module/Output.cpp
+	src/module/OutputShell.cpp
+	src/module/ParticleCollector.cpp
+	src/module/PhotoDisintegration.cpp
+	src/module/PhotoPionProduction.cpp
+	src/module/PhotonEleCa.cpp
+	src/module/PhotonOutput1D.cpp
+	src/module/PropagationCK.cpp
+	src/module/Redshift.cpp
+	src/module/RestrictToRegion.cpp
+	src/module/SimplePropagation.cpp
+	src/module/SynchrotronRadiation.cpp
+	src/module/TextOutput.cpp
+	src/module/AdiabaticCooling.cpp
+	src/module/Tools.cpp
+	src/magneticField/JF12Field.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
-	src/magneticField/JF12Field.cpp
-	src/magneticField/PshirkovField.cpp
+	src/magneticField/PT11Field.cpp
+	src/magneticField/ArchimedeanSpiralField.cpp
+	src/advectionField/AdvectionField.cpp
 	${CRPROPA_EXTRA_SOURCES}
 )
 target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
-
-add_executable(crpropa-xmlrun src/main.cpp)
-target_link_libraries(crpropa-xmlrun crpropa)
 
 # ----------------------------------------------------------------------------
 # Python
@@ -363,7 +396,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
 		option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
 	endif (SWIG_VERSION VERSION_LESS "2.0")
-	
+
 	if(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "-builtin")
 		set(PY3 "-py3")
@@ -371,6 +404,10 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		set(BUILTIN "")
 		set(PY3 "")
 	endif(ENABLE_SWIG_BUILTIN)
+
+  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+  	list(APPEND CRPROPA_SWIG_DEFINES -DSWIG_PYTHON3)
+  endif(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
 
 	# tries to import numpy
 	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
@@ -386,7 +423,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 	file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-		COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
+    COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
 		DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
@@ -397,6 +434,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 	install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${PYTHON_SITE_PACKAGES}")
 	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
 	install(TARGETS crpropa-swig LIBRARY DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
+  install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
 endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
 
@@ -404,66 +442,90 @@ endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 # Install
 # ----------------------------------------------------------------------------
 add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
-install(TARGETS crpropa-xmlrun RUNTIME DESTINATION bin)
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
+install(DIRECTORY libs/kiss/include/ DESTINATION include)
+
+# ------------------------------------------------------------------
+# Documentation
+# ------------------------------------------------------------------
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/DoxygenLayout.xml ${CMAKE_CURRENT_BINARY_DIR}/DoxygenLayout.xml COPYONLY)
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Mainpage.md.in ${CMAKE_CURRENT_BINARY_DIR}/Mainpage.md)
+	add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM
+)
+endif(DOXYGEN_FOUND)
+
 
 # ----------------------------------------------------------------------------
 # Testing
 # ----------------------------------------------------------------------------
+
 if(ENABLE_TESTING)
 	enable_testing()
 	add_executable(testCore test/testCore.cpp)
-	target_link_libraries(testCore crpropa gtest gtest_main pthread)
+	target_link_libraries(testCore  crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testCore testCore)
 
 	add_executable(testVector3 test/testVector3.cpp)
-	target_link_libraries(testVector3 crpropa gtest gtest_main pthread)
+	target_link_libraries(testVector3 crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testVector3 testVector3)
 
 	add_executable(testModuleList test/testModuleList.cpp)
-	target_link_libraries(testModuleList crpropa gtest gtest_main pthread)
+	target_link_libraries(testModuleList crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testModuleList testModuleList)
 
 	add_executable(testMagneticField test/testMagneticField.cpp)
-	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread)
+	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testMagneticField testMagneticField)
 
+	add_executable(testAdvectionField test/testAdvectionField.cpp)
+	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+	add_test(testAdvectionField testAdvectionField)
+
 	add_executable(testDINT test/testDINT.cpp)
-	target_link_libraries(testDINT crpropa gtest gtest_main pthread)
+	target_link_libraries(testDINT crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDINT testDINT)
 
 	add_executable(testPropagation test/testPropagation.cpp)
-	target_link_libraries(testPropagation crpropa gtest gtest_main pthread)
+	target_link_libraries(testPropagation crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testPropagation testPropagation)
 
 	add_executable(testBreakCondition test/testBreakCondition.cpp)
-	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread)
+	target_link_libraries(testBreakCondition crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testBreakCondition testBreakCondition)
 
 	add_executable(testInteraction test/testInteraction.cpp)
-	target_link_libraries(testInteraction crpropa gtest gtest_main pthread)
+	target_link_libraries(testInteraction crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testInteraction testInteraction)
 
 	add_executable(testSource test/testSource.cpp)
-	target_link_libraries(testSource crpropa gtest gtest_main pthread)
+	target_link_libraries(testSource crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testSource testSource)
 
 	add_executable(testOutput test/testOutput.cpp)
-	target_link_libraries(testOutput crpropa gtest gtest_main pthread)
+	target_link_libraries(testOutput crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testOutput testOutput)
-	
+
+
 	CONFIGURE_FILE(test/testFunctionalGroups.cpp.in testFunctionalGroups.cpp)
 	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
-	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread)
+	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testFunctionalGroups testFunctionalGroups)
+
+	add_executable(testAdiabaticCooling test/testAdiabaticCooling.cpp)
+	target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+	add_test(testAdiabaticCooling testAdiabaticCooling)
+
 
 	if(WITH_GALACTIC_LENSES)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)
-		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread)
+		target_link_libraries(testGalacticMagneticLens crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 		add_test(testGalacticMagneticLens testGalacticMagneticLens)
 	endif(WITH_GALACTIC_LENSES)
 
@@ -473,7 +535,7 @@ if(ENABLE_TESTING)
 		if(numpyIncludePath AND WITH_GALACTIC_LENSES)
 			add_test(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
 		endif(numpyIncludePath AND WITH_GALACTIC_LENSES)
-		
+
 		CONFIGURE_FILE(test/testSimulationExecution.py.in testSimulationExecution.py)
 		add_test(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
 
@@ -483,21 +545,5 @@ if(ENABLE_TESTING)
 		CONFIGURE_FILE(test/testPythonExtension.py.in testPythonExtension.py)
 		add_test(testPythonExtension ${PYTHON_EXECUTABLE} testPythonExtension.py)
 	endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
-
-	# XML tests (CRPropa2 compatibility)
-	set(XML_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/crpropa-xmlrun)
-	add_test(testXML1D_discreteSource ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test1D_discreteSource.xml)
-	add_test(testXML1D ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test1D.xml)
-	add_test(testXML3D_continuousHomogeneousSources ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test3D_continuousHomogeneousSources.xml)
-	add_test(testXML3D_discreteHomogeneousSources ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test3D_discreteHomogeneousSources.xml)
-	if(FFTW3F_FOUND)
-		add_test(testXML3D_kolmogorovBfield ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test3D_kolmogorovBfield.xml)
-	endif(FFTW3F_FOUND)
-	add_test(testXML3D_noBfield ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test3D_noBfield.xml)
-	add_test(testXML3D_uniformBfield ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/test3D_uniformBfield.xml)
-	add_test(testXMLCRPropa2EventOutput1D ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/testCRPropa2EventOutput1D.xml)
-	add_test(testXMLCRPropa2EventOutput3D ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/testCRPropa2EventOutput3D.xml)
-	add_test(testXMLCRPropa2TrajectoryOutput1D ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/testCRPropa2TrajectoryOutput1D.xml)
-	add_test(testXMLCRPropa2TrajectoryOutput3D ${XML_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test/xml/testCRPropa2TrajectoryOutput3D.xml)
 
 endif(ENABLE_TESTING)

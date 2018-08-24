@@ -10,9 +10,13 @@
  */
 
 namespace crpropa {
+/** @addtogroup SourceFeatures
+ *  @{
+ */
 
 /**
- * 2D histogram of spherical coordinates in equal-area projection
+ @class CylindricalProjectionMap
+ @brief 2D histogram of spherical coordinates in equal-area projection
  */
 class CylindricalProjectionMap : public Referenced {
 	size_t nPhi, nTheta;
@@ -37,10 +41,10 @@ public:
 
 	/** Increment the bin value by weight. */
 	void fillBin(size_t bin, double weight = 1.);
-	
+
 	/** Draw a random vector from the distribution. */
 	Vector3d drawDirection() const;
-	
+
 	/** Check if the direction has a non zero propabiliy. */
 	bool checkDirection(const Vector3d &direction) const;
 
@@ -54,14 +58,16 @@ public:
 
 	/** Calculate the bin from a direction */
 	size_t binFromDirection(const Vector3d& direction) const;
-	
+
 	/** Calculate a random vector inside the bin boundaries */
 	Vector3d directionFromBin(size_t bin) const;
 };
 
 /**
- * Particle Type and energy binned emission maps.
- * Use SourceEmissionMap to suppress directions at the source. Use EmissionMapFiller to create EmissionMap from Observer.
+ @class EmissionMap
+ @brief Particle Type and energy binned emission maps.
+
+ Use SourceEmissionMap to suppress directions at the source. Use EmissionMapFiller to create EmissionMap from Observer.
  */
 class EmissionMap : public Referenced {
 public:
@@ -80,14 +86,14 @@ public:
 	 * @param nPhi number of bins for phi (0-2pi)
 	 * @param nTheta number of bins for theta (0-pi)
 	 * @param nEnergy number of bins for energy (1e-4 - 1e4 EeV)
-	 * @param minEnergy minimum energy for binning 
+	 * @param minEnergy minimum energy for binning
 	 * @param maxEnergy maximum energy for binning
 	 */
 	EmissionMap(size_t nPhi, size_t nTheta, size_t nEnergy, double minEnergy, double maxEnergy);
 
 	/** Calculate energy from bin */
 	double energyFromBin(size_t bin) const;
-	
+
 	/** Calculate bin from energy */
 	size_t binFromEnergy(double energy) const;
 
@@ -131,6 +137,8 @@ protected:
 	size_t nPhi, nTheta, nEnergy;
 	map_t maps;
 };
+
+/** }@ */
 
 } // namespace crpropa
 

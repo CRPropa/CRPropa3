@@ -29,12 +29,18 @@ public:
 	}
 
 	template<typename T> inline Logger& operator<<(T& data) {
+		#pragma omp critical (KISS_LOGGER)
+		{
 		getLogStream() << data;
+		}
 		return *this;
 	}
 
 	inline Logger& operator<<(std::ostream& (*func)(std::ostream&)) {
+		#pragma omp critical (KISS_LOGGER)
+		{
 		getLogStream() << func;
+		}
 		return *this;
 	}
 };
@@ -42,7 +48,7 @@ public:
 } // namespace kiss
 
 #define KISS_LOG_ERROR if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_ERROR) {} else kiss::Logger(kiss::LOG_LEVEL_ERROR)
-#define KISS_LOG_WARING if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_WARNING) {} else kiss::Logger(kiss::LOG_LEVEL_WARNING)
+#define KISS_LOG_WARNING if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_WARNING) {} else kiss::Logger(kiss::LOG_LEVEL_WARNING)
 #define KISS_LOG_INFO if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_INFO) {} else kiss::Logger(kiss::LOG_LEVEL_INFO)
 #define KISS_LOG_DEBUG if (kiss::Logger::getLogLevel() < kiss::LOG_LEVEL_DEBUG) {} else kiss::Logger(kiss::LOG_LEVEL_DEBUG)
 

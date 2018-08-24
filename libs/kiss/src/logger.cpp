@@ -7,7 +7,7 @@ namespace kiss {
 
 std::ostream *Logger::stream = &std::cerr;
 eLogLevel Logger::level = LOG_LEVEL_WARNING;
-const char* sLoggerLevel[] = { "ERROR  ", "WARNING", "INFO  ", "DEBUG " };
+const char* sLoggerLevel[] = { " ERROR ", "WARNING", " INFO  ", " DEBUG " };
 
 class EnvLogger {
 public:
@@ -53,8 +53,12 @@ eLogLevel Logger::getLogLevel() {
 	return (level);
 }
 
+
+
+
 void Logger::loadEnvLogLevel() {
 	if (::getenv("KISS_LOG_LEVEL")) {
+		
 		int level = atoi(::getenv("KISS_LOG_LEVEL"));
 		switch (level) {
 		case LOG_LEVEL_ERROR:

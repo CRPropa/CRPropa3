@@ -1,28 +1,42 @@
 sudo: required
 dist: trusty
 language: cpp
-
 before_install:
   - sudo add-apt-repository -y ppa:kubuntu-ppa/backports
   - sudo apt-get update -qq
-  - sudo apt-get install -qq swig gfortran libfftw3-dev libcfitsio3-dev libmuparser-dev python-dev python-numpy python-setuptools python3-setuptools python3-dev cmake libhdf5-serial-dev python-matplotlib python3-matplotlib python-scipy python3-scipy
-
+  - sudo apt-get install -qq swig gfortran libfftw3-dev libcfitsio3-dev libmuparser-dev
+    python-dev python-numpy python-setuptools python3-setuptools python3-dev cmake libhdf5-serial-dev
+    python-matplotlib python3-matplotlib python-scipy python3-scipy libiomp5 libiomp-dev
+  - sudo apt-get install -qq doxygen graphviz
 compiler:
   - gcc
   - clang
-
 env:
-  - PYTHON_EXECUTABLE=/usr/bin/python3
-  - PYTHON_EXECUTABLE=/usr/bin/python2
-
+  matrix:
+    - PYTHON_EXECUTABLE=/usr/bin/python3
+    - PYTHON_EXECUTABLE=/usr/bin/python2
 before_script:
   - mkdir build
   - cd build
   - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
-
 script:
   - make
   - make test
-
 after_failure:
   - cat Testing/Temporary/LastTest.log
+
+after_success:
+  - make doc
+  - |
+    if [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ]; then
+      openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
+      chmod 600 travis_deploy
+      eval "$(ssh-agent -s)"
+      ssh-add travis_deploy
+      cd html
+      git init
+      git checkout -b gh-pages
+      git add .
+      git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
+      git push -f --set-upstream git@github.com:CRPropa/CRPropa3.git gh-pages
+    fi

@@ -21,17 +21,21 @@
 //----------------------------------------------------------------------
 
 
-#ifndef PIXELIZATION_HH 
+#ifndef PIXELIZATION_HH
 #define PIXELIZATION_HH
 
 #include "healpix_base/healpix_base.h"
 #include <cmath>
 #include <stdint.h>
 
-namespace crpropa 
+namespace crpropa
 {
+/**
+ * \addtogroup MagneticLenses
+ * @{
+ */
 
-/// Helpers to makes work with Healpix smooth 
+/// Helpers to makes work with Healpix smooth
 const uint8_t _nOrder_max = 13;
 const uint32_t _nPix[] =
 {
@@ -52,17 +56,17 @@ const uint32_t _nPix[] =
 
 /// Every communication with healpix is done through this class to avoid
 /// bugs with missmatching coordinates (and make python hooks easier)
-class Pixelization 
+class Pixelization
 {
 public:
-	Pixelization()  
+	Pixelization()
 	{
 		_healpix = new healpix::T_Healpix_Base<int>(6, healpix::RING);
 	}
 
 	/// Constructor creating Pixelization with healpix order 6 (about
 	/// 50000 pixels)
-	Pixelization(uint8_t order) 
+	Pixelization(uint8_t order)
 	{
 		_healpix = new healpix::T_Healpix_Base<int>(order, healpix::RING);
 	}
@@ -72,7 +76,7 @@ public:
 		delete _healpix;
 	}
 
-	/// Returns the number of the pixel which includes the direction (phi,theta) 
+	/// Returns the number of the pixel which includes the direction (phi,theta)
 	/// phi in [-pi, pi], theta in [-pi/2, pi/2]
 	uint32_t direction2Pix(double longitude, double latitude) const;
 
@@ -132,5 +136,6 @@ private:
 };
 
 
+/** @}*/
 } // namespace
-#endif // PIXELIZATION_HH 
+#endif // PIXELIZATION_HH

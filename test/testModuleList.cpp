@@ -16,6 +16,21 @@ TEST(ModuleList, process) {
 	modules.process(candidate);
 }
 
+TEST(ModuleList, getModule) {
+	ModuleList modules;
+	ref_ptr<SimplePropagation> prop = new SimplePropagation();
+	modules.add(prop);
+	EXPECT_TRUE(modules[0] == prop);
+}
+
+TEST(ModuleList, removeModule) {
+	ModuleList modules;
+	ref_ptr<SimplePropagation> prop = new SimplePropagation();
+	modules.add(prop);
+	modules.remove(0);
+	EXPECT_EQ(modules.size(), 0);
+}
+
 TEST(ModuleList, runCandidateList) {
 	ModuleList modules;
 	modules.add(new SimplePropagation());

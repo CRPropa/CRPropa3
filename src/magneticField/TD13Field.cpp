@@ -127,6 +127,32 @@ double hsum_double_avx(__m256d v) {
   return  _mm_cvtsd_f64(_mm_add_sd(vlow, high64));  // reduce to scalar
 }
 
+// code for hsum_float_avx taken from:
+// https://stackoverflow.com/questions/13219146/how-to-sum-m256-horizontally
+
+// x = ( x7, x6, x5, x4, x3, x2, x1, x0 )
+float hsum_float_avx(__m256 x) {
+  // hiQuad = ( x7, x6, x5, x4 )
+  const __m128 hiQuad = _mm256_extractf128_ps(x, 1);
+  // loQuad = ( x3, x2, x1, x0 )
+  const __m128 loQuad = _mm256_castps256_ps128(x);
+  // sumQuad = ( x3 + x7, x2 + x6, x1 + x5, x0 + x4 )
+  const __m128 sumQuad = _mm_add_ps(loQuad, hiQuad);
+  // loDual = ( -, -, x1 + x5, x0 + x4 )
+  const __m128 loDual = sumQuad;
+  // hiDual = ( -, -, x3 + x7, x2 + x6 )
+  const __m128 hiDual = _mm_movehl_ps(sumQuad, sumQuad);
+  // sumDual = ( -, -, x1 + x3 + x5 + x7, x0 + x2 + x4 + x6 )
+  const __m128 sumDual = _mm_add_ps(loDual, hiDual);
+  // lo = ( -, -, -, x0 + x2 + x4 + x6 )
+  const __m128 lo = sumDual;
+  // hi = ( -, -, -, x1 + x3 + x5 + x7 )
+  const __m128 hi = _mm_shuffle_ps(sumDual, sumDual, 0x1);
+  // sum = ( -, -, -, x0 + x1 + x2 + x3 + x4 + x5 + x6 + x7 )
+  const __m128 sum = _mm_add_ss(lo, hi);
+  return _mm_cvtss_f32(sum);
+}
+
   TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, double bendoverScale, int Nm, int seed) {
 
     // NOTE: the use of the turbulence bend-over scale in the TD13 paper is quite confusing to
@@ -212,16 +238,16 @@ double hsum_double_avx(__m256d v) {
       this->beta[i] = beta;
     }
     //copy data into AVX-compatible arrays
-    avx_Nm = ( (Nm + 4 - 1)/4 ) * 4; //round up to next larger multiple of 4: align is 256 = 4 * sizeof(double) bit
+    avx_Nm = ( (Nm + 8 - 1)/8 ) * 8; //round up to next larger multiple of 8: align is 256 = 8 * sizeof(float) bit
     std::cout << avx_Nm <<std::endl;
     std::cout << itotal << std::endl;
-    std::cout << (itotal*avx_Nm + 3) << std::endl;
-    avx_data = std::vector<double>(itotal*avx_Nm + 3, 0.);
+    std::cout << (itotal*avx_Nm + 7) << std::endl;
+    avx_data = std::vector<float>(itotal*avx_Nm + 7, 0.);
 
     //get the first 256-bit aligned element
-    size_t size = avx_data.size()*sizeof(double);
+    size_t size = avx_data.size()*sizeof(float);
     void *pointer = avx_data.data();
-    align_offset = (double *) std::align(32, 32, pointer, size) - avx_data.data();
+    align_offset = (float *) std::align(32, 32, pointer, size) - avx_data.data();
 
     //copy
     for (int i=0; i<Nm; i++) {
@@ -255,49 +281,49 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
   return B;
 
 #else
-  __m256d acc0 = _mm256_setzero_pd();
-  __m256d acc1 = _mm256_setzero_pd();
-  __m256d acc2 = _mm256_setzero_pd();
+  __m256 acc0 = _mm256_setzero_ps();
+  __m256 acc1 = _mm256_setzero_ps();
+  __m256 acc2 = _mm256_setzero_ps();
 
-  __m256d pos0 = _mm256_set1_pd(pos.x);
-  __m256d pos1 = _mm256_set1_pd(pos.y);
-  __m256d pos2 = _mm256_set1_pd(pos.z);
+  __m256 pos0 = _mm256_set1_ps(pos.x);
+  __m256 pos1 = _mm256_set1_ps(pos.y);
+  __m256 pos2 = _mm256_set1_ps(pos.z);
 
-  __m256d test;
+  __m256 test;
 
-  for (int i=0; i<avx_Nm; i+=4) {
+  for (int i=0; i<avx_Nm; i+=8) {
 
     //load data from memory into AVX registers
-    __m256d xi0 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi0);
-    __m256d xi1 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi1);
-    __m256d xi2 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ixi2);
+    __m256 xi0 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi0);
+    __m256 xi1 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi1);
+    __m256 xi2 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi2);
 
-    __m256d kappa0 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ikappa0);
-    __m256d kappa1 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ikappa1);
-    __m256d kappa2 = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ikappa2);
+    __m256 kappa0 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa0);
+    __m256 kappa1 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa1);
+    __m256 kappa2 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa2);
 
-    __m256d Ak = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*iAk);
-    __m256d k = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ik);
-    __m256d beta = _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm*ibeta);
+    __m256 Ak = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAk);
+    __m256 k = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ik);
+    __m256 beta = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
 
     //do the computation
-    __m256d z = _mm256_add_pd(_mm256_mul_pd(pos0, kappa0),
-			      _mm256_add_pd(_mm256_mul_pd(pos1, kappa1),
-					    _mm256_mul_pd(pos2, kappa2)
+    __m256 z = _mm256_add_ps(_mm256_mul_ps(pos0, kappa0),
+			      _mm256_add_ps(_mm256_mul_ps(pos1, kappa1),
+					    _mm256_mul_ps(pos2, kappa2)
 					    )
 			      );
 
-    __m256d cos_arg = _mm256_add_pd(_mm256_mul_pd(k, z), beta);
-    __m256d mag = _mm256_mul_pd(Ak, Sleef_cosd4_u10(cos_arg));
+    __m256 cos_arg = _mm256_add_ps(_mm256_mul_ps(k, z), beta);
+    __m256 mag = _mm256_mul_ps(Ak, Sleef_cosf8_u35(cos_arg));
 
-    acc0 = _mm256_add_pd(_mm256_mul_pd(mag, xi0), acc0);
-    acc1 = _mm256_add_pd(_mm256_mul_pd(mag, xi1), acc1);
-    acc2 = _mm256_add_pd(_mm256_mul_pd(mag, xi2), acc2);
+    acc0 = _mm256_add_ps(_mm256_mul_ps(mag, xi0), acc0);
+    acc1 = _mm256_add_ps(_mm256_mul_ps(mag, xi1), acc1);
+    acc2 = _mm256_add_ps(_mm256_mul_ps(mag, xi2), acc2);
   }
   
-  return Vector3d(hsum_double_avx(acc0),
-                  hsum_double_avx(acc1),
-                  hsum_double_avx(acc2)
+  return Vector3d(hsum_float_avx(acc0),
+                  hsum_float_avx(acc1),
+                  hsum_float_avx(acc2)
                   );
 #endif
 }

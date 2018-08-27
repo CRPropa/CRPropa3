@@ -101,7 +101,7 @@ private:
 
 public:
   //DEBUG put these in public so I can read them in python
-  std::vector<double> avx_data;
+  std::vector<float> avx_data;
   std::vector<double> Ak;
   std::vector<double> k;
   /** Constructor

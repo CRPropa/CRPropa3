@@ -170,10 +170,9 @@ float hsum_float_avx(__m256 x) {
       throw std::runtime_error("TD13Field: Nm <= 1. We need at least two wavemodes in order to generate the k distribution properly, and besides -- *what are you doing?!*");
     }
 
-    // DEBUG
-    //if (kmin < std::numeric_limits<double>::epsilon()) {
-    //  throw std::runtime_error("TD13Field: kmin ~<= 0");
-    //} 
+    if (kmin <= 0) {
+      throw std::runtime_error("TD13Field: kmin <= 0");
+    } 
 
     Random random;
     if (seed != 0) { // copied from initTurbulence

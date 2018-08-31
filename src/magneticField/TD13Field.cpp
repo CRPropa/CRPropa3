@@ -238,9 +238,9 @@ float hsum_float_avx(__m256 x) {
     }
     //copy data into AVX-compatible arrays
     avx_Nm = ( (Nm + 8 - 1)/8 ) * 8; //round up to next larger multiple of 8: align is 256 = 8 * sizeof(float) bit
-    std::cout << avx_Nm <<std::endl;
-    std::cout << itotal << std::endl;
-    std::cout << (itotal*avx_Nm + 7) << std::endl;
+    //std::cout << avx_Nm <<std::endl;
+    //std::cout << itotal << std::endl;
+    //std::cout << (itotal*avx_Nm + 7) << std::endl;
     avx_data = std::vector<float>(itotal*avx_Nm + 7, 0.);
 
     //get the first 256-bit aligned element
@@ -250,8 +250,6 @@ float hsum_float_avx(__m256 x) {
 
     //copy
     for (int i=0; i<Nm; i++) {
-      std::cout << xi[i] << std::endl;
-      std::cout << "writing to " << i + align_offset + avx_Nm*ixi0 << std::endl;
       avx_data[i + align_offset + avx_Nm*ixi0] = xi[i].x;
       avx_data[i + align_offset + avx_Nm*ixi1] = xi[i].y;
       avx_data[i + align_offset + avx_Nm*ixi2] = xi[i].z;
@@ -264,7 +262,6 @@ float hsum_float_avx(__m256 x) {
       avx_data[i + align_offset + avx_Nm*ik] = k[i];
       avx_data[i + align_offset + avx_Nm*ibeta] = beta[i];
     }
-    std::cout << "last index: " << (Nm + align_offset + avx_Nm*ibeta) << std::endl;
 }
 
 Vector3d TD13Field::getField(const Vector3d& pos) const {

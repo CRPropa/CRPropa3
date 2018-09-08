@@ -102,11 +102,6 @@ double TD13Field::getLc() const {
 
 namespace crpropa {
 
-void print_m256d (__m256d v) {
-  const double *testptr = (double *) &v;
-  std::cout << testptr[0] << " " << testptr[1] << " " << testptr[2] << " " << testptr[3] << std::endl;
-}
-
 std::vector<double> logspace(double start, double stop, size_t N) {
 
   double delta = stop - start;
@@ -117,40 +112,14 @@ std::vector<double> logspace(double start, double stop, size_t N) {
   return values;
 }
 
-//see https://stackoverflow.com/questions/49941645/get-sum-of-values-stored-in-m256d-with-sse-avx
-double hsum_double_avx(__m256d v) {
-  __m128d vlow  = _mm256_castpd256_pd128(v);
-  __m128d vhigh = _mm256_extractf128_pd(v, 1); // high 128
-  vlow  = _mm_add_pd(vlow, vhigh);     // reduce down to 128
-
-  __m128d high64 = _mm_unpackhi_pd(vlow, vlow);
-  return  _mm_cvtsd_f64(_mm_add_sd(vlow, high64));  // reduce to scalar
-}
-
-// code for hsum_float_avx taken from:
-// https://stackoverflow.com/questions/13219146/how-to-sum-m256-horizontally
-
-// x = ( x7, x6, x5, x4, x3, x2, x1, x0 )
-float hsum_float_avx(__m256 x) {
-  // hiQuad = ( x7, x6, x5, x4 )
-  const __m128 hiQuad = _mm256_extractf128_ps(x, 1);
-  // loQuad = ( x3, x2, x1, x0 )
-  const __m128 loQuad = _mm256_castps256_ps128(x);
-  // sumQuad = ( x3 + x7, x2 + x6, x1 + x5, x0 + x4 )
-  const __m128 sumQuad = _mm_add_ps(loQuad, hiQuad);
-  // loDual = ( -, -, x1 + x5, x0 + x4 )
-  const __m128 loDual = sumQuad;
-  // hiDual = ( -, -, x3 + x7, x2 + x6 )
-  const __m128 hiDual = _mm_movehl_ps(sumQuad, sumQuad);
-  // sumDual = ( -, -, x1 + x3 + x5 + x7, x0 + x2 + x4 + x6 )
-  const __m128 sumDual = _mm_add_ps(loDual, hiDual);
-  // lo = ( -, -, -, x0 + x2 + x4 + x6 )
-  const __m128 lo = sumDual;
-  // hi = ( -, -, -, x1 + x3 + x5 + x7 )
-  const __m128 hi = _mm_shuffle_ps(sumDual, sumDual, 0x1);
-  // sum = ( -, -, -, x0 + x1 + x2 + x3 + x4 + x5 + x6 + x7 )
-  const __m128 sum = _mm_add_ss(lo, hi);
-  return _mm_cvtss_f32(sum);
+// code from:
+// https://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-float-vector-sum-on-x86
+float hsum_float_sse3(__m128 v) {
+    __m128 shuf = _mm_movehdup_ps(v);        // broadcast elements 3,1 to 2,0
+    __m128 sums = _mm_add_ps(v, shuf);
+    shuf        = _mm_movehl_ps(shuf, sums); // high half -> low half
+    sums        = _mm_add_ss(sums, shuf);
+    return        _mm_cvtss_f32(sums);
 }
 
   TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, double bendoverScale, int Nm, int seed) {
@@ -277,49 +246,49 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
   return B;
 
 #else
-  __m256 acc0 = _mm256_setzero_ps();
-  __m256 acc1 = _mm256_setzero_ps();
-  __m256 acc2 = _mm256_setzero_ps();
+  __m128 acc0 = _mm_setzero_ps();
+  __m128 acc1 = _mm_setzero_ps();
+  __m128 acc2 = _mm_setzero_ps();
 
-  __m256 pos0 = _mm256_set1_ps(pos.x);
-  __m256 pos1 = _mm256_set1_ps(pos.y);
-  __m256 pos2 = _mm256_set1_ps(pos.z);
+  __m128 pos0 = _mm_set1_ps(pos.x);
+  __m128 pos1 = _mm_set1_ps(pos.y);
+  __m128 pos2 = _mm_set1_ps(pos.z);
 
-  __m256 test;
+  __m128 test;
 
-  for (int i=0; i<avx_Nm; i+=8) {
+  for (int i=0; i<avx_Nm; i+=4) {
 
     //load data from memory into AVX registers
-    __m256 xi0 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi0);
-    __m256 xi1 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi1);
-    __m256 xi2 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi2);
+    __m128 xi0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi0);
+    __m128 xi1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi1);
+    __m128 xi2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi2);
 
-    __m256 kappa0 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa0);
-    __m256 kappa1 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa1);
-    __m256 kappa2 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa2);
+    __m128 kappa0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa0);
+    __m128 kappa1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa1);
+    __m128 kappa2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa2);
 
-    __m256 Ak = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAk);
-    __m256 k = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ik);
-    __m256 beta = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
+    __m128 Ak = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAk);
+    __m128 k = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ik);
+    __m128 beta = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
 
     //do the computation
-    __m256 z = _mm256_add_ps(_mm256_mul_ps(pos0, kappa0),
-			      _mm256_add_ps(_mm256_mul_ps(pos1, kappa1),
-					    _mm256_mul_ps(pos2, kappa2)
+    __m128 z = _mm_add_ps(_mm_mul_ps(pos0, kappa0),
+			      _mm_add_ps(_mm_mul_ps(pos1, kappa1),
+					    _mm_mul_ps(pos2, kappa2)
 					    )
 			      );
 
-    __m256 cos_arg = _mm256_add_ps(_mm256_mul_ps(k, z), beta);
-    __m256 mag = _mm256_mul_ps(Ak, Sleef_cosf8_u35(cos_arg));
+    __m128 cos_arg = _mm_add_ps(_mm_mul_ps(k, z), beta);
+    __m128 mag = _mm_mul_ps(Ak, Sleef_cosf4_u10(cos_arg));
 
-    acc0 = _mm256_add_ps(_mm256_mul_ps(mag, xi0), acc0);
-    acc1 = _mm256_add_ps(_mm256_mul_ps(mag, xi1), acc1);
-    acc2 = _mm256_add_ps(_mm256_mul_ps(mag, xi2), acc2);
+    acc0 = _mm_add_ps(_mm_mul_ps(mag, xi0), acc0);
+    acc1 = _mm_add_ps(_mm_mul_ps(mag, xi1), acc1);
+    acc2 = _mm_add_ps(_mm_mul_ps(mag, xi2), acc2);
   }
   
-  return Vector3d(hsum_float_avx(acc0),
-                  hsum_float_avx(acc1),
-                  hsum_float_avx(acc2)
+  return Vector3d(hsum_float_sse3(acc0),
+                  hsum_float_sse3(acc1),
+                  hsum_float_sse3(acc2)
                   );
 #endif
 }

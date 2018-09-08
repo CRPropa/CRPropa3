@@ -64,8 +64,6 @@ namespace crpropa {
 
 std::vector<double> logspace(double start, double stop, size_t N);
 
-double hsum_double_avx(__m256d v);
-
 /**
  @class TD13Field
  @brief Interpolation-free turbulent magnetic field based on the TD13 paper

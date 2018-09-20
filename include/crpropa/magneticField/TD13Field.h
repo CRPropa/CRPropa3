@@ -63,10 +63,23 @@ namespace crpropa {
 std::vector<double> logspace(double start, double stop, size_t N);
 
 /**
- @class TD13Field
- @brief Interpolation-free turbulent magnetic field based on the TD13 paper
+ * \addtogroup MagneticFields
+ * @{
+ */
 
- blah blah blah
+/**
+ @class TD13Field
+ @brief Interpolation-free turbulent magnetic field based on the GJ99 and TD13 papers
+
+ ## Overview
+ This class provides a turbulent magnetic field that is generated as described by (Giacalone and Jokipii, 1999) and (Tautz and Dosch, 2013). Instead of using an inverse Fourier transform to generate the field on a grid -- which then needs to be interpolated to obtain in-between values -- this method only generates the wave modes making up the turbulent magnetic field ahead of time. At run time, when the field's value at a particular position is required, these plane waves are then evaluated analytically at that position. This guarantees that the resulting field is completely free of divergence, reproduces the mean field strength accurately, and does not suffer from other interpolation-induced problems. The disadvantage is that the number of wave modes is drastically smaller when compared with initTurbulence, which might have physical ramifications on the particles propagating through the field. Additionally, the implementation is somewhat slower.
+
+ ## Using the SIMD optimization
+ In order to mitigate some of the performance impact that is inherent in this method of field generation, an optimized version utilizing data-level parallelism through SIMD instructions. More specifically, this implementation uses the x86 extensions SSE1, SSE2 and SSE3, with SSE4.1 being optional. In order to use this optimized version, three conditions need to be met:
+
+1. The vectorized math library SLEEF needs to be present in CRPropa's prefix path. This library provides a fast, vectorized cosine function required to evaluate the field using SIMD. When running CMake, the output should 
+2. The `USE_SIMD` option needs to be explicitly enabled in CMake. Currently, this sets GCC flags that tell the compiler to allow SIMD instructions.
+3. Finally, the CPU that will actually run the code needs to support the abovementioned extensions: SSE1 through SSE3. These extensions are relatively old and quite common, so I do not expect this to be a problem.
  */
 class TD13Field: public MagneticField {
 private:
@@ -101,7 +114,7 @@ public:
   std::vector<double> Ak;
   std::vector<double> k;
   /** Constructor
-      @param root mean square field strength for generated field
+      @param Brms root mean square field strength for generated field
       @param kmin wave number of the mode with the largest wavelength to be included in the spectrum
       @param kmax wave number of the mode with the smallest wavelength to be included in the spectrum
       @param gamma spectral index
@@ -118,7 +131,9 @@ public:
   // generation was moved out of the constructor, but I'm not sure that's desirable.)
 
   /**
-     Theoretical runtime is O(Nm).
+     Evaluates the field at the given position.
+
+     Theoretical runtime is O(Nm), where Nm is the number of wavemodes.
 */
   Vector3d getField(const Vector3d& pos) const;
 
@@ -129,6 +144,8 @@ public:
     return 4;
   }
 };
+
+/** @} */
 
 } // namespace crpropa
 

@@ -92,13 +92,16 @@ double TD13Field::getLc() const {
 #include "crpropa/Units.h"
 #include "crpropa/GridTools.h"
 #include "crpropa/Random.h"
+#include "kiss/logger.h"
 
 #include <iostream>
 
+#if defined(CRPROPA_HAVE_SLEEF) && defined(__SSE__) && defined(__SSE2__) && defined(__SSE3__)
+#define FAST_TD13
+
 #include <immintrin.h>
 #include <sleef.h>
-
-#define USE_SIMD
+#endif
 
 namespace crpropa {
 
@@ -112,6 +115,7 @@ std::vector<double> logspace(double start, double stop, size_t N) {
   return values;
 }
 
+#ifdef FAST_TD13
 // code from:
 // https://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-float-vector-sum-on-x86
 float hsum_float_sse3(__m128 v) {
@@ -122,6 +126,15 @@ float hsum_float_sse3(__m128 v) {
     return        _mm_cvtss_f32(sums);
 }
 
+  //bool check_sse() {
+  //  int32_t result[4];
+  //  Sleef_x86CpuID(result, 1, 0);
+  //  return (result[3] & (1 << 25)) && (result[3] & (1 << 26)) && (result[2] & (1 << 0))
+  //    && (result[2] & (1 << 28)) //DEBUG check for avx, to test if this is working.
+	//    ;
+  //}
+#endif // defined(FAST_TD13)
+
   TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, double bendoverScale, int Nm, int seed) {
 
     // NOTE: the use of the turbulence bend-over scale in the TD13 paper is quite confusing to
@@ -130,6 +143,19 @@ float hsum_float_sse3(__m128 v) {
     // scalar product in eq. 2? In this implementation, I've only multiplied in the l_0
     // in the computation of the Gk, not the actual <k>s used for planar wave evaluation,
     // since this would yield obviously wrong results...
+
+#ifdef FAST_TD13
+    KISS_LOG_INFO << "TD13Field: Using SIMD TD13 implementation" << std::endl;
+
+    // In principle, we could dynamically dispatch to the non-SIMD version in
+    // this case. However, this complicates the code, incurs runtime overhead,
+    // and is unlikely to happen since SSE3 is quite well supported.
+    // TODO: this is currently uncommented b/c sleef seems to fail to provide
+    // the cpuid function
+    //if (!check_sse()) {
+    //  throw std::runtime_error("TD13Field: This code was compiled with SIMD support (SSE1-3), but it is running on a CPU that does not support these instructions. Please set USE_SIMD to OFF in CMake and recompile CRPropa.");
+    //}
+#endif
 
     if (kmin > kmax) {
       throw std::runtime_error("TD13Field: kmin > kmax");
@@ -235,7 +261,7 @@ float hsum_float_sse3(__m128 v) {
 
 Vector3d TD13Field::getField(const Vector3d& pos) const {
 
-#ifndef USE_SIMD
+#ifndef FAST_TD13
   Vector3d B(0.);
   
   for (int i=0; i<Nm; i++) {
@@ -245,7 +271,7 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
 
   return B;
 
-#else
+#else // CRPROPA_USE_SIMD
   __m128 acc0 = _mm_setzero_ps();
   __m128 acc1 = _mm_setzero_ps();
   __m128 acc2 = _mm_setzero_ps();
@@ -290,7 +316,7 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
                   hsum_float_sse3(acc1),
                   hsum_float_sse3(acc2)
                   );
-#endif
+#endif // FAST_TD13
 }
 
 } // namespace crpropa

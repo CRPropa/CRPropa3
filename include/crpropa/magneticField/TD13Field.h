@@ -112,7 +112,12 @@ public:
       @param seed can be used to seed the random number generator used to generate the field. This works just like in initTurbulence: a seed of 0 will lead to a randomly initialized RNG.
 */
   TD13Field(double Brms, double kmin, double kmax, double gamma,
-	    double bendoverScale = 4.5e6, int Nm = 100, int seed = 0);
+	    double bendoverScale = 4.5e9, int Nm = 100, int seed = 0);
+
+  // TODO: bendoverScale: figure out how to improve this, b/c it takes up space in the constructor arguments
+  // (Lukas's suggestion was to use a setter for this, but it turns out that's not that easy
+  // to do, b/c the bendoverScale is _only_ used in the constructor. We could only use the setter if the field
+  // generation was moved out of the constructor, but I'm not sure that's desirable.)
 
   /**
      Theoretical runtime is O(Nm).

@@ -210,6 +210,12 @@ float hsum_float_sse3(__m128 v) {
 
     // generate direction, phase, and polarization for each wavemode
     for (int i=0; i<Nm; i++) {
+      // phi, costheta, and sintheta are for drawing vectors with
+      // uniform distribution on the unit sphere.
+      // This is similar to Random::randVector(): their t is our phi,
+      // z is costheta, and r is sintheta. Our kappa is equivalent to
+      // the return value of randVector(); however, TD13 then reuse
+      // these values to generate a random vector perpendicular to kappa.
       double phi = random.randUniform(-M_PI, M_PI);
       double costheta = random.randUniform(-1., 1.);
       double sintheta = sqrt(1 - costheta*costheta);
@@ -228,11 +234,30 @@ float hsum_float_sse3(__m128 v) {
       this->costheta[i] = costheta;
       this->beta[i] = beta;
     }
-    //copy data into AVX-compatible arrays
+
+    // copy data into AVX-compatible arrays
+    //
+    // What is going on here:
+    // SIMD load instructions require data to be aligned in memory to
+    // the SIMD register bit size (128 bit for SSE, 256 bit for
+    // AVX). Specifying memory alignment in C++ felt somewhat icky to
+    // me after doing initial research, so here we're using the simple
+    // solution: Allocating a vector that is a little bit longer than
+    // required, determining the first aligned index, and then only
+    // using the array starting at that index. (Here called align_offset.)
+    //
+    // To cut down on the complexity of storing one such offset for
+    // each of the attribute arrays, we're using only a single array to
+    // store all of the wavemode attributes, with offset indices to
+    // each. This way, only a single align_offset has to be stored.
+    //
+    // This code was originally written for AVX, hence the
+    // naming. I've also kept the larger 256-bit alignment required
+    // for AVX, even though SSE only needs 128-bit alignment, to make
+    // it simpler to go back to AVX. (And because there's really no
+    // disadvantage, except for allocating a few bytes more.)
+
     avx_Nm = ( (Nm + 8 - 1)/8 ) * 8; //round up to next larger multiple of 8: align is 256 = 8 * sizeof(float) bit
-    //std::cout << avx_Nm <<std::endl;
-    //std::cout << itotal << std::endl;
-    //std::cout << (itotal*avx_Nm + 7) << std::endl;
     avx_data = std::vector<float>(itotal*avx_Nm + 7, 0.);
 
     //get the first 256-bit aligned element

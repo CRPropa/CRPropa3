@@ -7,10 +7,6 @@
 
 namespace crpropa {
 
-double logisticFunction(double x, double x0, double w) {
-	return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));
-}
-
 JF12Field::JF12Field() {
 	useRegular = true;
 	useStriated = false;
@@ -155,6 +151,10 @@ bool JF12Field::isUsingStriated() {
 
 bool JF12Field::isUsingTurbulent() {
 	return useTurbulent;
+}
+
+double JF12Field::logisticFunction(const double x, const double x0, const double w) const {
+	return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));
 }
 
 Vector3d JF12Field::getRegularField(const Vector3d& pos) const {

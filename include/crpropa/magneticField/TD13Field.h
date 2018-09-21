@@ -77,7 +77,7 @@ std::vector<double> logspace(double start, double stop, size_t N);
  ## Using the SIMD optimization
  In order to mitigate some of the performance impact that is inherent in this method of field generation, an optimized version utilizing data-level parallelism through SIMD instructions. More specifically, this implementation uses the x86 extensions SSE1, SSE2 and SSE3, with SSE4.1 being optional. In order to use this optimized version, three conditions need to be met:
 
-1. The vectorized math library SLEEF needs to be present in CRPropa's prefix path. This library provides a fast, vectorized cosine function required to evaluate the field using SIMD. When running CMake, the output should 
+1. The vectorized math library SLEEF needs to be present in CRPropa's prefix path. This library provides a fast, vectorized cosine function required to evaluate the field using SIMD. When running CMake, the output will indicate whether SLEEF was found or not.
 2. The `USE_SIMD` option needs to be explicitly enabled in CMake. Currently, this sets GCC flags that tell the compiler to allow SIMD instructions.
 3. Finally, the CPU that will actually run the code needs to support the abovementioned extensions: SSE1 through SSE3. These extensions are relatively old and quite common, so I do not expect this to be a problem.
  */

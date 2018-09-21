@@ -126,6 +126,8 @@ float hsum_float_sse3(__m128 v) {
     return        _mm_cvtss_f32(sums);
 }
 
+  // TODO: Figure out why ld can't find Sleef_x86CpuID
+  //  (Alternatively, decide that this isn't worth it)
   //bool check_sse() {
   //  int32_t result[4];
   //  Sleef_x86CpuID(result, 1, 0);
@@ -238,6 +240,7 @@ float hsum_float_sse3(__m128 v) {
     // copy data into AVX-compatible arrays
     //
     // What is going on here:
+    //
     // SIMD load instructions require data to be aligned in memory to
     // the SIMD register bit size (128 bit for SSE, 256 bit for
     // AVX). Specifying memory alignment in C++ felt somewhat icky to
@@ -256,6 +259,19 @@ float hsum_float_sse3(__m128 v) {
     // for AVX, even though SSE only needs 128-bit alignment, to make
     // it simpler to go back to AVX. (And because there's really no
     // disadvantage, except for allocating a few bytes more.)
+    //
+    // The second thing to consider is that SSE reads data in chunks
+    // of four floats. So what happens when the number of modes is not
+    // divisible by four? For this, we need to round up the number of
+    // modes to the next multiple of four. (Again, this code rounds up
+    // to eight, due to AVX compatibility. TODO: maybe remove this,
+    // since it actually costs runtime?)
+    //
+    // Since the array is initialized to zero, the "extra modes" will
+    // have all their attributes be zero. The final step in the
+    // getField() loop is multiplying by (Ak*xi), which is zero for
+    // the extra modes, so they won't influence the result.
+    
 
     avx_Nm = ( (Nm + 8 - 1)/8 ) * 8; //round up to next larger multiple of 8: align is 256 = 8 * sizeof(float) bit
     avx_data = std::vector<float>(itotal*avx_Nm + 7, 0.);
@@ -292,19 +308,28 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
   return B;
 
 #else // CRPROPA_USE_SIMD
+
+  // Initialize accumulators
+  //
+  // There is one accumulator per component of the result vector.
+  // Note that each accumulator contains four numbers. At the end of
+  // the loop, each of these number will contain the sum of every
+  // fourth wavemodes, starting at a different offset. In the end, all
+  // of the accumulator's numbers are added together (using
+  // hsum_float_sse3), resulting in the total sum.
+
   __m128 acc0 = _mm_setzero_ps();
   __m128 acc1 = _mm_setzero_ps();
   __m128 acc2 = _mm_setzero_ps();
 
+  // broadcast position into SSE registers
   __m128 pos0 = _mm_set1_ps(pos.x);
   __m128 pos1 = _mm_set1_ps(pos.y);
   __m128 pos2 = _mm_set1_ps(pos.z);
 
-  __m128 test;
-
   for (int i=0; i<avx_Nm; i+=4) {
 
-    //load data from memory into AVX registers
+    // load data from memory into AVX registers
     __m128 Axi0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi0);
     __m128 Axi1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi1);
     __m128 Axi2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi2);
@@ -315,16 +340,24 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
 
     __m128 beta = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
 
-    //do the computation
+
+    // Do the computation
+
+    // this is the scalar product between k*kappa and pos
     __m128 z = _mm_add_ps(_mm_mul_ps(pos0, kkappa0),
 			      _mm_add_ps(_mm_mul_ps(pos1, kkappa1),
 					    _mm_mul_ps(pos2, kkappa2)
 					    )
 			      );
 
+    // here, the phase is added on. this is the argument of the cosine.
     __m128 cos_arg = _mm_add_ps(z, beta);
+    // the result of the cosine
     __m128 mag = Sleef_cosf4_u35(cos_arg);
 
+    // Finally, Ak*xi is multiplied on. Since this is a vector, the
+    // multiplication needs to be done for each of the three
+    // components, so it happens separately.
     acc0 = _mm_add_ps(_mm_mul_ps(mag, Axi0), acc0);
     acc1 = _mm_add_ps(_mm_mul_ps(mag, Axi1), acc1);
     acc2 = _mm_add_ps(_mm_mul_ps(mag, Axi2), acc2);

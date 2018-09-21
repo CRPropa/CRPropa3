@@ -35,9 +35,9 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
-SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 4.1) in GCC. This is necessary for fast TD13.")
+SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 3) in GCC. This is necessary for fast TD13.")
 if (USE_SIMD)
-        SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1" )
+        SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3" )
 endif (USE_SIMD)
 
 # Add build type for profiling

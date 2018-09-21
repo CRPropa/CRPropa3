@@ -36,6 +36,29 @@ static const double joule = 1 * newton * meter;
 static const double tesla = 1 * newton / ampere / meter;
 static const double volt = 1 * kilogram * meter * meter / ampere / second / second / second;
 static const double coulomb = 1 * ampere * second;
+static const double hertz = 1 / second;
+static const double rad = 1;
+static const double deg = M_PI / 180.;
+
+// SI Prefixes
+static const double yocto = 1E-24;
+static const double zepto = 1E-21;
+static const double atto = 1E-18;
+static const double femto = 1E-15;
+static const double pico = 1E-12;
+static const double nano = 1E-9;
+static const double micro = 1E-6;
+static const double milli = 1E-3;
+
+static const double kilo = 1E3;
+static const double mega = 1E6;
+static const double giga = 1E9;
+static const double tera = 1E12;
+static const double peta = 1E15;
+static const double exa = 1E18;
+static const double zetta = 1E21;
+static const double yotta = 1E24;
+
 
 // physical constants
 static const double eplus = 1.602176487e-19 * ampere * second;
@@ -57,6 +80,8 @@ static const double nanogauss = 1e-9 * gauss;
 static const double muG = microgauss;
 static const double nG = nanogauss;
 
+static const double erg = 1E-7 * joule;
+
 // electron volt
 static const double electronvolt = eplus * volt;
 static const double kiloelectronvolt = 1e3 * electronvolt;
@@ -72,6 +97,8 @@ static const double GeV = gigaelectronvolt;
 static const double TeV = teraelectronvolt;
 static const double PeV = petaelectronvolt;
 static const double EeV = exaelectronvolt;
+
+static const double barn = 1E-28 * meter * meter;
 
 // astronomical distances
 static const double au = 149597870700 * meter;
@@ -101,6 +128,7 @@ static const double ns = nanosecond;
 static const double mus = microsecond;
 static const double ms = millisecond;
 static const double sec = second;
+
 
 /** @}*/
 

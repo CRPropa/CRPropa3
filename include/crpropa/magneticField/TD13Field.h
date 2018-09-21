@@ -77,9 +77,12 @@ std::vector<double> logspace(double start, double stop, size_t N);
  ## Using the SIMD optimization
  In order to mitigate some of the performance impact that is inherent in this method of field generation, an optimized version utilizing data-level parallelism through SIMD instructions is provided. More specifically, this implementation uses the x86 extensions SSE1, SSE2 and SSE3, with SSE4.1 being optional. In order to use this optimized version, three conditions need to be met:
 
-1. The vectorized math library SLEEF needs to be present in CRPropa's prefix path. This library provides a fast, vectorized cosine function required by getField(). When running CMake, the output will indicate whether SLEEF was found or not.
+1. The vectorized math library [SLEEF](sleef.org) needs to be present in CRPropa's prefix path. This library provides a fast, vectorized cosine function required by getField(). When running CMake, the output will indicate whether SLEEF was found or not.
 2. The `USE_SIMD` option needs to be explicitly enabled in CMake. Currently, this sets GCC flags that tell the compiler to allow SIMD instructions.
 3. Finally, the CPU that will actually run the code needs to support the abovementioned extensions: SSE1 through SSE3. These extensions are relatively old and quite common, so this should not be a problem in practice.
+
+ ### Installation of SLEEF
+ To install SLEEF, clone its [GitHub Repository](https://github.com/shibatch/sleef/) and build the library. SLEEF uses the same build system as CRPropa (CMake), so you should be familiar with the required steps: Create a build directory, `cd` into it, and run cmake (you can also refer to [SLEEF's installation instructions](https://sleef.org/compile.xhtml)). Make sure to set `-DCMAKE_INSTALL_PREFIX` appropriately; if you're following [CRPropa's virtualenv installation guide](https://github.com/CRPropa/CRPropa3/wiki/Installation#install-from-source-in-python-virtualenv---a-detailed-guide-recommended), set it to the same value as for the CRPropa cmake call (i.e. `-DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR`).
 
 [gj99]: https://doi.org/10.1086/307452
 [td13]: https://doi.org/10.1063/1.4789861

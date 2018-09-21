@@ -212,9 +212,6 @@ float hsum_float_sse3(__m128 v) {
     for (int i=0; i<Nm; i++) {
       double phi = random.randUniform(-M_PI, M_PI);
       double costheta = random.randUniform(-1., 1.);
-      //// DEBUG set these to zero for aligned FFT
-      //phi = 0.;
-      //costheta = 0.;
       double sintheta = sqrt(1 - costheta*costheta);
 
       double alpha = random.randUniform(0, 2*M_PI);
@@ -245,16 +242,14 @@ float hsum_float_sse3(__m128 v) {
 
     //copy
     for (int i=0; i<Nm; i++) {
-      avx_data[i + align_offset + avx_Nm*ixi0] = xi[i].x;
-      avx_data[i + align_offset + avx_Nm*ixi1] = xi[i].y;
-      avx_data[i + align_offset + avx_Nm*ixi2] = xi[i].z;
+      avx_data[i + align_offset + avx_Nm*iAxi0] = Ak[i] * xi[i].x;
+      avx_data[i + align_offset + avx_Nm*iAxi1] = Ak[i] * xi[i].y;
+      avx_data[i + align_offset + avx_Nm*iAxi2] = Ak[i] * xi[i].z;
 
-      avx_data[i + align_offset + avx_Nm*ikappa0] = kappa[i].x;
-      avx_data[i + align_offset + avx_Nm*ikappa1] = kappa[i].y;
-      avx_data[i + align_offset + avx_Nm*ikappa2] = kappa[i].z;
+      avx_data[i + align_offset + avx_Nm*ikkappa0] = k[i] * kappa[i].x;
+      avx_data[i + align_offset + avx_Nm*ikkappa1] = k[i] * kappa[i].y;
+      avx_data[i + align_offset + avx_Nm*ikkappa2] = k[i] * kappa[i].z;
 
-      avx_data[i + align_offset + avx_Nm*iAk] = Ak[i];
-      avx_data[i + align_offset + avx_Nm*ik] = k[i];
       avx_data[i + align_offset + avx_Nm*ibeta] = beta[i];
     }
 }
@@ -285,31 +280,29 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
   for (int i=0; i<avx_Nm; i+=4) {
 
     //load data from memory into AVX registers
-    __m128 xi0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi0);
-    __m128 xi1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi1);
-    __m128 xi2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ixi2);
+    __m128 Axi0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi0);
+    __m128 Axi1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi1);
+    __m128 Axi2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi2);
 
-    __m128 kappa0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa0);
-    __m128 kappa1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa1);
-    __m128 kappa2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikappa2);
+    __m128 kkappa0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa0);
+    __m128 kkappa1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa1);
+    __m128 kkappa2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa2);
 
-    __m128 Ak = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAk);
-    __m128 k = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ik);
     __m128 beta = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
 
     //do the computation
-    __m128 z = _mm_add_ps(_mm_mul_ps(pos0, kappa0),
-			      _mm_add_ps(_mm_mul_ps(pos1, kappa1),
-					    _mm_mul_ps(pos2, kappa2)
+    __m128 z = _mm_add_ps(_mm_mul_ps(pos0, kkappa0),
+			      _mm_add_ps(_mm_mul_ps(pos1, kkappa1),
+					    _mm_mul_ps(pos2, kkappa2)
 					    )
 			      );
 
-    __m128 cos_arg = _mm_add_ps(_mm_mul_ps(k, z), beta);
-    __m128 mag = _mm_mul_ps(Ak, Sleef_cosf4_u10(cos_arg));
+    __m128 cos_arg = _mm_add_ps(z, beta);
+    __m128 mag = Sleef_cosf4_u35(cos_arg);
 
-    acc0 = _mm_add_ps(_mm_mul_ps(mag, xi0), acc0);
-    acc1 = _mm_add_ps(_mm_mul_ps(mag, xi1), acc1);
-    acc2 = _mm_add_ps(_mm_mul_ps(mag, xi2), acc2);
+    acc0 = _mm_add_ps(_mm_mul_ps(mag, Axi0), acc0);
+    acc1 = _mm_add_ps(_mm_mul_ps(mag, Axi1), acc1);
+    acc2 = _mm_add_ps(_mm_mul_ps(mag, Axi2), acc2);
   }
   
   return Vector3d(hsum_float_sse3(acc0),

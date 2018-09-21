@@ -93,6 +93,10 @@ private:
   std::vector<double> costheta;
   std::vector<double> beta;
 
+  std::vector<float> avx_data;
+  std::vector<double> Ak;
+  std::vector<double> k;
+
   double gamma;
   double Nm;
 
@@ -100,22 +104,18 @@ private:
   int avx_Nm;
   int align_offset;
 
-  static const int ixi0 = 0;
-  static const int ixi1 = 1;
-  static const int ixi2 = 2;
-  static const int ikappa0 = 3;
-  static const int ikappa1 = 4;
-  static const int ikappa2 = 5;
-  static const int iAk = 6;
-  static const int ik = 7;
-  static const int ibeta = 8;
-  static const int itotal = 9;
+  // iAxi is a combined array containing the product of A * xi
+  static const int iAxi0 = 0;
+  static const int iAxi1 = 1;
+  static const int iAxi2 = 2;
+  // ikkappa is a combined array containing the product of k * kappa
+  static const int ikkappa0 = 3;
+  static const int ikkappa1 = 4;
+  static const int ikkappa2 = 5;
+  static const int ibeta = 6;
+  static const int itotal = 7;
 
 public:
-  //DEBUG put these in public so I can read them in python
-  std::vector<float> avx_data;
-  std::vector<double> Ak;
-  std::vector<double> k;
   /**
       Create a new instance of TD13Field with the specified parameters. This generates all of the wavemodes according to the given parameters.
       @param Brms root mean square field strength for generated field

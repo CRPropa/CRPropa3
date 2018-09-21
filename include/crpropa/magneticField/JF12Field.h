@@ -99,6 +99,8 @@ public:
 	bool isUsingRegular();
 	bool isUsingStriated();
 	bool isUsingTurbulent();
+	
+	double logisticFunction(const double x, const double x0, const double w) const;
 
 	// Regular field component
 	Vector3d getRegularField(const Vector3d& pos) const;

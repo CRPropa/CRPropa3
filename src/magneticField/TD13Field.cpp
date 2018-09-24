@@ -137,7 +137,7 @@ float hsum_float_sse3(__m128 v) {
   //}
 #endif // defined(FAST_TD13)
 
-  TD13Field::TD13Field(double Brms, double kmin, double kmax, double gamma, double bendoverScale, int Nm, int seed) {
+  TD13Field::TD13Field(double Brms, double kmin, double kmax, double s, double bendoverScale, int Nm, int seed) {
 
     // NOTE: the use of the turbulence bend-over scale in the TD13 paper is quite confusing to
     // me. The paper states that k = l_0 * <k tilde> would be used throughout, yet
@@ -177,7 +177,6 @@ float hsum_float_sse3(__m128 v) {
     }
 
     // initialize everything
-    this->gamma = gamma;
     this->Nm = Nm;
 
     xi = std::vector<Vector3d>(Nm, Vector3d(0.));
@@ -191,7 +190,6 @@ float hsum_float_sse3(__m128 v) {
 
     // compute Ak
     double q = 0; // TODO: what is q
-    double s = gamma;
     double delta_k0 = (k[1] - k[0]) / k[1]; // multiply this by k[i] to get delta_k[i]
     //on second thought, this is probably unnecessary since it's just a factor and will get
     //normalized out anyways.
@@ -201,7 +199,7 @@ float hsum_float_sse3(__m128 v) {
     for (int i=0; i<Nm; i++) {
       double k = this->k[i] * bendoverScale;
       double Gk = pow(k, q) / pow(1 + k*k, (s+q)/2);
-      Ak[i] = Gk * delta_k0 * k  *k*k; //DEBUG volume correction factor
+      Ak[i] = Gk * delta_k0 * k;
       Ak2_sum += Ak[i];
     }
     //only in this loop are the actual Ak computed and stored

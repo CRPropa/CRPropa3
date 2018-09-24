@@ -100,9 +100,7 @@ private:
   std::vector<double> Ak;
   std::vector<double> k;
 
-  double gamma;
   double Nm;
-
 
   int avx_Nm;
   int align_offset;
@@ -124,12 +122,12 @@ public:
       @param Brms root mean square field strength for generated field
       @param kmin wave number of the mode with the largest wavelength to be included in the spectrum
       @param kmax wave number of the mode with the smallest wavelength to be included in the spectrum
-      @param gamma the spectral index, such that a positive value here will give a negative power law. (So usually you'd want gamma=11/3.)
+      @param gamma the spectral index, as defined in the TD13 paper. Usually, you'd want to use 5/3 here, which will be comparable to passing -11/3 to `initTurbulence`.
       @param bendoverScale the turbulence bend-over scale, used to scale the wavenumbers. As per the TD13 paper, this is set to 0.03AU by default.
       @param Nm number of wavemodes that will be used when computing the field. A higher value will give a more accurate representation of the turbulence, but increase the runtime for getField.
       @param seed can be used to seed the random number generator used to generate the field. This works just like in initTurbulence: a seed of 0 will lead to a randomly initialized RNG.
 */
-  TD13Field(double Brms, double kmin, double kmax, double gamma,
+  TD13Field(double Brms, double kmin, double kmax, double s = 5/3.,
 	    double bendoverScale = 4.5e9, int Nm = 100, int seed = 0);
 
   // TODO: bendoverScale: figure out how to improve this, b/c it takes up space in the constructor arguments

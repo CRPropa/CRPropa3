@@ -131,7 +131,7 @@ void Candidate::addSecondary(int id, double energy, double weight) {
 	secondary->setWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
-	secondary->created = current;
+	secondary->created = previous;
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
@@ -146,7 +146,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double we
 	secondary->setWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
-	secondary->created = current;
+	secondary->created = previous;
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);

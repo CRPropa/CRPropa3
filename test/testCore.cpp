@@ -160,10 +160,10 @@ TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);
 	c.setTrajectoryLength(23);
-	c.current.setId(nucleusId(56,26));
-	c.current.setEnergy(1000);
-	c.current.setPosition(Vector3d(1,2,3));
-	c.current.setDirection(Vector3d(0,0,1));
+	c.previous.setId(nucleusId(56,26));
+	c.previous.setEnergy(1000);
+	c.previous.setPosition(Vector3d(1,2,3));
+	c.previous.setDirection(Vector3d(0,0,1));
 
 	c.addSecondary(nucleusId(1,1), 200);
 	Candidate s = *c.secondaries[0];

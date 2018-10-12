@@ -146,6 +146,10 @@ public:
 	double getDelta() const;
 	double getZs() const;
 	
+	// continue spiral field to r=20kpc without transition at the outer boundary
+	// you may reactivate the transition afterwards with setDelta()
+	void deactivateOuterTransition();
+	
 	// scaling function for disk and toroidal halo field; same as in initial JF12
 	double logisticFunction(const double x, const double x0, const double w) const;
 

@@ -213,6 +213,10 @@ double JF12FieldSolenoidal::getZs() const {
 	return zS;
 }
 
+void JF12FieldSolenoidal::deactivateOuterTransition() {
+	r2s = r2;
+}
+
 void JF12FieldSolenoidal::setUseStriated(bool use) {
 	if ((use) and (striatedGrid)) {
 		std::cout << "JF12FieldSolenoidal: No striated field set: ignored" << std::endl;

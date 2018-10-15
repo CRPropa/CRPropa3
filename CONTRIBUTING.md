@@ -76,10 +76,10 @@ In addition to those general ideas, we use the following conventions:
 * No spaces should be used in parentheses, but between statement and
   parentheses `if (condition) { ... }` instead of `if( condition){ ... }`
 * Brace is on the same line as the statement (K&R style), i.e. 
-  ```while(x == y){
+  `while(x == y){
 
   }
-  ```
+  `
 * Includes should be relative to the base path of CRPropa and not use UNIX
   relative paths such as ., ..
 * Includes should be in order of

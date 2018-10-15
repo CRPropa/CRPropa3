@@ -11,6 +11,9 @@ JF12Field::JF12Field() {
 	useRegular = true;
 	useStriated = false;
 	useTurbulent = false;
+	useDiskField = true;
+	useToroidalHaloField = true;
+	useXField = true;
 
 	// spiral arm parameters
 	pitch = 11.5 * M_PI / 180;
@@ -125,9 +128,21 @@ void JF12Field::setUseRegular(bool use) {
 	useRegular = use;
 }
 
+void JF12Field::setUseDiskField(bool use) {
+	useDiskField = use;
+}
+
+void JF12Field::setUseToroidalHaloField(bool use) {
+	useToroidalHaloField = use;
+}
+
+void JF12Field::setUseXField(bool use) {
+	useXField = use;
+}
+
 void JF12Field::setUseStriated(bool use) {
 	if ((use) and (striatedGrid)) {
-		std::cout << "JF12Field: No striated field set: ignored" << std::endl;
+		KISS_LOG_WARNING << "JF12Field: No striated field set: ignored.";
 		return;
 	}
 	useStriated = use;
@@ -135,7 +150,7 @@ void JF12Field::setUseStriated(bool use) {
 
 void JF12Field::setUseTurbulent(bool use) {
 	if ((use) and (turbulentGrid)) {
-		std::cout << "JF12Field: No turbulent field set: ignored" << std::endl;
+		KISS_LOG_WARNING << "JF12Field: No turbulent field set: ignored.";
 		return;
 	}
 	useTurbulent = use;
@@ -143,6 +158,18 @@ void JF12Field::setUseTurbulent(bool use) {
 
 bool JF12Field::isUsingRegular() {
 	return useRegular;
+}
+
+bool JF12Field::isUsingDiskField() {
+	return useDiskField;
+}
+
+bool JF12Field::isUsingToroidalHaloField() {
+	return useToroidalHaloField;
+}
+
+bool JF12Field::isUsingXField() {
+	return useXField;
 }
 
 bool JF12Field::isUsingStriated() {
@@ -153,86 +180,108 @@ bool JF12Field::isUsingTurbulent() {
 	return useTurbulent;
 }
 
-double JF12Field::logisticFunction(const double x, const double x0, const double w) const {
+double JF12Field::logisticFunction(const double& x, const double& x0, const double& w) const {
 	return 1. / (1. + exp(-2. * (fabs(x) - x0) / w));
 }
 
 Vector3d JF12Field::getRegularField(const Vector3d& pos) const {
 	Vector3d b(0.);
 
-	double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
 	double d = pos.getR(); // distance to galactic center
-	if ((d < 1 * kpc) or (d > 20 * kpc))
-		return b; // 0 field for d < 1 kpc or d > 20 kpc
 
-	double phi = pos.getPhi(); // azimuth
-	double sinPhi = sin(phi);
-	double cosPhi = cos(phi);
+	if (d < 20 * kpc) {
+		double r = sqrt(pos.x * pos.x + pos.y * pos.y); // in-plane radius
+		double phi = pos.getPhi(); // azimuth
+		double sinPhi = sin(phi);
+		double cosPhi = cos(phi);
 
-	double lfDisk = logisticFunction(pos.z, hDisk, wDisk);
+		b += getDiskField(r, pos.z, phi, sinPhi, cosPhi);
+		b += getToroidalHaloField(r, pos.z, sinPhi, cosPhi);
+		b += getXField(r, pos.z, sinPhi, cosPhi);
+	}
 
-	// disk field
-	if (r > 3 * kpc) {
-		double bMag;
-		if (r < 5 * kpc) {
-			// molecular ring
-			bMag = bRing * (5 * kpc / r) * (1 - lfDisk);
-			b.x += -bMag * sinPhi;
-			b.y += bMag * cosPhi;
+	return b;
+}
 
-		} else {
-			// spiral region
-			double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);
-			if (r_negx > rArms[7])
-				r_negx = r * exp(-(phi + M_PI) / tan90MinusPitch);
-			if (r_negx > rArms[7])
-				r_negx = r * exp(-(phi + 3 * M_PI) / tan90MinusPitch);
+Vector3d JF12Field::getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
+	Vector3d b(0.);
+	if (useDiskField) {
+		double lfDisk = logisticFunction(z, hDisk, wDisk);
+		if (r > 3 * kpc) {
+			double bMag;
+			if (r < 5 * kpc) {
+				// molecular ring
+				bMag = bRing * (5 * kpc / r) * (1 - lfDisk);
+				b.x += -bMag * sinPhi;
+				b.y += bMag * cosPhi;
+			} else {
+				// spiral region
+				double r_negx = r * exp(-(phi - M_PI) / tan90MinusPitch);
+				if (r_negx > rArms[7])
+					r_negx = r * exp(-(phi + M_PI) / tan90MinusPitch);
+				if (r_negx > rArms[7])
+					r_negx = r * exp(-(phi + 3 * M_PI) / tan90MinusPitch);
 
-			for (int i = 7; i >= 0; i--)
-				if (r_negx < rArms[i])
-					bMag = bDisk[i];
+				for (int i = 7; i >= 0; i--)
+					if (r_negx < rArms[i])
+						bMag = bDisk[i];
 
-			bMag *= (5 * kpc / r) * (1 - lfDisk);
-			b.x += bMag * (sinPitch * cosPhi - cosPitch * sinPhi);
-			b.y += bMag * (sinPitch * sinPhi + cosPitch * cosPhi);
+				bMag *= (5 * kpc / r) * (1 - lfDisk);
+				b.x += bMag * (sinPitch * cosPhi - cosPitch * sinPhi);
+				b.y += bMag * (sinPitch * sinPhi + cosPitch * cosPhi);
+			}
 		}
 	}
+	return b;
+}
 
-	// toroidal halo field
-	double bMagH = exp(-fabs(pos.z) / z0) * lfDisk;
-	if (pos.z >= 0)
-		bMagH *= bNorth * (1 - logisticFunction(r, rNorth, wHalo));
-	else
-		bMagH *= bSouth * (1 - logisticFunction(r, rSouth, wHalo));
-	b.x += -bMagH * sinPhi;
-	b.y += bMagH * cosPhi;
+Vector3d JF12Field::getToroidalHaloField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const {
+	Vector3d b(0.);
 
-	// poloidal halo field
-	double bMagX;
-	double sinThetaX, cosThetaX;
-	double rp;
-	double rc = rXc + fabs(pos.z) / tanThetaX0;
-	if (r < rc) {
-		// varying elevation region
-		rp = r * rXc / rc;
-		bMagX = bX * exp(-1 * rp / rX) * pow(rXc / rc, 2.);
-		double thetaX = atan2(fabs(pos.z), (r - rp));
-		if (pos.z == 0)
-			thetaX = M_PI / 2.;
-		sinThetaX = sin(thetaX);
-		cosThetaX = cos(thetaX);
-	} else {
-		// constant elevation region
-		rp = r - fabs(pos.z) / tanThetaX0;
-		bMagX = bX * exp(-rp / rX) * (rp / r);
-		sinThetaX = sinThetaX0;
-		cosThetaX = cosThetaX0;
+	if (useToroidalHaloField && (r * r + z * z > 1 * kpc * kpc)){
+
+		double lfDisk = logisticFunction(z, hDisk, wDisk);
+		double bMagH = exp(-fabs(z) / z0) * lfDisk;
+
+		if (z >= 0)
+			bMagH *= bNorth * (1 - logisticFunction(r, rNorth, wHalo));
+		else
+			bMagH *= bSouth * (1 - logisticFunction(r, rSouth, wHalo));
+		b.x += -bMagH * sinPhi;
+		b.y += bMagH * cosPhi;
 	}
-	double zsign = pos.z < 0 ? -1 : 1;
-	b.x += zsign * bMagX * cosThetaX * cosPhi;
-	b.y += zsign * bMagX * cosThetaX * sinPhi;
-	b.z += bMagX * sinThetaX;
+	return b;
+}
 
+Vector3d JF12Field::getXField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const {
+	Vector3d b(0.);
+
+	if (useXField && (r * r + z * z > 1 * kpc * kpc)){
+		double bMagX;
+		double sinThetaX, cosThetaX;
+		double rp;
+		double rc = rXc + fabs(z) / tanThetaX0;
+		if (r < rc) {
+			// varying elevation region
+			rp = r * rXc / rc;
+			bMagX = bX * exp(-1 * rp / rX) * pow(rXc / rc, 2.);
+			double thetaX = atan2(fabs(z), (r - rp));
+			if (z == 0)
+				thetaX = M_PI / 2.;
+			sinThetaX = sin(thetaX);
+			cosThetaX = cos(thetaX);
+		} else {
+			// constant elevation region
+			rp = r - fabs(z) / tanThetaX0;
+			bMagX = bX * exp(-rp / rX) * (rp / r);
+			sinThetaX = sinThetaX0;
+			cosThetaX = cosThetaX0;
+		}
+		double zsign = z < 0 ? -1 : 1;
+		b.x += zsign * bMagX * cosThetaX * cosPhi;
+		b.y += zsign * bMagX * cosThetaX * sinPhi;
+		b.z += bMagX * sinThetaX;
+	}
 	return b;
 }
 

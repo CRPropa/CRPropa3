@@ -3,6 +3,7 @@
 
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/Grid.h"
+#include "kiss/logger.h"
 
 namespace crpropa {
 
@@ -23,17 +24,23 @@ namespace crpropa {
  The field is defined in the usual galactocentric coordinate system with the
  Galactic center at the origin, the x-axis pointing in the opposite direction of
  the Sun, and the z-axis pointing towards Galactic north.
+
+ The regular field components (disk, toroidal halo and polodial halo field) 
+ may be turned on and off individually for tests.
  */
 class JF12Field: public MagneticField {
-private:
+protected:
 	bool useRegular;
 	bool useStriated;
 	bool useTurbulent;
+	bool useDiskField;
+	bool useToroidalHaloField;
+	bool useXField;
 
 	// disk spiral arms
 	double rArms[8];       // radii where each arm crosses the negative x-axis
 	double pitch;          // pitch angle
-	double sinPitch, cosPitch, tan90MinusPitch;
+	double sinPitch, cosPitch, tanPitch, cotPitch, tan90MinusPitch;
 
 	// Regular field ----------------------------------------------------------
 	// disk
@@ -47,7 +54,7 @@ private:
 	// poloidal halo
 	double bX;             // field strength at origin
 	double thetaX0;        // constant elevation angle at r > rXc, z = 0
-	double sinThetaX0, cosThetaX0, tanThetaX0;
+	double sinThetaX0, cosThetaX0, tanThetaX0, cotThetaX0;
 	double rXc;            // radius of varying elevation angle region
 	double rX;             // exponential scale height
 
@@ -93,17 +100,26 @@ public:
 	ref_ptr<VectorGrid> getTurbulentGrid();
 
 	void setUseRegular(bool use);
-	void setUseStriated(bool use);
-	void setUseTurbulent(bool use);
+	virtual void setUseStriated(bool use);
+	virtual void setUseTurbulent(bool use);
+	void setUseDiskField(bool use);
+	void setUseToroidalHaloField(bool use);
+	void setUseXField(bool use);
 
 	bool isUsingRegular();
 	bool isUsingStriated();
 	bool isUsingTurbulent();
-	
-	double logisticFunction(const double x, const double x0, const double w) const;
+	bool isUsingDiskField();
+	bool isUsingToroidalHaloField();
+	bool isUsingXField();
 
-	// Regular field component
+	double logisticFunction(const double& x, const double& x0, const double& w) const;
+
+	// Regular field components
 	Vector3d getRegularField(const Vector3d& pos) const;
+	virtual Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+	Vector3d getToroidalHaloField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const;
+	virtual Vector3d getXField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const;
 
 	// Regular and striated field component
 	Vector3d getStriatedField(const Vector3d& pos) const;

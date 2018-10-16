@@ -3,6 +3,7 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
+#include <kiss/logger.h>
 
 #include <cmath>
 #include <limits>
@@ -215,25 +216,34 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 	int Z = chargeNumber(id);
 	double EpA = candidate->current.getEnergy() / A;
 
-	// update particle
-	candidate->current.setId(nucleusId(A + dA, Z + dZ));
-	candidate->current.setEnergy(EpA * (A + dA));
-
 	// create secondaries
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-	for (size_t i = 0; i < nNeutron; i++)
-		candidate->addSecondary(nucleusId(1, 0), EpA, pos);
-	for (size_t i = 0; i < nProton; i++)
-		candidate->addSecondary(nucleusId(1, 1), EpA, pos);
-	for (size_t i = 0; i < nH2; i++)
-		candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
-	for (size_t i = 0; i < nH3; i++)
-		candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
-	for (size_t i = 0; i < nHe3; i++)
-		candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
-	for (size_t i = 0; i < nHe4; i++)
-		candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
+	try
+	{
+		for (size_t i = 0; i < nNeutron; i++)
+			candidate->addSecondary(nucleusId(1, 0), EpA, pos);
+		for (size_t i = 0; i < nProton; i++)
+			candidate->addSecondary(nucleusId(1, 1), EpA, pos);
+		for (size_t i = 0; i < nH2; i++)
+			candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
+		for (size_t i = 0; i < nH3; i++)
+			candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
+		for (size_t i = 0; i < nHe3; i++)
+			candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
+		for (size_t i = 0; i < nHe4; i++)
+			candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
+
+
+	// update particle
+		candidate->current.setId(nucleusId(A + dA, Z + dZ));
+		candidate->current.setEnergy(EpA * (A + dA));
+	}
+	catch (std::runtime_error &e)
+	{
+		KISS_LOG_ERROR << "Something went wrong in the PhotoDisentigration\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+		throw;
+	}
 
 	if (not havePhotons)
 		return;

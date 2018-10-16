@@ -6,6 +6,7 @@
  */
 
 #include "crpropa/Candidate.h"
+#include "crpropa/base64.h"
 #include "crpropa/Common.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
@@ -278,6 +279,81 @@ TEST(Random, seed) {
 	// seeding should work for all instances
 	EXPECT_EQ(r1, r3);
 }
+
+TEST(Random, bigSeedStorage) {
+	Random a;
+	std::vector<uint32_t> bigSeed;
+
+	const size_t nComp = 42;
+	double values[nComp];
+	for (size_t i = 0; i < nComp; i++)
+	{
+		values[i] = a.rand();
+	}
+	bigSeed = a.getSeed();
+	Random b;
+	//b.load(bigSeed);
+	b.seed(&bigSeed[0], bigSeed.size());
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(values[i], b.rand());
+	}
+
+	a.seed(42);
+	bigSeed = a.getSeed();
+	EXPECT_EQ(bigSeed.size(), 1);
+	EXPECT_EQ(bigSeed[0], 42);
+	b.seed(bigSeed[0]);
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(a.rand(), b.rand());
+	}
+
+}
+
+TEST(base64, de_en_coding)
+{
+	Random a;
+	for (int N=1; N < 100; N++)
+	{
+		std::vector<uint32_t> data; 
+		data.reserve(N);
+		for (int i =0; i<N; i++)
+			data.push_back(a.randInt());
+
+		std::string encoded_data = Base64::encode((unsigned char*)&data[0], sizeof(data[0]) * data.size() / sizeof(unsigned char));
+
+		std::string decoded_data = Base64::decode(encoded_data);
+		size_t S = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
+		for (int i=0; i < S; i++)
+		{
+			EXPECT_EQ(((uint32_t*)decoded_data.c_str())[i], data[i]);
+		}
+	}
+
+}
+
+TEST(Random, base64Seed) {
+
+	std::string seed =  "I1+8ANzXYwAqAAAAAwAAAA==";
+	std::vector<uint32_t> bigSeed;
+	bigSeed.push_back(12345123);
+	bigSeed.push_back(6543324);
+	bigSeed.push_back(42);
+	bigSeed.push_back(3);
+	Random a, b;
+	a.seed(seed);
+	b.seed(&bigSeed[0], bigSeed.size());
+
+	const size_t nComp = 42;
+	double values[nComp];
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(a.rand(), b.rand());
+	}
+}
+
+
 
 TEST(Grid, PeriodicClamp) {
 	// Test correct determination of lower and upper neighbor

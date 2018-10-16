@@ -2,11 +2,13 @@
 #include "crpropa/module/ParticleCollector.h"
 #include "crpropa/Units.h"
 #include "crpropa/Version.h"
+#include "crpropa/Random.h"
 
 #include <cstdio>
 #include <stdexcept>
 #include <iostream>
 #include <kiss/string.h>
+#include <crpropa/base64.h>
 
 #ifdef CRPROPA_HAVE_ZLIB
 #include <izstream.hpp>
@@ -15,23 +17,23 @@
 
 namespace crpropa {
 
-TextOutput::TextOutput() : Output(), out(&std::cout) {
+TextOutput::TextOutput() : Output(), out(&std::cout), storeRandomSeeds(false) {
 }
 
-TextOutput::TextOutput(OutputType outputtype) : Output(outputtype), out(&std::cout) {
+TextOutput::TextOutput(OutputType outputtype) : Output(outputtype), out(&std::cout), storeRandomSeeds(false) {
 }
 
-TextOutput::TextOutput(std::ostream &out) : Output(), out(&out) {
+TextOutput::TextOutput(std::ostream &out) : Output(), out(&out), storeRandomSeeds(false) {
 
 }
 
 TextOutput::TextOutput(std::ostream &out,
-		OutputType outputtype) : Output(outputtype), out(&out) {
+		OutputType outputtype) : Output(outputtype), out(&out), storeRandomSeeds(false) {
 }
 
 TextOutput::TextOutput(const std::string &filename) :  Output(), outfile(filename.c_str(),
 				std::ios::binary), out(&outfile),  filename(
-				filename) {
+				filename), storeRandomSeeds(false) {
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 }
@@ -39,7 +41,7 @@ TextOutput::TextOutput(const std::string &filename) :  Output(), outfile(filenam
 TextOutput::TextOutput(const std::string &filename,
 				OutputType outputtype) : Output(outputtype), outfile(filename.c_str(),
 				std::ios::binary), out(&outfile), filename(
-				filename) {
+				filename), storeRandomSeeds(false) {
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 }
@@ -125,6 +127,20 @@ void TextOutput::printHeader() const {
 
 	*out << "# no index = current, 0 = at source, 1 = at point of creation\n#\n";
 	*out << "# CRPropa version: " << g_GIT_DESC << "\n#\n";
+
+	if (storeRandomSeeds)
+	{
+		*out << "# Random seeds:\n";
+		std::vector< std::vector<uint32_t> > seeds = Random::getSeedThreads();
+
+		for (size_t i =0; i < seeds.size(); i++)
+		{
+			std::string encoded_data = Base64::encode((unsigned char*) &seeds[i][0], sizeof(seeds[i][0]) * seeds[i].size() / sizeof(unsigned char));
+			*out << "#   Thread " << i << ": ";
+			*out << encoded_data;
+			*out << "\n";
+		}
+	}
 }
 
 void TextOutput::process(Candidate *c) const {

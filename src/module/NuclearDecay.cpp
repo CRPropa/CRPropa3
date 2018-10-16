@@ -9,6 +9,8 @@
 #include <cmath>
 #include <stdexcept>
 
+#include <kiss/logger.h>
+
 namespace crpropa {
 
 NuclearDecay::NuclearDecay(bool electrons, bool photons, bool neutrinos, double l) {
@@ -191,7 +193,16 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	}
 
 	// update candidate, nuclear recoil negligible
-	candidate->current.setId(nucleusId(A, Z + dZ));
+	try
+	{
+		candidate->current.setId(nucleusId(A, Z + dZ));
+	}
+	catch (std::runtime_error &e)
+	{
+		KISS_LOG_ERROR<< "Something went wrong in the NuclearDecay\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+		throw;
+	}
+
 	candidate->current.setLorentzFactor(gamma);
 
 	if (not (haveElectrons or haveNeutrinos))
@@ -242,10 +253,30 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 	int A = massNumber(id);
 	int Z = chargeNumber(id);
 	double EpA = candidate->current.getEnergy() / double(A);
-	candidate->current.setId(nucleusId(A - dA, Z - dZ));
+
+	try
+	{
+		candidate->current.setId(nucleusId(A - dA, Z - dZ));
+	}
+	catch (std::runtime_error &e)
+	{
+		KISS_LOG_ERROR<< "Something went wrong in the NuclearDecay\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+		throw;
+	}
+
 	candidate->current.setEnergy(EpA * (A - dA));
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(),candidate->current.getPosition());
-	candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos);
+
+	try
+	{
+		candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos);
+	}
+	catch (std::runtime_error &e)
+	{
+		KISS_LOG_ERROR<< "Something went wrong in the NuclearDecay\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+		throw;
+	}
+
 }
 
 double NuclearDecay::meanFreePath(int id, double gamma) {

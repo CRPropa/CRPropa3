@@ -3,14 +3,12 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/Random.h"
 
-#include <iostream>
-
 namespace crpropa {
 
 JF12Field::JF12Field() {
-	useRegular = true;
-	useStriated = false;
-	useTurbulent = false;
+	useRegularField = true;
+	useStriatedField = false;
+	useTurbulentField = false;
 	useDiskField = true;
 	useToroidalHaloField = true;
 	useXField = true;
@@ -19,6 +17,8 @@ JF12Field::JF12Field() {
 	pitch = 11.5 * M_PI / 180;
 	sinPitch = sin(pitch);
 	cosPitch = cos(pitch);
+	tanPitch = tan(pitch);
+	cotPitch =  1. / tanPitch;
 	tan90MinusPitch = tan(M_PI / 2 - pitch);
 
 	rArms[0] = 5.1 * kpc;
@@ -56,6 +56,7 @@ JF12Field::JF12Field() {
 	sinThetaX0 = sin(thetaX0);
 	cosThetaX0 = cos(thetaX0);
 	tanThetaX0 = tan(thetaX0);
+	cotThetaX0 = 1. / tanThetaX0;
 	rXc = 4.8 * kpc;
 	rX = 2.9 * kpc;
 
@@ -81,7 +82,7 @@ JF12Field::JF12Field() {
 }
 
 void JF12Field::randomStriated(int seed) {
-	useStriated = true;
+	useStriatedField = true;
 	int N = 100;
 	striatedGrid = new ScalarGrid(Vector3d(0.), N, 0.1 * kpc);
 
@@ -99,7 +100,7 @@ void JF12Field::randomStriated(int seed) {
 
 #ifdef CRPROPA_HAVE_FFTW3F
 void JF12Field::randomTurbulent(int seed) {
-	useTurbulent = true;
+	useTurbulentField = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
 	turbulentGrid = new VectorGrid(Vector3d(0.), 256, 4 * parsec);
 	initTurbulence(turbulentGrid, 1, 8 * parsec, 272 * parsec, -11./3., seed);
@@ -107,12 +108,12 @@ void JF12Field::randomTurbulent(int seed) {
 #endif
 
 void JF12Field::setStriatedGrid(ref_ptr<ScalarGrid> grid) {
-	useStriated = true;
+	useStriatedField = true;
 	striatedGrid = grid;
 }
 
 void JF12Field::setTurbulentGrid(ref_ptr<VectorGrid> grid) {
-	useTurbulent = true;
+	useTurbulentField = true;
 	turbulentGrid = grid;
 }
 
@@ -124,8 +125,8 @@ ref_ptr<VectorGrid> JF12Field::getTurbulentGrid() {
 	return turbulentGrid;
 }
 
-void JF12Field::setUseRegular(bool use) {
-	useRegular = use;
+void JF12Field::setUseRegularField(bool use) {
+	useRegularField = use;
 }
 
 void JF12Field::setUseDiskField(bool use) {
@@ -140,24 +141,24 @@ void JF12Field::setUseXField(bool use) {
 	useXField = use;
 }
 
-void JF12Field::setUseStriated(bool use) {
+void JF12Field::setUseStriatedField(bool use) {
 	if ((use) and (striatedGrid)) {
 		KISS_LOG_WARNING << "JF12Field: No striated field set: ignored.";
 		return;
 	}
-	useStriated = use;
+	useStriatedField = use;
 }
 
-void JF12Field::setUseTurbulent(bool use) {
+void JF12Field::setUseTurbulentField(bool use) {
 	if ((use) and (turbulentGrid)) {
 		KISS_LOG_WARNING << "JF12Field: No turbulent field set: ignored.";
 		return;
 	}
-	useTurbulent = use;
+	useTurbulentField = use;
 }
 
-bool JF12Field::isUsingRegular() {
-	return useRegular;
+bool JF12Field::isUsingRegularField() {
+	return useRegularField;
 }
 
 bool JF12Field::isUsingDiskField() {
@@ -172,12 +173,12 @@ bool JF12Field::isUsingXField() {
 	return useXField;
 }
 
-bool JF12Field::isUsingStriated() {
-	return useStriated;
+bool JF12Field::isUsingStriatedField() {
+	return useStriatedField;
 }
 
-bool JF12Field::isUsingTurbulent() {
-	return useTurbulent;
+bool JF12Field::isUsingTurbulentField() {
+	return useTurbulentField;
 }
 
 double JF12Field::logisticFunction(const double& x, const double& x0, const double& w) const {
@@ -331,11 +332,11 @@ Vector3d JF12Field::getTurbulentField(const Vector3d& pos) const {
 
 Vector3d JF12Field::getField(const Vector3d& pos) const {
 	Vector3d b(0.);
-	if (useTurbulent)
+	if (useTurbulentField)
 		b += getTurbulentField(pos);
-	if (useStriated)
+	if (useStriatedField)
 		b += getStriatedField(pos);
-	else if (useRegular)
+	else if (useRegularField)
 		b += getRegularField(pos);
 	return b;
 }

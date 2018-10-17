@@ -3,153 +3,86 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/Random.h"
 
-#include <iostream>
-
 namespace crpropa {
 
 JF12FieldSolenoidal::JF12FieldSolenoidal(double delta, double zs) {
-
-	// enable only the regular field per default; the turbulent component 
-	// is still the same as in the initial JF12 field and should be used with care
-	useRegular = true;
-	useStriated = false;
-	useTurbulent = false;
-
-	useDiskField = true;
-	useToroidalHaloField = true;
-	useXField = true;
-
-	// set widths and heights of field and transition zones
-	zS = zs;
-	r1 = 5 * kpc;
-	r2 = 20 * kpc;
-	r1s = r1 + delta;
-	r2s = r2 - delta;
-
-	// set spiral arm parameters (pitch angle and r_-x)
-	pitch = 11.5 * M_PI / 180;
-	sinPitch = sin(pitch);
-	cosPitch = cos(pitch);
-	tanPitch = tan(pitch);
-	cotPitch =  1. / tanPitch;
-	tan90MinusPitch = tan(M_PI / 2 - pitch);
-
-	rArms[0] = 5.1 * kpc;
-	rArms[1] = 6.3 * kpc;
-	rArms[2] = 7.1 * kpc;
-	rArms[3] = 8.3 * kpc;
-	rArms[4] = 9.8 * kpc;
-	rArms[5] = 11.4 * kpc;
-	rArms[6] = 12.7 * kpc;
-	rArms[7] = 15.5 * kpc;
-
-	// set angles of seperating spiral field lines at r1
-	phi0 = 0.; // somewhat arbitrary choice, see Kleimann et al.
+	
+	zS = zs; // set scale heigth for the parabolic X field lines
+	r1 = 5 * kpc; // inner boundary of the disk field
+	r2 = 20 * kpc; // outer boudary of the disk field
+	r1s = r1 + delta; // the magnetic flux of the spirals is redirected for r in [r1,r1s]
+	r2s = r2 - delta; // same here at outer boundary between r2s and r2
+	phi0 = 0.; // somewhat arbitrary choice, has to be chosen in [-pi,pi]
 
 	for (int i = 1;i < 9; i++){
+		// fill the array with angles in [-pi,pi] where the 8 spiral arms intersect the r1 - ring
+		// indexing starts at 1 to match the indexing in the papers on the JF12 field!
 		phi0Arms[i] = M_PI - cotPitch * log(rArms[i-1] / r1);
 	}
 
-	// cyclic closure
+	// cyclic closure of the array, with next values periodically continued outside [-pi,pi] to simplify looping and searching for correct spiral arms
 	phi0Arms[0] = phi0Arms[8] + 2 * M_PI;
 	phi0Arms[9] = phi0Arms[1] - 2 * M_PI;
 	phi0Arms[10] = phi0Arms[2] - 2 *M_PI;
 
-	// determine index of phi0
-	idx0 = 0;
-	while (phi0Arms[idx0] > phi0){
-		idx0 += 1;
+	// determine the position of phi0 in the array, i.e. find the correct spiral arm.
+	int idx0 = 1; // corresponding index in phi0Arms such that phi0Arms[idx0] < phi0 < phi0Arms[idx0-1]
+	while (phi0 < phi0Arms[idx0]){
+		idx0 += 1; // search clockwise, starting with the check if phi0Arms[1] < phi0 < phi0Arms[0]
 	}
 
-	// set regular field parameters
-	bRing = 0.1 * muG;
-	hDisk = 0.40 * kpc;
-	wDisk = 0.27 * kpc;
+	// fill the bDisk array with spiral field strengths at r = r1.
+	// note the indexing starting with 1 here to match the indexing in the JF12 papers!
+	// for a position (r1,phi), phi in [-pi,pi], the correct field strength is given by
+	// bDisk[i] if phi0Arms[i] < phi0 < phi0Arms[i-1].
+	bDisk[1] = 0.1 * muG;
+	bDisk[2] = 3.0 * muG; 
+	bDisk[3] = -0.9 * muG;
+	bDisk[4] = -0.8 * muG;
+	bDisk[5] = -2.0 * muG;
+	bDisk[6] = -4.2 * muG;
+	bDisk[7] = 0.0 * muG;
 
-	bDiskCyclicClosure[1] = 0.1 * muG; // called b_1 in Kleimann et al.
-	bDiskCyclicClosure[2] = 3.0 * muG; // b_2
-	bDiskCyclicClosure[3] = -0.9 * muG;// etc.
-	bDiskCyclicClosure[4] = -0.8 * muG;
-	bDiskCyclicClosure[5] = -2.0 * muG;
-	bDiskCyclicClosure[6] = -4.2 * muG;
-	bDiskCyclicClosure[7] = 0.0 * muG;
-	bDiskCyclicClosure[8] = 2.7 * muG;
-
-	// re-compute b_8 for flux correction
+	// re-compute b_8 for actual (net flux = 0)-correction of the spiral field with minimal round-off errors
 	double flux1to7 = 0.;
 	for (int i = 1; i < 8; i++){
-		flux1to7 += (phi0Arms[i-1] - phi0Arms[i]) * bDiskCyclicClosure[i];
+		flux1to7 += (phi0Arms[i-1] - phi0Arms[i]) * bDisk[i];
 	}
-	bDiskCyclicClosure[8] = -flux1to7 / (phi0Arms[7] - phi0Arms[8]);
-	bDiskCyclicClosure[0] = bDiskCyclicClosure[8];
-	bDiskCyclicClosure[9] = bDiskCyclicClosure[1];
-	bDiskCyclicClosure[10] = bDiskCyclicClosure[2];
-	
-	// set coefficients for phi integration
+	bDisk[8] = -flux1to7 / (phi0Arms[7] - phi0Arms[8]);
+
+	bDisk[0] = bDisk[8]; // again close the array periodically 
+	bDisk[9] = bDisk[1];
+	bDisk[10] = bDisk[2];
+
+	// set coefficients for the evaluation of the phi-integral over the piecewise constant field strengths at r=r1
+	// such that it may be evaluated as H(phi) = phiCoeff[j] + bDisk[j] * phi later on
+	// start integration at phi0Arms[0] first, shift to lower integration boundary phi0 later
 	phiCoeff[0] = 0;
 	for (int i = 1; i < 10; i++){
-		phiCoeff[i] = phiCoeff[i-1] + (bDiskCyclicClosure[i-1] - bDiskCyclicClosure[i]) * phi0Arms[i-1];
+		phiCoeff[i] = phiCoeff[i-1] + (bDisk[i-1] - bDisk[i]) * phi0Arms[i-1];
 	}
 
-	//correct for H(phi0) = 0
-	corr = phiCoeff[idx0] + bDiskCyclicClosure[idx0] * phi0;
+	// correct for H(phi0) = 0
+	corr = phiCoeff[idx0] + bDisk[idx0] * phi0;
 	for (int i = 1; i < 10; i++){
 		phiCoeff[i] = phiCoeff[i] - corr;
 	}
-
-	// azimuthal halo parameters
-	bNorth = 1.4 * muG;
-	bSouth = -1.1 * muG;
-	rNorth = 9.22 * kpc;
-	rSouth = 17 * kpc;
-	wHalo = 0.20 * kpc;
-	z0 = 5.3 * kpc;
-
-	// X-field parameters
-	bX = 4.6 * muG;
-	thetaX0 = 49.0 * M_PI / 180.;
-	sinThetaX0 = sin(thetaX0);
-	cosThetaX0 = cos(thetaX0);
-	tanThetaX0 = tan(thetaX0);
-	cotThetaX0 = 1. / tanThetaX0;
-	rXc = 4.8 * kpc;
-	rX = 2.9 * kpc;
-
-	// set striated field parameter
-	sqrtbeta = sqrt(1.36);
-
-	// set turbulent field parameters
-	bDiskTurb[0] = 10.81 * muG;
-	bDiskTurb[1] = 6.96 * muG;
-	bDiskTurb[2] = 9.59 * muG;
-	bDiskTurb[3] = 6.96 * muG;
-	bDiskTurb[4] = 1.96 * muG;
-	bDiskTurb[5] = 16.34 * muG;
-	bDiskTurb[6] = 37.29 * muG;
-	bDiskTurb[7] = 10.35 * muG;
-
-	bDiskTurb5 = 7.63 * muG;
-	zDiskTurb = 0.61 * kpc;
-
-	bHaloTurb = 4.68 * muG; 
-	rHaloTurb = 10.97 * kpc;
-	zHaloTurb = 2.84 * kpc;
 }
 
-void JF12FieldSolenoidal::setDelta(double delta) {
+void JF12FieldSolenoidal::setDiskTransitionWidth(double delta) {
 	r1s = r1 + delta;
 	r2s = r2 - delta;
 }
 
-void JF12FieldSolenoidal::setZs(double zs) {
+void JF12FieldSolenoidal::setXScaleHeight(double zs) {
 	zS = zs;
 }
 
-double JF12FieldSolenoidal::getDelta() const {
+double JF12FieldSolenoidal::getDiskTransitionWidth() const {
 	return (r1s - r1);
 }
 
-double JF12FieldSolenoidal::getZs() const {
+double JF12FieldSolenoidal::getXScaleHeight() const {
 	return zS;
 }
 
@@ -157,37 +90,36 @@ void JF12FieldSolenoidal::deactivateOuterTransition() {
 	r2s = r2;
 }
 
-void JF12FieldSolenoidal::setUseStriated(bool use) {
+void JF12FieldSolenoidal::setUseStriatedField(bool use) {
 	if ((use) and (striatedGrid)) {
 		KISS_LOG_WARNING << "JF12FieldSolenoidal: No striated field set: ignored.";
 		return;
 	}
-	useStriated = use;
+	useStriatedField = use;
 }
 
-void JF12FieldSolenoidal::setUseTurbulent(bool use) {
+void JF12FieldSolenoidal::setUseTurbulentField(bool use) {
 	if ((use) and (turbulentGrid)) {
 		KISS_LOG_WARNING << "JF12FieldSolenoidal: No turbulent field set: ignored.";
 		return;
 	}
-	useTurbulent = use;
+	useTurbulentField = use;
 }
 
 Vector3d JF12FieldSolenoidal::getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	// improved disk field with transition to ring region in [r1,r1s] and [r2s,r2]
 	Vector3d b(0.);
 
 	if (useDiskField){
 
-		double lfDisk = logisticFunction(z, hDisk, wDisk); // for vertical scaling
+		double lfDisk = logisticFunction(z, hDisk, wDisk); // for vertical scaling as in initial JF12
 
-		double hint = PhiIntegralH(r, phi);
-		double mag1 = getSpiralStrength(r, phi); // returns b_j for current spiral arm
+		double hint = getHPhiIntegral(r, phi); // phi integral to restore solenoidality in transition region, only enters if r is in [r1,r1s] or [r2s,r2]
+		double mag1 = getSpiralFieldStrengthConstant(r, phi); // returns bDisk[j] for the current spiral arm
 
 		if ((r1 < r) && (r < r2)) {
 
-			double pdelta = p(r);
-			double qdelta = q(r);
+			double pdelta = getDiskTransitionPolynomial(r);
+			double qdelta = getDiskTransitionPolynomialDerivative(r);
 			double br = pdelta * mag1 * sinPitch;
 			double bphi = pdelta * mag1 * cosPitch - qdelta * hint * sinPitch;
 
@@ -201,7 +133,6 @@ Vector3d JF12FieldSolenoidal::getDiskField(const double& r, const double& z, con
 }
 
 Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const {
-	// improved X-field with parabolic field lines at abs(z) < zs
 	Vector3d b(0.);
 
 	if (useXField){
@@ -271,12 +202,10 @@ Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const 
 					 bz0 = bX * exp(- rp / rX) * (rXc/ r0c) * (rXc/ r0c) * sin(thetaX);
 				 }
 				 else {
-
 					 // field strength at (r0,zS) for outer region
 					 rp = r0 - zS / tanThetaX0;
 					 br0 =  bX * exp(- rp / rX) * (rp/r0) * cosThetaX0;
 					 bz0 =  bX * exp(- rp / rX) * (rp/r0) * sinThetaX0;
- 
 				 }
 
 				 // compute factor F for solenoidality
@@ -298,9 +227,7 @@ Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const 
 	return b;
 }
 
-double JF12FieldSolenoidal::p(const double& r) const {
-	//transition polynomial p_delta(r)
-
+double JF12FieldSolenoidal::getDiskTransitionPolynomial(const double& r) const {
 	// 0 disk field outside
 	if ((r < r1) || (r > r2)) {
 		return 0.;
@@ -309,7 +236,6 @@ double JF12FieldSolenoidal::p(const double& r) const {
 	if ((r > r1s) && (r < r2s)) {
 		return r1/r;
 	}
-
 	// transitions region parameters
 	double r_a = r1;
 	double r_b = r1s;
@@ -318,25 +244,20 @@ double JF12FieldSolenoidal::p(const double& r) const {
 		r_a = r2;
 		r_b = r2s;
 	}
-
 	// differentiable transition at r_s, continous at r_a
 	double fakt = (r_a / r_b - 2.) / ((r_a - r_b) *  (r_a - r_b));
 	return (r1/r_b) * (2. - r / r_b + fakt * (r-r_b) * (r-r_b));
 }	
 
-double JF12FieldSolenoidal::q(const double& r) const {
-	//transition polynomial derivative
-
+double JF12FieldSolenoidal::getDiskTransitionPolynomialDerivative(const double& r) const {
 	// 0 disk field outside
 	if ((r < r1) || (r > r2)) {
 		return 0.;
 	}
-
 	// unchanged field
 	if ((r > r1s) && (r < r2s)) {
 		return 0.;
 	}
-
 	// transitions region parameters
 	double r_a = r1;
 	double r_b = r1s;
@@ -345,42 +266,46 @@ double JF12FieldSolenoidal::q(const double& r) const {
 		r_a = r2;
 		r_b = r2s;
 	}
-
-	// differentiable transition at r_s, continous at r_a
+	// differentiable transition polynomial at r_s, continous at r_a
 	double fakt = (r_a / r_b - 2.) / ((r_a - r_b) * (r_a - r_b));
 	return (r1/r_b) * (2. - 2. * r/r_b + fakt * (3. * r * r - 4. * r * r_b + r_b * r_b));
 }
 
-double JF12FieldSolenoidal::PhiIntegralH(const double& r, const double& phi) const {
-	// evaluate BphiIntegral for solenodality/flux redistribution in ring-spiral transition region
+double JF12FieldSolenoidal::getHPhiIntegral(const double& r, const double& phi) const {
+	// Evaluates the H(phi1) integral for solenoidality for the position (r,phi) which is mapped back to (r1=5kpc,phi1)
+	// along the spiral field line. 
 	double H_ret = 0.;
 	int idx = 1;
 
 	if ((r1 < r) && (r < r2)){
+		// find index of the correct spiral arm for (r1,phi1) just like in getSpiralFieldStrengthConstant
 		double phi1 = phi - log(r/r1) * cotPitch;
-		phi1 = atan2(sin(phi1) , cos(phi1)); // map to [-pi,+pi]
+		phi1 = atan2(sin(phi1) , cos(phi1)); 
 		while (phi1 < phi0Arms[idx]){
 			idx += 1;
 		}
-		H_ret = phi1 * bDiskCyclicClosure[idx] + phiCoeff[idx];
+		H_ret = phi1 * bDisk[idx] + phiCoeff[idx];
 	}
 	return H_ret;
 }
 
-double JF12FieldSolenoidal::getSpiralStrength(const double& r, const double& phi) const {
-	// return field strength b_j for current spiral arm
+double JF12FieldSolenoidal::getSpiralFieldStrengthConstant(const double& r, const double& phi) const {
+	// For a given position (r, phi) in polar coordinates, this method returns the field strength
+	// of the spiral field at r1 = 5 kpc for the magnetic spiral arm where (r, phi) is located.
+	// The method first computes the angle phi1 at which the spiral field line passing through (r, phi) intersects
+	// the circle with radius r1 = 5 kpc. Afterwards, the correct spiral arm is found by searching the index idx
+	// such that phi0Arms[idx] < phi1 < phi0Arms[idx-1]. The correct field strength of the respective spiral arm
+	// where (r, phi) is located is then given as bDisk[idx].
 	double b_ret = 0.;
 	int idx = 1;
-
 	if ((r1 < r) && (r < r2)){
-		double phi1 = phi - log(r/r1) * cotPitch;
-		phi1 = atan2(sin(phi1), cos(phi1)); // map to [-pi,+pi]
+		double phi1 = phi - log(r/r1) * cotPitch; // map the position (r, phi) to (5 kpc, phi1) along the logarithmic spiral field line
+		phi1 = atan2(sin(phi1), cos(phi1)); // map this angle to [-pi,+pi]
 		while (phi1 < phi0Arms[idx]){
-			idx += 1;
+			idx += 1; // run clockwise through the spiral arms; the cyclic closure of phi0Arms[9] = phi0Arms[1] - 2 pi is needed if -pi <= phi1 <= phi0Arms[8].
 		}
-		b_ret = bDiskCyclicClosure[idx];
+		b_ret = bDisk[idx];
 	}
 	return b_ret;
 }
-
 } // namespace crpropa

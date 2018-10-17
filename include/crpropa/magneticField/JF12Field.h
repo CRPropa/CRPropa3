@@ -26,13 +26,13 @@ namespace crpropa {
  the Sun, and the z-axis pointing towards Galactic north.
 
  The regular field components (disk, toroidal halo and polodial halo field) 
- may be turned on and off individually for tests.
+ may be turned on and off individually.
  */
 class JF12Field: public MagneticField {
 protected:
-	bool useRegular;
-	bool useStriated;
-	bool useTurbulent;
+	bool useRegularField;
+	bool useStriatedField;
+	bool useTurbulentField;
 	bool useDiskField;
 	bool useToroidalHaloField;
 	bool useXField;
@@ -44,7 +44,7 @@ protected:
 
 	// Regular field ----------------------------------------------------------
 	// disk
-	double bDisk[8];       // field strengths of arms at r=5 kpc
+	double bDisk[11];      // field strengths of the 8 arms at r=5 kpc; additional entries added for periodic closure in JF12FieldSolenoidal
 	double bRing;          // ring field strength 3<r<5 kpc
 	double hDisk, wDisk;   // disk/halo transistion and width
 	// toroidal halo
@@ -99,16 +99,16 @@ public:
 	ref_ptr<ScalarGrid> getStriatedGrid();
 	ref_ptr<VectorGrid> getTurbulentGrid();
 
-	void setUseRegular(bool use);
-	virtual void setUseStriated(bool use);
-	virtual void setUseTurbulent(bool use);
+	void setUseRegularField(bool use);
+	virtual void setUseStriatedField(bool use);
+	virtual void setUseTurbulentField(bool use);
 	void setUseDiskField(bool use);
 	void setUseToroidalHaloField(bool use);
 	void setUseXField(bool use);
 
-	bool isUsingRegular();
-	bool isUsingStriated();
-	bool isUsingTurbulent();
+	bool isUsingRegularField();
+	bool isUsingStriatedField();
+	bool isUsingTurbulentField();
 	bool isUsingDiskField();
 	bool isUsingToroidalHaloField();
 	bool isUsingXField();

@@ -138,6 +138,12 @@ TEST(TextOutput, printHeader_Version) {
 	         g_GIT_DESC);
 }
 
+
+TEST(TextOutput, failOnIllegalOutputFile)
+{
+	EXPECT_THROW(TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"), std::runtime_error);
+}
+
 //-- ParticleCollector
 
 TEST(ParticleCollector, size) {

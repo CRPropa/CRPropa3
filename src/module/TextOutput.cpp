@@ -34,6 +34,8 @@ TextOutput::TextOutput(std::ostream &out,
 TextOutput::TextOutput(const std::string &filename) :  Output(), outfile(filename.c_str(),
 				std::ios::binary), out(&outfile),  filename(
 				filename), storeRandomSeeds(false) {
+	if (!outfile.is_open())
+		throw std::runtime_error(std::string("Cannot create file: ") + filename);
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 }
@@ -42,6 +44,8 @@ TextOutput::TextOutput(const std::string &filename,
 				OutputType outputtype) : Output(outputtype), outfile(filename.c_str(),
 				std::ios::binary), out(&outfile), filename(
 				filename), storeRandomSeeds(false) {
+	if (!outfile.is_open())
+		throw std::runtime_error(std::string("Cannot create file: ") + filename);
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 }

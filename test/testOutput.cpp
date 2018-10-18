@@ -10,6 +10,11 @@
 #include "gtest/gtest.h"
 #include <iostream>
 
+
+#ifdef CRPROPA_HAVE_HDF5 
+	#include <hdf5.h>
+#endif
+
 // compare two arrays (intead of using Google Mock)
 // https://stackoverflow.com/a/10062016/6819103
 template<typename T, size_t size>
@@ -138,11 +143,20 @@ TEST(TextOutput, printHeader_Version) {
 	         g_GIT_DESC);
 }
 
-
 TEST(TextOutput, failOnIllegalOutputFile)
 {
 	EXPECT_THROW(TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"), std::runtime_error);
 }
+
+#ifdef CRPROPA_HAVE_HDF5 
+TEST(HDF5Output, failOnIllegalOutputFile)
+{
+	HDF5Output out;
+	// disable default error output of HDF5
+	H5Eset_auto2(H5E_DEFAULT, NULL, NULL);
+	EXPECT_THROW(out.open("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.h5"), std::runtime_error);
+}
+#endif
 
 //-- ParticleCollector
 

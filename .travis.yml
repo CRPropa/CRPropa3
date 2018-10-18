@@ -69,6 +69,7 @@ before_script:
   - |
     DATAFILE=$HOME/.cache/data.tar.gz
     if [ -f $DATAFILE ]; then
+      echo "Using data file from cache!"
       cp $DATAFILE .
     fi
   - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On

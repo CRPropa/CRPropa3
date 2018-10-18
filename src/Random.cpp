@@ -479,19 +479,6 @@ std::vector< std::vector<uint32_t> > Random::getSeedThreads()
 	return seeds;
 }
 
-void Random::seed(const std::string &b64Seed)
-{
-	std::string decoded_data = Base64::decode(b64Seed);
-	size_t seedSize = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
-	seed((uint32_t*)decoded_data.c_str(), seedSize );
-}
-
-const std::string Random::getSeed_base64() const
-{
-	return Base64::encode((unsigned char*) &initial_seed[0], sizeof(initial_seed[0]) * initial_seed.size() / sizeof(unsigned char));
-}
-
-
 #else
 static Random _random;
 Random &Random::instance() {
@@ -507,6 +494,18 @@ std::vector< std::vector<uint32_t> > Random::getSeedThreads()
 	return seeds;
 }
 #endif
+
+const std::string Random::getSeed_base64() const
+{
+	return Base64::encode((unsigned char*) &initial_seed[0], sizeof(initial_seed[0]) * initial_seed.size() / sizeof(unsigned char));
+}
+
+void Random::seed(const std::string &b64Seed)
+{
+	std::string decoded_data = Base64::decode(b64Seed);
+	size_t seedSize = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
+	seed((uint32_t*)decoded_data.c_str(), seedSize );
+}
 
 } // namespace crpropa
 

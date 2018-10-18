@@ -288,8 +288,10 @@ if(APPLE OR USE_ABSOLUTE_RPATH)
 	endif("${isSystemDir}" STREQUAL "-1")
 endif()
 
-
-# ----------------------------------------------------------------------------
+# Fix for linker error on mac, Issue: #147
+if(APPLE)
+	add_definitions(-arch x86_64)
+endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRProap Data files" ON)

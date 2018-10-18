@@ -30,7 +30,7 @@ matrix:
       compiler: clang
       env:
         - CXX_COMPILER='clang++'
-        - C_COMPILER='clang'
+        - C_COMPILER='clang++'
         - Fortran_COMPILER='gfortran'
         - PYTHON_EXECUTABLE=/usr/bin/python
 before_install:

@@ -48,6 +48,9 @@ hid_t variantTypeToH5T_NATIVE(Variant::Type type) {
 	}
 }
 
+HDF5Output::HDF5Output() :  Output(), filename(), file(-1), sid(-1), dset(-1), dataspace(-1), candidatesSinceFlush(0), flushLimit(std::numeric_limits<unsigned int>::max()) {
+}
+
 HDF5Output::HDF5Output(const std::string& filename) :  Output(), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1), candidatesSinceFlush(0), flushLimit(std::numeric_limits<unsigned int>::max()) {
 }
 
@@ -96,6 +99,9 @@ herr_t HDF5Output::insertDoubleAttribute(const std::string &key, const double &v
 
 void HDF5Output::open(const std::string& filename) {
 	file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+	if (file < 0)
+		throw std::runtime_error(std::string("Cannot create file: ") + filename);
+
 
 	sid = H5Tcreate(H5T_COMPOUND, sizeof(OutputRow));
 	if (fields.test(TrajectoryLengthColumn))

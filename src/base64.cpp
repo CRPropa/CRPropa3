@@ -1,6 +1,3 @@
-#ifndef BASE64_H
-#define BASE64_H
-
 /// base64 encodig and decoding.
 ///
 /// Based on the implementations by
@@ -128,6 +125,3 @@ namespace Base64
 		return str;
 	}
 };
-
-
-#endif // BASE64_H

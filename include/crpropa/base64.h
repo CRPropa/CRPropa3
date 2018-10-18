@@ -15,12 +15,15 @@
 #include <cstring>
 #include <stdexcept>
 
-
-namespace Base64
+namespace crpropa
 {
-		std::string encode(const unsigned char *src, size_t len);
-		std::string decode(const std::string &data);
-};
+	class Base64
+	{
+	public:
+		static std::string encode(const unsigned char *src, size_t len);
+		static std::string decode(const std::string &data);
+	};
+}
 
 
 #endif // BASE64_H

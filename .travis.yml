@@ -11,7 +11,9 @@ matrix:
       dist: trusty
       sudo: required
       compiler: clang
-      env: PYTHON_EXECUTABLE=/usr/bin/python3
+      env:
+        - PYTHON_EXECUTABLE=/usr/bin/python2
+        - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
       dist: trusty
       sudo: required
@@ -21,9 +23,16 @@ matrix:
       dist: trusty
       sudo: required
       compiler: clang
-      env: PYTHON_EXECUTABLE=/usr/bin/python2
-
-
+      env:
+        - PYTHON_EXECUTABLE=/usr/bin/python2
+        - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
+    - os : osx
+      compiler: clang
+      env:
+        - CXX_COMPILER='clang++'
+        - C_COMPILER='clang'
+        - Fortran_COMPILER='gfortran'
+        - PYTHON_EXECUTABLE=/usr/bin/python
 before_install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -32,6 +41,13 @@ before_install:
       sudo apt-get install -qq swig gfortran libfftw3-dev libcfitsio3-dev libmuparser-dev python-dev python-numpy python-setuptools python3-setuptools python3-dev cmake libhdf5-serial-dev python-matplotlib python3-matplotlib python-scipy python3-scipy libiomp5 libiomp-dev
       sudo apt-get install -qq doxygen graphviz
     fi;
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      HOMEBREW_NO_AUTO_UPDATE=1 brew install swig;
+      HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true;
+      HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc;
+
+    fi;
+
 before_script:
   - mkdir build
   - cd build

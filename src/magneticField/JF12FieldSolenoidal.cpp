@@ -6,7 +6,6 @@
 namespace crpropa {
 
 JF12FieldSolenoidal::JF12FieldSolenoidal(double delta, double zs) {
-	
 	zS = zs; // set scale heigth for the parabolic X field lines
 	r1 = 5 * kpc; // inner boundary of the disk field
 	r2 = 20 * kpc; // outer boudary of the disk field
@@ -20,7 +19,8 @@ JF12FieldSolenoidal::JF12FieldSolenoidal(double delta, double zs) {
 		phi0Arms[i] = M_PI - cotPitch * log(rArms[i-1] / r1);
 	}
 
-	// cyclic closure of the array, with next values periodically continued outside [-pi,pi] to simplify looping and searching for correct spiral arms
+	// cyclic closure of the array, with next values periodically continued
+	// outside [-pi,pi] to simplify looping and searching for correct spiral arms
 	phi0Arms[0] = phi0Arms[8] + 2 * M_PI;
 	phi0Arms[9] = phi0Arms[1] - 2 * M_PI;
 	phi0Arms[10] = phi0Arms[2] - 2 *M_PI;
@@ -36,7 +36,7 @@ JF12FieldSolenoidal::JF12FieldSolenoidal(double delta, double zs) {
 	// for a position (r1,phi), phi in [-pi,pi], the correct field strength is given by
 	// bDisk[i] if phi0Arms[i] < phi0 < phi0Arms[i-1].
 	bDisk[1] = 0.1 * muG;
-	bDisk[2] = 3.0 * muG; 
+	bDisk[2] = 3.0 * muG;
 	bDisk[3] = -0.9 * muG;
 	bDisk[4] = -0.8 * muG;
 	bDisk[5] = -2.0 * muG;
@@ -50,7 +50,7 @@ JF12FieldSolenoidal::JF12FieldSolenoidal(double delta, double zs) {
 	}
 	bDisk[8] = -flux1to7 / (phi0Arms[7] - phi0Arms[8]);
 
-	bDisk[0] = bDisk[8]; // again close the array periodically 
+	bDisk[0] = bDisk[8]; // again close the array periodically
 	bDisk[9] = bDisk[1];
 	bDisk[10] = bDisk[2];
 
@@ -110,14 +110,12 @@ Vector3d JF12FieldSolenoidal::getDiskField(const double& r, const double& z, con
 	Vector3d b(0.);
 
 	if (useDiskField){
-
 		double lfDisk = logisticFunction(z, hDisk, wDisk); // for vertical scaling as in initial JF12
 
 		double hint = getHPhiIntegral(r, phi); // phi integral to restore solenoidality in transition region, only enters if r is in [r1,r1s] or [r2s,r2]
 		double mag1 = getSpiralFieldStrengthConstant(r, phi); // returns bDisk[j] for the current spiral arm
 
 		if ((r1 < r) && (r < r2)) {
-
 			double pdelta = getDiskTransitionPolynomial(r);
 			double qdelta = getDiskTransitionPolynomialDerivative(r);
 			double br = pdelta * mag1 * sinPitch;
@@ -129,33 +127,30 @@ Vector3d JF12FieldSolenoidal::getDiskField(const double& r, const double& z, con
 			b *= (1 - lfDisk);
 		}
 	}
-	return b;		
+	return b;
 }
 
 Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const {
 	Vector3d b(0.);
 
 	if (useXField){
-
 		double bMagX;
 		double sinThetaX, cosThetaX;
 		double rp; // radius where current intial field line passes z = 0
-		double rc = rXc + fabs(z) / tanThetaX0; 
+		double rc = rXc + fabs(z) / tanThetaX0;
 		double r0c = rXc + zS / tanThetaX0; // radius where field line through rXc passes z = zS
 		double f, r0, br0, bz0;
 		bool inner = true; // distinguish between inner and outer region
 
 		// return intial field if z>=zS
 		if (fabs(z) > zS){
-
 			if ((r == 0.)){
 				b.z = bX / ((1. + fabs(z) * cotThetaX0 / rXc) * (1. + fabs(z) * cotThetaX0 / rXc));
 				return b;
 			}
 
-			if (r < rc) {	
+			if (r < rc) {
 			// inner varying elevation region
-
 				rp = r * rXc / rc;
 				bMagX = bX * exp(-1 * rp / rX) * (rXc / rc) * (rXc / rc);
 
@@ -193,7 +188,6 @@ Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const 
 
 				// field strength at that position
 				 if (r0 < r0c){
-
 					 rp = r0 * rXc / r0c;
 					 double thetaX = atan(zS / (r0 - rp));
 
@@ -212,8 +206,8 @@ Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const 
 				 if (inner){
 					 f = 1. / ((1. - 1./( 2. + 2. * (rXc * tanThetaX0/ zS)) * (1. - (z / zS) * (z / zS))) * (1. - 1./( 2. + 2. * (rXc * tanThetaX0/ zS)) * (1. - (z / zS) * (z / zS))));
 				 }
-				 else{
-					 f = 1. + 1/ (2 * r * tanThetaX0/ zS) * (1. - (z / zS) * (z / zS)); 
+				 else {
+					 f = 1. + 1/ (2 * r * tanThetaX0/ zS) * (1. - (z / zS) * (z / zS));
 				 }
 
 				 double br = z / zS * f * br0;
@@ -247,7 +241,7 @@ double JF12FieldSolenoidal::getDiskTransitionPolynomial(const double& r) const {
 	// differentiable transition at r_s, continous at r_a
 	double fakt = (r_a / r_b - 2.) / ((r_a - r_b) *  (r_a - r_b));
 	return (r1/r_b) * (2. - r / r_b + fakt * (r-r_b) * (r-r_b));
-}	
+}
 
 double JF12FieldSolenoidal::getDiskTransitionPolynomialDerivative(const double& r) const {
 	// 0 disk field outside
@@ -273,14 +267,14 @@ double JF12FieldSolenoidal::getDiskTransitionPolynomialDerivative(const double& 
 
 double JF12FieldSolenoidal::getHPhiIntegral(const double& r, const double& phi) const {
 	// Evaluates the H(phi1) integral for solenoidality for the position (r,phi) which is mapped back to (r1=5kpc,phi1)
-	// along the spiral field line. 
+	// along the spiral field line.
 	double H_ret = 0.;
 	int idx = 1;
 
 	if ((r1 < r) && (r < r2)){
 		// find index of the correct spiral arm for (r1,phi1) just like in getSpiralFieldStrengthConstant
 		double phi1 = phi - log(r/r1) * cotPitch;
-		phi1 = atan2(sin(phi1) , cos(phi1)); 
+		phi1 = atan2(sin(phi1), cos(phi1));
 		while (phi1 < phi0Arms[idx]){
 			idx += 1;
 		}

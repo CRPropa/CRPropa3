@@ -53,7 +53,7 @@ before_script:
   - cd build
   - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
 script:
-  - make
+  - VERBOSE=1 make
   - make test
 after_failure:
   - cat Testing/Temporary/LastTest.log

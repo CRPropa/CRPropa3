@@ -18,12 +18,6 @@
 
 namespace Base64
 {
-
-		//Alphabet used
-		static const unsigned char encode_alphabet[65] =
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-		static int decode_alphabet[256] = {-1};
-
 		std::string encode(const unsigned char *src, size_t len);
 		std::string decode(const std::string &data);
 };

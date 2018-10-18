@@ -14,6 +14,7 @@
 #include <string>
 #include <cstring>
 #include <stdexcept>
+#include "crpropa/base64.h"
 
 namespace Base64
 {

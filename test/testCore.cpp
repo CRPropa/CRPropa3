@@ -148,7 +148,23 @@ TEST(ParticleID, isNucleus)
 	EXPECT_FALSE(isNucleus(11));
 }
 
+TEST(HepPID, consistencyWithReferenceImplementation){
+	// Tests the performance improved version against the default one
+	unsigned long testPID = rand() % 1000000000 + 1000000000;
+	for(size_t i=1; i < 8; i++)
+	{
+		HepPID::location loc = (HepPID::location) i;
+		unsigned short newResult = HepPID::digit(loc, testPID);
+		//original implementation
+		int numerator = (int) std::pow(10.0,(loc-1));
+		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
+	}
+}
 
+TEST(HepPID, charge)
+{
+	EXPECT_DOUBLE_EQ(HepPID::charge(11), -1.);
+}
 
 TEST(Candidate, currentStep) {
 	Candidate candidate;
@@ -271,18 +287,6 @@ TEST(common, interpolateEquidistant) {
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
 }
 
-TEST(PIDdigit, consistencyWithReferenceImplementation){
-	// Tests the performance improved version against the default one
-	unsigned long testPID = rand() % 1000000000 + 1000000000;
-	for(size_t i=1; i < 8; i++)
-	{
-		HepPID::location loc = (HepPID::location) i;
-		unsigned short newResult = HepPID::digit(loc, testPID);
-		//original implementation
-		int numerator = (int) std::pow(10.0,(loc-1));
-		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
-	}
-}
 
 TEST(Random, seed) {
 	Random &a = Random::instance();

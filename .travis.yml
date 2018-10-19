@@ -78,7 +78,7 @@ before_script:
   - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
   - cp data.tar.gz $HOME/crpropa_cache
 script:
-  - VERBOSE=1 make
+  - make
   - make test
 after_failure:
   - cat Testing/Temporary/LastTest.log

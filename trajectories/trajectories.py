@@ -22,7 +22,7 @@ Bfield = MagneticFieldGrid(vgrid)
 
 # print some properties of our field
 print 'Lc = %.1f kpc' % turbulentCorrelationLength(60, 800, -11./3.)  # correlation length
-print '<B^2> = %.1f nG' % (rmsFieldStrength(vgrid) / nG)   # RMS
+print 'sqrt(<B^2>) = %.1f nG' % (rmsFieldStrength(vgrid) / nG)   # RMS
 print '<|B|> = %.1f nG' % (meanFieldStrength(vgrid) / nG)  # mean
 print 'B(10 Mpc, 0, 0) =', Bfield.getField(Vector3d(10,0,0) * Mpc) / nG, 'nG'
 

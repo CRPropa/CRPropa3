@@ -51,7 +51,7 @@ public:
 	double getRigidity() const;
 
 	/// Set particle ID
-	void setId(int);
+	void setId(int newId);
 	/// Get particle ID
 	int getId() const;
 

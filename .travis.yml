@@ -54,6 +54,7 @@ matrix:
         - C_COMPILER='clang++'
         - Fortran_COMPILER='gfortran'
         - PYTHON_EXECUTABLE=/usr/bin/python
+        - CRPROPA_DATA_PATH=$TRAVIS_BUILD_DIR/build/data/
   allow_failures:
     - os : osx
 

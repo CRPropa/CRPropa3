@@ -30,7 +30,9 @@ matrix:
     - os : linux
       dist: trusty
       compiler: gcc
-      env: PYTHON_EXECUTABLE=/usr/bin/python3
+      env:
+        - PYTHON_EXECUTABLE=/usr/bin/python3
+        - BUILD_DOC=true
     - os : linux
       dist: trusty
       compiler: clang
@@ -62,7 +64,6 @@ before_install:
       HOMEBREW_NO_AUTO_UPDATE=1 brew install swig;
       HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true;
       HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc;
-
     fi;
 
 before_script:
@@ -82,9 +83,9 @@ script:
 after_failure:
   - cat Testing/Temporary/LastTest.log
 after_success:
-  - make doc
   - |
-    if [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_REPO_SLUG = "CRPropa/CRPropa3" ]; then
+    if [ $BUILD_DOC ] && [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_REPO_SLUG = "CRPropa/CRPropa3" ]; then
+      make doc
       openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
       chmod 600 travis_deploy
       eval "$(ssh-agent -s)"

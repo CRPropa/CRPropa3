@@ -394,6 +394,22 @@ TEST(PhotoDisintegration, allIsotopes) {
 	}
 }
 
+TEST(Photodisintegration, updateParticleParentProperties)
+{ // Issue: #204
+	PhotoDisintegration pd(CMB);
+
+	Candidate c(nucleusId(56,26), 500 * EeV, Vector3d(1 * Mpc, 0, 0));
+
+	pd.performInteraction(&c, 1);
+	// the candidates parent is the original particle
+	EXPECT_EQ(c.created.getId(), nucleusId(56,26));
+
+	pd.performInteraction(&c, 1);
+	// now it has to be changed
+	EXPECT_NE(c.created.getId(), nucleusId(56,26));
+}
+
+
 // ElasticScattering ----------------------------------------------------------
 TEST(ElasticScattering, allBackgrounds) {
 	// Test if interaction data files are loaded.

@@ -200,6 +200,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 }
 
 void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) const {
+	KISS_LOG_DEBUG << "Photodisintegration::performInteraction. Channel " <<  channel << " on candidate " << candidate->getDescription(); 
 	// parse disintegration channel
 	int nNeutron = digit(channel, 100000);
 	int nProton = digit(channel, 10000);
@@ -236,6 +237,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 
 
 	// update particle
+	  candidate->created = candidate->current;
 		candidate->current.setId(nucleusId(A + dA, Z + dZ));
 		candidate->current.setEnergy(EpA * (A + dA));
 	}

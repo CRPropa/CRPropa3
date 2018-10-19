@@ -126,6 +126,30 @@ TEST(ParticleState, lorentzFactor) {
 			1e12 * eV / mass_proton / c_squared);
 }
 
+TEST(ParticleID, nucleusId)
+{
+	EXPECT_EQ(nucleusId(3,2),1000020030 );
+}
+
+TEST(ParticleID, chargeNumber)
+{
+	EXPECT_EQ(chargeNumber(1000020030), 2);
+}
+
+TEST(ParticleID, massNumber)
+{
+	EXPECT_EQ(massNumber(2112), 1);
+	EXPECT_EQ(massNumber(1000020030), 3);
+}
+
+TEST(ParticleID, isNucleus)
+{
+	EXPECT_TRUE(isNucleus(1000020030));
+	EXPECT_FALSE(isNucleus(11));
+}
+
+
+
 TEST(Candidate, currentStep) {
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);

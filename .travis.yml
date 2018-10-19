@@ -54,6 +54,9 @@ matrix:
         - C_COMPILER='clang++'
         - Fortran_COMPILER='gfortran'
         - PYTHON_EXECUTABLE=/usr/bin/python
+  allow_failures:
+    - os : osx
+
 before_install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then

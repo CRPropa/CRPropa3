@@ -64,6 +64,15 @@
 
 #include "crpropa/advectionField/AdvectionField.h"
 
+#include "crpropa/Massdistribution/Density.h"
+#include "crpropa/Massdistribution/Nakanishi.h"
+#include "crpropa/Massdistribution/Cordes.h"
+#include "crpropa/Massdistribution/Massdistribution.h"
+#include "crpropa/Massdistribution/Ferriere.h"
+#include "crpropa/Massdistribution/Pohl.h"
+#include "crpropa/Massdistribution/ConstantDensity.h"
+
+
 
 // Groups of Modules for Doxygen
 

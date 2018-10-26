@@ -1,4 +1,4 @@
-#include "crpropa/Massdistribution/ConstantDensity.h"
+#include "crpropa/massdistribution/ConstantDensity.h"
 
 namespace crpropa{
 

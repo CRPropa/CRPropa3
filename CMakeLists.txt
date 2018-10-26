@@ -377,12 +377,12 @@ add_library(crpropa SHARED
 	src/magneticField/PT11Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
 	src/advectionField/AdvectionField.cpp
-	src/Massdistribution/Nakanishi.cpp
-	src/Massdistribution/Massdistribution.cpp
-	src/Massdistribution/Ferriere.cpp
-	src/Massdistribution/Cordes.cpp
-	src/Massdistribution/Pohl.cpp
-	src/Massdistribution/ConstantDensity.cpp
+	src/massdistribution/Nakanishi.cpp
+	src/massdistribution/Massdistribution.cpp
+	src/massdistribution/Ferriere.cpp
+	src/massdistribution/Cordes.cpp
+	src/massdistribution/Pohl.cpp
+	src/massdistribution/ConstantDensity.cpp
 
 	${CRPROPA_EXTRA_SOURCES}
 )

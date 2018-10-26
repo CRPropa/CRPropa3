@@ -287,7 +287,7 @@
 
 %implicitconv crpropa::ref_ptr<crpropa::Density>;
 %template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
-%include "crpropa/Massdistribution/Density.h"
+%include "crpropa/massdistribution/Density.h"
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
@@ -540,11 +540,11 @@ class ParticleCollectorIterator {
 
 %include "crpropa/module/ParticleCollector.h"
 
-%include "crpropa/Massdistribution/Density.h"
-%include "crpropa/Massdistribution/Nakanishi.h"
-%include "crpropa/Massdistribution/Cordes.h"
-%include "crpropa/Massdistribution/Ferriere.h"
-%include "crpropa/Massdistribution/Pohl.h"
-%include "crpropa/Massdistribution/Massdistribution.h"
-%include "crpropa/Massdistribution/ConstantDensity.h"
+%include "crpropa/massdistribution/Density.h"
+%include "crpropa/massdistribution/Nakanishi.h"
+%include "crpropa/massdistribution/Cordes.h"
+%include "crpropa/massdistribution/Ferriere.h"
+%include "crpropa/massdistribution/Pohl.h"
+%include "crpropa/massdistribution/Massdistribution.h"
+%include "crpropa/massdistribution/ConstantDensity.h"
 

@@ -3,7 +3,7 @@
 
 #include "crpropa/Units.h"
 #include "crpropa/Vector3.h"
-#include "crpropa/Massdistribution/Density.h"
+#include "crpropa/massdistribution/Density.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
 

@@ -1,4 +1,4 @@
-#include "crpropa/Massdistribution/Cordes.h"
+#include "crpropa/massdistribution/Cordes.h"
 
 namespace crpropa {
 

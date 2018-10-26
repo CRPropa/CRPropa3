@@ -1,4 +1,4 @@
-#include "crpropa/Massdistribution/Nakanishi.h"
+#include "crpropa/massdistribution/Nakanishi.h"
 
 namespace crpropa{ 
 

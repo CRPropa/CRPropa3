@@ -1,4 +1,4 @@
-#include "crpropa/Massdistribution/Pohl.h"
+#include "crpropa/massdistribution/Pohl.h"
 #include "crpropa/Module.h"
 
 

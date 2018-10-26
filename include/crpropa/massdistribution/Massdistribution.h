@@ -4,7 +4,7 @@
 
 #include "crpropa/Units.h"
 #include "crpropa/Vector3.h"
-#include "crpropa/Massdistribution/Density.h"
+#include "crpropa/massdistribution/Density.h"
 
 #include <string>
 #include <vector>
@@ -63,7 +63,7 @@ public:
 
 class DensityList: public Density {
 
-std::vector<ref_ptr<Density>> DensityList ;
+std::vector<ref_ptr<Density> > DensityList ;
 
 public:
 	void addDensity(ref_ptr<Density> density);

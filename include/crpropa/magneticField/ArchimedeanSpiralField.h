@@ -26,14 +26,14 @@ See e.g. Jokipii, Levy & Hubbard 1977
 
 class ArchimedeanSpiralField: public MagneticField {
 private:
-	double B_0; // Magnetic field strength at reference level
+	double B_0; // Magnetic field strength in radial direction at R_0
 	double R_0; // Reference level
 	double Omega; // Angular velocity of the rotation
 	double V_w; // Asymptotic wind speed
 
 public:
 /** Constructor
-	@param B_0	Magnetic field strength at reference level
+	@param B_0	Magnetic field strength in radial direction at R_0
 	@param R_0	Reference level
 	@param Omega	Angular velocity of the rotation
 	@param V_w	Asymptotic wind speed

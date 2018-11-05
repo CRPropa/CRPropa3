@@ -30,8 +30,8 @@ Vector3d ArchimedeanSpiralField::getField(const Vector3d &pos) const {
 	
 	// azimuthal direction	
 	double C2 = - (Omega*R_0*R_0*sin_theta) / (r*V_w);
-	B.x += C2 * (-sin_phi) * sin_theta;
-	B.y += C2 * cos_phi * sin_theta;
+	B.x += C2 * (-sin_phi);
+	B.y += C2 * cos_phi;
 
 	// magnetic field switch at z = 0
 	if (pos.z<0.) {

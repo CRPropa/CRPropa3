@@ -381,7 +381,6 @@ add_library(crpropa SHARED
 	src/massdistribution/Massdistribution.cpp
 	src/massdistribution/Ferriere.cpp
 	src/massdistribution/Cordes.cpp
-	src/massdistribution/Pohl.cpp
 	src/massdistribution/ConstantDensity.cpp
 
 	${CRPROPA_EXTRA_SOURCES}

@@ -69,7 +69,6 @@
 #include "crpropa/massdistribution/Cordes.h"
 #include "crpropa/massdistribution/Massdistribution.h"
 #include "crpropa/massdistribution/Ferriere.h"
-#include "crpropa/massdistribution/Pohl.h"
 #include "crpropa/massdistribution/ConstantDensity.h"
 
 

@@ -284,50 +284,6 @@ TEST(testFerriere, SimpleTest) {
 	EXPECT_DOUBLE_EQ(n.getNucleonDensity(p),0);
 }
 
-TEST(testPohl,SimpleTest) {
-	
-	Pohl n;
 
-	//check type information
-	EXPECT_TRUE(n.getisforHI());
-	EXPECT_FALSE(n.getisforHII());
-	EXPECT_TRUE(n.getisforH2());
-
-	//test boundary of grid
-	Vector3d px(50*kpc,10*kpc,5*pc);
-	EXPECT_DOUBLE_EQ(n.getHIDensity(px),0);
-	EXPECT_DOUBLE_EQ(n.getH2Density(px),0);
-	
-	Vector3d py(5*kpc,30*kpc,0.5*kpc);
-	EXPECT_DOUBLE_EQ(n.getHIDensity(py),0);
-	EXPECT_DOUBLE_EQ(n.getH2Density(py),0);
-	
-	Vector3d pz(5*kpc,5*kpc,2*kpc);
-	EXPECT_DOUBLE_EQ(n.getHIDensity(pz),0);
-	EXPECT_DOUBLE_EQ(n.getH2Density(pz),0);
-	
-	//check position in Grid
-	Vector3d p(-1*kpc,1*kpc,0.25*kpc);
-	EXPECT_NEAR(n.getHIDensity(p),6745,1);	// uncertaincy of 1e-6 cm^-3
-	EXPECT_NEAR(n.getH2Density(p),23500,1);
-	EXPECT_NEAR(n.getDensity(p),30245,1);
-	EXPECT_NEAR(n.getNucleonDensity(p),53745,1);
-		
-	//test set type funktion
-	n.setisforHI(false);
-	EXPECT_FALSE(n.getisforHI());
-	EXPECT_FALSE(n.getisforHII());
-	EXPECT_TRUE(n.getisforH2());
-	
-	n.setisforH2(false);
-	EXPECT_FALSE(n.getisforHI());
-	EXPECT_FALSE(n.getisforHII());
-	EXPECT_FALSE(n.getisforH2());
-	
-	//check if density is set to zero when all densties are deaktivated (sould give Warning in log-File)
-	EXPECT_DOUBLE_EQ(n.getDensity(p),0);
-	EXPECT_DOUBLE_EQ(n.getNucleonDensity(p),0);
-	
-}
 
 } //namespace crpropa

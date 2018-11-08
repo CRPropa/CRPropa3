@@ -1,4 +1,4 @@
-#include "crpropa/massdistribution/Cordes.h"
+#include "crpropa/massDistribution/Cordes.h"
 
 namespace crpropa {
 
@@ -7,15 +7,15 @@ namespace crpropa {
 double Cordes::getHIIDensity(const Vector3d &position) const {
 	
 	
-	double n=0;
+	double n=0;  // in m^-3
 	
 	double z=position.z;
 	double R = sqrt(position.x*position.x+position.y*position.y);	//radius in galactic disk
 	
-	n += 0.025*exp(-fabs(z)/(1*kpc))*exp(-pow(R/(20*kpc),2));	//galactocentric component
-	n += 0.2*exp(-fabs(z)/(0.15*kpc))*exp(-pow((R-4*kpc)/(2*kpc),2));	//anular component
+	n += 0.025/ccm*exp(-fabs(z)/(1*kpc))*exp(-pow(R/(20*kpc),2));	//galactocentric component
+	n += 0.2/ccm*exp(-fabs(z)/(0.15*kpc))*exp(-pow((R-4*kpc)/(2*kpc),2));	//anular component
 
-	return n/ccm;
+	return n;
 }
 
 double Cordes::getDensity(const Vector3d &position) const {

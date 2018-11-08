@@ -1,4 +1,4 @@
-#include "crpropa/massdistribution/Massdistribution.h"
+#include "crpropa/massDistribution/Massdistribution.h"
 
 
 namespace crpropa {

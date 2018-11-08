@@ -1,10 +1,7 @@
 #ifndef CRPROPA_MASSDISTRIBUTION_H
 #define CRPROPA_MASSDISTRIBUTION_H
 
-
-#include "crpropa/Units.h"
-#include "crpropa/Vector3.h"
-#include "crpropa/massdistribution/Density.h"
+#include "crpropa/massDistribution/Density.h"
 
 #include <string>
 #include <vector>

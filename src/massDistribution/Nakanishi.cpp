@@ -1,4 +1,4 @@
-#include "crpropa/massdistribution/Nakanishi.h"
+#include "crpropa/massDistribution/Nakanishi.h"
 
 namespace crpropa{ 
 
@@ -7,15 +7,15 @@ namespace crpropa{
 double Nakanishi::getHIScaleheight(const Vector3d &position) const{
 	
 	double R = sqrt(pow(position.x,2)+pow(position.y,2));	//radius in galactic plane
-	double scaleheight = 1.06*(116.3 +19.3*R/kpc+4.1*pow(R/kpc,2)-0.05*pow(R/kpc,3));
-	return scaleheight*pc;
+	double scaleheight = 1.06*pc*(116.3 +19.3*R/kpc+4.1*pow(R/kpc,2)-0.05*pow(R/kpc,3));
+	return scaleheight;
 	}
 
 double Nakanishi::getHIPlanedensity(const Vector3d &position) const {
 	
 	double R = sqrt(pow(position.x,2)+pow(position.y,2));	//radius in galactic plane
-	double planedensity = 0.94*(0.6*exp(-R/(2.4*kpc))+0.24*exp(-pow((R-9.5*kpc)/(4.8*kpc),2)));
-	return planedensity/ccm;
+	double planedensity = 0.94/ccm*(0.6*exp(-R/(2.4*kpc))+0.24*exp(-pow((R-9.5*kpc)/(4.8*kpc),2)));
+	return planedensity;
 	}
 
 
@@ -23,15 +23,15 @@ double Nakanishi::getH2Scaleheight(const Vector3d &position) const {
 
 
 	double R = sqrt(pow(position.x,2)+ pow(position.y,2)); //radius in galactic plane
-	double scaleheight = 1.06*( 10.8*exp(0.28*R/kpc)+42.78);
-	return scaleheight*pc;
+	double scaleheight = 1.06*pc*( 10.8*exp(0.28*R/kpc)+42.78);
+	return scaleheight;
 }
 
 double Nakanishi::getH2Planedensity(const Vector3d &position) const {
 
 	double R = sqrt(pow(position.x,2)+pow(position.y,2)); //radius in galactic plane
-	double planedensity = 11.2*exp(-pow(R,2)/(0.874*kpc*kpc)) +0.83*exp(-pow((R-4*kpc)/(3.2*kpc),2));
-	return 0.94/ccm*planedensity;
+	double planedensity =0.94/ccm*(11.2*exp(-pow(R,2)/(0.874*kpc*kpc)) +0.83*exp(-pow((R-4*kpc)/(3.2*kpc),2)));
+	return planedensity;
 }
 
 double Nakanishi::getHIDensity(const Vector3d &position) const {
@@ -52,9 +52,6 @@ double Nakanishi::getH2Density(const Vector3d &position) const {
 	double scaleheight = getH2Scaleheight(position);
 	n= planedensity*pow(0.5,pow(position.z/scaleheight,2));
 	
-	// check if density is NAN
-	// return 0 instead and give warning 
-	bool NaN = std::isnan(n);
 	return n;
 }
 	

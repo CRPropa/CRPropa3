@@ -1,9 +1,7 @@
 #ifndef CRPROPA_CONSTANTDENSITY_H
 #define CRPROPA_CONSTANTDENSITY_H
 
-#include "crpropa/Units.h"
-#include "crpropa/Vector3.h"
-#include "crpropa/massdistribution/Density.h"
+#include "crpropa/massDistribution/Density.h"
 
 #include <math.h>
 #include <sstream>

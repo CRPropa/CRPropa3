@@ -205,7 +205,7 @@ void HDF5Output::open(const std::string& filename) {
 
 	// add ranom seeds
 	std::vector< std::vector<uint32_t> > seeds = Random::getSeedThreads();
-	for (size_t i =0; i < seeds.size(); i++)
+	for (size_t i = 0; i < seeds.size(); i++)
 	{
 		hid_t   type, attr_space, version_attr;
 		herr_t  status;
@@ -216,9 +216,9 @@ void HDF5Output::open(const std::string& filename) {
 
 		attr_space = H5Screate_simple(0, dims, NULL);
 		char nameBuffer[256];
-		sprintf(nameBuffer, "SEED_%03i", i);
+		sprintf(nameBuffer, "SEED_%03lu", i);
 		KISS_LOG_DEBUG << "Creating HDF5 attribute: " << nameBuffer << " with dimensions " << dims[0] << "x" << dims[1] ;
-		
+
 		version_attr = H5Acreate2(dset, nameBuffer, type, attr_space, H5P_DEFAULT, H5P_DEFAULT);
 		status = H5Awrite(version_attr, type, &seeds[i][0]);
 		status = H5Aclose(version_attr);
@@ -379,7 +379,7 @@ std::string HDF5Output::getDescription() const  {
 
 void HDF5Output::setFlushLimit(unsigned int N)
 {
-	flushLimit = N;	
+	flushLimit = N;
 }
 
 } // namespace crpropa

@@ -3,11 +3,10 @@
 
 #include "crpropa/massDistribution/Density.h"
 
-#include <math.h>
+#include <cmath>
 #include <sstream>
 
 #include "kiss/logger.h"
-
 
 namespace crpropa {
 
@@ -37,9 +36,9 @@ public:
 	double getH2Density(const Vector3d &position) const;
 	double getNucleonDensity(const Vector3d &position) const;
 	
-	bool getisforHI();
-	bool getisforHII();
-	bool getisforH2();
+	bool getIsForHI();
+	bool getIsForHII();
+	bool getIsForH2();
 	
 	void setHI(bool activate, double densitynumber);
 	void setHI(bool activate);	//change type status and keep densitynumber as it is

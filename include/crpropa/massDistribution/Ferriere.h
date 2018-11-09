@@ -3,11 +3,10 @@
 
 #include "crpropa/massDistribution/Density.h"
 
-#include <math.h>
+#include <cmath>
 #include <sstream>
 
 #include "kiss/logger.h"
-
 
 namespace crpropa {
 /**
@@ -19,7 +18,6 @@ namespace crpropa {
 outer: ApJ, 497, 759
 inner:	arxiv:	astro-ph/0702532
 */
-
 class Ferriere: public Density {
 
 private:
@@ -29,7 +27,6 @@ private:
 	bool isforH2 = true;
 	double Rsun = 8500*pc;	// distance sun-galactic center
 	
-
 public:
 	Vector3d CMZTrafo(const Vector3d &position) const; // coordinate trafo for the CentralMolecularZone Region
 	Vector3d DISKTrafo(const Vector3d &position) const; // coordinate trafo for the region of the disk in galactic center
@@ -40,16 +37,15 @@ public:
 	double getH2Density(const Vector3d &position) const;
 	double getNucleonDensity(const Vector3d &position) const;
 
-	void setisforHI(bool HI);
-	void setisforHII(bool HII);
-	void setisforH2(bool H2);
+	void setIsForHI(bool HI);
+	void setIsForHII(bool HII);
+	void setIsForH2(bool H2);
 	
-	bool getisforHI();
-	bool getisforHII();
-	bool getisforH2();
+	bool getIsForHI();
+	bool getIsForHII();
+	bool getIsForH2();
 	
 	std::string getDescription();
-	
 };
 
 }//namespace crpropa

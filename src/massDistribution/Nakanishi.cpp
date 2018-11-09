@@ -2,8 +2,6 @@
 
 namespace crpropa{ 
 
-
-
 double Nakanishi::getHIScaleheight(const Vector3d &position) const{
 	
 	double R = sqrt(pow(position.x,2)+pow(position.y,2));	//radius in galactic plane
@@ -21,7 +19,6 @@ double Nakanishi::getHIPlanedensity(const Vector3d &position) const {
 
 double Nakanishi::getH2Scaleheight(const Vector3d &position) const {
 
-
 	double R = sqrt(pow(position.x,2)+ pow(position.y,2)); //radius in galactic plane
 	double scaleheight = 1.06*pc*( 10.8*exp(0.28*R/kpc)+42.78);
 	return scaleheight;
@@ -30,7 +27,7 @@ double Nakanishi::getH2Scaleheight(const Vector3d &position) const {
 double Nakanishi::getH2Planedensity(const Vector3d &position) const {
 
 	double R = sqrt(pow(position.x,2)+pow(position.y,2)); //radius in galactic plane
-	double planedensity =0.94/ccm*(11.2*exp(-pow(R,2)/(0.874*kpc*kpc)) +0.83*exp(-pow((R-4*kpc)/(3.2*kpc),2)));
+	double planedensity =0.94/ccm*(11.2*exp(-R*R/(0.874*kpc*kpc)) +0.83*exp(-pow((R-4*kpc)/(3.2*kpc),2)));
 	return planedensity;
 }
 
@@ -40,8 +37,7 @@ double Nakanishi::getHIDensity(const Vector3d &position) const {
 	double planedensity = getHIPlanedensity(position);
 	double scaleheight = getHIScaleheight(position);
 	n= planedensity*pow(0.5,pow(position.z/scaleheight,2));
-	
-	
+		
 	return n;
 }
 
@@ -55,7 +51,6 @@ double Nakanishi::getH2Density(const Vector3d &position) const {
 	return n;
 }
 	
-
 double Nakanishi::getDensity(const Vector3d &position) const {
 	double n = 0;
 	if(isforHI)
@@ -97,22 +92,22 @@ double Nakanishi::getNucleonDensity(const Vector3d &position) const {
 	return n;
 }
 
-bool Nakanishi::getisforHI() {
+bool Nakanishi::getIsForHI() {
 	return isforHI;
 }
 
-bool Nakanishi::getisforHII() {
+bool Nakanishi::getIsForHII() {
 	return isforHII;
 }
-bool Nakanishi::getisforH2() {
+bool Nakanishi::getIsForH2() {
 	return isforH2;
 }
 
-void Nakanishi::setisforHI(bool HI) {
+void Nakanishi::setIsForHI(bool HI) {
 	isforHI = HI;
 }
 
-void Nakanishi::setisforH2(bool H2) {
+void Nakanishi::setIsForH2(bool H2) {
 	isforH2 = H2;
 }
 
@@ -130,6 +125,5 @@ std::string Nakanishi::getDescription() {
 	
 	return s.str();
 }
-
 
 } //namespace crpropa

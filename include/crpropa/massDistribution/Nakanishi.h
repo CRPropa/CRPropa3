@@ -3,8 +3,7 @@
 
 #include "crpropa/massDistribution/Density.h"
 
-
-#include <math.h>
+#include <cmath>
 #include <sstream>
 
 #include "kiss/logger.h"
@@ -18,14 +17,12 @@ class Nakanishi: public Density{
 	Modell for H2 arxiv:astro-ph/0610769
 	fit of the models given in arXiv:1607.07886
 */ 
-
 private:
 	bool isforHI = true;
 	bool isforHII = false;
 	bool isforH2 = true;
 
 public:
-
 	double getDensity(const Vector3d &position)const;
 	double getNucleonDensity(const Vector3d &position)const;
 	double getHIDensity(const Vector3d &position)const;
@@ -37,13 +34,12 @@ public:
 	double getH2Scaleheight(const Vector3d &position)const;
 	double getH2Planedensity(const Vector3d &position)const;
 
-
-	bool getisforHI();
-	bool getisforHII();
-	bool getisforH2();
+	bool getIsForHI();
+	bool getIsForHII();
+	bool getIsForH2();
 	
-	void setisforHI(bool HI);
-	void setisforH2(bool H2);
+	void setIsForHI(bool HI);
+	void setIsForH2(bool H2);
 	
 	std::string getDescription();
 };

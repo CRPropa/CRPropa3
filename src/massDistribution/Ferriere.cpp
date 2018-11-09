@@ -2,7 +2,6 @@
 
 namespace crpropa {
 
-
 Vector3d Ferriere::CMZTrafo(const Vector3d &position) const {
 	
 	// set galactocentric coordinate system with the Sun at (-8.5,0.,0.) instead of (8.5, 0, 0) to be consistand with JF12 implementation
@@ -11,16 +10,14 @@ Vector3d Ferriere::CMZTrafo(const Vector3d &position) const {
 	
 	double xC = -50*pc;		//offset
 	double yC = 50*pc;	
-	double sinTc = sin(70./180.*M_PI);	//Tc = 70 deg
-	double cosTc = cos(70./180.*M_PI);
-	
+	double sinTc = sin(70.*deg);	
+	double cosTc = cos(70.*deg);
 	
 	Vector3d pos;
 	pos.x = (x - xC)*cosTc + (y - yC)*sinTc;
 	pos.y = -(x - xC)*sinTc + (y - yC)*cosTc;
 	pos.z = position.z;
 		
-	
 	return pos;
 }
 
@@ -31,20 +28,17 @@ Vector3d Ferriere::DISKTrafo(const Vector3d &position) const {
 	double y = - position.y;
 	double z = position.z;
 	
-	double alphaD = 13.5/180.*M_PI;	// rotation arround x-axis
+	double alphaD = 13.5*deg;	// rotation arround x-axis
 	double sinAd = sin(alphaD);
 	double cosAd = cos(alphaD);
-	double betaD = 20./180.*M_PI; // rotation arround y'-axis
+	double betaD = 20.*deg; // rotation arround y'-axis
 	double sinBd = sin(betaD);
 	double cosBd = cos(betaD);
-	double TettaD = 48.5/180.*M_PI; // rotation arround x"-axis
+	double TettaD = 48.5*deg; // rotation arround x"-axis
 	double sinTd = sin(TettaD);
 	double cosTd = cos(TettaD);
 	
 	Vector3d pos;
-	
-
-
 	
 	pos.x = x*cosBd*cosTd - y*(sinAd*sinBd*cosTd -cosAd*sinTd)-z*(cosAd*sinBd*cosTd +sinAd*sinTd);
 	
@@ -59,36 +53,30 @@ Vector3d Ferriere::DISKTrafo(const Vector3d &position) const {
 	return pos;
 }
 	
-	
-
-
 double Ferriere::getHIDensity(const Vector3d &position) const {
 	
 	double n = 0;
 	double R = sqrt(position.x*position.x+position.y*position.y);	
-	bool inner = R<3*kpc;
 	
-	if(inner == true) 
+	if(R<3*kpc) 
 	{
-		double nCMZ = 0;	//density center in m^-3
-		
+		// density at center
 		Vector3d pos = CMZTrafo(position);	//coordinate trafo
 		double x = pos.x/pc;	// all units in pc
 		double y = pos.y/pc;
 		double z = pos.z/pc;
 		
 		double A = sqrt(x*x+2.5*2.5*y*y);
-		nCMZ = 8.8/ccm*exp(-pow((A-125.)/137,4))*exp(-pow(z/54.,2));
+		double nCMZ = 8.8/ccm*exp(-pow((A-125.)/137,4))*exp(-pow(z/54.,2));
 		
-		double nDisk = 0;		//density disk in m^-3
-		
+		// density in disk
 		pos = DISKTrafo(position);	//Koordinaten Trafo
 		x = pos.x/pc;	// all units in pc
 		y = pos.y/pc;
 		z = pos.z/pc;
 		
 		A = sqrt(x*x+3.1*3.1*y*y);
-		nDisk = 0.34/ccm*exp(-pow((A-1200.)/438.,4))*exp(-pow(z/120,2));
+		double nDisk = 0.34/ccm*exp(-pow((A-1200.)/438.,4))*exp(-pow(z/120,2));
 		
 		n = nCMZ + nDisk;
 	}
@@ -103,16 +91,12 @@ double Ferriere::getHIDensity(const Vector3d &position) const {
 			a = R/Rsun;
 		}
 		
-		
-		double nCold = 0;	//cold HI
-		nCold += 0.859*exp(-pow(z/(127*a),2));
+		double nCold = 0.859*exp(-pow(z/(127*a),2));	//cold HI
 		nCold += 0.047*exp(-pow(z/(318*a),2));
 		nCold += 0.094*exp(-fabs(z)/(403*a));
 		nCold *= 0.340/ccm/(a*a);
 		
-		
-		double nWarm = 0;	//warm HI
-		nWarm += (1.745 - 1.289/a)*exp(-pow(z/(127*a),2));
+		double nWarm = (1.745 - 1.289/a)*exp(-pow(z/(127*a),2));	//warm HI
 		nWarm += (0.473 - 0.070/a)*exp(-pow(z/(318*a),2));
 		nWarm += (0.283 - 0.142/a)*exp(-fabs(z)/(403*a));
 		nWarm *= 0.226/ccm/a;
@@ -128,35 +112,28 @@ double Ferriere::getHIIDensity(const Vector3d &position) const {
 
 	double n = 0;
 	double R = sqrt(position.x*position.x+position.y*position.y);
-	bool inner = R< 3*kpc;
 		
-	if(inner == true){   //inner
+	if(R< 3*kpc){   //inner
 	
 	double x = position.x/pc;
 	double y = position.y/pc;
 	double z = position.z/pc;
 	
 	//warm interstellar matter
-	double nWIM = 0;		
-	
 	double H = (x*x + pow(y+10.,2))/(145*145);
-	nWIM += exp(-H)* exp(-pow(z+20.,2)/(26*26));
+	double nWIM = exp(-H)* exp(-pow(z+20.,2)/(26*26));
 	nWIM += 0.009*exp(-pow((R/pc-3700)/(0.5*3700),2))*1/pow(cosh(z/140.),2);
 	nWIM += 0.005*cos(M_PI*R/pc*0.5/17000)*1/pow(cosh(z/950.),2);
-	double n3 = nWIM;
-	
 	nWIM *= 8.0/ccm;	//rescaling with density at center
 	
-	
 	//very hot interstellar matter
-	double nVHIM = 0;
-	double alphaVH = 21./180*M_PI;		//angle for very hot IM in radiant 
+	double alphaVH = 21.*deg;		//angle for very hot IM in radiant 
 	double cosA = cos(alphaVH);
 	double sinA = sin(alphaVH);
 	double etta = y*cosA+z*sinA;		// coordinate transformation for VHIM along major axis
 	double chi = -y*sinA+z*cosA;
 	
-	nVHIM = 0.29/ccm*exp(-((x*x+etta*etta)/(162.*162.)+chi*chi/(90*90)));
+	double nVHIM = 0.29/ccm*exp(-((x*x+etta*etta)/(162.*162.)+chi*chi/(90*90)));
 	
 	n = nWIM + nVHIM;
 
@@ -165,52 +142,46 @@ double Ferriere::getHIIDensity(const Vector3d &position) const {
 		
 		double z = position.z;
 		
-		double nWarm = 0;
-		nWarm += 0.0237/ccm*exp(-(pow(R,2)-pow(Rsun,2))/pow(37*kpc,2))*exp(-fabs(z)/(1*kpc));
+		double nWarm = 0.0237/ccm*exp(-(R*R-Rsun*Rsun)/pow(37*kpc,2))*exp(-fabs(z)/(1*kpc));
 		nWarm += 0.0013/ccm*exp(-(pow(R-4*kpc,2)-pow(Rsun-4*kpc,2))/pow(2*kpc,2))*exp(-fabs(z)/(150*pc));
 		
-		double nHot = 0;
-		nHot += 0.12*exp(-(R-Rsun)/(4.9*kpc));
+		double nHot = 0.12*exp(-(R-Rsun)/(4.9*kpc));
 		nHot += 0.88*exp(-(pow(R-4.5*kpc,2)-pow(Rsun-4.5*kpc,2))/pow(2.9*kpc,2));
 		nHot *= pow(R/Rsun, -1.65);
 		nHot *= exp(-fabs(z)/((1500*pc)*pow(R/Rsun,1.65)));
 		nHot *= 4.8e-4/ccm;
 		
-		n= nWarm + nHot;
-		
+		n= nWarm + nHot;		
 	}
 		
 	return n;
 }
 
-
 double Ferriere::getH2Density(const Vector3d &position) const{
 
 	double n=0;
-	double R=sqrt(pow(position.x,2)+pow(position.y,2));
-	bool inner = R<3*kpc;	
+	double R=sqrt(position.x*position.x+position.y*position.y);
 	
-	if(inner == true) {		
-	
-		double nCMZ = 0;
-		double nDISK = 0;
-		
+	if(R<3*kpc) {		
+
+		//density at center	
 		Vector3d pos =CMZTrafo(position); // coord trafo for CMZ
 		double x = pos.x/pc;	// all units in pc
 		double y = pos.y/pc;
 		double z = pos.z/pc;
 		
-		double A = sqrt(pow(x,2)+pow(2.5*y,2));	// ellipticity
-		nCMZ = exp(-pow((A-125.)/137.,4))*exp(-pow(z/18.,2));
+		double A = sqrt(x*x+pow(2.5*y,2));	// ellipticity
+		double nCMZ = exp(-pow((A-125.)/137.,4))*exp(-pow(z/18.,2));
 		nCMZ *= 150/ccm;		// rescaling
 		
+		//density in disk
 		pos = DISKTrafo(position);	// coord trafo for disk
 		x=pos.x/pc;
 		y=pos.y/pc;
 		z=pos.z/pc;
 		
-		A = sqrt(pow(x,2)+pow(3.1*y,2));
-		nDISK = exp(-pow((A-1200)/438,4))*exp(-pow(z/42,2));
+		A = sqrt(x*x+pow(3.1*y,2));
+		double nDISK = exp(-pow((A-1200)/438,4))*exp(-pow(z/42,2));
 		nDISK *= 4.8/ccm;		//rescaling
 		
 		n = nCMZ + nDISK;
@@ -240,9 +211,7 @@ double Ferriere::getDensity(const Vector3d &position) const{
 	}
 	
 	//check if any density is activ and give warning if not
-	bool anyDensityActive = isforHI||isforHII||isforH2;
-
-	if(anyDensityActive == false){
+	if(isforHI||isforHII||isforH2 == false){
 		KISS_LOG_WARNING
 			<< "\n called getDensity on deactivated Ferriere \n"
 			<< "returned 0 density\n"
@@ -266,9 +235,7 @@ double Ferriere::getNucleonDensity(const Vector3d &position) const{
 	}
 	
 	//check if any density is activ and give warning if not
-	bool anyDensityActive = isforHI||isforHII||isforH2;
-
-	if(anyDensityActive == false){
+	if(isforHI||isforHII||isforH2 == false){
 		KISS_LOG_WARNING
 			<< "\n called getDensity on deactivated ConstantDensity \n"
 			<< "returned 0 density\n"
@@ -278,33 +245,32 @@ double Ferriere::getNucleonDensity(const Vector3d &position) const{
 	return n;
 }
 
-
-void Ferriere::setisforHI(bool HI){
+void Ferriere::setIsForHI(bool HI){
 
 	isforHI = HI;
 }
 
-void Ferriere::setisforHII(bool HII){
+void Ferriere::setIsForHII(bool HII){
 	
 	isforHII = HII;
 }
 
-void Ferriere::setisforH2(bool H2){
+void Ferriere::setIsForH2(bool H2){
 	
 	isforH2 = H2;
 }
 
-bool Ferriere::getisforHI(){
+bool Ferriere::getIsForHI(){
 	
 	return isforHI;
 }
 
-bool Ferriere::getisforHII(){
+bool Ferriere::getIsForHII(){
 	
 	return isforHII;
 }
 	
-bool Ferriere::getisforH2(){
+bool Ferriere::getIsForH2(){
 	
 	return isforH2;
 }
@@ -325,6 +291,4 @@ std::string Ferriere::getDescription() {
 	s<<"activ.";
 	return s.str();
 }
-
-
 } //namespace 

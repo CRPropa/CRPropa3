@@ -57,6 +57,7 @@ public:
 		Trajectory3D,
 		Event1D,
  		Event3D,
+		PhotonOutput1D,
 		Everything
 	};
 

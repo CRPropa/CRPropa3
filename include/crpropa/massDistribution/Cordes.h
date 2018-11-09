@@ -3,7 +3,7 @@
 
 #include "crpropa/massDistribution/Density.h"
 
-#include <math.h>
+#include <cmath>
 #include <sstream>
 
 #include "kiss/logger.h"
@@ -14,7 +14,6 @@ namespace crpropa {
 	@brief Density for HII 
 	Cordes et al., 1991, Nature 353,737
 	*/
-
 class Cordes: public Density {
 
 private:
@@ -24,17 +23,15 @@ private:
 	bool isforH2 = false;	
 
 public:
-
 	double getDensity(const Vector3d &position) const;
 	double getHIIDensity(const Vector3d &position) const;
 	double getNucleonDensity(const Vector3d &position) const;
 	
-	bool getisforHI();
-	bool getisforHII();
-	bool getisforH2();
+	bool getIsForHI();
+	bool getIsForHII();
+	bool getIsForH2();
 	
-	std::string getDescription();
-	
+	std::string getDescription();	
 };
 
 } //namespace

@@ -30,17 +30,16 @@ class Density: public Referenced {
   	return 0;
   };
   
-  virtual bool getisforHI() {
+  virtual bool getIsForHI() {
   	return false;
   }
-  virtual bool getisforHII() {
+  virtual bool getIsForHII() {
   	return false;
   }
-  virtual bool getisforH2() {
+  virtual bool getIsForH2() {
   	return false;
   }
 };
-
 
 }//namespace crpropa
 

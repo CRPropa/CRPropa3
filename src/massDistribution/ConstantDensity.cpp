@@ -13,8 +13,8 @@ ConstantDensity::ConstantDensity(double HI, double HII, double H2) {
 		setH2(true, H2);
 }
 
-
 double ConstantDensity::getDensity(const Vector3d &position) const {
+
 	double n = 0;
 				
 	if(isHI) 
@@ -74,17 +74,17 @@ double ConstantDensity::getH2Density(const Vector3d &position) const{
 	return H2densitynumber;
 }
 
-bool ConstantDensity::getisforHI() {
+bool ConstantDensity::getIsForHI() {
 
 	return isHI;
 }
 
-bool ConstantDensity::getisforHII() {
+bool ConstantDensity::getIsForHII() {
 
 	return isHII;
 }
 
-bool ConstantDensity::getisforH2() {
+bool ConstantDensity::getIsForH2() {
 
 	return isH2;
 }
@@ -102,7 +102,6 @@ void ConstantDensity::setHI(bool activate) {
 void ConstantDensity::setHI(double densitynumber) {
 	setHI(isHI, densitynumber);	
 }
-
 
 void ConstantDensity::setHII(bool activate, double densitynumber) {
 
@@ -123,6 +122,7 @@ void ConstantDensity::setH2(bool activate, double densitynumber) {
 	isH2 = activate;
 	H2densitynumber = densitynumber;
 }
+
 void ConstantDensity::setH2(bool activate) {
 	setH2(activate, H2densitynumber);	 
 }

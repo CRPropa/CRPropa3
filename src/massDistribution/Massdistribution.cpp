@@ -1,18 +1,15 @@
 #include "crpropa/massDistribution/Massdistribution.h"
 
-
 namespace crpropa {
 
 void CustomDensity::add(ref_ptr<Density> dens) { 
 	
 	// check which density tpye is activated in loading density. Just use this part!		
-	bool HI = dens->getisforHI();	
-	bool HII= dens->getisforHII();
-	bool H2 = dens->getisforH2();	
+	bool HI = dens->getIsForHI();	
+	bool HII= dens->getIsForHII();
+	bool H2 = dens->getIsForH2();	
 	
-	bool nothingToLoad = !(HI || HII || H2);
-	
-	if(nothingToLoad == true){
+	if((HI || HII || H2) == false){
 		KISS_LOG_WARNING
 		<<"\n tryed to add density to CustomDensity although no density type is activated. \n  nothing is loaded!\n";
 		return ;
@@ -40,14 +37,12 @@ void CustomDensity::add(ref_ptr<Density> dens) {
 	
 }
 
-
 double CustomDensity::getDensity(const Vector3d &position) const{
 	
 	double n=0.;
 
-	// warning if nothing is load in 	
-	bool nothingLoadIn = !(HIisload || HIIisload || H2isload);
-	if(nothingLoadIn)
+	// warning if nothing is load in 
+	if( (HIisload || HIIisload || H2isload) == false)
 	{	
 		KISS_LOG_WARNING
 		<< "\n called getDensity in CustomDensity alltough no option is loaded in. \n"
@@ -55,7 +50,6 @@ double CustomDensity::getDensity(const Vector3d &position) const{
 			<< "please load density\n";
 		return 0;
 	} 
-	
 	
 	if(isforHI){
 		n = HIDist->getHIDensity(position);
@@ -67,9 +61,8 @@ double CustomDensity::getDensity(const Vector3d &position) const{
 		n += this->H2Dist->getH2Density(position);
 	}
 	
-	// warning if no option is activ in
-	bool active = isforHI || isforHII || isforH2;
-	if(active == false){
+	// warning if no option is activ 
+	if((isforHI || isforHII || isforH2) == false){
 		KISS_LOG_WARNING
 			<< "\n called getDensity on deactivated CustomDensity \n"
 			<< "returned 0 density\n"
@@ -82,16 +75,15 @@ double CustomDensity::getDensity(const Vector3d &position) const{
 double CustomDensity::getNucleonDensity(const Vector3d &position) const{
 	
 	double n=0.;
-	bool nothingLoadIn = !(HIisload || HIIisload || H2isload);
 	
-	if(nothingLoadIn)
+	//warning if nothing is load
+	if((HIisload || HIIisload || H2isload) == false)
 	{	
 		KISS_LOG_WARNING
 		<< "\n called getNucleonDensity in CustomDensity alltough no option is loaded in. \n"
 			<< "returned 0 density\n"
 			<< "please load density\n";
 	} 
-
 	
 	if(isforHI){
 		n = HIDist->getHIDensity(position);
@@ -104,8 +96,7 @@ double CustomDensity::getNucleonDensity(const Vector3d &position) const{
 	}
 	
 	// warning if no option is activ
-	bool activ = isforHI || isforHII || isforH2;
-	if(activ == false){
+	if((isforHI || isforHII || isforH2) == false){
 		KISS_LOG_WARNING
 			<< "\n called getNucleonDensity on deactivated CustomDensity. \n"
 			<< "returned 0 density\n"
@@ -154,19 +145,19 @@ double CustomDensity::getH2Density(const Vector3d &position) const {
 	return 0.;
 }
 
-bool CustomDensity::getisforHI() {
+bool CustomDensity::getIsForHI() {
 	return isforHI;
 }
 
-bool CustomDensity::getisforHII() {
+bool CustomDensity::getIsForHII() {
 	return isforHII;
 }
 
-bool CustomDensity::getisforH2() {
+bool CustomDensity::getIsForH2() {
 	return isforH2;
 }
 
-void CustomDensity::setisforHI(bool HI) {
+void CustomDensity::setIsForHI(bool HI) {
 	
 	if(HIisload==false && HI == true)
 	{	
@@ -178,7 +169,7 @@ void CustomDensity::setisforHI(bool HI) {
 	return;
 }
 
-void CustomDensity::setisforHII(bool HII) {
+void CustomDensity::setIsForHII(bool HII) {
 
 	if(HIIisload==false && HII == true)
 	{	
@@ -190,7 +181,7 @@ void CustomDensity::setisforHII(bool HII) {
 	return;
 }
 
-void CustomDensity::setisforH2(bool H2) {
+void CustomDensity::setIsForH2(bool H2) {
 	
 	if(H2isload==false && H2 == true)
 	{	
@@ -240,6 +231,5 @@ double DensityList::getNucleonDensity(const Vector3d &position) const {
 		n += DensityList[i]->getNucleonDensity(position);
 	return n;
 }
-
 } //namespace crpropa
 

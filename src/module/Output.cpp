@@ -18,9 +18,11 @@ std::string Output::OutputTypeName(OutputType outputtype){
 		return "Trajectory1D";
 	if (outputtype == Event1D)
 		return "Event1D";
+	if (outputtype == PhotonOutput1D)
+		return "PhotonOutput1D";
 	if (outputtype == Trajectory3D)
 		return "Trajectory3D";
-	if (outputtype == Event3D);
+	if (outputtype == Event3D)
 		return "Event3D";
 	return "Everything";
 }
@@ -49,6 +51,17 @@ void Output::setOutputType(OutputType outputtype) {
 		set(CurrentEnergyColumn, true);
 		set(SourceIdColumn, true);
 		set(SourceEnergyColumn, true);
+		set1D(true);
+	} else if (outputtype == PhotonOutput1D) {
+		// D, ID, E, ID0, E0, ID1, E1, X1
+		set(TrajectoryLengthColumn, true);
+		set(CurrentIdColumn, true);
+		set(CurrentEnergyColumn, true);
+		set(SourceIdColumn, true);
+		set(SourceEnergyColumn, true);
+		set(CreatedIdColumn, true);
+		set(CreatedEnergyColumn, true);
+		set(CreatedPositionColumn, true);
 		set1D(true);
 	} else if (outputtype == Trajectory3D) {
 		// D, ID, E, X, Y, Z, Px, Py, Pz

@@ -288,6 +288,16 @@ TEST(common, interpolateEquidistant) {
 }
 
 
+TEST(common, pow_integer)
+{
+	EXPECT_EQ(pow_integer<0>(1.23), 1);
+	EXPECT_FLOAT_EQ(pow_integer<1>(1.234), 1.234);
+	EXPECT_FLOAT_EQ(pow_integer<2>(1.234), pow(1.234, 2));
+	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow(1.234, 3));
+}
+
+
+
 TEST(Random, seed) {
 	Random &a = Random::instance();
 	Random &b = Random::instance();

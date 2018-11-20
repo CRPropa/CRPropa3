@@ -52,6 +52,23 @@ double interpolateEquidistant(double x, double lo, double hi,
 size_t closestIndex(double x, const std::vector<double> &X);
 /** @}*/
 
+
+// pow implementation as template for integer exponents pow_integer<2>(x)
+// evaluates to x*x
+template <unsigned int exponent>
+inline double pow_integer(double base)
+{
+  return pow_integer<(exponent >> 1)>(base*base) * (((exponent & 1) > 0) ? base : 1);
+}
+
+template <>
+inline double pow_integer<0>(double base)
+{
+  return 1;
+}
+
+
+
 } // namespace crpropa
 
 #endif // CRPROPA_COMMON_H

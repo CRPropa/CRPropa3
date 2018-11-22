@@ -69,18 +69,6 @@ TEST(TextOutput, printHeader_Event1D) {
 	          "#\tD\tID\tE\tID0\tE0");
 }
 
-TEST(TextOutput, printHeader_PhotonOutput1D) {
-	Candidate c;
-	TextOutput output(Output::PhotonOutput1D);
-
-	::testing::internal::CaptureStdout();
-	output.process(&c);
-	std::string captured = testing::internal::GetCapturedStdout();
-
-	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tD\tID\tE\tID0\tE0\tID1\tE1\tX1");
-}
-
 TEST(TextOutput, printHeader_Trajectory3D) {
 	Candidate c;
 	TextOutput output(Output::Trajectory3D);

@@ -18,11 +18,11 @@ using namespace std;
 namespace crpropa {
 
 PhotonOutput1D::PhotonOutput1D() : out(&std::cout) {
-	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + PhotonOutput1D";
+	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + ObserverDetectAll";
 }
 
 PhotonOutput1D::PhotonOutput1D(std::ostream &out) : out(&out) {
-	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + PhotonOutput1D";
+	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + ObserverDetectAll";
 }
 
 PhotonOutput1D::PhotonOutput1D(const std::string &filename) : outfile(

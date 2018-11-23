@@ -47,6 +47,17 @@ void ElecaPropagation(
 		throw std::runtime_error(
 				"ElecaPropagation: could not open file " + inputfile);
 
+	bool PhotonOutput1D;
+	std::string line;
+	std::getline(infile, line);
+	if (line == "#ID	E	D	pID	pE	iID	iE	iD") {
+		PhotonOutput1D = true;
+	} else if (line == "#	D	ID	E	ID0	E0	ID1	E1	X1") { 
+		PhotonOutput1D = false;
+	} else {
+		throw std::runtime_error("ElecaPropagation: Wrong header of input file. Use PhotonOutput1D or Event1D with additional columns enabled.");
+	}
+
 	eleca::setSeed();
 	eleca::Propagation propagation;
 	propagation.SetEthr(lowerEnergyThreshold / eV );
@@ -62,11 +73,16 @@ void ElecaPropagation(
 	output << "# iID         Id of source particle\n";
 	output << "# iE          Energy [EeV] of source particle\n";
 	output << "# Generation  number of interactions during propagation before particle is created\n";
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
 			double D, E, E0, E1, X1;
 			int ID, ID0, ID1;
-			infile >> D >> ID >> E >> ID0 >> E0 >> ID1 >> E1 >> X1;
+			if (PhotonOutput1D) {
+				infile >> ID >> E >> X1 >> ID1 >> E1 >> ID0 >> E0 >> D;
+			} else {
+				infile >> D >> ID >> E >> ID0 >> E0 >> ID1 >> E1 >> X1;
+			}
 			if (showProgress) {
 				progressbar.setPosition(infile.tellg());
 			}
@@ -169,6 +185,17 @@ void DintPropagation(
 		throw std::runtime_error(
 				"DintPropagation: could not open file " + inputfile);
 
+	bool PhotonOutput1D;
+	std::string line;
+	std::getline(infile, line);
+	if (line == "#ID	E	D	pID	pE	iID	iE	iD") {
+		PhotonOutput1D = true;
+	} else if (line == "#	D	ID	E	ID0	E0	ID1	E1	X1") { 
+		PhotonOutput1D = false;
+	} else {
+		throw std::runtime_error("DintPropagation: Wrong header of input file. Use PhotonOutput1D or Event1D with additional columns enabled.");
+	}
+
 	// initialize the spectrum
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
@@ -189,7 +216,11 @@ void DintPropagation(
 		while (infile.good() && (secondaries.size() < nBuffer)) {
 			if (infile.peek() != '#') {
 				_Secondary s;
-				infile >> s.D >> s.ID >> s.E >> s.ID0 >> s.E0 >> s.ID1 >> s.E1 >> s.X1;
+				if (PhotonOutput1D) {
+					infile >> s.ID >> s.E >> s.X1 >> s.ID1 >> s.E1 >> s.ID0 >> s.E0 >> s.D;
+				} else {
+					infile >> s.D >> s.ID >> s.E >> s.ID0 >> s.E0 >> s.ID1 >> s.E1 >> s.X1;
+				}
 				s.X1 = comoving2LightTravelDistance(s.X1 * Mpc) / Mpc;  // DintEMCascade expects light travel distance
 				if (infile)
 					secondaries.push_back(s);
@@ -293,6 +324,17 @@ void DintElecaPropagation(
 		throw std::runtime_error(
 				"EleCaPropagation: could not open file " + inputfile);
 
+	bool PhotonOutput1D;
+	std::string line;
+	std::getline(infile, line);
+	if (line == "#ID	E	D	pID	pE	iID	iE	iD") {
+		PhotonOutput1D = true;
+	} else if (line == "#	D	ID	E	ID0	E0	ID1	E1	X1") { 
+		PhotonOutput1D = false;
+	} else {
+		throw std::runtime_error("DintElecaPropagation: Wrong header of input file. Use PhotonOutput1D or Event1D with additional columns enabled.");
+	}
+
 	eleca::setSeed();
 	eleca::Propagation propagation;
 	propagation.SetEthr(crossOverEnergy / eV );
@@ -336,8 +378,11 @@ void DintElecaPropagation(
 
 		double D, E, E0, E1, X1;
 		int ID, ID0, ID1;
-		infile >> D >> ID >> E >> ID0 >> E0 >> ID1 >> E1 >> X1;
-
+		if (PhotonOutput1D) {
+			infile >> ID >> E >> X1 >> ID1 >> E1 >> ID0 >> E0 >> D;
+		} else {
+			infile >> D >> ID >> E >> ID0 >> E0 >> ID1 >> E1 >> X1;
+		}
 		if (showProgress) {
 			progressbar.setPosition(infile.tellg());
 		}

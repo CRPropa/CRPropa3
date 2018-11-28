@@ -129,6 +129,8 @@ static const double mus = microsecond;
 static const double ms = millisecond;
 static const double sec = second;
 
+// volume
+static const double ccm = cm*cm*cm;
 
 /** @}*/
 

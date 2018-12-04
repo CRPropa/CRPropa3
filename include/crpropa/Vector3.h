@@ -108,7 +108,7 @@ public:
 	// return the azimuth angle
 	T getPhi() const {
 		T eps = std::numeric_limits < T > ::min();
-		if ((fabs(x) < eps) and (fabs(y) < eps))
+		if ((fabs(x) < eps) && (fabs(y) < eps))
 			return 0.0;
 		else
 			return std::atan2(y, x);
@@ -117,7 +117,7 @@ public:
 	// return the zenith angle
 	T getTheta() const {
 		T eps = std::numeric_limits < T > ::min();
-		if ((fabs(x) < eps) and (fabs(y) < eps) and (fabs(z) < eps))
+		if ((fabs(x) < eps) && (fabs(y) < eps) && (fabs(z) < eps))
 			return 0.0;
 		else
 			return atan2((T) sqrt(x * x + y * y), z);
@@ -184,7 +184,7 @@ public:
 
 	// rotate the vector around a given axis by a given a angle
 	Vector3<T> getRotated(const Vector3<T> &axis, T angle) const {
-		Vector3<T> u = axis; 
+		Vector3<T> u = axis;
 		T c = cos(angle);
 		T s = sin(angle);
 		Vector3<T> Rx(c + u.x * u.x * (1 - c), u.x * u.y * (1 - c) - u.z * s,
@@ -406,6 +406,6 @@ typedef Vector3<double> Vector3d;
 typedef Vector3<float> Vector3f;
 
 /** @}*/
-} // namespace crpropa
+}  // namespace crpropa
 
-#endif // CRPROPA_VECTOR3_H
+#endif  // CRPROPA_VECTOR3_H

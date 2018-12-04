@@ -5,6 +5,7 @@
 #include <cmath>
 #include <vector>
 #include <limits>
+#include <algorithm>
 
 namespace crpropa {
 

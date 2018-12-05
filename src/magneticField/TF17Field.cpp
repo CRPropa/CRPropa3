@@ -5,9 +5,9 @@
 
 namespace crpropa {
 
-TF17Field::TF17Field() : useDisk(true), useHalo(true) {
+TF17Field::TF17Field() {
 	// disk parameters
-	useDiskAd1 = True;
+	useDiskAd1 = true;
 	a_disk = 0.031 / kpc / kpc;
 	r1_disk = 3 * kpc;
 	B1_disk = 32.0 * muG;
@@ -15,7 +15,7 @@ TF17Field::TF17Field() : useDisk(true), useHalo(true) {
 	H_disk = 0.054 * kpc;
 
 	// halo parameters
-	useHaloC = True;
+	useHaloC = true;
 	a_halo = 0.33 / kpc / kpc;
 	z1_halo = 0;
 	cot_p0 = cos(p_0) / sin(p_0);
@@ -35,7 +35,7 @@ double TF17Field::zscale(const double& z) const {
 }
 
 double TF17Field::shiftedWindingFunction(const double& r, const double& z) const {
-	return cot_p0 * log(1 - exp(-r / Lp)) / zscale(r);
+	return cot_p0 * log(1 - exp(-r / L_p)) / zscale(r);
 }
 
 double TF17Field::radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
@@ -51,8 +51,8 @@ double TF17Field::verticalFieldScale(const double& B1, const double& r1, const d
 double TF17Field::azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const {
 	double r_ = r / L_p;
 	double B_phi = cot_p0 / zscale(z) * r_ * exp(-r_) / (1 - exp(-r_)) * B_r - \
-								 2 * cot_p0 * z / (H_p * H_p) / (zscale(z) * z_scale(z)) * r * log(1 - exp(-r_)) * B_z;
-	return B_phi
+								 2 * cot_p0 * z / (H_p * H_p) / (zscale(z) * zscale(z)) * r * log(1 - exp(-r_)) * B_z;
+	return B_phi;
 }
 
 Vector3d TF17Field::getHaloField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
@@ -75,17 +75,20 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 Vector3d TF17Field::getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
 	// Model Ad1
 	Vector3d b(0.);
+	double B_r = 0;
+	double B_phi = 0;
+	double B_z = 0;
 
 	double z1_disk = z * (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r);
-	if (r < r1_disk) {
+	if (r > r1_disk) {
 		double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
 		// B components in (r, phi, z)
 		double B_r = (r1_disk / r) * (z1_disk / z) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-		double B_z = r1 * r1 / (r * r) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+		double B_z = r1_disk * r1_disk / (r * r) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
 		double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	} else {
 		// within r = 3 kpc, the field lines are straight in direction g_phi + phi_star_disk
-		g_phi = shiftedWindingFunction(r1_disk, z1_disk);
+		double g_phi = shiftedWindingFunction(r1_disk, z1_disk);
 		double B_amp = B1_disk * exp(-abs(z1_disk) / H_disk);
 		double B_r = cos(g_phi + phi_star_disk) * B_amp;
 		double B_phi = sin(g_phi + phi_star_disk) * B_amp;

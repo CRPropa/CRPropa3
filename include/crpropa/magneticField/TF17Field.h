@@ -23,7 +23,7 @@ private:
 	double a_disk;
 	double r1_disk;
 	double B1_disk;
-	double phi_star_halo;
+	double phi_star_disk;
 	double H_disk;
 
 	// halo parameters

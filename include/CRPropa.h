@@ -59,6 +59,7 @@
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PT11Field.h"
+#include "crpropa/magneticField/TF17Field.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
 #include "crpropa/magneticField/ArchimedeanSpiralField.h"
 

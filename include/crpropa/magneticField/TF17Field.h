@@ -44,7 +44,7 @@ private:
 	void SetParams();
 
 public:
-	PT11Field();
+	TF17Field();
 
 	double zscale(const double& z) const;
 	double shiftedWindingFunction(const double& r, const double& z) const;

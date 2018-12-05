@@ -64,7 +64,6 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	// B components in (r, phi, z)
 	double B_r = 2 * a_halo * r1_halo * r1_halo * r1_halo * z / (r * r) * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
 	double B_z = r1_halo * r1_halo / (r * r) * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
-
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	// Convert to (x, y, z) components
 	b.x = B_r * cosPhi - B_phi * sinPhi;
@@ -92,7 +91,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 		double B_phi = sin(g_phi + phi_star_disk) * B_amp;
 		double B_z = 0;
 	}
-	// Convert to (x, y) components
+	// Convert to (x, y, z) components
 	b.x = B_r * cosPhi - B_phi * sinPhi;
 	b.y = B_r * sinPhi + B_phi * cosPhi;
 	b.z = B_z;

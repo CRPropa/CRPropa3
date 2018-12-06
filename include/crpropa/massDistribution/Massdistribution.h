@@ -2,10 +2,10 @@
 #define CRPROPA_MASSDISTRIBUTION_H
 
 #include "crpropa/massDistribution/Density.h"
+#include "crpropa/Vector3.h"
 
 #include "kiss/logger.h"
 
-#include <string>
 #include <vector>
 
 namespace crpropa {

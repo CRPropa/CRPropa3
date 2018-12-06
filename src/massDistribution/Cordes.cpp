@@ -1,4 +1,5 @@
 #include "crpropa/massDistribution/Cordes.h"
+#include "crpropa/Common.h"
 
 #include <sstream>
 
@@ -10,8 +11,8 @@ double Cordes::getHIIDensity(const Vector3d &position) const {
 	double z=position.z;
 	double R = sqrt(position.x*position.x+position.y*position.y);  //radius in galactic disk
 
-	n += 0.025/ccm*exp(-fabs(z)/(1*kpc))*exp(-pow(R/(20*kpc),2));  // galactocentric component
-	n += 0.2/ccm*exp(-fabs(z)/(0.15*kpc))*exp(-pow((R-4*kpc)/(2*kpc),2));  // anular component
+	n += 0.025/ccm*exp(-fabs(z)/(1*kpc))*exp(-pow_integer<2>(R/(20*kpc)));  // galactocentric component
+	n += 0.2/ccm*exp(-fabs(z)/(0.15*kpc))*exp(-pow_integer<2>((R-4*kpc)/(2*kpc)));  // anular component
 
 	return n;
 }

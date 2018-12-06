@@ -66,7 +66,7 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	double B_z = r1_halo * r1_halo / (r * r) * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	// Convert to (x, y, z) components
-	b.x = B_r * cosPhi - B_phi * sinPhi;
+	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
 	b.y = B_r * sinPhi + B_phi * cosPhi;
 	b.z = B_z;
 	return b;
@@ -95,7 +95,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 		double B_z = 0;
 	}
 	// Convert to (x, y, z) components
-	b.x = B_r * cosPhi - B_phi * sinPhi;
+	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
 	b.y = B_r * sinPhi + B_phi * cosPhi;
 	b.z = B_z;
 	return b;
@@ -103,9 +103,11 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 
 Vector3d TF17Field::getField(const Vector3d& pos) const {
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius
-	double phi = atan2(pos.y, pos.x);
-	double cosPhi = pos.x / r;
-	double sinPhi = pos.y / r;
+	double phi = M_PI - pos.getPhi(); // azimuth in our convention
+	// double cosPhi = pos.x / r;
+	double cosPhi = cos(phi);
+	// double sinPhi = pos.y / r;
+	double sinPhi = sin(phi);
 
 	Vector3d b(0.);
 	b += getHaloField(r, pos.z, phi, sinPhi, cosPhi);	// halo field

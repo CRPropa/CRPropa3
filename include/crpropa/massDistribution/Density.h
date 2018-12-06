@@ -14,33 +14,40 @@ class Density: public Referenced {
  public:
   virtual ~Density() {
   }
-  virtual double getDensity(const Vector3d &position) const { 	// sum of all densities
+
+  virtual double getDensity(const Vector3d &position) const {  // sum of all densities
     return 0;
-  };
+  }
+
   virtual double getHIDensity(const Vector3d &position) const {
   	return 0;
-  };
+  }
+
   virtual double getHIIDensity(const Vector3d &position) const {
   	return 0;
-  };
-  virtual double getH2Density(const Vector3d &position) const {		
+  }
+
+  virtual double getH2Density(const Vector3d &position) const {
   	return 0;
-  };
-  virtual double getNucleonDensity(const Vector3d &position) const{	// sum of nucleons (H2 with factor 2)
+  }
+
+  virtual double getNucleonDensity(const Vector3d &position) const {  // sum of nucleons (H2 with factor 2)
   	return 0;
-  };
-  
+  }
+
   virtual bool getIsForHI() {
   	return false;
   }
+
   virtual bool getIsForHII() {
   	return false;
   }
+
   virtual bool getIsForH2() {
   	return false;
   }
 };
 
-}//namespace crpropa
+}  // namespace crpropa
 
-#endif //CRPROPA_DENSITY_H
+#endif  // CRPROPA_DENSITY_H

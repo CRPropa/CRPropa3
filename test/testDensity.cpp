@@ -59,53 +59,6 @@ TEST(testConstantDensity, SimpleTest) {
 	EXPECT_DOUBLE_EQ(n.getNucleonDensity(p),0);	
 }
 
-TEST(testCustomDensity, SimpleTest) {
-	
-	CustomDensity MD;
-	
-	Vector3d p(50*pc, 20*pc, -100*pc);	//random position for testing density 
-	
-	//try to get density without load any option in. Should give Warning in log-File and return density of 0.
-	EXPECT_DOUBLE_EQ(MD.getDensity(p),0);	
-	
-	MD.add(new ConstantDensity(1,1,1));	//all types loaded
-	MD.add(new ConstantDensity(0,2,0));	//overwrite HII type 
-	MD.add(new ConstantDensity(0,0,3));	//overwrite H2 type
-	
-	//check get density output
-	EXPECT_DOUBLE_EQ(MD.getHIDensity(p),1);
-	EXPECT_DOUBLE_EQ(MD.getHIIDensity(p),2);
-	EXPECT_DOUBLE_EQ(MD.getH2Density(p),3);
-	EXPECT_DOUBLE_EQ(MD.getDensity(p),6);	//total density 2+2+3
-	EXPECT_DOUBLE_EQ(MD.getNucleonDensity(p),9);	// nucleon density = 2 + 2 + 2*3  factor 2 for molecular hydrogen
-	
-	//check get function for type 
-	EXPECT_TRUE(MD.getIsForHI());
-	EXPECT_TRUE(MD.getIsForHII());
-	EXPECT_TRUE(MD.getIsForH2());
-	
-	//check type deactivate funktion
-	MD.setIsForHI(false);
-	EXPECT_FALSE(MD.getIsForHI());
-	EXPECT_TRUE(MD.getIsForHII());
-	EXPECT_TRUE(MD.getIsForH2());
-	
-	MD.setIsForHII(false);
-	EXPECT_FALSE(MD.getIsForHI());
-	EXPECT_FALSE(MD.getIsForHII());
-	EXPECT_TRUE(MD.getIsForH2());
-	
-	MD.setIsForH2(false);
-	EXPECT_FALSE(MD.getIsForHI());
-	EXPECT_FALSE(MD.getIsForHII());
-	EXPECT_FALSE(MD.getIsForH2());
-	
-	//check density output if all types are deactivated
-	//should give error message in log-file and return density of 0.
-	EXPECT_DOUBLE_EQ(MD.getDensity(p),0.);
-	EXPECT_DOUBLE_EQ(MD.getNucleonDensity(p),0.);
-
-} 
 
 TEST(testDensityList, SimpleTest) {
 

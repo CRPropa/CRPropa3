@@ -6,8 +6,10 @@
 #include "crpropa/Units.h"
 
 #include "gtest/gtest.h"
+
 #include <stdexcept>
 #include <cmath>
+#include <string>
 
 namespace crpropa {
 
@@ -55,8 +57,11 @@ TEST(testConstantDensity, SimpleTest) {
 
 	//get<type>Density is independent of type activation, getDensity is not independent
 	//check if getDensity returns 0. (should give a error message in log file)
+	::testing::internal::CaptureStderr();
 	EXPECT_DOUBLE_EQ(n.getDensity(p), 0);
 	EXPECT_DOUBLE_EQ(n.getNucleonDensity(p),0);
+	std::string captured = testing::internal::GetCapturedStderr();
+	EXPECT_NE(captured.find("WARNING"), std::string::npos);
 }
 
 
@@ -147,13 +152,16 @@ TEST(testNakanishi, checkValueAtCertainPoints) {
 	EXPECT_FALSE(n.getIsForH2());
 
 	//check if density output is zero if all density-types are deaktivated (should give warning in log-file)
+	::testing::internal::CaptureStderr();
 	EXPECT_DOUBLE_EQ(n.getDensity(p),0);
 	EXPECT_DOUBLE_EQ(n.getNucleonDensity(p),0);
+	std::string captured = testing::internal::GetCapturedStderr();
+	EXPECT_NE(captured.find("WARNING"), std::string::npos);
 
 }
 
 TEST(testFerriere, checkValueAtCertainPoints) {
-
+	::testing::internal::CaptureStderr();
 	Ferriere n;
 
 	//check type information
@@ -226,5 +234,7 @@ TEST(testFerriere, checkValueAtCertainPoints) {
 	//check if density is set to zero if all types are deactivated (should give warning in log-file)
 	EXPECT_DOUBLE_EQ(n.getDensity(p),0);
 	EXPECT_DOUBLE_EQ(n.getNucleonDensity(p),0);
+	std::string captured = testing::internal::GetCapturedStderr();
+	EXPECT_NE(captured.find("WARNING"), std::string::npos);
 }
 } //namespace crpropa

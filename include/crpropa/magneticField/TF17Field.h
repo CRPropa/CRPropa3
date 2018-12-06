@@ -19,7 +19,7 @@ class TF17Field: public MagneticField {
 private:
 
 	// disk parameters
-	bool useDiskAd1;
+	bool useDiskField;
 	double a_disk;
 	double r1_disk;
 	double B1_disk;
@@ -27,7 +27,7 @@ private:
 	double H_disk;
 
 	// halo parameters
-	bool useHaloC;
+	bool useHaloField;
 	double a_halo;
 	double z1_halo;
 	double cot_p0;
@@ -45,6 +45,11 @@ private:
 
 public:
 	TF17Field();
+
+	void setUseDiskField(bool use);
+	void setUseHaloField(bool use);
+	bool isUsingDiskField();
+	bool isUsingHaloField();
 
 	double zscale(const double& z) const;
 	double shiftedWindingFunction(const double& r, const double& z) const;

@@ -7,7 +7,7 @@ namespace crpropa {
 
 TF17Field::TF17Field() {
 	// disk parameters
-	useDiskAd1 = true;
+	useDiskField = true;
 	a_disk = 0.031 / kpc / kpc;
 	r1_disk = 3 * kpc;
 	B1_disk = 32.0 * muG;
@@ -15,10 +15,9 @@ TF17Field::TF17Field() {
 	H_disk = 0.054 * kpc;
 
 	// halo parameters
-	useHaloC = true;
+	useHaloField = true;
 	a_halo = 0.33 / kpc / kpc;
-	z1_halo = 0;
-	cot_p0 = cos(p_0) / sin(p_0);
+	z1_halo = 0 * kpc;
 	B1_halo = 9.0 * muG;
 	L_halo = 1.2 * kpc;
 	phi_star_halo = 198 * M_PI / 180;
@@ -26,8 +25,25 @@ TF17Field::TF17Field() {
 
 	// shared parameters
 	p_0 = -9.1 * M_PI / 180;
+	cot_p0 = cos(p_0) / sin(p_0);
 	H_p = 1.2 * kpc;
 	L_p = 50 * kpc;		// best fit simply says L_p > 40 kpc:  L_p ≫ L_e can hardly be constrained by the FDobs map.
+}
+
+void TF17Field::setUseDiskField(bool use) {
+	useDiskField = use;
+}
+
+void TF17Field::setUseHaloField(bool use) {
+	useHaloField = use;
+}
+
+bool TF17Field::isUsingDiskField() {
+	return useDiskField;
+}
+
+bool TF17Field::isUsingHaloField() {
+	return useHaloField;
 }
 
 double TF17Field::zscale(const double& z) const {
@@ -35,7 +51,7 @@ double TF17Field::zscale(const double& z) const {
 }
 
 double TF17Field::shiftedWindingFunction(const double& r, const double& z) const {
-	return cot_p0 * log(1 - exp(-r / L_p)) / zscale(r);
+	return cot_p0 * log(1 - exp(-r / L_p)) / zscale(z);
 }
 
 double TF17Field::radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
@@ -62,8 +78,9 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	double r1_halo = r / (1 + a_halo * z * z);
 	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo, z1_halo);
 	// B components in (r, phi, z)
-	double B_r = 2 * a_halo * r1_halo * r1_halo * r1_halo * z / (r * r) * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
-	double B_z = r1_halo * r1_halo / (r * r) * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
+	double r_ = r > 0 ? (r1_halo / r) : 1;		// avoid zero division
+	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
+	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	// Convert to (x, y, z) components
 	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
@@ -83,16 +100,16 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 	if (r > r1_disk) {
 		double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
 		// B components in (r, phi, z)
-		double B_r = (r1_disk / r) * (z1_disk / z) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-		double B_z = r1_disk * r1_disk / (r * r) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-		double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
+		double z_ = abs(z) > 0 ? (z1_disk / z) : 1;		// avoid zero division
+		B_r = (r1_disk / r) * z_ * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+		B_z = r1_disk * r1_disk / (r * r) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+		B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	} else {
 		// within r = 3 kpc, the field lines are straight in direction g_phi + phi_star_disk
 		double g_phi = shiftedWindingFunction(r1_disk, z1_disk);
 		double B_amp = B1_disk * exp(-abs(z1_disk) / H_disk);
-		double B_r = cos(g_phi + phi_star_disk) * B_amp;
-		double B_phi = sin(g_phi + phi_star_disk) * B_amp;
-		double B_z = 0;
+		B_r = cos(g_phi + phi_star_disk) * B_amp;
+		B_phi = sin(g_phi + phi_star_disk) * B_amp;
 	}
 	// Convert to (x, y, z) components
 	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
@@ -110,9 +127,10 @@ Vector3d TF17Field::getField(const Vector3d& pos) const {
 	double sinPhi = sin(phi);
 
 	Vector3d b(0.);
-	b += getHaloField(r, pos.z, phi, sinPhi, cosPhi);	// halo field
-	b += getDiskField(r, pos.z, phi, sinPhi, cosPhi);	// disk field
-
+	if (useDiskField)
+		b += getDiskField(r, pos.z, phi, sinPhi, cosPhi);	// disk field
+	if (useHaloField)
+		b += getHaloField(r, pos.z, phi, sinPhi, cosPhi);	// halo field
 	return b;
 }
 

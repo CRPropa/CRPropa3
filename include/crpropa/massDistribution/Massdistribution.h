@@ -9,44 +9,6 @@
 #include "kiss/logger.h"
 
 namespace crpropa {
-/** 
- @class CustomDensity
- @brief Density class for superposition of one HI, one HII and one H2 density of different models. 
-Superposition of more than one density per type is not posible. 
-The add function only acts on activ parts; overwrites previously loaded types.
-*/
-class CustomDensity: public Density {
-
-ref_ptr<Density> HIDist;
-ref_ptr<Density> HIIDist;
-ref_ptr<Density> H2Dist;
-
-bool isforHI=false;
-bool isforHII=false;
-bool isforH2=false;
-
-bool HIisload=false;
-bool HIIisload=false;
-bool H2isload=false;
-
-public:
-	double getDensity(const Vector3d &position) const;
-	double getHIDensity(const Vector3d &position) const;
-	double getHIIDensity(const Vector3d &position) const;
-	double getH2Density(const Vector3d &position) const;
-	double getNucleonDensity(const Vector3d &position) const;
-
-	void add(ref_ptr<crpropa::Density> dens);	
-	
-	bool getIsForHI();
-	bool getIsForHII();
-	bool getIsForH2();
-	
-	void setIsForHI(bool HI);
-	void setIsForHII(bool HII);
-	void setIsForH2(bool H2);
-};
-
 /**
  @class DensityList
  @brief Superposition of density models. 
@@ -58,11 +20,25 @@ class DensityList: public Density {
 std::vector<ref_ptr<Density> > DensityList ;
 
 public:
+	/** add new density to list
+	@param density density to add*/ 
 	void addDensity(ref_ptr<Density> density);
+	
+	/** @param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0) 
+	 @return density in parts/m^3, sum up densities from added densities */
 	double getDensity(const Vector3d &position) const;
+	/** @param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0) 
+	 @return density of HI at given position in parts/m^3, sum up all HI densities from added densities */
 	double getHIDensity(const Vector3d &position) const;
+	/** @param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0) 
+	 @return density of HII at given position in parts/m^3, sum up all HII densities from added densities */
 	double getHIIDensity(const Vector3d &position) const;
+	/** @param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0) 
+	 @return density of H2 at given position in parts/m^3, sum up all H2 densities from added densities */
 	double getH2Density(const Vector3d &position) const;
+	/** NucleonDensity is the number of nucleons per Volume, sum up all activated density and weight molecular hydrogyen twice
+	@param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0) 
+	 @return density of nucleons at given position in parts/m^3, sum up all nucleon densities from added densities */
 	double getNucleonDensity(const Vector3d &position) const;
 };
 	

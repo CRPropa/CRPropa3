@@ -435,9 +435,9 @@ TEST(ScalarGrid, TestVectorSpacing) {
 	
 	EXPECT_EQ(spacing, grid.getSpacing());
 	
-	// Test index handling: get position of grid point (2, 3, 4)
+	// Test index handling: get position of grid point (1, 7, 6)
 	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
-	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + Vector3d(spacing / 2.);
+	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;
 
 	grid.get(1, 7, 6) = 12;
 	EXPECT_FLOAT_EQ(12., grid.getGrid()[some_index]);

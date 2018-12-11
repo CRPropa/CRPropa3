@@ -11,7 +11,7 @@ TF17Field::TF17Field() {
 	a_disk = 0.031 / kpc / kpc;
 	r1_disk = 3 * kpc;
 	B1_disk = 32.0 * muG;
-	phi_star_halo = -31 * M_PI / 180;
+	phi_star_disk = -31 * M_PI / 180;
 	H_disk = 0.054 * kpc;
 
 	// halo parameters
@@ -78,7 +78,7 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	double r1_halo = r / (1 + a_halo * z * z);
 	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo, z1_halo);
 	// B components in (r, phi, z)
-	double r_ = r > 0 ? (r1_halo / r) : 1;		// avoid zero division
+	double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_halo / r) : 1;		// avoid zero division
 	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
 	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
@@ -100,9 +100,10 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 	if (r > r1_disk) {
 		double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
 		// B components in (r, phi, z)
-		double z_ = abs(z) > 0 ? (z1_disk / z) : 1;		// avoid zero division
-		B_r = (r1_disk / r) * z_ * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-		B_z = r1_disk * r1_disk / (r * r) * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+		double z_ = abs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1;		// avoid zero division
+		double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+		B_r = (r1_disk / r) * z_ * B_r0;
+		B_z = 2 * a_disk * r1_disk * z1_disk / (1+ a_disk * r * r) * B_r0;
 		B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	} else {
 		// within r = 3 kpc, the field lines are straight in direction g_phi + phi_star_disk

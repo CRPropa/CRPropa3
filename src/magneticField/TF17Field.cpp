@@ -56,7 +56,7 @@ double TF17Field::shiftedWindingFunction(const double& r, const double& z) const
 
 double TF17Field::radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
 	// This term occures is parameterizations of models A and B
-	return B1 * exp(-abs(z1) / H_disk) * cos(m * (phi1 - shiftedWindingFunction(r1, z1) - phi_star_disk));
+	return B1 * exp(-fabs(z1) / H_disk) * cos(m * (phi1 - shiftedWindingFunction(r1, z1) - phi_star_disk));
 }
 
 double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
@@ -100,7 +100,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 	if (r > r1_disk) {
 		double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
 		// B components in (r, phi, z)
-		double z_ = abs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1;		// avoid zero division
+		double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1;		// avoid zero division
 		double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
 		B_r = (r1_disk / r) * z_ * B_r0;
 		B_z = 2 * a_disk * r1_disk * z1_disk / (1+ a_disk * r * r) * B_r0;
@@ -108,7 +108,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 	} else {
 		// within r = 3 kpc, the field lines are straight in direction g_phi + phi_star_disk
 		double g_phi = shiftedWindingFunction(r1_disk, z1_disk);
-		double B_amp = B1_disk * exp(-abs(z1_disk) / H_disk);
+		double B_amp = B1_disk * exp(-fabs(z1_disk) / H_disk);
 		B_r = cos(g_phi + phi_star_disk) * B_amp;
 		B_phi = sin(g_phi + phi_star_disk) * B_amp;
 	}

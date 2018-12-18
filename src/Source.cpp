@@ -711,7 +711,7 @@ void SourceDensityGrid1D::prepareParticle(ParticleState& particle) const {
 
 	// draw uniform position within bin
 	double dx = random.rand() - 0.5;
-	pos.x += dx * grid->getSpacing();
+	pos.x += dx * grid->getSpacing().x;
 
 	particle.setPosition(pos);
 }

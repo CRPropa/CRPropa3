@@ -21,6 +21,7 @@ protected:
 	std::ostream *out;
 	std::ofstream outfile;
 	std::string filename;
+	bool storeRandomSeeds;
 
 	void printHeader() const;
 
@@ -33,6 +34,7 @@ public:
 	TextOutput(const std::string &filename, OutputType outputtype);
 	~TextOutput();
 
+	void enableRandomSeeds() {storeRandomSeeds = true;};
 	void close();
 	void gzip();
 

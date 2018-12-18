@@ -2,6 +2,7 @@
 
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/Version.h"
+#include "crpropa/Random.h"
 #include "kiss/logger.h"
 
 #include <hdf5.h>
@@ -45,6 +46,9 @@ hid_t variantTypeToH5T_NATIVE(Variant::Type type) {
 		KISS_LOG_ERROR << "variantTypeToH5T_NATIVE:: Type: " << Variant::getTypeName(type) << " unknown.";
 		throw std::runtime_error("No matching HDF type for Variant type");
 	}
+}
+
+HDF5Output::HDF5Output() :  Output(), filename(), file(-1), sid(-1), dset(-1), dataspace(-1), candidatesSinceFlush(0), flushLimit(std::numeric_limits<unsigned int>::max()) {
 }
 
 HDF5Output::HDF5Output(const std::string& filename) :  Output(), filename(filename), file(-1), sid(-1), dset(-1), dataspace(-1), candidatesSinceFlush(0), flushLimit(std::numeric_limits<unsigned int>::max()) {
@@ -95,6 +99,9 @@ herr_t HDF5Output::insertDoubleAttribute(const std::string &key, const double &v
 
 void HDF5Output::open(const std::string& filename) {
 	file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+	if (file < 0)
+		throw std::runtime_error(std::string("Cannot create file: ") + filename);
+
 
 	sid = H5Tcreate(H5T_COMPOUND, sizeof(OutputRow));
 	if (fields.test(TrajectoryLengthColumn))
@@ -191,12 +198,33 @@ void HDF5Output::open(const std::string& filename) {
 
 	dset = H5Dcreate2(file, "CRPROPA3", sid, dataspace, H5P_DEFAULT, plist, H5P_DEFAULT);
 
-
 	insertStringAttribute("OutputType", outputName);
 	insertStringAttribute("Version", g_GIT_DESC);
-
 	insertDoubleAttribute("LengthScale", this->lengthScale);
 	insertDoubleAttribute("EnergyScale", this->energyScale);
+
+	// add ranom seeds
+	std::vector< std::vector<uint32_t> > seeds = Random::getSeedThreads();
+	for (size_t i = 0; i < seeds.size(); i++)
+	{
+		hid_t   type, attr_space, version_attr;
+		herr_t  status;
+		hsize_t dims[] = {1, 0};
+		dims[1] = seeds[i].size();
+
+		type = H5Tarray_create(H5T_NATIVE_ULONG, 2, dims);
+
+		attr_space = H5Screate_simple(0, dims, NULL);
+		char nameBuffer[256];
+		sprintf(nameBuffer, "SEED_%03lu", i);
+		KISS_LOG_DEBUG << "Creating HDF5 attribute: " << nameBuffer << " with dimensions " << dims[0] << "x" << dims[1] ;
+
+		version_attr = H5Acreate2(dset, nameBuffer, type, attr_space, H5P_DEFAULT, H5P_DEFAULT);
+		status = H5Awrite(version_attr, type, &seeds[i][0]);
+		status = H5Aclose(version_attr);
+		status = H5Sclose(attr_space);
+
+	}
 
 
 	H5Pclose(plist);
@@ -351,7 +379,7 @@ std::string HDF5Output::getDescription() const  {
 
 void HDF5Output::setFlushLimit(unsigned int N)
 {
-	flushLimit = N;	
+	flushLimit = N;
 }
 
 } // namespace crpropa

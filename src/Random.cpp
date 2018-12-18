@@ -59,15 +59,17 @@
 
 #include "crpropa/Random.h"
 
+#include "crpropa/base64.h"
+
 #include <cstdio>
 
 namespace crpropa {
 
-Random::Random(const uint32& oneSeed) {
+Random::Random(const uint32_t& oneSeed) {
 	seed(oneSeed);
 }
 
-Random::Random(uint32 * const bigSeed, const uint32 seedLength) {
+Random::Random(uint32_t * const bigSeed, const uint32_t seedLength) {
 	seed(bigSeed, seedLength);
 }
 
@@ -100,7 +102,7 @@ double Random::randDblExc(const double& n) {
 }
 
 double Random::rand53() {
-	uint32 a = randInt() >> 5, b = randInt() >> 6;
+	uint32_t a = randInt() >> 5, b = randInt() >> 6;
 	return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0); // by Isaku Wada
 }
 
@@ -226,12 +228,12 @@ double Random::randExponential() {
 	return -1.0 * log(dum);
 }
 
-Random::uint32 Random::randInt() {
+uint32_t Random::randInt() {
 	if (left == 0)
 		reload();
 	--left;
 
-	uint32 s1;
+	uint32_t s1;
 	s1 = *pNext++;
 	s1 ^= (s1 >> 11);
 	s1 ^= (s1 << 7) & 0x9d2c5680UL;
@@ -239,10 +241,10 @@ Random::uint32 Random::randInt() {
 	return (s1 ^ (s1 >> 18));
 }
 
-Random::uint32 Random::randInt(const uint32& n) {
+uint32_t Random::randInt(const uint32_t& n) {
 // Find which bits are used in n
 // Optimized by Magnus Jonsson (magnus@smartelectronix.com)
-	uint32 used = n;
+	uint32_t used = n;
 	used |= used >> 1;
 	used |= used >> 2;
 	used |= used >> 4;
@@ -250,7 +252,7 @@ Random::uint32 Random::randInt(const uint32& n) {
 	used |= used >> 16;
 
 // Draw numbers until one is found in [0,n]
-	uint32 i;
+	uint32_t i;
 	do
 		i = randInt() & used; // toss unused bits to shorten search
 	while (i > n);
@@ -260,7 +262,9 @@ Random::uint32 Random::randInt(const uint32& n) {
 
 uint64_t Random::randInt64()
 {
-	return (randInt() << 32 | randInt());
+	int64_t a = randInt();
+	int64_t b = randInt();
+	return (b + a << 32);
 }
 
 
@@ -284,15 +288,24 @@ uint64_t Random::randInt64(const uint64_t &n)
 
 
 
-void Random::seed(const uint32 oneSeed) {
+void Random::seed(const uint32_t oneSeed) {
+	initial_seed.resize(1);
+	initial_seed[0] = oneSeed;
 	initialize(oneSeed);
 	reload();
 }
 
-void Random::seed(uint32 * const bigSeed, const uint32 seedLength) {
+void Random::seed(uint32_t * const bigSeed, const uint32_t seedLength) {
+
+	initial_seed.resize(seedLength);
+	for (size_t i =0; i< seedLength; i++)
+	{
+		initial_seed[i] = bigSeed[i];
+	}
+
 	initialize(19650218UL);
 	int i = 1;
-	uint32 j = 0;
+	uint32_t j = 0;
 	int k = (N > seedLength ? N : seedLength);
 	for (; k; --k) {
 		state[i] = state[i]
@@ -327,12 +340,12 @@ void Random::seed() {
 // First try getting an array from /dev/urandom
 	FILE* urandom = std::fopen("/dev/urandom", "rb");
 	if (urandom) {
-		uint32 bigSeed[N];
-		uint32 *s = bigSeed;
+		uint32_t bigSeed[N];
+		uint32_t *s = bigSeed;
 		int i = N;
 		bool success = true;
 		while (success && i--)
-			success = std::fread(s++, sizeof(uint32), 1, urandom) != 0;
+			success = std::fread(s++, sizeof(uint32_t), 1, urandom) != 0;
 		std::fclose(urandom);
 		if (success) {
 			seed(bigSeed, N);
@@ -344,9 +357,10 @@ void Random::seed() {
 	seed(hash(time(NULL), clock()));
 }
 
-void Random::initialize(const uint32 seed) {
-	uint32 *s = state;
-	uint32 *r = state;
+
+void Random::initialize(const uint32_t seed) {
+	uint32_t *s = state;
+	uint32_t *r = state;
 	int i = 1;
 	*s++ = seed & 0xffffffffUL;
 	for (; i < N; ++i) {
@@ -356,7 +370,7 @@ void Random::initialize(const uint32 seed) {
 }
 
 void Random::reload() {
-	uint32 *p = state;
+	uint32_t *p = state;
 	int i;
 	for (i = N - M; i--; ++p)
 		*p = twist(p[M], p[0], p[1]);
@@ -367,16 +381,16 @@ void Random::reload() {
 	left = N, pNext = state;
 }
 
-Random::uint32 Random::hash(time_t t, clock_t c) {
-	static uint32 differ = 0; // guarantee time-based seeds will change
+uint32_t Random::hash(time_t t, clock_t c) {
+	static uint32_t differ = 0; // guarantee time-based seeds will change
 
-	uint32 h1 = 0;
+	uint32_t h1 = 0;
 	unsigned char *p = (unsigned char *) &t;
 	for (size_t i = 0; i < sizeof(t); ++i) {
 		h1 *= std::numeric_limits<unsigned char>::max() + 2U;
 		h1 += p[i];
 	}
-	uint32 h2 = 0;
+	uint32_t h2 = 0;
 	p = (unsigned char *) &c;
 	for (size_t j = 0; j < sizeof(c); ++j) {
 		h2 *= std::numeric_limits<unsigned char>::max() + 2U;
@@ -385,18 +399,23 @@ Random::uint32 Random::hash(time_t t, clock_t c) {
 	return (h1 + differ++) ^ h2;
 }
 
-void Random::save(uint32* saveArray) const {
-	uint32 *sa = saveArray;
-	const uint32 *s = state;
+void Random::save(uint32_t* saveArray) const {
+	uint32_t *sa = saveArray;
+	const uint32_t *s = state;
 	int i = N;
 	for (; i--; *sa++ = *s++) {
 	}
 	*sa = left;
 }
 
-void Random::load(uint32 * const loadArray) {
-	uint32 *s = state;
-	uint32 *la = loadArray;
+const std::vector<uint32_t> &Random::getSeed() const
+{
+	return initial_seed;
+}
+
+void Random::load(uint32_t * const loadArray) {
+	uint32_t *s = state;
+	uint32_t *la = loadArray;
 	int i = N;
 	for (; i--; *s++ = *la++) {
 	}
@@ -405,7 +424,7 @@ void Random::load(uint32 * const loadArray) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Random& mtrand) {
-	const Random::uint32 *s = mtrand.state;
+	const uint32_t *s = mtrand.state;
 	int i = mtrand.N;
 	for (; i--; os << *s++ << "\t") {
 	}
@@ -413,7 +432,7 @@ std::ostream& operator<<(std::ostream& os, const Random& mtrand) {
 }
 
 std::istream& operator>>(std::istream& is, Random& mtrand) {
-	Random::uint32 *s = mtrand.state;
+	uint32_t *s = mtrand.state;
 	int i = mtrand.N;
 	for (; i--; is >> *s++) {
 	}
@@ -447,19 +466,46 @@ Random &Random::instance() {
 	return _tls[i].r;
 }
 
-void Random::seedThreads(const uint32 oneSeed) {
+void Random::seedThreads(const uint32_t oneSeed) {
 	for(size_t i = 0; i < MAX_THREAD; ++i)
 	_tls[i].r.seed(oneSeed + i);
 }
+
+std::vector< std::vector<uint32_t> > Random::getSeedThreads()
+{
+	std::vector< std::vector<uint32_t> > seeds;
+	for(size_t i = 0; i < omp_get_num_threads(); ++i)
+		seeds.push_back(_tls[i].r.getSeed() ); 
+	return seeds;
+}
+
 #else
 static Random _random;
 Random &Random::instance() {
 	return _random;
 }
-void Random::seedThreads(const uint32 oneSeed) {
+void Random::seedThreads(const uint32_t oneSeed) {
 	_random.seed(oneSeed);
 }
+std::vector< std::vector<uint32_t> > Random::getSeedThreads()
+{
+	std::vector< std::vector<uint32_t> > seeds;
+		seeds.push_back(_random.getSeed() ); 
+	return seeds;
+}
 #endif
+
+const std::string Random::getSeed_base64() const
+{
+	return Base64::encode((unsigned char*) &initial_seed[0], sizeof(initial_seed[0]) * initial_seed.size() / sizeof(unsigned char));
+}
+
+void Random::seed(const std::string &b64Seed)
+{
+	std::string decoded_data = Base64::decode(b64Seed);
+	size_t seedSize = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
+	seed((uint32_t*)decoded_data.c_str(), seedSize );
+}
 
 } // namespace crpropa
 

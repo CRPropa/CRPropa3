@@ -481,7 +481,7 @@ int threeCharge( const int & pid )
     int charge=0;
     int ida, sid;
     unsigned short q1, q2, q3, ql;
-    static int ch100[100] = { -1, 2,-1, 2,-1, 2,-1, 2, 0, 0,
+    static int ch100[] = { -1, 2,-1, 2,-1, 2,-1, 2, 0, 0,
                        -3, 0,-3, 0,-3, 0,-3, 0, 0, 0,
                         0, 0, 0, 3, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 3, 0, 0, 3, 0, 0, 0,

@@ -96,6 +96,7 @@ class HDF5Output: public Output {
 	unsigned int flushLimit;
 	unsigned int candidatesSinceFlush;
 public:
+	HDF5Output();
 	HDF5Output(const std::string &filename);
 	HDF5Output(const std::string &filename, OutputType outputtype);
 	~HDF5Output();

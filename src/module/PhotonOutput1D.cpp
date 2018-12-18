@@ -5,7 +5,9 @@
 #include <sstream>
 #include <cstdio>
 #include <stdexcept>
-#include <kiss/string.h>
+
+#include "kiss/string.h"
+#include "kiss/logger.h"
 
 #ifdef CRPROPA_HAVE_ZLIB
 #include <ozstream.hpp>
@@ -16,14 +18,16 @@ using namespace std;
 namespace crpropa {
 
 PhotonOutput1D::PhotonOutput1D() : out(&std::cout) {
+	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + ObserverDetectAll";
 }
 
 PhotonOutput1D::PhotonOutput1D(std::ostream &out) : out(&out) {
+	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + ObserverDetectAll";
 }
 
 PhotonOutput1D::PhotonOutput1D(const std::string &filename) : outfile(
 	filename.c_str(), std::ios::binary), out(&outfile), filename(filename) {
-
+	KISS_LOG_WARNING << "PhotonOutput1D is deprecated and will be removed in the future. Replace with TextOutput or HDF5Output with features ObserverNucleusVeto + ObserverDetectAll";
 	if (kiss::ends_with(filename, ".gz"))
 		gzip();
 

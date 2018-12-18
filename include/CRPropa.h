@@ -55,6 +55,7 @@
 
 #include "crpropa/magneticField/AMRMagneticField.h"
 #include "crpropa/magneticField/JF12Field.h"
+#include "crpropa/magneticField/JF12FieldSolenoidal.h"
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PT11Field.h"
@@ -62,6 +63,14 @@
 #include "crpropa/magneticField/ArchimedeanSpiralField.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
+
+#include "crpropa/massDistribution/Density.h"
+#include "crpropa/massDistribution/Nakanishi.h"
+#include "crpropa/massDistribution/Cordes.h"
+#include "crpropa/massDistribution/Massdistribution.h"
+#include "crpropa/massDistribution/Ferriere.h"
+#include "crpropa/massDistribution/ConstantDensity.h"
+
 
 
 // Groups of Modules for Doxygen

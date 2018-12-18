@@ -34,7 +34,7 @@ inline double round(double r) {
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
 
- The grid spacing is constant and equal along all three axes.
+ The grid spacing is constant with diffrent resulution along all three axes.
  Values are calculated by trilinear interpolation of the surrounding 8 grid points.
  The grid is periodically (default) or reflectively extended.
  The grid sample positions are at 1/2 * size/N, 3/2 * size/N ... (2N-1)/2 * size/N.
@@ -45,7 +45,7 @@ class Grid: public Referenced {
 	size_t Nx, Ny, Nz; /**< Number of grid points */
 	Vector3d origin; /**< Origin of the volume that is represented by the grid. */
 	Vector3d gridOrigin; /**< Grid origin */
-	double spacing; /**< Distance between grid points, determines the extension of the grid */
+	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 
 public:
@@ -57,7 +57,7 @@ public:
 	Grid(Vector3d origin, size_t N, double spacing) {
 		setOrigin(origin);
 		setGridSize(N, N, N);
-		setSpacing(spacing);
+		setSpacing(Vector3d(spacing));
 		setReflective(false);
 	}
 
@@ -71,13 +71,27 @@ public:
 	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) {
 		setOrigin(origin);
 		setGridSize(Nx, Ny, Nz);
-		setSpacing(spacing);
+		setSpacing(Vector3d(spacing));
 		setReflective(false);
 	}
+	
+	/** Constructor for non-cubic grid with spacing vector
+	@param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing vector between grid points
+	*/
+	 Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
+	 	setOrigin(origin);
+	 	setGridSize(Nx, Ny, Nz);
+	 	setSpacing(spacing);
+	 	setReflective(false);
+	 } 
 
 	void setOrigin(Vector3d origin) {
 		this->origin = origin;
-		this->gridOrigin = origin + Vector3d(spacing/2);
+		this->gridOrigin = origin + spacing/2;
 	}
 
 	/** Resize grid, also enlarges the volume as the spacing stays constant */
@@ -89,7 +103,7 @@ public:
 		setOrigin(origin);
 	}
 
-	void setSpacing(double spacing) {
+	void setSpacing(Vector3d spacing) {
 		this->spacing = spacing;
 		setOrigin(origin);
 	}
@@ -113,7 +127,7 @@ public:
 		return Nz;
 	}
 
-	double getSpacing() const {
+	Vector3d getSpacing() const {
 		return spacing;
 	}
 

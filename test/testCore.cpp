@@ -6,6 +6,7 @@
  */
 
 #include "crpropa/Candidate.h"
+#include "crpropa/base64.h"
 #include "crpropa/Common.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
@@ -125,6 +126,46 @@ TEST(ParticleState, lorentzFactor) {
 			1e12 * eV / mass_proton / c_squared);
 }
 
+TEST(ParticleID, nucleusId)
+{
+	EXPECT_EQ(nucleusId(3,2),1000020030 );
+}
+
+TEST(ParticleID, chargeNumber)
+{
+	EXPECT_EQ(chargeNumber(1000020030), 2);
+}
+
+TEST(ParticleID, massNumber)
+{
+	EXPECT_EQ(massNumber(2112), 1);
+	EXPECT_EQ(massNumber(1000020030), 3);
+}
+
+TEST(ParticleID, isNucleus)
+{
+	EXPECT_TRUE(isNucleus(1000020030));
+	EXPECT_FALSE(isNucleus(11));
+}
+
+TEST(HepPID, consistencyWithReferenceImplementation){
+	// Tests the performance improved version against the default one
+	unsigned long testPID = rand() % 1000000000 + 1000000000;
+	for(size_t i=1; i < 8; i++)
+	{
+		HepPID::location loc = (HepPID::location) i;
+		unsigned short newResult = HepPID::digit(loc, testPID);
+		//original implementation
+		int numerator = (int) std::pow(10.0,(loc-1));
+		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
+	}
+}
+
+TEST(HepPID, charge)
+{
+	EXPECT_DOUBLE_EQ(HepPID::charge(11), -1.);
+}
+
 TEST(Candidate, currentStep) {
 	Candidate candidate;
 	candidate.setCurrentStep(1 * Mpc);
@@ -160,10 +201,10 @@ TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);
 	c.setTrajectoryLength(23);
-	c.current.setId(nucleusId(56,26));
-	c.current.setEnergy(1000);
-	c.current.setPosition(Vector3d(1,2,3));
-	c.current.setDirection(Vector3d(0,0,1));
+	c.previous.setId(nucleusId(56,26));
+	c.previous.setEnergy(1000);
+	c.previous.setPosition(Vector3d(1,2,3));
+	c.previous.setDirection(Vector3d(0,0,1));
 
 	c.addSecondary(nucleusId(1,1), 200);
 	Candidate s = *c.secondaries[0];
@@ -246,18 +287,16 @@ TEST(common, interpolateEquidistant) {
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
 }
 
-TEST(PIDdigit, consistencyWithReferenceImplementation){
-	// Tests the performance improved version against the default one
-	unsigned long testPID = rand() % 1000000000 + 1000000000;
-	for(size_t i=1; i < 8; i++)
-	{
-		HepPID::location loc = (HepPID::location) i;
-		unsigned short newResult = HepPID::digit(loc, testPID);
-		//original implementation
-		int numerator = (int) std::pow(10.0,(loc-1));
-		EXPECT_EQ(newResult, (HepPID::abspid(testPID)/numerator)%10);
-	}
+
+TEST(common, pow_integer)
+{
+	EXPECT_EQ(pow_integer<0>(1.23), 1);
+	EXPECT_FLOAT_EQ(pow_integer<1>(1.234), 1.234);
+	EXPECT_FLOAT_EQ(pow_integer<2>(1.234), pow(1.234, 2));
+	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow(1.234, 3));
 }
+
+
 
 TEST(Random, seed) {
 	Random &a = Random::instance();
@@ -278,6 +317,81 @@ TEST(Random, seed) {
 	// seeding should work for all instances
 	EXPECT_EQ(r1, r3);
 }
+
+TEST(Random, bigSeedStorage) {
+	Random a;
+	std::vector<uint32_t> bigSeed;
+
+	const size_t nComp = 42;
+	double values[nComp];
+	for (size_t i = 0; i < nComp; i++)
+	{
+		values[i] = a.rand();
+	}
+	bigSeed = a.getSeed();
+	Random b;
+	//b.load(bigSeed);
+	b.seed(&bigSeed[0], bigSeed.size());
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(values[i], b.rand());
+	}
+
+	a.seed(42);
+	bigSeed = a.getSeed();
+	EXPECT_EQ(bigSeed.size(), 1);
+	EXPECT_EQ(bigSeed[0], 42);
+	b.seed(bigSeed[0]);
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(a.rand(), b.rand());
+	}
+
+}
+
+TEST(base64, de_en_coding)
+{
+	Random a;
+	for (int N=1; N < 100; N++)
+	{
+		std::vector<uint32_t> data; 
+		data.reserve(N);
+		for (int i =0; i<N; i++)
+			data.push_back(a.randInt());
+
+		std::string encoded_data = Base64::encode((unsigned char*)&data[0], sizeof(data[0]) * data.size() / sizeof(unsigned char));
+
+		std::string decoded_data = Base64::decode(encoded_data);
+		size_t S = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
+		for (int i=0; i < S; i++)
+		{
+			EXPECT_EQ(((uint32_t*)decoded_data.c_str())[i], data[i]);
+		}
+	}
+
+}
+
+TEST(Random, base64Seed) {
+
+	std::string seed =  "I1+8ANzXYwAqAAAAAwAAAA==";
+	std::vector<uint32_t> bigSeed;
+	bigSeed.push_back(12345123);
+	bigSeed.push_back(6543324);
+	bigSeed.push_back(42);
+	bigSeed.push_back(3);
+	Random a, b;
+	a.seed(seed);
+	b.seed(&bigSeed[0], bigSeed.size());
+
+	const size_t nComp = 42;
+	double values[nComp];
+	for (size_t i = 0; i < nComp; i++)
+	{
+		EXPECT_EQ(a.rand(), b.rand());
+	}
+}
+
+
 
 TEST(Grid, PeriodicClamp) {
 	// Test correct determination of lower and upper neighbor
@@ -306,7 +420,7 @@ TEST(ScalarGrid, SimpleTest) {
 	EXPECT_EQ(Nx, grid.getNx());
 	EXPECT_EQ(Ny, grid.getNy());
 	EXPECT_EQ(Nz, grid.getNz());
-	EXPECT_DOUBLE_EQ(spacing, grid.getSpacing());
+	EXPECT_EQ(Vector3d(spacing), grid.getSpacing());
 	EXPECT_EQ(5 * 8 * 10, grid.getGrid().size());
 
 	// Test index handling: get position of grid point (2, 3, 4)
@@ -317,6 +431,27 @@ TEST(ScalarGrid, SimpleTest) {
 	grid.get(2, 3, 4) = 7;
 	EXPECT_FLOAT_EQ(7., grid.getGrid()[some_index]);
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
+}
+
+TEST(ScalarGrid, TestVectorSpacing) {
+	// Test constructor for vector spacing
+	size_t Nx = 5;
+	size_t Ny = 8;
+	size_t Nz = 10;
+	Vector3d origin = Vector3d(1., 2., 3.);
+	Vector3d spacing = Vector3d(1., 5., 3.);
+	
+	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
+	
+	EXPECT_EQ(spacing, grid.getSpacing());
+	
+	// Test index handling: get position of grid point (1, 7, 6)
+	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
+	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;
+
+	grid.get(1, 7, 6) = 12;
+	EXPECT_FLOAT_EQ(12., grid.getGrid()[some_index]);
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
 }
 
 TEST(ScalarGrid, ClosestValue) {

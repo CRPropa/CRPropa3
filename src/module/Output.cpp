@@ -20,7 +20,7 @@ std::string Output::OutputTypeName(OutputType outputtype){
 		return "Event1D";
 	if (outputtype == Trajectory3D)
 		return "Trajectory3D";
-	if (outputtype == Event3D);
+	if (outputtype == Event3D)
 		return "Event3D";
 	return "Everything";
 }

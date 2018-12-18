@@ -47,6 +47,17 @@ void ElecaPropagation(
 		throw std::runtime_error(
 				"ElecaPropagation: could not open file " + inputfile);
 
+	bool PhotonOutput1D;
+	std::string line;
+	std::getline(infile, line);
+	if (line == "#ID	E	D	pID	pE	iID	iE	iD") {
+		PhotonOutput1D = true;
+	} else if (line == "#	D	ID	E	ID0	E0	ID1	E1	X1") { 
+		PhotonOutput1D = false;
+	} else {
+		throw std::runtime_error("ElecaPropagation: Wrong header of input file. Use PhotonOutput1D or Event1D with additional columns enabled.");
+	}
+
 	eleca::setSeed();
 	eleca::Propagation propagation;
 	propagation.SetEthr(lowerEnergyThreshold / eV );
@@ -62,19 +73,24 @@ void ElecaPropagation(
 	output << "# iID         Id of source particle\n";
 	output << "# iE          Energy [EeV] of source particle\n";
 	output << "# Generation  number of interactions during propagation before particle is created\n";
+
 	while (infile.good()) {
 		if (infile.peek() != '#') {
-			double E, D, pE, iE;
-			int Id, pId, iId;
-			infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
+			double D, E, E0, E1, X1;
+			int ID, ID0, ID1;
+			if (PhotonOutput1D) {
+				infile >> ID >> E >> X1 >> ID1 >> E1 >> ID0 >> E0 >> D;
+			} else {
+				infile >> D >> ID >> E >> ID0 >> E0 >> ID1 >> E1 >> X1;
+			}
 			if (showProgress) {
 				progressbar.setPosition(infile.tellg());
 			}
 
 			if (infile) {
 
-				double z = eleca::Mpc2z(D);
-				eleca::Particle p0(Id, E * 1e18, z);
+				double z = eleca::Mpc2z(X1);
+				eleca::Particle p0(ID, E * 1e18, z);
 
 				std::vector<eleca::Particle> ParticleAtMatrix;
 				std::vector<eleca::Particle> ParticleAtGround;
@@ -99,8 +115,8 @@ void ElecaPropagation(
 					size_t bufferPos = 0;
 					bufferPos += std::sprintf(buffer + bufferPos, "%i\t", p.GetType());
 					bufferPos += std::sprintf(buffer + bufferPos, "%.4E\t", p.GetEnergy() / 1E18 );
-					bufferPos += std::sprintf(buffer + bufferPos, "%i\t", iId);
-					bufferPos += std::sprintf(buffer + bufferPos, "%.4E\t", iE );
+					bufferPos += std::sprintf(buffer + bufferPos, "%i\t", ID0);
+					bufferPos += std::sprintf(buffer + bufferPos, "%.4E\t", E0 );
 					bufferPos += std::sprintf(buffer + bufferPos, "%i", p.Generation());
 					bufferPos += std::sprintf(buffer + bufferPos, "\n");
 
@@ -116,12 +132,12 @@ void ElecaPropagation(
 }
 
 typedef struct _Secondary {
-	double E, D;
-	int Id;
+	double D, E, E0, E1, X1;
+	int ID, ID0, ID1;
 } _Secondary;
 
 bool _SecondarySortPredicate(const _Secondary& s1, const _Secondary& s2) {
-	return s1.D < s2.D;
+	return s1.X1 < s2.X1;
 }
 
 void FillInSpectrum(Spectrum *a, const _Secondary &s) {
@@ -135,14 +151,14 @@ void FillInSpectrum(Spectrum *a, const _Secondary &s) {
 		std::cout << "DintPropagation: Energy too low " << logE << std::endl;
 		return;
 	}
-	if (s.Id == 22)
+	if (s.ID == 22)
 		a->spectrum[PHOTON][iBin] += 1.;
-	else if (s.Id == 11)
+	else if (s.ID == 11)
 		a->spectrum[ELECTRON][iBin] += 1.;
-	else if (s.Id == -11)
+	else if (s.ID == -11)
 		a->spectrum[POSITRON][iBin] += 1.;
 	else
-		std::cout << "DintPropagation: Unhandled particle ID " << s.Id << std::endl;
+		std::cout << "DintPropagation: Unhandled particle ID " << s.ID << std::endl;
 }
 
 void DintPropagation(
@@ -169,6 +185,17 @@ void DintPropagation(
 		throw std::runtime_error(
 				"DintPropagation: could not open file " + inputfile);
 
+	bool PhotonOutput1D;
+	std::string line;
+	std::getline(infile, line);
+	if (line == "#ID	E	D	pID	pE	iID	iE	iD") {
+		PhotonOutput1D = true;
+	} else if (line == "#	D	ID	E	ID0	E0	ID1	E1	X1") { 
+		PhotonOutput1D = false;
+	} else {
+		throw std::runtime_error("DintPropagation: Wrong header of input file. Use PhotonOutput1D or Event1D with additional columns enabled.");
+	}
+
 	// initialize the spectrum
 	Spectrum finalSpectrum;
 	NewSpectrum(&finalSpectrum, NUM_MAIN_BINS);
@@ -189,8 +216,12 @@ void DintPropagation(
 		while (infile.good() && (secondaries.size() < nBuffer)) {
 			if (infile.peek() != '#') {
 				_Secondary s;
-				infile >> s.Id >> s.E >> s.D;
-				s.D = comoving2LightTravelDistance(s.D * Mpc) / Mpc;  // DintEMCascade expects light travel distance
+				if (PhotonOutput1D) {
+					infile >> s.ID >> s.E >> s.X1 >> s.ID1 >> s.E1 >> s.ID0 >> s.E0 >> s.D;
+				} else {
+					infile >> s.D >> s.ID >> s.E >> s.ID0 >> s.E0 >> s.ID1 >> s.E1 >> s.X1;
+				}
+				s.X1 = comoving2LightTravelDistance(s.X1 * Mpc) / Mpc;  // DintEMCascade expects light travel distance
 				if (infile)
 					secondaries.push_back(s);
 			}
@@ -210,12 +241,12 @@ void DintPropagation(
 		InitializeSpectrum(&inputSpectrum);
 
 		// process secondaries
-		while ((secondaries.back().D > 0) and (secondaries.size() > 0)) {
-			double Dmax = secondaries.back().D;  // upper bound of distance bin
+		while ((secondaries.back().X1 > 0) and (secondaries.size() > 0)) {
+			double Dmax = secondaries.back().X1;  // upper bound of distance bin
 			double Dmin = max(Dmax - dMargin, 0.);  // lower bound of distance bin
 
 			// add all secondaries within the current distance bin
-			while ((secondaries.back().D > Dmin) and (secondaries.size() > 0)) {
+			while ((secondaries.back().X1 > Dmin) and (secondaries.size() > 0)) {
 				FillInSpectrum(&inputSpectrum, secondaries.back());
 				secondaries.pop_back();
 			}
@@ -223,7 +254,7 @@ void DintPropagation(
 			// propagate to next closest particle or to D=0
 			double D = 0;
 			if (secondaries.size() > 0)
-				D = secondaries.back().D;
+				D = secondaries.back().X1;
 
 			// propagate distance step and make the output the new input spectrum
 			InitializeSpectrum(&outputSpectrum);
@@ -293,6 +324,17 @@ void DintElecaPropagation(
 		throw std::runtime_error(
 				"EleCaPropagation: could not open file " + inputfile);
 
+	bool PhotonOutput1D;
+	std::string line;
+	std::getline(infile, line);
+	if (line == "#ID	E	D	pID	pE	iID	iE	iD") {
+		PhotonOutput1D = true;
+	} else if (line == "#	D	ID	E	ID0	E0	ID1	E1	X1") { 
+		PhotonOutput1D = false;
+	} else {
+		throw std::runtime_error("DintElecaPropagation: Wrong header of input file. Use PhotonOutput1D or Event1D with additional columns enabled.");
+	}
+
 	eleca::setSeed();
 	eleca::Propagation propagation;
 	propagation.SetEthr(crossOverEnergy / eV );
@@ -334,16 +376,19 @@ void DintElecaPropagation(
 			continue;
 		}
 
-		double E, D, pE, iE;
-		int Id, pId, iId;
-		infile >> Id >> E >> D >> pId >> pE >> iId >> iE;
-
+		double D, E, E0, E1, X1;
+		int ID, ID0, ID1;
+		if (PhotonOutput1D) {
+			infile >> ID >> E >> X1 >> ID1 >> E1 >> ID0 >> E0 >> D;
+		} else {
+			infile >> D >> ID >> E >> ID0 >> E0 >> ID1 >> E1 >> X1;
+		}
 		if (showProgress) {
 			progressbar.setPosition(infile.tellg());
 		}
 		if (infile) { // stop at last line
-			double z = eleca::Mpc2z(D);
-			eleca::Particle p0(Id, E * 1e18, z);
+			double z = eleca::Mpc2z(X1);
+			eleca::Particle p0(ID, E * 1e18, z);
 
 			std::vector<eleca::Particle> ParticleAtMatrix;
 			ParticleAtMatrix.push_back(p0);

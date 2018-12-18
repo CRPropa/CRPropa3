@@ -420,7 +420,7 @@ TEST(ScalarGrid, SimpleTest) {
 	EXPECT_EQ(Nx, grid.getNx());
 	EXPECT_EQ(Ny, grid.getNy());
 	EXPECT_EQ(Nz, grid.getNz());
-	EXPECT_DOUBLE_EQ(spacing, grid.getSpacing());
+	EXPECT_EQ(Vector3d(spacing), grid.getSpacing());
 	EXPECT_EQ(5 * 8 * 10, grid.getGrid().size());
 
 	// Test index handling: get position of grid point (2, 3, 4)
@@ -431,6 +431,27 @@ TEST(ScalarGrid, SimpleTest) {
 	grid.get(2, 3, 4) = 7;
 	EXPECT_FLOAT_EQ(7., grid.getGrid()[some_index]);
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
+}
+
+TEST(ScalarGrid, TestVectorSpacing) {
+	// Test constructor for vector spacing
+	size_t Nx = 5;
+	size_t Ny = 8;
+	size_t Nz = 10;
+	Vector3d origin = Vector3d(1., 2., 3.);
+	Vector3d spacing = Vector3d(1., 5., 3.);
+	
+	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
+	
+	EXPECT_EQ(spacing, grid.getSpacing());
+	
+	// Test index handling: get position of grid point (1, 7, 6)
+	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
+	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;
+
+	grid.get(1, 7, 6) = 12;
+	EXPECT_FLOAT_EQ(12., grid.getGrid()[some_index]);
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
 }
 
 TEST(ScalarGrid, ClosestValue) {

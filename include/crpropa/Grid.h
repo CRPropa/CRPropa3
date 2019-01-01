@@ -45,7 +45,7 @@ class Grid: public Referenced {
 	size_t Nx, Ny, Nz, Nt; /**< Number of grid points (x,y,z) and number of time points (t) */
 	Vector3d origin; /**< Origin of the volume that is represented by the grid. */
 	Vector3d gridOrigin; /**< Grid origin */
-	double spacing; /**< Distance between grid points, determines the spatial extension of the grid */
+	Vector3d spacing; /**< Distance between grid points, determines the spatial extension of the grid */
 	double timing; /**< Time between grid points, determines the temporal extension of the grid */
 	double startTime;  /**< Point of time from which the grid starts */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
@@ -61,7 +61,7 @@ public:
 	 @param	N		Number of grid points in one direction
 	 @param spacing	Spacing between grid points
 	 */
-	Grid(Vector3d origin, size_t N, double spacing) {
+	Grid(Vector3d origin, size_t N, Vector3d spacing) {
 		setOrigin(origin);
 		setGridSize(N, N, N, 1);
 		setSpacing(spacing);
@@ -77,7 +77,7 @@ public:
 	 @param	Nz		Number of grid points in z-direction
 	 @param spacing	Spacing between grid points
 	 */
-	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) {
+	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
 		setOrigin(origin);
 		setGridSize(Nx, Ny, Nz, 1);
 		setSpacing(spacing);
@@ -97,7 +97,7 @@ public:
 	 @param spacing	Spacing between grid points
 	 @param timing  Amount of time between grid points in t-direction
 	 */
-	Grid(Vector3d origin, double start, size_t Nx, size_t Ny, size_t Nz, size_t Nt, double spacing, double timing) {
+	Grid(Vector3d origin, double start, size_t Nx, size_t Ny, size_t Nz, size_t Nt, Vector3d spacing, double timing) {
 		setOrigin(origin);
 		setGridSize(Nx, Ny, Nz, Nt);
 		setSpacing(spacing);
@@ -108,7 +108,7 @@ public:
 
 	void setOrigin(Vector3d origin) {
 		this->origin = origin;
-		this->gridOrigin = origin + Vector3d(spacing/2);
+		this->gridOrigin = origin + spacing/2;
 	}
 
 	// ScalarGrid4d
@@ -127,7 +127,7 @@ public:
 		setOrigin(origin);
 	}
 
-	void setSpacing(double spacing) {
+	void setSpacing(Vector3d spacing) {
 		this->spacing = spacing;
 		setOrigin(origin);
 	}
@@ -167,7 +167,7 @@ public:
 	return Nt;
 	}
 
-	double getSpacing() const {
+	Vector3d getSpacing() const {
 		return spacing;
 	}
 

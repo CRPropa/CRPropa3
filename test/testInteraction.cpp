@@ -134,6 +134,38 @@ TEST(ElectronPairProduction, valuesIRB) {
 	}
 }
 
+TEST(ElectronPairProduction, valuesBla) {
+	// Test if energy loss corresponds to the data table.
+	std::vector<double> x;
+	std::vector<double> y;
+	std::ifstream infile(getDataPath("pairBla.txt").c_str());
+	while (infile.good()) {
+		if (infile.peek() != '#') {
+			double a, b;
+			infile >> a >> b;
+			if (infile) {
+				x.push_back(a * eV);
+				y.push_back(b * eV / Mpc);
+			}
+		}
+		infile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+	infile.close();
+
+	Candidate c;
+	c.setCurrentStep(1 * Mpc);
+	c.current.setId(nucleusId(1, 1)); // proton
+
+	ElectronPairProduction epp(IRB);
+	for (int i = 0; i < x.size(); i++) {
+		c.current.setEnergy(x[i]);
+		epp.process(&c);
+		double dE = x[i] - c.current.getEnergy();
+		double dE_table = y[i] * 1 * Mpc;
+		EXPECT_NEAR(dE, dE_table, 1e-12);
+	}
+}
+
 // NuclearDecay ---------------------------------------------------------------
 TEST(NuclearDecay, scandium44) {
 	// Test beta+ decay of 44Sc to 44Ca.
@@ -394,22 +426,6 @@ TEST(PhotoDisintegration, allIsotopes) {
 	}
 }
 
-TEST(Photodisintegration, updateParticleParentProperties)
-{ // Issue: #204
-	PhotoDisintegration pd(CMB);
-
-	Candidate c(nucleusId(56,26), 500 * EeV, Vector3d(1 * Mpc, 0, 0));
-
-	pd.performInteraction(&c, 1);
-	// the candidates parent is the original particle
-	EXPECT_EQ(c.created.getId(), nucleusId(56,26));
-
-	pd.performInteraction(&c, 1);
-	// now it has to be changed
-	EXPECT_NE(c.created.getId(), nucleusId(56,26));
-}
-
-
 // ElasticScattering ----------------------------------------------------------
 TEST(ElasticScattering, allBackgrounds) {
 	// Test if interaction data files are loaded.
@@ -451,6 +467,7 @@ TEST(PhotoPionProduction, allBackgrounds) {
 	ppp.setPhotonField(IRB_Gilmore12);
 	ppp.setPhotonField(IRB_Stecker16_upper);
 	ppp.setPhotonField(IRB_Stecker16_lower);
+	ppp.setPhotonField(PF1);
 }
 
 TEST(PhotoPionProduction, proton) {
@@ -510,7 +527,9 @@ TEST(PhotoPionProduction, limitNextStep) {
 TEST(PhotoPionProduction, secondaries) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.
-	PhotoPionProduction ppp(CMB, true, true, true);
+	// PhotoPionProduction ppp("field.txt", "geometry.txt", CMB, true, true, true);
+	// PhotoPionProduction ppp(CMB, ScalarGrid(Vector3d(0.),1,1.),true, true, true);
+	PhotoPionProduction ppp(CMB, ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.),true, true, true);
 	Candidate c(nucleusId(1, 1), 100 * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);

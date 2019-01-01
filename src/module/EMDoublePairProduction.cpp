@@ -14,6 +14,7 @@ EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField,
 											   double limit) {
 	setPhotonField(photonField);
 	this->geometryGrid = geometryGrid;
+	geometryGrid.setOrigin(-0.5*geometryGrid.getSpacing());  // correct for in-middle-of-box convention in CRPropa
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
 }

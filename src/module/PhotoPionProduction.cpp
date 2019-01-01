@@ -35,9 +35,7 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
     limit = l;
     setPhotonField(field);
     this->geometryGrid = geometryGrid;
-    geometryGrid.setOrigin( Vector3d(-geometryGrid.getSpacing().x/2.,
-                                     -geometryGrid.getSpacing().y/2.,
-                                     -geometryGrid.getSpacing().z/2.) );  // correct for weird interpolation convention in CRPropa
+    geometryGrid.setOrigin(-0.5*geometryGrid.getSpacing());  // correct for in-middle-of-box convention in CRPropa
     this->phtnfld = Photon_Field(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
     if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
 }

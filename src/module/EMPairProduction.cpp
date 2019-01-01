@@ -18,6 +18,7 @@ EMPairProduction::EMPairProduction(PhotonField photonField,
 												   limit(limit) {
 	setPhotonField(photonField);
 	this->geometryGrid = geometryGrid;
+	geometryGrid.setOrigin(-0.5*geometryGrid.getSpacing());  // correct for in-middle-of-box convention in CRPropa
 }
 
 void EMPairProduction::setPhotonField(PhotonField photonField) {

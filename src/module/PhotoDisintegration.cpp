@@ -22,6 +22,7 @@ PhotoDisintegration::PhotoDisintegration(PhotonField f,
 										 double limit) {
 	setPhotonField(f);
 	this->geometryGrid = geometryGrid;
+	geometryGrid.setOrigin(-0.5*geometryGrid.getSpacing());  // correct for in-middle-of-box convention in CRPropa
 	this->havePhotons = havePhotons;
 	this->limit = limit;
 }

@@ -11,8 +11,11 @@
 namespace crpropa {
 
 ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
-		bool haveElectrons, double limit) {
+											   ScalarGrid4d geometryGrid,
+											   bool haveElectrons,
+											   double limit) {
 	setPhotonField(photonField);
+	this->geometryGrid = geometryGrid;
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
 }
@@ -77,16 +80,19 @@ void ElectronPairProduction::initSpectrum(std::string filename) {
 	infile.close();
 }
 
-double ElectronPairProduction::lossLength(int id, double lf, double z) const {
+double ElectronPairProduction::lossLength(int id, double lf, double z, Vector3d pos, double time) const {
 	double Z = chargeNumber(id);
 	if (Z == 0)
 		return std::numeric_limits<double>::max(); // no pair production on uncharged particles
-
 	lf *= (1 + z);
 	if (lf < tabLorentzFactor.front())
 		return std::numeric_limits<double>::max(); // below energy threshold
 
-	double rate;
+	// geometric scaling
+	double rate = geometryGrid.interpolate(pos, time);
+	if (rate == 0.)
+		return std::numeric_limits<double>::max();
+
 	if (lf < tabLorentzFactor.back())
 		rate = interpolate(lf, tabLorentzFactor, tabLossRate); // interpolation
 	else
@@ -94,6 +100,7 @@ double ElectronPairProduction::lossLength(int id, double lf, double z) const {
 
 	double A = nuclearMass(id) / mass_proton; // more accurate than massNumber(Id)
 	rate *= Z * Z / A * pow(1 + z, 3) * photonFieldScaling(photonField, z);
+
 	return 1. / rate;
 }
 
@@ -104,10 +111,13 @@ void ElectronPairProduction::process(Candidate *c) const {
 
 	double lf = c->current.getLorentzFactor();
 	double z = c->getRedshift();
-	double losslen = lossLength(id, lf, z);  // energy loss length
+	Vector3d pos = c->current.getPosition();
+    double time = c->getTrajectoryLength()/c_light;
+
+	double losslen = lossLength(id, lf, z, pos, time);  // energy loss length
+	// check if interaction does not happen
 	if (losslen >= std::numeric_limits<double>::max())
 		return;
-
 	double step = c->getCurrentStep() / (1 + z); // step size in local frame
 	double loss = step / losslen;  // relative energy loss
 

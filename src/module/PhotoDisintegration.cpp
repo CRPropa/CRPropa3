@@ -3,7 +3,6 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
-#include <kiss/logger.h>
 
 #include <cmath>
 #include <limits>
@@ -17,8 +16,12 @@ const double PhotoDisintegration::lgmin = 6;  // minimum log10(Lorentz-factor)
 const double PhotoDisintegration::lgmax = 14; // maximum log10(Lorentz-factor)
 const size_t PhotoDisintegration::nlg = 201;  // number of Lorentz-factor steps
 
-PhotoDisintegration::PhotoDisintegration(PhotonField f, bool havePhotons, double limit) {
+PhotoDisintegration::PhotoDisintegration(PhotonField f,
+										 ScalarGrid4d geometryGrid,
+										 bool havePhotons,
+										 double limit) {
 	setPhotonField(f);
+	this->geometryGrid = geometryGrid;
 	this->havePhotons = havePhotons;
 	this->limit = limit;
 }
@@ -148,6 +151,9 @@ void PhotoDisintegration::initPhotonEmission(std::string filename) {
 void PhotoDisintegration::process(Candidate *candidate) const {
 	// execute the loop at least once for limiting the next step
 	double step = candidate->getCurrentStep();
+	Vector3d pos = candidate->current.getPosition();
+    double time = candidate->getTrajectoryLength()/c_light;
+
 	do {
 		// check if nucleus
 		int id = candidate->current.getId();
@@ -171,7 +177,11 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		if ((lg <= lgmin) or (lg >= lgmax))
 			return;
 
-		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
+		// geometrical scaling
+		double rate = geometryGrid.interpolate(pos, time);
+		if (rate == 0)
+			return;
+		rate *= interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
 		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z); // cosmological scaling, rate per comoving distance
 
 		// check if interaction occurs in this step
@@ -200,7 +210,6 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 }
 
 void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) const {
-	KISS_LOG_DEBUG << "Photodisintegration::performInteraction. Channel " <<  channel << " on candidate " << candidate->getDescription(); 
 	// parse disintegration channel
 	int nNeutron = digit(channel, 100000);
 	int nProton = digit(channel, 10000);
@@ -217,35 +226,25 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 	int Z = chargeNumber(id);
 	double EpA = candidate->current.getEnergy() / A;
 
+	// update particle
+	candidate->current.setId(nucleusId(A + dA, Z + dZ));
+	candidate->current.setEnergy(EpA * (A + dA));
+
 	// create secondaries
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-	try
-	{
-		for (size_t i = 0; i < nNeutron; i++)
-			candidate->addSecondary(nucleusId(1, 0), EpA, pos);
-		for (size_t i = 0; i < nProton; i++)
-			candidate->addSecondary(nucleusId(1, 1), EpA, pos);
-		for (size_t i = 0; i < nH2; i++)
-			candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
-		for (size_t i = 0; i < nH3; i++)
-			candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
-		for (size_t i = 0; i < nHe3; i++)
-			candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
-		for (size_t i = 0; i < nHe4; i++)
-			candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
-
-
-	// update particle
-	  candidate->created = candidate->current;
-		candidate->current.setId(nucleusId(A + dA, Z + dZ));
-		candidate->current.setEnergy(EpA * (A + dA));
-	}
-	catch (std::runtime_error &e)
-	{
-		KISS_LOG_ERROR << "Something went wrong in the PhotoDisentigration\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
-		throw;
-	}
+	for (size_t i = 0; i < nNeutron; i++)
+		candidate->addSecondary(nucleusId(1, 0), EpA, pos);
+	for (size_t i = 0; i < nProton; i++)
+		candidate->addSecondary(nucleusId(1, 1), EpA, pos);
+	for (size_t i = 0; i < nH2; i++)
+		candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
+	for (size_t i = 0; i < nH3; i++)
+		candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
+	for (size_t i = 0; i < nHe3; i++)
+		candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
+	for (size_t i = 0; i < nHe4; i++)
+		candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
 
 	if (not havePhotons)
 		return;

@@ -10,8 +10,12 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField, bool haveElectrons, double limit) {
+EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField,
+												 ScalarGrid4d geometryGrid,
+												 bool haveElectrons,
+												 double limit) {
 	setPhotonField(photonField);
+	this->geometryGrid = geometryGrid;
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
 }
@@ -107,13 +111,25 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	// sample the value of eps
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);
-	size_t j = random.randBin(tabCDF[i]);
+
+	// geometric scaling
+	Vector3d pos = candidate->current.getPosition();
+    double time = candidate->getTrajectoryLength()/c_light;
+    double geometricScaling = geometryGrid.interpolate(pos, time);
+    if (geometricScaling == 0.)
+    	return;
+    
+    std::vector<double> tabCDF_geoScaled;
+    for (int j = 0; j < tabCDF[i].size(); ++j) {
+    	tabCDF_geoScaled.push_back(tabCDF[i][j]*geometricScaling);
+    }
+	size_t j = random.randBin(tabCDF_geoScaled);
 	double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);
 	double eps = s_kin / 4 / E; // random background photon energy
 
 	// Use approximation from A. Mastichiadis et al., Astroph. Journ. 300:178-189 (1986), eq. 30.
 	// This approx is valid only for alpha >=100 where alpha = p0*eps*costheta - E0*eps
-	// For our purposes, me << E0 --> p0~E0 --> alpha = E0*eps*(costheta - 1) >= 100
+	// For our purposes, me << E0 --> p0~E0 --> alpha = E0*eps*(costheta - 1) >= 100  <= Note by Mario: How is this even supposed to be >0?
 	double Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
 
 	if (haveElectrons) {
@@ -123,7 +139,7 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	}
 
 	// update the primary particle energy; do this after adding the secondaries to correctly set the secondaries parent
-	candidate->current.setEnergy((E - 2 * Epp));
+	candidate->current.setEnergy(E - 2 * Epp);
 }
 
 void EMTripletPairProduction::process(Candidate *candidate) const {
@@ -135,14 +151,21 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
 	double E = (1 + z) * candidate->current.getEnergy();
-
+	
 	// check if in tabulated energy range
 	if (E < tabEnergy.front() or (E > tabEnergy.back()))
 		return;
 
+	// geometric scaling
+	Vector3d pos = candidate->current.getPosition();
+    double time = candidate->getTrajectoryLength()/c_light;
+	double rate = geometryGrid.interpolate(pos, time);
+	if (rate == 0.)
+		return;
+	
+	rate *= interpolate(E, tabEnergy, tabRate);
 	// cosmological scaling of interaction distance (comoving)
-	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
-	double rate = scaling * interpolate(E, tabEnergy, tabRate);
+	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 	// check for interaction
 	Random &random = Random::instance();

@@ -11,8 +11,12 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField, bool havePhotons, double limit) {
+EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField,
+													   ScalarGrid4d geometryGrid,
+													   bool havePhotons,
+													   double limit) {
 	setPhotonField(photonField);
+	this->geometryGrid = geometryGrid;
 	this->havePhotons = havePhotons;
 	this->limit = limit;
 }
@@ -175,7 +179,16 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	// sample the value of s
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);
-	size_t j = random.randBin(tabCDF[i]);
+	Vector3d pos = candidate->current.getPosition();
+    double time = candidate->getTrajectoryLength()/c_light;
+    double geometricScaling = geometryGrid.interpolate(pos, time);
+    if (geometricScaling == 0.)
+    	return;
+    std::vector<double> tabCDF_geoScaled;
+    for (int j = 0; j < tabCDF[i].size(); ++j) {
+    	tabCDF_geoScaled.push_back(tabCDF[i][j]*geometricScaling);
+    }
+	size_t j = random.randBin(tabCDF_geoScaled);
 	double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);
 	double s = s_kin + mec2 * mec2;
 
@@ -208,8 +221,14 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 		return;
 
 	// interaction rate
-	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	// geometric scaling
+	Vector3d pos = candidate->current.getPosition();
+    double time = candidate->getTrajectoryLength()/c_light;
+	double rate = geometryGrid.interpolate(pos, time);
+	if (rate == 0.)
+		return;
+	rate *= interpolate(E, tabEnergy, tabRate);
+	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);	
 
 	// check for interaction
 	Random &random = Random::instance();

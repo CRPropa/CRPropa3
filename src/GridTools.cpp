@@ -89,16 +89,13 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 	size_t Nz = grid->getNz();
 	if ((Nx != Ny) or (Ny != Nz))
 		throw std::runtime_error("turbulentField: only cubic grid supported");
-	
-	Vector3d spacing = grid->getSpacing();
-	if ((spacing.x != spacing.y) or (spacing.y != spacing.z))
-		throw std::runtime_error("turbulentField: only equal spacing suported");
-	
-	if (lMin < 2 * spacing.x)
+
+	double spacing = grid->getSpacing();
+	if (lMin < 2 * spacing)
 		throw std::runtime_error("turbulentField: lMin < 2 * spacing");
 	if (lMin >= lMax)
 		throw std::runtime_error("turbulentField: lMin >= lMax");
-	if (lMax > Nx * spacing.x / 2)
+	if (lMax > Nx * spacing / 2)
 		throw std::runtime_error("turbulentField: lMax > size / 2");
 
 	size_t n = Nx; // size of array
@@ -130,8 +127,8 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 	// parameters goes for non helical calculations
 	double theta, phase, cosPhase, sinPhase;
 
-	double kMin = spacing.x / lMax;
-	double kMax = spacing.x / lMin;
+	double kMin = spacing / lMax;
+	double kMax = spacing / lMin;
 	Vector3f b; // real b-field vector
 	Vector3f ek, e1, e2; // orthogonal base
 	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
@@ -269,7 +266,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 
 void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
-	Vector3d spacing = grid->getSpacing();
+	double spacing = grid->getSpacing();
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -284,7 +281,7 @@ void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
 
 void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
-	Vector3d spacing = grid->getSpacing();
+	double spacing = grid->getSpacing();
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -405,6 +402,33 @@ void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 		}
 	}
 	fout.close();
+}
+
+void loadGridFromTxt(ref_ptr<ScalarGrid4d> grid, std::string filename, double c) {
+	std::ifstream fin(filename.c_str());
+	if (!fin) {
+		std::stringstream ss;
+		ss << "load ScalarGrid4d: " << filename << " not found";
+		throw std::runtime_error(ss.str());
+	}
+	// skip header lines
+	while (fin.peek() == '#')
+		fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	for (int ix = 0; ix < grid->getNx(); ix++) {
+		for (int iy = 0; iy < grid->getNy(); iy++) {
+			for (int iz = 0; iz < grid->getNz(); iz++) {
+				for (int it = 0; it < grid->getNt(); it++) {	
+					double &b = grid->get(ix,iy,iz,it);
+					fin >> b;
+					b *= c;
+					if (fin.eof())
+						throw std::runtime_error("load ScalarGrid4d: file too short");
+				}
+			}
+		}
+	}
+	fin.close();
 }
 
 void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {

@@ -41,7 +41,7 @@ protected:
 public:
 	PhotoPionProduction(
 		PhotonField photonField = CMB,
-		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.),
+		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
 		bool photons = false,
 		bool neutrinos = false,
 		bool electrons = false,

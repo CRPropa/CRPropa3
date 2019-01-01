@@ -29,7 +29,7 @@ private:
 
 public:
     ElasticScattering(PhotonField photonField = CMB,
-                      ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.) );
+                      ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.) );
     void initRate(std::string filename);
     void initCDF(std::string filename);
     void setPhotonField(PhotonField photonField);

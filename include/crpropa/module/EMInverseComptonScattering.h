@@ -34,7 +34,7 @@ private:
 public:
 	EMInverseComptonScattering(
 		PhotonField photonField = CMB, //!< target photon background
-		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.),
+		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
 		bool havePhotons = false,      //!< switch to create secondary photon
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);

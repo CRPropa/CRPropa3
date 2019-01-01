@@ -32,7 +32,7 @@ private:
 
 public:
 	ElectronPairProduction(PhotonField photonField = CMB,
-						   ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.),
+						   ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
 						   bool haveElectrons = false,
 						   double limit = 0.1);
 

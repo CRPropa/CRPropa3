@@ -23,6 +23,7 @@ namespace crpropa {
 class ElectronPairProduction: public Module {
 private:
 	PhotonField photonField;
+	ScalarGrid4d geometryGrid;
 	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0 */
 	std::vector<double> tabLorentzFactor; /*< tabulated Lorentz factor */
 	std::vector<std::vector<double> > tabSpectrum; /*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-24 in 170 steps and log10(gamma)=6-13 in 70 steps and*/
@@ -30,8 +31,10 @@ private:
 	bool haveElectrons;
 
 public:
-	ElectronPairProduction(PhotonField photonField = CMB, bool haveElectrons =
-			false, double limit = 0.1);
+	ElectronPairProduction(PhotonField photonField = CMB,
+						   ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.),
+						   bool haveElectrons = false,
+						   double limit = 0.1);
 
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);
@@ -53,7 +56,7 @@ public:
 	 beta_A,Z(E) = Z^2 / A * beta_p(E/A)
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
-	double lossLength(int id, double lf, double z=0) const;
+	double lossLength(int id, double lf, double z, Vector3d pos, double time) const;
 };
 /** @}*/
 

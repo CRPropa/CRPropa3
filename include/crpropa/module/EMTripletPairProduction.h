@@ -22,6 +22,7 @@ namespace crpropa {
 class EMTripletPairProduction: public Module {
 private:
 	PhotonField photonField;
+	ScalarGrid4d geometryGrid;
 	bool haveElectrons;
 	double limit;
 
@@ -37,6 +38,7 @@ private:
 public:
 	EMTripletPairProduction(
 		PhotonField photonField = CMB, //!< target photon background
+		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, 1.,1.),
 		bool haveElectrons = false,    //!< switch to create secondary electron pair
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);

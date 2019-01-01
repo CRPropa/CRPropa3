@@ -90,12 +90,15 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 	if ((Nx != Ny) or (Ny != Nz))
 		throw std::runtime_error("turbulentField: only cubic grid supported");
 
-	double spacing = grid->getSpacing();
-	if (lMin < 2 * spacing)
+	Vector3d spacing = grid->getSpacing();
+	if ((spacing.x != spacing.y) or (spacing.y != spacing.z))
+		throw std::runtime_error("turbulentField: only equal spacing suported");
+	
+	if (lMin < 2 * spacing.x)
 		throw std::runtime_error("turbulentField: lMin < 2 * spacing");
 	if (lMin >= lMax)
 		throw std::runtime_error("turbulentField: lMin >= lMax");
-	if (lMax > Nx * spacing / 2)
+	if (lMax > Nx * spacing.x / 2)
 		throw std::runtime_error("turbulentField: lMax > size / 2");
 
 	size_t n = Nx; // size of array
@@ -266,7 +269,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 
 void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
-	double spacing = grid->getSpacing();
+	Vector3d spacing = grid->getSpacing();
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -281,7 +284,7 @@ void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
 
 void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
-	double spacing = grid->getSpacing();
+	Vector3d spacing = grid->getSpacing();
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();

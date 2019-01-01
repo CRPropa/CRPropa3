@@ -84,7 +84,7 @@ JF12Field::JF12Field() {
 void JF12Field::randomStriated(int seed) {
 	useStriatedField = true;
 	int N = 100;
-	striatedGrid = new ScalarGrid(Vector3d(0.), N, 0.1 * kpc);
+	striatedGrid = new ScalarGrid(Vector3d(0.), N, Vector3d(0.1 * kpc));
 
 	Random random;
 	if (seed != 0)

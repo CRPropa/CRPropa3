@@ -82,6 +82,10 @@ void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename,
 		double conversion = 1);
 
 /** Load a VectorGrid grid from a plain text file */
+void loadGridFromTxt(ref_ptr<ScalarGrid4d> grid, std::string filename,
+		double conversion = 1);
+
+/** Load a VectorGrid grid from a plain text file */
 void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename,
 		double conversion = 1);
 

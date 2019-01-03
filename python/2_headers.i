@@ -285,6 +285,10 @@
 %template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;
 %include "crpropa/advectionField/AdvectionField.h"
 
+%implicitconv crpropa::ref_ptr<crpropa::Density>;
+%template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
+%include "crpropa/massDistribution/Density.h"
+
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
 
@@ -311,6 +315,7 @@
 %include "crpropa/magneticField/QuimbyMagneticField.h"
 %include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"
+%include "crpropa/magneticField/JF12FieldSolenoidal.h"
 %include "crpropa/magneticField/PT11Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
 %include "crpropa/module/BreakCondition.h"
@@ -538,3 +543,10 @@ class ParticleCollectorIterator {
 };
 
 %include "crpropa/module/ParticleCollector.h"
+
+%include "crpropa/massDistribution/Density.h"
+%include "crpropa/massDistribution/Nakanishi.h"
+%include "crpropa/massDistribution/Cordes.h"
+%include "crpropa/massDistribution/Ferriere.h"
+%include "crpropa/massDistribution/Massdistribution.h"
+%include "crpropa/massDistribution/ConstantDensity.h"

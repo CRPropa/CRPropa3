@@ -130,8 +130,8 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 	// parameters goes for non helical calculations
 	double theta, phase, cosPhase, sinPhase;
 
-	double kMin = spacing / lMax;
-	double kMax = spacing / lMin;
+	double kMin = spacing.x / lMax;
+	double kMax = spacing.x / lMin;
 	Vector3f b; // real b-field vector
 	Vector3f ek, e1, e2; // orthogonal base
 	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base

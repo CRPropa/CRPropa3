@@ -276,7 +276,9 @@ void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
 	for (size_t ix = 0; ix < Nx; ix++)
 		for (size_t iy = 0; iy < Ny; iy++)
 			for (size_t iz = 0; iz < Nz; iz++) {
-				Vector3d pos = Vector3d(double(ix) + 0.5, double(iy) + 0.5, double(iz) + 0.5) * spacing + origin;
+				Vector3d pos = Vector3d( (double(ix) + 0.5) * spacing.x,
+										 (double(iy) + 0.5) * spacing.y,
+										 (double(iz) + 0.5) * spacing.z ) + origin;
 				Vector3d B = field->getField(pos);
 				grid->get(ix, iy, iz) = B;
 	}
@@ -291,7 +293,9 @@ void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> 
 	for (size_t ix = 0; ix < Nx; ix++)
 		for (size_t iy = 0; iy < Ny; iy++)
 			for (size_t iz = 0; iz < Nz; iz++) {
-				Vector3d pos = Vector3d(double(ix) + 0.5, double(iy) + 0.5, double(iz) + 0.5) * spacing + origin;
+				Vector3d pos = Vector3d( (double(ix) + 0.5) * spacing.x,
+										 (double(iy) + 0.5) * spacing.y,
+										 (double(iz) + 0.5) * spacing.z ) + origin;
 				double s = field->getField(pos).getR();
 				grid->get(ix, iy, iz) = s;
 	}

@@ -527,9 +527,7 @@ TEST(PhotoPionProduction, limitNextStep) {
 TEST(PhotoPionProduction, secondaries) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.
-	// PhotoPionProduction ppp("field.txt", "geometry.txt", CMB, true, true, true);
-	// PhotoPionProduction ppp(CMB, ScalarGrid(Vector3d(0.),1,1.),true, true, true);
-	PhotoPionProduction ppp(CMB, ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),true, true, true);
+	PhotoPionProduction ppp(CMB, ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.), true, true, true);
 	Candidate c(nucleusId(1, 1), 100 * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);

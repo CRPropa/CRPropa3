@@ -181,13 +181,18 @@ Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const 
 				r0 = r * 1. / (1.- 1./ (2. * (zS + rXc * tanThetaX0)) * (zS - z * z / zS));
 
 				// determine correct region (inner/outer)
+				// and compute factor F for solenoidality
 				if (r0 >= r0c){
 					r0 = r + 1. / (2. * tanThetaX0) * (zS - z * z / zS);
-					inner = false;
+					f = 1. + 1/ (2 * r * tanThetaX0/ zS) * (1. - (z / zS) * (z / zS));
+				}
+				else
+				{
+					 f = 1. / ((1. - 1./( 2. + 2. * (rXc * tanThetaX0/ zS)) * (1. - (z / zS) * (z / zS))) * (1. - 1./( 2. + 2. * (rXc * tanThetaX0/ zS)) * (1. - (z / zS) * (z / zS))));
 				}
 
 				// field strength at that position
-				 if (r0 < r0c){
+				if (r0 < r0c){
 					 rp = r0 * rXc / r0c;
 					 double thetaX = atan(zS / (r0 - rp));
 
@@ -200,14 +205,6 @@ Vector3d JF12FieldSolenoidal::getXField(const double& r, const double& z, const 
 					 rp = r0 - zS / tanThetaX0;
 					 br0 =  bX * exp(- rp / rX) * (rp/r0) * cosThetaX0;
 					 bz0 =  bX * exp(- rp / rX) * (rp/r0) * sinThetaX0;
-				 }
-
-				 // compute factor F for solenoidality
-				 if (inner){
-					 f = 1. / ((1. - 1./( 2. + 2. * (rXc * tanThetaX0/ zS)) * (1. - (z / zS) * (z / zS))) * (1. - 1./( 2. + 2. * (rXc * tanThetaX0/ zS)) * (1. - (z / zS) * (z / zS))));
-				 }
-				 else {
-					 f = 1. + 1/ (2 * r * tanThetaX0/ zS) * (1. - (z / zS) * (z / zS));
 				 }
 
 				 double br = z / zS * f * br0;

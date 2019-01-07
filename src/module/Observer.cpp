@@ -317,7 +317,6 @@ ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double num
 DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 
 	if (detList.size()) {
-		bool detected = false;
 		double length = c->getTrajectoryLength();
 		size_t index;
 		const std::string DI = "DetectionIndex";
@@ -352,7 +351,6 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 			}
 			c->setProperty(DI, Variant::fromUInt64(index+1));
 
-			detected=true;
 			return DETECTED;
 		}
 

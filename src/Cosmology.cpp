@@ -35,11 +35,10 @@ struct Cosmology {
 		// Relation between comoving distance r and redshift z (cf. J.A. Peacock, Cosmological physics, p. 89 eq. 3.76)
 		// dr = c / H(z) dz, integration using midpoint rule
 		double dlz = log10(zmax) - log10(zmin);
-		double dz;
 		for (int i = 1; i < n; i++) {
 			Z[i] = zmin * pow(10, i * dlz / (n - 1)); // logarithmic even spacing
-			dz = (Z[i] - Z[i - 1]); // redshift step
-			E[i] = sqrt(omegaL + omegaM * pow(1 + Z[i], 3));
+			double dz = (Z[i] - Z[i - 1]); // redshift step
+			E[i] = sqrt(omegaL + omegaM * pow_integer<3>(1 + Z[i]));
 			Dc[i] = Dc[i - 1] + dH * dz * (1 / E[i] + 1 / E[i - 1]) / 2;
 			Dl[i] = (1 + Z[i]) * Dc[i];
 			Dt[i] = Dt[i - 1]

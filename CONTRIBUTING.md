@@ -66,7 +66,7 @@ In addition to those general ideas, we use the following conventions:
 * All code and new functionality should be covered by unit tests, coverage
   should be [checked](https://github.com/CRPropa/CRPropa3/wiki/Code-Coverage)
 
-### C++ Code Style
+### C++ Code
 * CamelCase is used for naming, i.e. `FooBar::doSomething` instead of e.g.
   `foo_bar::do_something`.
 * Class names should be capitalized, methods and variables not
@@ -85,8 +85,10 @@ In addition to those general ideas, we use the following conventions:
 * Includes should be in order of
   other CRPropa headers, other libraries, C++ standard libs, separated by blank
   lines
+* If possible headers should be included in the implementation (cpp file) and not the definition (.h) file.
 
-### Python Code style
+
+### Python Code
 * All code needs to run on python 3 (and 2.7)
 * Code should follow [PEP8](https://www.python.org/dev/peps/pep-0008/)
 

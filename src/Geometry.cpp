@@ -115,7 +115,7 @@ Vector3d ParaxialBox::normal(const Vector3d& point) const
   }
   if (d2.z < dmin)
   {
-    dmin = d2.z;
+    // dmin = d2.z;
     n = Vector3d(0,0,1);
   }
 

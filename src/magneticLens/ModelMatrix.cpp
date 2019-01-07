@@ -35,12 +35,11 @@ void serialize(const string &filename, const ModelMatrixType& matrix)
 		throw runtime_error("Can't write file: " + filename);
 	}
 
-	uint32_t nnz = 0;
 	uint32_t C = 0;
 	double val;
 
 	C = (uint32_t) (matrix.nonZeros());
-	outfile.write((char*) &nnz, sizeof(uint32_t));
+	outfile.write((char*) &C, sizeof(uint32_t));
 	C = (uint32_t) (matrix.rows());
 	outfile.write((char*) &C, sizeof(uint32_t));
 	C = (uint32_t) (matrix.cols());
@@ -52,13 +51,13 @@ void serialize(const string &filename, const ModelMatrixType& matrix)
 		for (ModelMatrixType::InnerIterator it(matrix,col_idx); it; ++it)
 			{
 				it.value();
-				C = (uint32_t) it.row(); 
+				C = (uint32_t) it.row();
 				outfile.write((char*) &C, sizeof(uint32_t));
 
-				C = (uint32_t) it.col(); 
+				C = (uint32_t) it.col();
 				outfile.write((char*) &C, sizeof(uint32_t));
-				
-				val = it.value(); 
+
+				val = it.value();
 				outfile.write((char*) &val, sizeof(double));
 				if (outfile.fail())
 				{
@@ -66,7 +65,7 @@ void serialize(const string &filename, const ModelMatrixType& matrix)
 				}
 			}
 	}
-	
+
 	outfile.close();
 }
 

@@ -136,9 +136,9 @@ class ICSSecondariesEnergyDistribution {
 				double beta = (s - s_min) / (s + s_min);
 				double x0 = (1 - beta) / (1 + beta);
 				double dlx = -log(x0) / Nrer;
-				
+
 				// cumulative midpoint integration
-				data_i[0] = dSigmadE(x0, beta) * (exp(dlx) - 1);
+				data_i[0] = dSigmadE(x0, beta) * expm1(dlx);
 				for (size_t j = 1; j < Nrer; j++) {
 					double x = x0 * exp((j+0.5)*dlx);
 					double dx = exp((j+1)*dlx) - exp(j*dlx);

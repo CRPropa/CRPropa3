@@ -249,11 +249,10 @@ void MagneticLens::normalizeLens()
 
 void MagneticLens::normalizeLensparts()
 {
-	double norm;
 	for (LensPartIter iter = _lensParts.begin(); iter != _lensParts.end();
 			++iter)
 	{
-		norm = (*iter)->getMaximumOfSumsOfColumns();
+		double norm = (*iter)->getMaximumOfSumsOfColumns();
 		normalizeMatrix((*iter)->getMatrix(), norm);
 	}
 }

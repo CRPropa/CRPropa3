@@ -122,10 +122,9 @@ void normalizeColumns(ModelMatrixType &matrix){
 double maximumOfSumsOfColumns(const ModelMatrixType &matrix) 
 {
 	double summax = 0;
-	double sum = 0;
 	for (size_t i = 0; i < matrix.cols(); i++)
 	{
-		sum =matrix.col(i).sum();
+		double sum = matrix.col(i).sum();
 		if (sum > summax)
 			summax = sum;
 	}

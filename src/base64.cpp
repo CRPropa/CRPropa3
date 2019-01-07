@@ -96,9 +96,9 @@ unsigned char *pos = out;
 
 size_t count = 0;
 int pad = 0;
-unsigned char block[4], tmp;
+unsigned char block[4];
 for (size_t i = 0; i < len; i++) {
-	tmp = decode_alphabet[src[i]];
+	unsigned char tmp = decode_alphabet[src[i]];
 	if (tmp == 0x80)
 		continue;
 

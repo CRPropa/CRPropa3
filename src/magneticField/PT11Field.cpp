@@ -28,7 +28,7 @@ PT11Field::PT11Field() : useASS(true), useBSS(false), useHalo(true) {
 void PT11Field::SetParams() {
 	cos_pitch = cos(pitch);
 	sin_pitch = sin(pitch);
-	PHI = cos_pitch / sin_pitch * log(1 + d / R_sun) - M_PI / 2;
+	PHI = cos_pitch / sin_pitch * log1p(d / R_sun) - M_PI / 2;
 	cos_PHI = cos(PHI);
 }
 

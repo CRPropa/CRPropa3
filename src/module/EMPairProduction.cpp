@@ -130,7 +130,7 @@ class PPSecondariesEnergyDistribution {
 
 				// cumulative midpoint integration
 				std::vector<double> data_i(1000);
-				data_i[0] = dSigmadE_PPx(x0, beta) * (exp(dx) - 1);
+				data_i[0] = dSigmadE_PPx(x0, beta) * expm1(dx);
 				for (size_t j = 1; j < N; j++) {
 					double x = x0 * exp(j*dx + 0.5*dx);
 					double binWidth = exp((j+1)*dx)-exp(j*dx);

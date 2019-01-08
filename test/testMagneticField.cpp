@@ -99,10 +99,10 @@ TEST(testVectorFieldGrid, Turbulence_seed) {
 	double index = -11. / 3.;
 	int seed = 753;
 
-	ref_ptr<VectorGrid> grid1 = new VectorGrid(Vector3d(0, 0, 0), n, spacing);
+	ref_ptr<VectorGrid> grid1 = new VectorGrid(Vector3d(0, 0, 0), n, Vector3d(spacing));
 	initTurbulence(grid1, Brms, lMin, lMax, index, seed);
 
-	ref_ptr<VectorGrid> grid2 = new VectorGrid(Vector3d(0, 0, 0), n, spacing);
+	ref_ptr<VectorGrid> grid2 = new VectorGrid(Vector3d(0, 0, 0), n, Vector3d(spacing));
 	initTurbulence(grid2, Brms, lMin, lMax, index, seed);
 
 	Vector3d pos(22 * Mpc);
@@ -114,7 +114,7 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 	size_t n = 64;
 	double spacing = 10 * Mpc / n;
 	double brms = 1;
-	ref_ptr<VectorGrid> grid = new VectorGrid(Vector3d(0, 0, 0), n, spacing);
+	ref_ptr<VectorGrid> grid = new VectorGrid(Vector3d(0, 0, 0), n, Vector3d(spacing));
 
 	// should be fine
 	EXPECT_NO_THROW(initTurbulence(grid, brms, 2 * spacing, 8 * spacing));

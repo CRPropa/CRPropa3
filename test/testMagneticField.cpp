@@ -78,7 +78,7 @@ TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	double lMin = 2 * spacing;
 	double lMax = 8 * spacing;
 
-	ref_ptr<VectorGrid> grid = new VectorGrid(Vector3d(0, 0, 0), n, spacing);
+	ref_ptr<VectorGrid> grid = new VectorGrid(Vector3d(0, 0, 0), n, Vector3d(spacing));
 	initTurbulence(grid, Brms, lMin, lMax);
 
 	double precision = 1e-7;

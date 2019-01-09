@@ -22,7 +22,6 @@ const size_t ElasticScattering::neps = 513; // number of photon background energ
 ElasticScattering::ElasticScattering(PhotonField f, ScalarGrid4d geometryGrid) {
 	setPhotonField(f);
 	this->geometryGrid = geometryGrid;
-	geometryGrid.setOrigin(-0.5*geometryGrid.getSpacing());  // correct for in-middle-of-box convention in CRPropa
 }
 
 void ElasticScattering::setPhotonField(PhotonField photonField) {

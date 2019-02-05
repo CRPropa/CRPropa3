@@ -4,7 +4,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <vector>
-//~ 
+
 namespace crpropa {
 
 // Cash-Karp coefficients

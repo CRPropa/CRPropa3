@@ -20,18 +20,29 @@ namespace crpropa {
 		candidate->previous = current;
 
 		double step = getStep();
-		candidate->setCurrentStep(step);
 		double h = step / c_light;
 
-		//get particle properties
+		// get particle properties
 		double q = current.getCharge();
+        Vector3d pos = current.getPosition();
+        Vector3d dir = current.getDirection();
+
+        // rectilinear propagation for neutral particles
+        if (q == 0) {
+            pos = current.getPosition();
+            dir = current.getDirection();
+            current.setPosition(pos + dir * step);
+            candidate->setCurrentStep(step);
+            candidate->setNextStep(step);
+            return;
+        }
+
+        // further particle parameters
 		double m = current.getEnergy()/(c_light * c_light);
 		double z = candidate->getRedshift();
-		Vector3d pos = current.getPosition();
-		Vector3d dir = current.getDirection();
 
 		// half leap frog step in the position
-		pos += c_light * dir * h / 2.;
+		pos += dir * step / 2.;
 
 		// get B field at particle position
 		Vector3d B(0, 0, 0);
@@ -54,10 +65,10 @@ namespace crpropa {
 		candidate->current.setDirection(dir);
 
 		// the other half leap frog step in the position
-		pos += c_light * dir * h / 2. ;
+		pos += dir / 2. ;
 		candidate->current.setPosition(pos);
-		candidate->setCurrentStep(h);
-		candidate->setNextStep(h);
+		candidate->setCurrentStep(step);
+		candidate->setNextStep(step);
 	}
 
 

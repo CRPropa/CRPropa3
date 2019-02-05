@@ -1,6 +1,7 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/ParticleID.h"
 #include "crpropa/module/SimplePropagation.h"
+#include "crpropa/module/PropagationBP.h"
 #include "crpropa/module/PropagationCK.h"
 
 #include "gtest/gtest.h"
@@ -70,6 +71,26 @@ TEST(testPropagationCK, proton) {
 
 	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
+}
+
+TEST(testPropagationBP, proton) {
+	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+
+	double step = 0.1 * kpc;
+	propa.setStep(step);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 1));
+	p.setEnergy(100 * EeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+	c.setNextStep(0);
+
+	propa.process(&c);
+
+	EXPECT_DOUBLE_EQ(step, c.getCurrentStep());  // perform step
+	EXPECT_DOUBLE_EQ(step, c.getNextStep());  // should not change the step size
 }
 
 TEST(testPropagationCK, neutron) {

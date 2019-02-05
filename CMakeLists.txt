@@ -363,6 +363,8 @@ add_library(crpropa SHARED
 	src/module/PhotonEleCa.cpp
 	src/module/PhotonOutput1D.cpp
 	src/module/PropagationCK.cpp
+	src/module/PropagationBP.cpp
+	src/module/PropagationBP_step.cpp
 	src/module/Redshift.cpp
 	src/module/RestrictToRegion.cpp
 	src/module/SimplePropagation.cpp

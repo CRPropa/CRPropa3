@@ -7,10 +7,10 @@
 namespace crpropa {
 
 	PropagationBP::PropagationBP(ref_ptr<MagneticField> field,
-								 double propStep) : propStep(1 * Mpc)
+								 double step) : step(1 * kpc)
 	{
 		setField(field);
-		setStep(propStep);
+		setStep(step);
 	}
 
 
@@ -19,9 +19,6 @@ namespace crpropa {
 		ParticleState &current = candidate->current;
 		candidate->previous = current;
 
-		double step = getStep();
-		double h = step / c_light;
-
 		// get particle properties
 		double q = current.getCharge();
         Vector3d pos = current.getPosition();
@@ -29,8 +26,6 @@ namespace crpropa {
 
         // rectilinear propagation for neutral particles
         if (q == 0) {
-            pos = current.getPosition();
-            dir = current.getDirection();
             current.setPosition(pos + dir * step);
             candidate->setCurrentStep(step);
             candidate->setNextStep(step);
@@ -53,7 +48,7 @@ namespace crpropa {
 			std::cerr << e.what() << std::endl;
 		}
 		// Boris help vectors
-		Vector3d t = B * q / 2 / m * h;
+		Vector3d t = B * q / 2 / m * step / c_light;
 		Vector3d s = t * 2 / (1 + t.dot(t));
 		Vector3d v_help;
 
@@ -76,20 +71,20 @@ namespace crpropa {
 		field = f;
 	}
 
-	void PropagationBP::setStep(double step) {
-		if (step < 0.)
+	void PropagationBP::setStep(double propStep) {
+		if (propStep < 0.)
 			throw std::runtime_error("PropagationBP: step < 0");
-		propStep = step;
+		step = propStep;
 	}
 
 	double PropagationBP::getStep() const {
-		return propStep;
+		return step;
 	}
 
 	std::string PropagationBP::getDescription() const {
 		std::stringstream s;
 		s << "Propagation in magnetic fields using the Boris push method.";
-		s << ", step: " << propStep / kpc << " kpc";
+		s << ", step: " << step / kpc << " kpc";
 		return s.str();
 	}
 

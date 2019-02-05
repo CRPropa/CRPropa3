@@ -53,6 +53,26 @@ TEST(testPropagationCK, zeroField) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
+TEST(testPropagationBP, zeroField) {
+    PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 0)));
+
+    double step = 0.1 * kpc;
+    propa.setStep(step);
+
+    ParticleState p;
+    p.setId(nucleusId(1, 1));
+    p.setEnergy(100 * EeV);
+    p.setPosition(Vector3d(0, 0, 0));
+    p.setDirection(Vector3d(0, 1, 0));
+    Candidate c(p);
+    c.setNextStep(0);
+
+    propa.process(&c);
+
+    EXPECT_DOUBLE_EQ(step, c.getCurrentStep());  // perform minimum step
+    EXPECT_DOUBLE_EQ(step, c.getNextStep());  // should not change the step size
+}
+
 TEST(testPropagationCK, proton) {
 	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
@@ -109,6 +129,25 @@ TEST(testPropagationCK, neutron) {
 
 	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
 	EXPECT_DOUBLE_EQ(42 * Mpc, c.getNextStep());
+	EXPECT_EQ(Vector3d(0, 1 * kpc, 0), c.current.getPosition());
+	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
+}
+
+TEST(testPropagationBP, neutron) {
+	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+	propa.setStep(1 * kpc);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 0));
+	p.setEnergy(100 * EeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+
+	propa.process(&c);
+
+	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
+	EXPECT_DOUBLE_EQ(1 * kpc, c.getNextStep());
 	EXPECT_EQ(Vector3d(0, 1 * kpc, 0), c.current.getPosition());
 	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
 }

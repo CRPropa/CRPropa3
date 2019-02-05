@@ -60,7 +60,7 @@ namespace crpropa {
 		candidate->current.setDirection(dir);
 
 		// the other half leap frog step in the position
-		pos += dir / 2. ;
+		pos += dir * step / 2. ;
 		candidate->current.setPosition(pos);
 		candidate->setCurrentStep(step);
 		candidate->setNextStep(step);

@@ -10,17 +10,17 @@ namespace crpropa {
     class PropagationBP: public Module {
 
         ref_ptr<MagneticField> field;
-        double propStep;
+        double step;
 
 
     public:
         PropagationBP(ref_ptr<MagneticField> field = NULL,
-                      double propStep = (0.1 * Mpc));
+                      double step = (0.1 * kpc));
 
         void process(Candidate *candidate) const;
 
         void setField(ref_ptr<MagneticField> field);
-        void setStep(double propStep);
+        void setStep(double step);
         double getStep() const;
         std::string getDescription() const;
     };

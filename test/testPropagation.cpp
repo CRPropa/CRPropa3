@@ -2,6 +2,7 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/PropagationBP.h"
+#include "crpropa/module/PropagationBP_step.h"
 #include "crpropa/module/PropagationCK.h"
 
 #include "gtest/gtest.h"
@@ -53,6 +54,26 @@ TEST(testPropagationCK, zeroField) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
+TEST(testPropagationBP_step, zeroField) {
+    PropagationBP_step propa(new UniformMagneticField(Vector3d(0, 0, 0)));
+
+    double minStep = 0.1 * kpc;
+    propa.setMinimumStep(minStep);
+
+    ParticleState p;
+    p.setId(nucleusId(1, 1));
+    p.setEnergy(100 * EeV);
+    p.setPosition(Vector3d(0, 0, 0));
+    p.setDirection(Vector3d(0, 1, 0));
+    Candidate c(p);
+    c.setNextStep(0);
+
+    propa.process(&c);
+
+    EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
+    EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
+}
+
 TEST(testPropagationBP, zeroField) {
     PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 0)));
 
@@ -94,10 +115,32 @@ TEST(testPropagationCK, proton) {
 }
 
 TEST(testPropagationBP, proton) {
-	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+    PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+
+    double minStep = 0.1 * kpc;
+    propa.setStep(minStep);
+
+    ParticleState p;
+    p.setId(nucleusId(1, 1));
+    p.setEnergy(100 * EeV);
+    p.setPosition(Vector3d(0, 0, 0));
+    p.setDirection(Vector3d(0, 1, 0));
+    Candidate c(p);
+    c.setNextStep(0);
+
+    propa.process(&c);
+
+    EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
+    EXPECT_DOUBLE_EQ(minStep, c.getNextStep());  // should not change the step size
+}
+
+TEST(testPropagationBP_step, proton) {
+	PropagationBP_step propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
 	double step = 0.1 * kpc;
-	propa.setStep(step);
+	propa.setMinimumStep(step);
+	propa.setMaximumStep(10*step);
+	propa.setTolerance(0.00001);
 
 	ParticleState p;
 	p.setId(nucleusId(1, 1));
@@ -110,7 +153,7 @@ TEST(testPropagationBP, proton) {
 	propa.process(&c);
 
 	EXPECT_DOUBLE_EQ(step, c.getCurrentStep());  // perform step
-	EXPECT_DOUBLE_EQ(step, c.getNextStep());  // should not change the step size
+	EXPECT_DOUBLE_EQ(5 * step, c.getNextStep());  // acceleration by factor 5
 }
 
 // Test the numerical results for parallel magnetic field lines along the z-axis
@@ -119,6 +162,50 @@ TEST(testPropagationBP, gyration) {
 
     double step = 10. * Mpc;  // gyroradius is 108.1 Mpc
     propa.setStep(step);
+
+    ParticleState p;
+    p.setId(nucleusId(1, 1));
+    p.setEnergy(100 * EeV);
+    p.setPosition(Vector3d(0, 0, 0));
+    p.setDirection(Vector3d(1, 1, 1));
+    Candidate c(p);
+    c.setNextStep(0);
+    propa.process(&c);
+
+    double dirX = c.current.getDirection().x;
+    double dirY = c.current.getDirection().y;
+    double dirZ = c.current.getDirection().z;
+    double posZ = c.current.getPosition().z;
+
+    // Test if the analytical solution is achieved of the components of the momentum with the Boris push as expected in
+    // the background magnetic field.
+    EXPECT_DOUBLE_EQ(2 / 3., dirX * dirX + dirY * dirY);  // constant momentum in the perpendicular plane to background magnetic field field
+    EXPECT_DOUBLE_EQ(1 / 3., dirZ * dirZ);  // constant momentum parallel to the background magnetic field
+    EXPECT_DOUBLE_EQ( step * step / 3., posZ * posZ);  // constant velocity parallel to the background magnetic field
+
+    // Nine new steps to have finally propagated the particle ten times
+    for (int i = 0; i < 9; i++){
+        propa.process(&c);
+    }
+
+    dirX = c.current.getDirection().x;
+    dirY = c.current.getDirection().y;
+    dirZ = c.current.getDirection().z;
+    posZ = c.current.getPosition().z;
+
+    // Compare the numerical solutions after ten steps with the analytical solution of the trajectories
+    EXPECT_DOUBLE_EQ(2 / 3., dirX * dirX + dirY * dirY);  // constant momentum in the perpendicular plane to background magnetic field field
+    EXPECT_DOUBLE_EQ(1 / 3., dirZ * dirZ);  // constant momentum parallel to the background magnetic field
+    EXPECT_DOUBLE_EQ(100 * step * step / 3., posZ * posZ);  // constant velocity parallel to the background magnetic field
+}
+
+// Test the numerical results for parallel magnetic field lines along the z-axis
+TEST(testPropagationBP_step, gyration) {
+    PropagationBP_step propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+
+    double step = 10. * Mpc;  // gyroradius is 108.1 Mpc
+    propa.setMinimumStep(step);
+    propa.setMaximumStep(step);
 
     ParticleState p;
     p.setId(nucleusId(1, 1));

@@ -117,7 +117,7 @@ TEST(testPropagationBP, proton) {
 TEST(testPropagationBP, gyration) {
     PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
-    double step = 10 * Mpc;  // gyroradius is 108.1 Mpc
+    double step = 10. * Mpc;  // gyroradius is 108.1 Mpc
     propa.setStep(step);
 
     ParticleState p;
@@ -153,7 +153,7 @@ TEST(testPropagationBP, gyration) {
     // Compare the numerical solutions after ten steps with the analytical solution of the trajectories
     EXPECT_DOUBLE_EQ(2 / 3., dirX * dirX + dirY * dirY);  // constant momentum in the perpendicular plane to background magnetic field field
     EXPECT_DOUBLE_EQ(1 / 3., dirZ * dirZ);  // constant momentum parallel to the background magnetic field
-    EXPECT_DOUBLE_EQ( 100 * step * step / 3., posZ * posZ);  // constant velocity parallel to the background magnetic field
+    EXPECT_DOUBLE_EQ(100 * step * step / 3., posZ * posZ);  // constant velocity parallel to the background magnetic field
 }
 
 

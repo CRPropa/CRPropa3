@@ -63,7 +63,7 @@ namespace crpropa {
 
         // derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)
         // du/dt = q*c^2/E * (u x B)
-        Y dYdt(double q, double m, Vector3d x, Vector3d v, double z, double step) const;
+        Y dY(double q, double m, Vector3d x, Vector3d v, double z, double step) const;
         double errorEstimation(const Vector3d mu, const Vector3d muh, double h) const;
 
         void tryStep(const Y &y, Y &out, Y &error, double t,

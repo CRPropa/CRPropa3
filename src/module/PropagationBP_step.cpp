@@ -9,18 +9,17 @@ namespace crpropa {
 
 void PropagationBP_step::tryStep(const Y &y, Y &out, Y &error, double h,
                             ParticleState &particle, double z, double m, double q) const {
-    out = dYdt(q, m, y.x, y.u, z, h);  // 1 step with h
+    out = dY(q, m, y.x, y.u, z, h);  // 1 step with h
 
-    Y outHelp = dYdt(q, m, y.x, y.u, z, h/2);  // 2 steps with h/2
-    Y outCompare = dYdt(q, m, outHelp.x, outHelp.u, z, h/2);
+    Y outHelp = dY(q, m, y.x, y.u, z, h/2);  // 2 steps with h/2
+    Y outCompare = dY(q, m, outHelp.x, outHelp.u, z, h/2);
 
     error = errorEstimation(out.x , outCompare.x , h);
 }
 
 
-PropagationBP_step::Y PropagationBP_step::dYdt(double q, double m, Vector3d x, Vector3d v, double z, double step) const {
+PropagationBP_step::Y PropagationBP_step::dY(double q, double m, Vector3d x, Vector3d v, double z, double step) const {
 
-    PropagationBP_step::Y p;
     double h = step;
 
     // half leap frog step in the position

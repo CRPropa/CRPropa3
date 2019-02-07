@@ -61,9 +61,7 @@ namespace crpropa {
                       double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
         void process(Candidate *candidate) const;
 
-        // derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)
-        // du/dt = q*c^2/E * (u x B)
-        Y dY(double q, double m, Vector3d x, Vector3d v, double z, double step) const;
+        Y dY(Vector3d  pos, Vector3d  dir, double step, double z, double q, double m) const;
         double errorEstimation(const Vector3d mu, const Vector3d muh, double h) const;
 
         void tryStep(const Y &y, Y &out, Y &error, double t,
@@ -74,6 +72,7 @@ namespace crpropa {
         void setMinimumStep(double minStep);
         void setMaximumStep(double maxStep);
 
+        ref_ptr<MagneticField> getField() const;
         double getTolerance() const;
         double getMinimumStep() const;
         double getMaximumStep() const;

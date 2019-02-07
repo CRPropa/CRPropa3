@@ -145,11 +145,16 @@ void PropagationBP_step::setField(ref_ptr<MagneticField> f) {
     field = f;
 }
 
-double PropagationBP_step::errorEstimation(const Vector3d mu, const Vector3d muh, double h) const {
+ref_ptr<MagneticField> PropagationBP_step::getField() const {
+    return field;
+}
 
-    Vector3d diff = (mu - muh);
-    //~ std::cout << " diff = " << diff.getR() << std::endl;
-    double S = diff.getR() / (h * (1 - 1/4.) );    // 1/4 = (1/2)² = mu hoch p
+double PropagationBP_step::errorEstimation(const Vector3d x1, const Vector3d x2, double h) const {
+
+    // compare the position after one step with the position after two steps with step/2.
+    Vector3d diff = (x1 - x2);
+
+    double S = diff.getR() / (h * (1 - 1/4.) );    // 1/4 = (1/2)²  number of steps for x1 divided by number of steps for x2 to the power of p (order)
 
     return S;
 }

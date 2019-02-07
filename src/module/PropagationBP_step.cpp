@@ -149,7 +149,7 @@ double PropagationBP_step::errorEstimation(const Vector3d mu, const Vector3d muh
 
     Vector3d diff = (mu - muh);
     //~ std::cout << " diff = " << diff.getR() << std::endl;
-    double S = diff.getR() / (h * (1 - 1/4) );    // 1/4 = (1/2)² = mu hoch p
+    double S = diff.getR() / (h * (1 - 1/4.) );    // 1/4 = (1/2)² = mu hoch p
 
     return S;
 }

@@ -84,20 +84,30 @@ void PropagationBP_step::process(Candidate *candidate) const {
     double m = current.getEnergy()/(c_light * c_light);
     double q = current.getCharge();
 
+
     // try performing step until the target error (tolerance) or the minimum step size has been reached
-    while (r > 1) {
-        step = newStep;
+    while (true) {
         tryStep(yIn, yOut, yErr, step / c_light, current, z, m, q);
-
         r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
-        newStep = step * 0.95 * pow(r, -1/3.);  // update step size to keep error close to tolerance
-        std::cout << "error " << r << "  oldStep " << step/Mpc << "  newStep " << newStep/Mpc << std::endl;
-        newStep = clip(newStep, 0.1 * step, 5 * step);  // limit the step size change
-        newStep = clip(newStep, minStep, maxStep);
-        std::cout << "error " << r << "  oldStep " << step/Mpc << "  newStep " << newStep/Mpc << std::endl;
-
-        if (step == minStep)
-            break;  // performed step already at the minimum
+        if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
+            if (step == minStep)  // already minimum step size
+                break;
+            else {
+                newStep = step * 0.95 * pow(r, -0.2);
+                newStep = std::max(newStep, 0.1 * step); // limit step size decrease
+                newStep = std::max(newStep, minStep); // limit step size to minStep
+                step = newStep;
+                std::cout << "error " << r << "  oldStep " << step/Mpc << "  newStep " << newStep/Mpc << std::endl;
+            }
+        } else {  // small direction error relative to tolerance, try to increase step size
+            if (step != maxStep) {  // already maximum step size
+                newStep = step * 0.95 * pow(r, -0.2);
+                newStep = std::min(newStep, 5 * step); // limit step size increase
+                newStep = std::min(newStep, maxStep); // limit step size to max Step
+                std::cout << "error " << r << "  oldStep " << step/Mpc << "  newStep " << newStep/Mpc << std::endl;
+            }
+            break;
+        }
     }
 
     current.setPosition(yOut.x);

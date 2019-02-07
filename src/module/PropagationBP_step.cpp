@@ -9,45 +9,42 @@ namespace crpropa {
 
 void PropagationBP_step::tryStep(const Y &y, Y &out, Y &error, double h,
                             ParticleState &particle, double z, double m, double q) const {
-    out = dY(q, m, y.x, y.u, z, h);  // 1 step with h
+    out = dY(y.x, y.u, h, z, q, m);  // 1 step with h
 
-    Y outHelp = dY(q, m, y.x, y.u, z, h/2);  // 2 steps with h/2
-    Y outCompare = dY(q, m, outHelp.x, outHelp.u, z, h/2);
+    Y outHelp = dY(y.x, y.u, h/2, z, q, m);  // 2 steps with h/2
+    Y outCompare = dY(outHelp.x, outHelp.u, h/2, z, q, m);
 
     error = errorEstimation(out.x , outCompare.x , h);
 }
 
-
-PropagationBP_step::Y PropagationBP_step::dY(double q, double m, Vector3d x, Vector3d v, double z, double step) const {
-
-    double h = step;
+PropagationBP_step::Y PropagationBP_step::dY(Vector3d pos, Vector3d dir, double step, double z, double q, double m) const {
 
     // half leap frog step in the position
-    x += c_light * v * h /2. ;
+    pos += dir * step / 2.;
 
     // get B field at particle position
     Vector3d B(0, 0, 0);
     try {
-        B = field->getField(x, z);
+        B = field->getField(pos, z);
     } catch (std::exception &e) {
-        std::cerr << "PropagationBP_step: Exception in getField." << std::endl;
+        std::cerr << "PropagationBP: Exception in getField." << std::endl;
         std::cerr << e.what() << std::endl;
     }
+
     // Boris help vectors
-    Vector3d t = B * q/2/m * h;
-    Vector3d s = t *2. /(1+t.dot(t));
+    Vector3d t = B * q / 2 / m * step / c_light;
+    Vector3d s = t * 2 / (1 + t.dot(t));
     Vector3d v_help;
 
-    // Boris Push
-    v_help = v + v.cross(t);
-    v = v + v_help.cross(s);
+    // Boris push
+    v_help = dir + dir.cross(t);
+    dir = dir + v_help.cross(s);
 
     // the other half leap frog step in the position
-    x += c_light * v * h /2. ;
-
-    return Y(x, v);
-
+    pos += dir * step / 2.;
+    return Y(pos, dir);
 }
+
 
 PropagationBP_step::PropagationBP_step(ref_ptr<MagneticField> field, double tolerance,
                              double minStep, double maxStep) :
@@ -58,15 +55,18 @@ PropagationBP_step::PropagationBP_step(ref_ptr<MagneticField> field, double tole
     setMinimumStep(minStep);
 }
 
+
 void PropagationBP_step::process(Candidate *candidate) const {
     // save the new previous particle state
     ParticleState &current = candidate->current;
     candidate->previous = current;
 
-    double step = clip(candidate->getNextStep(), minStep, maxStep);
+    // calculate charge of particle
+    double q = current.getCharge();
 
     // rectilinear propagation for neutral particles
-    if (current.getCharge() == 0) {
+    if (q == 0) {
+        double step = clip(candidate->getNextStep(), minStep, maxStep);
         Vector3d pos = current.getPosition();
         Vector3d dir = current.getDirection();
         current.setPosition(pos + dir * step);
@@ -75,19 +75,44 @@ void PropagationBP_step::process(Candidate *candidate) const {
         return;
     }
 
-    Y yIn(current.getPosition(), current.getDirection());
-    Y yOut, yErr;
+    // further particle parameters
+    double z = candidate->getRedshift();
+    double m = current.getEnergy()/(c_light * c_light);
+
+
+    // if minStep is the same as maxStep the adaptive algorithm with its error estimation is not needed and the computation time can be saved:
+    if (minStep == maxStep){
+        double step = minStep;
+        Vector3d pos = current.getPosition();
+        Vector3d dir = current.getDirection();
+        // half leap frog step in the position
+        Y yOut = dY(pos, dir, step, z, q, m);
+
+
+        // full leap frog step in the velocity
+        candidate->current.setDirection(yOut.u);
+        candidate->current.setPosition(yOut.x);
+        candidate->setCurrentStep(step);
+        candidate->setNextStep(step);
+        /*
+        Y yOut;
+        yOut = dY(q, m, current.getPosition(), current.getDirection(), z, minStep / c_light);
+        current.setPosition(yOut.x);
+        current.setDirection(yOut.u.getUnitVector());
+        candidate->setCurrentStep(minStep);
+        candidate->setNextStep(minStep);*/
+        return;
+    }
+
+    double step = clip(candidate->getNextStep(), minStep, maxStep);
     double newStep = step;
     double r = 42;  // arbitrary value > 1
-    double z = candidate->getRedshift();
-    // further particle parameters
-    double m = current.getEnergy()/(c_light * c_light);
-    double q = current.getCharge();
-
+    Y yIn(current.getPosition(), current.getDirection());
+    Y yOut, yErr;
 
     // try performing step until the target error (tolerance) or the minimum step size has been reached
     while (true) {
-        tryStep(yIn, yOut, yErr, step / c_light, current, z, m, q);
+        tryStep(yIn, yOut, yErr, step, current, z, m, q);
         r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
         if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
             if (step == minStep)  // already minimum step size
@@ -124,7 +149,7 @@ double PropagationBP_step::errorEstimation(const Vector3d mu, const Vector3d muh
 
     Vector3d diff = (mu - muh);
     //~ std::cout << " diff = " << diff.getR() << std::endl;
-    double S = diff.getR() / (h * c_light * (1 - 1/4 ) );    // 1/4 = (1/2)² = mu hoch p
+    double S = diff.getR() / (h * (1 - 1/4) );    // 1/4 = (1/2)² = mu hoch p
 
     return S;
 }

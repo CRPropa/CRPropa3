@@ -134,6 +134,56 @@ TEST(testPropagationBP, proton) {
     EXPECT_DOUBLE_EQ(minStep, c.getNextStep());  // should not change the step size
 }
 
+TEST(testPropagationBP_step, exceptions)
+{
+    PropagationBP_step propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+
+    // set maximum step, so that it can be tested what happens if a larger minStep is set.
+    propa.setMaximumStep(1 * Mpc);
+
+    // this tests _that_ the expected exception is thrown
+    EXPECT_THROW(propa.setTolerance(2.), std::runtime_error);
+    EXPECT_THROW(propa.setMinimumStep(-1.), std::runtime_error);
+    EXPECT_THROW(propa.setMinimumStep(2 * Mpc), std::runtime_error);
+
+    // set minimum step, so that it can be tested what happens if a smaller maxStep is set.
+    propa.setMinimumStep(0.5 * Mpc);
+
+    EXPECT_THROW(propa.setMaximumStep(0.1 * Mpc), std::runtime_error);
+
+}
+
+TEST(testPropagationBP_step, constructor) {
+    // Test construction and parameters
+    ref_ptr<MagneticField> bField = new UniformMagneticField(Vector3d(0, 0, 1 * nG));
+    double minStep = 1.;
+    double maxStep = 100.;
+    double tolerance = 0.01;
+
+    PropagationBP_step propa(bField, tolerance, minStep, maxStep);
+
+    EXPECT_EQ(minStep, propa.getMinimumStep());
+    EXPECT_EQ(maxStep, propa.getMaximumStep());
+    EXPECT_EQ(tolerance, propa.getTolerance());
+    EXPECT_EQ(bField, propa.getField());
+
+    // Update parameters
+    minStep = 10.;
+    maxStep = 10.;
+    propa.setTolerance(0.0001);
+    bField = new UniformMagneticField(Vector3d(10 * nG, 0, 1 * nG));
+
+    propa.setTolerance(tolerance);
+    propa.setMinimumStep(minStep);
+    propa.setMaximumStep(maxStep);
+    propa.setField(bField);
+
+    EXPECT_EQ(minStep, propa.getMinimumStep());
+    EXPECT_EQ(maxStep, propa.getMaximumStep());
+    EXPECT_EQ(tolerance, propa.getTolerance());
+    EXPECT_EQ(bField, propa.getField());
+}
+
 TEST(testPropagationBP_step, proton) {
 	PropagationBP_step propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 

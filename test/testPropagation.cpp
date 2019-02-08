@@ -53,25 +53,6 @@ TEST(testPropagationCK, zeroField) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
-TEST(testPropagationBP, zeroField) {
-    PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 0)));
-
-    double minStep = 0.1 * kpc;
-    propa.setMinimumStep(minStep);
-
-    ParticleState p;
-    p.setId(nucleusId(1, 1));
-    p.setEnergy(100 * EeV);
-    p.setPosition(Vector3d(0, 0, 0));
-    p.setDirection(Vector3d(0, 1, 0));
-    Candidate c(p);
-    c.setNextStep(0);
-
-    propa.process(&c);
-
-    EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
-    EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
-}
 
 TEST(testPropagationCK, proton) {
 	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
@@ -93,8 +74,59 @@ TEST(testPropagationCK, proton) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
+TEST(testPropagationCK, neutron) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
+	propa.setMinimumStep(1 * kpc);
+	propa.setMaximumStep(42 * Mpc);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 0));
+	p.setEnergy(100 * EeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+
+	propa.process(&c);
+
+	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
+	EXPECT_DOUBLE_EQ(42 * Mpc, c.getNextStep());
+	EXPECT_EQ(Vector3d(0, 1 * kpc, 0), c.current.getPosition());
+	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
+}
+
+
+TEST(testPropagationBP, zeroField) {
+	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 0)), 1 * kpc);
+
+	double minStep = 0.1 * kpc;
+	propa.setMinimumStep(minStep);
+	propa.setTolerance(0.42);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 1));
+	p.setEnergy(100 * EeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+	c.setNextStep(0);
+
+	propa.process(&c);
+
+	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step
+	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
+
+}
+
+
+
 TEST(testPropagationBP, exceptions)
 {
+
+    // minStep should be smaller than maxStep
+    EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 10 , 0), std::runtime_error);
+    // Too large tolerance: tolerance should be between 0 and 1
+    EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 10 * kpc , 20 * kpc, 42.), std::runtime_error);
+
     PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
     // set maximum step, so that it can be tested what happens if a larger minStep is set.
@@ -109,17 +141,17 @@ TEST(testPropagationBP, exceptions)
     propa.setMinimumStep(0.5 * Mpc);
 
     EXPECT_THROW(propa.setMaximumStep(0.1 * Mpc), std::runtime_error);
-
 }
 
 TEST(testPropagationBP_step, constructor) {
     // Test construction and parameters
     ref_ptr<MagneticField> bField = new UniformMagneticField(Vector3d(0, 0, 1 * nG));
+
     double minStep = 1.;
     double maxStep = 100.;
     double tolerance = 0.01;
 
-    PropagationBP propa(bField, tolerance, minStep, maxStep);
+    PropagationBP propa(bField, minStep, maxStep, tolerance);
 
     EXPECT_EQ(minStep, propa.getMinimumStep());
     EXPECT_EQ(maxStep, propa.getMaximumStep());
@@ -141,12 +173,23 @@ TEST(testPropagationBP_step, constructor) {
     EXPECT_EQ(maxStep, propa.getMaximumStep());
     EXPECT_EQ(tolerance, propa.getTolerance());
     EXPECT_EQ(bField, propa.getField());
+
+    // Test the fixed step size version of the Boris push
+    minStep = 10. * kpc;
+    PropagationBP propaBP(bField, minStep);
+    EXPECT_EQ(propaBP.getMaximumStep(), propaBP.getMaximumStep());
+
+    // The propagation should be initialized with the default constructor
+    PropagationBP propaBPField(bField);
+    EXPECT_EQ(propaBPField.getMaximumStep(), propaBPField.getMaximumStep());
+    EXPECT_EQ(propaBPField.getMaximumStep(), 1 * kpc);
 }
+
 
 TEST(testPropagationBP_step, proton) {
 	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
-	double step = 0.1 * kpc;
+	double step = 0.01 * kpc;
 	propa.setMinimumStep(step);
 	propa.setMaximumStep(10*step);
 	propa.setTolerance(0.00001);
@@ -165,13 +208,15 @@ TEST(testPropagationBP_step, proton) {
 	EXPECT_DOUBLE_EQ(5 * step, c.getNextStep());  // acceleration by factor 5
 }
 
+
 // Test the numerical results for parallel magnetic field lines along the z-axis
 TEST(testPropagationBP, gyration) {
     PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
     double step = 10. * Mpc;  // gyroradius is 108.1 Mpc
-    propa.setMinimumStep(step);
     propa.setMaximumStep(step);
+    propa.setMinimumStep(step);
+
 
     ParticleState p;
     p.setId(nucleusId(1, 1));
@@ -210,31 +255,11 @@ TEST(testPropagationBP, gyration) {
 }
 
 
-TEST(testPropagationCK, neutron) {
-	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
-	propa.setMinimumStep(1 * kpc);
-	propa.setMaximumStep(42 * Mpc);
-
-	ParticleState p;
-	p.setId(nucleusId(1, 0));
-	p.setEnergy(100 * EeV);
-	p.setPosition(Vector3d(0, 0, 0));
-	p.setDirection(Vector3d(0, 1, 0));
-	Candidate c(p);
-
-	propa.process(&c);
-
-	EXPECT_DOUBLE_EQ(1 * kpc, c.getCurrentStep());
-	EXPECT_DOUBLE_EQ(42 * Mpc, c.getNextStep());
-	EXPECT_EQ(Vector3d(0, 1 * kpc, 0), c.current.getPosition());
-	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
-}
-
 TEST(testPropagationBP, neutron) {
 	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
 	propa.setMinimumStep(1 * kpc);
-    propa.setMaximumStep(1 * kpc);
+	propa.setMaximumStep(1 * kpc);
 
 	ParticleState p;
 	p.setId(nucleusId(1, 0));
@@ -250,6 +275,7 @@ TEST(testPropagationBP, neutron) {
 	EXPECT_EQ(Vector3d(0, 1 * kpc, 0), c.current.getPosition());
 	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
 }
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

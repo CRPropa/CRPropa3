@@ -57,15 +57,14 @@ namespace crpropa {
         double maxStep; /*< maximum step size of the propagation */
 
     public:
-        PropagationBP(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
-                           double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
+        PropagationBP(ref_ptr<MagneticField> field = NULL, double minStep = (1. * kpc));
+        PropagationBP(ref_ptr<MagneticField> field, double minStep, double maxStep, double tolerance = 1e-4);
+
         void process(Candidate *candidate) const;
 
         Y dY(Vector3d  pos, Vector3d  dir, double step, double z, double q, double m) const;
         double errorEstimation(const Vector3d mu, const Vector3d muh, double h) const;
-
-        void tryStep(const Y &y, Y &out, Y &error, double t,
-                     ParticleState &p, double z, double m, double q) const;
+        void tryStep(const Y &y, Y &out, Y &error, double t, ParticleState &p, double z, double m, double q) const;
 
         void setField(ref_ptr<MagneticField> field);
         void setTolerance(double tolerance);

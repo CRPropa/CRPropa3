@@ -45,15 +45,25 @@ namespace crpropa {
         return Y(pos, dir);
     }
 
+    // with a fixed step size
+    PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double minStep) :
+            minStep(0) {
+        setField(field);
+        setTolerance(0.42);
+        setMaximumStep(minStep);
+        setMinimumStep(minStep);
 
-    PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double tolerance,
-                                           double minStep, double maxStep) :
+    }
+
+    PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double minStep, double maxStep, double tolerance) :
             minStep(0) {
         setField(field);
         setTolerance(tolerance);
         setMaximumStep(maxStep);
         setMinimumStep(minStep);
     }
+
+
 
 
     void PropagationBP::process(Candidate *candidate) const {

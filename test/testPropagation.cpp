@@ -100,7 +100,7 @@ TEST(testPropagationCK, neutron) {
 	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
 }
 
-TEST(TextOutput, description) {
+TEST(PropagationBP, description) {
     Candidate c;
     PropagationBP propaDefault(new UniformMagneticField(Vector3d(0, 0, 0)));
     std::string description = propaDefault.getDescription();
@@ -227,6 +227,33 @@ TEST(testPropagationBP, constructor) {
     EXPECT_EQ(propaBPField.getMaximumStep(), 1 * kpc);
 }
 
+// Test if the step size is reduced correctly if the error is too large with respect to the tolerance
+TEST(testPropagationBP, reduceStep) {
+    PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 100 * nG)), 1 * kpc);
+
+    double minStep = 0.1 * kpc;
+    double maxStep = 1 * Gpc;
+    propa.setMinimumStep(minStep);
+    propa.setMaximumStep(maxStep);
+    // small tolerance leads to large values of r
+    propa.setTolerance(1e-15);
+
+    ParticleState p;
+    p.setId(nucleusId(1, 1));
+    p.setEnergy(100 * TeV);
+    p.setPosition(Vector3d(0, 0, 0));
+    p.setDirection(Vector3d(0, 1, 0));
+    Candidate c(p);
+    // large step leads to large errors and thus in combination with the low tolerance to high values of r
+    c.setNextStep(maxStep);
+
+    propa.process(&c);
+
+    // adaptive algorithm should propagate particle with minimum step size due to the low value for the tolerance
+    EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step because of large r due to small tolerance
+    EXPECT_DOUBLE_EQ(minStep, c.getNextStep());  // stay at minimum step because of large r due to small tolerance
+
+}
 
 TEST(testPropagationBP_step, proton) {
 	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));

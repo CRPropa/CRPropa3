@@ -23,13 +23,7 @@ namespace crpropa {
         pos += dir * step / 2.;
 
         // get B field at particle position
-        Vector3d B(0, 0, 0);
-        try {
-            B = field->getField(pos, z);
-        } catch (std::exception &e) {
-            std::cerr << "PropagationBP: Exception in getField." << std::endl;
-            std::cerr << e.what() << std::endl;
-        }
+        Vector3d B = getFieldAtPosition(pos, z);
 
         // Boris help vectors
         Vector3d t = B * q / 2 / m * step / c_light;
@@ -147,6 +141,16 @@ namespace crpropa {
 
     ref_ptr<MagneticField> PropagationBP::getField() const {
         return field;
+    }
+
+    Vector3d PropagationBP::getFieldAtPosition(Vector3d pos, double z) const {
+        Vector3d B(0, 0, 0);
+        // check if field is valid and use the field vector at the
+        // position pos with the redshift z
+        if (field.valid())
+            B = field->getField(pos, z);
+
+        return B;
     }
 
     double PropagationBP::errorEstimation(const Vector3d x1, const Vector3d x2, double step) const {

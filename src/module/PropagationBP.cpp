@@ -8,7 +8,7 @@ namespace crpropa {
 
 
     void PropagationBP::tryStep(const Y &y, Y &out, Y &error, double h,
-                                     ParticleState &particle, double z, double m, double q) const {
+                                ParticleState &particle, double z, double m, double q) const {
         out = dY(y.x, y.u, h, z, q, m);  // 1 step with h
 
         Y outHelp = dY(y.x, y.u, h/2, z, q, m);  // 2 steps with h/2
@@ -55,6 +55,7 @@ namespace crpropa {
 
     }
 
+    // with adaptive step size
     PropagationBP::PropagationBP(ref_ptr<MagneticField> field, double minStep, double maxStep, double tolerance) :
             minStep(0) {
         setField(field);
@@ -62,8 +63,6 @@ namespace crpropa {
         setMaximumStep(maxStep);
         setMinimumStep(minStep);
     }
-
-
 
 
     void PropagationBP::process(Candidate *candidate) const {
@@ -104,13 +103,6 @@ namespace crpropa {
             candidate->current.setPosition(yOut.x);
             candidate->setCurrentStep(step);
             candidate->setNextStep(step);
-            /*
-            Y yOut;
-            yOut = dY(q, m, current.getPosition(), current.getDirection(), z, minStep / c_light);
-            current.setPosition(yOut.x);
-            current.setDirection(yOut.u.getUnitVector());
-            candidate->setCurrentStep(minStep);
-            candidate->setNextStep(minStep);*/
             return;
         }
 
@@ -157,12 +149,12 @@ namespace crpropa {
         return field;
     }
 
-    double PropagationBP::errorEstimation(const Vector3d x1, const Vector3d x2, double h) const {
+    double PropagationBP::errorEstimation(const Vector3d x1, const Vector3d x2, double step) const {
 
         // compare the position after one step with the position after two steps with step/2.
         Vector3d diff = (x1 - x2);
 
-        double S = diff.getR() / (h * (1 - 1/4.) );    // 1/4 = (1/2)²  number of steps for x1 divided by number of steps for x2 to the power of p (order)
+        double S = diff.getR() / (step * (1 - 1/4.) );    // 1/4 = (1/2)²  number of steps for x1 divided by number of steps for x2 to the power of p (order)
 
         return S;
     }

@@ -91,6 +91,12 @@ namespace crpropa {
          * @return      measurement of the error of the step */
         double errorEstimation(const Vector3d x1, const Vector3d x2, double step) const;
 
+        /** get magnetic field vector at current candidate position
+         * @param pos   current position of the candidate
+         * @param z     current redshift is needed to calculate the magnetic field
+         * @return      magnetic field vector at the position pos */
+        Vector3d getFieldAtPosition(Vector3d pos, double z) const;
+
         /** Adapte step size if required and calculates the new position and direction of the particle with the usage of the function dY
          * @param y         current position and direction of candidate
          * @param out       position and direction of candidate after the step
@@ -103,12 +109,21 @@ namespace crpropa {
         void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double m, double q) const;
 
         /** set functions for the parameters of the class PropagationBP */
+
+        /** set a specific magnetic field
+         * @param field     specific magnetic field */
         void setField(ref_ptr<MagneticField> field);
+        /** set a specific tolerance for the step size adaption
+         * @param tolerance     tolerance is criterion for step adjustment. Step adjustment takes place only if minStep < maxStep. */
         void setTolerance(double tolerance);
+        /** set the minimum step for the Boris push
+         * @param minStep       minStep/c_light is the minimum integration time step */
         void setMinimumStep(double minStep);
+        /** set the maximum step for the Boris push
+         * @param maxStep       maxStep/c_light is the maximum integration time step */
         void setMaximumStep(double maxStep);
 
-         /** get functions for the parameters of the class PropagationBP */
+         /** get functions for the parameters of the class PropagationBP, similar to the set functions */
         ref_ptr<MagneticField> getField() const;
         double getTolerance() const;
         double getMinimumStep() const;

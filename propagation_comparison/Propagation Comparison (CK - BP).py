@@ -461,3 +461,7 @@ max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gy
 run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
 
+
+# $\textbf{Conclusions:}$ 
+# - The $\textbf{Boris push}$ conserves the components of the momentum because the algorithm already conserves energy by construction.
+# - The $\textbf{Cash-Karp}$ does not conserve energy by construction. CRPropa urges the propagation to conserve energy, resulting in a shift of the momentum between its components. This effect depends on the geometry of the magnetic field and the pitch angle (see above) of the particle as well as the step size (see below).

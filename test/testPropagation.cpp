@@ -100,41 +100,6 @@ TEST(testPropagationCK, neutron) {
 	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
 }
 
-TEST(testPropagationBP, description) {
-    Candidate c;
-    PropagationBP propaDefault(new UniformMagneticField(Vector3d(0, 0, 0)));
-    std::string description = propaDefault.getDescription();
-
-    EXPECT_EQ(description,"Propagation in magnetic fields using the adaptive Boris push method. Target error: 0.42, Minimum Step: 1 kpc, Maximum Step: 1 kpc");
-
-    double minStep = 0.1 * kpc;
-    double maxStep = 1.0 * Mpc;
-    double tolerance = 0.01;
-    PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 0)), minStep, maxStep, tolerance);
-    description = propa.getDescription();
-
-    std::string sTolerance = std::to_string(tolerance);
-    sTolerance = sTolerance.erase ( sTolerance.find_last_not_of('0') + 1, std::string::npos );
-
-    std::string sMinStep = std::to_string(minStep/kpc);
-    int lastNotZero = sMinStep.find_last_not_of('0');
-    if(sMinStep.at(lastNotZero) != '.'){
-        lastNotZero++;
-    }
-    sMinStep = sMinStep.erase ( lastNotZero, std::string::npos );
-
-    std::string sMaxStep = std::to_string(maxStep/kpc);
-    lastNotZero = sMaxStep.find_last_not_of('0');
-    if(sMaxStep.at(lastNotZero) != '.'){
-        lastNotZero++;
-    }
-    sMaxStep = sMaxStep.erase ( lastNotZero, std::string::npos );
-
-    std::string descriptionExpected = "Propagation in magnetic fields using the adaptive Boris push method. Target error: "
-            +sTolerance+", Minimum Step: "+sMinStep+" kpc, Maximum Step: "+sMaxStep+" kpc";
-    EXPECT_EQ(description,descriptionExpected);
-}
-
 TEST(testPropagationBP, zeroField) {
 	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 0)), 1 * kpc);
 

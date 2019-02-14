@@ -13,7 +13,7 @@ namespace crpropa {
 
 /**
  @class PropagationBP
- @brief Rectilinear propagation through magnetic fields using the Boris method.
+ @brief Propagation through magnetic fields using the Boris method.
 
  This module solves the equations of motion of a relativistic charged particle when propagating through a magnetic field.\n
  It uses the Boris push integration method.\n
@@ -134,4 +134,4 @@ namespace crpropa {
 
 } // namespace crpropa
 
-#endif // CRPROPA_PROPAGATIONBP_H
+#endif // PROPAGATIONBP_H

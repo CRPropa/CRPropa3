@@ -15,7 +15,7 @@
 
 # The trajectory of a charged particle in a homogeneous background field can be solved analytically. We assume that the particle starts off with non-zero component of the momentum ($p_z > 0$) along the background magnetic field. The particle, then moves in a helix whose gyration radius is given by: $r_g = \frac{E}{B\cdot q \cdot c}$
 # 
-# The velocity component parallel to the background field remains constant. The analytical solution for the $direction = Vector3d(p_x, p_y, p_z)$ with $p_x^2+p_y^2+p_z^2 = 1$ and the $position = Vector3d(0, 0, 0)$ yields:
+# The velocity component parallel to the background field remains constant. The analytical solution for the *direction = Vector3d(p_x, p_y, p_z)* with $p_x^2+p_y^2+p_z^2 = 1$ and the *position = Vector3d(0, 0, 0)* yields:
 
 # In[1]:
 
@@ -235,7 +235,7 @@ def plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps):
     plt.show()
 
 
-# We can study $\textbf{different pitch angles}$ of the particle with respect to the background magnetic field and start with $p_z/p = 0.01$ which represents a strong perpendicular component:
+# We can study **different pitch angles** of the particle with respect to the background magnetic field and start with $p_z/p = 0.01$ which represents a strong perpendicular component:
 
 # In[7]:
 
@@ -275,9 +275,9 @@ run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps)
 
 
-# $\textbf{Conclusions:}$ 
-# - the $\textbf{Boris push}$ propagates the particle in the perpendicular plane, as expected, on a cirlce with a radius that is in great agreement with the gyro radius. The problem is that the frequency deviates from the analytical solution. Consequently, even though we can see an agreement between the numerical and analytical gyro radius, the deviation in the $xy$-plane is between 0 and $2r_g$. The $\textbf{global error is constrained}$.
-# - the $\textbf{Cash-Karp}$ algorithm results in a relative $\textbf{small local error}$ in the perpendicular plane for small components of the momentum along the parallel component of the magnetic field. The problem is that the small $\textbf{local error accumulates to a large global error}$. In addition, the $\textbf{error depends on the pitch angle}$ (angle between particle direction and background magnetic field) of the particle and thus may artificially pollute the results if we use a background field in combination with an isotropic source of particles.
+# **Conclusions:** 
+# - the **Boris push** propagates the particle in the perpendicular plane, as expected, on a cirlce with a radius that is in great agreement with the gyro radius. The problem is that the frequency deviates from the analytical solution. Consequently, even though we can see an agreement between the numerical and analytical gyro radius, the deviation in the $xy$-plane is between 0 and $2r_g$. The **global error is constrained**.
+# - the **Cash-Karp** algorithm results in a relative **small local error** in the perpendicular plane for small components of the momentum along the parallel component of the magnetic field. The problem is that the small **local error accumulates to a large global error**. In addition, the **error depends on the pitch angle** (angle between particle direction and background magnetic field) of the particle and thus may artificially pollute the results if we use a background field in combination with an isotropic source of particles.
 # 
 # + Note that other implementations of the CashKarp algorithm lead to different results, since CRPropa prevents the candidate from losing energy due to propagation alone. This is not true in general for other implementations. 
 
@@ -329,7 +329,7 @@ def plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps):
     plt.show()
 
 
-# We can again study $\textbf{different pitch angles}$ of the particle with respect to the background magnetic field and start with $p_z/p = 0.01$ which represents a strong perpendicular component:
+# We can again study **different pitch angles** of the particle with respect to the background magnetic field and start with $p_z/p = 0.01$ which represents a strong perpendicular component:
 
 # In[12]:
 
@@ -358,9 +358,9 @@ run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps)
 
 
-# $\textbf{Conclusions:}$ 
-# - the $\textbf{Boris push}$ propagates the particle along the parallel component $\textbf{without any errors}$ and is in great agreement with the analytical solution.
-# - the behavior of the $\textbf{Cash-Karp}$ on the other hand has again a $\textbf{small local error that accumulates to a large global error}$. Again, the $\textbf{error depends on the pitch angle}$ of the particle and thus may artificially pollute the results if we use a background field in combination with a isotropic source (this source would emit particles with all possible pitch angles) of particles. 
+# **Conclusions:**
+# - the **Boris push** propagates the particle along the parallel component **without any errors** and is in great agreement with the analytical solution.
+# - the behavior of the **Cash-Karp** on the other hand has again a **small local error that accumulates to a large global error**. Again, the **error depends on the pitch angle** of the particle and thus may artificially pollute the results if we use a background field in combination with a isotropic source (this source would emit particles with all possible pitch angles) of particles. 
 # 
 # 
 # If we are interested in the motion along the magnetic field lines, we should use the Boris push mehthod instead of the Cash-Karp method. 
@@ -462,9 +462,9 @@ run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
 
 
-# $\textbf{Conclusions:}$ 
-# - The $\textbf{Boris push}$ conserves the components of the momentum because the algorithm already conserves energy by construction.
-# - The $\textbf{Cash-Karp}$ does not conserve energy by construction. CRPropa urges the propagation to conserve energy, resulting in a shift of the momentum between its components. This effect depends on the geometry of the magnetic field and the pitch angle (see above) of the particle as well as the step size (see below).
+# **Conclusions:**
+# - The **Boris push** conserves the components of the momentum because the algorithm already conserves energy by construction.
+# - The **Cash-Karp** does not conserve energy by construction. CRPropa urges the propagation to conserve energy, resulting in a shift of the momentum between its components. This effect depends on the geometry of the magnetic field and the pitch angle (see above) of the particle as well as the step size (see below).
 # 
 # In the following two plots we can investigate the influence of the step size. We can consider for example 2 steps per gyration instead of 10 in the first figure and 50 steps per gyration in the second figure.
 
@@ -575,11 +575,11 @@ run_simulation('BP', steps_per_gyrations*4, number_gyrations/4, p_z)
 plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
 
 
-# $\textbf{The main findings of this tutorial are highlighted:}$
+# **The main findings of this tutorial are highlighted:**
 # - The Cash-Karp algorithm has a small local error, which accumulates over time to a large global error. The components of the momentum are not conserved. Due to the small local error (for small step sizes), the module PropagationCK is, however, useful for short simulations, where the exact position is crucial. 
 # - The Boris push has a compareable large local error, which does not accumulate over time, resulting in a small global error. The accuracy doesn't depend too much on the step size, especially not in the direction where the magnetic field should have no influence based on alaytical arguments ($z$-axis in this example). 
 # 
-# Therefore, for almost all simulation scenarios, $\textbf{the PropagationBP module outperforms the PropagationCK module in both simulation time and accuracy}$.
+# Therefore, for almost all simulation scenarios, **the PropagationBP module outperforms the PropagationCK module in both simulation time and accuracy**.
 
 # ## Comparison of Simulation Time 
 
@@ -637,4 +637,4 @@ runSimulation('BP')
 runSimulation('CK')
 
 
-# The simulation time difference is really high! $\textbf{PropagationBP is much faster than PropagationCK}$.
+# The simulation time difference is really high! **PropagationBP is much faster than PropagationCK**.

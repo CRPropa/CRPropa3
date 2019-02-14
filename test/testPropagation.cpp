@@ -100,7 +100,7 @@ TEST(testPropagationCK, neutron) {
 	EXPECT_EQ(Vector3d(0, 1, 0), c.current.getDirection());
 }
 
-TEST(PropagationBP, description) {
+TEST(testPropagationBP, description) {
     Candidate c;
     PropagationBP propaDefault(new UniformMagneticField(Vector3d(0, 0, 0)));
     std::string description = propaDefault.getDescription();
@@ -132,7 +132,6 @@ TEST(PropagationBP, description) {
 
     std::string descriptionExpected = "Propagation in magnetic fields using the adaptive Boris push method. Target error: "
             +sTolerance+", Minimum Step: "+sMinStep+" kpc, Maximum Step: "+sMaxStep+" kpc";
-    std::cout << descriptionExpected << std::endl;
     EXPECT_EQ(description,descriptionExpected);
 }
 
@@ -157,8 +156,6 @@ TEST(testPropagationBP, zeroField) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 
 }
-
-
 
 TEST(testPropagationBP, exceptions)
 {
@@ -283,7 +280,7 @@ TEST(testPropagationBP, increaseStep) {
     EXPECT_DOUBLE_EQ(maxStep/pc, c.getNextStep()/pc);
 }
 
-TEST(testPropagationBP_step, proton) {
+TEST(testPropagationBP, proton) {
 	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
 	double step = 0.01 * kpc;

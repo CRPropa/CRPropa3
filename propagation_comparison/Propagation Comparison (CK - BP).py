@@ -580,3 +580,61 @@ plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
 # - The Boris push has a compareable large local error, which does not accumulate over time, resulting in a small global error. The accuracy doesn't depend too much on the step size, especially not in the direction where the magnetic field should have no influence based on alaytical arguments ($z$-axis in this example). 
 # 
 # Therefore, for almost all simulation scenarios, $\textbf{the PropagationBP module outperforms the PropagationCK module in both simulation time and accuracy}$.
+
+# ## Comparison of Simulation Time 
+
+# We have already compared the simulation times for a background magnetic field. Now we can compare the simulation time of both modules for a different magnetic field, namely the turbulent magnetic field. The Boris push calls the magnetic field only once per step, whereas the Cash-Karp algorithm needs the field at the current position six times per step. For analytical fields where the field is known at every location (for example the background magnetic field), the time difference is much smaller than for magnetic fields where the current magnetic field vector has to be interpolated first. The latter is especially relevant for the turbulent magnetic fields initialized on grids.
+# 
+# ### Turbulent Magnetic Field
+# 
+# The inialisation of the turbulent magnetic field vectors on the grid points takes some time:
+
+# In[30]:
+
+
+### Setup turbulent magnetic field
+randomSeed = 42
+lMin = 0.1*pc
+lMax = 5.*pc
+N_grid = 256
+b = 100*nG
+spacing = lMin/2.
+#spacing = R / 2 *pc  # lMin > 2 * spacing
+vgrid = VectorGrid(Vector3d(0), N_grid, spacing)
+initTurbulence(vgrid, b, lMin, lMax, -11./3., randomSeed)
+turb_field = MagneticFieldGrid(vgrid)
+
+
+# Finally, we can run both propagation modules and compare their simulation times:
+
+# In[31]:
+
+
+# ### Running the simulation with either CK or BP
+def runSimulation(module):
+    sim = ModuleList()
+    steplength = 1.*pc
+    if module == 'CK':
+        sim.add(PropagationCK(turb_field,1e-4,steplength, steplength))
+    elif module == 'BP':
+        sim.add(PropagationBP(turb_field, steplength))
+    else:
+        print('no module found. Use either BP or CK.')
+        return
+    
+    sim.add(MaximumTrajectoryLength(10*Mpc))
+    # Proton
+    c = Candidate(nucleusId(1, 1), 100*TeV, Vector3d(0,0,0), Vector3d(1,0,0))
+
+    # compare the simulation time of both propagation methods
+    t0 = Time.time()
+    sim.run(c, True)
+    t1 = Time.time()
+    print('Simulation time with module '+ str(module)+' is '+str(t1-t0)+'s.')
+    Time.sleep(4)
+ 
+runSimulation('BP')
+runSimulation('CK')
+
+
+# The simulation time difference is really high! $\textbf{PropagationBP is much faster than PropagationCK}$.

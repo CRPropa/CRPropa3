@@ -574,3 +574,9 @@ max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations*4, number_
 run_simulation('BP', steps_per_gyrations*4, number_gyrations/4, p_z)
 plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
 
+
+# $\textbf{The main findings of this tutorial are highlighted:}$
+# - The Cash-Karp algorithm has a small local error, which accumulates over time to a large global error. The components of the momentum are not conserved. Due to the small local error (for small step sizes), the module PropagationCK is, however, useful for short simulations, where the exact position is crucial. 
+# - The Boris push has a compareable large local error, which does not accumulate over time, resulting in a small global error. The accuracy doesn't depend too much on the step size, especially not in the direction where the magnetic field should have no influence based on alaytical arguments ($z$-axis in this example). 
+# 
+# Therefore, for almost all simulation scenarios, $\textbf{the PropagationBP module outperforms the PropagationCK module in both simulation time and accuracy}$.

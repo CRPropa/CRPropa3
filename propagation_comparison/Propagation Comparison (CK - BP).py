@@ -5,9 +5,9 @@
 
 # 
 # 
-# Numerical simulations of the propagation of charged particles through magnetic fields, solving the equation of motion can be achieved in principle with many different algorithms. There are, however, an increasing number of studies that have found that there are two algorithms, which work in general best for propagating charged particles within a magnetic field. These two algorithms are compared and evaluated.
+# Numerical simulations of the propagation of charged particles through magnetic fields, solving the equation of motion can be achieved in principle with many different algorithms. There are, however, an increasing number of studies that have found that there are two algorithms, which work in general best for propagating charged particles within a magnetic field [1,2,3]. These two algorithms are compared and evaluated.
 # 
-# Both the Boris push and the Cash-Karp algorithms solve the Lorentz equation and thus enable the propagation of charged particles through magnetic fields. For the simplest case of a homogeneous background field, the particle trajectory can be derived analytically. This enables comparison with numerical integrators and provides information on the errors of the algorithms for the corresponding parameters being used. The aim is to find a relationship between the error and the parameters applied. The pitch angle and the step length are suitable parameters to determine the influence. 
+# Both the Boris push [4] and the Cash-Karp [3] algorithms solve the Lorentz equation and thus enable the propagation of charged particles through magnetic fields. For the simplest case of a homogeneous background field, the particle trajectory can be derived analytically. This enables comparison with numerical integrators and provides information on the errors of the algorithms for the corresponding parameters being used. The aim is to find a relationship between the error and the parameters applied. The pitch angle and the step length are suitable parameters to determine the influence. 
 # 
 # Consequently, we want to understand which algorithm is suitable for each simulation setup.
 
@@ -638,3 +638,19 @@ runSimulation('CK')
 
 
 # The simulation time difference is really high! **PropagationBP is much faster than PropagationCK**.
+
+# #### Literature
+# 
+# [1] Hong Qin et al. “Why is Boris algorithm so good?” In: Physics of Plasmas 20.8 (2013),
+# p. 084503. doi: 10.1063/1.4818428. url: https://doi.org/10.1063/1.4818428.
+# 
+# [2] Mathias Winkel, Robert Speck, and Daniel Ruprecht. “Does Boris-SDC conserve phase space
+# volume?” In: PAMM 15.1 (2015), pp. 687–688. doi: 10.1002/pamm.201510333. url: https:
+# //onlinelibrary.wiley.com/doi/abs/10.1002/pamm.201510333.
+# 
+# [3] J. R. Cash and Alan H. Karp. “A Variable Order Runge-Kutta Method for Initial Value Problems
+# with Rapidly Varying Right-hand Sides”. In: ACM Trans. Math. Softw. 16.3 (Sept. 1990),
+# pp. 201–222. issn: 0098-3500. doi: 10.1145/79505.79507. url: http://doi.acm.org/10.
+# 1145/79505.79507.
+# 
+# [4] J. Boris, in Proc. of the 4th Conf. on Numerical Simulation of Plasmas (NRL, 1970), pp. 3-67.

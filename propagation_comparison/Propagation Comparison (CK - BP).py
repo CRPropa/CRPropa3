@@ -563,3 +563,14 @@ max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gy
 run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
 
+
+# The Boris push is for long simulations for all presented cases better and faster than the Cash-Karp algorithm. If we are only interested in small distances and we don't care about long simulation times, the Cash-Karp algorithm outperforms the Boris push as presented below (40 steps per gyration and $p_z/p = 0.01$):
+
+# In[29]:
+
+
+p_z = 0.01
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations*4, number_gyrations/4, p_z)
+run_simulation('BP', steps_per_gyrations*4, number_gyrations/4, p_z)
+plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
+

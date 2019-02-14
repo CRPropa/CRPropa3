@@ -280,3 +280,80 @@ plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps)
 # - the $\textbf{Cash-Karp}$ algorithm results in a relative $\textbf{small local error}$ in the perpendicular plane for small components of the momentum along the parallel component of the magnetic field. The problem is that the small $\textbf{local error accumulates to a large global error}$. In addition, the $\textbf{error depends on the pitch angle}$ (angle between particle direction and background magnetic field) of the particle and thus may artificially pollute the results if we use a background field in combination with an isotropic source of particles.
 # 
 # + Note that other implementations of the CashKarp algorithm lead to different results, since CRPropa prevents the candidate from losing energy due to propagation alone. This is not true in general for other implementations. 
+
+# ## Compare the Propagation in the Parallel Direction
+
+# We now turn to the parallel direction of the particle trajectory with respect to the background magnetic field. Along this direction a constant momentum is expected, resulting in a linear increase of the $z$-position. This time-behavior of the $z$-position is shown in the middle plots below. The left plot presents the movement in the $xz$-plane. An rectangle is expected (as it can be seen for the Boris push). In the right, the difference between the numerically calculated and theoretically expected time-behavior of the distance along the $z$-axis is plotted. Zero deviation in the right plot is preferable. While the Boris push has no deviation from the prediction, the Cash-Karp algorithm shows either a rapid increase in the $z$-direction or a decelerated movement which can result in a stagnation in the motion along the $z$-direction. The behavior depends on the ratio of $p_\mathrm{\parallel} / p$.
+
+# In[11]:
+
+
+def plot_subplots_para(ax1, ax2, ax3, data, z_ana, module, color):
+    ax1.plot(data.X,data.Z, markersize=0.01, marker='o',color = color, label=module)
+    ax1.legend(markerscale=5)
+    
+    ax2.scatter(data.D,data.Z,s=1, color = color, label=module)
+    ax2.legend(markerscale=5)
+    
+    # compare with analytical solution
+    ax3.scatter(data.D, (data.D-z_ana),s=1, color = color, label=module)
+    ax3.legend(markerscale=5)
+    
+def plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps):
+    fig, ((ax1, ax2, ax3)) = plt.subplots(1, 3,figsize=(12,4))
+    
+    # for parallel motion corrected gyro radius
+    r_g = r_g_0*(1-p_z**2)**0.5 
+    
+    x_ana, y_ana, z_ana = analytical_solution(max_trajectory, p_z, r_g_0, number_of_steps)
+    
+    data = load_data('trajectory_BP.txt', r_g)
+    plot_subplots_para(ax1, ax2, ax3, data, z_ana, 'BP', 'brown')
+
+    data = load_data('trajectory_CK.txt', r_g)
+    plot_subplots_para(ax1, ax2, ax3, data, z_ana, 'CK', 'dodgerblue')
+    
+    ax1.set_xlabel('$x$ [pc]')
+    ax1.set_ylabel('$z$ [pc]')
+    ax1.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    ax2.set_xlabel('distance [kpc]')
+    ax2.set_ylabel('$z$ [pc]')
+    ax2.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    ax3.set_xlabel('distance [kpc]')
+    ax3.set_ylabel('difference in $z$ [pc]')
+    ax3.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    fig.tight_layout()
+    plt.show()
+
+
+# We can again study $\textbf{different pitch angles}$ of the particle with respect to the background magnetic field and start with $p_z/p = 0.01$ which represents a strong perpendicular component:
+
+# In[12]:
+
+
+p_z = 0.01
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[13]:
+
+
+p_z = 0.5
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[14]:
+
+
+p_z = 0.99
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps)
+

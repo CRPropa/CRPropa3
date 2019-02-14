@@ -1,3 +1,4 @@
+# Use git shortlog -sne to verify that all mails are mapped correctly
 David Walz <walz@physik.rwth-aachen.de>
 Gero Müller <post@geromueller.de>
 Gero Müller <post@geromueller.de> <gero.mueller@physik.rwth-aachen.de>
@@ -15,7 +16,9 @@ Rafael Alves Batista <8rafael@gmail.com> <rafael.alves.batista@desy.de>
 Daniel Kuempel <kuempel@physik.rwth-aachen.de>
 Daniel Kuempel <kuempel@physik.rwth-aachen.de> <kuempel@inst-3a-135.physik.rwth-aachen.de>
 Daniel Kuempel <kuempel@physik.rwth-aachen.de> <kuempel@165-253.eduroam.rwth-aachen.de>
-Arjen van Vliet <a.vanvliet@astro.ru.nl>
+Arjen van Vliet <arjen.van.vliet@desy.de>
+Arjen van Vliet <arjen.van.vliet@desy.de> <a.vanvliet@astro.ru.nl>
+Arjen van Vliet <arjen.van.vliet@desy.de> <arjen.rene.van.vliet@desy.de>
 Carmelo Evoli <carmelo.evoli@gssi.it>
 Marcus Wirtz <marcus.wirtz@rwth-aachen.de>
 Bjoern Eichmann <eiche@tp4.rub.de>

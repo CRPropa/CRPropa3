@@ -364,3 +364,100 @@ plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps)
 # 
 # 
 # If we are interested in the motion along the magnetic field lines, we should use the Boris push mehthod instead of the Cash-Karp method. 
+
+# ## Conservation of Momentum 
+
+# CRPropa conserves the total energy and momentum of each particle during the propagation. However, only the Boris push conserves energy by construction. Urging the Cash-Karp algorithm to preserve energy and momentum leads to a shift of the energy from the perpendicular to the parallel component (or the other way round) as observed in this example of a pure background magnetic field. We have seen that the particle accelerates or slows down in the parallel direction.
+# 
+# We can study this effect also directly by plotting the components of the momentum as functions of the time (or distance which is equivilent for relativistic particles $v=c$).
+# 
+# We expect to have a constant momentum in both the parallel ($p_z/p$) and the perpendicular ($\sqrt{p_x^2+p_y^2}/p$) direction.
+
+# In[17]:
+
+
+def plot_subplots_momentum(ax1, ax2, ax3, data, module, color):    
+    ax1.scatter(data.D,((data.Px**2+data.Py**2)**0.5),s=1, color = color, label=module)
+    ax1.legend(markerscale=5)
+    
+    ax2.scatter(data.D,data.Pz,s=1, color = color, label=module)
+    ax2.legend(markerscale=5)
+    
+    ax3.scatter(data.D,(data.Pz-p_z)/p_z*100,s=1, color = color, label=module)
+    ax3.legend(markerscale=5)
+    
+def plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps):
+    fig, ((ax1, ax2, ax3)) = plt.subplots(1, 3,figsize=(12,4))
+    
+    # for parallel motion corrected gyro radius
+    r_g = r_g_0*(1-p_z**2)**0.5 
+    
+    x_ana, y_ana, z_ana = analytical_solution(max_trajectory, p_z, r_g_0, number_of_steps)
+    
+    # Initial condition of candidate
+    p_x = (1-p_z**2)**(1/2.)/2**0.5
+    p_y = p_x
+    
+    data = load_data('trajectory_BP.txt', r_g)
+    plot_subplots_momentum(ax1, ax2, ax3, data, 'BP', 'brown')
+
+    data = load_data('trajectory_CK.txt', r_g)
+    plot_subplots_momentum(ax1, ax2, ax3, data, 'CK', 'dodgerblue')
+    
+    ax1.set_xlabel('distance [kpc]')
+    ax1.set_ylabel('$\sqrt{p_x^2+p_y^2}/p$')
+    ax1.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    ax2.set_xlabel('distance [kpc]')
+    ax2.set_ylabel('$p_z/p$')
+    ax2.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    ax3.set_xlabel('distance [kpc]')
+    ax3.set_ylabel('relative error in $p_z$ [%]')
+    ax3.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    fig.tight_layout()
+    plt.show() 
+
+
+# We can start with small parallel component ($p_z$ = 0.01)...
+
+# In[18]:
+
+
+p_z = 0.01
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# ...and increase it so that is already dominating $p_z/p = 0.5 > p_x/p = p_y/p$...
+
+# In[19]:
+
+
+p_z = 0.5
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# ...and finally study two cases of really strong parallel motion ($p_z/p = 0.99$ and $p_z/p = 0.999)$):
+
+# In[20]:
+
+
+p_z = 0.99
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[21]:
+
+
+p_z = 0.9999
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
+

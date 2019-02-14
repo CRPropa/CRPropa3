@@ -275,8 +275,8 @@ run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps)
 
 
-# In[ ]:
-
-
-
-
+# $\textbf{Conclusions:}$ 
+# - the $\textbf{Boris push}$ propagates the particle in the perpendicular plane, as expected, on a cirlce with a radius that is in great agreement with the gyro radius. The problem is that the frequency deviates from the analytical solution. Consequently, even though we can see an agreement between the numerical and analytical gyro radius, the deviation in the $xy$-plane is between 0 and $2r_g$. The $\textbf{global error is constrained}$.
+# - the $\textbf{Cash-Karp}$ algorithm results in a relative $\textbf{small local error}$ in the perpendicular plane for small components of the momentum along the parallel component of the magnetic field. The problem is that the small $\textbf{local error accumulates to a large global error}$. In addition, the $\textbf{error depends on the pitch angle}$ (angle between particle direction and background magnetic field) of the particle and thus may artificially pollute the results if we use a background field in combination with an isotropic source of particles.
+# 
+# + Note that other implementations of the CashKarp algorithm lead to different results, since CRPropa prevents the candidate from losing energy due to propagation alone. This is not true in general for other implementations. 

@@ -166,3 +166,117 @@ def load_data(text, r_g):
 
     return data
 
+
+# ## Compare the Propagation in the Perpendicular Plane
+
+# Here, we can compare the numerical results of both modules with the analytical solution of the particle trajectory. First, we want to show the trajectories in the $xy$-plane (left plot). The black squares present the positions of the analytical solution for the chosen step size. In the middle plot, we can display the relative error of the gyro radius as a function of time. Finally, we can compute the distance of the numerical solutions to the analytical solution in the $xy$-plane (right plot).
+
+# In[6]:
+
+
+import matplotlib.pyplot as plt
+
+steps_per_gyrations = 10
+number_gyrations = 40000
+number_of_steps = steps_per_gyrations * number_gyrations
+
+def plot_subplots(ax1, ax2, ax3, data, x_ana, y_ana, r_g, module, color):
+    # numerical calculated positions
+    
+    ax1.scatter(data.X,data.Y, s=1,color = color, label = module)
+    
+    # analytical solution shwon in black squares!
+    if module == 'CK':
+        ax1.scatter(x_ana, y_ana, color = 'k', marker = 's', s = 15)
+        # for the legend
+        ax1.scatter(x_ana, y_ana, color = 'k', marker = 's', s = 1, label = 'Analytical solution')
+    
+    ax1.legend(markerscale=5)
+    
+    # numerical solutions
+    ax2.scatter(data.D,(data.R-r_g)/r_g*100., s=1,color = color, label= module)
+    ax2.legend(markerscale=5)
+    
+    ax3.scatter(data.D,((x_ana-data.X)**2+(y_ana-data.Y)**2)**0.5, s=1,color = color, label=module)
+    ax3.legend(markerscale=5)
+   
+ # We use this function to plot the whole figure for the particle motion in the xy-plane
+def plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps):
+    fig, ((ax1, ax2, ax3)) = plt.subplots(1, 3,figsize=(12,4))
+
+    # for parallel motion corrected gyro radius
+    r_g = r_g_0*(1-p_z**2)**0.5 
+    
+    # Initial condition of candidate
+    p_x = (1-p_z**2)**(1/2.)/2**0.5
+    p_y = p_x
+    
+    x_ana, y_ana, z_ana = analytical_solution(max_trajectory, p_z, r_g_0, number_of_steps)
+    
+    data = load_data('trajectory_BP.txt', r_g)
+    plot_subplots(ax1, ax2, ax3, data, x_ana, y_ana, r_g, 'BP', 'brown')
+
+    data = load_data('trajectory_CK.txt', r_g)
+    plot_subplots(ax1, ax2, ax3, data, x_ana, y_ana, r_g, 'CK', 'dodgerblue')
+
+    ax1.set_xlabel('$x$ [pc]')
+    ax1.set_ylabel('$y$ [pc]')
+    ax1.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    ax2.set_xlabel('distance [kpc]')
+    ax2.set_ylabel('relative error in $r_\mathrm{g}$ [%]')
+    ax2.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    ax3.set_xlabel('distance [kpc]')
+    ax3.set_ylabel('$xy-$deviation from ana. solution [pc]')
+    ax3.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+    
+    fig.tight_layout()
+    plt.show()
+
+
+# We can study $\textbf{different pitch angles}$ of the particle with respect to the background magnetic field and start with $p_z/p = 0.01$ which represents a strong perpendicular component:
+
+# In[7]:
+
+
+p_z = 0.01
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations/2, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations/2, p_z)
+plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps/2)
+
+
+# We increase the component of the momentum along the parallel component:
+
+# In[8]:
+
+
+p_z = 0.5
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[9]:
+
+
+p_z = 0.99
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[10]:
+
+
+p_z = 0.9999
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_perp(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[ ]:
+
+
+
+

@@ -357,3 +357,10 @@ max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gy
 run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
 plot_figure_para(max_trajectory, p_z, r_g_0, number_of_steps)
 
+
+# $\textbf{Conclusions:}$ 
+# - the $\textbf{Boris push}$ propagates the particle along the parallel component $\textbf{without any errors}$ and is in great agreement with the analytical solution.
+# - the behavior of the $\textbf{Cash-Karp}$ on the other hand has again a $\textbf{small local error that accumulates to a large global error}$. Again, the $\textbf{error depends on the pitch angle}$ of the particle and thus may artificially pollute the results if we use a background field in combination with a isotropic source (this source would emit particles with all possible pitch angles) of particles. 
+# 
+# 
+# If we are interested in the motion along the magnetic field lines, we should use the Boris push mehthod instead of the Cash-Karp method. 

@@ -490,3 +490,76 @@ plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps*5)
 
 # The conservation of the momentum wiht the Boris push is independet of the number of steps per gyration and works always, while it strongly depend on this number for the Cash-Karp algorithm. As expected, only the Boris push preserves the components of the momentum correctly. 2 steps per gyrations lead imediately to a complete change of the momentum components. Instead of a parallel motion as expected from the initial condition ($p_z/p$ = 0.99), the particle only moves in the perpendicular plane ($p_z/p$ = 0) after a short distance.
 # The behavior is much better for 50 steps per gyration (the simulation time is, however, high). The error is small at the investigated distances. Feel free to test different numbers of gyrations and different numbers of steps per gyration.
+
+# ## Comparison with 3D Analytic Solution
+
+# We can study the complete deviation of the numerical trajectories from the analytical solution. The follwoing code calculates the distance between the positions calculated with both algorithms and the analytical particle position. 
+
+# In[24]:
+
+
+def plot_subplots_3d(ax, data, x_ana, y_ana, z_ana, module, color):   
+    ax.scatter(data.D,((x_ana-data.X)**2+(y_ana-data.Y)**2+(z_ana-data.Z)**2)**0.5, s=1,color=color, label=module)
+    ax.legend(markerscale=5)
+    
+def plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps):
+    fig, ax = plt.subplots(figsize=(12,5))
+    
+    # for parallel motion corrected gyro radius
+    r_g = r_g_0*(1-p_z**2)**0.5 
+    
+    # Initial condition of candidate
+    p_x = (1-p_z**2)**(1/2.)/2**0.5
+    p_y = p_x
+    
+    x_ana, y_ana, z_ana = analytical_solution(max_trajectory, p_z, r_g_0, number_of_steps)
+    
+    data = load_data('trajectory_BP.txt', r_g)
+    plot_subplots_3d(ax, data, x_ana, y_ana, z_ana, 'BP', 'brown')
+
+    data = load_data('trajectory_CK.txt', r_g)
+    plot_subplots_3d(ax, data, x_ana, y_ana, z_ana, 'CK', 'dodgerblue')
+    
+    ax.set_xlabel('distance [kpc]')
+    ax.set_ylabel('$xyz-$deviation from analytical solution [pc]')
+    ax.set_title('$p_z/p$ = '+str(p_z), fontsize=18)
+
+    fig.tight_layout()
+    plt.show() 
+
+
+# In[25]:
+
+
+p_z = 0.01
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[26]:
+
+
+p_z = 0.5
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[27]:
+
+
+p_z = 0.99
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
+
+
+# In[28]:
+
+
+p_z = 0.9999
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations, number_gyrations, p_z)
+plot_figure_3d(max_trajectory, p_z, r_g_0, number_of_steps)
+

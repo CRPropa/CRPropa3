@@ -465,3 +465,28 @@ plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps)
 # $\textbf{Conclusions:}$ 
 # - The $\textbf{Boris push}$ conserves the components of the momentum because the algorithm already conserves energy by construction.
 # - The $\textbf{Cash-Karp}$ does not conserve energy by construction. CRPropa urges the propagation to conserve energy, resulting in a shift of the momentum between its components. This effect depends on the geometry of the magnetic field and the pitch angle (see above) of the particle as well as the step size (see below).
+# 
+# In the following two plots we can investigate the influence of the step size. We can consider for example 2 steps per gyration instead of 10 in the first figure and 50 steps per gyration in the second figure.
+
+# In[22]:
+
+
+p_z = 0.99
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations/5, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations/5, number_gyrations, p_z)
+plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps/5)
+
+
+# If we increase the number of steps per gyration, we expect to minimize the error of the Cash-Karp algorithm. 50 steps per gyration lead to:
+
+# In[23]:
+
+
+p_z = 0.99
+max_trajectory, p_z, r_g_0 = run_simulation('CK', steps_per_gyrations*5, number_gyrations, p_z)
+run_simulation('BP', steps_per_gyrations*5, number_gyrations, p_z)
+plot_figure_momentum(max_trajectory, p_z, r_g_0, number_of_steps*5)
+
+
+# The conservation of the momentum wiht the Boris push is independet of the number of steps per gyration and works always, while it strongly depend on this number for the Cash-Karp algorithm. As expected, only the Boris push preserves the components of the momentum correctly. 2 steps per gyrations lead imediately to a complete change of the momentum components. Instead of a parallel motion as expected from the initial condition ($p_z/p$ = 0.99), the particle only moves in the perpendicular plane ($p_z/p$ = 0) after a short distance.
+# The behavior is much better for 50 steps per gyration (the simulation time is, however, high). The error is small at the investigated distances. Feel free to test different numbers of gyrations and different numbers of steps per gyration.

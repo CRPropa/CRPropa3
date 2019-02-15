@@ -116,25 +116,41 @@ std::vector<double> logspace(double start, double stop, size_t N) {
 }
 
 #ifdef FAST_TD13
-// code from:
-// https://stackoverflow.com/questions/6996764/fastest-way-to-do-horizontal-float-vector-sum-on-x86
-float hsum_float_sse3(__m128 v) {
-    __m128 shuf = _mm_movehdup_ps(v);        // broadcast elements 3,1 to 2,0
-    __m128 sums = _mm_add_ps(v, shuf);
-    shuf        = _mm_movehl_ps(shuf, sums); // high half -> low half
-    sums        = _mm_add_ss(sums, shuf);
-    return        _mm_cvtss_f32(sums);
+//see https://stackoverflow.com/questions/49941645/get-sum-of-values-stored-in-m256d-with-sse-avx
+double hsum_double_avx(__m256d v) {
+  __m128d vlow  = _mm256_castpd256_pd128(v);
+  __m128d vhigh = _mm256_extractf128_pd(v, 1); // high 128
+  vlow  = _mm_add_pd(vlow, vhigh);     // reduce down to 128
+
+  __m128d high64 = _mm_unpackhi_pd(vlow, vlow);
+  return  _mm_cvtsd_f64(_mm_add_sd(vlow, high64));  // reduce to scalar
 }
 
-  // TODO: Figure out why ld can't find Sleef_x86CpuID
-  //  (Alternatively, decide that this isn't worth it)
-  //bool check_sse() {
-  //  int32_t result[4];
-  //  Sleef_x86CpuID(result, 1, 0);
-  //  return (result[3] & (1 << 25)) && (result[3] & (1 << 26)) && (result[2] & (1 << 0))
-  //    && (result[2] & (1 << 28)) //DEBUG check for avx, to test if this is working.
-	//    ;
-  //}
+// code for hsum_float_avx taken from:
+// https://stackoverflow.com/questions/13219146/how-to-sum-m256-horizontally
+
+// x = ( x7, x6, x5, x4, x3, x2, x1, x0 )
+float hsum_float_avx(__m256 x) {
+  // hiQuad = ( x7, x6, x5, x4 )
+  const __m128 hiQuad = _mm256_extractf128_ps(x, 1);
+  // loQuad = ( x3, x2, x1, x0 )
+  const __m128 loQuad = _mm256_castps256_ps128(x);
+  // sumQuad = ( x3 + x7, x2 + x6, x1 + x5, x0 + x4 )
+  const __m128 sumQuad = _mm_add_ps(loQuad, hiQuad);
+  // loDual = ( -, -, x1 + x5, x0 + x4 )
+  const __m128 loDual = sumQuad;
+  // hiDual = ( -, -, x3 + x7, x2 + x6 )
+  const __m128 hiDual = _mm_movehl_ps(sumQuad, sumQuad);
+  // sumDual = ( -, -, x1 + x3 + x5 + x7, x0 + x2 + x4 + x6 )
+  const __m128 sumDual = _mm_add_ps(loDual, hiDual);
+  // lo = ( -, -, -, x0 + x2 + x4 + x6 )
+  const __m128 lo = sumDual;
+  // hi = ( -, -, -, x1 + x3 + x5 + x7 )
+  const __m128 hi = _mm_shuffle_ps(sumDual, sumDual, 0x1);
+  // sum = ( -, -, -, x0 + x1 + x2 + x3 + x4 + x5 + x6 + x7 )
+  const __m128 sum = _mm_add_ss(lo, hi);
+  return _mm_cvtss_f32(sum);
+}
 #endif // defined(FAST_TD13)
 
   TD13Field::TD13Field(double Brms, double kmin, double kmax, double s, int Nm, int seed) {
@@ -233,43 +249,7 @@ float hsum_float_sse3(__m128 v) {
       this->costheta[i] = costheta;
       this->beta[i] = beta;
     }
-
-    // copy data into AVX-compatible arrays
-    //
-    // What is going on here:
-    //
-    // SIMD load instructions require data to be aligned in memory to
-    // the SIMD register bit size (128 bit for SSE, 256 bit for
-    // AVX). Specifying memory alignment in C++ felt somewhat icky to
-    // me after doing initial research, so here we're using the simple
-    // solution: Allocating a vector that is a little bit longer than
-    // required, determining the first aligned index, and then only
-    // using the array starting at that index. (Here called align_offset.)
-    //
-    // To cut down on the complexity of storing one such offset for
-    // each of the attribute arrays, we're using only a single array to
-    // store all of the wavemode attributes, with offset indices to
-    // each. This way, only a single align_offset has to be stored.
-    //
-    // This code was originally written for AVX, hence the
-    // naming. I've also kept the larger 256-bit alignment required
-    // for AVX, even though SSE only needs 128-bit alignment, to make
-    // it simpler to go back to AVX. (And because there's really no
-    // disadvantage, except for allocating a few bytes more.)
-    //
-    // The second thing to consider is that SSE reads data in chunks
-    // of four floats. So what happens when the number of modes is not
-    // divisible by four? For this, we need to round up the number of
-    // modes to the next multiple of four. (Again, this code rounds up
-    // to eight, due to AVX compatibility. TODO: maybe remove this,
-    // since it actually costs runtime?)
-    //
-    // Since the array is initialized to zero, the "extra modes" will
-    // have all their attributes be zero. The final step in the
-    // getField() loop is multiplying by (Ak*xi), which is zero for
-    // the extra modes, so they won't influence the result.
-    
-
+    //copy data into AVX-compatible arrays
     avx_Nm = ( (Nm + 8 - 1)/8 ) * 8; //round up to next larger multiple of 8: align is 256 = 8 * sizeof(float) bit
     avx_data = std::vector<float>(itotal*avx_Nm + 7, 0.);
 
@@ -304,7 +284,7 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
 
   return B;
 
-#else // CRPROPA_USE_SIMD
+#else // FAST_TD13
 
   // Initialize accumulators
   //
@@ -315,54 +295,54 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
   // of the accumulator's numbers are added together (using
   // hsum_float_sse3), resulting in the total sum.
 
-  __m128 acc0 = _mm_setzero_ps();
-  __m128 acc1 = _mm_setzero_ps();
-  __m128 acc2 = _mm_setzero_ps();
+  __m256 acc0 = _mm_setzero_ps();
+  __m256 acc1 = _mm_setzero_ps();
+  __m256 acc2 = _mm_setzero_ps();
 
   // broadcast position into SSE registers
-  __m128 pos0 = _mm_set1_ps(pos.x);
-  __m128 pos1 = _mm_set1_ps(pos.y);
-  __m128 pos2 = _mm_set1_ps(pos.z);
+  __m256 pos0 = _mm256_set1_ps(pos.x);
+  __m256 pos1 = _mm256_set1_ps(pos.y);
+  __m256 pos2 = _mm256_set1_ps(pos.z);
 
-  for (int i=0; i<avx_Nm; i+=4) {
+  for (int i=0; i<avx_Nm; i+=8) {
 
     // load data from memory into AVX registers
-    __m128 Axi0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi0);
-    __m128 Axi1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi1);
-    __m128 Axi2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi2);
+    __m256 Axi0 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi0);
+    __m256 Axi1 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi1);
+    __m256 Axi2 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*iAxi2);
 
-    __m128 kkappa0 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa0);
-    __m128 kkappa1 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa1);
-    __m128 kkappa2 = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa2);
+    __m256 kkappa0 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa0);
+    __m256 kkappa1 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa1);
+    __m256 kkappa2 = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ikkappa2);
 
-    __m128 beta = _mm_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
+    __m256 beta = _mm256_load_ps(avx_data.data() + i + align_offset + avx_Nm*ibeta);
 
 
     // Do the computation
 
     // this is the scalar product between k*kappa and pos
-    __m128 z = _mm_add_ps(_mm_mul_ps(pos0, kkappa0),
-			      _mm_add_ps(_mm_mul_ps(pos1, kkappa1),
-					    _mm_mul_ps(pos2, kkappa2)
+    __m256 z = _mm256_add_ps(_mm256_mul_ps(pos0, kkappa0),
+			      _mm256_add_ps(_mm256_mul_ps(pos1, kkappa1),
+					    _mm256_mul_ps(pos2, kkappa2)
 					    )
 			      );
 
     // here, the phase is added on. this is the argument of the cosine.
-    __m128 cos_arg = _mm_add_ps(z, beta);
+    __m256 cos_arg = _mm256_add_ps(z, beta);
     // the result of the cosine
-    __m128 mag = Sleef_cosf4_u35(cos_arg);
+    __m256 mag = Sleef_cosf8_u35(cos_arg);
 
     // Finally, Ak*xi is multiplied on. Since this is a vector, the
     // multiplication needs to be done for each of the three
     // components, so it happens separately.
-    acc0 = _mm_add_ps(_mm_mul_ps(mag, Axi0), acc0);
-    acc1 = _mm_add_ps(_mm_mul_ps(mag, Axi1), acc1);
-    acc2 = _mm_add_ps(_mm_mul_ps(mag, Axi2), acc2);
+    acc0 = _mm256_add_ps(_mm256_mul_ps(mag, Axi0), acc0);
+    acc1 = _mm256_add_ps(_mm256_mul_ps(mag, Axi1), acc1);
+    acc2 = _mm256_add_ps(_mm256_mul_ps(mag, Axi2), acc2);
   }
   
-  return Vector3d(hsum_float_sse3(acc0),
-                  hsum_float_sse3(acc1),
-                  hsum_float_sse3(acc2)
+  return Vector3d(hsum_float_avx(acc0),
+                  hsum_float_avx(acc1),
+                  hsum_float_avx(acc2)
                   );
 #endif // FAST_TD13
 }

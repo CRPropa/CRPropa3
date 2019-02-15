@@ -34,6 +34,7 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
+SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mavx" )
 
 SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 3) in GCC. This is necessary for fast TD13.")
 if (USE_SIMD)

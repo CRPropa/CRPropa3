@@ -637,7 +637,7 @@ runSimulation('BP')
 runSimulation('CK')
 
 
-# The simulation time difference is really high! **PropagationBP is much faster than PropagationCK**.
+# The simulation time difference is really high! **PropagationBP is much faster than PropagationCK for the turbulent magentic field**.
 
 # #### Literature
 # 

@@ -5,9 +5,9 @@
 
 # 
 # 
-# Numerical simulations of the propagation of charged particles through magnetic fields, solving the equation of motion can be achieved in principle with many different algorithms. There are, however, an increasing number of studies that have found that there are two algorithms, which work in general best for propagating charged particles within a magnetic field. These two algorithms are compared and evaluated.
+# Numerical simulations of the propagation of charged particles through magnetic fields, solving the equation of motion can be achieved in principle with many different algorithms. There are, however, an increasing number of studies that have found that there are two algorithms, which work in general best for propagating charged particles within a magnetic field [1,2,3]. These two algorithms are compared and evaluated.
 # 
-# Both the Boris push and the Cash-Karp algorithms solve the Lorentz equation and thus enable the propagation of charged particles through magnetic fields. For the simplest case of a homogeneous background field, the particle trajectory can be derived analytically. This enables comparison with numerical integrators and provides information on the errors of the algorithms for the corresponding parameters being used. The aim is to find a relationship between the error and the parameters applied. The pitch angle and the step length are suitable parameters to determine the influence. 
+# Both the Boris push [4] and the Cash-Karp [3] algorithms solve the Lorentz equation and thus enable the propagation of charged particles through magnetic fields. For the simplest case of a homogeneous background field, the particle trajectory can be derived analytically. This enables comparison with numerical integrators and provides information on the errors of the algorithms for the corresponding parameters being used. The aim is to find a relationship between the error and the parameters applied. The pitch angle and the step length are suitable parameters to determine the influence. 
 # 
 # Consequently, we want to understand which algorithm is suitable for each simulation setup.
 
@@ -41,7 +41,7 @@ def analytical_solution(max_trajectory, p_z, r_g_0, number_steps):
 
 # We define functions with which we can calculate the gyration radius and the circumference. In addition we only want to define how many steps we require per circumference and how many gyrations should be performed. The last helping function should then calculate the maximum trajectory length and the step size, so that our requirements are fulfilled.
 
-# In[3]:
+# In[2]:
 
 
 import numpy as np
@@ -85,7 +85,7 @@ def maximum_trajectory(steps_per_gyrations, number_of_gyrations, c, field, p_z):
 # 
 # Now that we have our module list ready we can fire up our simulation with both propagation algorithms and hope that something visually interesting is going to happen. 
 
-# In[4]:
+# In[3]:
 
 
 import time as Time
@@ -144,7 +144,7 @@ def run_simulation(module, steps_per_gyrations, number_of_gyrations, p_z):
 
 # There are several ways to load the simulation data. Pandas is helpful to load files. To illustrate this, we will load and process the data with pandas.
 
-# In[5]:
+# In[4]:
 
 
 import pandas as pd
@@ -637,4 +637,181 @@ runSimulation('BP')
 runSimulation('CK')
 
 
-# The simulation time difference is really high! **PropagationBP is much faster than PropagationCK**.
+# The simulation time difference is really high! **PropagationBP is much faster than PropagationCK for the turbulent magentic field**.
+
+# ## Time Comparison for Galactic Trajectories
+# 
+# #### For fixed step sizes
+# 
+# Here, we test the time difference for the example of galactic trajectories presented in: 
+# 
+# https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb.
+# 
+# First, we want to compare both modules with a fixed step size:
+
+# In[13]:
+
+
+from crpropa import *
+import time as Time
+
+# magnetic field setup
+B = JF12Field()
+randomSeed = 691342
+B.randomStriated(randomSeed)
+B.randomTurbulent(randomSeed)
+
+# simulation setup for fixed step size
+sim_CK = ModuleList()
+sim_CK.add(PropagationCK(B, 1e-4, 0.1 * parsec, 0.1 * parsec))
+sim_CK.add(SphericalBoundary(Vector3d(0), 20 * kpc))
+
+sim_BP = ModuleList()
+sim_BP.add(PropagationBP(B, 0.1 * parsec))
+sim_BP.add(SphericalBoundary(Vector3d(0), 20 * kpc))
+
+class MyTrajectoryOutput(Module):
+    """
+    Custom trajectory output: i, x, y, z
+    where i is a running cosmic ray number
+    and x,y,z are the galactocentric coordinates in [kpc].
+    """
+    def __init__(self, fname):
+        Module.__init__(self)
+        self.fout = open(fname, 'w')
+        self.fout.write('#i\tX\tY\tZ\n')
+        self.i = 0
+    def process(self, c):
+        v = c.current.getPosition()
+        x = v.x / kpc
+        y = v.y / kpc
+        z = v.z / kpc
+        self.fout.write('%i\t%.3f\t%.3f\t%.3f\n'%(self.i, x, y, z))
+        if not(c.isActive()):
+            self.i += 1       
+    def close(self):
+        self.fout.close()
+    
+
+output_CK = MyTrajectoryOutput('galactic_trajectories_CK.txt')
+output_BP = MyTrajectoryOutput('galactic_trajectories_BP.txt')
+
+sim_CK.add(output_CK)
+sim_BP.add(output_BP)
+
+# source setup
+source = Source()
+source.add(SourcePosition(Vector3d(-8.5, 0, 0) * kpc))
+source.add(SourceIsotropicEmission())
+source.add(SourceParticleType(-nucleusId(1,1)))
+source.add(SourceEnergy(1 * EeV))
+
+t0 = Time.time()
+sim_CK.run(source, 10)  # backtrack 10 random cosmic rays
+t1 = Time.time()
+print('Simulation time with module CK is '+str(t1-t0)+'s.')
+output_CK.close() # flush particles to ouput file
+
+t2 = Time.time()
+sim_BP.run(source, 10)  # backtrack 10 random cosmic rays
+t3 = Time.time()
+print('Simulation time with module BP is '+str(t3-t2)+'s.')
+output_BP.close() # flush particles to ouput file
+
+
+# PropagationBP is faster than PropagationCK for the same step sizes.
+# 
+# #### Adaptive step sizes
+# 
+# Finally we can test exactly the example presented in:
+# https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb.
+# 
+
+# In[17]:
+
+
+# magnetic field setup
+B = JF12Field()
+randomSeed = 691342
+B.randomStriated(randomSeed)
+B.randomTurbulent(randomSeed)
+
+# simulation setup for adaptive step size for the Cash-Karp algorithm
+sim_CK = ModuleList()
+sim_CK.add(PropagationCK(B, 1e-4, 0.1 * parsec, 100 * parsec))
+sim_CK.add(SphericalBoundary(Vector3d(0), 20 * kpc))
+
+# simulation setup for adaptive step size for the Boris push algorithm with a higher tolerance 
+# so that it is as fast as the Cash-Karp algorithm.
+sim_BP = ModuleList()
+sim_BP.add(PropagationBP(B, 0.1 * parsec, 100 * parsec, 2e-3))
+sim_BP.add(SphericalBoundary(Vector3d(0), 20 * kpc))
+
+class MyTrajectoryOutput(Module):
+    """
+    Custom trajectory output: i, x, y, z
+    where i is a running cosmic ray number
+    and x,y,z are the galactocentric coordinates in [kpc].
+    """
+    def __init__(self, fname):
+        Module.__init__(self)
+        self.fout = open(fname, 'w')
+        self.fout.write('#i\tX\tY\tZ\n')
+        self.i = 0
+    def process(self, c):
+        v = c.current.getPosition()
+        x = v.x / kpc
+        y = v.y / kpc
+        z = v.z / kpc
+        self.fout.write('%i\t%.3f\t%.3f\t%.3f\n'%(self.i, x, y, z))
+        if not(c.isActive()):
+            self.i += 1       
+    def close(self):
+        self.fout.close()
+    
+
+output_CK = MyTrajectoryOutput('galactic_trajectories_CK.txt')
+output_BP = MyTrajectoryOutput('galactic_trajectories_BP.txt')
+
+sim_CK.add(output_CK)
+sim_BP.add(output_BP)
+
+# source setup
+source = Source()
+source.add(SourcePosition(Vector3d(-8.5, 0, 0) * kpc))
+source.add(SourceIsotropicEmission())
+source.add(SourceParticleType(-nucleusId(1,1)))
+source.add(SourceEnergy(1 * EeV))
+
+t0 = Time.time()
+sim_CK.run(source, 10)  # backtrack 10 random cosmic rays
+t1 = Time.time()
+print('Simulation time with module CK is '+str(t1-t0)+'s.')
+output_CK.close() # flush particles to ouput file
+
+t2 = Time.time()
+sim_BP.run(source, 10)  # backtrack 10 random cosmic rays
+t3 = Time.time()
+print('Simulation time with module BP is '+str(t3-t2)+'s.')
+output_BP.close() # flush particles to ouput file
+
+
+# The simulation time depends on the tolerance. For the same tolerance, the PropagationCK is much faster than PropagationBP. 
+# 
+# If the tolerance of the PropagationBP module is adjusted to 2e-3 (instead of 1e-4), both simulation times are the same. The big differences can be explained by the different orders of the algorithms. Whereas the Cash-Karp is a higher order algorithm, the Boris push is only of order 2.
+
+# #### Literature
+# 
+# [1] Hong Qin et al. “Why is Boris algorithm so good?” In: Physics of Plasmas 20.8 (2013),
+# p. 084503. doi: 10.1063/1.4818428. url: https://doi.org/10.1063/1.4818428.
+# 
+# [2] Mathias Winkel, Robert Speck, and Daniel Ruprecht. “Does Boris-SDC conserve phase space
+# volume?” In: PAMM 15.1 (2015), pp. 687–688. doi: 10.1002/pamm.201510333. url: https:
+# //onlinelibrary.wiley.com/doi/abs/10.1002/pamm.201510333.
+# 
+# [3] J. R. Cash and Alan H. Karp. “A Variable Order Runge-Kutta Method for Initial Value Problems
+# with Rapidly Varying Right-hand Sides”. In: ACM Trans. Math. Softw. 16.3 (Sept. 1990),
+# pp. 201–222. issn: 0098-3500. doi: 10.1145/79505.79507. url: http://doi.acm.org/10.
+# 1145/79505.79507.
+# 
+# [4] J. Boris, in Proc. of the 4th Conf. on Numerical Simulation of Plasmas (NRL, 1970), pp. 3-67.

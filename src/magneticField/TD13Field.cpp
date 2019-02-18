@@ -295,9 +295,9 @@ Vector3d TD13Field::getField(const Vector3d& pos) const {
   // of the accumulator's numbers are added together (using
   // hsum_float_sse3), resulting in the total sum.
 
-  __m256 acc0 = _mm_setzero_ps();
-  __m256 acc1 = _mm_setzero_ps();
-  __m256 acc2 = _mm_setzero_ps();
+  __m256 acc0 = _mm256_setzero_ps();
+  __m256 acc1 = _mm256_setzero_ps();
+  __m256 acc2 = _mm256_setzero_ps();
 
   // broadcast position into SSE registers
   __m256 pos0 = _mm256_set1_ps(pos.x);

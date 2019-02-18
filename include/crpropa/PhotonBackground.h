@@ -73,10 +73,10 @@ public:
 	*/
 	double SOPHIA_crossection(double eps, bool onProton) const;
 
-protected:
 	std::vector<double> photonEnergy;
 	std::vector<double> photonRedshift;
 	std::vector<double> photonDensity;
+protected:
 	void init(std::string fieldPath);
 	double SOPHIA_probEps(double eps, bool onProton, double Ein, double zIn) const;
 	double SOPHIA_pl(double x, double xth, double xmax, double alpha) const;

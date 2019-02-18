@@ -363,8 +363,7 @@ add_library(crpropa SHARED
 	src/module/PhotonEleCa.cpp
 	src/module/PhotonOutput1D.cpp
 	src/module/PropagationCK.cpp
-	src/module/PropagationBP.cpp
-        src/module/Redshift.cpp
+	src/module/Redshift.cpp
 	src/module/RestrictToRegion.cpp
 	src/module/SimplePropagation.cpp
 	src/module/SynchrotronRadiation.cpp
@@ -499,6 +498,10 @@ if(ENABLE_TESTING)
 	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testAdvectionField testAdvectionField)
 	
+	add_executable(testPhotonField test/testPhotonField.cpp)
+	target_link_libraries(testPhotonField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+	add_test(testPhotonField testPhotonField)
+
 	add_executable(testDensity test/testDensity.cpp)
 	target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDensity testDensity)

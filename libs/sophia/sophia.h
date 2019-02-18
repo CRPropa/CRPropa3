@@ -2,36 +2,32 @@
 #define _SOPHIA_H
 
 extern "C" {
-void sophiaevent_(int& channel, double& inputenergy, double momentum[][2000],
-		int id[], int& n, double& redshift, int& photonbackground, double& maxz,
-		int&, double[], double[]);
-}
-
 /*
- The arguments are the following
- - channel: 0 -> p, 1 -> n
- - input energy of nucleon in GeV
- - list of 4-momenta + masses of output particles (in GeV)
+int type                    particle type: 0=proton, 1=neutron
+double inputEnergy          input energy of nucleon in GeV
+double eps                  energy of target photon in eV
+double momentaList[2000]    list of output particle energies in GeV
+double idList[2000]         list of output particle IDs
+int nParticles              number of output particles
+
  - list of output particle ids
 	 13  proton
+	-13  antiproton
 	 14  neutron
-	 -13  antiproton
-	 -14  antineutron
-	 1   photon
+	-14  antineutron
+	 1   photo
 	 2   e+
 	 3   e-
 	 15  nu_e
 	 16  antinu_e
-	 17  nu_muon
-	 18  antinu_muon
- - number of output particles
- - redshift
- - photon background flag: 1 -> CMB, 2 -> IRB Kneiske
- (Primack et al. (1999) IRB is outcommented in sophia_interface.f on line 16320
- - maximum redshift: the photon density of IRB is null above this redshift
- - dummy1
- - dummy2
- - dummy3
- */
+	 17  nu_mu
+	 18  antinu_mu
+*/
+void sophiaevent_(int& type, double& inputEnergy, double& eps,
+				  double momentaList[2000], int idList[], int& nParticles);
+}
+
+
+
 
 #endif

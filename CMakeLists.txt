@@ -302,7 +302,7 @@ if(DOWNLOAD_DATA)
 		${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM)
 	file(STRINGS ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
 	file(DOWNLOAD
-		https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz
+		https://github.com/Froehliche-Kernschmelze/CRPropa3-data/raw/implement_custom_photon_field/data.tar.gz
 		${CMAKE_BINARY_DIR}/data.tar.gz
 		EXPECTED_MD5 "${DATA_CHECKSUM}")
 	message("-- Extracting data file")

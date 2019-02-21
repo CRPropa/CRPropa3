@@ -96,7 +96,7 @@ private:
   std::vector<double> costheta;
   std::vector<double> beta;
 
-  std::vector<float> avx_data;
+  std::vector<double> avx_data;
   std::vector<double> Ak;
   std::vector<double> k;
 

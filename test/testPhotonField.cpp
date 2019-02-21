@@ -13,16 +13,17 @@ namespace crpropa {
 
 TEST(PhotonField, initNativeFields) {
 	// test if native field files can be found and initialized
-	std::string nativeFieldNames[9] = {"CMB",
-									   "IRB_Kneiske04",
-									   "IRB_Stecker05",
-									   "IRB_Finke10",
-									   "IRB_Dominguez11",
-									   "IRB_Franceschini08",
-									   "IRB_Gilmore12",
-									   "IRB_Stecker16_lower",
-									   "IRB_Stecker16_upper"};
-	for (int i = 0; i < 9; ++i) {
+	std::string nativeFieldNames[10] = {"CMB",
+										"IRB_Kneiske04",
+										"IRB_Stecker05",
+										"IRB_Finke10",
+										"IRB_Dominguez11",
+										"IRB_Franceschini08",
+										"IRB_Gilmore12",
+										"IRB_Stecker16_lower",
+										"IRB_Stecker16_upper",
+										"URB_Protheroe96"};
+	for (int i = 0; i < 10; ++i) {
 		std::string fieldLoc = "Scaling/" + std::string(nativeFieldNames[i]) + ".txt";
 		CustomPhotonField cpf = CustomPhotonField(getDataPath(fieldLoc));
 	}
@@ -30,16 +31,17 @@ TEST(PhotonField, initNativeFields) {
 
 TEST(PhotonField, nativeFieldFilesFormat) {
 	// test if native field files have the correct format
-	std::string nativeFieldNames[9] = {"CMB",
-									   "IRB_Kneiske04",
-									   "IRB_Stecker05",
-									   "IRB_Finke10",
-									   "IRB_Dominguez11",
-									   "IRB_Franceschini08",
-									   "IRB_Gilmore12",
-									   "IRB_Stecker16_lower",
-									   "IRB_Stecker16_upper"};
-	for (int i = 0; i < 9; ++i) {
+	std::string nativeFieldNames[10] = {"CMB",
+										"IRB_Kneiske04",
+										"IRB_Stecker05",
+										"IRB_Finke10",
+										"IRB_Dominguez11",
+										"IRB_Franceschini08",
+										"IRB_Gilmore12",
+										"IRB_Stecker16_lower",
+										"IRB_Stecker16_upper",
+										"URB_Protheroe96"};
+	for (int i = 0; i < 10; ++i) {
 		std::string fieldLoc = "Scaling/" + std::string(nativeFieldNames[i]) + ".txt";
 		CustomPhotonField cpf = CustomPhotonField(getDataPath(fieldLoc));
 		EXPECT_GT(cpf.photonEnergy.size(), 0);

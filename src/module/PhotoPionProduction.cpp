@@ -7,16 +7,13 @@
 #include <kiss/convert.h>
 #include <kiss/logger.h>
 #include "sophia.h"
-#include <stdlib.h>
 
-#include <algorithm>
-#include <cmath>
-#include <fstream>
 #include <limits>
+#include <cmath>
 #include <sstream>
+#include <fstream>
 #include <stdexcept>
-#include <string>
-#include <vector>
+#include <algorithm>
 
 namespace crpropa {
 

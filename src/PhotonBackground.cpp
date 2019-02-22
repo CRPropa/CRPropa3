@@ -9,8 +9,6 @@
 #include <limits>
 #include <cmath>
 #include <sstream>
-#include <iostream>
-#include <string>
 
 namespace crpropa {
 
@@ -218,10 +216,10 @@ double CustomPhotonField::SOPHIA_probEps(double eps, bool onProton, double Ein, 
 	} else {
 		double sMin = 1.1646;  // head-on collision
 		double sMax = std::max(sMin, mass * mass + 2. * eps / 1.e9 * Ein * (1. + beta));
-		const double x[8] = {.0950125098, .2816035507, .4580167776, .6178762444,
-							 .7554044083, .8656312023, .9445750230, .9894009349};
-		const double w[8] = {.1894506104, .1826034150, .1691565193, .1495959888,
-							 .1246289712, .0951585116, .0622535239, .0271524594};
+		static const double x[8] = {.0950125098, .2816035507, .4580167776, .6178762444,
+									.7554044083, .8656312023, .9445750230, .9894009349};
+		static const double w[8] = {.1894506104, .1826034150, .1691565193, .1495959888,
+									.1246289712, .0951585116, .0622535239, .0271524594};
 		double xm = 0.5 * (sMax + sMin);
 		double xr = 0.5 * (sMax - sMin);
 		double ss = 0.;
@@ -254,17 +252,17 @@ double CustomPhotonField::SOPHIA_crossection(double x, bool onProton) const {
 	double s = mass * mass + 2. * mass * x;
 	if (s < sth)
 		return 0.;
-	// upper: proton resonance masses
-	// lower: neutron resonance masses
-	const double AMRES[18] = {1.231, 1.440, 1.515, 1.525, 1.675, 1.680, 1.690, 1.895, 1.950,
-							  1.231, 1.440, 1.515, 1.525, 1.675, 1.675, 1.690, 1.895, 1.950};
-	const double BGAMMA[18] = {5.6, 0.5, 4.6, 2.5, 1., 2.1, 2., 0.2, 1.,
-							   6.1, 0.3, 4.0, 2.5, 0., 0.2, 2., 0.2, 1.};
-	const double WIDTH[18] = {0.11, 0.35, 0.11, 0.1, 0.16, 0.125, 0.29, 0.35, 0.3,
-							  0.11, 0.35, 0.11, 0.1, 0.16, 0.150, 0.29, 0.35, 0.3};
-	const double RATIOJ[18] = {1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.,
-							   1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
-	const double AM2[2] = {0.882792, 0.880351};
+	// upper: proton resonance masses [GeV]
+	// lower: neutron resonance masses [GeV]
+	static const double AMRES[18] = {1.231, 1.440, 1.515, 1.525, 1.675, 1.680, 1.690, 1.895, 1.950,
+									 1.231, 1.440, 1.515, 1.525, 1.675, 1.675, 1.690, 1.895, 1.950};
+	static const double BGAMMA[18] = {5.6, 0.5, 4.6, 2.5, 1., 2.1, 2., 0.2, 1.,
+									  6.1, 0.3, 4.0, 2.5, 0., 0.2, 2., 0.2, 1.};
+	static const double WIDTH[18] = {0.11, 0.35, 0.11, 0.1, 0.16, 0.125, 0.29, 0.35, 0.3,
+									 0.11, 0.35, 0.11, 0.1, 0.16, 0.150, 0.29, 0.35, 0.3};
+	static const double RATIOJ[18] = {1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.,
+									  1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
+	static const double AM2[2] = {0.882792, 0.880351};
 
 	int idx = onProton? 0 : 9;
 	double SIG0[9];
@@ -309,13 +307,13 @@ double CustomPhotonField::SOPHIA_crossection(double x, bool onProton) const {
 		} else {
 			ss2 = 26.4 * std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);
 		}
-		cs_multidiff = (1. - std::exp(-ss1)) * ss2;
+		cs_multidiff = -expm1f(-ss1) * ss2;
 		// diffractive scattering:
 		double cross_diffr = 0.11 * cs_multidiff;
 		// **************************************
 		ss1 = std::pow((x - 0.85), 0.75) / 0.64;
 		ss2 = 74.1 * std::pow(x, -0.44) + 62. * std::pow(s, 0.08);
-		double cs_tmp = 0.96 * (1. - std::exp(-ss1)) * ss2;
+		double cs_tmp = 0.96 * -expm1(-ss1) * ss2;
 		double cross_diffr1 = 0.14 * cs_tmp;
 		double cross_diffr2 = 0.013 * cs_tmp;
 		double cs_delta = cross_frag2

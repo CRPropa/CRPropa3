@@ -34,12 +34,20 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--as-needed")
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
-SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mavx" )
 
 SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 3) in GCC. This is necessary for fast TD13.")
 if (USE_SIMD)
-        SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3" )
+        SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx" ) # TODO: use something like -march=native to automatically enable fma if available?
 endif (USE_SIMD)
+
+SET(FAST_TD13 OFF CACHE BOOL "Enable SIMD optimizations for TD13Field. Requires USE_SIMD to be set as well.")
+if (FAST_TD13)
+  if (USE_SIMD)
+    add_definitions(-DFAST_TD13)
+  else (USE_SIMD)
+    message(SEND_ERROR "You've requested the FAST_TD13 implementation, but have not enabled USE_SIMD. TD13Field will be compiled without the optimization.")
+  endif(USE_SIMD)
+endif(FAST_TD13)
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
@@ -226,24 +234,6 @@ if(FFTW3F_FOUND)
 	add_definitions(-DCRPROPA_HAVE_FFTW3F)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_FFTW3F)
 endif(FFTW3F_FOUND)
-
-# SLEEF (optional for fast TD13Field)
-find_library(SLEEF_LIBRARY sleef)
-find_path(SLEEF_INCLUDE_DIR sleef.h include)
-SET(SLEEF_FOUND_STRING "NOT Found!")
-SET(SLEEF_FOUND 0)
-
-if (SLEEF_LIBRARY AND SLEEF_INCLUDE_DIR)
-  list(APPEND CRPROPA_EXTRA_INCLUDES ${SLEEF_INCLUDE_DIR})
-  list(APPEND CRPROPA_EXTRA_LIBRARIES ${SLEEF_LIBRARY})
-  add_definitions(-DCRPROPA_HAVE_SLEEF)
-  SET(SLEEF_FOUND_STRING "Found!")
-  SET(SLEEF_FOUND 1)
-endif(SLEEF_LIBRARY AND SLEEF_INCLUDE_DIR)
-
-message("-- SLEEF: ${SLEEF_FOUND_STRING}")
-message("--   Include:     ${SLEEF_INCLUDE_DIR}")
-message("--   Library:     ${SLEEF_LIBRARY}")
 
 # Quimby (optional for SPH magnetic fields)
 option(ENABLE_QUIMBY "Quimby Support" ON)

@@ -35,7 +35,7 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
     limit = l;
     setPhotonField(field);
     this->geometryGrid = geometryGrid;
-    this->phtnfld = Photon_Field(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
+    this->customPhotonField = CustomPhotonField(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
     if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
 }
 
@@ -499,7 +499,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
     // SOPHIA - input:
     int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
     double Ein = EpA / GeV;
-    double eps = phtnfld.sample_eps(onProton, Ein, z);
+    double eps = customPhotonField.sampleEps(onProton, Ein, z);
 
     // SOPHIA - output:
     double outputEnergy[2000];

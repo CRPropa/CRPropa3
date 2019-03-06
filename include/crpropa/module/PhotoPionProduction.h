@@ -23,7 +23,7 @@ class PhotoPionProduction: public Module {
 protected:
 	PhotonField photonField;
 	ScalarGrid4d geometryGrid;
-	Photon_Field phtnfld;
+	CustomPhotonField customPhotonField;
 	std::vector<std::string> hashMap;  // contains histogram hashtags (workaround until c++11)
 	std::vector< std::vector<double> > histData;  // contains histogram data (workaround until c++11)
 	// std::unordered_map<std::string, std::vector<double> > particleMap;  // if c++11

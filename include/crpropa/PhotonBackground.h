@@ -4,14 +4,6 @@
 #include <crpropa/Vector3.h>
 #include <crpropa/Grid.h>
 
-#include <iostream>  // cout, endl
-#include <cmath>  // sqrt, pow
-#include <string>
-#include <fstream>  // write to file
-#include <algorithm>  // max_element
-#include <limits>  // for ::max
-#include <vector>
-
 namespace crpropa {
 
 /**
@@ -43,32 +35,54 @@ double photonFieldScaling(PhotonField photonField, double z);
 // Returns a string representation of the field
 std::string photonFieldName(PhotonField photonField);
 
+/** 
+ @class CustomPhotonField
+ @brief Handler class for photon fields. Provides the sampleEps method.
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// custom photon field methods
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ sampleEps draws a photon from a given photon background. This method 
+ and all methods it depends on have been inspired by the SOPHIA code.
+ */
+class CustomPhotonField {
+public:
+	/** Constructor for photon field data
+	 @param fieldPath  path/to/photonField.txt
+	 */
+	explicit CustomPhotonField(std::string fieldPath);
 
-class Photon_Field {
- public:
-    explicit Photon_Field(std::string fieldPath);
-    Photon_Field();
-    double sample_eps(bool onProton, double E_in, double z_in) const;
+	/* Empty constructor to ease initialization in some modules
+	 */
+	CustomPhotonField();
 
- private:
-    void init(std::string fieldPath);
-        std::vector<double> energy;
-        std::vector< std::vector<double> > dn_deps;
-        std::vector<double> redshift;
-    double get_photonDensity(double eps, int z_pos) const;
-    double gaussInt(std::string type, double lowerLimit, double upperLimit, bool onProton, double E_in, int z_pos) const;
-    double functs(double s, bool onProton) const;
-    double prob_eps(double eps, bool onProton, double E_in, int z_pos) const;
-    double crossection(double eps, bool onProton) const;
-        double Pl(double, double, double, double) const;
-        double Ef(double, double, double) const;
-        double breitwigner(double, double, double, double, bool onProton) const;
-        double singleback(double) const;
-        double twoback(double) const;
+	/** Draws a photon from the photon background
+	 @param onProton  true=proton, false=neutron
+	 @param Ein       energy of primary
+	 @param zIn       redshift of primary
+	 */
+	double sampleEps(bool onProton, double Ein, double zIn) const;
+
+	/** Returns the photon field density in 1/(Jm³).
+		Multiply by h*nu for physical photon density.
+	 @param eps   photon energy in eV
+	 @param zIn   redshift
+	*/
+	double getPhotonDensity(double eps, double z) const;
+
+	/** Returns the crossection of p-gamma interaction
+	 @param eps       photon energy
+	 @param onProton  true=proton, false=neutron
+	*/
+	double SOPHIA_crossection(double eps, bool onProton) const;
+
+	std::vector<double> photonEnergy;
+	std::vector<double> photonRedshift;
+	std::vector<double> photonDensity;
+protected:
+	void init(std::string fieldPath);
+	double SOPHIA_probEps(double eps, bool onProton, double Ein, double zIn) const;
+	double SOPHIA_pl(double x, double xth, double xmax, double alpha) const;
+	double SOPHIA_ef(double x, double th, double w) const;
+	double SOPHIA_breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
+	double SOPHIA_functs(double s, bool onProton) const;
 };
 
 /** @}*/

@@ -35,6 +35,8 @@ endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
+# Enable extra warnings on debug builds
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wextra")
 
 # Set default build-type to release to enable performance improvements
 if (NOT CMAKE_BUILD_TYPE)
@@ -451,6 +453,8 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
 	set_target_properties(crpropa-swig PROPERTIES PREFIX "")
+	# disable warnings on automatically generated interface code
+	set_target_properties(crpropa-swig PROPERTIES COMPILE_FLAGS "-w")
 	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
 	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
 

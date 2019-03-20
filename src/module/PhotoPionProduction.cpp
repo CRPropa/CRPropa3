@@ -232,38 +232,17 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
+	std::vector<int> pnType;  // filled with either 13 (proton) or 14 (neutron)
+	std::vector<double> pnEnergy;  // corresponding energies of proton or neutron
 	for (int i = 0; i < nParticles; i++) { // loop over out-going particles
 		double Eout = momentaList[3][i] * GeV; // only the energy is used; could be changed for more detail
 		int pType = particleList[i];
 		switch (pType) {
 		case 13: // proton
 		case 14: // neutron
-			if (A == 1) {
-				// single interacting nucleon
-				candidate->current.setEnergy(Eout);
-				try
-				{
-					candidate->current.setId(sign * nucleusId(1, 14 - pType));
-				}
-				catch (std::runtime_error &e)
-				{
-					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
-					throw;
-				}
-			} else {
-				// interacting nucleon is part of nucleus: it is emitted from the nucleus
-				candidate->current.setEnergy(E - EpA);
-				try
-				{
-					candidate->current.setId(sign * nucleusId(A - 1, Z - int(onProton)));
-					candidate->addSecondary(sign * nucleusId(1, 14 - pType), Eout, pos);
-				}
-				catch (std::runtime_error &e)
-				{
-					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
-					throw;
-				}
-			}
+			// proton and neutron data is taken to determine primary particle in a later step
+			pnType.push_back(pType);
+			pnEnergy.push_back(Eout);
 			break;
 		case -13: // anti-proton
 		case -14: // anti-neutron
@@ -274,7 +253,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 				}
 				catch (std::runtime_error &e)
 				{
-					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction\n" << "Something went wrong in the PhotoPionProduction\n"<< "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction (anti-nucleon production)\n" << "Something went wrong in the PhotoPionProduction\n"<< "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
 					throw;
 				}
 			break;
@@ -308,6 +287,39 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 			break;
 		default:
 			throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(pType));
+		}
+	}
+	double maxEnergy = *std::max_element(pnEnergy.begin(), pnEnergy.end());  // criterion for being declared primary
+	for (int i = 0; i < pnEnergy.size(); ++i) {
+		if (pnEnergy[i] == maxEnergy) {  // nucleon is primary particle
+			if (A == 1) {
+				// single interacting nucleon
+				candidate->current.setEnergy(pnEnergy[i]);
+				try
+				{
+					candidate->current.setId(sign * nucleusId(1, 14 - pnType[i]));
+				}
+				catch (std::runtime_error &e)
+				{
+					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction (primary particle, A==1)\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+					throw;
+				}
+			} else {
+				// interacting nucleon is part of nucleus: it is emitted from the nucleus
+				candidate->current.setEnergy(E - EpA);
+				try
+				{
+					candidate->current.setId(sign * nucleusId(A - 1, Z - int(onProton)));
+					candidate->addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos);
+				}
+				catch (std::runtime_error &e)
+				{
+					KISS_LOG_ERROR<< "Something went wrong in the PhotoPionProduction (primary particle, A!=1)\n" << "Please report this error on https://github.com/CRPropa/CRPropa3/issues including your simulation setup and the following random seed:\n" << Random::instance().getSeed_base64();
+					throw;
+				}
+			}
+		} else {  // nucleon is secondary proton or neutron
+			candidate->addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos);
 		}
 	}
 }

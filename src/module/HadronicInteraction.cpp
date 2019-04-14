@@ -12,24 +12,45 @@
 namespace crpropa {
 
 
-HadronicInteraction::HadronicInteraction(double massDensity, bool electrons, bool photons, bool neutrinos) {
-    this->massDensity = massDensity;
-    haveElectrons = electrons;
-    havePhotons = photons;
-    haveNeutrinos = neutrinos;
+// HadronicInteraction::HadronicInteraction(double massDensity,
+//                                          bool electrons,
+//                                          bool photons,
+//                                          bool neutrinos) {
+//     setMassDensity(massDensity);
+//     this->geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),2.);
+//     setHaveElectrons(electrons);
+//     setHavePhotons(photons);
+//     setHaveNeutrinos(neutrinos);
+//     setDescription("HadronicInteraction");
+// }
+
+HadronicInteraction::HadronicInteraction(double massDensity,
+                                         ScalarGrid4d geometryGrid,
+                                         bool electrons,
+                                         bool photons,
+                                         bool neutrinos) {
+    setMassDensity(massDensity);
+    this->geometryGrid = geometryGrid;
+    setHaveElectrons(electrons);
+    setHavePhotons(photons);
+    setHaveNeutrinos(neutrinos);
     setDescription("HadronicInteraction");
 }
 
+void HadronicInteraction::setMassDensity(double dens) {
+    this->massDensity = dens;
+}
+
 void HadronicInteraction::setHaveElectrons(bool b) {
-    haveElectrons = b;
+    this->haveElectrons = b;
 }
 
 void HadronicInteraction::setHavePhotons(bool b) {
-    havePhotons = b;
+    this->havePhotons = b;
 }
 
 void HadronicInteraction::setHaveNeutrinos(bool b) {
-    haveNeutrinos = b;
+    this->haveNeutrinos = b;
 }
 
 Vector3d HadronicInteraction::getPosition(double height, double radius) const {
@@ -212,6 +233,11 @@ void HadronicInteraction::process(Candidate *candidate) const {
     const double step = candidate->getCurrentStep();
     const double Eprimary = candidate->current.getEnergy();
     const double cs_inel = CrossSection_Kelner(Eprimary);
+
+    Vector3d pos = candidate->current.getPosition();
+    const double time = candidate->getTrajectoryLength()/c_light;
+    const dens = massDensity * geometryGrid.interpolate(pos, time);
+
     const double p_pp = cs_inel * massDensity * step;
 
     // limit next step to mean free path
@@ -225,7 +251,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
     if (random.rand() > p_pp or Eprimary < 1 * GeV)
         return;
 
-    const Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());  // secondaries' pos
+    pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());  // secondaries' pos
 
     /* Initialize current energies of secondaries */
     double Eout = 0;

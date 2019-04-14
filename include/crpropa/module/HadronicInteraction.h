@@ -3,6 +3,7 @@
 
 #include "crpropa/Module.h"
 #include "crpropa/Vector3.h"
+#include <crpropa/Grid.h>
 
 namespace crpropa {
 /**
@@ -17,16 +18,26 @@ namespace crpropa {
 class HadronicInteraction: public Module {
 protected:
 	double massDensity;
+	ScalarGrid4d geometryGrid;
 	bool haveElectrons;
 	bool havePhotons;
 	bool haveNeutrinos;
 
 public:
+	// HadronicInteraction(
+	// 	double massDensity = 0.,
+	// 	bool electrons = false,
+	// 	bool photons = false,
+	// 	bool neutrinos = false);
+
 	HadronicInteraction(
 		double massDensity = 0.,
+		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
 		bool electrons = false,
 		bool photons = false,
 		bool neutrinos = false);
+
+	void setMassDensity(double dens);
 	void setHaveElectrons(bool b);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);

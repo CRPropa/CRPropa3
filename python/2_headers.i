@@ -411,6 +411,7 @@
 %include "crpropa/module/PhotonOutput1D.h"
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/ElectronPairProduction.h"
+%include "crpropa/module/HadronicInteraction.h"
 %include "crpropa/module/PhotoPionProduction.h"
 %include "crpropa/module/PhotoDisintegration.h"
 %include "crpropa/module/ElasticScattering.h"

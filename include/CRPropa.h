@@ -35,6 +35,7 @@
 #include "crpropa/module/EMTripletPairProduction.h"
 #include "crpropa/module/ElasticScattering.h"
 #include "crpropa/module/ElectronPairProduction.h"
+#include "crpropa/module/HadronicInteraction.h"
 #include "crpropa/module/HDF5Output.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/Observer.h"

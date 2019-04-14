@@ -236,7 +236,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
 
     Vector3d pos = candidate->current.getPosition();
     const double time = candidate->getTrajectoryLength()/c_light;
-    const dens = massDensity * geometryGrid.interpolate(pos, time);
+    const double dens = massDensity * geometryGrid.interpolate(pos, time);
 
     const double p_pp = cs_inel * massDensity * step;
 

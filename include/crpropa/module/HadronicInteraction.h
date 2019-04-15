@@ -18,21 +18,29 @@ namespace crpropa {
 class HadronicInteraction: public Module {
 protected:
 	double massDensity;
-	ScalarGrid4d geometryGrid;
+	ScalarGrid4d spaceTimeGrid;
+	ScalarGrid spaceGrid;
 	bool haveElectrons;
 	bool havePhotons;
 	bool haveNeutrinos;
 
 public:
-	// HadronicInteraction(
-	// 	double massDensity = 0.,
-	// 	bool electrons = false,
-	// 	bool photons = false,
-	// 	bool neutrinos = false);
+	HadronicInteraction(
+		double massDensity,
+		bool electrons = false,
+		bool photons = false,
+		bool neutrinos = false);
 
 	HadronicInteraction(
-		double massDensity = 0.,
-		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
+		double massDensity,
+		ScalarGrid4d spaceTimeGrid,
+		bool electrons = false,
+		bool photons = false,
+		bool neutrinos = false);
+
+	HadronicInteraction(
+		double massDensity,
+		ScalarGrid spaceGrid,
 		bool electrons = false,
 		bool photons = false,
 		bool neutrinos = false);

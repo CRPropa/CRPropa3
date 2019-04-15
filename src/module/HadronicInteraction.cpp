@@ -12,29 +12,45 @@
 namespace crpropa {
 
 
-// HadronicInteraction::HadronicInteraction(double massDensity,
-//                                          bool electrons,
-//                                          bool photons,
-//                                          bool neutrinos) {
-//     setMassDensity(massDensity);
-//     this->geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),2.);
-//     setHaveElectrons(electrons);
-//     setHavePhotons(photons);
-//     setHaveNeutrinos(neutrinos);
-//     setDescription("HadronicInteraction");
-// }
-
 HadronicInteraction::HadronicInteraction(double massDensity,
-                                         ScalarGrid4d geometryGrid,
                                          bool electrons,
                                          bool photons,
                                          bool neutrinos) {
     setMassDensity(massDensity);
-    this->geometryGrid = geometryGrid;
+    this->spaceTimeGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.);
+    this->spaceGrid = ScalarGrid(Vector3d(0.), 1,1,1, Vector3d(1.));
     setHaveElectrons(electrons);
     setHavePhotons(photons);
     setHaveNeutrinos(neutrinos);
-    setDescription("HadronicInteraction");
+    setDescription("HadronicInteraction_isotropicConstant");
+}
+
+HadronicInteraction::HadronicInteraction(double massDensity,
+                                         ScalarGrid4d spaceTimeGrid,
+                                         bool electrons,
+                                         bool photons,
+                                         bool neutrinos) {
+    setMassDensity(massDensity);
+    this->spaceTimeGrid = spaceTimeGrid;
+    this->spaceGrid = ScalarGrid(Vector3d(0.), 1,1,1, Vector3d(1.));
+    setHaveElectrons(electrons);
+    setHavePhotons(photons);
+    setHaveNeutrinos(neutrinos);
+    setDescription("HadronicInteraction_spaceTimeDependent");
+}
+
+HadronicInteraction::HadronicInteraction(double massDensity,
+                                         ScalarGrid spaceGrid,
+                                         bool electrons,
+                                         bool photons,
+                                         bool neutrinos) {
+    setMassDensity(massDensity);
+    this->spaceTimeGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.);
+    this->spaceGrid = spaceGrid;
+    setHaveElectrons(electrons);
+    setHavePhotons(photons);
+    setHaveNeutrinos(neutrinos);
+    setDescription("HadronicInteraction_spaceDependentConstant");
 }
 
 void HadronicInteraction::setMassDensity(double dens) {
@@ -236,7 +252,11 @@ void HadronicInteraction::process(Candidate *candidate) const {
 
     Vector3d pos = candidate->current.getPosition();
     const double time = candidate->getTrajectoryLength()/c_light;
-    const double dens = massDensity * geometryGrid.interpolate(pos, time);
+    
+    // const double dens = massDensity * geometryGrid.interpolate(pos, time);
+    double dens = massDensity;
+    // if (geometryGrid.getNx() != 1)
+    //     dens *= geometryGrid.interpolate(pos, time);
 
     const double p_pp = cs_inel * massDensity * step;
 

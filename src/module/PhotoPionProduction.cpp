@@ -431,7 +431,7 @@ void PhotoPionProduction::process(Candidate *candidate) const {
     double step = candidate->getCurrentStep();
     double z = candidate->getRedshift();
     Vector3d pos = candidate->current.getPosition();
-double time = candidate->getTrajectoryLength()/c_light;
+    double time = candidate->getTrajectoryLength()/c_light;
     // the loop is processed at least once for limiting the next step
     do {
         // check if nucleus

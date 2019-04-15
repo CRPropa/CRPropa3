@@ -17,8 +17,8 @@ HadronicInteraction::HadronicInteraction(double massDensity,
                                          bool photons,
                                          bool neutrinos) {
     setMassDensity(massDensity);
-    this->spaceTimeGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.);
-    this->spaceGrid = ScalarGrid(Vector3d(0.), 1,1,1, Vector3d(1.));
+    this->spaceTimeGrid = ScalarGrid4d();
+    this->spaceGrid = ScalarGrid();
     setHaveElectrons(electrons);
     setHavePhotons(photons);
     setHaveNeutrinos(neutrinos);
@@ -32,7 +32,7 @@ HadronicInteraction::HadronicInteraction(double massDensity,
                                          bool neutrinos) {
     setMassDensity(massDensity);
     this->spaceTimeGrid = spaceTimeGrid;
-    this->spaceGrid = ScalarGrid(Vector3d(0.), 1,1,1, Vector3d(1.));
+    this->spaceGrid = ScalarGrid();
     setHaveElectrons(electrons);
     setHavePhotons(photons);
     setHaveNeutrinos(neutrinos);
@@ -45,7 +45,7 @@ HadronicInteraction::HadronicInteraction(double massDensity,
                                          bool photons,
                                          bool neutrinos) {
     setMassDensity(massDensity);
-    this->spaceTimeGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.);
+    this->spaceTimeGrid = ScalarGrid4d();
     this->spaceGrid = spaceGrid;
     setHaveElectrons(electrons);
     setHavePhotons(photons);
@@ -252,13 +252,19 @@ void HadronicInteraction::process(Candidate *candidate) const {
 
     Vector3d pos = candidate->current.getPosition();
     const double time = candidate->getTrajectoryLength()/c_light;
-    
-    // const double dens = massDensity * geometryGrid.interpolate(pos, time);
-    double dens = massDensity;
-    // if (geometryGrid.getNx() != 1)
-    //     dens *= geometryGrid.interpolate(pos, time);
 
-    const double p_pp = cs_inel * massDensity * step;
+    double dens = massDensity;
+    const std::string description = getDescription();
+    if (description == "HadronicInteraction_isotropicConstant") {
+        // do nothing, just check for correct initialization
+    } else if (description == "HadronicInteraction_spaceDependentConstant") {
+        dens *= spaceGrid.interpolate(pos);
+    } else if (description == "HadronicInteraction_spaceTimeDependent") {
+        dens *= spaceTimeGrid.interpolate(pos, time);
+    } else {
+        throw std::runtime_error("HadronicInteraction: invalid description string");
+    }
+    const double p_pp = cs_inel * dens * step;
 
     // limit next step to mean free path
     const double limit = 1 / p_pp * 0.1;

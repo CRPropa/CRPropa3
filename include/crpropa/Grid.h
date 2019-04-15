@@ -53,9 +53,15 @@ class Grid: public Referenced {
 
 public:
 	Grid() {
-		// empty constructor for initialization in some modules
+		// empty grid for initialization in some modules
+		setOrigin(Vector3d(0.));
+		setGridSize(0, 0, 0, 0);
+		setSpacing(Vector3d(0.));
+		setTiming(0.);
+		setStartTime(0.);
+		setReflective(false);
 	}
-	
+
 	/** Constructor for cubic grid
 	 @param	origin	Position of the lower left front corner of the volume
 	 @param	N		Number of grid points in one direction
@@ -63,7 +69,7 @@ public:
 	 */
 	Grid(Vector3d origin, size_t N, Vector3d spacing) {
 		setOrigin(origin);
-		setGridSize(N, N, N, 1);
+		setGridSize(N, N, N, 0);
 		setSpacing(spacing);
 		setTiming(1.);
 		setStartTime(0.);
@@ -79,7 +85,7 @@ public:
 	 */
 	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
 		setOrigin(origin);
-		setGridSize(Nx, Ny, Nz, 1);
+		setGridSize(Nx, Ny, Nz, 0);
 		setSpacing(spacing);
 		setTiming(1.);
 		setStartTime(0.);
@@ -123,8 +129,11 @@ public:
 		this->Ny = Ny;
 		this->Nz = Nz;
 		this->Nt = Nt;
-		grid.resize(Nx * Ny * Nz * Nt);
-		setOrigin(origin);
+		if (Nt == 0) {
+			grid.resize(Nx * Ny * Nz);
+		} else {
+			grid.resize(Nx * Ny * Nz * Nt);
+		}
 	}
 
 	void setSpacing(Vector3d spacing) {

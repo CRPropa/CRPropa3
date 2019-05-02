@@ -3,7 +3,7 @@
 
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/Grid.h"
-#include <crpropa/Units.h>
+#include "crpropa/Units.h"
 
 namespace crpropa {
 

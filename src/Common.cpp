@@ -3,7 +3,7 @@
 #include "kiss/path.h"
 #include "kiss/logger.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <cmath>

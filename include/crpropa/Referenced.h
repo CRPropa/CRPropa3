@@ -1,7 +1,7 @@
 #ifndef CRPROPA_REFERENCED_H
 #define CRPROPA_REFERENCED_H
 
-#include <stddef.h>
+#include <cstddef>
 
 #ifdef DEBUG
 #include <iostream>

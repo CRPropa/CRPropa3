@@ -1,8 +1,8 @@
 #ifndef LOGGING_H
 #define LOGGING_H
-#include <crpropa/Version.h>
+#include "crpropa/Version.h"
 
-#include <kiss/logger.h>
+#include "kiss/logger.h"
 
 #include <fstream>
 

@@ -3,8 +3,8 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/Random.h"
 
-#include <kiss/convert.h>
-#include <kiss/logger.h>
+#include "kiss/convert.h"
+#include "kiss/logger.h"
 #include "sophia.h"
 
 #include <limits>

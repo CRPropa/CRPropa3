@@ -3,12 +3,13 @@
 #include "crpropa/Units.h"
 #include "crpropa/Version.h"
 #include "crpropa/Random.h"
+#include "crpropa/base64.h"
+
+#include "kiss/string.h"
 
 #include <cstdio>
 #include <stdexcept>
 #include <iostream>
-#include <kiss/string.h>
-#include <crpropa/base64.h>
 
 #ifdef CRPROPA_HAVE_ZLIB
 #include <izstream.hpp>

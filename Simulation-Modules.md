@@ -5,6 +5,7 @@ For a more detailed explanation refer to the Doxygen documentation.
 Propagation modules are responsible for proposing a step size, evaluating the bids for the step size of the previous round and spatially moving the particle according to this step. Every simulation needs exactly one propagation module, that is usually put at the beginning of the module list.
 
 * **SimplePropagation** - Simple rectalinear propagation
+* **PropagationBP** - Deflections of charged particles in magnetic fields using the Boris Push algorithm with dynamic step size control
 * **PropagationCK** - Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5) with dynamic step size control
 * **DiffusionSDE** - Solve the Fokker-Planck transport equation using stochastic differential equations (SDEs).
 

@@ -124,9 +124,9 @@ TEST(testPropagationBP, zeroField) {
 TEST(testPropagationBP, exceptions)
 {
 	// minStep should be smaller than maxStep
-	EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 10 , 0), std::runtime_error);
+	EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 0.42, 10 , 0), std::runtime_error);
 	// Too large tolerance: tolerance should be between 0 and 1
-	EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 10 * kpc , 20 * kpc, 42.), std::runtime_error);
+	EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 42., 10 * kpc , 20 * kpc), std::runtime_error);
 
 	PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 
@@ -153,7 +153,7 @@ TEST(testPropagationBP, constructor) {
 	double maxStep = 100.;
 	double tolerance = 0.01;
 
-	PropagationBP propa(bField, minStep, maxStep, tolerance);
+	PropagationBP propa(bField, tolerance, minStep, maxStep);
 
 	EXPECT_EQ(minStep, propa.getMinimumStep());
 	EXPECT_EQ(maxStep, propa.getMaximumStep());

@@ -49,6 +49,7 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
 * **CylindricalBoundary** - Cylindric simulation volume
 * **PeriodicBox** - Periodic boundary conditions for the particle: If a particle leaves the box it will enter from the opposite side and the initial position will be changed as if it had come from that side.
 * **ReflectiveBox** - Reflective boundaray conditions for the particle: If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
+* **DetectionLength** - Detects the candidate at a given trajectory length. 
 
 ### Observers
 Observers can be defined using a collection of ObserverFeatures.

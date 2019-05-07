@@ -1,7 +1,7 @@
 #include "dint/gauleg.h"
 
 #include "gtest/gtest.h"
-#include <math.h>
+#include <cmath>
 
 namespace crpropa {
 

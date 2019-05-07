@@ -7,7 +7,7 @@
 #endif
 
 #include <algorithm>
-#include <signal.h>
+#include <csignal>
 #ifndef sighandler_t
 typedef void (*sighandler_t)(int);
 #endif

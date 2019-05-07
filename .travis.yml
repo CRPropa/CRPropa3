@@ -28,23 +28,23 @@ cache:
 matrix:
   include:
     - os : linux
-      dist: trusty
+      dist: xenial
       compiler: gcc
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python3
         - BUILD_DOC=true
     - os : linux
-      dist: trusty
+      dist: xenial
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python2
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
-      dist: trusty
+      dist: xenial
       compiler: gcc
       env: PYTHON_EXECUTABLE=/usr/bin/python2
     - os : linux
-      dist: trusty
+      dist: xenial
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python2

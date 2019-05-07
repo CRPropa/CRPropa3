@@ -12,7 +12,7 @@
 #else
 #include <windows.h>
 #endif
-#include <time.h>
+#include <ctime>
 
 #else
 #include <sys/time.h>

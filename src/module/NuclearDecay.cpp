@@ -9,7 +9,7 @@
 #include <cmath>
 #include <stdexcept>
 
-#include <kiss/logger.h>
+#include "kiss/logger.h"
 
 namespace crpropa {
 

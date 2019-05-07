@@ -24,8 +24,8 @@ class AdvectionField: public Referenced {
 public:
 	virtual ~AdvectionField() {
 	}
-	virtual Vector3d getField(const Vector3d &position) const {};
-	virtual double getDivergence(const Vector3d &position) const {};
+	virtual Vector3d getField(const Vector3d &position) const = 0;
+	virtual double getDivergence(const Vector3d &position) const = 0;
 };
 
 

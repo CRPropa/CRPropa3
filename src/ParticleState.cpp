@@ -4,9 +4,9 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/ParticleMass.h"
 
-#include <HepPID/ParticleIDMethods.hh>
+#include "HepPID/ParticleIDMethods.hh"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 
 namespace crpropa {

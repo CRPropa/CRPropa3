@@ -5,7 +5,7 @@
 
 
 #include "crpropa/module/Output.h"
-#include "stdint.h"
+#include <stdint.h>
 #include <ctime>
 
 #include <H5Ipublic.h>

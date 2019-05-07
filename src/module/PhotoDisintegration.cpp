@@ -3,7 +3,7 @@
 #include "crpropa/ParticleID.h"
 #include "crpropa/ParticleMass.h"
 #include "crpropa/Random.h"
-#include <kiss/logger.h>
+#include "kiss/logger.h"
 
 #include <cmath>
 #include <limits>

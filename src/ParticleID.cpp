@@ -1,8 +1,8 @@
 #include "crpropa/ParticleID.h"
 
-#include <HepPID/ParticleIDMethods.hh>
-#include <HepPID/ParticleName.hh>
-#include <kiss/convert.h>
+#include "HepPID/ParticleIDMethods.hh"
+#include "HepPID/ParticleName.hh"
+#include "kiss/convert.h"
 
 #include <string>
 

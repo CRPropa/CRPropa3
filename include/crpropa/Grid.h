@@ -76,7 +76,7 @@ public:
 	}
 	
 	/** Constructor for non-cubic grid with spacing vector
-	@param	origin	Position of the lower left front corner of the volume
+	 @param	origin	Position of the lower left front corner of the volume
 	 @param	Nx		Number of grid points in x-direction
 	 @param	Ny		Number of grid points in y-direction
 	 @param	Nz		Number of grid points in z-direction
@@ -125,6 +125,11 @@ public:
 
 	size_t getNz() const {
 		return Nz;
+	}
+
+	/** Calculates the total size of the grid in bytes */
+	size_t getSizeOf() const {
+		return sizeof(grid) + (sizeof(grid[0]) * grid.size());
 	}
 
 	Vector3d getSpacing() const {

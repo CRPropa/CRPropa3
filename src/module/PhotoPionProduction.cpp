@@ -578,8 +578,13 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 			throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(pType));
 		}
 	}
-	double maxEnergy = *std::max_element(pnEnergy.begin(), pnEnergy.end());  // criterion for being declared primary
-	for (int i = 0; i < pnEnergy.size(); ++i) {
+
+    // threshold check is removed from this PPP, so SOPHIA may return 0 particles
+    if (pnEnergy.size() == 0)
+        return;
+
+    double maxEnergy = *std::max_element(pnEnergy.begin(), pnEnergy.end());  // criterion for being declared primary
+    for (int i = 0; i < pnEnergy.size(); ++i) {
 		if (pnEnergy[i] == maxEnergy) {  // nucleon is primary particle
 			if (A == 1) {
 				// single interacting nucleon

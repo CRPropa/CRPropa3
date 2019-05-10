@@ -134,9 +134,9 @@ C     rotation angle: nucleon moves along +z
 c... check for threshold:
       sth = 1.1646D0       
       if (s.lt.sth) then
-          PRINT*,'input energy below threshold for 
-     &    photopion production !'
-          PRINT*,'sqrt(s) = ',sqrt(s)
+C           PRINT*,'input energy below threshold for 
+C      &    photopion production !'
+C           PRINT*,'sqrt(s) = ',sqrt(s)
           NP = 0
           RETURN
       endif
@@ -9296,10 +9296,10 @@ cc
       Pp = sqrt(E0*E0-pm*pm)
       theta = ((pm*pm-s)/2.D0/eps+E0)/Pp
       if (theta.gt.1.D0) then
-          PRINT*,'sophiaevent: theta > 1.D0: ', theta
+C           PRINT*,'sophiaevent: theta > 1.D0: ', theta
           theta = 0.D0
       else if (theta.lt.-1.D0) then
-          PRINT*,'sophiaevent: theta < -1.D0: ', theta
+C           PRINT*,'sophiaevent: theta < -1.D0: ', theta
           theta = 180.D0
       else
           theta = acos(theta)*180.D0/pi

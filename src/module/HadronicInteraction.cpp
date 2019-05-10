@@ -341,8 +341,10 @@ void HadronicInteraction::process(Candidate *candidate) const {
                     double y = random.rand() * Emax;
 
                     if (y < E and (Etot + Eout) < Eprimary) {
-                        if (havePhotons)
-                            candidate->addSecondary(22, Eout, pos);
+                        if (havePhotons) {
+                            if (1. / Eout != 0.)  // BUG: some photons are produced with infinite energy!
+                        	    candidate->addSecondary(22, Eout, pos);
+                        }
                         Egamma += Eout;
                         Etot += Eout;
                         iTotal++;
@@ -353,8 +355,10 @@ void HadronicInteraction::process(Candidate *candidate) const {
                 } while (test == iGamma);
             } else {
                 Eout = (Eprimary - Etot) / (Ntotal - end);
-                if (havePhotons)
-                    candidate->addSecondary(22, Eout, pos);
+                if (havePhotons) {
+                    if (1. / Eout != 0.)  // BUG: some photons are produced with infinite energy!
+                        candidate->addSecondary(22, Eout, pos);
+                }
                 Egamma += Eout;
                 iTotal++;
                 iGamma++;

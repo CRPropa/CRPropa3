@@ -124,14 +124,15 @@ void PhotoPionProduction::initHistogram(std::string filename) {
         throw std::runtime_error("PhotoPionProduction: Could not open file " + filename);
 
     std::string line;
-    while ( std::getline(infile, line) ) {
+    while (std::getline(infile, line)) {
         std::istringstream ss(line);
         std::string hash;
         ss >> hash;
         std::vector<double> vec;
         double n;
-        while (ss >> n) vec.push_back(n);
-        // input.insert({ hash, vec });  // with C++11
+        while (ss >> n)
+            vec.push_back(n);
+        // input.insert({hash, vec});  // with C++11
         hashMap.push_back(hash);
         histData.push_back(vec);
     }
@@ -148,13 +149,13 @@ std::string PhotoPionProduction::hashTag(int n,     // nucleon type
     // method to generate hash tags for navigation in std::unordered_map
     std::stringstream hash;
     int exp = std::floor(log10(E));
-    int pre = E/pow(10, exp);
+    int pre = E / pow(10, exp);
     hash << "#" << n << "_" << pre << "e";
     (exp >= 0)? hash << "+" : hash << "-";
     if (exp < 10) hash << "0";
     hash << std::abs(exp) << "_";
     exp = std::floor(log10(e));
-    pre = e/pow(10, exp);
+    pre = e / pow(10, exp);
     hash << pre << "e";
     (exp >= 0)? hash << "+" : hash << "-";
     if (exp < 10) hash << "0";
@@ -178,7 +179,7 @@ int PhotoPionProduction::produce(const std::vector<double> &particle) const {
         r -= particle[index];
         index++;
     }
-    return index-1;
+    return index - 1;
 }
 
 
@@ -193,7 +194,7 @@ double PhotoPionProduction::drawEnergy(const std::vector<double> &data) const {
     std::vector<double> p, E;
     for (int i = 0; i < data.size(); ++i) {
         p.push_back(data[i]);
-        E.push_back(data[i+data.size()/2]);
+        E.push_back(data[i + data.size() / 2]);
     }
     int pos = produce(p);
     if (pos == 0)
@@ -201,7 +202,7 @@ double PhotoPionProduction::drawEnergy(const std::vector<double> &data) const {
     // interpolation
     Random &random = Random::instance();
     double r = random.rand();
-    return E[pos-1]*(1.-r) + r*E[pos];
+    return E[pos - 1] * (1. - r) + r * E[pos];
 }
 
 
@@ -211,7 +212,7 @@ double PhotoPionProduction::snapToHalfLog(double x) const {
         selects the closest value where histogram data is available
     */
     int exp = std::floor(log10(x));
-    double pre = x/pow(10, exp);
+    double pre = x / pow(10, exp);
     if (pre == 1.0)
         return x;
     double result = pow(10, std::ceil(log10(x)));
@@ -392,7 +393,7 @@ std::vector<double> PhotoPionProduction::sophiaEvent(bool onProton,  // 0=p, 1=n
     double weight = E / (E - availableEnergy);
     int nOutPart = output.size();
     for (int j = 0; j < nOutPart; ++j) {
-        output.push_back(outE[j]*weight);
+        output.push_back(outE[j] * weight);
     }
     return output;
 }

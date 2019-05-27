@@ -505,9 +505,9 @@ void HadronicInteraction::process(Candidate *candidate) const {
     Eprimary -= (EnuE + EnuMu2 + Eelectron + EnuMu1 + Egamma);
     if (Eprimary <= 0.) {
         std::cout << "warning: Eprimary = " << Eprimary << std::endl;
-    } else {
-        candidate->current.setEnergy(Eprimary);
+        candidate->setActive(false);
     }
+    candidate->current.setEnergy(Eprimary);
     return;
 }
 

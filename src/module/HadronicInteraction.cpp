@@ -15,13 +15,15 @@ namespace crpropa {
 HadronicInteraction::HadronicInteraction(double massDensity,
                                          bool electrons,
                                          bool photons,
-                                         bool neutrinos) {
+                                         bool neutrinos,
+                                         std::string tag) {
     setMassDensity(massDensity);
     this->spaceTimeGrid = ScalarGrid4d();
     this->spaceGrid = ScalarGrid();
     setHaveElectrons(electrons);
     setHavePhotons(photons);
     setHaveNeutrinos(neutrinos);
+    this->tag = tag;
     setDescription("HadronicInteraction_isotropicConstant");
 }
 
@@ -29,13 +31,15 @@ HadronicInteraction::HadronicInteraction(double massDensity,
                                          ScalarGrid4d spaceTimeGrid,
                                          bool electrons,
                                          bool photons,
-                                         bool neutrinos) {
+                                         bool neutrinos,
+                                         std::string tag) {
     setMassDensity(massDensity);
     this->spaceTimeGrid = spaceTimeGrid;
     this->spaceGrid = ScalarGrid();
     setHaveElectrons(electrons);
     setHavePhotons(photons);
     setHaveNeutrinos(neutrinos);
+    this->tag = tag;
     setDescription("HadronicInteraction_spaceTimeDependent");
 }
 
@@ -43,13 +47,15 @@ HadronicInteraction::HadronicInteraction(double massDensity,
                                          ScalarGrid spaceGrid,
                                          bool electrons,
                                          bool photons,
-                                         bool neutrinos) {
+                                         bool neutrinos,
+                                         std::string tag) {
     setMassDensity(massDensity);
     this->spaceTimeGrid = ScalarGrid4d();
     this->spaceGrid = spaceGrid;
     setHaveElectrons(electrons);
     setHavePhotons(photons);
     setHaveNeutrinos(neutrinos);
+    this->tag = tag;
     setDescription("HadronicInteraction_spaceDependentConstant");
 }
 
@@ -343,7 +349,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
                     if (y < E and (Etot + Eout) < Eprimary) {
                         if (havePhotons) {
                             if (1. / Eout != 0.)  // BUG: some photons are produced with infinite energy!
-                        	    candidate->addSecondary(22, Eout, pos);
+                        	    candidate->addSecondary(22, Eout, pos, tag);
                         }
                         Egamma += Eout;
                         Etot += Eout;
@@ -357,7 +363,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
                 Eout = (Eprimary - Etot) / (Ntotal - end);
                 if (havePhotons) {
                     if (1. / Eout != 0.)  // BUG: some photons are produced with infinite energy!
-                        candidate->addSecondary(22, Eout, pos);
+                        candidate->addSecondary(22, Eout, pos, tag);
                 }
                 Egamma += Eout;
                 iTotal++;
@@ -379,7 +385,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
                     double y = random.rand() * Emax;
                     if (y < E and (Etot + Eout) < Eprimary) {
                         if (haveNeutrinos)
-                            candidate->addSecondary(14, Eout, pos);
+                            candidate->addSecondary(14, Eout, pos, tag);
                         EnuMu1 += Eout;
                         Etot += Eout;
                         iTotal++;
@@ -391,7 +397,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
             } else {
                 Eout = (Eprimary - Etot) / (Ntotal - end);
                 if (haveNeutrinos)
-                    candidate->addSecondary(14, Eout, pos);
+                    candidate->addSecondary(14, Eout, pos, tag);
                 EnuMu1 += Eout;
                 iTotal++;
                 iNuMu1++;
@@ -412,7 +418,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
                     double y = random.rand() * Emax;
                     if (y < E and (Etot + Eout) < Eprimary) {
                         if (haveElectrons)
-                            candidate->addSecondary(11, Eout, pos);
+                            candidate->addSecondary(11, Eout, pos, tag);
                         Etot += Eout;
                         Eelectron += Eout;
                         iTotal++;
@@ -424,7 +430,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
             } else {
                 Eout = (Eprimary - Etot) / (Ntotal - end);
                 if (haveElectrons)
-                    candidate->addSecondary(11, Eout, pos);
+                    candidate->addSecondary(11, Eout, pos, tag);
                 iTotal++;
                 iElectron++;
                 Eelectron += Eout;
@@ -445,7 +451,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
                     double y = random.rand() * Emax;
                     if (y < E and (Etot + Eout) < Eprimary) {
                         if (haveNeutrinos)
-                            candidate->addSecondary(12, Eout, pos);
+                            candidate->addSecondary(12, Eout, pos, tag);
                         EnuE += Eout;
                         Etot += Eout;
                         iTotal++;
@@ -457,7 +463,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
             } else {
                 Eout = (Eprimary - Etot) / (Ntotal - end);
                 if (haveNeutrinos)
-                    candidate->addSecondary(12, Eout, pos);
+                    candidate->addSecondary(12, Eout, pos, tag);
                 iTotal++;
                 iNuE++;
                 EnuE += Eout;
@@ -478,7 +484,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
                     double y = random.rand() * Emax;
                     if (y < E and (Etot + Eout) < Eprimary) {
                         if (haveNeutrinos)
-                            candidate->addSecondary(14, Eout, pos);
+                            candidate->addSecondary(14, Eout, pos, tag);
                         EnuMu2 += Eout;
                         Etot += Eout;
                         iTotal++;
@@ -490,7 +496,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
             } else {
                 Eout = (Eprimary - Etot) / (Ntotal - end);
                 if (haveNeutrinos)
-                    candidate->addSecondary(14, Eout, pos);
+                    candidate->addSecondary(14, Eout, pos, tag);
                 iTotal++;
                 iNuMu2++;
                 EnuMu2 += Eout;

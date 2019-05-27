@@ -7,12 +7,13 @@
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
-		redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0) {
+		redshift(z), trajectoryLength(0), weight(1), tag("None"), currentStep(0), nextStep(0), active(true), parent(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
 	previous = state;
 	current = state;
+	tag = "None";
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -69,6 +70,10 @@ double Candidate::getNextStep() const {
 	return nextStep;
 }
 
+std::string Candidate::getTag() const {
+	return tag;
+}
+
 void Candidate::setRedshift(double z) {
 	redshift = z;
 }
@@ -88,6 +93,10 @@ void Candidate::setCurrentStep(double lstep) {
 
 void Candidate::setNextStep(double step) {
 	nextStep = step;
+}
+
+void Candidate::setTag(std::string info) {
+	tag = info.append(" ");
 }
 
 void Candidate::limitNextStep(double step) {
@@ -139,11 +148,45 @@ void Candidate::addSecondary(int id, double energy, double weight) {
 	secondaries.push_back(secondary);
 }
 
+void Candidate::addSecondary(int id, double energy, std::string tag, double weight) {
+	ref_ptr<Candidate> secondary = new Candidate;
+	secondary->setRedshift(redshift);
+	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setWeight(weight);
+	secondary->setTag(tag);
+	secondary->source = source;
+	secondary->previous = previous;
+	secondary->created = previous;
+	secondary->current = current;
+	secondary->current.setId(id);
+	secondary->current.setEnergy(energy);
+	secondary->parent = this;
+	secondaries.push_back(secondary);
+}
+
 void Candidate::addSecondary(int id, double energy, Vector3d position, double weight) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
 	secondary->setWeight(weight);
+	secondary->source = source;
+	secondary->previous = previous;
+	secondary->created = previous;
+	secondary->current = current;
+	secondary->current.setId(id);
+	secondary->current.setEnergy(energy);
+	secondary->current.setPosition(position);
+	secondary->created.setPosition(position);
+	secondary->parent = this;
+	secondaries.push_back(secondary);
+}
+
+void Candidate::addSecondary(int id, double energy, Vector3d position, std::string tag, double weight) {
+	ref_ptr<Candidate> secondary = new Candidate;
+	secondary->setRedshift(redshift);
+	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
+	secondary->setWeight(weight);
+	secondary->setTag(tag);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;
@@ -182,6 +225,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 	cloned->trajectoryLength = trajectoryLength;
 	cloned->currentStep = currentStep;
 	cloned->nextStep = nextStep;
+	cloned->tag = tag;
 	if (recursive) {
 		cloned->secondaries.reserve(secondaries.size());
 		for (size_t i = 0; i < secondaries.size(); i++) {

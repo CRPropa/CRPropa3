@@ -46,6 +46,7 @@ private:
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
+	std::string tag; /**< Information about the process of creation, if any*/
 
 	static uint64_t nextSerialNumber;
 	uint64_t serialNumber;
@@ -96,6 +97,8 @@ public:
 	void setNextStep(double step);
 	double getNextStep() const;
 
+	void setTag(std::string tag);
+	std::string getTag() const;
 	/**
 	 Make a bid for the next step size: the lowest wins.
 	 */
@@ -119,7 +122,9 @@ public:
 	void addSecondary(Candidate *c);
 	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
 	void addSecondary(int id, double energy, double weight = 1);
+	void addSecondary(int id, double energy, std::string tag, double weight = 1);
 	void addSecondary(int id, double energy, Vector3d position, double weight = 1);
+	void addSecondary(int id, double energy, Vector3d position, std::string tag, double weight = 1);
 	void clearSecondaries();
 
 	std::string getDescription() const;

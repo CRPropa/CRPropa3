@@ -23,12 +23,14 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
                                           bool neutrinos,
                                           bool electrons,
                                           bool antiNucleons,
+                                          std::string tag,
                                           bool useTabData,
                                           double l) {
     havePhotons = photons;
     haveNeutrinos = neutrinos;
     haveElectrons = electrons;
     haveAntiNucleons = antiNucleons;
+    this-> tag = tag;
     useTabulatedData = useTabData;
     limit = l;
     setPhotonField(field);
@@ -539,7 +541,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 			if (haveAntiNucleons)
 				try
 				{
-					candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout, pos);
+					candidate->addSecondary(-sign * nucleusId(1, 14 + pType), Eout, pos, tag);
 				}
 				catch (std::runtime_error &e)
 				{
@@ -549,31 +551,31 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 			break;
 		case 1: // photon
 			if (havePhotons)
-				candidate->addSecondary(22, Eout, pos);
+				candidate->addSecondary(22, Eout, pos, tag);
 			break;
 		case 2: // positron
 			if (haveElectrons)
-				candidate->addSecondary(sign * -11, Eout, pos);
+				candidate->addSecondary(sign * -11, Eout, pos, tag);
 			break;
 		case 3: // electron
 			if (haveElectrons)
-				candidate->addSecondary(sign * 11, Eout, pos);
+				candidate->addSecondary(sign * 11, Eout, pos, tag);
 			break;
 		case 15: // nu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * 12, Eout, pos);
+				candidate->addSecondary(sign * 12, Eout, pos, tag);
 			break;
 		case 16: // antinu_e
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * -12, Eout, pos);
+				candidate->addSecondary(sign * -12, Eout, pos, tag);
 			break;
 		case 17: // nu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * 14, Eout, pos);
+				candidate->addSecondary(sign * 14, Eout, pos, tag);
 			break;
 		case 18: // antinu_muon
 			if (haveNeutrinos)
-				candidate->addSecondary(sign * -14, Eout, pos);
+				candidate->addSecondary(sign * -14, Eout, pos, tag);
 			break;
 		default:
 			throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(pType));
@@ -605,7 +607,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 				try
 				{
 					candidate->current.setId(sign * nucleusId(A - 1, Z - int(onProton)));
-					candidate->addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos);
+					candidate->addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos, tag);
 				}
 				catch (std::runtime_error &e)
 				{
@@ -614,7 +616,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 				}
 			}
 		} else {  // nucleon is secondary proton or neutron
-			candidate->addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos);
+			candidate->addSecondary(sign * nucleusId(1, 14 - pnType[i]), pnEnergy[i], pos, tag);
 		}
 	}
 }

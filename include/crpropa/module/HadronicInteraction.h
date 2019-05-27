@@ -23,27 +23,31 @@ protected:
 	bool haveElectrons;
 	bool havePhotons;
 	bool haveNeutrinos;
+	std::string tag;
 
 public:
 	HadronicInteraction(
 		double massDensity,
 		bool electrons = false,
 		bool photons = false,
-		bool neutrinos = false);
+		bool neutrinos = false,
+		std::string tag = "None");
 
 	HadronicInteraction(
 		double massDensity,
 		ScalarGrid4d spaceTimeGrid,
 		bool electrons = false,
 		bool photons = false,
-		bool neutrinos = false);
+		bool neutrinos = false,
+		std::string tag = "None");
 
 	HadronicInteraction(
 		double massDensity,
 		ScalarGrid spaceGrid,
 		bool electrons = false,
 		bool photons = false,
-		bool neutrinos = false);
+		bool neutrinos = false,
+		std::string = "None");
 
 	void setMassDensity(double dens);
 	void setHaveElectrons(bool b);

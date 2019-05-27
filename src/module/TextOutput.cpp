@@ -94,6 +94,8 @@ void TextOutput::printHeader() const {
 		*out << "\tP1x\tP1y\tP1z";
 	if (fields.test(WeightColumn))
 		*out << "\tW";
+	if (fields.test(TagColumn))
+		*out << "\tTag";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -123,6 +125,8 @@ void TextOutput::printHeader() const {
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
 	if (fields.test(WeightColumn))
 		*out << "# W             Weights" << " \n";
+	if (fields.test(TagColumn))
+		*out << "# Tag\n";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -243,6 +247,11 @@ void TextOutput::process(Candidate *c) const {
 	if (fields.test(WeightColumn)) {
 		p += std::sprintf(buffer + p, "%8.5E\t", c->getWeight());
 	}
+	if (fields.test(TagColumn)) {
+		const std::string tag = c->getTag();
+		const char *cstr = tag.c_str();
+		p += std::sprintf(buffer + p, "%s", cstr);
+	}
 
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
@@ -300,7 +309,7 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 			continue;
 
 		ref_ptr<Candidate> c = new Candidate(); 
-		double val_d; int val_i;
+		double val_d; int val_i; std::string tag;
 		double x, y, z;
 		stream >> val_d;
 		c->setTrajectoryLength(val_d*lengthScale); // D
@@ -335,7 +344,9 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		stream >> x >> y >> z;
 		c->created.setDirection(Vector3d(x, y, z)*lengthScale); // P1x, P1y, P1z
 		stream >> val_d;
-		c->setWeight(val_d); // W
+		c->setWeight(val_d); // Weights
+		stream >> tag;
+		c->setTag(tag); // Tag
 
 		collector->process(c);
 	}

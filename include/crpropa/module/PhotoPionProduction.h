@@ -36,6 +36,7 @@ protected:
 	bool haveNeutrinos;
 	bool haveElectrons;
 	bool haveAntiNucleons;
+	std::string tag;
 	bool useTabulatedData;
 
 public:
@@ -46,6 +47,7 @@ public:
 		bool neutrinos = false,
 		bool electrons = false,
 		bool antiNucleons = false,
+		std::string tag = "None",
 		bool useTabulatedData = false,
 		double limit = 0.1);
 	void setPhotonField(PhotonField photonField);

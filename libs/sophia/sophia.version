@@ -1,4 +1,0 @@
-SOPHIA {
-	global: sophiaevent_;
-	local: *; 
-}

@@ -247,7 +247,7 @@ void HadronicInteraction::process(Candidate *candidate) const {
 
     // Probability of interaction
     const double step = candidate->getCurrentStep();
-    const double Eprimary = candidate->current.getEnergy();
+    double Eprimary = candidate->current.getEnergy();
     const double cs_inel = CrossSection_Kelner(Eprimary);
 
     Vector3d pos = candidate->current.getPosition();
@@ -502,7 +502,12 @@ void HadronicInteraction::process(Candidate *candidate) const {
         std::cout << end << " end != -1" << std::endl;
 
     // Reduce primary's energy
-    candidate->current.setEnergy(Eprimary - (EnuE + EnuMu2 + Eelectron + EnuMu1 + Egamma));
+    Eprimary -= (EnuE + EnuMu2 + Eelectron + EnuMu1 + Egamma);
+    if (Eprimary <= 0.) {
+        std::cout << "warning: Eprimary = " << Eprimary << std::endl;
+    } else {
+        candidate->current.setEnergy(Eprimary);
+    }
     return;
 }
 

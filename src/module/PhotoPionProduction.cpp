@@ -18,7 +18,6 @@ namespace crpropa {
 
 
 PhotoPionProduction::PhotoPionProduction( PhotonField field,
-                                          ScalarGrid4d geometryGrid,
                                           bool photons,
                                           bool neutrinos,
                                           bool electrons,
@@ -26,25 +25,73 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
                                           std::string tag,
                                           bool useTabData,
                                           double l) {
+    setPhotonField(field);
+    this->customPhotonField = CustomPhotonField(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
+    this->spaceTimeGrid = ScalarGrid4d();
+    this->spaceGrid = ScalarGrid();
     havePhotons = photons;
     haveNeutrinos = neutrinos;
     haveElectrons = electrons;
     haveAntiNucleons = antiNucleons;
     this-> tag = tag;
     useTabulatedData = useTabData;
-    limit = l;
-    setPhotonField(field);
-    this->geometryGrid = geometryGrid;
-    this->customPhotonField = CustomPhotonField(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
     if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
+    limit = l;
+    setDescription("PhotoPionProduction_isotropicConstant");
 }
 
+PhotoPionProduction::PhotoPionProduction( PhotonField field,
+                                          ScalarGrid4d spaceTimeGrid,
+                                          bool photons,
+                                          bool neutrinos,
+                                          bool electrons,
+                                          bool antiNucleons,
+                                          std::string tag,
+                                          bool useTabData,
+                                          double l) {
+    setPhotonField(field);
+    this->customPhotonField = CustomPhotonField(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
+    this->spaceTimeGrid = spaceTimeGrid;
+    this->spaceGrid = ScalarGrid();
+    havePhotons = photons;
+    haveNeutrinos = neutrinos;
+    haveElectrons = electrons;
+    haveAntiNucleons = antiNucleons;
+    this-> tag = tag;
+    useTabulatedData = useTabData;
+    if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
+    limit = l;
+    setDescription("PhotoPionProduction_spaceDependentConstant");
+}
+
+PhotoPionProduction::PhotoPionProduction( PhotonField field,
+                                          ScalarGrid spaceGrid,
+                                          bool photons,
+                                          bool neutrinos,
+                                          bool electrons,
+                                          bool antiNucleons,
+                                          std::string tag,
+                                          bool useTabData,
+                                          double l) {
+    setPhotonField(field);
+    this->customPhotonField = CustomPhotonField(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
+    this->spaceTimeGrid = ScalarGrid4d();
+    this->spaceGrid = spaceGrid;
+    havePhotons = photons;
+    haveNeutrinos = neutrinos;
+    haveElectrons = electrons;
+    haveAntiNucleons = antiNucleons;
+    this-> tag = tag;
+    useTabulatedData = useTabData;
+    if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
+    limit = l;
+}
 
 void PhotoPionProduction::setPhotonField(PhotonField field) {
     photonField = field;
     std::string fname = photonFieldName(field);
-    setDescription("PhotoPionProduction: " + fname);
     initRate(getDataPath("PhotoPionProduction/rate_" + fname + ".txt"));
+    this->customPhotonField = CustomPhotonField(getDataPath("Scaling/" + photonFieldName(field) + ".txt"));
 }
 
 void PhotoPionProduction::setHavePhotons(bool b) {
@@ -410,7 +457,17 @@ double PhotoPionProduction::nucleonMFP(double gamma, double z, bool onProton, Ve
         return std::numeric_limits<double>::max();
 
     // geometric scaling
-    double rate = geometryGrid.interpolate(pos, time);
+    double rate = 1.;
+    const std::string description = getDescription();
+    if (description == "PhotoPionProduction_isotropicConstant") {
+        // do nothing, just check for correct initialization
+    } else if (description == "PhotoPionProduction_spaceDependentConstant") {
+        rate *= spaceGrid.interpolate(pos);
+    } else if (description == "PhotoPionProduction_spaceTimeDependent") {
+        rate *= spaceTimeGrid.interpolate(pos, time);
+    } else {
+        throw std::runtime_error("PhotoPionProduction: invalid description string");
+    }
     if (rate == 0.)
         return std::numeric_limits<double>::max();
 

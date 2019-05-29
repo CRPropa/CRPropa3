@@ -458,7 +458,7 @@ TEST(ElasticScattering, secondaries) {
 // PhotoPionProduction --------------------------------------------------------
 TEST(PhotoPionProduction, allBackgrounds) {
 	// Test if all interaction data files can be loaded.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	ppp.setPhotonField(IRB_Kneiske04);
 	ppp.setPhotonField(IRB_Stecker05);
 	ppp.setPhotonField(IRB_Franceschini08);
@@ -473,7 +473,7 @@ TEST(PhotoPionProduction, allBackgrounds) {
 TEST(PhotoPionProduction, proton) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c(nucleusId(1, 1), 100 * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
@@ -491,7 +491,7 @@ TEST(PhotoPionProduction, proton) {
 TEST(PhotoPionProduction, helium) {
 	// Test photo-pion interaction for 400 EeV He nucleus.
 	// This test can stochastically fail.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c;
 	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(400 * EeV);
@@ -505,7 +505,7 @@ TEST(PhotoPionProduction, helium) {
 
 TEST(PhotoPionProduction, thisIsNotNucleonic) {
 	// Test if noting happens to an electron.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c;
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
@@ -517,7 +517,7 @@ TEST(PhotoPionProduction, thisIsNotNucleonic) {
 
 TEST(PhotoPionProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c(nucleusId(1, 1), 200 * EeV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	ppp.process(&c);

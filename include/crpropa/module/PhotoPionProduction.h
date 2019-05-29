@@ -22,7 +22,8 @@ namespace crpropa {
 class PhotoPionProduction: public Module {
 protected:
 	PhotonField photonField;
-	ScalarGrid4d geometryGrid;
+	ScalarGrid4d spaceTimeGrid;
+	ScalarGrid spaceGrid;
 	CustomPhotonField customPhotonField;
 	std::vector<std::string> hashMap;  // contains histogram hashtags (workaround until c++11)
 	std::vector< std::vector<double> > histData;  // contains histogram data (workaround until c++11)
@@ -41,8 +42,7 @@ protected:
 
 public:
 	PhotoPionProduction(
-		PhotonField photonField = CMB,
-		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
+		PhotonField photonField,
 		bool photons = false,
 		bool neutrinos = false,
 		bool electrons = false,
@@ -50,6 +50,29 @@ public:
 		std::string tag = "None",
 		bool useTabulatedData = false,
 		double limit = 0.1);
+
+	PhotoPionProduction(
+		PhotonField photonField,
+		ScalarGrid4d spaceTimeGrid,
+		bool photons = false,
+		bool neutrinos = false,
+		bool electrons = false,
+		bool antiNucleons = false,
+		std::string tag = "None",
+		bool useTabulatedData = false,
+		double limit = 0.1);
+
+	PhotoPionProduction(
+		PhotonField photonField,
+		ScalarGrid spaceGrid,
+		bool photons = false,
+		bool neutrinos = false,
+		bool electrons = false,
+		bool antiNucleons = false,
+		std::string tag = "None",
+		bool useTabulatedData = false,
+		double limit = 0.1);
+
 	void setPhotonField(PhotonField photonField);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);

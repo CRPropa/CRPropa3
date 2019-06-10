@@ -61,7 +61,7 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
     useTabulatedData = useTabData;
     if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
     limit = l;
-    setDescription("PhotoPionProduction_spaceDependentConstant");
+    setDescription("PhotoPionProduction_spaceTimeDependent");
 }
 
 PhotoPionProduction::PhotoPionProduction( PhotonField field,
@@ -85,6 +85,7 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
     useTabulatedData = useTabData;
     if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
     limit = l;
+    setDescription("PhotoPionProduction_spaceDependentConstant");
 }
 
 void PhotoPionProduction::setPhotonField(PhotonField field) {

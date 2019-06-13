@@ -619,7 +619,7 @@ TEST(EMPairProduction, secondaries) {
 // EMDoublePairProduction -----------------------------------------------------
 TEST(EMDoublePairProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMDoublePairProduction m;
+	EMDoublePairProduction m(CMB);
 	Candidate c(22, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -628,7 +628,7 @@ TEST(EMDoublePairProduction, limitNextStep) {
 
 TEST(EMDoublePairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMDoublePairProduction m;
+	EMDoublePairProduction m(CMB);
 	m.setHaveElectrons(true);
 
 	std::vector<PhotonField> fields;
@@ -673,7 +673,7 @@ TEST(EMDoublePairProduction, secondaries) {
 // EMTripletPairProduction ----------------------------------------------------
 TEST(EMTripletPairProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMTripletPairProduction m;
+	EMTripletPairProduction m(CMB);
 	Candidate c(11, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -682,7 +682,7 @@ TEST(EMTripletPairProduction, limitNextStep) {
 
 TEST(EMTripletPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMTripletPairProduction m;
+	EMTripletPairProduction m(CMB);
 	m.setHaveElectrons(true);
 
 	std::vector<PhotonField> fields;

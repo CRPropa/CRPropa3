@@ -12,18 +12,46 @@ namespace crpropa {
 static const double mec2 = mass_electron * c_squared;
 
 EMPairProduction::EMPairProduction(PhotonField photonField,
-								   ScalarGrid4d geometryGrid,
 								   bool haveElectrons,
+								   std::string tag,
 								   double limit) : haveElectrons(haveElectrons), 
 												   limit(limit) {
 	setPhotonField(photonField);
-	this->geometryGrid = geometryGrid;
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = ScalarGrid();
+	this->tag = tag;
+	setDescription("EMPairProduction_isotropicConstant");	
+}
+
+EMPairProduction::EMPairProduction(PhotonField photonField,
+								   ScalarGrid4d spaceTimeGrid,
+								   bool haveElectrons,
+								   std::string tag,
+								   double limit) : haveElectrons(haveElectrons), 
+												   limit(limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = spaceTimeGrid;
+	this->spaceGrid = ScalarGrid();
+	this->tag = tag;
+	setDescription("EMPairProduction_spaceTimeDependent");
+}
+
+EMPairProduction::EMPairProduction(PhotonField photonField,
+								   ScalarGrid spaceGrid,
+								   bool haveElectrons,
+								   std::string tag,
+								   double limit) : haveElectrons(haveElectrons), 
+												   limit(limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = spaceGrid;
+	this->tag = tag;
+	setDescription("EMPairProduction_spaceDependentConstant");
 }
 
 void EMPairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	std::string fname = photonFieldName(photonField);
-	setDescription("EMPairProduction: " + fname);
 	initRate(getDataPath("EMPairProduction/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMPairProduction/cdf_" + fname + ".txt"));
 }
@@ -183,24 +211,30 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	if (E < tabE.front() or (E > tabE.back()))
 		return;
 
+	// geometric scaling
+	Vector3d pos = candidate->current.getPosition();
+	double time = candidate->getTrajectoryLength()/c_light;
+	
+	double geometricScaling = 1.;
+	const std::string description = getDescription();
+	if (description == "EMPairProduction_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "EMPairProduction_spaceDependentConstant") {
+		geometricScaling *= spaceGrid.interpolate(pos);
+	} else if (description == "EMPairProduction_spaceTimeDependent") {
+		geometricScaling *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("EMPairProduction: invalid description string");
+	}
+	if (geometricScaling == 0.)
+		return;
+
 	// sample the value of s
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);  // find closest tabulation point
-
-	// geometric scaling
-	Vector3d pos = candidate->current.getPosition();
-    double time = candidate->getTrajectoryLength()/c_light;
-    double geometricScaling = geometryGrid.interpolate(pos, time);
-    if (geometricScaling == 0.)
-    	return;
-
-    std::vector<double> tabCDF_geoScaled;
-    for (int j = 0; j < tabCDF[i].size(); ++j) {
-    	tabCDF_geoScaled.push_back(tabCDF[i][j]*geometricScaling);
-    }
-	size_t j = random.randBin(tabCDF_geoScaled);
-	double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value
-	double hi = tabs[j];
+	size_t j = random.randBin(tabCDF[i]);
+	double lo = std::max(4 * mec2 * mec2, tabs[j-1] * geometricScaling);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value
+	double hi = tabs[j] * geometricScaling;
 	double s = lo + random.rand() * (hi - lo);
 
 	// sample electron / positron energy
@@ -210,8 +244,8 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 
 	// sample random position along current step
 	pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-	candidate->addSecondary(-11, Ee / (1 + z), pos);
-	candidate->addSecondary(11, Ep / (1 + z), pos);
+	candidate->addSecondary(-11, Ee / (1 + z), pos, tag);
+	candidate->addSecondary(11, Ep / (1 + z), pos, tag);
 }
 
 void EMPairProduction::process(Candidate *candidate) const {
@@ -228,12 +262,21 @@ void EMPairProduction::process(Candidate *candidate) const {
 		return;
 
 	// interaction rate
-	// geometric scaling
+	double rate = 1.;
 	Vector3d pos = candidate->current.getPosition();
-    double time = candidate->getTrajectoryLength()/c_light;
-	double rate = geometryGrid.interpolate(pos, time);
-    if (rate == 0.)
-        return;
+	double time = candidate->getTrajectoryLength()/c_light;
+	const std::string description = getDescription();
+	if (description == "EMPairProduction_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "EMPairProduction_spaceDependentConstant") {
+		rate *= spaceGrid.interpolate(pos);
+	} else if (description == "EMPairProduction_spaceTimeDependent") {
+		rate *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("EMPairProduction: invalid description string");
+	}
+	if (rate == 0.)
+		return;
 	rate *= interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 

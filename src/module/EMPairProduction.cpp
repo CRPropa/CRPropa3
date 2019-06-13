@@ -213,7 +213,7 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 
 	// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
-	double time = candidate->getTrajectoryLength()/c_light;
+	const double time = candidate->getTrajectoryLength()/c_light;
 	
 	double geometricScaling = 1.;
 	const std::string description = getDescription();

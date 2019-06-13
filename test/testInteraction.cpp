@@ -565,7 +565,7 @@ TEST(Redshift, limitRedshiftDecrease) {
 // EMPairProduction -----------------------------------------------------------
 TEST(EMPairProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMPairProduction m;
+	EMPairProduction m(CMB);
 	Candidate c(22, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -574,7 +574,7 @@ TEST(EMPairProduction, limitNextStep) {
 
 TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMPairProduction m;
+	EMPairProduction m(CMB);
 	m.setHaveElectrons(true);
 
 	std::vector<PhotonField> fields;

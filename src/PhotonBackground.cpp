@@ -194,8 +194,15 @@ double CustomPhotonField::sampleEps(bool onProton, double Ein, double zIn) const
 	double eps;
 	double peps;
 	Random &random = Random::instance();
+	int nTrySample = 0;
 	do {
-		eps = epsMin + random.rand() * (epsMax - epsMin);
+		nTrySample++;
+		if (nTrySample <= 10000) {
+			eps = epsMin + random.rand() * (epsMax - epsMin);
+		} else {
+			eps = log10(epsMin) + random.rand() * (log10(epsMax) - log10(epsMin));
+			eps = pow(10, eps);
+		}
 		peps = SOPHIA_probEps(eps, onProton, Ein, zIn) / cnorm;
 	} while (random.rand() * pMax > peps);
 	return eps;

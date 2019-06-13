@@ -730,7 +730,7 @@ TEST(EMTripletPairProduction, secondaries) {
 // EMInverseComptonScattering -------------------------------------------------
 TEST(EMInverseComptonScattering, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMInverseComptonScattering m;
+	EMInverseComptonScattering m(CMB);
 	Candidate c(11, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -739,7 +739,7 @@ TEST(EMInverseComptonScattering, limitNextStep) {
 
 TEST(EMInverseComptonScattering, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMInverseComptonScattering m;
+	EMInverseComptonScattering m(CMB);
 	m.setHavePhotons(true);
 
 	std::vector<PhotonField> fields;

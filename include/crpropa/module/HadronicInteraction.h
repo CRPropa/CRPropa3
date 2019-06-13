@@ -31,7 +31,7 @@ public:
 		bool electrons = false,
 		bool photons = false,
 		bool neutrinos = false,
-		std::string tag = "None");
+		std::string tag = "HadrInt");
 
 	HadronicInteraction(
 		double massDensity,
@@ -39,7 +39,7 @@ public:
 		bool electrons = false,
 		bool photons = false,
 		bool neutrinos = false,
-		std::string tag = "None");
+		std::string tag = "HadrInt");
 
 	HadronicInteraction(
 		double massDensity,
@@ -47,7 +47,7 @@ public:
 		bool electrons = false,
 		bool photons = false,
 		bool neutrinos = false,
-		std::string = "None");
+		std::string tag = "HadrInt");
 
 	void setMassDensity(double dens);
 	void setHaveElectrons(bool b);

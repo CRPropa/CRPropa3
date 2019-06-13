@@ -33,7 +33,7 @@ PhotoPionProduction::PhotoPionProduction( PhotonField field,
     haveNeutrinos = neutrinos;
     haveElectrons = electrons;
     haveAntiNucleons = antiNucleons;
-    this-> tag = tag;
+    this->tag = tag;
     useTabulatedData = useTabData;
     if (useTabData) initHistogram(getDataPath("PhotoPionProduction/SOPHIA_histogram.txt"));
     limit = l;
@@ -558,8 +558,9 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
     // SOPHIA - input:
     int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
     double Ein = EpA / GeV;
+    // std::cout << "b ";
     double eps = customPhotonField.sampleEps(onProton, Ein, z);
-
+    // std::cout << eps << " ";
     // SOPHIA - output:
     double outputEnergy[2000];
     int outPartID[2000];

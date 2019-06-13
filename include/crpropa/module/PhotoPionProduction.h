@@ -47,7 +47,7 @@ public:
 		bool neutrinos = false,
 		bool electrons = false,
 		bool antiNucleons = false,
-		std::string tag = "None",
+		std::string tag = "PPP",
 		bool useTabulatedData = false,
 		double limit = 0.1);
 
@@ -58,7 +58,7 @@ public:
 		bool neutrinos = false,
 		bool electrons = false,
 		bool antiNucleons = false,
-		std::string tag = "None",
+		std::string tag = "PPP",
 		bool useTabulatedData = false,
 		double limit = 0.1);
 
@@ -69,7 +69,7 @@ public:
 		bool neutrinos = false,
 		bool electrons = false,
 		bool antiNucleons = false,
-		std::string tag = "None",
+		std::string tag = "PPP",
 		bool useTabulatedData = false,
 		double limit = 0.1);
 

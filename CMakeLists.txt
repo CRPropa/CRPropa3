@@ -331,6 +331,7 @@ add_library(crpropa SHARED
 	src/EmissionMap.cpp
 	src/Geometry.cpp
 	src/GridTools.cpp
+	src/GridTurbulence.cpp
 	src/Module.cpp
 	src/ModuleList.cpp
 	src/ParticleID.cpp

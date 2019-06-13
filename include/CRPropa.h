@@ -9,6 +9,7 @@
 #include "crpropa/Geometry.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/GridTurbulence.h"
 #include "crpropa/Logging.h"
 #include "crpropa/Module.h"
 #include "crpropa/ModuleList.h"

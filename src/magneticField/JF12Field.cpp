@@ -1,6 +1,6 @@
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/Units.h"
-#include "crpropa/GridTools.h"
+#include "crpropa/GridTurbulence.h"
 #include "crpropa/Random.h"
 
 namespace crpropa {

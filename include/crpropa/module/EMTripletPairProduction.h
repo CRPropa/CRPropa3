@@ -22,8 +22,10 @@ namespace crpropa {
 class EMTripletPairProduction: public Module {
 private:
 	PhotonField photonField;
-	ScalarGrid4d geometryGrid;
+	ScalarGrid4d spaceTimeGrid;
+	ScalarGrid spaceGrid;
 	bool haveElectrons;
+	std::string tag;
 	double limit;
 
 	// tabulated interaction rate 1/lambda(E)
@@ -37,11 +39,27 @@ private:
 
 public:
 	EMTripletPairProduction(
-		PhotonField photonField = CMB, //!< target photon background
-		ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
+		PhotonField photonField,	   //!< target photon background
 		bool haveElectrons = false,    //!< switch to create secondary electron pair
+		std::string tag = "EMTPP",
 		double limit = 0.1             //!< step size limit as fraction of mean free path
-		);
+	);
+
+	EMTripletPairProduction(
+		PhotonField photonField,	   //!< target photon background
+		ScalarGrid4d spaceTimeGrid,
+		bool haveElectrons = false,    //!< switch to create secondary electron pair
+		std::string tag = "EMTPP",
+		double limit = 0.1             //!< step size limit as fraction of mean free path
+	);
+
+	EMTripletPairProduction(
+		PhotonField photonField,	   //!< target photon background
+		ScalarGrid spaceGrid,
+		bool haveElectrons = false,    //!< switch to create secondary electron pair
+		std::string tag = "EMTPP",
+		double limit = 0.1             //!< step size limit as fraction of mean free path
+	);
 
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);

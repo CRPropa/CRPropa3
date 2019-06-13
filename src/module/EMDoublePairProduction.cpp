@@ -9,19 +9,50 @@
 namespace crpropa {
 
 EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField,
-											   ScalarGrid4d geometryGrid,
 											   bool haveElectrons,
+											   std::string tag,
 											   double limit) {
 	setPhotonField(photonField);
-	this->geometryGrid = geometryGrid;
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = ScalarGrid();
 	this->haveElectrons = haveElectrons;
+	this->tag = tag;
 	this->limit = limit;
+	setDescription("EMDoublePairProduction_isotropicConstant");
+}
+
+EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField,
+											   ScalarGrid4d spaceTimeGrid,
+											   bool haveElectrons,
+											   std::string tag,
+											   double limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = spaceTimeGrid;
+	this->spaceGrid = ScalarGrid();
+	this->haveElectrons = haveElectrons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("EMDoublePairProduction_spaceTimeDependent");
+}
+
+EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField,
+											   ScalarGrid spaceGrid,
+											   bool haveElectrons,
+											   std::string tag,
+											   double limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = spaceGrid;
+	this->haveElectrons = haveElectrons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("EMDoublePairProduction_spaceDependentConstant");
+	
 }
 
 void EMDoublePairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	std::string fname = photonFieldName(photonField);
-	setDescription("EMDoublePairProduction: " + fname);
 	initRate(getDataPath("EMDoublePairProduction/rate_" + fname + ".txt"));
 }
 
@@ -73,8 +104,8 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 
-	candidate->addSecondary( 11, Ee, pos);
-	candidate->addSecondary(-11, Ee, pos);
+	candidate->addSecondary( 11, Ee, pos, tag);
+	candidate->addSecondary(-11, Ee, pos, tag);
 }
 
 void EMDoublePairProduction::process(Candidate *candidate) const {
@@ -91,13 +122,25 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 		return;
 
 	// interaction rate
-	Vector3d pos = candidate->current.getPosition();
-    double time = candidate->getTrajectoryLength()/c_light;
+	double rate = 1.;
+
 	// geometric scaling
-	double rate = geometryGrid.interpolate(pos, time);
+	Vector3d pos = candidate->current.getPosition();
+	double time = candidate->getTrajectoryLength()/c_light;
+	
+	const std::string description = getDescription();
+	if (description == "EMDoublePairProduction_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "EMDoublePairProduction_spaceDependentConstant") {
+		rate *= spaceGrid.interpolate(pos);
+	} else if (description == "EMDoublePairProduction_spaceTimeDependent") {
+		rate *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("EMDoublePairProduction: invalid description string");
+	}
 	if (rate == 0.)
 		return;
-	
+
 	rate *= interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 

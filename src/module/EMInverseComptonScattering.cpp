@@ -12,19 +12,49 @@ namespace crpropa {
 static const double mec2 = mass_electron * c_squared;
 
 EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField,
-													   ScalarGrid4d geometryGrid,
 													   bool havePhotons,
+													   std::string tag,
 													   double limit) {
 	setPhotonField(photonField);
-	this->geometryGrid = geometryGrid;
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = ScalarGrid();
 	this->havePhotons = havePhotons;
+	this->tag = tag;
 	this->limit = limit;
+	setDescription("EMInverseComptonScattering_isotropicConstant");
+}
+
+EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField,
+													   ScalarGrid4d spaceTimeGrid,
+													   bool havePhotons,
+													   std::string tag,
+													   double limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = spaceTimeGrid;
+	this->spaceGrid = ScalarGrid();
+	this->havePhotons = havePhotons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("EMInverseComptonScattering_spaceTimeDependent");
+}
+
+EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField,
+													   ScalarGrid spaceGrid,
+													   bool havePhotons,
+													   std::string tag,
+													   double limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = spaceGrid;
+	this->havePhotons = havePhotons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("EMInverseComptonScattering_spaceDependentConstant");
 }
 
 void EMInverseComptonScattering::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	std::string fname = photonFieldName(photonField);
-	setDescription("EMInverseComptonScattering: " + fname);
 	initRate(getDataPath("EMInverseComptonScattering/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMInverseComptonScattering/cdf_" + fname + ".txt"));
 }
@@ -176,20 +206,29 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	if (E < tabE.front() or E > tabE.back())
 		return;
 
+	// geometric scaling
+	Vector3d pos = candidate->current.getPosition();
+    const double time = candidate->getTrajectoryLength()/c_light;
+	
+	double geometricScaling = 1.;
+	const std::string description = getDescription();
+	if (description == "EMInverseComptonScattering_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "EMInverseComptonScattering_spaceDependentConstant") {
+		geometricScaling *= spaceGrid.interpolate(pos);
+	} else if (description == "EMInverseComptonScattering_spaceTimeDependent") {
+		geometricScaling *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("EMInverseComptonScattering: invalid description string");
+	}
+	if (geometricScaling == 0.)
+		return;
+
 	// sample the value of s
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);
-	Vector3d pos = candidate->current.getPosition();
-    double time = candidate->getTrajectoryLength()/c_light;
-    double geometricScaling = geometryGrid.interpolate(pos, time);
-    if (geometricScaling == 0.)
-    	return;
-    std::vector<double> tabCDF_geoScaled;
-    for (int j = 0; j < tabCDF[i].size(); ++j) {
-    	tabCDF_geoScaled.push_back(tabCDF[i][j]*geometricScaling);
-    }
-	size_t j = random.randBin(tabCDF_geoScaled);
-	double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);
+	size_t j = random.randBin(tabCDF[i]);
+	double s_kin = pow(10, log10(tabs[j] * geometricScaling) + (random.rand() - 0.5) * 0.1);
 	double s = s_kin + mec2 * mec2;
 
 	// sample electron energy after scattering
@@ -200,7 +239,7 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	double Esecondary = E - Enew;
 	if (havePhotons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary(22, Esecondary / (1 + z), pos);
+		candidate->addSecondary(22, Esecondary / (1 + z), pos, tag);
 	}
 
 	// update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent
@@ -224,7 +263,7 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 	// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
     double time = candidate->getTrajectoryLength()/c_light;
-	double rate = geometryGrid.interpolate(pos, time);
+	double rate = spaceTimeGrid.interpolate(pos, time);
 	if (rate == 0.)
 		return;
 	rate *= interpolate(E, tabEnergy, tabRate);

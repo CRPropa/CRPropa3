@@ -117,9 +117,8 @@ void ElasticScattering::process(Candidate *candidate) const {
 
 	double step = candidate->getCurrentStep();
 	while (step > 0) {
+		// geometric scaling
 		double rate = 1.;
-		Vector3d pos = candidate->current.getPosition();
-		double time = candidate->getTrajectoryLength()/c_light;
 		const std::string description = getDescription();
 		if (description == "ElasticScattering_isotropicConstant") {
 			// do nothing, just check for correct initialization

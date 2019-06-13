@@ -19,15 +19,33 @@ const double ElasticScattering::epsmin = log10(2 * eV) + 3;    // log10 minimum 
 const double ElasticScattering::epsmax = log10(2 * eV) + 8.12; // log10 maximum photon background energy in nucleus rest frame for elastic scattering
 const size_t ElasticScattering::neps = 513; // number of photon background energies in nucleus rest frame
 
-ElasticScattering::ElasticScattering(PhotonField f, ScalarGrid4d geometryGrid) {
+ElasticScattering::ElasticScattering(PhotonField f, std::string tag) {
 	setPhotonField(f);
-	this->geometryGrid = geometryGrid;
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = ScalarGrid();
+	this->tag = tag;
+	setDescription("ElasticScattering_isotropicConstant");
+}
+
+ElasticScattering::ElasticScattering(PhotonField f, ScalarGrid4d spaceTimeGrid, std::string tag) {
+	setPhotonField(f);
+	this->spaceTimeGrid = spaceTimeGrid;
+	this->spaceGrid = ScalarGrid();
+	this->tag = tag;
+	setDescription("ElasticScattering_spaceDependentConstant");
+}
+
+ElasticScattering::ElasticScattering(PhotonField f, ScalarGrid spaceGrid, std::string tag) {
+	setPhotonField(f);
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = spaceGrid;
+	this->tag = tag;
+	setDescription("ElasticScattering_spaceTimeDependent");
 }
 
 void ElasticScattering::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	std::string fname = photonFieldName(photonField);
-	setDescription("ElasticScattering: " + fname);
 	initRate(getDataPath("ElasticScattering/rate_" + fname.substr(0,3) + ".txt"));
 	initCDF(getDataPath("ElasticScattering/cdf_" + fname.substr(0,3) + ".txt"));
 }
@@ -99,12 +117,22 @@ void ElasticScattering::process(Candidate *candidate) const {
 
 	double step = candidate->getCurrentStep();
 	while (step > 0) {
-
-		// geometric scaling
-		double rate = geometryGrid.interpolate(pos, time);
+		double rate = 1.;
+		Vector3d pos = candidate->current.getPosition();
+		double time = candidate->getTrajectoryLength()/c_light;
+		const std::string description = getDescription();
+		if (description == "ElasticScattering_isotropicConstant") {
+			// do nothing, just check for correct initialization
+		} else if (description == "ElasticScattering_spaceDependentConstant") {
+			rate *= spaceGrid.interpolate(pos);
+		} else if (description == "ElasticScattering_spaceTimeDependent") {
+			rate *= spaceTimeGrid.interpolate(pos, time);
+		} else {
+			throw std::runtime_error("ElasticScattering: invalid description string");
+		}
 		if (rate == 0.)
 			return;
-		
+
 		rate *= interpolateEquidistant(lg, lgmin, lgmax, tabRate);
 		rate *= Z * N / double(A);  // TRK scaling
 		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);  // cosmological scaling
@@ -125,8 +153,8 @@ void ElasticScattering::process(Candidate *candidate) const {
 		double cosTheta = 2 * random.rand() - 1;
 		double E = eps * candidate->current.getLorentzFactor() * (1. - cosTheta);
 
-		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary(22, E, pos);
+		pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
+		candidate->addSecondary(22, E, pos, tag);
 
 		// repeat with remaining step
 		step -= randDist;

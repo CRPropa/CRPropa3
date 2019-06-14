@@ -384,7 +384,7 @@ TEST(PhotoDisintegration, iron) {
 
 TEST(PhotoDisintegration, thisIsNotNucleonic) {
 	// Test that nothing happens to an electron.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(CMB);
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
 	c.current.setId(11); // electron
@@ -396,7 +396,7 @@ TEST(PhotoDisintegration, thisIsNotNucleonic) {
 
 TEST(PhotoDisintegration, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(CMB);
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
 	c.current.setId(nucleusId(4, 2));

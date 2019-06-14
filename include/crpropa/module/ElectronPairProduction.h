@@ -23,18 +23,36 @@ namespace crpropa {
 class ElectronPairProduction: public Module {
 private:
 	PhotonField photonField;
-	ScalarGrid4d geometryGrid;
+	ScalarGrid4d spaceTimeGrid;
+	ScalarGrid spaceGrid;
+	bool haveElectrons;
+	std::string tag;
+	double limit; ///< fraction of energy loss length to limit the next step
+
 	std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0 */
 	std::vector<double> tabLorentzFactor; /*< tabulated Lorentz factor */
 	std::vector<std::vector<double> > tabSpectrum; /*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-24 in 170 steps and log10(gamma)=6-13 in 70 steps and*/
-	double limit; ///< fraction of energy loss length to limit the next step
-	bool haveElectrons;
 
 public:
-	ElectronPairProduction(PhotonField photonField = CMB,
-						   ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
+	ElectronPairProduction(PhotonField photonField,
 						   bool haveElectrons = false,
-						   double limit = 0.1);
+						   std::string tag = "EPP",
+						   double limit = 0.1
+	);
+
+	ElectronPairProduction(PhotonField photonField,
+						   ScalarGrid4d spaceTimeGrid,
+						   bool haveElectrons = false,
+						   std::string tag = "EPP",
+						   double limit = 0.1
+	);
+
+	ElectronPairProduction(PhotonField photonField,
+						   ScalarGrid spaceGrid,
+						   bool haveElectrons = false,
+						   std::string tag = "EPP",
+						   double limit = 0.1
+	);
 
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);

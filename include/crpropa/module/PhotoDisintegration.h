@@ -20,9 +20,11 @@ namespace crpropa {
 class PhotoDisintegration: public Module {
 private:
 	PhotonField photonField;
-	ScalarGrid4d geometryGrid;
-	double limit; // fraction of mean free path for limiting the next step
+	ScalarGrid4d spaceTimeGrid;
+	ScalarGrid spaceGrid;
 	bool havePhotons;
+	std::string tag;
+	double limit; // fraction of mean free path for limiting the next step
 
 	struct Branch {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
@@ -43,10 +45,25 @@ private:
 	static const size_t nlg; // number of Lorentz-factor steps
 
 public:
-	PhotoDisintegration(PhotonField photonField = CMB,
-						ScalarGrid4d geometryGrid = ScalarGrid4d(Vector3d(0.),0., 1,1,1,1, Vector3d(1.),1.),
+	PhotoDisintegration(PhotonField photonField,
 						bool havePhotons = false,
-						double limit = 0.1);
+						std::string tag = "PD",
+						double limit = 0.1
+	);
+
+	PhotoDisintegration(PhotonField photonField,
+						ScalarGrid4d spaceTimeGrid,
+						bool havePhotons = false,
+						std::string tag = "PD",
+						double limit = 0.1
+	);
+
+	PhotoDisintegration(PhotonField photonField,
+						ScalarGrid spaceGrid,
+						bool havePhotons = false,
+						std::string tag = "PD",
+						double limit = 0.1
+	);
 
 	void setPhotonField(PhotonField photonField);
 	void setHavePhotons(bool havePhotons);

@@ -11,20 +11,49 @@
 namespace crpropa {
 
 ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
-											   ScalarGrid4d geometryGrid,
 											   bool haveElectrons,
+											   std::string tag,
 											   double limit) {
 	setPhotonField(photonField);
-	this->geometryGrid = geometryGrid;
-	geometryGrid.setOrigin(-0.5*geometryGrid.getSpacing());  // correct for in-middle-of-box convention in CRPropa
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = ScalarGrid();
 	this->haveElectrons = haveElectrons;
+	this->tag = tag;
 	this->limit = limit;
+	setDescription("ElectronPairProduction_isotropicConstant");
+}
+
+ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
+											   ScalarGrid4d spaceTimeGrid,
+											   bool haveElectrons,
+											   std::string tag,
+											   double limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = spaceTimeGrid;
+	this->spaceGrid = ScalarGrid();
+	this->haveElectrons = haveElectrons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("ElectronPairProduction_spaceTimeDependent");
+}
+
+ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
+											   ScalarGrid spaceGrid,
+											   bool haveElectrons,
+											   std::string tag,
+											   double limit) {
+	setPhotonField(photonField);
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = spaceGrid;
+	this->haveElectrons = haveElectrons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("ElectronPairProduction_spaceDependentConstant");
 }
 
 void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	std::string fname = photonFieldName(photonField);
-	setDescription("ElectronPairProduction: " + fname);
 	initRate(getDataPath("ElectronPairProduction/lossrate_" + fname + ".txt"));
 	initSpectrum(getDataPath("ElectronPairProduction/spectrum_" + fname.substr(0,3) + ".txt"));
 }
@@ -90,7 +119,17 @@ double ElectronPairProduction::lossLength(int id, double lf, double z, Vector3d 
 		return std::numeric_limits<double>::max(); // below energy threshold
 
 	// geometric scaling
-	double rate = geometryGrid.interpolate(pos, time);
+	double rate = 1.;
+	const std::string description = getDescription();
+	if (description == "ElectronPairProduction_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "ElectronPairProduction_spaceDependentConstant") {
+		rate *= spaceGrid.interpolate(pos);
+	} else if (description == "ElectronPairProduction_spaceTimeDependent") {
+		rate *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("ElectronPairProduction: invalid description string");
+	}
 	if (rate == 0.)
 		return std::numeric_limits<double>::max();
 
@@ -113,7 +152,7 @@ void ElectronPairProduction::process(Candidate *c) const {
 	double lf = c->current.getLorentzFactor();
 	double z = c->getRedshift();
 	Vector3d pos = c->current.getPosition();
-    double time = c->getTrajectoryLength()/c_light;
+    const double time = c->getTrajectoryLength()/c_light;
 
 	double losslen = lossLength(id, lf, z, pos, time);  // energy loss length
 	// check if interaction does not happen
@@ -141,8 +180,8 @@ void ElectronPairProduction::process(Candidate *c) const {
 			// create pair and repeat with remaining energy
 			dE -= Epair;
 			Vector3d pos = random.randomInterpolatedPosition(c->previous.getPosition(), c->current.getPosition());
-			c->addSecondary( 11, Ee, pos);
-			c->addSecondary(-11, Ee, pos);
+			c->addSecondary( 11, Ee, pos, tag);
+			c->addSecondary(-11, Ee, pos, tag);
 		}
 	}
 

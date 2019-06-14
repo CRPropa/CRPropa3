@@ -17,19 +17,49 @@ const double PhotoDisintegration::lgmax = 14; // maximum log10(Lorentz-factor)
 const size_t PhotoDisintegration::nlg = 201;  // number of Lorentz-factor steps
 
 PhotoDisintegration::PhotoDisintegration(PhotonField f,
-										 ScalarGrid4d geometryGrid,
 										 bool havePhotons,
+										 std::string tag,
 										 double limit) {
 	setPhotonField(f);
-	this->geometryGrid = geometryGrid;
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = ScalarGrid();
 	this->havePhotons = havePhotons;
+	this->tag = tag;
 	this->limit = limit;
+	setDescription("PhotoDisintegration_isotropicConstant");
+}
+
+PhotoDisintegration::PhotoDisintegration(PhotonField f,
+										 ScalarGrid4d spaceTimeGrid,
+										 bool havePhotons,
+										 std::string tag,
+										 double limit) {
+	setPhotonField(f);
+	this->spaceTimeGrid = spaceTimeGrid;
+	this->spaceGrid = ScalarGrid();
+	this->havePhotons = havePhotons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("PhotoDisintegration_spaceTimeDependent");
+}
+
+PhotoDisintegration::PhotoDisintegration(PhotonField f,
+										 ScalarGrid spaceGrid,
+										 bool havePhotons,
+										 std::string tag,
+										 double limit) {
+	setPhotonField(f);
+	this->spaceTimeGrid = ScalarGrid4d();
+	this->spaceGrid = spaceGrid;
+	this->havePhotons = havePhotons;
+	this->tag = tag;
+	this->limit = limit;
+	setDescription("PhotoDisintegration_spaceDependent");
 }
 
 void PhotoDisintegration::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
 	std::string fname = photonFieldName(photonField);
-	setDescription("PhotoDisintegration: " + fname);
 	initRate(getDataPath("Photodisintegration/rate_" + fname + ".txt"));
 	initBranching(getDataPath("Photodisintegration/branching_" + fname + ".txt"));
 	initPhotonEmission(getDataPath("Photodisintegration/photon_emission_" + fname.substr(0,3) + ".txt"));
@@ -177,10 +207,25 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 		if ((lg <= lgmin) or (lg >= lgmax))
 			return;
 
-		// geometrical scaling
-		double rate = geometryGrid.interpolate(pos, time);
-		if (rate == 0)
+		// geometric scaling
+		double rate = 1.;
+
+		Vector3d pos = candidate->current.getPosition();
+		const double time = candidate->getTrajectoryLength() / c_light;
+		
+		const std::string description = getDescription();
+		if (description == "EMDoublePairProduction_isotropicConstant") {
+			// do nothing, just check for correct initialization
+		} else if (description == "EMDoublePairProduction_spaceDependentConstant") {
+			rate *= spaceGrid.interpolate(pos);
+		} else if (description == "EMDoublePairProduction_spaceTimeDependent") {
+			rate *= spaceTimeGrid.interpolate(pos, time);
+		} else {
+			throw std::runtime_error("EMDoublePairProduction: invalid description string");
+		}
+		if (rate == 0.)
 			return;
+
 		rate *= interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
 		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z); // cosmological scaling, rate per comoving distance
 
@@ -234,17 +279,17 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 	for (size_t i = 0; i < nNeutron; i++)
-		candidate->addSecondary(nucleusId(1, 0), EpA, pos);
+		candidate->addSecondary(nucleusId(1, 0), EpA, pos, tag);
 	for (size_t i = 0; i < nProton; i++)
-		candidate->addSecondary(nucleusId(1, 1), EpA, pos);
+		candidate->addSecondary(nucleusId(1, 1), EpA, pos, tag);
 	for (size_t i = 0; i < nH2; i++)
-		candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
+		candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos, tag);
 	for (size_t i = 0; i < nH3; i++)
-		candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
+		candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos, tag);
 	for (size_t i = 0; i < nHe3; i++)
-		candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
+		candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos, tag);
 	for (size_t i = 0; i < nHe4; i++)
-		candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
+		candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos, tag);
 
 	if (not havePhotons)
 		return;
@@ -265,7 +310,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 		// boost to lab frame
 		double cosTheta = 2 * random.rand() - 1;
 		double E = pdPhoton[key][i].energy * lf * (1 - cosTheta);
-		candidate->addSecondary(22, E, pos);
+		candidate->addSecondary(22, E, pos, tag);
 	}
 }
 

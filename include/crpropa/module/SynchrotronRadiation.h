@@ -27,14 +27,23 @@ private:
 	double limit; ///< fraction of energy loss length to limit the next step
 
 	bool havePhotons; ///< flag for production of secondary photons
+	std::string tag;
 	double secondaryThreshold; ///< threshold energy for secondary photons
+
 	std::vector<double> tabx; ///< tabulated fraction E_photon/E_critical from 10^-6 to 10^2 in 801 log-spaced steps
 	std::vector<double> tabCDF; ///< tabulated CDF of synchrotron spectrum
 
 
 public:
-	SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double limit = 0.1);
-	SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double limit = 0.1);
+	SynchrotronRadiation(ref_ptr<MagneticField> field,
+						 bool havePhotons = false,
+						 std::string tag = "synch",
+						 double limit = 0.1);
+
+	SynchrotronRadiation(double Brms = 0,
+						 bool havePhotons = false,
+						 std::string tag = "synch",
+						 double limit = 0.1);
 
 	void setField(ref_ptr<MagneticField> field);
 	ref_ptr<MagneticField> getField();

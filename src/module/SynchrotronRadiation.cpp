@@ -8,20 +8,22 @@
 
 namespace crpropa {
 
-SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons, double limit) {
+SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons, std::string tag, double limit) {
 	Brms = 0.;
 	setField(field);
 	initSpectrum();
 	this->havePhotons = havePhotons;
 	this->limit = limit;
+	this->tag = tag;
 	secondaryThreshold = 1e7 * eV;
 }
 
-SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double limit) {
+SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, std::string tag, double limit) {
 	this->Brms = Brms;
 	initSpectrum();
 	this->havePhotons = havePhotons;
 	this->limit = limit;
+	this->tag = tag;
 	secondaryThreshold = 1e7 * eV;
 }
 
@@ -147,7 +149,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		dE -= Egamma;
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 		if (Egamma > secondaryThreshold) // create only photons with energies above threshold
-			candidate->addSecondary(22, Egamma, pos);
+			candidate->addSecondary(22, Egamma, pos, tag);
 	}
 }
 

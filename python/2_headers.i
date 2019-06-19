@@ -291,6 +291,7 @@
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
+%include "crpropa/GridTurbulence.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
 %template(VectorGridRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
@@ -299,6 +300,10 @@
 %implicitconv crpropa::ref_ptr<crpropa::Grid<float> >;
 %template(ScalarGridRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
 %template(ScalarGrid) crpropa::Grid<float>;
+
+%implicitconv std::pair<std::vector<int>, std::vector<float> >;
+%template(PairIntFloat) std::pair<int, float>;
+%template(PairVector) std::vector<std::pair<int, float> >;
 
 %include "crpropa/EmissionMap.h"
 %implicitconv crpropa::ref_ptr<crpropa::EmissionMap>;

@@ -95,7 +95,7 @@ TEST(MagneticLens, OutOfBoundsEnergy)
 	M.resize(P.nPix(), P.nPix());
 	M.reserve(P.nPix());
 	magneticLens.setLensPart(M,10. * EeV, 100. * EeV);
-	double theta, phi;
+	double theta = 0, phi = 0;
 	EXPECT_FALSE(magneticLens.transformCosmicRay(1. * EeV, phi, theta));
 }
 

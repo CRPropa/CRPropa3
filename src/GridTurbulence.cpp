@@ -89,16 +89,6 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 	fftwf_execute(plan_z);
 	fftwf_destroy_plan(plan_z);
 
-	auto cabs = [](const fftwf_complex &c) {
-		return c[0]*c[0] + c[1]*c[1];
-	};
-
-	auto calcWaveEnergy = [cabs](const fftwf_complex &Bk_x,
-			const fftwf_complex &Bk_y,
-			const fftwf_complex &Bk_z) {
-		return cabs(Bk_x) + cabs(Bk_y) + cabs(Bk_z);
-	};
-
 	GridPrecision power;
 	std::map<size_t, std::pair<GridPrecision, int> > spectrum;
 
@@ -109,7 +99,9 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 				k = static_cast<int>(std::floor(std::sqrt(ix*ix + iy*iy + iz*iz)));
 				if (k > n/2. || k == 0)
 					continue;
-				power = calcWaveEnergy(Bkx[i], Bky[i], Bkz[i]);
+				power = ((Bkx[i][0]*Bkx[i][0] + Bkx[i][1]*Bkx[i][1]) +
+					 (Bky[i][0]*Bky[i][0] + Bky[i][1]*Bky[i][1]) + 
+					 (Bkz[i][0]*Bkz[i][0] + Bkz[i][1]*Bkz[i][1]));
 				if (spectrum.find(k) == spectrum.end()) {
 					spectrum[k].first = power;
 					spectrum[k].second = 1;

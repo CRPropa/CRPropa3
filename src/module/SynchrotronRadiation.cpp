@@ -147,9 +147,11 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 
 		// create synchrotron photon and repeat with remaining energy
 		dE -= Egamma;
-		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		if (Egamma > secondaryThreshold) // create only photons with energies above threshold
+		// create only photons with energies above threshold
+		if (Egamma > secondaryThreshold) {
+			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 			candidate->addSecondary(22, Egamma, pos, tag);
+		}
 	}
 }
 

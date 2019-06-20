@@ -89,13 +89,13 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 	fftwf_execute(plan_z);
 	fftwf_destroy_plan(plan_z);
 
-	auto cabs = [](const fftwf_complex &c) -> GridPrecision {
+	auto cabs = [](const fftwf_complex &c) {
 		return c[0]*c[0] + c[1]*c[1];
 	};
 
 	auto calcWaveEnergy = [cabs](const fftwf_complex &Bk_x,
 			const fftwf_complex &Bk_y,
-			const fftwf_complex &Bk_z) -> GridPrecision {
+			const fftwf_complex &Bk_z) {
 		return cabs(Bk_x) + cabs(Bk_y) + cabs(Bk_z);
 	};
 

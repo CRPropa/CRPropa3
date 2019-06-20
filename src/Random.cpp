@@ -156,12 +156,9 @@ Vector3d Random::randFisherVector(const Vector3d &meanDirection, double kappa) {
 	return randVectorAroundMean(meanDirection, randFisher(kappa));
 }
 
-Vector3d Random::randConeVector(const Vector3d &meanDirection,
-		double angularRadius) {
-	double theta = 2 * M_PI;
-	while (theta > angularRadius)
-		theta = acos(2 * rand() - 1);
-	return randVectorAroundMean(meanDirection, theta);
+Vector3d Random::randConeVector(const Vector3d &meanDirection, double angularRadius) {
+        const double theta = acos(randUniform(1, cos(angularRadius)));
+        return randVectorAroundMean(meanDirection, theta);
 }
 
 Vector3d Random::randomInterpolatedPosition(const Vector3d &a, const Vector3d &b) {

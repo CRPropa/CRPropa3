@@ -29,8 +29,15 @@ matrix:
   include:
     - os : linux
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - g++-5
+          sources: &sources
+            - ubuntu-toolchain-r-test
       compiler: gcc
       env:
+        - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
         - PYTHON_EXECUTABLE=/usr/bin/python3
         - BUILD_DOC=true
     - os : linux
@@ -41,8 +48,17 @@ matrix:
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
       dist: xenial
+      addons:
+        apt:
+          packages:
+            - g++-5
+          sources: &sources
+            - ubuntu-toolchain-r-test
       compiler: gcc
-      env: PYTHON_EXECUTABLE=/usr/bin/python2
+      compiler: gcc
+      env:
+         - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+         - PYTHON_EXECUTABLE=/usr/bin/python2
     - os : linux
       dist: xenial
       compiler: clang

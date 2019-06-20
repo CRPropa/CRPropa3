@@ -2,8 +2,10 @@ language: cpp
 addons:
     apt:
       packages:
+        - gcc-6
+        - g++-6
+        - gfortran-6
         - swig
-        - gfortran
         - libfftw3-dev
         - libcfitsio3-dev
         - libmuparser-dev
@@ -22,6 +24,8 @@ addons:
         - libiomp-dev
         - doxygen
         - graphviz
+      sources: &sources
+        - ubuntu-toolchain-r-test
 cache:
   directories:
     - $HOME/crpropa_cache
@@ -29,45 +33,28 @@ matrix:
   include:
     - os : linux
       dist: xenial
-      addons:
-        apt:
-          packages: &packages
-            - gcc-5
-            - g++-5
-            - gfortran-5
-          sources: &sources
-            - ubuntu-toolchain-r-test
       compiler: gcc
       env:
-        - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 FC=gfortran-5
+        - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
         - PYTHON_EXECUTABLE=/usr/bin/python3
         - BUILD_DOC=true
     - os : linux
       dist: xenial
       compiler: clang
       env:
-        - PYTHON_EXECUTABLE=/usr/bin/python2
+        - PYTHON_EXECUTABLE=/usr/bin/python3 FC=gfortran-6
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
       dist: xenial
-      addons:
-        apt:
-          packages: &packages
-            - gcc-5
-            - g++-5
-            - gfortran-5
-          sources: &sources
-            - ubuntu-toolchain-r-test
-      compiler: gcc
       compiler: gcc
       env:
-         - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 FC=gfortran-5
+         - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
          - PYTHON_EXECUTABLE=/usr/bin/python2
     - os : linux
       dist: xenial
       compiler: clang
       env:
-        - PYTHON_EXECUTABLE=/usr/bin/python2
+        - PYTHON_EXECUTABLE=/usr/bin/python2 FC=gfortran-6
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : osx
       compiler: clang

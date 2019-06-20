@@ -2,8 +2,10 @@ language: cpp
 addons:
     apt:
       packages:
+        - gcc-5
+        - g++-5
+        - gfortran-5
         - swig
-        - gfortran
         - libfftw3-dev
         - libcfitsio3-dev
         - libmuparser-dev
@@ -22,6 +24,8 @@ addons:
         - libiomp-dev
         - doxygen
         - graphviz
+      sources: &sources
+        - ubuntu-toolchain-r-test
 cache:
   directories:
     - $HOME/crpropa_cache
@@ -29,14 +33,6 @@ matrix:
   include:
     - os : linux
       dist: xenial
-      addons:
-        apt:
-          packages:
-            - gcc-5
-            - g++-5
-            - gfortran-5
-          sources: &sources
-            - ubuntu-toolchain-r-test
       compiler: gcc
       env:
         - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 FC=gfortran-5
@@ -50,14 +46,6 @@ matrix:
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
       dist: xenial
-      addons:
-        apt:
-          packages:
-            - gcc-5
-            - g++-5
-            - gfortran-5
-          sources: &sources
-            - ubuntu-toolchain-r-test
       compiler: gcc
       env:
          - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 FC=gfortran-5

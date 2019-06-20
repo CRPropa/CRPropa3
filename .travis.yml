@@ -32,12 +32,14 @@ matrix:
       addons:
         apt:
           packages:
+            - gcc-5
             - g++-5
+            - gfortran-5
           sources: &sources
             - ubuntu-toolchain-r-test
       compiler: gcc
       env:
-        - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+        - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 FC=gfortran-5
         - PYTHON_EXECUTABLE=/usr/bin/python3
         - BUILD_DOC=true
     - os : linux
@@ -51,13 +53,14 @@ matrix:
       addons:
         apt:
           packages:
+            - gcc-5
             - g++-5
+            - gfortran-5
           sources: &sources
             - ubuntu-toolchain-r-test
       compiler: gcc
-      compiler: gcc
       env:
-         - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+         - COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 FC=gfortran-5
          - PYTHON_EXECUTABLE=/usr/bin/python2
     - os : linux
       dist: xenial

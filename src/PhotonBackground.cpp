@@ -168,15 +168,13 @@ void CustomPhotonField::init(std::string filename) {
 
 double CustomPhotonField::sampleEps(bool onProton, double Ein, double zIn) const {
 /*
-	- input: particle type with energy Ein at redshift z
-	- output: photon energy [eV] of random photon of photon field
-	- samples distribution of n(epsilon)/epsilon^2
+	- input: particle type with energy Ein [GeV] (SOPHIA standard unit) at redshift z
+	- output: photon energy [eV] of encountered photon in photon field
 */
 	const double zMax = photonRedshift[photonRedshift.size() - 1];
 	if (zIn > zMax)
 		return 0.;
 
-	Ein /= GeV;  // SOPHIA standard unit
 	// calculate pMax and its norm factor via maximum such that peps <= 1
 	double cnorm = 0.;
 	double pMax = 0.;
@@ -210,14 +208,14 @@ double CustomPhotonField::sampleEps(bool onProton, double Ein, double zIn) const
 
 double CustomPhotonField::SOPHIA_probEps(double eps, bool onProton, double Ein, double zIn) const {
 /*
-	- input: eps [eV]
-	- output: probability to encounter photon of energy eps
+	- input: photon energy eps [eV], bool onProton, primary's energy Ein [GeV], redshift z
+	- output: non-normalized probability to encounter photon of energy eps
 	- called by: sampleEps, gaussInt
 */
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	double gamma = Ein / mass;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
-	double photonDensity = getPhotonDensity(eps * eV, zIn) / 6.2415091e24;  // 1/(Jm³) -> 1/(eVcm³)
+	double photonDensity = getPhotonDensity(eps * eV, zIn) / 6.2415091e24;  // 1/(Jm^3) -> 1/(eVcm^3)
 	if (photonDensity == 0.) {
 		return 0.;
 	} else {
@@ -241,17 +239,17 @@ double CustomPhotonField::SOPHIA_probEps(double eps, bool onProton, double Ein, 
 
 double CustomPhotonField::getPhotonDensity(double eps, double z) const {
 /*
-	- input: photon energy, redshift
-	- output: dndeps(e,z) [#/(eV cm^3)] from input file
+	- input: photon energy eps [J], redshift z
+	- output: n(eps, z) / eps [# /(J m^3)]
 	- called by: sampleEps
 */
-	return interpolate2d(eps / eV, z, photonEnergy, photonRedshift, photonDensity) * 6.2415091e24;  // 1/(eVcm³)->1/(Jm³)
+	return interpolate2d(eps / eV, z, photonEnergy, photonRedshift, photonDensity) * 6.2415091e24;  // 1/(eVcm^3)->1/(Jm^3)
 }
 
 double CustomPhotonField::SOPHIA_crossection(double x, bool onProton) const {
 /* 
-	- input: photon energy [eV], specifier: 0=neutron, 1=proton
-	- output: SOPHIA_crossection of nucleon-photon-interaction [area]
+	- input: photon energy [GeV], specifier: 0=neutron, 1=proton
+	- output: SOPHIA_crossection of nucleon-photon-interaction [m^2]
 	- called by: SOPHIA_functs
 */  
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
@@ -282,7 +280,7 @@ double CustomPhotonField::SOPHIA_crossection(double x, bool onProton) const {
 		cross_res = SOPHIA_breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], x, onProton)
 				  * SOPHIA_ef(x, 0.152, 0.17);
 		for (int i = 1; i < 9; ++i) {
-			cross_res = SOPHIA_breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], x, onProton)
+			cross_res += SOPHIA_breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], x, onProton)
 					   * SOPHIA_ef(x, 0.15, 0.38);
 		}
 		// direct channel
@@ -335,7 +333,7 @@ double CustomPhotonField::SOPHIA_crossection(double x, bool onProton) const {
 		cross_diffr = cross_diffr1 + cross_diffr2;
 		cs_multidiff = cs_multi + cross_diffr;
 	}
-	return (cross_res + cross_dir + cs_multidiff + cross_frag2) * 1.e-34;  // µbarn to m²
+	return (cross_res + cross_dir + cs_multidiff + cross_frag2) * 1.e-34;  // mubarn to m^2
 }
 
 double CustomPhotonField::SOPHIA_pl(double x, double xth, double xmax, double alpha) const {
@@ -393,7 +391,7 @@ double CustomPhotonField::SOPHIA_functs(double s, bool onProton) const {
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	double factor = s - mass * mass;
 	double epsPrime = factor / 2. / mass;
-	double sigma_pg = SOPHIA_crossection(epsPrime, onProton) / 1.e-34;  // m² to µbarn
+	double sigma_pg = SOPHIA_crossection(epsPrime, onProton) / 1.e-34;  // m^2 to mubarn
 	return factor * sigma_pg;
 }
 

@@ -3,6 +3,8 @@
 #include "crpropa/Random.h"
 #include "crpropa/magneticField/MagneticField.h"
 
+#include <map>
+
 #ifdef CRPROPA_HAVE_FFTW3F
 #include "fftw3.h"
 #endif
@@ -39,26 +41,26 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
-	
+
 	double rms = rmsFieldStrength(grid);
 
 	size_t n = Nx; // size of array
 	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
-	
+
 	// construct the field in configuration space
 	int i;
 	double k;
-	
+
 	// arrays to hold the complex vector components of the B(k)-field
 	fftwf_complex *Bkx, *Bky, *Bkz;
 	Bkx = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n);
 	Bky = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n);
 	Bkz = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n);
-	
+
 	fftwf_complex *Bx = (fftwf_complex*) Bkx;
 	fftwf_complex *By = (fftwf_complex*) Bky;
 	fftwf_complex *Bz = (fftwf_complex*) Bkz;
-	
+
 	// save to temp
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
@@ -100,7 +102,7 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 				if (k > n/2. || k == 0)
 					continue;
 				power = ((Bkx[i][0]*Bkx[i][0] + Bkx[i][1]*Bkx[i][1]) +
-					 (Bky[i][0]*Bky[i][0] + Bky[i][1]*Bky[i][1]) + 
+					 (Bky[i][0]*Bky[i][0] + Bky[i][1]*Bky[i][1]) +
 					 (Bkz[i][0]*Bkz[i][0] + Bkz[i][1]*Bkz[i][1]));
 				if (spectrum.find(k) == spectrum.end()) {
 					spectrum[k].first = power;

@@ -208,8 +208,8 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 
 	// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
-    const double time = candidate->getTrajectoryLength()/c_light;
-	
+    const double time = candidate->getTrajectoryLength() / c_light;
+
 	double geometricScaling = 1.;
 	const std::string description = getDescription();
 	if (description == "EMInverseComptonScattering_isotropicConstant") {
@@ -262,10 +262,22 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 	// interaction rate
 	// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
-    double time = candidate->getTrajectoryLength()/c_light;
-	double rate = spaceTimeGrid.interpolate(pos, time);
+    const double time = candidate->getTrajectoryLength() / c_light;
+
+    double rate = 1.;
+	const std::string description = getDescription();
+	if (description == "EMInverseComptonScattering_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "EMInverseComptonScattering_spaceDependentConstant") {
+		rate *= spaceGrid.interpolate(pos);
+	} else if (description == "EMInverseComptonScattering_spaceTimeDependent") {
+		rate *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("EMInverseComptonScattering: invalid description string");
+	}
 	if (rate == 0.)
 		return;
+
 	rate *= interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);	
 

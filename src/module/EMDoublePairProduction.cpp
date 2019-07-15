@@ -126,8 +126,8 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 
 	// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
-	double time = candidate->getTrajectoryLength()/c_light;
-	
+	double time = candidate->getTrajectoryLength() / c_light;
+
 	const std::string description = getDescription();
 	if (description == "EMDoublePairProduction_isotropicConstant") {
 		// do nothing, just check for correct initialization

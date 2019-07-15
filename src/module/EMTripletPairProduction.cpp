@@ -139,20 +139,19 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 		return;
 
 	// geometric scaling
-		// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
-	const double time = candidate->getTrajectoryLength()/c_light;
+	const double time = candidate->getTrajectoryLength() / c_light;
 	
 	double geometricScaling = 1.;
 	const std::string description = getDescription();
-	if (description == "EMPairProduction_isotropicConstant") {
+	if (description == "EMTripletPairProduction_isotropicConstant") {
 		// do nothing, just check for correct initialization
-	} else if (description == "EMPairProduction_spaceDependentConstant") {
+	} else if (description == "EMTripletPairProduction_spaceDependentConstant") {
 		geometricScaling *= spaceGrid.interpolate(pos);
-	} else if (description == "EMPairProduction_spaceTimeDependent") {
+	} else if (description == "EMTripletPairProduction_spaceTimeDependent") {
 		geometricScaling *= spaceTimeGrid.interpolate(pos, time);
 	} else {
-		throw std::runtime_error("EMPairProduction: invalid description string");
+		throw std::runtime_error("EMTripletPairProduction: invalid description string");
 	}
 	if (geometricScaling == 0.)
 		return;
@@ -195,11 +194,22 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 
 	// geometric scaling
 	Vector3d pos = candidate->current.getPosition();
-    double time = candidate->getTrajectoryLength()/c_light;
-	double rate = spaceTimeGrid.interpolate(pos, time);
+    const double time = candidate->getTrajectoryLength() / c_light;
+
+	double rate = 1.;
+	const std::string description = getDescription();
+	if (description == "EMTripletPairProduction_isotropicConstant") {
+		// do nothing, just check for correct initialization
+	} else if (description == "EMTripletPairProduction_spaceDependentConstant") {
+		rate *= spaceGrid.interpolate(pos);
+	} else if (description == "EMTripletPairProduction_spaceTimeDependent") {
+		rate *= spaceTimeGrid.interpolate(pos, time);
+	} else {
+		throw std::runtime_error("EMTripletPairProduction: invalid description string");
+	}
 	if (rate == 0.)
 		return;
-	
+
 	rate *= interpolate(E, tabEnergy, tabRate);
 	// cosmological scaling of interaction distance (comoving)
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);

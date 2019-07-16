@@ -125,7 +125,7 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 	EXPECT_THROW(initTurbulence(grid, brms, 8.1 * spacing, 8 * spacing),
 			std::runtime_error);
 	// lMax too large
-	EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 33 * spacing),
+	EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 65 * spacing),
 			std::runtime_error);
 }
 #endif // CRPROPA_HAVE_FFTW3F

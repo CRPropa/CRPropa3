@@ -20,13 +20,8 @@ namespace crpropa {
 /** Analytically calculate the correlation length of a turbulent field */
 double turbulentCorrelationLength(double lMin, double lMax,
 		double alpha = (-11./3.));
-/**
- Helper function to check the grid properties before the FFT procedure
-*/
-void checkGridRequirements(ref_ptr<VectorGrid> grid, double lMin, double lMax);
 
 #ifdef CRPROPA_HAVE_FFTW3F
-
 /**
  Calculate the omnidirectional power spectrum E(k) for a given turbulent field
  Returns a vector of pairs (k_i, E(k_i))
@@ -53,7 +48,7 @@ void initHelicalTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, d
 
 /**
  Same as the normal turbulent field but with the bendover.
- @param lambda	Bendover scale
+ @param lambda	Bendover scale, usually defined as the grid total size divided by number (example: lambda = grid_size/10.)
 */
 void initTurbulenceWithBendover(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax,
 	   double alpha = -11./3., int seed = 0, double lambda = 1);

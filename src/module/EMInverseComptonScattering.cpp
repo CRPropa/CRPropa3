@@ -150,16 +150,16 @@ class ICSSecondariesEnergyDistribution {
 
 		// create the cumulative energy distribution of the up-scattered photon
 		ICSSecondariesEnergyDistribution() {
-			Ns = 1000;
-			Nrer = 1000;
+			Ns = 2000;
+			Nrer = 2000;
 			s_min = mec2 * mec2;
-			s_max = 1e23 * eV * eV;
+			s_max = 1e33 * eV * eV;
 			dls = (log(s_max) - log(s_min)) / Ns;
-			data = std::vector< std::vector<double> >(1000, std::vector<double>(1000));
-			std::vector<double> data_i(1000);
+			data = std::vector< std::vector<double> >(2000, std::vector<double>(2000));
+			std::vector<double> data_i(2000);
 
 			// tabulate s bin borders
-			s_values = std::vector<double>(1001);
+			s_values = std::vector<double>(2001);
 			for (size_t i = 0; i < Ns + 1; ++i)
 				s_values[i] = s_min * exp(i*dls);
 
@@ -185,6 +185,14 @@ class ICSSecondariesEnergyDistribution {
 
 		// draw random energy for the up-scattered photon Ep(Ee, s)
 		double sample(double Ee, double s) {
+			if (s > s_max)
+				throw std::runtime_error("EMInverseComptonScattering.cpp: Error in:\n\
+										 double sample(double Ee, double s):\n\
+										 s > s_max.\n\
+										 This may be caused by too strong energies involved\n\
+										 on either the primary particles' or photons' part.\n\
+										 increasing the internal value of s_max in\n\
+										 ICSSecondariesEnergyDistribution() most likely fixes this.");
 			size_t idx = std::lower_bound(s_values.begin(), s_values.end(), s) - s_values.begin();
 			std::vector<double> s0 = data[idx];
 			Random &random = Random::instance();
@@ -223,7 +231,6 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	}
 	if (geometricScaling == 0.)
 		return;
-
 	// sample the value of s
 	Random &random = Random::instance();
 	size_t i = closestIndex(E, tabE);

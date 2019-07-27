@@ -26,7 +26,7 @@ namespace crpropa {
 /**
  @class MomentumDiffusion
  @brief Changes the energy/absolute momentum of the pseudo(!)-particles
- * Here an Euler-Mayurama integration scheme is used. The momentum diffusion
+ * Here an Euler-Maruyama integration scheme is used. The momentum diffusion
  * scales with the parallel spatial diffusion coefficient as Dpp*Dxx \propto p^2 * v_A^2
  * Here, v_A is the Alven speed of the wave turbulence. 
  */
@@ -62,6 +62,8 @@ public:
 	double getScale() const;
 	double getAlvenSpeed() const;
 	double getLimit() const;
+
+	std::string getDescription() const;
 
 	
 };

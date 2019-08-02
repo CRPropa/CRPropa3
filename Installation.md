@@ -131,6 +131,16 @@ cmake -DENABLE_PYTHON=ON ..
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
+### <a name="Mac"></a>Mac OS X specifics
+
+If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5) where Python3 is installed from Homebrew, one has to specify the exact paths of the python library (PYTHON_LIBRARY) and the python interpreter (PYTHON_EXECUTABLE) to CMake (otherwise, the system Python is found). For example:
+  ```
+ CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
+ -DPYTHON_EXECUTABLE=/usr/local/Cellar/python/3.7.4/bin/python3 \
+ -DPYTHON_LIBRARY=/usr/local/Cellar/python/3.7.4/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7.dylib \
+ ..
+  ```
+
 ### <a name="Dependencies"></a>Dependencies
 + C++ Compiler (gcc, clang and icc are known to work)
 + Fortran Compiler: to compile SOPHIA

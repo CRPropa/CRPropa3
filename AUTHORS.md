@@ -1,6 +1,4 @@
 ###CRPropa 3 Developers
-In chronological order with main contributions, see also [contributor list](https://github.com/CRPropa/CRPropa3/graphs/contributors).
-
   * David Walz -- main developer
   * Gero Müller -- main developer
   * Daniel Kuempel -- ROOT output

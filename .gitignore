@@ -18,6 +18,8 @@ share/
 
 cmake/CMakeCache.txt
 cmake/CMakeFiles/
+build-27/
+build-37/
 
 *.png
 *.pyc

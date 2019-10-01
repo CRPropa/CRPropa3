@@ -18,7 +18,7 @@ In case you want to modify and execute an example you need to download and run t
  * Secondary neutrinos  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/secondaries/neutrinos.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/secondaries/neutrinos.py))
  * Magnetic diffusion  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/Diffusion/DiffusionValidationI.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/Diffusion/DiffusionValidationI.py))
  * Custom observer  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/advanced/CustomObserver.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/advanced/CustomObserver.py))
- * Propagation module comparison ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/propagation_comparison/Propagation Comparison (CK - BP).ipynb))([py](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/propagation_comparison/Propagation Comparison (CK - BP).py))
+ * Propagation module comparison ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/propagation_comparison/Propagation%20Comparison%20(CK%20-%20BP).ipynb)) ([py](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/propagation_comparison/Propagation%20Comparison%20(CK%20-%20BP).py))
 
 An additional use case is provided by Francesca Capel, which was used in this publication: [Mon. Not. Roy. Astron. Soc. 484 (2019) no. 2, 2324](https://academic.oup.com/mnras/article/484/2/2324/5287987):
 

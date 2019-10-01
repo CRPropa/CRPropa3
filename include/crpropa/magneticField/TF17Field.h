@@ -2,7 +2,6 @@
 #define CRPROPA_TF17FIELD_H
 
 #include "crpropa/magneticField/MagneticField.h"
-#include <string>
 
 namespace crpropa {
 using namespace std;
@@ -18,8 +17,11 @@ using namespace std;
 class TF17Field: public MagneticField {
 private:
     // model definition
-    string disk_model;
-    string halo_model;
+    bool C0;
+    bool C1;
+    bool Ad1;
+    bool Bd1;
+    bool Dd1;
 
 	// disk parameters
 	bool useDiskField;
@@ -40,7 +42,6 @@ private:
 	double B1_halo;
 	double L_halo;
 	double phi_star_halo;
-	double m;
 
 	// universal parameters
 	double p_0;
@@ -50,7 +51,7 @@ private:
 	void SetParams();
 
 public:
-	TF17Field(string halo_mod="C0", string disk_mod="Ad1");
+	TF17Field(string halo_model="C0", string disk_model="Ad1");
 
 	void setUseDiskField(bool use);
 	void setUseHaloField(bool use);
@@ -60,6 +61,12 @@ public:
 	Vector3d getField(const Vector3d& pos) const;
 	Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
 	Vector3d getHaloField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+
+	Vector3d getC0Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+	Vector3d getC1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+	Vector3d getAd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+	Vector3d getBd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+	Vector3d getDd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
 
 	double zscale(const double& z) const;
 	double shiftedWindingFunction(const double& r, const double& z) const;

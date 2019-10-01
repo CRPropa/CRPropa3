@@ -5,9 +5,21 @@ In case of an installation issue make sure that you did not miss something in th
 Please be aware that we cannot support general issues regarding an operating system setup, a third party package installation, an unsupported third party package (libraries, compilers) version or similar, therefore do not report them to us. In case of doubt whether something is an CRPropa issue or not, report the problem to the issue tracker.
 
 ### How to specify the seed for the random number generator?
-The random number seed can be set with
+The random number seed of the global random number singleton can be set with
 ```python
 Random_seedThreads(seed)  # seed from 0 - 2^32-1
+```
+For example you get
+```python
+In [17]: crpropa.Random_seedThreads(42)
+
+In [18]: crpropa.Random_instance().rand()
+Out[18]: 0.37454011439684315
+
+In [19]: crpropa.Random_seedThreads(42)
+
+In [20]: crpropa.Random_instance().rand()
+Out[20]: 0.37454011439684315
 ```
 
 

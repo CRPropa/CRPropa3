@@ -25,6 +25,8 @@
 
 %{
 #include "CRPropa.h"
+using namespace crpropa;   // for usage of namespace in header files, necessary
+                           // for keyword arguments with units
 %}
 
 %{

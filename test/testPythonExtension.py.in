@@ -98,7 +98,7 @@ class testCandidatePropertymap(unittest.TestCase):
 
     def testInt(self):
         self.__propertySetGet(42)
-        # thsi won't work in python3 
+        # thsi won't work in python3
         #if numpy_available:
         #    v = np.array([2], dtype=int)
         #    self.__propertySetGet(v[0])
@@ -109,6 +109,19 @@ class testCandidatePropertymap(unittest.TestCase):
             v = np.array([2.])
             self.__propertySetGet(v[0])
 
+
+class testKeywordArguments(unittest.TestCase):
+  def testExceptionOnNonExistingArguemnt(self):
+    with self.assertRaises(Exception, msg="This is likely due to a swig bug. Please try to disable the builtin option by compiling crpropa with cmake .. -DENABLE_SWIG_BUILTIN=OFF"):
+      p = crp.PhotoDisintegration(nonExistingKeywordArguemntShouldRaiseException=True)
+  def testDisablingOfKwargs(self):
+    with self.assertRaises(Exception, msg="This is likely due to a swig bug. Please try to disable the builtin option by compiling crpropa with cmake .. -DENABLE_SWIG_BUILTIN=OFF"):
+      p = crp.PhotoDisintegration(photonField=crp.IRB_Dominguez11)
+  # swig currently doe snot support kwargs in overloaded functions - we should
+  # thus disable them.
+  #def testKeywordArgument(self):
+  #  p = crp.PhotoDisintegration(photonField=crp.IRB_Dominguez11)
+  #  self.assertTrue('IRB_Dominguez11' in p.getDescription())
 
 if __name__ == '__main__':
     unittest.main()

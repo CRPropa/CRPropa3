@@ -28,7 +28,6 @@ private:
 	double a_disk;
 	double z1_disk;
 	double r1_disk;
-	double n_disk;
 	double B1_disk;
 	double L_disk;
 	double phi_star_disk;
@@ -62,16 +61,11 @@ public:
 	Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
 	Vector3d getHaloField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
 
-	Vector3d getCField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi, bool bisymmetric) const;
-	Vector3d getAd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
-	Vector3d getBd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
-	Vector3d getDd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
-
-	double zscale(const double& z) const;
-	double shiftedWindingFunction(const double& r, const double& z) const;
-	double radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const;
-	double verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, bool bisymmetric) const;
 	double azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const;
+	double radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const;
+	double verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, const double& L, const int& m) const;
+	double shiftedWindingFunction(const double& r, const double& z) const;
+	double zscale(const double& z) const;
 };
 
 } // CRPROPA NAMESPACE

@@ -42,7 +42,6 @@ TF17Field::TF17Field(string halo_model, string disk_model){
 	    // disk parameters
         Bd1 = true;
 	    r1_disk = 3 * kpc;
-        n_disk = 2;
 	    B1_disk = 2.0 * muG;
 	    H_disk = 0.32 * kpc;
 	    phi_star_disk = -31 * M_PI / 180;
@@ -64,7 +63,6 @@ TF17Field::TF17Field(string halo_model, string disk_model){
 	    // disk parameters
         Dd1 = true;
 	    z1_disk = 1.5 * kpc;
-        n_disk = 0.5;
 	    B1_disk = 0.065 * muG;
 	    L_disk = 9.8 * kpc;
 	    phi_star_disk = 14 * M_PI / 180;
@@ -109,7 +107,6 @@ TF17Field::TF17Field(string halo_model, string disk_model){
 	    // disk parameters
         Bd1 = true;
 	    r1_disk = 3 * kpc;
-        n_disk = 2;
 	    B1_disk = 24 * muG;
 	    H_disk = 0.090 * kpc;
 	    phi_star_disk = -34 * M_PI / 180;
@@ -132,7 +129,6 @@ TF17Field::TF17Field(string halo_model, string disk_model){
 	    // disk parameters
         Dd1 = true;
 	    z1_disk = 1.5 * kpc;
-        n_disk = 0.5;
 	    B1_disk = 0.40 * muG;
 	    L_disk = 2.9 * kpc;
 	    phi_star_disk = 120 * M_PI / 180;
@@ -194,113 +190,108 @@ Vector3d TF17Field::getField(const Vector3d& pos) const {
 
 Vector3d TF17Field::getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
 	Vector3d b(0.);
-    if ( Ad1 ){
-        b = getAd1Field(r, z, phi, sinPhi, cosPhi);
-    } else if ( Bd1 ){
-        b = getBd1Field(r, z, phi, sinPhi, cosPhi);
-    } else if ( Dd1 ){
-        b = getDd1Field(r, z, phi, sinPhi, cosPhi);
+    double B_r = 0;
+    double B_phi = 0;
+    double B_z = 0;
+
+    if ( Ad1 ){ // Model Ad1 ==================================================================
+        double z1_disk = z * (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r);
+        if (r > r1_disk) {
+            double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
+            // B components in (r, phi, z)
+            double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
+            double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+            B_r = (r1_disk / r) * z_ * B_r0;
+            B_z = 2 * a_disk * r1_disk * z1_disk / (1+ a_disk * r * r) * B_r0;
+            B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
+        } else {
+            // within r = r1_disk, the field lines are straight in direction g_phi + phi_star_disk
+            double g_phi = shiftedWindingFunction(r1_disk, z1_disk);
+            double B_amp = B1_disk * exp(-fabs(z1_disk) / H_disk);
+            B_r = cos(g_phi + phi_star_disk) * B_amp;
+            B_phi = sin(g_phi + phi_star_disk) * B_amp;
+        }
+
+    } else if ( Bd1 ){ // Model Bd1 ============================================================
+        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
+        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
+        // for model Bd1, best fit for n = 2 
+        double z1_disk = 5 * z / (r_*r_ + 4*sqrt(r_));
+        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
+        double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+        B_r = r_ * z_ * B_r0;
+        B_z = 2/3 * r_ * z_ / z / r * B_r0;
+        B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
+
+
+    } else if ( Dd1 ){ // Model Dd1 ============================================================
+        // for model Bd1, best fit for n = 0.5 
+        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
+        double factor_z = (1/sqrt(z_) + 0.5/z_); 
+        double r1_disk = 1.5 * r / factor_z;
+        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
+        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
+        double B_z0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+        B_r = -0.5/1.5 * r_ * r / z * factor_z * B_z0;
+        B_z = r_ * r_ * B_z0;
+        B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
     }
+
+    // Convert to (x, y, z) components
+    b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
+    b.y = B_r * sinPhi + B_phi * cosPhi;
+    b.z = B_z;
 	return b;
 }
 
 Vector3d TF17Field::getHaloField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	Vector3d b(0.);
-    if ( C0 ){ // m = 0 
-        bool bisymmetric = false;
-        b = getCField(r, z, phi, sinPhi, cosPhi, bisymmetric);
-    } else if ( C1 ){ // m = 1 
-        bool bisymmetric = true;
-        b = getCField(r, z, phi, sinPhi, cosPhi, bisymmetric);
-    }
-	return b;
-}
+    int m;
+    if ( C0 ){ m = 0; }
+    else if ( C1 ){ m = 1; }
 
-Vector3d TF17Field::getCField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi, bool bisymmetric) const {
 	Vector3d b(0.);
 	double r1_halo = r / (1 + a_halo * z * z);
 	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo, z1_halo);
 	// B components in (r, phi, z)
 	double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_halo / r) : 1;	// avoid zero division
-	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, bisymmetric);
-	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, bisymmetric);
+	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, m);
+	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, m);
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	// Convert to (x, y, z) components
 	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
 	b.y = B_r * sinPhi + B_phi * cosPhi;
 	b.z = B_z;
+
 	return b;
 }
 
-Vector3d TF17Field::getAd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	// Model Ad1
-	Vector3d b(0.);
-	double B_r = 0;
-	double B_phi = 0;
-	double B_z = 0;
-
-	double z1_disk = z * (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r);
-	if (r > r1_disk) {
-		double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
-		// B components in (r, phi, z)
-		double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1;		// avoid zero division
-		double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-		B_r = (r1_disk / r) * z_ * B_r0;
-		B_z = 2 * a_disk * r1_disk * z1_disk / (1+ a_disk * r * r) * B_r0;
-		B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
-	} else {
-		// within r = 3 kpc, the field lines are straight in direction g_phi + phi_star_disk
-		double g_phi = shiftedWindingFunction(r1_disk, z1_disk);
-		double B_amp = B1_disk * exp(-fabs(z1_disk) / H_disk);
-		B_r = cos(g_phi + phi_star_disk) * B_amp;
-		B_phi = sin(g_phi + phi_star_disk) * B_amp;
-	}
-	// Convert to (x, y, z) components
-	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
-	b.y = B_r * sinPhi + B_phi * cosPhi;
-	b.z = B_z;
-	return b;
+double TF17Field::azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const {
+	double r_ = r / L_p;
+	double B_phi = cot_p0 / zscale(z) * r_ * exp(-r_) / (1 - exp(-r_)) * B_r - \
+                     2 * cot_p0 * z / (H_p * H_p) / (zscale(z) * zscale(z)) * r * log(1 - exp(-r_)) * B_z;
+	return B_phi;
 }
 
-Vector3d TF17Field::getBd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	// Model Bd1
-	Vector3d b(0.);
-	return b;
+double TF17Field::radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
+	// This term occures is parameterizations of models A and B always bisymmetric (m = 1)
+	return B1 * exp(-fabs(z1) / H_disk) * cos(phi1 - shiftedWindingFunction(r1, z1) - phi_star_disk);
 }
 
-Vector3d TF17Field::getDd1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	// Model Dd1
-	Vector3d b(0.);
-	return b;
-}
-
-double TF17Field::zscale(const double& z) const {
-	return 1 + (fabs(z) / H_p) * (fabs(z) / H_p);
+double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, const double& L, const int& m) const {
+	// This term occures is parameterizations of models C and D
+    if (m == 0) { // m = 0 => cos(m*[...]) = 1
+        return B1 * exp(-r1 / L); 
+    } else { 
+        return B1 * exp(-r1 / L) * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star_halo));
+    }
 }
 
 double TF17Field::shiftedWindingFunction(const double& r, const double& z) const {
 	return cot_p0 * log(1 - exp(-r / L_p)) / zscale(z);
 }
 
-double TF17Field::radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
-	// This term occures is parameterizations of models A and B
-	return B1 * exp(-fabs(z1) / H_disk) * cos((phi1 - shiftedWindingFunction(r1, z1) - phi_star_disk));
-}
-
-double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, bool bisymmetric) const {
-	// This term occures is parameterizations of models C and D
-    if (bisymmetric) { // m = 1 
-        return B1 * exp(-r1 / L_halo) * cos((phi1 - shiftedWindingFunction(r1, z1) - phi_star_halo));
-    } else { // m = 0 => cos(m*[...]) = 1
-        return B1 * exp(-r1 / L_halo); 
-    }
-}
-
-double TF17Field::azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const {
-	double r_ = r / L_p;
-	double B_phi = cot_p0 / zscale(z) * r_ * exp(-r_) / (1 - exp(-r_)) * B_r - \
-								 2 * cot_p0 * z / (H_p * H_p) / (zscale(z) * zscale(z)) * r * log(1 - exp(-r_)) * B_z;
-	return B_phi;
+double TF17Field::zscale(const double& z) const {
+	return 1 + (fabs(z) / H_p) * (fabs(z) / H_p);
 }
 
 } // namespace crpropa

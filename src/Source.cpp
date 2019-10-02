@@ -744,6 +744,7 @@ void SourceIsotropicGalacticArrival::prepareParticle(ParticleState& particle) co
 	Random &random = Random::instance();
 	Vector3d normalVector = random.randVector();
 	particle.setPosition(center + normalVector * radius);
+	// negative Lamberts vector for inward directed emission
 	particle.setDirection(Vector3d(0, 0, 0) - random.randVectorLamberts(normalVector));
 }
 

@@ -159,6 +159,10 @@ public:
 	Vector3d randFisherVector(const Vector3d &meanDirection, double kappa);
 	/// Uniform distributed random vector inside a cone
 	Vector3d randConeVector(const Vector3d &meanDirection, double angularRadius);
+	// Random lamberts distributed vector with theta distribution: sin(t) * cos(t)
+	Vector3d randVectorLamberts();
+	// Same as above but rotated to the respective normalVector of surface element
+	Vector3d randVectorLamberts(const Vector3d &normalVector);
 	///_Position vector uniformly distributed within propagation step size bin
 	Vector3d randomInterpolatedPosition(const Vector3d &a, const Vector3d &b);
 

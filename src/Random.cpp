@@ -161,6 +161,23 @@ Vector3d Random::randConeVector(const Vector3d &meanDirection, double angularRad
         return randVectorAroundMean(meanDirection, theta);
 }
 
+Vector3d Random::randVectorLamberts() {
+	double phi = randUniform(-1.0 * M_PI, M_PI);
+	double theta = M_PI / 2.0 - acos(sqrt(randUniform(0, 1)));
+	return Vector3d(cos(phi) * cos(theta), sin(phi) * cos(theta), sin(theta));
+}
+
+Vector3d Random::randVectorLamberts(const Vector3d &normalVector) {
+	Vector3d vLambertz = randVectorLamberts();
+	// rotation axis by cross product with z-axis
+	Vector3d axis = normalVector.cross(Vector3d(0, 0, 1));
+	if (axis.getR() < std::numeric_limits<double>::epsilon()) {
+		axis = Vector3d(0, 0, 1);
+	}
+	double angle = normalVector.getAngleTo(Vector3d(0, 0, 1));
+	return vLambertz.getRotated(axis / axis.getR(), -angle);
+}
+
 Vector3d Random::randomInterpolatedPosition(const Vector3d &a, const Vector3d &b) {
 	return a + rand() * (b - a);
 }

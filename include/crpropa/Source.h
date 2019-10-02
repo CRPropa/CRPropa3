@@ -393,6 +393,32 @@ public:
 };
 
 /**
+ @class SourceLambertsEmission
+ @brief Lamberts emission with normal vector equivalent to position vector
+ */
+class SourceLambertsEmission: public SourceFeature {
+public:
+	SourceLambertsEmission();
+	void prepareParticle(ParticleState &particle) const;
+	void setDescription();
+};
+
+/**
+
+@class SourceIsotropicGalacticArrival
+@brief Uniform random position at edge of Galaxy with isotropic Lamberts distributed emission
+*/
+class SourceIsotropicGalacticArrival: public SourceFeature {
+	Vector3d center;
+	double radius;
+public:
+	SourceIsotropicGalacticArrival(Vector3d center, double radius);
+ void prepareParticle(ParticleState &particle) const;
+ void setDescription();
+};
+
+/**
+
  @class SourceDirection
  @brief Emission in a discrete direction
  */

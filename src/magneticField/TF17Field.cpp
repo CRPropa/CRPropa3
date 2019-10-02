@@ -206,35 +206,29 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 
 Vector3d TF17Field::getHaloField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
 	Vector3d b(0.);
-    if ( C0 ){
-        b = getC0Field(r, z, phi, sinPhi, cosPhi);
-    } else if ( C1 ){
-        b = getC1Field(r, z, phi, sinPhi, cosPhi);
+    if ( C0 ){ // m = 0 
+        bool bisymmetric = false;
+        b = getCField(r, z, phi, sinPhi, cosPhi, bisymmetric);
+    } else if ( C1 ){ // m = 1 
+        bool bisymmetric = true;
+        b = getCField(r, z, phi, sinPhi, cosPhi, bisymmetric);
     }
 	return b;
 }
 
-Vector3d TF17Field::getC0Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	// Model C0, axisymmetric 
+Vector3d TF17Field::getCField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi, bool bisymmetric) const {
 	Vector3d b(0.);
-
 	double r1_halo = r / (1 + a_halo * z * z);
 	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo, z1_halo);
 	// B components in (r, phi, z)
-	double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_halo / r) : 1;		// avoid zero division
-	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
-	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo);
+	double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_halo / r) : 1;	// avoid zero division
+	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, bisymmetric);
+	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, bisymmetric);
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 	// Convert to (x, y, z) components
 	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
 	b.y = B_r * sinPhi + B_phi * cosPhi;
 	b.z = B_z;
-	return b;
-}
-
-Vector3d TF17Field::getC1Field(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const {
-	// Model C1, bisymmetric 
-	Vector3d b(0.);
 	return b;
 }
 
@@ -293,9 +287,13 @@ double TF17Field::radialFieldScale(const double& B1, const double& r1, const dou
 	return B1 * exp(-fabs(z1) / H_disk) * cos((phi1 - shiftedWindingFunction(r1, z1) - phi_star_disk));
 }
 
-double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const {
+double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, bool bisymmetric) const {
 	// This term occures is parameterizations of models C and D
-	return B1 * exp(-r1 / L_halo) * cos((phi1 - shiftedWindingFunction(r1, z1) - phi_star_halo));
+    if (bisymmetric) { // m = 1 
+        return B1 * exp(-r1 / L_halo) * cos((phi1 - shiftedWindingFunction(r1, z1) - phi_star_halo));
+    } else { // m = 0 => cos(m*[...]) = 1
+        return B1 * exp(-r1 / L_halo); 
+    }
 }
 
 double TF17Field::azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const {

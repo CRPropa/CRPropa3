@@ -735,21 +735,6 @@ void SourceIsotropicEmission::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceLambertsEmission::SourceLambertsEmission() {
-	setDescription();
-}
-
-void SourceLambertsEmission::prepareParticle(ParticleState& particle) const {
-	Random &random = Random::instance();
-	Vector3d normalVector = particle.getPosition();
-	particle.setDirection(Vector3d(0, 0, 0) - random.randVectorLamberts(normalVector));
-}
-
-void SourceLambertsEmission::setDescription() {
-	description = "SourceLambertsEmission: Lamberts distributed direction relative to paricles position vector\n";
-}
-
-// ----------------------------------------------------------------------------
 SourceIsotropicGalacticArrival::SourceIsotropicGalacticArrival(Vector3d center, double radius) :
 		center(center), radius(radius) {
 	setDescription();

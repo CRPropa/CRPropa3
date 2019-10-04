@@ -194,7 +194,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
     double B_phi = 0;
     double B_z = 0;
 
-    if ( Ad1 ){ // Model Ad1 ==================================================================
+    if ( Ad1 ){ // Model Ad1 ==========================================================
         double z1_disk = z * (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r);
         if (r > r1_disk) {
             double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
@@ -212,27 +212,28 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_phi = sin(g_phi + phi_star_disk) * B_amp;
         }
 
-    } else if ( Bd1 ){ // Model Bd1 ============================================================
-        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
-        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
+    } else if ( Bd1 ){ // Model Bd1 ===================================================
         // for model Bd1, best fit for n = 2 
-        double z1_disk = 5 * z / (r_*r_ + 4*sqrt(r_));
         double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
+        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
+        double z1_disk = 5 * z / (r_*r_ + 4/sqrt(r_));
+        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
         double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
         B_r = r_ * z_ * B_r0;
-        B_z = 2/3 * r_ * z_ / z / r * B_r0;
+        B_z = -2/3 * r_ * z_ * z1_disk / r * (r_*r_ + 1/sqrt(r_)) * B_r0;
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 
 
-    } else if ( Dd1 ){ // Model Dd1 ============================================================
+    } else if ( Dd1 ){ // Model Dd1 ==================================================
         // for model Bd1, best fit for n = 0.5 
-        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
-        double factor_z = (1/sqrt(z_) + 0.5/z_); 
-        double r1_disk = 1.5 * r / factor_z;
-        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
         double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
-        double B_z0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-        B_r = -0.5/1.5 * r_ * r / z * factor_z * B_z0;
+        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
+        double z_0_5 = z < 0 ? -sqrt(fabs(z_)) : sqrt(z); // take care of negative z
+        double r1_disk = 1.5 * r /  (z_0_5 - 0.5/z_);
+        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
+        double F_r = r1_disk <= L_disk ? 1 : exp(1-r1_disk/L_disk);
+        double B_z0 = F_r * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
+        B_r = -0.5/1.5 * r_ * r_ * r1_disk / z * (z_0_5 - 1/z_) * B_z0;
         B_z = r_ * r_ * B_z0;
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
     }
@@ -257,6 +258,7 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, m);
 	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, m);
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
+
 	// Convert to (x, y, z) components
 	b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
 	b.y = B_r * sinPhi + B_phi * cosPhi;

@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Dear  developers,
+Dear developers,
 
 I have problems installing CRPropa on my system
 **System Information: (Please fill out the following information)**
@@ -17,8 +17,8 @@ I have problems installing CRPropa on my system
  - Swig version: [swig -version]
  - Cmake version: [cmake --version]
 
-**Did you install CrPropa from git or download a release?**
-I installed version [VERSION NUMEBR] from git /from the releases.
+**Did you install CRPropa from git or download a release?**
+I installed version [VERSION NUMBER] from git/from the releases.
 
-**Thinks that I tried before asking for help:** 
+**Things that I tried before asking for help:**
 I read and followed the installation instructions at https://github.com/CRPropa/CRPropa3/wiki/Installation . Before writing this request I also checked previous installation issues at https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+ . However, this did not work. I receive the following output:

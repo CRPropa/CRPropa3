@@ -419,7 +419,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		set (ENABLE_SWIG_BUILTIN OFF)
 	else (SWIG_VERSION VERSION_LESS "2.0")
 		# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-		option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
+    option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
 	endif (SWIG_VERSION VERSION_LESS "2.0")
 
 	if(ENABLE_SWIG_BUILTIN)
@@ -514,7 +514,7 @@ if(ENABLE_TESTING)
 	add_executable(testAdvectionField test/testAdvectionField.cpp)
 	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testAdvectionField testAdvectionField)
-	
+
 	add_executable(testDensity test/testDensity.cpp)
 	target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDensity testDensity)

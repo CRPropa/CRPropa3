@@ -214,10 +214,10 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 
     } else if ( Bd1 ){ // Model Bd1 ===================================================
         // for model Bd1, best fit for n = 2 
-        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
         double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
         double z1_disk = 5 * z / (r_*r_ + 4/sqrt(r_));
         double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
+        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
         double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
         B_r = r_ * z_ * B_r0;
         B_z = -2/3 * r_ * z_ * z1_disk / r * (r_*r_ + 1/sqrt(r_)) * B_r0;
@@ -226,14 +226,14 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 
     } else if ( Dd1 ){ // Model Dd1 ==================================================
         // for model Bd1, best fit for n = 0.5 
-        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
-        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
-        double z_0_5 = z < 0 ? -sqrt(fabs(z_)) : sqrt(z); // take care of negative z
-        double r1_disk = 1.5 * r /  (z_0_5 - 0.5/z_);
+        double z1_disk_sign = z >= 0 ? z1_disk : -z1_disk; 
+        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk_sign / z) : 1; // avoid zero division
+        double r1_disk = 1.5 * r / (sqrt(z_) + 0.5/z_);
+        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk_sign);
         double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
-        double F_r = r1_disk <= L_disk ? 1 : exp(1-r1_disk/L_disk);
-        double B_z0 = F_r * radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-        B_r = -0.5/1.5 * r_ * r_ * r1_disk / z * (z_0_5 - 1/z_) * B_z0;
+        int m = 1;
+        double B_z0 = verticalFieldScale(B1_disk, r1_disk, z1_disk_sign, phi1_disk, L_disk, phi_star_disk, m);
+        B_r = -0.5/1.5 * r_ * r_ * r1_disk * z_ / z1_disk * (sqrt(z_) - 1/z_) * B_z0;
         B_z = r_ * r_ * B_z0;
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
     }
@@ -255,8 +255,9 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo, z1_halo);
 	// B components in (r, phi, z)
 	double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_halo / r) : 1;	// avoid zero division
-	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, m);
-	double B_z = r_ * r_ * verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, m);
+    double B_z0 = verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, phi_star_halo, m);
+	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * B_z0;
+	double B_z = r_ * r_ * B_z0; 
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 
 	// Convert to (x, y, z) components
@@ -279,12 +280,18 @@ double TF17Field::radialFieldScale(const double& B1, const double& r1, const dou
 	return B1 * exp(-fabs(z1) / H_disk) * cos(phi1 - shiftedWindingFunction(r1, z1) - phi_star_disk);
 }
 
-double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, const double& L, const int& m) const {
+double TF17Field::verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, const double& L, const double& phi_star, const int& m) const {
 	// This term occures is parameterizations of models C and D
     if (m == 0) { // m = 0 => cos(m*[...]) = 1
         return B1 * exp(-r1 / L); 
     } else { 
-        return B1 * exp(-r1 / L) * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star_halo));
+        if ( Dd1 ) { // parametrization change due to regularization of model A
+            double sign_z1 = z1 >= 0 ? 1 : -1;
+            double F_r = r1 <= L ? 1 : exp(1-r1/L);
+            return sign_z1 * B1 * F_r * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star));
+        } else {
+            return B1 * exp(-r1 / L) * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star));
+        }
     }
 }
 

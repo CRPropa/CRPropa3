@@ -63,7 +63,7 @@ public:
 
 	double azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const;
 	double radialFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1) const;
-	double verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, const double& L, const int& m) const;
+	double verticalFieldScale(const double& B1, const double& r1, const double& z1, const double& phi1, const double& L, const double& phi_star, const int& m) const;
 	double shiftedWindingFunction(const double& r, const double& z) const;
 	double zscale(const double& z) const;
 };

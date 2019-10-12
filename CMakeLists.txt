@@ -7,6 +7,7 @@ else(APPLE)
 	cmake_minimum_required(VERSION 2.8.11)
 endif(APPLE)
 project(CRPropa Fortran C CXX)
+set(CRPROPA_RELEASE_VERSION 3.1.5)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -59,7 +60,7 @@ if(ENABLE_GIT)
 else(ENABLE_GIT)
 	set(GIT_REFSPEC "")
 	set(GIT_SHA1 "")
-	set(GIT_DESC "3.0-no-git")
+	set(GIT_DESC ${CRPROPA_RELEASE_VERSION}"-no-git")
 endif(ENABLE_GIT)
 
 message(STATUS "CRPropa version: ${GIT_DESC} ${GIT_SHA1} ${GIT_REFSPEC}")

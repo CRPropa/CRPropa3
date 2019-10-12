@@ -1,3 +1,15 @@
+## CRPropa vNEXT
+
+### Bug fixes:
+
+### New features:
+
+### Features that are deprecated and will be removed after this release:
+
+### New plugins and resources linked on the webpages:
+
+
+
 ## CRPropa v3.1.5
 
 ### Bug fixes:
@@ -45,9 +57,3 @@
  * Data for the constrained 'Hackstein' models of the local Universe using
    initial conditions from the CLUES project. Thanks to Stefan Hackstein for
    sharing.
-
-
-  -- Tobias Winchen <tobias.winchen@rwth-aachen.de>  Fri, 11 Oct 2019 12:07:47 +0200
-
-
-

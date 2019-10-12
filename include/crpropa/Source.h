@@ -394,14 +394,19 @@ public:
 
 /**
 
-@class SourceIsotropicGalacticArrival
-@brief Uniform random position at edge of Galaxy with inwards directed isotropic Lamberts distributed directions
+@class SourceLambertDistributionOnSphere
+@brief Uniform random position on a sphere with isotropic Lamberts distributed directions.
+This function should be used for crosschecking the arrival distribution for a
+Galactic propagation with an isotropic arrival distribution at the Edge of our
+Galaxy. Note, that for simulation speed you should rather use the backtracking
+technique: see e.g. http://physik.rwth-aachen.de/parsec
 */
-class SourceIsotropicGalacticArrival: public SourceFeature {
+class SourceLambertDistributionOnSphere: public SourceFeature {
 	Vector3d center;
 	double radius;
+	bool inward;
 public:
-	SourceIsotropicGalacticArrival(Vector3d center, double radius);
+	SourceLambertDistributionOnSphere(Vector3d center, double radius, bool inward);
  void prepareParticle(ParticleState &particle) const;
  void setDescription();
 };

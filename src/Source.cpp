@@ -735,23 +735,24 @@ void SourceIsotropicEmission::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceIsotropicGalacticArrival::SourceIsotropicGalacticArrival(Vector3d center, double radius) :
+SourceLambertDistributionOnSphere::SourceLambertDistributionOnSphere(Vector3d center, double radius, bool inward) :
 		center(center), radius(radius) {
+	this->inward = inward;
 	setDescription();
 }
 
-void SourceIsotropicGalacticArrival::prepareParticle(ParticleState& particle) const {
+void SourceLambertDistributionOnSphere::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	Vector3d normalVector = random.randVector();
 	particle.setPosition(center + normalVector * radius);
-	// negative Lamberts vector for inward directed emission
-	particle.setDirection(Vector3d(0, 0, 0) - random.randVectorLamberts(normalVector));
+	double sign = inward ? -1 : 1; // negative (positive) Lamberts vector for inward (outward) directed emission
+	particle.setDirection(Vector3d(0, 0, 0) + sign * random.randVectorLamberts(normalVector));
 }
 
-void SourceIsotropicGalacticArrival::setDescription() {
+void SourceLambertDistributionOnSphere::setDescription() {
 	std::stringstream ss;
-	ss << "SourceIsotropicGalacticArrival: Random position and direction at edge of our Galaxy at center ";
-	ss << center / kpc << " kpc with ";
+	ss << "SourceLambertDistributionOnSphere: Random position and direction on a Sphere with center ";
+	ss << center / kpc << " kpc and ";
 	ss << radius / kpc << " kpc radius\n";
 	description = ss.str();
 }

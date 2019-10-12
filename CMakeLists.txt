@@ -6,7 +6,9 @@ else(APPLE)
 	# allow < 2.8.12 for debian backports
 	cmake_minimum_required(VERSION 2.8.11)
 endif(APPLE)
+
 project(CRPropa Fortran C CXX)
+set(CRPROPA_RELEASE_VERSION 3.1.5+)  # Update for new release
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -56,11 +58,12 @@ if(ENABLE_GIT)
 	include(GetGitRevisionDescription)
 	get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 	git_describe(GIT_DESC --tags)
-else(ENABLE_GIT)
+endif(ENABLE_GIT)
+IF(NOT ENABLE_GIT OR (${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND"))
 	set(GIT_REFSPEC "")
 	set(GIT_SHA1 "")
-	set(GIT_DESC "3.0-no-git")
-endif(ENABLE_GIT)
+	set(GIT_DESC "${CRPROPA_RELEASE_VERSION}-no-git")
+endif()
 
 message(STATUS "CRPropa version: ${GIT_DESC} ${GIT_SHA1} ${GIT_REFSPEC}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp" @ONLY)

@@ -1,18 +1,16 @@
 
 # coding: utf-8
 
-# # Galactic Lensing - confirm liouvelle
+# # Galactic Lensing - confirm liouville
 #
-# Galactic lensing can be applied with the requirement that Liouvelle's theorem
+# Galactic lensing can be applied with the requirement that Liouville's theorem
 # holds, thus in this context: from an isotropic distribution outside the area
-# of influence of the Galactic magnetic field, follows an isotropic arrival
+# of influence of the Galactic magnetic field follows an isotropic arrival
 # distribution at any point within our Galaxy.
-# First, we are setting up the oberver, which we will place further outside of
-# the Galactic center than Earth to axaggerate the observed effects:
+# First, we are setting up the oberver which we will place further outside of
+# the Galactic center than Earth to exaggerate the observed effects:
 
 # In[1]:
-
-get_ipython().magic(u'matplotlib inline')
 
 import crpropa
 import matplotlib.pyplot as plt
@@ -20,12 +18,12 @@ import numpy as np
 
 n = 10000000
 
-# Simulation setup
+# simulation setup
 sim = crpropa.ModuleList()
-# We just need propagation in straight lines here to demonstrate the effect
+# we just need propagation in straight lines here to demonstrate the effect
 sim.add(crpropa.SimplePropagation())
 
-# collect arriving cosmic rays at Observer 19 kpc outside of the Galactic center
+# collect arriving cosmic rays at observer 19 kpc outside of the Galactic center
 # to exaggerate effects
 obs = crpropa.Observer()
 pos_earth = crpropa.Vector3d(-19, 0, 0) * crpropa.kpc
@@ -36,13 +34,13 @@ output = crpropa.ParticleCollector()
 obs.onDetection(output)
 sim.add(obs)
 
-# Discard outwards going cosmic rays, that missed Earth and leave the Galaxy
+# discard outwards going cosmic rays, that missed Earth and leave the Galaxy
 obs_trash = crpropa.Observer()
 obs_trash.add(crpropa.ObserverSurface(crpropa.Sphere(crpropa.Vector3d(0), 21 * crpropa.kpc)))
 sim.add(obs_trash)
 
 
-# ## Lambert distribution
+# ## Lambert's distribution
 # For the source setup we have to consider that from an isotropic propagation
 # in the Extragalactic universe, the directions on any surface element follows
 # the Lambert's distribution (https://en.wikipedia.org/wiki/Lambert%27s_cosine_law).
@@ -54,7 +52,7 @@ sim.add(obs_trash)
 
 # source setup
 source = crpropa.Source()
-# inward=True for inwards directed emission, and False for outwards directed emission
+# inward=True for inwards directed emission and False for outwards directed emission
 center, radius, inward = crpropa.Vector3d(0, 0, 0) * crpropa.kpc, 20 * crpropa.kpc, True
 source.add(crpropa.SourceLambertDistributionOnSphere(center, radius, inward))
 source.add(crpropa.SourceParticleType(-crpropa.nucleusId(1, 1)))
@@ -74,9 +72,9 @@ plt.ylabel('counts', fontsize=20)
 plt.savefig('lon_distribution_lamberts.png', bbox_inches='tight')
 plt.close()
 
-# One can see, this results in an isotropic arrival distribution. Note, that one
-# instad obtain anisotropies if one assumes an isotropic emission from sources
-# that are distributed uniformly on the sphere shell by e.g.
+# One can see this results in an isotropic arrival distribution.
+# Note, that one instead obtains anisotropies if one assumes an isotropic
+# emission from sources that are distributed uniformly on the sphere shell by e.g.
 
 # In[3]:
 

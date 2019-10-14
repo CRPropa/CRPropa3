@@ -179,7 +179,7 @@ Vector3d Random::randVectorLamberts(const Vector3d &normalVector) {
 	}
 	double angle = normalVector.getAngleTo(Vector3d(0, 0, 1));
 	// rotate the random Lamberts vector from z-axis to respective surface element
-	return vLambertz.getRotated(axis, -angle);
+	return vLambertz.getRotated(axis / axis.getR(), -angle);
 }
 
 Vector3d Random::randomInterpolatedPosition(const Vector3d &a, const Vector3d &b) {

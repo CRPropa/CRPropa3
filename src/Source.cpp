@@ -735,7 +735,7 @@ void SourceIsotropicEmission::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceLambertDistributionOnSphere::SourceLambertDistributionOnSphere(Vector3d center, double radius, bool inward) :
+SourceLambertDistributionOnSphere::SourceLambertDistributionOnSphere(const Vector3d &center, double radius, bool inward) :
 		center(center), radius(radius) {
 	this->inward = inward;
 	setDescription();

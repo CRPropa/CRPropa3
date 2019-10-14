@@ -301,8 +301,8 @@ class SourcePulsarDistribution: public SourceFeature {
 	double Zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
-	double R_max;// maximum radial distance - default 22 kpc 
-	double Z_max; // maximum distance from galactic plane - default 5 kpc 
+	double R_max; // maximum radial distance - default 22 kpc 
+	double Z_max; // maximum distance from galactic plane - default 5 kpc
 	double r_blur; // relative smearing factor for the radius
 	double theta_blur; // smearing factor for the angle. Unit = [1/length]
 
@@ -406,7 +406,7 @@ class SourceLambertDistributionOnSphere: public SourceFeature {
 	double radius;
 	bool inward;
 public:
-	SourceLambertDistributionOnSphere(Vector3d center, double radius, bool inward);
+	SourceLambertDistributionOnSphere(const Vector3d &center, double radius, bool inward);
  void prepareParticle(ParticleState &particle) const;
  void setDescription();
 };

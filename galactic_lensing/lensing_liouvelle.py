@@ -72,7 +72,7 @@ plt.hist(np.array(lons), bins=30, color='k', histtype='step')
 plt.xlabel('lon', fontsize=20)
 plt.ylabel('counts', fontsize=20)
 plt.savefig('lon_distribution_lamberts.png', bbox_inches='tight')
-
+plt.close()
 
 # One can see, this results in an isotropic arrival distribution. Note, that one
 # instad obtain anisotropies if one assumes an isotropic emission from sources
@@ -98,3 +98,4 @@ plt.hist(np.array(lons), bins=30, color='k', histtype='step')
 plt.xlabel('lon', fontsize=20)
 plt.ylabel('counts', fontsize=20)
 plt.savefig('lon_distribution_double_isotropic.png', bbox_inches='tight')
+plt.close()

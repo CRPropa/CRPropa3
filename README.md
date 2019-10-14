@@ -1,7 +1,7 @@
 # CRPropa 3 Notebooks
 A set of CRPropa 3 examples to demonstrate functionality and common use cases.
 
-These are IPython notebooks (see [here](https://ipython.org/notebook.html) for more information). 
+These are IPython notebooks (see [here](https://ipython.org/notebook.html) for more information).
 You can view these examples directly on github using the (notebook) links below.
 In case you want to modify and execute an example you need to download and run the notebook or python script locally.
 
@@ -14,6 +14,7 @@ In case you want to modify and execute an example you need to download and run t
  * Galactic trajectories  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/galactic_trajectories/galactic_trajectories.py))
  * Galactic lensing - cosmic rays  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_cr.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/galactic_lensing/lensing_cr.py))
  * Galactic lensing - probability maps  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_maps.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/galactic_lensing/lensing_maps.py))
+ * Galactic Lensing - confirm liouvelle  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_lensing/lensing_liouvelle.v1.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/galactic_lensing/lensing_liouvelle.py))
  * Secondary photons  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/secondaries/photons.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/secondaries/photons.py))
  * Secondary neutrinos  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/secondaries/neutrinos.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/secondaries/neutrinos.py))
  * Magnetic diffusion  ([notebook](https://github.com/CRPropa/CRPropa3-notebooks/blob/master/Diffusion/DiffusionValidationI.v4.ipynb)) ([py](https://raw.githubusercontent.com/CRPropa/CRPropa3-notebooks/master/Diffusion/DiffusionValidationI.py))

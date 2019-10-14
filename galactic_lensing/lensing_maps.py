@@ -2,10 +2,10 @@
 # coding: utf-8
 
 # # Galactic Lensing of Maps
-# 
+#
 # Deflection lenses can also be applied to already existing healpy maps. To see how to create such a map from CRPropa output data look at 'lensing_cr'-examples in this folder.
 
-# In[6]:
+# In[1]:
 
 get_ipython().magic(u'matplotlib inline')
 
@@ -43,7 +43,7 @@ healpy.mollview(map=outputMap, title='Lensed')
 plt.savefig('random_lensed_map.png')
 
 
-# In[7]:
+# In[4]:
 
 #Calculate power spectra
 lmax = 20
@@ -62,4 +62,3 @@ plt.ylabel(' $C_l / C_0$')
 plt.legend()
 plt.show()
 plt.savefig('random_power_spectra.png')
-

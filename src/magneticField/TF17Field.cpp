@@ -206,10 +206,10 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
         } else {
             // within r = r1_disk, the field lines are straight in direction g_phi + phi_star_disk
-            double g_phi = shiftedWindingFunction(r1_disk, z1_disk);
+            double phi1_disk = shiftedWindingFunction(r1_disk, z1_disk) + phi_star_disk;
             double B_amp = B1_disk * exp(-fabs(z1_disk) / H_disk);
-            B_r = cos(g_phi + phi_star_disk) * B_amp;
-            B_phi = sin(g_phi + phi_star_disk) * B_amp;
+            B_r = cos(phi1_disk - phi) * B_amp;
+            B_phi = sin(phi1_disk - phi) * B_amp;
         }
 
     } else if ( Bd1 ){ // Model Bd1 ===================================================
@@ -220,26 +220,25 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
         double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
         double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
         B_r = r_ * z_ * B_r0;
-        B_z = -2/3 * r_ * z_ * z1_disk / r * (r_*r_ + 1/sqrt(r_)) * B_r0;
+        B_z = -2./5. * r_*r_  * z_*z_  * z / r1_disk * (r_*r_ + 1/sqrt(r_)) * B_r0;
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
-
 
     } else if ( Dd1 ){ // Model Dd1 ==================================================
         // for model Bd1, best fit for n = 0.5 
-        double z1_disk_sign = z >= 0 ? z1_disk : -z1_disk; 
-        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk_sign / z) : 1; // avoid zero division
+        double z1_sign = z >= 0 ? 1. : -1.; 
+        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_sign*z1_disk / z) : 1.01; // avoid zero division
         double r1_disk = 1.5 * r / (sqrt(z_) + 0.5/z_);
-        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk_sign);
-        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1;	// avoid zero division
-        int m = 1;
-        double B_z0 = verticalFieldScale(B1_disk, r1_disk, z1_disk_sign, phi1_disk, L_disk, phi_star_disk, m);
+        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_sign*z1_disk);
+        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1.01;	// avoid zero division
+        double F_r = r1_disk  <= L_disk  ? 1 : exp(1 - r1_disk/L_disk);
+        double B_z0 = z1_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk, z1_disk) - phi_star_disk);
         B_r = -0.5/1.5 * r_ * r_ * r1_disk * z_ / z1_disk * (sqrt(z_) - 1/z_) * B_z0;
-        B_z = r_ * r_ * B_z0;
+        B_z = z1_sign * r_ * r_ * B_z0;
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
     }
 
     // Convert to (x, y, z) components
-    b.x = - (B_r * cosPhi - B_phi * sinPhi);	// flip x-component at the end
+    b.x = - (B_r * cosPhi - B_phi * sinPhi); // flip x-component at the end
     b.y = B_r * sinPhi + B_phi * cosPhi;
     b.z = B_z;
 	return b;
@@ -285,13 +284,7 @@ double TF17Field::verticalFieldScale(const double& B1, const double& r1, const d
     if (m == 0) { // m = 0 => cos(m*[...]) = 1
         return B1 * exp(-r1 / L); 
     } else { 
-        if ( Dd1 ) { // parametrization change due to regularization of model A
-            double sign_z1 = z1 >= 0 ? 1 : -1;
-            double F_r = r1 <= L ? 1 : exp(1-r1/L);
-            return sign_z1 * B1 * F_r * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star));
-        } else {
-            return B1 * exp(-r1 / L) * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star));
-        }
+        return B1 * exp(-r1 / L) * cos(m*(phi1 - shiftedWindingFunction(r1, z1) - phi_star));
     }
 }
 

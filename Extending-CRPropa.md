@@ -12,7 +12,9 @@ class MyModule(Module):
         c.current.setEnergy(c.current.getEnergy() * 0.9)
 
 m = ModuleList()
-m.add(MyModule())
+
+mod = MyModule() # See https://github.com/CRPropa/CRPropa3/issues/165
+m.add(mod)
 
 c = Candidate()
 c.current.setEnergy(10)

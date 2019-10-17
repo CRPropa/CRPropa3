@@ -28,32 +28,37 @@ namespace crpropa {
 template<typename T>
 class Vector3 {
 public:
-	T x, y, z;
+	// While data is stored in this array, it is also accessible via x,y,z variables
+	T data[3];
 
-	Vector3() :
-			x(0), y(0), z(0) {
+	T& x = data[0];
+	T& y = data[1];
+	T& z = data[2];
+
+	Vector3(){
+		x = 0; y = 0; z = 0;
 	}
 
 	// Provides implicit conversion
 	template<typename U>
-	Vector3(const Vector3<U> &v) :
-			x(v.x), y(v.y), z(v.z) {
+	Vector3(const Vector3<U> &v) {
+		x = v.x; y = v.y; z = v.z;
 	}
 
-	explicit Vector3(const double *v) :
-			x(v[0]), y(v[1]), z(v[2]) {
+	explicit Vector3(const double *v){
+				x = v[0]; y = v[1]; z = v[2];
 	}
 
-	explicit Vector3(const float *v) :
-			x(v[0]), y(v[1]), z(v[2]) {
+	explicit Vector3(const float *v) {
+				x = v[0]; y = v[1]; z = v[2];
 	}
 
-	explicit Vector3(const T &X, const T &Y, const T &Z) :
-			x(X), y(Y), z(Z) {
+	explicit Vector3(const T &X, const T &Y, const T &Z){
+				x = X; y = Y; z = Z;
 	}
 
-	explicit Vector3(T t) :
-			x(t), y(t), z(t) {
+	explicit Vector3(T t){
+				x = t; y = t; z = t;
 	}
 
 	void setX(const T X) {

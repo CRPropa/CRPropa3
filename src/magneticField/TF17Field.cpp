@@ -195,44 +195,60 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
     double B_z = 0;
 
     if ( Ad1 ){ // Model Ad1 ==========================================================
-        double z1_disk = z * (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r);
+        double z1_disk_z = (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r); // z1_disk / z
         if (r > r1_disk) {
             double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
             // B components in (r, phi, z)
-            double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_disk / z) : 1; // avoid zero division
-            double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk, phi1_disk);
-            B_r = (r1_disk / r) * z_ * B_r0;
-            B_z = 2 * a_disk * r1_disk * z1_disk / (1+ a_disk * r * r) * B_r0;
+            double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk_z*z, phi1_disk);
+            B_r = (r1_disk / r) * z1_disk_z * B_r0;
+            B_z = 2 * a_disk * r1_disk * z1_disk_z*z / (1+ a_disk * r * r) * B_r0;
             B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
         } else {
             // within r = r1_disk, the field lines are straight in direction g_phi + phi_star_disk
-            double phi1_disk = shiftedWindingFunction(r1_disk, z1_disk) + phi_star_disk;
-            double B_amp = B1_disk * exp(-fabs(z1_disk) / H_disk);
+            double phi1_disk = shiftedWindingFunction(r1_disk, z1_disk_z*z) + phi_star_disk;
+            double B_amp = B1_disk * exp(-fabs(z1_disk_z*z) / H_disk);
             B_r = cos(phi1_disk - phi) * B_amp;
             B_phi = sin(phi1_disk - phi) * B_amp;
         }
 
     } else if ( Bd1 ){ // Model Bd1 ===================================================
         // for model Bd1, best fit for n = 2 
-        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1.01;	// avoid zero division
-        double z1_disk_z = 5 / (r_*r_ + 4/sqrt(r_)); // z1_disk / z -> remove z dependancy 
-        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk_z*z);
-        double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk_z*z, phi1_disk);
-        B_r = r_ * z1_disk_z * B_r0;
-        B_z = -2./5. * r_*r_  * z1_disk_z* z1_disk_z * z / r1_disk * (r_*r_ - 1/sqrt(r_)) * B_r0;
+        if ( r > std::numeric_limits<double>::epsilon() ) {
+            double r1_disk_r = r1_disk / r;	
+            double z1_disk_z = 5. / (r1_disk_r*r1_disk_r + 4./sqrt(r1_disk_r)); // z1_disk / z -> remove z dependancy 
+            double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk_z*z);
+            double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk_z*z, phi1_disk);
+            B_r = r1_disk_r * z1_disk_z * B_r0;
+            B_z = -0.4 * r1_disk_r / r * z1_disk_z* z1_disk_z * z * (r1_disk_r*r1_disk_r - 1./sqrt(r1_disk_r)) * B_r0;
+        } else {
+            double z1_disk_z = 5. * r*r / (r1_disk*r1_disk); // z1_disk / z -> remove z dependancy 
+            double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk_z*z);
+            double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk_z*z, phi1_disk);
+            B_r = 5. * r / r1_disk * B_r0;
+            B_z = -10. * z / r1_disk * B_r0;
+        }
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 
     } else if ( Dd1 ){ // Model Dd1 ==================================================
-        // for model Bd1, best fit for n = 0.5 
-        double z1_sign = z >= 0 ? 1. : -1.; 
-        double z_ = fabs(z) > std::numeric_limits<double>::epsilon() ? (z1_sign*z1_disk / z) : 1.01; // avoid zero division
-        double r1_disk = 1.5 * r / (sqrt(z_) + 0.5/z_);
-        double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_sign*z1_disk);
-        double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_disk / r) : 1.01;	// avoid zero division
-        double F_r = r1_disk  <= L_disk  ? 1 : exp(1 - r1_disk/L_disk);
-        double B_z0 = z1_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk, z1_disk) - phi_star_disk);
-        B_r = -0.5/1.5 * r_ * r_ * r1_disk * z_ / z1_disk * (sqrt(z_) - 1/z_) * B_z0;
-        B_z = z1_sign * r_ * r_ * B_z0;
+        // for model Dd1, best fit for n = 0.5 
+        double z_sign = z >= 0 ? 1. : -1.; 
+        double z_abs = z_sign * z; // equivalent to fabs(z)
+        if ( z_abs > std::numeric_limits<double>::epsilon() ) {
+            double z1_disk_z = z1_disk / z_abs; 
+            double r1_disk_r = 1.5 / (sqrt(z1_disk_z) + 0.5/z1_disk_z); // r1_disk / r
+            double phi1_disk = phi - shiftedWindingFunction(r, z_abs) + shiftedWindingFunction(r1_disk, z1_disk);
+            double F_r = r1_disk  <= L_disk ? 1 : exp(1 - r1_disk_r*r/L_disk);
+            double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk, z1_disk) - phi_star_disk);
+            B_r = -0.5/1.5 * r1_disk_r * r1_disk_r * r1_disk_r * r / z_abs * (sqrt(z1_disk_z) - 1/z1_disk_z) * B_z0;
+            B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
+        } else {
+            double r1_disk_r = 1.5 * sqrt(z_abs / z1_disk); // r1_disk / r
+            double phi1_disk = phi - shiftedWindingFunction(r, z_sign*z) + shiftedWindingFunction(r1_disk, z1_disk);
+            double F_r = r1_disk  <= L_disk ? 1 : exp(1 - r1_disk_r*r/L_disk);
+            double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk, z1_disk) - phi_star_disk);
+            B_r = -1.125 * r / z1_disk * B_z0;
+            B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
+        }
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
     }
 

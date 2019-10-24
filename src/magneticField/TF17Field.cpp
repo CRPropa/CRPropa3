@@ -236,16 +236,16 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
         if ( z_abs > std::numeric_limits<double>::epsilon() ) {
             double z1_disk_z = z1_disk / z_abs; 
             double r1_disk_r = 1.5 / (sqrt(z1_disk_z) + 0.5/z1_disk_z); // r1_disk / r
-            double phi1_disk = phi - shiftedWindingFunction(r, z_abs) + shiftedWindingFunction(r1_disk, z1_disk);
-            double F_r = r1_disk  <= L_disk ? 1 : exp(1 - r1_disk_r*r/L_disk);
-            double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk, z1_disk) - phi_star_disk);
+            double phi1_disk = phi - shiftedWindingFunction(r, z_abs) + shiftedWindingFunction(r1_disk_r*r, z1_disk);
+            double F_r = r1_disk_r*r  <= L_disk ? 1. : exp(1. - r1_disk_r*r/L_disk);
+            double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk_r*r, z1_disk) - phi_star_disk);
             B_r = -0.5/1.5 * r1_disk_r * r1_disk_r * r1_disk_r * r / z_abs * (sqrt(z1_disk_z) - 1/z1_disk_z) * B_z0;
             B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
         } else {
             double r1_disk_r = 1.5 * sqrt(z_abs / z1_disk); // r1_disk / r
-            double phi1_disk = phi - shiftedWindingFunction(r, z_sign*z) + shiftedWindingFunction(r1_disk, z1_disk);
-            double F_r = r1_disk  <= L_disk ? 1 : exp(1 - r1_disk_r*r/L_disk);
-            double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk, z1_disk) - phi_star_disk);
+            double phi1_disk = phi - shiftedWindingFunction(r, z_sign*z) + shiftedWindingFunction(r1_disk_r*r, z1_disk);
+            double F_r = r1_disk_r*r  <= L_disk ? 1. : exp(1. - r1_disk_r*r/L_disk);
+            double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk_r*r, z1_disk) - phi_star_disk);
             B_r = -1.125 * r / z1_disk * B_z0;
             B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
         }
@@ -265,13 +265,12 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
     else if ( C1 ){ m = 1; }
 
 	Vector3d b(0.);
-	double r1_halo = r / (1 + a_halo * z * z);
-	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo, z1_halo);
+	double r1_halo_r = 1. / (1. + a_halo * z * z);
+	double phi1_halo = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_halo_r*r, z1_halo);
 	// B components in (r, phi, z)
-	double r_ = r > std::numeric_limits<double>::epsilon() ? (r1_halo / r) : 1;	// avoid zero division
-    double B_z0 = verticalFieldScale(B1_halo, r1_halo, z1_halo, phi1_halo, L_halo, phi_star_halo, m);
-	double B_r = 2 * a_halo * r_ * r_ * r1_halo * z * B_z0;
-	double B_z = r_ * r_ * B_z0; 
+    double B_z0 = verticalFieldScale(B1_halo, r1_halo_r*r, z1_halo, phi1_halo, L_halo, phi_star_halo, m);
+	double B_r = 2 * a_halo * r1_halo_r * r1_halo_r * r1_halo_r * r * z * B_z0;
+	double B_z = r1_halo_r * r1_halo_r * B_z0; 
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 
 	// Convert to (x, y, z) components

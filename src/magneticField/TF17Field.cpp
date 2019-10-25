@@ -154,6 +154,8 @@ TF17Field::TF17Field(string halo_model, string disk_model){
         exit(-1);
 
     }
+
+    epsilon = std::numeric_limits<double>::epsilon();
 }
 
 void TF17Field::setUseDiskField(bool use) {
@@ -213,7 +215,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
 
     } else if ( Bd1 ){ // Model Bd1 ===================================================
         // for model Bd1, best fit for n = 2 
-        if ( r > std::numeric_limits<double>::epsilon() ) {
+        if ( r > epsilon ) {
             double r1_disk_r = r1_disk / r;	
             double z1_disk_z = 5. / (r1_disk_r*r1_disk_r + 4./sqrt(r1_disk_r)); // z1_disk / z -> remove z dependancy 
             double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk_z*z);
@@ -232,8 +234,8 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
     } else if ( Dd1 ){ // Model Dd1 ==================================================
         // for model Dd1, best fit for n = 0.5 
         double z_sign = z >= 0 ? 1. : -1.; 
-        double z_abs = z_sign * z; // equivalent to fabs(z)
-        if ( z_abs > std::numeric_limits<double>::epsilon() ) {
+        double z_abs = fabs(z); 
+        if ( z_abs > epsilon ) {
             double z1_disk_z = z1_disk / z_abs; 
             double r1_disk_r = 1.5 / (sqrt(z1_disk_z) + 0.5/z1_disk_z); // r1_disk / r
             double phi1_disk = phi - shiftedWindingFunction(r, z_abs) + shiftedWindingFunction(r1_disk_r*r, z1_disk);
@@ -242,11 +244,12 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_r = -0.5/1.5 * r1_disk_r * r1_disk_r * r1_disk_r * r / z_abs * (sqrt(z1_disk_z) - 1/z1_disk_z) * B_z0;
             B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
         } else {
+            double z_z1_disk = z_abs / z1_disk; 
             double r1_disk_r = 1.5 * sqrt(z_abs / z1_disk); // r1_disk / r
-            double phi1_disk = phi - shiftedWindingFunction(r, z_sign*z) + shiftedWindingFunction(r1_disk_r*r, z1_disk);
+            double phi1_disk = phi - shiftedWindingFunction(r, z_abs) + shiftedWindingFunction(r1_disk_r*r, z1_disk);
             double F_r = r1_disk_r*r  <= L_disk ? 1. : exp(1. - r1_disk_r*r/L_disk);
             double B_z0 = z_sign * B1_disk * F_r * cos(phi1_disk - shiftedWindingFunction(r1_disk_r*r, z1_disk) - phi_star_disk);
-            B_r = -1.125 * r / z1_disk * B_z0;
+            B_r = -1.125 * r / z1_disk * (1 - 2.5 * z_z1_disk * sqrt(z_z1_disk)) * B_z0;
             B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
         }
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
@@ -283,8 +286,9 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 
 double TF17Field::azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const {
 	double r_ = r / L_p;
-	double B_phi = cot_p0 / zscale(z) * r_ * exp(-r_) / (1 - exp(-r_)) * B_r - \
-                     2 * cot_p0 * z / (H_p * H_p) / (zscale(z) * zscale(z)) * r * log(1 - exp(-r_)) * B_z;
+    double rscale = r > epsilon ? r_ * exp(-r_) / (1 - exp(-r_)) : 1 - r_/2. ;
+	double B_phi = cot_p0 / zscale(z) * rscale * B_r;
+    B_phi = B_phi - 2 * z / (H_p * H_p) / zscale(z) * shiftedWindingFunction(r, z) * B_z;
 	return B_phi;
 }
 
@@ -303,7 +307,7 @@ double TF17Field::verticalFieldScale(const double& B1, const double& r1, const d
 }
 
 double TF17Field::shiftedWindingFunction(const double& r, const double& z) const {
-	return cot_p0 * log(1 - exp(-r / L_p)) / zscale(z);
+    return cot_p0 * log(1 - exp(-r / L_p) + epsilon) / zscale(z);
 }
 
 double TF17Field::zscale(const double& z) const {

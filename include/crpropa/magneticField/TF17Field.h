@@ -47,6 +47,9 @@ private:
 	double H_p;
 	double L_p;
 
+	// security to avoid 0 division
+	double epsilon;
+
 	void SetParams();
 
 public:

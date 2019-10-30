@@ -197,8 +197,8 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
     double B_z = 0;
 
     if ( Ad1 ){ // Model Ad1 ==========================================================
-        double z1_disk_z = (1 + a_disk * r1_disk * r1_disk) / (1 + a_disk * r * r); // z1_disk / z
         if (r > r1_disk) {
+            double z1_disk_z = (1. + a_disk * r1_disk * r1_disk) / (1. + a_disk * r * r); // z1_disk / z
             double phi1_disk = phi - shiftedWindingFunction(r, z) + shiftedWindingFunction(r1_disk, z1_disk);
             // B components in (r, phi, z)
             double B_r0 = radialFieldScale(B1_disk, r1_disk, z1_disk_z*z, phi1_disk);
@@ -207,8 +207,9 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
         } else {
             // within r = r1_disk, the field lines are straight in direction g_phi + phi_star_disk
-            double phi1_disk = shiftedWindingFunction(r1_disk, z1_disk_z*z) + phi_star_disk;
-            double B_amp = B1_disk * exp(-fabs(z1_disk_z*z) / H_disk);
+            // and thus z = z1
+            double phi1_disk = shiftedWindingFunction(r1_disk, z) + phi_star_disk;
+            double B_amp = B1_disk * exp(-fabs(z) / H_disk);
             B_r = cos(phi1_disk - phi) * B_amp;
             B_phi = sin(phi1_disk - phi) * B_amp;
         }
@@ -286,9 +287,9 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 
 double TF17Field::azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const {
 	double r_ = r / L_p;
-    double rscale = r > epsilon ? r_ * exp(-r_) / (1 - exp(-r_)) : 1 - r_/2. ;
+    double rscale = r > epsilon ? r_ * exp(-r_) / (1 - exp(-r_)) : 1 - r_/2. - r_*r_/12. ;
 	double B_phi = cot_p0 / zscale(z) * rscale * B_r;
-    B_phi = B_phi - 2 * z / (H_p * H_p) / zscale(z) * shiftedWindingFunction(r, z) * B_z;
+    B_phi = B_phi - 2 * z * r / (H_p * H_p) / zscale(z) * shiftedWindingFunction(r, z) * B_z;
 	return B_phi;
 }
 
@@ -311,7 +312,7 @@ double TF17Field::shiftedWindingFunction(const double& r, const double& z) const
 }
 
 double TF17Field::zscale(const double& z) const {
-	return 1 + (fabs(z) / H_p) * (fabs(z) / H_p);
+	return 1 + z * z / H_p / H_p;
 }
 
 } // namespace crpropa

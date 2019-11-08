@@ -19,7 +19,7 @@ TF17Field::TF17Field(string halo_model, string disk_model){
     if (( halo_model == "C0" ) && ( disk_model == "Ad1" )){
 	    // disk parameters
         Ad1 = true;
-	    r1_disk = 3 * kpc;
+	    setr1Disk(3 * kpc);
 	    B1_disk = 19.0 * muG;
 	    H_disk = 0.055 * kpc;
 	    phi_star_disk = -54 * M_PI / 180;
@@ -27,7 +27,7 @@ TF17Field::TF17Field(string halo_model, string disk_model){
 
 	    // halo parameters
         C0 = true;
-	    z1_halo = 0 * kpc;
+	    setz1Halo(0 * kpc);
 	    B1_halo = 0.36 * muG;
 	    L_halo = 3.0 * kpc;
 	    a_halo = 1.17 / kpc / kpc;
@@ -41,14 +41,14 @@ TF17Field::TF17Field(string halo_model, string disk_model){
     } else if (( halo_model == "C0" ) && ( disk_model == "Bd1" )){
 	    // disk parameters
         Bd1 = true;
-	    r1_disk = 3 * kpc;
+	    setr1Disk(3 * kpc);
 	    B1_disk = 2.0 * muG;
 	    H_disk = 0.32 * kpc;
 	    phi_star_disk = -31 * M_PI / 180;
 
 	    // halo parameters
         C0 = true;
-	    z1_halo = 0 * kpc;
+	    setz1Halo(0 * kpc);
 	    B1_halo = 9.0 * muG;
 	    L_halo = 3.4 * kpc;
 	    a_halo = 0.88 / kpc / kpc;
@@ -62,14 +62,14 @@ TF17Field::TF17Field(string halo_model, string disk_model){
     } else if (( halo_model == "C0" ) && ( disk_model == "Dd1" )){
 	    // disk parameters
         Dd1 = true;
-	    z1_disk = 1.5 * kpc;
+	    setz1Disk(1.5 * kpc);
 	    B1_disk = 0.065 * muG;
 	    L_disk = 9.8 * kpc;
 	    phi_star_disk = 14 * M_PI / 180;
 
 	    // halo parameters
         C0 = true;
-	    z1_halo = 0 * kpc;
+	    setz1Halo(0 * kpc);
 	    B1_halo = 0.18 * muG;
 	    L_halo = 4.8 * kpc;
 	    a_halo = 0.61 / kpc / kpc;
@@ -83,7 +83,7 @@ TF17Field::TF17Field(string halo_model, string disk_model){
     } else if (( halo_model == "C1" ) && ( disk_model == "Ad1" )){
 	    // disk parameters
         Ad1 = true;
-	    r1_disk = 3 * kpc;
+	    setr1Disk(3 * kpc);
 	    B1_disk = 32.0 * muG;
 	    H_disk = 0.054 * kpc;
 	    phi_star_disk = -31 * M_PI / 180;
@@ -91,7 +91,8 @@ TF17Field::TF17Field(string halo_model, string disk_model){
 
 	    // halo parameters
         C1 = true;
-	    z1_halo = 0 * kpc;
+	    setz1Halo(0 * kpc);
+	    B1_halo = 0.18 * muG;
 	    B1_halo = 9.0 * muG;
 	    L_halo = 2.1 * kpc;
 	    phi_star_halo = 198 * M_PI / 180;
@@ -106,14 +107,15 @@ TF17Field::TF17Field(string halo_model, string disk_model){
     } else if (( halo_model == "C1" ) && ( disk_model == "Bd1" )){
 	    // disk parameters
         Bd1 = true;
-	    r1_disk = 3 * kpc;
+	    setr1Disk(3 * kpc);
 	    B1_disk = 24 * muG;
 	    H_disk = 0.090 * kpc;
 	    phi_star_disk = -34 * M_PI / 180;
 
 	    // halo parameters
         C1 = true;
-	    z1_halo = 0 * kpc;
+	    setz1Halo(0 * kpc);
+	    B1_halo = 0.18 * muG;
 	    B1_halo = 8.2 * muG;
 	    L_halo = 2.2 * kpc;
 	    phi_star_halo = 197 * M_PI / 180;
@@ -128,14 +130,15 @@ TF17Field::TF17Field(string halo_model, string disk_model){
     } else if (( halo_model == "C1" ) && ( disk_model == "Dd1" )){
 	    // disk parameters
         Dd1 = true;
-	    z1_disk = 1.5 * kpc;
+	    setz1Disk(1.5 * kpc);
 	    B1_disk = 0.40 * muG;
 	    L_disk = 2.9 * kpc;
 	    phi_star_disk = 120 * M_PI / 180;
 
 	    // halo parameters
         C1 = true;
-	    z1_halo = 0 * kpc;
+	    setz1Halo(0 * kpc);
+	    B1_halo = 0.18 * muG;
 	    B1_halo = 9.5 * muG;
 	    L_halo = 2.1 * kpc;
 	    phi_star_halo = 197 * M_PI / 180;
@@ -172,6 +175,18 @@ bool TF17Field::isUsingDiskField() {
 
 bool TF17Field::isUsingHaloField() {
 	return useHaloField;
+}
+
+void TF17Field::setz1Disk(const double z1){
+    z1_disk = z1;
+}
+
+void TF17Field::setr1Disk(const double r1){
+    r1_disk = r1;
+}
+
+void TF17Field::setz1Halo(const double z1){
+    z1_halo = z1;
 }
 
 Vector3d TF17Field::getField(const Vector3d& pos) const {
@@ -263,7 +278,7 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
     int m;
 
 	Vector3d b(0.);
-	double r1_halo_r = 1. / (1. + a_halo * z * z);
+	double r1_halo_r =  (1. + a_halo * z1_halo * z1_halo) / (1. + a_halo * z * z);
 	// B components in (r, phi, z)
     double B_z0;
     if ( C0 ){ // m = 0
@@ -274,7 +289,10 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
         B_z0 = B1_halo * exp(-r1_halo_r*r / L_halo) * cos(phi_prime); 
     }
 
-	double B_r = 2 * a_halo * r1_halo_r * r1_halo_r * r1_halo_r * r * z * B_z0;
+    // Contrary to article, Br has been rewriten to a little bit by replacing
+    // (2 * a * r1**3 * z) / (r**2) by (2 * a * r1**2 * z) / (r * (1+a*z**2))
+    // but that is strictly equivalent except we can reintroduce the z1 in the expression via r1
+	double B_r = 2 * a_halo * r1_halo_r * r1_halo_r * r * z / (1. + a_halo * z * z) * B_z0;
 	double B_z = r1_halo_r * r1_halo_r * B_z0; 
 	double B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
 

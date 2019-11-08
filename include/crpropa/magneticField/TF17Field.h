@@ -60,6 +60,10 @@ public:
 	bool isUsingDiskField();
 	bool isUsingHaloField();
 
+    void setz1Disk(const double z1);
+    void setr1Disk(const double r1);
+    void setz1Halo(const double z1);
+
 	Vector3d getField(const Vector3d& pos) const;
 	Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
 	Vector3d getHaloField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;

@@ -37,13 +37,13 @@ private:
 	bool useHaloField;
 	double a_halo;
 	double z1_halo;
-	double cot_p0;
 	double B1_halo;
 	double L_halo;
 	double phi_star_halo;
 
 	// universal parameters
 	double p_0;
+	double cot_p0;
 	double H_p;
 	double L_p;
 
@@ -60,9 +60,23 @@ public:
 	bool isUsingDiskField();
 	bool isUsingHaloField();
 
-    void setz1Disk(const double z1);
-    void setr1Disk(const double r1);
-    void setz1Halo(const double z1);
+    void set_B1_disk(const double B1);
+    void set_z1_disk(const double z1);
+    void set_r1_disk(const double r1);
+    void set_H_disk(const double H);
+    void set_L_disk(const double L);
+    void set_a_disk(const double a);
+    void set_phi_star_disk(const double phi);
+
+    void set_B1_halo(const double B1);
+    void set_z1_halo(const double z1);
+    void set_L_halo(const double L);
+    void set_a_halo(const double a);
+    void set_phi_star_halo(const double phi);
+
+    void set_Hp(const double H);
+    void set_Lp(const double L);
+    void set_p0(const double p0);
 
 	Vector3d getField(const Vector3d& pos) const;
 	Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;

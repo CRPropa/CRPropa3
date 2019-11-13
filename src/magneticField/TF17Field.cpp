@@ -19,136 +19,127 @@ TF17Field::TF17Field(string disk_model, string halo_model){
     if (( halo_model == "C0" ) && ( disk_model == "Ad1" )){
 	    // disk parameters
         Ad1 = true;
-	    setr1Disk(3 * kpc);
-	    B1_disk = 19.0 * muG;
-	    H_disk = 0.055 * kpc;
-	    phi_star_disk = -54 * M_PI / 180;
-	    a_disk = 0.9 / kpc / kpc;
+	    set_r1_disk(3 * kpc);
+	    set_B1_disk(19.0 * muG);
+	    set_H_disk(0.055 * kpc);
+	    set_phi_star_disk(-54 * M_PI / 180);
+	    set_a_disk(0.9 / kpc / kpc);
 
 	    // halo parameters
         C0 = true;
-	    setz1Halo(0 * kpc);
-	    B1_halo = 0.36 * muG;
-	    L_halo = 3.0 * kpc;
-	    a_halo = 1.17 / kpc / kpc;
+	    set_z1_halo(0);
+	    set_B1_halo(0.36 * muG);
+	    set_L_halo(3.0 * kpc);
+	    set_a_halo(1.17 / kpc / kpc);
 
 	    // shared parameters
-	    p_0 = -7.9 * M_PI / 180;
-	    cot_p0 = cos(p_0) / sin(p_0);
-	    H_p = 5 * kpc;
-	    L_p = 18 * kpc;	
+	    set_p0(-7.9 * M_PI / 180);
+	    set_Hp(5 * kpc);
+	    set_Lp(50 * kpc); // > 18 kpc
 
     } else if (( halo_model == "C0" ) && ( disk_model == "Bd1" )){
 	    // disk parameters
         Bd1 = true;
-	    setr1Disk(3 * kpc);
-	    B1_disk = 2.0 * muG;
-	    H_disk = 0.32 * kpc;
-	    phi_star_disk = -31 * M_PI / 180;
+	    set_r1_disk(3 * kpc);
+	    set_B1_disk(2.0 * muG);
+	    set_H_disk(0.32 * kpc);
+	    set_phi_star_disk(153 * M_PI / 180);
 
 	    // halo parameters
         C0 = true;
-	    setz1Halo(0 * kpc);
-	    B1_halo = 9.0 * muG;
-	    L_halo = 3.4 * kpc;
-	    a_halo = 0.88 / kpc / kpc;
+	    set_z1_halo(0);
+	    set_B1_halo(0.29 * muG);
+	    set_L_halo(3.4 * kpc);
+	    set_a_halo(0.88 / kpc / kpc);
 
 	    // shared parameters
-	    p_0 = -7.2 * M_PI / 180;
-	    cot_p0 = cos(p_0) / sin(p_0);
-	    H_p = 9 * kpc;
-	    L_p = 16 * kpc;		
+	    set_p0(-7.2 * M_PI / 180);
+	    set_Hp(9 * kpc);
+	    set_Lp(50 * kpc); // > 16 kpc
 
     } else if (( halo_model == "C0" ) && ( disk_model == "Dd1" )){
 	    // disk parameters
         Dd1 = true;
-	    setz1Disk(1.5 * kpc);
-	    B1_disk = 0.065 * muG;
-	    L_disk = 9.8 * kpc;
-	    phi_star_disk = 14 * M_PI / 180;
+	    set_z1_disk(1.5 * kpc);
+	    set_B1_disk(0.065 * muG);
+	    set_L_disk(9.8 * kpc);
+	    set_phi_star_disk(14 * M_PI / 180);
 
 	    // halo parameters
         C0 = true;
-	    setz1Halo(0 * kpc);
-	    B1_halo = 0.18 * muG;
-	    L_halo = 4.8 * kpc;
-	    a_halo = 0.61 / kpc / kpc;
+	    set_z1_halo(0);
+	    set_B1_halo(0.18 * muG);
+	    set_L_halo(4.8 * kpc);
+	    set_a_halo(0.61 / kpc / kpc);
 
 	    // shared parameters
-	    p_0 = -7.4 * M_PI / 180;
-	    cot_p0 = cos(p_0) / sin(p_0);
-	    H_p = 4.2 * kpc;
-	    L_p = 22 * kpc;		
+	    set_p0(-7.4 * M_PI / 180);
+	    set_Hp(4.2 * kpc);
+	    set_Lp(50 * kpc); // > 22 kpc
 
     } else if (( halo_model == "C1" ) && ( disk_model == "Ad1" )){
 	    // disk parameters
         Ad1 = true;
-	    setr1Disk(3 * kpc);
-	    B1_disk = 32.0 * muG;
-	    H_disk = 0.054 * kpc;
-	    phi_star_disk = -31 * M_PI / 180;
-	    a_disk = 0.031 / kpc / kpc;
+	    set_r1_disk(3 * kpc);
+	    set_B1_disk(32.0 * muG);
+	    set_H_disk(0.054 * kpc);
+	    set_phi_star_disk(-31 * M_PI / 180);
+	    set_a_disk(0.031 / kpc / kpc);
 
 	    // halo parameters
         C1 = true;
-	    setz1Halo(0 * kpc);
-	    B1_halo = 0.18 * muG;
-	    B1_halo = 9.0 * muG;
-	    L_halo = 2.1 * kpc;
-	    phi_star_halo = 198 * M_PI / 180;
-	    a_halo = 0.33 / kpc / kpc;
+	    set_z1_halo(0);
+	    set_B1_halo(9.0 * muG);
+	    set_L_halo(2.1 * kpc);
+	    set_phi_star_halo(198 * M_PI / 180);
+	    set_a_halo(0.33 / kpc / kpc);
 
 	    // shared parameters
-	    p_0 = -9.1 * M_PI / 180;
-	    cot_p0 = cos(p_0) / sin(p_0);
-	    H_p = 1.2 * kpc;
-	    L_p = 38 * kpc;	
+	    set_p0(-9.1 * M_PI / 180);
+	    set_Hp(1.2 * kpc);
+	    set_Lp(50 * kpc); // > 38 kpc
 
     } else if (( halo_model == "C1" ) && ( disk_model == "Bd1" )){
 	    // disk parameters
         Bd1 = true;
-	    setr1Disk(3 * kpc);
-	    B1_disk = 24 * muG;
-	    H_disk = 0.090 * kpc;
-	    phi_star_disk = -34 * M_PI / 180;
+	    set_r1_disk(3 * kpc);
+	    set_B1_disk(24 * muG);
+	    set_H_disk(0.090 * kpc);
+	    set_phi_star_disk(-34 * M_PI / 180);
 
 	    // halo parameters
         C1 = true;
-	    setz1Halo(0 * kpc);
-	    B1_halo = 0.18 * muG;
-	    B1_halo = 8.2 * muG;
-	    L_halo = 2.2 * kpc;
-	    phi_star_halo = 197 * M_PI / 180;
-	    a_halo = 0.38 / kpc / kpc;
+	    set_z1_halo(0);
+	    set_B1_halo(8.2 * muG);
+	    set_L_halo(2.2 * kpc);
+	    set_phi_star_halo(197 * M_PI / 180);
+	    set_a_halo(0.38 / kpc / kpc);
 
 	    // shared parameters
-	    p_0 = -9.0 * M_PI / 180;
-	    cot_p0 = cos(p_0) / sin(p_0);
-	    H_p = 1.2 * kpc;
-	    L_p = 38 * kpc;		
+	    set_p0(-9.0 * M_PI / 180);
+	    set_Hp(1.2 * kpc);
+	    set_Lp(50 * kpc); // > 38 kpc
 
     } else if (( halo_model == "C1" ) && ( disk_model == "Dd1" )){
 	    // disk parameters
         Dd1 = true;
-	    setz1Disk(1.5 * kpc);
-	    B1_disk = 0.40 * muG;
-	    L_disk = 2.9 * kpc;
-	    phi_star_disk = 120 * M_PI / 180;
+	    set_z1_disk(1.5 * kpc);
+	    set_B1_disk(0.40 * muG);
+	    set_L_disk(2.9 * kpc);
+	    set_phi_star_disk(120 * M_PI / 180);
 
 	    // halo parameters
         C1 = true;
-	    setz1Halo(0 * kpc);
-	    B1_halo = 0.18 * muG;
-	    B1_halo = 9.5 * muG;
-	    L_halo = 2.1 * kpc;
-	    phi_star_halo = 197 * M_PI / 180;
-	    a_halo = 0.45 / kpc / kpc;
+	    set_z1_halo(0);
+	    set_B1_halo(9.5 * muG);
+	    set_L_halo(2.1 * kpc);
+	    set_phi_star_halo(179 * M_PI / 180);
+        set_a_halo(0.45 / kpc / kpc);
 
 	    // shared parameters
-	    p_0 = -8.4 * M_PI / 180;
-	    cot_p0 = cos(p_0) / sin(p_0);
-	    H_p = 1.2 * kpc;
-	    L_p = 30 * kpc;	    
+	    set_p0(-8.4 * M_PI / 180);
+	    set_Hp(1.2 * kpc);
+	    set_Lp(50 * kpc); // > 30 kpc
     
     } else { // wrong model
         cerr << "ERROR in TD17Field declaration:" << endl;
@@ -161,33 +152,33 @@ TF17Field::TF17Field(string disk_model, string halo_model){
     epsilon = std::numeric_limits<double>::epsilon();
 }
 
-void TF17Field::setUseDiskField(bool use) {
-	useDiskField = use;
+void TF17Field::setUseDiskField(bool use) {	useDiskField = use; }
+void TF17Field::setUseHaloField(bool use) { useHaloField = use; }
+
+bool TF17Field::isUsingDiskField() { return useDiskField; }
+bool TF17Field::isUsingHaloField() { return useHaloField; }
+
+void TF17Field::set_B1_disk(const double B1){ B1_disk = B1; }
+void TF17Field::set_z1_disk(const double z1){ z1_disk = z1; }
+void TF17Field::set_r1_disk(const double r1){ r1_disk = r1; }
+void TF17Field::set_H_disk(const double H){ H_disk = H; }
+void TF17Field::set_L_disk(const double L){ L_disk = L; }
+void TF17Field::set_a_disk(const double a){ a_disk = a; }
+void TF17Field::set_phi_star_disk(const double phi){ phi_star_disk = phi; }
+
+void TF17Field::set_B1_halo(const double B1){ B1_halo = B1; }
+void TF17Field::set_z1_halo(const double z1){ z1_halo = z1; }
+void TF17Field::set_L_halo(const double L){ L_halo = L; }
+void TF17Field::set_a_halo(const double a){ a_halo = a; }
+void TF17Field::set_phi_star_halo(const double phi){ phi_star_halo = phi; }
+
+void TF17Field::set_Hp(const double H){ H_p = H; }
+void TF17Field::set_Lp(const double L){ L_p = L; }
+void TF17Field::set_p0(const double p0){ 
+    p_0 = p0; 
+    cot_p0 = cos(p_0) / sin(p_0);
 }
 
-void TF17Field::setUseHaloField(bool use) {
-	useHaloField = use;
-}
-
-bool TF17Field::isUsingDiskField() {
-	return useDiskField;
-}
-
-bool TF17Field::isUsingHaloField() {
-	return useHaloField;
-}
-
-void TF17Field::setz1Disk(const double z1){
-    z1_disk = z1;
-}
-
-void TF17Field::setr1Disk(const double r1){
-    r1_disk = r1;
-}
-
-void TF17Field::setz1Halo(const double z1){
-    z1_halo = z1;
-}
 
 Vector3d TF17Field::getField(const Vector3d& pos) const {
 	double r = sqrt(pos.x * pos.x + pos.y * pos.y);  // in-plane radius

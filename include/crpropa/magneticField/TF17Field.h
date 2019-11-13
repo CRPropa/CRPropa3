@@ -53,7 +53,7 @@ private:
 	void SetParams();
 
 public:
-	TF17Field(string halo_model="C1", string disk_model="Ad1");
+	TF17Field(string disk_model="Ad1", string halo_model="C1");
 
 	void setUseDiskField(bool use);
 	void setUseHaloField(bool use);

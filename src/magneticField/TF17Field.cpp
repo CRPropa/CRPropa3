@@ -7,7 +7,7 @@
 namespace crpropa {
 using namespace std;
 
-TF17Field::TF17Field(string halo_model, string disk_model){
+TF17Field::TF17Field(string disk_model, string halo_model){
     useHaloField = true;
     useDiskField = true;
     C0 = false;

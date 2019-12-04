@@ -223,9 +223,9 @@ double Ferriere::getNucleonDensity(const Vector3d &position) const{
 	}
 
 	// check if any density is activ and give warning if not
-	if(isforHI||isforHII||isforH2 == false){
+	if((isforHI||isforHII||isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\n called getDensity on deactivated ConstantDensity \n"
+			<< "\n called getDensity on deactivated Ferriere \n"
 			<< "returned 0 density\n"
 			<< "please activate\n";
 	}

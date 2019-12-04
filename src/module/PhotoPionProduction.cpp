@@ -27,9 +27,14 @@ PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool n
 
 void PhotoPionProduction::setPhotonField(PhotonField field) {
 	photonField = field;
-	if (field==CMB && haveRedshiftDependence) {
-		std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
-		haveRedshiftDependence = false;
+	if (haveRedshiftDependence) {
+		if (field==CMB){
+			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
+			haveRedshiftDependence = false;
+		}
+		else {
+			KISS_LOG_WARNING << "PhotoPionProduction: You are using the 2-dimensional tabulated redshift evolution, which is not available for other interactions. To be consistent across all interactions you may deactivate this <setHaveRedshiftDependence(False)>.";
+		}
 	}
 	std::string fname = photonFieldName(field);
 	setDescription("PhotoPionProduction: " + fname);

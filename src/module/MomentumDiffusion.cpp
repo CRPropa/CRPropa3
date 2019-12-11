@@ -21,10 +21,10 @@ limit(0.1)
 void MomentumDiffusion::process(Candidate *c) const {
 
 	double p = c->current.getEnergy()/c_light; // Note we use E=p/c (relativistic limit)
-	double rig = p*c_light / c->current.getCharge();
+	double rig = c->current.getRigidity();
 	double dt = c->getCurrentStep() / c_light;
 	
-	std::cout <<dt<<"\n";
+	std::cout <<dt<<"\n"; // Has to be deleted
 	double eta =  Random::instance().randNorm();
 	double domega = eta * sqrt(dt);
 	
@@ -33,21 +33,27 @@ void MomentumDiffusion::process(Candidate *c) const {
 	double BScal = calculateBScalar(rig, p);
 
 	double dp = AScal * dt + BScal * domega;
-	std::cout <<dp<<"\n";
+	std::cout <<dp<<"\n"; //Has to be deleted
 	c->current.setEnergy((p + dp)*c_light);
-
-	//c->limitNextStep(limit * p / ((AScal + BScal/sqrt(dt)) * c_light));
-	c->limitNextStep(limit * p / ((AScal + BScal/sqrt(dt)) * c_light)); //Check for the factor c_light
-
+	
+	//Fast, but a little bit inconsitent, since the equation limit=\Delta p(step) / p
+	//is not correctly solved.  
+	//c->limitNextStep(limit * p / ((AScal + BScal/sqrt(dt)) * c_light)); //Check for the factor c_light
+	
+	//Solving the equation correctly
+	double c_tilde = limit*p;
+	double a = AScal;
+	double b = fabs(BScal)*0.8; //mean value of next diffusion step |eta|
+	c->limitNextStep((-b*sqrt(4*a*c_tilde+b*b)+4*a*c_tilde+b*b)/(2*a*a) * c_light);
 }
 
 double MomentumDiffusion::calculateBScalar(double rig, double p) const{
 
     double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
 	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx; // Astroparticle Physics: Theory and Phenomenology, G. Sigl, Atlantis Press (2017); Eq. (7.34) 
-    double BScal = sqrt( 2  * Dpp);   
+    double BScal = sqrt( 2  * Dpp);
+    
     return BScal;
-
 }
 
 // What is the physical interpretetation of this term? 7/27/19 LM
@@ -58,8 +64,8 @@ double MomentumDiffusion::calculateAScalar(double rig, double p) const {
     double partialDpp = (2 - alpha) / p * Dpp; //check the sign: Should be correct 7/27/19 LM
 
     double AScal = partialDpp -2. / p * Dpp; //=-alpha / p * Dpp
+    
    	return AScal;
-
 }
 
 void MomentumDiffusion::setAlpha(double a) {

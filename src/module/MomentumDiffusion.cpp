@@ -1,8 +1,6 @@
 #include "crpropa/module/MomentumDiffusion.h"
 
-
 using namespace crpropa;
-
 
 MomentumDiffusion::MomentumDiffusion() : 
 limit(0.1)
@@ -43,30 +41,26 @@ void MomentumDiffusion::process(Candidate *c) const {
 
 }
 
-
-
-
 double MomentumDiffusion::calculateBScalar(double rig, double p) const{
 
-    	double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
+    double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
 	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx; // Astroparticle Physics: Theory and Phenomenology, G. Sigl, Atlantis Press (2017); Eq. (7.34) 
-    	double BScal = sqrt( 2  * Dpp);   
-    	return BScal;
+    double BScal = sqrt( 2  * Dpp);   
+    return BScal;
 
 }
 
 // What is the physical interpretetation of this term? 7/27/19 LM
 double MomentumDiffusion::calculateAScalar(double rig, double p) const {
 	
-    	double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
+    double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
 	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx;
-    	double partialDpp = (2 - alpha) / p * Dpp; //check the sign: Should be correct 7/27/19 LM
+    double partialDpp = (2 - alpha) / p * Dpp; //check the sign: Should be correct 7/27/19 LM
 
-    	double AScal = partialDpp -2. / p * Dpp; //=-alpha / p * Dpp
+    double AScal = partialDpp -2. / p * Dpp; //=-alpha / p * Dpp
    	return AScal;
 
 }
-
 
 void MomentumDiffusion::setAlpha(double a) {
 	if ((a > 2.) or (a < 0))
@@ -102,8 +96,6 @@ void MomentumDiffusion::setLimit(double l) {
 	limit = l;
 }
 
-
-
 double MomentumDiffusion::getAlpha() const {
 	return alpha;
 }
@@ -123,7 +115,7 @@ double MomentumDiffusion::getLimit() const {
 std::string MomentumDiffusion::getDescription() const {
 	std::stringstream s;
 	s << "alpha: " << alpha << " , ";
-	s << "Alven speed v_A: " << vA  << " km/s, ";
+	s << "Alven speed v_A: " << vA / (km/second)  << " km/s, ";
 	s << "Scale: " << scale << "\n";
 
 	return s.str();

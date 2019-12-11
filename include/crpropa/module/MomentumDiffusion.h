@@ -42,7 +42,7 @@ private:
 public:
 	/** Constructor
 	@param alpha 	spectral index of the diffusion. Should match alpha in DiffusionSDE
-	@param Scale 	Scaling of the diffusion coefficient
+	@param Scale 	Scaling of the diffusion coefficient. Should match alpha in DiffusionSDE
 	@param aV	Alven speed of the wave turbulence
 	*/
 

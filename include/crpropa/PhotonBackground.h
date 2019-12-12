@@ -34,4 +34,26 @@ std::string photonFieldName(PhotonField photonField);
 /** @}*/
 } // namespace crpropa
 
+
+/*
+	methods related to photon sampling as done in SOPHIA.
+	only needed in PhotoPionProduction for this implementation.
+*/
+
+class Photon_Field {
+ public:
+    explicit Photon_Field(int bgFlag);
+    int bgFlag;
+    double sample_eps(bool onProton, double E_in, double z_in) const;
+    double getPhotonDensity(double eps, double z_in) const;
+    double gaussInt(std::string type, double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
+    double functs(double s, bool onProton) const;
+    double prob_eps(double eps, bool onProton, double E_in, double z_in) const;
+    double crossection(double eps, bool onProton) const;
+        double Pl(double x, double xth, double xmax, double alpha) const;
+        double Ef(double x, double th, double w) const;
+        double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
+};
+
+
 #endif // CRPROPA_PHOTONBACKGROUND_H

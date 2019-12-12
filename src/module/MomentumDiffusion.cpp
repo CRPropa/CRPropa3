@@ -28,9 +28,14 @@ limit(0.1)
   	}
 
 void MomentumDiffusion::process(Candidate *c) const {
-
-	double p = c->current.getEnergy()/c_light; // Note we use E=p/c (relativistic limit)
+	
 	double rig = c->current.getRigidity();
+	
+	if (std::isinf(rig)) {
+		return; // Only charged particles
+	}
+	
+	double p = c->current.getEnergy()/c_light; // Note we use E=p/c (relativistic limit)
 	double dt = c->getCurrentStep() / c_light;
 	
 	std::cout <<dt<<"\n"; // Has to be deleted

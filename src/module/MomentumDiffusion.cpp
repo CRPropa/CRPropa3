@@ -1,3 +1,12 @@
+// TO DO 12/12/19 LM
+// 1.   Look into the limitNextStep function:
+//      It is quite complicated calculation and it is not clear if it will help
+//      Testing for this is required.
+// 2.a) Write a test suite for the unit tests
+// 	 b)	Write physics based tests
+// 3. Provide simple examples
+
+
 #include "crpropa/module/MomentumDiffusion.h"
 
 using namespace crpropa;
@@ -28,9 +37,9 @@ void MomentumDiffusion::process(Candidate *c) const {
 	double eta =  Random::instance().randNorm();
 	double domega = eta * sqrt(dt);
 	
-
-	double AScal = calculateAScalar(rig, p);
-	double BScal = calculateBScalar(rig, p);
+	double Dpp = calculateDpp(rig, p);
+	double AScal = calculateAScalar(rig, p, Dpp);
+	double BScal = calculateBScalar(rig, p, Dpp);
 
 	double dp = AScal * dt + BScal * domega;
 	std::cout <<dp<<"\n"; //Has to be deleted
@@ -47,22 +56,28 @@ void MomentumDiffusion::process(Candidate *c) const {
 	c->limitNextStep((-b*sqrt(4*a*c_tilde+b*b)+4*a*c_tilde+b*b)/(2*a*a) * c_light);
 }
 
-double MomentumDiffusion::calculateBScalar(double rig, double p) const{
+double MomentumDiffusion::calculateDpp(double rig, double p) const {
+	
+	// The implementation of the spatial diffusion has to be the same as in DiffusionSDE
+	double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
+	
+	// Astroparticle Physics: Theory and Phenomenology, G. Sigl, Atlantis Press (2017); Eq. (7.34)
+	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx;
+	 
+	return Dpp;
+}
 
-    double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
-	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx; // Astroparticle Physics: Theory and Phenomenology, G. Sigl, Atlantis Press (2017); Eq. (7.34) 
-    double BScal = sqrt( 2  * Dpp);
-    
+double MomentumDiffusion::calculateBScalar(double rig, double p, double Dpp) const{
+
+    double BScal = sqrt( 2  * Dpp); 
+      
     return BScal;
 }
 
 // What is the physical interpretetation of this term? 7/27/19 LM
-double MomentumDiffusion::calculateAScalar(double rig, double p) const {
+double MomentumDiffusion::calculateAScalar(double rig, double p, double Dpp) const {
 	
-    double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
-	double Dpp = ( 4*vA*vA*p*p ) / ( 3*alpha*(4-alpha*alpha)*(4-alpha) ) / Dxx;
     double partialDpp = (2 - alpha) / p * Dpp; //check the sign: Should be correct 7/27/19 LM
-
     double AScal = partialDpp -2. / p * Dpp; //=-alpha / p * Dpp
     
    	return AScal;

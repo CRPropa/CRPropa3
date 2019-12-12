@@ -50,8 +50,9 @@ public:
 	MomentumDiffusion();
 
 	void process(Candidate *candidate) const;
-	double calculateBScalar(double rig, double p) const;
-	double calculateAScalar(double rig,  double p) const;
+	double calculateDpp(double rig, double p) const;
+	double calculateBScalar(double rig, double p, double Dpp) const;
+	double calculateAScalar(double rig,  double p, double Dpp) const;
 
 	void setAlpha(double alpha);
 	void setScale(double Scale);

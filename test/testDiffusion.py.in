@@ -432,7 +432,34 @@ class DiffusionOneDirection(unittest.TestCase):
         stdOfStds_z = std_exp_z/np.sqrt(N)/np.sqrt(2.)
         self.assertLess(abs((meanZ-mean_exp_z)/4./stdOfMeans_z), 1., msg=self.msg1)
         self.assertLess(abs((stdZ-std_exp_z)/4./stdOfStds_z), 1., msg=self.msg1)
+        
+class MomentumDiffusion(unittest.TestCase):
+    
+    alpha = 1./2.
+    scale = 10.
+    limit = 0.3
+    alvSpeed = 30000 #m/s
+    
+    momDif = crpropa.MomentumDiffusion(alpha, scale)
+    momDif.setLimit(limit)
+    momDif.setAlvenSpeed(alvSpeed)
+    
+    def test_Simple(self):
+        self.assertEqual(self.momDif.getAlpha(), self.alpha)        
+        self.assertEqual(self.momDif.getScale(), self.scale)
+        self.assertEqual(self.momDif.getLimit(), self.limit)
+        self.assertEqual(self.momDif.getAlvenSpeed(), self.alvSpeed)
 
+	def test_NeutralParticle(self):
+		
+		E = 10*TeV
+		c = crpropa.Candidate(crpropa.nucleusId(1,0))
+		c.current.setEnergy(E)
+		momDif.process(c)
+		
+		self.assertEqual(c.current.getEnergy(), E) #acts only on charged particles
+		
+		
 if __name__ == '__main__':
     unittest.main()
 

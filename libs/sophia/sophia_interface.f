@@ -16696,8 +16696,8 @@ c     Modified in Sept 2009 to include a radial dependence of IRB.
 c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      subroutine sophiaevent(nature,Ein,OutPart,OutPartType,NbOut
-     &     Part,z_particle,bgFlag,Zmax_IRB,idatamax,en_data,flux_data)
+      subroutine sophiaevent(nature,Ein,eps,
+     &  OutPart,OutPartType,NbOutPart)
 
 c**********************************
 c nature, Ein = input nature and energy of the nucleon
@@ -16760,8 +16760,8 @@ c**********************************
 
 
 cc 15.09.2009
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
+C       integer idatamax
+C       double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
 cc
       if (nature.eq.0) then 
          L0=13
@@ -16784,31 +16784,33 @@ cc
 * check
 c      return
 ***
-      if (bgFlag.eq.1) then
-         epsmin = 0.
-         epsmax = 0.
-         call sample_eps(epseV,epsmin,epsmax)
-      else if (bgFlag.eq.2) then
+C       if (bgFlag.eq.1) then
+C          epsmin = 0.
+C          epsmax = 0.
+C       print*, "CRPropa:", eps
+C          call sample_eps(epseV,epsmin,epsmax)
+C       print*, "sample_eps", epseV
+C       else if (bgFlag.eq.2) then
 c Choice for epsmin/epsmax : the Primack data is for -1<log(lambda/mumeter)<2.5
 c  i.e. E in [3.93e-3,12.4] eV. We choose epsmin/max inside this range for security
-         epsmin = 0.00395D0
-         epsmax = 12.2D0
-         call sample_ir_eps(epseV,epsmin,epsmax)
+C          epsmin = 0.00395D0
+C          epsmax = 12.2D0
+C          call sample_ir_eps(epseV,epsmin,epsmax)
 c     c 15.09.2009
 c     Limits are defined by the provided background 
-      else if (bgflag.eq.3) then
-         epsmin = en_data(1) 
-         epsmax = en_data(idatamax) 
-         call sample_ir_eps2(epseV,epsmin,epsmax
-     $        ,idatamax,en_data,flux_data)
+C       else if (bgflag.eq.3) then
+C          epsmin = en_data(1) 
+C          epsmax = en_data(idatamax) 
+C          call sample_ir_eps2(epseV,epsmin,epsmax
+C      $        ,idatamax,en_data,flux_data)
 
 cc
 
-      else
-         print*,'sophiaevent: incorrect background flag'
-         stop
-      endif
-      eps = epseV/1.D9
+C       else
+C          print*,'sophiaevent: incorrect background flag'
+C          stop
+C       endif
+C       eps = epseV/1.D9
 c      Etot = E0+eps
 
 c      print*,'Before sample_s'

@@ -42,9 +42,11 @@ std::string photonFieldName(PhotonField photonField);
 
 class Photon_Field {
  public:
+ 	Photon_Field();
     explicit Photon_Field(int bgFlag);
-    int bgFlag;
     double sample_eps(bool onProton, double E_in, double z_in) const;
+ protected:
+    int bgFlag;
     double getPhotonDensity(double eps, double z_in) const;
     double gaussInt(std::string type, double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
     double functs(double s, bool onProton) const;

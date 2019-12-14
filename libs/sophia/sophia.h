@@ -3,20 +3,14 @@
 
 
 extern "C" {
-// void sophiaevent_(int& type, double& inputEnergy, double& eps, double momentum[5][2000],
-//         int id[], int& n);
-// }
-
-
 void sophiaevent_(int& nature,                   // IN:  channel: 0 -> p, 1 -> n
                   double& Ein,                   // IN:  input energy of nucleon in GeV
-                  double& eps,                   // IN:  energy of target photon in eV
+                  double& eps,                   // IN:  energy of target photon in GeV
                   double outputEnergy[5][2000],  // OUT: list of 4-momenta + masses of output particles (in GeV)
                   int outPartID[2000],           // OUT: list of output particle IDs (see list below)
                   int& nParticles                // OUT: number of output particles
     );
 }
-
 
 /*
  - list of output particle ids

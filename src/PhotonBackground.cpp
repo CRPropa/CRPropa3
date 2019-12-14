@@ -125,8 +125,6 @@ std::string photonFieldName(PhotonField photonField) {
     }
 }
 
-} // namespace crpropa
-
 
 /*
     methods related to photon sampling as done in SOPHIA.
@@ -185,7 +183,7 @@ double Photon_Field::sample_eps(bool onProton, double E_in, double z_in) const {
 
         // sample eps between epsMin ... epsMax
         double peps = 0.;
-        crpropa::Random &random = crpropa::Random::instance();
+        Random &random = Random::instance();
         do {
             eps = epsMin + random.rand() * (epsMax - epsMin);
             peps = prob_eps(eps, onProton, E_in, z_in) / cnorm;
@@ -216,7 +214,7 @@ double Photon_Field::sample_eps(bool onProton, double E_in, double z_in) const {
         const double e2 = std::pow(epsMax, 1. - beta);
         bool keepTrying = true;
         int i_rep = 0;
-        crpropa::Random &random = crpropa::Random::instance();
+        Random &random = Random::instance();
         do {
             if (i_rep >= 100000) {
                 keepTrying = false;
@@ -228,7 +226,7 @@ double Photon_Field::sample_eps(bool onProton, double E_in, double z_in) const {
                 keepTrying = false;
         } while (keepTrying);
     }
-    return eps * crpropa::eV;
+    return eps * eV;
 }
 
 
@@ -498,3 +496,5 @@ double Photon_Field::gaussInt(std::string type, double A, double B, bool onProto
     }
     return XR * SS;
 }
+
+} // namespace crpropa

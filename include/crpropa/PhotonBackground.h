@@ -31,9 +31,6 @@ double photonFieldScaling(PhotonField photonField, double z);
 // Returns a string representation of the field
 std::string photonFieldName(PhotonField photonField);
 
-/** @}*/
-} // namespace crpropa
-
 
 /*
 	methods related to photon sampling as done in SOPHIA.
@@ -57,5 +54,7 @@ class Photon_Field {
         double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
 };
 
+/** @}*/
+} // namespace crpropa
 
 #endif // CRPROPA_PHOTONBACKGROUND_H

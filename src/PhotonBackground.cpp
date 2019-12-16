@@ -328,7 +328,7 @@ double Photon_Field::crossection(double x, bool onProton) const {
                                 1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
     const double AM2[2] = { 0.882792, 0.880351 };
 
-    int idx = onProton? 0:9;
+    int idx = onProton? 0 : 9;
     double SIG0[9];
     for (int i = 0; i < 9; ++i) {
         SIG0[i] = 4.893089117 / AM2[int(onProton)] * RATIOJ[i + idx] * BGAMMA[i + idx];
@@ -489,7 +489,7 @@ double Photon_Field::gaussInt(std::string type, double A, double B, bool onProto
         if (type == "functs") {
             SS += W[i] * (functs(XM + DX, onProton) + functs(XM - DX, onProton));
         } else if (type == "prob_eps") {
-            SS += W[i] * (prob_eps(XM+DX, onProton, E_in, z_in) + prob_eps(XM-DX, onProton, E_in, z_in));
+            SS += W[i] * (prob_eps(XM + DX, onProton, E_in, z_in) + prob_eps(XM - DX, onProton, E_in, z_in));
         } else {
             throw std::runtime_error("gaussInt: type incorrectly specified");
         }

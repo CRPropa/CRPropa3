@@ -212,9 +212,11 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 	double EpA = E / A;
 	double z = candidate->getRedshift();
 
-	// SOPHIA simulates interactions only for protons / neutrons
-	// for anti-protons / neutrons assume charge symmetry and change all
-	// interaction products from particle <--> anti-particle
+	/* 
+		SOPHIA simulates interactions only for protons / neutrons.
+	  	For anti-protons / neutrons assume charge symmetry and change all
+		interaction products from particle <--> anti-particle (sign)
+	*/
 	int sign = (id > 0) ? 1 : -1;
 
 	// check if below SOPHIA's energy threshold

@@ -230,7 +230,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
     double eps = pf.sample_eps(onProton, Ein, z) / GeV;  // GeV for SOPHIA
 
     // SOPHIA - output:
-    double outputEnergy[5][2000];
+    double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]
     int outPartID[2000];
     int nParticles;
 
@@ -284,15 +284,15 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 			if (haveNeutrinos)
 				candidate->addSecondary(sign * 12, Eout, pos);
 			break;
-		case 16: // antinu_e
+		case 16: // anti-nu_e
 			if (haveNeutrinos)
 				candidate->addSecondary(sign * -12, Eout, pos);
 			break;
-		case 17: // nu_muon
+		case 17: // nu_mu
 			if (haveNeutrinos)
 				candidate->addSecondary(sign * 14, Eout, pos);
 			break;
-		case 18: // antinu_muon
+		case 18: // anti-nu_mu
 			if (haveNeutrinos)
 				candidate->addSecondary(sign * -14, Eout, pos);
 			break;
@@ -356,6 +356,65 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	lossRate *= (1 + z);
 
 	return 1. / lossRate;
+}
+
+std::vector<double> PhotoPionProduction::sophiaEvent(bool onProton, double Ein, double eps) const {
+	// SOPHIA - input:
+    int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
+    Ein /= GeV;  // GeV is the SOPHIA standard unit
+    eps /= GeV;  // GeV for SOPHIA
+
+    // SOPHIA - output:
+    double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]
+    int outPartID[2000];
+    int nParticles;
+
+    sophiaevent_(nature, Ein, eps, outputEnergy, outPartID, nParticles);
+
+    std::vector<double> output;
+    for (int i = 0; i < nParticles; ++i) {
+        int id = 0;
+        int partType = outPartID[i];
+        switch (partType) {
+            case 13:  // proton
+            case 14:  // neutron
+                id = nucleusId(1, 14 - partType);
+                break;
+            case -13:  // anti-proton
+            case -14:  // anti-neutron
+                id = -nucleusId(1, 14 + partType);
+                break;
+            case 1:  // photon
+                id = 22;
+                break;
+            case 2:  // positron
+                id = -11;
+                break;
+            case 3:  // electron
+                id = 11;
+                break;
+            case 15:  // nu_e
+                id = 12;
+                break;
+            case 16:  // anti-nu_e
+                id = -12;
+                break;
+            case 17:  // nu_mu
+                id = 14;
+                break;
+            case 18:  // anti-nu_mu
+                id = -14;
+                break;
+            default:
+                throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(partType));
+        }
+        output.push_back(id);
+    }
+    for (int i = 0; i < nParticles; ++i) {
+        double Eout = outputEnergy[3][i] * GeV; // only the energy is used; could be changed for more detail
+        output.push_back(Eout);
+    }
+    return output;
 }
 
 } // namespace crpropa

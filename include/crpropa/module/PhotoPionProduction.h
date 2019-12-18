@@ -61,6 +61,17 @@ public:
 	 @param z		redshift
 	 */
 	double lossLength(int id, double gamma, double z = 0);
+
+	/**
+	 Direct SOPHIA interface.
+	 Output is a vector of length 2*N where N is the number of out-going particles.
+	 First half of the vector are the particle IDs, second half are their energies.
+	 This is not used in the simulation.
+	 @param onProton    proton or neutron
+	 @param Ein         energy of nucleon
+	 @param eps         energy of target photon
+	*/
+	std::vector<double> sophiaEvent(bool onProton, double Ein, double eps) const;
 };
 /** @}*/
 

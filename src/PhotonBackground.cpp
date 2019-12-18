@@ -471,7 +471,7 @@ double Photon_Field::functs(double s, bool onProton) const {
 
 
 double Photon_Field::gaussInt(std::string type, double A, double B, bool onProton, double E_in, double z_in) const {
-/* 
+/*
     - input:  type: specifier of function over which to integrate,
               integration limits A and B
     - output: 8-points Gauß-Legendre integral

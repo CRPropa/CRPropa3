@@ -263,11 +263,7 @@ double Photon_Field::getPhotonDensity(double eps, double z_in) const {
     }
 
     if (bgFlag == 2) {
-        /**************************************************************
-        C    RETURNS THE DENSITY OF IR background at redshift Z
-        C    EPS IN eV, PHOTD_IR IN #/(cm^3.eV)
-        C    IR background from Primack et al. (1999)
-        C *************************************************************/
+        /* IR background from Primack et al. (1999) */
         const double ZMAX_IR = 5.;
         if (z_in > ZMAX_IR)
             return 0.;
@@ -275,17 +271,17 @@ double Photon_Field::getPhotonDensity(double eps, double z_in) const {
         if (X > 500.)
             return 0.;
 
-        const double XData[15] = { -1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5};  // log10(eV)
-        const double YData[15] = { -0.214401, 0.349313, 0.720354, 0.890389, 1.16042, 1.24692, 1.06525, 0.668659, 0.536312, 0.595859, 0.457456, 0.623521, 1.20208, 1.33657, 1.04461};  // log10(nW/m^2/sr)
+        const double XData[15] = {-1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5};  // log10(eV)
+        const double YData[15] = {-0.214401, 0.349313, 0.720354, 0.890389, 1.16042, 1.24692, 1.06525, 0.668659, 0.536312, 0.595859, 0.457456, 0.623521, 1.20208, 1.33657, 1.04461};  // log10(nW/m^2/sr)
+        
+        // interpolate
         if (std::log10(X) <= XData[0])
             return 0.;
-
         double result = 0.;
         if (std::log10(X) >= XData[14]) {
             result = (YData[14] - YData[13]) / (XData[14] - XData[13]) * (std::log10(X) - XData[13]) + YData[13];
             return std::pow(10., result);
         }
-
         int index = 1;
         do {
             index++;
@@ -306,8 +302,8 @@ double Photon_Field::crossection(double x, bool onProton) const {
     - called by: functs
 */  
     const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-    double sth = 1.1646;  // GeV^2
-    double s = mass * mass + 2. * mass * x;
+    const double sth = 1.1646;  // GeV^2
+    const double s = mass * mass + 2. * mass * x;
     if (s < sth)
         return 0.;
     double cross_res = 0.;
@@ -318,28 +314,26 @@ double Photon_Field::crossection(double x, bool onProton) const {
 
     // upper: ppppppppp
     // lower: nnnnnnnnn
-    const double AMRES[18] = { 1.231, 1.440, 1.515, 1.525, 1.675, 1.680, 1.690, 1.895, 1.950,
-                               1.231, 1.440, 1.515, 1.525, 1.675, 1.675, 1.690, 1.895, 1.950 };
-    const double BGAMMA[18] = { 5.6, 0.5, 4.6, 2.5, 1.0, 2.1, 2.0, 0.2, 1.0,
-                                6.1, 0.3, 4.0, 2.5, 0.0, 0.2, 2.0, 0.2, 1.0};
-    const double WIDTH[18] = { 0.11, 0.35, 0.11, 0.1, 0.16, 0.125, 0.29, 0.35, 0.3,
-                               0.11, 0.35, 0.11, 0.1, 0.16, 0.150, 0.29, 0.35, 0.3};
-    const double RATIOJ[18] = { 1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.,
-                                1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
-    const double AM2[2] = { 0.882792, 0.880351 };
+    const double AMRES[18] = {1.231, 1.440, 1.515, 1.525, 1.675, 1.680, 1.690, 1.895, 1.950,
+                              1.231, 1.440, 1.515, 1.525, 1.675, 1.675, 1.690, 1.895, 1.950};
+    const double BGAMMA[18] = {5.6, 0.5, 4.6, 2.5, 1.0, 2.1, 2.0, 0.2, 1.0,
+                               6.1, 0.3, 4.0, 2.5, 0.0, 0.2, 2.0, 0.2, 1.0};
+    const double WIDTH[18] = {0.11, 0.35, 0.11, 0.1, 0.16, 0.125, 0.29, 0.35, 0.3,
+                              0.11, 0.35, 0.11, 0.1, 0.16, 0.150, 0.29, 0.35, 0.3};
+    const double RATIOJ[18] = {1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.,
+                               1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
+    const double AM2[2] = {0.882792, 0.880351};
 
-    int idx = onProton? 0 : 9;
+    const int idx = onProton? 0 : 9;
     double SIG0[9];
     for (int i = 0; i < 9; ++i) {
         SIG0[i] = 4.893089117 / AM2[int(onProton)] * RATIOJ[i + idx] * BGAMMA[i + idx];
     }
     if (x <= 10.) {
-        cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], x, onProton)
-                  * Ef(x, 0.152, 0.17);
+        cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], x, onProton) * Ef(x, 0.152, 0.17);
         sig_res[0] = cross_res;
         for (int i = 1; i < 9; ++i) {
-            sig_res[i] = breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], x, onProton)
-                       * Ef(x, 0.15, 0.38);
+            sig_res[i] = breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], x, onProton) * Ef(x, 0.15, 0.38);
             cross_res += sig_res[i];
         }
         // direct channel
@@ -396,9 +390,8 @@ double Photon_Field::crossection(double x, bool onProton) const {
         }
         cross_diffr = cross_diffr1 + cross_diffr2;
         cs_multidiff = cs_multi + cross_diffr;
-    // *****************************************
-    // in the original SOPHIA code, this is a switch.
-    // Here, only one case (NDIR=3) is needed.
+    /* in the original SOPHIA code, here is a switch for the return argument.
+       Here, only one case (compare in SOPHIA: NDIR=3) is needed. */
     }
     return cross_res + cross_dir + cs_multidiff + cross_frag2;
 }
@@ -438,21 +431,16 @@ double Photon_Field::Ef(double x, double th, double w) const {
 }
 
 
-double Photon_Field::breitwigner(double sigma_0,
-                                 double Gamma,
-                                 double DMM,
-                                 double epsPrime,
-                                 bool onProton) const {
+double Photon_Field::breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const {
 /*
     - input: cross section [µbarn], width [GeV], mass [GeV/c^2]
     - output: Breit-Wigner crossection of a resonance widh width Gamma
     - called by: crossection
 */
     const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-    double s = mass * mass + 2. * mass * epsPrime;
-    double gam2s = Gamma * Gamma * s;
-    return sigma_0 * (s / epsPrime / epsPrime) * gam2s
-                   / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);
+    const double s = mass * mass + 2. * mass * epsPrime;
+    const double gam2s = Gamma * Gamma * s;
+    return sigma_0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);
 }
 
 
@@ -472,15 +460,16 @@ double Photon_Field::functs(double s, bool onProton) const {
 
 double Photon_Field::gaussInt(std::string type, double A, double B, bool onProton, double E_in, double z_in) const {
 /*
-    - input:  type: specifier of function over which to integrate,
-              integration limits A and B
+    - input:  - type: specifier of function over which to integrate,
+              - integration limits A and B
+              - arguents for functions over which to integrate
     - output: 8-points Gauß-Legendre integral
     - called by: sample_eps, prob_eps
 */
-    const double X[8] = { .0950125098, .2816035507, .4580167776, .6178762444,
-                          .7554044083, .8656312023, .9445750230, .9894009349 };
-    const double W[8] = { .1894506104, .1826034150, .1691565193, .1495959888,
-                          .1246289712, .0951585116, .0622535239, .0271524594 };
+    const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444,
+                         .7554044083, .8656312023, .9445750230, .9894009349};
+    const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888,
+                         .1246289712, .0951585116, .0622535239, .0271524594};
     const double XM = 0.5 * (B + A);
     const double XR = 0.5 * (B - A);
     double SS = 0.;

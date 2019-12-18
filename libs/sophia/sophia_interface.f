@@ -3522,8 +3522,7 @@ c**********************
        IMPLICIT INTEGER (I-M)
        SAVE
 
-       COMMON/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
+       COMMON /input/ E0,L0
 
        DIMENSION Dg(101,201),Dnum(101,201),Dnue(101,201)
        DIMENSION Dp(101,201),Dn(101,201),Dnuma(101,201),E0_arr(101)
@@ -15709,52 +15708,31 @@ C     RLU=RUNI
       RNDM=RUNI
       RETURN
       END
-c*****************************************************************************
-c**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***
-c**!!              IF YOU USE THIS PROGRAM, PLEASE CITE:                 !!***
-c**!! A.M"ucke, Ralph Engel, J.P.Rachen, R.J.Protheroe and Todor Stanev, !!***
-c**!!  1999, astro-ph/9903478, to appear in Comp.Phys.Commun.            !!***
-c**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***
-c*****************************************************************************
-c** Further SOPHIA related papers:                                         ***
-c** (1) M"ucke A., et al 1999, astro-ph/9808279, to appear in PASA.        ***
-c** (2) M"ucke A., et al 1999, to appear in: Proc. of the                  ***
-c**      19th Texas Symposium on Relativistic Astrophysics, Paris, France, ***
-c**      Dec. 1998. Eds.: J.~Paul, T.~Montmerle \& E.~Aubourg (CEA Saclay) ***
-c** (3) M"ucke A., et al 1999, astro-ph/9905153, to appear in: Proc. of    ***
-c**      19th Texas Symposium on Relativistic Astrophysics, Paris, France, ***
-c**      Dec. 1998. Eds.: J.~Paul, T.~Montmerle \& E.~Aubourg (CEA Saclay) ***
-c** (4) M"ucke A., et al 1999, to appear in: Proc. of 26th Int.Cosmic Ray  ***
-c**      Conf. (Salt Lake City, Utah)                                      ***
-c*****************************************************************************
 
 
-c**********************************************
-c** Routines/functions related to sampling  ***
-c**  photon energy and squared CMF energy:  ***
-c**********************************************
+C########################################################
+C This is the end of JETSET v 7.4 - Now SOPHIA resumes. #
+C########################################################
 
 
-
-       subroutine sample_s(s,eps)
-
+      SUBROUTINE sample_s(s,eps)
 c***********************************************************************
 c samples distribution of s: p(s) = (s-mp^2)sigma_Ngamma
 c rejection for s=[sth,s0], analyt.inversion for s=[s0,smax]
 c***********************************************************************
 c** Date: 20/01/98   **
 c** author: A.Muecke **
+c** Modified: Mario Hoerbe, 2017, 2018, 2019 **
 c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
 
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
+      COMMON /input/ E0,L0
+      COMMON /S_MASS1/ AM(49), AM2(49)
 
-      external functs,gauss,rndm
-      double precision functs,gauss,rndm
+      EXTERNAL functs,gauss,rndm
+      DOUBLE PRECISION functs,gauss,rndm
 
 c*** calculate smin,smax : ************************
       xmpi = AM(7)
@@ -15763,8 +15741,8 @@ c*** calculate smin,smax : ************************
       smin = 1.1646D0
       smax = max(smin,xmp*xmp+2.D0*eps*(E0+Pp))
       if ((smax-smin).le.1.D-8) then
-       s = smin+rndm(0)*1.d-6
-       RETURN
+          s = smin+rndm(0)*1.d-6
+          RETURN
       endif
       s0 = 10.D0
 c*** determine which method applies: rejection or analyt.inversion: **
@@ -15772,1398 +15750,165 @@ c*** determine which method applies: rejection or analyt.inversion: **
       sintegr2 = gauss(functs,s0,smax)
       if (smax.le.s0) then
 c rejection method:
-       nmethod=1
-       goto 41
+          nmethod=1
+          goto 41
       endif
       r1 = rndm(0)
       quo = sintegr1/(sintegr1+sintegr2)
       if (r1.le.quo) then
 c rejection method:
-       nmethod=1
+          nmethod=1
       else
 c analyt. inversion:
-       nmethod=2
+          nmethod=2
       endif
 
-  41  continue
-
+  41  CONTINUE
 
 c*** rejection method: ************************
       if (nmethod.eq.1) then
-         i_rept = 0
- 10      continue
+          i_rept = 0
+ 10       CONTINUE
 c***  sample s random between smin ... s0 **
-         if (i_rept.ge.100000) RETURN    !LM
-         r2 = rndm(0)
-         s = smin+r2*(smax-smin)
+          if (i_rept.ge.100000) RETURN !LM
+          r2 = rndm(0)
+          s = smin+r2*(smax-smin)
 c***  calculate p(s) = pes **********************
-         ps = functs(s)
+          ps = functs(s)
 c***  rejection method to sample s *********************
-         r3 = rndm(1)
+          r3 = rndm(1)
 c     pmax is roughly p(s) at s=s0
-         pmax = 1300.D0/sintegr1
-         i_rept = i_rept+1
-         if (r3*pmax.le.ps/sintegr1) then
-            RETURN
-         else
-            goto 10
-         endif
+          pmax = 1300.D0/sintegr1
+          i_rept = i_rept+1
+          if (r3*pmax.le.ps/sintegr1) then
+              RETURN
+          else
+              goto 10
+          endif
       endif
 
 c*** analyt. inversion method: *******************
       if (nmethod.eq.2) then
-       r4 = rndm(0)
-       beta = 2.04D0
-       betai = 1.D0/beta
-       term1 = r4*(smax**beta)
-       term2 = (r4-1.D0)*(s0**beta)
-       s = (term1-term2)**betai
-       RETURN
+          r4 = rndm(0)
+          beta = 2.04D0
+          betai = 1.D0/beta
+          term1 = r4*(smax**beta)
+          term2 = (r4-1.D0)*(s0**beta)
+          s = (term1-term2)**betai
+          RETURN
       endif
 
-       RETURN
-       END
-
-
-      subroutine sample_ir_eps(eps,epsmin,epsmax)
-
-c****************************************************************************
-c     samples distribution of n(epsilon)/epsilon^2 for ir background using
-c     rejection technique
-c****************************************************************************
-c**   Date: Aug '05   **
-c**   author: G.Sigl **
-c**********************
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-      SAVE
-      
-      common/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-      common/PLindex/ alphaxx
-      COMMON /S_MASS1/ AM(49), AM2(49)
-      
-      external photd_ir,rndm
-      double precision prob_epskt,prob_epspl,rndm,gauss
-      double precision functs,probint_pl
-      
-      xmpi = AM(7)
-      xmp = AM(L0)
-      Pp = sqrt(E0*E0-xmp*xmp)
-      epsm1 = max(epsmin,1.D9*(1.1646D0-xmp*xmp)/2.D0/(E0+Pp))
-      
-      if (epsmax.gt.epsm1) then
-         i_max=idint(10.d0*dlog(epsmax/epsm1))+1
-         de=dlog(epsmax/epsm1)/dble(i_max)
-         rmax=0.d0
-         do i=0,i_max
-            eps_dum=epsm1*dexp(dble(i)*de)
-            dum=eps_dum**2*PHOTD_IR(eps_dum)
-            if (dum.gt.rmax) rmax=dum
-         enddo
-         beta=4.d0
-         e1=epsm1**(1.d0-beta)
-         e2=epsmax**(1.d0-beta)
-         i_try=1
-         i_rep = 0
-         do while(i_try.eq.1)
-            if (i_rep.ge.100000) then
-               i_try = 0
-               result = 0.
-            endif
-            r1 = rndm(0)
-            result=(r1*(e1-e2)+e2)**(1.d0/(1.d0-beta))
-            r1 = rndm(1)
-            i_rep = i_rep + 1
-            if (r1.lt.result**2*PHOTD_IR(result)/rmax) i_try=0
-         enddo
-      else
-         result=0.
-      endif
-      eps=result
       RETURN
-      END
-      
-      subroutine sample_eps(eps,epsmin,epsmax)
-
-c****************************************************************************
-c samples distribution of epsilon p(epsilon) for blackbody spectrum if tbb>0
-c  and power law \sim eps^-alpha, epsm1 [eV] < eps [eV] < epsm2 [eV], 
-c                       eps in LAB frame if tbb \leq 0
-c****************************************************************************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       common/PLindex/ alphaxx
-       COMMON /S_MASS1/ AM(49), AM2(49)
-
-      external prob_epskt,prob_epspl,rndm,gauss,functs,probint_pl
-      double precision prob_epskt,prob_epspl,rndm,gauss
-      double precision functs,probint_pl
-
-      xmpi = AM(7)
-      xmp = AM(L0)
-      gammap = E0/xmp
-      betap = sqrt(1.-1./gammap/gammap)
-      Pp = sqrt(E0*E0-xmp*xmp)
-  1   continue
-      facpmax = 1.6D0
-c*** for tbb<=0: power law photon spectrum n(eps) ~ eps^-alpha *********
-      if (tbb.gt.0.D0) then
-       epsm1 = (1.1646D0-xmp*xmp)/2.D0/(E0+Pp)
-       epsm1 = epsm1*1.D9
-       epsm2 = 0.007D0*tbb
-       epskt = 8.619D-5*tbb
-       epspmax = (3.D-3*((E0*epskt*1.D-9)**(-0.97D0))
-     &              +0.047D0)/3.9D2*tbb
-        if (epsm1.gt.epsm2) then
-         print*,
-     & 'CMF energy is below threshold for nucleon energy '
-     &   ,E0,' GeV !'
-         eps = 0.D0
-         RETURN
-        endif
-        cnorm = gauss(prob_epskt,epsm1,epsm2)
-         pmaxc = prob_epskt(epspmax)/cnorm
-         pmax = facpmax*pmaxc
- 
-        else
-c*** determine distribution:
-       epsth = (1.1646D0-xmp*xmp)/2.D0/(E0+Pp)
-       epsth = epsth*1.D9
-       epsm1 = max(epsmin,epsth)
-       epsm2 = epsmax
-       if (epsm1.ge.epsm2) then
-        eps = 0.
-        RETURN
-       endif
-      endif
-
-      epsmx1 = epsm1
-      epsmx2 = epsm2
-      epsbx = epsb
-      epsdelta = 0.159368/E0*1.d9
-      epsxx = 126.D0/E0*1.d9
-      alpha12 = alpha2-alpha1
-      a1 = 1.D0
-  10  continue
-c*** sample eps randomly between epsmin ... epsmax **
-      r1 = rndm(0)
-c*** calculate p(eps) = peps ***************************************
-      if (tbb.le.0.D0) then
-       rn = rndm(0)
-c*******************************************************************
-c... sample from straight power law (alpha = alpha2, epsb < epsm1):
-      if (alpha12.eq.0.D0.or.epsm1.ge.epsb) then
-       if (epsxx.ge.epsm2) then
-        alphaxx = alpha2
-       else if (epsxx.le.epsm1) then
-        alphaxx = (alpha2+2.D0)
-       else if (epsm1.lt.epsxx.and.epsxx.lt.epsm2) then
-          a2 = epxx*epsxx
-          alphaxx = alpha2
-          pintegr1 = a1*probint_pl(epsm1,epsxx,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr2 = a2*probint_pl(epsxx,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2)
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha2 
-            epsm2 = epsxx 
-            ampl = a1          
-          else if (pintegr1.le.rn.and.rn.lt.1.D0) then
-            alphaxx = alpha2+2.D0
-            epsm1  = epsxx
-            ampl = a2 
-          endif
-       endif    
-      endif
-c... sample from broken power law: input always epsm1 < epsb < epsm2 
-      if (epsm1.lt.epsb) then
-c... determine where epsb,epsxx lies:
-        if (epsm1.lt.epsxx.and.epsxx.lt.epsb) then
-          a2 = epxx*epsxx
-          a3 = a2*(epsb**(alpha2-alpha1))
-          alphaxx = alpha1
-          pintegr1 = a1*probint_pl(epsm1,epsxx,alphaxx)
-          alphaxx = (alpha1+2.D0)
-          pintegr2 = a2*probint_pl(epsxx,epsb,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr3 = a3*probint_pl(epsb,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2+pintegr3)
-          pintegr2 = (pintegr1+pintegr2)/(pintegr1+pintegr2+pintegr3)
-          pintegr3 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1 
-            epsm2 = epsxx 
-            ampl = a1          
-          else if (pintegr1.le.rn.and.rn.lt.pintegr2) then
-            alphaxx = alpha1+2.D0
-            epsm1  = epsxx
-            epsm2 = epsb
-            ampl = a2 
-          else if (pintegr2.le.rn.and.rn.le.pintegr3) then
-            alphaxx = alpha2+2.D0
-            epsm1 = epsb
-            ampl = a3 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (1)!'
-            STOP
-          endif
-
-         else if (epsb.le.epsxx.and.epsxx.lt.epsm2) then
-          a2 = epsb**(alpha2-alpha1)
-          a3 = a2*epsxx*epsxx
-          alphaxx = alpha1
-          pintegr1 = a1*probint_pl(epsm1,epsb,alphaxx)
-          alphaxx = alpha2
-          pintegr2 = a2*probint_pl(epsb,epsxx,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr3 = a3*probint_pl(epsxx,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2+pintegr3)
-          pintegr2 = (pintegr1+pintegr2)/(pintegr1+pintegr2+pintegr3)
-          pintegr3 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1 
-            epsm2 = epsb 
-            ampl = a1         
-          else if (pintegr1.le.rn.and.rn.lt.pintegr2) then
-            alphaxx = alpha2
-            epsm1  = epsb
-            epsm2 = epsxx
-            ampl = a2 
-          else if (pintegr2.le.rn.and.rn.le.pintegr3) then
-            alphaxx = alpha2+2.D0
-            epsm1 = epsxx
-            ampl = a3 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (2)!'
-            STOP
-          endif
-
-         else if (epsxx.ge.epsm2) then
-          a2 = epsb**(alpha2-alpha1)
-          a3 = 0.D0
-          alphaxx = alpha1
-          pintegr1 = a1*probint_pl(epsm1,epsb,alphaxx)
-          alphaxx = alpha2
-          pintegr2 = a2*probint_pl(epsb,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2)
-          pintegr2 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1 
-            epsm2 = epsb 
-            ampl = a1         
-          else if (pintegr1.le.rn.and.rn.le.pintegr2) then
-            alphaxx = alpha2
-            epsm1 = epsb
-            ampl = a2 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (3)!'
-            STOP
-          endif
-
-         else if (epsxx.le.epsm1) then
-          a2 = epsb**(alpha2-alpha1)
-          a3 = 0.D0
-          alphaxx = (alpha1+2.D0)
-          pintegr1 = a1*probint_pl(epsm1,epsb,alphaxx)
-          alphaxx = (alpha2+2.D0)
-          pintegr2 = a2*probint_pl(epsb,epsm2,alphaxx)
-          pintegr1 = pintegr1/(pintegr1+pintegr2)
-          pintegr2 = 1.D0
-          if (rn.lt.pintegr1) then
-            alphaxx = alpha1+2.D0 
-            epsm2 = epsb 
-            ampl = a1         
-          else if (pintegr1.le.rn.and.rn.le.pintegr2) then
-            alphaxx = alpha2+2.D0
-            epsm1 = epsb
-            ampl = a2 
-          else
-            print*,'error in sampling broken power law: SAMPLE_EPS (4)!'
-            STOP
-          endif
-
-         endif
-cxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-c... END: sample from broken power law:
-       endif
-c*****************************************************     
-       if (alphaxx.eq.1.D0) then
-        term1 = r1*log(epsm2/epsm1)
-        eps = epsm1*exp(term1)
-       else
-        beta = 1.D0-alphaxx
-        betai = 1.D0/beta
-        term1 = r1*(epsm2**beta)
-        term2 = (r1-1.D0)*(epsm1**beta)
-        eps = (term1-term2)**betai
-       endif
-
-
-c******************************************************
-c*** for thermal spectrum: ***
-      else
-       eps = epsm1+r1*(epsm2-epsm1)
-       peps = prob_epskt(eps)/cnorm
-c      endif
-c*** rejection method to sample eps *********************
-        r2 = rndm(0)
-        if (r2*pmax.gt.peps) then
-         goto 10
-        endif
-
-       endif
-
-       epsm1 = epsmx1
-       epsm2 = epsmx2
-       epsb = epsbx
-
-c... check maximum of epsilon distribution:
-       if (pmax.lt.peps) then
-        facpmax = facpmax + 0.1D0
-        goto 1
-       endif
-
-       RETURN
-       END
-
-
-        DOUBLE PRECISION function prob_epskt(eps)
-
-c*** calculates probability distribution for thermal photon field ***
-c*** with temerature tbb (in K), eps (in eV)            *************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-       external functs,photd,gauss
-       double precision functs,photd,gauss
-
-       xmpi = 0.135D0
-       xmp = 0.93827D0
-       Pp = sqrt(E0*E0-xmp*xmp)
-       gammap = E0/xmp
-       betap = sqrt(1.D0-1.D0/gammap/gammap)
-       deps = photd(eps,tbb)
-       if (deps.eq.0.D0) then
-        prob_epskt = 0.D0
-        RETURN
-       else
-c*** calculate \int_sth^smax ds (s-mp^2) sigma_pg *******
-c*** smin is for head-on collision **********************
-        smin = 1.1646D0
-        smax = max(smin,xmp*xmp+2.D0*eps/1.D9*E0*(1.D0+betap))
-        sintegr = gauss(functs,smin,smax)
-
-        prob_epskt = deps/eps/eps*sintegr/
-     &     8.D0/betap/E0/E0*1.D18*1.D6
-       endif
-
-        RETURN
-
-        END
-
-        DOUBLE PRECISION function prob_epspl(eps)
-
-c*** calculates probability distribution for power law photon field ***
-c*** n = anorm*eps^-alpha, eps=[epsm1,epsm2], eps in eV *************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-        SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-       external functs,gauss
-       double precision functs,gauss
-
-       xmpi = 0.135D0
-       xmp = 0.93827D0
-       Pp = sqrt(E0*E0-xmp*xmp)
-       gammap = E0/xmp
-       betap = sqrt(1.D0-1.D0/gammap/gammap)
-       alpha12 = alpha2-alpha1
-       ampl = epsb**alpha12
-       if (eps.lt.epsb) then
-         deps = eps**(-alpha1)
-       else
-         deps = ampl*(eps**(-alpha2))
-       endif
-
-c*** calculate \int_sth^smax ds (s-mp^2) sigma_pg *******
-c*** smin is for head-on collision **********************
-        smin = 1.1646D0
-        smax = max(smin,xmp*xmp+2.D0*eps/1.D9*(E0+Pp))
-
-         sintegr = gauss(functs,smin,smax)
-
-        prob_epspl = deps/eps/eps*sintegr/
-     &     8.D0/betap/E0/E0*1.D18*1.D6
-
-        RETURN
-
-        END
-
-        DOUBLE PRECISION function probint_pl(epsi,epsf,p)
-
-c*** returns \int_epsi^epsf eps^-p   **************
-c*** calling program is SAMPLE_EPS ****************
-c** Date: 03/03/99   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-        SAVE
-
-        if (p.eq.1.D0) then
-          probint_pl = log(epsf/epsi)
-        else
-         p1 = 1.D0-p
-         probint_pl = ((epsf**p1)-(epsi**p1))/p1
-        endif
-  
-        RETURN
-
-        END
-
-
-      DOUBLE PRECISION function functs(s)
-
-c*** returns (s-pm^2)*sigma_Ngamma **************
-c*** calling program is SAMPLE_S ****************
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-        SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-        external crossection
-        double precision crossection
-
-
-        pm = 0.93827D0
-        factor = (s-pm*pm)
-        epsprime = factor/2.D0/pm
-        sigma_pg = crossection(epsprime,3,L0)
-        functs = factor*sigma_pg 
-
-        RETURN
-
-        END
-
-	DOUBLE PRECISION FUNCTION PHOTD(EPS,TBB)
-C **************************************************************
-C    RETURNS THE DENSITY OF BLACKBODY RADIATION OF TEMPERATURE *
-C "TBB" DEGREES (DENS1). EPS IN eV, PHOTD IN #/(cm^3.eV)       *
-C                                    TSS,  May '92             *
-C **************************************************************
-	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-        SAVE
-C CONVERT TEMPERATURE TO eV
-	EPH = EPS
-        EKT = 8.619D-5*TBB
-        EPHKT = EPS/EKT
-        IF (EPHKT .GT. 80.D0)     GO TO 10
-        IF (EPHKT .LT. 1.D-4)   GO TO 11
-        FEE = DEXP(EPHKT) - 1.D0
-        GO TO 12
-   11   FEE = EPHKT
-   12   BB = 1.318D13*EPH*EPH/FEE
-	GO TO 15
-   10   BB = 0.D0
-   15	PHOTD = BB
-	END
-
-	DOUBLE PRECISION FUNCTION PHOTD_IR(EPS)
-C **************************************************************
-C    RETURNS THE DENSITY OF IR background at redshift Z*
-C    EPS IN eV, PHOTD_IR IN #/(cm^3.eV)       *
-C                                    G.Sigl,  Aug '05             *
-C    At the moment, redshift is a dummy variable within the program
-C    IR background from Primack et al. (1999)
-C **************************************************************
-	IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-        IMPLICIT INTEGER (I-N)
-        SAVE
-c       NN put the following line up from some line below (f77 error)
-        COMMON /REDSHIFT/ Z,ZMAX_IR
-        PARAMETER  (FLUX_CONVERSION = 3.82182d3)
-
-        DIMENSION XData(15), YData(15)
-        DATA (XData(I),I=1,15)/ -1., -0.75, -0.5, -0.25, 0.,
-c        COMMON /REDSHIFT/ Z,ZMAX_IR
-     & 0.25, 0.5, 0.75, 1., 1.25, 1.5, 1.75, 2., 2.25, 2.5/
-c       DATA (YData(I),I=1,15)/ 0.8, 1.1, 1.15, 1.2, 1.3,
-c     & 1.2, 1.05, 0.7, 0.4, 0.3, 0.5, 0.8, 1.1, 1.3, 1./
-c     Kneiske background
-        DATA (YData(I),I=1,15)/-0.214401, 0.349313, 0.720354, 0.890389, 
-     & 1.16042, 1.24692, 1.06525, 0.668659, 0.536312, 0.595859,
-     & 0.457456, 0.623521, 1.20208, 1.33657, 1.04461/
-c Redshift evolution as for CMB. (added Dec.'05)
-c conversion from nW/cm^3/sr to eV/cm^3
-c        FLUX_CONVERSION = 
-c     & 2.9979e10/4./dacos(-1.d0)*1.602e-19*1.e9*1.e4
-c       PARAMETER  (FLUX_CONVERSION = 3.82182d3)
-
-c        print*,Z
-
-c conversion from eV to micrometers
-        X = 1.2398d0*(1.+Z)/EPS
-        if (X.gt.500.) then
-           RESULT=0.
-        else
-           if (dlog10(X).ge.XData(15)) then
-              RESULT = (YData(15) - YData(14))/(XData(15) - XData(14))*
-     & (dlog10(X) - XData(14)) + YData(14)
-              RESULT = 10.d0**RESULT
-           endif
-        endif
-        if (dlog10(X).le.XData(1)) RESULT=0.
-        if ((dlog10(X).lt.XData(15)).and.(dlog10(X).gt.XData(1))) then
-           INDEX = 2
-           do while (XData(INDEX).lt.dlog10(X))
-              INDEX = INDEX+1
-           enddo
-           RESULT = (YData(INDEX) - YData(INDEX-1))/
-     & (XData(INDEX) - XData(INDEX-1))*(dlog10(X) - XData(INDEX-1))+ 
-     &  YData(INDEX-1)
-           RESULT = 10.d0**RESULT
-        endif
-        PHOTD_IR = RESULT*(1.+Z)**2/(EPS/(1.+Z))**2/FLUX_CONVERSION
-
-        if (Z.gt.ZMAX_IR) then
-           PHOTD_IR = 0.d0
-        endif
-
-        RETURN
-        END
-
-       DOUBLE PRECISION function plinterpol(alpha)
-
-c*** interpolates p(Ep) to give the max. probability p(eps) for ***
-c*** a given initial proton energy                              ***
-c** Date: 20/01/98   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-       SAVE
-
-       DIMENSION AINDEX(4), A(4)
-       DATA A / 0.D0,1.D0,2.D0,3.D0/
-       DATA AINDEX / 8.D8,5.D8,5.D8,1.D9/
-
-       plinterpol = 0.D0
-
-       do 1 ni=1,3
-        p1 = A(ni)
-        p2 = A(ni+1)
-        if (alpha.le.p2.and.alpha.gt.p1) then
-         tang = (log10(AINDEX(ni+1))-log10(AINDEX(ni)))/(p2-p1)
-         plinterpol = log10(AINDEX(ni))+(alpha-p1)*tang
-         plinterpol = 10.D0**plinterpol
-        endif
-  1    continue
-
-       if (alpha.eq.0.D0) plinterpol = 5.D8
-
-       if (plinterpol.eq.0.D0) then
-        print*,'interpolation not sucessful !'
-C        pause
-       endif
-
-       END
-
-       DOUBLE PRECISION function f_epspl(eps)
-
-c*** gives energy density law of power law photon field    ***
-c*** f(epsilon) = eps^-alpha, eps=[epsm1,epsm2], eps in eV *************
-c** Date: 14/03/99   **
-c** author: A.Muecke **
-c**********************
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-
-
-       alpha12 = alpha2-alpha1
-       ampl = epsb**alpha12
-       if (eps.lt.epsb) then
-         f_epspl = eps*(eps**(-alpha1))
-       else
-         f_epspl = eps*ampl*(eps**(-alpha2))
-       endif
-
-       RETURN
-
-       END
-
-
-
-
-C **************************************************************
-C    integrand for Total_rate_ir
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function functs_int_ir(eps_ln)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs,gauss
-
-       eps=dexp(eps_ln)
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       smin = 1.1646D0
-       smax = xmp*xmp+2.D0*eps*1.d-9*(E0+Pp)
-       s0 = 10.D0
-       if (smax.lt.smin) result=0.d0
-       if (smax.gt.smin) then
-          if (smax.le.s0) result=gauss(functs,smin,smax)
-          if (smax.gt.s0) result=gauss(functs,smin,s0)+
-     & gauss(functs,s0,smax)
-       endif
-       functs_int_ir=photd_ir(eps)/eps*result
-       RETURN
-       END
-
-C **************************************************************
-C    RETURNS interaction rate with IRB in Mpc^-1
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function Total_rate_ir(epsmin,epsmax)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs_int_ir,gauss
-
-       pm = 0.93827D0
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       epsm1 = max(epsmin,1.D9*(1.1646D0-xmp*xmp)/2.D0/(E0+Pp))
-       if (epsmax.gt.epsm1) then
-          result=2.d0*xmp*gauss(functs_int_ir,dlog(epsm1),dlog(epsmax))
-       else
-          result=0.d0
-       endif
-       Total_rate_ir=1.d18/8.d0/E0/Pp*result*1.d-30*3.0856d24
-
-       RETURN
-       END
-
-C **************************************************************
-C    integrand for Total_rate_cmb
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function functs_int_cmb(eps_ln)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs,gauss
-
-       eps=dexp(eps_ln)
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       smin = 1.1646D0
-       smax = xmp*xmp+2.D0*eps*1.d-9*(E0+Pp)
-       s0 = 10.D0
-       if (smax.lt.smin) result=0.d0
-       if (smax.gt.smin) then
-          if (smax.le.s0) result=gauss(functs,smin,smax)
-          if (smax.gt.s0) result=gauss(functs,smin,s0)+
-     & gauss(functs,s0,smax)
-       endif
-       functs_int_cmb=photd(eps,(1.d0+Z)*2.75)/eps*result
-       RETURN
-       END
-
-C **************************************************************
-C    RETURNS total interaction rate with CMB in Mpc^-1
-C                                    G.Sigl,  Aug '05             *
-C **************************************************************
-       DOUBLE PRECISION function Total_rate_cmb(epsmin,epsmax)
-       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-       IMPLICIT INTEGER (I-N)
-
-       SAVE
-       common/input/ tbb,E0,alpha1,alpha2,
-     &           epsm1,epsm2,epsb,L0
-       COMMON /S_MASS1/ AM(49), AM2(49)
-       COMMON /REDSHIFT/ Z,ZMAX_IR
-       external functs_int_cmb,gauss
-
-       pm = 0.93827D0
-       xmpi = AM(7)
-       xmp = AM(L0)
-       Pp = sqrt(E0*E0-xmp*xmp)
-       epsm1 = max(epsmin,1.D9*(1.1646D0-xmp*xmp)/2.D0/(E0+Pp))
-       if (epsmax.gt.epsm1) then
-          result=2.d0*xmp*gauss(functs_int_cmb,dlog(epsm1),dlog(epsmax))
-       else
-          result=0.d0
-       endif
-       Total_rate_cmb=1.d18/8.d0/E0/Pp*result*1.d-30*3.0856d24
-
-       RETURN
-       END
-c****************************************************************************
-c
-c   SOPHIAEVENT
-c
-c   interface between Sophia and CRPropa
-c   simulate an interaction between p/n of given energy and the CMB
-c
-c   Eric Armengaud, 2005
-c*******************************
-c add Sept 2005 : redshift effect and interactions on IRB (from Primack 1999)
-c****************************************************************************
-
-c      subroutine sophiaevent(nature,Ein,OutPart,OutPartType,NbOutPart,
-c     &     z_particle,bgFlag,Zmax_IRB)
-
-c**********************************
-c nature, Ein = input nature and energy of the nucleon
-c        nature = 0 -> p ; 1 -> n
-c        Ein : in GeV (SOPHIA standard energy unit)
-c OutPart,OutPartType,NbOutPart = output data:
-c        P(2000,5) list of 4-momenta + masses of output particles
-c        LList(2000) list of output particle IDs
-c        NP nb of output particles
-c Added Sept. 2005 :
-c        z_particle : needed to estimate the CMB temperature (no redshift 
-c           evolution of IRB at the moment)
-c        bgFlag = 1 for CMB, 2 for Primack et al. (1999) IRB
-c Added Dec. 2005 :
-c        zmax : now there is a "standard" IRB evolution which requires to 
-c           know the redshift and z_max of the irb.
-c**********************************
-
-c      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-c      IMPLICIT INTEGER (I-N)
-c      SAVE
-      
-c      COMMON/input/ tbb,E0,alpha1,alpha2,
-c     &     epsm1,epsm2,epsb,L0cc
-
-c      COMMON /REDSHIFT/ Z, ZMAX_IR
-
-c      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-c      COMMON /S_MASS1/ AM(49), AM2(49)
-c      COMMON /S_CHP/  S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
-c      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
-c      
-c      CHARACTER*6 NAMPRES
-c      COMMON /RES_PROP/ AMRES(9), SIG0(9),WIDTH(9), 
-c     +                    NAMPRES(0:9)
-
-c      CHARACTER*6 NAMPRESp
-c      COMMON /RES_PROPp/ AMRESp(9), BGAMMAp(9),WIDTHp(9),  
-c     +                    RATIOJp(9),NAMPRESp(0:9)
-
-c      CHARACTER*6 NAMPRESn
-c      COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9),WIDTHn(9),  
-c     +                    RATIOJn(9),NAMPRESn(0:9)
-
-
-c      external sample_eps,sample_s,eventgen,initial,prob_epskt,
-c     &     sample_ir_eps
-      
-c      integer nature
-c      integer bgFlag
-c      double precision Ein
-c      double precision z_particle
-c      double precision OutPart(2000,5)
-c      integer OutPartType(2000)      
-c      integer NbOutPart
-
-c      double precision epsmin,epsmax
-
-c      DATA pi /3.141593D0/
-
-c      if (nature.eq.0) then 
-c         L0=13
-c      else if (nature.eq.1) then
-c         L0=14
-c      else
-c         print*,'sophiaevent: incoming particle incorrectly specified'
-c         stop
-c      endif
-
-c$$$      call initial(L0)
-c$$$      E0 = Ein
-c$$$      pm = AM(L0)
-c$$$
-c$$$      tbb=2.73*(1.D0+z_particle)
-c$$$      Z = z_particle
-c$$$      ZMAX_IR = Zmax_IRB
-c$$$
-c$$$      if (bgFlag.eq.1) then
-c$$$         epsmin = 0.
-c$$$         epsmax = 0.
-c$$$         call sample_eps(epseV,epsmin,epsmax)
-c$$$      else if (bgFlag.eq.2) then
-c$$$c Choice for epsmin/epsmax : the Primack data is for -1<log(lambda/mumeter)<2.5
-c$$$c  i.e. E in [3.93e-3,12.4] eV. We choose epsmin/max inside this range for security
-c$$$         epsmin = 0.00395D0
-c$$$         epsmax = 12.2D0
-c$$$         call sample_ir_eps(epseV,epsmin,epsmax)
-c$$$      else
-c$$$         print*,'sophiaevent: incorrect background flag'
-c$$$         stop
-c$$$      endif
-c$$$      eps = epseV/1.D9
-c$$$      Etot = E0+eps
-c$$$      call sample_s(s,eps)
-c$$$      gammap = E0/pm
-c$$$      betap = sqrt(1.D0-1.D0/gammap/gammap)
-c$$$      theta = ((pm*pm-s)/2.D0/E0/eps+1.D0)/betap
-c$$$      if (abs(theta).gt.1.D0) STOP
-c$$$      theta = acos(theta)*180.D0/pi 
-c$$$
-c$$$      call eventgen(L0,E0,eps,theta,Imode)
-c$$$        
-c$$$      do i=1,2000
-c$$$         do j=1,5
-c$$$            OutPart(i,j)=P(i,j)
-c$$$         end do
-c$$$         OutPartType(i)=LLIST(i)
-c$$$      end do
-c$$$      NbOutPart=NP
-c$$$
-c$$$      return
-c$$$      end
-
-
-c****************************************************************************
-c
-c   SOPHIAEVENT
-c
-c   interface between Sophia and CRPropa
-c   simulate an interaction between p/n of given energy and the CMB
-c
-c   Eric Armengaud, 2005
-c*******************************
-c add Sept 2005 : redshift effect and interactions on IRB (from Primack 1999)
-c****************************************************************************
-c
-c     Modified in Sept 2009 to include a radial dependence of IRB.
-c
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      subroutine sophiaevent(nature,Ein,eps,
-     &  OutPart,OutPartType,NbOutPart)
-
-c**********************************
-c nature, Ein = input nature and energy of the nucleon
-c        nature = 0 -> p ; 1 -> n
-c        Ein : in GeV (SOPHIA standard energy unit)
-c OutPart,OutPartType,NbOutPart = output data:
-c        P(2000,5) list of 4-momenta + masses of output particles
-c        LList(2000) list of output particle IDs
-c        NP nb of output particles
-c Added Sept. 2005 :
-c        z_particle : needed to estimate the CMB temperature (no redshift 
-c           evolution of IRB at the moment)
-c        bgFlag = 1 for CMB, 2 for Primack et al. (1999) IRB
-c Added Dec. 2005 :
-c        zmax : now there is a "standard" IRB evolution which requires to 
-c           know the redshift and z_max of the irb.
-c**********************************
-
+      END SUBROUTINE sample_s
+
+
+      DOUBLE PRECISION FUNCTION functs(s)
+c     Returns (s-pm^2)*sigma_Nucleon/gamma
+c     calling program is SAMPLE_S & sample_eps_blackbody
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      IMPLICIT INTEGER (I-N)
+      SAVE
+
+      COMMON /input/ E0,L0
+
+      EXTERNAL crossection
+      DOUBLE PRECISION crossection
+
+      pm = 0.93827D0
+      factor = (s-pm*pm)
+      epsprime = factor/2.D0/pm
+      sigma_pg = crossection(epsprime,3,L0)
+      functs = factor*sigma_pg 
+
+      RETURN
+      END FUNCTION functs
+
+
+      SUBROUTINE sophiaevent(nature, Ein, eps,
+     &    OutPart, OutPartType, NbOutPart)
+C***********************************************************************
+C    Interface between Sophia and CRPropa.
+C    Simulates an interaction between a proton/neutron and a photon.
+C    Originally implemented by Eric Armengaud, 2005.
+C    Modified by Mario Hoerbe, 2017, 2018, 2019.
+C 
+C    Parameters:
+C    IN  int nature               0 = p | 1 = n
+C    IN  double Ein               [GeV] Energy of primary nucleon
+C    IN  double eps               [GeV] energy of target photon
+C    OUT int[2000,5] OutPart      4-momenta + masses of output particles
+C    OUT int[2000] OutPartType    output particle IDs
+C    OUT int NbOutPart            number of output particles
+C***********************************************************************
       IMPLICIT DOUBLE PRECISION (A-H,O-Z)
       IMPLICIT INTEGER (I-N)
       SAVE
       
-      COMMON/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
+      COMMON /input/ E0,L0
 
-      COMMON /REDSHIFT/ Z, ZMAX_IR
-
-      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
+      COMMON /S_PLIST/ P(2000, 5), LLIST(2000), NP, Ideb
       COMMON /S_MASS1/ AM(49), AM2(49)
       COMMON /S_CHP/  S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
       COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
       
       CHARACTER*6 NAMPRES
-      COMMON /RES_PROP/ AMRES(9), SIG0(9),WIDTH(9), 
-     +                    NAMPRES(0:9)
+      COMMON /RES_PROP/ AMRES(9), SIG0(9), WIDTH(9), NAMPRES(0:9)
 
       CHARACTER*6 NAMPRESp
-      COMMON /RES_PROPp/ AMRESp(9), BGAMMAp(9),WIDTHp(9),  
-     +                    RATIOJp(9),NAMPRESp(0:9)
+      COMMON /RES_PROPp/ AMRESp(9), BGAMMAp(9), WIDTHp(9),
+     +                    RATIOJp(9), NAMPRESp(0:9)
 
       CHARACTER*6 NAMPRESn
-      COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9),WIDTHn(9),  
-     +                    RATIOJn(9),NAMPRESn(0:9)
+      COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9), WIDTHn(9),  
+     +                    RATIOJn(9), NAMPRESn(0:9)
 
+      EXTERNAL sample_s
 
-      external sample_eps,sample_s,eventgen,initial,prob_epskt,
-     &     sample_ir_eps
-      
-      integer nature
-      integer bgFlag
-      double precision Ein,Pp
-      double precision z_particle
-      double precision OutPart(2000,5)
-      integer OutPartType(2000)      
-      integer NbOutPart
-
-      double precision epsmin,epsmax
+      INTEGER nature
+      DOUBLE PRECISION Ein, Pp, eps
+      DOUBLE PRECISION OutPart(2000, 5)
+      INTEGER OutPartType(2000)
+      INTEGER NbOutPart
 
       DATA pi /3.141593D0/
 
-
-cc 15.09.2009
-C       integer idatamax
-C       double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-cc
       if (nature.eq.0) then 
-         L0=13
+          L0 = 13
       else if (nature.eq.1) then
-         L0=14
+          L0 = 14
       else
-         print*,'sophiaevent: incoming particle incorrectly specified'
-         stop
+          PRINT*, 'sophiaevent: incoming particle incorrectly specified'
+          STOP
       endif
 
-      call initial(L0)
+      CALL initial(L0)
 
       E0 = Ein
-      pm = AM(L0)
-
-      tbb=2.73*(1.D0+z_particle)
-      Z = z_particle
-      ZMAX_IR = Zmax_IRB
-
-* check
-c      return
-***
-C       if (bgFlag.eq.1) then
-C          epsmin = 0.
-C          epsmax = 0.
-C       print*, "CRPropa:", eps
-C          call sample_eps(epseV,epsmin,epsmax)
-C       print*, "sample_eps", epseV
-C       else if (bgFlag.eq.2) then
-c Choice for epsmin/epsmax : the Primack data is for -1<log(lambda/mumeter)<2.5
-c  i.e. E in [3.93e-3,12.4] eV. We choose epsmin/max inside this range for security
-C          epsmin = 0.00395D0
-C          epsmax = 12.2D0
-C          call sample_ir_eps(epseV,epsmin,epsmax)
-c     c 15.09.2009
-c     Limits are defined by the provided background 
-C       else if (bgflag.eq.3) then
-C          epsmin = en_data(1) 
-C          epsmax = en_data(idatamax) 
-C          call sample_ir_eps2(epseV,epsmin,epsmax
-C      $        ,idatamax,en_data,flux_data)
-
-cc
-
-C       else
-C          print*,'sophiaevent: incorrect background flag'
-C          stop
-C       endif
-C       eps = epseV/1.D9
-c      Etot = E0+eps
-
-c      print*,'Before sample_s'
-      call sample_s(s,eps)
-c      print*,'After sample_s'
-
-c      gammap = E0/pm
-c      betap = sqrt(1.D0-1.D0/gammap/gammap)
-      Pp = sqrt(E0*E0-pm*pm)
-      theta = ((pm*pm-s)/2.D0/eps+E0)/Pp
+      pm = AM(L0)  ! nucleon mass
+      Pp = sqrt(E0 * E0 - pm * pm)  ! momentum of nucleon [GeV/c]
+      
+      CALL sample_s(s, eps)
+      
+      theta = ((pm * pm - s) / 2.D0 / eps + E0) / Pp
       if (theta.gt.1.D0) then
-         print*,'sophiaevent: theta > 1.D0: ', theta
-         theta = 0.D0
+          PRINT*, 'sophiaevent: theta > 1.D0: ', theta
+          theta = 0.D0
       else if (theta.lt.-1.D0) then
-         print*,'sophiaevent: theta < -1.D0: ', theta
-         theta = 180.D0
+          PRINT*,'sophiaevent: theta < -1.D0: ', theta
+          theta = 180.D0
       else
-          theta = acos(theta)*180.D0/pi 
+          theta = acos(theta) * 180.D0 / pi
       endif
 
-      call eventgen(L0,E0,eps,theta,Imode)
+      CALL eventgen(L0, E0, eps, theta, Imode)
 
-      do i=1,2000
-         do j=1,5
-            OutPart(i,j)=P(i,j)
-         end do
-         OutPartType(i)=LLIST(i)
+      do i = 1, 2000
+          do j = 1, 5
+              OutPart(i, j) = P(i, j)
+          end do
+          OutPartType(i) = LLIST(i)
       end do
-      NbOutPart=NP
+      NbOutPart = NP
 
-      return
-      end
-
-
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      subroutine  sample_ir_eps2(eps,epsmin,epsmax
-     $     ,idatamax,en_data,flux_data)
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-      SAVE
-
-      common/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-      common/PLindex/ alphaxx
-      COMMON /S_MASS1/ AM(49), AM2(49)
-
-cc 15.09.2009
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-      double precision prob_ir(idatamax)
-ccc
-
-
-      xmpi = AM(7)              ! Mpion (GeV)
-      xmp = AM(L0)              ! Mp (GeV) 
-      smin = 1.1646D0 ! (xmpi+xmp)**2      
-c      gammap = E0/xmp
-c      betap = sqrt(1.d0-1.d0/gammap/gammap)
-      Pp = sqrt(E0*E0-xmp*xmp)
-
-      epsth = (smin-xmp*xmp)/2.D0/(E0+Pp) 
-      epsth = epsth*1.D9
-      epsm1 = max(epsmin,epsth)
-
-
-      factor = 2.d0
-
-      if (epsm1.ge.epsmax) then
-         eps = 0.d0             
-
-      else
-c find the maximum of E**2*prob_eps_ir -> calculation of alpha        
-         e2prob_max = -1d100
-         do i = 1,idatamax
-            eps = en_data(i)  ! eV
-            prob_ir(i) = prob_eps_ir(eps
-     $           ,idatamax,en_data,flux_data)
-
-
-            if(eps**2*prob_ir(i) .gt. e2prob_max) then
-               eps_max = eps
-               e2prob_max = eps**2*prob_ir(i)
-            endif
-         enddo         
-         alpha = e2prob_max
-
-c loop -> acceptance-rejection method, comparison function alpha*E^(-2) 
-         do
-            r1 = rndm(0)
-           
-            eps = 1.d0/epsm1 - r1*(1.d0/epsm1 - 1.d0/epsmax)
-            eps = 1.d0/eps
-            
-            f_comp = factor*alpha*eps**(-2.d0)
-            
-            r2 = rndm(1)         
-            Prob = divdif(prob_ir,en_data,idatamax,eps,1)
-
-            if(Prob .gt. f_comp*r2) exit
-         enddo
-      endif      
-
-*** check
-c      write(14,*)eps,Prob,f_comp
-* 5    format(5E16.6)
-***
-
-
-      return
-      end
-
-
-c....
-      
-      double precision  function prob_eps_ir(eps
-     $     ,idatamax,en_data,flux_data) ! eps (eV)
-      implicit none
-
-      integer L0
-      double precision tbb,E0,alpha1,alpha2,epsm1,epsm2,epsb,am
-     $     ,am2
-
-      common/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-      COMMON /S_MASS1/ AM(49), AM2(49) 
-      
-      external functs,photd,gauss
-      double precision functs,photd,gauss
-
-      external n_ir
-      double precision n_ir
-
-      double precision xmpi,xmp,Pp,gammap,betap,deps,eps
-      double precision smin,smax,sintegr
-
-c
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-c
-
-      xmpi = 0.135D0
-      xmp = am(l0)              
-      Pp = sqrt(E0*E0-xmp*xmp)
-      gammap = E0/xmp
-      betap = sqrt(1.D0-1.D0/gammap/gammap)
-      deps = n_ir(eps,idatamax,en_data,flux_data)  ! n_photon(eps) 1/(cm^3 eV)
-
-      if (deps.eq.0.D0) then
-         prob_eps_ir = 0.D0
-         RETURN
-      else
-c***  calculate \int_sth^smax ds (s-mp^2) sigma_pg *******
-c*** smin is for head-on collision **********************
-         smin = (xmpi+xmp)**2   ! GeV^2              
-
-c isotropy
-         smax = xmp*xmp+2.D0*eps/1.D9*E0*(1.D0+betap)
-
-      endif
-
-
-      if(smax .gt. smin)then
-c isotropy
-         sintegr = gauss(functs,smin,smax) ! GeV^4 microbn
-
-         prob_eps_ir = deps/eps/eps*sintegr/
-     &           8.D0/betap/E0/E0*1.D-12 ! 1/(cm^3 eV)*1/eV^2*GeV^4*microbn/GeV^2 -> 1/(cm*eV)           
-         
-      else
-         prob_eps_ir = 0.d0         
-      endif
-
-      return
-      end
-
-
-c........
-
-      double precision function n_ir(eps,idatamax,en_data,flux_data)! 1/(eV cm3)
-      implicit none
-
-      integer idatairmax
-      integer idatamax
-      double precision en_data(idatamax),flux_data(idatamax) ! eV, eV/cm3
-
-      double precision eps
-      external divdif
-      double precision divdif
-
-      n_ir = divdif(flux_data,en_data,idatamax,eps,1) ! eV/cm^3
-      n_ir = n_ir/eps**2
-
-      if(n_ir .lt. 0.d0)n_ir = 0.d0
-
-      return
-      end
-
-
-c..............................................................................
-c Performs polynomial interpolation. The first term F(NN) contains the  values.
-c of the function to interpolate, A(NN) contains the corresponding x-values,  .
-c x is the point at which we want to evaluate the function and the last 
-c parameter MM corresponds to the order of the polynomial 
-c interpolation 1<MM<9 (set MM=3 if you don't know). This interpolating 
-c routine requires real numbers in singol precision and an ordering
-c AA(i)<AA(i+1) as input.
-c..............................................................................
-      double precision function DIVDIF(F,A,NN,X,MM)
-      implicit none
-      integer n,m,nn,mm,mplus,i,ip,ix,iy,isub,j,l,mid,npts,mmax
-      double precision x,A(NN),F(NN),T(20),D(20),sum
-      LOGICAL EXTRA
-      LOGICAL MFLAG,RFLAG
-      DATA MMAX/10/
-C
-C  TABULAR INTERPOLATION USING SYMMETRICALLY PLACED ARGUMENT POINTS.
-C
-C  START.  FIND SUBSCRIPT IX OF X IN ARRAY A.
-      IF( (NN.LT.2) .OR. (MM.LT.1) ) GO TO 20
-      N=NN
-      M=MM
-      MPLUS=M+1
-      IX=0
-      IY=N+1
-C     (SEARCH INCREASING ARGUMENTS.)
-    1    MID=(IX+IY)/2
-         IF(X.GE.A(MID)) GO TO 2
-            IY=MID
-            GO TO 3
-C        (IF TRUE.)
-    2       IX=MID
-    3    IF(IY-IX.GT.1) GO TO 1
-         GO TO 7
-C  COPY REORDERED INTERPOLATION POINTS INTO (T(I),D(I)), SETTING
-C  *EXTRA* TO TRUE IF M+2 POINTS TO BE USED.
-    7 NPTS=M+2-MOD(M,2)
-      IP=0
-      L=0
-      GO TO 9
-    8    L=-L
-         IF(L.GE.0) L=L+1
-    9    ISUB=IX+L
-         IF((1.LE.ISUB).AND.(ISUB.LE.N)) GO TO 10
-C        (SKIP POINT.)
-            NPTS=MPLUS
-            GO TO 11
-C        (INSERT POINT.)
-   10       IP=IP+1
-            T(IP)=A(ISUB)
-            D(IP)=F(ISUB)
-   11    IF(IP.LT.NPTS) GO TO 8
-      EXTRA=NPTS.NE.MPLUS
-C
-C  REPLACE D BY THE LEADING DIAGONAL OF A DIVIDED-DIFFERENCE TABLE, SUP-
-C  PLEMENTED BY AN EXTRA LINE IF *EXTRA* IS TRUE.
-      DO 14 L=1,M
-         IF(.NOT.EXTRA) GO TO 12
-            ISUB=MPLUS-L
-            D(M+2)=(D(M+2)-D(M))/(T(M+2)-T(ISUB))
-   12    I=MPLUS
-         DO 13 J=L,M
-            ISUB=I-L
-            D(I)=(D(I)-D(I-1))/(T(I)-T(ISUB))
-            I=I-1
-   13    CONTINUE
-   14 CONTINUE
-C
-C  EVALUATE THE NEWTON INTERPOLATION FORMULA AT X, AVERAGING TWO VALUES
-C  OF LAST DIFFERENCE IF *EXTRA* IS TRUE.
-      SUM=D(MPLUS)
-      IF(EXTRA) SUM=0.5d0*(SUM+D(M+2))
-      J=M
-      DO 15 L=1,M
-         SUM=D(J)+(X-T(J))*SUM
-         J=J-1
-   15 CONTINUE
-      DIVDIF=SUM
       RETURN
-
-20          IF(MM.LT.1) WRITE(*,101) MM
-            IF(NN.LT.2) WRITE(*,102) NN
-
-c            DIVDIF=999999999999999999.
-             DIVDIF=999999999.d9
-
-  101 FORMAT( 7X, 'FUNCTION DIVDIF ... M =',I6,' IS LESS THAN 1')
-  102 FORMAT( 7X, 'FUNCTION DIVDIF ... N =',I6,' IS LESS THAN 2')
-
-      END
-
-      subroutine xsection_interface(Ein, epsprime, Nsec_arg, Npartid,
-     $     crosssection)
-
-c**********************************
-c        L. Maccione, R. Tomas, 2009
-c Npartid, Ein = input nature and energy of the nucleon
-c        Npartid = 13 -> p ; 14 -> n
-c        Ein : in GeV (SOPHIA standard energy unit)
-c        Nsec_arg : flag to request the total cross section
-c        crosssection : output. Total cross section (mub)
-c**********************************
-
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
-      IMPLICIT INTEGER (I-N)
-      SAVE
-      
-      COMMON/input/ tbb,E0,alpha1,alpha2,
-     &     epsm1,epsm2,epsb,L0
-
-      COMMON /REDSHIFT/ Z, ZMAX_IR
-
-      COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-      COMMON /S_MASS1/ AM(49), AM2(49)
-      COMMON /S_CHP/  S_LIFE(49), ICHP(49), ISTR(49), IBAR(49)
-      COMMON /S_CSYDEC/ CBR(102), IDB(49), KDEC(612), LBARP(49)
-      
-      CHARACTER*6 NAMPRES
-      COMMON /RES_PROP/ AMRES(9), SIG0(9),WIDTH(9), 
-     +                    NAMPRES(0:9)
-
-      CHARACTER*6 NAMPRESp
-      COMMON /RES_PROPp/ AMRESp(9), BGAMMAp(9),WIDTHp(9),  
-     +                    RATIOJp(9),NAMPRESp(0:9)
-
-      CHARACTER*6 NAMPRESn
-      COMMON /RES_PROPn/ AMRESn(9), BGAMMAn(9),WIDTHn(9),  
-     +                    RATIOJn(9),NAMPRESn(0:9)
-
-
-      external sample_eps,sample_s,eventgen,initial,prob_epskt,
-     &     sample_ir_eps, crossection
-      
-      integer Npartid
-      integer Nsec_arg
-      double precision Ein
-      double precision crosssection
-      double precision epsprime
-
-      DATA pi /3.141593D0/
-
-      L0=Npartid
-
-      call initial(L0)
-
-      E0 = Ein
-      pm = AM(L0)
-      tbb=2.73*(1.D0)
-      Z = 0
-
-      ZMAX_IR = 0
-
-      crosssection = crossection(epsprime, Nsec_arg, Npartid)
-      return 
-      END
+      END SUBROUTINE sophiaevent

@@ -8,7 +8,24 @@
 
 ### New plugins and resources linked on the webpages:
 
+## CRPropa v3.1.6
 
+### Bug fixes:
+
+* Fix of (#254): Redshift evolution in PhotoPionProduction
+  The reshift evolution was always handled with simple scaling and never with
+  the more accurate 2 dimensional interpolation. 
+
+### New features:
+
+* New source feature SourceLambertDistributionOnSphere
+  Simplifies simulations of scenarios with an initially isotropic and homogeneous
+  distribution of cosmic rays on a sphere, e.g. for investigation of propagation
+  of extagalactic cosmic rays in the Milky Way  (see issue #246 and pull
+  request #247)
+* For PhotoPionProduction now a two dimensional interpolation of the redshift 
+  evolution is available (see pull request  #255)
+* A new break condition MinimumChargeNumber is added (see pull request #256)
 
 ## CRPropa v3.1.5
 

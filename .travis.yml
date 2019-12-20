@@ -66,6 +66,7 @@ matrix:
         - CRPROPA_DATA_PATH=$TRAVIS_BUILD_DIR/build/data/
 
 before_install:
+  - echo "TRAVIS_OS_NAME=$TRAVIS_OS_NAME"
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       HOMEBREW_NO_AUTO_UPDATE=1 brew install swig;
@@ -85,7 +86,7 @@ before_script:
   - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
   - cp data.tar.gz $HOME/crpropa_cache
 script:
-  - make
+  - VERBOSE=1 make
   - make test
 after_failure:
   - cat Testing/Temporary/LastTest.log

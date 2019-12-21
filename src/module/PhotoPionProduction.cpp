@@ -44,7 +44,7 @@ void PhotoPionProduction::setPhotonField(PhotonField field) {
 		initRate(getDataPath("PhotoPionProduction/rate_" + fname + ".txt"));
 
 	int background = (photonField == CMB) ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
-	this->pf = Photon_Field(background);
+	this->photonFieldSampling = PhotonFieldSampling(background);
 }
 
 void PhotoPionProduction::setHavePhotons(bool b) {
@@ -212,11 +212,9 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 	double EpA = E / A;
 	double z = candidate->getRedshift();
 
-	/* 
-		SOPHIA simulates interactions only for protons / neutrons.
-	  	For anti-protons / neutrons assume charge symmetry and change all
-		interaction products from particle <--> anti-particle (sign)
-	*/
+	// SOPHIA simulates interactions only for protons / neutrons.
+	// For anti-protons / neutrons assume charge symmetry and change all
+	// interaction products from particle <--> anti-particle (sign)
 	int sign = (id > 0) ? 1 : -1;
 
 	// check if below SOPHIA's energy threshold
@@ -225,14 +223,14 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 		return;
 
 	// SOPHIA - input:
-    int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
-    double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit
-    double eps = pf.sample_eps(onProton, Ein, z) / GeV;  // GeV for SOPHIA
+	int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
+	double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit
+	double eps = photonFieldSampling.sample_eps(onProton, Ein, z) / GeV;  // GeV for SOPHIA
 
-    // SOPHIA - output:
-    double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]
-    int outPartID[2000];
-    int nParticles;
+	// SOPHIA - output:
+	double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]
+	int outPartID[2000];
+	int nParticles;
 
 #pragma omp critical
 	{
@@ -358,63 +356,62 @@ double PhotoPionProduction::lossLength(int id, double gamma, double z) {
 	return 1. / lossRate;
 }
 
-std::vector<double> PhotoPionProduction::sophiaEvent(bool onProton, double Ein, double eps) const {
+SophiaEventOutput PhotoPionProduction::sophiaEvent(bool onProton, double Ein, double eps) const {
 	// SOPHIA - input:
-    int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
-    Ein /= GeV;  // GeV is the SOPHIA standard unit
-    eps /= GeV;  // GeV for SOPHIA
+	int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
+	Ein /= GeV;  // GeV is the SOPHIA standard unit
+	eps /= GeV;  // GeV for SOPHIA
 
-    // SOPHIA - output:
-    double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]
-    int outPartID[2000];
-    int nParticles;
+	// SOPHIA - output:
+	double outputEnergy[5][2000];  // [Px GeV/c, Py GeV/c, Pz GeV/c, E GeV, m0 GeV/c^2]
+	int outPartID[2000];
+	int nParticles;
 
-    sophiaevent_(nature, Ein, eps, outputEnergy, outPartID, nParticles);
+	sophiaevent_(nature, Ein, eps, outputEnergy, outPartID, nParticles);
 
-    std::vector<double> output;
-    for (int i = 0; i < nParticles; ++i) {
-        int id = 0;
-        int partType = outPartID[i];
-        switch (partType) {
-            case 13:  // proton
-            case 14:  // neutron
-                id = nucleusId(1, 14 - partType);
-                break;
-            case -13:  // anti-proton
-            case -14:  // anti-neutron
-                id = -nucleusId(1, 14 + partType);
-                break;
-            case 1:  // photon
-                id = 22;
-                break;
-            case 2:  // positron
-                id = -11;
-                break;
-            case 3:  // electron
-                id = 11;
-                break;
-            case 15:  // nu_e
-                id = 12;
-                break;
-            case 16:  // anti-nu_e
-                id = -12;
-                break;
-            case 17:  // nu_mu
-                id = 14;
-                break;
-            case 18:  // anti-nu_mu
-                id = -14;
-                break;
-            default:
-                throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(partType));
-        }
-        output.push_back(id);
-    }
-    for (int i = 0; i < nParticles; ++i) {
-        double Eout = outputEnergy[3][i] * GeV; // only the energy is used; could be changed for more detail
-        output.push_back(Eout);
-    }
-    return output;
+	// convert SOPHIA IDs to PDG naming convention & create particles
+	SophiaEventOutput output;
+	output.nParticles = nParticles;
+	for (int i = 0; i < nParticles; ++i) {
+		int id = 0;
+		int partType = outPartID[i];
+		switch (partType) {
+			case 13:  // proton
+			case 14:  // neutron
+				id = nucleusId(1, 14 - partType);
+				break;
+			case -13:  // anti-proton
+			case -14:  // anti-neutron
+				id = -nucleusId(1, 14 + partType);
+				break;
+			case 1:  // photon
+				id = 22;
+				break;
+			case 2:  // positron
+				id = -11;
+				break;
+			case 3:  // electron
+				id = 11;
+				break;
+			case 15:  // nu_e
+				id = 12;
+				break;
+			case 16:  // anti-nu_e
+				id = -12;
+				break;
+			case 17:  // nu_mu
+				id = 14;
+				break;
+			case 18:  // anti-nu_mu
+				id = -14;
+				break;
+			default:
+				throw std::runtime_error("PhotoPionProduction: unexpected particle " + kiss::str(partType));
+		}
+		output.energy.push_back(outputEnergy[3][i] * GeV); // only the energy is used; could be changed for more detail
+		output.id.push_back(id);
+	}
+	return output;
 }
 
 } // namespace crpropa

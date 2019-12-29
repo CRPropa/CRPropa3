@@ -188,7 +188,7 @@ public:
 		return (*this) - getParallelTo(v);
 	}
 
-	// rotate the vector around a given axis by a given a angle
+	// rotate the vector around a given axis by a given angle
 	Vector3<T> getRotated(const Vector3<T> &axis, T angle) const {
 		Vector3<T> u = axis;
 		T c = cos(angle);

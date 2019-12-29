@@ -83,6 +83,25 @@ public:
 };
 
 /**
+ @class MinimumChargeNumber
+ @brief Deactivates the candidate below a minimum number
+
+ This modules deactivates the candidate below a given minimum charge number.
+ A minimum charge number of 26 deactivates all (anti-) isotopes which 
+ are ranked in the periodic table before iron (Fe). 
+ In that case the property ("Deactivated", module::description) is set.
+ */
+class MinimumChargeNumber: public AbstractCondition {
+	int minChargeNumber;
+public:
+	MinimumChargeNumber(int minChargeNumber = 0);
+	void setMinimumChargeNumber(int chargeNumber);
+	int getMinimumChargeNumber() const;
+	std::string getDescription() const;
+	void process(Candidate *candidate) const;
+};
+
+/**
  @class DetectionLength
  @brief Detects the candidate at a given trajectoryLength
  

@@ -70,15 +70,15 @@ public:
 	}
 
 	explicit Vector3(const double *v) {
-		x = v[0];
-		y = v[1];
-		z = v[2];
+		data[0] = v[0];
+		data[1] = v[1];
+		data[2] = v[2];
 	}
 
 	explicit Vector3(const float *v) {
-		x = v[0];
-		y = v[1];
-		z = v[2];
+		data[0] = v[0];
+		data[1] = v[1];
+		data[2] = v[2];
 	}
 
 	explicit Vector3(const T &X, const T &Y, const T &Z) : data{X, Y, Z} {

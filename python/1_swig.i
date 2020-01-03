@@ -10,7 +10,7 @@
         PyErr_Print();
         Py_Exit(1);
     }
-} 
+}
 
 %feature("autodoc", "1"); // automatic docstrings
 
@@ -35,6 +35,7 @@ using std::ptrdiff_t;
 %include "std_container.i"
 %include "exception.i"
 %include "std_iostream.i"
+%include "attribute.i"
 
 /* SWIG Exceptions */
 

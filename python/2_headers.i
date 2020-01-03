@@ -56,7 +56,20 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 
 %include "crpropa/Logging.h"
+/* ignore public references and replace with attributes for Vector3d and
+ * Vector3f*/
+
+%attribute(crpropa::Vector3<double>, double, x, getX, setX);
+%attribute(crpropa::Vector3<double>, double, y, getY, setY);
+%attribute(crpropa::Vector3<double>, double, z, getZ, setZ);
+%attribute(crpropa::Vector3<float>, float, x, getX, setX);
+%attribute(crpropa::Vector3<float>, float, y, getY, setY);
+%attribute(crpropa::Vector3<float>, float, z, getZ, setZ);
 %include "crpropa/Vector3.h"
+
+
+
+
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"

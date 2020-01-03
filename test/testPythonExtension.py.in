@@ -123,5 +123,16 @@ class testKeywordArguments(unittest.TestCase):
   #  p = crp.PhotoDisintegration(photonField=crp.IRB_Dominguez11)
   #  self.assertTrue('IRB_Dominguez11' in p.getDescription())
 
+
+class testVector3(unittest.TestCase):
+  def testPublicReferenceAccess(self):
+    v = crp.Vector3d(1., 2., 3.)
+    self.assertEqual(v.x, 1.)
+    self.assertEqual(v.y, 2.)
+    self.assertEqual(v.z, 3.)
+
+    v.x = 23.
+    self.assertEqual(v.x, 23.)
+
 if __name__ == '__main__':
     unittest.main()

@@ -83,3 +83,33 @@ class StopIterator {};
 
 };
 
+
+#ifdef WITHNUMPY
+%{
+/* Include numpy array interface, if available */
+  #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+  #include "numpy/arrayobject.h"
+  #include "numpy/ufuncobject.h"
+%}
+#endif
+
+/* Initialize numpy array interface, if available */
+#ifdef WITHNUMPY
+%init %{
+import_array();
+import_ufunc();
+%}
+
+%pythoncode %{
+import numpy
+__WITHNUMPY = True
+%}
+
+#else
+%pythoncode %{
+__WITHNUMPY = False
+%}
+#endif
+
+
+

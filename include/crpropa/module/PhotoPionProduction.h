@@ -70,8 +70,8 @@ public:
 
 	/**
 	 Direct SOPHIA interface.
-	 Output is a vector of length 2*N where N is the number of out-going particles.
-	 First half of the vector are the particle IDs, second half are their energies.
+	 Output is an object SophiaEventOutput with two vectors "energy" and "id" each of length N (number of out-going particles).
+	 The i-th component of each vector correspond to the same particle.
 	 This is not used in the simulation.
 	 @param onProton	proton or neutron
 	 @param Ein			energy of nucleon

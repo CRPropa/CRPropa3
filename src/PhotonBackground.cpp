@@ -139,7 +139,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	if (bgFlag == 0)
 		throw std::runtime_error("error: select photon field first: 1 (CMB) or 2 (IRB_Kneiske04)");
 
-	static const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	const double P_in = sqrt(E_in * E_in - mass * mass);  // GeV/c
 
 	double eps = 0.;
@@ -171,7 +171,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 
 	if (bgFlag == 2) {
 		// IRB_Kneiske04     
-		const double epsMin = std::max(0.00395, 1.e9 * (1.1646 - mass*mass) / 2. / (E_in + P_in));  // eV
+		const double epsMin = std::max(0.00395, 1.e9 * (1.1646 - mass * mass) / 2. / (E_in + P_in));  // eV
 		const double epsMax = 12.2;  // eV
 		if (epsMin > epsMax) {
 			std::cout << "sample_eps (IRB): CMF energy is below threshold for nucleon energy " << E_in << " GeV !" << std::endl;
@@ -209,7 +209,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 }
 
 double PhotonFieldSampling::prob_eps(double eps, bool onProton, double E_in, double z_in) const {
-	static const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	double gamma = E_in / mass;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
 	double photonDensity = getPhotonDensity(eps, z_in);
@@ -387,17 +387,15 @@ double PhotonFieldSampling::breitwigner(double sigma_0, double Gamma, double DMM
 
 double PhotonFieldSampling::functs(double s, bool onProton) const {
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-	double factor = s - mass * mass;
-	double epsPrime = factor / 2. / mass;
-	double sigma_pg = crossection(epsPrime, onProton);
+	const double factor = s - mass * mass;
+	const double epsPrime = factor / 2. / mass;
+	const double sigma_pg = crossection(epsPrime, onProton);
 	return factor * sigma_pg;
 }
 
 double PhotonFieldSampling::gaussInt(std::string type, double A, double B, bool onProton, double E_in, double z_in) const {
-	static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444,
-						 .7554044083, .8656312023, .9445750230, .9894009349};
-	static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888,
-						 .1246289712, .0951585116, .0622535239, .0271524594};
+	static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444, .7554044083, .8656312023, .9445750230, .9894009349};
+	static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888, .1246289712, .0951585116, .0622535239, .0271524594};
 	const double XM = 0.5 * (B + A);
 	const double XR = 0.5 * (B - A);
 	double SS = 0.;

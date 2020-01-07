@@ -354,7 +354,7 @@ TEST(base64, de_en_coding)
 	Random a;
 	for (int N=1; N < 100; N++)
 	{
-		std::vector<uint32_t> data; 
+		std::vector<uint32_t> data;
 		data.reserve(N);
 		for (int i =0; i<N; i++)
 			data.push_back(a.randInt());
@@ -440,11 +440,11 @@ TEST(ScalarGrid, TestVectorSpacing) {
 	size_t Nz = 10;
 	Vector3d origin = Vector3d(1., 2., 3.);
 	Vector3d spacing = Vector3d(1., 5., 3.);
-	
+
 	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
-	
+
 	EXPECT_EQ(spacing, grid.getSpacing());
-	
+
 	// Test index handling: get position of grid point (1, 7, 6)
 	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
 	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;

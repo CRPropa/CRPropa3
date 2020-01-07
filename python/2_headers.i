@@ -56,7 +56,77 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 
 %include "crpropa/Logging.h"
+
+/* ignore public references and replace with attributes for Vector3d and
+ * Vector3f*/
+%attribute(crpropa::Vector3<double>, double, x, getX, setX);
+%attribute(crpropa::Vector3<double>, double, y, getY, setY);
+%attribute(crpropa::Vector3<double>, double, z, getZ, setZ);
+%attribute(crpropa::Vector3<float>, float, x, getX, setX);
+%attribute(crpropa::Vector3<float>, float, y, getY, setY);
+%attribute(crpropa::Vector3<float>, float, z, getZ, setZ);
+
+/* implement array interface for numpy compatibility */
+%feature("python:slot", "sq_length", functype="lenfunc") crpropa::Vector3::__len__;
+%feature("python:slot", "mp_subscript", functype="binaryfunc") crpropa::Vector3::__getitem__;
+%feature("python:slot", "mp_ass_subscript", functype="objobjargproc") crpropa::Vector3::__setitem__;
+%typemap(directorin,numinputs=1) (const double *v)
+{
+    npy_intp dim = 3;
+    $input = PyArray_SimpleNewFromData(1, &dim, NPY_DOUBLE, (void *)$1);
+}
+%ignore crpropa::Vector3::data;
+
 %include "crpropa/Vector3.h"
+%extend crpropa::Vector3
+{
+  size_t __len__()
+  {
+    return 3;
+  }
+
+  PyObject* __array__()
+  {
+    npy_intp shape[1];
+    shape[0] = 3;
+    PyObject *ro;
+    if (sizeof($self->data[0]) == NPY_SIZEOF_FLOAT)
+    {
+      ro = PyArray_SimpleNewFromData(1, shape, NPY_FLOAT, $self->data);
+    }
+    else if (sizeof($self->data[0]) == NPY_SIZEOF_DOUBLE)
+    {
+      ro = PyArray_SimpleNewFromData(1, shape, NPY_DOUBLE, $self->data);
+    }
+    else
+    {
+      KISS_LOG_ERROR << "crpropa::Vector3 has fixed size of 3 elements!";
+    }
+
+    return ro;
+  }
+
+  double __getitem__(size_t i)
+  {
+    return $self->data[i];
+  }
+
+  int __setitem__(size_t i, T value)
+  {
+    $self->data[i] = value;
+    return 0;
+  }
+
+  const std::string getDescription()
+  {
+    char buffer[256];
+    sprintf( buffer, "Vector(%.6G, %.6G, %.6G)", $self->x, $self->y, $self->z );
+    return buffer;
+  }
+}
+
+
+
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"

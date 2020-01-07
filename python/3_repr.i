@@ -14,6 +14,6 @@ __REPR__( crpropa::ObserverFeature );
 VECTOR3__REPR__( crpropa::Vector3 );
 
 %pythoncode %{
-        __version__ = g_GIT_DESC 
+        __version__ = g_GIT_DESC
 %}
 

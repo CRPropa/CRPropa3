@@ -28,32 +28,63 @@ namespace crpropa {
 template<typename T>
 class Vector3 {
 public:
-	T x, y, z;
+	// While data is stored in this array, it is also accessible via x,y,z variables
+	// x,y,z cannot be used in constructors or assignment operators to avoid
+	// uninitialized rvalue assignment!
+	T data[3];
 
-	Vector3() :
-			x(0), y(0), z(0) {
+	T& x = data[0];
+	T& y = data[1];
+	T& z = data[2];
+
+	Vector3() : data{0., 0., 0.} {
+	}
+
+	// avoid creation of default non-conversion constructor
+	Vector3(const Vector3 &v) : data{v.data[0], v.data[1], v.data[2]} {
 	}
 
 	// Provides implicit conversion
 	template<typename U>
-	Vector3(const Vector3<U> &v) :
-			x(v.x), y(v.y), z(v.z) {
+	Vector3(const Vector3<U> &v) {
+		data[0] = v.x;
+		data[1] = v.y;
+		data[2] = v.z;
 	}
 
-	explicit Vector3(const double *v) :
-			x(v[0]), y(v[1]), z(v[2]) {
+	//Vector3(Vector3 &&v) noexcept {
+	//	data[0] = v.data[0];
+	//	data[1] = v.data[1];
+	//	data[2] = v.data[2];
+	//}
+
+	//template<typename U>
+	//Vector3(Vector3<U> &&v) noexcept {
+	//	data[0] = v.data[0];
+	//	data[1] = v.data[1];
+	//	data[2] = v.data[2];
+	//}
+
+	~Vector3()
+	{
 	}
 
-	explicit Vector3(const float *v) :
-			x(v[0]), y(v[1]), z(v[2]) {
+	explicit Vector3(const double *v) {
+		data[0] = v[0];
+		data[1] = v[1];
+		data[2] = v[2];
 	}
 
-	explicit Vector3(const T &X, const T &Y, const T &Z) :
-			x(X), y(Y), z(Z) {
+	explicit Vector3(const float *v) {
+		data[0] = v[0];
+		data[1] = v[1];
+		data[2] = v[2];
 	}
 
-	explicit Vector3(T t) :
-			x(t), y(t), z(t) {
+	explicit Vector3(const T &X, const T &Y, const T &Z) : data{X, Y, Z} {
+	}
+
+	explicit Vector3(T t) : data{t, t, t} {
 	}
 
 	void setX(const T X) {
@@ -274,8 +305,8 @@ public:
 		return Vector3(x * v.x, y * v.y, z * v.z);
 	}
 
-	Vector3<T> operator *(const T &v) const {
-		return Vector3(x * v, y * v, z * v);
+	Vector3<T> operator *(T v) const {
+		return Vector3(data[0] * v, data[1] * v, data[2] * v);
 	}
 
 	// element-wise division
@@ -297,89 +328,96 @@ public:
 	}
 
 	Vector3<T> &operator -=(const Vector3<T> &v) {
-		x -= v.x;
-		y -= v.y;
-		z -= v.z;
+		data[0] -= v.x;
+		data[1] -= v.y;
+		data[2] -= v.z;
 		return *this;
 	}
 
 	Vector3<T> &operator -=(const T &f) {
-		x -= f;
-		y -= f;
-		z -= f;
+		data[0] -= f;
+		data[1] -= f;
+		data[2] -= f;
 		return *this;
 	}
 
 	Vector3<T> &operator +=(const Vector3<T> &v) {
-		x += v.x;
-		y += v.y;
-		z += v.z;
+		data[0] += v.x;
+		data[1] += v.y;
+		data[2] += v.z;
 		return *this;
 	}
 
 	Vector3<T> &operator +=(const T &f) {
-		x += f;
-		y += f;
-		z += f;
+		data[0] += f;
+		data[1] += f;
+		data[2] += f;
 		return *this;
 	}
 
 	// element-wise multiplication
 	Vector3<T> &operator *=(const Vector3<T> &v) {
-		x *= v.x;
-		y *= v.y;
-		z *= v.z;
+		data[0] *= v.x;
+		data[1] *= v.y;
+		data[2] *= v.z;
 		return *this;
 	}
 
 	Vector3<T> &operator *=(const T &f) {
-		x *= f;
-		y *= f;
-		z *= f;
+		data[0] *= f;
+		data[1] *= f;
+		data[2] *= f;
 		return *this;
 	}
 
 	// element-wise division
 	Vector3<T> &operator /=(const Vector3<T> &v) {
-		x /= v.x;
-		y /= v.y;
-		z /= v.z;
+		data[0] /= v.x;
+		data[1] /= v.y;
+		data[2] /= v.z;
 		return *this;
 	}
 
 	Vector3<T> &operator /=(const T &f) {
-		x /= f;
-		y /= f;
-		z /= f;
+		data[0] /= f;
+		data[1] /= f;
+		data[2] /= f;
 		return *this;
 	}
 
 	// element-wise modulo operation
 	Vector3<T> &operator %=(const Vector3<T> &v) {
-		x = fmod(x, v.x);
-		y = fmod(y, v.y);
-		z = fmod(z, v.z);
+		data[0] = fmod(x, v.x);
+		data[1] = fmod(y, v.y);
+		data[2] = fmod(z, v.z);
 		return *this;
 	}
 
 	Vector3<T> &operator %=(const T &f) {
-		x = fmod(x, f);
-		y = fmod(y, f);
-		z = fmod(z, f);
+		data[0] = fmod(x, f);
+		data[1] = fmod(y, f);
+		data[2] = fmod(z, f);
 		return *this;
 	}
 
 	Vector3<T> &operator =(const Vector3<T> &v) {
-		x = v.x;
-		y = v.y;
-		z = v.z;
+		data[0] = v.x;
+		data[1] = v.y;
+		data[2] = v.z;
 		return *this;
 	}
 
+	//Vector3<T> &operator =(Vector3<T> &&v) noexcept {
+	//	data[0] = v.data[0];
+	//	data[1] = v.data[1];
+	//	data[2] = v.data[2];
+	//	return *this;
+	//}
+
 	Vector3<T> &operator =(const T &f) {
-		x = f;
-		y = f;
-		z = f;
+		data[0] = f;
+		data[1] = f;
+		data[2] = f;
 		return *this;
 	}
 };

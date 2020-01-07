@@ -25,6 +25,8 @@
 
 %{
 #include "CRPropa.h"
+using namespace crpropa;   // for usage of namespace in header files, necessary
+                           // for keyword arguments with units
 %}
 
 %{
@@ -61,6 +63,8 @@
 %include "crpropa/Cosmology.h"
 %include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
+%template(RandomSeed) std::vector<uint32_t>;
+%template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
 %include "crpropa/Random.h"
 %include "crpropa/ParticleState.h"
 %include "crpropa/ParticleID.h"

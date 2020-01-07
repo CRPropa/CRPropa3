@@ -4,7 +4,7 @@
 *~
 
 doc/*
-build/*
+build*
 data/*
 data-tools/*
 data.tar.gz

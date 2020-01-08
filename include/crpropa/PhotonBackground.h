@@ -64,7 +64,8 @@ protected:
 	// called by: sample_eps, prob_eps
 	// - input:  type: specifier of function over which to integrate, integration limits A and B, arguents for functions over which to integrate
 	// - output: 8-points Gauß-Legendre integral
-	double gaussInt(std::string type, double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
+	double gaussInt(double lowerLimit, double upperLimit, bool onProton) const;
+	double gaussInt(double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
 
 	// called by: sample_eps  
 	// - input: s [GeV^2] 

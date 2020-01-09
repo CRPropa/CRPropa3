@@ -1,6 +1,9 @@
 #ifndef CRPROPA_PHOTONBACKGROUND_H
 #define CRPROPA_PHOTONBACKGROUND_H
 
+#include "crpropa/Common.h"
+
+#include <functional>
 #include <string>
 
 namespace crpropa {
@@ -61,12 +64,6 @@ protected:
 	// - output: photon density per unit energy [#/(eVcm^3)]
 	double getPhotonDensity(double eps, double z_in) const;
 
-	// called by: sample_eps, prob_eps
-	// - input:  type: specifier of function over which to integrate, integration limits A and B, arguents for functions over which to integrate
-	// - output: 8-points Gauß-Legendre integral
-	double gaussInt(double lowerLimit, double upperLimit, bool onProton) const;
-	double gaussInt(double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
-
 	// called by: sample_eps  
 	// - input: s [GeV^2] 
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
@@ -96,6 +93,9 @@ protected:
 	// - input: cross section [µbarn], width [GeV], mass [GeV/c^2], rest frame photon energy [GeV]
 	// - output: Breit-Wigner crossection of a resonance of width Gamma
 	double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
+
+	// double gaussInt(double lowerLimit, double upperLimit, bool onProton) const;
+	// double gaussInt(double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
 };
 /** @}*/
 

@@ -14,14 +14,14 @@ using namespace std;
 
  */
 
+enum class TF17DiskModel {Ad1, Bd1, Dd1};
+enum class TF17HaloModel {C0, C1};
+
+
 class TF17Field: public MagneticField {
 private:
-    // model definition
-    bool C0;
-    bool C1;
-    bool Ad1;
-    bool Bd1;
-    bool Dd1;
+    TF17DiskModel disk_model; 
+    TF17HaloModel halo_model;
 
 	// disk parameters
 	bool useDiskField;
@@ -53,7 +53,7 @@ private:
 	void SetParams();
 
 public:
-	TF17Field(string disk_model="Ad1", string halo_model="C1");
+	TF17Field(TF17DiskModel disk_model_=TF17DiskModel::Ad1, TF17HaloModel halo_model_=TF17HaloModel::C1);
 
 	void setUseDiskField(bool use);
 	void setUseHaloField(bool use);
@@ -77,6 +77,9 @@ public:
     void set_Hp(const double H);
     void set_Lp(const double L);
     void set_p0(const double p0);
+
+    string getDiskModel() const;
+    string getHaloModel() const;
 
 	Vector3d getField(const Vector3d& pos) const;
 	Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;

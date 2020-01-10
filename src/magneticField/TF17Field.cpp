@@ -14,113 +14,106 @@ TF17Field::TF17Field(TF17DiskModel disk_model_, TF17HaloModel halo_model_) {
     useHaloField = true;
     useDiskField = true;
 
-    switch (halo_model) {
-    case TF17HaloModel::C0:
-        switch (disk_model) {
-        case TF17DiskModel::Ad1:
-	        // disk parameters
-	        set_r1_disk(3 * kpc);
-	        set_B1_disk(19.0 * muG);
-	        set_H_disk(0.055 * kpc);
-	        set_phi_star_disk(-54 * M_PI / 180);
-	        set_a_disk(0.9 / kpc / kpc);
-	        // halo parameters
-	        set_z1_halo(0);
-	        set_B1_halo(0.36 * muG);
-	        set_L_halo(3.0 * kpc);
-	        set_a_halo(1.17 / kpc / kpc);
-	        // shared parameters
-	        set_p0(-7.9 * M_PI / 180);
-	        set_Hp(5 * kpc);
-	        set_Lp(50 * kpc); // > 18 kpc
+    if ((halo_model == TF17HaloModel::C0) && (disk_model == TF17DiskModel::Ad1)) {
+        // disk parameters
+        set_r1_disk(3 * kpc);
+        set_B1_disk(19.0 * muG);
+        set_H_disk(0.055 * kpc);
+        set_phi_star_disk(-54 * M_PI / 180);
+        set_a_disk(0.9 / kpc / kpc);
+        // halo parameters
+        set_z1_halo(0);
+        set_B1_halo(0.36 * muG);
+        set_L_halo(3.0 * kpc);
+        set_a_halo(1.17 / kpc / kpc);
+        // shared parameters
+        set_p0(-7.9 * M_PI / 180);
+        set_Hp(5 * kpc);
+        set_Lp(50 * kpc); // > 18 kpc
+            
+    } else if ((halo_model == TF17HaloModel::C0) && (disk_model == TF17DiskModel::Bd1)) {
+        // disk parameters
+        set_r1_disk(3 * kpc);
+        set_B1_disk(2.0 * muG);
+        set_H_disk(0.32 * kpc);
+        set_phi_star_disk(153 * M_PI / 180);
+        // halo parameters
+        set_z1_halo(0);
+        set_B1_halo(0.29 * muG);
+        set_L_halo(3.4 * kpc);
+        set_a_halo(0.88 / kpc / kpc);
+        // shared parameters
+        set_p0(-7.2 * M_PI / 180);
+        set_Hp(9 * kpc);
+        set_Lp(50 * kpc); // > 16 kpc
 
-        case TF17DiskModel::Bd1:
-	        // disk parameters
-	        set_r1_disk(3 * kpc);
-	        set_B1_disk(2.0 * muG);
-	        set_H_disk(0.32 * kpc);
-	        set_phi_star_disk(153 * M_PI / 180);
-	        // halo parameters
-	        set_z1_halo(0);
-	        set_B1_halo(0.29 * muG);
-	        set_L_halo(3.4 * kpc);
-	        set_a_halo(0.88 / kpc / kpc);
-	        // shared parameters
-	        set_p0(-7.2 * M_PI / 180);
-	        set_Hp(9 * kpc);
-	        set_Lp(50 * kpc); // > 16 kpc
+    } else if ((halo_model == TF17HaloModel::C0) && (disk_model == TF17DiskModel::Dd1)) {
+        // disk parameters
+        set_z1_disk(1.5 * kpc);
+        set_B1_disk(0.065 * muG);
+        set_L_disk(9.8 * kpc);
+        set_phi_star_disk(14 * M_PI / 180);
+        // halo parameters
+        set_z1_halo(0);
+        set_B1_halo(0.18 * muG);
+        set_L_halo(4.8 * kpc);
+        set_a_halo(0.61 / kpc / kpc);
+        // shared parameters
+        set_p0(-7.4 * M_PI / 180);
+        set_Hp(4.2 * kpc);
+        set_Lp(50 * kpc); // > 22 kpc
 
-        case TF17DiskModel::Dd1:
-	        // disk parameters
-	        set_z1_disk(1.5 * kpc);
-	        set_B1_disk(0.065 * muG);
-	        set_L_disk(9.8 * kpc);
-	        set_phi_star_disk(14 * M_PI / 180);
-	        // halo parameters
-	        set_z1_halo(0);
-	        set_B1_halo(0.18 * muG);
-	        set_L_halo(4.8 * kpc);
-	        set_a_halo(0.61 / kpc / kpc);
-	        // shared parameters
-	        set_p0(-7.4 * M_PI / 180);
-	        set_Hp(4.2 * kpc);
-	        set_Lp(50 * kpc); // > 22 kpc
-        }
+    } else if ((halo_model == TF17HaloModel::C1) && (disk_model == TF17DiskModel::Ad1)) {
+        // disk parameters
+        set_r1_disk(3 * kpc);
+        set_B1_disk(32.0 * muG);
+        set_H_disk(0.054 * kpc);
+        set_phi_star_disk(-31 * M_PI / 180);
+        set_a_disk(0.031 / kpc / kpc);
+        // halo parameters
+        set_z1_halo(0);
+        set_B1_halo(9.0 * muG);
+        set_L_halo(2.1 * kpc);
+        set_phi_star_halo(198 * M_PI / 180);
+        set_a_halo(0.33 / kpc / kpc);
+        // shared parameters
+        set_p0(-9.1 * M_PI / 180);
+        set_Hp(1.2 * kpc);
+        set_Lp(50 * kpc); // > 38 kpc
 
-    case TF17HaloModel::C1:
-        switch (disk_model) {
-        case TF17DiskModel::Ad1:
-	        // disk parameters
-	        set_r1_disk(3 * kpc);
-	        set_B1_disk(32.0 * muG);
-	        set_H_disk(0.054 * kpc);
-	        set_phi_star_disk(-31 * M_PI / 180);
-	        set_a_disk(0.031 / kpc / kpc);
-	        // halo parameters
-	        set_z1_halo(0);
-	        set_B1_halo(9.0 * muG);
-	        set_L_halo(2.1 * kpc);
-	        set_phi_star_halo(198 * M_PI / 180);
-	        set_a_halo(0.33 / kpc / kpc);
-	        // shared parameters
-	        set_p0(-9.1 * M_PI / 180);
-	        set_Hp(1.2 * kpc);
-	        set_Lp(50 * kpc); // > 38 kpc
+    } else if ((halo_model == TF17HaloModel::C1) && (disk_model == TF17DiskModel::Bd1)) {
+        // disk parameters
+        set_r1_disk(3 * kpc);
+        set_B1_disk(24 * muG);
+        set_H_disk(0.090 * kpc);
+        set_phi_star_disk(-34 * M_PI / 180);
+        // halo parameters
+        set_z1_halo(0);
+        set_B1_halo(8.2 * muG);
+        set_L_halo(2.2 * kpc);
+        set_phi_star_halo(197 * M_PI / 180);
+        set_a_halo(0.38 / kpc / kpc);
+        // shared parameters
+        set_p0(-9.0 * M_PI / 180);
+        set_Hp(1.2 * kpc);
+        set_Lp(50 * kpc); // > 38 kpc
 
-        case TF17DiskModel::Bd1:
-	        // disk parameters
-	        set_r1_disk(3 * kpc);
-	        set_B1_disk(24 * muG);
-	        set_H_disk(0.090 * kpc);
-	        set_phi_star_disk(-34 * M_PI / 180);
-	        // halo parameters
-	        set_z1_halo(0);
-	        set_B1_halo(8.2 * muG);
-	        set_L_halo(2.2 * kpc);
-	        set_phi_star_halo(197 * M_PI / 180);
-	        set_a_halo(0.38 / kpc / kpc);
-	        // shared parameters
-	        set_p0(-9.0 * M_PI / 180);
-	        set_Hp(1.2 * kpc);
-	        set_Lp(50 * kpc); // > 38 kpc
-
-        case TF17DiskModel::Dd1:
-	        // disk parameters
-	        set_z1_disk(1.5 * kpc);
-	        set_B1_disk(0.40 * muG);
-	        set_L_disk(2.9 * kpc);
-	        set_phi_star_disk(120 * M_PI / 180);
-	        // halo parameters
-	        set_z1_halo(0);
-	        set_B1_halo(9.5 * muG);
-	        set_L_halo(2.1 * kpc);
-	        set_phi_star_halo(179 * M_PI / 180);
-            set_a_halo(0.45 / kpc / kpc);
-	        // shared parameters
-	        set_p0(-8.4 * M_PI / 180);
-	        set_Hp(1.2 * kpc);
-	        set_Lp(50 * kpc); // > 30 kpc
-        }
+    } else if ((halo_model == TF17HaloModel::C1) && (disk_model == TF17DiskModel::Dd1)) {
+        // disk parameters
+        set_z1_disk(1.5 * kpc);
+        set_B1_disk(0.40 * muG);
+        set_L_disk(2.9 * kpc);
+        set_phi_star_disk(120 * M_PI / 180);
+        // halo parameters
+        set_z1_halo(0);
+        set_B1_halo(9.5 * muG);
+        set_L_halo(2.1 * kpc);
+        set_phi_star_halo(179 * M_PI / 180);
+        set_a_halo(0.45 / kpc / kpc);
+        // shared parameters
+        set_p0(-8.4 * M_PI / 180);
+        set_Hp(1.2 * kpc);
+        set_Lp(50 * kpc); // > 30 kpc
     }
 
     epsilon = std::numeric_limits<double>::epsilon();
@@ -194,8 +187,7 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
     double B_phi = 0;
     double B_z = 0;
 
-    switch (disk_model) {
-    case TF17DiskModel::Ad1 : // ==========================================================
+    if (disk_model == TF17DiskModel::Ad1) { // ==========================================================
         if (r > r1_disk) {
             double z1_disk_z = (1. + a_disk * r1_disk * r1_disk) / (1. + a_disk * r * r); // z1_disk / z
             // B components in (r, phi, z)
@@ -211,9 +203,8 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_r = cos(phi1_disk - phi) * B_amp;
             B_phi = sin(phi1_disk - phi) * B_amp;
         }
-        break;
 
-    case TF17DiskModel::Bd1 : // ==========================================================
+    } else if (disk_model == TF17DiskModel::Bd1) { // ===================================================
         // for model Bd1, best fit for n = 2 
         if ( r > epsilon ) {
             double r1_disk_r = r1_disk / r;	
@@ -228,9 +219,8 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_z = -10. * z / r1_disk * B_r0;
         }
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
-        break;
 
-    case TF17DiskModel::Dd1 : // ==========================================================
+    } else if (disk_model == TF17DiskModel::Dd1) { // ===================================================
         // for model Dd1, best fit for n = 0.5 
         double z_sign = z >= 0 ? 1. : -1.; 
         double z_abs = fabs(z); 
@@ -251,7 +241,6 @@ Vector3d TF17Field::getDiskField(const double& r, const double& z, const double&
             B_z = z_sign * r1_disk_r * r1_disk_r * B_z0;
         }
         B_phi = azimuthalFieldComponent(r, z, B_r, B_z);
-        break;
     }
 
     // Convert to (x, y, z) components
@@ -269,10 +258,9 @@ Vector3d TF17Field::getHaloField(const double& r, const double& z, const double&
 	// B components in (r, phi, z)
     double B_z0;
 
-    switch (halo_model) {
-    case TF17HaloModel::C0: // m = 0
+    if (halo_model == TF17HaloModel::C0) { // m = 0
         B_z0 = B1_halo * exp(-r1_halo_r*r / L_halo); 
-    case TF17HaloModel::C1: // m = 1
+    } else if (halo_model == TF17HaloModel::C1) { // m = 1
         // simplication of the equation in the cosinus
         double phi_prime = phi - shiftedWindingFunction(r, z) - phi_star_halo;
         B_z0 = B1_halo * exp(-r1_halo_r*r / L_halo) * cos(phi_prime); 

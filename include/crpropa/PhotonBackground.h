@@ -93,9 +93,6 @@ protected:
 	// - input: cross section [µbarn], width [GeV], mass [GeV/c^2], rest frame photon energy [GeV]
 	// - output: Breit-Wigner crossection of a resonance of width Gamma
 	double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
-
-	// double gaussInt(double lowerLimit, double upperLimit, bool onProton) const;
-	// double gaussInt(double lowerLimit, double upperLimit, bool onProton, double E_in, double z_in) const;
 };
 /** @}*/
 

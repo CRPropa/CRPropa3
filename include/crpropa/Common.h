@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-
+#include <iostream>
 /**
  @file
  @brief Common helper functions

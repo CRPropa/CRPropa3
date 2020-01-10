@@ -153,7 +153,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			return 0.;
 		}
 
-		const double cnorm = gaussInt([this, onProton, E_in, z_in](double x) { return this->prob_eps(x, onProton, E_in, z_in); }, epsMin, epsMax);;
+		const double cnorm = gaussInt([this, onProton, E_in, z_in](double e) { return this->prob_eps(e, onProton, E_in, z_in); }, epsMin, epsMax);
 		const double epskt = 8.619e-5 * tbb;
 		const double epspmax = (3.e-3 * std::pow(E_in * epskt * 1.e-9, -0.97) + 0.047) / 3.9e2 * tbb;
 		const double pmaxc = prob_eps(epspmax, onProton, E_in, z_in) / cnorm;
@@ -218,8 +218,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double E_in, dou
 	} else {
 		double sMin = 1.1646;  // [GeV], head-on collision
 		double sMax = std::max(sMin, mass * mass + 2. * eps / 1.e9 * E_in * (1. + beta));
-		// double sintegr = gaussInt(std::bind(functs, std::placeholders::_1, onProton), smin, smax);
-		double sintegr = gaussInt([this, onProton, E_in, z_in](double x) { return this->prob_eps(x, onProton, E_in, z_in); }, sMin, sMax);
+		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
 		return photonDensity / eps / eps * sintegr / 8. / beta / E_in / E_in * 1.e18 * 1.e6;
 	}
 }
@@ -385,7 +384,6 @@ double PhotonFieldSampling::breitwigner(double sigma_0, double Gamma, double DMM
 	return sigma_0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);
 }
 
-
 double PhotonFieldSampling::functs(double s, bool onProton) const {
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	const double factor = s - mass * mass;
@@ -393,31 +391,5 @@ double PhotonFieldSampling::functs(double s, bool onProton) const {
 	const double sigma_pg = crossection(epsPrime, onProton);
 	return factor * sigma_pg;
 }
-
-// double PhotonFieldSampling::gaussInt(double A, double B, bool onProton) const {
-// 	static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444, .7554044083, .8656312023, .9445750230, .9894009349};
-// 	static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888, .1246289712, .0951585116, .0622535239, .0271524594};
-// 	const double XM = 0.5 * (B + A);
-// 	const double XR = 0.5 * (B - A);
-// 	double SS = 0.;
-// 	for (int i = 0; i < 8; ++i) {
-// 		double DX = XR * X[i];
-// 		SS += W[i] * (functs(XM + DX, onProton) + functs(XM - DX, onProton));
-// 	}
-// 	return XR * SS;
-// }
-
-// double PhotonFieldSampling::gaussInt(double A, double B, bool onProton, double E_in, double z_in) const {
-// 	static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444, .7554044083, .8656312023, .9445750230, .9894009349};
-// 	static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888, .1246289712, .0951585116, .0622535239, .0271524594};
-// 	const double XM = 0.5 * (B + A);
-// 	const double XR = 0.5 * (B - A);
-// 	double SS = 0.;
-// 	for (int i = 0; i < 8; ++i) {
-// 		double DX = XR * X[i];
-// 		SS += W[i] * (prob_eps(XM + DX, onProton, E_in, z_in) + prob_eps(XM - DX, onProton, E_in, z_in));
-// 	}
-// 	return XR * SS;
-// }
 
 } // namespace crpropa

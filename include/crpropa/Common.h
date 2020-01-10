@@ -69,10 +69,10 @@ inline double pow_integer<0>(double base)
 
 // - input:  function over which to integrate, integration limits A and B
 // - output: 8-points Gauß-Legendre integral
+static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444, .7554044083, .8656312023, .9445750230, .9894009349};
+static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888, .1246289712, .0951585116, .0622535239, .0271524594};
 template<typename Integrand>
-inline double gaussInt(Integrand&& integrand, double A, double B) {
-	static const double X[8] = {.0950125098, .2816035507, .4580167776, .6178762444, .7554044083, .8656312023, .9445750230, .9894009349};
-	static const double W[8] = {.1894506104, .1826034150, .1691565193, .1495959888, .1246289712, .0951585116, .0622535239, .0271524594};
+double gaussInt(Integrand&& integrand, double A, double B) {
 	const double XM = 0.5 * (B + A);
 	const double XR = 0.5 * (B - A);
 	double SS = 0.;

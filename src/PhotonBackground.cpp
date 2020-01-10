@@ -153,7 +153,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			return 0.;
 		}
 
-		const double cnorm = gaussInt(std::bind(prob_eps, std::placeholders::_1, onProton, E_in, z_in), epsMin, epsMax);
+		const double cnorm = gaussInt([this, onProton, E_in, z_in](double x) { return this->prob_eps(x, onProton, E_in, z_in); }, epsMin, epsMax);;
 		const double epskt = 8.619e-5 * tbb;
 		const double epspmax = (3.e-3 * std::pow(E_in * epskt * 1.e-9, -0.97) + 0.047) / 3.9e2 * tbb;
 		const double pmaxc = prob_eps(epspmax, onProton, E_in, z_in) / cnorm;
@@ -216,9 +216,10 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double E_in, dou
 	if (photonDensity == 0.) {
 		return 0.;
 	} else {
-		double smin = 1.1646;  // [GeV], head-on collision
-		double smax = std::max(smin, mass * mass + 2. * eps / 1.e9 * E_in * (1. + beta));
-		double sintegr = gaussInt(std::bind(functs, std::placeholders::_1, onProton), smin, smax);
+		double sMin = 1.1646;  // [GeV], head-on collision
+		double sMax = std::max(sMin, mass * mass + 2. * eps / 1.e9 * E_in * (1. + beta));
+		// double sintegr = gaussInt(std::bind(functs, std::placeholders::_1, onProton), smin, smax);
+		double sintegr = gaussInt([this, onProton, E_in, z_in](double x) { return this->prob_eps(x, onProton, E_in, z_in); }, sMin, sMax);
 		return photonDensity / eps / eps * sintegr / 8. / beta / E_in / E_in * 1.e18 * 1.e6;
 	}
 }

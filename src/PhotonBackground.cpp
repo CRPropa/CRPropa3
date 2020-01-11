@@ -272,15 +272,11 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 	double cross_dir2 = 0.;
 	double sig_res[9];
 
-	// upper half of array: 9x proton resonance data | lower half of array 9x neutron resonance data
-	static const double AMRES[18] = {1.231, 1.440, 1.515, 1.525, 1.675, 1.680, 1.690, 1.895, 1.950,
-							  1.231, 1.440, 1.515, 1.525, 1.675, 1.675, 1.690, 1.895, 1.950};
-	static const double BGAMMA[18] = {5.6, 0.5, 4.6, 2.5, 1.0, 2.1, 2.0, 0.2, 1.0,
-							   6.1, 0.3, 4.0, 2.5, 0.0, 0.2, 2.0, 0.2, 1.0};
-	static const double WIDTH[18] = {0.11, 0.35, 0.11, 0.1, 0.16, 0.125, 0.29, 0.35, 0.3,
-							  0.11, 0.35, 0.11, 0.1, 0.16, 0.150, 0.29, 0.35, 0.3};
-	static const double RATIOJ[18] = {1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.,
-							   1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
+	// first half of array: 9x proton resonance data | second half of array 9x neutron resonance data
+	static const double AMRES[18] = {1.231, 1.440, 1.515, 1.525, 1.675, 1.680, 1.690, 1.895, 1.950, 1.231, 1.440, 1.515, 1.525, 1.675, 1.675, 1.690, 1.895, 1.950};
+	static const double BGAMMA[18] = {5.6, 0.5, 4.6, 2.5, 1.0, 2.1, 2.0, 0.2, 1.0, 6.1, 0.3, 4.0, 2.5, 0.0, 0.2, 2.0, 0.2, 1.0};
+	static const double WIDTH[18] = {0.11, 0.35, 0.11, 0.1, 0.16, 0.125, 0.29, 0.35, 0.3, 0.11, 0.35, 0.11, 0.1, 0.16, 0.150, 0.29, 0.35, 0.3};
+	static const double RATIOJ[18] = {1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2., 1., 0.5, 1., 0.5, 0.5, 1.5, 1., 1.5, 2.};
 	static const double AM2[2] = {0.882792, 0.880351};
 
 	const int idx = onProton? 0 : 9;
@@ -307,12 +303,8 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 		cross_dir = cross_dir1 + cross_dir2;
 	}
 	// fragmentation 2:
-	double cross_frag2 = 0.;
-	if (onProton) {
-		cross_frag2 = 80.3 * Ef(x, 0.5, 0.1) * std::pow(s, -0.34);
-	} else {
-		cross_frag2 = 60.2 * Ef(x, 0.5, 0.1) * std::pow(s, -0.34);
-	}
+	double cross_frag2 = onProton? 80.3 : 60.2;
+	cross_frag2 *= Ef(x, 0.5, 0.1) * std::pow(s, -0.34);
 	// multipion production/fragmentation 1 cross section
 	double cs_multidiff = 0.;
 	double cs_multi = 0.;
@@ -321,12 +313,8 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 	double cross_diffr = 0.;
 	if (x > 0.85) {
 		double ss1 = (x - 0.85) / 0.69;
-		double ss2 = 0.;
-		if (onProton) {
-			ss2 = 29.3 * std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);
-		} else {
-			ss2 = 26.4 * std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);
-		}
+		double ss2 = onProton? 29.3 : 26.4;
+		ss2 *= std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);
 		cs_multidiff = (1. - std::exp(-ss1)) * ss2;
 		cs_multi = 0.89 * cs_multidiff;
 		// diffractive scattering:
@@ -339,8 +327,7 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 		double cs_tmp = 0.96 * (1. - std::exp(-ss1)) * ss2;
 		cross_diffr1 = 0.14 * cs_tmp;
 		cross_diffr2 = 0.013 * cs_tmp;
-		double cs_delta = cross_frag2
-						- (cross_diffr1+cross_diffr2-cross_diffr);
+		double cs_delta = cross_frag2 - (cross_diffr1 + cross_diffr2 - cross_diffr);
 		if (cs_delta < 0.) {
 			cross_frag2 = 0.;
 			cs_multi += cs_delta;

@@ -219,7 +219,6 @@ TEST(Candidate, addSecondary) {
 	EXPECT_TRUE(Vector3d(0,0,1) == s.created.getDirection());
 }
 
-
 TEST(Candidate, serialNumber) {
 	Candidate::setNextSerialNumber(42);
 	Candidate c;
@@ -287,7 +286,6 @@ TEST(common, interpolateEquidistant) {
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
 }
 
-
 TEST(common, pow_integer)
 {
 	EXPECT_EQ(pow_integer<0>(1.23), 1);
@@ -296,7 +294,11 @@ TEST(common, pow_integer)
 	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow(1.234, 3));
 }
 
-
+TEST(common, gaussInt)
+{
+	EXPECT_NEAR(gaussInt(([](double x){ return x*x; }), 0, 10), 1000/3., 1e-4);
+	EXPECT_NEAR(gaussInt(([](double x){ return sin(x)*sin(x); }), 0, M_PI), M_PI/2., 1e-4);
+}
 
 TEST(Random, seed) {
 	Random &a = Random::instance();

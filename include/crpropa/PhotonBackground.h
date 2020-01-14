@@ -3,7 +3,6 @@
 
 #include "crpropa/Common.h"
 
-#include <functional>
 #include <string>
 
 namespace crpropa {

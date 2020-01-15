@@ -28,14 +28,15 @@ namespace crpropa {
 template<typename T>
 class Vector3 {
 public:
-	// While data is stored in this array, it is also accessible via x,y,z variables
-	// x,y,z cannot be used in constructors or assignment operators to avoid
-	// uninitialized rvalue assignment!
-	T data[3];
-
-	T& x = data[0];
-	T& y = data[1];
-	T& z = data[2];
+	union {
+		struct
+		{
+			T x;
+			T y;
+			T z;
+		};
+		T data[3];
+	};
 
 	Vector3() : data{0., 0., 0.} {
 	}
@@ -51,19 +52,6 @@ public:
 		data[1] = v.y;
 		data[2] = v.z;
 	}
-
-	//Vector3(Vector3 &&v) noexcept {
-	//	data[0] = v.data[0];
-	//	data[1] = v.data[1];
-	//	data[2] = v.data[2];
-	//}
-
-	//template<typename U>
-	//Vector3(Vector3<U> &&v) noexcept {
-	//	data[0] = v.data[0];
-	//	data[1] = v.data[1];
-	//	data[2] = v.data[2];
-	//}
 
 	~Vector3()
 	{

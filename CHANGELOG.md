@@ -3,6 +3,8 @@
 ### Bug fixes:
 
 ### New features:
+  * Vector3 now allows has index based access to its components. This improves
+    interoperability with third party libraries, in particular with numpy arrays.
 
 ### Features that are deprecated and will be removed after this release:
 

@@ -219,7 +219,6 @@ TEST(Candidate, addSecondary) {
 	EXPECT_TRUE(Vector3d(0,0,1) == s.created.getDirection());
 }
 
-
 TEST(Candidate, serialNumber) {
 	Candidate::setNextSerialNumber(42);
 	Candidate c;
@@ -287,7 +286,6 @@ TEST(common, interpolateEquidistant) {
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
 }
 
-
 TEST(common, pow_integer)
 {
 	EXPECT_EQ(pow_integer<0>(1.23), 1);
@@ -296,7 +294,11 @@ TEST(common, pow_integer)
 	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow(1.234, 3));
 }
 
-
+TEST(common, gaussInt)
+{
+	EXPECT_NEAR(gaussInt(([](double x){ return x*x; }), 0, 10), 1000/3., 1e-4);
+	EXPECT_NEAR(gaussInt(([](double x){ return sin(x)*sin(x); }), 0, M_PI), M_PI/2., 1e-4);
+}
 
 TEST(Random, seed) {
 	Random &a = Random::instance();
@@ -354,7 +356,7 @@ TEST(base64, de_en_coding)
 	Random a;
 	for (int N=1; N < 100; N++)
 	{
-		std::vector<uint32_t> data; 
+		std::vector<uint32_t> data;
 		data.reserve(N);
 		for (int i =0; i<N; i++)
 			data.push_back(a.randInt());
@@ -440,11 +442,11 @@ TEST(ScalarGrid, TestVectorSpacing) {
 	size_t Nz = 10;
 	Vector3d origin = Vector3d(1., 2., 3.);
 	Vector3d spacing = Vector3d(1., 5., 3.);
-	
+
 	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
-	
+
 	EXPECT_EQ(spacing, grid.getSpacing());
-	
+
 	// Test index handling: get position of grid point (1, 7, 6)
 	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
 	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;

@@ -125,7 +125,7 @@ TEST(Vector3, rotation) {
 	EXPECT_NEAR(w.y, 0, 1e-9);
 	EXPECT_NEAR(w.z, 0, 1e-9);
 
-	// rotation around zero axis 
+	// rotation around zero axis
 	v = Vector3d(1, 0, 0);
 	Vector3d a = v.cross(v);
 	w = v.getRotated(a, 0);

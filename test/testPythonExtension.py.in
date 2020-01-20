@@ -123,5 +123,39 @@ class testKeywordArguments(unittest.TestCase):
   #  p = crp.PhotoDisintegration(photonField=crp.IRB_Dominguez11)
   #  self.assertTrue('IRB_Dominguez11' in p.getDescription())
 
+
+class testVector3(unittest.TestCase):
+  def testPublicReferenceAccess(self):
+    v = crp.Vector3d(1., 2., 3.)
+    self.assertEqual(v.x, 1.)
+    self.assertEqual(v.y, 2.)
+    self.assertEqual(v.z, 3.)
+    v.x = 23.
+    self.assertEqual(v.x, 23.)
+
+  def testArrayInterface(self):
+    if numpy_available:
+      v = crp.Vector3d(1., 2., 3.)
+      self.assertEqual(2., np.mean(v) )
+      x = np.ones(3)
+      self.assertEqual(6., sum(v * x) )
+
+  def testRepr(self):
+    v = crp.Vector3d(1., 2., 3.)
+    if sys.version_info >= (3, 3):
+      import unittest.mock
+      import io
+      with unittest.mock.patch('sys.stdout', new = io.StringIO()) as fake_out:
+        print(v)
+    else:
+      import StringIO
+      fake_out = StringIO.StringIO()
+      sys.stdout = fake_out
+      print(v)
+      sys.stdout = sys.__stdout__
+    self.assertEqual(fake_out.getvalue().rstrip(), v.getDescription())
+
+
+
 if __name__ == '__main__':
     unittest.main()

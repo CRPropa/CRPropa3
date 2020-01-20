@@ -26,21 +26,13 @@ globals()["classname"["classname".find('::')+2:]].__repr__ = globals()["classnam
 
 %enddef
 
-%define VECTOR3__REPR__( classname )
-
-%template(Vector3d) classname<double>;
-%template(Vector3f) classname<float>;
+%template(Vector3d) crpropa::Vector3<double>;
+%template(Vector3f) crpropa::Vector3<float>;
 
 %pythoncode %{
-
-def Vector3__repr__(self):
-    return "Vector(%.6G, %.6G, %.6G)" % (self.x, self.y, self.z)
-Vector3d.__repr__ = Vector3__repr__
-Vector3f.__repr__ = Vector3__repr__
-
+Vector3d.__repr__ = Vector3d.getDescription
+Vector3f.__repr__ = Vector3f.getDescription
 %}
-
-%enddef
 
 %include "3_repr.i"
 

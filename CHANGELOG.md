@@ -3,8 +3,6 @@
 ### Bug fixes:
 
 ### New features:
-  * Vector3 now allows has index based access to its components. This improves
-    interoperability with third party libraries, in particular with numpy arrays.
 
 ### Features that are deprecated and will be removed after this release:
 
@@ -28,6 +26,12 @@
 * For PhotoPionProduction now a two dimensional interpolation of the redshift 
   evolution is available (see pull request  #255)
 * A new break condition MinimumChargeNumber is added (see pull request #256)
+* Vector3 now has index based access to its components. This improves
+  interoperability with third party libraries, in particular with numpy arrays.
+  (see pull request #262)
+* Random seeds can be accessed from python (see pull request #263)
+* New galactic magnetic field model by Terral & Ferriere (2017) (see pull request #258)
+
 
 ## CRPropa v3.1.5
 

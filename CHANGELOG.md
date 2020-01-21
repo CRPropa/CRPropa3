@@ -31,6 +31,11 @@
   (see pull request #262)
 * Random seeds can be accessed from python (see pull request #263)
 * New galactic magnetic field model by Terral & Ferriere (2017) (see pull request #258)
+* Reimplementation of SOPHIA's photon field sampling used in
+PhotoPionProduction in c++, leading to a factor 2-3 speed up of the
+module (see pull request #260).
+* Introducing a method, sophiaEvent(onProton, Eprimary, Ephoton), to
+directly call SOPHIA's event generator from python (see pull request #260).
 
 
 ## CRPropa v3.1.5

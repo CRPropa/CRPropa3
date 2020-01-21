@@ -9,7 +9,12 @@ using namespace std;
 using namespace crpropa;
 
 TD13Field::TD13Field(double B_0, double Lmin, double Lmax, double s, double q, int Nm, int seed) {
-    setNm(Nm);
+    Nmodes = Nm;
+    spec_s = s;
+    spec_q = q;
+    spec_Lmin = Lmin;
+    spec_Lmax = Lmax;
+
     Random random;
 	if (seed != 0)
 		random.seed(seed); // use given seed
@@ -61,7 +66,7 @@ TD13Field::TD13Field(double B_0, double Lmin, double Lmax, double s, double q, i
 Vector3d TD13Field::getField(const Vector3d &pos) const {
     Vector3d EGMFdir;
     double z_prime, cos_kn_z;
-    for(int n=0; n<Nm; n++) { 
+    for(int n=0; n<Nmodes; n++) { 
         z_prime  = sqrt_eta_n[n] * cos_phi_n[n] * pos.x;
         z_prime += sqrt_eta_n[n] * sin_phi_n[n] * pos.y;
         z_prime += eta_n[n] * pos.z;
@@ -74,62 +79,12 @@ Vector3d TD13Field::getField(const Vector3d &pos) const {
     return EGMFdir;
 }
 
-void TD13Field::setB0(double B){
-    B_0 = B;
-    return;
-}
-
-void TD13Field::setLmin(double L){
-    Lmin = L;
-    return;
-}
-
-void TD13Field::setLmax(double L){
-    Lmax = L;
-    return;
-}
-
-void TD13Field::setSpec(double ind1, double ind2){
-    s = ind1;
-    q = ind2;
-    return;
-}
-
-void TD13Field::setNm(int N){
-    Nm = N;
-    return;
-}
-
-double TD13Field::getB0() const {
-    return B_0;
-}
-
-double TD13Field::getLmin() const {
-    return Lmin;
-}
-
-double TD13Field::getLmax() const {
-    return Lmax;
-}
-
 double TD13Field::getLc() const {
     // According to Harari et Al JHEP03(2002)045
     double Lc;
-    Lc = Lmax/2.;
-    Lc*= (s-1.)/s;
-    Lc*= 1 - pow(Lmin/Lmax,s);
-    Lc/= 1 - pow(Lmin/Lmax,s-1);
+    Lc = spec_Lmax/2.;
+    Lc*= (spec_s-1.)/spec_s;
+    Lc*= 1 - pow(spec_Lmin/spec_Lmax, spec_s);
+    Lc/= 1 - pow(spec_Lmin/spec_Lmax, spec_s-1);
     return Lc;
-}
-
-double TD13Field::get_q() const {
-    return q;
-}
-
-double TD13Field::get_s() const {
-    return s;
-}
-
-int TD13Field::getNm() const {
-    return Nm;
 }

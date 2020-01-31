@@ -417,16 +417,12 @@ find_package(PythonLibs)
 
 if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
-	find_package(SWIG REQUIRED)
+	find_package(SWIG 3.0 REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
 
-	if (SWIG_VERSION VERSION_LESS "2.0")
-		set (ENABLE_SWIG_BUILTIN OFF)
-	else (SWIG_VERSION VERSION_LESS "2.0")
-		# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-    option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
-	endif (SWIG_VERSION VERSION_LESS "2.0")
+	# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
+	option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
 
 	if(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "-builtin")

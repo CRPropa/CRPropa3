@@ -1952,7 +1952,6 @@ C  simulate pomeron (two-string topology)
 
           if(Ideb.ge.10) then
             print *,' multi-pion event',Istring,NP
-            call print_event(1)
           endif
 
 C... for fragmentation in resonance region:
@@ -2266,14 +2265,6 @@ C... for fragmentation in resonance region:
 
       ENDIF
 
-      if(Ideb.ge.10) then
-        if(Ideb.ge.20) then
-          call print_event(2)
-        else
-          call print_event(1)
-        endif
-      endif
-
       IQchr = ICHP(ip1)+ICHP(ip2)
       IQbar = IBAR(ip1)+IBAR(ip2)
       call check_event(-Ic,Ecm,0.D0,0.D0,0.D0,IQchr,IQbar,Irej)
@@ -2350,8 +2341,6 @@ C***********************************************************************
         print *,' energy conservation violated',Ic
         Iprint = 1
       endif
-
-      if(Iprint.ne.0) call print_event(1)
 
       Irej = Iprint
 

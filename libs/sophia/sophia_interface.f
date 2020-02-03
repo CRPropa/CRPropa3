@@ -3218,8 +3218,6 @@ C  F   ULMASS   to give the mass of a particle or parton             *
 C  F   LUCHGE   to give three times the electric charge              * 
 C  F   LUCOMP   to compress standard KF flavour code to internal KC  * 
 C  S   LUERRM   to write error messages and abort faulty run         * 
-C  F   ULALEM   to give the alpha_electromagnetic value              * 
-C  F   ULALPS   to give the alpha_strong value                       * 
 C  F   ULANGL   to give the angle from known x and y components      * 
 C  F   RLU      to provide a random number generator                 * 
 C  S   RLUGET   to save the state of the random number generator     * 
@@ -8273,104 +8271,6 @@ C...Formats for output.
      &'event!') 
  5300 FORMAT(/5X,'Fatal error type',I2,' has occured after',I6, 
      &' LUEXEC calls:'/5X,A/5X,'Execution will now be stopped!') 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, ULALEM
-      FUNCTION ULALEM(Q2) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to calculate the running alpha_electromagnetic. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      SAVE /LUDAT1/ 
- 
-C...Calculate real part of photon vacuum polarization. 
-C...For leptons simplify by using asymptotic (Q^2 >> m^2) expressions. 
-C...For hadrons use parametrization of H. Burkhardt et al. 
-C...See R. Kleiss et al, CERN 89-08, vol. 3, pp. 129-131. 
-      AEMPI=PARU(101)/(3.*PARU(1)) 
-      IF(MSTU(101).LE.0.OR.Q2.LT.2D-6) THEN 
-        RPIGG=0. 
-      ELSEIF(MSTU(101).EQ.2.AND.Q2.LT.PARU(104)) THEN
-        RPIGG=0.
-      ELSEIF(MSTU(101).EQ.2) THEN
-        RPIGG=1.-PARU(101)/PARU(103) 
-      ELSEIF(Q2.LT.0.09) THEN 
-        RPIGG=AEMPI*(13.4916+LOG(Q2))+0.00835*LOG(1.+Q2) 
-      ELSEIF(Q2.LT.9.) THEN 
-        RPIGG=AEMPI*(16.3200+2.*LOG(Q2))+0.00238*LOG(1.+3.927*Q2) 
-      ELSEIF(Q2.LT.1E4) THEN 
-        RPIGG=AEMPI*(13.4955+3.*LOG(Q2))+0.00165+0.00299*LOG(1.+Q2) 
-      ELSE 
-        RPIGG=AEMPI*(13.4955+3.*LOG(Q2))+0.00221+0.00293*LOG(1.+Q2) 
-      ENDIF 
- 
-C...Calculate running alpha_em. 
-      ULALEM=PARU(101)/(1.-RPIGG) 
-      PARU(108)=ULALEM 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, ULALPS
-      FUNCTION ULALPS(Q2) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to give the value of alpha_strong. 
-      COMMON/LUDAT1/MSTU(200),PARU(200),MSTJ(200),PARJ(200) 
-      COMMON/LUDAT2/KCHG(500,3),PMAS(500,4),PARF(2000),VCKM(4,4) 
-      SAVE /LUDAT1/,/LUDAT2/ 
- 
-C...Constant alpha_strong trivial. 
-      IF(MSTU(111).LE.0) THEN 
-        ULALPS=PARU(111) 
-        MSTU(118)=MSTU(112) 
-        PARU(117)=0. 
-        PARU(118)=PARU(111) 
-        RETURN 
-      ENDIF 
- 
-C...Find effective Q2, number of flavours and Lambda. 
-      Q2EFF=Q2 
-      IF(MSTU(115).GE.2) Q2EFF=MAX(Q2,PARU(114)) 
-      NF=MSTU(112) 
-      ALAM2=PARU(112)**2 
-  100 IF(NF.GT.MAX(2,MSTU(113))) THEN 
-        Q2THR=PARU(113)*PMAS(NF,1)**2 
-        IF(Q2EFF.LT.Q2THR) THEN 
-          NF=NF-1 
-          ALAM2=ALAM2*(Q2THR/ALAM2)**(2./(33.-2.*NF)) 
-          GOTO 100 
-        ENDIF 
-      ENDIF 
-  110 IF(NF.LT.MIN(8,MSTU(114))) THEN 
-        Q2THR=PARU(113)*PMAS(NF+1,1)**2 
-        IF(Q2EFF.GT.Q2THR) THEN 
-          NF=NF+1 
-          ALAM2=ALAM2*(ALAM2/Q2THR)**(2./(33.-2.*NF)) 
-          GOTO 110 
-        ENDIF 
-      ENDIF 
-      IF(MSTU(115).EQ.1) Q2EFF=Q2EFF+ALAM2 
-      PARU(117)=SQRT(ALAM2) 
- 
-C...Evaluate first or second order alpha_strong. 
-      B0=(33.-2.*NF)/6. 
-      ALGQ=LOG(MAX(1.0001D0,Q2EFF/ALAM2)) 
-      IF(MSTU(111).EQ.1) THEN 
-        ULALPS=MIN(PARU(115),PARU(2)/(B0*ALGQ)) 
-      ELSE 
-        B1=(153.-19.*NF)/6. 
-        ULALPS=MIN(PARU(115),PARU(2)/(B0*ALGQ)*(1.-B1*LOG(ALGQ)/ 
-     &  (B0**2*ALGQ))) 
-      ENDIF 
-      MSTU(118)=NF 
-      PARU(118)=ULALPS 
  
       RETURN 
       END 

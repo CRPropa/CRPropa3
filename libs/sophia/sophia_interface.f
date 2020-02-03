@@ -68,62 +68,6 @@ c**************************
        DATA IRESMAX /9/
        DATA Icount / 0 /
 
-c****** INPUT **************************************************
-c E0 = energy of incident proton (in lab frame) [in GeV]
-c eps = energy of incident photon [in GeV] (in lab frame)
-c theta = angle between incident proton and photon [in degrees]
-c L0 = code number of the incident nucleon
-c***************************************************************
-c** calculate eps_prime = photon energy in nuclear rest frame,
-c**             sqrt(s) = CMF energy of the N\gamma-system
-
-c... declare stable particles:
-
-C  muons stable
-c      IDB(4) = -ABS(IDB(4))
-c      IDB(5) = -ABS(IDB(5))
-C
-C  pi+,pi0,pi- stable
-c      IDB(6) = -ABS(IDB(6))
-c      IDB(7) = -ABS(IDB(7))
-c      IDB(8) = -ABS(IDB(8))
-C
-C  Deltas stable
-C      IDB(40) = -ABS(IDB(40))
-C      IDB(41) = -ABS(IDB(41))
-C      IDB(42) = -ABS(IDB(42))
-C      IDB(43) = -ABS(IDB(43))
-C  rho, omega, phi stable
-C      IDB(25) = -ABS(IDB(25))
-C      IDB(26) = -ABS(IDB(26))
-C      IDB(27) = -ABS(IDB(27))
-C      IDB(32) = -ABS(IDB(32))
-C      IDB(33) = -ABS(IDB(33))
-C      print *,' WARNING: Deltas, eta, VMs are stable in this version'
-
-C  rho0,omega stable
-c      IDB(27) = -ABS(IDB(27))
-c      IDB(32) = -ABS(IDB(32))
-
-C STRANGE PARTICLES:
-C  kaons stable
-c      IDB(9)  = -ABS(IDB(9))
-c      IDB(10) = -ABS(IDB(10))
-
-C      IDB(11) = -ABS(IDB(11))
-C      IDB(12) = -ABS(IDB(12))
-C      IDB(21) = -ABS(IDB(21))
-C      IDB(22) = -ABS(IDB(22))
-C  kaons* stable
-c      IDB(28) = -ABS(IDB(28))
-c      IDB(29) = -ABS(IDB(29))
-c      IDB(30) = -ABS(IDB(30))
-c      IDB(31) = -ABS(IDB(31))
-
-C  eta stable
-C      IDB(23) = -ABS(IDB(23))
-
-
 C  incoming nucleon
        pm = AM(L0)
        P_nuc(1) = 0.D0
@@ -222,7 +166,6 @@ c*******************************************************************
 c*********************************************
 c******* PARTICLE PRODUCTION *****************
 c*********************************************
-c  42   continue
        if (Imode.le.5) then
 c... direct/multipion/diffractive scattering production channel:
         call GAMMA_H(sqsm,L0,Imode,Ifbad)
@@ -288,12 +231,6 @@ c***********************************************
      &    PC(1),PC(2),PC(3),PC(4),Ptot,
      &    P(I,1),P(I,2),P(I,3),P(I,4))
       ENDDO
-
-c      call check_event(Icount,Esum,PXsum,PYsum,PZsum,IQchr,IQbar,Irej)
-c      if(Irej.ne.0) then
-c        print *,' eventgen: event rejected by check_event'
-c        goto 200
-c      endif
 
       return
 
@@ -1024,10 +961,6 @@ c... determine the energy range of the resonance:
      +  RESLIMn(36),ELIMITSn(9),KDECRES1n(90),KDECRES2n(180),
      +  KDECRES3n(110),IDBRES1n(9),IDBRES2n(9),IDBRES3n(9) 
        COMMON /S_PLIST/ P(2000,5), LLIST(2000), NP, Ideb
-c       COMMON /S_CNAM/ NAMP (0:49)
-c      CHARACTER NAMP*6, NAMPRESp*6, NAMPRESn*6
-
-*      external scatangle, proc_twopart
 
 c********************************************************
 c  RESONANCE AMD with code number IRES  INTO  M1 + M2
@@ -15705,7 +15638,6 @@ C...Update counters. Random number to output.
         MRLU2=MRLU2+1
         MRLU3=0
       ENDIF
-C     RLU=RUNI
       RNDM=RUNI
       RETURN
       END

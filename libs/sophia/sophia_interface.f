@@ -3220,8 +3220,6 @@ C  F   LUCOMP   to compress standard KF flavour code to internal KC  *
 C  S   LUERRM   to write error messages and abort faulty run         * 
 C  F   ULANGL   to give the angle from known x and y components      * 
 C  F   RLU      to provide a random number generator                 * 
-C  S   RLUGET   to save the state of the random number generator     * 
-C  S   RLUSET   to set the state of the random number generator      * 
 C  S   LUROBO   to rotate and/or boost an event                      * 
 C  S   LUEDIT   to remove unwanted entries from record               * 
 C  S   LULIST   to list event record or particle data                * 
@@ -8372,79 +8370,6 @@ C...Update counters. Random number to output.
         MRLU3=0 
       ENDIF 
       RLU=RUNI 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, RLUGET
-      SUBROUTINE RLUGET(LFN,MOVE) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to dump the state of the random number generator on a file 
-C...for subsequent startup from this state onwards. 
-      COMMON/LUDATR/MRLU(6),RRLU(100) 
-      SAVE /LUDATR/ 
-      CHARACTER CHERR*8 
- 
-C...Backspace required number of records (or as many as there are). 
-      IF(MOVE.LT.0) THEN 
-        NBCK=MIN(MRLU(6),-MOVE) 
-        DO 100 IBCK=1,NBCK 
-        BACKSPACE(LFN,ERR=110,IOSTAT=IERR) 
-  100   CONTINUE 
-        MRLU(6)=MRLU(6)-NBCK 
-      ENDIF 
- 
-C...Unformatted write on unit LFN. 
-      WRITE(LFN,ERR=110,IOSTAT=IERR) (MRLU(I1),I1=1,5), 
-     &(RRLU(I2),I2=1,100) 
-      MRLU(6)=MRLU(6)+1 
-      RETURN 
- 
-C...Write error. 
-  110 WRITE(CHERR,'(I8)') IERR 
-      CALL LUERRM(18,'(RLUGET:) error when accessing file, IOSTAT ='// 
-     &CHERR) 
- 
-      RETURN 
-      END 
- 
-C********************************************************************* 
- 
-CDECK  ID>, RLUSET
-      SUBROUTINE RLUSET(LFN,MOVE) 
-      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
- 
-C...Purpose: to read a state of the random number generator from a file 
-C...for subsequent generation from this state onwards. 
-      COMMON/LUDATR/MRLU(6),RRLU(100) 
-      SAVE /LUDATR/ 
-      CHARACTER CHERR*8 
- 
-C...Backspace required number of records (or as many as there are). 
-      IF(MOVE.LT.0) THEN 
-        NBCK=MIN(MRLU(6),-MOVE) 
-        DO 100 IBCK=1,NBCK 
-        BACKSPACE(LFN,ERR=120,IOSTAT=IERR) 
-  100   CONTINUE 
-        MRLU(6)=MRLU(6)-NBCK 
-      ENDIF 
- 
-C...Unformatted read from unit LFN. 
-      NFOR=1+MAX(0,MOVE) 
-      DO 110 IFOR=1,NFOR 
-      READ(LFN,ERR=120,IOSTAT=IERR) (MRLU(I1),I1=1,5), 
-     &(RRLU(I2),I2=1,100) 
-  110 CONTINUE 
-      MRLU(6)=MRLU(6)+NFOR 
-      RETURN 
- 
-C...Write error. 
-  120 WRITE(CHERR,'(I8)') IERR 
-      CALL LUERRM(18,'(RLUSET:) error when accessing file, IOSTAT ='// 
-     &CHERR) 
  
       RETURN 
       END 

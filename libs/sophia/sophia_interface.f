@@ -3286,7 +3286,6 @@ C...Purpose: to administrate the fragmentation and decay chain.
  
 C...Initialize and reset. 
       MSTU(24)=0 
-      IF(MSTU(12).GE.1) CALL LULIST(0) 
       MSTU(31)=MSTU(31)+1 
       MSTU(1)=0 
       MSTU(2)=0 
@@ -8216,7 +8215,6 @@ C...Write first few errors, then be silent or stop program.
         IF(MSTU(21).GE.2.AND.MSTU(23).GT.MSTU(22)) THEN 
           WRITE(MSTU(11),5100) MERR-10,MSTU(31),CHMESS 
           WRITE(MSTU(11),5200) 
-          IF(MERR.NE.17) CALL LULIST(2) 
           STOP 
         ENDIF 
  

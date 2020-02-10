@@ -8215,6 +8215,8 @@ C...Write first few errors, then be silent or stop program.
         IF(MSTU(21).GE.2.AND.MSTU(23).GT.MSTU(22)) THEN 
           WRITE(MSTU(11),5100) MERR-10,MSTU(31),CHMESS 
           WRITE(MSTU(11),5200) 
+          PRINT*, "LUERRM: critical error; shutting down. This error was
+     &    raised due to: ", CHMESS
           STOP 
         ENDIF 
  

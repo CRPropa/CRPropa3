@@ -25,7 +25,7 @@ namespace crpropa {
  Galactic center at the origin, the x-axis pointing in the opposite direction of
  the Sun, and the z-axis pointing towards Galactic north.
 
- The regular field components (disk, toroidal halo and polodial halo field) 
+ The regular field components (disk, toroidal halo and polodial halo field)
  may be turned on and off individually.
  */
 class JF12Field: public MagneticField {
@@ -132,6 +132,23 @@ public:
 
 	// All set field components
 	Vector3d getField(const Vector3d& pos) const;
+};
+
+
+/**
+ @class JF12FieldPlanck
+ @brief JF12FieldPlanck: the JF12 galactic magnetic field model with corrections
+ suggested by the Planck Collaboration
+
+ See: Planck Collaboration, "Planck intermediate results. XLII.
+ Large-scale Galactic magnetic fields", A&A 596 (2016) A103;
+ arXiv:1601.00546
+
+ This variant of the JF12 field uses only different parameters compared to the standard JF12 implementation.
+  */
+class PlanckJF12bField: public JF12Field {
+	public:
+		PlanckJF12bField();
 };
 
 } // namespace crpropa

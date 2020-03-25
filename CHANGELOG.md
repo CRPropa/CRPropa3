@@ -4,6 +4,9 @@
 
 ### New features:
 
+* Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
+	Mikhail Zotov for contributing.
+
 ### Features that are deprecated and will be removed after this release:
 
 ### New plugins and resources linked on the webpages:
@@ -14,7 +17,7 @@
 
 * Fix of (#254): Redshift evolution in PhotoPionProduction
   The reshift evolution was always handled with simple scaling and never with
-  the more accurate 2 dimensional interpolation. 
+  the more accurate 2 dimensional interpolation.
 
 ### New features:
 
@@ -23,7 +26,7 @@
   distribution of cosmic rays on a sphere, e.g. for investigation of propagation
   of extagalactic cosmic rays in the Milky Way  (see issue #246 and pull
   request #247)
-* For PhotoPionProduction now a two dimensional interpolation of the redshift 
+* For PhotoPionProduction now a two dimensional interpolation of the redshift
   evolution is available (see pull request  #255)
 * A new break condition MinimumChargeNumber is added (see pull request #256)
 * Vector3 now has index based access to its components. This improves

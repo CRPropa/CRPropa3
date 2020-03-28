@@ -341,4 +341,26 @@ Vector3d JF12Field::getField(const Vector3d& pos) const {
 	return b;
 }
 
+
+
+PlanckJF12bField::PlanckJF12bField() : JF12Field::JF12Field(){
+	// regular field parameters
+	bDisk[5] = -3.5 * muG;
+	bX = 1.8 * muG;
+
+	// turbulent field parameters;
+	bDiskTurb[0] = 3.12 * muG;
+	bDiskTurb[1] = 6.24 * muG;
+	bDiskTurb[2] = 3.12 * muG;
+	bDiskTurb[3] = 6.24 * muG;
+	bDiskTurb[4] = 3.12 * muG;
+	bDiskTurb[5] = 6.24 * muG;
+	bDiskTurb[6] = 3.12 * muG;
+	bDiskTurb[7] = 6.24 * muG;
+
+	bDiskTurb5 = 3.90 * muG;
+
+	bHaloTurb = 7.332 * muG;
+}
+
 } // namespace crpropa

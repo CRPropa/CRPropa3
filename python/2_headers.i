@@ -371,9 +371,17 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %template(VectorGridRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
 %template(VectorGrid) crpropa::Grid<crpropa::Vector3<float> >;
 
+%implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
+%template(VectorGridDoubleRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
+%template(VectorGridDouble) crpropa::Grid<crpropa::Vector3<double> >;
+
 %implicitconv crpropa::ref_ptr<crpropa::Grid<float> >;
 %template(ScalarGridRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
 %template(ScalarGrid) crpropa::Grid<float>;
+
+%implicitconv crpropa::ref_ptr<crpropa::Grid<double> >;
+%template(ScalarGridDoubleRefPtr) crpropa::ref_ptr<crpropa::Grid<double> >;
+%template(ScalarGridDouble) crpropa::Grid<double>;
 
 %implicitconv std::pair<std::vector<int>, std::vector<float> >;
 %template(PairIntFloat) std::pair<int, float>;

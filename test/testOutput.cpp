@@ -251,6 +251,25 @@ TEST(ParticleCollector, getTrajectory) {
 	EXPECT_TRUE(ArraysMatch(pos_x_expected, pos_x));
 }
 
+TEST(ParticleCollector, runModuleList) {
+        ModuleList modules;
+        modules.add(new SimplePropagation());
+        modules.add(new MaximumTrajectoryLength(1 * Mpc));
+        
+        ParticleState p;
+        p.setPosition(Vector3d(10, 0, 0));
+        p.setDirection(Vector3d(-1, 0, 0));
+        ref_ptr<Candidate> c = new Candidate(p);
+
+        ref_ptr<ParticleCollector> collector = new ParticleCollector();
+
+        collector->process(c);
+        
+        modules.setShowProgress(false);
+        auto candidates = collector->getAll();
+        modules.run(&candidates);
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

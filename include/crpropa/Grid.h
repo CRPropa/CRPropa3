@@ -240,9 +240,10 @@ public:
 	}
 };
 
-typedef float GridPrecision;
-typedef Grid<Vector3<GridPrecision> > VectorGrid;
-typedef Grid<GridPrecision> ScalarGrid;
+typedef Grid<Vector3f> VectorGrid;
+typedef Grid<Vector3d> VectorGridDouble;
+typedef Grid<float> ScalarGrid;
+typedef Grid<double> ScalarGridDouble;
 /** @}*/
 
 } // namespace crpropa

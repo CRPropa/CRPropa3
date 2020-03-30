@@ -266,8 +266,8 @@ TEST(ParticleCollector, runModuleList) {
         collector->process(c);
         
         modules.setShowProgress(false);
-        auto candidates = collector->getAll();
-        modules.run(&candidates);
+        auto candidates = collector->getContainer();
+	modules.run(&candidates);
 }
 
 int main(int argc, char **argv) {

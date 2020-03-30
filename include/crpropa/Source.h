@@ -362,9 +362,9 @@ public:
  @brief Random source positions from a density grid
  */
 class SourceDensityGrid: public SourceFeature {
-	ref_ptr<ScalarGrid> grid;
+	ref_ptr<ScalarGridf> grid;
 public:
-	SourceDensityGrid(ref_ptr<ScalarGrid> densityGrid);
+	SourceDensityGrid(ref_ptr<ScalarGridf> densityGrid);
 	void prepareParticle(ParticleState &particle) const;
 	void setDescription();
 };
@@ -374,9 +374,9 @@ public:
  @brief Random source positions from a 1D density grid
  */
 class SourceDensityGrid1D: public SourceFeature {
-	ref_ptr<ScalarGrid> grid;
+	ref_ptr<ScalarGridf> grid;
 public:
-	SourceDensityGrid1D(ref_ptr<ScalarGrid> densityGrid);
+	SourceDensityGrid1D(ref_ptr<ScalarGridf> densityGrid);
 	void prepareParticle(ParticleState &particle) const;
 	void setDescription();
 };

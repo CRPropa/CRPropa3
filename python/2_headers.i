@@ -368,20 +368,20 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/GridTurbulence.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
-%template(VectorGridRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
-%template(VectorGrid) crpropa::Grid<crpropa::Vector3<float> >;
+%template(VectorGridfRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
+%template(VectorGridf) crpropa::Grid<crpropa::Vector3<float> >;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
-%template(VectorGridDoubleRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
-%template(VectorGridDouble) crpropa::Grid<crpropa::Vector3<double> >;
+%template(VectorGriddRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
+%template(VectorGridd) crpropa::Grid<crpropa::Vector3<double> >;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<float> >;
-%template(ScalarGridRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
-%template(ScalarGrid) crpropa::Grid<float>;
+%template(ScalarGridfRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
+%template(ScalarGridf) crpropa::Grid<float>;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<double> >;
-%template(ScalarGridDoubleRefPtr) crpropa::ref_ptr<crpropa::Grid<double> >;
-%template(ScalarGridDouble) crpropa::Grid<double>;
+%template(ScalarGriddRefPtr) crpropa::ref_ptr<crpropa::Grid<double> >;
+%template(ScalarGridd) crpropa::Grid<double>;
 
 %implicitconv std::pair<std::vector<int>, std::vector<float> >;
 %template(PairIntFloat) std::pair<int, float>;

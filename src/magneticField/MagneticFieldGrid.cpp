@@ -2,15 +2,15 @@
 
 namespace crpropa {
 
-MagneticFieldGrid::MagneticFieldGrid(ref_ptr<VectorGrid> grid) {
+MagneticFieldGrid::MagneticFieldGrid(ref_ptr<VectorGridf> grid) {
 	setGrid(grid);
 }
 
-void MagneticFieldGrid::setGrid(ref_ptr<VectorGrid> grid) {
+void MagneticFieldGrid::setGrid(ref_ptr<VectorGridf> grid) {
 	this->grid = grid;
 }
 
-ref_ptr<VectorGrid> MagneticFieldGrid::getGrid() {
+ref_ptr<VectorGridf> MagneticFieldGrid::getGrid() {
 	return grid;
 }
 
@@ -18,27 +18,27 @@ Vector3d MagneticFieldGrid::getField(const Vector3d &pos) const {
 	return grid->interpolate(pos);
 }
 
-ModulatedMagneticFieldGrid::ModulatedMagneticFieldGrid(ref_ptr<VectorGrid> grid,
-		ref_ptr<ScalarGrid> modGrid) {
+ModulatedMagneticFieldGrid::ModulatedMagneticFieldGrid(ref_ptr<VectorGridf> grid,
+		ref_ptr<ScalarGridf> modGrid) {
 	grid->setReflective(false);
 	modGrid->setReflective(true);
 	setGrid(grid);
 	setModulationGrid(modGrid);
 }
 
-void ModulatedMagneticFieldGrid::setGrid(ref_ptr<VectorGrid> g) {
+void ModulatedMagneticFieldGrid::setGrid(ref_ptr<VectorGridf> g) {
 	grid = g;
 }
 
-ref_ptr<VectorGrid> ModulatedMagneticFieldGrid::getGrid() {
+ref_ptr<VectorGridf> ModulatedMagneticFieldGrid::getGrid() {
 	return grid;
 }
 
-void ModulatedMagneticFieldGrid::setModulationGrid(ref_ptr<ScalarGrid> g) {
+void ModulatedMagneticFieldGrid::setModulationGrid(ref_ptr<ScalarGridf> g) {
 	modGrid = g;
 }
 
-ref_ptr<ScalarGrid> ModulatedMagneticFieldGrid::getModulationGrid() {
+ref_ptr<ScalarGridf> ModulatedMagneticFieldGrid::getModulationGrid() {
 	return modGrid;
 }
 

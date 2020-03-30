@@ -3,6 +3,10 @@
 
 #include "crpropa/Referenced.h"
 #include "crpropa/Vector3.h"
+
+#include "kiss/string.h"
+#include "kiss/logger.h"
+
 #include <vector>
 
 namespace crpropa {
@@ -240,10 +244,49 @@ public:
 	}
 };
 
-typedef Grid<Vector3f> VectorGrid;
-typedef Grid<Vector3d> VectorGridDouble;
-typedef Grid<float> ScalarGrid;
-typedef Grid<double> ScalarGridDouble;
+typedef Grid<Vector3f> VectorGridf;
+typedef Grid<Vector3d> VectorGridd;
+typedef Grid<float> ScalarGridf;
+typedef Grid<double> ScalarGridd;
+
+// DEPRICATED: Will be removed in CRPropa v3.9
+class VectorGrid: public VectorGridf {
+	void printDeprication() const {
+		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with VectorGridf (float) or VectorGridd (double).";
+	}
+public:
+	VectorGrid(Vector3d origin, size_t N, double spacing) : VectorGridf(origin, N, spacing) {
+		printDeprication();
+	}
+
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : VectorGridf(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : VectorGridf(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+};
+
+// DEPRICATED: Will be removed in CRPropa v3.9
+class ScalarGrid: public ScalarGridf {
+	void printDeprication() const {
+		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with ScalarGridf (float) or ScalarGridd (double).";
+	}
+public:
+	ScalarGrid(Vector3d origin, size_t N, double spacing) : ScalarGridf(origin, N, spacing) {
+		printDeprication();
+	}
+
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : ScalarGridf(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : ScalarGridf(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+};
+
 /** @}*/
 
 } // namespace crpropa

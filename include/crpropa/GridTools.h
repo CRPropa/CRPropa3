@@ -25,59 +25,59 @@ namespace crpropa {
  */
 
 /** Evaluate the mean vector of all grid points */
-Vector3f meanFieldVector(ref_ptr<VectorGridf> grid);
+Vector3f meanFieldVector(ref_ptr<Grid3f> grid);
 
 /** Evaluate the mean of all grid points */
-double meanFieldStrength(ref_ptr<ScalarGridf> grid);
+double meanFieldStrength(ref_ptr<Grid1f> grid);
 /** Evaluate the mean of all grid points */
-double meanFieldStrength(ref_ptr<VectorGridf> grid);
+double meanFieldStrength(ref_ptr<Grid3f> grid);
 
 /** Evaluate the RMS of all grid points */
-double rmsFieldStrength(ref_ptr<ScalarGridf> grid);
+double rmsFieldStrength(ref_ptr<Grid1f> grid);
 /** Evaluate the RMS of all grid points */
-double rmsFieldStrength(ref_ptr<VectorGridf> grid);
+double rmsFieldStrength(ref_ptr<Grid3f> grid);
 
 /** Multiply all grid values by a given factor */
-void scaleGrid(ref_ptr<ScalarGridf> grid, double a);
+void scaleGrid(ref_ptr<Grid1f> grid, double a);
 /** Multiply all grid values by a given factor */
-void scaleGrid(ref_ptr<VectorGridf> grid, double a);
+void scaleGrid(ref_ptr<Grid3f> grid, double a);
 
 /** Fill vector grid from provided magnetic field */
-void fromMagneticField(ref_ptr<VectorGridf> grid, ref_ptr<MagneticField> field);
+void fromMagneticField(ref_ptr<Grid3f> grid, ref_ptr<MagneticField> field);
 
 /** Fill scalar grid from provided magnetic field */
-void fromMagneticFieldStrength(ref_ptr<ScalarGridf> grid, ref_ptr<MagneticField> field);
+void fromMagneticFieldStrength(ref_ptr<Grid1f> grid, ref_ptr<MagneticField> field);
 
-/** Load a VectorGridf from a binary file with single precision */
-void loadGrid(ref_ptr<VectorGridf> grid, std::string filename,
+/** Load a Grid3f from a binary file with single precision */
+void loadGrid(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a ScalarGridf from a binary file with single precision */
-void loadGrid(ref_ptr<ScalarGridf> grid, std::string filename,
+/** Load a Grid1f from a binary file with single precision */
+void loadGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a VectorGridf to a binary file */
-void dumpGrid(ref_ptr<VectorGridf> grid, std::string filename,
+/** Dump a Grid3f to a binary file */
+void dumpGrid(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a ScalarGridf to a binary file with single precision */
-void dumpGrid(ref_ptr<ScalarGridf> grid, std::string filename,
+/** Dump a Grid1f to a binary file with single precision */
+void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a VectorGridf grid from a plain text file */
-void loadGridFromTxt(ref_ptr<VectorGridf> grid, std::string filename,
+/** Load a Grid3f grid from a plain text file */
+void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a ScalarGridf from a plain text file */
-void loadGridFromTxt(ref_ptr<ScalarGridf> grid, std::string filename,
+/** Load a Grid1f from a plain text file */
+void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a VectorGridf to a plain text file */
-void dumpGridToTxt(ref_ptr<VectorGridf> grid, std::string filename,
+/** Dump a Grid3f to a plain text file */
+void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a ScalarGridf to a plain text file */
-void dumpGridToTxt(ref_ptr<ScalarGridf> grid, std::string filename,
+/** Dump a Grid1f to a plain text file */
+void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
 /** @}*/

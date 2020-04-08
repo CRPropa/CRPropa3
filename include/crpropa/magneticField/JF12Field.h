@@ -60,10 +60,10 @@ protected:
 
 	// Striated field ---------------------------------------------------------
 	double sqrtbeta;       // relative strength of striated field
-	ref_ptr<ScalarGridf> striatedGrid;
+	ref_ptr<Grid1f> striatedGrid;
 
 	// Turbulent field --------------------------------------------------------
-	ref_ptr<VectorGridf> turbulentGrid;
+	ref_ptr<Grid3f> turbulentGrid;
 	// disk
 	double bDiskTurb[8]; // field strengths in arms at r=5 kpc
 	double bDiskTurb5;   // field strength at r<5kpc
@@ -88,16 +88,16 @@ public:
 	 * Set a striated grid and activate the striated field component
 	 * @param grid	scalar grid containing random +1/-1 values, 100 parsec grid spacing
 	 */
-	void setStriatedGrid(ref_ptr<ScalarGridf> grid);
+	void setStriatedGrid(ref_ptr<Grid1f> grid);
 
 	/**
 	 * Set a turbulent grid and activate the turbulent field component
 	 * @param grid	vector grid containing a random field of Brms = 1
 	 */
-	void setTurbulentGrid(ref_ptr<VectorGridf> grid);
+	void setTurbulentGrid(ref_ptr<Grid3f> grid);
 
-	ref_ptr<ScalarGridf> getStriatedGrid();
-	ref_ptr<VectorGridf> getTurbulentGrid();
+	ref_ptr<Grid1f> getStriatedGrid();
+	ref_ptr<Grid3f> getTurbulentGrid();
 
 	void setUseRegularField(bool use);
 	virtual void setUseStriatedField(bool use);

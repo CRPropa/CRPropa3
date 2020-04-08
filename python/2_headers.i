@@ -49,6 +49,13 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore operator crpropa::MagneticField*;
 %ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
+%ignore operator crpropa::Density*;
+%ignore operator crpropa::CylindricalProjectionMap*;
+%ignore operator crpropa::EmissionMap*;
+%ignore operator crpropa::Grid< crpropa::Vector3< float > >*;
+%ignore operator crpropa::Grid< crpropa::Vector3< double > >*;
+%ignore operator crpropa::Grid< float >*;
+%ignore operator crpropa::Grid< double >*;
 %ignore crpropa::TextOutput::load;
 
 %feature("ref")   crpropa::Referenced "$this->addReference();"
@@ -368,20 +375,20 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/GridTurbulence.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
-%template(VectorGridfRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
-%template(VectorGridf) crpropa::Grid<crpropa::Vector3<float> >;
+%template(Grid3fRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
+%template(Grid3f) crpropa::Grid<crpropa::Vector3<float> >;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
-%template(VectorGriddRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
-%template(VectorGridd) crpropa::Grid<crpropa::Vector3<double> >;
+%template(Grid3dRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
+%template(Grid3d) crpropa::Grid<crpropa::Vector3<double> >;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<float> >;
-%template(ScalarGridfRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
-%template(ScalarGridf) crpropa::Grid<float>;
+%template(Grid1fRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
+%template(Grid1f) crpropa::Grid<float>;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<double> >;
-%template(ScalarGriddRefPtr) crpropa::ref_ptr<crpropa::Grid<double> >;
-%template(ScalarGridd) crpropa::Grid<double>;
+%template(Grid1dRefPtr) crpropa::ref_ptr<crpropa::Grid<double> >;
+%template(Grid1d) crpropa::Grid<double>;
 
 %implicitconv std::pair<std::vector<int>, std::vector<float> >;
 %template(PairIntFloat) std::pair<int, float>;

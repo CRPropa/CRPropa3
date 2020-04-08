@@ -244,45 +244,45 @@ public:
 	}
 };
 
-typedef Grid<Vector3f> VectorGridf;
-typedef Grid<Vector3d> VectorGridd;
-typedef Grid<float> ScalarGridf;
-typedef Grid<double> ScalarGridd;
+typedef Grid<Vector3f> Grid3f;
+typedef Grid<Vector3d> Grid3d;
+typedef Grid<float> Grid1f;
+typedef Grid<double> Grid1d;
 
 // DEPRICATED: Will be removed in CRPropa v3.9
-class VectorGrid: public VectorGridf {
+class VectorGrid: public Grid3f {
 	void printDeprication() const {
-		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with VectorGridf (float) or VectorGridd (double).";
+		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
 	}
 public:
-	VectorGrid(Vector3d origin, size_t N, double spacing) : VectorGridf(origin, N, spacing) {
+	VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
 		printDeprication();
 	}
 
-	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : VectorGridf(origin, Nx, Ny, Nz, spacing) {
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
 		printDeprication();
 	}
 
-	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : VectorGridf(origin, Nx, Ny, Nz, spacing) {
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
 		printDeprication();
 	}
 };
 
 // DEPRICATED: Will be removed in CRPropa v3.9
-class ScalarGrid: public ScalarGridf {
+class ScalarGrid: public Grid1f {
 	void printDeprication() const {
-		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with ScalarGridf (float) or ScalarGridd (double).";
+		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
 	}
 public:
-	ScalarGrid(Vector3d origin, size_t N, double spacing) : ScalarGridf(origin, N, spacing) {
+	ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
 		printDeprication();
 	}
 
-	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : ScalarGridf(origin, Nx, Ny, Nz, spacing) {
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
 		printDeprication();
 	}
 
-	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : ScalarGridf(origin, Nx, Ny, Nz, spacing) {
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
 		printDeprication();
 	}
 };

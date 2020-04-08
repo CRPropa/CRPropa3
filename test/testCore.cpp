@@ -408,7 +408,7 @@ TEST(Grid, PeriodicClamp) {
 	EXPECT_EQ(1, hi);
 }
 
-TEST(ScalarGridf, SimpleTest) {
+TEST(ScalarGrid, SimpleTest) {
 	// Test construction and parameters
 	size_t Nx = 5;
 	size_t Ny = 8;
@@ -416,7 +416,7 @@ TEST(ScalarGridf, SimpleTest) {
 	double spacing = 2.0;
 	Vector3d origin(1., 2., 3.);
 
-	ScalarGridf grid(origin, Nx, Ny, Nz, spacing);
+	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
 
 	EXPECT_TRUE(origin == grid.getOrigin());
 	EXPECT_EQ(Nx, grid.getNx());
@@ -435,7 +435,7 @@ TEST(ScalarGridf, SimpleTest) {
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
 }
 
-TEST(ScalarGridf, TestVectorSpacing) {
+TEST(ScalarGrid, TestVectorSpacing) {
 	// Test constructor for vector spacing
 	size_t Nx = 5;
 	size_t Ny = 8;
@@ -443,7 +443,7 @@ TEST(ScalarGridf, TestVectorSpacing) {
 	Vector3d origin = Vector3d(1., 2., 3.);
 	Vector3d spacing = Vector3d(1., 5., 3.);
 
-	ScalarGridf grid(origin, Nx, Ny, Nz, spacing);
+	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
 
 	EXPECT_EQ(spacing, grid.getSpacing());
 
@@ -456,9 +456,9 @@ TEST(ScalarGridf, TestVectorSpacing) {
 	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
 }
 
-TEST(ScalarGridf, ClosestValue) {
+TEST(ScalarGrid, ClosestValue) {
 	// Check some closest values
-	ScalarGridf grid(Vector3d(0.), 2, 2, 2, 1.);
+	ScalarGrid grid(Vector3d(0.), 2, 2, 2, 1.);
 	grid.get(0, 0, 0) = 1;
 	grid.get(0, 0, 1) = 2;
 	grid.get(0, 1, 0) = 3;
@@ -475,11 +475,11 @@ TEST(ScalarGridf, ClosestValue) {
 	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(1.7, 1.8, 0.4)));
 }
 
-TEST(VectorGridf, Interpolation) {
+TEST(Grid3f, Interpolation) {
 	// Explicitly test trilinear interpolation
 	double spacing = 2.793;
 	int n = 3;
-	VectorGridf grid(Vector3d(0.), n, n, n, spacing);
+	Grid3f grid(Vector3d(0.), n, n, n, spacing);
 	grid.get(0, 0, 1) = Vector3f(1.7, 0., 0.); // set one value
 
 	Vector3d b;
@@ -503,7 +503,7 @@ TEST(VectorGridf, Interpolation) {
 
 TEST(VectordGrid, Scale) {
 	// Test scaling a field
-	ref_ptr<VectorGridf> grid = new VectorGridf(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0.), 3, 1);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
@@ -516,12 +516,12 @@ TEST(VectordGrid, Scale) {
 				EXPECT_FLOAT_EQ(5, grid->interpolate(Vector3d(0.7, 0, 0.1)).x);
 }
 
-TEST(VectorGridf, Periodicity) {
+TEST(Grid3f, Periodicity) {
 	// Test for periodic boundaries: grid(x+a*n) = grid(x)
 	size_t n = 3;
 	double spacing = 3;
 	double size = n * spacing;
-	VectorGridf grid(Vector3d(0.), n, spacing);
+	Grid3f grid(Vector3d(0.), n, spacing);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
@@ -545,10 +545,10 @@ TEST(VectorGridf, Periodicity) {
 	EXPECT_FLOAT_EQ(b.z, b2.z);
 }
 
-TEST(VectorGridf, DumpLoad) {
+TEST(Grid3f, DumpLoad) {
 	// Dump and load a field grid
-	ref_ptr<VectorGridf> grid1 = new VectorGridf(Vector3d(0.), 3, 1);
-	ref_ptr<VectorGridf> grid2 = new VectorGridf(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid1 = new Grid3f(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid2 = new Grid3f(Vector3d(0.), 3, 1);
 
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
@@ -571,10 +571,10 @@ TEST(VectorGridf, DumpLoad) {
 	}
 }
 
-TEST(VectorGridf, DumpLoadTxt) {
+TEST(Grid3f, DumpLoadTxt) {
 	// Dump and load a field grid
-	ref_ptr<VectorGridf> grid1 = new VectorGridf(Vector3d(0.), 3, 1);
-	ref_ptr<VectorGridf> grid2 = new VectorGridf(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid1 = new Grid3f(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid2 = new Grid3f(Vector3d(0.), 3, 1);
 
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
@@ -597,9 +597,9 @@ TEST(VectorGridf, DumpLoadTxt) {
 	}
 }
 
-TEST(VectorGridf, Speed) {
+TEST(Grid3f, Speed) {
 	// Dump and load a field grid
-	VectorGridf grid(Vector3d(0.), 3, 3);
+	Grid3f grid(Vector3d(0.), 3, 3);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)

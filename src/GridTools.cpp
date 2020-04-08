@@ -6,21 +6,21 @@
 
 namespace crpropa {
 
-void scaleGrid(ref_ptr<ScalarGrid> grid, double a) {
+void scaleGrid(ref_ptr<Grid1f> grid, double a) {
 	for (int ix = 0; ix < grid->getNx(); ix++)
 		for (int iy = 0; iy < grid->getNy(); iy++)
 			for (int iz = 0; iz < grid->getNz(); iz++)
 				grid->get(ix, iy, iz) *= a;
 }
 
-void scaleGrid(ref_ptr<VectorGrid> grid, double a) {
+void scaleGrid(ref_ptr<Grid3f> grid, double a) {
 	for (int ix = 0; ix < grid->getNx(); ix++)
 		for (int iy = 0; iy < grid->getNy(); iy++)
 			for (int iz = 0; iz < grid->getNz(); iz++)
 				grid->get(ix, iy, iz) *= a;
 }
 
-Vector3f meanFieldVector(ref_ptr<VectorGrid> grid) {
+Vector3f meanFieldVector(ref_ptr<Grid3f> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -32,7 +32,7 @@ Vector3f meanFieldVector(ref_ptr<VectorGrid> grid) {
 	return mean / Nx / Ny / Nz;
 }
 
-double meanFieldStrength(ref_ptr<VectorGrid> grid) {
+double meanFieldStrength(ref_ptr<Grid3f> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -44,7 +44,7 @@ double meanFieldStrength(ref_ptr<VectorGrid> grid) {
 	return mean / Nx / Ny / Nz;
 }
 
-double meanFieldStrength(ref_ptr<ScalarGrid> grid) {
+double meanFieldStrength(ref_ptr<Grid1f> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -56,7 +56,7 @@ double meanFieldStrength(ref_ptr<ScalarGrid> grid) {
 	return mean / Nx / Ny / Nz;
 }
 
-double rmsFieldStrength(ref_ptr<VectorGrid> grid) {
+double rmsFieldStrength(ref_ptr<Grid3f> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -68,7 +68,7 @@ double rmsFieldStrength(ref_ptr<VectorGrid> grid) {
 	return std::sqrt(sumV2 / Nx / Ny / Nz);
 }
 
-double rmsFieldStrength(ref_ptr<ScalarGrid> grid) {
+double rmsFieldStrength(ref_ptr<Grid1f> grid) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -80,7 +80,7 @@ double rmsFieldStrength(ref_ptr<ScalarGrid> grid) {
 	return std::sqrt(sumV2 / Nx / Ny / Nz);
 }
 
-void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
+void fromMagneticField(ref_ptr<Grid3f> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
 	Vector3d spacing = grid->getSpacing();
 	size_t Nx = grid->getNx();
@@ -95,7 +95,7 @@ void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field) {
 	}
 }
 
-void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field) {
+void fromMagneticFieldStrength(ref_ptr<Grid1f> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
 	Vector3d spacing = grid->getSpacing();
 	size_t Nx = grid->getNx();
@@ -110,11 +110,11 @@ void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> 
 	}
 }
 
-void loadGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void loadGrid(ref_ptr<Grid3f> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin) {
 		std::stringstream ss;
-		ss << "load VectorGrid: " << filename << " not found";
+		ss << "load Grid3f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 
@@ -144,11 +144,11 @@ void loadGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void loadGrid(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str(), std::ios::binary);
 	if (!fin) {
 		std::stringstream ss;
-		ss << "load ScalarGrid: " << filename << " not found";
+		ss << "load Grid1f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 
@@ -176,11 +176,11 @@ void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void dumpGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void dumpGrid(ref_ptr<Grid3f> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str(), std::ios::binary);
 	if (!fout) {
 		std::stringstream ss;
-		ss << "dump VectorGrid: " << filename << " not found";
+		ss << "dump Grid3f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 	for (int ix = 0; ix < grid->getNx(); ix++) {
@@ -196,11 +196,11 @@ void dumpGrid(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void dumpGrid(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str(), std::ios::binary);
 	if (!fout) {
 		std::stringstream ss;
-		ss << "dump ScalarGrid: " << filename << " not found";
+		ss << "dump Grid1f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 	for (int ix = 0; ix < grid->getNx(); ix++) {
@@ -214,11 +214,11 @@ void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str());
 	if (!fin) {
 		std::stringstream ss;
-		ss << "load VectorGrid: " << filename << " not found";
+		ss << "load Grid3f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 	// skip header lines
@@ -232,18 +232,18 @@ void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 				fin >> b.x >> b.y >> b.z;
 				b *= c;
 				if (fin.eof())
-					throw std::runtime_error("load VectorGrid: file too short");
+					throw std::runtime_error("load Grid3f: file too short");
 			}
 		}
 	}
 	fin.close();
 }
 
-void loadGridFromTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	std::ifstream fin(filename.c_str());
 	if (!fin) {
 		std::stringstream ss;
-		ss << "load ScalarGrid: " << filename << " not found";
+		ss << "load Grid1f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 	// skip header lines
@@ -257,18 +257,18 @@ void loadGridFromTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
 				fin >> b;
 				b *= c;
 				if (fin.eof())
-					throw std::runtime_error("load ScalarGrid: file too short");
+					throw std::runtime_error("load Grid1f: file too short");
 			}
 		}
 	}
 	fin.close();
 }
 
-void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
+void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {
 		std::stringstream ss;
-		ss << "dump VectorGrid: " << filename << " not found";
+		ss << "dump Grid3f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 	for (int ix = 0; ix < grid->getNx(); ix++) {
@@ -282,11 +282,11 @@ void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename, double c) {
+void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {
 		std::stringstream ss;
-		ss << "dump ScalarGrid: " << filename << " not found";
+		ss << "dump Grid1f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
 	for (int ix = 0; ix < grid->getNx(); ix++) {

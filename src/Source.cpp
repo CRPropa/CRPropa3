@@ -652,7 +652,7 @@ void SourceUniform1D::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceDensityGrid::SourceDensityGrid(ref_ptr<ScalarGrid> grid) :
+SourceDensityGrid::SourceDensityGrid(ref_ptr<Grid1f> grid) :
 		grid(grid) {
 	float sum = 0;
 	for (int ix = 0; ix < grid->getNx(); ix++) {
@@ -687,7 +687,7 @@ void SourceDensityGrid::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<ScalarGrid> grid) :
+SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<Grid1f> grid) :
 		grid(grid) {
 	if (grid->getNy() != 1)
 		throw std::runtime_error("SourceDensityGrid1D: Ny != 1");

@@ -475,11 +475,11 @@ TEST(ScalarGrid, ClosestValue) {
 	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(1.7, 1.8, 0.4)));
 }
 
-TEST(VectorGrid, Interpolation) {
+TEST(Grid3f, Interpolation) {
 	// Explicitly test trilinear interpolation
 	double spacing = 2.793;
 	int n = 3;
-	VectorGrid grid(Vector3d(0.), n, n, n, spacing);
+	Grid3f grid(Vector3d(0.), n, n, n, spacing);
 	grid.get(0, 0, 1) = Vector3f(1.7, 0., 0.); // set one value
 
 	Vector3d b;
@@ -503,7 +503,7 @@ TEST(VectorGrid, Interpolation) {
 
 TEST(VectordGrid, Scale) {
 	// Test scaling a field
-	ref_ptr<VectorGrid> grid = new VectorGrid(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0.), 3, 1);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
@@ -516,12 +516,12 @@ TEST(VectordGrid, Scale) {
 				EXPECT_FLOAT_EQ(5, grid->interpolate(Vector3d(0.7, 0, 0.1)).x);
 }
 
-TEST(VectorGrid, Periodicity) {
+TEST(Grid3f, Periodicity) {
 	// Test for periodic boundaries: grid(x+a*n) = grid(x)
 	size_t n = 3;
 	double spacing = 3;
 	double size = n * spacing;
-	VectorGrid grid(Vector3d(0.), n, spacing);
+	Grid3f grid(Vector3d(0.), n, spacing);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)
@@ -545,10 +545,10 @@ TEST(VectorGrid, Periodicity) {
 	EXPECT_FLOAT_EQ(b.z, b2.z);
 }
 
-TEST(VectorGrid, DumpLoad) {
+TEST(Grid3f, DumpLoad) {
 	// Dump and load a field grid
-	ref_ptr<VectorGrid> grid1 = new VectorGrid(Vector3d(0.), 3, 1);
-	ref_ptr<VectorGrid> grid2 = new VectorGrid(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid1 = new Grid3f(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid2 = new Grid3f(Vector3d(0.), 3, 1);
 
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
@@ -571,10 +571,10 @@ TEST(VectorGrid, DumpLoad) {
 	}
 }
 
-TEST(VectorGrid, DumpLoadTxt) {
+TEST(Grid3f, DumpLoadTxt) {
 	// Dump and load a field grid
-	ref_ptr<VectorGrid> grid1 = new VectorGrid(Vector3d(0.), 3, 1);
-	ref_ptr<VectorGrid> grid2 = new VectorGrid(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid1 = new Grid3f(Vector3d(0.), 3, 1);
+	ref_ptr<Grid3f> grid2 = new Grid3f(Vector3d(0.), 3, 1);
 
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
@@ -597,9 +597,9 @@ TEST(VectorGrid, DumpLoadTxt) {
 	}
 }
 
-TEST(VectorGrid, Speed) {
+TEST(Grid3f, Speed) {
 	// Dump and load a field grid
-	VectorGrid grid(Vector3d(0.), 3, 3);
+	Grid3f grid(Vector3d(0.), 3, 3);
 	for (int ix = 0; ix < 3; ix++)
 		for (int iy = 0; iy < 3; iy++)
 			for (int iz = 0; iz < 3; iz++)

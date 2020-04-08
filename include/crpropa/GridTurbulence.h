@@ -26,7 +26,7 @@ double turbulentCorrelationLength(double lMin, double lMax,
  Calculate the omnidirectional power spectrum E(k) for a given turbulent field
  Returns a vector of pairs (k_i, E(k_i))
 */
-std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid> grid); 
+std::vector<std::pair<int, float> > gridPowerSpectrum(ref_ptr<Grid3f> grid); 
 
 /**
  Create a random initialization of a turbulent field.
@@ -36,21 +36,21 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
  @param Brms	RMS field strength
  @param seed	Random seed
  */
-void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax, 
+void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, 
 	   double alpha = -11./3., int seed = 0);
 
 /**
  Same as the normal turbulent field but with helicity.
  @param H	Helicity
 */
-void initHelicalTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax, 
+void initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, 
 	   double alpha = -11./3., int seed = 0, double H = 0);
 
 /**
  Same as the normal turbulent field but with the bendover.
  @param lambda	Bendover scale, usually defined as the grid total size divided by number (example: lambda = grid_size/10.)
 */
-void initTurbulenceWithBendover(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax,
+void initTurbulenceWithBendover(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax,
 	   double alpha = -11./3., int seed = 0, double lambda = 1);
 
 #endif // CRPROPA_HAVE_FFTW3F

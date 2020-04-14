@@ -20,6 +20,7 @@ private:
 	PhotonField photonField;
 	bool havePhotons;
 	double limit;
+	double thinning;
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]
@@ -34,12 +35,14 @@ public:
 	EMInverseComptonScattering(
 		PhotonField photonField = CMB, //!< target photon background
 		bool havePhotons = false,      //!< switch to create secondary photon
+		double thinning = 0,           //!< weighted sampling of secondaries
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);
 
 	void setPhotonField(PhotonField photonField);
 	void setHavePhotons(bool havePhotons);
 	void setLimit(double limit);
+	void setThinning(double thinning);
 
 	void initRate(std::string filename);
 	void initCumulativeRate(std::string filename);

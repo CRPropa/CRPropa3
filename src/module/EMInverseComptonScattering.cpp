@@ -11,10 +11,11 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField, bool havePhotons, double limit) {
+EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField, bool havePhotons, double thinning, double limit) {
 	setPhotonField(photonField);
 	this->havePhotons = havePhotons;
 	this->limit = limit;
+	this->thinning = thinning;
 }
 
 void EMInverseComptonScattering::setPhotonField(PhotonField photonField) {
@@ -31,6 +32,10 @@ void EMInverseComptonScattering::setHavePhotons(bool havePhotons) {
 
 void EMInverseComptonScattering::setLimit(double limit) {
 	this->limit = limit;
+}
+
+void EMInverseComptonScattering::setThinning(double thinning) {
+	this->thinning = thinning;
 }
 
 void EMInverseComptonScattering::initRate(std::string filename) {
@@ -140,8 +145,8 @@ class ICSSecondariesEnergyDistribution {
 				// cumulative midpoint integration
 				data_i[0] = dSigmadE(x0, beta) * expm1(dlx);
 				for (size_t j = 1; j < Nrer; j++) {
-					double x = x0 * exp((j+0.5)*dlx);
-					double dx = exp((j+1)*dlx) - exp(j*dlx);
+					double x = x0 * exp((j+0.5) * dlx);
+					double dx = exp((j+1) * dlx) - exp(j * dlx);
 					data_i[j] = dSigmadE(x, beta) * dx;
 					data_i[j] += data_i[j-1];
 				}
@@ -158,8 +163,8 @@ class ICSSecondariesEnergyDistribution {
 			double beta = (s - s_min) / (s + s_min);
 			double x0 = (1 - beta) / (1 + beta);
 			double dlx = -log(x0) / Nrer;
-			double binWidth = x0 * (exp(j*dlx) - exp((j-1)*dlx));
-			double Ep = (x0 * exp((j-1)*dlx) + binWidth) * Ee;
+			double binWidth = x0 * (exp(j * dlx) - exp((j-1) * dlx));
+			double Ep = (x0 * exp((j-1) * dlx) + binWidth) * Ee;
 			return std::min(Ee, Ep); // prevent Ep > Ee from numerical inaccuracies
 		}
 };
@@ -185,9 +190,14 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 
 	// add up-scattered photon
 	double Esecondary = E - Enew;
+	double f = Enew / E;
+	double w0 = candidate->getWeight();
 	if (havePhotons) {
-		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary(22, Esecondary / (1 + z), pos);
+		if (random.rand() < pow(1 - f, thinning)) {
+			double w = w0 / pow(1 - f, thinning);
+			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
+			candidate->addSecondary(22, Esecondary / (1 + z), pos, w);
+		}
 	}
 
 	// update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent

@@ -139,7 +139,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
 %include "crpropa/PhotonBackground.h"
-%include "crpropa/PhotonPropagation.h"
 %template(RandomSeed) std::vector<uint32_t>;
 %template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
 %include "crpropa/Random.h"
@@ -497,9 +496,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
-%include "crpropa/module/EMCascade.h"
-%include "crpropa/module/PhotonEleCa.h"
-%include "crpropa/module/PhotonOutput1D.h"
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/ElectronPairProduction.h"
 %include "crpropa/module/PhotoPionProduction.h"

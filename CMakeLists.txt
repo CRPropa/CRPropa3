@@ -141,17 +141,7 @@ add_subdirectory(libs/sophia)
 list(APPEND CRPROPA_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/sophia)
 
-# DINT (provided)
-add_subdirectory(libs/dint)
-list(APPEND CRPROPA_EXTRA_LIBRARIES dint)
-list(APPEND CRPROPA_EXTRA_INCLUDES libs/dint/include)
-
-# EleCa (provided)
-add_subdirectory(libs/EleCa)
-list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
-list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
-
-# GlacticMagneticLenses
+# Galactic Magnetic Lenses
 option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
 option(INSTALL_EIGEN "Install provided EIGEN headers" OFF)
 SET(EIGEN_PATH  "" CACHE STRING "Use EIGEN from this path instead of the version shipped with CRPropa")
@@ -184,7 +174,6 @@ if (ENABLE_GALACTICMAGETICLENS)
 	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
 	list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
 endif (ENABLE_GALACTICMAGETICLENS)
-
 
 
 # OpenMP (optional for shared memory multiprocessing)
@@ -356,7 +345,6 @@ add_library(crpropa SHARED
 	src/ParticleMass.cpp
 	src/ParticleState.cpp
 	src/PhotonBackground.cpp
-	src/PhotonPropagation.cpp
 	src/ProgressBar.cpp
 	src/Random.cpp
 	src/Source.cpp
@@ -364,7 +352,6 @@ add_library(crpropa SHARED
 	src/module/Boundary.cpp
 	src/module/BreakCondition.cpp
 	src/module/DiffusionSDE.cpp
-	src/module/EMCascade.cpp
 	src/module/EMDoublePairProduction.cpp
 	src/module/EMInverseComptonScattering.cpp
 	src/module/EMPairProduction.cpp
@@ -379,11 +366,9 @@ add_library(crpropa SHARED
 	src/module/ParticleCollector.cpp
 	src/module/PhotoDisintegration.cpp
 	src/module/PhotoPionProduction.cpp
-	src/module/PhotonEleCa.cpp
-	src/module/PhotonOutput1D.cpp
 	src/module/PropagationCK.cpp
 	src/module/PropagationBP.cpp
-        src/module/Redshift.cpp
+    src/module/Redshift.cpp
 	src/module/RestrictToRegion.cpp
 	src/module/SimplePropagation.cpp
 	src/module/SynchrotronRadiation.cpp
@@ -526,10 +511,6 @@ if(ENABLE_TESTING)
 	target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDensity testDensity)
 
-	add_executable(testDINT test/testDINT.cpp)
-	target_link_libraries(testDINT crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
-	add_test(testDINT testDINT)
-
 	add_executable(testPropagation test/testPropagation.cpp)
 	target_link_libraries(testPropagation crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testPropagation testPropagation)
@@ -550,7 +531,6 @@ if(ENABLE_TESTING)
 	target_link_libraries(testOutput crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testOutput testOutput)
 
-
 	CONFIGURE_FILE(test/testFunctionalGroups.cpp.in testFunctionalGroups.cpp)
 	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
 	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
@@ -559,7 +539,6 @@ if(ENABLE_TESTING)
 	add_executable(testAdiabaticCooling test/testAdiabaticCooling.cpp)
 	target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testAdiabaticCooling testAdiabaticCooling)
-
 
 	if(WITH_GALACTIC_LENSES)
 		add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)

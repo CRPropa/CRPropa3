@@ -7,7 +7,7 @@
 
 /**
  @file
- @brief Grid related functions: load, dump, save, create turbulent field ...
+ @brief Grid related functions: load, dump, save, retrieve grid properties ...
 
  This file contains a number of functions related to scalar and vector grids (Grid.h).
 
@@ -25,76 +25,59 @@ namespace crpropa {
  */
 
 /** Evaluate the mean vector of all grid points */
-Vector3f meanFieldVector(ref_ptr<VectorGrid> grid);
+Vector3f meanFieldVector(ref_ptr<Grid3f> grid);
 
 /** Evaluate the mean of all grid points */
-double meanFieldStrength(ref_ptr<ScalarGrid> grid);
+double meanFieldStrength(ref_ptr<Grid1f> grid);
 /** Evaluate the mean of all grid points */
-double meanFieldStrength(ref_ptr<VectorGrid> grid);
+double meanFieldStrength(ref_ptr<Grid3f> grid);
 
 /** Evaluate the RMS of all grid points */
-double rmsFieldStrength(ref_ptr<ScalarGrid> grid);
+double rmsFieldStrength(ref_ptr<Grid1f> grid);
 /** Evaluate the RMS of all grid points */
-double rmsFieldStrength(ref_ptr<VectorGrid> grid);
+double rmsFieldStrength(ref_ptr<Grid3f> grid);
 
 /** Multiply all grid values by a given factor */
-void scaleGrid(ref_ptr<ScalarGrid> grid, double a);
+void scaleGrid(ref_ptr<Grid1f> grid, double a);
 /** Multiply all grid values by a given factor */
-void scaleGrid(ref_ptr<VectorGrid> grid, double a);
-
-#ifdef CRPROPA_HAVE_FFTW3F
-/**
- Create a random initialization of a turbulent field.
- @param lMin	Minimum wavelength of the turbulence
- @param lMax	Maximum wavelength of the turbulence
- @param alpha	Power law index of <B^2(k)> ~ k^alpha (alpha = -11/3 corresponds to a Kolmogorov spectrum)
- @param Brms	RMS field strength
- @param seed	Random seed
- */
-void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax, 
-	   double alpha = -11./3., int seed = 0, bool helicity = false, double H = 0);
-#endif // CRPROPA_HAVE_FFTW3F
-
-/** Analytically calculate the correlation length of a turbulent field */
-double turbulentCorrelationLength(double lMin, double lMax,
-		double alpha = (-11./3.));
+void scaleGrid(ref_ptr<Grid3f> grid, double a);
 
 /** Fill vector grid from provided magnetic field */
-void fromMagneticField(ref_ptr<VectorGrid> grid, ref_ptr<MagneticField> field);
+void fromMagneticField(ref_ptr<Grid3f> grid, ref_ptr<MagneticField> field);
 
 /** Fill scalar grid from provided magnetic field */
-void fromMagneticFieldStrength(ref_ptr<ScalarGrid> grid, ref_ptr<MagneticField> field);
+void fromMagneticFieldStrength(ref_ptr<Grid1f> grid, ref_ptr<MagneticField> field);
 
-/** Load a VectorGrid from a binary file with single precision */
-void loadGrid(ref_ptr<VectorGrid> grid, std::string filename,
+/** Load a Grid3f from a binary file with single precision */
+void loadGrid(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a ScalarGrid from a binary file with single precision */
-void loadGrid(ref_ptr<ScalarGrid> grid, std::string filename,
+/** Load a Grid1f from a binary file with single precision */
+void loadGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a VectorGrid to a binary file */
-void dumpGrid(ref_ptr<VectorGrid> grid, std::string filename,
+/** Dump a Grid3f to a binary file */
+void dumpGrid(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a ScalarGrid to a binary file with single precision */
-void dumpGrid(ref_ptr<ScalarGrid> grid, std::string filename,
+/** Dump a Grid1f to a binary file with single precision */
+void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a VectorGrid grid from a plain text file */
-void loadGridFromTxt(ref_ptr<VectorGrid> grid, std::string filename,
+/** Load a Grid3f grid from a plain text file */
+void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a ScalarGrid from a plain text file */
-void loadGridFromTxt(ref_ptr<ScalarGrid> grid, std::string filename,
+/** Load a Grid1f from a plain text file */
+void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a VectorGrid to a plain text file */
-void dumpGridToTxt(ref_ptr<VectorGrid> grid, std::string filename,
+/** Dump a Grid3f to a plain text file */
+void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a ScalarGrid to a plain text file */
-void dumpGridToTxt(ref_ptr<ScalarGrid> grid, std::string filename,
+/** Dump a Grid1f to a plain text file */
+void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
 /** @}*/

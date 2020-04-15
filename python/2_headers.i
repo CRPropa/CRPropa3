@@ -25,6 +25,8 @@
 
 %{
 #include "CRPropa.h"
+using namespace crpropa;   // for usage of namespace in header files, necessary
+                           // for keyword arguments with units
 %}
 
 %{
@@ -47,6 +49,13 @@
 %ignore operator crpropa::MagneticField*;
 %ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
+%ignore operator crpropa::Density*;
+%ignore operator crpropa::CylindricalProjectionMap*;
+%ignore operator crpropa::EmissionMap*;
+%ignore operator crpropa::Grid< crpropa::Vector3< float > >*;
+%ignore operator crpropa::Grid< crpropa::Vector3< double > >*;
+%ignore operator crpropa::Grid< float >*;
+%ignore operator crpropa::Grid< double >*;
 %ignore crpropa::TextOutput::load;
 
 %feature("ref")   crpropa::Referenced "$this->addReference();"
@@ -54,13 +63,85 @@
 
 
 %include "crpropa/Logging.h"
+
+/* ignore public references and replace with attributes for Vector3d and
+ * Vector3f*/
+%attribute(crpropa::Vector3<double>, double, x, getX, setX);
+%attribute(crpropa::Vector3<double>, double, y, getY, setY);
+%attribute(crpropa::Vector3<double>, double, z, getZ, setZ);
+%attribute(crpropa::Vector3<float>, float, x, getX, setX);
+%attribute(crpropa::Vector3<float>, float, y, getY, setY);
+%attribute(crpropa::Vector3<float>, float, z, getZ, setZ);
+
+/* implement array interface for numpy compatibility */
+%feature("python:slot", "sq_length", functype="lenfunc") crpropa::Vector3::__len__;
+%feature("python:slot", "mp_subscript", functype="binaryfunc") crpropa::Vector3::__getitem__;
+%feature("python:slot", "mp_ass_subscript", functype="objobjargproc") crpropa::Vector3::__setitem__;
+%typemap(directorin,numinputs=1) (const double *v)
+{
+    npy_intp dim = 3;
+    $input = PyArray_SimpleNewFromData(1, &dim, NPY_DOUBLE, (void *)$1);
+}
+%ignore crpropa::Vector3::data;
+
 %include "crpropa/Vector3.h"
+%extend crpropa::Vector3
+{
+  size_t __len__()
+  {
+    return 3;
+  }
+
+  PyObject* __array__()
+  {
+    npy_intp shape[1];
+    shape[0] = 3;
+    PyObject *ro;
+    if (sizeof($self->data[0]) == NPY_SIZEOF_FLOAT)
+    {
+      ro = PyArray_SimpleNewFromData(1, shape, NPY_FLOAT, $self->data);
+    }
+    else if (sizeof($self->data[0]) == NPY_SIZEOF_DOUBLE)
+    {
+      ro = PyArray_SimpleNewFromData(1, shape, NPY_DOUBLE, $self->data);
+    }
+    else
+    {
+      KISS_LOG_ERROR << "crpropa::Vector3 has fixed size of 3 elements!";
+    }
+
+    return ro;
+  }
+
+  double __getitem__(size_t i)
+  {
+    return $self->data[i];
+  }
+
+  int __setitem__(size_t i, T value)
+  {
+    $self->data[i] = value;
+    return 0;
+  }
+
+  const std::string getDescription()
+  {
+    char buffer[256];
+    sprintf( buffer, "Vector(%.6G, %.6G, %.6G)", $self->x, $self->y, $self->z );
+    return buffer;
+  }
+}
+
+
+
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
 %include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
+%template(RandomSeed) std::vector<uint32_t>;
+%template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
 %include "crpropa/Random.h"
 %include "crpropa/ParticleState.h"
 %include "crpropa/ParticleID.h"
@@ -291,14 +372,27 @@
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
+%include "crpropa/GridTurbulence.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
-%template(VectorGridRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
-%template(VectorGrid) crpropa::Grid<crpropa::Vector3<float> >;
+%template(Grid3fRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
+%template(Grid3f) crpropa::Grid<crpropa::Vector3<float> >;
+
+%implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
+%template(Grid3dRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<double> > >;
+%template(Grid3d) crpropa::Grid<crpropa::Vector3<double> >;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<float> >;
-%template(ScalarGridRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
-%template(ScalarGrid) crpropa::Grid<float>;
+%template(Grid1fRefPtr) crpropa::ref_ptr<crpropa::Grid<float> >;
+%template(Grid1f) crpropa::Grid<float>;
+
+%implicitconv crpropa::ref_ptr<crpropa::Grid<double> >;
+%template(Grid1dRefPtr) crpropa::ref_ptr<crpropa::Grid<double> >;
+%template(Grid1d) crpropa::Grid<double>;
+
+%implicitconv std::pair<std::vector<int>, std::vector<float> >;
+%template(PairIntFloat) std::pair<int, float>;
+%template(PairVector) std::vector<std::pair<int, float> >;
 
 %include "crpropa/EmissionMap.h"
 %implicitconv crpropa::ref_ptr<crpropa::EmissionMap>;
@@ -313,6 +407,7 @@
 %include "crpropa/magneticField/JF12Field.h"
 %include "crpropa/magneticField/JF12FieldSolenoidal.h"
 %include "crpropa/magneticField/PT11Field.h"
+%include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"

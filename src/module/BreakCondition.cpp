@@ -152,6 +152,36 @@ std::string MinimumRedshift::getDescription() const {
 }
 
 //*****************************************************************************
+MinimumChargeNumber::MinimumChargeNumber(int minChargeNumber) :
+		minChargeNumber(minChargeNumber) {
+}
+
+void MinimumChargeNumber::setMinimumChargeNumber(int chargeNumber) {
+	minChargeNumber = chargeNumber;
+}
+
+int MinimumChargeNumber::getMinimumChargeNumber() const {
+	return minChargeNumber;
+}
+
+void MinimumChargeNumber::process(Candidate *c) const {
+	if (chargeNumber(c->current.getId()) > minChargeNumber)
+		return;
+	else
+		reject(c);
+}
+
+std::string MinimumChargeNumber::getDescription() const {
+	std::stringstream s;
+	s << "Minimum charge number: " << minChargeNumber;
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
+	return s.str();
+}
+
+//*****************************************************************************
 DetectionLength::DetectionLength(double detLength) :
 		detLength(detLength) {
 }

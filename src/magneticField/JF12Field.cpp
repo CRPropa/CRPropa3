@@ -1,6 +1,6 @@
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/Units.h"
-#include "crpropa/GridTools.h"
+#include "crpropa/GridTurbulence.h"
 #include "crpropa/Random.h"
 
 namespace crpropa {
@@ -84,7 +84,7 @@ JF12Field::JF12Field() {
 void JF12Field::randomStriated(int seed) {
 	useStriatedField = true;
 	int N = 100;
-	striatedGrid = new ScalarGrid(Vector3d(0.), N, 0.1 * kpc);
+	striatedGrid = new Grid1f(Vector3d(0.), N, 0.1 * kpc);
 
 	Random random;
 	if (seed != 0)
@@ -102,26 +102,26 @@ void JF12Field::randomStriated(int seed) {
 void JF12Field::randomTurbulent(int seed) {
 	useTurbulentField = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
-	turbulentGrid = new VectorGrid(Vector3d(0.), 256, 4 * parsec);
+	turbulentGrid = new Grid3f(Vector3d(0.), 256, 4 * parsec);
 	initTurbulence(turbulentGrid, 1, 8 * parsec, 272 * parsec, -11./3., seed);
 }
 #endif
 
-void JF12Field::setStriatedGrid(ref_ptr<ScalarGrid> grid) {
+void JF12Field::setStriatedGrid(ref_ptr<Grid1f> grid) {
 	useStriatedField = true;
 	striatedGrid = grid;
 }
 
-void JF12Field::setTurbulentGrid(ref_ptr<VectorGrid> grid) {
+void JF12Field::setTurbulentGrid(ref_ptr<Grid3f> grid) {
 	useTurbulentField = true;
 	turbulentGrid = grid;
 }
 
-ref_ptr<ScalarGrid> JF12Field::getStriatedGrid() {
+ref_ptr<Grid1f> JF12Field::getStriatedGrid() {
 	return striatedGrid;
 }
 
-ref_ptr<VectorGrid> JF12Field::getTurbulentGrid() {
+ref_ptr<Grid3f> JF12Field::getTurbulentGrid() {
 	return turbulentGrid;
 }
 
@@ -339,6 +339,28 @@ Vector3d JF12Field::getField(const Vector3d& pos) const {
 	else if (useRegularField)
 		b += getRegularField(pos);
 	return b;
+}
+
+
+
+PlanckJF12bField::PlanckJF12bField() : JF12Field::JF12Field(){
+	// regular field parameters
+	bDisk[5] = -3.5 * muG;
+	bX = 1.8 * muG;
+
+	// turbulent field parameters;
+	bDiskTurb[0] = 3.12 * muG;
+	bDiskTurb[1] = 6.24 * muG;
+	bDiskTurb[2] = 3.12 * muG;
+	bDiskTurb[3] = 6.24 * muG;
+	bDiskTurb[4] = 3.12 * muG;
+	bDiskTurb[5] = 6.24 * muG;
+	bDiskTurb[6] = 3.12 * muG;
+	bDiskTurb[7] = 6.24 * muG;
+
+	bDiskTurb5 = 3.90 * muG;
+
+	bHaloTurb = 7.332 * muG;
 }
 
 } // namespace crpropa

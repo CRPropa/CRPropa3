@@ -510,7 +510,7 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
 	double RPos = blur_r(Rtilde);
 	double phi = blur_theta(theta_tilde, Rtilde);
 	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
-	
+
 	particle.setPosition(pos);
   }
 
@@ -652,7 +652,7 @@ void SourceUniform1D::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceDensityGrid::SourceDensityGrid(ref_ptr<ScalarGrid> grid) :
+SourceDensityGrid::SourceDensityGrid(ref_ptr<Grid1f> grid) :
 		grid(grid) {
 	float sum = 0;
 	for (int ix = 0; ix < grid->getNx(); ix++) {
@@ -687,7 +687,7 @@ void SourceDensityGrid::setDescription() {
 }
 
 // ----------------------------------------------------------------------------
-SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<ScalarGrid> grid) :
+SourceDensityGrid1D::SourceDensityGrid1D(ref_ptr<Grid1f> grid) :
 		grid(grid) {
 	if (grid->getNy() != 1)
 		throw std::runtime_error("SourceDensityGrid1D: Ny != 1");
@@ -732,6 +732,29 @@ void SourceIsotropicEmission::prepareParticle(ParticleState& particle) const {
 
 void SourceIsotropicEmission::setDescription() {
 	description = "SourceIsotropicEmission: Random isotropic direction\n";
+}
+
+// ----------------------------------------------------------------------------
+SourceLambertDistributionOnSphere::SourceLambertDistributionOnSphere(const Vector3d &center, double radius, bool inward) :
+		center(center), radius(radius) {
+	this->inward = inward;
+	setDescription();
+}
+
+void SourceLambertDistributionOnSphere::prepareParticle(ParticleState& particle) const {
+	Random &random = Random::instance();
+	Vector3d normalVector = random.randVector();
+	particle.setPosition(center + normalVector * radius);
+	double sign = inward ? -1 : 1; // negative (positive) Lamberts vector for inward (outward) directed emission
+	particle.setDirection(Vector3d(0, 0, 0) + sign * random.randVectorLamberts(normalVector));
+}
+
+void SourceLambertDistributionOnSphere::setDescription() {
+	std::stringstream ss;
+	ss << "SourceLambertDistributionOnSphere: Random position and direction on a Sphere with center ";
+	ss << center / kpc << " kpc and ";
+	ss << radius / kpc << " kpc radius\n";
+	description = ss.str();
 }
 
 // ----------------------------------------------------------------------------

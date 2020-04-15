@@ -301,8 +301,8 @@ class SourcePulsarDistribution: public SourceFeature {
 	double Zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
-	double R_max;// maximum radial distance - default 22 kpc 
-	double Z_max; // maximum distance from galactic plane - default 5 kpc 
+	double R_max; // maximum radial distance - default 22 kpc 
+	double Z_max; // maximum distance from galactic plane - default 5 kpc
 	double r_blur; // relative smearing factor for the radius
 	double theta_blur; // smearing factor for the angle. Unit = [1/length]
 
@@ -362,9 +362,9 @@ public:
  @brief Random source positions from a density grid
  */
 class SourceDensityGrid: public SourceFeature {
-	ref_ptr<ScalarGrid> grid;
+	ref_ptr<Grid1f> grid;
 public:
-	SourceDensityGrid(ref_ptr<ScalarGrid> densityGrid);
+	SourceDensityGrid(ref_ptr<Grid1f> densityGrid);
 	void prepareParticle(ParticleState &particle) const;
 	void setDescription();
 };
@@ -374,9 +374,9 @@ public:
  @brief Random source positions from a 1D density grid
  */
 class SourceDensityGrid1D: public SourceFeature {
-	ref_ptr<ScalarGrid> grid;
+	ref_ptr<Grid1f> grid;
 public:
-	SourceDensityGrid1D(ref_ptr<ScalarGrid> densityGrid);
+	SourceDensityGrid1D(ref_ptr<Grid1f> densityGrid);
 	void prepareParticle(ParticleState &particle) const;
 	void setDescription();
 };
@@ -393,6 +393,26 @@ public:
 };
 
 /**
+
+@class SourceLambertDistributionOnSphere
+@brief Uniform random position on a sphere with isotropic Lamberts distributed directions.
+This function should be used for crosschecking the arrival distribution for a
+Galactic propagation with an isotropic arrival distribution at the Edge of our
+Galaxy. Note, that for simulation speed you should rather use the backtracking
+technique: see e.g. http://physik.rwth-aachen.de/parsec
+*/
+class SourceLambertDistributionOnSphere: public SourceFeature {
+	Vector3d center;
+	double radius;
+	bool inward;
+public:
+	SourceLambertDistributionOnSphere(const Vector3d &center, double radius, bool inward);
+ void prepareParticle(ParticleState &particle) const;
+ void setDescription();
+};
+
+/**
+
  @class SourceDirection
  @brief Emission in a discrete direction
  */

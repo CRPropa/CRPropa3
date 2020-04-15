@@ -156,12 +156,30 @@ Vector3d Random::randFisherVector(const Vector3d &meanDirection, double kappa) {
 	return randVectorAroundMean(meanDirection, randFisher(kappa));
 }
 
-Vector3d Random::randConeVector(const Vector3d &meanDirection,
-		double angularRadius) {
-	double theta = 2 * M_PI;
-	while (theta > angularRadius)
-		theta = acos(2 * rand() - 1);
-	return randVectorAroundMean(meanDirection, theta);
+Vector3d Random::randConeVector(const Vector3d &meanDirection, double angularRadius) {
+        const double theta = acos(randUniform(1, cos(angularRadius)));
+        return randVectorAroundMean(meanDirection, theta);
+}
+
+Vector3d Random::randVectorLamberts() {
+	// random vector following Lamberts cosine law (https://en.wikipedia.org/wiki/Lambert%27s_cosine_law)
+	// for a surface element with normal vector pointing in positive z-axis (0, 0, 1)
+	double phi = randUniform(-1.0 * M_PI, M_PI);
+	double theta = M_PI / 2.0 - acos(sqrt(randUniform(0, 1)));
+	return Vector3d(cos(phi) * cos(theta), sin(phi) * cos(theta), sin(theta));
+}
+
+Vector3d Random::randVectorLamberts(const Vector3d &normalVector) {
+	// random vector following Lamberts cosine law for a surface element described by normalVector
+	Vector3d vLambertz = randVectorLamberts();
+	// find rotation axis that rotates the z-axis to the normalVector of the surface element
+	Vector3d axis = normalVector.cross(Vector3d(0, 0, 1));
+	if (axis.getR() < std::numeric_limits<double>::epsilon()) {
+		axis = Vector3d(0, 0, 1);
+	}
+	double angle = normalVector.getAngleTo(Vector3d(0, 0, 1));
+	// rotate the random Lamberts vector from z-axis to respective surface element
+	return vLambertz.getRotated(axis / axis.getR(), -angle);
 }
 
 Vector3d Random::randomInterpolatedPosition(const Vector3d &a, const Vector3d &b) {

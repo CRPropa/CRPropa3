@@ -6,7 +6,9 @@ else(APPLE)
 	# allow < 2.8.12 for debian backports
 	cmake_minimum_required(VERSION 2.8.11)
 endif(APPLE)
+
 project(CRPropa Fortran C CXX)
+set(CRPROPA_RELEASE_VERSION >3.1.6)  # Update for new release
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -14,6 +16,17 @@ set(CRPROPA_EXTRA_SOURCES)
 set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
+
+macro(USE_CXX11)
+  if (CMAKE_VERSION VERSION_LESS "3.1")
+    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+    endif ()
+  else ()
+    set (CMAKE_CXX_STANDARD 11)
+  endif ()
+endmacro(USE_CXX11)
+USE_CXX11()
 
 if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
@@ -24,6 +37,8 @@ endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
+# Enable extra warnings on debug builds
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wextra")
 
 # Set default build-type to release to enable performance improvements
 if (NOT CMAKE_BUILD_TYPE)
@@ -43,11 +58,12 @@ if(ENABLE_GIT)
 	include(GetGitRevisionDescription)
 	get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 	git_describe(GIT_DESC --tags)
-else(ENABLE_GIT)
+endif(ENABLE_GIT)
+IF(NOT ENABLE_GIT OR (${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND"))
 	set(GIT_REFSPEC "")
 	set(GIT_SHA1 "")
-	set(GIT_DESC "3.0-no-git")
-endif(ENABLE_GIT)
+	set(GIT_DESC "${CRPROPA_RELEASE_VERSION}-no-git")
+endif()
 
 message(STATUS "CRPropa version: ${GIT_DESC} ${GIT_SHA1} ${GIT_REFSPEC}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp" @ONLY)
@@ -213,8 +229,8 @@ if (ENABLE_QUIMBY)
 		list(APPEND CRPROPA_EXTRA_LIBRARIES ${QUIMBY_LIBRARY})
 		add_definitions (-DCRPROPA_HAVE_QUIMBY)
 		list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_QUIMBY)
-		list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR}/../share/quimby)
-		list(APPEND CRPROPA_SWIG_DEFINES -I${QUIMBY_INCLUDE_DIR})
+		list(APPEND SWIG_INCLUDE_DIRECTORIES ${QUIMBY_INCLUDE_DIR}/../share/quimby)
+		list(APPEND SWIG_INCLUDE_DIRECTORIES ${QUIMBY_INCLUDE_DIR})
 	endif(QUIMBY_FOUND)
 endif(ENABLE_QUIMBY)
 
@@ -225,8 +241,8 @@ if(SAGA_FOUND)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES ${SAGA_LIBRARY})
 	add_definitions (-DCRPROPA_HAVE_SAGA)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_SAGA)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${SAGA_INCLUDE_DIR}/../python)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${SAGA_INCLUDE_DIR})
+	list(APPEND SWIG_INCLUDE_DIRECTORIES ${SAGA_INCLUDE_DIR}/../python)
+	list(APPEND SWIG_INCLUDE_DIRECTORIES ${SAGA_INCLUDE_DIR})
 endif(SAGA_FOUND)
 
 # muparser (optional for generic source spectra)
@@ -236,7 +252,7 @@ if(MUPARSER_FOUND)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES ${MUPARSER_LIBRARY})
 	add_definitions (-DCRPROPA_HAVE_MUPARSER)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_MUPARSER)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${MUPARSER_INCLUDE_DIR})
+	list(APPEND SWIG_INCLUDE_DIRECTORIES ${MUPARSER_INCLUDE_DIR})
 endif(MUPARSER_FOUND)
 
 # zlib / zstream-cpp (optional for compressed output files)
@@ -247,7 +263,7 @@ if(ZLIB_FOUND)
 	list(APPEND CRPROPA_EXTRA_LIBRARIES ${ZLIB_LIBRARIES})
 	add_definitions (-DCRPROPA_HAVE_ZLIB)
 	list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_ZLIB)
-	list(APPEND CRPROPA_SWIG_DEFINES -I${ZLIB_INCLUDE_DIRS})
+	list(APPEND SWIG_INCLUDE_DIRECTORIES ${ZLIB_INCLUDE_DIRS})
 endif(ZLIB_FOUND)
 
 # HDF5 (optional for HDF5 output files)
@@ -261,7 +277,9 @@ if(ENABLE_HDF5)
 			list(APPEND CRPROPA_EXTRA_LIBRARIES ${HDF5_LIBRARIES})
 			add_definitions (-DCRPROPA_HAVE_HDF5)
 			list(APPEND CRPROPA_SWIG_DEFINES -DCRPROPA_HAVE_HDF5)
-			list(APPEND CRPROPA_SWIG_DEFINES -I${HDF5_INCLUDE_DIRS})
+			list(APPEND SWIG_INCLUDE_DIRECTORIES ${HDF5_INCLUDE_DIRS})
+			#string(REPLACE " " " -I" HDF5_INCLUDE_DIRS_SWIG ${HDF5_INCLUDE_DIRS})
+			#list(APPEND CRPROPA_SWIG_DEFINES -I${HDF5_INCLUDE_DIRS_SWIG})
 		endif(NOT HDF5_IS_PARALLEL)
 	endif(HDF5_FOUND)
 endif(ENABLE_HDF5)
@@ -331,6 +349,7 @@ add_library(crpropa SHARED
 	src/EmissionMap.cpp
 	src/Geometry.cpp
 	src/GridTools.cpp
+	src/GridTurbulence.cpp
 	src/Module.cpp
 	src/ModuleList.cpp
 	src/ParticleID.cpp
@@ -376,6 +395,7 @@ add_library(crpropa SHARED
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/PT11Field.cpp
+    src/magneticField/TF17Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
 	src/advectionField/AdvectionField.cpp
 	src/massDistribution/Nakanishi.cpp
@@ -397,16 +417,12 @@ find_package(PythonLibs)
 
 if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
-	find_package(SWIG REQUIRED)
+	find_package(SWIG 3.0 REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
 
-	if (SWIG_VERSION VERSION_LESS "2.0")
-		set (ENABLE_SWIG_BUILTIN OFF)
-	else (SWIG_VERSION VERSION_LESS "2.0")
-		# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-		option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" ON)
-	endif (SWIG_VERSION VERSION_LESS "2.0")
+	# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
+	option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
 
 	if(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "-builtin")
@@ -431,14 +447,21 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		MESSAGE(STATUS "Numpy not found.")
 	endif(numpyIncludePath)
 
+	set(SWIG_INCLUDES)
+	foreach(p in ${SWIG_INCLUDE_DIRECTORIES})
+		list(APPEND SWIG_INCLUDES -I${p})
+	endforeach()
+
 	file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-    COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
+		COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${SWIG_INCLUDES} ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
 		DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
 	set_target_properties(crpropa-swig PROPERTIES PREFIX "")
+	# disable warnings on automatically generated interface code
+	set_target_properties(crpropa-swig PROPERTIES COMPILE_FLAGS "-w")
 	set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
 	target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
 
@@ -498,7 +521,7 @@ if(ENABLE_TESTING)
 	add_executable(testAdvectionField test/testAdvectionField.cpp)
 	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testAdvectionField testAdvectionField)
-	
+
 	add_executable(testDensity test/testDensity.cpp)
 	target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testDensity testDensity)

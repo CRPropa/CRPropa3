@@ -12,6 +12,12 @@ namespace crpropa {
  * @{
  */
 
+struct SophiaEventOutput {
+	int nParticles;
+	std::vector<double> energy;
+	std::vector<int> id;
+};
+
 /**
  @class PhotoPionProduction
  @brief Photo-pion interactions of nuclei with background photons.
@@ -19,6 +25,7 @@ namespace crpropa {
 class PhotoPionProduction: public Module {
 protected:
 	PhotonField photonField;
+	PhotonFieldSampling photonFieldSampling;
 	std::vector<double> tabLorentz; ///< Lorentz factor of nucleus
 	std::vector<double> tabRedshifts;  ///< redshifts (optional for haveRedshiftDependence)
 	std::vector<double> tabProtonRate; ///< interaction rate in [1/m] for protons
@@ -60,6 +67,17 @@ public:
 	 @param z		redshift
 	 */
 	double lossLength(int id, double gamma, double z = 0);
+
+	/**
+	 Direct SOPHIA interface.
+	 Output is an object SophiaEventOutput with two vectors "energy" and "id" each of length N (number of out-going particles).
+	 The i-th component of each vector corresponds to the same particle.
+	 This is not used in the simulation.
+	 @param onProton	proton or neutron
+	 @param Ein			energy of nucleon
+	 @param eps			energy of target photon
+	 */
+	SophiaEventOutput sophiaEvent(bool onProton, double Ein, double eps) const;
 };
 /** @}*/
 

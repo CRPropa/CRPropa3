@@ -54,6 +54,8 @@
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/Tools.h"
 #include "crpropa/module/AdiabaticCooling.h"
+#include "crpropa/module/MomentumDiffusion.h"
+
 
 #include "crpropa/magneticField/AMRMagneticField.h"
 #include "crpropa/magneticField/JF12Field.h"

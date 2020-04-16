@@ -389,6 +389,7 @@ add_library(crpropa SHARED
 	src/module/SynchrotronRadiation.cpp
 	src/module/TextOutput.cpp
 	src/module/AdiabaticCooling.cpp
+	src/module/MomentumDiffusion.cpp
 	src/module/Tools.cpp
 	src/magneticField/JF12Field.cpp
 	src/magneticField/JF12FieldSolenoidal.cpp
@@ -577,8 +578,8 @@ if(ENABLE_TESTING)
 		CONFIGURE_FILE(test/testSimulationExecution.py.in testSimulationExecution.py)
 		add_test(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
 
-		CONFIGURE_FILE(test/testDiffusionSDE.py.in testDiffusionSDE.py)
-		add_test(testDiffusionSDE ${PYTHON_EXECUTABLE} testDiffusionSDE.py)
+		CONFIGURE_FILE(test/testDiffusion.py.in testDiffusion.py)
+		add_test(testDiffusion ${PYTHON_EXECUTABLE} testDiffusion.py)
 
 		CONFIGURE_FILE(test/testPythonExtension.py.in testPythonExtension.py)
 		add_test(testPythonExtension ${PYTHON_EXECUTABLE} testPythonExtension.py)

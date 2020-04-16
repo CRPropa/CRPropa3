@@ -50,7 +50,7 @@ Contents
    :caption: API Reference
 
    pages/api
-
+   api/library_root
 
 .. toctree::
    :caption: DEVEL

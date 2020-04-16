@@ -15,14 +15,17 @@ Contents
    pages/Installation
 
    ../Changelog.md
+   pages/FAQ.md
 
 
 .. toctree::
    :caption: USAGE
    :maxdepth: 1
 
+   pages/Basic-concepts.md
+
    pages/example_notebooks/basics/basics.v4.ipynb
-   pages/example_notebooks/sim1d/sim1d.v4.ipynb
+   pages/example_notebooks/sim1D/sim1D.v4.ipynb
    pages/example_notebooks/sim4D/sim4D.v4.ipynb
    pages/example_notebooks/trajectories/trajectories.v4.ipynb
    pages/example_notebooks/extragalactic_fields/MHD_models.v4.ipynb
@@ -37,14 +40,23 @@ Contents
    pages/example_notebooks/advanced/CustomObserver.v4.ipynb
    pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
 
-An additional use case is provided by Francesca Capel, which was used in this publication: [Mon. Not. Roy. Astron. Soc. 484 (2019) no. 2, 2324](https://academic.oup.com/mnras/article/484/2/2324/5287987):
+   pages/example_notebooks/density/densitys_easy_example.ipynb
+   pages/example_notebooks/density/densitys_model_example.ipynb
 
- * Extragalactic arrival directions  ([notebook](https://github.com/cescalara/uhecr_model/blob/master/3_fits_to_simulations/crpropa/crpropa_simulation.ipynb))
- * Fit of extragalactic arrival directions  ([notebook](https://github.com/cescalara/uhecr_model/blob/master/3_fits_to_simulations/crpropa/crpropa_fit.ipynb))
-
+   pages/Cpp-projects.md
+   pages/Extending-CRPropa.md
 
 .. toctree::
    :caption: API Reference
 
    pages/api
+
+
+.. toctree::
+   :caption: DEVEL
+   :maxdepth: 1
+
+   pages/Debugging.md
+   pages/Code-Coverage.md
+   pages/Data-files.md
 

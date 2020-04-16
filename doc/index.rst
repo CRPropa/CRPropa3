@@ -9,14 +9,14 @@ Contents
 ========
 
 .. toctree::
-   :caption: INSTALLATION 
+   :caption: INSTALLATION
    :maxdepth: 1
 
    pages/Installation
 
    ../Changelog.md
    pages/FAQ.md
-
+   pages/howto_cite_crpropa.rst
 
 .. toctree::
    :caption: USAGE

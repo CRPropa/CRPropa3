@@ -10,10 +10,11 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField, bool haveElectrons, double limit) {
+EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
+	this->thinning = thinning;
 }
 
 void EMTripletPairProduction::setPhotonField(PhotonField photonField) {
@@ -30,6 +31,10 @@ void EMTripletPairProduction::setHaveElectrons(bool haveElectrons) {
 
 void EMTripletPairProduction::setLimit(double limit) {
 	this->limit = limit;
+}
+
+void EMTripletPairProduction::setThinning(double thinning) {
+	this->thinning = thinning;
 }
 
 void EMTripletPairProduction::initRate(std::string filename) {
@@ -97,6 +102,10 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 }
 
 void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
+
+	if  (abs(candidate->current.getId()) != 11)
+		return;
+
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy() * (1 + z);
@@ -114,12 +123,21 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	// Use approximation from A. Mastichiadis et al., Astroph. Journ. 300:178-189 (1986), eq. 30.
 	// This approx is valid only for alpha >=100 where alpha = p0*eps*costheta - E0*eps
 	// For our purposes, me << E0 --> p0~E0 --> alpha = E0*eps*(costheta - 1) >= 100
-	double Epp = 5.7e-1 * pow(eps/mec2, -0.56) * pow(E/mec2, 0.44) * mec2;
+	double Epp = 5.7e-1 * pow(eps / mec2, -0.56) * pow(E / mec2, 0.44) * mec2;
+
+	double w0 = candidate->getWeight();
+	double f = Epp / E;
 
 	if (haveElectrons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary( 11, Epp, pos);
-		candidate->addSecondary(-11, Epp, pos);
+		if (random.rand() < pow(1 - f, thinning)) {
+			double w = w0 / pow(1 - f, thinning);
+			candidate->addSecondary(11, Epp, pos, w);
+		}
+		if (random.rand() < pow(f, thinning)) {
+			double w = w0 / pow(f, thinning);
+			candidate->addSecondary(-11, Epp, pos, w);
+		}
 	}
 
 	// update the primary particle energy; do this after adding the secondaries to correctly set the secondaries parent
@@ -132,25 +150,32 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	if (abs(id) != 11)
 		return;
 
-	// scale the particle energy instead of background photons
-	double z = candidate->getRedshift();
-	double E = (1 + z) * candidate->current.getEnergy();
+	// execute the loop at least once for limiting the next step
+	double step = candidate->getCurrentStep();
+	while (step > 0) {
+		// scale the particle energy instead of background photons
+		double z = candidate->getRedshift();
+		double E = (1 + z) * candidate->current.getEnergy();
 
-	// check if in tabulated energy range
-	if (E < tabEnergy.front() or (E > tabEnergy.back()))
-		return;
+		// check if in tabulated energy range
+		if (E < tabEnergy.front() or (E > tabEnergy.back()))
+			return;
 
-	// cosmological scaling of interaction distance (comoving)
-	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
-	double rate = scaling * interpolate(E, tabEnergy, tabRate);
+		// cosmological scaling of interaction distance (comoving)
+		double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
+		double rate = scaling * interpolate(E, tabEnergy, tabRate);
 
-	// check for interaction
-	Random &random = Random::instance();
-	double randDistance = -log(random.rand()) / rate;
-	if (candidate->getCurrentStep() > randDistance)
-		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+		// check for interaction
+		Random &random = Random::instance();
+		double randDistance = -log(random.rand()) / rate;
+		if (candidate->getCurrentStep() > randDistance)
+			performInteraction(candidate);
+		else
+			candidate->limitNextStep(limit / rate);
+
+		// repeat with remaining step
+		step -= randDistance;
+	} 
 }
 
 } // namespace crpropa

@@ -10,7 +10,7 @@ Contents
 
 .. toctree::
    :caption: INSTALLATION 
-   :maxdepth: 0
+   :maxdepth: 1
 
    pages/Installation
 

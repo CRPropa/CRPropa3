@@ -1,4 +1,4 @@
-### <a name="Download">Download the source code
+## Download
 
 Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) or the
 [current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the
@@ -8,7 +8,7 @@ repository with
 git clone https://github.com/CRPropa/CRPropa3.git
 ```
 
-### <a name="Install">Install from source (experienced users)
+## Install from source
 
 1. CRPropa uses CMAKE to configure the Makefile. From the build directory call
    ccmake or cmake. See the next section for a list of configuration flags.
@@ -33,14 +33,14 @@ git clone https://github.com/CRPropa/CRPropa3.git
 
 We highly recommend to use a virtualenv setup to install CRPropa!
 
-### <a name="virtualenv">Install from source in python virtualenv - a detailed guide (RECOMMENDED)
+## Install from source in python virtualenv - a detailed guide (RECOMMENDED)
 
 CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to ensure the reproducibility of simulations in a user controlled and clean environment.
 Thus, the user space deployment without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, hence, Python and SWIG are required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.
 
 This procedure brings a few extra steps compared to the already given plain installation from source, but this kind of CRPropa deployment will be a worthwhile effort afterwards.
 
-1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example, 
+1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example,
     ```sh
     export CRPROPA_DIR=$HOME"/.virtualenvs/crpropa"
     ```
@@ -72,7 +72,7 @@ This procedure brings a few extra steps compared to the already given plain inst
     make
     make install
     ```
-    
+
     To install python dependencies and libraries use `pip`. Example: `pip install numpy`.
 
 4. Compile and install CRPropa.
@@ -99,7 +99,7 @@ This procedure brings a few extra steps compared to the already given plain inst
 
 There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
-### CMake flags
+## CMake flags
 When using cmake, the following options can be set by adding flags to the cmake command, e.g.
 ```
 cmake -DENABLE_PYTHON=ON ..
@@ -116,8 +116,8 @@ cmake -DENABLE_PYTHON=ON ..
 + Enable unit-tests ```-DENABLE_TESTING=ON```
 + Enable Coverage (code coverage tool) ```-DENABLE_COVERAGE=ON```
 + Enable Git ```-DENABLE_GIT=ON```
-+ Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```     
-+ Debugging symbols included: ```-DCMAKE_BUILD_TYPE:STRING=Debug```                                                                                                                                                             
++ Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```
++ Debugging symbols included: ```-DCMAKE_BUILD_TYPE:STRING=Debug```
 
   Generally, for compilers CMake recognise the following env variables: CC, CXX, FC. For example:
   ```
@@ -131,7 +131,7 @@ cmake -DENABLE_PYTHON=ON ..
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
-### <a name="Mac"></a>Mac OS X specifics
+## Mac OS X specifics
 
 If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5) where Python3 is installed from Homebrew, one has to specify the exact paths of the python library (PYTHON_LIBRARY) and the python interpreter (PYTHON_EXECUTABLE) to CMake (otherwise, the system Python is found). For example:
   ```
@@ -141,7 +141,7 @@ If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5) w
  ..
   ```
 
-### <a name="Dependencies"></a>Dependencies
+## Dependencies
 + C++ Compiler (gcc, clang and icc are known to work)
 + Fortran Compiler: to compile SOPHIA
 
@@ -163,7 +163,7 @@ The following packages are provided with the source code and do not need to be i
 + eigen: Linear algebra
 + healpix_base: Equal area pixelization of the sphere
 
-#### <a name="OS"></a>Dependencies in different OSes:
+#### Dependencies in different OSes:
 
 In a clean minimal **Ubuntu (17.10)** installation the following packages should be installed to build and run CRPropa with most of the options:
   ```sh

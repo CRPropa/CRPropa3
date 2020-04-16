@@ -1,5 +1,0 @@
-Classes
-=======
-
-.. doxygenindex::
-

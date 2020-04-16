@@ -502,8 +502,8 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Sphinx
                                   "Failed to find sphinx-build executable"
                                   SPHINX_EXECUTABLE)
-set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/doc/sphinx_source)
-set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/sphinx_doc)
+set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/doc)
+set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/doc)
 add_custom_target(sphinx
                   ${SPHINX_EXECUTABLE} -b html
 									-Dbreathe_projects.CRPropa3=${CMAKE_CURRENT_BINARY_DIR}/xml

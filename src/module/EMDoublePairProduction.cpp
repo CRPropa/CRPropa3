@@ -8,9 +8,10 @@
 
 namespace crpropa {
 
-EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField, bool haveElectrons, double limit) {
+EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
 	this->haveElectrons = haveElectrons;
+	this->thinning = thinning;
 	this->limit = limit;
 }
 
@@ -27,6 +28,10 @@ void EMDoublePairProduction::setHaveElectrons(bool haveElectrons) {
 
 void EMDoublePairProduction::setLimit(double limit) {
 	this->limit = limit;
+}
+
+void EMDoublePairProduction::setThinning(double thinning) {
+	this->thinning = thinning;
 }
 
 void EMDoublePairProduction::initRate(std::string filename) {
@@ -53,6 +58,7 @@ void EMDoublePairProduction::initRate(std::string filename) {
 	infile.close();
 }
 
+
 void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	// the photon is lost in interaction
 	candidate->setActive(false);
@@ -69,8 +75,19 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 
-	candidate->addSecondary( 11, Ee, pos);
-	candidate->addSecondary(-11, Ee, pos);
+	double f = Ee / E;
+	double w0 = candidate->getWeight();
+
+	if (haveElectrons) {
+		if (random.rand() < pow(1 - f, thinning)) {
+			double w = w0 / pow(1 - f, thinning);
+			candidate->addSecondary( 11, Ee, pos, w);
+		} 
+		if (random.rand() < pow(f, thinning)) {
+			double w = w0 / pow(f, thinning);
+			candidate->addSecondary(-11, Ee, pos, w);
+		}
+	}
 }
 
 void EMDoublePairProduction::process(Candidate *candidate) const {
@@ -98,5 +115,6 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 	else
 		candidate->limitNextStep(limit / rate);
 }
+
 
 } // namespace crpropa

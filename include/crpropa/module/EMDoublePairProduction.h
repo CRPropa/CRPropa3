@@ -20,6 +20,7 @@ private:
 	PhotonField photonField;
 	bool haveElectrons;
 	double limit;
+	double thinning;
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]
@@ -29,12 +30,14 @@ public:
 	EMDoublePairProduction(
 		PhotonField photonField = CMB, //!< target photon background
 		bool haveElectrons = false,    //!< switch to create the secondary electron pair
+		double thinning = 0,           //!< weighted sampling of secondaries
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);
 
 	void setPhotonField(PhotonField photonField);
 	void setHaveElectrons(bool haveElectrons);
 	void setLimit(double limit);
+	void setThinning(double thinning);
 
 	void initRate(std::string filename);
 	void process(Candidate *candidate) const;

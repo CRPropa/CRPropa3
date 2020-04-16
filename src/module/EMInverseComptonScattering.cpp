@@ -222,23 +222,13 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 
-	// run this loop at least once to limit the step size
-	double step = candidate->getCurrentStep();
-	while (step > 0) {
-		Random &random = Random::instance();
-		double randDistance = -log(random.rand()) / rate;
-
-		// check for interaction; if it doesn't ocurr, limit next step
-		if (step < randDistance) {
-			candidate->limitNextStep(limit / rate);
-			return;
-		}
-		// interaction
+	// check for interaction
+	Random &random = Random::instance();
+	double randDistance = -log(random.rand()) / rate;
+	if (candidate->getCurrentStep() > randDistance)
 		performInteraction(candidate);
-
-		// repeat with remaining step
-		step -= randDistance;
-	}
+	else
+		candidate->limitNextStep(limit / rate);
 }
 
 } // namespace crpropa

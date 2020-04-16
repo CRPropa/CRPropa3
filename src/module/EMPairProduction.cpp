@@ -230,21 +230,13 @@ void EMPairProduction::process(Candidate *candidate) const {
 	double rate = interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
-
-	// run this loop at least once to limit the step size
+	// check for interaction
 	Random &random = Random::instance();
-	double step = candidate->getCurrentStep();
-	while (step > 0) {
-		// check for interaction
-		double randDistance = -log(random.rand()) / rate;
-		if (step < randDistance) {
-			candidate->limitNextStep(limit / rate);
-			return;
-		}
+	double randDistance = -log(random.rand()) / rate;
+	if (candidate->getCurrentStep() > randDistance)
 		performInteraction(candidate);
-
-		step -= randDistance;
-	}
+	else
+		candidate->limitNextStep(limit / rate);
 }
 
 } // namespace crpropa

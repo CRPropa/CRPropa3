@@ -106,6 +106,29 @@ public:
 	Vector3d getField(const Vector3d &position) const;
 };
 
+/**
+ @class SingleModeHelicalMagneticField
+ @brief helical magnetic field with a single polarization mode defined by
+ - the wavelength (wavelength) of the polarization mode,
+ - its handedness (handedness),
+ - the magnetic field amplitude (amplitude),
+ - a unit vector pointing in the direction of the magnetic field at the origin (unitvectororigin), and
+ - a second unit vector (unitvector2) which, together with unitvector1, spans the polarization plane.
+**/
+class SingleModeHelicalMagneticField: public MagneticField {
+        Vector3d origin;
+        Vector3d unitVectorOrigin;
+        Vector3d unitVector2;
+        double amplitude;
+        double wavelength;
+        double handedness;
+public:
+       	SingleModeHelicalMagneticField(const Vector3d &origin, const Vector3d &unitVectorOrigin, const Vector3d &unitVector2, const double amplitude, const double wavelength, const double handedness) :
+          origin(origin),  unitVectorOrigin(unitVectorOrigin),  unitVector2(unitVector2),  amplitude(amplitude), wavelength(wavelength), handedness(handedness) {
+        }
+        Vector3d getField(const Vector3d &position) const;
+};
+
 #ifdef CRPROPA_HAVE_MUPARSER
 /**
  @class RenormalizeMagneticField

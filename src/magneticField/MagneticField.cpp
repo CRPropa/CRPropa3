@@ -81,11 +81,32 @@ Vector3d MagneticFieldEvolution::getField(const Vector3d &position,
 Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 		Vector3d r = (position - origin);
 		Vector3d unit_r = r.getUnitVector();
-		
+
 		if (r.getR() == 0) { // singularity
 			return moment * 2 * mu0 / 3;
 		}
 		return (unit_r * (unit_r.dot(moment)) * 3 - moment) / pow(r.getR() / radius, 3) * mu0 / (4*M_PI);
+}
+
+Vector3d SingleModeHelicalMagneticField::getField(const Vector3d &position) const {
+                Vector3d r = (position - origin);
+
+                Vector3d e1 = unitVectorOrigin; // first of the unit vectors which span the polarization plane
+                if ((e1.x != 0.0) && (e1.y != 0.0) && (e1.z != 0.0)) {
+                  e1 /= e1.getR();
+                }
+
+                Vector3d e2 = unitVector2; // second of the unit vectors which span the polarization plane
+                if ((e2.x != 0.0) && (e2.y != 0.0) && (e2.z != 0.0)) {
+                  e2 /= e2.getR();
+                }
+
+                Vector3d wavevector = e1.cross(e2);
+                if ((wavevector.x != 0.0) && (wavevector.y != 0.0) && (wavevector.z != 0.0)) {
+                  wavevector = wavevector/wavevector.getR() * 2 * M_PI / wavelength;
+                }
+
+                return amplitude * (e1 * cos(wavevector.dot(r)) + e2 * handedness * sin(wavevector.dot(r)));
 }
 
 #ifdef CRPROPA_HAVE_MUPARSER

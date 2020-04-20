@@ -107,7 +107,7 @@ Vector3d SingleModeHelicalMagneticField::getField(const Vector3d &position) cons
 			wavevector = wavevector/wavevector.getR() * 2 * M_PI / wavelength;
 		}
 
-		return amplitude * (e1 * cos(wavevector.dot(r)) + e2 * handedness * sin(wavevector.dot(r)));
+		return amplitudeOrigin * (e1 * cos(wavevector.dot(r)) + e2 * handedness * sin(wavevector.dot(r)));
 }
 
 #ifdef CRPROPA_HAVE_MUPARSER

@@ -116,17 +116,17 @@ public:
  - a second unit vector (unitVector2) which, together with unitVectorOrigin, spans the polarization plane.
 **/
 class SingleModeHelicalMagneticField: public MagneticField {
-        Vector3d origin;
-        Vector3d unitVectorOrigin;
-        Vector3d unitVector2;
-        double amplitude;
-        double wavelength;
-        double handedness;
+	Vector3d origin;
+	Vector3d unitVectorOrigin;
+	Vector3d unitVector2;
+	double amplitude;
+	double wavelength;
+	double handedness;
 public:
-       	SingleModeHelicalMagneticField(const Vector3d &origin, const Vector3d &unitVectorOrigin, const Vector3d &unitVector2, const double amplitude, const double wavelength, const double handedness) :
-          origin(origin),  unitVectorOrigin(unitVectorOrigin),  unitVector2(unitVector2),  amplitude(amplitude), wavelength(wavelength), handedness(handedness) {
-        }
-        Vector3d getField(const Vector3d &position) const;
+	SingleModeHelicalMagneticField(const Vector3d &origin, const Vector3d &unitVectorOrigin, const Vector3d &unitVector2, const double amplitude, const double wavelength, const double handedness) :
+			origin(origin),  unitVectorOrigin(unitVectorOrigin),  unitVector2(unitVector2),  amplitude(amplitude), wavelength(wavelength), handedness(handedness) {
+	}
+	Vector3d getField(const Vector3d &position) const;
 };
 
 #ifdef CRPROPA_HAVE_MUPARSER

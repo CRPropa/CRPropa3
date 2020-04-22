@@ -11,28 +11,36 @@ namespace crpropa {
  * \addtogroup EnergyLosses
  * @{
  */
-// Photon fields
-// The default IRB model is that of Kneiske et al. 2004
-enum PhotonField {
-	CMB,
-	IRB,  // same as IRB_Kneiske04
-	IRB_Kneiske04,
-	IRB_Stecker05,
-	IRB_Franceschini08,
-	IRB_Finke10,
-	IRB_Dominguez11,
-	IRB_Gilmore12,
-	IRB_Stecker16_upper,
-	IRB_Stecker16_lower,
-	URB_Protheroe96
+
+
+/**
+ @class PhotonField
+ @brief photon field class fully defined with a range of photon energies, redshift and the field's density
+ */
+class PhotonField {
+public:
+	PhotonField(std::string fieldName, bool hasRedshiftDependence = true);
+	PhotonField() : PhotonField("CMB", false) {};
+
+	double getPhotonDensity(double ePhoton, double z = 0.) const;
+	double getRedshiftScaling(double z) const;  // returns overall comoving scaling factor (cf. CRPropa3-data/calc_scaling.py)
+	bool getHasRedshiftDependence() const;
+	std::string getFieldName() const;
+
+protected:
+	void initPhotonEnergy(std::string fieldName);
+	void initPhotonDensity(std::string fieldName);
+	void initRedshift(std::string fieldName);
+	void initRedshiftScaling();
+	void checkInputData() const;
+
+	std::vector<double> photonEnergies;
+	std::vector<double> photonDensity;
+	std::vector<double> redshifts;
+	std::vector<double> redshiftScalings;
+	bool hasRedshiftDependence;
+	std::string fieldName;
 };
-
-// Returns overall comoving scaling factor
-double photonFieldScaling(PhotonField photonField, double z);
-
-// Returns a string representation of the field
-std::string photonFieldName(PhotonField photonField);
-
 
 /**
  @class PhotonFieldSampling

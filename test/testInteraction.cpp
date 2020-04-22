@@ -1,6 +1,7 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Units.h"
 #include "crpropa/ParticleID.h"
+#include "crpropa/PhotonBackground.h"
 #include "crpropa/module/ElectronPairProduction.h"
 #include "crpropa/module/NuclearDecay.h"
 #include "crpropa/module/PhotoDisintegration.h"
@@ -16,6 +17,19 @@
 #include <fstream>
 
 namespace crpropa {
+
+// declare all available, built-in photon fields
+PhotonField CMB = PhotonField("CMB");
+PhotonField IRB = PhotonField("IRB_Kneiske04");
+PhotonField IRB_Kneiske04 = PhotonField("IRB_Kneiske04");
+PhotonField IRB_Stecker05 = PhotonField("IRB_Stecker05");
+PhotonField IRB_Franceschini08 = PhotonField("IRB_Franceschini08");
+PhotonField IRB_Finke10 = PhotonField("IRB_Finke10");
+PhotonField IRB_Dominguez11 = PhotonField("IRB_Dominguez11");
+PhotonField IRB_Gilmore12 = PhotonField("IRB_Gilmore12");
+PhotonField IRB_Stecker16_upper = PhotonField("IRB_Stecker16_upper");
+PhotonField IRB_Stecker16_lower = PhotonField("IRB_Stecker16_lower");
+// PhotonField URB_Protheroe96 = PhotonField("URB_Protheroe96");
 
 // ElectronPairProduction -----------------------------------------------------
 TEST(ElectronPairProduction, allBackgrounds) {
@@ -352,7 +366,7 @@ TEST(PhotoDisintegration, iron) {
 
 TEST(PhotoDisintegration, thisIsNotNucleonic) {
 	// Test that nothing happens to an electron.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(CMB);
 	Candidate c;
 	c.setCurrentStep(1 * Mpc);
 	c.current.setId(11); // electron
@@ -364,7 +378,7 @@ TEST(PhotoDisintegration, thisIsNotNucleonic) {
 
 TEST(PhotoDisintegration, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	PhotoDisintegration pd;
+	PhotoDisintegration pd(CMB);
 	Candidate c;
 	c.setNextStep(std::numeric_limits<double>::max());
 	c.current.setId(nucleusId(4, 2));
@@ -442,7 +456,7 @@ TEST(ElasticScattering, secondaries) {
 // PhotoPionProduction --------------------------------------------------------
 TEST(PhotoPionProduction, allBackgrounds) {
 	// Test if all interaction data files can be loaded.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	ppp.setPhotonField(IRB_Kneiske04);
 	ppp.setPhotonField(IRB_Stecker05);
 	ppp.setPhotonField(IRB_Franceschini08);
@@ -456,7 +470,7 @@ TEST(PhotoPionProduction, allBackgrounds) {
 TEST(PhotoPionProduction, proton) {
 	// Test photo-pion interaction for 100 EeV proton.
 	// This test can stochastically fail.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c(nucleusId(1, 1), 100 * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
@@ -474,7 +488,7 @@ TEST(PhotoPionProduction, proton) {
 TEST(PhotoPionProduction, helium) {
 	// Test photo-pion interaction for 400 EeV He nucleus.
 	// This test can stochastically fail.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c;
 	c.current.setId(nucleusId(4, 2));
 	c.current.setEnergy(400 * EeV);
@@ -488,7 +502,7 @@ TEST(PhotoPionProduction, helium) {
 
 TEST(PhotoPionProduction, thisIsNotNucleonic) {
 	// Test if noting happens to an electron.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c;
 	c.current.setId(11); // electron
 	c.current.setEnergy(10 * EeV);
@@ -500,7 +514,7 @@ TEST(PhotoPionProduction, thisIsNotNucleonic) {
 
 TEST(PhotoPionProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	PhotoPionProduction ppp;
+	PhotoPionProduction ppp(CMB);
 	Candidate c(nucleusId(1, 1), 200 * EeV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	ppp.process(&c);
@@ -548,7 +562,7 @@ TEST(Redshift, limitRedshiftDecrease) {
 // EMPairProduction -----------------------------------------------------------
 TEST(EMPairProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMPairProduction m;
+	EMPairProduction m(CMB);
 	Candidate c(22, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -557,13 +571,13 @@ TEST(EMPairProduction, limitNextStep) {
 
 TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMPairProduction m;
+	EMPairProduction m(CMB);
 	m.setHaveElectrons(true);
 
 	std::vector<PhotonField> fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
-	fields.push_back(URB_Protheroe96);
+	// fields.push_back(URB_Protheroe96);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -602,7 +616,7 @@ TEST(EMPairProduction, secondaries) {
 // EMDoublePairProduction -----------------------------------------------------
 TEST(EMDoublePairProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMDoublePairProduction m;
+	EMDoublePairProduction m(CMB);
 	Candidate c(22, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -611,13 +625,13 @@ TEST(EMDoublePairProduction, limitNextStep) {
 
 TEST(EMDoublePairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMDoublePairProduction m;
+	EMDoublePairProduction m(CMB);
 	m.setHaveElectrons(true);
 
 	std::vector<PhotonField> fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
-	fields.push_back(URB_Protheroe96);
+	// fields.push_back(URB_Protheroe96);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -656,7 +670,7 @@ TEST(EMDoublePairProduction, secondaries) {
 // EMTripletPairProduction ----------------------------------------------------
 TEST(EMTripletPairProduction, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMTripletPairProduction m;
+	EMTripletPairProduction m(CMB);
 	Candidate c(11, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -665,13 +679,13 @@ TEST(EMTripletPairProduction, limitNextStep) {
 
 TEST(EMTripletPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMTripletPairProduction m;
+	EMTripletPairProduction m(CMB);
 	m.setHaveElectrons(true);
 
 	std::vector<PhotonField> fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
-	fields.push_back(URB_Protheroe96);
+	// fields.push_back(URB_Protheroe96);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -713,7 +727,7 @@ TEST(EMTripletPairProduction, secondaries) {
 // EMInverseComptonScattering -------------------------------------------------
 TEST(EMInverseComptonScattering, limitNextStep) {
 	// Test if the interaction limits the next propagation step.
-	EMInverseComptonScattering m;
+	EMInverseComptonScattering m(CMB);
 	Candidate c(11, 1E17 * eV);
 	c.setNextStep(std::numeric_limits<double>::max());
 	m.process(&c);
@@ -722,13 +736,13 @@ TEST(EMInverseComptonScattering, limitNextStep) {
 
 TEST(EMInverseComptonScattering, secondaries) {
 	// Test if secondaries are correctly produced.
-	EMInverseComptonScattering m;
+	EMInverseComptonScattering m(CMB);
 	m.setHavePhotons(true);
 
 	std::vector<PhotonField> fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
-	fields.push_back(URB_Protheroe96);
+	// fields.push_back(URB_Protheroe96);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {

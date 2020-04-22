@@ -30,7 +30,7 @@ private:
 	bool haveElectrons;
 
 public:
-	ElectronPairProduction(PhotonField photonField = CMB, bool haveElectrons =
+	ElectronPairProduction(PhotonField photonField, bool haveElectrons =
 			false, double limit = 0.1);
 
 	void setPhotonField(PhotonField photonField);

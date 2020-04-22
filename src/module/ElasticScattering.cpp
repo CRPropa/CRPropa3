@@ -25,7 +25,7 @@ ElasticScattering::ElasticScattering(PhotonField f) {
 
 void ElasticScattering::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField.getFieldName();
 	setDescription("ElasticScattering: " + fname);
 	initRate(getDataPath("ElasticScattering/rate_" + fname.substr(0,3) + ".txt"));
 	initCDF(getDataPath("ElasticScattering/cdf_" + fname.substr(0,3) + ".txt"));
@@ -99,7 +99,7 @@ void ElasticScattering::process(Candidate *candidate) const {
 
 		double rate = interpolateEquidistant(lg, lgmin, lgmax, tabRate);
 		rate *= Z * N / double(A);  // TRK scaling
-		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);  // cosmological scaling
+		rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z);  // cosmological scaling
 
 		// check for interaction
 		Random &random = Random::instance();

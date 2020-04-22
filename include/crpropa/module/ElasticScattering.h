@@ -27,7 +27,7 @@ private:
     static const size_t neps;   // number of eps steps
 
 public:
-    ElasticScattering(PhotonField photonField = CMB);
+    ElasticScattering(PhotonField photonField);
     void initRate(std::string filename);
     void initCDF(std::string filename);
     void setPhotonField(PhotonField photonField);

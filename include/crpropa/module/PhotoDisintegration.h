@@ -42,7 +42,7 @@ private:
 	static const size_t nlg; // number of Lorentz-factor steps
 
 public:
-	PhotoDisintegration(PhotonField photonField = CMB, bool havePhotons = false, double limit = 0.1);
+	PhotoDisintegration(PhotonField photonField, bool havePhotons = false, double limit = 0.1);
 
 	void setPhotonField(PhotonField photonField);
 	void setHavePhotons(bool havePhotons);

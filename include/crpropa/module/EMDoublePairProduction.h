@@ -27,7 +27,7 @@ private:
 
 public:
 	EMDoublePairProduction(
-		PhotonField photonField = CMB, //!< target photon background
+		PhotonField photonField, 	   //!< target photon background
 		bool haveElectrons = false,    //!< switch to create the secondary electron pair
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);

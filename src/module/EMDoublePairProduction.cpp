@@ -16,7 +16,7 @@ EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField, bool hav
 
 void EMDoublePairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField.getFieldName();
 	setDescription("EMDoublePairProduction: " + fname);
 	initRate(getDataPath("EMDoublePairProduction/rate_" + fname + ".txt"));
 }
@@ -88,7 +88,7 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z);
 
 	// check for interaction
 	Random &random = Random::instance();

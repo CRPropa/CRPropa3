@@ -19,7 +19,7 @@ EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField, 
 
 void EMInverseComptonScattering::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField.getFieldName();
 	setDescription("EMInverseComptonScattering: " + fname);
 	initRate(getDataPath("EMInverseComptonScattering/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMInverseComptonScattering/cdf_" + fname + ".txt"));
@@ -209,7 +209,7 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z);
 
 	// check for interaction
 	Random &random = Random::instance();

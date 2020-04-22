@@ -28,7 +28,7 @@ PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool n
 void PhotoPionProduction::setPhotonField(PhotonField field) {
 	photonField = field;
 	if (haveRedshiftDependence) {
-		if (field==CMB){
+		if (photonField.getHasRedshiftDependence()){
 			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
 			haveRedshiftDependence = false;
 		}
@@ -36,14 +36,14 @@ void PhotoPionProduction::setPhotonField(PhotonField field) {
 			KISS_LOG_WARNING << "PhotoPionProduction: You are using the 2-dimensional tabulated redshift evolution, which is not available for other interactions. To be consistent across all interactions you may deactivate this <setHaveRedshiftDependence(False)>.";
 		}
 	}
-	std::string fname = photonFieldName(field);
+	std::string fname = photonField.getFieldName();
 	setDescription("PhotoPionProduction: " + fname);
 	if (haveRedshiftDependence)
 		initRate(getDataPath("PhotoPionProduction/rate_" + fname.replace(0, 3, "IRBz") + ".txt"));
 	else
 		initRate(getDataPath("PhotoPionProduction/rate_" + fname + ".txt"));
 
-	int background = (photonField == CMB) ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
+	int background = (fname == "CMB") ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
 	this->photonFieldSampling = PhotonFieldSampling(background);
 }
 
@@ -136,7 +136,7 @@ double PhotoPionProduction::nucleonMFP(double gamma, double z, bool onProton) co
 	if (haveRedshiftDependence)
 		rate = interpolate2d(z, gamma, tabRedshifts, tabLorentz, tabRate);
 	else
-		rate = interpolate(gamma, tabLorentz, tabRate) * photonFieldScaling(photonField, z);
+		rate = interpolate(gamma, tabLorentz, tabRate) * photonField.getRedshiftScaling(z);
 
 	// cosmological scaling
 	rate *= pow(1 + z, 2);
@@ -218,7 +218,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 	int sign = (id > 0) ? 1 : -1;
 
 	// check if below SOPHIA's energy threshold
-	double E_threshold = (photonField == CMB) ? 3.72e18 * eV : 5.83e15 * eV;
+	double E_threshold = (photonField.getFieldName() == "CMB") ? 3.72e18 * eV : 5.83e15 * eV;
 	if (EpA * (1 + z) < E_threshold)
 		return;
 

@@ -39,7 +39,7 @@ protected:
 
 public:
 	PhotoPionProduction(
-		PhotonField photonField = CMB,
+		PhotonField photonField,
 		bool photons = false,
 		bool neutrinos = false,
 		bool electrons = false,

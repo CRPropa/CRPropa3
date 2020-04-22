@@ -18,7 +18,7 @@ EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField, bool h
 
 void EMTripletPairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField.getFieldName();
 	setDescription("EMTripletPairProduction: " + fname);
 	initRate(getDataPath("EMTripletPairProduction/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMTripletPairProduction/cdf_" + fname + ".txt"));
@@ -141,7 +141,7 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 		return;
 
 	// cosmological scaling of interaction distance (comoving)
-	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	double scaling = pow(1 + z, 2) * photonField.getRedshiftScaling(z);
 	double rate = scaling * interpolate(E, tabEnergy, tabRate);
 
 	// check for interaction

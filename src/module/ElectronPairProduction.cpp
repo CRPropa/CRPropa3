@@ -19,7 +19,7 @@ ElectronPairProduction::ElectronPairProduction(PhotonField photonField,
 
 void ElectronPairProduction::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField.getFieldName();
 	setDescription("ElectronPairProduction: " + fname);
 	initRate(getDataPath("ElectronPairProduction/lossrate_" + fname + ".txt"));
 	initSpectrum(getDataPath("ElectronPairProduction/spectrum_" + fname.substr(0,3) + ".txt"));
@@ -93,7 +93,7 @@ double ElectronPairProduction::lossLength(int id, double lf, double z) const {
 		rate = tabLossRate.back() * pow(lf / tabLorentzFactor.back(), -0.6); // extrapolation
 
 	double A = nuclearMass(id) / mass_proton; // more accurate than massNumber(Id)
-	rate *= Z * Z / A * pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	rate *= Z * Z / A * pow(1 + z, 3) * photonField.getRedshiftScaling(z);
 	return 1. / rate;
 }
 

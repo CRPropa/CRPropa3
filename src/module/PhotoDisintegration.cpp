@@ -25,7 +25,7 @@ PhotoDisintegration::PhotoDisintegration(PhotonField f, bool havePhotons, double
 
 void PhotoDisintegration::setPhotonField(PhotonField photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField.getFieldName();
 	setDescription("PhotoDisintegration: " + fname);
 	initRate(getDataPath("Photodisintegration/rate_" + fname + ".txt"));
 	initBranching(getDataPath("Photodisintegration/branching_" + fname + ".txt"));
@@ -172,7 +172,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 			return;
 
 		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
-		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z); // cosmological scaling, rate per comoving distance
+		rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z); // cosmological scaling, rate per comoving distance
 
 		// check if interaction occurs in this step
 		// otherwise limit next step to a fraction of the mean free path
@@ -296,7 +296,7 @@ double PhotoDisintegration::lossLength(int id, double gamma, double z) {
 	double lossRate = interpolateEquidistant(lg, lgmin, lgmax, rate);
 
 	// comological scaling, rate per physical distance
-	lossRate *= pow(1 + z, 3) * photonFieldScaling(photonField, z);
+	lossRate *= pow(1 + z, 3) * photonField.getRedshiftScaling(z);
 
 	// average number of nucleons lost for all disintegration channels
 	double avg_dA = 0;

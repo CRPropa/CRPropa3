@@ -32,7 +32,7 @@ private:
 
 public:
 	EMInverseComptonScattering(
-		PhotonField photonField = CMB, //!< target photon background
+		PhotonField photonField, //!< target photon background
 		bool havePhotons = false,      //!< switch to create secondary photon
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);

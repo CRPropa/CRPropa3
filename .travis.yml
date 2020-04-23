@@ -7,7 +7,7 @@ addons:
         - gfortran-6
         - swig
         - libfftw3-dev
-        - libcfitsio3-dev
+        - libcfitsio-dev
         - libmuparser-dev
         - python-dev
         - python-numpy

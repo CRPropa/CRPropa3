@@ -14,43 +14,30 @@ Contents
 
    pages/Installation
 
-   ../Changelog.md
+   Changelog.rst
    pages/FAQ.md
    pages/howto_cite_crpropa.rst
 
 .. toctree::
    :caption: USAGE
-   :maxdepth: 1
 
    pages/Basic-concepts.md
-
    pages/example_notebooks/basics/basics.v4.ipynb
-   pages/example_notebooks/sim1D/sim1D.v4.ipynb
-   pages/example_notebooks/sim4D/sim4D.v4.ipynb
-   pages/example_notebooks/trajectories/trajectories.v4.ipynb
-   pages/example_notebooks/extragalactic_fields/MHD_models.v4.ipynb
-   pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.ipynb
-   pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.ipynb
-   pages/example_notebooks/galactic_lensing/lensing_cr.v4.ipynb
-   pages/example_notebooks/galactic_lensing/lensing_maps.v4.ipynb
-   pages/example_notebooks/galactic_lensing/lensing_liouville.v4.ipynb
-   pages/example_notebooks/secondaries/photons.v4.ipynb
-   pages/example_notebooks/secondaries/neutrinos.v4.ipynb
-   pages/example_notebooks/Diffusion/DiffusionValidationI.v4.ipynb
+
+   pages/extragalactic-simulations.rst
+   pages/galactic_lensing.rst
+
+   pages/galactic_cosmic_rays.rst
+
    pages/example_notebooks/advanced/CustomObserver.v4.ipynb
-   pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
-
-   pages/example_notebooks/density/densitys_easy_example.ipynb
-   pages/example_notebooks/density/densitys_model_example.ipynb
-
-   pages/Cpp-projects.md
    pages/Extending-CRPropa.md
+   pages/Cpp-projects.md
 
-.. toctree::
-   :caption: API Reference
+   pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
 
    pages/api
    api/library_root
+
 
 .. toctree::
    :caption: DEVEL
@@ -59,4 +46,5 @@ Contents
    pages/Debugging.md
    pages/Code-Coverage.md
    pages/Data-files.md
+
 

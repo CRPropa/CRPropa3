@@ -44,10 +44,10 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-        "breathe",
-        "exhale",
-        "m2r",
-        "nbsphinx"
+    "breathe",
+    "exhale",
+    "m2r",
+    "nbsphinx"
 ]
 
 # Breathe Configuration

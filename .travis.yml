@@ -37,26 +37,26 @@ cache:
 matrix:
   include:
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
       env:
         - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
         - PYTHON_EXECUTABLE=/usr/bin/python3
         - BUILD_DOC=true
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python3 FC=gfortran-6
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
       env:
          - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
          - PYTHON_EXECUTABLE=/usr/bin/python2
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python2 FC=gfortran-6

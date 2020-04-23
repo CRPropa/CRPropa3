@@ -24,6 +24,11 @@ addons:
         - libiomp-dev
         - doxygen
         - graphviz
+        - python3-sphinx
+        - python3-nbsphinx
+        - python3-breathe
+        - python3-recommonmark
+        - python3-sphinx-rtd-theme
       sources: &sources
         - ubuntu-toolchain-r-test
 cache:

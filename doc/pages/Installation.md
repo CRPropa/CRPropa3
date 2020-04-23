@@ -1,22 +1,21 @@
 ## Download
 
-Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) or the
-[current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the
-repository with
+Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) (recommended), or, alternatively, download the [current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the repository with
 
 ```sh
 git clone https://github.com/CRPropa/CRPropa3.git
 ```
 
-## Install from source
+## Install in system path
 
 1. CRPropa uses CMAKE to configure the Makefile. From the build directory call
    ccmake or cmake. See the next section for a list of configuration flags.
     ```sh
     mkdir build
     cd build
-    ccmake ..
+    cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local
     make
+		make install
     ```
 
 2. A set of unit tests can be run with ```make test```. If the tests are
@@ -31,14 +30,21 @@ git clone https://github.com/CRPropa/CRPropa3.git
     export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
     ```
 
-We highly recommend to use a virtualenv setup to install CRPropa!
+However, we highly recommend to use a virtualenv setup to install CRPropa!
 
-## Install from source in python virtualenv - a detailed guide (RECOMMENDED)
 
-CRPropa is typically run on clusters where superuser access is not always available to the user. Besides that, it is easier to ensure the reproducibility of simulations in a user controlled and clean environment.
-Thus, the user space deployment without privileged access to the system would be a preferred way. Python provides the most flexible access to CRPropa features, hence, Python and SWIG are required. To avoid clashes with the system's Python and its libraries, Python virtual environment will be used as well.
+## Install in python virtualenv
+CRPropa is typically run on clusters where superuser access is not always
+available to the user. Besides that, it is easier to ensure the reproducibility
+of simulations in a user controlled and clean environment.  Thus, the user
+space deployment without privileged access to the system would be a preferred
+way. Python provides the most flexible access to CRPropa features, hence,
+Python and SWIG are required. To avoid clashes with the system's Python and its
+libraries, Python virtual environment will be used as well.
 
-This procedure brings a few extra steps compared to the already given plain installation from source, but this kind of CRPropa deployment will be a worthwhile effort afterwards.
+This procedure brings a few extra steps compared to the already given plain
+installation from source, but this kind of CRPropa deployment will be a
+worthwhile effort afterwards.
 
 1. Choose a location of the deployment and save it in an environment variable to avoid retyping, for example,
     ```sh
@@ -54,7 +60,11 @@ This procedure brings a few extra steps compared to the already given plain inst
     virtualenv $CRPROPA_DIR`
     ```
     if there is virtualenv available on the system.
-    If the virtualenv is not installed on a system, try to use your operating system software repository to install it (usually the package is called `virtualenv`, `python-virtualenv`, `python3-virtualenv` or `python2-virtualenv`). There is also an option to manually download it, un-zip it and run it:
+		If the virtualenv is not installed on a system, try to use your operating
+		system software repository to install it (usually the package is called
+		`virtualenv`, `python-virtualenv`, `python3-virtualenv` or
+		`python2-virtualenv`). There is also an option to manually download it,
+		un-zip it and run it:
     ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip
     unzip develop.zip
@@ -99,6 +109,45 @@ This procedure brings a few extra steps compared to the already given plain inst
 
 There also exists [bash script](https://github.com/adundovi/CRPropa3-scripts/tree/master/deploy_crpropa) for GNU/Linux systems which automate the described procedure.
 
+## Dependencies
++ C++ Compiler with C++11 support (gcc, clang and icc are known to work)
++ Fortran Compiler: to compile SOPHIA
+
+Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
++ Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 3.0.4)
++ FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
++ Gadget: magnetic fields for large scale structure data
++ OpenMP: for shared memory parallelization
++ googleperftools: for performance optimizations regarding shared memory parallelization
++ muparser: to define the source spectrum through a mathematical formula
+
+The following packages are provided with the source code and do not need to be installed separately.
++ SOPHIA: photo-hadronic interactions
++ EleCa and dint: electromagnetic cascades
++ googletest: unit-testing
++ HepPID: particle ID library
++ kiss: small tool collection
++ pugixml: for xml steering
++ eigen: Linear algebra
++ healpix_base: Equal area pixelization of the sphere
+
+
+### Debian / Ubuntu
+In a clean minimal **Ubuntu (17.10)** installation the following packages should be installed to build and run CRPropa with most of the options:
+  ```sh
+  sudo apt install python-virtualenv build-essential git cmake swig \
+  gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
+  ```
+
+### Fedora/CentOS/RHEL
+For Fedora/CentOS/RHEL the required packages to build CRPropa:
+   ```sh
+   yum install git cmake gcc gcc-gfortran gcc-c++ make swig zlib-devel \
+   muParser-devel hdf5-devel fftw-devel python-devel
+  ```
+In case of CentOS/RHEL 7, the SWIG version is too old and has to be built from source.
+
+
 ## CMake flags
 When using cmake, the following options can be set by adding flags to the cmake command, e.g.
 ```
@@ -133,7 +182,11 @@ cmake -DENABLE_PYTHON=ON ..
 
 ## Mac OS X specifics
 
-If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5) where Python3 is installed from Homebrew, one has to specify the exact paths of the python library (PYTHON_LIBRARY) and the python interpreter (PYTHON_EXECUTABLE) to CMake (otherwise, the system Python is found). For example:
+If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5)
+where Python3 is installed from Homebrew, one has to specify the exact paths of
+the python library (PYTHON_LIBRARY) and the python interpreter
+(PYTHON_EXECUTABLE) to CMake (otherwise, the system Python is found). For
+example:
   ```
  CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
  -DPYTHON_EXECUTABLE=/usr/local/Cellar/python/3.7.4/bin/python3 \
@@ -141,39 +194,4 @@ If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5) w
  ..
   ```
 
-## Dependencies
-+ C++ Compiler (gcc, clang and icc are known to work)
-+ Fortran Compiler: to compile SOPHIA
 
-Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
-+ Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 2.0.4)
-+ FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
-+ Gadget: magnetic fields for large scale structure data
-+ OpenMP: for shared memory parallelization
-+ googleperftools: for performance optimizations regarding shared memory parallelization
-+ muparser: to define the source spectrum through a mathematical formula
-
-The following packages are provided with the source code and do not need to be installed separately.
-+ SOPHIA: photo-hadronic interactions
-+ EleCa and dint: electromagnetic cascades
-+ googletest: unit-testing
-+ HepPID: particle ID library
-+ kiss: small tool collection
-+ pugixml: for xml steering
-+ eigen: Linear algebra
-+ healpix_base: Equal area pixelization of the sphere
-
-#### Dependencies in different OSes:
-
-In a clean minimal **Ubuntu (17.10)** installation the following packages should be installed to build and run CRPropa with most of the options:
-  ```sh
-  sudo apt install python-virtualenv build-essential git cmake swig \
-  gfortran python-dev fftw3-dev zlib1g-dev libmuparser-dev libhdf5-dev pkg-config
-  ```
-
-For Fedora/CentOS/RHEL the required packages to build CRPropa:
-   ```sh
-   yum install git cmake gcc gcc-gfortran gcc-c++ make swig zlib-devel \
-   muParser-devel hdf5-devel fftw-devel python-devel
-  ```
-In case of CentOS/RHEL 7, the SWIG version is too old and has to be built from source.

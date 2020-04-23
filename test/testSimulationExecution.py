@@ -24,15 +24,19 @@ class test1DChainWithSecondaries(unittest.TestCase):
 
         sim = crp.ModuleList()
 
+        # photon fields
+        CMB = crp.PhotonField("CMB")
+        IRB = crp.PhotonField("IRB_Kneiske04")
+
         sim.add(crp.SimplePropagation(1 * crp.kpc, 1 * crp.Mpc))
         sim.add(crp.Redshift())
-        sim.add(crp.PhotoPionProduction(crp.CMB))
-        sim.add(crp.PhotoPionProduction(crp.IRB))
-        sim.add(crp.PhotoDisintegration(crp.CMB))
-        sim.add(crp.PhotoDisintegration(crp.IRB))
+        sim.add(crp.PhotoPionProduction(CMB))
+        sim.add(crp.PhotoPionProduction(IRB))
+        sim.add(crp.PhotoDisintegration(CMB))
+        sim.add(crp.PhotoDisintegration(IRB))
         sim.add(crp.NuclearDecay())
-        sim.add(crp.ElectronPairProduction(crp.CMB))
-        sim.add(crp.ElectronPairProduction(crp.IRB))
+        sim.add(crp.ElectronPairProduction(CMB))
+        sim.add(crp.ElectronPairProduction(IRB))
         sim.add(crp.MinimumEnergy(1 * crp.EeV))
         sim.add(crp.EMCascade())
 

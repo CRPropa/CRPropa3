@@ -35,9 +35,7 @@ Contents
 
    pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
 
-   pages/api
-   api/library_root
-
+   api.rst
 
 .. toctree::
    :caption: DEVEL

@@ -45,7 +45,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     "breathe",
-#    "exhale",
+    "exhale",
     "m2r",
     "nbsphinx"
 ]

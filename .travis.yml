@@ -107,6 +107,7 @@ after_success:
       eval "$(ssh-agent -s)"
       ssh-add travis_deploy
       cd doc
+      touch .nojekyll
       git init
       git checkout -b gh-pages
       git add .

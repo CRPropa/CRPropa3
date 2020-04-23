@@ -24,6 +24,7 @@ addons:
         - libiomp-dev
         - doxygen
         - graphviz
+        - python3-pip
         - python3-sphinx
         - python3-nbsphinx
         - python3-breathe

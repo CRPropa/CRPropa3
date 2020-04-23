@@ -3,35 +3,25 @@ How to cite CRPropa
 
 If you use CRPropa 3 for your research, please cite:
 
-**JCAP 1605 (2016)
-038;**\ `arXiv:1603.07142 <https://arxiv.org/abs/1603.07142>`__
+**JCAP 1605 (2016) 038;** `arXiv:1603.07142 <https://arxiv.org/abs/1603.07142>`_.
 
 In addition, depending on the features you use, please cite the
 following papers:
 
-+-----------------------------------+-----------------------------------+
-| CRPropa Component                 | Reference                         |
-+===================================+===================================+
-| photon production and             | **Astropart. Phys. 102 (2018)     |
-| electromagnetic cascade           | 39;**\ `arXiv:1710.11406 <https:/ |
-| propagation                       | /arxiv.org/abs/1710.11406>`__     |
-+-----------------------------------+-----------------------------------+
-| DiffusionSDE module               | **JCAP 1706 (2017)                |
-|                                   | 046;**\ `arXiv:1704.07484 <https: |
-|                                   | //arxiv.org/abs/1704.07484>`__    |
-+-----------------------------------+-----------------------------------+
-| turbulent magnetic field witd     | **Phys. Rev. D94 (2016)           |
-| helicity                          | 083005;**\ `arXiv:1607.00320 <htt |
-|                                   | ps://arxiv.org/abs/1607.00320>`__ |
-+-----------------------------------+-----------------------------------+
-| multi-resolution implementation   | **JCAP 1608 (2016)                |
-| of magnetic fields using Quimby   | 025;**\ `arXiv:1512.03172 <https: |
-|                                   | //arxiv.org/abs/1512.03172>`__    |
-+-----------------------------------+-----------------------------------+
-| magnetic lenses                   | **Astropart. Phys. 54 (2014)      |
-|                                   | 110**\ `arXiv:1302.3761 <https:// |
-|                                   | arxiv.org/abs/1302.3761>`__       |
-+-----------------------------------+-----------------------------------+
+photon production and electromagnetic cascade propagation
+  Astropart. Phys. 102 (2018) 39; `arXiv:1710.11406 <https://arxiv.org/abs/1710.11406>`_.
+
+DiffusionSDE module
+ JCAP 1706 (2017) 046;  `arXiv:1704.07484 <https://arxiv.org/abs/1704.07484>`_.
+
+turbulent magnetic field witd helicity
+  Phys. Rev. D94 (2016)  083005; `arXiv:1607.00320 <https://arxiv.org/abs/1607.00320>`_.
+
+multi-resolution implementation of magnetic fields using Quimby
+  JCAP 1608 (2016) 025; `arXiv:1512.03172 <https://arxiv.org/abs/1512.03172>`_.
+
+magnetic lenses
+  Astropart. Phys. 54 (2014) 110; `arXiv:1302.3761 <https://arxiv.org/abs/1302.3761>`_.
 
 Data for several models are provided alongside CRPropa. Please cite the
 following references if you use one of the models in your simulation.

@@ -103,7 +103,7 @@ after_success:
       chmod 600 travis_deploy
       eval "$(ssh-agent -s)"
       ssh-add travis_deploy
-      cd html
+      cd doc
       git init
       git checkout -b gh-pages
       git add .

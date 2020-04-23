@@ -29,6 +29,7 @@ addons:
         - python3-breathe
         - python3-recommonmark
         - python3-sphinx-rtd-theme
+        - python3-m2r
       sources: &sources
         - ubuntu-toolchain-r-test
 cache:

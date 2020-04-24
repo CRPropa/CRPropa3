@@ -74,10 +74,11 @@
 #include "crpropa/massDistribution/Ferriere.h"
 #include "crpropa/massDistribution/ConstantDensity.h"
 
-
+/** \namespace crpropa
+ *  @brief CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles.
+ **/
 
 // Groups of Modules for Doxygen
-
 /**
  * \defgroup Core Core Classes
  * @{ @brief Core classes used to build CRPropa

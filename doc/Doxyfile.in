@@ -140,7 +140,7 @@ INLINE_INHERITED_MEMB  = YES
 # shortest path that makes the file name unique will be used
 # The default value is: YES.
 
-FULL_PATH_NAMES        = NO
+FULL_PATH_NAMES        = YES
 
 # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
 # Stripping is only done if one of the specified strings matches the left-hand
@@ -152,7 +152,7 @@ FULL_PATH_NAMES        = NO
 # will be relative from the directory where doxygen is started.
 # This tag requires that the tag FULL_PATH_NAMES is set to YES.
 
-STRIP_FROM_PATH        =
+STRIP_FROM_PATH        = ../
 
 # The STRIP_FROM_INC_PATH tag can be used to strip a user-defined part of the
 # path mentioned in the documentation of a class, which tells the reader which
@@ -161,7 +161,7 @@ STRIP_FROM_PATH        =
 # specify the list of include paths that are normally passed to the compiler
 # using the -I flag.
 
-STRIP_FROM_INC_PATH    = ../include
+STRIP_FROM_INC_PATH    =
 
 # If the SHORT_NAMES tag is set to YES, doxygen will generate much shorter (but
 # less readable) file names. This can be useful is your file systems doesn't
@@ -848,7 +848,7 @@ EXCLUDE_PATTERNS       = Loki::* \
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        = Loki::* \
+EXCLUDE_SYMBOLS        = Loki* \
                          ProgressBar
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
@@ -1071,7 +1071,7 @@ IGNORE_PREFIX          =
 # If the GENERATE_HTML tag is set to YES, doxygen will generate HTML output
 # The default value is: YES.
 
-GENERATE_HTML          = NO
+GENERATE_HTML          = YES
 
 # The HTML_OUTPUT tag is used to specify where the HTML docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -1912,7 +1912,7 @@ XML_OUTPUT             = xml
 # The default value is: YES.
 # This tag requires that the tag GENERATE_XML is set to YES.
 
-XML_PROGRAMLISTING     = NO
+XML_PROGRAMLISTING     = YES
 
 #---------------------------------------------------------------------------
 # Configuration options related to the DOCBOOK output
@@ -2208,7 +2208,7 @@ DOT_FONTPATH           =
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-CLASS_GRAPH            = YES
+CLASS_GRAPH            = NO
 
 # If the COLLABORATION_GRAPH tag is set to YES then doxygen will generate a
 # graph for each documented class showing the direct and indirect implementation

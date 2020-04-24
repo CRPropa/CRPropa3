@@ -20,6 +20,7 @@ Contents
 
 .. toctree::
    :caption: USAGE
+   :maxdepth: 2
 
    pages/Basic-concepts.md
    pages/example_notebooks/basics/basics.v4.ipynb
@@ -37,6 +38,7 @@ Contents
 
 .. toctree::
    :caption: API
+   :maxdepth: 2
 
    building_blocks
    api/library_root

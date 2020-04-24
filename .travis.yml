@@ -102,12 +102,12 @@ after_success:
     if [ $BUILD_DOC ] && [ $TRAVIS_BRANCH = "sphinx" ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_REPO_SLUG = "CRPropa/CRPropa3" ]; then
       pip3 install m2r
       make doc
+      touch doc/.nojekyll
       openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
       chmod 600 travis_deploy
       eval "$(ssh-agent -s)"
       ssh-add travis_deploy
       cd doc
-      touch .nojekyll
       git init
       git checkout -b gh-pages
       git add .

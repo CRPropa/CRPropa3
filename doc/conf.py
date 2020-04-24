@@ -44,8 +44,9 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',
     "breathe",
-#    "exhale",
+    "exhale",
     "m2r",
     "nbsphinx"
 ]
@@ -53,6 +54,7 @@ extensions = [
 # Breathe Configuration
 breathe_default_project = "CRPropa3"
 
+breathe_domain_by_extension = {"h" : "cpp"}
 
 #source_parsers = {
 #   '.md': 'recommonmark.parser.CommonMarkParser',
@@ -112,6 +114,9 @@ html_logo = "crpropa-logo_white.svg"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_js_files = [
+        'js/breathe_fold.js',
+]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -193,13 +198,12 @@ exhale_args = {
     "containmentFolder":     "./api",
     "rootFileName":          "library_root.rst",
     "rootFileTitle":         "Library API",
-    "doxygenStripFromPath":  "..",
+    "doxygenStripFromPath":  "../..",
     # Suggested optional arguments
     "createTreeView":        True,
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
     "exhaleExecutesDoxygen": False,
-    "exhaleDoxygenStdin":    "INPUT = ../include"
 }
 
 # Tell sphinx what the primary language being documented is.

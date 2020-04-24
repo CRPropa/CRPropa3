@@ -2,9 +2,18 @@
 
 ### I have an installation issue...
 
-In case of an installation issue make sure that you did not miss something in the [Installation](https://github.com/CRPropa/CRPropa3/wiki/Installation) section of this wiki. Then take a look at the list of already reported [issues tagged wth "Installation"](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+). If your issue is not listed, open a new ticket.
+In case of an installation issue make sure that you did not miss something in
+the [Installation](Installation.md)
+section of this documentation. Then take a look at the list of already reported [issues
+tagged wth
+"Installation"](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+).
+If your issue is not listed, open a new ticket.
 
-Please be aware that we cannot support general issues regarding an operating system setup, a third party package installation, an unsupported third party package (libraries, compilers) version or similar, therefore do not report them to us. In case of doubt whether something is an CRPropa issue or not, report the problem to the issue tracker.
+Please be aware that we cannot support general issues regarding an operating
+system setup, a third party package installation, an unsupported third party
+package (libraries, compilers) version or similar, therefore do not report them
+to us. In case of doubt whether something is an CRPropa issue or not, report
+the problem to the issue tracker.
 
 ### How to specify the seed for the random number generator?
 The random number seed of the global random number singleton can be set with

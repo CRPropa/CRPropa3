@@ -1,5 +1,5 @@
-Galactic Cosmic Rays
---------------------
+Diffusion of Galactic Cosmic Rays
+---------------------------------
 
 .. toctree::
 

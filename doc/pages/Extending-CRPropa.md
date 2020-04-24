@@ -102,7 +102,7 @@ for i in range(1000):
 ```
 
 
-### Custom C++ Plugins with Python Steering
+### Plugins: Integrate Custom C++ Code to CRPropa's Python Steering
 Extending CRPropa with C++ code and keep python steering is also possible using
 SWIG.  This allows to integrate your code seamless as e.g.
 ```

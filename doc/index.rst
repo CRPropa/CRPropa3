@@ -9,7 +9,7 @@ Contents
 ========
 
 .. toctree::
-   :caption: INSTALLATION
+   :caption: Project Info
    :maxdepth: 1
 
    pages/Installation

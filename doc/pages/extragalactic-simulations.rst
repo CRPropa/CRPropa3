@@ -1,4 +1,4 @@
-Extragalactic Simulations
+Extragalactic Propagation
 -------------------------
 
 .. toctree::

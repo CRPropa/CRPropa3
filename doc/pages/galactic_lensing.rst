@@ -1,5 +1,5 @@
-Galactic Lensing
-----------------
+Propagation of Extragalactic CR in the Milky Way
+------------------------------------------------
 
 .. toctree::
 

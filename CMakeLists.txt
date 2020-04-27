@@ -572,7 +572,7 @@ if(ENABLE_TESTING)
 	target_link_libraries(testOutput crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testOutput testOutput)
 
-	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
+	add_executable(testFunctionalGroups test/testFunctionalGroups.cpp)
 	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testFunctionalGroups testFunctionalGroups)
 

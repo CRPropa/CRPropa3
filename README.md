@@ -20,20 +20,21 @@ equation using stochastic differential equations. CRPropa features a very
 flexible simulation setup with python steering and shared-memory
 parallelization.
 
-The official web site of CRPropa is [crpropa.desy.de](https://crpropa.desy.de/).
 
-### Try it out
+## Try it out
 You can try out CRPropa online at [vispa.physik.rwth-aachen.de](https://vispa.physik.rwth-aachen.de/).
 Use the guest login and go to the CRPropa example via "VISPA Cluster" --> "Open Examples".
 
-### Installation and Documentation
-Installation instructions and documentation are found the official web site of
-CRPropa is [crpropa.desy.de](https://crpropa.desy.de/).
 
-### Support
+## Installation and Documentation
+Installation instructions, usage examples  and API documentation  can be found on the [documentation web site of
+CRPropa](http://crpropa.github.io/CRPropa3/).
+
+
+## Support
 Please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues) for
 support and in case of general questions. Please browse also the
-[documentation](https://crpropa.desy.de/) and previous support requests on
+[documentation](http://crpropa.github.io/CRPropa3/) and previous support requests on
 [installation](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+)
 and
 [usage](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=label%3Ausage-question+)
@@ -44,9 +45,11 @@ a mail with subject: subscribe crpropa-user to sympa@desy.de from the address
 you wish to subscribe.
 
 ### Howto cite CRPropa
-If you use CRPropa 3 for your research, please cite:
+If you use CRPropa 3 for your research, please cite
 
-** JCAP 1605 (2016) no.05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142) **
+**JCAP 1605 (2016) no.05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142)**
+
+as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/howto_cite_crpropa.html) dependent on the components you are using.
 
 
 ### Publications based on CRPropa

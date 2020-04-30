@@ -11,13 +11,25 @@ namespace crpropa {
 
 /**
  @class TurbulentField
- @brief An abstract class for different models of turbulent magnetic fields
+ @brief An abstract base class for different models of turbulent magnetic fields
 
  This module provides common methods for all turbulent (synthetic) magnetic fields
  */
 class TurbulentField: public MagneticField {
+protected:
+	virtual double energySpectrum(double s,
+								  double q,
+								  double l_bendover,
+								  double k) const {
+		return l_bendover * std::pow(k * l_bendover, q) /
+					std::pow(1.0 + k*k*l_bendover*l_bendover, (s+q)/2);
+	}
 public:
-	TurbulentField() {};
+	TurbulentField() {
+	}
+    virtual ~TurbulentField() {
+    }
+	
 	virtual double getCorrelationLength() const = 0;
 };
 

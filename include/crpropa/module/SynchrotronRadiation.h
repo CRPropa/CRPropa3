@@ -19,13 +19,14 @@ namespace crpropa {
  The module limits the next step size to ensure a fractional energy loss dE/E < limit (default = 0.1).
  Optionally, synchrotron photons above a threshold (default E > 10^7 eV) are created as secondary particles.
  Note that the large number of secondary photons per propagation can cause memory problems.
+ To mitigate this, use thinning. However, this still doesn't solve the problem completely.
  */
 class SynchrotronRadiation: public Module {
 private:
 	ref_ptr<MagneticField> field; ///< MagneticField instance
 	double Brms; ///< Brms value in case no MagneticField is specified
 	double limit; ///< fraction of energy loss length to limit the next step
-
+	double thinning; ///< thinning parameter for weighted-sampling (maximum 1, minimum 0)
 	bool havePhotons; ///< flag for production of secondary photons
 	double secondaryThreshold; ///< threshold energy for secondary photons
 	std::vector<double> tabx; ///< tabulated fraction E_photon/E_critical from 10^-6 to 10^2 in 801 log-spaced steps
@@ -33,24 +34,20 @@ private:
 
 
 public:
-	SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double limit = 0.1);
-	SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double limit = 0.1);
-
+	SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double thinning = 0, double limit = 0.1);
+	SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double thinning = 0, double limit = 0.1);
 	void setField(ref_ptr<MagneticField> field);
-	ref_ptr<MagneticField> getField();
-
-	void setBrms(double Brms);
-	double getBrms();
-
+	void setBrms(double Brms);	
 	void setHavePhotons(bool havePhotons);
-	bool getHavePhotons();
-
+	void setThinning(double thinning);
 	void setLimit(double limit);
+	void setSecondaryThreshold(double threshold);	
+	ref_ptr<MagneticField> getField();
+	double getBrms();
+	bool getHavePhotons();
+	double getThinning();
 	double getLimit();
-
-	void setSecondaryThreshold(double threshold);
 	double getSecondaryThreshold() const;
-
 	void initSpectrum();
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;

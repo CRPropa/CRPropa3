@@ -8,21 +8,21 @@
 
 namespace crpropa {
 
-SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons, double limit) {
-	Brms = 0.;
+SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons, double thinning, double limit) {
 	setField(field);
+	setBrms(0);
 	initSpectrum();
-	this->havePhotons = havePhotons;
-	this->limit = limit;
-	secondaryThreshold = 1e7 * eV;
+	setHavePhotons(havePhotons);
+	setLimit(limit);
+	setSecondaryThreshold(1e9 * eV);
 }
 
-SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double limit) {
-	this->Brms = Brms;
+SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double thinning, double limit) {
+	setBrms(Brms);
 	initSpectrum();
-	this->havePhotons = havePhotons;
-	this->limit = limit;
-	secondaryThreshold = 1e7 * eV;
+	setHavePhotons(havePhotons);
+	setLimit(limit);
+	setSecondaryThreshold(1e9 * eV);
 }
 
 void SynchrotronRadiation::setField(ref_ptr<MagneticField> f) {
@@ -49,6 +49,14 @@ bool SynchrotronRadiation::getHavePhotons() {
 	return havePhotons;
 }
 
+void SynchrotronRadiation::setThinning(double thinning) {
+	this->thinning = thinning;
+}
+
+double SynchrotronRadiation::getThinning() {
+	return thinning;
+}
+
 void SynchrotronRadiation::setLimit(double limit) {
 	this->limit = limit;
 }
@@ -70,8 +78,7 @@ void SynchrotronRadiation::initSpectrum() {
 	std::ifstream infile(filename.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error(
-				"SynchrotronRadiation: could not open file " + filename);
+		throw std::runtime_error("SynchrotronRadiation: could not open file " + filename);
 
 	// clear previously loaded interaction rates
 	tabx.clear();
@@ -123,6 +130,9 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	if (not(havePhotons))
 		return;
 
+
+	double w0 = candidate->getWeight();
+
 	// check if photons with energies > 14 * Ecrit are possible
 	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;
 	if (14 * Ecrit < secondaryThreshold)
@@ -136,18 +146,18 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		size_t i = random.randBin(tabCDF); // draw random bin (upper bin boundary returned)
 		double binWidth = (tabx[i] - tabx[i-1]);
 		double x = tabx[i-1] + random.rand() * binWidth; // draw random x uniformly distributed in bin
-		double Egamma = x * Ecrit;
+		double Ephoton = x * Ecrit;
 
 		// if the remaining energy is not sufficient check for random accepting
-		if (Egamma > dE)
-			if (random.rand() > (dE / Egamma))
+		if (Ephoton > dE)
+			if (random.rand() > (dE / Ephoton))
 				break; // not accepted
 
 		// create synchrotron photon and repeat with remaining energy
-		dE -= Egamma;
+		dE -= Ephoton;
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		if (Egamma > secondaryThreshold) // create only photons with energies above threshold
-			candidate->addSecondary(22, Egamma, pos);
+		if (Ephoton > secondaryThreshold) // create only photons with energies above threshold
+			candidate->addSecondary(22, Ephoton, pos);
 	}
 }
 

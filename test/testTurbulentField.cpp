@@ -10,6 +10,8 @@
 
 using namespace crpropa;
 
+#ifdef CRPROPA_HAVE_FFTW3F
+
 TEST(testSimpleGridTurbulence, correlationLength) {
 	double lMin = 1*kpc;
 	double lMax = 1*Gpc;
@@ -18,7 +20,6 @@ TEST(testSimpleGridTurbulence, correlationLength) {
     EXPECT_NEAR(Lc, lMax/5, 1*Mpc);
 }
 
-#ifdef CRPROPA_HAVE_FFTW3F
 TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	// Test for zero mean: <B> = 0
 	size_t n = 64;

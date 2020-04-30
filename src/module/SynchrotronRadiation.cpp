@@ -130,7 +130,6 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	if (not(havePhotons))
 		return;
 
-
 	double w0 = candidate->getWeight();
 
 	// check if photons with energies > 14 * Ecrit are possible
@@ -138,6 +137,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	if (14 * Ecrit < secondaryThreshold)
 		return;
 
+	/* ORIGINAL
 	// draw photons up to the total energy loss
 	Random &random = Random::instance();
 	while (dE > 0) {
@@ -158,8 +158,45 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 		if (Ephoton > secondaryThreshold) // create only photons with energies above threshold
 			candidate->addSecondary(22, Ephoton, pos);
+	}*/
+
+	std::vector<double> energies;
+	std::vector<double> fraction;
+
+	// draw photons up to the total energy loss
+	Random &random = Random::instance();
+	while (dE > 0) {
+		// draw random value between 0 and maximum of corresponding cdf
+		// choose bin of s where cdf(x) = cdf_rand -> x_rand
+		size_t i = random.randBin(tabCDF); // draw random bin (upper bin boundary returned)
+		double binWidth = (tabx[i] - tabx[i-1]);
+		double x = tabx[i-1] + random.rand() * binWidth; // draw random x uniformly distributed in bin
+		double Ephoton = x * Ecrit;
+
+		// if the remaining energy is not sufficient check for random accepting
+		double r = random.rand();
+		if (Ephoton > dE) {
+			if (r > (dE / Ephoton))
+				break; // not accepted
+		}
+
+		// thinning procedure: accepts only a few random secondaries
+		double f = Ephoton / (E - dE);
+
+		if (r < pow(f, thinning)) {
+			double w = w0 / pow(f, thinning);
+			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
+			if (Ephoton > secondaryThreshold) // create only photons with energies above threshold
+				candidate->addSecondary(22, Ephoton, pos, w);
+		}
+
+		// create synchrotron photon and repeat with remaining energy
+		dE -= (Ephoton * w);
 	}
+
+
 }
+
 
 std::string SynchrotronRadiation::getDescription() const {
 	std::stringstream s;

@@ -383,7 +383,7 @@ add_library(crpropa SHARED
 	src/module/PhotonOutput1D.cpp
 	src/module/PropagationCK.cpp
 	src/module/PropagationBP.cpp
-        src/module/Redshift.cpp
+    src/module/Redshift.cpp
 	src/module/RestrictToRegion.cpp
 	src/module/SimplePropagation.cpp
 	src/module/SynchrotronRadiation.cpp
@@ -397,6 +397,7 @@ add_library(crpropa SHARED
 	src/magneticField/PT11Field.cpp
     src/magneticField/TF17Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
+	src/magneticField/turbulentField/SimpleGridTurbulence.cpp
 	src/advectionField/AdvectionField.cpp
 	src/massDistribution/Nakanishi.cpp
 	src/massDistribution/Massdistribution.cpp
@@ -539,6 +540,10 @@ if(ENABLE_TESTING)
 	add_executable(testMagneticField test/testMagneticField.cpp)
 	target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testMagneticField testMagneticField)
+	
+	add_executable(testTurbulentField test/testTurbulentField.cpp)
+	target_link_libraries(testTurbulentField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+	add_test(testTurbulentField testTurbulentField)
 
 	add_executable(testAdvectionField test/testAdvectionField.cpp)
 	target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})

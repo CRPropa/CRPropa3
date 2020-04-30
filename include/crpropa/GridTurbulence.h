@@ -17,10 +17,6 @@ namespace crpropa {
  * @{
  */
 
-/** Analytically calculate the correlation length of a turbulent field */
-double turbulentCorrelationLength(double lMin, double lMax,
-		double alpha = (-11./3.));
-
 #ifdef CRPROPA_HAVE_FFTW3F
 /**
  Calculate the omnidirectional power spectrum E(k) for a given turbulent field

@@ -12,12 +12,6 @@
 
 namespace crpropa {
 
-double turbulentCorrelationLength(double lMin, double lMax, double alpha) {
-	double r = lMin / lMax;
-	double a = -alpha - 2;
-	return lMax / 2 * (a - 1) / a * (1 - pow(r, a)) / (1 - pow(r, a - 1));
-}
-
 #ifdef CRPROPA_HAVE_FFTW3F
 
 std::vector<std::pair<int, float> > gridPowerSpectrum(ref_ptr<Grid3f> grid) {
@@ -123,7 +117,6 @@ void checkGridRequirements(ref_ptr<Grid3f> grid, double lMin, double lMax) {
 	if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2)
 		throw std::runtime_error("turbulentField: lMax > size");
 }
-
 // Execute inverse discrete FFT in-place for a 3D grid, from complex to real space
 void executeInverseFFTInplace(ref_ptr<Grid3f> grid, fftwf_complex* Bkx, fftwf_complex* Bky, fftwf_complex* Bkz) {
 

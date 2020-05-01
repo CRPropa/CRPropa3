@@ -127,7 +127,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 
 	// calculate energy loss
 	double lf = candidate->current.getLorentzFactor();
-	double dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(eplus / Rg, 2); // Jackson p. 770 (14.31)
+	double dEdx = 1. / 6 / M_PI / epsilon0 * pow(lf * lf - 1, 2) * pow(charge / Rg, 2); // Jackson p. 770 (14.31)
 	double step = candidate->getCurrentStep() / (1 + z); // step size in local frame
 	double dE = step * dEdx;
 
@@ -149,10 +149,9 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 
 	// draw photons up to the total energy loss
 	Random &random = Random::instance();
-	int counter = 0;
 	double dE0 = dE;
 	std::vector<double> energies;
-
+	int counter = 0;
 	while (dE > 0) {
 		// draw random value between 0 and maximum of corresponding cdf
 		// choose bin of s where cdf(x) = cdf_rand -> x_rand
@@ -173,7 +172,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 				break;			
 		}
 
-		// stack
+		// store energies in array
 		energies.push_back(Ephoton);
 
 		// energy loss
@@ -183,14 +182,18 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		counter++;
 	}
 
-	// thinning procedure: accepts only a few random secondaries
+	// while loop before gave total energy which is just a fraction of the required
 	double w1 = 1;
 	if (maximumSamples > 0 && dE > 0)
-		w1 = 1. / (1. - dE / dE0);
+		w1 = 1. / (1. - dE / dE0); 
+
+	// loop over sampled photons and attribute weights accordingly
 	for (int i = 0; i < energies.size(); i++) {
 		double Ephoton = energies[i];
 		double f = Ephoton / (E - dE0);
 		double w = w0 * w1 / pow(f, thinning);
+
+		// thinning procedure: accepts only a few random secondaries
 		if (random.rand() < pow(f, thinning)) {
 			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 			if (Ephoton > secondaryThreshold) // create only photons with energies above threshold

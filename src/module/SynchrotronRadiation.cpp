@@ -214,6 +214,10 @@ std::string SynchrotronRadiation::getDescription() const {
 		s << ", synchrotron photons E > " << secondaryThreshold / eV << " eV";
 	else
 		s << ", no synchrotron photons";
+	if (maximumSamples > 0)
+		s << "maximum number of photon samples: " << maximumSamples;
+	if (thinning > 0)
+		s << "thinning parameter: " << thinning; 
 	return s.str();
 }
 

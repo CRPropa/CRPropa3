@@ -14,7 +14,7 @@ SynchrotronRadiation::SynchrotronRadiation(ref_ptr<MagneticField> field, bool ha
 	initSpectrum();
 	setHavePhotons(havePhotons);
 	setLimit(limit);
-	setSecondaryThreshold(1e9 * eV);
+	setSecondaryThreshold(1e6 * eV);
 	setMaximumSamples(nSamples);
 }
 
@@ -23,7 +23,7 @@ SynchrotronRadiation::SynchrotronRadiation(double Brms, bool havePhotons, double
 	initSpectrum();
 	setHavePhotons(havePhotons);
 	setLimit(limit);
-	setSecondaryThreshold(1e9 * eV);
+	setSecondaryThreshold(1e6 * eV);
 	setMaximumSamples(nSamples);
 }
 
@@ -132,6 +132,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	double dE = step * dEdx;
 
 	// apply energy loss and limit next step
+	double w0 = candidate->getWeight();
 	double E = candidate->current.getEnergy();
 	candidate->current.setEnergy(E - dE);
 	candidate->limitNextStep(limit * E / dEdx);
@@ -140,14 +141,13 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	if (not(havePhotons))
 		return;
 
-	double w0 = candidate->getWeight();
-
 	// check if photons with energies > 14 * Ecrit are possible
 	double Ecrit = 3. / 4 * h_planck / M_PI * c_light * pow(lf, 3) / Rg;
 	if (14 * Ecrit < secondaryThreshold)
 		return;
 
 	// draw photons up to the total energy loss
+	// if maximumSamples is reached before that, compensate the total energy afterwards
 	Random &random = Random::instance();
 	double dE0 = dE;
 	std::vector<double> energies;
@@ -201,7 +201,6 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		}
 	}
 }
-
 
 std::string SynchrotronRadiation::getDescription() const {
 	std::stringstream s;

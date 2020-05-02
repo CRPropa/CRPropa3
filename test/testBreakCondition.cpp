@@ -53,6 +53,49 @@ TEST(MinimumChargeNumber, test) {
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
+TEST(MinimumEnergyParticle, test) {
+	MinimumEnergyParticle minEnergy(1);
+	minEnergy.add(22, 10);
+	minEnergy.add(12, 2);
+	minEnergy.add(11, 20);
+
+	Candidate c;
+
+	c.current.setEnergy(20);
+	c.current.setId(22);
+	minEnergy.process(&c);
+	EXPECT_TRUE(c.isActive());
+
+	c.current.setEnergy(5);
+	c.current.setId(22);
+	minEnergy.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Rejected"));
+
+	c.setActive(true);
+	c.removeProperty("Rejected");
+
+	c.current.setEnergy(10);
+	c.current.setId(11);
+	minEnergy.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Rejected"));
+
+	c.setActive(true);
+	c.removeProperty("Rejected");
+
+	c.current.setEnergy(5);
+	c.current.setId(12);
+	minEnergy.process(&c);
+	EXPECT_TRUE(c.isActive());	
+
+	c.current.setEnergy(0.1);
+	c.current.setId(12);
+	minEnergy.process(&c);
+	EXPECT_FALSE(c.isActive());
+	EXPECT_TRUE(c.hasProperty("Rejected"));
+}
+
 TEST(MaximumTrajectoryLength, test) {
 	MaximumTrajectoryLength maxLength(10);
 	Candidate c;

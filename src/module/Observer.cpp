@@ -304,6 +304,22 @@ std::string ObserverElectronVeto::getDescription() const {
 	return "ObserverElectronVeto";
 }
 
+// ObserverCustomVeto -------------------------------------------------------
+ObserverCustomVeto::ObserverCustomVeto(int pId) {
+	vetoParticleId = pId;
+}
+
+DetectionState ObserverCustomVeto::checkDetection(Candidate *c) const {
+	if (c->current.getId() == vetoParticleId)
+		return VETO;
+	return NOTHING;
+}
+
+std::string ObserverCustomVeto::getDescription() const {
+	return "ObserverCustomVeto";
+}
+
+
 // ObserverTimeEvolution --------------------------------------------------------
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 

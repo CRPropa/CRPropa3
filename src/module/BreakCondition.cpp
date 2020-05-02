@@ -182,6 +182,52 @@ std::string MinimumChargeNumber::getDescription() const {
 }
 
 //*****************************************************************************
+MinimumEnergyParticle::MinimumEnergyParticle(double minEnergyGlobal) {
+	setMinimumGlobalEnergy(minEnergyGlobal);
+}
+
+void MinimumEnergyParticle::add(int id, double energy) {
+	particleIds.push_back(id);
+	minEnergies.push_back(energy);
+}
+
+void MinimumEnergyParticle::setMinimumGlobalEnergy(double energy) {
+	minEnergyGlobal = energy;
+}
+
+double MinimumEnergyParticle::getMinimumGlobalEnergy() const {
+	return minEnergyGlobal;
+}
+
+void MinimumEnergyParticle::process(Candidate *c) const {
+	for (int i = 0; i < particleIds.size(); i++) {
+		if (c->current.getId() == particleIds[i]) {
+			if (c->current.getEnergy() < minEnergies[i]) {
+				reject(c);
+			} else
+				return;
+		}
+	}
+	if (c->current.getEnergy() < minEnergyGlobal)
+		reject(c);
+	else
+		return;
+}
+
+std::string MinimumEnergyParticle::getDescription() const {
+	std::stringstream s;
+	s << "Minimum energy global: " << minEnergyGlobal / eV << " eV";
+	for (int i = 0; i < minEnergies.size(); i++) {
+		s << "  for particle " << particleIds[i] << " : " << minEnergies[i] / eV << " eV";
+	}
+	s << "Flag: '" << rejectFlagKey << "' -> '" << rejectFlagValue << "', ";
+	s << "MakeInactive: " << (makeRejectedInactive ? "yes" : "no");
+	if (rejectAction.valid())
+		s << ", Action: " << rejectAction->getDescription();
+	return s.str();
+}
+
+//*****************************************************************************
 DetectionLength::DetectionLength(double detLength) :
 		detLength(detLength) {
 }

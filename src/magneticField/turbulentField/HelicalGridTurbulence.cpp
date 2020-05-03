@@ -1,4 +1,4 @@
-#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 #include "crpropa/GridTools.h"
 #include "crpropa/Random.h"
@@ -8,35 +8,35 @@
 
 namespace crpropa {
 
-SimpleGridTurbulence::SimpleGridTurbulence(double Brms, double lMin, double lMax, double sindex, unsigned int seed)
+HelicalGridTurbulence::HelicalGridTurbulence(double Brms, double lMin, double lMax, double sindex, unsigned int seed, double H)
 	: TurbulentField(Brms, sindex), lMin(lMin), lMax(lMax), seed(seed) {
 	initGrid();
-	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed);
+	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed, H);
 }
 
-SimpleGridTurbulence::SimpleGridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, unsigned int seed) 
+HelicalGridTurbulence::HelicalGridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, unsigned int seed, double H) 
 	: TurbulentField(Brms, sindex), gridPtr(grid), lMin(lMin), lMax(lMax), seed(seed) {
-	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed);
+	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed, H);
 }
 
-Vector3d SimpleGridTurbulence::getField(const Vector3d& pos) const {
+Vector3d HelicalGridTurbulence::getField(const Vector3d& pos) const {
 	return gridPtr->interpolate(pos);
 }
 
-double SimpleGridTurbulence::getCorrelationLength() const {
+double HelicalGridTurbulence::getCorrelationLength() const {
 	return turbulentCorrelationLength(lMin, lMax, -sindex - 2);
 }
 
-double SimpleGridTurbulence::turbulentCorrelationLength(double lMin, double lMax, double s) {
+double HelicalGridTurbulence::turbulentCorrelationLength(double lMin, double lMax, double s) {
 	double r = lMin / lMax;
 	return lMax / 2 * (s - 1) / s * (1 - pow(r, s)) / (1 - pow(r, s - 1));
 }
 
-void SimpleGridTurbulence::initGrid() {
+void HelicalGridTurbulence::initGrid() {
 	gridPtr = new Grid3f(Vector3d(-boxSize/2), gridSize, spacing);
 }
 
-void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed) {
+void HelicalGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed, double H) {
 
 	checkGridRequirementsTEMP(grid, lMin, lMax);
 
@@ -63,8 +63,8 @@ void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms, dou
 	int i;
 	double k;
 
-	// parameters goes for non-helical calculations
-	double theta, phase, cosPhase, sinPhase;
+	// only used if there is a helicity
+	double Bktot, Bkplus, Bkminus, thetaplus, thetaminus;
 
 	double kMin = spacing.x / lMax;
 	double kMax = spacing.x / lMin;
@@ -92,45 +92,44 @@ void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms, dou
 				}
 
 				// construct an orthogonal base ek, e1, e2
-				if (ek.isParallelTo(n0, float(1e-3))) {
-					// ek parallel to (1,1,1)
-					e1.setXYZ(-1., 1., 0);
-					e2.setXYZ(1., 1., -2.);
-				} else {
-					// ek not parallel to (1,1,1)
+				// (for helical fields together with the real transform the following convention
+				// must be used: e1(-k) = e1(k), e2(-k) = - e2(k)
+				if (ek.getAngleTo(n0) < 1e-3) { // ek parallel to (1,1,1)
+					e1.setXYZ(-1, 1, 0);
+					e2.setXYZ(1, 1, -2);
+				} else { // ek not parallel to (1,1,1)
 					e1 = n0.cross(ek);
 					e2 = ek.cross(e1);
 				}
 				e1 /= e1.getR();
 				e2 /= e2.getR();
 
-				// random orientation perpendicular to k
-				theta = 2 * M_PI * random.rand();
-				b = e1 * cos(theta) + e2 * sin(theta);
 
-				// normal distributed amplitude with mean = 0 and sigma = k^alpha/2
-				b *= random.randNorm() * pow(k, alpha / 2);
+				double Bkprefactor = mu0 / (4 * M_PI * pow(k, 3));
+				Bktot = fabs(random.randNorm() * pow(k, alpha / 2));
+				Bkplus  = Bkprefactor * sqrt((1 + H) / 2) * Bktot;
+				Bkminus = Bkprefactor * sqrt((1 - H) / 2) * Bktot;
+				thetaplus = 2 * M_PI * random.rand();
+				thetaminus = 2 * M_PI * random.rand();
+				double ctp = cos(thetaplus);
+				double stp = sin(thetaplus);
+				double ctm = cos(thetaminus);
+				double stm = sin(thetaminus);
 
-				// uniform random phase
-				phase = 2 * M_PI * random.rand();
-				cosPhase = cos(phase); // real part
-				sinPhase = sin(phase); // imaginary part
+				Bkx[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.x + (-Bkplus * stp + Bkminus * stm) * e2.x) / sqrt(2);
+				Bkx[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.x + ( Bkplus * ctp - Bkminus * ctm) * e2.x) / sqrt(2);
+				Bky[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.y + (-Bkplus * stp + Bkminus * stm) * e2.y) / sqrt(2);
+				Bky[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.y + ( Bkplus * ctp - Bkminus * ctm) * e2.y) / sqrt(2);
+				Bkz[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.z + (-Bkplus * stp + Bkminus * stm) * e2.z) / sqrt(2);
+				Bkz[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.z + ( Bkplus * ctp - Bkminus * ctm) * e2.z) / sqrt(2);
 
-				Bkx[i][0] = b.x * cosPhase;
-				Bkx[i][1] = b.x * sinPhase;
-				Bky[i][0] = b.y * cosPhase;
-				Bky[i][1] = b.y * sinPhase;
-				Bkz[i][0] = b.z * cosPhase;
-				Bkz[i][1] = b.z * sinPhase;
+				Vector3f BkRe(Bkx[i][0], Bky[i][0], Bkz[i][0]);
+				Vector3f BkIm(Bkx[i][1], Bky[i][1], Bkz[i][1]);
 			} // for iz
 		} // for iy
 	} // for ix
 
 	executeInverseFFTInplaceTEMP(grid, Bkx, Bky, Bkz);
-
-	fftwf_free(Bkx);
-	fftwf_free(Bky);
-	fftwf_free(Bkz);
 
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }

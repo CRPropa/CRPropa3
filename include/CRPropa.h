@@ -9,7 +9,6 @@
 #include "crpropa/Geometry.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
-#include "crpropa/GridTurbulence.h"
 #include "crpropa/Logging.h"
 #include "crpropa/Module.h"
 #include "crpropa/ModuleList.h"
@@ -65,6 +64,9 @@
 #include "crpropa/magneticField/QuimbyMagneticField.h"
 #include "crpropa/magneticField/ArchimedeanSpiralField.h"
 #include "crpropa/magneticField/turbulentField/TurbulentField.h"
+#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
 

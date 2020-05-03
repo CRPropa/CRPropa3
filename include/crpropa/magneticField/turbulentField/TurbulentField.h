@@ -2,6 +2,7 @@
 #define CRPROPA_TURBULENTFIELD_H
 
 #include "crpropa/magneticField/MagneticField.h"
+#include <cmath>
 
 namespace crpropa {
 /**
@@ -25,9 +26,13 @@ protected:
 		return l_bendover * std::pow(k * l_bendover, qindex) /
 					std::pow(1.0 + k*k*l_bendover*l_bendover, (sindex+qindex)/2);
 	}
+	double spectrumNormalization() const {
+		return std::tgamma((sindex+qindex)/2.0) /
+			(2.0 * std::tgamma((sindex-1)/2.0) * std::tgamma((qindex+1)/2.0));
+	}
 public:
 	TurbulentField(double Brms_, double sindex_, double qindex_ = 4, double l_bendover_ = 1)
-		: Brms(Brms_), sindex(sindex_), qindex(qindex), l_bendover(l_bendover_) {
+		: Brms(Brms_), sindex(sindex_), qindex(qindex_), l_bendover(l_bendover_) {
 	}
 
     virtual ~TurbulentField() {
@@ -36,8 +41,10 @@ public:
 	double getBrms() const {
 		return Brms;
 	}
-	
-	virtual double getCorrelationLength() const = 0;
+
+	virtual double getCorrelationLength() const {
+		return 4*M_PI/((sindex+2.0)*sindex) * spectrumNormalization() * l_bendover;
+	}
 };
 
 /** @}*/

@@ -364,7 +364,6 @@ add_library(crpropa SHARED
 	src/EmissionMap.cpp
 	src/Geometry.cpp
 	src/GridTools.cpp
-	src/GridTurbulence.cpp
 	src/Module.cpp
 	src/ModuleList.cpp
 	src/ParticleID.cpp
@@ -412,7 +411,9 @@ add_library(crpropa SHARED
 	src/magneticField/PT11Field.cpp
     src/magneticField/TF17Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
+	src/magneticField/turbulentField/GridTurbulence.cpp
 	src/magneticField/turbulentField/SimpleGridTurbulence.cpp
+	src/magneticField/turbulentField/HelicalGridTurbulence.cpp
 	src/advectionField/AdvectionField.cpp
 	src/massDistribution/Nakanishi.cpp
 	src/massDistribution/Massdistribution.cpp

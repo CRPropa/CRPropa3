@@ -4,11 +4,19 @@
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
 #include "crpropa/GridTools.h"
+#include "crpropa/magneticField/turbulentField/TurbulentField.h"
 #include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 
 #include "gtest/gtest.h"
 
 using namespace crpropa;
+
+TEST(testTurbulentField, correlationLength) {
+	double l_bo = 100;
+	auto tf = TurbulentField(1*muG, 5./3., 4., l_bo);
+	auto Lc = tf.getCorrelationLength();
+    EXPECT_NEAR(Lc, 0.498*l_bo, 0.001*l_bo);
+}
 
 #ifdef CRPROPA_HAVE_FFTW3F
 

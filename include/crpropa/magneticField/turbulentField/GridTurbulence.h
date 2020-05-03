@@ -5,7 +5,8 @@
 
 #include "crpropa/magneticField/turbulentField/TurbulentField.h"
 #include "crpropa/Grid.h"
-#include "crpropa/GridTools.h"
+
+#include "fftw3.h"
 
 /**
  @file
@@ -16,28 +17,54 @@
 
 namespace crpropa {
 /**
- * \addtogroup MagneticFields 
+ * \addtogroup MagneticFields
  * @{
  */
 
 /**
  @class GridTurbulence
- @brief Provides a turbulent magnetic field generated on a grid
+ @brief Turbulent grid-based magnetic field with a simple power-law spectrum
  */
 class GridTurbulence: public TurbulentField {
 private:
 	double lMin, lMax;
-	MagneticFieldGrid mfield;
+	double boxSize, spacing;
+	int	gridSize;
+	unsigned int seed;
+	ref_ptr<Grid3f> gridPtr;
 
-	initTurbulence();
+	void initGrid();
 public:
+	GridTurbulence(double Brms,
+		double lMin, double lMax, double sindex = 5./3., unsigned int seed = 0);
+	GridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax,
+    	double alpha = -11./3., unsigned int seed = 0);
+
+	double getCorrelationLength() const;
+	static double turbulentCorrelationLength(double lMin, double lMax, double sindex);
 
 	Vector3d getField(const Vector3d& pos) const;
-}
+	
+	void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed);
+};
+
+/* Helper functions for synthetic turbulent field models */
+
+// Check the grid properties before the FFT procedure
+void checkGridRequirementsTEMP(ref_ptr<Grid3f> grid, double lMin, double lMax);
+
+// Execute inverse discrete FFT in-place for a 3D grid, from complex to real space
+void executeInverseFFTInplaceTEMP(ref_ptr<Grid3f> grid, fftwf_complex* Bkx, fftwf_complex* Bky, fftwf_complex* Bkz);
+
+/**
+ Calculate the omnidirectional power spectrum E(k) for a given turbulent field
+ Returns a vector of pairs (k_i, E(k_i))
+*/
+std::vector<std::pair<int, float> > gridPowerSpectrum(ref_ptr<Grid3f> grid); 
 
 /** @}*/
 } // namespace crpropa
 
 #endif // CRPROPA_HAVE_FFTW3F
 
-#endif // CRPROPA_GRIDTOOLS_H
+#endif // CRPROPA_GRIDTURBULENCE_H

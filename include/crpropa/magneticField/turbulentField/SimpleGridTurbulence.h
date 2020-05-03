@@ -58,8 +58,15 @@ inline double turbulentCorrelationLength(double lMin, double lMax, double alpha 
 	return SimpleGridTurbulence::turbulentCorrelationLength(lMin, lMax, -alpha - 2);
 }
 
-inline void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax,
-		double alpha = -11/3., int seed = 0) {
+/**
+ Create a random initialization of a turbulent field.
+ @param lMin	Minimum wavelength of the turbulence
+ @param lMax	Maximum wavelength of the turbulence
+ @param alpha	Power law index of <B^2(k)> ~ k^alpha (alpha = -11/3 corresponds to a Kolmogorov spectrum)
+ @param Brms	RMS field strength
+ @param seed	Random seed
+ */
+inline void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha = -11/3., int seed = 0) {
 	KISS_LOG_WARNING << "initTurbulence is deprecated and will be removed in the future. Replace it with an appropriate turbulent field model instance.";
 	SimpleGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed);
 }

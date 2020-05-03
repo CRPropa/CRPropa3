@@ -1,18 +1,13 @@
+#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 #include "crpropa/GridTools.h"
-#include "crpropa/GridTurbulence.h"
 #include "crpropa/Random.h"
-#include "crpropa/magneticField/MagneticField.h"
-
-#include <map>
-#include <iostream>
 
 #ifdef CRPROPA_HAVE_FFTW3F
 #include "fftw3.h"
-#endif
 
 namespace crpropa {
 
-#ifdef CRPROPA_HAVE_FFTW3F
+/* Helper functions for synthetic turbulent field models */
 
 std::vector<std::pair<int, float> > gridPowerSpectrum(ref_ptr<Grid3f> grid) {
 	
@@ -97,10 +92,8 @@ std::vector<std::pair<int, float> > gridPowerSpectrum(ref_ptr<Grid3f> grid) {
 	return points;
 }
 
-/* Helper functions for synthetic turbulent field models */
-
 // Check the grid properties before the FFT procedure
-void checkGridRequirements(ref_ptr<Grid3f> grid, double lMin, double lMax) {
+void checkGridRequirementsTEMP(ref_ptr<Grid3f> grid, double lMin, double lMax) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -117,8 +110,9 @@ void checkGridRequirements(ref_ptr<Grid3f> grid, double lMin, double lMax) {
 	if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2)
 		throw std::runtime_error("turbulentField: lMax > size");
 }
+
 // Execute inverse discrete FFT in-place for a 3D grid, from complex to real space
-void executeInverseFFTInplace(ref_ptr<Grid3f> grid, fftwf_complex* Bkx, fftwf_complex* Bky, fftwf_complex* Bkz) {
+void executeInverseFFTInplaceTEMP(ref_ptr<Grid3f> grid, fftwf_complex* Bkx, fftwf_complex* Bky, fftwf_complex* Bkz) {
 
 	size_t n = grid->getNx(); // size of array
 	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
@@ -155,207 +149,39 @@ void executeInverseFFTInplace(ref_ptr<Grid3f> grid, fftwf_complex* Bkx, fftwf_co
 	}
 }
 
-void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed) {
 
-	checkGridRequirements(grid, lMin, lMax);
-
-	Vector3d spacing = grid->getSpacing();
-	size_t n = grid->getNx(); // size of array
-	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
-
-	// arrays to hold the complex vector components of the B(k)-field
-	fftwf_complex *Bkx, *Bky, *Bkz;
-	Bkx = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
-	Bky = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
-	Bkz = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
-
-	Random random;
-	if (seed != 0)
-		random.seed(seed); // use given seed
-
-	// calculate the n possible discrete wave numbers
-	double K[n];
-	for (int i = 0; i < n; i++)
-		K[i] = (double) i / n - i / (n / 2);
-
-	// construct the field in configuration space
-	int i;
-	double k;
-
-	// parameters goes for non-helical calculations
-	double theta, phase, cosPhase, sinPhase;
-
-	double kMin = spacing.x / lMax;
-	double kMax = spacing.x / lMin;
-	Vector3f b; // real b-field vector
-	Vector3f ek, e1, e2; // orthogonal base
-	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
-
-	for (size_t ix = 0; ix < n; ix++) {
-		for (size_t iy = 0; iy < n; iy++) {
-			for (size_t iz = 0; iz < n2; iz++) {
-
-				i = ix * n * n2 + iy * n2 + iz;
-				ek.setXYZ(K[ix], K[iy], K[iz]);
-				k = ek.getR();
-
-				// wave outside of turbulent range -> B(k) = 0
-				if ((k < kMin) || (k > kMax)) {
-					Bkx[i][0] = 0;
-					Bkx[i][1] = 0;
-					Bky[i][0] = 0;
-					Bky[i][1] = 0;
-					Bkz[i][0] = 0;
-					Bkz[i][1] = 0;
-					continue;
-				}
-
-				// construct an orthogonal base ek, e1, e2
-				if (ek.isParallelTo(n0, float(1e-3))) {
-					// ek parallel to (1,1,1)
-					e1.setXYZ(-1., 1., 0);
-					e2.setXYZ(1., 1., -2.);
-				} else {
-					// ek not parallel to (1,1,1)
-					e1 = n0.cross(ek);
-					e2 = ek.cross(e1);
-				}
-				e1 /= e1.getR();
-				e2 /= e2.getR();
-
-				// random orientation perpendicular to k
-				theta = 2 * M_PI * random.rand();
-				b = e1 * cos(theta) + e2 * sin(theta);
-
-				// normal distributed amplitude with mean = 0 and sigma = k^alpha/2
-				b *= random.randNorm() * pow(k, alpha / 2);
-
-				// uniform random phase
-				phase = 2 * M_PI * random.rand();
-				cosPhase = cos(phase); // real part
-				sinPhase = sin(phase); // imaginary part
-
-				Bkx[i][0] = b.x * cosPhase;
-				Bkx[i][1] = b.x * sinPhase;
-				Bky[i][0] = b.y * cosPhase;
-				Bky[i][1] = b.y * sinPhase;
-				Bkz[i][0] = b.z * cosPhase;
-				Bkz[i][1] = b.z * sinPhase;
-			} // for iz
-		} // for iy
-	} // for ix
-
-	executeInverseFFTInplace(grid, Bkx, Bky, Bkz);
-
-	fftwf_free(Bkx);
-	fftwf_free(Bky);
-	fftwf_free(Bkz);
-
-	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
+GridTurbulence::GridTurbulence(double Brms, double lMin, double lMax, double sindex, unsigned int seed)
+	: TurbulentField(Brms, sindex), lMin(lMin), lMax(lMax), seed(seed) {
+	initGrid();
+	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed);
 }
 
-void initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed, double H) {
-
-	checkGridRequirements(grid, lMin, lMax);
-
-	Vector3d spacing = grid->getSpacing();
-	size_t n = grid->getNx(); // size of array
-	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
-
-	// arrays to hold the complex vector components of the B(k)-field
-	fftwf_complex *Bkx, *Bky, *Bkz;
-	Bkx = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
-	Bky = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
-	Bkz = (fftwf_complex*) fftwf_malloc(sizeof(fftwf_complex) * n * n * n2);
-
-	Random random;
-	if (seed != 0)
-		random.seed(seed); // use given seed
-
-	// calculate the n possible discrete wave numbers
-	double K[n];
-	for (int i = 0; i < n; i++)
-		K[i] = (double) i / n - i / (n / 2);
-
-	// construct the field in configuration space
-	int i;
-	double k;
-
-	// only used if there is a helicity
-	double Bktot, Bkplus, Bkminus, thetaplus, thetaminus;
-
-	double kMin = spacing.x / lMax;
-	double kMax = spacing.x / lMin;
-	Vector3f b; // real b-field vector
-	Vector3f ek, e1, e2; // orthogonal base
-	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
-
-	for (size_t ix = 0; ix < n; ix++) {
-		for (size_t iy = 0; iy < n; iy++) {
-			for (size_t iz = 0; iz < n2; iz++) {
-
-				i = ix * n * n2 + iy * n2 + iz;
-				ek.setXYZ(K[ix], K[iy], K[iz]);
-				k = ek.getR();
-
-				// wave outside of turbulent range -> B(k) = 0
-				if ((k < kMin) || (k > kMax)) {
-					Bkx[i][0] = 0;
-					Bkx[i][1] = 0;
-					Bky[i][0] = 0;
-					Bky[i][1] = 0;
-					Bkz[i][0] = 0;
-					Bkz[i][1] = 0;
-					continue;
-				}
-
-				// construct an orthogonal base ek, e1, e2
-				// (for helical fields together with the real transform the following convention
-				// must be used: e1(-k) = e1(k), e2(-k) = - e2(k)
-				if (ek.getAngleTo(n0) < 1e-3) { // ek parallel to (1,1,1)
-					e1.setXYZ(-1, 1, 0);
-					e2.setXYZ(1, 1, -2);
-				} else { // ek not parallel to (1,1,1)
-					e1 = n0.cross(ek);
-					e2 = ek.cross(e1);
-				}
-				e1 /= e1.getR();
-				e2 /= e2.getR();
-
-
-				double Bkprefactor = mu0 / (4 * M_PI * pow(k, 3));
-				Bktot = fabs(random.randNorm() * pow(k, alpha / 2));
-				Bkplus  = Bkprefactor * sqrt((1 + H) / 2) * Bktot;
-				Bkminus = Bkprefactor * sqrt((1 - H) / 2) * Bktot;
-				thetaplus = 2 * M_PI * random.rand();
-				thetaminus = 2 * M_PI * random.rand();
-				double ctp = cos(thetaplus);
-				double stp = sin(thetaplus);
-				double ctm = cos(thetaminus);
-				double stm = sin(thetaminus);
-
-				Bkx[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.x + (-Bkplus * stp + Bkminus * stm) * e2.x) / sqrt(2);
-				Bkx[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.x + ( Bkplus * ctp - Bkminus * ctm) * e2.x) / sqrt(2);
-				Bky[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.y + (-Bkplus * stp + Bkminus * stm) * e2.y) / sqrt(2);
-				Bky[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.y + ( Bkplus * ctp - Bkminus * ctm) * e2.y) / sqrt(2);
-				Bkz[i][0] = ((Bkplus * ctp + Bkminus * ctm) * e1.z + (-Bkplus * stp + Bkminus * stm) * e2.z) / sqrt(2);
-				Bkz[i][1] = ((Bkplus * stp + Bkminus * stm) * e1.z + ( Bkplus * ctp - Bkminus * ctm) * e2.z) / sqrt(2);
-
-				Vector3f BkRe(Bkx[i][0], Bky[i][0], Bkz[i][0]);
-				Vector3f BkIm(Bkx[i][1], Bky[i][1], Bkz[i][1]);
-			} // for iz
-		} // for iy
-	} // for ix
-
-	executeInverseFFTInplace(grid, Bkx, Bky, Bkz);
-
-	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
+GridTurbulence::GridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, unsigned int seed) 
+	: TurbulentField(Brms, sindex), gridPtr(grid), lMin(lMin), lMax(lMax), seed(seed) {
+	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed);
 }
 
-void initTurbulenceWithBendover(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed, double lambda) {
+Vector3d GridTurbulence::getField(const Vector3d& pos) const {
+	return gridPtr->interpolate(pos);
+}
 
-	checkGridRequirements(grid, lMin, lMax);
+double GridTurbulence::getCorrelationLength() const {
+	return turbulentCorrelationLength(lMin, lMax, -sindex - 2);
+}
 
+double GridTurbulence::turbulentCorrelationLength(double lMin, double lMax, double s) {
+	double r = lMin / lMax;
+	return lMax / 2 * (s - 1) / s * (1 - pow(r, s)) / (1 - pow(r, s - 1));
+}
+
+void GridTurbulence::initGrid() {
+	gridPtr = new Grid3f(Vector3d(-boxSize/2), gridSize, spacing);
+}
+
+void GridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed) {
+
+	checkGridRequirementsTEMP(grid, lMin, lMax);
+	
 	Vector3d spacing = grid->getSpacing();
 	size_t n = grid->getNx(); // size of array
 	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
@@ -386,7 +212,7 @@ void initTurbulenceWithBendover(ref_ptr<Grid3f> grid, double Brms, double lMin, 
 	//double kMax = 2*M_PI / lMin; // * 2 * spacing.x; // spacing.x / lMin;
 	double kMin = spacing.x / lMax;
 	double kMax = spacing.x / lMin;
-	lambda = lambda / spacing.x * 2*M_PI;
+	auto lambda = l_bendover / spacing.x * 2*M_PI;
 
 	Vector3f b; // real b-field vector
 	Vector3f ek, e1, e2; // orthogonal base
@@ -448,7 +274,7 @@ void initTurbulenceWithBendover(ref_ptr<Grid3f> grid, double Brms, double lMin, 
 		} // for iy
 	} // for ix
 
-	executeInverseFFTInplace(grid, Bkx, Bky, Bkz);
+	executeInverseFFTInplaceTEMP(grid, Bkx, Bky, Bkz);
 
 	fftwf_free(Bkx);
 	fftwf_free(Bky);
@@ -457,6 +283,6 @@ void initTurbulenceWithBendover(ref_ptr<Grid3f> grid, double Brms, double lMin, 
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
 
-#endif // CRPROPA_HAVE_FFTW3F
-
 } // namespace crpropa
+
+#endif // CRPROPA_HAVE_FFTW3F

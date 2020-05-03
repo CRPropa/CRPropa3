@@ -372,7 +372,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
-%include "crpropa/GridTurbulence.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
 %template(Grid3fRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
@@ -410,6 +409,10 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/PT11Field.h"
 %include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
+%include "crpropa/magneticField/turbulentField/TurbulentField.h"
+%include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 

@@ -25,7 +25,7 @@ namespace crpropa {
  Galactic center at the origin, the x-axis pointing in the opposite direction of
  the Sun, and the z-axis pointing towards Galactic north.
 
- The regular field components (disk, toroidal halo and polodial halo field) 
+ The regular field components (disk, toroidal halo and polodial halo field)
  may be turned on and off individually.
  */
 class JF12Field: public MagneticField {
@@ -60,10 +60,10 @@ protected:
 
 	// Striated field ---------------------------------------------------------
 	double sqrtbeta;       // relative strength of striated field
-	ref_ptr<ScalarGrid> striatedGrid;
+	ref_ptr<Grid1f> striatedGrid;
 
 	// Turbulent field --------------------------------------------------------
-	ref_ptr<VectorGrid> turbulentGrid;
+	ref_ptr<Grid3f> turbulentGrid;
 	// disk
 	double bDiskTurb[8]; // field strengths in arms at r=5 kpc
 	double bDiskTurb5;   // field strength at r<5kpc
@@ -88,16 +88,16 @@ public:
 	 * Set a striated grid and activate the striated field component
 	 * @param grid	scalar grid containing random +1/-1 values, 100 parsec grid spacing
 	 */
-	void setStriatedGrid(ref_ptr<ScalarGrid> grid);
+	void setStriatedGrid(ref_ptr<Grid1f> grid);
 
 	/**
 	 * Set a turbulent grid and activate the turbulent field component
 	 * @param grid	vector grid containing a random field of Brms = 1
 	 */
-	void setTurbulentGrid(ref_ptr<VectorGrid> grid);
+	void setTurbulentGrid(ref_ptr<Grid3f> grid);
 
-	ref_ptr<ScalarGrid> getStriatedGrid();
-	ref_ptr<VectorGrid> getTurbulentGrid();
+	ref_ptr<Grid1f> getStriatedGrid();
+	ref_ptr<Grid3f> getTurbulentGrid();
 
 	void setUseRegularField(bool use);
 	virtual void setUseStriatedField(bool use);
@@ -132,6 +132,23 @@ public:
 
 	// All set field components
 	Vector3d getField(const Vector3d& pos) const;
+};
+
+
+/**
+ @class JF12FieldPlanck
+ @brief JF12FieldPlanck: the JF12 galactic magnetic field model with corrections
+ suggested by the Planck Collaboration
+
+ See: Planck Collaboration, "Planck intermediate results. XLII.
+ Large-scale Galactic magnetic fields", A&A 596 (2016) A103;
+ arXiv:1601.00546
+
+ This variant of the JF12 field uses only different parameters compared to the standard JF12 implementation.
+  */
+class PlanckJF12bField: public JF12Field {
+	public:
+		PlanckJF12bField();
 };
 
 } // namespace crpropa

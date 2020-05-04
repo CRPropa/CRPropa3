@@ -20,7 +20,7 @@ double turbulentCorrelationLength(double lMin, double lMax, double alpha) {
 
 #ifdef CRPROPA_HAVE_FFTW3F
 
-std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid> grid) {
+std::vector<std::pair<int, float> > gridPowerSpectrum(ref_ptr<Grid3f> grid) {
 	
 	double rms = rmsFieldStrength(grid);
 	size_t n = grid->getNx(); // size of array
@@ -41,7 +41,7 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 		for (size_t iy = 0; iy < n; iy++) {
 			for (size_t iz = 0; iz < n; iz++) {
 				i = ix * n * n + iy * n + iz;
-				Vector3<GridPrecision> &b = grid->get(ix, iy, iz);
+				Vector3<float> &b = grid->get(ix, iy, iz);
 				Bx[i][0] = b.x / rms;
 				By[i][0] = b.y / rms;
 				Bz[i][0] = b.z / rms;
@@ -63,8 +63,8 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 	fftwf_execute(plan_z);
 	fftwf_destroy_plan(plan_z);
 
-	GridPrecision power;
-	std::map<size_t, std::pair<GridPrecision, int> > spectrum;
+	float power;
+	std::map<size_t, std::pair<float, int> > spectrum;
 	int k;
 
 	for (size_t ix = 0; ix < n; ix++) {
@@ -93,8 +93,8 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 	fftwf_free(Bky);
 	fftwf_free(Bkz);
 
-	std::vector<std::pair<int, GridPrecision> > points;
-	for(std::map<size_t, std::pair<GridPrecision, int> >::iterator it = spectrum.begin(); it != spectrum.end(); ++it) {
+	std::vector<std::pair<int, float> > points;
+	for(std::map<size_t, std::pair<float, int> >::iterator it = spectrum.begin(); it != spectrum.end(); ++it) {
         	points.push_back(std::make_pair(
 					it->first,
 					(it->second).first/(it->second).second));
@@ -106,7 +106,7 @@ std::vector<std::pair<int, GridPrecision> > gridPowerSpectrum(ref_ptr<VectorGrid
 /* Helper functions for synthetic turbulent field models */
 
 // Check the grid properties before the FFT procedure
-void checkGridRequirements(ref_ptr<VectorGrid> grid, double lMin, double lMax) {
+void checkGridRequirements(ref_ptr<Grid3f> grid, double lMin, double lMax) {
 	size_t Nx = grid->getNx();
 	size_t Ny = grid->getNy();
 	size_t Nz = grid->getNz();
@@ -125,7 +125,7 @@ void checkGridRequirements(ref_ptr<VectorGrid> grid, double lMin, double lMax) {
 }
 
 // Execute inverse discrete FFT in-place for a 3D grid, from complex to real space
-void executeInverseFFTInplace(ref_ptr<VectorGrid> grid, fftwf_complex* Bkx, fftwf_complex* Bky, fftwf_complex* Bkz) {
+void executeInverseFFTInplace(ref_ptr<Grid3f> grid, fftwf_complex* Bkx, fftwf_complex* Bky, fftwf_complex* Bkz) {
 
 	size_t n = grid->getNx(); // size of array
 	size_t n2 = (size_t) floor(n / 2) + 1; // size array in z-direction in configuration space
@@ -162,7 +162,7 @@ void executeInverseFFTInplace(ref_ptr<VectorGrid> grid, fftwf_complex* Bkx, fftw
 	}
 }
 
-void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax, double alpha, int seed) {
+void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed) {
 
 	checkGridRequirements(grid, lMin, lMax);
 
@@ -261,7 +261,7 @@ void initTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double l
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
 
-void initHelicalTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax, double alpha, int seed, double H) {
+void initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed, double H) {
 
 	checkGridRequirements(grid, lMin, lMax);
 
@@ -359,7 +359,7 @@ void initHelicalTurbulence(ref_ptr<VectorGrid> grid, double Brms, double lMin, d
 	scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
 }
 
-void initTurbulenceWithBendover(ref_ptr<VectorGrid> grid, double Brms, double lMin, double lMax, double alpha, int seed, double lambda) {
+void initTurbulenceWithBendover(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, int seed, double lambda) {
 
 	checkGridRequirements(grid, lMin, lMax);
 

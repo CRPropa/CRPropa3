@@ -4,10 +4,41 @@
 
 ### New features:
 
+* Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
+	Mikhail Zotov for contributing.
+
 ### Features that are deprecated and will be removed after this release:
 
 ### New plugins and resources linked on the webpages:
 
+## CRPropa v3.1.6
+
+### Bug fixes:
+
+* Fix of (#254): Redshift evolution in PhotoPionProduction
+  The reshift evolution was always handled with simple scaling and never with
+  the more accurate 2 dimensional interpolation.
+
+### New features:
+
+* New source feature SourceLambertDistributionOnSphere
+  Simplifies simulations of scenarios with an initially isotropic and homogeneous
+  distribution of cosmic rays on a sphere, e.g. for investigation of propagation
+  of extagalactic cosmic rays in the Milky Way  (see issue #246 and pull
+  request #247)
+* For PhotoPionProduction now a two dimensional interpolation of the redshift
+  evolution is available (see pull request  #255)
+* A new break condition MinimumChargeNumber is added (see pull request #256)
+* Vector3 now has index based access to its components. This improves
+  interoperability with third party libraries, in particular with numpy arrays.
+  (see pull request #262)
+* Random seeds can be accessed from python (see pull request #263)
+* New galactic magnetic field model by Terral & Ferriere (2017) (see pull request #258)
+* Reimplementation of SOPHIA's photon field sampling used in
+PhotoPionProduction in c++, leading to a factor 2-3 speed up of the
+module (see pull request #260).
+* Introducing a method, sophiaEvent(onProton, Eprimary, Ephoton), to
+directly call SOPHIA's event generator from python (see pull request #260).
 
 
 ## CRPropa v3.1.5

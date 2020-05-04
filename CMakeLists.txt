@@ -8,7 +8,7 @@ else(APPLE)
 endif(APPLE)
 
 project(CRPropa Fortran C CXX)
-set(CRPROPA_RELEASE_VERSION 3.1.5+)  # Update for new release
+set(CRPROPA_RELEASE_VERSION >3.1.6)  # Update for new release
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -395,6 +395,7 @@ add_library(crpropa SHARED
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/PT11Field.cpp
+    src/magneticField/TF17Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
 	src/advectionField/AdvectionField.cpp
 	src/massDistribution/Nakanishi.cpp
@@ -416,16 +417,12 @@ find_package(PythonLibs)
 
 if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
-	find_package(SWIG REQUIRED)
+	find_package(SWIG 3.0 REQUIRED)
 	include(python/Python.cmake)
 	include_directories(${PYTHON_INCLUDE_PATH})
 
-	if (SWIG_VERSION VERSION_LESS "2.0")
-		set (ENABLE_SWIG_BUILTIN OFF)
-	else (SWIG_VERSION VERSION_LESS "2.0")
-		# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-    option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
-	endif (SWIG_VERSION VERSION_LESS "2.0")
+	# use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
+	option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
 
 	if(ENABLE_SWIG_BUILTIN)
 		set(BUILTIN "-builtin")
@@ -450,10 +447,15 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		MESSAGE(STATUS "Numpy not found.")
 	endif(numpyIncludePath)
 
+	set(SWIG_INCLUDES)
+	foreach(p in ${SWIG_INCLUDE_DIRECTORIES})
+		list(APPEND SWIG_INCLUDES -I${p})
+	endforeach()
+
 	file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
 	set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
-    COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
+		COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${SWIG_INCLUDES} ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
 		DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
 	add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)

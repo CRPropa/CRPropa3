@@ -205,6 +205,19 @@ public:
 };
 
 /**
+ @class ObserverParticleIdVeto
+ @brief Custom veto for user-defined particle types.
+ */
+class ObserverParticleIdVeto: public ObserverFeature {
+private:
+	int vetoParticleId;
+public:
+	ObserverParticleIdVeto(int pId);
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+/**
  @class ObserverTimeEvolution
  @brief Observes the time evolution of the candidates (phase-space elements)
  This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in regular timeintervals and limits the nextStep of candidates to prevent overshooting of detection intervals.

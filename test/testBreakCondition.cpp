@@ -53,8 +53,8 @@ TEST(MinimumChargeNumber, test) {
 	EXPECT_TRUE(c.hasProperty("Rejected"));
 }
 
-TEST(MinimumEnergyParticle, test) {
-	MinimumEnergyParticle minEnergy(1);
+TEST(MinimumEnergyPerParticleId, test) {
+	MinimumEnergyPerParticleId minEnergy(1);
 	minEnergy.add(22, 10);
 	minEnergy.add(12, 2);
 	minEnergy.add(11, 20);

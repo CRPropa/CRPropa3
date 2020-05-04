@@ -102,21 +102,21 @@ public:
 };
 
 /**
- @class MinimumEnergyParticle
+ @class MinimumEnergyPerParticleId
  @brief Deactivates the candidate below a minimum energy for specific particle Ids.
 
  This modules deactivates the candidate below a given minimum energy for specific particle types.
  In that case the property ("Deactivated", module::description) is set.
- Care should be taken when calling this module multiple times (use consistent global energy).
+ All particles whose minimum energies are not specified follow the more general minEnergyOthers condition.
  */
-class MinimumEnergyParticle: public AbstractCondition {
+class MinimumEnergyPerParticleId: public AbstractCondition {
 	std::vector<double> minEnergies;
 	std::vector<int> particleIds;
-	double minEnergyGlobal;
+	double minEnergyOthers;
 public:
-	MinimumEnergyParticle(double minEnergyGlobal = 0);
-	void setMinimumGlobalEnergy(double energy);
-	double getMinimumGlobalEnergy() const;
+	MinimumEnergyPerParticleId(double minEnergyOthers = 0);
+	void setMinimumEnergyOthers(double energy);
+	double getMinimumEnergyOthers() const;
 	void add(int id, double energy);
 	std::string getDescription() const;
 	void process(Candidate *candidate) const;

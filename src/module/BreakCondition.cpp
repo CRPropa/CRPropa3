@@ -182,41 +182,42 @@ std::string MinimumChargeNumber::getDescription() const {
 }
 
 //*****************************************************************************
-MinimumEnergyParticle::MinimumEnergyParticle(double minEnergyGlobal) {
-	setMinimumGlobalEnergy(minEnergyGlobal);
+MinimumEnergyPerParticleId::MinimumEnergyPerParticleId(double minEnergyOthers) {
+	setMinimumEnergyOthers(minEnergyOthers);
 }
 
-void MinimumEnergyParticle::add(int id, double energy) {
+void MinimumEnergyPerParticleId::add(int id, double energy) {
 	particleIds.push_back(id);
 	minEnergies.push_back(energy);
 }
 
-void MinimumEnergyParticle::setMinimumGlobalEnergy(double energy) {
-	minEnergyGlobal = energy;
+void MinimumEnergyPerParticleId::setMinimumEnergyOthers(double energy) {
+	minEnergyOthers = energy;
 }
 
-double MinimumEnergyParticle::getMinimumGlobalEnergy() const {
-	return minEnergyGlobal;
+double MinimumEnergyPerParticleId::getMinimumEnergyOthers() const {
+	return minEnergyOthers;
 }
 
-void MinimumEnergyParticle::process(Candidate *c) const {
+void MinimumEnergyPerParticleId::process(Candidate *c) const {
 	for (int i = 0; i < particleIds.size(); i++) {
 		if (c->current.getId() == particleIds[i]) {
-			if (c->current.getEnergy() < minEnergies[i]) {
+			if (c->current.getEnergy() < minEnergies[i])
 				reject(c);
-			} else
+			else
 				return;
 		}
 	}
-	if (c->current.getEnergy() < minEnergyGlobal)
+
+	if (c->current.getEnergy() < minEnergyOthers)
 		reject(c);
 	else
 		return;
 }
 
-std::string MinimumEnergyParticle::getDescription() const {
+std::string MinimumEnergyPerParticleId::getDescription() const {
 	std::stringstream s;
-	s << "Minimum energy global: " << minEnergyGlobal / eV << " eV";
+	s << "Minimum energy for non-specified particles: " << minEnergyOthers / eV << " eV";
 	for (int i = 0; i < minEnergies.size(); i++) {
 		s << "  for particle " << particleIds[i] << " : " << minEnergies[i] / eV << " eV";
 	}

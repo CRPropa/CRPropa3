@@ -36,6 +36,9 @@ Contents
 
    pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
 
+   pages/AdditionalResources.rst
+
+
 .. toctree::
    :caption: API
    :maxdepth: 2

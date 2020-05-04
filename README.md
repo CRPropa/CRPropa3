@@ -21,13 +21,18 @@ flexible simulation setup with python steering and shared-memory
 parallelization.
 
 
-## Try it out
+## Interactive Online Demo
 You can try out CRPropa online at [vispa.physik.rwth-aachen.de](https://vispa.physik.rwth-aachen.de/).
 Use the guest login and go to the CRPropa example via "VISPA Cluster" --> "Open Examples".
 
 
 ## Installation and Documentation
-Installation instructions, usage examples  and API documentation  can be found on the [documentation web site of
+To install CRPropa, download and unzip either the
+
+* [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) (recommended),
+* or [current development version](https://github.com/CRPropa/CRPropa3).
+
+Installation instructions, usage examples  and API documentation can be found on the [documentation web site of
 CRPropa](http://crpropa.github.io/CRPropa3/).
 
 
@@ -44,15 +49,15 @@ To receive announcements etc., please subscribe to our mailing list by sending
 a mail with subject: subscribe crpropa-user to sympa@desy.de from the address
 you wish to subscribe.
 
-### Howto cite CRPropa
+## Howto cite CRPropa
 If you use CRPropa 3 for your research, please cite
 
-**JCAP 1605 (2016) no.05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142)**
+**JCAP 1605 (2016) no. 05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142)**
 
 as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/howto_cite_crpropa.html) dependent on the components you are using.
 
 
-### Publications based on CRPropa
+## Publications based on CRPropa
 An extensive list of publications using CRPropa can be found via
 [inSPIRE](http://inspirehep.net/search?ln=en&ln=en&p=refersto%3Arecid%3A1322902+or+refersto%3Arecid%3A1432676+or+refersto%3Arecid%3A1242078&of=hb&action_search=Search&sf=earliestdate&so=d&rm=&rg=25&sc=0).
 

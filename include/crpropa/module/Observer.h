@@ -205,14 +205,14 @@ public:
 };
 
 /**
- @class ObserverCustomVeto
+ @class ObserverParticleIdVeto
  @brief Custom veto for user-defined particle types.
  */
-class ObserverCustomVeto: public ObserverFeature {
+class ObserverParticleIdVeto: public ObserverFeature {
 private:
 	int vetoParticleId;
 public:
-	ObserverCustomVeto(int pId);
+	ObserverParticleIdVeto(int pId);
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
 };

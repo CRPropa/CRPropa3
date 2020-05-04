@@ -81,8 +81,6 @@ option(ENABLE_TESTING "Build tests and enable test target" ON)
 if(ENABLE_TESTING)
 	include_directories(libs/gtest/include)
 	add_subdirectory(libs/gtest)
-	list(APPEND CRPROPA_EXTRA_LIBRARIES gtest)
-	list(APPEND CRPROPA_EXTRA_INCLUDES libs/gtest/include)
 	if(APPLE)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGTEST_USE_OWN_TR1_TUPLE=1")
 	endif(APPLE)
@@ -484,7 +482,6 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include FILES_MATCHIN
 install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 install(DIRECTORY libs/kiss/include/ DESTINATION include)
-install(DIRECTORY libs/gtest/include/ DESTINATION include)
 
 # ------------------------------------------------------------------
 # Documentation

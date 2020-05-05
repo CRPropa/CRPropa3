@@ -3,7 +3,6 @@
 
 *~
 
-doc/*
 build*
 data/*
 data-tools/*
@@ -21,3 +20,10 @@ cmake/CMakeFiles/
 
 *.png
 *.pyc
+
+*.txt
+*.pdf
+*.dat
+*.ipynb_checkpoints
+*.idea
+

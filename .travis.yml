@@ -7,7 +7,7 @@ addons:
         - gfortran-6
         - swig
         - libfftw3-dev
-        - libcfitsio3-dev
+        - libcfitsio-dev
         - libmuparser-dev
         - python-dev
         - python-numpy
@@ -24,6 +24,8 @@ addons:
         - libiomp-dev
         - doxygen
         - graphviz
+        - pandoc
+        - python3-pip
       sources: &sources
         - ubuntu-toolchain-r-test
 cache:
@@ -32,26 +34,26 @@ cache:
 matrix:
   include:
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
       env:
         - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
         - PYTHON_EXECUTABLE=/usr/bin/python3
         - BUILD_DOC=true
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python3 FC=gfortran-6
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
       env:
          - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
          - PYTHON_EXECUTABLE=/usr/bin/python2
     - os : linux
-      dist: xenial
+      dist: bionic
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python2 FC=gfortran-6
@@ -88,20 +90,38 @@ before_script:
 script:
   - VERBOSE=1 make
   - make test
+  - |
+    if [ $BUILD_DOC ]; then
+      echo "Building Documentation"
+      pip3 install m2r==0.2.1 Sphinx==1.7.9 nbsphinx==0.3.5 breathe==4.10.0 exhale==0.2.3  sphinx-rtd-theme==0.4.3 recommonmark==0.6.0
+      cmake ..
+      make doc
+      touch doc/.nojekyll
+    fi
+
 after_failure:
   - cat Testing/Temporary/LastTest.log
 after_success:
   - |
     if [ $BUILD_DOC ] && [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_REPO_SLUG = "CRPropa/CRPropa3" ]; then
-      make doc
-      openssl aes-256-cbc -K $encrypted_0581d1b3cf0a_key -iv $encrypted_0581d1b3cf0a_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
+      echo "Deploying Documentation"
+      openssl aes-256-cbc -K $encrypted_1e0416dc83f2_key -iv $encrypted_1e0416dc83f2_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
       chmod 600 travis_deploy
       eval "$(ssh-agent -s)"
       ssh-add travis_deploy
-      cd html
+      cd doc
       git init
       git checkout -b gh-pages
       git add .
       git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
       git push -f --set-upstream git@github.com:CRPropa/CRPropa3.git gh-pages
+      cd ..
+      echo "Deploying Webpage"
+      openssl aes-256-cbc -K $encrypted_4e6c44abce7b_key -iv $encrypted_4e6c44abce7b_iv -in www_deploy.enc -out www_deploy -d
+      git clone git@github.com:CRPropa/crpropa.github.io.git
+      cd crpropa.github.io
+      pandoc ../../README.md -o index.html
+      git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT` index.html
+      git push
+      cd ..
     fi

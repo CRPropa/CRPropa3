@@ -1,0 +1,3 @@
+Energy Losses
+================
+.. doxygengroup:: EnergyLosses

@@ -35,7 +35,7 @@ std::string photonFieldName(PhotonField photonField);
 
 
 /**
- @class photonFieldSampling
+ @class PhotonFieldSampling
  @brief Reimplementation of SOPHIA photon sampling. Naming and unit conventions are taken from SOPHIA to ease comparisions.
  */
 class PhotonFieldSampling {
@@ -63,11 +63,11 @@ protected:
 	// - output: photon density per unit energy [#/(eVcm^3)]
 	double getPhotonDensity(double eps, double z_in) const;
 
-	// called by: sample_eps  
-	// - input: s [GeV^2] 
+	// called by: sample_eps
+	// - input: s [GeV^2]
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
 	double functs(double s, bool onProton) const;
-	
+
 	// called by: sample_eps, gaussInt
 	// - input: photon energy eps [eV], E_in [GeV]
 	// - output: probability to encounter photon of energy eps

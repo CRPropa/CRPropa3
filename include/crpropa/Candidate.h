@@ -18,7 +18,7 @@ namespace crpropa {
  */
 
 /**
- @class Candidate
+ @class Candidate Candidate.h include/crpropa/Candidate.h
  @brief All information about the cosmic ray.
 
  The Candidate is a passive object, that holds the information about the state

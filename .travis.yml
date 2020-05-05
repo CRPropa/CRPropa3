@@ -118,6 +118,7 @@ after_success:
       cd ..
       echo "Deploying Webpage"
       openssl aes-256-cbc -K $encrypted_4e6c44abce7b_key -iv $encrypted_4e6c44abce7b_iv -in www_deploy.enc -out www_deploy -d
+      ssh-add www_deploy
       git clone git@github.com:CRPropa/crpropa.github.io.git
       cd crpropa.github.io
       pandoc ../../README.md -o index.html

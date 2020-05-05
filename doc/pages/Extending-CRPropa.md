@@ -68,7 +68,7 @@ print c.getRedshift()
 ```
 
 
-### Manual simulation processing
+### Manual Simulation Processing
 If necessary, the simulation chain (ModuleList) and the cosmic ray source (Source, SourceFeature) can be
 replaced by custom loops.
 

@@ -49,7 +49,7 @@ To receive announcements etc., please subscribe to our mailing list by sending
 a mail with subject: subscribe crpropa-user to sympa@desy.de from the address
 you wish to subscribe.
 
-## Howto cite CRPropa
+## How to cite CRPropa
 If you use CRPropa 3 for your research, please cite
 
 **JCAP 1605 (2016) no. 05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142)**

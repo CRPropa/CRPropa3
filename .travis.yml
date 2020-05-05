@@ -103,7 +103,7 @@ after_failure:
   - cat Testing/Temporary/LastTest.log
 after_success:
   - |
-    if [ $BUILD_DOC ] && [ $TRAVIS_BRANCH = "sphinx" ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_REPO_SLUG = "CRPropa/CRPropa3" ]; then
+    if [ $BUILD_DOC ] && [ $TRAVIS_BRANCH = "master" ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_REPO_SLUG = "CRPropa/CRPropa3" ]; then
       echo "Deploying Documentation"
       openssl aes-256-cbc -K $encrypted_1e0416dc83f2_key -iv $encrypted_1e0416dc83f2_iv -in ../.travis/travis_deploy.enc -out travis_deploy -d
       chmod 600 travis_deploy
@@ -116,12 +116,12 @@ after_success:
       git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT`
       git push -f --set-upstream git@github.com:CRPropa/CRPropa3.git gh-pages
       cd ..
-      #echo "Deploying Webpage"
-      #openssl aes-256-cbc -K $encrypted_4e6c44abce7b_key -iv $encrypted_4e6c44abce7b_iv -in www_deploy.enc -out www_deploy -d
-      #git clone git@github.com:CRPropa/crpropa.github.io.git
-      #cd crpropa.github.io
-      #pandoc ../../README.md -o index.html
-      #git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT` index.html
-      #git push
-      #cd ..
+      echo "Deploying Webpage"
+      openssl aes-256-cbc -K $encrypted_4e6c44abce7b_key -iv $encrypted_4e6c44abce7b_iv -in www_deploy.enc -out www_deploy -d
+      git clone git@github.com:CRPropa/crpropa.github.io.git
+      cd crpropa.github.io
+      pandoc ../../README.md -o index.html
+      git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT` index.html
+      git push
+      cd ..
     fi

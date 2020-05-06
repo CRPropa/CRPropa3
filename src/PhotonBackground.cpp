@@ -213,14 +213,15 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double E_in, dou
 	double gamma = E_in / mass;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
 	double photonDensity = getPhotonDensity(eps, z_in);
-	if (photonDensity == 0.) {
-		return 0.;
-	} else {
+	
+	if (photonDensity != 0.) {
 		double sMin = 1.1646;  // [GeV], head-on collision
 		double sMax = std::max(sMin, mass * mass + 2. * eps / 1.e9 * E_in * (1. + beta));
 		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
 		return photonDensity / eps / eps * sintegr / 8. / beta / E_in / E_in * 1.e18 * 1.e6;
 	}
+
+	return 0;
 }
 
 double PhotonFieldSampling::getPhotonDensity(double eps, double z_in) const {

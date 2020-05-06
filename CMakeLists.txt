@@ -572,9 +572,7 @@ if(ENABLE_TESTING)
 	target_link_libraries(testOutput crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testOutput testOutput)
 
-
-	CONFIGURE_FILE(test/testFunctionalGroups.cpp.in testFunctionalGroups.cpp)
-	add_executable(testFunctionalGroups testFunctionalGroups.cpp)
+	add_executable(testFunctionalGroups test/testFunctionalGroups.cpp)
 	target_link_libraries(testFunctionalGroups crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
 	add_test(testFunctionalGroups testFunctionalGroups)
 
@@ -591,18 +589,18 @@ if(ENABLE_TESTING)
 
 	# python tests
 	if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
-		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py.in testMagneticLensPythonInterface.py)
+		CONFIGURE_FILE(test/testMagneticLensPythonInterface.py testMagneticLensPythonInterface.py COPYONLY)
 		if(numpyIncludePath AND WITH_GALACTIC_LENSES)
 			add_test(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
 		endif(numpyIncludePath AND WITH_GALACTIC_LENSES)
 
-		CONFIGURE_FILE(test/testSimulationExecution.py.in testSimulationExecution.py)
+		CONFIGURE_FILE(test/testSimulationExecution.py testSimulationExecution.py COPYONLY)
 		add_test(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
 
-		CONFIGURE_FILE(test/testDiffusionSDE.py.in testDiffusionSDE.py)
+		CONFIGURE_FILE(test/testDiffusionSDE.py testDiffusionSDE.py COPYONLY)
 		add_test(testDiffusionSDE ${PYTHON_EXECUTABLE} testDiffusionSDE.py)
 
-		CONFIGURE_FILE(test/testPythonExtension.py.in testPythonExtension.py)
+		CONFIGURE_FILE(test/testPythonExtension.py testPythonExtension.py COPYONLY)
 		add_test(testPythonExtension ${PYTHON_EXECUTABLE} testPythonExtension.py)
 	endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 

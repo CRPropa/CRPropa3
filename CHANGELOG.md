@@ -6,6 +6,11 @@
 
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
 	Mikhail Zotov for contributing.
+* ParticleCollector can provide Candidates directly to ModuleList::run
+
+### Interface change:
+
+* ParticleCollector::getAll() -> ParticleCollector::getContainer()
 
 ### Features that are deprecated and will be removed after this release:
 

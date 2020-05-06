@@ -95,93 +95,23 @@ std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid) {
   return points;
 }
 
-// Check the grid properties before the FFT procedure
-void checkGridRequirementsTEMP(ref_ptr<Grid3f> grid, double lMin, double lMax) {
-  size_t Nx = grid->getNx();
-  size_t Ny = grid->getNy();
-  size_t Nz = grid->getNz();
-  Vector3d spacing = grid->getSpacing();
-
-  if ((Nx != Ny) or (Ny != Nz))
-    throw std::runtime_error("turbulentField: only cubic grid supported");
-  if ((spacing.x != spacing.y) or (spacing.y != spacing.z))
-    throw std::runtime_error("turbulentField: only equal spacing suported");
-  if (lMin < 2 * spacing.x)
-    throw std::runtime_error("turbulentField: lMin < 2 * spacing");
-  if (lMin >= lMax)
-    throw std::runtime_error("turbulentField: lMin >= lMax");
-  if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2)
-    throw std::runtime_error("turbulentField: lMax > size");
-}
-
-// Execute inverse discrete FFT in-place for a 3D grid, from complex to real
-// space
-void executeInverseFFTInplaceTEMP(ref_ptr<Grid3f> grid, fftwf_complex *Bkx,
-                                  fftwf_complex *Bky, fftwf_complex *Bkz) {
-
-  size_t n = grid->getNx(); // size of array
-  size_t n2 = (size_t)floor(n / 2) +
-              1; // size array in z-direction in configuration space
-
-  // in-place, complex to real, inverse Fourier transformation on each component
-  // note that the last elements of B(x) are unused now
-  float *Bx = (float *)Bkx;
-  fftwf_plan plan_x = fftwf_plan_dft_c2r_3d(n, n, n, Bkx, Bx, FFTW_ESTIMATE);
-  fftwf_execute(plan_x);
-  fftwf_destroy_plan(plan_x);
-
-  float *By = (float *)Bky;
-  fftwf_plan plan_y = fftwf_plan_dft_c2r_3d(n, n, n, Bky, By, FFTW_ESTIMATE);
-  fftwf_execute(plan_y);
-  fftwf_destroy_plan(plan_y);
-
-  float *Bz = (float *)Bkz;
-  fftwf_plan plan_z = fftwf_plan_dft_c2r_3d(n, n, n, Bkz, Bz, FFTW_ESTIMATE);
-  fftwf_execute(plan_z);
-  fftwf_destroy_plan(plan_z);
-
-  // save to grid
-  int i;
-  for (size_t ix = 0; ix < n; ix++) {
-    for (size_t iy = 0; iy < n; iy++) {
-      for (size_t iz = 0; iz < n; iz++) {
-        i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
-        Vector3f &b = grid->get(ix, iy, iz);
-        b.x = Bx[i];
-        b.y = By[i];
-        b.z = Bz[i];
-      }
-    }
-  }
-}
-
-
-GridTurbulence::GridTurbulence(double Brms, double sindex, double qindex,
-                               double lBendover, double lMin, double lMax,
-                               int gridSize, double boxSize, unsigned int seed)
-    : TurbulentField(Brms, sindex, qindex, lBendover), lMin(lMin), lMax(lMax),
-      gridSize(gridSize), boxSize(boxSize), seed(seed),
-      spacing(boxSize / gridSize) {
-  initGrid();
-  initTurbulence(gridPtr, Brms, lMin, lMax, -sindex - 2, seed);
+GridTurbulence::GridTurbulence(ref_ptr<Grid3f> grid, double Brms, double sindex,
+                               double qindex, double lBendover, double lMin,
+                               double lMax, unsigned int seed)
+    : TurbulentField(Brms, sindex, qindex, lBendover), gridPtr(grid),
+      lMin(lMin), lMax(lMax), seed(seed) {
+  checkGridRequirements(gridPtr, lMin, lMax);
+  initTurbulence();
 }
 
 Vector3d GridTurbulence::getField(const Vector3d &pos) const {
   return gridPtr->interpolate(pos);
 }
 
-void GridTurbulence::initGrid() {
-  gridPtr = new Grid3f(Vector3d(-boxSize / 2), gridSize, spacing);
-}
+void GridTurbulence::initTurbulence() {
 
-void GridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
-                                    double lMin, double lMax, double alpha,
-                                    int seed) {
-
-  checkGridRequirementsTEMP(grid, lMin, lMax);
-
-  Vector3d spacing = grid->getSpacing();
-  size_t n = grid->getNx(); // size of array
+  Vector3d spacing = gridPtr->getSpacing();
+  size_t n = gridPtr->getNx(); // size of array
   size_t n2 = (size_t)floor(n / 2) +
               1; // size array in z-direction in configuration space
 
@@ -205,7 +135,7 @@ void GridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
   double k;
 
   // parameters goes for non-helical calculations
-  double theta, phase, cosPhase, sinPhase, amplitude;
+  double theta, phase, cosPhase, sinPhase;
 
   // double kMin = 2*M_PI / lMax; // * 2 * spacing.x; // spacing.x / lMax;
   // double kMax = 2*M_PI / lMin; // * 2 * spacing.x; // spacing.x / lMin;
@@ -253,10 +183,8 @@ void GridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
         theta = 2 * M_PI * random.rand();
         b = e1 * cos(theta) + e2 * sin(theta);
 
-        // normal distributed amplitude with mean = 0 and sigma = k^alpha/2
-        amplitude = k * lambda *
-                    pow(1.0 + k * k * lambda * lambda, (alpha / 2 - 1) / 2.);
-        b *= amplitude;
+        // normal distributed amplitude with mean = 0
+        b *= energySpectrum(k);
 
         // uniform random phase
         phase = 2 * M_PI * random.rand();
@@ -273,14 +201,78 @@ void GridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
     }   // for iy
   }     // for ix
 
-  executeInverseFFTInplaceTEMP(grid, Bkx, Bky, Bkz);
+  executeInverseFFTInplace(gridPtr, Bkx, Bky, Bkz);
 
   fftwf_free(Bkx);
   fftwf_free(Bky);
   fftwf_free(Bkz);
 
-  scaleGrid(grid, Brms / rmsFieldStrength(grid)); // normalize to Brms
+  scaleGrid(gridPtr, Brms / rmsFieldStrength(gridPtr)); // normalize to Brms
 }
+
+// Check the grid properties before the FFT procedure
+void GridTurbulence::checkGridRequirements(ref_ptr<Grid3f> grid, double lMin,
+                                           double lMax) {
+  size_t Nx = grid->getNx();
+  size_t Ny = grid->getNy();
+  size_t Nz = grid->getNz();
+  Vector3d spacing = grid->getSpacing();
+
+  if ((Nx != Ny) or (Ny != Nz))
+    throw std::runtime_error("turbulentField: only cubic grid supported");
+  if ((spacing.x != spacing.y) or (spacing.y != spacing.z))
+    throw std::runtime_error("turbulentField: only equal spacing suported");
+  if (lMin < 2 * spacing.x)
+    throw std::runtime_error("turbulentField: lMin < 2 * spacing");
+  if (lMin >= lMax)
+    throw std::runtime_error("turbulentField: lMin >= lMax");
+  if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2)
+    throw std::runtime_error("turbulentField: lMax > size");
+}
+
+// Execute inverse discrete FFT in-place for a 3D grid, from complex to real
+// space
+void GridTurbulence::executeInverseFFTInplace(ref_ptr<Grid3f> grid,
+                                              fftwf_complex *Bkx,
+                                              fftwf_complex *Bky,
+                                              fftwf_complex *Bkz) {
+
+  size_t n = grid->getNx(); // size of array
+  size_t n2 = (size_t)floor(n / 2) +
+              1; // size array in z-direction in configuration space
+
+  // in-place, complex to real, inverse Fourier transformation on each component
+  // note that the last elements of B(x) are unused now
+  float *Bx = (float *)Bkx;
+  fftwf_plan plan_x = fftwf_plan_dft_c2r_3d(n, n, n, Bkx, Bx, FFTW_ESTIMATE);
+  fftwf_execute(plan_x);
+  fftwf_destroy_plan(plan_x);
+
+  float *By = (float *)Bky;
+  fftwf_plan plan_y = fftwf_plan_dft_c2r_3d(n, n, n, Bky, By, FFTW_ESTIMATE);
+  fftwf_execute(plan_y);
+  fftwf_destroy_plan(plan_y);
+
+  float *Bz = (float *)Bkz;
+  fftwf_plan plan_z = fftwf_plan_dft_c2r_3d(n, n, n, Bkz, Bz, FFTW_ESTIMATE);
+  fftwf_execute(plan_z);
+  fftwf_destroy_plan(plan_z);
+
+  // save to grid
+  int i;
+  for (size_t ix = 0; ix < n; ix++) {
+    for (size_t iy = 0; iy < n; iy++) {
+      for (size_t iz = 0; iz < n; iz++) {
+        i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
+        Vector3f &b = grid->get(ix, iy, iz);
+        b.x = Bx[i];
+        b.y = By[i];
+        b.z = Bz[i];
+      }
+    }
+  }
+}
+
 
 } // namespace crpropa
 

@@ -5,7 +5,7 @@
 
 #include "crpropa/Grid.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
-#include "crpropa/magneticField/turbulentField/TurbulentField.h"
+#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 
 #include "kiss/logger.h"
 #include "kiss/string.h"
@@ -28,16 +28,7 @@ namespace crpropa {
  @class SimpleGridTurbulence
  @brief Turbulent grid-based magnetic field with a simple power-law spectrum
  */
-class SimpleGridTurbulence : public TurbulentField {
-private:
-  double lMin, lMax;
-  double boxSize, spacing;
-  int gridSize;
-  unsigned int seed;
-  ref_ptr<Grid3f> gridPtr;
-
-  void initGrid();
-
+class SimpleGridTurbulence : public GridTurbulence {
 public:
   /**
    Create a random initialization of a turbulent field.
@@ -46,14 +37,9 @@ public:
    range
    @param lMin	 Minimum physical scale of the turbulence
    @param lMax	 Maximum physical scale of the turbulence
-   @param gridSize Grid size (prefer 2^N, where N = int)
-   @param boxSize  The length of one side of the box in physical units
    @param seed	 Random seed
    */
-  SimpleGridTurbulence(double Brms, double sindex, double lMin, double lMax,
-                       int gridSize, double boxSize, unsigned int seed = 0);
-  SimpleGridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
-                       double lMax, double alpha = -11. / 3.,
+  SimpleGridTurbulence(ref_ptr<Grid3f> grid,double Brms, double sindex, double lMin, double lMax,
                        unsigned int seed = 0);
 
   /**
@@ -64,8 +50,6 @@ public:
   double getCorrelationLength() const;
   static double turbulentCorrelationLength(double lMin, double lMax,
                                            double sindex);
-
-  Vector3d getField(const Vector3d &pos) const;
 
   static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                              double lMax, double alpha, int seed);

@@ -92,9 +92,10 @@ float hsum_float_avx(__m256 x) {
 }
 #endif // defined(FAST_WAVES)
 
-PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q, double lBendover,
-	double lMin, double lMax, int Nm, int seed)
-  : TurbulentField(Brms, s, q, lBendover), lMin(lMin), lMax(lMax), Nm(Nm) {
+PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q,
+                                         double lBendover, double lMin,
+                                         double lMax, int Nm, int seed)
+    : TurbulentField(Brms, s, q, lBendover), lMin(lMin), lMax(lMax), Nm(Nm) {
 
 #ifdef FAST_WAVES
   KISS_LOG_INFO << "PlaneWaveTurbulence: Using SIMD TD13 implementation"

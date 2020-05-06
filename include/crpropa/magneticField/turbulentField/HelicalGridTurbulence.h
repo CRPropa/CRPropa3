@@ -5,7 +5,7 @@
 
 #include "crpropa/Grid.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
-#include "crpropa/magneticField/turbulentField/TurbulentField.h"
+#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 
 #include "kiss/logger.h"
 #include "kiss/string.h"
@@ -28,29 +28,16 @@ namespace crpropa {
  @class HelicalGridTurbulence
  @brief Turbulent grid-based magnetic field with a simple power-law spectrum
  */
-class HelicalGridTurbulence : public TurbulentField {
+class HelicalGridTurbulence : public GridTurbulence {
 private:
-  double lMin, lMax;
-  double boxSize, spacing;
-  int gridSize;
-  unsigned int seed;
-  ref_ptr<Grid3f> gridPtr;
-
-  void initGrid();
-
+  double H; 
 public:
-  HelicalGridTurbulence(double Brms, double lMin, double lMax,
-                        double sindex = 5. / 3., unsigned int seed = 0,
-                        double H = 0);
-  HelicalGridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
-                        double lMax, double alpha = -11. / 3.,
-                        unsigned int seed = 0, double H = 0);
+  HelicalGridTurbulence(ref_ptr<Grid3f> grid,double Brms,
+                        double sindex, double H,  double lMin, double lMax, unsigned int seed = 0);
 
   double getCorrelationLength() const;
   static double turbulentCorrelationLength(double lMin, double lMax,
                                            double sindex);
-
-  Vector3d getField(const Vector3d &pos) const;
 
   static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                              double lMax, double alpha, int seed, double H);

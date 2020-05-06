@@ -19,14 +19,10 @@ namespace crpropa {
  @brief Turbulent grid-based magnetic field with a general energy spectrum
  */
 class GridTurbulence : public TurbulentField {
-private:
+protected:
   double lMin, lMax;
-  double boxSize, spacing;
-  int gridSize;
   unsigned int seed;
   ref_ptr<Grid3f> gridPtr;
-
-  void initGrid();
 
 public:
   /**
@@ -39,29 +35,26 @@ public:
    @param lBendover Bend-over scale
    @param lMin	 Minimum physical scale of the turbulence
    @param lMax	 Maximum physical scale of the turbulence
-   @param gridSize Grid size (prefer 2^N, where N = int)
-   @param boxSize  The length of one side of the box in physical units
    @param seed	 Random seed
    */
-  GridTurbulence(double Brms, double sindex, double qindex, double lBendover,
-                 double lMin, double lMax, int gridSize, double boxSize,
+  GridTurbulence(ref_ptr<Grid3f> grid, double Brms, double sindex,
+                 double qindex, double lBendover, double lMin, double lMax,
                  unsigned int seed = 0);
 
   Vector3d getField(const Vector3d &pos) const;
 
-  void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
-                      double lMax, double alpha, int seed);
+  void initTurbulence();
+
+  /* Helper functions for synthetic turbulent field models */
+  // Check the grid properties before the FFT procedure
+  static void checkGridRequirements(ref_ptr<Grid3f> grid, double lMin,
+                                    double lMax);
+  // Execute inverse discrete FFT in-place for a 3D grid, from complex to real
+  // space
+  static void executeInverseFFTInplace(ref_ptr<Grid3f> grid, fftwf_complex *Bkx,
+                                       fftwf_complex *Bky, fftwf_complex *Bkz);
 };
 
-/* Helper functions for synthetic turbulent field models */
-
-// Check the grid properties before the FFT procedure
-void checkGridRequirementsTEMP(ref_ptr<Grid3f> grid, double lMin, double lMax);
-
-// Execute inverse discrete FFT in-place for a 3D grid, from complex to real
-// space
-void executeInverseFFTInplaceTEMP(ref_ptr<Grid3f> grid, fftwf_complex *Bkx,
-                                  fftwf_complex *Bky, fftwf_complex *Bkz);
 
 /**
  Calculate the omnidirectional power spectrum E(k) for a given turbulent field

@@ -54,13 +54,14 @@ TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 
 	auto gp = GridProperties(Vector3d(0, 0, 0), n, spacing);
     auto tf = SimpleGridTurbulence(gp, Brms, sindex, lMin, lMax);
+	auto grid = tf.getGrid();
 
 	double precision = 1e-7;
-	Vector3f bMean = tf.getMeanFieldVector();
+	Vector3f bMean = meanFieldVector(grid);
 	EXPECT_NEAR(0, bMean.x, precision);
 	EXPECT_NEAR(0, bMean.y, precision);
 	EXPECT_NEAR(0, bMean.z, precision);
-	EXPECT_NEAR(1, tf.getRmsFieldStrength(), precision);
+	EXPECT_NEAR(1, rmsFieldStrength(grid), precision);
 }
 
 TEST(testVectorFieldGrid, Turbulence_seed) {

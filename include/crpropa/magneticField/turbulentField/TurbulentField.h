@@ -11,6 +11,15 @@ namespace crpropa {
  */
 
 /**
+ @class TurbulenceSpectrum
+ @brief Defines the energy spectrum of turbulence
+ */
+
+class TurbulenceSpectrum {
+
+};
+
+/**
  @class TurbulentField
  @brief An abstract base class for different models of turbulent magnetic fields
 

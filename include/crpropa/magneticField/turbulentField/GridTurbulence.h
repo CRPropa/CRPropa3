@@ -46,10 +46,9 @@ public:
                  unsigned int seed = 0);
 
   Vector3d getField(const Vector3d &pos) const;
-
-  Vector3f getMeanFieldVector() const;
-  double getMeanFieldStrength() const;
-  double getRmsFieldStrength() const;
+  
+  /** Return a const reference to the grid */
+  const ref_ptr<Grid3f> & getGrid() const;
 
   /* Helper functions for synthetic turbulent field models */
   // Check the grid properties before the FFT procedure

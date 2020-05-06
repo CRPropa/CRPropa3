@@ -25,16 +25,8 @@ Vector3d GridTurbulence::getField(const Vector3d &pos) const {
   return gridPtr->interpolate(pos);
 }
 
-Vector3f GridTurbulence::getMeanFieldVector() const {
-	return meanFieldVector(gridPtr);
-}
-
-double GridTurbulence::getMeanFieldStrength() const {
-	return meanFieldStrength(gridPtr);
-}
-
-double GridTurbulence::getRmsFieldStrength() const {
-	return rmsFieldStrength(gridPtr);
+const ref_ptr<Grid3f> & GridTurbulence::getGrid() const {
+  return gridPtr;
 }
 
 void GridTurbulence::initTurbulence() {

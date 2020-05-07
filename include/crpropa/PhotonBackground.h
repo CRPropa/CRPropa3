@@ -18,13 +18,34 @@ namespace crpropa {
  */
 class PhotonField: public Referenced {
 public:
-	PhotonField(std::string fieldName, bool hasRedshiftDependence = true);
-	PhotonField() : PhotonField("CMB", false) {};
+	virtual double getPhotonDensity(double ePhoton, double z = 0.) const {
+		return 0.;
+	};
+	virtual double getRedshiftScaling(double z) const {  // returns overall comoving scaling factor (cf. CRPropa3-data/calc_scaling.py)
+		return 1.;
+	};
+	bool hasRedshiftDependence() const {
+		return this->isRedshiftDependent;
+	}
+	std::string getFieldName() const {
+		return this->fieldName;
+	}
 
+protected:
+	std::string fieldName = "AbstractPhotonField";
+	bool isRedshiftDependent = false;
+};
+
+/**
+ @class TabularPhotonField
+ @brief Photon field decorator for tabulated photon fields.
+ */
+class TabularPhotonField: public PhotonField {
+public:
+	TabularPhotonField(std::string fieldName, bool hasRedshiftDependence = true);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
-	double getRedshiftScaling(double z) const;  // returns overall comoving scaling factor (cf. CRPropa3-data/calc_scaling.py)
+	double getRedshiftScaling(double z) const;
 	bool hasRedshiftDependence() const;
-	std::string getFieldName() const;
 
 protected:
 	void initPhotonEnergy(std::string fieldName);
@@ -37,8 +58,19 @@ protected:
 	std::vector<double> photonDensity;
 	std::vector<double> redshifts;
 	std::vector<double> redshiftScalings;
-	bool isRedshiftDependent;
-	std::string fieldName;
+};
+
+/**
+ @class BlackbodyPhotonField
+ @brief Photon field decorator for black body photon fields.
+ */
+class BlackbodyPhotonField: public PhotonField {
+public:
+	BlackbodyPhotonField(std::string fieldName, double blackbodyTemperature);
+	double getPhotonDensity(double ePhoton) const;
+
+protected:
+	double blackbodyTemperature;
 };
 
 /**

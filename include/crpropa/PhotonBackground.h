@@ -2,22 +2,21 @@
 #define CRPROPA_PHOTONBACKGROUND_H
 
 #include "crpropa/Common.h"
+#include "crpropa/Referenced.h"
 
 #include <string>
 
 namespace crpropa {
-
 /**
  * \addtogroup PhotonFields
  * @{
  */
 
-
 /**
  @class PhotonField
- @brief photon field class fully defined with a range of photon energies, redshift and the field's density
+ @brief Abstract base class for photon fields.
  */
-class PhotonField {
+class PhotonField: public Referenced {
 public:
 	PhotonField(std::string fieldName, bool hasRedshiftDependence = true);
 	PhotonField() : PhotonField("CMB", false) {};

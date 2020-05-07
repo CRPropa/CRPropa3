@@ -11,21 +11,21 @@
 
 namespace crpropa {
 
-PhotonField::PhotonField(std::string fieldName, bool hasRedshiftDependence) {
+PhotonField::PhotonField(std::string fieldName, bool isRedshiftDependent) {
 	this->fieldName = fieldName;
-	this->hasRedshiftDependence = hasRedshiftDependence;
+	this->isRedshiftDependent = isRedshiftDependent;
 	if (this->fieldName == "CMB")
-		this->hasRedshiftDependence = false;
+		this->isRedshiftDependent = false;
 
 	initPhotonEnergy(this->fieldName);
 	initPhotonDensity(this->fieldName);
-	if (this->hasRedshiftDependence) {
+	if (this->isRedshiftDependent) {
 		initRedshift(this->fieldName);
 	}
 
 	checkInputData();
 
-	if (this->hasRedshiftDependence)
+	if (this->isRedshiftDependent)
 		initRedshiftScaling();
 }
 
@@ -33,12 +33,12 @@ std::string PhotonField::getFieldName() const {
 	return this->fieldName;
 }
 
-bool PhotonField::getHasRedshiftDependence() const {
-	return this->hasRedshiftDependence;
+bool PhotonField::hasRedshiftDependence() const {
+	return this->isRedshiftDependent;
 }
 
 double PhotonField::getRedshiftScaling(double z) const {
-	if (this->hasRedshiftDependence) {
+	if (this->isRedshiftDependent) {
 		if (z > this->redshifts.back()) {
 			return 0.;
 		} else if (z < this->redshifts.front()) {
@@ -52,7 +52,7 @@ double PhotonField::getRedshiftScaling(double z) const {
 }
 
 double PhotonField::getPhotonDensity(double ePhoton, double z) const {
-	if (this->hasRedshiftDependence) {
+	if (this->isRedshiftDependent) {
 		return interpolate2d(ePhoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
 	} else {
 		return interpolate(ePhoton, this->photonEnergies, this->photonDensity);
@@ -123,7 +123,7 @@ void PhotonField::initRedshiftScaling() {
 }
 
 void PhotonField::checkInputData() const {
-	if (this->hasRedshiftDependence) {
+	if (this->isRedshiftDependent) {
 		if (this->photonDensity.size() != this->photonEnergies.size() * this-> redshifts.size())
 			throw std::runtime_error("PhotonField::checkInputData: length of photon density input is unequal to length of photon energy input times length of redshift input");
 	} else {
@@ -146,7 +146,7 @@ void PhotonField::checkInputData() const {
 			throw std::runtime_error("PhotonField::checkInputData: a value in the photon density input is negative");
 	}
 
-	if (this->hasRedshiftDependence) {
+	if (this->isRedshiftDependent) {
 		if (this->redshifts[0] != 0.)
 			throw std::runtime_error("PhotonField::checkInputData: redshift input must start with zero");
 

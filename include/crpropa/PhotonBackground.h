@@ -24,7 +24,7 @@ public:
 
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;  // returns overall comoving scaling factor (cf. CRPropa3-data/calc_scaling.py)
-	bool getHasRedshiftDependence() const;
+	bool hasRedshiftDependence() const;
 	std::string getFieldName() const;
 
 protected:
@@ -38,7 +38,7 @@ protected:
 	std::vector<double> photonDensity;
 	std::vector<double> redshifts;
 	std::vector<double> redshiftScalings;
-	bool hasRedshiftDependence;
+	bool isRedshiftDependent;
 	std::string fieldName;
 };
 

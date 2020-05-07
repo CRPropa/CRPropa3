@@ -28,7 +28,7 @@ PhotoPionProduction::PhotoPionProduction(PhotonField field, bool photons, bool n
 void PhotoPionProduction::setPhotonField(PhotonField field) {
 	photonField = field;
 	if (haveRedshiftDependence) {
-		if (photonField.getHasRedshiftDependence()){
+		if (photonField.hasRedshiftDependence()){
 			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
 			haveRedshiftDependence = false;
 		}

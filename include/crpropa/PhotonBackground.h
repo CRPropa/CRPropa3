@@ -8,7 +8,7 @@
 namespace crpropa {
 
 /**
- * \addtogroup EnergyLosses
+ * \addtogroup PhotonFields
  * @{
  */
 

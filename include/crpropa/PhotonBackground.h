@@ -18,15 +18,29 @@ namespace crpropa {
  */
 class PhotonField: public Referenced {
 public:
+	/**
+	 returns comoving photon density [1/m^3].
+	 multiply with (1+z^3) for physical number density.
+	 @param ePhoton		photon energy [J]
+	 @param z			redshift
+	 */
 	virtual double getPhotonDensity(double ePhoton, double z = 0.) const {
 		return 0.;
 	};
-	virtual double getRedshiftScaling(double z) const {  // returns overall comoving scaling factor (cf. CRPropa3-data/calc_scaling.py)
+
+	/**
+	 returns overall comoving scaling factor
+	 (cf. CRPropa3-data/calc_scaling.py)
+	 @param z		redshift
+	 */
+	virtual double getRedshiftScaling(double z) const {
 		return 1.;
 	};
+
 	bool hasRedshiftDependence() const {
 		return this->isRedshiftDependent;
 	}
+
 	std::string getFieldName() const {
 		return this->fieldName;
 	}

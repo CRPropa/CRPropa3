@@ -3,7 +3,6 @@
 #include "crpropa/Units.h"
 #include "crpropa/Random.h"
 
-#include <vector>
 #include <fstream>
 #include <stdexcept>
 #include <limits>

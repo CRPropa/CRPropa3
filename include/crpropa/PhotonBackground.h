@@ -1,9 +1,9 @@
 #ifndef CRPROPA_PHOTONBACKGROUND_H
 #define CRPROPA_PHOTONBACKGROUND_H
 
-#include "crpropa/Common.h"
 #include "crpropa/Referenced.h"
 
+#include <vector>
 #include <string>
 
 namespace crpropa {

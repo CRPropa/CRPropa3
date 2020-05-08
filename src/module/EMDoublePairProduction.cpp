@@ -8,15 +8,15 @@
 
 namespace crpropa {
 
-EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField, bool haveElectrons, double limit) {
+EMDoublePairProduction::EMDoublePairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons, double limit) {
 	setPhotonField(photonField);
 	this->haveElectrons = haveElectrons;
 	this->limit = limit;
 }
 
-void EMDoublePairProduction::setPhotonField(PhotonField photonField) {
+void EMDoublePairProduction::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonField.getFieldName();
+	std::string fname = photonField->getFieldName();
 	setDescription("EMDoublePairProduction: " + fname);
 	initRate(getDataPath("EMDoublePairProduction/rate_" + fname + ".txt"));
 }
@@ -88,7 +88,7 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z);
+	rate *= pow_integer(1 + z) * photonField->getRedshiftScaling(z);
 
 	// check for interaction
 	Random &random = Random::instance();

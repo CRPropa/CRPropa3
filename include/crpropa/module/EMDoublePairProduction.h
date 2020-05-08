@@ -17,7 +17,7 @@ namespace crpropa {
  */
 class EMDoublePairProduction: public Module {
 private:
-	PhotonField photonField;
+	ref_ptr<PhotonField> photonField;
 	bool haveElectrons;
 	double limit;
 
@@ -27,12 +27,12 @@ private:
 
 public:
 	EMDoublePairProduction(
-		PhotonField photonField, 	   //!< target photon background
+		ref_ptr<PhotonField> photonField, 	   //!< target photon background
 		bool haveElectrons = false,    //!< switch to create the secondary electron pair
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);
 
-	void setPhotonField(PhotonField photonField);
+	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHaveElectrons(bool haveElectrons);
 	void setLimit(double limit);
 

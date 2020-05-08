@@ -17,15 +17,15 @@ const double PhotoDisintegration::lgmin = 6;  // minimum log10(Lorentz-factor)
 const double PhotoDisintegration::lgmax = 14; // maximum log10(Lorentz-factor)
 const size_t PhotoDisintegration::nlg = 201;  // number of Lorentz-factor steps
 
-PhotoDisintegration::PhotoDisintegration(PhotonField f, bool havePhotons, double limit) {
+PhotoDisintegration::PhotoDisintegration(ref_ptr<PhotonField> f, bool havePhotons, double limit) {
 	setPhotonField(f);
 	this->havePhotons = havePhotons;
 	this->limit = limit;
 }
 
-void PhotoDisintegration::setPhotonField(PhotonField photonField) {
+void PhotoDisintegration::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonField.getFieldName();
+	std::string fname = photonField->getFieldName();
 	setDescription("PhotoDisintegration: " + fname);
 	initRate(getDataPath("Photodisintegration/rate_" + fname + ".txt"));
 	initBranching(getDataPath("Photodisintegration/branching_" + fname + ".txt"));
@@ -172,7 +172,7 @@ void PhotoDisintegration::process(Candidate *candidate) const {
 			return;
 
 		double rate = interpolateEquidistant(lg, lgmin, lgmax, pdRate[idx]);
-		rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z); // cosmological scaling, rate per comoving distance
+		rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z); // cosmological scaling, rate per comoving distance
 
 		// check if interaction occurs in this step
 		// otherwise limit next step to a fraction of the mean free path
@@ -296,7 +296,7 @@ double PhotoDisintegration::lossLength(int id, double gamma, double z) {
 	double lossRate = interpolateEquidistant(lg, lgmin, lgmax, rate);
 
 	// comological scaling, rate per physical distance
-	lossRate *= pow(1 + z, 3) * photonField.getRedshiftScaling(z);
+	lossRate *= pow_integer<3>(1 + z) * photonField->getRedshiftScaling(z);
 
 	// average number of nucleons lost for all disintegration channels
 	double avg_dA = 0;

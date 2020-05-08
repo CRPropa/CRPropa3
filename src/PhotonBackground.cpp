@@ -53,7 +53,7 @@ void TabularPhotonField::initPhotonEnergy(std::string fieldName) {
 	std::ifstream infile(path.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error("TabularPhotonField::initPhotonEnergy: could not open file photonEnergy_" + fieldName);
+		throw std::runtime_error("TabularPhotonField::initPhotonEnergy: could not open " + path);
 
 	std::string line;
 	while (std::getline(infile, line)) {
@@ -69,7 +69,7 @@ void TabularPhotonField::initPhotonDensity(std::string fieldName) {
 	std::ifstream infile(path.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error("TabularPhotonField::initPhotonDensity: could not open file photonDensity_" + fieldName);
+		throw std::runtime_error("TabularPhotonField::initPhotonDensity: could not open " + path);
 
 	std::string line;
 	while (std::getline(infile, line)) {
@@ -85,7 +85,7 @@ void TabularPhotonField::initRedshift(std::string fieldName) {
 	std::ifstream infile(path.c_str());
 
 	if (!infile.good())
-		throw std::runtime_error("TabularPhotonField::initRedshift: could not open file redshift_" + fieldName);
+		throw std::runtime_error("TabularPhotonField::initRedshift: could not open " + path);
 
 	std::string line;
 	while (std::getline(infile, line)) {

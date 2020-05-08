@@ -166,6 +166,22 @@ double BlackbodyPhotonField::getPhotonDensity(double ePhoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(ePhoton / (h_planck * c_light)) / std::expm1(ePhoton / (k_boltzmann * this->blackbodyTemperature));
 }
 
+PowerLawPhotonField::PowerLawPhotonField(std::string fieldName, double eMin, double eMax, double powerLawIndex, double normFactor) {
+	this->fieldName = fieldName;
+	this->eMin = eMin;
+	this->eMax = eMax;
+	this->powerLawIndex = powerLawIndex;
+	this->normFactor = normFactor;
+}
+
+PowerLawPhotonField::getPhotonDensity(double ePhoton, double z) const {
+	if (ePhoton < this->eMin || ePhoton > this->eMax) {
+		return 0.;
+	} else {
+		return this->normFactor * std::pow(ePhoton / this->eMin, this->powerLawIndex);
+	}
+}
+
 PhotonFieldSampling::PhotonFieldSampling() {
 	bgFlag = 0;
 }

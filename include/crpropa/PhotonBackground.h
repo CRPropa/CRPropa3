@@ -61,10 +61,9 @@ protected:
  */
 class TabularPhotonField: public PhotonField {
 public:
-	TabularPhotonField(std::string fieldName, bool hasRedshiftDependence = true);
+	TabularPhotonField(std::string fieldName, bool isRedshiftDependent = true);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
-	bool hasRedshiftDependence() const;
 
 protected:
 	void initPhotonEnergy(std::string fieldName);

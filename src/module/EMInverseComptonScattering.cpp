@@ -11,15 +11,15 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField, bool havePhotons, double limit) {
+EMInverseComptonScattering::EMInverseComptonScattering(ref_ptr<PhotonField> photonField, bool havePhotons, double limit) {
 	setPhotonField(photonField);
 	this->havePhotons = havePhotons;
 	this->limit = limit;
 }
 
-void EMInverseComptonScattering::setPhotonField(PhotonField photonField) {
+void EMInverseComptonScattering::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonField.getFieldName();
+	std::string fname = photonField->getFieldName();
 	setDescription("EMInverseComptonScattering: " + fname);
 	initRate(getDataPath("EMInverseComptonScattering/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMInverseComptonScattering/cdf_" + fname + ".txt"));
@@ -209,7 +209,7 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonField.getRedshiftScaling(z);
+	rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 
 	// check for interaction
 	Random &random = Random::instance();

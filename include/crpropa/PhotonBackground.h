@@ -65,7 +65,7 @@ protected:
  */
 class TabularPhotonField: public PhotonField {
 public:
-	TabularPhotonField(std::string fieldName, bool isRedshiftDependent = true);
+	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
 
@@ -88,7 +88,7 @@ protected:
  */
 class BlackbodyPhotonField: public PhotonField {
 public:
-	BlackbodyPhotonField(std::string fieldName, double blackbodyTemperature);
+	BlackbodyPhotonField(const std::string fieldName, const double blackbodyTemperature);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 
 protected:

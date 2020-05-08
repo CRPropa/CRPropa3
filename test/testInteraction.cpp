@@ -573,7 +573,7 @@ TEST(EMPairProduction, secondaries) {
 	EMPairProduction m(CMB);
 	m.setHaveElectrons(true);
 
-	std::vector<PhotonField> fields;
+	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
 	// fields.push_back(URB_Protheroe96);

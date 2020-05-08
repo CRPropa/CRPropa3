@@ -174,7 +174,7 @@ PowerLawPhotonField::PowerLawPhotonField(std::string fieldName, double eMin, dou
 	this->normFactor = normFactor;
 }
 
-PowerLawPhotonField::getPhotonDensity(double ePhoton, double z) const {
+double PowerLawPhotonField::getPhotonDensity(double ePhoton, double z) const {
 	if (ePhoton < this->eMin || ePhoton > this->eMax) {
 		return 0.;
 	} else {

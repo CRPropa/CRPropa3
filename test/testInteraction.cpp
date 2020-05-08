@@ -19,16 +19,16 @@
 namespace crpropa {
 
 // declare all available, built-in photon fields
-PhotonField CMB = BlackbodyPhotonField("CMB", 2.73);
-PhotonField IRB = TabularPhotonField("IRB_Kneiske04");
-PhotonField IRB_Kneiske04 = TabularPhotonField("IRB_Kneiske04");
-PhotonField IRB_Stecker05 = TabularPhotonField("IRB_Stecker05");
-PhotonField IRB_Franceschini08 = TabularPhotonField("IRB_Franceschini08");
-PhotonField IRB_Finke10 = TabularPhotonField("IRB_Finke10");
-PhotonField IRB_Dominguez11 = TabularPhotonField("IRB_Dominguez11");
-PhotonField IRB_Gilmore12 = TabularPhotonField("IRB_Gilmore12");
-PhotonField IRB_Stecker16_upper = TabularPhotonField("IRB_Stecker16_upper");
-PhotonField IRB_Stecker16_lower = TabularPhotonField("IRB_Stecker16_lower");
+ref_ptr<PhotonField> CMB = new BlackbodyPhotonField("CMB", 2.73);
+ref_ptr<PhotonField> IRB = new TabularPhotonField("IRB_Kneiske04");
+ref_ptr<PhotonField> IRB_Kneiske04 = new TabularPhotonField("IRB_Kneiske04");
+ref_ptr<PhotonField> IRB_Stecker05 = new TabularPhotonField("IRB_Stecker05");
+ref_ptr<PhotonField> IRB_Franceschini08 = new TabularPhotonField("IRB_Franceschini08");
+ref_ptr<PhotonField> IRB_Finke10 = new TabularPhotonField("IRB_Finke10");
+ref_ptr<PhotonField> IRB_Dominguez11 = new TabularPhotonField("IRB_Dominguez11");
+ref_ptr<PhotonField> IRB_Gilmore12 = new TabularPhotonField("IRB_Gilmore12");
+ref_ptr<PhotonField> IRB_Stecker16_upper = new TabularPhotonField("IRB_Stecker16_upper");
+ref_ptr<PhotonField> IRB_Stecker16_lower = new TabularPhotonField("IRB_Stecker16_lower");
 
 // ElectronPairProduction -----------------------------------------------------
 TEST(ElectronPairProduction, allBackgrounds) {

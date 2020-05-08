@@ -27,11 +27,9 @@ public:
 	 returns comoving photon density [1/m^3].
 	 multiply with (1+z^3) for physical number density.
 	 @param ePhoton		photon energy [J]
-	 @param z			redshift
+	 @param z			redshift (if redshift dependent, default = 0.)
 	 */
-	virtual double getPhotonDensity(double ePhoton, double z = 0.) const {
-		return 0.;
-	};
+	virtual double getPhotonDensity(double ePhoton, double z = 0.) const = 0;
 
 	/**
 	 returns overall comoving scaling factor
@@ -91,7 +89,7 @@ protected:
 class BlackbodyPhotonField: public PhotonField {
 public:
 	BlackbodyPhotonField(std::string fieldName, double blackbodyTemperature);
-	double getPhotonDensity(double ePhoton) const;
+	double getPhotonDensity(double ePhoton, double z = 0.) const;
 
 protected:
 	double blackbodyTemperature;

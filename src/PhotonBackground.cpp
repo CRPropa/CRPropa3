@@ -162,7 +162,7 @@ BlackbodyPhotonField::BlackbodyPhotonField(std::string fieldName, double blackbo
 	this->blackbodyTemperature = blackbodyTemperature;
 }
 
-double BlackbodyPhotonField::getPhotonDensity(double ePhoton) const {
+double BlackbodyPhotonField::getPhotonDensity(double ePhoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(ePhoton / (h_planck * c_light)) / std::expm1(ePhoton / (k_boltzmann * this->blackbodyTemperature));
 }
 

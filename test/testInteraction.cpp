@@ -627,7 +627,7 @@ TEST(EMDoublePairProduction, secondaries) {
 	EMDoublePairProduction m(CMB);
 	m.setHaveElectrons(true);
 
-	std::vector<PhotonField> fields;
+	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
 	// fields.push_back(URB_Protheroe96);
@@ -681,7 +681,7 @@ TEST(EMTripletPairProduction, secondaries) {
 	EMTripletPairProduction m(CMB);
 	m.setHaveElectrons(true);
 
-	std::vector<PhotonField> fields;
+	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
 	// fields.push_back(URB_Protheroe96);
@@ -738,7 +738,7 @@ TEST(EMInverseComptonScattering, secondaries) {
 	EMInverseComptonScattering m(CMB);
 	m.setHavePhotons(true);
 
-	std::vector<PhotonField> fields;
+	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB);
 	fields.push_back(IRB_Gilmore12);
 	// fields.push_back(URB_Protheroe96);

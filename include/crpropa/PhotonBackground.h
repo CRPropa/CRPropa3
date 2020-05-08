@@ -18,6 +18,11 @@ namespace crpropa {
  */
 class PhotonField: public Referenced {
 public:
+	PhotonField() {
+		this->fieldName = "AbstractPhotonField";
+		this->isRedshiftDependent = false;
+	}
+
 	/**
 	 returns comoving photon density [1/m^3].
 	 multiply with (1+z^3) for physical number density.
@@ -46,8 +51,8 @@ public:
 	}
 
 protected:
-	std::string fieldName = "AbstractPhotonField";
-	bool isRedshiftDependent = false;
+	std::string fieldName;
+	bool isRedshiftDependent;
 };
 
 /**

@@ -58,6 +58,12 @@ protected:
 /**
  @class TabularPhotonField
  @brief Photon field decorator for tabulated photon fields.
+
+ This class reads photon field data from files;
+ the data files to be read are inferred from the field name.
+ The first file must be a list of photon energies [J], named photonEnergy_fieldName.txt
+ The second file must be a list of comoving photon field densities [1/m^3], named photonDensity_fieldName.txt
+ Optionally, a third file contains redshifts, named redshift_fieldName.txt
  */
 class TabularPhotonField: public PhotonField {
 public:

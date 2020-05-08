@@ -14,7 +14,7 @@ namespace crpropa {
  */
 class ElasticScattering: public Module {
 private:
-    PhotonField photonField;
+    ref_ptr<PhotonField> photonField;
 
     std::vector<double> tabRate; // elastic scattering rate
     std::vector<std::vector<double> > tabCDF; // CDF as function of background photon energy
@@ -27,10 +27,10 @@ private:
     static const size_t neps;   // number of eps steps
 
 public:
-    ElasticScattering(PhotonField photonField);
+    ElasticScattering(ref_ptr<PhotonField> photonField);
     void initRate(std::string filename);
     void initCDF(std::string filename);
-    void setPhotonField(PhotonField photonField);
+    void setPhotonField(ref_ptr<PhotonField> photonField);
     void process(Candidate *candidate) const;
 };
 

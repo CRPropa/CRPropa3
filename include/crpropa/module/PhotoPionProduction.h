@@ -24,7 +24,7 @@ struct SophiaEventOutput {
  */
 class PhotoPionProduction: public Module {
 protected:
-	PhotonField photonField;
+	ref_ptr<PhotonField> photonField;
 	PhotonFieldSampling photonFieldSampling;
 	std::vector<double> tabLorentz; ///< Lorentz factor of nucleus
 	std::vector<double> tabRedshifts;  ///< redshifts (optional for haveRedshiftDependence)
@@ -39,14 +39,14 @@ protected:
 
 public:
 	PhotoPionProduction(
-		PhotonField photonField,
+		ref_ptr<PhotonField> photonField,
 		bool photons = false,
 		bool neutrinos = false,
 		bool electrons = false,
 		bool antiNucleons = false,
 		double limit = 0.1,
 		bool haveRedshiftDependence = false);
-	void setPhotonField(PhotonField photonField);
+	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
 	void setHaveElectrons(bool b);

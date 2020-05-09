@@ -104,7 +104,7 @@ void TabularPhotonField::initRedshiftScaling() {
 		for (int j = 0; j < this->photonEnergies.size(); ++j) {
 			double e = this->photonEnergies[j];
 			if (z == 0.)
-				n0 += getPhotonDensity(e, 0.);
+				n0 = getPhotonDensity(e, z);
 			n += getPhotonDensity(e, z);
 		}
 		this->redshiftScalings.push_back(n / n0);

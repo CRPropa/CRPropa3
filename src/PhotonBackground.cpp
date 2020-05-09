@@ -98,11 +98,11 @@ void TabularPhotonField::initRedshift(std::string fieldName) {
 
 void TabularPhotonField::initRedshiftScaling() {
 	double n0 = 0.;
-	for (int i = 0; i < redshifts.size(); ++i) {
-		double z = redshifts[i];
+	for (int i = 0; i < this->redshifts.size(); ++i) {
+		double z = this->redshifts[i];
 		double n = 0.;
-		for (int j = 0; j < photonEnergies.size(); ++j) {
-			double e = photonEnergies[j];
+		for (int j = 0; j < this->photonEnergies.size(); ++j) {
+			double e = this->photonEnergies[j];
 			if (z == 0.)
 				n0 += getPhotonDensity(e, 0.);
 			n += getPhotonDensity(e, z);

@@ -65,7 +65,8 @@ protected:
  */
 class TabularPhotonField: public PhotonField {
 public:
-	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
+	TabularPhotonField(const std::string fieldName);
+	// TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
 
@@ -93,6 +94,11 @@ public:
 
 protected:
 	double blackbodyTemperature;
+};
+
+class CMB: public BlackbodyPhotonField {
+public:
+	CMB() : BlackbodyPhotonField("CMB", 2.73) {}
 };
 
 /**

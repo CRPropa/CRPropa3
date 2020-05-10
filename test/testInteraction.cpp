@@ -20,6 +20,7 @@ namespace crpropa {
 
 // declare all available, built-in photon fields
 ref_ptr<PhotonField> CMB = new BlackbodyPhotonField("CMB", 2.73);
+// ref_ptr<PhotonField> CMB = new CMB();  // not working! Compiler: "CMB does not name a type"
 ref_ptr<PhotonField> IRB = new TabularPhotonField("IRB_Kneiske04");
 ref_ptr<PhotonField> IRB_Kneiske04 = new TabularPhotonField("IRB_Kneiske04");
 ref_ptr<PhotonField> IRB_Stecker05 = new TabularPhotonField("IRB_Stecker05");

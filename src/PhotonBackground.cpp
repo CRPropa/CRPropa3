@@ -1,5 +1,4 @@
 #include "crpropa/PhotonBackground.h"
-#include "crpropa/Common.h"
 #include "crpropa/Units.h"
 #include "crpropa/Random.h"
 
@@ -13,18 +12,23 @@ namespace crpropa {
 TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent) {
 	this->fieldName = fieldName;
 	this->isRedshiftDependent = isRedshiftDependent;
-
-	initPhotonEnergy(this->fieldName);
-	initPhotonDensity(this->fieldName);
-	if (this->isRedshiftDependent) {
-		initRedshift(this->fieldName);
-	}
-
-	checkInputData();
-
-	if (this->isRedshiftDependent)
-		initRedshiftScaling();
 }
+
+// TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent) {
+// 	this->fieldName = fieldName;
+// 	this->isRedshiftDependent = isRedshiftDependent;
+
+// 	initPhotonEnergy(this->fieldName);
+// 	initPhotonDensity(this->fieldName);
+// 	if (this->isRedshiftDependent) {
+// 		initRedshift(this->fieldName);
+// 	}
+
+// 	checkInputData();
+
+// 	if (this->isRedshiftDependent)
+// 		initRedshiftScaling();
+// }
 
 double TabularPhotonField::getRedshiftScaling(double z) const {
 	if (this->isRedshiftDependent) {
@@ -48,51 +52,42 @@ double TabularPhotonField::getPhotonDensity(double ePhoton, double z) const {
 	}
 }
 
-void TabularPhotonField::initPhotonEnergy(std::string fieldName) {
-	std::string path = getDataPath("Scaling/photonEnergy_" + fieldName + ".txt");
-	std::ifstream infile(path.c_str());
-
+void TabularPhotonField::initPhotonEnergy(std::string filePath) {
+	std::ifstream infile(filePath.c_str());
 	if (!infile.good())
-		throw std::runtime_error("TabularPhotonField::initPhotonEnergy: could not open " + path);
+		throw std::runtime_error("TabularPhotonField::initPhotonEnergy: could not open " + filePath);
 
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
 			this->photonEnergies.push_back(std::stod(line));
 	}
-
 	infile.close();
 }
 
-void TabularPhotonField::initPhotonDensity(std::string fieldName) {
-	std::string path = getDataPath("Scaling/photonDensity_" + fieldName + ".txt");
-	std::ifstream infile(path.c_str());
-
+void TabularPhotonField::initPhotonDensity(std::string filePath) {
+	std::ifstream infile(filePath.c_str());
 	if (!infile.good())
-		throw std::runtime_error("TabularPhotonField::initPhotonDensity: could not open " + path);
+		throw std::runtime_error("TabularPhotonField::initPhotonDensity: could not open " + filePath);
 
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
 			this->photonDensity.push_back(std::stod(line));
 	}
-
 	infile.close();
 }
 
-void TabularPhotonField::initRedshift(std::string fieldName) {
-	std::string path = getDataPath("Scaling/redshift_" + fieldName + ".txt");
-	std::ifstream infile(path.c_str());
-
+void TabularPhotonField::initRedshift(std::string filePath) {
+	std::ifstream infile(filePath.c_str());
 	if (!infile.good())
-		throw std::runtime_error("TabularPhotonField::initRedshift: could not open " + path);
+		throw std::runtime_error("TabularPhotonField::initRedshift: could not open " + filePath);
 
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
 			this->redshifts.push_back(std::stod(line));
 	}
-
 	infile.close();
 }
 
@@ -104,58 +99,58 @@ void TabularPhotonField::initRedshiftScaling() {
 		for (int j = 0; j < this->photonEnergies.size(); ++j) {
 			double e = this->photonEnergies[j];
 			if (z == 0.)
-				n0 = getPhotonDensity(e, z);
+				n0 += getPhotonDensity(e, z);
 			n += getPhotonDensity(e, z);
 		}
 		this->redshiftScalings.push_back(n / n0);
 	}
 }
 
-void TabularPhotonField::checkInputData() const {
-	if (this->isRedshiftDependent) {
-		if (this->photonDensity.size() != this->photonEnergies.size() * this-> redshifts.size())
-			throw std::runtime_error("TabularPhotonField::checkInputData: length of photon density input is unequal to length of photon energy input times length of redshift input");
-	} else {
-		if (this->photonEnergies.size() != this->photonDensity.size())
-			throw std::runtime_error("TabularPhotonField::checkInputData: length of photon energy input is unequal to length of photon density input");
-	}
+// void TabularPhotonField::checkInputData() const {
+// 	if (this->isRedshiftDependent) {
+// 		if (this->photonDensity.size() != this->photonEnergies.size() * this-> redshifts.size())
+// 			throw std::runtime_error("TabularPhotonField::checkInputData: length of photon density input is unequal to length of photon energy input times length of redshift input");
+// 	} else {
+// 		if (this->photonEnergies.size() != this->photonDensity.size())
+// 			throw std::runtime_error("TabularPhotonField::checkInputData: length of photon energy input is unequal to length of photon density input");
+// 	}
 
-	for (int i = 0; i < this->photonEnergies.size(); ++i) {
-		double ePrevious = 0.;
-		double e = this->photonEnergies[i];
-		if (e <= 0.)
-			throw std::runtime_error("TabularPhotonField::checkInputData: a value in the photon energy input is not positive");
-		if (e <= ePrevious)
-			throw std::runtime_error("TabularPhotonField::checkInputData: photon energy values are not strictly increasing");
-		ePrevious = e;
-	}
+// 	for (int i = 0; i < this->photonEnergies.size(); ++i) {
+// 		double ePrevious = 0.;
+// 		double e = this->photonEnergies[i];
+// 		if (e <= 0.)
+// 			throw std::runtime_error("TabularPhotonField::checkInputData: a value in the photon energy input is not positive");
+// 		if (e <= ePrevious)
+// 			throw std::runtime_error("TabularPhotonField::checkInputData: photon energy values are not strictly increasing");
+// 		ePrevious = e;
+// 	}
 
-	for (int i = 0; i < this->photonDensity.size(); ++i) {
-		if (this->photonDensity[i] < 0.)
-			throw std::runtime_error("TabularPhotonField::checkInputData: a value in the photon density input is negative");
-	}
+// 	for (int i = 0; i < this->photonDensity.size(); ++i) {
+// 		if (this->photonDensity[i] < 0.)
+// 			throw std::runtime_error("TabularPhotonField::checkInputData: a value in the photon density input is negative");
+// 	}
 
-	if (this->isRedshiftDependent) {
-		if (this->redshifts[0] != 0.)
-			throw std::runtime_error("TabularPhotonField::checkInputData: redshift input must start with zero");
+// 	if (this->isRedshiftDependent) {
+// 		if (this->redshifts[0] != 0.)
+// 			throw std::runtime_error("TabularPhotonField::checkInputData: redshift input must start with zero");
 
-		for (int i = 0; i < this->redshifts.size(); ++i) {
-			double zPrevious = -1.;
-			double z = this->redshifts[i];
-			if (z < 0.)
-				throw std::runtime_error("TabularPhotonField::checkInputData: a value in the redshift input is negative");
-			if (z <= zPrevious)
-				throw std::runtime_error("TabularPhotonField::checkInputData: redshift values are not strictly increasing");
-			zPrevious = z;
-		}
+// 		for (int i = 0; i < this->redshifts.size(); ++i) {
+// 			double zPrevious = -1.;
+// 			double z = this->redshifts[i];
+// 			if (z < 0.)
+// 				throw std::runtime_error("TabularPhotonField::checkInputData: a value in the redshift input is negative");
+// 			if (z <= zPrevious)
+// 				throw std::runtime_error("TabularPhotonField::checkInputData: redshift values are not strictly increasing");
+// 			zPrevious = z;
+// 		}
 
-		for (int i = 0; i < this->redshiftScalings.size(); ++i) {
-			double scal = this->redshiftScalings[i];
-			if (scal <= 0.)
-				throw std::runtime_error("TabularPhotonField::checkInputData: a value in the redshift input for scaling is not positive");
-		}
-	}
-}
+// 		for (int i = 0; i < this->redshiftScalings.size(); ++i) {
+// 			double scal = this->redshiftScalings[i];
+// 			if (scal <= 0.)
+// 				throw std::runtime_error("TabularPhotonField::checkInputData: a value in the redshift input for scaling is not positive");
+// 		}
+// 	}
+// }
 
 BlackbodyPhotonField::BlackbodyPhotonField(std::string fieldName, double blackbodyTemperature) {
 	this->fieldName = fieldName;

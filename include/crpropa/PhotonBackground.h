@@ -81,6 +81,14 @@ protected:
 	std::vector<double> redshiftScalings;
 };
 
+/**
+ @class IRB_Kneiske04
+ @brief Extragalactic background light model from Kneiske et al. 2004
+
+ Source info:
+ DOI:10.1051/0004-6361:20031542,
+ https://www.aanda.org/articles/aa/pdf/2004/03/aa3848.pdf, figure 1 (”Best-fit” model)
+ */
 class IRB_Kneiske04: public TabularPhotonField {
 public:
 	IRB_Kneiske04() : TabularPhotonField("IRB_Kneiske04", true) {
@@ -91,6 +99,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Stecker05
+ @brief Extragalactic background light model by Stecker at al. 2005
+
+ Source info:
+ DOI:10.1086/506188, astro-ph/0510449
+ https://iopscience.iop.org/article/10.1086/506188/pdf
+ */
 class IRB_Stecker05: public TabularPhotonField {
 public:
 	IRB_Stecker05() : TabularPhotonField("IRB_Stecker05", true) {
@@ -101,6 +117,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Franceschini08
+ @brief Extragalactic background light model from Franceschini et al. 2008
+
+ Source info:
+ DOI:10.1051/0004-6361:200809691
+ https://arxiv.org/pdf/0805.1841.pdf, tables 1 and 2
+ */
 class IRB_Franceschini08: public TabularPhotonField {
 public:
 	IRB_Franceschini08() : TabularPhotonField("IRB_Franceschini08", true) {
@@ -111,6 +135,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Finke10
+ @brief Extragalactic background light model from Finke et al. 2010
+
+ Source info:
+ DOI:10.1088/0004-637X/712/1/238
+ https://iopscience.iop.org/article/10.1088/0004-637X/712/1/238/pdf
+ */
 class IRB_Finke10: public TabularPhotonField {
 public:
 	IRB_Finke10() : TabularPhotonField("IRB_Finke10", true) {
@@ -121,6 +153,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Dominguez11
+ @brief Extragalactic background light model from Dominguez et al. 2011
+
+ Source info:
+ DOI:10.1111/j.1365-2966.2010.17631.x
+ https://academic.oup.com/mnras/article/410/4/2556/1008012
+ */
 class IRB_Dominguez11: public TabularPhotonField {
 public:
 	IRB_Dominguez11() : TabularPhotonField("IRB_Dominguez11", true) {
@@ -131,6 +171,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Gilmore12
+ @brief Extragalactic background light model from Gilmore et al. 2012
+
+ Source info:
+ DOI:10.1111/j.1365-2966.2012.20841.x
+ https://academic.oup.com/mnras/article/422/4/3189/1050758
+ */
 class IRB_Gilmore12: public TabularPhotonField {
 public:
 	IRB_Gilmore12() : TabularPhotonField("IRB_Gilmore12", true) {
@@ -141,6 +189,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Stecker16_upper
+ @brief Extragalactic background light model from Stecker et al. 2016 (upper-bound model)
+
+ Source info:
+ DOI:10.3847/0004-637X/827/1/6
+ https://iopscience.iop.org/article/10.3847/0004-637X/827/1/6
+ */
 class IRB_Stecker16_upper: public TabularPhotonField {
 public:
 	IRB_Stecker16_upper() : TabularPhotonField("IRB_Stecker16_upper", true) {
@@ -151,6 +207,14 @@ public:
 	}
 };
 
+/**
+ @class IRB_Stecker16_lower
+ @brief Extragalactic background light model from Stecker et al. 2016 (lower-bound model)
+
+ Source info:
+ DOI:10.3847/0004-637X/827/1/6
+ https://iopscience.iop.org/article/10.3847/0004-637X/827/1/6
+ */
 class IRB_Stecker16_lower: public TabularPhotonField {
 public:
 	IRB_Stecker16_lower() : TabularPhotonField("IRB_Stecker16_lower", true) {
@@ -174,6 +238,13 @@ protected:
 	double blackbodyTemperature;
 };
 
+/**
+ @class CMB
+ @brief Cosmic mircowave background photon field
+
+ Source info:
+ This field is an isotropic blackbody photon field with temperature T = 2.73 K
+ */
 class CMB: public BlackbodyPhotonField {
 public:
 	CMB() : BlackbodyPhotonField("CMB", 2.73) {}

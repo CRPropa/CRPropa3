@@ -1,30 +1,18 @@
 #include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 #include "crpropa/GridTools.h"
 #include "crpropa/Random.h"
-#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 
 #ifdef CRPROPA_HAVE_FFTW3F
 #include "fftw3.h"
 
 namespace crpropa {
 
-SimpleGridTurbulence::SimpleGridTurbulence(const TurbulenceSpectrum &spectrum,
+SimpleGridTurbulence::SimpleGridTurbulence(const SimpleTurbulenceSpectrum &spectrum,
                                            const GridProperties &gridProp,
                                            unsigned int seed)
     : GridTurbulence(spectrum, gridProp, seed) {
 	initTurbulence(gridPtr, spectrum.getBrms(), spectrum.getLmin(),
 	               spectrum.getLmax(), -spectrum.getSindex() - 2, seed);
-}
-
-double SimpleGridTurbulence::getCorrelationLength() const {
-	return turbulentCorrelationLength(spectrum.getLmin(), spectrum.getLmax(),
-	                                  -spectrum.getSindex() - 2);
-}
-
-double SimpleGridTurbulence::turbulentCorrelationLength(double lMin,
-                                                        double lMax, double s) {
-	double r = lMin / lMax;
-	return lMax / 2 * (s - 1) / s * (1 - pow(r, s)) / (1 - pow(r, s - 1));
 }
 
 void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,

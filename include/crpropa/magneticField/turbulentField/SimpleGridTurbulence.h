@@ -17,6 +17,49 @@ namespace crpropa {
  */
 
 /**
+ @class SimpleTurbulenceSpectrum
+ @brief Defines the energy spectrum of simple power-law turbulence
+ */
+class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
+  public:
+	/**
+	   @param Brms         root mean square field strength for generated field
+	 @param lMin	 Minimum physical scale of the turbulence
+	 @param lMax	 Maximum physical scale of the turbulence
+	   @param lBendover	   the bend-over scale
+	 @param sindex	 Spectral index of the energy spectrum in the inertial
+	 range
+	*/
+	SimpleTurbulenceSpectrum(double Brms, double lMin, double lMax,
+	                   double sIndex = 5. / 3)
+	    : TurbulenceSpectrum(Brms, lMin, lMax, 0, sIndex, 0) { }
+	~SimpleTurbulenceSpectrum() {}
+
+	/**
+	General energy spectrum for synthetic turbulence models
+	*/
+	double energySpectrum(double k) const {
+		return std::pow(k, -getSindex() - 2);
+	}
+
+	/**
+	    @brief       compute the magnetic field coherence length according to
+	   the formula in  Harari et Al JHEP03(2002)045
+	    @return Lc   coherence length of the magnetic field
+	*/
+	double getCorrelationLength() const {
+		return turbulentCorrelationLength(getLmin(), getLmax(),
+	                                  -getSindex() - 2);
+	}
+	static double turbulentCorrelationLength(double lMin,
+                                             double lMax, double s) {
+		double r = lMin / lMax;
+		return lMax / 2 * (s - 1) / s * (1 - pow(r, s)) / (1 - pow(r, s - 1));
+	}
+
+};
+
+/**
  @class SimpleGridTurbulence
  @brief Turbulent grid-based magnetic field with a simple power-law spectrum
  */
@@ -26,17 +69,8 @@ class SimpleGridTurbulence : public GridTurbulence {
 	 Create a random initialization of a turbulent field.
 	 @param seed	 Random seed
 	 */
-	SimpleGridTurbulence(const TurbulenceSpectrum &spectrum,
+	SimpleGridTurbulence(const SimpleTurbulenceSpectrum &spectrum,
 	                     const GridProperties &gridProp, unsigned int seed = 0);
-
-	/**
-	    @brief       compute the magnetic field coherence length according to
-	   the formula in  Harari et Al JHEP03(2002)045
-	    @return Lc   coherence length of the magnetic field
-	*/
-	double getCorrelationLength() const;
-	static double turbulentCorrelationLength(double lMin, double lMax,
-	                                         double sindex);
 
 	static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
 	                           double lMax, double alpha, int seed);
@@ -52,7 +86,7 @@ inline double turbulentCorrelationLength(double lMin, double lMax,
 	    << "turbulentCorrelationLength is deprecated and will be "
 	       "removed in the future. Replace it with an appropriate "
 	       "turbulent field model and call getCorrelationLength().";
-	return SimpleGridTurbulence::turbulentCorrelationLength(lMin, lMax,
+	return SimpleTurbulenceSpectrum::turbulentCorrelationLength(lMin, lMax,
 	                                                        -alpha - 2);
 }
 

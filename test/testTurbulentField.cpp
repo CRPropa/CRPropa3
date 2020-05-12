@@ -40,7 +40,7 @@ TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	double lMin = 2 * spacing;
 	double lMax = 8 * spacing;
 
-	auto spectrum = TurbulenceSpectrum(Brms, lMin, lMax);
+	auto spectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax);
 	auto gp = GridProperties(Vector3d(0, 0, 0), n, spacing);
     auto tf = SimpleGridTurbulence(spectrum, gp);
 	auto grid = tf.getGrid();
@@ -62,7 +62,7 @@ TEST(testVectorFieldGrid, Turbulence_seed) {
 	double lMax = 8 * spacing;
 	int seed = 753;
 	
-	auto spectrum = TurbulenceSpectrum(Brms, lMin, lMax);
+	auto spectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax);
 
 	auto gp1 = GridProperties(Vector3d(0, 0, 0), n, spacing);
     auto tf1 = SimpleGridTurbulence(spectrum, gp1,  seed);

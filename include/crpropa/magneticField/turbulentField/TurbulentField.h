@@ -70,7 +70,7 @@ class TurbulenceSpectrum : public Referenced {
 	double getQindex() const { return qIndex; }
 
 	/**
-	General energy spectrum for synthetic turbulence models
+	General energy spectrum for synthetic turbulence models (not normalized!)
 	*/
 	virtual double energySpectrum(double k) const {
 		return lBendover * std::pow(k * lBendover, qIndex) /

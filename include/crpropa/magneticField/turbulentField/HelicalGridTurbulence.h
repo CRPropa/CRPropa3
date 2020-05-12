@@ -5,7 +5,7 @@
 
 #include "crpropa/Grid.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
-#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 
 #include "kiss/logger.h"
 #include "kiss/string.h"
@@ -20,18 +20,14 @@ namespace crpropa {
  @class HelicalGridTurbulence
  @brief Turbulent grid-based magnetic field with a simple power-law spectrum
  */
-class HelicalGridTurbulence : public GridTurbulence {
+class HelicalGridTurbulence : public SimpleGridTurbulence {
   private:
 	double H;
 
   public:
-	HelicalGridTurbulence(const TurbulenceSpectrum &spectrum,
+	HelicalGridTurbulence(const SimpleTurbulenceSpectrum &spectrum,
 	                      const GridProperties &gridProp, double H,
 	                      unsigned int seed = 0);
-
-	double getCorrelationLength() const;
-	static double turbulentCorrelationLength(double lMin, double lMax,
-	                                         double sindex);
 
 	static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
 	                           double lMax, double alpha, int seed, double H);

@@ -375,6 +375,7 @@ add_library(crpropa SHARED
 	src/Random.cpp
 	src/Source.cpp
 	src/Variant.cpp
+	src/module/AdiabaticCooling.cpp
 	src/module/Boundary.cpp
 	src/module/BreakCondition.cpp
 	src/module/DiffusionSDE.cpp
@@ -395,32 +396,31 @@ add_library(crpropa SHARED
 	src/module/PhotoPionProduction.cpp
 	src/module/PhotonEleCa.cpp
 	src/module/PhotonOutput1D.cpp
-	src/module/PropagationCK.cpp
 	src/module/PropagationBP.cpp
-    src/module/Redshift.cpp
+	src/module/PropagationCK.cpp
 	src/module/RestrictToRegion.cpp
 	src/module/SimplePropagation.cpp
 	src/module/SynchrotronRadiation.cpp
 	src/module/TextOutput.cpp
-	src/module/AdiabaticCooling.cpp
 	src/module/Tools.cpp
+    src/module/Redshift.cpp
+	src/magneticField/ArchimedeanSpiralField.cpp
 	src/magneticField/JF12Field.cpp
 	src/magneticField/JF12FieldSolenoidal.cpp
-	src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/PT11Field.cpp
-    src/magneticField/TF17Field.cpp
-	src/magneticField/ArchimedeanSpiralField.cpp
 	src/magneticField/turbulentField/GridTurbulence.cpp
-	src/magneticField/turbulentField/SimpleGridTurbulence.cpp
 	src/magneticField/turbulentField/HelicalGridTurbulence.cpp
+	src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
+	src/magneticField/turbulentField/SimpleGridTurbulence.cpp
+    src/magneticField/TF17Field.cpp
 	src/advectionField/AdvectionField.cpp
-	src/massDistribution/Nakanishi.cpp
-	src/massDistribution/Massdistribution.cpp
-	src/massDistribution/Ferriere.cpp
-	src/massDistribution/Cordes.cpp
 	src/massDistribution/ConstantDensity.cpp
+	src/massDistribution/Cordes.cpp
+	src/massDistribution/Ferriere.cpp
+	src/massDistribution/Massdistribution.cpp
+	src/massDistribution/Nakanishi.cpp
 
 	${CRPROPA_EXTRA_SOURCES}
 )

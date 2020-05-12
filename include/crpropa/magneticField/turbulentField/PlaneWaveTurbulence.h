@@ -50,61 +50,57 @@ common, but there may still be processors in use that do not support them.
 [td13]: https://doi.org/10.1063/1.4789861
  */
 class PlaneWaveTurbulence : public TurbulentField {
-private:
-  int Nm;
+  private:
+	int Nm;
 
-  std::vector<Vector3d> xi;
-  std::vector<Vector3d> kappa;
-  std::vector<double> phi;
-  std::vector<double> costheta;
-  std::vector<double> beta;
-  std::vector<double> Ak;
-  std::vector<double> k;
+	std::vector<Vector3d> xi;
+	std::vector<Vector3d> kappa;
+	std::vector<double> phi;
+	std::vector<double> costheta;
+	std::vector<double> beta;
+	std::vector<double> Ak;
+	std::vector<double> k;
 
-  // data for FAST_WAVES
-  int avx_Nm;
-  int align_offset;
-  std::vector<double> avx_data;
-  // the following are index bases into the avx_data array.
-  // since each subarray has avx_Nm elements, the start offset
-  // of each subarray can be computed by multiplying the two,
-  // and then adding on the alignment offset.
-  // iAxi is a combined array containing the product of A * xi
-  static const int iAxi0 = 0;
-  static const int iAxi1 = 1;
-  static const int iAxi2 = 2;
-  // ikkappa is a combined array containing the product of k * kappa
-  static const int ikkappa0 = 3;
-  static const int ikkappa1 = 4;
-  static const int ikkappa2 = 5;
-  static const int ibeta = 6;
-  static const int itotal = 7;
+	// data for FAST_WAVES
+	int avx_Nm;
+	int align_offset;
+	std::vector<double> avx_data;
+	// the following are index bases into the avx_data array.
+	// since each subarray has avx_Nm elements, the start offset
+	// of each subarray can be computed by multiplying the two,
+	// and then adding on the alignment offset.
+	// iAxi is a combined array containing the product of A * xi
+	static const int iAxi0 = 0;
+	static const int iAxi1 = 1;
+	static const int iAxi2 = 2;
+	// ikkappa is a combined array containing the product of k * kappa
+	static const int ikkappa0 = 3;
+	static const int ikkappa1 = 4;
+	static const int ikkappa2 = 5;
+	static const int ibeta = 6;
+	static const int itotal = 7;
 
-public:
-  /**
-      Create a new instance of PlaneWaveTurbulence with the specified parameters. This
-     generates all of the wavemodes according to the given parameters.
-      @param Brms         root mean square field strength for generated field
-      @param q, s         the spectral indexes, as defined in the TD13 paper.
-     Usually, you'd want to use s=5/3 and q=0 here, which will be comparable to
-     passing -11/3 to `initTurbulence`.
-      @param lMin, lMax   minimum and maximum wave length
-      @param Nm           number of wavemodes that will be used when computing
-     the field. A higher value will give a more accurate representation of the
-     turbulence, but increase the runtime for getField.
-      @param              seed can be used to seed the random number generator
-     used to generate the field. This works just like in initTurbulence: a seed
-     of 0 will lead to a randomly initialized RNG.
-  */
-  PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
-	int Nm = 64, int seed = 0);
+  public:
+	/**
+	    Create a new instance of PlaneWaveTurbulence with the specified
+	   parameters. This generates all of the wavemodes according to the given
+	   parameters.
+	    @param Nm           number of wavemodes that will be used when computing
+	   the field. A higher value will give a more accurate representation of the
+	   turbulence, but increase the runtime for getField.
+	    @param              seed can be used to seed the random number generator
+	   used to generate the field. This works just like in initTurbulence: a
+	   seed of 0 will lead to a randomly initialized RNG.
+	*/
+	PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum, int Nm = 64,
+	                    int seed = 0);
 
-  /**
-     Evaluates the field at the given position.
+	/**
+	   Evaluates the field at the given position.
 
-     Theoretical runtime is O(Nm), where Nm is the number of wavemodes.
-  */
-  Vector3d getField(const Vector3d &pos) const;
+	   Theoretical runtime is O(Nm), where Nm is the number of wavemodes.
+	*/
+	Vector3d getField(const Vector3d &pos) const;
 };
 
 /** @} */

@@ -10,14 +10,6 @@
 #include "kiss/logger.h"
 #include "kiss/string.h"
 
-/**
- @file
- @brief Generate a turbulent field on a grid and related functions.
-
- This file contains a number of functions related to scalar and vector grids
- (Grid.h).
- */
-
 namespace crpropa {
 /**
  * \addtogroup MagneticFields
@@ -29,30 +21,30 @@ namespace crpropa {
  @brief Turbulent grid-based magnetic field with a simple power-law spectrum
  */
 class SimpleGridTurbulence : public GridTurbulence {
-public:
-  /**
-   Create a random initialization of a turbulent field.
-   @param Brms	 RMS field strength
-   @param sindex	 Spectral index of the energy spectrum in the inertial
-   range
-   @param lMin	 Minimum physical scale of the turbulence
-   @param lMax	 Maximum physical scale of the turbulence
-   @param seed	 Random seed
-   */
-  SimpleGridTurbulence(const TurbulenceSpectrum &spectrum, const GridProperties &gridProp,
-                       unsigned int seed = 0);
+  public:
+	/**
+	 Create a random initialization of a turbulent field.
+	 @param Brms	 RMS field strength
+	 @param sindex	 Spectral index of the energy spectrum in the inertial
+	 range
+	 @param lMin	 Minimum physical scale of the turbulence
+	 @param lMax	 Maximum physical scale of the turbulence
+	 @param seed	 Random seed
+	 */
+	SimpleGridTurbulence(const TurbulenceSpectrum &spectrum,
+	                     const GridProperties &gridProp, unsigned int seed = 0);
 
-  /**
-      @brief       compute the magnetic field coherence length according to the
-     formula in  Harari et Al JHEP03(2002)045
-      @return Lc   coherence length of the magnetic field
-  */
-  double getCorrelationLength() const;
-  static double turbulentCorrelationLength(double lMin, double lMax,
-                                           double sindex);
+	/**
+	    @brief       compute the magnetic field coherence length according to
+	   the formula in  Harari et Al JHEP03(2002)045
+	    @return Lc   coherence length of the magnetic field
+	*/
+	double getCorrelationLength() const;
+	static double turbulentCorrelationLength(double lMin, double lMax,
+	                                         double sindex);
 
-  static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
-                             double lMax, double alpha, int seed);
+	static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
+	                           double lMax, double alpha, int seed);
 };
 
 // Compatibility with old functions from GridTurbulence:
@@ -61,11 +53,12 @@ public:
  * field */
 inline double turbulentCorrelationLength(double lMin, double lMax,
                                          double alpha = -11 / 3.) {
-  KISS_LOG_WARNING << "turbulentCorrelationLength is deprecated and will be "
-                      "removed in the future. Replace it with an appropriate "
-                      "turbulent field model and call getCorrelationLength().";
-  return SimpleGridTurbulence::turbulentCorrelationLength(lMin, lMax,
-                                                          -alpha - 2);
+	KISS_LOG_WARNING
+	    << "turbulentCorrelationLength is deprecated and will be "
+	       "removed in the future. Replace it with an appropriate "
+	       "turbulent field model and call getCorrelationLength().";
+	return SimpleGridTurbulence::turbulentCorrelationLength(lMin, lMax,
+	                                                        -alpha - 2);
 }
 
 /**
@@ -79,10 +72,10 @@ inline double turbulentCorrelationLength(double lMin, double lMax,
  */
 inline void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                            double lMax, double alpha = -11 / 3., int seed = 0) {
-  KISS_LOG_WARNING
-      << "initTurbulence is deprecated and will be removed in the future. "
-         "Replace it with an appropriate turbulent field model instance.";
-  SimpleGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed);
+	KISS_LOG_WARNING
+	    << "initTurbulence is deprecated and will be removed in the future. "
+	       "Replace it with an appropriate turbulent field model instance.";
+	SimpleGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed);
 }
 
 /** @}*/

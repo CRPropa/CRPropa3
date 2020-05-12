@@ -50,7 +50,8 @@ public:
 		CreatedPositionColumn,
 		CreatedDirectionColumn,
 		SerialNumberColumn,
-		WeightColumn
+		WeightColumn,
+		StepCountColumn
 	};
 	enum OutputType {
 		Trajectory1D,

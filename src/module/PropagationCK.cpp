@@ -25,6 +25,8 @@ const double cash_karp_bs[] = {
 	2825. / 27648., 0., 18575. / 48384., 13525. / 55296., 277. / 14336., 1. / 4.
 };
 
+  // NOTE(antoniusf): perf instrumentation:
+  // afaict dYdt (and thus getField) is called exactly six times for each call to tryStep
 void PropagationCK::tryStep(const Y &y, Y &out, Y &error, double h,
 		ParticleState &particle, double z) const {
 	std::vector<Y> k;
@@ -48,6 +50,9 @@ void PropagationCK::tryStep(const Y &y, Y &out, Y &error, double h,
 	}
 }
 
+  // NOTE(antoniusf): magnetic field perf instrumentation:
+  // getField is called only in this method, and it is called exactly once
+  // for each call of dYdt. (not counting exceptions, which we'll ignore here.)
 PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p, double z) const {
 	// normalize direction vector to prevent numerical losses
 	Vector3d velocity = y.u.getUnitVector() * c_light;
@@ -104,6 +109,7 @@ void PropagationCK::process(Candidate *candidate) const {
 	while (r > 1) {
 		step = newStep;
 		tryStep(yIn, yOut, yErr, step / c_light, current, z);
+		candidate->incrementStepCounter();
 
 		r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
 		newStep = step * 0.95 * pow(r, -0.2);  // update step size to keep error close to tolerance

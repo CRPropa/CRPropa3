@@ -36,6 +36,7 @@ void Output::process(Candidate *c) const {
 
 void Output::setOutputType(OutputType outputtype) {
 	modify();
+	set(StepCountColumn, true);
 	if (outputtype == Trajectory1D) {
 		// X, ID, E
 		set(CurrentPositionColumn, true);

@@ -46,6 +46,7 @@ private:
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
+	int stepCounter; /**< perf instrumentation: counts the number of tryStep calls performed on this candidate, and thus the number of calls to getField. Only works with PropagationCK right now. See notes in PropagationCK.cpp for more info.**/
 
 	static uint64_t nextSerialNumber;
 	uint64_t serialNumber;
@@ -95,6 +96,9 @@ public:
 	 */
 	void setNextStep(double step);
 	double getNextStep() const;
+
+	void incrementStepCounter();
+	int getStepCounter() const;
 
 	/**
 	 Make a bid for the next step size: the lowest wins.

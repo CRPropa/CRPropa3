@@ -7,7 +7,7 @@
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
-		redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0) {
+		redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0), stepCounter(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
@@ -27,7 +27,7 @@ Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, dou
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+  source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), stepCounter(0) {
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -69,6 +69,10 @@ double Candidate::getNextStep() const {
 	return nextStep;
 }
 
+int Candidate::getStepCounter() const {
+        return stepCounter;
+}
+
 void Candidate::setRedshift(double z) {
 	redshift = z;
 }
@@ -88,6 +92,10 @@ void Candidate::setCurrentStep(double lstep) {
 
 void Candidate::setNextStep(double step) {
 	nextStep = step;
+}
+
+void Candidate::incrementStepCounter() {
+        stepCounter++;
 }
 
 void Candidate::limitNextStep(double step) {
@@ -182,6 +190,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 	cloned->trajectoryLength = trajectoryLength;
 	cloned->currentStep = currentStep;
 	cloned->nextStep = nextStep;
+	cloned->stepCounter = stepCounter;
 	if (recursive) {
 		cloned->secondaries.reserve(secondaries.size());
 		for (size_t i = 0; i < secondaries.size(); i++) {

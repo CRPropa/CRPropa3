@@ -102,10 +102,20 @@ double TD13Field::getLc() const {
 
 namespace crpropa {
 
-  void print_m256d (__m256d v) {
-    const double *testptr = (double *) &v;
-    std::cout << testptr[0] << " " << testptr[1] << " " << testptr[2] << " " << testptr[3] << std::endl;
+void print_m256d (__m256d v) {
+  const double *testptr = (double *) &v;
+  std::cout << testptr[0] << " " << testptr[1] << " " << testptr[2] << " " << testptr[3] << std::endl;
+}
+
+std::vector<double> logspace(double start, double stop, size_t N) {
+
+  double delta = stop - start;
+  std::vector<double> values = std::vector<double>(N, 0.);
+  for (int i=0; i<N; i++) {
+    values[i] = pow(10, ((double) i) / ((double) (N-1)) * delta + start);
   }
+  return values;
+} 
 
 //see https://stackoverflow.com/questions/49941645/get-sum-of-values-stored-in-m256d-with-sse-avx
 double hsum_double_avx(__m256d v) {

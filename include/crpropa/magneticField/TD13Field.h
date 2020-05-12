@@ -62,15 +62,7 @@ public:
 
 namespace crpropa {
 
-std::vector<double> logspace(double start, double stop, size_t N) {
-
-  double delta = stop - start;
-  std::vector<double> values = std::vector<double>(N, 0.);
-  for (int i=0; i<N; i++) {
-    values[i] = pow(10, ((double) i) / ((double) (N-1)) * delta + start);
-  }
-  return values;
-} 
+std::vector<double> logspace(double start, double stop, size_t N);
 
 double hsum_double_avx(__m256d v);
 

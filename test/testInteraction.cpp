@@ -19,17 +19,16 @@
 namespace crpropa {
 
 // declare all available, built-in photon fields
-	ref_ptr<PhotonField> CMB = new BlackbodyPhotonField("CMB", 2.73);
-// ref_ptr<PhotonField> CMB = new CMB();  // not working! Compiler: "CMB does not name a type"
-ref_ptr<PhotonField> IRB = new TabularPhotonField("IRB_Kneiske04", true);
-ref_ptr<PhotonField> IRB_Kneiske04 = new TabularPhotonField("IRB_Kneiske04", true);
-ref_ptr<PhotonField> IRB_Stecker05 = new TabularPhotonField("IRB_Stecker05", true);
-ref_ptr<PhotonField> IRB_Franceschini08 = new TabularPhotonField("IRB_Franceschini08", true);
-ref_ptr<PhotonField> IRB_Finke10 = new TabularPhotonField("IRB_Finke10", true);
-ref_ptr<PhotonField> IRB_Dominguez11 = new TabularPhotonField("IRB_Dominguez11", true);
-ref_ptr<PhotonField> IRB_Gilmore12 = new TabularPhotonField("IRB_Gilmore12", true);
-ref_ptr<PhotonField> IRB_Stecker16_upper = new TabularPhotonField("IRB_Stecker16_upper", true);
-ref_ptr<PhotonField> IRB_Stecker16_lower = new TabularPhotonField("IRB_Stecker16_lower", true);
+ref_ptr<PhotonField> CMB = new BlackbodyPhotonField("CMB", 2.73);
+ref_ptr<PhotonField> IRB = new TabularPhotonField("IRB_Kneiske04");
+ref_ptr<PhotonField> IRB_Kneiske04 = new TabularPhotonField("IRB_Kneiske04");
+ref_ptr<PhotonField> IRB_Stecker05 = new TabularPhotonField("IRB_Stecker05");
+ref_ptr<PhotonField> IRB_Franceschini08 = new TabularPhotonField("IRB_Franceschini08");
+ref_ptr<PhotonField> IRB_Finke10 = new TabularPhotonField("IRB_Finke10");
+ref_ptr<PhotonField> IRB_Dominguez11 = new TabularPhotonField("IRB_Dominguez11");
+ref_ptr<PhotonField> IRB_Gilmore12 = new TabularPhotonField("IRB_Gilmore12");
+ref_ptr<PhotonField> IRB_Stecker16_upper = new TabularPhotonField("IRB_Stecker16_upper");
+ref_ptr<PhotonField> IRB_Stecker16_lower = new TabularPhotonField("IRB_Stecker16_lower");
 
 // ElectronPairProduction -----------------------------------------------------
 TEST(ElectronPairProduction, allBackgrounds) {

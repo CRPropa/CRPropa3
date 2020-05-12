@@ -95,8 +95,6 @@ void TextOutput::printHeader() const {
 		*out << "\tP1x\tP1y\tP1z";
 	if (fields.test(WeightColumn))
 		*out << "\tW";
-	if (fields.test(StepCountColumn))
-		*out << "\tSC";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -126,8 +124,6 @@ void TextOutput::printHeader() const {
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
 	if (fields.test(WeightColumn))
 		*out << "# W             Weights" << " \n";
-	if (fields.test(StepCountColumn))
-		*out << "# SC            step count (perf instrumentation)" << " \n";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -247,9 +243,6 @@ void TextOutput::process(Candidate *c) const {
 	}
 	if (fields.test(WeightColumn)) {
 		p += std::sprintf(buffer + p, "%8.5E\t", c->getWeight());
-	}
-	if (fields.test(StepCountColumn)) {
-		p += std::sprintf(buffer + p, "%10i\t", c->getStepCounter());
 	}
 
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

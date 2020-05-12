@@ -24,12 +24,26 @@ class TurbulenceSpectrum : public Referenced {
 	const double lBendover;  /**< the bend-over scale */
 	const double lMin, lMax; /**< Min and Max scale of turbulence */
 
+  protected:
+	/**
+	Normalization for the above defined energy spectrum
+	*/
+	double spectrumNormalization() const {
+		return std::tgamma((sIndex + qIndex) / 2.0) /
+		       (2.0 * std::tgamma((sIndex - 1) / 2.0) *
+		        std::tgamma((qIndex + 1) / 2.0));
+	}
+
   public:
 	/**
 	   @param Brms         root mean square field strength for generated field
-	   @param lMin, lMax   minimum and maximum wave length
+	 @param lMin	 Minimum physical scale of the turbulence
+	 @param lMax	 Maximum physical scale of the turbulence
 	   @param lBendover	   the bend-over scale
-	   @param q, s         the spectral indices
+	 @param sindex	 Spectral index of the energy spectrum in the inertial
+	 range
+	 @param qindex	 Spectral index of the energy spectrum in the energy
+	 range
 	                       Usually, you'd want to use s=5./3.
 	                       and q=4 here, which will be comparable
 	*/
@@ -65,15 +79,6 @@ class TurbulenceSpectrum : public Referenced {
 	}
 
 	/**
-	Normalization for the above defined energy spectrum
-	*/
-	double spectrumNormalization() const {
-		return std::tgamma((sIndex + qIndex) / 2.0) /
-		       (2.0 * std::tgamma((sIndex - 1) / 2.0) *
-		        std::tgamma((qIndex + 1) / 2.0));
-	}
-
-	/**
   Computes the magnetic field coherence length
 	Obtained from the definition of \f$l_c = 1/B_{\rm rms}^2 \int_0^\infty dr
   \langleB(0)B^*(r)\rangle$
@@ -100,6 +105,11 @@ class TurbulentField : public MagneticField {
   public:
 	TurbulentField(const TurbulenceSpectrum &spectrum) : spectrum(spectrum) {}
 	virtual ~TurbulentField() {}
+
+	double getBrms() const { return spectrum.getBrms(); }
+	virtual double getCorrelationLength() const {
+		return spectrum.getCorrelationLength();
+	}
 };
 
 /** @}*/

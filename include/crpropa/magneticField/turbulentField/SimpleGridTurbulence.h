@@ -24,11 +24,6 @@ class SimpleGridTurbulence : public GridTurbulence {
   public:
 	/**
 	 Create a random initialization of a turbulent field.
-	 @param Brms	 RMS field strength
-	 @param sindex	 Spectral index of the energy spectrum in the inertial
-	 range
-	 @param lMin	 Minimum physical scale of the turbulence
-	 @param lMax	 Maximum physical scale of the turbulence
 	 @param seed	 Random seed
 	 */
 	SimpleGridTurbulence(const TurbulenceSpectrum &spectrum,

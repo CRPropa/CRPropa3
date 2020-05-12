@@ -202,16 +202,17 @@ class testGrid(unittest.TestCase):
     grid = crp.Grid1f(gp)
     self.assertEqual(grid.getNx(), 32)
 
-class testTurbulentField(unittest.TestCase):
-  def testGridTurbulence(self):
-    N = 64
-    boxSize = 1*crp.Mpc
-    l_bo = boxSize/8
-    spacing = boxSize / N
-    tf = crp.GridTurbulence(
-        crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
-        crp.GridProperties(crp.Vector3d(0), N, spacing)
-    )
+if hasattr(crp, 'GridTurbulence'):
+    class testTurbulentField(unittest.TestCase):
+      def testGridTurbulence(self):
+        N = 64
+        boxSize = 1*crp.Mpc
+        l_bo = boxSize/8
+        spacing = boxSize / N
+        tf = crp.GridTurbulence(
+            crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
+            crp.GridProperties(crp.Vector3d(0), N, spacing)
+        )
 
 if __name__ == '__main__':
     unittest.main()

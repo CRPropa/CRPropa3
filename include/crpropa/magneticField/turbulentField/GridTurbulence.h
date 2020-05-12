@@ -29,15 +29,8 @@ class GridTurbulence : public TurbulentField {
   public:
 	/**
 	 Create a random initialization of a turbulent field.
+	 @param spectrum    TurbulenceSpectrum instance to define the spectrum of turbulence
 	 @param gridProp	GridProperties instance to define the underlying grid
-	 @param Brms	 RMS field strength
-	 @param sindex	 Spectral index of the energy spectrum in the inertial
-	 range
-	 @param qindex	 Spectral index of the energy spectrum in the energy
-	 range
-	 @param lBendover Bend-over scale
-	 @param lMin	 Minimum physical scale of the turbulence
-	 @param lMax	 Maximum physical scale of the turbulence
 	 @param seed	 Random seed
 	 */
 	GridTurbulence(const TurbulenceSpectrum &spectum,

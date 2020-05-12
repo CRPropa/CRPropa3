@@ -25,8 +25,8 @@ class test1DChainWithSecondaries(unittest.TestCase):
         sim = crp.ModuleList()
 
         # photon fields
-        CMB = crp.BlackbodyPhotonField("CMB", 2.73)
-        IRB = crp.TabularPhotonField("IRB_Kneiske04")
+        CMB = crp.CMB()
+        IRB = crp.IRB_Kneiske04()
 
         sim.add(crp.SimplePropagation(1 * crp.kpc, 1 * crp.Mpc))
         sim.add(crp.Redshift())

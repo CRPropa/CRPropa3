@@ -29,7 +29,8 @@ class GridTurbulence : public TurbulentField {
   public:
 	/**
 	 Create a random initialization of a turbulent field.
-	 @param spectrum    TurbulenceSpectrum instance to define the spectrum of turbulence
+	 @param spectrum    TurbulenceSpectrum instance to define the spectrum of
+	 turbulence
 	 @param gridProp	GridProperties instance to define the underlying grid
 	 @param seed	 Random seed
 	 */

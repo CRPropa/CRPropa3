@@ -4,7 +4,6 @@
 #ifdef CRPROPA_HAVE_FFTW3F
 
 #include "crpropa/Grid.h"
-#include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 
 #include "kiss/logger.h"
@@ -25,6 +24,14 @@ class HelicalGridTurbulence : public SimpleGridTurbulence {
 	double H;
 
   public:
+	/**
+	 Create a random initialization of a turbulent field.
+	 @param spectrum    TurbulenceSpectrum instance to define the spectrum of
+	 turbulence
+	 @param gridProp	GridProperties instance to define the underlying grid
+	 @param H	Helicity
+	 @param seed	 Random seed
+	 */
 	HelicalGridTurbulence(const SimpleTurbulenceSpectrum &spectrum,
 	                      const GridProperties &gridProp, double H,
 	                      unsigned int seed = 0);

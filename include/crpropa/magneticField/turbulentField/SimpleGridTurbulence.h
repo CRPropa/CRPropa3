@@ -3,8 +3,6 @@
 
 #ifdef CRPROPA_HAVE_FFTW3F
 
-#include "crpropa/Grid.h"
-#include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 
 #include "kiss/logger.h"
@@ -23,16 +21,16 @@ namespace crpropa {
 class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
   public:
 	/**
-	   @param Brms         root mean square field strength for generated field
+	 @param Brms         root mean square field strength for generated field
 	 @param lMin	 Minimum physical scale of the turbulence
 	 @param lMax	 Maximum physical scale of the turbulence
-	   @param lBendover	   the bend-over scale
+	 @param lBendover	   the bend-over scale
 	 @param sindex	 Spectral index of the energy spectrum in the inertial
 	 range
 	*/
 	SimpleTurbulenceSpectrum(double Brms, double lMin, double lMax,
-	                   double sIndex = 5. / 3)
-	    : TurbulenceSpectrum(Brms, lMin, lMax, 0, sIndex, 0) { }
+	                         double sIndex = 5. / 3)
+	    : TurbulenceSpectrum(Brms, lMin, lMax, 0, sIndex, 0) {}
 	~SimpleTurbulenceSpectrum() {}
 
 	/**
@@ -49,14 +47,13 @@ class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
 	*/
 	double getCorrelationLength() const {
 		return turbulentCorrelationLength(getLmin(), getLmax(),
-	                                  -getSindex() - 2);
+		                                  -getSindex() - 2);
 	}
-	static double turbulentCorrelationLength(double lMin,
-                                             double lMax, double s) {
+	static double turbulentCorrelationLength(double lMin, double lMax,
+	                                         double s) {
 		double r = lMin / lMax;
 		return lMax / 2 * (s - 1) / s * (1 - pow(r, s)) / (1 - pow(r, s - 1));
 	}
-
 };
 
 /**
@@ -67,6 +64,9 @@ class SimpleGridTurbulence : public GridTurbulence {
   public:
 	/**
 	 Create a random initialization of a turbulent field.
+	 @param spectrum    TurbulenceSpectrum instance to define the spectrum of
+	 turbulence
+	 @param gridProp	GridProperties instance to define the underlying grid
 	 @param seed	 Random seed
 	 */
 	SimpleGridTurbulence(const SimpleTurbulenceSpectrum &spectrum,
@@ -87,7 +87,7 @@ inline double turbulentCorrelationLength(double lMin, double lMax,
 	       "removed in the future. Replace it with an appropriate "
 	       "turbulent field model and call getCorrelationLength().";
 	return SimpleTurbulenceSpectrum::turbulentCorrelationLength(lMin, lMax,
-	                                                        -alpha - 2);
+	                                                            -alpha - 2);
 }
 
 /**

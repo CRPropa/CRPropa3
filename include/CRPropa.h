@@ -67,6 +67,7 @@
 #include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
 

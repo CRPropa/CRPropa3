@@ -403,7 +403,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %feature("notabstract") QuimbyMagneticFieldAdapter;
 %include "crpropa/magneticField/QuimbyMagneticField.h"
 %include "crpropa/magneticField/AMRMagneticField.h"
-%include "crpropa/magneticField/TD13Field.h"
 %include "crpropa/magneticField/JF12Field.h"
 %include "crpropa/magneticField/JF12FieldSolenoidal.h"
 %include "crpropa/magneticField/PT11Field.h"
@@ -413,6 +412,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 %include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 %include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 

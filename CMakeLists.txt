@@ -35,19 +35,19 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 	message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
-SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 3) in GCC. This is necessary for fast TD13.")
+SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 4 + AVX) in GCC. This is necessary for fast plane wave turbulence.")
 if (USE_SIMD)
         SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx" ) # TODO: use something like -march=native to automatically enable fma if available?
 endif (USE_SIMD)
 
-SET(FAST_TD13 OFF CACHE BOOL "Enable SIMD optimizations for TD13Field. Requires USE_SIMD to be set as well.")
-if (FAST_TD13)
+SET(FAST_WAVES OFF CACHE BOOL "Enable SIMD optimizations for PlaneWaveTurbulence. Requires USE_SIMD to be set as well.")
+if (FAST_WAVES)
   if (USE_SIMD)
-    add_definitions(-DFAST_TD13)
+    add_definitions(-DFAST_WAVES)
   else (USE_SIMD)
-    message(SEND_ERROR "You've requested the FAST_TD13 implementation, but have not enabled USE_SIMD. TD13Field will be compiled without the optimization.")
+    message(SEND_ERROR "You've requested the FAST_WAVES implementation, but have not enabled USE_SIMD. PlaneWaveTurbulence will be compiled without the optimization.")
   endif(USE_SIMD)
-endif(FAST_TD13)
+endif(FAST_WAVES)
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
@@ -406,6 +406,7 @@ add_library(crpropa SHARED
 	src/module/Tools.cpp
 	src/magneticField/JF12Field.cpp
 	src/magneticField/JF12FieldSolenoidal.cpp
+	src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/PT11Field.cpp

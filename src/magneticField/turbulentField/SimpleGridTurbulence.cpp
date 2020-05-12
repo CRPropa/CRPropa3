@@ -8,10 +8,10 @@
 
 namespace crpropa {
 
-SimpleGridTurbulence::SimpleGridTurbulence(ref_ptr<Grid3f> grid, double Brms,
+SimpleGridTurbulence::SimpleGridTurbulence(const GridProperties &gridProp, double Brms,
                                            double sindex, double lMin,
                                            double lMax, unsigned int seed)
-    : GridTurbulence(grid, Brms, sindex, 0., 0., lMin, lMax, seed) {
+    : GridTurbulence(gridProp, Brms, sindex, 0., 0., lMin, lMax, seed) {
   initTurbulence(gridPtr, Brms, lMin, lMax, -sindex - 2, seed);
 }
 

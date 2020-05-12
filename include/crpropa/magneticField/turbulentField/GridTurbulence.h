@@ -23,10 +23,14 @@ protected:
   double lMin, lMax;
   unsigned int seed;
   ref_ptr<Grid3f> gridPtr;
+  
+  void initGrid(const GridProperties &grid);
+  void initTurbulence();
 
 public:
   /**
    Create a random initialization of a turbulent field.
+   @param gridProp	GridProperties instance to define the underlying grid
    @param Brms	 RMS field strength
    @param sindex	 Spectral index of the energy spectrum in the inertial
    range
@@ -37,13 +41,15 @@ public:
    @param lMax	 Maximum physical scale of the turbulence
    @param seed	 Random seed
    */
-  GridTurbulence(ref_ptr<Grid3f> grid, double Brms, double sindex,
+  GridTurbulence(const GridProperties &gridProp, double Brms, double sindex,
                  double qindex, double lBendover, double lMin, double lMax,
                  unsigned int seed = 0);
 
   Vector3d getField(const Vector3d &pos) const;
 
-  void initTurbulence();
+  Vector3f getMeanFieldVector() const;
+  double getMeanFieldStrength() const;
+  double getRmsFieldStrength() const;
 
   /* Helper functions for synthetic turbulent field models */
   // Check the grid properties before the FFT procedure
@@ -54,13 +60,6 @@ public:
   static void executeInverseFFTInplace(ref_ptr<Grid3f> grid, fftwf_complex *Bkx,
                                        fftwf_complex *Bky, fftwf_complex *Bkz);
 };
-
-
-/**
- Calculate the omnidirectional power spectrum E(k) for a given turbulent field
- Returns a vector of pairs (k_i, E(k_i))
-*/
-std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid);
 
 /** @}*/
 } // namespace crpropa

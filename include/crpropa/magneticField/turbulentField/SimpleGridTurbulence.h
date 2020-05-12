@@ -39,7 +39,7 @@ public:
    @param lMax	 Maximum physical scale of the turbulence
    @param seed	 Random seed
    */
-  SimpleGridTurbulence(ref_ptr<Grid3f> grid,double Brms, double sindex, double lMin, double lMax,
+  SimpleGridTurbulence(const GridProperties &gridProp, double Brms, double sindex, double lMin, double lMax,
                        unsigned int seed = 0);
 
   /**

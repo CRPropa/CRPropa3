@@ -32,7 +32,7 @@ class HelicalGridTurbulence : public GridTurbulence {
 private:
   double H; 
 public:
-  HelicalGridTurbulence(ref_ptr<Grid3f> grid,double Brms,
+  HelicalGridTurbulence(const GridProperties &gridProp, double Brms,
                         double sindex, double H,  double lMin, double lMax, unsigned int seed = 0);
 
   double getCorrelationLength() const;

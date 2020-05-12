@@ -8,11 +8,11 @@
 
 namespace crpropa {
 
-HelicalGridTurbulence::HelicalGridTurbulence(ref_ptr<Grid3f> grid, double Brms,
+HelicalGridTurbulence::HelicalGridTurbulence(const GridProperties &gridProp, double Brms,
                                              double sindex, double H,
                                              double lMin, double lMax,
                                              unsigned int seed)
-    : GridTurbulence(grid, Brms, sindex, 0., 0., lMin, lMax, seed), H(H) {
+    : GridTurbulence(gridProp, Brms, sindex, 0., 0., lMin, lMax, seed), H(H) {
   initTurbulence(gridPtr, Brms, lMin, lMax, -sindex - 2, seed, H);
 }
 

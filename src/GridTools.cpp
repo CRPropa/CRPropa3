@@ -300,4 +300,95 @@ void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	fout.close();
 }
 
+#ifdef CRPROPA_HAVE_FFTW3F
+
+std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid) {
+
+  double rms = rmsFieldStrength(grid);
+  size_t n = grid->getNx(); // size of array
+
+  // arrays to hold the complex vector components of the B(k)-field
+  fftwf_complex *Bkx, *Bky, *Bkz;
+  Bkx = (fftwf_complex *)fftwf_malloc(sizeof(fftwf_complex) * n * n * n);
+  Bky = (fftwf_complex *)fftwf_malloc(sizeof(fftwf_complex) * n * n * n);
+  Bkz = (fftwf_complex *)fftwf_malloc(sizeof(fftwf_complex) * n * n * n);
+
+  fftwf_complex *Bx = (fftwf_complex *)Bkx;
+  fftwf_complex *By = (fftwf_complex *)Bky;
+  fftwf_complex *Bz = (fftwf_complex *)Bkz;
+
+  // save to temp
+  int i;
+  for (size_t ix = 0; ix < n; ix++) {
+    for (size_t iy = 0; iy < n; iy++) {
+      for (size_t iz = 0; iz < n; iz++) {
+        i = ix * n * n + iy * n + iz;
+        Vector3<float> &b = grid->get(ix, iy, iz);
+        Bx[i][0] = b.x / rms;
+        By[i][0] = b.y / rms;
+        Bz[i][0] = b.z / rms;
+      }
+    }
+  }
+
+  // in-place, real to complex, inverse Fourier transformation on each component
+  // note that the last elements of B(x) are unused now
+  fftwf_plan plan_x =
+      fftwf_plan_dft_3d(n, n, n, Bx, Bkx, FFTW_FORWARD, FFTW_ESTIMATE);
+  fftwf_execute(plan_x);
+  fftwf_destroy_plan(plan_x);
+
+  fftwf_plan plan_y =
+      fftwf_plan_dft_3d(n, n, n, By, Bky, FFTW_FORWARD, FFTW_ESTIMATE);
+  fftwf_execute(plan_y);
+  fftwf_destroy_plan(plan_y);
+
+  fftwf_plan plan_z =
+      fftwf_plan_dft_3d(n, n, n, Bz, Bkz, FFTW_FORWARD, FFTW_ESTIMATE);
+  fftwf_execute(plan_z);
+  fftwf_destroy_plan(plan_z);
+
+  float power;
+  std::map<size_t, std::pair<float, int>> spectrum;
+  int k;
+
+  for (size_t ix = 0; ix < n; ix++) {
+    for (size_t iy = 0; iy < n; iy++) {
+      for (size_t iz = 0; iz < n; iz++) {
+        i = ix * n * n + iy * n + iz;
+        k = static_cast<int>(
+            std::floor(std::sqrt(ix * ix + iy * iy + iz * iz)));
+        if (k > n / 2. || k == 0)
+          continue;
+        power = ((Bkx[i][0] * Bkx[i][0] + Bkx[i][1] * Bkx[i][1]) +
+                 (Bky[i][0] * Bky[i][0] + Bky[i][1] * Bky[i][1]) +
+                 (Bkz[i][0] * Bkz[i][0] + Bkz[i][1] * Bkz[i][1]));
+        if (spectrum.find(k) == spectrum.end()) {
+          spectrum[k].first = power;
+          spectrum[k].second = 1;
+        } else {
+          spectrum[k].first += power;
+          spectrum[k].second += 1;
+        }
+      }
+    }
+  }
+
+  fftwf_free(Bkx);
+  fftwf_free(Bky);
+  fftwf_free(Bkz);
+
+  std::vector<std::pair<int, float>> points;
+  for (std::map<size_t, std::pair<float, int>>::iterator it = spectrum.begin();
+       it != spectrum.end(); ++it) {
+    points.push_back(
+        std::make_pair(it->first, (it->second).first / (it->second).second));
+  }
+
+  return points;
+}
+
+#endif // CRPROPA_HAVE_FFTW3F
+
+
 } // namespace crpropa

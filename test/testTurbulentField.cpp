@@ -52,15 +52,15 @@ TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	double lMax = 8 * spacing;
 	double sindex = 5/3.;
 
-	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0, 0, 0), n, spacing);
-    auto tf = SimpleGridTurbulence(grid, Brms, sindex, lMin, lMax);
+	auto gp = GridProperties(Vector3d(0, 0, 0), n, spacing);
+    auto tf = SimpleGridTurbulence(gp, Brms, sindex, lMin, lMax);
 
 	double precision = 1e-7;
-	Vector3f bMean = meanFieldVector(grid);
+	Vector3f bMean = tf.getMeanFieldVector();
 	EXPECT_NEAR(0, bMean.x, precision);
 	EXPECT_NEAR(0, bMean.y, precision);
 	EXPECT_NEAR(0, bMean.z, precision);
-	EXPECT_NEAR(1, rmsFieldStrength(grid), precision);
+	EXPECT_NEAR(1, tf.getRmsFieldStrength(), precision);
 }
 
 TEST(testVectorFieldGrid, Turbulence_seed) {
@@ -73,14 +73,14 @@ TEST(testVectorFieldGrid, Turbulence_seed) {
 	double sindex = 5/3.;
 	int seed = 753;
 
-	ref_ptr<Grid3f> grid1 = new Grid3f(Vector3d(0, 0, 0), n, spacing);
-    auto tf1 = SimpleGridTurbulence(grid1, Brms, sindex, lMin, lMax, seed);
+	auto gp1 = GridProperties(Vector3d(0, 0, 0), n, spacing);
+    auto tf1 = SimpleGridTurbulence(gp1, Brms, sindex, lMin, lMax, seed);
 
-	ref_ptr<Grid3f> grid2 = new Grid3f(Vector3d(0, 0, 0), n, spacing);
-    auto tf2 = SimpleGridTurbulence(grid2, Brms, sindex, lMin, lMax, seed);
+	auto gp2 = GridProperties(Vector3d(0, 0, 0), n, spacing);
+    auto tf2 = SimpleGridTurbulence(gp2, Brms, sindex, lMin, lMax, seed);
 
 	Vector3d pos(22 * Mpc);
-	EXPECT_FLOAT_EQ(grid1->interpolate(pos).x, grid2->interpolate(pos).x);
+	EXPECT_FLOAT_EQ(tf1.getField(pos).x, tf2.getField(pos).x);
 }
 
 TEST(testVectorFieldGrid, turbulence_Exceptions) {
@@ -115,11 +115,11 @@ TEST(testGridTurbulence, Turbulence_seed) {
 	double l_bo = lMax/6;
 	int seed = 137;
 
-	ref_ptr<Grid3f> grid1 = new Grid3f(Vector3d(0, 0, 0), n, spacing);
-    auto tf1 = GridTurbulence(grid1, Brms, s, q, l_bo, lMin, lMax, seed);
+	auto gp1 = GridProperties(Vector3d(0, 0, 0), n, spacing);
+    auto tf1 = GridTurbulence(gp1, Brms, s, q, l_bo, lMin, lMax, seed);
 
-	ref_ptr<Grid3f> grid2 = new Grid3f(Vector3d(0, 0, 0), n, spacing);
-    auto tf2 = GridTurbulence(grid2, Brms, s, q, l_bo, lMin, lMax, seed);
+	auto gp2 = GridProperties(Vector3d(0, 0, 0), n, spacing);
+    auto tf2 = GridTurbulence(gp2, Brms, s, q, l_bo, lMin, lMax, seed);
 
 	Vector3d pos(22 * Mpc);
 	EXPECT_FLOAT_EQ(tf1.getField(pos).x, tf2.getField(pos).x);

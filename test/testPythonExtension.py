@@ -209,8 +209,9 @@ class testTurbulentField(unittest.TestCase):
     l_bo = boxSize/8
     spacing = boxSize / N
     tf = crp.GridTurbulence(
-        crp.GridProperties(crp.Vector3d(0), N, spacing),
-        1.0, 5/3., 4, l_bo, 2*spacing, N*spacing)
+        crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
+        crp.GridProperties(crp.Vector3d(0), N, spacing)
+    )
 
 if __name__ == '__main__':
     unittest.main()

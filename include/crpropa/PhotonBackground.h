@@ -65,16 +65,17 @@ protected:
  */
 class TabularPhotonField: public PhotonField {
 public:
-	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
+	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
 
-	void initPhotonEnergy(std::string filePath);
-	void initPhotonDensity(std::string filePath);
-	void initRedshift(std::string filePath);
-	void initRedshiftScaling();
-
 protected:
+	void readPhotonEnergy(std::string filePath);
+	void readPhotonDensity(std::string filePath);
+	void readRedshift(std::string filePath);
+	void initRedshiftScaling();
+	void checkInputData() const;
+
 	std::vector<double> photonEnergies;
 	std::vector<double> photonDensity;
 	std::vector<double> redshifts;
@@ -91,12 +92,7 @@ protected:
  */
 class IRB_Kneiske04: public TabularPhotonField {
 public:
-	IRB_Kneiske04() : TabularPhotonField("IRB_Kneiske04", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Kneiske04() : TabularPhotonField("IRB_Kneiske04", true) {}
 };
 
 /**
@@ -109,12 +105,7 @@ public:
  */
 class IRB_Stecker05: public TabularPhotonField {
 public:
-	IRB_Stecker05() : TabularPhotonField("IRB_Stecker05", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Stecker05() : TabularPhotonField("IRB_Stecker05", true) {}
 };
 
 /**
@@ -127,12 +118,7 @@ public:
  */
 class IRB_Franceschini08: public TabularPhotonField {
 public:
-	IRB_Franceschini08() : TabularPhotonField("IRB_Franceschini08", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Franceschini08() : TabularPhotonField("IRB_Franceschini08", true) {}
 };
 
 /**
@@ -145,12 +131,7 @@ public:
  */
 class IRB_Finke10: public TabularPhotonField {
 public:
-	IRB_Finke10() : TabularPhotonField("IRB_Finke10", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Finke10() : TabularPhotonField("IRB_Finke10", true) {}
 };
 
 /**
@@ -163,12 +144,7 @@ public:
  */
 class IRB_Dominguez11: public TabularPhotonField {
 public:
-	IRB_Dominguez11() : TabularPhotonField("IRB_Dominguez11", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Dominguez11() : TabularPhotonField("IRB_Dominguez11", true) {}
 };
 
 /**
@@ -181,12 +157,7 @@ public:
  */
 class IRB_Gilmore12: public TabularPhotonField {
 public:
-	IRB_Gilmore12() : TabularPhotonField("IRB_Gilmore12", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Gilmore12() : TabularPhotonField("IRB_Gilmore12", true) {}
 };
 
 /**
@@ -199,12 +170,7 @@ public:
  */
 class IRB_Stecker16_upper: public TabularPhotonField {
 public:
-	IRB_Stecker16_upper() : TabularPhotonField("IRB_Stecker16_upper", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Stecker16_upper() : TabularPhotonField("IRB_Stecker16_upper", true) {}
 };
 
 /**
@@ -217,12 +183,7 @@ public:
  */
 class IRB_Stecker16_lower: public TabularPhotonField {
 public:
-	IRB_Stecker16_lower() : TabularPhotonField("IRB_Stecker16_lower", true) {
-		initPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
-		initPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
-		initRedshift(getDataPath("") + "Scaling/" + this->fieldName + "_redshift.txt");
-		initRedshiftScaling();
-	}
+	IRB_Stecker16_lower() : TabularPhotonField("IRB_Stecker16_lower", true) {}
 };
 
 /**

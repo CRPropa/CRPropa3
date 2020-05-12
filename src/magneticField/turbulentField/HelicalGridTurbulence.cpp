@@ -8,16 +8,17 @@
 
 namespace crpropa {
 
-HelicalGridTurbulence::HelicalGridTurbulence(const GridProperties &gridProp, double Brms,
-                                             double sindex, double H,
-                                             double lMin, double lMax,
-                                             unsigned int seed)
-    : GridTurbulence(gridProp, Brms, sindex, 0., 0., lMin, lMax, seed), H(H) {
-  initTurbulence(gridPtr, Brms, lMin, lMax, -sindex - 2, seed, H);
+HelicalGridTurbulence::HelicalGridTurbulence(const TurbulenceSpectrum &spectrum,
+											 const GridProperties &gridProp,
+                                             double H, unsigned int seed)
+    : GridTurbulence(spectrum, gridProp, seed), H(H) {
+  initTurbulence(gridPtr, spectrum.getBrms(), spectrum.getLmin(), spectrum.getLmax(),
+				 - spectrum.getSindex() - 2, seed, H);
 }
 
 double HelicalGridTurbulence::getCorrelationLength() const {
-  return turbulentCorrelationLength(lMin, lMax, -sindex - 2);
+  return turbulentCorrelationLength(spectrum.getLmin(), spectrum.getLmax(),
+								    - spectrum.getSindex() - 2);
 }
 
 double HelicalGridTurbulence::turbulentCorrelationLength(double lMin,

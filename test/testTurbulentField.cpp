@@ -13,24 +13,13 @@
 
 using namespace crpropa;
 
-TEST(testTurbulentField, correlationLength) {
-	double l_bo = 100;
-	auto tf = TurbulentField(1*muG, 5./3., 4., l_bo);
-	auto Lc = tf.getCorrelationLength();
-    EXPECT_NEAR(Lc, 0.498*l_bo, 0.001*l_bo);
-}
-
-TEST(testPlaneWaveTurbulence, correlationLength) {
-    double Brms = 1*muG;
-    double lMin = 1*kpc;
-    double lMax = 800*kpc;
-	double l_bo = 100*kpc;
-    double s = 5/3.;
-	double q = 4.;
-    
-    auto tf = PlaneWaveTurbulence(Brms, s, q, l_bo, lMin, lMax);
-    auto Lc = tf.getCorrelationLength();
-    EXPECT_NEAR(Lc, 0.498*l_bo, 1*kpc);
+TEST(testTurbulenceSpectrum, correlationLength) {
+	double lMin = 0.00001; // not used for Lc
+	double lMax = 9999999; // not used for Lc
+	double lBo = 100;
+	auto spectrum = TurbulenceSpectrum(1*muG, lMin, lMax, lBo);
+	auto Lc = spectrum.getCorrelationLength();
+    EXPECT_NEAR(Lc, 0.498*lBo, 0.001*lBo);
 }
 
 #ifdef CRPROPA_HAVE_FFTW3F
@@ -50,10 +39,10 @@ TEST(testVectorFieldGrid, Turbulence_bmean_brms) {
 	double Brms = 1;
 	double lMin = 2 * spacing;
 	double lMax = 8 * spacing;
-	double sindex = 5/3.;
 
+	auto spectrum = TurbulenceSpectrum(Brms, lMin, lMax);
 	auto gp = GridProperties(Vector3d(0, 0, 0), n, spacing);
-    auto tf = SimpleGridTurbulence(gp, Brms, sindex, lMin, lMax);
+    auto tf = SimpleGridTurbulence(spectrum, gp);
 	auto grid = tf.getGrid();
 
 	double precision = 1e-7;
@@ -71,14 +60,15 @@ TEST(testVectorFieldGrid, Turbulence_seed) {
 	double Brms = 1;
 	double lMin = 2 * spacing;
 	double lMax = 8 * spacing;
-	double sindex = 5/3.;
 	int seed = 753;
+	
+	auto spectrum = TurbulenceSpectrum(Brms, lMin, lMax);
 
 	auto gp1 = GridProperties(Vector3d(0, 0, 0), n, spacing);
-    auto tf1 = SimpleGridTurbulence(gp1, Brms, sindex, lMin, lMax, seed);
+    auto tf1 = SimpleGridTurbulence(spectrum, gp1,  seed);
 
 	auto gp2 = GridProperties(Vector3d(0, 0, 0), n, spacing);
-    auto tf2 = SimpleGridTurbulence(gp2, Brms, sindex, lMin, lMax, seed);
+    auto tf2 = SimpleGridTurbulence(spectrum, gp2, seed);
 
 	Vector3d pos(22 * Mpc);
 	EXPECT_FLOAT_EQ(tf1.getField(pos).x, tf2.getField(pos).x);
@@ -111,16 +101,16 @@ TEST(testGridTurbulence, Turbulence_seed) {
 	double Brms = 1;
 	double lMin = 2 * spacing;
 	double lMax = 8 * spacing;
-	double s = 5/3.;
-	double q = 4;
-	double l_bo = lMax/6;
+	double lBo = lMax/6;
 	int seed = 137;
+	
+	auto spectrum = TurbulenceSpectrum(Brms, lMin, lMax, lBo);
 
 	auto gp1 = GridProperties(Vector3d(0, 0, 0), n, spacing);
-    auto tf1 = GridTurbulence(gp1, Brms, s, q, l_bo, lMin, lMax, seed);
+    auto tf1 = GridTurbulence(spectrum, gp1, seed);
 
 	auto gp2 = GridProperties(Vector3d(0, 0, 0), n, spacing);
-    auto tf2 = GridTurbulence(gp2, Brms, s, q, l_bo, lMin, lMax, seed);
+    auto tf2 = GridTurbulence(spectrum, gp2, seed);
 
 	Vector3d pos(22 * Mpc);
 	EXPECT_FLOAT_EQ(tf1.getField(pos).x, tf2.getField(pos).x);

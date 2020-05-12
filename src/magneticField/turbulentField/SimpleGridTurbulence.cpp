@@ -8,15 +8,17 @@
 
 namespace crpropa {
 
-SimpleGridTurbulence::SimpleGridTurbulence(const GridProperties &gridProp, double Brms,
-                                           double sindex, double lMin,
-                                           double lMax, unsigned int seed)
-    : GridTurbulence(gridProp, Brms, sindex, 0., 0., lMin, lMax, seed) {
-  initTurbulence(gridPtr, Brms, lMin, lMax, -sindex - 2, seed);
+SimpleGridTurbulence::SimpleGridTurbulence(const TurbulenceSpectrum &spectrum, const GridProperties &gridProp,
+                                           unsigned int seed)
+    : GridTurbulence(spectrum, gridProp, seed) {
+  initTurbulence(gridPtr, spectrum.getBrms(),
+			     spectrum.getLmin(), spectrum.getLmax(), 
+				 -spectrum.getSindex() - 2, seed);
 }
 
 double SimpleGridTurbulence::getCorrelationLength() const {
-  return turbulentCorrelationLength(lMin, lMax, -sindex - 2);
+  return turbulentCorrelationLength(spectrum.getLmin(), spectrum.getLmax(),
+                                    -spectrum.getSindex() - 2);
 }
 
 double SimpleGridTurbulence::turbulentCorrelationLength(double lMin,

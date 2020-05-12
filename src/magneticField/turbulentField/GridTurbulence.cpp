@@ -7,13 +7,11 @@
 namespace crpropa {
 
 
-GridTurbulence::GridTurbulence(const GridProperties &gridProp, double Brms, double sindex,
-                               double qindex, double lBendover, double lMin,
-                               double lMax, unsigned int seed)
-    : TurbulentField(Brms, sindex, qindex, lBendover),
-      lMin(lMin), lMax(lMax), seed(seed) {
+GridTurbulence::GridTurbulence(const TurbulenceSpectrum &spectrum, const GridProperties &gridProp,
+							   unsigned int seed)
+    : TurbulentField(spectrum), seed(seed) {
   initGrid(gridProp);
-  checkGridRequirements(gridPtr, lMin, lMax);
+  checkGridRequirements(gridPtr, spectrum.getLmin(), spectrum.getLmax());
   initTurbulence();
 }
 
@@ -60,9 +58,9 @@ void GridTurbulence::initTurbulence() {
 
   // double kMin = 2*M_PI / lMax; // * 2 * spacing.x; // spacing.x / lMax;
   // double kMax = 2*M_PI / lMin; // * 2 * spacing.x; // spacing.x / lMin;
-  double kMin = spacing.x / lMax;
-  double kMax = spacing.x / lMin;
-  auto lambda = lBendover / spacing.x * 2 * M_PI;
+  double kMin = spacing.x / spectrum.getLmax();
+  double kMax = spacing.x / spectrum.getLmin();
+  auto lambda = spectrum.getLbendover() / spacing.x * 2 * M_PI;
 
   Vector3f b;           // real b-field vector
   Vector3f ek, e1, e2;  // orthogonal base
@@ -105,7 +103,7 @@ void GridTurbulence::initTurbulence() {
         b = e1 * cos(theta) + e2 * sin(theta);
 
         // normal distributed amplitude with mean = 0
-        b *= energySpectrum(k);
+        b *= spectrum.energySpectrum(k);
 
         // uniform random phase
         phase = 2 * M_PI * random.rand();
@@ -128,7 +126,7 @@ void GridTurbulence::initTurbulence() {
   fftwf_free(Bky);
   fftwf_free(Bkz);
 
-  scaleGrid(gridPtr, Brms / rmsFieldStrength(gridPtr)); // normalize to Brms
+  scaleGrid(gridPtr, spectrum.getBrms() / rmsFieldStrength(gridPtr)); // normalize to Brms
 }
 
 // Check the grid properties before the FFT procedure

@@ -92,10 +92,9 @@ float hsum_float_avx(__m256 x) {
 }
 #endif // defined(FAST_WAVES)
 
-PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q,
-                                         double lBendover, double lMin,
-                                         double lMax, int Nm, int seed)
-    : TurbulentField(Brms, s, q, lBendover), lMin(lMin), lMax(lMax), Nm(Nm) {
+PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum, 
+                                         int Nm, int seed)
+    : TurbulentField(spectrum), Nm(Nm) {
 
 #ifdef FAST_WAVES
   KISS_LOG_INFO << "PlaneWaveTurbulence: Using SIMD TD13 implementation"
@@ -114,10 +113,6 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q,
   //}
 #endif
 
-  if (lMin > lMax) {
-    throw std::runtime_error("PlaneWaveTurbulence: lMin > lMax");
-  }
-
   if (Nm <= 1) {
     throw std::runtime_error(
         "PlaneWaveTurbulence: Nm <= 1. We need at least two wavemodes in order "
@@ -127,16 +122,12 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q,
         "doing?!*");
   }
 
-  if (lMin <= 0) {
-    throw std::runtime_error("PlaneWaveTurbulence: lMin <= 0");
-  }
-
   Random random;
   if (seed != 0)
     random.seed(seed);
 
-  double kmax = 2 * M_PI / lMin;
-  double kmin = 2 * M_PI / lMax;
+  double kmax = 2 * M_PI / spectrum.getLmin();
+  double kmin = 2 * M_PI / spectrum.getLmax();
 
   xi = std::vector<Vector3d>(Nm, Vector3d(0.));
   kappa = std::vector<Vector3d>(Nm, Vector3d(0.));
@@ -162,7 +153,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q,
   // non-normalized Ak^2)
   for (int i = 0; i < Nm; i++) {
     double k = this->k[i];
-    double Gk = energySpectrum(k);
+    double Gk = spectrum.energySpectrum(k);
     Ak[i] = Gk * delta_k0 * k;
     Ak2_sum += Ak[i];
 
@@ -197,7 +188,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(double Brms, double s, double q,
   // (this two-step process is necessary in order to normalize the values
   // properly)
   for (int i = 0; i < Nm; i++) {
-    Ak[i] = sqrt(2 * Ak[i] / Ak2_sum) * Brms;
+    Ak[i] = sqrt(2 * Ak[i] / Ak2_sum) * spectrum.getBrms();
   }
 
 #ifdef FAST_WAVES

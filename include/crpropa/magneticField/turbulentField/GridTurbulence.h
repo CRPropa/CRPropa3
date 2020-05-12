@@ -20,7 +20,6 @@ namespace crpropa {
  */
 class GridTurbulence : public TurbulentField {
 protected:
-  double lMin, lMax;
   unsigned int seed;
   ref_ptr<Grid3f> gridPtr;
   
@@ -41,9 +40,8 @@ public:
    @param lMax	 Maximum physical scale of the turbulence
    @param seed	 Random seed
    */
-  GridTurbulence(const GridProperties &gridProp, double Brms, double sindex,
-                 double qindex, double lBendover, double lMin, double lMax,
-                 unsigned int seed = 0);
+  GridTurbulence(const TurbulenceSpectrum &spectum,
+				 const GridProperties &gridProp, unsigned int seed = 0);
 
   Vector3d getField(const Vector3d &pos) const;
   

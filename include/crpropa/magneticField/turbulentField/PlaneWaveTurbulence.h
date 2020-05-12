@@ -51,7 +51,6 @@ common, but there may still be processors in use that do not support them.
  */
 class PlaneWaveTurbulence : public TurbulentField {
 private:
-  double lMax, lMin;
   int Nm;
 
   std::vector<Vector3d> xi;
@@ -97,8 +96,8 @@ public:
      used to generate the field. This works just like in initTurbulence: a seed
      of 0 will lead to a randomly initialized RNG.
   */
-  PlaneWaveTurbulence(double Brms, double s, double q,
-		double lBendover, double lMin, double lMax, int Nm = 64, int seed = 0);
+  PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
+	int Nm = 64, int seed = 0);
 
   /**
      Evaluates the field at the given position.

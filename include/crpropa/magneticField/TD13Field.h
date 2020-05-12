@@ -128,7 +128,7 @@ public:
       @param seed can be used to seed the random number generator used to generate the field. This works just like in initTurbulence: a seed of 0 will lead to a randomly initialized RNG.
 */
   TD13Field(double Brms, double kmin, double kmax, double s = 5/3.,
-	    double bendoverScale = 4.5e9, int Nm = 100, int seed = 0);
+	    int Nm = 100, int seed = 0);
 
   // TODO: bendoverScale: figure out how to improve this, b/c it takes up space in the constructor arguments
   // (Lukas's suggestion was to use a setter for this, but it turns out that's not that easy
@@ -145,8 +145,9 @@ public:
   // versions:
   // 4: introduce field versioning;
   //    add volume correction factor   
+  // 5: switch to pure power-law spectrum
   static int fieldVersion() {
-    return 4;
+    return 5;
   }
 };
 

@@ -24,6 +24,14 @@ TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDep
 		initRedshiftScaling();
 }
 
+double TabularPhotonField::getPhotonDensity(double ePhoton, double z) const {
+	if (this->isRedshiftDependent) {
+		return interpolate2d(ePhoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
+	} else {
+		return interpolate(ePhoton, this->photonEnergies, this->photonDensity);
+	}
+}
+
 double TabularPhotonField::getRedshiftScaling(double z) const {
 	if (this->isRedshiftDependent) {
 		if (z > this->redshifts.back()) {
@@ -35,14 +43,6 @@ double TabularPhotonField::getRedshiftScaling(double z) const {
 		}
 	} else {
 		return 1.;
-	}
-}
-
-double TabularPhotonField::getPhotonDensity(double ePhoton, double z) const {
-	if (this->isRedshiftDependent) {
-		return interpolate2d(ePhoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
-	} else {
-		return interpolate(ePhoton, this->photonEnergies, this->photonDensity);
 	}
 }
 

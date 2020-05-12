@@ -6,6 +6,7 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/magneticField/turbulentField/TurbulentField.h"
 #include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 
 #include "gtest/gtest.h"
 
@@ -18,9 +19,22 @@ TEST(testTurbulentField, correlationLength) {
     EXPECT_NEAR(Lc, 0.498*l_bo, 0.001*l_bo);
 }
 
+TEST(testPlaneWaveTurbulence, correlationLength) {
+    double Brms = 1*muG;
+    double lMin = 1*kpc;
+    double lMax = 800*kpc;
+	double l_bo = 100*kpc;
+    double s = 5/3.;
+	double q = 4.;
+    
+    auto tf = PlaneWaveTurbulence(Brms, s, q, l_bo, lMin, lMax);
+    auto Lc = tf.getCorrelationLength();
+    EXPECT_NEAR(Lc, 0.498*l_bo, 1*kpc);
+}
+
 #ifdef CRPROPA_HAVE_FFTW3F
 
-TEST(testSimpleGridTurbulence, correlationLength) {
+TEST(testSimpleGridTurbulence, oldFunctionForCrrelationLength) { //TODO: remove in future
 	double lMin = 1*kpc;
 	double lMax = 1*Gpc;
 	double alpha = -11/3.;

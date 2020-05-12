@@ -8,14 +8,14 @@
 
 namespace crpropa {
 
-SimpleGridTurbulence::SimpleGridTurbulence(double Brms, double lMin, double lMax, double sindex, unsigned int seed)
-	: TurbulentField(Brms, sindex), lMin(lMin), lMax(lMax), seed(seed) {
+SimpleGridTurbulence::SimpleGridTurbulence(double Brms, double sindex, double lMin, double lMax, int gridSize, double boxSize, unsigned int seed)
+	: TurbulentField(Brms, sindex), lMin(lMin), lMax(lMax), gridSize(gridSize), boxSize(boxSize), seed(seed) {
 	initGrid();
 	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed);
 }
 
 SimpleGridTurbulence::SimpleGridTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin, double lMax, double alpha, unsigned int seed) 
-	: TurbulentField(Brms, sindex), gridPtr(grid), lMin(lMin), lMax(lMax), seed(seed) {
+	: TurbulentField(Brms, sindex), gridPtr(grid), lMin(lMin), lMax(lMax), gridSize(gridSize), boxSize(boxSize), seed(seed) {
 	initTurbulence(gridPtr, Brms, lMin, lMax, - sindex - 2, seed);
 }
 

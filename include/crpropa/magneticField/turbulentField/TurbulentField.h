@@ -71,10 +71,11 @@ class TurbulenceSpectrum : public Referenced {
 	
 	/**
 	General energy spectrum for synthetic turbulence models (not normalized!)
+	with normalized ^k = k*lBendover
 	*/
-	virtual double energySpectrum(double k) const {
-		return lBendover * std::pow(k * lBendover, qIndex) /
-				       std::pow(1.0 + k * k * lBendover * lBendover,
+	virtual double energySpectrum(double kHat) const {
+		return std::pow(kHat, qIndex) /
+				       std::pow(1.0 + kHat * kHat,
 			                (sIndex + qIndex) / 2.0 + 1.0);
 	}
 

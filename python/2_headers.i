@@ -85,6 +85,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore crpropa::Vector3::data;
 
 %include "crpropa/Vector3.h"
+
 %extend crpropa::Vector3
 {
   size_t __len__()
@@ -372,6 +373,9 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
+
+%template(Array3d) std::array<double, 3>;
+%template(Array3f) std::array<float, 3>;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
 %template(Grid3fRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;

@@ -80,6 +80,27 @@ double rmsFieldStrength(ref_ptr<Grid1f> grid) {
 	return std::sqrt(sumV2 / Nx / Ny / Nz);
 }
 
+std::array<float, 3> rmsFieldStrengthPerAxis(ref_ptr<Grid3f> grid) {
+    size_t Nx = grid->getNx();
+    size_t Ny = grid->getNy();
+    size_t Nz = grid->getNz();
+    float sumV2_x = 0;
+    float sumV2_y = 0;
+    float sumV2_z = 0;
+    for (int ix = 0; ix < Nx; ix++)
+        for (int iy = 0; iy < Ny; iy++)
+            for (int iz = 0; iz < Nz; iz++) {
+                sumV2_x += pow(grid->get(ix, iy, iz).x, 2);
+                sumV2_y += pow(grid->get(ix, iy, iz).y, 2);
+                sumV2_z += pow(grid->get(ix, iy, iz).z, 2);
+            }
+    return {
+        std::sqrt(sumV2_x / Nx / Ny / Nz),
+        std::sqrt(sumV2_y / Nx / Ny / Nz),
+        std::sqrt(sumV2_z / Nx / Ny / Nz)
+    };
+}
+
 void fromMagneticField(ref_ptr<Grid3f> grid, ref_ptr<MagneticField> field) {
 	Vector3d origin = grid->getOrigin();
 	Vector3d spacing = grid->getSpacing();

@@ -40,6 +40,8 @@ double meanFieldStrength(ref_ptr<Grid3f> grid);
 double rmsFieldStrength(ref_ptr<Grid1f> grid);
 /** Evaluate the RMS of all grid points */
 double rmsFieldStrength(ref_ptr<Grid3f> grid);
+/** Evaluate the RMS of all grid points per axis */
+std::array<float, 3> rmsFieldStrengthPerAxis(ref_ptr<Grid3f> grid);
 
 /** Multiply all grid values by a given factor */
 void scaleGrid(ref_ptr<Grid1f> grid, double a);

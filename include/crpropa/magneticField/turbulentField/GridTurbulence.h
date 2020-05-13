@@ -59,6 +59,8 @@ class GridTurbulence : public TurbulentField {
 	double getMeanFieldStrength() const;
 	/** Evaluate the RMS of all grid points */
 	double getRmsFieldStrength() const;
+	/** Evaluate the RMS of all grid points per axis */
+	std::array<float, 3> getRmsFieldStrengthPerAxis() const;
 	/** Evaluate generated power-spectrum */
 	std::vector<std::pair<int, float>> getPowerSpectrum() const;
 	/** Dump a Grid3f to a binary file */

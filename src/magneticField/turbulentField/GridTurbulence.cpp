@@ -53,7 +53,7 @@ void GridTurbulence::initTurbulence() {
 	double k;
 
 	// parameters goes for non-helical calculations
-	double theta, phase, cosPhase, sinPhase;
+	double theta;
 
 	// double kMin = 2*M_PI / lMax; // * 2 * spacing.x; // spacing.x / lMax;
 	// double kMax = 2*M_PI / lMin; // * 2 * spacing.x; // spacing.x / lMin;
@@ -99,15 +99,15 @@ void GridTurbulence::initTurbulence() {
 
 				// random orientation perpendicular to k
 				theta = 2 * M_PI * random.rand();
-				b = e1 * cos(theta) + e2 * sin(theta);
+				b = e1 * std::cos(theta) + e2 * std::sin(theta);
 
 				// normal distributed amplitude with mean = 0
 				b *= std::sqrt(spectrum.energySpectrum(k*lambda));
-
+				
 				// uniform random phase
-				phase = 2 * M_PI * random.rand();
-				cosPhase = cos(phase); // real part
-				sinPhase = sin(phase); // imaginary part
+				double phase = 2 * M_PI * random.rand();
+				double cosPhase = std::cos(phase); // real part
+				double sinPhase = std::sin(phase); // imaginary part
 
 				Bkx[i][0] = b.x * cosPhase;
 				Bkx[i][1] = b.x * sinPhase;
@@ -200,6 +200,10 @@ double GridTurbulence::getMeanFieldStrength() const {
 
 double GridTurbulence::getRmsFieldStrength() const {
 	return rmsFieldStrength(gridPtr);
+}
+
+std::array<float, 3> GridTurbulence::getRmsFieldStrengthPerAxis() const {
+	return rmsFieldStrengthPerAxis(gridPtr);
 }
 	
 std::vector<std::pair<int, float>> GridTurbulence::getPowerSpectrum() const {

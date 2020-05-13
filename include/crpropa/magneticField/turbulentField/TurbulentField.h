@@ -26,7 +26,7 @@ class TurbulenceSpectrum : public Referenced {
 
   protected:
 	/**
-	Normalization for the above defined energy spectrum
+	Normalization for the below defined Lc
 	*/
 	double spectrumNormalization() const {
 		return std::tgamma((sIndex + qIndex) / 2.0) /
@@ -68,14 +68,14 @@ class TurbulenceSpectrum : public Referenced {
 	double getLbendover() const { return lBendover; }
 	double getSindex() const { return sIndex; }
 	double getQindex() const { return qIndex; }
-
+	
 	/**
 	General energy spectrum for synthetic turbulence models (not normalized!)
 	*/
 	virtual double energySpectrum(double k) const {
 		return lBendover * std::pow(k * lBendover, qIndex) /
-		       std::pow(1.0 + k * k * lBendover * lBendover,
-		                (sIndex + qIndex) / 2);
+				       std::pow(1.0 + k * k * lBendover * lBendover,
+			                (sIndex + qIndex) / 2.0 + 1.0);
 	}
 
 	/**

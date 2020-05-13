@@ -102,7 +102,7 @@ void GridTurbulence::initTurbulence() {
 				b = e1 * cos(theta) + e2 * sin(theta);
 
 				// normal distributed amplitude with mean = 0
-				b *= spectrum.energySpectrum(k);
+				b *= std::sqrt(spectrum.energySpectrum(k*lambda));
 
 				// uniform random phase
 				phase = 2 * M_PI * random.rand();
@@ -143,9 +143,7 @@ void GridTurbulence::checkGridRequirements(ref_ptr<Grid3f> grid, double lMin,
 		throw std::runtime_error("turbulentField: only equal spacing suported");
 	if (lMin < 2 * spacing.x)
 		throw std::runtime_error("turbulentField: lMin < 2 * spacing");
-	if (lMin >= lMax)
-		throw std::runtime_error("turbulentField: lMin >= lMax");
-	if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2)
+	if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2), why?
 		throw std::runtime_error("turbulentField: lMax > size");
 }
 
@@ -192,6 +190,25 @@ void GridTurbulence::executeInverseFFTInplace(ref_ptr<Grid3f> grid,
 	}
 }
 
+Vector3f GridTurbulence::getMeanFieldVector() const {
+	return meanFieldVector(gridPtr);
+}
+
+double GridTurbulence::getMeanFieldStrength() const {
+	return meanFieldStrength(gridPtr);
+}
+
+double GridTurbulence::getRmsFieldStrength() const {
+	return rmsFieldStrength(gridPtr);
+}
+	
+std::vector<std::pair<int, float>> GridTurbulence::getPowerSpectrum() const {
+	return gridPowerSpectrum(gridPtr);
+}
+
+void GridTurbulence::dumpToFile(std::string filename) const {
+	dumpGrid(gridPtr, filename);
+}
 
 } // namespace crpropa
 

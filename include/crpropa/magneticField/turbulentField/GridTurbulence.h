@@ -51,6 +51,18 @@ class GridTurbulence : public TurbulentField {
 	static void executeInverseFFTInplace(ref_ptr<Grid3f> grid,
 	                                     fftwf_complex *Bkx, fftwf_complex *Bky,
 	                                     fftwf_complex *Bkz);
+
+	// Usefull checks for a grid field
+	/** Evaluate the mean vector of all grid points */
+	Vector3f getMeanFieldVector() const;
+	/** Evaluate the mean of all grid points */
+	double getMeanFieldStrength() const;
+	/** Evaluate the RMS of all grid points */
+	double getRmsFieldStrength() const;
+	/** Evaluate generated power-spectrum */
+	std::vector<std::pair<int, float>> getPowerSpectrum() const;
+	/** Dump a Grid3f to a binary file */
+	void dumpToFile(std::string filename) const;
 };
 
 /** @}*/

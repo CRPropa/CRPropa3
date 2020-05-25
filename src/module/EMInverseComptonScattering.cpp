@@ -172,14 +172,14 @@ class ICSSecondariesEnergyDistribution {
 void EMInverseComptonScattering::performInteraction(Candidate *candidate) const {
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
-	double E = candidate->current.getEnergy() * (1 + z);
+	double E = candidate->current.getEnergy();
 
-	if (E < tabE.front() or E > tabE.back())
+	if (E * (1 + z) < tabE.front() or E * (1 + z) > tabE.back())
 		return;
 
 	// sample the value of s
 	Random &random = Random::instance();
-	size_t i = closestIndex(E, tabE);
+	size_t i = closestIndex(E * (1 + z), tabE);
 	size_t j = random.randBin(tabCDF[i]);
 	double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);
 	double s = s_kin + mec2 * mec2;
@@ -196,12 +196,12 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = w0 / pow(1 - f, thinning);
 			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-			candidate->addSecondary(22, Esecondary / (1 + z), pos, w);
+			candidate->addSecondary(22, Esecondary, pos, w);
 		}
 	}
 
 	// update the primary particle energy; do this after adding the secondary to correctly set the secondary's parent
-	candidate->current.setEnergy(Enew / (1 + z));
+	candidate->current.setEnergy(Enew);
 }
 
 void EMInverseComptonScattering::process(Candidate *candidate) const {
@@ -212,23 +212,32 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 
 	// scale the particle energy instead of background photons
 	double z = candidate->getRedshift();
-	double E = (1 + z) * candidate->current.getEnergy();
+	double E = candidate->current.getEnergy();
 
-	if (E < tabEnergy.front() or (E > tabEnergy.back()))
+	if (E * (1 + z) < tabEnergy.front() or (E * (1 + z) > tabEnergy.back()))
 		return;
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
+	// run this loop at least once to limit the step size
+	double step = candidate->getCurrentStep();
+	while (step > 0) {
+		Random &random = Random::instance();
+		double randDistance = -log(random.rand()) / rate;
 
-	// check for interaction
-	Random &random = Random::instance();
-	double randDistance = -log(random.rand()) / rate;
-	if (candidate->getCurrentStep() > randDistance)
+		// check for interaction; if it doesn't ocurr, limut next step
+		if (step < randDistance) {
+			candidate->limitNextStep(limit / rate);
+			return;
+		}
+		// interaction
 		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+
+		// repeat with remaining step
+		step -= randDistance;
+	}
 }
 
 } // namespace crpropa

@@ -162,13 +162,20 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
 	double rate = scaling * interpolate(E, tabEnergy, tabRate);
 
-	// check for interaction
-	Random &random = Random::instance();
-	double randDistance = -log(random.rand()) / rate;
-	if (candidate->getCurrentStep() > randDistance)
+	// run this loop at least once to limit the step size
+	double step = candidate->getCurrentStep();
+	while (step > 0) {
+		// check for interaction
+		Random &random = Random::instance();
+		double randDistance = -log(random.rand()) / rate;
+		if (step < randDistance) {
+			candidate->limitNextStep(limit / rate);
+			return;
+		}
 		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+
+		step -= randDistance;
+	}
 }
 
 } // namespace crpropa

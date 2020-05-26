@@ -172,7 +172,7 @@ class PPSecondariesEnergyDistribution {
 void EMPairProduction::performInteraction(Candidate *candidate) const {
 	// scale particle energy instead of background photon energy
 	double z = candidate->getRedshift();
-	double E = candidate->current.getEnergy();
+	double E = candidate->current.getEnergy() * (1 + z);
 
 	// cosmic ray photon is lost after interacting
 	candidate->setActive(false);
@@ -182,12 +182,12 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 		return;
 
 	// check if in tabulated energy range
-	if (E * (1 + z) < tabE.front() or (E * (1 + z) > tabE.back()))
+	if (E < tabE.front() or (E > tabE.back()))
 		return;
 
 	// sample the value of s
 	Random &random = Random::instance();
-	size_t i = closestIndex(E * (1 + z), tabE);  // find closest tabulation point
+	size_t i = closestIndex(E, tabE);  // find closest tabulation point
 	size_t j = random.randBin(tabCDF[i]);
 	double lo = std::max(4 * mec2 * mec2, tabs[j-1]);  // first s-tabulation point below min(s_kin) = (2 me c^2)^2; ensure physical value
 	double hi = tabs[j];
@@ -205,11 +205,11 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	// apply sampling
 	if (random.rand() < pow(f, thinning)) {
 		double w = w0 / pow(f, thinning);
-		candidate->addSecondary(11, Ep, pos, w);
+		candidate->addSecondary(11, Ep / (1 + z), pos, w);
 	}
 	if (random.rand() < pow(1 - f, thinning)){
 		double w = w0 / pow(1 - f, thinning);
-		candidate->addSecondary(-11, Ee, pos, w);	
+		candidate->addSecondary(-11, Ee / (1 + z), pos, w);	
 	}
 }
 
@@ -220,30 +220,30 @@ void EMPairProduction::process(Candidate *candidate) const {
 
 	// scale particle energy instead of background photon energy
 	double z = candidate->getRedshift();
-	double E = candidate->current.getEnergy();
+	double E = candidate->current.getEnergy() * (1 + z);
 
 	// check if in tabulated energy range
-	if ((E * (1 + z) < tabEnergy.front()) or (E * (1 + z) > tabEnergy.back()))
+	if ((E < tabEnergy.front()) or (E > tabEnergy.back()))
 		return;
 
 	// interaction rate
-	double rate = interpolate(E * (1 + z), tabEnergy, tabRate);
+	double rate = interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
 	// run this loop at least once to limit the step size
+	Random &random = Random::instance();
 	double step = candidate->getCurrentStep();
-	while (step > 0) {
+	do {
 		// check for interaction
-		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
-		if (step < randDistance) {
+		// std::cout << step << " " << randDistance << std::endl;
+		if (step > randDistance) 
+			performInteraction(candidate);
+		else
 			candidate->limitNextStep(limit / rate);
-			return;
-		}
-		performInteraction(candidate);
 
 		step -= randDistance;
-	}
+	} while (step > 0);
 }
 
 } // namespace crpropa

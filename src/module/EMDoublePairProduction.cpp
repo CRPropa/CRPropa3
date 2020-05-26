@@ -108,22 +108,18 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 	double rate = interpolate(E, tabEnergy, tabRate);
 	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
 
-	// run this loop at least once to limit the step size
+	// check for interaction
+	Random &random = Random::instance();
+	double randDistance = -log(random.rand()) / rate;
 	double step = candidate->getCurrentStep();
-	do {
-		// check for interaction
-		Random &random = Random::instance();
-		double randDistance = -log(random.rand()) / rate;
-		if (step < randDistance) {
-			candidate->limitNextStep(limit / rate);
-			return;
-		} else { // after performing interaction photon ceases to exist (hence return)
-			performInteraction(candidate);
-			return;
-		}
+	if (step < randDistance) {
+		candidate->limitNextStep(limit / rate);
+		return;
+	} else { // after performing interaction photon ceases to exist (hence return)
+		performInteraction(candidate);
+		return;
+	}
 
-		step -= randDistance;
-	} while (step > 0);
 }
 
 

@@ -102,8 +102,8 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 }
 
 void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
-
-	if  (abs(candidate->current.getId()) != 11)
+	int id = candidate->current.getId();
+	if  (abs(id) != 11)
 		return;
 
 	// scale the particle energy instead of background photons
@@ -139,8 +139,8 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 			candidate->addSecondary(-11, Epp / (1 + z), pos, w);
 		}
 	}
-
-	// update the primary particle energy; do this after adding the secondaries to correctly set the secondaries parent
+	// Update the primary particle energy.
+	// This is done after adding the secondaries to correctly set the secondaries parent
 	candidate->current.setEnergy((E - 2 * Epp) / (1. + z));
 }
 
@@ -155,7 +155,7 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	double E = (1 + z) * candidate->current.getEnergy();
 
 	// check if in tabulated energy range
-	if (E < tabEnergy.front() or (E > tabEnergy.back()))
+	if ((E < tabEnergy.front()) or (E > tabEnergy.back()))
 		return;
 
 	// cosmological scaling of interaction distance (comoving)
@@ -165,15 +165,15 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	// run this loop at least once to limit the step size
 	double step = candidate->getCurrentStep();
 	do {
-		// check for interaction
 		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
-		if (step > randDistance) 
-			performInteraction(candidate);
-		else
+		// check for interaction; if it doesn't ocurr, limit next step
+		if (step < randDistance) { 
 			candidate->limitNextStep(limit / rate);
-		step -= randDistance;
-	} while (step > 0);
+		}
+		performInteraction(candidate);
+		step -= randDistance; 
+	} while (step > 0.);
 }
 
 } // namespace crpropa

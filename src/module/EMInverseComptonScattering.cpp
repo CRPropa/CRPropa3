@@ -13,9 +13,9 @@ static const double mec2 = mass_electron * c_squared;
 
 EMInverseComptonScattering::EMInverseComptonScattering(PhotonField photonField, bool havePhotons, double thinning, double limit) {
 	setPhotonField(photonField);
-	this->havePhotons = havePhotons;
-	this->limit = limit;
-	this->thinning = thinning;
+	setHavePhotons(havePhotons);
+	setLimit(limit);
+	setThinning(thinning);
 }
 
 void EMInverseComptonScattering::setPhotonField(PhotonField photonField) {

@@ -207,7 +207,7 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 void EMInverseComptonScattering::process(Candidate *candidate) const {
 	// check if electron / positron
 	int id = candidate->current.getId();
-	if (id != 11 && id != -11)
+	if (abs(id) != 11)
 		return;
 
 	// scale the particle energy instead of background photons
@@ -227,11 +227,12 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
 
-		// check for interaction; if it doesn't ocurr, limut next step
-		if (step > randDistance) 
-			performInteraction(candidate);
-		else
+		// check for interaction; if it doesn't ocurr, limit next step
+		if (step < randDistance) {
 			candidate->limitNextStep(limit / rate);
+			return;
+		}
+		performInteraction(candidate);
 
 		// repeat with remaining step
 		step -= randDistance;

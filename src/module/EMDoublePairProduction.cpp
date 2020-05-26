@@ -60,7 +60,7 @@ void EMDoublePairProduction::initRate(std::string filename) {
 
 
 void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
-	// the photon is lost in interaction
+	// the photon is lost after the interaction
 	candidate->setActive(false);
 
 	if (not haveElectrons)
@@ -69,7 +69,8 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	// Use assumption of Lee 96 arXiv:9604098
 	// Energy is equally shared between one e+e- pair, but take mass of second e+e- pair into account.
 	// This approximation has been shown to be valid within -1.5%.
-	double E = candidate->current.getEnergy();
+	double z = candidate->getRedshift();
+	double E = candidate->current.getEnergy() * (1 + z);
 	double Ee = (E - 2 * mass_electron * c_squared) / 2;
 
 	Random &random = Random::instance();
@@ -81,11 +82,11 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	if (haveElectrons) {
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = w0 / pow(1 - f, thinning);
-			candidate->addSecondary( 11, Ee, pos, w);
+			candidate->addSecondary( 11, Ee / (1 + z), pos, w);
 		} 
 		if (random.rand() < pow(f, thinning)) {
 			double w = w0 / pow(f, thinning);
-			candidate->addSecondary(-11, Ee, pos, w);
+			candidate->addSecondary(-11, Ee / (1 + z), pos, w);
 		}
 	}
 }
@@ -109,18 +110,17 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 
 	// run this loop at least once to limit the step size
 	double step = candidate->getCurrentStep();
-	while (step > 0) {
+	do {
 		// check for interaction
 		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
-		if (step < randDistance) {
+		if (step > randDistance) 
+			performInteraction(candidate);
+		else
 			candidate->limitNextStep(limit / rate);
-			return;
-		}
-		performInteraction(candidate);
 
 		step -= randDistance;
-	}
+	} while (step > 0);
 }
 
 

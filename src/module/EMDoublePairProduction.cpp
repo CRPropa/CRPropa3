@@ -10,9 +10,9 @@ namespace crpropa {
 
 EMDoublePairProduction::EMDoublePairProduction(PhotonField photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
-	this->haveElectrons = haveElectrons;
-	this->thinning = thinning;
-	this->limit = limit;
+	setHaveElectrons(haveElectrons);
+	setLimit(limit);
+	setThinning(thinning);
 }
 
 void EMDoublePairProduction::setPhotonField(PhotonField photonField) {

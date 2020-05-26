@@ -12,9 +12,9 @@ static const double mec2 = mass_electron * c_squared;
 
 EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
-	this->haveElectrons = haveElectrons;
-	this->limit = limit;
-	this->thinning = thinning;
+	setHaveElectrons(haveElectrons);
+	setLimit(limit);
+	setThinning(thinning);
 }
 
 void EMTripletPairProduction::setPhotonField(PhotonField photonField) {

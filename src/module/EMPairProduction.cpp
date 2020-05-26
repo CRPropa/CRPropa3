@@ -234,13 +234,14 @@ void EMPairProduction::process(Candidate *candidate) const {
 	Random &random = Random::instance();
 	double step = candidate->getCurrentStep();
 	do {
-		// check for interaction
 		double randDistance = -log(random.rand()) / rate;
-		// std::cout << step << " " << randDistance << std::endl;
-		if (step > randDistance) 
-			performInteraction(candidate);
-		else
+		if (step < randDistance) {
 			candidate->limitNextStep(limit / rate);
+			return;
+		} else { // after performing interaction photon ceases to exist (hence return)
+			performInteraction(candidate);
+			return;
+		}
 
 		step -= randDistance;
 	} while (step > 0);

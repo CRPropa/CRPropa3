@@ -118,7 +118,7 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	size_t i = closestIndex(E, tabE);
 	size_t j = random.randBin(tabCDF[i]);
 	double s_kin = pow(10, log10(tabs[j]) + (random.rand() - 0.5) * 0.1);
-	double eps = s_kin / 4 / E; // random background photon energy
+	double eps = s_kin / 4. / E; // random background photon energy
 
 	// Use approximation from A. Mastichiadis et al., Astroph. Journ. 300:178-189 (1986), eq. 30.
 	// This approx is valid only for alpha >=100 where alpha = p0*eps*costheta - E0*eps
@@ -132,16 +132,16 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = w0 / pow(1 - f, thinning);
-			candidate->addSecondary(11, Epp, pos, w);
+			candidate->addSecondary(11, Epp / (1 + z), pos, w);
 		}
 		if (random.rand() < pow(f, thinning)) {
 			double w = w0 / pow(f, thinning);
-			candidate->addSecondary(-11, Epp, pos, w);
+			candidate->addSecondary(-11, Epp / (1 + z), pos, w);
 		}
 	}
 
 	// update the primary particle energy; do this after adding the secondaries to correctly set the secondaries parent
-	candidate->current.setEnergy((E - 2 * Epp));
+	candidate->current.setEnergy((E - 2 * Epp) / (1. + z));
 }
 
 void EMTripletPairProduction::process(Candidate *candidate) const {
@@ -164,18 +164,16 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 
 	// run this loop at least once to limit the step size
 	double step = candidate->getCurrentStep();
-	while (step > 0) {
+	do {
 		// check for interaction
 		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
-		if (step < randDistance) {
+		if (step > randDistance) 
+			performInteraction(candidate);
+		else
 			candidate->limitNextStep(limit / rate);
-			return;
-		}
-		performInteraction(candidate);
-
 		step -= randDistance;
-	}
+	} while (step > 0);
 }
 
 } // namespace crpropa

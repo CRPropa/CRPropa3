@@ -211,29 +211,6 @@ public:
 	CMB() : BlackbodyPhotonField("CMB", 2.73) {}
 };
 
-/**
- @class PowerLawPhotonField
- @brief Photon field decorator for power law photon fields.
-
- This photon field is defined from eMin to eMax with a power law index < 0.
- The norm factor should be equal to the maximal photon number density in [1/m^3] of this field, i.e. at eMin.
- */
-class PowerLawPhotonField: public PhotonField {
-public:	
-	PowerLawPhotonField(
-		const std::string fieldName,
-		const double eMin,
-		const double eMax,
-		const double powerLawIndex,
-		const double normFactor);
-	double getPhotonDensity(double ePhoton, double z = 0.) const;
-
-protected:
-	double eMin;
-	double eMax;
-	double powerLawIndex;
-	double normFactor;
-};
 
 /**
  @class PhotonFieldSampling

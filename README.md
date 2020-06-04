@@ -2,6 +2,7 @@ CRPropa3
 ========
 
 [![Build Status](https://travis-ci.org/CRPropa/CRPropa3.svg?branch=master)](https://travis-ci.org/CRPropa/CRPropa3)
+[![Coverage Status](https://coveralls.io/repos/github/CRPropa/CRPropa3/badge.svg)](https://coveralls.io/github/CRPropa/CRPropa3)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](http://isitmaintained.com/project/CRPropa/CRPropa3 "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](http://isitmaintained.com/project/CRPropa/CRPropa3 "Percentage of issues still open")
 

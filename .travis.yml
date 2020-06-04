@@ -5,6 +5,9 @@ addons:
         - gcc-6
         - g++-6
         - gfortran-6
+        - gcc-9
+        - g++-9
+        - gfortran-9
         - swig
         - libfftw3-dev
         - libcfitsio-dev
@@ -26,6 +29,7 @@ addons:
         - graphviz
         - pandoc
         - python3-pip
+        - lcov
       sources: &sources
         - ubuntu-toolchain-r-test
 cache:
@@ -33,6 +37,19 @@ cache:
     - $HOME/crpropa_cache
 matrix:
   include:
+    - os : linux
+      dist: bionic
+      compiler: gcc
+      env:
+         - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
+         - PYTHON_EXECUTABLE=/usr/bin/python2
+    - os : linux
+      dist: bionic
+      compiler: gcc
+      env:
+        - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9 FC=gfortran-9
+        - PYTHON_EXECUTABLE=/usr/bin/python3
+        - COVERALLS=true
     - os : linux
       dist: bionic
       compiler: gcc
@@ -45,18 +62,6 @@ matrix:
       compiler: clang
       env:
         - PYTHON_EXECUTABLE=/usr/bin/python3 FC=gfortran-6
-        - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
-    - os : linux
-      dist: bionic
-      compiler: gcc
-      env:
-         - COMPILER_NAME=gcc CXX=g++-6 CC=gcc-6 FC=gfortran-6
-         - PYTHON_EXECUTABLE=/usr/bin/python2
-    - os : linux
-      dist: bionic
-      compiler: clang
-      env:
-        - PYTHON_EXECUTABLE=/usr/bin/python2 FC=gfortran-6
         - LD_LIBRARY_PATH=/usr/local/clang/lib:$LD_LIBRARY_PATH
     - os : osx
       compiler: clang
@@ -75,6 +80,10 @@ before_install:
       HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true;
       HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc;
     fi;
+  - |
+    if [ $COVERALLS ]; then
+      pip install --user cpp-coveralls
+    fi;
 
 before_script:
   - mkdir build
@@ -85,7 +94,12 @@ before_script:
       echo "Using data file from cache!"
       cp $DATAFILE .
     fi
-  - cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
+  - |
+    if [ $COVERALLS ]; then
+        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On -DCMAKE_BUILD_TYPE:STRING=Debug -DENABLE_COVERAGE=TRUE
+    else
+        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
+    fi
   - cp data.tar.gz $HOME/crpropa_cache
 script:
   - VERBOSE=1 make
@@ -127,4 +141,7 @@ after_success:
       git -c user.name='travis' -c user.email='travis' commit -m `echo Build_$TRAVIS_COMMIT` index.html
       git push
       cd ..
-    fi
+    fi;
+    if [ $COVERALLS ]; then
+        coveralls --gcov /usr/bin/gcov-9 --gcov-options '\-lp' --root $HOME/build/CRPropa/CRPropa3 --build-root $HOME/build/CRPropa/CRPropa3/build --include src --include include --exclude ".*CMakeFiles.*" --exclude libs --exclude test
+    fi;

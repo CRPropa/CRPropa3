@@ -22,16 +22,44 @@ namespace crpropa {
  */
 
 
+/**
+ @class ConstantMomentumDiffusion
+ * Simplest model for diffusion in momentum space
+ */
+
+class ConstantMomentumDiffusion: public Module {
+
+private:
+	double Dpp; // Diffusion coefficient
+
+public:
+	/** Constructor
+	@param Dpp 	momentum diffusion coefficient
+	*/
+
+	ConstantMomentumDiffusion(double Dpp);
+
+	void process(Candidate *candidate) const;
+	double calculateAScalar(double p) const;
+	double calculateBScalar() const;
+
+	void setDpp(double Dpp);
+
+	double getDpp() const;
+
+	std::string getDescription() const;
+
+};
+
 
 /**
- @class MomentumDiffusion
- @brief Changes the energy/absolute momentum of the pseudo(!)-particles
- * Here an Euler-Maruyama integration scheme is used. The momentum diffusion
- * scales with the parallel spatial diffusion coefficient as Dpp*Dxx \propto p^2 * v_A^2
+ @class PowerlawMomentumDiffusion
+ * The momentum diffusion scales with the parallel spatial diffusion
+ * coefficient as Dpp*Dxx \propto p^2 * v_A^2
  * Here, v_A is the Alven speed of the wave turbulence. 
  */
 
-class MomentumDiffusion: public Module {
+class PowerlawMomentumDiffusion: public Module {
 
 private:
 	double alpha; // power law index of the energy dependent diffusion coefficient: D\propto E^alpha
@@ -46,8 +74,8 @@ public:
 	@param aV	Alven speed of the wave turbulence
 	*/
 
-	MomentumDiffusion(double alpha, double scale);
-	MomentumDiffusion();
+	PowerlawMomentumDiffusion(double alpha, double scale);
+	PowerlawMomentumDiffusion();
 
 	void process(Candidate *candidate) const;
 	double calculateDpp(double rig, double p) const;

@@ -11,7 +11,64 @@
 
 using namespace crpropa;
 
-MomentumDiffusion::MomentumDiffusion() : 
+ConstantMomentumDiffusion::ConstantMomentumDiffusion(double Dpp) {
+	setDpp(Dpp);
+}
+
+void ConstantMomentumDiffusion::process(Candidate *c) const {
+	double rig = c->current.getRigidity();
+	if (std::isinf(rig)) {
+		return; // Only charged particles
+	}
+	
+	double p = c->current.getEnergy()/c_light; // Note we use E=p/c (relativistic limit)
+	double dt = c->getCurrentStep() / c_light;
+	
+	std::cout <<dt<<"\n"; // Has to be deleted
+	double eta =  Random::instance().randNorm();
+	double domega = eta * sqrt(dt);
+	
+	double AScal = calculateAScalar(p);
+	double BScal = calculateBScalar();
+
+	double dp = AScal * dt + BScal * domega;
+	std::cout <<dp<<"\n"; //Has to be deleted
+	c->current.setEnergy((p + dp)*c_light);
+	
+	//Fast, but a little bit inconsitent, since the equation limit=\Delta p(step) / p
+	//is not correctly solved.  
+	//c->limitNextStep(limit * p / ((AScal + BScal/sqrt(dt)) * c_light)); //Check for the factor c_light
+	
+	//Solving the equation correctly
+	//double c_tilde = limit*p;
+	//double a = AScal;
+	//double b = fabs(BScal)*0.8; //mean value of next diffusion step |eta|
+	//c->limitNextStep((-b*sqrt(4*a*c_tilde+b*b)+4*a*c_tilde+b*b)/(2*a*a) * c_light);
+}
+
+double ConstantMomentumDiffusion::calculateAScalar(double p) const {
+	double a = - 2./p * Dpp;
+	return a; 
+}
+
+double ConstantMomentumDiffusion::calculateBScalar() const {
+	double b = sqrt(2 * Dpp);
+	return b;
+}
+
+void ConstantMomentumDiffusion::setDpp(double d) {
+	if (d < 0 )
+		throw std::runtime_error(
+				"ConstantMomentumDiffusion: Dpp must be non-negative");
+	Dpp = d;
+}
+
+double ConstantMomentumDiffusion::getDpp() const {
+	return Dpp;
+}
+
+
+PowerlawMomentumDiffusion::PowerlawMomentumDiffusion() : 
 limit(0.1)
 {
 	setScale(1.);  	
@@ -19,7 +76,7 @@ limit(0.1)
 	setAlvenSpeed(40 * km / second);
 	}
 
-MomentumDiffusion::MomentumDiffusion(double alpha, double scale) :
+PowerlawMomentumDiffusion::PowerlawMomentumDiffusion(double alpha, double scale) :
 limit(0.1)
 {
 	setScale(scale);
@@ -27,7 +84,7 @@ limit(0.1)
 	setAlvenSpeed(40 * km / second);
   	}
 
-void MomentumDiffusion::process(Candidate *c) const {
+void PowerlawMomentumDiffusion::process(Candidate *c) const {
 	
 	double rig = c->current.getRigidity();
 	
@@ -61,7 +118,7 @@ void MomentumDiffusion::process(Candidate *c) const {
 	c->limitNextStep((-b*sqrt(4*a*c_tilde+b*b)+4*a*c_tilde+b*b)/(2*a*a) * c_light);
 }
 
-double MomentumDiffusion::calculateDpp(double rig, double p) const {
+double PowerlawMomentumDiffusion::calculateDpp(double rig, double p) const {
 	
 	// The implementation of the spatial diffusion has to be the same as in DiffusionSDE
 	double Dxx = scale * 6.1e24 * pow((std::abs(rig) / 4.0e9), alpha);
@@ -72,7 +129,7 @@ double MomentumDiffusion::calculateDpp(double rig, double p) const {
 	return Dpp;
 }
 
-double MomentumDiffusion::calculateBScalar(double rig, double p, double Dpp) const{
+double PowerlawMomentumDiffusion::calculateBScalar(double rig, double p, double Dpp) const{
 
     double BScal = sqrt( 2  * Dpp); 
       
@@ -80,7 +137,7 @@ double MomentumDiffusion::calculateBScalar(double rig, double p, double Dpp) con
 }
 
 // What is the physical interpretetation of this term? 7/27/19 LM
-double MomentumDiffusion::calculateAScalar(double rig, double p, double Dpp) const {
+double PowerlawMomentumDiffusion::calculateAScalar(double rig, double p, double Dpp) const {
 	
     double partialDpp = (2 - alpha) / p * Dpp; //check the sign: Should be correct 7/27/19 LM
     double AScal = partialDpp -2. / p * Dpp; //=-alpha / p * Dpp
@@ -88,21 +145,21 @@ double MomentumDiffusion::calculateAScalar(double rig, double p, double Dpp) con
    	return AScal;
 }
 
-void MomentumDiffusion::setAlpha(double a) {
+void PowerlawMomentumDiffusion::setAlpha(double a) {
 	if ((a > 2.) or (a < 0))
 		throw std::runtime_error(
 				"MomentumDiffusion: alpha not in range 0-2");
 	alpha = a;
 }
 
-void MomentumDiffusion::setScale(double s) {
+void PowerlawMomentumDiffusion::setScale(double s) {
 	if (s < 0)
 		throw std::runtime_error(
 				"MomentumDiffusion: Scale error: Scale < 0");
 	scale = s;
 }
 
-void MomentumDiffusion::setAlvenSpeed(double v) {
+void PowerlawMomentumDiffusion::setAlvenSpeed(double v) {
 	if (v < 0)
 		throw std::runtime_error(
 				"MomentumDiffusion: Alvenspeed error: v_A < 0");
@@ -112,7 +169,7 @@ void MomentumDiffusion::setAlvenSpeed(double v) {
 	vA = v;
 }
 
-void MomentumDiffusion::setLimit(double l) {
+void PowerlawMomentumDiffusion::setLimit(double l) {
 	if (l < 0)
 		throw std::runtime_error(
 				"MomentumDiffusion: Limit error: limit < 0");
@@ -122,23 +179,23 @@ void MomentumDiffusion::setLimit(double l) {
 	limit = l;
 }
 
-double MomentumDiffusion::getAlpha() const {
+double PowerlawMomentumDiffusion::getAlpha() const {
 	return alpha;
 }
 
-double MomentumDiffusion::getScale() const {
+double PowerlawMomentumDiffusion::getScale() const {
 	return scale;
 }
 
-double MomentumDiffusion::getAlvenSpeed() const {
+double PowerlawMomentumDiffusion::getAlvenSpeed() const {
 	return vA;
 }
 
-double MomentumDiffusion::getLimit() const {
+double PowerlawMomentumDiffusion::getLimit() const {
 	return limit;
 }
 
-std::string MomentumDiffusion::getDescription() const {
+std::string PowerlawMomentumDiffusion::getDescription() const {
 	std::stringstream s;
 	s << "alpha: " << alpha << " , ";
 	s << "Alven speed v_A: " << vA / (km/second)  << " km/s, ";

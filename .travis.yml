@@ -89,7 +89,8 @@ before_script:
   - mkdir build
   - cd build
   - |
-    DATAFILE=$HOME/crpropa_cache/data.tar.gz
+    CRPROPA_DATAFILE_VER=`grep "CRPROPA_DATAFILE_VER " $TRAVIS_BUILD_DIR/CMakeLists.txt | cut -d \" -f2`
+    DATAFILE=$HOME/crpropa_cache/data-$CRPROPA_DATAFILE_VER.tar.gz
     if [ -f $DATAFILE ]; then
       echo "Using data file from cache!"
       cp $DATAFILE .
@@ -100,7 +101,7 @@ before_script:
     else
         cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
     fi
-  - cp data.tar.gz $HOME/crpropa_cache
+  - cp data-$CRPROPA_DATAFILE_VER.tar.gz $HOME/crpropa_cache
 script:
   - VERBOSE=1 make
   - make test

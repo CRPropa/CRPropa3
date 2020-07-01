@@ -409,6 +409,30 @@ add_library(crpropa SHARED
 )
 target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 
+#------------------------------------------------------------------
+# Doxygen ; xml data is used for sphinx site and python docstrings
+#------------------------------------------------------------------
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+  MESSAGE(STATUS "Found Doxygen to build documentation")
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/DoxygenLayout.xml ${CMAKE_CURRENT_BINARY_DIR}/DoxygenLayout.xml COPYONLY)
+  #  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Mainpage.md.in ${CMAKE_CURRENT_BINARY_DIR}/Mainpage.md)
+  add_custom_target(doxy ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
+
+   set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
+  add_custom_target(docstrings_from_doxy
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
+    DEPENDS doxy
+    )
+
+  LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
+  list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
+  list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
+
+else()
+  MESSAGE(STATUS "Doxygen not found: cannot build documentation")
+endif(DOXYGEN_FOUND )
 
 
 
@@ -459,9 +483,13 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
   file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
   set_source_files_properties( ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true )
-  add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx
+  add_custom_target(crpropa-swig-wrapper
     COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${SWIG_INCLUDES} ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
     DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
+
+  if(DOXYGEN_FOUND)
+    add_dependencies(crpropa-swig-wrapper docstrings_from_doxy)
+  endif(DOXYGEN_FOUND)
 
   add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
   set_target_properties(crpropa-swig PROPERTIES PREFIX "")
@@ -469,6 +497,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
   set_target_properties(crpropa-swig PROPERTIES COMPILE_FLAGS "-w")
   set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
   target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
+  add_dependencies(crpropa-swig crpropa-swig-wrapper)
 
   install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${PYTHON_SITE_PACKAGES}")
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
@@ -491,29 +520,6 @@ install(DIRECTORY libs/kiss/include/ DESTINATION include)
 # ------------------------------------------------------------------
 # Documentation
 # ------------------------------------------------------------------
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-  MESSAGE(STATUS "Found Doxygen to build documentation")
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/DoxygenLayout.xml ${CMAKE_CURRENT_BINARY_DIR}/DoxygenLayout.xml COPYONLY)
-  #  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Mainpage.md.in ${CMAKE_CURRENT_BINARY_DIR}/Mainpage.md)
-  add_custom_target(doxy ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
-
-   set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
-  add_custom_target(docstrings_from_doxy
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
-    DEPENDS doxy
-    )
-
-  LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
-  list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
-  list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
-  add_dependencies(crpropa-swig docstrings_from_doxy)
-
-else()
-  MESSAGE(STATUS "Doxygen not found: cannot build documentation")
-endif(DOXYGEN_FOUND )
-
 
 find_program(SPHINX_EXECUTABLE
              NAMES sphinx-build

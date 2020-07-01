@@ -12,11 +12,11 @@
     }
 }
 
-%feature("autodoc", "1"); // automatic docstrings
-
 
 #ifdef WITH_DOXYGEN
   %include "docstrings_from_doxy.i"
+#else
+  %feature("autodoc", "1"); // automatic docstrings
 #endif
 
 %{

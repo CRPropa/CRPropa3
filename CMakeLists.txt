@@ -313,24 +313,25 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRProap Data files" ON)
+set(CRPROPA_DATAFILE_VER "2017-11-09")
 if(DOWNLOAD_DATA)
 	message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
 	file(DOWNLOAD
-		https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz-CHECKSUM
-		${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM)
-	file(STRINGS ${CMAKE_BINARY_DIR}/data.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
+		https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
+		${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM)
+	file(STRINGS ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
 	file(DOWNLOAD
-		https://www.desy.de/~crpropa/data/interaction_data/data.tar.gz
-		${CMAKE_BINARY_DIR}/data.tar.gz
+		https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz
+		${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz
 		EXPECTED_MD5 "${DATA_CHECKSUM}")
 	message("-- Extracting data file")
 else()
 	message("-- Downloading of data file disabled")
 endif(DOWNLOAD_DATA)
-if(EXISTS ${CMAKE_BINARY_DIR}/data.tar.gz)
-	execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+if(EXISTS ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz)
+	execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 else()
-	message(WARNING "CRPropa data file not found at ${CMAKE_BINARY_DIR}/data.tar.gz
+	message(WARNING "CRPropa data file not found at ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz
 CRPropa should compile, but will likely not work properly! Please install data file manually, or use the automatic download which is enabled by default.")
 endif()
 

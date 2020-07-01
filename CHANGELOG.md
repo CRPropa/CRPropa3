@@ -7,6 +7,7 @@
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
 	Mikhail Zotov for contributing.
 * ParticleCollector can provide Candidates directly to ModuleList::run
+* Basic file versioning of the data archive in CMakeLists.txt
 
 ### Interface change:
 

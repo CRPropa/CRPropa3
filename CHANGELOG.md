@@ -8,6 +8,7 @@
 	Mikhail Zotov for contributing.
 * ParticleCollector can provide Candidates directly to ModuleList::run
 * Basic file versioning of the data archive in CMakeLists.txt
+* Python docstrings are generated automatically from doxygen documentation
 
 ### Interface change:
 

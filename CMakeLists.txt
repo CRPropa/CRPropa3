@@ -16,6 +16,7 @@ set(CRPROPA_EXTRA_SOURCES)
 set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
+set(CRPROPA_SWIG_INPUTS)
 
 macro(USE_CXX11)
   if (CMAKE_VERSION VERSION_LESS "3.1")
@@ -384,7 +385,7 @@ add_library(crpropa SHARED
 	src/module/PhotonOutput1D.cpp
 	src/module/PropagationCK.cpp
 	src/module/PropagationBP.cpp
-        src/module/Redshift.cpp
+	src/module/Redshift.cpp
 	src/module/RestrictToRegion.cpp
 	src/module/SimplePropagation.cpp
 	src/module/SynchrotronRadiation.cpp
@@ -396,7 +397,7 @@ add_library(crpropa SHARED
 	src/magneticField/MagneticField.cpp
 	src/magneticField/MagneticFieldGrid.cpp
 	src/magneticField/PT11Field.cpp
-    src/magneticField/TF17Field.cpp
+	src/magneticField/TF17Field.cpp
 	src/magneticField/ArchimedeanSpiralField.cpp
 	src/advectionField/AdvectionField.cpp
 	src/massDistribution/Nakanishi.cpp
@@ -408,6 +409,10 @@ add_library(crpropa SHARED
 	${CRPROPA_EXTRA_SOURCES}
 )
 target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
+
+
+
+
 
 # ----------------------------------------------------------------------------
 # Python
@@ -433,9 +438,9 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 		set(PY3 "")
 	endif(ENABLE_SWIG_BUILTIN)
 
-  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+	if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
   	list(APPEND CRPROPA_SWIG_DEFINES -DSWIG_PYTHON3)
-  endif(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+	endif(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
 
 	# tries to import numpy
 	execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
@@ -469,7 +474,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 	install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${PYTHON_SITE_PACKAGES}")
 	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
 	install(TARGETS crpropa-swig LIBRARY DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
-  install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
+	install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
 endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
 
 
@@ -488,17 +493,35 @@ install(DIRECTORY libs/kiss/include/ DESTINATION include)
 # Documentation
 # ------------------------------------------------------------------
 find_package(Doxygen)
-find_program(SPHINX_EXECUTABLE
-             NAMES sphinx-build
-             DOC "Path to sphinx-build executable")
-
-if(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
-	MESSAGE(STATUS "Found Doxygen and Sphinx to build documentation")
+if(DOXYGEN_FOUND)
+	MESSAGE(STATUS "Found Doxygen to build documentation")
 	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/DoxygenLayout.xml ${CMAKE_CURRENT_BINARY_DIR}/DoxygenLayout.xml COPYONLY)
 	#	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Mainpage.md.in ${CMAKE_CURRENT_BINARY_DIR}/Mainpage.md)
 	add_custom_target(doxy ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
+ 	set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
+	add_custom_target(docstrings_from_doxy
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
+    DEPENDS doxy
+    )
+
+  LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
+  list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
+  list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
+	add_dependencies(crpropa-swig docstrings_from_doxy)
+
+else()
+  MESSAGE(STATUS "Doxygen not found: cannot build documentation")
+endif(DOXYGEN_FOUND )
+
+
+find_program(SPHINX_EXECUTABLE
+             NAMES sphinx-build
+             DOC "Path to sphinx-build executable")
+
+if(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
+	MESSAGE(STATUS "Found Sphinx to build documentation")
 	include(FindPackageHandleStandardArgs)
 	find_package_handle_standard_args(Sphinx
 	                                  "Failed to find sphinx-build executable"
@@ -507,13 +530,13 @@ if(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
 	set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/doc)
 	add_custom_target(doc
 	                  ${SPHINX_EXECUTABLE} -b html
-										-Dbreathe_projects.CRPropa3=${CMAKE_CURRENT_BINARY_DIR}/xml
+	                  -Dbreathe_projects.CRPropa3=${CMAKE_CURRENT_BINARY_DIR}/xml
 	                  ${SPHINX_SOURCE} ${SPHINX_BUILD}
 	                  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	                  COMMENT "Generating documentation with Sphinx")
 	add_dependencies(doc doxy)
 else()
-	MESSAGE(STATUS "Doxygen and Sphinx not found: cannot build documentation")
+	MESSAGE(STATUS "Sphinx not found: cannot build documentation")
 endif(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
 
 

@@ -420,15 +420,12 @@ if(DOXYGEN_FOUND)
   #  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Mainpage.md.in ${CMAKE_CURRENT_BINARY_DIR}/Mainpage.md)
   add_custom_target(doxy ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
-   set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
+  set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
   add_custom_target(docstrings_from_doxy
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
     DEPENDS doxy
     )
 
-  LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
-  list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
-  list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
 
 else()
   MESSAGE(STATUS "Doxygen not found: cannot build documentation")
@@ -449,6 +446,18 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
   find_package(SWIG 3.0 REQUIRED)
   include(python/Python.cmake)
   include_directories(${PYTHON_INCLUDE_PATH})
+
+  if(SWIG_VERSION VERSION_GREATER 4.0)
+    # Use swig 4 builtin doxygen instead of external program
+    list(APPEND CRPROPA_SWIG_DEFINES -doxygen)
+  else()
+    if(DOXYGEN_FOUND)
+      LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
+      list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
+      list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
+    endif(DOXYGEN_FOUND)
+  endif(SWIG_VERSION VERSION_GREATER 4.0)
+
 
   # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
   option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)

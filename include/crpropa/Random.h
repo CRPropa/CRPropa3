@@ -124,18 +124,18 @@ public:
 	double randExc( const double& n );///< real number in [0,n)
 	double randDblExc();///< real number in (0,1)
 	double randDblExc( const double& n );///< real number in (0,n)
-	/// Pull a 32-bit integer from the generator state
-	/// Every other access function simply transforms the numbers extracted here
-	uint32_t randInt();///< integer in [0,2^32-1]
-	uint32_t randInt( const uint32_t& n );///< integer in [0,n] for n < 2^32
+	// Pull a 32-bit integer from the generator state
+	// Every other access function simply transforms the numbers extracted here
+	uint32_t randInt();///< integer in [0,2**32-1]
+	uint32_t randInt( const uint32_t& n );///< integer in [0,n] for n < 2**32
 
 	uint64_t randInt64(); ///< integer in [0, 2**64 -1]. PROBABLY NOT SECURE TO USE
 	uint64_t randInt64(const uint64_t &n); ///< integer in [0, n] for n < 2**64 -1. PROBABLY NOT SECURE TO USE
 
 	double operator()() {return rand();} ///< same as rand()
 
-	/// Access to 53-bit random numbers (capacity of IEEE double precision)
-	double rand53();// real number in [0,1)
+	// Access to 53-bit random numbers (capacity of IEEE double precision)
+	double rand53();///< real number in [0,1)  (capacity of IEEE double precision)
 	///Exponential distribution in (0,inf)
 	double randExponential();
 	/// Normal distributed random number

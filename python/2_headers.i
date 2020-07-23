@@ -47,6 +47,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore operator crpropa::Observer*;
 %ignore operator crpropa::ObserverFeature*;
 %ignore operator crpropa::MagneticField*;
+%ignore operator crpropa::PhotonField*;
 %ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
 %ignore operator crpropa::Density*;
@@ -361,6 +362,9 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
 %include "crpropa/magneticField/MagneticField.h"
+
+%implicitconv crpropa::ref_ptr<crpropa::PhotonField>;
+%template(PhotonFieldRefPtr) crpropa::ref_ptr<crpropa::PhotonField>;
 
 %implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
 %template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;

@@ -313,7 +313,7 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRProap Data files" ON)
-set(CRPROPA_DATAFILE_VER "2017-11-09")
+set(CRPROPA_DATAFILE_VER "2020-05-25")
 if(DOWNLOAD_DATA)
   message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
   file(DOWNLOAD

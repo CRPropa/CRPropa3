@@ -19,13 +19,13 @@ const double ElasticScattering::epsmin = log10(2 * eV) + 3;    // log10 minimum 
 const double ElasticScattering::epsmax = log10(2 * eV) + 8.12; // log10 maximum photon background energy in nucleus rest frame for elastic scattering
 const size_t ElasticScattering::neps = 513; // number of photon background energies in nucleus rest frame
 
-ElasticScattering::ElasticScattering(PhotonField f) {
+ElasticScattering::ElasticScattering(ref_ptr<PhotonField> f) {
 	setPhotonField(f);
 }
 
-void ElasticScattering::setPhotonField(PhotonField photonField) {
+void ElasticScattering::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField->getFieldName();
 	setDescription("ElasticScattering: " + fname);
 	initRate(getDataPath("ElasticScattering/rate_" + fname.substr(0,3) + ".txt"));
 	initCDF(getDataPath("ElasticScattering/cdf_" + fname.substr(0,3) + ".txt"));
@@ -99,7 +99,7 @@ void ElasticScattering::process(Candidate *candidate) const {
 
 		double rate = interpolateEquidistant(lg, lgmin, lgmax, tabRate);
 		rate *= Z * N / double(A);  // TRK scaling
-		rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);  // cosmological scaling
+		rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);  // cosmological scaling
 
 		// check for interaction
 		Random &random = Random::instance();

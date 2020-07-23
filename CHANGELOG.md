@@ -9,10 +9,16 @@
 * ParticleCollector can provide Candidates directly to ModuleList::run
 * Basic file versioning of the data archive in CMakeLists.txt
 * Python docstrings are generated automatically from doxygen documentation
+* Photon field classes replaced the photon field enumerator,
+  consequently, the new photon fields implementation follows the same logic as
+  of the other modules making it is easier to introduce custom ones
 
 ### Interface change:
 
 * ParticleCollector::getAll() -> ParticleCollector::getContainer()
+* Photon fields are no longer items of the PhotonField enumerator but independent
+  classes that shares the same interface, so instead of `CMB` one should use `CMB()`,
+  instead of `IRB_Kneiske04` - `IRB_Kneiske04()`, etc.
 
 ### Features that are deprecated and will be removed after this release:
 

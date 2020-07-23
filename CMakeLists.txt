@@ -412,7 +412,7 @@ target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 #------------------------------------------------------------------
 # Doxygen ; xml data is used for sphinx site and python docstrings
 #------------------------------------------------------------------
-option(BUILD_DOC "Enable building documentation from the source code" ON)
+option(BUILD_DOC "Enable building documentation from the source code" OFF)
 
 if(BUILD_DOC)
   find_package(Doxygen)

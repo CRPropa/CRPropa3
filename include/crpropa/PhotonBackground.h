@@ -88,7 +88,7 @@ protected:
 
  Source info:
  DOI:10.1051/0004-6361:20031542,
- https://www.aanda.org/articles/aa/pdf/2004/03/aa3848.pdf, figure 1 (”Best-fit” model)
+ https://www.aanda.org/articles/aa/pdf/2004/03/aa3848.pdf, figure 1 ("Best-fit" model)
  */
 class IRB_Kneiske04: public TabularPhotonField {
 public:

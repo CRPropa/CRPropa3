@@ -12,6 +12,7 @@
 * Photon field classes replaced the photon field enumerator,
   consequently, the new photon fields implementation follows the same logic as
   of the other modules making it is easier to introduce custom ones
+* New CMake option: `BUILD_DOC` for building Doxygen & Sphinx docs
 
 ### Interface change:
 

@@ -67,7 +67,7 @@ void EMInverseComptonScattering::initCumulativeRate(std::string filename) {
 	tabE.clear();
 	tabs.clear();
 	tabCDF.clear();
-	
+
 	// skip header
 	while (infile.peek() == '#')
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
@@ -216,8 +216,7 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 	double randDistance = -log(random.rand()) / rate;
 	if (candidate->getCurrentStep() > randDistance)
 		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+	candidate->limitNextStep(limit / rate);
 }
 
 } // namespace crpropa

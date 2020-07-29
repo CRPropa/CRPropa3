@@ -63,14 +63,16 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	// Use assumption of Lee 96 arXiv:9604098
 	// Energy is equally shared between one e+e- pair, but take mass of second e+e- pair into account.
 	// This approximation has been shown to be valid within -1.5%.
-	double E = candidate->current.getEnergy();
+	// Scale the particle energy instead of background photons
+	double z = candidate->getRedshift();
+	double E = candidate->current.getEnergy() * (1 + z);
 	double Ee = (E - 2 * mass_electron * c_squared) / 2;
 
 	Random &random = Random::instance();
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 
-	candidate->addSecondary( 11, Ee, pos);
-	candidate->addSecondary(-11, Ee, pos);
+	candidate->addSecondary( 11, Ee / (1 + z), pos);
+	candidate->addSecondary(-11, Ee / (1 + z), pos);
 }
 
 void EMDoublePairProduction::process(Candidate *candidate) const {

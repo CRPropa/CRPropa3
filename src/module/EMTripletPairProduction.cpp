@@ -149,8 +149,7 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	double randDistance = -log(random.rand()) / rate;
 	if (candidate->getCurrentStep() > randDistance)
 		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+	candidate->limitNextStep(limit / rate);
 }
 
 } // namespace crpropa

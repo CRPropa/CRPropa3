@@ -223,8 +223,8 @@ void EMInverseComptonScattering::process(Candidate *candidate) const {
 
 	// run this loop at least once to limit the step size
 	double step = candidate->getCurrentStep();
+	Random &random = Random::instance();
 	do {
-		Random &random = Random::instance();
 		double randDistance = -log(random.rand()) / rate;
 
 		// check for interaction; if it doesn't ocurr, limit next step

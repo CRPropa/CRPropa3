@@ -18,7 +18,7 @@ papers
 
  ## Overview
  This class provides a turbulent magnetic field that is generated as described
-by [(Giacalone and Jokipii, 1999)][gj99] and [(Tautz and Dosch, 2013)][td13].
+by [(Giacalone and Jokipii, 1999)][GJ99] and [(Tautz and Dosch, 2013)][TD13].
 Instead of using an inverse Fourier transform to generate the field on a grid --
 which then needs to be interpolated to obtain in-between values -- this method
 only generates the wave modes making up the turbulent magnetic field ahead of
@@ -46,8 +46,8 @@ specifically want it to include the SIMD version of PlaneWaveTurbulence.
 required extensions: AVX and everything below. These extensions are relatively
 common, but there may still be processors in use that do not support them.
 
-[gj99]: https://doi.org/10.1086/307452
-[td13]: https://doi.org/10.1063/1.4789861
+[GJ99]: https://doi.org/10.1086/307452
+[TD13]: https://doi.org/10.1063/1.4789861
  */
 class PlaneWaveTurbulence : public TurbulentField {
   private:

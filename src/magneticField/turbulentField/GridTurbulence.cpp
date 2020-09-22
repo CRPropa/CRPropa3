@@ -48,30 +48,23 @@ void GridTurbulence::initTurbulence() {
 	for (int i = 0; i < n; i++)
 		K[i] = ((double)i / n - i / (n / 2));
 
-	// construct the field in configuration space
-	int i;
-	double k;
-
-	// parameters goes for non-helical calculations
-	double theta;
-
 	// double kMin = 2*M_PI / lMax; // * 2 * spacing.x; // spacing.x / lMax;
 	// double kMax = 2*M_PI / lMin; // * 2 * spacing.x; // spacing.x / lMin;
 	double kMin = spacing.x / spectrum.getLmax();
 	double kMax = spacing.x / spectrum.getLmin();
 	auto lambda = spectrum.getLbendover() / spacing.x * 2 * M_PI;
 
-	Vector3f b;           // real b-field vector
-	Vector3f ek, e1, e2;  // orthogonal base
 	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
 			for (size_t iz = 0; iz < n2; iz++) {
+	
+				Vector3f ek, e1, e2;  // orthogonal base
 
-				i = ix * n * n2 + iy * n2 + iz;
+				size_t i = ix * n * n2 + iy * n2 + iz;
 				ek.setXYZ(K[ix], K[iy], K[iz]);
-				k = ek.getR();
+				double k = ek.getR();
 
 				// wave outside of turbulent range -> B(k) = 0
 				if ((k < kMin) || (k > kMax)) {
@@ -98,8 +91,8 @@ void GridTurbulence::initTurbulence() {
 				e2 /= e2.getR();
 
 				// random orientation perpendicular to k
-				theta = 2 * M_PI * random.rand();
-				b = e1 * std::cos(theta) + e2 * std::sin(theta);
+				double theta = 2 * M_PI * random.rand();
+				Vector3f b = e1 * std::cos(theta) + e2 * std::sin(theta); // real b-field vector
 
 				// normal distributed amplitude with mean = 0
 				b *= std::sqrt(spectrum.energySpectrum(k*lambda));

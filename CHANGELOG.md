@@ -25,6 +25,8 @@
   - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence
   - PlaneWaveTurbulence a new algorithm based on Giacalone & Jokipii, 1999 and
     Tautz & Dosch, 2013.
+* New CMake option: `BUILD_DOC` for building Doxygen & Sphinx docs
+
 
 ### Interface change:
 

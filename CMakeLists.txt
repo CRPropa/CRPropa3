@@ -423,23 +423,25 @@ target_link_libraries(crpropa ${CRPROPA_EXTRA_LIBRARIES})
 #------------------------------------------------------------------
 # Doxygen ; xml data is used for sphinx site and python docstrings
 #------------------------------------------------------------------
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-  MESSAGE(STATUS "Found Doxygen to build documentation")
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/DoxygenLayout.xml ${CMAKE_CURRENT_BINARY_DIR}/DoxygenLayout.xml COPYONLY)
-  #  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Mainpage.md.in ${CMAKE_CURRENT_BINARY_DIR}/Mainpage.md)
-  add_custom_target(doxy ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
+option(BUILD_DOC "Enable building documentation from the source code" OFF)
 
-  set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
-  add_custom_target(docstrings_from_doxy
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
-    DEPENDS doxy
+if(BUILD_DOC)
+  find_package(Doxygen)
+  if(DOXYGEN_FOUND)
+    MESSAGE(STATUS "Found Doxygen to build documentation")
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/DoxygenLayout.xml ${CMAKE_CURRENT_BINARY_DIR}/DoxygenLayout.xml COPYONLY)
+    add_custom_target(doxy ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
+
+    set_source_files_properties(${CMAKE_BINARY_DIR}/docstrings_from_doxy.i PROPERTIES GENERATED true )
+    add_custom_target(docstrings_from_doxy
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
+      DEPENDS doxy
     )
-else(DOXYGEN_FOUND)
-  MESSAGE(STATUS "Doxygen not found: cannot build documentation")
-endif(DOXYGEN_FOUND)
-
+  else()
+    MESSAGE(STATUS "Doxygen not found: cannot build documentation")
+  endif(DOXYGEN_FOUND)
+endif(BUILD_DOC)
 
 
 
@@ -460,11 +462,11 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
     # Use swig 4 builtin doxygen instead of external program
     list(APPEND CRPROPA_SWIG_DEFINES -doxygen)
   else()
-    if(DOXYGEN_FOUND)
+    if(BUILD_DOC AND DOXYGEN_FOUND)
       LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
       list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
       list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
-    endif(DOXYGEN_FOUND)
+    endif(BUILD_DOC AND DOXYGEN_FOUND)
   endif(SWIG_VERSION VERSION_GREATER 4.0)
 
   # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
@@ -504,9 +506,9 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
     COMMAND swig ${BUILTIN} -c++ -python ${PY3} -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${SWIG_INCLUDES} ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
     DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
-  if(DOXYGEN_FOUND)
+  if(BUILD_DOC AND DOXYGEN_FOUND)
     add_dependencies(crpropa-swig-wrapper docstrings_from_doxy)
-  endif(DOXYGEN_FOUND)
+  endif(BUILD_DOC AND DOXYGEN_FOUND)
 
   add_library(crpropa-swig MODULE ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx)
   set_target_properties(crpropa-swig PROPERTIES PREFIX "")
@@ -542,7 +544,7 @@ find_program(SPHINX_EXECUTABLE
              NAMES sphinx-build
              DOC "Path to sphinx-build executable")
 
-if(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
+if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
   MESSAGE(STATUS "Found Sphinx to build documentation")
   include(FindPackageHandleStandardArgs)
   find_package_handle_standard_args(Sphinx
@@ -559,9 +561,7 @@ if(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
   add_dependencies(doc doxy)
 else()
   MESSAGE(STATUS "Sphinx not found: cannot build documentation")
-endif(DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
-
-
+endif(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
 
 
 # ----------------------------------------------------------------------------

@@ -18,7 +18,10 @@ class TurbulenceSpectrum : public Referenced {
   private:
 	const double Brms; /**< Brms value of the turbulent field (normalization) */
 	const double sIndex; /**< Spectral index for the inertial range, for example
-	                  s=5/3 for Kolmogorov spectrum */
+	                  s=5/3 for Kolmogorov spectrum; in some parts of the code this
+			  parameter is referred by alpha which is the total 3D isotropic
+			  spectrum with additional k^2 and the minus sign, e.g.,
+			  for Kolmogorov: alpha = -(s + 2) */
 	const double qIndex; /**< Spectral index for the injection range, for
 	                  example q=4 for 3D homogeneous turbulence */
 	const double lBendover;  /**< the bend-over scale */
@@ -44,8 +47,6 @@ class TurbulenceSpectrum : public Referenced {
 	 range
 	 @param qindex	 Spectral index of the energy spectrum in the energy
 	 range
-	                       Usually, you'd want to use s=5./3.
-	                       and q=4 here, which will be comparable
 	*/
 	TurbulenceSpectrum(double Brms, double lMin, double lMax,
 	                   double lBendover = 1, double sIndex = 5. / 3.,

@@ -115,12 +115,8 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 
 	if (Nm <= 1) {
 		throw std::runtime_error(
-		    "PlaneWaveTurbulence: Nm <= 1. We need at least two wavemodes in "
-		    "order "
-		    "to "
-		    "generate the k distribution properly, and besides -- *what are "
-		    "you "
-		    "doing?!*");
+		    "PlaneWaveTurbulence: Nm <= 1. Specify at least two wavemodes in "
+		    "order to generate the k distribution properly.");
 	}
 
 	Random random;
@@ -363,8 +359,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// ******
 		// * evaluate the cosine using a polynomial approximation
 		// * the coefficients for this were generated using sleefs gencoef.c
-		// * I have no idea what I'm doing, so these coefficients are probably
-		// far from optimal.
+		// * These coefficients are probably far from optimal.
 		// * However, they should be sufficient for this case.
 		s = _mm256_mul_pd(s, s);
 

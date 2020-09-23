@@ -51,7 +51,7 @@ void initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                            double H = 0) {
 	KISS_LOG_WARNING
 	    << "initTurbulence is deprecated and will be removed in the future. "
-	       "Replace it with an appropriate turbulent field model instance.";
+	       "Replace it with a more appropriate turbulent field model instance.";
 	HelicalGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed,
 	                                      H);
 }

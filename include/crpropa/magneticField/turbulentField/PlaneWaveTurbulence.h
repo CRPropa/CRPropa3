@@ -29,7 +29,8 @@ the mean field strength accurately, and does not suffer from other
 interpolation-induced problems. The disadvantage is that the number of wave
 modes is drastically smaller when compared with initTurbulence, which might have
 physical ramifications on the particles propagating through the field.
-Additionally, the implementation is somewhat slower.
+Furthermore, depending on the exact setting, the implementation is somewhat slower
+(see Schlegel et al. for details).
 
  ## Using the SIMD optimization
  In order to mitigate some of the performance impact that is inherent in this
@@ -38,9 +39,9 @@ parallelism through SIMD instructions is provided. More specifically, this
 implementation uses the AVX extension to the x86 instruction set. In order to
 use this optimized version, three conditions need to be met:
 
-1. The `USE_SIMD` option needs to be explicitly enabled in CMake. Currently,
+1. The `USE_SIMD` option should be explicitly enabled in CMake. Currently,
 this sets GCC flags that tell the compiler to allow SIMD instructions.
-2. You also need to enable the `FAST_WAVES` option to tell the compiler that you
+2. One also should enable the `FAST_WAVES` option to tell the compiler that you
 specifically want it to include the SIMD version of PlaneWaveTurbulence.
 3. Finally, the CPU that will actually run the code needs to support the
 required extensions: AVX and everything below. These extensions are relatively
@@ -69,7 +70,7 @@ class PlaneWaveTurbulence : public TurbulentField {
 	// since each subarray has avx_Nm elements, the start offset
 	// of each subarray can be computed by multiplying the two,
 	// and then adding on the alignment offset.
-	// iAxi is a combined array containing the product of A * xi
+	// iAxi is a combined array containing the product of Ak * xi
 	static const int iAxi0 = 0;
 	static const int iAxi1 = 1;
 	static const int iAxi2 = 2;

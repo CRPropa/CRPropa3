@@ -42,7 +42,7 @@ class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
 
 	/**
 	    @brief       compute the magnetic field coherence length according to
-	   the formula in  Harari et Al JHEP03(2002)045
+	   the formula in  Harari et al. JHEP03(2002)045
 	    @return Lc   coherence length of the magnetic field
 	*/
 	double getCorrelationLength() const {
@@ -84,7 +84,7 @@ inline double turbulentCorrelationLength(double lMin, double lMax,
                                          double alpha = -11 / 3.) {
 	KISS_LOG_WARNING
 	    << "turbulentCorrelationLength is deprecated and will be "
-	       "removed in the future. Replace it with an appropriate "
+	       "removed in the future. Replace it with a more appropriate "
 	       "turbulent field model and call getCorrelationLength().";
 	return SimpleTurbulenceSpectrum::turbulentCorrelationLength(lMin, lMax,
 	                                                            -alpha - 2);
@@ -103,7 +103,7 @@ inline void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                            double lMax, double alpha = -11 / 3., int seed = 0) {
 	KISS_LOG_WARNING
 	    << "initTurbulence is deprecated and will be removed in the future. "
-	       "Replace it with an appropriate turbulent field model instance.";
+	       "Replace it with a more appropriate turbulent field model instance.";
 	SimpleGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed);
 }
 

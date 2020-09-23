@@ -34,6 +34,7 @@ using std::ptrdiff_t;
 %include "std_pair.i"
 %include "std_multimap.i"
 %include "std_vector.i"
+%include "std_array.i"
 %include "std_string.i"
 %include "std_list.i"
 %include "stdint.i"

@@ -408,7 +408,7 @@ TEST(Grid, PeriodicClamp) {
 	EXPECT_EQ(1, hi);
 }
 
-TEST(ScalarGrid, SimpleTest) {
+TEST(Grid1f, SimpleTest) {
 	// Test construction and parameters
 	size_t Nx = 5;
 	size_t Ny = 8;
@@ -416,7 +416,7 @@ TEST(ScalarGrid, SimpleTest) {
 	double spacing = 2.0;
 	Vector3d origin(1., 2., 3.);
 
-	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
+	Grid1f grid(origin, Nx, Ny, Nz, spacing);
 
 	EXPECT_TRUE(origin == grid.getOrigin());
 	EXPECT_EQ(Nx, grid.getNx());
@@ -435,15 +435,15 @@ TEST(ScalarGrid, SimpleTest) {
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
 }
 
-TEST(ScalarGrid, TestVectorSpacing) {
+TEST(Grid1f, GridPropertiesConstructor) {
 	// Test constructor for vector spacing
 	size_t Nx = 5;
 	size_t Ny = 8;
 	size_t Nz = 10;
 	Vector3d origin = Vector3d(1., 2., 3.);
 	Vector3d spacing = Vector3d(1., 5., 3.);
-
-	ScalarGrid grid(origin, Nx, Ny, Nz, spacing);
+	GridProperties properties(origin, Nx, Ny, Nz, spacing);
+	Grid1f grid(properties);
 
 	EXPECT_EQ(spacing, grid.getSpacing());
 
@@ -456,9 +456,30 @@ TEST(ScalarGrid, TestVectorSpacing) {
 	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
 }
 
-TEST(ScalarGrid, ClosestValue) {
+TEST(Grid1f, TestVectorSpacing) {
+	// Test constructor for vector spacing
+	size_t Nx = 5;
+	size_t Ny = 8;
+	size_t Nz = 10;
+	Vector3d origin = Vector3d(1., 2., 3.);
+	Vector3d spacing = Vector3d(1., 5., 3.);
+
+	Grid1f grid(origin, Nx, Ny, Nz, spacing);
+
+	EXPECT_EQ(spacing, grid.getSpacing());
+
+	// Test index handling: get position of grid point (1, 7, 6)
+	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
+	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;
+
+	grid.get(1, 7, 6) = 12;
+	EXPECT_FLOAT_EQ(12., grid.getGrid()[some_index]);
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
+}
+
+TEST(Grid1f, ClosestValue) {
 	// Check some closest values
-	ScalarGrid grid(Vector3d(0.), 2, 2, 2, 1.);
+	Grid1f grid(Vector3d(0.), 2, 2, 2, 1.);
 	grid.get(0, 0, 0) = 1;
 	grid.get(0, 0, 1) = 2;
 	grid.get(0, 1, 0) = 3;

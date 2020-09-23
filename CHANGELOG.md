@@ -2,6 +2,10 @@
 
 ### Bug fixes:
 
+* Turbulent fields generated on a grid were limited up to 2048 grid-size due to
+  an integer overflow (i.e. 2048^3 index > signed int); solved by replacing
+  int with size_t
+
 ### New features:
 
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
@@ -12,6 +16,15 @@
 * Photon field classes replaced the photon field enumerator,
   consequently, the new photon fields implementation follows the same logic as
   of the other modules making it is easier to introduce custom ones
+* New class-based interface for turbulent fields introduced
+* New turbulence modules implemented:
+  - GridTurbulence (with the bendover scale) which should in general be used
+    instead of initTurbulence (before, it was implmeneted as
+    initTurbulenceWithBendover);
+  - SimpleGridTurbulence which provides the exact field as initTurbulence;
+  - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence
+  - PlaneWaveTurbulence a new algorthm based on Giacalone & Jokipii, 1999 and
+    Tautz & Dosch, 2013.
 
 ### Interface change:
 
@@ -19,8 +32,13 @@
 * Photon fields are no longer items of the PhotonField enumerator but independent
   classes that shares the same interface, so instead of `CMB` one should use `CMB()`,
   instead of `IRB_Kneiske04` - `IRB_Kneiske04()`, etc.
+* initTurbulenceWithBendover() removed (as it was just briefly present in the code)
+  and replaced with GridTurbulence
 
 ### Features that are deprecated and will be removed after this release:
+
+* Turbulence-related functions: initTurbulence, turbulentCorrelationLength,
+  initHelicalTurbulence
 
 ### New plugins and resources linked on the webpages:
 

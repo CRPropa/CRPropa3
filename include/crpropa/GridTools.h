@@ -4,6 +4,7 @@
 #include "crpropa/Grid.h"
 #include "crpropa/magneticField/MagneticField.h"
 #include <string>
+#include <array>
 
 #ifdef CRPROPA_HAVE_FFTW3F
 #include "fftw3.h"

@@ -195,5 +195,24 @@ class testParticleCollector(unittest.TestCase):
         collector[0].getTrajectoryLength(),
         3.14, places=2)
 
+class testGrid(unittest.TestCase):
+  def testGridPropertiesConstructor(self):
+    N = 32
+    gp = crp.GridProperties(crp.Vector3d(0), N, 0.1)
+    grid = crp.Grid1f(gp)
+    self.assertEqual(grid.getNx(), 32)
+
+if hasattr(crp, 'GridTurbulence'):
+    class testTurbulentField(unittest.TestCase):
+      def testGridTurbulence(self):
+        N = 64
+        boxSize = 1*crp.Mpc
+        l_bo = boxSize/8
+        spacing = boxSize / N
+        tf = crp.GridTurbulence(
+            crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
+            crp.GridProperties(crp.Vector3d(0), N, spacing)
+        )
+
 if __name__ == '__main__':
     unittest.main()

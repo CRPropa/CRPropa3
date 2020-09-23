@@ -86,6 +86,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore crpropa::Vector3::data;
 
 %include "crpropa/Vector3.h"
+
 %extend crpropa::Vector3
 {
   size_t __len__()
@@ -376,7 +377,9 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
-%include "crpropa/GridTurbulence.h"
+
+%template(Array3d) std::array<double, 3>;
+%template(Array3f) std::array<float, 3>;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
 %template(Grid3fRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
@@ -413,6 +416,11 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/PT11Field.h"
 %include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
+%include "crpropa/magneticField/turbulentField/TurbulentField.h"
+%include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 

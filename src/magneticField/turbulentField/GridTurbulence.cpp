@@ -45,7 +45,7 @@ void GridTurbulence::initTurbulence() {
 
 	// calculate the n possible discrete wave numbers
 	double K[n];
-	for (int i = 0; i < n; i++)
+	for (size_t i = 0; i < n; i++)
 		K[i] = ((double)i / n - i / (n / 2));
 
 	// double kMin = 2*M_PI / lMax; // * 2 * spacing.x; // spacing.x / lMax;
@@ -169,11 +169,10 @@ void GridTurbulence::executeInverseFFTInplace(ref_ptr<Grid3f> grid,
 	fftwf_destroy_plan(plan_z);
 
 	// save to grid
-	int i;
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
 			for (size_t iz = 0; iz < n; iz++) {
-				i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
+				size_t i = ix * n * 2 * n2 + iy * 2 * n2 + iz;
 				Vector3f &b = grid->get(ix, iy, iz);
 				b.x = Bx[i];
 				b.y = By[i];

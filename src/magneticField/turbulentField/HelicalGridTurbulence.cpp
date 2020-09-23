@@ -38,12 +38,8 @@ void HelicalGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
 
 	// calculate the n possible discrete wave numbers
 	double K[n];
-	for (int i = 0; i < n; i++)
+	for (size_t i = 0; i < n; i++)
 		K[i] = (double)i / n - i / (n / 2);
-
-	// construct the field in configuration space
-	int i;
-	double k;
 
 	// only used if there is a helicity
 	double Bktot, Bkplus, Bkminus, thetaplus, thetaminus;
@@ -58,9 +54,9 @@ void HelicalGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
 		for (size_t iy = 0; iy < n; iy++) {
 			for (size_t iz = 0; iz < n2; iz++) {
 
-				i = ix * n * n2 + iy * n2 + iz;
+				size_t i = ix * n * n2 + iy * n2 + iz;
 				ek.setXYZ(K[ix], K[iy], K[iz]);
-				k = ek.getR();
+				double k = ek.getR();
 
 				// wave outside of turbulent range -> B(k) = 0
 				if ((k < kMin) || (k > kMax)) {

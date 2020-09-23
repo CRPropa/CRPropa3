@@ -55,29 +55,22 @@ void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
 
 	// calculate the n possible discrete wave numbers
 	double K[n];
-	for (int i = 0; i < n; i++)
+	for (size_t i = 0; i < n; i++)
 		K[i] = (double)i / n - i / (n / 2);
-
-	// construct the field in configuration space
-	int i;
-	double k;
-
-	// parameters goes for non-helical calculations
-	double theta, phase, cosPhase, sinPhase;
 
 	double kMin = spacing.x / lMax;
 	double kMax = spacing.x / lMin;
-	Vector3f b;           // real b-field vector
-	Vector3f ek, e1, e2;  // orthogonal base
 	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 
 	for (size_t ix = 0; ix < n; ix++) {
 		for (size_t iy = 0; iy < n; iy++) {
 			for (size_t iz = 0; iz < n2; iz++) {
+	
+				Vector3f ek, e1, e2;  // orthogonal base
 
-				i = ix * n * n2 + iy * n2 + iz;
+				size_t i = ix * n * n2 + iy * n2 + iz;
 				ek.setXYZ(K[ix], K[iy], K[iz]);
-				k = ek.getR();
+				double k = ek.getR();
 
 				// wave outside of turbulent range -> B(k) = 0
 				if ((k < kMin) || (k > kMax)) {
@@ -104,17 +97,17 @@ void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
 				e2 /= e2.getR();
 
 				// random orientation perpendicular to k
-				theta = 2 * M_PI * random.rand();
-				b = e1 * cos(theta) + e2 * sin(theta);
+				double theta = 2 * M_PI * random.rand();
+				Vector3f b = e1 * cos(theta) + e2 * sin(theta); // real b-field vector
 
 				// normal distributed amplitude with mean = 0 and sigma =
 				// k^alpha/2
 				b *= random.randNorm() * pow(k, alpha / 2);
 
 				// uniform random phase
-				phase = 2 * M_PI * random.rand();
-				cosPhase = cos(phase); // real part
-				sinPhase = sin(phase); // imaginary part
+				double phase = 2 * M_PI * random.rand();
+				double cosPhase = cos(phase); // real part
+				double sinPhase = sin(phase); // imaginary part
 
 				Bkx[i][0] = b.x * cosPhase;
 				Bkx[i][1] = b.x * sinPhase;

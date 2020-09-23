@@ -23,14 +23,14 @@
     initTurbulenceWithBendover);
   - SimpleGridTurbulence which provides the exact field as initTurbulence;
   - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence
-  - PlaneWaveTurbulence a new algorthm based on Giacalone & Jokipii, 1999 and
+  - PlaneWaveTurbulence a new algorithm based on Giacalone & Jokipii, 1999 and
     Tautz & Dosch, 2013.
 
 ### Interface change:
 
 * ParticleCollector::getAll() -> ParticleCollector::getContainer()
 * Photon fields are no longer items of the PhotonField enumerator but independent
-  classes that shares the same interface, so instead of `CMB` one should use `CMB()`,
+  classes that share the same interface, so instead of `CMB` one should use `CMB()`,
   instead of `IRB_Kneiske04` - `IRB_Kneiske04()`, etc.
 * initTurbulenceWithBendover() removed (as it was just briefly present in the code)
   and replaced with GridTurbulence

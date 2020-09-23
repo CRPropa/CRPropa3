@@ -4,6 +4,11 @@
 #include "crpropa/Grid.h"
 #include "crpropa/magneticField/MagneticField.h"
 #include <string>
+#include <array>
+
+#ifdef CRPROPA_HAVE_FFTW3F
+#include "fftw3.h"
+#endif
 
 /**
  @file
@@ -36,6 +41,8 @@ double meanFieldStrength(ref_ptr<Grid3f> grid);
 double rmsFieldStrength(ref_ptr<Grid1f> grid);
 /** Evaluate the RMS of all grid points */
 double rmsFieldStrength(ref_ptr<Grid3f> grid);
+/** Evaluate the RMS of all grid points per axis */
+std::array<float, 3> rmsFieldStrengthPerAxis(ref_ptr<Grid3f> grid);
 
 /** Multiply all grid values by a given factor */
 void scaleGrid(ref_ptr<Grid1f> grid, double a);
@@ -79,6 +86,14 @@ void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
 /** Dump a Grid1f to a plain text file */
 void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
+
+#ifdef CRPROPA_HAVE_FFTW3F
+/**
+ Calculate the omnidirectional power spectrum E(k) for a given turbulent field
+ Returns a vector of pairs (k_i, E(k_i))
+*/
+std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid);
+#endif // CRPROPA_HAVE_FFTW3F
 
 /** @}*/
 } // namespace crpropa

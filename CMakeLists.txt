@@ -19,13 +19,13 @@ set(CRPROPA_SWIG_DEFINES)
 set(CRPROPA_SWIG_INPUTS)
 
 macro(USE_CXX11)
-  if (CMAKE_VERSION VERSION_LESS "3.1")
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-      set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-    endif ()
-  else ()
-    set (CMAKE_CXX_STANDARD 11)
-  endif ()
+  if(CMAKE_VERSION VERSION_LESS "3.1")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+    endif()
+  else()
+    set(CMAKE_CXX_STANDARD 11)
+  endif()
 endmacro(USE_CXX11)
 USE_CXX11()
 
@@ -36,13 +36,27 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
   message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
+SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 4 + AVX) in GCC. This is necessary for fast plane wave turbulence.")
+if(USE_SIMD)
+  SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx" ) # TODO: use something like -march=native to automatically enable fma if available?
+endif(USE_SIMD)
+
+SET(FAST_WAVES OFF CACHE BOOL "Enable SIMD optimizations for PlaneWaveTurbulence. Requires USE_SIMD to be set as well.")
+if(FAST_WAVES)
+  if(USE_SIMD)
+    add_definitions(-DFAST_WAVES)
+  else(USE_SIMD)
+    message(SEND_ERROR "You've requested the FAST_WAVES implementation, but have not enabled USE_SIMD. PlaneWaveTurbulence will be compiled without the optimization.")
+  endif(USE_SIMD)
+endif(FAST_WAVES)
+
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")
 # Enable extra warnings on debug builds
 SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wextra")
 
 # Set default build-type to release to enable performance improvements
-if (NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
@@ -70,11 +84,10 @@ message(STATUS "CRPropa version: ${GIT_DESC} ${GIT_SHA1} ${GIT_REFSPEC}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/Version.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp" @ONLY)
 list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/Version.cpp")
 
-
-
 # ----------------------------------------------------------------------------
 # Dependencies
 # ----------------------------------------------------------------------------
+
 # googletest (provided, see https://code.google.com/p/googletest/wiki/FAQ
 #     Why is it not recommended use a pre-compiled copy of Google Test?)
 option(ENABLE_TESTING "Build tests and enable test target" ON)
@@ -102,20 +115,17 @@ if(ENABLE_COVERAGE)
       add_custom_target(coverage_clean
         COMMAND ${LCOV_PATH} --directory . --zerocounters
       )
-    add_custom_target(coverage
-
+      add_custom_target(coverage
         # generate coverage data
         COMMAND ${LCOV_PATH} --directory . --capture --output-file coverage.info VERBATIM
-
         # clean external libs
         COMMAND ${LCOV_PATH} --remove coverage.info "/usr/include/*" "/usr/lib/*" "*/libs/gtest/*" "*/libs/eigen3/*" "*/libs/zstream-cpp/*" "*/build/*" -o coverage.info.cleaned VERBATIM
-
         # Generate html output
         COMMAND ${GENHTML_PATH} -o coverageReport coverage.info.cleaned VERBATIM
         COMMAND echo "Generated coverage report in coverageReport/index.html"
-        )
+      )
     endif(ENABLE_TESTING)
-
+    
   else(LCOV_PATH AND GENHTML_PATH)
     if(NOT LCOV_PATH)
       message(WARNING "lcov not found, coverage report generation  not possible!")
@@ -156,7 +166,7 @@ option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
 option(INSTALL_EIGEN "Install provided EIGEN headers" OFF)
 SET(EIGEN_PATH  "" CACHE STRING "Use EIGEN from this path instead of the version shipped with CRPropa")
 SET(WITH_GALACTIC_LENSES FALSE)
-if (ENABLE_GALACTICMAGETICLENS)
+if(ENABLE_GALACTICMAGETICLENS)
   SET(WITH_GALACTIC_LENSES TRUE)
 
   if(EIGEN_PATH)
@@ -183,14 +193,12 @@ if (ENABLE_GALACTICMAGETICLENS)
   list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ModelMatrix.cpp)
   list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/Pixelization.cpp)
   list(APPEND CRPROPA_EXTRA_SOURCES src/magneticLens/ParticleMapsContainer.cpp)
-endif (ENABLE_GALACTICMAGETICLENS)
-
-
+endif(ENABLE_GALACTICMAGETICLENS)
 
 # OpenMP (optional for shared memory multiprocessing)
 option(ENABLE_OPENMP "OpenMP for multithreading" ON)
 if(ENABLE_OPENMP)
-include(FindOpenMP)
+  include(FindOpenMP)
   if(OPENMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
@@ -222,7 +230,7 @@ endif(FFTW3F_FOUND)
 
 # Quimby (optional for SPH magnetic fields)
 option(ENABLE_QUIMBY "Quimby Support" ON)
-if (ENABLE_QUIMBY)
+if(ENABLE_QUIMBY)
   find_package(Quimby)
   if(QUIMBY_FOUND)
     list(APPEND CRPROPA_EXTRA_INCLUDES ${QUIMBY_INCLUDE_DIR})
@@ -350,7 +358,6 @@ add_library(crpropa SHARED
   src/EmissionMap.cpp
   src/Geometry.cpp
   src/GridTools.cpp
-  src/GridTurbulence.cpp
   src/Module.cpp
   src/ModuleList.cpp
   src/ParticleID.cpp
@@ -362,6 +369,7 @@ add_library(crpropa SHARED
   src/Random.cpp
   src/Source.cpp
   src/Variant.cpp
+  src/module/AdiabaticCooling.cpp
   src/module/Boundary.cpp
   src/module/BreakCondition.cpp
   src/module/DiffusionSDE.cpp
@@ -382,28 +390,31 @@ add_library(crpropa SHARED
   src/module/PhotoPionProduction.cpp
   src/module/PhotonEleCa.cpp
   src/module/PhotonOutput1D.cpp
-  src/module/PropagationCK.cpp
   src/module/PropagationBP.cpp
+  src/module/PropagationCK.cpp
   src/module/Redshift.cpp
   src/module/RestrictToRegion.cpp
   src/module/SimplePropagation.cpp
   src/module/SynchrotronRadiation.cpp
   src/module/TextOutput.cpp
-  src/module/AdiabaticCooling.cpp
   src/module/Tools.cpp
+  src/magneticField/ArchimedeanSpiralField.cpp
   src/magneticField/JF12Field.cpp
   src/magneticField/JF12FieldSolenoidal.cpp
   src/magneticField/MagneticField.cpp
   src/magneticField/MagneticFieldGrid.cpp
   src/magneticField/PT11Field.cpp
+  src/magneticField/turbulentField/GridTurbulence.cpp
+  src/magneticField/turbulentField/HelicalGridTurbulence.cpp
+  src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
+  src/magneticField/turbulentField/SimpleGridTurbulence.cpp
   src/magneticField/TF17Field.cpp
-  src/magneticField/ArchimedeanSpiralField.cpp
   src/advectionField/AdvectionField.cpp
-  src/massDistribution/Nakanishi.cpp
-  src/massDistribution/Massdistribution.cpp
-  src/massDistribution/Ferriere.cpp
-  src/massDistribution/Cordes.cpp
   src/massDistribution/ConstantDensity.cpp
+  src/massDistribution/Cordes.cpp
+  src/massDistribution/Ferriere.cpp
+  src/massDistribution/Massdistribution.cpp
+  src/massDistribution/Nakanishi.cpp
 
   ${CRPROPA_EXTRA_SOURCES}
 )
@@ -425,11 +436,9 @@ if(DOXYGEN_FOUND)
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/libs/doxy2swig/doxy2swig.py ${CMAKE_CURRENT_BINARY_DIR}/xml/index.xml -o ${CMAKE_CURRENT_BINARY_DIR}/docstrings_from_doxy.i
     DEPENDS doxy
     )
-
-
-else()
+else(DOXYGEN_FOUND)
   MESSAGE(STATUS "Doxygen not found: cannot build documentation")
-endif(DOXYGEN_FOUND )
+endif(DOXYGEN_FOUND)
 
 
 
@@ -458,7 +467,6 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
     endif(DOXYGEN_FOUND)
   endif(SWIG_VERSION VERSION_GREATER 4.0)
 
-
   # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
   option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
 
@@ -480,7 +488,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
     MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
     SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
     list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
-  include_directories(${numpyIncludePath})
+    include_directories(${numpyIncludePath})
   else(numpyIncludePath)
     MESSAGE(STATUS "Numpy not found.")
   endif(numpyIncludePath)
@@ -576,6 +584,10 @@ if(ENABLE_TESTING)
   add_executable(testMagneticField test/testMagneticField.cpp)
   target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testMagneticField testMagneticField)
+  
+  add_executable(testTurbulentField test/testTurbulentField.cpp)
+  target_link_libraries(testTurbulentField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+  add_test(testTurbulentField testTurbulentField)
 
   add_executable(testAdvectionField test/testAdvectionField.cpp)
   target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})

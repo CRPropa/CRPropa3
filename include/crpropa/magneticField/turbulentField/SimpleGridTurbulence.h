@@ -47,7 +47,7 @@ class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
 	*/
 	double getCorrelationLength() const {
 		return turbulentCorrelationLength(getLmin(), getLmax(),
-		                                  -getSindex() - 2);
+		                                  getSindex());
 	}
 	static double turbulentCorrelationLength(double lMin, double lMax,
 	                                         double s) {

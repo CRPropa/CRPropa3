@@ -67,7 +67,7 @@ void EMTripletPairProduction::initCumulativeRate(std::string filename) {
 	tabE.clear();
 	tabs.clear();
 	tabCDF.clear();
-	
+
 	// skip header
 	while (infile.peek() == '#')
 		infile.ignore(std::numeric_limits < std::streamsize > ::max(), '\n');
@@ -118,8 +118,8 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 
 	if (haveElectrons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary( 11, Epp, pos);
-		candidate->addSecondary(-11, Epp, pos);
+		candidate->addSecondary( 11, Epp / (1 + z), pos);
+		candidate->addSecondary(-11, Epp / (1 + z), pos);
 	}
 
 	// update the primary particle energy; do this after adding the secondaries to correctly set the secondaries parent
@@ -149,8 +149,7 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 	double randDistance = -log(random.rand()) / rate;
 	if (candidate->getCurrentStep() > randDistance)
 		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+	candidate->limitNextStep(limit / rate);
 }
 
 } // namespace crpropa

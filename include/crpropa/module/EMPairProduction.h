@@ -21,7 +21,7 @@ namespace crpropa {
  */
 class EMPairProduction: public Module {
 private:
-	PhotonField photonField;
+	ref_ptr<PhotonField> photonField;
 	bool haveElectrons;
 	double limit;
 	double thinning;
@@ -37,13 +37,13 @@ private:
 
 public:
 	EMPairProduction(
-		PhotonField photonField = CMB, //!< target photon background
+		ref_ptr<PhotonField> photonField, //!< target photon background
 		bool haveElectrons = false,    //!< switch to create secondary electron pair
 		double thinning = 0,           //!< weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);
 
-	void setPhotonField(PhotonField photonField);
+	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHaveElectrons(bool haveElectrons);
 	void setLimit(double limit);
 	void setThinning(double thinning);

@@ -155,7 +155,64 @@ class testVector3(unittest.TestCase):
       sys.stdout = sys.__stdout__
     self.assertEqual(fake_out.getvalue().rstrip(), v.getDescription())
 
+class testParticleCollector(unittest.TestCase):
+  def testParticleCollectorIterator(self):
+    collector = crp.ParticleCollector()
+    lengths = [1*crp.pc, 10*crp.pc, 100*crp.pc]
+    for l in lengths:
+        c = crp.Candidate()
+        c.setTrajectoryLength(l)
+        collector.process(c)
 
+    self.assertEqual(len(collector), len(lengths))
+
+    for c, l in zip(collector, lengths):
+        self.assertEqual(c.getTrajectoryLength(), l)
+
+  def testParticleCollectorAsModuleListInput(self):
+    sim = crp.ModuleList()
+    sim.add(crp.MaximumTrajectoryLength(3.14))
+    sim.add(crp.SimplePropagation(0.001, 0.001))
+    collector = crp.ParticleCollector()
+    c1 = crp.Candidate()
+    c2 = crp.Candidate()
+    collector.process(c1)
+    collector.process(c2)
+    sim.run(collector.getContainer())
+    for c in collector:
+        self.assertAlmostEqual(
+            c.getTrajectoryLength(), 3.14, places=2)
+
+  def testParticleCollectorAsModuleListOutput(self):
+    sim = crp.ModuleList()
+    sim.add(crp.MaximumTrajectoryLength(3.14))
+    sim.add(crp.SimplePropagation(0.001, 0.001))
+    collector = crp.ParticleCollector()
+    sim.add(collector)
+    c = crp.Candidate()
+    sim.run(c)
+    self.assertAlmostEqual(
+        collector[0].getTrajectoryLength(),
+        3.14, places=2)
+
+class testGrid(unittest.TestCase):
+  def testGridPropertiesConstructor(self):
+    N = 32
+    gp = crp.GridProperties(crp.Vector3d(0), N, 0.1)
+    grid = crp.Grid1f(gp)
+    self.assertEqual(grid.getNx(), 32)
+
+if hasattr(crp, 'GridTurbulence'):
+    class testTurbulentField(unittest.TestCase):
+      def testGridTurbulence(self):
+        N = 64
+        boxSize = 1*crp.Mpc
+        l_bo = boxSize/8
+        spacing = boxSize / N
+        tf = crp.GridTurbulence(
+            crp.TurbulenceSpectrum(1.0, 2*spacing, boxSize, l_bo),
+            crp.GridProperties(crp.Vector3d(0), N, spacing)
+        )
 
 if __name__ == '__main__':
     unittest.main()

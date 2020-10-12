@@ -136,8 +136,8 @@ public:
 
 
 /**
- @class JF12FieldPlanck
- @brief JF12FieldPlanck: the JF12 galactic magnetic field model with corrections
+ @class PlanckJF12bField
+ @brief PlanckJF12bField: the JF12 galactic magnetic field model with corrections
  suggested by the Planck Collaboration
 
  See: Planck Collaboration, "Planck intermediate results. XLII.

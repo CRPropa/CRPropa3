@@ -11,16 +11,16 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMPairProduction::EMPairProduction(PhotonField photonField, bool haveElectrons, double thinning, double limit) {
+EMPairProduction::EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
 	setThinning(thinning);
 	setLimit(limit);
 	setHaveElectrons(haveElectrons);
 }
 
-void EMPairProduction::setPhotonField(PhotonField photonField) {
+void EMPairProduction::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField->getFieldName();
 	setDescription("EMPairProduction: " + fname);
 	initRate(getDataPath("EMPairProduction/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMPairProduction/cdf_" + fname + ".txt"));
@@ -228,7 +228,7 @@ void EMPairProduction::process(Candidate *candidate) const {
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 
 	Random &random = Random::instance();
 	double randDistance = -log(random.rand()) / rate;

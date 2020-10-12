@@ -6,8 +6,8 @@
 namespace crpropa {
 
 /**
- @class PshirkovField
- @brief Pshirkov2011 galactic magnetic field model
+ @class PT11Field
+ @brief Implements Pshirkov2011 galactic magnetic field model
 
  Implements the Pshirkov2011 galactic magnetic field model, consisting of large-scale regular disk and halo fields.
  For the disk field an axisymmetric (ASS) and the bisymmetric (BSS, default) model can be chosen.

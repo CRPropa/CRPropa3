@@ -10,16 +10,16 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMTripletPairProduction::EMTripletPairProduction(PhotonField photonField, bool haveElectrons, double thinning, double limit) {
+EMTripletPairProduction::EMTripletPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
 	setHaveElectrons(haveElectrons);
 	setLimit(limit);
 	setThinning(thinning);
 }
 
-void EMTripletPairProduction::setPhotonField(PhotonField photonField) {
+void EMTripletPairProduction::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField->getFieldName();
 	setDescription("EMTripletPairProduction: " + fname);
 	initRate(getDataPath("EMTripletPairProduction/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMTripletPairProduction/cdf_" + fname + ".txt"));
@@ -159,7 +159,7 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 		return;
 
 	// cosmological scaling of interaction distance (comoving)
-	double scaling = pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	double scaling = pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 	double rate = scaling * interpolate(E, tabEnergy, tabRate);
 
 	// run this loop at least once to limit the step size

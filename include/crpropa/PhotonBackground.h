@@ -187,6 +187,20 @@ public:
 };
 
 /**
+ @class URB
+ @brief Extragalactic background light model from Protheroe & Biermann 1996
+
+ Source info:
+ DOI:10.1016/S0927-6505(96)00041-2
+ https://www.sciencedirect.com/science/article/abs/pii/S0927650596000412
+ */
+class URB_Protheroe96: public TabularPhotonField {
+public:
+	URB_Protheroe96() : TabularPhotonField("URB_Protheroe96", false) {}
+};
+
+
+/**
  @class BlackbodyPhotonField
  @brief Photon field decorator for black body photon fields.
  */

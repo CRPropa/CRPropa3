@@ -8,6 +8,8 @@
 
 ### New features:
 
+* Weighted sampling thinning of electromagnetic processes  (EMPairProduction,
+  EMInverseComptonScattering, EMDoublePairProduction, EMTripletPairProduction).
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
 	Mikhail Zotov for contributing.
 * ParticleCollector can provide Candidates directly to ModuleList::run

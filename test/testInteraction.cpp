@@ -425,6 +425,7 @@ TEST(PhotoDisintegration, allIsotopes) {
 	}
 }
 
+
 TEST(Photodisintegration, updateParticleParentProperties)
 { // Issue: #204
 	ref_ptr<PhotonField> CMB_instance = new CMB();
@@ -611,6 +612,7 @@ TEST(EMPairProduction, secondaries) {
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
 	EMPairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
+	m.setThinning(0.);
 
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
@@ -619,12 +621,11 @@ TEST(EMPairProduction, secondaries) {
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
 		m.setPhotonField(fields[f]);
-		
-		// loop over energies Ep = (1E10 - 1E23) eV
-		for (int i = 0; i < 130; i++) {
+		for (int i = 0; i < 130; i++) { // loop over energies Ep = (1e10 - 1e23) eV
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
 			c.setCurrentStep(std::numeric_limits<double>::max());
+			// c.setCurrentStep(1e10 * Mpc);
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -667,6 +668,7 @@ TEST(EMDoublePairProduction, secondaries) {
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
 	EMDoublePairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
+	m.setThinning(0.);
 
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
@@ -734,9 +736,10 @@ TEST(EMTripletPairProduction, secondaries) {
 		
 		// loop over energies Ep = (1E10 - 1E23) eV
 		for (int i = 0; i < 130; i++) {
+
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(11, Ep);
-			c.setCurrentStep(std::numeric_limits<double>::max());
+			c.setCurrentStep(1e4 * Mpc); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -746,9 +749,6 @@ TEST(EMTripletPairProduction, secondaries) {
 			// expect positive energy of primary electron
 			EXPECT_GT(c.current.getEnergy(), 0);
 			double Etot = c.current.getEnergy();
-
-			// expect 2 secondaries
-			EXPECT_EQ(c.secondaries.size(), 2);
 
 			// expect electron / positron with energies 0 < E < Ephoton
 			for (int j = 0; j < c.secondaries.size(); j++) {
@@ -760,7 +760,7 @@ TEST(EMTripletPairProduction, secondaries) {
 			}
 
 			// test energy conservation
-			EXPECT_NEAR(Ep, Etot, 1E-9);
+			EXPECT_NEAR(Ep, Etot, 1e-9);
 		}
 	}
 }
@@ -795,7 +795,7 @@ TEST(EMInverseComptonScattering, secondaries) {
 		for (int i = 0; i < 130; i++) {
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(11, Ep);
-			c.setCurrentStep(std::numeric_limits<double>::max());
+			c.setCurrentStep(1e3 * Mpc); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -805,18 +805,19 @@ TEST(EMInverseComptonScattering, secondaries) {
 			// expect positive energy of primary electron
 			EXPECT_GT(c.current.getEnergy(), 0);
 
-			// expect 1 secondary photon
-			EXPECT_EQ(c.secondaries.size(), 1);
-
 			// expect photon with energy 0 < E < Ephoton
 			Candidate s = *c.secondaries[0];
 			EXPECT_EQ(abs(s.current.getId()), 22);
-			EXPECT_GT(s.current.getEnergy(), 0);
-			EXPECT_LT(s.current.getEnergy(), Ep);
+			EXPECT_TRUE(s.current.getEnergy() >= 0.);
+			EXPECT_TRUE(s.current.getEnergy() < Ep);
 
-			// test energy conservation
-			double Etot = c.current.getEnergy() + s.current.getEnergy();
-			EXPECT_DOUBLE_EQ(Ep, Etot);
+
+			double Etot = c.current.getEnergy();
+			for (int j = 0; j < c.secondaries.size(); j++) {
+				s = *c.secondaries[j];
+				Etot += s.current.getEnergy();
+			}
+			EXPECT_NEAR(Ep, Etot, 1e-9); 
 		}
 	}
 }

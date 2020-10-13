@@ -11,8 +11,11 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMPairProduction::EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons, double limit) : haveElectrons(haveElectrons), limit(limit) {
+EMPairProduction::EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
+	setThinning(thinning);
+	setLimit(limit);
+	setHaveElectrons(haveElectrons);
 }
 
 void EMPairProduction::setPhotonField(ref_ptr<PhotonField> photonField) {
@@ -29,6 +32,10 @@ void EMPairProduction::setHaveElectrons(bool haveElectrons) {
 
 void EMPairProduction::setLimit(double limit) {
 	this->limit = limit;
+}
+
+void EMPairProduction::setThinning(double thinning) {
+	this->thinning = thinning;
 }
 
 void EMPairProduction::initRate(std::string filename) {
@@ -190,11 +197,20 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	static PPSecondariesEnergyDistribution interpolation;
 	double Ee = interpolation.sample(E, s);
 	double Ep = E - Ee;
+	double f = Ep / E;
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-	candidate->addSecondary(-11, Ee / (1 + z), pos);
-	candidate->addSecondary(11, Ep / (1 + z), pos);
+	double w0 = candidate->getWeight();
+	// apply sampling
+	if (random.rand() < pow(f, thinning)) {
+		double w = w0 / pow(f, thinning);
+		candidate->addSecondary(11, Ep / (1 + z), pos, w);
+	}
+	if (random.rand() < pow(1 - f, thinning)){
+		double w = w0 / pow(1 - f, thinning);
+		candidate->addSecondary(-11, Ee / (1 + z), pos, w);	
+	}
 }
 
 void EMPairProduction::process(Candidate *candidate) const {
@@ -207,20 +223,23 @@ void EMPairProduction::process(Candidate *candidate) const {
 	double E = candidate->current.getEnergy() * (1 + z);
 
 	// check if in tabulated energy range
-	if (E < tabEnergy.front() or (E > tabEnergy.back()))
+	if ((E < tabEnergy.front()) or (E > tabEnergy.back()))
 		return;
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
 	rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 
-	// check for interaction
 	Random &random = Random::instance();
 	double randDistance = -log(random.rand()) / rate;
-	if (candidate->getCurrentStep() > randDistance)
-		performInteraction(candidate);
-	else
+	double step = candidate->getCurrentStep();
+	if (step < randDistance) {
 		candidate->limitNextStep(limit / rate);
+		return;
+	} else { // perform interaction and stop tracking particle 
+		performInteraction(candidate);
+		return;
+	}
 }
 
 } // namespace crpropa

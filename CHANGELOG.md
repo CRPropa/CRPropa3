@@ -8,6 +8,7 @@
 
 ### New features:
 
+* New model for the radio background added: ARCADE-2 measurements.
 * Weighted sampling thinning of electromagnetic processes  (EMPairProduction,
   EMInverseComptonScattering, EMDoublePairProduction, EMTripletPairProduction).
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to

@@ -202,7 +202,10 @@ public:
 /**
  @class URB
  @brief Extragalactic background light model based on ARCADE2 observations
-
+  
+ Source info:
+ DOI:10.1088/0004-637X/734/1/5 
+ https://iopscience.iop.org/article/10.1088/0004-637X/734/1/5
  */
 class URB_ARCADE2: public TabularPhotonField {
 public:

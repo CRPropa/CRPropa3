@@ -199,6 +199,15 @@ public:
 	URB_Protheroe96() : TabularPhotonField("URB_Protheroe96", false) {}
 };
 
+/**
+ @class URB
+ @brief Extragalactic background light model based on ARCADE2 observations
+
+ */
+class URB_ARCADE2: public TabularPhotonField {
+public:
+	URB_ARCADE2() : TabularPhotonField("URB_ARCADE2", false) {}
+};
 
 /**
  @class BlackbodyPhotonField

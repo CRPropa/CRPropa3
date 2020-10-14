@@ -285,6 +285,8 @@ TEST(PhotoDisintegration, allBackgrounds) {
 	PhotoDisintegration pd(CMB_instance);
 	ref_ptr<PhotonField> IRB = new IRB_Kneiske04();
 	pd.setPhotonField(IRB);
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
+	pd.setPhotonField(URB);
 	IRB = new IRB_Stecker05();
 	pd.setPhotonField(IRB);
 	IRB = new IRB_Franceschini08();
@@ -299,6 +301,8 @@ TEST(PhotoDisintegration, allBackgrounds) {
 	pd.setPhotonField(IRB);
 	IRB = new IRB_Stecker16_lower();
 	pd.setPhotonField(IRB);
+	URB = new URB_ARCADE2();
+	pd.setPhotonField(URB);
 }
 
 TEST(PhotoDisintegration, carbon) {
@@ -425,9 +429,7 @@ TEST(PhotoDisintegration, allIsotopes) {
 	}
 }
 
-
-TEST(Photodisintegration, updateParticleParentProperties)
-{ // Issue: #204
+TEST(Photodisintegration, updateParticleParentProperties) { // Issue: #204
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	PhotoDisintegration pd(CMB_instance);
 
@@ -610,6 +612,7 @@ TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
 	EMPairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -617,6 +620,7 @@ TEST(EMPairProduction, secondaries) {
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
 	fields.push_back(IRB);
+	fields.push_back(URB);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -625,7 +629,7 @@ TEST(EMPairProduction, secondaries) {
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
 			c.setCurrentStep(std::numeric_limits<double>::max());
-			// c.setCurrentStep(1e10 * Mpc);
+			// c.setCurrentStep(1e4 * Mpc); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -666,6 +670,7 @@ TEST(EMDoublePairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
 	EMDoublePairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -673,6 +678,7 @@ TEST(EMDoublePairProduction, secondaries) {
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
 	fields.push_back(IRB);
+	fields.push_back(URB);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -682,7 +688,8 @@ TEST(EMDoublePairProduction, secondaries) {
 		for (int i = 0; i < 130; i++) {
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
-			c.setCurrentStep(std::numeric_limits<double>::max());
+			// c.setCurrentStep(std::numeric_limits<double>::max());
+			c.setCurrentStep(1e4 * Mpc); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)
@@ -723,12 +730,14 @@ TEST(EMTripletPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
 	EMTripletPairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
 
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
 	fields.push_back(IRB);
+	fields.push_back(URB);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -780,12 +789,14 @@ TEST(EMInverseComptonScattering, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
 	EMInverseComptonScattering m(CMB_instance);
 	m.setHavePhotons(true);
 
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
 	fields.push_back(IRB);
+	fields.push_back(URB);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {

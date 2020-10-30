@@ -92,7 +92,7 @@ Vector3d MagneticDipoleField::getField(const Vector3d &position) const {
 Vector3d SingleModeHelicalMagneticField::getField(const Vector3d &position) const {
 		Vector3d r = (position - origin);
 
-		Vector3d e1 = unitVectorOrigin; // first of the unit vectors which span the polarization plane
+		Vector3d e1 = unitVectorOrigin; // first of the unit vectors which span the polarization plane!
 		if ((e1.x != 0.0) && (e1.y != 0.0) && (e1.z != 0.0)) {
 			e1 /= e1.getR();
 		}

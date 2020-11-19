@@ -69,7 +69,7 @@ void ParticleCollector::clearContainer() {
         container.clear();
 }
 
-std::vector<ref_ptr<Candidate> > ParticleCollector::getAll() const {
+std::vector<ref_ptr<Candidate> >& ParticleCollector::getContainer() const {
         return container;
 }
 

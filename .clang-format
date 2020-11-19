@@ -1,1 +1,6 @@
 MaxEmptyLinesToKeep: 2
+IndentWidth:     4
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+TabWidth:        4
+UseTab:          ForIndentation

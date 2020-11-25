@@ -447,6 +447,7 @@ class SourceEmissionCone: public SourceFeature {
 public:
 	SourceEmissionCone(Vector3d direction, double aperture);
 	void prepareParticle(ParticleState &particle) const;
+	void setDirection(Vector3d direction);
 	void setDescription();
 };
 

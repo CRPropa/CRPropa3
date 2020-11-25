@@ -9,7 +9,6 @@
 #include "crpropa/Geometry.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
-#include "crpropa/GridTurbulence.h"
 #include "crpropa/Logging.h"
 #include "crpropa/Module.h"
 #include "crpropa/ModuleList.h"
@@ -26,6 +25,7 @@
 #include "crpropa/Vector3.h"
 #include "crpropa/Version.h"
 
+#include "crpropa/module/AdiabaticCooling.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/BreakCondition.h"
 #include "crpropa/module/DiffusionSDE.h"
@@ -45,25 +45,29 @@
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/PhotonEleCa.h"
 #include "crpropa/module/PhotonOutput1D.h"
-#include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/PropagationBP.h"
+#include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Redshift.h"
 #include "crpropa/module/RestrictToRegion.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/SynchrotronRadiation.h"
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/Tools.h"
-#include "crpropa/module/AdiabaticCooling.h"
 
 #include "crpropa/magneticField/AMRMagneticField.h"
+#include "crpropa/magneticField/ArchimedeanSpiralField.h"
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/magneticField/JF12FieldSolenoidal.h"
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PT11Field.h"
-#include "crpropa/magneticField/TF17Field.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
-#include "crpropa/magneticField/ArchimedeanSpiralField.h"
+#include "crpropa/magneticField/TF17Field.h"
+#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
+#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/TurbulentField.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
 
@@ -74,10 +78,11 @@
 #include "crpropa/massDistribution/Ferriere.h"
 #include "crpropa/massDistribution/ConstantDensity.h"
 
-
+/** \namespace crpropa
+ *  @brief CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles.
+ **/
 
 // Groups of Modules for Doxygen
-
 /**
  * \defgroup Core Core Classes
  * @{ @brief Core classes used to build CRPropa

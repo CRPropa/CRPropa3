@@ -3,7 +3,6 @@
 
 *~
 
-doc/*
 build*
 data/*
 data-tools/*
@@ -24,4 +23,8 @@ cmake/CMakeFiles/
 
 include/kiss/
 include/healpix_base/
-
+*.txt
+*.pdf
+*.dat
+*.ipynb_checkpoints
+*.idea

@@ -2,12 +2,47 @@
 
 ### Bug fixes:
 
+* Turbulent fields generated on a grid were limited up to 2048 grid-size due to
+  an integer overflow (i.e. 2048^3 index > signed int); solved by replacing
+  int with size_t
+
 ### New features:
 
+* Weighted sampling thinning of electromagnetic processes  (EMPairProduction,
+  EMInverseComptonScattering, EMDoublePairProduction, EMTripletPairProduction).
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
 	Mikhail Zotov for contributing.
+* ParticleCollector can provide Candidates directly to ModuleList::run
+* Basic file versioning of the data archive in CMakeLists.txt
+* Python docstrings are generated automatically from doxygen documentation
+* Photon field classes replaced the photon field enumerator,
+  consequently, the new photon fields implementation follows the same logic as
+  of the other modules making it is easier to introduce custom ones
+* New class-based interface for turbulent fields introduced
+* New turbulence modules implemented:
+  - GridTurbulence (with the bendover scale) which should in general be used
+    instead of initTurbulence (before, it was implmeneted as
+    initTurbulenceWithBendover);
+  - SimpleGridTurbulence which provides the exact field as initTurbulence;
+  - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence
+  - PlaneWaveTurbulence a new algorithm based on Giacalone & Jokipii, 1999 and
+    Tautz & Dosch, 2013.
+* New CMake option: `BUILD_DOC` for building Doxygen & Sphinx docs
+
+
+### Interface change:
+
+* ParticleCollector::getAll() -> ParticleCollector::getContainer()
+* Photon fields are no longer items of the PhotonField enumerator but independent
+  classes that share the same interface, so instead of `CMB` one should use `CMB()`,
+  instead of `IRB_Kneiske04` - `IRB_Kneiske04()`, etc.
+* initTurbulenceWithBendover() removed (as it was just briefly present in the code)
+  and replaced with GridTurbulence
 
 ### Features that are deprecated and will be removed after this release:
+
+* Turbulence-related functions: initTurbulence, turbulentCorrelationLength,
+  initHelicalTurbulence
 
 ### New plugins and resources linked on the webpages:
 

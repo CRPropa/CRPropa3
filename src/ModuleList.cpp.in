@@ -93,8 +93,8 @@ void ModuleList::run(ref_ptr<Candidate> candidate, bool recursive, bool secondar
 	run((Candidate*) candidate, recursive, secondariesFirst);
 }
 
-void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool secondariesFirst) {
-	size_t count = candidates.size();
+void ModuleList::run(const candidate_vector_t *candidates, bool recursive, bool secondariesFirst) {
+	size_t count = candidates->size();
 
 #if _OPENMP
 	std::cout << "crpropa::ModuleList: Number of Threads: " << omp_get_max_threads() << std::endl;
@@ -118,7 +118,7 @@ void ModuleList::run(candidate_vector_t &candidates, bool recursive, bool second
 			continue;
 
 		try {
-			run(candidates[i], recursive);
+			run(candidates->operator[](i), recursive);
 		} catch (std::exception &e) {
 			std::cerr << "Exception in crpropa::ModuleList::run: " << std::endl;
 			std::cerr << e.what() << std::endl;

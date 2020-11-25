@@ -6,25 +6,25 @@
 
 #include "CRPropa.h"
 
-#include <string>
 #include "gtest/gtest.h"
 #include <iostream>
+#include <string>
 
 
 #ifdef CRPROPA_HAVE_HDF5
-	#include <hdf5.h>
+#include <hdf5.h>
 #endif
 
 // compare two arrays (intead of using Google Mock)
 // https://stackoverflow.com/a/10062016/6819103
-template<typename T, size_t size>
+template <typename T, size_t size>
 ::testing::AssertionResult ArraysMatch(const T (&expected)[size],
-		const T (&actual)[size]){
-	for (size_t i(0); i < size; ++i){
-		if (expected[i] != actual[i]){
-			return ::testing::AssertionFailure() << "array[" << i
-			<< "] (" << actual[i] << ") != expected[" << i
-			<< "] (" << expected[i] << ")";
+                                       const T (&actual)[size]) {
+	for (size_t i(0); i < size; ++i) {
+		if (expected[i] != actual[i]) {
+			return ::testing::AssertionFailure()
+			       << "array[" << i << "] (" << actual[i] << ") != expected["
+			       << i << "] (" << expected[i] << ")";
 		}
 	}
 
@@ -38,7 +38,7 @@ namespace crpropa {
 TEST(Output, size) {
 	Candidate c;
 	Output output;
-	for (int it=0; it<5; ++it, output.process(&c));
+	for (int it = 0; it < 5; ++it, output.process(&c));
 
 	EXPECT_EQ(output.size(), 5);
 }
@@ -53,8 +53,7 @@ TEST(TextOutput, printHeader_Trajectory1D) {
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
-	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tID\tE\tX");
+	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tID\tE\tX");
 }
 
 TEST(TextOutput, printHeader_Event1D) {
@@ -65,8 +64,7 @@ TEST(TextOutput, printHeader_Event1D) {
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
-	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tD\tID\tE\tID0\tE0");
+	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tD\tID\tE\tID0\tE0");
 }
 
 TEST(TextOutput, printHeader_Trajectory3D) {
@@ -89,8 +87,9 @@ TEST(TextOutput, printHeader_Event3D) {
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
-	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
+	EXPECT_EQ(
+	    captured.substr(0, captured.find("\n")),
+	    "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
 }
 
 TEST(TextOutput, printHeader_Custom) {
@@ -120,8 +119,7 @@ TEST(TextOutput, printProperty) {
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	// name in first line of header
-	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tfoo");
+	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tfoo");
 }
 
 TEST(TextOutput, printHeader_Version) {
@@ -135,26 +133,24 @@ TEST(TextOutput, printHeader_Version) {
 	// length of the prefix is 19 chars
 	size_t version_pos = captured.find("# CRPropa version: ") + 19;
 
-	EXPECT_EQ(
-		captured.substr(
-			version_pos,
-		      	captured.find("\n", version_pos) - version_pos
-			),
-	         g_GIT_DESC);
+	EXPECT_EQ(captured.substr(version_pos,
+	                          captured.find("\n", version_pos) - version_pos),
+	          g_GIT_DESC);
 }
 
-TEST(TextOutput, failOnIllegalOutputFile)
-{
-	EXPECT_THROW(TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"), std::runtime_error);
+TEST(TextOutput, failOnIllegalOutputFile) {
+	EXPECT_THROW(
+	    TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"),
+	    std::runtime_error);
 }
 
 #ifdef CRPROPA_HAVE_HDF5
-TEST(HDF5Output, failOnIllegalOutputFile)
-{
+TEST(HDF5Output, failOnIllegalOutputFile) {
 	HDF5Output out;
 	// disable default error output of HDF5
 	H5Eset_auto2(H5E_DEFAULT, NULL, NULL);
-	EXPECT_THROW(out.open("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.h5"), std::runtime_error);
+	EXPECT_THROW(out.open("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.h5"),
+	             std::runtime_error);
 }
 #endif
 
@@ -164,13 +160,14 @@ TEST(ParticleCollector, size) {
 	ref_ptr<Candidate> c = new Candidate();
 	ParticleCollector output;
 
-	for (int it=0; it<5; ++it, output.process(c));
+	for (int it = 0; it < 5; ++it, output.process(c))
+		;
 
 	EXPECT_EQ(output.size(), 5);
 }
 
 TEST(ParticleCollector, fetchItem) {
-	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1*EeV);
+	ref_ptr<Candidate> c = new Candidate(nucleusId(1, 1), 1 * EeV);
 	ParticleCollector output;
 
 	output.process(c);
@@ -179,7 +176,7 @@ TEST(ParticleCollector, fetchItem) {
 }
 
 TEST(ParticleCollector, reprocess) {
-	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1*EeV);
+	ref_ptr<Candidate> c = new Candidate(nucleusId(1, 1), 1 * EeV);
 	ParticleCollector collector;
 	ParticleCollector output;
 
@@ -190,16 +187,16 @@ TEST(ParticleCollector, reprocess) {
 }
 
 TEST(ParticleCollector, dumpload) {
-	ref_ptr<Candidate> c = new Candidate(nucleusId(1,1), 1.234*EeV);
-	c->current.setPosition(Vector3d(1,2,3));
-	c->current.setDirection(Vector3d(-1,-1,-1));
-	c->setTrajectoryLength(1*Mpc);
+	ref_ptr<Candidate> c = new Candidate(nucleusId(1, 1), 1.234 * EeV);
+	c->current.setPosition(Vector3d(1, 2, 3));
+	c->current.setDirection(Vector3d(-1, -1, -1));
+	c->setTrajectoryLength(1 * Mpc);
 	c->setRedshift(2);
 
 	ParticleCollector input;
 	ParticleCollector output;
 
-	for(int i=0; i<=10; ++i){
+	for (int i = 0; i <= 10; ++i) {
 		input.process(c);
 	}
 
@@ -232,7 +229,7 @@ TEST(ParticleCollector, getTrajectory) {
 	sim->add(new SimplePropagation(1, 1));
 
 	ref_ptr<Observer> obs = new Observer();
-        obs->add(new ObserverPoint());
+	obs->add(new ObserverPoint());
 	obs->onDetection(output);
 	sim->add(obs);
 
@@ -240,15 +237,36 @@ TEST(ParticleCollector, getTrajectory) {
 
 	output->getTrajectory(sim, 0, trajectory);
 
-	Vector3d pos; int i = 0;
+	Vector3d pos;
+	int i = 0;
 
-	for (ParticleCollector::iterator itr = trajectory->begin(); itr != trajectory->end(); ++itr){
+	for (ParticleCollector::iterator itr = trajectory->begin();
+	     itr != trajectory->end(); ++itr) {
 		pos = (*(itr->get())).current.getPosition();
 		pos_x[i] = pos.getX();
 		++i;
 	}
 
 	EXPECT_TRUE(ArraysMatch(pos_x_expected, pos_x));
+}
+
+TEST(ParticleCollector, runModuleList) {
+	ModuleList modules;
+	modules.add(new SimplePropagation());
+	modules.add(new MaximumTrajectoryLength(1 * Mpc));
+
+	ParticleState p;
+	p.setPosition(Vector3d(10, 0, 0));
+	p.setDirection(Vector3d(-1, 0, 0));
+	ref_ptr<Candidate> c = new Candidate(p);
+
+	ref_ptr<ParticleCollector> collector = new ParticleCollector();
+
+	collector->process(c);
+
+	modules.setShowProgress(false);
+	auto candidates = collector->getContainer();
+	modules.run(&candidates);
 }
 
 int main(int argc, char **argv) {

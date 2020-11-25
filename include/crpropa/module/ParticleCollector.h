@@ -43,7 +43,7 @@ public:
         void clearContainer();
 
 	std::string getDescription() const;
-	std::vector<ref_ptr<Candidate> > getAll() const;
+	std::vector<ref_ptr<Candidate> >& getContainer() const;
 	void setClone(bool b);
 	bool getClone() const;
 

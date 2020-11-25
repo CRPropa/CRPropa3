@@ -15,12 +15,16 @@ namespace crpropa {
  gamma + gamma_b --> e+ + e- (Breit-Wheeler process).
  The resulting electron positron pair is optionally created (default = false).
  The module limits the propagation step size to a fraction of the mean free path (default = 0.1).
+ Thinning is available. A thinning of 0 means that all particles are tracked. 
+ For the maximum thinning of 1, only a few representative particles are added to the list of secondaries.
+ Note that for thinning>0 the output must contain the column "weights", which should be included in the post-processing.
  */
 class EMPairProduction: public Module {
 private:
-	PhotonField photonField;
+	ref_ptr<PhotonField> photonField;
 	bool haveElectrons;
 	double limit;
+	double thinning;
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]
@@ -33,14 +37,16 @@ private:
 
 public:
 	EMPairProduction(
-		PhotonField photonField = CMB, //!< target photon background
+		ref_ptr<PhotonField> photonField, //!< target photon background
 		bool haveElectrons = false,    //!< switch to create secondary electron pair
+		double thinning = 0,           //!< weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
 		double limit = 0.1             //!< step size limit as fraction of mean free path
 		);
 
-	void setPhotonField(PhotonField photonField);
+	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHaveElectrons(bool haveElectrons);
 	void setLimit(double limit);
+	void setThinning(double thinning);
 
 	void initRate(std::string filename);
 	void initCumulativeRate(std::string filename);

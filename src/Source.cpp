@@ -795,13 +795,23 @@ void SourceEmissionMap::setEmissionMap(EmissionMap *emissionMap) {
 
 // ----------------------------------------------------------------------------
 SourceEmissionCone::SourceEmissionCone(Vector3d direction, double aperture) :
-		direction(direction), aperture(aperture) {
+	aperture(aperture) {
+	setDirection(direction);
 	setDescription();
+	
 }
 
 void SourceEmissionCone::prepareParticle(ParticleState& particle) const {
 	Random &random = Random::instance();
 	particle.setDirection(random.randConeVector(direction, aperture));
+}
+
+void SourceEmissionCone::setDirection(Vector3d dir) {
+	if (dir.getR() == 0) {
+		throw std::runtime_error("SourceEmissionCone: The direction vector was a null vector.");
+	} else {
+		direction = dir.getUnitVector();
+	}
 }
 
 void SourceEmissionCone::setDescription() {

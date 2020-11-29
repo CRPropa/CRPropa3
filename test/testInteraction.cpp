@@ -633,11 +633,10 @@ TEST(EMPairProduction, secondaries) {
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
 		m.setPhotonField(fields[f]);
-		for (int i = 0; i < 120; i++) { // loop over energies Ep = (1e10 - 1e23) eV
+		for (int i = 0; i < 130; i++) { // loop over energies Ep = (1e10 - 1e23) eV
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
 			c.setCurrentStep(std::numeric_limits<double>::max());
-			// c.setCurrentStep(1e4 * Mpc); // use lower value so that the test can run faster
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)

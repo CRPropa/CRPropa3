@@ -301,7 +301,7 @@ TEST(PhotoDisintegration, allBackgrounds) {
 	pd.setPhotonField(IRB);
 	IRB = new IRB_Stecker16_lower();
 	pd.setPhotonField(IRB);
-	URB = new URB_ARCADE2();
+	URB = new URB_Nitu21();
 	pd.setPhotonField(URB);
 }
 
@@ -452,6 +452,8 @@ TEST(ElasticScattering, allBackgrounds) {
 	ElasticScattering scattering(CMB_instance);
 	ref_ptr<PhotonField> IRB = new IRB_Kneiske04();
 	scattering.setPhotonField(IRB);
+	ref_ptr<PhotonField> URB = new URB_Nitu21();
+	scattering.setPhotonField(URB);
 }
 
 TEST(ElasticScattering, secondaries) {
@@ -498,6 +500,10 @@ TEST(PhotoPionProduction, allBackgrounds) {
 	ppp.setPhotonField(IRB);
 	IRB = new IRB_Stecker16_lower();
 	ppp.setPhotonField(IRB);
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
+	ppp.setPhotonField(URB);
+	URB = new URB_Nitu21();
+	ppp.setPhotonField(URB);
 }
 
 TEST(PhotoPionProduction, proton) {
@@ -510,7 +516,7 @@ TEST(PhotoPionProduction, proton) {
 	ppp.process(&c);
 
 	// expect energy loss
-	EXPECT_LT(c.current.getEnergy(), 100 * EeV);
+	EXPECT_LT(c.current.getEnergy(), 100. * EeV);
 
 	// expect nucleon number conservation
 	EXPECT_EQ(1, massNumber(c.current.getId()));
@@ -526,10 +532,10 @@ TEST(PhotoPionProduction, helium) {
 	PhotoPionProduction ppp(CMB_instance);
 	Candidate c;
 	c.current.setId(nucleusId(4, 2));
-	c.current.setEnergy(400 * EeV);
+	c.current.setEnergy(400. * EeV);
 	c.setCurrentStep(1000 * Mpc);
 	ppp.process(&c);
-	EXPECT_LT(c.current.getEnergy(), 400 * EeV);
+	EXPECT_LT(c.current.getEnergy(), 400. * EeV);
 	int id = c.current.getId();
 	EXPECT_TRUE(massNumber(id) < 4);
 	EXPECT_TRUE(c.secondaries.size() > 0);
@@ -610,6 +616,8 @@ TEST(EMPairProduction, limitNextStep) {
 
 TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
+	// This test can stochastically fail.
+
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
 	ref_ptr<PhotonField> URB = new URB_Protheroe96();
@@ -625,7 +633,7 @@ TEST(EMPairProduction, secondaries) {
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
 		m.setPhotonField(fields[f]);
-		for (int i = 0; i < 130; i++) { // loop over energies Ep = (1e10 - 1e23) eV
+		for (int i = 0; i < 120; i++) { // loop over energies Ep = (1e10 - 1e23) eV
 			double Ep = pow(10, 10.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
 			c.setCurrentStep(std::numeric_limits<double>::max());
@@ -644,7 +652,7 @@ TEST(EMPairProduction, secondaries) {
 			for (int j = 0; j < c.secondaries.size(); j++) {
 				Candidate s = *c.secondaries[j];
 				EXPECT_EQ(abs(s.current.getId()), 11);
-				EXPECT_GT(s.current.getEnergy(), 0);
+				EXPECT_GT(s.current.getEnergy(), 0.);
 				EXPECT_LT(s.current.getEnergy(), Ep);
 				Etot += s.current.getEnergy();
 			}

@@ -157,9 +157,9 @@ class PPSecondariesEnergyDistribution {
 			Random &random = Random::instance();
 			size_t j = random.randBin(s0) + 1;
 
-			double s_min = 4 * mec2 * mec2;
-			double beta = sqrt(1 - s_min / s);
-			double x0 = (1 - beta) / 2.;
+			double s_min = 4. * mec2 * mec2;
+			double beta = sqrtl(1. - s_min / s);
+			double x0 = (1. - beta) / 2.;
 			double dx = log((1 + beta) / (1 - beta)) / N;
 			double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));
 			if (random.rand() < 0.5)
@@ -198,6 +198,10 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double Ee = interpolation.sample(E, s);
 	double Ep = E - Ee;
 	double f = Ep / E;
+
+	// for some backgrounds Ee=nan due to precision limitations.
+	if (isnan(Ee) || isinf(Ee) || isnan(Ep) || isinf(Ep))
+		return;
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());

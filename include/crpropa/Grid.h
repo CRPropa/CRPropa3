@@ -3,6 +3,10 @@
 
 #include "crpropa/Referenced.h"
 #include "crpropa/Vector3.h"
+
+#include "kiss/string.h"
+#include "kiss/logger.h"
+
 #include <vector>
 
 #include <immintrin.h>
@@ -105,9 +109,9 @@ class Grid: public Referenced {
 	Vector3d gridOrigin; /**< Grid origin */
 	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
-	//~ bool tricubic; /** If set to true, use tricubic interpolation instead of trilinear interpolation (standard) */
-	//~ bool nearestneighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation (standard) */
-	int interpolation;
+	bool trilinear; /** If set to true, use trilinear interpolation (standard) */
+	bool tricubic; /** If set to true, use tricubic interpolation instead of trilinear interpolation */
+	bool nearestneighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation */
 
 public:
 
@@ -120,18 +124,12 @@ public:
   }
 
   T interpolate(const Vector3d &position) {
-    if (interpolation == 1)
-    {
+    if (tricubic)
         return tricubic_interpolate(T(), position);
-    }
-    else if (interpolation == 2)
-    {
+    else if (nearestneighbour)
       return nearestneighbour_interpolate(position);
-    }
     else
-    {
       return trilinear_interpolate(position);
-    }
   }
 
 	/** Constructor for cubic grid
@@ -144,19 +142,7 @@ public:
 		setGridSize(N, N, N);
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
-		//~ setTricubic(false);
-		//~ setNearestNeighbour(false);
-		
-		interpolation = 0; //trilinear
-		
-		activateNearestNeighbour();
-		activateTricubic();
-		activateTrilinear();
-		
-		//~ last_ix = -1;
-		//~ last_iy = -1;
-		//~ last_iz = -1;
-		
+		setTrilinear();
 	}
 
 	/** Constructor for non-cubic grid
@@ -218,33 +204,25 @@ public:
 		reflective = b;
 	}
 	
-	//~ void setTricubic(bool b) {
-		//~ tricubic = b;
-	//~ }
-	
-	//~ void setNearestNeighbour(bool b) {
-		//~ nearestneighbour = b;
-	//~ }
-	
-	void activateTricubic()
+	void setTricubic()
 	{
-		//~ nearestneighbour = false;
-		//~ tricubic = true;
-		interpolation = 1;
+		nearestneighbour = false;
+		tricubic = true;
+		trilinear = false;
 	}
 	
-	void activateNearestNeighbour()
+	void setNearestNeighbour()
 	{
-		//~ tricubic = false;
-		//~ nearestneighbour = true;
-		interpolation = 2;
+		nearestneighbour = true;
+		tricubic = false;
+		trilinear = false;
 	}
 	
-	void activateTrilinear()
+	void setTrilinear()
 	{
-		//~ tricubic = false;
-		//~ nearestneighbour = false;	
-		interpolation = 0;
+		nearestneighbour = false;
+		tricubic = false;
+		trilinear = true;
 	}
 
 	Vector3d getOrigin() const {
@@ -315,12 +293,12 @@ public:
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			while ((ix < 0) or (ix >= Nx))
-				ix = 2 * Nx * (ix >= Nx) - ix - 1;
-			while ((iy < 0) or (iy >= Ny))
-				iy = 2 * Ny * (iy >= Ny) - iy - 1;
-			while ((iz < 0) or (iz >= Nz))
-				iz = 2 * Nz * (iz >= Nz) - iz - 1;
+			while ((ix < 0) or (ix > Nx))
+				ix = 2 * Nx * (ix > Nx) - ix;
+			while ((iy < 0) or (iy > Ny))
+				iy = 2 * Ny * (iy > Ny) - iy;
+			while ((iz < 0) or (iz > Nz))
+				iz = 2 * Nz * (iz > Nz) - iz;
 		} else {
 			ix = ((ix % Nx) + Nx) % Nx;
 			iy = ((iy % Ny) + Ny) % Ny;

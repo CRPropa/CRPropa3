@@ -111,7 +111,7 @@ class Grid: public Referenced {
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 	bool trilinear; /** If set to true, use trilinear interpolation (standard) */
 	bool tricubic; /** If set to true, use tricubic interpolation instead of trilinear interpolation */
-	bool nearestneighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation */
+	bool nearestNeighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation */
 
 public:
 
@@ -125,11 +125,11 @@ public:
 
   T interpolate(const Vector3d &position) {
     if (tricubic)
-        return tricubic_interpolate(T(), position);
-    else if (nearestneighbour)
-      return nearestneighbour_interpolate(position);
+        return tricubicInterpolate(T(), position);
+    else if (nearestNeighbour)
+      return nearestNeighbourInterpolate(position);
     else
-      return trilinear_interpolate(position);
+      return trilinearInterpolate(position);
   }
 
 	/** Constructor for cubic grid
@@ -310,20 +310,20 @@ public:
 	
 private:	
 
-__m128 simd_periodicGet(size_t ix, size_t iy, size_t iz) const {
+__m128 simdPeriodicGet(size_t ix, size_t iy, size_t iz) const {
 		ix = periodicBoundary(ix, Nx);
 		iy = periodicBoundary(iy, Ny);
 		iz = periodicBoundary(iz, Nz);
-		return convert_Vector3d_to_simd(grid[ix * Ny * Nz + iy * Nz + iz]);
+		return convertVector3dToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);
 	}
 
-__m128 convert_Vector3d_to_simd(const Vector3d v) const
+__m128ConvertVector3dToSimd(const Vector3d v) const
 	{
 		__m128 sim_d_var = _mm_set_ps(0,v.z,v.y,v.x); 
 		return sim_d_var;
 	}
 	
-Vector3d convert_simd_to_Vector3d(__m128 res) const
+Vector3d convertSimdToVector3d(__m128 res) const
 	{
 		float vec[4];	
 		_mm_store_ps(&vec[0], res);
@@ -359,7 +359,7 @@ __m128 CubicInterpolate(__m128 p0,__m128 p1,__m128 p2,__m128 p3,double position)
 }	
 
 /** Interpolate the grid tricubic at a given position */
-	Vector3d tricubic_interpolate(Vector3d, const Vector3d &position) const {
+	Vector3d tricubicInterpolate(Vector3d, const Vector3d &position) const {
 		// position on a unit grid
 		//~ std::cout << "Test begin"<< std::endl;
 		Vector3d r = (position - gridOrigin) / spacing;
@@ -414,7 +414,7 @@ double CubicInterpolateScalar(double p0,double p1,double p2,double p3,double pos
 }	
 
 /** Interpolate the grid tricubic at a given position */
-	double tricubic_interpolate(double, const Vector3d &position) const {
+	double tricubicInterpolate(double, const Vector3d &position) const {
 		// position on a unit grid
 		//~ std::cout << "Test begin"<< std::endl;
 		Vector3d r = (position - gridOrigin) / spacing;
@@ -467,7 +467,7 @@ CubicInterpolateScalar(CubicInterpolateScalar(CubicInterpolateScalar(periodicGet
 
 
 	/** Interpolate the grid trilinear at a given position */
-	T trilinear_interpolate(const Vector3d &position) const {
+	T trilinearInterpolate(const Vector3d &position) const {
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
@@ -515,7 +515,7 @@ CubicInterpolateScalar(CubicInterpolateScalar(CubicInterpolateScalar(periodicGet
 	
 	
 	/** Interpolate the grid at a given position using the nearest neighbour interpolation */
-	T nearestneighbour_interpolate(const Vector3d &position) const {
+	T nearestneighbourInterpolate(const Vector3d &position) const {
 		return closestValue(position);
 		}
 };

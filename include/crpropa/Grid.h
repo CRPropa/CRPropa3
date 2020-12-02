@@ -37,6 +37,57 @@ inline double round(double r) {
  * \addtogroup Core
  * @{
  */
+
+/**
+ @class GridProperties
+ @brief Combines parameters that uniquely define Grid class
+ */
+class GridProperties: public Referenced {
+public:
+	size_t Nx, Ny, Nz;
+	Vector3d origin;
+	Vector3d spacing;
+	bool reflective;
+
+	/** Constructor for cubic grid
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	N		Number of grid points in one direction
+	 @param spacing	Spacing between grid points
+	 */
+	GridProperties(Vector3d origin, size_t N, double spacing) :
+		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false) {
+	}
+
+	/** Constructor for non-cubic grid
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing between grid points
+	 */
+	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false) {
+	}
+
+	/** Constructor for non-cubic grid with spacing vector
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing vector between grid points
+	*/
+	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false) {
+	}
+
+	virtual ~GridProperties() {
+	}
+
+	void setReflective(bool b) {
+		reflective = b;
+	}
+};
+
 /**
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
@@ -60,28 +111,28 @@ class Grid: public Referenced {
 
 public:
 
-int getVersion()
-//Returns integer 4 to mark the Grid.h version with the tricubic catmull-rom spline interpolation 
-//(see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf)
-//since August 2018
-{
-	return 4;
-}
+  int getVersion()
+  //Returns integer 4 to mark the Grid.h version with the tricubic catmull-rom spline interpolation
+  //(see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf)
+  //since August 2018
+  {
+    return 4;
+  }
 
-T interpolate(const Vector3d &position) {
-	if (interpolation == 1)
-	{
-	    return tricubic_interpolate(T(), position);	
-	}
-	else if (interpolation == 2) 
-	{
-		return nearestneighbour_interpolate(position);
-	}
-	else
-	{
-		return trilinear_interpolate(position);	
-	}
-}
+  T interpolate(const Vector3d &position) {
+    if (interpolation == 1)
+    {
+        return tricubic_interpolate(T(), position);
+    }
+    else if (interpolation == 2)
+    {
+      return nearestneighbour_interpolate(position);
+    }
+    else
+    {
+      return trilinear_interpolate(position);
+    }
+  }
 
 	/** Constructor for cubic grid
 	 @param	origin	Position of the lower left front corner of the volume
@@ -134,6 +185,14 @@ T interpolate(const Vector3d &position) {
 	 	setGridSize(Nx, Ny, Nz);
 	 	setSpacing(spacing);
 	 	setReflective(false);
+	}
+
+	/** Constructor for GridProperties
+ 	 @param p	GridProperties instance
+     */
+	Grid(const GridProperties &p) :
+		origin(p.origin), spacing(p.spacing), reflective(p.reflective) {
+	 	setGridSize(p.Nx, p.Ny, p.Nz);
 	}
 
 	void setOrigin(Vector3d origin) {

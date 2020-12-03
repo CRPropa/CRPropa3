@@ -3,8 +3,11 @@
 
 #include "crpropa/Referenced.h"
 #include "crpropa/Vector3.h"
-#include <vector>
 
+#include "kiss/string.h"
+#include "kiss/logger.h"
+
+#include <vector>
 #include <immintrin.h>
 #include <smmintrin.h>
 
@@ -37,11 +40,62 @@ inline double round(double r) {
  * \addtogroup Core
  * @{
  */
+
+/**
+ @class GridProperties
+ @brief Combines parameters that uniquely define Grid class
+ */
+class GridProperties: public Referenced {
+public:
+	size_t Nx, Ny, Nz;
+	Vector3d origin;
+	Vector3d spacing;
+	bool reflective;
+
+	/** Constructor for cubic grid
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	N		Number of grid points in one direction
+	 @param spacing	Spacing between grid points
+	 */
+	GridProperties(Vector3d origin, size_t N, double spacing) :
+		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false) {
+	}
+	
+	/** Constructor for non-cubic grid
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing between grid points
+	 */
+	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false) {
+	}
+	
+	/** Constructor for non-cubic grid with spacing vector
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing vector between grid points
+	*/
+	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false) {
+	}
+	
+	virtual ~GridProperties() {
+	}
+	
+	void setReflective(bool b) {
+		reflective = b;
+	}
+};
+
 /**
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
 
- The grid spacing is constant and equal along all three axes.
+ The grid spacing is constant with diffrent resulution along all three axes.
  Values are calculated by trilinear interpolation of the surrounding 8 grid points.
  The grid is periodically (default) or reflectively extended.
  The grid sample positions are at 1/2 * size/N, 3/2 * size/N ... (2N-1)/2 * size/N.
@@ -52,7 +106,7 @@ class Grid: public Referenced {
 	size_t Nx, Ny, Nz; /**< Number of grid points */
 	Vector3d origin; /**< Origin of the volume that is represented by the grid. */
 	Vector3d gridOrigin; /**< Grid origin */
-	double spacing; /**< Distance between grid points, determines the extension of the grid */
+	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 	//~ bool tricubic; /** If set to true, use tricubic interpolation instead of trilinear interpolation (standard) */
 	//~ bool nearestneighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation (standard) */
@@ -91,11 +145,12 @@ T interpolate(const Vector3d &position) {
 	Grid(Vector3d origin, size_t N, double spacing) {
 		setOrigin(origin);
 		setGridSize(N, N, N);
-		setSpacing(spacing);
+		setSpacing(Vector3d(spacing));
 		setReflective(false);
 		//~ setTricubic(false);
 		//~ setNearestNeighbour(false);
 		
+		// TODO: initialize this in the other two constructors as well
 		interpolation = 0; //trilinear
 		
 		activateNearestNeighbour();
@@ -118,13 +173,35 @@ T interpolate(const Vector3d &position) {
 	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) {
 		setOrigin(origin);
 		setGridSize(Nx, Ny, Nz);
-		setSpacing(spacing);
+		setSpacing(Vector3d(spacing));
 		setReflective(false);
+	}
+	
+	/** Constructor for non-cubic grid with spacing vector
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing vector between grid points
+	*/
+	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
+	 	setOrigin(origin);
+	 	setGridSize(Nx, Ny, Nz);
+	 	setSpacing(spacing);
+	 	setReflective(false);
+	} 
+
+	/** Constructor for GridProperties
+ 	 @param p	GridProperties instance
+     */
+	Grid(const GridProperties &p) :
+		origin(p.origin), spacing(p.spacing), reflective(p.reflective) {
+	 	setGridSize(p.Nx, p.Ny, p.Nz);
 	}
 
 	void setOrigin(Vector3d origin) {
 		this->origin = origin;
-		this->gridOrigin = origin + Vector3d(spacing/2);
+		this->gridOrigin = origin + spacing/2;
 	}
 
 	/** Resize grid, also enlarges the volume as the spacing stays constant */
@@ -136,7 +213,7 @@ T interpolate(const Vector3d &position) {
 		setOrigin(origin);
 	}
 
-	void setSpacing(double spacing) {
+	void setSpacing(Vector3d spacing) {
 		this->spacing = spacing;
 		setOrigin(origin);
 	}
@@ -189,7 +266,12 @@ T interpolate(const Vector3d &position) {
 		return Nz;
 	}
 
-	double getSpacing() const {
+	/** Calculates the total size of the grid in bytes */
+	size_t getSizeOf() const {
+		return sizeof(grid) + (sizeof(grid[0]) * grid.size());
+	}
+
+	Vector3d getSpacing() const {
 		return spacing;
 	}
 
@@ -242,6 +324,8 @@ T interpolate(const Vector3d &position) {
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
+			// TODO: this is a fix for reflective boundaries, i think
+			// make sure this gets reviewed appropriately
 			while ((ix < 0) or (ix >= Nx))
 				ix = 2 * Nx * (ix >= Nx) - ix - 1;
 			while ((iy < 0) or (iy >= Ny))
@@ -469,8 +553,50 @@ CubicInterpolateScalar(CubicInterpolateScalar(CubicInterpolateScalar(periodicGet
 		}
 };
 
-typedef Grid<Vector3f> VectorGrid;
-typedef Grid<float> ScalarGrid;
+typedef Grid<Vector3f> Grid3f;
+typedef Grid<Vector3d> Grid3d;
+typedef Grid<float> Grid1f;
+typedef Grid<double> Grid1d;
+
+// DEPRICATED: Will be removed in CRPropa v3.9
+class VectorGrid: public Grid3f {
+	void printDeprication() const {
+		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
+	}
+public:
+	VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
+		printDeprication();
+	}
+
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+};
+
+// DEPRICATED: Will be removed in CRPropa v3.9
+class ScalarGrid: public Grid1f {
+	void printDeprication() const {
+		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
+	}
+public:
+	ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
+		printDeprication();
+	}
+
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+};
+
+
 /** @}*/
 
 } // namespace crpropa

@@ -14,102 +14,87 @@ Vector3d PolarizedSingleModeMagneticField::getField(const Vector3d &pos, const d
 	Vector3d deltar = pos - r_0;
 
 	Vector3d unitVector_1;
-	if (e_1.getR() > 0) {
-		unitVector_1 = e_1 / e_1.getR();
-	}
-	else {
+	if (e_1.getR() == 0)
 		throw std::runtime_error("Vector e_1 cannot be zero.");
-	}
+	unitVector_1 = e_1 / e_1.getR();
 
 	Vector3d unitVector_2;
-	if (e_2.getR() > 0) {
-		unitVector_2 = e_2 / e_2.getR();
-	}
-	else {
-                throw std::runtime_error("Vector e_2 cannot be zero.");
-        }
+	if (e_2.getR() == 0)
+		throw std::runtime_error("Vector e_2 cannot be zero.");
+	unitVector_2 = e_2 / e_2.getR();
 
 	Vector3d wavevector = e_2.cross(e_1);
-	if (wavevector.getR() > 0) {
-                wavevector = wavevector / wavevector.getR();
-        }
-        else {
-                throw std::runtime_error("e_1 cannot be parallel to e_2.");
-        }
+	if (wavevector.getR() == 0)
+		throw std::runtime_error("e_1 cannot be parallel to e_2.");
+	wavevector = wavevector / wavevector.getR();
 
-	if (wavelength > 0) {
-		wavevector = wavevector/wavevector.getR() * 2 * M_PI / wavelength;
-	}
-        else {
-                throw std::runtime_error("The correlation length cannot be zero.");
-        }
+	if (wavelength == 0)
+		throw std::runtime_error("The correlation length cannot be zero.");
+	wavevector = wavevector/wavevector.getR() * 2 * M_PI / wavelength;
 
 	return B_0 * (unitVector_1 * cos(wavevector.dot(deltar)) + unitVector_2 * sigma * sin(wavevector.dot(deltar)));
 }
 
-Vector3d PolarizedSingleModeMagneticField::getBrmsMaxHelFracField(const Vector3d &pos, const double &fH) const {
-	if (abs(fH > 1)) {
+Vector3d PolarizedSingleModeMagneticField::getMaxHelFracField(const Vector3d &pos, const double &fH, const std::string &Bflag) const {
+	if (abs(fH) > 1)
 		throw std::runtime_error("The value of sigma has to be in the range [-1;1].");
+
+	if (Bflag == "B0") {
+		getField(pos, fH);
 	}
-	if (fH == 0) {
-		getField(pos, 0);
+	else if (Bflag == "Brms") {
+		if (fH == 0) {
+			getField(pos, 0);
+		}
+		else {
+			return sqrt(1 + sqrt(1 - fH * fH))*getField(pos,(1 - sqrt(1 - fH * fH))/fH);
+		}
 	}
 	else {
-		return sqrt(1 + sqrt(1 - fH * fH))*getField(pos,(1 - sqrt(1 - fH * fH))/fH);
+		throw std::runtime_error("Wrong value for Bflag. Please choose \"B0\" or \"Brms\".");
 	}
 }
 
-Vector3d PolarizedSingleModeMagneticField::getOrthogonalBrmsMaxHelFracField(const Vector3d &pos, const double &fH) const {
-	if (e_1.dot(e_2) != 0) {
-                throw std::runtime_error("e_1 and e_2 have to be orthogonal to each other.");
-        }
-        else {
-                return getBrmsMaxHelFracField(pos, fH);
-        }	
+Vector3d PolarizedSingleModeMagneticField::getOrthogonalMaxHelFracField(const Vector3d &pos, const double &fH, const std::string &Bflag) const {
+	if (e_1.dot(e_2) != 0)
+		throw std::runtime_error("e_1 and e_2 have to be orthogonal to each other.");
+
+	return getMaxHelFracField(pos, fH, Bflag);	
 }
 
-Vector3d PolarizedSingleModeMagneticField::getGeneralOrthogonalEllipticSingleModeB0MagneticField(const Vector3d &pos, const double &sigma) const {
-        if (e_1.dot(e_2) != 0) {
-                throw std::runtime_error("e_1 and e_2 have to be orthogonal to each other.");
-        }
-        else {
-                return getField(pos, sigma);
-        }
-}
+Vector3d PolarizedSingleModeMagneticField::getGeneralOrthogonalEllipticField(const Vector3d &pos, const double &sigma, const std::string &Bflag) const {
+	if (e_1.dot(e_2) != 0)
+		throw std::runtime_error("e_1 and e_2 have to be orthogonal to each other.");
 
-Vector3d PolarizedSingleModeMagneticField::getGeneralOrthogonalEllipticSingleModeBrmsMagneticField(const Vector3d &pos, const double &sigma) const {
-    	return sqrt(2 / (1 + sigma * sigma)) * getGeneralOrthogonalEllipticSingleModeB0MagneticField(pos, sigma);
-}
-
-Vector3d PolarizedSingleModeMagneticField::getSpecialOrthogonalEllipticSingleModeB0MagneticField(const Vector3d &pos, const double &sigma) const {
-	if (abs(sigma) > 1) {
-		throw std::runtime_error("The value of sigma has to be in the range [-1;1].");
+	if (Bflag == "B0") {
+		return getField(pos, sigma);
+	}
+	else if (Bflag == "Brms") {
+		return sqrt(2 / (1 + sigma * sigma)) * getField(pos, sigma);
 	}
 	else {
-		return getGeneralOrthogonalEllipticSingleModeB0MagneticField(pos, sigma);
+		throw std::runtime_error("Wrong value for Bflag. Please choose \"B0\" or \"Brms\".");
 	}
 }
 
-Vector3d PolarizedSingleModeMagneticField::getSpecialOrthogonalEllipticSingleModeBrmsMagneticField(const Vector3d &pos, const double &sigma) const {
-	return sqrt(2 / (1 + sigma * sigma)) * getSpecialOrthogonalEllipticSingleModeB0MagneticField(pos, sigma);
+Vector3d PolarizedSingleModeMagneticField::getSpecialOrthogonalEllipticField(const Vector3d &pos, const double &sigma, const std::string &Bflag) const {
+	if (abs(sigma) > 1)
+		throw std::runtime_error("The value of sigma has to be in the range [-1;1].");
+
+	return getGeneralOrthogonalEllipticField(pos, sigma, Bflag);
 }
 
-Vector3d PolarizedSingleModeMagneticField::getCircularSingleModeMagneticField(const Vector3d &pos, const double &sigma) const {
-        if (sigma == 0) {
-                throw std::runtime_error("The value of sigma cannot be zero.");
-        }
-        else {
-                return getGeneralOrthogonalEllipticSingleModeB0MagneticField(pos, sigma/abs(sigma));
-        }
+Vector3d PolarizedSingleModeMagneticField::getOrthogonalCircularField(const Vector3d &pos, const double &sigma) const {
+	if (sigma == 0)
+		throw std::runtime_error("The value of sigma cannot be zero.");
+
+	return getGeneralOrthogonalEllipticField(pos, sigma/abs(sigma), "B0");
 }
 
-Vector3d PolarizedSingleModeMagneticField::getLinearSingleModeB0MagneticField(const Vector3d &pos) const {
-	return getGeneralOrthogonalEllipticSingleModeB0MagneticField(pos, 0);
+Vector3d PolarizedSingleModeMagneticField::getLinearField(const Vector3d &pos, const std::string &Bflag) const {
+	return getGeneralOrthogonalEllipticField(pos, 0, Bflag);
 }
 
-Vector3d PolarizedSingleModeMagneticField::getLinearSingleModeBrmsMagneticField(const Vector3d &pos) const {
-	return sqrt(2) * getLinearSingleModeB0MagneticField(pos);
-}
 
 void PolarizedSingleModeMagneticField::setB0(double B) {
 	B_0 = B;

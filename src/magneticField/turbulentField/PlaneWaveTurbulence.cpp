@@ -64,32 +64,6 @@ double hsum_double_avx(__m256d v) {
 	__m128d high64 = _mm_unpackhi_pd(vlow, vlow);
 	return _mm_cvtsd_f64(_mm_add_sd(vlow, high64)); // reduce to scalar
 }
-
-// code for hsum_float_avx taken from:
-// https://stackoverflow.com/questions/13219146/how-to-sum-m256-horizontally
-
-// x = ( x7, x6, x5, x4, x3, x2, x1, x0 )
-float hsum_float_avx(__m256 x) {
-	// hiQuad = ( x7, x6, x5, x4 )
-	const __m128 hiQuad = _mm256_extractf128_ps(x, 1);
-	// loQuad = ( x3, x2, x1, x0 )
-	const __m128 loQuad = _mm256_castps256_ps128(x);
-	// sumQuad = ( x3 + x7, x2 + x6, x1 + x5, x0 + x4 )
-	const __m128 sumQuad = _mm_add_ps(loQuad, hiQuad);
-	// loDual = ( -, -, x1 + x5, x0 + x4 )
-	const __m128 loDual = sumQuad;
-	// hiDual = ( -, -, x3 + x7, x2 + x6 )
-	const __m128 hiDual = _mm_movehl_ps(sumQuad, sumQuad);
-	// sumDual = ( -, -, x1 + x3 + x5 + x7, x0 + x2 + x4 + x6 )
-	const __m128 sumDual = _mm_add_ps(loDual, hiDual);
-	// lo = ( -, -, -, x0 + x2 + x4 + x6 )
-	const __m128 lo = sumDual;
-	// hi = ( -, -, -, x1 + x3 + x5 + x7 )
-	const __m128 hi = _mm_shuffle_ps(sumDual, sumDual, 0x1);
-	// sum = ( -, -, -, x0 + x1 + x2 + x3 + x4 + x5 + x6 + x7 )
-	const __m128 sum = _mm_add_ss(lo, hi);
-	return _mm_cvtss_f32(sum);
-}
 #endif // defined(FAST_WAVES)
 
 PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
@@ -100,17 +74,10 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	KISS_LOG_INFO << "PlaneWaveTurbulence: Using SIMD TD13 implementation"
 	              << std::endl;
 
-	// In principle, we could dynamically dispatch to the non-SIMD version in
-	// this case. However, this complicates the code, incurs runtime overhead,
-	// and is unlikely to happen since SSE3 is quite well supported.
-	// TODO: this is currently uncommented b/c sleef seems to fail to provide
-	// the cpuid function
-	// if (!check_sse()) {
-	//  throw std::runtime_error("TD13Field: This code was compiled with SIMD
-	//  support (SSE1-3), but it is running on a CPU that does not support these
-	//  instructions. Please set USE_SIMD to OFF in CMake and recompile
-	//  CRPropa.");
-	//}
+	// TODO: there used to be a cpuid check here, to see if the cpu running
+	// this code would support SIMD (SEE + AVX). however, the library providing the
+	// relevant function is no longer being used, and doing this manually might be a
+	// bit too much work.
 #endif
 
 	if (Nm <= 1) {
@@ -169,6 +136,16 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 
 		Vector3d kappa =
 		    Vector3d(sintheta * cos(phi), sintheta * sin(phi), costheta);
+		// NOTE: all other variable names match the ones from the TD13 paper.
+		// However, our xi is actually their psi, and their xi isn't used at
+		// all. (Though both can be used for the polarization vector, according
+		// to the paper.) The reason for this discrepancy is that this code
+		// used to be based on the original GJ99 paper, which provided only a
+		// xi vector, and this xi happens to be almost the same as TD13's psi.
+		// Hence, the code kept both the name and the rough shape of the vector,
+		// but is now in disagreement with the TD13 paper. I don't think there's
+		// a good reason to keep it this way, except that I do not want to
+		// be the one who changes it.
 		Vector3d xi =
 		    Vector3d(costheta * cos(phi) * cos(alpha) + sin(phi) * sin(alpha),
 		             costheta * sin(phi) * cos(alpha) - cos(phi) * sin(alpha),
@@ -231,7 +208,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		    k[i] / M_PI * kappa[i].z;
 
 		// we also need to divide beta by pi, since that goes into the argument
-		// as well
+		// of the cosine as well
 		avx_data[i + align_offset + avx_Nm * ibeta] = beta[i] / M_PI;
 	}
 #endif // FAST_WAVES
@@ -255,7 +232,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 	// Note that each accumulator contains four numbers. At the end of
 	// the loop, each of these number will contain the sum of every
 	// fourth wavemodes, starting at a different offset. In the end, all
-	// of the accumulator's numbers are added together (using
+	// of the accumulators' numbers are added together (using
 	// hsum_double_avx), resulting in the total sum.
 
 	__m256d acc0 = _mm256_setzero_pd();
@@ -306,15 +283,23 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		    cos_arg, (_MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC));
 
 		// we now compute s, which will be the input parameter to our polynomial
-		// approximation of cos(pi/2*x) between 0 and 1 the andnot_pd is just a
-		// fast way of taking the absolute value
+		// approximation of cos(pi/2*x) between 0 and 1
 		__m256d s = _mm256_sub_pd(cos_arg, q);
 
-		// the following based on the int extraction process described here:
+		// the following is based on the int extraction process described here:
 		// https://stackoverflow.com/questions/41144668/how-to-efficiently-perform-double-int64-conversions-with-sse-avx/41223013
+		//
 		// we assume -2^51 <= q < 2^51 for this, which is unproblematic, as
 		// double precision has decayed far enough at that point that the cosine
 		// would be useless anyway.
+		//
+		// explanation: the mantissa of a double-precision
+		// float has 52 bits (excluding the sign bit). if |q| > 2^51, the msb
+		// of the mantissa has a place value of at least 2^50. (the actual
+		// most significant bit is always 1 and isn't stored.) this means that
+		// the lsb of the mantissa has a place value of at least 2^(-1), or 0.5.
+		// for a cos(pi*x), this corresponds to a quarter of a period (pi/2),
+		// so at this point the cosine isn't really a useful cosine anymore.
 
 		// we now want to check whether q is even or odd, because the cosine is
 		// negative for odd qs, so we'll have to flip the final result. on an
@@ -345,9 +330,11 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		    invert, _mm256_castsi256_pd(_mm256_set1_epi64x(0x4330000000000001)),
 		    _CMP_EQ_OQ);
 
-		// finally, we need to turn invert and right_invert into masks for the
-		// sign bit on each final double, ie
+		// finally, we need to turn invert into a mask for the
+		// sign bit on each final double, ie:
 		invert = _mm256_and_pd(invert, _mm256_set1_pd(-0.0));
+		// (note that the binary representation of -0.0 is all 0 bits, except
+		// for the sign bit, which is set to 1.
 
 		// TODO: clamp floats between 0 and 1? This would ensure that we never
 		// see inf's, but maybe we want that, so that things dont just fail
@@ -357,8 +344,8 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// *******
 
 		// ******
-		// * evaluate the cosine using a polynomial approximation
-		// * the coefficients for this were generated using sleefs gencoef.c
+		// * evaluate the cosine using a polynomial approximation.
+		// * the coefficients for this were generated using sleefs gencoef.c.
 		// * These coefficients are probably far from optimal.
 		// * However, they should be sufficient for this case.
 		s = _mm256_mul_pd(s, s);

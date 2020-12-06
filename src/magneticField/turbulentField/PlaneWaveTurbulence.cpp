@@ -136,6 +136,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 
 		Vector3d kappa =
 		    Vector3d(sintheta * cos(phi), sintheta * sin(phi), costheta);
+
 		// NOTE: all other variable names match the ones from the TD13 paper.
 		// However, our xi is actually their psi, and their xi isn't used at
 		// all. (Though both can be used for the polarization vector, according
@@ -158,15 +159,16 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		this->beta[i] = beta;
 	}
 
-	// only in this loop are the actual Ak computed and stored
-	// (this two-step process is necessary in order to normalize the values
-	// properly)
+	// Only in this loop are the actual Ak computed and stored.
+	// This two-step process is necessary in order to normalize the values
+	// properly.
 	for (int i = 0; i < Nm; i++) {
 		Ak[i] = sqrt(2 * Ak[i] / Ak2_sum) * spectrum.getBrms();
 	}
 
 #ifdef FAST_WAVES
 	// * copy data into AVX-compatible arrays *
+	// 
 	// AVX requires all data to be aligned to 256 bit, or 32 bytes, which is the
 	// same as 4 double precision floating point numbers. Since support for
 	// alignments this big seems to be somewhat tentative in C++ allocators,
@@ -192,7 +194,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	align_offset =
 	    (double *)std::align(32, 32, pointer, size) - avx_data.data();
 
-	// copy
+	// copy into the AVX arrays
 	for (int i = 0; i < Nm; i++) {
 		avx_data[i + align_offset + avx_Nm * iAxi0] = Ak[i] * xi[i].x;
 		avx_data[i + align_offset + avx_Nm * iAxi1] = Ak[i] * xi[i].y;
@@ -276,8 +278,28 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 
 		// ********
 		// * Computing the cosine
-		// *
-		// * argument reduction
+		// * Part 1: Argument reduction
+		//  
+		//  The cosine is computed in two parts: First, using the periodic nature
+		//  of the cosine, and recognizing that the behavior of the cosine between
+		//  0 and pi/2 can be used to model the entire rest of the function (by
+		//  mirroring everything appropriately), we bring the argument into the
+		//  range [-pi/2, pi/2). Then, we use a polynomial approximation to the
+		//  cosine which satisfies our error bounds in the range [0, pi/2) to
+		//  compute the value, and apply any necessary corrections afterwards.
+		//  Since the cosine is a symmetric function, the first term depending on
+		//  x is an x^2, and all further terms are powers of x^2. Therefore, we
+		//  first compute x^2 as x*x, and then use this as the base for all other
+		//  terms. And since floating point multiplication should handle the sign
+		//  separately, x*x and (-x)*(-x) are exactly equal, numerically, which means
+		//  that by optimizing our approximation for values in [0, pi/2), we get the
+		//  values in (-pi/2, 0] for free, with the same error bounds. (Otherwise,
+		//  we'd have to do extra work to cancel out the sign in that part.)
+		//
+		//  Lastly, since we're computing the cos(pi*x), we don't actually reduce
+		//  the value to lie in [-pi/2, pi/2), but in [-0.5, 0.5). Conveniently,
+		//  this is exactly what rounding a value does!
+		//
 		// step 1: compute round(x), and store it in q
 		__m256d q = _mm256_round_pd(
 		    cos_arg, (_MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC));

@@ -8,7 +8,6 @@
 #include "kiss/logger.h"
 
 #include <vector>
-
 #include <immintrin.h>
 #include <smmintrin.h>
 
@@ -284,12 +283,14 @@ public:
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			while ((ix < 0) or (ix > Nx))
-				ix = 2 * Nx * (ix > Nx) - ix;
-			while ((iy < 0) or (iy > Ny))
-				iy = 2 * Ny * (iy > Ny) - iy;
-			while ((iz < 0) or (iz > Nz))
-				iz = 2 * Nz * (iz > Nz) - iz;
+			// TODO: this is a fix for reflective boundaries, i think
+			// make sure this gets reviewed appropriately
+			while ((ix < 0) or (ix >= Nx))
+				ix = 2 * Nx * (ix >= Nx) - ix - 1;
+			while ((iy < 0) or (iy >= Ny))
+				iy = 2 * Ny * (iy >= Ny) - iy - 1;
+			while ((iz < 0) or (iz >= Nz))
+				iz = 2 * Nz * (iz >= Nz) - iz - 1;
 		} else {
 			ix = ((ix % Nx) + Nx) % Nx;
 			iy = ((iy % Ny) + Ny) % Ny;
@@ -321,14 +322,7 @@ private:
 	}
 
   /** Vectorized cubic Interpolator in 1D */
-  __m128 CubicInterpolate(__m128 p0,__m128 p1,__m128 p2,__m128 p3,double position) const
-  {
-    //Move values into SIMD registers
-     //~ __m128 p0 = _mm_set_ps (0,v0.z,v0.y,v0.x);
-     //~ __m128 p1 = _mm_set_ps (0,v1.z,v1.y,v1.x);
-     //~ __m128 p2 = _mm_set_ps (0,v2.z,v2.y,v2.x);
-     //~ __m128 p3 = _mm_set_ps (0,v3.z,v3.y,v3.x);
-
+  __m128 CubicInterpolate(__m128 p0,__m128 p1,__m128 p2,__m128 p3,double position) const {
      __m128 c1 = _mm_set1_ps (1/2.);
      __m128 c2 = _mm_set1_ps (3/2.);
      __m128 c3 = _mm_set1_ps (2.);
@@ -340,10 +334,6 @@ private:
 
      __m128 res = _mm_add_ps(_mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_add_ps(_mm_mul_ps(c2,p1),_mm_mul_ps(c1,p3)),_mm_add_ps(_mm_mul_ps(c1,p0),_mm_mul_ps(c2,p2))),pos3), _mm_mul_ps(_mm_sub_ps(_mm_add_ps(p0,_mm_mul_ps(c3,p2)),_mm_add_ps(_mm_mul_ps(c4,p1),_mm_mul_ps(c1,p3))),pos2)) , _mm_mul_ps(_mm_sub_ps(_mm_mul_ps(c1,p2),_mm_mul_ps(c1,p0)),pos)) ,p1);
 
-     //~ float vec[4];
-     //~ _mm_store_ps(&vec[0], res);
-     //~ Vector3d result = Vector3d(vec[0], vec[1], vec[2]);
-     //~ std::cout << _mm_extract_ps(p0,2)<< std::endl;
      return res;
   }
 
@@ -449,10 +439,6 @@ private:
 	}
 
 
-
-
-
-
 	/** Interpolate the grid trilinear at a given position */
 	T trilinearInterpolate(const Vector3d &position) const {
 		// position on a unit grid
@@ -506,8 +492,50 @@ private:
   }
 };
 
-typedef Grid<Vector3f> VectorGrid;
-typedef Grid<float> ScalarGrid;
+typedef Grid<Vector3f> Grid3f;
+typedef Grid<Vector3d> Grid3d;
+typedef Grid<float> Grid1f;
+typedef Grid<double> Grid1d;
+
+// DEPRICATED: Will be removed in CRPropa v3.9
+class VectorGrid: public Grid3f {
+	void printDeprication() const {
+		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
+	}
+public:
+	VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
+		printDeprication();
+	}
+
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+
+	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+};
+
+// DEPRICATED: Will be removed in CRPropa v3.9
+class ScalarGrid: public Grid1f {
+	void printDeprication() const {
+		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
+	}
+public:
+	ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
+		printDeprication();
+	}
+
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+
+	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
+		printDeprication();
+	}
+};
+
+
 /** @}*/
 
 } // namespace crpropa

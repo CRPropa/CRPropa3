@@ -108,6 +108,9 @@ class Grid: public Referenced {
 	Vector3d gridOrigin; /**< Grid origin */
 	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
+
+	//  grid.setInterpolationType(INTERPOLATION_TYPE_LINEAR)
+
 	bool trilinear; /** If set to true, use trilinear interpolation (standard) */
 	bool tricubic; /** If set to true, use tricubic interpolation instead of trilinear interpolation */
 	bool nearestNeighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation */
@@ -187,21 +190,21 @@ public:
 	
 	void setTricubic()
 	{
-		nearestneighbour = false;
+		nearestNeighbour = false;
 		tricubic = true;
 		trilinear = false;
 	}
 	
 	void setNearestNeighbour()
 	{
-		nearestneighbour = true;
+		nearestNeighbour = true;
 		tricubic = false;
 		trilinear = false;
 	}
 	
 	void setTrilinear()
 	{
-		nearestneighbour = false;
+		nearestNeighbour = false;
 		tricubic = false;
 		trilinear = true;
 	}
@@ -444,16 +447,17 @@ private:
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		// indices of lower and upper neighbors
-		int ix, iX, iy, iY, iz, iZ;
+		/** indices of lower (0) and upper (1) neighbors. The neighbors span a grid
+		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
+		int iX0, iX1, iY0, iY1, iZ0, iZ1;
 		if (reflective) {
-			reflectiveClamp(r.x, Nx, ix, iX);
-			reflectiveClamp(r.y, Ny, iy, iY);
-			reflectiveClamp(r.z, Nz, iz, iZ);
+			reflectiveClamp(r.x, Nx, iX0, iX1);
+			reflectiveClamp(r.y, Ny, iY0, iY1);
+			reflectiveClamp(r.z, Nz, iZ0, iZ1);
 		} else {
-			periodicClamp(r.x, Nx, ix, iX);
-			periodicClamp(r.y, Ny, iy, iY);
-			periodicClamp(r.z, Nz, iz, iZ);
+			periodicClamp(r.x, Nx, iX0, iX1);
+			periodicClamp(r.y, Ny, iY0, iY1);
+			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 
 		// linear fraction to lower and upper neighbors

@@ -75,9 +75,9 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	              << std::endl;
 
 	// TODO: there used to be a cpuid check here, to see if the cpu running
-	// this code would support SIMD (SEE + AVX). however, the library providing the
-	// relevant function is no longer being used, and doing this manually might be a
-	// bit too much work.
+	// this code would support SIMD (SEE + AVX). however, the library providing
+	// the relevant function is no longer being used, and doing this manually
+	// might be a bit too much work.
 #endif
 
 	if (Nm <= 1) {
@@ -168,7 +168,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 
 #ifdef FAST_WAVES
 	// * copy data into AVX-compatible arrays *
-	// 
+	//
 	// AVX requires all data to be aligned to 256 bit, or 32 bytes, which is the
 	// same as 4 double precision floating point numbers. Since support for
 	// alignments this big seems to be somewhat tentative in C++ allocators,
@@ -184,6 +184,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	// final step of the computation of each wavemode is multiplication by the
 	// amplitude, which will be set to 0, these padding wavemodes won't affect
 	// the result.
+
 	avx_Nm = ((Nm + 4 - 1) / 4) * 4; // round up to next larger multiple of 4:
 	                                 // align is 256 = 4 * sizeof(double) bit
 	avx_data = std::vector<double>(itotal * avx_Nm + 3, 0.);
@@ -226,7 +227,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 	}
 	return B;
 
-#else  // FAST_WAVES
+#else // FAST_WAVES
 
 	// Initialize accumulators
 	//
@@ -279,33 +280,43 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// ********
 		// * Computing the cosine
 		// * Part 1: Argument reduction
-		//  
-		//  The cosine is computed in two parts: First, using the periodic nature
-		//  of the cosine, and recognizing that the behavior of the cosine between
-		//  0 and pi/2 can be used to model the entire rest of the function (by
-		//  mirroring everything appropriately), we bring the argument into the
-		//  range [-pi/2, pi/2). Then, we use a polynomial approximation to the
-		//  cosine which satisfies our error bounds in the range [0, pi/2) to
-		//  compute the value, and apply any necessary corrections afterwards.
-		//  Since the cosine is a symmetric function, the first term depending on
-		//  x is an x^2, and all further terms are powers of x^2. Therefore, we
-		//  first compute x^2 as x*x, and then use this as the base for all other
-		//  terms. And since floating point multiplication should handle the sign
-		//  separately, x*x and (-x)*(-x) are exactly equal, numerically, which means
-		//  that by optimizing our approximation for values in [0, pi/2), we get the
-		//  values in (-pi/2, 0] for free, with the same error bounds. (Otherwise,
-		//  we'd have to do extra work to cancel out the sign in that part.)
 		//
-		//  Lastly, since we're computing the cos(pi*x), we don't actually reduce
-		//  the value to lie in [-pi/2, pi/2), but in [-0.5, 0.5). Conveniently,
-		//  this is exactly what rounding a value does!
+		//  To compute the cosine, we first realize that due to the periodic
+		//  nature of the function, we only need to model its behavior between
+		//  0 and 2*pi to be able compute the function anywhere. In fact,
+		//  by mirroring the function along the x and y axes, even the range
+		//  between 0 and pi/2 is sufficient for this purpose. In this range,
+		//  the cosine can be evaluated with high precision by using a
+		//  polynomial approximation. Thus, to compute the cosine, the input
+		//  value is first reduced so that it lies within this range. Then,
+		//  the polynomial approximation is evaluated. Finally, if necessary,
+		//  the sing of the result is flipped (mirroring the function along
+		//  the x axis).
+		//
+		//  The actual computation is slightly more involved. First, argument
+		//  reduction can be simplified drastically by computing cos(pi*x),
+		//  such that the values are reduced to the range [0, 0.5). Since the
+		//  cosine is even (independent of the sign), we can first reduce values
+		//  to [-0.5, 0.5) – that is, a simple rounding operation – and then
+		//  neutralize the sign. In fact, precisely because the cosine is even,
+		//  all terms of the polynomial are powers of x^2, so the value of
+		//  x^2 (computed as x*x) forms the basis for the polynomial
+		//  approximation. Assuming that the floating point rounding mode is set
+		//  to roundTiesToEven (_MM_ROUND_NEAREST) -- or anything except
+		//  rounding up or rounding down really, it's just that
+		//  _MM_ROUND_NEAREST is probably the default -- x*x is always exactly
+		//  the same as (-x)*(-x). Using this assumption, we can omit a separate
+		//  instruction for taking the absolute value. Therefore, an
+		//  approximation to cos(pi*x) that provides a certain accuracy between
+		//  0 and 0.5 would automatically have the same accuracy between -0.5
+		//  and 0.
 		//
 		// step 1: compute round(x), and store it in q
 		__m256d q = _mm256_round_pd(
 		    cos_arg, (_MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC));
 
 		// we now compute s, which will be the input parameter to our polynomial
-		// approximation of cos(pi/2*x) between 0 and 1
+		// approximation of cos(pi*x) between -0.5 and 0.5
 		__m256d s = _mm256_sub_pd(cos_arg, q);
 
 		// the following is based on the int extraction process described here:
@@ -384,7 +395,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 
 		// then, flip the sign of each double for which invert is not zero.
 		// since invert has only zero bits except for a possible one in bit 63,
-		// we can xor it onto our result to selectively invert the 63st (sign)
+		// we can xor it onto our result to selectively invert the 63rd (sign)
 		// bit in each double where invert is set.
 		u = _mm256_xor_pd(u, invert);
 

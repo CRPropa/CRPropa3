@@ -13,7 +13,7 @@
 
 namespace crpropa {
 
-/** Lower and upper neighbor in a periodically continued unit grid */
+/** Lower and upper neighbour in a periodically continued unit grid */
 inline void periodicClamp(double x, int n, int &lo, int &hi) {
 	lo = ((int(floor(x)) % n) + n) % n;
 	hi = (lo + 1) % n;
@@ -23,7 +23,7 @@ inline int periodicBoundary(int index, int n) {
 	return ((index % n) + n) % n;
 }
 
-/** Lower and upper neighbor in a reflectively repeated unit grid */
+/** Lower and upper neighbour in a reflectively repeated unit grid */
 inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
 	while ((x < 0) or (x > n))
 		x = 2 * n * (x > n) - x;
@@ -302,7 +302,6 @@ public:
 		return get(ix, iy, iz);
 	}
 
-	
 private:	
 
   __m128 simdPeriodicGet(size_t ix, size_t iy, size_t iz) const {
@@ -343,10 +342,9 @@ private:
   /** Interpolate the grid tricubic at a given position */
 	Vector3d tricubicInterpolate(Vector3d, const Vector3d &position) const {
 		// position on a unit grid
-		//~ std::cout << "Test begin"<< std::endl;
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		// indices of lower and upper neighbors
+		// indices of lower and upper neighbours
 		int ix, iX, iy, iY, iz, iZ;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, ix, iX);
@@ -396,10 +394,9 @@ private:
   /** Interpolate the grid tricubic at a given position */
 	double tricubicInterpolate(double, const Vector3d &position) const {
     // position on a unit grid
-    //~ std::cout << "Test begin"<< std::endl;
     Vector3d r = (position - gridOrigin) / spacing;
 
-    // indices of lower and upper neighbors
+    // indices of lower and upper neighbours
     int ix, iX, iy, iY, iz, iZ;
     if (reflective) {
       reflectiveClamp(r.x, Nx, ix, iX);
@@ -447,7 +444,7 @@ private:
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		/** indices of lower (0) and upper (1) neighbors. The neighbors span a grid
+		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
 		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
 		if (reflective) {
@@ -460,7 +457,7 @@ private:
 			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 
-		// linear fraction to lower and upper neighbors
+		// linear fraction to lower and upper neighbours
 		double fX0 = r.x - floor(r.x);
 		double fX1 = 1 - fX0;
 		double fY0 = r.y - floor(r.y);

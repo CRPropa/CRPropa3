@@ -119,6 +119,7 @@ class Grid: public Referenced {
 	  TRICUBIC,
 	  NEAREST_NEIGHBOUR
   };
+  interpolationType ipolType;
 
 public:
 	/** Constructor for cubic grid
@@ -131,7 +132,6 @@ public:
 		setGridSize(N, N, N);
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
-		setTrilinear();
 	}
 
 	/** Constructor for non-cubic grid
@@ -193,9 +193,9 @@ public:
 		reflective = b;
 	}
 
-	void setInterpolationType(type) {
-	  if (type == TRILINEAR || type == TRICUBIC || type == NEAREST_NEIGHBOUR) {
-	    interpolationType = type;
+	void setInterpolationType(interpolationType ipolType) {
+	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
+	    ipolType = ipolType;
 	  } else {
 	    throw std::runtime_error("InterpolationType: unknown interpolation type");
 	  }
@@ -225,9 +225,9 @@ public:
 	}
 
 	T interpolate(const Vector3d &position) {
-    if (type == TRICUBIC)
+    if (ipolType == TRICUBIC)
         return tricubicInterpolate(T(), position);
-    else if (type == NREAREST_NEAREST_NEIGHBOUR)
+    else if (ipolType == NEAREST_NEIGHBOUR)
       return nearestNeighbourInterpolate(position);
     else
       return trilinearInterpolate(position);
@@ -300,15 +300,15 @@ private:
 		ix = periodicBoundary(ix, Nx);
 		iy = periodicBoundary(iy, Ny);
 		iz = periodicBoundary(iz, Nz);
-		return convertVector3dToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);
+		return convertVector3fToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);
 	}
 
-  __m128ConvertVector3dToSimd(const Vector3d v) const {
+  __m128ConvertVector3dToSimd(const Vector3f v) const {
 		__m128 sim_d_var = _mm_set_ps(0,v.z,v.y,v.x); 
 		return sim_d_var;
 	}
 	
-  Vector3d convertSimdToVector3d(__m128 res) const {
+  Vector3d convertSimdToVector3f(__m128 res) const {
 		float vec[4];	
 		_mm_store_ps(&vec[0], res);
 		Vector3d result = Vector3d(vec[0], vec[1], vec[2]);
@@ -332,7 +332,7 @@ private:
   }
 
   /** Interpolate the grid tricubic at a given position */
-	Vector3d tricubicInterpolate(Vector3d, const Vector3d &position) const {
+	Vector3d tricubicInterpolate(Vector3f, const Vector3d &position) const {
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
@@ -375,7 +375,7 @@ private:
                                   posy),
                  posx);
 	
-		return convert_simd_to_Vector3d(result);
+		return convertSimdToVector3f(result);
 	}
 
   /**  Vectorized cubic Interpolator in 1D */

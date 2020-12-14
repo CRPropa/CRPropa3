@@ -95,6 +95,7 @@ void Output::set1D(bool value) {
 }
 
 void Output::enable(OutputColumn field) {
+void Output::enable(OutputColumn field) {
 	modify();
 	fields.set(field, true);
 }

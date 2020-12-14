@@ -111,9 +111,14 @@ class Grid: public Referenced {
 
 	//  grid.setInterpolationType(INTERPOLATION_TYPE_LINEAR)
 
-	bool trilinear; /** If set to true, use trilinear interpolation (standard) */
-	bool tricubic; /** If set to true, use tricubic interpolation instead of trilinear interpolation */
-	bool nearestNeighbour; /** If set to true, use nearest neighbour interpolation instead of trilinear interpolation */
+	/** If set to TRILINEAR, use trilinear interpolation (standard)
+	If set to TRICUBIC, use tricubic interpolation instead of trilinear interpolation
+	If set to NEAREST_NEIGHBOUR , use nearest neighbour interpolation instead of trilinear interpolation */
+	enum interpolationType {
+	  TRILINEAR = 0,
+	  TRICUBIC,
+	  NEAREST_NEIGHBOUR
+  };
 
 public:
 	/** Constructor for cubic grid
@@ -187,26 +192,13 @@ public:
 	void setReflective(bool b) {
 		reflective = b;
 	}
-	
-	void setTricubic()
-	{
-		nearestNeighbour = false;
-		tricubic = true;
-		trilinear = false;
-	}
-	
-	void setNearestNeighbour()
-	{
-		nearestNeighbour = true;
-		tricubic = false;
-		trilinear = false;
-	}
-	
-	void setTrilinear()
-	{
-		nearestNeighbour = false;
-		tricubic = false;
-		trilinear = true;
+
+	void setInterpolationType(type) {
+	  if (type == TRILINEAR || type == TRICUBIC || type == NEAREST_NEIGHBOUR) {
+	    interpolationType = type;
+	  } else {
+	    throw std::runtime_error("InterpolationType: unknown interpolation type");
+	  }
 	}
 
 	Vector3d getOrigin() const {
@@ -233,9 +225,9 @@ public:
 	}
 
 	T interpolate(const Vector3d &position) {
-    if (tricubic)
+    if (type == TRICUBIC)
         return tricubicInterpolate(T(), position);
-    else if (nearestNeighbour)
+    else if (type == NREAREST_NEAREST_NEIGHBOUR)
       return nearestNeighbourInterpolate(position);
     else
       return trilinearInterpolate(position);
@@ -286,7 +278,7 @@ public:
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			// TODO: this is a fix for reflective boundaries, i think
+			// TODO: this is a fix for reflective boundaries, I think
 			// make sure this gets reviewed appropriately
 			while ((ix < 0) or (ix >= Nx))
 				ix = 2 * Nx * (ix >= Nx) - ix - 1;

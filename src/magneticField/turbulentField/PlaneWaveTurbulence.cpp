@@ -281,17 +281,17 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// * Computing the cosine
 		// * Part 1: Argument reduction
 		//
-		//  To compute the cosine, we first realize that due to the periodic
-		//  nature of the function, we only need to model its behavior between
-		//  0 and 2*pi to be able compute the function anywhere. In fact,
-		//  by mirroring the function along the x and y axes, even the range
-		//  between 0 and pi/2 is sufficient for this purpose. In this range,
-		//  the cosine can be evaluated with high precision by using a
-		//  polynomial approximation. Thus, to compute the cosine, the input
-		//  value is first reduced so that it lies within this range. Then,
-		//  the polynomial approximation is evaluated. Finally, if necessary,
-		//  the sing of the result is flipped (mirroring the function along
-		//  the x axis).
+		//  To understand the computation of the cosine, first note that the
+		//  cosine is periodic and we thus only need to model its behavior
+		//  between 0 and 2*pi to be able compute the function anywhere. In
+		//  fact, by mirroring the function along the x and y axes, even the
+		//  range between 0 and pi/2 is sufficient for this purpose. In this
+		//  range, the cosine can be efficiently evaluated with high precision
+		//  by using a polynomial approximation. Thus, to compute the cosine,
+		//  the input value is first reduced so that it lies within this range.
+		//  Then, the polynomial approximation is evaluated. Finally, if
+		//  necessary, the sign of the result is flipped (mirroring the function
+		//  along the x axis).
 		//
 		//  The actual computation is slightly more involved. First, argument
 		//  reduction can be simplified drastically by computing cos(pi*x),
@@ -311,6 +311,16 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		//  0 and 0.5 would automatically have the same accuracy between -0.5
 		//  and 0.
 		//
+		//  (Even if the rounding mode was different, this would at most
+		//  incur an error of 1 ULP (a relative error of about 1e-15) in the
+		//  value of s*s. Since |s| is smaller than 0.5, |s*s| is smaller than
+		//  0.25, which means that the absolute error is somewhere below 1e-15.
+		//  Given that the current polynomial is already quite imprecise (it's
+		//  only accurate to about 1e-7, or 1 ULP of float precision for numbers
+		//  around 1), and that the slope of the approximation shouldn't exceed
+		//  unity by much (since it models the cosine), this is unlikely to make
+		//  a big difference.)
+		//
 		// step 1: compute round(x), and store it in q
 		__m256d q = _mm256_round_pd(
 		    cos_arg, (_MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC));
@@ -319,35 +329,36 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// approximation of cos(pi*x) between -0.5 and 0.5
 		__m256d s = _mm256_sub_pd(cos_arg, q);
 
-		// the following is based on the int extraction process described here:
+		// The following is based on the int extraction process described here:
 		// https://stackoverflow.com/questions/41144668/how-to-efficiently-perform-double-int64-conversions-with-sse-avx/41223013
 		//
-		// we assume -2^51 <= q < 2^51 for this, which is unproblematic, as
+		// We assume -2^51 <= q < 2^51 for this, which is unproblematic, as
 		// double precision has decayed far enough at that point that the cosine
 		// would be useless anyway.
 		//
-		// explanation: the mantissa of a double-precision
-		// float has 52 bits (excluding the sign bit). if |q| > 2^51, the msb
-		// of the mantissa has a place value of at least 2^50. (the actual
-		// most significant bit is always 1 and isn't stored.) this means that
-		// the lsb of the mantissa has a place value of at least 2^(-1), or 0.5.
-		// for a cos(pi*x), this corresponds to a quarter of a period (pi/2),
-		// so at this point the cosine isn't really a useful cosine anymore.
+		// Explanation: The mantissa of a double-precision float has 52 bits
+		// (excluding the implicit first bit, which is always one). If |q| >
+		// 2^51, this implicit first bit has a place value of at least 2^51,
+		// while the first stored bit of the mantissa has a place value of at
+		// least 2^50. This means that the LSB of the mantissa has a place value
+		// of at least 2^(-1), or 0.5. For a cos(pi*x), this corresponds to a
+		// quarter of a cycle (pi/2), so at this point the cosine isn't really a
+		// useful cosine anymore.
 
-		// we now want to check whether q is even or odd, because the cosine is
-		// negative for odd qs, so we'll have to flip the final result. on an
+		// We now want to check whether q is even or odd, because the cosine is
+		// negative for odd qs, so we'll have to flip the final result. On an
 		// int, this is as simple as checking the 0th bit.
-		// => manipulate the double in such a way that we can do this.
-		// so, we add 2^52, such that the last digit of the mantissa is actually
-		// in the ones position. since q may be negative, we'll also add 2^51 to
-		// make sure it's positive. note that 2^51 is even and thus leaves
+		// Idea: manipulate the double in such a way that we can do this.
+		// So, we add 2^52, such that the last digit of the mantissa is actually
+		// in the ones position. Since q may be negative, we'll also add 2^51 to
+		// make sure it's positive. Note that 2^51 is even and thus leaves
 		// evenness invariant, which is the only thing we care about here.
 
 		q = _mm256_add_pd(q, _mm256_set1_pd(0x0018000000000000));
 
-		// unfortunately, integer comparisons were only introduced in avx2, so
+		// Unfortunately, integer comparisons were only introduced in AVX2, so
 		// we'll have to make do with a floating point comparison to check
-		// whether the last bit is set. however, masking out all but the last
+		// whether the last bit is set. However, masking out all but the last
 		// bit will result in a denormal float, which may either result in
 		// performance problems or just be rounded down to zero, neither of
 		// which is what we want here. To fix this, we'll mask in not only bit
@@ -363,11 +374,11 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		    invert, _mm256_castsi256_pd(_mm256_set1_epi64x(0x4330000000000001)),
 		    _CMP_EQ_OQ);
 
-		// finally, we need to turn invert into a mask for the
-		// sign bit on each final double, ie:
+		// finally, we need to turn invert into a mask for the sign bit on each
+		// final double, ie:
 		invert = _mm256_and_pd(invert, _mm256_set1_pd(-0.0));
 		// (note that the binary representation of -0.0 is all 0 bits, except
-		// for the sign bit, which is set to 1.
+		// for the sign bit, which is set to 1)
 
 		// TODO: clamp floats between 0 and 1? This would ensure that we never
 		// see inf's, but maybe we want that, so that things dont just fail
@@ -377,10 +388,10 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// *******
 
 		// ******
-		// * evaluate the cosine using a polynomial approximation.
-		// * the coefficients for this were generated using sleefs gencoef.c.
-		// * These coefficients are probably far from optimal.
-		// * However, they should be sufficient for this case.
+		// * Evaluate the cosine using a polynomial approximation.
+		// * The coefficients for this were generated using sleefs gencoef.c.
+		// * These coefficients are probably far from optimal; however, they
+		// should be sufficient for this case.
 		s = _mm256_mul_pd(s, s);
 
 		__m256d u = _mm256_set1_pd(+0.2211852080653743946e+0);
@@ -393,8 +404,8 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		                  _mm256_set1_pd(-0.4934797516664651162e+1));
 		u = _mm256_add_pd(_mm256_mul_pd(u, s), _mm256_set1_pd(1.));
 
-		// then, flip the sign of each double for which invert is not zero.
-		// since invert has only zero bits except for a possible one in bit 63,
+		// Then, flip the sign of each double for which invert is not zero.
+		// Since invert has only zero bits except for a possible one in bit 63,
 		// we can xor it onto our result to selectively invert the 63rd (sign)
 		// bit in each double where invert is set.
 		u = _mm256_xor_pd(u, invert);

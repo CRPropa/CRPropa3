@@ -461,31 +461,24 @@ private:
 		}
 
 		// linear fraction to lower and upper neighbors
-		double fx = r.x - floor(r.x);
-		double fX = 1 - fx;
-		double fy = r.y - floor(r.y);
-		double fY = 1 - fy;
-		double fz = r.z - floor(r.z);
-		double fZ = 1 - fz;
+		double fX0 = r.x - floor(r.x);
+		double fX1 = 1 - fX0;
+		double fY0 = r.y - floor(r.y);
+		double fY1 = 1 - fY0;
+		double fZ0 = r.z - floor(r.z);
+		double fZ1 = 1 - fZ0;
 
 		// trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation)
 		T b(0.);
-		//V000 (1 - x) (1 - y) (1 - z) +
-		b += get(ix, iy, iz) * fX * fY * fZ;
-		//V100 x (1 - y) (1 - z) +
-		b += get(iX, iy, iz) * fx * fY * fZ;
-		//V010 (1 - x) y (1 - z) +
-		b += get(ix, iY, iz) * fX * fy * fZ;
-		//V001 (1 - x) (1 - y) z +
-		b += get(ix, iy, iZ) * fX * fY * fz;
-		//V101 x (1 - y) z +
-		b += get(iX, iy, iZ) * fx * fY * fz;
-		//V011 (1 - x) y z +
-		b += get(ix, iY, iZ) * fX * fy * fz;
-		//V110 x y (1 - z) +
-		b += get(iX, iY, iz) * fx * fy * fZ;
-		//V111 x y z
-		b += get(iX, iY, iZ) * fx * fy * fz;
+		// get(iXk, iYl, iZm) = V_klm
+		b += get(iX0, iY0, iZ0) * fX1 * fY1 * fZ1;
+		b += get(iX1, iY0, iZ0) * fX0 * fY1 * fZ1;
+		b += get(iX0, iY1, iZ0) * fX1 * fY0 * fZ1;
+		b += get(iX0, iY0, iZ1) * fX1 * fY1 * fZ0;
+		b += get(iX1, iY0, iZ1) * fX0 * fY1 * fZ0;
+		b += get(iX0, iY1, iZ1) * fX1 * fY0 * fZ0;
+		b += get(iX1, iY1, iZ0) * fX0 * fY0 * fZ1;
+		b += get(iX1, iY1, iZ1) * fX0 * fY0 * fZ0;
 
 		return b;
 	}

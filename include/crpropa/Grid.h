@@ -69,18 +69,8 @@ public:
 	GridProperties(Vector3d origin, size_t N, double spacing) :
 		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false) {
 	}
-
-	/** Constructor for non-cubic grid
-	 @param	origin	Position of the lower left front corner of the volume
-	 @param	Nx		Number of grid points in x-direction
-	 @param	Ny		Number of grid points in y-direction
-	 @param	Nz		Number of grid points in z-direction
-	 @param spacing	Spacing between grid points
-	 */
-	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
-		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false) {
-	}
-
+  
+ 
 	/** Constructor for non-cubic grid with spacing vector
 	 @param	origin	Position of the lower left front corner of the volume
 	 @param	Nx		Number of grid points in x-direction
@@ -91,10 +81,10 @@ public:
 	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
 		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false) {
 	}
-
+	
 	virtual ~GridProperties() {
 	}
-
+	
 	void setReflective(bool b) {
 		reflective = b;
 	}
@@ -147,6 +137,28 @@ public:
 		setGridSize(Nx, Ny, Nz);
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
+	}
+	
+	/** Constructor for non-cubic grid with spacing vector
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing vector between grid points
+	*/
+	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
+	 	setOrigin(origin);
+	 	setGridSize(Nx, Ny, Nz);
+	 	setSpacing(spacing);
+	 	setReflective(false);
+	} 
+
+	/** Constructor for GridProperties
+ 	 @param p	GridProperties instance
+     */
+	Grid(const GridProperties &p) :
+		origin(p.origin), spacing(p.spacing), reflective(p.reflective) {
+	 	setGridSize(p.Nx, p.Ny, p.Nz);
 	}
 
 	/** Constructor for non-cubic grid with spacing vector
@@ -527,7 +539,6 @@ public:
 		printDeprication();
 	}
 };
-
 
 /** @}*/
 

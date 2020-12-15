@@ -285,8 +285,8 @@ public:
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			// TODO: this is a fix for reflective boundaries, I think
-			// make sure this gets reviewed appropriately
+			/** TODO: this is a fix for reflective boundaries, I think
+			make sure this gets reviewed appropriately */
 			while ((ix < 0) or (ix >= Nx))
 				ix = 2 * Nx * (ix >= Nx) - ix - 1;
 			while ((iy < 0) or (iy >= Ny))
@@ -324,7 +324,7 @@ private:
 		return result;
 	}
 
-  //Vectorized cubic Interpolator in 1D
+  /** Vectorized cubic Interpolator in 1D */
   __m128 CubicInterpolate(__m128 p0,__m128 p1,__m128 p2,__m128 p3,double position) const {
      __m128 c1 = _mm_set1_ps (1/2.);
      __m128 c2 = _mm_set1_ps (3/2.);
@@ -345,45 +345,36 @@ private:
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		// indices of lower and upper neighbours
-		int ix, iX, iy, iY, iz, iZ;
+		/** indices of lower and upper neighbours */
+		int iX0, iX1, iY0, iY1, iZ0, iZ1;
 		if (reflective) {
-			reflectiveClamp(r.x, Nx, ix, iX);
-			reflectiveClamp(r.y, Ny, iy, iY);
-			reflectiveClamp(r.z, Nz, iz, iZ);
+			reflectiveClamp(r.x, Nx, iX0, iX1);
+			reflectiveClamp(r.y, Ny, iY0, iY1);
+			reflectiveClamp(r.z, Nz, iZ0, iZ1);
 		} else {
-			periodicClamp(r.x, Nx, ix, iX);
-			periodicClamp(r.y, Ny, iy, iY);
-			periodicClamp(r.z, Nz, iz, iZ);
+			periodicClamp(r.x, Nx, iX0, iX1);
+			periodicClamp(r.y, Ny, iY0, iY1);
+			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 		
-		double posx = r.x - floor(r.x);
-		double posy = r.y - floor(r.y);
-		double posz = r.z - floor(r.z);
-		
-    __m128 result =
-    CubicInterpolate(CubicInterpolate(CubicInterpolate(simdPeriodicGet(ix-1,iy-1,iz-1),simdPeriodicGet(ix-1,iy-1,iz),simdPeriodicGet(ix-1,iy-1,iZ),simdPeriodicGet(ix-1,iy-1,iz+2),posz),
-								  CubicInterpolate(simdPeriodicGet(ix-1,iy,  iz-1),simdPeriodicGet(ix-1,iy,  iz),simdPeriodicGet(ix-1,iy,  iZ),simdPeriodicGet(ix-1,iy,  iz+2),posz),
-								  CubicInterpolate(simdPeriodicGet(ix-1,iY,  iz-1),simdPeriodicGet(ix-1,iY,  iz),simdPeriodicGet(ix-1,iY,  iZ),simdPeriodicGet(ix-1,iY,  iz+2),posz),
-								  CubicInterpolate(simdPeriodicGet(ix-1,iy+2,iz-1),simdPeriodicGet(ix-1,iy+2,iz),simdPeriodicGet(ix-1,iy+2,iZ),simdPeriodicGet(ix-1,iy+2,iz+2),posz),
-								  posy),
-                 CubicInterpolate(CubicInterpolate(simdPeriodicGet(ix,  iy-1,iz-1),simdPeriodicGet(ix,  iy-1,iz),simdPeriodicGet(ix,  iy-1,iZ),simdPeriodicGet(ix,  iy-1,iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(ix,  iy,  iz-1),simdPeriodicGet(ix,  iy,  iz),simdPeriodicGet(ix,  iy,  iZ),simdPeriodicGet(ix,  iy,  iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(ix,  iY,  iz-1),simdPeriodicGet(ix,  iY,  iz),simdPeriodicGet(ix,  iY,  iZ),simdPeriodicGet(ix,  iY,  iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(ix,  iy+2,iz-1),simdPeriodicGet(ix,  iy+2,iz),simdPeriodicGet(ix,  iy+2,iZ),simdPeriodicGet(ix,  iy+2,iz+2),posz),
-                                  posy),
-                 CubicInterpolate(CubicInterpolate(simdPeriodicGet(iX,  iy-1,iz-1),simdPeriodicGet(iX,  iy-1,iz),simdPeriodicGet(iX,  iy-1,iZ),simdPeriodicGet(iX,  iy-1,iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(iX,  iy,  iz-1),simdPeriodicGet(iX,  iy,  iz),simdPeriodicGet(iX,  iy,  iZ),simdPeriodicGet(iX,  iy,  iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(iX,  iY,  iz-1),simdPeriodicGet(iX,  iY,  iz),simdPeriodicGet(iX,  iY,  iZ),simdPeriodicGet(iX,  iY,  iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(iX,  iy+2,iz-1),simdPeriodicGet(iX,  iy+2,iz),simdPeriodicGet(iX,  iy+2,iZ),simdPeriodicGet(iX,  iy+2,iz+2),posz),
-                                  posy),
-                 CubicInterpolate(CubicInterpolate(simdPeriodicGet(ix+2,iy-1,iz-1),simdPeriodicGet(ix+2,iy-1,iz),simdPeriodicGet(ix+2,iy-1,iZ),simdPeriodicGet(ix+2,iy-1,iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(ix+2,iy,  iz-1),simdPeriodicGet(ix+2,iy,  iz),simdPeriodicGet(ix+2,iy,  iZ),simdPeriodicGet(ix+2,iy,  iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(ix+2,iY,  iz-1),simdPeriodicGet(ix+2,iY,  iz),simdPeriodicGet(ix+2,iY,  iZ),simdPeriodicGet(ix+2,iY,  iz+2),posz),
-                                  CubicInterpolate(simdPeriodicGet(ix+2,iy+2,iz-1),simdPeriodicGet(ix+2,iy+2,iz),simdPeriodicGet(ix+2,iy+2,iZ),simdPeriodicGet(ix+2,iy+2,iz+2),posz),
-                                  posy),
-                 posx);
-	
+		double fX = r.x - floor(r.x);
+		double fY = r.y - floor(r.y);
+		double fZ = r.z - floor(r.z);
+
+		int nrCubicInterpolations = 4;
+    __m128 interpolateVaryX[nrCubicInterpolations];
+    __m128 interpolateVaryY[nrCubicInterpolations];
+    __m128 interpolateVaryZ[nrCubicInterpolations];
+    for (int iLoopX = -1; iLoopX < nrCubicInterpolations-1; iLoopX++) {
+      for (int iLoopY = -1; iLoopY < nrCubicInterpolations-1; iLoopY++) {
+        for (int iLoopZ = -1; iLoopZ < nrCubicInterpolations-1; iLoopZ++) {
+          interpolateVaryZ[iLoopZ+1] = simdPeriodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
+        }
+        interpolateVaryY[iLoopY+1] = CubicInterpolate(interpolateVaryZ[0], interpolateVaryZ[1], interpolateVaryZ[2], interpolateVaryZ[3], fZ);
+      }
+      interpolateVaryX[iLoopX+1] = CubicInterpolate(interpolateVaryY[0], interpolateVaryY[1], interpolateVaryY[2], interpolateVaryY[3], fY);
+    }
+    __m128 result = CubicInterpolate(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);
 		return convertSimdToVector3f(result);
 	}
 
@@ -396,11 +387,10 @@ private:
 
   /** Interpolate the grid tricubic at a given position */
 	double tricubicInterpolate(double, const Vector3d &position) const {
-		// position on a unit grid
-		//~ std::cout << "Test begin"<< std::endl;
+		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		// indices of lower and upper neighbors
+		/** indices of lower and upper neighbors */
 		int iX, iX1, iY, iY1, iZ, iZ1;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, iX, iX1);
@@ -434,13 +424,9 @@ private:
 	}
 
 
-
-
-
-
 	/** Interpolate the grid trilinear at a given position */
 	T trilinearInterpolate(const Vector3d &position) const {
-		// position on a unit grid
+		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
 
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
@@ -464,9 +450,8 @@ private:
 		double fZ0 = r.z - floor(r.z);
 		double fZ1 = 1 - fZ0;
 
-		// trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation)
+		/** trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation) */
 		T b(0.);
-		// get(iXk, iYl, iZm) = V_klm
 		b += get(iX0, iY0, iZ0) * fX1 * fY1 * fZ1;
 		b += get(iX1, iY0, iZ0) * fX0 * fY1 * fZ1;
 		b += get(iX0, iY1, iZ0) * fX1 * fY0 * fZ1;

@@ -194,6 +194,8 @@ public:
 		reflective = b;
 	}
 
+  /** Change the interpolation type to the routine specified by the user. Check if this routine is
+      contained in the enum interpolationType and thus supported by CRPropa. */
 	void setInterpolationType(interpolationType ipolType) {
 	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
 	    ipolType = ipolType;
@@ -231,6 +233,9 @@ public:
 		return reflective;
 	}
 
+  /** Choose the interpolation algorithm based on the set interpolation type.
+      By default this it the trilinear interpolation. The user can change the
+      routine with the setInterpolationType function.*/
 	T interpolate(const Vector3d &position) {
     if (ipolType == TRICUBIC)
         return tricubicInterpolate(T(), position);
@@ -335,8 +340,15 @@ private:
      __m128 pos2 = _mm_set1_ps (position*position);
      __m128 pos3 = _mm_set1_ps (position*position*position);
 
-     __m128 res = _mm_add_ps(_mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_add_ps(_mm_mul_ps(c2,p1),_mm_mul_ps(c1,p3)),_mm_add_ps(_mm_mul_ps(c1,p0),_mm_mul_ps(c2,p2))),pos3),
-              _mm_mul_ps(_mm_sub_ps(_mm_add_ps(p0,_mm_mul_ps(c3,p2)),_mm_add_ps(_mm_mul_ps(c4,p1),_mm_mul_ps(c1,p3))),pos2)) , _mm_mul_ps(_mm_sub_ps(_mm_mul_ps(c1,p2),_mm_mul_ps(c1,p0)),pos)) ,p1);
+      /** SIMDY optimized routine to calculate 'res = ((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);'
+          where terms are used as:
+          term = (-0.5*p0+0.5*p2)*pos
+          term2 = (p0-5/2.*p1+p2*2-0.5*p3)*pos*pos;
+          term3 = (-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos;  */
+     __m128 term = _mm_mul_ps(_mm_sub_ps(_mm_mul_ps(c1,p2),_mm_mul_ps(c1,p0)),pos);
+     __m128 term2 = _mm_mul_ps(_mm_sub_ps(_mm_add_ps(p0,_mm_mul_ps(c3,p2)),_mm_add_ps(_mm_mul_ps(c4,p1),_mm_mul_ps(c1,p3))),pos2);
+     __m128 term3 = _mm_mul_ps(_mm_sub_ps(_mm_add_ps(_mm_mul_ps(c2,p1),_mm_mul_ps(c1,p3)),_mm_add_ps(_mm_mul_ps(c1,p0),_mm_mul_ps(c2,p2))),pos3);
+     __m128 res = _mm_add_ps(_mm_add_ps(_mm_add_ps(term3,term2),term),p1);
      return res;
   }
 
@@ -345,7 +357,8 @@ private:
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		/** indices of lower and upper neighbours */
+		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
+    		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, iX0, iX1);
@@ -365,6 +378,7 @@ private:
     __m128 interpolateVaryX[nrCubicInterpolations];
     __m128 interpolateVaryY[nrCubicInterpolations];
     __m128 interpolateVaryZ[nrCubicInterpolations];
+    /** Perform 1D interpolations while iterating in each for loop over the index of another direction */
     for (int iLoopX = -1; iLoopX < nrCubicInterpolations-1; iLoopX++) {
       for (int iLoopY = -1; iLoopY < nrCubicInterpolations-1; iLoopY++) {
         for (int iLoopZ = -1; iLoopZ < nrCubicInterpolations-1; iLoopZ++) {
@@ -379,9 +393,8 @@ private:
 	}
 
 
-  //Vectorized cubic Interpolator in 1D
-  double CubicInterpolateScalar(double p0,double p1,double p2,double p3,double pos) const
-  {
+  /** Vectorized cubic Interpolator in 1D that returns a scalar */
+  double CubicInterpolateScalar(double p0,double p1,double p2,double p3,double pos) const {
      return((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);
   }
 
@@ -390,16 +403,17 @@ private:
 		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
 
-		/** indices of lower and upper neighbors */
-		int iX, iX1, iY, iY1, iZ, iZ1;
+		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
+    		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
+		int iX0, iX1, iY0, iY1, iZ0, iZ1;
 		if (reflective) {
-			reflectiveClamp(r.x, Nx, iX, iX1);
-			reflectiveClamp(r.y, Ny, iY, iY1);
-			reflectiveClamp(r.z, Nz, iZ, iZ1);
+			reflectiveClamp(r.x, Nx, iX0, iX1);
+			reflectiveClamp(r.y, Ny, iY0, iY1);
+			reflectiveClamp(r.z, Nz, iZ0, iZ1);
 		} else {
-			periodicClamp(r.x, Nx, iX, iX1);
-			periodicClamp(r.y, Ny, iY, iY1);
-			periodicClamp(r.z, Nz, iZ, iZ1);
+			periodicClamp(r.x, Nx, iX0, iX1);
+			periodicClamp(r.y, Ny, iY0, iY1);
+			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 
     double fX = r.x - floor(r.x);
@@ -410,10 +424,11 @@ private:
 		double interpolateVaryX[nrCubicInterpolations];
 		double interpolateVaryY[nrCubicInterpolations];
 		double interpolateVaryZ[nrCubicInterpolations];
+		/** Perform 1D interpolations while iterating in each for loop over the index of another direction */
 		for (int iLoopX = -1; iLoopX < nrCubicInterpolations-1; iLoopX++) {
       for (int iLoopY = -1; iLoopY < nrCubicInterpolations-1; iLoopY++) {
         for (int iLoopZ = -1; iLoopZ < nrCubicInterpolations-1; iLoopZ++) {
-          interpolateVaryZ[iLoopZ+1] = periodicGet(iX+iLoopX, iY+iLoopY, iZ+iLoopZ);
+          interpolateVaryZ[iLoopZ+1] = periodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
         }
         interpolateVaryY[iLoopY+1] = CubicInterpolateScalar(interpolateVaryZ[0], interpolateVaryZ[1], interpolateVaryZ[2], interpolateVaryZ[3], fZ);
       }
@@ -430,7 +445,7 @@ private:
 		Vector3d r = (position - gridOrigin) / spacing;
 
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
-		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
+		  with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, iX0, iX1);
@@ -442,7 +457,7 @@ private:
 			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 
-		// linear fraction to lower and upper neighbours
+		/** linear fraction to lower and upper neighbours */
 		double fX0 = r.x - floor(r.x);
 		double fX1 = 1 - fX0;
 		double fY0 = r.y - floor(r.y);

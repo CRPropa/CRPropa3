@@ -301,25 +301,10 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		//  neutralize the sign. In fact, precisely because the cosine is even,
 		//  all terms of the polynomial are powers of x^2, so the value of
 		//  x^2 (computed as x*x) forms the basis for the polynomial
-		//  approximation. Assuming that the floating point rounding mode is set
-		//  to roundTiesToEven (_MM_ROUND_NEAREST) -- or anything except
-		//  rounding up or rounding down really, it's just that
-		//  _MM_ROUND_NEAREST is probably the default -- x*x is always exactly
-		//  the same as (-x)*(-x). Using this assumption, we can omit a separate
-		//  instruction for taking the absolute value. Therefore, an
-		//  approximation to cos(pi*x) that provides a certain accuracy between
-		//  0 and 0.5 would automatically have the same accuracy between -0.5
-		//  and 0.
-		//
-		//  (Even if the rounding mode was different, this would at most
-		//  incur an error of 1 ULP (a relative error of about 1e-15) in the
-		//  value of s*s. Since |s| is smaller than 0.5, |s*s| is smaller than
-		//  0.25, which means that the absolute error is somewhere below 1e-15.
-		//  Given that the current polynomial is already quite imprecise (it's
-		//  only accurate to about 1e-7, or 1 ULP of float precision for numbers
-		//  around 1), and that the slope of the approximation shouldn't exceed
-		//  unity by much (since it models the cosine), this is unlikely to make
-		//  a big difference.)
+		//  approximation. If I understand things correctly, then (in IEEE-754
+		//  floating point) x*x and (-x)*(-x) will always result in the exact
+		//  same value, which means that any error bound over [0, 0.5)
+		//  automatically applies to (-0.5, 0] as well.
 		//
 		// step 1: compute round(x), and store it in q
 		__m256d q = _mm256_round_pd(
@@ -333,8 +318,8 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// https://stackoverflow.com/questions/41144668/how-to-efficiently-perform-double-int64-conversions-with-sse-avx/41223013
 		//
 		// We assume -2^51 <= q < 2^51 for this, which is unproblematic, as
-		// double precision has decayed far enough at that point that the cosine
-		// would be useless anyway.
+		// double precision has decayed far enough at that point that the
+		// usefulness of the cosine becomes limited.
 		//
 		// Explanation: The mantissa of a double-precision float has 52 bits
 		// (excluding the implicit first bit, which is always one). If |q| >
@@ -342,8 +327,9 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// while the first stored bit of the mantissa has a place value of at
 		// least 2^50. This means that the LSB of the mantissa has a place value
 		// of at least 2^(-1), or 0.5. For a cos(pi*x), this corresponds to a
-		// quarter of a cycle (pi/2), so at this point the cosine isn't really a
-		// useful cosine anymore.
+		// quarter of a cycle (pi/2), so at this point the precision of the input
+		// argument is so low that going from one representable number to the next
+		// causes the result to jump by +/-1.
 
 		// We now want to check whether q is even or odd, because the cosine is
 		// negative for odd qs, so we'll have to flip the final result. On an

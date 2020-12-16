@@ -210,7 +210,7 @@ public:
       contained in the enum interpolationType and thus supported by CRPropa. */
 	void setInterpolationType(interpolationType ipolType) {
 	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
-	    ipolType = ipolType;
+	    this->ipolType = ipolType;
 	    std::cout << "changed interpolation routine" << std::endl;
 	  } else {
 	    throw std::runtime_error("InterpolationType: unknown interpolation type");

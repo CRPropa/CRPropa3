@@ -2,7 +2,7 @@
 #include "crpropa/Units.h"
 
 namespace crpropa {
-//                                     Magnetic Field Model in the Galactic Center from M. Guenduez and J. B. Tjus (2019)                                    
+// Magnetic Field Model in the Galactic Center from M. Guenduez and J. B. Tjus (2019)                                    
 // Poloidal Model (Model C) is taken from Katia Ferriere and Philippe Terral 2014 "Analytical models of X-shape magnetic fields in galactic halos"
 // Azimuthal Model is taken from M.Guenduez, J.B. Tjus, K.Ferriere, R.-J. Dettmar (2019)
 //                                                                                    
@@ -66,17 +66,11 @@ double CMZField::ByAz(double x, double y, double z, double m, double B1, double 
     return (sin(phi)+1./eta*cos(phi))*BrAz(r,phi,z,m,B1,eta,R,rr);
 }
 
-double CMZField::BzAz(double x, double y, double z, double m, double B1, double eta, double R,double rr) const{
-    double r= sqrt(pow(x,2.)+pow(y,2.));
-    double phi= std::atan2(y,x);
-    return 0;//z component of the magnetic field is in molecular clouds zero
-}
-
 // Polodial field in cartesian coordinates// for non-thermal filament and the intercloud region
 double CMZField::ByPol(double x, double y, double z, double B1, double a1, double a2, double eta) const{
     double r= sqrt(pow(x,2.)+pow(y,2.));
     double phi= std::atan2(y,x);
-    double B2=B1/eta;// B1 is the observed magnetic field stremgth and eta the normalization factor otained from the integrations due to the normalization
+    double B2=B1/eta;// B1 is the observed magnetic field strength and eta the normalization factor otained from the integrations due to the normalization
     double L=scale(a2/2.,1);
     double a= 1/pow(scale(a1/2.,2),2.);
     return sin(phi)*Br(r,z,B2,a,L);
@@ -128,11 +122,11 @@ void CMZField::setUseRaidoArc(bool use) {
 }
 
 // Parameter identification:
-// r: radius in zylindrical coordinates
-// z= z component in zylindircal coordintes
-// phi: phi component in zylindircal coordinates
+// r: radius in cylindrical coordinates
+// z= z component in cylindircal coordintes
+// phi: phi component in cylindircal coordinates
 // B1: observed magnetic field strength
-// B2: normalization factor according to B1
+// B2: normalization magnetic field strength according to B1
 // m: azimuthal wavenumber m=0 for axissymmetric, m=1 for bisymmetric and m=2 quadrosymmetric, ... field lines
 // a: stricly positive free parameters governing the opening of field lines away from the z-axis
 // L: exponential scale length length of the cloud radius Longitudinal extent
@@ -143,7 +137,6 @@ void CMZField::setUseRaidoArc(bool use) {
 // phi_s: orientation angle of the azimuthal pattern if g_s(r1(r,z,a),0,a,Lp,Hp,p), azimuthal angle at infinity of the crest surface if g_s(r,z,a,Lp,Hp,p)                                                                                  
 
 Vector3d CMZField::getMCField(const Vector3d& pos) const {//Field in molecular clouds
-	double pi=M_PI;
     double m=1;
     Vector3d b(0.);
     double eta=0.01;
@@ -269,15 +262,10 @@ Vector3d CMZField::getMCField(const Vector3d& pos) const {//Field in molecular c
     double pphi= std::atan2(yy,xx);
     b.x +=-sin(pphi)*(-BrAz(rr,pphi,zz,0,B1,1.,R,R/10.));
     b.y +=cos(pphi)*(-BrAz(rr,pphi,zz,0,B1,1.,R,R/10.)); 
-    //b.z+=Bz2(rr,pphi,zz,B2,m,a2,L2,Lp,Hp,p,phi_s);
-    b.x=b.x*1.e-4;
-    b.y=b.y*1.e-4;
-    b.z=b.z*1.e-4;
-    return b;//1.e-4 due to the conversion from Gauss to Tesla
+    return b*Gauss;
 } 
 Vector3d CMZField::getICField(const Vector3d& pos) const {//Field in intercloud medium--> poloidal field
     Vector3d b(0.);
-    double pi= M_PI;
     //poloidal field in the intercloud region
     double x=pos.x;
     double y=pos.y -(-8.3*pc);
@@ -305,7 +293,6 @@ Vector3d CMZField::getICField(const Vector3d& pos) const {//Field in intercloud 
     //  
 Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-thermal filaments--> predominantly poloidal field
     Vector3d b(0.);
-    double pi= M_PI;
     //poloidal field in the non-thermal filament region (except "pelical"-> azimuthal)
     double arcmin=1./60.;
 
@@ -362,13 +349,13 @@ Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-th
     //A=G359.91 -1.03 Possible Nonthermal Filament 
     // to use this filament delete comments below
     //x_mid=0;//  x midpoint of A
-    //y_mid=sin(359.91*pi/180)*8.5*kpc;//  y midpoint of A
-    //z_mid=sin(-1.03*pi/180)*8.5*kpc;//  z midpoint of A
+    //y_mid=sin(359.91*M_PI/180)*8.5*kpc;//  y midpoint of A
+    //z_mid=sin(-1.03*M_PI/180)*8.5*kpc;//  z midpoint of A
     //xx=x-x_mid;// shifted coordinates
     //yy=y-y_mid;// shifted coordinates
     //zz=z-z_mid;// shiftes coordinates
-    //a1=sin(2.3*arcmin*pi/180)*8.5*kpc;// arcmin-> deg->cm
-    //a2=sin(0.6*arcmin*pi/180)*8.5*kpc;// arcmin-> deg-> cm
+    //a1=sin(2.3*arcmin*M_PI/180)*8.5*kpc;// arcmin-> deg->cm
+    //a2=sin(0.6*arcmin*M_PI/180)*8.5*kpc;// arcmin-> deg-> cm
     //B1=1.e-3;
     //b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
     //b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
@@ -410,16 +397,12 @@ Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-th
     b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
     b.z+=ByPol(xx,yy,zz,B1,a1,a2,eta);
     
-    b.x=b.x*1.e-4;
-    b.y=b.y*1.e-4;
-    b.z=b.z*1.e-4;
-	return b;//1.e-4 due to the conversion from Gauss to Tesla
+	return b*Gauss;
 }
   
 Vector3d CMZField::getRadioArcField(const Vector3d& pos) const {//Field in the non-thermal filaments--> predominantly poloidal field
     Vector3d b(0.);
     //poloidal field in the non-thermal filament region A=RadioArc
-    double pi= M_PI;
     double arcmin=1./60.;
     double eta=0.48;
     double y_mid=26.7*pc;//  y midpoint of A
@@ -430,9 +413,9 @@ Vector3d CMZField::getRadioArcField(const Vector3d& pos) const {//Field in the n
     double a1=70.47*pc;// arcmin-> deg->cm
     double a2=9.89*pc;// arcmin-> deg-> cm
     double B1=1.e-3;
-    b.y=ByPol(xx,yy,zz,B1,a1,a2,eta)*1.e-4;//1.e-4 due to the conversion from Gauss to Tesla
-    b.x=BxPol(xx,yy,zz,B1,a1,a2,eta)*1.e-4;//1.e-4 due to the conversion from Gauss to Tesla
-    b.z=BzPol(xx,yy,zz,B1,a1,a2,eta)*1.e-4;//1.e-4 due to the conversion from Gauss to Tesla
+    b.y=ByPol(xx,yy,zz,B1,a1,a2,eta)*Gauss;
+    b.x=BxPol(xx,yy,zz,B1,a1,a2,eta)*Gauss;
+    b.z=BzPol(xx,yy,zz,B1,a1,a2,eta)*Gauss;
     return b;
 }
 

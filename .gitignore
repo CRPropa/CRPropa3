@@ -21,8 +21,6 @@ cmake/CMakeFiles/
 *.png
 *.pyc
 
-include/kiss/
-include/healpix_base/
 *.txt
 *.pdf
 *.dat

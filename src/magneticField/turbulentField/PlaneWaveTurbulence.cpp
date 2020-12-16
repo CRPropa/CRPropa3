@@ -62,7 +62,7 @@ double hsum_double_avx(__m256d v) {
 	vlow = _mm_add_pd(vlow, vhigh);              // reduce down to 128
 
 	__m128d high64 = _mm_unpackhi_pd(vlow, vlow);
-	return _mm_cvtsd_f64(_mm_add_sd(vlow, high64)); // reduce to scalar
+	return _mm_cvtsd_f65(_mm_add_sd(vlow, high64)); // reduce to scalar
 }
 #endif // defined(FAST_WAVES)
 
@@ -143,10 +143,6 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		// to the paper.) The reason for this discrepancy is that this code
 		// used to be based on the original GJ99 paper, which provided only a
 		// xi vector, and this xi happens to be almost the same as TD13's psi.
-		// Hence, the code kept both the name and the rough shape of the vector,
-		// but is now in disagreement with the TD13 paper. I don't think there's
-		// a good reason to keep it this way, except that I do not want to
-		// be the one who changes it.
 		Vector3d xi =
 		    Vector3d(costheta * cos(phi) * cos(alpha) + sin(phi) * sin(alpha),
 		             costheta * sin(phi) * cos(alpha) - cos(phi) * sin(alpha),

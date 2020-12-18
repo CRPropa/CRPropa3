@@ -161,28 +161,6 @@ public:
 	 	setGridSize(p.Nx, p.Ny, p.Nz);
 	}
 
-	/** Constructor for non-cubic grid with spacing vector
-	 @param	origin	Position of the lower left front corner of the volume
-	 @param	Nx		Number of grid points in x-direction
-	 @param	Ny		Number of grid points in y-direction
-	 @param	Nz		Number of grid points in z-direction
-	 @param spacing	Spacing vector between grid points
-	*/
-	Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
-	 	setOrigin(origin);
-	 	setGridSize(Nx, Ny, Nz);
-	 	setSpacing(spacing);
-	 	setReflective(false);
-	}
-
-	/** Constructor for GridProperties
- 	 @param p	GridProperties instance
-     */
-	Grid(const GridProperties &p) :
-		origin(p.origin), spacing(p.spacing), reflective(p.reflective) {
-	 	setGridSize(p.Nx, p.Ny, p.Nz);
-	}
-
 	void setOrigin(Vector3d origin) {
 		this->origin = origin;
 		this->gridOrigin = origin + spacing/2;

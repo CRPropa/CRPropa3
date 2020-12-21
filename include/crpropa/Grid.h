@@ -312,10 +312,10 @@ private:
 		return simdVar;
 	}
 	
-  Vector3d convertSimdToVector3f(__m128 res) const {
+  Vector3f convertSimdToVector3f(__m128 res) const {
 		float vec[4];	
 		_mm_store_ps(&vec[0], res);
-		Vector3f result = Vector3d(vec[0], vec[1], vec[2]);
+		Vector3f result = Vector3f(vec[0], vec[1], vec[2]);
 		return result;
 	}
 

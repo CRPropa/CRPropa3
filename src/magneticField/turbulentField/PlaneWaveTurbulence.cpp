@@ -48,12 +48,21 @@
 
 #include <iostream>
 
-#ifdef FAST_WAVES
+#if defined(FAST_WAVES)
+#if defined(__SSE__) && defined(__SSE2__) && defined(__SSE3__) && defined(__SSE4_1__) && defined(__SSE4_2__) && defined(__AVX__)
+#define ENABLE_FAST_WAVES
+#else
+#error "FAST_WAVES is enabled, but it appears that not all required SIMD extensions are enabled in the compiler. Without these extensions, the FAST_WAVES optimization cannot be used. Please make sure that the SIMD_EXTENSIONS option in cmake matches the capabilities of your target CPU, or (if your target CPU does not support the required extensions), disable the FAST_WAVES flag in cmake."
+#endif
+#endif
+
+
+#ifdef ENABLE_FAST_WAVES
 #include <immintrin.h>
 #endif
 
 namespace crpropa {
-#ifdef FAST_WAVES
+#ifdef ENABLE_FAST_WAVES
 // see
 // https://stackoverflow.com/questions/49941645/get-sum-of-values-stored-in-m256d-with-sse-avx
 double hsum_double_avx(__m256d v) {
@@ -90,13 +99,13 @@ float hsum_float_avx(__m256 x) {
 	const __m128 sum = _mm_add_ss(lo, hi);
 	return _mm_cvtss_f32(sum);
 }
-#endif // defined(FAST_WAVES)
+#endif // defined(ENABLE_FAST_WAVES)
 
 PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
                                          int Nm, int seed)
     : TurbulentField(spectrum), Nm(Nm) {
 
-#ifdef FAST_WAVES
+#ifdef ENABLE_FAST_WAVES
 	KISS_LOG_INFO << "PlaneWaveTurbulence: Using SIMD TD13 implementation"
 	              << std::endl;
 
@@ -188,7 +197,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		Ak[i] = sqrt(2 * Ak[i] / Ak2_sum) * spectrum.getBrms();
 	}
 
-#ifdef FAST_WAVES
+#ifdef ENABLE_FAST_WAVES
 	// * copy data into AVX-compatible arrays *
 	// AVX requires all data to be aligned to 256 bit, or 32 bytes, which is the
 	// same as 4 double precision floating point numbers. Since support for
@@ -234,12 +243,12 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		// as well
 		avx_data[i + align_offset + avx_Nm * ibeta] = beta[i] / M_PI;
 	}
-#endif // FAST_WAVES
+#endif // ENABLE_FAST_WAVES
 }
 
 Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 
-#ifndef FAST_WAVES
+#ifndef ENABLE_FAST_WAVES
 	Vector3d B(0.);
 	for (int i = 0; i < Nm; i++) {
 		double z_ = pos.dot(kappa[i]);
@@ -247,7 +256,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 	}
 	return B;
 
-#else  // FAST_WAVES
+#else  // ENABLE_FAST_WAVES
 
 	// Initialize accumulators
 	//
@@ -392,7 +401,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 
 	return Vector3d(hsum_double_avx(acc0), hsum_double_avx(acc1),
 	                hsum_double_avx(acc2));
-#endif // FAST_WAVES
+#endif // ENABLE_FAST_WAVES
 }
 
 } // namespace crpropa

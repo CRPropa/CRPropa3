@@ -444,6 +444,8 @@ if(BUILD_DOC)
   else()
     MESSAGE(STATUS "Doxygen not found: cannot build documentation")
   endif(DOXYGEN_FOUND)
+else()
+  MESSAGE(STATUS "Build of documentation disabeled. Enable with BUILD_DOC=On")
 endif(BUILD_DOC)
 
 
@@ -547,6 +549,10 @@ find_program(SPHINX_EXECUTABLE
              NAMES sphinx-build
              DOC "Path to sphinx-build executable")
 
+if(BUILD_DOC AND NOT SPHINX_EXECUTABLE)
+  MESSAGE(STATUS "Sphinx not found: cannot build documentation")
+endif(BUILD_DOC AND NOT SPHINX_EXECUTABLE)
+
 if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
   MESSAGE(STATUS "Found Sphinx to build documentation")
   include(FindPackageHandleStandardArgs)
@@ -562,8 +568,6 @@ if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                     COMMENT "Generating documentation with Sphinx")
   add_dependencies(doc doxy)
-else()
-  MESSAGE(STATUS "Sphinx not found: cannot build documentation")
 endif(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
 
 

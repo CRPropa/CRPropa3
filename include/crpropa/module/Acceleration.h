@@ -40,7 +40,8 @@ class AbstractAccelerationModule : public Module
 		void add(StepLengthModifier *modifier);
 		// update the candidate
 		void process(Candidate *candidate) const;
-		/// Returns the velocity vector of the scatter centers in the frame of the
+
+		/// Returns the velocity vector of the scatter centers in the rest frame of the
 		/// candidate.
 		/// Needs to be implemented in inheriting classes.
 		virtual Vector3d scatterCenterVelocity(Candidate *candidate) const = 0;

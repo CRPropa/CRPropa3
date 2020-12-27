@@ -30,6 +30,8 @@ Contents
 
    pages/galactic_cosmic_rays.rst
 
+   pages/acceleration.rst
+
    pages/example_notebooks/advanced/CustomObserver.v4.ipynb
    pages/Extending-CRPropa.md
    pages/Cpp-projects.md

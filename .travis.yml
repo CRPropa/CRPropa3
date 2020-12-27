@@ -29,6 +29,7 @@ addons:
         - graphviz
         - pandoc
         - python3-pip
+        - python3-ipython
         - lcov
       sources: &sources
         - ubuntu-toolchain-r-test

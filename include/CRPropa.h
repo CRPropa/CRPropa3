@@ -101,6 +101,10 @@
  * @{ @brief Energy losses of candidates.
  * @}
  *
+ * \defgroup PhotonFields Photon Fields
+ * @{ @brief Photon fields for particle interactions.
+ * @}
+ *
  * \defgroup MagneticFields Magnetic Fields
  * @{ @brief Magnetic field models
  * @}
@@ -118,7 +122,7 @@
  * @}
  *
  * \defgroup SourceFeatures Sources
- * @{ @brief Source and SourceFeatures
+ * @{ @brief Source and SourceFeatures, i.e. properties of the partcle injection
  *
  *  Sourcefeatures are added to sources and manipulate the properties of the
  *  emitted candidate.
@@ -133,8 +137,16 @@
  * magnetic field.
  * @}
  *
+ * \defgroup Acceleration Acceleration Processes
+ * @{ @brief Modules and techniques to simualte particle acceleration
+ *
+ *  These particle acceleration features is analogue to an energy loss due to
+ *  an interaction with a background photon, but for energy loss/gain in
+ *  interaction with scattering centers.
+ * @}
+ *
  * \defgroup Tools Tools
- * @{ @brief Collection of helper functinos and modules.
+ * @{ @brief Collection of helper functions and modules.
  * @}
  */
 

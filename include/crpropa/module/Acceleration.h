@@ -8,8 +8,12 @@
 
 namespace crpropa
 {
+/** @addtogroup Acceleration
+ *  @{
+ */
 
-/// Modifies the steplength of an acceleration module.
+/// @class StepLengthModifier
+/// @brief Modifies the steplength of an acceleration module.
 class StepLengthModifier : public Referenced
 {
 	public:
@@ -18,11 +22,12 @@ class StepLengthModifier : public Referenced
 };
 
 
-// Core functionallity for acceleration by scattering with scatter centers
-// moving in a velocity field. The velocity field is implicity implemented in
-// the derived class for performance reasons.
-// Models for the dependence of the step length of
-// the scatter process are set via modifiers.
+/// @class AbstractAccelerationModule
+/// @brief Core functionallity for acceleration by scattering with scatter centers
+///  moving in a velocity field.
+/// @details The velocity field is implicity implemented in the derived classes
+///  for performance reasons. Models for the dependence of the step length of
+///  the scatter process are set via modifiers.
 class AbstractAccelerationModule : public Module
 {
 	double stepLength;
@@ -35,29 +40,21 @@ class AbstractAccelerationModule : public Module
 		void add(StepLengthModifier *modifier);
 		// update the candidate
 		void process(Candidate *candidate) const;
-		/// Returns the velocity vector of the scatter centers in the Lab Frame.
+		/// Returns the velocity vector of the scatter centers in the frame of the
+		/// candidate.
 		/// Needs to be implemented in inheriting classes.
 		virtual Vector3d scatterCenterVelocity(Candidate *candidate) const = 0;
 
-		/// Returns new candidate momentum post collision when supplied with initial candidate momentum
-		/// [All in the rest frame of the scatter center]. Can be overriden in inheriting classes.
-		/// The default is a uniform distribution.
-		Vector3d scatterMomentum(const Vector3d &v) const;
-
-		/// Scatter the candidate with a center and the given scatter center
-		/// velocity
-		/// Scattering the candidate into a random direction. Assumes that the
+		/// Scatter the candidate with a center with given scatter center
+		/// velocity into a random direction. Assumes that the
 		/// candidate is ultra-relativistic (m = 0).
 		void scatter(Candidate* candidate, const Vector3d& scatter_center_velocity) const;
 };
 
 
-
-
-
-
-// Implements scattering with centers moving in isotropic directions. Scatter
-// centers have the same velocity.
+/// @class SecondOrderFermi
+/// @brief  Implements scattering with centers moving in isotropic directions.
+///   All scatter centers have the same velocity.
 class SecondOrderFermi : public AbstractAccelerationModule
 {
 	double scatterVelocity;
@@ -70,8 +67,24 @@ class SecondOrderFermi : public AbstractAccelerationModule
 };
 
 
-/// Step length depend on the direction of the particle - propagating against
-/// the flow is harder.
+/// @class DirectedFlowScattering
+/// @brief Scattering in a directed flow of scatter centers.
+/// @details Two of these region with different
+///		velocities can be used to create first order Fermi scenario.
+///		Thanks to Aritra Ghosh, Groningn University, for first work in 2017 on the
+///		shock acceleration in CRPropa leading to this module.
+class DirectedFlowScattering : public AbstractAccelerationModule
+{
+	private:
+		crpropa::Vector3d __scatterVelocity;
+	public:
+		DirectedFlowScattering(crpropa::Vector3d scatterCenterVelocity, double stepLength=1. * parsec);
+		virtual crpropa::Vector3d scatterCenterVelocity(crpropa::Candidate *candidate) const;
+};
+
+
+/// @class DirectedFlowOfScatterCenters
+/// @brief In a directed flow, the step length depend on the direction of the particles as headon collisions are more likely than tail=on collisions - propagating against the flow is harder.
 class DirectedFlowOfScatterCenters: public StepLengthModifier
 {
 	private:
@@ -82,27 +95,22 @@ class DirectedFlowOfScatterCenters: public StepLengthModifier
 };
 
 
-/*
-		A directed flow of scatter centers. Two of these region with different
-		velocities can be used to create a shock, i.e. first order Fermi.
-		Thanks to Aritra Ghosh, Groningn University, for first work in 2017 on the
-		shock acceleration in CRPropa leading to this module.
-*/
-class DirectedFlowScattering : public AbstractAccelerationModule
-{
-	private:
-		crpropa::Vector3d __scatterVelocity;
-	public:
-		/// In a directed field of scatter centers, the probability to encounter a
-		/// scatter center depends on the direction of the candidate.
-		DirectedFlowScattering(crpropa::Vector3d scatterCenterVelocity, double stepLength=1. * parsec);
-		virtual crpropa::Vector3d scatterCenterVelocity(crpropa::Candidate *candidate) const;
-};
+/// @class QuasiLinearTheory
+/// @brief Scales the steplength according to quasi linear theory.
+/// @details Following quasi-linear theory [Schlickeiser1989], the mean free path \f$\lambda\f$ of a
+///  particle with energy \f$E\f$ and charge \f$Z\f$ in a field with turbulence spectrum
+///  \f$\frac{k}{k_{\min}}^{-q}\f$ is
+///   \f[ \lambda = {\left(\frac{B}{\delta B}\right)}^2 {\left(R_G\;  k_{\min}\right)}^{1-q} R_G \equiv \lambda_0 {\left( \frac{E}{1 EeV}\frac{1}{Z} \right)}^{2-q} \f]
+///  where \f$R_G = \frac{E}{B Z}\f$ is the gyro-radius of the
+///  particles.
+/// This class implements the rigidity dependent scaling factor used to modify
+/// the base step length.
+/// @par
+/// \b [Schlickeiser1989] R. Schlickeiser, Cosmic-Ray Transport and Acceleration. II.
+///  Cosmic Rays in Moving Cold Media with Application to Diffu-
+///  sive Shock Wave Acceleration, The Astrophysical Journal 336
+///  (1989) 264. doi:10.1086/167010.
 
-/*
-Scales the steplength according to quasi linear theory via
-		L = L0 * ( Z * (E_ref / E))**(2-q)
-*/
 class QuasiLinearTheory : public StepLengthModifier
 {
 	private:
@@ -116,6 +124,7 @@ class QuasiLinearTheory : public StepLengthModifier
 };
 
 
+/**  @} */ // end of group Acceleration
 
 } // namespace crpropa
 

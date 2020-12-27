@@ -26,6 +26,7 @@
 #include "crpropa/Version.h"
 
 #include "crpropa/module/AdiabaticCooling.h"
+#include "crpropa/module/Acceleration.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/BreakCondition.h"
 #include "crpropa/module/DiffusionSDE.h"

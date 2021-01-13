@@ -45,7 +45,7 @@ public:
     void setUseMCField(bool use);
     void setUseICField(bool use);
     void setUseNTFField(bool use);
-    void setUseRaidoArc(bool use);
+    void setUseRadioArc(bool use);
 
     Vector3d getMCField(const Vector3d& pos) const;
     Vector3d getICField(const Vector3d& pos) const;

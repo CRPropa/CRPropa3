@@ -1,6 +1,7 @@
 #include <stdexcept>
 
 #include "crpropa/magneticField/MagneticFieldGrid.h"
+#include "crpropa/magneticField/CMZField.h"
 #include "crpropa/Grid.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
@@ -98,6 +99,37 @@ TEST(testPeriodicMagneticField, Exceptions) {
 	EXPECT_DOUBLE_EQ(9000, v.y);
 	EXPECT_DOUBLE_EQ(1000, v.z);
 
+}
+
+TEST(testCMZMagneticField, SimpleTest) {
+	ref_ptr<CMZField> field = new CMZField();
+	
+	// check use-Values
+	EXPECT_FALSE(field->getUseMCField());
+	EXPECT_TRUE(field->getUseICField());
+	EXPECT_FALSE(field->getUseNTFField());
+	EXPECT_FALSE(field->getUseRadioArc());
+
+	// check set function
+	field->setUseMCField(true);
+	EXPECT_TRUE(field->getUseMCField());
+	field->setUseICField(false);
+	EXPECT_FALSE(field->getUseICField());
+	field->setUseNTFField(true);
+	EXPECT_TRUE(field->getUseNTFField());
+	field->setUseRadioArc(true);
+	EXPECT_TRUE(field->getUseRadioArc());
+}
+
+TEST(testCMZMagneticField, TestPoloidalField) {
+	ref_ptr<CMZField> field = new CMZField();
+
+	// check IC field at given position
+	Vector3d bVec = field->getField( Vector3d(10*pc,-30*pc,-20*pc));
+	EXPECT_NEAR(bVec.getR(), 7.36689486*muG, 1E-8);
+	EXPECT_NEAR(-1.175613399*muG, bVec.x, 1E-8);
+	EXPECT_NEAR(3.52684020*muG, bVec.y, 1E-8);
+	EXPECT_NEAR(6.36006849*muG, bVec.z, 1E-8);
 }
 
 int main(int argc, char **argv) {

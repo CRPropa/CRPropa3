@@ -117,7 +117,7 @@ void CMZField::setUseICField(bool use) {
 void CMZField::setUseNTFField(bool use) {
     useNTFField = use;
 }
-void CMZField::setUseRaidoArc(bool use) {
+void CMZField::setUseRadioArc(bool use) {
     useRadioArc = use;
 }
 
@@ -262,7 +262,7 @@ Vector3d CMZField::getMCField(const Vector3d& pos) const {//Field in molecular c
     double pphi= std::atan2(yy,xx);
     b.x +=-sin(pphi)*(-BrAz(rr,pphi,zz,0,B1,1.,R,R/10.));
     b.y +=cos(pphi)*(-BrAz(rr,pphi,zz,0,B1,1.,R,R/10.)); 
-    return b*Gauss;
+    return b*gauss;
 } 
 Vector3d CMZField::getICField(const Vector3d& pos) const {//Field in intercloud medium--> poloidal field
     Vector3d b(0.);
@@ -397,7 +397,7 @@ Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-th
     b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
     b.z+=ByPol(xx,yy,zz,B1,a1,a2,eta);
     
-	return b*Gauss;
+	return b*gauss;
 }
   
 Vector3d CMZField::getRadioArcField(const Vector3d& pos) const {//Field in the non-thermal filaments--> predominantly poloidal field
@@ -413,9 +413,9 @@ Vector3d CMZField::getRadioArcField(const Vector3d& pos) const {//Field in the n
     double a1=70.47*pc;// arcmin-> deg->cm
     double a2=9.89*pc;// arcmin-> deg-> cm
     double B1=1.e-3;
-    b.y=ByPol(xx,yy,zz,B1,a1,a2,eta)*Gauss;
-    b.x=BxPol(xx,yy,zz,B1,a1,a2,eta)*Gauss;
-    b.z=BzPol(xx,yy,zz,B1,a1,a2,eta)*Gauss;
+    b.y=ByPol(xx,yy,zz,B1,a1,a2,eta)*gauss;
+    b.x=BxPol(xx,yy,zz,B1,a1,a2,eta)*gauss;
+    b.z=BzPol(xx,yy,zz,B1,a1,a2,eta)*gauss;
     return b;
 }
 

@@ -69,8 +69,18 @@ public:
 	GridProperties(Vector3d origin, size_t N, double spacing) :
 		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false) {
 	}
-  
- 
+
+	/** Constructor for non-cubic grid
+	 @param	origin	Position of the lower left front corner of the volume
+	 @param	Nx		Number of grid points in x-direction
+	 @param	Ny		Number of grid points in y-direction
+	 @param	Nz		Number of grid points in z-direction
+	 @param spacing	Spacing between grid points
+	 */
+	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false) {
+	}
+
 	/** Constructor for non-cubic grid with spacing vector
 	 @param	origin	Position of the lower left front corner of the volume
 	 @param	Nx		Number of grid points in x-direction
@@ -107,8 +117,6 @@ class Grid: public Referenced {
 	Vector3d gridOrigin; /**< Grid origin */
 	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
-
-	//  grid.setInterpolationType(INTERPOLATION_TYPE_LINEAR)
 
   interpolationType ipolType;
 
@@ -189,7 +197,6 @@ public:
 	void setInterpolationType(interpolationType ipolType) {
 	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
 	    this->ipolType = ipolType;
-	    std::cout << "changed interpolation routine" << std::endl;
 	  } else {
 	    throw std::runtime_error("InterpolationType: unknown interpolation type");
 	  }
@@ -343,7 +350,7 @@ private:
   }
 
   /** Interpolate the grid tricubic at a given position */
-	Vector3d tricubicInterpolate(Vector3f, const Vector3d &position) const {
+	Vector3f tricubicInterpolate(Vector3f, const Vector3d &position) const {
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 

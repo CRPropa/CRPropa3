@@ -138,12 +138,45 @@ double QuasiLinearTheory::modify(double steplength, Candidate* candidate)
 }
 
 
+ParticleSplitting::ParticleSplitting(Surface *surface, int crossing_threshold, int num_splits, double min_weight, std::string counterid): surface(surface),
+	crossing_threshold(crossing_threshold), num_splits(num_splits),
+	min_weight(min_weight), counterid(counterid)
+{
+};
 
+void ParticleSplitting::process(Candidate *candidate) const
+{
+	const double currentDistance = surface->distance(candidate->current.getPosition());
+	const double previousDistance = surface->distance(candidate->previous.getPosition());
 
+	if (currentDistance * previousDistance > 0)
+		// candidate remains on the same side
+		return;
 
+  if (candidate->getWeight() < min_weight)
+		return;
 
+	int num_crossings = 1;
+  if (candidate->hasProperty(counterid))
+        num_crossings = candidate->getProperty(counterid).toInt32() + 1;
+  candidate->setProperty(counterid, num_crossings);
 
+	if (num_crossings % crossing_threshold != 0)
+		return;
 
+	candidate->setWeight(candidate->getWeight() / num_splits);
 
+  for (size_t i=1; i < num_splits; i++)
+	{
+		// No recursive split as the weights of the secondaries created
+		// before the split are not affected
+    ref_ptr<Candidate> new_candidate = candidate->clone(false);
+    new_candidate->parent = candidate;
+    uint64_t snr = Candidate::getNextSerialNumber();
+    Candidate::setNextSerialNumber(snr+1);
+    new_candidate->setSerialNumber(snr);
+    candidate->addSecondary(new_candidate);
+	}
+};
 
 } // namespace crpropa

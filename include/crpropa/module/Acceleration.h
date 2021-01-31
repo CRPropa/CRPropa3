@@ -5,6 +5,9 @@
 #include <crpropa/Module.h>
 #include <crpropa/Vector3.h>
 #include <crpropa/Units.h>
+#include <crpropa/Geometry.h>
+
+#include <string>
 
 namespace crpropa
 {
@@ -122,6 +125,44 @@ class QuasiLinearTheory : public StepLengthModifier
 		QuasiLinearTheory(double referenecEnergy=1.*EeV, double turbulence_index=5./3, double minimumRigidity=0);
 		double modify(double steplength, Candidate* candidate);
 };
+
+
+
+
+/// @class ParticleSplitting
+/// @brief  Implements particle splitting, i.e. inverse thinning, to speed up
+//acceleration
+/// @details After crossing a surface a given number of times, the particle is
+/// split to N partilces with weight 1/N. This eases performance constraints in
+/// acceleration simulations due to the power law nature of many acceleration
+/// mechanisms.
+class ParticleSplitting: public Module
+{
+	int num_splits;
+	int crossing_threshold;
+	double min_weight;
+	ref_ptr<Surface> surface;
+	std::string counterid;
+
+	public:
+		/// @params surface							 The surface to monitor
+		/// @params crossing_threshold   Number of crossings after which a particle is split
+		/// @params num_splits					 Number of particles the candidate is split into
+		/// @params min_weight					 Minimum weight to consider. PArticles with
+		///															 a lower weight are not split again.
+		/// @params counterid						 An unique string to identify the particle
+		///															 property used for counting. Useful if
+		///                              multiple splitting modules are present.
+		ParticleSplitting(Surface *surface, int crossing_threshold=50,
+				int num_splits=5, double min_weight=0.01, std::string counterid="ParticleSplittingCounter");
+
+		// update the candidate
+		void process(Candidate *candidate) const;
+
+};
+
+
+
 
 
 /**  @} */ // end of group Acceleration

@@ -111,7 +111,6 @@ class DirectedFlowOfScatterCenters: public StepLengthModifier
 ///  Cosmic Rays in Moving Cold Media with Application to Diffu-
 ///  sive Shock Wave Acceleration, The Astrophysical Journal 336
 ///  (1989) 264. doi:10.1086/167010.
-
 class QuasiLinearTheory : public StepLengthModifier
 {
 	private:

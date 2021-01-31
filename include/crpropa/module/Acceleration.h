@@ -136,6 +136,8 @@ class QuasiLinearTheory : public StepLengthModifier
 /// split to N partilces with weight 1/N. This eases performance constraints in
 /// acceleration simulations due to the power law nature of many acceleration
 /// mechanisms.
+/// Thanks to Matthew Weiss, Penn State University for the first work on this
+/// feature in 2017.
 class ParticleSplitting: public Module
 {
 	int num_splits;
@@ -158,11 +160,7 @@ class ParticleSplitting: public Module
 
 		// update the candidate
 		void process(Candidate *candidate) const;
-
 };
-
-
-
 
 
 /**  @} */ // end of group Acceleration

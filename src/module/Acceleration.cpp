@@ -62,17 +62,17 @@ void AbstractAccelerationModule::process(crpropa::Candidate *candidate) const {
 }
 
 
-SecondOrderFermi::SecondOrderFermi(double _scatterVelocity, double stepLength,
-                                   unsigned int size_of_pitchangle_table)
+SecondOrderFermi::SecondOrderFermi(double scatterVelocity, double stepLength,
+                                   unsigned int sizeOfPitchangleTable)
     : AbstractAccelerationModule(stepLength),
-      scatterVelocity(_scatterVelocity) {
+      scatterVelocity(scatterVelocity) {
 	setDescription("SecondOrderFermi Acceleration");
-	angle.resize(size_of_pitchangle_table);
-	angleCDF.resize(size_of_pitchangle_table);
+	angle.resize(sizeOfPitchangleTable);
+	angleCDF.resize(sizeOfPitchangleTable);
 
 	// have a discretized table of beamed pitch angles
-	for (unsigned int i =0; i < size_of_pitchangle_table; i++) {
-		angle[i] = i * M_PI / (size_of_pitchangle_table-1);
+	for (unsigned int i =0; i < sizeOfPitchangleTable; i++) {
+		angle[i] = i * M_PI / (sizeOfPitchangleTable-1);
 		angleCDF[i] = (angle[i] +scatterVelocity / crpropa::c_light * sin(angle[i])) / M_PI;
 	}
 }
@@ -120,9 +120,9 @@ crpropa::Vector3d DirectedFlowScattering::scatterCenterVelocity(
 
 
 QuasiLinearTheory::QuasiLinearTheory(double referenecEnergy,
-                                     double turbulence_index,
+                                     double turbulenceIndex,
                                      double minimumRigidity)
-    : __referenceEnergy(referenecEnergy), __turbulenceIndex(turbulence_index),
+    : __referenceEnergy(referenecEnergy), __turbulenceIndex(turbulenceIndex),
       __minimumRigidity(minimumRigidity) {}
 
 
@@ -141,11 +141,10 @@ double QuasiLinearTheory::modify(double steplength, Candidate* candidate)
 }
 
 
-ParticleSplitting::ParticleSplitting(Surface *surface, int crossing_threshold,
-                                     int num_splits, double min_weight,
-                                     std::string counterid)
-    : surface(surface), crossing_threshold(crossing_threshold),
-      num_splits(num_splits), min_weight(min_weight), counterid(counterid){};
+ParticleSplitting::ParticleSplitting(Surface *surface, int numSplits,
+		int	crossingThreshold, double minWeight, std::string counterid)
+    : surface(surface), crossingThreshold(crossingThreshold),
+      numSplits(numSplits), minWeight(minWeight), counterid(counterid){};
 
 void ParticleSplitting::process(Candidate *candidate) const {
 	const double currentDistance =
@@ -157,7 +156,7 @@ void ParticleSplitting::process(Candidate *candidate) const {
 		// candidate remains on the same side
 		return;
 
-	if (candidate->getWeight() < min_weight)
+	if (candidate->getWeight() < minWeight)
 		return;
 
 	int num_crossings = 1;
@@ -165,12 +164,12 @@ void ParticleSplitting::process(Candidate *candidate) const {
 		num_crossings = candidate->getProperty(counterid).toInt32() + 1;
 	candidate->setProperty(counterid, num_crossings);
 
-	if (num_crossings % crossing_threshold != 0)
+	if (num_crossings % crossingThreshold != 0)
 		return;
 
-	candidate->setWeight(candidate->getWeight() / num_splits);
+	candidate->setWeight(candidate->getWeight() / numSplits);
 
-	for (size_t i = 1; i < num_splits; i++) {
+	for (size_t i = 1; i < numSplits; i++) {
 		// No recursive split as the weights of the secondaries created
 		// before the split are not affected
 		ref_ptr<Candidate> new_candidate = candidate->clone(false);

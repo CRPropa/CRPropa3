@@ -1,5 +1,5 @@
-#ifndef ACCELERATION_MODULE
-#define ACCELERATION_MODULE
+#ifndef CRPROPA_ACCELERATION
+#define CRPROPA_ACCELERATION
 
 #include <crpropa/Candidate.h>
 #include <crpropa/Geometry.h>
@@ -62,9 +62,9 @@ class SecondOrderFermi : public AbstractAccelerationModule {
 	std::vector<double> angleCDF;
 
   public:
-	SecondOrderFermi(double _scatterVelocity = .1 * crpropa::c_light,
+	SecondOrderFermi(double scatterVelocity = .1 * crpropa::c_light,
 	                 double stepLength = 1. * crpropa::parsec,
-	                 unsigned int size_of_pitchangle_table = 10000);
+	                 unsigned int sizeOfPitchangleTable = 10000);
 	virtual crpropa::Vector3d
 	scatterCenterVelocity(crpropa::Candidate *candidate) const;
 };
@@ -128,7 +128,7 @@ class QuasiLinearTheory : public StepLengthModifier {
 
   public:
 	QuasiLinearTheory(double referenecEnergy = 1. * EeV,
-	                  double turbulence_index = 5. / 3,
+	                  double turbulenceIndex = 5. / 3,
 	                  double minimumRigidity = 0);
 	double modify(double steplength, Candidate *candidate);
 };
@@ -144,9 +144,9 @@ class QuasiLinearTheory : public StepLengthModifier {
 /// Thanks to Matthew Weiss, Penn State University for the first work on this
 /// feature in 2017.
 class ParticleSplitting : public Module {
-	int num_splits;
-	int crossing_threshold;
-	double min_weight;
+	int numSplits;
+	int crossingThreshold;
+	double minWeight;
 	ref_ptr<Surface> surface;
 	std::string counterid;
 
@@ -159,8 +159,8 @@ class ParticleSplitting : public Module {
 	/// @params counterid             An unique string to identify the particle
 	///                               property used for counting. Useful if
 	///                               multiple splitting modules are present.
-	ParticleSplitting(Surface *surface, int crossing_threshold = 50,
-	                  int num_splits = 5, double min_weight = 0.01,
+	ParticleSplitting(Surface *surface, int crossingThreshold = 50,
+	                  int numSplits = 5, double minWeight = 0.01,
 	                  std::string counterid = "ParticleSplittingCounter");
 
 	// update the candidate

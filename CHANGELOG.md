@@ -23,7 +23,7 @@
 * New class-based interface for turbulent fields introduced
 * New turbulence modules implemented:
   - GridTurbulence (with the bendover scale) which should in general be used
-    instead of initTurbulence (before, it was implmented as
+    instead of initTurbulence (before, it was implemented as
     initTurbulenceWithBendover);
   - SimpleGridTurbulence which provides the exact field as initTurbulence;
   - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence

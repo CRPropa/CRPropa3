@@ -1,9 +1,12 @@
 #ifndef CRPROPA_EMPAIRPRODUCTION_H
 #define CRPROPA_EMPAIRPRODUCTION_H
 
+#include <fstream>
+#include <cmath>
+
 #include "crpropa/Module.h"
 #include "crpropa/PhotonBackground.h"
-#include <fstream>
+
 
 namespace crpropa {
 

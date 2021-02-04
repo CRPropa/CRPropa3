@@ -1,9 +1,11 @@
 #ifndef CRPROPA_EMINVERSECOMPTONSCATTERING_H
 #define CRPROPA_EMINVERSECOMPTONSCATTERING_H
 
+#include <fstream>
+#include <cmath>
+
 #include "crpropa/Module.h"
 #include "crpropa/PhotonBackground.h"
-#include <fstream>
 
 namespace crpropa {
 

@@ -200,7 +200,7 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double f = Ep / E;
 
 	// for some backgrounds Ee=nan due to precision limitations.
-	if (isnan(Ee) || isinf(Ee) || isnan(Ep) || isinf(Ep))
+	if (not std::isfinite(Ee) || not std::isfinite(Ep))
 		return;
 
 	// sample random position along current step

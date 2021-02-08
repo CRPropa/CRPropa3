@@ -187,6 +187,47 @@ public:
 };
 
 /**
+ @class URB
+ @brief Extragalactic background light model from Protheroe & Biermann 1996
+
+ Source info:
+ DOI:10.1016/S0927-6505(96)00041-2
+ https://www.sciencedirect.com/science/article/abs/pii/S0927650596000412
+ */
+class URB_Protheroe96: public TabularPhotonField {
+public:
+	URB_Protheroe96() : TabularPhotonField("URB_Protheroe96", false) {}
+};
+
+/**
+ @class URB
+ @brief Extragalactic background light model based on ARCADE2 observations, by Fixsen et al.
+ Note that this model does not cover the same energy range as other URB models. Here, only ~10 MHz - 10 GHz is considered. 
+ Therefore, it only makes sense to use this model in very specific studies.
+  
+ Source info:
+ DOI:10.1088/0004-637X/734/1/5 
+ https://iopscience.iop.org/article/10.1088/0004-637X/734/1/5
+ */
+class URB_Fixsen11: public TabularPhotonField {
+public:
+	URB_Fixsen11() : TabularPhotonField("URB_Fixsen11", false) {}
+};
+
+/**
+ @class URB
+ @brief Extragalactic background light model by Nitu et al. 
+  
+ Source info:
+ DOI:10.1016/j.astropartphys.2020.102532
+ https://www.sciencedirect.com/science/article/pii/S0927650520301043?
+ */
+class URB_Nitu21: public TabularPhotonField {
+public:
+	URB_Nitu21() : TabularPhotonField("URB_Nitu21", false) {}
+};
+
+/**
  @class BlackbodyPhotonField
  @brief Photon field decorator for black body photon fields.
  */

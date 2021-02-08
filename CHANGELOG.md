@@ -8,6 +8,8 @@
 
 ### New features:
 
+* New model for the radio background added: Nitu et al. 2021 measurements.
+* New model for the radio background added: Fixsen et al. 2011 (ARCADE-2) measurements.
 * Weighted sampling thinning of electromagnetic processes  (EMPairProduction,
   EMInverseComptonScattering, EMDoublePairProduction, EMTripletPairProduction).
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
@@ -21,7 +23,7 @@
 * New class-based interface for turbulent fields introduced
 * New turbulence modules implemented:
   - GridTurbulence (with the bendover scale) which should in general be used
-    instead of initTurbulence (before, it was implmeneted as
+    instead of initTurbulence (before, it was implemented as
     initTurbulenceWithBendover);
   - SimpleGridTurbulence which provides the exact field as initTurbulence;
   - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence

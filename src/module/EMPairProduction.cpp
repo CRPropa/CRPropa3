@@ -157,9 +157,9 @@ class PPSecondariesEnergyDistribution {
 			Random &random = Random::instance();
 			size_t j = random.randBin(s0) + 1;
 
-			double s_min = 4 * mec2 * mec2;
-			double beta = sqrt(1 - s_min / s);
-			double x0 = (1 - beta) / 2.;
+			double s_min = 4. * mec2 * mec2;
+			double beta = sqrtl(1. - s_min / s);
+			double x0 = (1. - beta) / 2.;
 			double dx = log((1 + beta) / (1 - beta)) / N;
 			double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));
 			if (random.rand() < 0.5)
@@ -199,6 +199,10 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	double Ep = E - Ee;
 	double f = Ep / E;
 
+	// for some backgrounds Ee=nan due to precision limitations.
+	if (not std::isfinite(Ee) || not std::isfinite(Ep))
+		return;
+
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 	double w0 = candidate->getWeight();
@@ -230,16 +234,21 @@ void EMPairProduction::process(Candidate *candidate) const {
 	double rate = interpolate(E, tabEnergy, tabRate);
 	rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 
-	Random &random = Random::instance();
-	double randDistance = -log(random.rand()) / rate;
+	// run this loop at least once to limit the step size 
 	double step = candidate->getCurrentStep();
-	if (step < randDistance) {
-		candidate->limitNextStep(limit / rate);
-		return;
-	} else { // perform interaction and stop tracking particle 
-		performInteraction(candidate);
-		return;
-	}
+	Random &random = Random::instance();
+	do {
+		double randDistance = -log(random.rand()) / rate;
+		// check for interaction; if it doesn't ocurr, limit next step
+		if (step < randDistance) { 
+			candidate->limitNextStep(limit / rate);
+		} else {
+			performInteraction(candidate);
+			return;
+		}
+		step -= randDistance; 
+	} while (step > 0.);
+
 }
 
 } // namespace crpropa

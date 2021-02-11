@@ -3,6 +3,7 @@
 ### Bug fixes:
 
 ### New features:
+* Add modules for first and second order Fermi acceleration
 
 ### Interface changes:
 
@@ -61,7 +62,6 @@
 * Turbulence-related functions: initTurbulence, turbulentCorrelationLength,
   initHelicalTurbulence
 
-### New plugins and resources linked on the webpages:
 
 ## CRPropa v3.1.6
 

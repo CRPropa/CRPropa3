@@ -2,6 +2,7 @@
 
 ### Bug fixes:
 
+* Re-add URB that was temporarily not available in the (unreleased) master branch.
 * Turbulent fields generated on a grid were limited up to 2048 grid-size due to
   an integer overflow (i.e. 2048^3 index > signed int); solved by replacing
   int with size_t

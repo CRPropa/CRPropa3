@@ -655,3 +655,12 @@ class ParticleCollectorIterator {
 %include "crpropa/massDistribution/Massdistribution.h"
 %include "crpropa/massDistribution/ConstantDensity.h"
 
+
+
+
+%template(StepLengthModifierRefPtr) crpropa::ref_ptr<crpropa::StepLengthModifier>;
+%feature("director") crpropa::StepLengthModifier;
+%include "crpropa/module/Acceleration.h"
+
+
+

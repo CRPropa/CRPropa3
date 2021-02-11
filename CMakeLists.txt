@@ -125,7 +125,7 @@ if(ENABLE_COVERAGE)
         COMMAND echo "Generated coverage report in coverageReport/index.html"
       )
     endif(ENABLE_TESTING)
-    
+
   else(LCOV_PATH AND GENHTML_PATH)
     if(NOT LCOV_PATH)
       message(WARNING "lcov not found, coverage report generation  not possible!")
@@ -372,6 +372,7 @@ add_library(crpropa SHARED
   src/Source.cpp
   src/Variant.cpp
   src/module/AdiabaticCooling.cpp
+  src/module/Acceleration.cpp
   src/module/Boundary.cpp
   src/module/BreakCondition.cpp
   src/module/DiffusionSDE.cpp
@@ -443,6 +444,8 @@ if(BUILD_DOC)
   else()
     MESSAGE(STATUS "Doxygen not found: cannot build documentation")
   endif(DOXYGEN_FOUND)
+else()
+  MESSAGE(STATUS "Build of documentation disabeled. Enable with BUILD_DOC=On")
 endif(BUILD_DOC)
 
 
@@ -546,6 +549,10 @@ find_program(SPHINX_EXECUTABLE
              NAMES sphinx-build
              DOC "Path to sphinx-build executable")
 
+if(BUILD_DOC AND NOT SPHINX_EXECUTABLE)
+  MESSAGE(STATUS "Sphinx not found: cannot build documentation")
+endif(BUILD_DOC AND NOT SPHINX_EXECUTABLE)
+
 if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
   MESSAGE(STATUS "Found Sphinx to build documentation")
   include(FindPackageHandleStandardArgs)
@@ -561,8 +568,6 @@ if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                     COMMENT "Generating documentation with Sphinx")
   add_dependencies(doc doxy)
-else()
-  MESSAGE(STATUS "Sphinx not found: cannot build documentation")
 endif(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
 
 
@@ -586,7 +591,7 @@ if(ENABLE_TESTING)
   add_executable(testMagneticField test/testMagneticField.cpp)
   target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testMagneticField testMagneticField)
-  
+
   add_executable(testTurbulentField test/testTurbulentField.cpp)
   target_link_libraries(testTurbulentField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testTurbulentField testTurbulentField)

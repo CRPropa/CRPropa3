@@ -9,7 +9,6 @@
 #include "crpropa/Geometry.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTools.h"
-#include "crpropa/GridTurbulence.h"
 #include "crpropa/Logging.h"
 #include "crpropa/Module.h"
 #include "crpropa/ModuleList.h"
@@ -26,6 +25,8 @@
 #include "crpropa/Vector3.h"
 #include "crpropa/Version.h"
 
+#include "crpropa/module/AdiabaticCooling.h"
+#include "crpropa/module/Acceleration.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/BreakCondition.h"
 #include "crpropa/module/DiffusionSDE.h"
@@ -45,25 +46,29 @@
 #include "crpropa/module/PhotoPionProduction.h"
 #include "crpropa/module/PhotonEleCa.h"
 #include "crpropa/module/PhotonOutput1D.h"
-#include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/PropagationBP.h"
+#include "crpropa/module/PropagationCK.h"
 #include "crpropa/module/Redshift.h"
 #include "crpropa/module/RestrictToRegion.h"
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/SynchrotronRadiation.h"
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/Tools.h"
-#include "crpropa/module/AdiabaticCooling.h"
 
 #include "crpropa/magneticField/AMRMagneticField.h"
+#include "crpropa/magneticField/ArchimedeanSpiralField.h"
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/magneticField/JF12FieldSolenoidal.h"
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PT11Field.h"
-#include "crpropa/magneticField/TF17Field.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
-#include "crpropa/magneticField/ArchimedeanSpiralField.h"
+#include "crpropa/magneticField/TF17Field.h"
+#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
+#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+#include "crpropa/magneticField/turbulentField/TurbulentField.h"
 
 #include "crpropa/advectionField/AdvectionField.h"
 
@@ -74,10 +79,11 @@
 #include "crpropa/massDistribution/Ferriere.h"
 #include "crpropa/massDistribution/ConstantDensity.h"
 
-
+/** \namespace crpropa
+ *  @brief CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles.
+ **/
 
 // Groups of Modules for Doxygen
-
 /**
  * \defgroup Core Core Classes
  * @{ @brief Core classes used to build CRPropa
@@ -93,6 +99,10 @@
  *
  * \defgroup EnergyLosses Energy Loss Processes
  * @{ @brief Energy losses of candidates.
+ * @}
+ *
+ * \defgroup PhotonFields Photon Fields
+ * @{ @brief Photon fields for particle interactions.
  * @}
  *
  * \defgroup MagneticFields Magnetic Fields
@@ -112,7 +122,7 @@
  * @}
  *
  * \defgroup SourceFeatures Sources
- * @{ @brief Source and SourceFeatures
+ * @{ @brief Source and SourceFeatures, i.e. properties of the partcle injection
  *
  *  Sourcefeatures are added to sources and manipulate the properties of the
  *  emitted candidate.
@@ -127,8 +137,16 @@
  * magnetic field.
  * @}
  *
+ * \defgroup Acceleration Acceleration Processes
+ * @{ @brief Modules and techniques to simualte particle acceleration
+ *
+ *  These particle acceleration features is analogue to an energy loss due to
+ *  an interaction with a background photon, but for energy loss/gain in
+ *  interaction with scattering centers.
+ * @}
+ *
  * \defgroup Tools Tools
- * @{ @brief Collection of helper functinos and modules.
+ * @{ @brief Collection of helper functions and modules.
  * @}
  */
 

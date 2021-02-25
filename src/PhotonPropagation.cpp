@@ -241,12 +241,12 @@ void DintPropagation(
 		InitializeSpectrum(&inputSpectrum);
 
 		// process secondaries
-		while ((secondaries.back().X1 > 0) and (secondaries.size() > 0)) {
+		while ((secondaries.size() > 0 ) && (secondaries.back().X1 > 0)) {
 			double Dmax = secondaries.back().X1;  // upper bound of distance bin
 			double Dmin = max(Dmax - dMargin, 0.);  // lower bound of distance bin
 
 			// add all secondaries within the current distance bin
-			while ((secondaries.back().X1 > Dmin) and (secondaries.size() > 0)) {
+			while ((secondaries.size() > 0) && (secondaries.back().X1 > Dmin)) {
 				FillInSpectrum(&inputSpectrum, secondaries.back());
 				secondaries.pop_back();
 			}

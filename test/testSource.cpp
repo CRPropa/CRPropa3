@@ -252,6 +252,18 @@ TEST(SourceComposition, simpleTest) {
 	EXPECT_GE(6 * Rmax, p.getEnergy());
 }
 
+TEST(SourceEmissionCone, simpleTest) {
+	Vector3d direction(42., 0., 0.);
+	double aperture = 1/42.;
+	
+	SourceEmissionCone source(direction, aperture);
+	
+	ParticleState p;
+	source.prepareParticle(p);
+	double angle = direction.getAngleTo(p.getDirection());
+	EXPECT_LE(angle, aperture);
+}
+
 #ifdef CRPROPA_HAVE_MUPARSER
 TEST(SourceGenericComposition, simpleTest) {
 	double Emin = 10;

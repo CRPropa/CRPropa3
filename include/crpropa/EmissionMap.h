@@ -4,21 +4,14 @@
 #include "Referenced.h"
 #include "Candidate.h"
 
-/**
- @file
- @brief pid and energy dependent emission
- */
-
 namespace crpropa {
-/** @addtogroup SourceFeatures
- *  @{
- */
 
 /**
  @class CylindricalProjectionMap
  @brief 2D histogram of spherical coordinates in equal-area projection
  */
 class CylindricalProjectionMap : public Referenced {
+private:
 	size_t nPhi, nTheta;
 	double sPhi, sTheta;
 	mutable bool dirty;
@@ -27,8 +20,8 @@ class CylindricalProjectionMap : public Referenced {
 
 	/** Calculate the cdf from the pdf */
 	void updateCdf() const;
-public:
 
+public:
 	CylindricalProjectionMap();
 	/** constructur
 	 * @param nPhi number of bins for phi (0-2pi)
@@ -137,8 +130,6 @@ protected:
 	size_t nPhi, nTheta, nEnergy;
 	map_t maps;
 };
-
-/** }@ */
 
 } // namespace crpropa
 

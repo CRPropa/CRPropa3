@@ -3,8 +3,8 @@ CRPropa3
 
 [![Build Status](https://travis-ci.org/CRPropa/CRPropa3.svg?branch=master)](https://travis-ci.org/CRPropa/CRPropa3)
 [![Coverage Status](https://coveralls.io/repos/github/CRPropa/CRPropa3/badge.svg)](https://coveralls.io/github/CRPropa/CRPropa3)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](http://isitmaintained.com/project/CRPropa/CRPropa3 "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](http://isitmaintained.com/project/CRPropa/CRPropa3 "Percentage of issues still open")
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3 "Average time to resolve an issue")
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3 "Percentage of issues still open")
 
 CRPropa is a publicly available simulation framework to study the propagation
 of ultra-high-energy nuclei up to iron on their voyage through an
@@ -34,13 +34,13 @@ To install CRPropa, download and unzip either the
 * or [current development version](https://github.com/CRPropa/CRPropa3).
 
 Installation instructions, usage examples  and API documentation can be found on the [documentation web site of
-CRPropa](http://crpropa.github.io/CRPropa3/).
+CRPropa](https://crpropa.github.io/CRPropa3/).
 
 
 ## Support
 Please use the [ticket system](https://github.com/CRPropa/CRPropa3/issues) for
 support and in case of general questions. Please browse also the
-[documentation](http://crpropa.github.io/CRPropa3/) and previous support requests on
+[documentation](https://crpropa.github.io/CRPropa3/) and previous support requests on
 [installation](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ainstallation+)
 and
 [usage](https://github.com/CRPropa/CRPropa3/issues?utf8=%E2%9C%93&q=label%3Ausage-question+)
@@ -60,5 +60,5 @@ as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/ho
 
 ## Publications based on CRPropa
 An extensive list of publications using CRPropa can be found via
-[inSPIRE](http://inspirehep.net/search?ln=en&ln=en&p=refersto%3Arecid%3A1322902+or+refersto%3Arecid%3A1432676+or+refersto%3Arecid%3A1242078&of=hb&action_search=Search&sf=earliestdate&so=d&rm=&rg=25&sc=0).
+[inSPIRE](https://inspirehep.net/search?ln=en&ln=en&p=refersto%3Arecid%3A1322902+or+refersto%3Arecid%3A1432676+or+refersto%3Arecid%3A1242078&of=hb&action_search=Search&sf=earliestdate&so=d&rm=&rg=25&sc=0).
 

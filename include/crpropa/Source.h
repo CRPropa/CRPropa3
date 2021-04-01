@@ -393,6 +393,20 @@ public:
 };
 
 /**
+ @class SourceDirectedEmission
+ @brief Directed emission from a source
+ */
+class SourceDirectedEmission: public SourceFeature {
+	Vector3d mu;
+	double kappa;
+	
+public:
+	SourceDirectedEmission(Vector3d mu, double kappa);
+	void prepareParticle(ParticleState& particle) const;
+	void setDescription();
+};
+
+/**
 
 @class SourceLambertDistributionOnSphere
 @brief Uniform random position on a sphere with isotropic Lamberts distributed directions.

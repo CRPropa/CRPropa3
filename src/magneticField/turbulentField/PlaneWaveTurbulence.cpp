@@ -74,8 +74,8 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	KISS_LOG_INFO << "PlaneWaveTurbulence: Using SIMD TD13 implementation"
 	              << std::endl;
 
-	// TODO: there used to be a cpuid check here, to see if the cpu running
-	// this code would support SIMD (SEE + AVX). however, the library providing
+	// There used to be a cpuid check here, to see if the cpu running
+	// this code would support SIMD (SSE + AVX). However, the library providing
 	// the relevant function is no longer being used, and doing this manually
 	// might be a bit too much work.
 #endif
@@ -106,7 +106,8 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		k[i] = pow(10, log10(kmin) + ((double)i) / ((double)(Nm - 1)) * delta);
 	}
 
-	// compute Ak
+	// * compute Ak *
+
 	double delta_k0 =
 	    (k[1] - k[0]) / k[1]; // multiply this by k[i] to get delta_k[i]
 	// Note: this is probably unnecessary since it's just a factor
@@ -200,8 +201,8 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		avx_data[i + align_offset + avx_Nm * iAxi1] = Ak[i] * xi[i].y;
 		avx_data[i + align_offset + avx_Nm * iAxi2] = Ak[i] * xi[i].z;
 
-		// the cosine implementation computes cos(pi*x), so we'll divide out the
-		// pi here
+		// The cosine implementation computes cos(pi*x), so we'll divide out the
+		// pi here.
 		avx_data[i + align_offset + avx_Nm * ikkappa0] =
 		    k[i] / M_PI * kappa[i].x;
 		avx_data[i + align_offset + avx_Nm * ikkappa1] =
@@ -209,8 +210,8 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 		avx_data[i + align_offset + avx_Nm * ikkappa2] =
 		    k[i] / M_PI * kappa[i].z;
 
-		// we also need to divide beta by pi, since that goes into the argument
-		// of the cosine as well
+		// We also need to divide beta by pi, since that goes into the argument
+		// of the cosine as well.
 		avx_data[i + align_offset + avx_Nm * ibeta] = beta[i] / M_PI;
 	}
 #endif // FAST_WAVES
@@ -226,7 +227,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 	}
 	return B;
 
-#else // FAST_WAVES
+#else  // FAST_WAVES
 
 	// Initialize accumulators
 	//
@@ -265,7 +266,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		__m256d kkappa2 = _mm256_load_pd(avx_data.data() + i + align_offset +
 		                                 avx_Nm * ikkappa2);
 
-		//  - the phase beta
+		//  - the phase beta.
 		__m256d beta =
 		    _mm256_load_pd(avx_data.data() + i + align_offset + avx_Nm * ibeta);
 
@@ -307,7 +308,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		//  IEEE-754 floating point) x*x and (-x)*(-x) will always result in the
 		//  exact same value, which means that any error bound over [0, 0.5)
 		//  automatically applies to (-0.5, 0] as well.
-		//
+
 		// First, compute round(x), and store it in q. If this value is odd,
 		// we're looking at the negative half-wave of the cosine, and thus
 		// will have to invert the sign of the result.
@@ -326,7 +327,7 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// we'll have to flip the final result. On an int, this is as simple as
 		// checking the 0th bit. Idea: manipulate the double in such a way that
 		// we can do this. So, we add 2^52, such that the last digit of the
-		// mantissa is actually in the ones position. Since q may be negative,
+		// mantissa is actually in the ones' position. Since q may be negative,
 		// we'll also add 2^51 to make sure it's positive. Note that 2^51 is
 		// even and thus leaves evenness invariant, which is the only thing we
 		// care about here.
@@ -363,19 +364,19 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		__m256d invert = _mm256_and_pd(
 		    q, _mm256_castsi256_pd(_mm256_set1_epi64x(0xfff0000000000001)));
 
-		// if we did have a one in bit 0, our result will be equal to 2^52 + 1
+		// If we did have a one in bit 0, our result will be equal to 2^52 + 1.
 		invert = _mm256_cmp_pd(
 		    invert, _mm256_castsi256_pd(_mm256_set1_epi64x(0x4330000000000001)),
 		    _CMP_EQ_OQ);
 
-		// Now we know whether to flip the sign of the result. However, remember that we're
-		// working on multiple values at a time, so an if statement won't be of
-		// much use here (plus it might perform badly). Instead, we'll make use
-		// of the fact that the result of the comparison is all ones if the
-		// comparison was true (i.e. q is odd and we need to flip the result),
-		// and all zeroes otherwise. If we now mask out all bits except the
-		// sign bit, we get something that, when xor'ed into our final result,
-		// will flip the sign exactly when q is odd.
+		// Now we know whether to flip the sign of the result. However, remember
+		// that we're working on multiple values at a time, so an if statement
+		// won't be of much use here (plus it might perform badly). Instead,
+		// we'll make use of the fact that the result of the comparison is all
+		// ones if the comparison was true (i.e. q is odd and we need to flip
+		// the result), and all zeroes otherwise. If we now mask out all bits
+		// except the sign bit, we get something that, when xor'ed into our
+		// final result, will flip the sign exactly when q is odd.
 		invert = _mm256_and_pd(invert, _mm256_set1_pd(-0.0));
 		// (note that the binary representation of -0.0 is all 0 bits, except
 		// for the sign bit, which is set to 1)
@@ -388,7 +389,8 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// *******
 
 		// ******
-		// * Evaluate the cosine using a polynomial approximation for the zeroth half-wave.
+		// * Evaluate the cosine using a polynomial approximation for the zeroth
+		// half-wave.
 		// * The coefficients for this were generated using sleefs gencoef.c.
 		// * These coefficients are probably far from optimal; however, they
 		// should be sufficient for this case.

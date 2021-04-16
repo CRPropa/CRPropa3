@@ -378,8 +378,8 @@ Vector3d PlaneWaveTurbulence::getField(const Vector3d &pos) const {
 		// except the sign bit, we get something that, when xor'ed into our
 		// final result, will flip the sign exactly when q is odd.
 		invert = _mm256_and_pd(invert, _mm256_set1_pd(-0.0));
-		// (note that the binary representation of -0.0 is all 0 bits, except
-		// for the sign bit, which is set to 1)
+		// (Note that the binary representation of -0.0 is all 0 bits, except
+		// for the sign bit, which is set to 1.)
 
 		// TODO: clamp floats between 0 and 1? This would ensure that we never
 		// see inf's, but maybe we want that, so that things dont just fail

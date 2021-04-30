@@ -26,14 +26,11 @@ double ConstantDensity::getDensity(const Vector3d &position) const {
 	if(isH2)
 		n += H2densitynumber;
 
-	// check if any density is activ and give warning if not
-	bool anyDensityActive = isHI||isHII||isH2;
-
-	if(anyDensityActive == false){
+	// check if all densities are active and raise warning if not
+	if((isHI & isHII & isH2) == false){
 		KISS_LOG_WARNING
-			<< "\n called getDensity on deactivated ConstantDensity \n"
-			<< "returned 0 density\n"
-			<< "please use setHx(true, n)\n";
+			<< "\nCalled getDensity on (partly) deactivated ConstantDensity \n"
+			<< "gas density model. Make sure this was intentional.";
 	}
 
 	return n;
@@ -49,14 +46,11 @@ double ConstantDensity::getNucleonDensity(const Vector3d &position) const {
 	if(isH2)
 		n += 2*H2densitynumber;
 
-	// check if any density is activ and give warning if not
-	bool anyDensityActive = isHI||isHII||isH2;
-
-	if(anyDensityActive == false){
+	// check if all densities are active and raise warning if not
+	if((isHI & isHII & isH2) == false){
 		KISS_LOG_WARNING
-			<< "\n called getNucleonDensity on deactivated ConstantDensity \n"
-			<< "returned 0 density\n"
-			<< "please use setHx(true, n)\n";
+			<< "\nCalled getNucleonDensity on (partly) deactivated ConstantDensity \n"
+			<< "gas density model. Make sure this was intentional.";
 	}
 	return n;
 }
@@ -126,17 +120,17 @@ void ConstantDensity::setH2(double densitynumber) {
 
 std::string ConstantDensity::getDescription() {
 	std::stringstream s;
-	s << "ConstantDensity:";
+	s << "ConstantDensity:\n";
 	s<< "HI component is ";
 	if(!isHI)
 		s<< "not ";
-	s<< "activ and has a density of " << HIdensitynumber/ccm << " cm^-3" << "      HII component is ";
+	s<< "active and has a density of " << HIdensitynumber/ccm << " cm^-3" << "\nHII component is ";
 	if(!isHII)
 		s<< "not ";
-	s<<"activ and  has a density of " << HIIdensitynumber/ccm<<" cm^-3" <<  "      H2 component is ";
+	s<<"active and has a density of " << HIIdensitynumber/ccm<<" cm^-3" <<  "\nH2 component is ";
 	if(!isH2)
 		s<<"not ";
-	s<<"activ and  has a density of " << H2densitynumber/ccm << " cm^-3";
+	s<<"active and has a density of " << H2densitynumber/ccm << " cm^-3";
 	return s.str();
 }
 

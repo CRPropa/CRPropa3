@@ -7,7 +7,7 @@
 namespace crpropa{
 
 ConstantDensity::ConstantDensity(double HI, double HII, double H2) {
-	// set all types activ which are not equal 0 and change densitynumber
+	// set all types active which are not equal 0 and change number density
 	if(HI!=0)
 		setHI(true, HI);
 	if(HII!=0)

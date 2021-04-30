@@ -105,7 +105,7 @@ void Nakanishi::setIsForH2(bool H2) {
 
 std::string Nakanishi::getDescription() {
 	std::stringstream s;
-	s << "Density modell Nakanishi:\n";
+	s << "Density model Nakanishi:\n";
 	s<< "HI component is ";
 	if(isforHI==false)
 		s<< "not ";

@@ -256,7 +256,7 @@ bool Ferriere::getIsForH2(){
 
 std::string Ferriere::getDescription() {
 	std::stringstream s;
-	s << "Density modell Ferriere 2007:\n";
+	s << "Density model Ferriere 2007:\n";
 	s<< "HI component is ";
 	if(!isforHI)
 		s<< "not ";

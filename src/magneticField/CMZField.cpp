@@ -70,7 +70,7 @@ double CMZField::ByAz(double x, double y, double z, double m, double B1, double 
 double CMZField::ByPol(double x, double y, double z, double B1, double a1, double a2, double eta) const{
     double r= sqrt(pow(x,2.)+pow(y,2.));
     double phi= std::atan2(y,x);
-    double B2=B1/eta;// B1 is the observed magnetic field strength and eta the normalization factor otained from the integrations due to the normalization
+    double B2=B1/eta;// B1 is the observed magnetic field strength and eta the normalization factor
     double L=scale(a2/2.,1);
     double a= 1/pow(scale(a1/2.,2),2.);
     return sin(phi)*Br(r,z,B2,a,L);
@@ -123,18 +123,15 @@ void CMZField::setUseRadioArc(bool use) {
 
 // Parameter identification:
 // r: radius in cylindrical coordinates
-// z= z component in cylindircal coordintes
+// z= z component in cylindircal coordinates
 // phi: phi component in cylindircal coordinates
 // B1: observed magnetic field strength
-// B2: normalization magnetic field strength according to B1
-// m: azimuthal wavenumber m=0 for axissymmetric, m=1 for bisymmetric and m=2 quadrosymmetric, ... field lines
+// B2: normalization magnetic field strength
+// m: azimuthal wavenumber (m=0 for axissymmetric, m=1 for bisymmetric and m=2 quadrosymmetric)
 // a: stricly positive free parameters governing the opening of field lines away from the z-axis
-// L: exponential scale length length of the cloud radius Longitudinal extent
-// Lp:scale length of the winding function set to a fraction of the cloud radius  Longitudes of peaks mainly at high |l|
-// H: exponential scale high length of the cloud radius Latitudinal extent
-// Hp: exponential scale high  set to a fraction of the cloud vertical size Longitude of peaks mainly at hight |b|
-// p: pitch angle at the origin, i.e. the angle between the horizontal projection of a field line and the local azimuthal direction  (i.e., 10° or 20°) if you want the field to be tightly wound up, and hence predominantly azimuthal
-// phi_s: orientation angle of the azimuthal pattern if g_s(r1(r,z,a),0,a,Lp,Hp,p), azimuthal angle at infinity of the crest surface if g_s(r,z,a,Lp,Hp,p)                                                                                  
+// L: exponential scale length of the cloud radius longitudinal extent
+// H: exponential scale height of the cloud radius latitudinal extent
+// p: pitch angle at the origin
 
 Vector3d CMZField::getMCField(const Vector3d& pos) const {//Field in molecular clouds
     double m=1;
@@ -345,21 +342,6 @@ Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-th
     b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
     b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
     b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
-
-    //A=G359.91 -1.03 Possible Nonthermal Filament 
-    // to use this filament delete comments below
-    //x_mid=0;//  x midpoint of A
-    //y_mid=sin(359.91*M_PI/180)*8.5*kpc;//  y midpoint of A
-    //z_mid=sin(-1.03*M_PI/180)*8.5*kpc;//  z midpoint of A
-    //xx=x-x_mid;// shifted coordinates
-    //yy=y-y_mid;// shifted coordinates
-    //zz=z-z_mid;// shiftes coordinates
-    //a1=sin(2.3*arcmin*M_PI/180)*8.5*kpc;// arcmin-> deg->cm
-    //a2=sin(0.6*arcmin*M_PI/180)*8.5*kpc;// arcmin-> deg-> cm
-    //B1=1.e-3;
-    //b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    //b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    //b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
 
     //A=G359.96 +0.09  Nonthermal Filament Southern Thread
     y_mid=-5.93*pc;//  y midpoint of A

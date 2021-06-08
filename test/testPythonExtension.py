@@ -209,6 +209,16 @@ class testGrid(unittest.TestCase):
 
 if hasattr(crp, 'GridTurbulence'):
     class testTurbulentField(unittest.TestCase):
+      #check problems brought up in https://github.com/CRPropa/CRPropa3/issues/322
+      def testTurbulenceSpectrum(self):
+        spectrum = crp.TurbulenceSpectrum(1., 1., 10.)
+        self.assertEqual(spectrum.getBrms(), 1.)
+        self.assertEqual(spectrum.getLmin(), 1.)
+        self.assertEqual(spectrum.getLmax(), 10.)
+        self.assertEqual(spectrum.getLbendover(), 1.)
+        self.assertEqual(spectrum.getSindex(), 5./3.)
+        self.assertEqual(spectrum.getQindex(), 4.)
+
       def testGridTurbulence(self):
         N = 64
         boxSize = 1*crp.Mpc

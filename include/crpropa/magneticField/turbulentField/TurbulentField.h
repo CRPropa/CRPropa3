@@ -49,7 +49,7 @@ class TurbulenceSpectrum : public Referenced {
 	 range
 	*/
 	TurbulenceSpectrum(double Brms, double lMin, double lMax,
-	                   double lBendover = 1, double sIndex = 5. / 3.,
+	                   double lBendover = 1, double sIndex = (5. / 3.),
 	                   double qIndex = 4)
 	    : Brms(Brms), lMin(lMin), lMax(lMax), lBendover(lBendover),
 	      sIndex(sIndex), qIndex(qIndex) {

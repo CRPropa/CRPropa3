@@ -646,6 +646,9 @@ if(ENABLE_TESTING)
   target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testAdiabaticCooling testAdiabaticCooling)
 
+  add_executable(testJF12Field test/testJF12Field.cpp)
+  target_link_libraries(testJF12Field crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+  add_test(testJF12Field testJF12Field)
 
   if(WITH_GALACTIC_LENSES)
     add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)

@@ -155,6 +155,11 @@ class testVector3(unittest.TestCase):
       sys.stdout = sys.__stdout__
     self.assertEqual(fake_out.getvalue().rstrip(), v.getDescription())
 
+  def testOutOfBound(self):
+    v = crp.Vector3d(1., 2., 3.)
+    self.assertRaises(IndexError, v.__getitem__, 3)
+    self.assertRaises(IndexError, v.__setitem__, 3, 10)
+
 class testParticleCollector(unittest.TestCase):
   def testParticleCollectorIterator(self):
     collector = crp.ParticleCollector()

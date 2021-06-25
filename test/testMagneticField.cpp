@@ -121,15 +121,62 @@ TEST(testCMZMagneticField, SimpleTest) {
 	EXPECT_TRUE(field->getUseRadioArc());
 }
 
-TEST(testCMZMagneticField, TestPoloidalField) {
+TEST(testCMZMagneticField, TestICComponent) {
 	ref_ptr<CMZField> field = new CMZField();
+	Vector3d pos(10*pc,15*pc,-5*pc);	
 
 	// check IC field at given position
-	Vector3d bVec = field->getField( Vector3d(10*pc,-30*pc,-20*pc));
-	EXPECT_NEAR(bVec.getR(), 7.36689486*muG, 1E-8);
-	EXPECT_NEAR(-1.175613399*muG, bVec.x, 1E-8);
-	EXPECT_NEAR(3.52684020*muG, bVec.y, 1E-8);
-	EXPECT_NEAR(6.36006849*muG, bVec.z, 1E-8);
+	Vector3d bVec = field->getField(pos);
+	EXPECT_NEAR(bVec.getR(), 10.501*muG, 1E-3*muG);
+	EXPECT_NEAR(bVec.x, 0.225*muG, 1E-3*muG);
+	EXPECT_NEAR(bVec.y, 0.524*muG, 1E-3*muG);
+	EXPECT_NEAR(bVec.z, 10.486*muG, 1E-3*muG);
+}
+TEST(testCMZMagneticField, TestNTFField){
+	ref_ptr<CMZField> field = new CMZField();
+	Vector3d pos(10*pc,15*pc,-5*pc);	
+	
+	// check NFTField at given position
+	Vector3d bVec = field->getNTFField(pos);
+	EXPECT_NEAR(bVec.getR(),1.692*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.x, -0.584*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.y, -1.185*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.z, 1.057*muG, 1e-3*muG);
+}
+TEST(testCMZMagneticField, TestRaidoArcField){
+	ref_ptr<CMZField> field = new CMZField();
+	Vector3d pos(10*pc,15*pc,-5*pc);	
+
+	// check RadioArcField at given position
+	Vector3d bVec = field->getRadioArcField(pos);
+	EXPECT_NEAR(bVec.getR(), 31.616*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.x, -4.671*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.y, 5.465*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.z, 30.788*muG, 1e-3*muG);
+}
+
+TEST(testCMZMagneticField, TestAzimutalComponent){
+	ref_ptr<CMZField> field = new CMZField();
+	Vector3d mid(12*pc, 9*pc, 20*pc);
+	Vector3d pos(9*pc, 10*pc, 25*pc);	
+
+	// simple Test for inner part
+	Vector3d bVec = field->BAz(pos, mid, 100, 0.2, 60*pc);
+	EXPECT_NEAR(bVec.x, 3939.782, 1e-3);
+	EXPECT_NEAR(bVec.y, 14347.304, 1e-3);
+	EXPECT_DOUBLE_EQ(bVec.z, 0);
+
+	// simple Test for outer part
+	bVec = field->BAz(pos, mid, 100, 0.2, 10*pc);
+	EXPECT_NEAR(bVec.x, -164.659, 1e-3);
+	EXPECT_NEAR(bVec.y, -1317.270, 1e-3);
+	EXPECT_DOUBLE_EQ(bVec.z, 0);
+
+	// test for molecular Clouds
+	bVec = field->getMCField(pos);
+	EXPECT_NEAR(bVec.x, -8.339*muG, 1e-3*muG);
+	EXPECT_NEAR(bVec.y, -0.850*muG, 1e-3*muG);
+	EXPECT_DOUBLE_EQ(bVec.z, 0);
 }
 
 int main(int argc, char **argv) {

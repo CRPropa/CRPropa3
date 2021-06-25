@@ -2,10 +2,7 @@
 #include "crpropa/Units.h"
 
 namespace crpropa {
-// Magnetic Field Model in the Galactic Center from M. Guenduez and J. B. Tjus (2019)                                    
-// Poloidal Model (Model C) is taken from Katia Ferriere and Philippe Terral 2014 "Analytical models of X-shape magnetic fields in galactic halos"
-// Azimuthal Model is taken from M.Guenduez, J.B. Tjus, K.Ferriere, R.-J. Dettmar (2019)
-//                                                                                    
+
 CMZField::CMZField() {
     useMCField = false;
     useICField = true;
@@ -13,87 +10,66 @@ CMZField::CMZField() {
     useRadioArc = false;
 }
 
-double CMZField::scale(double x, double d) const{
-    return x*1./(pow(log(2),(1./d)));    
+double CMZField::getA(double a1) const {
+    return 4*log(2)/a1/a1;  
 }
 
-double CMZField::Br(double r, double z, double B1, double a, double L) const{//poloidal field
-    double r1=1/(1+a*pow(z,2.));
-    return 2*a*r*pow(r1,3.) *z *B1*exp(-r/L *r1);
+double CMZField::getL(double a2) const {
+    return a2/2*log(2);
 }
 
-double CMZField::Bz(double r, double z, double B1, double a, double L) const{//poloidal field
-    double r1=1/(1+a*pow(z,2.));
-    return pow(r1,2.) *B1*exp(-r/L *r1);
+Vector3d CMZField::BPol(const Vector3d& position,const Vector3d& mid, double B1, double a, double L) const{
+    // cylindircal coordinates
+    Vector3d pos = position - mid;
+    double r = sqrt(pos.x*pos.x + pos.y*pos.y);
+    double phi = std::atan2(pos.y, pos.x);
+
+    double r1 = 1/(1+a*pos.z*pos.z);
+    double Bs = B1*exp(-r1*r/L);
+    double Br = 2*a*pow(r1,3)*r*pos.z*Bs;
+    
+    Vector3d b = Vector3d(0.);
+    b.z = r1*r1*Bs;
+    // transform to cartesian coordinates
+    b.x = Br*cos(phi);
+    b.y = Br*sin(phi);
+    return b;
 }
 
-double CMZField::BrAz(double r, double phi, double z, double m, double B1, double eta, double R, double rr) const{//azimuthal field
-	double A;
-	if (r<rr)
-	{
-		A=  R/rr *(3.*r/rr -2.* pow(r/rr,2.));
-	}
-	else
-	{
-		A= R/r;
-	}
-	return B1 * exp(-pow(z/scale(R,2.),2.)) * cos(m/eta *log((r+1.)/(R+1.)) +m*phi) * A;
-}
+Vector3d CMZField::BAz(const Vector3d& position, const Vector3d& mid, double B1, double eta, double R) const {
+    // cylindrical coordinates
+    Vector3d pos = position - mid;
+    double r = sqrt(pos.x*pos.x + pos.y*pos.y);
+    double phi = std::atan2(pos.y,pos.x);
 
-double CMZField::BphiAz(double r, double phi, double z, double m, double B1, double eta, double R, double rr) const{//azimuthal field
-	double A;
-	if (r<rr)
-	{
-		A=(1.+6.*(r-rr)/(2.*r-3.*rr) * ( tan(m/eta *log((r+1.)/(R+1.)) +m*phi) - sin(m/eta *log((r+1.)/(R+1.)))/cos(m/eta *log((r+1.)/(R+1.)) +m*phi) )) ;
-	}
-	else
-	{
-    	A= 1.;
-	}
-	return -1/eta *r/(r+1.) * BrAz(r,phi,z,m,B1,eta,R,rr) * A;
-}
+    Vector3d bVec(0.);
+    double Hc = R/sqrt(log(2));
+    double b = 1.;
+    double m = 1;
+    double r1 = R/10;
+    double v = m/eta*log((r+b)/(R+b));
+    double cosV = cos(v + m*phi);
 
-// azimuthal field in cartesian  coordinates// for molecular cloud region
-double CMZField::BxAz(double x, double y, double z, double m, double B1, double eta, double R, double rr) const{
-    double r= sqrt(pow(x,2.)+pow(y,2.));
-    double phi= std::atan2(y,x);
-    return (cos(phi)-1./eta * sin(phi)) *BrAz(r,phi,z,m,B1,eta,R,rr);
-}
+    double Br=0;
+    double Bphi=0;
+    
+    if(r>r1){
+        double Pre = B1*cosV*exp(-pos.z*pos.z/Hc/Hc);
+        Br = Pre*R/r;
+        Bphi=-Pre/eta*R/(r+b);
+    }
+    else{
+        double Pre = B1*exp(-pos.z*pos.z/Hc/Hc)*R/r1*(3*r/r1 - 2*r*r/r1/r1)*cosV;
+        Br = Pre;
+        Bphi = 1 + 6*(r-r1)/(2*r-3*r1)*(sin(v+m*phi)-sin(v))/cosV;
+        Bphi *= -Pre*r/eta/(r+b);
+    }
 
-double CMZField::ByAz(double x, double y, double z, double m, double B1, double eta, double R, double rr) const{
-    double r= sqrt(pow(x,2.)+pow(y,2.));
-    double phi= std::atan2(y,x);
-    return (sin(phi)+1./eta*cos(phi))*BrAz(r,phi,z,m,B1,eta,R,rr);
-}
+    bVec.x = Br*cos(phi) - Bphi*sin(phi);
+    bVec.y = Br*sin(phi) + Bphi*cos(phi);
 
-// Polodial field in cartesian coordinates// for non-thermal filament and the intercloud region
-double CMZField::ByPol(double x, double y, double z, double B1, double a1, double a2, double eta) const{
-    double r= sqrt(pow(x,2.)+pow(y,2.));
-    double phi= std::atan2(y,x);
-    double B2=B1/eta;// B1 is the observed magnetic field strength and eta the normalization factor
-    double L=scale(a2/2.,1);
-    double a= 1/pow(scale(a1/2.,2),2.);
-    return sin(phi)*Br(r,z,B2,a,L);
+    return bVec;
 }
-
-double CMZField::BxPol(double x, double y, double z, double B1, double a1, double a2, double eta) const{
-    double r= sqrt(pow(x,2.)+pow(y,2.));
-    double phi= std::atan2(y,x);
-    double B2=B1/eta;
-    double L=scale(a2/2.,1);
-    double a= 1/pow(scale(a1/2.,2),2.);
-    return cos(phi)*Br(r,z,B2,a,L);
-}
-
-double CMZField::BzPol(double x, double y, double z, double B1, double a1, double a2, double eta) const{
-    double r= sqrt(pow(x,2.)+pow(y,2.));
-    double phi= std::atan2(y,x);
-    double B2=B1/eta;
-    double L=scale(a2/2.,1);
-    double a= 1/pow(scale(a1/2.,2),2.);
-    return Bz(r,z,B2,a,L);
-}
-/////end model C + azimuthal component
 
 bool CMZField::getUseMCField() const {
     return useMCField;
@@ -121,284 +97,191 @@ void CMZField::setUseRadioArc(bool use) {
     useRadioArc = use;
 }
 
-// Parameter identification:
-// r: radius in cylindrical coordinates
-// z= z component in cylindircal coordinates
-// phi: phi component in cylindircal coordinates
-// B1: observed magnetic field strength
-// B2: normalization magnetic field strength
-// m: azimuthal wavenumber (m=0 for axissymmetric, m=1 for bisymmetric and m=2 quadrosymmetric)
-// a: stricly positive free parameters governing the opening of field lines away from the z-axis
-// L: exponential scale length of the cloud radius longitudinal extent
-// H: exponential scale height of the cloud radius latitudinal extent
-// p: pitch angle at the origin
-
 Vector3d CMZField::getMCField(const Vector3d& pos) const {//Field in molecular clouds
-    double m=1;
     Vector3d b(0.);
     double eta=0.01;
-    double N=59;
+    double N=59; // normalization factor, depends on eta
+
 	// azimuthal component in dense clouds
     //A=SgrC 
-    double y_mid=-81.59*pc;//  y midpoint of A
-    double z_mid=-16.32*pc;//  z midpoint of A
-    double xx=pos.x;
-    double yy=pos.y-y_mid;// shifted coordinates
-    double zz=pos.z-z_mid;// shiftes coordinates
-    double R = 1.7*pc;// Radius of A
+    Vector3d mid(0,-81.59*pc, -16.32*pc);
+    double R = 1.7*pc; 
     double B1=2.1e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+
     // A=G0.253+0.016 Dust Ridge A
-    y_mid=37.53*pc;//  y midpoint of A
-    z_mid=-2.37*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=2.4*pc;// Radius of A
+    mid = Vector3d(0, 37.53*pc, -2.37*pc);
+    R=2.4*pc; 
     B1=2.5e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+
     //A=Dust Ridge B
-    y_mid=50.44*pc;//  y midpoint of A
-    z_mid=8.16*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=1.9*pc;// Radius of A
+    mid = Vector3d(0, 50.44, 8.16)*pc;
+    R=1.9*pc; 
     B1=0.9e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+    
     //A=Dust Ridge C
-    y_mid=56.37*pc;//  y midpoint of A
-    z_mid=7.71*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=1.9*pc;// Radius of A
+    mid = Vector3d(0,56.37,7.71)*pc;
+    R=1.9*pc; 
     B1=1.2e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+
     //A=Dust Ridge D
-    y_mid=60.82*pc;//  y midpoint of A
-    z_mid=7.42*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=3.3*pc;// Radius of A
+    mid = Vector3d(0, 60.82, 7.42)*pc;
+    R=3.3*pc; 
     B1=1.7e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+    
     //A=Dust Ridge E
-    y_mid=70.91*pc;// y midpoint of A
-    z_mid=0.74*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=3.5*pc;// Radius of A
+    mid = Vector3d(0, 70.91, 0.74)*pc;
+    R=3.5*pc; 
     B1=4.1e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+        
     //A=Dust Ridge F
-    y_mid=73.58*pc;//  y midpoint of A
-    z_mid=2.97*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=2.4*pc;// Radius of A
+    mid = Vector3d(0, 73.58, 2.97)*pc;
+    R=2.4*pc; 
     B1=3.9e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+
     //Sgr D
-    y_mid=166.14*pc;//  y midpoint of A
-    z_mid=-10.38*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=1.8*pc;//
+    mid = Vector3d(0, 166.14, -10.38)*pc;
+    R=1.8*pc;
     B1=0.8e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+
     //Sgr B2
-    y_mid=97.91*pc;//  y midpoint of A
-    z_mid=-5.93;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=14*pc;// Radius of A
+    mid = Vector3d(0, 97.01, -5.93)*pc;
+    R=14*pc; 
     B1=1.0e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.);                                                                                  
-    //A=Inner R=5pc 
-    y_mid=-8.3*pc;//  y midpoint of A
-    z_mid=-6.9*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=5*pc;//2.*10*pc;// Radius of A
-    B1=3.0e-3/0.91;
-    b.x +=BxAz(xx,yy,zz,m,B1,0.77,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,0.77,R,R/10.);
+    b += BAz(pos, mid, B1, eta, R);
+        
+    //A=Inner R=5pc
+    mid = Vector3d(0, -8.3, -6.9)*pc;
+    R=5*pc; 
+    B1=3.0e-3/0.91;    
+    b += BAz(pos, mid, B1, 0.77, R); // different eta value!
+
     //20 km s^-1
-    y_mid=-19.29*pc;//  y midpoint of A
-    z_mid=-11.87*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=9.4*pc;// Radius of A
+    mid = Vector3d(0, -19.29,-11.87)*pc;
+    R=9.4*pc; 
     B1=2.7e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.); 
+    b += BAz(pos, mid, B1, eta, R);    
+    
     //50 km s^-1
-    y_mid=-2.97*pc;//  y midpoint of A
-    z_mid=-10.38*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=9.4*pc;// Radius of A
+    mid = Vector3d(0, -2.97, -10.38)*pc;
+    R=9.4*pc; 
     B1=3.7e-3/N;
-    b.x +=BxAz(xx,yy,zz,m,B1,eta,R,R/10.);
-    b.y +=ByAz(xx,yy,zz,m,B1,eta,R,R/10.); 
-    //SgrA*
-    y_mid=-8.3*pc;//  y midpoint of A
-    z_mid=-6.9*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    R=1.2e12;// Radius of A
+    b += BAz(pos, mid, B1, eta, R);    
+    
+    //SgrA* is different orrientated! 
+    //only phi component
+    double x = pos.x;
+    double y = pos.y + 8.3*pc;
+    double z = pos.z + 6.9*pc;
+    R=1.2e12; 
     B1=65./3.07;
-    double rr= sqrt(pow(xx,2.)+pow(yy,2.));
-    double pphi= std::atan2(yy,xx);
-    b.x +=-sin(pphi)*(-BrAz(rr,pphi,zz,0,B1,1.,R,R/10.));
-    b.y +=cos(pphi)*(-BrAz(rr,pphi,zz,0,B1,1.,R,R/10.)); 
+    double Hc = R/sqrt(log(2));
+    double r = sqrt(x*x + y*y);
+    double r1 = R/10;
+    double phi= std::atan2(y,x);
+    double Bphi;
+
+    if(r>r1){
+        Bphi = - B1*exp(-z*z/Hc/Hc)*R/r;
+    }
+    else{
+        - B1*exp(-z*z/Hc/Hc)*R/r1*(3*r/r1- 2*r*r/r1*r1);
+    }
+
+    b.x -= Bphi*sin(phi);
+    b.y += Bphi*cos(phi);
+
     return b*gauss;
 } 
+
 Vector3d CMZField::getICField(const Vector3d& pos) const {//Field in intercloud medium--> poloidal field
-    Vector3d b(0.);
-    //poloidal field in the intercloud region
-    double x=pos.x;
-    double y=pos.y -(-8.3*pc);
-    double z=pos.z -(-6.9*pc);
-    double a2=2.*158.*pc;// Radius of A
-    double a1=2.*35.*pc;
-    double eta=0.85;
-    double B1=1e-5*gauss;
+    Vector3d mid(0.,-8.3*pc,-6.9*pc);
+
+    double eta = 0.85;
+    double B1 = 1e-5*gauss;
     double B2 = B1/eta;
+    double a = 4*log(2)/pow(70*pc, 2); 
+    double L = 158*pc/log(2);
 
-    double r = sqrt(x*x+y*y);
-    double phi = std::atan2(y,x);
-    double sPhi = sin(phi);
-    double cPhi = cos(phi);
-    double a = 4*log(2)/a1/a1;
-    double L = a2/log(2)/2.;
-    double r1 = 1/(1+a*z*z);
-    double Br =2*a*r*pow(r1,3)*z*B2*exp(-r/L*r1);
-
-    b.y += sPhi*Br;
-    b.x += cPhi*Br;
-    b.z += r1*r1 * B2 * exp(-r/L *r1);
-    return b;
+    return BPol(pos, mid, B2, a, L);
 }                                                         
-    //  
-Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-thermal filaments--> predominantly poloidal field
-    Vector3d b(0.);
-    //poloidal field in the non-thermal filament region (except "pelical"-> azimuthal)
-    double arcmin=1./60.;
+  
+Vector3d CMZField::getNTFField(const Vector3d& pos) const {//Field in the non-thermal filaments--> predominantly poloidal field (except "pelical"-> azimuthal)
+    Vector3d b(0.); 
+    Vector3d mid(0.);
 
     //A=SgrC
-    double y_mid=-81.59*pc;//  y midpoint of A
-    double z_mid=-1.48*pc;//  z midpoint of A
-    double xx=pos.x;
-    double yy=pos.y-y_mid;// shifted coordinates
-    double zz=pos.z-z_mid;// shiftes coordinates
-    double a1=27.44*pc;// arcmin-> deg->cm
-    double a2=1.73*pc;// arcmin-> deg-> cm
+    mid = Vector3d(0., -81.59,-1.48)*pc;
+    double a1=27.44*pc;
+    double a2=1.73*pc;
     double eta=0.48;
     double B1=1.e-4;
-    b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
+    b += BPol(pos, mid, B1/eta, getA(a1), getL(a2));
 
     //A=G359.15-0.2 The Snake
-    y_mid=-126.1*pc;//  y midpoint of A
-    z_mid=-25.22*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    a1=12.86*pc;// arcmin-> deg->cm
-    a2=2.22*pc;// arcmin-> deg-> cm
+    mid = Vector3d(0, -126.1,-25.22)*pc;
+    a1=12.86*pc;
+    a2=2.22*pc;
     B1=88.e-6;
-    b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
+    b += BPol(pos, mid, B1/eta, getA(a1), getL(a2));
 
     //A=G359.54+0.18 Nonthermal Filament
-    y_mid=-68.24*pc;//  y midpoint of A
-    z_mid=25.22*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    a1=15.08*pc;// arcmin-> deg->cm
-    a2=2.72;// arcmin-> deg-> cm
+    mid = Vector3d(0, -68.24,25.22)*pc;
+    a1=15.08*pc;
+    a2=2.72;
     B1=1.e-3;
-    b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
+    b += BPol(pos, mid, B1/eta, getA(a1), getL(a2));
 
     //A=G359.79 +17 Nonthermal Filament
-    y_mid=-31.15*pc;//  y midpoint of A
-    z_mid=23.74*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    a1=16.07*pc;// arcmin-> deg->cm
-    a2=3.46*pc;// arcmin-> deg-> cm
+    mid = Vector3d(0,-31.15,23.74)*pc;
+    a1=16.07*pc;
+    a2=3.46*pc;
     B1=1.e-3;
-    b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
+    b += BPol(pos, mid, B1/eta, getA(a1), getL(a2));
 
     //A=G359.96 +0.09  Nonthermal Filament Southern Thread
-    y_mid=-5.93*pc;//  y midpoint of A
-    z_mid=16.32*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    a1=28.68*pc;// arcmin-> deg->cm
-    a2=1.73*pc;// arcmin-> deg-> cm
+    mid = Vector3d(0, 5.93, 16.32)*pc;
+    a1=28.68*pc;
+    a2=1.73*pc;
     B1=1.e-4;
-    b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
+    b += BPol(pos, mid, B1/eta, getA(a1), getL(a2));
 
     //A=G0.09 +0.17  Nonthermal Filament Northern thread
-    y_mid=13.35*pc;//  y midpoint of A
-    z_mid=25.22*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    a1=29.42*pc;// arcmin-> deg->cm
-    a2=2.23*pc;// arcmin-> deg-> cm
+    mid = Vector3d(0, 13.35, 25.22)*pc;
+    a1=29.42*pc;
+    a2=2.23*pc;
     B1=140.e-6;
-    b.y+=ByPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=BzPol(xx,yy,zz,B1,a1,a2,eta);
+    b += BPol(pos, mid, B1/eta, getA(a1), getL(a2));
 
     //A=G359.85+0.47  Nonthermal Filament The Pelican  is not poloidal but azimuthal
-    y_mid=-22.25*pc;//  y midpoint of A
-    z_mid=69.73*pc;//  z midpoint of A
-    yy=pos.y-y_mid;// shifted coordinates
-    zz=pos.z-z_mid;// shiftes coordinates
-    a1=11.37*pc;// arcmin-> deg->cm
-    a2=2.23*pc;// arcmin-> deg-> cm
-    B1=70.e-6 /eta;// /by bz switched because pelican is differently oriented
-    b.y+=BzPol(xx,yy,zz,B1,a1,a2,eta);
-    b.x+=BxPol(xx,yy,zz,B1,a1,a2,eta);
-    b.z+=ByPol(xx,yy,zz,B1,a1,a2,eta);
+    mid = Vector3d(0, -22.25, 69.73)*pc;
+    a1=11.37*pc;
+    a2=2.23*pc;
+    B1=70.e-6 /eta;
+    // by and bz switched because pelican is differently oriented
+    Vector3d bPelican = BPol(pos, mid, B1/eta, getA(a1), getL(a2));
+    b.x += bPelican.x;
+    b.y += bPelican.z;
+    b.z += bPelican.y;
     
 	return b*gauss;
 }
   
 Vector3d CMZField::getRadioArcField(const Vector3d& pos) const {//Field in the non-thermal filaments--> predominantly poloidal field
-    Vector3d b(0.);
     //poloidal field in the non-thermal filament region A=RadioArc
-    double arcmin=1./60.;
     double eta=0.48;
-    double y_mid=26.7*pc;//  y midpoint of A
-    double z_mid=10.38*pc;//  z midpoint of A
-    double xx=pos.x;// shifted coordinates
-    double yy=pos.y-y_mid;// shifted coordinates
-    double zz=pos.z-z_mid;// shiftes coordinates
+    Vector3d mid(0,26.7*pc,10.38*pc);
     double a1=70.47*pc;// arcmin-> deg->cm
     double a2=9.89*pc;// arcmin-> deg-> cm
     double B1=1.e-3;
-    b.y=ByPol(xx,yy,zz,B1,a1,a2,eta)*gauss;
-    b.x=BxPol(xx,yy,zz,B1,a1,a2,eta)*gauss;
-    b.z=BzPol(xx,yy,zz,B1,a1,a2,eta)*gauss;
-    return b;
+    return BPol(pos, mid, B1/eta, getA(a1), getL(a2))*gauss;
 }
 
 Vector3d CMZField::getField(const Vector3d& pos) const{

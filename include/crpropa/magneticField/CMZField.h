@@ -3,6 +3,7 @@
 
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/Grid.h"
+#include "kiss/logger.h"
 
 namespace crpropa {
 
@@ -20,22 +21,14 @@ protected:
     bool useICField;
     bool useNTFField;
     bool useRadioArc;
-    double scale(double x, double d) const;
-    double Br(double r, double z, double B1, double a, double L) const;
-    double Bz(double r, double z, double B1, double a, double L) const;
-    double BrAz(double r, double phi, double z, double m, double B1, double eta, double R,double rr) const;
-    double BphiAz(double r, double phi, double z, double m, double B1, double eta, double R, double rr) const;
-    double BxAz(double x, double y, double z, double m, double B1, double eta, double R, double rr) const;
-    double ByAz(double x, double y, double z, double m, double B1, double eta, double R, double rr) const;
-    double BzAz(double x,double y, double z, double m, double B1, double eta, double R, double rr) const;
-    double ByPol(double x,double y, double z, double B1, double a1, double a2, double eta) const;
-    double BxPol(double x,double y, double z, double B1, double a1, double a2, double eta) const;
-    double BzPol(double x, double y, double z, double B1, double a1, double a2, double eta) const;
+
+    /** Transform observational parameter a1 in model parameter a. Used for the poloidal model*/
+    double getA(double a1) const;
+    /** Transform observational parameter a2 in model parameter L. Used for the poloidal model*/
+    double getL(double a2) const;
     
-
 public:
-
-	CMZField();
+    CMZField();
 
     bool getUseMCField() const;
     bool getUseICField() const;
@@ -47,6 +40,24 @@ public:
     void setUseNTFField(bool use);
     void setUseRadioArc(bool use);
 
+    /** Magnetic field in the poloidal model. Used für inter-cloud(IC), non-thermal-filaments(NTF) and for the RadioArc.
+    @param position position in galactic coordinates with Eart at (-8.5kpc, 0,0)
+    @param mid  midpoint of the object
+    @param B1   normalized magnetic field strength
+    @param a    fitting parameter for the radial scale height
+    @param L    fitting parameter for the z scale height
+    @return     magnetic field vector */
+    Vector3d BPol(const Vector3d& position,const Vector3d& mid, double B1, double a, double L) const;
+    
+    /** Magnetic field in the azimuthal model. Used for molecular clouds (MC)
+    @param position position in galactic coordinates with Eart at (-8.5kpc, 0,0)
+    @param mid  midpoint of the object
+    @param B1   normalized magnetic field strength
+    @param eta  ratio between radial and azimuthal component
+    @param R    Radius of the cloud
+    @return     magnetic field vector*/
+    Vector3d BAz(const Vector3d& position, const Vector3d& mid, double B1, double eta, double R) const;
+     
     Vector3d getMCField(const Vector3d& pos) const;
     Vector3d getICField(const Vector3d& pos) const;
     Vector3d getNTFField(const Vector3d& pos) const;

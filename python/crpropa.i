@@ -26,9 +26,6 @@ globals()["classname"["classname".find('::')+2:]].__repr__ = globals()["classnam
 
 %enddef
 
-%template(Vector3d) crpropa::Vector3<double>;
-%template(Vector3f) crpropa::Vector3<float>;
-
 %pythoncode %{
 Vector3d.__repr__ = Vector3d.getDescription
 Vector3f.__repr__ = Vector3f.getDescription

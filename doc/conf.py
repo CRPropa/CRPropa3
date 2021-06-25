@@ -12,7 +12,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -45,11 +45,16 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    "breathe",
-    "exhale",
     "m2r",
-    "nbsphinx"
+    "nbsphinx",
+    "IPython.sphinxext.ipython_console_highlighting"
 ]
+
+
+if not os.getenv('CRPROPA_DISABLE_API_DOC'):
+    extensions.append("breathe")
+    extensions.append("exhale")
+
 
 # Breathe Configuration
 breathe_default_project = "CRPropa3"

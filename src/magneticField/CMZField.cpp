@@ -26,7 +26,7 @@ Vector3d CMZField::BPol(const Vector3d& position,const Vector3d& mid, double B1,
 
     double r1 = 1/(1+a*pos.z*pos.z);
     double Bs = B1*exp(-r1*r/L);
-    double Br = 2*a*pow(r1,3)*r*pos.z*Bs;
+    double Br = 2*a*pow_integer<3>(r1)*r*pos.z*Bs;
     
     Vector3d b = Vector3d(0.);
     b.z = r1*r1*Bs;

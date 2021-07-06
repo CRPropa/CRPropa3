@@ -45,7 +45,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    "m2r2", #LM 14.6.21: changed to m2r2
+    'm2r2',#"m2r2", #LM 14.6.21: changed to m2r2
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting"
 ]

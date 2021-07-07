@@ -118,7 +118,7 @@ TEST(SourceDensityGrid, withInRange) {
 	Vector3d origin(0, 0, 0);
 	int cells = 10;
 	double spacing = 1;
-	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, cells, spacing);
+	auto grid = new Grid1f(origin, cells, spacing);
 	for (int ix = 0; ix < cells; ix++)
 		for (int iy = 0; iy < cells; iy++)
 			for (int iz = 0; iz < cells; iz++)
@@ -144,8 +144,8 @@ TEST(SourceDensityGrid, OneAllowedCell) {
 	Vector3d origin(0, 0, 0);
 	int cells = 2;
 	double spacing = 2;
-	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, cells, spacing);
-
+	auto grid = new Grid1f(origin, cells, spacing);
+	
 	// set all but one cells to 0
 	for (int ix = 0; ix < cells; ix++)
 		for (int iy = 0; iy < cells; iy++)
@@ -184,7 +184,7 @@ TEST(SourceDensityGrid1D, withInRange) {
 	Vector3d origin(0, 0, 0);
 	int nCells = 10;
 	double spacing = 1.;
-	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, nCells, 1, 1, spacing);
+	auto grid = new Grid1f(origin, nCells, 1, 1, spacing);
 
 	// set some values
 	for (int i = 0; i < 10; i++) {
@@ -206,7 +206,7 @@ TEST(SourceDensityGrid1D, OneAllowedCell) {
 	Vector3d origin(0, 0, 0);
 	int nCells = 10;
 	double spacing = 1.;
-	ref_ptr<ScalarGrid> grid = new ScalarGrid(origin, nCells, 1, 1, spacing);
+	auto grid = new Grid1f(origin, nCells, 1, 1, spacing);
 
 	// set some values
 	for (int i = 0; i < 10; i++) {

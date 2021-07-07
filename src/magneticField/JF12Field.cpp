@@ -102,8 +102,17 @@ void JF12Field::randomStriated(int seed) {
 void JF12Field::randomTurbulent(int seed) {
 	useTurbulentField = true;
 	// turbulent field with Kolmogorov spectrum, B_rms = 1 and Lc = 60 parsec
-	turbulentGrid = new Grid3f(Vector3d(0.), 256, 4 * parsec);
-	initTurbulence(turbulentGrid, 1, 8 * parsec, 272 * parsec, -11./3., seed);
+    const double lMin = 8 * parsec;
+    const double lMax = 272 * parsec;
+    const double Brms = 1;
+    const double spacing = 4 * parsec;
+    const double grid_n = 256;
+
+    auto spectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax);
+    auto gp = GridProperties(Vector3d(0.), grid_n, spacing);
+    auto tf = SimpleGridTurbulence(spectrum, gp, seed);
+    turbulentGrid = tf.getGrid();
+
 }
 #endif
 

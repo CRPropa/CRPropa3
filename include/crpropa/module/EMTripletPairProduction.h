@@ -1,9 +1,11 @@
 #ifndef CRPROPA_EMTRIPLETPAIRPRODUCTION_H
 #define CRPROPA_EMTRIPLETPAIRPRODUCTION_H
 
+#include <fstream>
+#include <cmath>
+
 #include "crpropa/Module.h"
 #include "crpropa/PhotonBackground.h"
-#include <fstream>
 
 namespace crpropa {
 /**

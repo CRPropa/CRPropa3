@@ -34,18 +34,56 @@ Furthermore, depending on the exact setting, the implementation is somewhat slow
 
  ## Using the SIMD optimization
  In order to mitigate some of the performance impact that is inherent in this
-method of field generation, an optimized version utilizing data-level
-parallelism through SIMD instructions is provided. More specifically, this
-implementation uses the AVX extension to the x86 instruction set. In order to
-use this optimized version, three conditions need to be met:
+method of field generation, an optimized version is provided. According to our
+tests (see the paper above), this version runs 20-30x faster than the baseline
+implementation and matches the speed of trilinear interpolation on a grid at
+a bit less than 100 wavemodes. To do this, it uses special CPU instructions
+called AVX, which are unfortunately not supported by every CPU. On Linux, you
+can check whether your CPU supports AVX by using the `lscpu` command, and
+searching the flags section for the string "avx". Alternatively, if you are
+building on the same CPU that CRPropa will run on, you can have the compiler
+detect this for you automatically (see below).
 
-1. The `USE_SIMD` option should be explicitly enabled in CMake. Currently,
-this sets GCC flags that tell the compiler to allow SIMD instructions.
-2. One also should enable the `FAST_WAVES` option to tell the compiler that you
-specifically want it to include the SIMD version of PlaneWaveTurbulence.
-3. Finally, the CPU that will actually run the code needs to support the
-required extensions: AVX and everything below. These extensions are relatively
-common, but there may still be processors in use that do not support them.
+ An additional speedup of about 1.33 can be achieved if the CPU supports the
+FMA extension in addition to AVX. Again, you can either check for this
+manually, or have the compiler figure it out for you.
+
+ **Note** that the optimized and non-optimized implementations to not return
+the exact same results. In fact, since the effective wave numbers used
+by the optimized implementation are very slightly different from those
+used by the non-optimized version (a difference smaller than the precision
+of a double, but nevertheless relevant at some point), the wavemodes go
+out of phase for large distances from the origin, and the fields are no longer
+comparable at all.
+
+ ### If you are building on the same machine that the code will run on:
+
+1. In cmake: enable the FAST_WAVES flag.
+2. Also in cmake: set SIMD_EXTENSIONS to "native". The compiler will automatically
+detect support for your CPU and run the build with the appropriate settings.
+3. Generate files and exit cmake, then build.
+3. If your CPU does not support the necessary extensions, the build will fail
+with an error telling you so. In this case, you won't be able to use the optimization;
+go back into cmake, disable FAST_WAVES, and build again.
+4. If the build runs through without errors, the code is built with the optimization.
+
+ ### If you are building on a different machine from the one where the code will run:
+
+1. Figure out which extensions your target machine supports, using `lscpu | grep avx`
+for AVX, and `lscpu | grep fma` for FMA. Run these commands on your target machine,
+not on your build machine. If your target machine does not run Linux, you may have to
+use different commands.
+2. If the CPU does not support AVX, you can stop here, and build normally. The CPU
+does not support the necessary extensions, and will not run code that is compiled
+using them.
+3. If the CPU does support AVX, continue. In cmake, enable the FAST_WAVES flag.
+4. Also in cmake, set SIMD_EXTENSIONS to the appropriate value. If your target CPU
+supports only AVX, but not FMA, set it to "avx". If it supports both, set it to
+"avx+fma".
+5. Generate and exit cmake, then build.
+6. If you made a mistake and used the wrong flags, you should see an illegal
+instruction error when trying to import CRPropa, or (at the latest) when trying
+to call `getField`.
 
 [GJ99]: https://doi.org/10.1086/307452
 [TD13]: https://doi.org/10.1063/1.4789861

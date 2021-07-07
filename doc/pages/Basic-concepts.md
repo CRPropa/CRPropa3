@@ -30,7 +30,7 @@ the parallel sections of the code. If they do, a change by thread A is likely
 to mess with the correct calculation in thread B. Most importantly, the
 simulation modules which are in the current parallelization layout shared among
 the threads cannot store information on the cosmic ray. Instead the information
-has be stored on the cosmic ray itself.
+has to be stored on the cosmic ray itself.
 
 Program parts in which "thread-safety" cannot be ensured need to be put inside
 a "critical region". If a thread reaches a critical region that is occupied by

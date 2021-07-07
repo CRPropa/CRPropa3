@@ -215,6 +215,8 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 
 	// generate cdf of electron energy, neglecting Coulomb correction
 	// see Basdevant, Fundamentals in Nuclear Physics, eq. (4.92)
+	// This leads to deviations from theoretical expectations at low 
+	// primary energies.
 	std::vector<double> energies;
 	std::vector<double> densities; // cdf(E), unnormalized
 
@@ -231,6 +233,9 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 	}
 
 	// draw random electron energy and angle
+	// assumption of ultra-relativistic particles 
+	// leads to deviations from theoretical predictions
+	// is not problematic for usual CRPropa energies E>~TeV
 	Random &random = Random::instance();
 	double E = interpolate(random.rand() * cdf, densities, energies);
 	double p = sqrt(E * E - me * me);  // p*c

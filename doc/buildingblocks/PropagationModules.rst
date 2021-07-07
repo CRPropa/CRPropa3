@@ -1,3 +1,3 @@
 Propagation Modules
-================
+===================
 .. doxygengroup:: Propagation

@@ -1,5 +1,5 @@
 Acceleration
--------------------------
+------------
 
 The acceleration modules work conceptually similar to energy losses in photon
 fields - instead of the energy loss from an interaction with a background

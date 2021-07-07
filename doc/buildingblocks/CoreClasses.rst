@@ -1,3 +1,3 @@
 Core Classes
-================
+============
 .. doxygengroup:: Core

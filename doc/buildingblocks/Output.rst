@@ -1,3 +1,3 @@
 Output
-================
+======
 .. doxygengroup:: Output

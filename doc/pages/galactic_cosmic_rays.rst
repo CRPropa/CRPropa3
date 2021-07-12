@@ -26,7 +26,7 @@ changes, which can be modeled following the next examples.
 Gas Densities
 ^^^^^^^^^^^^^
 
-The last to examples show how to use the gas density fields. They can be 
+The last two examples show how to use the gas density fields. They can be 
 used to, e.g., model the CR source distribution and will later be used as 
 target fields for hadron-hadron interation.
 

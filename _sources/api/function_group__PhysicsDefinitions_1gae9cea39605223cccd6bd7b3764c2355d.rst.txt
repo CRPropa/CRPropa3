@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1gae9cea39605223cccd6bd7b3764c2355d:
+
+Function crpropa::lightTravel2ComovingDistance
+==============================================
+
+- Defined in :ref:`file_include_crpropa_Cosmology.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::lightTravel2ComovingDistance(double)

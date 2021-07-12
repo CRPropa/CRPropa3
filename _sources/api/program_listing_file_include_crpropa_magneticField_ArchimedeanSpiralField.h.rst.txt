@@ -1,0 +1,57 @@
+
+.. _program_listing_file_include_crpropa_magneticField_ArchimedeanSpiralField.h:
+
+Program Listing for File ArchimedeanSpiralField.h
+=================================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_ArchimedeanSpiralField.h>` (``include/crpropa/magneticField/ArchimedeanSpiralField.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_ARCHIMEDEANSPIRALFIELD_H
+   #define CRPROPA_ARCHIMEDEANSPIRALFIELD_H
+   
+   #include "crpropa/magneticField/MagneticField.h"
+   
+   
+   #include <string>
+   #include <iostream>
+   #include <cmath>
+   #include <cstdlib>
+   #include <sstream>
+   
+   #include "crpropa/Vector3.h"
+   #include "crpropa/Referenced.h"
+   #include "crpropa/Units.h"
+   
+   namespace crpropa {
+   
+   class ArchimedeanSpiralField: public MagneticField {
+   private:
+           double B_0; // Magnetic field strength in radial direction at R_0
+           double R_0; // Reference level
+           double Omega; // Angular velocity of the rotation
+           double V_w; // Asymptotic wind speed
+   
+   public:
+           ArchimedeanSpiralField(double B_0, double R_0, double Omega, double V_w);
+   
+           Vector3d getField(const Vector3d &pos) const;   
+                   
+           void setB0(double B);
+           void setR0(double R);
+           void setOmega(double Om);
+           void setVw(double v);
+   
+           double getB0() const;
+           double getR0() const;
+           double getOmega() const;
+           double getVw() const;
+   };
+   
+            
+   } // end namespace crpropa
+   
+   #endif // CRPROPA_ACHIMEDEANSPIRALFIELD_H

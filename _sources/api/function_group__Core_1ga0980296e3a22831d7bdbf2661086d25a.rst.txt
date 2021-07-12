@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga0980296e3a22831d7bdbf2661086d25a:
+
+Function crpropa::fromMagneticFieldStrength
+===========================================
+
+- Defined in :ref:`file_include_crpropa_GridTools.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::fromMagneticFieldStrength(ref_ptr<Grid1f>, ref_ptr<MagneticField>)

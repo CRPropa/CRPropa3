@@ -1,0 +1,838 @@
+:orphan:
+
+
+Full API
+========
+
+Directories
+***********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa_advectionField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa_magneticField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa_magneticField_turbulentField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa_magneticLens.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa_massDistribution.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_include_crpropa_module.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_advectionField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_magneticField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_magneticField_turbulentField.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_magneticLens.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_massDistribution.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_src_module.rst
+
+Files
+*****
+
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_Acceleration.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_Acceleration.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_AdiabaticCooling.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_AdiabaticCooling.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_advectionField_AdvectionField.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_advectionField_AdvectionField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_AMRMagneticField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_ArchimedeanSpiralField.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_ArchimedeanSpiralField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_AssocVector.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_base64.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_base64.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_Boundary.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_Boundary.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_BreakCondition.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_BreakCondition.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Candidate.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Candidate.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Clock.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Clock.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Common.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Common.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_massDistribution_ConstantDensity.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_massDistribution_ConstantDensity.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_massDistribution_Cordes.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_massDistribution_Cordes.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Cosmology.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Cosmology.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_CRPropa.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_massDistribution_Density.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_DiffusionSDE.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_DiffusionSDE.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_ElasticScattering.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_ElasticScattering.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_ElectronPairProduction.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_ElectronPairProduction.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_EMCascade.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_EMCascade.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_EMDoublePairProduction.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_EMDoublePairProduction.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_EMInverseComptonScattering.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_EMInverseComptonScattering.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_EmissionMap.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_EmissionMap.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_EMPairProduction.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_EMPairProduction.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_EMTripletPairProduction.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_EMTripletPairProduction.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_massDistribution_Ferriere.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_massDistribution_Ferriere.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_GalacticMagneticField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Geometry.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Geometry.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Grid.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_GridTools.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_GridTools.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_turbulentField_GridTurbulence.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_turbulentField_GridTurbulence.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_HDF5Output.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_HDF5Output.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_turbulentField_HelicalGridTurbulence.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_turbulentField_HelicalGridTurbulence.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_JF12Field.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_JF12Field.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_JF12FieldSolenoidal.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_JF12FieldSolenoidal.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Logging.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_MagneticField.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_MagneticField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_MagneticFieldGrid.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_MagneticFieldGrid.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticLens_MagneticLens.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_MagneticLens.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_massDistribution_Massdistribution.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_massDistribution_Massdistribution.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticLens_ModelMatrix.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_ModelMatrix.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Module.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Module.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_ModuleList.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_massDistribution_Nakanishi.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_massDistribution_Nakanishi.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_NuclearDecay.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_NuclearDecay.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_Observer.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_Observer.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_Output.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_Output.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_OutputShell.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_OutputShell.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_ParticleCollector.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_ParticleCollector.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_ParticleID.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_ParticleID.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticLens_ParticleMapsContainer.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_ParticleMapsContainer.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_ParticleMass.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_ParticleMass.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_ParticleState.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_ParticleState.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_PhotoDisintegration.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_PhotoDisintegration.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_PhotonBackground.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_PhotonBackground.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_PhotonEleCa.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_PhotonEleCa.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_PhotonOutput1D.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_PhotonOutput1D.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_PhotonPropagation.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_PhotonPropagation.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_PhotoPionProduction.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_PhotoPionProduction.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticLens_Pixelization.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticLens_Pixelization.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_turbulentField_PlaneWaveTurbulence.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_turbulentField_PlaneWaveTurbulence.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_PropagationBP.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_PropagationBP.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_PropagationCK.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_PropagationCK.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_PT11Field.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_PT11Field.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_QuimbyMagneticField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Random.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Random.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_Redshift.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_Redshift.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Referenced.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_RestrictToRegion.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_RestrictToRegion.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_turbulentField_SimpleGridTurbulence.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_SimplePropagation.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_SimplePropagation.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Source.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Source.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_SynchrotronRadiation.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_SynchrotronRadiation.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_TextOutput.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_TextOutput.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_TF17Field.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_TF17Field.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_Tools.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_Tools.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_turbulentField_TurbulentField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Units.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_Variant.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Variant.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Vector3.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_Version.h.rst

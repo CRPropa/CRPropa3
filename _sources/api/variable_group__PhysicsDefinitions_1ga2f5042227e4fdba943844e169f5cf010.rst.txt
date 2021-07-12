@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga2f5042227e4fdba943844e169f5cf010:
+
+Variable crpropa::deg
+=====================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::deg

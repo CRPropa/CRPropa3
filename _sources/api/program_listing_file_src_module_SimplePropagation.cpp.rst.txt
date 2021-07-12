@@ -1,0 +1,66 @@
+
+.. _program_listing_file_src_module_SimplePropagation.cpp:
+
+Program Listing for File SimplePropagation.cpp
+==============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_src_module_SimplePropagation.cpp>` (``src/module/SimplePropagation.cpp``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #include "crpropa/module/SimplePropagation.h"
+   
+   #include <sstream>
+   #include <stdexcept>
+   
+   namespace crpropa {
+   
+   SimplePropagation::SimplePropagation(double minStep, double maxStep) :
+                   minStep(minStep), maxStep(maxStep) {
+           if (minStep > maxStep)
+                   throw std::runtime_error("SimplePropagation: minStep > maxStep");
+   }
+   
+   void SimplePropagation::process(Candidate *c) const {
+           c->previous = c->current;
+   
+           double step = std::max(minStep, c->getNextStep());
+           c->setCurrentStep(step);
+   
+           Vector3d pos = c->current.getPosition();
+           Vector3d dir = c->current.getDirection();
+           c->current.setPosition(pos + dir * step);
+   
+           c->setNextStep(maxStep);
+   }
+   
+   void SimplePropagation::setMinimumStep(double step) {
+           if (step > maxStep)
+                   throw std::runtime_error("SimplePropagation: minStep > maxStep");
+           minStep = step;
+   }
+   
+   void SimplePropagation::setMaximumStep(double step) {
+           if (minStep > step)
+                   throw std::runtime_error("SimplePropagation: minStep > maxStep");
+           maxStep = step;
+   }
+   
+   double SimplePropagation::getMinimumStep() const {
+           return minStep;
+   }
+   
+   double SimplePropagation::getMaximumStep() const {
+           return maxStep;
+   }
+   
+   std::string SimplePropagation::getDescription() const {
+           std::stringstream s;
+           s << "SimplePropagation: Step size = " << minStep / kpc
+                           << " - " << maxStep / kpc << " kpc";
+           return s.str();
+   }
+   
+   } // namespace crpropa

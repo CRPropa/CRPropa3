@@ -1,0 +1,38 @@
+
+.. _file_src_magneticLens_Pixelization.cpp:
+
+File Pixelization.cpp
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_magneticLens>` (``src/magneticLens``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/magneticLens/Pixelization.cpp``)
+--------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_magneticLens_Pixelization.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+

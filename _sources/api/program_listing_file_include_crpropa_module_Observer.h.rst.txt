@@ -1,0 +1,178 @@
+
+.. _program_listing_file_include_crpropa_module_Observer.h:
+
+Program Listing for File Observer.h
+===================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_Observer.h>` (``include/crpropa/module/Observer.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_OBSERVER_H
+   #define CRPROPA_OBSERVER_H
+   
+   #include <fstream>
+   #include <limits>
+   #include <string>
+   #include <vector>
+   
+   #include "../Candidate.h"
+   #include "../Module.h"
+   #include "../Referenced.h"
+   #include "../Vector3.h"
+   #include "../Geometry.h"
+   
+   namespace crpropa {
+   
+   enum DetectionState {
+           DETECTED, VETO, NOTHING
+   };
+   class ObserverFeature: public Referenced {
+   protected:
+           std::string description;
+   public:
+           virtual DetectionState checkDetection(Candidate *candidate) const;
+           virtual void onDetection(Candidate *candidate) const;
+           virtual std::string getDescription() const;
+   };
+   
+   class Observer: public Module {
+           std::string flagKey;
+           std::string flagValue;
+   private:
+           std::vector<ref_ptr<ObserverFeature> > features;
+           ref_ptr<Module> detectionAction;
+           bool clone;
+           bool makeInactive;
+   public:
+           Observer();
+           void add(ObserverFeature *feature);
+           void onDetection(Module *action, bool clone = false);
+           void process(Candidate *candidate) const;
+           std::string getDescription() const;
+           void setFlag(std::string key, std::string value);
+           void setDeactivateOnDetection(bool deactivate);
+   };
+   
+   
+   
+   class ObserverDetectAll: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   
+   class ObserverSurface: public ObserverFeature {
+           private:
+                   ref_ptr<Surface> surface;
+   
+           public:
+                   ObserverSurface(Surface* _surface);
+                   DetectionState checkDetection(Candidate *candidate) const;
+                   std::string getDescription() const;
+   };
+   
+   class ObserverSmallSphere: public ObserverFeature {
+   private:
+           Vector3d center;
+           double radius;
+   public:
+           ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
+           DetectionState checkDetection(Candidate *candidate) const;
+           void setCenter(const Vector3d &center);
+           void setRadius(float radius);
+           std::string getDescription() const;
+   };
+   
+   class ObserverTracking: public ObserverFeature {
+   private:
+           Vector3d center;
+           double radius;
+       double stepSize;
+   public:
+           ObserverTracking(Vector3d center, double radius, double stepSize = 0);
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverLargeSphere: public ObserverFeature {
+   private:
+           Vector3d center;
+           double radius;
+   public:
+           ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverPoint: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverRedshiftWindow: public ObserverFeature {
+   private:
+           double zmin, zmax;
+   public:
+           ObserverRedshiftWindow(double zmin = 0, double zmax = 0.1);
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverInactiveVeto: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverNucleusVeto: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverNeutrinoVeto: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverPhotonVeto: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverElectronVeto: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverParticleIdVeto: public ObserverFeature {
+   private:
+           int vetoParticleId;
+   public:
+           ObserverParticleIdVeto(int pId);
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ObserverTimeEvolution: public ObserverFeature {
+   private:
+     std::vector<double> detList;
+   public:
+     ObserverTimeEvolution();
+     ObserverTimeEvolution(double min, double dist, double numb);
+     void addTime(const double &position);
+     const std::vector<double>& getTimes() const;
+     DetectionState checkDetection(Candidate *candidate) const;
+     std::string getDescription() const;
+   };
+   }
+   
+   #endif // CRPROPA_OBSERVER_H

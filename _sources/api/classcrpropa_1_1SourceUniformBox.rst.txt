@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1SourceUniformBox:
+
+Class SourceUniformBox
+======================
+
+- Defined in :ref:`file_include_crpropa_Source.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public SourceFeature`` (:ref:`exhale_class_classcrpropa_1_1SourceFeature`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SourceUniformBox
+   :members:
+   :protected-members:
+   :undoc-members:

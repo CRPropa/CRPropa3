@@ -1,0 +1,53 @@
+
+.. _file_include_crpropa_PhotonPropagation.h:
+
+File PhotonPropagation.h
+========================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+Calculation of the electromagnetic cascade outside of CRPropa's module list. 
+ 
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/PhotonPropagation.h``)
+----------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_PhotonPropagation.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacecrpropa_1ac9f895526ff16286d0aeb62e7e80459f`
+
+- :ref:`exhale_function_namespacecrpropa_1a353584246ed0becff6fa83dda9662cec`
+
+- :ref:`exhale_function_namespacecrpropa_1a7869c8cd708945f25e1061f64c93ae6e`
+

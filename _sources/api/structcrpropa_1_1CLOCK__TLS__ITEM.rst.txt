@@ -1,0 +1,16 @@
+.. _exhale_struct_structcrpropa_1_1CLOCK__TLS__ITEM:
+
+Struct CLOCK_TLS_ITEM
+=====================
+
+- Defined in :ref:`file_src_Clock.cpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::CLOCK_TLS_ITEM
+   :members:
+   :protected-members:
+   :undoc-members:

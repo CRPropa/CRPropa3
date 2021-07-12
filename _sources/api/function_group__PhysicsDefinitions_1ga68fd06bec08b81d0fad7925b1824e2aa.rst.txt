@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa:
+
+Function crpropa::nuclearMass(int)
+==================================
+
+- Defined in :ref:`file_include_crpropa_ParticleMass.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::nuclearMass(int)

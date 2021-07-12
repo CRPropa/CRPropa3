@@ -1,0 +1,91 @@
+
+.. _file_include_crpropa_GridTools.h:
+
+File GridTools.h
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+Grid related functions: load, dump, save, retrieve grid properties ... 
+ 
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/GridTools.h``)
+--------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_GridTools.h.rst
+
+
+
+Detailed Description
+--------------------
+
+This file contains a number of functions related to scalar and vector grids (Grid.h).
+Dump/load functions are available for saving/loading grids to/from and binary and plain text files. In the files the grid points are stored from (0, 0, 0) to (Nx, Ny, Nz) with the z-index changing the fastest. Vector components are stored per grid point in xyz-order. In case of plain-text files the vector components are separated by a blank or tab and grid points are stored one per line. All functions offer a conversion factor that is multiplied to all values. 
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7`
+
+- :ref:`exhale_function_group__Core_1ga0238b64d66147e63750fd4bbc408161f`
+
+- :ref:`exhale_function_group__Core_1ga59fd9fe51d640a021e0221111cd9b699`
+
+- :ref:`exhale_function_group__Core_1ga3ccd4dd73f208f91880915a2ce08bdc0`
+
+- :ref:`exhale_function_group__Core_1gaf26c6f2f1091ba2802cc736c81ca3a7b`
+
+- :ref:`exhale_function_group__Core_1ga0980296e3a22831d7bdbf2661086d25a`
+
+- :ref:`exhale_function_group__Core_1ga22d6bb7eeecd0de28751b3613a95c73d`
+
+- :ref:`exhale_function_group__Core_1ga96b82a9f071ea76c74a62318e7bbf927`
+
+- :ref:`exhale_function_group__Core_1gad04969866cecfe3cd109bd36127837ee`
+
+- :ref:`exhale_function_group__Core_1ga9d650bf27df3302ddae4736e3d82a513`
+
+- :ref:`exhale_function_group__Core_1ga44c94bcdfc60683fdcef1a5a5f985da6`
+
+- :ref:`exhale_function_group__Core_1ga37240288afb16f49d1eed43a69d14c82`
+
+- :ref:`exhale_function_group__Core_1ga55f6cd87b0ce100c08cfcdd08d8e6ba8`
+
+- :ref:`exhale_function_group__Core_1gadd91fef32b46a63095d2bd239ad71aba`
+
+- :ref:`exhale_function_group__Core_1gafbf4174c9a116aaf77904225c3639d24`
+
+- :ref:`exhale_function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08`
+
+- :ref:`exhale_function_group__Core_1gac6a806f908b2c0080767e36781d6ec12`
+
+- :ref:`exhale_function_group__Core_1gabd59e441d6fd5ca8c08d67e921653025`
+
+- :ref:`exhale_function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d`
+

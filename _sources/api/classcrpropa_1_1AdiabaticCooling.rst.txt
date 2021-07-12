@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1AdiabaticCooling:
+
+Class AdiabaticCooling
+======================
+
+- Defined in :ref:`file_include_crpropa_module_AdiabaticCooling.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::AdiabaticCooling
+   :members:
+   :protected-members:
+   :undoc-members:

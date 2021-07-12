@@ -1,0 +1,49 @@
+.. _dir_include_crpropa_module:
+
+
+Directory module
+================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``include/crpropa/module``
+
+
+Files
+-----
+
+- :ref:`file_include_crpropa_module_Acceleration.h`
+- :ref:`file_include_crpropa_module_AdiabaticCooling.h`
+- :ref:`file_include_crpropa_module_Boundary.h`
+- :ref:`file_include_crpropa_module_BreakCondition.h`
+- :ref:`file_include_crpropa_module_DiffusionSDE.h`
+- :ref:`file_include_crpropa_module_ElasticScattering.h`
+- :ref:`file_include_crpropa_module_ElectronPairProduction.h`
+- :ref:`file_include_crpropa_module_EMCascade.h`
+- :ref:`file_include_crpropa_module_EMDoublePairProduction.h`
+- :ref:`file_include_crpropa_module_EMInverseComptonScattering.h`
+- :ref:`file_include_crpropa_module_EMPairProduction.h`
+- :ref:`file_include_crpropa_module_EMTripletPairProduction.h`
+- :ref:`file_include_crpropa_module_HDF5Output.h`
+- :ref:`file_include_crpropa_module_NuclearDecay.h`
+- :ref:`file_include_crpropa_module_Observer.h`
+- :ref:`file_include_crpropa_module_Output.h`
+- :ref:`file_include_crpropa_module_OutputShell.h`
+- :ref:`file_include_crpropa_module_ParticleCollector.h`
+- :ref:`file_include_crpropa_module_PhotoDisintegration.h`
+- :ref:`file_include_crpropa_module_PhotonEleCa.h`
+- :ref:`file_include_crpropa_module_PhotonOutput1D.h`
+- :ref:`file_include_crpropa_module_PhotoPionProduction.h`
+- :ref:`file_include_crpropa_module_PropagationBP.h`
+- :ref:`file_include_crpropa_module_PropagationCK.h`
+- :ref:`file_include_crpropa_module_Redshift.h`
+- :ref:`file_include_crpropa_module_RestrictToRegion.h`
+- :ref:`file_include_crpropa_module_SimplePropagation.h`
+- :ref:`file_include_crpropa_module_SynchrotronRadiation.h`
+- :ref:`file_include_crpropa_module_TextOutput.h`
+- :ref:`file_include_crpropa_module_Tools.h`
+
+

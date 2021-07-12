@@ -1,0 +1,22 @@
+.. _exhale_struct_structcrpropa_1_1SourceGenericComposition_1_1Nucleus:
+
+Struct SourceGenericComposition::Nucleus
+========================================
+
+- Defined in :ref:`file_include_crpropa_Source.h`
+
+
+Nested Relationships
+--------------------
+
+This struct is a nested type of :ref:`exhale_class_classcrpropa_1_1SourceGenericComposition`.
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::SourceGenericComposition::Nucleus
+   :members:
+   :protected-members:
+   :undoc-members:

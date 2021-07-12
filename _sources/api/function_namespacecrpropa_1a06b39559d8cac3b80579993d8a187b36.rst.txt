@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a06b39559d8cac3b80579993d8a187b36:
+
+Function crpropa::norm_1
+========================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::norm_1(const ModelVectorType&)

@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1ScalarGrid:
+
+Class ScalarGrid
+================
+
+- Defined in :ref:`file_include_crpropa_Grid.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public crpropa::Grid< float >`` (:ref:`exhale_class_classcrpropa_1_1Grid`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ScalarGrid
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,45 @@
+
+.. _program_listing_file_include_crpropa_magneticField_MagneticFieldGrid.h:
+
+Program Listing for File MagneticFieldGrid.h
+============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_MagneticFieldGrid.h>` (``include/crpropa/magneticField/MagneticFieldGrid.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_MAGNETICFIELDGRID_H
+   #define CRPROPA_MAGNETICFIELDGRID_H
+   
+   #include "crpropa/magneticField/MagneticField.h"
+   #include "crpropa/Grid.h"
+   
+   namespace crpropa {
+   class MagneticFieldGrid: public MagneticField {
+           ref_ptr<Grid3f> grid;
+   public:
+           MagneticFieldGrid(ref_ptr<Grid3f> grid);
+           void setGrid(ref_ptr<Grid3f> grid);
+           ref_ptr<Grid3f> getGrid();
+           Vector3d getField(const Vector3d &position) const;
+   };
+   
+   class ModulatedMagneticFieldGrid: public MagneticField {
+           ref_ptr<Grid3f> grid;
+           ref_ptr<Grid1f> modGrid;
+   public:
+           ModulatedMagneticFieldGrid() {
+           }
+           ModulatedMagneticFieldGrid(ref_ptr<Grid3f> grid, ref_ptr<Grid1f> modGrid);
+           void setGrid(ref_ptr<Grid3f> grid);
+           void setModulationGrid(ref_ptr<Grid1f> modGrid);
+           ref_ptr<Grid3f> getGrid();
+           ref_ptr<Grid1f> getModulationGrid();
+           void setReflective(bool gridReflective, bool modGridReflective);
+           Vector3d getField(const Vector3d &position) const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_MAGNETICFIELDGRID_H

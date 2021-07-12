@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gac3da9c52caabd55b3d229735cc925e5e:
+
+Variable crpropa::megaparsec
+============================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::megaparsec

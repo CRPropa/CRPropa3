@@ -1,0 +1,74 @@
+
+.. _program_listing_file_include_crpropa_ModuleList.h:
+
+Program Listing for File ModuleList.h
+=====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_ModuleList.h>` (``include/crpropa/ModuleList.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_MODULE_LIST_H
+   #define CRPROPA_MODULE_LIST_H
+   
+   #include "crpropa/Candidate.h"
+   #include "crpropa/Module.h"
+   #include "crpropa/Source.h"
+   
+   #include <list>
+   #include <sstream>
+   
+   namespace crpropa {
+   
+   class ModuleList: public Module {
+   public:
+           typedef std::list<ref_ptr<Module> > module_list_t;
+           typedef std::vector<ref_ptr<Candidate> > candidate_vector_t;
+   
+           ModuleList();
+           virtual ~ModuleList();
+           void setShowProgress(bool show = true); 
+   
+           void add(Module* module);
+           void remove(std::size_t i);
+           std::size_t size() const;
+           ref_ptr<Module> operator[](const std::size_t i);
+   
+           void process(Candidate* candidate) const; 
+           void process(ref_ptr<Candidate> candidate) const; 
+   
+           void run(Candidate* candidate, bool recursive = true, bool secondariesFirst = false); 
+           void run(ref_ptr<Candidate> candidate, bool recursive = true, bool secondariesFirst = false); 
+           void run(const candidate_vector_t *candidates, bool recursive = true, bool secondariesFirst = false); 
+           void run(SourceInterface* source, size_t count, bool recursive = true, bool secondariesFirst = false); 
+   
+           std::string getDescription() const;
+           void showModules() const;
+           
+           typedef module_list_t::iterator iterator;
+           typedef module_list_t::const_iterator const_iterator;
+           iterator begin();
+           const_iterator begin() const;
+           iterator end();
+           const_iterator end() const;
+   
+   private:
+           module_list_t modules;
+           bool showProgress;
+   };
+   
+   class ModuleListRunner: public Module {
+   private:
+           ref_ptr<ModuleList> mlist;
+   public:
+   
+           ModuleListRunner(ModuleList *mlist);
+           void process(Candidate *candidate) const; 
+           std::string getDescription() const;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_MODULE_LIST_H

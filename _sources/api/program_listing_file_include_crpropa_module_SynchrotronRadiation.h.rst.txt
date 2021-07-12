@@ -1,0 +1,56 @@
+
+.. _program_listing_file_include_crpropa_module_SynchrotronRadiation.h:
+
+Program Listing for File SynchrotronRadiation.h
+===============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_SynchrotronRadiation.h>` (``include/crpropa/module/SynchrotronRadiation.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_SYNCHROTRONRADIATION_H
+   #define CRPROPA_SYNCHROTRONRADIATION_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/magneticField/MagneticField.h"
+   
+   namespace crpropa {
+   class SynchrotronRadiation: public Module {
+   private:
+           ref_ptr<MagneticField> field; 
+           double Brms; 
+           double limit; 
+           double thinning; 
+           bool havePhotons; 
+           int maximumSamples; 
+           double secondaryThreshold; 
+           std::vector<double> tabx; 
+           std::vector<double> tabCDF; 
+   
+   
+   public:
+           SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double thinning = 0, int nSamples = 0, double limit = 0.1);
+           SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double thinning = 0, int nSamples = 0, double limit = 0.1);
+           void setField(ref_ptr<MagneticField> field);
+           void setBrms(double Brms);      
+           void setHavePhotons(bool havePhotons);
+           void setThinning(double thinning);
+           void setLimit(double limit);
+           void setMaximumSamples(int nmax);
+           void setSecondaryThreshold(double threshold);   
+           ref_ptr<MagneticField> getField();
+           double getBrms();
+           bool getHavePhotons();
+           double getThinning();
+           double getLimit();
+           int getMaximumSamples();
+           double getSecondaryThreshold() const;
+           void initSpectrum();
+           void process(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_SYNCHROTRONRADIATION_H

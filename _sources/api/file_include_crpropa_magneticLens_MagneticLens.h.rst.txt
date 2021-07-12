@@ -1,0 +1,56 @@
+
+.. _file_include_crpropa_magneticLens_MagneticLens.h:
+
+File MagneticLens.h
+===================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticLens>` (``include/crpropa/magneticLens``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticLens/MagneticLens.h``)
+------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticLens_MagneticLens.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1LensPart`
+
+- :ref:`exhale_class_classcrpropa_1_1MagneticLens`
+
+
+Typedefs
+--------
+
+
+- :ref:`exhale_typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293`
+
+- :ref:`exhale_typedef_namespacecrpropa_1af135df255ba94df054e3289a0526f3b3`
+

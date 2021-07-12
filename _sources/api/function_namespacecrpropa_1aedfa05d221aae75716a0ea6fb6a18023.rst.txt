@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023:
+
+Function crpropa::reflectiveClamp
+=================================
+
+- Defined in :ref:`file_include_crpropa_Grid.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::reflectiveClamp(double, int, int&, int&)

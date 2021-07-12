@@ -1,0 +1,32 @@
+
+.. _program_listing_file_include_crpropa_base64.h:
+
+Program Listing for File base64.h
+=================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_base64.h>` (``include/crpropa/base64.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef BASE64_H
+   #define BASE64_H
+   
+   #include <string>
+   #include <cstring>
+   #include <stdexcept>
+   
+   namespace crpropa
+   {
+   
+           class Base64
+           {
+           public:
+                   static std::string encode(const unsigned char *src, size_t len);
+                   static std::string decode(const std::string &data);
+           };
+   }
+   
+   
+   #endif // BASE64_H

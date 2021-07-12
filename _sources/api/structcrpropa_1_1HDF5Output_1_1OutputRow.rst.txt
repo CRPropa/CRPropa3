@@ -1,0 +1,22 @@
+.. _exhale_struct_structcrpropa_1_1HDF5Output_1_1OutputRow:
+
+Struct HDF5Output::OutputRow
+============================
+
+- Defined in :ref:`file_include_crpropa_module_HDF5Output.h`
+
+
+Nested Relationships
+--------------------
+
+This struct is a nested type of :ref:`exhale_class_classcrpropa_1_1HDF5Output`.
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::HDF5Output::OutputRow
+   :members:
+   :protected-members:
+   :undoc-members:

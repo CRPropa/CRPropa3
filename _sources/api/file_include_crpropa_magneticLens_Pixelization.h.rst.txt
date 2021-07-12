@@ -1,0 +1,54 @@
+
+.. _file_include_crpropa_magneticLens_Pixelization.h:
+
+File Pixelization.h
+===================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticLens>` (``include/crpropa/magneticLens``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticLens/Pixelization.h``)
+------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticLens_Pixelization.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1Pixelization`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d`
+
+- :ref:`exhale_variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437`
+

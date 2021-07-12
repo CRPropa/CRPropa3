@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1ShellOutput1D:
+
+Class ShellOutput1D
+===================
+
+- Defined in :ref:`file_include_crpropa_module_OutputShell.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ShellOutput1D
+   :members:
+   :protected-members:
+   :undoc-members:

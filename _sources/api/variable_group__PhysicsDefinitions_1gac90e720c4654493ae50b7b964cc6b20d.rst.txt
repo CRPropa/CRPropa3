@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gac90e720c4654493ae50b7b964cc6b20d:
+
+Variable crpropa::MeV
+=====================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::MeV

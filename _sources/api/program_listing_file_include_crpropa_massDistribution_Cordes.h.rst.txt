@@ -1,0 +1,43 @@
+
+.. _program_listing_file_include_crpropa_massDistribution_Cordes.h:
+
+Program Listing for File Cordes.h
+=================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_massDistribution_Cordes.h>` (``include/crpropa/massDistribution/Cordes.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_CORDES_H
+   #define CRPROPA_CORDES_H
+   
+   #include "crpropa/massDistribution/Density.h"
+   
+   #include <cmath>
+   #include <string>
+   
+   namespace crpropa {
+   class Cordes: public Density {
+   private:
+           // DO NOT CHANGE model typ!
+           bool isforHI = false;
+           bool isforHII = true;
+           bool isforH2 = false;
+   
+   public:
+           double getDensity(const Vector3d &position) const;
+           double getHIIDensity(const Vector3d &position) const;
+           double getNucleonDensity(const Vector3d &position) const;
+   
+           bool getIsForHI();
+           bool getIsForHII();
+           bool getIsForH2();
+   
+           std::string getDescription();
+   };
+   
+   }  // namespace crpropa
+   
+   #endif  // CRPROPA_CORDES_H

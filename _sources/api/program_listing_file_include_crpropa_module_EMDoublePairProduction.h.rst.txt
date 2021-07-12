@@ -1,0 +1,56 @@
+
+.. _program_listing_file_include_crpropa_module_EMDoublePairProduction.h:
+
+Program Listing for File EMDoublePairProduction.h
+=================================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_EMDoublePairProduction.h>` (``include/crpropa/module/EMDoublePairProduction.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_EMDOUBLEPAIRPRODUCTION_H
+   #define CRPROPA_EMDOUBLEPAIRPRODUCTION_H
+   
+   #include <fstream>
+   #include <cmath>
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/PhotonBackground.h"
+   
+   namespace crpropa {
+   
+   class EMDoublePairProduction: public Module {
+   private:
+           ref_ptr<PhotonField> photonField;
+           bool haveElectrons;
+           double limit;
+           double thinning;
+   
+           // tabulated interaction rate 1/lambda(E)
+           std::vector<double> tabEnergy;  
+           std::vector<double> tabRate;  
+   
+   public:
+           EMDoublePairProduction(
+                   ref_ptr<PhotonField> photonField,          
+                   bool haveElectrons = false,    
+                   double thinning = 0,           
+                   double limit = 0.1             
+                   );
+   
+           void setPhotonField(ref_ptr<PhotonField> photonField);
+           void setHaveElectrons(bool haveElectrons);
+           void setLimit(double limit);
+           void setThinning(double thinning);
+   
+           void initRate(std::string filename);
+           void process(Candidate *candidate) const;
+           void performInteraction(Candidate *candidate) const;
+   
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_EMDOUBLEPAIRPRODUCTION_H

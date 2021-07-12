@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1gad6710a44df51943baeec169e78ed2d8b:
+
+Function crpropa::hubbleRate
+============================
+
+- Defined in :ref:`file_include_crpropa_Cosmology.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::hubbleRate(double)

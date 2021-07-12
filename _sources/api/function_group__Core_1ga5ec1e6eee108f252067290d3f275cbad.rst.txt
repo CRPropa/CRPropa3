@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga5ec1e6eee108f252067290d3f275cbad:
+
+Function crpropa::getDataPath
+=============================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::getDataPath(std::string)

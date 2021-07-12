@@ -1,0 +1,77 @@
+
+.. _file_include_crpropa_PhotonBackground.h:
+
+File PhotonBackground.h
+=======================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/PhotonBackground.h``)
+---------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_PhotonBackground.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1BlackbodyPhotonField`
+
+- :ref:`exhale_class_classcrpropa_1_1CMB`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Dominguez11`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Finke10`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Franceschini08`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Gilmore12`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Kneiske04`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Stecker05`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Stecker16__lower`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Stecker16__upper`
+
+- :ref:`exhale_class_classcrpropa_1_1PhotonField`
+
+- :ref:`exhale_class_classcrpropa_1_1PhotonFieldSampling`
+
+- :ref:`exhale_class_classcrpropa_1_1TabularPhotonField`
+
+- :ref:`exhale_class_classcrpropa_1_1URB__Fixsen11`
+
+- :ref:`exhale_class_classcrpropa_1_1URB__Nitu21`
+
+- :ref:`exhale_class_classcrpropa_1_1URB__Protheroe96`
+
+- :ref:`exhale_class_classURB`
+

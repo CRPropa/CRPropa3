@@ -1,0 +1,72 @@
+
+.. _program_listing_file_include_crpropa_magneticField_JF12FieldSolenoidal.h:
+
+Program Listing for File JF12FieldSolenoidal.h
+==============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_JF12FieldSolenoidal.h>` (``include/crpropa/magneticField/JF12FieldSolenoidal.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_JF12FIELDSOLENOIDAL_H
+   #define CRPROPA_JF12FIELDSOLENOIDAL_H
+   
+   #include "crpropa/magneticField/JF12Field.h"
+   #include "crpropa/Grid.h"
+   #include "crpropa/Units.h"
+   
+   namespace crpropa {
+   
+   class JF12FieldSolenoidal: public JF12Field {
+   private:
+           double zS; // height parameter of the modified X-field, field lines are parabolic for fabs(z) < zS
+           double phi0Arms[11]; // azimuth angles in [-pi,pi] at which the dividing 8 spirals of the disk field intersect the (r1 = 5kpc)-ring at indices 1 to 8, remaining angles periodically filled.
+   
+           double phi0; // lower bound for azimuth phi integration to restore solenoidality of spiral field transition, arbitrary parameter
+   
+           // in order to restore solenoidality in the transition regions of the spiral field,
+           // a phi-integral over the piecwise constant field strengths at r=5kpc has to be evaluated. Here,
+           // we set H(phi) = phiCoeff[j] + bDisk[j] * phi as the result of this integration
+           double phiCoeff[10]; // only 10 since the array holds the results for the integral from phi0Arms[0] to phi0Arms[1]; phi0Arms[0] to phi0Arms[2] etc.
+           double corr; // correction term for enforcing H(phi0) = 0 afterwards which sets the lower boundary of the integration to phi0
+   
+           // inner and outer boundaries of disk field at r = 5 and 20 kpc
+           double r1;
+           double r2;
+   
+           // transitions region boundaries of disk field at r1 + delta, r2 - delta
+           double r1s;
+           double r2s;
+   
+   public:
+           JF12FieldSolenoidal(double delta = 3 * kpc, double zs = 0.5 * kpc);
+   
+           void setUseStriatedField(bool use); // override these for correct warning messages
+           void setUseTurbulentField(bool use);
+   
+           void setDiskTransitionWidth(double delta);
+           double getDiskTransitionWidth() const;
+   
+   
+           void setXScaleHeight(double zs);
+           double getXScaleHeight() const;
+   
+           Vector3d getXField(const double& r, const double& z, const double& sinPhi, const double& cosPhi) const; // override old X and spiral field
+           Vector3d getDiskField(const double& r, const double& z, const double& phi, const double& sinPhi, const double& cosPhi) const;
+   
+           void deactivateOuterTransition();
+   
+           double getDiskTransitionPolynomial(const double& r) const;
+   
+           double getDiskTransitionPolynomialDerivative(const double& r) const;
+   
+           double getHPhiIntegral(const double& r, const double& phi) const;
+   
+           double getSpiralFieldStrengthConstant(const double& r, const double& phi) const;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_JF12FIELDSOLENOIDAL_H

@@ -1,0 +1,66 @@
+
+.. _file_include_crpropa_magneticLens_ModelMatrix.h:
+
+File ModelMatrix.h
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticLens>` (``include/crpropa/magneticLens``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticLens/ModelMatrix.h``)
+-----------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticLens_ModelMatrix.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacecrpropa_1a9701fd450f0629cea7498612f221a6a8`
+
+- :ref:`exhale_function_namespacecrpropa_1a6650acbc2cdb17eb8354052fe7f6d15c`
+
+- :ref:`exhale_function_namespacecrpropa_1a06b39559d8cac3b80579993d8a187b36`
+
+- :ref:`exhale_function_namespacecrpropa_1a58d1c26f67a5fb318a051cdb203d2f57`
+
+- :ref:`exhale_function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855`
+
+- :ref:`exhale_function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7`
+
+- :ref:`exhale_function_namespacecrpropa_1ade4f3509f8415d013b3a5805ed285213`
+
+
+Typedefs
+--------
+
+
+- :ref:`exhale_typedef_namespacecrpropa_1afdeae388527922b41dd13abc77ffdb59`
+
+- :ref:`exhale_typedef_namespacecrpropa_1a38b820ffe798c468ff6cf1b15efad830`
+

@@ -1,0 +1,16 @@
+.. _exhale_struct_structcrpropa_1_1RANDOM__TLS__ITEM:
+
+Struct RANDOM_TLS_ITEM
+======================
+
+- Defined in :ref:`file_src_Random.cpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::RANDOM_TLS_ITEM
+   :members:
+   :protected-members:
+   :undoc-members:

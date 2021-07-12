@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga943831b5474c3f2324882c1ca785892c:
+
+Function crpropa::luminosityDistance2Redshift
+=============================================
+
+- Defined in :ref:`file_include_crpropa_Cosmology.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::luminosityDistance2Redshift(double)

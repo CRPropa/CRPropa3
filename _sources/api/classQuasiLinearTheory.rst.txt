@@ -1,0 +1,16 @@
+.. _exhale_class_classQuasiLinearTheory:
+
+Class QuasiLinearTheory
+=======================
+
+- Defined in :ref:`file_include_crpropa_module_Acceleration.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: QuasiLinearTheory
+   :members:
+   :protected-members:
+   :undoc-members:

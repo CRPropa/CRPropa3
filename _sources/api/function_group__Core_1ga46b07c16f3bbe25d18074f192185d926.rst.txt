@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga46b07c16f3bbe25d18074f192185d926:
+
+Function crpropa::closestIndex
+==============================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::closestIndex(double, const std::vector<double>&)

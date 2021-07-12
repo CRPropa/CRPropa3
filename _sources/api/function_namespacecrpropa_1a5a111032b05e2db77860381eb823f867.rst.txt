@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a5a111032b05e2db77860381eb823f867:
+
+Function crpropa::VARIANT_TO_DECL(String, std::string)
+======================================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::VARIANT_TO_DECL(String, std::string)

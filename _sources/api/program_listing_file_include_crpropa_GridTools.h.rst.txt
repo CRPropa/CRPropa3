@@ -1,0 +1,73 @@
+
+.. _program_listing_file_include_crpropa_GridTools.h:
+
+Program Listing for File GridTools.h
+====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_GridTools.h>` (``include/crpropa/GridTools.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_GRIDTOOLS_H
+   #define CRPROPA_GRIDTOOLS_H
+   
+   #include "crpropa/Grid.h"
+   #include "crpropa/magneticField/MagneticField.h"
+   #include <string>
+   #include <array>
+   
+   #ifdef CRPROPA_HAVE_FFTW3F
+   #include "fftw3.h"
+   #endif
+   
+   namespace crpropa {
+   Vector3f meanFieldVector(ref_ptr<Grid3f> grid);
+   
+   double meanFieldStrength(ref_ptr<Grid1f> grid);
+   double meanFieldStrength(ref_ptr<Grid3f> grid);
+   
+   double rmsFieldStrength(ref_ptr<Grid1f> grid);
+   double rmsFieldStrength(ref_ptr<Grid3f> grid);
+   std::array<float, 3> rmsFieldStrengthPerAxis(ref_ptr<Grid3f> grid);
+   
+   void scaleGrid(ref_ptr<Grid1f> grid, double a);
+   void scaleGrid(ref_ptr<Grid3f> grid, double a);
+   
+   void fromMagneticField(ref_ptr<Grid3f> grid, ref_ptr<MagneticField> field);
+   
+   void fromMagneticFieldStrength(ref_ptr<Grid1f> grid, ref_ptr<MagneticField> field);
+   
+   void loadGrid(ref_ptr<Grid3f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void loadGrid(ref_ptr<Grid1f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void dumpGrid(ref_ptr<Grid3f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
+                   double conversion = 1);
+   
+   void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
+                   double conversion = 1);
+   
+   #ifdef CRPROPA_HAVE_FFTW3F
+   
+   std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid);
+   #endif // CRPROPA_HAVE_FFTW3F
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_GRIDTOOLS_H

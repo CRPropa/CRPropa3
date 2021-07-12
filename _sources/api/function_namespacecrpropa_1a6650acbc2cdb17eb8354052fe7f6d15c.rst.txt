@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a6650acbc2cdb17eb8354052fe7f6d15c:
+
+Function crpropa::maximumOfSumsOfColumns
+========================================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::maximumOfSumsOfColumns(const ModelMatrixType&)

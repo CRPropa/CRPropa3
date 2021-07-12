@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga8d9a59356bad97a6e73cc459a35bc274:
+
+Variable crpropa::barn
+======================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::barn

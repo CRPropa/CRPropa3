@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a353584246ed0becff6fa83dda9662cec:
+
+Function crpropa::DintPropagation
+=================================
+
+- Defined in :ref:`file_include_crpropa_PhotonPropagation.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::DintPropagation(const std::string&, const std::string&, int, int, double, double)

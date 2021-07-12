@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gaec0e126d9991db8ad0b26139f5860568:
+
+Variable crpropa::GeV
+=====================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::GeV

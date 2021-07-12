@@ -1,0 +1,131 @@
+
+.. _program_listing_file_include_crpropa_magneticLens_Pixelization.h:
+
+Program Listing for File Pixelization.h
+=======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticLens_Pixelization.h>` (``include/crpropa/magneticLens/Pixelization.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   //----------------------------------------------------------------------
+   // This file is part of PARSEC (http://physik.rwth-aachen.de/parsec)
+   // a parametrized simulation engine for cosmic rays.
+   //
+   // Copyright (C) 2011  Martin Erdmann, Peter Schiffer, Tobias Winchen
+   //                     RWTH Aachen University, Germany
+   // Contact: winchen@physik.rwth-aachen.de
+   //
+   //  This program is free software: you can redistribute it and/or
+   //  modify it under the terms of the GNU General Public License as
+   //  published by the Free Software Foundation, either version 3 of
+   //  the License, or (at your option) any later version.
+   //
+   //  This program is distributed in the hope that it will be useful,
+   //  but WITHOUT ANY WARRANTY; without even the implied warranty of
+   //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   //  GNU General Public License for more details.
+   //
+   //  You should have received a copy of the GNU General Public License
+   //  along with this program. If not, see <http://www.gnu.org/licenses/>.
+   //----------------------------------------------------------------------
+   
+   
+   #ifndef PIXELIZATION_HH
+   #define PIXELIZATION_HH
+   
+   #include "healpix_base/healpix_base.h"
+   #include <cmath>
+   #include <stdint.h>
+   
+   namespace crpropa
+   {
+   const uint8_t _nOrder_max = 13;
+   const uint32_t _nPix[] =
+   {
+                   48,
+                   192,
+                   768,
+                   3072,
+                   12288,
+                   49152,
+                   196608,
+                   786432,
+                   3145728,
+                   12582912,
+                   50331648,
+                   201326592,
+                   805306368
+   };
+   
+   class Pixelization
+   {
+   public:
+           Pixelization()
+           {
+                   _healpix = new healpix::T_Healpix_Base<int>(6, healpix::RING);
+           }
+   
+           Pixelization(uint8_t order)
+           {
+                   _healpix = new healpix::T_Healpix_Base<int>(order, healpix::RING);
+           }
+   
+           ~Pixelization()
+           {
+                   delete _healpix;
+           }
+   
+           uint32_t direction2Pix(double longitude, double latitude) const;
+   
+           uint32_t nPix() const
+           {
+                   return _healpix->Npix();
+           }
+   
+           static uint32_t nPix(uint8_t order);
+   
+           int getNumberOfPixels()
+           {
+                   return _healpix->Npix();
+           }
+   
+           static uint8_t pix2Order(uint32_t pix);
+   
+           void pix2Direction(uint32_t i, double &longitude, double &latitude) const;
+   
+           double angularDistance(uint32_t i, uint32_t j) const;
+   
+           uint8_t getMaxOrder() const
+           {
+                   return _nOrder_max;
+           }
+   
+     uint8_t getOrder() const
+     {
+       return _healpix->Order();
+     }
+   
+           void getRandomDirectionInPixel(uint32_t pixel, double &longitude, double &latitude);
+   
+           void getPixelsInCone(double longitude, double latitude,double radius, std::vector<int>& listpix)
+           {
+                   healpix::vec3 v;
+                   spherCo2Vec(longitude, latitude, v);
+                   healpix::pointing p;
+                   p.from_vec3(v);
+                   _healpix->query_disc(p, radius, listpix);
+           }
+   
+   private:
+           void spherCo2Vec(double phi, double theta, healpix::vec3 &V) const;
+           void vec2SphereCo(double &phi , double &theta, const healpix::vec3 &V) const;
+           healpix::T_Healpix_Base<int> *_healpix;
+           static healpix::T_Healpix_Base<healpix::int64> _healpix_nest;
+   };
+   
+   
+   } // namespace
+   #endif // PIXELIZATION_HH

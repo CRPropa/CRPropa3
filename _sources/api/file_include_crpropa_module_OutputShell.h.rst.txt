@@ -1,0 +1,49 @@
+
+.. _file_include_crpropa_module_OutputShell.h:
+
+File OutputShell.h
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_module>` (``include/crpropa/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/module/OutputShell.h``)
+-----------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_module_OutputShell.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1ShellOutput`
+
+- :ref:`exhale_class_classcrpropa_1_1ShellOutput1D`
+
+- :ref:`exhale_class_classcrpropa_1_1ShellPropertyOutput`
+

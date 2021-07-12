@@ -1,0 +1,38 @@
+
+.. _file_src_magneticField_turbulentField_HelicalGridTurbulence.cpp:
+
+File HelicalGridTurbulence.cpp
+==============================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_magneticField_turbulentField>` (``src/magneticField/turbulentField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/magneticField/turbulentField/HelicalGridTurbulence.cpp``)
+---------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_magneticField_turbulentField_HelicalGridTurbulence.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+

@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1TF17Field:
+
+Class TF17Field
+===============
+
+- Defined in :ref:`file_include_crpropa_magneticField_TF17Field.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::TF17Field
+   :members:
+   :protected-members:
+   :undoc-members:

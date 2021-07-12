@@ -1,0 +1,16 @@
+.. _exhale_class_classcrpropa_1_1ParticleMapsContainer:
+
+Class ParticleMapsContainer
+===========================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_ParticleMapsContainer.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ParticleMapsContainer
+   :members:
+   :protected-members:
+   :undoc-members:

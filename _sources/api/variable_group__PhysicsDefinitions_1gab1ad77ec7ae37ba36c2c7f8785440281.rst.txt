@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gab1ad77ec7ae37ba36c2c7f8785440281:
+
+Variable crpropa::nanosecond
+============================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::nanosecond

@@ -1,0 +1,329 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Introduction to Python Steering\n",
+    "The following is a tour of the basic layout of CRPropa 3, showing how to setup and run a 1D simulation of the extragalactic propagation of UHECR protons from a Python shell.\n",
+    "\n",
+    "### Simulation setup\n",
+    "We start with a ```ModuleList```, which is a container for simulation modules, and represents the simulation.\n",
+    "\n",
+    "The first module in a simulation should be a propagation module, which will move the cosmic rays. In a 1D simulation magnetic deflections of charged particles are not considered, thus we can use the ```SimplePropagation``` module for rectalinear propagation.\n",
+    "\n",
+    "Next we add modules for photo-pion and electron-pair production with the cosmic microwave background and a module for neutron and nuclear decay. Finally we add a minimum energy requirement: Cosmic rays are stopped once they reach the minimum energy.\n",
+    "In general the order of modules doesn't matter much for sufficiently small propagation steps. For good practice, we recommend the order: Propagator --> Interactions -> Break conditions -> Observer / Output.\n",
+    "\n",
+    "**Please note** that all input, output and internal calculations are done using SI-units to enforce expressive statements such as ```E = 1 * EeV``` or ```D = 100 * Mpc```."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from crpropa import *\n",
+    "\n",
+    "# simulation: a sequence of simulation modules\n",
+    "sim = ModuleList()\n",
+    "\n",
+    "# add propagator for rectalinear propagation\n",
+    "sim.add( SimplePropagation() )\n",
+    "\n",
+    "# add interaction modules\n",
+    "sim.add( PhotoPionProduction(CMB()) )\n",
+    "sim.add( ElectronPairProduction(CMB()) )\n",
+    "sim.add( NuclearDecay() )\n",
+    "sim.add( MinimumEnergy( 1 * EeV) )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Propagating a single particle"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The simulation can now be used to propagate a cosmic ray, which is called candidate. We create a 100 EeV proton and propagate it using the simulation. The propagation stops when the energy drops below the minimum energy requirement that was specified. The possible propagation distances are rather long since we are neglecting cosmology in this example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CosmicRay at z = 0\n",
+      "  source:  Particle 1000010010, E = 200 EeV, x = 100 0 0 Mpc, p = -1 0 0\n",
+      "  current: Particle 1000010010, E = 0.975343 EeV, x = -13875.4 0 0 Mpc, p = -1 0 0\n",
+      "Propagated distance 13975.411990394969 Mpc\n"
+     ]
+    }
+   ],
+   "source": [
+    "cosmicray = Candidate(nucleusId(1,1), 200 * EeV, Vector3d(100 * Mpc, 0, 0))\n",
+    "\n",
+    "sim.run(cosmicray)\n",
+    "print(cosmicray)\n",
+    "print('Propagated distance', cosmicray.getTrajectoryLength() / Mpc, 'Mpc')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Defining an observer\n",
+    "\n",
+    "To define an observer within the simulation we create an ```Observer``` object.\n",
+    "The convention of 1D simulations is that cosmic rays, starting from positive coordinates, propagate in the negative direction until they reach the observer at 0. Only the x-coordinate is used in the three-vectors that represent position and momentum."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Observer\n",
+      "    ObserverPoint: observer at x = 0\n",
+      "    Flag: '' -> ''\n",
+      "    MakeInactive: yes\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# add an observer\n",
+    "obs = Observer()\n",
+    "obs.add( ObserverPoint() )  # observer at x = 0\n",
+    "sim.add(obs)\n",
+    "print(obs)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Defining the output file \n",
+    "We want to save the propagated cosmic rays to an output file.\n",
+    "Plain text output is provided by the TextOutput module.  \n",
+    "For the type of information being stored we can use one of five presets: Event1D, Event3D, Trajectory1D, Trajectory3D and Everything.  \n",
+    "We can also fine tune with ```enable(XXXColumn)``` and ```disable(XXXColumn)```"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# trajectory output\n",
+    "output1 = TextOutput('trajectories.txt', Output.Trajectory1D)\n",
+    "#sim.add(output1)  # generates a lot of output\n",
+    "\n",
+    "#output1.disable(Output.RedshiftColumn)  # don't save the current redshift\n",
+    "#output1.disableAll()  # disable everything to start from scratch\n",
+    "#output1.enable(Output.CurrentEnergyColumn)  # current energy\n",
+    "#output1.enable(Output.CurrentIdColumn)      # current particle type\n",
+    "# ...\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If in the example above ```output1``` is added to the module list, it is called on every propagation step to write out the cosmic ray information. \n",
+    "To only save cosmic rays that reach our observer, we add an output to the observer that we previously defined.\n",
+    "This time we are satisfied with the output type Event1D."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# event output\n",
+    "output2 = TextOutput('events.txt', Output.Event1D)\n",
+    "obs.onDetection(output2)\n",
+    "\n",
+    "#sim.run(cosmicray)\n",
+    "#output2.close()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Similary, the output could be linked to the ```MinimumEnergy``` module to save those cosmic rays that fall below the minimum energy, and so on.  \n",
+    "**Note:** If we want to use the CRPropa output file from within the same  script that runs the simulation, the output module should be explicitly closed after the simulation run in order to get all events flushed to the file."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Defining the source\n",
+    "To avoid setting each individual cosmic ray by hand we define a cosmic ray source.\n",
+    "The source is located at a distance of 100 Mpc and accelerates protons to a power law spectrum and energies between 1 - 200 EeV."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Cosmic ray source\n",
+      "    SourcePosition: 100 0 0 Mpc\n",
+      "    SourceParticleType: 1000010010\n",
+      "    SourcePowerLawSpectrum: Random energy E = 1 - 200 EeV, dN/dE ~ E^-1\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# cosmic ray source\n",
+    "source = Source()\n",
+    "source.add( SourcePosition(100 * Mpc) )\n",
+    "source.add( SourceParticleType(nucleusId(1, 1)) )\n",
+    "source.add( SourcePowerLawSpectrum(1 * EeV, 200 * EeV, -1) )\n",
+    "print(source)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Running the simulation\n",
+    "\n",
+    "Finally we run the simulation to inject and propagate 10000 cosmic rays. An optional progress bar can show the progress of the simulation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sim.setShowProgress(True)  # switch on the progress bar\n",
+    "sim.run(source, 10000)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### (Optional) Plotting\n",
+    "\n",
+    "This is not part of CRPropa, but since we're at it we can plot the energy spectrum of detected particles to observe the GZK suppression.\n",
+    "The plotting is done here using matplotlib, but of course you can use whatever plotting tool you prefer.  \n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of events 10000\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<matplotlib.legend.Legend at 0x7f764d5ad9b0>"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    },
+    {
+     "data": {
+      "image/png": "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/wfAr371q2ohDaCkpITu3btXPr/sssto3rw5119/fY33d84559CpU6d62wIoSWo63KIm7r33XhYsWMCwYcPo0eM/t1I9/vjj+d73vscNN9zAhRdeuMU3sB8yZAg9evRg4sSJzJ07l+HDhzNo0CAGDBhASUlJtb5z586lWbNmHHDAAbWOU1JSwuOPP75F9Wywzz771Gh7++23eeaZZ+jWrRt77rnnJpd/5513ePLJJ+ncuXPlLuEPatWqFfPnz6+XeiVJTYdBTUyaNAmgxoH4paWlHHbYYdx2222Vx5BtiXbt2vHwww9z7rnnMn36dO6++24AOnfuzGmnncbZZ59dGQbXrFlDaWkpLVu2rDFO8+bN6dy5c7Vdj1viYx/7WI22N954A6BacN2Y1atXk1JixYoVnHfeefVSkyRJ4K7PJm/FihXccccdABx33HHVzuKMCG677TbgP2FuS/Xs2ZPrrruO5cuX88wzz3D55ZfTqVMnzj//fM4///zKfu3bt2fVqlWsW7euxhjvv/8+K1eupF27dpVtzZo1q5xXmw3BqzYfPBsUoEOHDgAsWfLht5bdsFt0zz33JKW0yYckSZvDLWpN3IZrpX3mM5/Z6Fmb06dP55577uGll16id+/eQOEYrS25xlpE0L9/f/r378/hhx9Or169uOOOO7jggguAQuiZOXMms2fPZujQ6jezmD17NhUVFey1116VbR07Fm4H+8orr9R4rbVr1/Lcc5t3O7A2bdqw22678cwzz/D4449vcvfnDjvsQP/+/Zk3bx6rVq2itLR0s15LkqSNcYtaE7fhRIErr7ySa6+9ttbHqaeeWnnCwQadOnVixYoV/Pvf/67za82bN49ly5bVaN/Qtv3221e2jR49GoCzzjqLd955p7L9nXfe4cwzzwRgzJgxle1t27blk5/8JA8++CDPPvtsZXtFRQXjxo3brDo3+O53vwvAqaeeypo1a6rNW79+PUuXLq18Pm7cOMrLyxk9enStW+9Wr17N3LlzN7sGSVLT5ha1Juy+++7jueeeY/fdd6/1gPoNxowZw49//GMmT57MeeedR/PmzRk6dCiPPvoohxxyCJ/73Odo1aoVe+yxB4cddthGx5kxYwbjx49nv/32o2/fvnTt2pXFixczbdo0mjVrxvjx4yv7Hn/88UybNo3f/e53lVvdIoI77riDl156iWOPPZYTTjih2vjjx49nzJgxDBo0iK985Su0bt2aWbNmsW7dOvbYYw+efPLJzfr+nHzyyfztb3/j17/+NX369GHEiBF06dKFV199lXvvvZfRo0dXXp5k9OjRPPbYY1x55ZXsvPPODBs2jF69erFq1SpeeuklZs+ezahRo7j66qs3qwZJUtNmUNuEMw7uW+wSGtSGrWknn3zyJvuVlZXx+c9/nhkzZnDnnXdyxBFHcPbZZ/PGG29w55138uCDD1JRUcHIkSM3GdSGDRvGyy+/zOzZs5k2bRpr166le/fuHHzwwYwbN47999+/Wv+pU6cyZMgQrr/+en71q18BsOuuu/K9732Pb37zmzXGHz16NCklfv7znzNlyhQ6duzIiBEjuOiiizjqqKM299tDRHDjjTcybNgwJk2axO9+9zvee+89unfvzmc/+1m+/OUvV+t/xRVXcOihh3L11Vdzzz338MYbb1BaWkqvXr0YP348X/va1za7BklS0xbb4gHOAwcOTLXd3ueD5s+fz6677toIFUkfjT+jatJmXVy/4x14Vv2OJ9WTiHgspTSwtnluUZMkNQ0GP22FPJlAkiQppwxqkiRJOWVQkyRJyimDmiRJUk4Z1CRJknLKoCZJkpRTBjVJkqScMqhJkiTllEFNkiQppwxqkiRJOWVQkyRJyimDmiRJUk55U/ZNqe8b+Na3It8Q+IYbbmDUqFFMnjyZk046qai1bA0igiFDhnDfffcVuxRJ0lbCLWqqNGfOHEaNGsVOO+3EdtttR7t27dh9990ZP348S5YsKXZ5kiQ1OQY1kVLihz/8IXvvvTe/+c1v+OQnP8l3v/tdxowZw/bbb89Pf/pT+vbty6233lrsUiVJalLc9SkuuOACfvKTn1BWVsYf//hH+vfvX23+bbfdxte+9jW++tWvMmPGDA488MAiVSpJUtPiFrUmbuHChVxwwQW0aNGC6dOn1whpAEcddRSXXnopFRUVfPOb32T9+vU1+vzpT39i//33p02bNnTs2JGjjz6a559/vka/ZcuW8f3vf59+/frRpk0bOnToQL9+/TjppJN48cUXa/S/++67GT58OJ07d6ZVq1bsvPPOjB8/njfeeKNG37KyMsrKyli7di3jxo2jrKyMFi1aMGHCBP7rv/6LiGDatGm1fh8eeeQRIoKjjz66Wvs777zDxRdfzIABA2jTpg077LAD++23H1OnTq11nPLyci644AJ23nlnWrVqRe/evTn77LN57733au0vSdKmuEWtiZs8eTLvv/8+xxxzDLvvvvtG+5188smcf/75/Otf/+L++++vtlXtD3/4A3/+85854ogjOOCAA3jiiSe47bbbmDVrFn//+9/p168fUAg9gwYNYsGCBRx88MEcdthhpJRYtGgR06ZN4+ijj2annXaqHPe8885jwoQJlJaW8qUvfYmuXbvy1FNP8dOf/pS77rqLhx56iHbt2lWrs7y8nIMOOohVq1bxhS98gXbt2tG7d2+GDRvGr371K2688UZGjBhR4/1NmTIFoNpJEW+88QYHHXQQjz/+OHvttRejR49m/fr13H333Rx//PHMmzePCy+8sLJ/SoljjjmGadOmsfPOO/Ptb3+b8vJyrr/+ep5++unNWzGSJGFQa/IeeOABAD7/+c9vsl/z5s058MADufnmm3nwwQerBbU777yTO++8ky996UuVbZdddhljx47ltNNOY+bMmQDMnDmTBQsWMHbsWC699NJq45eXl1fb6jRr1iwmTJjAfvvtx1133UWHDh0q52042/Tcc8+tMc7SpUv51Kc+xf3330+bNm2qzevbty9//OMfWbVqFaWlpZXt7733Hrfccgtdu3blkEMOqWwfO3Ysjz/+OJdccgk/+MEPKtvfffddDj/8cC666CKOPvpoBgwYAMDUqVOZNm0a++67L7NmzaJ169ZAIXDuvffem/z+SpJUG3d9NnFLly4FYMcdd/zQvhv6vPrqq9XaDzrooGohDeDb3/42O++8M/feey+LFi2qNm+77barMXbLli1p27Zt5fPLL78cgGuuuaZaSIPCVq8BAwZw00031Vrnz372sxohDWDkyJGUl5fX2G155513snr1ak444QSaNy/87/L666/zm9/8hoEDB1YLaQCtW7fmkksuIaXEzTffXNk+efJkAC666KLKkAZQWlrKOeecU2utkiRtilvUtMWGDBlSo62kpITBgwezYMECHn/8cT7xiU8wZMgQevTowcSJE5k7dy7Dhw9n0KBBDBgwgJKSkmrLP/TQQ7Ro0YLf//73/P73v68xfnl5OStWrOD111+nU6dOle2tW7fm05/+dK11fv3rX+ecc85hypQpfOtb36psr22356OPPkpFRQURwYQJE2qMtW7dOgDmz59f2TZ37lyaNWvG4MGDa/Q/4IADaq1JkqRNMag1cR/72MeYP38+r7zyyof23dDn4x//eLX2bt26bXRsgDVr1gDQrl07Hn74Yc4991ymT5/O3XffDUDnzp057bTTOPvss2nRogVQ2KL1/vvvc955522yprfeeqtaUOvatSsRUWvfnj17MnToUGbMmMH8+fPZddddWb58OX/5y18YMGBAtYD3+uuvA4XA9uijj27y9TdYs2YNpaWlle+htu+FJEmbw12fTdyGrT/33HPPJvtVVFRUXlF/0KBB1eYtW7as1mVee+01ANq3b1/Z1rNnT6677jqWL1/OM888w+WXX06nTp04//zzOf/88yv7tW/fno4dO5JS2uTjE5/4RLXX3FhI22DkyJHAf7ai3XTTTbz//vuV7VVfH+CMM87Y5OvPmjWr2jKrVq2q3NpW2/dCkqTNYVBr4k466SRKSkq4/fbbmTdv3kb7XX/99bz66qv069evxq7O+++/v0b/ioqKyhMV9txzzxrzI4L+/fvzne98hxkzZgBwxx13VM7fd999Wb169SZr+iiOPPJI2rVrx29+8xvWr1/PlClTaN68Occff3y1fvvssw/NmjXjb3/7W53H3muvvVi/fn3l+67K20ZJkj4Kg1oTt9NOO/Hf//3frFu3ji9/+cs8++yzNfrccccdnH766ZSUlHDVVVfRrFn1H5t7772XP/7xj9XafvnLX7JgwQIOPPDAyq1e8+bNq3Xr24a27bffvrLtjDPOAOAb3/hGjZMXAN5++20efvjhzXy3hRMZjjnmGJYsWcKll17Kk08+yfDhw+natWu1fl27duWEE05gzpw5XHDBBVRUVNQYa8GCBbz00kuVz0eNGgXA//zP//Duu+9Wtq9ataraZTwkSaorj1ETEyZM4O233+bnP/85e+yxB8OGDaN///6sW7eOv//97zzyyCNst912TJ06tda7Ehx22GEcccQRHHHEEeyyyy488cQT/PnPf6a0tJQrr7yyst+MGTMYP348++23H3379qVr164sXryYadOm0axZM8aPH1/Zd+jQoUycOJGzzjqLPn36MHz4cHr37s1bb73FokWLuP/++xk8eDB/+ctfNvv9jhw5kmuvvZazzjqr8nltfvnLX/L888/zox/9iF//+tcMHjyYbt268eqrrzJ//nweffRRpk6dSu/evQE47rjj+O1vf8v0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\n",
+      "text/plain": [
+       "<Figure size 720x504 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "%matplotlib inline\n",
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np\n",
+    "\n",
+    "output2.close()  # close output file before loading\n",
+    "data = np.genfromtxt('events.txt', names=True)\n",
+    "print('Number of events', len(data))\n",
+    "\n",
+    "logE0 = np.log10(data['E0']) + 18\n",
+    "logE  = np.log10(data['E']) + 18\n",
+    "\n",
+    "plt.figure(figsize=(10, 7))\n",
+    "h1 = plt.hist(logE0, bins=25, range=(18, 20.5), histtype='stepfilled', alpha=0.5, label='At source')\n",
+    "h2 = plt.hist(logE,  bins=25, range=(18, 20.5), histtype='stepfilled', alpha=0.5, label='Observed')\n",
+    "plt.xlabel('log(E/eV)')\n",
+    "plt.ylabel('N(E)')\n",
+    "plt.legend(loc = 'upper left', fontsize=20)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.9"
+  },
+  "widgets": {
+   "application/vnd.jupyter.widget-state+json": {
+    "state": {},
+    "version_major": 2,
+    "version_minor": 0
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

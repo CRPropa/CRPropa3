@@ -1,0 +1,47 @@
+
+.. _file_include_crpropa_magneticField_QuimbyMagneticField.h:
+
+File QuimbyMagneticField.h
+==========================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField>` (``include/crpropa/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticField/QuimbyMagneticField.h``)
+--------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticField_QuimbyMagneticField.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1QuimbyMagneticField`
+
+- :ref:`exhale_class_classcrpropa_1_1QuimbyMagneticFieldAdapter`
+

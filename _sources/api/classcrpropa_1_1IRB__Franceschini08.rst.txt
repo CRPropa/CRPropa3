@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1IRB__Franceschini08:
+
+Class IRB_Franceschini08
+========================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TabularPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularPhotonField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::IRB_Franceschini08
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,35 @@
+.. _exhale_class_classcrpropa_1_1AdvectionField:
+
+Class AdvectionField
+====================
+
+- Defined in :ref:`file_include_crpropa_advectionField_AdvectionField.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
+
+
+Derived Types
+*************
+
+- ``public AdvectionFieldList`` (:ref:`exhale_class_classcrpropa_1_1AdvectionFieldList`)
+- ``public ConstantSphericalAdvectionField`` (:ref:`exhale_class_classcrpropa_1_1ConstantSphericalAdvectionField`)
+- ``public SphericalAdvectionField`` (:ref:`exhale_class_classcrpropa_1_1SphericalAdvectionField`)
+- ``public SphericalAdvectionShock`` (:ref:`exhale_class_classcrpropa_1_1SphericalAdvectionShock`)
+- ``public UniformAdvectionField`` (:ref:`exhale_class_classcrpropa_1_1UniformAdvectionField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::AdvectionField
+   :members:
+   :protected-members:
+   :undoc-members:

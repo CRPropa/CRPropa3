@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1PlanckJF12bField:
+
+Class PlanckJF12bField
+======================
+
+- Defined in :ref:`file_include_crpropa_magneticField_JF12Field.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public JF12Field`` (:ref:`exhale_class_classcrpropa_1_1JF12Field`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PlanckJF12bField
+   :members:
+   :protected-members:
+   :undoc-members:

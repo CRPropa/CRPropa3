@@ -1,0 +1,13 @@
+.. _exhale_typedef_namespacecrpropa_1afdeae388527922b41dd13abc77ffdb59:
+
+Typedef crpropa::ModelMatrixType
+================================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: crpropa::ModelMatrixType

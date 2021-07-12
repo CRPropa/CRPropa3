@@ -1,0 +1,75 @@
+
+.. _program_listing_file_include_crpropa_Geometry.h:
+
+Program Listing for File Geometry.h
+===================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_Geometry.h>` (``include/crpropa/Geometry.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef GEOMETRY_H
+   #define GEOMETRY_H
+   
+   #include <vector>
+   #include <string>
+   
+   #include "crpropa/Candidate.h"
+   #include "crpropa/Vector3.h"
+   #include "crpropa/Referenced.h"
+   
+   namespace crpropa
+   {
+   class Surface : public Referenced
+   {
+           public:
+   
+       virtual double distance(const Vector3d& point) const = 0;
+       virtual Vector3d normal(const Vector3d& point) const = 0;
+                   virtual std::string getDescription() const {return "Surface without description.";};
+   };
+   
+   
+   class Plane: public Surface
+   {
+           private:
+                   Vector3d x0, n;
+           public:
+                   Plane(const Vector3d& _x0, const Vector3d& v1,const Vector3d& v2);
+                   Plane(const Vector3d& _x0, const Vector3d& _n);
+       virtual double distance(const Vector3d &x) const;
+       virtual Vector3d normal(const Vector3d& point) const;
+                   virtual std::string getDescription() const;
+   };
+   
+   
+   class Sphere: public Surface
+   {
+           private:
+                   Vector3d center;
+                   double radius;
+           public:
+                   Sphere(const Vector3d& _center, double _radius);
+       virtual double distance(const Vector3d &point) const;
+       virtual Vector3d normal(const Vector3d& point) const;
+                   virtual std::string getDescription() const;
+   };
+   
+   
+   class ParaxialBox: public Surface
+   {
+           private:
+                   Vector3d corner, size;
+           public:
+                   ParaxialBox(const Vector3d& _corner, const Vector3d& _size);
+       virtual double distance(const Vector3d &point) const;
+       virtual Vector3d normal(const Vector3d& point) const;
+                   virtual std::string getDescription() const;
+   };
+   
+   
+   } // namespace crpropa
+   
+   #endif // GEOMETRY_H

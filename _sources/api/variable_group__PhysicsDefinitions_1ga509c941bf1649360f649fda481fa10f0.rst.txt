@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0:
+
+Variable crpropa::rad
+=====================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::rad

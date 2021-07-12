@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1PlaneWaveTurbulence:
+
+Class PlaneWaveTurbulence
+=========================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_PlaneWaveTurbulence.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TurbulentField`` (:ref:`exhale_class_classcrpropa_1_1TurbulentField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PlaneWaveTurbulence
+   :members:
+   :protected-members:
+   :undoc-members:

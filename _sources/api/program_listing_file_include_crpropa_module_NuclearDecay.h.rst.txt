@@ -1,0 +1,51 @@
+
+.. _program_listing_file_include_crpropa_module_NuclearDecay.h:
+
+Program Listing for File NuclearDecay.h
+=======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_NuclearDecay.h>` (``include/crpropa/module/NuclearDecay.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_NUCLEARDECAY_H
+   #define CRPROPA_NUCLEARDECAY_H
+   
+   #include "crpropa/Module.h"
+   
+   #include <vector>
+   
+   namespace crpropa {
+   class NuclearDecay: public Module {
+   private:
+           double limit;
+           bool haveElectrons;
+           bool havePhotons;
+           bool haveNeutrinos;
+           struct DecayMode {
+                   int channel; // (#beta- #beta+ #alpha #proton #neutron)
+                   double rate; // decay rate in [1/m]
+                   std::vector<double> energy; // photon energies of ensuing gamma decays
+                   std::vector<double> intensity; // probabilities of ensuing gamma decays
+           };
+           std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
+   
+   public:
+           NuclearDecay(bool electrons = false, bool photons = false, bool neutrinos = false, double limit = 0.1);
+           void setLimit(double limit);
+           void setHaveElectrons(bool b);
+           void setHavePhotons(bool b);
+           void setHaveNeutrinos(bool b);
+           void process(Candidate *candidate) const;
+           void performInteraction(Candidate *candidate, int channel) const;
+           void gammaEmission(Candidate *candidate, int channel) const;
+           void betaDecay(Candidate *candidate, bool isBetaPlus) const;
+           void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
+   
+           double meanFreePath(int id, double gamma);
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_NUCLEARDECAY_H

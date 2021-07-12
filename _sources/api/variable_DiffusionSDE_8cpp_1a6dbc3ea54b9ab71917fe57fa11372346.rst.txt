@@ -1,0 +1,13 @@
+.. _exhale_variable_DiffusionSDE_8cpp_1a6dbc3ea54b9ab71917fe57fa11372346:
+
+Variable b
+==========
+
+- Defined in :ref:`file_src_module_DiffusionSDE.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: b

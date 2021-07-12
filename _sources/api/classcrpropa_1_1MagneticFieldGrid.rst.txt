@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1MagneticFieldGrid:
+
+Class MagneticFieldGrid
+=======================
+
+- Defined in :ref:`file_include_crpropa_magneticField_MagneticFieldGrid.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::MagneticFieldGrid
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,41 @@
+.. _exhale_class_classcrpropa_1_1TabularPhotonField:
+
+Class TabularPhotonField
+========================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public PhotonField`` (:ref:`exhale_class_classcrpropa_1_1PhotonField`)
+
+
+Derived Types
+*************
+
+- ``public IRB_Dominguez11`` (:ref:`exhale_class_classcrpropa_1_1IRB__Dominguez11`)
+- ``public IRB_Finke10`` (:ref:`exhale_class_classcrpropa_1_1IRB__Finke10`)
+- ``public IRB_Franceschini08`` (:ref:`exhale_class_classcrpropa_1_1IRB__Franceschini08`)
+- ``public IRB_Gilmore12`` (:ref:`exhale_class_classcrpropa_1_1IRB__Gilmore12`)
+- ``public IRB_Kneiske04`` (:ref:`exhale_class_classcrpropa_1_1IRB__Kneiske04`)
+- ``public IRB_Stecker05`` (:ref:`exhale_class_classcrpropa_1_1IRB__Stecker05`)
+- ``public IRB_Stecker16_lower`` (:ref:`exhale_class_classcrpropa_1_1IRB__Stecker16__lower`)
+- ``public IRB_Stecker16_upper`` (:ref:`exhale_class_classcrpropa_1_1IRB__Stecker16__upper`)
+- ``public URB_Fixsen11`` (:ref:`exhale_class_classcrpropa_1_1URB__Fixsen11`)
+- ``public URB_Nitu21`` (:ref:`exhale_class_classcrpropa_1_1URB__Nitu21`)
+- ``public URB_Protheroe96`` (:ref:`exhale_class_classcrpropa_1_1URB__Protheroe96`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::TabularPhotonField
+   :members:
+   :protected-members:
+   :undoc-members:

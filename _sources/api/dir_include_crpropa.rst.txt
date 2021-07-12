@@ -1,0 +1,53 @@
+.. _dir_include_crpropa:
+
+
+Directory crpropa
+=================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include>` (``include``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``include/crpropa``
+
+Subdirectories
+--------------
+
+- :ref:`dir_include_crpropa_advectionField`
+- :ref:`dir_include_crpropa_magneticField`
+- :ref:`dir_include_crpropa_magneticLens`
+- :ref:`dir_include_crpropa_massDistribution`
+- :ref:`dir_include_crpropa_module`
+
+
+Files
+-----
+
+- :ref:`file_include_crpropa_AssocVector.h`
+- :ref:`file_include_crpropa_base64.h`
+- :ref:`file_include_crpropa_Candidate.h`
+- :ref:`file_include_crpropa_Clock.h`
+- :ref:`file_include_crpropa_Common.h`
+- :ref:`file_include_crpropa_Cosmology.h`
+- :ref:`file_include_crpropa_EmissionMap.h`
+- :ref:`file_include_crpropa_Geometry.h`
+- :ref:`file_include_crpropa_Grid.h`
+- :ref:`file_include_crpropa_GridTools.h`
+- :ref:`file_include_crpropa_Logging.h`
+- :ref:`file_include_crpropa_Module.h`
+- :ref:`file_include_crpropa_ModuleList.h`
+- :ref:`file_include_crpropa_ParticleID.h`
+- :ref:`file_include_crpropa_ParticleMass.h`
+- :ref:`file_include_crpropa_ParticleState.h`
+- :ref:`file_include_crpropa_PhotonBackground.h`
+- :ref:`file_include_crpropa_PhotonPropagation.h`
+- :ref:`file_include_crpropa_Random.h`
+- :ref:`file_include_crpropa_Referenced.h`
+- :ref:`file_include_crpropa_Source.h`
+- :ref:`file_include_crpropa_Units.h`
+- :ref:`file_include_crpropa_Variant.h`
+- :ref:`file_include_crpropa_Vector3.h`
+- :ref:`file_include_crpropa_Version.h`
+
+

@@ -1,0 +1,38 @@
+
+.. _file_src_massDistribution_Ferriere.cpp:
+
+File Ferriere.cpp
+=================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_massDistribution>` (``src/massDistribution``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/massDistribution/Ferriere.cpp``)
+--------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_massDistribution_Ferriere.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+

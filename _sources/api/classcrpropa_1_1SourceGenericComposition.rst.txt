@@ -1,0 +1,35 @@
+.. _exhale_class_classcrpropa_1_1SourceGenericComposition:
+
+Class SourceGenericComposition
+==============================
+
+- Defined in :ref:`file_include_crpropa_Source.h`
+
+
+Nested Relationships
+--------------------
+
+
+Nested Types
+************
+
+- :ref:`exhale_struct_structcrpropa_1_1SourceGenericComposition_1_1Nucleus`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public SourceFeature`` (:ref:`exhale_class_classcrpropa_1_1SourceFeature`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SourceGenericComposition
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga081984cd46a9399a0ca008fa9694e252:
+
+Template Function crpropa::get_pointer
+======================================
+
+- Defined in :ref:`file_include_crpropa_Referenced.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::get_pointer(const ref_ptr<T>&)

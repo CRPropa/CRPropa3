@@ -1,0 +1,13 @@
+.. _exhale_function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514:
+
+Function crpropa::turbulentCorrelationLength
+============================================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::turbulentCorrelationLength(double, double, double)

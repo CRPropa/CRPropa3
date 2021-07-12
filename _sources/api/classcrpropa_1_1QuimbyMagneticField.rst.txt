@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1QuimbyMagneticField:
+
+Class QuimbyMagneticField
+=========================
+
+- Defined in :ref:`file_include_crpropa_magneticField_QuimbyMagneticField.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::QuimbyMagneticField
+   :members:
+   :protected-members:
+   :undoc-members:

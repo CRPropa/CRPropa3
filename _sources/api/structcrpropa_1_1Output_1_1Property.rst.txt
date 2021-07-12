@@ -1,0 +1,22 @@
+.. _exhale_struct_structcrpropa_1_1Output_1_1Property:
+
+Struct Output::Property
+=======================
+
+- Defined in :ref:`file_include_crpropa_module_Output.h`
+
+
+Nested Relationships
+--------------------
+
+This struct is a nested type of :ref:`exhale_class_classcrpropa_1_1Output`.
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::Output::Property
+   :members:
+   :protected-members:
+   :undoc-members:

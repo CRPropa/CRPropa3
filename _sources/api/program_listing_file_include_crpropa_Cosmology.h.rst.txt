@@ -1,0 +1,50 @@
+
+.. _program_listing_file_include_crpropa_Cosmology.h:
+
+Program Listing for File Cosmology.h
+====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_Cosmology.h>` (``include/crpropa/Cosmology.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_COSMOLOGY_H
+   #define CRPROPA_COSMOLOGY_H
+   
+   namespace crpropa {
+   void setCosmologyParameters(double hubbleParameter, double omegaMatter);
+   
+   double hubbleRate(double redshift = 0);
+   
+   // Returns the dark energy density parameter
+   double omegaL();
+   
+   // Returns the matter density parameter
+   double omegaM();
+   
+   // Returns the hubble parameter
+   double H0();
+   
+   double comovingDistance2Redshift(double distance);
+   
+   double redshift2ComovingDistance(double redshift);
+   
+   double luminosityDistance2Redshift(double distance);
+   
+   double redshift2LuminosityDistance(double redshift);
+   
+   double lightTravelDistance2Redshift(double distance);
+   
+   double redshift2LightTravelDistance(double redshift);
+   
+   // Conversion from comoving distance to light travel distance.
+   double comoving2LightTravelDistance(double distance);
+   
+   // Conversion from light travel distance to comoving distance.
+   double lightTravel2ComovingDistance(double distance);
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_COSMOLOGY_H

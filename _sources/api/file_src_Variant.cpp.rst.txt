@@ -1,0 +1,64 @@
+
+.. _file_src_Variant.cpp:
+
+File Variant.cpp
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_src>` (``src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/Variant.cpp``)
+--------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_Variant.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacecrpropa_1a448086ceaf529624e117a62fa60e10aa`
+
+- :ref:`exhale_function_namespacecrpropa_1a8676e1e10f07270f85a70588b058abc1`
+
+- :ref:`exhale_function_namespacecrpropa_1a7db8bb059dffc37dc4ffff142169a090`
+
+- :ref:`exhale_function_namespacecrpropa_1ad63beadaef5583c2cc4d1d578c8d554d`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespacecrpropa_1a699a2b489ae81d7ee049796081556d94`
+
+- :ref:`exhale_variable_namespacecrpropa_1a323e09b7c947fb1577ea63ad92513576`
+
+- :ref:`exhale_variable_namespacecrpropa_1a058578e0da15617cda7c60801820ab5e`
+
+- :ref:`exhale_variable_namespacecrpropa_1ac642ed37e7a0473e46232d0e67615bb5`
+

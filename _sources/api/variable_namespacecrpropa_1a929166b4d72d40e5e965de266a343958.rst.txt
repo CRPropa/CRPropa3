@@ -1,0 +1,13 @@
+.. _exhale_variable_namespacecrpropa_1a929166b4d72d40e5e965de266a343958:
+
+Variable crpropa::cash_karp_a
+=============================
+
+- Defined in :ref:`file_src_module_PropagationCK.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::cash_karp_a

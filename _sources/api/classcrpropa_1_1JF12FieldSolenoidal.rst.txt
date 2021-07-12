@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1JF12FieldSolenoidal:
+
+Class JF12FieldSolenoidal
+=========================
+
+- Defined in :ref:`file_include_crpropa_magneticField_JF12FieldSolenoidal.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public JF12Field`` (:ref:`exhale_class_classcrpropa_1_1JF12Field`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::JF12FieldSolenoidal
+   :members:
+   :protected-members:
+   :undoc-members:

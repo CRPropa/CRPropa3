@@ -1,0 +1,107 @@
+
+.. _file_include_crpropa_Source.h:
+
+File Source.h
+=============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/Source.h``)
+-----------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_Source.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structcrpropa_1_1SourceGenericComposition_1_1Nucleus`
+
+- :ref:`exhale_class_classcrpropa_1_1Source`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceComposition`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceDensityGrid`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceDirection`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceEmissionCone`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceEmissionMap`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceEnergy`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceFeature`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceGenericComposition`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceInterface`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceIsotropicEmission`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceLambertDistributionOnSphere`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceList`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceMultipleParticleTypes`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceMultiplePositions`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceParticleType`
+
+- :ref:`exhale_class_classcrpropa_1_1SourcePosition`
+
+- :ref:`exhale_class_classcrpropa_1_1SourcePowerLawSpectrum`
+
+- :ref:`exhale_class_classcrpropa_1_1SourcePulsarDistribution`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceRedshift`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceRedshift1D`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceRedshiftEvolution`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceSNRDistribution`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniform1D`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniformBox`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniformCylinder`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniformHollowSphere`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniformRedshift`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniformShell`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceUniformSphere`
+

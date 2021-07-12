@@ -1,0 +1,49 @@
+
+.. _file_src_module_PropagationCK.cpp:
+
+File PropagationCK.cpp
+======================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_module>` (``src/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/module/PropagationCK.cpp``)
+---------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_module_PropagationCK.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespacecrpropa_1a929166b4d72d40e5e965de266a343958`
+
+- :ref:`exhale_variable_namespacecrpropa_1a7214685a5e4e5cb7676d0409df697c3f`
+
+- :ref:`exhale_variable_namespacecrpropa_1ad72f196832be4ead6ec3171c1cd925d6`
+

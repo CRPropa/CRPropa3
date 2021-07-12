@@ -1,0 +1,119 @@
+
+.. _program_listing_file_include_crpropa_module_Acceleration.h:
+
+Program Listing for File Acceleration.h
+=======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_Acceleration.h>` (``include/crpropa/module/Acceleration.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_ACCELERATION
+   #define CRPROPA_ACCELERATION
+   
+   #include <crpropa/Candidate.h>
+   #include <crpropa/Geometry.h>
+   #include <crpropa/Module.h>
+   #include <crpropa/Units.h>
+   #include <crpropa/Vector3.h>
+   
+   #include <string>
+   
+   namespace crpropa {
+   class StepLengthModifier : public Referenced {
+     public:
+           virtual double modify(double steplength, Candidate *candidate) = 0;
+   };
+   
+   
+   class AbstractAccelerationModule : public Module {
+           double stepLength;
+           std::vector<ref_ptr<StepLengthModifier>> modifiers;
+   
+     public:
+           AbstractAccelerationModule(double _stepLength = 1. * parsec);
+           // add a step length modifier to the model
+           void add(StepLengthModifier *modifier);
+           // update the candidate
+           void process(Candidate *candidate) const;
+   
+           virtual Vector3d scatterCenterVelocity(Candidate *candidate) const = 0;
+   
+           void scatter(Candidate *candidate,
+                        const Vector3d &scatter_center_velocity) const;
+   };
+   
+   
+   class SecondOrderFermi : public AbstractAccelerationModule {
+           double scatterVelocity;
+           std::vector<double> angle;
+           std::vector<double> angleCDF;
+   
+     public:
+           SecondOrderFermi(double scatterVelocity = .1 * crpropa::c_light,
+                            double stepLength = 1. * crpropa::parsec,
+                            unsigned int sizeOfPitchangleTable = 10000);
+           virtual crpropa::Vector3d
+           scatterCenterVelocity(crpropa::Candidate *candidate) const;
+   };
+   
+   
+   class DirectedFlowScattering : public AbstractAccelerationModule {
+     private:
+           crpropa::Vector3d __scatterVelocity;
+   
+     public:
+           DirectedFlowScattering(crpropa::Vector3d scatterCenterVelocity,
+                                  double stepLength = 1. * parsec);
+           virtual crpropa::Vector3d
+           scatterCenterVelocity(crpropa::Candidate *candidate) const;
+   };
+   
+   
+   class DirectedFlowOfScatterCenters : public StepLengthModifier {
+     private:
+           Vector3d __scatterVelocity;
+   
+     public:
+           DirectedFlowOfScatterCenters(const Vector3d &scatterCenterVelocity);
+           double modify(double steplength, Candidate *candidate);
+   };
+   
+   
+   class QuasiLinearTheory : public StepLengthModifier {
+           private:
+           double __referenceEnergy;
+           double __turbulenceIndex;
+           double __minimumRigidity;
+   
+     public:
+           QuasiLinearTheory(double referenecEnergy = 1. * EeV,
+                             double turbulenceIndex = 5. / 3,
+                             double minimumRigidity = 0);
+           double modify(double steplength, Candidate *candidate);
+   };
+   
+   
+   class ParticleSplitting : public Module {
+           int numSplits;
+           int crossingThreshold;
+           double minWeight;
+           ref_ptr<Surface> surface;
+           std::string counterid;
+   
+           public:
+           ParticleSplitting(Surface *surface, int crossingThreshold = 50,
+                             int numSplits = 5, double minWeight = 0.01,
+                             std::string counterid = "ParticleSplittingCounter");
+   
+           // update the candidate
+           void process(Candidate *candidate) const;
+   };
+   
+    // end of group Acceleration
+   
+   } // namespace crpropa
+   
+   #endif

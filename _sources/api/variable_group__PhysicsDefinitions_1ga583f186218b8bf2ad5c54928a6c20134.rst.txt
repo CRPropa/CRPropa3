@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga583f186218b8bf2ad5c54928a6c20134:
+
+Variable crpropa::minute
+========================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::minute

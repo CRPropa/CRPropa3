@@ -1,0 +1,13 @@
+.. _exhale_variable_Version_8h_1a6e70968528819ece37e7d5f722c53efc:
+
+Variable g_GIT_SHA1
+===================
+
+- Defined in :ref:`file_include_crpropa_Version.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: g_GIT_SHA1

@@ -1,0 +1,52 @@
+
+.. _file_include_crpropa_magneticField_turbulentField_HelicalGridTurbulence.h:
+
+File HelicalGridTurbulence.h
+============================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField_turbulentField>` (``include/crpropa/magneticField/turbulentField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticField/turbulentField/HelicalGridTurbulence.h``)
+-------------------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticField_turbulentField_HelicalGridTurbulence.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1HelicalGridTurbulence`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_group__MagneticFields_1ga395cc353f63d9b16412f33e522b1be5e`
+

@@ -1,0 +1,40 @@
+.. _exhale_class_classcrpropa_1_1Referenced:
+
+Class Referenced
+================
+
+- Defined in :ref:`file_include_crpropa_Referenced.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Derived Types
+*************
+
+- ``public AdvectionField`` (:ref:`exhale_class_classcrpropa_1_1AdvectionField`)
+- ``public Candidate`` (:ref:`exhale_class_classcrpropa_1_1Candidate`)
+- ``public CylindricalProjectionMap`` (:ref:`exhale_class_classcrpropa_1_1CylindricalProjectionMap`)
+- ``public Density`` (:ref:`exhale_class_classcrpropa_1_1Density`)
+- ``public EmissionMap`` (:ref:`exhale_class_classcrpropa_1_1EmissionMap`)
+- ``public Grid< T >`` (:ref:`exhale_class_classcrpropa_1_1Grid`)
+- ``public GridProperties`` (:ref:`exhale_class_classcrpropa_1_1GridProperties`)
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+- ``public ObserverFeature`` (:ref:`exhale_class_classcrpropa_1_1ObserverFeature`)
+- ``public PhotonField`` (:ref:`exhale_class_classcrpropa_1_1PhotonField`)
+- ``public SourceFeature`` (:ref:`exhale_class_classcrpropa_1_1SourceFeature`)
+- ``public SourceInterface`` (:ref:`exhale_class_classcrpropa_1_1SourceInterface`)
+- ``public StepLengthModifier`` (:ref:`exhale_class_classcrpropa_1_1StepLengthModifier`)
+- ``public Surface`` (:ref:`exhale_class_classcrpropa_1_1Surface`)
+- ``public TurbulenceSpectrum`` (:ref:`exhale_class_classcrpropa_1_1TurbulenceSpectrum`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::Referenced
+   :members:
+   :protected-members:
+   :undoc-members:

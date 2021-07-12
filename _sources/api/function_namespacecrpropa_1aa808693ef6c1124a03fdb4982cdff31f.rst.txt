@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f:
+
+Function crpropa::VARIANT_TO_DECL(UInt16, uint16_t)
+===================================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::VARIANT_TO_DECL(UInt16, uint16_t)

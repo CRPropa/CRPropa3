@@ -1,0 +1,13 @@
+.. _exhale_function_group__MagneticFields_1ga72edae87b1e7c5f473488e4624598f38:
+
+Function crpropa::initTurbulence
+================================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::initTurbulence(ref_ptr<Grid3f>, double, double, double, double, int)

@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a58d1c26f67a5fb318a051cdb203d2f57:
+
+Function crpropa::normalizeColumns
+==================================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::normalizeColumns(ModelMatrixType&)

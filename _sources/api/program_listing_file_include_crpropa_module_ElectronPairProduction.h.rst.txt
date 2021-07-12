@@ -1,0 +1,46 @@
+
+.. _program_listing_file_include_crpropa_module_ElectronPairProduction.h:
+
+Program Listing for File ElectronPairProduction.h
+=================================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_ElectronPairProduction.h>` (``include/crpropa/module/ElectronPairProduction.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_ELECTRONPAIRPRODUCTION_H
+   #define CRPROPA_ELECTRONPAIRPRODUCTION_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/PhotonBackground.h"
+   
+   namespace crpropa {
+   
+   class ElectronPairProduction: public Module {
+   private:
+           ref_ptr<PhotonField> photonField;
+           std::vector<double> tabLossRate; /*< tabulated energy loss rate in [J/m] for protons at z = 0 */
+           std::vector<double> tabLorentzFactor; /*< tabulated Lorentz factor */
+           std::vector<std::vector<double> > tabSpectrum; /*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-24 in 170 steps and log10(gamma)=6-13 in 70 steps and*/
+           double limit; 
+           bool haveElectrons;
+   
+   public:
+           ElectronPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons =
+                           false, double limit = 0.1);
+   
+           void setPhotonField(ref_ptr<PhotonField> photonField);
+           void setHaveElectrons(bool haveElectrons);
+           void setLimit(double limit);
+   
+           void initRate(std::string filename);
+           void initSpectrum(std::string filename);
+           void process(Candidate *candidate) const;
+   
+           double lossLength(int id, double lf, double z=0) const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_ELECTRONPAIRPRODUCTION_H

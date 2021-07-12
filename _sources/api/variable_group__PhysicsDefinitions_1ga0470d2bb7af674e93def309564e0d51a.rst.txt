@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga0470d2bb7af674e93def309564e0d51a:
+
+Variable crpropa::kiloparsec
+============================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::kiloparsec

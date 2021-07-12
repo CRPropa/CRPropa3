@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gab38b15c5eece78fad9d84103d8b90a89:
+
+Variable crpropa::epsilon0
+==========================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::epsilon0

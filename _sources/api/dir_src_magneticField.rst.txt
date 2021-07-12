@@ -1,0 +1,31 @@
+.. _dir_src_magneticField:
+
+
+Directory magneticField
+=======================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_src>` (``src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``src/magneticField``
+
+Subdirectories
+--------------
+
+- :ref:`dir_src_magneticField_turbulentField`
+
+
+Files
+-----
+
+- :ref:`file_src_magneticField_ArchimedeanSpiralField.cpp`
+- :ref:`file_src_magneticField_JF12Field.cpp`
+- :ref:`file_src_magneticField_JF12FieldSolenoidal.cpp`
+- :ref:`file_src_magneticField_MagneticField.cpp`
+- :ref:`file_src_magneticField_MagneticFieldGrid.cpp`
+- :ref:`file_src_magneticField_PT11Field.cpp`
+- :ref:`file_src_magneticField_TF17Field.cpp`
+
+

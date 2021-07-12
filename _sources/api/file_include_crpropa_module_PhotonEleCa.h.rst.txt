@@ -1,0 +1,47 @@
+
+.. _file_include_crpropa_module_PhotonEleCa.h:
+
+File PhotonEleCa.h
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_module>` (``include/crpropa/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/module/PhotonEleCa.h``)
+-----------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_module_PhotonEleCa.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+- :ref:`namespace_eleca`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1PhotonEleCa`
+

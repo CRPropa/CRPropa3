@@ -1,0 +1,13 @@
+.. _exhale_typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206:
+
+Typedef crpropa::Vector3d
+=========================
+
+- Defined in :ref:`file_include_crpropa_Vector3.h`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: crpropa::Vector3d

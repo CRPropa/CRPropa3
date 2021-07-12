@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga0591bc9690afaadc6c5694bde7b170c7:
+
+Function crpropa::getInstallPrefix
+==================================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::getInstallPrefix()

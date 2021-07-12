@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga2b07458531ae106828e1cf6c467e31fd:
+
+Template Function crpropa::static_pointer_cast
+==============================================
+
+- Defined in :ref:`file_include_crpropa_Referenced.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::static_pointer_cast(const ref_ptr<Y>&)

@@ -1,0 +1,80 @@
+
+.. _program_listing_file_include_crpropa_module_PropagationCK.h:
+
+Program Listing for File PropagationCK.h
+========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_PropagationCK.h>` (``include/crpropa/module/PropagationCK.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PROPAGATIONCK_H
+   #define CRPROPA_PROPAGATIONCK_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/Units.h"
+   #include "crpropa/magneticField/MagneticField.h"
+   
+   namespace crpropa {
+   class PropagationCK: public Module {
+   public:
+           class Y {
+           public:
+                   Vector3d x, u; /*< phase-point: position and direction */
+   
+                   Y() {
+                   }
+   
+                   Y(const Vector3d &x, const Vector3d &u) :
+                                   x(x), u(u) {
+                   }
+   
+                   Y(double f) :
+                                   x(Vector3d(f, f, f)), u(Vector3d(f, f, f)) {
+                   }
+   
+                   Y operator *(double f) const {
+                           return Y(x * f, u * f);
+                   }
+   
+                   Y &operator +=(const Y &y) {
+                           x += y.x;
+                           u += y.u;
+                           return *this;
+                   }
+           };
+   
+   private:
+           std::vector<double> a, b, bs; /*< Cash-Karp coefficients */
+           ref_ptr<MagneticField> field;
+           double tolerance; /*< target relative error of the numerical integration */
+           double minStep; /*< minimum step size of the propagation */
+           double maxStep; /*< maximum step size of the propagation */
+   
+   public:
+           PropagationCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
+                           double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
+           void process(Candidate *candidate) const;
+   
+           // derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)
+           // du/dt = q*c^2/E * (u x B)
+           Y dYdt(const Y &y, ParticleState &p, double z) const;
+   
+           void tryStep(const Y &y, Y &out, Y &error, double t,
+                           ParticleState &p, double z) const;
+   
+           void setField(ref_ptr<MagneticField> field);
+           void setTolerance(double tolerance);
+           void setMinimumStep(double minStep);
+           void setMaximumStep(double maxStep);
+   
+           double getTolerance() const;
+           double getMinimumStep() const;
+           double getMaximumStep() const;
+           std::string getDescription() const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PROPAGATIONCK_H

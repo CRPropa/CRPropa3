@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1af379693cbe113b71573bcefd2e9041a0:
+
+Function crpropa::FillInSpectrum
+================================
+
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::FillInSpectrum(Spectrum *, const _Secondary&)

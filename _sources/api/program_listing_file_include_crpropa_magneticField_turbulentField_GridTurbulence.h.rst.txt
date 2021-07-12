@@ -1,0 +1,63 @@
+
+.. _program_listing_file_include_crpropa_magneticField_turbulentField_GridTurbulence.h:
+
+Program Listing for File GridTurbulence.h
+=========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_turbulentField_GridTurbulence.h>` (``include/crpropa/magneticField/turbulentField/GridTurbulence.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_GRIDTURBULENCE_H
+   #define CRPROPA_GRIDTURBULENCE_H
+   
+   #ifdef CRPROPA_HAVE_FFTW3F
+   
+   #include "crpropa/Grid.h"
+   #include "crpropa/magneticField/turbulentField/TurbulentField.h"
+   
+   #include "fftw3.h"
+   
+   namespace crpropa {
+   class GridTurbulence : public TurbulentField {
+     protected:
+           unsigned int seed;
+           ref_ptr<Grid3f> gridPtr;
+   
+           void initGrid(const GridProperties &grid);
+           void initTurbulence();
+   
+     public:
+           GridTurbulence(const TurbulenceSpectrum &spectum,
+                          const GridProperties &gridProp, unsigned int seed = 0);
+   
+           Vector3d getField(const Vector3d &pos) const;
+   
+           const ref_ptr<Grid3f> &getGrid() const;
+   
+           /* Helper functions for synthetic turbulent field models */
+           // Check the grid properties before the FFT procedure
+           static void checkGridRequirements(ref_ptr<Grid3f> grid, double lMin,
+                                             double lMax);
+           // Execute inverse discrete FFT in-place for a 3D grid, from complex to real
+           // space
+           static void executeInverseFFTInplace(ref_ptr<Grid3f> grid,
+                                                fftwf_complex *Bkx, fftwf_complex *Bky,
+                                                fftwf_complex *Bkz);
+   
+           // Usefull checks for a grid field
+           Vector3f getMeanFieldVector() const;
+           double getMeanFieldStrength() const;
+           double getRmsFieldStrength() const;
+           std::array<float, 3> getRmsFieldStrengthPerAxis() const;
+           std::vector<std::pair<int, float>> getPowerSpectrum() const;
+           void dumpToFile(std::string filename) const;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_HAVE_FFTW3F
+   
+   #endif // CRPROPA_GRIDTURBULENCE_H

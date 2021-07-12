@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1Nakanishi:
+
+Class Nakanishi
+===============
+
+- Defined in :ref:`file_include_crpropa_massDistribution_Nakanishi.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Density`` (:ref:`exhale_class_classcrpropa_1_1Density`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::Nakanishi
+   :members:
+   :protected-members:
+   :undoc-members:

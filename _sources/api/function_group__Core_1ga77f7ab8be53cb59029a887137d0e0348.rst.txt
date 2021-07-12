@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga77f7ab8be53cb59029a887137d0e0348:
+
+Template Function crpropa::operator*
+====================================
+
+- Defined in :ref:`file_include_crpropa_Vector3.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::operator*(T, const Vector3<T>&)

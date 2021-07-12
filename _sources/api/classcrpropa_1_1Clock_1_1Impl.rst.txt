@@ -1,0 +1,22 @@
+.. _exhale_class_classcrpropa_1_1Clock_1_1Impl:
+
+Class Clock::Impl
+=================
+
+- Defined in :ref:`file_src_Clock.cpp`
+
+
+Nested Relationships
+--------------------
+
+This class is a nested type of :ref:`exhale_class_classcrpropa_1_1Clock`.
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::Clock::Impl
+   :members:
+   :protected-members:
+   :undoc-members:

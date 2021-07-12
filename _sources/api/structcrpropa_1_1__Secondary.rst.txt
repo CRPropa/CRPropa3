@@ -1,0 +1,16 @@
+.. _exhale_struct_structcrpropa_1_1__Secondary:
+
+Struct _Secondary
+=================
+
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::_Secondary
+   :members:
+   :protected-members:
+   :undoc-members:

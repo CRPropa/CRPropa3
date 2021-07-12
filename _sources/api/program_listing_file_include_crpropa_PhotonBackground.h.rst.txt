@@ -1,0 +1,185 @@
+
+.. _program_listing_file_include_crpropa_PhotonBackground.h:
+
+Program Listing for File PhotonBackground.h
+===========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_PhotonBackground.h>` (``include/crpropa/PhotonBackground.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PHOTONBACKGROUND_H
+   #define CRPROPA_PHOTONBACKGROUND_H
+   
+   #include "crpropa/Common.h"
+   #include "crpropa/Referenced.h"
+   
+   #include <vector>
+   #include <string>
+   
+   namespace crpropa {
+   class PhotonField: public Referenced {
+   public:
+           PhotonField() {
+                   this->fieldName = "AbstractPhotonField";
+                   this->isRedshiftDependent = false;
+           }
+   
+           virtual double getPhotonDensity(double ePhoton, double z = 0.) const = 0;
+   
+           virtual double getRedshiftScaling(double z) const {
+                   return 1.;
+           };
+   
+           bool hasRedshiftDependence() const {
+                   return this->isRedshiftDependent;
+           }
+   
+           std::string getFieldName() const {
+                   return this->fieldName;
+           }
+   
+   protected:
+           std::string fieldName;
+           bool isRedshiftDependent;
+   };
+   
+   class TabularPhotonField: public PhotonField {
+   public:
+           TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
+           double getPhotonDensity(double ePhoton, double z = 0.) const;
+           double getRedshiftScaling(double z) const;
+   
+   protected:
+           void readPhotonEnergy(std::string filePath);
+           void readPhotonDensity(std::string filePath);
+           void readRedshift(std::string filePath);
+           void initRedshiftScaling();
+           void checkInputData() const;
+   
+           std::vector<double> photonEnergies;
+           std::vector<double> photonDensity;
+           std::vector<double> redshifts;
+           std::vector<double> redshiftScalings;
+   };
+   
+   class IRB_Kneiske04: public TabularPhotonField {
+   public:
+           IRB_Kneiske04() : TabularPhotonField("IRB_Kneiske04", true) {}
+   };
+   
+   class IRB_Stecker05: public TabularPhotonField {
+   public:
+           IRB_Stecker05() : TabularPhotonField("IRB_Stecker05", true) {}
+   };
+   
+   class IRB_Franceschini08: public TabularPhotonField {
+   public:
+           IRB_Franceschini08() : TabularPhotonField("IRB_Franceschini08", true) {}
+   };
+   
+   class IRB_Finke10: public TabularPhotonField {
+   public:
+           IRB_Finke10() : TabularPhotonField("IRB_Finke10", true) {}
+   };
+   
+   class IRB_Dominguez11: public TabularPhotonField {
+   public:
+           IRB_Dominguez11() : TabularPhotonField("IRB_Dominguez11", true) {}
+   };
+   
+   class IRB_Gilmore12: public TabularPhotonField {
+   public:
+           IRB_Gilmore12() : TabularPhotonField("IRB_Gilmore12", true) {}
+   };
+   
+   class IRB_Stecker16_upper: public TabularPhotonField {
+   public:
+           IRB_Stecker16_upper() : TabularPhotonField("IRB_Stecker16_upper", true) {}
+   };
+   
+   class IRB_Stecker16_lower: public TabularPhotonField {
+   public:
+           IRB_Stecker16_lower() : TabularPhotonField("IRB_Stecker16_lower", true) {}
+   };
+   
+   class URB_Protheroe96: public TabularPhotonField {
+   public:
+           URB_Protheroe96() : TabularPhotonField("URB_Protheroe96", false) {}
+   };
+   
+   class URB_Fixsen11: public TabularPhotonField {
+   public:
+           URB_Fixsen11() : TabularPhotonField("URB_Fixsen11", false) {}
+   };
+   
+   class URB_Nitu21: public TabularPhotonField {
+   public:
+           URB_Nitu21() : TabularPhotonField("URB_Nitu21", false) {}
+   };
+   
+   class BlackbodyPhotonField: public PhotonField {
+   public:
+           BlackbodyPhotonField(const std::string fieldName, const double blackbodyTemperature);
+           double getPhotonDensity(double ePhoton, double z = 0.) const;
+   
+   protected:
+           double blackbodyTemperature;
+   };
+   
+   class CMB: public BlackbodyPhotonField {
+   public:
+           CMB() : BlackbodyPhotonField("CMB", 2.73) {}
+   };
+   
+   
+   class PhotonFieldSampling {
+   public:
+           PhotonFieldSampling();
+   
+           explicit PhotonFieldSampling(int bgFlag);
+   
+           double sample_eps(bool onProton, double E_in, double z_in) const;
+   protected:
+           int bgFlag;
+   
+           // called by: sample_eps
+           // - input: photon energy [eV], redshift
+           // - output: photon density per unit energy [#/(eVcm^3)]
+           double getPhotonDensity(double eps, double z_in) const;
+   
+           // called by: sample_eps
+           // - input: s [GeV^2]
+           // - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
+           double functs(double s, bool onProton) const;
+   
+           // called by: sample_eps, gaussInt
+           // - input: photon energy eps [eV], E_in [GeV]
+           // - output: probability to encounter photon of energy eps
+           double prob_eps(double eps, bool onProton, double E_in, double z_in) const;
+   
+           // called by: functs
+           // - input: photon energy [eV]
+           // - output: crossection of nucleon-photon-interaction [mubarn]
+           double crossection(double eps, bool onProton) const;
+   
+           // called by: crossection
+           // - input: photon energy [eV], threshold [eV], max [eV], unknown [no unit]
+           // - output: unknown [no unit]
+           double Pl(double x, double xth, double xmax, double alpha) const;
+   
+           // called by: crossection
+           // - input: photon energy [eV], threshold [eV], unknown [eV]
+           // - output: unknown [no unit]
+           double Ef(double x, double th, double w) const;
+   
+           // called by: crossection
+           // - input: cross section [µbarn], width [GeV], mass [GeV/c^2], rest frame photon energy [GeV]
+           // - output: Breit-Wigner crossection of a resonance of width Gamma
+           double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PHOTONBACKGROUND_H

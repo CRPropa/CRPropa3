@@ -1,0 +1,45 @@
+
+.. _file_include_crpropa_magneticField_JF12FieldSolenoidal.h:
+
+File JF12FieldSolenoidal.h
+==========================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField>` (``include/crpropa/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticField/JF12FieldSolenoidal.h``)
+--------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticField_JF12FieldSolenoidal.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1JF12FieldSolenoidal`
+

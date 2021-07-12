@@ -1,0 +1,31 @@
+.. _exhale_class_classcrpropa_1_1SimpleGridTurbulence:
+
+Class SimpleGridTurbulence
+==========================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public GridTurbulence`` (:ref:`exhale_class_classcrpropa_1_1GridTurbulence`)
+
+
+Derived Type
+************
+
+- ``public HelicalGridTurbulence`` (:ref:`exhale_class_classcrpropa_1_1HelicalGridTurbulence`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SimpleGridTurbulence
+   :members:
+   :protected-members:
+   :undoc-members:

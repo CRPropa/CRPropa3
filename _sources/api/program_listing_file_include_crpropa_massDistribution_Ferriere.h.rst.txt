@@ -1,0 +1,55 @@
+
+.. _program_listing_file_include_crpropa_massDistribution_Ferriere.h:
+
+Program Listing for File Ferriere.h
+===================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_massDistribution_Ferriere.h>` (``include/crpropa/massDistribution/Ferriere.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_FERRIERE_H
+   #define CRPROPA_FERRIERE_H
+   
+   #include "crpropa/massDistribution/Density.h"
+   
+   #include <cmath>
+   #include <string>
+   
+   namespace crpropa {
+   class Ferriere: public Density {
+   private:
+           // standard for all types of distribution
+           bool isforHI = true;
+           bool isforHII = true;
+           bool isforH2 = true;
+           double Rsun = 8500*pc;  // distance sun-galactic center
+   
+   public:
+           Vector3d CMZTrafo(const Vector3d &position) const;
+           Vector3d DISKTrafo(const Vector3d &position) const;
+   
+           double getDensity(const Vector3d &position) const;
+           double getHIDensity(const Vector3d &position) const;
+           double getHIIDensity(const Vector3d &position) const;
+           double getH2Density(const Vector3d &position) const;
+           double getNucleonDensity(const Vector3d &position) const;
+   
+           void setIsForHI(bool HI);
+           void setIsForHII(bool HII);
+           void setIsForH2(bool H2);
+   
+           bool getIsForHI();
+           bool getIsForHII();
+           bool getIsForH2();
+   
+           std::string getDescription();
+   };
+   
+   }  // namespace crpropa
+   
+   #endif  // CRPROPA_FERRIERE_H
+   
+   

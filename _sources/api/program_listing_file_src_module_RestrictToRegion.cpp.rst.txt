@@ -1,0 +1,39 @@
+
+.. _program_listing_file_src_module_RestrictToRegion.cpp:
+
+Program Listing for File RestrictToRegion.cpp
+=============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_src_module_RestrictToRegion.cpp>` (``src/module/RestrictToRegion.cpp``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #include <sstream>
+   #include "crpropa/module/RestrictToRegion.h" 
+   
+   namespace crpropa {
+   
+     RestrictToRegion::RestrictToRegion(Module* _module, Surface* _surface) : module(_module), surface(_surface) { };
+   
+   void RestrictToRegion::process(Candidate *candidate) const
+   {
+   if (surface->distance(candidate->current.getPosition()) <=0)
+   {
+     module->process(candidate);
+   }
+   
+   };
+   
+   std::string RestrictToRegion::getDescription() const
+   {
+           std::stringstream s;
+           s << "RestrictToArea:\n"
+                   << "  Module: " << module->getDescription() << std::endl
+                   << "  Region: " << surface->getDescription() << std::endl;
+           return s.str();
+   };
+   
+   
+   } // namespace crpropa

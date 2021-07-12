@@ -1,0 +1,61 @@
+
+.. _program_listing_file_include_crpropa_magneticField_turbulentField_PlaneWaveTurbulence.h:
+
+Program Listing for File PlaneWaveTurbulence.h
+==============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_turbulentField_PlaneWaveTurbulence.h>` (``include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PLANEWAVETURBULENCE_H
+   #define CRPROPA_PLANEWAVETURBULENCE_H
+   
+   #include "crpropa/Grid.h"
+   #include "crpropa/magneticField/turbulentField/TurbulentField.h"
+   #include <vector>
+   
+   namespace crpropa {
+   class PlaneWaveTurbulence : public TurbulentField {
+     private:
+           int Nm;
+   
+           std::vector<Vector3d> xi;
+           std::vector<Vector3d> kappa;
+           std::vector<double> phi;
+           std::vector<double> costheta;
+           std::vector<double> beta;
+           std::vector<double> Ak;
+           std::vector<double> k;
+   
+           // data for FAST_WAVES
+           int avx_Nm;
+           int align_offset;
+           std::vector<double> avx_data;
+           // the following are index bases into the avx_data array.
+           // since each subarray has avx_Nm elements, the start offset
+           // of each subarray can be computed by multiplying the two,
+           // and then adding on the alignment offset.
+           // iAxi is a combined array containing the product of Ak * xi
+           static const int iAxi0 = 0;
+           static const int iAxi1 = 1;
+           static const int iAxi2 = 2;
+           // ikkappa is a combined array containing the product of k * kappa
+           static const int ikkappa0 = 3;
+           static const int ikkappa1 = 4;
+           static const int ikkappa2 = 5;
+           static const int ibeta = 6;
+           static const int itotal = 7;
+   
+     public:
+           PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum, int Nm = 64,
+                               int seed = 0);
+   
+           Vector3d getField(const Vector3d &pos) const;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PLANEWAVETURBULENCE_H

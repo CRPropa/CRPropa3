@@ -1,0 +1,71 @@
+
+.. _program_listing_file_include_crpropa_module_PhotoPionProduction.h:
+
+Program Listing for File PhotoPionProduction.h
+==============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_PhotoPionProduction.h>` (``include/crpropa/module/PhotoPionProduction.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PHOTOPIONPRODUCTION_H
+   #define CRPROPA_PHOTOPIONPRODUCTION_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/PhotonBackground.h"
+   
+   #include <vector>
+   
+   namespace crpropa {
+   struct SophiaEventOutput {
+           int nParticles;
+           std::vector<double> energy;
+           std::vector<int> id;
+   };
+   
+   class PhotoPionProduction: public Module {
+   protected:
+           ref_ptr<PhotonField> photonField;
+           PhotonFieldSampling photonFieldSampling;
+           std::vector<double> tabLorentz; 
+           std::vector<double> tabRedshifts;  
+           std::vector<double> tabProtonRate; 
+           std::vector<double> tabNeutronRate; 
+           double limit; 
+           bool havePhotons;
+           bool haveNeutrinos;
+           bool haveElectrons;
+           bool haveAntiNucleons;
+           bool haveRedshiftDependence;
+   
+   public:
+           PhotoPionProduction(
+                   ref_ptr<PhotonField> photonField,
+                   bool photons = false,
+                   bool neutrinos = false,
+                   bool electrons = false,
+                   bool antiNucleons = false,
+                   double limit = 0.1,
+                   bool haveRedshiftDependence = false);
+           void setPhotonField(ref_ptr<PhotonField> photonField);
+           void setHavePhotons(bool b);
+           void setHaveNeutrinos(bool b);
+           void setHaveElectrons(bool b);
+           void setHaveAntiNucleons(bool b);
+           void setHaveRedshiftDependence(bool b);
+           void setLimit(double limit);
+           void initRate(std::string filename);
+           double nucleonMFP(double gamma, double z, bool onProton) const;
+           double nucleiModification(int A, int X) const;
+           void process(Candidate *candidate) const;
+           void performInteraction(Candidate *candidate, bool onProton) const;
+   
+           double lossLength(int id, double gamma, double z = 0);
+   
+           SophiaEventOutput sophiaEvent(bool onProton, double Ein, double eps) const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PHOTOPIONPRODUCTION_H

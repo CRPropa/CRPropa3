@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a7869c8cd708945f25e1061f64c93ae6e:
+
+Function crpropa::ElecaPropagation
+==================================
+
+- Defined in :ref:`file_include_crpropa_PhotonPropagation.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::ElecaPropagation(const std::string&, const std::string&, bool, double, double, const std::string&)

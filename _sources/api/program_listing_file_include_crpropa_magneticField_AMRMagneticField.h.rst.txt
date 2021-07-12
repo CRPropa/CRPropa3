@@ -1,0 +1,73 @@
+
+.. _program_listing_file_include_crpropa_magneticField_AMRMagneticField.h:
+
+Program Listing for File AMRMagneticField.h
+===========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_AMRMagneticField.h>` (``include/crpropa/magneticField/AMRMagneticField.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_AMRMAGNETICFIELD_H
+   #define CRPROPA_AMRMAGNETICFIELD_H
+   
+   #ifdef CRPROPA_HAVE_SAGA
+   
+   #include <iostream>
+   #include <string>
+   #include <cstdio>
+   
+   #ifdef _OPENMP
+       #include "omp.h"
+   #endif
+   
+   #include "crpropa/Units.h"
+   #include "crpropa/magneticField/MagneticField.h"
+   #include "crpropa/Vector3.h"
+   
+   #include "saga/LocalProperties.h"
+   #include "saga/AMRgrid.h"
+   #include "saga/MagneticField.h"
+   #include "saga/Referenced.h"
+   
+   
+   
+   namespace crpropa {
+   class AMRMagneticField: public MagneticField {
+   
+   private:
+           saga::ref_ptr<saga::MagneticField> field;
+       double cfLength;
+       double cfDensity;
+       double cfMagneticField;
+   
+   public:
+       AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
+       {
+           field = field_;
+           cfLength = convLength;
+           cfDensity = convDensity;
+           cfMagneticField = convMagneticField;
+       }
+   
+       Vector3d getField(const Vector3d &position) const {
+   
+           double x = position.x / cfLength;
+           double y = position.y / cfLength;
+           double z = position.z / cfLength;
+   
+           std::vector<double> b = field->getField(x, y, z);
+           Vector3d B;
+           B.setXYZ(b[0], b[1], b[2]);
+           B = B * cfMagneticField;
+   
+                   return B;
+       }
+   
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_HAVE_SAGA
+   #endif // CRPROPA_AMRMAGNETICFIELD_H

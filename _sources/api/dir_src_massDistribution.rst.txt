@@ -1,0 +1,24 @@
+.. _dir_src_massDistribution:
+
+
+Directory massDistribution
+==========================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_src>` (``src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``src/massDistribution``
+
+
+Files
+-----
+
+- :ref:`file_src_massDistribution_ConstantDensity.cpp`
+- :ref:`file_src_massDistribution_Cordes.cpp`
+- :ref:`file_src_massDistribution_Ferriere.cpp`
+- :ref:`file_src_massDistribution_Massdistribution.cpp`
+- :ref:`file_src_massDistribution_Nakanishi.cpp`
+
+

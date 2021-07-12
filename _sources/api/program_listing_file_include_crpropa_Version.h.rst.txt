@@ -1,0 +1,19 @@
+
+.. _program_listing_file_include_crpropa_Version.h:
+
+Program Listing for File Version.h
+==================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_Version.h>` (``include/crpropa/Version.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #include <string>
+   
+   extern const char g_GIT_SHA1[];
+   extern const char g_GIT_REFSPEC[];
+   extern const char g_GIT_DESC[];
+   
+   void declare_version(const std::string);

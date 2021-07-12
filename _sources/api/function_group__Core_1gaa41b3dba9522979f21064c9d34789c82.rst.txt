@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1gaa41b3dba9522979f21064c9d34789c82:
+
+Template Function crpropa::operator>>(std::istream&, Vector3<T>&)
+=================================================================
+
+- Defined in :ref:`file_include_crpropa_Vector3.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::operator>>(std::istream&, Vector3<T>&)

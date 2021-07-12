@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1DirectedFlowOfScatterCenters:
+
+Class DirectedFlowOfScatterCenters
+==================================
+
+- Defined in :ref:`file_include_crpropa_module_Acceleration.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public StepLengthModifier`` (:ref:`exhale_class_classcrpropa_1_1StepLengthModifier`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::DirectedFlowOfScatterCenters
+   :members:
+   :protected-members:
+   :undoc-members:

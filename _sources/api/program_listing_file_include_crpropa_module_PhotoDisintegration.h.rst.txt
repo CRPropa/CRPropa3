@@ -1,0 +1,66 @@
+
+.. _program_listing_file_include_crpropa_module_PhotoDisintegration.h:
+
+Program Listing for File PhotoDisintegration.h
+==============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_PhotoDisintegration.h>` (``include/crpropa/module/PhotoDisintegration.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PHOTODISINTEGRATION_H
+   #define CRPROPA_PHOTODISINTEGRATION_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/PhotonBackground.h"
+   
+   #include <vector>
+   #include <map>
+   
+   namespace crpropa {
+   class PhotoDisintegration: public Module {
+   private:
+           ref_ptr<PhotonField> photonField;
+           double limit; // fraction of mean free path for limiting the next step
+           bool havePhotons;
+   
+           struct Branch {
+                   int channel; // number of emitted (n, p, H2, H3, He3, He4)
+                   std::vector<double> branchingRatio; // branching ratio as function of nucleus Lorentz factor
+           };
+   
+           struct PhotonEmission {
+                   double energy; // energy of emitted photon [J]
+                   std::vector<double> emissionProbability; // emission probability as function of nucleus Lorentz factor
+           };
+   
+           std::vector<std::vector<double> > pdRate; // pdRate[Z * 31 + N] = total interaction rate
+           std::vector<std::vector<Branch> > pdBranch; // pdTable[Z * 31 + N] = branching ratios
+           mutable std::map<int, std::vector<PhotonEmission> > pdPhoton; // map of emitted photon energies and photon emission probabilities
+   
+           static const double lgmin; // minimum log10(Lorentz-factor)
+           static const double lgmax; // maximum log10(Lorentz-factor)
+           static const size_t nlg; // number of Lorentz-factor steps
+   
+   public:
+           PhotoDisintegration(ref_ptr<PhotonField> photonField, bool havePhotons = false, double limit = 0.1);
+   
+           void setPhotonField(ref_ptr<PhotonField> photonField);
+           void setHavePhotons(bool havePhotons);
+           void setLimit(double limit);
+   
+           void initRate(std::string filename);
+           void initBranching(std::string filename);
+           void initPhotonEmission(std::string filename);
+   
+           void process(Candidate *candidate) const;
+           void performInteraction(Candidate *candidate, int channel) const;
+   
+           double lossLength(int id, double gamma, double z = 0);
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PHOTODISINTEGRATION_H

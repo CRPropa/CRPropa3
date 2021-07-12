@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga21aa8093ee2f43ed4e85b31b64304c7a:
+
+Variable crpropa::mass_electron
+===============================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::mass_electron

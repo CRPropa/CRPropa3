@@ -1,0 +1,25 @@
+.. _dir_include_crpropa_massDistribution:
+
+
+Directory massDistribution
+==========================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``include/crpropa/massDistribution``
+
+
+Files
+-----
+
+- :ref:`file_include_crpropa_massDistribution_ConstantDensity.h`
+- :ref:`file_include_crpropa_massDistribution_Cordes.h`
+- :ref:`file_include_crpropa_massDistribution_Density.h`
+- :ref:`file_include_crpropa_massDistribution_Ferriere.h`
+- :ref:`file_include_crpropa_massDistribution_Massdistribution.h`
+- :ref:`file_include_crpropa_massDistribution_Nakanishi.h`
+
+

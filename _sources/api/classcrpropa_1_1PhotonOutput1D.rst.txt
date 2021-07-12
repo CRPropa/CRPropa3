@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1PhotonOutput1D:
+
+Class PhotonOutput1D
+====================
+
+- Defined in :ref:`file_include_crpropa_module_PhotonOutput1D.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PhotonOutput1D
+   :members:
+   :protected-members:
+   :undoc-members:

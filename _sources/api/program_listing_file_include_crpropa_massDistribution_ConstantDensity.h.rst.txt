@@ -1,0 +1,69 @@
+
+.. _program_listing_file_include_crpropa_massDistribution_ConstantDensity.h:
+
+Program Listing for File ConstantDensity.h
+==========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_massDistribution_ConstantDensity.h>` (``include/crpropa/massDistribution/ConstantDensity.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_CONSTANTDENSITY_H
+   #define CRPROPA_CONSTANTDENSITY_H
+   
+   #include "crpropa/massDistribution/Density.h"
+   
+   #include <cmath>
+   #include <sstream>
+   #include <string>
+   
+   namespace crpropa {
+   
+   /*
+   @class ConstantDensity
+   @brief Density module for Constant densitys in HI, HII and H2 component.
+   */
+   class ConstantDensity: public Density {
+   private:
+           // default mode: all density types set to 0 and no activ component
+           double HIdensitynumber  = 0;  
+           double HIIdensitynumber = 0;  
+           double H2densitynumber  = 0;  
+           bool isHI = false;  
+           bool isHII = false;  
+           bool isH2 = false;  
+   public:
+           ConstantDensity(double HI, double HII, double H2);
+   
+           double getDensity(const Vector3d &position) const;
+           double getHIDensity(const Vector3d &position) const;
+           double getHIIDensity(const Vector3d &position) const;
+           double getH2Density(const Vector3d &position) const;
+           double getNucleonDensity(const Vector3d &position) const;
+   
+           bool getIsForHI();
+           bool getIsForHII();
+           bool getIsForH2();
+   
+           void setHI(bool activate, double densitynumber);
+           void setHI(bool activate);
+           void setHI(double densitynumber);
+   
+           void setHII(bool activate, double densitynumber);
+           void setHII(bool activate);
+           void setHII(double densitynumber);
+   
+           void setH2(bool activate, double densitynumber);
+           void setH2(bool activate);
+           void setH2(double densitynumber);
+   
+           std::string getDescription();
+   };
+   
+   }  // namespace crpropa
+   
+   #endif  // CRPROPA_CONSTANTDENSITY_H
+   
+   

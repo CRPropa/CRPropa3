@@ -1,0 +1,39 @@
+
+.. _program_listing_file_include_crpropa_module_PhotonOutput1D.h:
+
+Program Listing for File PhotonOutput1D.h
+=========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_PhotonOutput1D.h>` (``include/crpropa/module/PhotonOutput1D.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PHOTON_OUTPUT_H
+   #define CRPROPA_PHOTON_OUTPUT_H
+   
+   #include "crpropa/Module.h"
+   
+   #include <fstream>
+   
+   namespace crpropa {
+   class PhotonOutput1D: public Module {
+   private:
+           std::ostream *out;
+           std::string filename;
+           mutable std::ofstream outfile;
+   
+   public:
+           PhotonOutput1D();
+           PhotonOutput1D(std::ostream &out);
+           PhotonOutput1D(const std::string &filename);
+           ~PhotonOutput1D();
+           void process(Candidate *candidate) const;
+           std::string getDescription() const;
+           void close();
+           void gzip();
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PHOTON_OUTPUT_H

@@ -1,0 +1,126 @@
+
+.. _program_listing_file_include_crpropa_module_Boundary.h:
+
+Program Listing for File Boundary.h
+===================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_Boundary.h>` (``include/crpropa/module/Boundary.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_BOUNDARY_H
+   #define CRPROPA_BOUNDARY_H
+   
+   #include "crpropa/Module.h"
+   
+   namespace crpropa {
+   class PeriodicBox: public Module {
+   private:
+           Vector3d origin;
+           Vector3d size;
+   
+   public:
+           PeriodicBox();
+           PeriodicBox(Vector3d origin, Vector3d size);
+           void process(Candidate *candidate) const;
+           void setOrigin(Vector3d origin);
+           void setSize(Vector3d size);
+           std::string getDescription() const;
+   };
+   
+   class ReflectiveBox: public Module {
+   private:
+           Vector3d origin;
+           Vector3d size;
+   
+   public:
+           ReflectiveBox();
+           ReflectiveBox(Vector3d origin, Vector3d size);
+           void process(Candidate *candidate) const;
+           void setOrigin(Vector3d origin);
+           void setSize(Vector3d size);
+           std::string getDescription() const;
+   };
+   
+   class CubicBoundary: public AbstractCondition {
+   private:
+           Vector3d origin;
+           double size;
+           double margin;
+           bool limitStep;
+   
+   public:
+           CubicBoundary();
+           CubicBoundary(Vector3d origin, double size);
+           void process(Candidate *candidate) const;
+           void setOrigin(Vector3d origin);
+           void setSize(double size);
+           void setMargin(double margin);
+           void setLimitStep(bool limitStep);
+           std::string getDescription() const;
+   };
+   
+   class SphericalBoundary: public AbstractCondition {
+   private:
+           Vector3d center;
+           double radius;
+           double margin;
+           bool limitStep;
+   
+   public:
+           SphericalBoundary();
+           SphericalBoundary(Vector3d center, double radius);
+           void process(Candidate *candidate) const;
+           void setCenter(Vector3d center);
+           void setRadius(double size);
+           void setMargin(double margin);
+           void setLimitStep(bool limitStep);
+           std::string getDescription() const;
+   };
+   
+   class EllipsoidalBoundary: public AbstractCondition {
+   private:
+           Vector3d focalPoint1;
+           Vector3d focalPoint2;
+           double majorAxis;
+           double margin;
+           bool limitStep;
+   
+   public:
+           EllipsoidalBoundary();
+           EllipsoidalBoundary(Vector3d focalPoint1, Vector3d focalPoint2,
+                           double majorAxis);
+           void process(Candidate *candidate) const;
+           void setFocalPoints(Vector3d focalPoint1, Vector3d focalPoint2);
+           void setMajorAxis(double size);
+           void setMargin(double margin);
+           void setLimitStep(bool limitStep);
+           std::string getDescription() const;
+   };
+   
+   
+   class CylindricalBoundary: public AbstractCondition {
+   private:
+           Vector3d origin;
+           double height;
+           double radius;
+   double margin;
+           bool limitStep;
+   
+   public:
+           CylindricalBoundary();
+           CylindricalBoundary(Vector3d origin, double height,
+                           double radius);
+           void process(Candidate *candidate) const;
+           void setOrigin(Vector3d origin);
+           void setHeight(double height);
+           void setRadius(double radius);
+           void setMargin(double margin);
+           void setLimitStep(bool limitStep);
+           std::string getDescription() const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_BOUNDARY_H

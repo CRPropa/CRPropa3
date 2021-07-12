@@ -1,0 +1,16 @@
+.. _exhale_class_classcrpropa_1_1PPSecondariesEnergyDistribution:
+
+Class PPSecondariesEnergyDistribution
+=====================================
+
+- Defined in :ref:`file_src_module_EMPairProduction.cpp`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PPSecondariesEnergyDistribution
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga7f967562ed4cfbcfceecf9bc7c0dff17:
+
+Function crpropa::massNumber
+============================
+
+- Defined in :ref:`file_include_crpropa_ParticleID.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::massNumber(int)

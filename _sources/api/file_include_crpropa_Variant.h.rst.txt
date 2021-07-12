@@ -1,0 +1,66 @@
+
+.. _file_include_crpropa_Variant.h:
+
+File Variant.h
+==============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/Variant.h``)
+------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_Variant.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1Variant`
+
+- :ref:`exhale_class_classcrpropa_1_1Variant_1_1bad__conversion`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacecrpropa_1aca4bbe6bcc20c4e0e40bbc0ca91ae6c9`
+
+- :ref:`exhale_function_namespacecrpropa_1a5a111032b05e2db77860381eb823f867`
+
+- :ref:`exhale_function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8`
+
+- :ref:`exhale_function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0`
+
+- :ref:`exhale_function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f`
+
+- :ref:`exhale_function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf`
+
+- :ref:`exhale_function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248`
+

@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a4447ed56e6ceb012151bcef3b81ff03e:
+
+Function crpropa::_ParticlesAtGroundSortPredicate
+=================================================
+
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::_ParticlesAtGroundSortPredicate(const eleca::Particle&, const eleca::Particle&)

@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga8955be82c3d643afe27de76d06df52e8:
+
+Variable crpropa::kilogram
+==========================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::kilogram

@@ -1,0 +1,83 @@
+
+.. _program_listing_file_include_crpropa_module_PropagationBP.h:
+
+Program Listing for File PropagationBP.h
+========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_PropagationBP.h>` (``include/crpropa/module/PropagationBP.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PROPAGATIONBP_H
+   #define CRPROPA_PROPAGATIONBP_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/Units.h"
+   #include "crpropa/magneticField/MagneticField.h"
+   
+   namespace crpropa {
+   class PropagationBP: public Module {
+   
+   public:
+           class Y {
+           public:
+                   Vector3d x, u; /*< phase-point: position and direction */
+   
+                   Y() {
+                   }
+   
+                   Y(const Vector3d &x, const Vector3d &u) :
+                                   x(x), u(u) {
+                   }
+   
+                   Y(double f) :
+                                   x(Vector3d(f, f, f)), u(Vector3d(f, f, f)) {
+                   }
+   
+                   Y operator *(double f) const {
+                           return Y(x * f, u * f);
+                   }
+   
+                   Y &operator +=(const Y &y) {
+                           x += y.x;
+                           u += y.u;
+                           return *this;
+                   }
+           };
+   
+   private:
+           ref_ptr<MagneticField> field;
+           double tolerance; 
+           double minStep; 
+           double maxStep; 
+   public:
+           PropagationBP(ref_ptr<MagneticField> field = NULL, double fixedStep = (1. * kpc));
+   
+           PropagationBP(ref_ptr<MagneticField> field, double tolerance, double minStep, double maxStep);
+   
+           void process(Candidate *candidate) const;
+   
+           Y dY(Vector3d  pos, Vector3d  dir, double step, double z, double q, double m) const;
+   
+           double errorEstimation(const Vector3d x1, const Vector3d x2, double step) const;
+   
+           Vector3d getFieldAtPosition(Vector3d pos, double z) const;
+   
+           void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double m, double q) const;
+   
+           void setField(ref_ptr<MagneticField> field);
+           void setTolerance(double tolerance);
+           void setMinimumStep(double minStep);
+           void setMaximumStep(double maxStep);
+   
+           ref_ptr<MagneticField> getField() const;
+           double getTolerance() const;
+           double getMinimumStep() const;
+           double getMaximumStep() const;
+           std::string getDescription() const;
+   };
+   } // namespace crpropa
+   
+   #endif // PROPAGATIONBP_H

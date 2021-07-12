@@ -1,0 +1,50 @@
+
+.. _program_listing_file_include_crpropa_module_TextOutput.h:
+
+Program Listing for File TextOutput.h
+=====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_TextOutput.h>` (``include/crpropa/module/TextOutput.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_TEXTOUTPUT_H
+   #define CRPROPA_TEXTOUTPUT_H
+   
+   #include "crpropa/module/Output.h"
+   #include "crpropa/module/ParticleCollector.h"
+   
+   #include <fstream>
+   
+   namespace crpropa {
+   class TextOutput: public Output {
+   protected:
+           std::ostream *out;
+           std::ofstream outfile;
+           std::string filename;
+           bool storeRandomSeeds;
+   
+           void printHeader() const;
+   
+   public:
+           TextOutput();
+           TextOutput(OutputType outputtype);
+           TextOutput(std::ostream &out);
+           TextOutput(std::ostream &out, OutputType outputtype);
+           TextOutput(const std::string &filename);
+           TextOutput(const std::string &filename, OutputType outputtype);
+           ~TextOutput();
+   
+           void enableRandomSeeds() {storeRandomSeeds = true;};
+           void close();
+           void gzip();
+   
+           void process(Candidate *candidate) const;
+           static void load(const std::string &filename, ParticleCollector *collector);
+           std::string getDescription() const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_TEXTOUTPUT_H

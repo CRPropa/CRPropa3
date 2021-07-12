@@ -1,0 +1,61 @@
+
+.. _program_listing_file_include_crpropa_ParticleState.h:
+
+Program Listing for File ParticleState.h
+========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_ParticleState.h>` (``include/crpropa/ParticleState.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PARTICLE_STATE_H
+   #define CRPROPA_PARTICLE_STATE_H
+   
+   #include "crpropa/Vector3.h"
+   
+   namespace crpropa {
+   class ParticleState {
+   private:
+           int id; 
+           double energy; 
+           Vector3d position; 
+           Vector3d direction; 
+           double pmass; 
+           double charge; 
+   
+   public:
+           ParticleState(int id = 0, double energy = 0,
+                           Vector3d position = Vector3d(0, 0, 0),
+                           Vector3d direction = Vector3d(-1, 0, 0));
+   
+           void setPosition(const Vector3d &pos);
+           const Vector3d &getPosition() const;
+   
+           void setDirection(const Vector3d &dir);
+           const Vector3d &getDirection() const;
+   
+           void setEnergy(double newEnergy);
+           double getEnergy() const;
+           double getRigidity() const;
+   
+           void setId(int newId);
+           int getId() const;
+   
+           std::string getDescription() const;
+   
+           // ======== Helper methods ========
+   
+           double getCharge() const;
+           double getMass() const;
+   
+           void setLorentzFactor(double gamma);
+           double getLorentzFactor() const;
+   
+           Vector3d getVelocity() const;
+           Vector3d getMomentum() const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PARTICLE_STATE_H

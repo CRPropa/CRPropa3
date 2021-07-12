@@ -1,0 +1,32 @@
+.. _exhale_class_classcrpropa_1_1PhotonField:
+
+Class PhotonField
+=================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
+
+
+Derived Types
+*************
+
+- ``public BlackbodyPhotonField`` (:ref:`exhale_class_classcrpropa_1_1BlackbodyPhotonField`)
+- ``public TabularPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularPhotonField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PhotonField
+   :members:
+   :protected-members:
+   :undoc-members:

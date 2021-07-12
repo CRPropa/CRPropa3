@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1ObserverDetectAll:
+
+Class ObserverDetectAll
+=======================
+
+- Defined in :ref:`file_include_crpropa_module_Observer.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public ObserverFeature`` (:ref:`exhale_class_classcrpropa_1_1ObserverFeature`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ObserverDetectAll
+   :members:
+   :protected-members:
+   :undoc-members:

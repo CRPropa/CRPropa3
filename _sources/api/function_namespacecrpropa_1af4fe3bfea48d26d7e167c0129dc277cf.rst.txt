@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf:
+
+Function crpropa::pow_integer< 0 >
+==================================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::pow_integer< 0 >(double)

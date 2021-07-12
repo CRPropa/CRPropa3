@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1IRB__Stecker05:
+
+Class IRB_Stecker05
+===================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TabularPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularPhotonField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::IRB_Stecker05
+   :members:
+   :protected-members:
+   :undoc-members:

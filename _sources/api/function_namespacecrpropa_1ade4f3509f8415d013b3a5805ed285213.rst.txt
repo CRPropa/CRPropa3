@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1ade4f3509f8415d013b3a5805ed285213:
+
+Function crpropa::serialize
+===========================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::serialize(const string&, const ModelMatrixType&)

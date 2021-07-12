@@ -1,0 +1,13 @@
+.. _exhale_enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5:
+
+Enum DetectionState
+===================
+
+- Defined in :ref:`file_include_crpropa_module_Observer.h`
+
+
+Enum Documentation
+------------------
+
+
+.. doxygenenum:: crpropa::DetectionState

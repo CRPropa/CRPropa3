@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0:
+
+Function crpropa::nucleusId
+===========================
+
+- Defined in :ref:`file_include_crpropa_ParticleID.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::nucleusId(int, int)

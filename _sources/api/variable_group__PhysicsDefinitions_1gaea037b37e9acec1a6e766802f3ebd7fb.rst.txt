@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1gaea037b37e9acec1a6e766802f3ebd7fb:
+
+Variable crpropa::petaelectronvolt
+==================================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::petaelectronvolt

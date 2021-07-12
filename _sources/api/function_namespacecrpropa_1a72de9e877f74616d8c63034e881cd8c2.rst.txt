@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a72de9e877f74616d8c63034e881cd8c2:
+
+Function crpropa::_SecondarySortPredicate
+=========================================
+
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::_SecondarySortPredicate(const _Secondary&, const _Secondary&)

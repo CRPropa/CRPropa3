@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga706c67f657d8220459a8b5155c479c41:
+
+Function crpropa::interpolate
+=============================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::interpolate(double, const std::vector<double>&, const std::vector<double>&)

@@ -1,0 +1,16 @@
+.. _exhale_class_classURB:
+
+Class URB
+=========
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: URB
+   :members:
+   :protected-members:
+   :undoc-members:

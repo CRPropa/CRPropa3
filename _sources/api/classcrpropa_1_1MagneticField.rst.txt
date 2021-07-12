@@ -1,0 +1,47 @@
+.. _exhale_class_classcrpropa_1_1MagneticField:
+
+Class MagneticField
+===================
+
+- Defined in :ref:`file_include_crpropa_magneticField_MagneticField.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
+
+
+Derived Types
+*************
+
+- ``public AMRMagneticField`` (:ref:`exhale_class_classcrpropa_1_1AMRMagneticField`)
+- ``public ArchimedeanSpiralField`` (:ref:`exhale_class_classcrpropa_1_1ArchimedeanSpiralField`)
+- ``public JF12Field`` (:ref:`exhale_class_classcrpropa_1_1JF12Field`)
+- ``public LogarithmicSpiralField`` (:ref:`exhale_class_classcrpropa_1_1LogarithmicSpiralField`)
+- ``public MagneticDipoleField`` (:ref:`exhale_class_classcrpropa_1_1MagneticDipoleField`)
+- ``public MagneticFieldEvolution`` (:ref:`exhale_class_classcrpropa_1_1MagneticFieldEvolution`)
+- ``public MagneticFieldGrid`` (:ref:`exhale_class_classcrpropa_1_1MagneticFieldGrid`)
+- ``public MagneticFieldList`` (:ref:`exhale_class_classcrpropa_1_1MagneticFieldList`)
+- ``public ModulatedMagneticFieldGrid`` (:ref:`exhale_class_classcrpropa_1_1ModulatedMagneticFieldGrid`)
+- ``public PeriodicMagneticField`` (:ref:`exhale_class_classcrpropa_1_1PeriodicMagneticField`)
+- ``public PT11Field`` (:ref:`exhale_class_classcrpropa_1_1PT11Field`)
+- ``public QuimbyMagneticField`` (:ref:`exhale_class_classcrpropa_1_1QuimbyMagneticField`)
+- ``public RenormalizeMagneticField`` (:ref:`exhale_class_classcrpropa_1_1RenormalizeMagneticField`)
+- ``public TF17Field`` (:ref:`exhale_class_classcrpropa_1_1TF17Field`)
+- ``public TorroidalHaloField`` (:ref:`exhale_class_classcrpropa_1_1TorroidalHaloField`)
+- ``public TurbulentField`` (:ref:`exhale_class_classcrpropa_1_1TurbulentField`)
+- ``public UniformMagneticField`` (:ref:`exhale_class_classcrpropa_1_1UniformMagneticField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::MagneticField
+   :members:
+   :protected-members:
+   :undoc-members:

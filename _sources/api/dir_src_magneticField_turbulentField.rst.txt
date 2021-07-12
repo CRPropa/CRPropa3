@@ -1,0 +1,23 @@
+.. _dir_src_magneticField_turbulentField:
+
+
+Directory turbulentField
+========================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_src_magneticField>` (``src/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``src/magneticField/turbulentField``
+
+
+Files
+-----
+
+- :ref:`file_src_magneticField_turbulentField_GridTurbulence.cpp`
+- :ref:`file_src_magneticField_turbulentField_HelicalGridTurbulence.cpp`
+- :ref:`file_src_magneticField_turbulentField_PlaneWaveTurbulence.cpp`
+- :ref:`file_src_magneticField_turbulentField_SimpleGridTurbulence.cpp`
+
+

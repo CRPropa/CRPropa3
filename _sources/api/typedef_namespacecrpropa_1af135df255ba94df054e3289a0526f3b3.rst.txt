@@ -1,0 +1,13 @@
+.. _exhale_typedef_namespacecrpropa_1af135df255ba94df054e3289a0526f3b3:
+
+Typedef crpropa::LensPartIter
+=============================
+
+- Defined in :ref:`file_include_crpropa_magneticLens_MagneticLens.h`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: crpropa::LensPartIter

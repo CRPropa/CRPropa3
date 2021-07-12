@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1gadd91fef32b46a63095d2bd239ad71aba:
+
+Function crpropa::meanFieldVector
+=================================
+
+- Defined in :ref:`file_include_crpropa_GridTools.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::meanFieldVector(ref_ptr<Grid3f>)

@@ -1,0 +1,36 @@
+
+.. _program_listing_file_include_crpropa_module_SimplePropagation.h:
+
+Program Listing for File SimplePropagation.h
+============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_SimplePropagation.h>` (``include/crpropa/module/SimplePropagation.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef SIMPLEPROPAGATION_H
+   #define SIMPLEPROPAGATION_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/Units.h"
+   
+   namespace crpropa {
+   class SimplePropagation: public Module {
+   private:
+           double minStep, maxStep;
+   
+   public:
+           SimplePropagation(double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
+           void process(Candidate *candidate) const;
+           void setMinimumStep(double minStep);
+           void setMaximumStep(double maxStep);
+           double getMinimumStep() const;
+           double getMaximumStep() const;
+           std::string getDescription() const;
+   };
+   } // namespace crpropa
+   
+   #endif // SIMPLEPROPAGATION_H
+   

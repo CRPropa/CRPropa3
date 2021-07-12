@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679:
+
+Variable crpropa::amu
+=====================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::amu

@@ -1,0 +1,85 @@
+
+.. _program_listing_file_include_crpropa_magneticField_turbulentField_TurbulentField.h:
+
+Program Listing for File TurbulentField.h
+=========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_turbulentField_TurbulentField.h>` (``include/crpropa/magneticField/turbulentField/TurbulentField.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_TURBULENTFIELD_H
+   #define CRPROPA_TURBULENTFIELD_H
+   
+   #include "crpropa/magneticField/MagneticField.h"
+   #include <cmath>
+   
+   namespace crpropa {
+   class TurbulenceSpectrum : public Referenced {
+     private:
+           const double Brms; 
+           const double sIndex; 
+           const double qIndex; 
+           const double lBendover;  
+           const double lMin, lMax; 
+     protected:
+           double spectrumNormalization() const {
+                   return std::tgamma((sIndex + qIndex) / 2.0) /
+                          (2.0 * std::tgamma((sIndex - 1) / 2.0) *
+                           std::tgamma((qIndex + 1) / 2.0));
+           }
+   
+     public:
+           TurbulenceSpectrum(double Brms, double lMin, double lMax,
+                              double lBendover = 1, double sIndex = (5. / 3.),
+                              double qIndex = 4)
+               : Brms(Brms), lMin(lMin), lMax(lMax), lBendover(lBendover),
+                 sIndex(sIndex), qIndex(qIndex) {
+                   if (lMin > lMax) {
+                           throw std::runtime_error("TurbulenceSpectrum: lMin > lMax");
+                   }
+                   if (lMin <= 0) {
+                           throw std::runtime_error("TurbulenceSpectrum: lMin <= 0");
+                   }
+           }
+   
+           ~TurbulenceSpectrum() {}
+   
+           double getBrms() const { return Brms; }
+           double getLmin() const { return lMin; }
+           double getLmax() const { return lMax; }
+           double getLbendover() const { return lBendover; }
+           double getSindex() const { return sIndex; }
+           double getQindex() const { return qIndex; }
+           
+           virtual double energySpectrum(double kHat) const {
+                   return std::pow(kHat, qIndex) /
+                                          std::pow(1.0 + kHat * kHat,
+                                           (sIndex + qIndex) / 2.0 + 1.0);
+           }
+   
+           virtual double getCorrelationLength() const {
+                   return 4 * M_PI / ((sIndex + 2.0) * sIndex) * spectrumNormalization() *
+                          lBendover;
+           }
+   };
+   
+   class TurbulentField : public MagneticField {
+     protected:
+           const TurbulenceSpectrum &spectrum;
+   
+     public:
+           TurbulentField(const TurbulenceSpectrum &spectrum) : spectrum(spectrum) {}
+           virtual ~TurbulentField() {}
+   
+           double getBrms() const { return spectrum.getBrms(); }
+           virtual double getCorrelationLength() const {
+                   return spectrum.getCorrelationLength();
+           }
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_TURBULENTFIELD_H

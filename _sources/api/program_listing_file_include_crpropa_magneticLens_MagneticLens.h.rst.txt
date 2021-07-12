@@ -1,0 +1,239 @@
+
+.. _program_listing_file_include_crpropa_magneticLens_MagneticLens.h:
+
+Program Listing for File MagneticLens.h
+=======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticLens_MagneticLens.h>` (``include/crpropa/magneticLens/MagneticLens.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   //----------------------------------------------------------------------
+   // This file is part of PARSEC (http://physik.rwth-aachen.de/parsec)
+   // a parametrized simulation engine for cosmic rays.
+   //
+   // Copyright (C) 2011   Martin Erdmann, Peter Schiffer, Tobias Winchen
+   //                                                                               RWTH Aachen University, Germany
+   // Contact: winchen@physik.rwth-aachen.de
+   //
+   //      This program is free software: you can redistribute it and/or
+   //      modify it under the terms of the GNU General Public License as
+   //      published by the Free Software Foundation, either version 3 of
+   //      the License, or (at your option) any later version.
+   //
+   //      This program is distributed in the hope that it will be useful,
+   //      but WITHOUT ANY WARRANTY; without even the implied warranty of
+   //      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+   //      GNU General Public License for more details.
+   //
+   //      You should have received a copy of the GNU General Public License
+   //      along with this program. If not, see <http://www.gnu.org/licenses/>.
+   //----------------------------------------------------------------------
+   
+   #ifndef MAGNETICLENS_HH
+   #define MAGNETICLENS_HH
+   
+   #include "crpropa/magneticLens/ModelMatrix.h"
+   #include "crpropa/magneticLens/Pixelization.h"
+   #include "crpropa/Units.h"
+   #include "crpropa/Vector3.h"
+   
+   #include <vector>
+   #include <string>
+   #include <stdexcept>
+   #include <fstream>
+   #include <sstream>
+   #include <iostream>
+   #include <stdint.h>
+   
+   
+   namespace crpropa
+   {
+   
+   class LensPart
+   {
+           string _filename;
+           double _rigidityMin;
+           double _rigidityMax;
+           ModelMatrixType M;
+           double _maximumSumOfColumns;
+           bool _maximumSumOfColumns_calculated;
+   
+   public:
+           LensPart()
+           {
+           }
+           LensPart(const std::string &filename, double rigidityMin, double rigidityMax) :
+                           _filename(filename), _rigidityMin(rigidityMin), _rigidityMax(rigidityMax), _maximumSumOfColumns_calculated(
+                                           false), _maximumSumOfColumns(0)
+           {
+           }
+   
+           ~LensPart()
+           {
+           }
+   
+           void loadMatrixFromFile()
+           {
+                   deserialize(_filename, M);
+           }
+   
+           const std::string& getFilename()
+           {
+                   return _filename;
+           }
+   
+           double getMaximumOfSumsOfColumns()
+           {
+                   if (!_maximumSumOfColumns_calculated)
+                   { // lazy calculation of maximum
+                           _maximumSumOfColumns = maximumOfSumsOfColumns(M);
+                           _maximumSumOfColumns_calculated = true;
+                   }
+                   return _maximumSumOfColumns;
+           }
+   
+           double getMinimumRigidity()
+           {
+                   return _rigidityMin / eV;
+           }
+   
+           double getMaximumRigidity()
+           {
+                   return _rigidityMax / eV;
+           }
+   
+           ModelMatrixType& getMatrix()
+           {
+                   return M;
+           }
+   
+           void setMatrix(const ModelMatrixType& m)
+           {
+                   M = m;
+           }
+   
+   
+   };
+   
+   //double calculateMeanDeflection(const ModelMatrix &M,
+   //              const Pixelization &pixelization)
+   //{
+   //      double totalDeflection = 0;
+   //      double weightSum = 0;
+   //      for (const_i2_t it1 = M.begin2(); it1 != (M.end2()); it1++)
+   //      {
+   //              for (const_i1_t it2 = it1.begin(); it2 != it1.end(); it2++)
+   //              {
+   //                      totalDeflection+= pixelization.angularDistance(it2.index1(),
+   //                                      it2.index2()) * (*it2) ;
+   //                      weightSum+= (*it2);
+   //              }
+   //      }
+   //      return totalDeflection / weightSum;
+   //}
+   
+   typedef std::vector<LensPart*>::iterator LensPartIter;
+   typedef std::vector<LensPart*>::const_iterator const_LensPartIter;
+   
+   class MagneticLens
+   {
+   
+           void updateRigidityBounds(double rigidityMin, double rigidityMax);
+   
+           void loadLensPart(const string &filename, double rigidityMin,
+                           double rigidityMax);
+   
+           // Stores the individual lenses
+           std::vector<LensPart*> _lensParts;
+           Pixelization* _pixelization;
+           // Checks Matrix, raises Errors if not ok - also generate
+           // _pixelization if called first time
+           void _checkMatrix(const ModelMatrixType &M);
+           // minimum / maximum rigidity that is covered by the lens [Joule]
+           double _minimumRigidity;
+           double _maximumRigidity;
+           static bool _randomSeeded;
+           double _norm;
+   
+   public:
+           MagneticLens() :
+                           _pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN), _norm(1)
+           {
+           }
+   
+           MagneticLens(uint8_t healpixorder) :
+                           _pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN)
+           {
+                   _pixelization = new Pixelization(healpixorder);
+           }
+   
+           MagneticLens(const string &filename) :
+                           _pixelization(NULL), _minimumRigidity(DBL_MAX), _maximumRigidity(DBL_MIN)
+           {
+                   loadLens(filename);
+           }
+   
+           const Pixelization& getPixelization() const
+           {
+                   return (*_pixelization);
+           }
+   
+           ~MagneticLens()
+           {
+                   if (_pixelization)
+                           delete _pixelization;
+                   for (std::vector<LensPart*>::iterator iter = _lensParts.begin();
+                                   iter != _lensParts.end(); iter++)
+                   {
+                           delete (*iter);
+                   }
+                   _lensParts.clear();
+           }
+   
+           bool transformCosmicRay(double rigidity, double& phi, double& theta);
+   
+           bool transformCosmicRay(double rigidity, Vector3d &p);
+   
+           void transformModelVector(double* model, double rigidity) const;
+   
+           void setLensPart(const ModelMatrixType &M, double rigidityMin, double rigidityMax);
+   
+           void loadLens(const string &filename);
+   
+           void normalizeLens();
+   
+           void normalizeLensparts();
+   
+           bool rigidityCovered(double rigidity) const;
+   
+           void normalizeMatrixColumns();
+   
+           double getMinimumRigidity() const
+           {
+                   return _minimumRigidity / eV;
+           }
+           double getMaximumRigidity() const
+           {
+                   return _maximumRigidity / eV;
+           }
+   
+           //      returns the norm used for the lenses
+           double getNorm()
+           {
+                   return _norm;
+           }
+   
+           LensPart* getLensPart(double rigidity) const;
+   
+           const std::vector<LensPart*>& getLensParts() const
+           {
+                   return _lensParts;
+           }
+   };
+   
+   } // namespace
+   
+   #endif // MAGNETICLENS_HH

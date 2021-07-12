@@ -1,0 +1,22 @@
+.. _exhale_struct_structcrpropa_1_1NuclearDecay_1_1DecayMode:
+
+Struct NuclearDecay::DecayMode
+==============================
+
+- Defined in :ref:`file_include_crpropa_module_NuclearDecay.h`
+
+
+Nested Relationships
+--------------------
+
+This struct is a nested type of :ref:`exhale_class_classcrpropa_1_1NuclearDecay`.
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::NuclearDecay::DecayMode
+   :members:
+   :protected-members:
+   :undoc-members:

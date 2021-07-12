@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1gaba6b559d8f4282b3c52afcf042e2c2ea:
+
+Function crpropa::interpolateEquidistant
+========================================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::interpolateEquidistant(double, double, double, const std::vector<double>&)

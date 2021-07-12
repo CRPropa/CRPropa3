@@ -1,0 +1,49 @@
+.. _dir_src_module:
+
+
+Directory module
+================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_src>` (``src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``src/module``
+
+
+Files
+-----
+
+- :ref:`file_src_module_Acceleration.cpp`
+- :ref:`file_src_module_AdiabaticCooling.cpp`
+- :ref:`file_src_module_Boundary.cpp`
+- :ref:`file_src_module_BreakCondition.cpp`
+- :ref:`file_src_module_DiffusionSDE.cpp`
+- :ref:`file_src_module_ElasticScattering.cpp`
+- :ref:`file_src_module_ElectronPairProduction.cpp`
+- :ref:`file_src_module_EMCascade.cpp`
+- :ref:`file_src_module_EMDoublePairProduction.cpp`
+- :ref:`file_src_module_EMInverseComptonScattering.cpp`
+- :ref:`file_src_module_EMPairProduction.cpp`
+- :ref:`file_src_module_EMTripletPairProduction.cpp`
+- :ref:`file_src_module_HDF5Output.cpp`
+- :ref:`file_src_module_NuclearDecay.cpp`
+- :ref:`file_src_module_Observer.cpp`
+- :ref:`file_src_module_Output.cpp`
+- :ref:`file_src_module_OutputShell.cpp`
+- :ref:`file_src_module_ParticleCollector.cpp`
+- :ref:`file_src_module_PhotoDisintegration.cpp`
+- :ref:`file_src_module_PhotonEleCa.cpp`
+- :ref:`file_src_module_PhotonOutput1D.cpp`
+- :ref:`file_src_module_PhotoPionProduction.cpp`
+- :ref:`file_src_module_PropagationBP.cpp`
+- :ref:`file_src_module_PropagationCK.cpp`
+- :ref:`file_src_module_Redshift.cpp`
+- :ref:`file_src_module_RestrictToRegion.cpp`
+- :ref:`file_src_module_SimplePropagation.cpp`
+- :ref:`file_src_module_SynchrotronRadiation.cpp`
+- :ref:`file_src_module_TextOutput.cpp`
+- :ref:`file_src_module_Tools.cpp`
+
+

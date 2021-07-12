@@ -1,0 +1,45 @@
+
+.. _file_src_magneticField_turbulentField_PlaneWaveTurbulence.cpp:
+
+File PlaneWaveTurbulence.cpp
+============================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_magneticField_turbulentField>` (``src/magneticField/turbulentField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/magneticField/turbulentField/PlaneWaveTurbulence.cpp``)
+-------------------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_magneticField_turbulentField_PlaneWaveTurbulence.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacecrpropa_1a2c99758f5dbbfc1e92f6514db8cfec06`
+

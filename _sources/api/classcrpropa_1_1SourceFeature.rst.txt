@@ -1,0 +1,57 @@
+.. _exhale_class_classcrpropa_1_1SourceFeature:
+
+Class SourceFeature
+===================
+
+- Defined in :ref:`file_include_crpropa_Source.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
+
+
+Derived Types
+*************
+
+- ``public SourceComposition`` (:ref:`exhale_class_classcrpropa_1_1SourceComposition`)
+- ``public SourceDensityGrid`` (:ref:`exhale_class_classcrpropa_1_1SourceDensityGrid`)
+- ``public SourceDensityGrid1D`` (:ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`)
+- ``public SourceDirection`` (:ref:`exhale_class_classcrpropa_1_1SourceDirection`)
+- ``public SourceEmissionCone`` (:ref:`exhale_class_classcrpropa_1_1SourceEmissionCone`)
+- ``public SourceEmissionMap`` (:ref:`exhale_class_classcrpropa_1_1SourceEmissionMap`)
+- ``public SourceEnergy`` (:ref:`exhale_class_classcrpropa_1_1SourceEnergy`)
+- ``public SourceGenericComposition`` (:ref:`exhale_class_classcrpropa_1_1SourceGenericComposition`)
+- ``public SourceIsotropicEmission`` (:ref:`exhale_class_classcrpropa_1_1SourceIsotropicEmission`)
+- ``public SourceLambertDistributionOnSphere`` (:ref:`exhale_class_classcrpropa_1_1SourceLambertDistributionOnSphere`)
+- ``public SourceMultipleParticleTypes`` (:ref:`exhale_class_classcrpropa_1_1SourceMultipleParticleTypes`)
+- ``public SourceMultiplePositions`` (:ref:`exhale_class_classcrpropa_1_1SourceMultiplePositions`)
+- ``public SourceParticleType`` (:ref:`exhale_class_classcrpropa_1_1SourceParticleType`)
+- ``public SourcePosition`` (:ref:`exhale_class_classcrpropa_1_1SourcePosition`)
+- ``public SourcePowerLawSpectrum`` (:ref:`exhale_class_classcrpropa_1_1SourcePowerLawSpectrum`)
+- ``public SourcePulsarDistribution`` (:ref:`exhale_class_classcrpropa_1_1SourcePulsarDistribution`)
+- ``public SourceRedshift`` (:ref:`exhale_class_classcrpropa_1_1SourceRedshift`)
+- ``public SourceRedshift1D`` (:ref:`exhale_class_classcrpropa_1_1SourceRedshift1D`)
+- ``public SourceRedshiftEvolution`` (:ref:`exhale_class_classcrpropa_1_1SourceRedshiftEvolution`)
+- ``public SourceSNRDistribution`` (:ref:`exhale_class_classcrpropa_1_1SourceSNRDistribution`)
+- ``public SourceUniform1D`` (:ref:`exhale_class_classcrpropa_1_1SourceUniform1D`)
+- ``public SourceUniformBox`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformBox`)
+- ``public SourceUniformCylinder`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformCylinder`)
+- ``public SourceUniformHollowSphere`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformHollowSphere`)
+- ``public SourceUniformRedshift`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformRedshift`)
+- ``public SourceUniformShell`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformShell`)
+- ``public SourceUniformSphere`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformSphere`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SourceFeature
+   :members:
+   :protected-members:
+   :undoc-members:

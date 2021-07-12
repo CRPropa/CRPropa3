@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1ga22d6bb7eeecd0de28751b3613a95c73d:
+
+Function crpropa::gridPowerSpectrum
+===================================
+
+- Defined in :ref:`file_include_crpropa_GridTools.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::gridPowerSpectrum(ref_ptr<Grid3f>)

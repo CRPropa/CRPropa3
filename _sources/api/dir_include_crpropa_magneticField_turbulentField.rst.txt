@@ -1,0 +1,24 @@
+.. _dir_include_crpropa_magneticField_turbulentField:
+
+
+Directory turbulentField
+========================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField>` (``include/crpropa/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``include/crpropa/magneticField/turbulentField``
+
+
+Files
+-----
+
+- :ref:`file_include_crpropa_magneticField_turbulentField_GridTurbulence.h`
+- :ref:`file_include_crpropa_magneticField_turbulentField_HelicalGridTurbulence.h`
+- :ref:`file_include_crpropa_magneticField_turbulentField_PlaneWaveTurbulence.h`
+- :ref:`file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h`
+- :ref:`file_include_crpropa_magneticField_turbulentField_TurbulentField.h`
+
+

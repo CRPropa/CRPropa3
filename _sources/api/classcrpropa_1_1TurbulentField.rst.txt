@@ -1,0 +1,32 @@
+.. _exhale_class_classcrpropa_1_1TurbulentField:
+
+Class TurbulentField
+====================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_TurbulentField.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+
+
+Derived Types
+*************
+
+- ``public GridTurbulence`` (:ref:`exhale_class_classcrpropa_1_1GridTurbulence`)
+- ``public PlaneWaveTurbulence`` (:ref:`exhale_class_classcrpropa_1_1PlaneWaveTurbulence`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::TurbulentField
+   :members:
+   :protected-members:
+   :undoc-members:

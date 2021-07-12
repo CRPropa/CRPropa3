@@ -1,0 +1,57 @@
+
+.. _file_include_crpropa_ParticleID.h:
+
+File ParticleID.h
+=================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+2012 Monte Carlo nuclear code scheme 
+ 
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/ParticleID.h``)
+---------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_ParticleID.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1gaeb9bf83157fb16f1b1f40f3520fb88f5`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga214fcca71a19e93127c731aef7d5ac1c`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga7f967562ed4cfbcfceecf9bc7c0dff17`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0`
+

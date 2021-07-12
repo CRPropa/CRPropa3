@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1ac9f895526ff16286d0aeb62e7e80459f:
+
+Function crpropa::DintElecaPropagation
+======================================
+
+- Defined in :ref:`file_include_crpropa_PhotonPropagation.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::DintElecaPropagation(const std::string&, const std::string&, bool, double, double, double)

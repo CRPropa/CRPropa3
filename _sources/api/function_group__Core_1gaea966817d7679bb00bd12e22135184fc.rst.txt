@@ -1,0 +1,13 @@
+.. _exhale_function_group__Core_1gaea966817d7679bb00bd12e22135184fc:
+
+Template Function crpropa::clip
+===============================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::clip(const T&, const T&, const T&)

@@ -1,0 +1,57 @@
+
+.. _file_include_crpropa_module_Acceleration.h:
+
+File Acceleration.h
+===================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_module>` (``include/crpropa/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/module/Acceleration.h``)
+------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_module_Acceleration.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1AbstractAccelerationModule`
+
+- :ref:`exhale_class_classcrpropa_1_1DirectedFlowOfScatterCenters`
+
+- :ref:`exhale_class_classcrpropa_1_1DirectedFlowScattering`
+
+- :ref:`exhale_class_classcrpropa_1_1SecondOrderFermi`
+
+- :ref:`exhale_class_classcrpropa_1_1StepLengthModifier`
+
+- :ref:`exhale_class_classParticleSplitting`
+
+- :ref:`exhale_class_classQuasiLinearTheory`
+

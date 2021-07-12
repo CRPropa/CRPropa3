@@ -1,0 +1,23 @@
+.. _dir_include_crpropa_magneticLens:
+
+
+Directory magneticLens
+======================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``include/crpropa/magneticLens``
+
+
+Files
+-----
+
+- :ref:`file_include_crpropa_magneticLens_MagneticLens.h`
+- :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+- :ref:`file_include_crpropa_magneticLens_ParticleMapsContainer.h`
+- :ref:`file_include_crpropa_magneticLens_Pixelization.h`
+
+

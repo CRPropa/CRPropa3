@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1MinimumEnergyPerParticleId:
+
+Class MinimumEnergyPerParticleId
+================================
+
+- Defined in :ref:`file_include_crpropa_module_BreakCondition.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public AbstractCondition`` (:ref:`exhale_class_classcrpropa_1_1AbstractCondition`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::MinimumEnergyPerParticleId
+   :members:
+   :protected-members:
+   :undoc-members:

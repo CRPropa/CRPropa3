@@ -1,0 +1,49 @@
+
+.. _file_include_crpropa_module_PhotoDisintegration.h:
+
+File PhotoDisintegration.h
+==========================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_module>` (``include/crpropa/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/module/PhotoDisintegration.h``)
+-------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_module_PhotoDisintegration.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structcrpropa_1_1PhotoDisintegration_1_1Branch`
+
+- :ref:`exhale_struct_structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission`
+
+- :ref:`exhale_class_classcrpropa_1_1PhotoDisintegration`
+

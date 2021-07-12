@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8:
+
+Function crpropa::convertIdToName
+=================================
+
+- Defined in :ref:`file_include_crpropa_ParticleID.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::convertIdToName(int)

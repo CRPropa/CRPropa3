@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1SourceRedshift1D:
+
+Class SourceRedshift1D
+======================
+
+- Defined in :ref:`file_include_crpropa_Source.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public SourceFeature`` (:ref:`exhale_class_classcrpropa_1_1SourceFeature`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SourceRedshift1D
+   :members:
+   :protected-members:
+   :undoc-members:

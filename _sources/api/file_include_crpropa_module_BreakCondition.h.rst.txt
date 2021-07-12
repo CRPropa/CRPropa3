@@ -1,0 +1,57 @@
+
+.. _file_include_crpropa_module_BreakCondition.h:
+
+File BreakCondition.h
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_module>` (``include/crpropa/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/module/BreakCondition.h``)
+--------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_module_BreakCondition.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1DetectionLength`
+
+- :ref:`exhale_class_classcrpropa_1_1MaximumTrajectoryLength`
+
+- :ref:`exhale_class_classcrpropa_1_1MinimumChargeNumber`
+
+- :ref:`exhale_class_classcrpropa_1_1MinimumEnergy`
+
+- :ref:`exhale_class_classcrpropa_1_1MinimumEnergyPerParticleId`
+
+- :ref:`exhale_class_classcrpropa_1_1MinimumRedshift`
+
+- :ref:`exhale_class_classcrpropa_1_1MinimumRigidity`
+

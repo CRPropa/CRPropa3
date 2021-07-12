@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1SimpleTurbulenceSpectrum:
+
+Class SimpleTurbulenceSpectrum
+==============================
+
+- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TurbulenceSpectrum`` (:ref:`exhale_class_classcrpropa_1_1TurbulenceSpectrum`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SimpleTurbulenceSpectrum
+   :members:
+   :protected-members:
+   :undoc-members:

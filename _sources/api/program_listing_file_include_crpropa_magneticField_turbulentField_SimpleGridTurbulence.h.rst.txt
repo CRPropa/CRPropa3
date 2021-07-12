@@ -1,0 +1,79 @@
+
+.. _program_listing_file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h:
+
+Program Listing for File SimpleGridTurbulence.h
+===============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_turbulentField_SimpleGridTurbulence.h>` (``include/crpropa/magneticField/turbulentField/SimpleGridTurbulence.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_SIMPLEGRIDTURBULENCE_H
+   #define CRPROPA_SIMPLEGRIDTURBULENCE_H
+   
+   #ifdef CRPROPA_HAVE_FFTW3F
+   
+   #include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+   
+   #include "kiss/logger.h"
+   #include "kiss/string.h"
+   
+   namespace crpropa {
+   class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
+     public:
+           SimpleTurbulenceSpectrum(double Brms, double lMin, double lMax,
+                                    double sIndex = 5. / 3)
+               : TurbulenceSpectrum(Brms, lMin, lMax, 0, sIndex, 0) {}
+           ~SimpleTurbulenceSpectrum() {}
+   
+           double energySpectrum(double k) const {
+                   return std::pow(k, -getSindex() - 2);
+           }
+   
+           double getCorrelationLength() const {
+                   return turbulentCorrelationLength(getLmin(), getLmax(),
+                                                     getSindex());
+           }
+           static double turbulentCorrelationLength(double lMin, double lMax,
+                                                    double s) {
+                   double r = lMin / lMax;
+                   return lMax / 2 * (s - 1) / s * (1 - pow(r, s)) / (1 - pow(r, s - 1));
+           }
+   };
+   
+   class SimpleGridTurbulence : public GridTurbulence {
+     public:
+           SimpleGridTurbulence(const SimpleTurbulenceSpectrum &spectrum,
+                                const GridProperties &gridProp, unsigned int seed = 0);
+   
+           static void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
+                                      double lMax, double alpha, int seed);
+   };
+   
+   // Compatibility with old functions from GridTurbulence:
+   
+   inline double turbulentCorrelationLength(double lMin, double lMax,
+                                            double alpha = -11 / 3.) {
+           KISS_LOG_WARNING
+               << "turbulentCorrelationLength is deprecated and will be "
+                  "removed in the future. Replace it with a more appropriate "
+                  "turbulent field model and call getCorrelationLength().";
+           return SimpleTurbulenceSpectrum::turbulentCorrelationLength(lMin, lMax,
+                                                                       -alpha - 2);
+   }
+   
+   inline void initTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
+                              double lMax, double alpha = -11 / 3., int seed = 0) {
+           KISS_LOG_WARNING
+               << "initTurbulence is deprecated and will be removed in the future. "
+                  "Replace it with a more appropriate turbulent field model instance.";
+           SimpleGridTurbulence::initTurbulence(grid, Brms, lMin, lMax, alpha, seed);
+   }
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_HAVE_FFTW3F
+   
+   #endif // CRPROPA_SIMPLEGRIDTURBULENCE_H

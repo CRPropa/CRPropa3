@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2:
+
+Function crpropa::operator>>(std::istream&, Random&)
+====================================================
+
+- Defined in :ref:`file_src_Random.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::operator>>(std::istream&, Random&)

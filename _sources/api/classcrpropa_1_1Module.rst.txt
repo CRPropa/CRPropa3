@@ -1,0 +1,65 @@
+.. _exhale_class_classcrpropa_1_1Module:
+
+Class Module
+============
+
+- Defined in :ref:`file_include_crpropa_Module.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
+
+
+Derived Types
+*************
+
+- ``public AbstractAccelerationModule`` (:ref:`exhale_class_classcrpropa_1_1AbstractAccelerationModule`)
+- ``public AbstractCondition`` (:ref:`exhale_class_classcrpropa_1_1AbstractCondition`)
+- ``public AdiabaticCooling`` (:ref:`exhale_class_classcrpropa_1_1AdiabaticCooling`)
+- ``public DiffusionSDE`` (:ref:`exhale_class_classcrpropa_1_1DiffusionSDE`)
+- ``public ElasticScattering`` (:ref:`exhale_class_classcrpropa_1_1ElasticScattering`)
+- ``public ElectronPairProduction`` (:ref:`exhale_class_classcrpropa_1_1ElectronPairProduction`)
+- ``public EMCascade`` (:ref:`exhale_class_classcrpropa_1_1EMCascade`)
+- ``public EMDoublePairProduction`` (:ref:`exhale_class_classcrpropa_1_1EMDoublePairProduction`)
+- ``public EMInverseComptonScattering`` (:ref:`exhale_class_classcrpropa_1_1EMInverseComptonScattering`)
+- ``public EmissionMapFiller`` (:ref:`exhale_class_classcrpropa_1_1EmissionMapFiller`)
+- ``public EMPairProduction`` (:ref:`exhale_class_classcrpropa_1_1EMPairProduction`)
+- ``public EMTripletPairProduction`` (:ref:`exhale_class_classcrpropa_1_1EMTripletPairProduction`)
+- ``public FutureRedshift`` (:ref:`exhale_class_classcrpropa_1_1FutureRedshift`)
+- ``public ModuleList`` (:ref:`exhale_class_classcrpropa_1_1ModuleList`)
+- ``public ModuleListRunner`` (:ref:`exhale_class_classcrpropa_1_1ModuleListRunner`)
+- ``public NuclearDecay`` (:ref:`exhale_class_classcrpropa_1_1NuclearDecay`)
+- ``public Observer`` (:ref:`exhale_class_classcrpropa_1_1Observer`)
+- ``public Output`` (:ref:`exhale_class_classcrpropa_1_1Output`)
+- ``public ParticleCollector`` (:ref:`exhale_class_classcrpropa_1_1ParticleCollector`)
+- ``public PerformanceModule`` (:ref:`exhale_class_classcrpropa_1_1PerformanceModule`)
+- ``public PeriodicBox`` (:ref:`exhale_class_classcrpropa_1_1PeriodicBox`)
+- ``public PhotoDisintegration`` (:ref:`exhale_class_classcrpropa_1_1PhotoDisintegration`)
+- ``public PhotonEleCa`` (:ref:`exhale_class_classcrpropa_1_1PhotonEleCa`)
+- ``public PhotonOutput1D`` (:ref:`exhale_class_classcrpropa_1_1PhotonOutput1D`)
+- ``public PhotoPionProduction`` (:ref:`exhale_class_classcrpropa_1_1PhotoPionProduction`)
+- ``public PropagationBP`` (:ref:`exhale_class_classcrpropa_1_1PropagationBP`)
+- ``public PropagationCK`` (:ref:`exhale_class_classcrpropa_1_1PropagationCK`)
+- ``public Redshift`` (:ref:`exhale_class_classcrpropa_1_1Redshift`)
+- ``public ReflectiveBox`` (:ref:`exhale_class_classcrpropa_1_1ReflectiveBox`)
+- ``public RestrictToRegion`` (:ref:`exhale_class_classcrpropa_1_1RestrictToRegion`)
+- ``public ShellOutput`` (:ref:`exhale_class_classcrpropa_1_1ShellOutput`)
+- ``public ShellOutput1D`` (:ref:`exhale_class_classcrpropa_1_1ShellOutput1D`)
+- ``public ShellPropertyOutput`` (:ref:`exhale_class_classcrpropa_1_1ShellPropertyOutput`)
+- ``public SimplePropagation`` (:ref:`exhale_class_classcrpropa_1_1SimplePropagation`)
+- ``public SynchrotronRadiation`` (:ref:`exhale_class_classcrpropa_1_1SynchrotronRadiation`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::Module
+   :members:
+   :protected-members:
+   :undoc-members:

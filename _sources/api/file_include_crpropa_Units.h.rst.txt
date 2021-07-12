@@ -1,0 +1,230 @@
+
+.. _file_include_crpropa_Units.h:
+
+File Units.h
+============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+Definition of SI base units and constants. 
+ 
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/Units.h``)
+----------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_Units.h.rst
+
+
+
+Detailed Description
+--------------------
+
+Definition of SI base units and constants used elsewhere in the code Based on:
+
+- CODATA recommended values of the fundamental physical constants: 2006 doi:10.1103/RevModPhys.80.633
+- IAU 2012 Resolution B2, IAU 2015 Resolution B2 https://www.iau.org/administration/resolutions/ 
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gae57f427be881e4c8f1163470da1befb2`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga8d9a59356bad97a6e73cc459a35bc274`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga2085cc4cdb90e7a156b5dbdbe44bf7aa`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga35d305b22a8de1cab9f18bf3e0fe48ba`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga8b99ed3101c591c1133f492d94fa3685`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gad0b9a58075a15c1cb674a2b879402853`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga9f729835f8d7ddb8ab71fce2108d7566`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga2f5042227e4fdba943844e169f5cf010`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab1e9216cf93077db4901e1820dffa132`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga384bc54c9a15fa0d84ae78416653c9c4`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga53b77492aea234537215b9ba7177882c`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab38b15c5eece78fad9d84103d8b90a89`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga8d678b199c22b3f6719333b6ed3b3e39`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga87b385f118e3715860117a77eda7136d`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga7f1280863986e5f4b59fae29afbecabc`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga4aa592dff0d55ae915648a03dfe46dd1`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gabea2135256ac31f26ed041ab577f8c13`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gad7c4f80eaae50061ac4b754cbb5f0275`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaec0e126d9991db8ad0b26139f5860568`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaf2299d510cc08e636439584682a88303`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga67f77928286c0c47c56fb64ef6445517`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaf8524dd93cb2df63eabbbd443e5014ff`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaaf33764feb34669b8ffe006cc943067d`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga5625ec9f520a5f041fb88f5da5f94bef`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga1f940bb86795ed45e1417ad32321a551`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga09c047eba91ce1d85e4e7fdd4bafebe4`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaca2a407ebab577eb092585f84631c8d0`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga12088648de7f88c5accd233032d3153e`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gad6635fb9b9ed7cc9fee15071b9432091`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga71187dfc8f158326cbf7bed526138aae`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga05ccc8bd868280980dab40ca4128d8e4`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga2e4f006f78ed12d318baa9ef08a9e799`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga8955be82c3d643afe27de76d06df52e8`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga6183103d0e243ef4347cd071cc5fd68b`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga0470d2bb7af674e93def309564e0d51a`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaaf85ed8b741937db702f62aac693ae5d`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaaa1e0123e1baad493ec687904a428cbf`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga21aa8093ee2f43ed4e85b31b64304c7a`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga8912b14f7b302e534e7eb063288f6ee9`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga4f2c7d727d45a6c6a39e648c48a68bf4`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gac3da9c52caabd55b3d229735cc925e5e`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga81230fc213736db75d5c970e68886a10`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gac90e720c4654493ae50b7b964cc6b20d`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga9edb08003fe77ed3bacd9ea23bcfa66b`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab70342abf0832b9dd265964c21681319`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga33252a2d991e1b089ea0c7540ef334ea`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga795961ce904cb279d5fd18b27622c9a0`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gae32c5b1394299598268f59e850e70d91`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga583f186218b8bf2ad5c54928a6c20134`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaabefcc198b3e2606497fd55b370846fa`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga03be4183d6f731898634e3649865848c`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga40448747ca0606885ccc70b72ed78001`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaa2940cb38b48f36a88341bd268778847`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga5596cdaf7a42ba58794c2c6dc5e1e7dd`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga38012ba2795f7181e87ea3a4a0b0e32f`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gac6aa1e9406f8b758f5e41d80e0045733`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab676ddbbf379cc0ee93944717e1ac9eb`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab1ad77ec7ae37ba36c2c7f8785440281`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga86cabed6b39944d7bada06028f98c864`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab2255fb9f970de1ddc40b38fe9065de4`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gae9508134491d8a9621d23f07281096c7`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaab6215c4cb38b8fcb808d8ff11e0940c`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga2884cd030c4c825754349a525a1d06ce`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gab4e48de47138d9b3db5a04e1a3d6be1d`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaea037b37e9acec1a6e766802f3ebd7fb`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga463540ec70967dcc4e597ef8adc7f44c`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga7f801e1f6821bc6baf0652ed2496e5e9`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga90ad310c0986c21c31d3695d97922db7`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gad9f87532fe6bac146c75ef173bd468d8`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga85979a8ef8dbc332c635191cd40a3b0c`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gaecd7702608529a1c8d8c744542b64bd4`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1gad92d24cec8d208c82569e29279becc10`
+

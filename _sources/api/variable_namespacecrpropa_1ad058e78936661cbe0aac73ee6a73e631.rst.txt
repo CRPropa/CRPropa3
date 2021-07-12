@@ -1,0 +1,13 @@
+.. _exhale_variable_namespacecrpropa_1ad058e78936661cbe0aac73ee6a73e631:
+
+Variable crpropa::cosmology
+===========================
+
+- Defined in :ref:`file_src_Cosmology.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::cosmology

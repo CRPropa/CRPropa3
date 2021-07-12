@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga4575a11fd9dc0420c5817fea1610fba2:
+
+Function crpropa::omegaL
+========================
+
+- Defined in :ref:`file_include_crpropa_Cosmology.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::omegaL()

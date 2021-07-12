@@ -1,0 +1,41 @@
+
+.. _program_listing_file_include_crpropa_module_OutputShell.h:
+
+Program Listing for File OutputShell.h
+======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_OutputShell.h>` (``include/crpropa/module/OutputShell.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_OUTPUTSHELL_H
+   #define CRPROPA_OUTPUTSHELL_H
+   
+   #include "crpropa/Module.h"
+   #include "crpropa/AssocVector.h"
+   #include "crpropa/Variant.h"
+   
+   namespace crpropa {
+   class ShellOutput: public Module {
+   public:
+           void process(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ShellOutput1D: public Module {
+   public:
+           void process(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
+   class ShellPropertyOutput: public Module {
+   public:
+           typedef Loki::AssocVector<std::string, Variant> PropertyMap;
+           void process(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   } // namespace cprpropa
+   
+   #endif // CRPROPA_OUTPUTSHELL_H

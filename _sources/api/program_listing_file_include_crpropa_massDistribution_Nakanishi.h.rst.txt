@@ -1,0 +1,54 @@
+
+.. _program_listing_file_include_crpropa_massDistribution_Nakanishi.h:
+
+Program Listing for File Nakanishi.h
+====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_massDistribution_Nakanishi.h>` (``include/crpropa/massDistribution/Nakanishi.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_NAKANISHI_H
+   #define CRPROPA_NAKANISHI_H
+   
+   #include "crpropa/massDistribution/Density.h"
+   
+   #include <cmath>
+   #include <string>
+   
+   namespace crpropa {
+   class Nakanishi: public Density{
+   private:
+           bool isforHI = true;
+           bool isforHII = false;
+           bool isforH2 = true;
+   
+   public:
+           double getDensity(const Vector3d &position) const;
+           double getHIDensity(const Vector3d &position) const;
+           double getH2Density(const Vector3d &position) const;
+           double getNucleonDensity(const Vector3d &position) const;
+   
+           double getHIScaleheight(const Vector3d &position)const;
+           double getHIPlanedensity(const Vector3d &position)const;
+   
+           double getH2Scaleheight(const Vector3d &position)const;
+           double getH2Planedensity(const Vector3d &position)const;
+   
+           void setIsForHI(bool HI);
+           void setIsForH2(bool H2);
+   
+           bool getIsForHI();
+           bool getIsForHII();
+           bool getIsForH2();
+           std::string getDescription();
+   };
+   
+   }  // namespace crpropa
+   
+   #endif  // CRPROPA_NAKANISHI_H
+   
+   
+   

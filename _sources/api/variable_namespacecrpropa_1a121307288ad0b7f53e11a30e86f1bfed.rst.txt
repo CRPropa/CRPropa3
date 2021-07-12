@@ -1,0 +1,13 @@
+.. _exhale_variable_namespacecrpropa_1a121307288ad0b7f53e11a30e86f1bfed:
+
+Variable crpropa::nuclearMassTable
+==================================
+
+- Defined in :ref:`file_src_ParticleMass.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::nuclearMassTable

@@ -1,0 +1,16 @@
+.. _exhale_class_classcrpropa_1_1PhotonFieldSampling:
+
+Class PhotonFieldSampling
+=========================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PhotonFieldSampling
+   :members:
+   :protected-members:
+   :undoc-members:

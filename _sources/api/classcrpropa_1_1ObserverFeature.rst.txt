@@ -1,0 +1,44 @@
+.. _exhale_class_classcrpropa_1_1ObserverFeature:
+
+Class ObserverFeature
+=====================
+
+- Defined in :ref:`file_include_crpropa_module_Observer.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
+
+
+Derived Types
+*************
+
+- ``public ObserverDetectAll`` (:ref:`exhale_class_classcrpropa_1_1ObserverDetectAll`)
+- ``public ObserverElectronVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverElectronVeto`)
+- ``public ObserverInactiveVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverInactiveVeto`)
+- ``public ObserverLargeSphere`` (:ref:`exhale_class_classcrpropa_1_1ObserverLargeSphere`)
+- ``public ObserverNeutrinoVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverNeutrinoVeto`)
+- ``public ObserverNucleusVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverNucleusVeto`)
+- ``public ObserverParticleIdVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverParticleIdVeto`)
+- ``public ObserverPhotonVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverPhotonVeto`)
+- ``public ObserverPoint`` (:ref:`exhale_class_classcrpropa_1_1ObserverPoint`)
+- ``public ObserverRedshiftWindow`` (:ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`)
+- ``public ObserverSmallSphere`` (:ref:`exhale_class_classcrpropa_1_1ObserverSmallSphere`)
+- ``public ObserverSurface`` (:ref:`exhale_class_classcrpropa_1_1ObserverSurface`)
+- ``public ObserverTimeEvolution`` (:ref:`exhale_class_classcrpropa_1_1ObserverTimeEvolution`)
+- ``public ObserverTracking`` (:ref:`exhale_class_classcrpropa_1_1ObserverTracking`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ObserverFeature
+   :members:
+   :protected-members:
+   :undoc-members:

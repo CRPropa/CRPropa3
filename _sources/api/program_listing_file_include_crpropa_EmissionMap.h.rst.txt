@@ -1,0 +1,101 @@
+
+.. _program_listing_file_include_crpropa_EmissionMap.h:
+
+Program Listing for File EmissionMap.h
+======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_EmissionMap.h>` (``include/crpropa/EmissionMap.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_EMISSION_MAP_H
+   #define CRPROPA_EMISSION_MAP_H
+   
+   #include "Referenced.h"
+   #include "Candidate.h"
+   
+   namespace crpropa {
+   
+   class CylindricalProjectionMap : public Referenced {
+   private:
+           size_t nPhi, nTheta;
+           double sPhi, sTheta;
+           mutable bool dirty;
+           std::vector<double> pdf;
+           mutable std::vector<double> cdf;
+   
+           void updateCdf() const;
+   
+   public:
+           CylindricalProjectionMap();
+           CylindricalProjectionMap(size_t nPhi, size_t nTheta);
+   
+           void fillBin(const Vector3d& direction, double weight = 1.);
+   
+           void fillBin(size_t bin, double weight = 1.);
+   
+           Vector3d drawDirection() const;
+   
+           bool checkDirection(const Vector3d &direction) const;
+   
+           const std::vector<double>& getPdf() const;
+           std::vector<double>& getPdf();
+   
+           const std::vector<double>& getCdf() const;
+   
+           size_t getNPhi();
+           size_t getNTheta();
+   
+           size_t binFromDirection(const Vector3d& direction) const;
+   
+           Vector3d directionFromBin(size_t bin) const;
+   };
+   
+   class EmissionMap : public Referenced {
+   public:
+           typedef std::pair<int, size_t> key_t;
+           typedef std::map<key_t, ref_ptr<CylindricalProjectionMap> > map_t;
+   
+           EmissionMap();
+           EmissionMap(size_t nPhi, size_t nTheta, size_t nEnergy);
+   
+           EmissionMap(size_t nPhi, size_t nTheta, size_t nEnergy, double minEnergy, double maxEnergy);
+   
+           double energyFromBin(size_t bin) const;
+   
+           size_t binFromEnergy(double energy) const;
+   
+           map_t &getMaps();
+           const map_t &getMaps() const;
+   
+           void fillMap(int pid, double energy, const Vector3d& direction, double weight = 1.);
+           void fillMap(const ParticleState& state, double weight = 1.);
+   
+           bool drawDirection(int pid, double energy, Vector3d& direction) const;
+           bool drawDirection(const ParticleState& state, Vector3d& direction) const;
+   
+           bool checkDirection(int pid, double energy, const Vector3d& direction) const;
+           bool checkDirection(const ParticleState& state) const;
+   
+           bool hasMap(int pid, double energy);
+   
+           ref_ptr<CylindricalProjectionMap> getMap(int pid, double energy);
+   
+           void save(const std::string &filename);
+           void load(const std::string &filename);
+   
+           void merge(const EmissionMap *other);
+   
+           void merge(const std::string &filename);
+   
+   protected:
+           double minEnergy, maxEnergy, logStep;
+           size_t nPhi, nTheta, nEnergy;
+           map_t maps;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_EMISSION_MAP_H

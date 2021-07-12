@@ -1,0 +1,57 @@
+
+.. _file_include_crpropa_magneticField_MagneticField.h:
+
+File MagneticField.h
+====================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_magneticField>` (``include/crpropa/magneticField``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/magneticField/MagneticField.h``)
+--------------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_magneticField_MagneticField.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1MagneticDipoleField`
+
+- :ref:`exhale_class_classcrpropa_1_1MagneticField`
+
+- :ref:`exhale_class_classcrpropa_1_1MagneticFieldEvolution`
+
+- :ref:`exhale_class_classcrpropa_1_1MagneticFieldList`
+
+- :ref:`exhale_class_classcrpropa_1_1PeriodicMagneticField`
+
+- :ref:`exhale_class_classcrpropa_1_1RenormalizeMagneticField`
+
+- :ref:`exhale_class_classcrpropa_1_1UniformMagneticField`
+

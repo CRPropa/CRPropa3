@@ -1,0 +1,379 @@
+
+.. _program_listing_file_include_crpropa_Source.h:
+
+Program Listing for File Source.h
+=================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_Source.h>` (``include/crpropa/Source.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_SOURCE_H
+   #define CRPROPA_SOURCE_H
+   
+   #include "crpropa/Candidate.h"
+   #include "crpropa/Grid.h"
+   #include "crpropa/EmissionMap.h"
+   
+   
+   #include <vector>
+   
+   namespace crpropa {
+   class SourceFeature: public Referenced {
+   protected:
+           std::string description;
+   public:
+           virtual void prepareParticle(ParticleState& particle) const {};
+           virtual void prepareCandidate(Candidate& candidate) const;
+           std::string getDescription() const;
+   };
+   
+   
+   class SourceInterface : public Referenced {
+   public:
+           virtual ref_ptr<Candidate> getCandidate() const = 0;
+           virtual std::string getDescription() const = 0;
+   };
+   
+   class Source: public SourceInterface {
+           std::vector<ref_ptr<SourceFeature> > features;
+   public:
+           void add(SourceFeature* feature);
+           ref_ptr<Candidate> getCandidate() const;
+           std::string getDescription() const;
+   };
+   
+   class SourceList: public SourceInterface {
+           std::vector<ref_ptr<Source> > sources;
+           std::vector<double> cdf;
+   public:
+           void add(Source* source, double weight = 1);
+           ref_ptr<Candidate> getCandidate() const;
+           std::string getDescription() const;
+   };
+   
+   
+   
+   
+   class SourceParticleType: public SourceFeature {
+           int id;
+   public:
+           SourceParticleType(int id);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceMultipleParticleTypes: public SourceFeature {
+           std::vector<int> particleTypes;
+           std::vector<double> cdf;
+   public:
+           SourceMultipleParticleTypes();
+           void add(int id, double weight = 1);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceEnergy: public SourceFeature {
+           double E;
+   public:
+           SourceEnergy(double energy);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourcePowerLawSpectrum: public SourceFeature {
+           double Emin;
+           double Emax;
+           double index;
+   public:
+           SourcePowerLawSpectrum(double Emin, double Emax, double index);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceComposition: public SourceFeature {
+           double Emin;
+           double Rmax;
+           double index;
+           std::vector<int> nuclei;
+           std::vector<double> cdf;
+   public:
+           SourceComposition(double Emin, double Rmax, double index);
+           void add(int id, double abundance);
+           void add(int A, int Z, double abundance);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourcePosition: public SourceFeature {
+           Vector3d position; 
+   public:
+           SourcePosition(Vector3d position);
+           SourcePosition(double d);
+           void prepareParticle(ParticleState &state) const;
+           void setDescription();
+   };
+   
+   class SourceMultiplePositions: public SourceFeature {
+           std::vector<Vector3d> positions;
+           std::vector<double> cdf;
+   public:
+           SourceMultiplePositions();
+           void add(Vector3d position, double weight = 1);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceUniformSphere: public SourceFeature {
+           Vector3d center;
+           double radius;
+   public:
+           SourceUniformSphere(Vector3d center, double radius);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceUniformHollowSphere: public SourceFeature {
+           Vector3d center;
+           double radius_inner;
+           double radius_outer;
+   public:
+           SourceUniformHollowSphere(Vector3d center,
+                           double radius_inner, double double_outer);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceUniformShell: public SourceFeature {
+           Vector3d center;
+           double radius;
+   public:
+           SourceUniformShell(Vector3d center, double radius);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceUniformBox: public SourceFeature {
+           Vector3d origin;
+           Vector3d size;
+   public:
+           SourceUniformBox(Vector3d origin, Vector3d size);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceUniformCylinder: public SourceFeature {
+           Vector3d origin;
+           double height;
+           double radius;
+   public:
+           SourceUniformCylinder(Vector3d origin, double height, double radius);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceSNRDistribution: public SourceFeature {
+           double R_earth; // parameter given by observation
+           double beta; // parameter to shift the maximum in R direction
+           double Zg; // exponential cut parameter in z direction
+           double frMax; // helper for efficient sampling
+           double fzMax; // helper for efficient sampling
+           double R_max; // maximum radial distance - default 20 kpc 
+                         // (due to the extension of the JF12 field)
+           double Z_max; // maximum distance from galactic plane - default 5 kpc
+   
+   public:
+           SourceSNRDistribution();        
+           SourceSNRDistribution(double R_earth, double beta, double Zg);
+           void prepareParticle(ParticleState &particle) const;
+           double f_r(double r) const;
+           double f_z(double z) const;
+           void set_frMax(double R, double b);
+           void set_fzMax(double Zg);
+           void set_RMax(double R_max);
+           void set_ZMax(double Z_max);
+           double get_frMax();
+           double get_fzMax();
+           double get_RMax();
+           double get_ZMax();
+           void setDescription();
+   };
+   class SourcePulsarDistribution: public SourceFeature {
+           double R_earth; // parameter given by observation
+           double beta; // parameter to shift the maximum in R direction
+           double Zg; // exponential cut parameter in z direction
+           double frMax; // helper for efficient sampling
+           double fzMax; // helper for efficient sampling
+           double R_max; // maximum radial distance - default 22 kpc 
+           double Z_max; // maximum distance from galactic plane - default 5 kpc
+           double r_blur; // relative smearing factor for the radius
+           double theta_blur; // smearing factor for the angle. Unit = [1/length]
+   
+   
+           
+   
+   public:
+           SourcePulsarDistribution();     
+           SourcePulsarDistribution(double R_earth, double beta, double Zg, double r_blur, double theta_blur);
+           void prepareParticle(ParticleState &particle) const;
+           double f_r(double r) const;
+           double f_z(double z) const;
+           double f_theta(int i, double r) const;
+           double blur_r(double r_tilde) const;
+           double blur_theta(double theta_tilde, double r_tilde) const;
+           void set_frMax(double R, double b);
+           void set_fzMax(double Zg);
+           void set_RMax(double R_max);
+           void set_ZMax(double Z_max);
+           void set_rBlur(double r_blur);
+           void set_thetaBlur(double theta_blur);
+           double get_frMax();
+           double get_fzMax();
+           double get_RMax();
+           double get_ZMax();
+           double get_rBlur();
+           double get_thetaBlur();
+           void setDescription();
+   };
+   
+   class SourceUniform1D: public SourceFeature {
+           double minD; // minimum light travel distance
+           double maxD; // maximum light travel distance
+           bool withCosmology;
+   public:
+           SourceUniform1D(double minD, double maxD, bool withCosmology=true);
+           void prepareParticle(ParticleState& particle) const;
+           void setDescription();
+   };
+   
+   class SourceDensityGrid: public SourceFeature {
+           ref_ptr<Grid1f> grid;
+   public:
+           SourceDensityGrid(ref_ptr<Grid1f> densityGrid);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceDensityGrid1D: public SourceFeature {
+           ref_ptr<Grid1f> grid;
+   public:
+           SourceDensityGrid1D(ref_ptr<Grid1f> densityGrid);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceIsotropicEmission: public SourceFeature {
+   public:
+           SourceIsotropicEmission();
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceLambertDistributionOnSphere: public SourceFeature {
+           Vector3d center;
+           double radius;
+           bool inward;
+   public:
+           SourceLambertDistributionOnSphere(const Vector3d &center, double radius, bool inward);
+    void prepareParticle(ParticleState &particle) const;
+    void setDescription();
+   };
+   
+   class SourceDirection: public SourceFeature {
+           Vector3d direction;
+   public:
+           SourceDirection(Vector3d direction = Vector3d(-1, 0, 0));
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   };
+   
+   class SourceEmissionMap: public SourceFeature {
+           ref_ptr<EmissionMap> emissionMap;
+   public:
+           SourceEmissionMap(EmissionMap *emissionMap);
+           void prepareCandidate(Candidate &candidate) const;
+           void setEmissionMap(EmissionMap *emissionMap);
+           void setDescription();
+   };
+   
+   class SourceEmissionCone: public SourceFeature {
+           Vector3d direction;
+           double aperture;
+   public:
+           SourceEmissionCone(Vector3d direction, double aperture);
+           void prepareParticle(ParticleState &particle) const;
+           void setDirection(Vector3d direction);
+           void setDescription();
+   };
+   
+   class SourceRedshift: public SourceFeature {
+           double z;
+   public:
+           SourceRedshift(double z);
+           void prepareCandidate(Candidate &candidate) const;
+           void setDescription();
+   };
+   
+   class SourceUniformRedshift: public SourceFeature {
+           double zmin, zmax;
+   public:
+           SourceUniformRedshift(double zmin, double zmax);
+           void prepareCandidate(Candidate &candidate) const;
+           void setDescription();
+   };
+   
+   class SourceRedshiftEvolution: public SourceFeature {
+           double zmin, zmax, m;
+   public:
+           SourceRedshiftEvolution(double m, double zmin, double zmax);
+           void prepareCandidate(Candidate &candidate) const;
+   };
+   
+   class SourceRedshift1D: public SourceFeature {
+   public:
+           SourceRedshift1D();
+           void prepareCandidate(Candidate &candidate) const;
+           void setDescription();
+   };
+   
+   #ifdef CRPROPA_HAVE_MUPARSER
+   
+   class SourceGenericComposition: public SourceFeature {
+   public:
+           struct Nucleus {
+                   int id;
+                   std::vector<double> cdf;
+           };
+   
+           SourceGenericComposition(double Emin, double Emax, std::string expression, size_t bins = 1024);
+           void add(int id, double abundance);
+           void add(int A, int Z, double abundance);
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
+   
+       const std::vector<double> *getNucleusCDF(int id) const {
+           for (size_t i = 0; i<nuclei.size(); i++)
+               if (nuclei[i].id == id)
+                   return &nuclei[i].cdf;
+           return 0;
+       }
+   
+   protected:
+   
+           double Emin, Emax;
+           size_t bins;
+           std::string expression;
+           std::vector<double> energy;
+   
+           std::vector<Nucleus> nuclei;
+           std::vector<double> cdf;
+   
+   };
+    // end of group SourceFeature
+   #endif
+   
+   }// namespace crpropa
+   
+   #endif // CRPROPA_SOURCE_H

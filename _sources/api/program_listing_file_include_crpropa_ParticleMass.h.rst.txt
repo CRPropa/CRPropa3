@@ -1,0 +1,22 @@
+
+.. _program_listing_file_include_crpropa_ParticleMass.h:
+
+Program Listing for File ParticleMass.h
+=======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_ParticleMass.h>` (``include/crpropa/ParticleMass.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PARTICLE_MASS_H
+   #define CRPROPA_PARTICLE_MASS_H
+   
+   namespace crpropa {
+   double nuclearMass(int id);
+   double nuclearMass(int A, int Z);
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PARTICLE_MASS_H

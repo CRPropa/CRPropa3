@@ -1,0 +1,59 @@
+
+.. _program_listing_file_include_crpropa_module_EMCascade.h:
+
+Program Listing for File EMCascade.h
+====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_EMCascade.h>` (``include/crpropa/module/EMCascade.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_EMCASCADE_H
+   #define CRPROPA_EMCASCADE_H
+   
+   #include "crpropa/Module.h"
+   
+   namespace crpropa {
+   
+   class EMCascade: public Module {
+   private:
+           // energy and distance binning
+           int nE, nD;
+           double logEmin, logEmax, dlogE, Dmax, dD;
+   
+           // histograms (distance,energy) of photons, electrons and positrons
+           mutable std::vector<uint64_t> photonHist;
+           mutable std::vector<uint64_t> electronHist;
+           mutable std::vector<uint64_t> positronHist;
+           void init();
+   
+   public:
+           EMCascade();
+   
+           void setDistanceBinning(
+                   double Dmax,  
+                   int nD        
+                   );
+   
+           void process(Candidate *candidate) const;
+   
+           void save(const std::string &filename);
+   
+           void load(const std::string &filename);
+   
+           void runCascade(
+                   const std::string &filename,  
+                   int IRBFlag = 4,        
+                   int RadioFlag = 4,      
+                   double Bfield = 1E-13,  
+                   double cutCascade = 0   
+                   );
+   
+           std::string getDescription() const;
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_EMCASCADE_H

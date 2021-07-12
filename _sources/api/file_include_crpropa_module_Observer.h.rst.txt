@@ -1,0 +1,82 @@
+
+.. _file_include_crpropa_module_Observer.h:
+
+File Observer.h
+===============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa_module>` (``include/crpropa/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/module/Observer.h``)
+--------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_module_Observer.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1Observer`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverDetectAll`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverElectronVeto`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverFeature`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverInactiveVeto`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverLargeSphere`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverNeutrinoVeto`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverNucleusVeto`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverParticleIdVeto`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverPhotonVeto`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverPoint`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverSmallSphere`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverSurface`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverTimeEvolution`
+
+- :ref:`exhale_class_classcrpropa_1_1ObserverTracking`
+
+
+Enums
+-----
+
+
+- :ref:`exhale_enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5`
+

@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1gaeb9bf83157fb16f1b1f40f3520fb88f5:
+
+Function crpropa::chargeNumber
+==============================
+
+- Defined in :ref:`file_include_crpropa_ParticleID.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::chargeNumber(int)

@@ -1,0 +1,46 @@
+
+.. _program_listing_file_include_crpropa_module_AdiabaticCooling.h:
+
+Program Listing for File AdiabaticCooling.h
+===========================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_AdiabaticCooling.h>` (``include/crpropa/module/AdiabaticCooling.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_ADIABATICCOOLING_H
+   #define CRPROPA_ADIABATICCOOLING_H
+   
+   #include <string>
+   #include <iostream>
+   #include <cmath>
+   #include <cstdlib>
+   #include <sstream>
+   
+   #include "crpropa/Vector3.h"
+   #include "crpropa/Module.h"
+   #include "crpropa/Units.h"
+   #include "crpropa/advectionField/AdvectionField.h"
+   #include "kiss/logger.h"
+   
+   
+   namespace crpropa {
+   class AdiabaticCooling: public Module {
+           private:
+                   ref_ptr<AdvectionField> advectionField;
+                   double limit;
+   
+           public:
+                   AdiabaticCooling(ref_ptr<AdvectionField> advectionField);
+                   AdiabaticCooling(ref_ptr<AdvectionField> advectionField, double limit);
+                   void process(Candidate *c) const;
+   
+                   void setLimit(double l);
+   
+                   double getLimit() const;
+   
+   };
+   }; // end namesspace crpropa
+   #endif // CRPROPA_ADIABATICCOOLING_H

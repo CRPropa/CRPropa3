@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1aca4bbe6bcc20c4e0e40bbc0ca91ae6c9:
+
+Function crpropa::operator<<(std::ostream&, const Variant&)
+===========================================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::operator<<(std::ostream&, const Variant&)

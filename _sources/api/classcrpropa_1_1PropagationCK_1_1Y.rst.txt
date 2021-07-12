@@ -1,0 +1,22 @@
+.. _exhale_class_classcrpropa_1_1PropagationCK_1_1Y:
+
+Class PropagationCK::Y
+======================
+
+- Defined in :ref:`file_include_crpropa_module_PropagationCK.h`
+
+
+Nested Relationships
+--------------------
+
+This class is a nested type of :ref:`exhale_class_classcrpropa_1_1PropagationCK`.
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::PropagationCK::Y
+   :members:
+   :protected-members:
+   :undoc-members:

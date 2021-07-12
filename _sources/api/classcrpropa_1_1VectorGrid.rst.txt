@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1VectorGrid:
+
+Class VectorGrid
+================
+
+- Defined in :ref:`file_include_crpropa_Grid.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public crpropa::Grid< Vector3f >`` (:ref:`exhale_class_classcrpropa_1_1Grid`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::VectorGrid
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,16 @@
+.. _exhale_struct_structcrpropa_1_1SophiaEventOutput:
+
+Struct SophiaEventOutput
+========================
+
+- Defined in :ref:`file_include_crpropa_module_PhotoPionProduction.h`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::SophiaEventOutput
+   :members:
+   :protected-members:
+   :undoc-members:

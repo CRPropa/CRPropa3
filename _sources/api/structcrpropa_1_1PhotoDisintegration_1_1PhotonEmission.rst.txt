@@ -1,0 +1,22 @@
+.. _exhale_struct_structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission:
+
+Struct PhotoDisintegration::PhotonEmission
+==========================================
+
+- Defined in :ref:`file_include_crpropa_module_PhotoDisintegration.h`
+
+
+Nested Relationships
+--------------------
+
+This struct is a nested type of :ref:`exhale_class_classcrpropa_1_1PhotoDisintegration`.
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::PhotoDisintegration::PhotonEmission
+   :members:
+   :protected-members:
+   :undoc-members:

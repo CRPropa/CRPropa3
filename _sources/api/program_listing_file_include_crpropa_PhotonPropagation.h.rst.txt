@@ -1,0 +1,50 @@
+
+.. _program_listing_file_include_crpropa_PhotonPropagation.h:
+
+Program Listing for File PhotonPropagation.h
+============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_PhotonPropagation.h>` (``include/crpropa/PhotonPropagation.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_PHOTON_PROPAGATION_H
+   #define CRPROPA_PHOTON_PROPAGATION_H
+   
+   #include <string>
+   #include <vector>
+   
+   namespace crpropa {
+   
+   void ElecaPropagation(
+           const std::string &inputfile,               
+           const std::string &outputfile,              
+           bool showProgress = true,                   
+           double lowerEnergyThreshold = 0.8010882435, 
+           double magneticFieldStrength = 1E-13,       
+           const std::string &background = "ALL"       
+           );
+   
+   void DintPropagation(
+           const std::string &inputfile,         
+           const std::string &outputfile,        
+           int IRFlag = 4,                       
+           int RadioFlag = 4,                    
+           double magneticFieldStrength = 1E-13, 
+           double aCutcascade_Magfield = 0       
+           );
+   
+   void DintElecaPropagation(
+           const std::string &inputfile,           
+           const std::string &outputfile,          
+           bool showProgress = true,               
+           double crossOverEnergy = 0.08010882435, 
+           double magneticFieldStrength = 1E-13,   
+           double aCutcascade_Magfield = 0         
+           );
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_PHOTON_PROPAGATION_H

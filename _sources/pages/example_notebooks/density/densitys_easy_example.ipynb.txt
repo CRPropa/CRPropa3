@@ -1,0 +1,343 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# First example code for the use of densities\n",
+    "\n",
+    "#### All densities are separated in atomic hydrogen (HI), ionised hydrogen (HII) and molecular hydrogen (H2).\n",
+    "\n",
+    "### This example contains: \n",
+    "* constant densities\n",
+    "* superposition of different types \n",
+    "* superposition of the same types\n",
+    "\n",
+    "Further on there is another example for all implemented density models of the Milky Way."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": true
+    }
+   },
+   "outputs": [],
+   "source": [
+    "from crpropa import *"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### First we start with the use of a constant density. \n",
+    "The first double sets the HI, the second the HII and the third the H2 density-number in SI units."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [],
+   "source": [
+    "CD = ConstantDensity(1,2,0.5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To see the output option we check the density at a random position.\n",
+    "\n",
+    "The output options are:\n",
+    "* getDensity: for the sum of all densities\n",
+    "* getHIDensity: for the HI part\n",
+    "* getHIIDensity: for the HII part\n",
+    "* getH2Density: for the H2 part\n",
+    "* getNucleonDensity: for the sum of nuclei ($n_{HI} + n_{HII} + 2\\cdot n_{H2}$)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total density n = 3.500000\n",
+      "HI density n_HI = 1.000000\n",
+      "HII density n_HII = 2.000000\n",
+      "H2 density n_H2 = 0.500000\n",
+      "nucleon density n_nucl = 4.000000\n"
+     ]
+    }
+   ],
+   "source": [
+    "position = Vector3d(2,1,3)\n",
+    "\n",
+    "n_tot = CD.getDensity(position)\n",
+    "n_HI = CD.getHIDensity(position)\n",
+    "n_HII = CD.getHIIDensity(position)\n",
+    "n_H2 = CD.getH2Density(position)\n",
+    "n_nucl = CD.getNucleonDensity(position)\n",
+    "\n",
+    "\n",
+    "print('total density n = %f' %n_tot)\n",
+    "print('HI density n_HI = %f' %n_HI)\n",
+    "print('HII density n_HII = %f' %n_HII)\n",
+    "print('H2 density n_H2 = %f' %n_H2)\n",
+    "print('nucleon density n_nucl = %f' %n_nucl)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### The ConstantDensity can be adjusted to new values and the usage of several parts can be chosen.\n",
+    "For this purpose methods are available to change and activate (set-function) and methodes to see the actual configuration (getisfor-functions)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "HI: True, HII: True, H2: True, \n",
+      " \n",
+      "\n",
+      "ConstantDensity:\n",
+      "HI component is not active and has a density of 1e+06 cm^-3\n",
+      "HII component is not active and has a density of 1.5e+06 cm^-3\n",
+      "H2 component is active and has a density of 1.3e+06 cm^-3\n"
+     ]
+    }
+   ],
+   "source": [
+    "# see the actual configuration\n",
+    "print('HI: %s, HII: %s, H2: %s, \\n \\n' %(CD.getIsForHI(), CD.getIsForHII(), CD.getIsForH2()))\n",
+    "\n",
+    "# change activity\n",
+    "CD.setHI(False)\n",
+    "\n",
+    "# change activity and density number\n",
+    "CD.setHII(False, 1.5)\n",
+    "\n",
+    "# change density number\n",
+    "CD.setH2(1.3)\n",
+    "\n",
+    "# see the changes in the Description\n",
+    "print(CD.getDescription())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### The output of the getDensity and getNucleonDensity depends on the activity of the types. Only activated types are used for summing up."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total density n = 1.300000\n",
+      "HI density n_HI = 1.000000\n",
+      "HII density n_HII = 1.500000\n",
+      "H2 density n_H2 = 1.300000\n",
+      "nucleon density n_nucl = 2.600000\n"
+     ]
+    }
+   ],
+   "source": [
+    "n_tot = CD.getDensity(position)\n",
+    "n_HI = CD.getHIDensity(position)\n",
+    "n_HII = CD.getHIIDensity(position)\n",
+    "n_H2 = CD.getH2Density(position)\n",
+    "n_nucl = CD.getNucleonDensity(position)\n",
+    "\n",
+    "\n",
+    "print('total density n = %f' %n_tot)\n",
+    "print('HI density n_HI = %f' %n_HI)\n",
+    "print('HII density n_HII = %f' %n_HII)\n",
+    "print('H2 density n_H2 = %f' %n_H2)\n",
+    "print('nucleon density n_nucl = %f' %n_nucl)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Customize a density with different density models.\n",
+    "To customize a density use the DensityList.\n",
+    "In a superposition of global models of the density distribution of the Milky Way, the normalisation of the different components has to be considered. The relative normalisations are conserved when you just add components after deactivating the unwanted parts.  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total density n = 7.500000\n",
+      "HI density n_HI = 3.000000\n",
+      "HII density n_HII = 3.000000\n",
+      "H2 density n_H2 = 2.500000\n",
+      "nucleon density n_nucl = 10.000000\n"
+     ]
+    }
+   ],
+   "source": [
+    "CD1 = ConstantDensity(0,2,0)     # for use of HII\n",
+    "CD2 = ConstantDensity(3,1,2.5)   # for use of HI, H2\n",
+    "\n",
+    "CUS = DensityList()\n",
+    "\n",
+    "# first deactivate not wanted parts\n",
+    "\n",
+    "CD1.setHI(False)\n",
+    "CD1.setH2(False)\n",
+    "\n",
+    "CD2.setHII(False)  \n",
+    "\n",
+    "# add density \n",
+    "\n",
+    "CUS.addDensity(CD1)\n",
+    "CUS.addDensity(CD2)\n",
+    "\n",
+    "# get output\n",
+    "\n",
+    "n_tot = CUS.getDensity(position)\n",
+    "n_HI = CUS.getHIDensity(position)\n",
+    "n_HII = CUS.getHIIDensity(position)\n",
+    "n_H2 = CUS.getH2Density(position)\n",
+    "n_nucl = CUS.getNucleonDensity(position)\n",
+    "\n",
+    "print('total density n = %f' %n_tot)\n",
+    "print('HI density n_HI = %f' %n_HI)\n",
+    "print('HII density n_HII = %f' %n_HII)\n",
+    "print('H2 density n_H2 = %f' %n_H2)\n",
+    "print('nucleon density n_nucl = %f' %n_nucl)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### DensityList\n",
+    "You can also superposition total models without deactivating several components."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "jupyter": {
+     "outputs_hidden": false
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "total density n = 14.800000\n",
+      "HI density n_HI = 2.500000\n",
+      "HII density n_HII = 5.000000\n",
+      "H2 density n_H2 = 7.300000\n",
+      "nucleon density n_nucl = 22.100000\n"
+     ]
+    }
+   ],
+   "source": [
+    "# set wanted density\n",
+    "CD1 = ConstantDensity(1,3,4)\n",
+    "CD2 = ConstantDensity(1.5,2,3.3)\n",
+    "\n",
+    "DL = DensityList()\n",
+    "\n",
+    "# add density to list\n",
+    "\n",
+    "DL.addDensity(CD1)\n",
+    "DL.addDensity(CD2)\n",
+    "\n",
+    "# see output\n",
+    "n_tot = DL.getDensity(position)\n",
+    "n_HI = DL.getHIDensity(position)\n",
+    "n_HII = DL.getHIIDensity(position)\n",
+    "n_H2 = DL.getH2Density(position)\n",
+    "n_nucl = DL.getNucleonDensity(position)\n",
+    "\n",
+    "print('total density n = %f' %n_tot)\n",
+    "print('HI density n_HI = %f' %n_HI)\n",
+    "print('HII density n_HII = %f' %n_HII)\n",
+    "print('H2 density n_H2 = %f' %n_H2)\n",
+    "print('nucleon density n_nucl = %f' %n_nucl)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.9"
+  },
+  "widgets": {
+   "application/vnd.jupyter.widget-state+json": {
+    "state": {},
+    "version_major": 2,
+    "version_minor": 0
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

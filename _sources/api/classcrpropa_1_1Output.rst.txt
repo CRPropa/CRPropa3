@@ -1,0 +1,42 @@
+.. _exhale_class_classcrpropa_1_1Output:
+
+Class Output
+============
+
+- Defined in :ref:`file_include_crpropa_module_Output.h`
+
+
+Nested Relationships
+--------------------
+
+
+Nested Types
+************
+
+- :ref:`exhale_struct_structcrpropa_1_1Output_1_1Property`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+
+
+Derived Types
+*************
+
+- ``public HDF5Output`` (:ref:`exhale_class_classcrpropa_1_1HDF5Output`)
+- ``public TextOutput`` (:ref:`exhale_class_classcrpropa_1_1TextOutput`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::Output
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,13 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5:
+
+Variable crpropa::ccm
+=====================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::ccm

@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga8f3eaa3698e1c468965b2c592267a924:
+
+Function crpropa::lightTravelDistance2Redshift
+==============================================
+
+- Defined in :ref:`file_include_crpropa_Cosmology.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::lightTravelDistance2Redshift(double)

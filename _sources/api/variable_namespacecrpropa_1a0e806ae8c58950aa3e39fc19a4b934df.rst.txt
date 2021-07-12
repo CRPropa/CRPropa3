@@ -1,0 +1,13 @@
+.. _exhale_variable_namespacecrpropa_1a0e806ae8c58950aa3e39fc19a4b934df:
+
+Variable crpropa::decode_alphabet
+=================================
+
+- Defined in :ref:`file_src_base64.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::decode_alphabet

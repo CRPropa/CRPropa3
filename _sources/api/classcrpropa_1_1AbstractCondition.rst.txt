@@ -1,0 +1,42 @@
+.. _exhale_class_classcrpropa_1_1AbstractCondition:
+
+Class AbstractCondition
+=======================
+
+- Defined in :ref:`file_include_crpropa_Module.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+
+
+Derived Types
+*************
+
+- ``public CubicBoundary`` (:ref:`exhale_class_classcrpropa_1_1CubicBoundary`)
+- ``public CylindricalBoundary`` (:ref:`exhale_class_classcrpropa_1_1CylindricalBoundary`)
+- ``public DetectionLength`` (:ref:`exhale_class_classcrpropa_1_1DetectionLength`)
+- ``public EllipsoidalBoundary`` (:ref:`exhale_class_classcrpropa_1_1EllipsoidalBoundary`)
+- ``public MaximumTrajectoryLength`` (:ref:`exhale_class_classcrpropa_1_1MaximumTrajectoryLength`)
+- ``public MinimumChargeNumber`` (:ref:`exhale_class_classcrpropa_1_1MinimumChargeNumber`)
+- ``public MinimumEnergy`` (:ref:`exhale_class_classcrpropa_1_1MinimumEnergy`)
+- ``public MinimumEnergyPerParticleId`` (:ref:`exhale_class_classcrpropa_1_1MinimumEnergyPerParticleId`)
+- ``public MinimumRedshift`` (:ref:`exhale_class_classcrpropa_1_1MinimumRedshift`)
+- ``public MinimumRigidity`` (:ref:`exhale_class_classcrpropa_1_1MinimumRigidity`)
+- ``public ParticleFilter`` (:ref:`exhale_class_classcrpropa_1_1ParticleFilter`)
+- ``public SphericalBoundary`` (:ref:`exhale_class_classcrpropa_1_1SphericalBoundary`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::AbstractCondition
+   :members:
+   :protected-members:
+   :undoc-members:

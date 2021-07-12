@@ -1,0 +1,34 @@
+.. _dir_include_crpropa_magneticField:
+
+
+Directory magneticField
+=======================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``include/crpropa/magneticField``
+
+Subdirectories
+--------------
+
+- :ref:`dir_include_crpropa_magneticField_turbulentField`
+
+
+Files
+-----
+
+- :ref:`file_include_crpropa_magneticField_AMRMagneticField.h`
+- :ref:`file_include_crpropa_magneticField_ArchimedeanSpiralField.h`
+- :ref:`file_include_crpropa_magneticField_GalacticMagneticField.h`
+- :ref:`file_include_crpropa_magneticField_JF12Field.h`
+- :ref:`file_include_crpropa_magneticField_JF12FieldSolenoidal.h`
+- :ref:`file_include_crpropa_magneticField_MagneticField.h`
+- :ref:`file_include_crpropa_magneticField_MagneticFieldGrid.h`
+- :ref:`file_include_crpropa_magneticField_PT11Field.h`
+- :ref:`file_include_crpropa_magneticField_QuimbyMagneticField.h`
+- :ref:`file_include_crpropa_magneticField_TF17Field.h`
+
+

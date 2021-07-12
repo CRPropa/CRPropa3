@@ -1,0 +1,52 @@
+
+.. _file_src_module_EMPairProduction.cpp:
+
+File EMPairProduction.cpp
+=========================
+
+|exhale_lsh| :ref:`Parent directory <dir_src_module>` (``src/module``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``src/module/EMPairProduction.cpp``)
+------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_src_module_EMPairProduction.cpp.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1PPSecondariesEnergyDistribution`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a`
+

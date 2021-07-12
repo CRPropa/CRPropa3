@@ -1,0 +1,111 @@
+
+.. _program_listing_file_include_crpropa_Candidate.h:
+
+Program Listing for File Candidate.h
+====================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_Candidate.h>` (``include/crpropa/Candidate.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_CANDIDATE_H
+   #define CRPROPA_CANDIDATE_H
+   
+   #include "crpropa/ParticleState.h"
+   #include "crpropa/Referenced.h"
+   #include "crpropa/AssocVector.h"
+   #include "crpropa/Variant.h"
+   
+   #include <vector>
+   #include <map>
+   #include <sstream>
+   #include <stdint.h>
+   
+   namespace crpropa {
+   class Candidate: public Referenced {
+   public:
+           ParticleState source; 
+           ParticleState created; 
+           ParticleState current; 
+           ParticleState previous; 
+           std::vector<ref_ptr<Candidate> > secondaries; 
+           typedef Loki::AssocVector<std::string, Variant> PropertyMap;
+           PropertyMap properties; 
+           Candidate *parent;
+   
+   private:
+           bool active; 
+           double weight; 
+           double redshift; 
+           double trajectoryLength; 
+           double currentStep; 
+           double nextStep; 
+           static uint64_t nextSerialNumber;
+           uint64_t serialNumber;
+   
+   public:
+           Candidate(
+                   int id = 0,
+                   double energy = 0,
+                   Vector3d position = Vector3d(0, 0, 0),
+                   Vector3d direction = Vector3d(-1, 0, 0),
+                   double z = 0,
+                   double weight = 1
+           );
+   
+           Candidate(const ParticleState &state);
+   
+           bool isActive() const;
+           void setActive(bool b);
+   
+           void setTrajectoryLength(double length);
+           double getTrajectoryLength() const;
+   
+           void setRedshift(double z);
+           double getRedshift() const;
+   
+           void setWeight(double weight);
+           double getWeight() const;
+   
+           void setCurrentStep(double step);
+           double getCurrentStep() const;
+   
+           void setNextStep(double step);
+           double getNextStep() const;
+   
+           void limitNextStep(double step);
+   
+           void setProperty(const std::string &name, const Variant &value);
+           const Variant &getProperty(const std::string &name) const;
+           bool removeProperty(const std::string &name);
+           bool hasProperty(const std::string &name) const;
+   
+           void addSecondary(Candidate *c);
+           inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
+           void addSecondary(int id, double energy, double weight = 1);
+           void addSecondary(int id, double energy, Vector3d position, double weight = 1);
+           void clearSecondaries();
+   
+           std::string getDescription() const;
+   
+           uint64_t getSerialNumber() const;
+           void setSerialNumber(const uint64_t snr);
+   
+           uint64_t getSourceSerialNumber() const;
+   
+           uint64_t getCreatedSerialNumber() const;
+   
+           static void setNextSerialNumber(uint64_t snr);
+   
+           static uint64_t getNextSerialNumber();
+   
+           ref_ptr<Candidate> clone(bool recursive = false) const;
+   
+           void restart();
+   };
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_CANDIDATE_H

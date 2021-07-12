@@ -1,0 +1,41 @@
+.. _dir_src:
+
+
+Directory src
+=============
+
+
+*Directory path:* ``src``
+
+Subdirectories
+--------------
+
+- :ref:`dir_src_advectionField`
+- :ref:`dir_src_magneticField`
+- :ref:`dir_src_magneticLens`
+- :ref:`dir_src_massDistribution`
+- :ref:`dir_src_module`
+
+
+Files
+-----
+
+- :ref:`file_src_base64.cpp`
+- :ref:`file_src_Candidate.cpp`
+- :ref:`file_src_Clock.cpp`
+- :ref:`file_src_Common.cpp`
+- :ref:`file_src_Cosmology.cpp`
+- :ref:`file_src_EmissionMap.cpp`
+- :ref:`file_src_Geometry.cpp`
+- :ref:`file_src_GridTools.cpp`
+- :ref:`file_src_Module.cpp`
+- :ref:`file_src_ParticleID.cpp`
+- :ref:`file_src_ParticleMass.cpp`
+- :ref:`file_src_ParticleState.cpp`
+- :ref:`file_src_PhotonBackground.cpp`
+- :ref:`file_src_PhotonPropagation.cpp`
+- :ref:`file_src_Random.cpp`
+- :ref:`file_src_Source.cpp`
+- :ref:`file_src_Variant.cpp`
+
+

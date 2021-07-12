@@ -1,0 +1,13 @@
+.. _exhale_function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1:
+
+Template Function crpropa::gaussInt
+===================================
+
+- Defined in :ref:`file_include_crpropa_Common.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::gaussInt(Integrand&&, double, double)

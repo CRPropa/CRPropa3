@@ -1,0 +1,78 @@
+
+.. _file_include_crpropa_Common.h:
+
+File Common.h
+=============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+Common helper functions. 
+ 
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/Common.h``)
+-----------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_Common.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_group__Core_1gaea966817d7679bb00bd12e22135184fc`
+
+- :ref:`exhale_function_group__Core_1ga46b07c16f3bbe25d18074f192185d926`
+
+- :ref:`exhale_function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2`
+
+- :ref:`exhale_function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1`
+
+- :ref:`exhale_function_group__Core_1ga5ec1e6eee108f252067290d3f275cbad`
+
+- :ref:`exhale_function_group__Core_1ga0591bc9690afaadc6c5694bde7b170c7`
+
+- :ref:`exhale_function_group__Core_1ga706c67f657d8220459a8b5155c479c41`
+
+- :ref:`exhale_function_group__Core_1ga6428041c6b8b7f6ecd9f738073713e95`
+
+- :ref:`exhale_function_group__Core_1gaba6b559d8f4282b3c52afcf042e2c2ea`
+
+- :ref:`exhale_function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95`
+
+- :ref:`exhale_function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespacecrpropa_1a43779031bbc6e102be279b8702c5eef5`
+
+- :ref:`exhale_variable_namespacecrpropa_1ae0e636b5119e31607138675be292cf2c`
+

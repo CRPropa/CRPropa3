@@ -1,0 +1,65 @@
+
+.. _file_include_crpropa_Vector3.h:
+
+File Vector3.h
+==============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_crpropa>` (``include/crpropa``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``include/crpropa/Vector3.h``)
+------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_include_crpropa_Vector3.h.rst
+
+
+
+
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_crpropa`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classcrpropa_1_1Vector3`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_group__Core_1ga77f7ab8be53cb59029a887137d0e0348`
+
+- :ref:`exhale_function_group__Core_1ga212899c90bd00fa8f494bfce44136077`
+
+- :ref:`exhale_function_group__Core_1gaa41b3dba9522979f21064c9d34789c82`
+
+
+Typedefs
+--------
+
+
+- :ref:`exhale_typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206`
+
+- :ref:`exhale_typedef_group__Core_1gaf345ad77ba5e240c7ab72b4b2077e754`
+

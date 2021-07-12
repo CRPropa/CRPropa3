@@ -1,0 +1,13 @@
+.. _exhale_variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a:
+
+Variable crpropa::mec2
+======================
+
+- Defined in :ref:`file_src_module_EMTripletPairProduction.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::mec2

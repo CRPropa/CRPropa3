@@ -1,0 +1,16 @@
+.. _exhale_struct_structcrpropa_1_1NuclearMassTable:
+
+Struct NuclearMassTable
+=======================
+
+- Defined in :ref:`file_src_ParticleMass.cpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: crpropa::NuclearMassTable
+   :members:
+   :protected-members:
+   :undoc-members:

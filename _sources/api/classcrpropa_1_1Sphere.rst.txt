@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1Sphere:
+
+Class Sphere
+============
+
+- Defined in :ref:`file_include_crpropa_Geometry.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Surface`` (:ref:`exhale_class_classcrpropa_1_1Surface`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::Sphere
+   :members:
+   :protected-members:
+   :undoc-members:

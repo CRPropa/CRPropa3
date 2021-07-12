@@ -1,0 +1,13 @@
+.. _exhale_function_Version_8h_1ae07054153f2b6877a8acf6fbf1ee7090:
+
+Function declare_version
+========================
+
+- Defined in :ref:`file_include_crpropa_Version.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: declare_version(const std::string)

@@ -1,0 +1,293 @@
+
+.. _program_listing_file_include_crpropa_Grid.h:
+
+Program Listing for File Grid.h
+===============================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_Grid.h>` (``include/crpropa/Grid.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_GRID_H
+   #define CRPROPA_GRID_H
+   
+   #include "crpropa/Referenced.h"
+   #include "crpropa/Vector3.h"
+   
+   #include "kiss/string.h"
+   #include "kiss/logger.h"
+   
+   #include <vector>
+   
+   namespace crpropa {
+   
+   inline void periodicClamp(double x, int n, int &lo, int &hi) {
+           lo = ((int(floor(x)) % n) + n) % n;
+           hi = (lo + 1) % n;
+   }
+   
+   inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
+           while ((x < 0) or (x > n))
+                   x = 2 * n * (x > n) - x;
+           lo = floor(x);
+           hi = lo + (lo < n-1);
+   }
+   
+   inline double round(double r) {
+       return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+   }
+   
+   class GridProperties: public Referenced {
+   public:
+           size_t Nx, Ny, Nz;
+           Vector3d origin;
+           Vector3d spacing;
+           bool reflective;
+   
+           GridProperties(Vector3d origin, size_t N, double spacing) :
+                   origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false) {
+           }
+           
+           GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
+                   origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false) {
+           }
+           
+           GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
+                   origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false) {
+           }
+           
+           virtual ~GridProperties() {
+           }
+           
+           void setReflective(bool b) {
+                   reflective = b;
+           }
+   };
+   
+   template<typename T>
+   class Grid: public Referenced {
+           std::vector<T> grid;
+           size_t Nx, Ny, Nz; 
+           Vector3d origin; 
+           Vector3d gridOrigin; 
+           Vector3d spacing; 
+           bool reflective; 
+   public:
+           Grid(Vector3d origin, size_t N, double spacing) {
+                   setOrigin(origin);
+                   setGridSize(N, N, N);
+                   setSpacing(Vector3d(spacing));
+                   setReflective(false);
+           }
+   
+           Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) {
+                   setOrigin(origin);
+                   setGridSize(Nx, Ny, Nz);
+                   setSpacing(Vector3d(spacing));
+                   setReflective(false);
+           }
+           
+           Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
+                   setOrigin(origin);
+                   setGridSize(Nx, Ny, Nz);
+                   setSpacing(spacing);
+                   setReflective(false);
+           } 
+   
+           Grid(const GridProperties &p) :
+                   origin(p.origin), spacing(p.spacing), reflective(p.reflective) {
+                   setGridSize(p.Nx, p.Ny, p.Nz);
+           }
+   
+           void setOrigin(Vector3d origin) {
+                   this->origin = origin;
+                   this->gridOrigin = origin + spacing/2;
+           }
+   
+           void setGridSize(size_t Nx, size_t Ny, size_t Nz) {
+                   this->Nx = Nx;
+                   this->Ny = Ny;
+                   this->Nz = Nz;
+                   grid.resize(Nx * Ny * Nz);
+                   setOrigin(origin);
+           }
+   
+           void setSpacing(Vector3d spacing) {
+                   this->spacing = spacing;
+                   setOrigin(origin);
+           }
+   
+           void setReflective(bool b) {
+                   reflective = b;
+           }
+   
+           Vector3d getOrigin() const {
+                   return origin;
+           }
+           size_t getNx() const {
+                   return Nx;
+           }
+   
+           size_t getNy() const {
+                   return Ny;
+           }
+   
+           size_t getNz() const {
+                   return Nz;
+           }
+   
+           size_t getSizeOf() const {
+                   return sizeof(grid) + (sizeof(grid[0]) * grid.size());
+           }
+   
+           Vector3d getSpacing() const {
+                   return spacing;
+           }
+   
+           bool isReflective() const {
+                   return reflective;
+           }
+   
+           T &get(size_t ix, size_t iy, size_t iz) {
+                   return grid[ix * Ny * Nz + iy * Nz + iz];
+           }
+   
+           const T &get(size_t ix, size_t iy, size_t iz) const {
+                   return grid[ix * Ny * Nz + iy * Nz + iz];
+           }
+   
+           T getValue(size_t ix, size_t iy, size_t iz) {
+                   return grid[ix * Ny * Nz + iy * Nz + iz];
+           }
+   
+           void setValue(size_t ix, size_t iy, size_t iz, T value) {
+                   grid[ix * Ny * Nz + iy * Nz + iz] = value;
+           }
+   
+           std::vector<T> &getGrid() {
+                   return grid;
+           }
+   
+           Vector3d positionFromIndex(int index) const {
+                   int ix = index / (Ny * Nz);
+                   int iy = (index / Nz) % Ny;
+                   int iz = index % Nz;
+                   return Vector3d(ix, iy, iz) * spacing + gridOrigin;
+           }
+   
+           T closestValue(const Vector3d &position) const {
+                   Vector3d r = (position - gridOrigin) / spacing;
+                   int ix = round(r.x);
+                   int iy = round(r.y);
+                   int iz = round(r.z);
+                   if (reflective) {
+                           while ((ix < 0) or (ix > Nx))
+                                   ix = 2 * Nx * (ix > Nx) - ix;
+                           while ((iy < 0) or (iy > Ny))
+                                   iy = 2 * Ny * (iy > Ny) - iy;
+                           while ((iz < 0) or (iz > Nz))
+                                   iz = 2 * Nz * (iz > Nz) - iz;
+                   } else {
+                           ix = ((ix % Nx) + Nx) % Nx;
+                           iy = ((iy % Ny) + Ny) % Ny;
+                           iz = ((iz % Nz) + Nz) % Nz;
+                   }
+                   return get(ix, iy, iz);
+           }
+   
+           T interpolate(const Vector3d &position) const {
+                   // position on a unit grid
+                   Vector3d r = (position - gridOrigin) / spacing;
+   
+                   // indices of lower and upper neighbors
+                   int ix, iX, iy, iY, iz, iZ;
+                   if (reflective) {
+                           reflectiveClamp(r.x, Nx, ix, iX);
+                           reflectiveClamp(r.y, Ny, iy, iY);
+                           reflectiveClamp(r.z, Nz, iz, iZ);
+                   } else {
+                           periodicClamp(r.x, Nx, ix, iX);
+                           periodicClamp(r.y, Ny, iy, iY);
+                           periodicClamp(r.z, Nz, iz, iZ);
+                   }
+   
+                   // linear fraction to lower and upper neighbors
+                   double fx = r.x - floor(r.x);
+                   double fX = 1 - fx;
+                   double fy = r.y - floor(r.y);
+                   double fY = 1 - fy;
+                   double fz = r.z - floor(r.z);
+                   double fZ = 1 - fz;
+   
+                   // trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation)
+                   T b(0.);
+                   //V000 (1 - x) (1 - y) (1 - z) +
+                   b += get(ix, iy, iz) * fX * fY * fZ;
+                   //V100 x (1 - y) (1 - z) +
+                   b += get(iX, iy, iz) * fx * fY * fZ;
+                   //V010 (1 - x) y (1 - z) +
+                   b += get(ix, iY, iz) * fX * fy * fZ;
+                   //V001 (1 - x) (1 - y) z +
+                   b += get(ix, iy, iZ) * fX * fY * fz;
+                   //V101 x (1 - y) z +
+                   b += get(iX, iy, iZ) * fx * fY * fz;
+                   //V011 (1 - x) y z +
+                   b += get(ix, iY, iZ) * fX * fy * fz;
+                   //V110 x y (1 - z) +
+                   b += get(iX, iY, iz) * fx * fy * fZ;
+                   //V111 x y z
+                   b += get(iX, iY, iZ) * fx * fy * fz;
+   
+                   return b;
+           }
+   };
+   
+   typedef Grid<Vector3f> Grid3f;
+   typedef Grid<Vector3d> Grid3d;
+   typedef Grid<float> Grid1f;
+   typedef Grid<double> Grid1d;
+   
+   // DEPRICATED: Will be removed in CRPropa v3.9
+   class VectorGrid: public Grid3f {
+           void printDeprication() const {
+                   KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
+           }
+   public:
+           VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
+                   printDeprication();
+           }
+   
+           VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
+                   printDeprication();
+           }
+   
+           VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
+                   printDeprication();
+           }
+   };
+   
+   // DEPRICATED: Will be removed in CRPropa v3.9
+   class ScalarGrid: public Grid1f {
+           void printDeprication() const {
+                   KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
+           }
+   public:
+           ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
+                   printDeprication();
+           }
+   
+           ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
+                   printDeprication();
+           }
+   
+           ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
+                   printDeprication();
+           }
+   };
+   
+   
+   } // namespace crpropa
+   
+   #endif // CRPROPA_GRID_H

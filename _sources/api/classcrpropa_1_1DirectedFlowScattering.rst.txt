@@ -1,0 +1,25 @@
+.. _exhale_class_classcrpropa_1_1DirectedFlowScattering:
+
+Class DirectedFlowScattering
+============================
+
+- Defined in :ref:`file_include_crpropa_module_Acceleration.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public AbstractAccelerationModule`` (:ref:`exhale_class_classcrpropa_1_1AbstractAccelerationModule`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::DirectedFlowScattering
+   :members:
+   :protected-members:
+   :undoc-members:

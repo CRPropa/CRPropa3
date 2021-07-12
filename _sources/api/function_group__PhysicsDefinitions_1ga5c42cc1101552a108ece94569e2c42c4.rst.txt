@@ -1,0 +1,13 @@
+.. _exhale_function_group__PhysicsDefinitions_1ga5c42cc1101552a108ece94569e2c42c4:
+
+Function crpropa::setCosmologyParameters
+========================================
+
+- Defined in :ref:`file_include_crpropa_Cosmology.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::setCosmologyParameters(double, double)

@@ -1,3 +1,3 @@
 Tools
-================
+=====
 .. doxygengroup:: Tools

@@ -364,6 +364,7 @@ add_library(crpropa SHARED
   src/Clock.cpp
   src/Common.cpp
   src/Cosmology.cpp
+  src/DiffusionTensor.cpp
   src/EmissionMap.cpp
   src/Geometry.cpp
   src/GridTools.cpp

@@ -1,23 +1,18 @@
 #include "crpropa/DiffusionTensor.h"
+#include "crpropa/Units.h"
 
 using namespace crpropa;
 
-
+/*
 void DiffusionTensor::setDescription(const std::string &d) {
     description = d;
 }
 
-
-/*QLTDiffusion::QLTDiffusion(){
-    setEpsilon(0.1);
-    setKappa0(6.1e24);
-    setAlpha(1./3.);
-}*/
-
-QLTDiffusion::QLTDiffusion(double epsilon , double kappa0, double alpha ){
-    setEpsilon(epsilon);
-    setKappa0(kappa0);
-    setAlpha(alpha);
+*/
+QLTDiffusion::QLTDiffusion(double eps , double kap, double alp ){
+    epsilon = eps;
+    kappa0 = kap;
+    alpha = alp;
 }
 
 void QLTDiffusion::setEpsilon(double epsilon){
@@ -40,13 +35,19 @@ double QLTDiffusion::getEpsilon() const{
     return epsilon;
 }
 
-void QLTDiffusion::calculateBTensor(double BTen[], Candidate *cand){
-    double rig = cand-> current.getEnergy() / cand->current.getCharge();
-    double DifCoeff = kappa0*pow(std::abs(rig)/ 4.0e9, alpha);
-    BTen[0] = pow( 2  * DifCoeff, 0.5);
-    BTen[4] = pow(2 * epsilon * DifCoeff, 0.5);
-    BTen[8] = pow(2 * epsilon * DifCoeff, 0.5);
-    return;
+double QLTDiffusion::getKappaParallel(Candidate *cand){
+    double rig = cand-> current.getEnergy()/cand->current.getCharge();
+    return kappa0*pow(std::abs(rig)/(4.0e9*volt),alpha);
+}
+
+double QLTDiffusion::getKappaPerpendicular(Candidate *cand){
+    double rig = cand-> current.getEnergy()/cand->current.getCharge();
+    return epsilon*kappa0*pow(std::abs(rig)/(4.0e9*volt),alpha);
+}
+
+double QLTDiffusion::getKappaPerpendicular2(Candidate *cand){
+    double rig = cand-> current.getEnergy()/cand->current.getCharge();
+    return epsilon*kappa0*pow(std::abs(rig)/(4.0e9*volt),alpha);    
 }
 
 std::string QLTDiffusion::getDescription() const{

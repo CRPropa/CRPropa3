@@ -19,9 +19,18 @@ class DiffusionTensor: public Referenced {
     public:
         virtual ~DiffusionTensor(){
         }
-	void setDescription(const std::string &description);
-    virtual void calculateBTensor(double BTen[], Candidate *cand){};
-    std::string getDescription() const;
+	//void setDescription(const std::string &description);
+    virtual double getKappaParallel(Candidate *cand){
+        return 0;
+    };
+    virtual double getKappaPerpendicular(Candidate *cand){
+        return 0;
+    };
+    virtual double getKappaPerpendicular2(Candidate *cand){
+        return 0;
+    };
+    virtual double getEpsilon() {};
+    //std::string getDescription() const;
 };
 
 
@@ -32,23 +41,24 @@ class QLTDiffusion: public DiffusionTensor {
         double alpha;
 
     public:
-        QLTDiffusion(double epsilon = 0.1 , double kappa0 =6.1e24, double alpha= (1./3.) );
-
-        void calculateBTensor(double BTen[], Candidate *cand);
+        QLTDiffusion(double epsilon = 0.1 , double kappa0 = 6.1e24, double alpha = (1./3.) );
+        
+        double getKappaParallel(Candidate *cand);
+        double getKappaPerpendicular(Candidate *cand);
+        double getKappaPerpendicular2(Candidate *cand);
 
         void setEpsilon(double epsilon);
         void setKappa0(double kappa0);
         void setAlpha(double alpha);
-        void setDescription();
+        //void setDescription();
 
         double getEpsilon() const;
         double getAlpha() const;
         double getKappa0() const;
 	    std::string getDescription() const;
-
+        
 
 };
-
 
 
 } // namespace

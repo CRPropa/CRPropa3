@@ -611,6 +611,10 @@ if(ENABLE_TESTING)
   target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testAdvectionField testAdvectionField)
 
+  add_executable(testDiffusionTensor test/testDiffusionTensor.cpp)
+  target_link_libraries(testDiffusionTensor crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+  add_test(testDiffusionTensor testDiffusionTensor)
+
   add_executable(testDensity test/testDensity.cpp)
   target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testDensity testDensity)

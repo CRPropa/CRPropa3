@@ -39,34 +39,34 @@
 
 #ifdef WITHNUMPY
 %extend crpropa::MagneticLens{
-    PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
+  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
+  {
+    PyArrayObject *arr = NULL;
+    PyArray_Descr *dtype = NULL;
+    int ndim = 0;
+    npy_intp dims[NPY_MAXDIMS];
+    if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0)
     {
-      PyArrayObject *arr = NULL;
-      PyArray_Descr *dtype = NULL;
-      int ndim = 0;
-      npy_intp dims[NPY_MAXDIMS];
-      if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0)
-      {
-        Py_RETURN_NONE;
-      }
-
-      if (arr == NULL)
-      {
-        Py_RETURN_NONE;
-      }
-
-      double *dataPointer = (double*) PyArray_DATA(arr);
-      $self->transformModelVector(dataPointer, rigidity);
-      return input;
+      Py_RETURN_NONE;
     }
+
+    if (arr == NULL)
+    {
+      Py_RETURN_NONE;
+    }
+
+    double *dataPointer = (double*) PyArray_DATA(arr);
+    $self->transformModelVector(dataPointer, rigidity);
+    return input;
+  }
 };
 #else
 %extend crpropa::MagneticLens{
-    PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
-    {
-      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
-      Py_RETURN_NONE;
-    }
+  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
+  {
+    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
+    Py_RETURN_NONE;
+  }
 };
 #endif
 
@@ -237,32 +237,32 @@
 %extend crpropa::ParticleMapsContainer{
   PyObject *getMap_numpyArray(const int particleId, double energy)
   {
-      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
       Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
   PyObject *getParticleIds_numpyArray()
   {
-      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
       Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
   PyObject *getEnergies_numpyArray(const int pid)
   {
-      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
       Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
   PyObject *getRandomParticles_numpyArray(size_t N)
   {
-      std::cerr << "ERROR: PARSEC was compiled without numpy support!" << std::endl;
+      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
       Py_RETURN_NONE;
   }
 };
-#endif // with numpy
+#endif // with NumPy
 
-#endif // WITH_GALACTIC_LENSES_
+#endif // WITH_GALACTIC_LENSES
 

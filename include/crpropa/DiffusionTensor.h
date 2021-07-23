@@ -66,14 +66,14 @@ class QLTDiffusion: public DiffusionTensor {
 class QLTTurbulent: public DiffusionTensor{
     private:
 	    ref_ptr<MagneticField> backgroundField;
-        ref_ptr<MagneticField> turbulentField;
+        ref_ptr<TurbulentField> turbulentField;
         double kappa0;      // value to norm the diffusioncoefficent at a rigidity of 4 GV
         double alphaPara;   // spectral index for the parallel component
         double alphaPerp;   // spectral index for the perpendicular component
         double normTurbulence;  // value to norm the turbulence (probably at earth)
 
     public:
-        QLTTurbulent(ref_ptr<MagneticField> background, ref_ptr<MagneticField> turbulent, double kappa0 = 6.1e24, double alphaPara=(1./3.), double alphaPerp=(1./3.));
+        QLTTurbulent(ref_ptr<MagneticField> background, ref_ptr<TurbulentField> turbulent, double kappa0 = 6.1e24, double alphaPara=(1./3.), double alphaPerp=(1./3.));
 
         double getKappaParallel(Candidate *cand) const;
         double getKappaPerpendicular(Candidate *cand) const;

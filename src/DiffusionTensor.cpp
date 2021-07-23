@@ -1,6 +1,7 @@
 #include "crpropa/DiffusionTensor.h"
 #include "crpropa/Units.h"
 #include "kiss/logger.h"
+#include "crpropa/Common.h"
 
 
 using namespace crpropa;
@@ -65,7 +66,7 @@ std::string QLTDiffusion::getDescription() const{
 
 // QLTTurbulent ------------------------------------------------------------------
 
-QLTTurbulent::QLTTurbulent(ref_ptr<MagneticField> background, ref_ptr<MagneticField> turbulent, double kap, double aPara, double aPerp){
+QLTTurbulent::QLTTurbulent(ref_ptr<MagneticField> background, ref_ptr<TurbulentField> turbulent, double kap, double aPara, double aPerp){
     backgroundField = background;
     turbulentField = turbulent;
     kappa0 = kap;
@@ -79,7 +80,7 @@ double QLTTurbulent::getKappaParallel(Candidate *cand) const {
     double rig = current.getRigidity();
     Vector3d pos = current.getPosition();
     double eta = turbulentField->getField(pos).getR() / backgroundField -> getField(pos).getR();
-    double k = kappa0 * eta*eta/normTurbulence/normTurbulence * pow(rig/(4e9*volt), alphaPara);
+    double k = kappa0 * pow_integer<2>(normTurbulence/eta) * pow(rig/(4e9*volt), alphaPara);
     return k;
 }
 
@@ -88,7 +89,7 @@ double QLTTurbulent::getKappaPerpendicular(Candidate *cand) const{
     double rig = current.getRigidity();
     Vector3d pos = current.getPosition();
     double eta = turbulentField->getField(pos).getR() / backgroundField -> getField(pos).getR();
-    double k = kappa0 * eta*eta*normTurbulence*normTurbulence* pow(rig/(4e9*volt), alphaPerp);
+    double k = kappa0 * pow_integer<2>(normTurbulence*eta)* pow(rig/(4e9*volt), alphaPerp);
     return k;
 }
 

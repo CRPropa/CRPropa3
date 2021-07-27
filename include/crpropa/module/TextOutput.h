@@ -14,7 +14,10 @@ namespace crpropa {
 
 /**
  @class TextOutput
- @brief Configurable plain text output for cosmic ray information.
+ @brief Configurable plain text output for particle information.
+ This type of output can also be used to generate a .tar.gz file if
+ the library zlib is available. For details see:
+ 	http://zlib.net/
  */
 class TextOutput: public Output {
 protected:
@@ -22,23 +25,50 @@ protected:
 	std::ofstream outfile;
 	std::string filename;
 	bool storeRandomSeeds;
-
+	
 	void printHeader() const;
 
 public:
+	/** Default constructor
+	 */
 	TextOutput();
-	TextOutput(OutputType outputtype);
+	/** Constructor
+	 @param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
+	 */
+	TextOutput(OutputType outputType);
+	/** Constructor
+	 @param out			output stream
+	 */
 	TextOutput(std::ostream &out);
-	TextOutput(std::ostream &out, OutputType outputtype);
+	/** Constructor
+	 @param out			output stream
+	 @param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
+	 */
+	TextOutput(std::ostream &out, OutputType outputType);
+	/** Constructor with the default OutputType (everything).
+	 @param filename	string containing name of output text file
+	 */
 	TextOutput(const std::string &filename);
-	TextOutput(const std::string &filename, OutputType outputtype);
+	/** Constructor
+	 @param filename	string containing name of output text file
+	 @param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
+	 */
+	TextOutput(const std::string &filename, OutputType outputType);
+	/** Destructor
+	 */
 	~TextOutput();
-
+	/** Whether to store the random seeds used in the simulation.
+	 This enables reproducibility of each realisation of the simulation.
+	 */
 	void enableRandomSeeds() {storeRandomSeeds = true;};
 	void close();
 	void gzip();
-
 	void process(Candidate *candidate) const;
+	/** Loads a file to a particle collector.
+	 This is useful for analysis involving, e.g., magnetic lenses.
+	 @param filename	string containing the name of the file to be loaded
+	 @param collector	object of type ParticleCollector that will store the information
+	 */
 	static void load(const std::string &filename, ParticleCollector *collector);
 	std::string getDescription() const;
 };

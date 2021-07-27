@@ -10,7 +10,7 @@ namespace crpropa {
 
 /**
  @class ElasticScattering
- @brief Elastic scattering of background photons on cosmic ray nuclei.
+ @brief Elastic scattering of background photons on cosmic-ray nuclei.
  */
 class ElasticScattering: public Module {
 private:
@@ -27,6 +27,9 @@ private:
 	static const size_t neps;   // number of eps steps
 
 public:
+	/** Constructor
+	 @param photonField		target photon field
+	 */
 	ElasticScattering(ref_ptr<PhotonField> photonField);
 	void initRate(std::string filename);
 	void initCDF(std::string filename);

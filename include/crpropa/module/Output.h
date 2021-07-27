@@ -11,7 +11,7 @@
 namespace crpropa {
 
 /**
- * \addtogroup Core
+ * \addtogroup Output
  * @{
  */
 

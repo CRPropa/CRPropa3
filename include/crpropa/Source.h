@@ -663,7 +663,7 @@ public:
  This treatment is also useful for time-dependent studies (e.g. transient sources).
  */
 class SourceRedshiftEvolution: public SourceFeature {
-	double zmin, zmax
+	double zmin, zmax;
 	double m;
 public:
 	/** Constructor

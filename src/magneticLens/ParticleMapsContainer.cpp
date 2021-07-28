@@ -68,7 +68,6 @@ void ParticleMapsContainer::addParticle(const int particleId, double energy, con
 }
 
 
-// returns a vector of all particle ids in th
 std::vector<int> ParticleMapsContainer::getParticleIds() {
 	std::vector<int> ids;
 	for(std::map<int, std::map<int, double*> >::iterator pid_iter = _data.begin(); 
@@ -183,7 +182,7 @@ bool ParticleMapsContainer::placeOnMap(int pid, double energy, double &galacticL
 	double r = Random::instance().rand() * _weights_pidEnergy[pid][energyIdx];
 
 	for(size_t j = 0; j< _pixelization.getNumberOfPixels(); j++) {
-		r-= _data[pid][energyIdx][j];
+		r -= _data[pid][energyIdx][j];
 		if (r <= 0) {
 			_pixelization.getRandomDirectionInPixel(j, galacticLongitude, galacticLatitude);
 			return true;

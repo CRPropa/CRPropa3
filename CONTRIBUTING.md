@@ -88,7 +88,25 @@ In addition to those general ideas, we use the following conventions:
     ** other libraries;
     ** C++ standard libs. 
     They should be separated by blank lines.
-  * If possible, headers should be included in the implementation (cpp file) and not the definition (.h) file.
+  * If possible, headers should be included in the implementation (cpp file) and not 
+    the definition (.h) file.
+  * In classes, specifiers (public, private, protected) should be aligned with the 
+    class definition, not indented. Example:
+    ```
+    class MyClassWrong {
+        private:
+            double x;
+        public:
+            MyClassWrong();
+    }
+
+    class MyClassRight {
+    private:
+        double x;
+    public:
+        MyClassWrong();
+    }
+    ```
 
 ### Python Code
   * All code needs to run on python 3 (and 2.7).

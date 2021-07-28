@@ -1,25 +1,25 @@
 ## Basic Concepts
 
 ### Modular design
-The basic concept of CRPropa 3 is having all aspects of cosmic ray propagation,
+The basic concept of CRPropa 3 is having all aspects of cosmic-ray propagation,
 such as photodisintegration or the maximum trajectory length, split up into
 independent simulation '''Module'''s. Their task is to modify a cosmic ray one
 after the other and in small steps. The propagation then consists of repeatedly
 looping a cosmic ray through a list of active modules ('''ModuleList''') until
-a module signals that the propagation is finished.
-The modules are independent in that they do not require each other and can basically be used in any combination.
+a module signals that the propagation is finished. The modules are independent in 
+that they do not require each other and can basically be used in any combination.
 
-The object that contains the initial and current state on the cosmic ray
+The object that contains the initial and current state on the cosmic-ray
 particle is called '''Candidate'''. It also contains information on the state
 in the previous simulation step, as well as the current redshift, the current
 and next (preliminary) step size, status flags (e.g. "Detected") and a record
 of interactions that are projected to happen to the cosmic ray particle.
 
 ### Parallelization/Multiprocessing
-CPRopa 3 enables shared memory multiprocessing (using OpenMP), thus the
+CPPropa 3 enables shared memory multiprocessing (using OpenMP). Thus, the
 distribution of workload among several computing units ("threads"), which share
 the same memory.
-Distributing the workload is trivial in cosmic ray propagation as there is no
+Distributing the workload is trivial in cosmic-ray propagation as there is no
 interaction between the cosmic rays. To propagate e.g. 20 cosmic rays with two
 threads, thread A could propagate the first 10, and thread B the second 10
 simultaneously.
@@ -42,7 +42,7 @@ Fortran code SOPHIA for the photopion-production (although not checked, SOPHIA
 is very likely not thread-safe).
 
 Other paradigms for parallelization are distributed memory multiprocessing with
-MPI, and GPGPU computing. These require a specific program layout and are
+MPI, and GPU computing. These require a specific program layout and are
 currently not supported.
 
 ### Unit system
@@ -67,7 +67,7 @@ Antiparticles have negative IDs, e.g. -11 for anti-electron. <br>
 Nuclear codes are given as ±10LZZZAAAI with
 * charge number Z,
 * mass number A,
-* ismoer level I (ground state I = 0, I > 0 excitation states) and
+* isomer level I (ground state I = 0, I > 0 excitation states) and
 * total number of strange quarks L
 
 ### Reference Counting

@@ -65,6 +65,15 @@ In addition to those general ideas, we use the following conventions:
   * All new features should have an usage example in the wiki.
   * All code and new functionality should be covered by unit tests, coverage
     should be [checked](https://github.com/CRPropa/CRPropa3/wiki/Code-Coverage)
+  * Whenever possible, add details about a function usage to the function 
+    definition, even if it is redundant. Example:
+    ```
+    /** Function description.
+     @param par1		description of parameter 1
+     @param par2		description of parameter 2
+     @returns What the function returns, with units.
+     */
+    ```
 
 ### C++ Code
   * CamelCase is used for naming, i.e. `FooBar::doSomething` instead of e.g.

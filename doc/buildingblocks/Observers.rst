@@ -1,3 +1,3 @@
 Observer
-================
+========
 .. doxygengroup:: Observer

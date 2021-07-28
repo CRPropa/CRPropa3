@@ -22,7 +22,7 @@ private:
 	bool isforHI = true;
 	bool isforHII = true;
 	bool isforH2 = true;
-	double Rsun = 8500*pc;  // distance sun-galactic center
+	double Rsun = 8.5 * kpc;  // distance sun-galactic center
 
 public:
 	/** Coordinate transformation for the CentralMolecularZone region. Rotation arround z-axis such that X is the major axis and Y is the minor axis

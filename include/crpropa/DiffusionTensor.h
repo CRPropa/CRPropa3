@@ -31,7 +31,6 @@ class DiffusionTensor: public Referenced {
     virtual double getKappaPerpendicular2(Candidate *cand){
         return 0;
     };
-    virtual double getEpsilon() {};
     //std::string getDescription() const;
 };
 
@@ -110,7 +109,6 @@ class QLTRigidity: public DiffusionTensor{
 
     public:
         QLTRigidity(ref_ptr<MagneticField> magField, ref_ptr<TurbulentField> turbField, double kappa0=6.1e24, double alphaPara=(1./3.), double alpaPerp=(1./3.));
-        QLTRigidity(ref_ptr<MagneticField> field, double kappa0=6.1e24, double alphaPara=(1./3.), double alphaPerp=(1./3.));
 
         void setMagneticField(ref_ptr<MagneticField> field);
         void setTurbulentField(ref_ptr<TurbulentField> field);
@@ -121,7 +119,15 @@ class QLTRigidity: public DiffusionTensor{
         void normToPosition(const Vector3d &pos= Vector3d(-8.5*kpc, 0., 0.));
         void setNormEta(double eta);
         void setNormB(double B);
-        void setHasTurbulentField(bool use);
+
+        ref_ptr<MagneticField> getMagneticField();
+        ref_ptr<TurbulentField> getTurbulentField();
+        double getKappa0() const;
+        double getAlphaPara() const;
+        double getAlphaPerp() const;
+        double getNormEta() const;
+        double getNormB() const;
+        Vector3d getNormPos() const;
 };
 
 } // namespace

@@ -149,36 +149,15 @@ std::string QLTTurbulent::getDescription() const{
 double QLTRigidity::calculateLamorRadius(ParticleState &state) const {
     double fieldStrength;
     Vector3d pos = state.getPosition();
-
-    if(hasTurbulentField){
-        fieldStrength = (backgroundField->getField(pos) + turbulentField ->getField(pos)).getR();
-    }
-    else{ 
-        // no turbulent field: total field from background
-        fieldStrength = backgroundField -> getField(pos).getR(); 
-    }
-
+    fieldStrength = (backgroundField->getField(pos) + turbulentField ->getField(pos)).getR();
     return state.getMomentum().getR()/std::abs(state.getCharge())/fieldStrength;
 }
 
-QLTRigidity::QLTRigidity(ref_ptr<MagneticField> magField, ref_ptr<TurbulentField> turbField, double kap, double aPara, double aPerp){
-    hasTurbulentField = true;
-    setMagneticField(magField);
-    setTurbulentField(turbField);
-    kappa0 = kap;
-    alphaPara = aPara;
-    alphaPerp = aPerp;
-    normToPosition(); // default norming to earth, change later if neccesarry
-}
+QLTRigidity::QLTRigidity(ref_ptr<MagneticField> magField, ref_ptr<TurbulentField> turbField, double kappa0, double alphaPara, double aPerp)
+    : backgroundField(magField), kappa0(kappa0), alphaPara(alphaPara), alphaPerp(alphaPerp){
+        setTurbulentField(turbField);
+    }
 
-QLTRigidity::QLTRigidity(ref_ptr<MagneticField> magField, double kap, double aPara, double aPerp){
-    hasTurbulentField = false;
-    setMagneticField(magField);
-    kappa0 = kap;
-    alphaPara = aPara;
-    alphaPerp = aPerp;
-    normToPosition(); // default norming to earth, change later if neccesarry
-}
 
 void QLTRigidity::setMagneticField(ref_ptr<MagneticField> field){
     backgroundField = field;
@@ -187,7 +166,6 @@ void QLTRigidity::setMagneticField(ref_ptr<MagneticField> field){
 
 void QLTRigidity::setTurbulentField(ref_ptr<TurbulentField> field){
     turbulentField = field;
-    hasTurbulentField = true;
     correlationLength = field -> getCorrelationLength();
     normToPosition(normPos);
 }
@@ -208,28 +186,10 @@ void QLTRigidity::setAlpha(double a){
 
 void QLTRigidity::normToPosition(const Vector3d &pos){
     normPos = pos;
-    if(hasTurbulentField) {
-        Vector3d b = turbulentField -> getField(pos);
-        Vector3d B = backgroundField -> getField(pos);
-        normEta = b.getR()/B.getR();
-        normB = (b+B).getR();
-    }
-    else{
-        try
-        {
-            double b = backgroundField -> getTurbulentField(pos).getR();
-            double B = backgroundField -> getRegularField(pos).getR();
-            normEta = b/B;
-            normB = backgroundField -> getField(pos).getR();
-        }
-        catch(const std::exception& e)
-        {
-            KISS_LOG_ERROR << "Diffusiontensor QLTRigidty: Exception in calculating turbulence level \n"
-            << "pleas use a magnatic field with function getTurbulenceStrength, getRegularField and getField or provide a seperate turbulenceField\n"
-            << "Following Eception occures:\n" << e.what();
-        }
-        
-    }
+    Vector3d b = turbulentField -> getField(pos);
+    Vector3d B = backgroundField -> getField(pos);
+    normEta = b.getR()/B.getR();
+    normB = (b+B).getR();
 }
 
 void QLTRigidity::setNormEta(double eta){
@@ -240,7 +200,34 @@ void QLTRigidity::setNormB(double B){
     normB = B;
 }
 
-void QLTRigidity::setHasTurbulentField(bool use){
-    hasTurbulentField = use;
+ref_ptr<MagneticField> QLTRigidity::getMagneticField(){
+    return backgroundField;
 }
 
+ref_ptr<TurbulentField> QLTRigidity::getTurbulentField(){
+    return turbulentField;
+}
+
+double QLTRigidity::getKappa0() const{
+    return kappa0;
+}
+
+double QLTRigidity::getAlphaPara() const{
+    return alphaPara;
+}
+
+double QLTRigidity::getAlphaPerp() const{
+    return alphaPerp;
+}
+
+double QLTRigidity::getNormEta() const{
+    return normEta;
+}
+
+double QLTRigidity::getNormB() const{
+    return normB;
+}
+
+Vector3d QLTRigidity::getNormPos() const{
+    return normPos;
+}

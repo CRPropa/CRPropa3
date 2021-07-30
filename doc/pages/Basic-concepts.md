@@ -16,7 +16,7 @@ and next (preliminary) step size, status flags (e.g. "Detected") and a record
 of interactions that are projected to happen to the cosmic ray particle.
 
 ### Parallelization/Multiprocessing
-CPPropa 3 enables shared memory multiprocessing (using OpenMP). Thus, the
+CRPropa 3 enables shared memory multiprocessing (using OpenMP). Thus, the
 distribution of workload among several computing units ("threads"), which share
 the same memory.
 Distributing the workload is trivial in cosmic-ray propagation as there is no

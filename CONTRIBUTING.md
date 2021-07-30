@@ -52,7 +52,7 @@ In addition to those general ideas, we use the following conventions:
     mode.
   * All code should be written to allow parallelization, in particular all
     modules need to be stateless.
-  * All methods should adhere `const` correctness,
+  * All methods should adhere `const` correctness.
   * Dependencies should be trivial to install, i.e. shipped with virtually all
     Linux distributions or be shipped with CRPropa in a specific version.  Users
     should not need to compile dependencies.
@@ -62,7 +62,7 @@ In addition to those general ideas, we use the following conventions:
 
 ### Documentation + Tests
   * All definitions of classes, etc, should be documented using Doxygen.
-  * All new features should have an usage example in the wiki.
+  * All new features should have an usage example in the included in the documentation.
   * All code and new functionality should be covered by unit tests, coverage
     should be [checked](https://github.com/CRPropa/CRPropa3/wiki/Code-Coverage)
   * Whenever possible, add details about a function usage to the function 
@@ -113,7 +113,7 @@ In addition to those general ideas, we use the following conventions:
     private:
         double x;
     public:
-        MyClassWrong();
+        MyClassRight();
     }
     ```
 

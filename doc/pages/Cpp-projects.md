@@ -51,4 +51,4 @@ Compiler such as ``gcc`` should have an access to the header and to CRPropa's sh
 ```
 g++ example.cpp -o run -I$HOME/.local/include/ -L$HOME/.local/lib/ -lcrpropa
 ```
-However, Makefile should be employed in a general case.
+However, a Makefile should be employed in a general case.

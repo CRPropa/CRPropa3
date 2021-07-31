@@ -330,9 +330,9 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
-set(CRPROPA_DATAFILE_VER "2020-11-28")
+set(CRPROPA_DATAFILE_VER "2021-07-30")
 if(DOWNLOAD_DATA)
-  message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
+  message("-- Downloading data file from crpropa.desy.de ~ 65 MB")
   file(DOWNLOAD
     https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
     ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM)

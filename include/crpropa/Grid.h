@@ -28,14 +28,23 @@ inline void periodicClamp(double x, int n, int &lo, int &hi) {
 	hi = (lo + 1) % n;
 }
 
+
+inline int reflectiveBoundary(int index, int n) {
+	while ((index < 0) or (index >= n))
+		index = 2 * n * (index >= n) - index -1;
+	return index;
+}
+
+
 inline int periodicBoundary(int index, int n) {
 	return ((index % n) + n) % n;
 }
 
+
 /** Lower and upper neighbour in a reflectively repeated unit grid */
 inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
 	while ((x < 0) or (x > n))
-		x = 2 * n * (x > n) - x;
+		x = 2 * n * (x > n) -x;
 	lo = floor(x);
 	hi = lo + (lo < n-1);
 }
@@ -60,6 +69,8 @@ public:
 	Vector3d origin;
 	Vector3d spacing;
 	bool reflective;
+	
+	
 
 	/** Constructor for cubic grid
 	 @param	origin	Position of the lower left front corner of the volume
@@ -132,6 +143,8 @@ public:
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
 	}
+	
+	
 
 	/** Constructor for non-cubic grid
 	 @param	origin	Position of the lower left front corner of the volume
@@ -252,10 +265,20 @@ public:
 		return grid[ix * Ny * Nz + iy * Nz + iz];
 	}
 	
-	const T &periodicGet(size_t ix, size_t iy, size_t iz) const {
+	
+const T &periodicGet(size_t ix, size_t iy, size_t iz) const {
 		ix = periodicBoundary(ix, Nx);
 		iy = periodicBoundary(iy, Ny);
 		iz = periodicBoundary(iz, Nz);
+		return grid[ix * Ny * Nz + iy * Nz + iz];
+	}
+	
+	
+	
+const T &reflectiveGet(size_t ix, size_t iy, size_t iz) const {
+		ix = reflectiveBoundary(ix, Nx);
+		iy = reflectiveBoundary(iy, Ny);
+		iz = reflectiveBoundary(iz, Nz);
 		return grid[ix * Ny * Nz + iy * Nz + iz];
 	}
 
@@ -287,8 +310,6 @@ public:
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			/** TODO: this is a fix for reflective boundaries, I think
-			make sure this gets reviewed appropriately */
 			while ((ix < 0) or (ix >= Nx))
 				ix = 2 * Nx * (ix >= Nx) - ix - 1;
 			while ((iy < 0) or (iy >= Ny))
@@ -306,11 +327,18 @@ public:
 
 
 private:	
-
-  __m128 simdPeriodicGet(size_t ix, size_t iy, size_t iz) const {
+	
+ __m128 simdperiodicGet(size_t ix, size_t iy, size_t iz) const {
 		ix = periodicBoundary(ix, Nx);
 		iy = periodicBoundary(iy, Ny);
 		iz = periodicBoundary(iz, Nz);
+		return convertVector3fToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);
+	}
+
+ __m128 simdreflectiveGet(size_t ix, size_t iy, size_t iz) const {
+		ix = reflectiveBoundary(ix, Nx);
+		iy = reflectiveBoundary(iy, Ny);
+		iz = reflectiveBoundary(iz, Nz);
 		return convertVector3fToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);
 	}
 
@@ -349,11 +377,11 @@ private:
      return res;
   }
 
-  /** Interpolate the grid tricubic at a given position */
+  /** Interpolate the grid tricubic at a given position (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */
 	Vector3f tricubicInterpolate(Vector3f, const Vector3d &position) const {
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
-
+		
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
     		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
@@ -361,6 +389,7 @@ private:
 			reflectiveClamp(r.x, Nx, iX0, iX1);
 			reflectiveClamp(r.y, Ny, iY0, iY1);
 			reflectiveClamp(r.z, Nz, iZ0, iZ1);
+			
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
@@ -379,7 +408,10 @@ private:
     for (int iLoopX = -1; iLoopX < nrCubicInterpolations-1; iLoopX++) {
       for (int iLoopY = -1; iLoopY < nrCubicInterpolations-1; iLoopY++) {
         for (int iLoopZ = -1; iLoopZ < nrCubicInterpolations-1; iLoopZ++) {
-          interpolateVaryZ[iLoopZ+1] = simdPeriodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
+			if (reflective)
+				interpolateVaryZ[iLoopZ+1] = simdreflectiveGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
+			else 
+				interpolateVaryZ[iLoopZ+1] = simdperiodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
         }
         interpolateVaryY[iLoopY+1] = CubicInterpolate(interpolateVaryZ[0], interpolateVaryZ[1], interpolateVaryZ[2], interpolateVaryZ[3], fZ);
       }
@@ -399,7 +431,7 @@ private:
 	double tricubicInterpolate(double, const Vector3d &position) const {
 		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
-
+		
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
     		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
@@ -425,7 +457,10 @@ private:
 		for (int iLoopX = -1; iLoopX < nrCubicInterpolations-1; iLoopX++) {
       for (int iLoopY = -1; iLoopY < nrCubicInterpolations-1; iLoopY++) {
         for (int iLoopZ = -1; iLoopZ < nrCubicInterpolations-1; iLoopZ++) {
-          interpolateVaryZ[iLoopZ+1] = periodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
+			if (reflective)
+				interpolateVaryZ[iLoopZ+1] = reflectiveGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
+			else
+				interpolateVaryZ[iLoopZ+1] = periodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);
         }
         interpolateVaryY[iLoopY+1] = CubicInterpolateScalar(interpolateVaryZ[0], interpolateVaryZ[1], interpolateVaryZ[2], interpolateVaryZ[3], fZ);
       }
@@ -440,7 +475,7 @@ private:
 	T trilinearInterpolate(const Vector3d &position) const {
 		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
-
+		
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
 		  with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;

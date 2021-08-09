@@ -478,7 +478,7 @@ TEST(Grid1f, TestVectorSpacing) {
 }
 
 TEST(Grid1f, ClosestValue) {
-	// Check some closest values
+	// Check some closest values / nearest neighbour interpolation
 	Grid1f grid(Vector3d(0.), 2, 2, 2, 1.);
 	grid.get(0, 0, 0) = 1;
 	grid.get(0, 0, 1) = 2;
@@ -497,13 +497,15 @@ TEST(Grid1f, ClosestValue) {
 }
 
 TEST(Grid3f, Interpolation) {
-	// Explicitly test trilinear interpolation
+	// Explicitly test trilinear and tricubic interpolation
 	double spacing = 2.793;
 	int n = 3;
 	Grid3f grid(Vector3d(0.), n, n, n, spacing);
 	grid.get(0, 0, 1) = Vector3f(1.7, 0., 0.); // set one value
 
 	Vector3d b;
+	
+	//trilinear
 
 	// grid points are at (0.5, 1.5, 2.5) * spacing
 	b = grid.interpolate(Vector3d(0.5, 0.5, 1.5) * spacing);
@@ -520,6 +522,26 @@ TEST(Grid3f, Interpolation) {
 
 	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
+	
+	//tricubic
+	grid.setInterpolationType(TRICUBIC);
+	
+	b = grid.interpolate(Vector3d(0.5, 0.5, 1.5) * spacing);
+	EXPECT_FLOAT_EQ(1.7, b.x);
+
+	b = grid.interpolate(Vector3d(0.5, 0.5, 1.4) * spacing);
+	EXPECT_FLOAT_EQ(1.66005015373, b.x);
+
+	b = grid.interpolate(Vector3d(0.5, 0.5, 1.6) * spacing);
+	EXPECT_FLOAT_EQ(1.66005003452, b.x);
+
+	b = grid.interpolate(Vector3d(0.5, 0.35, 1.6) * spacing);
+	EXPECT_FLOAT_EQ(1.57507634163, b.x);
+
+	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
+	EXPECT_FLOAT_EQ(0.190802007914, b.x);
+	
+	
 }
 
 TEST(VectordGrid, Scale) {

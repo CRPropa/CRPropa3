@@ -548,7 +548,7 @@ add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 install(DIRECTORY libs/kiss/include/ DESTINATION include)
 

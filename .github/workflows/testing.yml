@@ -4,7 +4,7 @@ on: [push]
 jobs:
   ubuntu-18:
     runs-on: ubuntu-18.04
-    env:
+    env: |
       COMPILER_NAME=gcc 
       CXX=g++-9 
       CC=gcc-9 

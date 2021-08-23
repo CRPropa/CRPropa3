@@ -4,6 +4,18 @@ on: [push]
 jobs:
   ubuntu-18:
     runs-on: ubuntu-18.04
+    env:
+      - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9 FC=gfortran-9
+      - PYTHON_EXECUTABLE=/usr/bin/python3
     steps:
-      - uses: actions/checkout@v2
-      - run: cmake --version
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up the build
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=$PYTHON_EXECUTABLE -DENABLE_TESTING=On
+      - name: Build CRPropa
+        run: |
+          make
+          make test

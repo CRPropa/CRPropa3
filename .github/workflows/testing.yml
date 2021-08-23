@@ -33,8 +33,6 @@ addons:
     - python3-pip
     - python3-ipython
     - lcov
-  sources: &sources
-    - ubuntu-toolchain-r-test
 cache:
   directories:
     - $HOME/crpropa_cache

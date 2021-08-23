@@ -5,8 +5,11 @@ jobs:
   ubuntu-18:
     runs-on: ubuntu-18.04
     env:
-      - COMPILER_NAME=gcc CXX=g++-9 CC=gcc-9 FC=gfortran-9
-      - PYTHON_EXECUTABLE=/usr/bin/python3
+      COMPILER_NAME=gcc 
+      CXX=g++-9 
+      CC=gcc-9 
+      FC=gfortran-9
+      PYTHON_EXECUTABLE=/usr/bin/python3
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

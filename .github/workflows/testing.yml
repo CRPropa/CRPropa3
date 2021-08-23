@@ -1,48 +1,15 @@
 name: crpropa-testing
 on: [push]
 
-addons:
-  apt:
-  packages:
-    - gcc-6
-    - g++-6
-    - gfortran-6
-    - gcc-9
-    - g++-9
-    - gfortran-9
-    - swig
-    - libfftw3-dev
-    - libcfitsio-dev
-    - libmuparser-dev
-    - python-dev
-    - python-numpy
-    - python-setuptools
-    - python3-setuptools
-    - python3-dev
-    - cmake
-    - libhdf5-serial-dev
-    - python-matplotlib
-    - python3-matplotlib
-    - python-scipy
-    - python3-scipy
-    - libiomp5
-    - libiomp-dev
-    - doxygen
-    - graphviz
-    - pandoc
-    - python3-pip
-    - python3-ipython
-    - lcov
-cache:
-  directories:
-    - $HOME/crpropa_cache
-
 jobs:
   ubuntu-18:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Preinstall
+        run: |
+          sudo apt-get install libfftw3 libcfitsio libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libiomp5 libiomp-dev
       - name: Set up the build
         run: |
           mkdir build

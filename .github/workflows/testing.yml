@@ -2,7 +2,7 @@ name: crpropa-testing
 on: [push]
 
 jobs:
-  ubuntu-18
+  ubuntu-18:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2

@@ -11,12 +11,24 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev
+          find /usr/ -iname python.h
+          which python3
       - name: Set up the build
         run: |
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=usr/bin/python3 -DENABLE_TESTING=On
+          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE="/usr/bin/python3" -DPYTHON_INCLUDE_DIR="/usr/include/python3.6m" -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=Off
       - name: Build CRPropa
         run: |
+          cd build
           make
+      - name: Run tests
+        continue-on-error: true
+        run: |
+          cd build
           make test
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: build/Testing/Temporary/LastTest.log

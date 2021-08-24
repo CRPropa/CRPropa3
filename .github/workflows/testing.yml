@@ -3,8 +3,6 @@ on: [push]
 
 jobs:
   test1:
-    name: ${ { matrix.config.name } }
-    runs-on: ${ { matrix.config.os } }
     strategy:
       fail-fast: false
       matrix:
@@ -21,7 +19,8 @@ jobs:
             build_type: "Release", cc: "gcc", cxx: "g++", fc: "gfortran", 
             python_exe: "usr/bin/python3", swig_build_in: "OFF"
           }
-    
+    name: ${ { matrix.config.name } }
+    runs-on: ${ { matrix.config.os } }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

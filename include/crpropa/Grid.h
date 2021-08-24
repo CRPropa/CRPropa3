@@ -30,8 +30,8 @@ inline void periodicClamp(double x, int n, int &lo, int &hi) {
 
 
 inline int reflectiveBoundary(int index, int n) {
-	while ((index < 0) or (index >= n))
-		index = 2 * n * (index >= n) - index -1;
+	while ((index < 0) or (index > (n-1)))
+		index = 2 * (n-1) * (index > (n-1)) - index;
 	return index;
 }
 
@@ -42,9 +42,10 @@ inline int periodicBoundary(int index, int n) {
 
 
 /** Lower and upper neighbour in a reflectively repeated unit grid */
-inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
-	while ((x < 0) or (x > n))
-		x = 2 * n * (x > n) -x;
+inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
+	while ((x < 0) or (x > (n-1)))
+		x = 2 * (n-1) * (x > (n-1)) -x;
+	res = x;
 	lo = floor(x);
 	hi = lo + (lo < n-1);
 }
@@ -310,12 +311,12 @@ const T &reflectiveGet(size_t ix, size_t iy, size_t iz) const {
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			while ((ix < 0) or (ix >= Nx))
-				ix = 2 * Nx * (ix >= Nx) - ix - 1;
-			while ((iy < 0) or (iy >= Ny))
-				iy = 2 * Ny * (iy >= Ny) - iy - 1;
-			while ((iz < 0) or (iz >= Nz))
-				iz = 2 * Nz * (iz >= Nz) - iz - 1;
+			while ((ix < 0) or (ix > (int(Nx)-1)))
+				ix = 2 * (Nx-1) * (ix > (int(Nx)-1)) - ix;
+			while ((iy < 0) or (iy > (int(Ny)-1)))
+				iy = 2 * (Ny-1) * (iy > (int(Ny)-1)) - iy;
+			while ((iz < 0) or (iz > (int(Nz)-1)))
+				iz = 2 * (Nz-1) * (iz > (int(Nz)-1)) - iz;
 		} else {
 			ix = ((ix % Nx) + Nx) % Nx;
 			iy = ((iy % Ny) + Ny) % Ny;
@@ -385,10 +386,11 @@ private:
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
     		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
+		double resX, resY, resZ;
 		if (reflective) {
-			reflectiveClamp(r.x, Nx, iX0, iX1);
-			reflectiveClamp(r.y, Ny, iY0, iY1);
-			reflectiveClamp(r.z, Nz, iZ0, iZ1);
+			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
+			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
+			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
 			
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
@@ -396,9 +398,9 @@ private:
 			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 		
-		double fX = r.x - floor(r.x);
-		double fY = r.y - floor(r.y);
-		double fZ = r.z - floor(r.z);
+		double fX = resX - floor(resX);
+		double fY = resY - floor(resY);
+		double fZ = resZ - floor(resZ);
 
 		int nrCubicInterpolations = 4;
     __m128 interpolateVaryX[nrCubicInterpolations];
@@ -422,12 +424,12 @@ private:
 	}
 
 
-  /** Vectorized cubic Interpolator in 1D that returns a scalar */
+  /** Vectorized cubic Interpolator in 1D that returns a scalar (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */
   double CubicInterpolateScalar(double p0,double p1,double p2,double p3,double pos) const {
      return((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);
   }
 
-  /** Interpolate the grid tricubic at a given position */
+  /** Interpolate the grid tricubic at a given position (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */
 	double tricubicInterpolate(double, const Vector3d &position) const {
 		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
@@ -435,19 +437,20 @@ private:
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
     		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
+		double resX, resY, resZ;
 		if (reflective) {
-			reflectiveClamp(r.x, Nx, iX0, iX1);
-			reflectiveClamp(r.y, Ny, iY0, iY1);
-			reflectiveClamp(r.z, Nz, iZ0, iZ1);
+			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
+			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
+			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
 			periodicClamp(r.z, Nz, iZ0, iZ1);
 		}
 
-    double fX = r.x - floor(r.x);
-		double fY = r.y - floor(r.y);
-		double fZ = r.z - floor(r.z);
+		double fX = resX - floor(resX);
+		double fY = resY - floor(resY);
+		double fZ = resZ - floor(resZ);
 
     int nrCubicInterpolations = 4;
 		double interpolateVaryX[nrCubicInterpolations];
@@ -479,10 +482,11 @@ private:
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
 		  with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
+		double resX, resY, resZ;
 		if (reflective) {
-			reflectiveClamp(r.x, Nx, iX0, iX1);
-			reflectiveClamp(r.y, Ny, iY0, iY1);
-			reflectiveClamp(r.z, Nz, iZ0, iZ1);
+			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
+			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
+			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
@@ -490,11 +494,11 @@ private:
 		}
 
 		/** linear fraction to lower and upper neighbours */
-		double fX0 = r.x - floor(r.x);
+		double fX0 = resX - floor(resX);
 		double fX1 = 1 - fX0;
-		double fY0 = r.y - floor(r.y);
+		double fY0 = resY - floor(resY);
 		double fY1 = 1 - fY0;
-		double fZ0 = r.z - floor(r.z);
+		double fZ0 = resZ - floor(resZ);
 		double fZ1 = 1 - fZ0;
 
 		/** trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation) */

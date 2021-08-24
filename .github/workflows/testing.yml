@@ -17,7 +17,7 @@ jobs:
       #  run: |
       #    mkdir build
       #    cd build
-      #    cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=usr/bin/python3 -DENABLE_TESTING=On
+      #    cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE="/usr/bin/python3" -DPYTHON_INCLUDE_DIR="/usr/include/python3.6m" -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=Off
       #- name: Build CRPropa
       #  run: |
       #    make

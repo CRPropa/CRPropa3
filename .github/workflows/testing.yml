@@ -2,25 +2,8 @@ name: crpropa-testing
 on: [push]
 
 jobs:
-  test1:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - {
-            name: "Ubuntu Latest",
-            os: ubuntu-latest,
-            build_type: "Release", cc: "gcc", cxx: "g++", fc: "gfortran", 
-            python_exe: "usr/bin/python3", swig_build_in: "ON"
-          }
-        - {
-            name: "Ubuntu bionic beaver",
-            os: ubuntu-18.04,
-            build_type: "Release", cc: "gcc", cxx: "g++", fc: "gfortran", 
-            python_exe: "usr/bin/python3", swig_build_in: "OFF"
-          }
-    name: ${ { matrix.config.name } }
-    runs-on: ${ { matrix.config.os } }
+  ubuntu-18:
+    runs-on: ubuntu-18.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -32,7 +15,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${ { matrix.config.python_exe } } -DENABLE_TESTING=On
+          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=usr/bin/python3 -DENABLE_TESTING=On
       - name: Build CRPropa
         run: |
           make

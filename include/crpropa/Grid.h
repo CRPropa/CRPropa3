@@ -386,21 +386,23 @@ private:
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
     		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
-		double resX, resY, resZ;
+		double resX, resY, resZ, fX, fY, fZ;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
 			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
 			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
+			fX = resX - floor(resX);
+			fY = resY - floor(resY);
+			fZ = resZ - floor(resZ);
 			
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
 			periodicClamp(r.z, Nz, iZ0, iZ1);
+			fX = r.x - floor(r.x);
+			fY = r.y - floor(r.y);
+			fZ = r.z - floor(r.z);
 		}
-		
-		double fX = resX - floor(resX);
-		double fY = resY - floor(resY);
-		double fZ = resZ - floor(resZ);
 
 		int nrCubicInterpolations = 4;
     __m128 interpolateVaryX[nrCubicInterpolations];
@@ -437,20 +439,24 @@ private:
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
     		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
-		double resX, resY, resZ;
+		double resX, resY, resZ, fX, fY, fZ;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
 			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
 			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
+			fX = resX - floor(resX);
+			fY = resY - floor(resY);
+			fZ = resZ - floor(resZ);
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
 			periodicClamp(r.z, Nz, iZ0, iZ1);
+			fX = r.x - floor(r.x);
+			fY = r.y - floor(r.y);
+			fZ = r.z - floor(r.z);
 		}
 
-		double fX = resX - floor(resX);
-		double fY = resY - floor(resY);
-		double fZ = resZ - floor(resZ);
+		
 
     int nrCubicInterpolations = 4;
 		double interpolateVaryX[nrCubicInterpolations];
@@ -482,23 +488,27 @@ private:
 		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
 		  with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
 		int iX0, iX1, iY0, iY1, iZ0, iZ1;
-		double resX, resY, resZ;
+		double resX, resY, resZ, fX0, fY0, fZ0;
 		if (reflective) {
 			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
 			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
 			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
+			fX0 = resX - floor(resX);
+			fY0 = resY - floor(resY);
+			fZ0 = resZ - floor(resZ);
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
 			periodicClamp(r.z, Nz, iZ0, iZ1);
+			fX0 = r.x - floor(r.x);
+			fY0 = r.y - floor(r.y);
+			fZ0 = r.z - floor(r.z);
 		}
 
-		/** linear fraction to lower and upper neighbours */
-		double fX0 = resX - floor(resX);
+		/** linear fraction to upper neighbours based on lower neighbours calculated above */
+		
 		double fX1 = 1 - fX0;
-		double fY0 = resY - floor(resY);
 		double fY1 = 1 - fY0;
-		double fZ0 = resZ - floor(resZ);
 		double fZ1 = 1 - fZ0;
 
 		/** trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation) */

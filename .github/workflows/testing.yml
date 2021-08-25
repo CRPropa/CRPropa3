@@ -2,8 +2,10 @@ name: crpropa-testing
 on: [push]
 
 jobs:
-  ubuntu-18:
-    runs-on: ubuntu-18.04
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-18.04]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -11,8 +13,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev
-          find /usr/ -iname python.h
-          which python3
       - name: Set up the build
         run: |
           mkdir build

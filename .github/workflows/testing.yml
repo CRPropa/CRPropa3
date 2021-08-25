@@ -7,14 +7,18 @@ jobs:
     strategy:
       matrix:
         config:
-        - {
-            os: ubuntu-latest, cxx: "g++-9", cc: "gcc-9, fc: "gfortran-9",
-            swig_builtin: "On"
-          }
-        - {
-            os: ubuntu-18.04, cxx: "g++-7", cc: "gcc-7, fc: "gfortran-7",
-            swig_builtin: "Off"
-          }
+         - name: "ubuntu-20"
+           os: ubuntu-latest
+           cxx: "g++-9"
+           cc: "gcc-9"
+           fc: "gfortran-9"
+           swig_builtin: "On"
+         - name: "ubuntu-18"
+           os: ubuntu-18.04
+           cxx: "g++-7"
+           cc: "gcc-7"
+           fc: "gfortran-7"
+           swig_builtin: "Off"
         #cov: ["On", "Off"]
     steps:
       - name: Checkout repository

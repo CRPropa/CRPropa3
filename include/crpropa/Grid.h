@@ -30,8 +30,10 @@ inline void periodicClamp(double x, int n, int &lo, int &hi) {
 
 
 inline int reflectiveBoundary(int index, int n) {
-	while ((index < 0) or (index > (n-1)))
-		index = 2 * (n-1) * (index > (n-1)) - index;
+	while ((index < 0) or (index > (n)))
+		index = 2 * (n) * (index > (n)) - index;
+	if (index==n)
+		index = n-1;
 	return index;
 }
 
@@ -43,8 +45,10 @@ inline int periodicBoundary(int index, int n) {
 
 /** Lower and upper neighbour in a reflectively repeated unit grid */
 inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
-	while ((x < 0) or (x > (n-1)))
-		x = 2 * (n-1) * (x > (n-1)) -x;
+	while ((x < 0) or (x > (n)))
+		x = 2 * (n) * (x > (n)) -x;
+	if (x==n)
+		x=n-1;
 	res = x;
 	lo = floor(x);
 	hi = lo + (lo < n-1);

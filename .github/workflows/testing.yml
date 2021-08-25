@@ -20,12 +20,12 @@ jobs:
            cc: "gcc-7"
            fc: "gfortran-7"
            swig_builtin: "Off" #uses swig 3.x
-         - name: "macos-10"
-           os: macos-latest
-           cxx: "clang++"
-           cc: "clang++"
-           fc: "gfortran"
-           swig_builtin: "On"
+         #- name: "macos-10"
+         #  os: macos-latest
+         #  cxx: "clang++"
+         #  cc: "clang++"
+         #  fc: "gfortran"
+         #  swig_builtin: "On"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev
-          if [${{ matrix.config.cov }} == "On"]; then sudo apt-get install lcov
+          if '${{ matrix.config.cov }} == "On"'; then sudo apt-get install lcov
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}

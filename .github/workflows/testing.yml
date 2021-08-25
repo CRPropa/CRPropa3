@@ -3,15 +3,19 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-18.04]
-        cxx: ["g++-9", "g++-7"]
-        cc: ["gcc-9", "gcc-7"]
-        fc: ["gfortran-9", "gfortran-7"]
-        swig_builtin: ["On", "Off"]
-        cov: ["On", "Off"]
+        config:
+        - {
+           os: ubuntu-latest, cxx: "g++-9", cc: "gcc-9, fc: "gfortran-9"
+           swig_builtin: "On"
+          }
+        - {
+           os: ubuntu-18.04, cxx: "g++-7", cc: "gcc-7, fc: "gfortran-7"
+           swig_builtin: "Off"
+          }
+        #cov: ["On", "Off"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -19,16 +23,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev
-          if [${{ matrix.cov }} == "On"]; then sudo apt-get install lcov
+          #if [${{ matrix.cov }} == "On"]; then sudo apt-get install lcov
       - name: Set up the build
         env:
-          CXX: ${{ matrix.cxx }}
-          CC: ${{ matrix.cc }}
-          FC: ${{ matrix.fc }}
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
         run: |
           mkdir build
           cd build
-          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE="/usr/bin/python3" -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.swig_builtin }}
+          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE="/usr/bin/python3" -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
           #-DPYTHON_INCLUDE_DIR="/usr/include/python3.6m"
       - name: Build CRPropa
         run: |

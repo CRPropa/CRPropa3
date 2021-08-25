@@ -32,8 +32,7 @@ jobs:
       - name: Preinstall
         run: |
           sudo apt-get update
-          sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev
-          if '${{ matrix.config.cov }} == "On"'; then sudo apt-get install lcov
+          sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}

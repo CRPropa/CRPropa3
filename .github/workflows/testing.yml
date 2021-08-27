@@ -75,7 +75,7 @@ jobs:
        uses: actions/checkout@v2
      - name: Preinstall
        run: |
-         brew install hdf5 fftw cfitsio muparser libomp
+         brew install hdf5 fftw cfitsio muparser libomp python3-devel numpy
      - name: Set up the build
        env:
          CXX_COMPILER: ${{ matrix.config.cxx }}

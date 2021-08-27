@@ -77,27 +77,27 @@ jobs:
        run: |
          brew install hdf5 fftw cfitsio muparser libomp
      - name: Set up the build
-        env:
-          CXX: ${{ matrix.config.cxx }}
-          CC: ${{ matrix.config.cc }}
-          FC: ${{ matrix.config.fc }}
-        run: |
-          mkdir build
-          cd build
-          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
-      - name: Build CRPropa
-        run: |
-          cd build
-          make
-      - name: Run tests
-        continue-on-error: true
-        run: |
-          cd build
-          make test
-      - name: Archive test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: "test-report_${{matrix.config.name}}"
-          path: build/Testing/Temporary/LastTest.log
+       env:
+         CXX: ${{ matrix.config.cxx }}
+         CC: ${{ matrix.config.cc }}
+         FC: ${{ matrix.config.fc }}
+       run: |
+        mkdir build
+        cd build
+        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
+     - name: Build CRPropa
+       run: |
+         cd build
+         make
+     - name: Run tests
+       continue-on-error: true
+       run: |
+         cd build
+         make test
+     - name: Archive test results
+       uses: actions/upload-artifact@v2
+       with:
+         name: "test-report_${{matrix.config.name}}"
+         path: build/Testing/Temporary/LastTest.log
     
   

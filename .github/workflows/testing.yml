@@ -66,9 +66,9 @@ jobs:
         config:
           - name: "macos-1015"
             os: macos-latest
-            cxx: "clang++"
-            cc: "clang++"
-            fc: "gfortran"
+            cxx: "clang"
+            cc: "clang"
+            fc: "gfortran-9"
             swig_builtin: "On" #uses swig 4.0.2
     steps:
      - name: Checkout repository
@@ -78,9 +78,9 @@ jobs:
          brew install hdf5 fftw cfitsio muparser libomp
      - name: Set up the build
        env:
-         CXX: ${{ matrix.config.cxx }}
-         CC: ${{ matrix.config.cc }}
-         FC: ${{ matrix.config.fc }}
+         CXX_COMPILER: ${{ matrix.config.cxx }}
+         C_COMPILER: ${{ matrix.config.cc }}
+         Fortran_COMPILER: ${{ matrix.config.fc }}
        run: |
         mkdir build
         cd build

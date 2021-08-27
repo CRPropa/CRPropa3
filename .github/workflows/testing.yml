@@ -2,7 +2,7 @@ name: crpropa-testing
 on: [push]
 
 jobs:
-  build:
+  linux:
     runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
@@ -12,8 +12,8 @@ jobs:
            cxx: "g++-9"
            cc: "gcc-9"
            fc: "gfortran-9"
-           swig_builtin: "On"
-           py: "usr/bin/python3"
+           swig_builtin: "Off" #uses swig 4.0.1
+           py: "/usr/bin/python3"
            cov: "On"
          - name: "ubuntu-18_py3"
            os: ubuntu-18.04
@@ -21,7 +21,7 @@ jobs:
            cc: "gcc-7"
            fc: "gfortran-7"
            swig_builtin: "Off" #uses swig 3.x
-           py: "usr/bin/python3"
+           py: "/usr/bin/python3"
          - name: "ubuntu-18_py2"
            os: ubuntu-18.04
            cxx: "g++-7"
@@ -29,20 +29,13 @@ jobs:
            fc: "gfortran-7"
            swig_builtin: "Off" #uses swig 3.x
            py: "/usr/bin/python2"
-         #- name: "macos-10"
-         #  os: macos-latest
-         #  cxx: "clang++"
-         #  cc: "clang++"
-         #  fc: "gfortran"
-         #  swig_builtin: "On"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Preinstall
         run: |
           sudo apt-get update
-          sudo apt-get install libmuparser-dev python3-dev python-dev python-numpy python-setuptools python3-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
-          swig -version
+          sudo apt-get install libmuparser-dev python3-dev python-dev python3-numpy python-numpy python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}
@@ -66,3 +59,45 @@ jobs:
         with:
           name: "test-report_${{matrix.config.name}}"
           path: build/Testing/Temporary/LastTest.log
+  mac:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          - name: "macos-1015"
+            os: macos-latest
+            cxx: "clang++"
+            cc: "clang++"
+            fc: "gfortran"
+            swig_builtin: "On" #uses swig 4.0.2
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v2
+     - name: Preinstall
+       run: |
+         brew install hdf5 fftw cfitsio muparser libomp
+     - name: Set up the build
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
+      - name: Build CRPropa
+        run: |
+          cd build
+          make
+      - name: Run tests
+        continue-on-error: true
+        run: |
+          cd build
+          make test
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: "test-report_${{matrix.config.name}}"
+          path: build/Testing/Temporary/LastTest.log
+    
+  

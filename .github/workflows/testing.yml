@@ -13,13 +13,22 @@ jobs:
            cc: "gcc-9"
            fc: "gfortran-9"
            swig_builtin: "On"
+           py: "usr/bin/python3"
            cov: "On"
-         - name: "ubuntu-18"
+         - name: "ubuntu-18_py3"
            os: ubuntu-18.04
            cxx: "g++-7"
            cc: "gcc-7"
            fc: "gfortran-7"
            swig_builtin: "Off" #uses swig 3.x
+           py: "usr/bin/python3"
+         - name: "ubuntu-18_py2"
+           os: ubuntu-18.04
+           cxx: "g++-7"
+           cc: "gcc-7"
+           fc: "gfortran-7"
+           swig_builtin: "Off" #uses swig 3.x
+           py: "/usr/bin/python2"
          #- name: "macos-10"
          #  os: macos-latest
          #  cxx: "clang++"
@@ -33,6 +42,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libmuparser-dev python3-dev python-numpy python3-setuptools libhdf5-serial-dev python3-matplotlib libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          swig -version
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}
@@ -42,7 +52,6 @@ jobs:
           mkdir build
           cd build
           cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE="/usr/bin/python3" -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
-          #-DPYTHON_INCLUDE_DIR="/usr/include/python3.6m"
       - name: Build CRPropa
         run: |
           cd build

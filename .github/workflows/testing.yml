@@ -80,7 +80,7 @@ jobs:
        env:
          CXX_COMPILER: ${{ matrix.config.cxx }}
          C_COMPILER: ${{ matrix.config.cc }}
-         Fortran_COMPILER: ${{ matrix.config.fc }}
+         FC: ${{ matrix.config.fc }}
        run: |
         mkdir build
         cd build

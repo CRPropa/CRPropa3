@@ -77,8 +77,8 @@ jobs:
      - name: Preinstall
        run: |
          brew install hdf5 fftw cfitsio muparser libomp
-         HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true
-         HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc
+         #HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true
+         #HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc
      - name: Set up the build
        env:
          CXX_COMPILER: ${{ matrix.config.cxx }}
@@ -95,7 +95,10 @@ jobs:
          make
      - name: Run tests
        continue-on-error: true
+       env:
+         CRPROPA_DATA_PATH: $GITHUB_WORKSPACE/build/data
        run: |
+         echo $CRPROPA_DATA_PATH
          cd build
          make test
      - name: Archive test results

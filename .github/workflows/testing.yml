@@ -70,6 +70,7 @@ jobs:
             cc: "clang"
             fc: "gfortran-9"
             swig_builtin: "On" #uses swig 4.0.2
+            py: "/usr/bin/python"
     steps:
      - name: Checkout repository
        uses: actions/checkout@v2

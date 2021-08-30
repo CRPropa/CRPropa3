@@ -75,7 +75,9 @@ jobs:
        uses: actions/checkout@v2
      - name: Preinstall
        run: |
-         brew install hdf5 fftw cfitsio muparser libomp python3-devel numpy
+         brew install hdf5 fftw cfitsio muparser libomp
+         HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true
+         HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc
      - name: Set up the build
        env:
          CXX_COMPILER: ${{ matrix.config.cxx }}

@@ -58,7 +58,7 @@ public:
 	void setHavePhotons(bool havePhotons);
 	void setThinning(double thinning);
 	void setLimit(double limit);
-	/** Set the maximum number of synchrotron photons that will be allowed to be added as candidate. 
+	/** Set the maximum number of synchrotron photons that will be allowed to be added as candidates. 
 	 This choice depends on the problem at hand. It must be such that all relevant physics is captured with the sample. Weights are added accordingly and the column 'weight' must be added to output.
 	 @param nmax	maximum number of synchrotron photons to be sampled
 	 */

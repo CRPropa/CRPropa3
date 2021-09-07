@@ -100,12 +100,12 @@ public:
 	const std::string outputName;
 	
 	/** Default constructor. Output contains all the information available.
-	 Units of energy and length are, by default, eV and Mpc.
+	 Units of energy and length are, by default, EeV and Mpc.
 	 This can be changed with setEnergyScale and setLengthScale.
 	 */
 	Output();
 	/** General constructor.
-	 Units of energy and length are, by default, eV and Mpc.
+	 Units of energy and length are, by default, EeV and Mpc.
 	 This can be changed with setEnergyScale and setLengthScale.
 	 @param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
 	 */

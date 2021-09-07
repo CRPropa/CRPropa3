@@ -14,7 +14,7 @@ namespace crpropa {
  @class DensityList
  @brief Superposition of density models.
  The addDensity function adds a new density to the list.
- The getDensity function handles the activated types in loaded densities, whereas get(type)Density disregards them.
+ The getDensity function handles the activated types in loaded densities, whereas get(type)Density disregards the activation state.
 */
 class DensityList: public Density {
 private:

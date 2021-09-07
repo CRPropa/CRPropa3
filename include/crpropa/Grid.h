@@ -11,6 +11,7 @@
 #include <immintrin.h>
 #include <smmintrin.h>
 
+
 namespace crpropa {
 
 /** If set to TRILINEAR, use trilinear interpolation (standard)
@@ -24,35 +25,34 @@ enum interpolationType {
 
 /** Lower and upper neighbour in a periodically continued unit grid */
 inline void periodicClamp(double x, int n, int &lo, int &hi) {
-	lo = ((int(floor(x)) % n) + n) % n;
-	hi = (lo + 1) % n;
+	lo = ((int(floor(x)) % (n)) + (n)) % (n);
+	hi = (lo + 1) % (n);
 }
 
 
 inline int reflectiveBoundary(int index, int n) {
-	while ((index < 0) or (index > (n)))
-		index = 2 * (n) * (index > (n)) - index;
-	if (index==n)
-		index = n-1;
+	while ((index < -0.5) or (index > (n-0.5)))
+		index = 2 * n * (index > (n-0.5)) - index-1;
 	return index;
 }
 
 
 inline int periodicBoundary(int index, int n) {
-	return ((index % n) + n) % n;
+	return ((index % (n)) + (n)) % (n);
 }
 
 
 /** Lower and upper neighbour in a reflectively repeated unit grid */
 inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
-	while ((x < 0) or (x > (n)))
-		x = 2 * (n) * (x > (n)) -x;
-	if (x==n)
-		x=n-1;
+	while ((x < -0.5) or (x > (n-0.5)))
+		x = 2 * n * (x > (n-0.5)) -x-1;
 	res = x;
 	lo = floor(x);
 	hi = lo + (lo < n-1);
+	if (x<0)
+		{lo=0; hi=0;}
 }
+
 
 /** Symmetrical round */
 inline double round(double r) {
@@ -315,12 +315,12 @@ const T &reflectiveGet(size_t ix, size_t iy, size_t iz) const {
 		int iy = round(r.y);
 		int iz = round(r.z);
 		if (reflective) {
-			while ((ix < 0) or (ix > (int(Nx)-1)))
-				ix = 2 * (Nx-1) * (ix > (int(Nx)-1)) - ix;
-			while ((iy < 0) or (iy > (int(Ny)-1)))
-				iy = 2 * (Ny-1) * (iy > (int(Ny)-1)) - iy;
-			while ((iz < 0) or (iz > (int(Nz)-1)))
-				iz = 2 * (Nz-1) * (iz > (int(Nz)-1)) - iz;
+			while ((ix < -0.5) or (ix > (int(Nx)-0.5)))
+				ix = 2 * Nx * (ix > (int(Nx)-0.5)) - ix-1;
+			while ((iy < -0.5) or (iy > (int(Ny)-0.5)))
+				iy = 2 * Ny * (iy > (int(Ny)-0.5)) - iy-1;
+			while ((iz < -0.5) or (iz > (int(Nz)-0.5)))
+				iz = 2 * Nz * (iz > (int(Nz)-0.5)) - iz-1;
 		} else {
 			ix = ((ix % Nx) + Nx) % Nx;
 			iy = ((iy % Ny) + Ny) % Ny;
@@ -398,7 +398,12 @@ private:
 			fX = resX - floor(resX);
 			fY = resY - floor(resY);
 			fZ = resZ - floor(resZ);
-			
+			if (resX<0)
+				iX0 = -1;
+			if (resY<0)
+				iY0 = -1;
+			if (resZ<0)
+				iZ0 = -1;
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
@@ -451,6 +456,12 @@ private:
 			fX = resX - floor(resX);
 			fY = resY - floor(resY);
 			fZ = resZ - floor(resZ);
+			if (resX<0)
+				iX0 = -1;
+			if (resY<0)
+				iY0 = -1;
+			if (resZ<0)
+				iZ0 = -1;
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
@@ -500,6 +511,7 @@ private:
 			fX0 = resX - floor(resX);
 			fY0 = resY - floor(resY);
 			fZ0 = resZ - floor(resZ);
+			
 		} else {
 			periodicClamp(r.x, Nx, iX0, iX1);
 			periodicClamp(r.y, Ny, iY0, iY1);
@@ -510,7 +522,7 @@ private:
 		}
 
 		/** linear fraction to upper neighbours based on lower neighbours calculated above */
-		
+
 		double fX1 = 1 - fX0;
 		double fY1 = 1 - fY0;
 		double fZ1 = 1 - fZ0;

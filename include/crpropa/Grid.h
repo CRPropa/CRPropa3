@@ -47,10 +47,8 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
 	while ((x < -0.5) or (x > (n-0.5)))
 		x = 2 * n * (x > (n-0.5)) -x-1;
 	res = x;
-	lo = floor(x);
-	hi = lo + (lo < n-1);
-	if (x<0)
-		{lo=0; hi=0;}
+	lo = std::min((int) floor(x), 0);
+	hi = std::max((int) floor(x) + 1, n-1);
 }
 
 
@@ -387,31 +385,15 @@ private:
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 		
-		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
-    		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
-		int iX0, iX1, iY0, iY1, iZ0, iZ1;
-		double resX, resY, resZ, fX, fY, fZ;
-		if (reflective) {
-			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
-			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
-			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
-			fX = resX - floor(resX);
-			fY = resY - floor(resY);
-			fZ = resZ - floor(resZ);
-			if (resX<0)
-				iX0 = -1;
-			if (resY<0)
-				iY0 = -1;
-			if (resZ<0)
-				iZ0 = -1;
-		} else {
-			periodicClamp(r.x, Nx, iX0, iX1);
-			periodicClamp(r.y, Ny, iY0, iY1);
-			periodicClamp(r.z, Nz, iZ0, iZ1);
-			fX = r.x - floor(r.x);
-			fY = r.y - floor(r.y);
-			fZ = r.z - floor(r.z);
-		}
+		int iX0, iY0, iZ0;
+        iX0 = floor(r.x);
+        iY0 = floor(r.y);
+        iZ0 = floor(r.z);
+
+		double fX, fY, fZ;
+        fX = r.x - iX0;
+        fY = r.y - iY0;
+        fZ = r.z - iZ0;
 
 		int nrCubicInterpolations = 4;
     __m128 interpolateVaryX[nrCubicInterpolations];
@@ -444,34 +426,16 @@ private:
 	double tricubicInterpolate(double, const Vector3d &position) const {
 		/** position on a unit grid */
 		Vector3d r = (position - gridOrigin) / spacing;
-		
-		/** indices of lower (0) and upper (1) neighbours. The neighbours span a grid
-    		with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */
-		int iX0, iX1, iY0, iY1, iZ0, iZ1;
-		double resX, resY, resZ, fX, fY, fZ;
-		if (reflective) {
-			reflectiveClamp(r.x, Nx, iX0, iX1, resX);
-			reflectiveClamp(r.y, Ny, iY0, iY1, resY);
-			reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);
-			fX = resX - floor(resX);
-			fY = resY - floor(resY);
-			fZ = resZ - floor(resZ);
-			if (resX<0)
-				iX0 = -1;
-			if (resY<0)
-				iY0 = -1;
-			if (resZ<0)
-				iZ0 = -1;
-		} else {
-			periodicClamp(r.x, Nx, iX0, iX1);
-			periodicClamp(r.y, Ny, iY0, iY1);
-			periodicClamp(r.z, Nz, iZ0, iZ1);
-			fX = r.x - floor(r.x);
-			fY = r.y - floor(r.y);
-			fZ = r.z - floor(r.z);
-		}
 
-		
+		int iX0, iY0, iZ0;
+        iX0 = floor(r.x);
+        iY0 = floor(r.y);
+        iZ0 = floor(r.z);
+
+		double fX, fY, fZ;
+        fX = r.x - iX0;
+        fY = r.y - iY0;
+        fZ = r.z - iZ0;
 
     int nrCubicInterpolations = 4;
 		double interpolateVaryX[nrCubicInterpolations];

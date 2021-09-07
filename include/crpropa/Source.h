@@ -58,7 +58,7 @@ public:
 
 /**
  @class SourceList
- @brief List of particles sources of individual luminosities.
+ @brief List of particle sources of individual luminosities.
 
  The SourceList is a source itself. It can be used if several sources are
  needed in one simulation.

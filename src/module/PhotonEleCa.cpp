@@ -12,6 +12,9 @@ namespace crpropa {
 PhotonEleCa::PhotonEleCa(const std::string background,
 		const std::string &outputFilename) :
 		propagation(new eleca::Propagation), saveOnlyPhotonEnergies(false) {
+	
+	KISS_LOG_WARNING << "EleCa and DINT will be completely removed in the future. Consider using the native CRPropa modules (EMPairProduction, EMInverseComptonScattering, etc) for propagating electrons and photons.";
+
 	//propagation->ReadTables(getDataPath("eleca_lee.txt"));
 	propagation->ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation->InitBkgArray(background);

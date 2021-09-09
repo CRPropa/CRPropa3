@@ -11,6 +11,9 @@
 #include "dint/prop_second.h"
 #include "dint/DintEMCascade.h"
 
+#include "kiss/logger.h"
+#include "kiss/string.h"
+
 #include <fstream>
 #include <cstdio>
 #include <stdexcept>
@@ -29,6 +32,8 @@ void ElecaPropagation(
 		double lowerEnergyThreshold,
 		double magneticFieldStrength,
 		const std::string &background) {
+
+	KISS_LOG_WARNING << "ElecaPropagation is deprecated and no longer supported. EleCa and DINT will be completely removed in the future. Consider using the native CRPropa modules (EMPairProduction, EMInverseComptonScattering, etc) for propagating electrons and photons.";
 
 	std::ifstream infile(inputfile.c_str());
 	std::streampos startPosition = infile.tellg();
@@ -169,6 +174,8 @@ void DintPropagation(
 		double magneticFieldStrength,
 		double aCutcascade_Magfield) {
 
+	KISS_LOG_WARNING << "DintPropagation is deprecated and no longer supported. EleCa and DINT will be completely removed in the future. Consider using the native CRPropa modules (EMPairProduction, EMInverseComptonScattering, etc) for propagating electrons and photons.";
+
 	// initialize the energy grids for DINT
 	dCVector energyGrid, energyWidth;
 	New_dCVector(&energyGrid, NUM_MAIN_BINS);
@@ -292,8 +299,6 @@ void DintPropagation(
 	Delete_dCVector(&energyWidth);
 }
 
-
-
 bool _ParticlesAtGroundSortPredicate(const eleca::Particle& p1, const eleca::Particle& p2) {
 	return p1.Getz() < p2.Getz();
 }
@@ -305,6 +310,8 @@ void DintElecaPropagation(
 		double crossOverEnergy,
 		double magneticFieldStrength,
 		double aCutcascade_Magfield) {
+
+	KISS_LOG_WARNING << "DintElecaPropagation is deprecated and no longer supported. EleCa and DINT will be completely removed in the future. Consider using the native CRPropa modules (EMPairProduction, EMInverseComptonScattering, etc) for propagating electrons and photons.";
 
 	////////////////////////////////////////////////////////////////////////
 	//Initialize EleCa

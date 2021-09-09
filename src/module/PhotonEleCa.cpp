@@ -1,6 +1,9 @@
 #include "crpropa/module/PhotonEleCa.h"
 #include "crpropa/Units.h"
 
+#include "kiss/logger.h"
+#include "kiss/string.h"
+
 #include "EleCa/Propagation.h"
 #include "EleCa/Particle.h"
 #include "EleCa/Common.h"

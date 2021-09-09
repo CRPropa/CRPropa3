@@ -47,8 +47,10 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
 	while ((x < -0.5) or (x > (n-0.5)))
 		x = 2 * n * (x > (n-0.5)) -x-1;
 	res = x;
-	lo = std::min((int) floor(x), 0);
-	hi = std::max((int) floor(x) + 1, n-1);
+	lo = floor(x);
+	hi = lo + (lo < n-1);
+	if (x<0)
+		{lo=0; hi=0;}
 }
 
 

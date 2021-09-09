@@ -19,7 +19,7 @@ m.add(mod)
 c = Candidate()
 c.current.setEnergy(10)
 m.process(c)
-print c.current.getEnergy()
+print(c.current.getEnergy())
 ```
 
 When redefining the constructor make sure to call the constructor of the super
@@ -45,10 +45,10 @@ class MySourceFeature(SourceFeature):
 s = Source()
 s.add(MySourceFeature())
 c = s.getCandidate()
-print c.current.getEnergy()
+print(c.current.getEnergy())
 ```
 
-The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceFeature use the following:
+The redshift is stored in the Candidate, not in the ParticleState. To set it with a SourceFeature, use the following:
 ```python
 class MySourceFeature(SourceFeature):
     """ Set the initial redshift """
@@ -59,12 +59,12 @@ class MySourceFeature(SourceFeature):
         candidate.setRedshift(0.6)
 
 # The source feature has to be created outside of the class attribute
-# s.add(MySourceFeature()) wil NOT work!
+# s.add(MySourceFeature()) will NOT work!
 srcFtr = MySourceFeature()
 s = Source()
 s.add(srcFtr)
 c = s.getCandidate()
-print c.getRedshift()
+print(c.getRedshift())
 ```
 
 
@@ -110,7 +110,7 @@ import crpropa
 import myPlugin
 
 ml = crpropa.ModuleList()
-ml.add(crpropa.MaximumTrajectoryLength(1000*crpropa.parsec))
+ml.add(crpropa.MaximumTrajectoryLength(1000 * crpropa.parsec))
 ml.add(myPlugin.MyModule())
 
 source = crpropa.Source()

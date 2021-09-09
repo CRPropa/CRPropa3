@@ -8,7 +8,7 @@ To include CRPropa classes and definitions it is sufficient to include ``crpropa
 
 using namespace crpropa;
 
-int main(void){
+int main(void) {
 
         ModuleList sim;
         sim.add(new SimplePropagation(1*kpc, 10*Mpc));
@@ -47,8 +47,8 @@ int main(void){
 }
 ```
 
-Compiler such as ``gcc`` should have an access to the header and to CPRropa's shared library (``libcrpropa.so``). If one used paths from [here](Installation), gcc line would look like:
+Compiler such as ``gcc`` should have an access to the header and to CRPropa's shared library (``libcrpropa.so``). If one used paths from [here](Installation), gcc line would look like:
 ```
 g++ example.cpp -o run -I$HOME/.local/include/ -L$HOME/.local/lib/ -lcrpropa
 ```
-however, Makefile should be employed in a general case.
+However, a Makefile should be employed in a general case.

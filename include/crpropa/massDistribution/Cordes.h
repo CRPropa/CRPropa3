@@ -9,12 +9,12 @@
 namespace crpropa {
 /**
 	@class Cordes
-	@brief zylindrical symetrical model of the density of ionised hydrogen (HII) of the Milkyway
+	@brief Cylindrical symetrical model of the density of ionised hydrogen (HII) of the Milky Way
 	Cordes et al., 1991, Nature 353,737
 	*/
 class Cordes: public Density {
 private:
-	// DO NOT CHANGE model typ!
+	// DO NOT CHANGE model type!
 	bool isforHI = false;
 	bool isforHII = true;
 	bool isforH2 = false;

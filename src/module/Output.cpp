@@ -9,18 +9,18 @@ Output::Output() : outputName(OutputTypeName(Everything)), lengthScale(Mpc), ene
 	enableAll();
 }
 
-Output::Output(OutputType outputtype) : outputName(OutputTypeName(outputtype)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
-	setOutputType(outputtype);
+Output::Output(OutputType outputType) : outputName(OutputTypeName(outputType)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+	setOutputType(outputType);
 }
 
-std::string Output::OutputTypeName(OutputType outputtype){
-	if (outputtype == Trajectory1D)
+std::string Output::OutputTypeName(OutputType outputType) {
+	if (outputType == Trajectory1D)
 		return "Trajectory1D";
-	if (outputtype == Event1D)
+	if (outputType == Event1D)
 		return "Event1D";
-	if (outputtype == Trajectory3D)
+	if (outputType == Trajectory3D)
 		return "Trajectory3D";
-	if (outputtype == Event3D)
+	if (outputType == Event3D)
 		return "Event3D";
 	return "Everything";
 }
@@ -74,8 +74,7 @@ void Output::setOutputType(OutputType outputtype) {
 		enableAll();
 		set1D(false);
 	} else {
-		throw std::runtime_error(
-				"TextOutput: unknown output type");
+		throw std::runtime_error("Output: unknown output type");
 	}
 }
 
@@ -130,6 +129,6 @@ void Output::enableProperty(const std::string &property, const Variant &defaultV
 	prop.comment = comment;
 	prop.defaultValue = defaultValue;
 	properties.push_back(prop);
-}
-;
+};
+
 } // namespace crpropa

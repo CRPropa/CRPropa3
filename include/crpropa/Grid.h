@@ -27,7 +27,7 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi) {
 
 /** Symmetrical round */
 inline double round(double r) {
-    return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+	return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
 }
 
 /**
@@ -89,7 +89,7 @@ public:
  @class Grid
  @brief Template class for fields on a periodic grid with trilinear interpolation
 
- The grid spacing is constant with diffrent resulution along all three axes.
+ The grid spacing is constant with diffrent resolution along all three axes.
  Values are calculated by trilinear interpolation of the surrounding 8 grid points.
  The grid is periodically (default) or reflectively extended.
  The grid sample positions are at 1/2 * size/N, 3/2 * size/N ... (2N-1)/2 * size/N.
@@ -308,41 +308,41 @@ typedef Grid<Vector3d> Grid3d;
 typedef Grid<float> Grid1f;
 typedef Grid<double> Grid1d;
 
-// DEPRICATED: Will be removed in CRPropa v3.9
+// DEPRECATED: Will be removed in CRPropa v3.2
 class VectorGrid: public Grid3f {
-	void printDeprication() const {
+	void printDeprecation() const {
 		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
 	}
 public:
 	VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
-		printDeprication();
+		printDeprecation();
 	}
 
 	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
-		printDeprication();
+		printDeprecation();
 	}
 
 	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
-		printDeprication();
+		printDeprecation();
 	}
 };
 
-// DEPRICATED: Will be removed in CRPropa v3.9
+// DEPRECATED: Will be removed in CRPropa v3.2
 class ScalarGrid: public Grid1f {
-	void printDeprication() const {
+	void printDeprecation() const {
 		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
 	}
 public:
 	ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
-		printDeprication();
+		printDeprecation();
 	}
 
 	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
-		printDeprication();
+		printDeprecation();
 	}
 
 	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
-		printDeprication();
+		printDeprecation();
 	}
 };
 

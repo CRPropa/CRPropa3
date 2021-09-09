@@ -23,19 +23,14 @@ Contents
    :maxdepth: 2
 
    pages/Basic-concepts.md
+   pages/Simulation-Modules.md
    pages/example_notebooks/basics/basics.v4.ipynb
-
    pages/extragalactic-simulations.rst
    pages/galactic_lensing.rst
-
    pages/galactic_cosmic_rays.rst
-
-   pages/example_notebooks/advanced/CustomObserver.v4.ipynb
-   pages/Extending-CRPropa.md
-   pages/Cpp-projects.md
-
+   pages/acceleration.rst
+   pages/extending_crpropa.rst
    pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.ipynb
-
    pages/AdditionalResources.rst
 
 

@@ -198,13 +198,11 @@ double Ferriere::getDensity(const Vector3d &position) const{
 	if(isforH2){
 		n+=getH2Density(position);
 	}
-
-	// check if any density is activ and give warning if not
-	if(isforHI||isforHII||isforH2 == false){
+	// check if all densities are active and raise warning if not
+	if((isforHI && isforHII && isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\n called getDensity on deactivated Ferriere \n"
-			<< "returned 0 density\n"
-			<< "please activate \n";
+			<< "\nCalled getDensity on (partly) deactivated Ferriere \n"
+			<< "gas density model. Make sure this was intentional.";
 	}
 
 	return n;
@@ -222,12 +220,11 @@ double Ferriere::getNucleonDensity(const Vector3d &position) const{
 		n+= 2*getH2Density(position);
 	}
 
-	// check if any density is activ and give warning if not
-	if(isforHI||isforHII||isforH2 == false){
+	// check if all densities is active and raise warning if not
+	if((isforHI && isforHII && isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\n called getDensity on deactivated ConstantDensity \n"
-			<< "returned 0 density\n"
-			<< "please activate\n";
+			<< "\nCalled getNucleonDensity on (partly) deactivated Ferriere \n"
+			<< "gas density model. Make sure this was intentional.";
 	}
 
 	return n;
@@ -259,17 +256,17 @@ bool Ferriere::getIsForH2(){
 
 std::string Ferriere::getDescription() {
 	std::stringstream s;
-	s << "Density modell Ferriere 2007: ";
+	s << "Density model Ferriere 2007:\n";
 	s<< "HI component is ";
 	if(!isforHI)
 		s<< "not ";
-	s<< "activ. HII component is ";
+	s<< "active.\nHII component is ";
 	if(!isforHII)
 		s<< "not ";
-	s<<"activ. H2 component is ";
+	s<<"active.\nH2 component is ";
 	if(!isforH2)
 		s<<"not ";
-	s<<"activ.";
+	s<<"active.";
 	return s.str();
 }
 

@@ -57,14 +57,11 @@ double Nakanishi::getDensity(const Vector3d &position) const {
 	if(isforH2)
 		n += getH2Density(position);
 
-	// check if any density is activ and give warning if not
-	bool anyDensityActive = isforHI||isforH2;
-
-	if(anyDensityActive == false){
+	// check if all densities are active and raise warning if not
+	if((isforHI & isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\n called getDensity on deactivated Nakanishi \n"
-			<< "returned 0 density\n"
-			<< "please activate\n";
+			<< "\nCalled getDensity on (partly) deactivated Nakanishi \n"
+			<< "gas density model. Make sure this was intentional.";
 	}
 
 	return n;
@@ -77,15 +74,11 @@ double Nakanishi::getNucleonDensity(const Vector3d &position) const {
 	if(isforH2)
 		n += 2*getH2Density(position);	// weight 2 for molecular hydrogen
 
-	// check if any density is activ and give warning if not
-	bool anyDensityActive = isforHI||isforH2;
-
-	if(anyDensityActive == false){
+	// check if all densities are active and raise warning if not
+	if((isforHI & isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\n tryed to get nucleon-density although all density-types are deaktivated \n"
-			<< "density-module: Nakanishi\n"
-			<< "returned 0 density\n"
-			<< "please use constant Density with 0 \n";
+			<< "\n"<<"Called getNucleonDensity on (partly) deactivated Nakanishi \n"
+			<< "gas density model. Make sure this was intentional.";
 	}
 
 	return n;
@@ -112,14 +105,14 @@ void Nakanishi::setIsForH2(bool H2) {
 
 std::string Nakanishi::getDescription() {
 	std::stringstream s;
-	s << "Density modell Nakanishi: ";
+	s << "Density model Nakanishi:\n";
 	s<< "HI component is ";
 	if(isforHI==false)
 		s<< "not ";
-	s<< "activ. H2 component is ";
+	s<< "active.\nH2 component is ";
 	if(isforH2==false)
 		s<<"not ";
-	s<<"activ. Nakanishi has no HII component.";
+	s<<"active.\nNakanishi has no HII component.";
 
 	return s.str();
 }

@@ -39,6 +39,9 @@ JF12
   Astrophys. J. 757 (2012) 14; `arXiv:1204.3662 <https://arxiv.org/abs/1204.3662>`_ and
   Astrophys. J. 761 (2012) L11; `arXiv:1210.7820 <https://arxiv.org/abs/1210.7820>`_
 
+JF12Solenoidal
+  Astrophys. J. 877 (2019) 2; `arXiv:1809.07528 <https://arxiv.org/abs/1809.07528>`_
+
 Pshirkov
   Astrophys. J. 738 (2011) 192; `arXiv:1103.0814 <https://arxiv.org/abs/1103.0814>`_
 
@@ -47,7 +50,6 @@ Extragalactic Magnetic Field
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Dolag et al.
-
   JCAP 01 (2005) 009; `arXiv:astro-ph/0410419 <https://arxiv.org/abs/astro-ph/0410419>`__
 
 Miniati et al.

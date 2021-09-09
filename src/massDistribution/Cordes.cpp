@@ -39,7 +39,7 @@ bool Cordes::getIsForH2() {
 
 std::string Cordes::getDescription() {
 	std::stringstream s;
-	s << "Density Cordes include HII component";
+	s << "Density Cordes: includes only an HII component";
 	return s.str();
 }
 

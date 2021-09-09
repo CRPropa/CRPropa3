@@ -1,6 +1,3 @@
-The CRPropa functionality can be extended in several ways using the provided
-python interface.
-
 ### Implementing additional Modules and Features using Python only
 Derivatives of base classes such as Module, Source, SourceProperty, etc. can be implemented in
 Python and used like the built-in classes. Here is an example for a custom

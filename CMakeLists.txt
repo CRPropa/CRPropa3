@@ -36,18 +36,25 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
   message(STATUS "Use --as-needed linker flags!")
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
-SET(USE_SIMD OFF CACHE BOOL "Enable SIMD flags (SSE 1 through 4 + AVX) in GCC. This is necessary for fast plane wave turbulence.")
-if(USE_SIMD)
-  SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx" ) # TODO: use something like -march=native to automatically enable fma if available?
-endif(USE_SIMD)
+SET(SIMD_EXTENSIONS "none" CACHE STRING "Choose which of the SIMD instruction set extensions your target CPU supports. Possible values are \"native\" (use everything that's supported by the CPU you're building on), \"none\", \"avx\", and \"avx+fma\".")
 
-SET(FAST_WAVES OFF CACHE BOOL "Enable SIMD optimizations for PlaneWaveTurbulence. Requires USE_SIMD to be set as well.")
+if(SIMD_EXTENSIONS STREQUAL "avx")
+  SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx" )
+elseif(SIMD_EXTENSIONS STREQUAL "avx+fma")
+  SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx -mfma" )
+elseif(SIMD_EXTENSIONS STREQUAL "native")
+  SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -march=native" )
+elseif(NOT SIMD_EXTENSIONS STREQUAL "none")
+  message(SEND_ERROR "SIMD_EXTENSIONS must have one of these values: \"native\", \"none\", \"avx\", or \"avx+fma\".")
+endif()
+
+SET(FAST_WAVES OFF CACHE BOOL "Enable SIMD optimizations for PlaneWaveTurbulence. Requires that SIMD_EXTENSIONS is set to a compatible value (\"avx\", \"avx+fma\", or -- depending on the build CPU -- \"native\"). The build will fail if this option is set but SIMD_EXTENSIONS is not compatible, so you can adjust your settings.")
 if(FAST_WAVES)
-  if(USE_SIMD)
+  if(SIMD_EXTENSIONS STREQUAL "none")
+    message(SEND_ERROR "Enabling FAST_WAVES while SIMD_EXTENSIONS is set to \"none\" won't work, since SIMD is required for FAST_WAVES. Please try disabling FAST_WAVES, or try using another option for SIMD_EXTENSIONS.")
+  else()
     add_definitions(-DFAST_WAVES)
-  else(USE_SIMD)
-    message(SEND_ERROR "You've requested the FAST_WAVES implementation, but have not enabled USE_SIMD. PlaneWaveTurbulence will be compiled without the optimization.")
-  endif(USE_SIMD)
+  endif()
 endif(FAST_WAVES)
 
 # Add build type for profiling
@@ -125,7 +132,7 @@ if(ENABLE_COVERAGE)
         COMMAND echo "Generated coverage report in coverageReport/index.html"
       )
     endif(ENABLE_TESTING)
-    
+
   else(LCOV_PATH AND GENHTML_PATH)
     if(NOT LCOV_PATH)
       message(WARNING "lcov not found, coverage report generation  not possible!")
@@ -323,9 +330,9 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
-set(CRPROPA_DATAFILE_VER "2020-11-28")
+set(CRPROPA_DATAFILE_VER "2021-07-30")
 if(DOWNLOAD_DATA)
-  message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
+  message("-- Downloading data file from crpropa.desy.de ~ 65 MB")
   file(DOWNLOAD
     https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
     ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM)
@@ -372,6 +379,7 @@ add_library(crpropa SHARED
   src/Source.cpp
   src/Variant.cpp
   src/module/AdiabaticCooling.cpp
+  src/module/Acceleration.cpp
   src/module/Boundary.cpp
   src/module/BreakCondition.cpp
   src/module/DiffusionSDE.cpp
@@ -411,6 +419,7 @@ add_library(crpropa SHARED
   src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
   src/magneticField/turbulentField/SimpleGridTurbulence.cpp
   src/magneticField/TF17Field.cpp
+  src/magneticField/CMZField.cpp
   src/advectionField/AdvectionField.cpp
   src/massDistribution/ConstantDensity.cpp
   src/massDistribution/Cordes.cpp
@@ -443,6 +452,8 @@ if(BUILD_DOC)
   else()
     MESSAGE(STATUS "Doxygen not found: cannot build documentation")
   endif(DOXYGEN_FOUND)
+else()
+  MESSAGE(STATUS "Build of documentation disabeled. Enable with BUILD_DOC=On")
 endif(BUILD_DOC)
 
 
@@ -472,11 +483,14 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
   endif(SWIG_VERSION VERSION_GREATER 4.0)
 
   # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-  option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
+  option(ENABLE_SWIG_BUILTIN "Use SWIG builtin option" ON)
 
   if(ENABLE_SWIG_BUILTIN)
     set(BUILTIN "-builtin")
     set(PY3 "-py3")
+    if(SWIG_VERSION VERSION_LESS 4.0.2)
+        message(WARNING, "The SWIG builtin option should not be used with SWIG version below 4.0.2 due to https://github.com/swig/swig/issues/1595")
+    endif()
   else(ENABLE_SWIG_BUILTIN)
     set(BUILTIN "")
     set(PY3 "")
@@ -534,7 +548,7 @@ add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 install(DIRECTORY libs/kiss/include/ DESTINATION include)
 
@@ -545,6 +559,10 @@ install(DIRECTORY libs/kiss/include/ DESTINATION include)
 find_program(SPHINX_EXECUTABLE
              NAMES sphinx-build
              DOC "Path to sphinx-build executable")
+
+if(BUILD_DOC AND NOT SPHINX_EXECUTABLE)
+  MESSAGE(STATUS "Sphinx not found: cannot build documentation")
+endif(BUILD_DOC AND NOT SPHINX_EXECUTABLE)
 
 if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
   MESSAGE(STATUS "Found Sphinx to build documentation")
@@ -561,8 +579,6 @@ if(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                     COMMENT "Generating documentation with Sphinx")
   add_dependencies(doc doxy)
-else()
-  MESSAGE(STATUS "Sphinx not found: cannot build documentation")
 endif(BUILD_DOC AND DOXYGEN_FOUND AND SPHINX_EXECUTABLE)
 
 
@@ -586,7 +602,7 @@ if(ENABLE_TESTING)
   add_executable(testMagneticField test/testMagneticField.cpp)
   target_link_libraries(testMagneticField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testMagneticField testMagneticField)
-  
+
   add_executable(testTurbulentField test/testTurbulentField.cpp)
   target_link_libraries(testTurbulentField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testTurbulentField testTurbulentField)

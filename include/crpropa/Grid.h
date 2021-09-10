@@ -47,8 +47,6 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
 	while ((x < -0.5) or (x > (n-0.5)))
 		x = 2 * n * (x > (n-0.5)) -x-1;
 	res = x;
-	//~ lo = std::min((int) floor(x), 0);
-	//~ hi = std::max(std::max(0,(int) floor(x) + 1), n-1);
 	lo = floor(x);
 	hi = lo + (lo < n-1);
 	if (x<0)
@@ -313,10 +311,11 @@ const T &reflectiveGet(size_t ix, size_t iy, size_t iz) const {
 	/** Value of a grid point that is closest to a given position */
 	T closestValue(const Vector3d &position) const {
 		Vector3d r = (position - gridOrigin) / spacing;
-		int ix = round(r.x);
-		int iy = round(r.y);
-		int iz = round(r.z);
+		int ix, iy, iz;
 		if (reflective) {
+			ix = round(r.x);
+			iy = round(r.y);
+			iz = round(r.z);
 			while ((ix < -0.5) or (ix > (int(Nx)-0.5)))
 				ix = 2 * Nx * (ix > (int(Nx)-0.5)) - ix-1;
 			while ((iy < -0.5) or (iy > (int(Ny)-0.5)))

@@ -47,6 +47,8 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
 	while ((x < -0.5) or (x > (n-0.5)))
 		x = 2 * n * (x > (n-0.5)) -x-1;
 	res = x;
+	//~ lo = std::min((int) floor(x), 0);
+	//~ hi = std::max(std::max(0,(int) floor(x) + 1), n-1);
 	lo = floor(x);
 	hi = lo + (lo < n-1);
 	if (x<0)
@@ -55,7 +57,7 @@ inline void reflectiveClamp(double x, int n, int &lo, int &hi, double &res) {
 
 
 /** Symmetrical round */
-inline double round(double r) {
+inline int round(double r) {
     return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
 }
 
@@ -322,9 +324,9 @@ const T &reflectiveGet(size_t ix, size_t iy, size_t iz) const {
 			while ((iz < -0.5) or (iz > (int(Nz)-0.5)))
 				iz = 2 * Nz * (iz > (int(Nz)-0.5)) - iz-1;
 		} else {
-			ix = ((ix % Nx) + Nx) % Nx;
-			iy = ((iy % Ny) + Ny) % Ny;
-			iz = ((iz % Nz) + Nz) % Nz;
+			ix = (round(fmod(r.x, Nx)) + Nx * (ix < 0)) % Nx;
+			iy = (round(fmod(r.y, Ny)) + Ny * (iy < 0)) % Ny;
+			iz = (round(fmod(r.z, Nz)) + Nz * (iz < 0)) % Nz;
 		}
 		return get(ix, iy, iz);
 	}

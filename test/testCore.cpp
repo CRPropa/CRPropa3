@@ -408,6 +408,59 @@ TEST(Grid, PeriodicClamp) {
 	EXPECT_EQ(1, hi);
 }
 
+
+TEST(Grid, PeriodicBoundary) {
+	// Test correct determination of periodic continuated index
+	// periodic indices for n=8 should repeat like ...0123456701234567...
+	int index;
+
+	index = periodicBoundary(0, 8);
+	EXPECT_EQ(0, index);
+	index = periodicBoundary(7, 8);
+	EXPECT_EQ(7, index);
+	index = periodicBoundary(8, 8);
+	EXPECT_EQ(0, index);
+	index = periodicBoundary(9, 8);
+	EXPECT_EQ(1, index);
+}
+
+
+TEST(Grid, ReflectiveClamp) {
+	// Test correct determination of lower and upper neighbor
+	// reflective indices for n=8 should repeat like ...67765432100123456776...
+	int lo, hi; 
+	double res;
+
+	reflectiveClamp(23.12, 8, lo, hi, res);
+	EXPECT_EQ(7, lo);
+	EXPECT_EQ(7, hi);
+	EXPECT_FLOAT_EQ(7.12, res);
+
+	reflectiveClamp(-23.12, 8, lo, hi, res);
+	EXPECT_EQ(6, lo);
+	EXPECT_EQ(7, hi);
+	EXPECT_FLOAT_EQ(6.12, res);
+}
+
+TEST(Grid, ReflectiveBoundary) {
+	// Test correct determination of reflected index
+	// reflective indices for n=8 should repeat like ...67765432100123456776...
+	int index; 
+
+	index = reflectiveBoundary(8, 8);
+	EXPECT_EQ(7, index);
+	index = reflectiveBoundary(9, 8);
+	EXPECT_EQ(6, index);
+	index = reflectiveBoundary(0, 8);
+	EXPECT_EQ(0, index);
+	index = reflectiveBoundary(-1, 8);
+	EXPECT_EQ(0, index);
+	index = reflectiveBoundary(-8, 8);
+	EXPECT_EQ(7, index);
+	index = reflectiveBoundary(-9, 8);
+	EXPECT_EQ(7, index);
+}
+
 TEST(Grid1f, SimpleTest) {
 	// Test construction and parameters
 	size_t Nx = 5;
@@ -429,9 +482,17 @@ TEST(Grid1f, SimpleTest) {
 	size_t some_index = 2 * Ny * Nz + 3 * Nz + 4;
 	Vector3d some_grid_point = origin + Vector3d(2, 3, 4) * spacing + Vector3d(spacing / 2.);
 	EXPECT_EQ(some_grid_point, grid.positionFromIndex(some_index));
-
+	
+	//Test if value on gridpoint is correctly retrieved
 	grid.get(2, 3, 4) = 7;
 	EXPECT_FLOAT_EQ(7., grid.getGrid()[some_index]);
+	//trilinear interpolated
+	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
+	//tricubic interpolated
+	grid.setInterpolationType(TRICUBIC);
+	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
+	//nearest neighbour interpolated
+	grid.setInterpolationType(NEAREST_NEIGHBOUR);
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
 }
 
@@ -451,8 +512,16 @@ TEST(Grid1f, GridPropertiesConstructor) {
 	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
 	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;
 
+	//Test if value on gridpoint is correctly retrieved
 	grid.get(1, 7, 6) = 12;
 	EXPECT_FLOAT_EQ(12., grid.getGrid()[some_index]);
+	//trilinear interpolated
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
+	//tricubic interpolated
+	grid.setInterpolationType(TRICUBIC);
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
+	//nearest neighbour interpolated
+	grid.setInterpolationType(NEAREST_NEIGHBOUR);
 	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
 }
 
@@ -472,8 +541,16 @@ TEST(Grid1f, TestVectorSpacing) {
 	size_t some_index = 1 * Ny * Nz + 7 * Nz + 6;
 	Vector3d some_grid_point = origin + Vector3d(1, 7, 6) * spacing + spacing / 2.;
 
+	//Test if value on gridpoint is correctly retrieved
 	grid.get(1, 7, 6) = 12;
 	EXPECT_FLOAT_EQ(12., grid.getGrid()[some_index]);
+	//trilinear interpolated
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
+	//tricubic interpolated
+	grid.setInterpolationType(TRICUBIC);
+	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
+	//nearest neighbour interpolated
+	grid.setInterpolationType(NEAREST_NEIGHBOUR);
 	EXPECT_FLOAT_EQ(12., grid.interpolate(some_grid_point));
 }
 
@@ -507,7 +584,7 @@ TEST(Grid3f, Interpolation) {
 	
 	//trilinear
 
-	// grid points are at [0.5, 1.5, ...] * spacing
+	// grid points are at (0.5, 1.5, 2.5) * spacing
 	b = grid.interpolate(Vector3d(0.5, 0.5, 1.5) * spacing);
 	EXPECT_FLOAT_EQ(1.7, b.x);
 
@@ -520,7 +597,7 @@ TEST(Grid3f, Interpolation) {
 	b = grid.interpolate(Vector3d(0.5, 0.35, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85, b.x);
 
-	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing); // using periodic repetition
+	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
 	
 	//tricubic
@@ -540,8 +617,6 @@ TEST(Grid3f, Interpolation) {
 
 	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(0.190802007914, b.x);
-	
-	
 }
 
 TEST(VectordGrid, Scale) {
@@ -571,6 +646,8 @@ TEST(Grid3f, Periodicity) {
 				grid.get(ix, iy, iz) = Vector3f(iz + ix, iy * iz, ix - iz * iy);
 
 	Vector3d pos(1.2, 2.3, 0.7);
+	
+	//trilinear interpolated
 	Vector3f b = grid.interpolate(pos);
 	Vector3f b2 = grid.interpolate(pos + Vector3d(1, 0, 0) * size);
 	EXPECT_FLOAT_EQ(b.x, b2.x);
@@ -583,6 +660,117 @@ TEST(Grid3f, Periodicity) {
 	EXPECT_FLOAT_EQ(b.z, b2.z);
 
 	b2 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	//tricubic interpolated
+	grid.setInterpolationType(TRICUBIC);
+	b = grid.interpolate(pos);
+	b2 = grid.interpolate(pos + Vector3d(1, 0, 0) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	b2 = grid.interpolate(pos + Vector3d(0, 5, 0) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	b2 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	//nearest neighbour interpolated
+	grid.setInterpolationType(NEAREST_NEIGHBOUR);
+	b = grid.interpolate(pos);
+	b2 = grid.interpolate(pos + Vector3d(1, 0, 0) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	b2 = grid.interpolate(pos + Vector3d(0, 5, 0) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	b2 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+}
+
+TEST(Grid3f, Reflectivity) {
+	// Test for reflective boundaries: grid(pos) = grid(x+a) = grid(-x-a)
+	size_t n = 3;
+	double spacing = 3;
+	double size = n * spacing;
+	Grid3f grid(Vector3d(0.), n, spacing);
+	grid.setReflective(true); //set reflective boundary
+	for (int ix = 0; ix < 3; ix++)
+		for (int iy = 0; iy < 3; iy++)
+			for (int iz = 0; iz < 3; iz++)
+				grid.get(ix, iy, iz) = Vector3f(iz + ix, iy * iz, ix - iz * iy);
+
+	Vector3d pos(1.2, 2.3, 0.7);
+	
+	//trilinear interpolated
+	Vector3f b = grid.interpolate(pos + Vector3d(1,0,0) * spacing);
+	Vector3f b2 = grid.interpolate(pos *(-1) - Vector3d(1,0,0) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	b = grid.interpolate(pos + Vector3d(0,5,0) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(0,5,0) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	b = grid.interpolate(pos + Vector3d(0,0,-2) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(0,0,-2) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	//tricubic interpolated
+	grid.setInterpolationType(TRICUBIC);
+	b = grid.interpolate(pos + Vector3d(1,0,0) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(1,0,0) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	b = grid.interpolate(pos + Vector3d(0,5,0) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(0,5,0) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	b = grid.interpolate(pos + Vector3d(0,0,-2) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(0,0,-2) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	
+	//nearest neighbour interpolated
+	grid.setInterpolationType(NEAREST_NEIGHBOUR);
+	b = grid.interpolate(pos + Vector3d(1,0,0) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(1,0,0) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	b = grid.interpolate(pos + Vector3d(0,5,0) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(0,5,0) * spacing);
+	EXPECT_FLOAT_EQ(b.x, b2.x);
+	EXPECT_FLOAT_EQ(b.y, b2.y);
+	EXPECT_FLOAT_EQ(b.z, b2.z);
+	
+	b = grid.interpolate(pos + Vector3d(0,0,-2) * spacing);
+	b2 = grid.interpolate(pos *(-1) - Vector3d(0,0,-2) * spacing);
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);

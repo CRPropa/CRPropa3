@@ -584,7 +584,7 @@ TEST(Grid3f, Interpolation) {
 	
 	//trilinear
 
-	// grid points are at (0.5, 1.5, 2.5) * spacing
+	// grid points are at [0.5, 1.5, ...] * spacing
 	b = grid.interpolate(Vector3d(0.5, 0.5, 1.5) * spacing);
 	EXPECT_FLOAT_EQ(1.7, b.x);
 
@@ -597,7 +597,7 @@ TEST(Grid3f, Interpolation) {
 	b = grid.interpolate(Vector3d(0.5, 0.35, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.85, b.x);
 
-	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
+	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing); // using periodic repetition
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
 	
 	//tricubic

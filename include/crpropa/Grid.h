@@ -217,6 +217,8 @@ public:
 	void setInterpolationType(interpolationType ipolType) {
 	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
 	    this->ipolType = ipolType;
+	    if (ipolType == TRICUBIC)
+			KISS_LOG_WARNING << "Tricubic interpolation on vectorgrids (Grid3f,Grid3d) works in both cases with float-precision, doubles will be downcasted";
 	  } else {
 	    throw std::runtime_error("InterpolationType: unknown interpolation type");
 	  }

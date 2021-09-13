@@ -259,7 +259,7 @@ public:
 	if (ipolType == TRICUBIC)
 		return tricubicInterpolate(T(), position);
 	else if (ipolType == NEAREST_NEIGHBOUR)
-		return nearestNeighbourInterpolate(position);
+		return closestValue(position);
 	else
 		return trilinearInterpolate(position);
 	}
@@ -309,7 +309,7 @@ public:
 		return Vector3d(ix, iy, iz) * spacing + gridOrigin;
 	}
 
-	/** Value of a grid point that is closest to a given position */
+	/** Value of a grid point that is closest to a given position / nearest neighbour interpolation */
 	T closestValue(const Vector3d &position) const {
 		Vector3d r = (position - gridOrigin) / spacing;
 		int ix, iy, iz;
@@ -504,10 +504,6 @@ private:
 		return b;
 	}
 
-	/** Interpolate the grid at a given position using the nearest neighbour interpolation */
-	T nearestNeighbourInterpolate(const Vector3d &position) const {
-		return closestValue(position);
-	}
 }; // class Grid
 
 typedef Grid<Vector3f> Grid3f;

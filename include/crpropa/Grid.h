@@ -70,10 +70,11 @@ inline int round(double r) {
  */
 class GridProperties: public Referenced {
 public:
-	size_t Nx, Ny, Nz;
-	Vector3d origin;
-	Vector3d spacing;
-	bool reflective;
+	size_t Nx, Ny, Nz; 	// Number of grid points
+	Vector3d origin;  	// Position of the lower left front corner of the volume
+	Vector3d spacing; 	// Spacing vector between gridpoints
+	bool reflective;	// using reflective repetition of the grid instead of periodic
+	interpolationType ipol;	// Interpolation tpye used between grid points
 	
 	
 
@@ -83,7 +84,7 @@ public:
 	 @param spacing	Spacing between grid points
 	 */
 	GridProperties(Vector3d origin, size_t N, double spacing) :
-		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false) {
+		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR) {
 	}
 
 	/** Constructor for non-cubic grid
@@ -94,7 +95,7 @@ public:
 	 @param spacing	Spacing between grid points
 	 */
 	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
-		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false) {
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR) {
 	}
 
 	/** Constructor for non-cubic grid with spacing vector
@@ -105,7 +106,7 @@ public:
 	 @param spacing	Spacing vector between grid points
 	*/
 	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
-		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false) {
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false), ipol(TRILINEAR) {
 	}
 	
 	virtual ~GridProperties() {
@@ -113,6 +114,10 @@ public:
 	
 	void setReflective(bool b) {
 		reflective = b;
+	}
+
+	virtual setInterpolationType(interpolationType i){
+		ipol = i;
 	}
 };
 
@@ -133,8 +138,7 @@ class Grid: public Referenced {
 	Vector3d gridOrigin; /**< Grid origin */
 	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
-
-  interpolationType ipolType;
+	interpolationType ipolType; /**< Type of interpolation between the grid points */
 
 public:
 	/** Constructor for cubic grid
@@ -183,7 +187,7 @@ public:
  	 @param p	GridProperties instance
      */
 	Grid(const GridProperties &p) :
-		origin(p.origin), spacing(p.spacing), reflective(p.reflective) {
+		origin(p.origin), spacing(p.spacing), reflective(p.reflective), ipolType(p.ipol) {
 	 	setGridSize(p.Nx, p.Ny, p.Nz);
 	}
 

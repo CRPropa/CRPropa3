@@ -37,6 +37,11 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 endif(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
 
 SET(SIMD_EXTENSIONS "none" CACHE STRING "Choose which of the SIMD instruction set extensions your target CPU supports. Possible values are \"native\" (use everything that's supported by the CPU you're building on), \"none\", \"avx\", and \"avx+fma\".")
+if(SIMD_EXTENSIONS STREQUAL "none")
+  message("With SIMD_EXTENSIONS \"none\" tricubic interpolation of vector grid is not possible. You should set SIMD_EXTENSION to a compatible value (\"avx\", \"avx+fma\", or -- depending on the build CPU -- \"native\"). Trilinear interpolation is still possible.")
+else()
+  add_definitions(-DHAVE_SIMD)
+endif()
 
 if(SIMD_EXTENSIONS STREQUAL "avx")
   SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -msse -msse2 -msse3 -msse4.1 -msse4.2 -mavx" )
@@ -56,21 +61,6 @@ if(FAST_WAVES)
     add_definitions(-DFAST_WAVES)
   endif()
 endif(FAST_WAVES)
-
-if(SIMD_EXTENSIONS STREQUAL "none")
-  message("With SIMD_EXTENSIONS \"none\" tricubic interpolation of vector grid is not possible. You should set SIMD_EXTENSION to a compatible value (\"avx\", \"avx+fma\", or -- depending on the build CPU -- \"native\"). Trilinear interpolation is still possible.")
-else()
-  add_definitions(-DHAVE_SIMD)
-endif()
-
-# SET(FAST_INTERPOLATION OFF CACHE BOOL "Enable SIMD optimization for TricubicInterpolation of vector grids. Requires that SIMD_EXTENSIONS is set to compatible value (\"avx\", \"avx+fma\", or -- depending on the build CPU -- \"native\"). The build will fail if this option is set but SIMD_EXTENSIONS is not compatible, so you can adjust your settings.")
-# if(FAST_INTERPOLATION)
-#   if(SIMD_EXTENSIONS STREQUAL "none")
-#     message(SEND_ERROR "Enabling FAST_WAVES while SIMD_EXTENSIONS is set to \"none\" won't work, since SIMD is required for FAST_WAVES. Please try disabling FAST_WAVES, or try using another option for SIMD_EXTENSIONS.")
-#   else()
-#     add_definitions(-DFAST_WAVES)
-#   endif()
-# endif(FAST_INTERPOLATION)
 
 # Add build type for profiling
 SET(CMAKE_CXX_FLAGS_PROFILE "${CMAKE_CXX_FLAGS} -ggdb -fno-omit-frame-pointer")

@@ -326,9 +326,12 @@ public:
 			while ((iz < -0.5) or (iz > (int(Nz)-0.5)))
 				iz = 2 * Nz * (iz > (int(Nz)-0.5)) - iz-1;
 		} else {
-			ix = (round(fmod(r.x, Nx)) + Nx * (ix < 0)) % Nx;
-			iy = (round(fmod(r.y, Ny)) + Ny * (iy < 0)) % Ny;
-			iz = (round(fmod(r.z, Nz)) + Nz * (iz < 0)) % Nz;
+			ix = round(fmod(r.x, Nx));
+			iy = round(fmod(r.y, Ny));
+			iz = round(fmod(r.z, Nz));
+			ix = (ix + Nx * (ix < 0)) % Nx;
+			iy = (iy + Ny * (iy < 0)) % Ny;
+			iz = (iz + Nz * (iz < 0)) % Nz;
 		}
 		return get(ix, iy, iz);
 	}

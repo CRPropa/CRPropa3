@@ -8,8 +8,10 @@
 #include "kiss/logger.h"
 
 #include <vector>
+#if HAVE_SIMD
 #include <immintrin.h>
 #include <smmintrin.h>
+#endif // HAVE_SIMD
 
 namespace crpropa {
 
@@ -334,7 +336,7 @@ public:
 	}
 
 private:
-
+#ifdef HAVE_SIMD
 	__m128 simdperiodicGet(size_t ix, size_t iy, size_t iz) const {
 		ix = periodicBoundary(ix, Nx);
 		iy = periodicBoundary(iy, Ny);
@@ -383,9 +385,10 @@ private:
 		__m128 res = _mm_add_ps(_mm_add_ps(_mm_add_ps(term3,term2),term),p1);
 		return res;
 	}
-
+#endif // HAVE_SIMD
 	/** Interpolate the grid tricubic at a given position (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */
 	Vector3f tricubicInterpolate(Vector3f, const Vector3d &position) const {
+		#ifdef HAVE_SIMD
 		// position on a unit grid
 		Vector3d r = (position - gridOrigin) / spacing;
 
@@ -418,6 +421,8 @@ private:
 		}
 		__m128 result = CubicInterpolate(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);
 		return convertSimdToVector3f(result);
+		#endif // HAVE_SIMD
+		std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is neccesary for tricubic interpolation of vector grids. Returnd Vector3f(0.) instead. \n");
 	}
 
 	/** Vectorized cubic Interpolator in 1D that returns a scalar (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */

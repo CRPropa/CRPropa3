@@ -8,6 +8,7 @@
 #include "kiss/logger.h"
 
 #include <vector>
+#include <type_traits>
 #if HAVE_SIMD
 #include <immintrin.h>
 #include <smmintrin.h>
@@ -219,8 +220,9 @@ public:
 	void setInterpolationType(interpolationType ipolType) {
 	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
 	    this->ipolType = ipolType;
-	    if (ipolType == TRICUBIC)
-			KISS_LOG_WARNING << "Tricubic interpolation on vectorgrids (Grid3f,Grid3d) works in both cases with float-precision, doubles will be downcasted";
+	    if ((ipolType == TRICUBIC) && (std::is_same<T, Vector3f>::value || std::is_same<T, Vector3d>::value)){
+				KISS_LOG_WARNING << "Tricubic interpolation on vectorgrids (Grid3f,Grid3d) works in both cases with float-precision, doubles will be downcasted";
+		}
 	  } else {
 	    throw std::runtime_error("InterpolationType: unknown interpolation type");
 	  }
@@ -336,7 +338,7 @@ public:
 	}
 
 private:
-#ifdef HAVE_SIMD
+	#ifdef HAVE_SIMD
 	__m128 simdperiodicGet(size_t ix, size_t iy, size_t iz) const {
 		ix = periodicBoundary(ix, Nx);
 		iy = periodicBoundary(iy, Ny);
@@ -385,7 +387,7 @@ private:
 		__m128 res = _mm_add_ps(_mm_add_ps(_mm_add_ps(term3,term2),term),p1);
 		return res;
 	}
-#endif // HAVE_SIMD
+	#endif // HAVE_SIMD
 	/** Interpolate the grid tricubic at a given position (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */
 	Vector3f tricubicInterpolate(Vector3f, const Vector3d &position) const {
 		#ifdef HAVE_SIMD
@@ -421,8 +423,9 @@ private:
 		}
 		__m128 result = CubicInterpolate(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);
 		return convertSimdToVector3f(result);
-		#endif // HAVE_SIMD
-		std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is neccesary for tricubic interpolation of vector grids. Returnd Vector3f(0.) instead. \n");
+		#else // HAVE_SIMD
+		throw std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is neccesary for tricubic interpolation of vector grids.\n");
+		#endif // HAVE_SIMD	
 	}
 
 	/** Vectorized cubic Interpolator in 1D that returns a scalar (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */

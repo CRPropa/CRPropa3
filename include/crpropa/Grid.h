@@ -218,14 +218,14 @@ public:
 	/** Change the interpolation type to the routine specified by the user. Check if this routine is
 		contained in the enum interpolationType and thus supported by CRPropa.*/
 	void setInterpolationType(interpolationType ipolType) {
-	  if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
-	    this->ipolType = ipolType;
-	    if ((ipolType == TRICUBIC) && (std::is_same<T, Vector3f>::value || std::is_same<T, Vector3d>::value)){
+		if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
+			this->ipolType = ipolType;
+			if ((ipolType == TRICUBIC) && (std::is_same<T, Vector3f>::value || std::is_same<T, Vector3d>::value)){
 				KISS_LOG_WARNING << "Tricubic interpolation on vectorgrids (Grid3f,Grid3d) works in both cases with float-precision, doubles will be downcasted";
 		}
-	  } else {
-	    throw std::runtime_error("InterpolationType: unknown interpolation type");
-	  }
+		} else {
+			throw std::runtime_error("InterpolationType: unknown interpolation type");
+		}
 	}
 
 	/** returns the positon of the lower left front corner of the volume */

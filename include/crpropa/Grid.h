@@ -221,7 +221,7 @@ public:
 		if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
 			this->ipolType = ipolType;
 			if ((ipolType == TRICUBIC) && (std::is_same<T, Vector3d>::value)){
-				KISS_LOG_WARNING << "Tricubic interpolation on vectorgrids (Grid3f,Grid3d) works in both cases with float-precision, doubles will be downcasted";
+				KISS_LOG_WARNING << "Tricubic interpolation on Grid3d works only with float-precision, doubles will be downcasted";
 		}
 		} else {
 			throw std::runtime_error("InterpolationType: unknown interpolation type");

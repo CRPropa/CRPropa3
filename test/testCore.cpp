@@ -601,6 +601,7 @@ TEST(Grid3f, Interpolation) {
 	EXPECT_FLOAT_EQ(1.7 * 0.9 * 0.15, b.x);
 	
 	//tricubic
+	#ifdef HAVE_SIMD
 	grid.setInterpolationType(TRICUBIC);
 	
 	b = grid.interpolate(Vector3d(0.5, 0.5, 1.5) * spacing);
@@ -617,6 +618,7 @@ TEST(Grid3f, Interpolation) {
 
 	b = grid.interpolate(Vector3d(0.5, 2.65, 1.6) * spacing);
 	EXPECT_FLOAT_EQ(0.190802007914, b.x);
+	#endif // HAVE_SIMD
 }
 
 TEST(VectordGrid, Scale) {
@@ -665,6 +667,7 @@ TEST(Grid3f, Periodicity) {
 	EXPECT_FLOAT_EQ(b.z, b2.z);
 	
 	//tricubic interpolated
+	#ifdef HAVE_SIMD
 	grid.setInterpolationType(TRICUBIC);
 	b = grid.interpolate(pos);
 	b2 = grid.interpolate(pos + Vector3d(1, 0, 0) * size);
@@ -681,6 +684,7 @@ TEST(Grid3f, Periodicity) {
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);
+	#endif // HAVE_SIMD
 	
 	//nearest neighbour interpolated
 	grid.setInterpolationType(NEAREST_NEIGHBOUR);
@@ -735,6 +739,7 @@ TEST(Grid3f, Reflectivity) {
 	EXPECT_FLOAT_EQ(b.z, b2.z);
 	
 	//tricubic interpolated
+	#ifdef HAVE_SIMD
 	grid.setInterpolationType(TRICUBIC);
 	b = grid.interpolate(pos + Vector3d(1,0,0) * spacing);
 	b2 = grid.interpolate(pos *(-1) - Vector3d(1,0,0) * spacing);
@@ -753,7 +758,7 @@ TEST(Grid3f, Reflectivity) {
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);
-	
+	#endif //HAVE_SIMD
 	
 	//nearest neighbour interpolated
 	grid.setInterpolationType(NEAREST_NEIGHBOUR);

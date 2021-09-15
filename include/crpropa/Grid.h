@@ -319,12 +319,12 @@ public:
 			ix = round(r.x);
 			iy = round(r.y);
 			iz = round(r.z);
-			while ((ix < -0.5) or (ix > (int(Nx)-0.5)))
-				ix = 2 * Nx * (ix > (int(Nx)-0.5)) - ix-1;
-			while ((iy < -0.5) or (iy > (int(Ny)-0.5)))
-				iy = 2 * Ny * (iy > (int(Ny)-0.5)) - iy-1;
-			while ((iz < -0.5) or (iz > (int(Nz)-0.5)))
-				iz = 2 * Nz * (iz > (int(Nz)-0.5)) - iz-1;
+			while ((ix < -0.5) or (ix > (Nx-0.5)))
+				ix = 2 * Nx * (ix > (Nx-0.5)) - ix-1;
+			while ((iy < -0.5) or (iy > (Ny-0.5)))
+				iy = 2 * Ny * (iy > (Ny-0.5)) - iy-1;
+			while ((iz < -0.5) or (iz > (Nz-0.5)))
+				iz = 2 * Nz * (iz > (Nz-0.5)) - iz-1;
 		} else {
 			ix = round(fmod(r.x, Nx));
 			iy = round(fmod(r.y, Ny));

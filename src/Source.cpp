@@ -11,7 +11,6 @@
 
 #include <sstream>
 #include <stdexcept>
-#include <boost/math/special_functions/gamma.hpp>
 
 namespace crpropa {
 

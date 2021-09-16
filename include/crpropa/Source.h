@@ -260,6 +260,7 @@ See G. Case and D. Bhattacharya (1996) for the details of the distribution.
 
 class SourceSNRDistribution: public SourceFeature {
 	double R_earth; // parameter given by observation
+	double alpha; // parameter to shift the maximum in R direction
 	double beta; // parameter to shift the maximum in R direction
 	double Zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
@@ -267,21 +268,24 @@ class SourceSNRDistribution: public SourceFeature {
 	double R_max; // maximum radial distance - default 20 kpc 
 		      // (due to the extension of the JF12 field)
 	double Z_max; // maximum distance from galactic plane - default 5 kpc
-
 public:
 	SourceSNRDistribution();	
-	SourceSNRDistribution(double R_earth, double beta, double Zg);
+	SourceSNRDistribution(double R_earth,double alpha, double beta, double Zg);
 	void prepareParticle(ParticleState &particle) const;
 	double f_r(double r) const;
 	double f_z(double z) const;
-	void set_frMax(double R, double b);
+	void set_frMax();
 	void set_fzMax(double Zg);
 	void set_RMax(double R_max);
 	void set_ZMax(double Z_max);
+	void setAlpha(double a);
+	void setBeta(double b);
 	double get_frMax();
 	double get_fzMax();
 	double get_RMax();
 	double get_ZMax();
+	double getAlpha();
+	double getBeta();
 	void setDescription();
 };
 /**

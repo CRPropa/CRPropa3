@@ -11,6 +11,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <boost/math/special_functions/gamma.hpp>
 
 namespace crpropa {
 
@@ -362,16 +363,16 @@ void SourceUniformCylinder::setDescription() {
 
 // ---------------------------------------------------------------------------
 SourceSNRDistribution::SourceSNRDistribution() :
-    R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
-	set_frMax(8.5*kpc, 3.53);
+    R_earth(8.5*kpc),alpha(2.), beta(3.53), Zg(0.3*kpc) {
+	set_frMax();
 	set_fzMax(0.3*kpc);
 	set_RMax(20*kpc);
 	set_ZMax(5*kpc);
 }
 
-SourceSNRDistribution::SourceSNRDistribution(double R_earth, double beta, double Zg) :
-    R_earth(R_earth), beta(beta), Zg(Zg) {
-	set_frMax(R_earth, beta);
+SourceSNRDistribution::SourceSNRDistribution(double R_earth, double alpha, double beta, double Zg) :
+    R_earth(R_earth),alpha(alpha), beta(beta), Zg(Zg) {
+	set_frMax();
 	set_fzMax(Zg);
 	set_RMax(20*kpc);
 	set_ZMax(5*kpc);
@@ -400,13 +401,10 @@ void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
 	double phi = random.rand()*2*M_PI;
 	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
 	particle.setPosition(pos);
-  }
+}
 
 double SourceSNRDistribution::f_r(double r) const{
-	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(R_earth, 2.));
- 	double f = pow(r/R_earth, 2.) * exp(-beta * (r-R_earth)/R_earth);
-	double fr = Atilde*f;
-	return fr;
+	return pow(r/R_earth, alpha) * exp(-beta * (r-R_earth)/R_earth);
 }
 
 double SourceSNRDistribution::f_z(double z) const{
@@ -416,8 +414,16 @@ double SourceSNRDistribution::f_z(double z) const{
 	return fz;
 }
 
-void SourceSNRDistribution::set_frMax(double R, double b) {
-	frMax = pow(b, 2.) / (3*pow(R, 2.)*M_PI) * exp(-2.);
+double SourceSNRDistribution::getAlpha(){
+	return alpha;
+}
+
+double SourceSNRDistribution::getBeta(){
+	return beta;
+}
+
+void SourceSNRDistribution::set_frMax() {
+	frMax = pow(alpha/beta, alpha)*exp(beta - alpha);
 	return;
 }
 
@@ -452,6 +458,17 @@ double SourceSNRDistribution::get_ZMax() {
 	return Z_max;
 }
 
+void SourceSNRDistribution::setAlpha(double a){
+	alpha = a;
+	set_RMax(R_max);
+	set_frMax();
+}
+
+void SourceSNRDistribution::setBeta(double b){
+	beta = b;
+	set_RMax(R_max);
+	set_frMax();
+}
 
 void SourceSNRDistribution::setDescription() {
 	std::stringstream ss;

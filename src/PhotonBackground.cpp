@@ -208,14 +208,13 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 		}
 		const int i_max = static_cast<int>(10. * std::log(epsMax / epsMin)) + 1;
 		const double de = std::log(epsMax / epsMin) / i_max;
-		double rmax = 0.;
 		double eps_dum = 0.;
-		double dum = 0.;
+		double pMax = 0.;
 		for (int i = 0; i < i_max; ++i) {
 			eps_dum = epsMin * std::exp(i * de);
-			dum = getPhotonDensity(eps_dum, z_in);
-			if (dum > rmax)
-				rmax = dum;
+			const double prob = this->prob_eps(eps_dum, onProton, E_in, z_in);
+			if (prob > pMax)
+				pMax = prob;
 		}
 		const double beta = 4.;
 		const double e1 = std::pow(epsMin, 1. - beta);
@@ -233,7 +232,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			eps = std::pow(random.rand() * (e1 - e2) + e2, 1./(1. - beta));
 			i_rep++;
 			peps = prob_eps(eps, onProton, E_in, z_in);
-			if (random.rand() < getPhotonDensity(eps, z_in) / rmax)
+			if (random.rand() * pMax < peps)
 				keepTrying = false;
 		} while (keepTrying);
 	}

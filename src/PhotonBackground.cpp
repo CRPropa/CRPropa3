@@ -173,6 +173,9 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	const double P_in = sqrt(E_in * E_in - mass * mass);  // GeV/c
 
 	double eps = 0.;
+	double epsMin = 0.;
+	double epsMax = 0.;
+
 	if (bgFlag == 1) {
 		// CMB
 		const double tbb = 2.73 * (1. + z_in);
@@ -182,60 +185,39 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			std::cout << "sample_eps (CMB): CMF energy is below threshold for nucleon energy " << E_in << " GeV !" << std::endl;
 			return 0.;
 		}
-
-		const double epskt = 8.619e-5 * tbb;
-		const double epspmax = (3.e-3 * std::pow(E_in * epskt * 1.e-9, -0.97) + 0.047) / 3.9e2 * tbb;
-		const double pmaxc = prob_eps(epspmax, onProton, E_in, z_in);
-		const double facpmax = 1.6;
-		const double pMax = facpmax * pmaxc;
-
-		// sample eps between epsMin ... epsMax
-		double peps = 0.;
-		Random &random = Random::instance();
-		do {
-			eps = epsMin + random.rand() * (epsMax - epsMin);
-			peps = prob_eps(eps, onProton, E_in, z_in);
-		} while (random.rand() * pMax > peps);
 	}
 
 	if (bgFlag == 2) {
 		// IRB_Kneiske04     
-		const double epsMin = std::max(0.00395, 1.e9 * (1.1646 - mass * mass) / 2. / (E_in + P_in));  // eV
-		const double epsMax = 12.2;  // eV
+		epsMin = std::max(0.00395, 1.e9 * (1.1646 - mass * mass) / 2. / (E_in + P_in));  // eV
+		epsMax = 12.2;  // eV
 		if (epsMin > epsMax) {
 			std::cout << "sample_eps (IRB): CMF energy is below threshold for nucleon energy " << E_in << " GeV !" << std::endl;
 			return 0.;
 		}
-		const int i_max = static_cast<int>(10. * std::log(epsMax / epsMin)) + 1;
-		const double de = std::log(epsMax / epsMin) / i_max;
-		double eps_dum = 0.;
-		double pMax = 0.;
-		for (int i = 0; i < i_max; ++i) {
-			eps_dum = epsMin * std::exp(i * de);
-			const double prob = this->prob_eps(eps_dum, onProton, E_in, z_in);
-			if (prob > pMax)
-				pMax = prob;
-		}
-		const double beta = 4.;
-		const double e1 = std::pow(epsMin, 1. - beta);
-		const double e2 = std::pow(epsMax, 1. - beta);
-		bool keepTrying = true;
-		int i_rep = 0;
-		Random &random = Random::instance();
-		// sample eps between epsMin ... epsMax
-		double peps = 0.;
-		do {
-			if (i_rep >= 100000) {
-				keepTrying = false;
-				return 0.;
-			}
-			eps = std::pow(random.rand() * (e1 - e2) + e2, 1./(1. - beta));
-			i_rep++;
-			peps = prob_eps(eps, onProton, E_in, z_in);
-			if (random.rand() * pMax < peps)
-				keepTrying = false;
-		} while (keepTrying);
 	}
+
+	const int i_max = static_cast<int>(10. * std::log(epsMax / epsMin)) + 1;
+	const double de = std::log(epsMax / epsMin) / i_max;
+	double eps_dum = 0.;
+	double pMax = 0.;
+
+	for (int i = 0; i < i_max; ++i) {
+		eps_dum = epsMin * std::exp(i * de);
+		const double prob = this->prob_eps(eps_dum, onProton, E_in, z_in);
+		if (prob > pMax)
+			pMax = prob;
+	}
+	
+	// sample eps between epsMin ... epsMax
+	double peps = 0.;
+	Random &random = Random::instance();
+	do {
+		eps = epsMin + random.rand() * (epsMax - epsMin);
+		peps = prob_eps(eps, onProton, E_in, z_in);
+	} while (random.rand() * pMax > peps);
+	
+
 	return eps * eV;
 }
 

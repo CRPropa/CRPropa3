@@ -9,9 +9,18 @@
 
 namespace crpropa {
 
-TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent) {
+TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent, int flag) {
 	this->fieldName = fieldName;
 	this->isRedshiftDependent = isRedshiftDependent;
+	
+	if (flag == 1) {
+		this->fieldName = "CMB";
+		this->isRedshiftDependent = false;
+	}
+	if (flag == 2) {
+		this->fieldName = "IRB_Kneiske04";
+		this->isRedshiftDependent = true;
+	}
 
 	readPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
 	readPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
@@ -31,6 +40,7 @@ double TabularPhotonField::getPhotonDensity(double ePhoton, double z) const {
 		return interpolate(ePhoton, this->photonEnergies, this->photonDensity);
 	}
 }
+
 
 double TabularPhotonField::getRedshiftScaling(double z) const {
 	if (this->isRedshiftDependent) {
@@ -54,7 +64,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
-			this->photonEnergies.push_back(std::stod(line));
+			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [eV] to [J]
 	}
 	infile.close();
 }
@@ -155,14 +165,21 @@ double BlackbodyPhotonField::getPhotonDensity(double ePhoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(ePhoton / (h_planck * c_light)) / std::expm1(ePhoton / (k_boltzmann * this->blackbodyTemperature));
 }
 
-PhotonFieldSampling::PhotonFieldSampling() {
+PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB",false) {
 	bgFlag = 0;
 }
 
-PhotonFieldSampling::PhotonFieldSampling(int flag) {
+PhotonFieldSampling::PhotonFieldSampling(int flag):TabularPhotonField("IRB_Kneiske04",true,flag) {
 	if (flag != 1 && flag != 2)
 		throw std::runtime_error("error: incorrect background flag. Must be 1 (CMB) or 2 (IRB_Kneiske04).");
 	bgFlag = flag;
+	//TODO: initialize field here using the constructor instead of using flag in TabularPhotonField
+	//~ if (bgFlag == 1) {
+			//~ TabularPhotonField TabularPhotonField("CMB",false);
+		//~ }
+	//~ if (bgFlag == 2) {
+			//~ TabularPhotonField TabularPhotonField("IRB_Kneiske04",true);
+		//~ }
 }
 
 double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) const {
@@ -173,30 +190,8 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	const double P_in = sqrt(E_in * E_in - mass * mass);  // GeV/c
 
 	double eps = 0.;
-	double epsMin = 0.;
-	double epsMax = 0.;
-
-	// get epsMin and epsMax for both cases
-	// TODO: use the min and max values from the tabulated files
-	if (bgFlag == 1) {
-		// CMB
-		const double tbb = 2.73 * (1. + z_in);
-		const double epsMin = (1.1646 - mass * mass) / 2. / (E_in + P_in) * 1.e9;
-		const double epsMax = 0.007 * tbb;
-		if (epsMin > epsMax) {
-			std::cout << "sample_eps (CMB): CMF energy is below threshold for nucleon energy " << E_in << " GeV !" << std::endl;
-			return 0.;
-		}
-	}
-	if (bgFlag == 2) {
-		// IRB_Kneiske04     
-		epsMin = std::max(0.00395, 1.e9 * (1.1646 - mass * mass) / 2. / (E_in + P_in));  // eV
-		epsMax = 12.2;  // eV
-		if (epsMin > epsMax) {
-			std::cout << "sample_eps (IRB): CMF energy is below threshold for nucleon energy " << E_in << " GeV !" << std::endl;
-			return 0.;
-		}
-	}
+	double epsMin = this->photonEnergies[0];
+	double epsMax = this->photonEnergies[photonEnergies.size()-1];
 
 	// find pMax for current interaction to have a reference for the MC rejection
 	// TODO: should loop through the tabulated table instead
@@ -219,7 +214,6 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 		peps = prob_eps(eps, onProton, E_in, z_in);
 	} while (random.rand() * pMax > peps);
 	
-
 	return eps * eV;
 }
 

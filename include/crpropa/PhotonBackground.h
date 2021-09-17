@@ -31,6 +31,7 @@ public:
 	 @param z			redshift (if redshift dependent, default = 0.)
 	 */
 	virtual double getPhotonDensity(double ePhoton, double z = 0.) const = 0;
+	
 
 	/**
 	 returns overall comoving scaling factor
@@ -65,7 +66,8 @@ protected:
  */
 class TabularPhotonField: public PhotonField {
 public:
-	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
+	//TODO: flag probably should not be used in this class anymore
+	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true, const int flag = 0);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
 
@@ -257,7 +259,7 @@ public:
  @class PhotonFieldSampling
  @brief Reimplementation of SOPHIA photon sampling. Naming and unit conventions are taken from SOPHIA to ease comparisions.
  */
-class PhotonFieldSampling {
+class PhotonFieldSampling : public TabularPhotonField {
 public:
 	PhotonFieldSampling();
 

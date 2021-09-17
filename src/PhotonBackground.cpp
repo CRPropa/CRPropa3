@@ -176,6 +176,8 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	double epsMin = 0.;
 	double epsMax = 0.;
 
+	// get epsMin and epsMax for both cases
+	// TODO: use the min and max values from the tabulated files
 	if (bgFlag == 1) {
 		// CMB
 		const double tbb = 2.73 * (1. + z_in);
@@ -186,7 +188,6 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			return 0.;
 		}
 	}
-
 	if (bgFlag == 2) {
 		// IRB_Kneiske04     
 		epsMin = std::max(0.00395, 1.e9 * (1.1646 - mass * mass) / 2. / (E_in + P_in));  // eV
@@ -197,11 +198,12 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 		}
 	}
 
+	// find pMax for current interaction to have a reference for the MC rejection
+	// TODO: should loop through the tabulated table instead
 	const int i_max = static_cast<int>(10. * std::log(epsMax / epsMin)) + 1;
 	const double de = std::log(epsMax / epsMin) / i_max;
 	double eps_dum = 0.;
 	double pMax = 0.;
-
 	for (int i = 0; i < i_max; ++i) {
 		eps_dum = epsMin * std::exp(i * de);
 		const double prob = this->prob_eps(eps_dum, onProton, E_in, z_in);

@@ -183,10 +183,9 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			return 0.;
 		}
 
-		const double cnorm = gaussInt([this, onProton, E_in, z_in](double e) { return this->prob_eps(e, onProton, E_in, z_in); }, epsMin, epsMax);
 		const double epskt = 8.619e-5 * tbb;
 		const double epspmax = (3.e-3 * std::pow(E_in * epskt * 1.e-9, -0.97) + 0.047) / 3.9e2 * tbb;
-		const double pmaxc = prob_eps(epspmax, onProton, E_in, z_in) / cnorm;
+		const double pmaxc = prob_eps(epspmax, onProton, E_in, z_in);
 		const double facpmax = 1.6;
 		const double pMax = facpmax * pmaxc;
 
@@ -195,7 +194,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 		Random &random = Random::instance();
 		do {
 			eps = epsMin + random.rand() * (epsMax - epsMin);
-			peps = prob_eps(eps, onProton, E_in, z_in) / cnorm;
+			peps = prob_eps(eps, onProton, E_in, z_in);
 		} while (random.rand() * pMax > peps);
 	}
 
@@ -207,7 +206,6 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			std::cout << "sample_eps (IRB): CMF energy is below threshold for nucleon energy " << E_in << " GeV !" << std::endl;
 			return 0.;
 		}
-		const double cnorm = gaussInt([this, onProton, E_in, z_in](double e) { return this->prob_eps(e, onProton, E_in, z_in); }, epsMin, epsMax);
 		const int i_max = static_cast<int>(10. * std::log(epsMax / epsMin)) + 1;
 		const double de = std::log(epsMax / epsMin) / i_max;
 		double rmax = 0.;
@@ -234,7 +232,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 			}
 			eps = std::pow(random.rand() * (e1 - e2) + e2, 1./(1. - beta));
 			i_rep++;
-			peps = prob_eps(eps, onProton, E_in, z_in) / cnorm;
+			peps = prob_eps(eps, onProton, E_in, z_in);
 			if (random.rand() < getPhotonDensity(eps, z_in) / rmax)
 				keepTrying = false;
 		} while (keepTrying);

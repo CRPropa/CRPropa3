@@ -189,10 +189,15 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 
 	// find pMax for current interaction to have a reference for the MC rejection
 	double pMax = 0.;
-	for (int i = 0; i < photonEnergies.size(); ++i) {
-		const double prob = this->prob_eps(photonEnergies[i], onProton, Ein, z);
-		if (prob > pMax)
-			pMax = prob;
+	double epsDummy = 0.;
+	for (int i = 0; i < photonEnergies.size()-1; ++i) {
+		const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
+		for (int j = 0; j < resMaxEst; j++) {
+			epsDummy = photonEnergies[i] + (photonEnergies[i] - photonEnergies[i+1]) / resMaxEst * j;
+			const double prob = this->prob_eps(epsDummy, onProton, Ein, z);
+			if (prob > pMax)
+				pMax = prob;
+		}
 	}
 	
 	// sample eps between epsMin ... epsMax

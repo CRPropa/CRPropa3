@@ -165,11 +165,12 @@ double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(Ephoton / (h_planck * c_light)) / std::expm1(Ephoton / (k_boltzmann * this->blackbodyTemperature));
 }
 
-PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB",false) {
+PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB", false) {
 	bgFlag = 0;
 }
 
-PhotonFieldSampling::PhotonFieldSampling(int flag):TabularPhotonField("IRB_Kneiske04",true,flag) {
+PhotonFieldSampling::PhotonFieldSampling(int flag):TabularPhotonField("IRB_Kneiske04", true, flag) {
+	// TODO_pf: get phtotnField instead of flag and use field name as input parameter of TabularPhotonField instead of hard-coded "IRB_Kneiske04"
 	if (flag != 1 && flag != 2)
 		throw std::runtime_error("error: incorrect background flag. Must be 1 (CMB) or 2 (IRB_Kneiske04).");
 	bgFlag = flag;

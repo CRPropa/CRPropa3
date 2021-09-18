@@ -183,12 +183,6 @@ PhotonFieldSampling::PhotonFieldSampling(int flag):TabularPhotonField("IRB_Kneis
 }
 
 double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) const {
-	if (bgFlag == 0)
-		throw std::runtime_error("error: select photon field first: 1 (CMB) or 2 (IRB_Kneiske04)");
-
-	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-	const double P_in = sqrt(E_in * E_in - mass * mass);  // GeV/c
-
 	double eps = 0.;
 	double epsMin = this->photonEnergies[0];
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];
@@ -204,9 +198,15 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	// sample eps between epsMin ... epsMax
 	double peps = 0.;
 	Random &random = Random::instance();
+	int iRep = 0;
+	int iMax = 100000;
 	do {
+		iRep++;
 		eps = epsMin + random.rand() * (epsMax - epsMin);
 		peps = prob_eps(eps, onProton, E_in, z_in);
+		if (iRep < iMax)
+			throw std::runtime_error("error: no photon found in sample_eps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
+			break;
 	} while (random.rand() * pMax > peps);
 	
 	return eps * eV;

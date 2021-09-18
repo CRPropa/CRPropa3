@@ -187,7 +187,6 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 		throw std::runtime_error("error: select photon field first: 1 (CMB) or 2 (IRB_Kneiske04)");
 
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-	const double P_in = sqrt(E_in * E_in - mass * mass);  // GeV/c
 
 	double eps = 0.;
 	double epsMin = this->photonEnergies[0];

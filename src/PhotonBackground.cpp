@@ -183,11 +183,6 @@ PhotonFieldSampling::PhotonFieldSampling(int flag):TabularPhotonField("IRB_Kneis
 }
 
 double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) const {
-	if (bgFlag == 0)
-		throw std::runtime_error("error: select photon field first: 1 (CMB) or 2 (IRB_Kneiske04)");
-
-	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-
 	double eps = 0.;
 	double epsMin = this->photonEnergies[0];
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];

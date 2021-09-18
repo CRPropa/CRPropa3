@@ -182,7 +182,7 @@ PhotonFieldSampling::PhotonFieldSampling(int flag):TabularPhotonField("IRB_Kneis
 		//~ }
 }
 
-double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) const {
+double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
 	double eps = 0.;
 	double epsMin = this->photonEnergies[0];
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];
@@ -190,24 +190,24 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	// find pMax for current interaction to have a reference for the MC rejection
 	double pMax = 0.;
 	for (int i = 0; i < photonEnergies.size(); ++i) {
-		const double prob = this->prob_eps(photonEnergies[i], onProton, E_in, z_in);
+		const double prob = this->prob_eps(photonEnergies[i], onProton, Ein, z);
 		if (prob > pMax)
 			pMax = prob;
 	}
 	
 	// sample eps between epsMin ... epsMax
-	double peps = 0.;
+	double pEps = 0.;
 	Random &random = Random::instance();
 	int iRep = 0;
 	int iMax = 100000;
 	do {
 		iRep++;
 		eps = epsMin + random.rand() * (epsMax - epsMin);
-		peps = prob_eps(eps, onProton, E_in, z_in);
+		pEps = prob_eps(eps, onProton, Ein, z);
 		if (iRep < iMax)
 			throw std::runtime_error("error: no photon found in sample_eps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
 			break;
-	} while (random.rand() * pMax > peps);
+	} while (random.rand() * pMax > pEps);
 	
 	return eps * eV;
 }
@@ -228,18 +228,18 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double E_in, dou
 	return 0;
 }
 
-double PhotonFieldSampling::getPhotonDensity(double eps, double z_in) const {
+double PhotonFieldSampling::getPhotonDensity(double ePhoton, double z) const {
 	if (bgFlag == 1) {
 		// CMB
-		return 1.318e13 * eps * eps / (std::exp(eps / (8.619e-5 * 2.73)) - 1.);
+		return 1.318e13 * ePhoton * ePhoton / (std::exp(ePhoton / (8.619e-5 * 2.73)) - 1.);
 	}
 
 	if (bgFlag == 2) {
 		// IR background from Primack et al. (1999) 
 		const double ZMAX_IR = 5.;
-		if (z_in > ZMAX_IR)
+		if (z > ZMAX_IR)
 			return 0.;
-		const double X = 1.2398 * (1. + z_in) / eps;
+		const double X = 1.2398 * (1. + z) / ePhoton;
 		if (X > 500.)
 			return 0.;
 
@@ -261,7 +261,7 @@ double PhotonFieldSampling::getPhotonDensity(double eps, double z_in) const {
 		result = std::pow(10., result);
 
 		const double fluxConversion = 3.82182e3;  // conversion from nW/cm^3/sr to eV/cm^3
-		return result * std::pow(1. + z_in, 4.) / (eps * eps) / fluxConversion;
+		return result * std::pow(1. + z, 4.) / (ePhoton * ePhoton) / fluxConversion;
 	}
 }
 

@@ -194,14 +194,9 @@ double PhotonFieldSampling::sample_eps(bool onProton, double E_in, double z_in) 
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];
 
 	// find pMax for current interaction to have a reference for the MC rejection
-	// TODO: should loop through the tabulated table instead
-	const int i_max = static_cast<int>(10. * std::log(epsMax / epsMin)) + 1;
-	const double de = std::log(epsMax / epsMin) / i_max;
-	double eps_dum = 0.;
 	double pMax = 0.;
-	for (int i = 0; i < i_max; ++i) {
-		eps_dum = epsMin * std::exp(i * de);
-		const double prob = this->prob_eps(eps_dum, onProton, E_in, z_in);
+	for (int i = 0; i < photonEnergies.size(); ++i) {
+		const double prob = this->prob_eps(photonEnergies[i], onProton, E_in, z_in);
 		if (prob > pMax)
 			pMax = prob;
 	}

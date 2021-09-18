@@ -33,11 +33,11 @@ TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDep
 		initRedshiftScaling();
 }
 
-double TabularPhotonField::getPhotonDensity(double ePhoton, double z) const {
+double TabularPhotonField::getPhotonDensity(double Ephoton, double z) const {
 	if (this->isRedshiftDependent) {
-		return interpolate2d(ePhoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
+		return interpolate2d(Ephoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
 	} else {
-		return interpolate(ePhoton, this->photonEnergies, this->photonDensity);
+		return interpolate(Ephoton, this->photonEnergies, this->photonDensity);
 	}
 }
 
@@ -161,8 +161,8 @@ BlackbodyPhotonField::BlackbodyPhotonField(std::string fieldName, double blackbo
 	this->blackbodyTemperature = blackbodyTemperature;
 }
 
-double BlackbodyPhotonField::getPhotonDensity(double ePhoton, double z) const {
-	return 8 * M_PI * pow_integer<3>(ePhoton / (h_planck * c_light)) / std::expm1(ePhoton / (k_boltzmann * this->blackbodyTemperature));
+double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
+	return 8 * M_PI * pow_integer<3>(Ephoton / (h_planck * c_light)) / std::expm1(Ephoton / (k_boltzmann * this->blackbodyTemperature));
 }
 
 PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB",false) {
@@ -188,15 +188,15 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];
 
 	// find pMax for current interaction to have a reference for the MC rejection
-	double pMax = 0.;
+	double pEpsMax = 0.;
 	double epsDummy = 0.;
 	for (int i = 0; i < photonEnergies.size()-1; ++i) {
 		const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
 		for (int j = 0; j < resMaxEst; j++) {
 			epsDummy = photonEnergies[i] + (photonEnergies[i] - photonEnergies[i+1]) / resMaxEst * j;
-			const double prob = this->prob_eps(epsDummy, onProton, Ein, z);
-			if (prob > pMax)
-				pMax = prob;
+			const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
+			if (pEpsDummy > pEpsMax)
+				pEpsMax = pEpsDummy;
 		}
 	}
 	
@@ -212,31 +212,31 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 		if (iRep < iMax)
 			throw std::runtime_error("error: no photon found in sample_eps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
 			break;
-	} while (random.rand() * pMax > pEps);
+	} while (random.rand() * pEpsMax > pEps);
 	
 	return eps * eV;
 }
 
-double PhotonFieldSampling::prob_eps(double eps, bool onProton, double E_in, double z_in) const {
+double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, double zIn) const {
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
-	double gamma = E_in / mass;
+	double gamma = Ein / mass;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
-	double photonDensity = getPhotonDensity(eps, z_in);
+	double photonDensity = getPhotonDensity(eps, zIn);
 	
 	if (photonDensity != 0.) {
 		double sMin = 1.1646;  // [GeV], head-on collision
-		double sMax = std::max(sMin, mass * mass + 2. * eps / 1.e9 * E_in * (1. + beta));
+		double sMax = std::max(sMin, mass * mass + 2. * eps / 1.e9 * Ein * (1. + beta));
 		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
-		return photonDensity / eps / eps * sintegr / 8. / beta / E_in / E_in * 1.e18 * 1.e6;
+		return photonDensity / eps / eps * sintegr / 8. / beta / Ein / Ein * 1.e18 * 1.e6;
 	}
 
 	return 0;
 }
 
-double PhotonFieldSampling::getPhotonDensity(double ePhoton, double z) const {
+double PhotonFieldSampling::getPhotonDensity(double Ephoton, double z) const {
 	if (bgFlag == 1) {
 		// CMB
-		return 1.318e13 * ePhoton * ePhoton / (std::exp(ePhoton / (8.619e-5 * 2.73)) - 1.);
+		return 1.318e13 * Ephoton * Ephoton / (std::exp(Ephoton / (8.619e-5 * 2.73)) - 1.);
 	}
 
 	if (bgFlag == 2) {
@@ -244,7 +244,7 @@ double PhotonFieldSampling::getPhotonDensity(double ePhoton, double z) const {
 		const double ZMAX_IR = 5.;
 		if (z > ZMAX_IR)
 			return 0.;
-		const double X = 1.2398 * (1. + z) / ePhoton;
+		const double X = 1.2398 * (1. + z) / Ephoton;
 		if (X > 500.)
 			return 0.;
 
@@ -266,7 +266,7 @@ double PhotonFieldSampling::getPhotonDensity(double ePhoton, double z) const {
 		result = std::pow(10., result);
 
 		const double fluxConversion = 3.82182e3;  // conversion from nW/cm^3/sr to eV/cm^3
-		return result * std::pow(1. + z, 4.) / (ePhoton * ePhoton) / fluxConversion;
+		return result * std::pow(1. + z, 4.) / (Ephoton * Ephoton) / fluxConversion;
 	}
 }
 

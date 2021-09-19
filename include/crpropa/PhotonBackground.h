@@ -277,7 +277,7 @@ protected:
 	// called by: sample_eps
 	// - input: photon energy [eV], redshift
 	// - output: photon density per unit energy [#/(eVcm^3)]
-	double getPhotonDensity(double eps, double z_in) const;
+	double getPhotonDensity(double Ephoton, double z) const;
 
 	// called by: sample_eps
 	// - input: s [GeV^2]
@@ -287,9 +287,9 @@ protected:
 	// called by: sample_eps, gaussInt
 	// - input: photon energy eps [eV], E_in [GeV]
 	// - output: probability to encounter photon of energy eps
-	double prob_eps(double eps, bool onProton, double E_in, double z_in) const;
+	double prob_eps(double eps, bool onProton, double Ein, double z) const;
 
-	double prob_eps_max(bool onProton, double E_in, double z_in, int resMaxEst) const;
+	double prob_eps_max(bool onProton, double Ein, double z, int resMaxEst) const;
 
 	// called by: functs
 	// - input: photon energy [eV]

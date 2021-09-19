@@ -47,7 +47,7 @@ void PhotoPionProduction::setPhotonField(ref_ptr<PhotonField> field) {
 
 	// TODO_pf: should pass phtotnField to PhotonFieldSampling and not only flag
 	int background = (fname == "CMB") ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
-	this->photonFieldSampling = PhotonFieldSampling(background);
+	this->photonFieldSampling = PhotonFieldSampling(photonField);
 }
 
 void PhotoPionProduction::setHavePhotons(bool b) {

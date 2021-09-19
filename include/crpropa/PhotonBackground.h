@@ -262,12 +262,7 @@ public:
 class PhotonFieldSampling : public TabularPhotonField {
 public:
 	PhotonFieldSampling();
-
-	/**
-	 Constructor to mimic SOPHIA structure.
-	  @param bgFlag		1: CMB | 2: IRB_Kneiske04
-	 */
-	explicit PhotonFieldSampling(int bgFlag);
+	explicit PhotonFieldSampling(ref_ptr<PhotonField> photonField);
 
 	/**
 	 SOPHIA's photon sampling method. Returns energy [J] of a photon of the photon field.

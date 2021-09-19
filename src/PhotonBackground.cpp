@@ -169,18 +169,8 @@ PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB", false) {
 	bgFlag = 0;
 }
 
-PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhotonField("IRB_Kneiske04", true, flag) {
-	// TODO_pf: get phtotnField instead of flag and use field name as input parameter of TabularPhotonField instead of hard-coded "IRB_Kneiske04"
-	//if (flag != 1 && flag != 2)
-	// 	throw std::runtime_error("error: incorrect background flag. Must be 1 (CMB) or 2 (IRB_Kneiske04).");
-	//bgFlag = flag;
-	//TODO: initialize field here using the constructor instead of using flag in TabularPhotonField
-	//~ if (bgFlag == 1) {
-			//~ TabularPhotonField TabularPhotonField("CMB",false);
-		//~ }
-	//~ if (bgFlag == 2) {
-			//~ TabularPhotonField TabularPhotonField("IRB_Kneiske04",true);
-		//~ }
+PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhotonField(field->getFieldName(), true) {
+	
 }
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {

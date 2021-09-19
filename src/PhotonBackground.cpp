@@ -166,10 +166,20 @@ double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
 }
 
 PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB", false) {
+	// use CMB field as a default
+	// TODO_PR: remove this bgFlag
 	bgFlag = 0;
 }
 
 PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhotonField(field->getFieldName(), true) {
+	// get the field as a parameter that is directly used to initialize the TabularPhotonField class
+	// TODO_PR: remove this bgFlag (and the following code) alltogether by generalizing getPhotonDensity
+	const std::string photonFieldName = field->getFieldName();
+	if (photonFieldName == "CMB") {
+		bgFlag = 0;
+	} else {
+		bgFlag = 1;
+	}
 	
 }
 

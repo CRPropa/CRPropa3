@@ -289,6 +289,8 @@ protected:
 	// - output: probability to encounter photon of energy eps
 	double prob_eps(double eps, bool onProton, double E_in, double z_in) const;
 
+	double prob_eps_max(bool onProton, double E_in, double z_in, int resMaxEst) const;
+
 	// called by: functs
 	// - input: photon energy [eV]
 	// - output: crossection of nucleon-photon-interaction [mubarn]

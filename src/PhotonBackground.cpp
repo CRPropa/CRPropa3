@@ -188,18 +188,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double epsMin = this->photonEnergies[0];
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];
 
-	// find pMax for current interaction to have a reference for the MC rejection
-	double pEpsMax = 0.;
-	double epsDummy = 0.;
-	for (int i = 0; i < photonEnergies.size()-1; ++i) {
-		const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
-		for (int j = 0; j < resMaxEst; j++) {
-			epsDummy = photonEnergies[i] + (photonEnergies[i] - photonEnergies[i+1]) / resMaxEst * j;
-			const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
-			if (pEpsDummy > pEpsMax)
-				pEpsMax = pEpsDummy;
-		}
-	}
+	
 	
 	// sample eps between epsMin ... epsMax
 	double pEps = 0.;
@@ -216,6 +205,22 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	} while (random.rand() * pEpsMax > pEps);
 	
 	return eps * eV;
+}
+
+double PhotonFieldSampling::prob_eps_max() const {
+	// find pMax for current interaction to have a reference for the MC rejection
+	double pEpsMax = 0.;
+	double epsDummy = 0.;
+	for (int i = 0; i < photonEnergies.size()-1; ++i) {
+		const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
+		for (int j = 0; j < resMaxEst; j++) {
+			epsDummy = photonEnergies[i] + (photonEnergies[i] - photonEnergies[i+1]) / resMaxEst * j;
+			const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
+			if (pEpsDummy > pEpsMax)
+				pEpsMax = pEpsDummy;
+		}
+	}
+	return pEpsMax;
 }
 
 double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, double zIn) const {
@@ -235,6 +240,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 }
 
 double PhotonFieldSampling::getPhotonDensity(double Ephoton, double z) const {
+	// TODO_PR: generalize this class. No need for bgFlag anymore.
 	if (bgFlag == 1) {
 		// CMB
 		return 1.318e13 * Ephoton * Ephoton / (std::exp(Ephoton / (8.619e-5 * 2.73)) - 1.);

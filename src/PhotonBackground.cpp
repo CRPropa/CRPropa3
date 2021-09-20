@@ -197,18 +197,22 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	return eps * eV;
 }
 
-double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, int resMaxEst) const {
+double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, int resMaxEst, double epsMin, double epsMax) const {
 	// find pMax for current interaction to have a reference for the MC rejection
-	double pEpsMax = 0.;
+	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
-	for (int i = 0; i < photonEnergies.size()-1; ++i) {
-		for (int j = 0; j < resMaxEst; j++) {
-			epsDummy = photonEnergies[i] + (photonEnergies[i] - photonEnergies[i+1]) / resMaxEst * j;
-			const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
-			if (pEpsDummy > pEpsMax)
-				pEpsMax = pEpsDummy;
-		}
+	// resolution of sampling the range between epsMin ... epsMax for finding the phtoton energy with the maximal interaction prop. 
+	int nrIteration = 1000;
+	for (int i = 0; i < nrIteration; ++i) {
+		epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
+		const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
+		if (pEpsDummy > pEpsMaxTested)
+			pEpsMaxTested = pEpsDummy;
 	}
+	// the following factor corrects for only trying to find the maximum on nrIteration phtoton energies
+	// the factor should be determined in convergence tests
+	double maxCorrectionFactor = 1.6;
+	double pEpsMax = pEpsMaxTested * maxCorrectionFactor;
 	return pEpsMax;
 }
 
@@ -216,7 +220,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	double gamma = Ein / mass;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
-	double photonDensity = getPhotonDensity(eps, zIn);
+	double photonDensity = photonField->getPhotonDensity(eps, zIn);
 	
 	if (photonDensity != 0.) {
 		double sMin = 1.1646;  // [GeV], head-on collision
@@ -228,43 +232,6 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 	return 0;
 }
 
-double PhotonFieldSampling::getPhotonDensity(double Ephoton, double z) const {
-	// TODO_PR: generalize this class. No need for bgFlag anymore.
-	if (bgFlag == 1) {
-		// CMB
-		return 1.318e13 * Ephoton * Ephoton / (std::exp(Ephoton / (8.619e-5 * 2.73)) - 1.);
-	}
-
-	if (bgFlag == 2) {
-		// IR background from Primack et al. (1999) 
-		const double ZMAX_IR = 5.;
-		if (z > ZMAX_IR)
-			return 0.;
-		const double X = 1.2398 * (1. + z) / Ephoton;
-		if (X > 500.)
-			return 0.;
-
-		static const double XData[15] = {-1.0, -0.75, -0.5, -0.25, 0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5};  // log10(eV)
-		static const double YData[15] = {-0.214401, 0.349313, 0.720354, 0.890389, 1.16042, 1.24692, 1.06525, 0.668659, 0.536312, 0.595859, 0.457456, 0.623521, 1.20208, 1.33657, 1.04461};  // log10(nW/m^2/sr)
-		
-		// interpolate
-		if (std::log10(X) <= XData[0])
-			return 0.;
-		if (std::log10(X) >= XData[14]) {
-			double result = (YData[14] - YData[13]) / (XData[14] - XData[13]) * (std::log10(X) - XData[13]) + YData[13];
-			return std::pow(10., result);
-		}
-		int index = 1;
-		do {
-			index++;
-		} while (XData[index] < std::log10(X));
-		double result = (YData[index] - YData[index - 1]) / (XData[index] - XData[index - 1]) * (std::log10(X) - XData[index - 1]) + YData[index - 1];
-		result = std::pow(10., result);
-
-		const double fluxConversion = 3.82182e3;  // conversion from nW/cm^3/sr to eV/cm^3
-		return result * std::pow(1. + z, 4.) / (Ephoton * Ephoton) / fluxConversion;
-	}
-}
 
 double PhotonFieldSampling::crossection(double x, bool onProton) const {
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2

@@ -274,12 +274,6 @@ public:
 protected:
 	ref_ptr<PhotonField> photonField;
 
-
-	// called by: sample_eps
-	// - input: photon energy [eV], redshift
-	// - output: photon density per unit energy [#/(eVcm^3)]
-	double getPhotonDensity(double Ephoton, double z) const;
-
 	// called by: sample_eps
 	// - input: s [GeV^2]
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
@@ -290,7 +284,9 @@ protected:
 	// - output: probability to encounter photon of energy eps
 	double prob_eps(double eps, bool onProton, double Ein, double z) const;
 
-	double prob_eps_max(bool onProton, double Ein, double z, int resMaxEst) const;
+	// called by: sample_eps
+	// - output: maximum probability of all phtotons in field
+	double prob_eps_max(bool onProton, double Ein, double z, int resMaxEst, double epsMin, double epsMax) const;
 
 	// called by: functs
 	// - input: photon energy [eV]

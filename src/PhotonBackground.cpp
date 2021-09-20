@@ -56,6 +56,14 @@ double TabularPhotonField::getRedshiftScaling(double z) const {
 	}
 }
 
+double TabularPhotonField::getMinimumPhotonEnergy(double z) const{
+	return photonEnergies[0];
+}
+
+double TabularPhotonField::getMaximumPhotonEnergy(double z) const{
+	return photonEnergies[photonEnergies.size() -1];
+}
+
 void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::ifstream infile(filePath.c_str());
 	if (!infile.good())
@@ -163,6 +171,20 @@ BlackbodyPhotonField::BlackbodyPhotonField(std::string fieldName, double blackbo
 
 double BlackbodyPhotonField::getPhotonDensity(double ePhoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(ePhoton / (h_planck * c_light)) / std::expm1(ePhoton / (k_boltzmann * this->blackbodyTemperature));
+}
+
+double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
+	double A = 1.093586e-5 * eV / kelvin; // 0.01 % percentil
+	// double A = 2.402189e-5 * eV / kelvin; // 0.1 % percentil
+	// double A = 5.417942e-5 * eV / kelvin; // 1 % percentil
+	return A * this->blackbodyTemperature;
+}
+
+double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const{
+	double A = 1.36246e-3 * eV/kelvin ; // 99.99 % percentil
+	// double A = 1.116975e-3 * eV/kelvin; // 99.9 % percentil
+	// double A = 8.5562445e-4 * eV/kelvin; // 99 % percentil
+	return A*this->blackbodyTemperature;
 }
 
 PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB",false) {

@@ -31,7 +31,8 @@ public:
 	 @param z			redshift (if redshift dependent, default = 0.)
 	 */
 	virtual double getPhotonDensity(double ePhoton, double z = 0.) const = 0;
-	
+	virtual double getMinimumPhotonEnergy(double z = 0.) const = 0;
+	virtual double getMaximumPhotonEnergy(double z = 0.) const = 0;
 
 	/**
 	 returns overall comoving scaling factor
@@ -70,6 +71,8 @@ public:
 	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true, const int flag = 0);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
+	double getMinimumPhotonEnergy(double z) const;
+	double getMaximumPhotonEnergy(double z) const;
 
 protected:
 	void readPhotonEnergy(std::string filePath);
@@ -237,6 +240,8 @@ class BlackbodyPhotonField: public PhotonField {
 public:
 	BlackbodyPhotonField(const std::string fieldName, const double blackbodyTemperature);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
+	double getMinimumPhotonEnergy(double z) const;
+	double getMaximumPhotonEnergy(double z) const;
 
 protected:
 	double blackbodyTemperature;

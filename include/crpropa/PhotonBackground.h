@@ -272,7 +272,8 @@ public:
 	 */
 	double sample_eps(bool onProton, double E_in, double z_in) const;
 protected:
-	int bgFlag;
+	ref_ptr<PhotonField> photonField;
+
 
 	// called by: sample_eps
 	// - input: photon energy [eV], redshift

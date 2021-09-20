@@ -165,22 +165,11 @@ double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(Ephoton / (h_planck * c_light)) / std::expm1(Ephoton / (k_boltzmann * this->blackbodyTemperature));
 }
 
-PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB", false) {
-	// use CMB field as a default
-	// TODO_PR: remove this bgFlag
-	bgFlag = 0;
-}
-
 PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhotonField(field->getFieldName(), true) {
 	// get the field as a parameter that is directly used to initialize the TabularPhotonField class
 	// TODO_PR: remove this bgFlag (and the following code) alltogether by generalizing getPhotonDensity
 	const std::string photonFieldName = field->getFieldName();
-	if (photonFieldName == "CMB") {
-		bgFlag = 0;
-	} else {
-		bgFlag = 1;
-	}
-	
+	photonField = field;
 }
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
@@ -200,7 +189,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 		iRep++;
 		eps = epsMin + random.rand() * (epsMax - epsMin);
 		pEps = prob_eps(eps, onProton, Ein, z);
-		if (iRep < iMax)
+		if (iRep > iMax)
 			throw std::runtime_error("error: no photon found in sample_eps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
 			break;
 	} while (random.rand() * pEpsMax > pEps);

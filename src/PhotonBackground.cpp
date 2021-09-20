@@ -178,7 +178,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double epsMax = this->photonEnergies[photonEnergies.size()-1];
 
 	const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
-	double pEpsMax = prob_eps_max(onProton, Ein, z, resMaxEst);
+	double pEpsMax = prob_eps_max(onProton, Ein, z, resMaxEst, epsMin, epsMax);
 	
 	// sample eps between epsMin ... epsMax
 	double pEps = 0.;

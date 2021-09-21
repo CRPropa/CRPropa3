@@ -293,7 +293,7 @@ protected:
 
 	// called by: sample_eps
 	// - output: maximum probability of all phtotons in field
-	double prob_eps_max(bool onProton, double Ein, double z, int resMaxEst, double epsMin, double epsMax) const;
+	double prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
 
 	// called by: functs
 	// - input: photon energy [eV]

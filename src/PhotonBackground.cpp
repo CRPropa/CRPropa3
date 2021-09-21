@@ -238,8 +238,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double epsMin = photonField->getMinimumPhotonEnergy(0)/eV;
 	double epsMax = photonField->getMaximumPhotonEnergy(0)/eV;
 
-	const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
-	double pEpsMax = prob_eps_max(onProton, Ein, z, resMaxEst, epsMin, epsMax);
+	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
 	
 	// sample eps between epsMin ... epsMax
 	double pEps = 0.;
@@ -258,12 +257,12 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	return eps * eV;
 }
 
-double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, int resMaxEst, double epsMin, double epsMax) const {
+double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
 	// find pMax for current interaction to have a reference for the MC rejection
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
 	// resolution of sampling the range between epsMin ... epsMax for finding the phtoton energy with the maximal interaction prop. 
-	int nrIteration = 1000;
+	int nrIteration = 100;
 	for (int i = 0; i < nrIteration; ++i) {
 		epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
 		const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);

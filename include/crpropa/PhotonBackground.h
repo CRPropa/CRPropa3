@@ -269,12 +269,7 @@ public:
 class PhotonFieldSampling : public TabularPhotonField {
 public:
 	PhotonFieldSampling();
-
-	/**
-	 Constructor to mimic SOPHIA structure.
-	  @param bgFlag		1: CMB | 2: IRB_Kneiske04
-	 */
-	explicit PhotonFieldSampling(int bgFlag);
+	explicit PhotonFieldSampling(ref_ptr<PhotonField> photonField);
 
 	/**
 	 SOPHIA's photon sampling method. Returns energy [J] of a photon of the photon field.
@@ -284,12 +279,7 @@ public:
 	 */
 	double sample_eps(bool onProton, double E_in, double z_in) const;
 protected:
-	int bgFlag;
-
-	// called by: sample_eps
-	// - input: photon energy [eV], redshift
-	// - output: photon density per unit energy [#/(eVcm^3)]
-	double getPhotonDensity(double eps, double z_in) const;
+	ref_ptr<PhotonField> photonField;
 
 	// called by: sample_eps
 	// - input: s [GeV^2]
@@ -299,7 +289,11 @@ protected:
 	// called by: sample_eps, gaussInt
 	// - input: photon energy eps [eV], E_in [GeV]
 	// - output: probability to encounter photon of energy eps
-	double prob_eps(double eps, bool onProton, double E_in, double z_in) const;
+	double prob_eps(double eps, bool onProton, double Ein, double z) const;
+
+	// called by: sample_eps
+	// - output: maximum probability of all phtotons in field
+	double prob_eps_max(bool onProton, double Ein, double z, int resMaxEst, double epsMin, double epsMax) const;
 
 	// called by: functs
 	// - input: photon energy [eV]

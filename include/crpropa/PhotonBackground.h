@@ -31,8 +31,8 @@ public:
 	 @param z			redshift (if redshift dependent, default = 0.)
 	 */
 	virtual double getPhotonDensity(double ePhoton, double z = 0.) const = 0;
-	virtual double getMinimumPhotonEnergy(double z = 0.) const = 0;
-	virtual double getMaximumPhotonEnergy(double z = 0.) const = 0;
+	virtual double getMinimumPhotonEnergy(double z) const = 0;
+	virtual double getMaximumPhotonEnergy(double z) const = 0;
 
 	/**
 	 returns overall comoving scaling factor
@@ -266,7 +266,7 @@ public:
  @class PhotonFieldSampling
  @brief Reimplementation of SOPHIA photon sampling. Naming and unit conventions are taken from SOPHIA to ease comparisions.
  */
-class PhotonFieldSampling : public TabularPhotonField {
+class PhotonFieldSampling :public Referenced {
 public:
 	PhotonFieldSampling();
 	explicit PhotonFieldSampling(ref_ptr<PhotonField> photonField);

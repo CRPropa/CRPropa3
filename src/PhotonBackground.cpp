@@ -72,7 +72,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
-			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [eV] to [J]
+			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [J] to [eV]
 	}
 	infile.close();
 }
@@ -222,11 +222,11 @@ void BlackbodyPhotonField::setQuantile(double q){
 	this->quantile = q;
 }
 
-PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB", false) {
+PhotonFieldSampling::PhotonFieldSampling() {
 	const std::string photonFieldName = "CMB";
 }
 
-PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhotonField(field->getFieldName(), true) {
+PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 	// get the field as a parameter that is directly used to initialize the TabularPhotonField class
 	// TODO_PR: remove this bgFlag (and the following code) alltogether by generalizing getPhotonDensity
 	const std::string photonFieldName = field->getFieldName();
@@ -235,8 +235,8 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhot
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
 	double eps = 0.;
-	double epsMin = this->photonEnergies[0];
-	double epsMax = this->photonEnergies[photonEnergies.size()-1];
+	double epsMin = photonField->getMinimumPhotonEnergy(0)/eV;
+	double epsMax = photonField->getMaximumPhotonEnergy(0)/eV;
 
 	const int resMaxEst = 10; // determines the precision of pMax. Larger values improve the estimation. Should be larger than 1
 	double pEpsMax = prob_eps_max(onProton, Ein, z, resMaxEst, epsMin, epsMax);

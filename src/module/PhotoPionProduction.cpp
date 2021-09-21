@@ -45,8 +45,6 @@ void PhotoPionProduction::setPhotonField(ref_ptr<PhotonField> field) {
 	else
 		initRate(getDataPath("PhotoPionProduction/rate_" + fname + ".txt"));
 
-	// pass phtotnField to PhotonFieldSampling and not only flag
-	// int background = (fname == "CMB") ? 1 : 2; // photon background: 1 for CMB, 2 for Kneiske IRB
 	this->photonFieldSampling = PhotonFieldSampling(photonField);
 }
 

@@ -72,7 +72,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
-			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [J] to [eV]
+			this->photonEnergies.push_back(std::stod(line));
 	}
 	infile.close();
 }

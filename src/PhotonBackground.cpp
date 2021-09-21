@@ -72,7 +72,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
-			this->photonEnergies.push_back(std::stod(line));
+			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [J] to [eV]
 	}
 	infile.close();
 }
@@ -408,8 +408,8 @@ double PhotonFieldSampling::functs(double s, bool onProton) const {
 	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
 	const double factor = s - mass * mass;
 	const double epsPrime = factor / 2. / mass;
-	const double sigma_pg = crossection(epsPrime, onProton);
-	return factor * sigma_pg;
+	const double sigmaPg = crossection(epsPrime, onProton);
+	return factor * sigmaPg;
 }
 
 } // namespace crpropa

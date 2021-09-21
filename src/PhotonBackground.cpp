@@ -176,15 +176,16 @@ double BlackbodyPhotonField::getPhotonDensity(double ePhoton, double z) const {
 
 double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 	double A;
-	switch (quantile)
+	int quantile_int = 10000*quantile;
+	switch (quantile_int)
 	{
-	case 0.0001:	// 0.01 % percentil
+	case 1:	// 0.01 % percentil
 		A = 1.093586e-5 * eV / kelvin;
 		break;
-	case 0.001:		// 0.1 % percentil
+	case 10:		// 0.1 % percentil
 		A = 2.402189e-5 * eV / kelvin; 
 		break;
-	case 0.01:		// 1 % percentil
+	case 100:		// 1 % percentil
 		A = 5.417942e-5 * eV / kelvin;
 		break;
 	default:
@@ -196,15 +197,16 @@ double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 
 double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const{
 	double A;
-	switch (quantile)
+	int quantile_int = 10000*quantile;
+	switch (quantile_int)
 	{
-	case 0.0001:	// 99.99 % percentil
+	case 1:	// 99.99 % percentil
 		A = 1.36246e-3 * eV/kelvin ;
 		break;
-	case 0.001:		// 99.9 % percentil
+	case 10:		// 99.9 % percentil
 		A = 1.116975e-3 * eV/kelvin; 
 		break;
-	case 0.01:		// 99 % percentil
+	case 100:		// 99 % percentil
 		A = 8.5562445e-4 * eV/kelvin; 
 		break;
 	default:
@@ -214,10 +216,10 @@ double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const{
 	return A*this->blackbodyTemperature;
 }
 
-void BlackbodyPhotonField::setQuantile(double q) const{
+void BlackbodyPhotonField::setQuantile(double q){
 	if(not ((q==0.0001) or (q==0.001) or (q== 0.01)))
 		throw std::runtime_error("Quantile not understood. Please use 0.01 (1%), 0.001 (0.1%) or 0.0001 (0.01%) \n");
-	quantile = q;
+	this->quantile = q;
 }
 
 PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB",false) {

@@ -165,6 +165,10 @@ double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
 	return 8 * M_PI * pow_integer<3>(Ephoton / (h_planck * c_light)) / std::expm1(Ephoton / (k_boltzmann * this->blackbodyTemperature));
 }
 
+PhotonFieldSampling::PhotonFieldSampling():TabularPhotonField("CMB", false) {
+	const std::string photonFieldName = "CMB";
+}
+
 PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field):TabularPhotonField(field->getFieldName(), true) {
 	// get the field as a parameter that is directly used to initialize the TabularPhotonField class
 	// TODO_PR: remove this bgFlag (and the following code) alltogether by generalizing getPhotonDensity

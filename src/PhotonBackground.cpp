@@ -277,7 +277,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 }
 
 double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, double zIn) const {
-	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	const double mass = mass(onProton);  
 	double gamma = Ein / mass;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
 	double photonDensity = photonField->getPhotonDensity(eps, zIn);
@@ -294,7 +294,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 
 
 double PhotonFieldSampling::crossection(double x, bool onProton) const {
-	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	const double mass = mass(onProton); 
 	const double sth = 1.1646;  // GeV^2
 	const double s = mass * mass + 2. * mass * x;
 	if (s < sth)
@@ -398,18 +398,23 @@ double PhotonFieldSampling::Ef(double x, double th, double w) const {
 }
 
 double PhotonFieldSampling::breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const {
-	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	const double mass = mass(onProton);
 	const double s = mass * mass + 2. * mass * epsPrime;
 	const double gam2s = Gamma * Gamma * s;
 	return sigma_0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);
 }
 
 double PhotonFieldSampling::functs(double s, bool onProton) const {
-	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	const double mass = mass(onProton);
 	const double factor = s - mass * mass;
 	const double epsPrime = factor / 2. / mass;
 	const double sigmaPg = crossection(epsPrime, onProton);
 	return factor * sigmaPg;
+}
+
+double PhotonFieldSampling::mass(bool onProton) const {
+	const double mass = onProton? 0.93827 : 0.93947;  // Gev/c^2
+	return mass;
 }
 
 } // namespace crpropa

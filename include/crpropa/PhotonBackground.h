@@ -314,6 +314,11 @@ protected:
 	// - input: cross section [µbarn], width [GeV], mass [GeV/c^2], rest frame photon energy [GeV]
 	// - output: Breit-Wigner crossection of a resonance of width Gamma
 	double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
+
+	// called by: prob_eps, crossection, breitwigner, functs
+	// - input: is proton [bool]
+	// - output: mass [Gev/c^2]
+	double mass(bool onProton) const;
 };
 /** @}*/
 

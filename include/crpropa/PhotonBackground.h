@@ -242,9 +242,11 @@ public:
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getMinimumPhotonEnergy(double z) const;
 	double getMaximumPhotonEnergy(double z) const;
+	void setQuantile(double q) const;
 
 protected:
 	double blackbodyTemperature;
+	double quantile;
 };
 
 /**

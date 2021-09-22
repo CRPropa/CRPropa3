@@ -24,6 +24,7 @@ TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDep
 		initRedshiftScaling();
 }
 
+
 double TabularPhotonField::getPhotonDensity(double Ephoton, double z) const {
 	if (this->isRedshiftDependent) {
 		return interpolate2d(Ephoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
@@ -63,7 +64,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
-			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [J] to [eV]
+			this->photonEnergies.push_back(std::stod(line));
 	}
 	infile.close();
 }

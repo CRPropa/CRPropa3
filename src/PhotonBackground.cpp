@@ -228,7 +228,6 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
 	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
 	
-	std::cout << "pEpsMax is done and result to: " << pEpsMax << "\n";
 	// sample eps between epsMin ... epsMax
 	double pEps = 0.;
 	Random &random = Random::instance();
@@ -250,7 +249,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	// find pMax for current interaction to have a reference for the MC rejection
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
-	// resolution of sampling the range between epsMin ... epsMax for finding the phtoton energy with the maximal interaction prop. 
+	// sampling resolution of the range between epsMin ... epsMax for finding the photon energy with the maximal interaction prob. 
 	const int nrIteration = 100;
 	for (int i = 0; i < nrIteration; ++i) {
 		epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
@@ -258,7 +257,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 		if (pEpsDummy > pEpsMaxTested)
 			pEpsMaxTested = pEpsDummy;
 	}
-	// the following factor corrects for only trying to find the maximum on nrIteration phtoton energies
+	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests
 	const double maxCorrectionFactor = 1.6;
 	double pEpsMax = pEpsMaxTested * maxCorrectionFactor;
@@ -272,7 +271,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 	
 	double photonDensity = photonField->getPhotonDensity(eps * eV, zIn) / eV * ccm;
 	if (photonDensity != 0.) {
-		double sMin = 1.1646;  // [GeV], head-on collision
+		double sMin = 1.1646;  // [GeV^2], head-on collision
 		double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * Ein * (1. + beta));
 		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
 		return photonDensity / eps / eps * sintegr / 8. / beta / Ein / Ein * 1.e18 * 1.e6;

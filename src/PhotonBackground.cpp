@@ -9,18 +9,9 @@
 
 namespace crpropa {
 
-TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent, int flag) {
+TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent) {
 	this->fieldName = fieldName;
 	this->isRedshiftDependent = isRedshiftDependent;
-	
-	if (flag == 1) {
-		this->fieldName = "CMB";
-		this->isRedshiftDependent = false;
-	}
-	if (flag == 2) {
-		this->fieldName = "IRB_Kneiske04";
-		this->isRedshiftDependent = true;
-	}
 
 	readPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
 	readPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");
@@ -32,6 +23,7 @@ TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDep
 	if (this->isRedshiftDependent)
 		initRedshiftScaling();
 }
+
 
 double TabularPhotonField::getPhotonDensity(double Ephoton, double z) const {
 	if (this->isRedshiftDependent) {
@@ -72,7 +64,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 	std::string line;
 	while (std::getline(infile, line)) {
 		if (line.size() > 0)
-			this->photonEnergies.push_back(std::stod(line)/eV); //conversion from [J] to [eV]
+			this->photonEnergies.push_back(std::stod(line));
 	}
 	infile.close();
 }
@@ -224,11 +216,10 @@ void BlackbodyPhotonField::setQuantile(double q){
 
 PhotonFieldSampling::PhotonFieldSampling() {
 	const std::string photonFieldName = "CMB";
+	photonField = new CMB();
 }
 
 PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
-	// get the field as a parameter that is directly used to initialize the TabularPhotonField class
-	// TODO_PR: remove this bgFlag (and the following code) alltogether by generalizing getPhotonDensity
 	const std::string photonFieldName = field->getFieldName();
 	photonField = field;
 }
@@ -245,7 +236,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double pEps = 0.;
 	Random &random = Random::instance();
 	int iRep = 0;
-	int iMax = 100000;
+	const int iMax = 100000;
 	do {
 		iRep++;
 		eps = epsMin + random.rand() * (epsMax - epsMin);
@@ -263,7 +254,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
 	// resolution of sampling the range between epsMin ... epsMax for finding the phtoton energy with the maximal interaction prop. 
-	int nrIteration = 100;
+	const int nrIteration = 100;
 	for (int i = 0; i < nrIteration; ++i) {
 		epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
 		const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
@@ -272,7 +263,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration phtoton energies
 	// the factor should be determined in convergence tests
-	double maxCorrectionFactor = 1.6;
+	const double maxCorrectionFactor = 1.6;
 	double pEpsMax = pEpsMaxTested * maxCorrectionFactor;
 	return pEpsMax;
 }

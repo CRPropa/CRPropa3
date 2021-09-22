@@ -67,8 +67,7 @@ protected:
  */
 class TabularPhotonField: public PhotonField {
 public:
-	//TODO: flag probably should not be used in this class anymore
-	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true, const int flag = 0);
+	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
 	double getMinimumPhotonEnergy(double z) const;

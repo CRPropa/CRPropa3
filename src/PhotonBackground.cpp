@@ -9,18 +9,9 @@
 
 namespace crpropa {
 
-TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent, int flag) {
+TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDependent) {
 	this->fieldName = fieldName;
 	this->isRedshiftDependent = isRedshiftDependent;
-	
-	if (flag == 1) {
-		this->fieldName = "CMB";
-		this->isRedshiftDependent = false;
-	}
-	if (flag == 2) {
-		this->fieldName = "IRB_Kneiske04";
-		this->isRedshiftDependent = true;
-	}
 
 	readPhotonEnergy(getDataPath("") + "Scaling/" + this->fieldName + "_photonEnergy.txt");
 	readPhotonDensity(getDataPath("") + "Scaling/" + this->fieldName + "_photonDensity.txt");

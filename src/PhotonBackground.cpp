@@ -215,18 +215,15 @@ void BlackbodyPhotonField::setQuantile(double q){
 }
 
 PhotonFieldSampling::PhotonFieldSampling() {
-	const std::string photonFieldName = "CMB";
 	photonField = new CMB();
 }
 
 PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
-	const std::string photonFieldName = field->getFieldName();
 	photonField = field;
 }
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
 	double eps = 0.;
-
 	double epsMin = photonField->getMinimumPhotonEnergy(z)/eV;
 	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
 	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
@@ -282,7 +279,6 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 	}
 	return 0;
 }
-
 
 double PhotonFieldSampling::crossection(double x, bool onProton) const {
 	const double m = mass(onProton); 

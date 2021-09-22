@@ -226,9 +226,9 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
 	double eps = 0.;
-	double epsMin = photonField->getMinimumPhotonEnergy(0)/eV;
-	double epsMax = photonField->getMaximumPhotonEnergy(0)/eV;
 
+	double epsMin = photonField->getMinimumPhotonEnergy(z)/eV;
+	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
 	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
 	
 	std::cout << "pEpsMax is done and result to: " << pEpsMax << "\n";

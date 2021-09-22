@@ -237,9 +237,10 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 		iRep++;
 		eps = epsMin + random.rand() * (epsMax - epsMin);
 		pEps = prob_eps(eps, onProton, Ein, z);
-		if (iRep > iMax)
+		if (iRep > iMax) {
 			throw std::runtime_error("error: no photon found in sample_eps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
 			break;
+		}
 	} while (random.rand() * pEpsMax > pEps);
 	
 	return eps * eV;

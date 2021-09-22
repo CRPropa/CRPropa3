@@ -278,8 +278,7 @@ public:
 	 @param z_in		redshift of incoming nucleon
 	 */
 	double sample_eps(bool onProton, double E_in, double z_in) const;
-protected:
-	ref_ptr<PhotonField> photonField;
+
 
 	// called by: sample_eps
 	// - input: s [GeV^2]
@@ -319,6 +318,8 @@ protected:
 	// - input: is proton [bool]
 	// - output: mass [Gev/c^2]
 	double mass(bool onProton) const;
+protected:
+	ref_ptr<PhotonField> photonField;
 };
 /** @}*/
 

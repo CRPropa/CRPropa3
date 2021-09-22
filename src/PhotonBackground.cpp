@@ -244,7 +244,7 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	double pEps = 0.;
 	Random &random = Random::instance();
 	int iRep = 0;
-	int iMax = 100000;
+	const int iMax = 100000;
 	do {
 		iRep++;
 		eps = epsMin + random.rand() * (epsMax - epsMin);
@@ -262,7 +262,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
 	// resolution of sampling the range between epsMin ... epsMax for finding the phtoton energy with the maximal interaction prop. 
-	int nrIteration = 100;
+	const int nrIteration = 100;
 	for (int i = 0; i < nrIteration; ++i) {
 		epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
 		const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
@@ -271,7 +271,7 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration phtoton energies
 	// the factor should be determined in convergence tests
-	double maxCorrectionFactor = 1.6;
+	const double maxCorrectionFactor = 1.6;
 	double pEpsMax = pEpsMaxTested * maxCorrectionFactor;
 	return pEpsMax;
 }

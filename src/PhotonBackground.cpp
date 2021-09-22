@@ -269,7 +269,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 	double gamma = Ein / m;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
 	
-	double photonDensity = photonField->getPhotonDensity(eps * eV, zIn) / eV * ccm;
+	double photonDensity = photonField->getPhotonDensity(eps * eV, zIn) * ccm / eps;
 	if (photonDensity != 0.) {
 		double sMin = 1.1646;  // [GeV^2], head-on collision
 		double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * Ein * (1. + beta));

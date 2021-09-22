@@ -188,24 +188,7 @@ double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 }
 
 double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const{
-	double A;
-	int quantile_int = 10000*quantile;
-	switch (quantile_int)
-	{
-	case 1:	// 99.99 % percentil
-		A = 1.36246e-3 * eV/kelvin ;
-		break;
-	case 10:		// 99.9 % percentil
-		A = 1.116975e-3 * eV/kelvin; 
-		break;
-	case 100:		// 99 % percentil
-		A = 8.5562445e-4 * eV/kelvin; 
-		break;
-	default:
-		throw std::runtime_error("Quantile not understood. Please use 0.01 (1%), 0.001 (0.1%) or 0.0001 (0.01%) \n");
-		break;
-	}
-	return A*this->blackbodyTemperature;
+	return 0.1*eV;
 }
 
 void BlackbodyPhotonField::setQuantile(double q){

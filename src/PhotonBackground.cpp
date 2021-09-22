@@ -224,11 +224,10 @@ void BlackbodyPhotonField::setQuantile(double q){
 
 PhotonFieldSampling::PhotonFieldSampling() {
 	const std::string photonFieldName = "CMB";
+	photonField = new CMB();
 }
 
 PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
-	// get the field as a parameter that is directly used to initialize the TabularPhotonField class
-	// TODO_PR: remove this bgFlag (and the following code) alltogether by generalizing getPhotonDensity
 	const std::string photonFieldName = field->getFieldName();
 	photonField = field;
 }

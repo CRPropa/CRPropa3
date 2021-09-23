@@ -383,8 +383,8 @@ double PhotonFieldSampling::functs(double s, bool onProton) const {
 }
 
 double PhotonFieldSampling::mass(bool onProton) const {
-	const double m = onProton? 0.93827 : 0.93947;  // Gev/c^2
-	return m;
+	const double m =  onProton ? mass_proton : mass_neutron;
+	return m / GeV * c_squared;
 }
 
 } // namespace crpropa

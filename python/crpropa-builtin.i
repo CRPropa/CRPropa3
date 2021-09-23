@@ -17,7 +17,6 @@
 %include "2_headers.i"
 
 /* 3. Pretty print for Python */
-
 %define __REPR__( classname )
 %feature("python:slot", "tp_str", functype="reprfunc") classname::repr();
 %feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
@@ -28,10 +27,6 @@
         }
 }
 %enddef
-
-%template(Vector3d) crpropa::Vector3<double>;
-%template(Vector3f) crpropa::Vector3<float>;
-
 
 /* Division of vector fix #34 */
 %feature("python:slot", "nb_divide", functype="binaryfunc") *::operator/;

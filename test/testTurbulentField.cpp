@@ -13,6 +13,23 @@
 
 using namespace crpropa;
 
+//check problems brought up in https://github.com/CRPropa/CRPropa3/issues/322
+TEST(testTurbulenceSpectrum, constructor) {
+	double sIndex = 5./3.;
+	double qIndex = 4.;
+	double bendOver = 1.;
+	double lMin = 1.; 
+	double lMax = 10.; 
+	double brms = 1*muG;
+	auto spectrum = TurbulenceSpectrum(brms, lMin, lMax);
+	EXPECT_DOUBLE_EQ(spectrum.getBrms(), brms);
+	EXPECT_DOUBLE_EQ(spectrum.getLmin(), lMin);
+	EXPECT_DOUBLE_EQ(spectrum.getLmax(), lMax);
+	EXPECT_DOUBLE_EQ(spectrum.getLbendover(), bendOver); //default
+	EXPECT_DOUBLE_EQ(spectrum.getSindex(), sIndex); //default
+	EXPECT_DOUBLE_EQ(spectrum.getQindex(), qIndex); //default
+}
+
 TEST(testTurbulenceSpectrum, correlationLength) {
 	double lMin = 0.00001; // not used for Lc
 	double lMax = 9999999; // not used for Lc

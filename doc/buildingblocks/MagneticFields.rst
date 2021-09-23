@@ -1,3 +1,3 @@
 Magnetic Fields
-================
+===============
 .. doxygengroup:: MagneticFields

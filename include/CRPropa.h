@@ -26,6 +26,7 @@
 #include "crpropa/Version.h"
 
 #include "crpropa/module/AdiabaticCooling.h"
+#include "crpropa/module/Acceleration.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/BreakCondition.h"
 #include "crpropa/module/DiffusionSDE.h"
@@ -63,6 +64,7 @@
 #include "crpropa/magneticField/PT11Field.h"
 #include "crpropa/magneticField/QuimbyMagneticField.h"
 #include "crpropa/magneticField/TF17Field.h"
+#include "crpropa/magneticField/CMZField.h"
 #include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
@@ -100,6 +102,10 @@
  * @{ @brief Energy losses of candidates.
  * @}
  *
+ * \defgroup PhotonFields Photon Fields
+ * @{ @brief Photon fields for particle interactions.
+ * @}
+ *
  * \defgroup MagneticFields Magnetic Fields
  * @{ @brief Magnetic field models
  * @}
@@ -117,7 +123,7 @@
  * @}
  *
  * \defgroup SourceFeatures Sources
- * @{ @brief Source and SourceFeatures
+ * @{ @brief Source and SourceFeatures, i.e. properties of the partcle injection
  *
  *  Sourcefeatures are added to sources and manipulate the properties of the
  *  emitted candidate.
@@ -132,8 +138,16 @@
  * magnetic field.
  * @}
  *
+ * \defgroup Acceleration Acceleration Processes
+ * @{ @brief Modules and techniques to simualte particle acceleration
+ *
+ *  These particle acceleration features is analogue to an energy loss due to
+ *  an interaction with a background photon, but for energy loss/gain in
+ *  interaction with scattering centers.
+ * @}
+ *
  * \defgroup Tools Tools
- * @{ @brief Collection of helper functinos and modules.
+ * @{ @brief Collection of helper functions and modules.
  * @}
  */
 

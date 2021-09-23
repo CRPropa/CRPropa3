@@ -87,6 +87,26 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/Vector3.h"
 
+%exception crpropa::Vector3::__getitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+}
+
+%exception crpropa::Vector3::__setitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+}
+
 %extend crpropa::Vector3
 {
   size_t __len__()
@@ -117,11 +137,19 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
   double __getitem__(size_t i)
   {
+    if(i > 2) {
+        throw RangeError();
+    }
+    
     return $self->data[i];
   }
 
   int __setitem__(size_t i, T value)
   {
+    if(i > 2) {
+        throw RangeError();
+    }
+
     $self->data[i] = value;
     return 0;
   }
@@ -134,7 +162,11 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
   }
 }
 
+%feature("python:slot", "tp_str", functype="reprfunc") crpropa::Vector3::getDescription();
+%feature("python:slot", "tp_repr", functype="reprfunc") crpropa::Vector3::getDescription();
 
+%template(Vector3d) crpropa::Vector3<double>;
+%template(Vector3f) crpropa::Vector3<float>;
 
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
@@ -416,6 +448,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/PT11Field.h"
 %include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
+%include "crpropa/magneticField/CMZField.h"
 %include "crpropa/magneticField/turbulentField/TurbulentField.h"
 %include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 %include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
@@ -654,4 +687,13 @@ class ParticleCollectorIterator {
 %include "crpropa/massDistribution/Ferriere.h"
 %include "crpropa/massDistribution/Massdistribution.h"
 %include "crpropa/massDistribution/ConstantDensity.h"
+
+
+
+
+%template(StepLengthModifierRefPtr) crpropa::ref_ptr<crpropa::StepLengthModifier>;
+%feature("director") crpropa::StepLengthModifier;
+%include "crpropa/module/Acceleration.h"
+
+
 

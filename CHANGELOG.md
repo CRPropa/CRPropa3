@@ -2,12 +2,30 @@
 
 ### Bug fixes:
 
+### New features:
+* Add modules for first and second order Fermi acceleration
+
+### Interface changes:
+
+### Features that are deprecated and will be removed after this release
+
+### New plugins and resources linked on the webpages:
+
+
+
+## CRPropa 3.1.7
+
+### Bug fixes:
+
+* Re-add URB that was temporarily not available in the (unreleased) master branch.
 * Turbulent fields generated on a grid were limited up to 2048 grid-size due to
   an integer overflow (i.e. 2048^3 index > signed int); solved by replacing
   int with size_t
 
 ### New features:
 
+* New model for the radio background added: Nitu et al. 2021 measurements.
+* New model for the radio background added: Fixsen et al. 2011 (ARCADE-2) measurements.
 * Weighted sampling thinning of electromagnetic processes  (EMPairProduction,
   EMInverseComptonScattering, EMDoublePairProduction, EMTripletPairProduction).
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
@@ -21,7 +39,7 @@
 * New class-based interface for turbulent fields introduced
 * New turbulence modules implemented:
   - GridTurbulence (with the bendover scale) which should in general be used
-    instead of initTurbulence (before, it was implmeneted as
+    instead of initTurbulence (before, it was implemented as
     initTurbulenceWithBendover);
   - SimpleGridTurbulence which provides the exact field as initTurbulence;
   - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence
@@ -44,7 +62,6 @@
 * Turbulence-related functions: initTurbulence, turbulentCorrelationLength,
   initHelicalTurbulence
 
-### New plugins and resources linked on the webpages:
 
 ## CRPropa v3.1.6
 

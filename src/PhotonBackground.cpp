@@ -207,7 +207,10 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
 	double eps = 0.;
-	double epsMin = photonField->getMinimumPhotonEnergy(z)/eV;
+	const double m = mass(onProton);
+	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
+	double epsMinInteraction = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
+	double epsMin = std::max(photonField->getMinimumPhotonEnergy(z)/eV, epsMinInteraction); 
 	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
 	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
 	

@@ -278,19 +278,24 @@ public:
 	 */
 	double sample_eps(bool onProton, double E_in, double z_in) const;
 
-
 	// called by: sample_eps
 	// - input: s [GeV^2]
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
 	double functs(double s, bool onProton) const;
 
 	// called by: sample_eps, gaussInt
-	// - input: photon energy eps [eV], E_in [GeV]
+	// - input: photon energy eps [eV], Ein [GeV]
 	// - output: probability to encounter photon of energy eps
 	double prob_eps(double eps, bool onProton, double Ein, double z) const;
 
-	// called by: sample_eps
-	// - output: maximum probability of all phtotons in field
+	/** called by: sample_eps
+	@param onProton	particle type: proton or neutron
+	@param Ein		energy of incoming nucleon
+	@param z		redshift of incoming nucleon
+	@param epsMin   minimum photon energy of field
+	@param epsMax   maximum photon energy of field
+	- output: maximum probability of all photons in field
+	 */
 	double prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
 
 	// called by: functs

@@ -236,18 +236,35 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	// find pMax for current interaction to have a reference for the MC rejection
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
+	if(sampleLog){
+		// sample in logspace with Δlog(E/eV) = 0.1
+		double logEmin = std::log10(epsMin);
+		int i = 0;
+		double p;
+		while (epsDummy < epsMax)
+		{
+			epsDummy = pow_integer<10>(logEmin + 0.1*i);
+			p = prob_eps(epsDummy, onProton, Ein, z);
+			if(p>pEpsMaxTested)
+				pEpsMaxTested = p;
+			
+			i++;
+		}
+	}
+	else{
 	// sampling resolution of the range between epsMin ... epsMax for finding the photon energy with the maximal interaction prob. 
-	const int nrIteration = 100;
-	for (int i = 0; i < nrIteration; ++i) {
-		epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
-		const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
-		if (pEpsDummy > pEpsMaxTested)
-			pEpsMaxTested = pEpsDummy;
+		const int nrIteration = 100;
+		for (int i = 0; i < nrIteration; ++i) {
+			epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
+			const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
+			if (pEpsDummy > pEpsMaxTested)
+				pEpsMaxTested = pEpsDummy;
+		}
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests
-	const double maxCorrectionFactor = 1.6;
-	double pEpsMax = pEpsMaxTested * maxCorrectionFactor;
+	//const double maxCorrectionFactor = 1.6;
+	double pEpsMax = pEpsMaxTested * correctionFactor;
 	return pEpsMax;
 }
 
@@ -388,6 +405,14 @@ double PhotonFieldSampling::functs(double s, bool onProton) const {
 double PhotonFieldSampling::mass(bool onProton) const {
 	const double m =  onProton ? mass_proton : mass_neutron;
 	return m / GeV * c_squared;
+}
+
+void PhotonFieldSampling::setSampleLog(bool b) {
+	sampleLog = b;
+}
+
+void PhotonFieldSampling::setCorrectionFactor(double factor){
+	correctionFactor = factor;
 }
 
 } // namespace crpropa

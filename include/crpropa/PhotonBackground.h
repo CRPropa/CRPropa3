@@ -322,8 +322,14 @@ public:
 	// - input: is proton [bool]
 	// - output: mass [Gev/c^2]
 	double mass(bool onProton) const;
+	
+	void setSampleLog(bool log);
+	void setCorrectionFactor(double factor);
+
 protected:
 	ref_ptr<PhotonField> photonField;
+	bool sampleLog;
+	double correctionFactor; // increeses the maximum of the propability function
 };
 /** @}*/
 

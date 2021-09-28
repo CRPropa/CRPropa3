@@ -328,8 +328,8 @@ public:
 
 protected:
 	ref_ptr<PhotonField> photonField;
-	bool sampleLog;
-	double correctionFactor; // increeses the maximum of the propability function
+	bool sampleLog = false;
+	double correctionFactor = 1.6; // increeses the maximum of the propability function
 };
 /** @}*/
 

@@ -234,25 +234,26 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 
 double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
 	// find pMax for current interaction to have a reference for the MC rejection
+	// by testing photon energies between epsMin and epsMax for their interaction probabilities
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
 	if(sampleLog){
-		// sample in logspace with Δlog(E/eV) = 0.1
+		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.1 or otherwise 1/100 of the size of the energy range epsMin to epsMax
+		double step = std::min(0.1,(epsMax - epsMin)/100.);
 		double logEmin = std::log10(epsMin);
 		int i = 0;
 		double p;
 		while (epsDummy < epsMax)
 		{
-			epsDummy = pow_integer<10>(logEmin + 0.1*i);
+			epsDummy = pow_integer<10>(logEmin + step*i);
 			p = prob_eps(epsDummy, onProton, Ein, z);
 			if(p>pEpsMaxTested)
 				pEpsMaxTested = p;
-			
 			i++;
 		}
 	}
 	else{
-	// sampling resolution of the range between epsMin ... epsMax for finding the photon energy with the maximal interaction prob. 
+	// sample in linspace with nr of Iterations between epsMin and epsMax
 		const int nrIteration = 100;
 		for (int i = 0; i < nrIteration; ++i) {
 			epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;

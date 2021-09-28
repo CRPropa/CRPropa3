@@ -23,9 +23,11 @@ struct SophiaEventOutput {
  @brief Photo-pion interactions of nuclei with background photons.
  */
 class PhotoPionProduction: public Module {
+public:
+	PhotonFieldSampling photonFieldSampling;
+
 protected:
 	ref_ptr<PhotonField> photonField;
-	PhotonFieldSampling photonFieldSampling;
 	std::vector<double> tabLorentz; ///< Lorentz factor of nucleus
 	std::vector<double> tabRedshifts;  ///< redshifts (optional for haveRedshiftDependence)
 	std::vector<double> tabProtonRate; ///< interaction rate in [1/m] for protons

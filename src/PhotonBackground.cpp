@@ -239,28 +239,25 @@ double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
 	// find pEpsMax, which is the photon energy (eps) that we have the 
 	// highest (max) probability (p) to interact with
-	double pEpsMaxTested = 0.;
-	double epsDummy = 0.;
 	int const nrSteps = 100;
+	double pEpsMaxTested = 0.;
 	double step = 0.;
 	if (sampleLog){
 		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with max 100 steps log. equidis. spaced
 		step = std::min(0.01,std::log10(epsMax/epsMin)/nrSteps);
 	} else
 		step = (epsMax - epsMin) / nrSteps;
-	int i = 0;
-	double p;
-	while (epsDummy < epsMax)
-	{
+
+	for (int i = 0; i < nrSteps; i++) {
+		double epsDummy;
 		if (sampleLog)
 			epsDummy = epsMin * pow_integer<10>(step*i);
 		else 
 			epsDummy = epsMin + step*i;
-				
-		p = probEps(epsDummy, onProton, Ein, z);
+
+		double p = probEps(epsDummy, onProton, Ein, z);
 		if(p > pEpsMaxTested)
 			pEpsMaxTested = p;
-		i++;
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests

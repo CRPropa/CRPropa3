@@ -236,7 +236,7 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	double pEpsMaxTested = 0.;
 	double step = 0.;
 	if (sampleLog){
-		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with max 100 steps log. equidis. spaced
+		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with nrSteps+1 steps log. equidis. spaced
 		step = std::min(0.01, std::log10(epsMax/epsMin)/nrSteps/1.);
 	} else
 		step = (epsMax - epsMin) / nrSteps;
@@ -245,10 +245,9 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	int i = 0;
 	while (epsDummy < epsMax) {
 		if (sampleLog)
-			epsDummy = epsMin * pow_integer<10>(step*i);
+			epsDummy = epsMin * pow(10,step*i);
 		else
 			epsDummy = epsMin + step*i;
-
 		double p = probEps(epsDummy, onProton, Ein, z);
 		if(p > pEpsMaxTested)
 			pEpsMaxTested = p;

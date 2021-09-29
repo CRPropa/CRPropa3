@@ -274,10 +274,10 @@ public:
 	/**
 	 SOPHIA's photon sampling method. Returns energy [J] of a photon of the photon field.
 	 @param onProton	particle type: proton or neutron
-	 @param E_in		energy of incoming nucleon
-	 @param z_in		redshift of incoming nucleon
+	 @param E		energy of incoming nucleon [J]
+	 @param z		redshift of incoming nucleon
 	 */
-	double sampleEps(bool onProton, double Ein, double z) const;
+	double sampleEps(bool onProton, double E, double z) const;
 
 	// called by: sampleEps
 	// - input: s [GeV^2]

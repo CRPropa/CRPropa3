@@ -175,7 +175,7 @@ double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 		A = 1.093586e-5 * eV / kelvin;
 		break;
 	case 10:		// 0.1 % percentil
-		A = 2.402189e-5 * eV / kelvin; 
+		A = 2.402189e-5 * eV / kelvin;
 		break;
 	case 100:		// 1 % percentil
 		A = 5.417942e-5 * eV / kelvin;
@@ -205,74 +205,66 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 	photonField = field;
 }
 
-double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
-	double eps = 0.;
+double PhotonFieldSampling::sampleEps(bool onProton, double E, double z) const {
+	// sample eps between epsMin ... epsMax
+	double Ein = E/GeV;
+	double epsMin = std::max(photonField->getMinimumPhotonEnergy(z)/eV, epsMinInteraction(onProton, Ein));
+	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
+	double pEpsMax = probEpsMax(onProton, Ein, z, epsMin, epsMax);
+
+	Random &random = Random::instance();
+	for (int i = 0; i < 1000000; i++) {
+		double eps = epsMin + random.rand() * (epsMax - epsMin);
+		double pEps = probEps(eps, onProton, Ein, z);
+		if (random.rand() * pEpsMax < pEps)
+			return eps * eV;
+	}
+	throw std::runtime_error("error: no photon found in sampleEps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
+}
+
+double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 	const double m = mass(onProton);
 	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
 	double epsMinInteraction = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
-	double epsMin = std::max(photonField->getMinimumPhotonEnergy(z)/eV, epsMinInteraction); 
-	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
-	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
-	
-	// sample eps between epsMin ... epsMax
-	double pEps = 0.;
-	Random &random = Random::instance();
-	int iRep = 0;
-	const int iMax = 100000;
-	do {
-		iRep++;
-		eps = epsMin + random.rand() * (epsMax - epsMin);
-		pEps = prob_eps(eps, onProton, Ein, z);
-		if (iRep > iMax) {
-			throw std::runtime_error("error: no photon found in sample_eps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
-			break;
-		}
-	} while (random.rand() * pEpsMax > pEps);
-	
-	return eps * eV;
+	return epsMinInteraction;
 }
 
-double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
-	// find pMax for current interaction to have a reference for the MC rejection
-	// by testing photon energies between epsMin and epsMax for their interaction probabilities
+double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
+	// find pEpsMax, which is the photon energy (eps) that we have the
+	// highest (max) probability (p) to interact with
+	int const nrSteps = 100;
 	double pEpsMaxTested = 0.;
-	double epsDummy = 0.;
-	if(sampleLog){
+	double step = 0.;
+	if (sampleLog){
 		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with max 100 steps log. equidis. spaced
-		double step = std::min(0.01,std::log10(epsMax/epsMin)/100.);
-		int i = 0;
-		double p;
-		while (epsDummy < epsMax)
-		{
+		step = std::min(0.01,std::log10(epsMax/epsMin)/nrSteps);
+	} else
+		step = (epsMax - epsMin) / nrSteps;
+
+	double epsDummy = 0.;
+	int i = 0;
+	while (epsDummy < epsMax) {
+		if (sampleLog)
 			epsDummy = epsMin * pow_integer<10>(step*i);
-			p = prob_eps(epsDummy, onProton, Ein, z);
-			if(p>pEpsMaxTested)
-				pEpsMaxTested = p;
-			i++;
-		}
-	}
-	else{
-	// sample in linspace with nr of Iterations between epsMin and epsMax
-		const int nrIteration = 100;
-		for (int i = 0; i < nrIteration; ++i) {
-			epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
-			const double pEpsDummy = this->prob_eps(epsDummy, onProton, Ein, z);
-			if (pEpsDummy > pEpsMaxTested)
-				pEpsMaxTested = pEpsDummy;
-		}
+		else
+			epsDummy = epsMin + step*i;
+
+		double p = probEps(epsDummy, onProton, Ein, z);
+		if(p > pEpsMaxTested)
+			pEpsMaxTested = p;
+		i++;
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests
-	//const double maxCorrectionFactor = 1.6;
 	double pEpsMax = pEpsMaxTested * correctionFactor;
 	return pEpsMax;
 }
 
-double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, double z) const {
-	const double m = mass(onProton);  
+double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, double z) const {
+	const double m = mass(onProton);
 	double gamma = Ein / m;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
-	
+
 	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
 		double sMin = 1.1646;  // [GeV^2], head-on collision
@@ -284,7 +276,7 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 }
 
 double PhotonFieldSampling::crossection(double eps, bool onProton) const {
-	const double m = mass(onProton); 
+	const double m = mass(onProton);
 	const double sth = 1.1646;  // GeV^2
 	const double s = m * m + 2. * m * eps;
 	if (s < sth)

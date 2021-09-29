@@ -274,22 +274,22 @@ public:
 	/**
 	 SOPHIA's photon sampling method. Returns energy [J] of a photon of the photon field.
 	 @param onProton	particle type: proton or neutron
-	 @param E_in		energy of incoming nucleon
-	 @param z_in		redshift of incoming nucleon
+	 @param E		energy of incoming nucleon [J]
+	 @param z		redshift of incoming nucleon
 	 */
-	double sample_eps(bool onProton, double Ein, double z) const;
+	double sampleEps(bool onProton, double E, double z) const;
 
-	// called by: sample_eps
+	// called by: sampleEps
 	// - input: s [GeV^2]
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
 	double functs(double s, bool onProton) const;
 
-	// called by: sample_eps, gaussInt
+	// called by: sampleEps, gaussInt
 	// - input: photon energy eps [eV], Ein [GeV]
 	// - output: probability to encounter photon of energy eps
-	double prob_eps(double eps, bool onProton, double Ein, double z) const;
+	double probEps(double eps, bool onProton, double Ein, double z) const;
 
-	/** called by: sample_eps
+	/** called by: sampleEps
 	@param onProton	particle type: proton or neutron
 	@param Ein		energy of incoming nucleon
 	@param z		redshift of incoming nucleon
@@ -297,7 +297,9 @@ public:
 	@param epsMax   maximum photon energy of field
 	- output: maximum probability of all photons in field
 	 */
-	double prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
+	double probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
+
+	double epsMinInteraction(bool onProton, double Ein) const;
 
 	// called by: functs
 	// - input: photon energy [eV]
@@ -319,7 +321,7 @@ public:
 	// - output: Breit-Wigner crossection of a resonance of width Gamma
 	double breitwigner(double sigma0, double gamma, double DMM, double epsPrime, bool onProton) const;
 
-	// called by: prob_eps, crossection, breitwigner, functs
+	// called by: probEps, crossection, breitwigner, functs
 	// - input: is proton [bool]
 	// - output: mass [Gev/c^2]
 	double mass(bool onProton) const;

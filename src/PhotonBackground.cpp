@@ -241,29 +241,26 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	// highest (max) probability (p) to interact with
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
-	if(sampleLog){
+	int const nrSteps = 100;
+	double step = 0.;
+	if (sampleLog){
 		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with max 100 steps log. equidis. spaced
-		double step = std::min(0.01,std::log10(epsMax/epsMin)/100.);
-		int i = 0;
-		double p;
-		while (epsDummy < epsMax)
-		{
+		step = std::min(0.01,std::log10(epsMax/epsMin)/nrSteps);
+	} else
+		step = (epsMax - epsMin) / nrSteps;
+	int i = 0;
+	double p;
+	while (epsDummy < epsMax)
+	{
+		if (sampleLog)
 			epsDummy = epsMin * pow_integer<10>(step*i);
-			p = probEps(epsDummy, onProton, Ein, z);
-			if(p>pEpsMaxTested)
-				pEpsMaxTested = p;
-			i++;
-		}
-	}
-	else{
-	// sample in linspace with nr of Iterations between epsMin and epsMax
-		const int nrIteration = 100;
-		for (int i = 0; i < nrIteration; ++i) {
-			epsDummy = epsMin + (epsMax - epsMin) / nrIteration * i;
-			const double pEpsDummy = this->probEps(epsDummy, onProton, Ein, z);
-			if (pEpsDummy > pEpsMaxTested)
-				pEpsMaxTested = pEpsDummy;
-		}
+		else 
+			epsDummy = epsMin + step*i;
+				
+		p = probEps(epsDummy, onProton, Ein, z);
+		if(p > pEpsMaxTested)
+			pEpsMaxTested = p;
+		i++;
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests

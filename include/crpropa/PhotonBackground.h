@@ -307,12 +307,12 @@ public:
 	// called by: crossection
 	// - input: photon energy [eV], threshold [eV], max [eV], unknown [no unit]
 	// - output: unknown [no unit]
-	double Pl(double x, double xth, double xmax, double alpha) const;
+	double Pl(double eps, double xth, double xMax, double alpha) const;
 
 	// called by: crossection
 	// - input: photon energy [eV], threshold [eV], unknown [eV]
 	// - output: unknown [no unit]
-	double Ef(double x, double th, double w) const;
+	double Ef(double eps, double epsTh, double w) const;
 
 	// called by: crossection
 	// - input: cross section [µbarn], width [GeV], mass [GeV/c^2], rest frame photon energy [GeV]
@@ -325,7 +325,7 @@ public:
 	double mass(bool onProton) const;
 	
 	void setSampleLog(bool log);
-	
+
 	void setCorrectionFactor(double factor);
 
 protected:

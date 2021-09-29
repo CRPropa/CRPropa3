@@ -365,33 +365,33 @@ double PhotonFieldSampling::crossection(double eps, bool onProton) const {
 	return cross_res + cross_dir + cs_multidiff + cross_frag2;
 }
 
-double PhotonFieldSampling::Pl(double x, double xth, double xmax, double alpha) const {
-	if (xth > x)
+double PhotonFieldSampling::Pl(double eps, double epsTh, double epsMax, double alpha) const {
+	if (epsTh > epsMax)
 		return 0.;
-	const double a = alpha * xmax / xth;
-	const double prod1 = std::pow((x - xth) / (xmax - xth), a - alpha);
-	const double prod2 = std::pow(x / xmax, -a);
+	const double a = alpha * epsMax / epsTh;
+	const double prod1 = std::pow((eps - epsTh) / (epsMax - epsTh), a - alpha);
+	const double prod2 = std::pow(eps / epsMax, -a);
 	return prod1 * prod2;
 }
 
-double PhotonFieldSampling::Ef(double x, double th, double w) const {
-	const double wth = w + th;
-	if (x <= th) {
+double PhotonFieldSampling::Ef(double eps, double epsTh, double w) const {
+	const double wTh = w + epsTh;
+	if (eps <= epsTh) {
 		return 0.;
-	} else if ((x > th) && (x < wth)) {
-		return (x - th) / w;
-	} else if (x >= wth) {
+	} else if ((eps > epsTh) && (eps < wTh)) {
+		return (eps - epsTh) / w;
+	} else if (eps >= wTh) {
 		return 1.;
 	} else {
 		throw std::runtime_error("error in function Ef");
 	}
 }
 
-double PhotonFieldSampling::breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const {
+double PhotonFieldSampling::breitwigner(double sigma0, double gamma, double DMM, double epsPrime, bool onProton) const {
 	const double m = mass(onProton);
 	const double s = m * m + 2. * m * epsPrime;
-	const double gam2s = Gamma * Gamma * s;
-	return sigma_0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);
+	const double gam2s = gamma * gamma * s;
+	return sigma0 * (s / epsPrime / epsPrime) * gam2s / ((s - DMM * DMM) * (s - DMM * DMM) + gam2s);
 }
 
 double PhotonFieldSampling::functs(double s, bool onProton) const {

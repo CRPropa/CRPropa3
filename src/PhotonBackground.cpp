@@ -206,27 +206,19 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 }
 
 double PhotonFieldSampling::sampleEps(bool onProton, double Ein, double z) const {
-	double eps = 0.;
+	// sample eps between epsMin ... epsMax
 	double epsMin = std::max(photonField->getMinimumPhotonEnergy(z)/eV, epsMinInteraction(onProton, Ein)); 
 	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
 	double pEpsMax = probEpsMax(onProton, Ein, z, epsMin, epsMax);
 	
-	// sample eps between epsMin ... epsMax
-	double pEps = 0.;
 	Random &random = Random::instance();
-	int iRep = 0;
-	const int iMax = 100000;
-	do {
-		iRep++;
-		eps = epsMin + random.rand() * (epsMax - epsMin);
-		pEps = probEps(eps, onProton, Ein, z);
-		if (iRep > iMax) {
-			throw std::runtime_error("error: no photon found in sampleEps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
-			break;
-		}
-	} while (random.rand() * pEpsMax > pEps);
-	
-	return eps * eV;
+	for (int i = 0; i < 100000; i++) {
+		double eps = epsMin + random.rand() * (epsMax - epsMin);
+		double pEps = probEps(eps, onProton, Ein, z);
+		if (random.rand() * pEpsMax > pEps)
+			return eps * eV;
+	}
+	throw std::runtime_error("error: no photon found in sampleEps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");	
 }
 
 double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {

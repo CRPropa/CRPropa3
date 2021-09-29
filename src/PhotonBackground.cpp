@@ -241,8 +241,9 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	} else
 		step = (epsMax - epsMin) / nrSteps;
 
-	for (int i = 0; i < nrSteps; i++) {
-		double epsDummy;
+	double epsDummy = 0.;
+	int i = 0;
+	while (epsDummy < epsMax) {
 		if (sampleLog)
 			epsDummy = epsMin * pow_integer<10>(step*i);
 		else
@@ -251,6 +252,7 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 		double p = probEps(epsDummy, onProton, Ein, z);
 		if(p > pEpsMaxTested)
 			pEpsMaxTested = p;
+		i++;
 	}
 	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests

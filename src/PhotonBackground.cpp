@@ -207,9 +207,7 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 
 double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) const {
 	double eps = 0.;
-	const double m = mass(onProton);
-	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
-	double epsMinInteraction = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
+	double epsMinInteraction = eps_min_interaction(onProton, Ein);
 	double epsMin = std::max(photonField->getMinimumPhotonEnergy(z)/eV, epsMinInteraction); 
 	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
 	double pEpsMax = prob_eps_max(onProton, Ein, z, epsMin, epsMax);
@@ -232,9 +230,16 @@ double PhotonFieldSampling::sample_eps(bool onProton, double Ein, double z) cons
 	return eps * eV;
 }
 
+double PhotonFieldSampling::eps_min_interaction(bool onProton, double Ein) const {
+	const double m = mass(onProton);
+	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
+	double epsMinInteraction = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
+	return epsMinInteraction;
+}
+
 double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
-	// find pMax for current interaction to have a reference for the MC rejection
-	// by testing photon energies between epsMin and epsMax for their interaction probabilities
+	// find pEpsMax, which is the photon energy (eps) that we have the 
+	// highest (max) probability (p) to interact with
 	double pEpsMaxTested = 0.;
 	double epsDummy = 0.;
 	if(sampleLog){

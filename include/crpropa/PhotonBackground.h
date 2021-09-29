@@ -299,6 +299,8 @@ public:
 	 */
 	double prob_eps_max(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
 
+	double eps_min_interaction(bool onProton, double Ein) const;
+
 	// called by: functs
 	// - input: photon energy [eV]
 	// - output: crossection of nucleon-photon-interaction [mubarn]

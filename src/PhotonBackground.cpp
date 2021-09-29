@@ -308,21 +308,21 @@ double PhotonFieldSampling::crossection(double eps, bool onProton) const {
 		SIG0[i] = 4.893089117 / AM2[int(onProton)] * RATIOJ[i + idx] * BGAMMA[i + idx];
 	}
 	if (eps <= 10.) {
-		cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], x, onProton) * Ef(x, 0.152, 0.17);
+		cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], eps, onProton) * Ef(eps, 0.152, 0.17);
 		sig_res[0] = cross_res;
 		for (int i = 1; i < 9; ++i) {
-			sig_res[i] = breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], x, onProton) * Ef(x, 0.15, 0.38);
+			sig_res[i] = breitwigner(SIG0[i], WIDTH[i + idx], AMRES[i + idx], eps, onProton) * Ef(eps, 0.15, 0.38);
 			cross_res += sig_res[i];
 		}
 		// direct channel
-		if ((x > 0.1) && (x < 0.6)) {
-			cross_dir1 = 92.7 * Pl(x, 0.152, 0.25, 2.0)  // single pion production
-					   + 40. * std::exp(-(x - 0.29) * (x - 0.29) / 0.002)
-					   - 15. * std::exp(-(x - 0.37) * (x - 0.37) / 0.002);
+		if ((eps > 0.1) && (eps < 0.6)) {
+			cross_dir1 = 92.7 * Pl(eps, 0.152, 0.25, 2.0)  // single pion production
+					   + 40. * std::exp(-(eps - 0.29) * (eps - 0.29) / 0.002)
+					   - 15. * std::exp(-(eps - 0.37) * (eps - 0.37) / 0.002);
 		} else {
-			cross_dir1 = 92.7 * Pl(x, 0.152, 0.25, 2.0);  // single pion production
+			cross_dir1 = 92.7 * Pl(eps, 0.152, 0.25, 2.0);  // single pion production
 		}
-		cross_dir2 = 37.7 * Pl(x, 0.4, 0.6, 2.0);  // double pion production
+		cross_dir2 = 37.7 * Pl(eps, 0.4, 0.6, 2.0);  // double pion production
 		cross_dir = cross_dir1 + cross_dir2;
 	}
 	// fragmentation 2:

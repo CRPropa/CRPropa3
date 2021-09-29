@@ -68,6 +68,7 @@ protected:
 class TabularPhotonField: public PhotonField {
 public:
 	TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
+	
 	double getPhotonDensity(double ePhoton, double z = 0.) const;
 	double getRedshiftScaling(double z) const;
 	double getMinimumPhotonEnergy(double z) const;
@@ -276,7 +277,7 @@ public:
 	 @param E_in		energy of incoming nucleon
 	 @param z_in		redshift of incoming nucleon
 	 */
-	double sample_eps(bool onProton, double E_in, double z_in) const;
+	double sample_eps(bool onProton, double Ein, double z) const;
 
 	// called by: sample_eps
 	// - input: s [GeV^2]
@@ -316,7 +317,7 @@ public:
 	// called by: crossection
 	// - input: cross section [µbarn], width [GeV], mass [GeV/c^2], rest frame photon energy [GeV]
 	// - output: Breit-Wigner crossection of a resonance of width Gamma
-	double breitwigner(double sigma_0, double Gamma, double DMM, double epsPrime, bool onProton) const;
+	double breitwigner(double sigma0, double gamma, double DMM, double epsPrime, bool onProton) const;
 
 	// called by: prob_eps, crossection, breitwigner, functs
 	// - input: is proton [bool]
@@ -324,6 +325,7 @@ public:
 	double mass(bool onProton) const;
 	
 	void setSampleLog(bool log);
+	
 	void setCorrectionFactor(double factor);
 
 protected:

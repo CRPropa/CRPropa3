@@ -268,12 +268,12 @@ double PhotonFieldSampling::prob_eps_max(bool onProton, double Ein, double z, do
 	return pEpsMax;
 }
 
-double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, double zIn) const {
+double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, double z) const {
 	const double m = mass(onProton);  
 	double gamma = Ein / m;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);
 	
-	double photonDensity = photonField->getPhotonDensity(eps * eV, zIn) * ccm / eps;
+	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
 		double sMin = 1.1646;  // [GeV^2], head-on collision
 		double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * Ein * (1. + beta));
@@ -283,10 +283,10 @@ double PhotonFieldSampling::prob_eps(double eps, bool onProton, double Ein, doub
 	return 0;
 }
 
-double PhotonFieldSampling::crossection(double x, bool onProton) const {
+double PhotonFieldSampling::crossection(double eps, bool onProton) const {
 	const double m = mass(onProton); 
 	const double sth = 1.1646;  // GeV^2
-	const double s = m * m + 2. * m * x;
+	const double s = m * m + 2. * m * eps;
 	if (s < sth)
 		return 0.;
 	double cross_res = 0.;
@@ -307,7 +307,7 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 	for (int i = 0; i < 9; ++i) {
 		SIG0[i] = 4.893089117 / AM2[int(onProton)] * RATIOJ[i + idx] * BGAMMA[i + idx];
 	}
-	if (x <= 10.) {
+	if (eps <= 10.) {
 		cross_res = breitwigner(SIG0[0], WIDTH[0 + idx], AMRES[0 + idx], x, onProton) * Ef(x, 0.152, 0.17);
 		sig_res[0] = cross_res;
 		for (int i = 1; i < 9; ++i) {
@@ -327,15 +327,15 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 	}
 	// fragmentation 2:
 	double cross_frag2 = onProton? 80.3 : 60.2;
-	cross_frag2 *= Ef(x, 0.5, 0.1) * std::pow(s, -0.34);
+	cross_frag2 *= Ef(eps, 0.5, 0.1) * std::pow(s, -0.34);
 	// multipion production/fragmentation 1 cross section
 	double cs_multidiff = 0.;
 	double cs_multi = 0.;
 	double cross_diffr1 = 0.;
 	double cross_diffr2 = 0.;
 	double cross_diffr = 0.;
-	if (x > 0.85) {
-		double ss1 = (x - 0.85) / 0.69;
+	if (eps > 0.85) {
+		double ss1 = (eps - 0.85) / 0.69;
 		double ss2 = onProton? 29.3 : 26.4;
 		ss2 *= std::pow(s, -0.34) + 59.3 * std::pow(s, 0.095);
 		cs_multidiff = (1. - std::exp(-ss1)) * ss2;
@@ -345,8 +345,8 @@ double PhotonFieldSampling::crossection(double x, bool onProton) const {
 		cross_diffr2 = 0.011 * cs_multidiff;
 		cross_diffr = 0.11 * cs_multidiff;
 		// **************************************
-		ss1 = std::pow(x - 0.85, 0.75) / 0.64;
-		ss2 = 74.1 * std::pow(x, -0.44) + 62. * std::pow(s, 0.08);
+		ss1 = std::pow(eps - 0.85, 0.75) / 0.64;
+		ss2 = 74.1 * std::pow(eps, -0.44) + 62. * std::pow(s, 0.08);
 		double cs_tmp = 0.96 * (1. - std::exp(-ss1)) * ss2;
 		cross_diffr1 = 0.14 * cs_tmp;
 		cross_diffr2 = 0.013 * cs_tmp;

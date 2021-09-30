@@ -223,6 +223,8 @@ double PhotonFieldSampling::sampleEps(bool onProton, double E, double z) const {
 }
 
 double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
+	// labframe energy of least energetic photon where PPP can occur
+	// this kind-of ties samplingEps to the PPP and SOPHIA
 	const double m = mass(onProton);
 	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
 	double epsMinInteraction = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
@@ -260,6 +262,8 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 }
 
 double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, double z) const {
+	// probEps returns "probability to encounter a photon of energy eps", given a primary nucleon
+	// note, probEps does not return a normalized probability [0,...,1]
 	const double m = mass(onProton);
 	double gamma = Ein / m;
 	double beta = std::sqrt(1. - 1. / gamma / gamma);

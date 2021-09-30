@@ -306,6 +306,13 @@ public:
 	 */
 	double epsMinInteraction(bool onProton, double Ein) const;
 
+	/** called by: probEps, epsMinInteraction
+	@param onProton	particle type: proton or neutron
+	@param Ein		energy of incoming nucleon
+	- output: hadron momentum [GeV/c]
+	 */
+	double momentum(bool onProton, double Ein) const;
+	
 	// called by: functs
 	// - input: photon energy [eV]
 	// - output: crossection of nucleon-photon-interaction [mubarn]

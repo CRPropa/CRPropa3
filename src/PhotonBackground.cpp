@@ -226,8 +226,8 @@ double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 	// labframe energy of least energetic photon where PPP can occur
 	// this kind-of ties samplingEps to the PPP and SOPHIA
 	const double m = mass(onProton);
-	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
-	double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
+	const double p = momentum(onProton, Ein);
+	double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + p); // eV
 	return epsMin;
 }
 
@@ -247,7 +247,7 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	int i = 0;
 	while (epsDummy < epsMax) {
 		if (sampleLog)
-			epsDummy = epsMin * pow(10,step*i);
+			epsDummy = epsMin * pow(10, step*i);
 		else
 			epsDummy = epsMin + step*i;
 		double p = probEps(epsDummy, onProton, Ein, z);
@@ -264,25 +264,30 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, double z) const {
 	// probEps returns "probability to encounter a photon of energy eps", given a primary nucleon
 	// note, probEps does not return a normalized probability [0,...,1]
-	const double m = mass(onProton);
-	double gamma = Ein / m;
-	double beta = std::sqrt(1. - 1. / gamma / gamma);
-
 	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
-		double sMin = 1.1646;  // [GeV^2], head-on collision
-		double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * Ein * (1. + beta));
-		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
-		return photonDensity / eps / eps * sintegr / 8. / beta / Ein / Ein * 1.e18 * 1.e6;
+		const double sMin = 1.1646;  // [GeV^2], head-on collision
+		const double p = momentum(Ein, onProton);
+		const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;
+		if (sMax <= sMin)
+			return 0;
+		double sIntegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
+		return photonDensity * sIntegr / eps / eps / p / 8. * 1.e18 * 1.e6;
 	}
 	return 0;
 }
 
+double PhotonFieldSampling::momentum(bool onProton, double Ein) const {
+	const double m = mass(onProton);
+	const double momentumHadron = sqrt(Ein * Ein - m * m);  // GeV/c
+	return momentumHadron;
+}
+
 double PhotonFieldSampling::crossection(double eps, bool onProton) const {
 	const double m = mass(onProton);
-	const double sth = 1.1646;  // GeV^2
+	const double sMin = 1.1646;  // GeV^2
 	const double s = m * m + 2. * m * eps;
-	if (s < sth)
+	if (s < sMin)
 		return 0.;
 	double cross_res = 0.;
 	double cross_dir = 0.;

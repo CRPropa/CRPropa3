@@ -227,8 +227,8 @@ double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 	// this kind-of ties samplingEps to the PPP and SOPHIA
 	const double m = mass(onProton);
 	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
-	double epsMinInteraction = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
-	return epsMinInteraction;
+	double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + Pin); // eV
+	return epsMin;
 }
 
 double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {

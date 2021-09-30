@@ -299,6 +299,11 @@ public:
 	 */
 	double probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
 
+	/** called by: sampleEps
+	@param onProton	particle type: proton or neutron
+	@param Ein		energy of incoming nucleon
+	- output: labframe energy [eV] of least energetic photon where PPP can occur
+	 */
 	double epsMinInteraction(bool onProton, double Ein) const;
 
 	// called by: functs
@@ -326,8 +331,13 @@ public:
 	// - output: mass [Gev/c^2]
 	double mass(bool onProton) const;
 	
+	// using log or lin spacing of photons in the range between epsMin and
+	// epsMax for computing the maximum probability of photons in field
 	void setSampleLog(bool log);
 
+	// given the descrete steps to compute the maximum interaction probability pEpsMax 
+	// of photons in field, the real pEpsMax may lay between the descrete tested photon energies.
+	// A correction factor ca be set to increase pEpsMax by that factor
 	void setCorrectionFactor(double factor);
 
 protected:

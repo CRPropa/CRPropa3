@@ -267,9 +267,10 @@ double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, doubl
 	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
 		const double sMin = 1.1646;  // [GeV^2], head-on collision
-		const double m = mass(onProton);
 		const double p = momentum(Ein, onProton);
-		const double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * (Ein + p));
+		const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;
+		if (sMax <= sMin)
+			return 0;
 		double sIntegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
 		return photonDensity * sIntegr / eps / eps / p / 8. * 1.e18 * 1.e6;
 	}

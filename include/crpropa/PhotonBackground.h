@@ -337,6 +337,9 @@ public:
 	// - input: is proton [bool]
 	// - output: mass [Gev/c^2]
 	double mass(bool onProton) const;
+
+	// - output: [GeV^2] head-on collision 
+	double sMin() const;
 	
 	// using log or lin spacing of photons in the range between epsMin and
 	// epsMax for computing the maximum probability of photons in field

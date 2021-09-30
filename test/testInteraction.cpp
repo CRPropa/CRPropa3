@@ -542,7 +542,7 @@ TEST(PhotoPionProduction, helium) {
 }
 
 TEST(PhotoPionProduction, thisIsNotNucleonic) {
-	// Test if noting happens to an electron.
+	// Test if nothing happens to an electron.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	PhotoPionProduction ppp(CMB_instance);
 	Candidate c;

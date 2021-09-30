@@ -264,12 +264,12 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, double z) const {
 	// probEps returns "probability to encounter a photon of energy eps", given a primary nucleon
 	// note, probEps does not return a normalized probability [0,...,1]
-	const double m = mass(onProton);
-	double gamma = Ein / m;
-	double beta = std::sqrt(1. - 1. / gamma / gamma);
 
 	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
+		const double m = mass(onProton);
+		double gamma = Ein / m;
+		double beta = std::sqrt(1. - 1. / gamma / gamma);
 		double sMin = 1.1646;  // [GeV^2], head-on collision
 		double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * Ein * (1. + beta));
 		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);

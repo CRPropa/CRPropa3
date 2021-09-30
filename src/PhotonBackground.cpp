@@ -232,8 +232,8 @@ double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 }
 
 double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
-	// find pEpsMax, which is the photon energy (eps) that we have the
-	// highest (max) probability (p) to interact with
+	// find pEpsMax by testing photon energies (eps) for their interaction 
+	// probabilities (p) in order to find the maximum (max) probability
 	int const nrSteps = 100;
 	double pEpsMaxTested = 0.;
 	double step = 0.;

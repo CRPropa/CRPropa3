@@ -232,8 +232,8 @@ double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 }
 
 double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
-	// find pEpsMax, which is the photon energy (eps) that we have the
-	// highest (max) probability (p) to interact with
+	// find pEpsMax by testing photon energies (eps) for their interaction
+	// probabilities (p) in order to find the maximum (max) probability
 	int const nrSteps = 100;
 	double pEpsMaxTested = 0.;
 	double step = 0.;
@@ -266,12 +266,11 @@ double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, doubl
 	// note, probEps does not return a normalized probability [0,...,1]
 	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
-		const double sMin = 1.1646;  // [GeV^2], head-on collision
 		const double p = momentum(onProton, Ein);
 		const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;
-		if (sMax <= sMin)
+		if (sMax <= sMin())
 			return 0;
-		double sIntegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
+		double sIntegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin(), sMax);
 		return photonDensity * sIntegr / eps / eps / p / 8. * 1.e18 * 1.e6;
 	}
 	return 0;
@@ -285,9 +284,8 @@ double PhotonFieldSampling::momentum(bool onProton, double Ein) const {
 
 double PhotonFieldSampling::crossection(double eps, bool onProton) const {
 	const double m = mass(onProton);
-	const double sMin = 1.1646;  // GeV^2
 	const double s = m * m + 2. * m * eps;
-	if (s < sMin)
+	if (s < sMin())
 		return 0.;
 	double cross_res = 0.;
 	double cross_dir = 0.;
@@ -405,6 +403,10 @@ double PhotonFieldSampling::functs(double s, bool onProton) const {
 double PhotonFieldSampling::mass(bool onProton) const {
 	const double m =  onProton ? mass_proton : mass_neutron;
 	return m / GeV * c_squared;
+}
+
+double PhotonFieldSampling::sMin() const {
+	return 1.1646; // [GeV^2] head-on collision
 }
 
 void PhotonFieldSampling::setSampleLog(bool b) {

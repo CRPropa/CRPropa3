@@ -226,8 +226,8 @@ double PhotonFieldSampling::epsMinInteraction(bool onProton, double Ein) const {
 	// labframe energy of least energetic photon where PPP can occur
 	// this kind-of ties samplingEps to the PPP and SOPHIA
 	const double m = mass(onProton);
-	const double Pin = sqrt(Ein * Ein - m * m);  // GeV/c
-	double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + momentum(onProton, Ein)); // eV
+	const double p = momentum(onProton, Ein);
+	double epsMin = 1.e9 * (1.1646 - m * m) / 2. / (Ein + p); // eV
 	return epsMin;
 }
 
@@ -269,9 +269,9 @@ double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, doubl
 		const double sMin = 1.1646;  // [GeV^2], head-on collision
 		const double m = mass(onProton);
 		const double p = momentum(Ein, onProton);
-		const double sMax = std::max(sMin, m * m + eps * p);
-		double sintegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
-		return photonDensity / eps / eps * sintegr / 8. / p * 1.e18 * 1.e6;
+		const double sMax = std::max(sMin, m * m + 2. * eps / 1.e9 * (Ein + p));
+		double sIntegr = gaussInt([this, onProton](double s) { return this->functs(s, onProton); }, sMin, sMax);
+		return photonDensity * sIntegr / eps / eps / p / 8. * 1.e18 * 1.e6;
 	}
 	return 0;
 }

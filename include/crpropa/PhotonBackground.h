@@ -311,6 +311,7 @@ public:
 	// - output: crossection of nucleon-photon-interaction [mubarn]
 	double crossection(double eps, bool onProton) const;
 
+	double momentum(bool onProton, double Ein) const;
 	// called by: crossection
 	// - input: photon energy [eV], threshold [eV], max [eV], unknown [no unit]
 	// - output: unknown [no unit]

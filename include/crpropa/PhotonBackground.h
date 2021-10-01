@@ -355,7 +355,7 @@ protected:
 	double sMin() const;
 
 	ref_ptr<PhotonField> photonField;
-	bool sampleLog = false;
+	bool sampleLog = true;
 	double correctionFactor = 1.6; // increeses the maximum of the propability function
 };
 /** @}*/

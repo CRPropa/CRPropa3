@@ -278,7 +278,20 @@ public:
 	 @param z		redshift of incoming nucleon
 	 */
 	double sampleEps(bool onProton, double E, double z) const;
+	
+	// using log or lin spacing of photons in the range between epsMin and
+	// epsMax for computing the maximum probability of photons in field
+	void setSampleLog(bool log);
 
+	// given the descrete steps to compute the maximum interaction probability pEpsMax 
+	// of photons in field, the real pEpsMax may lay between the descrete tested photon energies.
+	// A correction factor ca be set to increase pEpsMax by that factor
+	void setCorrectionFactor(double factor);
+
+	bool getSampleLog() const;
+	double getCorrectionFactor() const;
+
+protected:
 	// called by: sampleEps
 	// - input: s [GeV^2]
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
@@ -340,17 +353,7 @@ public:
 
 	// - output: [GeV^2] head-on collision 
 	double sMin() const;
-	
-	// using log or lin spacing of photons in the range between epsMin and
-	// epsMax for computing the maximum probability of photons in field
-	void setSampleLog(bool log);
 
-	// given the descrete steps to compute the maximum interaction probability pEpsMax 
-	// of photons in field, the real pEpsMax may lay between the descrete tested photon energies.
-	// A correction factor ca be set to increase pEpsMax by that factor
-	void setCorrectionFactor(double factor);
-
-protected:
 	ref_ptr<PhotonField> photonField;
 	bool sampleLog = false;
 	double correctionFactor = 1.6; // increeses the maximum of the propability function

@@ -417,4 +417,12 @@ void PhotonFieldSampling::setCorrectionFactor(double factor){
 	correctionFactor = factor;
 }
 
+bool PhotonFieldSampling::getSampleLog() const{
+	return sampleLog;
+}
+
+double PhotonFieldSampling::getCorrectionFactor() const{
+	return correctionFactor;
+}
+
 } // namespace crpropa

@@ -241,14 +241,7 @@ void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosE
 		  y_n += k[j] * a[i * 6 + j] * propStep;
 
 		// update k_i = direction of the regular magnetic mean field
-		Vector3d BField(0.);
-		try {
-		  	BField = magneticField->getField(y_n, z);
-		}
-		catch (std::exception &e) {
-			KISS_LOG_ERROR 	<< "DiffusionSDE: Exception in magneticField::getField.\n"
-					<< e.what();
-		}
+		Vector3d BField = getFieldAtPosition(y_n, z);
 
 		k[i] = BField.getUnitVector() * c_light;
 
@@ -359,8 +352,8 @@ double DiffusionSDE::getScale() const {
 }
 
 ref_ptr<MagneticField> DiffusionSDE::getField() const {
-		return magneticField;
-	}
+	return magneticField;
+}
 
 Vector3d DiffusionSDE::getFieldAtPosition(Vector3d pos, double z) const {
 	Vector3d B(0, 0, 0);

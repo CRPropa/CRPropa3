@@ -127,11 +127,15 @@ ref_ptr<MagneticField> PropagationCK::getField() const {
 
 Vector3d PropagationCK::getFieldAtPosition(Vector3d pos, double z) const {
 	Vector3d B(0, 0, 0);
-	// check if field is valid and use the field vector at the
-	// position pos with the redshift z
-	if (field.valid())
-		B = field->getField(pos, z);
-
+	try {
+		// check if field is valid and use the field vector at the
+		// position pos with the redshift z
+		if (field.valid())
+			B = field->getField(pos, z);
+	} catch (std::exception &e) {
+		KISS_LOG_ERROR 	<< "PropagationCK: Exception in magneticField::getField.\n"
+				<< e.what();
+	}	
 	return B;
 }
 

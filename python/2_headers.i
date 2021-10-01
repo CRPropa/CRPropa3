@@ -394,6 +394,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
+%feature("director") crpropa::MagneticField;
 %include "crpropa/magneticField/MagneticField.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::PhotonField>;

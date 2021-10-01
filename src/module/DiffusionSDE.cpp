@@ -358,7 +358,26 @@ double DiffusionSDE::getScale() const {
 	return scale;
 }
 
+ref_ptr<MagneticField> DiffusionSDE::getField() const {
+		return magneticField;
+	}
 
+Vector3d DiffusionSDE::getFieldAtPosition(Vector3d pos, double z) const {
+	Vector3d B(0, 0, 0);
+	// check if field is valid and use the field vector at the
+	// position pos with the redshift z
+	if (magneticField.valid()) {
+		try {
+		  	B = magneticField->getField(pos, z);
+		}
+		catch (std::exception &e) {
+			KISS_LOG_ERROR 	<< "DiffusionSDE: Exception in magneticField::getField.\n"
+					<< e.what();
+		}
+	}
+		
+	return B;
+}
 
 std::string DiffusionSDE::getDescription() const {
 	std::stringstream s;

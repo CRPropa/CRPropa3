@@ -79,6 +79,13 @@ public:
 	    double getEpsilon() const;
 	    double getAlpha() const;
 	    double getScale() const;
+		 /** get functions for the parameters of the class PropagationCK, similar to the set functions */
+		ref_ptr<MagneticField> getField() const;
+		/** get magnetic field vector at current candidate position
+		 * @param pos   current position of the candidate
+		 * @param z	 current redshift is needed to calculate the magnetic field
+		 * @return	  magnetic field vector at the position pos */
+		Vector3d getFieldAtPosition(Vector3d pos, double z) const;
 	    std::string getDescription() const;
 
 };

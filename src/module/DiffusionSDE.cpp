@@ -364,7 +364,7 @@ Vector3d DiffusionSDE::getFieldAtPosition(Vector3d pos, double z) const {
 			B = magneticField->getField(pos, z);
 	}
 	catch (std::exception &e) {
-		KISS_LOG_ERROR 	<< "DiffusionSDE: Exception in magneticField::getField.\n"
+		KISS_LOG_ERROR 	<< "DiffusionSDE: Exception in DiffusionSDE::getField.\n"
 				<< e.what();
 	}	
 	return B;

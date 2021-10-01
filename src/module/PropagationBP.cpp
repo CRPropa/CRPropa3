@@ -153,7 +153,7 @@ namespace crpropa {
 			if (field.valid())
 				B = field->getField(pos, z);
 		} catch (std::exception &e) {
-			KISS_LOG_ERROR 	<< "PropagationBP: Exception in magneticField::getField.\n"
+			KISS_LOG_ERROR 	<< "PropagationBP: Exception in PropagationBP::getField.\n"
 					<< e.what();
 		}	
 		return B;

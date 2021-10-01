@@ -133,7 +133,7 @@ Vector3d PropagationCK::getFieldAtPosition(Vector3d pos, double z) const {
 		if (field.valid())
 			B = field->getField(pos, z);
 	} catch (std::exception &e) {
-		KISS_LOG_ERROR 	<< "PropagationCK: Exception in magneticField::getField.\n"
+		KISS_LOG_ERROR 	<< "PropagationCK: Exception in PropagationCK::getField.\n"
 				<< e.what();
 	}	
 	return B;

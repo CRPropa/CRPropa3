@@ -124,6 +124,10 @@ void PropagationCK::setField(ref_ptr<MagneticField> f) {
 	field = f;
 }
 
+ref_ptr<MagneticField> PropagationCK::getField() const {
+	return field;
+}
+
 void PropagationCK::setTolerance(double tol) {
 	if ((tol > 1) or (tol < 0))
 		throw std::runtime_error(

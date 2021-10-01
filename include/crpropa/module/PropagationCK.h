@@ -73,6 +73,8 @@ public:
 	void setMinimumStep(double minStep);
 	void setMaximumStep(double maxStep);
 
+	 /** get functions for the parameters of the class PropagationCK, similar to the set functions */
+	ref_ptr<MagneticField> getField() const;
 	double getTolerance() const;
 	double getMinimumStep() const;
 	double getMaximumStep() const;

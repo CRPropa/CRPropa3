@@ -73,6 +73,19 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
             obs.process(candidate)
             self.assertEqual(i + 1, counter.value)
 
+    def testCustomMagneticField(self):
+        class CustomMagneticField(crp.MagneticField):
+            def __init__(self, val):
+                crp.MagneticField.__init__(self)
+                self.val = val
+                
+            def getField(self, position):
+                return crp.Vector3d(self.val)
+
+            def getField(self, position, z):
+                return crp.Vector3d(self.val)
+
+
 
 class testCandidatePropertymap(unittest.TestCase):
     def setUp(self):

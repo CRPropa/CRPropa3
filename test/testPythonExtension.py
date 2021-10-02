@@ -87,9 +87,14 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
 
         field = CustomMagneticField(crp.gauss)
         propBP = crp.PropagationBP(field, 1e-4, 1*crp.Mpc, 1*crp.Mpc)
+        propCK = crp.PropagationCK(field, 1e-4, 1*crp.Mpc, 1*crp.Mpc)
+        propSDE = crp.DiffusionSDE(field)
         pos = crp.Vector3d(-1, 0, 0)
-        self.assertEqual(field.getField(pos, 0), propBP.getFieldAtPosition(pos, 0))
-
+        z = 0
+        fieldAtPos = field.getField(pos, z)
+        self.assertEqual(fieldAtPos, propBP.getFieldAtPosition(pos, z))
+        self.assertEqual(fieldAtPos, propCK.getFieldAtPosition(pos, z))
+        self.assertEqual(fieldAtPos, propSDE.getFieldAtPosition(pos, z))
 
 
 class testCandidatePropertymap(unittest.TestCase):

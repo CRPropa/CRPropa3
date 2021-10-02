@@ -85,6 +85,11 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
             def getField(self, position, z):
                 return crp.Vector3d(self.val)
 
+        field = CustomMagneticField(crp.gauss)
+        propBP = crp.PropagationBP(field, 1e-4, 1*crp.Mpc, 1*crp.Mpc)
+        pos = crp.Vector3d(-1, 0, 0)
+        self.assertEqual(field.getField(pos, 0), propBP.getFieldAtPosition(pos, 0))
+
 
 
 class testCandidatePropertymap(unittest.TestCase):

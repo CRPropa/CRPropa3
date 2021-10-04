@@ -118,17 +118,40 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
 
     def testCustomMassDensity(self):
         class CustomMassDensity(crp.Density):
-            def __init__(self, val):
+            def __init__(self, density, HIDensity, HIIDensity, H2Density, nucleonDensity):
                 crp.Density.__init__(self)
-                self.val = val
+                self.density = density
+                self.HIDensity = HIDensity
+                self.HIIDensity = HIIDensity
+                self.H2Density = H2Density
+                self.nucleonDensity = nucleonDensity
                 
             def getDensity(self, position):
-                return self.val
+                return self.density
+
+            def getHIDensity(self, position):
+                return self.HIDensity
+
+            def getHIIDensity(self, position):
+                return self.HIIDensity
+
+            def getH2Density(self, position):
+                return self.H2Density
+
+            def NucleonDensity(self, position):
+                return self.nucleonDensity
 
         density = 10
-        massDensity = CustomMassDensity(density)
+        HIDensity = 5
+        HIIDensity = 2
+        H2Density = 1
+        nucleonDensity = 0.5
+        massDensity = CustomMassDensity(density, HIDensity, HIIDensity, H2Density, nucleonDensity)
         pos = crp.Vector3d(1, 0, 0)
         self.assertEqual(density, massDensity.getDensity(pos))
+        self.assertEqual(HIDensity, massDensity.getHIDensity(pos))
+        self.assertEqual(HIIDensity, massDensity.getHIIDensity(pos))
+        self.assertEqual(H2Density, massDensity.getH2Density(pos))
 
 
 class testCandidatePropertymap(unittest.TestCase):

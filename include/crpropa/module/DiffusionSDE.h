@@ -85,7 +85,12 @@ public:
 		 * @param z	 current redshift is needed to calculate the magnetic field
 		 * @return	  magnetic field vector at the position pos */
 		Vector3d getMagneticFieldAtPosition(Vector3d pos, double z) const;
-	    std::string getDescription() const;
+	    ref_ptr<AdvectionField> getAdvectionField() const;
+		/** get advection field vector at current candidate position
+		 * @param pos   current position of the candidate
+		 * @return	  magnetic field vector at the position pos */
+		Vector3d getAdvectionFieldAtPosition(Vector3d pos) const;
+		std::string getDescription() const;
 
 };
 /** @}*/

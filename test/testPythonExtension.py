@@ -96,6 +96,26 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
         self.assertEqual(fieldAtPos, propCK.getFieldAtPosition(pos, z))
         self.assertEqual(fieldAtPos, propSDE.getMagneticFieldAtPosition(pos, z))
 
+    def testCustomAdvectionField(self):
+        class CustomAdvectionField(crp.AdvectionField):
+            def __init__(self, val):
+                crp.AdvectionField.__init__(self)
+                self.val = val
+                
+            def getField(self, position):
+                return crp.Vector3d(self.val)
+
+            def getDivergence(self, position):
+                return 0.0
+
+        constMagVec = crp.Vector3d(0*crp.nG,0*crp.nG,1*crp.nG)
+        magField = crp.UniformMagneticField(constMagVec)
+        advField = CustomAdvectionField(1)
+        propSDE = crp.DiffusionSDE(magField, advField)
+        pos = crp.Vector3d(1, 0, 0)
+        advFieldAtPos = advField.getField(pos)
+        self.assertEqual(advFieldAtPos, propSDE.getAdvectionFieldAtPosition(pos))
+
 
 class testCandidatePropertymap(unittest.TestCase):
     def setUp(self):

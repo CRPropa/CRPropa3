@@ -407,6 +407,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %implicitconv crpropa::ref_ptr<crpropa::Density>;
 %template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
+%feature("director") crpropa::Density;
 %include "crpropa/massDistribution/Density.h"
 
 %include "crpropa/Grid.h"

@@ -153,6 +153,31 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
         self.assertEqual(HIIDensity, massDensity.getHIIDensity(pos))
         self.assertEqual(H2Density, massDensity.getH2Density(pos))
 
+    def testCustomPhotonField(self):
+        class CustomPhotonField(crp.PhotonField):
+            def __init__(self, density):
+                crp.PhotonField.__init__(self)
+                self.density = density
+                self.fieldName = 'testCustomPhotonField'
+                self.isRedshiftDependent = True
+                
+            def getPhotonDensity(self, energy, z):
+                return self.density
+
+            def getFieldName(self):
+                return self.fieldName
+
+            def hasRedshiftDependence(self):
+                return self.isRedshiftDependent
+
+        photonDensity = 10
+        photonField = CustomPhotonField(photonDensity)
+        energy = 10*crp.GeV
+        z = 0
+        self.assertEqual(photonDensity, photonField.getPhotonDensity(energy, z))
+        self.assertEqual('testCustomPhotonField', photonField.getFieldName())
+        self.assertEqual(True, photonField.hasRedshiftDependence())
+
 
 class testCandidatePropertymap(unittest.TestCase):
     def setUp(self):

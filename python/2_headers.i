@@ -172,7 +172,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
-%include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
 %template(RandomSeed) std::vector<uint32_t>;
 %template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
@@ -399,6 +398,8 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %implicitconv crpropa::ref_ptr<crpropa::PhotonField>;
 %template(PhotonFieldRefPtr) crpropa::ref_ptr<crpropa::PhotonField>;
+%feature("director") crpropa::PhotonField;
+%include "crpropa/PhotonBackground.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
 %template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;

@@ -241,7 +241,7 @@ void DiffusionSDE::tryStep(const Vector3d &PosIn, Vector3d &POut, Vector3d &PosE
 		  y_n += k[j] * a[i * 6 + j] * propStep;
 
 		// update k_i = direction of the regular magnetic mean field
-		Vector3d BField = getFieldAtPosition(y_n, z);
+		Vector3d BField = getMagneticFieldAtPosition(y_n, z);
 
 		k[i] = BField.getUnitVector() * c_light;
 
@@ -351,11 +351,11 @@ double DiffusionSDE::getScale() const {
 	return scale;
 }
 
-ref_ptr<MagneticField> DiffusionSDE::getField() const {
+ref_ptr<MagneticField> DiffusionSDE::getMagneticField() const {
 	return magneticField;
 }
 
-Vector3d DiffusionSDE::getFieldAtPosition(Vector3d pos, double z) const {
+Vector3d DiffusionSDE::getMagneticFieldAtPosition(Vector3d pos, double z) const {
 	Vector3d B(0, 0, 0);
 	try {
 		// check if field is valid and use the field vector at the

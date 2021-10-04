@@ -94,7 +94,7 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
         fieldAtPos = field.getField(pos, z)
         self.assertEqual(fieldAtPos, propBP.getFieldAtPosition(pos, z))
         self.assertEqual(fieldAtPos, propCK.getFieldAtPosition(pos, z))
-        self.assertEqual(fieldAtPos, propSDE.getFieldAtPosition(pos, z))
+        self.assertEqual(fieldAtPos, propSDE.getMagneticFieldAtPosition(pos, z))
 
 
 class testCandidatePropertymap(unittest.TestCase):

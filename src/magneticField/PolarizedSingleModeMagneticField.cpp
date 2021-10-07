@@ -39,10 +39,10 @@ Vector3d PolarizedSingleModeMagneticField::getMaxHelFracField(const Vector3d &po
 	if (abs(fH) > 1)
 		throw std::runtime_error("The value of sigma has to be in the range [-1;1].");
 
-	if (Bflag == "B0") {
+	if (Bflag == "amplitude") {
 		getField(pos, fH);
 	}
-	else if (Bflag == "Brms") {
+	else if (Bflag == "rms") {
 		if (fH == 0) {
 			getField(pos, 0);
 		}
@@ -66,10 +66,10 @@ Vector3d PolarizedSingleModeMagneticField::getGeneralOrthogonalEllipticField(con
 	if (e_1.dot(e_2) != 0)
 		throw std::runtime_error("e_1 and e_2 have to be orthogonal to each other.");
 
-	if (Bflag == "B0") {
+	if (Bflag == "amplitude") {
 		return getField(pos, sigma);
 	}
-	else if (Bflag == "Brms") {
+	else if (Bflag == "rms") {
 		return sqrt(2 / (1 + sigma * sigma)) * getField(pos, sigma);
 	}
 	else {

@@ -51,7 +51,7 @@ Vector3d PolarizedSingleModeMagneticField::getMaxHelFracField(const Vector3d &po
 		}
 	}
 	else {
-		throw std::runtime_error("Wrong value for Bflag. Please choose \"B0\" or \"Brms\".");
+		throw std::runtime_error("Wrong value for Bflag. Please choose \"amplitude\" or \"rms\".");
 	}
 }
 
@@ -73,7 +73,7 @@ Vector3d PolarizedSingleModeMagneticField::getGeneralOrthogonalEllipticField(con
 		return sqrt(2 / (1 + sigma * sigma)) * getField(pos, sigma);
 	}
 	else {
-		throw std::runtime_error("Wrong value for Bflag. Please choose \"B0\" or \"Brms\".");
+		throw std::runtime_error("Wrong value for Bflag. Please choose \"amplitude\" or \"rms\".");
 	}
 }
 

@@ -87,6 +87,26 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/Vector3.h"
 
+%exception crpropa::Vector3::__getitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+}
+
+%exception crpropa::Vector3::__setitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+}
+
 %extend crpropa::Vector3
 {
   size_t __len__()
@@ -117,11 +137,19 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
   double __getitem__(size_t i)
   {
+    if(i > 2) {
+        throw RangeError();
+    }
+    
     return $self->data[i];
   }
 
   int __setitem__(size_t i, T value)
   {
+    if(i > 2) {
+        throw RangeError();
+    }
+
     $self->data[i] = value;
     return 0;
   }
@@ -134,13 +162,16 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
   }
 }
 
+%feature("python:slot", "tp_str", functype="reprfunc") crpropa::Vector3::getDescription();
+%feature("python:slot", "tp_repr", functype="reprfunc") crpropa::Vector3::getDescription();
 
+%template(Vector3d) crpropa::Vector3<double>;
+%template(Vector3f) crpropa::Vector3<float>;
 
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
-%include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
 %template(RandomSeed) std::vector<uint32_t>;
 %template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
@@ -362,17 +393,22 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
+%feature("director") crpropa::MagneticField;
 %include "crpropa/magneticField/MagneticField.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::PhotonField>;
 %template(PhotonFieldRefPtr) crpropa::ref_ptr<crpropa::PhotonField>;
+%feature("director") crpropa::PhotonField;
+%include "crpropa/PhotonBackground.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
 %template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;
+%feature("director") crpropa::AdvectionField;
 %include "crpropa/advectionField/AdvectionField.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Density>;
 %template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
+%feature("director") crpropa::Density;
 %include "crpropa/massDistribution/Density.h"
 
 %include "crpropa/Grid.h"
@@ -416,6 +452,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/PT11Field.h"
 %include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
+%include "crpropa/magneticField/CMZField.h"
 %include "crpropa/magneticField/turbulentField/TurbulentField.h"
 %include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 %include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"

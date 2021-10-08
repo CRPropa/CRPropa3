@@ -17,7 +17,7 @@ Photon production and electromagnetic cascade propagation
 DiffusionSDE module
  JCAP 1706 (2017) 046;  `arXiv:1704.07484 <https://arxiv.org/abs/1704.07484>`_.
 
-Turbulent magnetic field witd helicity
+Turbulent magnetic field with helicity
   Phys. Rev. D94 (2016)  083005; `arXiv:1607.00320 <https://arxiv.org/abs/1607.00320>`_.
 
 Multi-resolution implementation of magnetic fields using Quimby
@@ -39,6 +39,9 @@ JF12
   Astrophys. J. 757 (2012) 14; `arXiv:1204.3662 <https://arxiv.org/abs/1204.3662>`_ and
   Astrophys. J. 761 (2012) L11; `arXiv:1210.7820 <https://arxiv.org/abs/1210.7820>`_
 
+JF12Solenoidal
+  Astrophys. J. 877 (2019) 2; `arXiv:1809.07528 <https://arxiv.org/abs/1809.07528>`_
+
 Pshirkov
   Astrophys. J. 738 (2011) 192; `arXiv:1103.0814 <https://arxiv.org/abs/1103.0814>`_
 
@@ -47,7 +50,6 @@ Extragalactic Magnetic Field
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Dolag
-
   JCAP 01 (2005) 009; `arXiv:astro-ph/0410419 <https://arxiv.org/abs/astro-ph/0410419>`__
 
 Miniati

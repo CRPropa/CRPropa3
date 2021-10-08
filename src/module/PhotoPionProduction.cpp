@@ -27,19 +27,21 @@ PhotoPionProduction::PhotoPionProduction(ref_ptr<PhotonField> field, bool photon
 
 void PhotoPionProduction::setPhotonField(ref_ptr<PhotonField> field) {
 	photonField = field;
+	std::string fname = photonField->getFieldName();
 	if (haveRedshiftDependence) {
-		if (photonField->hasRedshiftDependence()){
-			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for CMB, switching off" << std::endl;
+		if (photonField->hasRedshiftDependence() == false){
+			std::cout << "PhotoPionProduction: tabulated redshift dependence not needed for " + fname + ", switching off" << std::endl;
 			haveRedshiftDependence = false;
 		}
 		else {
 			KISS_LOG_WARNING << "PhotoPionProduction: You are using the 2-dimensional tabulated redshift evolution, which is not available for other interactions. To be consistent across all interactions you may deactivate this <setHaveRedshiftDependence(False)>.";
 		}
 	}
-	std::string fname = photonField->getFieldName();
+	
 	setDescription("PhotoPionProduction: " + fname);
-	if (haveRedshiftDependence)
+	if (haveRedshiftDependence){
 		initRate(getDataPath("PhotoPionProduction/rate_" + fname.replace(0, 3, "IRBz") + ".txt"));
+	}
 	else
 		initRate(getDataPath("PhotoPionProduction/rate_" + fname + ".txt"));
 

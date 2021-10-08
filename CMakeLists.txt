@@ -330,9 +330,9 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
-set(CRPROPA_DATAFILE_VER "2020-11-28")
+set(CRPROPA_DATAFILE_VER "2021-07-30")
 if(DOWNLOAD_DATA)
-  message("-- Downloading data file from crpropa.desy.de ~ 50 MB")
+  message("-- Downloading data file from crpropa.desy.de ~ 65 MB")
   file(DOWNLOAD
     https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
     ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM)
@@ -419,6 +419,7 @@ add_library(crpropa SHARED
   src/magneticField/turbulentField/PlaneWaveTurbulence.cpp
   src/magneticField/turbulentField/SimpleGridTurbulence.cpp
   src/magneticField/TF17Field.cpp
+  src/magneticField/CMZField.cpp
   src/advectionField/AdvectionField.cpp
   src/massDistribution/ConstantDensity.cpp
   src/massDistribution/Cordes.cpp
@@ -482,11 +483,14 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
   endif(SWIG_VERSION VERSION_GREATER 4.0)
 
   # use SWIG's builtin (maybe should be abandoned if everything will be tested and working with -builtin)
-  option(ENABLE_SWIG_BUILTIN "Use SWIG's -builtin option" OFF)
+  option(ENABLE_SWIG_BUILTIN "Use SWIG builtin option" ON)
 
   if(ENABLE_SWIG_BUILTIN)
     set(BUILTIN "-builtin")
     set(PY3 "-py3")
+    if(SWIG_VERSION VERSION_LESS 4.0.2)
+        message(WARNING, "The SWIG builtin option should not be used with SWIG version below 4.0.2 due to https://github.com/swig/swig/issues/1595")
+    endif()
   else(ENABLE_SWIG_BUILTIN)
     set(BUILTIN "")
     set(PY3 "")
@@ -544,7 +548,7 @@ add_definitions(-DCRPROPA_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 install(TARGETS crpropa DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(DIRECTORY ${CMAKE_BINARY_DIR}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}/data/ DESTINATION share/crpropa/ PATTERN ".git" EXCLUDE)
 
 install(DIRECTORY libs/kiss/include/ DESTINATION include)
 

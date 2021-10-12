@@ -168,7 +168,7 @@ double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
 
 double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 	double A;
-	int quantile_int = 10000*quantile;
+	int quantile_int = 10000 * quantile;
 	switch (quantile_int)
 	{
 	case 1:	// 0.01 % percentil
@@ -184,17 +184,17 @@ double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 		throw std::runtime_error("Quantile not understood. Please use 0.01 (1%), 0.001 (0.1%) or 0.0001 (0.01%) \n");
 		break;
 	}
-	return A * this->blackbodyTemperature;
+	return A * this -> blackbodyTemperature;
 }
 
 double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const{
-	return 0.1*eV;
+	return 0.1 * eV;
 }
 
 void BlackbodyPhotonField::setQuantile(double q){
-	if(not ((q==0.0001) or (q==0.001) or (q== 0.01)))
+	if(not ((q == 0.0001) or (q == 0.001) or (q == 0.01)))
 		throw std::runtime_error("Quantile not understood. Please use 0.01 (1%), 0.001 (0.1%) or 0.0001 (0.01%) \n");
-	this->quantile = q;
+	this -> quantile = q;
 }
 
 PhotonFieldSampling::PhotonFieldSampling() {
@@ -207,9 +207,9 @@ PhotonFieldSampling::PhotonFieldSampling(ref_ptr<PhotonField> field) {
 
 double PhotonFieldSampling::sampleEps(bool onProton, double E, double z) const {
 	// sample eps between epsMin ... epsMax
-	double Ein = E/GeV;
-	double epsMin = std::max(photonField->getMinimumPhotonEnergy(z)/eV, epsMinInteraction(onProton, Ein));
-	double epsMax = photonField->getMaximumPhotonEnergy(z)/eV;
+	double Ein = E / GeV;
+	double epsMin = std::max(photonField -> getMinimumPhotonEnergy(z) / eV, epsMinInteraction(onProton, Ein));
+	double epsMax = photonField -> getMaximumPhotonEnergy(z) / eV;
 	double pEpsMax = probEpsMax(onProton, Ein, z, epsMin, epsMax);
 
 	Random &random = Random::instance();
@@ -239,7 +239,7 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	double step = 0.;
 	if (sampleLog){
 		// sample in logspace with stepsize that is at max Δlog(E/eV) = 0.01 or otherwise dep. on size of energy range with nrSteps+1 steps log. equidis. spaced
-		step = std::min(0.01, std::log10(epsMax/epsMin)/nrSteps/1.);
+		step = std::min(0.01, std::log10(epsMax / epsMin) / nrSteps);
 	} else
 		step = (epsMax - epsMin) / nrSteps;
 
@@ -247,9 +247,9 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 	int i = 0;
 	while (epsDummy < epsMax) {
 		if (sampleLog)
-			epsDummy = epsMin * pow(10, step*i);
+			epsDummy = epsMin * pow(10, step * i);
 		else
-			epsDummy = epsMin + step*i;
+			epsDummy = epsMin + step * i;
 		double p = probEps(epsDummy, onProton, Ein, z);
 		if(p > pEpsMaxTested)
 			pEpsMaxTested = p;
@@ -264,7 +264,7 @@ double PhotonFieldSampling::probEpsMax(bool onProton, double Ein, double z, doub
 double PhotonFieldSampling::probEps(double eps, bool onProton, double Ein, double z) const {
 	// probEps returns "probability to encounter a photon of energy eps", given a primary nucleon
 	// note, probEps does not return a normalized probability [0,...,1]
-	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
+	double photonDensity = photonField -> getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
 		const double p = momentum(onProton, Ein);
 		const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;
@@ -413,15 +413,15 @@ void PhotonFieldSampling::setSampleLog(bool b) {
 	sampleLog = b;
 }
 
-void PhotonFieldSampling::setCorrectionFactor(double factor){
+void PhotonFieldSampling::setCorrectionFactor(double factor) {
 	correctionFactor = factor;
 }
 
-bool PhotonFieldSampling::getSampleLog() const{
+bool PhotonFieldSampling::getSampleLog() const {
 	return sampleLog;
 }
 
-double PhotonFieldSampling::getCorrectionFactor() const{
+double PhotonFieldSampling::getCorrectionFactor() const {
 	return correctionFactor;
 }
 

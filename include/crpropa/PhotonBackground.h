@@ -283,9 +283,9 @@ public:
 	// epsMax for computing the maximum probability of photons in field
 	void setSampleLog(bool log);
 
-	// given the descrete steps to compute the maximum interaction probability pEpsMax 
-	// of photons in field, the real pEpsMax may lay between the descrete tested photon energies.
-	// A correction factor ca be set to increase pEpsMax by that factor
+	// given the discrete steps to compute the maximum interaction probability pEpsMax 
+	// of photons in field, the real pEpsMax may lie between the descrete tested photon energies.
+	// A correction factor can be set to increase pEpsMax by that factor
 	void setCorrectionFactor(double factor);
 
 	bool getSampleLog() const;

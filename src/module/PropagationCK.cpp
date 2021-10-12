@@ -51,13 +51,10 @@ void PropagationCK::tryStep(const Y &y, Y &out, Y &error, double h,
 PropagationCK::Y PropagationCK::dYdt(const Y &y, ParticleState &p, double z) const {
 	// normalize direction vector to prevent numerical losses
 	Vector3d velocity = y.u.getUnitVector() * c_light;
-	Vector3d B(0, 0, 0);
-	try {
-		B = field->getField(y.x, z);
-	} catch (std::exception &e) {
-		std::cerr << "PropagationCK: Exception in getField." << std::endl;
-		std::cerr << e.what() << std::endl;
-	}
+	
+	// get B field at particle position
+	Vector3d B = getFieldAtPosition(y.x, z);
+
 	// Lorentz force: du/dt = q*c/E * (v x B)
 	Vector3d dudt = p.getCharge() * c_light / p.getEnergy() * velocity.cross(B);
 	return Y(velocity, dudt);
@@ -122,6 +119,24 @@ void PropagationCK::process(Candidate *candidate) const {
 
 void PropagationCK::setField(ref_ptr<MagneticField> f) {
 	field = f;
+}
+
+ref_ptr<MagneticField> PropagationCK::getField() const {
+	return field;
+}
+
+Vector3d PropagationCK::getFieldAtPosition(Vector3d pos, double z) const {
+	Vector3d B(0, 0, 0);
+	try {
+		// check if field is valid and use the field vector at the
+		// position pos with the redshift z
+		if (field.valid())
+			B = field->getField(pos, z);
+	} catch (std::exception &e) {
+		KISS_LOG_ERROR 	<< "PropagationCK: Exception in PropagationCK::getFieldAtPosition.\n"
+				<< e.what();
+	}	
+	return B;
 }
 
 void PropagationCK::setTolerance(double tol) {

@@ -172,7 +172,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
-%include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
 %template(RandomSeed) std::vector<uint32_t>;
 %template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
@@ -394,17 +393,22 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
+%feature("director") crpropa::MagneticField;
 %include "crpropa/magneticField/MagneticField.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::PhotonField>;
 %template(PhotonFieldRefPtr) crpropa::ref_ptr<crpropa::PhotonField>;
+%feature("director") crpropa::PhotonField;
+%include "crpropa/PhotonBackground.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
 %template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;
+%feature("director") crpropa::AdvectionField;
 %include "crpropa/advectionField/AdvectionField.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Density>;
 %template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
+%feature("director") crpropa::Density;
 %include "crpropa/massDistribution/Density.h"
 
 %include "crpropa/Grid.h"

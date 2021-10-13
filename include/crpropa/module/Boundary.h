@@ -23,7 +23,13 @@ private:
 	Vector3d size;
 
 public:
+	/** Default constructor
+	 */
 	PeriodicBox();
+	/** Constructor
+	 @param origin	vector corresponding to the lower box corner
+	 @param size	vector corresponding to the box sizes along each direction
+	 */
 	PeriodicBox(Vector3d origin, Vector3d size);
 	void process(Candidate *candidate) const;
 	void setOrigin(Vector3d origin);
@@ -45,7 +51,13 @@ private:
 	Vector3d size;
 
 public:
+	/** Default constructor
+	 */
 	ReflectiveBox();
+	/** Constructor
+	 @param origin	vector corresponding to the lower box corner
+	 @param size	vector corresponding to the box sizes along each direction
+	 */
 	ReflectiveBox(Vector3d origin, Vector3d size);
 	void process(Candidate *candidate) const;
 	void setOrigin(Vector3d origin);
@@ -69,7 +81,13 @@ private:
 	bool limitStep;
 
 public:
+	/** Default constructor
+	 */
 	CubicBoundary();
+	/** Constructor
+	 @param origin	vector corresponding to the lower box corner
+	 @param size	vector corresponding to the box sizes along each direction
+	 */
 	CubicBoundary(Vector3d origin, double size);
 	void process(Candidate *candidate) const;
 	void setOrigin(Vector3d origin);
@@ -95,7 +113,13 @@ private:
 	bool limitStep;
 
 public:
+	/** Default constructor
+	 */
 	SphericalBoundary();
+	/** Constructor
+	 @param center		vector containing the coordinates of the center of the sphere
+	 @param radius		radius of the sphere
+	 */
 	SphericalBoundary(Vector3d center, double radius);
 	void process(Candidate *candidate) const;
 	void setCenter(Vector3d center);
@@ -123,7 +147,14 @@ private:
 	bool limitStep;
 
 public:
+	/** Default constructor
+	 */
 	EllipsoidalBoundary();
+	/** Constructor
+	 @param focalPoint1		one of the foci of the ellipsoid
+	 @param focalPoint2		the other foci of the ellipsoid
+	 @param majorAxis		length of the major axis of the ellipsoid
+	 */
 	EllipsoidalBoundary(Vector3d focalPoint1, Vector3d focalPoint2,
 			double majorAxis);
 	void process(Candidate *candidate) const;
@@ -147,11 +178,18 @@ private:
 	Vector3d origin;
 	double height;
 	double radius;
-double margin;
+	double margin;
 	bool limitStep;
 
 public:
+	/** Default constructor
+	 */
 	CylindricalBoundary();
+	/** Constructor
+	 @param origin	vector corresponding to the lower part of the cylinder axis
+	 @param height	height of the cylinder
+	 @param radius	radius of the cylinder
+	 */
 	CylindricalBoundary(Vector3d origin, double height,
 			double radius);
 	void process(Candidate *candidate) const;

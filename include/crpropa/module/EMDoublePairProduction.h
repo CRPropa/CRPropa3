@@ -8,6 +8,10 @@
 #include "crpropa/PhotonBackground.h"
 
 namespace crpropa {
+/**
+ * \addtogroup EnergyLosses
+ * @{
+ */
 
 /**
  @class EMDoublePairProduction
@@ -32,12 +36,13 @@ private:
 	std::vector<double> tabRate;  //!< interaction rate in [1/m]
 
 public:
-	EMDoublePairProduction(
-		ref_ptr<PhotonField> photonField, 	   //!< target photon background
-		bool haveElectrons = false,    //!< switch to create the secondary electron pair
-		double thinning = 0,           //!< weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
-		double limit = 0.1             //!< step size limit as fraction of mean free path
-		);
+	/** Constructor
+	 @param photonField		target photon field
+	 @param haveElectrons	if true, add secondary electrons as candidates
+	 @param thinning		weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
+	 @param limit			step size limit as fraction of mean free path
+	 */
+	EMDoublePairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0, double limit = 0.1);
 
 	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHaveElectrons(bool haveElectrons);
@@ -47,8 +52,8 @@ public:
 	void initRate(std::string filename);
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate) const;
-
 };
+/** @}*/
 
 } // namespace crpropa
 

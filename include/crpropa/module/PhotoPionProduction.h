@@ -162,7 +162,6 @@ protected:
 	// - output: [GeV^2] head-on collision 
 	double sMin() const;
 
-	ref_ptr<PhotonField> photonField;
 	bool sampleLog = true;
 	double correctionFactor = 1.6; // increeses the maximum of the propability function
 };

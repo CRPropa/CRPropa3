@@ -224,7 +224,7 @@ void PhotoPionProduction::performInteraction(Candidate *candidate, bool onProton
 	// SOPHIA - input:
 	int nature = 1 - static_cast<int>(onProton);  // 0=proton, 1=neutron
 	double Ein = EpA / GeV;  // GeV is the SOPHIA standard unit
-	double eps = photonFieldSampling.sampleEps(onProton, EpA, z) / GeV;  // GeV for SOPHIA
+	double eps = sampleEps(onProton, EpA, z) / GeV;  // GeV for SOPHIA
 
 	// SOPHIA - output:
 	double outputEnergy[5][2000];  // [GeV/c, GeV/c, GeV/c, GeV, GeV/c^2]

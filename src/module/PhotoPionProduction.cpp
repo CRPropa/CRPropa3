@@ -625,6 +625,34 @@ void PhotoPionProduction::setCorrectionFactor(double factor) {
 	correctionFactor = factor;
 }
 
+ref_ptr<PhotonField> PhotoPionProduction::getPhotonField() const {
+	return photonField;
+}
+
+bool PhotoPionProduction::getHavePhotons() const {
+	return havePhotons;
+}
+
+bool PhotoPionProduction::getHaveNeutrinos() const {
+	return haveNeutrinos;
+}
+
+bool PhotoPionProduction::getHaveElectrons() const {
+	return haveElectrons;
+}
+
+bool PhotoPionProduction::getHaveAntiNucleons() const {
+	return haveAntiNucleons;
+}
+
+bool PhotoPionProduction::getHaveRedshiftDependence() const {
+	return haveRedshiftDependence;
+}
+
+double PhotoPionProduction::getLimit() const {
+	return limit;
+}
+
 bool PhotoPionProduction::getSampleLog() const {
 	return sampleLog;
 }

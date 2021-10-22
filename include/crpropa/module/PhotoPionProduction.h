@@ -162,6 +162,14 @@ public:
 	// A correction factor can be set to increase pEpsMax by that factor
 	void setCorrectionFactor(double factor);
 
+	/** get functions for the parameters of the class PhotoPionProduction, similar to the set functions */
+	ref_ptr<PhotonField> getPhotonField() const;
+	bool getHavePhotons() const;
+	bool getHaveNeutrinos() const;
+	bool getHaveElectrons() const;
+	bool getHaveAntiNucleons() const;
+	bool getHaveRedshiftDependence() const;
+	double getLimit() const;
 	bool getSampleLog() const;
 	double getCorrectionFactor() const;
 };

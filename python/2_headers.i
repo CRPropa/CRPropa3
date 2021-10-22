@@ -172,6 +172,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
+%feature("director") crpropa::PhotonField;
 %include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
 %template(RandomSeed) std::vector<uint32_t>;

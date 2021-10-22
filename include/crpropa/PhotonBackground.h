@@ -51,6 +51,10 @@ public:
 		return this->fieldName;
 	}
 
+	void setFieldName(std::string fieldName) const {
+		fieldName;
+	}
+
 protected:
 	std::string fieldName;
 	bool isRedshiftDependent;

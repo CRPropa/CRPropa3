@@ -31,6 +31,7 @@ protected:
 	std::vector<double> tabProtonRate; ///< interaction rate in [1/m] for protons
 	std::vector<double> tabNeutronRate; ///< interaction rate in [1/m] for neutrons
 	double limit; ///< fraction of mean free path to limit the next step
+	bool needInitRate = false;
 	bool havePhotons;
 	bool haveNeutrinos;
 	bool haveElectrons;

@@ -50,16 +50,6 @@ protected:
 	/** called by: sampleEps
 	@param onProton	particle type: proton or neutron
 	@param Ein		energy of incoming nucleon
-	@param z		redshift of incoming nucleon
-	@param epsMin   minimum photon energy of field
-	@param epsMax   maximum photon energy of field
-	- output: maximum probability of all photons in field
-	 */
-	double probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
-
-	/** called by: sampleEps
-	@param onProton	particle type: proton or neutron
-	@param Ein		energy of incoming nucleon
 	- output: labframe energy [eV] of least energetic photon where PPP can occur
 	 */
 	double epsMinInteraction(bool onProton, double Ein) const;
@@ -152,6 +142,16 @@ public:
 	 @param z		redshift of incoming nucleon
 	 */
 	double sampleEps(bool onProton, double E, double z) const;
+	
+	/** called by: sampleEps
+	@param onProton	particle type: proton or neutron
+	@param Ein		energy of incoming nucleon
+	@param z		redshift of incoming nucleon
+	@param epsMin   minimum photon energy of field
+	@param epsMax   maximum photon energy of field
+	- output: maximum probability of all photons in field
+	 */
+	double probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const;
 	
 	// using log or lin spacing of photons in the range between epsMin and
 	// epsMax for computing the maximum probability of photons in field

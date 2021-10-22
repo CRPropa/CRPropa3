@@ -576,6 +576,22 @@ TEST(PhotoPionProduction, secondaries) {
 	EXPECT_GT(c.secondaries.size(), 1);
 }
 
+TEST(PhotoPionProduction, sampling) {
+	// Specific test of photon sampling of photo-pion production
+	// by testing the calculated pEpsMax for CMB(), also indirectly
+	// testing epsMinInteraction and logSampling (default).
+	ref_ptr<PhotonField> CMB_instance = new CMB(); //create CMB instance
+	double energy = 1.e10; //1e10 GeV
+	bool onProton = true; //proton
+	double z = 0; //no redshift
+	PhotoPionProduction ppp(CMB_instance, true, true, true);
+	double correctionFactor = ppp.getCorrectionFactor(); //get current correctionFactor
+	double epsMin = std::max(CMB_instance -> getMinimumPhotonEnergy(z) / eV, 0.00710614); // 0.00710614 = epsMinInteraction(onProton,energy)
+	double epsMax = CMB_instance -> getMaximumPhotonEnergy(z) / eV;
+	double pEpsMax = ppp.probEpsMax(onProton, energy, z, epsMin, epsMax) / correctionFactor;
+	EXPECT_DOUBLE_EQ(pEpsMax,132673934934.922);
+}
+
 // Redshift -------------------------------------------------------------------
 TEST(Redshift, simpleTest) {
 	// Test if redshift is decreased and adiabatic energy loss is applied.

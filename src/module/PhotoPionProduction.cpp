@@ -413,8 +413,6 @@ SophiaEventOutput PhotoPionProduction::sophiaEvent(bool onProton, double Ein, do
 	return output;
 }
 
-
-
 double PhotoPionProduction::sampleEps(bool onProton, double E, double z) const {
 	// sample eps between epsMin ... epsMax
 	double Ein = E / GeV;

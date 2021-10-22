@@ -37,69 +37,6 @@ protected:
 	bool haveAntiNucleons;
 	bool haveRedshiftDependence;
 
-public:
-	PhotoPionProduction(
-		ref_ptr<PhotonField> photonField,
-		bool photons = false,
-		bool neutrinos = false,
-		bool electrons = false,
-		bool antiNucleons = false,
-		double limit = 0.1,
-		bool haveRedshiftDependence = false);
-	void setPhotonField(ref_ptr<PhotonField> photonField);
-	void setHavePhotons(bool b);
-	void setHaveNeutrinos(bool b);
-	void setHaveElectrons(bool b);
-	void setHaveAntiNucleons(bool b);
-	void setHaveRedshiftDependence(bool b);
-	void setLimit(double limit);
-	void initRate(std::string filename);
-	double nucleonMFP(double gamma, double z, bool onProton) const;
-	double nucleiModification(int A, int X) const;
-	void process(Candidate *candidate) const;
-	void performInteraction(Candidate *candidate, bool onProton) const;
-
-	/**
-	 Calculates the loss length E dx/dE in [m].
-	 This is not used in the simulation.
-	 @param	id		PDG particle id
-	 @param gamma	Lorentz factor of particle
-	 @param z		redshift
-	 */
-	double lossLength(int id, double gamma, double z = 0);
-
-	/**
-	 Direct SOPHIA interface.
-	 Output is an object SophiaEventOutput with two vectors "energy" and "id" each of length N (number of out-going particles).
-	 The i-th component of each vector corresponds to the same particle.
-	 This is not used in the simulation.
-	 @param onProton	proton or neutron
-	 @param Ein			energy of nucleon
-	 @param eps			energy of target photon
-	 */
-	SophiaEventOutput sophiaEvent(bool onProton, double Ein, double eps) const;
-
-	/**
-	 SOPHIA's photon sampling method. Returns energy [J] of a photon of the photon field.
-	 @param onProton	particle type: proton or neutron
-	 @param E		energy of incoming nucleon [J]
-	 @param z		redshift of incoming nucleon
-	 */
-	double sampleEps(bool onProton, double E, double z) const;
-	
-	// using log or lin spacing of photons in the range between epsMin and
-	// epsMax for computing the maximum probability of photons in field
-	void setSampleLog(bool log);
-
-	// given the discrete steps to compute the maximum interaction probability pEpsMax 
-	// of photons in field, the real pEpsMax may lie between the descrete tested photon energies.
-	// A correction factor can be set to increase pEpsMax by that factor
-	void setCorrectionFactor(double factor);
-
-	bool getSampleLog() const;
-	double getCorrectionFactor() const;
-
-protected:
 	// called by: sampleEps
 	// - input: s [GeV^2]
 	// - output: (s-p^2) * sigma_(nucleon/gamma) [GeV^2 * mubarn]
@@ -164,6 +101,69 @@ protected:
 
 	bool sampleLog = true;
 	double correctionFactor = 1.6; // increeses the maximum of the propability function
+	
+
+public:
+	PhotoPionProduction(
+		ref_ptr<PhotonField> photonField,
+		bool photons = false,
+		bool neutrinos = false,
+		bool electrons = false,
+		bool antiNucleons = false,
+		double limit = 0.1,
+		bool haveRedshiftDependence = false);
+	void setPhotonField(ref_ptr<PhotonField> photonField);
+	void setHavePhotons(bool b);
+	void setHaveNeutrinos(bool b);
+	void setHaveElectrons(bool b);
+	void setHaveAntiNucleons(bool b);
+	void setHaveRedshiftDependence(bool b);
+	void setLimit(double limit);
+	void initRate(std::string filename);
+	double nucleonMFP(double gamma, double z, bool onProton) const;
+	double nucleiModification(int A, int X) const;
+	void process(Candidate *candidate) const;
+	void performInteraction(Candidate *candidate, bool onProton) const;
+
+	/**
+	 Calculates the loss length E dx/dE in [m].
+	 This is not used in the simulation.
+	 @param	id		PDG particle id
+	 @param gamma	Lorentz factor of particle
+	 @param z		redshift
+	 */
+	double lossLength(int id, double gamma, double z = 0);
+
+	/**
+	 Direct SOPHIA interface.
+	 Output is an object SophiaEventOutput with two vectors "energy" and "id" each of length N (number of out-going particles).
+	 The i-th component of each vector corresponds to the same particle.
+	 This is not used in the simulation.
+	 @param onProton	proton or neutron
+	 @param Ein			energy of nucleon
+	 @param eps			energy of target photon
+	 */
+	SophiaEventOutput sophiaEvent(bool onProton, double Ein, double eps) const;
+
+	/**
+	 SOPHIA's photon sampling method. Returns energy [J] of a photon of the photon field.
+	 @param onProton	particle type: proton or neutron
+	 @param E		energy of incoming nucleon [J]
+	 @param z		redshift of incoming nucleon
+	 */
+	double sampleEps(bool onProton, double E, double z) const;
+	
+	// using log or lin spacing of photons in the range between epsMin and
+	// epsMax for computing the maximum probability of photons in field
+	void setSampleLog(bool log);
+
+	// given the discrete steps to compute the maximum interaction probability pEpsMax 
+	// of photons in field, the real pEpsMax may lie between the descrete tested photon energies.
+	// A correction factor can be set to increase pEpsMax by that factor
+	void setCorrectionFactor(double factor);
+
+	bool getSampleLog() const;
+	double getCorrectionFactor() const;
 };
 /** @}*/
 

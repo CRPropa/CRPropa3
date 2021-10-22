@@ -79,16 +79,19 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
             def __init__(self, val):
                 crp.PhotonField.__init__(self)
                 self.val = val
+
+            def getFieldName(self):
+                return 'CMB'
+
+            def getPhotonDensity(self, ePhoton, z):
+                return self.val
                 
         constDensity = 1
-        photonField = crp.UniformMagneticField(constDensity)
-        #ppp = crp.PhotoPionProduction(photonField)
-        #self.assertEqual(constDensity, ppp.)
-        #advField = CustomAdvectionField(1)
-        #propSDE = crp.DiffusionSDE(magField, advField)
-        #pos = crp.Vector3d(1, 0, 0)
-        #advFieldAtPos = advField.getField(pos)
-        #self.assertEqual(advFieldAtPos, propSDE.getAdvectionFieldAtPosition(pos))
+        photonField = CustomPhotonField(constDensity)
+        ppp = crp.PhotoPionProduction(photonField)
+        pppPhotonField = ppp.getPhotonField()
+
+        self.assertEqual(constDensity, pppPhotonField.getPhotonDensity(0))
 
 
 class testCandidatePropertymap(unittest.TestCase):

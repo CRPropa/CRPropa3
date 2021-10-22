@@ -33,6 +33,9 @@ public:
 	virtual double getPhotonDensity(double ePhoton, double z = 0.) const = 0;
 	virtual double getMinimumPhotonEnergy(double z) const = 0;
 	virtual double getMaximumPhotonEnergy(double z) const = 0;
+	virtual std::string getFieldName() const {
+		return this->fieldName;
+	}
 
 	/**
 	 returns overall comoving scaling factor
@@ -47,9 +50,7 @@ public:
 		return this->isRedshiftDependent;
 	}
 
-	std::string getFieldName() const {
-		return this->fieldName;
-	}
+	
 
 	void setFieldName(std::string fieldName) const {
 		fieldName;

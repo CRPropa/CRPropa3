@@ -42,6 +42,11 @@ private:
 	static const size_t nlg; // number of Lorentz-factor steps
 
 public:
+	/** Constructor.
+	 @param photonField		target photon field
+	 @param havePhotons		if true, add secondary photons as candidates
+	 @param limit			step size limit as fraction of mean free path
+	 */
 	PhotoDisintegration(ref_ptr<PhotonField> photonField, bool havePhotons = false, double limit = 0.1);
 
 	void setPhotonField(ref_ptr<PhotonField> photonField);
@@ -61,6 +66,7 @@ public:
 	 @param	id		PDG particle id
 	 @param gamma	Lorentz factor of particle
 	 @param z		redshift
+	 @returns E dx/dE [in meters]
 	 */
 	double lossLength(int id, double gamma, double z = 0);
 };

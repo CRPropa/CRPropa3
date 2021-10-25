@@ -73,6 +73,111 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
             obs.process(candidate)
             self.assertEqual(i + 1, counter.value)
 
+    def testCustomMagneticField(self):
+        class CustomMagneticField(crp.MagneticField):
+            def __init__(self, val):
+                crp.MagneticField.__init__(self)
+                self.val = val
+                
+            def getField(self, position):
+                return crp.Vector3d(self.val)
+
+            def getField(self, position, z):
+                return crp.Vector3d(self.val)
+
+        field = CustomMagneticField(crp.gauss)
+        propBP = crp.PropagationBP(field, 1e-4, 1*crp.Mpc, 1*crp.Mpc)
+        propCK = crp.PropagationCK(field, 1e-4, 1*crp.Mpc, 1*crp.Mpc)
+        propSDE = crp.DiffusionSDE(field)
+        pos = crp.Vector3d(-1, 0, 0)
+        z = 0
+        fieldAtPos = field.getField(pos, z)
+        self.assertEqual(fieldAtPos, propBP.getFieldAtPosition(pos, z))
+        self.assertEqual(fieldAtPos, propCK.getFieldAtPosition(pos, z))
+        self.assertEqual(fieldAtPos, propSDE.getMagneticFieldAtPosition(pos, z))
+
+    def testCustomAdvectionField(self):
+        class CustomAdvectionField(crp.AdvectionField):
+            def __init__(self, val):
+                crp.AdvectionField.__init__(self)
+                self.val = val
+                
+            def getField(self, position):
+                return crp.Vector3d(self.val)
+
+            def getDivergence(self, position):
+                return 0.0
+
+        constMagVec = crp.Vector3d(0*crp.nG,0*crp.nG,1*crp.nG)
+        magField = crp.UniformMagneticField(constMagVec)
+        advField = CustomAdvectionField(1)
+        propSDE = crp.DiffusionSDE(magField, advField)
+        pos = crp.Vector3d(1, 0, 0)
+        advFieldAtPos = advField.getField(pos)
+        self.assertEqual(advFieldAtPos, propSDE.getAdvectionFieldAtPosition(pos))
+
+    def testCustomMassDensity(self):
+        class CustomMassDensity(crp.Density):
+            def __init__(self, density, HIDensity, HIIDensity, H2Density, nucleonDensity):
+                crp.Density.__init__(self)
+                self.density = density
+                self.HIDensity = HIDensity
+                self.HIIDensity = HIIDensity
+                self.H2Density = H2Density
+                self.nucleonDensity = nucleonDensity
+                
+            def getDensity(self, position):
+                return self.density
+
+            def getHIDensity(self, position):
+                return self.HIDensity
+
+            def getHIIDensity(self, position):
+                return self.HIIDensity
+
+            def getH2Density(self, position):
+                return self.H2Density
+
+            def NucleonDensity(self, position):
+                return self.nucleonDensity
+
+        density = 10
+        HIDensity = 5
+        HIIDensity = 2
+        H2Density = 1
+        nucleonDensity = 0.5
+        massDensity = CustomMassDensity(density, HIDensity, HIIDensity, H2Density, nucleonDensity)
+        pos = crp.Vector3d(1, 0, 0)
+        self.assertEqual(density, massDensity.getDensity(pos))
+        self.assertEqual(HIDensity, massDensity.getHIDensity(pos))
+        self.assertEqual(HIIDensity, massDensity.getHIIDensity(pos))
+        self.assertEqual(H2Density, massDensity.getH2Density(pos))
+
+    def testCustomPhotonField(self):
+        class CustomPhotonField(crp.PhotonField):
+            def __init__(self, density):
+                crp.PhotonField.__init__(self)
+                self.density = density
+                self.fieldName = 'testCustomPhotonField'
+                self.isRedshiftDependent = True
+                
+            def getPhotonDensity(self, energy, z):
+                return self.density
+
+            def getFieldName(self):
+                return self.fieldName
+
+            def hasRedshiftDependence(self):
+                return self.isRedshiftDependent
+
+        photonDensity = 10
+        photonField = CustomPhotonField(photonDensity)
+        energy = 10*crp.GeV
+        z = 0
+        self.assertEqual(photonDensity, photonField.getPhotonDensity(energy, z))
+        self.assertEqual('testCustomPhotonField', photonField.getFieldName())
+        self.assertEqual(True, photonField.hasRedshiftDependence())
+
 
     def testCustomPhotonField(self):
         class CustomPhotonField(crp.PhotonField):

@@ -170,7 +170,13 @@ cmake -DENABLE_PYTHON=ON ..
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
-
++ Quite often there are multiple Python versions installed in a system. This is likely the cause of many (if not most) of the installation problems related to Python. To prevent conflicts among them, one can explicitly refer to the Python version to be used. Example:
+  ```
+  -DCMAKE_PYTHON_EXECUTABLE=/usr/bin/python
+  -DCMAKE_PYTHON_INCLUDE_DIR=<path_to_folder_containing_Python.h>
+  -DCMAKE_PYTHON_LIBRARY=<path_to_file>/libpython<version_tag>.so
+  ```
+  Note that in systems running OSX, the extension .so should be replaced by .dylib.
 
 ## Notes for Specific Operating Systems
 

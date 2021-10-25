@@ -32,6 +32,14 @@ TEST(testMagneticDipoleField, SimpleTest) {
 	EXPECT_NEAR(b2.getZ(), -1 * mu0 / (4*M_PI), 1E-8);
 }
 
+TEST(testPolarizedSingleModeMagneticField, SimpleTest) {
+	PolarizedSingleModeMagneticField B(2, 4, 0.5, Vector3d(0,0,0), Vector3d(0,1,0), Vector3d(1,0,0), "amplitude", "polarization", "elliptical");
+	Vector3d b = B.getField(Vector3d(0, 0, 1));
+	EXPECT_DOUBLE_EQ(b.x, 1);
+	EXPECT_NEAR(b.y, 0, 1E-10);
+	EXPECT_NEAR(b.z, 0, 1E-10);
+}
+
 #ifdef CRPROPA_HAVE_MUPARSER
 TEST(testRenormalizeMagneticField, simpleTest) {
 	ref_ptr<UniformMagneticField> field = new UniformMagneticField(Vector3d(2*nG, 0, 0));

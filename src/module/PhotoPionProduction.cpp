@@ -77,8 +77,6 @@ void PhotoPionProduction::initRate(std::string filename) {
 	tabRedshifts.clear();
 	tabProtonRate.clear();
 	tabNeutronRate.clear();
-	if (!needInitRate) 
-		return;
 
 	std::ifstream infile(filename.c_str());
 	if (!infile.good())

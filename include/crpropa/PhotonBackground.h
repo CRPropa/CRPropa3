@@ -50,8 +50,8 @@ public:
 		return this->isRedshiftDependent;
 	}
 
-	void setFieldName(std::string fieldName) const {
-		fieldName;
+	void setFieldName(std::string fieldName) {
+		this->fieldName = fieldName;
 	}
 
 protected:

@@ -409,6 +409,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/PT11Field.h"
 %include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
+%include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 

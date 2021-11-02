@@ -60,9 +60,9 @@ class testParticleMapsContainer(unittest.TestCase):
             print("Cannot import numpy. Not testing testAddParticles!")
             return
 
-        self.assertEquals(len(self.maps.getParticleIds()), 1)
-        self.assertEquals(self.maps.getParticleIds()[0], 12)
-        self.assertEquals(len(self.maps.getEnergies(12)), 1)
+        self.assertEqual(len(self.maps.getParticleIds()), 1)
+        self.assertEqual(self.maps.getParticleIds()[0], 12)
+        self.assertEqual(len(self.maps.getEnergies(12)), 1)
 
     def testAddParticlesNumpyInterface(self):
         try:
@@ -108,11 +108,11 @@ class testParticleMapsContainer(unittest.TestCase):
         # accept int32 and int64
         ids = np.ones(N, dtype='int32')
         self.maps.addParticles(ids, energy, lons, lats, weights )
-        self.assertEquals(self.maps.getParticleIds()[0], ids[0])
+        self.assertEqual(self.maps.getParticleIds()[0], ids[0])
 
         ids = np.ones(N, dtype='int64')
         self.maps.addParticles(ids, energy, lons, lats, weights)
-        self.assertEquals(self.maps.getParticleIds()[0], ids[0])
+        self.assertEqual(self.maps.getParticleIds()[0], ids[0])
 
     def testAddParticleVectorInterface(self):
         try:
@@ -122,9 +122,9 @@ class testParticleMapsContainer(unittest.TestCase):
             return
 
         self.maps.addParticle(12, 1 * EeV, crpropa.Vector3d(1, 0, 0))
-        self.assertEquals(len(self.maps.getParticleIds()), 1)
-        self.assertEquals(self.maps.getParticleIds()[0], 12)
-        self.assertEquals(len(self.maps.getEnergies(12)), 1)
+        self.assertEqual(len(self.maps.getParticleIds()), 1)
+        self.assertEqual(self.maps.getParticleIds()[0], 12)
+        self.assertEqual(len(self.maps.getEnergies(12)), 1)
 
     def testGetRandomParticlesInterface(self):
         try:

@@ -187,11 +187,12 @@ double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 	return A * this -> blackbodyTemperature;
 }
 
-double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const{
-	return 0.1 * eV;
+double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const {
+	double factor = std::max(1., blackbodyTemperature / 2.73);
+	return 0.1 * factor * eV;
 }
 
-void BlackbodyPhotonField::setQuantile(double q){
+void BlackbodyPhotonField::setQuantile(double q) {
 	if(not ((q == 0.0001) or (q == 0.001) or (q == 0.01)))
 		throw std::runtime_error("Quantile not understood. Please use 0.01 (1%), 0.001 (0.1%) or 0.0001 (0.01%) \n");
 	this -> quantile = q;

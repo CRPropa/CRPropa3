@@ -4,6 +4,7 @@
 
 ### New features:
 * Add modules for first and second order Fermi acceleration
+* Finalized availability of custom photon fields in the PhotoPionProduction.
 
 ### Interface changes:
 

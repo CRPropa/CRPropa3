@@ -1,6 +1,7 @@
 #include <stdexcept>
 
 #include "crpropa/magneticField/MagneticFieldGrid.h"
+#include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
 #include "crpropa/Grid.h"
 #include "crpropa/GridTurbulence.h"
 #include "crpropa/Units.h"

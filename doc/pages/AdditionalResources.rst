@@ -16,6 +16,8 @@ Additional Resources
    models <https://arxiv.org/abs/1710.01353>`__ of the local Universe
    using initial conditions from the `CLUES
    project <https://arxiv.org/abs/1510.04900>`__ can be downloaded
-   `here <https://desycloud.desy.de/index.php/s/gmzNybEKbk7iNQW?path=%2Fclues>`__.
-
+   `here <https://desycloud.desy.de/index.php/s/gmzNybEKbk7iNQW?path=%2Fclue>`__.
+-  Data for the strong extragalactic magnetic fields by `Alves Batista  et al. 
+   <https://arxiv.org/abs/1704.05869>`__ can be downloaded
+   `here <http://www.8rafael.com/en/data/extragalactic-magnetic-field-models/>`__.
 

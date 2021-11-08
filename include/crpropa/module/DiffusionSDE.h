@@ -44,53 +44,59 @@ private:
 	    double alpha; // power law index of the energy dependent diffusion coefficient: D\propto E^alpha
 	    double scale; // scaling factor for the diffusion coefficient D = scale*D_0
 
-
 public:
-/** Constructor
-	@param minStep		minStep/c_light is the minimum integration timestep
-	@param maxStep		maxStep/c_light is the maximum integration timestep
-	@param tolerance	Tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.
-	@param epsilon		Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
-	@param alpha 		Power law index of the energy dependent diffusion coefficient: D\propto E^alpha
-	@param scale 		Scaling factor for the diffusion coefficient D = scale*D_0
-*/
-	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+	/** Constructor
+	 @param magneticField	the magnetic field to be used 
+	 @param tolerance		Tolerance is criterion for step adjustment. Step adjustment takes place when the  tangential vector of the magnetic field line is calculated.
+	 @param minStep			minStep/c_light is the minimum integration time step
+	 @param maxStep			maxStep/c_light is the maximum integration time step
+	 @param epsilon			Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
+	 */
+	DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
+	/** Constructor
+	 @param magneticField	the magnetic field to be used 
+	 @param advectionField	object containing advection field
+	 @param tolerance		Tolerance is criterion for step adjustment. Step adjustment takes place when the  tangential vector of the magnetic field line is calculated.
+	 @param minStep			minStep/c_light is the minimum integration time step
+	 @param maxStep			maxStep/c_light is the maximum integration time step
+	 @param epsilon			Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp
+	 */
+	DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
 
-	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+	void process(crpropa::Candidate *candidate) const;
 
-	    void process(crpropa::Candidate *candidate) const;
+	void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
+	void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;
+	void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
 
-	    void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
-	    void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;
-	    void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
+	void setMinimumStep(double minStep);
+	void setMaximumStep(double maxStep);
+	void setTolerance(double tolerance);
+	void setEpsilon(double kappa);
+	void setAlpha(double alpha);
+	void setScale(double Scale);
+	void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
+	void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
 
-	    void setMinimumStep(double minStep);
-	    void setMaximumStep(double maxStep);
-	    void setTolerance(double tolerance);
-	    void setEpsilon(double kappa);
-	    void setAlpha(double alpha);
-	    void setScale(double Scale);
-	    void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
-	    void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
-
-	    double getMinimumStep() const;
-	    double getMaximumStep() const;
-	    double getTolerance() const;
-	    double getEpsilon() const;
-	    double getAlpha() const;
-	    double getScale() const;
-		ref_ptr<MagneticField> getMagneticField() const;
-		/** get magnetic field vector at current candidate position
-		 * @param pos   current position of the candidate
-		 * @param z	 current redshift is needed to calculate the magnetic field
-		 * @return	  magnetic field vector at the position pos */
-		Vector3d getMagneticFieldAtPosition(Vector3d pos, double z) const;
-	    ref_ptr<AdvectionField> getAdvectionField() const;
-		/** get advection field vector at current candidate position
-		 * @param pos   current position of the candidate
-		 * @return	  magnetic field vector at the position pos */
-		Vector3d getAdvectionFieldAtPosition(Vector3d pos) const;
-		std::string getDescription() const;
+	double getMinimumStep() const;
+	double getMaximumStep() const;
+	double getTolerance() const;
+	double getEpsilon() const;
+	double getAlpha() const;
+	double getScale() const;
+	std::string getDescription() const;
+  
+  ref_ptr<MagneticField> getMagneticField() const;
+	/** get magnetic field vector at current candidate position
+	 @param pos   current position of the candidate
+	 @param z	 current redshift is needed to calculate the magnetic field
+	 @return	  magnetic field vector at the position pos */
+	Vector3d getMagneticFieldAtPosition(Vector3d pos, double z) const;
+	ref_ptr<AdvectionField> getAdvectionField() const;
+	/** get advection field vector at current candidate position
+	 @param pos   current position of the candidate
+	 @return	  magnetic field vector at the position pos */
+	Vector3d getAdvectionFieldAtPosition(Vector3d pos) const;
 
 };
 /** @}*/

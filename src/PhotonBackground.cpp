@@ -53,7 +53,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line.size() > 0)
+		if ((line.size() > 0) & (line[0] != '#') )
 			this->photonEnergies.push_back(std::stod(line));
 	}
 	infile.close();
@@ -66,7 +66,7 @@ void TabularPhotonField::readPhotonDensity(std::string filePath) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line.size() > 0)
+		if ((line.size() > 0) & (line[0] != '#') )
 			this->photonDensity.push_back(std::stod(line));
 	}
 	infile.close();
@@ -79,7 +79,7 @@ void TabularPhotonField::readRedshift(std::string filePath) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line.size() > 0)
+		if ((line.size() > 0) & (line[0] != '#') )
 			this->redshifts.push_back(std::stod(line));
 	}
 	infile.close();

@@ -6,6 +6,8 @@
 
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
 	Mikhail Zotov for contributing.
+* Add new PolarizedSingleModeMagneticField class for polarized/helical single
+  mode magnetic field models.
 
 ### Features that are deprecated and will be removed after this release:
 

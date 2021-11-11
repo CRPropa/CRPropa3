@@ -15,7 +15,7 @@
 namespace crpropa {
 
 EMCascade::EMCascade() : nE(170), logEmin(7), logEmax(24), dlogE(0.1) {
-	KISS_LOG_WARNING << "This module is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
+	KISS_LOG_WARNING << "EMCascade is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
 	setDistanceBinning(1000 * Mpc, 1000);
 }
 

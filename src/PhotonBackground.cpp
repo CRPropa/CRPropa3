@@ -159,7 +159,7 @@ void TabularPhotonField::checkInputData() const {
 BlackbodyPhotonField::BlackbodyPhotonField(std::string fieldName, double blackbodyTemperature) {
 	this->fieldName = fieldName;
 	this->blackbodyTemperature = blackbodyTemperature;
-	this->quantile = 0.0001;
+	this->quantile = 0.0001; // tested to be sufficient, only used for extreme values of primary energy or temperature
 }
 
 double BlackbodyPhotonField::getPhotonDensity(double Ephoton, double z) const {
@@ -189,7 +189,7 @@ double BlackbodyPhotonField::getMinimumPhotonEnergy(double z) const {
 
 double BlackbodyPhotonField::getMaximumPhotonEnergy(double z) const {
 	double factor = std::max(1., blackbodyTemperature / 2.73);
-	return 0.1 * factor * eV;
+	return 0.1 * factor * eV; // T dependent scaling, starting at 0.1 eV as suitable for CMB
 }
 
 void BlackbodyPhotonField::setQuantile(double q) {

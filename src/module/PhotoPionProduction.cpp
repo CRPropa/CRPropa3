@@ -442,7 +442,7 @@ double PhotoPionProduction::epsMinInteraction(bool onProton, double Ein) const {
 double PhotoPionProduction::probEpsMax(bool onProton, double Ein, double z, double epsMin, double epsMax) const {
 	// find pEpsMax by testing photon energies (eps) for their interaction
 	// probabilities (p) in order to find the maximum (max) probability
-	int const nrSteps = 100;
+	const int nrSteps = 100;
 	double pEpsMaxTested = 0.;
 	double step = 0.;
 	if (sampleLog){
@@ -472,7 +472,7 @@ double PhotoPionProduction::probEpsMax(bool onProton, double Ein, double z, doub
 double PhotoPionProduction::probEps(double eps, bool onProton, double Ein, double z) const {
 	// probEps returns "probability to encounter a photon of energy eps", given a primary nucleon
 	// note, probEps does not return a normalized probability [0,...,1]
-	double photonDensity = photonField -> getPhotonDensity(eps * eV, z) * ccm / eps;
+	double photonDensity = photonField->getPhotonDensity(eps * eV, z) * ccm / eps;
 	if (photonDensity != 0.) {
 		const double p = momentum(onProton, Ein);
 		const double sMax = mass(onProton) * mass(onProton) + 2. * eps * (Ein + p) / 1.e9;

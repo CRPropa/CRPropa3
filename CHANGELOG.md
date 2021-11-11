@@ -7,7 +7,7 @@
 
 ### New features:
 * Add modules for first and second order Fermi acceleration
-* Finalized availability of custom photon fields in the PhotoPionProduction.
+* Make custom photon fields available in the PhotoPionProduction module.
 * Add tricubic- and nearest neighbour interpolation routines for scalar- and vectorgrids.
 
 ### Interface changes:

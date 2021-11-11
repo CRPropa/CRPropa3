@@ -10,6 +10,8 @@
 
 #include "dint/prop_second.h"
 #include "dint/DintEMCascade.h"
+#include "kiss/string.h"
+#include "kiss/logger.h"
 
 #include <fstream>
 #include <cstdio>
@@ -29,6 +31,8 @@ void ElecaPropagation(
 		double lowerEnergyThreshold,
 		double magneticFieldStrength,
 		const std::string &background) {
+
+	KISS_LOG_WARNING << "EleCa propagation is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
 
 	std::ifstream infile(inputfile.c_str());
 	std::streampos startPosition = infile.tellg();
@@ -169,6 +173,8 @@ void DintPropagation(
 		double magneticFieldStrength,
 		double aCutcascade_Magfield) {
 
+	KISS_LOG_WARNING << "DINT propagation is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
+
 	// initialize the energy grids for DINT
 	dCVector energyGrid, energyWidth;
 	New_dCVector(&energyGrid, NUM_MAIN_BINS);
@@ -305,6 +311,8 @@ void DintElecaPropagation(
 		double crossOverEnergy,
 		double magneticFieldStrength,
 		double aCutcascade_Magfield) {
+
+	KISS_LOG_WARNING << "EleCa+DINT propagation is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
 
 	////////////////////////////////////////////////////////////////////////
 	//Initialize EleCa

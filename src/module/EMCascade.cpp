@@ -3,6 +3,7 @@
 #include "crpropa/Units.h"
 
 #include "dint/DintEMCascade.h"
+#include "kiss/logger.h"
 
 #include <fstream>
 #include <sstream>
@@ -14,6 +15,7 @@
 namespace crpropa {
 
 EMCascade::EMCascade() : nE(170), logEmin(7), logEmax(24), dlogE(0.1) {
+	KISS_LOG_WARNING << "This module is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
 	setDistanceBinning(1000 * Mpc, 1000);
 }
 

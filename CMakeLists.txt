@@ -430,7 +430,6 @@ add_library(crpropa SHARED
 	src/massDistribution/ConstantDensity.cpp
 
 	${CRPROPA_EXTRA_SOURCES}
-=======
   src/base64.cpp
   src/Candidate.cpp
   src/Clock.cpp

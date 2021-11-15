@@ -47,6 +47,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore operator crpropa::Observer*;
 %ignore operator crpropa::ObserverFeature*;
 %ignore operator crpropa::MagneticField*;
+%ignore operator crpropa::PhotonField*;
 %ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
 %ignore operator crpropa::Density*;
@@ -85,6 +86,27 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore crpropa::Vector3::data;
 
 %include "crpropa/Vector3.h"
+
+%exception crpropa::Vector3::__getitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+}
+
+%exception crpropa::Vector3::__setitem__ {
+  try {
+        $action
+  }
+  catch (RangeError) {
+        SWIG_exception(SWIG_IndexError, "Index out of bounds");
+        return NULL;
+  }
+}
+
 %extend crpropa::Vector3
 {
   size_t __len__()
@@ -115,11 +137,19 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
   double __getitem__(size_t i)
   {
+    if(i > 2) {
+        throw RangeError();
+    }
+    
     return $self->data[i];
   }
 
   int __setitem__(size_t i, T value)
   {
+    if(i > 2) {
+        throw RangeError();
+    }
+
     $self->data[i] = value;
     return 0;
   }
@@ -132,13 +162,16 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
   }
 }
 
+%feature("python:slot", "tp_str", functype="reprfunc") crpropa::Vector3::getDescription();
+%feature("python:slot", "tp_repr", functype="reprfunc") crpropa::Vector3::getDescription();
 
+%template(Vector3d) crpropa::Vector3<double>;
+%template(Vector3f) crpropa::Vector3<float>;
 
 %include "crpropa/Referenced.h"
 %include "crpropa/Units.h"
 %include "crpropa/Common.h"
 %include "crpropa/Cosmology.h"
-%include "crpropa/PhotonBackground.h"
 %include "crpropa/PhotonPropagation.h"
 %template(RandomSeed) std::vector<uint32_t>;
 %template(RandomSeedThreads) std::vector< std::vector<uint32_t> >;
@@ -360,19 +393,29 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %implicitconv crpropa::ref_ptr<crpropa::MagneticField>;
 %template(MagneticFieldRefPtr) crpropa::ref_ptr<crpropa::MagneticField>;
+%feature("director") crpropa::MagneticField;
 %include "crpropa/magneticField/MagneticField.h"
+
+%implicitconv crpropa::ref_ptr<crpropa::PhotonField>;
+%template(PhotonFieldRefPtr) crpropa::ref_ptr<crpropa::PhotonField>;
+%feature("director") crpropa::PhotonField;
+%include "crpropa/PhotonBackground.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::AdvectionField>;
 %template(AdvectionFieldRefPtr) crpropa::ref_ptr<crpropa::AdvectionField>;
+%feature("director") crpropa::AdvectionField;
 %include "crpropa/advectionField/AdvectionField.h"
 
 %implicitconv crpropa::ref_ptr<crpropa::Density>;
 %template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
+%feature("director") crpropa::Density;
 %include "crpropa/massDistribution/Density.h"
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"
-%include "crpropa/GridTurbulence.h"
+
+%template(Array3d) std::array<double, 3>;
+%template(Array3f) std::array<float, 3>;
 
 %implicitconv crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
 %template(Grid3fRefPtr) crpropa::ref_ptr<crpropa::Grid<crpropa::Vector3<float> > >;
@@ -410,6 +453,12 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/TF17Field.h"
 %include "crpropa/magneticField/ArchimedeanSpiralField.h"
 %include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
+%include "crpropa/magneticField/CMZField.h"
+%include "crpropa/magneticField/turbulentField/TurbulentField.h"
+%include "crpropa/magneticField/turbulentField/GridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/HelicalGridTurbulence.h"
+%include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 %include "crpropa/module/BreakCondition.h"
 %include "crpropa/module/Boundary.h"
 
@@ -643,4 +692,13 @@ class ParticleCollectorIterator {
 %include "crpropa/massDistribution/Ferriere.h"
 %include "crpropa/massDistribution/Massdistribution.h"
 %include "crpropa/massDistribution/ConstantDensity.h"
+
+
+
+
+%template(StepLengthModifierRefPtr) crpropa::ref_ptr<crpropa::StepLengthModifier>;
+%feature("director") crpropa::StepLengthModifier;
+%include "crpropa/module/Acceleration.h"
+
+
 

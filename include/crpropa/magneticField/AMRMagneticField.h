@@ -8,7 +8,7 @@
 #include <cstdio>
 
 #ifdef _OPENMP
-    #include "omp.h"
+	#include "omp.h"
 #endif
 
 #include "crpropa/Units.h"
@@ -36,32 +36,32 @@ class AMRMagneticField: public MagneticField {
 
 private:
 	saga::ref_ptr<saga::MagneticField> field;
-    double cfLength;
-    double cfDensity;
-    double cfMagneticField;
+	double cfLength;
+	double cfDensity;
+	double cfMagneticField;
 
 public:
-    AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
-    {
-        field = field_;
-        cfLength = convLength;
-        cfDensity = convDensity;
-        cfMagneticField = convMagneticField;
-    }
+	AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
+	{
+		field = field_;
+		cfLength = convLength;
+		cfDensity = convDensity;
+		cfMagneticField = convMagneticField;
+	}
 
-    Vector3d getField(const Vector3d &position) const {
+	Vector3d getField(const Vector3d &position) const {
 
-        double x = position.x / cfLength;
-        double y = position.y / cfLength;
-        double z = position.z / cfLength;
+		double x = position.x / cfLength;
+		double y = position.y / cfLength;
+		double z = position.z / cfLength;
 
-        std::vector<double> b = field->getField(x, y, z);
-        Vector3d B;
-        B.setXYZ(b[0], b[1], b[2]);
-        B = B * cfMagneticField;
+		std::vector<double> b = field->getField(x, y, z);
+		Vector3d B;
+		B.setXYZ(b[0], b[1], b[2]);
+		B = B * cfMagneticField;
 
 		return B;
-    }
+	}
 
 };
 /** @} */

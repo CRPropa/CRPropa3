@@ -4,6 +4,11 @@
 #include "crpropa/Grid.h"
 #include "crpropa/magneticField/MagneticField.h"
 #include <string>
+#include <array>
+
+#ifdef CRPROPA_HAVE_FFTW3F
+#include "fftw3.h"
+#endif
 
 /**
  @file
@@ -24,61 +29,134 @@ namespace crpropa {
  * @{
  */
 
-/** Evaluate the mean vector of all grid points */
+/** Evaluate the mean vector of all grid points.
+ @param grid		a vector grid (Grid3f)
+ @returns The mean of all grid points along each axis
+ */
 Vector3f meanFieldVector(ref_ptr<Grid3f> grid);
 
-/** Evaluate the mean of all grid points */
+/** Evaluate the mean of all grid points. 
+ @param grid		a scalar grid (Grid1f)
+ @returns The mean of all grid points
+ */
 double meanFieldStrength(ref_ptr<Grid1f> grid);
-/** Evaluate the mean of all grid points */
+/** Evaluate the mean of all grid points.
+ @param grid		a vector grid (Grid3f)
+ @returns The mean of all grid points
+ */
 double meanFieldStrength(ref_ptr<Grid3f> grid);
 
-/** Evaluate the RMS of all grid points */
+/** Evaluate the RMS of all grid points.
+ @param grid		a scalar grid (Grid1f)
+ @returns The total RMS of all grid points.
+ */
 double rmsFieldStrength(ref_ptr<Grid1f> grid);
-/** Evaluate the RMS of all grid points */
+/** Evaluate the RMS of all grid points.
+ @param grid		a vector grid (Grid3f)
+ @returns The total RMS of all grid points.
+ */
 double rmsFieldStrength(ref_ptr<Grid3f> grid);
+/** Evaluate the RMS of all grid points per axis. 
+ @param grid		a vector grid (Grid3f)
+ @returns An array of length 3 with the RMS field along each axis.
+ */
+std::array<float, 3> rmsFieldStrengthPerAxis(ref_ptr<Grid3f> grid);
 
-/** Multiply all grid values by a given factor */
+/** Multiply all grid values by a given factor.
+ @param grid		a scalar grid (Grid1f)
+ @param a			scaling factor that will be used to multiply all points in grid
+ */
 void scaleGrid(ref_ptr<Grid1f> grid, double a);
-/** Multiply all grid values by a given factor */
+/** Multiply all grid values by a given factor.
+ @param grid		a vector grid (Grid3f)
+ @param a			scaling factor that will be used to multiply all points in grid
+ */
 void scaleGrid(ref_ptr<Grid3f> grid, double a);
 
-/** Fill vector grid from provided magnetic field */
+/** Fill vector grid from provided magnetic field.
+ @param grid		a vector grid (Grid3f)
+ @param field		the magnetic field 
+ */
 void fromMagneticField(ref_ptr<Grid3f> grid, ref_ptr<MagneticField> field);
 
-/** Fill scalar grid from provided magnetic field */
+/** Fill scalar grid from provided magnetic field.
+ @param grid		a scalar grid (Grid1f)
+ @param field		the magnetic field
+ */
 void fromMagneticFieldStrength(ref_ptr<Grid1f> grid, ref_ptr<MagneticField> field);
 
-/** Load a Grid3f from a binary file with single precision */
+/** Load a Grid3f from a binary file with single precision.
+ @param grid		a vector grid (Grid3f)
+ @param filename	name of input file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void loadGrid(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a Grid1f from a binary file with single precision */
+/** Load a Grid1f from a binary file with single precision.
+ @param grid		a scalar grid (Grid1f)
+ @param filename	name of input file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void loadGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a Grid3f to a binary file */
+/** Dump a Grid3f to a binary file.
+ @param grid		a vector grid (Grid3f)
+ @param filename	name of input file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void dumpGrid(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a Grid1f to a binary file with single precision */
+/** Dump a Grid1f to a binary file with single precision.
+ @param grid		a scalar grid (Grid1f)
+ @param filename	name of input file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a Grid3f grid from a plain text file */
+/** Load a Grid3f grid from a plain text file.
+ @param grid		a vector grid (Grid3f) to which the points will be loaded
+ @param filename	name of input file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Load a Grid1f from a plain text file */
+/** Load a Grid1f from a plain text file
+ @param grid		a scalar grid (Grid1f) to which the points will be loaded
+ @param filename	name of input file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a Grid3f to a plain text file */
+/** Dump a Grid3f to a plain text file.
+ @param grid		a vector grid (Grid3f)
+ @param filename	name of output file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
-/** Dump a Grid1f to a plain text file */
+/** Dump a Grid1f to a plain text file. 
+ @param grid		a scalar grid (Grid1f)
+ @param filename	name of output file
+ @param conversion	multiply every point in grid by a conversion factor
+ */
 void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
 		double conversion = 1);
+
+#ifdef CRPROPA_HAVE_FFTW3F
+/**
+ Calculate the omnidirectional power spectrum E(k) for a given turbulent field
+ @param grid	a three-dimensional grid
+ @returns Returns a vector of pairs (k_i, E(k_i)).
+*/
+std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid);
+#endif // CRPROPA_HAVE_FFTW3F
 
 /** @}*/
 } // namespace crpropa

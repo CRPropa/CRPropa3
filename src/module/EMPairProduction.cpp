@@ -11,13 +11,16 @@ namespace crpropa {
 
 static const double mec2 = mass_electron * c_squared;
 
-EMPairProduction::EMPairProduction(PhotonField photonField, bool haveElectrons, double limit) : haveElectrons(haveElectrons), limit(limit) {
+EMPairProduction::EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons, double thinning, double limit) {
 	setPhotonField(photonField);
+	setThinning(thinning);
+	setLimit(limit);
+	setHaveElectrons(haveElectrons);
 }
 
-void EMPairProduction::setPhotonField(PhotonField photonField) {
+void EMPairProduction::setPhotonField(ref_ptr<PhotonField> photonField) {
 	this->photonField = photonField;
-	std::string fname = photonFieldName(photonField);
+	std::string fname = photonField->getFieldName();
 	setDescription("EMPairProduction: " + fname);
 	initRate(getDataPath("EMPairProduction/rate_" + fname + ".txt"));
 	initCumulativeRate(getDataPath("EMPairProduction/cdf_" + fname + ".txt"));
@@ -29,6 +32,10 @@ void EMPairProduction::setHaveElectrons(bool haveElectrons) {
 
 void EMPairProduction::setLimit(double limit) {
 	this->limit = limit;
+}
+
+void EMPairProduction::setThinning(double thinning) {
+	this->thinning = thinning;
 }
 
 void EMPairProduction::initRate(std::string filename) {
@@ -150,9 +157,9 @@ class PPSecondariesEnergyDistribution {
 			Random &random = Random::instance();
 			size_t j = random.randBin(s0) + 1;
 
-			double s_min = 4 * mec2 * mec2;
-			double beta = sqrt(1 - s_min / s);
-			double x0 = (1 - beta) / 2.;
+			double s_min = 4. * mec2 * mec2;
+			double beta = sqrtl(1. - s_min / s);
+			double x0 = (1. - beta) / 2.;
 			double dx = log((1 + beta) / (1 - beta)) / N;
 			double binWidth = x0 * (exp(j*dx) - exp((j-1)*dx));
 			if (random.rand() < 0.5)
@@ -190,11 +197,24 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	static PPSecondariesEnergyDistribution interpolation;
 	double Ee = interpolation.sample(E, s);
 	double Ep = E - Ee;
+	double f = Ep / E;
+
+	// for some backgrounds Ee=nan due to precision limitations.
+	if (not std::isfinite(Ee) || not std::isfinite(Ep))
+		return;
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-	candidate->addSecondary(-11, Ee / (1 + z), pos);
-	candidate->addSecondary(11, Ep / (1 + z), pos);
+	double w0 = candidate->getWeight();
+	// apply sampling
+	if (random.rand() < pow(f, thinning)) {
+		double w = w0 / pow(f, thinning);
+		candidate->addSecondary(11, Ep / (1 + z), pos, w);
+	}
+	if (random.rand() < pow(1 - f, thinning)){
+		double w = w0 / pow(1 - f, thinning);
+		candidate->addSecondary(-11, Ee / (1 + z), pos, w);	
+	}
 }
 
 void EMPairProduction::process(Candidate *candidate) const {
@@ -207,20 +227,28 @@ void EMPairProduction::process(Candidate *candidate) const {
 	double E = candidate->current.getEnergy() * (1 + z);
 
 	// check if in tabulated energy range
-	if (E < tabEnergy.front() or (E > tabEnergy.back()))
+	if ((E < tabEnergy.front()) or (E > tabEnergy.back()))
 		return;
 
 	// interaction rate
 	double rate = interpolate(E, tabEnergy, tabRate);
-	rate *= pow(1 + z, 2) * photonFieldScaling(photonField, z);
+	rate *= pow_integer<2>(1 + z) * photonField->getRedshiftScaling(z);
 
-	// check for interaction
+	// run this loop at least once to limit the step size 
+	double step = candidate->getCurrentStep();
 	Random &random = Random::instance();
-	double randDistance = -log(random.rand()) / rate;
-	if (candidate->getCurrentStep() > randDistance)
-		performInteraction(candidate);
-	else
-		candidate->limitNextStep(limit / rate);
+	do {
+		double randDistance = -log(random.rand()) / rate;
+		// check for interaction; if it doesn't ocurr, limit next step
+		if (step < randDistance) { 
+			candidate->limitNextStep(limit / rate);
+		} else {
+			performInteraction(candidate);
+			return;
+		}
+		step -= randDistance; 
+	} while (step > 0.);
+
 }
 
 } // namespace crpropa

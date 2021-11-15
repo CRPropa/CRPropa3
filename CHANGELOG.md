@@ -1,17 +1,74 @@
 ## CRPropa vNEXT
 
 ### Bug fixes:
+* Fix of reflective boundary condition for scalar- and vectorgrids
+  that showed asymmetry and discontinuities (See issue [#361]).
+  
+
+### New features:
+* Add modules for first and second order Fermi acceleration
+* Make custom photon fields available in the PhotoPionProduction module.
+* Add tricubic- and nearest neighbour interpolation routines for scalar- and vectorgrids.
+
+### Interface changes:
+
+### Features that are deprecated and will be removed after this release
+
+### New plugins and resources linked on the webpages:
+
+
+
+## CRPropa 3.1.7
+
+### Bug fixes:
+
+* Re-add URB that was temporarily not available in the (unreleased) master branch.
+* Turbulent fields generated on a grid were limited up to 2048 grid-size due to
+  an integer overflow (i.e. 2048^3 index > signed int); solved by replacing
+  int with size_t
 
 ### New features:
 
+* New model for the radio background added: Nitu et al. 2021 measurements.
+* New model for the radio background added: Fixsen et al. 2011 (ARCADE-2) measurements.
+* Weighted sampling thinning of electromagnetic processes  (EMPairProduction,
+  EMInverseComptonScattering, EMDoublePairProduction, EMTripletPairProduction).
 * Planck JF12b variant of the JF12Field. See arXiv:1601.00546. Thanks to
 	Mikhail Zotov for contributing.
-* Add new PolarizedSingleModeMagneticField class for polarized/helical single
+* Added the new PolarizedSingleModeMagneticField class for polarized/helical single
   mode magnetic field models.
+* ParticleCollector can provide Candidates directly to ModuleList::run
+* Basic file versioning of the data archive in CMakeLists.txt
+* Python docstrings are generated automatically from doxygen documentation
+* Photon field classes replaced the photon field enumerator,
+  consequently, the new photon fields implementation follows the same logic as
+  of the other modules making it is easier to introduce custom ones
+* New class-based interface for turbulent fields introduced
+* New turbulence modules implemented:
+  - GridTurbulence (with the bendover scale) which should in general be used
+    instead of initTurbulence (before, it was implemented as
+    initTurbulenceWithBendover);
+  - SimpleGridTurbulence which provides the exact field as initTurbulence;
+  - HelicalGridTurbulence which provides the exact field as initHelicalTurbulence
+  - PlaneWaveTurbulence a new algorithm based on Giacalone & Jokipii, 1999 and
+    Tautz & Dosch, 2013.
+* New CMake option: `BUILD_DOC` for building Doxygen & Sphinx docs
+
+
+### Interface change:
+
+* ParticleCollector::getAll() -> ParticleCollector::getContainer()
+* Photon fields are no longer items of the PhotonField enumerator but independent
+  classes that share the same interface, so instead of `CMB` one should use `CMB()`,
+  instead of `IRB_Kneiske04` - `IRB_Kneiske04()`, etc.
+* initTurbulenceWithBendover() removed (as it was just briefly present in the code)
+  and replaced with GridTurbulence
 
 ### Features that are deprecated and will be removed after this release:
 
-### New plugins and resources linked on the webpages:
+* Turbulence-related functions: initTurbulence, turbulentCorrelationLength,
+  initHelicalTurbulence
+
 
 ## CRPropa v3.1.6
 

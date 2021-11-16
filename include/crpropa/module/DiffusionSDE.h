@@ -13,6 +13,7 @@
 #include "crpropa/advectionField/AdvectionField.h"
 #include "crpropa/Units.h"
 #include "crpropa/Random.h"
+#include "crpropa/DiffusionTensor.h"
 
 #include "kiss/logger.h"
 
@@ -37,6 +38,7 @@ class DiffusionSDE : public Module{
 private:
 	    ref_ptr<MagneticField> magneticField;
 	    ref_ptr<AdvectionField> advectionField;
+		ref_ptr<DiffusionTensor> diffusionTensor;
 	    double minStep; // minStep/c_light is the minimum integration timestep
 	    double maxStep; // maxStep/c_light is the maximum integration timestep
 	    double tolerance; // tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.
@@ -55,8 +57,12 @@ public:
 	@param scale 		Scaling factor for the diffusion coefficient D = scale*D_0
 */
 	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+		//DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), ref_ptr<DiffusionTensor> diffusionTensor);
+		
 
 	    DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+		//DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), ref_ptr<DiffusionTensor> diffusionTensor);
+		
 
 	    void process(crpropa::Candidate *candidate) const;
 
@@ -72,6 +78,7 @@ public:
 	    void setScale(double Scale);
 	    void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
 	    void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
+		void setDiffusionTensor(ref_ptr<crpropa::DiffusionTensor> diffusionTensor);
 
 	    double getMinimumStep() const;
 	    double getMaximumStep() const;

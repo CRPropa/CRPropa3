@@ -40,12 +40,12 @@ public:
 	void showModules() const;
 	
 	/** iterator goodies */
-        typedef module_list_t::iterator iterator;
-        typedef module_list_t::const_iterator const_iterator;
-        iterator begin();
-        const_iterator begin() const;
-        iterator end();
-        const_iterator end() const;
+	typedef module_list_t::iterator iterator;
+	typedef module_list_t::const_iterator const_iterator;
+	iterator begin();
+	const_iterator begin() const;
+	iterator end();
+	const_iterator end() const;
 
 private:
 	module_list_t modules;

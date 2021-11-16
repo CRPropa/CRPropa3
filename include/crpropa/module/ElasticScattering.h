@@ -10,28 +10,31 @@ namespace crpropa {
 
 /**
  @class ElasticScattering
- @brief Elastic scattering of background photons on cosmic ray nuclei.
+ @brief Elastic scattering of background photons on cosmic-ray nuclei.
  */
 class ElasticScattering: public Module {
 private:
-    ref_ptr<PhotonField> photonField;
+	ref_ptr<PhotonField> photonField;
 
-    std::vector<double> tabRate; // elastic scattering rate
-    std::vector<std::vector<double> > tabCDF; // CDF as function of background photon energy
+	std::vector<double> tabRate; // elastic scattering rate
+	std::vector<std::vector<double> > tabCDF; // CDF as function of background photon energy
 
-    static const double lgmin; // minimum log10(Lorentz-factor)
-    static const double lgmax; // maximum log10(Lorentz-factor)
-    static const size_t nlg;   // number of Lorentz-factor steps
-    static const double epsmin; // minimum log10(eps / J)
-    static const double epsmax; // maximum log10(eps / J)
-    static const size_t neps;   // number of eps steps
+	static const double lgmin; // minimum log10(Lorentz-factor)
+	static const double lgmax; // maximum log10(Lorentz-factor)
+	static const size_t nlg;   // number of Lorentz-factor steps
+	static const double epsmin; // minimum log10(eps / J)
+	static const double epsmax; // maximum log10(eps / J)
+	static const size_t neps;   // number of eps steps
 
 public:
-    ElasticScattering(ref_ptr<PhotonField> photonField);
-    void initRate(std::string filename);
-    void initCDF(std::string filename);
-    void setPhotonField(ref_ptr<PhotonField> photonField);
-    void process(Candidate *candidate) const;
+	/** Constructor
+	 @param photonField		target photon field
+	 */
+	ElasticScattering(ref_ptr<PhotonField> photonField);
+	void initRate(std::string filename);
+	void initCDF(std::string filename);
+	void setPhotonField(ref_ptr<PhotonField> photonField);
+	void process(Candidate *candidate) const;
 };
 
 } // namespace crpropa

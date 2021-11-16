@@ -41,12 +41,13 @@ private:
 	std::vector< std::vector<double> > tabCDF;  //!< cumulative interaction rate
 
 public:
-	EMTripletPairProduction(
-		ref_ptr<PhotonField> photonField, //!< target photon background
-		bool haveElectrons = false,    //!< switch to create secondary electron pair
-		double thinning = 0,           //!< weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
-		double limit = 0.1             //!< step size limit as fraction of mean free path
-		);
+	/** Constructor
+	 @param photonField		target photon field
+	 @param haveElectrons	if true, add secondary electrons as candidates
+	 @param thinning		weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
+	 @param limit			step size limit as fraction of mean free path
+	 */
+	EMTripletPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0, double limit = 0.1);
 
 	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHaveElectrons(bool haveElectrons);

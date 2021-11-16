@@ -10,6 +10,11 @@ namespace crpropa {
  * \addtogroup Core
  * @{
  */
+
+/** 
+ @class ProgressBar
+ @brief Track the evolution of the simulations with a progress bar
+ */
 class ProgressBar {
 private:
 	unsigned long _steps;
@@ -22,18 +27,25 @@ private:
 	std::string arrow;
 
 public:
-	/// Initialize a ProgressBar with [steps] number of steps, updated at [updateSteps] intervalls
+	/** Constructor to initialize a progress bar
+	 @param steps		number of steps
+	 @param updateSteps	progress bar will be updated at the steps given by this parameter
+	 */
 	ProgressBar(unsigned long steps = 0, unsigned long updateSteps = 100);
 	void start(const std::string &title);
 
-	/// update the progressbar
-	/// should be called steps times in a loop 
+	/** Update the progressbar
+	 This should be called steps times in a loop.
+	*/
 	void update(); 
 
-	// sets the position of the bar to a given value
+	/** Sets the position of the progress bar to a given value
+	 @param position	current position of the progress bar
+	 */
 	void setPosition(unsigned long position);
 
-	/// Mark the progressbar with an error
+	/** Mark the progress bar with an error
+	 */
 	void setError();
 };
 /** @}*/

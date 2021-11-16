@@ -49,18 +49,24 @@ Pshirkov
 Extragalactic Magnetic Field
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Dolag
+Dolag et al.
   JCAP 01 (2005) 009; `arXiv:astro-ph/0410419 <https://arxiv.org/abs/astro-ph/0410419>`__
 
-Miniati
+Miniati et al.
   Phys. Rev. D 70 (2004) 043007; `arXiv:astro-ph/0401084 <https://arxiv.org/abs/astro-ph/0401084>`__
 
-CLUES
+Hackstein et al. (CLUES)
   Mon. Not. Roy. Astron. Soc. 475 (2018) 2519 `arXiv:1710.01353 <https://arxiv.org/abs/1710.01353>`__
+
+Alves Batista et al.
+  Phys. Rev. D 96 (2017) 023010 `arXiv:1704.05869: <https://arxiv.org/abs/1704.05869>`__
 
 
 Photon Backgrounds
 ^^^^^^^^^^^^^^^^^^
+
+Nitu21
+  Astropart. Phys. 126 (2021) 102532; `arXiv:2004.13596 <https://arxiv.org/abs/2004.13596>`__
 
 Stecker16
  Astrophys. J. 827 (2016) 6; `arXiv:1605.01382 <https://arxiv.org/abs/1605.01382>`__

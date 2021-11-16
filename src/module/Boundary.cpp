@@ -254,9 +254,9 @@ void CylindricalBoundary::process(Candidate *c) const {
 	double R2 = pow(d.x, 2.)+pow(d.y, 2.);
 	double Z = fabs(d.z);
 	if ( R2 < pow(radius, 2.) and Z < height/2.) {
-	  if(limitStep) {
-	    c->limitNextStep(std::min(radius - pow(R2, 0.5), height/2. - Z) + margin);
-	  }
+		if(limitStep) {
+			c->limitNextStep(std::min(radius - pow(R2, 0.5), height/2. - Z) + margin);	
+		}
 	  return;
 	}
 	reject(c);
@@ -275,7 +275,7 @@ void CylindricalBoundary::setLimitStep(bool b) {
 	limitStep = b;
 }
 void CylindricalBoundary::setMargin(double m) {
-        margin = m;
+	margin = m;
 }
 
 

@@ -29,13 +29,6 @@ public:
 	virtual Vector3d getField(const Vector3d &position, double z) const {
 		return getField(position);
 	};
-
-	virtual Vector3d getRegularField(const Vector3d &position) const{
-		return getField(position);
-	}
-	virtual Vector3d getTurbulentField(const Vector3d &position) const{
-		return getField(position);
-	}
 };
 
 /**

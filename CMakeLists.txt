@@ -370,7 +370,6 @@ add_library(crpropa SHARED
   src/Clock.cpp
   src/Common.cpp
   src/Cosmology.cpp
-  src/DiffusionTensor.cpp
   src/EmissionMap.cpp
   src/Geometry.cpp
   src/GridTools.cpp
@@ -617,10 +616,6 @@ if(ENABLE_TESTING)
   add_executable(testAdvectionField test/testAdvectionField.cpp)
   target_link_libraries(testAdvectionField crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testAdvectionField testAdvectionField)
-
-  add_executable(testDiffusionTensor test/testDiffusionTensor.cpp)
-  target_link_libraries(testDiffusionTensor crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
-  add_test(testDiffusionTensor testDiffusionTensor)
 
   add_executable(testDensity test/testDensity.cpp)
   target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})

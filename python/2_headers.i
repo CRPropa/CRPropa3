@@ -51,7 +51,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %ignore operator crpropa::AdvectionField*;
 %ignore operator crpropa::ParticleCollector*;
 %ignore operator crpropa::Density*;
-%ignore operator crpropa::DiffusionTensor*;
 %ignore operator crpropa::CylindricalProjectionMap*;
 %ignore operator crpropa::EmissionMap*;
 %ignore operator crpropa::Grid< crpropa::Vector3< float > >*;
@@ -411,10 +410,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %template(DensityRefPtr) crpropa::ref_ptr<crpropa::Density>;
 %feature("director") crpropa::Density;
 %include "crpropa/massDistribution/Density.h"
-
-%implicitconv crpropa::ref_ptr<crpropa::DiffusionTensor>;
-%template(DiffusionTensorRefPtr) crpropa::ref_ptr<crpropa::DiffusionTensor>;
-%include "crpropa/DiffusionTensor.h"
 
 %include "crpropa/Grid.h"
 %include "crpropa/GridTools.h"

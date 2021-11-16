@@ -5,7 +5,6 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Common.h"
 #include "crpropa/Cosmology.h"
-#include "crpropa/DiffusionTensor.h"
 #include "crpropa/EmissionMap.h"
 #include "crpropa/Geometry.h"
 #include "crpropa/Grid.h"

@@ -342,7 +342,7 @@ public:
  @brief Source distribution that follows the Galactic SNR distribution
 
  The origin of the distribution is the Galactic center. The default maximum radius is set 
- to R_max=20 kpc and the default maximum height is Z_max = 5 kpc.
+ to rMax=20 kpc and the default maximum height is zMax = 5 kpc.
  See G. Case and D. Bhattacharya (1996) for the details of the distribution.
  */
 class SourceSNRDistribution: public SourceFeature {
@@ -404,21 +404,21 @@ public:
  parametrized as in Blasi and Amato, JCAP 1 (Jan., 2012) 10.
  */
 class SourcePulsarDistribution: public SourceFeature {
-	double R_earth; // parameter given by observation
+	double rEarth; // parameter given by observation
 	double beta; // parameter to shift the maximum in R direction
-	double Zg; // exponential cut parameter in z direction
+	double zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
-	double R_max; // maximum radial distance - default 22 kpc 
-	double Z_max; // maximum distance from galactic plane - default 5 kpc
-	double r_blur; // relative smearing factor for the radius
-	double theta_blur; // smearing factor for the angle. Unit = [1/length]
+	double rMax; // maximum radial distance - default 22 kpc 
+	double zMax; // maximum distance from galactic plane - default 5 kpc
+	double rBlur; // relative smearing factor for the radius
+	double thetaBlur; // smearing factor for the angle. Unit = [1/length]
 public:
 	/** Default constructor. 
 	 Default parameters are:
-	 . R_earth = 8.5 kpc
+	 . rEarth = 8.5 kpc
 	 . beta = 3.53
-	 . Zg = 300 pc
+	 . zg = 300 pc
 	 . Rmax = 22 kpc
 	 . Zmax = 5 kpc
 	 . rBlur = 0.07
@@ -426,31 +426,31 @@ public:
 	 */ 
 	SourcePulsarDistribution();	
 	/** Generic constructor
-	 @param R_earth		distance from Earth to the Galactic centre [in meters]
+	 @param rEarth		distance from Earth to the Galactic centre [in meters]
 	 @param beta		parameter that shifts radially the maximum of the distributions 
-	 @param Zg			exponential cut-off parameter in the z-direction [in meters]
-	 @param r_blur		relative smearing factor for radius
-	 @param theta_blur	smearing factor for the angle [in 1 / meters]
+	 @param zg			exponential cut-off parameter in the z-direction [in meters]
+	 @param rBlur		relative smearing factor for radius
+	 @param thetaBlur	smearing factor for the angle [in 1 / meters]
 	 */	
-	SourcePulsarDistribution(double R_earth, double beta, double Zg, double r_blur, double theta_blur);
+	SourcePulsarDistribution(double rEarth, double beta, double zg, double rBlur, double thetaBlur);
 	void prepareParticle(ParticleState &particle) const;
-	double f_r(double r) const;
-	double f_z(double z) const;
-	double f_theta(int i, double r) const;
-	double blur_r(double r_tilde) const;
-	double blur_theta(double theta_tilde, double r_tilde) const;
-	void set_frMax(double R, double b);
-	void set_fzMax(double Zg);
-	void set_RMax(double R_max);
-	void set_ZMax(double Z_max);
-	void set_rBlur(double r_blur);
-	void set_thetaBlur(double theta_blur);
-	double get_frMax();
-	double get_fzMax();
-	double get_RMax();
-	double get_ZMax();
-	double get_rBlur();
-	double get_thetaBlur();
+	double fr(double r) const;
+	double fz(double z) const;
+	double ftheta(int i, double r) const;
+	double blurR(double r_tilde) const;
+	double blurTheta(double theta_tilde, double r_tilde) const;
+	void setFrMax(double R, double b);
+	void setFzMax(double zg);
+	void setRMax(double rMax);
+	void setZMax(double zMax);
+	void setRBlur(double rBlur);
+	void setThetaBlur(double thetaBlur);
+	double getFrMax();
+	double getFzMax();
+	double getRMax();
+	double getZMax();
+	double getRBlur();
+	double getThetaBlur();
 	void setDescription();
 };
 

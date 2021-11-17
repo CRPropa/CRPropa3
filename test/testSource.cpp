@@ -90,9 +90,10 @@ TEST(SourceUniformCylinder, simpleTest) {
 
 TEST(SourceSNRDistribution, simpleTest) {
 	double R_earth = 8.5*kpc;
+	double alpha = 2.0;
 	double beta = 3.53;
 	double Z_G = 0.3*kpc;
-	SourceSNRDistribution snr(R_earth, beta, Z_G);
+	SourceSNRDistribution snr(R_earth,alpha, beta, Z_G);
 	ParticleState ps;
 	snr.prepareParticle(ps);
 	Vector3d pos = ps.getPosition();

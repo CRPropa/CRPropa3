@@ -362,106 +362,121 @@ void SourceUniformCylinder::setDescription() {
 
 // ---------------------------------------------------------------------------
 SourceSNRDistribution::SourceSNRDistribution() :
-    R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
-	set_frMax(8.5*kpc, 3.53);
-	set_fzMax(0.3*kpc);
-	set_RMax(20*kpc);
-	set_ZMax(5*kpc);
+    rEarth(8.5 * kpc),alpha(2.), beta(3.53), zg(0.3 * kpc) {
+	setFrMax();
+	setFzMax(0.3 * kpc);
+	setRMax(20 * kpc);
+	setZMax(5 * kpc);
 }
 
-SourceSNRDistribution::SourceSNRDistribution(double R_earth, double beta, double Zg) :
-    R_earth(R_earth), beta(beta), Zg(Zg) {
-	set_frMax(R_earth, beta);
-	set_fzMax(Zg);
-	set_RMax(20*kpc);
-	set_ZMax(5*kpc);
+SourceSNRDistribution::SourceSNRDistribution(double rEarth, double alpha, double beta, double zg) :
+    rEarth(rEarth),alpha(alpha), beta(beta), zg(zg) {
+	setFrMax();
+	setFzMax(zg);
+	setRMax(20 * kpc);
+	setZMax(5 * kpc);
 }
 
 void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
   	Random &random = Random::instance();
 	double RPos;
 	while (true){
-		RPos = random.rand()*R_max;
-		double fTest = random.rand()*frMax;
-		double fR=f_r(RPos);
-		if (fTest<=fR) {
+		RPos = random.rand() * rMax;
+		double fTest = random.rand() * frMax;
+		double fR = fr(RPos);
+		if (fTest <= fR) {
 			break;
 		}
 	}
 	double ZPos;
 	while (true){
-		ZPos = (random.rand()-0.5)*2*Z_max;
-		double fTest = random.rand()*fzMax;
-		double fz=f_z(ZPos);
-		if (fTest<=fz) {
+		ZPos = (random.rand() - 0.5) * 2 * zMax;
+		double fTest = random.rand() * fzMax;
+		double fZ=fz(ZPos);
+		if (fTest<=fZ) {
 			break;
 		}
 	}
-	double phi = random.rand()*2*M_PI;
-	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
+	double phi = random.rand() * 2 * M_PI;
+	Vector3d pos(cos(phi) * RPos, sin(phi) * RPos, ZPos);
 	particle.setPosition(pos);
-  }
-
-double SourceSNRDistribution::f_r(double r) const{
-	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(R_earth, 2.));
- 	double f = pow(r/R_earth, 2.) * exp(-beta * (r-R_earth)/R_earth);
-	double fr = Atilde*f;
-	return fr;
 }
 
-double SourceSNRDistribution::f_z(double z) const{
+double SourceSNRDistribution::fr(double r) const {
+	return pow(r / rEarth, alpha) * exp(- beta * (r - rEarth) / rEarth);
+}
+
+double SourceSNRDistribution::fz(double z) const{
 	double Az = 1.;
-	double f = 1./Zg * exp(-fabs(z)/Zg);
-	double fz = Az*f;
+	double f = 1. / zg * exp(- fabs(z) / zg);
+	double fz = Az * f;
 	return fz;
 }
 
-void SourceSNRDistribution::set_frMax(double R, double b) {
-	frMax = pow(b, 2.) / (3*pow(R, 2.)*M_PI) * exp(-2.);
+double SourceSNRDistribution::getAlpha() const {
+	return alpha;
+}
+
+double SourceSNRDistribution::getBeta() const {
+	return beta;
+}
+
+void SourceSNRDistribution::setFrMax() {
+	frMax = pow(alpha / beta, alpha) * exp(beta - alpha);
 	return;
 }
 
-void SourceSNRDistribution::set_fzMax(double Zg) {
-	fzMax = 1./Zg;
+void SourceSNRDistribution::setFzMax(double zg) {
+	fzMax = 1. / zg;
 	return;
 }
 
-void SourceSNRDistribution::set_RMax(double R_m) {
-	R_max = R_m;
+void SourceSNRDistribution::setRMax(double r) {
+	rMax = r;
 	return;
 }
 
-void SourceSNRDistribution::set_ZMax(double Z_m) {
-	Z_max = Z_m;
+void SourceSNRDistribution::setZMax(double z) {
+	zMax = z;
 	return;
 }
 
-double SourceSNRDistribution::get_frMax() {
+double SourceSNRDistribution::getFrMax() const {
 	return frMax;
 }
 
-double SourceSNRDistribution::get_fzMax() {
+double SourceSNRDistribution::getFzMax() const {
 	return fzMax;
 }
 
-double SourceSNRDistribution::get_RMax() {
-	return R_max;
+double SourceSNRDistribution::getRMax() const {
+	return rMax;
 }
 
-double SourceSNRDistribution::get_ZMax() {
-	return Z_max;
+double SourceSNRDistribution::getZMax() const {
+	return zMax;
 }
 
+void SourceSNRDistribution::setAlpha(double a){
+	alpha = a;
+	setRMax(rMax);
+	setFrMax();
+}
+
+void SourceSNRDistribution::setBeta(double b){
+	beta = b;
+	setRMax(rMax);
+	setFrMax();
+}
 
 void SourceSNRDistribution::setDescription() {
 	std::stringstream ss;
 	ss << "SourceSNRDistribution: Random position according to SNR distribution";
-	ss << "R_earth = " << R_earth / kpc << " kpc and ";
-	ss << "Zg = " << Zg / kpc << " kpc and";
+	ss << "rEarth = " << rEarth / kpc << " kpc and ";
+	ss << "zg = " << zg / kpc << " kpc and";
 	ss << "beta = " << beta << " \n";
 	description = ss.str();
 }
-
 
 // ---------------------------------------------------------------------------
 SourcePulsarDistribution::SourcePulsarDistribution() :

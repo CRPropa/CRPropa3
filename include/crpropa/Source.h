@@ -346,40 +346,49 @@ public:
  See G. Case and D. Bhattacharya (1996) for the details of the distribution.
  */
 class SourceSNRDistribution: public SourceFeature {
-	double R_earth; // parameter given by observation
+	double rEarth; // parameter given by observation
+	double alpha; // parameter to shift the maximum in R direction
 	double beta; // parameter to shift the maximum in R direction
-	double Zg; // exponential cut parameter in z direction
+	double zg; // exponential cut parameter in z direction
 	double frMax; // helper for efficient sampling
 	double fzMax; // helper for efficient sampling
-	double R_max; // maximum radial distance - default 20 kpc (due to the extension of the JF12 field)
-	double Z_max; // maximum distance from galactic plane - default 5 kpc
+	double rMax; // maximum radial distance - default 20 kpc 
+		      // (due to the extension of the JF12 field)
+	double zMax; // maximum distance from galactic plane - default 5 kpc
 public:
 	/** Default constructor. 
 	 Default parameters are:
-	 . R_earth = 8.5 kpc
+	 . rEarth = 8.5 kpc
+	 . alpha = 2
 	 . beta = 3.53
-	 . Zg = 300 pc
-	 . Rmax = 20 kpc
-	 . Zmax = 5 kpc
-	 */ 
+	 . zg = 300 pc
+	 . rMax = 20 kpc
+	 . zMax = 5 kpc
+	*/ 
 	SourceSNRDistribution();
 	/** Generic constructor
-	 @param R_earth	  distance from Earth to the Galactic centre [in meters]
+	 @param rEarth	  distance from Earth to the Galactic centre [in meters]
+	 @param alpha	  parameter that shifts radially the maximum of the distributions
 	 @param beta	  parameter that shifts radially the maximum of the distributions 
-	 @param Zg		  exponential cut-off parameter in the z-direction [in meters]
-	 */	
-	SourceSNRDistribution(double R_earth, double beta, double Zg);
+	 @param zg		  exponential cut-off parameter in the z-direction [in meters]
+	*/	
+	SourceSNRDistribution(double rEarth,double alpha, double beta, double zg);
+
 	void prepareParticle(ParticleState &particle) const;
-	double f_r(double r) const;
-	double f_z(double z) const;
-	void set_frMax(double R, double b);
-	void set_fzMax(double Zg);
-	void set_RMax(double R_max);
-	void set_ZMax(double Z_max);
-	double get_frMax();
-	double get_fzMax();
-	double get_RMax();
-	double get_ZMax();
+	double fr(double r) const;
+	double fz(double z) const;
+	void setFrMax();
+	void setFzMax(double Zg);
+	void setRMax(double rMax);
+	void setZMax(double zMax);
+	void setAlpha(double a);
+	void setBeta(double b);
+	double getFrMax() const;
+	double getFzMax() const;
+	double getRMax() const;
+	double getZMax() const;
+	double getAlpha() const;
+	double getBeta() const;
 	void setDescription();
 };
 

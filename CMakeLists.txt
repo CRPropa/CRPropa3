@@ -419,6 +419,7 @@ add_library(crpropa SHARED
   src/magneticField/JF12FieldSolenoidal.cpp
   src/magneticField/MagneticField.cpp
   src/magneticField/MagneticFieldGrid.cpp
+  src/magneticField/PolarizedSingleModeMagneticField.cpp
   src/magneticField/PT11Field.cpp
   src/magneticField/turbulentField/GridTurbulence.cpp
   src/magneticField/turbulentField/HelicalGridTurbulence.cpp

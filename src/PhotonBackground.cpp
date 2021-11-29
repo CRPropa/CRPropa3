@@ -35,17 +35,16 @@ double TabularPhotonField::getPhotonDensity(double Ephoton, double z) const {
 
 
 double TabularPhotonField::getRedshiftScaling(double z) const {
-	if (this->isRedshiftDependent) {
-		if (z > this->redshifts.back()) {
-			return 0.;
-		} else if (z < this->redshifts.front()) {
-			return 1.;
-		} else {
-			return interpolate(z, this->redshifts, this->redshiftScalings);
-		}
-	} else {
+	if (!this->isRedshiftDependent)
 		return 1.;
-	}
+ 
+	if (z < this->redshifts.front())
+		return 1.;
+ 
+	if (z > this->redshifts.back())
+		return 0.;
+ 
+	return interpolate(z, this->redshifts, this->redshiftScalings);
 }
 
 double TabularPhotonField::getMinimumPhotonEnergy(double z) const{
@@ -63,7 +62,7 @@ void TabularPhotonField::readPhotonEnergy(std::string filePath) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line.size() > 0)
+		if ((line.size() > 0) & (line[0] != '#') )
 			this->photonEnergies.push_back(std::stod(line));
 	}
 	infile.close();
@@ -76,7 +75,7 @@ void TabularPhotonField::readPhotonDensity(std::string filePath) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line.size() > 0)
+		if ((line.size() > 0) & (line[0] != '#') )
 			this->photonDensity.push_back(std::stod(line));
 	}
 	infile.close();
@@ -89,7 +88,7 @@ void TabularPhotonField::readRedshift(std::string filePath) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line.size() > 0)
+		if ((line.size() > 0) & (line[0] != '#') )
 			this->redshifts.push_back(std::stod(line));
 	}
 	infile.close();
@@ -100,11 +99,13 @@ void TabularPhotonField::initRedshiftScaling() {
 	for (int i = 0; i < this->redshifts.size(); ++i) {
 		double z = this->redshifts[i];
 		double n = 0.;
-		for (int j = 0; j < this->photonEnergies.size(); ++j) {
-			double e = this->photonEnergies[j];
+		for (int j = 0; j < this->photonEnergies.size()-1; ++j) {
+			double e_j = this->photonEnergies[j];
+			double e_j1 = this->photonEnergies[j+1];
+			double deltaLogE = std::log10(e_j1) - std::log10(e_j);
 			if (z == 0.)
-				n0 += getPhotonDensity(e, z);
-			n += getPhotonDensity(e, z);
+				n0 += (getPhotonDensity(e_j, 0) + getPhotonDensity(e_j1, 0)) / 2. * deltaLogE;
+			n += (getPhotonDensity(e_j, z) + getPhotonDensity(e_j1, z)) / 2. * deltaLogE;
 		}
 		this->redshiftScalings.push_back(n / n0);
 	}

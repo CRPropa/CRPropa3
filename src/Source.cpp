@@ -362,261 +362,275 @@ void SourceUniformCylinder::setDescription() {
 
 // ---------------------------------------------------------------------------
 SourceSNRDistribution::SourceSNRDistribution() :
-    R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
-	set_frMax(8.5*kpc, 3.53);
-	set_fzMax(0.3*kpc);
-	set_RMax(20*kpc);
-	set_ZMax(5*kpc);
+    rEarth(8.5 * kpc),alpha(2.), beta(3.53), zg(0.3 * kpc) {
+	setFrMax();
+	setFzMax(0.3 * kpc);
+	setRMax(20 * kpc);
+	setZMax(5 * kpc);
 }
 
-SourceSNRDistribution::SourceSNRDistribution(double R_earth, double beta, double Zg) :
-    R_earth(R_earth), beta(beta), Zg(Zg) {
-	set_frMax(R_earth, beta);
-	set_fzMax(Zg);
-	set_RMax(20*kpc);
-	set_ZMax(5*kpc);
+SourceSNRDistribution::SourceSNRDistribution(double rEarth, double alpha, double beta, double zg) :
+    rEarth(rEarth),alpha(alpha), beta(beta), zg(zg) {
+	setFrMax();
+	setFzMax(zg);
+	setRMax(20 * kpc);
+	setZMax(5 * kpc);
 }
 
 void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
   	Random &random = Random::instance();
 	double RPos;
 	while (true){
-		RPos = random.rand()*R_max;
-		double fTest = random.rand()*frMax;
-		double fR=f_r(RPos);
-		if (fTest<=fR) {
+		RPos = random.rand() * rMax;
+		double fTest = random.rand() * frMax;
+		double fR = fr(RPos);
+		if (fTest <= fR) {
 			break;
 		}
 	}
 	double ZPos;
 	while (true){
-		ZPos = (random.rand()-0.5)*2*Z_max;
-		double fTest = random.rand()*fzMax;
-		double fz=f_z(ZPos);
-		if (fTest<=fz) {
+		ZPos = (random.rand() - 0.5) * 2 * zMax;
+		double fTest = random.rand() * fzMax;
+		double fZ=fz(ZPos);
+		if (fTest<=fZ) {
 			break;
 		}
 	}
-	double phi = random.rand()*2*M_PI;
-	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
+	double phi = random.rand() * 2 * M_PI;
+	Vector3d pos(cos(phi) * RPos, sin(phi) * RPos, ZPos);
 	particle.setPosition(pos);
-  }
-
-double SourceSNRDistribution::f_r(double r) const{
-	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(R_earth, 2.));
- 	double f = pow(r/R_earth, 2.) * exp(-beta * (r-R_earth)/R_earth);
-	double fr = Atilde*f;
-	return fr;
 }
 
-double SourceSNRDistribution::f_z(double z) const{
+double SourceSNRDistribution::fr(double r) const {
+	return pow(r / rEarth, alpha) * exp(- beta * (r - rEarth) / rEarth);
+}
+
+double SourceSNRDistribution::fz(double z) const{
 	double Az = 1.;
-	double f = 1./Zg * exp(-fabs(z)/Zg);
-	double fz = Az*f;
+	double f = 1. / zg * exp(- fabs(z) / zg);
+	double fz = Az * f;
 	return fz;
 }
 
-void SourceSNRDistribution::set_frMax(double R, double b) {
-	frMax = pow(b, 2.) / (3*pow(R, 2.)*M_PI) * exp(-2.);
+double SourceSNRDistribution::getAlpha() const {
+	return alpha;
+}
+
+double SourceSNRDistribution::getBeta() const {
+	return beta;
+}
+
+void SourceSNRDistribution::setFrMax() {
+	frMax = pow(alpha / beta, alpha) * exp(beta - alpha);
 	return;
 }
 
-void SourceSNRDistribution::set_fzMax(double Zg) {
-	fzMax = 1./Zg;
+void SourceSNRDistribution::setFzMax(double zg) {
+	fzMax = 1. / zg;
 	return;
 }
 
-void SourceSNRDistribution::set_RMax(double R_m) {
-	R_max = R_m;
+void SourceSNRDistribution::setRMax(double r) {
+	rMax = r;
 	return;
 }
 
-void SourceSNRDistribution::set_ZMax(double Z_m) {
-	Z_max = Z_m;
+void SourceSNRDistribution::setZMax(double z) {
+	zMax = z;
 	return;
 }
 
-double SourceSNRDistribution::get_frMax() {
+double SourceSNRDistribution::getFrMax() const {
 	return frMax;
 }
 
-double SourceSNRDistribution::get_fzMax() {
+double SourceSNRDistribution::getFzMax() const {
 	return fzMax;
 }
 
-double SourceSNRDistribution::get_RMax() {
-	return R_max;
+double SourceSNRDistribution::getRMax() const {
+	return rMax;
 }
 
-double SourceSNRDistribution::get_ZMax() {
-	return Z_max;
+double SourceSNRDistribution::getZMax() const {
+	return zMax;
 }
 
+void SourceSNRDistribution::setAlpha(double a){
+	alpha = a;
+	setRMax(rMax);
+	setFrMax();
+}
+
+void SourceSNRDistribution::setBeta(double b){
+	beta = b;
+	setRMax(rMax);
+	setFrMax();
+}
 
 void SourceSNRDistribution::setDescription() {
 	std::stringstream ss;
 	ss << "SourceSNRDistribution: Random position according to SNR distribution";
-	ss << "R_earth = " << R_earth / kpc << " kpc and ";
-	ss << "Zg = " << Zg / kpc << " kpc and";
+	ss << "rEarth = " << rEarth / kpc << " kpc and ";
+	ss << "zg = " << zg / kpc << " kpc and";
 	ss << "beta = " << beta << " \n";
 	description = ss.str();
 }
 
-
 // ---------------------------------------------------------------------------
 SourcePulsarDistribution::SourcePulsarDistribution() :
-    R_earth(8.5*kpc), beta(3.53), Zg(0.3*kpc) {
-	set_frMax(8.5*kpc, 3.53);
-	set_fzMax(0.3*kpc);
-	set_RMax(22*kpc);
-	set_ZMax(5*kpc);
-	set_rBlur(0.07);
-	set_thetaBlur(0.35/kpc);
+    rEarth(8.5*kpc), beta(3.53), zg(0.3*kpc) {
+	setFrMax(8.5*kpc, 3.53);
+	setFzMax(0.3*kpc);
+	setRMax(22*kpc);
+	setZMax(5*kpc);
+	setRBlur(0.07);
+	setThetaBlur(0.35/kpc);
 }
 
-SourcePulsarDistribution::SourcePulsarDistribution(double R_earth, double beta, double Zg, double rB, double tB) :
-    R_earth(R_earth), beta(beta), Zg(Zg) {
-	set_frMax(R_earth, beta);
-	set_fzMax(Zg);
-	set_rBlur(rB);
-	set_thetaBlur(tB);
-	set_RMax(22*kpc);
-	set_ZMax(5*kpc);
+SourcePulsarDistribution::SourcePulsarDistribution(double rEarth, double beta, double zg, double rB, double tB) :
+    rEarth(rEarth), beta(beta), zg(zg) {
+	setFrMax(rEarth, beta);
+	setFzMax(zg);
+	setRBlur(rB);
+	setThetaBlur(tB);
+	setRMax(22 * kpc);
+	setZMax(5 * kpc);
 }
 
 void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
   	Random &random = Random::instance();
 	double Rtilde;
-	while (true){
-		Rtilde = random.rand()*R_max;
-		double fTest = random.rand()*frMax;
-		double fR=f_r(Rtilde);
-		if (fTest<=fR) {
+	while (true) {
+		Rtilde = random.rand() * rMax;
+		double fTest = random.rand() * frMax;
+		double fR = fr(Rtilde);
+		if (fTest <= fR) {
 			break;
 		}
 	}
 	double ZPos;
 	while (true){
-		ZPos = (random.rand()-0.5)*2*Z_max;
-		double fTest = random.rand()*fzMax;
-		double fz=f_z(ZPos);
-		if (fTest<=fz) {
+		ZPos = (random.rand() - 0.5) * 2 * zMax;
+		double fTest = random.rand() * fzMax;
+		double fZ = fz(ZPos);
+		if (fTest <= fZ) {
 			break;
 		}
 	}
 
 	int i = random.randInt(3);
-	double theta_tilde = f_theta(i, Rtilde);
-	double RPos = blur_r(Rtilde);
-	double phi = blur_theta(theta_tilde, Rtilde);
-	Vector3d pos(cos(phi)*RPos, sin(phi)*RPos, ZPos);
+	double thetaTilde = ftheta(i, Rtilde);
+	double RPos = blurR(Rtilde);
+	double phi = blurTheta(thetaTilde, Rtilde);
+	Vector3d pos(cos(phi) * RPos, sin(phi) * RPos, ZPos);
 
 	particle.setPosition(pos);
   }
 
-double SourcePulsarDistribution::f_r(double r) const{
-	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(R_earth, 2.));
- 	double f = pow(r/R_earth, 2.) * exp(-beta * (r-R_earth)/R_earth);
-	double fr = Atilde*f;
+double SourcePulsarDistribution::fr(double r) const {
+	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(rEarth, 2.));
+ 	double f = pow(r / rEarth, 2.) * exp(-beta * (r - rEarth) / rEarth);
+	double fr = Atilde * f;
 	return fr;
 }
 
-double SourcePulsarDistribution::f_z(double z) const{
+double SourcePulsarDistribution::fz(double z) const{
 	double Az = 1.;
-	double f = 1./Zg * exp(-fabs(z)/Zg);
-	double fz = Az*f;
+	double f = 1. / zg * exp(- fabs(z) / zg);
+	double fz = Az * f;
 	return fz;
 }
 
-double SourcePulsarDistribution::f_theta(int i, double r) const {
+double SourcePulsarDistribution::ftheta(int i, double r) const {
 	const double k_0[] = {4.25, 4.25, 4.89, 4.89};
-	const double r_0[] = {3.48*kpc, 3.48*kpc, 4.9*kpc, 4.9*kpc};
+	const double r_0[] = {3.48 * kpc, 3.48 * kpc, 4.9 * kpc, 4.9 * kpc};
 	const double theta_0[] = {0., 3.14, 2.52, -0.62};
 	double K = k_0[i];
 	double R = r_0[i];
 	double Theta = theta_0[i];
 
-	double theta = K * log(r/R) + Theta;
+	double theta = K * log(r / R) + Theta;
 
 	return theta;
-
 }
 
-double SourcePulsarDistribution::blur_r(double r_tilde) const {
+double SourcePulsarDistribution::blurR(double rTilde) const {
 	Random &random = Random::instance();
-	return random.randNorm(r_tilde, r_blur*r_tilde);
+	return random.randNorm(rTilde, rBlur * rTilde);
 }
 
-double SourcePulsarDistribution::blur_theta(double theta_tilde, double r_tilde) const {
+double SourcePulsarDistribution::blurTheta(double thetaTilde, double rTilde) const {
 	Random &random = Random::instance();
-	double theta_corr = (random.rand()-0.5)*2*M_PI;
-	double tau = theta_corr*exp(-theta_blur*r_tilde);
-	return theta_tilde + tau;
+	double thetaCorr = (random.rand() - 0.5) * 2 * M_PI;
+	double tau = thetaCorr * exp(- thetaBlur * rTilde);
+	return thetaTilde + tau;
 }
 
-void SourcePulsarDistribution::set_frMax(double R, double b) {
-	frMax = pow(b, 2.) / (3*pow(R, 2.)*M_PI) * exp(-2.);
+void SourcePulsarDistribution::setFrMax(double R, double b) {
+	frMax = pow(b, 2.) / (3 * pow(R, 2.) * M_PI) * exp(-2.);
 	return;
 }
 
-void SourcePulsarDistribution::set_fzMax(double Zg) {
-	fzMax = 1./Zg;
+void SourcePulsarDistribution::setFzMax(double zg) {
+	fzMax = 1. / zg;
 	return;
 }
 
-void SourcePulsarDistribution::set_RMax(double R_m) {
-	R_max = R_m;
+void SourcePulsarDistribution::setRMax(double r) {
+	rMax = r;
 	return;
 }
 
-void SourcePulsarDistribution::set_ZMax(double Z_m) {
-	Z_max = Z_m;
+void SourcePulsarDistribution::setZMax(double z) {
+	zMax = z;
 	return;
 }
 
-void SourcePulsarDistribution::set_rBlur(double r_B) {
-	r_blur = r_B;
+void SourcePulsarDistribution::setRBlur(double r) {
+	rBlur = r;
 	return;
 }
 
-void SourcePulsarDistribution::set_thetaBlur(double theta_B) {
-	theta_blur = theta_B;
+void SourcePulsarDistribution::setThetaBlur(double theta) {
+	thetaBlur = theta;
 	return;
 }
 
-double SourcePulsarDistribution::get_frMax() {
+double SourcePulsarDistribution::getFrMax() {
 	return frMax;
 }
 
-double SourcePulsarDistribution::get_fzMax() {
+double SourcePulsarDistribution::getFzMax() {
 	return fzMax;
 }
 
-double SourcePulsarDistribution::get_RMax() {
-	return R_max;
+double SourcePulsarDistribution::getRMax() {
+	return rMax;
 }
 
-double SourcePulsarDistribution::get_ZMax() {
-	return Z_max;
+double SourcePulsarDistribution::getZMax() {
+	return zMax;
 }
 
-double SourcePulsarDistribution::get_rBlur() {
-	return r_blur;
+double SourcePulsarDistribution::getRBlur() {
+	return rBlur;
 }
 
-double SourcePulsarDistribution::get_thetaBlur() {
-	return theta_blur;
+double SourcePulsarDistribution::getThetaBlur() {
+	return thetaBlur;
 }
 
 
 void SourcePulsarDistribution::setDescription() {
 	std::stringstream ss;
 	ss << "SourcePulsarDistribution: Random position according to pulsar distribution";
-	ss << "R_earth = " << R_earth / kpc << " kpc and ";
-	ss << "Zg = " << Zg / kpc << " kpc and ";
+	ss << "rEarth = " << rEarth / kpc << " kpc and ";
+	ss << "zg = " << zg / kpc << " kpc and ";
 	ss << "beta = " << beta << " and ";
-	ss << "r_blur = " << r_blur << " and ";
-	ss << "theta_blur = " << theta_blur << "\n";
+	ss << "r_blur = " << rBlur << " and ";
+	ss << "theta blur = " << thetaBlur << "\n";
 	description = ss.str();
 }
 

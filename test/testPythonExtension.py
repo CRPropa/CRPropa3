@@ -179,6 +179,26 @@ class testCrossLanguagePolymorphism(unittest.TestCase):
         self.assertEqual(True, photonField.hasRedshiftDependence())
 
 
+    def testCustomPhotonField(self):
+        class CustomPhotonField(crp.PhotonField):
+            def __init__(self, val):
+                crp.PhotonField.__init__(self)
+                self.val = val
+
+            def getFieldName(self):
+                return 'CMB'
+
+            def getPhotonDensity(self, ePhoton, z):
+                return self.val
+                
+        constDensity = 1
+        photonField = CustomPhotonField(constDensity)
+        ppp = crp.PhotoPionProduction(photonField)
+        pppPhotonField = ppp.getPhotonField()
+
+        self.assertEqual(constDensity, pppPhotonField.getPhotonDensity(0))
+
+
 class testCandidatePropertymap(unittest.TestCase):
     def setUp(self):
         self.candidate = crp.Candidate()

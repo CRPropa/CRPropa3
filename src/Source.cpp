@@ -563,13 +563,13 @@ double SourcePulsarDistribution::blurR(double rTilde) const {
 
 double SourcePulsarDistribution::blurTheta(double thetaTilde, double rTilde) const {
 	Random &random = Random::instance();
-	double theta_corr = (random.rand() - 0.5) * 2 * M_PI;
-	double tau = theta_corr*exp(- thetaBlur * rTilde);
+	double thetaCorr = (random.rand() - 0.5) * 2 * M_PI;
+	double tau = thetaCorr * exp(- thetaBlur * rTilde);
 	return thetaTilde + tau;
 }
 
 void SourcePulsarDistribution::setFrMax(double R, double b) {
-	frMax = pow(b, 2.) / (3*pow(R, 2.) * M_PI) * exp(-2.);
+	frMax = pow(b, 2.) / (3 * pow(R, 2.) * M_PI) * exp(-2.);
 	return;
 }
 

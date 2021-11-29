@@ -736,57 +736,60 @@ void SourceIsotropicEmission::setDescription() {
 
 // ----------------------------------------------------------------------------
 SourceDirectedEmission::SourceDirectedEmission(Vector3d mu, double kappa): mu(mu), kappa(kappa) {
+	if (kappa <= 0)
+		throw std::runtime_error("The concentration parameter kappa should be larger than 0.");
 	setDescription();
 }
 
-void SourceDirectedEmission::prepareParticle(ParticleState& particle) const {
+void SourceDirectedEmission::prepareCandidate(Candidate &candidate) const {
 	Random &random = Random::instance();
-	//generate sample from von Mises Fisher distribution
-	
-	//get the initial source position
-	//Vector3d sourcePosition = particle.getPosition(); 
-	//Vector3d mu = observerPosition-sourcePosition;
-	//double distance = mu.getR();
-	//mu = mu.getUnitVector();
 
-	//double a=fabs(cos(atan2(detectorSize,distance)));
-
-	double tau = kappa;     //log(1-detection_efficiency)/(a-1);
-	
+	//generate sample from von Mises Fisher distribution following
+	// http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf
 	//sample normalized direction vector from unit Gaussian distribution
-	Vector3d v(random.randNorm(0., 1.),random.randNorm(0., 1.),random.randNorm(0., 1.));
+	Vector3d v(random.randNorm(0., 1.),random.randNorm(0., 1.),0.);
 	v = v.getUnitVector();
 
 	//sample uniform random number
-	double xi=random.rand();
+	double xi = random.rand();
 
-	double u = 1. + 1./tau*log(xi + (1.-xi)*exp(-2.*tau));
+	double u = 1. + 1. / kappa * log(xi + (1. - xi) * exp(-2. * kappa));
 
 	//sample vector from von-Mises distribution
-	Vector3d n;
-
-	n=sqrt(1.-u*u)*v;
-	n.z+=u; //check this 
+	Vector3d n = sqrt(1. - u * u) * v;
+	n.z += u;
 
 	//we are in the frame m = (0,0,1)
 	//so rotate to target frame
-	double alpha=atan2(mu.y,mu.x);
-	double delta=asin(mu.z);
-	double ca=cos(alpha);
-	double sa=sin(alpha);
-	double cd=cos(delta);
-	double sd=sin(delta);
+	double alpha = atan2(mu.y,mu.x);
+	double delta = asin(mu.z);
+	double ca = cos(alpha);
+	double sa = sin(alpha);
+	double cd = cos(delta);
+	double sd = sin(delta);
 
-	v=Vector3d(ca*sd*n.x-sa*n.y+ca*cd*n.z,
-		   sa*sd*n.x+ca*n.y+sa*cd*n.z,
-		   -cd*n.x+sd*n.z);
+	v = Vector3d(ca * sd * n.x - sa * n.y + ca * cd * n.z,
+		sa * sd * n.x + ca * n.y + sa * cd * n.z,
+		- cd * n.x + sd * n.z);
 
-	particle.setDirection(v);
-	
+	v = v.getUnitVector();
+	candidate.source.setDirection(v);
+	candidate.created.setDirection(v);
+	candidate.previous.setDirection(v);
+	candidate.current.setDirection(v);
+
+	//set the weight of the particle, see eq. 3.1 of PoS(ICRC2019)447
+	double pdfVonMises = kappa / (2. * M_PI * (1. - exp(-2. * kappa))) * exp(-kappa * (1. - v.dot(mu)));
+	double weight = 1. / (4. * M_PI * pdfVonMises);
+	candidate.setWeight(weight);
 }
 
 void SourceDirectedEmission::setDescription() {
-	description = "SourceDirectedEmission: Random directed emission\n";
+	std::stringstream ss;
+	ss << "SourceDirectedEmission: Random directed emission following the von-Mises-Fisher distribution with mean direction ";
+	ss << mu << " and concentration parameter kappa = ";
+	ss << kappa << "\n";
+	description = ss.str();
 }
 
 // ----------------------------------------------------------------------------

@@ -523,14 +523,22 @@ public:
 
 /**
  @class SourceDirectedEmission
- @brief Directed emission from a source
+ @brief Directed emission from a source from the von-Mises-Fisher distribution 
+ 
+ The emission from the source is generated following the von-Mises-Fisher distribution
+ with mean direction mu and concentration parameter kappa.
+ The sampling from the vMF distribution follows this document by Julian Straub:
+ http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf
+ The emitted particles are assigned a weight so that the detected particles can be
+ reweighted to an isotropic emission distribution instead of a vMF distribution.
+ For details, see PoS (ICRC2019) 447.
  */
 class SourceDirectedEmission: public SourceFeature {
 	Vector3d mu;
 	double kappa;
 public:
 	SourceDirectedEmission(Vector3d mu, double kappa);
-	void prepareParticle(ParticleState& particle) const;
+	void prepareCandidate(Candidate &candidate) const;
 	void setDescription();
 };
 

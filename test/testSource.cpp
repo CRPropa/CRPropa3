@@ -253,6 +253,24 @@ TEST(SourceComposition, simpleTest) {
 	EXPECT_GE(6 * Rmax, p.getEnergy());
 }
 
+TEST(SourceDirectedEmission, simpleTest) {
+	Vector3d mu(1., 0., 0.);
+	double kappa = 1000.;
+	SourceDirectedEmission source(mu, kappa);
+	Candidate c;
+	Vector3d meanDir(0., 0., 0.);
+	for (size_t i = 0; i < 1000; i++) {
+		source.prepareCandidate(c);
+		meanDir += c.source.getDirection();
+		double w = c.getWeight();
+		EXPECT_GE(w, 0.);
+	}
+	meanDir /= 1000.;
+	EXPECT_NEAR(meanDir.x, 1., 0.1);
+	EXPECT_NEAR(meanDir.y, 0., 0.01);
+	EXPECT_NEAR(meanDir.z, 0., 0.01);
+}
+
 TEST(SourceEmissionCone, simpleTest) {
 	Vector3d direction(42., 0., 0.);
 	double aperture = 1/42.;

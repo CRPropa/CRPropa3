@@ -543,11 +543,23 @@ public:
  For details, see PoS (ICRC2019) 447.
  */
 class SourceDirectedEmission: public SourceFeature {
-	Vector3d mu;
-	double kappa;
+	Vector3d mu; // Mean emission direction in the vMF distribution
+	double kappa; // Concentration parameter of the vMF distribution
+	double ca; // helpers for the efficient calculation of frame rotation
+	double sa;
+	double cd;
+	double sd;
 public:
 	SourceDirectedEmission(Vector3d mu, double kappa);
 	void prepareCandidate(Candidate &candidate) const;
+	void setCa(double alpha);
+	void setSa(double alpha);
+	void setCd(double delta);
+	void setSd(double delta);
+	double getCa() const;
+	double getSa() const;
+	double getCd() const;
+	double getSd() const;
 	void setDescription();
 };
 

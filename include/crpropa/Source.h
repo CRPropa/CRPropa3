@@ -531,6 +531,39 @@ public:
 
 
 /**
+ @class SourceDirectedEmission
+ @brief Directed emission from a source from the von-Mises-Fisher distribution 
+ 
+ The emission from the source is generated following the von-Mises-Fisher distribution
+ with mean direction mu and concentration parameter kappa.
+ The sampling from the vMF distribution follows this document by Julian Straub:
+ http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf
+ The emitted particles are assigned a weight so that the detected particles can be
+ reweighted to an isotropic emission distribution instead of a vMF distribution.
+ For details, see PoS (ICRC2019) 447.
+ */
+class SourceDirectedEmission: public SourceFeature {
+	Vector3d mu; // Mean emission direction in the vMF distribution
+	double kappa; // Concentration parameter of the vMF distribution
+	double ca; // helpers for the efficient calculation of frame rotation
+	double sa;
+	double cd;
+	double sd;
+public:
+	SourceDirectedEmission(Vector3d mu, double kappa);
+	void prepareCandidate(Candidate &candidate) const;
+	void setCa(double alpha);
+	void setSa(double alpha);
+	void setCd(double delta);
+	void setSd(double delta);
+	double getCa() const;
+	double getSa() const;
+	double getCd() const;
+	double getSd() const;
+	void setDescription();
+};
+
+/**
  @class SourceLambertDistributionOnSphere
  @brief Uniform random position on a sphere with isotropic Lamberts distributed directions.
 

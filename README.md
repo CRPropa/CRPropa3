@@ -1,7 +1,7 @@
 CRPropa3
 ========
 
-[![Build status](https://github.com/crpropa/crpropa3/actions/workflows/testing.yml/badge.svg)](https://github.com/crpropa/crpropa3/actions/workflows)
+[![Build status](https://github.com/crpropa/crpropa3/actions/workflows/testing.yml/badge.svg)](https://github.com/crpropa/crpropa3/actions/)
 [![Coverage Status](https://coveralls.io/repos/github/CRPropa/CRPropa3/badge.svg)](https://coveralls.io/github/CRPropa/CRPropa3)
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3 "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3 "Percentage of issues still open")

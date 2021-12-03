@@ -2,6 +2,8 @@
 #include "crpropa/Random.h"
 #include "crpropa/Units.h"
 
+#include "kiss/logger.h"
+
 #include <fstream>
 
 namespace crpropa {
@@ -235,7 +237,7 @@ void EmissionMap::merge(const EmissionMap *other) {
 		ref_ptr<CylindricalProjectionMap> cpm = getMap(i->first.first, i->first.second);
 
 		if (otherpdf.size() != cpm->getPdf().size()) {
-			std::cout << "pdf size mismatch!" << std::endl;
+			throw std::runtime_error("PDF size mismatch!");
 			break;
 		}
 
@@ -263,14 +265,16 @@ void EmissionMap::load(const std::string &filename) {
 		in >> nPhi_ >> nTheta_;
 
 		if (!in.good()) {
-			std::cout << "invalid line: " << key.first << " " << key.second << " " << nPhi_ << " " << nTheta_ << std::endl;
+			KISS_LOG_ERROR << "Invalid line: " << key.first << " " << key.second << " " << nPhi_ << " " << nTheta_;
 			break;
 		}
 
-		if (nPhi != nPhi_)
-			std::cout << "Warning: nPhi mismatch: " << nPhi << " " << nPhi_ << std::endl;
-		if (nTheta != nTheta_)
-			std::cout << "Warning: nTheta mismatch: " << nTheta << " " << nTheta_ << std::endl;
+		if (nPhi != nPhi_) {
+			KISS_LOG_WARNING << "nPhi mismatch: " << nPhi << " " << nPhi_;
+		}
+		if (nTheta != nTheta_) {
+			KISS_LOG_WARNING << "nTheta mismatch: " << nTheta << " " << nTheta_;
+		}
 
 		ref_ptr<CylindricalProjectionMap> cpm = new CylindricalProjectionMap(nPhi_, nTheta_);
 		std::vector<double> &pdf = cpm->getPdf();
@@ -279,9 +283,9 @@ void EmissionMap::load(const std::string &filename) {
 
 		if (in.good()) {
 			maps[key] = cpm;
-			std::cout << "added " << key.first << " " << key.second << std::endl;
+			// std::cout << "added " << key.first << " " << key.second << std::endl;
 		} else {
-			std::cout << "invalid data in line: " << key.first << " " << key.second << " " << nPhi_ << " " << nTheta_ << std::endl;
+			KISS_LOG_WARNING << "Invalid data in line: " << key.first << " " << key.second << " " << nPhi_ << " " << nTheta_ << "\n";
 		}
 	}
 

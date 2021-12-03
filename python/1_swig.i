@@ -118,4 +118,5 @@ __WITHNUMPY = False
 #endif
 
 
-
+/* Hide some known warnings */
+#pragma SWIG nowarn=312,325,361,389,401,503,508,509

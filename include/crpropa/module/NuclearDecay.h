@@ -36,6 +36,12 @@ private:
 	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
 
 public:
+	/** Constructor.
+	 @param photonField		target photon field
+	 @param photons			if true, add secondary photons as candidates
+	 @param neutrinos		if true, add secondary neutrinos as candidates
+	 @param limit			step size limit as fraction of mean free path
+	 */
 	NuclearDecay(bool electrons = false, bool photons = false, bool neutrinos = false, double limit = 0.1);
 	void setLimit(double limit);
 	void setHaveElectrons(bool b);
@@ -48,10 +54,11 @@ public:
 	void nucleonEmission(Candidate *candidate, int dA, int dZ) const;
 
 	/**
-	 Return the mean free path in [m].
+	 Return the mean free path.
 	 This is not used in the simulation.
 	 @param id      PDG particle id
 	 @param gamma   Lorentz factor of particle
+	 @returns The mean free path [in meters]
 	 */
 	double meanFreePath(int id, double gamma);
 };

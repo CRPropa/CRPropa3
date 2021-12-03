@@ -50,11 +50,11 @@ jobs:
           cd build
           make
       - name: Run tests
-        continue-on-error: true
         run: |
           cd build
           make test
       - name: Archive test results
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: "test-report_${{matrix.config.name}}"
@@ -94,7 +94,6 @@ jobs:
          cd build
          make
      - name: Run tests
-       continue-on-error: true
        env:
          CRPROPA_DATA_PATH: "$GITHUB_WORKSPACE/build/data"
        run: |
@@ -102,6 +101,7 @@ jobs:
          cd build
          make test
      - name: Archive test results
+       if: always()
        uses: actions/upload-artifact@v2
        with:
          name: "test-report_${{matrix.config.name}}"

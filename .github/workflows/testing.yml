@@ -84,7 +84,7 @@ jobs:
          CXX_COMPILER: ${{ matrix.config.cxx }}
          C_COMPILER: ${{ matrix.config.cc }}
          FC: ${{ matrix.config.fc }}
-         CRPROPA_DATA_PATH: "$GITHUB_WORKSPACE/build/data"
+         CRPROPA_DATA_PATH: $GITHUB_WORKSPACE/build/data
        run: |
         mkdir build
         cd build
@@ -95,9 +95,9 @@ jobs:
          make
      - name: Run tests
        env:
-         CRPROPA_DATA_PATH: "$GITHUB_WORKSPACE/build/data"
+         CRPROPA_DATA_PATH: $GITHUB_WORKSPACE/build/data
        run: |
-         echo $CRPROPA_DATA_PATH
+         echo "this is the data path $CRPROPA_DATA_PATH "
          cd build
          make test
      - name: Archive test results

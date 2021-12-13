@@ -86,8 +86,6 @@ jobs:
      - name: Preinstall
        run: |
          brew install hdf5 fftw cfitsio muparser libomp
-         #HOMEBREW_NO_AUTO_UPDATE=1 brew install gcc || true
-         #HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}
@@ -97,7 +95,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
+        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
      - name: Build CRPropa
        run: |
          cd build

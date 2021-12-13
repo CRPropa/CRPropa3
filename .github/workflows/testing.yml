@@ -67,17 +67,17 @@ jobs:
       matrix:
         config:
           - name: "macos-1015"
-            os: macos-latest
+            os: macos-10.15
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python"
           - name: "macos-1015_gcc"
-            os: macos-latest
-            cxx: "g++-9"
-            cc: "gcc-9"
-            fc: "gfortran-9"
+            os: macos-10.15
+            cxx: "g++-11"
+            cc: "gcc-11"
+            fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python"
     steps:
@@ -106,7 +106,6 @@ jobs:
        env:
          CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/build/data"
        run: |
-         echo "this is the data path $CRPROPA_DATA_PATH "
          cd build
          make test
      - name: Archive test results

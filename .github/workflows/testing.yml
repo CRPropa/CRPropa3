@@ -73,13 +73,6 @@ jobs:
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python"
-          - name: "macos-1015_gcc"
-            os: macos-10.15
-            cxx: "g++-11"
-            cc: "gcc-11"
-            fc: "gfortran-11"
-            swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python"
     steps:
      - name: Checkout repository
        uses: actions/checkout@v2
@@ -95,7 +88,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }}
      - name: Build CRPropa
        run: |
          cd build

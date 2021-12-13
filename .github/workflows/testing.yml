@@ -71,6 +71,13 @@ jobs:
             fc: "gfortran-9"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python"
+          - name: "macos-1015_gcc"
+            os: macos-latest
+            cxx: "gcc-11"
+            cc: "gcc-11"
+            fc: "gfortran-11"
+            swig_builtin: "On" #uses swig 4.0.2
+            py: "/usr/bin/python"
     steps:
      - name: Checkout repository
        uses: actions/checkout@v2

@@ -66,9 +66,9 @@ jobs:
         config:
           - name: "macos-1015"
             os: macos-latest
-            cxx: "clang"
+            cxx: "clang++"
             cc: "clang"
-            fc: "gfortran-9"
+            fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python"
           - name: "macos-1015_gcc"

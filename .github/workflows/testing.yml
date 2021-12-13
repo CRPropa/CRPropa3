@@ -88,8 +88,8 @@ jobs:
          #HOMEBREW_NO_AUTO_UPDATE=1 brew link --overwrite gcc
      - name: Set up the build
        env:
-         CXX_COMPILER: ${{ matrix.config.cxx }}
-         C_COMPILER: ${{ matrix.config.cc }}
+         CXX: ${{ matrix.config.cxx }}
+         CC: ${{ matrix.config.cc }}
          FC: ${{ matrix.config.fc }}
          CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/build/data"
        run: |

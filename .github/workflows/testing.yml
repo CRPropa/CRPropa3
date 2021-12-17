@@ -60,50 +60,5 @@ jobs:
         with:
           name: "test-report_${{matrix.config.name}}"
           path: build/Testing/Temporary/LastTest.log
-  mac:
-    runs-on: ${{ matrix.config.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - name: "macos-11"
-            os: macos-11
-            cxx: "clang++"
-            cc: "clang"
-            fc: "gfortran-11"
-            swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python"
-    steps:
-     - name: Checkout repository
-       uses: actions/checkout@v2
-     - name: Preinstall
-       run: |
-         brew install hdf5 fftw cfitsio muparser libomp
-     - name: Set up the build
-       env:
-         CXX: ${{ matrix.config.cxx }}
-         CC: ${{ matrix.config.cc }}
-         FC: ${{ matrix.config.fc }}
-         CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/build/data"
-       run: |
-        mkdir build
-        cd build
-        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=avx
-     - name: Build CRPropa
-       run: |
-         cd build
-         make
-     - name: Run tests
-       env:
-         CRPROPA_DATA_PATH: "/Users/runner/work/CRPropa3/CRPropa3/build/data"
-       run: |
-         cd build
-         make test
-     - name: Archive test results
-       if: always()
-       uses: actions/upload-artifact@v2
-       with:
-         name: "test-report_${{matrix.config.name}}"
-         path: build/Testing/Temporary/LastTest.log
     
   

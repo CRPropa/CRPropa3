@@ -662,6 +662,7 @@ TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
 	EMPairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -669,6 +670,7 @@ TEST(EMPairProduction, secondaries) {
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
 	fields.push_back(IRB);
+	fields.push_back(URB);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -676,8 +678,8 @@ TEST(EMPairProduction, secondaries) {
 		for (int i = 0; i < 140; i++) { // loop over energies Ep = (1e10 - 1e23) eV
 			double Ep = pow(10, 9.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
-			c.setCurrentStep(std::numeric_limits<double>::max());
-			// c.setCurrentStep(1e10 * Mpc);
+			//c.setCurrentStep(std::numeric_limits<double>::max());
+			c.setCurrentStep(1e10 * Mpc);
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)

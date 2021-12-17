@@ -66,13 +66,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: "macos-1015"
-            os: macos-10.15
-            cxx: "clang++"
-            cc: "clang"
-            fc: "gfortran-11"
-            swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python"
           - name: "macos-11"
             os: macos-11
             cxx: "clang++"

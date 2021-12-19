@@ -3,7 +3,7 @@
 Class Module
 ============
 
-- Defined in :ref:`file_include_crpropa_Module.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_Module.h`
 
 
 Inheritance Relationships
@@ -22,14 +22,14 @@ Derived Types
 - ``public AbstractCondition`` (:ref:`exhale_class_classcrpropa_1_1AbstractCondition`)
 - ``public AdiabaticCooling`` (:ref:`exhale_class_classcrpropa_1_1AdiabaticCooling`)
 - ``public DiffusionSDE`` (:ref:`exhale_class_classcrpropa_1_1DiffusionSDE`)
-- ``public ElasticScattering`` (:ref:`exhale_class_classcrpropa_1_1ElasticScattering`)
-- ``public ElectronPairProduction`` (:ref:`exhale_class_classcrpropa_1_1ElectronPairProduction`)
 - ``public EMCascade`` (:ref:`exhale_class_classcrpropa_1_1EMCascade`)
 - ``public EMDoublePairProduction`` (:ref:`exhale_class_classcrpropa_1_1EMDoublePairProduction`)
 - ``public EMInverseComptonScattering`` (:ref:`exhale_class_classcrpropa_1_1EMInverseComptonScattering`)
-- ``public EmissionMapFiller`` (:ref:`exhale_class_classcrpropa_1_1EmissionMapFiller`)
 - ``public EMPairProduction`` (:ref:`exhale_class_classcrpropa_1_1EMPairProduction`)
 - ``public EMTripletPairProduction`` (:ref:`exhale_class_classcrpropa_1_1EMTripletPairProduction`)
+- ``public ElasticScattering`` (:ref:`exhale_class_classcrpropa_1_1ElasticScattering`)
+- ``public ElectronPairProduction`` (:ref:`exhale_class_classcrpropa_1_1ElectronPairProduction`)
+- ``public EmissionMapFiller`` (:ref:`exhale_class_classcrpropa_1_1EmissionMapFiller`)
 - ``public FutureRedshift`` (:ref:`exhale_class_classcrpropa_1_1FutureRedshift`)
 - ``public ModuleList`` (:ref:`exhale_class_classcrpropa_1_1ModuleList`)
 - ``public ModuleListRunner`` (:ref:`exhale_class_classcrpropa_1_1ModuleListRunner`)
@@ -37,12 +37,13 @@ Derived Types
 - ``public Observer`` (:ref:`exhale_class_classcrpropa_1_1Observer`)
 - ``public Output`` (:ref:`exhale_class_classcrpropa_1_1Output`)
 - ``public ParticleCollector`` (:ref:`exhale_class_classcrpropa_1_1ParticleCollector`)
+- ``public ParticleSplitting`` (:ref:`exhale_class_classcrpropa_1_1ParticleSplitting`)
 - ``public PerformanceModule`` (:ref:`exhale_class_classcrpropa_1_1PerformanceModule`)
 - ``public PeriodicBox`` (:ref:`exhale_class_classcrpropa_1_1PeriodicBox`)
 - ``public PhotoDisintegration`` (:ref:`exhale_class_classcrpropa_1_1PhotoDisintegration`)
+- ``public PhotoPionProduction`` (:ref:`exhale_class_classcrpropa_1_1PhotoPionProduction`)
 - ``public PhotonEleCa`` (:ref:`exhale_class_classcrpropa_1_1PhotonEleCa`)
 - ``public PhotonOutput1D`` (:ref:`exhale_class_classcrpropa_1_1PhotonOutput1D`)
-- ``public PhotoPionProduction`` (:ref:`exhale_class_classcrpropa_1_1PhotoPionProduction`)
 - ``public PropagationBP`` (:ref:`exhale_class_classcrpropa_1_1PropagationBP`)
 - ``public PropagationCK`` (:ref:`exhale_class_classcrpropa_1_1PropagationCK`)
 - ``public Redshift`` (:ref:`exhale_class_classcrpropa_1_1Redshift`)

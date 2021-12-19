@@ -7,15 +7,5 @@ Directory include
 
 *Directory path:* ``include``
 
-Subdirectories
---------------
-
-- :ref:`dir_include_crpropa`
-
-
-Files
------
-
-- :ref:`file_include_CRPropa.h`
 
 

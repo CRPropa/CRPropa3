@@ -3,7 +3,7 @@
 Class PhotonEleCa
 =================
 
-- Defined in :ref:`file_include_crpropa_module_PhotonEleCa.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_module_PhotonEleCa.h`
 
 
 Inheritance Relationships

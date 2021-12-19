@@ -19,6 +19,11 @@ Namespaces
 .. toctree::
    :maxdepth: 5
 
+   namespace_Loki.rst
+
+.. toctree::
+   :maxdepth: 5
+
    namespace_std.rst
 
 Classes and Structs
@@ -28,27 +33,7 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   structcrpropa_1_1__Secondary.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   structcrpropa_1_1CLOCK__TLS__ITEM.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   structcrpropa_1_1HDF5Output_1_1OutputRow.rst
-
-.. toctree::
-   :maxdepth: 5
-
    structcrpropa_1_1NuclearDecay_1_1DecayMode.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   structcrpropa_1_1NuclearMassTable.rst
 
 .. toctree::
    :maxdepth: 5
@@ -73,17 +58,7 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   structcrpropa_1_1RANDOM__TLS__ITEM.rst
-
-.. toctree::
-   :maxdepth: 5
-
    structcrpropa_1_1SophiaEventOutput.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   structcrpropa_1_1SourceGenericComposition_1_1Nucleus.rst
 
 .. toctree::
    :maxdepth: 5
@@ -113,11 +88,6 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1AMRMagneticField.rst
-
-.. toctree::
-   :maxdepth: 5
-
    classcrpropa_1_1ArchimedeanSpiralField.rst
 
 .. toctree::
@@ -143,12 +113,12 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1Clock_1_1Impl.rst
+   classcrpropa_1_1CMB.rst
 
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1CMB.rst
+   classcrpropa_1_1CMZField.rst
 
 .. toctree::
    :maxdepth: 5
@@ -164,11 +134,6 @@ Classes and Structs
    :maxdepth: 5
 
    classcrpropa_1_1Cordes.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   class_structcrpropa_1_1Cosmology.rst
 
 .. toctree::
    :maxdepth: 5
@@ -284,26 +249,6 @@ Classes and Structs
    :maxdepth: 5
 
    classcrpropa_1_1GridProperties.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1GridTurbulence.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1HDF5Output.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1HelicalGridTurbulence.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1ICSSecondariesEnergyDistribution.rst
 
 .. toctree::
    :maxdepth: 5
@@ -563,6 +508,11 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
+   classcrpropa_1_1ParticleSplitting.rst
+
+.. toctree::
+   :maxdepth: 5
+
    classcrpropa_1_1ParticleState.rst
 
 .. toctree::
@@ -598,11 +548,6 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1PhotonFieldSampling.rst
-
-.. toctree::
-   :maxdepth: 5
-
    classcrpropa_1_1PhotonOutput1D.rst
 
 .. toctree::
@@ -633,7 +578,7 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1PPSecondariesEnergyDistribution.rst
+   classcrpropa_1_1PolarizedSingleModeMagneticField.rst
 
 .. toctree::
    :maxdepth: 5
@@ -663,12 +608,7 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1QuimbyMagneticField.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1QuimbyMagneticFieldAdapter.rst
+   classcrpropa_1_1QuasiLinearTheory.rst
 
 .. toctree::
    :maxdepth: 5
@@ -694,11 +634,6 @@ Classes and Structs
    :maxdepth: 5
 
    classcrpropa_1_1ReflectiveBox.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1RenormalizeMagneticField.rst
 
 .. toctree::
    :maxdepth: 5
@@ -733,17 +668,7 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classcrpropa_1_1SimpleGridTurbulence.rst
-
-.. toctree::
-   :maxdepth: 5
-
    classcrpropa_1_1SimplePropagation.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1SimpleTurbulenceSpectrum.rst
 
 .. toctree::
    :maxdepth: 5
@@ -764,6 +689,11 @@ Classes and Structs
    :maxdepth: 5
 
    classcrpropa_1_1SourceDensityGrid1D.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classcrpropa_1_1SourceDirectedEmission.rst
 
 .. toctree::
    :maxdepth: 5
@@ -789,11 +719,6 @@ Classes and Structs
    :maxdepth: 5
 
    classcrpropa_1_1SourceFeature.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classcrpropa_1_1SourceGenericComposition.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1013,26 +938,6 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
-   classParticleSplitting.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classQuasiLinearTheory.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classURB.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   classURB.rst
-
-.. toctree::
-   :maxdepth: 5
-
    classURB.rst
 
 Enums
@@ -1043,6 +948,11 @@ Enums
    :maxdepth: 5
 
    enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1061,27 +971,7 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a3b7e50c415b95b5484c2c6fce38bdeb4.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a46e71379803136960b66bd212e3de422.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a4447ed56e6ceb012151bcef3b81ff03e.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a72de9e877f74616d8c63034e881cd8c2.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__PhysicsDefinitions_1gaeb9bf83157fb16f1b1f40f3520fb88f5.rst
+   function_group__PhysicsDefinitions_1ga0c658ca545d45436c718148e9b82af87.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1091,32 +981,32 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga46b07c16f3bbe25d18074f192185d926.rst
+   function_group__Core_1gaecc325fd115bd796f3c0e77cb689ebae.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga7073201fb231cc8fa4d4045d762cd415.rst
+   function_group__PhysicsDefinitions_1ga99330b59d91d6c538122bc1e477e24c4.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga6b99c0bb658088bde4bf14117561577d.rst
+   function_group__PhysicsDefinitions_1ga512961b323c6706458df15e5c11f09fb.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga5fa1aa29d03eb5f7e90c26cb34e52287.rst
+   function_group__Core_1ga0663b76fe38fa53188a902e8f70bbb8c.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8.rst
+   function_group__PhysicsDefinitions_1ga03f1b5d08b70e6a06ed71d9006dea6de.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a9701fd450f0629cea7498612f221a6a8.rst
+   function_namespacecrpropa_1a29dbf1e61010b4104941a96eaa846cf1.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1126,57 +1016,52 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1ac9f895526ff16286d0aeb62e7e80459f.rst
+   function_namespacecrpropa_1a7ea72826e167beaa042efafaec6876da.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a353584246ed0becff6fa83dda9662cec.rst
+   function_namespacecrpropa_1aa45964706e7d6ba2ffac41794424769f.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7.rst
+   function_group__Core_1gad5b5ba4c8f79b6b797c57d7ee658c1a6.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga0238b64d66147e63750fd4bbc408161f.rst
+   function_group__Core_1ga2be301c04cc62be7b1efdc3d8472dcda.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga3ccd4dd73f208f91880915a2ce08bdc0.rst
+   function_group__Core_1gad230c08955c7a505eefe413366f4717a.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga59fd9fe51d640a021e0221111cd9b699.rst
+   function_group__Core_1ga25cabf4d5be84ea94f9bd90d50b17a13.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga2eb8ede3102a156db92af3b28e6f100a.rst
+   function_group__Core_1ga44546dc98a4f8e8bd50afae4ae1fec8b.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a7869c8cd708945f25e1061f64c93ae6e.rst
+   function_namespacecrpropa_1aca0899b6299bda24481d6ec1eeff7988.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1af379693cbe113b71573bcefd2e9041a0.rst
+   function_group__Core_1gaf89e81d370fe811cc9386261f02166a5.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gaf26c6f2f1091ba2802cc736c81ca3a7b.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__Core_1ga0980296e3a22831d7bdbf2661086d25a.rst
+   function_group__Core_1ga0501e5b31dd2cdb5159459d874f16d30.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1186,82 +1071,42 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga081984cd46a9399a0ca008fa9694e252.rst
+   function_group__Core_1ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga5ec1e6eee108f252067290d3f275cbad.rst
+   function_group__Core_1ga1df13d495273a79e3350f157af7b4ea3.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga0591bc9690afaadc6c5694bde7b170c7.rst
+   function_group__Core_1gafaaaa2733a31f763ffd1fa28bfab81ca.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga22d6bb7eeecd0de28751b3613a95c73d.rst
+   function_group__PhysicsDefinitions_1ga6fccfc5a896dc6f1036d2abbfca4ae2a.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga1195805e2072f5dabe551822712cbef6.rst
+   function_group__PhysicsDefinitions_1gaca47de327745e542b987dc0fdc0544ad.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a2c99758f5dbbfc1e92f6514db8cfec06.rst
+   function_group__Core_1ga3ea9c7bef53d02cb7a867c72182768b7.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1gad6710a44df51943baeec169e78ed2d8b.rst
+   function_group__Core_1gab28d821e32f177c9c1d1e3658796f259.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__MagneticFields_1ga395cc353f63d9b16412f33e522b1be5e.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__MagneticFields_1ga72edae87b1e7c5f473488e4624598f38.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a448086ceaf529624e117a62fa60e10aa.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a8676e1e10f07270f85a70588b058abc1.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a7db8bb059dffc37dc4ffff142169a090.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1ad63beadaef5583c2cc4d1d578c8d554d.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__Core_1ga706c67f657d8220459a8b5155c479c41.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__Core_1ga6428041c6b8b7f6ecd9f738073713e95.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__Core_1gaba6b559d8f4282b3c52afcf042e2c2ea.rst
+   function_group__Core_1ga45ce85dc4b25887b2c527719c7531b4e.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1276,137 +1121,132 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga214fcca71a19e93127c731aef7d5ac1c.rst
+   function_group__PhysicsDefinitions_1ga7a02cec5006af6f5eb4bd415ea9ab2db.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1gae9cea39605223cccd6bd7b3764c2355d.rst
+   function_group__PhysicsDefinitions_1ga1cad0b62bf8c1b8b1dd44295b3ec40f9.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga8f3eaa3698e1c468965b2c592267a924.rst
+   function_group__PhysicsDefinitions_1ga203d7d59dabadfa6e77a05263f77c819.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga96b82a9f071ea76c74a62318e7bbf927.rst
+   function_group__Core_1gab7c740cf66f560083029b8a6196a46a4.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gad04969866cecfe3cd109bd36127837ee.rst
+   function_group__Core_1ga091a17cca41dba2b79ec383f7f9e8f37.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga9d650bf27df3302ddae4736e3d82a513.rst
+   function_group__Core_1gaad9520b837fa3ff060ed1786da8c7f52.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga44c94bcdfc60683fdcef1a5a5f985da6.rst
+   function_group__Core_1gab66dd49f6fc38ee6834eff297e730ae3.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga943831b5474c3f2324882c1ca785892c.rst
+   function_group__PhysicsDefinitions_1gafe272632098a27755f88a8503e04481f.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga7f967562ed4cfbcfceecf9bc7c0dff17.rst
+   function_group__PhysicsDefinitions_1gaf2b051d255cfeb00149e80831e0c3b5d.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a6650acbc2cdb17eb8354052fe7f6d15c.rst
+   function_namespacecrpropa_1a2f6ed50a4dd5e68e6532340866a6819d.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga37240288afb16f49d1eed43a69d14c82.rst
+   function_group__Core_1ga35a4fc74b7deadd58ff6209df14140c0.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga55f6cd87b0ce100c08cfcdd08d8e6ba8.rst
+   function_group__Core_1ga095a3cc70d79ca2a58df236d823fc7f2.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gadd91fef32b46a63095d2bd239ad71aba.rst
+   function_group__Core_1ga14e9170907096634f33d71ec5aae75d3.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a06b39559d8cac3b80579993d8a187b36.rst
+   function_namespacecrpropa_1a855096c8ab3bc4b926e81bd45d2ed743.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a58d1c26f67a5fb318a051cdb203d2f57.rst
+   function_namespacecrpropa_1a02a34444430a990a7a1cec430148f345.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855.rst
+   function_namespacecrpropa_1ad8d07016ad6bfeeb3820f0e6a28c4f77.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa.rst
+   function_group__PhysicsDefinitions_1ga2f8daaf6e06efae63d7c323230458937.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c.rst
+   function_group__PhysicsDefinitions_1ga6a21da6982c810db1b77794e8b9ef179.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0.rst
+   function_group__PhysicsDefinitions_1ga4cfe916fc8af0f4a394ad6e541a1e834.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga4575a11fd9dc0420c5817fea1610fba2.rst
+   function_group__PhysicsDefinitions_1ga73ed5eab2ffc8064c0cb8f169d568a07.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga95e0c912b0b7569fc63a1f4fe20c301a.rst
+   function_group__PhysicsDefinitions_1gac97a929f7aaea9e4a346e319167d05fa.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga77f7ab8be53cb59029a887137d0e0348.rst
+   function_group__Core_1ga23bf6b37f4133adc37b6f3d057410c94.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1aca4bbe6bcc20c4e0e40bbc0ca91ae6c9.rst
+   function_namespacecrpropa_1a0a3faf0d97b1add4a0fc947c3498415d.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga212899c90bd00fa8f494bfce44136077.rst
+   function_group__Core_1gaf1695869279c2571e31c8547f65fe9c5.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1a28a4ba29d78d82959e2a62dfd5734ee4.rst
+   function_group__Core_1ga688c4960d76366bf6fce1cf5eac2f129.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gaa41b3dba9522979f21064c9d34789c82.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2.rst
+   function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1426,42 +1266,47 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7.rst
+   function_namespacecrpropa_1a311fac498c76c37962a69f010f41dc43.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4.rst
+   function_group__PhysicsDefinitions_1ga74be55ec3e23caff21310b51b53cab35.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a.rst
+   function_group__PhysicsDefinitions_1ga682405d9081864aaa0b706ede0736244.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6.rst
+   function_group__PhysicsDefinitions_1ga21044b6b8dc8baa6bc0d62296b5be92c.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023.rst
+   function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gafbf4174c9a116aaf77904225c3639d24.rst
+   function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08.rst
+   function_group__Core_1ga788ff1002bda23d428e0e43ac5b7cf3a.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gac6a806f908b2c0080767e36781d6ec12.rst
+   function_group__Core_1ga42f4cdca40b5d3f1632ac93a886a8781.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_group__Core_1gad823c8cf8555f1b45432468adef2d404.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1471,72 +1316,32 @@ Functions
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1gabd59e441d6fd5ca8c08d67e921653025.rst
+   function_group__Core_1ga0d66e0a4632d21364c4227784074f53e.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d.rst
+   function_group__Core_1gad86fe3acb119896b39adb6d751b57700.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_namespacecrpropa_1ade4f3509f8415d013b3a5805ed285213.rst
+   function_namespacecrpropa_1aa9174909a4e0ee185d124caabf1549a0.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__PhysicsDefinitions_1ga5c42cc1101552a108ece94569e2c42c4.rst
+   function_group__PhysicsDefinitions_1gaf26fcc97f8c2cd7b6613950265dbd473.rst
 
 .. toctree::
    :maxdepth: 5
 
-   function_group__Core_1ga2b07458531ae106828e1cf6c467e31fd.rst
+   function_group__Core_1ga21ca69db76e5efe007489b30d0d92ef8.rst
 
 .. toctree::
    :maxdepth: 5
 
    function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a5a111032b05e2db77860381eb823f867.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   function_namespacecrpropa_1a8598f4bfc7ba56c2e95728f4425dfb14.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1566,6 +1371,36 @@ Functions
 .. toctree::
    :maxdepth: 5
 
+   function_AssocVector_8h_1a4bd2d26e2a4b894ca7611ac096434c21.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_AssocVector_8h_1ae784f4505d4e82cdca799b4e4d9db886.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_AssocVector_8h_1a935c3734691858d4ab91e7c8ac92a756.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_AssocVector_8h_1acc91f1a4d6b2684be1ae9cc97b36636e.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_AssocVector_8h_1a3678dd23d67866599ad3c43ecee2ff34.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_AssocVector_8h_1adbe957affd452026980681c7bd18f950.rst
+
+.. toctree::
+   :maxdepth: 5
+
    function_Logging_8h_1a0be980c8c7fb754367a4346ac48cbf7f.rst
 
 .. toctree::
@@ -1580,37 +1415,12 @@ Variables
 .. toctree::
    :maxdepth: 5
 
-   variable_DiffusionSDE_8cpp_1a3ae63274d1e5a52f21db2df3bc5eee03.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_DiffusionSDE_8cpp_1a6dbc3ea54b9ab71917fe57fa11372346.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_DiffusionSDE_8cpp_1a3c20a63320f56e1b5e3755a0dbfa0514.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_HDF5Output_8cpp_1ae4d9f70e42a936d3c200e8e777801cfe.rst
-
-.. toctree::
-   :maxdepth: 5
-
    variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.rst
 
 .. toctree::
    :maxdepth: 5
 
    variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1650,21 +1460,6 @@ Variables
 .. toctree::
    :maxdepth: 5
 
-   variable_namespacecrpropa_1a929166b4d72d40e5e965de266a343958.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a7214685a5e4e5cb7676d0409df697c3f.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1ad72f196832be4ead6ec3171c1cd925d6.rst
-
-.. toctree::
-   :maxdepth: 5
-
    variable_group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5.rst
 
 .. toctree::
@@ -1680,17 +1475,7 @@ Variables
 .. toctree::
    :maxdepth: 5
 
-   variable_namespacecrpropa_1ad058e78936661cbe0aac73ee6a73e631.rst
-
-.. toctree::
-   :maxdepth: 5
-
    variable_group__PhysicsDefinitions_1ga9f729835f8d7ddb8ab71fce2108d7566.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a0e806ae8c58950aa3e39fc19a4b934df.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1706,11 +1491,6 @@ Variables
    :maxdepth: 5
 
    variable_group__PhysicsDefinitions_1ga384bc54c9a15fa0d84ae78416653c9c4.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a27599fe0da06d805b085183e2a90ff5c.rst
 
 .. toctree::
    :maxdepth: 5
@@ -1870,31 +1650,6 @@ Variables
 .. toctree::
    :maxdepth: 5
 
-   variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a.rst
-
-.. toctree::
-   :maxdepth: 5
-
    variable_group__PhysicsDefinitions_1ga8912b14f7b302e534e7eb063288f6ee9.rst
 
 .. toctree::
@@ -2010,11 +1765,6 @@ Variables
 .. toctree::
    :maxdepth: 5
 
-   variable_namespacecrpropa_1a121307288ad0b7f53e11a30e86f1bfed.rst
-
-.. toctree::
-   :maxdepth: 5
-
    variable_group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa.rst
 
 .. toctree::
@@ -2050,11 +1800,6 @@ Variables
 .. toctree::
    :maxdepth: 5
 
-   variable_namespacecrpropa_1a086a644110575459436b82fc0959df1b.rst
-
-.. toctree::
-   :maxdepth: 5
-
    variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.rst
 
 .. toctree::
@@ -2086,26 +1831,6 @@ Variables
    :maxdepth: 5
 
    variable_group__PhysicsDefinitions_1ga7f801e1f6821bc6baf0652ed2496e5e9.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a699a2b489ae81d7ee049796081556d94.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a323e09b7c947fb1577ea63ad92513576.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1a058578e0da15617cda7c60801820ab5e.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   variable_namespacecrpropa_1ac642ed37e7a0473e46232d0e67615bb5.rst
 
 .. toctree::
    :maxdepth: 5
@@ -2157,19 +1882,38 @@ Variables
 
    variable_Version_8h_1a6e70968528819ece37e7d5f722c53efc.rst
 
+Defines
+*******
+
+
 .. toctree::
    :maxdepth: 5
 
-   variable_HDF5Output_8cpp_1a6b6cc5fc422b203f04a08f5bcb1513fe.rst
+   define_Random_8h_1ae71449b1cc6e6250b91f539153a7a0d3.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_Variant_8h_1ad6e6dfd43bfb6550b7f310b003ea5e86.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_Variant_8h_1aff699997fd1e4e13671e56d58c3ecef3.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_Variant_8h_1a71711a376be30763557289e90e82547c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_Variant_8h_1acdf3895ba788152a9cc113b7fd1e643c.rst
 
 Typedefs
 ********
 
-
-.. toctree::
-   :maxdepth: 5
-
-   typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109.rst
 
 .. toctree::
    :maxdepth: 5

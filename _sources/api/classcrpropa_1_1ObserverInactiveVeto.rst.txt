@@ -3,7 +3,7 @@
 Class ObserverInactiveVeto
 ==========================
 
-- Defined in :ref:`file_include_crpropa_module_Observer.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_module_Observer.h`
 
 
 Inheritance Relationships

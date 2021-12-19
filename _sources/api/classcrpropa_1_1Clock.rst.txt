@@ -3,17 +3,7 @@
 Class Clock
 ===========
 
-- Defined in :ref:`file_include_crpropa_Clock.h`
-
-
-Nested Relationships
---------------------
-
-
-Nested Types
-************
-
-- :ref:`exhale_class_classcrpropa_1_1Clock_1_1Impl`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_Clock.h`
 
 
 Class Documentation

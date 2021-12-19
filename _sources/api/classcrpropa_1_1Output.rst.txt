@@ -3,7 +3,7 @@
 Class Output
 ============
 
-- Defined in :ref:`file_include_crpropa_module_Output.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_module_Output.h`
 
 
 Nested Relationships
@@ -25,10 +25,9 @@ Base Type
 - ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
 
 
-Derived Types
-*************
+Derived Type
+************
 
-- ``public HDF5Output`` (:ref:`exhale_class_classcrpropa_1_1HDF5Output`)
 - ``public TextOutput`` (:ref:`exhale_class_classcrpropa_1_1TextOutput`)
 
 

@@ -3,7 +3,7 @@
 Class MagneticField
 ===================
 
-- Defined in :ref:`file_include_crpropa_magneticField_MagneticField.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_magneticField_MagneticField.h`
 
 
 Inheritance Relationships
@@ -18,8 +18,8 @@ Base Type
 Derived Types
 *************
 
-- ``public AMRMagneticField`` (:ref:`exhale_class_classcrpropa_1_1AMRMagneticField`)
 - ``public ArchimedeanSpiralField`` (:ref:`exhale_class_classcrpropa_1_1ArchimedeanSpiralField`)
+- ``public CMZField`` (:ref:`exhale_class_classcrpropa_1_1CMZField`)
 - ``public JF12Field`` (:ref:`exhale_class_classcrpropa_1_1JF12Field`)
 - ``public LogarithmicSpiralField`` (:ref:`exhale_class_classcrpropa_1_1LogarithmicSpiralField`)
 - ``public MagneticDipoleField`` (:ref:`exhale_class_classcrpropa_1_1MagneticDipoleField`)
@@ -27,10 +27,9 @@ Derived Types
 - ``public MagneticFieldGrid`` (:ref:`exhale_class_classcrpropa_1_1MagneticFieldGrid`)
 - ``public MagneticFieldList`` (:ref:`exhale_class_classcrpropa_1_1MagneticFieldList`)
 - ``public ModulatedMagneticFieldGrid`` (:ref:`exhale_class_classcrpropa_1_1ModulatedMagneticFieldGrid`)
-- ``public PeriodicMagneticField`` (:ref:`exhale_class_classcrpropa_1_1PeriodicMagneticField`)
 - ``public PT11Field`` (:ref:`exhale_class_classcrpropa_1_1PT11Field`)
-- ``public QuimbyMagneticField`` (:ref:`exhale_class_classcrpropa_1_1QuimbyMagneticField`)
-- ``public RenormalizeMagneticField`` (:ref:`exhale_class_classcrpropa_1_1RenormalizeMagneticField`)
+- ``public PeriodicMagneticField`` (:ref:`exhale_class_classcrpropa_1_1PeriodicMagneticField`)
+- ``public PolarizedSingleModeMagneticField`` (:ref:`exhale_class_classcrpropa_1_1PolarizedSingleModeMagneticField`)
 - ``public TF17Field`` (:ref:`exhale_class_classcrpropa_1_1TF17Field`)
 - ``public TorroidalHaloField`` (:ref:`exhale_class_classcrpropa_1_1TorroidalHaloField`)
 - ``public TurbulentField`` (:ref:`exhale_class_classcrpropa_1_1TurbulentField`)

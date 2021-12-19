@@ -3,7 +3,7 @@
 Class SourceFeature
 ===================
 
-- Defined in :ref:`file_include_crpropa_Source.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_Source.h`
 
 
 Inheritance Relationships
@@ -21,11 +21,11 @@ Derived Types
 - ``public SourceComposition`` (:ref:`exhale_class_classcrpropa_1_1SourceComposition`)
 - ``public SourceDensityGrid`` (:ref:`exhale_class_classcrpropa_1_1SourceDensityGrid`)
 - ``public SourceDensityGrid1D`` (:ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`)
+- ``public SourceDirectedEmission`` (:ref:`exhale_class_classcrpropa_1_1SourceDirectedEmission`)
 - ``public SourceDirection`` (:ref:`exhale_class_classcrpropa_1_1SourceDirection`)
 - ``public SourceEmissionCone`` (:ref:`exhale_class_classcrpropa_1_1SourceEmissionCone`)
 - ``public SourceEmissionMap`` (:ref:`exhale_class_classcrpropa_1_1SourceEmissionMap`)
 - ``public SourceEnergy`` (:ref:`exhale_class_classcrpropa_1_1SourceEnergy`)
-- ``public SourceGenericComposition`` (:ref:`exhale_class_classcrpropa_1_1SourceGenericComposition`)
 - ``public SourceIsotropicEmission`` (:ref:`exhale_class_classcrpropa_1_1SourceIsotropicEmission`)
 - ``public SourceLambertDistributionOnSphere`` (:ref:`exhale_class_classcrpropa_1_1SourceLambertDistributionOnSphere`)
 - ``public SourceMultipleParticleTypes`` (:ref:`exhale_class_classcrpropa_1_1SourceMultipleParticleTypes`)

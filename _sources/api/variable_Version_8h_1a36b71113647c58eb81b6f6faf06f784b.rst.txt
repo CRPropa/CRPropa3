@@ -3,7 +3,7 @@
 Variable g_GIT_REFSPEC
 ======================
 
-- Defined in :ref:`file_include_crpropa_Version.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_Version.h`
 
 
 Variable Documentation

@@ -3,7 +3,7 @@
 Class TurbulenceSpectrum
 ========================
 
-- Defined in :ref:`file_include_crpropa_magneticField_turbulentField_TurbulentField.h`
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_magneticField_turbulentField_TurbulentField.h`
 
 
 Inheritance Relationships
@@ -13,12 +13,6 @@ Base Type
 *********
 
 - ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
-
-
-Derived Type
-************
-
-- ``public SimpleTurbulenceSpectrum`` (:ref:`exhale_class_classcrpropa_1_1SimpleTurbulenceSpectrum`)
 
 
 Class Documentation

@@ -5,8 +5,9 @@ Namespace crpropa
 =================
 
 
-CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles. 
- 
+CRPRopa public definitions. 
+
+
 
 
 .. contents:: Contents
@@ -16,20 +17,20 @@ CRPropa is a public astrophysical simulation framework for propagating extraterr
 
 
 
+Detailed Description
+--------------------
+
+CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles. 
+
+
+
+
 
 Classes
 -------
 
 
-- :ref:`exhale_struct_structcrpropa_1_1__Secondary`
-
-- :ref:`exhale_struct_structcrpropa_1_1CLOCK__TLS__ITEM`
-
-- :ref:`exhale_struct_structcrpropa_1_1HDF5Output_1_1OutputRow`
-
 - :ref:`exhale_struct_structcrpropa_1_1NuclearDecay_1_1DecayMode`
-
-- :ref:`exhale_struct_structcrpropa_1_1NuclearMassTable`
 
 - :ref:`exhale_struct_structcrpropa_1_1Output_1_1Property`
 
@@ -39,11 +40,7 @@ Classes
 
 - :ref:`exhale_struct_structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission`
 
-- :ref:`exhale_struct_structcrpropa_1_1RANDOM__TLS__ITEM`
-
 - :ref:`exhale_struct_structcrpropa_1_1SophiaEventOutput`
-
-- :ref:`exhale_struct_structcrpropa_1_1SourceGenericComposition_1_1Nucleus`
 
 - :ref:`exhale_class_classcrpropa_1_1AbstractAccelerationModule`
 
@@ -55,8 +52,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1AdvectionFieldList`
 
-- :ref:`exhale_class_classcrpropa_1_1AMRMagneticField`
-
 - :ref:`exhale_class_classcrpropa_1_1ArchimedeanSpiralField`
 
 - :ref:`exhale_class_classcrpropa_1_1Base64`
@@ -67,17 +62,15 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1Clock`
 
-- :ref:`exhale_class_classcrpropa_1_1Clock_1_1Impl`
-
 - :ref:`exhale_class_classcrpropa_1_1CMB`
+
+- :ref:`exhale_class_classcrpropa_1_1CMZField`
 
 - :ref:`exhale_class_classcrpropa_1_1ConstantDensity`
 
 - :ref:`exhale_class_classcrpropa_1_1ConstantSphericalAdvectionField`
 
 - :ref:`exhale_class_classcrpropa_1_1Cordes`
-
-- :ref:`exhale_class_structcrpropa_1_1Cosmology`
 
 - :ref:`exhale_class_classcrpropa_1_1CubicBoundary`
 
@@ -124,14 +117,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1Grid`
 
 - :ref:`exhale_class_classcrpropa_1_1GridProperties`
-
-- :ref:`exhale_class_classcrpropa_1_1GridTurbulence`
-
-- :ref:`exhale_class_classcrpropa_1_1HDF5Output`
-
-- :ref:`exhale_class_classcrpropa_1_1HelicalGridTurbulence`
-
-- :ref:`exhale_class_classcrpropa_1_1ICSSecondariesEnergyDistribution`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Dominguez11`
 
@@ -235,6 +220,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1ParticleMapsContainer`
 
+- :ref:`exhale_class_classcrpropa_1_1ParticleSplitting`
+
 - :ref:`exhale_class_classcrpropa_1_1ParticleState`
 
 - :ref:`exhale_class_classcrpropa_1_1PerformanceModule`
@@ -249,8 +236,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1PhotonField`
 
-- :ref:`exhale_class_classcrpropa_1_1PhotonFieldSampling`
-
 - :ref:`exhale_class_classcrpropa_1_1PhotonOutput1D`
 
 - :ref:`exhale_class_classcrpropa_1_1PhotoPionProduction`
@@ -263,7 +248,7 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1PlaneWaveTurbulence`
 
-- :ref:`exhale_class_classcrpropa_1_1PPSecondariesEnergyDistribution`
+- :ref:`exhale_class_classcrpropa_1_1PolarizedSingleModeMagneticField`
 
 - :ref:`exhale_class_classcrpropa_1_1PropagationBP`
 
@@ -275,9 +260,7 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1PT11Field`
 
-- :ref:`exhale_class_classcrpropa_1_1QuimbyMagneticField`
-
-- :ref:`exhale_class_classcrpropa_1_1QuimbyMagneticFieldAdapter`
+- :ref:`exhale_class_classcrpropa_1_1QuasiLinearTheory`
 
 - :ref:`exhale_class_classcrpropa_1_1Random`
 
@@ -288,8 +271,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1Referenced`
 
 - :ref:`exhale_class_classcrpropa_1_1ReflectiveBox`
-
-- :ref:`exhale_class_classcrpropa_1_1RenormalizeMagneticField`
 
 - :ref:`exhale_class_classcrpropa_1_1RestrictToRegion`
 
@@ -303,11 +284,7 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1ShellPropertyOutput`
 
-- :ref:`exhale_class_classcrpropa_1_1SimpleGridTurbulence`
-
 - :ref:`exhale_class_classcrpropa_1_1SimplePropagation`
-
-- :ref:`exhale_class_classcrpropa_1_1SimpleTurbulenceSpectrum`
 
 - :ref:`exhale_class_classcrpropa_1_1Source`
 
@@ -316,6 +293,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1SourceDensityGrid`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceDirectedEmission`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceDirection`
 
@@ -326,8 +305,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1SourceEnergy`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceFeature`
-
-- :ref:`exhale_class_classcrpropa_1_1SourceGenericComposition`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceInterface`
 
@@ -422,6 +399,8 @@ Enums
 
 - :ref:`exhale_enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5`
 
+- :ref:`exhale_enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8`
+
 - :ref:`exhale_enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c`
 
 - :ref:`exhale_enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5`
@@ -431,145 +410,117 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_namespacecrpropa_1a3b7e50c415b95b5484c2c6fce38bdeb4`
-
-- :ref:`exhale_function_namespacecrpropa_1a46e71379803136960b66bd212e3de422`
-
-- :ref:`exhale_function_namespacecrpropa_1a4447ed56e6ceb012151bcef3b81ff03e`
-
-- :ref:`exhale_function_namespacecrpropa_1a72de9e877f74616d8c63034e881cd8c2`
-
-- :ref:`exhale_function_group__PhysicsDefinitions_1gaeb9bf83157fb16f1b1f40f3520fb88f5`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga0c658ca545d45436c718148e9b82af87`
 
 - :ref:`exhale_function_group__Core_1gaea966817d7679bb00bd12e22135184fc`
 
-- :ref:`exhale_function_group__Core_1ga46b07c16f3bbe25d18074f192185d926`
+- :ref:`exhale_function_group__Core_1gaecc325fd115bd796f3c0e77cb689ebae`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga7073201fb231cc8fa4d4045d762cd415`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga99330b59d91d6c538122bc1e477e24c4`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga6b99c0bb658088bde4bf14117561577d`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga512961b323c6706458df15e5c11f09fb`
 
-- :ref:`exhale_function_group__Core_1ga5fa1aa29d03eb5f7e90c26cb34e52287`
+- :ref:`exhale_function_group__Core_1ga0663b76fe38fa53188a902e8f70bbb8c`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga03f1b5d08b70e6a06ed71d9006dea6de`
 
-- :ref:`exhale_function_namespacecrpropa_1a9701fd450f0629cea7498612f221a6a8`
+- :ref:`exhale_function_namespacecrpropa_1a29dbf1e61010b4104941a96eaa846cf1`
 
 - :ref:`exhale_function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2`
 
-- :ref:`exhale_function_namespacecrpropa_1ac9f895526ff16286d0aeb62e7e80459f`
+- :ref:`exhale_function_namespacecrpropa_1a7ea72826e167beaa042efafaec6876da`
 
-- :ref:`exhale_function_namespacecrpropa_1a353584246ed0becff6fa83dda9662cec`
+- :ref:`exhale_function_namespacecrpropa_1aa45964706e7d6ba2ffac41794424769f`
 
-- :ref:`exhale_function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7`
+- :ref:`exhale_function_group__Core_1gad5b5ba4c8f79b6b797c57d7ee658c1a6`
 
-- :ref:`exhale_function_group__Core_1ga0238b64d66147e63750fd4bbc408161f`
+- :ref:`exhale_function_group__Core_1ga2be301c04cc62be7b1efdc3d8472dcda`
 
-- :ref:`exhale_function_group__Core_1ga3ccd4dd73f208f91880915a2ce08bdc0`
+- :ref:`exhale_function_group__Core_1gad230c08955c7a505eefe413366f4717a`
 
-- :ref:`exhale_function_group__Core_1ga59fd9fe51d640a021e0221111cd9b699`
+- :ref:`exhale_function_group__Core_1ga25cabf4d5be84ea94f9bd90d50b17a13`
 
-- :ref:`exhale_function_group__Core_1ga2eb8ede3102a156db92af3b28e6f100a`
+- :ref:`exhale_function_group__Core_1ga44546dc98a4f8e8bd50afae4ae1fec8b`
 
-- :ref:`exhale_function_namespacecrpropa_1a7869c8cd708945f25e1061f64c93ae6e`
+- :ref:`exhale_function_namespacecrpropa_1aca0899b6299bda24481d6ec1eeff7988`
 
-- :ref:`exhale_function_namespacecrpropa_1af379693cbe113b71573bcefd2e9041a0`
+- :ref:`exhale_function_group__Core_1gaf89e81d370fe811cc9386261f02166a5`
 
-- :ref:`exhale_function_group__Core_1gaf26c6f2f1091ba2802cc736c81ca3a7b`
-
-- :ref:`exhale_function_group__Core_1ga0980296e3a22831d7bdbf2661086d25a`
+- :ref:`exhale_function_group__Core_1ga0501e5b31dd2cdb5159459d874f16d30`
 
 - :ref:`exhale_function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1`
 
-- :ref:`exhale_function_group__Core_1ga081984cd46a9399a0ca008fa9694e252`
+- :ref:`exhale_function_group__Core_1ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6`
 
-- :ref:`exhale_function_group__Core_1ga5ec1e6eee108f252067290d3f275cbad`
+- :ref:`exhale_function_group__Core_1ga1df13d495273a79e3350f157af7b4ea3`
 
-- :ref:`exhale_function_group__Core_1ga0591bc9690afaadc6c5694bde7b170c7`
+- :ref:`exhale_function_group__Core_1gafaaaa2733a31f763ffd1fa28bfab81ca`
 
-- :ref:`exhale_function_group__Core_1ga22d6bb7eeecd0de28751b3613a95c73d`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga6fccfc5a896dc6f1036d2abbfca4ae2a`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga1195805e2072f5dabe551822712cbef6`
+- :ref:`exhale_function_group__PhysicsDefinitions_1gaca47de327745e542b987dc0fdc0544ad`
 
-- :ref:`exhale_function_namespacecrpropa_1a2c99758f5dbbfc1e92f6514db8cfec06`
+- :ref:`exhale_function_group__Core_1ga3ea9c7bef53d02cb7a867c72182768b7`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1gad6710a44df51943baeec169e78ed2d8b`
+- :ref:`exhale_function_group__Core_1gab28d821e32f177c9c1d1e3658796f259`
 
-- :ref:`exhale_function_group__MagneticFields_1ga395cc353f63d9b16412f33e522b1be5e`
-
-- :ref:`exhale_function_group__MagneticFields_1ga72edae87b1e7c5f473488e4624598f38`
-
-- :ref:`exhale_function_namespacecrpropa_1a448086ceaf529624e117a62fa60e10aa`
-
-- :ref:`exhale_function_namespacecrpropa_1a8676e1e10f07270f85a70588b058abc1`
-
-- :ref:`exhale_function_namespacecrpropa_1a7db8bb059dffc37dc4ffff142169a090`
-
-- :ref:`exhale_function_namespacecrpropa_1ad63beadaef5583c2cc4d1d578c8d554d`
-
-- :ref:`exhale_function_group__Core_1ga706c67f657d8220459a8b5155c479c41`
-
-- :ref:`exhale_function_group__Core_1ga6428041c6b8b7f6ecd9f738073713e95`
-
-- :ref:`exhale_function_group__Core_1gaba6b559d8f4282b3c52afcf042e2c2ea`
+- :ref:`exhale_function_group__Core_1ga45ce85dc4b25887b2c527719c7531b4e`
 
 - :ref:`exhale_function_group__Core_1ga6807b028241faff59152dde29e2edfb9`
 
 - :ref:`exhale_function_group__Core_1gadd64a0c21dcedde2102f949e36f2f1d3`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga214fcca71a19e93127c731aef7d5ac1c`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga7a02cec5006af6f5eb4bd415ea9ab2db`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1gae9cea39605223cccd6bd7b3764c2355d`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga1cad0b62bf8c1b8b1dd44295b3ec40f9`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga8f3eaa3698e1c468965b2c592267a924`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga203d7d59dabadfa6e77a05263f77c819`
 
-- :ref:`exhale_function_group__Core_1ga96b82a9f071ea76c74a62318e7bbf927`
+- :ref:`exhale_function_group__Core_1gab7c740cf66f560083029b8a6196a46a4`
 
-- :ref:`exhale_function_group__Core_1gad04969866cecfe3cd109bd36127837ee`
+- :ref:`exhale_function_group__Core_1ga091a17cca41dba2b79ec383f7f9e8f37`
 
-- :ref:`exhale_function_group__Core_1ga9d650bf27df3302ddae4736e3d82a513`
+- :ref:`exhale_function_group__Core_1gaad9520b837fa3ff060ed1786da8c7f52`
 
-- :ref:`exhale_function_group__Core_1ga44c94bcdfc60683fdcef1a5a5f985da6`
+- :ref:`exhale_function_group__Core_1gab66dd49f6fc38ee6834eff297e730ae3`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga943831b5474c3f2324882c1ca785892c`
+- :ref:`exhale_function_group__PhysicsDefinitions_1gafe272632098a27755f88a8503e04481f`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga7f967562ed4cfbcfceecf9bc7c0dff17`
+- :ref:`exhale_function_group__PhysicsDefinitions_1gaf2b051d255cfeb00149e80831e0c3b5d`
 
-- :ref:`exhale_function_namespacecrpropa_1a6650acbc2cdb17eb8354052fe7f6d15c`
+- :ref:`exhale_function_namespacecrpropa_1a2f6ed50a4dd5e68e6532340866a6819d`
 
-- :ref:`exhale_function_group__Core_1ga37240288afb16f49d1eed43a69d14c82`
+- :ref:`exhale_function_group__Core_1ga35a4fc74b7deadd58ff6209df14140c0`
 
-- :ref:`exhale_function_group__Core_1ga55f6cd87b0ce100c08cfcdd08d8e6ba8`
+- :ref:`exhale_function_group__Core_1ga095a3cc70d79ca2a58df236d823fc7f2`
 
-- :ref:`exhale_function_group__Core_1gadd91fef32b46a63095d2bd239ad71aba`
+- :ref:`exhale_function_group__Core_1ga14e9170907096634f33d71ec5aae75d3`
 
-- :ref:`exhale_function_namespacecrpropa_1a06b39559d8cac3b80579993d8a187b36`
+- :ref:`exhale_function_namespacecrpropa_1a855096c8ab3bc4b926e81bd45d2ed743`
 
-- :ref:`exhale_function_namespacecrpropa_1a58d1c26f67a5fb318a051cdb203d2f57`
+- :ref:`exhale_function_namespacecrpropa_1a02a34444430a990a7a1cec430148f345`
 
-- :ref:`exhale_function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855`
+- :ref:`exhale_function_namespacecrpropa_1ad8d07016ad6bfeeb3820f0e6a28c4f77`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga2f8daaf6e06efae63d7c323230458937`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga6a21da6982c810db1b77794e8b9ef179`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga4cfe916fc8af0f4a394ad6e541a1e834`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga4575a11fd9dc0420c5817fea1610fba2`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga73ed5eab2ffc8064c0cb8f169d568a07`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga95e0c912b0b7569fc63a1f4fe20c301a`
+- :ref:`exhale_function_group__PhysicsDefinitions_1gac97a929f7aaea9e4a346e319167d05fa`
 
-- :ref:`exhale_function_group__Core_1ga77f7ab8be53cb59029a887137d0e0348`
+- :ref:`exhale_function_group__Core_1ga23bf6b37f4133adc37b6f3d057410c94`
 
-- :ref:`exhale_function_namespacecrpropa_1aca4bbe6bcc20c4e0e40bbc0ca91ae6c9`
+- :ref:`exhale_function_namespacecrpropa_1a0a3faf0d97b1add4a0fc947c3498415d`
 
-- :ref:`exhale_function_group__Core_1ga212899c90bd00fa8f494bfce44136077`
+- :ref:`exhale_function_group__Core_1gaf1695869279c2571e31c8547f65fe9c5`
 
-- :ref:`exhale_function_namespacecrpropa_1a28a4ba29d78d82959e2a62dfd5734ee4`
+- :ref:`exhale_function_group__Core_1ga688c4960d76366bf6fce1cf5eac2f129`
 
-- :ref:`exhale_function_group__Core_1gaa41b3dba9522979f21064c9d34789c82`
-
-- :ref:`exhale_function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2`
+- :ref:`exhale_function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa`
 
 - :ref:`exhale_function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201`
 
@@ -577,58 +528,42 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf`
 
-- :ref:`exhale_function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7`
+- :ref:`exhale_function_namespacecrpropa_1a311fac498c76c37962a69f010f41dc43`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga74be55ec3e23caff21310b51b53cab35`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga682405d9081864aaa0b706ede0736244`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6`
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga21044b6b8dc8baa6bc0d62296b5be92c`
 
-- :ref:`exhale_function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023`
+- :ref:`exhale_function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f`
 
-- :ref:`exhale_function_group__Core_1gafbf4174c9a116aaf77904225c3639d24`
+- :ref:`exhale_function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13`
 
-- :ref:`exhale_function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08`
+- :ref:`exhale_function_group__Core_1ga788ff1002bda23d428e0e43ac5b7cf3a`
 
-- :ref:`exhale_function_group__Core_1gac6a806f908b2c0080767e36781d6ec12`
+- :ref:`exhale_function_group__Core_1ga42f4cdca40b5d3f1632ac93a886a8781`
+
+- :ref:`exhale_function_group__Core_1gad823c8cf8555f1b45432468adef2d404`
 
 - :ref:`exhale_function_namespacecrpropa_1afdfae60dd4680363c4a98a60d4b087b6`
 
-- :ref:`exhale_function_group__Core_1gabd59e441d6fd5ca8c08d67e921653025`
+- :ref:`exhale_function_group__Core_1ga0d66e0a4632d21364c4227784074f53e`
 
-- :ref:`exhale_function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d`
+- :ref:`exhale_function_group__Core_1gad86fe3acb119896b39adb6d751b57700`
 
-- :ref:`exhale_function_namespacecrpropa_1ade4f3509f8415d013b3a5805ed285213`
+- :ref:`exhale_function_namespacecrpropa_1aa9174909a4e0ee185d124caabf1549a0`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga5c42cc1101552a108ece94569e2c42c4`
+- :ref:`exhale_function_group__PhysicsDefinitions_1gaf26fcc97f8c2cd7b6613950265dbd473`
 
-- :ref:`exhale_function_group__Core_1ga2b07458531ae106828e1cf6c467e31fd`
+- :ref:`exhale_function_group__Core_1ga21ca69db76e5efe007489b30d0d92ef8`
 
 - :ref:`exhale_function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715`
-
-- :ref:`exhale_function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514`
-
-- :ref:`exhale_function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8`
-
-- :ref:`exhale_function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0`
-
-- :ref:`exhale_function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f`
-
-- :ref:`exhale_function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf`
-
-- :ref:`exhale_function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248`
-
-- :ref:`exhale_function_namespacecrpropa_1a5a111032b05e2db77860381eb823f867`
-
-- :ref:`exhale_function_namespacecrpropa_1a8598f4bfc7ba56c2e95728f4425dfb14`
 
 
 Typedefs
 --------
 
-
-- :ref:`exhale_typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109`
 
 - :ref:`exhale_typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293`
 
@@ -659,8 +594,6 @@ Variables
 
 - :ref:`exhale_variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437`
 
-- :ref:`exhale_variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164`
-
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679`
@@ -675,31 +608,19 @@ Variables
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga35d305b22a8de1cab9f18bf3e0fe48ba`
 
-- :ref:`exhale_variable_namespacecrpropa_1a929166b4d72d40e5e965de266a343958`
-
-- :ref:`exhale_variable_namespacecrpropa_1a7214685a5e4e5cb7676d0409df697c3f`
-
-- :ref:`exhale_variable_namespacecrpropa_1ad72f196832be4ead6ec3171c1cd925d6`
-
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga8b99ed3101c591c1133f492d94fa3685`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gad0b9a58075a15c1cb674a2b879402853`
 
-- :ref:`exhale_variable_namespacecrpropa_1ad058e78936661cbe0aac73ee6a73e631`
-
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga9f729835f8d7ddb8ab71fce2108d7566`
-
-- :ref:`exhale_variable_namespacecrpropa_1a0e806ae8c58950aa3e39fc19a4b934df`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga2f5042227e4fdba943844e169f5cf010`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gab1e9216cf93077db4901e1820dffa132`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga384bc54c9a15fa0d84ae78416653c9c4`
-
-- :ref:`exhale_variable_namespacecrpropa_1a27599fe0da06d805b085183e2a90ff5c`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga53b77492aea234537215b9ba7177882c`
 
@@ -763,16 +684,6 @@ Variables
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff`
 
-- :ref:`exhale_variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1`
-
-- :ref:`exhale_variable_namespacecrpropa_1a64b49b1e827c7469fc91de599eabfad1`
-
-- :ref:`exhale_variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a`
-
-- :ref:`exhale_variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a`
-
-- :ref:`exhale_variable_namespacecrpropa_1a9ced09dc26992ca1ecf1204e3065099a`
-
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga8912b14f7b302e534e7eb063288f6ee9`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga4f2c7d727d45a6c6a39e648c48a68bf4`
@@ -819,8 +730,6 @@ Variables
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gae9508134491d8a9621d23f07281096c7`
 
-- :ref:`exhale_variable_namespacecrpropa_1a121307288ad0b7f53e11a30e86f1bfed`
-
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gaab6215c4cb38b8fcb808d8ff11e0940c`
@@ -835,8 +744,6 @@ Variables
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8`
 
-- :ref:`exhale_variable_namespacecrpropa_1a086a644110575459436b82fc0959df1b`
-
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1`
@@ -850,14 +757,6 @@ Variables
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga7f801e1f6821bc6baf0652ed2496e5e9`
-
-- :ref:`exhale_variable_namespacecrpropa_1a699a2b489ae81d7ee049796081556d94`
-
-- :ref:`exhale_variable_namespacecrpropa_1a323e09b7c947fb1577ea63ad92513576`
-
-- :ref:`exhale_variable_namespacecrpropa_1a058578e0da15617cda7c60801820ab5e`
-
-- :ref:`exhale_variable_namespacecrpropa_1ac642ed37e7a0473e46232d0e67615bb5`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga90ad310c0986c21c31d3695d97922db7`
 

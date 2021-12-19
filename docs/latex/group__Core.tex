@@ -1,0 +1,416 @@
+\hypertarget{group__Core}{}\doxysection{Core Classes}
+\label{group__Core}\index{Core Classes@{Core Classes}}
+
+
+Core classes used to build CRPropa.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}}
+\begin{DoxyCompactList}\small\item\em All information about the cosmic ray. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}}
+\begin{DoxyCompactList}\small\item\em A geometrical surface. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Plane}{Plane}}
+\begin{DoxyCompactList}\small\item\em A plane given by a point x0 and two axes v1 and v2 with normal n = v1.\+cross(v2) or the normal n. Note that distance is negative on one side of the plane and positive on the other, depending on the orientation of the normal vector. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Sphere}{Sphere}}
+\begin{DoxyCompactList}\small\item\em A sphere around point \+\_\+center with radius \+\_\+radius. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ParaxialBox}{Paraxial\+Box}}
+\begin{DoxyCompactList}\small\item\em A box with perpendicular surfaces aligned to the x,y,z-\/axes. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1GridProperties}{Grid\+Properties}}
+\begin{DoxyCompactList}\small\item\em Combines parameters that uniquely define \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid}} class. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Template class for fields on a periodic grid with trilinear interpolation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1VectorGrid}{Vector\+Grid}}
+\item 
+class \mbox{\hyperlink{classcrpropa_1_1ScalarGrid}{Scalar\+Grid}}
+\item 
+class \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}}
+\begin{DoxyCompactList}\small\item\em State of the particle\+: ID, energy, position, direction. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Random}{Random}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} number generator. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}}
+\begin{DoxyCompactList}\small\item\em Base class for reference counting. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} pointer. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Template class for 3-\/vectors of type float, double, ... \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__Core_gaa4f8aec71606a16ed58c4f16efaabb23}\label{group__Core_gaa4f8aec71606a16ed58c4f16efaabb23}} 
+typedef \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid}}$<$ \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3f}} $>$ {\bfseries Grid3f}
+\item 
+\mbox{\Hypertarget{group__Core_gace03eaf2fd573de2d84e3aebf60fd729}\label{group__Core_gace03eaf2fd573de2d84e3aebf60fd729}} 
+typedef \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid}}$<$ \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} $>$ {\bfseries Grid3d}
+\item 
+\mbox{\Hypertarget{group__Core_ga618737687b6e91f66fe1f4da1134e925}\label{group__Core_ga618737687b6e91f66fe1f4da1134e925}} 
+typedef \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid}}$<$ float $>$ {\bfseries Grid1f}
+\item 
+\mbox{\Hypertarget{group__Core_gad761d09abe25f824acac027b04dd1507}\label{group__Core_gad761d09abe25f824acac027b04dd1507}} 
+typedef \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid}}$<$ double $>$ {\bfseries Grid1d}
+\item 
+\mbox{\Hypertarget{group__Core_ga1f05093f5ee1a9ecdd54476792e4c206}\label{group__Core_ga1f05093f5ee1a9ecdd54476792e4c206}} 
+typedef \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3}}$<$ double $>$ {\bfseries Vector3d}
+\item 
+\mbox{\Hypertarget{group__Core_gaf345ad77ba5e240c7ab72b4b2077e754}\label{group__Core_gaf345ad77ba5e240c7ab72b4b2077e754}} 
+typedef \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3}}$<$ float $>$ {\bfseries Vector3f}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{group__Core_ga1df13d495273a79e3350f157af7b4ea3}\label{group__Core_ga1df13d495273a79e3350f157af7b4ea3}} 
+std\+::string {\bfseries get\+Data\+Path} (std\+::string filename)
+\item 
+\mbox{\Hypertarget{group__Core_gafaaaa2733a31f763ffd1fa28bfab81ca}\label{group__Core_gafaaaa2733a31f763ffd1fa28bfab81ca}} 
+std\+::string {\bfseries get\+Install\+Prefix} ()
+\item 
+\mbox{\Hypertarget{group__Core_ga0f0f1fbfd43cc9a796d65bf1beeaa6e2}\label{group__Core_ga0f0f1fbfd43cc9a796d65bf1beeaa6e2}} 
+int {\bfseries digit} (const int \&value, const int \&d)
+\item 
+\mbox{\Hypertarget{group__Core_gaea966817d7679bb00bd12e22135184fc}\label{group__Core_gaea966817d7679bb00bd12e22135184fc}} 
+{\footnotesize template$<$typename T $>$ }\\T {\bfseries clip} (const T \&x, const T \&lower, const T \&upper)
+\item 
+\mbox{\Hypertarget{group__Core_ga3ea9c7bef53d02cb7a867c72182768b7}\label{group__Core_ga3ea9c7bef53d02cb7a867c72182768b7}} 
+double {\bfseries interpolate} (double x, const std\+::vector$<$ double $>$ \&X, const std\+::vector$<$ double $>$ \&Y)
+\item 
+\mbox{\Hypertarget{group__Core_gab28d821e32f177c9c1d1e3658796f259}\label{group__Core_gab28d821e32f177c9c1d1e3658796f259}} 
+double {\bfseries interpolate2d} (double x, double y, const std\+::vector$<$ double $>$ \&X, const std\+::vector$<$ double $>$ \&Y, const std\+::vector$<$ double $>$ \&Z)
+\item 
+\mbox{\Hypertarget{group__Core_ga45ce85dc4b25887b2c527719c7531b4e}\label{group__Core_ga45ce85dc4b25887b2c527719c7531b4e}} 
+double {\bfseries interpolate\+Equidistant} (double x, double lo, double hi, const std\+::vector$<$ double $>$ \&Y)
+\item 
+\mbox{\Hypertarget{group__Core_gaecc325fd115bd796f3c0e77cb689ebae}\label{group__Core_gaecc325fd115bd796f3c0e77cb689ebae}} 
+size\+\_\+t {\bfseries closest\+Index} (double x, const std\+::vector$<$ double $>$ \&X)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3f}} \mbox{\hyperlink{group__Core_ga14e9170907096634f33d71ec5aae75d3}{mean\+Field\+Vector}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid)
+\item 
+double \mbox{\hyperlink{group__Core_ga35a4fc74b7deadd58ff6209df14140c0}{mean\+Field\+Strength}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid)
+\item 
+double \mbox{\hyperlink{group__Core_ga095a3cc70d79ca2a58df236d823fc7f2}{mean\+Field\+Strength}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid)
+\item 
+double \mbox{\hyperlink{group__Core_ga788ff1002bda23d428e0e43ac5b7cf3a}{rms\+Field\+Strength}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid)
+\item 
+double \mbox{\hyperlink{group__Core_ga42f4cdca40b5d3f1632ac93a886a8781}{rms\+Field\+Strength}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid)
+\item 
+std\+::array$<$ float, 3 $>$ \mbox{\hyperlink{group__Core_gad823c8cf8555f1b45432468adef2d404}{rms\+Field\+Strength\+Per\+Axis}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid)
+\item 
+void \mbox{\hyperlink{group__Core_ga0d66e0a4632d21364c4227784074f53e}{scale\+Grid}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid, double a)
+\item 
+void \mbox{\hyperlink{group__Core_gad86fe3acb119896b39adb6d751b57700}{scale\+Grid}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid, double a)
+\item 
+void \mbox{\hyperlink{group__Core_gaf89e81d370fe811cc9386261f02166a5}{from\+Magnetic\+Field}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}} $>$ field)
+\item 
+void \mbox{\hyperlink{group__Core_ga0501e5b31dd2cdb5159459d874f16d30}{from\+Magnetic\+Field\+Strength}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}} $>$ field)
+\item 
+void \mbox{\hyperlink{group__Core_gab7c740cf66f560083029b8a6196a46a4}{load\+Grid}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_ga091a17cca41dba2b79ec383f7f9e8f37}{load\+Grid}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_gad5b5ba4c8f79b6b797c57d7ee658c1a6}{dump\+Grid}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_ga2be301c04cc62be7b1efdc3d8472dcda}{dump\+Grid}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_gaad9520b837fa3ff060ed1786da8c7f52}{load\+Grid\+From\+Txt}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_gab66dd49f6fc38ee6834eff297e730ae3}{load\+Grid\+From\+Txt}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_gad230c08955c7a505eefe413366f4717a}{dump\+Grid\+To\+Txt}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+void \mbox{\hyperlink{group__Core_ga25cabf4d5be84ea94f9bd90d50b17a13}{dump\+Grid\+To\+Txt}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$ grid, std\+::string filename, double conversion=1)
+\item 
+\mbox{\Hypertarget{group__Core_ga6807b028241faff59152dde29e2edfb9}\label{group__Core_ga6807b028241faff59152dde29e2edfb9}} 
+void {\bfseries intrusive\+\_\+ptr\+\_\+add\+\_\+ref} (\mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} $\ast$p)
+\item 
+\mbox{\Hypertarget{group__Core_gadd64a0c21dcedde2102f949e36f2f1d3}\label{group__Core_gadd64a0c21dcedde2102f949e36f2f1d3}} 
+void {\bfseries intrusive\+\_\+ptr\+\_\+release} (\mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} $\ast$p)
+\item 
+\mbox{\Hypertarget{group__Core_gaef75b9b7ae9d4b5d5258b8674259d715}\label{group__Core_gaef75b9b7ae9d4b5d5258b8674259d715}} 
+{\footnotesize template$<$class T $>$ }\\void {\bfseries swap} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ T $>$ \&rp1, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ T $>$ \&rp2)
+\item 
+\mbox{\Hypertarget{group__Core_ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6}\label{group__Core_ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6}} 
+{\footnotesize template$<$class T $>$ }\\T $\ast$ {\bfseries get\+\_\+pointer} (const \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ T $>$ \&rp)
+\item 
+\mbox{\Hypertarget{group__Core_ga21ca69db76e5efe007489b30d0d92ef8}\label{group__Core_ga21ca69db76e5efe007489b30d0d92ef8}} 
+{\footnotesize template$<$class T , class Y $>$ }\\\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ T $>$ {\bfseries static\+\_\+pointer\+\_\+cast} (const \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ Y $>$ \&rp)
+\item 
+\mbox{\Hypertarget{group__Core_ga44546dc98a4f8e8bd50afae4ae1fec8b}\label{group__Core_ga44546dc98a4f8e8bd50afae4ae1fec8b}} 
+{\footnotesize template$<$class T , class Y $>$ }\\\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ T $>$ {\bfseries dynamic\+\_\+pointer\+\_\+cast} (const \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ Y $>$ \&rp)
+\item 
+\mbox{\Hypertarget{group__Core_ga0663b76fe38fa53188a902e8f70bbb8c}\label{group__Core_ga0663b76fe38fa53188a902e8f70bbb8c}} 
+{\footnotesize template$<$class T , class Y $>$ }\\\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ T $>$ {\bfseries const\+\_\+pointer\+\_\+cast} (const \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ Y $>$ \&rp)
+\item 
+\mbox{\Hypertarget{group__Core_gaf1695869279c2571e31c8547f65fe9c5}\label{group__Core_gaf1695869279c2571e31c8547f65fe9c5}} 
+{\footnotesize template$<$typename T $>$ }\\std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&out, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3}}$<$ T $>$ \&v)
+\item 
+\mbox{\Hypertarget{group__Core_ga688c4960d76366bf6fce1cf5eac2f129}\label{group__Core_ga688c4960d76366bf6fce1cf5eac2f129}} 
+{\footnotesize template$<$typename T $>$ }\\std\+::istream \& {\bfseries operator$>$$>$} (std\+::istream \&in, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3}}$<$ T $>$ \&v)
+\item 
+\mbox{\Hypertarget{group__Core_ga23bf6b37f4133adc37b6f3d057410c94}\label{group__Core_ga23bf6b37f4133adc37b6f3d057410c94}} 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3}}$<$ T $>$ {\bfseries operator$\ast$} (T f, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3}}$<$ T $>$ \&v)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Core classes used to build CRPropa. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{group__Core_ga2be301c04cc62be7b1efdc3d8472dcda}\label{group__Core_ga2be301c04cc62be7b1efdc3d8472dcda}} 
+\index{Core Classes@{Core Classes}!dumpGrid@{dumpGrid}}
+\index{dumpGrid@{dumpGrid}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{dumpGrid()}{dumpGrid()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void crpropa\+::dump\+Grid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Dump a Grid1f to a binary file with single precision. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+{\em filename} & name of input file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gad5b5ba4c8f79b6b797c57d7ee658c1a6}\label{group__Core_gad5b5ba4c8f79b6b797c57d7ee658c1a6}} 
+\index{Core Classes@{Core Classes}!dumpGrid@{dumpGrid}}
+\index{dumpGrid@{dumpGrid}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{dumpGrid()}{dumpGrid()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void crpropa\+::dump\+Grid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Dump a Grid3f to a binary file. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+{\em filename} & name of input file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_ga25cabf4d5be84ea94f9bd90d50b17a13}\label{group__Core_ga25cabf4d5be84ea94f9bd90d50b17a13}} 
+\index{Core Classes@{Core Classes}!dumpGridToTxt@{dumpGridToTxt}}
+\index{dumpGridToTxt@{dumpGridToTxt}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{dumpGridToTxt()}{dumpGridToTxt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void crpropa\+::dump\+Grid\+To\+Txt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Dump a Grid1f to a plain text file. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+{\em filename} & name of output file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gad230c08955c7a505eefe413366f4717a}\label{group__Core_gad230c08955c7a505eefe413366f4717a}} 
+\index{Core Classes@{Core Classes}!dumpGridToTxt@{dumpGridToTxt}}
+\index{dumpGridToTxt@{dumpGridToTxt}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{dumpGridToTxt()}{dumpGridToTxt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void crpropa\+::dump\+Grid\+To\+Txt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Dump a Grid3f to a plain text file. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+{\em filename} & name of output file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gaf89e81d370fe811cc9386261f02166a5}\label{group__Core_gaf89e81d370fe811cc9386261f02166a5}} 
+\index{Core Classes@{Core Classes}!fromMagneticField@{fromMagneticField}}
+\index{fromMagneticField@{fromMagneticField}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{fromMagneticField()}{fromMagneticField()}}
+{\footnotesize\ttfamily void crpropa\+::from\+Magnetic\+Field (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid,  }\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}} $>$}]{field }\end{DoxyParamCaption})}
+
+Fill vector grid from provided magnetic field. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+{\em field} & the magnetic field \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_ga0501e5b31dd2cdb5159459d874f16d30}\label{group__Core_ga0501e5b31dd2cdb5159459d874f16d30}} 
+\index{Core Classes@{Core Classes}!fromMagneticFieldStrength@{fromMagneticFieldStrength}}
+\index{fromMagneticFieldStrength@{fromMagneticFieldStrength}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{fromMagneticFieldStrength()}{fromMagneticFieldStrength()}}
+{\footnotesize\ttfamily void crpropa\+::from\+Magnetic\+Field\+Strength (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid,  }\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}} $>$}]{field }\end{DoxyParamCaption})}
+
+Fill scalar grid from provided magnetic field. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+{\em field} & the magnetic field \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_ga091a17cca41dba2b79ec383f7f9e8f37}\label{group__Core_ga091a17cca41dba2b79ec383f7f9e8f37}} 
+\index{Core Classes@{Core Classes}!loadGrid@{loadGrid}}
+\index{loadGrid@{loadGrid}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{loadGrid()}{loadGrid()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void crpropa\+::load\+Grid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Load a Grid1f from a binary file with single precision. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+{\em filename} & name of input file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gab7c740cf66f560083029b8a6196a46a4}\label{group__Core_gab7c740cf66f560083029b8a6196a46a4}} 
+\index{Core Classes@{Core Classes}!loadGrid@{loadGrid}}
+\index{loadGrid@{loadGrid}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{loadGrid()}{loadGrid()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void crpropa\+::load\+Grid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Load a Grid3f from a binary file with single precision. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+{\em filename} & name of input file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gab66dd49f6fc38ee6834eff297e730ae3}\label{group__Core_gab66dd49f6fc38ee6834eff297e730ae3}} 
+\index{Core Classes@{Core Classes}!loadGridFromTxt@{loadGridFromTxt}}
+\index{loadGridFromTxt@{loadGridFromTxt}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{loadGridFromTxt()}{loadGridFromTxt()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void crpropa\+::load\+Grid\+From\+Txt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Load a Grid1f from a plain text file 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) to which the points will be loaded \\
+\hline
+{\em filename} & name of input file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gaad9520b837fa3ff060ed1786da8c7f52}\label{group__Core_gaad9520b837fa3ff060ed1786da8c7f52}} 
+\index{Core Classes@{Core Classes}!loadGridFromTxt@{loadGridFromTxt}}
+\index{loadGridFromTxt@{loadGridFromTxt}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{loadGridFromTxt()}{loadGridFromTxt()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void crpropa\+::load\+Grid\+From\+Txt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid,  }\item[{std\+::string}]{filename,  }\item[{double}]{conversion = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Load a Grid3f grid from a plain text file. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) to which the points will be loaded \\
+\hline
+{\em filename} & name of input file \\
+\hline
+{\em conversion} & multiply every point in grid by a conversion factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_ga35a4fc74b7deadd58ff6209df14140c0}\label{group__Core_ga35a4fc74b7deadd58ff6209df14140c0}} 
+\index{Core Classes@{Core Classes}!meanFieldStrength@{meanFieldStrength}}
+\index{meanFieldStrength@{meanFieldStrength}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{meanFieldStrength()}{meanFieldStrength()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily double crpropa\+::mean\+Field\+Strength (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid }\end{DoxyParamCaption})}
+
+Evaluate the mean of all grid points. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mean of all grid points 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Core_ga095a3cc70d79ca2a58df236d823fc7f2}\label{group__Core_ga095a3cc70d79ca2a58df236d823fc7f2}} 
+\index{Core Classes@{Core Classes}!meanFieldStrength@{meanFieldStrength}}
+\index{meanFieldStrength@{meanFieldStrength}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{meanFieldStrength()}{meanFieldStrength()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily double crpropa\+::mean\+Field\+Strength (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid }\end{DoxyParamCaption})}
+
+Evaluate the mean of all grid points. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mean of all grid points 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Core_ga14e9170907096634f33d71ec5aae75d3}\label{group__Core_ga14e9170907096634f33d71ec5aae75d3}} 
+\index{Core Classes@{Core Classes}!meanFieldVector@{meanFieldVector}}
+\index{meanFieldVector@{meanFieldVector}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{meanFieldVector()}{meanFieldVector()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3f}} crpropa\+::mean\+Field\+Vector (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid }\end{DoxyParamCaption})}
+
+Evaluate the mean vector of all grid points. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mean of all grid points along each axis 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Core_ga788ff1002bda23d428e0e43ac5b7cf3a}\label{group__Core_ga788ff1002bda23d428e0e43ac5b7cf3a}} 
+\index{Core Classes@{Core Classes}!rmsFieldStrength@{rmsFieldStrength}}
+\index{rmsFieldStrength@{rmsFieldStrength}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{rmsFieldStrength()}{rmsFieldStrength()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily double crpropa\+::rms\+Field\+Strength (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid }\end{DoxyParamCaption})}
+
+Evaluate the RMS of all grid points. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total RMS of all grid points. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Core_ga42f4cdca40b5d3f1632ac93a886a8781}\label{group__Core_ga42f4cdca40b5d3f1632ac93a886a8781}} 
+\index{Core Classes@{Core Classes}!rmsFieldStrength@{rmsFieldStrength}}
+\index{rmsFieldStrength@{rmsFieldStrength}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{rmsFieldStrength()}{rmsFieldStrength()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily double crpropa\+::rms\+Field\+Strength (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid }\end{DoxyParamCaption})}
+
+Evaluate the RMS of all grid points. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total RMS of all grid points. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Core_gad823c8cf8555f1b45432468adef2d404}\label{group__Core_gad823c8cf8555f1b45432468adef2d404}} 
+\index{Core Classes@{Core Classes}!rmsFieldStrengthPerAxis@{rmsFieldStrengthPerAxis}}
+\index{rmsFieldStrengthPerAxis@{rmsFieldStrengthPerAxis}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{rmsFieldStrengthPerAxis()}{rmsFieldStrengthPerAxis()}}
+{\footnotesize\ttfamily std\+::array$<$ float, 3 $>$ crpropa\+::rms\+Field\+Strength\+Per\+Axis (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid }\end{DoxyParamCaption})}
+
+Evaluate the RMS of all grid points per axis. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of length 3 with the RMS field along each axis. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{group__Core_ga0d66e0a4632d21364c4227784074f53e}\label{group__Core_ga0d66e0a4632d21364c4227784074f53e}} 
+\index{Core Classes@{Core Classes}!scaleGrid@{scaleGrid}}
+\index{scaleGrid@{scaleGrid}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{scaleGrid()}{scaleGrid()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void crpropa\+::scale\+Grid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid1f}} $>$}]{grid,  }\item[{double}]{a }\end{DoxyParamCaption})}
+
+Multiply all grid values by a given factor. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a scalar grid (Grid1f) \\
+\hline
+{\em a} & scaling factor that will be used to multiply all points in grid \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{group__Core_gad86fe3acb119896b39adb6d751b57700}\label{group__Core_gad86fe3acb119896b39adb6d751b57700}} 
+\index{Core Classes@{Core Classes}!scaleGrid@{scaleGrid}}
+\index{scaleGrid@{scaleGrid}!Core Classes@{Core Classes}}
+\doxysubsubsection{\texorpdfstring{scaleGrid()}{scaleGrid()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void crpropa\+::scale\+Grid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Grid}{Grid3f}} $>$}]{grid,  }\item[{double}]{a }\end{DoxyParamCaption})}
+
+Multiply all grid values by a given factor. 
+\begin{DoxyParams}{Parameters}
+{\em grid} & a vector grid (Grid3f) \\
+\hline
+{\em a} & scaling factor that will be used to multiply all points in grid \\
+\hline
+\end{DoxyParams}

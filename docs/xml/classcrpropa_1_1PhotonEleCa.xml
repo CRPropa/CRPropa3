@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1PhotonEleCa" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::PhotonEleCa</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PhotonEleCa_1a3bd6cebc6429745b70196ffd6b556377" prot="private" static="no" mutable="no">
+        <type>std::auto_ptr&lt; eleca::Propagation &gt;</type>
+        <definition>std::auto_ptr&lt;eleca::Propagation&gt; propagation</definition>
+        <argsstring></argsstring>
+        <name>propagation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="20" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotonEleCa_1aa8df85229a680926ca81b89784e6549b" prot="private" static="no" mutable="yes">
+        <type>std::ofstream</type>
+        <definition>std::ofstream output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="21" column="23" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotonEleCa_1a2452a13b7eb54672664d8b37d41f4c89" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d observer</definition>
+        <argsstring></argsstring>
+        <name>observer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="22" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotonEleCa_1a9398945899359ffda282851de6375822" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool saveOnlyPhotonEnergies</definition>
+        <argsstring></argsstring>
+        <name>saveOnlyPhotonEnergies</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="23" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1PhotonEleCa_1af40b65c48f20bcdfd940cc3f993cf632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PhotonEleCa</definition>
+        <argsstring>(const std::string background, const std::string &amp;outputFilename)</argsstring>
+        <name>PhotonEleCa</name>
+        <param>
+          <type>const std::string</type>
+          <declname>background</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outputFilename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="25" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotonEleCa_1abafcaea3cfe12e57cf4e5a59294ca293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>~PhotonEleCa</definition>
+        <argsstring>()</argsstring>
+        <name>~PhotonEleCa</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="26" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotonEleCa_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="27" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotonEleCa_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotonEleCa_1aa1456fc209bd504d79c6d1792c447bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setObserver</definition>
+        <argsstring>(const Vector3d &amp;position)</argsstring>
+        <name>setObserver</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="29" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotonEleCa_1abee1a3d61ff36052e19fa3122c8f9f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setSaveOnlyPhotonEnergies</definition>
+        <argsstring>(bool photonsOnly)</argsstring>
+        <name>setSaveOnlyPhotonEnergies</name>
+        <param>
+          <type>bool</type>
+          <declname>photonsOnly</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="30" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PhotonEleCa</label>
+        <link refid="classcrpropa_1_1PhotonEleCa"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PhotonEleCa</label>
+        <link refid="classcrpropa_1_1PhotonEleCa"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" line="18" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotonEleCa.h" bodystart="18" bodyend="31"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="virtual"><scope>crpropa::PhotonEleCa</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1a2452a13b7eb54672664d8b37d41f4c89" prot="private" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>observer</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1aa8df85229a680926ca81b89784e6549b" prot="private" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>output</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1af40b65c48f20bcdfd940cc3f993cf632" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>PhotonEleCa</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::PhotonEleCa</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::PhotonEleCa</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1a3bd6cebc6429745b70196ffd6b556377" prot="private" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>propagation</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1a9398945899359ffda282851de6375822" prot="private" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>saveOnlyPhotonEnergies</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1aa1456fc209bd504d79c6d1792c447bc6" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>setObserver</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1abee1a3d61ff36052e19fa3122c8f9f83" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>setSaveOnlyPhotonEnergies</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::PhotonEleCa</scope><name>~Module</name></member>
+      <member refid="classcrpropa_1_1PhotonEleCa_1abafcaea3cfe12e57cf4e5a59294ca293" prot="public" virt="non-virtual"><scope>crpropa::PhotonEleCa</scope><name>~PhotonEleCa</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

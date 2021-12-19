@@ -1,0 +1,73 @@
+\hypertarget{classcrpropa_1_1PeriodicMagneticField}{}\doxysection{Periodic\+Magnetic\+Field Class Reference}
+\label{classcrpropa_1_1PeriodicMagneticField}\index{PeriodicMagneticField@{PeriodicMagneticField}}
+
+
+Magnetic field decorator implementing periodic fields.  
+
+
+Inheritance diagram for Periodic\+Magnetic\+Field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1PeriodicMagneticField}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_aa24cf1904ca1118974e5f5f909060cce}\label{classcrpropa_1_1PeriodicMagneticField_aa24cf1904ca1118974e5f5f909060cce}} 
+{\bfseries Periodic\+Magnetic\+Field} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}} $>$ field, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&extends)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_a382316ace92158bfaf92f6345a31df6f}\label{classcrpropa_1_1PeriodicMagneticField_a382316ace92158bfaf92f6345a31df6f}} 
+{\bfseries Periodic\+Magnetic\+Field} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}} $>$ field, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&extends, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin, bool reflective)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_a0155fa29139af46fd4d599d322e6339e}\label{classcrpropa_1_1PeriodicMagneticField_a0155fa29139af46fd4d599d322e6339e}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \& {\bfseries get\+Origin} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_a2b950e3f8e43b26a6167effea2b8c897}\label{classcrpropa_1_1PeriodicMagneticField_a2b950e3f8e43b26a6167effea2b8c897}} 
+void {\bfseries set\+Origin} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_a2eec9c9de1efc50d17d2370260635fff}\label{classcrpropa_1_1PeriodicMagneticField_a2eec9c9de1efc50d17d2370260635fff}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \& {\bfseries get\+Extends} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_a0207b34e796be46641e34a8d5e18cd4d}\label{classcrpropa_1_1PeriodicMagneticField_a0207b34e796be46641e34a8d5e18cd4d}} 
+void {\bfseries set\+Extends} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_af7bbb0b0574d59faca6091eb44fa2201}\label{classcrpropa_1_1PeriodicMagneticField_af7bbb0b0574d59faca6091eb44fa2201}} 
+bool {\bfseries is\+Reflective} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_af422984f4124a819191043eed8889c12}\label{classcrpropa_1_1PeriodicMagneticField_af422984f4124a819191043eed8889c12}} 
+void {\bfseries set\+Reflective} (bool reflective)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1PeriodicMagneticField_aecbe60d2b34da88e8aa2a0872b904d38}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}\label{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, double z) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Magnetic field decorator implementing periodic fields. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1PeriodicMagneticField_aecbe60d2b34da88e8aa2a0872b904d38}\label{classcrpropa_1_1PeriodicMagneticField_aecbe60d2b34da88e8aa2a0872b904d38}} 
+\index{PeriodicMagneticField@{PeriodicMagneticField}!getField@{getField}}
+\index{getField@{getField}!PeriodicMagneticField@{PeriodicMagneticField}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}}.
+

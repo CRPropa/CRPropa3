@@ -1,0 +1,81 @@
+\hypertarget{classcrpropa_1_1SecondOrderFermi}{}\doxysection{Second\+Order\+Fermi Class Reference}
+\label{classcrpropa_1_1SecondOrderFermi}\index{SecondOrderFermi@{SecondOrderFermi}}
+
+
+Implements scattering with centers moving in isotropic directions. All scatter centers have the same velocity.  
+
+
+Inheritance diagram for Second\+Order\+Fermi\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classcrpropa_1_1SecondOrderFermi}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SecondOrderFermi_afcdbe007a0f1ce0e30aaa97e34f9fd38}\label{classcrpropa_1_1SecondOrderFermi_afcdbe007a0f1ce0e30aaa97e34f9fd38}} 
+{\bfseries Second\+Order\+Fermi} (double scatter\+Velocity=.\+1 $\ast$crpropa\+::c\+\_\+light, double step\+Length=1. $\ast$crpropa\+::parsec, unsigned int size\+Of\+Pitchangle\+Table=10000)
+\item 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{crpropa\+::\+Vector3d}} \mbox{\hyperlink{classcrpropa_1_1SecondOrderFermi_af65ecaac8683288feef358106565d47d}{scatter\+Center\+Velocity}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{crpropa\+::\+Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractAccelerationModule_ad88c86a764c0658e82ce5e4e5f1c7428}\label{classcrpropa_1_1AbstractAccelerationModule_ad88c86a764c0658e82ce5e4e5f1c7428}} 
+void {\bfseries add} (\mbox{\hyperlink{classcrpropa_1_1StepLengthModifier}{Step\+Length\+Modifier}} $\ast$modifier)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1AbstractAccelerationModule_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1AbstractAccelerationModule_aac41b9e499f536882fb3232f173fd6f3}{scatter}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&scatter\+\_\+center\+\_\+velocity) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}\label{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}} 
+virtual std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements scattering with centers moving in isotropic directions. All scatter centers have the same velocity. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1AbstractAccelerationModule_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1AbstractAccelerationModule_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{SecondOrderFermi@{SecondOrderFermi}!process@{process}}
+\index{process@{process}!SecondOrderFermi@{SecondOrderFermi}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [inherited]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1AbstractAccelerationModule_aac41b9e499f536882fb3232f173fd6f3}\label{classcrpropa_1_1AbstractAccelerationModule_aac41b9e499f536882fb3232f173fd6f3}} 
+\index{SecondOrderFermi@{SecondOrderFermi}!scatter@{scatter}}
+\index{scatter@{scatter}!SecondOrderFermi@{SecondOrderFermi}}
+\doxysubsubsection{\texorpdfstring{scatter()}{scatter()}}
+{\footnotesize\ttfamily void scatter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate,  }\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{scatter\+\_\+center\+\_\+velocity }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Scatter the candidate with a center with given scatter center velocity into a random direction. Assumes that the candidate is ultra-\/relativistic (m = 0). \mbox{\Hypertarget{classcrpropa_1_1SecondOrderFermi_af65ecaac8683288feef358106565d47d}\label{classcrpropa_1_1SecondOrderFermi_af65ecaac8683288feef358106565d47d}} 
+\index{SecondOrderFermi@{SecondOrderFermi}!scatterCenterVelocity@{scatterCenterVelocity}}
+\index{scatterCenterVelocity@{scatterCenterVelocity}!SecondOrderFermi@{SecondOrderFermi}}
+\doxysubsubsection{\texorpdfstring{scatterCenterVelocity()}{scatterCenterVelocity()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{crpropa\+::\+Vector3d}} scatter\+Center\+Velocity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{crpropa\+::\+Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Returns the velocity vector of the scatter centers in the rest frame of the candidate. Needs to be implemented in inheriting classes. 
+
+Implements \mbox{\hyperlink{classcrpropa_1_1AbstractAccelerationModule_aaba5ef1fab9b51360b4a5ef9b8d11c6b}{Abstract\+Acceleration\+Module}}.
+

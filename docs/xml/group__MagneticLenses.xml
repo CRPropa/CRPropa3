@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__MagneticLenses" kind="group">
+    <compoundname>MagneticLenses</compoundname>
+    <title>Magnetic Lenses</title>
+    <innerclass refid="classcrpropa_1_1MagneticLens" prot="public">crpropa::MagneticLens</innerclass>
+    <innerclass refid="classcrpropa_1_1ParticleMapsContainer" prot="public">crpropa::ParticleMapsContainer</innerclass>
+    <innerclass refid="classcrpropa_1_1Pixelization" prot="public">crpropa::Pixelization</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d" prot="public" static="no" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t _nOrder_max</definition>
+        <argsstring></argsstring>
+        <name>_nOrder_max</name>
+        <initializer>= 13</initializer>
+        <briefdescription>
+<para>Helpers to makes work with Healpix smooth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="39" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437" prot="public" static="no" mutable="no">
+        <type>const uint32_t</type>
+        <definition>const uint32_t _nPix[]</definition>
+        <argsstring>[]</argsstring>
+        <name>_nPix</name>
+        <initializer>=
+{
+		48,
+		192,
+		768,
+		3072,
+		12288,
+		49152,
+		196608,
+		786432,
+		3145728,
+		12582912,
+		50331648,
+		201326592,
+		805306368
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="40" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Lensing technique to account for deflections in the galactic magnetic field. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

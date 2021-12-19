@@ -1,0 +1,1278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__Core" kind="group">
+    <compoundname>Core</compoundname>
+    <title>Core Classes</title>
+    <innerclass refid="classcrpropa_1_1Candidate" prot="public">crpropa::Candidate</innerclass>
+    <innerclass refid="classcrpropa_1_1Surface" prot="public">crpropa::Surface</innerclass>
+    <innerclass refid="classcrpropa_1_1Plane" prot="public">crpropa::Plane</innerclass>
+    <innerclass refid="classcrpropa_1_1Sphere" prot="public">crpropa::Sphere</innerclass>
+    <innerclass refid="classcrpropa_1_1ParaxialBox" prot="public">crpropa::ParaxialBox</innerclass>
+    <innerclass refid="classcrpropa_1_1GridProperties" prot="public">crpropa::GridProperties</innerclass>
+    <innerclass refid="classcrpropa_1_1Grid" prot="public">crpropa::Grid</innerclass>
+    <innerclass refid="classcrpropa_1_1VectorGrid" prot="public">crpropa::VectorGrid</innerclass>
+    <innerclass refid="classcrpropa_1_1ScalarGrid" prot="public">crpropa::ScalarGrid</innerclass>
+    <innerclass refid="classcrpropa_1_1ParticleState" prot="public">crpropa::ParticleState</innerclass>
+    <innerclass refid="classcrpropa_1_1Random" prot="public">crpropa::Random</innerclass>
+    <innerclass refid="classcrpropa_1_1Referenced" prot="public">crpropa::Referenced</innerclass>
+    <innerclass refid="classcrpropa_1_1ref__ptr" prot="public">crpropa::ref_ptr</innerclass>
+    <innerclass refid="classcrpropa_1_1Vector3" prot="public">crpropa::Vector3</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23" prot="public" static="no">
+        <type>Grid&lt; Vector3f &gt;</type>
+        <definition>typedef Grid&lt;Vector3f&gt; Grid3f</definition>
+        <argsstring></argsstring>
+        <name>Grid3f</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="522" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__Core_1gace03eaf2fd573de2d84e3aebf60fd729" prot="public" static="no">
+        <type>Grid&lt; Vector3d &gt;</type>
+        <definition>typedef Grid&lt;Vector3d&gt; Grid3d</definition>
+        <argsstring></argsstring>
+        <name>Grid3d</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="523" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__Core_1ga618737687b6e91f66fe1f4da1134e925" prot="public" static="no">
+        <type>Grid&lt; float &gt;</type>
+        <definition>typedef Grid&lt;float&gt; Grid1f</definition>
+        <argsstring></argsstring>
+        <name>Grid1f</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="524" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__Core_1gad761d09abe25f824acac027b04dd1507" prot="public" static="no">
+        <type>Grid&lt; double &gt;</type>
+        <definition>typedef Grid&lt;double&gt; Grid1d</definition>
+        <argsstring></argsstring>
+        <name>Grid1d</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="525" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206" prot="public" static="no">
+        <type>Vector3&lt; double &gt;</type>
+        <definition>typedef Vector3&lt;double&gt; Vector3d</definition>
+        <argsstring></argsstring>
+        <name>Vector3d</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" line="432" column="17" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" bodystart="432" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__Core_1gaf345ad77ba5e240c7ab72b4b2077e754" prot="public" static="no">
+        <type>Vector3&lt; float &gt;</type>
+        <definition>typedef Vector3&lt;float&gt; Vector3f</definition>
+        <argsstring></argsstring>
+        <name>Vector3f</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" line="433" column="17" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__Core_1ga1df13d495273a79e3350f157af7b4ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string crpropa::getDataPath</definition>
+        <argsstring>(std::string filename)</argsstring>
+        <name>getDataPath</name>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="18" column="13" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" declline="18" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gafaaaa2733a31f763ffd1fa28bfab81ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string crpropa::getInstallPrefix</definition>
+        <argsstring>()</argsstring>
+        <name>getInstallPrefix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="21" column="13" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" declline="21" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int crpropa::digit</definition>
+        <argsstring>(const int &amp;value, const int &amp;d)</argsstring>
+        <name>digit</name>
+        <param>
+          <type>const int &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const int &amp;</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="24" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" bodystart="24" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gaea966817d7679bb00bd12e22135184fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T crpropa::clip</definition>
+        <argsstring>(const T &amp;x, const T &amp;lower, const T &amp;upper)</argsstring>
+        <name>clip</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>upper</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="30" column="3" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga3ea9c7bef53d02cb7a867c72182768b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::interpolate</definition>
+        <argsstring>(double x, const std::vector&lt; double &gt; &amp;X, const std::vector&lt; double &gt; &amp;Y)</argsstring>
+        <name>interpolate</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>X</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>Y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="36" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" declline="36" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gab28d821e32f177c9c1d1e3658796f259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::interpolate2d</definition>
+        <argsstring>(double x, double y, const std::vector&lt; double &gt; &amp;X, const std::vector&lt; double &gt; &amp;Y, const std::vector&lt; double &gt; &amp;Z)</argsstring>
+        <name>interpolate2d</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>X</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>Y</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>Z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="42" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" declline="42" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga45ce85dc4b25887b2c527719c7531b4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::interpolateEquidistant</definition>
+        <argsstring>(double x, double lo, double hi, const std::vector&lt; double &gt; &amp;Y)</argsstring>
+        <name>interpolateEquidistant</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lo</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>hi</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>Y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="47" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" declline="47" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gaecc325fd115bd796f3c0e77cb689ebae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t crpropa::closestIndex</definition>
+        <argsstring>(double x, const std::vector&lt; double &gt; &amp;X)</argsstring>
+        <name>closestIndex</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>X</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" line="51" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Common.h" declline="51" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga14e9170907096634f33d71ec5aae75d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3f</type>
+        <definition>Vector3f crpropa::meanFieldVector</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid)</argsstring>
+        <name>meanFieldVector</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate the mean vector of all grid points. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mean of all grid points along each axis </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="36" column="10" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="36" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga35a4fc74b7deadd58ff6209df14140c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::meanFieldStrength</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid)</argsstring>
+        <name>meanFieldStrength</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate the mean of all grid points. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mean of all grid points </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="42" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="42" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga095a3cc70d79ca2a58df236d823fc7f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::meanFieldStrength</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid)</argsstring>
+        <name>meanFieldStrength</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate the mean of all grid points. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mean of all grid points </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="47" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="47" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga788ff1002bda23d428e0e43ac5b7cf3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::rmsFieldStrength</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid)</argsstring>
+        <name>rmsFieldStrength</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate the RMS of all grid points. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The total RMS of all grid points. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="53" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="53" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga42f4cdca40b5d3f1632ac93a886a8781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::rmsFieldStrength</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid)</argsstring>
+        <name>rmsFieldStrength</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate the RMS of all grid points. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The total RMS of all grid points. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="58" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="58" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gad823c8cf8555f1b45432468adef2d404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::array&lt; float, 3 &gt;</type>
+        <definition>std::array&lt; float, 3 &gt; crpropa::rmsFieldStrengthPerAxis</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid)</argsstring>
+        <name>rmsFieldStrengthPerAxis</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate the RMS of all grid points per axis. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An array of length 3 with the RMS field along each axis. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="63" column="12" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="63" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga0d66e0a4632d21364c4227784074f53e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::scaleGrid</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid, double a)</argsstring>
+        <name>scaleGrid</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiply all grid values by a given factor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>scaling factor that will be used to multiply all points in grid </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="69" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="69" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gad86fe3acb119896b39adb6d751b57700" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::scaleGrid</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid, double a)</argsstring>
+        <name>scaleGrid</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiply all grid values by a given factor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>scaling factor that will be used to multiply all points in grid </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="74" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="74" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gaf89e81d370fe811cc9386261f02166a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::fromMagneticField</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid, ref_ptr&lt; MagneticField &gt; field)</argsstring>
+        <name>fromMagneticField</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>ref_ptr&lt; MagneticField &gt;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fill vector grid from provided magnetic field. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the magnetic field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="80" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="80" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga0501e5b31dd2cdb5159459d874f16d30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::fromMagneticFieldStrength</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid, ref_ptr&lt; MagneticField &gt; field)</argsstring>
+        <name>fromMagneticFieldStrength</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>ref_ptr&lt; MagneticField &gt;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fill scalar grid from provided magnetic field. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the magnetic field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="86" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="86" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gab7c740cf66f560083029b8a6196a46a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::loadGrid</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>loadGrid</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a Grid3f from a binary file with single precision. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of input file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="93" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="93" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga091a17cca41dba2b79ec383f7f9e8f37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::loadGrid</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>loadGrid</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a Grid1f from a binary file with single precision. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of input file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="101" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="101" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gad5b5ba4c8f79b6b797c57d7ee658c1a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::dumpGrid</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>dumpGrid</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dump a Grid3f to a binary file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of input file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="109" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="109" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga2be301c04cc62be7b1efdc3d8472dcda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::dumpGrid</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>dumpGrid</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dump a Grid1f to a binary file with single precision. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of input file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="117" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="117" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gaad9520b837fa3ff060ed1786da8c7f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::loadGridFromTxt</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>loadGridFromTxt</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a Grid3f grid from a plain text file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) to which the points will be loaded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of input file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="125" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="125" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gab66dd49f6fc38ee6834eff297e730ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::loadGridFromTxt</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>loadGridFromTxt</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a Grid1f from a plain text file <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) to which the points will be loaded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of input file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="133" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="133" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gad230c08955c7a505eefe413366f4717a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::dumpGridToTxt</definition>
+        <argsstring>(ref_ptr&lt; Grid3f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>dumpGridToTxt</name>
+        <param>
+          <type>ref_ptr&lt; Grid3f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dump a Grid3f to a plain text file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector grid (Grid3f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of output file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="141" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="141" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga25cabf4d5be84ea94f9bd90d50b17a13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::dumpGridToTxt</definition>
+        <argsstring>(ref_ptr&lt; Grid1f &gt; grid, std::string filename, double conversion=1)</argsstring>
+        <name>dumpGridToTxt</name>
+        <param>
+          <type>ref_ptr&lt; Grid1f &gt;</type>
+          <declname>grid</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conversion</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Dump a Grid1f to a plain text file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a scalar grid (Grid1f) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of output file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>conversion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>multiply every point in grid by a conversion factor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" line="149" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/GridTools.h" declline="149" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga6807b028241faff59152dde29e2edfb9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::intrusive_ptr_add_ref</definition>
+        <argsstring>(Referenced *p)</argsstring>
+        <name>intrusive_ptr_add_ref</name>
+        <param>
+          <type>Referenced *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="101" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gadd64a0c21dcedde2102f949e36f2f1d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::intrusive_ptr_release</definition>
+        <argsstring>(Referenced *p)</argsstring>
+        <name>intrusive_ptr_release</name>
+        <param>
+          <type>Referenced *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="104" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void crpropa::swap</definition>
+        <argsstring>(ref_ptr&lt; T &gt; &amp;rp1, ref_ptr&lt; T &gt; &amp;rp2)</argsstring>
+        <name>swap</name>
+        <param>
+          <type>ref_ptr&lt; T &gt; &amp;</type>
+          <declname>rp1</declname>
+        </param>
+        <param>
+          <type>ref_ptr&lt; T &gt; &amp;</type>
+          <declname>rp2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="218" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * crpropa::get_pointer</definition>
+        <argsstring>(const ref_ptr&lt; T &gt; &amp;rp)</argsstring>
+        <name>get_pointer</name>
+        <param>
+          <type>const ref_ptr&lt; T &gt; &amp;</type>
+          <declname>rp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="222" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="222" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga21ca69db76e5efe007489b30d0d92ef8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+          <param>
+            <type>class Y</type>
+          </param>
+        </templateparamlist>
+        <type>ref_ptr&lt; T &gt;</type>
+        <definition>ref_ptr&lt; T &gt; crpropa::static_pointer_cast</definition>
+        <argsstring>(const ref_ptr&lt; Y &gt; &amp;rp)</argsstring>
+        <name>static_pointer_cast</name>
+        <param>
+          <type>const ref_ptr&lt; Y &gt; &amp;</type>
+          <declname>rp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="226" column="29" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="226" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga44546dc98a4f8e8bd50afae4ae1fec8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+          <param>
+            <type>class Y</type>
+          </param>
+        </templateparamlist>
+        <type>ref_ptr&lt; T &gt;</type>
+        <definition>ref_ptr&lt; T &gt; crpropa::dynamic_pointer_cast</definition>
+        <argsstring>(const ref_ptr&lt; Y &gt; &amp;rp)</argsstring>
+        <name>dynamic_pointer_cast</name>
+        <param>
+          <type>const ref_ptr&lt; Y &gt; &amp;</type>
+          <declname>rp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="231" column="29" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="231" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga0663b76fe38fa53188a902e8f70bbb8c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+          <param>
+            <type>class Y</type>
+          </param>
+        </templateparamlist>
+        <type>ref_ptr&lt; T &gt;</type>
+        <definition>ref_ptr&lt; T &gt; crpropa::const_pointer_cast</definition>
+        <argsstring>(const ref_ptr&lt; Y &gt; &amp;rp)</argsstring>
+        <name>const_pointer_cast</name>
+        <param>
+          <type>const ref_ptr&lt; Y &gt; &amp;</type>
+          <declname>rp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="236" column="29" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="236" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1gaf1695869279c2571e31c8547f65fe9c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream &amp; crpropa::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;out, const Vector3&lt; T &gt; &amp;v)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const Vector3&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" line="415" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" bodystart="415" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga688c4960d76366bf6fce1cf5eac2f129" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::istream &amp;</type>
+        <definition>std::istream &amp; crpropa::operator&gt;&gt;</definition>
+        <argsstring>(std::istream &amp;in, Vector3&lt; T &gt; &amp;v)</argsstring>
+        <name>operator&gt;&gt;</name>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>Vector3&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" line="421" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" bodystart="421" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="group__Core_1ga23bf6b37f4133adc37b6f3d057410c94" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>Vector3&lt; T &gt;</type>
+        <definition>Vector3&lt; T &gt; crpropa::operator*</definition>
+        <argsstring>(T f, const Vector3&lt; T &gt; &amp;v)</argsstring>
+        <name>operator*</name>
+        <param>
+          <type>T</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>const Vector3&lt; T &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" line="428" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Vector3.h" bodystart="428" bodyend="430"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Core classes used to build CRPropa. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

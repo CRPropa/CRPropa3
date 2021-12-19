@@ -1,0 +1,263 @@
+\hypertarget{classcrpropa_1_1Output}{}\doxysection{Output Class Reference}
+\label{classcrpropa_1_1Output}\index{Output@{Output}}
+
+
+Configurable output base class. The names of each quantity are provided in the table below. The left column corresponds to the labels of each quantity. They are printed in the output files either as comments (in a text file) or as columns (in a HDF5 file). The right columns are the names of each column for internal access. . D Trajectory\+Length\+Column . SN Serial\+Number\+Column . ID Current\+Id\+Column . E Current\+Energy\+Column . X/\+Y/Z Current\+Position\+Column . Px/\+Py/\+Pz Current\+Direction\+Column . SN0 Source\+Serial\+Number\+Column . ID0 Source\+Id\+Column . E0 Source\+Energy\+Column . X0/\+Y0/\+Z0 Source\+Position\+Column . P0x/\+P0y/\+P0z Source\+Direction\+Column . SN1 Created\+Serial\+Number\+Column . ID1 Created\+Id\+Column . E1 Created\+Energy\+Column . X1/\+Y1/\+Z1 Created\+Position\+Column . P1x/\+P1y/\+P1z Created\+Direction\+Column . z Redshift\+Column . weight Weight\+Column.  
+
+
+Inheritance diagram for Output\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classcrpropa_1_1Output}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_ae19bd705fd6d54313643f1089b4ef4a2}\label{classcrpropa_1_1Output_ae19bd705fd6d54313643f1089b4ef4a2}} 
+enum {\bfseries Output\+Column} \{ \newline
+{\bfseries Trajectory\+Length\+Column}
+, {\bfseries Column\+Density\+Column}
+, {\bfseries Redshift\+Column}
+, {\bfseries Current\+Id\+Column}
+, \newline
+{\bfseries Current\+Energy\+Column}
+, {\bfseries Current\+Position\+Column}
+, {\bfseries Current\+Direction\+Column}
+, {\bfseries Source\+Id\+Column}
+, \newline
+{\bfseries Source\+Energy\+Column}
+, {\bfseries Source\+Position\+Column}
+, {\bfseries Source\+Direction\+Column}
+, {\bfseries Created\+Id\+Column}
+, \newline
+{\bfseries Created\+Energy\+Column}
+, {\bfseries Created\+Position\+Column}
+, {\bfseries Created\+Direction\+Column}
+, {\bfseries Serial\+Number\+Column}
+, \newline
+{\bfseries Weight\+Column}
+ \}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_a4e0517338e6c4a31a2addafc06d4f3a3}\label{classcrpropa_1_1Output_a4e0517338e6c4a31a2addafc06d4f3a3}} 
+enum {\bfseries Output\+Type} \{ \newline
+{\bfseries Trajectory1D}
+, {\bfseries Trajectory3D}
+, {\bfseries Event1D}
+, {\bfseries Event3D}
+, \newline
+{\bfseries Everything}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_a3414c1b2312bb99fa7a6de51e28e6ccb}\label{classcrpropa_1_1Output_a3414c1b2312bb99fa7a6de51e28e6ccb}} 
+std\+::string {\bfseries Output\+Type\+Name} (Output\+Type outputtype)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Output_a356172c336fe8c0afbac8c49d5dcc703}{Output}} ()
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Output_a9ef617010117b742fecef37257f8545d}{Output}} (Output\+Type output\+Type)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}{set\+Energy\+Scale}} (double scale)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}{set\+Length\+Scale}} (double scale)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}{set\+Output\+Type}} (Output\+Type output\+Type)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}{set}} (Output\+Column field, bool value)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}{enable\+Property}} (const std\+::string \&property, const \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} \&default\+Value, const std\+::string \&comment=\char`\"{}\char`\"{})
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}{enable}} (Output\+Column field)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}{disable}} (Output\+Column field)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}{enable\+All}} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}{disable\+All}} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}{set1D}} (bool value)
+\item 
+size\+\_\+t \mbox{\hyperlink{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}{size}} () const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a99c8244763eb7a689fc16ba0f1eb88ff}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}\label{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}} 
+virtual std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_af32570aafa2044362c74a0f7ac280a30}\label{classcrpropa_1_1Output_af32570aafa2044362c74a0f7ac280a30}} 
+const std\+::string {\bfseries output\+Name}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configurable output base class. The names of each quantity are provided in the table below. The left column corresponds to the labels of each quantity. They are printed in the output files either as comments (in a text file) or as columns (in a HDF5 file). The right columns are the names of each column for internal access. . D Trajectory\+Length\+Column . SN Serial\+Number\+Column . ID Current\+Id\+Column . E Current\+Energy\+Column . X/\+Y/Z Current\+Position\+Column . Px/\+Py/\+Pz Current\+Direction\+Column . SN0 Source\+Serial\+Number\+Column . ID0 Source\+Id\+Column . E0 Source\+Energy\+Column . X0/\+Y0/\+Z0 Source\+Position\+Column . P0x/\+P0y/\+P0z Source\+Direction\+Column . SN1 Created\+Serial\+Number\+Column . ID1 Created\+Id\+Column . E1 Created\+Energy\+Column . X1/\+Y1/\+Z1 Created\+Position\+Column . P1x/\+P1y/\+P1z Created\+Direction\+Column . z Redshift\+Column . weight Weight\+Column. 
+
+Some output types are pre-\/defined\+: . Trajectory1D . Trajectory3D . Event1D . Event3D . Everything They can be easily customised by enabling/disabling specific columns. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a356172c336fe8c0afbac8c49d5dcc703}\label{classcrpropa_1_1Output_a356172c336fe8c0afbac8c49d5dcc703}} 
+\index{Output@{Output}!Output@{Output}}
+\index{Output@{Output}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{Output()}{Output()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Output}{Output}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default constructor. \mbox{\hyperlink{classcrpropa_1_1Output}{Output}} contains all the information available. Units of energy and length are, by default, EeV and Mpc. This can be changed with set\+Energy\+Scale and set\+Length\+Scale. \mbox{\Hypertarget{classcrpropa_1_1Output_a9ef617010117b742fecef37257f8545d}\label{classcrpropa_1_1Output_a9ef617010117b742fecef37257f8545d}} 
+\index{Output@{Output}!Output@{Output}}
+\index{Output@{Output}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{Output()}{Output()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Output}{Output}} (\begin{DoxyParamCaption}\item[{Output\+Type}]{output\+Type }\end{DoxyParamCaption})}
+
+General constructor. Units of energy and length are, by default, EeV and Mpc. This can be changed with set\+Energy\+Scale and set\+Length\+Scale. 
+\begin{DoxyParams}{Parameters}
+{\em output\+Type} & type of output\+: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}\label{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}} 
+\index{Output@{Output}!disable@{disable}}
+\index{disable@{disable}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{disable()}{disable()}}
+{\footnotesize\ttfamily void disable (\begin{DoxyParamCaption}\item[{Output\+Column}]{field }\end{DoxyParamCaption})}
+
+Disable specific column in the output. 
+\begin{DoxyParams}{Parameters}
+{\em field} & name of the field to be disabled \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}\label{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}} 
+\index{Output@{Output}!disableAll@{disableAll}}
+\index{disableAll@{disableAll}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{disableAll()}{disableAll()}}
+{\footnotesize\ttfamily void disable\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Disable all fields. Essentially a wrapper for set(field, false). \mbox{\Hypertarget{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}\label{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}} 
+\index{Output@{Output}!enable@{enable}}
+\index{enable@{enable}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily void enable (\begin{DoxyParamCaption}\item[{Output\+Column}]{field }\end{DoxyParamCaption})}
+
+Enable specific column in the output. 
+\begin{DoxyParams}{Parameters}
+{\em field} & name of the field to be enabled \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}\label{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}} 
+\index{Output@{Output}!enableAll@{enableAll}}
+\index{enableAll@{enableAll}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{enableAll()}{enableAll()}}
+{\footnotesize\ttfamily void enable\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Enable all fields. Essentially a wrapper for set(field, true). \mbox{\Hypertarget{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}\label{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}} 
+\index{Output@{Output}!enableProperty@{enableProperty}}
+\index{enableProperty@{enableProperty}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{enableProperty()}{enableProperty()}}
+{\footnotesize\ttfamily void enable\+Property (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{property,  }\item[{const \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} \&}]{default\+Value,  }\item[{const std\+::string \&}]{comment = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+Add a property to output. Default value is required to assign a type in the output. 
+\begin{DoxyParams}{Parameters}
+{\em property} & string containing name of property \\
+\hline
+{\em default} & default value of property \\
+\hline
+{\em comment} & string with a comment \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a99c8244763eb7a689fc16ba0f1eb88ff}\label{classcrpropa_1_1Output_a99c8244763eb7a689fc16ba0f1eb88ff}} 
+\index{Output@{Output}!process@{process}}
+\index{process@{process}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}\label{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}} 
+\index{Output@{Output}!set@{set}}
+\index{set@{set}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void set (\begin{DoxyParamCaption}\item[{Output\+Column}]{field,  }\item[{bool}]{value }\end{DoxyParamCaption})}
+
+Determines whether a given column will be displayed in the output. 
+\begin{DoxyParams}{Parameters}
+{\em field} & name of the field to be added/removed from output \\
+\hline
+{\em values} & boolean flag adding (true) or removing (false) the field \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}\label{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}} 
+\index{Output@{Output}!set1D@{set1D}}
+\index{set1D@{set1D}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{set1D()}{set1D()}}
+{\footnotesize\ttfamily void set1D (\begin{DoxyParamCaption}\item[{bool}]{value }\end{DoxyParamCaption})}
+
+If true, output is of 1D type. 3D quantities such as vectors will be reduced to the relevant components (x, by default). 
+\begin{DoxyParams}{Parameters}
+{\em value} & boolean flag \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}\label{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}} 
+\index{Output@{Output}!setEnergyScale@{setEnergyScale}}
+\index{setEnergyScale@{setEnergyScale}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{setEnergyScale()}{setEnergyScale()}}
+{\footnotesize\ttfamily void set\+Energy\+Scale (\begin{DoxyParamCaption}\item[{double}]{scale }\end{DoxyParamCaption})}
+
+Set energy scale. 
+\begin{DoxyParams}{Parameters}
+{\em scale} & energy scale (scale = 1 corresponds to 1 Joule) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}\label{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}} 
+\index{Output@{Output}!setLengthScale@{setLengthScale}}
+\index{setLengthScale@{setLengthScale}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{setLengthScale()}{setLengthScale()}}
+{\footnotesize\ttfamily void set\+Length\+Scale (\begin{DoxyParamCaption}\item[{double}]{scale }\end{DoxyParamCaption})}
+
+Set length scale. 
+\begin{DoxyParams}{Parameters}
+{\em scale} & length scale (scale = 1 corresponds to 1 meter) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}\label{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}} 
+\index{Output@{Output}!setOutputType@{setOutputType}}
+\index{setOutputType@{setOutputType}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{setOutputType()}{setOutputType()}}
+{\footnotesize\ttfamily void set\+Output\+Type (\begin{DoxyParamCaption}\item[{Output\+Type}]{output\+Type }\end{DoxyParamCaption})}
+
+Set type of output. 
+\begin{DoxyParams}{Parameters}
+{\em output\+Type} & type of output\+: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}\label{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}} 
+\index{Output@{Output}!size@{size}}
+\index{size@{size}!Output@{Output}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns the size of the output 

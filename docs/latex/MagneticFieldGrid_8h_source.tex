@@ -1,0 +1,39 @@
+\hypertarget{MagneticFieldGrid_8h_source}{}\doxysection{Magnetic\+Field\+Grid.\+h}
+\label{MagneticFieldGrid_8h_source}\index{MagneticFieldGrid.h@{MagneticFieldGrid.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_MAGNETICFIELDGRID\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_MAGNETICFIELDGRID\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/magneticField/MagneticField.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/Grid.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{19 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1MagneticFieldGrid}{MagneticFieldGrid}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{20         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid;}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{22         \mbox{\hyperlink{classcrpropa_1_1MagneticFieldGrid}{MagneticFieldGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{23         \textcolor{keywordtype}{void} setGrid(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{24         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} getGrid();}
+\DoxyCodeLine{25         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) \textcolor{keyword}{const};}
+\DoxyCodeLine{26 \};}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{36 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ModulatedMagneticFieldGrid}{ModulatedMagneticFieldGrid}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{37         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid;}
+\DoxyCodeLine{38         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} modGrid;}
+\DoxyCodeLine{39 \textcolor{keyword}{public}:}
+\DoxyCodeLine{40         \mbox{\hyperlink{classcrpropa_1_1ModulatedMagneticFieldGrid}{ModulatedMagneticFieldGrid}}() \{}
+\DoxyCodeLine{41         \}}
+\DoxyCodeLine{42         \mbox{\hyperlink{classcrpropa_1_1ModulatedMagneticFieldGrid}{ModulatedMagneticFieldGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} modGrid);}
+\DoxyCodeLine{43         \textcolor{keywordtype}{void} setGrid(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{44         \textcolor{keywordtype}{void} setModulationGrid(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} modGrid);}
+\DoxyCodeLine{45         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} getGrid();}
+\DoxyCodeLine{46         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} getModulationGrid();}
+\DoxyCodeLine{47         \textcolor{keywordtype}{void} setReflective(\textcolor{keywordtype}{bool} gridReflective, \textcolor{keywordtype}{bool} modGridReflective);}
+\DoxyCodeLine{48         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) \textcolor{keyword}{const};}
+\DoxyCodeLine{49 \};}
+\DoxyCodeLine{51 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_MAGNETICFIELDGRID\_H}}
+
+\end{DoxyCode}

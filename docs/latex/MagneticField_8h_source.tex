@@ -1,0 +1,101 @@
+\hypertarget{MagneticField_8h_source}{}\doxysection{Magnetic\+Field.\+h}
+\label{MagneticField_8h_source}\index{MagneticField.h@{MagneticField.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_MAGNETICFIELD\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_MAGNETICFIELD\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Units_8h}{crpropa/Units.h}}"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/Vector3.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}crpropa/Referenced.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#ifdef CRPROPA\_HAVE\_MUPARSER}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}muParser.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{22 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{\string~MagneticField}}() \{}
+\DoxyCodeLine{25         \}}
+\DoxyCodeLine{26         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{27                 \textcolor{keywordflow}{return} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0,0,0);}
+\DoxyCodeLine{28         \};}
+\DoxyCodeLine{29         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, \textcolor{keywordtype}{double} z)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{30                 \textcolor{keywordflow}{return} getField(position);}
+\DoxyCodeLine{31         \};}
+\DoxyCodeLine{32 \};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{38 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1PeriodicMagneticField}{PeriodicMagneticField}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{39         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field;}
+\DoxyCodeLine{40         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} origin, extends;}
+\DoxyCodeLine{41         \textcolor{keywordtype}{bool} reflective;}
+\DoxyCodeLine{42 \textcolor{keyword}{public}:}
+\DoxyCodeLine{43         \mbox{\hyperlink{classcrpropa_1_1PeriodicMagneticField}{PeriodicMagneticField}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field,}
+\DoxyCodeLine{44                         \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&extends);}
+\DoxyCodeLine{45         \mbox{\hyperlink{classcrpropa_1_1PeriodicMagneticField}{PeriodicMagneticField}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&extends,}
+\DoxyCodeLine{46                         \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin, \textcolor{keywordtype}{bool} reflective);}
+\DoxyCodeLine{47         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&getOrigin();}
+\DoxyCodeLine{48         \textcolor{keywordtype}{void} setOrigin(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin);}
+\DoxyCodeLine{49         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&getExtends();}
+\DoxyCodeLine{50         \textcolor{keywordtype}{void} setExtends(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin);}
+\DoxyCodeLine{51         \textcolor{keywordtype}{bool} isReflective();}
+\DoxyCodeLine{52         \textcolor{keywordtype}{void} setReflective(\textcolor{keywordtype}{bool} reflective);}
+\DoxyCodeLine{53         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) \textcolor{keyword}{const};}
+\DoxyCodeLine{54 \};}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{60 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1MagneticFieldList}{MagneticFieldList}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{61         std::vector<ref\_ptr<MagneticField> > fields;}
+\DoxyCodeLine{62 \textcolor{keyword}{public}:}
+\DoxyCodeLine{63         \textcolor{keywordtype}{void} addField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field);}
+\DoxyCodeLine{64         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) \textcolor{keyword}{const};}
+\DoxyCodeLine{65 \};}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{71 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1MagneticFieldEvolution}{MagneticFieldEvolution}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{72         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field;}
+\DoxyCodeLine{73         \textcolor{keywordtype}{double} m;}
+\DoxyCodeLine{74 \textcolor{keyword}{public}:}
+\DoxyCodeLine{75         \mbox{\hyperlink{classcrpropa_1_1MagneticFieldEvolution}{MagneticFieldEvolution}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field, \textcolor{keywordtype}{double} m);}
+\DoxyCodeLine{76         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, \textcolor{keywordtype}{double} z = 0) \textcolor{keyword}{const};}
+\DoxyCodeLine{77 \};}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{83 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1UniformMagneticField}{UniformMagneticField}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{84         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} value;}
+\DoxyCodeLine{85 \textcolor{keyword}{public}:}
+\DoxyCodeLine{86         \mbox{\hyperlink{classcrpropa_1_1UniformMagneticField}{UniformMagneticField}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&value) :}
+\DoxyCodeLine{87                         value(value) \{}
+\DoxyCodeLine{88         \}}
+\DoxyCodeLine{89         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{90                 \textcolor{keywordflow}{return} value;}
+\DoxyCodeLine{91         \}}
+\DoxyCodeLine{92 \};}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{98 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1MagneticDipoleField}{MagneticDipoleField}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{99         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} origin;}
+\DoxyCodeLine{100         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} moment;}
+\DoxyCodeLine{101         \textcolor{keywordtype}{double} radius;}
+\DoxyCodeLine{102 \textcolor{keyword}{public}:}
+\DoxyCodeLine{103         \mbox{\hyperlink{classcrpropa_1_1MagneticDipoleField}{MagneticDipoleField}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&moment, \textcolor{keyword}{const} \textcolor{keywordtype}{double} radius) :}
+\DoxyCodeLine{104                         origin(origin), moment(moment), radius(radius) \{}
+\DoxyCodeLine{105         \}}
+\DoxyCodeLine{106         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) \textcolor{keyword}{const};}
+\DoxyCodeLine{107 \};}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{preprocessor}{\#ifdef CRPROPA\_HAVE\_MUPARSER}}
+\DoxyCodeLine{114 \textcolor{keyword}{class }RenormalizeMagneticField: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{115         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field;}
+\DoxyCodeLine{116         std::string expression;}
+\DoxyCodeLine{117         mu::Parser *p;}
+\DoxyCodeLine{118         \textcolor{keywordtype}{double} Bmag;}
+\DoxyCodeLine{119 \textcolor{keyword}{public}:}
+\DoxyCodeLine{120         RenormalizeMagneticField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field, std::string expression);}
+\DoxyCodeLine{121         \string~RenormalizeMagneticField() \{ \textcolor{keyword}{delete} p; \}}
+\DoxyCodeLine{122         Vector3d getField(\textcolor{keyword}{const} Vector3d \&position);}
+\DoxyCodeLine{123 \};}
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{127 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_MAGNETICFIELD\_H}}
+
+\end{DoxyCode}

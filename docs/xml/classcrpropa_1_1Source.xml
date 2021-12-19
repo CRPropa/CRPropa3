@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Source" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Source</compoundname>
+    <basecompoundref refid="classcrpropa_1_1SourceInterface" prot="public" virt="non-virtual">SourceInterface</basecompoundref>
+    <includes refid="Source_8h" local="no">crpropa/Source.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Source_1ad25c98a788ac7e2727f0717473b8e15d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1SourceFeature" kindref="compound">SourceFeature</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;ref_ptr&lt;SourceFeature&gt; &gt; features</definition>
+        <argsstring></argsstring>
+        <name>features</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="51" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Source_1a1f09e7f257940cdfdfa1c05ba2e30730" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void add</definition>
+        <argsstring>(SourceFeature *feature)</argsstring>
+        <name>add</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1SourceFeature" kindref="compound">SourceFeature</ref> *</type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="53" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Source_1a0abd14087106aaf885a8bc214c2ba37c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+        <definition>ref_ptr&lt; Candidate &gt; getCandidate</definition>
+        <argsstring>() const</argsstring>
+        <name>getCandidate</name>
+        <reimplements refid="classcrpropa_1_1SourceInterface_1ae67964ef552576508895e0669d7e9cce">getCandidate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="54" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Source_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1SourceInterface_1a995f039d80c328770b8634c19d41f756">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="55" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>General source of particles. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class is a container for source features. The source prepares a new candidate by passing it to all its source features to be modified accordingly. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Source</label>
+        <link refid="classcrpropa_1_1Source"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>SourceInterface</label>
+        <link refid="classcrpropa_1_1SourceInterface"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Source</label>
+        <link refid="classcrpropa_1_1Source"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>SourceInterface</label>
+        <link refid="classcrpropa_1_1SourceInterface"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="50" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Source_1a1f09e7f257940cdfdfa1c05ba2e30730" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>add</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Source_1ad25c98a788ac7e2727f0717473b8e15d" prot="private" virt="non-virtual"><scope>crpropa::Source</scope><name>features</name></member>
+      <member refid="classcrpropa_1_1Source_1a0abd14087106aaf885a8bc214c2ba37c" prot="public" virt="virtual"><scope>crpropa::Source</scope><name>getCandidate</name></member>
+      <member refid="classcrpropa_1_1Source_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="virtual"><scope>crpropa::Source</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::Source</scope><name>removeReferenceNoDelete</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

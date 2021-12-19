@@ -1,0 +1,73 @@
+\hypertarget{classcrpropa_1_1PT11Field}{}\doxysection{PT11\+Field Class Reference}
+\label{classcrpropa_1_1PT11Field}\index{PT11Field@{PT11Field}}
+
+
+Implements Pshirkov2011 galactic magnetic field model.  
+
+
+Inheritance diagram for PT11\+Field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1PT11Field}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_acc42e477ca19b5bb2449c701bb07889f}\label{classcrpropa_1_1PT11Field_acc42e477ca19b5bb2449c701bb07889f}} 
+void {\bfseries set\+Use\+ASS} (bool use)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_a11f8939ffc26434f1286bd5c5aec7329}\label{classcrpropa_1_1PT11Field_a11f8939ffc26434f1286bd5c5aec7329}} 
+void {\bfseries set\+Use\+BSS} (bool use)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_ae58c536228a1ca993ee273b9c3684156}\label{classcrpropa_1_1PT11Field_ae58c536228a1ca993ee273b9c3684156}} 
+void {\bfseries set\+Use\+Halo} (bool use)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_a082261e60ef4b9cd36ee55db9a49c853}\label{classcrpropa_1_1PT11Field_a082261e60ef4b9cd36ee55db9a49c853}} 
+bool {\bfseries is\+Using\+ASS} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_a271b1d984f39d757accb141b497dd787}\label{classcrpropa_1_1PT11Field_a271b1d984f39d757accb141b497dd787}} 
+bool {\bfseries is\+Using\+BSS} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_a17f06bf13c88a1272cc1bbf1a63583cf}\label{classcrpropa_1_1PT11Field_a17f06bf13c88a1272cc1bbf1a63583cf}} 
+bool {\bfseries is\+Using\+Halo} ()
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1PT11Field_a60b4a9f66e692a5d3620de910bae981e}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&pos) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}\label{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, double z) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements Pshirkov2011 galactic magnetic field model. 
+
+Implements the Pshirkov2011 galactic magnetic field model, consisting of large-\/scale regular disk and halo fields. For the disk field an axisymmetric (ASS) and the bisymmetric (BSS, default) model can be chosen. For the halo field the BHM Halo field model (Sun et al. 2008) is considered.
+
+Currently only best fit values of the field parameters are implemented. The field is defined in the usual galactocentric coordinate system with the Galactic center at the origin, the x-\/axis pointing in the opposite direction of the Sun, and the z-\/axis pointing towards Galactic north.
+
+See\+: Pshirkov, Tinyakov, Kronberg Newton-\/\+Mc\+Gee 2011 -\/ Deriving global structure of the Galactic Magnetic Field from Faraday Rotation Measures of extragalactic sources, DOI\+: 10.\+1088/0004-\/637\+X/738/2/192, ar\+Xiv\+:1103.\+0814 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1PT11Field_a60b4a9f66e692a5d3620de910bae981e}\label{classcrpropa_1_1PT11Field_a60b4a9f66e692a5d3620de910bae981e}} 
+\index{PT11Field@{PT11Field}!getField@{getField}}
+\index{getField@{getField}!PT11Field@{PT11Field}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}}.
+

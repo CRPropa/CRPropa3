@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="Variant_8h" kind="file" language="C++">
+    <compoundname>Variant.h</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">typeinfo</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">stdint.h</includes>
+    <includedby refid="CRPropa_8h" local="yes">CRPropa.h</includedby>
+    <includedby refid="Candidate_8h" local="yes">Candidate.h</includedby>
+    <includedby refid="Output_8h" local="yes">Output.h</includedby>
+    <includedby refid="OutputShell_8h" local="yes">OutputShell.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>Variant.h</label>
+        <link refid="Variant_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdlib</label>
+      </node>
+      <node id="4">
+        <label>cstring</label>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="9">
+        <label>limits</label>
+      </node>
+      <node id="6">
+        <label>sstream</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>stdint.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>typeinfo</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>CRPropa.h</label>
+        <link refid="CRPropa_8h_source"/>
+      </node>
+      <node id="3">
+        <label>Candidate.h</label>
+        <link refid="Candidate_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>EmissionMap.h</label>
+        <link refid="EmissionMap_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>Geometry.h</label>
+        <link refid="Geometry_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>Module.h</label>
+        <link refid="Module_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>ModuleList.h</label>
+        <link refid="ModuleList_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Source.h</label>
+        <link refid="Source_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Variant.h</label>
+        <link refid="Variant_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Acceleration.h</label>
+        <link refid="Acceleration_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AdiabaticCooling.h</label>
+        <link refid="AdiabaticCooling_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>Boundary.h</label>
+        <link refid="Boundary_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>BreakCondition.h</label>
+        <link refid="BreakCondition_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>DiffusionSDE.h</label>
+        <link refid="DiffusionSDE_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>EMCascade.h</label>
+        <link refid="EMCascade_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>EMDoublePairProduction.h</label>
+        <link refid="EMDoublePairProduction_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>EMInverseComptonScattering.h</label>
+        <link refid="EMInverseComptonScattering_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>EMPairProduction.h</label>
+        <link refid="EMPairProduction_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>EMTripletPairProduction.h</label>
+        <link refid="EMTripletPairProduction_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>ElasticScattering.h</label>
+        <link refid="ElasticScattering_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>ElectronPairProduction.h</label>
+        <link refid="ElectronPairProduction_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>NuclearDecay.h</label>
+        <link refid="NuclearDecay_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>Observer.h</label>
+        <link refid="Observer_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>Output.h</label>
+        <link refid="Output_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>OutputShell.h</label>
+        <link refid="OutputShell_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>ParticleCollector.h</label>
+        <link refid="ParticleCollector_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>PhotoDisintegration.h</label>
+        <link refid="PhotoDisintegration_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>PhotoPionProduction.h</label>
+        <link refid="PhotoPionProduction_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>PhotonEleCa.h</label>
+        <link refid="PhotonEleCa_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>PhotonOutput1D.h</label>
+        <link refid="PhotonOutput1D_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>PropagationBP.h</label>
+        <link refid="PropagationBP_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>PropagationCK.h</label>
+        <link refid="PropagationCK_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>Redshift.h</label>
+        <link refid="Redshift_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>RestrictToRegion.h</label>
+        <link refid="RestrictToRegion_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>SimplePropagation.h</label>
+        <link refid="SimplePropagation_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>SynchrotronRadiation.h</label>
+        <link refid="SynchrotronRadiation_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>TextOutput.h</label>
+        <link refid="TextOutput_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>Tools.h</label>
+        <link refid="Tools_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classcrpropa_1_1Variant" prot="public">crpropa::Variant</innerclass>
+    <innerclass refid="classcrpropa_1_1Variant_1_1bad__conversion" prot="public">crpropa::Variant::bad_conversion</innerclass>
+    <innernamespace refid="namespacecrpropa">crpropa</innernamespace>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="Variant_8h_1ad6e6dfd43bfb6550b7f310b003ea5e86" prot="public" static="no">
+        <name>VARIANT_ADD_TYPE_DECL_POD</name>
+        <param><defname>NAME</defname></param>
+        <param><defname>TYPE</defname></param>
+        <param><defname>VALUE</defname></param>
+        <initializer>	bool is ## NAME() const { return (type == TYPE); } \
+	operator VALUE () const { return to ## NAME(); } \
+	VALUE &amp;as ## NAME() { check(TYPE); return data._##NAME; } \
+	const VALUE &amp;as ## NAME() const	{ check(TYPE); return data._##NAME; } \
+	static Variant from ## NAME(const VALUE &amp;a) { return Variant(a); } \
+	VALUE to ## NAME() const; \
+	Variant &amp;operator = (const VALUE &amp;a) { clear(); type = TYPE; data._##NAME = a; return *this; } \
+	bool operator != (const VALUE &amp;a) const { check(TYPE); return data._##NAME != a; } \
+	bool operator == (const VALUE &amp;a) const { check(TYPE); return data._##NAME == a; } \
+	Variant(const VALUE &amp;a) { data._ ## NAME = a; type = TYPE; }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="21" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="Variant_8h_1a71711a376be30763557289e90e82547c" prot="public" static="no">
+        <name>VARIANT_ADD_TYPE_DECL_PTR_BASE</name>
+        <param><defname>NAME</defname></param>
+        <param><defname>TYPE</defname></param>
+        <param><defname>VALUE</defname></param>
+        <initializer>	bool is ## NAME() const { return (type == TYPE); } \
+	VALUE &amp;as ## NAME() { check(TYPE); return *data._##NAME; } \
+	const VALUE &amp;as ## NAME() const	{ check(TYPE); return *data._##NAME; } \
+	static Variant from ## NAME(const VALUE &amp;a) { return Variant(a); } \</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="34" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="Variant_8h_1aff699997fd1e4e13671e56d58c3ecef3" prot="public" static="no">
+        <name>VARIANT_ADD_TYPE_DECL_PTR</name>
+        <param><defname>NAME</defname></param>
+        <param><defname>TYPE</defname></param>
+        <param><defname>VALUE</defname></param>
+        <initializer>	bool operator != (const VALUE &amp;a) const { check(TYPE); return *data._##NAME != a; } \
+	bool operator == (const VALUE &amp;a) const { check(TYPE); return *data._##NAME == a; } \
+	VARIANT_ADD_TYPE_DECL_PTR_BASE(NAME, TYPE, VALUE) \
+	Variant &amp;operator =(const VALUE &amp;a) { if (type != TYPE) { clear(); data._##NAME = new VALUE; } type = TYPE; (*data._##NAME) = a; return *this; } \
+	Variant(const VALUE &amp;a) { data._ ## NAME = new VALUE(a); type = TYPE; }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="41" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="Variant_8h_1acdf3895ba788152a9cc113b7fd1e643c" prot="public" static="no">
+        <name>VARIANT_TO_DECL</name>
+        <param><defname>NAME</defname></param>
+        <param><defname>VALUE</defname></param>
+        <initializer>	template&lt;&gt; inline VALUE Variant::to&lt;VALUE&gt;() const { return to ## NAME(); } \</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="211" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1DirectedFlowOfScatterCenters" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::DirectedFlowOfScatterCenters</compoundname>
+    <basecompoundref refid="classcrpropa_1_1StepLengthModifier" prot="public" virt="non-virtual">StepLengthModifier</basecompoundref>
+    <includes refid="Acceleration_8h" local="no">crpropa/module/Acceleration.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1DirectedFlowOfScatterCenters_1a0038a02d0998d7aad60cce97a4f27215" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d __scatterVelocity</definition>
+        <argsstring></argsstring>
+        <name>__scatterVelocity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="97" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1DirectedFlowOfScatterCenters_1aa7421a7e92877780922dc13fa2e1d5b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DirectedFlowOfScatterCenters</definition>
+        <argsstring>(const Vector3d &amp;scatterCenterVelocity)</argsstring>
+        <name>DirectedFlowOfScatterCenters</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>scatterCenterVelocity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="100" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DirectedFlowOfScatterCenters_1a5d145dc5fa9b064404483d8d9d08d410" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double modify</definition>
+        <argsstring>(double steplength, Candidate *candidate)</argsstring>
+        <name>modify</name>
+        <reimplements refid="classcrpropa_1_1StepLengthModifier_1ad1eb02b8fb0168acb14b6f1ee64b9425">modify</reimplements>
+        <param>
+          <type>double</type>
+          <declname>steplength</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+<para>Returns an update of the steplength. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="101" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>In a directed flow, the step length depend on the direction of the particles as headon collisions are more likely than tail=on collisions - propagating against the flow is harder. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DirectedFlowOfScatterCenters</label>
+        <link refid="classcrpropa_1_1DirectedFlowOfScatterCenters"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>StepLengthModifier</label>
+        <link refid="classcrpropa_1_1StepLengthModifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DirectedFlowOfScatterCenters</label>
+        <link refid="classcrpropa_1_1DirectedFlowOfScatterCenters"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>StepLengthModifier</label>
+        <link refid="classcrpropa_1_1StepLengthModifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="95" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="95" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1DirectedFlowOfScatterCenters_1a0038a02d0998d7aad60cce97a4f27215" prot="private" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>__scatterVelocity</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1DirectedFlowOfScatterCenters_1aa7421a7e92877780922dc13fa2e1d5b5" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>DirectedFlowOfScatterCenters</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1DirectedFlowOfScatterCenters_1a5d145dc5fa9b064404483d8d9d08d410" prot="public" virt="virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>modify</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::DirectedFlowOfScatterCenters</scope><name>removeReferenceNoDelete</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

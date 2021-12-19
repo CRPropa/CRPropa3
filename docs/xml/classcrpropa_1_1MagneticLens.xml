@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1MagneticLens" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::MagneticLens</compoundname>
+    <includes refid="MagneticLens_8h" local="no">crpropa/magneticLens/MagneticLens.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticLens_1a6a1eb9ff6bb9fa2ca215ebe1fd1864ad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classcrpropa_1_1LensPart" kindref="compound">LensPart</ref> * &gt;</type>
+        <definition>std::vector&lt;LensPart*&gt; _lensParts</definition>
+        <argsstring></argsstring>
+        <name>_lensParts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="157" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticLens_1aba78b29ceff2db10a3b920987a6846a2" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Pixelization" kindref="compound">Pixelization</ref> *</type>
+        <definition>Pixelization* _pixelization</definition>
+        <argsstring></argsstring>
+        <name>_pixelization</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="158" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticLens_1a106c2bfa2c2a586b926fe0cc6630690f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double _minimumRigidity</definition>
+        <argsstring></argsstring>
+        <name>_minimumRigidity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="163" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticLens_1afb31f95357f8263be46241213383b056" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double _maximumRigidity</definition>
+        <argsstring></argsstring>
+        <name>_maximumRigidity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="164" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticLens_1a934f484e98ce6831c1a746b7aa35ea0f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double _norm</definition>
+        <argsstring></argsstring>
+        <name>_norm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="166" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticLens_1a555812f50a83bbc26622ea8b74734125" prot="private" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool _randomSeeded</definition>
+        <argsstring></argsstring>
+        <name>_randomSeeded</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="165" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a312e0a1521bfe00dda816111a4d9fca3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void updateRigidityBounds</definition>
+        <argsstring>(double rigidityMin, double rigidityMax)</argsstring>
+        <name>updateRigidityBounds</name>
+        <param>
+          <type>double</type>
+          <declname>rigidityMin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rigidityMax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="150" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1af2cc62a4e2d2d3637f86ffcb6ebd1a30" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void loadLensPart</definition>
+        <argsstring>(const string &amp;filename, double rigidityMin, double rigidityMax)</argsstring>
+        <name>loadLensPart</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rigidityMin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rigidityMax</declname>
+        </param>
+        <briefdescription>
+<para>Loads part of a lens (one matrix) from file to use it in given rigidity range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="153" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a0e7f103a425137c81f624495cdbb4338" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void _checkMatrix</definition>
+        <argsstring>(const ModelMatrixType &amp;M)</argsstring>
+        <name>_checkMatrix</name>
+        <param>
+          <type>const ModelMatrixType &amp;</type>
+          <declname>M</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="161" column="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a643cd62aed5c704da458d60bb603c326" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MagneticLens</definition>
+        <argsstring>()</argsstring>
+        <name>MagneticLens</name>
+        <briefdescription>
+<para>Default constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="170" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="170" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a00fe2b9e680ef54314604383f4ad5543" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MagneticLens</definition>
+        <argsstring>(uint8_t healpixorder)</argsstring>
+        <name>MagneticLens</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>healpixorder</declname>
+        </param>
+        <briefdescription>
+<para>Constructs lens with predefined healpix order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="176" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="176" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1afe8b3bb801ef96e978ddab414f8535cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MagneticLens</definition>
+        <argsstring>(const string &amp;filename)</argsstring>
+        <name>MagneticLens</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Construct lens and load lens from file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="183" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="183" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1aa6211e3c3afbb6179ed595c164c59814" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classcrpropa_1_1Pixelization" kindref="compound">Pixelization</ref> &amp;</type>
+        <definition>const Pixelization &amp; getPixelization</definition>
+        <argsstring>() const</argsstring>
+        <name>getPixelization</name>
+        <briefdescription>
+<para>Returns the pixelization used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="190" column="20" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="190" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a38c98dc48a252726583c5c23ada3d358" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>~MagneticLens</definition>
+        <argsstring>()</argsstring>
+        <name>~MagneticLens</name>
+        <briefdescription>
+<para>Default destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="196" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="196" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a7854f867ce85aed7cf05a4de7e3aae16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool transformCosmicRay</definition>
+        <argsstring>(double rigidity, double &amp;phi, double &amp;theta)</argsstring>
+        <name>transformCosmicRay</name>
+        <param>
+          <type>double</type>
+          <declname>rigidity</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>phi</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>theta</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Try to transform the comsic ray to a new direction. Returns false and does not change phi and theta if the cosmic ray is lost due to conservation of cosmic ray flux. Rigidity is given in Joule, phi and theta in rad </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="212" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1aaf082f466e832093d83553dcc1d90908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool transformCosmicRay</definition>
+        <argsstring>(double rigidity, Vector3d &amp;p)</argsstring>
+        <name>transformCosmicRay</name>
+        <param>
+          <type>double</type>
+          <declname>rigidity</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Tries transform a cosmic ray with momentum vector p. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="215" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a162c9d22dd25910cd5e8cc622c943407" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void transformModelVector</definition>
+        <argsstring>(double *model, double rigidity) const</argsstring>
+        <name>transformModelVector</name>
+        <param>
+          <type>double *</type>
+          <declname>model</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rigidity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>transforms the model array assuming that model points to an array of the correct size. Rigidity is given in Joule </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="219" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1ade6860693addc8f4585314d4a2456129" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLensPart</definition>
+        <argsstring>(const ModelMatrixType &amp;M, double rigidityMin, double rigidityMax)</argsstring>
+        <name>setLensPart</name>
+        <param>
+          <type>const ModelMatrixType &amp;</type>
+          <declname>M</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rigidityMin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>rigidityMax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads M as part of a lens and use it in given rigidity range with rigidities given in Joule </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="223" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a47603966d403181b3bfd4577f4142ab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void loadLens</definition>
+        <argsstring>(const string &amp;filename)</argsstring>
+        <name>loadLens</name>
+        <param>
+          <type>const string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads a lens from a given file, containing lines like lensefile.MLDAT rigidityMin rigidityMax rigidities are given in logarithmic units [log10(E / eV)] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="228" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1ae988fb8fef9974c11ef93767120e6df5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void normalizeLens</definition>
+        <argsstring>()</argsstring>
+        <name>normalizeLens</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalizes the lens parts to the maximum of sums of columns of every lenspart. By doing this, the lens won&apos;t distort the spectrum </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="232" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a46e75afd0737b2785de34fe0906dcf8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void normalizeLensparts</definition>
+        <argsstring>()</argsstring>
+        <name>normalizeLensparts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalizes the lens parts individually. Normalized this way, the lens generally distorts the spectrum of the sources, but deflects the UHECR more efficiently. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="237" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a09e126e579c0e758fa82a2567580a816" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool rigidityCovered</definition>
+        <argsstring>(double rigidity) const</argsstring>
+        <name>rigidityCovered</name>
+        <param>
+          <type>double</type>
+          <declname>rigidity</declname>
+        </param>
+        <briefdescription>
+<para>Checks if rigidity [Joule] is covered by lens. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="240" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1aa4d2ede0ccac44aa936592ea2c37d21d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void normalizeMatrixColumns</definition>
+        <argsstring>()</argsstring>
+        <name>normalizeMatrixColumns</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalizes all matrix columns - the lens will then create fake anisotropies, but won&apos;t drop particles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="244" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a56a78b6e6cc179b886e66d15af90b0f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double getMinimumRigidity</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinimumRigidity</name>
+        <briefdescription>
+<para>Returns minimum rigidity covered by lens, in eV. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="247" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="247" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1aa189be38fadf10bca005ac2326536de4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double getMaximumRigidity</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaximumRigidity</name>
+        <briefdescription>
+<para>Returns maximum rigidity covered by lens, in eV. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="252" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a3e66e331583b40489d851550d3e81a45" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double getNorm</definition>
+        <argsstring>()</argsstring>
+        <name>getNorm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="258" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1a1bdf8cddf4c8587eafb11493758ed857" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1LensPart" kindref="compound">LensPart</ref> *</type>
+        <definition>LensPart * getLensPart</definition>
+        <argsstring>(double rigidity) const</argsstring>
+        <name>getLensPart</name>
+        <param>
+          <type>double</type>
+          <declname>rigidity</declname>
+        </param>
+        <briefdescription>
+<para>Returns iterator to the lens part with rigidity Joule. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="264" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticLens_1aabdb173f5ca5b7409511f4ce31d9a46d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="classcrpropa_1_1LensPart" kindref="compound">LensPart</ref> * &gt; &amp;</type>
+        <definition>const std::vector&lt; LensPart * &gt; &amp; getLensParts</definition>
+        <argsstring>() const</argsstring>
+        <name>getLensParts</name>
+        <briefdescription>
+<para>Returns all lens parts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="267" column="19" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="267" bodyend="270"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>The lens for the galactic magnetic field. Note that the energies refer to protons (Z=1). To be used with other particles with a different charge number please select the rigidity accordingly. </para>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" line="147" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/MagneticLens.h" bodystart="148" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1MagneticLens_1a0e7f103a425137c81f624495cdbb4338" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_checkMatrix</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a6a1eb9ff6bb9fa2ca215ebe1fd1864ad" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_lensParts</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1afb31f95357f8263be46241213383b056" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_maximumRigidity</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a106c2bfa2c2a586b926fe0cc6630690f" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_minimumRigidity</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a934f484e98ce6831c1a746b7aa35ea0f" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_norm</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1aba78b29ceff2db10a3b920987a6846a2" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_pixelization</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a555812f50a83bbc26622ea8b74734125" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>_randomSeeded</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a1bdf8cddf4c8587eafb11493758ed857" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>getLensPart</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1aabdb173f5ca5b7409511f4ce31d9a46d" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>getLensParts</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1aa189be38fadf10bca005ac2326536de4" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>getMaximumRigidity</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a56a78b6e6cc179b886e66d15af90b0f0" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>getMinimumRigidity</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a3e66e331583b40489d851550d3e81a45" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>getNorm</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1aa6211e3c3afbb6179ed595c164c59814" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>getPixelization</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a47603966d403181b3bfd4577f4142ab3" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>loadLens</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1af2cc62a4e2d2d3637f86ffcb6ebd1a30" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>loadLensPart</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a643cd62aed5c704da458d60bb603c326" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>MagneticLens</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a00fe2b9e680ef54314604383f4ad5543" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>MagneticLens</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1afe8b3bb801ef96e978ddab414f8535cc" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>MagneticLens</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1ae988fb8fef9974c11ef93767120e6df5" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>normalizeLens</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a46e75afd0737b2785de34fe0906dcf8a" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>normalizeLensparts</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1aa4d2ede0ccac44aa936592ea2c37d21d" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>normalizeMatrixColumns</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a09e126e579c0e758fa82a2567580a816" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>rigidityCovered</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1ade6860693addc8f4585314d4a2456129" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>setLensPart</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a7854f867ce85aed7cf05a4de7e3aae16" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>transformCosmicRay</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1aaf082f466e832093d83553dcc1d90908" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>transformCosmicRay</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a162c9d22dd25910cd5e8cc622c943407" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>transformModelVector</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a312e0a1521bfe00dda816111a4d9fca3" prot="private" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>updateRigidityBounds</name></member>
+      <member refid="classcrpropa_1_1MagneticLens_1a38c98dc48a252726583c5c23ada3d358" prot="public" virt="non-virtual"><scope>crpropa::MagneticLens</scope><name>~MagneticLens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

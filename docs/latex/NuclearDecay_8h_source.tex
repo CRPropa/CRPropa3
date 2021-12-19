@@ -1,0 +1,45 @@
+\hypertarget{NuclearDecay_8h_source}{}\doxysection{Nuclear\+Decay.\+h}
+\label{NuclearDecay_8h_source}\index{NuclearDecay.h@{NuclearDecay.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_NUCLEARDECAY\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_NUCLEARDECAY\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1NuclearDecay}{NuclearDecay}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{25 \textcolor{keyword}{private}:}
+\DoxyCodeLine{26         \textcolor{keywordtype}{double} limit;}
+\DoxyCodeLine{27         \textcolor{keywordtype}{bool} haveElectrons;}
+\DoxyCodeLine{28         \textcolor{keywordtype}{bool} havePhotons;}
+\DoxyCodeLine{29         \textcolor{keywordtype}{bool} haveNeutrinos;}
+\DoxyCodeLine{30         \textcolor{keyword}{struct }DecayMode \{}
+\DoxyCodeLine{31                 \textcolor{keywordtype}{int} channel; \textcolor{comment}{// (\#beta-\/ \#beta+ \#alpha \#proton \#neutron)}}
+\DoxyCodeLine{32                 \textcolor{keywordtype}{double} rate; \textcolor{comment}{// decay rate in [1/m]}}
+\DoxyCodeLine{33                 std::vector<double> energy; \textcolor{comment}{// photon energies of ensuing gamma decays}}
+\DoxyCodeLine{34                 std::vector<double> intensity; \textcolor{comment}{// probabilities of ensuing gamma decays}}
+\DoxyCodeLine{35         \};}
+\DoxyCodeLine{36         std::vector<std::vector<DecayMode> > decayTable; \textcolor{comment}{// decayTable[Z * 31 + N] = vector<DecayMode>}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{public}:}
+\DoxyCodeLine{45         \mbox{\hyperlink{classcrpropa_1_1NuclearDecay_ab8fb67bd42743f6175aab9a4e90bc92b}{NuclearDecay}}(\textcolor{keywordtype}{bool} electrons = \textcolor{keyword}{false}, \textcolor{keywordtype}{bool} photons = \textcolor{keyword}{false}, \textcolor{keywordtype}{bool} neutrinos = \textcolor{keyword}{false}, \textcolor{keywordtype}{double} limit = 0.1);}
+\DoxyCodeLine{46         \textcolor{keywordtype}{void} setLimit(\textcolor{keywordtype}{double} limit);}
+\DoxyCodeLine{47         \textcolor{keywordtype}{void} setHaveElectrons(\textcolor{keywordtype}{bool} b);}
+\DoxyCodeLine{48         \textcolor{keywordtype}{void} setHavePhotons(\textcolor{keywordtype}{bool} b);}
+\DoxyCodeLine{49         \textcolor{keywordtype}{void} setHaveNeutrinos(\textcolor{keywordtype}{bool} b);}
+\DoxyCodeLine{50         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{51         \textcolor{keywordtype}{void} performInteraction(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate, \textcolor{keywordtype}{int} channel) \textcolor{keyword}{const};}
+\DoxyCodeLine{52         \textcolor{keywordtype}{void} gammaEmission(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate, \textcolor{keywordtype}{int} channel) \textcolor{keyword}{const};}
+\DoxyCodeLine{53         \textcolor{keywordtype}{void} betaDecay(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate, \textcolor{keywordtype}{bool} isBetaPlus) \textcolor{keyword}{const};}
+\DoxyCodeLine{54         \textcolor{keywordtype}{void} nucleonEmission(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate, \textcolor{keywordtype}{int} dA, \textcolor{keywordtype}{int} dZ) \textcolor{keyword}{const};}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{63         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1NuclearDecay_a64c2e915dd2c0f318b6c93da9167bebd}{meanFreePath}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keywordtype}{double} gamma);}
+\DoxyCodeLine{64 \};}
+\DoxyCodeLine{67 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_NUCLEARDECAY\_H}}
+
+\end{DoxyCode}

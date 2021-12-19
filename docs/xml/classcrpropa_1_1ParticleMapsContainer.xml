@@ -1,0 +1,720 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1ParticleMapsContainer" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::ParticleMapsContainer</compoundname>
+    <includes refid="ParticleMapsContainer_8h" local="no">crpropa/magneticLens/ParticleMapsContainer.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1a697e139070a37837ba4e4aa483d0c99d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, std::map&lt; int, double * &gt; &gt;</type>
+        <definition>std::map&lt;int, std::map &lt;int, double*&gt; &gt; _data</definition>
+        <argsstring></argsstring>
+        <name>_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="26" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1abc8eb4abc994b565682561d221a7fb82" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Pixelization" kindref="compound">Pixelization</ref></type>
+        <definition>Pixelization _pixelization</definition>
+        <argsstring></argsstring>
+        <name>_pixelization</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="27" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1aa4e41abbd867ed243fb0ce1e1f4b87b0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double _deltaLogE</definition>
+        <argsstring></argsstring>
+        <name>_deltaLogE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="28" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1aabcfada91e2e455bff3b6b0684dead5b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double _bin0lowerEdge</definition>
+        <argsstring></argsstring>
+        <name>_bin0lowerEdge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="29" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1a13b4495fd9deec2020ea6f38760af0f4" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double _sumOfWeights</definition>
+        <argsstring></argsstring>
+        <name>_sumOfWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="36" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1ae69dd1caccf0af91a95b1ca0a92a27b2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, double &gt;</type>
+        <definition>std::map&lt;int, double &gt; _weightsPID</definition>
+        <argsstring></argsstring>
+        <name>_weightsPID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="37" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1a497b0bc0d73b13af62478d23726d811f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, map&lt; int, double &gt; &gt;</type>
+        <definition>std::map&lt;int, map&lt;int, double&gt; &gt; _weights_pidEnergy</definition>
+        <argsstring></argsstring>
+        <name>_weights_pidEnergy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="38" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleMapsContainer_1afe54c639a40e6a488241b8259fc7154d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool _weightsUpToDate</definition>
+        <argsstring></argsstring>
+        <name>_weightsUpToDate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="41" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a73a17892b9e6eb02622c592ea0158092" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int energy2Idx</definition>
+        <argsstring>(double energy) const</argsstring>
+        <name>energy2Idx</name>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a6e457300d6b0c3110ceef97ee3ef40bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double idx2Energy</definition>
+        <argsstring>(int idx) const</argsstring>
+        <name>idx2Energy</name>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="33" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a9642ad1253491f4142f467dc8f5e9f31" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void _updateWeights</definition>
+        <argsstring>()</argsstring>
+        <name>_updateWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="42" column="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a7b7f52e314f549095276d3edfbd0a98d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ParticleMapsContainer</definition>
+        <argsstring>(double deltaLogE=0.02, double bin0lowerEdge=17.99)</argsstring>
+        <name>ParticleMapsContainer</name>
+        <param>
+          <type>double</type>
+          <declname>deltaLogE</declname>
+          <defval>0.02</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>bin0lowerEdge</declname>
+          <defval>17.99</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>deltaLogE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>width of logarithmic energy bin [in eV] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bin0lowerEdge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>logarithm of energy of the lower edge of first bin [in log(eV)] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="49" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="49" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a5d54f235d9d31531a7c370042f7785b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>~ParticleMapsContainer</definition>
+        <argsstring>()</argsstring>
+        <name>~ParticleMapsContainer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="53" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a96333d9646d1510d13e071cdc71e3c3a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getNumberOfPixels</definition>
+        <argsstring>()</argsstring>
+        <name>getNumberOfPixels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="55" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a8eb83606b790af55f573c54cb7f0014b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double *</type>
+        <definition>double * getMap</definition>
+        <argsstring>(const int particleId, double energy)</argsstring>
+        <name>getMap</name>
+        <param>
+          <type>const int</type>
+          <declname>particleId</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the map for the particleId with the given energy. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particleId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the energy of the particle [in Joules] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The map for a given particleId with a given energy </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="64" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a9ccf2f636b6d166f5f391242845090ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addParticle</definition>
+        <argsstring>(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight=1)</argsstring>
+        <name>addParticle</name>
+        <param>
+          <type>const int</type>
+          <declname>particleId</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>galacticLongitude</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>galacticLatitude</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds a particle to the map container. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particleId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the energy of the particle [in Joules] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>galacticLongitude</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>galactic longitude [radians] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>galacticLatitude</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>galactic latitude [radians] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>relative weight for the specific particle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="73" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a6df900c2405c72a161f88a845b5c42de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void addParticle</definition>
+        <argsstring>(const int particleId, double energy, const Vector3d &amp;v, double weight=1)</argsstring>
+        <name>addParticle</name>
+        <param>
+          <type>const int</type>
+          <declname>particleId</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds a particle to the map container. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particleId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the energy of the particle [in Joules] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector containing the arrival directions of a particle </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>relative weight for the specific particle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="80" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a16423cacef0f6ce324ca31791c71b26a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; getParticleIds</definition>
+        <argsstring>()</argsstring>
+        <name>getParticleIds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all particle ids in the map. <simplesect kind="return"><para>Vector of all ids. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="85" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a941d6cc240430f50d2787a8d93aff761" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; getEnergies</definition>
+        <argsstring>(int pid)</argsstring>
+        <name>getEnergies</name>
+        <param>
+          <type>int</type>
+          <declname>pid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get energies in map. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Energies are returned in units of eV (unlike in other CRPropa modules) for performance reasons </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="91" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1af349294ade35e680135a219373479a85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void applyLens</definition>
+        <argsstring>(MagneticLens &amp;lens)</argsstring>
+        <name>applyLens</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1MagneticLens" kindref="compound">MagneticLens</ref> &amp;</type>
+          <declname>lens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="93" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a69fffcc73dcce971e8de346db6a747a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void getRandomParticles</definition>
+        <argsstring>(size_t N, vector&lt; int &gt; &amp;particleId, vector&lt; double &gt; &amp;energy, vector&lt; double &gt; &amp;galacticLongitudes, vector&lt; double &gt; &amp;galacticLatitudes)</argsstring>
+        <name>getRandomParticles</name>
+        <param>
+          <type>size_t</type>
+          <declname>N</declname>
+        </param>
+        <param>
+          <type>vector&lt; int &gt; &amp;</type>
+          <declname>particleId</declname>
+        </param>
+        <param>
+          <type>vector&lt; double &gt; &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>vector&lt; double &gt; &amp;</type>
+          <declname>galacticLongitudes</declname>
+        </param>
+        <param>
+          <type>vector&lt; double &gt; &amp;</type>
+          <declname>galacticLatitudes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get random particles from map. The arguments are the vectors where the information will be stored. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of particles to be selected </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particleId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of interest [in eV] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>galacticLongitudes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>longitude in the interval [-pi, pi] [in radians] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>galacticLatitudes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>latitude in the interval [-pi/2, pi/2] [in radians] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="103" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a88a418c3776916213073c73b903b5f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool placeOnMap</definition>
+        <argsstring>(int pid, double energy, double &amp;galacticLongitude, double &amp;galacticLatitude)</argsstring>
+        <name>placeOnMap</name>
+        <param>
+          <type>int</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>galacticLongitude</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>galacticLatitude</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Places a particle with given id and energy according to the probability maps. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of interest [in eV] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>galacticLongitudes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>longitude in the interval [-pi, pi] [in radians] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>galacticLatitudes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>latitude in the interval [-pi/2, pi/2] [in radians] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Returns false if operation not possible; true otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="114" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1ad9b1930e42bce2f98bb0870f5a8e8f6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void forceWeightUpdate</definition>
+        <argsstring>()</argsstring>
+        <name>forceWeightUpdate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Force weight update prior to getting random particles. Only necessary when reusing pointer to maps after calculating weights. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="119" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1a775948ef0f32261bcbbe3329269fbbe4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double getSumOfWeights</definition>
+        <argsstring>()</argsstring>
+        <name>getSumOfWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get sum of weights of the maps. <simplesect kind="return"><para>Sum of all weights. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="124" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleMapsContainer_1aaff79bb2e281ccda6f5b7e7b055e0279" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double getWeight</definition>
+        <argsstring>(int pid, double energy)</argsstring>
+        <name>getWeight</name>
+        <param>
+          <type>int</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get weight for a given particle and energy <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of interest [in eV] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Weight for the chosen particle and energy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="135" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="135" bodyend="139"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A container for particle maps. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The maps are stored with discrete energies on a logarithmic scale. The default energy width is 0.02 with an energy bin from 10**17.99 - 10**18.01 eV. </para>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" line="24" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/ParticleMapsContainer.h" bodystart="24" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1aabcfada91e2e455bff3b6b0684dead5b" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_bin0lowerEdge</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a697e139070a37837ba4e4aa483d0c99d" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_data</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1aa4e41abbd867ed243fb0ce1e1f4b87b0" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_deltaLogE</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1abc8eb4abc994b565682561d221a7fb82" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_pixelization</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a13b4495fd9deec2020ea6f38760af0f4" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_sumOfWeights</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a9642ad1253491f4142f467dc8f5e9f31" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_updateWeights</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a497b0bc0d73b13af62478d23726d811f" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_weights_pidEnergy</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1ae69dd1caccf0af91a95b1ca0a92a27b2" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_weightsPID</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1afe54c639a40e6a488241b8259fc7154d" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>_weightsUpToDate</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a9ccf2f636b6d166f5f391242845090ca" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>addParticle</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a6df900c2405c72a161f88a845b5c42de" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>addParticle</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1af349294ade35e680135a219373479a85" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>applyLens</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a73a17892b9e6eb02622c592ea0158092" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>energy2Idx</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1ad9b1930e42bce2f98bb0870f5a8e8f6a" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>forceWeightUpdate</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a941d6cc240430f50d2787a8d93aff761" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getEnergies</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a8eb83606b790af55f573c54cb7f0014b" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getMap</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a96333d9646d1510d13e071cdc71e3c3a" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getNumberOfPixels</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a16423cacef0f6ce324ca31791c71b26a" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getParticleIds</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a69fffcc73dcce971e8de346db6a747a8" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getRandomParticles</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a775948ef0f32261bcbbe3329269fbbe4" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getSumOfWeights</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1aaff79bb2e281ccda6f5b7e7b055e0279" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>getWeight</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a6e457300d6b0c3110ceef97ee3ef40bf" prot="private" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>idx2Energy</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a7b7f52e314f549095276d3edfbd0a98d" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>ParticleMapsContainer</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a88a418c3776916213073c73b903b5f53" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>placeOnMap</name></member>
+      <member refid="classcrpropa_1_1ParticleMapsContainer_1a5d54f235d9d31531a7c370042f7785b9" prot="public" virt="non-virtual"><scope>crpropa::ParticleMapsContainer</scope><name>~ParticleMapsContainer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

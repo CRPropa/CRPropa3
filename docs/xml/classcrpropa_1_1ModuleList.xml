@@ -1,0 +1,582 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1ModuleList" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::ModuleList</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="ModuleList_8h" local="no">crpropa/ModuleList.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classcrpropa_1_1ModuleList_1aab45aaf255647776d61c46e7ce9514eb" prot="public" static="no">
+        <type>std::list&lt; <ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Module" kindref="compound">Module</ref> &gt; &gt;</type>
+        <definition>typedef std::list&lt;ref_ptr&lt;Module&gt; &gt; module_list_t</definition>
+        <argsstring></argsstring>
+        <name>module_list_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="19" column="19" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcrpropa_1_1ModuleList_1a3cd24d9dcbae18aec953e00bd08f3cd1" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt; &gt;</type>
+        <definition>typedef std::vector&lt;ref_ptr&lt;Candidate&gt; &gt; candidate_vector_t</definition>
+        <argsstring></argsstring>
+        <name>candidate_vector_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="20" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcrpropa_1_1ModuleList_1a319ee507fd1405a44e653a74a8592b39" prot="public" static="no">
+        <type>module_list_t::iterator</type>
+        <definition>typedef module_list_t::iterator iterator</definition>
+        <argsstring></argsstring>
+        <name>iterator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>iterator goodies </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="43" column="33" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classcrpropa_1_1ModuleList_1ac02bd645ccd4c7ea60b616bbe59195db" prot="public" static="no">
+        <type>module_list_t::const_iterator</type>
+        <definition>typedef module_list_t::const_iterator const_iterator</definition>
+        <argsstring></argsstring>
+        <name>const_iterator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="44" column="39" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1ModuleList_1af41553a0ab76ddf01f6a74ea838036eb" prot="private" static="no" mutable="no">
+        <type>module_list_t</type>
+        <definition>module_list_t modules</definition>
+        <argsstring></argsstring>
+        <name>modules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="51" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ModuleList_1a86dbe8ab040867eb5a3994d59d34cec0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool showProgress</definition>
+        <argsstring></argsstring>
+        <name>showProgress</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="52" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a4c5e3e12c870620315624fa309226eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ModuleList</definition>
+        <argsstring>()</argsstring>
+        <name>ModuleList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="22" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a093acb786aa7409d9dbe7f973e0e21be" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ~ModuleList</definition>
+        <argsstring>()</argsstring>
+        <name>~ModuleList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="23" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a0abf2e0b4076bf42006e866b189ffc9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setShowProgress</definition>
+        <argsstring>(bool show=true)</argsstring>
+        <name>setShowProgress</name>
+        <param>
+          <type>bool</type>
+          <declname>show</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>activate a progress bar </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="24" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a0898e07641bb9b6e85dc3695c94d14bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void add</definition>
+        <argsstring>(Module *module)</argsstring>
+        <name>add</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Module" kindref="compound">Module</ref> *</type>
+          <declname>module</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="26" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1ab204a18f275c5a5195b7b9c7505cecf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void remove</definition>
+        <argsstring>(std::size_t i)</argsstring>
+        <name>remove</name>
+        <param>
+          <type>std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="27" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1ade1601ccf1fa3bcf050867f0852ca4e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a37a45dbba91006673feb119ff95eac60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Module" kindref="compound">Module</ref> &gt;</type>
+        <definition>ref_ptr&lt; Module &gt; operator[]</definition>
+        <argsstring>(const std::size_t i)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const std::size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="29" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+<para>call process in all modules </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="31" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+<para>call process in all modules </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="32" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a64999efc68012b9b0b3fe8752fb41036" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void run</definition>
+        <argsstring>(Candidate *candidate, bool recursive=true, bool secondariesFirst=false)</argsstring>
+        <name>run</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>secondariesFirst</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>run simulation for a single candidate </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="34" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1ae4e1674e36c6c34ae4af1b1c6527895d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void run</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate, bool recursive=true, bool secondariesFirst=false)</argsstring>
+        <name>run</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>secondariesFirst</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>run simulation for a single candidate </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="35" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a2a92fbf42e0ad12985322aef237bc8bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void run</definition>
+        <argsstring>(const candidate_vector_t *candidates, bool recursive=true, bool secondariesFirst=false)</argsstring>
+        <name>run</name>
+        <param>
+          <type>const candidate_vector_t *</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>secondariesFirst</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>run simulation for a candidate vector </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="36" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1ab329c45eb426d038a3ee0016a2b7a632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void run</definition>
+        <argsstring>(SourceInterface *source, size_t count, bool recursive=true, bool secondariesFirst=false)</argsstring>
+        <name>run</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1SourceInterface" kindref="compound">SourceInterface</ref> *</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recursive</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>secondariesFirst</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>run simulation for a number of candidates from the given source </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="37" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="39" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a8dd8e9c017ea29d919a6474f820d099c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void showModules</definition>
+        <argsstring>() const</argsstring>
+        <name>showModules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="40" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1ad69bd11391be1a1dba5c8202259664f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ModuleList_1a319ee507fd1405a44e653a74a8592b39" kindref="member">iterator</ref></type>
+        <definition>iterator begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="45" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1a29305669b60ca1680752e2fc3592ba99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const_iterator</type>
+        <definition>const_iterator begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="46" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1acad38d52497a975bfb6f2f6acd76631f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ModuleList_1a319ee507fd1405a44e653a74a8592b39" kindref="member">iterator</ref></type>
+        <definition>iterator end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="47" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ModuleList_1accf9a4bd0c34d4a5f6a7dab66ea10cdc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const_iterator</type>
+        <definition>const_iterator end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="48" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The simulation itself: A list of simulation modules. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ModuleList</label>
+        <link refid="classcrpropa_1_1ModuleList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ModuleList</label>
+        <link refid="classcrpropa_1_1ModuleList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" line="17" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ModuleList.h" bodystart="17" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1ModuleList_1a0898e07641bb9b6e85dc3695c94d14bc" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>add</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ad69bd11391be1a1dba5c8202259664f8" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>begin</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a29305669b60ca1680752e2fc3592ba99" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>begin</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a3cd24d9dcbae18aec953e00bd08f3cd1" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>candidate_vector_t</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ac02bd645ccd4c7ea60b616bbe59195db" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>const_iterator</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1acad38d52497a975bfb6f2f6acd76631f" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>end</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1accf9a4bd0c34d4a5f6a7dab66ea10cdc" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>end</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="virtual"><scope>crpropa::ModuleList</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a319ee507fd1405a44e653a74a8592b39" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>iterator</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1aab45aaf255647776d61c46e7ce9514eb" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>module_list_t</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a4c5e3e12c870620315624fa309226eb5" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>ModuleList</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1af41553a0ab76ddf01f6a74ea838036eb" prot="private" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>modules</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a37a45dbba91006673feb119ff95eac60" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>operator[]</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::ModuleList</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ab204a18f275c5a5195b7b9c7505cecf4" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>remove</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a64999efc68012b9b0b3fe8752fb41036" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>run</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ae4e1674e36c6c34ae4af1b1c6527895d" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>run</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a2a92fbf42e0ad12985322aef237bc8bb" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>run</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ab329c45eb426d038a3ee0016a2b7a632" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>run</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a0abf2e0b4076bf42006e866b189ffc9d" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>setShowProgress</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a8dd8e9c017ea29d919a6474f820d099c" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>showModules</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a86dbe8ab040867eb5a3994d59d34cec0" prot="private" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>showProgress</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1ade1601ccf1fa3bcf050867f0852ca4e5" prot="public" virt="non-virtual"><scope>crpropa::ModuleList</scope><name>size</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::ModuleList</scope><name>~Module</name></member>
+      <member refid="classcrpropa_1_1ModuleList_1a093acb786aa7409d9dbe7f973e0e21be" prot="public" virt="virtual"><scope>crpropa::ModuleList</scope><name>~ModuleList</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

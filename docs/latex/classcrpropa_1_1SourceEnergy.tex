@@ -1,0 +1,73 @@
+\hypertarget{classcrpropa_1_1SourceEnergy}{}\doxysection{Source\+Energy Class Reference}
+\label{classcrpropa_1_1SourceEnergy}\index{SourceEnergy@{SourceEnergy}}
+
+
+Sets the initial energy of the emitted particles to a specific value.  
+
+
+Inheritance diagram for Source\+Energy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1SourceEnergy}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1SourceEnergy_a6299ffa82fd1f1f042008090aa0cfdb4}{Source\+Energy}} (double energy)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1SourceEnergy_acc6074320f547e7c03f6957f33b1c3fb}{prepare\+Particle}} (\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&particle) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceEnergy_ac0d27e78991c898a5256103561b87f8a}\label{classcrpropa_1_1SourceEnergy_ac0d27e78991c898a5256103561b87f8a}} 
+void {\bfseries set\+Description} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_ae64aafd3cc3ce74a222e274cae1515b4}\label{classcrpropa_1_1SourceFeature_ae64aafd3cc3ce74a222e274cae1515b4}} 
+virtual void {\bfseries prepare\+Candidate} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} \&candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}} 
+std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sets the initial energy of the emitted particles to a specific value. 
+
+This feature assigns a monochromatic spectrum, i.\+e., a single energy to all particles. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceEnergy_a6299ffa82fd1f1f042008090aa0cfdb4}\label{classcrpropa_1_1SourceEnergy_a6299ffa82fd1f1f042008090aa0cfdb4}} 
+\index{SourceEnergy@{SourceEnergy}!SourceEnergy@{SourceEnergy}}
+\index{SourceEnergy@{SourceEnergy}!SourceEnergy@{SourceEnergy}}
+\doxysubsubsection{\texorpdfstring{SourceEnergy()}{SourceEnergy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1SourceEnergy}{Source\+Energy}} (\begin{DoxyParamCaption}\item[{double}]{energy }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em energy} & energy of the particle (in Joules) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceEnergy_acc6074320f547e7c03f6957f33b1c3fb}\label{classcrpropa_1_1SourceEnergy_acc6074320f547e7c03f6957f33b1c3fb}} 
+\index{SourceEnergy@{SourceEnergy}!prepareParticle@{prepareParticle}}
+\index{prepareParticle@{prepareParticle}!SourceEnergy@{SourceEnergy}}
+\doxysubsubsection{\texorpdfstring{prepareParticle()}{prepareParticle()}}
+{\footnotesize\ttfamily void prepare\+Particle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&}]{particle }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1SourceFeature}{Source\+Feature}}.
+

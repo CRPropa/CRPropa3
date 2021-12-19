@@ -1,0 +1,90 @@
+\hypertarget{HDF5Output_8h_source}{}\doxysection{HDF5\+Output.\+h}
+\label{HDF5Output_8h_source}\index{HDF5Output.h@{HDF5Output.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifdef CRPROPA\_HAVE\_HDF5}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#ifndef CRPROPA\_HDF5OUTPUT\_H}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define CRPROPA\_HDF5OUTPUT\_H}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}crpropa/module/Output.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <H5Ipublic.h>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{const} \textcolor{keywordtype}{size\_t} propertyBufferSize = 1024;}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{53 \textcolor{keyword}{class }HDF5Output: \textcolor{keyword}{public} Output \{}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55         \textcolor{keyword}{typedef} \textcolor{keyword}{struct }OutputRow \{}
+\DoxyCodeLine{56                 \textcolor{keywordtype}{double} D;}
+\DoxyCodeLine{57                 \textcolor{keywordtype}{double} z;}
+\DoxyCodeLine{58                 uint64\_t SN;}
+\DoxyCodeLine{59                 int32\_t ID;}
+\DoxyCodeLine{60                 \textcolor{keywordtype}{double} E;}
+\DoxyCodeLine{61                 \textcolor{keywordtype}{double} X;}
+\DoxyCodeLine{62                 \textcolor{keywordtype}{double} Y;}
+\DoxyCodeLine{63                 \textcolor{keywordtype}{double} Z;}
+\DoxyCodeLine{64                 \textcolor{keywordtype}{double} Px;}
+\DoxyCodeLine{65                 \textcolor{keywordtype}{double} Py;}
+\DoxyCodeLine{66                 \textcolor{keywordtype}{double} Pz;}
+\DoxyCodeLine{67                 uint64\_t SN0;}
+\DoxyCodeLine{68                 int32\_t ID0;}
+\DoxyCodeLine{69                 \textcolor{keywordtype}{double} E0;}
+\DoxyCodeLine{70                 \textcolor{keywordtype}{double} X0;}
+\DoxyCodeLine{71                 \textcolor{keywordtype}{double} Y0;}
+\DoxyCodeLine{72                 \textcolor{keywordtype}{double} Z0;}
+\DoxyCodeLine{73                 \textcolor{keywordtype}{double} P0x;}
+\DoxyCodeLine{74                 \textcolor{keywordtype}{double} P0y;}
+\DoxyCodeLine{75                 \textcolor{keywordtype}{double} P0z;}
+\DoxyCodeLine{76                 uint64\_t SN1;}
+\DoxyCodeLine{77                 int32\_t ID1;}
+\DoxyCodeLine{78                 \textcolor{keywordtype}{double} E1;}
+\DoxyCodeLine{79                 \textcolor{keywordtype}{double} X1;}
+\DoxyCodeLine{80                 \textcolor{keywordtype}{double} Y1;}
+\DoxyCodeLine{81                 \textcolor{keywordtype}{double} Z1;}
+\DoxyCodeLine{82                 \textcolor{keywordtype}{double} P1x;}
+\DoxyCodeLine{83                 \textcolor{keywordtype}{double} P1y;}
+\DoxyCodeLine{84                 \textcolor{keywordtype}{double} P1z;}
+\DoxyCodeLine{85                 \textcolor{keywordtype}{double} weight;}
+\DoxyCodeLine{86                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} propertyBuffer[propertyBufferSize];}
+\DoxyCodeLine{87         \} OutputRow;}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89         std::string filename;}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91         hid\_t file, sid;}
+\DoxyCodeLine{92         hid\_t dset, dataspace;}
+\DoxyCodeLine{93         \textcolor{keyword}{mutable} std::vector<OutputRow> buffer;}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95         time\_t lastFlush;}
+\DoxyCodeLine{96         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} flushLimit;}
+\DoxyCodeLine{97         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} candidatesSinceFlush;}
+\DoxyCodeLine{98 \textcolor{keyword}{public}:}
+\DoxyCodeLine{99         HDF5Output();}
+\DoxyCodeLine{100         HDF5Output(\textcolor{keyword}{const} std::string \&filename);}
+\DoxyCodeLine{101         HDF5Output(\textcolor{keyword}{const} std::string \&filename, OutputType outputtype);}
+\DoxyCodeLine{102         \string~HDF5Output();}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104         \textcolor{keywordtype}{void} process(Candidate *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{105         herr\_t insertStringAttribute(\textcolor{keyword}{const} std::string \&key, \textcolor{keyword}{const} std::string \&value);}
+\DoxyCodeLine{106         herr\_t insertDoubleAttribute(\textcolor{keyword}{const} std::string \&key, \textcolor{keyword}{const} \textcolor{keywordtype}{double} \&value);}
+\DoxyCodeLine{107         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{112         \textcolor{keywordtype}{void} setFlushLimit(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} N);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114         \textcolor{keywordtype}{void} open(\textcolor{keyword}{const} std::string \&filename);}
+\DoxyCodeLine{115         \textcolor{keywordtype}{void} close();}
+\DoxyCodeLine{116         \textcolor{keywordtype}{void} flush() \textcolor{keyword}{const};}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \};}
+\DoxyCodeLine{121 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_HDF5OUTPUT\_H}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_HAVE\_HDF5}}
+
+\end{DoxyCode}

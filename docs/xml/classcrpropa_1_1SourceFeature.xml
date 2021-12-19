@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1SourceFeature" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::SourceFeature</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Referenced" prot="public" virt="non-virtual">Referenced</basecompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceComposition" prot="public" virt="non-virtual">SourceComposition</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceDensityGrid" prot="public" virt="non-virtual">SourceDensityGrid</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceDensityGrid1D" prot="public" virt="non-virtual">SourceDensityGrid1D</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceDirectedEmission" prot="public" virt="non-virtual">SourceDirectedEmission</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceDirection" prot="public" virt="non-virtual">SourceDirection</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceEmissionCone" prot="public" virt="non-virtual">SourceEmissionCone</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceEmissionMap" prot="public" virt="non-virtual">SourceEmissionMap</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceEnergy" prot="public" virt="non-virtual">SourceEnergy</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceIsotropicEmission" prot="public" virt="non-virtual">SourceIsotropicEmission</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceLambertDistributionOnSphere" prot="public" virt="non-virtual">SourceLambertDistributionOnSphere</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceMultipleParticleTypes" prot="public" virt="non-virtual">SourceMultipleParticleTypes</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceMultiplePositions" prot="public" virt="non-virtual">SourceMultiplePositions</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceParticleType" prot="public" virt="non-virtual">SourceParticleType</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourcePosition" prot="public" virt="non-virtual">SourcePosition</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourcePowerLawSpectrum" prot="public" virt="non-virtual">SourcePowerLawSpectrum</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourcePulsarDistribution" prot="public" virt="non-virtual">SourcePulsarDistribution</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceRedshift" prot="public" virt="non-virtual">SourceRedshift</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceRedshift1D" prot="public" virt="non-virtual">SourceRedshift1D</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceRedshiftEvolution" prot="public" virt="non-virtual">SourceRedshiftEvolution</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceSNRDistribution" prot="public" virt="non-virtual">SourceSNRDistribution</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniform1D" prot="public" virt="non-virtual">SourceUniform1D</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniformBox" prot="public" virt="non-virtual">SourceUniformBox</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniformCylinder" prot="public" virt="non-virtual">SourceUniformCylinder</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniformHollowSphere" prot="public" virt="non-virtual">SourceUniformHollowSphere</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniformRedshift" prot="public" virt="non-virtual">SourceUniformRedshift</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniformShell" prot="public" virt="non-virtual">SourceUniformShell</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceUniformSphere" prot="public" virt="non-virtual">SourceUniformSphere</derivedcompoundref>
+    <includes refid="Source_8h" local="no">crpropa/Source.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1SourceFeature_1a2e1454f6988673f814408646edaeb320" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="23" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1ae9b29d78b5d8a37dc7e78dbf06e8c24a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void prepareParticle</definition>
+        <argsstring>(ParticleState &amp;particle) const</argsstring>
+        <name>prepareParticle</name>
+        <reimplementedby refid="classcrpropa_1_1SourceParticleType_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceMultipleParticleTypes_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceEnergy_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourcePowerLawSpectrum_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceComposition_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceMultiplePositions_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformSphere_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformHollowSphere_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformShell_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformBox_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformCylinder_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceSNRDistribution_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourcePulsarDistribution_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniform1D_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceDensityGrid_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceDensityGrid1D_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceIsotropicEmission_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceLambertDistributionOnSphere_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceDirection_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceEmissionCone_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourcePosition_1af201ca90769db129e298d4c74a2a9e5d">prepareParticle</reimplementedby>
+        <param>
+          <type><ref refid="classcrpropa_1_1ParticleState" kindref="compound">ParticleState</ref> &amp;</type>
+          <declname>particle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="25" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1ae64aafd3cc3ce74a222e274cae1515b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void prepareCandidate</definition>
+        <argsstring>(Candidate &amp;candidate) const</argsstring>
+        <name>prepareCandidate</name>
+        <reimplementedby refid="classcrpropa_1_1SourceDirectedEmission_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceEmissionMap_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceRedshift_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformRedshift_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceRedshiftEvolution_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceRedshift1D_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &amp;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="26" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="27" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Abstract base class for specific source features. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="3">
+        <label>SourceComposition</label>
+        <link refid="classcrpropa_1_1SourceComposition"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>SourceDensityGrid</label>
+        <link refid="classcrpropa_1_1SourceDensityGrid"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>SourceDensityGrid1D</label>
+        <link refid="classcrpropa_1_1SourceDensityGrid1D"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>SourceDirectedEmission</label>
+        <link refid="classcrpropa_1_1SourceDirectedEmission"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>SourceDirection</label>
+        <link refid="classcrpropa_1_1SourceDirection"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>SourceEmissionCone</label>
+        <link refid="classcrpropa_1_1SourceEmissionCone"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>SourceEmissionMap</label>
+        <link refid="classcrpropa_1_1SourceEmissionMap"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>SourceEnergy</label>
+        <link refid="classcrpropa_1_1SourceEnergy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>SourceIsotropicEmission</label>
+        <link refid="classcrpropa_1_1SourceIsotropicEmission"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>SourceLambertDistributionOnSphere</label>
+        <link refid="classcrpropa_1_1SourceLambertDistributionOnSphere"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>SourceMultipleParticleTypes</label>
+        <link refid="classcrpropa_1_1SourceMultipleParticleTypes"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>SourceMultiplePositions</label>
+        <link refid="classcrpropa_1_1SourceMultiplePositions"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>SourceParticleType</label>
+        <link refid="classcrpropa_1_1SourceParticleType"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>SourcePosition</label>
+        <link refid="classcrpropa_1_1SourcePosition"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>SourcePowerLawSpectrum</label>
+        <link refid="classcrpropa_1_1SourcePowerLawSpectrum"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>SourcePulsarDistribution</label>
+        <link refid="classcrpropa_1_1SourcePulsarDistribution"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>SourceRedshift</label>
+        <link refid="classcrpropa_1_1SourceRedshift"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>SourceRedshift1D</label>
+        <link refid="classcrpropa_1_1SourceRedshift1D"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>SourceRedshiftEvolution</label>
+        <link refid="classcrpropa_1_1SourceRedshiftEvolution"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>SourceSNRDistribution</label>
+        <link refid="classcrpropa_1_1SourceSNRDistribution"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>SourceUniform1D</label>
+        <link refid="classcrpropa_1_1SourceUniform1D"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>SourceUniformBox</label>
+        <link refid="classcrpropa_1_1SourceUniformBox"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>SourceUniformCylinder</label>
+        <link refid="classcrpropa_1_1SourceUniformCylinder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>SourceUniformHollowSphere</label>
+        <link refid="classcrpropa_1_1SourceUniformHollowSphere"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>SourceUniformRedshift</label>
+        <link refid="classcrpropa_1_1SourceUniformRedshift"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>SourceUniformShell</label>
+        <link refid="classcrpropa_1_1SourceUniformShell"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>SourceUniformSphere</label>
+        <link refid="classcrpropa_1_1SourceUniformSphere"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="21" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="21" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1a2e1454f6988673f814408646edaeb320" prot="private" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>description</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1ae64aafd3cc3ce74a222e274cae1515b4" prot="public" virt="virtual"><scope>crpropa::SourceFeature</scope><name>prepareCandidate</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1ae9b29d78b5d8a37dc7e78dbf06e8c24a" prot="public" virt="virtual"><scope>crpropa::SourceFeature</scope><name>prepareParticle</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::SourceFeature</scope><name>removeReferenceNoDelete</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

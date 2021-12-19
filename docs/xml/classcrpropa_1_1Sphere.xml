@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Sphere" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Sphere</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Surface" prot="public" virt="non-virtual">Surface</basecompoundref>
+    <includes refid="Geometry_8h" local="no">crpropa/Geometry.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Sphere_1a503438b5dbb1040d70d240d73e445429" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d center</definition>
+        <argsstring></argsstring>
+        <name>center</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="61" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1Sphere_1a3f67c53b80389c5f53961936edba04c9" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="62" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Sphere_1a5609ad800f9361707822934639ac7a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Sphere</definition>
+        <argsstring>(const Vector3d &amp;center, double radius)</argsstring>
+        <name>Sphere</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>center</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="64" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Sphere_1afa828819412faf3379edc0805d4b464b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>virtual double distance</definition>
+        <argsstring>(const Vector3d &amp;point) const</argsstring>
+        <name>distance</name>
+        <reimplements refid="classcrpropa_1_1Surface_1a6410b05126a8f3386430f8fddd666dec">distance</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the distance of a point to the surface. Negative on the one side, positive on the other. For closed surfaces it is negative on the inside. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector corresponding to the point to which compute the distance </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="65" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Sphere_1a5060ff7e42238d79dde60072cab20361" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d normal</definition>
+        <argsstring>(const Vector3d &amp;point) const</argsstring>
+        <name>normal</name>
+        <reimplements refid="classcrpropa_1_1Surface_1ade6f351bacfb2e0a896956340976ec48">normal</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the normal to the surface at a point. Negative on the one side, positive on the other. For closed surfaces it is negative on the inside. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector corresponding to the point to which compute the normal vector </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="66" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Sphere_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1Surface_1a9025df426d11cbe30c5500d3ffb5d33c">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="67" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A sphere around point _center with radius _radius. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Sphere</label>
+        <link refid="classcrpropa_1_1Sphere"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>Surface</label>
+        <link refid="classcrpropa_1_1Surface"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Sphere</label>
+        <link refid="classcrpropa_1_1Sphere"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>Surface</label>
+        <link refid="classcrpropa_1_1Surface"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" line="59" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Geometry.h" bodystart="59" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Sphere_1a503438b5dbb1040d70d240d73e445429" prot="private" virt="non-virtual"><scope>crpropa::Sphere</scope><name>center</name></member>
+      <member refid="classcrpropa_1_1Sphere_1afa828819412faf3379edc0805d4b464b" prot="public" virt="virtual"><scope>crpropa::Sphere</scope><name>distance</name></member>
+      <member refid="classcrpropa_1_1Sphere_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" virt="virtual"><scope>crpropa::Sphere</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Sphere_1a5060ff7e42238d79dde60072cab20361" prot="public" virt="virtual"><scope>crpropa::Sphere</scope><name>normal</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Sphere_1a3f67c53b80389c5f53961936edba04c9" prot="private" virt="non-virtual"><scope>crpropa::Sphere</scope><name>radius</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Sphere_1a5609ad800f9361707822934639ac7a31" prot="public" virt="non-virtual"><scope>crpropa::Sphere</scope><name>Sphere</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1QuasiLinearTheory" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::QuasiLinearTheory</compoundname>
+    <basecompoundref refid="classcrpropa_1_1StepLengthModifier" prot="public" virt="non-virtual">StepLengthModifier</basecompoundref>
+    <includes refid="Acceleration_8h" local="no">crpropa/module/Acceleration.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1QuasiLinearTheory_1aa7d5ec86a297a1c7b96d8b8e251f6d9d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double __referenceEnergy</definition>
+        <argsstring></argsstring>
+        <name>__referenceEnergy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="125" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1QuasiLinearTheory_1ad2f2036d643646a93169d4a697d68a27" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double __turbulenceIndex</definition>
+        <argsstring></argsstring>
+        <name>__turbulenceIndex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="126" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1QuasiLinearTheory_1ae84826623404b34a978876b89a829427" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double __minimumRigidity</definition>
+        <argsstring></argsstring>
+        <name>__minimumRigidity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="127" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1QuasiLinearTheory_1a58b81900025a98a83b46e2b2e55832ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>QuasiLinearTheory</definition>
+        <argsstring>(double referenecEnergy=1. *EeV, double turbulenceIndex=5./3, double minimumRigidity=0)</argsstring>
+        <name>QuasiLinearTheory</name>
+        <param>
+          <type>double</type>
+          <declname>referenecEnergy</declname>
+          <defval>1. *EeV</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>turbulenceIndex</declname>
+          <defval>5./3</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minimumRigidity</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="130" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1QuasiLinearTheory_1a5d145dc5fa9b064404483d8d9d08d410" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double modify</definition>
+        <argsstring>(double steplength, Candidate *candidate)</argsstring>
+        <name>modify</name>
+        <reimplements refid="classcrpropa_1_1StepLengthModifier_1ad1eb02b8fb0168acb14b6f1ee64b9425">modify</reimplements>
+        <param>
+          <type>double</type>
+          <declname>steplength</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+<para>Returns an update of the steplength. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="133" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Scales the steplength according to quasi linear theory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Following quasi-linear theory [Schlickeiser1989], the mean free path <formula id="2">$\lambda$</formula> of a particle with energy <formula id="3">$E$</formula> and charge <formula id="4">$Z$</formula> in a field with turbulence spectrum <formula id="5">$\frac{k}{k_{\min}}^{-q}$</formula> is <formula id="6">\[ \lambda = {\left(\frac{B}{\delta B}\right)}^2 {\left(R_G\; k_{\min}\right)}^{1-q} R_G \equiv \lambda_0 {\left( \frac{E}{1 EeV}\frac{1}{Z} \right)}^{2-q} \]</formula> where <formula id="7">$R_G = \frac{E}{B Z}$</formula> is the gyro-radius of the particles. This class implements the rigidity dependent scaling factor used to modify the base step length. <simplesect kind="par"><title></title><para><bold></bold>[Schlickeiser1989] R. Schlickeiser, Cosmic-Ray Transport and Acceleration. II. Cosmic Rays in Moving Cold Media with Application to Diffusive Shock Wave Acceleration, The Astrophysical Journal 336 (1989) 264. doi:10.1086/167010. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QuasiLinearTheory</label>
+        <link refid="classcrpropa_1_1QuasiLinearTheory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>StepLengthModifier</label>
+        <link refid="classcrpropa_1_1StepLengthModifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QuasiLinearTheory</label>
+        <link refid="classcrpropa_1_1QuasiLinearTheory"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>StepLengthModifier</label>
+        <link refid="classcrpropa_1_1StepLengthModifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="123" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="123" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1QuasiLinearTheory_1ae84826623404b34a978876b89a829427" prot="private" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>__minimumRigidity</name></member>
+      <member refid="classcrpropa_1_1QuasiLinearTheory_1aa7d5ec86a297a1c7b96d8b8e251f6d9d" prot="private" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>__referenceEnergy</name></member>
+      <member refid="classcrpropa_1_1QuasiLinearTheory_1ad2f2036d643646a93169d4a697d68a27" prot="private" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>__turbulenceIndex</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1QuasiLinearTheory_1a5d145dc5fa9b064404483d8d9d08d410" prot="public" virt="virtual"><scope>crpropa::QuasiLinearTheory</scope><name>modify</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1QuasiLinearTheory_1a58b81900025a98a83b46e2b2e55832ab" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>QuasiLinearTheory</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::QuasiLinearTheory</scope><name>removeReferenceNoDelete</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

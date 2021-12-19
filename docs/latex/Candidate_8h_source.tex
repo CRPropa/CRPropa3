@@ -1,0 +1,105 @@
+\hypertarget{Candidate_8h_source}{}\doxysection{Candidate.\+h}
+\label{Candidate_8h_source}\index{Candidate.h@{Candidate.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_CANDIDATE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_CANDIDATE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/ParticleState.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/Referenced.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}crpropa/AssocVector.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}crpropa/Variant.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{27 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} \{}
+\DoxyCodeLine{28 \textcolor{keyword}{public}:}
+\DoxyCodeLine{29         \mbox{\hyperlink{classcrpropa_1_1ParticleState}{ParticleState}} \mbox{\hyperlink{classcrpropa_1_1Candidate_a68967a86ec6cebe3e4d2bc9291199538}{source}}; }
+\DoxyCodeLine{30         \mbox{\hyperlink{classcrpropa_1_1ParticleState}{ParticleState}} \mbox{\hyperlink{classcrpropa_1_1Candidate_a011cd815a1ca34d2f175ee40831c9769}{created}}; }
+\DoxyCodeLine{31         \mbox{\hyperlink{classcrpropa_1_1ParticleState}{ParticleState}} \mbox{\hyperlink{classcrpropa_1_1Candidate_a1fa209d6e1a65e798c38fa319f3dd45b}{current}}; }
+\DoxyCodeLine{32         \mbox{\hyperlink{classcrpropa_1_1ParticleState}{ParticleState}} \mbox{\hyperlink{classcrpropa_1_1Candidate_ab2ba7802b9b0cfbbdc790b3f1a0737be}{previous}}; }
+\DoxyCodeLine{34         std::vector<ref\_ptr<Candidate> > \mbox{\hyperlink{classcrpropa_1_1Candidate_a2791676a08ef59c5693c4668ed3ab846}{secondaries}}; }
+\DoxyCodeLine{36         \textcolor{keyword}{typedef} Loki::AssocVector<std::string, Variant> PropertyMap;}
+\DoxyCodeLine{37         PropertyMap \mbox{\hyperlink{classcrpropa_1_1Candidate_a8b9138006b8b78732f69103ebb21198e}{properties}}; }
+\DoxyCodeLine{40         \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *\mbox{\hyperlink{classcrpropa_1_1Candidate_a25c22468369e3c9d9fe8a4779ee9847d}{parent}};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{keyword}{private}:}
+\DoxyCodeLine{43         \textcolor{keywordtype}{bool} active; }
+\DoxyCodeLine{44         \textcolor{keywordtype}{double} weight; }
+\DoxyCodeLine{45         \textcolor{keywordtype}{double} redshift; }
+\DoxyCodeLine{46         \textcolor{keywordtype}{double} trajectoryLength; }
+\DoxyCodeLine{47         \textcolor{keywordtype}{double} currentStep; }
+\DoxyCodeLine{48         \textcolor{keywordtype}{double} nextStep; }
+\DoxyCodeLine{50         \textcolor{keyword}{static} uint64\_t nextSerialNumber;}
+\DoxyCodeLine{51         uint64\_t serialNumber;}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{keyword}{public}:}
+\DoxyCodeLine{54         \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}}(}
+\DoxyCodeLine{55                 \textcolor{keywordtype}{int} \textcolor{keywordtype}{id} = 0,}
+\DoxyCodeLine{56                 \textcolor{keywordtype}{double} energy = 0,}
+\DoxyCodeLine{57                 \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} position = \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0, 0, 0),}
+\DoxyCodeLine{58                 \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} direction = \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(-\/1, 0, 0),}
+\DoxyCodeLine{59                 \textcolor{keywordtype}{double} z = 0,}
+\DoxyCodeLine{60                 \textcolor{keywordtype}{double} weight = 1}
+\DoxyCodeLine{61         );}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{67         \mbox{\hyperlink{classcrpropa_1_1Candidate_a3d103d4a120e0b3242c82284e1fdac6a}{Candidate}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1ParticleState}{ParticleState}} \&state);}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69         \textcolor{keywordtype}{bool} isActive() \textcolor{keyword}{const};}
+\DoxyCodeLine{70         \textcolor{keywordtype}{void} setActive(\textcolor{keywordtype}{bool} b);}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72         \textcolor{keywordtype}{void} setTrajectoryLength(\textcolor{keywordtype}{double} length);}
+\DoxyCodeLine{73         \textcolor{keywordtype}{double} getTrajectoryLength() \textcolor{keyword}{const};}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75         \textcolor{keywordtype}{void} setRedshift(\textcolor{keywordtype}{double} z);}
+\DoxyCodeLine{76         \textcolor{keywordtype}{double} getRedshift() \textcolor{keyword}{const};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{82         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_ab50226c828200d266f71a1f910b97dcf}{setWeight}}(\textcolor{keywordtype}{double} weight);}
+\DoxyCodeLine{83         \textcolor{keywordtype}{double} getWeight() \textcolor{keyword}{const};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{89         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_ae1573bd9f9b414413c82039c870375f2}{setCurrentStep}}(\textcolor{keywordtype}{double} step);}
+\DoxyCodeLine{90         \textcolor{keywordtype}{double} getCurrentStep() \textcolor{keyword}{const};}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{96         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a32900f357403f1b437d93d309c8dafa8}{setNextStep}}(\textcolor{keywordtype}{double} step);}
+\DoxyCodeLine{97         \textcolor{keywordtype}{double} getNextStep() \textcolor{keyword}{const};}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{102         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_ac93b6ff689e3b7bb41d5af15c88f5db7}{limitNextStep}}(\textcolor{keywordtype}{double} step);}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104         \textcolor{keywordtype}{void} setProperty(\textcolor{keyword}{const} std::string \&name, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} \&value);}
+\DoxyCodeLine{105         \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} \&getProperty(\textcolor{keyword}{const} std::string \&name) \textcolor{keyword}{const};}
+\DoxyCodeLine{106         \textcolor{keywordtype}{bool} removeProperty(\textcolor{keyword}{const} std::string \&name);}
+\DoxyCodeLine{107         \textcolor{keywordtype}{bool} hasProperty(\textcolor{keyword}{const} std::string \&name) \textcolor{keyword}{const};}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{119         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a5ea13ee8fb4a836c6f324644ff986149}{addSecondary}}(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *c);}
+\DoxyCodeLine{120         \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a5ea13ee8fb4a836c6f324644ff986149}{addSecondary}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} c) \{ \mbox{\hyperlink{classcrpropa_1_1Candidate_a5ea13ee8fb4a836c6f324644ff986149}{addSecondary}}(c.get()); \};}
+\DoxyCodeLine{121         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a5ea13ee8fb4a836c6f324644ff986149}{addSecondary}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keywordtype}{double} energy, \textcolor{keywordtype}{double} weight = 1);}
+\DoxyCodeLine{122         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a5ea13ee8fb4a836c6f324644ff986149}{addSecondary}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keywordtype}{double} energy, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} position, \textcolor{keywordtype}{double} weight = 1);}
+\DoxyCodeLine{123         \textcolor{keywordtype}{void} clearSecondaries();}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{128         uint64\_t \mbox{\hyperlink{classcrpropa_1_1Candidate_a163045f010039477f763d4c155dd0c42}{getSerialNumber}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{129         \textcolor{keywordtype}{void} setSerialNumber(\textcolor{keyword}{const} uint64\_t snr);}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{132         uint64\_t \mbox{\hyperlink{classcrpropa_1_1Candidate_a6a91cf9b4f1f9027b28052a3b40bbf3a}{getSourceSerialNumber}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{135         uint64\_t \mbox{\hyperlink{classcrpropa_1_1Candidate_ab7d5d9f6df0267cf848b77847edfc295}{getCreatedSerialNumber}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{136 }
+\DoxyCodeLine{138         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a1af6bbb6bbc5ec030e6743c213162bb3}{setNextSerialNumber}}(uint64\_t snr);}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{141         \textcolor{keyword}{static} uint64\_t \mbox{\hyperlink{classcrpropa_1_1Candidate_ac852138b729295fd962c5189bdb6c095}{getNextSerialNumber}}();}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{147         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} \mbox{\hyperlink{classcrpropa_1_1Candidate_a486d3592b27c87673fe9d9b8cea6b10b}{clone}}(\textcolor{keywordtype}{bool} recursive = \textcolor{keyword}{false}) \textcolor{keyword}{const};}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{153         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Candidate_a22ee094ca3f45aa4156b97d34fe678bf}{restart}}();}
+\DoxyCodeLine{154 \};}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{157 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_CANDIDATE\_H}}
+
+\end{DoxyCode}

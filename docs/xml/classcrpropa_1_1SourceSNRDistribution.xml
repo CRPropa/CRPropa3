@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1SourceSNRDistribution" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::SourceSNRDistribution</compoundname>
+    <basecompoundref refid="classcrpropa_1_1SourceFeature" prot="public" virt="non-virtual">SourceFeature</basecompoundref>
+    <includes refid="Source_8h" local="no">crpropa/Source.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1adbbcaef6ddd78d0e04993460e2f90884" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rEarth</definition>
+        <argsstring></argsstring>
+        <name>rEarth</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="349" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1a20f4c4490bc8ecbdd1ffcb79acce6035" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="350" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1a9424343761f8c4f4c1afe8f5b6bf471b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="351" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1a204d4a19620c9b55745708144b6cfe48" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zg</definition>
+        <argsstring></argsstring>
+        <name>zg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="352" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1a4a094759e4d5169e09ef08b2d07c2f39" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double frMax</definition>
+        <argsstring></argsstring>
+        <name>frMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="353" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1a276fa8bb8d9ded80c613e6917eb12d82" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double fzMax</definition>
+        <argsstring></argsstring>
+        <name>fzMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="354" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1aa16856d9576bcb636dececec8b5cca43" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double rMax</definition>
+        <argsstring></argsstring>
+        <name>rMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="355" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceSNRDistribution_1a790bdbbfd2e54ee6b2eae14326e74501" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zMax</definition>
+        <argsstring></argsstring>
+        <name>zMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="357" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a0a70c62ee15f06dc07f96f03bedbc738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SourceSNRDistribution</definition>
+        <argsstring>()</argsstring>
+        <name>SourceSNRDistribution</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default constructor. Default parameters are: . rEarth = 8.5 kpc . alpha = 2 . beta = 3.53 . zg = 300 pc . rMax = 20 kpc . zMax = 5 kpc </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="368" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a461901deea47a5fee5817a82cf26f5b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SourceSNRDistribution</definition>
+        <argsstring>(double rEarth, double alpha, double beta, double zg)</argsstring>
+        <name>SourceSNRDistribution</name>
+        <param>
+          <type>double</type>
+          <declname>rEarth</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>beta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>zg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Generic constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rEarth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>distance from Earth to the Galactic centre [in meters] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter that shifts radially the maximum of the distributions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>beta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>parameter that shifts radially the maximum of the distributions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>exponential cut-off parameter in the z-direction [in meters] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="375" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1acc6074320f547e7c03f6957f33b1c3fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void prepareParticle</definition>
+        <argsstring>(ParticleState &amp;particle) const</argsstring>
+        <name>prepareParticle</name>
+        <reimplements refid="classcrpropa_1_1SourceFeature_1ae9b29d78b5d8a37dc7e78dbf06e8c24a">prepareParticle</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1ParticleState" kindref="compound">ParticleState</ref> &amp;</type>
+          <declname>particle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="377" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a6af9051fa5c07ec5eff0ec6a6950e987" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double fr</definition>
+        <argsstring>(double r) const</argsstring>
+        <name>fr</name>
+        <param>
+          <type>double</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="378" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1ac0df5345db49c72a7761cee9d8719673" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double fz</definition>
+        <argsstring>(double z) const</argsstring>
+        <name>fz</name>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="379" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a1cc8a28d85c23b075daad4c3a42f8d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setFrMax</definition>
+        <argsstring>()</argsstring>
+        <name>setFrMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="380" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a84305aab131df0d20d1c596c59680386" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setFzMax</definition>
+        <argsstring>(double Zg)</argsstring>
+        <name>setFzMax</name>
+        <param>
+          <type>double</type>
+          <declname>Zg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="381" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1ab954e93d8417acd51baa9707eacafa21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setRMax</definition>
+        <argsstring>(double rMax)</argsstring>
+        <name>setRMax</name>
+        <param>
+          <type>double</type>
+          <declname>rMax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="382" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a11b458654219c06ba713b72e7e580d0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setZMax</definition>
+        <argsstring>(double zMax)</argsstring>
+        <name>setZMax</name>
+        <param>
+          <type>double</type>
+          <declname>zMax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="383" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a496d4a82c955d7a994e0b2db7ba2483a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setAlpha</definition>
+        <argsstring>(double a)</argsstring>
+        <name>setAlpha</name>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="384" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a33b3c88e4f553812e75c92d63c4f2557" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setBeta</definition>
+        <argsstring>(double b)</argsstring>
+        <name>setBeta</name>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="385" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a3bd8920f437ff67a06a52074f8a7df6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getFrMax</definition>
+        <argsstring>() const</argsstring>
+        <name>getFrMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="386" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1aec4af8e68d23e553c25eb85a8b5cde67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getFzMax</definition>
+        <argsstring>() const</argsstring>
+        <name>getFzMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="387" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a9b1ef33e9da682bc8cb519d93e6ed838" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getRMax</definition>
+        <argsstring>() const</argsstring>
+        <name>getRMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="388" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a868bbc074a401bde6c3972ddb42f3fb5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getZMax</definition>
+        <argsstring>() const</argsstring>
+        <name>getZMax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="389" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1a60c4ffd54b97017a925bacbacd35732a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getAlpha</definition>
+        <argsstring>() const</argsstring>
+        <name>getAlpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="390" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1afd58b5596df63ffe10165b779b06d308" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getBeta</definition>
+        <argsstring>() const</argsstring>
+        <name>getBeta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="391" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceSNRDistribution_1ac0d27e78991c898a5256103561b87f8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>()</argsstring>
+        <name>setDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="392" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1ae64aafd3cc3ce74a222e274cae1515b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void prepareCandidate</definition>
+        <argsstring>(Candidate &amp;candidate) const</argsstring>
+        <name>prepareCandidate</name>
+        <reimplementedby refid="classcrpropa_1_1SourceDirectedEmission_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceEmissionMap_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceRedshift_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformRedshift_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceRedshiftEvolution_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceRedshift1D_1a43ecdee60be145ab1c5b49f95ce4a8f1">prepareCandidate</reimplementedby>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &amp;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="26" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="27" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classcrpropa_1_1Source" kindref="compound">Source</ref> distribution that follows the Galactic SNR distribution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The origin of the distribution is the Galactic center. The default maximum radius is set to rMax=20 kpc and the default maximum height is zMax = 5 kpc. See G. Case and D. Bhattacharya (1996) for the details of the distribution. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SourceSNRDistribution</label>
+        <link refid="classcrpropa_1_1SourceSNRDistribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SourceSNRDistribution</label>
+        <link refid="classcrpropa_1_1SourceSNRDistribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="348" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="348" bodyend="393"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a20f4c4490bc8ecbdd1ffcb79acce6035" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>alpha</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a9424343761f8c4f4c1afe8f5b6bf471b" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>beta</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a6af9051fa5c07ec5eff0ec6a6950e987" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>fr</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a4a094759e4d5169e09ef08b2d07c2f39" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>frMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1ac0df5345db49c72a7761cee9d8719673" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>fz</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a276fa8bb8d9ded80c613e6917eb12d82" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>fzMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a60c4ffd54b97017a925bacbacd35732a" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getAlpha</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1afd58b5596df63ffe10165b779b06d308" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getBeta</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a3bd8920f437ff67a06a52074f8a7df6a" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getFrMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1aec4af8e68d23e553c25eb85a8b5cde67" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getFzMax</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a9b1ef33e9da682bc8cb519d93e6ed838" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getRMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a868bbc074a401bde6c3972ddb42f3fb5" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>getZMax</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1ae64aafd3cc3ce74a222e274cae1515b4" prot="public" virt="virtual"><scope>crpropa::SourceSNRDistribution</scope><name>prepareCandidate</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1acc6074320f547e7c03f6957f33b1c3fb" prot="public" virt="virtual"><scope>crpropa::SourceSNRDistribution</scope><name>prepareParticle</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1adbbcaef6ddd78d0e04993460e2f90884" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>rEarth</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1aa16856d9576bcb636dececec8b5cca43" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>rMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a496d4a82c955d7a994e0b2db7ba2483a" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setAlpha</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a33b3c88e4f553812e75c92d63c4f2557" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setBeta</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1ac0d27e78991c898a5256103561b87f8a" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a1cc8a28d85c23b075daad4c3a42f8d9b" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setFrMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a84305aab131df0d20d1c596c59680386" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setFzMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1ab954e93d8417acd51baa9707eacafa21" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setRMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a11b458654219c06ba713b72e7e580d0e" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>setZMax</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a0a70c62ee15f06dc07f96f03bedbc738" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>SourceSNRDistribution</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a461901deea47a5fee5817a82cf26f5b8" prot="public" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>SourceSNRDistribution</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a204d4a19620c9b55745708144b6cfe48" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>zg</name></member>
+      <member refid="classcrpropa_1_1SourceSNRDistribution_1a790bdbbfd2e54ee6b2eae14326e74501" prot="private" virt="non-virtual"><scope>crpropa::SourceSNRDistribution</scope><name>zMax</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

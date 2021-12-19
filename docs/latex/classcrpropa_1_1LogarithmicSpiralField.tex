@@ -1,0 +1,55 @@
+\hypertarget{classcrpropa_1_1LogarithmicSpiralField}{}\doxysection{Logarithmic\+Spiral\+Field Class Reference}
+\label{classcrpropa_1_1LogarithmicSpiralField}\index{LogarithmicSpiralField@{LogarithmicSpiralField}}
+
+
+Galactic disk field model of axisymmetric (ASS) or bisymmetric (BSS) logarithmic spiral shape.  
+
+
+Inheritance diagram for Logarithmic\+Spiral\+Field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1LogarithmicSpiralField}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1LogarithmicSpiralField_aaa5f7cc6d0684f390abc20e966282cc9}\label{classcrpropa_1_1LogarithmicSpiralField_aaa5f7cc6d0684f390abc20e966282cc9}} 
+void {\bfseries set\+Parameters} (bool is\+BSS, double b0, double pitch, double rsol, double rc, double d, double z0)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1LogarithmicSpiralField_a6462d8df56e15eb127fef3661b40c186}\label{classcrpropa_1_1LogarithmicSpiralField_a6462d8df56e15eb127fef3661b40c186}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} pos) const
+\item 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1MagneticField_aef3300465ea467b43b5287554226973e}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}\label{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, double z) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Galactic disk field model of axisymmetric (ASS) or bisymmetric (BSS) logarithmic spiral shape. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_aef3300465ea467b43b5287554226973e}\label{classcrpropa_1_1MagneticField_aef3300465ea467b43b5287554226973e}} 
+\index{LogarithmicSpiralField@{LogarithmicSpiralField}!getField@{getField}}
+\index{getField@{getField}!LogarithmicSpiralField@{LogarithmicSpiralField}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [inherited]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1PlaneWaveTurbulence_a60b4a9f66e692a5d3620de910bae981e}{Plane\+Wave\+Turbulence}}.
+

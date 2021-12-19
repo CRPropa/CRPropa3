@@ -1,0 +1,193 @@
+\hypertarget{Random_8h_source}{}\doxysection{Random.\+h}
+\label{Random_8h_source}\index{Random.h@{Random.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Random.h}}
+\DoxyCodeLine{2 \textcolor{comment}{// Mersenne Twister random number generator -\/-\/ a C++ class Random}}
+\DoxyCodeLine{3 \textcolor{comment}{// Based on code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus}}
+\DoxyCodeLine{4 \textcolor{comment}{// Richard J. Wagner  v1.0  15 May 2003  rjwagner@writeme.com}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{comment}{// The Mersenne Twister is an algorithm for generating random numbers.  It}}
+\DoxyCodeLine{7 \textcolor{comment}{// was designed with consideration of the flaws in various other generators.}}
+\DoxyCodeLine{8 \textcolor{comment}{// The period, 2\string^19937-\/1, and the order of equidistribution, 623 dimensions,}}
+\DoxyCodeLine{9 \textcolor{comment}{// are far greater.  The generator is also fast; it avoids multiplication and}}
+\DoxyCodeLine{10 \textcolor{comment}{// division, and it benefits from caches and pipelines.  For more information}}
+\DoxyCodeLine{11 \textcolor{comment}{// see the inventors' web page at http://www.math.keio.ac.jp/\string~matumoto/emt.html}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{// Reference}}
+\DoxyCodeLine{14 \textcolor{comment}{// M. Matsumoto and T. Nishimura, "{}Mersenne Twister: A 623-\/Dimensionally}}
+\DoxyCodeLine{15 \textcolor{comment}{// Equidistributed Uniform Pseudo-\/Random Number Generator"{}, ACM Transactions on}}
+\DoxyCodeLine{16 \textcolor{comment}{// Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3-\/30.}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{comment}{// Copyright (C) 1997 -\/ 2002, Makoto Matsumoto and Takuji Nishimura,}}
+\DoxyCodeLine{19 \textcolor{comment}{// Copyright (C) 2000 -\/ 2003, Richard J. Wagner}}
+\DoxyCodeLine{20 \textcolor{comment}{// All rights reserved.}}
+\DoxyCodeLine{21 \textcolor{comment}{//}}
+\DoxyCodeLine{22 \textcolor{comment}{// Redistribution and use in source and binary forms, with or without}}
+\DoxyCodeLine{23 \textcolor{comment}{// modification, are permitted provided that the following conditions}}
+\DoxyCodeLine{24 \textcolor{comment}{// are met:}}
+\DoxyCodeLine{25 \textcolor{comment}{//}}
+\DoxyCodeLine{26 \textcolor{comment}{//   1. Redistributions of source code must retain the above copyright}}
+\DoxyCodeLine{27 \textcolor{comment}{//      notice, this list of conditions and the following disclaimer.}}
+\DoxyCodeLine{28 \textcolor{comment}{//}}
+\DoxyCodeLine{29 \textcolor{comment}{//   2. Redistributions in binary form must reproduce the above copyright}}
+\DoxyCodeLine{30 \textcolor{comment}{//      notice, this list of conditions and the following disclaimer in the}}
+\DoxyCodeLine{31 \textcolor{comment}{//      documentation and/or other materials provided with the distribution.}}
+\DoxyCodeLine{32 \textcolor{comment}{//}}
+\DoxyCodeLine{33 \textcolor{comment}{//   3. The names of its contributors may not be used to endorse or promote}}
+\DoxyCodeLine{34 \textcolor{comment}{//      products derived from this software without specific prior written}}
+\DoxyCodeLine{35 \textcolor{comment}{//      permission.}}
+\DoxyCodeLine{36 \textcolor{comment}{//}}
+\DoxyCodeLine{37 \textcolor{comment}{// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS}}
+\DoxyCodeLine{38 \textcolor{comment}{// "{}AS IS"{} AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT}}
+\DoxyCodeLine{39 \textcolor{comment}{// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR}}
+\DoxyCodeLine{40 \textcolor{comment}{// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR}}
+\DoxyCodeLine{41 \textcolor{comment}{// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,}}
+\DoxyCodeLine{42 \textcolor{comment}{// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,}}
+\DoxyCodeLine{43 \textcolor{comment}{// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR}}
+\DoxyCodeLine{44 \textcolor{comment}{// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF}}
+\DoxyCodeLine{45 \textcolor{comment}{// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING}}
+\DoxyCodeLine{46 \textcolor{comment}{// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS}}
+\DoxyCodeLine{47 \textcolor{comment}{// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{comment}{// The original code included the following notice:}}
+\DoxyCodeLine{50 \textcolor{comment}{//}}
+\DoxyCodeLine{51 \textcolor{comment}{//     When you use this, send an email to: matumoto@math.keio.ac.jp}}
+\DoxyCodeLine{52 \textcolor{comment}{//     with an appropriate reference to your work.}}
+\DoxyCodeLine{53 \textcolor{comment}{//}}
+\DoxyCodeLine{54 \textcolor{comment}{// It would be nice to CC: rjwagner@writeme.com and Cokus@math.washington.edu}}
+\DoxyCodeLine{55 \textcolor{comment}{// when you write.}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{comment}{// Parts of this file are modified beginning in 29.10.09 for adaption in PXL.}}
+\DoxyCodeLine{58 \textcolor{comment}{// Parts of this file are modified beginning in 10.02.12 for adaption in CRPropa.}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#ifndef RANDOM\_H}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define RANDOM\_H}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{comment}{// Not thread safe (unless auto-\/initialization is avoided and each thread has}}
+\DoxyCodeLine{64 \textcolor{comment}{// its own Random object)}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#include "{}crpropa/Vector3.h"{}}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#include <stdexcept>}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{comment}{//necessary for win32}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#ifndef M\_PI}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define M\_PI 3.14159265358979323846}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{97 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Random}{Random}} \{}
+\DoxyCodeLine{98 \textcolor{keyword}{public}:}
+\DoxyCodeLine{99         \textcolor{keyword}{enum} \{N = 624\}; \textcolor{comment}{// length of state vector}}
+\DoxyCodeLine{100         \textcolor{keyword}{enum} \{SAVE = N + 1\}; \textcolor{comment}{// length of array for save()}}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{103         \textcolor{keyword}{enum} \{M = 397\}; \textcolor{comment}{// period parameter}}
+\DoxyCodeLine{104         uint32\_t state[N];\textcolor{comment}{// internal state}}
+\DoxyCodeLine{105         std::vector<uint32\_t> initial\_seed;\textcolor{comment}{//}}
+\DoxyCodeLine{106         uint32\_t *pNext;\textcolor{comment}{// next value to get from state}}
+\DoxyCodeLine{107         \textcolor{keywordtype}{int} left;\textcolor{comment}{// number of values left before reload needed}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{comment}{//Methods}}
+\DoxyCodeLine{110 \textcolor{keyword}{public}:}
+\DoxyCodeLine{112         \mbox{\hyperlink{classcrpropa_1_1Random_a56b1112275f5ed766fc77897514bb982}{Random}}( \textcolor{keyword}{const} uint32\_t\& oneSeed );}
+\DoxyCodeLine{113         \textcolor{comment}{// initialize with an array}}
+\DoxyCodeLine{114         \mbox{\hyperlink{classcrpropa_1_1Random_aa0cd23a16025cfeef7b8810eeb2a5d36}{Random}}( uint32\_t *\textcolor{keyword}{const} bigSeed, uint32\_t \textcolor{keyword}{const} seedLength = N );}
+\DoxyCodeLine{119         \mbox{\hyperlink{classcrpropa_1_1Random_aa0cd23a16025cfeef7b8810eeb2a5d36}{Random}}();}
+\DoxyCodeLine{120         \textcolor{comment}{// Access to 32-\/bit random numbers}}
+\DoxyCodeLine{121         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a78309d923f245b6acf167260194ba6e1}{rand}}();}
+\DoxyCodeLine{122         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a6b54c1bfd54a46e292478870554eb4d0}{rand}}( \textcolor{keyword}{const} \textcolor{keywordtype}{double}\& n );}
+\DoxyCodeLine{123         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_adfd027765dc6de35f4305204edf51622}{randExc}}();}
+\DoxyCodeLine{124         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_ad9888d54bf71c0c6bb5941394a0e5651}{randExc}}( \textcolor{keyword}{const} \textcolor{keywordtype}{double}\& n );}
+\DoxyCodeLine{125         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a540919a8c8868928fffce58c66d1b91e}{randDblExc}}();}
+\DoxyCodeLine{126         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a680cbcf457bdc668d1a4d9a1c8bb882b}{randDblExc}}( \textcolor{keyword}{const} \textcolor{keywordtype}{double}\& n );}
+\DoxyCodeLine{127         \textcolor{comment}{// Pull a 32-\/bit integer from the generator state}}
+\DoxyCodeLine{128         \textcolor{comment}{// Every other access function simply transforms the numbers extracted here}}
+\DoxyCodeLine{129         uint32\_t \mbox{\hyperlink{classcrpropa_1_1Random_ac4c22a5f0d4edb44e3cee1d6bbd5150b}{randInt}}();}
+\DoxyCodeLine{130         uint32\_t \mbox{\hyperlink{classcrpropa_1_1Random_a878fbf49dbc79913221d45739fa92bf5}{randInt}}( \textcolor{keyword}{const} uint32\_t\& n );}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132         uint64\_t \mbox{\hyperlink{classcrpropa_1_1Random_a957487771e79552480efa2f2ed887261}{randInt64}}(); }
+\DoxyCodeLine{133         uint64\_t \mbox{\hyperlink{classcrpropa_1_1Random_a87c673ee0416521c657d34434ea4bfeb}{randInt64}}(\textcolor{keyword}{const} uint64\_t \&n); }
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a8ba58318b0e39bc2e453dd4dcac1f00f}{operator()}}() \{\textcolor{keywordflow}{return} \mbox{\hyperlink{classcrpropa_1_1Random_a78309d923f245b6acf167260194ba6e1}{rand}}();\} }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{137         \textcolor{comment}{// Access to 53-\/bit random numbers (capacity of IEEE double precision)}}
+\DoxyCodeLine{138         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_ae021627627a0dbdbd19b503a3955dcc9}{rand53}}();}
+\DoxyCodeLine{140         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a4b16357aa8da99122fa67aaba2653d68}{randExponential}}();}
+\DoxyCodeLine{142         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_aa9ff74123d4d205b49c9c8c44b2b3af3}{randNorm}}( \textcolor{keyword}{const} \textcolor{keywordtype}{double}\& mean = 0.0, \textcolor{keyword}{const} \textcolor{keywordtype}{double}\& variance = 1.0 );}
+\DoxyCodeLine{144         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a676ea228bb8be981a245f243599be2ba}{randUniform}}(\textcolor{keywordtype}{double} min, \textcolor{keywordtype}{double} max);}
+\DoxyCodeLine{146         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a22b7848147a9fecaa227fe4170ae6c6f}{randRayleigh}}(\textcolor{keywordtype}{double} sigma);}
+\DoxyCodeLine{148         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a0ef89b01dbab3b7af11d83ebbb088caf}{randFisher}}(\textcolor{keywordtype}{double} k);}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{151         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classcrpropa_1_1Random_ab70ffcf4477320f22f8c4b70756f60ed}{randBin}}(\textcolor{keyword}{const} std::vector<float> \&cdf);}
+\DoxyCodeLine{152         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classcrpropa_1_1Random_ab70ffcf4477320f22f8c4b70756f60ed}{randBin}}(\textcolor{keyword}{const} std::vector<double> \&cdf);}
+\DoxyCodeLine{153 }
+\DoxyCodeLine{155         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a72fcc3b309bcab75050c60ffa2659e3e}{randVector}}();}
+\DoxyCodeLine{157         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a61c9eacb9b10051428e5302d47b43c6f}{randVectorAroundMean}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&meanDirection, \textcolor{keywordtype}{double} angle);}
+\DoxyCodeLine{159         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a59845772e010c85222696da08143282d}{randFisherVector}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&meanDirection, \textcolor{keywordtype}{double} kappa);}
+\DoxyCodeLine{161         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a81c75a710fe75ed3ea662b23591dd171}{randConeVector}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&meanDirection, \textcolor{keywordtype}{double} angularRadius);}
+\DoxyCodeLine{165         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a546a92d9acde0f1337fb3c80787ac4b6}{randVectorLamberts}}();}
+\DoxyCodeLine{167         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a74914699e2bb54084f582a86f2a2a014}{randVectorLamberts}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&normalVector);}
+\DoxyCodeLine{169         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_abcd421d6ac5d8720014afa6e6e9ec9af}{randomInterpolatedPosition}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&a, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&b);}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{172         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_a0cd29fd1c9f315dbd0630fc3462d9831}{randPowerLaw}}(\textcolor{keywordtype}{double} index, \textcolor{keywordtype}{double} min, \textcolor{keywordtype}{double} max);}
+\DoxyCodeLine{174         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Random_abb08d2082cd8525b8968d45ba6b06378}{randBrokenPowerLaw}}(\textcolor{keywordtype}{double} index1, \textcolor{keywordtype}{double} index2, \textcolor{keywordtype}{double} breakpoint, \textcolor{keywordtype}{double} min, \textcolor{keywordtype}{double} max );}
+\DoxyCodeLine{175 }
+\DoxyCodeLine{177         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Random_af236dea62d3fe3989b66efea3d803d6c}{seed}}( \textcolor{keyword}{const} uint32\_t oneSeed );}
+\DoxyCodeLine{184         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Random_a7a771913a48046baa7a1d030fc95919d}{seed}}( uint32\_t *\textcolor{keyword}{const} bigSeed, \textcolor{keyword}{const} uint32\_t seedLength = N );}
+\DoxyCodeLine{185         \textcolor{comment}{// seed via an b64 encoded string}}
+\DoxyCodeLine{186         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Random_a78c8e327d0192e2a6c1df70828a86ec6}{seed}}( \textcolor{keyword}{const} std::string \&b64Seed);}
+\DoxyCodeLine{189         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Random_a78c8e327d0192e2a6c1df70828a86ec6}{seed}}();}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191         \textcolor{comment}{// Saving and loading generator state}}
+\DoxyCodeLine{192         \textcolor{keywordtype}{void} save( uint32\_t* saveArray ) \textcolor{keyword}{const};\textcolor{comment}{// to array of size SAVE}}
+\DoxyCodeLine{193         \textcolor{keywordtype}{void} load( uint32\_t *\textcolor{keyword}{const} loadArray );\textcolor{comment}{// from such array}}
+\DoxyCodeLine{194         \textcolor{keyword}{const} std::vector<uint32\_t> \&getSeed() \textcolor{keyword}{const}; \textcolor{comment}{// copy the seed to the array}}
+\DoxyCodeLine{195         \textcolor{keyword}{const} std::string getSeed\_base64() \textcolor{keyword}{const}; \textcolor{comment}{// get the base 64 encoded seed}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197         \textcolor{keyword}{friend} std::ostream\& operator<<( std::ostream\& os, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Random}{Random}}\& mtrand );}
+\DoxyCodeLine{198         \textcolor{keyword}{friend} std::istream\& operator>>( std::istream\& is, \mbox{\hyperlink{classcrpropa_1_1Random}{Random}}\& mtrand );}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200         \textcolor{keyword}{static} \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} \&instance();}
+\DoxyCodeLine{201         \textcolor{keyword}{static} \textcolor{keywordtype}{void} seedThreads(\textcolor{keyword}{const} uint32\_t oneSeed);}
+\DoxyCodeLine{202         \textcolor{keyword}{static} std::vector< std::vector<uint32\_t> > getSeedThreads();}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{204 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{209         \textcolor{keywordtype}{void} initialize( \textcolor{keyword}{const} uint32\_t oneSeed );}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{213         \textcolor{keywordtype}{void} reload();}
+\DoxyCodeLine{214         uint32\_t hiBit( \textcolor{keyword}{const} uint32\_t\& u )\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} u \& 0x80000000UL;\}}
+\DoxyCodeLine{215         uint32\_t loBit( \textcolor{keyword}{const} uint32\_t\& u )\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} u \& 0x00000001UL;\}}
+\DoxyCodeLine{216         uint32\_t loBits( \textcolor{keyword}{const} uint32\_t\& u )\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} u \& 0x7fffffffUL;\}}
+\DoxyCodeLine{217         uint32\_t mixBits( \textcolor{keyword}{const} uint32\_t\& u, \textcolor{keyword}{const} uint32\_t\& v )\textcolor{keyword}{ const}}
+\DoxyCodeLine{218 \textcolor{keyword}{        }\{       \textcolor{keywordflow}{return} hiBit(u) | loBits(v);\}}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#ifdef \_MSC\_VER}}
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#pragma warning( push )}}
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#pragma warning( disable : 4146 )}}
+\DoxyCodeLine{223 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{224         uint32\_t twist( \textcolor{keyword}{const} uint32\_t\& m, \textcolor{keyword}{const} uint32\_t\& s0, \textcolor{keyword}{const} uint32\_t\& s1 )\textcolor{keyword}{ const}}
+\DoxyCodeLine{225 \textcolor{keyword}{        }\{       \textcolor{keywordflow}{return} m \string^ (mixBits(s0,s1)>>1) \string^ (-\/loBit(s1) \& 0x9908b0dfUL);\}}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 \textcolor{preprocessor}{\#ifdef \_MSC\_VER}}
+\DoxyCodeLine{228 \textcolor{preprocessor}{\#pragma warning( pop )}}
+\DoxyCodeLine{229 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{234         \textcolor{keyword}{static} uint32\_t hash( time\_t t, clock\_t c );}
+\DoxyCodeLine{235 }
+\DoxyCodeLine{236 \};}
+\DoxyCodeLine{239 \} \textcolor{comment}{//namespace crpropa}}
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{// RANDOM\_H}}
+
+\end{DoxyCode}

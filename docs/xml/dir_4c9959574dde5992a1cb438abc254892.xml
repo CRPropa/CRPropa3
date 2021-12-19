@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="dir_4c9959574dde5992a1cb438abc254892" kind="dir">
+    <compoundname>magneticLens</compoundname>
+    <innerfile refid="MagneticLens_8h">MagneticLens.h</innerfile>
+    <innerfile refid="ModelMatrix_8h">ModelMatrix.h</innerfile>
+    <innerfile refid="ParticleMapsContainer_8h">ParticleMapsContainer.h</innerfile>
+    <innerfile refid="Pixelization_8h">Pixelization.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/"/>
+  </compounddef>
+</doxygen>

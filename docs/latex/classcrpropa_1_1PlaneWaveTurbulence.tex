@@ -1,0 +1,102 @@
+\hypertarget{classcrpropa_1_1PlaneWaveTurbulence}{}\doxysection{Plane\+Wave\+Turbulence Class Reference}
+\label{classcrpropa_1_1PlaneWaveTurbulence}\index{PlaneWaveTurbulence@{PlaneWaveTurbulence}}
+
+
+Interpolation-\/free turbulent magnetic field based on the GJ99 and TD13 papers.  
+
+
+Inheritance diagram for Plane\+Wave\+Turbulence\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classcrpropa_1_1PlaneWaveTurbulence}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1PlaneWaveTurbulence_afead2098623e128533da59d68f8c5f12}{Plane\+Wave\+Turbulence}} (const \mbox{\hyperlink{classcrpropa_1_1TurbulenceSpectrum}{Turbulence\+Spectrum}} \&spectrum, int Nm=64, int seed=0)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1PlaneWaveTurbulence_a60b4a9f66e692a5d3620de910bae981e}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&pos) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TurbulentField_a20da6a51e928681782a92b46046e48fb}\label{classcrpropa_1_1TurbulentField_a20da6a51e928681782a92b46046e48fb}} 
+double {\bfseries get\+Brms} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TurbulentField_ade6d13b158fda57508e3483d24328716}\label{classcrpropa_1_1TurbulentField_ade6d13b158fda57508e3483d24328716}} 
+virtual double {\bfseries get\+Correlation\+Length} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}\label{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, double z) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interpolation-\/free turbulent magnetic field based on the GJ99 and TD13 papers. 
+
+\hypertarget{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md0}{}\doxysubsubsection{Overview}\label{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md0}
+This class provides a turbulent magnetic field that is generated as described by \href{https://doi.org/10.1086/307452}{\texttt{ (Giacalone and Jokipii, 1999)}} and \href{https://doi.org/10.1063/1.4789861}{\texttt{ (Tautz and Dosch, 2013)}}. Instead of using an inverse Fourier transform to generate the field on a grid -- which then needs to be interpolated to obtain in-\/between values -- this method only generates the wave modes making up the turbulent magnetic field ahead of time. At run time, when the field\textquotesingle{}s value at a particular position is required, these plane waves are then evaluated analytically at that position. This guarantees that the resulting field is completely free of divergence, reproduces the mean field strength accurately, and does not suffer from other interpolation-\/induced problems. The disadvantage is that the number of wave modes is drastically smaller when compared with init\+Turbulence, which might have physical ramifications on the particles propagating through the field. Furthermore, depending on the exact setting, the implementation is somewhat slower (see Schlegel et al. for details).\hypertarget{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md1}{}\doxysubsubsection{Using the SIMD optimization}\label{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md1}
+In order to mitigate some of the performance impact that is inherent in this method of field generation, an optimized version is provided. According to our tests (see the paper above), this version runs 20-\/30x faster than the baseline implementation and matches the speed of trilinear interpolation on a grid at a bit less than 100 wavemodes. To do this, it uses special CPU instructions called AVX, which are unfortunately not supported by every CPU. On Linux, you can check whether your CPU supports AVX by using the {\ttfamily lscpu} command, and searching the flags section for the string \char`\"{}avx\char`\"{}. Alternatively, if you are building on the same CPU that CRPropa will run on, you can have the compiler detect this for you automatically (see below).
+
+An additional speedup of about 1.\+33 can be achieved if the CPU supports the FMA extension in addition to AVX. Again, you can either check for this manually, or have the compiler figure it out for you.
+
+Note$\ast$$\ast$ that the optimized and non-\/optimized implementations to not return the exact same results. In fact, since the effective wave numbers used by the optimized implementation are very slightly different from those used by the non-\/optimized version (a difference smaller than the precision of a double, but nevertheless relevant at some point), the wavemodes go out of phase for large distances from the origin, and the fields are no longer comparable at all.\hypertarget{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md2}{}\doxyparagraph{If you are building on the same machine that the code will run on\+:}\label{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item In cmake\+: enable the FAST\+\_\+\+WAVES flag.
+\item Also in cmake\+: set SIMD\+\_\+\+EXTENSIONS to \char`\"{}native\char`\"{}. The compiler will automatically detect support for your CPU and run the build with the appropriate settings.
+\item Generate files and exit cmake, then build.
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won\textquotesingle{}t be able to use the optimization; go back into cmake, disable FAST\+\_\+\+WAVES, and build again.
+\item If the build runs through without errors, the code is built with the optimization.
+\end{DoxyEnumerate}\hypertarget{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md3}{}\doxyparagraph{If you are building on a different machine from the one where the code will run\+:}\label{classcrpropa_1_1PlaneWaveTurbulence_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item Figure out which extensions your target machine supports, using {\ttfamily lscpu $\vert$ grep avx} for AVX, and {\ttfamily lscpu $\vert$ grep fma} for FMA. Run these commands on your target machine, not on your build machine. If your target machine does not run Linux, you may have to use different commands.
+\item If the CPU does not support AVX, you can stop here, and build normally. The CPU does not support the necessary extensions, and will not run code that is compiled using them.
+\item If the CPU does support AVX, continue. In cmake, enable the FAST\+\_\+\+WAVES flag.
+\item Also in cmake, set SIMD\+\_\+\+EXTENSIONS to the appropriate value. If your target CPU supports only AVX, but not FMA, set it to \char`\"{}avx\char`\"{}. If it supports both, set it to \char`\"{}avx+fma\char`\"{}.
+\item Generate and exit cmake, then build.
+\item If you made a mistake and used the wrong flags, you should see an illegal instruction error when trying to import CRPropa, or (at the latest) when trying to call {\ttfamily get\+Field}. 
+\end{DoxyEnumerate}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1PlaneWaveTurbulence_afead2098623e128533da59d68f8c5f12}\label{classcrpropa_1_1PlaneWaveTurbulence_afead2098623e128533da59d68f8c5f12}} 
+\index{PlaneWaveTurbulence@{PlaneWaveTurbulence}!PlaneWaveTurbulence@{PlaneWaveTurbulence}}
+\index{PlaneWaveTurbulence@{PlaneWaveTurbulence}!PlaneWaveTurbulence@{PlaneWaveTurbulence}}
+\doxysubsubsection{\texorpdfstring{PlaneWaveTurbulence()}{PlaneWaveTurbulence()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1PlaneWaveTurbulence}{Plane\+Wave\+Turbulence}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1TurbulenceSpectrum}{Turbulence\+Spectrum}} \&}]{spectrum,  }\item[{int}]{Nm = {\ttfamily 64},  }\item[{int}]{seed = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Create a new instance of \mbox{\hyperlink{classcrpropa_1_1PlaneWaveTurbulence}{Plane\+Wave\+Turbulence}} with the specified parameters. This generates all of the wavemodes according to the given parameters. 
+\begin{DoxyParams}{Parameters}
+{\em Nm} & number of wavemodes that will be used when computing the field. A higher value will give a more accurate representation of the turbulence, but increase the runtime for get\+Field. \\
+\hline
+{\em seed} & can be used to seed the random number generator used to generate the field. This works just like in init\+Turbulence\+: a seed of 0 will lead to a randomly initialized RNG. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1PlaneWaveTurbulence_a60b4a9f66e692a5d3620de910bae981e}\label{classcrpropa_1_1PlaneWaveTurbulence_a60b4a9f66e692a5d3620de910bae981e}} 
+\index{PlaneWaveTurbulence@{PlaneWaveTurbulence}!getField@{getField}}
+\index{getField@{getField}!PlaneWaveTurbulence@{PlaneWaveTurbulence}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Evaluates the field at the given position.
+
+Theoretical runtime is O(\+Nm), where Nm is the number of wavemodes. 
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}}.
+

@@ -1,0 +1,44 @@
+\hypertarget{PhotonPropagation_8h_source}{}\doxysection{Photon\+Propagation.\+h}
+\label{PhotonPropagation_8h_source}\index{PhotonPropagation.h@{PhotonPropagation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_PHOTON\_PROPAGATION\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_PHOTON\_PROPAGATION\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{18 \textcolor{keywordtype}{void} \mbox{\hyperlink{namespacecrpropa_aca0899b6299bda24481d6ec1eeff7988}{ElecaPropagation}}(}
+\DoxyCodeLine{19         \textcolor{keyword}{const} std::string \&inputfile,               }
+\DoxyCodeLine{20         \textcolor{keyword}{const} std::string \&outputfile,              }
+\DoxyCodeLine{21         \textcolor{keywordtype}{bool} showProgress = \textcolor{keyword}{true},                   }
+\DoxyCodeLine{22         \textcolor{keywordtype}{double} lowerEnergyThreshold = 0.8010882435, }
+\DoxyCodeLine{23         \textcolor{keywordtype}{double} magneticFieldStrength = 1E-\/13,       }
+\DoxyCodeLine{24         \textcolor{keyword}{const} std::string \&background = \textcolor{stringliteral}{"{}ALL"{}}       }
+\DoxyCodeLine{25         );}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{30 \textcolor{keywordtype}{void} \mbox{\hyperlink{namespacecrpropa_aa45964706e7d6ba2ffac41794424769f}{DintPropagation}}(}
+\DoxyCodeLine{31         \textcolor{keyword}{const} std::string \&inputfile,         }
+\DoxyCodeLine{32         \textcolor{keyword}{const} std::string \&outputfile,        }
+\DoxyCodeLine{33         \textcolor{keywordtype}{int} IRFlag = 4,                       }
+\DoxyCodeLine{34         \textcolor{keywordtype}{int} RadioFlag = 4,                    }
+\DoxyCodeLine{35         \textcolor{keywordtype}{double} magneticFieldStrength = 1E-\/13, }
+\DoxyCodeLine{36         \textcolor{keywordtype}{double} aCutcascade\_Magfield = 0       }
+\DoxyCodeLine{37         );}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{42 \textcolor{keywordtype}{void} \mbox{\hyperlink{namespacecrpropa_a7ea72826e167beaa042efafaec6876da}{DintElecaPropagation}}(}
+\DoxyCodeLine{43         \textcolor{keyword}{const} std::string \&inputfile,           }
+\DoxyCodeLine{44         \textcolor{keyword}{const} std::string \&outputfile,          }
+\DoxyCodeLine{45         \textcolor{keywordtype}{bool} showProgress = \textcolor{keyword}{true},               }
+\DoxyCodeLine{46         \textcolor{keywordtype}{double} crossOverEnergy = 0.08010882435, }
+\DoxyCodeLine{47         \textcolor{keywordtype}{double} magneticFieldStrength = 1E-\/13,   }
+\DoxyCodeLine{48         \textcolor{keywordtype}{double} aCutcascade\_Magfield = 0         }
+\DoxyCodeLine{49         );}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_PHOTON\_PROPAGATION\_H}}
+
+\end{DoxyCode}

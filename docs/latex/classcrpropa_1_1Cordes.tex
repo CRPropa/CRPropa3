@@ -1,0 +1,166 @@
+\hypertarget{classcrpropa_1_1Cordes}{}\doxysection{Cordes Class Reference}
+\label{classcrpropa_1_1Cordes}\index{Cordes@{Cordes}}
+
+
+Cylindrical symetrical model of the density of ionised hydrogen (HII) of the Milky Way \mbox{\hyperlink{classcrpropa_1_1Cordes}{Cordes}} et al., 1991, Nature 353,737.  
+
+
+Inheritance diagram for Cordes\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1Cordes}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1Cordes_aaa93132b2f2f99caf2a69477e5c8026b}{get\+Density}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1Cordes_ac51bce5cfaeae6e359938fbfdb98b360}{get\+HIIDensity}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1Cordes_a93e1387605f0b1f14c65afdc80526d7f}{get\+Nucleon\+Density}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1Cordes_a435c8c3e4dc0e7dec1bc5c8a09e568b9}{get\+Is\+For\+HI}} ()
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1Cordes_ab5ce7a02210aefeea1ba18db3e1a3f71}{get\+Is\+For\+HII}} ()
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1Cordes_a420253131374877a0d1af71148accec5}{get\+Is\+For\+H2}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_a73da75c3e5ec30855a02eae2ba824e38}\label{classcrpropa_1_1Cordes_a73da75c3e5ec30855a02eae2ba824e38}} 
+std\+::string {\bfseries get\+Description} ()
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_af9883d1a3a34d60ae8f5b70d091baf74}{get\+HIDensity}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_ab85734c9d4ecea5a4473ce2f0bb44888}{get\+H2\+Density}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Cylindrical symetrical model of the density of ionised hydrogen (HII) of the Milky Way \mbox{\hyperlink{classcrpropa_1_1Cordes}{Cordes}} et al., 1991, Nature 353,737. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_aaa93132b2f2f99caf2a69477e5c8026b}\label{classcrpropa_1_1Cordes_aaa93132b2f2f99caf2a69477e5c8026b}} 
+\index{Cordes@{Cordes}!getDensity@{getDensity}}
+\index{getDensity@{getDensity}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getDensity()}{getDensity()}}
+{\footnotesize\ttfamily double get\+Density (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & position in galactic coordinates with Earth at (-\/8.\+5kpc, 0, 0) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+density in parts/m$^\wedge$3 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Density}{Density}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_ab85734c9d4ecea5a4473ce2f0bb44888}\label{classcrpropa_1_1Density_ab85734c9d4ecea5a4473ce2f0bb44888}} 
+\index{Cordes@{Cordes}!getH2Density@{getH2Density}}
+\index{getH2Density@{getH2Density}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getH2Density()}{getH2Density()}}
+{\footnotesize\ttfamily virtual double get\+H2\+Density (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [inherited]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Ferriere}}, \mbox{\hyperlink{classcrpropa_1_1DensityList_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Density\+List}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_af9883d1a3a34d60ae8f5b70d091baf74}\label{classcrpropa_1_1Density_af9883d1a3a34d60ae8f5b70d091baf74}} 
+\index{Cordes@{Cordes}!getHIDensity@{getHIDensity}}
+\index{getHIDensity@{getHIDensity}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getHIDensity()}{getHIDensity()}}
+{\footnotesize\ttfamily virtual double get\+HIDensity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [inherited]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Ferriere}}, \mbox{\hyperlink{classcrpropa_1_1DensityList_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Density\+List}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_ac51bce5cfaeae6e359938fbfdb98b360}\label{classcrpropa_1_1Cordes_ac51bce5cfaeae6e359938fbfdb98b360}} 
+\index{Cordes@{Cordes}!getHIIDensity@{getHIIDensity}}
+\index{getHIIDensity@{getHIIDensity}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getHIIDensity()}{getHIIDensity()}}
+{\footnotesize\ttfamily double get\+HIIDensity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & position in galactic coordinates with Earth at (-\/8.\+5kpc, 0, 0) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+density of ionised hydrogen in parts/m$^\wedge$3, equal get\+Density thus no other type is included for \mbox{\hyperlink{classcrpropa_1_1Cordes}{Cordes}} 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Density}{Density}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_a420253131374877a0d1af71148accec5}\label{classcrpropa_1_1Cordes_a420253131374877a0d1af71148accec5}} 
+\index{Cordes@{Cordes}!getIsForH2@{getIsForH2}}
+\index{getIsForH2@{getIsForH2}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getIsForH2()}{getIsForH2()}}
+{\footnotesize\ttfamily bool get\+Is\+For\+H2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+activation status of H2 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Density}{Density}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_a435c8c3e4dc0e7dec1bc5c8a09e568b9}\label{classcrpropa_1_1Cordes_a435c8c3e4dc0e7dec1bc5c8a09e568b9}} 
+\index{Cordes@{Cordes}!getIsForHI@{getIsForHI}}
+\index{getIsForHI@{getIsForHI}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getIsForHI()}{getIsForHI()}}
+{\footnotesize\ttfamily bool get\+Is\+For\+HI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+activation status of HI 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Density}{Density}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_ab5ce7a02210aefeea1ba18db3e1a3f71}\label{classcrpropa_1_1Cordes_ab5ce7a02210aefeea1ba18db3e1a3f71}} 
+\index{Cordes@{Cordes}!getIsForHII@{getIsForHII}}
+\index{getIsForHII@{getIsForHII}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getIsForHII()}{getIsForHII()}}
+{\footnotesize\ttfamily bool get\+Is\+For\+HII (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+activation status of HII 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Density}{Density}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Cordes_a93e1387605f0b1f14c65afdc80526d7f}\label{classcrpropa_1_1Cordes_a93e1387605f0b1f14c65afdc80526d7f}} 
+\index{Cordes@{Cordes}!getNucleonDensity@{getNucleonDensity}}
+\index{getNucleonDensity@{getNucleonDensity}!Cordes@{Cordes}}
+\doxysubsubsection{\texorpdfstring{getNucleonDensity()}{getNucleonDensity()}}
+{\footnotesize\ttfamily double get\+Nucleon\+Density (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & position in galactic coordinates with Earth at (-\/8.\+5kpc, 0, 0) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+density of nucleons in parts/m$^\wedge$3, equal get\+Density thus only HII is included for \mbox{\hyperlink{classcrpropa_1_1Cordes}{Cordes}} 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Density}{Density}}.
+

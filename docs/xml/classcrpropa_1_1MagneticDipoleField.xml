@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1MagneticDipoleField" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::MagneticDipoleField</compoundname>
+    <basecompoundref refid="classcrpropa_1_1MagneticField" prot="public" virt="non-virtual">MagneticField</basecompoundref>
+    <includes refid="MagneticField_8h" local="no">crpropa/magneticField/MagneticField.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticDipoleField_1a455ee21058bbbfba7961610b095a4734" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d origin</definition>
+        <argsstring></argsstring>
+        <name>origin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="99" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticDipoleField_1a18018bca5483621ff5dff8de75680927" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d moment</definition>
+        <argsstring></argsstring>
+        <name>moment</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="100" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1MagneticDipoleField_1a3f67c53b80389c5f53961936edba04c9" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="101" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1MagneticDipoleField_1a860bf797ebd369a34f542078e663574d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MagneticDipoleField</definition>
+        <argsstring>(const Vector3d &amp;origin, const Vector3d &amp;moment, const double radius)</argsstring>
+        <name>MagneticDipoleField</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>origin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>moment</declname>
+        </param>
+        <param>
+          <type>const double</type>
+          <declname>radius</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="103" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticDipoleField_1aecbe60d2b34da88e8aa2a0872b904d38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getField</name>
+        <reimplements refid="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e">getField</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="106" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position, double z) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldEvolution_1a73fd1b457429f01ac03d1d50c7c7e1b0">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="29" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Magnetic dipole field defined by the magnetic moment and the &apos;core&apos; radius. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MagneticDipoleField</label>
+        <link refid="classcrpropa_1_1MagneticDipoleField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MagneticDipoleField</label>
+        <link refid="classcrpropa_1_1MagneticDipoleField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="98" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="98" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1MagneticDipoleField_1aecbe60d2b34da88e8aa2a0872b904d38" prot="public" virt="virtual"><scope>crpropa::MagneticDipoleField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" virt="virtual" ambiguityscope="crpropa::MagneticField::"><scope>crpropa::MagneticDipoleField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1MagneticDipoleField_1a860bf797ebd369a34f542078e663574d" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>MagneticDipoleField</name></member>
+      <member refid="classcrpropa_1_1MagneticDipoleField_1a18018bca5483621ff5dff8de75680927" prot="private" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>moment</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1MagneticDipoleField_1a455ee21058bbbfba7961610b095a4734" prot="private" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>origin</name></member>
+      <member refid="classcrpropa_1_1MagneticDipoleField_1a3f67c53b80389c5f53961936edba04c9" prot="private" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>radius</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::MagneticDipoleField</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" virt="virtual"><scope>crpropa::MagneticDipoleField</scope><name>~MagneticField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

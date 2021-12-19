@@ -1,0 +1,196 @@
+\hypertarget{classcrpropa_1_1Random}{}\doxysection{Random Class Reference}
+\label{classcrpropa_1_1Random}\index{Random@{Random}}
+
+
+\mbox{\hyperlink{classcrpropa_1_1Random}{Random}} number generator.  
+
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a06fc87d81c62e9abb8790b6e5713c55b}\label{classcrpropa_1_1Random_a06fc87d81c62e9abb8790b6e5713c55b}} 
+enum \{ {\bfseries N} = 624
+ \}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_adf764cbdea00d65edcd07bb9953ad2b7}\label{classcrpropa_1_1Random_adf764cbdea00d65edcd07bb9953ad2b7}} 
+enum \{ {\bfseries SAVE} = N + 1
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a56b1112275f5ed766fc77897514bb982}\label{classcrpropa_1_1Random_a56b1112275f5ed766fc77897514bb982}} 
+{\bfseries Random} (const uint32\+\_\+t \&one\+Seed)
+\begin{DoxyCompactList}\small\item\em initialize with a simple uint32\+\_\+t \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ad62a5cac2461f1ef702049da4f97f285}\label{classcrpropa_1_1Random_ad62a5cac2461f1ef702049da4f97f285}} 
+{\bfseries Random} (uint32\+\_\+t $\ast$const big\+Seed, uint32\+\_\+t const seed\+Length=N)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Random_aa0cd23a16025cfeef7b8810eeb2a5d36}{Random}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a78309d923f245b6acf167260194ba6e1}\label{classcrpropa_1_1Random_a78309d923f245b6acf167260194ba6e1}} 
+double {\bfseries rand} ()
+\begin{DoxyCompactList}\small\item\em real number in \mbox{[}0,1\mbox{]} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a6b54c1bfd54a46e292478870554eb4d0}\label{classcrpropa_1_1Random_a6b54c1bfd54a46e292478870554eb4d0}} 
+double {\bfseries rand} (const double \&n)
+\begin{DoxyCompactList}\small\item\em real number in \mbox{[}0,n\mbox{]} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_adfd027765dc6de35f4305204edf51622}\label{classcrpropa_1_1Random_adfd027765dc6de35f4305204edf51622}} 
+double {\bfseries rand\+Exc} ()
+\begin{DoxyCompactList}\small\item\em real number in \mbox{[}0,1) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ad9888d54bf71c0c6bb5941394a0e5651}\label{classcrpropa_1_1Random_ad9888d54bf71c0c6bb5941394a0e5651}} 
+double {\bfseries rand\+Exc} (const double \&n)
+\begin{DoxyCompactList}\small\item\em real number in \mbox{[}0,n) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a540919a8c8868928fffce58c66d1b91e}\label{classcrpropa_1_1Random_a540919a8c8868928fffce58c66d1b91e}} 
+double {\bfseries rand\+Dbl\+Exc} ()
+\begin{DoxyCompactList}\small\item\em real number in (0,1) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a680cbcf457bdc668d1a4d9a1c8bb882b}\label{classcrpropa_1_1Random_a680cbcf457bdc668d1a4d9a1c8bb882b}} 
+double {\bfseries rand\+Dbl\+Exc} (const double \&n)
+\begin{DoxyCompactList}\small\item\em real number in (0,n) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ac4c22a5f0d4edb44e3cee1d6bbd5150b}\label{classcrpropa_1_1Random_ac4c22a5f0d4edb44e3cee1d6bbd5150b}} 
+uint32\+\_\+t {\bfseries rand\+Int} ()
+\begin{DoxyCompactList}\small\item\em integer in \mbox{[}0,2$\ast$$\ast$32-\/1\mbox{]} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a878fbf49dbc79913221d45739fa92bf5}\label{classcrpropa_1_1Random_a878fbf49dbc79913221d45739fa92bf5}} 
+uint32\+\_\+t {\bfseries rand\+Int} (const uint32\+\_\+t \&n)
+\begin{DoxyCompactList}\small\item\em integer in \mbox{[}0,n\mbox{]} for n \texorpdfstring{$<$}{<} 2$\ast$$\ast$32 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a957487771e79552480efa2f2ed887261}\label{classcrpropa_1_1Random_a957487771e79552480efa2f2ed887261}} 
+uint64\+\_\+t {\bfseries rand\+Int64} ()
+\begin{DoxyCompactList}\small\item\em integer in \mbox{[}0, 2$\ast$$\ast$64 -\/1\mbox{]}. PROBABLY NOT SECURE TO USE \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a87c673ee0416521c657d34434ea4bfeb}\label{classcrpropa_1_1Random_a87c673ee0416521c657d34434ea4bfeb}} 
+uint64\+\_\+t {\bfseries rand\+Int64} (const uint64\+\_\+t \&n)
+\begin{DoxyCompactList}\small\item\em integer in \mbox{[}0, n\mbox{]} for n \texorpdfstring{$<$}{<} 2$\ast$$\ast$64 -\/1. PROBABLY NOT SECURE TO USE \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a8ba58318b0e39bc2e453dd4dcac1f00f}\label{classcrpropa_1_1Random_a8ba58318b0e39bc2e453dd4dcac1f00f}} 
+double {\bfseries operator()} ()
+\begin{DoxyCompactList}\small\item\em same as \mbox{\hyperlink{classcrpropa_1_1Random_a78309d923f245b6acf167260194ba6e1}{rand()}} \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcrpropa_1_1Random_ae021627627a0dbdbd19b503a3955dcc9}{rand53}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a4b16357aa8da99122fa67aaba2653d68}\label{classcrpropa_1_1Random_a4b16357aa8da99122fa67aaba2653d68}} 
+double {\bfseries rand\+Exponential} ()
+\begin{DoxyCompactList}\small\item\em Exponential distribution in (0,inf) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_aa9ff74123d4d205b49c9c8c44b2b3af3}\label{classcrpropa_1_1Random_aa9ff74123d4d205b49c9c8c44b2b3af3}} 
+double {\bfseries rand\+Norm} (const double \&mean=0.\+0, const double \&variance=1.\+0)
+\begin{DoxyCompactList}\small\item\em Normal distributed random number. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a676ea228bb8be981a245f243599be2ba}\label{classcrpropa_1_1Random_a676ea228bb8be981a245f243599be2ba}} 
+double {\bfseries rand\+Uniform} (double min, double max)
+\begin{DoxyCompactList}\small\item\em Uniform distribution in \mbox{[}min, max\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a22b7848147a9fecaa227fe4170ae6c6f}\label{classcrpropa_1_1Random_a22b7848147a9fecaa227fe4170ae6c6f}} 
+double {\bfseries rand\+Rayleigh} (double sigma)
+\begin{DoxyCompactList}\small\item\em Rayleigh distributed random number. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a0ef89b01dbab3b7af11d83ebbb088caf}\label{classcrpropa_1_1Random_a0ef89b01dbab3b7af11d83ebbb088caf}} 
+double {\bfseries rand\+Fisher} (double k)
+\begin{DoxyCompactList}\small\item\em Fisher distributed random number. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ab70ffcf4477320f22f8c4b70756f60ed}\label{classcrpropa_1_1Random_ab70ffcf4477320f22f8c4b70756f60ed}} 
+size\+\_\+t {\bfseries rand\+Bin} (const std\+::vector$<$ float $>$ \&cdf)
+\begin{DoxyCompactList}\small\item\em Draw a random bin from a (unnormalized) cumulative distribution function, without leading zero. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ab4e6c23c7c183cf426ab1fc941d641ed}\label{classcrpropa_1_1Random_ab4e6c23c7c183cf426ab1fc941d641ed}} 
+size\+\_\+t {\bfseries rand\+Bin} (const std\+::vector$<$ double $>$ \&cdf)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a72fcc3b309bcab75050c60ffa2659e3e}\label{classcrpropa_1_1Random_a72fcc3b309bcab75050c60ffa2659e3e}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries rand\+Vector} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} point on a unit-\/sphere. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a61c9eacb9b10051428e5302d47b43c6f}\label{classcrpropa_1_1Random_a61c9eacb9b10051428e5302d47b43c6f}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries rand\+Vector\+Around\+Mean} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&mean\+Direction, double angle)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} vector with given angular separation around mean direction. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a59845772e010c85222696da08143282d}\label{classcrpropa_1_1Random_a59845772e010c85222696da08143282d}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries rand\+Fisher\+Vector} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&mean\+Direction, double kappa)
+\begin{DoxyCompactList}\small\item\em Fisher distributed random vector. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a81c75a710fe75ed3ea662b23591dd171}\label{classcrpropa_1_1Random_a81c75a710fe75ed3ea662b23591dd171}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries rand\+Cone\+Vector} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&mean\+Direction, double angular\+Radius)
+\begin{DoxyCompactList}\small\item\em Uniform distributed random vector inside a cone. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Random_a546a92d9acde0f1337fb3c80787ac4b6}{rand\+Vector\+Lamberts}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a74914699e2bb54084f582a86f2a2a014}\label{classcrpropa_1_1Random_a74914699e2bb54084f582a86f2a2a014}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries rand\+Vector\+Lamberts} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&normal\+Vector)
+\begin{DoxyCompactList}\small\item\em Same as above but rotated to the respective normal\+Vector of surface element. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_abcd421d6ac5d8720014afa6e6e9ec9af}\label{classcrpropa_1_1Random_abcd421d6ac5d8720014afa6e6e9ec9af}} 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries random\+Interpolated\+Position} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&a, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&b)
+\begin{DoxyCompactList}\small\item\em \+\_\+\+Position vector uniformly distributed within propagation step size bin \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a0cd29fd1c9f315dbd0630fc3462d9831}\label{classcrpropa_1_1Random_a0cd29fd1c9f315dbd0630fc3462d9831}} 
+double {\bfseries rand\+Power\+Law} (double index, double min, double max)
+\begin{DoxyCompactList}\small\item\em Power-\/law distribution of a given differential spectral index. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_abb08d2082cd8525b8968d45ba6b06378}\label{classcrpropa_1_1Random_abb08d2082cd8525b8968d45ba6b06378}} 
+double {\bfseries rand\+Broken\+Power\+Law} (double index1, double index2, double breakpoint, double min, double max)
+\begin{DoxyCompactList}\small\item\em Broken power-\/law distribution. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_af236dea62d3fe3989b66efea3d803d6c}\label{classcrpropa_1_1Random_af236dea62d3fe3989b66efea3d803d6c}} 
+void {\bfseries seed} (const uint32\+\_\+t one\+Seed)
+\begin{DoxyCompactList}\small\item\em Seed the generator with a simple uint32\+\_\+t. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcrpropa_1_1Random_a7a771913a48046baa7a1d030fc95919d}{seed}} (uint32\+\_\+t $\ast$const big\+Seed, const uint32\+\_\+t seed\+Length=N)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a6eb14d1fa3a6bb3cdcbbf6917be80527}\label{classcrpropa_1_1Random_a6eb14d1fa3a6bb3cdcbbf6917be80527}} 
+void {\bfseries seed} (const std\+::string \&b64\+Seed)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Random_a78c8e327d0192e2a6c1df70828a86ec6}{seed}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a9b7609425232b19c2b8b8881df7bc283}\label{classcrpropa_1_1Random_a9b7609425232b19c2b8b8881df7bc283}} 
+void {\bfseries save} (uint32\+\_\+t $\ast$save\+Array) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_af5cc3013bd01511a65db801a2d064900}\label{classcrpropa_1_1Random_af5cc3013bd01511a65db801a2d064900}} 
+void {\bfseries load} (uint32\+\_\+t $\ast$const load\+Array)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a787f7e8614cbf6f8ca8cb7c6610104a6}\label{classcrpropa_1_1Random_a787f7e8614cbf6f8ca8cb7c6610104a6}} 
+const std\+::vector$<$ uint32\+\_\+t $>$ \& {\bfseries get\+Seed} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ab3d7fa7965ab742642883dcf1a827adb}\label{classcrpropa_1_1Random_ab3d7fa7965ab742642883dcf1a827adb}} 
+const std\+::string {\bfseries get\+Seed\+\_\+base64} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_aac1cabbcd67bd144350d24312cf4998b}\label{classcrpropa_1_1Random_aac1cabbcd67bd144350d24312cf4998b}} 
+static \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} \& {\bfseries instance} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a1e9531ae635ef7794bdbe7d7034951b3}\label{classcrpropa_1_1Random_a1e9531ae635ef7794bdbe7d7034951b3}} 
+static void {\bfseries seed\+Threads} (const uint32\+\_\+t one\+Seed)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_a9961004bfdf94139571a2fe3081112e7}\label{classcrpropa_1_1Random_a9961004bfdf94139571a2fe3081112e7}} 
+static std\+::vector$<$ std\+::vector$<$ uint32\+\_\+t $>$ $>$ {\bfseries get\+Seed\+Threads} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_af7ad29f134e696f0c1c88bbb1a84c033}\label{classcrpropa_1_1Random_af7ad29f134e696f0c1c88bbb1a84c033}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} \&mtrand)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Random_ac38c403f132634be45f39460cc634e82}\label{classcrpropa_1_1Random_ac38c403f132634be45f39460cc634e82}} 
+std\+::istream \& {\bfseries operator$>$$>$} (std\+::istream \&is, \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} \&mtrand)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classcrpropa_1_1Random}{Random}} number generator. 
+
+Mersenne Twister random number generator -- a C++ class \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} Based on code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus Richard J. Wagner v1.\+0 15 May 2003 \href{mailto:rjwagner@writeme.com}{\texttt{ rjwagner@writeme.\+com}} 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Random_aa0cd23a16025cfeef7b8810eeb2a5d36}\label{classcrpropa_1_1Random_aa0cd23a16025cfeef7b8810eeb2a5d36}} 
+\index{Random@{Random}!Random@{Random}}
+\index{Random@{Random}!Random@{Random}}
+\doxysubsubsection{\texorpdfstring{Random()}{Random()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Random}{Random}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+auto-\/initialize with /dev/urandom or time() and clock() Do NOT use for CRYPTOGRAPHY without securely hashing several returned values together, otherwise the generator state can be learned after reading 624 consecutive values. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Random_ae021627627a0dbdbd19b503a3955dcc9}\label{classcrpropa_1_1Random_ae021627627a0dbdbd19b503a3955dcc9}} 
+\index{Random@{Random}!rand53@{rand53}}
+\index{rand53@{rand53}!Random@{Random}}
+\doxysubsubsection{\texorpdfstring{rand53()}{rand53()}}
+{\footnotesize\ttfamily double rand53 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+real number in \mbox{[}0,1) (capacity of IEEE double precision) \mbox{\Hypertarget{classcrpropa_1_1Random_a546a92d9acde0f1337fb3c80787ac4b6}\label{classcrpropa_1_1Random_a546a92d9acde0f1337fb3c80787ac4b6}} 
+\index{Random@{Random}!randVectorLamberts@{randVectorLamberts}}
+\index{randVectorLamberts@{randVectorLamberts}!Random@{Random}}
+\doxysubsubsection{\texorpdfstring{randVectorLamberts()}{randVectorLamberts()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} rand\+Vector\+Lamberts (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{classcrpropa_1_1Random}{Random}} lamberts distributed vector with theta distribution\+: sin(t) $\ast$ cos(t), aka cosine law (\href{https://en.wikipedia.org/wiki/Lambert\%27s_cosine_law}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Lambert\%27s\+\_\+cosine\+\_\+law}}), for a surface element with normal vector pointing in positive z-\/axis (0, 0, 1) \mbox{\Hypertarget{classcrpropa_1_1Random_a78c8e327d0192e2a6c1df70828a86ec6}\label{classcrpropa_1_1Random_a78c8e327d0192e2a6c1df70828a86ec6}} 
+\index{Random@{Random}!seed@{seed}}
+\index{seed@{seed}!Random@{Random}}
+\doxysubsubsection{\texorpdfstring{seed()}{seed()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void seed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Seed the generator with an array from /dev/urandom if available Otherwise use a hash of time() and clock() values \mbox{\Hypertarget{classcrpropa_1_1Random_a7a771913a48046baa7a1d030fc95919d}\label{classcrpropa_1_1Random_a7a771913a48046baa7a1d030fc95919d}} 
+\index{Random@{Random}!seed@{seed}}
+\index{seed@{seed}!Random@{Random}}
+\doxysubsubsection{\texorpdfstring{seed()}{seed()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void seed (\begin{DoxyParamCaption}\item[{uint32\+\_\+t $\ast$const}]{big\+Seed,  }\item[{const uint32\+\_\+t}]{seed\+Length = {\ttfamily N} }\end{DoxyParamCaption})}
+
+Seed the generator with an array of uint32\+\_\+t\textquotesingle{}s There are 2$^\wedge$19937-\/1 possible initial states. This function allows all of those to be accessed by providing at least 19937 bits (with a default seed length of N = 624 uint32\+\_\+t\textquotesingle{}s). Any bits above the lower 32 in each element are discarded. Just call \mbox{\hyperlink{classcrpropa_1_1Random_a78c8e327d0192e2a6c1df70828a86ec6}{seed()}} if you want to get array from /dev/urandom 

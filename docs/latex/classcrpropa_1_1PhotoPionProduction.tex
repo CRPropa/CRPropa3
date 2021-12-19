@@ -1,0 +1,204 @@
+\hypertarget{classcrpropa_1_1PhotoPionProduction}{}\doxysection{Photo\+Pion\+Production Class Reference}
+\label{classcrpropa_1_1PhotoPionProduction}\index{PhotoPionProduction@{PhotoPionProduction}}
+
+
+Photo-\/pion interactions of nuclei with background photons.  
+
+
+Inheritance diagram for Photo\+Pion\+Production\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1PhotoPionProduction}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_aefec0c4a956005fe56c7939e7c804286}\label{classcrpropa_1_1PhotoPionProduction_aefec0c4a956005fe56c7939e7c804286}} 
+{\bfseries Photo\+Pion\+Production} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1PhotonField}{Photon\+Field}} $>$ photon\+Field, bool photons=false, bool neutrinos=false, bool electrons=false, bool anti\+Nucleons=false, double limit=0.\+1, bool have\+Redshift\+Dependence=false)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_abcd39fc71be75e01fcc294083be4024d}\label{classcrpropa_1_1PhotoPionProduction_abcd39fc71be75e01fcc294083be4024d}} 
+void {\bfseries set\+Photon\+Field} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1PhotonField}{Photon\+Field}} $>$ photon\+Field)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a066a49fb07366c030b9403706f83087a}\label{classcrpropa_1_1PhotoPionProduction_a066a49fb07366c030b9403706f83087a}} 
+void {\bfseries set\+Have\+Photons} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a93dc03a4c252a492642de79f38257821}\label{classcrpropa_1_1PhotoPionProduction_a93dc03a4c252a492642de79f38257821}} 
+void {\bfseries set\+Have\+Neutrinos} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_aca5f612cb1c832c1a9fa8e4989efe69a}\label{classcrpropa_1_1PhotoPionProduction_aca5f612cb1c832c1a9fa8e4989efe69a}} 
+void {\bfseries set\+Have\+Electrons} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_af07b97c242ee077455248471eeaafe5d}\label{classcrpropa_1_1PhotoPionProduction_af07b97c242ee077455248471eeaafe5d}} 
+void {\bfseries set\+Have\+Anti\+Nucleons} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a66a3ae3fd14fcb9436049ea26f01a726}\label{classcrpropa_1_1PhotoPionProduction_a66a3ae3fd14fcb9436049ea26f01a726}} 
+void {\bfseries set\+Have\+Redshift\+Dependence} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a29ee54f3ff5603da67762de093cff3b1}\label{classcrpropa_1_1PhotoPionProduction_a29ee54f3ff5603da67762de093cff3b1}} 
+void {\bfseries set\+Limit} (double limit)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a59a42db954994dde790bff6ad6551637}\label{classcrpropa_1_1PhotoPionProduction_a59a42db954994dde790bff6ad6551637}} 
+void {\bfseries init\+Rate} (std\+::string filename)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_aee0fc60831079a8a46d7f85eb4f0a5e5}\label{classcrpropa_1_1PhotoPionProduction_aee0fc60831079a8a46d7f85eb4f0a5e5}} 
+double {\bfseries nucleon\+MFP} (double gamma, double z, bool on\+Proton) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_ae1dedc1324c0028e90046448ab0fd779}\label{classcrpropa_1_1PhotoPionProduction_ae1dedc1324c0028e90046448ab0fd779}} 
+double {\bfseries nuclei\+Modification} (int A, int X) const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a70a762390f129c1ed666094aa6f24f82}\label{classcrpropa_1_1PhotoPionProduction_a70a762390f129c1ed666094aa6f24f82}} 
+void {\bfseries perform\+Interaction} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, bool on\+Proton) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction_a186df9faa7b56d876ec9faac635ab114}{loss\+Length}} (int id, double gamma, double z=0)
+\item 
+\mbox{\hyperlink{structcrpropa_1_1SophiaEventOutput}{Sophia\+Event\+Output}} \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction_a1f12f12580e9363d1dcb13e0034773d0}{sophia\+Event}} (bool on\+Proton, double Ein, double eps) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction_a5dabf744b0e83ea7de0a26a047ab0cbe}{sample\+Eps}} (bool on\+Proton, double E, double z) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction_ab8398a04a64e7c7152d5453bff059387}{prob\+Eps\+Max}} (bool on\+Proton, double Ein, double z, double eps\+Min, double eps\+Max) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a0452418a223a4babb7c119059a5b1b23}\label{classcrpropa_1_1PhotoPionProduction_a0452418a223a4babb7c119059a5b1b23}} 
+void {\bfseries set\+Sample\+Log} (bool log)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a2227d60e6284146f01d22e81993434c0}\label{classcrpropa_1_1PhotoPionProduction_a2227d60e6284146f01d22e81993434c0}} 
+void {\bfseries set\+Correction\+Factor} (double factor)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1PhotonField}{Photon\+Field}} $>$ \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction_a9c22d1999ae17919e778fd151aa00bb8}{get\+Photon\+Field}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a04a460a21b00fdc1938912f47d67879a}\label{classcrpropa_1_1PhotoPionProduction_a04a460a21b00fdc1938912f47d67879a}} 
+bool {\bfseries get\+Have\+Photons} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_ae12279a67ca654b0ccc2dff839fb0e97}\label{classcrpropa_1_1PhotoPionProduction_ae12279a67ca654b0ccc2dff839fb0e97}} 
+bool {\bfseries get\+Have\+Neutrinos} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a3e28c30613510d9c9dcf819545112141}\label{classcrpropa_1_1PhotoPionProduction_a3e28c30613510d9c9dcf819545112141}} 
+bool {\bfseries get\+Have\+Electrons} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_aa9b4afe9973da4614e88879f71fd31f1}\label{classcrpropa_1_1PhotoPionProduction_aa9b4afe9973da4614e88879f71fd31f1}} 
+bool {\bfseries get\+Have\+Anti\+Nucleons} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a0ae83c84a243719d4a13fc75cc4d2ce7}\label{classcrpropa_1_1PhotoPionProduction_a0ae83c84a243719d4a13fc75cc4d2ce7}} 
+bool {\bfseries get\+Have\+Redshift\+Dependence} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a42b620f25832be4cbb26f5ce5d850c28}\label{classcrpropa_1_1PhotoPionProduction_a42b620f25832be4cbb26f5ce5d850c28}} 
+double {\bfseries get\+Limit} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a639f1dc8934beb85e51a7966798ddfe5}\label{classcrpropa_1_1PhotoPionProduction_a639f1dc8934beb85e51a7966798ddfe5}} 
+bool {\bfseries get\+Sample\+Log} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a97f6d8e9ddc30cdcc84beea7cbcc8943}\label{classcrpropa_1_1PhotoPionProduction_a97f6d8e9ddc30cdcc84beea7cbcc8943}} 
+double {\bfseries get\+Correction\+Factor} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}\label{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}} 
+virtual std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Photo-\/pion interactions of nuclei with background photons. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a9c22d1999ae17919e778fd151aa00bb8}\label{classcrpropa_1_1PhotoPionProduction_a9c22d1999ae17919e778fd151aa00bb8}} 
+\index{PhotoPionProduction@{PhotoPionProduction}!getPhotonField@{getPhotonField}}
+\index{getPhotonField@{getPhotonField}!PhotoPionProduction@{PhotoPionProduction}}
+\doxysubsubsection{\texorpdfstring{getPhotonField()}{getPhotonField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1PhotonField}{Photon\+Field}} $>$ get\+Photon\+Field (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+get functions for the parameters of the class \mbox{\hyperlink{classcrpropa_1_1PhotoPionProduction}{Photo\+Pion\+Production}}, similar to the set functions \mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a186df9faa7b56d876ec9faac635ab114}\label{classcrpropa_1_1PhotoPionProduction_a186df9faa7b56d876ec9faac635ab114}} 
+\index{PhotoPionProduction@{PhotoPionProduction}!lossLength@{lossLength}}
+\index{lossLength@{lossLength}!PhotoPionProduction@{PhotoPionProduction}}
+\doxysubsubsection{\texorpdfstring{lossLength()}{lossLength()}}
+{\footnotesize\ttfamily double loss\+Length (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{double}]{gamma,  }\item[{double}]{z = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Calculates the loss length E dx/dE in \mbox{[}m\mbox{]}. This is not used in the simulation. 
+\begin{DoxyParams}{Parameters}
+{\em id} & PDG particle id \\
+\hline
+{\em gamma} & Lorentz factor of particle \\
+\hline
+{\em z} & redshift \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_ab8398a04a64e7c7152d5453bff059387}\label{classcrpropa_1_1PhotoPionProduction_ab8398a04a64e7c7152d5453bff059387}} 
+\index{PhotoPionProduction@{PhotoPionProduction}!probEpsMax@{probEpsMax}}
+\index{probEpsMax@{probEpsMax}!PhotoPionProduction@{PhotoPionProduction}}
+\doxysubsubsection{\texorpdfstring{probEpsMax()}{probEpsMax()}}
+{\footnotesize\ttfamily double prob\+Eps\+Max (\begin{DoxyParamCaption}\item[{bool}]{on\+Proton,  }\item[{double}]{Ein,  }\item[{double}]{z,  }\item[{double}]{eps\+Min,  }\item[{double}]{eps\+Max }\end{DoxyParamCaption}) const}
+
+called by\+: sample\+Eps 
+\begin{DoxyParams}{Parameters}
+{\em on\+Proton} & particle type\+: proton or neutron \\
+\hline
+{\em Ein} & energy of incoming nucleon \\
+\hline
+{\em z} & redshift of incoming nucleon \\
+\hline
+{\em eps\+Min} & minimum photon energy of field \\
+\hline
+{\em eps\+Max} & maximum photon energy of field
+\begin{DoxyItemize}
+\item output\+: maximum probability of all photons in field 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1PhotoPionProduction_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{PhotoPionProduction@{PhotoPionProduction}!process@{process}}
+\index{process@{process}!PhotoPionProduction@{PhotoPionProduction}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a5dabf744b0e83ea7de0a26a047ab0cbe}\label{classcrpropa_1_1PhotoPionProduction_a5dabf744b0e83ea7de0a26a047ab0cbe}} 
+\index{PhotoPionProduction@{PhotoPionProduction}!sampleEps@{sampleEps}}
+\index{sampleEps@{sampleEps}!PhotoPionProduction@{PhotoPionProduction}}
+\doxysubsubsection{\texorpdfstring{sampleEps()}{sampleEps()}}
+{\footnotesize\ttfamily double sample\+Eps (\begin{DoxyParamCaption}\item[{bool}]{on\+Proton,  }\item[{double}]{E,  }\item[{double}]{z }\end{DoxyParamCaption}) const}
+
+SOPHIA\textquotesingle{}s photon sampling method. Returns energy \mbox{[}J\mbox{]} of a photon of the photon field. 
+\begin{DoxyParams}{Parameters}
+{\em on\+Proton} & particle type\+: proton or neutron \\
+\hline
+{\em E} & energy of incoming nucleon \mbox{[}J\mbox{]} \\
+\hline
+{\em z} & redshift of incoming nucleon \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1PhotoPionProduction_a1f12f12580e9363d1dcb13e0034773d0}\label{classcrpropa_1_1PhotoPionProduction_a1f12f12580e9363d1dcb13e0034773d0}} 
+\index{PhotoPionProduction@{PhotoPionProduction}!sophiaEvent@{sophiaEvent}}
+\index{sophiaEvent@{sophiaEvent}!PhotoPionProduction@{PhotoPionProduction}}
+\doxysubsubsection{\texorpdfstring{sophiaEvent()}{sophiaEvent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcrpropa_1_1SophiaEventOutput}{Sophia\+Event\+Output}} sophia\+Event (\begin{DoxyParamCaption}\item[{bool}]{on\+Proton,  }\item[{double}]{Ein,  }\item[{double}]{eps }\end{DoxyParamCaption}) const}
+
+Direct SOPHIA interface. \mbox{\hyperlink{classcrpropa_1_1Output}{Output}} is an object \mbox{\hyperlink{structcrpropa_1_1SophiaEventOutput}{Sophia\+Event\+Output}} with two vectors \char`\"{}energy\char`\"{} and \char`\"{}id\char`\"{} each of length N (number of out-\/going particles). The i-\/th component of each vector corresponds to the same particle. This is not used in the simulation. 
+\begin{DoxyParams}{Parameters}
+{\em on\+Proton} & proton or neutron \\
+\hline
+{\em Ein} & energy of nucleon \\
+\hline
+{\em eps} & energy of target photon \\
+\hline
+\end{DoxyParams}

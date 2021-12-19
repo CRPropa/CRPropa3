@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Pixelization" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Pixelization</compoundname>
+    <includes refid="Pixelization_8h" local="no">crpropa/magneticLens/Pixelization.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Pixelization_1a4b02c071a107eaedd9e0a5135cf080ee" prot="private" static="no" mutable="no">
+        <type>healpix::T_Healpix_Base&lt; int &gt; *</type>
+        <definition>healpix::T_Healpix_Base&lt;int&gt;* _healpix</definition>
+        <argsstring></argsstring>
+        <name>_healpix</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="134" column="25" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Pixelization_1ac67b9efcee32759b20462cdedce64234" prot="private" static="yes" mutable="no">
+        <type>healpix::T_Healpix_Base&lt; healpix::int64 &gt;</type>
+        <definition>healpix::T_Healpix_Base&lt;healpix::int64&gt; _healpix_nest</definition>
+        <argsstring></argsstring>
+        <name>_healpix_nest</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="135" column="32" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a6d875743c25b8f70a0accb3b3de2a3f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Pixelization</definition>
+        <argsstring>()</argsstring>
+        <name>Pixelization</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="62" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1aeefb8b8e1a329293e43736d4d74c7009" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Pixelization</definition>
+        <argsstring>(uint8_t order)</argsstring>
+        <name>Pixelization</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor creating <ref refid="classcrpropa_1_1Pixelization" kindref="compound">Pixelization</ref> with healpix order 6 (about 50000 pixels) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="69" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a0ebb741fcea3fc1a6b8819ee0c5c92ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>~Pixelization</definition>
+        <argsstring>()</argsstring>
+        <name>~Pixelization</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="74" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1ab33ef46568e80d25ca7acd2d3e9ab31a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t direction2Pix</definition>
+        <argsstring>(double longitude, double latitude) const</argsstring>
+        <name>direction2Pix</name>
+        <param>
+          <type>double</type>
+          <declname>longitude</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latitude</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the number of the pixel which includes the direction (phi,theta) phi in [-pi, pi], theta in [-pi/2, pi/2] </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="81" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a4f2d0e0863f1bcf1a0a917993c3dbecc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t nPix</definition>
+        <argsstring>() const</argsstring>
+        <name>nPix</name>
+        <briefdescription>
+<para>Returns the number of pixels of the pixelization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="84" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1ab90b19b15460e9cf0a82c125cfb249cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int getNumberOfPixels</definition>
+        <argsstring>()</argsstring>
+        <name>getNumberOfPixels</name>
+        <briefdescription>
+<para>Returns the number of pixels of the pixelization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="93" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="93" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1aa533b778a48dddbca62ca72da272395a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void pix2Direction</definition>
+        <argsstring>(uint32_t i, double &amp;longitude, double &amp;latitude) const</argsstring>
+        <name>pix2Direction</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>longitude</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>latitude</declname>
+        </param>
+        <briefdescription>
+<para>Gives the center of pixel i in longitude [rad] and latitude [rad]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="103" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1aa74b5b26f169056d02e909bd469df475" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double angularDistance</definition>
+        <argsstring>(uint32_t i, uint32_t j) const</argsstring>
+        <name>angularDistance</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the angle [rad] between the vectors pointing to pixels i and j. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="106" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a1242a155d3e8d66680d219435f8d0389" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t getMaxOrder</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxOrder</name>
+        <briefdescription>
+<para>Returns the maximum possible pixelization order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="109" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a98eadb8e30d9431951cc51668f393837" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t getOrder</definition>
+        <argsstring>() const</argsstring>
+        <name>getOrder</name>
+        <briefdescription>
+<para>Returns healpix order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="115" column="11" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1ac61260ac39b82202cc7f56ba45ae6988" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void getRandomDirectionInPixel</definition>
+        <argsstring>(uint32_t pixel, double &amp;longitude, double &amp;latitude)</argsstring>
+        <name>getRandomDirectionInPixel</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>longitude</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>latitude</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="120" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1ac64520f505c79795beeb080d26f205be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void getPixelsInCone</definition>
+        <argsstring>(double longitude, double latitude, double radius, std::vector&lt; int &gt; &amp;listpix)</argsstring>
+        <name>getPixelsInCone</name>
+        <param>
+          <type>double</type>
+          <declname>longitude</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latitude</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>listpix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="122" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="122" bodyend="129"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1abed3ed159583294f0afbe36f340169fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t nPix</definition>
+        <argsstring>(uint8_t order)</argsstring>
+        <name>nPix</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of pixels given by healpix order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="90" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a4ee7adeb869614cba54eb5a461e8ccb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>static uint8_t pix2Order</definition>
+        <argsstring>(uint32_t pix)</argsstring>
+        <name>pix2Order</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>pix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the order, a given pixel number corresponds to. 0 if no match! </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="100" column="16"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a170892a6fc1794973eeaf79bf2006e78" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void spherCo2Vec</definition>
+        <argsstring>(double phi, double theta, healpix::vec3 &amp;V) const</argsstring>
+        <name>spherCo2Vec</name>
+        <param>
+          <type>double</type>
+          <declname>phi</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>theta</declname>
+        </param>
+        <param>
+          <type>healpix::vec3 &amp;</type>
+          <declname>V</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="132" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Pixelization_1a79ebe4a503fc3f0f0b1a020a2fe97005" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void vec2SphereCo</definition>
+        <argsstring>(double &amp;phi, double &amp;theta, const healpix::vec3 &amp;V) const</argsstring>
+        <name>vec2SphereCo</name>
+        <param>
+          <type>double &amp;</type>
+          <declname>phi</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>theta</declname>
+        </param>
+        <param>
+          <type>const healpix::vec3 &amp;</type>
+          <declname>V</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="133" column="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Every communication with healpix is done through this class to avoid bugs with missmatching coordinates (and make python hooks easier) </para>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" line="59" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticLens/Pixelization.h" bodystart="60" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Pixelization_1a4b02c071a107eaedd9e0a5135cf080ee" prot="private" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>_healpix</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1ac67b9efcee32759b20462cdedce64234" prot="private" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>_healpix_nest</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1aa74b5b26f169056d02e909bd469df475" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>angularDistance</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1ab33ef46568e80d25ca7acd2d3e9ab31a" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>direction2Pix</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a1242a155d3e8d66680d219435f8d0389" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>getMaxOrder</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1ab90b19b15460e9cf0a82c125cfb249cc" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>getNumberOfPixels</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a98eadb8e30d9431951cc51668f393837" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>getOrder</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1ac64520f505c79795beeb080d26f205be" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>getPixelsInCone</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1ac61260ac39b82202cc7f56ba45ae6988" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>getRandomDirectionInPixel</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a4f2d0e0863f1bcf1a0a917993c3dbecc" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>nPix</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1abed3ed159583294f0afbe36f340169fa" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>nPix</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1aa533b778a48dddbca62ca72da272395a" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>pix2Direction</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a4ee7adeb869614cba54eb5a461e8ccb8" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>pix2Order</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a6d875743c25b8f70a0accb3b3de2a3f4" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>Pixelization</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1aeefb8b8e1a329293e43736d4d74c7009" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>Pixelization</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a170892a6fc1794973eeaf79bf2006e78" prot="private" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>spherCo2Vec</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a79ebe4a503fc3f0f0b1a020a2fe97005" prot="private" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>vec2SphereCo</name></member>
+      <member refid="classcrpropa_1_1Pixelization_1a0ebb741fcea3fc1a6b8819ee0c5c92ad" prot="public" virt="non-virtual"><scope>crpropa::Pixelization</scope><name>~Pixelization</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

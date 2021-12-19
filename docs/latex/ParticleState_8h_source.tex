@@ -1,0 +1,55 @@
+\hypertarget{ParticleState_8h_source}{}\doxysection{Particle\+State.\+h}
+\label{ParticleState_8h_source}\index{ParticleState.h@{ParticleState.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_PARTICLE\_STATE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_PARTICLE\_STATE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Vector3.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{22 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ParticleState}{ParticleState}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24         \textcolor{keywordtype}{int} id; }
+\DoxyCodeLine{25         \textcolor{keywordtype}{double} energy; }
+\DoxyCodeLine{26         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} position; }
+\DoxyCodeLine{27         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} direction; }
+\DoxyCodeLine{28         \textcolor{keywordtype}{double} pmass; }
+\DoxyCodeLine{29         \textcolor{keywordtype}{double} charge; }
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{public}:}
+\DoxyCodeLine{38         \mbox{\hyperlink{classcrpropa_1_1ParticleState_a3b2134aacd85fc89fabec146864499a4}{ParticleState}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id} = 0, \textcolor{keywordtype}{double} energy = 0,}
+\DoxyCodeLine{39                         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} position = \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0, 0, 0),}
+\DoxyCodeLine{40                         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} direction = \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(-\/1, 0, 0));}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{46         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a8a87b0331cf36383d6288dacbd130815}{setPosition}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&pos);}
+\DoxyCodeLine{50         \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&\mbox{\hyperlink{classcrpropa_1_1ParticleState_abac3de8ba85bc885a80cbe318f7a51cf}{getPosition}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{55         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a6c0ee35bc91113145358b00a78649144}{setDirection}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&dir);}
+\DoxyCodeLine{59         \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&\mbox{\hyperlink{classcrpropa_1_1ParticleState_a9978c9c52c8ed89209d167a7f6207dd0}{getDirection}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{64         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a69c73ec5bd477ee9a8b5ae650733f4c3}{setEnergy}}(\textcolor{keywordtype}{double} newEnergy);}
+\DoxyCodeLine{68         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a5a4d737018dabc54f3e1974aeb87359c}{getEnergy}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{72         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a02bbc400ede4399d0512502eeffe1fe5}{getRigidity}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{79         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a3823ac57cf37e2d580f4f2a4963ebf0a}{setId}}(\textcolor{keywordtype}{int} newId);}
+\DoxyCodeLine{83         \textcolor{keywordtype}{int} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a4753a5331a3ccc5974088b45b2b532ab}{getId}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87         \textcolor{comment}{// ======== Helper methods ========}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{92         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a5992d48fc1b21b13a88d0882c72ffa4c}{getCharge}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{96         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleState_afbeba710bacd6ba91870ee9149d49d32}{getMass}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{101         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a65b64edf859c3cc195b2aef18e581ce6}{setLorentzFactor}}(\textcolor{keywordtype}{double} gamma);}
+\DoxyCodeLine{105         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a7ab59d3e26099b2e8f563e8e513b4e2c}{getLorentzFactor}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{110         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a1d1ba7557957041e8cf8915d1494c3d3}{getVelocity}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{114         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a309b39cbd8e50367144dd8d475b7c3b1}{getMomentum}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{115 \};}
+\DoxyCodeLine{118 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_PARTICLE\_STATE\_H}}
+
+\end{DoxyCode}

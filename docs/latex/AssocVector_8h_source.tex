@@ -1,0 +1,382 @@
+\hypertarget{AssocVector_8h_source}{}\doxysection{Assoc\+Vector.\+h}
+\label{AssocVector_8h_source}\index{AssocVector.h@{AssocVector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{2 \textcolor{comment}{// The Loki Library}}
+\DoxyCodeLine{3 \textcolor{comment}{// Copyright (c) 2001 by Andrei Alexandrescu}}
+\DoxyCodeLine{4 \textcolor{comment}{// This code accompanies the book:}}
+\DoxyCodeLine{5 \textcolor{comment}{// Alexandrescu, Andrei. "{}Modern C++ Design: Generic Programming and Design}}
+\DoxyCodeLine{6 \textcolor{comment}{//     Patterns Applied"{}. Copyright (c) 2001. Addison-\/Wesley.}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{8 \textcolor{comment}{// Permission is hereby granted, free of charge, to any person obtaining a copy}}
+\DoxyCodeLine{9 \textcolor{comment}{// of this software and associated documentation files (the "{}Software"{}), to deal}}
+\DoxyCodeLine{10 \textcolor{comment}{// in the Software without restriction, including without limitation the rights}}
+\DoxyCodeLine{11 \textcolor{comment}{// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell}}
+\DoxyCodeLine{12 \textcolor{comment}{// copies of the Software, and to permit persons to whom the Software is}}
+\DoxyCodeLine{13 \textcolor{comment}{// furnished to do so, subject to the following conditions:}}
+\DoxyCodeLine{14 \textcolor{comment}{//}}
+\DoxyCodeLine{15 \textcolor{comment}{// The above copyright notice and this permission notice shall be included in}}
+\DoxyCodeLine{16 \textcolor{comment}{// all copies or substantial portions of the Software.}}
+\DoxyCodeLine{17 \textcolor{comment}{//}}
+\DoxyCodeLine{18 \textcolor{comment}{// THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{19 \textcolor{comment}{// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,}}
+\DoxyCodeLine{20 \textcolor{comment}{// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE}}
+\DoxyCodeLine{21 \textcolor{comment}{// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER}}
+\DoxyCodeLine{22 \textcolor{comment}{// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,}}
+\DoxyCodeLine{23 \textcolor{comment}{// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE}}
+\DoxyCodeLine{24 \textcolor{comment}{// SOFTWARE.}}
+\DoxyCodeLine{26 \textcolor{comment}{}\textcolor{preprocessor}{\#ifndef LOKI\_ASSOCVECTOR\_INC\_}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define LOKI\_ASSOCVECTOR\_INC\_}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{comment}{// \$Id\$}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#include <iterator>}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{keyword}{namespace }Loki}
+\DoxyCodeLine{41 \{}
+\DoxyCodeLine{43 \textcolor{comment}{// class template AssocVectorCompare}}
+\DoxyCodeLine{44 \textcolor{comment}{// Used by AssocVector}}
+\DoxyCodeLine{46 \textcolor{comment}{}}
+\DoxyCodeLine{47     \textcolor{keyword}{namespace }Private}
+\DoxyCodeLine{48     \{}
+\DoxyCodeLine{49         \textcolor{keyword}{template} <\textcolor{keyword}{class} Value, \textcolor{keyword}{class} C>}
+\DoxyCodeLine{50         \textcolor{keyword}{class }AssocVectorCompare : \textcolor{keyword}{public} C}
+\DoxyCodeLine{51         \{}
+\DoxyCodeLine{52             \textcolor{keyword}{typedef} std::pair<typename C::first\_argument\_type, Value>}
+\DoxyCodeLine{53                 Data;}
+\DoxyCodeLine{54             \textcolor{keyword}{typedef} \textcolor{keyword}{typename} C::first\_argument\_type first\_argument\_type;}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56         \textcolor{keyword}{public}:}
+\DoxyCodeLine{57             AssocVectorCompare()}
+\DoxyCodeLine{58             \{\}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60             AssocVectorCompare(\textcolor{keyword}{const} C\& src) : C(src)}
+\DoxyCodeLine{61             \{\}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63             \textcolor{keywordtype}{bool} operator()(\textcolor{keyword}{const} first\_argument\_type\& lhs,}
+\DoxyCodeLine{64                 \textcolor{keyword}{const} first\_argument\_type\& rhs)\textcolor{keyword}{ const}}
+\DoxyCodeLine{65 \textcolor{keyword}{            }\{ \textcolor{keywordflow}{return} C::operator()(lhs, rhs); \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67             \textcolor{keywordtype}{bool} operator()(\textcolor{keyword}{const} Data\& lhs, \textcolor{keyword}{const} Data\& rhs)\textcolor{keyword}{ const}}
+\DoxyCodeLine{68 \textcolor{keyword}{            }\{ \textcolor{keywordflow}{return} operator()(lhs.first, rhs.first); \}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70             \textcolor{keywordtype}{bool} operator()(\textcolor{keyword}{const} Data\& lhs,}
+\DoxyCodeLine{71                 \textcolor{keyword}{const} first\_argument\_type\& rhs)\textcolor{keyword}{ const}}
+\DoxyCodeLine{72 \textcolor{keyword}{            }\{ \textcolor{keywordflow}{return} operator()(lhs.first, rhs); \}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74             \textcolor{keywordtype}{bool} operator()(\textcolor{keyword}{const} first\_argument\_type\& lhs,}
+\DoxyCodeLine{75                 \textcolor{keyword}{const} Data\& rhs)\textcolor{keyword}{ const}}
+\DoxyCodeLine{76 \textcolor{keyword}{            }\{ \textcolor{keywordflow}{return} operator()(lhs, rhs.first); \}}
+\DoxyCodeLine{77         \};}
+\DoxyCodeLine{78     \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{81 \textcolor{comment}{// class template AssocVector}}
+\DoxyCodeLine{82 \textcolor{comment}{// An associative vector built as a syntactic drop-\/in replacement for std::map}}
+\DoxyCodeLine{83 \textcolor{comment}{// BEWARE: AssocVector doesn't respect all map's guarantees, the most important}}
+\DoxyCodeLine{84 \textcolor{comment}{//     being:}}
+\DoxyCodeLine{85 \textcolor{comment}{// * iterators are invalidated by insert and erase operations}}
+\DoxyCodeLine{86 \textcolor{comment}{// * the complexity of insert/erase is O(N) not O(log N)}}
+\DoxyCodeLine{87 \textcolor{comment}{// * value\_type is std::pair<K, V> not std::pair<const K, V>}}
+\DoxyCodeLine{88 \textcolor{comment}{// * iterators are random}}
+\DoxyCodeLine{90 \textcolor{comment}{}}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92     \textcolor{keyword}{template}}
+\DoxyCodeLine{93     <}
+\DoxyCodeLine{94         \textcolor{keyword}{class }K,}
+\DoxyCodeLine{95         \textcolor{keyword}{class }V,}
+\DoxyCodeLine{96         \textcolor{keyword}{class }C = std::less<K>,}
+\DoxyCodeLine{97         \textcolor{keyword}{class }A = std::allocator< std::pair<K, V> >}
+\DoxyCodeLine{98     >}
+\DoxyCodeLine{99     \textcolor{keyword}{class }AssocVector}
+\DoxyCodeLine{100         : \textcolor{keyword}{private} std::vector< std::pair<K, V>, A >}
+\DoxyCodeLine{101         , \textcolor{keyword}{private} Private::AssocVectorCompare<V, C>}
+\DoxyCodeLine{102     \{}
+\DoxyCodeLine{103         \textcolor{keyword}{typedef} std::vector<std::pair<K, V>, A> Base;}
+\DoxyCodeLine{104         \textcolor{keyword}{typedef} Private::AssocVectorCompare<V, C> MyCompare;}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \textcolor{keyword}{public}:}
+\DoxyCodeLine{107         \textcolor{keyword}{typedef} K key\_type;}
+\DoxyCodeLine{108         \textcolor{keyword}{typedef} V mapped\_type;}
+\DoxyCodeLine{109         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::value\_type value\_type;}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111         \textcolor{keyword}{typedef} C key\_compare;}
+\DoxyCodeLine{112         \textcolor{keyword}{typedef} A allocator\_type;}
+\DoxyCodeLine{113         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} A::reference reference;}
+\DoxyCodeLine{114         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} A::const\_reference const\_reference;}
+\DoxyCodeLine{115         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::iterator iterator;}
+\DoxyCodeLine{116         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::const\_iterator const\_iterator;}
+\DoxyCodeLine{117         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::size\_type size\_type;}
+\DoxyCodeLine{118         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::difference\_type difference\_type;}
+\DoxyCodeLine{119         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} A::pointer pointer;}
+\DoxyCodeLine{120         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} A::const\_pointer const\_pointer;}
+\DoxyCodeLine{121         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::reverse\_iterator reverse\_iterator;}
+\DoxyCodeLine{122         \textcolor{keyword}{typedef} \textcolor{keyword}{typename} Base::const\_reverse\_iterator const\_reverse\_iterator;}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124         \textcolor{keyword}{class }value\_compare}
+\DoxyCodeLine{125             : \textcolor{keyword}{public} std::binary\_function<value\_type, value\_type, bool>}
+\DoxyCodeLine{126             , \textcolor{keyword}{private} key\_compare}
+\DoxyCodeLine{127         \{}
+\DoxyCodeLine{128             \textcolor{keyword}{friend} \textcolor{keyword}{class }AssocVector;}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130         \textcolor{keyword}{protected}:}
+\DoxyCodeLine{131             value\_compare(key\_compare pred) : key\_compare(pred)}
+\DoxyCodeLine{132             \{\}}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134         \textcolor{keyword}{public}:}
+\DoxyCodeLine{135             \textcolor{keywordtype}{bool} operator()(\textcolor{keyword}{const} value\_type\& lhs, \textcolor{keyword}{const} value\_type\& rhs)\textcolor{keyword}{ const}}
+\DoxyCodeLine{136 \textcolor{keyword}{            }\{ \textcolor{keywordflow}{return} key\_compare::operator()(lhs.first, rhs.first); \}}
+\DoxyCodeLine{137         \};}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139         \textcolor{comment}{// 23.3.1.1 construct/copy/destroy}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141         \textcolor{keyword}{explicit} AssocVector(\textcolor{keyword}{const} key\_compare\& comp = key\_compare(),}
+\DoxyCodeLine{142             \textcolor{keyword}{const} A\& alloc = A())}
+\DoxyCodeLine{143         : Base(alloc), MyCompare(comp)}
+\DoxyCodeLine{144         \{\}}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146         \textcolor{keyword}{template} <\textcolor{keyword}{class} InputIterator>}
+\DoxyCodeLine{147         AssocVector(InputIterator first, InputIterator last,}
+\DoxyCodeLine{148             \textcolor{keyword}{const} key\_compare\& comp = key\_compare(),}
+\DoxyCodeLine{149             \textcolor{keyword}{const} A\& alloc = A())}
+\DoxyCodeLine{150         : Base( alloc ), MyCompare( comp )}
+\DoxyCodeLine{151         \{}
+\DoxyCodeLine{152             typedef ::std::vector< ::std::pair< K, V >, A > BaseType;}
+\DoxyCodeLine{153             typedef ::std::map< K, V, C, A > TempMap;}
+\DoxyCodeLine{154             typedef ::std::back\_insert\_iterator< Base > MyInserter;}
+\DoxyCodeLine{155             MyCompare \& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{156             \textcolor{keyword}{const} A tempAlloc;}
+\DoxyCodeLine{157             \textcolor{comment}{// Make a temporary map similar to this type to prevent any duplicate elements.}}
+\DoxyCodeLine{158             TempMap temp( first, last, me, tempAlloc );}
+\DoxyCodeLine{159             Base::reserve( temp.size() );}
+\DoxyCodeLine{160             BaseType \& target = \textcolor{keyword}{static\_cast<} BaseType \& \textcolor{keyword}{>}( *this );}
+\DoxyCodeLine{161             MyInserter myInserter = ::std::back\_inserter( target );}
+\DoxyCodeLine{162             ::std::copy( temp.begin(), temp.end(), myInserter );}
+\DoxyCodeLine{163         \}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165         AssocVector\& operator=(\textcolor{keyword}{const} AssocVector\& rhs)}
+\DoxyCodeLine{166         \{}
+\DoxyCodeLine{167             AssocVector(rhs).swap(*\textcolor{keyword}{this});}
+\DoxyCodeLine{168             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{169         \}}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171         \textcolor{comment}{// iterators:}}
+\DoxyCodeLine{172         \textcolor{comment}{// The following are here because MWCW gets 'using' wrong}}
+\DoxyCodeLine{173         iterator begin() \{ \textcolor{keywordflow}{return} Base::begin(); \}}
+\DoxyCodeLine{174         const\_iterator begin()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} Base::begin(); \}}
+\DoxyCodeLine{175         iterator end() \{ \textcolor{keywordflow}{return} Base::end(); \}}
+\DoxyCodeLine{176         const\_iterator end()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} Base::end(); \}}
+\DoxyCodeLine{177         reverse\_iterator rbegin() \{ \textcolor{keywordflow}{return} Base::rbegin(); \}}
+\DoxyCodeLine{178         const\_reverse\_iterator rbegin()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} Base::rbegin(); \}}
+\DoxyCodeLine{179         reverse\_iterator rend() \{ \textcolor{keywordflow}{return} Base::rend(); \}}
+\DoxyCodeLine{180         const\_reverse\_iterator rend()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} Base::rend(); \}}
+\DoxyCodeLine{181 }
+\DoxyCodeLine{182         \textcolor{comment}{// capacity:}}
+\DoxyCodeLine{183         \textcolor{keywordtype}{bool} empty()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} Base::empty(); \}}
+\DoxyCodeLine{184         size\_type size()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} Base::size(); \}}
+\DoxyCodeLine{185         size\_type max\_size() \{ \textcolor{keywordflow}{return} Base::max\_size(); \}}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187         \textcolor{comment}{// 23.3.1.2 element access:}}
+\DoxyCodeLine{188         mapped\_type\& operator[](\textcolor{keyword}{const} key\_type\& key)}
+\DoxyCodeLine{189         \{ \textcolor{keywordflow}{return} insert(value\_type(key, mapped\_type())).first-\/>second; \}}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{191         \textcolor{comment}{// modifiers:}}
+\DoxyCodeLine{192         std::pair<iterator, bool> insert(\textcolor{keyword}{const} value\_type\& val)}
+\DoxyCodeLine{193         \{}
+\DoxyCodeLine{194             \textcolor{keywordtype}{bool} found(\textcolor{keyword}{true});}
+\DoxyCodeLine{195             iterator i(lower\_bound(val.first));}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197             \textcolor{keywordflow}{if} (i == end() || this-\/>\textcolor{keyword}{operator}()(val.first, i-\/>first))}
+\DoxyCodeLine{198             \{}
+\DoxyCodeLine{199                 i = Base::insert(i, val);}
+\DoxyCodeLine{200                 found = \textcolor{keyword}{false};}
+\DoxyCodeLine{201             \}}
+\DoxyCodeLine{202             \textcolor{keywordflow}{return} std::make\_pair(i, !found);}
+\DoxyCodeLine{203         \}}
+\DoxyCodeLine{204         \textcolor{comment}{//Section [23.1.2], Table 69}}
+\DoxyCodeLine{205         \textcolor{comment}{//http://developer.apple.com/documentation/DeveloperTools/gcc-\/3.3/libstdc++/23\_containers/howto.html\#4}}
+\DoxyCodeLine{206         iterator insert(iterator pos, \textcolor{keyword}{const} value\_type\& val)}
+\DoxyCodeLine{207         \{}
+\DoxyCodeLine{208             \textcolor{keywordflow}{if}( (pos == begin() || this-\/>\textcolor{keyword}{operator}()(*(pos-\/1),val)) \&\&}
+\DoxyCodeLine{209                 (pos == end()    || this-\/>\textcolor{keyword}{operator}()(val, *pos)) )}
+\DoxyCodeLine{210             \{}
+\DoxyCodeLine{211                 \textcolor{keywordflow}{return} Base::insert(pos, val);}
+\DoxyCodeLine{212             \}}
+\DoxyCodeLine{213             \textcolor{keywordflow}{return} insert(val).first;}
+\DoxyCodeLine{214         \}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216         \textcolor{keyword}{template} <\textcolor{keyword}{class} InputIterator>}
+\DoxyCodeLine{217         \textcolor{keywordtype}{void} insert(InputIterator first, InputIterator last)}
+\DoxyCodeLine{218         \{ \textcolor{keywordflow}{for} (; first != last; ++first) insert(*first); \}}
+\DoxyCodeLine{219 }
+\DoxyCodeLine{220         \textcolor{keywordtype}{void} erase(iterator pos)}
+\DoxyCodeLine{221         \{ Base::erase(pos); \}}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223         size\_type erase(\textcolor{keyword}{const} key\_type\& k)}
+\DoxyCodeLine{224         \{}
+\DoxyCodeLine{225             iterator i(find(k));}
+\DoxyCodeLine{226             \textcolor{keywordflow}{if} (i == end()) \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{227             erase(i);}
+\DoxyCodeLine{228             \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{229         \}}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231         \textcolor{keywordtype}{void} erase(iterator first, iterator last)}
+\DoxyCodeLine{232         \{ Base::erase(first, last); \}}
+\DoxyCodeLine{233 }
+\DoxyCodeLine{234         \textcolor{keywordtype}{void} swap(AssocVector\& other)}
+\DoxyCodeLine{235         \{}
+\DoxyCodeLine{236             Base::swap(other);}
+\DoxyCodeLine{237             MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{238             MyCompare\& rhs = other;}
+\DoxyCodeLine{239             std::swap(me, rhs);}
+\DoxyCodeLine{240         \}}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242         \textcolor{keywordtype}{void} clear()}
+\DoxyCodeLine{243         \{ Base::clear(); \}}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{245         \textcolor{comment}{// observers:}}
+\DoxyCodeLine{246         key\_compare key\_comp()\textcolor{keyword}{ const}}
+\DoxyCodeLine{247 \textcolor{keyword}{        }\{ \textcolor{keywordflow}{return} *\textcolor{keyword}{this}; \}}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249         value\_compare value\_comp()\textcolor{keyword}{ const}}
+\DoxyCodeLine{250 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{251             \textcolor{keyword}{const} key\_compare\& comp = *\textcolor{keyword}{this};}
+\DoxyCodeLine{252             \textcolor{keywordflow}{return} value\_compare(comp);}
+\DoxyCodeLine{253         \}}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255         \textcolor{comment}{// 23.3.1.3 map operations:}}
+\DoxyCodeLine{256         iterator find(\textcolor{keyword}{const} key\_type\& k)}
+\DoxyCodeLine{257         \{}
+\DoxyCodeLine{258             iterator i(lower\_bound(k));}
+\DoxyCodeLine{259             \textcolor{keywordflow}{if} (i != end() \&\& this-\/>\textcolor{keyword}{operator}()(k, i-\/>first))}
+\DoxyCodeLine{260             \{}
+\DoxyCodeLine{261                 i = end();}
+\DoxyCodeLine{262             \}}
+\DoxyCodeLine{263             \textcolor{keywordflow}{return} i;}
+\DoxyCodeLine{264         \}}
+\DoxyCodeLine{265 }
+\DoxyCodeLine{266         const\_iterator find(\textcolor{keyword}{const} key\_type\& k)\textcolor{keyword}{ const}}
+\DoxyCodeLine{267 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{268             const\_iterator i(lower\_bound(k));}
+\DoxyCodeLine{269             \textcolor{keywordflow}{if} (i != end() \&\& this-\/>\textcolor{keyword}{operator}()(k, i-\/>first))}
+\DoxyCodeLine{270             \{}
+\DoxyCodeLine{271                 i = end();}
+\DoxyCodeLine{272             \}}
+\DoxyCodeLine{273             \textcolor{keywordflow}{return} i;}
+\DoxyCodeLine{274         \}}
+\DoxyCodeLine{275 }
+\DoxyCodeLine{276         size\_type count(\textcolor{keyword}{const} key\_type\& k)\textcolor{keyword}{ const}}
+\DoxyCodeLine{277 \textcolor{keyword}{        }\{ \textcolor{keywordflow}{return} find(k) != end(); \}}
+\DoxyCodeLine{278 }
+\DoxyCodeLine{279         iterator lower\_bound(\textcolor{keyword}{const} key\_type\& k)}
+\DoxyCodeLine{280         \{}
+\DoxyCodeLine{281             MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{282             \textcolor{keywordflow}{return} std::lower\_bound(begin(), end(), k, me);}
+\DoxyCodeLine{283         \}}
+\DoxyCodeLine{284 }
+\DoxyCodeLine{285         const\_iterator lower\_bound(\textcolor{keyword}{const} key\_type\& k)\textcolor{keyword}{ const}}
+\DoxyCodeLine{286 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{287             \textcolor{keyword}{const} MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{288             \textcolor{keywordflow}{return} std::lower\_bound(begin(), end(), k, me);}
+\DoxyCodeLine{289         \}}
+\DoxyCodeLine{290 }
+\DoxyCodeLine{291         iterator upper\_bound(\textcolor{keyword}{const} key\_type\& k)}
+\DoxyCodeLine{292         \{}
+\DoxyCodeLine{293             MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{294             \textcolor{keywordflow}{return} std::upper\_bound(begin(), end(), k, me);}
+\DoxyCodeLine{295         \}}
+\DoxyCodeLine{296 }
+\DoxyCodeLine{297         const\_iterator upper\_bound(\textcolor{keyword}{const} key\_type\& k)\textcolor{keyword}{ const}}
+\DoxyCodeLine{298 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{299             \textcolor{keyword}{const} MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{300             \textcolor{keywordflow}{return} std::upper\_bound(begin(), end(), k, me);}
+\DoxyCodeLine{301         \}}
+\DoxyCodeLine{302 }
+\DoxyCodeLine{303         std::pair<iterator, iterator> equal\_range(\textcolor{keyword}{const} key\_type\& k)}
+\DoxyCodeLine{304         \{}
+\DoxyCodeLine{305             MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{306             \textcolor{keywordflow}{return} std::equal\_range(begin(), end(), k, me);}
+\DoxyCodeLine{307         \}}
+\DoxyCodeLine{308 }
+\DoxyCodeLine{309         std::pair<const\_iterator, const\_iterator> equal\_range(}
+\DoxyCodeLine{310             \textcolor{keyword}{const} key\_type\& k)\textcolor{keyword}{ const}}
+\DoxyCodeLine{311 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{312             \textcolor{keyword}{const} MyCompare\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{313             \textcolor{keywordflow}{return} std::equal\_range(begin(), end(), k, me);}
+\DoxyCodeLine{314         \}}
+\DoxyCodeLine{315 }
+\DoxyCodeLine{316         \textcolor{keyword}{template} <\textcolor{keyword}{class} K1, \textcolor{keyword}{class} V1, \textcolor{keyword}{class} C1, \textcolor{keyword}{class} A1>}
+\DoxyCodeLine{317         \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& lhs,}
+\DoxyCodeLine{318                         \textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& rhs);}
+\DoxyCodeLine{319 }
+\DoxyCodeLine{320         \textcolor{keywordtype}{bool} operator<(\textcolor{keyword}{const} AssocVector\& rhs)\textcolor{keyword}{ const}}
+\DoxyCodeLine{321 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{322             \textcolor{keyword}{const} Base\& me = *\textcolor{keyword}{this};}
+\DoxyCodeLine{323             \textcolor{keyword}{const} Base\& yo = rhs;}
+\DoxyCodeLine{324             \textcolor{keywordflow}{return} me < yo;}
+\DoxyCodeLine{325         \}}
+\DoxyCodeLine{326 }
+\DoxyCodeLine{327         \textcolor{keyword}{template} <\textcolor{keyword}{class} K1, \textcolor{keyword}{class} V1, \textcolor{keyword}{class} C1, \textcolor{keyword}{class} A1>}
+\DoxyCodeLine{328         \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& lhs,}
+\DoxyCodeLine{329                                \textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& rhs);}
+\DoxyCodeLine{330 }
+\DoxyCodeLine{331         \textcolor{keyword}{template} <\textcolor{keyword}{class} K1, \textcolor{keyword}{class} V1, \textcolor{keyword}{class} C1, \textcolor{keyword}{class} A1>}
+\DoxyCodeLine{332         \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} operator>(\textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& lhs,}
+\DoxyCodeLine{333                               \textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& rhs);}
+\DoxyCodeLine{334 }
+\DoxyCodeLine{335         \textcolor{keyword}{template} <\textcolor{keyword}{class} K1, \textcolor{keyword}{class} V1, \textcolor{keyword}{class} C1, \textcolor{keyword}{class} A1>}
+\DoxyCodeLine{336         \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& lhs,}
+\DoxyCodeLine{337                                \textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& rhs);}
+\DoxyCodeLine{338 }
+\DoxyCodeLine{339         \textcolor{keyword}{template} <\textcolor{keyword}{class} K1, \textcolor{keyword}{class} V1, \textcolor{keyword}{class} C1, \textcolor{keyword}{class} A1>}
+\DoxyCodeLine{340         \textcolor{keyword}{friend} \textcolor{keywordtype}{bool} operator<=(\textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& lhs,}
+\DoxyCodeLine{341                                \textcolor{keyword}{const} AssocVector<K1, V1, C1, A1>\& rhs);}
+\DoxyCodeLine{342     \};}
+\DoxyCodeLine{343 }
+\DoxyCodeLine{344     \textcolor{keyword}{template} <\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C, \textcolor{keyword}{class} A>}
+\DoxyCodeLine{345     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator==(\textcolor{keyword}{const} AssocVector<K, V, C, A>\& lhs,}
+\DoxyCodeLine{346                            \textcolor{keyword}{const} AssocVector<K, V, C, A>\& rhs)}
+\DoxyCodeLine{347     \{}
+\DoxyCodeLine{348       \textcolor{keyword}{const} std::vector<std::pair<K, V>, A>\& me = lhs;}
+\DoxyCodeLine{349       \textcolor{keywordflow}{return} me == rhs;}
+\DoxyCodeLine{350     \}}
+\DoxyCodeLine{351 }
+\DoxyCodeLine{352     \textcolor{keyword}{template} <\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C, \textcolor{keyword}{class} A>}
+\DoxyCodeLine{353     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator!=(\textcolor{keyword}{const} AssocVector<K, V, C, A>\& lhs,}
+\DoxyCodeLine{354                            \textcolor{keyword}{const} AssocVector<K, V, C, A>\& rhs)}
+\DoxyCodeLine{355     \{ \textcolor{keywordflow}{return} !(lhs == rhs); \}}
+\DoxyCodeLine{356 }
+\DoxyCodeLine{357     \textcolor{keyword}{template} <\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C, \textcolor{keyword}{class} A>}
+\DoxyCodeLine{358     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator>(\textcolor{keyword}{const} AssocVector<K, V, C, A>\& lhs,}
+\DoxyCodeLine{359                           \textcolor{keyword}{const} AssocVector<K, V, C, A>\& rhs)}
+\DoxyCodeLine{360     \{ \textcolor{keywordflow}{return} rhs < lhs; \}}
+\DoxyCodeLine{361 }
+\DoxyCodeLine{362     \textcolor{keyword}{template} <\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C, \textcolor{keyword}{class} A>}
+\DoxyCodeLine{363     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator>=(\textcolor{keyword}{const} AssocVector<K, V, C, A>\& lhs,}
+\DoxyCodeLine{364                            \textcolor{keyword}{const} AssocVector<K, V, C, A>\& rhs)}
+\DoxyCodeLine{365     \{ \textcolor{keywordflow}{return} !(lhs < rhs); \}}
+\DoxyCodeLine{366 }
+\DoxyCodeLine{367     \textcolor{keyword}{template} <\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C, \textcolor{keyword}{class} A>}
+\DoxyCodeLine{368     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator<=(\textcolor{keyword}{const} AssocVector<K, V, C, A>\& lhs,}
+\DoxyCodeLine{369                            \textcolor{keyword}{const} AssocVector<K, V, C, A>\& rhs)}
+\DoxyCodeLine{370     \{ \textcolor{keywordflow}{return} !(rhs < lhs); \}}
+\DoxyCodeLine{371 }
+\DoxyCodeLine{372 }
+\DoxyCodeLine{373     \textcolor{comment}{// specialized algorithms:}}
+\DoxyCodeLine{374     \textcolor{keyword}{template} <\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C, \textcolor{keyword}{class} A>}
+\DoxyCodeLine{375     \textcolor{keywordtype}{void} swap(AssocVector<K, V, C, A>\& lhs, AssocVector<K, V, C, A>\& rhs)}
+\DoxyCodeLine{376     \{ lhs.swap(rhs); \}}
+\DoxyCodeLine{377 }
+\DoxyCodeLine{378 \} \textcolor{comment}{// namespace Loki}}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{380 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// end file guardian}}
+\DoxyCodeLine{381 }
+
+\end{DoxyCode}

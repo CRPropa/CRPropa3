@@ -1,0 +1,30 @@
+\hypertarget{SimplePropagation_8h_source}{}\doxysection{Simple\+Propagation.\+h}
+\label{SimplePropagation_8h_source}\index{SimplePropagation.h@{SimplePropagation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef SIMPLEPROPAGATION\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define SIMPLEPROPAGATION\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Units_8h}{crpropa/Units.h}}"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1SimplePropagation}{SimplePropagation}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{22 \textcolor{keyword}{private}:}
+\DoxyCodeLine{23         \textcolor{keywordtype}{double} minStep, maxStep;}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26         \mbox{\hyperlink{classcrpropa_1_1SimplePropagation}{SimplePropagation}}(\textcolor{keywordtype}{double} minStep = (0.1 * kpc), \textcolor{keywordtype}{double} maxStep = (1 * Gpc));}
+\DoxyCodeLine{27         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{28         \textcolor{keywordtype}{void} setMinimumStep(\textcolor{keywordtype}{double} minStep);}
+\DoxyCodeLine{29         \textcolor{keywordtype}{void} setMaximumStep(\textcolor{keywordtype}{double} maxStep);}
+\DoxyCodeLine{30         \textcolor{keywordtype}{double} getMinimumStep() \textcolor{keyword}{const};}
+\DoxyCodeLine{31         \textcolor{keywordtype}{double} getMaximumStep() \textcolor{keyword}{const};}
+\DoxyCodeLine{32         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{33 \};}
+\DoxyCodeLine{36 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SIMPLEPROPAGATION\_H}}
+\DoxyCodeLine{39 }
+
+\end{DoxyCode}

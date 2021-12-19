@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__SourceFeatures" kind="group">
+    <compoundname>SourceFeatures</compoundname>
+    <title>Sources</title>
+    <innerclass refid="classcrpropa_1_1SourceFeature" prot="public">crpropa::SourceFeature</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceInterface" prot="public">crpropa::SourceInterface</innerclass>
+    <innerclass refid="classcrpropa_1_1Source" prot="public">crpropa::Source</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceList" prot="public">crpropa::SourceList</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceParticleType" prot="public">crpropa::SourceParticleType</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceMultipleParticleTypes" prot="public">crpropa::SourceMultipleParticleTypes</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceEnergy" prot="public">crpropa::SourceEnergy</innerclass>
+    <innerclass refid="classcrpropa_1_1SourcePowerLawSpectrum" prot="public">crpropa::SourcePowerLawSpectrum</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceComposition" prot="public">crpropa::SourceComposition</innerclass>
+    <innerclass refid="classcrpropa_1_1SourcePosition" prot="public">crpropa::SourcePosition</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceMultiplePositions" prot="public">crpropa::SourceMultiplePositions</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformSphere" prot="public">crpropa::SourceUniformSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformHollowSphere" prot="public">crpropa::SourceUniformHollowSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformShell" prot="public">crpropa::SourceUniformShell</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformBox" prot="public">crpropa::SourceUniformBox</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformCylinder" prot="public">crpropa::SourceUniformCylinder</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceSNRDistribution" prot="public">crpropa::SourceSNRDistribution</innerclass>
+    <innerclass refid="classcrpropa_1_1SourcePulsarDistribution" prot="public">crpropa::SourcePulsarDistribution</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniform1D" prot="public">crpropa::SourceUniform1D</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDensityGrid" prot="public">crpropa::SourceDensityGrid</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDensityGrid1D" prot="public">crpropa::SourceDensityGrid1D</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceIsotropicEmission" prot="public">crpropa::SourceIsotropicEmission</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDirectedEmission" prot="public">crpropa::SourceDirectedEmission</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceLambertDistributionOnSphere" prot="public">crpropa::SourceLambertDistributionOnSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDirection" prot="public">crpropa::SourceDirection</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceEmissionMap" prot="public">crpropa::SourceEmissionMap</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceEmissionCone" prot="public">crpropa::SourceEmissionCone</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceRedshift" prot="public">crpropa::SourceRedshift</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformRedshift" prot="public">crpropa::SourceUniformRedshift</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceRedshiftEvolution" prot="public">crpropa::SourceRedshiftEvolution</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceRedshift1D" prot="public">crpropa::SourceRedshift1D</innerclass>
+    <briefdescription>
+<para><ref refid="classcrpropa_1_1Source" kindref="compound">Source</ref> and SourceFeatures, i.e. properties of the partcle injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Sourcefeatures are added to sources and manipulate the properties of the emitted candidate. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

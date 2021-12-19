@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1ArchimedeanSpiralField" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::ArchimedeanSpiralField</compoundname>
+    <basecompoundref refid="classcrpropa_1_1MagneticField" prot="public" virt="non-virtual">MagneticField</basecompoundref>
+    <includes refid="ArchimedeanSpiralField_8h" local="no">crpropa/magneticField/ArchimedeanSpiralField.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1ArchimedeanSpiralField_1a3eb06ef7bf79d27e6dbb59833501e475" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double B_0</definition>
+        <argsstring></argsstring>
+        <name>B_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="29" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ArchimedeanSpiralField_1ad8455424a482a8ad865fd52edacb3cef" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double R_0</definition>
+        <argsstring></argsstring>
+        <name>R_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="30" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ArchimedeanSpiralField_1a1b5bf6735b7465aec5c931281d240737" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Omega</definition>
+        <argsstring></argsstring>
+        <name>Omega</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="31" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ArchimedeanSpiralField_1a78701152f76fa82d33779aad87457e1b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double V_w</definition>
+        <argsstring></argsstring>
+        <name>V_w</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="32" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a138f6955c05a75fd9844aedcd5371955" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ArchimedeanSpiralField</definition>
+        <argsstring>(double B_0, double R_0, double Omega, double V_w)</argsstring>
+        <name>ArchimedeanSpiralField</name>
+        <param>
+          <type>double</type>
+          <declname>B_0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>R_0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>Omega</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>V_w</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>B_0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Magnetic field strength in radial direction at R_0 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>R_0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference level </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Omega</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Angular velocity of the rotation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V_w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Asymptotic wind speed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="41" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a60b4a9f66e692a5d3620de910bae981e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getField</name>
+        <reimplements refid="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e">getField</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="43" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a167446d213de72b6c05f823d62e50f7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setB0</definition>
+        <argsstring>(double B)</argsstring>
+        <name>setB0</name>
+        <param>
+          <type>double</type>
+          <declname>B</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="45" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1aa98961df11f6b3df4a6f35e397bd00ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setR0</definition>
+        <argsstring>(double R)</argsstring>
+        <name>setR0</name>
+        <param>
+          <type>double</type>
+          <declname>R</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="46" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1aeb7f74df47ee82ae2ec8a67669494705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setOmega</definition>
+        <argsstring>(double Om)</argsstring>
+        <name>setOmega</name>
+        <param>
+          <type>double</type>
+          <declname>Om</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="47" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a800feac1e256c0a15be726297b0ffcc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setVw</definition>
+        <argsstring>(double v)</argsstring>
+        <name>setVw</name>
+        <param>
+          <type>double</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="48" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a188bf1d9638ca94d7e47b92e783da585" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getB0</definition>
+        <argsstring>() const</argsstring>
+        <name>getB0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="50" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a8f3c97c43f2e8209698ae7b41357b8d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getR0</definition>
+        <argsstring>() const</argsstring>
+        <name>getR0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="51" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a671056cd2b40700574324838f7a99143" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getOmega</definition>
+        <argsstring>() const</argsstring>
+        <name>getOmega</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="52" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ArchimedeanSpiralField_1a4dc55d0cb11f79e12d49d4fb637686dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getVw</definition>
+        <argsstring>() const</argsstring>
+        <name>getVw</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="53" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position, double z) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldEvolution_1a73fd1b457429f01ac03d1d50c7c7e1b0">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="29" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Magnetic field model following a Archimedean spiral. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>See e.g. Jokipii, Levy &amp; Hubbard 1977 </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ArchimedeanSpiralField</label>
+        <link refid="classcrpropa_1_1ArchimedeanSpiralField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ArchimedeanSpiralField</label>
+        <link refid="classcrpropa_1_1ArchimedeanSpiralField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" line="27" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/ArchimedeanSpiralField.h" bodystart="27" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a138f6955c05a75fd9844aedcd5371955" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>ArchimedeanSpiralField</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a3eb06ef7bf79d27e6dbb59833501e475" prot="private" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>B_0</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a188bf1d9638ca94d7e47b92e783da585" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>getB0</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a60b4a9f66e692a5d3620de910bae981e" prot="public" virt="virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" virt="virtual" ambiguityscope="crpropa::MagneticField::"><scope>crpropa::ArchimedeanSpiralField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a671056cd2b40700574324838f7a99143" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>getOmega</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a8f3c97c43f2e8209698ae7b41357b8d8" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>getR0</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a4dc55d0cb11f79e12d49d4fb637686dc" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>getVw</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a1b5bf6735b7465aec5c931281d240737" prot="private" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>Omega</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1ad8455424a482a8ad865fd52edacb3cef" prot="private" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>R_0</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a167446d213de72b6c05f823d62e50f7b" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>setB0</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1aeb7f74df47ee82ae2ec8a67669494705" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>setOmega</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1aa98961df11f6b3df4a6f35e397bd00ac" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>setR0</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a800feac1e256c0a15be726297b0ffcc7" prot="public" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>setVw</name></member>
+      <member refid="classcrpropa_1_1ArchimedeanSpiralField_1a78701152f76fa82d33779aad87457e1b" prot="private" virt="non-virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>V_w</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" virt="virtual"><scope>crpropa::ArchimedeanSpiralField</scope><name>~MagneticField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

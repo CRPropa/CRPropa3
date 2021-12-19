@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="JF12Field_8h" kind="file" language="C++">
+    <compoundname>JF12Field.h</compoundname>
+    <includes refid="MagneticField_8h" local="yes">crpropa/magneticField/MagneticField.h</includes>
+    <includes refid="Grid_8h" local="yes">crpropa/Grid.h</includes>
+    <includes local="yes">kiss/logger.h</includes>
+    <includedby refid="CRPropa_8h" local="yes">CRPropa.h</includedby>
+    <includedby refid="JF12FieldSolenoidal_8h" local="yes">JF12FieldSolenoidal.h</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>crpropa/Grid.h</label>
+        <link refid="Grid_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>crpropa/Referenced.h</label>
+        <link refid="Referenced_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>crpropa/Units.h</label>
+        <link refid="Units_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>crpropa/Vector3.h</label>
+        <link refid="Vector3_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>JF12Field.h</label>
+        <link refid="JF12Field_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>crpropa/magneticField/MagneticField.h</label>
+        <link refid="MagneticField_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>iostream</label>
+      </node>
+      <node id="14">
+        <label>kiss/logger.h</label>
+      </node>
+      <node id="13">
+        <label>kiss/string.h</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="15">
+        <label>type_traits</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>CRPropa.h</label>
+        <link refid="CRPropa_8h_source"/>
+      </node>
+      <node id="1">
+        <label>JF12Field.h</label>
+        <link refid="JF12Field_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>JF12FieldSolenoidal.h</label>
+        <link refid="JF12FieldSolenoidal_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classcrpropa_1_1JF12Field" prot="public">crpropa::JF12Field</innerclass>
+    <innerclass refid="classcrpropa_1_1PlanckJF12bField" prot="public">crpropa::PlanckJF12bField</innerclass>
+    <innernamespace refid="namespacecrpropa">crpropa</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/JF12Field.h"/>
+  </compounddef>
+</doxygen>

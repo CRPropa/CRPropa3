@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="Clock_8h" kind="file" language="C++">
+    <compoundname>Clock.h</compoundname>
+    <innerclass refid="classcrpropa_1_1Clock" prot="public">crpropa::Clock</innerclass>
+    <innernamespace refid="namespacecrpropa">crpropa</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Clock.h"/>
+  </compounddef>
+</doxygen>

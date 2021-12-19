@@ -1,0 +1,35 @@
+\hypertarget{OutputShell_8h_source}{}\doxysection{Output\+Shell.\+h}
+\label{OutputShell_8h_source}\index{OutputShell.h@{OutputShell.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_OUTPUTSHELL\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_OUTPUTSHELL\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/AssocVector.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}crpropa/Variant.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ShellOutput}{ShellOutput}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{21         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{22 \};}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{28 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ShellOutput1D}{ShellOutput1D}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{29 \textcolor{keyword}{public}:}
+\DoxyCodeLine{30         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{31         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{32 \};}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{38 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ShellPropertyOutput}{ShellPropertyOutput}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{39 \textcolor{keyword}{public}:}
+\DoxyCodeLine{40         \textcolor{keyword}{typedef} Loki::AssocVector<std::string, Variant> PropertyMap;}
+\DoxyCodeLine{41         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{42         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{43 \};}
+\DoxyCodeLine{46 \} \textcolor{comment}{// namespace cprpropa}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_OUTPUTSHELL\_H}}
+
+\end{DoxyCode}

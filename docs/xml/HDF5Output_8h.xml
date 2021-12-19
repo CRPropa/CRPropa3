@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="HDF5Output_8h" kind="file" language="C++">
+    <compoundname>HDF5Output.h</compoundname>
+    <includedby refid="CRPropa_8h" local="yes">CRPropa.h</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>CRPropa.h</label>
+        <link refid="CRPropa_8h_source"/>
+      </node>
+      <node id="1">
+        <label>HDF5Output.h</label>
+        <link refid="HDF5Output_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/HDF5Output.h"/>
+  </compounddef>
+</doxygen>

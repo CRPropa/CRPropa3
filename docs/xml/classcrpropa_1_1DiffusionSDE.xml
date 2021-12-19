@@ -1,0 +1,894 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1DiffusionSDE" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::DiffusionSDE</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="DiffusionSDE_8h" local="no">crpropa/module/DiffusionSDE.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1a451856313e6ce5274805fec5d6f2512d" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+        <definition>ref_ptr&lt;MagneticField&gt; magneticField</definition>
+        <argsstring></argsstring>
+        <name>magneticField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="38" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1afb49a6f25842e0d046cd1eef41888cf3" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">AdvectionField</ref> &gt;</type>
+        <definition>ref_ptr&lt;AdvectionField&gt; advectionField</definition>
+        <argsstring></argsstring>
+        <name>advectionField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="39" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1ac539aa68ad096014e964786f8232cb5f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double minStep</definition>
+        <argsstring></argsstring>
+        <name>minStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="40" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1a9fa272758e7c75242051bff169e5f75f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double maxStep</definition>
+        <argsstring></argsstring>
+        <name>maxStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="41" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1a97eab6d709b80585fe9e8a54b1e3da27" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double tolerance</definition>
+        <argsstring></argsstring>
+        <name>tolerance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="42" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1a4904cc82627458fdf6672ccc0b2802c7" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="43" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1a20f4c4490bc8ecbdd1ffcb79acce6035" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="44" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1DiffusionSDE_1a80d402d10e8341004c0caf10133b80ab" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="45" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a109f480666263a7ea1a026c9747b2e50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DiffusionSDE</definition>
+        <argsstring>(ref_ptr&lt; crpropa::MagneticField &gt; magneticField, double tolerance=1e-4, double minStep=10 *pc, double maxStep=1 *kpc, double epsilon=0.1)</argsstring>
+        <name>DiffusionSDE</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">crpropa::MagneticField</ref> &gt;</type>
+          <declname>magneticField</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+          <defval>1e-4</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minStep</declname>
+          <defval>10 *pc</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxStep</declname>
+          <defval>1 *kpc</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>0.1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>magneticField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the magnetic field to be used </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minStep/c_light is the minimum integration time step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maxStep/c_light is the maximum integration time step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="55" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a809f09bbf70b6739dcb937be0676f91a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DiffusionSDE</definition>
+        <argsstring>(ref_ptr&lt; crpropa::MagneticField &gt; magneticField, ref_ptr&lt; crpropa::AdvectionField &gt; advectionField, double tolerance=1e-4, double minStep=10 *pc, double maxStep=1 *kpc, double epsilon=0.1)</argsstring>
+        <name>DiffusionSDE</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">crpropa::MagneticField</ref> &gt;</type>
+          <declname>magneticField</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">crpropa::AdvectionField</ref> &gt;</type>
+          <declname>advectionField</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+          <defval>1e-4</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minStep</declname>
+          <defval>10 *pc</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxStep</declname>
+          <defval>1 *kpc</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>0.1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>magneticField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the magnetic field to be used </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>advectionField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>object containing advection field </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minStep/c_light is the minimum integration time step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maxStep/c_light is the maximum integration time step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ratio of parallel and perpendicular diffusion coefficient D_par = epsilon*D_perp </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="64" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a08b0dc6dbd62c2f7e2ad6bf4ea0c6ed6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(crpropa::Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">crpropa::Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="66" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1afb8a076a3caab127af6cbb2df8506084" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void tryStep</definition>
+        <argsstring>(const Vector3d &amp;Pos, Vector3d &amp;POut, Vector3d &amp;PosErr, double z, double propStep) const</argsstring>
+        <name>tryStep</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>Pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>POut</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>PosErr</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>propStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="68" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1ad0b158cb1f3e94eae239cd8b9140510a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void driftStep</definition>
+        <argsstring>(const Vector3d &amp;Pos, Vector3d &amp;LinProp, double h) const</argsstring>
+        <name>driftStep</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>Pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>LinProp</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="69" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1abf1bf57db9c464d3ebfa5da774e7af35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void calculateBTensor</definition>
+        <argsstring>(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const</argsstring>
+        <name>calculateBTensor</name>
+        <param>
+          <type>double</type>
+          <declname>rig</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>BTen</declname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="70" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a0b1342c4f83f19cc5f39a3e5bd76d13e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setMinimumStep</definition>
+        <argsstring>(double minStep)</argsstring>
+        <name>setMinimumStep</name>
+        <param>
+          <type>double</type>
+          <declname>minStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="72" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a11a631bd22325f3106b56f03fb7375c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setMaximumStep</definition>
+        <argsstring>(double maxStep)</argsstring>
+        <name>setMaximumStep</name>
+        <param>
+          <type>double</type>
+          <declname>maxStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="73" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1ab775e7293ddd12cd11332ce73d1cdec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setTolerance</definition>
+        <argsstring>(double tolerance)</argsstring>
+        <name>setTolerance</name>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="74" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1afbe1f7d901a64d1c4451f27799946720" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setEpsilon</definition>
+        <argsstring>(double kappa)</argsstring>
+        <name>setEpsilon</name>
+        <param>
+          <type>double</type>
+          <declname>kappa</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="75" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a6a9e67898a38f47fcee42d5bb360b883" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setAlpha</definition>
+        <argsstring>(double alpha)</argsstring>
+        <name>setAlpha</name>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="76" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a65e09438a8b92f1017a4c8ae72a3344b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setScale</definition>
+        <argsstring>(double Scale)</argsstring>
+        <name>setScale</name>
+        <param>
+          <type>double</type>
+          <declname>Scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="77" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1adca7814fde8b7446478dd3bb214e6d4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setMagneticField</definition>
+        <argsstring>(ref_ptr&lt; crpropa::MagneticField &gt; magneticField)</argsstring>
+        <name>setMagneticField</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">crpropa::MagneticField</ref> &gt;</type>
+          <declname>magneticField</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="78" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1acdb4b07f76646944af557e94c4e128b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setAdvectionField</definition>
+        <argsstring>(ref_ptr&lt; crpropa::AdvectionField &gt; advectionField)</argsstring>
+        <name>setAdvectionField</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">crpropa::AdvectionField</ref> &gt;</type>
+          <declname>advectionField</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="79" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1aa21f57f6f16a13774ce009e63005ab09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getMinimumStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinimumStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="81" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a35970f0d50e796aedceffa148be99c2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getMaximumStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaximumStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="82" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a1651d37454cc7d2973a5816fb86fb904" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getTolerance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="83" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a772223b20aaacde66e8c023b3d00d0d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getEpsilon</definition>
+        <argsstring>() const</argsstring>
+        <name>getEpsilon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="84" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a60c4ffd54b97017a925bacbacd35732a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getAlpha</definition>
+        <argsstring>() const</argsstring>
+        <name>getAlpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="85" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1af4e1f409380ce63dde2dd32036571a54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getScale</definition>
+        <argsstring>() const</argsstring>
+        <name>getScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="86" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="87" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1ad65546e036d7846288888bc997d39d00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+        <definition>ref_ptr&lt; MagneticField &gt; getMagneticField</definition>
+        <argsstring>() const</argsstring>
+        <name>getMagneticField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="89" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1ae3831e42866b708ad180c9d48f7a3f8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getMagneticFieldAtPosition</definition>
+        <argsstring>(Vector3d pos, double z) const</argsstring>
+        <name>getMagneticFieldAtPosition</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>get magnetic field vector at current candidate position <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current position of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current redshift is needed to calculate the magnetic field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>magnetic field vector at the position pos </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="94" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1af0a74657036e51b4113319d14cc8faf9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">AdvectionField</ref> &gt;</type>
+        <definition>ref_ptr&lt; AdvectionField &gt; getAdvectionField</definition>
+        <argsstring>() const</argsstring>
+        <name>getAdvectionField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="95" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1DiffusionSDE_1a0602e30d541b8a57634f911c3d72d4d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getAdvectionFieldAtPosition</definition>
+        <argsstring>(Vector3d pos) const</argsstring>
+        <name>getAdvectionFieldAtPosition</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>get advection field vector at current candidate position <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current position of the candidate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>magnetic field vector at the position pos </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="99" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Propagates candidates as pseudo(!)-particles. The time integration of SDEs is used to solve the transport equation. Here an Euler-Mayurama integration scheme is used. The diffusion tensor can be anisotropic with respect to the magnetic field line coordinates. The integration of field lines is done via the CK-algorithm. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DiffusionSDE</label>
+        <link refid="classcrpropa_1_1DiffusionSDE"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DiffusionSDE</label>
+        <link refid="classcrpropa_1_1DiffusionSDE"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" line="35" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/DiffusionSDE.h" bodystart="35" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1afb49a6f25842e0d046cd1eef41888cf3" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>advectionField</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a20f4c4490bc8ecbdd1ffcb79acce6035" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>alpha</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1abf1bf57db9c464d3ebfa5da774e7af35" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>calculateBTensor</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a109f480666263a7ea1a026c9747b2e50" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>DiffusionSDE</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a809f09bbf70b6739dcb937be0676f91a" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>DiffusionSDE</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1ad0b158cb1f3e94eae239cd8b9140510a" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>driftStep</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a4904cc82627458fdf6672ccc0b2802c7" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>epsilon</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1af0a74657036e51b4113319d14cc8faf9" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getAdvectionField</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a0602e30d541b8a57634f911c3d72d4d4" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getAdvectionFieldAtPosition</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a60c4ffd54b97017a925bacbacd35732a" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getAlpha</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="virtual"><scope>crpropa::DiffusionSDE</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a772223b20aaacde66e8c023b3d00d0d4" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getEpsilon</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1ad65546e036d7846288888bc997d39d00" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getMagneticField</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1ae3831e42866b708ad180c9d48f7a3f8c" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getMagneticFieldAtPosition</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a35970f0d50e796aedceffa148be99c2e" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getMaximumStep</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1aa21f57f6f16a13774ce009e63005ab09" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getMinimumStep</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1af4e1f409380ce63dde2dd32036571a54" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getScale</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a1651d37454cc7d2973a5816fb86fb904" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>getTolerance</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a451856313e6ce5274805fec5d6f2512d" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>magneticField</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a9fa272758e7c75242051bff169e5f75f" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>maxStep</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1ac539aa68ad096014e964786f8232cb5f" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>minStep</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a08b0dc6dbd62c2f7e2ad6bf4ea0c6ed6" prot="public" virt="virtual"><scope>crpropa::DiffusionSDE</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::DiffusionSDE</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a80d402d10e8341004c0caf10133b80ab" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>scale</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1acdb4b07f76646944af557e94c4e128b3" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setAdvectionField</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a6a9e67898a38f47fcee42d5bb360b883" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setAlpha</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1afbe1f7d901a64d1c4451f27799946720" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setEpsilon</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1adca7814fde8b7446478dd3bb214e6d4f" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setMagneticField</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a11a631bd22325f3106b56f03fb7375c4" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setMaximumStep</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a0b1342c4f83f19cc5f39a3e5bd76d13e" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setMinimumStep</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a65e09438a8b92f1017a4c8ae72a3344b" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setScale</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1ab775e7293ddd12cd11332ce73d1cdec3" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>setTolerance</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1a97eab6d709b80585fe9e8a54b1e3da27" prot="private" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>tolerance</name></member>
+      <member refid="classcrpropa_1_1DiffusionSDE_1afb8a076a3caab127af6cbb2df8506084" prot="public" virt="non-virtual"><scope>crpropa::DiffusionSDE</scope><name>tryStep</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::DiffusionSDE</scope><name>~Module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

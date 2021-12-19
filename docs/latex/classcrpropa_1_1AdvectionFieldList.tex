@@ -1,0 +1,61 @@
+\hypertarget{classcrpropa_1_1AdvectionFieldList}{}\doxysection{Advection\+Field\+List Class Reference}
+\label{classcrpropa_1_1AdvectionFieldList}\index{AdvectionFieldList@{AdvectionFieldList}}
+
+
+Advection field decorator implementing a superposition of fields.  
+
+
+Inheritance diagram for Advection\+Field\+List\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1AdvectionFieldList}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AdvectionFieldList_a2a6947442bda66ffa7dcc2f8dc7376e7}\label{classcrpropa_1_1AdvectionFieldList_a2a6947442bda66ffa7dcc2f8dc7376e7}} 
+void {\bfseries add\+Field} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}} $>$ field)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1AdvectionFieldList_aecbe60d2b34da88e8aa2a0872b904d38}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1AdvectionFieldList_a7538f14c620adea331325bdc817f7615}{get\+Divergence}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Advection field decorator implementing a superposition of fields. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1AdvectionFieldList_a7538f14c620adea331325bdc817f7615}\label{classcrpropa_1_1AdvectionFieldList_a7538f14c620adea331325bdc817f7615}} 
+\index{AdvectionFieldList@{AdvectionFieldList}!getDivergence@{getDivergence}}
+\index{getDivergence@{getDivergence}!AdvectionFieldList@{AdvectionFieldList}}
+\doxysubsubsection{\texorpdfstring{getDivergence()}{getDivergence()}}
+{\footnotesize\ttfamily double get\+Divergence (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1AdvectionFieldList_aecbe60d2b34da88e8aa2a0872b904d38}\label{classcrpropa_1_1AdvectionFieldList_aecbe60d2b34da88e8aa2a0872b904d38}} 
+\index{AdvectionFieldList@{AdvectionFieldList}!getField@{getField}}
+\index{getField@{getField}!AdvectionFieldList@{AdvectionFieldList}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}}.
+

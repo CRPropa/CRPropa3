@@ -1,0 +1,116 @@
+\hypertarget{classcrpropa_1_1EMCascade}{}\doxysection{EMCascade Class Reference}
+\label{classcrpropa_1_1EMCascade}\index{EMCascade@{EMCascade}}
+
+
+Collects and deactivates photons, electrons and positrons. Uses DINT to calculate the EM cascade.  
+
+
+Inheritance diagram for EMCascade\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1EMCascade}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EMCascade_a9f960b175c2014731bc37f3119363a28}{set\+Distance\+Binning}} (double Dmax, int nD)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EMCascade_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EMCascade_a2c027edbcd25b820dc6e21a9a3ad0496}{save}} (const std\+::string \&filename)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EMCascade_a6c21edd9d285c925527e3209fca54b01}{load}} (const std\+::string \&filename)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EMCascade_ac7953bf123e9e78f1b49159f1902e6fe}{run\+Cascade}} (const std\+::string \&filename, int IRBFlag=4, int Radio\+Flag=4, double Bfield=1E-\/13, double cut\+Cascade=0)
+\item 
+std\+::string \mbox{\hyperlink{classcrpropa_1_1EMCascade_aea425314aebc36d0f6bf7671705158da}{get\+Description}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Collects and deactivates photons, electrons and positrons. Uses DINT to calculate the EM cascade. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1EMCascade_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1EMCascade_aea425314aebc36d0f6bf7671705158da}} 
+\index{EMCascade@{EMCascade}!getDescription@{getDescription}}
+\index{getDescription@{getDescription}!EMCascade@{EMCascade}}
+\doxysubsubsection{\texorpdfstring{getDescription()}{getDescription()}}
+{\footnotesize\ttfamily std\+::string get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1EMCascade_a6c21edd9d285c925527e3209fca54b01}\label{classcrpropa_1_1EMCascade_a6c21edd9d285c925527e3209fca54b01}} 
+\index{EMCascade@{EMCascade}!load@{load}}
+\index{load@{load}!EMCascade@{EMCascade}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily void load (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+Load the unpropagated histogram of EM particles \mbox{\Hypertarget{classcrpropa_1_1EMCascade_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1EMCascade_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{EMCascade@{EMCascade}!process@{process}}
+\index{process@{process}!EMCascade@{EMCascade}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Collect and deactivate photons, electrons and positrons 
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1EMCascade_ac7953bf123e9e78f1b49159f1902e6fe}\label{classcrpropa_1_1EMCascade_ac7953bf123e9e78f1b49159f1902e6fe}} 
+\index{EMCascade@{EMCascade}!runCascade@{runCascade}}
+\index{runCascade@{runCascade}!EMCascade@{EMCascade}}
+\doxysubsubsection{\texorpdfstring{runCascade()}{runCascade()}}
+{\footnotesize\ttfamily void run\+Cascade (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{int}]{IRBFlag = {\ttfamily 4},  }\item[{int}]{Radio\+Flag = {\ttfamily 4},  }\item[{double}]{Bfield = {\ttfamily 1E-\/13},  }\item[{double}]{cut\+Cascade = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Calculates the EM cascade with DINT 
+\begin{DoxyParams}{Parameters}
+{\em filename} & output filename \\
+\hline
+{\em IRBFlag} & EBL background 0\+: high, 1\+: low, 2\+: Primack, 4\+: Stecker\textquotesingle{}06 \\
+\hline
+{\em Radio\+Flag} & radio background 0\+: high, 1\+: medium, 2\+: obs, 3\+: none, 4\+: Protheroe\textquotesingle{}96 \\
+\hline
+{\em Bfield} & magnetic field strength \mbox{[}T\mbox{]}, default = 1 nG \\
+\hline
+{\em cut\+Cascade} & a-\/parameter, see CRPropa 2 paper \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1EMCascade_a2c027edbcd25b820dc6e21a9a3ad0496}\label{classcrpropa_1_1EMCascade_a2c027edbcd25b820dc6e21a9a3ad0496}} 
+\index{EMCascade@{EMCascade}!save@{save}}
+\index{save@{save}!EMCascade@{EMCascade}}
+\doxysubsubsection{\texorpdfstring{save()}{save()}}
+{\footnotesize\ttfamily void save (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+Save the unpropagated histogram of EM particles \mbox{\Hypertarget{classcrpropa_1_1EMCascade_a9f960b175c2014731bc37f3119363a28}\label{classcrpropa_1_1EMCascade_a9f960b175c2014731bc37f3119363a28}} 
+\index{EMCascade@{EMCascade}!setDistanceBinning@{setDistanceBinning}}
+\index{setDistanceBinning@{setDistanceBinning}!EMCascade@{EMCascade}}
+\doxysubsubsection{\texorpdfstring{setDistanceBinning()}{setDistanceBinning()}}
+{\footnotesize\ttfamily void set\+Distance\+Binning (\begin{DoxyParamCaption}\item[{double}]{Dmax,  }\item[{int}]{nD }\end{DoxyParamCaption})}
+
+Change the distance binning 
+\begin{DoxyParams}{Parameters}
+{\em Dmax} & maximum distance \mbox{[}m\mbox{]} \\
+\hline
+{\em nD} & number of distance bins \\
+\hline
+\end{DoxyParams}

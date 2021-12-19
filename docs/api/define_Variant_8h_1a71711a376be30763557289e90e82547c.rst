@@ -1,0 +1,13 @@
+.. _exhale_define_Variant_8h_1a71711a376be30763557289e90e82547c:
+
+Define VARIANT_ADD_TYPE_DECL_PTR_BASE
+=====================================
+
+- Defined in :ref:`file__Users_rab_Dropbox_softwares_CRPropa_CRPropa3-dev_include_crpropa_Variant.h`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: VARIANT_ADD_TYPE_DECL_PTR_BASE

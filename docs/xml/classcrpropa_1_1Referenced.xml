@@ -1,0 +1,1136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Referenced" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Referenced</compoundname>
+    <derivedcompoundref refid="classcrpropa_1_1AdvectionField" prot="public" virt="non-virtual">AdvectionField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1Candidate" prot="public" virt="non-virtual">Candidate</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1CylindricalProjectionMap" prot="public" virt="non-virtual">CylindricalProjectionMap</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1Density" prot="public" virt="non-virtual">Density</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1EmissionMap" prot="public" virt="non-virtual">EmissionMap</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1Grid" prot="public" virt="non-virtual">Grid&lt; T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1GridProperties" prot="public" virt="non-virtual">GridProperties</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1MagneticField" prot="public" virt="non-virtual">MagneticField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1ObserverFeature" prot="public" virt="non-virtual">ObserverFeature</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1PhotonField" prot="public" virt="non-virtual">PhotonField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceFeature" prot="public" virt="non-virtual">SourceFeature</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1SourceInterface" prot="public" virt="non-virtual">SourceInterface</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1StepLengthModifier" prot="public" virt="non-virtual">StepLengthModifier</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1Surface" prot="public" virt="non-virtual">Surface</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1TurbulenceSpectrum" prot="public" virt="non-virtual">TurbulenceSpectrum</derivedcompoundref>
+    <includes refid="Referenced_8h" local="no">crpropa/Referenced.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Referenced_1a3f6027f5df5148d4053f5668676b14de" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t _referenceCount</definition>
+        <argsstring></argsstring>
+        <name>_referenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="98" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Referenced</definition>
+        <argsstring>()</argsstring>
+        <name>Referenced</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="30" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Referenced</definition>
+        <argsstring>(const Referenced &amp;)</argsstring>
+        <name>Referenced</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Referenced" kindref="compound">Referenced</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="34" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Referenced" kindref="compound">Referenced</ref> &amp;</type>
+        <definition>Referenced &amp; operator=</definition>
+        <argsstring>(const Referenced &amp;)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Referenced" kindref="compound">Referenced</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="38" column="19" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a29b010e3c447e8f4e3034a86e06aa65b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual ~Referenced</definition>
+        <argsstring>()</argsstring>
+        <name>~Referenced</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="90" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="90" bodyend="96"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Base class for reference counting. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A form of memory management is needed to prevent memory leaks when using MPC in Python via SWIG. This base class enables reference counting. Every reference increases the reference counter, every dereference decreases it. When the counter is decreased to 0, the object is deleted. <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref>, <ref refid="classcrpropa_1_1Module" kindref="compound">Module</ref>, <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> and <ref refid="classcrpropa_1_1Source" kindref="compound">Source</ref> inherit from this class </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="42">
+        <label>AbstractAccelerationModule</label>
+        <link refid="classcrpropa_1_1AbstractAccelerationModule"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>AbstractCondition</label>
+        <link refid="classcrpropa_1_1AbstractCondition"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>AdiabaticCooling</label>
+        <link refid="classcrpropa_1_1AdiabaticCooling"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AdvectionField</label>
+        <link refid="classcrpropa_1_1AdvectionField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AdvectionFieldList</label>
+        <link refid="classcrpropa_1_1AdvectionFieldList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>ArchimedeanSpiralField</label>
+        <link refid="classcrpropa_1_1ArchimedeanSpiralField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="109">
+        <label>BlackbodyPhotonField</label>
+        <link refid="classcrpropa_1_1BlackbodyPhotonField"/>
+        <childnode refid="108" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="110">
+        <label>CMB</label>
+        <link refid="classcrpropa_1_1CMB"/>
+        <childnode refid="109" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>CMZField</label>
+        <link refid="classcrpropa_1_1CMZField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Candidate</label>
+        <link refid="classcrpropa_1_1Candidate"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>ConstantDensity</label>
+        <link refid="classcrpropa_1_1ConstantDensity"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ConstantSphericalAdvectionField</label>
+        <link refid="classcrpropa_1_1ConstantSphericalAdvectionField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>Cordes</label>
+        <link refid="classcrpropa_1_1Cordes"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>CubicBoundary</label>
+        <link refid="classcrpropa_1_1CubicBoundary"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>CylindricalBoundary</label>
+        <link refid="classcrpropa_1_1CylindricalBoundary"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>CylindricalProjectionMap</label>
+        <link refid="classcrpropa_1_1CylindricalProjectionMap"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>DensityList</label>
+        <link refid="classcrpropa_1_1DensityList"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>DetectionLength</label>
+        <link refid="classcrpropa_1_1DetectionLength"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>DiffusionSDE</label>
+        <link refid="classcrpropa_1_1DiffusionSDE"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="155">
+        <label>DirectedFlowOfScatterCenters</label>
+        <link refid="classcrpropa_1_1DirectedFlowOfScatterCenters"/>
+        <childnode refid="154" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>DirectedFlowScattering</label>
+        <link refid="classcrpropa_1_1DirectedFlowScattering"/>
+        <childnode refid="42" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>EMCascade</label>
+        <link refid="classcrpropa_1_1EMCascade"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>EMDoublePairProduction</label>
+        <link refid="classcrpropa_1_1EMDoublePairProduction"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>EMInverseComptonScattering</label>
+        <link refid="classcrpropa_1_1EMInverseComptonScattering"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>EMPairProduction</label>
+        <link refid="classcrpropa_1_1EMPairProduction"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>EMTripletPairProduction</label>
+        <link refid="classcrpropa_1_1EMTripletPairProduction"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>ElasticScattering</label>
+        <link refid="classcrpropa_1_1ElasticScattering"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>ElectronPairProduction</label>
+        <link refid="classcrpropa_1_1ElectronPairProduction"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>EllipsoidalBoundary</label>
+        <link refid="classcrpropa_1_1EllipsoidalBoundary"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>EmissionMap</label>
+        <link refid="classcrpropa_1_1EmissionMap"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>EmissionMapFiller</label>
+        <link refid="classcrpropa_1_1EmissionMapFiller"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>Ferriere</label>
+        <link refid="classcrpropa_1_1Ferriere"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>FutureRedshift</label>
+        <link refid="classcrpropa_1_1FutureRedshift"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>Grid&lt; T &gt;</label>
+        <link refid="classcrpropa_1_1Grid"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>GridProperties</label>
+        <link refid="classcrpropa_1_1GridProperties"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="112">
+        <label>IRB_Dominguez11</label>
+        <link refid="classcrpropa_1_1IRB__Dominguez11"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="113">
+        <label>IRB_Finke10</label>
+        <link refid="classcrpropa_1_1IRB__Finke10"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="114">
+        <label>IRB_Franceschini08</label>
+        <link refid="classcrpropa_1_1IRB__Franceschini08"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="115">
+        <label>IRB_Gilmore12</label>
+        <link refid="classcrpropa_1_1IRB__Gilmore12"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="116">
+        <label>IRB_Kneiske04</label>
+        <link refid="classcrpropa_1_1IRB__Kneiske04"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="117">
+        <label>IRB_Stecker05</label>
+        <link refid="classcrpropa_1_1IRB__Stecker05"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="118">
+        <label>IRB_Stecker16_lower</label>
+        <link refid="classcrpropa_1_1IRB__Stecker16__lower"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="119">
+        <label>IRB_Stecker16_upper</label>
+        <link refid="classcrpropa_1_1IRB__Stecker16__upper"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>JF12Field</label>
+        <link refid="classcrpropa_1_1JF12Field"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>JF12FieldSolenoidal</label>
+        <link refid="classcrpropa_1_1JF12FieldSolenoidal"/>
+        <childnode refid="24" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>LogarithmicSpiralField</label>
+        <link refid="classcrpropa_1_1LogarithmicSpiralField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>MagneticDipoleField</label>
+        <link refid="classcrpropa_1_1MagneticDipoleField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>MagneticFieldEvolution</label>
+        <link refid="classcrpropa_1_1MagneticFieldEvolution"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>MagneticFieldGrid</label>
+        <link refid="classcrpropa_1_1MagneticFieldGrid"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>MagneticFieldList</label>
+        <link refid="classcrpropa_1_1MagneticFieldList"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>MaximumTrajectoryLength</label>
+        <link refid="classcrpropa_1_1MaximumTrajectoryLength"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>MinimumChargeNumber</label>
+        <link refid="classcrpropa_1_1MinimumChargeNumber"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>MinimumEnergy</label>
+        <link refid="classcrpropa_1_1MinimumEnergy"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>MinimumEnergyPerParticleId</label>
+        <link refid="classcrpropa_1_1MinimumEnergyPerParticleId"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>MinimumRedshift</label>
+        <link refid="classcrpropa_1_1MinimumRedshift"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>MinimumRigidity</label>
+        <link refid="classcrpropa_1_1MinimumRigidity"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>ModulatedMagneticFieldGrid</label>
+        <link refid="classcrpropa_1_1ModulatedMagneticFieldGrid"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>ModuleList</label>
+        <link refid="classcrpropa_1_1ModuleList"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>ModuleListRunner</label>
+        <link refid="classcrpropa_1_1ModuleListRunner"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>Nakanishi</label>
+        <link refid="classcrpropa_1_1Nakanishi"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>NuclearDecay</label>
+        <link refid="classcrpropa_1_1NuclearDecay"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="72">
+        <label>Observer</label>
+        <link refid="classcrpropa_1_1Observer"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="94">
+        <label>ObserverDetectAll</label>
+        <link refid="classcrpropa_1_1ObserverDetectAll"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="95">
+        <label>ObserverElectronVeto</label>
+        <link refid="classcrpropa_1_1ObserverElectronVeto"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>ObserverFeature</label>
+        <link refid="classcrpropa_1_1ObserverFeature"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="96">
+        <label>ObserverInactiveVeto</label>
+        <link refid="classcrpropa_1_1ObserverInactiveVeto"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>ObserverLargeSphere</label>
+        <link refid="classcrpropa_1_1ObserverLargeSphere"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>ObserverNeutrinoVeto</label>
+        <link refid="classcrpropa_1_1ObserverNeutrinoVeto"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>ObserverNucleusVeto</label>
+        <link refid="classcrpropa_1_1ObserverNucleusVeto"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="100">
+        <label>ObserverParticleIdVeto</label>
+        <link refid="classcrpropa_1_1ObserverParticleIdVeto"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="101">
+        <label>ObserverPhotonVeto</label>
+        <link refid="classcrpropa_1_1ObserverPhotonVeto"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>ObserverPoint</label>
+        <link refid="classcrpropa_1_1ObserverPoint"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>ObserverRedshiftWindow</label>
+        <link refid="classcrpropa_1_1ObserverRedshiftWindow"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="104">
+        <label>ObserverSmallSphere</label>
+        <link refid="classcrpropa_1_1ObserverSmallSphere"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="105">
+        <label>ObserverSurface</label>
+        <link refid="classcrpropa_1_1ObserverSurface"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="106">
+        <label>ObserverTimeEvolution</label>
+        <link refid="classcrpropa_1_1ObserverTimeEvolution"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="107">
+        <label>ObserverTracking</label>
+        <link refid="classcrpropa_1_1ObserverTracking"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>Output</label>
+        <link refid="classcrpropa_1_1Output"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>PT11Field</label>
+        <link refid="classcrpropa_1_1PT11Field"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="158">
+        <label>ParaxialBox</label>
+        <link refid="classcrpropa_1_1ParaxialBox"/>
+        <childnode refid="157" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>ParticleCollector</label>
+        <link refid="classcrpropa_1_1ParticleCollector"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>ParticleFilter</label>
+        <link refid="classcrpropa_1_1ParticleFilter"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>ParticleSplitting</label>
+        <link refid="classcrpropa_1_1ParticleSplitting"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>PerformanceModule</label>
+        <link refid="classcrpropa_1_1PerformanceModule"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>PeriodicBox</label>
+        <link refid="classcrpropa_1_1PeriodicBox"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>PeriodicMagneticField</label>
+        <link refid="classcrpropa_1_1PeriodicMagneticField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>PhotoDisintegration</label>
+        <link refid="classcrpropa_1_1PhotoDisintegration"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>PhotoPionProduction</label>
+        <link refid="classcrpropa_1_1PhotoPionProduction"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>PhotonEleCa</label>
+        <link refid="classcrpropa_1_1PhotonEleCa"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="108">
+        <label>PhotonField</label>
+        <link refid="classcrpropa_1_1PhotonField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>PhotonOutput1D</label>
+        <link refid="classcrpropa_1_1PhotonOutput1D"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>PlanckJF12bField</label>
+        <link refid="classcrpropa_1_1PlanckJF12bField"/>
+        <childnode refid="24" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="159">
+        <label>Plane</label>
+        <link refid="classcrpropa_1_1Plane"/>
+        <childnode refid="157" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>PlaneWaveTurbulence</label>
+        <link refid="classcrpropa_1_1PlaneWaveTurbulence"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>PolarizedSingleModeMagneticField</label>
+        <link refid="classcrpropa_1_1PolarizedSingleModeMagneticField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>PropagationBP</label>
+        <link refid="classcrpropa_1_1PropagationBP"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="84">
+        <label>PropagationCK</label>
+        <link refid="classcrpropa_1_1PropagationCK"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="156">
+        <label>QuasiLinearTheory</label>
+        <link refid="classcrpropa_1_1QuasiLinearTheory"/>
+        <childnode refid="154" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>Redshift</label>
+        <link refid="classcrpropa_1_1Redshift"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>ReflectiveBox</label>
+        <link refid="classcrpropa_1_1ReflectiveBox"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>RestrictToRegion</label>
+        <link refid="classcrpropa_1_1RestrictToRegion"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>ScalarGrid&lt; float &gt;</label>
+        <link refid="classcrpropa_1_1ScalarGrid"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>SecondOrderFermi</label>
+        <link refid="classcrpropa_1_1SecondOrderFermi"/>
+        <childnode refid="42" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="88">
+        <label>ShellOutput</label>
+        <link refid="classcrpropa_1_1ShellOutput"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>ShellOutput1D</label>
+        <link refid="classcrpropa_1_1ShellOutput1D"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="90">
+        <label>ShellPropertyOutput</label>
+        <link refid="classcrpropa_1_1ShellPropertyOutput"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="91">
+        <label>SimplePropagation</label>
+        <link refid="classcrpropa_1_1SimplePropagation"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="152">
+        <label>Source</label>
+        <link refid="classcrpropa_1_1Source"/>
+        <childnode refid="151" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="124">
+        <label>SourceComposition</label>
+        <link refid="classcrpropa_1_1SourceComposition"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="125">
+        <label>SourceDensityGrid</label>
+        <link refid="classcrpropa_1_1SourceDensityGrid"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="126">
+        <label>SourceDensityGrid1D</label>
+        <link refid="classcrpropa_1_1SourceDensityGrid1D"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="127">
+        <label>SourceDirectedEmission</label>
+        <link refid="classcrpropa_1_1SourceDirectedEmission"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="128">
+        <label>SourceDirection</label>
+        <link refid="classcrpropa_1_1SourceDirection"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="129">
+        <label>SourceEmissionCone</label>
+        <link refid="classcrpropa_1_1SourceEmissionCone"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="130">
+        <label>SourceEmissionMap</label>
+        <link refid="classcrpropa_1_1SourceEmissionMap"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="131">
+        <label>SourceEnergy</label>
+        <link refid="classcrpropa_1_1SourceEnergy"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="123">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="151">
+        <label>SourceInterface</label>
+        <link refid="classcrpropa_1_1SourceInterface"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="132">
+        <label>SourceIsotropicEmission</label>
+        <link refid="classcrpropa_1_1SourceIsotropicEmission"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="133">
+        <label>SourceLambertDistributionOnSphere</label>
+        <link refid="classcrpropa_1_1SourceLambertDistributionOnSphere"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="153">
+        <label>SourceList</label>
+        <link refid="classcrpropa_1_1SourceList"/>
+        <childnode refid="151" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="134">
+        <label>SourceMultipleParticleTypes</label>
+        <link refid="classcrpropa_1_1SourceMultipleParticleTypes"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="135">
+        <label>SourceMultiplePositions</label>
+        <link refid="classcrpropa_1_1SourceMultiplePositions"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="136">
+        <label>SourceParticleType</label>
+        <link refid="classcrpropa_1_1SourceParticleType"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="137">
+        <label>SourcePosition</label>
+        <link refid="classcrpropa_1_1SourcePosition"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="138">
+        <label>SourcePowerLawSpectrum</label>
+        <link refid="classcrpropa_1_1SourcePowerLawSpectrum"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="139">
+        <label>SourcePulsarDistribution</label>
+        <link refid="classcrpropa_1_1SourcePulsarDistribution"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="140">
+        <label>SourceRedshift</label>
+        <link refid="classcrpropa_1_1SourceRedshift"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="141">
+        <label>SourceRedshift1D</label>
+        <link refid="classcrpropa_1_1SourceRedshift1D"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="142">
+        <label>SourceRedshiftEvolution</label>
+        <link refid="classcrpropa_1_1SourceRedshiftEvolution"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="143">
+        <label>SourceSNRDistribution</label>
+        <link refid="classcrpropa_1_1SourceSNRDistribution"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="144">
+        <label>SourceUniform1D</label>
+        <link refid="classcrpropa_1_1SourceUniform1D"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="145">
+        <label>SourceUniformBox</label>
+        <link refid="classcrpropa_1_1SourceUniformBox"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="146">
+        <label>SourceUniformCylinder</label>
+        <link refid="classcrpropa_1_1SourceUniformCylinder"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="147">
+        <label>SourceUniformHollowSphere</label>
+        <link refid="classcrpropa_1_1SourceUniformHollowSphere"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="148">
+        <label>SourceUniformRedshift</label>
+        <link refid="classcrpropa_1_1SourceUniformRedshift"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="149">
+        <label>SourceUniformShell</label>
+        <link refid="classcrpropa_1_1SourceUniformShell"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="150">
+        <label>SourceUniformSphere</label>
+        <link refid="classcrpropa_1_1SourceUniformSphere"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="160">
+        <label>Sphere</label>
+        <link refid="classcrpropa_1_1Sphere"/>
+        <childnode refid="157" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>SphericalAdvectionField</label>
+        <link refid="classcrpropa_1_1SphericalAdvectionField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>SphericalAdvectionShock</label>
+        <link refid="classcrpropa_1_1SphericalAdvectionShock"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>SphericalBoundary</label>
+        <link refid="classcrpropa_1_1SphericalBoundary"/>
+        <childnode refid="45" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="154">
+        <label>StepLengthModifier</label>
+        <link refid="classcrpropa_1_1StepLengthModifier"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="157">
+        <label>Surface</label>
+        <link refid="classcrpropa_1_1Surface"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>SynchrotronRadiation</label>
+        <link refid="classcrpropa_1_1SynchrotronRadiation"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>TF17Field</label>
+        <link refid="classcrpropa_1_1TF17Field"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="111">
+        <label>TabularPhotonField</label>
+        <link refid="classcrpropa_1_1TabularPhotonField"/>
+        <childnode refid="108" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>TextOutput</label>
+        <link refid="classcrpropa_1_1TextOutput"/>
+        <childnode refid="73" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>TorroidalHaloField</label>
+        <link refid="classcrpropa_1_1TorroidalHaloField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="161">
+        <label>TurbulenceSpectrum</label>
+        <link refid="classcrpropa_1_1TurbulenceSpectrum"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>TurbulentField</label>
+        <link refid="classcrpropa_1_1TurbulentField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="120">
+        <label>URB_Fixsen11</label>
+        <link refid="classcrpropa_1_1URB__Fixsen11"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="121">
+        <label>URB_Nitu21</label>
+        <link refid="classcrpropa_1_1URB__Nitu21"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="122">
+        <label>URB_Protheroe96</label>
+        <link refid="classcrpropa_1_1URB__Protheroe96"/>
+        <childnode refid="111" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>UniformAdvectionField</label>
+        <link refid="classcrpropa_1_1UniformAdvectionField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>UniformMagneticField</label>
+        <link refid="classcrpropa_1_1UniformMagneticField"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>VectorGrid&lt; Vector3f &gt;</label>
+        <link refid="classcrpropa_1_1VectorGrid"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="27" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="27" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a3f6027f5df5148d4053f5668676b14de" prot="private" virt="non-virtual"><scope>crpropa::Referenced</scope><name>_referenceCount</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::Referenced</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a29b010e3c447e8f4e3034a86e06aa65b" prot="private" virt="virtual"><scope>crpropa::Referenced</scope><name>~Referenced</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

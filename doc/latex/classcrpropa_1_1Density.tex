@@ -1,0 +1,130 @@
+\hypertarget{classcrpropa_1_1Density}{}\doxysection{Density Class Reference}
+\label{classcrpropa_1_1Density}\index{Density@{Density}}
+
+
+Abstract base class for target densities.  
+
+
+Inheritance diagram for Density\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1Density}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_af750bea4165eb5763cdfd65ffc8390fc}{get\+Density}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_af9883d1a3a34d60ae8f5b70d091baf74}{get\+HIDensity}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_a339821f521ebf13ac68e255c6e4f4592}{get\+HIIDensity}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_ab85734c9d4ecea5a4473ce2f0bb44888}{get\+H2\+Density}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+virtual double \mbox{\hyperlink{classcrpropa_1_1Density_a181c385cc18bffa44994235fb45e812f}{get\+Nucleon\+Density}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+virtual bool \mbox{\hyperlink{classcrpropa_1_1Density_a9b85debf98c49a4906d9d8390c9fd6a7}{get\+Is\+For\+HI}} ()
+\item 
+virtual bool \mbox{\hyperlink{classcrpropa_1_1Density_a118ec1ed8bc5d3cb63f7ebfb7eddb4f5}{get\+Is\+For\+HII}} ()
+\item 
+virtual bool \mbox{\hyperlink{classcrpropa_1_1Density_a8023c18f8b0b296056b26897dc38f175}{get\+Is\+For\+H2}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Abstract base class for target densities. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Density_af750bea4165eb5763cdfd65ffc8390fc}\label{classcrpropa_1_1Density_af750bea4165eb5763cdfd65ffc8390fc}} 
+\index{Density@{Density}!getDensity@{getDensity}}
+\index{getDensity@{getDensity}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getDensity()}{getDensity()}}
+{\footnotesize\ttfamily virtual double get\+Density (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_aaa93132b2f2f99caf2a69477e5c8026b}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Cordes_aaa93132b2f2f99caf2a69477e5c8026b}{Cordes}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_aaa93132b2f2f99caf2a69477e5c8026b}{Ferriere}}, \mbox{\hyperlink{classcrpropa_1_1DensityList_aaa93132b2f2f99caf2a69477e5c8026b}{Density\+List}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_aaa93132b2f2f99caf2a69477e5c8026b}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_ab85734c9d4ecea5a4473ce2f0bb44888}\label{classcrpropa_1_1Density_ab85734c9d4ecea5a4473ce2f0bb44888}} 
+\index{Density@{Density}!getH2Density@{getH2Density}}
+\index{getH2Density@{getH2Density}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getH2Density()}{getH2Density()}}
+{\footnotesize\ttfamily virtual double get\+H2\+Density (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Ferriere}}, \mbox{\hyperlink{classcrpropa_1_1DensityList_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Density\+List}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_a6cb4d0e54e3f6c3b22066464cc37cb9b}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_af9883d1a3a34d60ae8f5b70d091baf74}\label{classcrpropa_1_1Density_af9883d1a3a34d60ae8f5b70d091baf74}} 
+\index{Density@{Density}!getHIDensity@{getHIDensity}}
+\index{getHIDensity@{getHIDensity}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getHIDensity()}{getHIDensity()}}
+{\footnotesize\ttfamily virtual double get\+HIDensity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Ferriere}}, \mbox{\hyperlink{classcrpropa_1_1DensityList_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Density\+List}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_aa4ac0c0cf22b7ce1f58d7d35fe5e5a96}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_a339821f521ebf13ac68e255c6e4f4592}\label{classcrpropa_1_1Density_a339821f521ebf13ac68e255c6e4f4592}} 
+\index{Density@{Density}!getHIIDensity@{getHIIDensity}}
+\index{getHIIDensity@{getHIIDensity}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getHIIDensity()}{getHIIDensity()}}
+{\footnotesize\ttfamily virtual double get\+HIIDensity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_ac51bce5cfaeae6e359938fbfdb98b360}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Cordes_ac51bce5cfaeae6e359938fbfdb98b360}{Cordes}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_ac51bce5cfaeae6e359938fbfdb98b360}{Ferriere}}, and \mbox{\hyperlink{classcrpropa_1_1DensityList_ac51bce5cfaeae6e359938fbfdb98b360}{Density\+List}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_a8023c18f8b0b296056b26897dc38f175}\label{classcrpropa_1_1Density_a8023c18f8b0b296056b26897dc38f175}} 
+\index{Density@{Density}!getIsForH2@{getIsForH2}}
+\index{getIsForH2@{getIsForH2}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getIsForH2()}{getIsForH2()}}
+{\footnotesize\ttfamily virtual bool get\+Is\+For\+H2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_a420253131374877a0d1af71148accec5}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Cordes_a420253131374877a0d1af71148accec5}{Cordes}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_a420253131374877a0d1af71148accec5}{Ferriere}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_a420253131374877a0d1af71148accec5}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_a9b85debf98c49a4906d9d8390c9fd6a7}\label{classcrpropa_1_1Density_a9b85debf98c49a4906d9d8390c9fd6a7}} 
+\index{Density@{Density}!getIsForHI@{getIsForHI}}
+\index{getIsForHI@{getIsForHI}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getIsForHI()}{getIsForHI()}}
+{\footnotesize\ttfamily virtual bool get\+Is\+For\+HI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_a435c8c3e4dc0e7dec1bc5c8a09e568b9}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Cordes_a435c8c3e4dc0e7dec1bc5c8a09e568b9}{Cordes}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_a435c8c3e4dc0e7dec1bc5c8a09e568b9}{Ferriere}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_a435c8c3e4dc0e7dec1bc5c8a09e568b9}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_a118ec1ed8bc5d3cb63f7ebfb7eddb4f5}\label{classcrpropa_1_1Density_a118ec1ed8bc5d3cb63f7ebfb7eddb4f5}} 
+\index{Density@{Density}!getIsForHII@{getIsForHII}}
+\index{getIsForHII@{getIsForHII}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getIsForHII()}{getIsForHII()}}
+{\footnotesize\ttfamily virtual bool get\+Is\+For\+HII (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_ab5ce7a02210aefeea1ba18db3e1a3f71}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Cordes_ab5ce7a02210aefeea1ba18db3e1a3f71}{Cordes}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_ab5ce7a02210aefeea1ba18db3e1a3f71}{Ferriere}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_ab5ce7a02210aefeea1ba18db3e1a3f71}{Nakanishi}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Density_a181c385cc18bffa44994235fb45e812f}\label{classcrpropa_1_1Density_a181c385cc18bffa44994235fb45e812f}} 
+\index{Density@{Density}!getNucleonDensity@{getNucleonDensity}}
+\index{getNucleonDensity@{getNucleonDensity}!Density@{Density}}
+\doxysubsubsection{\texorpdfstring{getNucleonDensity()}{getNucleonDensity()}}
+{\footnotesize\ttfamily virtual double get\+Nucleon\+Density (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1ConstantDensity_a93e1387605f0b1f14c65afdc80526d7f}{Constant\+Density}}, \mbox{\hyperlink{classcrpropa_1_1Cordes_a93e1387605f0b1f14c65afdc80526d7f}{Cordes}}, \mbox{\hyperlink{classcrpropa_1_1Ferriere_a93e1387605f0b1f14c65afdc80526d7f}{Ferriere}}, \mbox{\hyperlink{classcrpropa_1_1DensityList_a93e1387605f0b1f14c65afdc80526d7f}{Density\+List}}, and \mbox{\hyperlink{classcrpropa_1_1Nakanishi_a93e1387605f0b1f14c65afdc80526d7f}{Nakanishi}}.
+

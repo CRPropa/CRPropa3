@@ -1,0 +1,366 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Cordes" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Cordes</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Density" prot="public" virt="non-virtual">Density</basecompoundref>
+    <includes refid="Cordes_8h" local="no">crpropa/massDistribution/Cordes.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Cordes_1a83c8f1ab752b6fa1ce8f11ab0a88a6bc" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isforHI</definition>
+        <argsstring></argsstring>
+        <name>isforHI</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="18" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1Cordes_1a1bb92fa77552cafac66209942ddfdc68" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isforHII</definition>
+        <argsstring></argsstring>
+        <name>isforHII</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="19" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1Cordes_1a7d562838bb8f63d4eb358bfa70d32126" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isforH2</definition>
+        <argsstring></argsstring>
+        <name>isforH2</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="20" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1aaa93132b2f2f99caf2a69477e5c8026b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1af750bea4165eb5763cdfd65ffc8390fc">getDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="25" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1ac51bce5cfaeae6e359938fbfdb98b360" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getHIIDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getHIIDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1a339821f521ebf13ac68e255c6e4f4592">getHIIDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density of ionised hydrogen in parts/m^3, equal getDensity thus no other type is included for <ref refid="classcrpropa_1_1Cordes" kindref="compound">Cordes</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="28" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1a93e1387605f0b1f14c65afdc80526d7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getNucleonDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getNucleonDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1a181c385cc18bffa44994235fb45e812f">getNucleonDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density of nucleons in parts/m^3, equal getDensity thus only HII is included for <ref refid="classcrpropa_1_1Cordes" kindref="compound">Cordes</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="31" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1a435c8c3e4dc0e7dec1bc5c8a09e568b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForHI</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForHI</name>
+        <reimplements refid="classcrpropa_1_1Density_1a9b85debf98c49a4906d9d8390c9fd6a7">getIsForHI</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>activation status of HI </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="34" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1ab5ce7a02210aefeea1ba18db3e1a3f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForHII</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForHII</name>
+        <reimplements refid="classcrpropa_1_1Density_1a118ec1ed8bc5d3cb63f7ebfb7eddb4f5">getIsForHII</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>activation status of HII </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="36" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1a420253131374877a0d1af71148accec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForH2</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForH2</name>
+        <reimplements refid="classcrpropa_1_1Density_1a8023c18f8b0b296056b26897dc38f175">getIsForH2</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>activation status of H2 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="38" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Cordes_1a73da75c3e5ec30855a02eae2ba824e38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>()</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="40" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Density_1af9883d1a3a34d60ae8f5b70d091baf74" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>virtual double getHIDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getHIDensity</name>
+        <reimplementedby refid="classcrpropa_1_1ConstantDensity_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96">getHIDensity</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Ferriere_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96">getHIDensity</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DensityList_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96">getHIDensity</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Nakanishi_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96">getHIDensity</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Density.h" line="23" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Density.h" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Density_1ab85734c9d4ecea5a4473ce2f0bb44888" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>virtual double getH2Density</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getH2Density</name>
+        <reimplementedby refid="classcrpropa_1_1ConstantDensity_1a6cb4d0e54e3f6c3b22066464cc37cb9b">getH2Density</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Ferriere_1a6cb4d0e54e3f6c3b22066464cc37cb9b">getH2Density</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DensityList_1a6cb4d0e54e3f6c3b22066464cc37cb9b">getH2Density</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Nakanishi_1a6cb4d0e54e3f6c3b22066464cc37cb9b">getH2Density</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Density.h" line="31" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Density.h" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Cylindrical symetrical model of the density of ionised hydrogen (HII) of the Milky Way <ref refid="classcrpropa_1_1Cordes" kindref="compound">Cordes</ref> et al., 1991, Nature 353,737. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Cordes</label>
+        <link refid="classcrpropa_1_1Cordes"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Cordes</label>
+        <link refid="classcrpropa_1_1Cordes"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" line="15" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Cordes.h" bodystart="15" bodyend="41"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Cordes_1aaa93132b2f2f99caf2a69477e5c8026b" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getDensity</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a73da75c3e5ec30855a02eae2ba824e38" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Density_1ab85734c9d4ecea5a4473ce2f0bb44888" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getH2Density</name></member>
+      <member refid="classcrpropa_1_1Density_1af9883d1a3a34d60ae8f5b70d091baf74" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getHIDensity</name></member>
+      <member refid="classcrpropa_1_1Cordes_1ac51bce5cfaeae6e359938fbfdb98b360" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getHIIDensity</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a420253131374877a0d1af71148accec5" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getIsForH2</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a435c8c3e4dc0e7dec1bc5c8a09e568b9" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getIsForHI</name></member>
+      <member refid="classcrpropa_1_1Cordes_1ab5ce7a02210aefeea1ba18db3e1a3f71" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getIsForHII</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a93e1387605f0b1f14c65afdc80526d7f" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>getNucleonDensity</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a7d562838bb8f63d4eb358bfa70d32126" prot="private" virt="non-virtual"><scope>crpropa::Cordes</scope><name>isforH2</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a83c8f1ab752b6fa1ce8f11ab0a88a6bc" prot="private" virt="non-virtual"><scope>crpropa::Cordes</scope><name>isforHI</name></member>
+      <member refid="classcrpropa_1_1Cordes_1a1bb92fa77552cafac66209942ddfdc68" prot="private" virt="non-virtual"><scope>crpropa::Cordes</scope><name>isforHII</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::Cordes</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Density_1acf775fdb904382e52f35dc3384a44bee" prot="public" virt="virtual"><scope>crpropa::Cordes</scope><name>~Density</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

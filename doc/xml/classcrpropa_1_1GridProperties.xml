@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1GridProperties" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::GridProperties</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Referenced" prot="public" virt="non-virtual">Referenced</basecompoundref>
+    <includes refid="Grid_8h" local="no">crpropa/Grid.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1a1060f0f3b2330bc651b49a7d8832f98b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t Nx</definition>
+        <argsstring></argsstring>
+        <name>Nx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="75" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1a1b6614c51afe3f93d6f160d5a70bea2b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t Ny</definition>
+        <argsstring></argsstring>
+        <name>Ny</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="75" column="11" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1a3d34420e7b878a7cd85b3b8cbf6eb51c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t Nz</definition>
+        <argsstring></argsstring>
+        <name>Nz</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="75" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1a455ee21058bbbfba7961610b095a4734" prot="public" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d origin</definition>
+        <argsstring></argsstring>
+        <name>origin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="76" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1aab477f8ccc837b9481675988e95522ea" prot="public" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d spacing</definition>
+        <argsstring></argsstring>
+        <name>spacing</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="77" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1aa7cde9ac05b784aa136cf0d7638f9df3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool reflective</definition>
+        <argsstring></argsstring>
+        <name>reflective</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="78" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1GridProperties_1acf9c3608c0443b751a558fffaaf6f3a3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacecrpropa_1aa197adf50cede38157e51842d7a713f8" kindref="member">interpolationType</ref></type>
+        <definition>interpolationType ipol</definition>
+        <argsstring></argsstring>
+        <name>ipol</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="79" column="19" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1GridProperties_1a3b2624b5214bc9996e35179eaa2bc9d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>GridProperties</definition>
+        <argsstring>(Vector3d origin, size_t N, double spacing)</argsstring>
+        <name>GridProperties</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>origin</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>N</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>spacing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor for cubic grid <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position of the lower left front corner of the volume </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>N</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in one direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spacing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Spacing between grid points </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="86" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1GridProperties_1a622ec1af11c537544172d48dda459854" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>GridProperties</definition>
+        <argsstring>(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing)</argsstring>
+        <name>GridProperties</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>origin</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>Nx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>Ny</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>Nz</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>spacing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor for non-cubic grid <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position of the lower left front corner of the volume </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in x-direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Ny</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in y-direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in z-direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spacing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Spacing between grid points </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="97" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1GridProperties_1a7f7fed3252087e112219e972e04e073b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>GridProperties</definition>
+        <argsstring>(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing)</argsstring>
+        <name>GridProperties</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>origin</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>Nx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>Ny</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>Nz</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>spacing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor for non-cubic grid with spacing vector <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>origin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Position of the lower left front corner of the volume </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in x-direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Ny</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in y-direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Nz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of grid points in z-direction </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spacing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Spacing vector between grid points </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="108" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1GridProperties_1a30d35e44e83b79db0084556652d2133c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual ~GridProperties</definition>
+        <argsstring>()</argsstring>
+        <name>~GridProperties</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="112" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="112" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1GridProperties_1a9d7fa3fa7ac31401e05efab21c1997ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void setReflective</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>setReflective</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If True, the repetition of the grid is refletive instead of periodic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="116" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1GridProperties_1ae4e282a433bbb0124c69020fce92e069" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void setInterpolationType</definition>
+        <argsstring>(interpolationType i)</argsstring>
+        <name>setInterpolationType</name>
+        <param>
+          <type><ref refid="namespacecrpropa_1aa197adf50cede38157e51842d7a713f8" kindref="member">interpolationType</ref></type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>set the type of interpolation between gridpoints. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>interpolationType (TRILINEAR, TRICUBIC, NEAREST_NEIGHBOUR) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="122" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Combines parameters that uniquely define <ref refid="classcrpropa_1_1Grid" kindref="compound">Grid</ref> class. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GridProperties</label>
+        <link refid="classcrpropa_1_1GridProperties"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GridProperties</label>
+        <link refid="classcrpropa_1_1GridProperties"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>origin</edgelabel>
+          <edgelabel>spacing</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Vector3&lt; double &gt;</label>
+        <link refid="classcrpropa_1_1Vector3"/>
+      </node>
+      <node id="2">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" line="73" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Grid.h" bodystart="73" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a3b2624b5214bc9996e35179eaa2bc9d5" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>GridProperties</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a622ec1af11c537544172d48dda459854" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>GridProperties</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a7f7fed3252087e112219e972e04e073b" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>GridProperties</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1acf9c3608c0443b751a558fffaaf6f3a3" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>ipol</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a1060f0f3b2330bc651b49a7d8832f98b" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>Nx</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a1b6614c51afe3f93d6f160d5a70bea2b" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>Ny</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a3d34420e7b878a7cd85b3b8cbf6eb51c" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>Nz</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a455ee21058bbbfba7961610b095a4734" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>origin</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1aa7cde9ac05b784aa136cf0d7638f9df3" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>reflective</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1ae4e282a433bbb0124c69020fce92e069" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>setInterpolationType</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a9d7fa3fa7ac31401e05efab21c1997ac" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>setReflective</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1aab477f8ccc837b9481675988e95522ea" prot="public" virt="non-virtual"><scope>crpropa::GridProperties</scope><name>spacing</name></member>
+      <member refid="classcrpropa_1_1GridProperties_1a30d35e44e83b79db0084556652d2133c" prot="public" virt="virtual"><scope>crpropa::GridProperties</scope><name>~GridProperties</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

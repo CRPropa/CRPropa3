@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="Source_8h" kind="file" language="C++">
+    <compoundname>Source.h</compoundname>
+    <includes refid="Candidate_8h" local="yes">crpropa/Candidate.h</includes>
+    <includes refid="Grid_8h" local="yes">crpropa/Grid.h</includes>
+    <includes refid="EmissionMap_8h" local="yes">crpropa/EmissionMap.h</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="CRPropa_8h" local="yes">CRPropa.h</includedby>
+    <includedby refid="ModuleList_8h" local="yes">ModuleList.h</includedby>
+    <incdepgraph>
+      <node id="12">
+        <label>crpropa/AssocVector.h</label>
+        <link refid="AssocVector_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>crpropa/Candidate.h</label>
+        <link refid="Candidate_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>crpropa/EmissionMap.h</label>
+        <link refid="EmissionMap_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>crpropa/Grid.h</label>
+        <link refid="Grid_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>crpropa/ParticleState.h</label>
+        <link refid="ParticleState_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>crpropa/Referenced.h</label>
+        <link refid="Referenced_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Source.h</label>
+        <link refid="Source_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>crpropa/Variant.h</label>
+        <link refid="Variant_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>crpropa/Vector3.h</label>
+        <link refid="Vector3_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="22">
+        <label>cstdlib</label>
+      </node>
+      <node id="19">
+        <label>cstring</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>iostream</label>
+      </node>
+      <node id="15">
+        <label>iterator</label>
+      </node>
+      <node id="27">
+        <label>kiss/logger.h</label>
+      </node>
+      <node id="26">
+        <label>kiss/string.h</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="21">
+        <label>sstream</label>
+      </node>
+      <node id="23">
+        <label>stdexcept</label>
+      </node>
+      <node id="24">
+        <label>stdint.h</label>
+      </node>
+      <node id="18">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>type_traits</label>
+      </node>
+      <node id="20">
+        <label>typeinfo</label>
+      </node>
+      <node id="14">
+        <label>utility</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>CRPropa.h</label>
+        <link refid="CRPropa_8h_source"/>
+      </node>
+      <node id="3">
+        <label>ModuleList.h</label>
+        <link refid="ModuleList_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Source.h</label>
+        <link refid="Source_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ParticleCollector.h</label>
+        <link refid="ParticleCollector_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>TextOutput.h</label>
+        <link refid="TextOutput_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classcrpropa_1_1SourceFeature" prot="public">crpropa::SourceFeature</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceInterface" prot="public">crpropa::SourceInterface</innerclass>
+    <innerclass refid="classcrpropa_1_1Source" prot="public">crpropa::Source</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceList" prot="public">crpropa::SourceList</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceParticleType" prot="public">crpropa::SourceParticleType</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceMultipleParticleTypes" prot="public">crpropa::SourceMultipleParticleTypes</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceEnergy" prot="public">crpropa::SourceEnergy</innerclass>
+    <innerclass refid="classcrpropa_1_1SourcePowerLawSpectrum" prot="public">crpropa::SourcePowerLawSpectrum</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceComposition" prot="public">crpropa::SourceComposition</innerclass>
+    <innerclass refid="classcrpropa_1_1SourcePosition" prot="public">crpropa::SourcePosition</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceMultiplePositions" prot="public">crpropa::SourceMultiplePositions</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformSphere" prot="public">crpropa::SourceUniformSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformHollowSphere" prot="public">crpropa::SourceUniformHollowSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformShell" prot="public">crpropa::SourceUniformShell</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformBox" prot="public">crpropa::SourceUniformBox</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformCylinder" prot="public">crpropa::SourceUniformCylinder</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceSNRDistribution" prot="public">crpropa::SourceSNRDistribution</innerclass>
+    <innerclass refid="classcrpropa_1_1SourcePulsarDistribution" prot="public">crpropa::SourcePulsarDistribution</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniform1D" prot="public">crpropa::SourceUniform1D</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDensityGrid" prot="public">crpropa::SourceDensityGrid</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDensityGrid1D" prot="public">crpropa::SourceDensityGrid1D</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceIsotropicEmission" prot="public">crpropa::SourceIsotropicEmission</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDirectedEmission" prot="public">crpropa::SourceDirectedEmission</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceLambertDistributionOnSphere" prot="public">crpropa::SourceLambertDistributionOnSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceDirection" prot="public">crpropa::SourceDirection</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceEmissionMap" prot="public">crpropa::SourceEmissionMap</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceEmissionCone" prot="public">crpropa::SourceEmissionCone</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceRedshift" prot="public">crpropa::SourceRedshift</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceUniformRedshift" prot="public">crpropa::SourceUniformRedshift</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceRedshiftEvolution" prot="public">crpropa::SourceRedshiftEvolution</innerclass>
+    <innerclass refid="classcrpropa_1_1SourceRedshift1D" prot="public">crpropa::SourceRedshift1D</innerclass>
+    <innernamespace refid="namespacecrpropa">crpropa</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h"/>
+  </compounddef>
+</doxygen>

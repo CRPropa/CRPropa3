@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="Logging_8h" kind="file" language="C++">
+    <compoundname>Logging.h</compoundname>
+    <includes refid="Version_8h" local="yes">crpropa/Version.h</includes>
+    <includes local="yes">kiss/logger.h</includes>
+    <includes local="no">fstream</includes>
+    <includedby refid="CRPropa_8h" local="yes">CRPropa.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>Logging.h</label>
+        <link refid="Logging_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>crpropa/Version.h</label>
+        <link refid="Version_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>fstream</label>
+      </node>
+      <node id="4">
+        <label>kiss/logger.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>CRPropa.h</label>
+        <link refid="CRPropa_8h_source"/>
+      </node>
+      <node id="1">
+        <label>Logging.h</label>
+        <link refid="Logging_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="Logging_8h_1aad224c61f361c9b29018dbe5814a2a22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void logError</definition>
+        <argsstring>(const std::string &amp;log)</argsstring>
+        <name>logError</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" line="11" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="Logging_8h_1ac23a678ce7417b5e66fcfdd567638c2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void logInfo</definition>
+        <argsstring>(const std::string &amp;log)</argsstring>
+        <name>logInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" line="15" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="Logging_8h_1a5cca4960115ee6d2ef11596a7d0a62fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void logWarning</definition>
+        <argsstring>(const std::string &amp;log)</argsstring>
+        <name>logWarning</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" line="19" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="Logging_8h_1ab43ea5e6a41057a2928f96ec406f2a4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void logDebug</definition>
+        <argsstring>(const std::string &amp;log)</argsstring>
+        <name>logDebug</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" line="23" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="Logging_8h_1af4cf0ce9be6440b42774830da5c24fba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLogStream</definition>
+        <argsstring>(std::ostream &amp;stream)</argsstring>
+        <name>setLogStream</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" line="27" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="Logging_8h_1a0be980c8c7fb754367a4346ac48cbf7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLogLevel</definition>
+        <argsstring>(int level)</argsstring>
+        <name>setLogLevel</name>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" line="31" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h" bodystart="31" bodyend="33"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Logging.h"/>
+  </compounddef>
+</doxygen>

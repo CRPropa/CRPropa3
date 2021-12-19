@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1AdiabaticCooling" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::AdiabaticCooling</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="AdiabaticCooling_8h" local="no">crpropa/module/AdiabaticCooling.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1AdiabaticCooling_1afb49a6f25842e0d046cd1eef41888cf3" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">AdvectionField</ref> &gt;</type>
+        <definition>ref_ptr&lt;AdvectionField&gt; advectionField</definition>
+        <argsstring></argsstring>
+        <name>advectionField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="30" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1AdiabaticCooling_1ab6e1fbde91d4eed5fc908aebbe727bef" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="31" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1AdiabaticCooling_1a2754c498c702529c750b541a2878dd59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AdiabaticCooling</definition>
+        <argsstring>(ref_ptr&lt; AdvectionField &gt; advectionField)</argsstring>
+        <name>AdiabaticCooling</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">AdvectionField</ref> &gt;</type>
+          <declname>advectionField</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default constructor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>advectionField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The advection field used for the adiabatic energy change </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="37" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1AdiabaticCooling_1acbb202b1cc57140fb29613f481a5092b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AdiabaticCooling</definition>
+        <argsstring>(ref_ptr&lt; AdvectionField &gt; advectionField, double limit)</argsstring>
+        <name>AdiabaticCooling</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1AdvectionField" kindref="compound">AdvectionField</ref> &gt;</type>
+          <declname>advectionField</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>advectionField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The advection field used for the adiabatic energy change </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum relative energy change allowed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="42" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1AdiabaticCooling_1a18684d0aef3d226e2efa72bdbad2228c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *c) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="43" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1AdiabaticCooling_1a4df49bbdfd298fd138e6f006b146f068" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLimit</definition>
+        <argsstring>(double l)</argsstring>
+        <name>setLimit</name>
+        <param>
+          <type>double</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="45" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1AdiabaticCooling_1a42b620f25832be4cbb26f5ce5d850c28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getLimit</definition>
+        <argsstring>() const</argsstring>
+        <name>getLimit</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="47" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplementedby refid="classcrpropa_1_1PeriodicBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ReflectiveBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CubicBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SphericalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EllipsoidalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CylindricalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MaximumTrajectoryLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergy_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRigidity_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumChargeNumber_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergyPerParticleId_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DetectionLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DiffusionSDE_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EMCascade_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Observer_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellPropertyOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleCollector_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonEleCa_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationBP_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationCK_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Redshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1FutureRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1RestrictToRegion_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SimplePropagation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SynchrotronRadiation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1TextOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PerformanceModule_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleFilter_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EmissionMapFiller_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleList_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleListRunner_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="24" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Implements adiabatic cooling/heating due to advection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdiabaticCooling</label>
+        <link refid="classcrpropa_1_1AdiabaticCooling"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdiabaticCooling</label>
+        <link refid="classcrpropa_1_1AdiabaticCooling"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" line="28" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/AdiabaticCooling.h" bodystart="28" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1a2754c498c702529c750b541a2878dd59" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>AdiabaticCooling</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1acbb202b1cc57140fb29613f481a5092b" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>AdiabaticCooling</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1afb49a6f25842e0d046cd1eef41888cf3" prot="private" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>advectionField</name></member>
+      <member refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" virt="virtual"><scope>crpropa::AdiabaticCooling</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1a42b620f25832be4cbb26f5ce5d850c28" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>getLimit</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1ab6e1fbde91d4eed5fc908aebbe727bef" prot="private" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>limit</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1a18684d0aef3d226e2efa72bdbad2228c" prot="public" virt="virtual"><scope>crpropa::AdiabaticCooling</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::AdiabaticCooling</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1AdiabaticCooling_1a4df49bbdfd298fd138e6f006b146f068" prot="public" virt="non-virtual"><scope>crpropa::AdiabaticCooling</scope><name>setLimit</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::AdiabaticCooling</scope><name>~Module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

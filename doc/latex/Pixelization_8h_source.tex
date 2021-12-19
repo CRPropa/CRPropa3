@@ -1,0 +1,125 @@
+\hypertarget{Pixelization_8h_source}{}\doxysection{Pixelization.\+h}
+\label{Pixelization_8h_source}\index{Pixelization.h@{Pixelization.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{2 \textcolor{comment}{// This file is part of PARSEC (http://physik.rwth-\/aachen.de/parsec)}}
+\DoxyCodeLine{3 \textcolor{comment}{// a parametrized simulation engine for cosmic rays.}}
+\DoxyCodeLine{4 \textcolor{comment}{//}}
+\DoxyCodeLine{5 \textcolor{comment}{// Copyright (C) 2011  Martin Erdmann, Peter Schiffer, Tobias Winchen}}
+\DoxyCodeLine{6 \textcolor{comment}{//                     RWTH Aachen University, Germany}}
+\DoxyCodeLine{7 \textcolor{comment}{// Contact: winchen@physik.rwth-\/aachen.de}}
+\DoxyCodeLine{8 \textcolor{comment}{//}}
+\DoxyCodeLine{9 \textcolor{comment}{//  This program is free software: you can redistribute it and/or}}
+\DoxyCodeLine{10 \textcolor{comment}{//  modify it under the terms of the GNU General Public License as}}
+\DoxyCodeLine{11 \textcolor{comment}{//  published by the Free Software Foundation, either version 3 of}}
+\DoxyCodeLine{12 \textcolor{comment}{//  the License, or (at your option) any later version.}}
+\DoxyCodeLine{13 \textcolor{comment}{//}}
+\DoxyCodeLine{14 \textcolor{comment}{//  This program is distributed in the hope that it will be useful,}}
+\DoxyCodeLine{15 \textcolor{comment}{//  but WITHOUT ANY WARRANTY; without even the implied warranty of}}
+\DoxyCodeLine{16 \textcolor{comment}{//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the}}
+\DoxyCodeLine{17 \textcolor{comment}{//  GNU General Public License for more details.}}
+\DoxyCodeLine{18 \textcolor{comment}{//}}
+\DoxyCodeLine{19 \textcolor{comment}{//  You should have received a copy of the GNU General Public License}}
+\DoxyCodeLine{20 \textcolor{comment}{//  along with this program. If not, see <http://www.gnu.org/licenses/>.}}
+\DoxyCodeLine{21 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#ifndef PIXELIZATION\_HH}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define PIXELIZATION\_HH}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include "{}healpix\_base/healpix\_base.h"{}}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}}}
+\DoxyCodeLine{32 \{}
+\DoxyCodeLine{39 \textcolor{keyword}{const} uint8\_t \mbox{\hyperlink{group__MagneticLenses_gae5e279b73f61763edc7d0651e38e481d}{\_nOrder\_max}} = 13;}
+\DoxyCodeLine{40 \textcolor{keyword}{const} uint32\_t \_nPix[] =}
+\DoxyCodeLine{41 \{}
+\DoxyCodeLine{42                 48,}
+\DoxyCodeLine{43                 192,}
+\DoxyCodeLine{44                 768,}
+\DoxyCodeLine{45                 3072,}
+\DoxyCodeLine{46                 12288,}
+\DoxyCodeLine{47                 49152,}
+\DoxyCodeLine{48                 196608,}
+\DoxyCodeLine{49                 786432,}
+\DoxyCodeLine{50                 3145728,}
+\DoxyCodeLine{51                 12582912,}
+\DoxyCodeLine{52                 50331648,}
+\DoxyCodeLine{53                 201326592,}
+\DoxyCodeLine{54                 805306368}
+\DoxyCodeLine{55 \};}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{59 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Pixelization}{Pixelization}}}
+\DoxyCodeLine{60 \{}
+\DoxyCodeLine{61 \textcolor{keyword}{public}:}
+\DoxyCodeLine{62         \mbox{\hyperlink{classcrpropa_1_1Pixelization}{Pixelization}}()}
+\DoxyCodeLine{63         \{}
+\DoxyCodeLine{64                 \_healpix = \textcolor{keyword}{new} healpix::T\_Healpix\_Base<int>(6, healpix::RING);}
+\DoxyCodeLine{65         \}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{69         \mbox{\hyperlink{classcrpropa_1_1Pixelization_aeefb8b8e1a329293e43736d4d74c7009}{Pixelization}}(uint8\_t order)}
+\DoxyCodeLine{70         \{}
+\DoxyCodeLine{71                 \_healpix = \textcolor{keyword}{new} healpix::T\_Healpix\_Base<int>(order, healpix::RING);}
+\DoxyCodeLine{72         \}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74         \mbox{\hyperlink{classcrpropa_1_1Pixelization}{\string~Pixelization}}()}
+\DoxyCodeLine{75         \{}
+\DoxyCodeLine{76                 \textcolor{keyword}{delete} \_healpix;}
+\DoxyCodeLine{77         \}}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{81         uint32\_t \mbox{\hyperlink{classcrpropa_1_1Pixelization_ab33ef46568e80d25ca7acd2d3e9ab31a}{direction2Pix}}(\textcolor{keywordtype}{double} longitude, \textcolor{keywordtype}{double} latitude) \textcolor{keyword}{const};}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{84         uint32\_t \mbox{\hyperlink{classcrpropa_1_1Pixelization_a4f2d0e0863f1bcf1a0a917993c3dbecc}{nPix}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{85 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{86                 \textcolor{keywordflow}{return} \_healpix-\/>Npix();}
+\DoxyCodeLine{87         \}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{90         \textcolor{keyword}{static} uint32\_t \mbox{\hyperlink{classcrpropa_1_1Pixelization_abed3ed159583294f0afbe36f340169fa}{nPix}}(uint8\_t order);}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{93         \textcolor{keywordtype}{int} \mbox{\hyperlink{classcrpropa_1_1Pixelization_ab90b19b15460e9cf0a82c125cfb249cc}{getNumberOfPixels}}()}
+\DoxyCodeLine{94         \{}
+\DoxyCodeLine{95                 \textcolor{keywordflow}{return} \_healpix-\/>Npix();}
+\DoxyCodeLine{96         \}}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{100         \textcolor{keyword}{static} uint8\_t \mbox{\hyperlink{classcrpropa_1_1Pixelization_a4ee7adeb869614cba54eb5a461e8ccb8}{pix2Order}}(uint32\_t pix);}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{103         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Pixelization_aa533b778a48dddbca62ca72da272395a}{pix2Direction}}(uint32\_t i, \textcolor{keywordtype}{double} \&longitude, \textcolor{keywordtype}{double} \&latitude) \textcolor{keyword}{const};}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{106         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Pixelization_aa74b5b26f169056d02e909bd469df475}{angularDistance}}(uint32\_t i, uint32\_t j) \textcolor{keyword}{const};}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{109         uint8\_t \mbox{\hyperlink{classcrpropa_1_1Pixelization_a1242a155d3e8d66680d219435f8d0389}{getMaxOrder}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{110 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{111                 \textcolor{keywordflow}{return} \mbox{\hyperlink{group__MagneticLenses_gae5e279b73f61763edc7d0651e38e481d}{\_nOrder\_max}};}
+\DoxyCodeLine{112         \}}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{115   uint8\_t \mbox{\hyperlink{classcrpropa_1_1Pixelization_a98eadb8e30d9431951cc51668f393837}{getOrder}}()\textcolor{keyword}{ const}}
+\DoxyCodeLine{116 \textcolor{keyword}{  }\{}
+\DoxyCodeLine{117     \textcolor{keywordflow}{return} \_healpix-\/>Order();}
+\DoxyCodeLine{118   \}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120         \textcolor{keywordtype}{void} getRandomDirectionInPixel(uint32\_t pixel, \textcolor{keywordtype}{double} \&longitude, \textcolor{keywordtype}{double} \&latitude);}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{122         \textcolor{keywordtype}{void} getPixelsInCone(\textcolor{keywordtype}{double} longitude, \textcolor{keywordtype}{double} latitude,\textcolor{keywordtype}{double} radius, std::vector<int>\& listpix)}
+\DoxyCodeLine{123         \{}
+\DoxyCodeLine{124                 healpix::vec3 v;}
+\DoxyCodeLine{125                 spherCo2Vec(longitude, latitude, v);}
+\DoxyCodeLine{126                 healpix::pointing p;}
+\DoxyCodeLine{127                 p.from\_vec3(v);}
+\DoxyCodeLine{128                 \_healpix-\/>query\_disc(p, radius, listpix);}
+\DoxyCodeLine{129         \}}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{131 \textcolor{keyword}{private}:}
+\DoxyCodeLine{132         \textcolor{keywordtype}{void} spherCo2Vec(\textcolor{keywordtype}{double} phi, \textcolor{keywordtype}{double} theta, healpix::vec3 \&V) \textcolor{keyword}{const};}
+\DoxyCodeLine{133         \textcolor{keywordtype}{void} vec2SphereCo(\textcolor{keywordtype}{double} \&phi , \textcolor{keywordtype}{double} \&theta, \textcolor{keyword}{const} healpix::vec3 \&V) \textcolor{keyword}{const};}
+\DoxyCodeLine{134         healpix::T\_Healpix\_Base<int> *\_healpix;}
+\DoxyCodeLine{135         \textcolor{keyword}{static} healpix::T\_Healpix\_Base<healpix::int64> \_healpix\_nest;}
+\DoxyCodeLine{136 \};}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 }
+\DoxyCodeLine{140 \} \textcolor{comment}{// namespace}}
+\DoxyCodeLine{141 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// PIXELIZATION\_HH}}
+
+\end{DoxyCode}

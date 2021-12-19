@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__Acceleration" kind="group">
+    <compoundname>Acceleration</compoundname>
+    <title>Acceleration Processes</title>
+    <innerclass refid="classcrpropa_1_1StepLengthModifier" prot="public">crpropa::StepLengthModifier</innerclass>
+    <innerclass refid="classcrpropa_1_1AbstractAccelerationModule" prot="public">crpropa::AbstractAccelerationModule</innerclass>
+    <innerclass refid="classcrpropa_1_1SecondOrderFermi" prot="public">crpropa::SecondOrderFermi</innerclass>
+    <innerclass refid="classcrpropa_1_1DirectedFlowScattering" prot="public">crpropa::DirectedFlowScattering</innerclass>
+    <innerclass refid="classcrpropa_1_1DirectedFlowOfScatterCenters" prot="public">crpropa::DirectedFlowOfScatterCenters</innerclass>
+    <innerclass refid="classcrpropa_1_1QuasiLinearTheory" prot="public">crpropa::QuasiLinearTheory</innerclass>
+    <innerclass refid="classcrpropa_1_1ParticleSplitting" prot="public">crpropa::ParticleSplitting</innerclass>
+    <briefdescription>
+<para>Modules and techniques to simualte particle acceleration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These particle acceleration features is analogue to an energy loss due to an interaction with a background photon, but for energy loss/gain in interaction with scattering centers. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

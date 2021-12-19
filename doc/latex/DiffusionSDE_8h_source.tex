@@ -1,0 +1,73 @@
+\hypertarget{DiffusionSDE_8h_source}{}\doxysection{Diffusion\+SDE.\+h}
+\label{DiffusionSDE_8h_source}\index{DiffusionSDE.h@{DiffusionSDE.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_DIFFUSIONSDE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_DIFFUSIONSDE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <cstdlib>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <stdexcept>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include "{}crpropa/magneticField/MagneticField.h"{}}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include "{}crpropa/advectionField/AdvectionField.h"{}}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Units_8h}{crpropa/Units.h}}"{}}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include "{}crpropa/Random.h"{}}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}kiss/logger.h"{}}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{35 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1DiffusionSDE}{DiffusionSDE}} : \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}\{}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{keyword}{private}:}
+\DoxyCodeLine{38             \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} magneticField;}
+\DoxyCodeLine{39             \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<AdvectionField>}} advectionField;}
+\DoxyCodeLine{40             \textcolor{keywordtype}{double} minStep; \textcolor{comment}{// minStep/c\_light is the minimum integration timestep}}
+\DoxyCodeLine{41             \textcolor{keywordtype}{double} maxStep; \textcolor{comment}{// maxStep/c\_light is the maximum integration timestep}}
+\DoxyCodeLine{42             \textcolor{keywordtype}{double} tolerance; \textcolor{comment}{// tolerance is criterion for step adjustment. Step adjustment takes place when the tangential vector of the magnetic field line is calculated.}}
+\DoxyCodeLine{43             \textcolor{keywordtype}{double} epsilon; \textcolor{comment}{// ratio of parallel and perpendicular diffusion coefficient D\_par = epsilon*D\_perp}}
+\DoxyCodeLine{44             \textcolor{keywordtype}{double} alpha; \textcolor{comment}{// power law index of the energy dependent diffusion coefficient: D\(\backslash\)propto E\string^alpha}}
+\DoxyCodeLine{45             \textcolor{keywordtype}{double} scale; \textcolor{comment}{// scaling factor for the diffusion coefficient D = scale*D\_0}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{keyword}{public}:}
+\DoxyCodeLine{55         \mbox{\hyperlink{classcrpropa_1_1DiffusionSDE_a109f480666263a7ea1a026c9747b2e50}{DiffusionSDE}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<crpropa::MagneticField>}} magneticField, \textcolor{keywordtype}{double} tolerance = 1e-\/4, \textcolor{keywordtype}{double} minStep = 10 * pc, \textcolor{keywordtype}{double} maxStep = 1 * kpc, \textcolor{keywordtype}{double} epsilon = 0.1);}
+\DoxyCodeLine{64         \mbox{\hyperlink{classcrpropa_1_1DiffusionSDE_a809f09bbf70b6739dcb937be0676f91a}{DiffusionSDE}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<crpropa::MagneticField>}} magneticField, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<crpropa::AdvectionField>}} advectionField, \textcolor{keywordtype}{double} tolerance = 1e-\/4, \textcolor{keywordtype}{double} minStep = 10 * pc, \textcolor{keywordtype}{double} maxStep = 1 * kpc, \textcolor{keywordtype}{double} epsilon = 0.1);}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{crpropa::Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68         \textcolor{keywordtype}{void} tryStep(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&Pos, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&POut, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&PosErr, \textcolor{keywordtype}{double} z, \textcolor{keywordtype}{double} propStep ) \textcolor{keyword}{const};}
+\DoxyCodeLine{69         \textcolor{keywordtype}{void} driftStep(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&Pos, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&LinProp, \textcolor{keywordtype}{double} h) \textcolor{keyword}{const};}
+\DoxyCodeLine{70         \textcolor{keywordtype}{void} calculateBTensor(\textcolor{keywordtype}{double} rig, \textcolor{keywordtype}{double} BTen[], \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} pos, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} dir, \textcolor{keywordtype}{double} z) \textcolor{keyword}{const};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72         \textcolor{keywordtype}{void} setMinimumStep(\textcolor{keywordtype}{double} minStep);}
+\DoxyCodeLine{73         \textcolor{keywordtype}{void} setMaximumStep(\textcolor{keywordtype}{double} maxStep);}
+\DoxyCodeLine{74         \textcolor{keywordtype}{void} setTolerance(\textcolor{keywordtype}{double} tolerance);}
+\DoxyCodeLine{75         \textcolor{keywordtype}{void} setEpsilon(\textcolor{keywordtype}{double} kappa);}
+\DoxyCodeLine{76         \textcolor{keywordtype}{void} setAlpha(\textcolor{keywordtype}{double} alpha);}
+\DoxyCodeLine{77         \textcolor{keywordtype}{void} setScale(\textcolor{keywordtype}{double} Scale);}
+\DoxyCodeLine{78         \textcolor{keywordtype}{void} setMagneticField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<crpropa::MagneticField>}} magneticField);}
+\DoxyCodeLine{79         \textcolor{keywordtype}{void} setAdvectionField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<crpropa::AdvectionField>}} advectionField);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81         \textcolor{keywordtype}{double} getMinimumStep() \textcolor{keyword}{const};}
+\DoxyCodeLine{82         \textcolor{keywordtype}{double} getMaximumStep() \textcolor{keyword}{const};}
+\DoxyCodeLine{83         \textcolor{keywordtype}{double} getTolerance() \textcolor{keyword}{const};}
+\DoxyCodeLine{84         \textcolor{keywordtype}{double} getEpsilon() \textcolor{keyword}{const};}
+\DoxyCodeLine{85         \textcolor{keywordtype}{double} getAlpha() \textcolor{keyword}{const};}
+\DoxyCodeLine{86         \textcolor{keywordtype}{double} getScale() \textcolor{keyword}{const};}
+\DoxyCodeLine{87         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{88   }
+\DoxyCodeLine{89   \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} getMagneticField() \textcolor{keyword}{const};}
+\DoxyCodeLine{94         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1DiffusionSDE_ae3831e42866b708ad180c9d48f7a3f8c}{getMagneticFieldAtPosition}}(\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} pos, \textcolor{keywordtype}{double} z) \textcolor{keyword}{const};}
+\DoxyCodeLine{95         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<AdvectionField>}} getAdvectionField() \textcolor{keyword}{const};}
+\DoxyCodeLine{99         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1DiffusionSDE_a0602e30d541b8a57634f911c3d72d4d4}{getAdvectionFieldAtPosition}}(\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101 \};}
+\DoxyCodeLine{104 \} \textcolor{comment}{//namespace crpropa}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_DIFFUSIONSDE\_H}}
+
+\end{DoxyCode}

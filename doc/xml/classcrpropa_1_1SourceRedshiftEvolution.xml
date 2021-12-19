@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1SourceRedshiftEvolution" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::SourceRedshiftEvolution</compoundname>
+    <basecompoundref refid="classcrpropa_1_1SourceFeature" prot="public" virt="non-virtual">SourceFeature</basecompoundref>
+    <includes refid="Source_8h" local="no">crpropa/Source.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1SourceRedshiftEvolution_1aaea53ab3c236de8e4f167c3807d35b47" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zmin</definition>
+        <argsstring></argsstring>
+        <name>zmin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="708" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="708" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceRedshiftEvolution_1ade09ae0d27b0b7a2d1e886efc6d1a500" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zmax</definition>
+        <argsstring></argsstring>
+        <name>zmax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="708" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="708" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1SourceRedshiftEvolution_1a5175b356eac1d83a42608b42a25d00b9" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double m</definition>
+        <argsstring></argsstring>
+        <name>m</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="709" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="709" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1SourceRedshiftEvolution_1a74db0de42077e8eaee6dcda529a1ecf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SourceRedshiftEvolution</definition>
+        <argsstring>(double m, double zmin, double zmax)</argsstring>
+        <name>SourceRedshiftEvolution</name>
+        <param>
+          <type>double</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>zmin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>zmax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of the power law (1 + z)^m </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minimum redshift </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum redshift </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="716" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceRedshiftEvolution_1a43ecdee60be145ab1c5b49f95ce4a8f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void prepareCandidate</definition>
+        <argsstring>(Candidate &amp;candidate) const</argsstring>
+        <name>prepareCandidate</name>
+        <reimplements refid="classcrpropa_1_1SourceFeature_1ae64aafd3cc3ce74a222e274cae1515b4">prepareCandidate</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &amp;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="717" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1ae9b29d78b5d8a37dc7e78dbf06e8c24a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void prepareParticle</definition>
+        <argsstring>(ParticleState &amp;particle) const</argsstring>
+        <name>prepareParticle</name>
+        <reimplementedby refid="classcrpropa_1_1SourceParticleType_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceMultipleParticleTypes_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceEnergy_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourcePowerLawSpectrum_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceComposition_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceMultiplePositions_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformSphere_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformHollowSphere_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformShell_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformBox_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniformCylinder_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceSNRDistribution_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourcePulsarDistribution_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceUniform1D_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceDensityGrid_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceDensityGrid1D_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceIsotropicEmission_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceLambertDistributionOnSphere_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceDirection_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourceEmissionCone_1acc6074320f547e7c03f6957f33b1c3fb">prepareParticle</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SourcePosition_1af201ca90769db129e298d4c74a2a9e5d">prepareParticle</reimplementedby>
+        <param>
+          <type><ref refid="classcrpropa_1_1ParticleState" kindref="compound">ParticleState</ref> &amp;</type>
+          <declname>particle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="25" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1SourceFeature_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="27" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classcrpropa_1_1Random" kindref="compound">Random</ref> redshift (time of emission) from (1+z)^m distribution. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This assigns redshifts to a given source according to a typical power-law distribution. The redshift coordinate is used to treat cosmological effects and as a time coordinate. Consider, for instance, a source located at a distance corresponding to a redshift z. In the absence of processes that cause time delays (e.g., magnetic deflections), particles from this source could arrive after a time corresponding to the source redshift. Charged particles, on the other hand, can arrive at a time later than the corresponding straight- line travel duration. This treatment is also useful for time-dependent studies (e.g. transient sources). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SourceRedshiftEvolution</label>
+        <link refid="classcrpropa_1_1SourceRedshiftEvolution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SourceRedshiftEvolution</label>
+        <link refid="classcrpropa_1_1SourceRedshiftEvolution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>SourceFeature</label>
+        <link refid="classcrpropa_1_1SourceFeature"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" line="707" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Source.h" bodystart="707" bodyend="718"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1SourceRedshiftEvolution_1a5175b356eac1d83a42608b42a25d00b9" prot="private" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>m</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1SourceRedshiftEvolution_1a43ecdee60be145ab1c5b49f95ce4a8f1" prot="public" virt="virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>prepareCandidate</name></member>
+      <member refid="classcrpropa_1_1SourceFeature_1ae9b29d78b5d8a37dc7e78dbf06e8c24a" prot="public" virt="virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>prepareParticle</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1SourceRedshiftEvolution_1a74db0de42077e8eaee6dcda529a1ecf8" prot="public" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>SourceRedshiftEvolution</name></member>
+      <member refid="classcrpropa_1_1SourceRedshiftEvolution_1ade09ae0d27b0b7a2d1e886efc6d1a500" prot="private" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>zmax</name></member>
+      <member refid="classcrpropa_1_1SourceRedshiftEvolution_1aaea53ab3c236de8e4f167c3807d35b47" prot="private" virt="non-virtual"><scope>crpropa::SourceRedshiftEvolution</scope><name>zmin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

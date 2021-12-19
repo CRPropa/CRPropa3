@@ -1,0 +1,553 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1PT11Field" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::PT11Field</compoundname>
+    <basecompoundref refid="classcrpropa_1_1MagneticField" prot="public" virt="non-virtual">MagneticField</basecompoundref>
+    <includes refid="PT11Field_8h" local="no">crpropa/magneticField/PT11Field.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a06a435ffb6bc2cfd37e295dbbf454ab1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useASS</definition>
+        <argsstring></argsstring>
+        <name>useASS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="24" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1aa4a95e4417550b390851a07e210d24c1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useBSS</definition>
+        <argsstring></argsstring>
+        <name>useBSS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="25" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a585a69c327dd9c83508592645b327f5f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useHalo</definition>
+        <argsstring></argsstring>
+        <name>useHalo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="26" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a34c057a0378030db67bd6a129f37d938" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double pitch</definition>
+        <argsstring></argsstring>
+        <name>pitch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="29" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a670ca76fbb9f31c40c3ed98ae99b6ecc" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double cos_pitch</definition>
+        <argsstring></argsstring>
+        <name>cos_pitch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="29" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a4d4a28d93688e256014a1aae315a1647" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double sin_pitch</definition>
+        <argsstring></argsstring>
+        <name>sin_pitch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="29" column="24" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a38d8f926202c5208f4ea151b52bfe3ef" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double PHI</definition>
+        <argsstring></argsstring>
+        <name>PHI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="29" column="34" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a9a25a926b8455c95a45fbebbf370612c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double cos_PHI</definition>
+        <argsstring></argsstring>
+        <name>cos_PHI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="29" column="38" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a873684cefeb665f3d5e6b495de57fc0d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="30" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a04dd115f26be44cf99f9f3928fd777a9" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double R_sun</definition>
+        <argsstring></argsstring>
+        <name>R_sun</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="31" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a266a69480c762079921800847405c66d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double R_c</definition>
+        <argsstring></argsstring>
+        <name>R_c</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="32" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a78e1a25ca9f51679a1e1799846e74775" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double z0_D</definition>
+        <argsstring></argsstring>
+        <name>z0_D</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="33" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1aad4f73c6611044244ef2cf9885bff7af" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double B0_D</definition>
+        <argsstring></argsstring>
+        <name>B0_D</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="34" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a259684806b0174fc512e58f552b58ff4" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double z0_H</definition>
+        <argsstring></argsstring>
+        <name>z0_H</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="37" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a3df3d939785f06b2709589f1dc6efb82" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double R0_H</definition>
+        <argsstring></argsstring>
+        <name>R0_H</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="38" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a23390f2fb3b557ebe51086f6013b990d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double B0_Hn</definition>
+        <argsstring></argsstring>
+        <name>B0_Hn</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="39" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1ac5e6b97f013fd73f89e82fc763ed1dc0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double B0_Hs</definition>
+        <argsstring></argsstring>
+        <name>B0_Hs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="40" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a1fe2fa0bcdb632878dbb363cd622d750" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double z11_H</definition>
+        <argsstring></argsstring>
+        <name>z11_H</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="41" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PT11Field_1a534c8ecf93dfb751ac34c97ba7999e0d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double z12_H</definition>
+        <argsstring></argsstring>
+        <name>z12_H</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="42" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1a2f3d5a9ef197230e6e5ee9d2b06da8d6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SetParams</definition>
+        <argsstring>()</argsstring>
+        <name>SetParams</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="44" column="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1ab39fcd0b83ed71fa3f83aab268b3f1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PT11Field</definition>
+        <argsstring>()</argsstring>
+        <name>PT11Field</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="47" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1acc42e477ca19b5bb2449c701bb07889f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseASS</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseASS</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="49" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1a11f8939ffc26434f1286bd5c5aec7329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseBSS</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseBSS</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="50" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1ae58c536228a1ca993ee273b9c3684156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseHalo</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseHalo</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="51" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1a082261e60ef4b9cd36ee55db9a49c853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool isUsingASS</definition>
+        <argsstring>()</argsstring>
+        <name>isUsingASS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="53" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1a271b1d984f39d757accb141b497dd787" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool isUsingBSS</definition>
+        <argsstring>()</argsstring>
+        <name>isUsingBSS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="54" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1a17f06bf13c88a1272cc1bbf1a63583cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool isUsingHalo</definition>
+        <argsstring>()</argsstring>
+        <name>isUsingHalo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="55" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PT11Field_1a60b4a9f66e692a5d3620de910bae981e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getField</name>
+        <reimplements refid="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e">getField</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="57" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position, double z) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldEvolution_1a73fd1b457429f01ac03d1d50c7c7e1b0">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="29" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Implements Pshirkov2011 galactic magnetic field model. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the Pshirkov2011 galactic magnetic field model, consisting of large-scale regular disk and halo fields. For the disk field an axisymmetric (ASS) and the bisymmetric (BSS, default) model can be chosen. For the halo field the BHM Halo field model (Sun et al. 2008) is considered.</para>
+<para>Currently only best fit values of the field parameters are implemented. The field is defined in the usual galactocentric coordinate system with the Galactic center at the origin, the x-axis pointing in the opposite direction of the Sun, and the z-axis pointing towards Galactic north.</para>
+<para>See: Pshirkov, Tinyakov, Kronberg Newton-McGee 2011 - Deriving global structure of the Galactic Magnetic Field from Faraday Rotation Measures of extragalactic sources, DOI: 10.1088/0004-637X/738/2/192, arXiv:1103.0814 </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PT11Field</label>
+        <link refid="classcrpropa_1_1PT11Field"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PT11Field</label>
+        <link refid="classcrpropa_1_1PT11Field"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" line="22" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/PT11Field.h" bodystart="22" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1aad4f73c6611044244ef2cf9885bff7af" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>B0_D</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a23390f2fb3b557ebe51086f6013b990d" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>B0_Hn</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1ac5e6b97f013fd73f89e82fc763ed1dc0" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>B0_Hs</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a9a25a926b8455c95a45fbebbf370612c" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>cos_PHI</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a670ca76fbb9f31c40c3ed98ae99b6ecc" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>cos_pitch</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a873684cefeb665f3d5e6b495de57fc0d" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>d</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a60b4a9f66e692a5d3620de910bae981e" prot="public" virt="virtual"><scope>crpropa::PT11Field</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" virt="virtual" ambiguityscope="crpropa::MagneticField::"><scope>crpropa::PT11Field</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a082261e60ef4b9cd36ee55db9a49c853" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>isUsingASS</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a271b1d984f39d757accb141b497dd787" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>isUsingBSS</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a17f06bf13c88a1272cc1bbf1a63583cf" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>isUsingHalo</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a38d8f926202c5208f4ea151b52bfe3ef" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>PHI</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a34c057a0378030db67bd6a129f37d938" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>pitch</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1ab39fcd0b83ed71fa3f83aab268b3f1d9" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>PT11Field</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a3df3d939785f06b2709589f1dc6efb82" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>R0_H</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a266a69480c762079921800847405c66d" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>R_c</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a04dd115f26be44cf99f9f3928fd777a9" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>R_sun</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a2f3d5a9ef197230e6e5ee9d2b06da8d6" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>SetParams</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1acc42e477ca19b5bb2449c701bb07889f" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>setUseASS</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a11f8939ffc26434f1286bd5c5aec7329" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>setUseBSS</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1ae58c536228a1ca993ee273b9c3684156" prot="public" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>setUseHalo</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a4d4a28d93688e256014a1aae315a1647" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>sin_pitch</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a06a435ffb6bc2cfd37e295dbbf454ab1" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>useASS</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1aa4a95e4417550b390851a07e210d24c1" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>useBSS</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a585a69c327dd9c83508592645b327f5f" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>useHalo</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a78e1a25ca9f51679a1e1799846e74775" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>z0_D</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a259684806b0174fc512e58f552b58ff4" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>z0_H</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a1fe2fa0bcdb632878dbb363cd622d750" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>z11_H</name></member>
+      <member refid="classcrpropa_1_1PT11Field_1a534c8ecf93dfb751ac34c97ba7999e0d" prot="private" virt="non-virtual"><scope>crpropa::PT11Field</scope><name>z12_H</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" virt="virtual"><scope>crpropa::PT11Field</scope><name>~MagneticField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

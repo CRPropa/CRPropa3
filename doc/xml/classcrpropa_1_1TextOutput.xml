@@ -1,0 +1,1105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1TextOutput" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::TextOutput</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Output" prot="public" virt="non-virtual">Output</basecompoundref>
+    <includes refid="TextOutput_8h" local="no">crpropa/module/TextOutput.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1TextOutput_1ac1e872e3d15c0cda3b66bc218820e2cc" prot="private" static="no" mutable="no">
+        <type>std::ostream *</type>
+        <definition>std::ostream* out</definition>
+        <argsstring></argsstring>
+        <name>out</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="24" column="14" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1TextOutput_1a2e0aad28e3078b74e13b692c93b18962" prot="private" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream outfile</definition>
+        <argsstring></argsstring>
+        <name>outfile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="25" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1TextOutput_1ae80f820219e45772366a2a68de6a54c4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string filename</definition>
+        <argsstring></argsstring>
+        <name>filename</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="26" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1TextOutput_1a479720329be0036106f6af8ef5e958f1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool storeRandomSeeds</definition>
+        <argsstring></argsstring>
+        <name>storeRandomSeeds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="27" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1af0ad44c454d31150757420c31e718703" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void printHeader</definition>
+        <argsstring>() const</argsstring>
+        <name>printHeader</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="29" column="6"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1ad1aebe34e222f5b83f5b7a9e04dde62a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TextOutput</definition>
+        <argsstring>()</argsstring>
+        <name>TextOutput</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default constructor </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="34" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1ab9b709bf06784f18d7f968039fbbeb80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TextOutput</definition>
+        <argsstring>(OutputType outputType)</argsstring>
+        <name>TextOutput</name>
+        <param>
+          <type>OutputType</type>
+          <declname>outputType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outputType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="38" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1aa00c89268b28dfdb2d61055951970d31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TextOutput</definition>
+        <argsstring>(std::ostream &amp;out)</argsstring>
+        <name>TextOutput</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>output stream </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="42" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1a18238813d8d9df18b0ab4c2e4695e673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TextOutput</definition>
+        <argsstring>(std::ostream &amp;out, OutputType outputType)</argsstring>
+        <name>TextOutput</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>OutputType</type>
+          <declname>outputType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>output stream </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outputType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="47" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1a00d9b47cfa52b2ab7d008b1942840b43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TextOutput</definition>
+        <argsstring>(const std::string &amp;filename)</argsstring>
+        <name>TextOutput</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor with the default OutputType (everything). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>string containing name of output text file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="51" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1abafa046a590cf34167c757d1b0a655bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TextOutput</definition>
+        <argsstring>(const std::string &amp;filename, OutputType outputType)</argsstring>
+        <name>TextOutput</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>OutputType</type>
+          <declname>outputType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>string containing name of output text file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outputType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="56" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1a096554fd2f681e7190a5176df1d14ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>~TextOutput</definition>
+        <argsstring>()</argsstring>
+        <name>~TextOutput</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="59" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1a53754d4730cdef807500046017d2ca65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void enableRandomSeeds</definition>
+        <argsstring>()</argsstring>
+        <name>enableRandomSeeds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether to store the random seeds used in the simulation. This enables reproducibility of each realisation of the simulation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="63" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1a5ae591df94fc66ccb85cbb6565368bca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="64" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1ab8aea7afcc19490429e14cb124743003" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gzip</definition>
+        <argsstring>()</argsstring>
+        <name>gzip</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="65" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Output_1a99c8244763eb7a689fc16ba0f1eb88ff">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="66" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="73" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a3414c1b2312bb99fa7a6de51e28e6ccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string OutputTypeName</definition>
+        <argsstring>(OutputType outputtype)</argsstring>
+        <name>OutputTypeName</name>
+        <param>
+          <type>OutputType</type>
+          <declname>outputtype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="99" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a88c4cf9b7e5a8f35022b623bfc18bb01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setEnergyScale</definition>
+        <argsstring>(double scale)</argsstring>
+        <name>setEnergyScale</name>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set energy scale. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy scale (scale = 1 corresponds to 1 Joule) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="117" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a9db59d7e6c0554fb9af102cfbf36c424" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLengthScale</definition>
+        <argsstring>(double scale)</argsstring>
+        <name>setLengthScale</name>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set length scale. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>length scale (scale = 1 corresponds to 1 meter) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="121" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a009b51405949f723321d3d3481f2b0b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setOutputType</definition>
+        <argsstring>(OutputType outputType)</argsstring>
+        <name>setOutputType</name>
+        <param>
+          <type>OutputType</type>
+          <declname>outputType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set type of output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outputType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="125" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a2a9898e99f8d530997697db9cd7fa3cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set</definition>
+        <argsstring>(OutputColumn field, bool value)</argsstring>
+        <name>set</name>
+        <param>
+          <type>OutputColumn</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Determines whether a given column will be displayed in the output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the field to be added/removed from output </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>boolean flag adding (true) or removing (false) the field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="130" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a8e469bf05f9541dbd446fcc63ab66dfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void enableProperty</definition>
+        <argsstring>(const std::string &amp;property, const Variant &amp;defaultValue, const std::string &amp;comment=&quot;&quot;)</argsstring>
+        <name>enableProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>property</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Variant" kindref="compound">Variant</ref> &amp;</type>
+          <declname>defaultValue</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>comment</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a property to output. Default value is required to assign a type in the output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>property</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>string containing name of property </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>default</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>default value of property </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>comment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>string with a comment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="137" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a89a25830a2dbd036bce61a91e9d9f03e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void enable</definition>
+        <argsstring>(OutputColumn field)</argsstring>
+        <name>enable</name>
+        <param>
+          <type>OutputColumn</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable specific column in the output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the field to be enabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="141" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1af9f8624411fce9f75945b97d5dea3066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void disable</definition>
+        <argsstring>(OutputColumn field)</argsstring>
+        <name>disable</name>
+        <param>
+          <type>OutputColumn</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable specific column in the output. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the field to be disabled </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="145" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1ae076f3f35c07044ed812b78871741c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void enableAll</definition>
+        <argsstring>()</argsstring>
+        <name>enableAll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable all fields. Essentially a wrapper for set(field, true). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="149" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a238885c747f586049b766fa4fcd5ec12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void disableAll</definition>
+        <argsstring>()</argsstring>
+        <name>disableAll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable all fields. Essentially a wrapper for set(field, false). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="153" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a1f9c57e1760e336d10856bb5367a10d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void set1D</definition>
+        <argsstring>(bool value)</argsstring>
+        <name>set1D</name>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, output is of 1D type. 3D quantities such as vectors will be reduced to the relevant components (x, by default). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>boolean flag </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="158" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Output_1a259cb5a711406a8c3e5d937eb9350cca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the size of the output </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="161" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classcrpropa_1_1TextOutput_1ac7283f8f4f1d04765ce4f971e34139d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void load</definition>
+        <argsstring>(const std::string &amp;filename, ParticleCollector *collector)</argsstring>
+        <name>load</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1ParticleCollector" kindref="compound">ParticleCollector</ref> *</type>
+          <declname>collector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Loads a file to a particle collector. This is useful for analysis involving, e.g., magnetic lenses. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>string containing the name of the file to be loaded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>object of type <ref refid="classcrpropa_1_1ParticleCollector" kindref="compound">ParticleCollector</ref> that will store the information </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="72" column="13"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2" prot="public" static="no" strong="no">
+        <type></type>
+        <name>OutputColumn</name>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a186fa342fe014d2675e382a530f5fafc" prot="public">
+          <name>TrajectoryLengthColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ac9b76db1b5ab2cfe029731947ad60d71" prot="public">
+          <name>ColumnDensityColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a925f4c56237afe9e8be89aed725104b2" prot="public">
+          <name>RedshiftColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a9ec59dae6e5fff2fbd6948973ca513bd" prot="public">
+          <name>CurrentIdColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2aa1e227ef1168f508ac9b6d9a6aa305fd" prot="public">
+          <name>CurrentEnergyColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a5f68544589543f5da16093a604b02fc5" prot="public">
+          <name>CurrentPositionColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a925bf510513105b37fa3a9660339f645" prot="public">
+          <name>CurrentDirectionColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a2068307224e67200ecbca04ceaf1a8e8" prot="public">
+          <name>SourceIdColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ab69ce845e71b033aeedcc037a4a70d16" prot="public">
+          <name>SourceEnergyColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a50f6570caca5d7cd8ef33396f729dc9d" prot="public">
+          <name>SourcePositionColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ab76bf3e0a7eb3c8a4c745e63d0cbb68b" prot="public">
+          <name>SourceDirectionColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2af0fe5c7fdfc6839f937acc32d5130f4d" prot="public">
+          <name>CreatedIdColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ae784628b98ef3acc8de9ed71396b8591" prot="public">
+          <name>CreatedEnergyColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2af3cd4e1096999c283407b0fa082b6fd8" prot="public">
+          <name>CreatedPositionColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ab4db592dfe70ff8563645ac0cd36f631" prot="public">
+          <name>CreatedDirectionColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2aa3ea479ce24475ed93c62b39db658aa9" prot="public">
+          <name>SerialNumberColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a7f41f4b5b0548996a3144fdede3fb22d" prot="public">
+          <name>WeightColumn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="72" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" bodystart="72" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="enum" id="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3" prot="public" static="no" strong="no">
+        <type></type>
+        <name>OutputType</name>
+        <enumvalue id="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3a2b79dec7214406fcea795fdceb000368" prot="public">
+          <name>Trajectory1D</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3ad1f98b082fd028c555fa06a1a060e957" prot="public">
+          <name>Trajectory3D</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3aa778a26228d74299101005422f95fb32" prot="public">
+          <name>Event1D</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3aa9e25b1d9bdd2a1def19889068c1e2fe" prot="public">
+          <name>Event3D</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3aaf35203341cab15aecd50d4c6fda9d9a" prot="public">
+          <name>Everything</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="91" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" bodystart="91" bodyend="97"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Output_1af32570aafa2044362c74a0f7ac280a30" prot="public" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string outputName</definition>
+        <argsstring></argsstring>
+        <name>outputName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" line="100" column="19" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Output.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Configurable plain text output for particle information. This type of output can also be used to generate a .tar.gz file if the library zlib is available. For details see: <ulink url="http://zlib.net/">http://zlib.net/</ulink>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TextOutput</label>
+        <link refid="classcrpropa_1_1TextOutput"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Output</label>
+        <link refid="classcrpropa_1_1Output"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TextOutput</label>
+        <link refid="classcrpropa_1_1TextOutput"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Output</label>
+        <link refid="classcrpropa_1_1Output"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>outputName</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="6">
+        <label>basic_string&lt; Char &gt;</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" line="22" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/TextOutput.h" bodystart="22" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a5ae591df94fc66ccb85cbb6565368bca" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>close</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ac9b76db1b5ab2cfe029731947ad60d71" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>ColumnDensityColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ab4db592dfe70ff8563645ac0cd36f631" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CreatedDirectionColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ae784628b98ef3acc8de9ed71396b8591" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CreatedEnergyColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2af0fe5c7fdfc6839f937acc32d5130f4d" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CreatedIdColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2af3cd4e1096999c283407b0fa082b6fd8" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CreatedPositionColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a925bf510513105b37fa3a9660339f645" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CurrentDirectionColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2aa1e227ef1168f508ac9b6d9a6aa305fd" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CurrentEnergyColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a9ec59dae6e5fff2fbd6948973ca513bd" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CurrentIdColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a5f68544589543f5da16093a604b02fc5" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>CurrentPositionColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1af9f8624411fce9f75945b97d5dea3066" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>disable</name></member>
+      <member refid="classcrpropa_1_1Output_1a238885c747f586049b766fa4fcd5ec12" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>disableAll</name></member>
+      <member refid="classcrpropa_1_1Output_1a89a25830a2dbd036bce61a91e9d9f03e" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>enable</name></member>
+      <member refid="classcrpropa_1_1Output_1ae076f3f35c07044ed812b78871741c15" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>enableAll</name></member>
+      <member refid="classcrpropa_1_1Output_1a8e469bf05f9541dbd446fcc63ab66dfc" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>enableProperty</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a53754d4730cdef807500046017d2ca65" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>enableRandomSeeds</name></member>
+      <member refid="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3aa778a26228d74299101005422f95fb32" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Event1D</name></member>
+      <member refid="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3aa9e25b1d9bdd2a1def19889068c1e2fe" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Event3D</name></member>
+      <member refid="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3aaf35203341cab15aecd50d4c6fda9d9a" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Everything</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ae80f820219e45772366a2a68de6a54c4" prot="private" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>filename</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="virtual"><scope>crpropa::TextOutput</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ab8aea7afcc19490429e14cb124743003" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>gzip</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ac7283f8f4f1d04765ce4f971e34139d4" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>load</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ac1e872e3d15c0cda3b66bc218820e2cc" prot="private" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>out</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a2e0aad28e3078b74e13b692c93b18962" prot="private" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>outfile</name></member>
+      <member refid="classcrpropa_1_1Output_1a356172c336fe8c0afbac8c49d5dcc703" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Output</name></member>
+      <member refid="classcrpropa_1_1Output_1a9ef617010117b742fecef37257f8545d" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Output</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>OutputColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1af32570aafa2044362c74a0f7ac280a30" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>outputName</name></member>
+      <member refid="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>OutputType</name></member>
+      <member refid="classcrpropa_1_1Output_1a3414c1b2312bb99fa7a6de51e28e6ccb" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>OutputTypeName</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1af0ad44c454d31150757420c31e718703" prot="private" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>printHeader</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::TextOutput</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::TextOutput</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a925f4c56237afe9e8be89aed725104b2" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>RedshiftColumn</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2aa3ea479ce24475ed93c62b39db658aa9" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>SerialNumberColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1a2a9898e99f8d530997697db9cd7fa3cd" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>set</name></member>
+      <member refid="classcrpropa_1_1Output_1a1f9c57e1760e336d10856bb5367a10d8" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>set1D</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1Output_1a88c4cf9b7e5a8f35022b623bfc18bb01" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>setEnergyScale</name></member>
+      <member refid="classcrpropa_1_1Output_1a9db59d7e6c0554fb9af102cfbf36c424" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>setLengthScale</name></member>
+      <member refid="classcrpropa_1_1Output_1a009b51405949f723321d3d3481f2b0b9" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>setOutputType</name></member>
+      <member refid="classcrpropa_1_1Output_1a259cb5a711406a8c3e5d937eb9350cca" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>size</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ab76bf3e0a7eb3c8a4c745e63d0cbb68b" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>SourceDirectionColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2ab69ce845e71b033aeedcc037a4a70d16" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>SourceEnergyColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a2068307224e67200ecbca04ceaf1a8e8" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>SourceIdColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a50f6570caca5d7cd8ef33396f729dc9d" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>SourcePositionColumn</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a479720329be0036106f6af8ef5e958f1" prot="private" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>storeRandomSeeds</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ad1aebe34e222f5b83f5b7a9e04dde62a" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TextOutput</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1ab9b709bf06784f18d7f968039fbbeb80" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TextOutput</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1aa00c89268b28dfdb2d61055951970d31" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TextOutput</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a18238813d8d9df18b0ab4c2e4695e673" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TextOutput</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a00d9b47cfa52b2ab7d008b1942840b43" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TextOutput</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1abafa046a590cf34167c757d1b0a655bf" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TextOutput</name></member>
+      <member refid="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3a2b79dec7214406fcea795fdceb000368" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Trajectory1D</name></member>
+      <member refid="classcrpropa_1_1Output_1a4e0517338e6c4a31a2addafc06d4f3a3ad1f98b082fd028c555fa06a1a060e957" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>Trajectory3D</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a186fa342fe014d2675e382a530f5fafc" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>TrajectoryLengthColumn</name></member>
+      <member refid="classcrpropa_1_1Output_1ae19bd705fd6d54313643f1089b4ef4a2a7f41f4b5b0548996a3144fdede3fb22d" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>WeightColumn</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::TextOutput</scope><name>~Module</name></member>
+      <member refid="classcrpropa_1_1TextOutput_1a096554fd2f681e7190a5176df1d14ef0" prot="public" virt="non-virtual"><scope>crpropa::TextOutput</scope><name>~TextOutput</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

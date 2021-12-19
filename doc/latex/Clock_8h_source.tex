@@ -1,0 +1,26 @@
+\hypertarget{Clock_8h_source}{}\doxysection{Clock.\+h}
+\label{Clock_8h_source}\index{Clock.h@{Clock.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_CLOCK\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_CLOCK\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Clock}{Clock}} \{}
+\DoxyCodeLine{16 \textcolor{keyword}{private}:}
+\DoxyCodeLine{17         \textcolor{keyword}{class }Impl;}
+\DoxyCodeLine{18         Impl *impl;}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20         \mbox{\hyperlink{classcrpropa_1_1Clock}{Clock}}();}
+\DoxyCodeLine{21         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Clock}{\string~Clock}}();}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23         \textcolor{keywordtype}{void} reset();}
+\DoxyCodeLine{24         \textcolor{keywordtype}{double} getSecond();}
+\DoxyCodeLine{25         \textcolor{keywordtype}{double} getMillisecond();}
+\DoxyCodeLine{26         \textcolor{keyword}{static} \mbox{\hyperlink{classcrpropa_1_1Clock}{Clock}} \&getInstance();}
+\DoxyCodeLine{27 \};}
+\DoxyCodeLine{30 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_CLOCK\_H}}
+
+\end{DoxyCode}

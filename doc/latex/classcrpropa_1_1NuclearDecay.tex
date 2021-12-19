@@ -1,0 +1,123 @@
+\hypertarget{classcrpropa_1_1NuclearDecay}{}\doxysection{Nuclear\+Decay Class Reference}
+\label{classcrpropa_1_1NuclearDecay}\index{NuclearDecay@{NuclearDecay}}
+
+
+Nuclear decay of unstable nuclei.  
+
+
+Inheritance diagram for Nuclear\+Decay\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1NuclearDecay}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1NuclearDecay_ab8fb67bd42743f6175aab9a4e90bc92b}{Nuclear\+Decay}} (bool electrons=false, bool photons=false, bool neutrinos=false, double limit=0.\+1)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_a29ee54f3ff5603da67762de093cff3b1}\label{classcrpropa_1_1NuclearDecay_a29ee54f3ff5603da67762de093cff3b1}} 
+void {\bfseries set\+Limit} (double limit)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_aca5f612cb1c832c1a9fa8e4989efe69a}\label{classcrpropa_1_1NuclearDecay_aca5f612cb1c832c1a9fa8e4989efe69a}} 
+void {\bfseries set\+Have\+Electrons} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_a066a49fb07366c030b9403706f83087a}\label{classcrpropa_1_1NuclearDecay_a066a49fb07366c030b9403706f83087a}} 
+void {\bfseries set\+Have\+Photons} (bool b)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_a93dc03a4c252a492642de79f38257821}\label{classcrpropa_1_1NuclearDecay_a93dc03a4c252a492642de79f38257821}} 
+void {\bfseries set\+Have\+Neutrinos} (bool b)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1NuclearDecay_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_a3c78883ae570810fb93d92793e0ad5ae}\label{classcrpropa_1_1NuclearDecay_a3c78883ae570810fb93d92793e0ad5ae}} 
+void {\bfseries perform\+Interaction} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, int channel) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_a70ad1d58ac9daf73fe97fbdd0f4820ae}\label{classcrpropa_1_1NuclearDecay_a70ad1d58ac9daf73fe97fbdd0f4820ae}} 
+void {\bfseries gamma\+Emission} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, int channel) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_ad63e75208c4db9433b5bfe59fdd10287}\label{classcrpropa_1_1NuclearDecay_ad63e75208c4db9433b5bfe59fdd10287}} 
+void {\bfseries beta\+Decay} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, bool is\+Beta\+Plus) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_abbe1ed5ae6fe98aa711dbb716a324e4d}\label{classcrpropa_1_1NuclearDecay_abbe1ed5ae6fe98aa711dbb716a324e4d}} 
+void {\bfseries nucleon\+Emission} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, int dA, int dZ) const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1NuclearDecay_a64c2e915dd2c0f318b6c93da9167bebd}{mean\+Free\+Path}} (int id, double gamma)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}\label{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}} 
+virtual std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Nuclear decay of unstable nuclei. 
+
+This module simulates the nuclear decay of unstable nuclei using data from Nu\+Dat2. All decay modes are considered\+: alpha, beta+-\/ and gamma decay, as well as proton-\/ and neutron dripping. The resulting non-\/hadronic secondary particles (e+, e-\/, neutrinos, gamma) can optionally be created.
+
+For details on the preprocessing of the Nu\+Dat2 data refer to \char`\"{}\+CRPropa3-\/data/calc\+\_\+decay.\+py\char`\"{}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_ab8fb67bd42743f6175aab9a4e90bc92b}\label{classcrpropa_1_1NuclearDecay_ab8fb67bd42743f6175aab9a4e90bc92b}} 
+\index{NuclearDecay@{NuclearDecay}!NuclearDecay@{NuclearDecay}}
+\index{NuclearDecay@{NuclearDecay}!NuclearDecay@{NuclearDecay}}
+\doxysubsubsection{\texorpdfstring{NuclearDecay()}{NuclearDecay()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1NuclearDecay}{Nuclear\+Decay}} (\begin{DoxyParamCaption}\item[{bool}]{electrons = {\ttfamily false},  }\item[{bool}]{photons = {\ttfamily false},  }\item[{bool}]{neutrinos = {\ttfamily false},  }\item[{double}]{limit = {\ttfamily 0.1} }\end{DoxyParamCaption})}
+
+Constructor. 
+\begin{DoxyParams}{Parameters}
+{\em photon\+Field} & target photon field \\
+\hline
+{\em photons} & if true, add secondary photons as candidates \\
+\hline
+{\em neutrinos} & if true, add secondary neutrinos as candidates \\
+\hline
+{\em limit} & step size limit as fraction of mean free path \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_a64c2e915dd2c0f318b6c93da9167bebd}\label{classcrpropa_1_1NuclearDecay_a64c2e915dd2c0f318b6c93da9167bebd}} 
+\index{NuclearDecay@{NuclearDecay}!meanFreePath@{meanFreePath}}
+\index{meanFreePath@{meanFreePath}!NuclearDecay@{NuclearDecay}}
+\doxysubsubsection{\texorpdfstring{meanFreePath()}{meanFreePath()}}
+{\footnotesize\ttfamily double mean\+Free\+Path (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{double}]{gamma }\end{DoxyParamCaption})}
+
+Return the mean free path. This is not used in the simulation. 
+\begin{DoxyParams}{Parameters}
+{\em id} & PDG particle id \\
+\hline
+{\em gamma} & Lorentz factor of particle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mean free path \mbox{[}in meters\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1NuclearDecay_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1NuclearDecay_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{NuclearDecay@{NuclearDecay}!process@{process}}
+\index{process@{process}!NuclearDecay@{NuclearDecay}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+

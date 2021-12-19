@@ -1,0 +1,1636 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__PhysicsDefinitions" kind="group">
+    <compoundname>PhysicsDefinitions</compoundname>
+    <title>Physics Definitions</title>
+    <innerfile refid="Cosmology_8h">Cosmology.h</innerfile>
+    <innerfile refid="ParticleID_8h">ParticleID.h</innerfile>
+    <innerfile refid="Units_8h">Units.h</innerfile>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga81230fc213736db75d5c970e68886a10" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double meter</definition>
+        <argsstring></argsstring>
+        <name>meter</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="25" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double second</definition>
+        <argsstring></argsstring>
+        <name>second</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="26" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga8955be82c3d643afe27de76d06df52e8" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kilogram</definition>
+        <argsstring></argsstring>
+        <name>kilogram</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="27" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double ampere</definition>
+        <argsstring></argsstring>
+        <name>ampere</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="28" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaabefcc198b3e2606497fd55b370846fa" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mol</definition>
+        <argsstring></argsstring>
+        <name>mol</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="29" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gad6635fb9b9ed7cc9fee15071b9432091" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kelvin</definition>
+        <argsstring></argsstring>
+        <name>kelvin</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="30" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga86cabed6b39944d7bada06028f98c864" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double newton</definition>
+        <argsstring></argsstring>
+        <name>newton</name>
+        <initializer>= 1 * kilogram * meter / second / second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="33" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaab6215c4cb38b8fcb808d8ff11e0940c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double pascal</definition>
+        <argsstring></argsstring>
+        <name>pascal</name>
+        <initializer>= 1 * newton / meter / meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="34" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaca2a407ebab577eb092585f84631c8d0" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double joule</definition>
+        <argsstring></argsstring>
+        <name>joule</name>
+        <initializer>= 1 * newton * meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="35" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double tesla</definition>
+        <argsstring></argsstring>
+        <name>tesla</name>
+        <initializer>= 1 * newton / ampere / meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="36" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga90ad310c0986c21c31d3695d97922db7" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double volt</definition>
+        <argsstring></argsstring>
+        <name>volt</name>
+        <initializer>= 1 * kilogram * meter * meter / ampere / second / second / second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="37" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga9f729835f8d7ddb8ab71fce2108d7566" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double coulomb</definition>
+        <argsstring></argsstring>
+        <name>coulomb</name>
+        <initializer>= 1 * ampere * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="38" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga1f940bb86795ed45e1417ad32321a551" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double hertz</definition>
+        <argsstring></argsstring>
+        <name>hertz</name>
+        <initializer>= 1 / second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="39" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double rad</definition>
+        <argsstring></argsstring>
+        <name>rad</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="40" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga2f5042227e4fdba943844e169f5cf010" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double deg</definition>
+        <argsstring></argsstring>
+        <name>deg</name>
+        <initializer>= M_PI / 180.</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="41" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gad9f87532fe6bac146c75ef173bd468d8" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double yocto</definition>
+        <argsstring></argsstring>
+        <name>yocto</name>
+        <initializer>= 1E-24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="44" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaecd7702608529a1c8d8c744542b64bd4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double zepto</definition>
+        <argsstring></argsstring>
+        <name>zepto</name>
+        <initializer>= 1E-21</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="45" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double atto</definition>
+        <argsstring></argsstring>
+        <name>atto</name>
+        <initializer>= 1E-18</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="46" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gabea2135256ac31f26ed041ab577f8c13" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double femto</definition>
+        <argsstring></argsstring>
+        <name>femto</name>
+        <initializer>= 1E-15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="47" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double pico</definition>
+        <argsstring></argsstring>
+        <name>pico</name>
+        <initializer>= 1E-12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="48" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gac6aa1e9406f8b758f5e41d80e0045733" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double nano</definition>
+        <argsstring></argsstring>
+        <name>nano</name>
+        <initializer>= 1E-9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="49" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga9edb08003fe77ed3bacd9ea23bcfa66b" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double micro</definition>
+        <argsstring></argsstring>
+        <name>micro</name>
+        <initializer>= 1E-6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="50" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga795961ce904cb279d5fd18b27622c9a0" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double milli</definition>
+        <argsstring></argsstring>
+        <name>milli</name>
+        <initializer>= 1E-3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="51" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga05ccc8bd868280980dab40ca4128d8e4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kilo</definition>
+        <argsstring></argsstring>
+        <name>kilo</name>
+        <initializer>= 1E3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="53" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga8912b14f7b302e534e7eb063288f6ee9" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mega</definition>
+        <argsstring></argsstring>
+        <name>mega</name>
+        <initializer>= 1E6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="54" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaf2299d510cc08e636439584682a88303" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double giga</definition>
+        <argsstring></argsstring>
+        <name>giga</name>
+        <initializer>= 1E9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="55" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double tera</definition>
+        <argsstring></argsstring>
+        <name>tera</name>
+        <initializer>= 1E12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="56" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab4e48de47138d9b3db5a04e1a3d6be1d" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double peta</definition>
+        <argsstring></argsstring>
+        <name>peta</name>
+        <initializer>= 1E15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="57" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga7f1280863986e5f4b59fae29afbecabc" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double exa</definition>
+        <argsstring></argsstring>
+        <name>exa</name>
+        <initializer>= 1E18</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="58" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gad92d24cec8d208c82569e29279becc10" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double zetta</definition>
+        <argsstring></argsstring>
+        <name>zetta</name>
+        <initializer>= 1E21</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="59" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga85979a8ef8dbc332c635191cd40a3b0c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double yotta</definition>
+        <argsstring></argsstring>
+        <name>yotta</name>
+        <initializer>= 1E24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="60" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga53b77492aea234537215b9ba7177882c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double eplus</definition>
+        <argsstring></argsstring>
+        <name>eplus</name>
+        <initializer>= 1.602176487e-19 * ampere * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="64" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga2085cc4cdb90e7a156b5dbdbe44bf7aa" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double c_light</definition>
+        <argsstring></argsstring>
+        <name>c_light</name>
+        <initializer>= 2.99792458e8 * meter / second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="65" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga35d305b22a8de1cab9f18bf3e0fe48ba" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double c_squared</definition>
+        <argsstring></argsstring>
+        <name>c_squared</name>
+        <initializer>= c_light * c_light</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="66" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double amu</definition>
+        <argsstring></argsstring>
+        <name>amu</name>
+        <initializer>= 1.660538921e-27 * kilogram</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="67" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mass_proton</definition>
+        <argsstring></argsstring>
+        <name>mass_proton</name>
+        <initializer>= 1.67262158e-27 * kilogram</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="68" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mass_neutron</definition>
+        <argsstring></argsstring>
+        <name>mass_neutron</name>
+        <initializer>= 1.67492735e-27 * kilogram</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="69" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga21aa8093ee2f43ed4e85b31b64304c7a" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mass_electron</definition>
+        <argsstring></argsstring>
+        <name>mass_electron</name>
+        <initializer>= 9.10938291e-31 * kilogram</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="70" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga5625ec9f520a5f041fb88f5da5f94bef" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double h_planck</definition>
+        <argsstring></argsstring>
+        <name>h_planck</name>
+        <initializer>= 6.62606957e-34 * joule * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="71" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga12088648de7f88c5accd233032d3153e" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double k_boltzmann</definition>
+        <argsstring></argsstring>
+        <name>k_boltzmann</name>
+        <initializer>= 1.3806488e-23 * joule / kelvin</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="72" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaa2940cb38b48f36a88341bd268778847" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mu0</definition>
+        <argsstring></argsstring>
+        <name>mu0</name>
+        <initializer>= 4 * M_PI * 1e-7 * newton / ampere / ampere</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="73" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab38b15c5eece78fad9d84103d8b90a89" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double epsilon0</definition>
+        <argsstring></argsstring>
+        <name>epsilon0</name>
+        <initializer>= 1.0 / mu0 / c_squared * ampere * second / volt / meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="74" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gad7c4f80eaae50061ac4b754cbb5f0275" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double gauss</definition>
+        <argsstring></argsstring>
+        <name>gauss</name>
+        <initializer>= 1e-4 * tesla</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="77" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab70342abf0832b9dd265964c21681319" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double microgauss</definition>
+        <argsstring></argsstring>
+        <name>microgauss</name>
+        <initializer>= 1e-6 * gauss</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="78" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab676ddbbf379cc0ee93944717e1ac9eb" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double nanogauss</definition>
+        <argsstring></argsstring>
+        <name>nanogauss</name>
+        <initializer>= 1e-9 * gauss</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="79" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga5596cdaf7a42ba58794c2c6dc5e1e7dd" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double muG</definition>
+        <argsstring></argsstring>
+        <name>muG</name>
+        <initializer>= microgauss</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="80" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab2255fb9f970de1ddc40b38fe9065de4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double nG</definition>
+        <argsstring></argsstring>
+        <name>nG</name>
+        <initializer>= nanogauss</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="81" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga8d678b199c22b3f6719333b6ed3b3e39" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double erg</definition>
+        <argsstring></argsstring>
+        <name>erg</name>
+        <initializer>= 1E-7 * joule</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="83" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga384bc54c9a15fa0d84ae78416653c9c4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double electronvolt</definition>
+        <argsstring></argsstring>
+        <name>electronvolt</name>
+        <initializer>= eplus * volt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="86" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga2e4f006f78ed12d318baa9ef08a9e799" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kiloelectronvolt</definition>
+        <argsstring></argsstring>
+        <name>kiloelectronvolt</name>
+        <initializer>= 1e3 * electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="87" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga4f2c7d727d45a6c6a39e648c48a68bf4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double megaelectronvolt</definition>
+        <argsstring></argsstring>
+        <name>megaelectronvolt</name>
+        <initializer>= 1e6 * electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="88" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga67f77928286c0c47c56fb64ef6445517" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double gigaelectronvolt</definition>
+        <argsstring></argsstring>
+        <name>gigaelectronvolt</name>
+        <initializer>= 1e9 * electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="89" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double teraelectronvolt</definition>
+        <argsstring></argsstring>
+        <name>teraelectronvolt</name>
+        <initializer>= 1e12 * electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="90" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaea037b37e9acec1a6e766802f3ebd7fb" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double petaelectronvolt</definition>
+        <argsstring></argsstring>
+        <name>petaelectronvolt</name>
+        <initializer>= 1e15 * electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="91" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga4aa592dff0d55ae915648a03dfe46dd1" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double exaelectronvolt</definition>
+        <argsstring></argsstring>
+        <name>exaelectronvolt</name>
+        <initializer>= 1e18 * electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="92" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga87b385f118e3715860117a77eda7136d" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double eV</definition>
+        <argsstring></argsstring>
+        <name>eV</name>
+        <initializer>= electronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="93" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga71187dfc8f158326cbf7bed526138aae" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double keV</definition>
+        <argsstring></argsstring>
+        <name>keV</name>
+        <initializer>= kiloelectronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="94" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gac90e720c4654493ae50b7b964cc6b20d" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double MeV</definition>
+        <argsstring></argsstring>
+        <name>MeV</name>
+        <initializer>= megaelectronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="95" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaec0e126d9991db8ad0b26139f5860568" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double GeV</definition>
+        <argsstring></argsstring>
+        <name>GeV</name>
+        <initializer>= gigaelectronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="96" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga7f801e1f6821bc6baf0652ed2496e5e9" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double TeV</definition>
+        <argsstring></argsstring>
+        <name>TeV</name>
+        <initializer>= teraelectronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="97" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga463540ec70967dcc4e597ef8adc7f44c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double PeV</definition>
+        <argsstring></argsstring>
+        <name>PeV</name>
+        <initializer>= petaelectronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="98" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab1e9216cf93077db4901e1820dffa132" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double EeV</definition>
+        <argsstring></argsstring>
+        <name>EeV</name>
+        <initializer>= exaelectronvolt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="99" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga8d9a59356bad97a6e73cc459a35bc274" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double barn</definition>
+        <argsstring></argsstring>
+        <name>barn</name>
+        <initializer>= 1E-28 * meter * meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="101" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gae57f427be881e4c8f1163470da1befb2" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double au</definition>
+        <argsstring></argsstring>
+        <name>au</name>
+        <initializer>= 149597870700 * meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="104" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaaa1e0123e1baad493ec687904a428cbf" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double ly</definition>
+        <argsstring></argsstring>
+        <name>ly</name>
+        <initializer>= 365.25 * 24 * 3600 * second * c_light</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="105" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double parsec</definition>
+        <argsstring></argsstring>
+        <name>parsec</name>
+        <initializer>= 648000 / M_PI * au</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="106" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga0470d2bb7af674e93def309564e0d51a" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kiloparsec</definition>
+        <argsstring></argsstring>
+        <name>kiloparsec</name>
+        <initializer>= 1e3 * parsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="107" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gac3da9c52caabd55b3d229735cc925e5e" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double megaparsec</definition>
+        <argsstring></argsstring>
+        <name>megaparsec</name>
+        <initializer>= 1e6 * parsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="108" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaf8524dd93cb2df63eabbbd443e5014ff" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double gigaparsec</definition>
+        <argsstring></argsstring>
+        <name>gigaparsec</name>
+        <initializer>= 1e9 * parsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="109" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga2884cd030c4c825754349a525a1d06ce" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double pc</definition>
+        <argsstring></argsstring>
+        <name>pc</name>
+        <initializer>= parsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="110" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kpc</definition>
+        <argsstring></argsstring>
+        <name>kpc</name>
+        <initializer>= kiloparsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="111" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga03be4183d6f731898634e3649865848c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double Mpc</definition>
+        <argsstring></argsstring>
+        <name>Mpc</name>
+        <initializer>= megaparsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="112" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaaf33764feb34669b8ffe006cc943067d" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double Gpc</definition>
+        <argsstring></argsstring>
+        <name>Gpc</name>
+        <initializer>= gigaparsec</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="113" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga6183103d0e243ef4347cd071cc5fd68b" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double kilometer</definition>
+        <argsstring></argsstring>
+        <name>kilometer</name>
+        <initializer>= 1000 * meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="116" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga8b99ed3101c591c1133f492d94fa3685" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double centimeter</definition>
+        <argsstring></argsstring>
+        <name>centimeter</name>
+        <initializer>= 0.01 * meter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="117" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gaaf85ed8b741937db702f62aac693ae5d" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double km</definition>
+        <argsstring></argsstring>
+        <name>km</name>
+        <initializer>= kilometer</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="118" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gad0b9a58075a15c1cb674a2b879402853" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double cm</definition>
+        <argsstring></argsstring>
+        <name>cm</name>
+        <initializer>= centimeter</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="119" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gab1ad77ec7ae37ba36c2c7f8785440281" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double nanosecond</definition>
+        <argsstring></argsstring>
+        <name>nanosecond</name>
+        <initializer>= 1e-9 * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="122" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga33252a2d991e1b089ea0c7540ef334ea" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double microsecond</definition>
+        <argsstring></argsstring>
+        <name>microsecond</name>
+        <initializer>= 1e-6 * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="123" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gae32c5b1394299598268f59e850e70d91" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double millisecond</definition>
+        <argsstring></argsstring>
+        <name>millisecond</name>
+        <initializer>= 1e-3 * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="124" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga583f186218b8bf2ad5c54928a6c20134" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double minute</definition>
+        <argsstring></argsstring>
+        <name>minute</name>
+        <initializer>= 60 * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="125" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga09c047eba91ce1d85e4e7fdd4bafebe4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double hour</definition>
+        <argsstring></argsstring>
+        <name>hour</name>
+        <initializer>= 3600 * second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="126" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1gae9508134491d8a9621d23f07281096c7" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double ns</definition>
+        <argsstring></argsstring>
+        <name>ns</name>
+        <initializer>= nanosecond</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="127" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga38012ba2795f7181e87ea3a4a0b0e32f" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double mus</definition>
+        <argsstring></argsstring>
+        <name>mus</name>
+        <initializer>= microsecond</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="128" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga40448747ca0606885ccc70b72ed78001" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double ms</definition>
+        <argsstring></argsstring>
+        <name>ms</name>
+        <initializer>= millisecond</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="129" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double sec</definition>
+        <argsstring></argsstring>
+        <name>sec</name>
+        <initializer>= second</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="130" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double ccm</definition>
+        <argsstring></argsstring>
+        <name>ccm</name>
+        <initializer>= cm*cm*cm</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" line="133" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Units.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__PhysicsDefinitions_1gaf26fcc97f8c2cd7b6613950265dbd473" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void crpropa::setCosmologyParameters</definition>
+        <argsstring>(double hubbleParameter, double omegaMatter)</argsstring>
+        <name>setCosmologyParameters</name>
+        <param>
+          <type>double</type>
+          <declname>hubbleParameter</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>omegaMatter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the cosmological parameters for a flat universe. To ensure flatness omegaL is set to 1 - omegaMatter <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hubbleParameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>dimensionless Hubble parameter, default = 0.673 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>omegaMatter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>matter parameter, default = 0.315 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="20" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="20" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1gaca47de327745e542b987dc0fdc0544ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::hubbleRate</definition>
+        <argsstring>(double redshift=0)</argsstring>
+        <name>hubbleRate</name>
+        <param>
+          <type>double</type>
+          <declname>redshift</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Hubble rate at given redshift H(z) = H0 * sqrt(omegaM * (1 + z)^3 + omegaL) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="26" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="26" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga73ed5eab2ffc8064c0cb8f169d568a07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::omegaL</definition>
+        <argsstring>()</argsstring>
+        <name>omegaL</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="29" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="29" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1gac97a929f7aaea9e4a346e319167d05fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::omegaM</definition>
+        <argsstring>()</argsstring>
+        <name>omegaM</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="32" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="32" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga6fccfc5a896dc6f1036d2abbfca4ae2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::H0</definition>
+        <argsstring>()</argsstring>
+        <name>H0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="35" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="35" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga512961b323c6706458df15e5c11f09fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::comovingDistance2Redshift</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>comovingDistance2Redshift</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classcrpropa_1_1Redshift" kindref="compound">Redshift</ref> of a comoving object at a given comoving distance to an observer at z = 0. d_comoving(z) = c/H0 * int_0^z dz&apos; / E(z&apos;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="41" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="41" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga74be55ec3e23caff21310b51b53cab35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::redshift2ComovingDistance</definition>
+        <argsstring>(double redshift)</argsstring>
+        <name>redshift2ComovingDistance</name>
+        <param>
+          <type>double</type>
+          <declname>redshift</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comoving distance between an observer at z = 0 and a comoving object at z. d_comoving(z) = c/H0 * int_0^z dz&apos; / E(z&apos;) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="47" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="47" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1gafe272632098a27755f88a8503e04481f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::luminosityDistance2Redshift</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>luminosityDistance2Redshift</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classcrpropa_1_1Redshift" kindref="compound">Redshift</ref> of a comoving object at a given luminosity distance to an observer at z = 0. d_luminosity(z) = (1 + z) * d_comoving(z) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="53" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="53" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga21044b6b8dc8baa6bc0d62296b5be92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::redshift2LuminosityDistance</definition>
+        <argsstring>(double redshift)</argsstring>
+        <name>redshift2LuminosityDistance</name>
+        <param>
+          <type>double</type>
+          <declname>redshift</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Luminosity distance between an observer at z = 0 and a comoving object at z. d_luminosity(z) = (1 + z) * d_comoving(z) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="59" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="59" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga203d7d59dabadfa6e77a05263f77c819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::lightTravelDistance2Redshift</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>lightTravelDistance2Redshift</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classcrpropa_1_1Redshift" kindref="compound">Redshift</ref> of a comoving object at a given light travel distance to an observer at z = 0. d_lighttravel(z) = c/H0 * int_0^z dz&apos; / ((1 + z&apos;) * E(z&apos;)) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="65" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="65" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga682405d9081864aaa0b706ede0736244" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::redshift2LightTravelDistance</definition>
+        <argsstring>(double redshift)</argsstring>
+        <name>redshift2LightTravelDistance</name>
+        <param>
+          <type>double</type>
+          <declname>redshift</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Light travel distance between an observer at z = 0 and a comoving object at z. d_lighttravel(z) = c/H0 * int_0^z dz&apos; / ((1 + z&apos;) * E(z&apos;)) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="71" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="71" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga99330b59d91d6c538122bc1e477e24c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::comoving2LightTravelDistance</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>comoving2LightTravelDistance</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="74" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="74" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga1cad0b62bf8c1b8b1dd44295b3ec40f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::lightTravel2ComovingDistance</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>lightTravel2ComovingDistance</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" line="77" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Cosmology.h" declline="77" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga4cfe916fc8af0f4a394ad6e541a1e834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int crpropa::nucleusId</definition>
+        <argsstring>(int a, int z)</argsstring>
+        <name>nucleusId</name>
+        <param>
+          <type>int</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This implements the 2012 Monte Carlo nuclear code scheme. Ion numbers are +/- 10LZZZAAAI. AAA is A - total baryon number ZZZ is Z - total charge L is the total number of strange quarks. I is the isomer number, with I=0 corresponding to the ground state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" line="26" column="5" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" declline="26" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga0c658ca545d45436c718148e9b82af87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int crpropa::chargeNumber</definition>
+        <argsstring>(int id)</argsstring>
+        <name>chargeNumber</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" line="27" column="5" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" declline="27" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1gaf2b051d255cfeb00149e80831e0c3b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int crpropa::massNumber</definition>
+        <argsstring>(int id)</argsstring>
+        <name>massNumber</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" line="28" column="5" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" declline="28" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga7a02cec5006af6f5eb4bd415ea9ab2db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool crpropa::isNucleus</definition>
+        <argsstring>(int id)</argsstring>
+        <name>isNucleus</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" line="30" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" declline="30" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga03f1b5d08b70e6a06ed71d9006dea6de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string crpropa::convertIdToName</definition>
+        <argsstring>(int id)</argsstring>
+        <name>convertIdToName</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" line="33" column="13" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleID.h" declline="33" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga2f8daaf6e06efae63d7c323230458937" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::nuclearMass</definition>
+        <argsstring>(int id)</argsstring>
+        <name>nuclearMass</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the nucleus mass by lookup from a table. The masses are the atomic masses from the NIST database: <ulink url="http://www.nist.gov/pml/data/comp.cfm">http://www.nist.gov/pml/data/comp.cfm</ulink> minus electron masses, neglecting electron binding energies. Unmeasured atomic masses are taken to be A * amu minus electron masses. The data table is generated by data-tools/NuclearMass/createNuclearMassTable. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>id of the particle following the PDG numbering scheme </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mass of a the nucleus </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleMass.h" line="19" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleMass.h" declline="19" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhysicsDefinitions_1ga6a21da6982c810db1b77794e8b9ef179" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crpropa::nuclearMass</definition>
+        <argsstring>(int A, int Z)</argsstring>
+        <name>nuclearMass</name>
+        <param>
+          <type>int</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>Z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the nucleus mass by lookup from a table. The masses are the atomic masses from the NIST database: <ulink url="http://www.nist.gov/pml/data/comp.cfm">http://www.nist.gov/pml/data/comp.cfm</ulink> minus electron masses, neglecting electron binding energies. Unmeasured atomic masses are taken to be A * amu minus electron masses. The data table is generated by data-tools/NuclearMass/createNuclearMassTable. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>atomic mass number of the nucleus </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>atomic number of the nucleus </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mass of a the nucleus </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleMass.h" line="30" column="8" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/ParticleMass.h" declline="30" declcolumn="8"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Fundamental physical data, function, units, constants, etc. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

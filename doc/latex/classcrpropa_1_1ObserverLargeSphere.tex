@@ -1,0 +1,79 @@
+\hypertarget{classcrpropa_1_1ObserverLargeSphere}{}\doxysection{Observer\+Large\+Sphere Class Reference}
+\label{classcrpropa_1_1ObserverLargeSphere}\index{ObserverLargeSphere@{ObserverLargeSphere}}
+
+
+Detects particles that exit a sphere from the inside to the outside.  
+
+
+Inheritance diagram for Observer\+Large\+Sphere\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1ObserverLargeSphere}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1ObserverLargeSphere_a69f9add3f1e0126b3ae8f43a3894e032}{Observer\+Large\+Sphere}} (\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} center=\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0.), double radius=0)
+\item 
+Detection\+State \mbox{\hyperlink{classcrpropa_1_1ObserverLargeSphere_a28060ab825f095bca6c24b70cfb160fc}{check\+Detection}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+std\+::string \mbox{\hyperlink{classcrpropa_1_1ObserverLargeSphere_aea425314aebc36d0f6bf7671705158da}{get\+Description}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ObserverFeature_a6dd34888e929c684e966dd8d783b3da8}\label{classcrpropa_1_1ObserverFeature_a6dd34888e929c684e966dd8d783b3da8}} 
+virtual void {\bfseries on\+Detection} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Detects particles that exit a sphere from the inside to the outside. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ObserverLargeSphere_a69f9add3f1e0126b3ae8f43a3894e032}\label{classcrpropa_1_1ObserverLargeSphere_a69f9add3f1e0126b3ae8f43a3894e032}} 
+\index{ObserverLargeSphere@{ObserverLargeSphere}!ObserverLargeSphere@{ObserverLargeSphere}}
+\index{ObserverLargeSphere@{ObserverLargeSphere}!ObserverLargeSphere@{ObserverLargeSphere}}
+\doxysubsubsection{\texorpdfstring{ObserverLargeSphere()}{ObserverLargeSphere()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1ObserverLargeSphere}{Observer\+Large\+Sphere}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{center = {\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0.)},  }\item[{double}]{radius = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em center} & vector containing the coordinates of the center of the sphere \\
+\hline
+{\em radius} & radius of the sphere \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ObserverLargeSphere_a28060ab825f095bca6c24b70cfb160fc}\label{classcrpropa_1_1ObserverLargeSphere_a28060ab825f095bca6c24b70cfb160fc}} 
+\index{ObserverLargeSphere@{ObserverLargeSphere}!checkDetection@{checkDetection}}
+\index{checkDetection@{checkDetection}!ObserverLargeSphere@{ObserverLargeSphere}}
+\doxysubsubsection{\texorpdfstring{checkDetection()}{checkDetection()}}
+{\footnotesize\ttfamily Detection\+State check\+Detection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1ObserverFeature}{Observer\+Feature}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1ObserverLargeSphere_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1ObserverLargeSphere_aea425314aebc36d0f6bf7671705158da}} 
+\index{ObserverLargeSphere@{ObserverLargeSphere}!getDescription@{getDescription}}
+\index{getDescription@{getDescription}!ObserverLargeSphere@{ObserverLargeSphere}}
+\doxysubsubsection{\texorpdfstring{getDescription()}{getDescription()}}
+{\footnotesize\ttfamily std\+::string get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1ObserverFeature}{Observer\+Feature}}.
+

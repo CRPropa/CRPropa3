@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1PlaneWaveTurbulence" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::PlaneWaveTurbulence</compoundname>
+    <basecompoundref refid="classcrpropa_1_1TurbulentField" prot="public" virt="non-virtual">TurbulentField</basecompoundref>
+    <includes refid="PlaneWaveTurbulence_8h" local="no">crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1aa0529b3e8c94afea60b0f961287ac19e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Nm</definition>
+        <argsstring></argsstring>
+        <name>Nm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="93" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a2f12e2982a700560abbf007ac96d3b2b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &gt;</type>
+        <definition>std::vector&lt;Vector3d&gt; xi</definition>
+        <argsstring></argsstring>
+        <name>xi</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="95" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1aea159123e8564a4ecb60f59d1865458d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &gt;</type>
+        <definition>std::vector&lt;Vector3d&gt; kappa</definition>
+        <argsstring></argsstring>
+        <name>kappa</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="96" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a07d60620f33b766635e515492784757b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; phi</definition>
+        <argsstring></argsstring>
+        <name>phi</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="97" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1affb866782d80f6dd224a5341d24f9ad0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; costheta</definition>
+        <argsstring></argsstring>
+        <name>costheta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="98" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1ac7cd0dfd82f7426a1aa41760e59c7bc0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="99" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a8ac19a3bb5371297d075b8f7ff245e8f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; Ak</definition>
+        <argsstring></argsstring>
+        <name>Ak</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="100" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1af84b96bc01e4ff67ddff62e6c5bbed6f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="101" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1ac941f25dab973a333fccfc1cb152623e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int avx_Nm</definition>
+        <argsstring></argsstring>
+        <name>avx_Nm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="104" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a5b851b9e7ae7b302b3e70d64886071a9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int align_offset</definition>
+        <argsstring></argsstring>
+        <name>align_offset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="105" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1aaff6b015faa95234101f558bb9da2405" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; avx_data</definition>
+        <argsstring></argsstring>
+        <name>avx_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="106" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a112a2a11865c567a2e0333c66c4e1181" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int iAxi0</definition>
+        <argsstring></argsstring>
+        <name>iAxi0</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="112" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1ab1fb83fbb6d1a76a561bec5ba6c27c24" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int iAxi1</definition>
+        <argsstring></argsstring>
+        <name>iAxi1</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="113" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a81358a077d6b67f3cfaf015270096060" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int iAxi2</definition>
+        <argsstring></argsstring>
+        <name>iAxi2</name>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="114" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1aeb099bf5ce8127b08be543a1afee57cd" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int ikkappa0</definition>
+        <argsstring></argsstring>
+        <name>ikkappa0</name>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="116" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1ab7e8855fc4c932210ee8f4788a0d3114" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int ikkappa1</definition>
+        <argsstring></argsstring>
+        <name>ikkappa1</name>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="117" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1abde548a5f66dc12e039c25a4b131b755" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int ikkappa2</definition>
+        <argsstring></argsstring>
+        <name>ikkappa2</name>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="118" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a5d91ad9a676fed2d65080a197810625e" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int ibeta</definition>
+        <argsstring></argsstring>
+        <name>ibeta</name>
+        <initializer>= 6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="119" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PlaneWaveTurbulence_1a6efa48b9c5101a0ed2d85c48a96561f7" prot="private" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int itotal</definition>
+        <argsstring></argsstring>
+        <name>itotal</name>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="120" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1PlaneWaveTurbulence_1afead2098623e128533da59d68f8c5f12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PlaneWaveTurbulence</definition>
+        <argsstring>(const TurbulenceSpectrum &amp;spectrum, int Nm=64, int seed=0)</argsstring>
+        <name>PlaneWaveTurbulence</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1TurbulenceSpectrum" kindref="compound">TurbulenceSpectrum</ref> &amp;</type>
+          <declname>spectrum</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>Nm</declname>
+          <defval>64</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seed</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new instance of <ref refid="classcrpropa_1_1PlaneWaveTurbulence" kindref="compound">PlaneWaveTurbulence</ref> with the specified parameters. This generates all of the wavemodes according to the given parameters. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Nm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of wavemodes that will be used when computing the field. A higher value will give a more accurate representation of the turbulence, but increase the runtime for getField. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>can be used to seed the random number generator used to generate the field. This works just like in initTurbulence: a seed of 0 will lead to a randomly initialized RNG. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="134" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PlaneWaveTurbulence_1a60b4a9f66e692a5d3620de910bae981e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getField</name>
+        <reimplements refid="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e">getField</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluates the field at the given position.</para>
+<para>Theoretical runtime is O(Nm), where Nm is the number of wavemodes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="142" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TurbulentField_1a20da6a51e928681782a92b46046e48fb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double getBrms</definition>
+        <argsstring>() const</argsstring>
+        <name>getBrms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/TurbulentField.h" line="111" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/TurbulentField.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1TurbulentField_1ade6d13b158fda57508e3483d24328716" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>virtual double getCorrelationLength</definition>
+        <argsstring>() const</argsstring>
+        <name>getCorrelationLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/TurbulentField.h" line="112" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/TurbulentField.h" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position, double z) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldEvolution_1a73fd1b457429f01ac03d1d50c7c7e1b0">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="29" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Interpolation-free turbulent magnetic field based on the GJ99 and TD13 papers. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect2 id="classcrpropa_1_1PlaneWaveTurbulence_1autotoc_md0">
+<title>Overview</title>
+<para>This class provides a turbulent magnetic field that is generated as described by <ulink url="https://doi.org/10.1086/307452">(Giacalone and Jokipii, 1999)</ulink> and <ulink url="https://doi.org/10.1063/1.4789861">(Tautz and Dosch, 2013)</ulink>. Instead of using an inverse Fourier transform to generate the field on a grid <ndash/> which then needs to be interpolated to obtain in-between values <ndash/> this method only generates the wave modes making up the turbulent magnetic field ahead of time. At run time, when the field&apos;s value at a particular position is required, these plane waves are then evaluated analytically at that position. This guarantees that the resulting field is completely free of divergence, reproduces the mean field strength accurately, and does not suffer from other interpolation-induced problems. The disadvantage is that the number of wave modes is drastically smaller when compared with initTurbulence, which might have physical ramifications on the particles propagating through the field. Furthermore, depending on the exact setting, the implementation is somewhat slower (see Schlegel et al. for details).</para>
+</sect2>
+<sect2 id="classcrpropa_1_1PlaneWaveTurbulence_1autotoc_md1">
+<title>Using the SIMD optimization</title>
+<para>In order to mitigate some of the performance impact that is inherent in this method of field generation, an optimized version is provided. According to our tests (see the paper above), this version runs 20-30x faster than the baseline implementation and matches the speed of trilinear interpolation on a grid at a bit less than 100 wavemodes. To do this, it uses special CPU instructions called AVX, which are unfortunately not supported by every CPU. On Linux, you can check whether your CPU supports AVX by using the <computeroutput>lscpu</computeroutput> command, and searching the flags section for the string &quot;avx&quot;. Alternatively, if you are building on the same CPU that CRPropa will run on, you can have the compiler detect this for you automatically (see below).</para>
+<para>An additional speedup of about 1.33 can be achieved if the CPU supports the FMA extension in addition to AVX. Again, you can either check for this manually, or have the compiler figure it out for you.</para>
+<para>Note** that the optimized and non-optimized implementations to not return the exact same results. In fact, since the effective wave numbers used by the optimized implementation are very slightly different from those used by the non-optimized version (a difference smaller than the precision of a double, but nevertheless relevant at some point), the wavemodes go out of phase for large distances from the origin, and the fields are no longer comparable at all.</para>
+<sect3 id="classcrpropa_1_1PlaneWaveTurbulence_1autotoc_md2">
+<title>If you are building on the same machine that the code will run on:</title>
+<para><orderedlist>
+<listitem><para>In cmake: enable the FAST_WAVES flag.</para>
+</listitem><listitem><para>Also in cmake: set SIMD_EXTENSIONS to &quot;native&quot;. The compiler will automatically detect support for your CPU and run the build with the appropriate settings.</para>
+</listitem><listitem><para>Generate files and exit cmake, then build.</para>
+</listitem></orderedlist>
+<orderedlist>
+<listitem><para>If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won&apos;t be able to use the optimization; go back into cmake, disable FAST_WAVES, and build again.</para>
+</listitem><listitem><para>If the build runs through without errors, the code is built with the optimization.</para>
+</listitem></orderedlist>
+</para>
+</sect3>
+<sect3 id="classcrpropa_1_1PlaneWaveTurbulence_1autotoc_md3">
+<title>If you are building on a different machine from the one where the code will run:</title>
+<para><orderedlist>
+<listitem><para>Figure out which extensions your target machine supports, using <computeroutput>lscpu | grep avx</computeroutput> for AVX, and <computeroutput>lscpu | grep fma</computeroutput> for FMA. Run these commands on your target machine, not on your build machine. If your target machine does not run Linux, you may have to use different commands.</para>
+</listitem><listitem><para>If the CPU does not support AVX, you can stop here, and build normally. The CPU does not support the necessary extensions, and will not run code that is compiled using them.</para>
+</listitem><listitem><para>If the CPU does support AVX, continue. In cmake, enable the FAST_WAVES flag.</para>
+</listitem><listitem><para>Also in cmake, set SIMD_EXTENSIONS to the appropriate value. If your target CPU supports only AVX, but not FMA, set it to &quot;avx&quot;. If it supports both, set it to &quot;avx+fma&quot;.</para>
+</listitem><listitem><para>Generate and exit cmake, then build.</para>
+</listitem><listitem><para>If you made a mistake and used the wrong flags, you should see an illegal instruction error when trying to import CRPropa, or (at the latest) when trying to call <computeroutput>getField</computeroutput>. </para>
+</listitem></orderedlist>
+</para>
+</sect3>
+</sect2>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PlaneWaveTurbulence</label>
+        <link refid="classcrpropa_1_1PlaneWaveTurbulence"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>TurbulentField</label>
+        <link refid="classcrpropa_1_1TurbulentField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PlaneWaveTurbulence</label>
+        <link refid="classcrpropa_1_1PlaneWaveTurbulence"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="2">
+        <label>TurbulentField</label>
+        <link refid="classcrpropa_1_1TurbulentField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" line="91" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h" bodystart="91" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a8ac19a3bb5371297d075b8f7ff245e8f" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>Ak</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a5b851b9e7ae7b302b3e70d64886071a9" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>align_offset</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1aaff6b015faa95234101f558bb9da2405" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>avx_data</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1ac941f25dab973a333fccfc1cb152623e" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>avx_Nm</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1ac7cd0dfd82f7426a1aa41760e59c7bc0" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>beta</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1affb866782d80f6dd224a5341d24f9ad0" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>costheta</name></member>
+      <member refid="classcrpropa_1_1TurbulentField_1a20da6a51e928681782a92b46046e48fb" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>getBrms</name></member>
+      <member refid="classcrpropa_1_1TurbulentField_1ade6d13b158fda57508e3483d24328716" prot="public" virt="virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>getCorrelationLength</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a60b4a9f66e692a5d3620de910bae981e" prot="public" virt="virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" virt="virtual" ambiguityscope="crpropa::TurbulentField::"><scope>crpropa::PlaneWaveTurbulence</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a112a2a11865c567a2e0333c66c4e1181" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>iAxi0</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1ab1fb83fbb6d1a76a561bec5ba6c27c24" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>iAxi1</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a81358a077d6b67f3cfaf015270096060" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>iAxi2</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a5d91ad9a676fed2d65080a197810625e" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>ibeta</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1aeb099bf5ce8127b08be543a1afee57cd" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>ikkappa0</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1ab7e8855fc4c932210ee8f4788a0d3114" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>ikkappa1</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1abde548a5f66dc12e039c25a4b131b755" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>ikkappa2</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a6efa48b9c5101a0ed2d85c48a96561f7" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>itotal</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1af84b96bc01e4ff67ddff62e6c5bbed6f" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>k</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1aea159123e8564a4ecb60f59d1865458d" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>kappa</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1aa0529b3e8c94afea60b0f961287ac19e" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>Nm</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a07d60620f33b766635e515492784757b" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>phi</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1afead2098623e128533da59d68f8c5f12" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>PlaneWaveTurbulence</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1TurbulentField_1a7b64ffa3efdac82a18adb2a3203285f8" prot="public" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>TurbulentField</name></member>
+      <member refid="classcrpropa_1_1PlaneWaveTurbulence_1a2f12e2982a700560abbf007ac96d3b2b" prot="private" virt="non-virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>xi</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" virt="virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>~MagneticField</name></member>
+      <member refid="classcrpropa_1_1TurbulentField_1acf793636a73b56a7868d44e4690ccd18" prot="public" virt="virtual"><scope>crpropa::PlaneWaveTurbulence</scope><name>~TurbulentField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+\hypertarget{classcrpropa_1_1ParticleSplitting}{}\doxysection{Particle\+Splitting Class Reference}
+\label{classcrpropa_1_1ParticleSplitting}\index{ParticleSplitting@{ParticleSplitting}}
+
+
+Implements particle splitting, i.\+e. inverse thinning, to speed up the simulation.  
+
+
+Inheritance diagram for Particle\+Splitting\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1ParticleSplitting}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1ParticleSplitting_a770c28291f74cd10249897c1eff201e4}{Particle\+Splitting}} (\mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}} $\ast$surface, int crossing\+Threshold=50, int num\+Splits=5, double min\+Weight=0.\+01, std\+::string counterid=\char`\"{}Particle\+Splitting\+Counter\char`\"{})
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ParticleSplitting_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}\label{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}} 
+virtual std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements particle splitting, i.\+e. inverse thinning, to speed up the simulation. 
+
+After crossing a surface a given number of times, the particle is split to N partilces with weight 1/N. This eases performance constraints in acceleration simulations due to the power law nature of many acceleration mechanisms. Thanks to Matthew Weiss, Penn State University for the first work on this feature in 2017. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleSplitting_a770c28291f74cd10249897c1eff201e4}\label{classcrpropa_1_1ParticleSplitting_a770c28291f74cd10249897c1eff201e4}} 
+\index{ParticleSplitting@{ParticleSplitting}!ParticleSplitting@{ParticleSplitting}}
+\index{ParticleSplitting@{ParticleSplitting}!ParticleSplitting@{ParticleSplitting}}
+\doxysubsubsection{\texorpdfstring{ParticleSplitting()}{ParticleSplitting()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1ParticleSplitting}{Particle\+Splitting}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}} $\ast$}]{surface,  }\item[{int}]{crossing\+Threshold = {\ttfamily 50},  }\item[{int}]{num\+Splits = {\ttfamily 5},  }\item[{double}]{min\+Weight = {\ttfamily 0.01},  }\item[{std\+::string}]{counterid = {\ttfamily \char`\"{}ParticleSplittingCounter\char`\"{}} }\end{DoxyParamCaption})}
+
+@params surface The surface to monitor @params crossing\+\_\+threshold Number of crossings after which a particle is split @params num\+\_\+splits Number of particles the candidate is split into @params min\+\_\+weight Minimum weight to consider. Particles with a lower weight are not split again. @params counterid An unique string to identify the particle property used for counting. Useful if multiple splitting modules are present. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleSplitting_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1ParticleSplitting_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{ParticleSplitting@{ParticleSplitting}!process@{process}}
+\index{process@{process}!ParticleSplitting@{ParticleSplitting}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+

@@ -1,0 +1,228 @@
+\hypertarget{Variant_8h_source}{}\doxysection{Variant.\+h}
+\label{Variant_8h_source}\index{Variant.h@{Variant.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{2 \textcolor{comment}{// Based on Variant.hh in the Physics eXtension Library (PXL) -\/}}
+\DoxyCodeLine{3 \textcolor{comment}{// http://vispa.physik.rwth-\/aachen.de/                        -\/}}
+\DoxyCodeLine{4 \textcolor{comment}{// Licensed under a LGPL-\/2 or later license                   -\/}}
+\DoxyCodeLine{5 \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#ifndef VARIANT\_HH}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define VARIANT\_HH}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <cstring>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <typeinfo>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <cstdlib>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <stdexcept>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <limits>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{// Helper to set POD type methods to variant}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define VARIANT\_ADD\_TYPE\_DECL\_POD(NAME, TYPE, VALUE) \(\backslash\)}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{        bool is \#\# NAME() const \{ return (type == TYPE); \} \(\backslash\)}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{        operator VALUE () const \{ return to \#\# NAME(); \} \(\backslash\)}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{        VALUE \&as \#\# NAME() \{ check(TYPE); return data.\_\#\#NAME; \} \(\backslash\)}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{        const VALUE \&as \#\# NAME() const \{ check(TYPE); return data.\_\#\#NAME; \} \(\backslash\)}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{        static Variant from \#\# NAME(const VALUE \&a) \{ return Variant(a); \} \(\backslash\)}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{        VALUE to \#\# NAME() const; \(\backslash\)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{        Variant \&operator = (const VALUE \&a) \{ clear(); type = TYPE; data.\_\#\#NAME = a; return *this; \} \(\backslash\)}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{        bool operator != (const VALUE \&a) const \{ check(TYPE); return data.\_\#\#NAME != a; \} \(\backslash\)}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{        bool operator == (const VALUE \&a) const \{ check(TYPE); return data.\_\#\#NAME == a; \} \(\backslash\)}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{        Variant(const VALUE \&a) \{ data.\_ \#\# NAME = a; type = TYPE; \}}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{comment}{// Helper to set pointer type methods to variant}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define VARIANT\_ADD\_TYPE\_DECL\_PTR\_BASE(NAME, TYPE, VALUE) \(\backslash\)}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{        bool is \#\# NAME() const \{ return (type == TYPE); \} \(\backslash\)}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{        VALUE \&as \#\# NAME() \{ check(TYPE); return *data.\_\#\#NAME; \} \(\backslash\)}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{        const VALUE \&as \#\# NAME() const \{ check(TYPE); return *data.\_\#\#NAME; \} \(\backslash\)}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{        static Variant from \#\# NAME(const VALUE \&a) \{ return Variant(a); \} \(\backslash\)}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{}}
+\DoxyCodeLine{40 \textcolor{comment}{// Helper to set pointer type methods to variant}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define VARIANT\_ADD\_TYPE\_DECL\_PTR(NAME, TYPE, VALUE) \(\backslash\)}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{        bool operator != (const VALUE \&a) const \{ check(TYPE); return *data.\_\#\#NAME != a; \} \(\backslash\)}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{        bool operator == (const VALUE \&a) const \{ check(TYPE); return *data.\_\#\#NAME == a; \} \(\backslash\)}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{        VARIANT\_ADD\_TYPE\_DECL\_PTR\_BASE(NAME, TYPE, VALUE) \(\backslash\)}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{        Variant \&operator =(const VALUE \&a) \{ if (type != TYPE) \{ clear(); data.\_\#\#NAME = new VALUE; \} type = TYPE; (*data.\_\#\#NAME) = a; return *this; \} \(\backslash\)}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{        Variant(const VALUE \&a) \{ data.\_ \#\# NAME = new VALUE(a); type = TYPE; \}}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}}}
+\DoxyCodeLine{49 \{}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{59 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}}}
+\DoxyCodeLine{60 \{}
+\DoxyCodeLine{61 \textcolor{keyword}{public}:}
+\DoxyCodeLine{62         \textcolor{keyword}{enum} Type}
+\DoxyCodeLine{63         \{}
+\DoxyCodeLine{64                 TYPE\_NONE = 0,}
+\DoxyCodeLine{65                 TYPE\_BOOL,}
+\DoxyCodeLine{66                 TYPE\_CHAR,}
+\DoxyCodeLine{67                 TYPE\_UCHAR,}
+\DoxyCodeLine{68                 TYPE\_INT16,}
+\DoxyCodeLine{69                 TYPE\_UINT16,}
+\DoxyCodeLine{70                 TYPE\_INT32,}
+\DoxyCodeLine{71                 TYPE\_UINT32,}
+\DoxyCodeLine{72                 TYPE\_INT64,}
+\DoxyCodeLine{73                 TYPE\_UINT64,}
+\DoxyCodeLine{74                 TYPE\_FLOAT,}
+\DoxyCodeLine{75                 TYPE\_DOUBLE,}
+\DoxyCodeLine{76                 TYPE\_STRING}
+\DoxyCodeLine{77         \};}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79         \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Variant_1_1bad__conversion}{bad\_conversion}}: \textcolor{keyword}{public} std::exception}
+\DoxyCodeLine{80         \{}
+\DoxyCodeLine{81                 std::string msg;}
+\DoxyCodeLine{82         \textcolor{keyword}{public}:}
+\DoxyCodeLine{83                 \textcolor{keyword}{const} \textcolor{keywordtype}{char}* what() \textcolor{keyword}{const} \textcolor{keywordflow}{throw} ()}
+\DoxyCodeLine{84                 \{}
+\DoxyCodeLine{85                         \textcolor{keywordflow}{return} msg.c\_str();}
+\DoxyCodeLine{86                 \}}
+\DoxyCodeLine{87                 \mbox{\hyperlink{classcrpropa_1_1Variant_1_1bad__conversion}{bad\_conversion}}(Type f, Type t)}
+\DoxyCodeLine{88                 \{}
+\DoxyCodeLine{89                         msg = \textcolor{stringliteral}{"{}Variant: bad conversion from '"{}};}
+\DoxyCodeLine{90                         msg += Variant::getTypeName(f);}
+\DoxyCodeLine{91                         msg += \textcolor{stringliteral}{"{}' to '"{}};}
+\DoxyCodeLine{92                         msg += Variant::getTypeName(t);}
+\DoxyCodeLine{93                         msg += \textcolor{stringliteral}{"{}'"{}};}
+\DoxyCodeLine{94                 \}}
+\DoxyCodeLine{95                 \mbox{\hyperlink{classcrpropa_1_1Variant_1_1bad__conversion}{\string~bad\_conversion}}() \textcolor{keywordflow}{throw} ()}
+\DoxyCodeLine{96                 \{}
+\DoxyCodeLine{97                 \}}
+\DoxyCodeLine{98         \};}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100         \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}}();}
+\DoxyCodeLine{101         \mbox{\hyperlink{classcrpropa_1_1Variant}{\string~Variant}}();}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103         \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}}\& a);}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105         \textcolor{keyword}{const} std::type\_info\& getTypeInfo() \textcolor{keyword}{const};}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107         \textcolor{keyword}{const} \textcolor{keywordtype}{char} * getTypeName()\textcolor{keyword}{ const}}
+\DoxyCodeLine{108 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{109                 \textcolor{keywordflow}{return} getTypeName(type);}
+\DoxyCodeLine{110         \}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112         \textcolor{keyword}{static} Type toType(\textcolor{keyword}{const} std::string \&name);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114         \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{char} *getTypeName(Type type);}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116         \textcolor{comment}{// copy the data to buffer via memcpy. Returns the size of the data}}
+\DoxyCodeLine{117         \textcolor{keywordtype}{size\_t} copyToBuffer(\textcolor{keywordtype}{void}* buffer);}
+\DoxyCodeLine{119         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classcrpropa_1_1Variant_a9be1e4285daa77fe397767c097fbdc66}{getSize}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121         \textcolor{keyword}{template}<\textcolor{keyword}{class} T>}
+\DoxyCodeLine{122         T to()\textcolor{keyword}{ const}}
+\DoxyCodeLine{123 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{124                 \textcolor{keywordflow}{throw} \mbox{\hyperlink{classcrpropa_1_1Variant_1_1bad__conversion}{bad\_conversion}}(type, TYPE\_NONE);}
+\DoxyCodeLine{125         \}}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127         Type getType()\textcolor{keyword}{ const}}
+\DoxyCodeLine{128 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{129                 \textcolor{keywordflow}{return} type;}
+\DoxyCodeLine{130         \}}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132         \textcolor{keywordtype}{bool} operator ==(\textcolor{keyword}{const} Variant \&a) \textcolor{keyword}{const};}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134         \textcolor{keywordtype}{bool} operator !=(\textcolor{keyword}{const} Variant \&a) \textcolor{keyword}{const};}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136         Variant \&operator =(\textcolor{keyword}{const} Variant \&a)}
+\DoxyCodeLine{137         \{}
+\DoxyCodeLine{138                 copy(a);}
+\DoxyCodeLine{139                 \textcolor{keywordflow}{return} *\textcolor{keyword}{this};}
+\DoxyCodeLine{140         \}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142         \textcolor{keywordtype}{bool} isValid()}
+\DoxyCodeLine{143         \{}
+\DoxyCodeLine{144                 \textcolor{keywordflow}{return} (type != TYPE\_NONE);}
+\DoxyCodeLine{145         \}}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147         VARIANT\_ADD\_TYPE\_DECL\_POD(Bool, TYPE\_BOOL, \textcolor{keywordtype}{bool})}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149         VARIANT\_ADD\_TYPE\_DECL\_POD(Char, TYPE\_CHAR, \textcolor{keywordtype}{char})}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151         VARIANT\_ADD\_TYPE\_DECL\_POD(UChar, TYPE\_UCHAR, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char})}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153         VARIANT\_ADD\_TYPE\_DECL\_POD(Int16, TYPE\_INT16, int16\_t)}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155         VARIANT\_ADD\_TYPE\_DECL\_POD(UInt16, TYPE\_UINT16, uint16\_t)}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157         VARIANT\_ADD\_TYPE\_DECL\_POD(Int32, TYPE\_INT32, int32\_t)}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159         VARIANT\_ADD\_TYPE\_DECL\_POD(UInt32, TYPE\_UINT32, uint32\_t)}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161         VARIANT\_ADD\_TYPE\_DECL\_POD(Int64, TYPE\_INT64, int64\_t)}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163         VARIANT\_ADD\_TYPE\_DECL\_POD(UInt64, TYPE\_UINT64, uint64\_t)}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165         VARIANT\_ADD\_TYPE\_DECL\_POD(Float, TYPE\_FLOAT, \textcolor{keywordtype}{float})}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167         VARIANT\_ADD\_TYPE\_DECL\_POD(Double, TYPE\_DOUBLE, \textcolor{keywordtype}{double})}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169         VARIANT\_ADD\_TYPE\_DECL\_PTR(String, TYPE\_STRING, std::string)}
+\DoxyCodeLine{170         Variant(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *s);}
+\DoxyCodeLine{171         std::string toString() \textcolor{keyword}{const};}
+\DoxyCodeLine{172         \textcolor{keyword}{static} Variant fromString(\textcolor{keyword}{const} std::string \&str, Type type);}
+\DoxyCodeLine{173         \textcolor{keyword}{operator} std::string()\textcolor{keyword}{ const}}
+\DoxyCodeLine{174 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{175                 \textcolor{keywordflow}{return} toString();}
+\DoxyCodeLine{176         \}}
+\DoxyCodeLine{177         \textcolor{keywordtype}{bool} operator !=(\textcolor{keyword}{const} \textcolor{keywordtype}{char} *a)\textcolor{keyword}{ const}}
+\DoxyCodeLine{178 \textcolor{keyword}{        }\{}
+\DoxyCodeLine{179                 check(TYPE\_STRING);}
+\DoxyCodeLine{180                 \textcolor{keywordflow}{return} data.\_String-\/>compare(a) != 0;}
+\DoxyCodeLine{181         \}}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183         \textcolor{comment}{// clear pointer based data types}}
+\DoxyCodeLine{184         \textcolor{keywordtype}{void} clear();}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{187         Type type;}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189         \textcolor{keyword}{union}}
+\DoxyCodeLine{190         \{}
+\DoxyCodeLine{191                 \textcolor{keywordtype}{bool} \_Bool;}
+\DoxyCodeLine{192                 \textcolor{keywordtype}{char} \_Char;}
+\DoxyCodeLine{193                 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \_UChar;}
+\DoxyCodeLine{194                 int16\_t \_Int16;}
+\DoxyCodeLine{195                 uint16\_t \_UInt16;}
+\DoxyCodeLine{196                 int32\_t \_Int32;}
+\DoxyCodeLine{197                 uint32\_t \_UInt32;}
+\DoxyCodeLine{198                 int64\_t \_Int64;}
+\DoxyCodeLine{199                 uint64\_t \_UInt64;}
+\DoxyCodeLine{200                 \textcolor{keywordtype}{double} \_Double;}
+\DoxyCodeLine{201                 \textcolor{keywordtype}{float} \_Float;}
+\DoxyCodeLine{202                 std::string *\_String;}
+\DoxyCodeLine{203         \} data;}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205 \textcolor{keyword}{private}:}
+\DoxyCodeLine{206         \textcolor{keywordtype}{void} copy(\textcolor{keyword}{const} Variant \&a);}
+\DoxyCodeLine{207         \textcolor{keywordtype}{void} check(\textcolor{keyword}{const} Type t) \textcolor{keyword}{const};}
+\DoxyCodeLine{208         \textcolor{keywordtype}{void} check(\textcolor{keyword}{const} Type t);}
+\DoxyCodeLine{209 \};}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define VARIANT\_TO\_DECL(NAME, VALUE) \(\backslash\)}}
+\DoxyCodeLine{212 \textcolor{preprocessor}{        template<> inline VALUE Variant::to<VALUE>() const \{ return to \#\# NAME(); \} \(\backslash\)}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{}}
+\DoxyCodeLine{214 VARIANT\_TO\_DECL(Bool, \textcolor{keywordtype}{bool})}
+\DoxyCodeLine{215 VARIANT\_TO\_DECL(Char, \textcolor{keywordtype}{char})}
+\DoxyCodeLine{216 VARIANT\_TO\_DECL(UChar, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char})}
+\DoxyCodeLine{217 VARIANT\_TO\_DECL(Int16, int16\_t)}
+\DoxyCodeLine{218 VARIANT\_TO\_DECL(UInt16, uint16\_t)}
+\DoxyCodeLine{219 VARIANT\_TO\_DECL(Int32, int32\_t)}
+\DoxyCodeLine{220 VARIANT\_TO\_DECL(UInt32, uint32\_t)}
+\DoxyCodeLine{221 VARIANT\_TO\_DECL(Int64, int64\_t)}
+\DoxyCodeLine{222 VARIANT\_TO\_DECL(UInt64, uint64\_t)}
+\DoxyCodeLine{223 VARIANT\_TO\_DECL(Float, \textcolor{keywordtype}{float})}
+\DoxyCodeLine{224 VARIANT\_TO\_DECL(String, std::string)}
+\DoxyCodeLine{225 VARIANT\_TO\_DECL(Double, \textcolor{keywordtype}{double})}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{227 std::ostream\& operator <<(std::ostream\& os, \textcolor{keyword}{const} Variant \&v);}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229 \} \textcolor{comment}{// namespace crpropa }}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// VARIANT\_HH}}
+
+\end{DoxyCode}

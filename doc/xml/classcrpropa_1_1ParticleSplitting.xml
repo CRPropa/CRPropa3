@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1ParticleSplitting" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::ParticleSplitting</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="Acceleration_8h" local="no">crpropa/module/Acceleration.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleSplitting_1a95ef51c48e991e4cefb1722cf3092aba" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int numSplits</definition>
+        <argsstring></argsstring>
+        <name>numSplits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="147" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleSplitting_1a4055769772d5fb3857fedac3f916fcc9" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int crossingThreshold</definition>
+        <argsstring></argsstring>
+        <name>crossingThreshold</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="148" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleSplitting_1a06b761ee2c96936ab19ec1838d1ac619" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double minWeight</definition>
+        <argsstring></argsstring>
+        <name>minWeight</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="149" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleSplitting_1aa88180269c4cb4c71107ee1236bd1fe3" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Surface" kindref="compound">Surface</ref> &gt;</type>
+        <definition>ref_ptr&lt;Surface&gt; surface</definition>
+        <argsstring></argsstring>
+        <name>surface</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="150" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ParticleSplitting_1aa81cdad99f4634c5c7f97e1c9cb675c7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string counterid</definition>
+        <argsstring></argsstring>
+        <name>counterid</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="151" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1ParticleSplitting_1a770c28291f74cd10249897c1eff201e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ParticleSplitting</definition>
+        <argsstring>(Surface *surface, int crossingThreshold=50, int numSplits=5, double minWeight=0.01, std::string counterid=&quot;ParticleSplittingCounter&quot;)</argsstring>
+        <name>ParticleSplitting</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Surface" kindref="compound">Surface</ref> *</type>
+          <declname>surface</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>crossingThreshold</declname>
+          <defval>50</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numSplits</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minWeight</declname>
+          <defval>0.01</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>counterid</declname>
+          <defval>&quot;ParticleSplittingCounter&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@params surface The surface to monitor @params crossing_threshold Number of crossings after which a particle is split @params num_splits Number of particles the candidate is split into @params min_weight Minimum weight to consider. Particles with a lower weight are not split again. @params counterid An unique string to identify the particle property used for counting. Useful if multiple splitting modules are present. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="162" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ParticleSplitting_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="167" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplementedby refid="classcrpropa_1_1PeriodicBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ReflectiveBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CubicBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SphericalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EllipsoidalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CylindricalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MaximumTrajectoryLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergy_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRigidity_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumChargeNumber_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergyPerParticleId_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DetectionLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DiffusionSDE_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EMCascade_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Observer_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellPropertyOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleCollector_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonEleCa_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationBP_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationCK_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Redshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1FutureRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1RestrictToRegion_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SimplePropagation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SynchrotronRadiation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1TextOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PerformanceModule_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleFilter_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EmissionMapFiller_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleList_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleListRunner_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="24" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Implements particle splitting, i.e. inverse thinning, to speed up the simulation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>After crossing a surface a given number of times, the particle is split to N partilces with weight 1/N. This eases performance constraints in acceleration simulations due to the power law nature of many acceleration mechanisms. Thanks to Matthew Weiss, Penn State University for the first work on this feature in 2017. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParticleSplitting</label>
+        <link refid="classcrpropa_1_1ParticleSplitting"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParticleSplitting</label>
+        <link refid="classcrpropa_1_1ParticleSplitting"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" line="146" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/Acceleration.h" bodystart="146" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1aa81cdad99f4634c5c7f97e1c9cb675c7" prot="private" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>counterid</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1a4055769772d5fb3857fedac3f916fcc9" prot="private" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>crossingThreshold</name></member>
+      <member refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" virt="virtual"><scope>crpropa::ParticleSplitting</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1a06b761ee2c96936ab19ec1838d1ac619" prot="private" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>minWeight</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1a95ef51c48e991e4cefb1722cf3092aba" prot="private" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>numSplits</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1a770c28291f74cd10249897c1eff201e4" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>ParticleSplitting</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::ParticleSplitting</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::ParticleSplitting</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1ParticleSplitting_1aa88180269c4cb4c71107ee1236bd1fe3" prot="private" virt="non-virtual"><scope>crpropa::ParticleSplitting</scope><name>surface</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::ParticleSplitting</scope><name>~Module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

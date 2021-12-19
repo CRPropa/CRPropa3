@@ -1,0 +1,50 @@
+\hypertarget{EMPairProduction_8h_source}{}\doxysection{EMPair\+Production.\+h}
+\label{EMPairProduction_8h_source}\index{EMPairProduction.h@{EMPairProduction.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_EMPAIRPRODUCTION\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_EMPAIRPRODUCTION\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}crpropa/PhotonBackground.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{29 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1EMPairProduction}{EMPairProduction}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{30 \textcolor{keyword}{private}:}
+\DoxyCodeLine{31         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField;}
+\DoxyCodeLine{32         \textcolor{keywordtype}{bool} haveElectrons;}
+\DoxyCodeLine{33         \textcolor{keywordtype}{double} limit;}
+\DoxyCodeLine{34         \textcolor{keywordtype}{double} thinning;}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36         \textcolor{comment}{// tabulated interaction rate 1/lambda(E)}}
+\DoxyCodeLine{37         std::vector<double> tabEnergy;  }
+\DoxyCodeLine{38         std::vector<double> tabRate;  }
+\DoxyCodeLine{39         }
+\DoxyCodeLine{40         \textcolor{comment}{// tabulated CDF(s\_kin, E) = cumulative differential interaction rate}}
+\DoxyCodeLine{41         std::vector<double> tabE;  }
+\DoxyCodeLine{42         std::vector<double> tabs;  }
+\DoxyCodeLine{43         std::vector< std::vector<double> > tabCDF;  }
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{public}:}
+\DoxyCodeLine{52         \mbox{\hyperlink{classcrpropa_1_1EMPairProduction_ac462da3761237d9c4336226948b636d8}{EMPairProduction}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField, \textcolor{keywordtype}{bool} haveElectrons = \textcolor{keyword}{false}, \textcolor{keywordtype}{double} thinning = 0,\textcolor{keywordtype}{double} limit = 0.1);}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54         \textcolor{keywordtype}{void} setPhotonField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField);}
+\DoxyCodeLine{55         \textcolor{keywordtype}{void} setHaveElectrons(\textcolor{keywordtype}{bool} haveElectrons);}
+\DoxyCodeLine{56         \textcolor{keywordtype}{void} setLimit(\textcolor{keywordtype}{double} limit);}
+\DoxyCodeLine{57         \textcolor{keywordtype}{void} setThinning(\textcolor{keywordtype}{double} thinning);}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59         \textcolor{keywordtype}{void} initRate(std::string filename);}
+\DoxyCodeLine{60         \textcolor{keywordtype}{void} initCumulativeRate(std::string filename);}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62         \textcolor{keywordtype}{void} performInteraction(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{63         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{64 \};}
+\DoxyCodeLine{68 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_EMPAIRPRODUCTION\_H}}
+
+\end{DoxyCode}

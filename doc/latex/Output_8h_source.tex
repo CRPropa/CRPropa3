@@ -1,0 +1,88 @@
+\hypertarget{Output_8h_source}{}\doxysection{Output.\+h}
+\label{Output_8h_source}\index{Output.h@{Output.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_OUTPUT\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_OUTPUT\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/Variant.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <bitset>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{53 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Output}{Output}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{54 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{55         \textcolor{keywordtype}{double} lengthScale, energyScale;}
+\DoxyCodeLine{56         std::bitset<64> fields;}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58         \textcolor{keyword}{struct }Property}
+\DoxyCodeLine{59         \{}
+\DoxyCodeLine{60                 std::string name;}
+\DoxyCodeLine{61                 std::string comment;}
+\DoxyCodeLine{62                 \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} defaultValue;}
+\DoxyCodeLine{63         \};}
+\DoxyCodeLine{64         std::vector<Property> properties;}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66         \textcolor{keywordtype}{bool} oneDimensional;}
+\DoxyCodeLine{67         \textcolor{keyword}{mutable} \textcolor{keywordtype}{size\_t} count;}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69         \textcolor{keywordtype}{void} modify();}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \textcolor{keyword}{public}:}
+\DoxyCodeLine{72         \textcolor{keyword}{enum} OutputColumn \{}
+\DoxyCodeLine{73                 TrajectoryLengthColumn,}
+\DoxyCodeLine{74                 ColumnDensityColumn,}
+\DoxyCodeLine{75                 RedshiftColumn,}
+\DoxyCodeLine{76                 CurrentIdColumn,}
+\DoxyCodeLine{77                 CurrentEnergyColumn,}
+\DoxyCodeLine{78                 CurrentPositionColumn,}
+\DoxyCodeLine{79                 CurrentDirectionColumn,}
+\DoxyCodeLine{80                 SourceIdColumn,}
+\DoxyCodeLine{81                 SourceEnergyColumn,}
+\DoxyCodeLine{82                 SourcePositionColumn,}
+\DoxyCodeLine{83                 SourceDirectionColumn,}
+\DoxyCodeLine{84                 CreatedIdColumn,}
+\DoxyCodeLine{85                 CreatedEnergyColumn,}
+\DoxyCodeLine{86                 CreatedPositionColumn,}
+\DoxyCodeLine{87                 CreatedDirectionColumn,}
+\DoxyCodeLine{88                 SerialNumberColumn,}
+\DoxyCodeLine{89                 WeightColumn}
+\DoxyCodeLine{90         \};}
+\DoxyCodeLine{91         \textcolor{keyword}{enum} OutputType \{}
+\DoxyCodeLine{92                 Trajectory1D,}
+\DoxyCodeLine{93                 Trajectory3D,}
+\DoxyCodeLine{94                 Event1D,}
+\DoxyCodeLine{95                 Event3D,}
+\DoxyCodeLine{96                 Everything}
+\DoxyCodeLine{97         \};}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99         std::string OutputTypeName(OutputType outputtype);}
+\DoxyCodeLine{100         \textcolor{keyword}{const} std::string outputName;}
+\DoxyCodeLine{101         }
+\DoxyCodeLine{106         \mbox{\hyperlink{classcrpropa_1_1Output_a356172c336fe8c0afbac8c49d5dcc703}{Output}}();}
+\DoxyCodeLine{112         \mbox{\hyperlink{classcrpropa_1_1Output_a9ef617010117b742fecef37257f8545d}{Output}}(OutputType outputType);}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{117         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}{setEnergyScale}}(\textcolor{keywordtype}{double} scale);}
+\DoxyCodeLine{121         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}{setLengthScale}}(\textcolor{keywordtype}{double} scale);}
+\DoxyCodeLine{125         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}{setOutputType}}(OutputType outputType);}
+\DoxyCodeLine{130         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}{set}}(OutputColumn field, \textcolor{keywordtype}{bool} value);}
+\DoxyCodeLine{137         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}{enableProperty}}(\textcolor{keyword}{const} std::string \&property, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}}\& defaultValue, \textcolor{keyword}{const} std::string \&comment = \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{141         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}{enable}}(OutputColumn field);}
+\DoxyCodeLine{145         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}{disable}}(OutputColumn field);}
+\DoxyCodeLine{149         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}{enableAll}}();}
+\DoxyCodeLine{153         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}{disableAll}}();}
+\DoxyCodeLine{158         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}{set1D}}(\textcolor{keywordtype}{bool} value);}
+\DoxyCodeLine{161         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}{size}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *) \textcolor{keyword}{const};}
+\DoxyCodeLine{164 \};}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{168 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{169 }
+\DoxyCodeLine{170 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_OUTPUT\_H}}
+
+\end{DoxyCode}

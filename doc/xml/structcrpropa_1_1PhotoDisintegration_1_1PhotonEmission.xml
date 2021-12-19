@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission" kind="struct" language="C++" prot="private">
+    <compoundname>crpropa::PhotoDisintegration::PhotonEmission</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission_1a1d26cc49e49afe96406210d6beaf418a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double energy</definition>
+        <argsstring></argsstring>
+        <name>energy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="32" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission_1a144a00aa858fa1be0a95b05d3683ab6c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; emissionProbability</definition>
+        <argsstring></argsstring>
+        <name>emissionProbability</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="33" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="31" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="31" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission_1a144a00aa858fa1be0a95b05d3683ab6c" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration::PhotonEmission</scope><name>emissionProbability</name></member>
+      <member refid="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission_1a1d26cc49e49afe96406210d6beaf418a" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration::PhotonEmission</scope><name>energy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,832 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1PropagationBP" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::PropagationBP</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="PropagationBP_8h" local="no">crpropa/module/PropagationBP.h</includes>
+    <innerclass refid="classcrpropa_1_1PropagationBP_1_1Y" prot="public">crpropa::PropagationBP::Y</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PropagationBP_1ad3a6446cf9fbc7288b4d3f4af4db5e26" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+        <definition>ref_ptr&lt;MagneticField&gt; field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="56" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PropagationBP_1a97eab6d709b80585fe9e8a54b1e3da27" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double tolerance</definition>
+        <argsstring></argsstring>
+        <name>tolerance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="57" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PropagationBP_1ac539aa68ad096014e964786f8232cb5f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double minStep</definition>
+        <argsstring></argsstring>
+        <name>minStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>target relative error of the numerical integration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="58" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PropagationBP_1a9fa272758e7c75242051bff169e5f75f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double maxStep</definition>
+        <argsstring></argsstring>
+        <name>maxStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>minimum step size of the propagation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="59" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a1dae10c65075c130de52a7b6f5b5c542" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PropagationBP</definition>
+        <argsstring>(ref_ptr&lt; MagneticField &gt; field=NULL, double fixedStep=1. *kpc)</argsstring>
+        <name>PropagationBP</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+          <declname>field</declname>
+          <defval>NULL</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>fixedStep</declname>
+          <defval>1. *kpc</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>maximum step size of the propagation Default constructor for the Boris push. It is constructed with a fixed step size. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="66" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a1e995feca2699ca6bd87037fae415752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PropagationBP</definition>
+        <argsstring>(ref_ptr&lt; MagneticField &gt; field, double tolerance, double minStep, double maxStep)</argsstring>
+        <name>PropagationBP</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>minStep</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>maxStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor for the adaptive Boris push. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tolerance is criterion for step adjustment. Step adjustment takes place only if minStep &lt; maxStep </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minStep/c_light is the minimum integration time step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maxStep/c_light is the maximum integration time step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Propagates the particle. Is called once per iteration. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> is a passive object, that holds the information about the state of the cosmic ray and the simulation itself. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="78" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a4571f7cbb9927197bb405306c789fcab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1PropagationBP_1_1Y" kindref="compound">Y</ref></type>
+        <definition>Y dY</definition>
+        <argsstring>(Vector3d pos, Vector3d dir, double step, double z, double q, double m) const</argsstring>
+        <name>dY</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>q</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculates the new position and direction of the particle based on the solution of the Lorentz force <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current position of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current direction of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current step size of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current redshift is needed to calculate the magnetic field </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current charge of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current mass of the candidate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return the new calculated position and direction of the candidate </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="89" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a114dc0d80ebe1c9a993011c262db2dec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double errorEstimation</definition>
+        <argsstring>(const Vector3d x1, const Vector3d x2, double step) const</argsstring>
+        <name>errorEstimation</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>comparison of the position after one step with the position after two steps with step/2. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position after one step of size step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position after two steps of size step/2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current step size </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>measurement of the error of the step </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="97" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a96c7f39fd36d2893d472fc781f1cbed3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getFieldAtPosition</definition>
+        <argsstring>(Vector3d pos, double z) const</argsstring>
+        <name>getFieldAtPosition</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get magnetic field vector at current candidate position <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current position of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current redshift is needed to calculate the magnetic field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>magnetic field vector at the position pos </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="104" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1aed78cae860289e629f395eb8613a8232" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void tryStep</definition>
+        <argsstring>(const Y &amp;y, Y &amp;out, Y &amp;error, double h, ParticleState &amp;p, double z, double m, double q) const</argsstring>
+        <name>tryStep</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1PropagationBP_1_1Y" kindref="compound">Y</ref> &amp;</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1PropagationBP_1_1Y" kindref="compound">Y</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1PropagationBP_1_1Y" kindref="compound">Y</ref> &amp;</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>h</declname>
+        </param>
+        <param>
+          <type><ref refid="classcrpropa_1_1ParticleState" kindref="compound">ParticleState</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adapt step size if required and calculates the new position and direction of the particle with the usage of the function dY <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current position and direction of candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position and direction of candidate after the step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>error for the current step </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current step size </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current particle state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current red shift </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current mass of the candidate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current charge of the candidate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="116" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1ad9d809e7ecc2fc687d96e64cb86220ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setField</definition>
+        <argsstring>(ref_ptr&lt; MagneticField &gt; field)</argsstring>
+        <name>setField</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set functions for the parameters of the class <ref refid="classcrpropa_1_1PropagationBP" kindref="compound">PropagationBP</ref> Set a specific magnetic field <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>specific magnetic field </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="123" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1ab775e7293ddd12cd11332ce73d1cdec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setTolerance</definition>
+        <argsstring>(double tolerance)</argsstring>
+        <name>setTolerance</name>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set a specific tolerance for the step size adaption <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>tolerance is criterion for step adjustment. Step adjustment takes place only if minStep &lt; maxStep. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="127" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a0b1342c4f83f19cc5f39a3e5bd76d13e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setMinimumStep</definition>
+        <argsstring>(double minStep)</argsstring>
+        <name>setMinimumStep</name>
+        <param>
+          <type>double</type>
+          <declname>minStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the minimum step for the Boris push <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>minStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minStep/c_light is the minimum integration time step </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="131" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a11a631bd22325f3106b56f03fb7375c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setMaximumStep</definition>
+        <argsstring>(double maxStep)</argsstring>
+        <name>setMaximumStep</name>
+        <param>
+          <type>double</type>
+          <declname>maxStep</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the maximum step for the Boris push <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>maxStep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maxStep/c_light is the maximum integration time step </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="135" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1aa48029387370c13d184bff20ea2421da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1MagneticField" kindref="compound">MagneticField</ref> &gt;</type>
+        <definition>ref_ptr&lt; MagneticField &gt; getField</definition>
+        <argsstring>() const</argsstring>
+        <name>getField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get functions for the parameters of the class <ref refid="classcrpropa_1_1PropagationBP" kindref="compound">PropagationBP</ref>, similar to the set functions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="139" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a1651d37454cc7d2973a5816fb86fb904" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getTolerance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="140" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1aa21f57f6f16a13774ce009e63005ab09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getMinimumStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getMinimumStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="141" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1a35970f0d50e796aedceffa148be99c2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getMaximumStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaximumStep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="142" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PropagationBP_1aea425314aebc36d0f6bf7671705158da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplements refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c">getDescription</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="143" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Propagation through magnetic fields using the Boris method. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This module solves the equations of motion of a relativistic charged particle when propagating through a magnetic field.<linebreak/>
+It uses the Boris push integration method.<linebreak/>
+It can be used with a fixed step size or an adaptive version which supports the step size control. The step size control tries to keep the relative error close to, but smaller than the designated tolerance. Additionally a minimum and maximum size for the steps can be set. For neutral particles a rectilinear propagation is applied and a next step of the maximum step size proposed. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PropagationBP</label>
+        <link refid="classcrpropa_1_1PropagationBP"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PropagationBP</label>
+        <link refid="classcrpropa_1_1PropagationBP"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" line="26" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PropagationBP.h" bodystart="26" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a4571f7cbb9927197bb405306c789fcab" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>dY</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a114dc0d80ebe1c9a993011c262db2dec" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>errorEstimation</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1ad3a6446cf9fbc7288b4d3f4af4db5e26" prot="private" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>field</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1aea425314aebc36d0f6bf7671705158da" prot="public" virt="virtual"><scope>crpropa::PropagationBP</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1aa48029387370c13d184bff20ea2421da" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a96c7f39fd36d2893d472fc781f1cbed3" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>getFieldAtPosition</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a35970f0d50e796aedceffa148be99c2e" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>getMaximumStep</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1aa21f57f6f16a13774ce009e63005ab09" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>getMinimumStep</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a1651d37454cc7d2973a5816fb86fb904" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>getTolerance</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a9fa272758e7c75242051bff169e5f75f" prot="private" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>maxStep</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1ac539aa68ad096014e964786f8232cb5f" prot="private" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>minStep</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::PropagationBP</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::PropagationBP</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a1dae10c65075c130de52a7b6f5b5c542" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>PropagationBP</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a1e995feca2699ca6bd87037fae415752" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>PropagationBP</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1ad9d809e7ecc2fc687d96e64cb86220ef" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>setField</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a11a631bd22325f3106b56f03fb7375c4" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>setMaximumStep</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a0b1342c4f83f19cc5f39a3e5bd76d13e" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>setMinimumStep</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1ab775e7293ddd12cd11332ce73d1cdec3" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>setTolerance</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1a97eab6d709b80585fe9e8a54b1e3da27" prot="private" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>tolerance</name></member>
+      <member refid="classcrpropa_1_1PropagationBP_1aed78cae860289e629f395eb8613a8232" prot="public" virt="non-virtual"><scope>crpropa::PropagationBP</scope><name>tryStep</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::PropagationBP</scope><name>~Module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

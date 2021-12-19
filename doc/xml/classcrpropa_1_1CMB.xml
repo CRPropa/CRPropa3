@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1CMB" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::CMB</compoundname>
+    <basecompoundref refid="classcrpropa_1_1BlackbodyPhotonField" prot="public" virt="non-virtual">BlackbodyPhotonField</basecompoundref>
+    <includes refid="PhotonBackground_8h" local="no">crpropa/PhotonBackground.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="group__PhotonFields_1ga9b8fbb64a4f7b95089a40e167a6d1aad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>CMB</definition>
+        <argsstring>()</argsstring>
+        <name>CMB</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="264" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1ga8eff4e0cfb5268cdf34331fd7f1ac743" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getPhotonDensity</definition>
+        <argsstring>(double ePhoton, double z=0.) const</argsstring>
+        <name>getPhotonDensity</name>
+        <reimplements refid="group__PhotonFields_1ga8175e447139741fd347f40582158ea75">getPhotonDensity</reimplements>
+        <param>
+          <type>double</type>
+          <declname>ePhoton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+          <defval>0.</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>returns comoving photon density [1/m^3]. multiply with (1+z^3) for physical number density. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ePhoton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>photon energy [J] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>redshift (if redshift dependent, default = 0.) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="245" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1gac8f1bb5aa500ad31d2f6712406dd7fa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getMinimumPhotonEnergy</definition>
+        <argsstring>(double z) const</argsstring>
+        <name>getMinimumPhotonEnergy</name>
+        <reimplements refid="group__PhotonFields_1ga90c23a90354a2bea9227c11d4c60e21c">getMinimumPhotonEnergy</reimplements>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="246" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1gaea30c2130570daf42726ac7053cd8437" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getMaximumPhotonEnergy</definition>
+        <argsstring>(double z) const</argsstring>
+        <name>getMaximumPhotonEnergy</name>
+        <reimplements refid="group__PhotonFields_1ga2e36a61a8c03c021be1d4d8ffe006ae6">getMaximumPhotonEnergy</reimplements>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="247" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1ga2c64e0f551f6a5dfffd30b4b7235a9c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setQuantile</definition>
+        <argsstring>(double q)</argsstring>
+        <name>setQuantile</name>
+        <param>
+          <type>double</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="248" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1ga2816e6dd850de89e38faa14a2ec883e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string getFieldName</definition>
+        <argsstring>() const</argsstring>
+        <name>getFieldName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="36" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1ga68d2e9c6551a57ca3d318471fcd3ad94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>virtual double getRedshiftScaling</definition>
+        <argsstring>(double z) const</argsstring>
+        <name>getRedshiftScaling</name>
+        <reimplementedby refid="group__PhotonFields_1ga92ddeb94d923a51bc9ca76ef6c29e67c">getRedshiftScaling</reimplementedby>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>returns overall comoving scaling factor (cf. CRPropa3-data/calc_scaling.py) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>redshift </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="45" column="16" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1gade26f4f908472d327703d3e5e64795fe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool hasRedshiftDependence</definition>
+        <argsstring>() const</argsstring>
+        <name>hasRedshiftDependence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="49" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="group__PhotonFields_1ga677c3019598081bab2f7a4b97ead90be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void setFieldName</definition>
+        <argsstring>(std::string fieldName)</argsstring>
+        <name>setFieldName</name>
+        <param>
+          <type>std::string</type>
+          <declname>fieldName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="53" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Cosmic mircowave background photon field. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classcrpropa_1_1Source" kindref="compound">Source</ref> info: This field is an isotropic blackbody photon field with temperature T = 2.73 K </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CMB</label>
+        <link refid="classcrpropa_1_1CMB"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BlackbodyPhotonField</label>
+        <link refid="classcrpropa_1_1BlackbodyPhotonField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>PhotonField</label>
+        <link refid="classcrpropa_1_1PhotonField"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CMB</label>
+        <link refid="classcrpropa_1_1CMB"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BlackbodyPhotonField</label>
+        <link refid="classcrpropa_1_1BlackbodyPhotonField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>PhotonField</label>
+        <link refid="classcrpropa_1_1PhotonField"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" line="262" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/PhotonBackground.h" bodystart="262" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>addReference</name></member>
+      <member refid="group__PhotonFields_1ga8596371769532ad2e7ada875c851efae" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>BlackbodyPhotonField</name></member>
+      <member refid="group__PhotonFields_1ga9b8fbb64a4f7b95089a40e167a6d1aad" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>CMB</name></member>
+      <member refid="group__PhotonFields_1ga2816e6dd850de89e38faa14a2ec883e1" prot="public" virt="virtual"><scope>crpropa::CMB</scope><name>getFieldName</name></member>
+      <member refid="group__PhotonFields_1gaea30c2130570daf42726ac7053cd8437" prot="public" virt="virtual"><scope>crpropa::CMB</scope><name>getMaximumPhotonEnergy</name></member>
+      <member refid="group__PhotonFields_1gac8f1bb5aa500ad31d2f6712406dd7fa0" prot="public" virt="virtual"><scope>crpropa::CMB</scope><name>getMinimumPhotonEnergy</name></member>
+      <member refid="group__PhotonFields_1ga8eff4e0cfb5268cdf34331fd7f1ac743" prot="public" virt="virtual"><scope>crpropa::CMB</scope><name>getPhotonDensity</name></member>
+      <member refid="group__PhotonFields_1ga68d2e9c6551a57ca3d318471fcd3ad94" prot="public" virt="virtual"><scope>crpropa::CMB</scope><name>getRedshiftScaling</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>getReferenceCount</name></member>
+      <member refid="group__PhotonFields_1gade26f4f908472d327703d3e5e64795fe" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>hasRedshiftDependence</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>operator=</name></member>
+      <member refid="group__PhotonFields_1ga185be309b96cd03e2255560fceb492c9" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>PhotonField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="group__PhotonFields_1ga677c3019598081bab2f7a4b97ead90be" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>setFieldName</name></member>
+      <member refid="group__PhotonFields_1ga2c64e0f551f6a5dfffd30b4b7235a9c1" prot="public" virt="non-virtual"><scope>crpropa::CMB</scope><name>setQuantile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

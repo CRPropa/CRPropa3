@@ -1,0 +1,366 @@
+\hypertarget{classcrpropa_1_1TextOutput}{}\doxysection{Text\+Output Class Reference}
+\label{classcrpropa_1_1TextOutput}\index{TextOutput@{TextOutput}}
+
+
+Configurable plain text output for particle information. This type of output can also be used to generate a .tar.\+gz file if the library zlib is available. For details see\+: \href{http://zlib.net/}{\texttt{ http\+://zlib.\+net/}}.  
+
+
+Inheritance diagram for Text\+Output\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classcrpropa_1_1TextOutput}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_ae19bd705fd6d54313643f1089b4ef4a2}\label{classcrpropa_1_1Output_ae19bd705fd6d54313643f1089b4ef4a2}} 
+enum {\bfseries Output\+Column} \{ \newline
+{\bfseries Trajectory\+Length\+Column}
+, {\bfseries Column\+Density\+Column}
+, {\bfseries Redshift\+Column}
+, {\bfseries Current\+Id\+Column}
+, \newline
+{\bfseries Current\+Energy\+Column}
+, {\bfseries Current\+Position\+Column}
+, {\bfseries Current\+Direction\+Column}
+, {\bfseries Source\+Id\+Column}
+, \newline
+{\bfseries Source\+Energy\+Column}
+, {\bfseries Source\+Position\+Column}
+, {\bfseries Source\+Direction\+Column}
+, {\bfseries Created\+Id\+Column}
+, \newline
+{\bfseries Created\+Energy\+Column}
+, {\bfseries Created\+Position\+Column}
+, {\bfseries Created\+Direction\+Column}
+, {\bfseries Serial\+Number\+Column}
+, \newline
+{\bfseries Weight\+Column}
+ \}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_a4e0517338e6c4a31a2addafc06d4f3a3}\label{classcrpropa_1_1Output_a4e0517338e6c4a31a2addafc06d4f3a3}} 
+enum {\bfseries Output\+Type} \{ \newline
+{\bfseries Trajectory1D}
+, {\bfseries Trajectory3D}
+, {\bfseries Event1D}
+, {\bfseries Event3D}
+, \newline
+{\bfseries Everything}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_ad1aebe34e222f5b83f5b7a9e04dde62a}{Text\+Output}} ()
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_ab9b709bf06784f18d7f968039fbbeb80}{Text\+Output}} (Output\+Type output\+Type)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_aa00c89268b28dfdb2d61055951970d31}{Text\+Output}} (std\+::ostream \&out)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_a18238813d8d9df18b0ab4c2e4695e673}{Text\+Output}} (std\+::ostream \&out, Output\+Type output\+Type)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_a00d9b47cfa52b2ab7d008b1942840b43}{Text\+Output}} (const std\+::string \&filename)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_abafa046a590cf34167c757d1b0a655bf}{Text\+Output}} (const std\+::string \&filename, Output\+Type output\+Type)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1TextOutput_a096554fd2f681e7190a5176df1d14ef0}{$\sim$\+Text\+Output}} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1TextOutput_a53754d4730cdef807500046017d2ca65}{enable\+Random\+Seeds}} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_a5ae591df94fc66ccb85cbb6565368bca}\label{classcrpropa_1_1TextOutput_a5ae591df94fc66ccb85cbb6565368bca}} 
+void {\bfseries close} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_ab8aea7afcc19490429e14cb124743003}\label{classcrpropa_1_1TextOutput_ab8aea7afcc19490429e14cb124743003}} 
+void {\bfseries gzip} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1TextOutput_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+std\+::string \mbox{\hyperlink{classcrpropa_1_1TextOutput_aea425314aebc36d0f6bf7671705158da}{get\+Description}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_a3414c1b2312bb99fa7a6de51e28e6ccb}\label{classcrpropa_1_1Output_a3414c1b2312bb99fa7a6de51e28e6ccb}} 
+std\+::string {\bfseries Output\+Type\+Name} (Output\+Type outputtype)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}{set\+Energy\+Scale}} (double scale)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}{set\+Length\+Scale}} (double scale)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}{set\+Output\+Type}} (Output\+Type output\+Type)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}{set}} (Output\+Column field, bool value)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}{enable\+Property}} (const std\+::string \&property, const \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} \&default\+Value, const std\+::string \&comment=\char`\"{}\char`\"{})
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}{enable}} (Output\+Column field)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}{disable}} (Output\+Column field)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}{enable\+All}} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}{disable\+All}} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}{set1D}} (bool value)
+\item 
+size\+\_\+t \mbox{\hyperlink{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}{size}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{classcrpropa_1_1TextOutput_ac7283f8f4f1d04765ce4f971e34139d4}{load}} (const std\+::string \&filename, \mbox{\hyperlink{classcrpropa_1_1ParticleCollector}{Particle\+Collector}} $\ast$collector)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Output_af32570aafa2044362c74a0f7ac280a30}\label{classcrpropa_1_1Output_af32570aafa2044362c74a0f7ac280a30}} 
+const std\+::string {\bfseries output\+Name}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configurable plain text output for particle information. This type of output can also be used to generate a .tar.\+gz file if the library zlib is available. For details see\+: \href{http://zlib.net/}{\texttt{ http\+://zlib.\+net/}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_ad1aebe34e222f5b83f5b7a9e04dde62a}\label{classcrpropa_1_1TextOutput_ad1aebe34e222f5b83f5b7a9e04dde62a}} 
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{TextOutput()}{TextOutput()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default constructor \mbox{\Hypertarget{classcrpropa_1_1TextOutput_ab9b709bf06784f18d7f968039fbbeb80}\label{classcrpropa_1_1TextOutput_ab9b709bf06784f18d7f968039fbbeb80}} 
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{TextOutput()}{TextOutput()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}\item[{Output\+Type}]{output\+Type }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em output\+Type} & type of output\+: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_aa00c89268b28dfdb2d61055951970d31}\label{classcrpropa_1_1TextOutput_aa00c89268b28dfdb2d61055951970d31}} 
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{TextOutput()}{TextOutput()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em out} & output stream \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_a18238813d8d9df18b0ab4c2e4695e673}\label{classcrpropa_1_1TextOutput_a18238813d8d9df18b0ab4c2e4695e673}} 
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{TextOutput()}{TextOutput()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{Output\+Type}]{output\+Type }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em out} & output stream \\
+\hline
+{\em output\+Type} & type of output\+: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_a00d9b47cfa52b2ab7d008b1942840b43}\label{classcrpropa_1_1TextOutput_a00d9b47cfa52b2ab7d008b1942840b43}} 
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{TextOutput()}{TextOutput()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+Constructor with the default Output\+Type (everything). 
+\begin{DoxyParams}{Parameters}
+{\em filename} & string containing name of output text file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_abafa046a590cf34167c757d1b0a655bf}\label{classcrpropa_1_1TextOutput_abafa046a590cf34167c757d1b0a655bf}} 
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\index{TextOutput@{TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{TextOutput()}{TextOutput()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{Output\+Type}]{output\+Type }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em filename} & string containing name of output text file \\
+\hline
+{\em output\+Type} & type of output\+: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_a096554fd2f681e7190a5176df1d14ef0}\label{classcrpropa_1_1TextOutput_a096554fd2f681e7190a5176df1d14ef0}} 
+\index{TextOutput@{TextOutput}!````~TextOutput@{$\sim$TextOutput}}
+\index{````~TextOutput@{$\sim$TextOutput}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{$\sim$TextOutput()}{~TextOutput()}}
+{\footnotesize\ttfamily $\sim$\mbox{\hyperlink{classcrpropa_1_1TextOutput}{Text\+Output}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}\label{classcrpropa_1_1Output_af9f8624411fce9f75945b97d5dea3066}} 
+\index{TextOutput@{TextOutput}!disable@{disable}}
+\index{disable@{disable}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{disable()}{disable()}}
+{\footnotesize\ttfamily void disable (\begin{DoxyParamCaption}\item[{Output\+Column}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Disable specific column in the output. 
+\begin{DoxyParams}{Parameters}
+{\em field} & name of the field to be disabled \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}\label{classcrpropa_1_1Output_a238885c747f586049b766fa4fcd5ec12}} 
+\index{TextOutput@{TextOutput}!disableAll@{disableAll}}
+\index{disableAll@{disableAll}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{disableAll()}{disableAll()}}
+{\footnotesize\ttfamily void disable\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Disable all fields. Essentially a wrapper for set(field, false). \mbox{\Hypertarget{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}\label{classcrpropa_1_1Output_a89a25830a2dbd036bce61a91e9d9f03e}} 
+\index{TextOutput@{TextOutput}!enable@{enable}}
+\index{enable@{enable}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{enable()}{enable()}}
+{\footnotesize\ttfamily void enable (\begin{DoxyParamCaption}\item[{Output\+Column}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Enable specific column in the output. 
+\begin{DoxyParams}{Parameters}
+{\em field} & name of the field to be enabled \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}\label{classcrpropa_1_1Output_ae076f3f35c07044ed812b78871741c15}} 
+\index{TextOutput@{TextOutput}!enableAll@{enableAll}}
+\index{enableAll@{enableAll}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{enableAll()}{enableAll()}}
+{\footnotesize\ttfamily void enable\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Enable all fields. Essentially a wrapper for set(field, true). \mbox{\Hypertarget{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}\label{classcrpropa_1_1Output_a8e469bf05f9541dbd446fcc63ab66dfc}} 
+\index{TextOutput@{TextOutput}!enableProperty@{enableProperty}}
+\index{enableProperty@{enableProperty}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{enableProperty()}{enableProperty()}}
+{\footnotesize\ttfamily void enable\+Property (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{property,  }\item[{const \mbox{\hyperlink{classcrpropa_1_1Variant}{Variant}} \&}]{default\+Value,  }\item[{const std\+::string \&}]{comment = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Add a property to output. Default value is required to assign a type in the output. 
+\begin{DoxyParams}{Parameters}
+{\em property} & string containing name of property \\
+\hline
+{\em default} & default value of property \\
+\hline
+{\em comment} & string with a comment \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_a53754d4730cdef807500046017d2ca65}\label{classcrpropa_1_1TextOutput_a53754d4730cdef807500046017d2ca65}} 
+\index{TextOutput@{TextOutput}!enableRandomSeeds@{enableRandomSeeds}}
+\index{enableRandomSeeds@{enableRandomSeeds}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{enableRandomSeeds()}{enableRandomSeeds()}}
+{\footnotesize\ttfamily void enable\+Random\+Seeds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Whether to store the random seeds used in the simulation. This enables reproducibility of each realisation of the simulation. \mbox{\Hypertarget{classcrpropa_1_1TextOutput_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1TextOutput_aea425314aebc36d0f6bf7671705158da}} 
+\index{TextOutput@{TextOutput}!getDescription@{getDescription}}
+\index{getDescription@{getDescription}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{getDescription()}{getDescription()}}
+{\footnotesize\ttfamily std\+::string get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_ac7283f8f4f1d04765ce4f971e34139d4}\label{classcrpropa_1_1TextOutput_ac7283f8f4f1d04765ce4f971e34139d4}} 
+\index{TextOutput@{TextOutput}!load@{load}}
+\index{load@{load}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily static void load (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{\mbox{\hyperlink{classcrpropa_1_1ParticleCollector}{Particle\+Collector}} $\ast$}]{collector }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Loads a file to a particle collector. This is useful for analysis involving, e.\+g., magnetic lenses. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & string containing the name of the file to be loaded \\
+\hline
+{\em collector} & object of type \mbox{\hyperlink{classcrpropa_1_1ParticleCollector}{Particle\+Collector}} that will store the information \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1TextOutput_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1TextOutput_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{TextOutput@{TextOutput}!process@{process}}
+\index{process@{process}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Output}{Output}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}\label{classcrpropa_1_1Output_a2a9898e99f8d530997697db9cd7fa3cd}} 
+\index{TextOutput@{TextOutput}!set@{set}}
+\index{set@{set}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily void set (\begin{DoxyParamCaption}\item[{Output\+Column}]{field,  }\item[{bool}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Determines whether a given column will be displayed in the output. 
+\begin{DoxyParams}{Parameters}
+{\em field} & name of the field to be added/removed from output \\
+\hline
+{\em values} & boolean flag adding (true) or removing (false) the field \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}\label{classcrpropa_1_1Output_a1f9c57e1760e336d10856bb5367a10d8}} 
+\index{TextOutput@{TextOutput}!set1D@{set1D}}
+\index{set1D@{set1D}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{set1D()}{set1D()}}
+{\footnotesize\ttfamily void set1D (\begin{DoxyParamCaption}\item[{bool}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+If true, output is of 1D type. 3D quantities such as vectors will be reduced to the relevant components (x, by default). 
+\begin{DoxyParams}{Parameters}
+{\em value} & boolean flag \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}\label{classcrpropa_1_1Output_a88c4cf9b7e5a8f35022b623bfc18bb01}} 
+\index{TextOutput@{TextOutput}!setEnergyScale@{setEnergyScale}}
+\index{setEnergyScale@{setEnergyScale}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{setEnergyScale()}{setEnergyScale()}}
+{\footnotesize\ttfamily void set\+Energy\+Scale (\begin{DoxyParamCaption}\item[{double}]{scale }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Set energy scale. 
+\begin{DoxyParams}{Parameters}
+{\em scale} & energy scale (scale = 1 corresponds to 1 Joule) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}\label{classcrpropa_1_1Output_a9db59d7e6c0554fb9af102cfbf36c424}} 
+\index{TextOutput@{TextOutput}!setLengthScale@{setLengthScale}}
+\index{setLengthScale@{setLengthScale}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{setLengthScale()}{setLengthScale()}}
+{\footnotesize\ttfamily void set\+Length\+Scale (\begin{DoxyParamCaption}\item[{double}]{scale }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Set length scale. 
+\begin{DoxyParams}{Parameters}
+{\em scale} & length scale (scale = 1 corresponds to 1 meter) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}\label{classcrpropa_1_1Output_a009b51405949f723321d3d3481f2b0b9}} 
+\index{TextOutput@{TextOutput}!setOutputType@{setOutputType}}
+\index{setOutputType@{setOutputType}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{setOutputType()}{setOutputType()}}
+{\footnotesize\ttfamily void set\+Output\+Type (\begin{DoxyParamCaption}\item[{Output\+Type}]{output\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Set type of output. 
+\begin{DoxyParams}{Parameters}
+{\em output\+Type} & type of output\+: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}\label{classcrpropa_1_1Output_a259cb5a711406a8c3e5d937eb9350cca}} 
+\index{TextOutput@{TextOutput}!size@{size}}
+\index{size@{size}!TextOutput@{TextOutput}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inherited]}}
+
+Returns the size of the output 

@@ -1,0 +1,1355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1PhotoPionProduction" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::PhotoPionProduction</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="PhotoPionProduction_8h" local="no">crpropa/module/PhotoPionProduction.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1af04156529bcbd781ed95c6068b757b71" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+        <definition>ref_ptr&lt;PhotonField&gt; photonField</definition>
+        <argsstring></argsstring>
+        <name>photonField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="28" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1af8df2c1a35a629b1f04303d815aa59b1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; tabLorentz</definition>
+        <argsstring></argsstring>
+        <name>tabLorentz</name>
+        <briefdescription>
+<para>Lorentz factor of nucleus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="29" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1ada423141e38037b7be4cc0d4cfb9d7d1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; tabRedshifts</definition>
+        <argsstring></argsstring>
+        <name>tabRedshifts</name>
+        <briefdescription>
+<para>redshifts (optional for haveRedshiftDependence) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="30" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1a8bd09e30b3e6d821f3349601a484a334" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; tabProtonRate</definition>
+        <argsstring></argsstring>
+        <name>tabProtonRate</name>
+        <briefdescription>
+<para>interaction rate in [1/m] for protons </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="31" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1a38c9a1226bc7305cba54a46e605753cf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; tabNeutronRate</definition>
+        <argsstring></argsstring>
+        <name>tabNeutronRate</name>
+        <briefdescription>
+<para>interaction rate in [1/m] for neutrons </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="32" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1ab6e1fbde91d4eed5fc908aebbe727bef" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <briefdescription>
+<para>fraction of mean free path to limit the next step </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="33" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1aeb2730dc850f214c5a72ec5c17630fb5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool havePhotons</definition>
+        <argsstring></argsstring>
+        <name>havePhotons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="34" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1a46aa721c91633b8d48f38d79533d6bc6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool haveNeutrinos</definition>
+        <argsstring></argsstring>
+        <name>haveNeutrinos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="35" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1ac35d80b8cbf88b68698e973eb77185d1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool haveElectrons</definition>
+        <argsstring></argsstring>
+        <name>haveElectrons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="36" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1a03dd0b2d2e5ea4ae412ae70ad5fd7a60" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool haveAntiNucleons</definition>
+        <argsstring></argsstring>
+        <name>haveAntiNucleons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="37" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1ad29d3f8064cf5e3536740488b6a904fc" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool haveRedshiftDependence</definition>
+        <argsstring></argsstring>
+        <name>haveRedshiftDependence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="38" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1aa41f79dea43c3f741b922239f5d1025a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sampleLog</definition>
+        <argsstring></argsstring>
+        <name>sampleLog</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="92" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoPionProduction_1a11e0a478898d4a5c44d7d609aae4ee3d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double correctionFactor</definition>
+        <argsstring></argsstring>
+        <name>correctionFactor</name>
+        <initializer>= 1.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="93" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a6e74bdf3332242697e41b5e4c0a40da6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double functs</definition>
+        <argsstring>(double s, bool onProton) const</argsstring>
+        <name>functs</name>
+        <param>
+          <type>double</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="43" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a7abf35f9e8ca4cd76686fb7480b09fb2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double probEps</definition>
+        <argsstring>(double eps, bool onProton, double Ein, double z) const</argsstring>
+        <name>probEps</name>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>Ein</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="48" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a057a6d8625dbbb528034ccea01312591" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double epsMinInteraction</definition>
+        <argsstring>(bool onProton, double Ein) const</argsstring>
+        <name>epsMinInteraction</name>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>Ein</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>called by: sampleEps <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>onProton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>particle type: proton or neutron </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Ein</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of incoming nucleon<itemizedlist>
+<listitem><para>output: labframe energy [eV] of least energetic photon where PPP can occur </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="55" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a09d7526f6f35908f30171740793be678" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double momentum</definition>
+        <argsstring>(bool onProton, double Ein) const</argsstring>
+        <name>momentum</name>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>Ein</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>called by: probEps, epsMinInteraction <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>onProton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>particle type: proton or neutron </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Ein</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of incoming nucleon<itemizedlist>
+<listitem><para>output: hadron momentum [GeV/c] </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="62" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a2360201b01ac2f2f4ac15569a8eba37d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double crossection</definition>
+        <argsstring>(double eps, bool onProton) const</argsstring>
+        <name>crossection</name>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="67" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a1103aaf4a79170126f066939cbfa53c7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double Pl</definition>
+        <argsstring>(double eps, double xth, double xMax, double alpha) const</argsstring>
+        <name>Pl</name>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xth</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xMax</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="72" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a58983d8415ae0fe2cc0b77efcd0f5f67" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double Ef</definition>
+        <argsstring>(double eps, double epsTh, double w) const</argsstring>
+        <name>Ef</name>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsTh</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="77" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a929da5f0824b5514ef4bf60fa9e245a4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double breitwigner</definition>
+        <argsstring>(double sigma0, double gamma, double DMM, double epsPrime, bool onProton) const</argsstring>
+        <name>breitwigner</name>
+        <param>
+          <type>double</type>
+          <declname>sigma0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>DMM</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsPrime</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="82" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1accc5beb101c2bd1c77bd6952d3c7cd16" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double mass</definition>
+        <argsstring>(bool onProton) const</argsstring>
+        <name>mass</name>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="87" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a8980c427ea0728af45b06a61a177f645" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sMin</definition>
+        <argsstring>() const</argsstring>
+        <name>sMin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="90" column="8"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1aefec0c4a956005fe56c7939e7c804286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PhotoPionProduction</definition>
+        <argsstring>(ref_ptr&lt; PhotonField &gt; photonField, bool photons=false, bool neutrinos=false, bool electrons=false, bool antiNucleons=false, double limit=0.1, bool haveRedshiftDependence=false)</argsstring>
+        <name>PhotoPionProduction</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+          <declname>photonField</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>photons</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>neutrinos</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>electrons</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>antiNucleons</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>limit</declname>
+          <defval>0.1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>haveRedshiftDependence</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="97" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1abcd39fc71be75e01fcc294083be4024d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setPhotonField</definition>
+        <argsstring>(ref_ptr&lt; PhotonField &gt; photonField)</argsstring>
+        <name>setPhotonField</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+          <declname>photonField</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="105" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a066a49fb07366c030b9403706f83087a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHavePhotons</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>setHavePhotons</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="106" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a93dc03a4c252a492642de79f38257821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHaveNeutrinos</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>setHaveNeutrinos</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="107" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1aca5f612cb1c832c1a9fa8e4989efe69a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHaveElectrons</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>setHaveElectrons</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="108" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1af07b97c242ee077455248471eeaafe5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHaveAntiNucleons</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>setHaveAntiNucleons</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="109" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a66a3ae3fd14fcb9436049ea26f01a726" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHaveRedshiftDependence</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>setHaveRedshiftDependence</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="110" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a29ee54f3ff5603da67762de093cff3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLimit</definition>
+        <argsstring>(double limit)</argsstring>
+        <name>setLimit</name>
+        <param>
+          <type>double</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="111" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a59a42db954994dde790bff6ad6551637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initRate</definition>
+        <argsstring>(std::string filename)</argsstring>
+        <name>initRate</name>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="112" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1aee0fc60831079a8a46d7f85eb4f0a5e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double nucleonMFP</definition>
+        <argsstring>(double gamma, double z, bool onProton) const</argsstring>
+        <name>nucleonMFP</name>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="113" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1ae1dedc1324c0028e90046448ab0fd779" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double nucleiModification</definition>
+        <argsstring>(int A, int X) const</argsstring>
+        <name>nucleiModification</name>
+        <param>
+          <type>int</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>X</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="114" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="115" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a70a762390f129c1ed666094aa6f24f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void performInteraction</definition>
+        <argsstring>(Candidate *candidate, bool onProton) const</argsstring>
+        <name>performInteraction</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="116" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a186df9faa7b56d876ec9faac635ab114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double lossLength</definition>
+        <argsstring>(int id, double gamma, double z=0)</argsstring>
+        <name>lossLength</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculates the loss length E dx/dE in [m]. This is not used in the simulation. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PDG particle id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lorentz factor of particle </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>redshift </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="125" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a1f12f12580e9363d1dcb13e0034773d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structcrpropa_1_1SophiaEventOutput" kindref="compound">SophiaEventOutput</ref></type>
+        <definition>SophiaEventOutput sophiaEvent</definition>
+        <argsstring>(bool onProton, double Ein, double eps) const</argsstring>
+        <name>sophiaEvent</name>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>Ein</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>eps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Direct SOPHIA interface. <ref refid="classcrpropa_1_1Output" kindref="compound">Output</ref> is an object <ref refid="structcrpropa_1_1SophiaEventOutput" kindref="compound">SophiaEventOutput</ref> with two vectors &quot;energy&quot; and &quot;id&quot; each of length N (number of out-going particles). The i-th component of each vector corresponds to the same particle. This is not used in the simulation. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>onProton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>proton or neutron </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Ein</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of nucleon </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>eps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of target photon </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="136" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a5dabf744b0e83ea7de0a26a047ab0cbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double sampleEps</definition>
+        <argsstring>(bool onProton, double E, double z) const</argsstring>
+        <name>sampleEps</name>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>E</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SOPHIA&apos;s photon sampling method. Returns energy [J] of a photon of the photon field. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>onProton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>particle type: proton or neutron </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>E</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of incoming nucleon [J] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>redshift of incoming nucleon </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="144" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1ab8398a04a64e7c7152d5453bff059387" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double probEpsMax</definition>
+        <argsstring>(bool onProton, double Ein, double z, double epsMin, double epsMax) const</argsstring>
+        <name>probEpsMax</name>
+        <param>
+          <type>bool</type>
+          <declname>onProton</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>Ein</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsMin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsMax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>called by: sampleEps <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>onProton</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>particle type: proton or neutron </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Ein</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>energy of incoming nucleon </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>redshift of incoming nucleon </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsMin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minimum photon energy of field </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsMax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum photon energy of field<itemizedlist>
+<listitem><para>output: maximum probability of all photons in field </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="154" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a0452418a223a4babb7c119059a5b1b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setSampleLog</definition>
+        <argsstring>(bool log)</argsstring>
+        <name>setSampleLog</name>
+        <param>
+          <type>bool</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="158" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a2227d60e6284146f01d22e81993434c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setCorrectionFactor</definition>
+        <argsstring>(double factor)</argsstring>
+        <name>setCorrectionFactor</name>
+        <param>
+          <type>double</type>
+          <declname>factor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="163" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a9c22d1999ae17919e778fd151aa00bb8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+        <definition>ref_ptr&lt; PhotonField &gt; getPhotonField</definition>
+        <argsstring>() const</argsstring>
+        <name>getPhotonField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>get functions for the parameters of the class <ref refid="classcrpropa_1_1PhotoPionProduction" kindref="compound">PhotoPionProduction</ref>, similar to the set functions </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="166" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a04a460a21b00fdc1938912f47d67879a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getHavePhotons</definition>
+        <argsstring>() const</argsstring>
+        <name>getHavePhotons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="167" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1ae12279a67ca654b0ccc2dff839fb0e97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getHaveNeutrinos</definition>
+        <argsstring>() const</argsstring>
+        <name>getHaveNeutrinos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="168" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a3e28c30613510d9c9dcf819545112141" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getHaveElectrons</definition>
+        <argsstring>() const</argsstring>
+        <name>getHaveElectrons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="169" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1aa9b4afe9973da4614e88879f71fd31f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getHaveAntiNucleons</definition>
+        <argsstring>() const</argsstring>
+        <name>getHaveAntiNucleons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="170" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a0ae83c84a243719d4a13fc75cc4d2ce7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getHaveRedshiftDependence</definition>
+        <argsstring>() const</argsstring>
+        <name>getHaveRedshiftDependence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="171" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a42b620f25832be4cbb26f5ce5d850c28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getLimit</definition>
+        <argsstring>() const</argsstring>
+        <name>getLimit</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="172" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a639f1dc8934beb85e51a7966798ddfe5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getSampleLog</definition>
+        <argsstring>() const</argsstring>
+        <name>getSampleLog</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="173" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoPionProduction_1a97f6d8e9ddc30cdcc84beea7cbcc8943" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getCorrectionFactor</definition>
+        <argsstring>() const</argsstring>
+        <name>getCorrectionFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="174" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplementedby refid="classcrpropa_1_1PeriodicBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ReflectiveBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CubicBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SphericalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EllipsoidalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CylindricalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MaximumTrajectoryLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergy_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRigidity_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumChargeNumber_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergyPerParticleId_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DetectionLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DiffusionSDE_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EMCascade_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Observer_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellPropertyOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleCollector_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonEleCa_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationBP_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationCK_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Redshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1FutureRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1RestrictToRegion_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SimplePropagation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SynchrotronRadiation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1TextOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PerformanceModule_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleFilter_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EmissionMapFiller_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleList_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleListRunner_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="24" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Photo-pion interactions of nuclei with background photons. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PhotoPionProduction</label>
+        <link refid="classcrpropa_1_1PhotoPionProduction"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PhotoPionProduction</label>
+        <link refid="classcrpropa_1_1PhotoPionProduction"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" line="25" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoPionProduction.h" bodystart="25" bodyend="175"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a929da5f0824b5514ef4bf60fa9e245a4" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>breitwigner</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a11e0a478898d4a5c44d7d609aae4ee3d" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>correctionFactor</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a2360201b01ac2f2f4ac15569a8eba37d" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>crossection</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a58983d8415ae0fe2cc0b77efcd0f5f67" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>Ef</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a057a6d8625dbbb528034ccea01312591" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>epsMinInteraction</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a6e74bdf3332242697e41b5e4c0a40da6" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>functs</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a97f6d8e9ddc30cdcc84beea7cbcc8943" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getCorrectionFactor</name></member>
+      <member refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" virt="virtual"><scope>crpropa::PhotoPionProduction</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1aa9b4afe9973da4614e88879f71fd31f1" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getHaveAntiNucleons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a3e28c30613510d9c9dcf819545112141" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getHaveElectrons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ae12279a67ca654b0ccc2dff839fb0e97" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getHaveNeutrinos</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a04a460a21b00fdc1938912f47d67879a" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getHavePhotons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a0ae83c84a243719d4a13fc75cc4d2ce7" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getHaveRedshiftDependence</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a42b620f25832be4cbb26f5ce5d850c28" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getLimit</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a9c22d1999ae17919e778fd151aa00bb8" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getPhotonField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a639f1dc8934beb85e51a7966798ddfe5" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>getSampleLog</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a03dd0b2d2e5ea4ae412ae70ad5fd7a60" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>haveAntiNucleons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ac35d80b8cbf88b68698e973eb77185d1" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>haveElectrons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a46aa721c91633b8d48f38d79533d6bc6" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>haveNeutrinos</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1aeb2730dc850f214c5a72ec5c17630fb5" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>havePhotons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ad29d3f8064cf5e3536740488b6a904fc" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>haveRedshiftDependence</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a59a42db954994dde790bff6ad6551637" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>initRate</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ab6e1fbde91d4eed5fc908aebbe727bef" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>limit</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a186df9faa7b56d876ec9faac635ab114" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>lossLength</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1accc5beb101c2bd1c77bd6952d3c7cd16" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>mass</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a09d7526f6f35908f30171740793be678" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>momentum</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ae1dedc1324c0028e90046448ab0fd779" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>nucleiModification</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1aee0fc60831079a8a46d7f85eb4f0a5e5" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>nucleonMFP</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a70a762390f129c1ed666094aa6f24f82" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>performInteraction</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1af04156529bcbd781ed95c6068b757b71" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>photonField</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1aefec0c4a956005fe56c7939e7c804286" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>PhotoPionProduction</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a1103aaf4a79170126f066939cbfa53c7" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>Pl</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a7abf35f9e8ca4cd76686fb7480b09fb2" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>probEps</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ab8398a04a64e7c7152d5453bff059387" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>probEpsMax</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::PhotoPionProduction</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::PhotoPionProduction</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a5dabf744b0e83ea7de0a26a047ab0cbe" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>sampleEps</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1aa41f79dea43c3f741b922239f5d1025a" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>sampleLog</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a2227d60e6284146f01d22e81993434c0" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setCorrectionFactor</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1af07b97c242ee077455248471eeaafe5d" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setHaveAntiNucleons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1aca5f612cb1c832c1a9fa8e4989efe69a" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setHaveElectrons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a93dc03a4c252a492642de79f38257821" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setHaveNeutrinos</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a066a49fb07366c030b9403706f83087a" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setHavePhotons</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a66a3ae3fd14fcb9436049ea26f01a726" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setHaveRedshiftDependence</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a29ee54f3ff5603da67762de093cff3b1" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setLimit</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1abcd39fc71be75e01fcc294083be4024d" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setPhotonField</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a0452418a223a4babb7c119059a5b1b23" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>setSampleLog</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a8980c427ea0728af45b06a61a177f645" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>sMin</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a1f12f12580e9363d1dcb13e0034773d0" prot="public" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>sophiaEvent</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1af8df2c1a35a629b1f04303d815aa59b1" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>tabLorentz</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a38c9a1226bc7305cba54a46e605753cf" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>tabNeutronRate</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1a8bd09e30b3e6d821f3349601a484a334" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>tabProtonRate</name></member>
+      <member refid="classcrpropa_1_1PhotoPionProduction_1ada423141e38037b7be4cc0d4cfb9d7d1" prot="private" virt="non-virtual"><scope>crpropa::PhotoPionProduction</scope><name>tabRedshifts</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::PhotoPionProduction</scope><name>~Module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

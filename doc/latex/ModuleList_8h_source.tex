@@ -1,0 +1,68 @@
+\hypertarget{ModuleList_8h_source}{}\doxysection{Module\+List.\+h}
+\label{ModuleList_8h_source}\index{ModuleList.h@{ModuleList.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_MODULE\_LIST\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_MODULE\_LIST\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Candidate.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}crpropa/Source.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <list>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <sstream>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ModuleList}{ModuleList}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{18 \textcolor{keyword}{public}:}
+\DoxyCodeLine{19         \textcolor{keyword}{typedef} std::list<ref\_ptr<Module> > module\_list\_t;}
+\DoxyCodeLine{20         \textcolor{keyword}{typedef} std::vector<ref\_ptr<Candidate> > candidate\_vector\_t;}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22         \mbox{\hyperlink{classcrpropa_1_1ModuleList}{ModuleList}}();}
+\DoxyCodeLine{23         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1ModuleList}{\string~ModuleList}}();}
+\DoxyCodeLine{24         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_a0abf2e0b4076bf42006e866b189ffc9d}{setShowProgress}}(\textcolor{keywordtype}{bool} show = \textcolor{keyword}{true}); }
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26         \textcolor{keywordtype}{void} add(\mbox{\hyperlink{classcrpropa_1_1Module}{Module}}* module);}
+\DoxyCodeLine{27         \textcolor{keywordtype}{void} remove(std::size\_t i);}
+\DoxyCodeLine{28         std::size\_t size() \textcolor{keyword}{const};}
+\DoxyCodeLine{29         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Module>}} operator[](\textcolor{keyword}{const} std::size\_t i);}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_ab59d2de78ed0589c122df3d6c0478b41}{process}}(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}}* candidate) \textcolor{keyword}{const}; }
+\DoxyCodeLine{32         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_a9f2321c49330b61a52ce55c2015e4c49}{process}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} candidate) \textcolor{keyword}{const}; }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_a64999efc68012b9b0b3fe8752fb41036}{run}}(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}}* candidate, \textcolor{keywordtype}{bool} recursive = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} secondariesFirst = \textcolor{keyword}{false}); }
+\DoxyCodeLine{35         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_ae4e1674e36c6c34ae4af1b1c6527895d}{run}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} candidate, \textcolor{keywordtype}{bool} recursive = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} secondariesFirst = \textcolor{keyword}{false}); }
+\DoxyCodeLine{36         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_a2a92fbf42e0ad12985322aef237bc8bb}{run}}(\textcolor{keyword}{const} candidate\_vector\_t *candidates, \textcolor{keywordtype}{bool} recursive = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} secondariesFirst = \textcolor{keyword}{false}); }
+\DoxyCodeLine{37         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleList_ab329c45eb426d038a3ee0016a2b7a632}{run}}(\mbox{\hyperlink{classcrpropa_1_1SourceInterface}{SourceInterface}}* source, \textcolor{keywordtype}{size\_t} count, \textcolor{keywordtype}{bool} recursive = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} secondariesFirst = \textcolor{keyword}{false}); }
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{40         \textcolor{keywordtype}{void} showModules() \textcolor{keyword}{const};}
+\DoxyCodeLine{41         }
+\DoxyCodeLine{43         \textcolor{keyword}{typedef} module\_list\_t::iterator \mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}};}
+\DoxyCodeLine{44         \textcolor{keyword}{typedef} module\_list\_t::const\_iterator const\_iterator;}
+\DoxyCodeLine{45         \mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}} begin();}
+\DoxyCodeLine{46         const\_iterator begin() \textcolor{keyword}{const};}
+\DoxyCodeLine{47         \mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}} end();}
+\DoxyCodeLine{48         const\_iterator end() \textcolor{keyword}{const};}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{keyword}{private}:}
+\DoxyCodeLine{51         module\_list\_t modules;}
+\DoxyCodeLine{52         \textcolor{keywordtype}{bool} showProgress;}
+\DoxyCodeLine{53 \};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{59 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ModuleListRunner}{ModuleListRunner}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{60 \textcolor{keyword}{private}:}
+\DoxyCodeLine{61         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<ModuleList>}} mlist;}
+\DoxyCodeLine{62 \textcolor{keyword}{public}:}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64         \mbox{\hyperlink{classcrpropa_1_1ModuleListRunner}{ModuleListRunner}}(\mbox{\hyperlink{classcrpropa_1_1ModuleList}{ModuleList}} *mlist);}
+\DoxyCodeLine{65         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ModuleListRunner_ab59d2de78ed0589c122df3d6c0478b41}{process}}(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const}; }
+\DoxyCodeLine{66         std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{67 \};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_MODULE\_LIST\_H}}
+
+\end{DoxyCode}

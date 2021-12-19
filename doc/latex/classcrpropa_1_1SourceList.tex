@@ -1,0 +1,75 @@
+\hypertarget{classcrpropa_1_1SourceList}{}\doxysection{Source\+List Class Reference}
+\label{classcrpropa_1_1SourceList}\index{SourceList@{SourceList}}
+
+
+List of particle sources of individual luminosities.  
+
+
+Inheritance diagram for Source\+List\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1SourceList}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1SourceList_a362572fc947ae865d44a8684f74e92e2}{add}} (\mbox{\hyperlink{classcrpropa_1_1Source}{Source}} $\ast$source, double weight=1)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ \mbox{\hyperlink{classcrpropa_1_1SourceList_a0abd14087106aaf885a8bc214c2ba37c}{get\+Candidate}} () const
+\item 
+std\+::string \mbox{\hyperlink{classcrpropa_1_1SourceList_aea425314aebc36d0f6bf7671705158da}{get\+Description}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+List of particle sources of individual luminosities. 
+
+The \mbox{\hyperlink{classcrpropa_1_1SourceList}{Source\+List}} is a source itself. It can be used if several sources are needed in one simulation. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceList_a362572fc947ae865d44a8684f74e92e2}\label{classcrpropa_1_1SourceList_a362572fc947ae865d44a8684f74e92e2}} 
+\index{SourceList@{SourceList}!add@{add}}
+\index{add@{add}!SourceList@{SourceList}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily void add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Source}{Source}} $\ast$}]{source,  }\item[{double}]{weight = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Add an individual source to the list. 
+\begin{DoxyParams}{Parameters}
+{\em source} & source to be added \\
+\hline
+{\em weight} & weight of the source; defaults to 1. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1SourceList_a0abd14087106aaf885a8bc214c2ba37c}\label{classcrpropa_1_1SourceList_a0abd14087106aaf885a8bc214c2ba37c}} 
+\index{SourceList@{SourceList}!getCandidate@{getCandidate}}
+\index{getCandidate@{getCandidate}!SourceList@{SourceList}}
+\doxysubsubsection{\texorpdfstring{getCandidate()}{getCandidate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ get\+Candidate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1SourceInterface}{Source\+Interface}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1SourceList_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1SourceList_aea425314aebc36d0f6bf7671705158da}} 
+\index{SourceList@{SourceList}!getDescription@{getDescription}}
+\index{getDescription@{getDescription}!SourceList@{SourceList}}
+\doxysubsubsection{\texorpdfstring{getDescription()}{getDescription()}}
+{\footnotesize\ttfamily std\+::string get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1SourceInterface}{Source\+Interface}}.
+

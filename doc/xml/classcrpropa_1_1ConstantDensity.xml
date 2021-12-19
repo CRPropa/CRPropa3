@@ -1,0 +1,773 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1ConstantDensity" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::ConstantDensity</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Density" prot="public" virt="non-virtual">Density</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1ConstantDensity_1a8066262a0ddbcb66df64a183d9fc6d2a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double HIdensitynumber</definition>
+        <argsstring></argsstring>
+        <name>HIdensitynumber</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>density for atomic hydrogen </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="19" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ConstantDensity_1a896a4d415fd0551884393a43094b3c8b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double HIIdensitynumber</definition>
+        <argsstring></argsstring>
+        <name>HIIdensitynumber</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>density for ioniesd hydrogen </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="20" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ConstantDensity_1a60e451e63450fea4b71c80ab33164d5d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double H2densitynumber</definition>
+        <argsstring></argsstring>
+        <name>H2densitynumber</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>density for molecular hydrogen </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="21" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ConstantDensity_1ae0e5b792fc92b7b2833a4eb617e0b60d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isHI</definition>
+        <argsstring></argsstring>
+        <name>isHI</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, HI is used for sum up in getDensity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="23" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ConstantDensity_1ad72e3c7df00d38e9b21ba736721e87c7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isHII</definition>
+        <argsstring></argsstring>
+        <name>isHII</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, HII is used for sum up in getDensity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="24" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1ConstantDensity_1a672e4f1337e94fc93743bdaaca95f66a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isH2</definition>
+        <argsstring></argsstring>
+        <name>isH2</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, H2 is used for sum up in getDensity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="25" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1ac47c012a5f9f5067e7344d104a267484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ConstantDensity</definition>
+        <argsstring>(double HI, double HII, double H2)</argsstring>
+        <name>ConstantDensity</name>
+        <param>
+          <type>double</type>
+          <declname>HI</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>HII</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>H2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor for constant density <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>HI</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>density for atomic hydrogen </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>HII</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>density for ionised hydrogen </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>H2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>density for molecular hydrogen </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="33" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1aaa93132b2f2f99caf2a69477e5c8026b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1af750bea4165eb5763cdfd65ffc8390fc">getDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get density at a given position. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5 kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classcrpropa_1_1Density" kindref="compound">Density</ref> in parts/m^3, sum up all activated parts </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="39" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getHIDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getHIDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1af9883d1a3a34d60ae8f5b70d091baf74">getHIDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get HI density at a given position. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5 kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(constant) density of HI in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="44" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1ac51bce5cfaeae6e359938fbfdb98b360" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getHIIDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getHIIDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1a339821f521ebf13ac68e255c6e4f4592">getHIIDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get HII density at a given position. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5 kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(constant) density of HII in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="49" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a6cb4d0e54e3f6c3b22066464cc37cb9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getH2Density</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getH2Density</name>
+        <reimplements refid="classcrpropa_1_1Density_1ab85734c9d4ecea5a4473ce2f0bb44888">getH2Density</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get H2 density at a given position. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5 kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>(constant) density of H2 in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="54" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a93e1387605f0b1f14c65afdc80526d7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getNucleonDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getNucleonDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1a181c385cc18bffa44994235fb45e812f">getNucleonDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get density at a given position. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5 kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>number of nucleons/m^3, sum up all activated parts and weights H2 twice </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="59" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a435c8c3e4dc0e7dec1bc5c8a09e568b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForHI</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForHI</name>
+        <reimplements refid="classcrpropa_1_1Density_1a9b85debf98c49a4906d9d8390c9fd6a7">getIsForHI</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status of HI <ndash/> active or not. <simplesect kind="return"><para>Boolean flag with activation status of HI </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="64" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1ab5ce7a02210aefeea1ba18db3e1a3f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForHII</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForHII</name>
+        <reimplements refid="classcrpropa_1_1Density_1a118ec1ed8bc5d3cb63f7ebfb7eddb4f5">getIsForHII</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status of HII <ndash/> active or not. <simplesect kind="return"><para>Boolean flag with activation status of HII </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="68" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a420253131374877a0d1af71148accec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForH2</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForH2</name>
+        <reimplements refid="classcrpropa_1_1Density_1a8023c18f8b0b296056b26897dc38f175">getIsForH2</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Status of H2 <ndash/> active or not. <simplesect kind="return"><para>Boolean flag with activation status of H2 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="72" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a87b6b93dfbc11f2251131c7b55f72a2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHI</definition>
+        <argsstring>(bool activate, double densityNumber)</argsstring>
+        <name>setHI</name>
+        <param>
+          <type>bool</type>
+          <declname>activate</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>densityNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change HI status and the value of the density. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new activation status </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>densityNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new density [in units of 1/meter ^ 3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="78" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1aefecb445d4fcde651b86dcdc2e3c5a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHI</definition>
+        <argsstring>(bool activate)</argsstring>
+        <name>setHI</name>
+        <param>
+          <type>bool</type>
+          <declname>activate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change HI status and keep density unaltered. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new activation status </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="82" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a14489118699e303d8681c0e976dc4546" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHI</definition>
+        <argsstring>(double densityNumber)</argsstring>
+        <name>setHI</name>
+        <param>
+          <type>double</type>
+          <declname>densityNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change HI density and keep activation status unaltered <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>densityNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new density [in units of 1/meter ^ 3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="86" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a596162062ac9843ef414f708f98c5a10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHII</definition>
+        <argsstring>(bool activate, double densityNumber)</argsstring>
+        <name>setHII</name>
+        <param>
+          <type>bool</type>
+          <declname>activate</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>densityNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change HII status and the value of the density. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new activation status </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>densityNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new density [in units of 1/meter ^ 3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="92" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1add749d42e75207610e55373674a8e46d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHII</definition>
+        <argsstring>(bool activate)</argsstring>
+        <name>setHII</name>
+        <param>
+          <type>bool</type>
+          <declname>activate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change HII status and keep density unaltered. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new activation status </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="96" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1ab8fdddfd48d69e2a132bfd1038e975b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHII</definition>
+        <argsstring>(double densityNumber)</argsstring>
+        <name>setHII</name>
+        <param>
+          <type>double</type>
+          <declname>densityNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change HII density and keep activation status unaltered <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>densityNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new density [in units of 1/meter ^ 3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="100" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1ad4092f531e6388355d9cf52db75aea10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setH2</definition>
+        <argsstring>(bool activate, double densityNumber)</argsstring>
+        <name>setH2</name>
+        <param>
+          <type>bool</type>
+          <declname>activate</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>densityNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change H2 status and the value of the density. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new activation status </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>densityNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new density [in units of 1/meter ^ 3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="106" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a65cd43a226f3c9b626b9badfdcad8498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setH2</definition>
+        <argsstring>(bool activate)</argsstring>
+        <name>setH2</name>
+        <param>
+          <type>bool</type>
+          <declname>activate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change H2 status and keep density unaltered. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>activate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new activation status </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="110" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a1caa75f180bae2327b5cf30a9050a272" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setH2</definition>
+        <argsstring>(double densityNumber)</argsstring>
+        <name>setH2</name>
+        <param>
+          <type>double</type>
+          <declname>densityNumber</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Change H2 density and keep activation status unaltered <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>densityNumber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>new density [in units of 1/meter ^ 3] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="114" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1ConstantDensity_1a73da75c3e5ec30855a02eae2ba824e38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>()</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="116" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ConstantDensity</label>
+        <link refid="classcrpropa_1_1ConstantDensity"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ConstantDensity</label>
+        <link refid="classcrpropa_1_1ConstantDensity"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" line="16" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/ConstantDensity.h" bodystart="16" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ac47c012a5f9f5067e7344d104a267484" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>ConstantDensity</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1aaa93132b2f2f99caf2a69477e5c8026b" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getDensity</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a73da75c3e5ec30855a02eae2ba824e38" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a6cb4d0e54e3f6c3b22066464cc37cb9b" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getH2Density</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getHIDensity</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ac51bce5cfaeae6e359938fbfdb98b360" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getHIIDensity</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a420253131374877a0d1af71148accec5" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getIsForH2</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a435c8c3e4dc0e7dec1bc5c8a09e568b9" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getIsForHI</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ab5ce7a02210aefeea1ba18db3e1a3f71" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getIsForHII</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a93e1387605f0b1f14c65afdc80526d7f" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>getNucleonDensity</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a60e451e63450fea4b71c80ab33164d5d" prot="private" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>H2densitynumber</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a8066262a0ddbcb66df64a183d9fc6d2a" prot="private" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>HIdensitynumber</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a896a4d415fd0551884393a43094b3c8b" prot="private" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>HIIdensitynumber</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a672e4f1337e94fc93743bdaaca95f66a" prot="private" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>isH2</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ae0e5b792fc92b7b2833a4eb617e0b60d" prot="private" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>isHI</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ad72e3c7df00d38e9b21ba736721e87c7" prot="private" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>isHII</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ad4092f531e6388355d9cf52db75aea10" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setH2</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a65cd43a226f3c9b626b9badfdcad8498" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setH2</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a1caa75f180bae2327b5cf30a9050a272" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setH2</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a87b6b93dfbc11f2251131c7b55f72a2f" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setHI</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1aefecb445d4fcde651b86dcdc2e3c5a22" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setHI</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a14489118699e303d8681c0e976dc4546" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setHI</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1a596162062ac9843ef414f708f98c5a10" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setHII</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1add749d42e75207610e55373674a8e46d" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setHII</name></member>
+      <member refid="classcrpropa_1_1ConstantDensity_1ab8fdddfd48d69e2a132bfd1038e975b5" prot="public" virt="non-virtual"><scope>crpropa::ConstantDensity</scope><name>setHII</name></member>
+      <member refid="classcrpropa_1_1Density_1acf775fdb904382e52f35dc3384a44bee" prot="public" virt="virtual"><scope>crpropa::ConstantDensity</scope><name>~Density</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

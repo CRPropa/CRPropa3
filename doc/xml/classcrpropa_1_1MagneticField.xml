@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1MagneticField" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::MagneticField</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Referenced" prot="public" virt="non-virtual">Referenced</basecompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1ArchimedeanSpiralField" prot="public" virt="non-virtual">ArchimedeanSpiralField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1CMZField" prot="public" virt="non-virtual">CMZField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1JF12Field" prot="public" virt="non-virtual">JF12Field</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1LogarithmicSpiralField" prot="public" virt="non-virtual">LogarithmicSpiralField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1MagneticDipoleField" prot="public" virt="non-virtual">MagneticDipoleField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1MagneticFieldEvolution" prot="public" virt="non-virtual">MagneticFieldEvolution</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1MagneticFieldGrid" prot="public" virt="non-virtual">MagneticFieldGrid</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1MagneticFieldList" prot="public" virt="non-virtual">MagneticFieldList</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1ModulatedMagneticFieldGrid" prot="public" virt="non-virtual">ModulatedMagneticFieldGrid</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1PT11Field" prot="public" virt="non-virtual">PT11Field</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1PeriodicMagneticField" prot="public" virt="non-virtual">PeriodicMagneticField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1PolarizedSingleModeMagneticField" prot="public" virt="non-virtual">PolarizedSingleModeMagneticField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1TF17Field" prot="public" virt="non-virtual">TF17Field</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1TorroidalHaloField" prot="public" virt="non-virtual">TorroidalHaloField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1TurbulentField" prot="public" virt="non-virtual">TurbulentField</derivedcompoundref>
+    <derivedcompoundref refid="classcrpropa_1_1UniformMagneticField" prot="public" virt="non-virtual">UniformMagneticField</derivedcompoundref>
+    <includes refid="MagneticField_8h" local="no">crpropa/magneticField/MagneticField.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual ~MagneticField</definition>
+        <argsstring>()</argsstring>
+        <name>~MagneticField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="24" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1ArchimedeanSpiralField_1a60b4a9f66e692a5d3620de910bae981e">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CMZField_1a60b4a9f66e692a5d3620de910bae981e">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1JF12Field_1a60b4a9f66e692a5d3620de910bae981e">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PT11Field_1a60b4a9f66e692a5d3620de910bae981e">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1TF17Field_1a60b4a9f66e692a5d3620de910bae981e">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PlaneWaveTurbulence_1a60b4a9f66e692a5d3620de910bae981e">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PeriodicMagneticField_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldList_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1UniformMagneticField_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MagneticDipoleField_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldGrid_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModulatedMagneticFieldGrid_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PolarizedSingleModeMagneticField_1aecbe60d2b34da88e8aa2a0872b904d38">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="26" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position, double z) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldEvolution_1a73fd1b457429f01ac03d1d50c7c7e1b0">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="29" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Abstract base class for magnetic fields. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ArchimedeanSpiralField</label>
+        <link refid="classcrpropa_1_1ArchimedeanSpiralField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>CMZField</label>
+        <link refid="classcrpropa_1_1CMZField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>JF12Field</label>
+        <link refid="classcrpropa_1_1JF12Field"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>JF12FieldSolenoidal</label>
+        <link refid="classcrpropa_1_1JF12FieldSolenoidal"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>LogarithmicSpiralField</label>
+        <link refid="classcrpropa_1_1LogarithmicSpiralField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>MagneticDipoleField</label>
+        <link refid="classcrpropa_1_1MagneticDipoleField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>MagneticFieldEvolution</label>
+        <link refid="classcrpropa_1_1MagneticFieldEvolution"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>MagneticFieldGrid</label>
+        <link refid="classcrpropa_1_1MagneticFieldGrid"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>MagneticFieldList</label>
+        <link refid="classcrpropa_1_1MagneticFieldList"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ModulatedMagneticFieldGrid</label>
+        <link refid="classcrpropa_1_1ModulatedMagneticFieldGrid"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>PT11Field</label>
+        <link refid="classcrpropa_1_1PT11Field"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>PeriodicMagneticField</label>
+        <link refid="classcrpropa_1_1PeriodicMagneticField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>PlanckJF12bField</label>
+        <link refid="classcrpropa_1_1PlanckJF12bField"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>PlaneWaveTurbulence</label>
+        <link refid="classcrpropa_1_1PlaneWaveTurbulence"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>PolarizedSingleModeMagneticField</label>
+        <link refid="classcrpropa_1_1PolarizedSingleModeMagneticField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+      <node id="17">
+        <label>TF17Field</label>
+        <link refid="classcrpropa_1_1TF17Field"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>TorroidalHaloField</label>
+        <link refid="classcrpropa_1_1TorroidalHaloField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>TurbulentField</label>
+        <link refid="classcrpropa_1_1TurbulentField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>UniformMagneticField</label>
+        <link refid="classcrpropa_1_1UniformMagneticField"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="22" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="22" bodyend="32"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e" prot="public" virt="virtual"><scope>crpropa::MagneticField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" virt="virtual"><scope>crpropa::MagneticField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::MagneticField</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" virt="virtual"><scope>crpropa::MagneticField</scope><name>~MagneticField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

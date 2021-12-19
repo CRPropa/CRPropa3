@@ -1,0 +1,63 @@
+\hypertarget{Geometry_8h_source}{}\doxysection{Geometry.\+h}
+\label{Geometry_8h_source}\index{Geometry.h@{Geometry.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_GEOMETRY\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_GEOMETRY\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}crpropa/Candidate.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}crpropa/Vector3.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}crpropa/Referenced.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}} : \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} \{}
+\DoxyCodeLine{24 \textcolor{keyword}{public}:}
+\DoxyCodeLine{29         \textcolor{keyword}{virtual} \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Surface_a6410b05126a8f3386430f8fddd666dec}{distance}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& point) \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{34         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Surface_ade6f351bacfb2e0a896956340976ec48}{normal}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& point) \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{35         \textcolor{keyword}{virtual} std::string getDescription()\textcolor{keyword}{ const }\{\textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}Surface without description."{}};\};}
+\DoxyCodeLine{36 \};}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 }
+\DoxyCodeLine{43 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Plane}{Plane}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}} \{}
+\DoxyCodeLine{44 \textcolor{keyword}{private}:}
+\DoxyCodeLine{45         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} x0, n;}
+\DoxyCodeLine{46 \textcolor{keyword}{public}:}
+\DoxyCodeLine{47         \mbox{\hyperlink{classcrpropa_1_1Plane}{Plane}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& x0, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& v1,\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& v2);}
+\DoxyCodeLine{48         \mbox{\hyperlink{classcrpropa_1_1Plane}{Plane}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& x0, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& n);}
+\DoxyCodeLine{49         \textcolor{keyword}{virtual} \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Plane_aa6118a2ec87ff4a504dce3eddd83aa6b}{distance}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&x) \textcolor{keyword}{const};}
+\DoxyCodeLine{50         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Plane_a5060ff7e42238d79dde60072cab20361}{normal}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& point) \textcolor{keyword}{const};}
+\DoxyCodeLine{51         \textcolor{keyword}{virtual} std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{52 \};}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 }
+\DoxyCodeLine{59 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Sphere}{Sphere}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}} \{}
+\DoxyCodeLine{60 \textcolor{keyword}{private}:}
+\DoxyCodeLine{61         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} center;}
+\DoxyCodeLine{62         \textcolor{keywordtype}{double} radius;}
+\DoxyCodeLine{63 \textcolor{keyword}{public}:}
+\DoxyCodeLine{64         \mbox{\hyperlink{classcrpropa_1_1Sphere}{Sphere}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& center, \textcolor{keywordtype}{double} radius);}
+\DoxyCodeLine{65         \textcolor{keyword}{virtual} \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1Sphere_afa828819412faf3379edc0805d4b464b}{distance}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&point) \textcolor{keyword}{const};}
+\DoxyCodeLine{66         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1Sphere_a5060ff7e42238d79dde60072cab20361}{normal}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& point) \textcolor{keyword}{const};}
+\DoxyCodeLine{67         \textcolor{keyword}{virtual} std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{68 \};}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 }
+\DoxyCodeLine{75 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ParaxialBox}{ParaxialBox}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Surface}{Surface}} \{}
+\DoxyCodeLine{76 \textcolor{keyword}{private}:}
+\DoxyCodeLine{77         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} corner, size;}
+\DoxyCodeLine{78 \textcolor{keyword}{public}:}
+\DoxyCodeLine{79         \mbox{\hyperlink{classcrpropa_1_1ParaxialBox}{ParaxialBox}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& corner, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& size);}
+\DoxyCodeLine{80         \textcolor{keyword}{virtual} \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParaxialBox_afa828819412faf3379edc0805d4b464b}{distance}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&point) \textcolor{keyword}{const};}
+\DoxyCodeLine{81         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1ParaxialBox_a5060ff7e42238d79dde60072cab20361}{normal}}(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& point) \textcolor{keyword}{const};}
+\DoxyCodeLine{82         \textcolor{keyword}{virtual} std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{83 \};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 }
+\DoxyCodeLine{87 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_GEOMETRY\_H}}
+
+\end{DoxyCode}

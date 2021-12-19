@@ -1,0 +1,218 @@
+\hypertarget{classcrpropa_1_1ParticleState}{}\doxysection{Particle\+State Class Reference}
+\label{classcrpropa_1_1ParticleState}\index{ParticleState@{ParticleState}}
+
+
+State of the particle\+: ID, energy, position, direction.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1ParticleState_a3b2134aacd85fc89fabec146864499a4}{Particle\+State}} (int id=0, double energy=0, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} position=\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0, 0, 0), \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} direction=\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(-\/1, 0, 0))
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ParticleState_a8a87b0331cf36383d6288dacbd130815}{set\+Position}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&pos)
+\item 
+const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \& \mbox{\hyperlink{classcrpropa_1_1ParticleState_abac3de8ba85bc885a80cbe318f7a51cf}{get\+Position}} () const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ParticleState_a6c0ee35bc91113145358b00a78649144}{set\+Direction}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&dir)
+\item 
+const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \& \mbox{\hyperlink{classcrpropa_1_1ParticleState_a9978c9c52c8ed89209d167a7f6207dd0}{get\+Direction}} () const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ParticleState_a69c73ec5bd477ee9a8b5ae650733f4c3}{set\+Energy}} (double new\+Energy)
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1ParticleState_a5a4d737018dabc54f3e1974aeb87359c}{get\+Energy}} () const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1ParticleState_a02bbc400ede4399d0512502eeffe1fe5}{get\+Rigidity}} () const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ParticleState_a3823ac57cf37e2d580f4f2a4963ebf0a}{set\+Id}} (int new\+Id)
+\item 
+int \mbox{\hyperlink{classcrpropa_1_1ParticleState_a4753a5331a3ccc5974088b45b2b532ab}{get\+Id}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1ParticleState_aea425314aebc36d0f6bf7671705158da}} 
+std\+::string {\bfseries get\+Description} () const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1ParticleState_a5992d48fc1b21b13a88d0882c72ffa4c}{get\+Charge}} () const
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1ParticleState_afbeba710bacd6ba91870ee9149d49d32}{get\+Mass}} () const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ParticleState_a65b64edf859c3cc195b2aef18e581ce6}{set\+Lorentz\+Factor}} (double gamma)
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1ParticleState_a7ab59d3e26099b2e8f563e8e513b4e2c}{get\+Lorentz\+Factor}} () const
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a1d1ba7557957041e8cf8915d1494c3d3}{get\+Velocity}} () const
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1ParticleState_a309b39cbd8e50367144dd8d475b7c3b1}{get\+Momentum}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+State of the particle\+: ID, energy, position, direction. 
+
+The \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} defines the state of an ultra-\/high energy cosmic ray, which is assumed to be traveling at the exact speed of light. The cosmic ray state is defined by particle ID, energy and position and direction vector. For faster lookup mass and charge of the particle are stored as members. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a3b2134aacd85fc89fabec146864499a4}\label{classcrpropa_1_1ParticleState_a3b2134aacd85fc89fabec146864499a4}} 
+\index{ParticleState@{ParticleState}!ParticleState@{ParticleState}}
+\index{ParticleState@{ParticleState}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{ParticleState()}{ParticleState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} (\begin{DoxyParamCaption}\item[{int}]{id = {\ttfamily 0},  }\item[{double}]{energy = {\ttfamily 0},  }\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{position = {\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(0,~0,~0)},  }\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{direction = {\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}(-\/1,~0,~0)} }\end{DoxyParamCaption})}
+
+Constructor for a particle state. 
+\begin{DoxyParams}{Parameters}
+{\em id} & id of the particle following the PDG numbering scheme \\
+\hline
+{\em energy} & energy of the particle \mbox{[}in Joules\mbox{]} \\
+\hline
+{\em position} & vector containing the coordinates of the particle \mbox{[}in meters\mbox{]} \\
+\hline
+{\em direction} & vector containing the direction of motion of the particle \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a5992d48fc1b21b13a88d0882c72ffa4c}\label{classcrpropa_1_1ParticleState_a5992d48fc1b21b13a88d0882c72ffa4c}} 
+\index{ParticleState@{ParticleState}!getCharge@{getCharge}}
+\index{getCharge@{getCharge}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getCharge()}{getCharge()}}
+{\footnotesize\ttfamily double get\+Charge (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get electrical charge of the particle. \begin{DoxyReturn}{Returns}
+Charge of the particle \mbox{[}in Coulombs\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a9978c9c52c8ed89209d167a7f6207dd0}\label{classcrpropa_1_1ParticleState_a9978c9c52c8ed89209d167a7f6207dd0}} 
+\index{ParticleState@{ParticleState}!getDirection@{getDirection}}
+\index{getDirection@{getDirection}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getDirection()}{getDirection()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \& get\+Direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get direction unit vector \begin{DoxyReturn}{Returns}
+Normalized vector containing direction of motion of particle. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a5a4d737018dabc54f3e1974aeb87359c}\label{classcrpropa_1_1ParticleState_a5a4d737018dabc54f3e1974aeb87359c}} 
+\index{ParticleState@{ParticleState}!getEnergy@{getEnergy}}
+\index{getEnergy@{getEnergy}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getEnergy()}{getEnergy()}}
+{\footnotesize\ttfamily double get\+Energy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get energy of particle. \begin{DoxyReturn}{Returns}
+Energy of particle \mbox{[}in Joules\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a4753a5331a3ccc5974088b45b2b532ab}\label{classcrpropa_1_1ParticleState_a4753a5331a3ccc5974088b45b2b532ab}} 
+\index{ParticleState@{ParticleState}!getId@{getId}}
+\index{getId@{getId}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily int get\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get particle ID \begin{DoxyReturn}{Returns}
+Particle ID (in PDG format). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a7ab59d3e26099b2e8f563e8e513b4e2c}\label{classcrpropa_1_1ParticleState_a7ab59d3e26099b2e8f563e8e513b4e2c}} 
+\index{ParticleState@{ParticleState}!getLorentzFactor@{getLorentzFactor}}
+\index{getLorentzFactor@{getLorentzFactor}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getLorentzFactor()}{getLorentzFactor()}}
+{\footnotesize\ttfamily double get\+Lorentz\+Factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get Lorentz factor \begin{DoxyReturn}{Returns}
+Lorentz factor of particle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_afbeba710bacd6ba91870ee9149d49d32}\label{classcrpropa_1_1ParticleState_afbeba710bacd6ba91870ee9149d49d32}} 
+\index{ParticleState@{ParticleState}!getMass@{getMass}}
+\index{getMass@{getMass}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getMass()}{getMass()}}
+{\footnotesize\ttfamily double get\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get mass of the particle. \begin{DoxyReturn}{Returns}
+Mass of the particle \mbox{[}kg\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a309b39cbd8e50367144dd8d475b7c3b1}\label{classcrpropa_1_1ParticleState_a309b39cbd8e50367144dd8d475b7c3b1}} 
+\index{ParticleState@{ParticleState}!getMomentum@{getMomentum}}
+\index{getMomentum@{getMomentum}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getMomentum()}{getMomentum()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Momentum (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get momentum\+: direction times energy divided by the speed of light \begin{DoxyReturn}{Returns}
+The momentum \mbox{[}kg m/s\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_abac3de8ba85bc885a80cbe318f7a51cf}\label{classcrpropa_1_1ParticleState_abac3de8ba85bc885a80cbe318f7a51cf}} 
+\index{ParticleState@{ParticleState}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \& get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get position of particle. \begin{DoxyReturn}{Returns}
+Position vector of particle. If cosmological effects are included, the coordinates are comoving. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a02bbc400ede4399d0512502eeffe1fe5}\label{classcrpropa_1_1ParticleState_a02bbc400ede4399d0512502eeffe1fe5}} 
+\index{ParticleState@{ParticleState}!getRigidity@{getRigidity}}
+\index{getRigidity@{getRigidity}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getRigidity()}{getRigidity()}}
+{\footnotesize\ttfamily double get\+Rigidity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get rigidity of particle, defined as E/(Z$\ast$e). \begin{DoxyReturn}{Returns}
+Rigidity of the particle \mbox{[}in Volts\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a1d1ba7557957041e8cf8915d1494c3d3}\label{classcrpropa_1_1ParticleState_a1d1ba7557957041e8cf8915d1494c3d3}} 
+\index{ParticleState@{ParticleState}!getVelocity@{getVelocity}}
+\index{getVelocity@{getVelocity}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{getVelocity()}{getVelocity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get velocity\+: direction times the speed of light. \begin{DoxyReturn}{Returns}
+Velocity of particle \mbox{[}m/s\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a6c0ee35bc91113145358b00a78649144}\label{classcrpropa_1_1ParticleState_a6c0ee35bc91113145358b00a78649144}} 
+\index{ParticleState@{ParticleState}!setDirection@{setDirection}}
+\index{setDirection@{setDirection}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{setDirection()}{setDirection()}}
+{\footnotesize\ttfamily void set\+Direction (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{dir }\end{DoxyParamCaption})}
+
+Set direction unit vector, non unit-\/vectors are normalized 
+\begin{DoxyParams}{Parameters}
+{\em dir} & vector containing the direction of motion of the particle \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a69c73ec5bd477ee9a8b5ae650733f4c3}\label{classcrpropa_1_1ParticleState_a69c73ec5bd477ee9a8b5ae650733f4c3}} 
+\index{ParticleState@{ParticleState}!setEnergy@{setEnergy}}
+\index{setEnergy@{setEnergy}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{setEnergy()}{setEnergy()}}
+{\footnotesize\ttfamily void set\+Energy (\begin{DoxyParamCaption}\item[{double}]{new\+Energy }\end{DoxyParamCaption})}
+
+Set energy of particle. 
+\begin{DoxyParams}{Parameters}
+{\em new\+Energy} & energy to be assigned to particle \mbox{[}in Joules\mbox{]} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a3823ac57cf37e2d580f4f2a4963ebf0a}\label{classcrpropa_1_1ParticleState_a3823ac57cf37e2d580f4f2a4963ebf0a}} 
+\index{ParticleState@{ParticleState}!setId@{setId}}
+\index{setId@{setId}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{setId()}{setId()}}
+{\footnotesize\ttfamily void set\+Id (\begin{DoxyParamCaption}\item[{int}]{new\+Id }\end{DoxyParamCaption})}
+
+Set particle ID. This follows the PDG numbering scheme\+: \href{https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf}{\texttt{ https\+://pdg.\+lbl.\+gov/2019/reviews/rpp2019-\/rev-\/monte-\/carlo-\/numbering.\+pdf}} 
+\begin{DoxyParams}{Parameters}
+{\em new\+Id} & id to be assigned to the particle \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a65b64edf859c3cc195b2aef18e581ce6}\label{classcrpropa_1_1ParticleState_a65b64edf859c3cc195b2aef18e581ce6}} 
+\index{ParticleState@{ParticleState}!setLorentzFactor@{setLorentzFactor}}
+\index{setLorentzFactor@{setLorentzFactor}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{setLorentzFactor()}{setLorentzFactor()}}
+{\footnotesize\ttfamily void set\+Lorentz\+Factor (\begin{DoxyParamCaption}\item[{double}]{gamma }\end{DoxyParamCaption})}
+
+Set Lorentz factor and modify the particle\textquotesingle{}s energy accordingly. 
+\begin{DoxyParams}{Parameters}
+{\em gamma} & Lorentz factor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1ParticleState_a8a87b0331cf36383d6288dacbd130815}\label{classcrpropa_1_1ParticleState_a8a87b0331cf36383d6288dacbd130815}} 
+\index{ParticleState@{ParticleState}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!ParticleState@{ParticleState}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}}
+{\footnotesize\ttfamily void set\+Position (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{pos }\end{DoxyParamCaption})}
+
+Set particle position. In simulations including cosmological effects, the position is given in comoving coordinates. 
+\begin{DoxyParams}{Parameters}
+{\em pos} & vector containing the coordinates of the particle \mbox{[}in meters\mbox{]} \\
+\hline
+\end{DoxyParams}

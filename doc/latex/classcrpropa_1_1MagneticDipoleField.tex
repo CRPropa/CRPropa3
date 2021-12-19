@@ -1,0 +1,52 @@
+\hypertarget{classcrpropa_1_1MagneticDipoleField}{}\doxysection{Magnetic\+Dipole\+Field Class Reference}
+\label{classcrpropa_1_1MagneticDipoleField}\index{MagneticDipoleField@{MagneticDipoleField}}
+
+
+Magnetic dipole field defined by the magnetic moment and the \textquotesingle{}core\textquotesingle{} radius.  
+
+
+Inheritance diagram for Magnetic\+Dipole\+Field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1MagneticDipoleField}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticDipoleField_a860bf797ebd369a34f542078e663574d}\label{classcrpropa_1_1MagneticDipoleField_a860bf797ebd369a34f542078e663574d}} 
+{\bfseries Magnetic\+Dipole\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&origin, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&moment, const double radius)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1MagneticDipoleField_aecbe60d2b34da88e8aa2a0872b904d38}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}\label{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, double z) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Magnetic dipole field defined by the magnetic moment and the \textquotesingle{}core\textquotesingle{} radius. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1MagneticDipoleField_aecbe60d2b34da88e8aa2a0872b904d38}\label{classcrpropa_1_1MagneticDipoleField_aecbe60d2b34da88e8aa2a0872b904d38}} 
+\index{MagneticDipoleField@{MagneticDipoleField}!getField@{getField}}
+\index{getField@{getField}!MagneticDipoleField@{MagneticDipoleField}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1MagneticField}{Magnetic\+Field}}.
+

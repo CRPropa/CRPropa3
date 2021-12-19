@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__Observer" kind="group">
+    <compoundname>Observer</compoundname>
+    <title>Observers</title>
+    <innerclass refid="classcrpropa_1_1ObserverFeature" prot="public">crpropa::ObserverFeature</innerclass>
+    <innerclass refid="classcrpropa_1_1Observer" prot="public">crpropa::Observer</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverDetectAll" prot="public">crpropa::ObserverDetectAll</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverSurface" prot="public">crpropa::ObserverSurface</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverSmallSphere" prot="public">crpropa::ObserverSmallSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverTracking" prot="public">crpropa::ObserverTracking</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverLargeSphere" prot="public">crpropa::ObserverLargeSphere</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverPoint" prot="public">crpropa::ObserverPoint</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverRedshiftWindow" prot="public">crpropa::ObserverRedshiftWindow</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverInactiveVeto" prot="public">crpropa::ObserverInactiveVeto</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverNucleusVeto" prot="public">crpropa::ObserverNucleusVeto</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverNeutrinoVeto" prot="public">crpropa::ObserverNeutrinoVeto</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverPhotonVeto" prot="public">crpropa::ObserverPhotonVeto</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverElectronVeto" prot="public">crpropa::ObserverElectronVeto</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverParticleIdVeto" prot="public">crpropa::ObserverParticleIdVeto</innerclass>
+    <innerclass refid="classcrpropa_1_1ObserverTimeEvolution" prot="public">crpropa::ObserverTimeEvolution</innerclass>
+    <briefdescription>
+<para>Observers and ObserverFeatures. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ObserverFeatures are added to the ObserverModule to check for detection and perform actions on detection. </para>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

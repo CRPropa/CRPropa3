@@ -1,0 +1,73 @@
+\hypertarget{classcrpropa_1_1SourceRedshift}{}\doxysection{Source\+Redshift Class Reference}
+\label{classcrpropa_1_1SourceRedshift}\index{SourceRedshift@{SourceRedshift}}
+
+
+Emission of particles at a specific redshift (or time)  
+
+
+Inheritance diagram for Source\+Redshift\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1SourceRedshift}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1SourceRedshift_a98f6ef48add97fbe5a02dbb91318a23c}{Source\+Redshift}} (double z)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1SourceRedshift_a43ecdee60be145ab1c5b49f95ce4a8f1}{prepare\+Candidate}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} \&candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceRedshift_ac0d27e78991c898a5256103561b87f8a}\label{classcrpropa_1_1SourceRedshift_ac0d27e78991c898a5256103561b87f8a}} 
+void {\bfseries set\+Description} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_ae9b29d78b5d8a37dc7e78dbf06e8c24a}\label{classcrpropa_1_1SourceFeature_ae9b29d78b5d8a37dc7e78dbf06e8c24a}} 
+virtual void {\bfseries prepare\+Particle} (\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&particle) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}} 
+std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Emission of particles at a specific redshift (or time) 
+
+The redshift coordinate is used to treat cosmological effects and as a time coordinate. Consider, for instance, a source located at a distance corresponding to a redshift z. In the absence of processes that cause time delays (e.\+g., magnetic deflections), particles from this source could arrive after a time corresponding to the source redshift. Charged particles, on the other hand, can arrive at a time later than the corresponding straight-\/ line travel duration. This treatment is also useful for time-\/dependent studies (e.\+g. transient sources). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceRedshift_a98f6ef48add97fbe5a02dbb91318a23c}\label{classcrpropa_1_1SourceRedshift_a98f6ef48add97fbe5a02dbb91318a23c}} 
+\index{SourceRedshift@{SourceRedshift}!SourceRedshift@{SourceRedshift}}
+\index{SourceRedshift@{SourceRedshift}!SourceRedshift@{SourceRedshift}}
+\doxysubsubsection{\texorpdfstring{SourceRedshift()}{SourceRedshift()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1SourceRedshift}{Source\+Redshift}} (\begin{DoxyParamCaption}\item[{double}]{z }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em z} & redshift of emission \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceRedshift_a43ecdee60be145ab1c5b49f95ce4a8f1}\label{classcrpropa_1_1SourceRedshift_a43ecdee60be145ab1c5b49f95ce4a8f1}} 
+\index{SourceRedshift@{SourceRedshift}!prepareCandidate@{prepareCandidate}}
+\index{prepareCandidate@{prepareCandidate}!SourceRedshift@{SourceRedshift}}
+\doxysubsubsection{\texorpdfstring{prepareCandidate()}{prepareCandidate()}}
+{\footnotesize\ttfamily void prepare\+Candidate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} \&}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1SourceFeature}{Source\+Feature}}.
+

@@ -1,0 +1,54 @@
+\hypertarget{PT11Field_8h_source}{}\doxysection{PT11\+Field.\+h}
+\label{PT11Field_8h_source}\index{PT11Field.h@{PT11Field.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_PSHIRKOVFIELD\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_PSHIRKOVFIELD\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/magneticField/MagneticField.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{22 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1PT11Field}{PT11Field}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1MagneticField}{MagneticField}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24         \textcolor{keywordtype}{bool} useASS;  \textcolor{comment}{// switch for axisymmetric spiral field (ASS)}}
+\DoxyCodeLine{25         \textcolor{keywordtype}{bool} useBSS;  \textcolor{comment}{// switch for bisymmetric spiral field (BSS)}}
+\DoxyCodeLine{26         \textcolor{keywordtype}{bool} useHalo; \textcolor{comment}{// switch for halo field}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28         \textcolor{comment}{// disk parameters}}
+\DoxyCodeLine{29         \textcolor{keywordtype}{double} pitch, cos\_pitch, sin\_pitch, PHI, cos\_PHI;  \textcolor{comment}{// pitch angle parameters}}
+\DoxyCodeLine{30         \textcolor{keywordtype}{double} d;     \textcolor{comment}{// distance to first field reversal}}
+\DoxyCodeLine{31         \textcolor{keywordtype}{double} R\_sun; \textcolor{comment}{// distance between sun and galactic center}}
+\DoxyCodeLine{32         \textcolor{keywordtype}{double} R\_c;   \textcolor{comment}{// radius of central region}}
+\DoxyCodeLine{33         \textcolor{keywordtype}{double} z0\_D;    \textcolor{comment}{// vertical thickness in the galactic disk}}
+\DoxyCodeLine{34         \textcolor{keywordtype}{double} B0\_D;    \textcolor{comment}{// magnetic field scale}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36         \textcolor{comment}{// halo parameters}}
+\DoxyCodeLine{37         \textcolor{keywordtype}{double} z0\_H;  \textcolor{comment}{// halo vertical position}}
+\DoxyCodeLine{38         \textcolor{keywordtype}{double} R0\_H;  \textcolor{comment}{// halo radial position}}
+\DoxyCodeLine{39         \textcolor{keywordtype}{double} B0\_Hn; \textcolor{comment}{// halo magnetic field scale (north)}}
+\DoxyCodeLine{40         \textcolor{keywordtype}{double} B0\_Hs; \textcolor{comment}{// halo magnetic field scale (south)}}
+\DoxyCodeLine{41         \textcolor{keywordtype}{double} z11\_H; \textcolor{comment}{// halo vertical thickness towards disc}}
+\DoxyCodeLine{42         \textcolor{keywordtype}{double} z12\_H; \textcolor{comment}{// halo vertical thickness off the disk}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44         \textcolor{keywordtype}{void} SetParams();}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{keyword}{public}:}
+\DoxyCodeLine{47         \mbox{\hyperlink{classcrpropa_1_1PT11Field}{PT11Field}}();}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49         \textcolor{keywordtype}{void} setUseASS(\textcolor{keywordtype}{bool} use);}
+\DoxyCodeLine{50         \textcolor{keywordtype}{void} setUseBSS(\textcolor{keywordtype}{bool} use);}
+\DoxyCodeLine{51         \textcolor{keywordtype}{void} setUseHalo(\textcolor{keywordtype}{bool} use);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53         \textcolor{keywordtype}{bool} isUsingASS();}
+\DoxyCodeLine{54         \textcolor{keywordtype}{bool} isUsingBSS();}
+\DoxyCodeLine{55         \textcolor{keywordtype}{bool} isUsingHalo();}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57         \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} getField(\textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}\& pos) \textcolor{keyword}{const};}
+\DoxyCodeLine{58 \};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_PSHIRKOVFIELD\_H}}
+
+\end{DoxyCode}

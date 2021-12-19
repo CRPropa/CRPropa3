@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="group__Tools" kind="group">
+    <compoundname>Tools</compoundname>
+    <title>Tools</title>
+    <innerclass refid="classcrpropa_1_1Clock" prot="public">crpropa::Clock</innerclass>
+    <innerclass refid="classcrpropa_1_1PerformanceModule" prot="public">crpropa::PerformanceModule</innerclass>
+    <innerclass refid="classcrpropa_1_1ParticleFilter" prot="public">crpropa::ParticleFilter</innerclass>
+    <innerclass refid="classcrpropa_1_1EmissionMapFiller" prot="public">crpropa::EmissionMapFiller</innerclass>
+    <briefdescription>
+<para>Collection of helper functions and modules. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

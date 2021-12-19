@@ -1,0 +1,8 @@
+\_form#0=56x14:$ \Vert m_j \Vert_1 = 1 $
+\_form#1=73x14:$\max_j(\Vert m_j \Vert_1) $
+\_form#2=8x10:$\lambda$
+\_form#3=10x9:$E$
+\_form#4=9x10:$Z$
+\_form#5=35x18:$\frac{k}{k_{\min}}^{-q}$
+\_form#6=271x34:\[ \lambda = {\left(\frac{B}{\delta B}\right)}^2 {\left(R_G\; k_{\min}\right)}^{1-q} R_G \equiv \lambda_0 {\left( \frac{E}{1 EeV}\frac{1}{Z} \right)}^{2-q} \]
+\_form#7=51x16:$R_G = \frac{E}{B Z}$

@@ -1,0 +1,42 @@
+\hypertarget{EMDoublePairProduction_8h_source}{}\doxysection{EMDouble\+Pair\+Production.\+h}
+\label{EMDoublePairProduction_8h_source}\index{EMDoublePairProduction.h@{EMDoublePairProduction.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_EMDOUBLEPAIRPRODUCTION\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_EMDOUBLEPAIRPRODUCTION\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}crpropa/PhotonBackground.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{27 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1EMDoublePairProduction}{EMDoublePairProduction}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{28 \textcolor{keyword}{private}:}
+\DoxyCodeLine{29         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField;}
+\DoxyCodeLine{30         \textcolor{keywordtype}{bool} haveElectrons;}
+\DoxyCodeLine{31         \textcolor{keywordtype}{double} limit;}
+\DoxyCodeLine{32         \textcolor{keywordtype}{double} thinning;}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34         \textcolor{comment}{// tabulated interaction rate 1/lambda(E)}}
+\DoxyCodeLine{35         std::vector<double> tabEnergy;  }
+\DoxyCodeLine{36         std::vector<double> tabRate;  }
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{keyword}{public}:}
+\DoxyCodeLine{45         \mbox{\hyperlink{classcrpropa_1_1EMDoublePairProduction_a7e88f89dc0332bd278fd953674102011}{EMDoublePairProduction}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField, \textcolor{keywordtype}{bool} haveElectrons = \textcolor{keyword}{false}, \textcolor{keywordtype}{double} thinning = 0, \textcolor{keywordtype}{double} limit = 0.1);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47         \textcolor{keywordtype}{void} setPhotonField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField);}
+\DoxyCodeLine{48         \textcolor{keywordtype}{void} setHaveElectrons(\textcolor{keywordtype}{bool} haveElectrons);}
+\DoxyCodeLine{49         \textcolor{keywordtype}{void} setLimit(\textcolor{keywordtype}{double} limit);}
+\DoxyCodeLine{50         \textcolor{keywordtype}{void} setThinning(\textcolor{keywordtype}{double} thinning);}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52         \textcolor{keywordtype}{void} initRate(std::string filename);}
+\DoxyCodeLine{53         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{54         \textcolor{keywordtype}{void} performInteraction(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{55 \};}
+\DoxyCodeLine{58 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_EMDOUBLEPAIRPRODUCTION\_H}}
+
+\end{DoxyCode}

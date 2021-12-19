@@ -1,0 +1,60 @@
+\hypertarget{classcrpropa_1_1TurbulentField}{}\doxysection{Turbulent\+Field Class Reference}
+\label{classcrpropa_1_1TurbulentField}\index{TurbulentField@{TurbulentField}}
+
+
+An abstract base class for different models of turbulent magnetic fields.  
+
+
+Inheritance diagram for Turbulent\+Field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classcrpropa_1_1TurbulentField}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TurbulentField_a7b64ffa3efdac82a18adb2a3203285f8}\label{classcrpropa_1_1TurbulentField_a7b64ffa3efdac82a18adb2a3203285f8}} 
+{\bfseries Turbulent\+Field} (const \mbox{\hyperlink{classcrpropa_1_1TurbulenceSpectrum}{Turbulence\+Spectrum}} \&spectrum)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TurbulentField_a20da6a51e928681782a92b46046e48fb}\label{classcrpropa_1_1TurbulentField_a20da6a51e928681782a92b46046e48fb}} 
+double {\bfseries get\+Brms} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1TurbulentField_ade6d13b158fda57508e3483d24328716}\label{classcrpropa_1_1TurbulentField_ade6d13b158fda57508e3483d24328716}} 
+virtual double {\bfseries get\+Correlation\+Length} () const
+\item 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1MagneticField_aef3300465ea467b43b5287554226973e}{get\+Field}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}\label{classcrpropa_1_1MagneticField_a3b26c25dd12606960327b3f186fae6cf}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position, double z) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An abstract base class for different models of turbulent magnetic fields. 
+
+This module provides common methods for all turbulent (synthetic) magnetic fields. Does not actually implement any turbulent field. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1MagneticField_aef3300465ea467b43b5287554226973e}\label{classcrpropa_1_1MagneticField_aef3300465ea467b43b5287554226973e}} 
+\index{TurbulentField@{TurbulentField}!getField@{getField}}
+\index{getField@{getField}!TurbulentField@{TurbulentField}}
+\doxysubsubsection{\texorpdfstring{getField()}{getField()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} get\+Field (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [inherited]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classcrpropa_1_1PlaneWaveTurbulence_a60b4a9f66e692a5d3620de910bae981e}{Plane\+Wave\+Turbulence}}.
+

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="Version_8h" kind="file" language="C++">
+    <compoundname>Version.h</compoundname>
+    <includes local="no">string</includes>
+    <includedby refid="CRPropa_8h" local="yes">CRPropa.h</includedby>
+    <includedby refid="Logging_8h" local="yes">Logging.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>Version.h</label>
+        <link refid="Version_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>CRPropa.h</label>
+        <link refid="CRPropa_8h_source"/>
+      </node>
+      <node id="3">
+        <label>Logging.h</label>
+        <link refid="Logging_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>Version.h</label>
+        <link refid="Version_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="Version_8h_1a6e70968528819ece37e7d5f722c53efc" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char g_GIT_SHA1[]</definition>
+        <argsstring>[]</argsstring>
+        <name>g_GIT_SHA1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" line="3" column="19" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" declline="3" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="Version_8h_1a36b71113647c58eb81b6f6faf06f784b" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char g_GIT_REFSPEC[]</definition>
+        <argsstring>[]</argsstring>
+        <name>g_GIT_REFSPEC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" line="4" column="19" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" declline="4" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="Version_8h_1a6834134ebcf1a7fadc2562fc74544f46" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char g_GIT_DESC[]</definition>
+        <argsstring>[]</argsstring>
+        <name>g_GIT_DESC</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" line="5" column="19" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" declline="5" declcolumn="19"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="Version_8h_1ae07054153f2b6877a8acf6fbf1ee7090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void declare_version</definition>
+        <argsstring>(const std::string)</argsstring>
+        <name>declare_version</name>
+        <param>
+          <type>const std::string</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" line="19" column="6" declfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h" declline="19" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Version.h"/>
+  </compounddef>
+</doxygen>

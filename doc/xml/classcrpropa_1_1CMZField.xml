@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1CMZField" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::CMZField</compoundname>
+    <basecompoundref refid="classcrpropa_1_1MagneticField" prot="public" virt="non-virtual">MagneticField</basecompoundref>
+    <includes refid="CMZField_8h" local="no">crpropa/magneticField/CMZField.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1CMZField_1ad79137fab76f910cdfd76d27da4b7ba7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useMCField</definition>
+        <argsstring></argsstring>
+        <name>useMCField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="21" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1CMZField_1adf5c9451c9d65b287366987e0c87e2dc" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useICField</definition>
+        <argsstring></argsstring>
+        <name>useICField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="22" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1CMZField_1a1733f9f6a43e43bae94340f95388ae92" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useNTFField</definition>
+        <argsstring></argsstring>
+        <name>useNTFField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="23" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1CMZField_1a9c8d54614b1260f70222baa0a46dc5bd" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool useRadioArc</definition>
+        <argsstring></argsstring>
+        <name>useRadioArc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="24" column="10" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1aef46c7490523898ec7289bb32894080b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getA</definition>
+        <argsstring>(double a1) const</argsstring>
+        <name>getA</name>
+        <param>
+          <type>double</type>
+          <declname>a1</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transform observational parameter a1 in model parameter a. Used for the poloidal model </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="27" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1ae5e47ec837af81b7d605f9efa0448a3e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double getL</definition>
+        <argsstring>(double a2) const</argsstring>
+        <name>getL</name>
+        <param>
+          <type>double</type>
+          <declname>a2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transform observational parameter a2 in model parameter L. Used for the poloidal model </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="29" column="12"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a4be144ac883290a56e75cc93d9a668d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CMZField</definition>
+        <argsstring>()</argsstring>
+        <name>CMZField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1ac9bf3eb9972bdc3dcb8994e0dd66e480" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getUseMCField</definition>
+        <argsstring>() const</argsstring>
+        <name>getUseMCField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="34" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a17ae950de29a440181001fa630651f7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getUseICField</definition>
+        <argsstring>() const</argsstring>
+        <name>getUseICField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="35" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a714463978fdbca0c96f7bcf5600a51f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getUseNTFField</definition>
+        <argsstring>() const</argsstring>
+        <name>getUseNTFField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="36" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1ab1d865211fe9a7a1730e661e44df674c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool getUseRadioArc</definition>
+        <argsstring>() const</argsstring>
+        <name>getUseRadioArc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="37" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1ad210d2c6af3a3ced326774190db20c08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseMCField</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseMCField</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="39" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1acdf3bf26143f4ea0a5e97f357e4d47bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseICField</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseICField</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="40" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a191aafcf602b0787a064d04f11e5607b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseNTFField</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseNTFField</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="41" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a978379527802d0a51c03abd2593ae7ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setUseRadioArc</definition>
+        <argsstring>(bool use)</argsstring>
+        <name>setUseRadioArc</name>
+        <param>
+          <type>bool</type>
+          <declname>use</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="42" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a3e287581551d2d4d15b31f1fe99ee1b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d BPol</definition>
+        <argsstring>(const Vector3d &amp;position, const Vector3d &amp;mid, double B1, double a, double L) const</argsstring>
+        <name>BPol</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>mid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>B1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>L</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Magnetic field in the poloidal model. Used für inter-cloud(IC), non-thermal-filaments(NTF) and for the RadioArc. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Eart at (-8.5kpc, 0,0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>midpoint of the object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>B1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>normalized magnetic field strength </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fitting parameter for the radial scale height </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>L</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>fitting parameter for the z scale height </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>magnetic field vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="51" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1ab173026642f4b67d52d9b8d9ef2b9953" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d BAz</definition>
+        <argsstring>(const Vector3d &amp;position, const Vector3d &amp;mid, double B1, double eta, double R) const</argsstring>
+        <name>BAz</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>mid</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>B1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>eta</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>R</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Magnetic field in the azimuthal model. Used for molecular clouds (MC) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Eart at (-8.5kpc, 0,0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>midpoint of the object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>B1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>normalized magnetic field strength </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>eta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ratio between radial and azimuthal component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>R</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Radius of the cloud </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>magnetic field vector </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="60" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1ab33dc7c0c0c03f9af84e295a3a238ddf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getMCField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getMCField</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="62" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a16a4bf1b025a71d84a2442fd50154c0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getICField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getICField</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="63" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a1560f287f03d47cc957f8311991d4ce5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getNTFField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getNTFField</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="64" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1afdf448672c8effd7c6382144e144786c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getRadioArcField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getRadioArcField</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="65" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1CMZField_1a60b4a9f66e692a5d3620de910bae981e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;pos) const</argsstring>
+        <name>getField</name>
+        <reimplements refid="classcrpropa_1_1MagneticField_1aef3300465ea467b43b5287554226973e">getField</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="67" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>virtual Vector3d getField</definition>
+        <argsstring>(const Vector3d &amp;position, double z) const</argsstring>
+        <name>getField</name>
+        <reimplementedby refid="classcrpropa_1_1MagneticFieldEvolution_1a73fd1b457429f01ac03d1d50c7c7e1b0">getField</reimplementedby>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" line="29" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/MagneticField.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Magnetic Field Model in the Galactic Center from M. Guenduez et al. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Poloidal Model (Model C) is taken from Katia <ref refid="classcrpropa_1_1Ferriere" kindref="compound">Ferriere</ref> and Philippe Terral 2014 &quot;Analytical models of X-shape magnetic fields in galactic halos&quot; [arXiv:1312.1974] Azimuthal Model is taken from M.Guenduez, J.B. Tjus, K.Ferriere, R.-J. Dettmar (2019) [arXiv:1906.05211] </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CMZField</label>
+        <link refid="classcrpropa_1_1CMZField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CMZField</label>
+        <link refid="classcrpropa_1_1CMZField"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MagneticField</label>
+        <link refid="classcrpropa_1_1MagneticField"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" line="19" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/magneticField/CMZField.h" bodystart="19" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ab173026642f4b67d52d9b8d9ef2b9953" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>BAz</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a3e287581551d2d4d15b31f1fe99ee1b8" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>BPol</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a4be144ac883290a56e75cc93d9a668d3" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>CMZField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1aef46c7490523898ec7289bb32894080b" prot="private" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getA</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a60b4a9f66e692a5d3620de910bae981e" prot="public" virt="virtual"><scope>crpropa::CMZField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf" prot="public" virt="virtual" ambiguityscope="crpropa::MagneticField::"><scope>crpropa::CMZField</scope><name>getField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a16a4bf1b025a71d84a2442fd50154c0a" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getICField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ae5e47ec837af81b7d605f9efa0448a3e" prot="private" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getL</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ab33dc7c0c0c03f9af84e295a3a238ddf" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getMCField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a1560f287f03d47cc957f8311991d4ce5" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getNTFField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1afdf448672c8effd7c6382144e144786c" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getRadioArcField</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a17ae950de29a440181001fa630651f7f" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getUseICField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ac9bf3eb9972bdc3dcb8994e0dd66e480" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getUseMCField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a714463978fdbca0c96f7bcf5600a51f1" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getUseNTFField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ab1d865211fe9a7a1730e661e44df674c" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>getUseRadioArc</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1CMZField_1acdf3bf26143f4ea0a5e97f357e4d47bc" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>setUseICField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ad210d2c6af3a3ced326774190db20c08" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>setUseMCField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a191aafcf602b0787a064d04f11e5607b" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>setUseNTFField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a978379527802d0a51c03abd2593ae7ea" prot="public" virt="non-virtual"><scope>crpropa::CMZField</scope><name>setUseRadioArc</name></member>
+      <member refid="classcrpropa_1_1CMZField_1adf5c9451c9d65b287366987e0c87e2dc" prot="private" virt="non-virtual"><scope>crpropa::CMZField</scope><name>useICField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1ad79137fab76f910cdfd76d27da4b7ba7" prot="private" virt="non-virtual"><scope>crpropa::CMZField</scope><name>useMCField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a1733f9f6a43e43bae94340f95388ae92" prot="private" virt="non-virtual"><scope>crpropa::CMZField</scope><name>useNTFField</name></member>
+      <member refid="classcrpropa_1_1CMZField_1a9c8d54614b1260f70222baa0a46dc5bd" prot="private" virt="non-virtual"><scope>crpropa::CMZField</scope><name>useRadioArc</name></member>
+      <member refid="classcrpropa_1_1MagneticField_1a90c4d0bc32663120700742b3b09104cf" prot="public" virt="virtual"><scope>crpropa::CMZField</scope><name>~MagneticField</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

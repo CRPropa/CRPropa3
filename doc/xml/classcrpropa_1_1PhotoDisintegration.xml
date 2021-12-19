@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1PhotoDisintegration" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::PhotoDisintegration</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Module" prot="public" virt="non-virtual">Module</basecompoundref>
+    <includes refid="PhotoDisintegration_8h" local="no">crpropa/module/PhotoDisintegration.h</includes>
+    <innerclass refid="structcrpropa_1_1PhotoDisintegration_1_1Branch" prot="private">crpropa::PhotoDisintegration::Branch</innerclass>
+    <innerclass refid="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission" prot="private">crpropa::PhotoDisintegration::PhotonEmission</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1af04156529bcbd781ed95c6068b757b71" prot="private" static="no" mutable="no">
+        <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+        <definition>ref_ptr&lt;PhotonField&gt; photonField</definition>
+        <argsstring></argsstring>
+        <name>photonField</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="22" column="9" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1ab6e1fbde91d4eed5fc908aebbe727bef" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="23" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1aeb2730dc850f214c5a72ec5c17630fb5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool havePhotons</definition>
+        <argsstring></argsstring>
+        <name>havePhotons</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="24" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1af51613183e48ccefa0600343c954c04e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; pdRate</definition>
+        <argsstring></argsstring>
+        <name>pdRate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="36" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1ab502cf79165cf679d1abe9fe6ccb4235" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; Branch &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;Branch&gt; &gt; pdBranch</definition>
+        <argsstring></argsstring>
+        <name>pdBranch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="37" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1a044b5ade04bfd64ba1d898fb05dcef1f" prot="private" static="no" mutable="yes">
+        <type>std::map&lt; int, std::vector&lt; PhotonEmission &gt; &gt;</type>
+        <definition>std::map&lt;int, std::vector&lt;PhotonEmission&gt; &gt; pdPhoton</definition>
+        <argsstring></argsstring>
+        <name>pdPhoton</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="38" column="18" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1a3cf2324b7c8834f0f4822df002d47a71" prot="private" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double lgmin</definition>
+        <argsstring></argsstring>
+        <name>lgmin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="40" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1a77ebbfd43370d5b7c8418af19607ba5d" prot="private" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double lgmax</definition>
+        <argsstring></argsstring>
+        <name>lgmax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="41" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1PhotoDisintegration_1ab8124609bebfce44373871aa4d406744" prot="private" static="yes" mutable="no">
+        <type>const size_t</type>
+        <definition>const size_t nlg</definition>
+        <argsstring></argsstring>
+        <name>nlg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="42" column="21" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a6d21a8b6f43712f6e4480a8ef0081ffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PhotoDisintegration</definition>
+        <argsstring>(ref_ptr&lt; PhotonField &gt; photonField, bool havePhotons=false, double limit=0.1)</argsstring>
+        <name>PhotoDisintegration</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+          <declname>photonField</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>havePhotons</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>limit</declname>
+          <defval>0.1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>photonField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>target photon field </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>havePhotons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if true, add secondary photons as candidates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>step size limit as fraction of mean free path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="50" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1abcd39fc71be75e01fcc294083be4024d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setPhotonField</definition>
+        <argsstring>(ref_ptr&lt; PhotonField &gt; photonField)</argsstring>
+        <name>setPhotonField</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1PhotonField" kindref="compound">PhotonField</ref> &gt;</type>
+          <declname>photonField</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="52" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a777eb899a82cdaa83f93c5a612eed3bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setHavePhotons</definition>
+        <argsstring>(bool havePhotons)</argsstring>
+        <name>setHavePhotons</name>
+        <param>
+          <type>bool</type>
+          <declname>havePhotons</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="53" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a29ee54f3ff5603da67762de093cff3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setLimit</definition>
+        <argsstring>(double limit)</argsstring>
+        <name>setLimit</name>
+        <param>
+          <type>double</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="54" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a59a42db954994dde790bff6ad6551637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initRate</definition>
+        <argsstring>(std::string filename)</argsstring>
+        <name>initRate</name>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="56" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1af199392670e149488325f9bd2e19b2da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initBranching</definition>
+        <argsstring>(std::string filename)</argsstring>
+        <name>initBranching</name>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="57" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a2bd9d85a39906ca43eb6544e45fcd5c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void initPhotonEmission</definition>
+        <argsstring>(std::string filename)</argsstring>
+        <name>initPhotonEmission</name>
+        <param>
+          <type>std::string</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="58" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(Candidate *candidate) const</argsstring>
+        <name>process</name>
+        <reimplements refid="classcrpropa_1_1Module_1adea37d81da751bd3c2825652e1c215de">process</reimplements>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="60" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a3c78883ae570810fb93d92793e0ad5ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void performInteraction</definition>
+        <argsstring>(Candidate *candidate, int channel) const</argsstring>
+        <name>performInteraction</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> *</type>
+          <declname>candidate</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="61" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1PhotoDisintegration_1a186df9faa7b56d876ec9faac635ab114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double lossLength</definition>
+        <argsstring>(int id, double gamma, double z=0)</argsstring>
+        <name>lossLength</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculates the loss length E dx/dE in [m] physical distance. This is not used in the simulation. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PDG particle id </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lorentz factor of particle </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>redshift </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>E dx/dE [in meters] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="71" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <reimplementedby refid="classcrpropa_1_1PeriodicBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ReflectiveBox_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CubicBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SphericalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EllipsoidalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1CylindricalBoundary_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MaximumTrajectoryLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergy_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRigidity_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumChargeNumber_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1MinimumEnergyPerParticleId_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DetectionLength_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1DiffusionSDE_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EMCascade_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Observer_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ShellPropertyOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleCollector_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonEleCa_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PhotonOutput1D_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationBP_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PropagationCK_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1Redshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1FutureRedshift_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1RestrictToRegion_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SimplePropagation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1SynchrotronRadiation_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1TextOutput_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1PerformanceModule_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ParticleFilter_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1EmissionMapFiller_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleList_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <reimplementedby refid="classcrpropa_1_1ModuleListRunner_1aea425314aebc36d0f6bf7671705158da">getDescription</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="24" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setDescription</definition>
+        <argsstring>(const std::string &amp;description)</argsstring>
+        <name>setDescription</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="25" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void process</definition>
+        <argsstring>(ref_ptr&lt; Candidate &gt; candidate) const</argsstring>
+        <name>process</name>
+        <param>
+          <type><ref refid="classcrpropa_1_1ref__ptr" kindref="compound">ref_ptr</ref>&lt; <ref refid="classcrpropa_1_1Candidate" kindref="compound">Candidate</ref> &gt;</type>
+          <declname>candidate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" line="27" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Module.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Photodisintegration of nuclei by background photons. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PhotoDisintegration</label>
+        <link refid="classcrpropa_1_1PhotoDisintegration"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PhotoDisintegration</label>
+        <link refid="classcrpropa_1_1PhotoDisintegration"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Module</label>
+        <link refid="classcrpropa_1_1Module"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" line="20" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/module/PhotoDisintegration.h" bodystart="20" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Module_1a9025df426d11cbe30c5500d3ffb5d33c" prot="public" virt="virtual"><scope>crpropa::PhotoDisintegration</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1aeb2730dc850f214c5a72ec5c17630fb5" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>havePhotons</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1af199392670e149488325f9bd2e19b2da" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>initBranching</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a2bd9d85a39906ca43eb6544e45fcd5c1" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>initPhotonEmission</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a59a42db954994dde790bff6ad6551637" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>initRate</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a77ebbfd43370d5b7c8418af19607ba5d" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>lgmax</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a3cf2324b7c8834f0f4822df002d47a71" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>lgmin</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1ab6e1fbde91d4eed5fc908aebbe727bef" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>limit</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a186df9faa7b56d876ec9faac635ab114" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>lossLength</name></member>
+      <member refid="classcrpropa_1_1Module_1a48d34dc872809277e652493dc3a4746d" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>Module</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1ab8124609bebfce44373871aa4d406744" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>nlg</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1ab502cf79165cf679d1abe9fe6ccb4235" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>pdBranch</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a044b5ade04bfd64ba1d898fb05dcef1f" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>pdPhoton</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1af51613183e48ccefa0600343c954c04e" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>pdRate</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a3c78883ae570810fb93d92793e0ad5ae" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>performInteraction</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a6d21a8b6f43712f6e4480a8ef0081ffb" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>PhotoDisintegration</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1af04156529bcbd781ed95c6068b757b71" prot="private" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>photonField</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1ab59d2de78ed0589c122df3d6c0478b41" prot="public" virt="virtual"><scope>crpropa::PhotoDisintegration</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Module_1a9f2321c49330b61a52ce55c2015e4c49" prot="public" virt="non-virtual" ambiguityscope="crpropa::Module::"><scope>crpropa::PhotoDisintegration</scope><name>process</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Module_1a3406b56004afdbe7a1815a541d40de99" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>setDescription</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a777eb899a82cdaa83f93c5a612eed3bc" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>setHavePhotons</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1a29ee54f3ff5603da67762de093cff3b1" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>setLimit</name></member>
+      <member refid="classcrpropa_1_1PhotoDisintegration_1abcd39fc71be75e01fcc294083be4024d" prot="public" virt="non-virtual"><scope>crpropa::PhotoDisintegration</scope><name>setPhotonField</name></member>
+      <member refid="classcrpropa_1_1Module_1a33bac84c3f29d49ffdb4c536cdf1e367" prot="public" virt="virtual"><scope>crpropa::PhotoDisintegration</scope><name>~Module</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

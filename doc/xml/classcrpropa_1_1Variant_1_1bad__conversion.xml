@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Variant_1_1bad__conversion" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Variant::bad_conversion</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">exception</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Variant_1_1bad__conversion_1a30c3e2a6148eb3534efc9e78020a8da8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string msg</definition>
+        <argsstring></argsstring>
+        <name>msg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="81" column="13" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Variant_1_1bad__conversion_1a8d4b96162e93e11e5816d83702578af8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * what</definition>
+        <argsstring>() const</argsstring>
+        <name>what</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="83" column="12" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Variant_1_1bad__conversion_1a370e5405ad72137071c4e465a9df9f95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>bad_conversion</definition>
+        <argsstring>(Type f, Type t)</argsstring>
+        <name>bad_conversion</name>
+        <param>
+          <type>Type</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>Type</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="87" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="87" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Variant_1_1bad__conversion_1a2f9d42595b74c744690dd29b846a501a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>~bad_conversion</definition>
+        <argsstring>()</argsstring>
+        <name>~bad_conversion</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="95" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Variant::bad_conversion</label>
+        <link refid="classcrpropa_1_1Variant_1_1bad__conversion"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>exception</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Variant::bad_conversion</label>
+        <link refid="classcrpropa_1_1Variant_1_1bad__conversion"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>exception</label>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" line="79" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Variant.h" bodystart="80" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Variant_1_1bad__conversion_1a370e5405ad72137071c4e465a9df9f95" prot="public" virt="non-virtual"><scope>crpropa::Variant::bad_conversion</scope><name>bad_conversion</name></member>
+      <member refid="classcrpropa_1_1Variant_1_1bad__conversion_1a30c3e2a6148eb3534efc9e78020a8da8" prot="private" virt="non-virtual"><scope>crpropa::Variant::bad_conversion</scope><name>msg</name></member>
+      <member refid="classcrpropa_1_1Variant_1_1bad__conversion_1a8d4b96162e93e11e5816d83702578af8" prot="public" virt="non-virtual"><scope>crpropa::Variant::bad_conversion</scope><name>what</name></member>
+      <member refid="classcrpropa_1_1Variant_1_1bad__conversion_1a2f9d42595b74c744690dd29b846a501a" prot="public" virt="non-virtual"><scope>crpropa::Variant::bad_conversion</scope><name>~bad_conversion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

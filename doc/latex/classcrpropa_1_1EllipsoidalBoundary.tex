@@ -1,0 +1,124 @@
+\hypertarget{classcrpropa_1_1EllipsoidalBoundary}{}\doxysection{Ellipsoidal\+Boundary Class Reference}
+\label{classcrpropa_1_1EllipsoidalBoundary}\index{EllipsoidalBoundary@{EllipsoidalBoundary}}
+
+
+Flags a particle when leaving the ellipsoid.  
+
+
+Inheritance diagram for Ellipsoidal\+Boundary\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{classcrpropa_1_1EllipsoidalBoundary}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1EllipsoidalBoundary_a9dccf9df2c3618645afa05582468b454}{Ellipsoidal\+Boundary}} ()
+\item 
+\mbox{\hyperlink{classcrpropa_1_1EllipsoidalBoundary_a789e7841280a8bab13cd6a362e03de79}{Ellipsoidal\+Boundary}} (\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} focal\+Point1, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} focal\+Point2, double major\+Axis)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EllipsoidalBoundary_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_a5311ed64925ba7fa4f3dd7c655c2719d}\label{classcrpropa_1_1EllipsoidalBoundary_a5311ed64925ba7fa4f3dd7c655c2719d}} 
+void {\bfseries set\+Focal\+Points} (\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} focal\+Point1, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} focal\+Point2)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_a5961592a792c5334f279361a65fa5975}\label{classcrpropa_1_1EllipsoidalBoundary_a5961592a792c5334f279361a65fa5975}} 
+void {\bfseries set\+Major\+Axis} (double size)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_a1c006a3ee8c79d7a6a36e43c86962e46}\label{classcrpropa_1_1EllipsoidalBoundary_a1c006a3ee8c79d7a6a36e43c86962e46}} 
+void {\bfseries set\+Margin} (double margin)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_a658fd45e4a9c5b345734892b92d296da}\label{classcrpropa_1_1EllipsoidalBoundary_a658fd45e4a9c5b345734892b92d296da}} 
+void {\bfseries set\+Limit\+Step} (bool limit\+Step)
+\item 
+std\+::string \mbox{\hyperlink{classcrpropa_1_1EllipsoidalBoundary_aea425314aebc36d0f6bf7671705158da}{get\+Description}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractCondition_aebd4e5e81023738066df735b3300dff2}\label{classcrpropa_1_1AbstractCondition_aebd4e5e81023738066df735b3300dff2}} 
+void {\bfseries on\+Reject} (\mbox{\hyperlink{classcrpropa_1_1Module}{Module}} $\ast$reject\+Action)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractCondition_a05db2b5da9736601ca96d3eea5c562aa}\label{classcrpropa_1_1AbstractCondition_a05db2b5da9736601ca96d3eea5c562aa}} 
+void {\bfseries on\+Accept} (\mbox{\hyperlink{classcrpropa_1_1Module}{Module}} $\ast$accept\+Action)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractCondition_a860a0bca8b7e2b1b91d9e04e48ecf6d1}\label{classcrpropa_1_1AbstractCondition_a860a0bca8b7e2b1b91d9e04e48ecf6d1}} 
+void {\bfseries set\+Make\+Rejected\+Inactive} (bool make\+Inactive)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractCondition_a07bda1f6dd395aeeeed9bb69a63f1cec}\label{classcrpropa_1_1AbstractCondition_a07bda1f6dd395aeeeed9bb69a63f1cec}} 
+void {\bfseries set\+Make\+Accepted\+Inactive} (bool make\+Inactive)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractCondition_ae08c5c248fcfda58fbb957a09b1beac3}\label{classcrpropa_1_1AbstractCondition_ae08c5c248fcfda58fbb957a09b1beac3}} 
+void {\bfseries set\+Reject\+Flag} (std\+::string key, std\+::string value)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AbstractCondition_a6d8bdedeae8c5436c185f8c1470e73f5}\label{classcrpropa_1_1AbstractCondition_a6d8bdedeae8c5436c185f8c1470e73f5}} 
+void {\bfseries set\+Accept\+Flag} (std\+::string key, std\+::string value)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Flags a particle when leaving the ellipsoid. 
+
+This module flags particles when outside of the ellipsoid, defined by two focal points and a major axis (length). The particle is made inactive and flagged as \char`\"{}\+Rejected\char`\"{}. By default the module prevents overshooting the boundary by more than a margin of 0.\+1 kpc. This corresponds to the default minimum step size of the propagation modules (\mbox{\hyperlink{classcrpropa_1_1PropagationCK}{Propagation\+CK}} and \mbox{\hyperlink{classcrpropa_1_1SimplePropagation}{Simple\+Propagation}}). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_a9dccf9df2c3618645afa05582468b454}\label{classcrpropa_1_1EllipsoidalBoundary_a9dccf9df2c3618645afa05582468b454}} 
+\index{EllipsoidalBoundary@{EllipsoidalBoundary}!EllipsoidalBoundary@{EllipsoidalBoundary}}
+\index{EllipsoidalBoundary@{EllipsoidalBoundary}!EllipsoidalBoundary@{EllipsoidalBoundary}}
+\doxysubsubsection{\texorpdfstring{EllipsoidalBoundary()}{EllipsoidalBoundary()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1EllipsoidalBoundary}{Ellipsoidal\+Boundary}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Default constructor \mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_a789e7841280a8bab13cd6a362e03de79}\label{classcrpropa_1_1EllipsoidalBoundary_a789e7841280a8bab13cd6a362e03de79}} 
+\index{EllipsoidalBoundary@{EllipsoidalBoundary}!EllipsoidalBoundary@{EllipsoidalBoundary}}
+\index{EllipsoidalBoundary@{EllipsoidalBoundary}!EllipsoidalBoundary@{EllipsoidalBoundary}}
+\doxysubsubsection{\texorpdfstring{EllipsoidalBoundary()}{EllipsoidalBoundary()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1EllipsoidalBoundary}{Ellipsoidal\+Boundary}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{focal\+Point1,  }\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{focal\+Point2,  }\item[{double}]{major\+Axis }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em focal\+Point1} & one of the foci of the ellipsoid \\
+\hline
+{\em focal\+Point2} & the other foci of the ellipsoid \\
+\hline
+{\em major\+Axis} & length of the major axis of the ellipsoid \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1EllipsoidalBoundary_aea425314aebc36d0f6bf7671705158da}} 
+\index{EllipsoidalBoundary@{EllipsoidalBoundary}!getDescription@{getDescription}}
+\index{getDescription@{getDescription}!EllipsoidalBoundary@{EllipsoidalBoundary}}
+\doxysubsubsection{\texorpdfstring{getDescription()}{getDescription()}}
+{\footnotesize\ttfamily std\+::string get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1EllipsoidalBoundary_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1EllipsoidalBoundary_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{EllipsoidalBoundary@{EllipsoidalBoundary}!process@{process}}
+\index{process@{process}!EllipsoidalBoundary@{EllipsoidalBoundary}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+

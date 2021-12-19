@@ -1,0 +1,92 @@
+\hypertarget{classcrpropa_1_1AdiabaticCooling}{}\doxysection{Adiabatic\+Cooling Class Reference}
+\label{classcrpropa_1_1AdiabaticCooling}\index{AdiabaticCooling@{AdiabaticCooling}}
+
+
+Implements adiabatic cooling/heating due to advection.  
+
+
+Inheritance diagram for Adiabatic\+Cooling\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1AdiabaticCooling}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1AdiabaticCooling_a2754c498c702529c750b541a2878dd59}{Adiabatic\+Cooling}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}} $>$ advection\+Field)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1AdiabaticCooling_acbb202b1cc57140fb29613f481a5092b}{Adiabatic\+Cooling}} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}} $>$ advection\+Field, double limit)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1AdiabaticCooling_a18684d0aef3d226e2efa72bdbad2228c}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$c) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AdiabaticCooling_a4df49bbdfd298fd138e6f006b146f068}\label{classcrpropa_1_1AdiabaticCooling_a4df49bbdfd298fd138e6f006b146f068}} 
+void {\bfseries set\+Limit} (double l)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AdiabaticCooling_a42b620f25832be4cbb26f5ce5d850c28}\label{classcrpropa_1_1AdiabaticCooling_a42b620f25832be4cbb26f5ce5d850c28}} 
+double {\bfseries get\+Limit} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}\label{classcrpropa_1_1Module_a9025df426d11cbe30c5500d3ffb5d33c}} 
+virtual std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1Module_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implements adiabatic cooling/heating due to advection. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1AdiabaticCooling_a2754c498c702529c750b541a2878dd59}\label{classcrpropa_1_1AdiabaticCooling_a2754c498c702529c750b541a2878dd59}} 
+\index{AdiabaticCooling@{AdiabaticCooling}!AdiabaticCooling@{AdiabaticCooling}}
+\index{AdiabaticCooling@{AdiabaticCooling}!AdiabaticCooling@{AdiabaticCooling}}
+\doxysubsubsection{\texorpdfstring{AdiabaticCooling()}{AdiabaticCooling()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1AdiabaticCooling}{Adiabatic\+Cooling}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}} $>$}]{advection\+Field }\end{DoxyParamCaption})}
+
+Default constructor. 
+\begin{DoxyParams}{Parameters}
+{\em advection\+Field} & The advection field used for the adiabatic energy change \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1AdiabaticCooling_acbb202b1cc57140fb29613f481a5092b}\label{classcrpropa_1_1AdiabaticCooling_acbb202b1cc57140fb29613f481a5092b}} 
+\index{AdiabaticCooling@{AdiabaticCooling}!AdiabaticCooling@{AdiabaticCooling}}
+\index{AdiabaticCooling@{AdiabaticCooling}!AdiabaticCooling@{AdiabaticCooling}}
+\doxysubsubsection{\texorpdfstring{AdiabaticCooling()}{AdiabaticCooling()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1AdiabaticCooling}{Adiabatic\+Cooling}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1AdvectionField}{Advection\+Field}} $>$}]{advection\+Field,  }\item[{double}]{limit }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em advection\+Field} & The advection field used for the adiabatic energy change \\
+\hline
+{\em limit} & Maximum relative energy change allowed \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1AdiabaticCooling_a18684d0aef3d226e2efa72bdbad2228c}\label{classcrpropa_1_1AdiabaticCooling_a18684d0aef3d226e2efa72bdbad2228c}} 
+\index{AdiabaticCooling@{AdiabaticCooling}!process@{process}}
+\index{process@{process}!AdiabaticCooling@{AdiabaticCooling}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{c }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+

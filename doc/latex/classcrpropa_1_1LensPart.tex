@@ -1,0 +1,46 @@
+\hypertarget{classcrpropa_1_1LensPart}{}\doxysection{Lens\+Part Class Reference}
+\label{classcrpropa_1_1LensPart}\index{LensPart@{LensPart}}
+
+
+Holds one matrix for the lens and information about the rigidity range.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1LensPart_a18788eb8b14b2d0b7235ff83cc0ba143}{Lens\+Part}} (const std\+::string \&filename, double rigidity\+Min, double rigidity\+Max)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_aca3f30ba548f022ea7e10f747faa4ad3}\label{classcrpropa_1_1LensPart_aca3f30ba548f022ea7e10f747faa4ad3}} 
+void {\bfseries load\+Matrix\+From\+File} ()
+\begin{DoxyCompactList}\small\item\em Loads the matrix from file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_a4b667f85b4e1aa9f313dd9e14d5c50bd}\label{classcrpropa_1_1LensPart_a4b667f85b4e1aa9f313dd9e14d5c50bd}} 
+const std\+::string \& {\bfseries get\+Filename} ()
+\begin{DoxyCompactList}\small\item\em Returns the filename of the matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_a7cea68bb54c53eb6f2993b0f7e1033e6}\label{classcrpropa_1_1LensPart_a7cea68bb54c53eb6f2993b0f7e1033e6}} 
+double {\bfseries get\+Maximum\+Of\+Sums\+Of\+Columns} ()
+\begin{DoxyCompactList}\small\item\em Calculates the maximum of the sums of columns for the matrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_ad423eab87366c36f645cae0e74942964}\label{classcrpropa_1_1LensPart_ad423eab87366c36f645cae0e74942964}} 
+double {\bfseries get\+Minimum\+Rigidity} ()
+\begin{DoxyCompactList}\small\item\em Returns the minimum of the rigidity range for the lenspart in eV. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_a68719994e58459f268bd04a1327ce769}\label{classcrpropa_1_1LensPart_a68719994e58459f268bd04a1327ce769}} 
+double {\bfseries get\+Maximum\+Rigidity} ()
+\begin{DoxyCompactList}\small\item\em Returns the maximum of the rigidity range for the lenspart in eV. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_ad882b47af373b43434a01c2bf589d431}\label{classcrpropa_1_1LensPart_ad882b47af373b43434a01c2bf589d431}} 
+Model\+Matrix\+Type \& {\bfseries get\+Matrix} ()
+\begin{DoxyCompactList}\small\item\em Returns the modelmatrix. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_a7321d3fb69643e60a9de9eefaeadacc7}\label{classcrpropa_1_1LensPart_a7321d3fb69643e60a9de9eefaeadacc7}} 
+void {\bfseries set\+Matrix} (const Model\+Matrix\+Type \&m)
+\begin{DoxyCompactList}\small\item\em Sets the modelmatrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Holds one matrix for the lens and information about the rigidity range. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1LensPart_a18788eb8b14b2d0b7235ff83cc0ba143}\label{classcrpropa_1_1LensPart_a18788eb8b14b2d0b7235ff83cc0ba143}} 
+\index{LensPart@{LensPart}!LensPart@{LensPart}}
+\index{LensPart@{LensPart}!LensPart@{LensPart}}
+\doxysubsubsection{\texorpdfstring{LensPart()}{LensPart()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1LensPart}{Lens\+Part}} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{double}]{rigidity\+Min,  }\item[{double}]{rigidity\+Max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+File containing the matrix to be used in the range rigidity\+Min, rigidity\+Max in Joule 

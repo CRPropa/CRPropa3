@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Namespace crpropa &mdash; CRPropa3 3.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="canonical" href="https://crpropa.desy.de/api/namespace_crpropa.html"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/js/breathe_fold.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Namespace eleca" href="namespace_eleca.html" />
+    <link rel="prev" title="Library API" href="library_root.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#download">Download</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#build-and-installation-variants">Build and Installation Variants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#installation-in-system-path">Installation in system path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#installation-in-python-virtualenv">Installation in python virtualenv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#cmake-flags">CMake flags</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#notes-for-specific-operating-systems">Notes for Specific Operating Systems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#debian-ubuntu">Debian / Ubuntu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#fedora-centos-rhel">Fedora/CentOS/RHEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/Installation.html#mac-os-x">Mac OS X</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNEXT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id3">Features that are deprecated and will be removed after this release:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id4">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id5">New features:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id9">New plugins and resources linked on the webpages:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/FAQ.html">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/FAQ.html#i-have-an-installation-issue">I have an installation issue…</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/FAQ.html#how-to-specify-the-seed-for-the-random-number-generator">How to specify the seed for the random number generator?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/FAQ.html#how-to-define-source-positions-from-a-matter-density-grid">How to define source positions from a matter density grid?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/FAQ.html#how-to-use-version-tracking-of-a-python-steering-card">How to use version tracking of a python steering card?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/FAQ.html#i-did-not-find-an-answer-to-my-question">I did not find an answer to my question…</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/howto_cite_crpropa.html">How to cite CRPropa</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/howto_cite_crpropa.html#core-components">Core Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/howto_cite_crpropa.html#external-models">External Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/howto_cite_crpropa.html#galactic-magnetic-field">Galactic Magnetic Field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/howto_cite_crpropa.html#extragalactic-magnetic-field">Extragalactic Magnetic Field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/howto_cite_crpropa.html#photon-backgrounds">Photon Backgrounds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Basic-concepts.html">Basic Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#modular-design">Modular design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#parallelization-multiprocessing">Parallelization/Multiprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#unit-system">Unit system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#particle-id">Particle ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#reference-counting">Reference Counting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Simulation-Modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#propagation-modules">Propagation modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#interaction-modules">Interaction modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#conditional-modules">Conditional modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#observers">Observers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#output-modules">Output modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#other-modules">Other modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html">Introduction to Python Steering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Propagating-a-single-particle">Propagating a single particle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-an-observer">Defining an observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-output-file">Defining the output file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-source">Defining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/extragalactic-simulations.html">Extragalactic Propagation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html">1D simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#Simulation-Setup">Simulation Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html">4D Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Periodic-boundaries">Periodic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Source-positions">Source positions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Note:">Note:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html">3D trajectories in a turbulent field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Saving-and-loading-fields">Saving and loading fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html">3D MHD models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Supplied-data">Supplied data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Uniform-injection">Uniform injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Injection-following-density-field">Injection following density field</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Mass-Halo-injection">Mass Halo injection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Observer">Observer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-DINT">Propagation with DINT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Combined-Propagation">Combined Propagation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html">Example with secondary neutrinos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html">Electromagnetic cascade example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html#Plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html">The targeting algorithm of CRPropa</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-simple-example-on-how-to-use-the-targeting-algorithm-of-CRPropa">A simple example on how to use the targeting algorithm of CRPropa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Plotting-of-the-results">Plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-learning-algorithm-to-obtain-optimal-values-for-mu-and-kappa">A learning algorithm to obtain optimal values for mu and kappa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Testing-sampling-results">Testing sampling results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_lensing.html">Propagation of Extragalactic CR in the Milky Way</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html">Galactic backtracking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html">Galactic trajectories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html#3D-trajectory-plot">3D trajectory plot</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html">Galactic Lensing of Simulated Cosmic Rays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html#Input-Results-from-Extragalactic-Simulation">Input Results from Extragalactic Simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html#Plot-Maps">Plot Maps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html#Apply-Galactic-Lenses">Apply Galactic Lenses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html#Generate-Particles-from-Map">Generate Particles from Map</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_maps.v4.html">Galactic Lensing of Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html">Galactic Lensing - confirm Liouville</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html#Lambert’s-distribution">Lambert’s distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Diffusion of Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html">Diffusion Validation I</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Use-the-absolute-distance-from-origin-|x|,-|y|,-|z|-and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Calculate-the-pValue-of-the-\chi^2-test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html">Diffusion Validation II</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#advection-and-adiabatic-energy-changes">Advection and Adiabatic Energy Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/AdiabaticCooling.html">Adiabatic Cooling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/AdiabaticCooling.html#Example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#gas-densities">Gas Densities</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/acceleration.html">Acceleration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/acceleration/second_order_fermi.html">Second Order Fermi Acceleration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/acceleration/first_order_fermi_acceleration.html">First Order Fermi Acceleration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/extending_crpropa.html">Interfacing User Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html">Implementing additional Modules and Features using Python only</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#manual-simulation-processing">Manual Simulation Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#plugins-integrate-custom-c-code-to-crpropa-s-python-steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.v4.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Cpp-projects.html">Using CRPropa from C++</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html">Comparison of Propagation Modules (BP - CK)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Analytic-Solution">Analytic Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Helper-Functions">Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Run-Simulation">Run Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Load-Simulation-Data">Load Simulation Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Compare-the-Propagation-in-the-Perpendicular-Plane">Compare the Propagation in the Perpendicular Plane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Compare-the-Propagation-in-the-Parallel-Direction">Compare the Propagation in the Parallel Direction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Conservation-of-Momentum">Conservation of Momentum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Comparison-with-3D-Analytic-Solution">Comparison with 3D Analytic Solution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Comparison-of-Simulation-Time">Comparison of Simulation Time</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Turbulent-Magnetic-Field">Turbulent Magnetic Field</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html#Time-Comparison-for-Galactic-Trajectories">Time Comparison for Galactic Trajectories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/AdditionalResources.html">Additional Resources</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../building_blocks.html">Building Blocks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/CoreClasses.html">Core Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html">Physics Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PropagationModules.html">Propagation Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/EnergyLosses.html">Energy Losses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/MagneticFields.html">Magnetic Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Observers.html">Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Condition.html">Condition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/SourceFeatures.html">Source Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Output.html">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/MagneticLens.html">Magnetic Lenses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PhotonFields.html">Photon Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">Library API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Namespace crpropa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_eleca.html">Namespace eleca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_Loki.html">Namespace Loki</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_std.html">Namespace std</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1NuclearDecay_1_1DecayMode.html">Struct NuclearDecay::DecayMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1Output_1_1Property.html">Struct Output::Property</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1PerformanceModule_1_1__module__info.html">Struct PerformanceModule::_module_info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1PhotoDisintegration_1_1Branch.html">Struct PhotoDisintegration::Branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission.html">Struct PhotoDisintegration::PhotonEmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1SophiaEventOutput.html">Struct SophiaEventOutput</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AbstractAccelerationModule.html">Class AbstractAccelerationModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AbstractCondition.html">Class AbstractCondition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AdiabaticCooling.html">Class AdiabaticCooling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AdvectionField.html">Class AdvectionField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AdvectionFieldList.html">Class AdvectionFieldList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ArchimedeanSpiralField.html">Class ArchimedeanSpiralField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Base64.html">Class Base64</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1BlackbodyPhotonField.html">Class BlackbodyPhotonField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Candidate.html">Class Candidate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock.html">Class Clock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMB.html">Class CMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMZField.html">Class CMZField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantSphericalAdvectionField.html">Class ConstantSphericalAdvectionField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Cordes.html">Class Cordes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CubicBoundary.html">Class CubicBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CylindricalBoundary.html">Class CylindricalBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CylindricalProjectionMap.html">Class CylindricalProjectionMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Density.html">Class Density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DensityList.html">Class DensityList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DetectionLength.html">Class DetectionLength</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DiffusionSDE.html">Class DiffusionSDE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DirectedFlowOfScatterCenters.html">Class DirectedFlowOfScatterCenters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DirectedFlowScattering.html">Class DirectedFlowScattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ElasticScattering.html">Class ElasticScattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ElectronPairProduction.html">Class ElectronPairProduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EllipsoidalBoundary.html">Class EllipsoidalBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMCascade.html">Class EMCascade</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMDoublePairProduction.html">Class EMDoublePairProduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMInverseComptonScattering.html">Class EMInverseComptonScattering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EmissionMap.html">Class EmissionMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EmissionMapFiller.html">Class EmissionMapFiller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMPairProduction.html">Class EMPairProduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMTripletPairProduction.html">Class EMTripletPairProduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Ferriere.html">Class Ferriere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1FutureRedshift.html">Class FutureRedshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Grid.html">Template Class Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1GridProperties.html">Class GridProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Dominguez11.html">Class IRB_Dominguez11</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Finke10.html">Class IRB_Finke10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Franceschini08.html">Class IRB_Franceschini08</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Gilmore12.html">Class IRB_Gilmore12</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Kneiske04.html">Class IRB_Kneiske04</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Stecker05.html">Class IRB_Stecker05</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Stecker16__lower.html">Class IRB_Stecker16_lower</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Stecker16__upper.html">Class IRB_Stecker16_upper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1JF12Field.html">Class JF12Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1JF12FieldSolenoidal.html">Class JF12FieldSolenoidal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1LensPart.html">Class LensPart</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1LogarithmicSpiralField.html">Class LogarithmicSpiralField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MagneticDipoleField.html">Class MagneticDipoleField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MagneticField.html">Class MagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MagneticFieldEvolution.html">Class MagneticFieldEvolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MagneticFieldGrid.html">Class MagneticFieldGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MagneticFieldList.html">Class MagneticFieldList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MagneticLens.html">Class MagneticLens</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MaximumTrajectoryLength.html">Class MaximumTrajectoryLength</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MinimumChargeNumber.html">Class MinimumChargeNumber</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MinimumEnergy.html">Class MinimumEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MinimumEnergyPerParticleId.html">Class MinimumEnergyPerParticleId</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MinimumRedshift.html">Class MinimumRedshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1MinimumRigidity.html">Class MinimumRigidity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ModulatedMagneticFieldGrid.html">Class ModulatedMagneticFieldGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Module.html">Class Module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ModuleList.html">Class ModuleList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ModuleListRunner.html">Class ModuleListRunner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Nakanishi.html">Class Nakanishi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1NuclearDecay.html">Class NuclearDecay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Observer.html">Class Observer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverDetectAll.html">Class ObserverDetectAll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverElectronVeto.html">Class ObserverElectronVeto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverFeature.html">Class ObserverFeature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverInactiveVeto.html">Class ObserverInactiveVeto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverLargeSphere.html">Class ObserverLargeSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverNeutrinoVeto.html">Class ObserverNeutrinoVeto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverNucleusVeto.html">Class ObserverNucleusVeto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverParticleIdVeto.html">Class ObserverParticleIdVeto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverPhotonVeto.html">Class ObserverPhotonVeto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverPoint.html">Class ObserverPoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverRedshiftWindow.html">Class ObserverRedshiftWindow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverSmallSphere.html">Class ObserverSmallSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverSurface.html">Class ObserverSurface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverTimeEvolution.html">Class ObserverTimeEvolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverTracking.html">Class ObserverTracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Output.html">Class Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParaxialBox.html">Class ParaxialBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParticleCollector.html">Class ParticleCollector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParticleFilter.html">Class ParticleFilter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParticleMapsContainer.html">Class ParticleMapsContainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParticleSplitting.html">Class ParticleSplitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParticleState.html">Class ParticleState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PerformanceModule.html">Class PerformanceModule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PeriodicBox.html">Class PeriodicBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PeriodicMagneticField.html">Class PeriodicMagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotoDisintegration.html">Class PhotoDisintegration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonEleCa.html">Class PhotonEleCa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonField.html">Class PhotonField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonOutput1D.html">Class PhotonOutput1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotoPionProduction.html">Class PhotoPionProduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Pixelization.html">Class Pixelization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PlanckJF12bField.html">Class PlanckJF12bField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Plane.html">Class Plane</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PlaneWaveTurbulence.html">Class PlaneWaveTurbulence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PolarizedSingleModeMagneticField.html">Class PolarizedSingleModeMagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PropagationBP.html">Class PropagationBP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PropagationBP_1_1Y.html">Class PropagationBP::Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PropagationCK.html">Class PropagationCK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PropagationCK_1_1Y.html">Class PropagationCK::Y</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PT11Field.html">Class PT11Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1QuasiLinearTheory.html">Class QuasiLinearTheory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Random.html">Class Random</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Redshift.html">Class Redshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ref__ptr.html">Template Class ref_ptr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Referenced.html">Class Referenced</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ReflectiveBox.html">Class ReflectiveBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1RestrictToRegion.html">Class RestrictToRegion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ScalarGrid.html">Class ScalarGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SecondOrderFermi.html">Class SecondOrderFermi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ShellOutput.html">Class ShellOutput</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ShellOutput1D.html">Class ShellOutput1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ShellPropertyOutput.html">Class ShellPropertyOutput</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SimplePropagation.html">Class SimplePropagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Source.html">Class Source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceComposition.html">Class SourceComposition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDensityGrid.html">Class SourceDensityGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDensityGrid1D.html">Class SourceDensityGrid1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDirectedEmission.html">Class SourceDirectedEmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDirection.html">Class SourceDirection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceEmissionCone.html">Class SourceEmissionCone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceEmissionMap.html">Class SourceEmissionMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceEnergy.html">Class SourceEnergy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceFeature.html">Class SourceFeature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceInterface.html">Class SourceInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceIsotropicEmission.html">Class SourceIsotropicEmission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceLambertDistributionOnSphere.html">Class SourceLambertDistributionOnSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceList.html">Class SourceList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceMultipleParticleTypes.html">Class SourceMultipleParticleTypes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceMultiplePositions.html">Class SourceMultiplePositions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceParticleType.html">Class SourceParticleType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourcePosition.html">Class SourcePosition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourcePowerLawSpectrum.html">Class SourcePowerLawSpectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourcePulsarDistribution.html">Class SourcePulsarDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceRedshift.html">Class SourceRedshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceRedshift1D.html">Class SourceRedshift1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceRedshiftEvolution.html">Class SourceRedshiftEvolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceSNRDistribution.html">Class SourceSNRDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniform1D.html">Class SourceUniform1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformBox.html">Class SourceUniformBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformCylinder.html">Class SourceUniformCylinder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformHollowSphere.html">Class SourceUniformHollowSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformRedshift.html">Class SourceUniformRedshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformShell.html">Class SourceUniformShell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformSphere.html">Class SourceUniformSphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Sphere.html">Class Sphere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SphericalAdvectionField.html">Class SphericalAdvectionField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SphericalAdvectionShock.html">Class SphericalAdvectionShock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SphericalBoundary.html">Class SphericalBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1StepLengthModifier.html">Class StepLengthModifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Surface.html">Class Surface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SynchrotronRadiation.html">Class SynchrotronRadiation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TabularPhotonField.html">Class TabularPhotonField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TextOutput.html">Class TextOutput</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TF17Field.html">Class TF17Field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TorroidalHaloField.html">Class TorroidalHaloField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UniformMagneticField.html">Class UniformMagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1URB__Fixsen11.html">Class URB_Fixsen11</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1URB__Nitu21.html">Class URB_Nitu21</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1URB__Protheroe96.html">Class URB_Protheroe96</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Variant.html">Class Variant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Variant_1_1bad__conversion.html">Class Variant::bad_conversion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Vector3.html">Template Class Vector3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1VectorGrid.html">Class VectorGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classURB.html">Class URB</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#enums">Enums</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.html">Enum DetectionState</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.html">Enum interpolationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga0c658ca545d45436c718148e9b82af87.html">Function crpropa::chargeNumber</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaea966817d7679bb00bd12e22135184fc.html">Template Function crpropa::clip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaecc325fd115bd796f3c0e77cb689ebae.html">Function crpropa::closestIndex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga99330b59d91d6c538122bc1e477e24c4.html">Function crpropa::comoving2LightTravelDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga512961b323c6706458df15e5c11f09fb.html">Function crpropa::comovingDistance2Redshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0663b76fe38fa53188a902e8f70bbb8c.html">Template Function crpropa::const_pointer_cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga03f1b5d08b70e6a06ed71d9006dea6de.html">Function crpropa::convertIdToName</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a29dbf1e61010b4104941a96eaa846cf1.html">Function crpropa::deserialize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2.html">Function crpropa::digit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a7ea72826e167beaa042efafaec6876da.html">Function crpropa::DintElecaPropagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1aa45964706e7d6ba2ffac41794424769f.html">Function crpropa::DintPropagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gad5b5ba4c8f79b6b797c57d7ee658c1a6.html">Function crpropa::dumpGrid(ref_ptr&lt;Grid3f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga2be301c04cc62be7b1efdc3d8472dcda.html">Function crpropa::dumpGrid(ref_ptr&lt;Grid1f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gad230c08955c7a505eefe413366f4717a.html">Function crpropa::dumpGridToTxt(ref_ptr&lt;Grid3f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga25cabf4d5be84ea94f9bd90d50b17a13.html">Function crpropa::dumpGridToTxt(ref_ptr&lt;Grid1f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga44546dc98a4f8e8bd50afae4ae1fec8b.html">Template Function crpropa::dynamic_pointer_cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1aca0899b6299bda24481d6ec1eeff7988.html">Function crpropa::ElecaPropagation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaf89e81d370fe811cc9386261f02166a5.html">Function crpropa::fromMagneticField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0501e5b31dd2cdb5159459d874f16d30.html">Function crpropa::fromMagneticFieldStrength</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1.html">Template Function crpropa::gaussInt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6.html">Template Function crpropa::get_pointer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga1df13d495273a79e3350f157af7b4ea3.html">Function crpropa::getDataPath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gafaaaa2733a31f763ffd1fa28bfab81ca.html">Function crpropa::getInstallPrefix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga6fccfc5a896dc6f1036d2abbfca4ae2a.html">Function crpropa::H0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gaca47de327745e542b987dc0fdc0544ad.html">Function crpropa::hubbleRate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga3ea9c7bef53d02cb7a867c72182768b7.html">Function crpropa::interpolate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gab28d821e32f177c9c1d1e3658796f259.html">Function crpropa::interpolate2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga45ce85dc4b25887b2c527719c7531b4e.html">Function crpropa::interpolateEquidistant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga6807b028241faff59152dde29e2edfb9.html">Function crpropa::intrusive_ptr_add_ref</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gadd64a0c21dcedde2102f949e36f2f1d3.html">Function crpropa::intrusive_ptr_release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga7a02cec5006af6f5eb4bd415ea9ab2db.html">Function crpropa::isNucleus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga1cad0b62bf8c1b8b1dd44295b3ec40f9.html">Function crpropa::lightTravel2ComovingDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga203d7d59dabadfa6e77a05263f77c819.html">Function crpropa::lightTravelDistance2Redshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gab7c740cf66f560083029b8a6196a46a4.html">Function crpropa::loadGrid(ref_ptr&lt;Grid3f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga091a17cca41dba2b79ec383f7f9e8f37.html">Function crpropa::loadGrid(ref_ptr&lt;Grid1f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaad9520b837fa3ff060ed1786da8c7f52.html">Function crpropa::loadGridFromTxt(ref_ptr&lt;Grid3f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gab66dd49f6fc38ee6834eff297e730ae3.html">Function crpropa::loadGridFromTxt(ref_ptr&lt;Grid1f&gt;, std::string, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gafe272632098a27755f88a8503e04481f.html">Function crpropa::luminosityDistance2Redshift</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gaf2b051d255cfeb00149e80831e0c3b5d.html">Function crpropa::massNumber</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a2f6ed50a4dd5e68e6532340866a6819d.html">Function crpropa::maximumOfSumsOfColumns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga35a4fc74b7deadd58ff6209df14140c0.html">Function crpropa::meanFieldStrength(ref_ptr&lt;Grid1f&gt;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga095a3cc70d79ca2a58df236d823fc7f2.html">Function crpropa::meanFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga14e9170907096634f33d71ec5aae75d3.html">Function crpropa::meanFieldVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a855096c8ab3bc4b926e81bd45d2ed743.html">Function crpropa::norm_1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a02a34444430a990a7a1cec430148f345.html">Function crpropa::normalizeColumns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ad8d07016ad6bfeeb3820f0e6a28c4f77.html">Function crpropa::normalizeMatrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga2f8daaf6e06efae63d7c323230458937.html">Function crpropa::nuclearMass(int)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga6a21da6982c810db1b77794e8b9ef179.html">Function crpropa::nuclearMass(int, int)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga4cfe916fc8af0f4a394ad6e541a1e834.html">Function crpropa::nucleusId</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga73ed5eab2ffc8064c0cb8f169d568a07.html">Function crpropa::omegaL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gac97a929f7aaea9e4a346e319167d05fa.html">Function crpropa::omegaM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga23bf6b37f4133adc37b6f3d057410c94.html">Template Function crpropa::operator*</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a0a3faf0d97b1add4a0fc947c3498415d.html">Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Variant&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaf1695869279c2571e31c8547f65fe9c5.html">Template Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Vector3&lt;T&gt;&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga688c4960d76366bf6fce1cf5eac2f129.html">Template Function crpropa::operator&gt;&gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.html">Function crpropa::periodicBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201.html">Function crpropa::periodicClamp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95.html">Template Function crpropa::pow_integer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Function crpropa::pow_integer&lt; 0 &gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a311fac498c76c37962a69f010f41dc43.html">Function crpropa::prod_up</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga74be55ec3e23caff21310b51b53cab35.html">Function crpropa::redshift2ComovingDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga682405d9081864aaa0b706ede0736244.html">Function crpropa::redshift2LightTravelDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga21044b6b8dc8baa6bc0d62296b5be92c.html">Function crpropa::redshift2LuminosityDistance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.html">Function crpropa::reflectiveBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.html">Function crpropa::reflectiveClamp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga788ff1002bda23d428e0e43ac5b7cf3a.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid1f&gt;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga42f4cdca40b5d3f1632ac93a886a8781.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gad823c8cf8555f1b45432468adef2d404.html">Function crpropa::rmsFieldStrengthPerAxis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1afdfae60dd4680363c4a98a60d4b087b6.html">Function crpropa::round</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0d66e0a4632d21364c4227784074f53e.html">Function crpropa::scaleGrid(ref_ptr&lt;Grid1f&gt;, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gad86fe3acb119896b39adb6d751b57700.html">Function crpropa::scaleGrid(ref_ptr&lt;Grid3f&gt;, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1aa9174909a4e0ee185d124caabf1549a0.html">Function crpropa::serialize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gaf26fcc97f8c2cd7b6613950265dbd473.html">Function crpropa::setCosmologyParameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga21ca69db76e5efe007489b30d0d92ef8.html">Template Function crpropa::static_pointer_cast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.html">Template Function crpropa::swap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Version_8h_1ae07054153f2b6877a8acf6fbf1ee7090.html">Function declare_version</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1ab43ea5e6a41057a2928f96ec406f2a4b.html">Function logDebug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1aad224c61f361c9b29018dbe5814a2a22.html">Function logError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1ac23a678ce7417b5e66fcfdd567638c2e.html">Function logInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1a5cca4960115ee6d2ef11596a7d0a62fb.html">Function logWarning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_AssocVector_8h_1a4bd2d26e2a4b894ca7611ac096434c21.html">Template Function Loki::operator!=</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_AssocVector_8h_1ae784f4505d4e82cdca799b4e4d9db886.html">Template Function Loki::operator&lt;=</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_AssocVector_8h_1a935c3734691858d4ab91e7c8ac92a756.html">Template Function Loki::operator==</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_AssocVector_8h_1acc91f1a4d6b2684be1ae9cc97b36636e.html">Template Function Loki::operator&gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_AssocVector_8h_1a3678dd23d67866599ad3c43ecee2ff34.html">Template Function Loki::operator&gt;=</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_AssocVector_8h_1adbe957affd452026980681c7bd18f950.html">Template Function Loki::swap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1a0be980c8c7fb754367a4346ac48cbf7f.html">Function setLogLevel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1af4cf0ce9be6440b42774830da5c24fba.html">Function setLogStream</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.html">Variable crpropa::_nOrder_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.html">Variable crpropa::_nPix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c.html">Variable crpropa::ampere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679.html">Variable crpropa::amu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d.html">Variable crpropa::atto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gae57f427be881e4c8f1163470da1befb2.html">Variable crpropa::au</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8d9a59356bad97a6e73cc459a35bc274.html">Variable crpropa::barn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2085cc4cdb90e7a156b5dbdbe44bf7aa.html">Variable crpropa::c_light</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga35d305b22a8de1cab9f18bf3e0fe48ba.html">Variable crpropa::c_squared</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5.html">Variable crpropa::ccm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8b99ed3101c591c1133f492d94fa3685.html">Variable crpropa::centimeter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad0b9a58075a15c1cb674a2b879402853.html">Variable crpropa::cm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga9f729835f8d7ddb8ab71fce2108d7566.html">Variable crpropa::coulomb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2f5042227e4fdba943844e169f5cf010.html">Variable crpropa::deg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab1e9216cf93077db4901e1820dffa132.html">Variable crpropa::EeV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga384bc54c9a15fa0d84ae78416653c9c4.html">Variable crpropa::electronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga53b77492aea234537215b9ba7177882c.html">Variable crpropa::eplus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab38b15c5eece78fad9d84103d8b90a89.html">Variable crpropa::epsilon0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8d678b199c22b3f6719333b6ed3b3e39.html">Variable crpropa::erg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga87b385f118e3715860117a77eda7136d.html">Variable crpropa::eV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga7f1280863986e5f4b59fae29afbecabc.html">Variable crpropa::exa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4aa592dff0d55ae915648a03dfe46dd1.html">Variable crpropa::exaelectronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gabea2135256ac31f26ed041ab577f8c13.html">Variable crpropa::femto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad7c4f80eaae50061ac4b754cbb5f0275.html">Variable crpropa::gauss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaec0e126d9991db8ad0b26139f5860568.html">Variable crpropa::GeV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf2299d510cc08e636439584682a88303.html">Variable crpropa::giga</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga67f77928286c0c47c56fb64ef6445517.html">Variable crpropa::gigaelectronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf8524dd93cb2df63eabbbd443e5014ff.html">Variable crpropa::gigaparsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaaf33764feb34669b8ffe006cc943067d.html">Variable crpropa::Gpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5625ec9f520a5f041fb88f5da5f94bef.html">Variable crpropa::h_planck</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1f940bb86795ed45e1417ad32321a551.html">Variable crpropa::hertz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga09c047eba91ce1d85e4e7fdd4bafebe4.html">Variable crpropa::hour</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaca2a407ebab577eb092585f84631c8d0.html">Variable crpropa::joule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga12088648de7f88c5accd233032d3153e.html">Variable crpropa::k_boltzmann</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad6635fb9b9ed7cc9fee15071b9432091.html">Variable crpropa::kelvin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga71187dfc8f158326cbf7bed526138aae.html">Variable crpropa::keV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga05ccc8bd868280980dab40ca4128d8e4.html">Variable crpropa::kilo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2e4f006f78ed12d318baa9ef08a9e799.html">Variable crpropa::kiloelectronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8955be82c3d643afe27de76d06df52e8.html">Variable crpropa::kilogram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga6183103d0e243ef4347cd071cc5fd68b.html">Variable crpropa::kilometer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga0470d2bb7af674e93def309564e0d51a.html">Variable crpropa::kiloparsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaaf85ed8b741937db702f62aac693ae5d.html">Variable crpropa::km</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184.html">Variable crpropa::kpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaaa1e0123e1baad493ec687904a428cbf.html">Variable crpropa::ly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga21aa8093ee2f43ed4e85b31b64304c7a.html">Variable crpropa::mass_electron</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943.html">Variable crpropa::mass_neutron</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff.html">Variable crpropa::mass_proton</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8912b14f7b302e534e7eb063288f6ee9.html">Variable crpropa::mega</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4f2c7d727d45a6c6a39e648c48a68bf4.html">Variable crpropa::megaelectronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac3da9c52caabd55b3d229735cc925e5e.html">Variable crpropa::megaparsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga81230fc213736db75d5c970e68886a10.html">Variable crpropa::meter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac90e720c4654493ae50b7b964cc6b20d.html">Variable crpropa::MeV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga9edb08003fe77ed3bacd9ea23bcfa66b.html">Variable crpropa::micro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab70342abf0832b9dd265964c21681319.html">Variable crpropa::microgauss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga33252a2d991e1b089ea0c7540ef334ea.html">Variable crpropa::microsecond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga795961ce904cb279d5fd18b27622c9a0.html">Variable crpropa::milli</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gae32c5b1394299598268f59e850e70d91.html">Variable crpropa::millisecond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga583f186218b8bf2ad5c54928a6c20134.html">Variable crpropa::minute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaabefcc198b3e2606497fd55b370846fa.html">Variable crpropa::mol</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga03be4183d6f731898634e3649865848c.html">Variable crpropa::Mpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga40448747ca0606885ccc70b72ed78001.html">Variable crpropa::ms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaa2940cb38b48f36a88341bd268778847.html">Variable crpropa::mu0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5596cdaf7a42ba58794c2c6dc5e1e7dd.html">Variable crpropa::muG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga38012ba2795f7181e87ea3a4a0b0e32f.html">Variable crpropa::mus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac6aa1e9406f8b758f5e41d80e0045733.html">Variable crpropa::nano</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab676ddbbf379cc0ee93944717e1ac9eb.html">Variable crpropa::nanogauss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab1ad77ec7ae37ba36c2c7f8785440281.html">Variable crpropa::nanosecond</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga86cabed6b39944d7bada06028f98c864.html">Variable crpropa::newton</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab2255fb9f970de1ddc40b38fe9065de4.html">Variable crpropa::nG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gae9508134491d8a9621d23f07281096c7.html">Variable crpropa::ns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa.html">Variable crpropa::parsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaab6215c4cb38b8fcb808d8ff11e0940c.html">Variable crpropa::pascal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2884cd030c4c825754349a525a1d06ce.html">Variable crpropa::pc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab4e48de47138d9b3db5a04e1a3d6be1d.html">Variable crpropa::peta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaea037b37e9acec1a6e766802f3ebd7fb.html">Variable crpropa::petaelectronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga463540ec70967dcc4e597ef8adc7f44c.html">Variable crpropa::PeV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8.html">Variable crpropa::pico</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.html">Variable crpropa::rad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1.html">Variable crpropa::sec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219.html">Variable crpropa::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce.html">Variable crpropa::tera</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81.html">Variable crpropa::teraelectronvolt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a.html">Variable crpropa::tesla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga7f801e1f6821bc6baf0652ed2496e5e9.html">Variable crpropa::TeV</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga90ad310c0986c21c31d3695d97922db7.html">Variable crpropa::volt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a43779031bbc6e102be279b8702c5eef5.html">Variable crpropa::W</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1ae0e636b5119e31607138675be292cf2c.html">Variable crpropa::X</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad9f87532fe6bac146c75ef173bd468d8.html">Variable crpropa::yocto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga85979a8ef8dbc332c635191cd40a3b0c.html">Variable crpropa::yotta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaecd7702608529a1c8d8c744542b64bd4.html">Variable crpropa::zepto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad92d24cec8d208c82569e29279becc10.html">Variable crpropa::zetta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Version_8h_1a6834134ebcf1a7fadc2562fc74544f46.html">Variable g_GIT_DESC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Version_8h_1a36b71113647c58eb81b6f6faf06f784b.html">Variable g_GIT_REFSPEC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_Version_8h_1a6e70968528819ece37e7d5f722c53efc.html">Variable g_GIT_SHA1</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#defines">Defines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="define_Random_8h_1ae71449b1cc6e6250b91f539153a7a0d3.html">Define M_PI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Variant_8h_1ad6e6dfd43bfb6550b7f310b003ea5e86.html">Define VARIANT_ADD_TYPE_DECL_POD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Variant_8h_1aff699997fd1e4e13671e56d58c3ecef3.html">Define VARIANT_ADD_TYPE_DECL_PTR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Variant_8h_1a71711a376be30763557289e90e82547c.html">Define VARIANT_ADD_TYPE_DECL_PTR_BASE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_Variant_8h_1acdf3895ba788152a9cc113b7fd1e643c.html">Define VARIANT_TO_DECL</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html">Typedef crpropa::const_LensPartIter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html">Typedef crpropa::Grid1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html">Typedef crpropa::Grid1f</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1gace03eaf2fd573de2d84e3aebf60fd729.html">Typedef crpropa::Grid3d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html">Typedef crpropa::Grid3f</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1af135df255ba94df054e3289a0526f3b3.html">Typedef crpropa::LensPartIter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1afdeae388527922b41dd13abc77ffdb59.html">Typedef crpropa::ModelMatrixType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1a38b820ffe798c468ff6cf1b15efad830.html">Typedef crpropa::ModelVectorType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html">Typedef crpropa::Vector3d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1gaf345ad77ba5e240c7ab72b4b2077e754.html">Typedef crpropa::Vector3f</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVEL</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html">GNU Debugger (GDB)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html#profiling">Profiling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Debugging.html#simple-example">Simple example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Debugging.html#profile-crpropa">Profile CRPropa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/Debugging.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Code-Coverage.html">Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/Data-files.html">Verify the Data Files Integrity</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CRPropa3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="library_root.html">Library API</a> &raquo;</li>
+      <li>Namespace crpropa</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="namespace-crpropa">
+<span id="id1"></span><h1>Namespace crpropa<a class="headerlink" href="#namespace-crpropa" title="Permalink to this headline"></a></h1>
+<p>CRPRopa public definitions.</p>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#detailed-description" id="id2">Detailed Description</a></p></li>
+<li><p><a class="reference internal" href="#classes" id="id3">Classes</a></p></li>
+<li><p><a class="reference internal" href="#enums" id="id4">Enums</a></p></li>
+<li><p><a class="reference internal" href="#functions" id="id5">Functions</a></p></li>
+<li><p><a class="reference internal" href="#typedefs" id="id6">Typedefs</a></p></li>
+<li><p><a class="reference internal" href="#variables" id="id7">Variables</a></p></li>
+</ul>
+</div>
+<section id="detailed-description">
+<h2>Detailed Description<a class="headerlink" href="#detailed-description" title="Permalink to this headline"></a></h2>
+<p>CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles.</p>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="structcrpropa_1_1NuclearDecay_1_1DecayMode.html#exhale-struct-structcrpropa-1-1nucleardecay-1-1decaymode"><span class="std std-ref">Struct NuclearDecay::DecayMode</span></a></p></li>
+<li><p><a class="reference internal" href="structcrpropa_1_1Output_1_1Property.html#exhale-struct-structcrpropa-1-1output-1-1property"><span class="std std-ref">Struct Output::Property</span></a></p></li>
+<li><p><a class="reference internal" href="structcrpropa_1_1PerformanceModule_1_1__module__info.html#exhale-struct-structcrpropa-1-1performancemodule-1-1-module-info"><span class="std std-ref">Struct PerformanceModule::_module_info</span></a></p></li>
+<li><p><a class="reference internal" href="structcrpropa_1_1PhotoDisintegration_1_1Branch.html#exhale-struct-structcrpropa-1-1photodisintegration-1-1branch"><span class="std std-ref">Struct PhotoDisintegration::Branch</span></a></p></li>
+<li><p><a class="reference internal" href="structcrpropa_1_1PhotoDisintegration_1_1PhotonEmission.html#exhale-struct-structcrpropa-1-1photodisintegration-1-1photonemission"><span class="std std-ref">Struct PhotoDisintegration::PhotonEmission</span></a></p></li>
+<li><p><a class="reference internal" href="structcrpropa_1_1SophiaEventOutput.html#exhale-struct-structcrpropa-1-1sophiaeventoutput"><span class="std std-ref">Struct SophiaEventOutput</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1AbstractAccelerationModule.html#exhale-class-classcrpropa-1-1abstractaccelerationmodule"><span class="std std-ref">Class AbstractAccelerationModule</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1AbstractCondition.html#exhale-class-classcrpropa-1-1abstractcondition"><span class="std std-ref">Class AbstractCondition</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1AdiabaticCooling.html#exhale-class-classcrpropa-1-1adiabaticcooling"><span class="std std-ref">Class AdiabaticCooling</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1AdvectionField.html#exhale-class-classcrpropa-1-1advectionfield"><span class="std std-ref">Class AdvectionField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1AdvectionFieldList.html#exhale-class-classcrpropa-1-1advectionfieldlist"><span class="std std-ref">Class AdvectionFieldList</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ArchimedeanSpiralField.html#exhale-class-classcrpropa-1-1archimedeanspiralfield"><span class="std std-ref">Class ArchimedeanSpiralField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Base64.html#exhale-class-classcrpropa-1-1base64"><span class="std std-ref">Class Base64</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1BlackbodyPhotonField.html#exhale-class-classcrpropa-1-1blackbodyphotonfield"><span class="std std-ref">Class BlackbodyPhotonField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Candidate.html#exhale-class-classcrpropa-1-1candidate"><span class="std std-ref">Class Candidate</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Clock.html#exhale-class-classcrpropa-1-1clock"><span class="std std-ref">Class Clock</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1CMB.html#exhale-class-classcrpropa-1-1cmb"><span class="std std-ref">Class CMB</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1CMZField.html#exhale-class-classcrpropa-1-1cmzfield"><span class="std std-ref">Class CMZField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ConstantDensity.html#exhale-class-classcrpropa-1-1constantdensity"><span class="std std-ref">Class ConstantDensity</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ConstantSphericalAdvectionField.html#exhale-class-classcrpropa-1-1constantsphericaladvectionfield"><span class="std std-ref">Class ConstantSphericalAdvectionField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Cordes.html#exhale-class-classcrpropa-1-1cordes"><span class="std std-ref">Class Cordes</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1CubicBoundary.html#exhale-class-classcrpropa-1-1cubicboundary"><span class="std std-ref">Class CubicBoundary</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1CylindricalBoundary.html#exhale-class-classcrpropa-1-1cylindricalboundary"><span class="std std-ref">Class CylindricalBoundary</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1CylindricalProjectionMap.html#exhale-class-classcrpropa-1-1cylindricalprojectionmap"><span class="std std-ref">Class CylindricalProjectionMap</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Density.html#exhale-class-classcrpropa-1-1density"><span class="std std-ref">Class Density</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1DensityList.html#exhale-class-classcrpropa-1-1densitylist"><span class="std std-ref">Class DensityList</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1DetectionLength.html#exhale-class-classcrpropa-1-1detectionlength"><span class="std std-ref">Class DetectionLength</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1DiffusionSDE.html#exhale-class-classcrpropa-1-1diffusionsde"><span class="std std-ref">Class DiffusionSDE</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1DirectedFlowOfScatterCenters.html#exhale-class-classcrpropa-1-1directedflowofscattercenters"><span class="std std-ref">Class DirectedFlowOfScatterCenters</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1DirectedFlowScattering.html#exhale-class-classcrpropa-1-1directedflowscattering"><span class="std std-ref">Class DirectedFlowScattering</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ElasticScattering.html#exhale-class-classcrpropa-1-1elasticscattering"><span class="std std-ref">Class ElasticScattering</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ElectronPairProduction.html#exhale-class-classcrpropa-1-1electronpairproduction"><span class="std std-ref">Class ElectronPairProduction</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EllipsoidalBoundary.html#exhale-class-classcrpropa-1-1ellipsoidalboundary"><span class="std std-ref">Class EllipsoidalBoundary</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EMCascade.html#exhale-class-classcrpropa-1-1emcascade"><span class="std std-ref">Class EMCascade</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EMDoublePairProduction.html#exhale-class-classcrpropa-1-1emdoublepairproduction"><span class="std std-ref">Class EMDoublePairProduction</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EMInverseComptonScattering.html#exhale-class-classcrpropa-1-1eminversecomptonscattering"><span class="std std-ref">Class EMInverseComptonScattering</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EmissionMap.html#exhale-class-classcrpropa-1-1emissionmap"><span class="std std-ref">Class EmissionMap</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EmissionMapFiller.html#exhale-class-classcrpropa-1-1emissionmapfiller"><span class="std std-ref">Class EmissionMapFiller</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EMPairProduction.html#exhale-class-classcrpropa-1-1empairproduction"><span class="std std-ref">Class EMPairProduction</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1EMTripletPairProduction.html#exhale-class-classcrpropa-1-1emtripletpairproduction"><span class="std std-ref">Class EMTripletPairProduction</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Ferriere.html#exhale-class-classcrpropa-1-1ferriere"><span class="std std-ref">Class Ferriere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1FutureRedshift.html#exhale-class-classcrpropa-1-1futureredshift"><span class="std std-ref">Class FutureRedshift</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Grid.html#exhale-class-classcrpropa-1-1grid"><span class="std std-ref">Template Class Grid</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1GridProperties.html#exhale-class-classcrpropa-1-1gridproperties"><span class="std std-ref">Class GridProperties</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Dominguez11.html#exhale-class-classcrpropa-1-1irb-dominguez11"><span class="std std-ref">Class IRB_Dominguez11</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Finke10.html#exhale-class-classcrpropa-1-1irb-finke10"><span class="std std-ref">Class IRB_Finke10</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Franceschini08.html#exhale-class-classcrpropa-1-1irb-franceschini08"><span class="std std-ref">Class IRB_Franceschini08</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Gilmore12.html#exhale-class-classcrpropa-1-1irb-gilmore12"><span class="std std-ref">Class IRB_Gilmore12</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Kneiske04.html#exhale-class-classcrpropa-1-1irb-kneiske04"><span class="std std-ref">Class IRB_Kneiske04</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Stecker05.html#exhale-class-classcrpropa-1-1irb-stecker05"><span class="std std-ref">Class IRB_Stecker05</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Stecker16__lower.html#exhale-class-classcrpropa-1-1irb-stecker16-lower"><span class="std std-ref">Class IRB_Stecker16_lower</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1IRB__Stecker16__upper.html#exhale-class-classcrpropa-1-1irb-stecker16-upper"><span class="std std-ref">Class IRB_Stecker16_upper</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1JF12Field.html#exhale-class-classcrpropa-1-1jf12field"><span class="std std-ref">Class JF12Field</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1JF12FieldSolenoidal.html#exhale-class-classcrpropa-1-1jf12fieldsolenoidal"><span class="std std-ref">Class JF12FieldSolenoidal</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1LensPart.html#exhale-class-classcrpropa-1-1lenspart"><span class="std std-ref">Class LensPart</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1LogarithmicSpiralField.html#exhale-class-classcrpropa-1-1logarithmicspiralfield"><span class="std std-ref">Class LogarithmicSpiralField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MagneticDipoleField.html#exhale-class-classcrpropa-1-1magneticdipolefield"><span class="std std-ref">Class MagneticDipoleField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MagneticField.html#exhale-class-classcrpropa-1-1magneticfield"><span class="std std-ref">Class MagneticField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MagneticFieldEvolution.html#exhale-class-classcrpropa-1-1magneticfieldevolution"><span class="std std-ref">Class MagneticFieldEvolution</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MagneticFieldGrid.html#exhale-class-classcrpropa-1-1magneticfieldgrid"><span class="std std-ref">Class MagneticFieldGrid</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MagneticFieldList.html#exhale-class-classcrpropa-1-1magneticfieldlist"><span class="std std-ref">Class MagneticFieldList</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MagneticLens.html#exhale-class-classcrpropa-1-1magneticlens"><span class="std std-ref">Class MagneticLens</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MaximumTrajectoryLength.html#exhale-class-classcrpropa-1-1maximumtrajectorylength"><span class="std std-ref">Class MaximumTrajectoryLength</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MinimumChargeNumber.html#exhale-class-classcrpropa-1-1minimumchargenumber"><span class="std std-ref">Class MinimumChargeNumber</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MinimumEnergy.html#exhale-class-classcrpropa-1-1minimumenergy"><span class="std std-ref">Class MinimumEnergy</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MinimumEnergyPerParticleId.html#exhale-class-classcrpropa-1-1minimumenergyperparticleid"><span class="std std-ref">Class MinimumEnergyPerParticleId</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MinimumRedshift.html#exhale-class-classcrpropa-1-1minimumredshift"><span class="std std-ref">Class MinimumRedshift</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1MinimumRigidity.html#exhale-class-classcrpropa-1-1minimumrigidity"><span class="std std-ref">Class MinimumRigidity</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ModulatedMagneticFieldGrid.html#exhale-class-classcrpropa-1-1modulatedmagneticfieldgrid"><span class="std std-ref">Class ModulatedMagneticFieldGrid</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Module.html#exhale-class-classcrpropa-1-1module"><span class="std std-ref">Class Module</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ModuleList.html#exhale-class-classcrpropa-1-1modulelist"><span class="std std-ref">Class ModuleList</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ModuleListRunner.html#exhale-class-classcrpropa-1-1modulelistrunner"><span class="std std-ref">Class ModuleListRunner</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Nakanishi.html#exhale-class-classcrpropa-1-1nakanishi"><span class="std std-ref">Class Nakanishi</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1NuclearDecay.html#exhale-class-classcrpropa-1-1nucleardecay"><span class="std std-ref">Class NuclearDecay</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Observer.html#exhale-class-classcrpropa-1-1observer"><span class="std std-ref">Class Observer</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverDetectAll.html#exhale-class-classcrpropa-1-1observerdetectall"><span class="std std-ref">Class ObserverDetectAll</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverElectronVeto.html#exhale-class-classcrpropa-1-1observerelectronveto"><span class="std std-ref">Class ObserverElectronVeto</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverFeature.html#exhale-class-classcrpropa-1-1observerfeature"><span class="std std-ref">Class ObserverFeature</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverInactiveVeto.html#exhale-class-classcrpropa-1-1observerinactiveveto"><span class="std std-ref">Class ObserverInactiveVeto</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverLargeSphere.html#exhale-class-classcrpropa-1-1observerlargesphere"><span class="std std-ref">Class ObserverLargeSphere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverNeutrinoVeto.html#exhale-class-classcrpropa-1-1observerneutrinoveto"><span class="std std-ref">Class ObserverNeutrinoVeto</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverNucleusVeto.html#exhale-class-classcrpropa-1-1observernucleusveto"><span class="std std-ref">Class ObserverNucleusVeto</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverParticleIdVeto.html#exhale-class-classcrpropa-1-1observerparticleidveto"><span class="std std-ref">Class ObserverParticleIdVeto</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverPhotonVeto.html#exhale-class-classcrpropa-1-1observerphotonveto"><span class="std std-ref">Class ObserverPhotonVeto</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverPoint.html#exhale-class-classcrpropa-1-1observerpoint"><span class="std std-ref">Class ObserverPoint</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverRedshiftWindow.html#exhale-class-classcrpropa-1-1observerredshiftwindow"><span class="std std-ref">Class ObserverRedshiftWindow</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverSmallSphere.html#exhale-class-classcrpropa-1-1observersmallsphere"><span class="std std-ref">Class ObserverSmallSphere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverSurface.html#exhale-class-classcrpropa-1-1observersurface"><span class="std std-ref">Class ObserverSurface</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverTimeEvolution.html#exhale-class-classcrpropa-1-1observertimeevolution"><span class="std std-ref">Class ObserverTimeEvolution</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ObserverTracking.html#exhale-class-classcrpropa-1-1observertracking"><span class="std std-ref">Class ObserverTracking</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Output.html#exhale-class-classcrpropa-1-1output"><span class="std std-ref">Class Output</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ParaxialBox.html#exhale-class-classcrpropa-1-1paraxialbox"><span class="std std-ref">Class ParaxialBox</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ParticleCollector.html#exhale-class-classcrpropa-1-1particlecollector"><span class="std std-ref">Class ParticleCollector</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ParticleFilter.html#exhale-class-classcrpropa-1-1particlefilter"><span class="std std-ref">Class ParticleFilter</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ParticleMapsContainer.html#exhale-class-classcrpropa-1-1particlemapscontainer"><span class="std std-ref">Class ParticleMapsContainer</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ParticleSplitting.html#exhale-class-classcrpropa-1-1particlesplitting"><span class="std std-ref">Class ParticleSplitting</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ParticleState.html#exhale-class-classcrpropa-1-1particlestate"><span class="std std-ref">Class ParticleState</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PerformanceModule.html#exhale-class-classcrpropa-1-1performancemodule"><span class="std std-ref">Class PerformanceModule</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PeriodicBox.html#exhale-class-classcrpropa-1-1periodicbox"><span class="std std-ref">Class PeriodicBox</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PeriodicMagneticField.html#exhale-class-classcrpropa-1-1periodicmagneticfield"><span class="std std-ref">Class PeriodicMagneticField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PhotoDisintegration.html#exhale-class-classcrpropa-1-1photodisintegration"><span class="std std-ref">Class PhotoDisintegration</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PhotonEleCa.html#exhale-class-classcrpropa-1-1photoneleca"><span class="std std-ref">Class PhotonEleCa</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PhotonField.html#exhale-class-classcrpropa-1-1photonfield"><span class="std std-ref">Class PhotonField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PhotonOutput1D.html#exhale-class-classcrpropa-1-1photonoutput1d"><span class="std std-ref">Class PhotonOutput1D</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PhotoPionProduction.html#exhale-class-classcrpropa-1-1photopionproduction"><span class="std std-ref">Class PhotoPionProduction</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Pixelization.html#exhale-class-classcrpropa-1-1pixelization"><span class="std std-ref">Class Pixelization</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PlanckJF12bField.html#exhale-class-classcrpropa-1-1planckjf12bfield"><span class="std std-ref">Class PlanckJF12bField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Plane.html#exhale-class-classcrpropa-1-1plane"><span class="std std-ref">Class Plane</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PlaneWaveTurbulence.html#exhale-class-classcrpropa-1-1planewaveturbulence"><span class="std std-ref">Class PlaneWaveTurbulence</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PolarizedSingleModeMagneticField.html#exhale-class-classcrpropa-1-1polarizedsinglemodemagneticfield"><span class="std std-ref">Class PolarizedSingleModeMagneticField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PropagationBP.html#exhale-class-classcrpropa-1-1propagationbp"><span class="std std-ref">Class PropagationBP</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PropagationBP_1_1Y.html#exhale-class-classcrpropa-1-1propagationbp-1-1y"><span class="std std-ref">Class PropagationBP::Y</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PropagationCK.html#exhale-class-classcrpropa-1-1propagationck"><span class="std std-ref">Class PropagationCK</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PropagationCK_1_1Y.html#exhale-class-classcrpropa-1-1propagationck-1-1y"><span class="std std-ref">Class PropagationCK::Y</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1PT11Field.html#exhale-class-classcrpropa-1-1pt11field"><span class="std std-ref">Class PT11Field</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1QuasiLinearTheory.html#exhale-class-classcrpropa-1-1quasilineartheory"><span class="std std-ref">Class QuasiLinearTheory</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Random.html#exhale-class-classcrpropa-1-1random"><span class="std std-ref">Class Random</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Redshift.html#exhale-class-classcrpropa-1-1redshift"><span class="std std-ref">Class Redshift</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#exhale-class-classcrpropa-1-1ref-ptr"><span class="std std-ref">Template Class ref_ptr</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Referenced.html#exhale-class-classcrpropa-1-1referenced"><span class="std std-ref">Class Referenced</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ReflectiveBox.html#exhale-class-classcrpropa-1-1reflectivebox"><span class="std std-ref">Class ReflectiveBox</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1RestrictToRegion.html#exhale-class-classcrpropa-1-1restricttoregion"><span class="std std-ref">Class RestrictToRegion</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ScalarGrid.html#exhale-class-classcrpropa-1-1scalargrid"><span class="std std-ref">Class ScalarGrid</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SecondOrderFermi.html#exhale-class-classcrpropa-1-1secondorderfermi"><span class="std std-ref">Class SecondOrderFermi</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ShellOutput.html#exhale-class-classcrpropa-1-1shelloutput"><span class="std std-ref">Class ShellOutput</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ShellOutput1D.html#exhale-class-classcrpropa-1-1shelloutput1d"><span class="std std-ref">Class ShellOutput1D</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1ShellPropertyOutput.html#exhale-class-classcrpropa-1-1shellpropertyoutput"><span class="std std-ref">Class ShellPropertyOutput</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SimplePropagation.html#exhale-class-classcrpropa-1-1simplepropagation"><span class="std std-ref">Class SimplePropagation</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Source.html#exhale-class-classcrpropa-1-1source"><span class="std std-ref">Class Source</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceComposition.html#exhale-class-classcrpropa-1-1sourcecomposition"><span class="std std-ref">Class SourceComposition</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceDensityGrid.html#exhale-class-classcrpropa-1-1sourcedensitygrid"><span class="std std-ref">Class SourceDensityGrid</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceDensityGrid1D.html#exhale-class-classcrpropa-1-1sourcedensitygrid1d"><span class="std std-ref">Class SourceDensityGrid1D</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceDirectedEmission.html#exhale-class-classcrpropa-1-1sourcedirectedemission"><span class="std std-ref">Class SourceDirectedEmission</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceDirection.html#exhale-class-classcrpropa-1-1sourcedirection"><span class="std std-ref">Class SourceDirection</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceEmissionCone.html#exhale-class-classcrpropa-1-1sourceemissioncone"><span class="std std-ref">Class SourceEmissionCone</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceEmissionMap.html#exhale-class-classcrpropa-1-1sourceemissionmap"><span class="std std-ref">Class SourceEmissionMap</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceEnergy.html#exhale-class-classcrpropa-1-1sourceenergy"><span class="std std-ref">Class SourceEnergy</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceFeature.html#exhale-class-classcrpropa-1-1sourcefeature"><span class="std std-ref">Class SourceFeature</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceInterface.html#exhale-class-classcrpropa-1-1sourceinterface"><span class="std std-ref">Class SourceInterface</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceIsotropicEmission.html#exhale-class-classcrpropa-1-1sourceisotropicemission"><span class="std std-ref">Class SourceIsotropicEmission</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceLambertDistributionOnSphere.html#exhale-class-classcrpropa-1-1sourcelambertdistributiononsphere"><span class="std std-ref">Class SourceLambertDistributionOnSphere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceList.html#exhale-class-classcrpropa-1-1sourcelist"><span class="std std-ref">Class SourceList</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceMultipleParticleTypes.html#exhale-class-classcrpropa-1-1sourcemultipleparticletypes"><span class="std std-ref">Class SourceMultipleParticleTypes</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceMultiplePositions.html#exhale-class-classcrpropa-1-1sourcemultiplepositions"><span class="std std-ref">Class SourceMultiplePositions</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceParticleType.html#exhale-class-classcrpropa-1-1sourceparticletype"><span class="std std-ref">Class SourceParticleType</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourcePosition.html#exhale-class-classcrpropa-1-1sourceposition"><span class="std std-ref">Class SourcePosition</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourcePowerLawSpectrum.html#exhale-class-classcrpropa-1-1sourcepowerlawspectrum"><span class="std std-ref">Class SourcePowerLawSpectrum</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourcePulsarDistribution.html#exhale-class-classcrpropa-1-1sourcepulsardistribution"><span class="std std-ref">Class SourcePulsarDistribution</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceRedshift.html#exhale-class-classcrpropa-1-1sourceredshift"><span class="std std-ref">Class SourceRedshift</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceRedshift1D.html#exhale-class-classcrpropa-1-1sourceredshift1d"><span class="std std-ref">Class SourceRedshift1D</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceRedshiftEvolution.html#exhale-class-classcrpropa-1-1sourceredshiftevolution"><span class="std std-ref">Class SourceRedshiftEvolution</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceSNRDistribution.html#exhale-class-classcrpropa-1-1sourcesnrdistribution"><span class="std std-ref">Class SourceSNRDistribution</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniform1D.html#exhale-class-classcrpropa-1-1sourceuniform1d"><span class="std std-ref">Class SourceUniform1D</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniformBox.html#exhale-class-classcrpropa-1-1sourceuniformbox"><span class="std std-ref">Class SourceUniformBox</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniformCylinder.html#exhale-class-classcrpropa-1-1sourceuniformcylinder"><span class="std std-ref">Class SourceUniformCylinder</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniformHollowSphere.html#exhale-class-classcrpropa-1-1sourceuniformhollowsphere"><span class="std std-ref">Class SourceUniformHollowSphere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniformRedshift.html#exhale-class-classcrpropa-1-1sourceuniformredshift"><span class="std std-ref">Class SourceUniformRedshift</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniformShell.html#exhale-class-classcrpropa-1-1sourceuniformshell"><span class="std std-ref">Class SourceUniformShell</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SourceUniformSphere.html#exhale-class-classcrpropa-1-1sourceuniformsphere"><span class="std std-ref">Class SourceUniformSphere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Sphere.html#exhale-class-classcrpropa-1-1sphere"><span class="std std-ref">Class Sphere</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SphericalAdvectionField.html#exhale-class-classcrpropa-1-1sphericaladvectionfield"><span class="std std-ref">Class SphericalAdvectionField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SphericalAdvectionShock.html#exhale-class-classcrpropa-1-1sphericaladvectionshock"><span class="std std-ref">Class SphericalAdvectionShock</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SphericalBoundary.html#exhale-class-classcrpropa-1-1sphericalboundary"><span class="std std-ref">Class SphericalBoundary</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1StepLengthModifier.html#exhale-class-classcrpropa-1-1steplengthmodifier"><span class="std std-ref">Class StepLengthModifier</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Surface.html#exhale-class-classcrpropa-1-1surface"><span class="std std-ref">Class Surface</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1SynchrotronRadiation.html#exhale-class-classcrpropa-1-1synchrotronradiation"><span class="std std-ref">Class SynchrotronRadiation</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1TabularPhotonField.html#exhale-class-classcrpropa-1-1tabularphotonfield"><span class="std std-ref">Class TabularPhotonField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1TextOutput.html#exhale-class-classcrpropa-1-1textoutput"><span class="std std-ref">Class TextOutput</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1TF17Field.html#exhale-class-classcrpropa-1-1tf17field"><span class="std std-ref">Class TF17Field</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1TorroidalHaloField.html#exhale-class-classcrpropa-1-1torroidalhalofield"><span class="std std-ref">Class TorroidalHaloField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1TurbulenceSpectrum.html#exhale-class-classcrpropa-1-1turbulencespectrum"><span class="std std-ref">Class TurbulenceSpectrum</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1TurbulentField.html#exhale-class-classcrpropa-1-1turbulentfield"><span class="std std-ref">Class TurbulentField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1UniformAdvectionField.html#exhale-class-classcrpropa-1-1uniformadvectionfield"><span class="std std-ref">Class UniformAdvectionField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1UniformMagneticField.html#exhale-class-classcrpropa-1-1uniformmagneticfield"><span class="std std-ref">Class UniformMagneticField</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1URB__Fixsen11.html#exhale-class-classcrpropa-1-1urb-fixsen11"><span class="std std-ref">Class URB_Fixsen11</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1URB__Nitu21.html#exhale-class-classcrpropa-1-1urb-nitu21"><span class="std std-ref">Class URB_Nitu21</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1URB__Protheroe96.html#exhale-class-classcrpropa-1-1urb-protheroe96"><span class="std std-ref">Class URB_Protheroe96</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Variant.html#exhale-class-classcrpropa-1-1variant"><span class="std std-ref">Class Variant</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Variant_1_1bad__conversion.html#exhale-class-classcrpropa-1-1variant-1-1bad-conversion"><span class="std std-ref">Class Variant::bad_conversion</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1Vector3.html#exhale-class-classcrpropa-1-1vector3"><span class="std std-ref">Template Class Vector3</span></a></p></li>
+<li><p><a class="reference internal" href="classcrpropa_1_1VectorGrid.html#exhale-class-classcrpropa-1-1vectorgrid"><span class="std std-ref">Class VectorGrid</span></a></p></li>
+</ul>
+</section>
+<section id="enums">
+<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.html#exhale-enum-namespacecrpropa-1a025791393b56feb9a61c13b1d7eeafd5"><span class="std std-ref">Enum DetectionState</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.html#exhale-enum-namespacecrpropa-1aa197adf50cede38157e51842d7a713f8"><span class="std std-ref">Enum interpolationType</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c.html#exhale-enum-namespacecrpropa-1af7513ac77cc27dbf612a5e0690c82c4c"><span class="std std-ref">Enum TF17DiskModel</span></a></p></li>
+<li><p><a class="reference internal" href="enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5.html#exhale-enum-namespacecrpropa-1aafad8b2c308adeb57af2612eed384fb5"><span class="std std-ref">Enum TF17HaloModel</span></a></p></li>
+</ul>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga0c658ca545d45436c718148e9b82af87.html#exhale-function-group-physicsdefinitions-1ga0c658ca545d45436c718148e9b82af87"><span class="std std-ref">Function crpropa::chargeNumber</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gaea966817d7679bb00bd12e22135184fc.html#exhale-function-group-core-1gaea966817d7679bb00bd12e22135184fc"><span class="std std-ref">Template Function crpropa::clip</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gaecc325fd115bd796f3c0e77cb689ebae.html#exhale-function-group-core-1gaecc325fd115bd796f3c0e77cb689ebae"><span class="std std-ref">Function crpropa::closestIndex</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga99330b59d91d6c538122bc1e477e24c4.html#exhale-function-group-physicsdefinitions-1ga99330b59d91d6c538122bc1e477e24c4"><span class="std std-ref">Function crpropa::comoving2LightTravelDistance</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga512961b323c6706458df15e5c11f09fb.html#exhale-function-group-physicsdefinitions-1ga512961b323c6706458df15e5c11f09fb"><span class="std std-ref">Function crpropa::comovingDistance2Redshift</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga0663b76fe38fa53188a902e8f70bbb8c.html#exhale-function-group-core-1ga0663b76fe38fa53188a902e8f70bbb8c"><span class="std std-ref">Template Function crpropa::const_pointer_cast</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga03f1b5d08b70e6a06ed71d9006dea6de.html#exhale-function-group-physicsdefinitions-1ga03f1b5d08b70e6a06ed71d9006dea6de"><span class="std std-ref">Function crpropa::convertIdToName</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a29dbf1e61010b4104941a96eaa846cf1.html#exhale-function-namespacecrpropa-1a29dbf1e61010b4104941a96eaa846cf1"><span class="std std-ref">Function crpropa::deserialize</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2.html#exhale-function-group-core-1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2"><span class="std std-ref">Function crpropa::digit</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a7ea72826e167beaa042efafaec6876da.html#exhale-function-namespacecrpropa-1a7ea72826e167beaa042efafaec6876da"><span class="std std-ref">Function crpropa::DintElecaPropagation</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1aa45964706e7d6ba2ffac41794424769f.html#exhale-function-namespacecrpropa-1aa45964706e7d6ba2ffac41794424769f"><span class="std std-ref">Function crpropa::DintPropagation</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gad5b5ba4c8f79b6b797c57d7ee658c1a6.html#exhale-function-group-core-1gad5b5ba4c8f79b6b797c57d7ee658c1a6"><span class="std std-ref">Function crpropa::dumpGrid(ref_ptr&lt;Grid3f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga2be301c04cc62be7b1efdc3d8472dcda.html#exhale-function-group-core-1ga2be301c04cc62be7b1efdc3d8472dcda"><span class="std std-ref">Function crpropa::dumpGrid(ref_ptr&lt;Grid1f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gad230c08955c7a505eefe413366f4717a.html#exhale-function-group-core-1gad230c08955c7a505eefe413366f4717a"><span class="std std-ref">Function crpropa::dumpGridToTxt(ref_ptr&lt;Grid3f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga25cabf4d5be84ea94f9bd90d50b17a13.html#exhale-function-group-core-1ga25cabf4d5be84ea94f9bd90d50b17a13"><span class="std std-ref">Function crpropa::dumpGridToTxt(ref_ptr&lt;Grid1f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga44546dc98a4f8e8bd50afae4ae1fec8b.html#exhale-function-group-core-1ga44546dc98a4f8e8bd50afae4ae1fec8b"><span class="std std-ref">Template Function crpropa::dynamic_pointer_cast</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1aca0899b6299bda24481d6ec1eeff7988.html#exhale-function-namespacecrpropa-1aca0899b6299bda24481d6ec1eeff7988"><span class="std std-ref">Function crpropa::ElecaPropagation</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gaf89e81d370fe811cc9386261f02166a5.html#exhale-function-group-core-1gaf89e81d370fe811cc9386261f02166a5"><span class="std std-ref">Function crpropa::fromMagneticField</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga0501e5b31dd2cdb5159459d874f16d30.html#exhale-function-group-core-1ga0501e5b31dd2cdb5159459d874f16d30"><span class="std std-ref">Function crpropa::fromMagneticFieldStrength</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1.html#exhale-function-namespacecrpropa-1a7b2c3263f63a99e6ed493fb1848a8ff1"><span class="std std-ref">Template Function crpropa::gaussInt</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6.html#exhale-function-group-core-1ga1bb6f6a9de2fdd3f1fd8e1f36a03d1b6"><span class="std std-ref">Template Function crpropa::get_pointer</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga1df13d495273a79e3350f157af7b4ea3.html#exhale-function-group-core-1ga1df13d495273a79e3350f157af7b4ea3"><span class="std std-ref">Function crpropa::getDataPath</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gafaaaa2733a31f763ffd1fa28bfab81ca.html#exhale-function-group-core-1gafaaaa2733a31f763ffd1fa28bfab81ca"><span class="std std-ref">Function crpropa::getInstallPrefix</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga6fccfc5a896dc6f1036d2abbfca4ae2a.html#exhale-function-group-physicsdefinitions-1ga6fccfc5a896dc6f1036d2abbfca4ae2a"><span class="std std-ref">Function crpropa::H0</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1gaca47de327745e542b987dc0fdc0544ad.html#exhale-function-group-physicsdefinitions-1gaca47de327745e542b987dc0fdc0544ad"><span class="std std-ref">Function crpropa::hubbleRate</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga3ea9c7bef53d02cb7a867c72182768b7.html#exhale-function-group-core-1ga3ea9c7bef53d02cb7a867c72182768b7"><span class="std std-ref">Function crpropa::interpolate</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gab28d821e32f177c9c1d1e3658796f259.html#exhale-function-group-core-1gab28d821e32f177c9c1d1e3658796f259"><span class="std std-ref">Function crpropa::interpolate2d</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga45ce85dc4b25887b2c527719c7531b4e.html#exhale-function-group-core-1ga45ce85dc4b25887b2c527719c7531b4e"><span class="std std-ref">Function crpropa::interpolateEquidistant</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga6807b028241faff59152dde29e2edfb9.html#exhale-function-group-core-1ga6807b028241faff59152dde29e2edfb9"><span class="std std-ref">Function crpropa::intrusive_ptr_add_ref</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gadd64a0c21dcedde2102f949e36f2f1d3.html#exhale-function-group-core-1gadd64a0c21dcedde2102f949e36f2f1d3"><span class="std std-ref">Function crpropa::intrusive_ptr_release</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga7a02cec5006af6f5eb4bd415ea9ab2db.html#exhale-function-group-physicsdefinitions-1ga7a02cec5006af6f5eb4bd415ea9ab2db"><span class="std std-ref">Function crpropa::isNucleus</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga1cad0b62bf8c1b8b1dd44295b3ec40f9.html#exhale-function-group-physicsdefinitions-1ga1cad0b62bf8c1b8b1dd44295b3ec40f9"><span class="std std-ref">Function crpropa::lightTravel2ComovingDistance</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga203d7d59dabadfa6e77a05263f77c819.html#exhale-function-group-physicsdefinitions-1ga203d7d59dabadfa6e77a05263f77c819"><span class="std std-ref">Function crpropa::lightTravelDistance2Redshift</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gab7c740cf66f560083029b8a6196a46a4.html#exhale-function-group-core-1gab7c740cf66f560083029b8a6196a46a4"><span class="std std-ref">Function crpropa::loadGrid(ref_ptr&lt;Grid3f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga091a17cca41dba2b79ec383f7f9e8f37.html#exhale-function-group-core-1ga091a17cca41dba2b79ec383f7f9e8f37"><span class="std std-ref">Function crpropa::loadGrid(ref_ptr&lt;Grid1f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gaad9520b837fa3ff060ed1786da8c7f52.html#exhale-function-group-core-1gaad9520b837fa3ff060ed1786da8c7f52"><span class="std std-ref">Function crpropa::loadGridFromTxt(ref_ptr&lt;Grid3f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gab66dd49f6fc38ee6834eff297e730ae3.html#exhale-function-group-core-1gab66dd49f6fc38ee6834eff297e730ae3"><span class="std std-ref">Function crpropa::loadGridFromTxt(ref_ptr&lt;Grid1f&gt;, std::string, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1gafe272632098a27755f88a8503e04481f.html#exhale-function-group-physicsdefinitions-1gafe272632098a27755f88a8503e04481f"><span class="std std-ref">Function crpropa::luminosityDistance2Redshift</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1gaf2b051d255cfeb00149e80831e0c3b5d.html#exhale-function-group-physicsdefinitions-1gaf2b051d255cfeb00149e80831e0c3b5d"><span class="std std-ref">Function crpropa::massNumber</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a2f6ed50a4dd5e68e6532340866a6819d.html#exhale-function-namespacecrpropa-1a2f6ed50a4dd5e68e6532340866a6819d"><span class="std std-ref">Function crpropa::maximumOfSumsOfColumns</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga35a4fc74b7deadd58ff6209df14140c0.html#exhale-function-group-core-1ga35a4fc74b7deadd58ff6209df14140c0"><span class="std std-ref">Function crpropa::meanFieldStrength(ref_ptr&lt;Grid1f&gt;)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga095a3cc70d79ca2a58df236d823fc7f2.html#exhale-function-group-core-1ga095a3cc70d79ca2a58df236d823fc7f2"><span class="std std-ref">Function crpropa::meanFieldStrength(ref_ptr&lt;Grid3f&gt;)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga14e9170907096634f33d71ec5aae75d3.html#exhale-function-group-core-1ga14e9170907096634f33d71ec5aae75d3"><span class="std std-ref">Function crpropa::meanFieldVector</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a855096c8ab3bc4b926e81bd45d2ed743.html#exhale-function-namespacecrpropa-1a855096c8ab3bc4b926e81bd45d2ed743"><span class="std std-ref">Function crpropa::norm_1</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a02a34444430a990a7a1cec430148f345.html#exhale-function-namespacecrpropa-1a02a34444430a990a7a1cec430148f345"><span class="std std-ref">Function crpropa::normalizeColumns</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1ad8d07016ad6bfeeb3820f0e6a28c4f77.html#exhale-function-namespacecrpropa-1ad8d07016ad6bfeeb3820f0e6a28c4f77"><span class="std std-ref">Function crpropa::normalizeMatrix</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga2f8daaf6e06efae63d7c323230458937.html#exhale-function-group-physicsdefinitions-1ga2f8daaf6e06efae63d7c323230458937"><span class="std std-ref">Function crpropa::nuclearMass(int)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga6a21da6982c810db1b77794e8b9ef179.html#exhale-function-group-physicsdefinitions-1ga6a21da6982c810db1b77794e8b9ef179"><span class="std std-ref">Function crpropa::nuclearMass(int, int)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga4cfe916fc8af0f4a394ad6e541a1e834.html#exhale-function-group-physicsdefinitions-1ga4cfe916fc8af0f4a394ad6e541a1e834"><span class="std std-ref">Function crpropa::nucleusId</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga73ed5eab2ffc8064c0cb8f169d568a07.html#exhale-function-group-physicsdefinitions-1ga73ed5eab2ffc8064c0cb8f169d568a07"><span class="std std-ref">Function crpropa::omegaL</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1gac97a929f7aaea9e4a346e319167d05fa.html#exhale-function-group-physicsdefinitions-1gac97a929f7aaea9e4a346e319167d05fa"><span class="std std-ref">Function crpropa::omegaM</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga23bf6b37f4133adc37b6f3d057410c94.html#exhale-function-group-core-1ga23bf6b37f4133adc37b6f3d057410c94"><span class="std std-ref">Template Function crpropa::operator*</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a0a3faf0d97b1add4a0fc947c3498415d.html#exhale-function-namespacecrpropa-1a0a3faf0d97b1add4a0fc947c3498415d"><span class="std std-ref">Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Variant&amp;)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gaf1695869279c2571e31c8547f65fe9c5.html#exhale-function-group-core-1gaf1695869279c2571e31c8547f65fe9c5"><span class="std std-ref">Template Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Vector3&lt;T&gt;&amp;)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga688c4960d76366bf6fce1cf5eac2f129.html#exhale-function-group-core-1ga688c4960d76366bf6fce1cf5eac2f129"><span class="std std-ref">Template Function crpropa::operator&gt;&gt;</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.html#exhale-function-namespacecrpropa-1ae8add7f940570a0e49a13093314654aa"><span class="std std-ref">Function crpropa::periodicBoundary</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201.html#exhale-function-namespacecrpropa-1a40c64acf5922cfe05f6b5a82d008b201"><span class="std std-ref">Function crpropa::periodicClamp</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95.html#exhale-function-namespacecrpropa-1a84149e2a416af8480e9d992cbd1eed95"><span class="std std-ref">Template Function crpropa::pow_integer</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html#exhale-function-namespacecrpropa-1af4fe3bfea48d26d7e167c0129dc277cf"><span class="std std-ref">Function crpropa::pow_integer&lt; 0 &gt;</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a311fac498c76c37962a69f010f41dc43.html#exhale-function-namespacecrpropa-1a311fac498c76c37962a69f010f41dc43"><span class="std std-ref">Function crpropa::prod_up</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga74be55ec3e23caff21310b51b53cab35.html#exhale-function-group-physicsdefinitions-1ga74be55ec3e23caff21310b51b53cab35"><span class="std std-ref">Function crpropa::redshift2ComovingDistance</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga682405d9081864aaa0b706ede0736244.html#exhale-function-group-physicsdefinitions-1ga682405d9081864aaa0b706ede0736244"><span class="std std-ref">Function crpropa::redshift2LightTravelDistance</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1ga21044b6b8dc8baa6bc0d62296b5be92c.html#exhale-function-group-physicsdefinitions-1ga21044b6b8dc8baa6bc0d62296b5be92c"><span class="std std-ref">Function crpropa::redshift2LuminosityDistance</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.html#exhale-function-namespacecrpropa-1a42f2bb65aca43e8defb9d7a922814c7f"><span class="std std-ref">Function crpropa::reflectiveBoundary</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.html#exhale-function-namespacecrpropa-1ace22026777085984c6892b1fe629ec13"><span class="std std-ref">Function crpropa::reflectiveClamp</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga788ff1002bda23d428e0e43ac5b7cf3a.html#exhale-function-group-core-1ga788ff1002bda23d428e0e43ac5b7cf3a"><span class="std std-ref">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid1f&gt;)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga42f4cdca40b5d3f1632ac93a886a8781.html#exhale-function-group-core-1ga42f4cdca40b5d3f1632ac93a886a8781"><span class="std std-ref">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gad823c8cf8555f1b45432468adef2d404.html#exhale-function-group-core-1gad823c8cf8555f1b45432468adef2d404"><span class="std std-ref">Function crpropa::rmsFieldStrengthPerAxis</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1afdfae60dd4680363c4a98a60d4b087b6.html#exhale-function-namespacecrpropa-1afdfae60dd4680363c4a98a60d4b087b6"><span class="std std-ref">Function crpropa::round</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga0d66e0a4632d21364c4227784074f53e.html#exhale-function-group-core-1ga0d66e0a4632d21364c4227784074f53e"><span class="std std-ref">Function crpropa::scaleGrid(ref_ptr&lt;Grid1f&gt;, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gad86fe3acb119896b39adb6d751b57700.html#exhale-function-group-core-1gad86fe3acb119896b39adb6d751b57700"><span class="std std-ref">Function crpropa::scaleGrid(ref_ptr&lt;Grid3f&gt;, double)</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacecrpropa_1aa9174909a4e0ee185d124caabf1549a0.html#exhale-function-namespacecrpropa-1aa9174909a4e0ee185d124caabf1549a0"><span class="std std-ref">Function crpropa::serialize</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__PhysicsDefinitions_1gaf26fcc97f8c2cd7b6613950265dbd473.html#exhale-function-group-physicsdefinitions-1gaf26fcc97f8c2cd7b6613950265dbd473"><span class="std std-ref">Function crpropa::setCosmologyParameters</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1ga21ca69db76e5efe007489b30d0d92ef8.html#exhale-function-group-core-1ga21ca69db76e5efe007489b30d0d92ef8"><span class="std std-ref">Template Function crpropa::static_pointer_cast</span></a></p></li>
+<li><p><a class="reference internal" href="function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.html#exhale-function-group-core-1gaef75b9b7ae9d4b5d5258b8674259d715"><span class="std std-ref">Template Function crpropa::swap</span></a></p></li>
+</ul>
+</section>
+<section id="typedefs">
+<h2>Typedefs<a class="headerlink" href="#typedefs" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html#exhale-typedef-namespacecrpropa-1ad47ce08e957c3542cd0715bc2e933293"><span class="std std-ref">Typedef crpropa::const_LensPartIter</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html#exhale-typedef-group-core-1gad761d09abe25f824acac027b04dd1507"><span class="std std-ref">Typedef crpropa::Grid1d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#exhale-typedef-group-core-1ga618737687b6e91f66fe1f4da1134e925"><span class="std std-ref">Typedef crpropa::Grid1f</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_group__Core_1gace03eaf2fd573de2d84e3aebf60fd729.html#exhale-typedef-group-core-1gace03eaf2fd573de2d84e3aebf60fd729"><span class="std std-ref">Typedef crpropa::Grid3d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#exhale-typedef-group-core-1gaa4f8aec71606a16ed58c4f16efaabb23"><span class="std std-ref">Typedef crpropa::Grid3f</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespacecrpropa_1af135df255ba94df054e3289a0526f3b3.html#exhale-typedef-namespacecrpropa-1af135df255ba94df054e3289a0526f3b3"><span class="std std-ref">Typedef crpropa::LensPartIter</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespacecrpropa_1afdeae388527922b41dd13abc77ffdb59.html#exhale-typedef-namespacecrpropa-1afdeae388527922b41dd13abc77ffdb59"><span class="std std-ref">Typedef crpropa::ModelMatrixType</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_namespacecrpropa_1a38b820ffe798c468ff6cf1b15efad830.html#exhale-typedef-namespacecrpropa-1a38b820ffe798c468ff6cf1b15efad830"><span class="std std-ref">Typedef crpropa::ModelVectorType</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#exhale-typedef-group-core-1ga1f05093f5ee1a9ecdd54476792e4c206"><span class="std std-ref">Typedef crpropa::Vector3d</span></a></p></li>
+<li><p><a class="reference internal" href="typedef_group__Core_1gaf345ad77ba5e240c7ab72b4b2077e754.html#exhale-typedef-group-core-1gaf345ad77ba5e240c7ab72b4b2077e754"><span class="std std-ref">Typedef crpropa::Vector3f</span></a></p></li>
+</ul>
+</section>
+<section id="variables">
+<h2>Variables<a class="headerlink" href="#variables" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.html#exhale-variable-group-magneticlenses-1gae5e279b73f61763edc7d0651e38e481d"><span class="std std-ref">Variable crpropa::_nOrder_max</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.html#exhale-variable-group-magneticlenses-1ga3e6fb5fa38bb69d9a6852cf2e0d97437"><span class="std std-ref">Variable crpropa::_nPix</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c.html#exhale-variable-group-physicsdefinitions-1gaa772c1c559fd8275f62df4628594c14c"><span class="std std-ref">Variable crpropa::ampere</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679.html#exhale-variable-group-physicsdefinitions-1ga0595e59a9bf296545e5ab563066df679"><span class="std std-ref">Variable crpropa::amu</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d.html#exhale-variable-group-physicsdefinitions-1ga5014cfb8c7422235fb7a8e549e29284d"><span class="std std-ref">Variable crpropa::atto</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gae57f427be881e4c8f1163470da1befb2.html#exhale-variable-group-physicsdefinitions-1gae57f427be881e4c8f1163470da1befb2"><span class="std std-ref">Variable crpropa::au</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8d9a59356bad97a6e73cc459a35bc274.html#exhale-variable-group-physicsdefinitions-1ga8d9a59356bad97a6e73cc459a35bc274"><span class="std std-ref">Variable crpropa::barn</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2085cc4cdb90e7a156b5dbdbe44bf7aa.html#exhale-variable-group-physicsdefinitions-1ga2085cc4cdb90e7a156b5dbdbe44bf7aa"><span class="std std-ref">Variable crpropa::c_light</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga35d305b22a8de1cab9f18bf3e0fe48ba.html#exhale-variable-group-physicsdefinitions-1ga35d305b22a8de1cab9f18bf3e0fe48ba"><span class="std std-ref">Variable crpropa::c_squared</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga9c4fc0db13341889d27441fd36da13c5.html#exhale-variable-group-physicsdefinitions-1ga9c4fc0db13341889d27441fd36da13c5"><span class="std std-ref">Variable crpropa::ccm</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8b99ed3101c591c1133f492d94fa3685.html#exhale-variable-group-physicsdefinitions-1ga8b99ed3101c591c1133f492d94fa3685"><span class="std std-ref">Variable crpropa::centimeter</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad0b9a58075a15c1cb674a2b879402853.html#exhale-variable-group-physicsdefinitions-1gad0b9a58075a15c1cb674a2b879402853"><span class="std std-ref">Variable crpropa::cm</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga9f729835f8d7ddb8ab71fce2108d7566.html#exhale-variable-group-physicsdefinitions-1ga9f729835f8d7ddb8ab71fce2108d7566"><span class="std std-ref">Variable crpropa::coulomb</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2f5042227e4fdba943844e169f5cf010.html#exhale-variable-group-physicsdefinitions-1ga2f5042227e4fdba943844e169f5cf010"><span class="std std-ref">Variable crpropa::deg</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab1e9216cf93077db4901e1820dffa132.html#exhale-variable-group-physicsdefinitions-1gab1e9216cf93077db4901e1820dffa132"><span class="std std-ref">Variable crpropa::EeV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga384bc54c9a15fa0d84ae78416653c9c4.html#exhale-variable-group-physicsdefinitions-1ga384bc54c9a15fa0d84ae78416653c9c4"><span class="std std-ref">Variable crpropa::electronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga53b77492aea234537215b9ba7177882c.html#exhale-variable-group-physicsdefinitions-1ga53b77492aea234537215b9ba7177882c"><span class="std std-ref">Variable crpropa::eplus</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab38b15c5eece78fad9d84103d8b90a89.html#exhale-variable-group-physicsdefinitions-1gab38b15c5eece78fad9d84103d8b90a89"><span class="std std-ref">Variable crpropa::epsilon0</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8d678b199c22b3f6719333b6ed3b3e39.html#exhale-variable-group-physicsdefinitions-1ga8d678b199c22b3f6719333b6ed3b3e39"><span class="std std-ref">Variable crpropa::erg</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga87b385f118e3715860117a77eda7136d.html#exhale-variable-group-physicsdefinitions-1ga87b385f118e3715860117a77eda7136d"><span class="std std-ref">Variable crpropa::eV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga7f1280863986e5f4b59fae29afbecabc.html#exhale-variable-group-physicsdefinitions-1ga7f1280863986e5f4b59fae29afbecabc"><span class="std std-ref">Variable crpropa::exa</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4aa592dff0d55ae915648a03dfe46dd1.html#exhale-variable-group-physicsdefinitions-1ga4aa592dff0d55ae915648a03dfe46dd1"><span class="std std-ref">Variable crpropa::exaelectronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gabea2135256ac31f26ed041ab577f8c13.html#exhale-variable-group-physicsdefinitions-1gabea2135256ac31f26ed041ab577f8c13"><span class="std std-ref">Variable crpropa::femto</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad7c4f80eaae50061ac4b754cbb5f0275.html#exhale-variable-group-physicsdefinitions-1gad7c4f80eaae50061ac4b754cbb5f0275"><span class="std std-ref">Variable crpropa::gauss</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaec0e126d9991db8ad0b26139f5860568.html#exhale-variable-group-physicsdefinitions-1gaec0e126d9991db8ad0b26139f5860568"><span class="std std-ref">Variable crpropa::GeV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf2299d510cc08e636439584682a88303.html#exhale-variable-group-physicsdefinitions-1gaf2299d510cc08e636439584682a88303"><span class="std std-ref">Variable crpropa::giga</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga67f77928286c0c47c56fb64ef6445517.html#exhale-variable-group-physicsdefinitions-1ga67f77928286c0c47c56fb64ef6445517"><span class="std std-ref">Variable crpropa::gigaelectronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf8524dd93cb2df63eabbbd443e5014ff.html#exhale-variable-group-physicsdefinitions-1gaf8524dd93cb2df63eabbbd443e5014ff"><span class="std std-ref">Variable crpropa::gigaparsec</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaaf33764feb34669b8ffe006cc943067d.html#exhale-variable-group-physicsdefinitions-1gaaf33764feb34669b8ffe006cc943067d"><span class="std std-ref">Variable crpropa::Gpc</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5625ec9f520a5f041fb88f5da5f94bef.html#exhale-variable-group-physicsdefinitions-1ga5625ec9f520a5f041fb88f5da5f94bef"><span class="std std-ref">Variable crpropa::h_planck</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1f940bb86795ed45e1417ad32321a551.html#exhale-variable-group-physicsdefinitions-1ga1f940bb86795ed45e1417ad32321a551"><span class="std std-ref">Variable crpropa::hertz</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga09c047eba91ce1d85e4e7fdd4bafebe4.html#exhale-variable-group-physicsdefinitions-1ga09c047eba91ce1d85e4e7fdd4bafebe4"><span class="std std-ref">Variable crpropa::hour</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaca2a407ebab577eb092585f84631c8d0.html#exhale-variable-group-physicsdefinitions-1gaca2a407ebab577eb092585f84631c8d0"><span class="std std-ref">Variable crpropa::joule</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga12088648de7f88c5accd233032d3153e.html#exhale-variable-group-physicsdefinitions-1ga12088648de7f88c5accd233032d3153e"><span class="std std-ref">Variable crpropa::k_boltzmann</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad6635fb9b9ed7cc9fee15071b9432091.html#exhale-variable-group-physicsdefinitions-1gad6635fb9b9ed7cc9fee15071b9432091"><span class="std std-ref">Variable crpropa::kelvin</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga71187dfc8f158326cbf7bed526138aae.html#exhale-variable-group-physicsdefinitions-1ga71187dfc8f158326cbf7bed526138aae"><span class="std std-ref">Variable crpropa::keV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga05ccc8bd868280980dab40ca4128d8e4.html#exhale-variable-group-physicsdefinitions-1ga05ccc8bd868280980dab40ca4128d8e4"><span class="std std-ref">Variable crpropa::kilo</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2e4f006f78ed12d318baa9ef08a9e799.html#exhale-variable-group-physicsdefinitions-1ga2e4f006f78ed12d318baa9ef08a9e799"><span class="std std-ref">Variable crpropa::kiloelectronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8955be82c3d643afe27de76d06df52e8.html#exhale-variable-group-physicsdefinitions-1ga8955be82c3d643afe27de76d06df52e8"><span class="std std-ref">Variable crpropa::kilogram</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga6183103d0e243ef4347cd071cc5fd68b.html#exhale-variable-group-physicsdefinitions-1ga6183103d0e243ef4347cd071cc5fd68b"><span class="std std-ref">Variable crpropa::kilometer</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga0470d2bb7af674e93def309564e0d51a.html#exhale-variable-group-physicsdefinitions-1ga0470d2bb7af674e93def309564e0d51a"><span class="std std-ref">Variable crpropa::kiloparsec</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaaf85ed8b741937db702f62aac693ae5d.html#exhale-variable-group-physicsdefinitions-1gaaf85ed8b741937db702f62aac693ae5d"><span class="std std-ref">Variable crpropa::km</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184.html#exhale-variable-group-physicsdefinitions-1ga1ec6fd9219412d45c0565c29304d5184"><span class="std std-ref">Variable crpropa::kpc</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaaa1e0123e1baad493ec687904a428cbf.html#exhale-variable-group-physicsdefinitions-1gaaa1e0123e1baad493ec687904a428cbf"><span class="std std-ref">Variable crpropa::ly</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga21aa8093ee2f43ed4e85b31b64304c7a.html#exhale-variable-group-physicsdefinitions-1ga21aa8093ee2f43ed4e85b31b64304c7a"><span class="std std-ref">Variable crpropa::mass_electron</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1d1f8f060a1f4657bafdd7065b01d943.html#exhale-variable-group-physicsdefinitions-1ga1d1f8f060a1f4657bafdd7065b01d943"><span class="std std-ref">Variable crpropa::mass_neutron</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaf5068a3fc840800f912a14e09c4777ff.html#exhale-variable-group-physicsdefinitions-1gaf5068a3fc840800f912a14e09c4777ff"><span class="std std-ref">Variable crpropa::mass_proton</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga8912b14f7b302e534e7eb063288f6ee9.html#exhale-variable-group-physicsdefinitions-1ga8912b14f7b302e534e7eb063288f6ee9"><span class="std std-ref">Variable crpropa::mega</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4f2c7d727d45a6c6a39e648c48a68bf4.html#exhale-variable-group-physicsdefinitions-1ga4f2c7d727d45a6c6a39e648c48a68bf4"><span class="std std-ref">Variable crpropa::megaelectronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac3da9c52caabd55b3d229735cc925e5e.html#exhale-variable-group-physicsdefinitions-1gac3da9c52caabd55b3d229735cc925e5e"><span class="std std-ref">Variable crpropa::megaparsec</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga81230fc213736db75d5c970e68886a10.html#exhale-variable-group-physicsdefinitions-1ga81230fc213736db75d5c970e68886a10"><span class="std std-ref">Variable crpropa::meter</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac90e720c4654493ae50b7b964cc6b20d.html#exhale-variable-group-physicsdefinitions-1gac90e720c4654493ae50b7b964cc6b20d"><span class="std std-ref">Variable crpropa::MeV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga9edb08003fe77ed3bacd9ea23bcfa66b.html#exhale-variable-group-physicsdefinitions-1ga9edb08003fe77ed3bacd9ea23bcfa66b"><span class="std std-ref">Variable crpropa::micro</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab70342abf0832b9dd265964c21681319.html#exhale-variable-group-physicsdefinitions-1gab70342abf0832b9dd265964c21681319"><span class="std std-ref">Variable crpropa::microgauss</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga33252a2d991e1b089ea0c7540ef334ea.html#exhale-variable-group-physicsdefinitions-1ga33252a2d991e1b089ea0c7540ef334ea"><span class="std std-ref">Variable crpropa::microsecond</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga795961ce904cb279d5fd18b27622c9a0.html#exhale-variable-group-physicsdefinitions-1ga795961ce904cb279d5fd18b27622c9a0"><span class="std std-ref">Variable crpropa::milli</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gae32c5b1394299598268f59e850e70d91.html#exhale-variable-group-physicsdefinitions-1gae32c5b1394299598268f59e850e70d91"><span class="std std-ref">Variable crpropa::millisecond</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga583f186218b8bf2ad5c54928a6c20134.html#exhale-variable-group-physicsdefinitions-1ga583f186218b8bf2ad5c54928a6c20134"><span class="std std-ref">Variable crpropa::minute</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaabefcc198b3e2606497fd55b370846fa.html#exhale-variable-group-physicsdefinitions-1gaabefcc198b3e2606497fd55b370846fa"><span class="std std-ref">Variable crpropa::mol</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga03be4183d6f731898634e3649865848c.html#exhale-variable-group-physicsdefinitions-1ga03be4183d6f731898634e3649865848c"><span class="std std-ref">Variable crpropa::Mpc</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga40448747ca0606885ccc70b72ed78001.html#exhale-variable-group-physicsdefinitions-1ga40448747ca0606885ccc70b72ed78001"><span class="std std-ref">Variable crpropa::ms</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaa2940cb38b48f36a88341bd268778847.html#exhale-variable-group-physicsdefinitions-1gaa2940cb38b48f36a88341bd268778847"><span class="std std-ref">Variable crpropa::mu0</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5596cdaf7a42ba58794c2c6dc5e1e7dd.html#exhale-variable-group-physicsdefinitions-1ga5596cdaf7a42ba58794c2c6dc5e1e7dd"><span class="std std-ref">Variable crpropa::muG</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga38012ba2795f7181e87ea3a4a0b0e32f.html#exhale-variable-group-physicsdefinitions-1ga38012ba2795f7181e87ea3a4a0b0e32f"><span class="std std-ref">Variable crpropa::mus</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac6aa1e9406f8b758f5e41d80e0045733.html#exhale-variable-group-physicsdefinitions-1gac6aa1e9406f8b758f5e41d80e0045733"><span class="std std-ref">Variable crpropa::nano</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab676ddbbf379cc0ee93944717e1ac9eb.html#exhale-variable-group-physicsdefinitions-1gab676ddbbf379cc0ee93944717e1ac9eb"><span class="std std-ref">Variable crpropa::nanogauss</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab1ad77ec7ae37ba36c2c7f8785440281.html#exhale-variable-group-physicsdefinitions-1gab1ad77ec7ae37ba36c2c7f8785440281"><span class="std std-ref">Variable crpropa::nanosecond</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga86cabed6b39944d7bada06028f98c864.html#exhale-variable-group-physicsdefinitions-1ga86cabed6b39944d7bada06028f98c864"><span class="std std-ref">Variable crpropa::newton</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab2255fb9f970de1ddc40b38fe9065de4.html#exhale-variable-group-physicsdefinitions-1gab2255fb9f970de1ddc40b38fe9065de4"><span class="std std-ref">Variable crpropa::nG</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gae9508134491d8a9621d23f07281096c7.html#exhale-variable-group-physicsdefinitions-1gae9508134491d8a9621d23f07281096c7"><span class="std std-ref">Variable crpropa::ns</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gadbbb3073e1b8a1b9fd72a488dc7abefa.html#exhale-variable-group-physicsdefinitions-1gadbbb3073e1b8a1b9fd72a488dc7abefa"><span class="std std-ref">Variable crpropa::parsec</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaab6215c4cb38b8fcb808d8ff11e0940c.html#exhale-variable-group-physicsdefinitions-1gaab6215c4cb38b8fcb808d8ff11e0940c"><span class="std std-ref">Variable crpropa::pascal</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2884cd030c4c825754349a525a1d06ce.html#exhale-variable-group-physicsdefinitions-1ga2884cd030c4c825754349a525a1d06ce"><span class="std std-ref">Variable crpropa::pc</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gab4e48de47138d9b3db5a04e1a3d6be1d.html#exhale-variable-group-physicsdefinitions-1gab4e48de47138d9b3db5a04e1a3d6be1d"><span class="std std-ref">Variable crpropa::peta</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaea037b37e9acec1a6e766802f3ebd7fb.html#exhale-variable-group-physicsdefinitions-1gaea037b37e9acec1a6e766802f3ebd7fb"><span class="std std-ref">Variable crpropa::petaelectronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga463540ec70967dcc4e597ef8adc7f44c.html#exhale-variable-group-physicsdefinitions-1ga463540ec70967dcc4e597ef8adc7f44c"><span class="std std-ref">Variable crpropa::PeV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8.html#exhale-variable-group-physicsdefinitions-1gac6aff7a2b743abc2a58df8e7b34470d8"><span class="std std-ref">Variable crpropa::pico</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.html#exhale-variable-group-physicsdefinitions-1ga509c941bf1649360f649fda481fa10f0"><span class="std std-ref">Variable crpropa::rad</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1.html#exhale-variable-group-physicsdefinitions-1ga775a3e65279359fb2b464f0aedc383f1"><span class="std std-ref">Variable crpropa::sec</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219.html#exhale-variable-group-physicsdefinitions-1ga4e6001382c137dd906faab8f49a0a219"><span class="std std-ref">Variable crpropa::second</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce.html#exhale-variable-group-physicsdefinitions-1ga601bd967274470accc5c479bf1a991ce"><span class="std std-ref">Variable crpropa::tera</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81.html#exhale-variable-group-physicsdefinitions-1ga6591214065a17f6977e05807be74db81"><span class="std std-ref">Variable crpropa::teraelectronvolt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a.html#exhale-variable-group-physicsdefinitions-1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a"><span class="std std-ref">Variable crpropa::tesla</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga7f801e1f6821bc6baf0652ed2496e5e9.html#exhale-variable-group-physicsdefinitions-1ga7f801e1f6821bc6baf0652ed2496e5e9"><span class="std std-ref">Variable crpropa::TeV</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga90ad310c0986c21c31d3695d97922db7.html#exhale-variable-group-physicsdefinitions-1ga90ad310c0986c21c31d3695d97922db7"><span class="std std-ref">Variable crpropa::volt</span></a></p></li>
+<li><p><a class="reference internal" href="variable_namespacecrpropa_1a43779031bbc6e102be279b8702c5eef5.html#exhale-variable-namespacecrpropa-1a43779031bbc6e102be279b8702c5eef5"><span class="std std-ref">Variable crpropa::W</span></a></p></li>
+<li><p><a class="reference internal" href="variable_namespacecrpropa_1ae0e636b5119e31607138675be292cf2c.html#exhale-variable-namespacecrpropa-1ae0e636b5119e31607138675be292cf2c"><span class="std std-ref">Variable crpropa::X</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad9f87532fe6bac146c75ef173bd468d8.html#exhale-variable-group-physicsdefinitions-1gad9f87532fe6bac146c75ef173bd468d8"><span class="std std-ref">Variable crpropa::yocto</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga85979a8ef8dbc332c635191cd40a3b0c.html#exhale-variable-group-physicsdefinitions-1ga85979a8ef8dbc332c635191cd40a3b0c"><span class="std std-ref">Variable crpropa::yotta</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaecd7702608529a1c8d8c744542b64bd4.html#exhale-variable-group-physicsdefinitions-1gaecd7702608529a1c8d8c744542b64bd4"><span class="std std-ref">Variable crpropa::zepto</span></a></p></li>
+<li><p><a class="reference internal" href="variable_group__PhysicsDefinitions_1gad92d24cec8d208c82569e29279becc10.html#exhale-variable-group-physicsdefinitions-1gad92d24cec8d208c82569e29279becc10"><span class="std std-ref">Variable crpropa::zetta</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="library_root.html" class="btn btn-neutral float-left" title="Library API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="namespace_eleca.html" class="btn btn-neutral float-right" title="Namespace eleca" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, The CRPropa Developers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

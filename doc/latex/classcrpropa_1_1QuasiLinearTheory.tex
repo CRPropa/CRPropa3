@@ -1,0 +1,58 @@
+\hypertarget{classcrpropa_1_1QuasiLinearTheory}{}\doxysection{Quasi\+Linear\+Theory Class Reference}
+\label{classcrpropa_1_1QuasiLinearTheory}\index{QuasiLinearTheory@{QuasiLinearTheory}}
+
+
+Scales the steplength according to quasi linear theory.  
+
+
+Inheritance diagram for Quasi\+Linear\+Theory\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1QuasiLinearTheory}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1QuasiLinearTheory_a58b81900025a98a83b46e2b2e55832ab}\label{classcrpropa_1_1QuasiLinearTheory_a58b81900025a98a83b46e2b2e55832ab}} 
+{\bfseries Quasi\+Linear\+Theory} (double referenec\+Energy=1. $\ast$EeV, double turbulence\+Index=5./3, double minimum\+Rigidity=0)
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1QuasiLinearTheory_a5d145dc5fa9b064404483d8d9d08d410}{modify}} (double steplength, \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate)
+\begin{DoxyCompactList}\small\item\em Returns an update of the steplength. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Scales the steplength according to quasi linear theory. 
+
+Following quasi-\/linear theory \mbox{[}Schlickeiser1989\mbox{]}, the mean free path $\lambda$ of a particle with energy $E$ and charge $Z$ in a field with turbulence spectrum $\frac{k}{k_{\min}}^{-q}$ is \[ \lambda = {\left(\frac{B}{\delta B}\right)}^2 {\left(R_G\; k_{\min}\right)}^{1-q} R_G \equiv \lambda_0 {\left( \frac{E}{1 EeV}\frac{1}{Z} \right)}^{2-q} \] where $R_G = \frac{E}{B Z}$ is the gyro-\/radius of the particles. This class implements the rigidity dependent scaling factor used to modify the base step length. \begin{DoxyParagraph}{}
+{\bfseries{}}\mbox{[}Schlickeiser1989\mbox{]} R. Schlickeiser, Cosmic-\/\+Ray Transport and Acceleration. II. Cosmic Rays in Moving Cold Media with Application to Diffusive Shock Wave Acceleration, The Astrophysical Journal 336 (1989) 264. doi\+:10.\+1086/167010. 
+\end{DoxyParagraph}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1QuasiLinearTheory_a5d145dc5fa9b064404483d8d9d08d410}\label{classcrpropa_1_1QuasiLinearTheory_a5d145dc5fa9b064404483d8d9d08d410}} 
+\index{QuasiLinearTheory@{QuasiLinearTheory}!modify@{modify}}
+\index{modify@{modify}!QuasiLinearTheory@{QuasiLinearTheory}}
+\doxysubsubsection{\texorpdfstring{modify()}{modify()}}
+{\footnotesize\ttfamily double modify (\begin{DoxyParamCaption}\item[{double}]{steplength,  }\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Returns an update of the steplength. 
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1StepLengthModifier_ad1eb02b8fb0168acb14b6f1ee64b9425}{Step\+Length\+Modifier}}.
+

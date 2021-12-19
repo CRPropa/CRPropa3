@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.2" xml:lang="en-US">
+  <compounddef id="classcrpropa_1_1Ferriere" kind="class" language="C++" prot="public">
+    <compoundname>crpropa::Ferriere</compoundname>
+    <basecompoundref refid="classcrpropa_1_1Density" prot="public" virt="non-virtual">Density</basecompoundref>
+    <includes refid="Ferriere_8h" local="no">crpropa/massDistribution/Ferriere.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcrpropa_1_1Ferriere_1a83c8f1ab752b6fa1ce8f11ab0a88a6bc" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isforHI</definition>
+        <argsstring></argsstring>
+        <name>isforHI</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="22" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1Ferriere_1a1bb92fa77552cafac66209942ddfdc68" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isforHII</definition>
+        <argsstring></argsstring>
+        <name>isforHII</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="23" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1Ferriere_1a7d562838bb8f63d4eb358bfa70d32126" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool isforH2</definition>
+        <argsstring></argsstring>
+        <name>isforH2</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="24" column="6" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcrpropa_1_1Ferriere_1a1a2b2f9d9e891e7fe0d10cb51172b59c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Rsun</definition>
+        <argsstring></argsstring>
+        <name>Rsun</name>
+        <initializer>= 8.5 * kpc</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="25" column="8" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a83cab4c93e0b93ef64bc36f238781a4d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d CMZTrafo</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>CMZTrafo</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Coordinate transformation for the CentralMolecularZone region. Rotation arround z-axis such that X is the major axis and Y is the minor axis <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>postion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>position in local coordinates for the CMZ region </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="32" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a56eeba72211dafb3210927e26ca51f90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref></type>
+        <definition>Vector3d DISKTrafo</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>DISKTrafo</name>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Coordinate transformation for the galactic bulge disk region in galactic center. Rotation arround the x-axis, the y&apos;-axis and the x&apos;&apos;-axis. Difened with X along the major axis, Y along the minor axis and Z along the northern normal <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>postion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>position in local coordinates for the GB disk region </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="37" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1aaa93132b2f2f99caf2a69477e5c8026b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1af750bea4165eb5763cdfd65ffc8390fc">getDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density in parts/m^3, only acitvated parts are summed up </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="41" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getHIDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getHIDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1af9883d1a3a34d60ae8f5b70d091baf74">getHIDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density of atomic hydrogen in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="44" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1ac51bce5cfaeae6e359938fbfdb98b360" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getHIIDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getHIIDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1a339821f521ebf13ac68e255c6e4f4592">getHIIDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density of ionised hydrogen in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="47" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a6cb4d0e54e3f6c3b22066464cc37cb9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getH2Density</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getH2Density</name>
+        <reimplements refid="classcrpropa_1_1Density_1ab85734c9d4ecea5a4473ce2f0bb44888">getH2Density</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>density of molecular hydrogen in parts/m^3 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="50" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a93e1387605f0b1f14c65afdc80526d7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double getNucleonDensity</definition>
+        <argsstring>(const Vector3d &amp;position) const</argsstring>
+        <name>getNucleonDensity</name>
+        <reimplements refid="classcrpropa_1_1Density_1a181c385cc18bffa44994235fb45e812f">getNucleonDensity</reimplements>
+        <param>
+          <type>const <ref refid="classcrpropa_1_1Vector3" kindref="compound">Vector3d</ref> &amp;</type>
+          <declname>position</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>position in galactic coordinates with Earth at (-8.5kpc, 0, 0) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>nucleon density in parts/m^3, only activated parts are summed up and H2 is weighted twice </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="53" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1ac79a113e5bd7f02cd803f43bd3f66b98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setIsForHI</definition>
+        <argsstring>(bool HI)</argsstring>
+        <name>setIsForHI</name>
+        <param>
+          <type>bool</type>
+          <declname>HI</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>changes activation status for atomic hydrogen </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="56" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a09c24c98f2e3aff196f1b04adc009398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setIsForHII</definition>
+        <argsstring>(bool HII)</argsstring>
+        <name>setIsForHII</name>
+        <param>
+          <type>bool</type>
+          <declname>HII</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>changes activation status for ionised hydrogen </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="58" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a318fb20a19b66c3929ea7b0921d81480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void setIsForH2</definition>
+        <argsstring>(bool H2)</argsstring>
+        <name>setIsForH2</name>
+        <param>
+          <type>bool</type>
+          <declname>H2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>changes activation status for molecular hydrogen </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="60" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a435c8c3e4dc0e7dec1bc5c8a09e568b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForHI</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForHI</name>
+        <reimplements refid="classcrpropa_1_1Density_1a9b85debf98c49a4906d9d8390c9fd6a7">getIsForHI</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>activation status for atomic hydrogen </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="63" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1ab5ce7a02210aefeea1ba18db3e1a3f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForHII</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForHII</name>
+        <reimplements refid="classcrpropa_1_1Density_1a118ec1ed8bc5d3cb63f7ebfb7eddb4f5">getIsForHII</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>activation status for ionised hydrogen </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="65" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a420253131374877a0d1af71148accec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool getIsForH2</definition>
+        <argsstring>()</argsstring>
+        <name>getIsForH2</name>
+        <reimplements refid="classcrpropa_1_1Density_1a8023c18f8b0b296056b26897dc38f175">getIsForH2</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>activation status for molecular hydrogen </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="67" column="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Ferriere_1a73da75c3e5ec30855a02eae2ba824e38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string getDescription</definition>
+        <argsstring>()</argsstring>
+        <name>getDescription</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="69" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t addReference</definition>
+        <argsstring>() const</argsstring>
+        <name>addReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="42" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t removeReference</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReference</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="56" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int removeReferenceNoDelete</definition>
+        <argsstring>() const</argsstring>
+        <name>removeReferenceNoDelete</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="80" column="5" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t getReferenceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferenceCount</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" line="84" column="15" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/Referenced.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>model of the distribution of hydrogen in the Milky Way Here in model <ref refid="classcrpropa_1_1Ferriere" kindref="compound">Ferriere</ref> 2007 seperated in 2 regions (inner, outer). The border is for R=3 kpc in galactocentric radius. model is discribed in outer: ApJ, 497, 759 inner: arxiv: astro-ph/0702532 </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Ferriere</label>
+        <link refid="classcrpropa_1_1Ferriere"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Ferriere</label>
+        <link refid="classcrpropa_1_1Ferriere"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Density</label>
+        <link refid="classcrpropa_1_1Density"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Referenced</label>
+        <link refid="classcrpropa_1_1Referenced"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" line="19" column="1" bodyfile="/Users/rab/Dropbox/softwares/CRPropa/CRPropa3-dev/include/crpropa/massDistribution/Ferriere.h" bodystart="19" bodyend="70"/>
+    <listofallmembers>
+      <member refid="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>addReference</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a83cab4c93e0b93ef64bc36f238781a4d" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>CMZTrafo</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a56eeba72211dafb3210927e26ca51f90" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>DISKTrafo</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1aaa93132b2f2f99caf2a69477e5c8026b" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getDensity</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a73da75c3e5ec30855a02eae2ba824e38" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>getDescription</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a6cb4d0e54e3f6c3b22066464cc37cb9b" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getH2Density</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1aa4ac0c0cf22b7ce1f58d7d35fe5e5a96" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getHIDensity</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1ac51bce5cfaeae6e359938fbfdb98b360" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getHIIDensity</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a420253131374877a0d1af71148accec5" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getIsForH2</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a435c8c3e4dc0e7dec1bc5c8a09e568b9" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getIsForHI</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1ab5ce7a02210aefeea1ba18db3e1a3f71" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getIsForHII</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a93e1387605f0b1f14c65afdc80526d7f" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>getNucleonDensity</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>getReferenceCount</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a7d562838bb8f63d4eb358bfa70d32126" prot="private" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>isforH2</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a83c8f1ab752b6fa1ce8f11ab0a88a6bc" prot="private" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>isforHI</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a1bb92fa77552cafac66209942ddfdc68" prot="private" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>isforHII</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a888be9022b30422e9c6256171d2ddd72" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>operator=</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a391f8e65894afa3547e70d95a589f631" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1a8e7407db7805ac439d0c4813bc1860a1" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>Referenced</name></member>
+      <member refid="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>removeReference</name></member>
+      <member refid="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>removeReferenceNoDelete</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a1a2b2f9d9e891e7fe0d10cb51172b59c" prot="private" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>Rsun</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a318fb20a19b66c3929ea7b0921d81480" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>setIsForH2</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1ac79a113e5bd7f02cd803f43bd3f66b98" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>setIsForHI</name></member>
+      <member refid="classcrpropa_1_1Ferriere_1a09c24c98f2e3aff196f1b04adc009398" prot="public" virt="non-virtual"><scope>crpropa::Ferriere</scope><name>setIsForHII</name></member>
+      <member refid="classcrpropa_1_1Density_1acf775fdb904382e52f35dc3384a44bee" prot="public" virt="virtual"><scope>crpropa::Ferriere</scope><name>~Density</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

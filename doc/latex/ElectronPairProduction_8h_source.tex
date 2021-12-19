@@ -1,0 +1,40 @@
+\hypertarget{ElectronPairProduction_8h_source}{}\doxysection{Electron\+Pair\+Production.\+h}
+\label{ElectronPairProduction_8h_source}\index{ElectronPairProduction.h@{ElectronPairProduction.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_ELECTRONPAIRPRODUCTION\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_ELECTRONPAIRPRODUCTION\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Module.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/PhotonBackground.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{23 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ElectronPairProduction}{ElectronPairProduction}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{24 \textcolor{keyword}{private}:}
+\DoxyCodeLine{25         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField;}
+\DoxyCodeLine{26         std::vector<double> tabLossRate; \textcolor{comment}{/*< tabulated energy loss rate in [J/m] for protons at z = 0 */}}
+\DoxyCodeLine{27         std::vector<double> tabLorentzFactor; \textcolor{comment}{/*< tabulated Lorentz factor */}}
+\DoxyCodeLine{28         std::vector<std::vector<double> > tabSpectrum; \textcolor{comment}{/*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-\/24 in 170 steps and log10(gamma)=6-\/13 in 70 steps and*/}}
+\DoxyCodeLine{29         \textcolor{keywordtype}{double} limit; }
+\DoxyCodeLine{30         \textcolor{keywordtype}{bool} haveElectrons;}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{keyword}{public}:}
+\DoxyCodeLine{33         \mbox{\hyperlink{classcrpropa_1_1ElectronPairProduction}{ElectronPairProduction}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField, \textcolor{keywordtype}{bool} haveElectrons =}
+\DoxyCodeLine{34                         \textcolor{keyword}{false}, \textcolor{keywordtype}{double} limit = 0.1);}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36         \textcolor{keywordtype}{void} setPhotonField(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<PhotonField>}} photonField);}
+\DoxyCodeLine{37         \textcolor{keywordtype}{void} setHaveElectrons(\textcolor{keywordtype}{bool} haveElectrons);}
+\DoxyCodeLine{38         \textcolor{keywordtype}{void} setLimit(\textcolor{keywordtype}{double} limit);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40         \textcolor{keywordtype}{void} initRate(std::string filename);}
+\DoxyCodeLine{41         \textcolor{keywordtype}{void} initSpectrum(std::string filename);}
+\DoxyCodeLine{42         \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{56         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ElectronPairProduction_a03a24cebcdc9d3a12faa3288552b4792}{lossLength}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keywordtype}{double} lf, \textcolor{keywordtype}{double} z=0) \textcolor{keyword}{const};}
+\DoxyCodeLine{57 \};}
+\DoxyCodeLine{60 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_ELECTRONPAIRPRODUCTION\_H}}
+
+\end{DoxyCode}

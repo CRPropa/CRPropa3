@@ -1,0 +1,63 @@
+\hypertarget{Module_8h_source}{}\doxysection{Module.\+h}
+\label{Module_8h_source}\index{Module.h@{Module.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_MODULE\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_MODULE\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Candidate.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/Referenced.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}crpropa/Common.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }Candidate;}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1Module}{Module}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Referenced}{Referenced}} \{}
+\DoxyCodeLine{19         std::string description;}
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{21         \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}();}
+\DoxyCodeLine{22         \textcolor{keyword}{virtual} \mbox{\hyperlink{classcrpropa_1_1Module}{\string~Module}}() \{}
+\DoxyCodeLine{23         \}}
+\DoxyCodeLine{24         \textcolor{keyword}{virtual} std::string getDescription() \textcolor{keyword}{const};}
+\DoxyCodeLine{25         \textcolor{keywordtype}{void} setDescription(\textcolor{keyword}{const} std::string \&description);}
+\DoxyCodeLine{26         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{27         \textcolor{keyword}{inline} \textcolor{keywordtype}{void} process(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} candidate)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{28                 process(candidate.get());}
+\DoxyCodeLine{29         \}}
+\DoxyCodeLine{30 \};}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 }
+\DoxyCodeLine{37 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1AbstractCondition}{AbstractCondition}}: \textcolor{keyword}{public} \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} \{}
+\DoxyCodeLine{38 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{39         \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Module>}} rejectAction, acceptAction;}
+\DoxyCodeLine{40         \textcolor{keywordtype}{bool} makeRejectedInactive, makeAcceptedInactive;}
+\DoxyCodeLine{41         std::string rejectFlagKey, rejectFlagValue;}
+\DoxyCodeLine{42         std::string acceptFlagKey, acceptFlagValue;}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44         \textcolor{keywordtype}{void} reject(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{45         \textcolor{keyword}{inline} \textcolor{keywordtype}{void} reject(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} candidate)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{46                 reject(candidate.get());}
+\DoxyCodeLine{47         \}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49         \textcolor{keywordtype}{void} accept(\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} *candidate) \textcolor{keyword}{const};}
+\DoxyCodeLine{50         \textcolor{keyword}{inline} \textcolor{keywordtype}{void} accept(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Candidate>}} candidate)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{51                 accept(candidate.get());}
+\DoxyCodeLine{52         \}}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54 \textcolor{keyword}{public}:}
+\DoxyCodeLine{55         \mbox{\hyperlink{classcrpropa_1_1AbstractCondition}{AbstractCondition}}();}
+\DoxyCodeLine{56         \textcolor{keywordtype}{void} onReject(\mbox{\hyperlink{classcrpropa_1_1Module}{Module}} *rejectAction);}
+\DoxyCodeLine{57         \textcolor{keywordtype}{void} onAccept(\mbox{\hyperlink{classcrpropa_1_1Module}{Module}} *acceptAction);}
+\DoxyCodeLine{58         \textcolor{keywordtype}{void} setMakeRejectedInactive(\textcolor{keywordtype}{bool} makeInactive);}
+\DoxyCodeLine{59         \textcolor{keywordtype}{void} setMakeAcceptedInactive(\textcolor{keywordtype}{bool} makeInactive);}
+\DoxyCodeLine{60         \textcolor{keywordtype}{void} setRejectFlag(std::string key, std::string value);}
+\DoxyCodeLine{61         \textcolor{keywordtype}{void} setAcceptFlag(std::string key, std::string value);}
+\DoxyCodeLine{62 \};}
+\DoxyCodeLine{63 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* CRPROPA\_MODULE\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

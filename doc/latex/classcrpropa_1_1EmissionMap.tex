@@ -1,0 +1,205 @@
+\hypertarget{classcrpropa_1_1EmissionMap}{}\doxysection{Emission\+Map Class Reference}
+\label{classcrpropa_1_1EmissionMap}\index{EmissionMap@{EmissionMap}}
+
+
+Particle Type and energy binned emission maps.  
+
+
+Inheritance diagram for Emission\+Map\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcrpropa_1_1EmissionMap}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a0f7bc7578f1ba1198ae0d064adc9948e}\label{classcrpropa_1_1EmissionMap_a0f7bc7578f1ba1198ae0d064adc9948e}} 
+typedef std\+::pair$<$ int, size\+\_\+t $>$ {\bfseries key\+\_\+t}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_ae3b56cca51a99e15321253bcbd4d6107}\label{classcrpropa_1_1EmissionMap_ae3b56cca51a99e15321253bcbd4d6107}} 
+typedef std\+::map$<$ key\+\_\+t, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap}{Cylindrical\+Projection\+Map}} $>$ $>$ {\bfseries map\+\_\+t}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1EmissionMap_afff8f59c9a998ccccd12a31d496c0cb7}{Emission\+Map}} (size\+\_\+t n\+Phi, size\+\_\+t n\+Theta, size\+\_\+t n\+Energy)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1EmissionMap_abe87503d56b68fc6cd855caf0487c9d2}{Emission\+Map}} (size\+\_\+t n\+Phi, size\+\_\+t n\+Theta, size\+\_\+t n\+Energy, double min\+Energy, double max\+Energy)
+\item 
+double \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a70ca0954b2fbdd5f634cc2087b32e85c}{energy\+From\+Bin}} (size\+\_\+t bin) const
+\item 
+size\+\_\+t \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a4e2b86cb87a375010c1c647de60c29e8}{bin\+From\+Energy}} (double energy) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a3c9bfb9673108a2c9997a6e78dd257e8}\label{classcrpropa_1_1EmissionMap_a3c9bfb9673108a2c9997a6e78dd257e8}} 
+map\+\_\+t \& {\bfseries get\+Maps} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a7412ea7b552667fe8790e5c07b16ab03}\label{classcrpropa_1_1EmissionMap_a7412ea7b552667fe8790e5c07b16ab03}} 
+const map\+\_\+t \& {\bfseries get\+Maps} () const
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EmissionMap_aeb832864673a3b429ad46c8254e60d9d}{fill\+Map}} (int pid, double energy, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction, double weight=1.)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a6480900016f04627ba382a41fbc0302f}{fill\+Map}} (const \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&state, double weight=1.)
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1EmissionMap_aa1c3f11f3da6e4691b75ac1d60e4569b}{draw\+Direction}} (int pid, double energy, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction) const
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a20e57a4480c67eedd423544bba5d055e}{draw\+Direction}} (const \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&state, \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction) const
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a2b55fb1e9bdaf2a37c107057e7026250}{check\+Direction}} (int pid, double energy, const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction) const
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1EmissionMap_abfc0feb1185c10e014d4ed095a4a5f6c}{check\+Direction}} (const \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&state) const
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1EmissionMap_add747b2882f6f52875f6450009434da7}{has\+Map}} (int pid, double energy)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap}{Cylindrical\+Projection\+Map}} $>$ \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a7d6705a69d1a822c55016d24639d3d1f}{get\+Map}} (int pid, double energy)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a2c027edbcd25b820dc6e21a9a3ad0496}{save}} (const std\+::string \&filename)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a6c21edd9d285c925527e3209fca54b01}{load}} (const std\+::string \&filename)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a34fbd884162389256d311b83e96d6832}{merge}} (const \mbox{\hyperlink{classcrpropa_1_1EmissionMap}{Emission\+Map}} $\ast$other)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1EmissionMap_a5333ce09525a8f85fcd127316e754d69}{merge}} (const std\+::string \&filename)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Particle Type and energy binned emission maps. 
+
+Use \mbox{\hyperlink{classcrpropa_1_1SourceEmissionMap}{Source\+Emission\+Map}} to suppress directions at the source. Use \mbox{\hyperlink{classcrpropa_1_1EmissionMapFiller}{Emission\+Map\+Filler}} to create \mbox{\hyperlink{classcrpropa_1_1EmissionMap}{Emission\+Map}} from \mbox{\hyperlink{classcrpropa_1_1Observer}{Observer}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_afff8f59c9a998ccccd12a31d496c0cb7}\label{classcrpropa_1_1EmissionMap_afff8f59c9a998ccccd12a31d496c0cb7}} 
+\index{EmissionMap@{EmissionMap}!EmissionMap@{EmissionMap}}
+\index{EmissionMap@{EmissionMap}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{EmissionMap()}{EmissionMap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1EmissionMap}{Emission\+Map}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+Phi,  }\item[{size\+\_\+t}]{n\+Theta,  }\item[{size\+\_\+t}]{n\+Energy }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em n\+Phi} & number of bins for phi (0-\/2pi) \\
+\hline
+{\em n\+Theta} & number of bins for theta (0-\/pi) \\
+\hline
+{\em n\+Energy} & number of bins for energy (1e-\/4 -\/ 1e4 EeV) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_abe87503d56b68fc6cd855caf0487c9d2}\label{classcrpropa_1_1EmissionMap_abe87503d56b68fc6cd855caf0487c9d2}} 
+\index{EmissionMap@{EmissionMap}!EmissionMap@{EmissionMap}}
+\index{EmissionMap@{EmissionMap}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{EmissionMap()}{EmissionMap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1EmissionMap}{Emission\+Map}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+Phi,  }\item[{size\+\_\+t}]{n\+Theta,  }\item[{size\+\_\+t}]{n\+Energy,  }\item[{double}]{min\+Energy,  }\item[{double}]{max\+Energy }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em n\+Phi} & number of bins for phi (0-\/2pi) \\
+\hline
+{\em n\+Theta} & number of bins for theta (0-\/pi) \\
+\hline
+{\em n\+Energy} & number of bins for energy (1e-\/4 -\/ 1e4 EeV) \\
+\hline
+{\em min\+Energy} & minimum energy for binning \\
+\hline
+{\em max\+Energy} & maximum energy for binning \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a4e2b86cb87a375010c1c647de60c29e8}\label{classcrpropa_1_1EmissionMap_a4e2b86cb87a375010c1c647de60c29e8}} 
+\index{EmissionMap@{EmissionMap}!binFromEnergy@{binFromEnergy}}
+\index{binFromEnergy@{binFromEnergy}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{binFromEnergy()}{binFromEnergy()}}
+{\footnotesize\ttfamily size\+\_\+t bin\+From\+Energy (\begin{DoxyParamCaption}\item[{double}]{energy }\end{DoxyParamCaption}) const}
+
+Calculate bin from energy \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_abfc0feb1185c10e014d4ed095a4a5f6c}\label{classcrpropa_1_1EmissionMap_abfc0feb1185c10e014d4ed095a4a5f6c}} 
+\index{EmissionMap@{EmissionMap}!checkDirection@{checkDirection}}
+\index{checkDirection@{checkDirection}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{checkDirection()}{checkDirection()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool check\+Direction (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&}]{state }\end{DoxyParamCaption}) const}
+
+Check if the direction has a non zero propabiliy. \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a2b55fb1e9bdaf2a37c107057e7026250}\label{classcrpropa_1_1EmissionMap_a2b55fb1e9bdaf2a37c107057e7026250}} 
+\index{EmissionMap@{EmissionMap}!checkDirection@{checkDirection}}
+\index{checkDirection@{checkDirection}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{checkDirection()}{checkDirection()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool check\+Direction (\begin{DoxyParamCaption}\item[{int}]{pid,  }\item[{double}]{energy,  }\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction }\end{DoxyParamCaption}) const}
+
+Check if the direction has a non zero propabiliy. \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a20e57a4480c67eedd423544bba5d055e}\label{classcrpropa_1_1EmissionMap_a20e57a4480c67eedd423544bba5d055e}} 
+\index{EmissionMap@{EmissionMap}!drawDirection@{drawDirection}}
+\index{drawDirection@{drawDirection}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{drawDirection()}{drawDirection()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool draw\+Direction (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&}]{state,  }\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction }\end{DoxyParamCaption}) const}
+
+Draw a random vector from the distribution. \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_aa1c3f11f3da6e4691b75ac1d60e4569b}\label{classcrpropa_1_1EmissionMap_aa1c3f11f3da6e4691b75ac1d60e4569b}} 
+\index{EmissionMap@{EmissionMap}!drawDirection@{drawDirection}}
+\index{drawDirection@{drawDirection}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{drawDirection()}{drawDirection()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool draw\+Direction (\begin{DoxyParamCaption}\item[{int}]{pid,  }\item[{double}]{energy,  }\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction }\end{DoxyParamCaption}) const}
+
+Draw a random vector from the distribution. \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a70ca0954b2fbdd5f634cc2087b32e85c}\label{classcrpropa_1_1EmissionMap_a70ca0954b2fbdd5f634cc2087b32e85c}} 
+\index{EmissionMap@{EmissionMap}!energyFromBin@{energyFromBin}}
+\index{energyFromBin@{energyFromBin}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{energyFromBin()}{energyFromBin()}}
+{\footnotesize\ttfamily double energy\+From\+Bin (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bin }\end{DoxyParamCaption}) const}
+
+Calculate energy from bin \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a6480900016f04627ba382a41fbc0302f}\label{classcrpropa_1_1EmissionMap_a6480900016f04627ba382a41fbc0302f}} 
+\index{EmissionMap@{EmissionMap}!fillMap@{fillMap}}
+\index{fillMap@{fillMap}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{fillMap()}{fillMap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void fill\+Map (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&}]{state,  }\item[{double}]{weight = {\ttfamily 1.} }\end{DoxyParamCaption})}
+
+Increment the value for the particle state by weight. \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_aeb832864673a3b429ad46c8254e60d9d}\label{classcrpropa_1_1EmissionMap_aeb832864673a3b429ad46c8254e60d9d}} 
+\index{EmissionMap@{EmissionMap}!fillMap@{fillMap}}
+\index{fillMap@{fillMap}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{fillMap()}{fillMap()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void fill\+Map (\begin{DoxyParamCaption}\item[{int}]{pid,  }\item[{double}]{energy,  }\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction,  }\item[{double}]{weight = {\ttfamily 1.} }\end{DoxyParamCaption})}
+
+Increment the value for particle type, energy and direction by weight. \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a7d6705a69d1a822c55016d24639d3d1f}\label{classcrpropa_1_1EmissionMap_a7d6705a69d1a822c55016d24639d3d1f}} 
+\index{EmissionMap@{EmissionMap}!getMap@{getMap}}
+\index{getMap@{getMap}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{getMap()}{getMap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap}{Cylindrical\+Projection\+Map}} $>$ get\+Map (\begin{DoxyParamCaption}\item[{int}]{pid,  }\item[{double}]{energy }\end{DoxyParamCaption})}
+
+Get the map for the specified pid and energy \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_add747b2882f6f52875f6450009434da7}\label{classcrpropa_1_1EmissionMap_add747b2882f6f52875f6450009434da7}} 
+\index{EmissionMap@{EmissionMap}!hasMap@{hasMap}}
+\index{hasMap@{hasMap}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{hasMap()}{hasMap()}}
+{\footnotesize\ttfamily bool has\+Map (\begin{DoxyParamCaption}\item[{int}]{pid,  }\item[{double}]{energy }\end{DoxyParamCaption})}
+
+Check if a valid map exists \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a6c21edd9d285c925527e3209fca54b01}\label{classcrpropa_1_1EmissionMap_a6c21edd9d285c925527e3209fca54b01}} 
+\index{EmissionMap@{EmissionMap}!load@{load}}
+\index{load@{load}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily void load (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+Load the content of the maps from a text file \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a34fbd884162389256d311b83e96d6832}\label{classcrpropa_1_1EmissionMap_a34fbd884162389256d311b83e96d6832}} 
+\index{EmissionMap@{EmissionMap}!merge@{merge}}
+\index{merge@{merge}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{merge()}{merge()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void merge (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1EmissionMap}{Emission\+Map}} $\ast$}]{other }\end{DoxyParamCaption})}
+
+Merge other maps, add pdfs \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a5333ce09525a8f85fcd127316e754d69}\label{classcrpropa_1_1EmissionMap_a5333ce09525a8f85fcd127316e754d69}} 
+\index{EmissionMap@{EmissionMap}!merge@{merge}}
+\index{merge@{merge}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{merge()}{merge()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void merge (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+Merge maps from file \mbox{\Hypertarget{classcrpropa_1_1EmissionMap_a2c027edbcd25b820dc6e21a9a3ad0496}\label{classcrpropa_1_1EmissionMap_a2c027edbcd25b820dc6e21a9a3ad0496}} 
+\index{EmissionMap@{EmissionMap}!save@{save}}
+\index{save@{save}!EmissionMap@{EmissionMap}}
+\doxysubsubsection{\texorpdfstring{save()}{save()}}
+{\footnotesize\ttfamily void save (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})}
+
+Save the content of the maps into a text file 

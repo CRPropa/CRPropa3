@@ -1,0 +1,80 @@
+\hypertarget{ParticleMapsContainer_8h_source}{}\doxysection{Particle\+Maps\+Container.\+h}
+\label{ParticleMapsContainer_8h_source}\index{ParticleMapsContainer.h@{ParticleMapsContainer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_PARTICLEMAPSCONTAINER\_HH}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_PARTICLEMAPSCONTAINER\_HH}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}crpropa/magneticLens/Pixelization.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}crpropa/magneticLens/MagneticLens.h"{}}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}crpropa/Vector3.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer}{ParticleMapsContainer}} \{}
+\DoxyCodeLine{25 \textcolor{keyword}{private}:}
+\DoxyCodeLine{26         std::map<int, std::map <int, double*> > \_data;}
+\DoxyCodeLine{27         \mbox{\hyperlink{classcrpropa_1_1Pixelization}{Pixelization}} \_pixelization;}
+\DoxyCodeLine{28         \textcolor{keywordtype}{double} \_deltaLogE;}
+\DoxyCodeLine{29         \textcolor{keywordtype}{double} \_bin0lowerEdge;}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31         \textcolor{comment}{// get the bin number of the energy}}
+\DoxyCodeLine{32         \textcolor{keywordtype}{int} energy2Idx(\textcolor{keywordtype}{double} energy) \textcolor{keyword}{const};}
+\DoxyCodeLine{33         \textcolor{keywordtype}{double} idx2Energy(\textcolor{keywordtype}{int} idx) \textcolor{keyword}{const};}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35         \textcolor{comment}{// weights of the particles}}
+\DoxyCodeLine{36         \textcolor{keywordtype}{double} \_sumOfWeights;}
+\DoxyCodeLine{37         std::map<int, double > \_weightsPID;}
+\DoxyCodeLine{38         std::map<int, map<int, double> > \_weights\_pidEnergy;}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40         \textcolor{comment}{// lazy update of weights}}
+\DoxyCodeLine{41         \textcolor{keywordtype}{bool} \_weightsUpToDate;}
+\DoxyCodeLine{42         \textcolor{keywordtype}{void} \_updateWeights();}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{public}:}
+\DoxyCodeLine{49         \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a7b7f52e314f549095276d3edfbd0a98d}{ParticleMapsContainer}}(\textcolor{keywordtype}{double} deltaLogE = 0.02, \textcolor{keywordtype}{double} bin0lowerEdge = 17.99) : \_deltaLogE(deltaLogE), \_bin0lowerEdge(bin0lowerEdge), \_pixelization(6), \_weightsUpToDate(false), \_sumOfWeights(0) \{}
+\DoxyCodeLine{50         \}}
+\DoxyCodeLine{53         \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a5d54f235d9d31531a7c370042f7785b9}{\string~ParticleMapsContainer}}();}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55         \textcolor{keywordtype}{size\_t} getNumberOfPixels() \{}
+\DoxyCodeLine{56                 \textcolor{keywordflow}{return} \_pixelization.\mbox{\hyperlink{classcrpropa_1_1Pixelization_ab90b19b15460e9cf0a82c125cfb249cc}{getNumberOfPixels}}();}
+\DoxyCodeLine{57         \}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{64         \textcolor{keywordtype}{double} *\mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a8eb83606b790af55f573c54cb7f0014b}{getMap}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} particleId, \textcolor{keywordtype}{double} energy);}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{73         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a9ccf2f636b6d166f5f391242845090ca}{addParticle}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} particleId, \textcolor{keywordtype}{double} energy, \textcolor{keywordtype}{double} galacticLongitude, \textcolor{keywordtype}{double} galacticLatitude, \textcolor{keywordtype}{double} weight = 1);}
+\DoxyCodeLine{80         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a6df900c2405c72a161f88a845b5c42de}{addParticle}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} particleId, \textcolor{keywordtype}{double} energy, \textcolor{keyword}{const} \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&v, \textcolor{keywordtype}{double} weight = 1);}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{85         std::vector<int> \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a16423cacef0f6ce324ca31791c71b26a}{getParticleIds}}();}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{91         std::vector<double> \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a941d6cc240430f50d2787a8d93aff761}{getEnergies}}(\textcolor{keywordtype}{int} pid);}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93         \textcolor{keywordtype}{void} applyLens(\mbox{\hyperlink{classcrpropa_1_1MagneticLens}{MagneticLens}} \&lens);;}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{103         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a69fffcc73dcce971e8de346db6a747a8}{getRandomParticles}}(\textcolor{keywordtype}{size\_t} N, vector<int> \&particleId,}
+\DoxyCodeLine{104                 vector<double> \&energy, vector<double> \&galacticLongitudes,}
+\DoxyCodeLine{105                 vector<double> \&galacticLatitudes);}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{114         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a88a418c3776916213073c73b903b5f53}{placeOnMap}}(\textcolor{keywordtype}{int} pid, \textcolor{keywordtype}{double} energy, \textcolor{keywordtype}{double} \&galacticLongitude, \textcolor{keywordtype}{double} \&galacticLatitude);}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{119         \textcolor{keywordtype}{void} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_ad9b1930e42bce2f98bb0870f5a8e8f6a}{forceWeightUpdate}}();}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{124         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_a775948ef0f32261bcbbe3329269fbbe4}{getSumOfWeights}}() \{}
+\DoxyCodeLine{125                 \textcolor{keywordflow}{if} (!\_weightsUpToDate)}
+\DoxyCodeLine{126                         \_updateWeights();}
+\DoxyCodeLine{127                 \textcolor{keywordflow}{return} \_sumOfWeights;}
+\DoxyCodeLine{128         \}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{135         \textcolor{keywordtype}{double} \mbox{\hyperlink{classcrpropa_1_1ParticleMapsContainer_aaff79bb2e281ccda6f5b7e7b055e0279}{getWeight}}(\textcolor{keywordtype}{int} pid, \textcolor{keywordtype}{double} energy) \{}
+\DoxyCodeLine{136                 \textcolor{keywordflow}{if} (!\_weightsUpToDate)}
+\DoxyCodeLine{137                         \_updateWeights();}
+\DoxyCodeLine{138                 \textcolor{keywordflow}{return} \_weights\_pidEnergy[pid][energy2Idx(energy)];}
+\DoxyCodeLine{139         \}}
+\DoxyCodeLine{140 \};}
+\DoxyCodeLine{143 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_PARTICLEMAPSCONTAINER\_HH}}
+
+\end{DoxyCode}

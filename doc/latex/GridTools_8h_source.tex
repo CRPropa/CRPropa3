@@ -1,0 +1,66 @@
+\hypertarget{GridTools_8h_source}{}\doxysection{Grid\+Tools.\+h}
+\label{GridTools_8h_source}\index{GridTools.h@{GridTools.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef CRPROPA\_GRIDTOOLS\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define CRPROPA\_GRIDTOOLS\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}crpropa/Grid.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}crpropa/magneticField/MagneticField.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#ifdef CRPROPA\_HAVE\_FFTW3F}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}fftw3.h"{}}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{26 \textcolor{keyword}{namespace }\mbox{\hyperlink{namespacecrpropa}{crpropa}} \{}
+\DoxyCodeLine{36 \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3f}} \mbox{\hyperlink{group__Core_ga14e9170907096634f33d71ec5aae75d3}{meanFieldVector}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{42 \textcolor{keywordtype}{double} \mbox{\hyperlink{group__Core_ga35a4fc74b7deadd58ff6209df14140c0}{meanFieldStrength}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid);}
+\DoxyCodeLine{47 \textcolor{keywordtype}{double} \mbox{\hyperlink{group__Core_ga35a4fc74b7deadd58ff6209df14140c0}{meanFieldStrength}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{53 \textcolor{keywordtype}{double} \mbox{\hyperlink{group__Core_ga788ff1002bda23d428e0e43ac5b7cf3a}{rmsFieldStrength}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid);}
+\DoxyCodeLine{58 \textcolor{keywordtype}{double} \mbox{\hyperlink{group__Core_ga788ff1002bda23d428e0e43ac5b7cf3a}{rmsFieldStrength}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{63 std::array<float, 3> \mbox{\hyperlink{group__Core_gad823c8cf8555f1b45432468adef2d404}{rmsFieldStrengthPerAxis}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{69 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_ga0d66e0a4632d21364c4227784074f53e}{scaleGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid, \textcolor{keywordtype}{double} a);}
+\DoxyCodeLine{74 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_ga0d66e0a4632d21364c4227784074f53e}{scaleGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, \textcolor{keywordtype}{double} a);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{80 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gaf89e81d370fe811cc9386261f02166a5}{fromMagneticField}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field);}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{86 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_ga0501e5b31dd2cdb5159459d874f16d30}{fromMagneticFieldStrength}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid, \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<MagneticField>}} field);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{93 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gab7c740cf66f560083029b8a6196a46a4}{loadGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, std::string filename,}
+\DoxyCodeLine{94                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{101 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gab7c740cf66f560083029b8a6196a46a4}{loadGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid, std::string filename,}
+\DoxyCodeLine{102                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{109 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gad5b5ba4c8f79b6b797c57d7ee658c1a6}{dumpGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, std::string filename,}
+\DoxyCodeLine{110                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{117 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gad5b5ba4c8f79b6b797c57d7ee658c1a6}{dumpGrid}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid, std::string filename,}
+\DoxyCodeLine{118                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{125 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gaad9520b837fa3ff060ed1786da8c7f52}{loadGridFromTxt}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, std::string filename,}
+\DoxyCodeLine{126                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{133 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gaad9520b837fa3ff060ed1786da8c7f52}{loadGridFromTxt}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid, std::string filename,}
+\DoxyCodeLine{134                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{141 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gad230c08955c7a505eefe413366f4717a}{dumpGridToTxt}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid, std::string filename,}
+\DoxyCodeLine{142                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{149 \textcolor{keywordtype}{void} \mbox{\hyperlink{group__Core_gad230c08955c7a505eefe413366f4717a}{dumpGridToTxt}}(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid1f>}} grid, std::string filename,}
+\DoxyCodeLine{150                 \textcolor{keywordtype}{double} conversion = 1);}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#ifdef CRPROPA\_HAVE\_FFTW3F}}
+\DoxyCodeLine{158 std::vector<std::pair<int, float>> gridPowerSpectrum(\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\_ptr<Grid3f>}} grid);}
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_HAVE\_FFTW3F}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{162 \} \textcolor{comment}{// namespace crpropa}}
+\DoxyCodeLine{163 }
+\DoxyCodeLine{164 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CRPROPA\_GRIDTOOLS\_H}}
+
+\end{DoxyCode}

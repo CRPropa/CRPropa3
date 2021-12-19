@@ -1,0 +1,48 @@
+\hypertarget{group__Observer}{}\doxysection{Observers}
+\label{group__Observer}\index{Observers@{Observers}}
+
+
+Observers and Observer\+Features.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverFeature}{Observer\+Feature}}
+\begin{DoxyCompactList}\small\item\em Abstract base class for features of observers. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1Observer}{Observer}}
+\begin{DoxyCompactList}\small\item\em General particle observer. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverDetectAll}{Observer\+Detect\+All}}
+\begin{DoxyCompactList}\small\item\em Detects all particles. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverSurface}{Observer\+Surface}}
+\begin{DoxyCompactList}\small\item\em Detects particles crossing a given surface. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverSmallSphere}{Observer\+Small\+Sphere}}
+\begin{DoxyCompactList}\small\item\em Detects particles that enter a sphere from the outside to the inside. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverTracking}{Observer\+Tracking}}
+\begin{DoxyCompactList}\small\item\em Tracks particles inside a sphere. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverLargeSphere}{Observer\+Large\+Sphere}}
+\begin{DoxyCompactList}\small\item\em Detects particles that exit a sphere from the inside to the outside. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverPoint}{Observer\+Point}}
+\begin{DoxyCompactList}\small\item\em Detects particles when reaching x = 0. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverRedshiftWindow}{Observer\+Redshift\+Window}}
+\begin{DoxyCompactList}\small\item\em Detects particles in a given redshift window. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverInactiveVeto}{Observer\+Inactive\+Veto}}
+\begin{DoxyCompactList}\small\item\em Veto for inactive candidates. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverNucleusVeto}{Observer\+Nucleus\+Veto}}
+\begin{DoxyCompactList}\small\item\em Veto for nuclei (including protons and neutrons) \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverNeutrinoVeto}{Observer\+Neutrino\+Veto}}
+\begin{DoxyCompactList}\small\item\em Veto for neutrinos. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverPhotonVeto}{Observer\+Photon\+Veto}}
+\begin{DoxyCompactList}\small\item\em Veto for photons. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverElectronVeto}{Observer\+Electron\+Veto}}
+\begin{DoxyCompactList}\small\item\em Veto for electrons and positrons. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverParticleIdVeto}{Observer\+Particle\+Id\+Veto}}
+\begin{DoxyCompactList}\small\item\em Custom veto for user-\/defined particle types. Vetoes for more than one type of particle can be added by calling this feature multiple times. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcrpropa_1_1ObserverTimeEvolution}{Observer\+Time\+Evolution}}
+\begin{DoxyCompactList}\small\item\em Observes the time evolution of the candidates (phase-\/space elements) This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in regular time intervals and limits the next\+Step of candidates to prevent overshooting of detection intervals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Observers and Observer\+Features. 
+
+Observer\+Features are added to the Observer\+Module to check for detection and perform actions on detection. 

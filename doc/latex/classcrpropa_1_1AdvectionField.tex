@@ -1,0 +1,38 @@
+\hypertarget{classcrpropa_1_1AdvectionField}{}\doxysection{Advection\+Field Class Reference}
+\label{classcrpropa_1_1AdvectionField}\index{AdvectionField@{AdvectionField}}
+
+
+Abstract base class for advection fields. These are used to model the deterministic part of the Fokker-\/\+Planck equation. The get\+Divergence() method is used to model the adibatic cooling/heating.  
+
+
+Inheritance diagram for Advection\+Field\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.615385cm]{classcrpropa_1_1AdvectionField}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AdvectionField_a6f0034d39c91ad51767ae74c7cbcb23f}\label{classcrpropa_1_1AdvectionField_a6f0034d39c91ad51767ae74c7cbcb23f}} 
+virtual \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} {\bfseries get\+Field} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const =0
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1AdvectionField_a2bb77f6eeef06e00f34e53eb0345e345}\label{classcrpropa_1_1AdvectionField_a2bb77f6eeef06e00f34e53eb0345e345}} 
+virtual double {\bfseries get\+Divergence} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&position) const =0
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Abstract base class for advection fields. These are used to model the deterministic part of the Fokker-\/\+Planck equation. The get\+Divergence() method is used to model the adibatic cooling/heating. 

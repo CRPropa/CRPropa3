@@ -1,0 +1,116 @@
+\hypertarget{classcrpropa_1_1CylindricalProjectionMap}{}\doxysection{Cylindrical\+Projection\+Map Class Reference}
+\label{classcrpropa_1_1CylindricalProjectionMap}\index{CylindricalProjectionMap@{CylindricalProjectionMap}}
+
+
+2D histogram of spherical coordinates in equal-\/area projection  
+
+
+Inheritance diagram for Cylindrical\+Projection\+Map\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcrpropa_1_1CylindricalProjectionMap}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_a2926573046e7bc207dd881ca032e4769}{Cylindrical\+Projection\+Map}} (size\+\_\+t n\+Phi, size\+\_\+t n\+Theta)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_ad2483329343e656d22a6b4ea37e873a9}{fill\+Bin}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction, double weight=1.)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_ad52718f9693212d6a02526d4aa22524f}{fill\+Bin}} (size\+\_\+t bin, double weight=1.)
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_a6782a5ba0406361663ed9f2b09cf2f57}{draw\+Direction}} () const
+\item 
+bool \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_a6a3c6063301786ce95e3bf0c78a9f18f}{check\+Direction}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a7e18153ed0eed8abf93ab4a3f387464e}\label{classcrpropa_1_1CylindricalProjectionMap_a7e18153ed0eed8abf93ab4a3f387464e}} 
+const std\+::vector$<$ double $>$ \& {\bfseries get\+Pdf} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_acf97a1169c1f701a5afd1107b13564c2}\label{classcrpropa_1_1CylindricalProjectionMap_acf97a1169c1f701a5afd1107b13564c2}} 
+std\+::vector$<$ double $>$ \& {\bfseries get\+Pdf} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a37a1b200da05627e769ecd87dcf10edc}\label{classcrpropa_1_1CylindricalProjectionMap_a37a1b200da05627e769ecd87dcf10edc}} 
+const std\+::vector$<$ double $>$ \& {\bfseries get\+Cdf} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a4037cf4ffe7735ace6156ab0b3218d23}\label{classcrpropa_1_1CylindricalProjectionMap_a4037cf4ffe7735ace6156ab0b3218d23}} 
+size\+\_\+t {\bfseries get\+NPhi} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a3e745cd7458427212dcf97e1e60c19d8}\label{classcrpropa_1_1CylindricalProjectionMap_a3e745cd7458427212dcf97e1e60c19d8}} 
+size\+\_\+t {\bfseries get\+NTheta} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_a831fd3e96b09ca72cb2394662150abbc}{bin\+From\+Direction}} (const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&direction) const
+\item 
+\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap_a05e9d2442901db0f6f3e91f296a19d3d}{direction\+From\+Bin}} (size\+\_\+t bin) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+2D histogram of spherical coordinates in equal-\/area projection 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a2926573046e7bc207dd881ca032e4769}\label{classcrpropa_1_1CylindricalProjectionMap_a2926573046e7bc207dd881ca032e4769}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{CylindricalProjectionMap()}{CylindricalProjectionMap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1CylindricalProjectionMap}{Cylindrical\+Projection\+Map}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n\+Phi,  }\item[{size\+\_\+t}]{n\+Theta }\end{DoxyParamCaption})}
+
+constructur 
+\begin{DoxyParams}{Parameters}
+{\em n\+Phi} & number of bins for phi (0-\/2pi) \\
+\hline
+{\em n\+Theta} & number of bins for theta (0-\/pi) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a831fd3e96b09ca72cb2394662150abbc}\label{classcrpropa_1_1CylindricalProjectionMap_a831fd3e96b09ca72cb2394662150abbc}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!binFromDirection@{binFromDirection}}
+\index{binFromDirection@{binFromDirection}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{binFromDirection()}{binFromDirection()}}
+{\footnotesize\ttfamily size\+\_\+t bin\+From\+Direction (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction }\end{DoxyParamCaption}) const}
+
+Calculate the bin from a direction \mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a6a3c6063301786ce95e3bf0c78a9f18f}\label{classcrpropa_1_1CylindricalProjectionMap_a6a3c6063301786ce95e3bf0c78a9f18f}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!checkDirection@{checkDirection}}
+\index{checkDirection@{checkDirection}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{checkDirection()}{checkDirection()}}
+{\footnotesize\ttfamily bool check\+Direction (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction }\end{DoxyParamCaption}) const}
+
+Check if the direction has a non zero propabiliy. \mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a05e9d2442901db0f6f3e91f296a19d3d}\label{classcrpropa_1_1CylindricalProjectionMap_a05e9d2442901db0f6f3e91f296a19d3d}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!directionFromBin@{directionFromBin}}
+\index{directionFromBin@{directionFromBin}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{directionFromBin()}{directionFromBin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} direction\+From\+Bin (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bin }\end{DoxyParamCaption}) const}
+
+Calculate a random vector inside the bin boundaries \mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_a6782a5ba0406361663ed9f2b09cf2f57}\label{classcrpropa_1_1CylindricalProjectionMap_a6782a5ba0406361663ed9f2b09cf2f57}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!drawDirection@{drawDirection}}
+\index{drawDirection@{drawDirection}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{drawDirection()}{drawDirection()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} draw\+Direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Draw a random vector from the distribution. \mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_ad2483329343e656d22a6b4ea37e873a9}\label{classcrpropa_1_1CylindricalProjectionMap_ad2483329343e656d22a6b4ea37e873a9}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!fillBin@{fillBin}}
+\index{fillBin@{fillBin}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{fillBin()}{fillBin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void fill\+Bin (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} \&}]{direction,  }\item[{double}]{weight = {\ttfamily 1.} }\end{DoxyParamCaption})}
+
+Increment the bin value in direction by weight. \mbox{\Hypertarget{classcrpropa_1_1CylindricalProjectionMap_ad52718f9693212d6a02526d4aa22524f}\label{classcrpropa_1_1CylindricalProjectionMap_ad52718f9693212d6a02526d4aa22524f}} 
+\index{CylindricalProjectionMap@{CylindricalProjectionMap}!fillBin@{fillBin}}
+\index{fillBin@{fillBin}!CylindricalProjectionMap@{CylindricalProjectionMap}}
+\doxysubsubsection{\texorpdfstring{fillBin()}{fillBin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void fill\+Bin (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bin,  }\item[{double}]{weight = {\ttfamily 1.} }\end{DoxyParamCaption})}
+
+Increment the bin value by weight. 

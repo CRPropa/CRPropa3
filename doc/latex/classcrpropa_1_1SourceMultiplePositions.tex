@@ -1,0 +1,81 @@
+\hypertarget{classcrpropa_1_1SourceMultiplePositions}{}\doxysection{Source\+Multiple\+Positions Class Reference}
+\label{classcrpropa_1_1SourceMultiplePositions}\index{SourceMultiplePositions@{SourceMultiplePositions}}
+
+
+Multiple point-\/source positions with individual luminosities.  
+
+
+Inheritance diagram for Source\+Multiple\+Positions\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1SourceMultiplePositions}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1SourceMultiplePositions_a643b4810f733df52eb409b86ad9b0d9e}{Source\+Multiple\+Positions}} ()
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1SourceMultiplePositions_a5bb7d48ab60f1f0c425c401986eb6b20}{add}} (\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} position, double weight=1)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1SourceMultiplePositions_acc6074320f547e7c03f6957f33b1c3fb}{prepare\+Particle}} (\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&particle) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceMultiplePositions_ac0d27e78991c898a5256103561b87f8a}\label{classcrpropa_1_1SourceMultiplePositions_ac0d27e78991c898a5256103561b87f8a}} 
+void {\bfseries set\+Description} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_ae64aafd3cc3ce74a222e274cae1515b4}\label{classcrpropa_1_1SourceFeature_ae64aafd3cc3ce74a222e274cae1515b4}} 
+virtual void {\bfseries prepare\+Candidate} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} \&candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}} 
+std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Multiple point-\/source positions with individual luminosities. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceMultiplePositions_a643b4810f733df52eb409b86ad9b0d9e}\label{classcrpropa_1_1SourceMultiplePositions_a643b4810f733df52eb409b86ad9b0d9e}} 
+\index{SourceMultiplePositions@{SourceMultiplePositions}!SourceMultiplePositions@{SourceMultiplePositions}}
+\index{SourceMultiplePositions@{SourceMultiplePositions}!SourceMultiplePositions@{SourceMultiplePositions}}
+\doxysubsubsection{\texorpdfstring{SourceMultiplePositions()}{SourceMultiplePositions()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1SourceMultiplePositions}{Source\+Multiple\+Positions}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Constructor. The sources must be added individually to the object. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceMultiplePositions_a5bb7d48ab60f1f0c425c401986eb6b20}\label{classcrpropa_1_1SourceMultiplePositions_a5bb7d48ab60f1f0c425c401986eb6b20}} 
+\index{SourceMultiplePositions@{SourceMultiplePositions}!add@{add}}
+\index{add@{add}!SourceMultiplePositions@{SourceMultiplePositions}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily void add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{position,  }\item[{double}]{weight = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+Add an individual source with a given luminosity. 
+\begin{DoxyParams}{Parameters}
+{\em position} & vector containing the coordinates of the point source \mbox{[}in meters\mbox{]} \\
+\hline
+{\em weight} & luminosity of the individual source \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classcrpropa_1_1SourceMultiplePositions_acc6074320f547e7c03f6957f33b1c3fb}\label{classcrpropa_1_1SourceMultiplePositions_acc6074320f547e7c03f6957f33b1c3fb}} 
+\index{SourceMultiplePositions@{SourceMultiplePositions}!prepareParticle@{prepareParticle}}
+\index{prepareParticle@{prepareParticle}!SourceMultiplePositions@{SourceMultiplePositions}}
+\doxysubsubsection{\texorpdfstring{prepareParticle()}{prepareParticle()}}
+{\footnotesize\ttfamily void prepare\+Particle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&}]{particle }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1SourceFeature}{Source\+Feature}}.
+

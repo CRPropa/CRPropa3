@@ -1,0 +1,75 @@
+\hypertarget{classcrpropa_1_1SourceUniformHollowSphere}{}\doxysection{Source\+Uniform\+Hollow\+Sphere Class Reference}
+\label{classcrpropa_1_1SourceUniformHollowSphere}\index{SourceUniformHollowSphere@{SourceUniformHollowSphere}}
+
+
+Uniform distribution of sources between two spheres.  
+
+
+Inheritance diagram for Source\+Uniform\+Hollow\+Sphere\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1SourceUniformHollowSphere}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcrpropa_1_1SourceUniformHollowSphere_afc8bd75b2408d7770e664f20d810bd62}{Source\+Uniform\+Hollow\+Sphere}} (\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}} center, double radius\+\_\+inner, double double\+\_\+outer)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1SourceUniformHollowSphere_acc6074320f547e7c03f6957f33b1c3fb}{prepare\+Particle}} (\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&particle) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceUniformHollowSphere_ac0d27e78991c898a5256103561b87f8a}\label{classcrpropa_1_1SourceUniformHollowSphere_ac0d27e78991c898a5256103561b87f8a}} 
+void {\bfseries set\+Description} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_ae64aafd3cc3ce74a222e274cae1515b4}\label{classcrpropa_1_1SourceFeature_ae64aafd3cc3ce74a222e274cae1515b4}} 
+virtual void {\bfseries prepare\+Candidate} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} \&candidate) const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1SourceFeature_aea425314aebc36d0f6bf7671705158da}} 
+std\+::string {\bfseries get\+Description} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Uniform distribution of sources between two spheres. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceUniformHollowSphere_afc8bd75b2408d7770e664f20d810bd62}\label{classcrpropa_1_1SourceUniformHollowSphere_afc8bd75b2408d7770e664f20d810bd62}} 
+\index{SourceUniformHollowSphere@{SourceUniformHollowSphere}!SourceUniformHollowSphere@{SourceUniformHollowSphere}}
+\index{SourceUniformHollowSphere@{SourceUniformHollowSphere}!SourceUniformHollowSphere@{SourceUniformHollowSphere}}
+\doxysubsubsection{\texorpdfstring{SourceUniformHollowSphere()}{SourceUniformHollowSphere()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classcrpropa_1_1SourceUniformHollowSphere}{Source\+Uniform\+Hollow\+Sphere}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Vector3}{Vector3d}}}]{center,  }\item[{double}]{radius\+\_\+inner,  }\item[{double}]{double\+\_\+outer }\end{DoxyParamCaption})}
+
+Constructor 
+\begin{DoxyParams}{Parameters}
+{\em center} & vector containing the coordinates of the center of the sphere \\
+\hline
+{\em radius\+\_\+inner} & radius of the inner sphere \\
+\hline
+{\em radius\+\_\+outer} & radius of the outer sphere \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1SourceUniformHollowSphere_acc6074320f547e7c03f6957f33b1c3fb}\label{classcrpropa_1_1SourceUniformHollowSphere_acc6074320f547e7c03f6957f33b1c3fb}} 
+\index{SourceUniformHollowSphere@{SourceUniformHollowSphere}!prepareParticle@{prepareParticle}}
+\index{prepareParticle@{prepareParticle}!SourceUniformHollowSphere@{SourceUniformHollowSphere}}
+\doxysubsubsection{\texorpdfstring{prepareParticle()}{prepareParticle()}}
+{\footnotesize\ttfamily void prepare\+Particle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1ParticleState}{Particle\+State}} \&}]{particle }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1SourceFeature}{Source\+Feature}}.
+

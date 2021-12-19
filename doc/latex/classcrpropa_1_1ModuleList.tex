@@ -1,0 +1,133 @@
+\hypertarget{classcrpropa_1_1ModuleList}{}\doxysection{Module\+List Class Reference}
+\label{classcrpropa_1_1ModuleList}\index{ModuleList@{ModuleList}}
+
+
+The simulation itself\+: A list of simulation modules.  
+
+
+Inheritance diagram for Module\+List\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classcrpropa_1_1ModuleList}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_aab45aaf255647776d61c46e7ce9514eb}\label{classcrpropa_1_1ModuleList_aab45aaf255647776d61c46e7ce9514eb}} 
+typedef std\+::list$<$ \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} $>$ $>$ {\bfseries module\+\_\+list\+\_\+t}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a3cd24d9dcbae18aec953e00bd08f3cd1}\label{classcrpropa_1_1ModuleList_a3cd24d9dcbae18aec953e00bd08f3cd1}} 
+typedef std\+::vector$<$ \mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ $>$ {\bfseries candidate\+\_\+vector\+\_\+t}
+\item 
+typedef module\+\_\+list\+\_\+t\+::iterator \mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ac02bd645ccd4c7ea60b616bbe59195db}\label{classcrpropa_1_1ModuleList_ac02bd645ccd4c7ea60b616bbe59195db}} 
+typedef module\+\_\+list\+\_\+t\+::const\+\_\+iterator {\bfseries const\+\_\+iterator}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a0abf2e0b4076bf42006e866b189ffc9d}\label{classcrpropa_1_1ModuleList_a0abf2e0b4076bf42006e866b189ffc9d}} 
+void {\bfseries set\+Show\+Progress} (bool show=true)
+\begin{DoxyCompactList}\small\item\em activate a progress bar \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a0898e07641bb9b6e85dc3695c94d14bc}\label{classcrpropa_1_1ModuleList_a0898e07641bb9b6e85dc3695c94d14bc}} 
+void {\bfseries add} (\mbox{\hyperlink{classcrpropa_1_1Module}{Module}} $\ast$module)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ab204a18f275c5a5195b7b9c7505cecf4}\label{classcrpropa_1_1ModuleList_ab204a18f275c5a5195b7b9c7505cecf4}} 
+void {\bfseries remove} (std\+::size\+\_\+t i)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ade1601ccf1fa3bcf050867f0852ca4e5}\label{classcrpropa_1_1ModuleList_ade1601ccf1fa3bcf050867f0852ca4e5}} 
+std\+::size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a37a45dbba91006673feb119ff95eac60}\label{classcrpropa_1_1ModuleList_a37a45dbba91006673feb119ff95eac60}} 
+\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Module}{Module}} $>$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (const std\+::size\+\_\+t i)
+\item 
+void \mbox{\hyperlink{classcrpropa_1_1ModuleList_ab59d2de78ed0589c122df3d6c0478b41}{process}} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate) const
+\begin{DoxyCompactList}\small\item\em call process in all modules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a9f2321c49330b61a52ce55c2015e4c49}\label{classcrpropa_1_1ModuleList_a9f2321c49330b61a52ce55c2015e4c49}} 
+void {\bfseries process} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate) const
+\begin{DoxyCompactList}\small\item\em call process in all modules \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a64999efc68012b9b0b3fe8752fb41036}\label{classcrpropa_1_1ModuleList_a64999efc68012b9b0b3fe8752fb41036}} 
+void {\bfseries run} (\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$candidate, bool recursive=true, bool secondaries\+First=false)
+\begin{DoxyCompactList}\small\item\em run simulation for a single candidate \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ae4e1674e36c6c34ae4af1b1c6527895d}\label{classcrpropa_1_1ModuleList_ae4e1674e36c6c34ae4af1b1c6527895d}} 
+void {\bfseries run} (\mbox{\hyperlink{classcrpropa_1_1ref__ptr}{ref\+\_\+ptr}}$<$ \mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $>$ candidate, bool recursive=true, bool secondaries\+First=false)
+\begin{DoxyCompactList}\small\item\em run simulation for a single candidate \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a2a92fbf42e0ad12985322aef237bc8bb}\label{classcrpropa_1_1ModuleList_a2a92fbf42e0ad12985322aef237bc8bb}} 
+void {\bfseries run} (const candidate\+\_\+vector\+\_\+t $\ast$candidates, bool recursive=true, bool secondaries\+First=false)
+\begin{DoxyCompactList}\small\item\em run simulation for a candidate vector \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ab329c45eb426d038a3ee0016a2b7a632}\label{classcrpropa_1_1ModuleList_ab329c45eb426d038a3ee0016a2b7a632}} 
+void {\bfseries run} (\mbox{\hyperlink{classcrpropa_1_1SourceInterface}{Source\+Interface}} $\ast$source, size\+\_\+t count, bool recursive=true, bool secondaries\+First=false)
+\begin{DoxyCompactList}\small\item\em run simulation for a number of candidates from the given source \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classcrpropa_1_1ModuleList_aea425314aebc36d0f6bf7671705158da}{get\+Description}} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a8dd8e9c017ea29d919a6474f820d099c}\label{classcrpropa_1_1ModuleList_a8dd8e9c017ea29d919a6474f820d099c}} 
+void {\bfseries show\+Modules} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ad69bd11391be1a1dba5c8202259664f8}\label{classcrpropa_1_1ModuleList_ad69bd11391be1a1dba5c8202259664f8}} 
+\mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}} {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a29305669b60ca1680752e2fc3592ba99}\label{classcrpropa_1_1ModuleList_a29305669b60ca1680752e2fc3592ba99}} 
+const\+\_\+iterator {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_acad38d52497a975bfb6f2f6acd76631f}\label{classcrpropa_1_1ModuleList_acad38d52497a975bfb6f2f6acd76631f}} 
+\mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}} {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_accf9a4bd0c34d4a5f6a7dab66ea10cdc}\label{classcrpropa_1_1ModuleList_accf9a4bd0c34d4a5f6a7dab66ea10cdc}} 
+const\+\_\+iterator {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}\label{classcrpropa_1_1Module_a3406b56004afdbe7a1815a541d40de99}} 
+void {\bfseries set\+Description} (const std\+::string \&description)
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}\label{classcrpropa_1_1Referenced_a6ef7442f4d857baf3d3a39fdeec4aadd}} 
+size\+\_\+t {\bfseries add\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}\label{classcrpropa_1_1Referenced_ab9f5dbbba1431274016b3d74426953f2}} 
+size\+\_\+t {\bfseries remove\+Reference} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}\label{classcrpropa_1_1Referenced_adab41cca5664d4668930f93beefa39b5}} 
+int {\bfseries remove\+Reference\+No\+Delete} () const
+\item 
+\mbox{\Hypertarget{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}\label{classcrpropa_1_1Referenced_a74487fc4399bfa67c7251dae5d4247cd}} 
+size\+\_\+t {\bfseries get\+Reference\+Count} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The simulation itself\+: A list of simulation modules. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}\label{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}} 
+\index{ModuleList@{ModuleList}!iterator@{iterator}}
+\index{iterator@{iterator}!ModuleList@{ModuleList}}
+\doxysubsubsection{\texorpdfstring{iterator}{iterator}}
+{\footnotesize\ttfamily typedef module\+\_\+list\+\_\+t\+::iterator \mbox{\hyperlink{classcrpropa_1_1ModuleList_a319ee507fd1405a44e653a74a8592b39}{iterator}}}
+
+iterator goodies 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_aea425314aebc36d0f6bf7671705158da}\label{classcrpropa_1_1ModuleList_aea425314aebc36d0f6bf7671705158da}} 
+\index{ModuleList@{ModuleList}!getDescription@{getDescription}}
+\index{getDescription@{getDescription}!ModuleList@{ModuleList}}
+\doxysubsubsection{\texorpdfstring{getDescription()}{getDescription()}}
+{\footnotesize\ttfamily std\+::string get\+Description (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+
+\mbox{\Hypertarget{classcrpropa_1_1ModuleList_ab59d2de78ed0589c122df3d6c0478b41}\label{classcrpropa_1_1ModuleList_ab59d2de78ed0589c122df3d6c0478b41}} 
+\index{ModuleList@{ModuleList}!process@{process}}
+\index{process@{process}!ModuleList@{ModuleList}}
+\doxysubsubsection{\texorpdfstring{process()}{process()}}
+{\footnotesize\ttfamily void process (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcrpropa_1_1Candidate}{Candidate}} $\ast$}]{candidate }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+call process in all modules 
+
+
+
+Implements \mbox{\hyperlink{classcrpropa_1_1Module}{Module}}.
+

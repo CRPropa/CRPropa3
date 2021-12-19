@@ -20,7 +20,7 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = u'CRPropa3'
-copyright = u'2020, The CRPropa Developers'
+copyright = u'2021, The CRPropa Developers'
 author = u'The CRPropa Developers'
 
 # The short X.Y version
@@ -45,7 +45,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    'm2r',
+    'm2r2',
     "nbsphinx",
     "IPython.sphinxext.ipython_console_highlighting"
 ]
@@ -58,8 +58,8 @@ if not os.getenv('CRPROPA_DISABLE_API_DOC'):
 
 # Breathe Configuration
 breathe_default_project = "CRPropa3"
-
 breathe_domain_by_extension = {"h" : "cpp"}
+breathe_projects = {'CRPropa3': 'xml'}
 
 #source_parsers = {
 #   '.md': 'recommonmark.parser.CommonMarkParser',
@@ -99,6 +99,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+import sphinx_rtd_theme
 html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -200,15 +201,15 @@ nbsphinx_execute = 'never'
 
 exhale_args = {
     # These arguments are required
-    "containmentFolder":     "./api",
+    "containmentFolder":     './api',
     "rootFileName":          "library_root.rst",
     "rootFileTitle":         "Library API",
-    "doxygenStripFromPath":  "..",
+    "doxygenStripFromPath":  '.',
     # Suggested optional arguments
     "createTreeView":        True,
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
-    "exhaleExecutesDoxygen": False,
+    "exhaleExecutesDoxygen": False
 }
 
 # Tell sphinx what the primary language being documented is.

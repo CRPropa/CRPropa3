@@ -1,6 +1,7 @@
 # Installation
 ## Download
 
+#### Test
 Download and unzip the [latest release](https://github.com/CRPropa/CRPropa3/releases/latest) (recommended), or, alternatively, download the [current development snapshot](https://github.com/CRPropa/CRPropa3/archive/master.zip), or clone the repository with
 
 ```sh

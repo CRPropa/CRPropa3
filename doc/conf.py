@@ -1,5 +1,3 @@
-# Note that these resources are completely external to CRPropa. We cannot supply any kind of additional information nor can we offer support on how to use them.
-
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.

@@ -61,10 +61,7 @@ if not os.getenv('CRPROPA_DISABLE_API_DOC'):
 # Breathe Configuration
 breathe_default_project = "CRPropa3"
 breathe_domain_by_extension = {"h" : "cpp"}
-
-# breathe_projects = {
-#     'CRPropa3': '_doxygen/xml'
-# }
+breathe_projects = {'CRPropa3': 'xml'}
 
 #source_parsers = {
 #   '.md': 'recommonmark.parser.CommonMarkParser',

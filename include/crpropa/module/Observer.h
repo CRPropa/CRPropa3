@@ -291,8 +291,9 @@ public:
 	 @param min		minimum time
 	 @param dist	time interval for detection
 	 @param numb	number of time intervals
+	 @param log     log scaling
 	 */
-	ObserverTimeEvolution(double min, double dist, double numb);
+	ObserverTimeEvolution(double min, double dist, double numb, bool log = false);
 	void addTime(const double &position);
 	const std::vector<double>& getTimes() const;
 	DetectionState checkDetection(Candidate *candidate) const;

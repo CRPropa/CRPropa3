@@ -323,10 +323,17 @@ std::string ObserverParticleIdVeto::getDescription() const {
 // ObserverTimeEvolution --------------------------------------------------------
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 
-ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
-  for (size_t i = 0; i < numb; i++) {
-    addTime(min + i * dist);
-  }
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb, bool log) {
+  	if (log == true) {
+		for (size_t i = 0; i <= numb; i++) {
+			double time = min * pow(dist / min, i / (numb - 1.0));
+			addTime(time);
+		}
+	} else {
+		for (size_t i = 0; i < numb; i++) {
+			addTime(min + i * dist);
+		}
+	}
 }
 
 

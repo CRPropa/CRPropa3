@@ -303,6 +303,7 @@ public:
 	 */
 	ObserverTimeEvolution(double min, double max, double numb, bool log = false);
 	void addTime(const double &position);
+	void addTimeRange(double min, double max, double numb, bool log = false);
 	const std::vector<double>& getTimes() const;
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;

@@ -29,49 +29,88 @@ private:
 	double charge; ///< particle charge
 
 public:
+	/** Constructor for a particle state.
+	 @param id			id of the particle following the PDG numbering scheme
+	 @param energy		energy of the particle [in Joules]
+	 @param position	vector containing the coordinates of the particle [in meters]
+	 @param direction	vector containing the direction of motion of the particle
+	 */
 	ParticleState(int id = 0, double energy = 0,
 			Vector3d position = Vector3d(0, 0, 0),
 			Vector3d direction = Vector3d(-1, 0, 0));
 
-	/// Set position in comoving coordinates
+	/** Set particle position.
+	 In simulations including cosmological effects, the position is given in comoving coordinates.
+	 @param pos		vector containing the coordinates of the particle [in meters]
+	*/
 	void setPosition(const Vector3d &pos);
-	/// Get position in comoving coordinates
+	/** Get position of particle.
+	 @returns Position vector of particle. If cosmological effects are included, the coordinates are comoving.
+	 */
 	const Vector3d &getPosition() const;
 
-	/// Set direction unit vector, non unit-vectors are normalized
+	/** Set direction unit vector, non unit-vectors are normalized
+	 @param dir	vector containing the direction of motion of the particle
+	 */
 	void setDirection(const Vector3d &dir);
-	/// Get direction unit vector
+	/** Get direction unit vector
+	 @returns Normalized vector containing direction of motion of particle.
+	 */
 	const Vector3d &getDirection() const;
 
-	/// Set energy in [J]
+	/** Set energy of particle.
+	 @param newEnergy	energy to be assigned to particle [in Joules]
+	 */
 	void setEnergy(double newEnergy);
-	/// Get energy in [J]
+	/** Get energy of particle.
+	 @returns Energy of particle [in Joules]
+	 */
 	double getEnergy() const;
-	/// Get rigidity defined as E/(Z*e) in [V]
+	/** Get rigidity of particle, defined as E/(Z*e).
+	 @returns Rigidity of the particle [in Volts]
+	 */
 	double getRigidity() const;
 
-	/// Set particle ID
+	/** Set particle ID.
+	 This follows the PDG numbering scheme:
+	  https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf
+	 @param newId		id to be assigned to the particle 
+	 */
 	void setId(int newId);
-	/// Get particle ID
+	/** Get particle ID
+	 @returns Particle ID (in PDG format).
+	 */
 	int getId() const;
 
 	std::string getDescription() const;
 
 	// ======== Helper methods ========
 
-	/// Electrical charge of the particle in [C]
+	/** Get electrical charge of the particle.
+	 @returns Charge of the particle [in Coulombs]
+	 */
 	double getCharge() const;
-	/// Mass of the particle in [kg]
+	/** Get mass of the particle.
+	 @returns Mass of the particle [kg]
+	 */
 	double getMass() const;
 
-	/// Set Lorentz factor and modify the particle's energy accordingly
+	/** Set Lorentz factor and modify the particle's energy accordingly.
+	 @param gamma		Lorentz factor
+	 */
 	void setLorentzFactor(double gamma);
-	/// Get Lorentz factor
+	/** Get Lorentz factor
+	 @returns Lorentz factor of particle
+	 */
 	double getLorentzFactor() const;
 
-	/// Velocity: direction times the speed of light in [m/s]
+	/** Get velocity: direction times the speed of light.
+	 @returns Velocity of particle [m/s]
+	 */
 	Vector3d getVelocity() const;
-	/// Momentum: direction times energy divided by the speed of light [kg m/s]
+	/** Get momentum: direction times energy divided by the speed of light 
+	 @returns The momentum [kg m/s]
+	*/
 	Vector3d getMomentum() const;
 };
 /** @}*/

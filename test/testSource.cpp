@@ -90,9 +90,10 @@ TEST(SourceUniformCylinder, simpleTest) {
 
 TEST(SourceSNRDistribution, simpleTest) {
 	double R_earth = 8.5*kpc;
+	double alpha = 2.0;
 	double beta = 3.53;
 	double Z_G = 0.3*kpc;
-	SourceSNRDistribution snr(R_earth, beta, Z_G);
+	SourceSNRDistribution snr(R_earth,alpha, beta, Z_G);
 	ParticleState ps;
 	snr.prepareParticle(ps);
 	Vector3d pos = ps.getPosition();
@@ -250,6 +251,24 @@ TEST(SourceComposition, simpleTest) {
 	EXPECT_EQ(nucleusId(6, 3), p.getId());
 	EXPECT_LE(Emin, p.getEnergy());
 	EXPECT_GE(6 * Rmax, p.getEnergy());
+}
+
+TEST(SourceDirectedEmission, simpleTest) {
+	Vector3d mu(1., 0., 0.);
+	double kappa = 1000.;
+	SourceDirectedEmission source(mu, kappa);
+	Candidate c;
+	Vector3d meanDir(0., 0., 0.);
+	for (size_t i = 0; i < 1000; i++) {
+		source.prepareCandidate(c);
+		meanDir += c.source.getDirection();
+		double w = c.getWeight();
+		EXPECT_GE(w, 0.);
+	}
+	meanDir /= 1000.;
+	EXPECT_NEAR(meanDir.x, 1., 0.1);
+	EXPECT_NEAR(meanDir.y, 0., 0.01);
+	EXPECT_NEAR(meanDir.z, 0., 0.01);
 }
 
 TEST(SourceEmissionCone, simpleTest) {

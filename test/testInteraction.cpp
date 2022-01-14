@@ -542,7 +542,7 @@ TEST(PhotoPionProduction, helium) {
 }
 
 TEST(PhotoPionProduction, thisIsNotNucleonic) {
-	// Test if noting happens to an electron.
+	// Test if nothing happens to an electron.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	PhotoPionProduction ppp(CMB_instance);
 	Candidate c;
@@ -574,6 +574,22 @@ TEST(PhotoPionProduction, secondaries) {
 	ppp.process(&c);
 	// there should be secondaries
 	EXPECT_GT(c.secondaries.size(), 1);
+}
+
+TEST(PhotoPionProduction, sampling) {
+	// Specific test of photon sampling of photo-pion production
+	// by testing the calculated pEpsMax for CMB(), also indirectly
+	// testing epsMinInteraction and logSampling (default).
+	ref_ptr<PhotonField> CMB_instance = new CMB(); //create CMB instance
+	double energy = 1.e10; //1e10 GeV
+	bool onProton = true; //proton
+	double z = 0; //no redshift
+	PhotoPionProduction ppp(CMB_instance, true, true, true);
+	double correctionFactor = ppp.getCorrectionFactor(); //get current correctionFactor
+	double epsMin = std::max(CMB_instance -> getMinimumPhotonEnergy(z) / eV, 0.00710614); // 0.00710614 = epsMinInteraction(onProton,energy)
+	double epsMax = CMB_instance -> getMaximumPhotonEnergy(z) / eV;
+	double pEpsMax = ppp.probEpsMax(onProton, energy, z, epsMin, epsMax) / correctionFactor;
+	EXPECT_DOUBLE_EQ(pEpsMax,132673934934.922);
 }
 
 // Redshift -------------------------------------------------------------------
@@ -646,6 +662,7 @@ TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ref_ptr<PhotonField> IRB = new IRB_Gilmore12();
+	ref_ptr<PhotonField> URB = new URB_Protheroe96();
 	EMPairProduction m(CMB_instance);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -653,6 +670,7 @@ TEST(EMPairProduction, secondaries) {
 	std::vector< ref_ptr<PhotonField> > fields;
 	fields.push_back(CMB_instance);
 	fields.push_back(IRB);
+	fields.push_back(URB);
 
 	// loop over photon backgrounds
 	for (int f = 0; f < fields.size(); f++) {
@@ -660,8 +678,8 @@ TEST(EMPairProduction, secondaries) {
 		for (int i = 0; i < 140; i++) { // loop over energies Ep = (1e10 - 1e23) eV
 			double Ep = pow(10, 9.05 + 0.1 * i) * eV;
 			Candidate c(22, Ep);
-			c.setCurrentStep(std::numeric_limits<double>::max());
-			// c.setCurrentStep(1e10 * Mpc);
+			//c.setCurrentStep(std::numeric_limits<double>::max());
+			c.setCurrentStep(1e10 * Mpc);
 			m.process(&c);
 
 			// pass if no interaction has occured (no tabulated rates)

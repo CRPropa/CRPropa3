@@ -4,6 +4,7 @@
 #include "EleCa/Propagation.h"
 #include "EleCa/Particle.h"
 #include "EleCa/Common.h"
+#include "kiss/logger.h"
 
 #include <vector>
 
@@ -12,7 +13,7 @@ namespace crpropa {
 PhotonEleCa::PhotonEleCa(const std::string background,
 		const std::string &outputFilename) :
 		propagation(new eleca::Propagation), saveOnlyPhotonEnergies(false) {
-	//propagation->ReadTables(getDataPath("eleca_lee.txt"));
+	KISS_LOG_WARNING << "EleCa propagation is deprecated and is no longer supported. Please use the EM* (EMPairProduction, EMInverseComptonScattering, ...) modules instead.\n";
 	propagation->ReadTables(getDataPath("EleCa/eleca.dat"));
 	propagation->InitBkgArray(background);
 	output.open(outputFilename.c_str());

@@ -25,7 +25,6 @@ TextOutput::TextOutput(OutputType outputtype) : Output(outputtype), out(&std::co
 }
 
 TextOutput::TextOutput(std::ostream &out) : Output(), out(&out), storeRandomSeeds(false) {
-
 }
 
 TextOutput::TextOutput(std::ostream &out,
@@ -291,11 +290,11 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 #ifdef CRPROPA_HAVE_ZLIB
 		in = new zstream::igzstream(*in);
 #else
-		throw std::runtime_error("CRPropa was build without Zlib compression!");
+		throw std::runtime_error("CRPropa was built without Zlib compression!");
 #endif
 	}
 
-	while (std::getline(*in,line)) {
+	while (std::getline(*in, line)) {
 		std::stringstream stream(line);
 		if (stream.peek() == '#')
 			continue;
@@ -367,7 +366,7 @@ void TextOutput::gzip() {
 #ifdef CRPROPA_HAVE_ZLIB
 	out = new zstream::ogzstream(*out);
 #else
-	throw std::runtime_error("CRPropa was build without Zlib compression!");
+	throw std::runtime_error("CRPropa was built without Zlib compression!");
 #endif
 }
 

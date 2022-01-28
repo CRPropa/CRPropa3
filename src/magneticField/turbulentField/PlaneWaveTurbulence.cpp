@@ -130,7 +130,7 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	double Ak2_sum = 0; // sum of Ak^2 over all k
 	for (int i = 0; i < Nm; i++) {
 		double k = this->k[i];
-		double Gk = spectrum.energySpectrum(k);
+		double Gk = spectrum.energySpectrum(k) * (k * k);
 		Ak[i] = Gk * delta_k0 * k;
 		Ak2_sum += Ak[i];
 

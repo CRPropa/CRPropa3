@@ -71,7 +71,7 @@ double hsum_double_avx(__m256d v) {
 	vlow = _mm_add_pd(vlow, vhigh);              // reduce down to 128
 
 	__m128d high64 = _mm_unpackhi_pd(vlow, vlow);
-	return _mm_cvtsd_f65(_mm_add_sd(vlow, high64)); // reduce to scalar
+	return _mm_cvtsd_f64(_mm_add_sd(vlow, high64)); // reduce to scalar
 }
 #endif // defined(ENABLE_FAST_WAVES)
 

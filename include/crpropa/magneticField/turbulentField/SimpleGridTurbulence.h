@@ -21,16 +21,16 @@ namespace crpropa {
 class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
   public:
 	/**
-	 @param Brms         root mean square field strength for generated field
-	 @param lMin	 Minimum physical scale of the turbulence
-	 @param lMax	 Maximum physical scale of the turbulence
-	 @param lBendover	   the bend-over scale
-	 @param sindex	 Spectral index of the energy spectrum in the inertial
+	 @param Brms		root mean square field strength for generated field
+	 @param lMin	 	Minimum physical scale of the turbulence
+	 @param lMax	 	Maximum physical scale of the turbulence
+	 @param lBendover	the bend-over scale is set to 1000 times lMax to ensure to be in the inertial range.
+	 @param sindex	 	Spectral index of the energy spectrum in the inertial
 	 range
 	*/
 	SimpleTurbulenceSpectrum(double Brms, double lMin, double lMax,
 	                         double sIndex = 5. / 3)
-	    : TurbulenceSpectrum(Brms, lMin, lMax, 0, sIndex, 0) {}
+	    : TurbulenceSpectrum(Brms, lMin, lMax, 1000 * lMax, sIndex, 0) {}
 	~SimpleTurbulenceSpectrum() {}
 
 	/**

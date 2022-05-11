@@ -12,7 +12,7 @@ namespace crpropa {
 
 /**
  @class TurbulenceSpectrum
- @brief Defines the energy spectrum of turbulence
+ @brief Defines the energy spectrum of turbulence parametrizied by A(k) ~ k^q /(1 + k^2)^{(s + q)/2 + 1}
  */
 class TurbulenceSpectrum : public Referenced {
   private:

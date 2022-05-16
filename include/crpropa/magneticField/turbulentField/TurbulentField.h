@@ -12,7 +12,7 @@ namespace crpropa {
 
 /**
  @class TurbulenceSpectrum
- @brief Defines the energy spectrum of turbulence
+ @brief Defines the energy spectrum of turbulence parametrizied by A(k) ~ k^q /(1 + k^2)^{(s + q)/2 + 1}
  */
 class TurbulenceSpectrum : public Referenced {
   private:
@@ -74,7 +74,8 @@ class TurbulenceSpectrum : public Referenced {
 	General energy spectrum for synthetic turbulence models (not normalized!)
 	with normalized ^k = k*lBendover
 	*/
-	virtual double energySpectrum(double kHat) const {
+	virtual double energySpectrum(double k) const {
+		double kHat = k * lBendover;
 		return std::pow(kHat, qIndex) /
 				       std::pow(1.0 + kHat * kHat,
 			                (sIndex + qIndex) / 2.0 + 1.0);

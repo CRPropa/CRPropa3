@@ -2,6 +2,7 @@
 
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/CMZField.h"
+#include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
 #include "crpropa/Grid.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
@@ -177,6 +178,14 @@ TEST(testCMZMagneticField, TestAzimutalComponent){
 	EXPECT_NEAR(bVec.x, -8.339*muG, 1e-3*muG);
 	EXPECT_NEAR(bVec.y, -0.850*muG, 1e-3*muG);
 	EXPECT_DOUBLE_EQ(bVec.z, 0);
+}
+
+TEST(testPolarizedSingleModeMagneticField, SimpleTest) {
+	PolarizedSingleModeMagneticField B(2, 4, 0.5, Vector3d(1,1,1), Vector3d(0,1,0), Vector3d(1,0,0), "amplitude", "polarization", "elliptical");
+	Vector3d b = B.getField(Vector3d(1,1,2));
+	EXPECT_DOUBLE_EQ(b.x, 1);
+	EXPECT_NEAR(b.y, 0, 1E-10);
+	EXPECT_NEAR(b.z, 0, 1E-10);
 }
 
 int main(int argc, char **argv) {

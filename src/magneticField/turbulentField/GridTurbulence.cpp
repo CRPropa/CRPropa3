@@ -52,7 +52,7 @@ void GridTurbulence::initTurbulence() {
 	// double kMax = 2*M_PI / lMin; // * 2 * spacing.x; // spacing.x / lMin;
 	double kMin = spacing.x / spectrum.getLmax();
 	double kMax = spacing.x / spectrum.getLmin();
-	auto lambda = spectrum.getLbendover() / spacing.x * 2 * M_PI;
+	auto lambda = 1 / spacing.x * 2 * M_PI;
 
 	Vector3f n0(1, 1, 1); // arbitrary vector to construct orthogonal base
 

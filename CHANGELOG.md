@@ -8,7 +8,10 @@
 
 ### New features:
 * Add modules for first and second order Fermi acceleration
+* Make custom photon fields available in the PhotoPionProduction module.
 * Add tricubic- and nearest neighbour interpolation routines for scalar- and vectorgrids.
+* Add the new PolarizedSingleModeMagneticField class for polarized/helical single mode magnetic field models.
+* Add a source feature for targeted emission, following the von-Mises-Fisher distribution 
 
 ### Interface changes:
 

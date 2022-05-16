@@ -11,3 +11,4 @@ Extragalactic Propagation
    example_notebooks/secondaries/photons.v4.ipynb
    example_notebooks/secondaries/neutrinos.v4.ipynb
    example_notebooks/photon_propagation/cascade_1d.ipynb
+   example_notebooks/targeting/Targeting.ipynb

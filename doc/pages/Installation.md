@@ -209,5 +209,6 @@ example:
  -DPYTHON_LIBRARY=/usr/local/Cellar/python/3.7.4/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7.dylib \
  ..
   ```
+Note, that CRPropa can be installed under OS X with the settings listed above, but due to some issues with github actions the OS X installation is currently not checked automatically.
 
 

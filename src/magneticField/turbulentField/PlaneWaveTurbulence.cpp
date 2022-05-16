@@ -71,7 +71,7 @@ double hsum_double_avx(__m256d v) {
 	vlow = _mm_add_pd(vlow, vhigh);              // reduce down to 128
 
 	__m128d high64 = _mm_unpackhi_pd(vlow, vlow);
-	return _mm_cvtsd_f65(_mm_add_sd(vlow, high64)); // reduce to scalar
+	return _mm_cvtsd_f64(_mm_add_sd(vlow, high64)); // reduce to scalar
 }
 #endif // defined(ENABLE_FAST_WAVES)
 
@@ -130,7 +130,8 @@ PlaneWaveTurbulence::PlaneWaveTurbulence(const TurbulenceSpectrum &spectrum,
 	double Ak2_sum = 0; // sum of Ak^2 over all k
 	for (int i = 0; i < Nm; i++) {
 		double k = this->k[i];
-		double Gk = spectrum.energySpectrum(k);
+		double kHat = k * spectrum.getLbendover();
+		double Gk = spectrum.energySpectrum(k) * (1 + kHat * kHat);	// correct different implementation in TD 13 (eq. 5, missing + 1 in the denuminators exponent)
 		Ak[i] = Gk * delta_k0 * k;
 		Ak2_sum += Ak[i];
 

@@ -278,7 +278,7 @@ public:
 /**
  @class ObserverTimeEvolution
  @brief Observes the time evolution of the candidates (phase-space elements)
- This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in regular time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.
+ This observer is very useful if the time evolution of the particle density is needed. It detects all candidates in lin-spaced, log-spaced, or user-defined time intervals and limits the nextStep of candidates to prevent overshooting of detection intervals.
  */
 class ObserverTimeEvolution: public ObserverFeature {
 private:
@@ -291,9 +291,22 @@ public:
 	 @param min		minimum time
 	 @param dist	time interval for detection
 	 @param numb	number of time intervals
+	 @param
 	 */
 	ObserverTimeEvolution(double min, double dist, double numb);
+	/** Constructor
+	 @param min		minimum time
+	 @param max	    maximum time
+	 @param numb	number of time intervals
+	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
+	 @param 
+	 */
+	ObserverTimeEvolution(double min, double max, double numb, bool log);
+	// add a new time step to the detection time list of the observer
 	void addTime(const double &position);
+	// using log or lin spacing of times in the range between min and
+	// max for observing particles
+	void addTimeRange(double min, double max, double numb, bool log = false);
 	const std::vector<double>& getTimes() const;
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;

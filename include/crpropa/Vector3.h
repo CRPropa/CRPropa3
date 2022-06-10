@@ -204,7 +204,7 @@ public:
 
 	// rotate the vector around a given axis by a given angle
 	Vector3<T> getRotated(const Vector3<T> &axis, T angle) const {
-		Vector3<T> u = axis;
+		Vector3<T> u = axis/axis.getR();
 		T c = cos(angle);
 		T s = sin(angle);
 		Vector3<T> Rx(c + u.x * u.x * (1 - c), u.x * u.y * (1 - c) - u.z * s,

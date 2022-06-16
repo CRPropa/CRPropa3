@@ -324,9 +324,13 @@ std::string ObserverParticleIdVeto::getDescription() const {
 ObserverTimeEvolution::ObserverTimeEvolution() {}
 
 ObserverTimeEvolution::ObserverTimeEvolution(double min, double dist, double numb) {
-  for (size_t i = 0; i < numb; i++) {
-    addTime(min + i * dist);
-  }
+	double max = min + numb * dist;
+	bool log = false;
+	addTimeRange(min, max, numb, log);
+}
+
+ObserverTimeEvolution::ObserverTimeEvolution(double min, double max, double numb, bool log) {
+	addTimeRange(min, max, numb, log);
 }
 
 
@@ -369,14 +373,22 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 
 			return DETECTED;
 		}
-
 	}
 	return NOTHING;
-
 }
 
 void ObserverTimeEvolution::addTime(const double& t) {
 	detList.push_back(t);
+}
+
+void ObserverTimeEvolution::addTimeRange(double min, double max, double numb, bool log) {
+	for (size_t i = 0; i < numb; i++) {
+		if (log == true) {
+			addTime(min * pow(max / min, i / (numb - 1.0)));
+		} else {
+			addTime(min + i * (max - min) / numb);
+		}
+	}
 }
 
 const std::vector<double>& ObserverTimeEvolution::getTimes() const {
@@ -392,7 +404,7 @@ std::string ObserverTimeEvolution::getDescription() const {
 }
 
 // ObserverSurface--------------------------------------------------------------
-ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { };
+ObserverSurface::ObserverSurface(Surface* _surface) : surface(_surface) { }
 
 DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
 {
@@ -406,12 +418,12 @@ DetectionState ObserverSurface::checkDetection(Candidate *candidate) const
 			return NOTHING;
 		else
 			return DETECTED;
-};
+}
 
 std::string ObserverSurface::getDescription() const {
 	std::stringstream ss;
 	ss << "ObserverSurface: << " << surface->getDescription();
 	return ss.str();
-};
+}
 
 } // namespace crpropa

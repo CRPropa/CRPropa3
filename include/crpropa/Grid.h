@@ -76,7 +76,7 @@ public:
 	Vector3d origin;  	// Position of the lower left front corner of the volume
 	Vector3d spacing; 	// Spacing vector between gridpoints
 	bool reflective;	// using reflective repetition of the grid instead of periodic
-	interpolationType ipol;	// Interpolation tpye used between grid points
+	interpolationType ipol;	// Interpolation type used between grid points
 
 	/** Constructor for cubic grid
 	 @param	origin	Position of the lower left front corner of the volume
@@ -117,7 +117,7 @@ public:
 		reflective = b;
 	}
 
-	/** set the type of interpolation between gridpoints.
+	/** set the type of interpolation between grid points.
 	 * @param i: interpolationType (TRILINEAR, TRICUBIC, NEAREST_NEIGHBOUR) */
 	void setInterpolationType(interpolationType i){
 		ipol = i;

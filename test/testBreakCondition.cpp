@@ -267,6 +267,43 @@ TEST(ObserverFeature, TimeEvolution) {
   EXPECT_TRUE(c.hasProperty("Detected"));
 }
 
+TEST(ObserverFeature, TimeEvolutionLog) {
+  Observer obs;
+  obs.setDeactivateOnDetection(false);
+  obs.setFlag("Detected", "Detected");
+  // usage of a log scaling for the observer
+  bool log = true;
+  obs.add(new ObserverTimeEvolution(5, 5, 2, log));
+  Candidate c;
+  c.setNextStep(10);
+  c.setTrajectoryLength(3);
+  
+  // no detection, limit next step
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+
+  // limit step
+  EXPECT_DOUBLE_EQ(2, c.getNextStep());
+  
+  // detection one
+  c.setCurrentStep(0.1);
+  c.setTrajectoryLength(5);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+
+  // delete property
+  c.removeProperty("Detected");
+  EXPECT_FALSE(c.hasProperty("Detected"));
+
+  // detection two
+  c.setCurrentStep(0.1);
+  c.setTrajectoryLength(10.05);
+  obs.process(&c);
+  EXPECT_TRUE(c.isActive());
+  EXPECT_TRUE(c.hasProperty("Detected"));
+}
+
 //** ========================= Boundaries =================================== */
 TEST(PeriodicBox, high) {
 	// Tests if the periodical boundaries place the particle back inside the box and translate the initial position accordingly.

@@ -81,6 +81,11 @@ void Candidate::setWeight(double w) {
 	weight = w;
 }
 
+void Candidate::updateWeight(double w) {
+    double w_0 = this -> getWeight();
+    weight = w_0 * w;
+}
+
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
 	trajectoryLength += lstep;
@@ -128,8 +133,9 @@ void Candidate::addSecondary(int id, double energy, double weight) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
-	secondary->setWeight(weight);
-	secondary->source = source;
+    secondary->setWeight(this -> getWeight());
+    secondary->updateWeight(weight);
+    secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;
 	secondary->current = current;
@@ -143,7 +149,8 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double we
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
-	secondary->setWeight(weight);
+	secondary->setWeight(this -> getWeight());
+    secondary->updateWeight(weight);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;

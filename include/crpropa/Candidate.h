@@ -80,6 +80,7 @@ public:
 	 Weights are calculated for each tracked secondary.
 	 */
 	void setWeight(double weight);
+    void updateWeight(double weight);
 	double getWeight() const;
 
 	/**

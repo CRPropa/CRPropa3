@@ -197,6 +197,17 @@ TEST(Candidate, property) {
 	EXPECT_EQ("bar", value);
 }
 
+TEST(Candidate, weight) {
+    Candidate candidate;
+    EXPECT_EQ (1., candidate.getWeight());
+    
+    candidate.setWeight(5.);
+    EXPECT_EQ (5., candidate.getWeight());
+    
+    candidate.updateWeight(3.);
+    EXPECT_EQ (15., candidate.getWeight());
+}
+
 TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);

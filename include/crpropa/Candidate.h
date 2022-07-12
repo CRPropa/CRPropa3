@@ -57,7 +57,7 @@ public:
 		Vector3d position = Vector3d(0, 0, 0),
 		Vector3d direction = Vector3d(-1, 0, 0),
 		double z = 0,
-		double weight = 1
+		double weight = 1.
 	);
 
 	/**
@@ -119,8 +119,8 @@ public:
 	 */
 	void addSecondary(Candidate *c);
 	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
-	void addSecondary(int id, double energy, double weight = 1);
-	void addSecondary(int id, double energy, Vector3d position, double weight = 1);
+	void addSecondary(int id, double energy, double w = 1.);
+	void addSecondary(int id, double energy, Vector3d position, double w = 1.);
 	void clearSecondaries();
 
 	std::string getDescription() const;

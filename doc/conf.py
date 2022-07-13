@@ -13,20 +13,19 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import sphinx_rtd_theme
 
 
 # -- Project information -----------------------------------------------------
 
 project = u'CRPropa3'
-copyright = u'2020, The CRPropa Developers'
+copyright = u'2022, The CRPropa Developers'
 author = u'The CRPropa Developers'
 
 # The short X.Y version
-version = u''
+version = u'3.2'
 # The full version, including alpha/beta/rc tags
-release = u''
+release = u'3.2.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -45,9 +44,10 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    'm2r',
-    "nbsphinx",
-    "IPython.sphinxext.ipython_console_highlighting"
+    'sphinx.ext.githubpages',
+    'm2r2',
+    'nbsphinx',
+    'IPython.sphinxext.ipython_console_highlighting'
 ]
 
 
@@ -58,8 +58,8 @@ if not os.getenv('CRPROPA_DISABLE_API_DOC'):
 
 # Breathe Configuration
 breathe_default_project = "CRPropa3"
-
 breathe_domain_by_extension = {"h" : "cpp"}
+breathe_projects = {'CRPropa3': 'xml'}
 
 #source_parsers = {
 #   '.md': 'recommonmark.parser.CommonMarkParser',
@@ -203,12 +203,12 @@ exhale_args = {
     "containmentFolder":     "./api",
     "rootFileName":          "library_root.rst",
     "rootFileTitle":         "Library API",
-    "doxygenStripFromPath":  "..",
+    "doxygenStripFromPath":  '.',#"..",
     # Suggested optional arguments
     "createTreeView":        True,
     # TIP: if using the sphinx-bootstrap-theme, you need
     # "treeViewIsBootstrap": True,
-    "exhaleExecutesDoxygen": False,
+    "exhaleExecutesDoxygen": False
 }
 
 # Tell sphinx what the primary language being documented is.

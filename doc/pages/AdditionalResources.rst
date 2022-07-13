@@ -21,3 +21,5 @@ Additional Resources
    <https://arxiv.org/abs/1704.05869>`__ can be downloaded
    `here <http://www.8rafael.com/en/data/extragalactic-magnetic-field-models/>`__.
 
+
+Note that these resources are completely external to CRPropa. We cannot supply any kind of additional information nor can we offer support on how to use them.

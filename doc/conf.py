@@ -19,7 +19,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = u'CRPropa3'
-copyright = u'2021, The CRPropa Developers'
+copyright = u'2022, The CRPropa Developers'
 author = u'The CRPropa Developers'
 
 # The short X.Y version

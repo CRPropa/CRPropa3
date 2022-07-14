@@ -191,10 +191,9 @@ void EMInverseComptonScattering::performInteraction(Candidate *candidate) const 
 	// add up-scattered photon
 	double Esecondary = E - Enew;
 	double f = Enew / E;
-	double w0 = candidate->getWeight();
 	if (havePhotons) {
 		if (random.rand() < pow(1 - f, thinning)) {
-			double w = w0 / pow(1 - f, thinning);
+			double w = 1. / pow(1 - f, thinning);
 			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 			candidate->addSecondary(22, Esecondary / (1 + z), pos, w);
 		}

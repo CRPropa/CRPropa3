@@ -1,8 +1,8 @@
 /** Unit tests for core features of CRPropa
-  	Candidate
-  	ParticleState
-  	Random
-  	Common functions
+	Candidate
+	ParticleState
+	Random
+	Common functions
  */
 
 #include "crpropa/Candidate.h"
@@ -197,26 +197,43 @@ TEST(Candidate, property) {
 	EXPECT_EQ("bar", value);
 }
 
+TEST(Candidate, weight) {
+    Candidate candidate;
+    EXPECT_EQ (1., candidate.getWeight());
+    
+    candidate.setWeight(5.);
+    EXPECT_EQ (5., candidate.getWeight());
+    
+    candidate.updateWeight(3.);
+    EXPECT_EQ (15., candidate.getWeight());
+}
+
 TEST(Candidate, addSecondary) {
 	Candidate c;
 	c.setRedshift(5);
 	c.setTrajectoryLength(23);
+	c.setWeight(3.);
 	c.previous.setId(nucleusId(56,26));
 	c.previous.setEnergy(1000);
 	c.previous.setPosition(Vector3d(1,2,3));
 	c.previous.setDirection(Vector3d(0,0,1));
 
 	c.addSecondary(nucleusId(1,1), 200);
-	Candidate s = *c.secondaries[0];
+	c.addSecondary(nucleusId(1,1), 200, 5.);
+	Candidate s1 = *c.secondaries[0];
+	Candidate s2 = *c.secondaries[1];
 
-	EXPECT_EQ(nucleusId(1,1), s.current.getId());
-	EXPECT_EQ(200, s.current.getEnergy());
-
-	EXPECT_EQ(5, s.getRedshift());
-	EXPECT_EQ(23, s.getTrajectoryLength());
-	EXPECT_EQ(1000, s.created.getEnergy());
-	EXPECT_TRUE(Vector3d(1,2,3) == s.created.getPosition());
-	EXPECT_TRUE(Vector3d(0,0,1) == s.created.getDirection());
+	EXPECT_EQ(nucleusId(1,1), s1.current.getId());
+	EXPECT_EQ(200, s1.current.getEnergy());
+	EXPECT_EQ(5, s1.getRedshift());
+	EXPECT_EQ(23, s1.getTrajectoryLength());
+	EXPECT_EQ(1000, s1.created.getEnergy());
+	EXPECT_EQ(3., s1.getWeight());
+	EXPECT_TRUE(Vector3d(1,2,3) == s1.created.getPosition());
+	EXPECT_TRUE(Vector3d(0,0,1) == s1.created.getDirection());
+	
+	EXPECT_EQ(15., s2.getWeight());
+	
 }
 
 TEST(Candidate, serialNumber) {

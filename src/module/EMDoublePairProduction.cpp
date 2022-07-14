@@ -77,15 +77,14 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 
 	double f = Ee / E;
-	double w0 = candidate->getWeight();
 
 	if (haveElectrons) {
 		if (random.rand() < pow(1 - f, thinning)) {
-			double w = w0 / pow(1 - f, thinning);
+			double w = 1. / pow(1 - f, thinning);
 			candidate->addSecondary( 11, Ee / (1 + z), pos, w);
 		} 
 		if (random.rand() < pow(f, thinning)) {
-			double w = w0 / pow(f, thinning);
+			double w = 1. / pow(f, thinning);
 			candidate->addSecondary(-11, Ee / (1 + z), pos, w);
 		}
 	}

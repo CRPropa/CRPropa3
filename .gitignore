@@ -11,6 +11,7 @@ bin/
 install/
 lib/
 share/
+doc/api/
 
 cmake/CMakeCache.txt
 cmake/CMakeFiles/

@@ -31,6 +31,5 @@ used to, e.g., model the CR source distribution and will later be used as
 target fields for hadron-hadron interation.
 
 .. toctree::
-   example_notebooks/density/densitys_easy_example.ipynb
-   example_notebooks/density/densitys_model_example.ipynb
-
+   example_notebooks/density/density_easy_example.ipynb
+   example_notebooks/density/density_model_example.ipynb

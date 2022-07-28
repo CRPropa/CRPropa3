@@ -1,23 +1,38 @@
-## CRPropa vNEXT
+## CRPropa 3.2
 
 ### Bug fixes:
 * Fix of reflective boundary condition for scalar- and vectorgrids
   that showed asymmetry and discontinuities (See issue [#361]).
-* Fix of the data files of the Hackstein EGMF models as well as the corresponding example notebook.
+* Fix in EMTripletPairProduction
+* Fix of the data files of the Hackstein EGMF models as well as the 
+  corresponding example notebook.
 * Fix of axis normalization of getRotated in Vector3.h.
+* Fix of secondary spectra in electromagnetic interactions
+  (EM*-modules), see [#15] in crpropa-data.
+* Fix weight inheritance for secondary particles; they are created with 
+  their parents weights as intial weights now.
 
 ### New features:
 * Add modules for first and second order Fermi acceleration
 * Make custom photon fields available in the PhotoPionProduction module.
-* Add tricubic- and nearest neighbour interpolation routines for scalar- and vectorgrids.
-* Add the new PolarizedSingleModeMagneticField class for polarized/helical single mode magnetic field models.
-* Add a source feature for targeted emission, following the von-Mises-Fisher distribution 
+* Add tricubic- and nearest neighbour interpolation routines for scalar-
+  and vectorgrids.
+* Add the new PolarizedSingleModeMagneticField class for polarized/
+  helical single mode magnetic field models.
+* Add a source feature for targeted emission, following the 
+  von-Mises-Fisher distribution
+* Updates in SNR and pulsar source distributions 
 
 ### Interface changes:
+* Plane wave and grid turbulence models use same parameter convention now 
 
 ### Features that are deprecated and will be removed after this release
+* External extensions DINT and Eleca, which can be replaced with the 
+  EM*-modules combined with the thinning option for reasonable computation
+  times.
 
 ### New plugins and resources linked on the webpages:
+* Updated version of the CLUES EGMF models
 
 
 

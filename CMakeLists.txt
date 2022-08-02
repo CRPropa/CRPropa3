@@ -8,7 +8,7 @@ else(APPLE)
 endif(APPLE)
 
 project(CRPropa Fortran C CXX)
-set(CRPROPA_RELEASE_VERSION >3.1.7)  # Update for new release
+set(CRPROPA_RELEASE_VERSION 3.2+)  # Update for new release
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 

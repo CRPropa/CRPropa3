@@ -1,3 +1,21 @@
+# CRPropa NEXT
+
+### Bug fixes:
+
+
+### New features:
+ 
+
+### Interface changes:
+
+
+### Features that are deprecated and will be removed after this release
+
+
+### New plugins and resources linked on the webpages:
+
+
+
 ## CRPropa 3.2
 
 ### Bug fixes:
@@ -33,7 +51,6 @@
 
 ### New plugins and resources linked on the webpages:
 * Updated version of the CLUES EGMF models
-
 
 
 ## CRPropa 3.1.7

@@ -8,7 +8,7 @@
   corresponding example notebook.
 * Fix of axis normalization of getRotated in Vector3.h.
 * Fix of secondary spectra in electromagnetic interactions
-  (EM*-modules), see [#15] in crpropa-data.
+  (EM*-modules), issue [#334] and pull request [#15] in crpropa-data.
 * Fix weight inheritance for secondary particles; they are created with 
   their parents weights as intial weights now.
 

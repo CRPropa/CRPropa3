@@ -797,8 +797,24 @@ protected:
 };
 #endif
 
+/**
+ * @class SourceTag
+ * @brief All particles from this source get a given tag. This can be used to distinguish between differnt sources from a source list.
+ */
+
+class SourceTag: public SourceFeature {
+private:
+	std::string sourceTag;
+
+public:
+	SourceTag(std::string tag);
+	void prepareCandidate(Candidate &candidate) const;
+	void setDescription();
+	void setTag(std::string tag);
+};
+
 /**  @} */ // end of group SourceFeature
 
-}// namespace crpropa
+} // namespace crpropa
 
 #endif // CRPROPA_SOURCE_H

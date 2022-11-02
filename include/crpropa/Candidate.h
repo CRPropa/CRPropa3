@@ -46,7 +46,7 @@ private:
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
-	std::string tag; /**< Name of interaction/source process which creates this particle*/
+	std::string tag; /**< Name of interaction/source process which creates this particle*/  // check for a better name!
 
 	static uint64_t nextSerialNumber;
 	uint64_t serialNumber;

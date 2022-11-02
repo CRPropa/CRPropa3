@@ -127,9 +127,9 @@ void TextOutput::printHeader() const {
 		*out << "# W             Weights" << " \n";
 	if (fields.test(CandidateTagColumn)) {
 		*out << "# tag           candidate tag can be given by the source feature (user defined tag) or by the following interaction process \n";
-		*out << "#\tES\tElasticScattering \n" << "#\tEPP\tElectronPairProduction \n" << "#\tEMPP\tEMPairProduction\n"
+		*out << "#\tES  \tElasticScattering \n" << "#\tEPP \tElectronPairProduction \n" << "#\tEMPP\tEMPairProduction\n"
 			<< "#\tEMDP\tEMDoublePairProduction\n" << "#\tEMTP\tEMTripletPairProduction \n" << "#\tEMIC\tEMInverseComptonScattering\n"
-			<< "#\tND\tNuclearDecay\n" << "#\tPD\tPhotoDisintegration\n" << "#\tPPP\tPhotoPionProduction\n" << "#\tSYN\tSynchrotronRadiation\n";
+			<< "#\tND  \tNuclearDecay\n" << "#\tPD  \tPhotoDisintegration\n" << "#\tPPP  \tPhotoPionProduction\n" << "#\tSYN \tSynchrotronRadiation\n";
 	}
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
@@ -252,7 +252,7 @@ void TextOutput::process(Candidate *c) const {
 		p += std::sprintf(buffer + p, "%8.5E\t", c->getWeight());
 	}
 	if (fields.test(CandidateTagColumn)) {
-		p += std::sprintf(buffer + p, "%s\t", c -> getTag());
+		p += std::sprintf(buffer + p, "%s\t", c->getTag().c_str());
 	}
 
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

@@ -125,17 +125,16 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 	// For our purposes, me << E0 --> p0~E0 --> alpha = E0*eps*(costheta - 1) >= 100
 	double Epp = 5.7e-1 * pow(eps / mec2, -0.56) * pow(E / mec2, 0.44) * mec2;
 
-	double w0 = candidate->getWeight();
 	double f = Epp / E;
 
 	if (haveElectrons) {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 		if (random.rand() < pow(1 - f, thinning)) {
-			double w = w0 / pow(1 - f, thinning);
+			double w = 1. / pow(1 - f, thinning);
 			candidate->addSecondary(11, Epp / (1 + z), pos, w);
 		}
 		if (random.rand() < pow(f, thinning)) {
-			double w = w0 / pow(f, thinning);
+			double w = 1. / pow(f, thinning);
 			candidate->addSecondary(-11, Epp / (1 + z), pos, w);
 		}
 	}

@@ -2,8 +2,8 @@ CRPropa3
 ========
 
 [![Build status](https://github.com/crpropa/crpropa3/actions/workflows/testing.yml/badge.svg)](https://github.com/crpropa/crpropa3/actions/)
-[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3 "Average time to resolve an issue")
-[![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3 "Percentage of issues still open")
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
 
 CRPropa is a publicly available simulation framework to study the propagation
 of ultra-high-energy nuclei up to iron on their voyage through an

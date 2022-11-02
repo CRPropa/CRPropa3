@@ -7,7 +7,7 @@
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
-		redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0) {
+  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
@@ -81,6 +81,10 @@ void Candidate::setWeight(double w) {
 	weight = w;
 }
 
+void Candidate::updateWeight(double w) {
+  weight *= w;
+}
+
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
 	trajectoryLength += lstep;
@@ -124,12 +128,12 @@ void Candidate::addSecondary(Candidate *c) {
 	secondaries.push_back(c);
 }
 
-void Candidate::addSecondary(int id, double energy, double weight) {
+void Candidate::addSecondary(int id, double energy, double w) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
-	secondary->setWeight(weight);
-	secondary->source = source;
+  secondary->setWeight(weight * w);
+  secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;
 	secondary->current = current;
@@ -139,11 +143,11 @@ void Candidate::addSecondary(int id, double energy, double weight) {
 	secondaries.push_back(secondary);
 }
 
-void Candidate::addSecondary(int id, double energy, Vector3d position, double weight) {
+void Candidate::addSecondary(int id, double energy, Vector3d position, double w) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
-	secondary->setWeight(weight);
+	secondary->setWeight(weight * w);
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;

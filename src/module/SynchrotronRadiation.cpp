@@ -132,7 +132,6 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	double dE = step * dEdx;
 
 	// apply energy loss and limit next step
-	double w0 = candidate->getWeight();
 	double E = candidate->current.getEnergy();
 	candidate->current.setEnergy(E - dE);
 	candidate->limitNextStep(limit * E / dEdx);
@@ -191,7 +190,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 	for (int i = 0; i < energies.size(); i++) {
 		double Ephoton = energies[i];
 		double f = Ephoton / (E - dE0);
-		double w = w0 * w1 / pow(f, thinning);
+		double w = w1 / pow(f, thinning);
 
 		// thinning procedure: accepts only a few random secondaries
 		if (random.rand() < pow(f, thinning)) {

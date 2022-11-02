@@ -171,7 +171,7 @@ void NuclearDecay::gammaEmission(Candidate *candidate, int channel) const {
 		// create secondary photon; boost to lab frame
 		double cosTheta = 2 * random.rand() - 1;
 		double E = energy[i] * candidate->current.getLorentzFactor() * (1. - cosTheta);
-		candidate->addSecondary(22, E, pos);
+		candidate->addSecondary(22, E, pos, 1., interactionTag);
 	}
 }
 
@@ -247,9 +247,9 @@ void NuclearDecay::betaDecay(Candidate *candidate, bool isBetaPlus) const {
 
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 	if (haveElectrons)
-		candidate->addSecondary(electronId, Ee, pos);
+		candidate->addSecondary(electronId, Ee, pos, 1., interactionTag);
 	if (haveNeutrinos)
-		candidate->addSecondary(neutrinoId, Enu, pos);
+		candidate->addSecondary(neutrinoId, Enu, pos, 1., interactionTag);
 }
 
 void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
@@ -274,7 +274,7 @@ void NuclearDecay::nucleonEmission(Candidate *candidate, int dA, int dZ) const {
 
 	try
 	{
-		candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos);
+		candidate->addSecondary(nucleusId(dA, dZ), EpA * dA, pos, 1., interactionTag);
 	}
 	catch (std::runtime_error &e)
 	{
@@ -306,6 +306,14 @@ double NuclearDecay::meanFreePath(int id, double gamma) {
 	}
 
 	return 1. / totalRate;
+}
+
+void NuclearDecay::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string NuclearDecay::getInteractionTag() const {
+	return interactionTag;
 }
 
 } // namespace crpropa

@@ -196,7 +196,7 @@ void SynchrotronRadiation::process(Candidate *candidate) const {
 		if (random.rand() < pow(f, thinning)) {
 			Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 			if (Ephoton > secondaryThreshold) // create only photons with energies above threshold
-				candidate->addSecondary(22, Ephoton, pos, w);
+				candidate->addSecondary(22, Ephoton, pos, w, interactionTag);
 		}
 	}
 }
@@ -217,6 +217,14 @@ std::string SynchrotronRadiation::getDescription() const {
 	if (thinning > 0)
 		s << "thinning parameter: " << thinning; 
 	return s.str();
+}
+
+void SynchrotronRadiation::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string SynchrotronRadiation::getInteractionTag() const {
+	return interactionTag;
 }
 
 } // namespace crpropa

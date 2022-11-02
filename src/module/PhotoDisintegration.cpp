@@ -223,17 +223,17 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 	try
 	{
 		for (size_t i = 0; i < nNeutron; i++)
-			candidate->addSecondary(nucleusId(1, 0), EpA, pos);
+			candidate->addSecondary(nucleusId(1, 0), EpA, pos, 1., interactionTag);
 		for (size_t i = 0; i < nProton; i++)
-			candidate->addSecondary(nucleusId(1, 1), EpA, pos);
+			candidate->addSecondary(nucleusId(1, 1), EpA, pos, 1., interactionTag);
 		for (size_t i = 0; i < nH2; i++)
-			candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos);
+			candidate->addSecondary(nucleusId(2, 1), EpA * 2, pos, 1., interactionTag);
 		for (size_t i = 0; i < nH3; i++)
-			candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos);
+			candidate->addSecondary(nucleusId(3, 1), EpA * 3, pos, 1., interactionTag);
 		for (size_t i = 0; i < nHe3; i++)
-			candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos);
+			candidate->addSecondary(nucleusId(3, 2), EpA * 3, pos, 1., interactionTag);
 		for (size_t i = 0; i < nHe4; i++)
-			candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos);
+			candidate->addSecondary(nucleusId(4, 2), EpA * 4, pos, 1., interactionTag);
 
 
 	// update particle
@@ -266,7 +266,7 @@ void PhotoDisintegration::performInteraction(Candidate *candidate, int channel) 
 		// boost to lab frame
 		double cosTheta = 2 * random.rand() - 1;
 		double E = pdPhoton[key][i].energy * lf * (1 - cosTheta);
-		candidate->addSecondary(22, E, pos);
+		candidate->addSecondary(22, E, pos, 1., interactionTag);
 	}
 }
 
@@ -317,6 +317,14 @@ double PhotoDisintegration::lossLength(int id, double gamma, double z) {
 
 	lossRate *= avg_dA / A;
 	return 1 / lossRate;
+}
+
+void PhotoDisintegration::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string PhotoDisintegration::getInteractionTag() const {
+	return interactionTag;
 }
 
 } // namespace crpropa

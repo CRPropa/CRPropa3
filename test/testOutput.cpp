@@ -64,7 +64,7 @@ TEST(TextOutput, printHeader_Event1D) {
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
-	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tD\tID\tE\tID0\tE0");
+	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tD\tID\tE\tID0\tE0\ttag");
 }
 
 TEST(TextOutput, printHeader_Trajectory3D) {
@@ -89,7 +89,7 @@ TEST(TextOutput, printHeader_Event3D) {
 
 	EXPECT_EQ(
 	    captured.substr(0, captured.find("\n")),
-	    "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
+	    "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z\ttag");
 }
 
 TEST(TextOutput, printHeader_Custom) {
@@ -105,7 +105,7 @@ TEST(TextOutput, printHeader_Custom) {
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tSN\tID\tE\tSN0\tID0\tE0\tSN1");
+	          "#\tSN\tID\tE\tSN0\tID0\tE0\tSN1\ttag");
 }
 
 TEST(TextOutput, printProperty) {

@@ -33,7 +33,7 @@ private:
 	double secondaryThreshold; ///< threshold energy for secondary photons
 	std::vector<double> tabx; ///< tabulated fraction E_photon/E_critical from 10^-6 to 10^2 in 801 log-spaced steps
 	std::vector<double> tabCDF; ///< tabulated CDF of synchrotron spectrum
-	std::string interactionTag = "SynchrotonRadiation";
+	std::string interactionTag = "SYN";
 
 public:
 	/** Constructor

@@ -30,7 +30,7 @@ private:
 	bool haveElectrons;
 	double limit;
 	double thinning;
-	std::string interactionTag = "EMTripletPariProduction";
+	std::string interactionTag = "EMTP";
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]

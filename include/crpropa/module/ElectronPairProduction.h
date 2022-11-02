@@ -28,7 +28,7 @@ private:
 	std::vector<std::vector<double> > tabSpectrum; /*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-24 in 170 steps and log10(gamma)=6-13 in 70 steps and*/
 	double limit; ///< fraction of energy loss length to limit the next step
 	bool haveElectrons;
-	std::string interactionTag = "ElectronPairProduction";
+	std::string interactionTag = "EPP";
 
 public:
 	ElectronPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons =

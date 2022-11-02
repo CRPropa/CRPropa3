@@ -22,7 +22,7 @@ private:
 	ref_ptr<PhotonField> photonField;
 	double limit; // fraction of mean free path for limiting the next step
 	bool havePhotons;
-	std::string interactionTag = "PhotoDisintegration";
+	std::string interactionTag = "PD";
 
 	struct Branch {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)

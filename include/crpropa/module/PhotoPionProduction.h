@@ -36,7 +36,7 @@ protected:
 	bool haveElectrons;
 	bool haveAntiNucleons;
 	bool haveRedshiftDependence;
-	std::string interactionTag = "PhotoPionProduction";
+	std::string interactionTag = "PPP";
 
 	// called by: sampleEps
 	// - input: s [GeV^2]

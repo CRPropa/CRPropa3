@@ -30,7 +30,7 @@ private:
 	bool havePhotons;
 	double limit;
 	double thinning;
-	std::string interactionTag = "EMInverseComptonScattering";
+	std::string interactionTag = "EMIC";
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]

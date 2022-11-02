@@ -32,7 +32,7 @@ private:
 	bool haveElectrons;
 	double limit;
 	double thinning;
-	std::string interactionTag = "EMPairProduction";
+	std::string interactionTag = "EMPP";
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]

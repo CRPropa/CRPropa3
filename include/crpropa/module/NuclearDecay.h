@@ -34,7 +34,7 @@ private:
 		std::vector<double> intensity; // probabilities of ensuing gamma decays
 	};
 	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
-	std::string interactionTag = "NuclearDecay";
+	std::string interactionTag = "ND";
 
 public:
 	/** Constructor.

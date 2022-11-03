@@ -135,16 +135,35 @@ std::string ObserverTracking::getDescription() const {
 
 // ObserverPoint --------------------------------------------------------------
 DetectionState ObserverPoint::checkDetection(Candidate *candidate) const {
+	KISS_LOG_WARNING << "ObserverPoint is deprecated and is no longer supported. Please use Observer1D instead.\n";
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
+		// Limits the next step size to prevent candidates from overshooting in case of non-detection
 		candidate->limitNextStep(x);
 		return NOTHING;
 	}
+	// Detects particles when reaching x = 0
 	return DETECTED;
 }
 
 std::string ObserverPoint::getDescription() const {
 	return "ObserverPoint: observer at x = 0";
+}
+
+// Observer1D --------------------------------------------------------------
+DetectionState Observer1D::checkDetection(Candidate *candidate) const {
+	double x = candidate->current.getPosition().x;
+	if (x > 0) {
+		// Limits the next step size to prevent candidates from overshooting in case of non-detection
+		candidate->limitNextStep(x);
+		return NOTHING;
+	}
+	// Detects particles when reaching x = 0
+	return DETECTED;
+}
+
+std::string Observer1D::getDescription() const {
+	return "Observer1D: observer at x = 0";
 }
 
 // ObserverRedshiftWindow -----------------------------------------------------

@@ -125,10 +125,22 @@ public:
  @class ObserverPoint
  @brief Detects particles when reaching x = 0
 
- This module limits the next step size to prevent candidates from overshooting.
- Should be renamed to Observer1D, once old observer-scheme is removed.
+Should be removed and replaced by Observer1D
  */
 class ObserverPoint: public ObserverFeature {
+public:
+	DetectionState checkDetection(Candidate *candidate) const;
+	std::string getDescription() const;
+};
+
+
+/**
+ @class Observer1D
+ @brief Detects particles when reaching x = 0
+
+ This module detects particles when reaching x = 0 and also limits the next step size to prevent candidates from overshooting.
+ */
+class Observer1D: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;

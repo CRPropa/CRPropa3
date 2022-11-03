@@ -177,42 +177,6 @@ std::string ObserverTracking::getDescription() const {
 	return ss.str();
 }
 
-// ObserverLargeSphere --------------------------------------------------------
-ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
-		center(center), radius(radius) {
-		KISS_LOG_WARNING << "ObserverLargeSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius) ).";
-}
-
-DetectionState ObserverLargeSphere::checkDetection(Candidate *candidate) const {
-	// current distance to observer sphere center
-	double d = (candidate->current.getPosition() - center).getR();
-
-	// conservatively limit next step size to prevent overshooting
-	candidate->limitNextStep(fabs(radius - d));
-
-	// no detection if inside observer sphere
-	if (d < radius)
-		return NOTHING;
-
-	// previous distance to observer sphere center
-	double dprev = (candidate->previous.getPosition() - center).getR();
-
-	// if particle was outside of sphere in previous step it has already been detected
-	if (dprev >= radius)
-		return NOTHING;
-
-	// else: detection
-	return DETECTED;
-}
-
-std::string ObserverLargeSphere::getDescription() const {
-	std::stringstream ss;
-	ss << "ObserverLargeSphere: ";
-	ss << "center = " << center / Mpc << " Mpc, ";
-	ss << "radius = " << radius / Mpc << " Mpc";
-	return ss.str();
-}
-
 // ObserverPoint --------------------------------------------------------------
 DetectionState ObserverPoint::checkDetection(Candidate *candidate) const {
 	double x = candidate->current.getPosition().x;

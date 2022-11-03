@@ -59,7 +59,7 @@ public:
 	void add(ObserverFeature *feature);
 	/** Perform some specific actions upon detection of candidate
 	 @param action		module that performs a given action when candidate is detected
-	 @param clone		if true, clone candidate 
+	 @param clone		if true, clone candidate
 	 */
 	void onDetection(Module *action, bool clone = false);
 	void process(Candidate *candidate) const;
@@ -143,25 +143,6 @@ public:
 
 
 /**
- @class ObserverLargeSphere
- @brief Detects particles that exit a sphere from the inside to the outside
- */
-class ObserverLargeSphere: public ObserverFeature {
-private:
-	Vector3d center;
-	double radius;
-public:
-	/** Constructor
-	 @param center		vector containing the coordinates of the center of the sphere
-	 @param radius		radius of the sphere
-	 */
-	ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
-	DetectionState checkDetection(Candidate *candidate) const;
-	std::string getDescription() const;
-};
-
-
-/**
  @class ObserverPoint
  @brief Detects particles when reaching x = 0
 
@@ -180,7 +161,7 @@ public:
  @brief Detects particles in a given redshift window
 
  When added to an observer, this feature generalizes it to four dimensions.
- The fourth dimension is the redshift, a proxy for time. This is particularly 
+ The fourth dimension is the redshift, a proxy for time. This is particularly
  useful in "4D" studies, including either time-dependence (e.g. flaring objects),
  or in 3D studies including cosmological evolution.
  Note that redshifts should be assigned to sources when using this feature.
@@ -299,7 +280,7 @@ public:
 	 @param max	    maximum time
 	 @param numb	number of time intervals
 	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
-	 @param 
+	 @param
 	 */
 	ObserverTimeEvolution(double min, double max, double numb, bool log);
 	// add a new time step to the detection time list of the observer

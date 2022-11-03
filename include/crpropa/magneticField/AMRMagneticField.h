@@ -31,6 +31,7 @@ namespace crpropa {
 /**
  @class AMRMagneticField
  @brief Wrapper for saga::MagneticField
+ Can be found in github.com/rafaelab/saga
  */
 class AMRMagneticField: public MagneticField {
 

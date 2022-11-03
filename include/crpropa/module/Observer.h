@@ -101,27 +101,6 @@ public:
 
 
 /**
- @class ObserverSmallSphere
- @brief Detects particles that enter a sphere from the outside to the inside
- */
-class ObserverSmallSphere: public ObserverFeature {
-private:
-	Vector3d center;
-	double radius;
-public:
-	/** Constructor
-	 @param center		vector containing the coordinates of the center of the sphere
-	 @param radius		radius of the sphere
-	 */
-	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
-	DetectionState checkDetection(Candidate *candidate) const;
-	void setCenter(const Vector3d &center);
-	void setRadius(float radius);
-	std::string getDescription() const;
-};
-
-
-/**
  @class ObserverTracking
  @brief Tracks particles inside a sphere
  */

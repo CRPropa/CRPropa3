@@ -98,50 +98,6 @@ std::string ObserverDetectAll::getDescription() const {
 	return description;
 }
 
-// ObserverSmallSphere --------------------------------------------------------
-ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
-		center(center), radius(radius) {
-			KISS_LOG_WARNING << "ObserverSmallSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius)).";
-}
-
-DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
-	// current distance to observer sphere center
-	double d = (candidate->current.getPosition() - center).getR();
-
-	// conservatively limit next step to prevent overshooting
-	candidate->limitNextStep(sqrt(fabs(d*d - radius*radius)));
-
-	// no detection if outside of observer sphere
-	if (d > radius)
-		return NOTHING;
-
-	// previous distance to observer sphere center
-	double dprev = (candidate->previous.getPosition() - center).getR();
-
-	// if particle was inside of sphere in previous step it has already been detected
-	if (dprev <= radius)
-		return NOTHING;
-
-	// else detection
-	return DETECTED;
-}
-
-void ObserverSmallSphere::setCenter(const Vector3d &center) {
-	this->center = center;
-}
-
-void ObserverSmallSphere::setRadius(float radius) {
-	this->radius = radius;
-}
-
-std::string ObserverSmallSphere::getDescription() const {
-	std::stringstream ss;
-	ss << "ObserverSmallSphere: ";
-	ss << "center = " << center / Mpc << " Mpc, ";
-	ss << "radius = " << radius / Mpc << " Mpc";
-	return ss.str();
-}
-
 // ObserverTracking --------------------------------------------------------
 ObserverTracking::ObserverTracking(Vector3d center, double radius, double stepSize) :
 		center(center), radius(radius), stepSize(stepSize) {

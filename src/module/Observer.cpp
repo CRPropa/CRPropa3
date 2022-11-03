@@ -297,7 +297,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		// Calculate the distance to next detection
 		double distance = length - detList[index];
 
-		// Limit next Step and detect candidate
+		// Limit next step and detect candidate.
 		// Increase the index by one in case of detection
 		if (distance < 0.) {
 			c->limitNextStep(-distance);

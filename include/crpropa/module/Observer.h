@@ -50,11 +50,11 @@ private:
 	bool clone;
 	bool makeInactive;
 public:
-	/** Default observer constructor.
+	/** Default observer constructor
 	 */
 	Observer();
-	/** Add a feature to the observer.
-	 @param feature		observer feature to be add to the Observer object
+	/** Add a feature to the observer
+	 @param feature		observer feature to be added to the Observer object
 	 */
 	void add(ObserverFeature *feature);
 	/** Perform some specific actions upon detection of candidate
@@ -65,7 +65,7 @@ public:
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 	void setFlag(std::string key, std::string value);
-	/** Determine whether candidate should be deactivated on detection.
+	/** Determine whether candidate should be deactivated on detection
 	 @param deactivate	if true, deactivate detected particles; if false, continue tracking them
 	 */
 	void setDeactivateOnDetection(bool deactivate);
@@ -85,7 +85,7 @@ public:
 
 /**
  @class ObserverSurface
- @brief Detects particles crossing a given surface
+ @brief Detects particles crossing the boundaries of a surface defined (see, e.g., `Geometry` module)
  */
 class ObserverSurface: public ObserverFeature {
 private:
@@ -230,7 +230,7 @@ public:
 
 /**
  @class ObserverParticleIdVeto
- @brief Custom veto for user-defined particle types.
+ @brief Custom veto for user-defined particle types
  Vetoes for more than one type of particle can be added by calling this
  feature multiple times.
  */
@@ -274,9 +274,9 @@ public:
 	 @param
 	 */
 	ObserverTimeEvolution(double min, double max, double numb, bool log);
-	// add a new time step to the detection time list of the observer
+	// Add a new time step to the detection time list of the observer
 	void addTime(const double &position);
-	// using log or lin spacing of times in the range between min and
+	// Using log or lin spacing of times in the range between min and
 	// max for observing particles
 	void addTimeRange(double min, double max, double numb, bool log = false);
 	const std::vector<double>& getTimes() const;

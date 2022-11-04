@@ -1104,7 +1104,7 @@ SourceTag::SourceTag(std::string tag) {
 }
 
 void SourceTag::prepareCandidate(Candidate &cand) const {
-	cand.setTag(sourceTag);
+	cand.setTagOrigin(sourceTag);
 }
 
 void SourceTag::setDescription() {

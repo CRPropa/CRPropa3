@@ -118,7 +118,7 @@ TEST(ElectronPairProduction, valuesCMB) {
 	}
 }
 
-TEST(ElectronPariProduction, interactionTag) {
+TEST(ElectronPairProduction, interactionTag) {
 	
 	ref_ptr<PhotonField> CMB_instance = new CMB();
 	ElectronPairProduction epp(CMB_instance);
@@ -127,8 +127,8 @@ TEST(ElectronPariProduction, interactionTag) {
 	EXPECT_TRUE(epp.getInteractionTag() == "EPP");
 
 	// test changing the interaction tag
-	epp.setInteractionTag("epp2");
-	EXPECT_TRUE(epp.getInteractionTag() == "epp2");
+	epp.setInteractionTag("myTag");
+	EXPECT_TRUE(epp.getInteractionTag() == "myTag");
 
 	// test the tag of produced secondaries
 	Candidate c;
@@ -138,8 +138,8 @@ TEST(ElectronPariProduction, interactionTag) {
 	epp.setHaveElectrons(true);
 	epp.process(&c);
 	
-	std::string secondaryTag = c.secondaries[0] -> getTag();
-	EXPECT_TRUE(secondaryTag == "epp2");
+	std::string secondaryTag = c.secondaries[0] -> getTagOrigin();
+	EXPECT_TRUE(secondaryTag == "myTag");
 }
 
 TEST(ElectronPairProduction, valuesIRB) {
@@ -312,7 +312,7 @@ TEST(NuclearDecay, interactionTag) {
 	decay.setHaveElectrons(true);
 	Candidate c(nucleusId(8,2), 5 * EeV);
 	decay.performInteraction(&c, 10000);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "ND");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "ND");
 
 	// test custom tags
 	decay.setInteractionTag("myTag");
@@ -496,7 +496,7 @@ TEST(PhotoDisintegration, interactionTag) {
 	Candidate c(nucleusId(56,26), 500 * EeV);
 	c.setCurrentStep(1 * Gpc);
 	pd.process(&c);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "PD");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "PD");
 
 	// test custom tag
 	pd.setInteractionTag("myTag");
@@ -661,7 +661,7 @@ TEST(PhotoPionProduction, interactionTag) {
 	Candidate c(nucleusId(1,1), 100 * EeV);
 	for(int i = 0; i <10; i++) 
 		ppp.performInteraction(&c, true);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "PPP");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "PPP");
 
 	// test custom interactionTag
 	ppp.setInteractionTag("myTag");
@@ -791,7 +791,7 @@ TEST(EMPairProduction, interactionTag) {
 	m.setHaveElectrons(true);
 	Candidate c(22, 1 * EeV);
 	m.performInteraction(&c);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "EMPP");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "EMPP");
 
 	// test custom tag
 	m.setInteractionTag("myTag");
@@ -896,7 +896,7 @@ TEST(EMDoublePairProduction, interactionTag) {
 	m.setHaveElectrons(true);
 	Candidate c(22, 1 * EeV);
 	m.performInteraction(&c);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "EMDP");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "EMDP");
 
 	// test custom tag
 	m.setInteractionTag("myTag");
@@ -1000,7 +1000,7 @@ TEST(EMTripletPairProduction, interactionTag) {
 	m.setHaveElectrons(true);
 	Candidate c(11, 1 * EeV);
 	m.performInteraction(&c);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "EMTP");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "EMTP");
 
 	// test custom tag
 	m.setInteractionTag("myTag");
@@ -1104,7 +1104,7 @@ TEST(EMInverseComptonScattering, interactionTag) {
 	m.setHavePhotons(true);
 	Candidate c(11, 1 * PeV);
 	m.performInteraction(&c);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "EMIC");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "EMIC");
 
 	// test custom tag
 	m.setInteractionTag("myTag");
@@ -1124,7 +1124,7 @@ TEST(SynchrtronRadiation, interactionTag) {
 	Candidate c(11, 10 * PeV);
 	c.setCurrentStep(10 * pc);
 	s.process(&c);
-	EXPECT_TRUE(c.secondaries[0] -> getTag() == "SYN");
+	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "SYN");
 
 	// test custom tag
 	s.setInteractionTag("myTag");

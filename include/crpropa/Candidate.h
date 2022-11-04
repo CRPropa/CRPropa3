@@ -46,7 +46,7 @@ private:
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
-	std::string tag; /**< Name of interaction/source process which creates this particle*/  // check for a better name!
+	std::string tagOrigin; /**< Name of interaction/source process which creates this particle*/
 
 	static uint64_t nextSerialNumber;
 	uint64_t serialNumber;
@@ -59,7 +59,7 @@ public:
 		Vector3d direction = Vector3d(-1, 0, 0),
 		double z = 0,
 		double weight = 1., 
-		std::string tag = "PRIM"
+		std::string tagOrigin = "PRIM"
 	);
 
 	/**
@@ -100,10 +100,10 @@ public:
 	double getNextStep() const;
 
 	/**
-	 Sets the tag of the particle. Can be used to trace back the interactions
+	 Sets the tagOriginof the particle. Can be used to trace back the interactions
 	 */
-	void setTag(std::string tag);
-	std::string getTag() const;
+	void setTagOrigin(std::string tagOrigin);
+	std::string getTagOrigin() const;
 
 	/**
 	 Make a bid for the next step size: the lowest wins.
@@ -127,8 +127,8 @@ public:
 	 */
 	void addSecondary(Candidate *c);
 	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
-	void addSecondary(int id, double energy, double w = 1., std::string tag = "SEC");
-	void addSecondary(int id, double energy, Vector3d position, double w = 1., std::string tag = "SEC");
+	void addSecondary(int id, double energy, double w = 1., std::string tagOrigin = "SEC");
+	void addSecondary(int id, double energy, Vector3d position, double w = 1., std::string tagOrigin = "SEC");
 	void clearSecondaries();
 
 	std::string getDescription() const;

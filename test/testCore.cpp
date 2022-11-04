@@ -231,7 +231,7 @@ TEST(Candidate, addSecondary) {
 	EXPECT_EQ(3., s1.getWeight());
 	EXPECT_TRUE(Vector3d(1,2,3) == s1.created.getPosition());
 	EXPECT_TRUE(Vector3d(0,0,1) == s1.created.getDirection());
-	EXPECT_TRUE(s1.getTag() == "SEC");
+	EXPECT_TRUE(s1.getTagOrigin() == "SEC");
 
 	EXPECT_EQ(15., s2.getWeight());
 }
@@ -240,11 +240,11 @@ TEST(Candidate, candidateTag) {
 	Candidate c;
 
 	// test default tag
-	EXPECT_TRUE(c.getTag() == "PRIM");
+	EXPECT_TRUE(c.getTagOrigin() == "PRIM");
 
 	// test setting tag
-	c.setTag("myTag");
-	EXPECT_TRUE(c.getTag() == "myTag");
+	c.setTagOrigin("myTag");
+	EXPECT_TRUE(c.getTagOrigin() == "myTag");
 }
 
 TEST(Candidate, serialNumber) {

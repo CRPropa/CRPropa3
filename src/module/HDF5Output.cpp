@@ -298,7 +298,7 @@ void HDF5Output::process(Candidate* candidate) const {
 
 	r.weight= candidate->getWeight();
 
-	r.tag = candidate->getTag();
+	r.tag = candidate->getTagOrigin();
 
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

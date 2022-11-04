@@ -253,7 +253,7 @@ void TextOutput::process(Candidate *c) const {
 		p += std::sprintf(buffer + p, "%8.5E\t", c->getWeight());
 	}
 	if (fields.test(CandidateTagColumn)) {
-		p += std::sprintf(buffer + p, "%s\t", c->getTag().c_str());
+		p += std::sprintf(buffer + p, "%s\t", c->getTagOrigin().c_str());
 	}
 
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

@@ -57,7 +57,7 @@ public:
 	void setLimit(double limit);
 	void setThinning(double thinning);
 	
-	void setInteractionTag(std::string InteractionTag);
+	void setInteractionTag(std::string tag);
 	std::string getInteractionTag() const;
 
 	void initRate(std::string filename);

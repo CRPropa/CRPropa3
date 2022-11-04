@@ -117,6 +117,22 @@ TEST(ElectronPairProduction, valuesCMB) {
 	}
 }
 
+TEST(ElectronPariProduction, interactionTag) {
+	ref_ptr<PhotonField> CMB_instance = new CMB();
+	ElectronPairProduction epp(CMB_instance);
+
+	EXPECT_STREQ(epp.getInteractionTag(), "EPP"); // default interaction tag
+
+	epp.setInteractionTag("epp2");
+	EXPECT_STREQ(epp.getInteractionTag(), "epp2");
+
+	Candidate c;
+	c.setCurrentStep(1 * Mpc);
+	c.current.setId(nucleusId(1,1));
+	epp.setHaveElectrons(true);
+	epp.process(&c)
+}
+
 TEST(ElectronPairProduction, valuesIRB) {
 	// Test if energy loss corresponds to the data table.
 	std::vector<double> x;

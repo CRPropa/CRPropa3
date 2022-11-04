@@ -5,6 +5,10 @@
 #include <cmath>
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class TorroidalHaloField
@@ -31,6 +35,12 @@ public:
 		return Vector3d(cos(phi), sin(phi), 0) * b;
 	}
 };
+/** @} */
+
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class LogarithmicSpiralField
@@ -90,6 +100,7 @@ public:
 		return Vector3d(cosPitch * cos(phi), sinPitch * sin(phi), 0) * b;
 	}
 };
+/** @} */
 
 }// namespace crpropa
 

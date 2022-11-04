@@ -129,7 +129,8 @@ void TextOutput::printHeader() const {
 		*out << "# tag           candidate tag can be given by the source feature (user defined tag) or by the following interaction process \n";
 		*out << "#\tES  \tElasticScattering \n" << "#\tEPP \tElectronPairProduction \n" << "#\tEMPP\tEMPairProduction\n"
 			<< "#\tEMDP\tEMDoublePairProduction\n" << "#\tEMTP\tEMTripletPairProduction \n" << "#\tEMIC\tEMInverseComptonScattering\n"
-			<< "#\tND  \tNuclearDecay\n" << "#\tPD  \tPhotoDisintegration\n" << "#\tPPP  \tPhotoPionProduction\n" << "#\tSYN \tSynchrotronRadiation\n";
+			<< "#\tND  \tNuclearDecay\n" << "#\tPD  \tPhotoDisintegration\n" << "#\tPPP  \tPhotoPionProduction\n" << "#\tSYN \tSynchrotronRadiation\n"
+			<< "#\tPRIM/SEC\t primary / secondary particle\n";
 	}
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)

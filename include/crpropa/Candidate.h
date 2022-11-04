@@ -59,7 +59,7 @@ public:
 		Vector3d direction = Vector3d(-1, 0, 0),
 		double z = 0,
 		double weight = 1., 
-		std::string tag = "primary"
+		std::string tag = "PRIM"
 	);
 
 	/**
@@ -127,8 +127,8 @@ public:
 	 */
 	void addSecondary(Candidate *c);
 	inline void addSecondary(ref_ptr<Candidate> c) { addSecondary(c.get()); };
-	void addSecondary(int id, double energy, double w = 1., std::string tag = "secondary");
-	void addSecondary(int id, double energy, Vector3d position, double w = 1., std::string tag = "secondary");
+	void addSecondary(int id, double energy, double w = 1., std::string tag = "SEC");
+	void addSecondary(int id, double energy, Vector3d position, double w = 1., std::string tag = "SEC");
 	void clearSecondaries();
 
 	std::string getDescription() const;

@@ -1122,7 +1122,7 @@ TEST(SynchrtronRadiation, interactionTag) {
 
 	// test secondary tag
 	Candidate c(11, 10 * PeV);
-	c.setCurrentStep(10 * pc);
+	c.setCurrentStep(1 * pc);
 	s.process(&c);
 	EXPECT_TRUE(c.secondaries[0] -> getTagOrigin() == "SYN");
 

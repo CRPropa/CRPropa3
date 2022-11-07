@@ -19,6 +19,11 @@ namespace crpropa {
 class StepLengthModifier : public Referenced {
   public:
 	/// Returns an update of the steplength
+	/// @param stepLength 	Modifies step length, e.g., based on scattering 
+	///						model.	
+	/// @param candidate 	Additional candidate properties are usually 
+	///						included in the calculation of the updated
+	///						step length.
 	virtual double modify(double steplength, Candidate *candidate) = 0;
 };
 
@@ -62,6 +67,11 @@ class SecondOrderFermi : public AbstractAccelerationModule {
 	std::vector<double> angleCDF;
 
   public:
+	/** Constructor
+	@param scatterVelocity			velocity of scattering centers
+	@param stepLength				average mean free path
+	@param sizeOfPitchangleTable	number of precalculated pitch angles
+	*/
 	SecondOrderFermi(double scatterVelocity = .1 * crpropa::c_light,
 	                 double stepLength = 1. * crpropa::parsec,
 	                 unsigned int sizeOfPitchangleTable = 10000);
@@ -81,6 +91,10 @@ class DirectedFlowScattering : public AbstractAccelerationModule {
 	crpropa::Vector3d __scatterVelocity;
 
   public:
+  /** Constructor
+   * @param scatterCenterVelocity	velocity of scattering centers
+   * @param stepLength				average mean free path
+  */
 	DirectedFlowScattering(crpropa::Vector3d scatterCenterVelocity,
 	                       double stepLength = 1. * parsec);
 	virtual crpropa::Vector3d
@@ -97,6 +111,9 @@ class DirectedFlowOfScatterCenters : public StepLengthModifier {
 	Vector3d __scatterVelocity;
 
   public:
+  /** Constructor
+   * @param scatterCenterVelocity	velocity of scattering centers
+  */
 	DirectedFlowOfScatterCenters(const Vector3d &scatterCenterVelocity);
 	double modify(double steplength, Candidate *candidate);
 };
@@ -127,6 +144,13 @@ class QuasiLinearTheory : public StepLengthModifier {
 	double __minimumRigidity;
 
   public:
+  /** Constructor
+   * @param referenecEnergy	reference energy - break of power spectrum
+   * @param turbulenceIndex	power law index of the isotropic magnetic 
+   * 						turbulence power spectrum; default is set 
+   * 						to Kolmogorov turbulence.
+   * @param minimumRigidity	minimal rigidity
+  */
 	QuasiLinearTheory(double referenecEnergy = 1. * EeV,
 	                  double turbulenceIndex = 5. / 3,
 	                  double minimumRigidity = 0);
@@ -151,14 +175,16 @@ class ParticleSplitting : public Module {
 	std::string counterid;
 
 	public:
-	/// @params surface               The surface to monitor
-	/// @params crossing_threshold    Number of crossings after which a particle is split
-	/// @params num_splits            Number of particles the candidate is split into
-	/// @params min_weight            Minimum weight to consider. Particles with
-	///                               a lower weight are not split again.
-	/// @params counterid             An unique string to identify the particle
-	///                               property used for counting. Useful if
-	///                               multiple splitting modules are present.
+	/** Constructor
+	@param surface              The surface to monitor
+	@param crossing_threshold   Number of crossings after which a particle is split
+	@param num_splits           Number of particles the candidate is split into
+	@param min_weight           Minimum weight to consider. Particles with
+	                         	a lower weight are not split again.
+	@param counterid            An unique string to identify the particle
+	                            property used for counting. Useful if
+	                            multiple splitting modules are present.
+	*/
 	ParticleSplitting(Surface *surface, int crossingThreshold = 50,
 	                  int numSplits = 5, double minWeight = 0.01,
 	                  std::string counterid = "ParticleSplittingCounter");

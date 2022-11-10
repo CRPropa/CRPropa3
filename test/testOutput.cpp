@@ -229,7 +229,7 @@ TEST(ParticleCollector, getTrajectory) {
 	sim->add(new SimplePropagation(1, 1));
 
 	ref_ptr<Observer> obs = new Observer();
-	obs->add(new ObserverPoint());
+	obs->add(new Observer1D());
 	obs->onDetection(output);
 	sim->add(obs);
 

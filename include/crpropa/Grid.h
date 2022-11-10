@@ -524,24 +524,6 @@ typedef Grid<Vector3d> Grid3d;
 typedef Grid<float> Grid1f;
 typedef Grid<double> Grid1d;
 
-// DEPRECATED: Will be removed in CRPropa v3.2
-class VectorGrid: public Grid3f {
-	void printDeprecation() const {
-		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
-	}
-public:
-	VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
-		printDeprecation();
-	}
-
-	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-
-	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-};
 
 // DEPRECATED: Will be removed in CRPropa v3.2
 class ScalarGrid: public Grid1f {

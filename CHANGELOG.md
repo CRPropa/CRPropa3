@@ -10,6 +10,7 @@
 
 
 ### Features that are deprecated and will be removed after this release
+* ObserverPoint will be renamed into Observer1D.
 
 
 ### New plugins and resources linked on the webpages:

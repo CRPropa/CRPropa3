@@ -519,31 +519,6 @@ private:
 
 }; // class Grid
 
-typedef Grid<Vector3f> Grid3f;
-typedef Grid<Vector3d> Grid3d;
-typedef Grid<float> Grid1f;
-typedef Grid<double> Grid1d;
-
-
-// DEPRECATED: Will be removed in CRPropa v3.2
-class ScalarGrid: public Grid1f {
-	void printDeprecation() const {
-		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
-	}
-public:
-	ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
-		printDeprecation();
-	}
-
-	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-
-	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-};
-
 /** @}*/
 
 } // namespace crpropa

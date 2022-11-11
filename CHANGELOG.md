@@ -1,7 +1,7 @@
-# CRPropa NEXT
+# CRPropa 3.2.1
 
 ### Bug fixes:
-
+Re-added TorroidalHaloField and LogarithmicSpiralField models.
 
 ### New features:
  
@@ -10,7 +10,7 @@
 
 
 ### Features that are deprecated and will be removed after this release
-
+AMRMagenticField - underlying library (saga) is no longer supported.
 
 ### New plugins and resources linked on the webpages:
 

@@ -61,8 +61,8 @@ public:
 		cfDensity = convDensity;
 		cfMagneticField = convMagneticField;
 
-		KISS_LOG_WARNING << "DEPRECATION WARNING: AMRMagneticField class will be removed in the future,
-		as the underlying library (saga) is no longer supported."
+		KISS_LOG_WARNING << "DEPRECATION WARNING: AMRMagneticField class will be removed in the future,"
+		<<"as the underlying library (saga) is no longer supported.";
 	}
 
 	Vector3d getField(const Vector3d &position) const {

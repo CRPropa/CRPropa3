@@ -85,7 +85,7 @@ public:
 
 /**
  @class ObserverSurface
- @brief Detects particles crossing the boundaries of a surface defined (see, e.g., `Geometry` module)
+ @brief Detects particles crossing the boundaries of a defined surface (see, e.g., `Geometry` module)
  */
 class ObserverSurface: public ObserverFeature {
 private:

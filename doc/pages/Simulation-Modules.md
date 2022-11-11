@@ -58,7 +58,7 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
 ### Observers
 Observers can be defined using a collection of ObserverFeatures.
 The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python session by typing "Observer" and pressing "tab". The list includes
-* **ObserverSurface** - Detects particles crossing the boundaries of a surface defined (see, e.g., `Geometry` module)
+* **ObserverSurface** - Detects particles crossing the boundaries of a defined surface (see, e.g., `Geometry` module)
 * **ObserverTracking** - For recording the tracks of particles inside an observer sphere
 * **Observer1D** - Observer for 1D simulations that detects particles when reaching x = 0
 * **ObserverDetectAll** - Detects all particles

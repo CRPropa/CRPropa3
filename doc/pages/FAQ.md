@@ -37,7 +37,7 @@ Out[20]: 0.37454011439684315
 ### How to define source positions from a matter density grid?
 
 ```python
-grid = ScalarGrid(Vector3d(0, 0, 0), 256, 256, 256, 100 * kpc)
+grid = Grid(Vector3d(0, 0, 0), 256, 100 * kpc)
 loadGridFromTxt(grid, 'some_density_grid.txt')
 #loadGrid(grid, 'some_density_grid.raw')
 density = crpropa.SourceDensityGrid(grid)

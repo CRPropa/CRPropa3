@@ -444,6 +444,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %template(CylindricalProjectionMapRefPtr) crpropa::ref_ptr<crpropa::CylindricalProjectionMap>;
 
 %include "crpropa/magneticField/MagneticFieldGrid.h"
+%include "crpropa/magneticField/GalacticMagneticField.h"
 %feature("notabstract") QuimbyMagneticFieldAdapter;
 %include "crpropa/magneticField/QuimbyMagneticField.h"
 %include "crpropa/magneticField/AMRMagneticField.h"

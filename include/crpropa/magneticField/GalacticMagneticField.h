@@ -21,6 +21,17 @@ class TorroidalHaloField: public MagneticField {
 	double r0; // radial scale
 
 public:
+	/**
+	 * Constructor
+	 * @param b0 halo field strength
+	 * @param z0 vertical position
+	 * @param z1 vertical scale
+	 * @param r0 radial scale
+	*/
+	TorroidalHaloField(double b0=1., double z0=1., double z1=1., double r0=1.) {
+		setParameters(b0, z0, z1, r0);
+	}
+
 	void setParameters(double b0, double z0, double z1, double r0) {
 		this->b0 = b0;
 		this->z0 = z0;
@@ -74,6 +85,22 @@ private:
 	}
 
 public:
+	/**
+	 * Constructor
+	 * @param isBSS	switch for the magnetic field model
+	 * 				true for BSS, false for ASS
+	 * @param b0	magnetic field strength
+	 * @param pitch	pitch angle [rad]
+	 * @param rsol	distance of sun from Galactic center
+	 * @param rc	radius of central region with constant field
+	 * @param d		distance to first field reversal
+	 * @param z0	vertical attenuation length
+	*/
+	LogarithmicSpiralField(bool isBSS=true, double b0=1., double pitch=M_1_PI/4.,
+		double rsol=8.5*kpc, double rc=3*kpc, double d=5*kpc, double z0=3*kpc) {
+		setParameters(isBSS, b0, pitch, rsol, rc, d, z0);
+	}
+
 	void setParameters(bool isBSS, double b0, double pitch, double rsol,
 			double rc, double d, double z0) {
 		this->isBSS = isBSS;

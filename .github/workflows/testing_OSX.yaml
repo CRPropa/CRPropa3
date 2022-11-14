@@ -13,19 +13,24 @@ jobs:
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python" # python 3.11
+            py: "/usr/local/bin/python3" # python 3.11
+            pylib: "/usr/local/lib/libpython3.11.dylib"
+            pyhdr: "/usr/local/include/python3.11"
           - name: "macos-11"
             os: macos-11
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python" # python 3.11
+            py: "/usr/local/bin/python3" # python 3.11
+            pylib: "/usr/local/lib/libpython3.11.dylib"
+            pyhdr: "/usr/local/include/python3.11"
+
     steps:
-     - name: Checkout repository
-       uses: actions/checkout@v3
-     - name: Preinstall
-       run: |
+     - name: Checkout repository 
+       uses: actions/checkout@v3 
+     - name: Preinstall 
+       run: | 
          brew install hdf5 fftw cfitsio muparser libomp
      - name: Set up the build
        env:
@@ -36,7 +41,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=avx
+        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DPYTHON_LIBRARY=${{ matrix.config.pylib }} -DPYTHON_INCLUDE_PATH=${{ matrix.config.pyhdr }}  -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=avx
      - name: Build CRPropa
        run: |
          cd build

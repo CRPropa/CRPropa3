@@ -8,21 +8,21 @@ jobs:
       fail-fast: false
       matrix:
         config:
+         - name: "ubuntu-22"
+           os: ubuntu-22.04
+           cxx: "g++-11"
+           cc: "gcc-11"
+           fc: "gfortran-11"
+           swig_builtin: "On" #uses swig 4.0.2
+           py: "/usr/bin/python3" # python 3.10
+           cov: "On"
          - name: "ubuntu-20"
-           os: ubuntu-latest
+           os: ubuntu-20.04
            cxx: "g++-9"
            cc: "gcc-9"
            fc: "gfortran-9"
            swig_builtin: "Off" #uses swig 4.0.1
-           py: "/usr/bin/python3"
-           cov: "On"
-         - name: "ubuntu-18_py3"
-           os: ubuntu-18.04
-           cxx: "g++-7"
-           cc: "gcc-7"
-           fc: "gfortran-7"
-           swig_builtin: "Off" #uses swig 3.x
-           py: "/usr/bin/python3"
+           py: "/usr/bin/python3" #python 3.8
          - name: "ubuntu-18_py2"
            os: ubuntu-18.04
            cxx: "g++-7"
@@ -56,7 +56,7 @@ jobs:
           make test
       - name: Archive test results
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "test-report_${{matrix.config.name}}"
           path: build/Testing/Temporary/LastTest.log

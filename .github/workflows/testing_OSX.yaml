@@ -7,13 +7,20 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - name: "macos-12"
+            os: macos-12
+            cxx: "clang++"
+            cc: "clang"
+            fc: "gfortran-11"
+            swig_builtin: "On" #uses swig 4.0.2
+            py: "/usr/bin/python" # python 3.11
           - name: "macos-11"
             os: macos-11
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python"
+            py: "/usr/bin/python" # python 3.11
     steps:
      - name: Checkout repository
        uses: actions/checkout@v3

@@ -102,7 +102,7 @@ void Candidate::setProperty(const std::string &name, const Variant &value) {
 	properties[name] = value;
 }
 
-void Candidate::setTagOrigin (std::string tagOrigin ) {
+void Candidate::setTagOrigin (std::string tagOrigin) {
 	this -> tagOrigin  = tagOrigin ;
 }
 
@@ -136,7 +136,7 @@ void Candidate::addSecondary(Candidate *c) {
 	secondaries.push_back(c);
 }
 
-void Candidate::addSecondary(int id, double energy, double w, std::string tagOrigin ) {
+void Candidate::addSecondary(int id, double energy, double w, std::string tagOrigin) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
@@ -148,11 +148,11 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
 	secondary->parent = this;
-	secondary->setTagOrigin (tagOrigin );
+	secondary->setTagOrigin (tagOrigin);
 	secondaries.push_back(secondary);
 }
 
-void Candidate::addSecondary(int id, double energy, Vector3d position, double w, std::string tagOrigin ) {
+void Candidate::addSecondary(int id, double energy, Vector3d position, double w, std::string tagOrigin) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
@@ -166,7 +166,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w,
 	secondary->current.setPosition(position);
 	secondary->created.setPosition(position);
 	secondary->parent = this;
-	secondary->setTagOrigin (tagOrigin );
+	secondary->setTagOrigin (tagOrigin);
 	secondaries.push_back(secondary);
 }
 

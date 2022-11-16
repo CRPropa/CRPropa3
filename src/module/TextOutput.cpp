@@ -126,7 +126,7 @@ void TextOutput::printHeader() const {
 	if (fields.test(WeightColumn))
 		*out << "# W             Weights" << " \n";
 	if (fields.test(CandidateTagColumn)) {
-		*out << "# tag           candidate tag can be given by the source feature (user defined tag) or by the following interaction process \n";
+		*out << "# tag           Candidate tag can be given by the source feature (user defined tag) or by the following interaction process \n";
 		*out << "#\tES  \tElasticScattering \n" << "#\tEPP \tElectronPairProduction \n" << "#\tEMPP\tEMPairProduction\n"
 			<< "#\tEMDP\tEMDoublePairProduction\n" << "#\tEMTP\tEMTripletPairProduction \n" << "#\tEMIC\tEMInverseComptonScattering\n"
 			<< "#\tND  \tNuclearDecay\n" << "#\tPD  \tPhotoDisintegration\n" << "#\tPPP  \tPhotoPionProduction\n" << "#\tSYN \tSynchrotronRadiation\n"

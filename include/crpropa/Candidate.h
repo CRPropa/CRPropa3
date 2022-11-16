@@ -46,7 +46,7 @@ private:
 	double trajectoryLength; /**< Comoving distance [m] the candidate has traveled so far */
 	double currentStep; /**< Size of the currently performed step in [m] comoving units */
 	double nextStep; /**< Proposed size of the next propagation step in [m] comoving units */
-	std::string tagOrigin; /**< Name of interaction/source process which creates this particle*/
+	std::string tagOrigin; /**< Name of interaction/source process which created this candidate*/
 
 	static uint64_t nextSerialNumber;
 	uint64_t serialNumber;
@@ -100,7 +100,7 @@ public:
 	double getNextStep() const;
 
 	/**
-	 Sets the tagOriginof the particle. Can be used to trace back the interactions
+	 Sets the tagOrigin of the candidate. Can be used to trace back the interactions
 	 */
 	void setTagOrigin(std::string tagOrigin);
 	std::string getTagOrigin() const;

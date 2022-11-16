@@ -799,9 +799,9 @@ protected:
 
 /**
  * @class SourceTag
- * @brief All particles from this source get a given tag. This can be used to distinguish between differnt sources that follow the same spatial distribution
+ * @brief All candidates from this source get a given tag. This can be used to distinguish between different sources that follow the same spatial distribution
  * 
- * Sets the tag of the Candidate. Can be used to trace back additional candidate properties, e.g. production interaction or source type. 
+ * Sets the tag of the candidate. Can be used to trace back additional candidate properties, e.g. production interaction or source type. 
  * The interaction overwrites the candidate tag from the source for all secondaries. 
  */
 

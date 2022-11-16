@@ -519,6 +519,11 @@ private:
 
 }; // class Grid
 
+typedef Grid<double> Grid1d;
+typedef Grid<float> Grid1f;
+typedef Grid<Vector3f> Grid3f;
+typedef Grid<Vector3d> Grid3d;
+
 /** @}*/
 
 } // namespace crpropa

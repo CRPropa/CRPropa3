@@ -4,7 +4,7 @@
 
 
 ### New features:
- 
+* new candidate property tagOrigin to trace back which source or which interaction created the candidate
 
 ### Interface changes:
 

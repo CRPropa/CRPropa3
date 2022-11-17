@@ -4,6 +4,10 @@
 #include "crpropa/magneticField/MagneticField.h"
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class PT11Field
@@ -56,7 +60,7 @@ public:
 
 	Vector3d getField(const Vector3d& pos) const;
 };
-
+/**@}*/
 } // namespace crpropa
 
 #endif // CRPROPA_PSHIRKOVFIELD_H

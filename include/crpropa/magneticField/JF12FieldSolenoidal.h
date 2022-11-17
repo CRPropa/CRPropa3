@@ -8,6 +8,11 @@
 namespace crpropa {
 
 /**
+ * \addtogroup MagneticFields
+ * @{
+ */
+
+/**
  @class JF12FieldSolenoidal
  @brief JF12FieldSolenoidal galactic magnetic field model
 
@@ -107,6 +112,7 @@ public:
 */
 	double getSpiralFieldStrengthConstant(const double& r, const double& phi) const;
 };
+/** @} */
 
 } // namespace crpropa
 

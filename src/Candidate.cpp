@@ -6,8 +6,8 @@
 
 namespace crpropa {
 
-Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
-  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0) {
+Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight, std::string tagOrigin) :
+  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin(tagOrigin) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
@@ -27,7 +27,7 @@ Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, dou
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin ("PRIM") {
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -102,6 +102,14 @@ void Candidate::setProperty(const std::string &name, const Variant &value) {
 	properties[name] = value;
 }
 
+void Candidate::setTagOrigin (std::string tagOrigin) {
+	this -> tagOrigin  = tagOrigin ;
+}
+
+std::string Candidate::getTagOrigin () const {
+	return tagOrigin ;
+}
+
 const Variant &Candidate::getProperty(const std::string &name) const {
 	PropertyMap::const_iterator i = properties.find(name);
 	if (i == properties.end())
@@ -128,22 +136,23 @@ void Candidate::addSecondary(Candidate *c) {
 	secondaries.push_back(c);
 }
 
-void Candidate::addSecondary(int id, double energy, double w) {
+void Candidate::addSecondary(int id, double energy, double w, std::string tagOrigin) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
-  secondary->setWeight(weight * w);
-  secondary->source = source;
+	secondary->setWeight(weight * w);
+	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;
 	secondary->current = current;
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
 	secondary->parent = this;
+	secondary->setTagOrigin (tagOrigin);
 	secondaries.push_back(secondary);
 }
 
-void Candidate::addSecondary(int id, double energy, Vector3d position, double w) {
+void Candidate::addSecondary(int id, double energy, Vector3d position, double w, std::string tagOrigin) {
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
@@ -157,6 +166,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w)
 	secondary->current.setPosition(position);
 	secondary->created.setPosition(position);
 	secondary->parent = this;
+	secondary->setTagOrigin (tagOrigin);
 	secondaries.push_back(secondary);
 }
 

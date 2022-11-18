@@ -36,6 +36,7 @@ protected:
 	bool haveElectrons;
 	bool haveAntiNucleons;
 	bool haveRedshiftDependence;
+	std::string interactionTag = "PPP";
 
 	// called by: sampleEps
 	// - input: s [GeV^2]
@@ -109,6 +110,7 @@ public:
 	void setHaveAntiNucleons(bool b);
 	void setHaveRedshiftDependence(bool b);
 	void setLimit(double limit);
+	void setInteractionTag(std::string tag);
 	void initRate(std::string filename);
 	double nucleonMFP(double gamma, double z, bool onProton) const;
 	double nucleiModification(int A, int X) const;
@@ -172,6 +174,7 @@ public:
 	double getLimit() const;
 	bool getSampleLog() const;
 	double getCorrectionFactor() const;
+	std::string getInteractionTag() const;
 };
 /** @}*/
 

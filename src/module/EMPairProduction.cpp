@@ -208,11 +208,11 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	// apply sampling
 	if (random.rand() < pow(f, thinning)) {
 		double w = 1. / pow(f, thinning);
-		candidate->addSecondary(11, Ep / (1 + z), pos, w);
+		candidate->addSecondary(11, Ep / (1 + z), pos, w, interactionTag);
 	}
 	if (random.rand() < pow(1 - f, thinning)){
 		double w = 1. / pow(1 - f, thinning);
-		candidate->addSecondary(-11, Ee / (1 + z), pos, w);	
+		candidate->addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);	
 	}
 }
 
@@ -248,6 +248,14 @@ void EMPairProduction::process(Candidate *candidate) const {
 		step -= randDistance; 
 	} while (step > 0.);
 
+}
+
+void EMPairProduction::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string EMPairProduction::getInteractionTag() const {
+	return interactionTag;
 }
 
 } // namespace crpropa

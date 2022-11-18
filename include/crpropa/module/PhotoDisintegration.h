@@ -22,6 +22,7 @@ private:
 	ref_ptr<PhotonField> photonField;
 	double limit; // fraction of mean free path for limiting the next step
 	bool havePhotons;
+	std::string interactionTag = "PD";
 
 	struct Branch {
 		int channel; // number of emitted (n, p, H2, H3, He3, He4)
@@ -52,6 +53,9 @@ public:
 	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHavePhotons(bool havePhotons);
 	void setLimit(double limit);
+
+	void setInteractionTag(std::string tag);
+	std::string getInteractionTag() const;
 
 	void initRate(std::string filename);
 	void initBranching(std::string filename);

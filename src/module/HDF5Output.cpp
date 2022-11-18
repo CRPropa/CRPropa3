@@ -164,6 +164,9 @@ void HDF5Output::open(const std::string& filename) {
 	}
 	if (fields.test(WeightColumn))
 		H5Tinsert(sid, "weight", HOFFSET(OutputRow, weight), H5T_NATIVE_DOUBLE);
+	
+	if (fields.test(CandidateTagColumn)) 
+		H5Tinsert(sid, "tag", HOFFSET(OutputRow, tag), H5T_C_S1);
 
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
@@ -294,6 +297,8 @@ void HDF5Output::process(Candidate* candidate) const {
 	r.P1z = v.z;
 
 	r.weight= candidate->getWeight();
+
+	r.tag = candidate->getTagOrigin();
 
 	size_t pos = 0;
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

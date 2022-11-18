@@ -94,6 +94,8 @@ void TextOutput::printHeader() const {
 		*out << "\tP1x\tP1y\tP1z";
 	if (fields.test(WeightColumn))
 		*out << "\tW";
+	if (fields.test(CandidateTagColumn))
+		*out << "\ttag";
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -123,6 +125,13 @@ void TextOutput::printHeader() const {
 		*out << "# Px/P0x/P1x... Heading (unit vector of momentum)\n";
 	if (fields.test(WeightColumn))
 		*out << "# W             Weights" << " \n";
+	if (fields.test(CandidateTagColumn)) {
+		*out << "# tag           Candidate tag can be given by the source feature (user defined tag) or by the following interaction process \n";
+		*out << "#\tES  \tElasticScattering \n" << "#\tEPP \tElectronPairProduction \n" << "#\tEMPP\tEMPairProduction\n"
+			<< "#\tEMDP\tEMDoublePairProduction\n" << "#\tEMTP\tEMTripletPairProduction \n" << "#\tEMIC\tEMInverseComptonScattering\n"
+			<< "#\tND  \tNuclearDecay\n" << "#\tPD  \tPhotoDisintegration\n" << "#\tPPP  \tPhotoPionProduction\n" << "#\tSYN \tSynchrotronRadiation\n"
+			<< "#\tPRIM/SEC\t primary / secondary particle\n";
+	}
 	for(std::vector<Property>::const_iterator iter = properties.begin();
 			iter != properties.end(); ++iter)
 	{
@@ -242,6 +251,9 @@ void TextOutput::process(Candidate *c) const {
 	}
 	if (fields.test(WeightColumn)) {
 		p += std::sprintf(buffer + p, "%8.5E\t", c->getWeight());
+	}
+	if (fields.test(CandidateTagColumn)) {
+		p += std::sprintf(buffer + p, "%s\t", c->getTagOrigin().c_str());
 	}
 
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();

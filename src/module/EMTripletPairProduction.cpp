@@ -131,11 +131,11 @@ void EMTripletPairProduction::performInteraction(Candidate *candidate) const {
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = 1. / pow(1 - f, thinning);
-			candidate->addSecondary(11, Epp / (1 + z), pos, w);
+			candidate->addSecondary(11, Epp / (1 + z), pos, w, interactionTag);
 		}
 		if (random.rand() < pow(f, thinning)) {
 			double w = 1. / pow(f, thinning);
-			candidate->addSecondary(-11, Epp / (1 + z), pos, w);
+			candidate->addSecondary(-11, Epp / (1 + z), pos, w, interactionTag);
 		}
 	}
 	// Update the primary particle energy.
@@ -174,6 +174,14 @@ void EMTripletPairProduction::process(Candidate *candidate) const {
 		performInteraction(candidate);
 		step -= randDistance; 
 	} while (step > 0.);
+}
+
+void EMTripletPairProduction::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string EMTripletPairProduction::getInteractionTag() const {
+	return interactionTag;
 }
 
 } // namespace crpropa

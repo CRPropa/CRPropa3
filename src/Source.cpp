@@ -1097,4 +1097,23 @@ void SourceGenericComposition::setDescription() {
 
 #endif
 
+// ----------------------------------------------------------------------------
+
+SourceTag::SourceTag(std::string tag) {
+	setTag(tag);
+}
+
+void SourceTag::prepareCandidate(Candidate &cand) const {
+	cand.setTagOrigin(sourceTag);
+}
+
+void SourceTag::setDescription() {
+	description = "SourceTag: " + sourceTag;
+}
+
+void SourceTag::setTag(std::string tag) {
+	sourceTag = tag;
+	setDescription();
+}
+
 } // namespace crpropa

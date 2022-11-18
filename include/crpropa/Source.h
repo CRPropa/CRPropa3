@@ -797,8 +797,27 @@ protected:
 };
 #endif
 
+/**
+ * @class SourceTag
+ * @brief All candidates from this source get a given tag. This can be used to distinguish between different sources that follow the same spatial distribution
+ * 
+ * Sets the tag of the candidate. Can be used to trace back additional candidate properties, e.g. production interaction or source type. 
+ * The interaction overwrites the candidate tag from the source for all secondaries. 
+ */
+
+class SourceTag: public SourceFeature {
+private:
+	std::string sourceTag;
+
+public:
+	SourceTag(std::string tag);
+	void prepareCandidate(Candidate &candidate) const;
+	void setDescription();
+	void setTag(std::string tag);
+};
+
 /**  @} */ // end of group SourceFeature
 
-}// namespace crpropa
+} // namespace crpropa
 
 #endif // CRPROPA_SOURCE_H

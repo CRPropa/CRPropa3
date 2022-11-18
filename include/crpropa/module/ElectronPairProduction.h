@@ -28,6 +28,7 @@ private:
 	std::vector<std::vector<double> > tabSpectrum; /*< electron/positron cdf(Ee|log10(gamma)) for log10(Ee/eV)=7-24 in 170 steps and log10(gamma)=6-13 in 70 steps and*/
 	double limit; ///< fraction of energy loss length to limit the next step
 	bool haveElectrons;
+	std::string interactionTag = "EPP";
 
 public:
 	ElectronPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons =
@@ -36,7 +37,9 @@ public:
 	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void setHaveElectrons(bool haveElectrons);
 	void setLimit(double limit);
-
+	void setInteractionTag(std::string tag);
+	std::string getInteractionTag() const;
+	
 	void initRate(std::string filename);
 	void initSpectrum(std::string filename);
 	void process(Candidate *candidate) const;
@@ -54,6 +57,7 @@ public:
 	 beta(E,z) = (1+z)^3 beta((1+z)E).
 	 */
 	double lossLength(int id, double lf, double z=0) const;
+	
 };
 /** @}*/
 

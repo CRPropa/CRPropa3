@@ -34,6 +34,7 @@ private:
 		std::vector<double> intensity; // probabilities of ensuing gamma decays
 	};
 	std::vector<std::vector<DecayMode> > decayTable; // decayTable[Z * 31 + N] = vector<DecayMode>
+	std::string interactionTag = "ND";
 
 public:
 	/** Constructor.
@@ -47,6 +48,10 @@ public:
 	void setHaveElectrons(bool b);
 	void setHavePhotons(bool b);
 	void setHaveNeutrinos(bool b);
+
+	void setInteractionTag(std::string tag);
+	std::string getInteractionTag() const;
+
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, int channel) const;
 	void gammaEmission(Candidate *candidate, int channel) const;

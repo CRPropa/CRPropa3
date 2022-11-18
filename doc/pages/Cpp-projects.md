@@ -23,7 +23,7 @@ int main(void) {
         sim.add(new MinimumEnergy(1*EeV));
 
         ref_ptr<Observer> obs = new Observer();
-        obs->add(new ObserverPoint());
+        obs->add(new Observer1D());
         obs->onDetection(new TextOutput("events.txt", Output::Event1D));
         obs->onDetection(new TextOutput());
         sim.add(obs);

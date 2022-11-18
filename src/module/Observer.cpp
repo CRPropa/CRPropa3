@@ -98,50 +98,6 @@ std::string ObserverDetectAll::getDescription() const {
 	return description;
 }
 
-// ObserverSmallSphere --------------------------------------------------------
-ObserverSmallSphere::ObserverSmallSphere(Vector3d center, double radius) :
-		center(center), radius(radius) {
-			KISS_LOG_WARNING << "ObserverSmallSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius)).";
-}
-
-DetectionState ObserverSmallSphere::checkDetection(Candidate *candidate) const {
-	// current distance to observer sphere center
-	double d = (candidate->current.getPosition() - center).getR();
-
-	// conservatively limit next step to prevent overshooting
-	candidate->limitNextStep(sqrt(fabs(d*d - radius*radius)));
-
-	// no detection if outside of observer sphere
-	if (d > radius)
-		return NOTHING;
-
-	// previous distance to observer sphere center
-	double dprev = (candidate->previous.getPosition() - center).getR();
-
-	// if particle was inside of sphere in previous step it has already been detected
-	if (dprev <= radius)
-		return NOTHING;
-
-	// else detection
-	return DETECTED;
-}
-
-void ObserverSmallSphere::setCenter(const Vector3d &center) {
-	this->center = center;
-}
-
-void ObserverSmallSphere::setRadius(float radius) {
-	this->radius = radius;
-}
-
-std::string ObserverSmallSphere::getDescription() const {
-	std::stringstream ss;
-	ss << "ObserverSmallSphere: ";
-	ss << "center = " << center / Mpc << " Mpc, ";
-	ss << "radius = " << radius / Mpc << " Mpc";
-	return ss.str();
-}
-
 // ObserverTracking --------------------------------------------------------
 ObserverTracking::ObserverTracking(Vector3d center, double radius, double stepSize) :
 		center(center), radius(radius), stepSize(stepSize) {
@@ -177,54 +133,37 @@ std::string ObserverTracking::getDescription() const {
 	return ss.str();
 }
 
-// ObserverLargeSphere --------------------------------------------------------
-ObserverLargeSphere::ObserverLargeSphere(Vector3d center, double radius) :
-		center(center), radius(radius) {
-		KISS_LOG_WARNING << "ObserverLargeSphere deprecated and will be removed in the future. Replace with ObserverSurface( Sphere(center, radius) ).";
-}
-
-DetectionState ObserverLargeSphere::checkDetection(Candidate *candidate) const {
-	// current distance to observer sphere center
-	double d = (candidate->current.getPosition() - center).getR();
-
-	// conservatively limit next step size to prevent overshooting
-	candidate->limitNextStep(fabs(radius - d));
-
-	// no detection if inside observer sphere
-	if (d < radius)
-		return NOTHING;
-
-	// previous distance to observer sphere center
-	double dprev = (candidate->previous.getPosition() - center).getR();
-
-	// if particle was outside of sphere in previous step it has already been detected
-	if (dprev >= radius)
-		return NOTHING;
-
-	// else: detection
-	return DETECTED;
-}
-
-std::string ObserverLargeSphere::getDescription() const {
-	std::stringstream ss;
-	ss << "ObserverLargeSphere: ";
-	ss << "center = " << center / Mpc << " Mpc, ";
-	ss << "radius = " << radius / Mpc << " Mpc";
-	return ss.str();
-}
-
 // ObserverPoint --------------------------------------------------------------
 DetectionState ObserverPoint::checkDetection(Candidate *candidate) const {
+	KISS_LOG_WARNING << "ObserverPoint is deprecated and is no longer supported. Please use Observer1D instead.\n";
 	double x = candidate->current.getPosition().x;
 	if (x > 0) {
+		// Limits the next step size to prevent candidates from overshooting in case of non-detection
 		candidate->limitNextStep(x);
 		return NOTHING;
 	}
+	// Detects particles when reaching x = 0
 	return DETECTED;
 }
 
 std::string ObserverPoint::getDescription() const {
 	return "ObserverPoint: observer at x = 0";
+}
+
+// Observer1D --------------------------------------------------------------
+DetectionState Observer1D::checkDetection(Candidate *candidate) const {
+	double x = candidate->current.getPosition().x;
+	if (x > 0) {
+		// Limits the next step size to prevent candidates from overshooting in case of non-detection
+		candidate->limitNextStep(x);
+		return NOTHING;
+	}
+	// Detects particles when reaching x = 0
+	return DETECTED;
+}
+
+std::string Observer1D::getDescription() const {
+	return "Observer1D: observer at x = 0";
 }
 
 // ObserverRedshiftWindow -----------------------------------------------------
@@ -358,7 +297,7 @@ DetectionState ObserverTimeEvolution::checkDetection(Candidate *c) const {
 		// Calculate the distance to next detection
 		double distance = length - detList[index];
 
-		// Limit next Step and detect candidate
+		// Limit next step and detect candidate.
 		// Increase the index by one in case of detection
 		if (distance < 0.) {
 			c->limitNextStep(-distance);

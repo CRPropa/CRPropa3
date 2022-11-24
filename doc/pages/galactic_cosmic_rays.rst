@@ -23,6 +23,13 @@ changes, which can be modeled following the next examples.
 .. toctree::
    example_notebooks/Diffusion/AdiabaticCooling.ipynb
 
+
+Example of diffusion in the Milky way
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. toctree::
+   example_notebooks/Diffusion/GalacticDiffusion.ipynb
+
 Gas Densities
 ^^^^^^^^^^^^^
 

@@ -146,7 +146,7 @@ public:
  @class SourcePowerLawSpectrum
  @brief Particle energy following a power-law spectrum
 
- The power law is of the form: E^index, for energies in the interval [Emin, Emax].
+ The power law is of the form: dN/dE ~ E^index, for energies in the interval [Emin, Emax].
  */
 class SourcePowerLawSpectrum: public SourceFeature {
 	double Emin;
@@ -166,7 +166,7 @@ public:
 
 /**
  @class SourceComposition
- @brief Multiple nuclei with a rigidity-dependent power-law spectrum
+ @brief Multiple nuclei species with a rigidity-dependent power-law spectrum
 
  The power law is of the form: E^index, for energies in the interval [Emin, Z * Rmax].
  */
@@ -211,7 +211,7 @@ public:
 	 */
 	SourcePosition(Vector3d position);
 	/** Constructor for a source in 1D
-	 @param d	distance of the point source to Earth [in meters]; 
+	 @param d	distance of the point source to the observer at x = 0 [in meters]; 
 	 			internally this will be converted to a vector with x-coordinate equal to d
 	 */
 	SourcePosition(double d);
@@ -232,9 +232,9 @@ public:
 	 The sources must be added individually to the object.
 	 */
 	SourceMultiplePositions();
-	/** Add an individual source with a given luminosity.
+	/** Add an individual source with a given luminosity/contribution.
 	 @param position	vector containing the coordinates of the point source [in meters]
-	 @param weight		luminosity of the individual source
+	 @param weight		luminosity/contribution of the individual source
 	 */
 	void add(Vector3d position, double weight = 1);
 	void prepareParticle(ParticleState &particle) const;
@@ -301,11 +301,11 @@ public:
 
 /**
  @class SourceUniformBox
- @brief Uniform random source positions inside a box
+ @brief Uniform random source positions inside a box. The box is aligned with the coordinate axes.
  */
 class SourceUniformBox: public SourceFeature {
-	Vector3d origin;
-	Vector3d size;
+	Vector3d origin;	// lower box corner
+	Vector3d size;		// sizes along each coordinate axes.
 public:
 	/** Constructor
 	 @param origin	vector corresponding to the lower box corner
@@ -319,16 +319,18 @@ public:
 
 /**
  @class SourceUniformCylinder
- @brief Uniform distribution of source positions inside the volume of a cylinder
+ @brief Uniform distribution of source positions inside the volume of a cylinder. 
+
+ The circle of the cylinder lays in the xy-plane and the height is along the z-axis.
  */
 class SourceUniformCylinder: public SourceFeature {
-	Vector3d origin;
-	double height;
-	double radius;
+	Vector3d origin;	// central point of cylinder 
+	double height;		// total height of the cylinder along z-axis. Half over/under the center.
+	double radius;		// radius of the cylinder in the xy-plane
 public:
 	/** Constructor
-	 @param origin	vector corresponding to the lower part of the cylinder axis
-	 @param height	height of the cylinder
+	 @param origin	vector corresponding to the center of the cylinder axis
+	 @param height	height of the cylinder, half lays over the origin, half is lower
 	 @param radius	radius of the cylinder
 	 */
 	SourceUniformCylinder(Vector3d origin, double height, double radius);
@@ -339,7 +341,7 @@ public:
 
 /**
  @class SourceSNRDistribution
- @brief Source distribution that follows the Galactic SNR distribution
+ @brief Source distribution that follows the Galactic SNR distribution in 2D
 
  The origin of the distribution is the Galactic center. The default maximum radius is set 
  to rMax=20 kpc and the default maximum height is zMax = 5 kpc.
@@ -355,6 +357,8 @@ class SourceSNRDistribution: public SourceFeature {
 	double rMax; // maximum radial distance - default 20 kpc 
 		      // (due to the extension of the JF12 field)
 	double zMax; // maximum distance from galactic plane - default 5 kpc
+	void setFrMax(); // calculate frMax with the current parameter. 
+
 public:
 	/** Default constructor. 
 	 Default parameters are:
@@ -375,13 +379,36 @@ public:
 	SourceSNRDistribution(double rEarth,double alpha, double beta, double zg);
 
 	void prepareParticle(ParticleState &particle) const;
+	/**
+	 radial distribution of the SNR density.
+	 @param r	galactocentric radius in [meter]
+	*/
 	double fr(double r) const;
+	/**
+	 height distribution of the SNR density.
+	 @param z	height over/under the galactic plane in [meter]
+	*/
 	double fz(double z) const;
-	void setFrMax();
+
+	/**
+	 Set the exponential cut-off parameter in the z-direction.
+	 @param Zg	cut-off parameter
+	*/
 	void setFzMax(double Zg);
+
+	/**
+	 @param rMax maximal radius up to which sources are possible
+	*/
 	void setRMax(double rMax);
+
+	/**
+	 @param zMax maximal height up to which sources are possible
+	*/
 	void setZMax(double zMax);
+
+	// parameter for the raidal distribution
 	void setAlpha(double a);
+	// parameter for the exponential cut-off in the radial distribution
 	void setBeta(double b);
 	double getFrMax() const;
 	double getFzMax() const;
@@ -434,7 +461,16 @@ public:
 	 */	
 	SourcePulsarDistribution(double rEarth, double beta, double zg, double rBlur, double thetaBlur);
 	void prepareParticle(ParticleState &particle) const;
+
+	/** 
+	 radial distribution of pulsars
+	 @param r	galactocentric radius
+	*/
 	double fr(double r) const;
+	/**
+	 z distribution of pulsars
+	 @param z	height over/under the galactic plane
+	*/
 	double fz(double z) const;
 	double ftheta(int i, double r) const;
 	double blurR(double r_tilde) const;
@@ -471,7 +507,7 @@ public:
 class SourceUniform1D: public SourceFeature {
 	double minD; // minimum light-travel distance
 	double maxD; // maximum light-travel distance
-	bool withCosmology;
+	bool withCosmology;	// whether to account for cosmological effects (expansion of the Universe)
 public:
 	/** Constructor
 	 @param minD			minimum distance; comoving if withCosmology is True
@@ -505,10 +541,10 @@ public:
  @brief Random source positions from a 1D density grid
  */
 class SourceDensityGrid1D: public SourceFeature {
-	ref_ptr<Grid1f> grid;
+	ref_ptr<Grid1f> grid;	// 1D grid with Ny = Nz = 1
 public:
 	/** Constructor
-	 @param densityGrid 	1D grid containing the density of sources in each cell
+	 @param densityGrid 	1D grid containing the density of sources in each cell, Ny and Nz must be 1
 	 */
 	SourceDensityGrid1D(ref_ptr<Grid1f> densityGrid);
 	void prepareParticle(ParticleState &particle) const;
@@ -550,11 +586,31 @@ class SourceDirectedEmission: public SourceFeature {
 	double cd;
 	double sd;
 public:
+	/** Constructor
+	 @param mu	mean direction of the emission, mu should be normelized
+	 @param kappa	concentration parameter
+	*/
 	SourceDirectedEmission(Vector3d mu, double kappa);
 	void prepareCandidate(Candidate &candidate) const;
+	/**
+	 set sampling parameter Ca
+	 @param alpha	angle between x and y component of direction. alpha = arctan(mu.y / mu.x)
+	*/
 	void setCa(double alpha);
+	/**
+	 set sampling parameter Sa
+	 @param alpha	angle between x and y component of direction. alpha = arctan(mu.y / mu.x)
+	*/
 	void setSa(double alpha);
+	/**
+	 set sampling parameter Cd
+	 @param delta	angle between mu vector and z-axis. delta = arcsin(mu.z) 
+	*/
 	void setCd(double delta);
+	/**
+	 set sampling parameter Sd
+	 @param delta	angle between mu vector and z-axis. delta = arcsin(mu.z) 
+	*/
 	void setSd(double delta);
 	double getCa() const;
 	double getSa() const;
@@ -573,9 +629,9 @@ public:
  technique: see e.g. http://physik.rwth-aachen.de/parsec
  */
 class SourceLambertDistributionOnSphere: public SourceFeature {
-	Vector3d center;
-	double radius;
-	bool inward;
+	Vector3d center;	// center of the sphere
+	double radius;		// radius of the sphere
+	bool inward;		// if true, direction point inwards
 public:
 	/** Constructor
 	 @param center		vector containing the coordinates of the center of the sphere
@@ -596,7 +652,7 @@ class SourceDirection: public SourceFeature {
 	Vector3d direction;
 public:
 	/** Constructor
-	 @param direction	vector corresponding to the direction of emission
+	 @param direction	Vector3d corresponding to the direction of emission
 	 */
 	SourceDirection(Vector3d direction = Vector3d(-1, 0, 0));
 	void prepareParticle(ParticleState &particle) const;
@@ -606,7 +662,10 @@ public:
 
 /**
  @class SourceEmissionMap
- @brief Deactivate Candidate if it has zero probability in provided EmissionMap
+ @brief Deactivate Candidate if it has zero probability in provided EmissionMap. 
+
+	This feature does not change the direction of the candidate. Therefore a usefull direction feature (isotropic or directed emission)
+	must be added to the sources before. The propability of the emission map is not taken into account. 
  */
 class SourceEmissionMap: public SourceFeature {
 	ref_ptr<EmissionMap> emissionMap;
@@ -630,11 +689,15 @@ class SourceEmissionCone: public SourceFeature {
 	double aperture;
 public:
 	/** Constructor
-	 @param direction		vector corresponding to the cone axis 
+	 @param direction		Vector3d corresponding to the cone axis 
 	 @param aperture		opening angle of the cone
 	 */
 	SourceEmissionCone(Vector3d direction, double aperture);
 	void prepareParticle(ParticleState &particle) const;
+
+	/**
+	 @param direction Vector3d corresponding to the cone axis
+	*/
 	void setDirection(Vector3d direction);
 	void setDescription();
 };

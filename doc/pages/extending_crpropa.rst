@@ -7,7 +7,7 @@ needs in in several ways:
 .. toctree::
    Extending-CRPropa.md
    example_notebooks/advanced/CustomObserver.v4.ipynb
-   example_notebooks/custom_photonfield/custom-photonfield.ipynb
+   example_notebooks/custom_photonfield/custom-photon-field.ipynb
    Cpp-projects.md
    
 

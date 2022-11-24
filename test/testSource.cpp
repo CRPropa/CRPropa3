@@ -425,6 +425,13 @@ TEST(SourceList, luminosity) {
 	EXPECT_NEAR(80, meanE, 4); // this test can stochastically fail
 }
 
+TEST(SourceTag, sourceTag) {
+	SourceTag tag("mySourceTag");
+	Candidate c;
+	tag.prepareCandidate(c);
+	EXPECT_TRUE(c.getTagOrigin() == "mySourceTag");
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

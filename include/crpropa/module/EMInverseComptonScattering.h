@@ -30,6 +30,7 @@ private:
 	bool havePhotons;
 	double limit;
 	double thinning;
+	std::string interactionTag = "EMIC";
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]
@@ -53,6 +54,9 @@ public:
 	void setHavePhotons(bool havePhotons);
 	void setLimit(double limit);
 	void setThinning(double thinning);
+
+	void setInteractionTag(std::string tag);
+	std::string getInteractionTag() const;
 
 	void initRate(std::string filename);
 	void initCumulativeRate(std::string filename);

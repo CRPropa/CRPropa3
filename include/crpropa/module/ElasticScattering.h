@@ -18,6 +18,7 @@ private:
 
 	std::vector<double> tabRate; // elastic scattering rate
 	std::vector<std::vector<double> > tabCDF; // CDF as function of background photon energy
+	std::string interactionTag = "ES";
 
 	static const double lgmin; // minimum log10(Lorentz-factor)
 	static const double lgmax; // maximum log10(Lorentz-factor)
@@ -35,6 +36,9 @@ public:
 	void initCDF(std::string filename);
 	void setPhotonField(ref_ptr<PhotonField> photonField);
 	void process(Candidate *candidate) const;
+	
+	std::string getInteractionTag() const;
+	void setInteractionTag(std::string tag);
 };
 
 } // namespace crpropa

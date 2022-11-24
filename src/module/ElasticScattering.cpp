@@ -118,11 +118,19 @@ void ElasticScattering::process(Candidate *candidate) const {
 		double E = eps * candidate->current.getLorentzFactor() * (1. - cosTheta);
 
 		Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());
-		candidate->addSecondary(22, E, pos);
+		candidate->addSecondary(22, E, pos, 1., interactionTag);
 
 		// repeat with remaining step
 		step -= randDist;
 	}
+}
+
+void ElasticScattering::setInteractionTag(std::string tag) {
+	this -> interactionTag = tag;
+}
+
+std::string ElasticScattering::getInteractionTag() const {
+	return interactionTag;
 }
 
 } // namespace crpropa

@@ -40,6 +40,7 @@ namespace crpropa {
  . X1/Y1/Z1		 CreatedPositionColumn
  . P1x/P1y/P1z	 CreatedDirectionColumn
  . z			 RedshiftColumn
+ . tag			 CandidateTagColumn
  . weight		 WeightColumn
 
  Some output types are pre-defined: 
@@ -85,6 +86,7 @@ public:
 		CreatedEnergyColumn,
 		CreatedPositionColumn,
 		CreatedDirectionColumn,
+		CandidateTagColumn,
 		SerialNumberColumn,
 		WeightColumn
 	};

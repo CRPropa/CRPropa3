@@ -30,6 +30,7 @@ private:
 	bool haveElectrons;
 	double limit;
 	double thinning;
+	std::string interactionTag = "EMDP";
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]
@@ -48,6 +49,9 @@ public:
 	void setHaveElectrons(bool haveElectrons);
 	void setLimit(double limit);
 	void setThinning(double thinning);
+	
+	void setInteractionTag(std::string tag);
+	std::string getInteractionTag() const;
 
 	void initRate(std::string filename);
 	void process(Candidate *candidate) const;

@@ -1,5 +1,5 @@
 name: crpropa-testing_OSX
-on: [push]
+on: [push, pull_request]
 jobs:
   mac:
     runs-on: ${{ matrix.config.os }}
@@ -15,10 +15,10 @@ jobs:
             swig_builtin: "On" #uses swig 4.0.2
             py: "/usr/bin/python"
     steps:
-     - name: Checkout repository
-       uses: actions/checkout@v2
-     - name: Preinstall
-       run: |
+     - name: Checkout repository 
+       uses: actions/checkout@v3 
+     - name: Preinstall 
+       run: | 
          brew install hdf5 fftw cfitsio muparser libomp
      - name: Set up the build
        env:
@@ -42,7 +42,7 @@ jobs:
          make test
      - name: Archive test results
        if: always()
-       uses: actions/upload-artifact@v2
+       uses: actions/upload-artifact@v3
        with:
          name: "test-report_${{matrix.config.name}}"
          path: build/Testing/Temporary/LastTest.log

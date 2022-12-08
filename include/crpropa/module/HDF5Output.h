@@ -22,7 +22,7 @@ const size_t propertyBufferSize = 1024;
 /**
  @class HDF5Output
  @brief Output to HDF5 Format.
-In the base class is an overview of the possible columns.
+The baseclass gives an overview of possible columns
 
 HDF5 structure:
 ```

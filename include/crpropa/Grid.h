@@ -228,7 +228,7 @@ public:
 		}
 	}
 
-	/** returns the positon of the lower left front corner of the volume */
+	/** returns the position of the lower left front corner of the volume */
 	Vector3d getOrigin() const {
 		return origin;
 	}
@@ -379,7 +379,7 @@ private:
 		__m128 pos2 = _mm_set1_ps (position*position);
 		__m128 pos3 = _mm_set1_ps (position*position*position);
 
-		/** SIMDY optimized routine to calculate 'res = ((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);'
+		/** SIMD optimized routine to calculate 'res = ((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);'
 			 where terms are used as:
 			term = (-0.5*p0+0.5*p2)*pos
 			term2 = (p0-5/2.*p1+p2*2-0.5*p3)*pos*pos;
@@ -427,7 +427,7 @@ private:
 		__m128 result = CubicInterpolate(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);
 		return convertSimdToVector3f(result);
 		#else // HAVE_SIMD
-		throw std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is neccesary for tricubic interpolation of vector grids.\n");
+		throw std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is necessary for tricubic interpolation of vector grids.\n");
 		#endif // HAVE_SIMD	
 	}
 

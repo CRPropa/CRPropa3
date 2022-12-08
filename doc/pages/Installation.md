@@ -80,12 +80,12 @@ worthwhile effort afterwards.
     ```
     and make the directory
     ```sh
-    mkdir -p $CRPROPA_DIR`
+    mkdir -p $CRPROPA_DIR
     ```
 
 2. Initialize the Python virtual environment with the virtualenv command.
     ```sh
-    virtualenv $CRPROPA_DIR`
+    virtualenv $CRPROPA_DIR
     ```
     if there is virtualenv available on the system.
 		If the virtualenv is not installed on a system, try to use your operating

@@ -145,12 +145,19 @@ public:
 
 	void initRate(std::string filename);
 
-	/** get the mean free path for a nucleon
+	/** get the mean free path (MFP) for a single nucleon. 
+	 *  To get the MFP for the full nucleus the nucleonMFP has to be divided by by the nucleiModification factor
 	 * @param gamma 	Lorentz factor of the nucleon
 	 * @param z 		redshift
 	 * @param onProton 	true for protons, false for neutrons
 	 */
 	double nucleonMFP(double gamma, double z, bool onProton) const;
+
+	/** scaling factor for mean free path of the nucleus (converting the MFP of a single nucleon)
+	 * 
+	 * @param A		mass number of the nucleus
+	 * @param X 	charge number of the nucleus
+	 */
 	double nucleiModification(int A, int X) const;
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, bool onProton) const;

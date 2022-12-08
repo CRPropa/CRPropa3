@@ -56,7 +56,7 @@ public:
 	// set the target photon field
 	void setField(ref_ptr<MagneticField> field);
 
-	// set the rms value of the magnetic field (no 3d field is used)
+	// set the root-mean square (rms) value of the magnetic field (no 3d field is used)
 	void setBrms(double Brms);	
 
 	// decide if secondary photons are added to the simulation

@@ -53,11 +53,25 @@ public:
 	 */
 	SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double thinning = 0, int nSamples = 0, double limit = 0.1);
 	
+	// set the target photon field
 	void setField(ref_ptr<MagneticField> field);
+
+	// set the root-mean square (rms) value of the magnetic field (no 3d field is used)
 	void setBrms(double Brms);	
+
+	// decide if secondary photons are added to the simulation
 	void setHavePhotons(bool havePhotons);
+
+	/** Apply thinning with a given thinning factor
+	 * @param thinning factor of thinning (0: no thinning, 1: maximum thinning)
+	 */
 	void setThinning(double thinning);
+
+	/** Limit the propagation step to a fraction of the mean free path
+	 * @param limit fraction of the mean free path
+	 */
 	void setLimit(double limit);
+
 	/** Set the maximum number of synchrotron photons that will be allowed to be added as candidates. 
 	 This choice depends on the problem at hand. It must be such that all relevant physics is captured with the sample. Weights are added accordingly and the column 'weight' must be added to output.
 	 @param nmax	maximum number of synchrotron photons to be sampled

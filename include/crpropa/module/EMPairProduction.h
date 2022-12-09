@@ -28,10 +28,10 @@ namespace crpropa {
  */
 class EMPairProduction: public Module {
 private:
-	ref_ptr<PhotonField> photonField;
-	bool haveElectrons;
-	double limit;
-	double thinning;
+	ref_ptr<PhotonField> photonField; 	// target photon field
+	bool haveElectrons;					// add secondary electrons to simulation
+	double limit;						// limit the step to a fraction of the mean free path
+	double thinning;					// factor of the thinning (0: no thinning, 1: maximum thinning)
 	std::string interactionTag = "EMPP";
 
 	// tabulated interaction rate 1/lambda(E)
@@ -52,11 +52,25 @@ public:
 	 */
 	EMPairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0,double limit = 0.1);
 
+	// set the target photon field
 	void setPhotonField(ref_ptr<PhotonField> photonField);
+
+	// decide if secondary electrons are added to the simulation
 	void setHaveElectrons(bool haveElectrons);
+
+	/** Limit the propagation step to a fraction of the mean free path
+	 * @param limit fraction of the mean free path
+	 */
 	void setLimit(double limit);
+
+	/** Apply thinning with a given thinning factor
+	 * @param thinning factor of thinning (0: no thinning, 1: maximum thinning)
+	 */
 	void setThinning(double thinning);
-	
+
+	/** set a custom interaction tag to trace back this interaction
+	 * @param tag string that will be added to the candidate and output
+	 */	
 	void setInteractionTag(std::string tag);
 	std::string getInteractionTag() const;
 

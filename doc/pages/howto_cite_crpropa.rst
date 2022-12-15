@@ -1,7 +1,11 @@
 How to cite CRPropa
 ===================
 
-If you use CRPropa 3 for your research, please cite:
+If you use CRPropa 3.2 for your research, please cite:
+
+**JCAP (2022) no. 09, 035;** `arXiv:2208.00107 <https://arxiv.org/abs/2208.00107>`_.
+
+If you still use an older version of CRPropa for your research, please cite:
 
 **JCAP 1605 (2016) 038;** `arXiv:1603.07142 <https://arxiv.org/abs/1603.07142>`_.
 

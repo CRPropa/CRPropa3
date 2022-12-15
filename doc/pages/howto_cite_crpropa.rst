@@ -15,6 +15,9 @@ following papers:
 Core Components
 ---------------
 
+PlaneWaveTurbulence module and trilinear interpolation
+  ApJ 889 (2020) 123; `arXiv:1907.09934 <https://arxiv.org/abs/1907.09934>`_.
+
 Photon production and electromagnetic cascade propagation
   Astropart. Phys. 102 (2018) 39; `arXiv:1710.11406 <https://arxiv.org/abs/1710.11406>`_.
 

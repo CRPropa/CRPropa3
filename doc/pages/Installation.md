@@ -104,7 +104,7 @@ worthwhile effort afterwards.
     source $CRPROPA_DIR"/bin/activate"
     ```
 
-3. Check the dependencies (see  [dependencies](#Dependencies) for details) and install at least mandatory ones. This can be done with package managers (see the [package list](#dependencies-in-different-oses) in different OSes). If packages are installed from source, during the compilation the installation prefix should be specified:
+3. Check the dependencies and install at least mandatory ones. This can be done with package managers (see the [package list](#notes-for-specific-operating-systems) in different operating systems). If packages are installed from source, during the compilation the installation prefix should be specified:
     ```sh
     ./configure --prefix=$CRPROPA_DIR
     make

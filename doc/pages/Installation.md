@@ -125,7 +125,9 @@ worthwhile effort afterwards.
     make install
     ```
 
-5. (optional) Check the installation.
+5. A set of unit tests can be run with ```make test```. 
+
+6. (optional) Check the installation.
     ```python
     python
     import crpropa

@@ -64,7 +64,7 @@ However, we highly recommend to use a virtualenv setup to install CRPropa!
 ### Installation in python virtualenv
 CRPropa is typically run on clusters where superuser access is not always
 available to the user. Besides that, it is easier to ensure the reproducibility
-of simulations in a user controlled and clean environment.  Thus, the user
+of simulations in a user controlled and clean environment. Thus, the user
 space deployment without privileged access to the system would be a preferred
 way. Python provides the most flexible access to CRPropa features, hence,
 Python and SWIG are required. To avoid clashes with the system's Python and its
@@ -83,7 +83,7 @@ worthwhile effort afterwards.
     mkdir -p $CRPROPA_DIR`
     ```
 
-2. Initialize the Python virtual environment with the virtualenv command.
+2. Initialize the Python virtual environment with the virtualenv command,
     ```sh
     virtualenv $CRPROPA_DIR`
     ```
@@ -92,7 +92,7 @@ worthwhile effort afterwards.
 		system software repository to install it (usually the package is called
 		`virtualenv`, `python-virtualenv`, `python3-virtualenv` or
 		`python2-virtualenv`). There is also an option to manually download it,
-		un-zip it and run it:
+		un-zip it, and run it:
     ```sh
     wget https://github.com/pypa/virtualenv/archive/develop.zip
     unzip develop.zip
@@ -104,7 +104,7 @@ worthwhile effort afterwards.
     source $CRPROPA_DIR"/bin/activate"
     ```
 
-3. Check the dependencies and install at least mandatory ones. This can be done with package managers (see the [package list](#notes-for-specific-operating-systems) in different operating systems). If packages are installed from source, during the compilation the installation prefix should be specified:
+3. Check the dependencies and install at least mandatory ones (see [prerequisites](#prerequisites)). This can be done with package managers (see the [package list](#notes-for-specific-operating-systems) in different operating systems). If packages are installed from source, during the compilation the installation prefix should be specified:
     ```sh
     ./configure --prefix=$CRPROPA_DIR
     make

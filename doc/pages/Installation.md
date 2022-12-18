@@ -172,6 +172,13 @@ cmake -DENABLE_PYTHON=ON ..
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
++ The PlaneWaveTurbulence computation can be improved using the FAST_WAVES flag:
+1. In cmake: enable the FAST_WAVES flag.
+2. Also in cmake: set SIMD_EXTENSIONS to “native” (the compiler will automatically detect support for your CPU and run the build with the appropriate settings).
+3. Generate files and exit cmake, then build.
+
+Note: If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won’t be able to use the optimization; go back into cmake, disable FAST_WAVES, and build again. If the build runs through without errors, the code is built with the optimization.
+
 + Quite often there are multiple Python versions installed in a system. This is likely the cause of many (if not most) of the installation problems related to Python. To prevent conflicts among them, one can explicitly refer to the Python version to be used. Example:
   ```
   -DCMAKE_PYTHON_EXECUTABLE=/usr/bin/python

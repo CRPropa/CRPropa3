@@ -10,6 +10,7 @@ git clone https://github.com/CRPropa/CRPropa3.git
 ## Prerequisites
 + C++ Compiler with C++11 support (gcc, clang and icc are known to work)
 + Fortran Compiler: to compile SOPHIA
++ numpy: for scientific computations
 
 Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
 + Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 3.0.4)

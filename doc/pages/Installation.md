@@ -172,7 +172,7 @@ cmake -DENABLE_PYTHON=ON ..
   -DCMAKE_Fortran_COMPILER=ifort
   ```
 
-+ The PlaneWaveTurbulence computation can be improved using the FAST_WAVES flag:
++ The PlaneWaveTurbulence computation can be improved using the FAST_WAVES flag (see [documentation](https://crpropa.github.io/CRPropa3/buildingblocks/MagneticFields.html#classcrpropa_1_1PlaneWaveTurbulence) for details):
 1. In cmake: enable the FAST_WAVES flag.
 2. Also in cmake: set SIMD_EXTENSIONS to “native” (the compiler will automatically detect support for your CPU and run the build with the appropriate settings).
 3. Generate files and exit cmake, then build.

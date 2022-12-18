@@ -157,6 +157,7 @@ cmake -DENABLE_PYTHON=ON ..
 + Enable unit-tests ```-DENABLE_TESTING=ON```
 + Enable Coverage (code coverage tool) ```-DENABLE_COVERAGE=ON```
 + Enable Git ```-DENABLE_GIT=ON```
++ Optimized parallelization usage for simulations with few particles ```-DOMP_SCHEDULE:STRING=dynamic``` (see [discussion](https://github.com/CRPropa/CRPropa3/issues/117))
 + Enable SWIG-builtin ```-DENABLE_SWIG_BUILTIN=ON```
 + Debugging symbols included: ```-DCMAKE_BUILD_TYPE:STRING=Debug```
 
@@ -173,9 +174,8 @@ cmake -DENABLE_PYTHON=ON ..
   ```
 
 + The PlaneWaveTurbulence computation can be improved using the FAST_WAVES flag (see [documentation](https://crpropa.github.io/CRPropa3/buildingblocks/MagneticFields.html#classcrpropa_1_1PlaneWaveTurbulence) for details):
-  1. In cmake: enable the FAST_WAVES flag.
-  2. Also in cmake: set SIMD_EXTENSIONS to “native” (the compiler will automatically detect support for your CPU and run the build with the appropriate settings).
-  3. Generate files and exit cmake, then build.
+  1. Enable FAST_WAVES flag ```-DFAST_WAVES=ON```
+  2. Enable SIMD_EXTENSIONS ```-DSIMD_EXTENSIONS:STRING=native``` (the compiler will automatically detect support for your CPU and run the build with the appropriate settings).
 
   Note: If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won’t be able to use the optimization; go back into cmake, disable FAST_WAVES, and build again. If the build runs through without errors, the code is built with the optimization.
 

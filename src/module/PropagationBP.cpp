@@ -82,52 +82,45 @@ namespace crpropa {
 		double z = candidate->getRedshift();
 		double m = current.getEnergy()/(c_light * c_light);
 
+		Y yOut;
+		Y yIn(current.getPosition(), current.getDirection());
+		double step = minStep; 
+		double newStep = step;
+
 		// if minStep is the same as maxStep the adaptive algorithm with its error
 		// estimation is not needed and the computation time can be saved:
 		if (minStep == maxStep){
-			double step = minStep;
-			Vector3d pos = current.getPosition();
-			Vector3d dir = current.getDirection();
-			// half leap frog step in the position
-			Y yOut = dY(pos, dir, step, z, q, m);
+			yOut = dY(yIn.x, yIn.u, step, z, q, m);
+		} else {
+			step = clip(candidate->getNextStep(), minStep, maxStep);
+			double newStep = step;
+			double r = 42;  // arbitrary value
+			Y yErr;
 
-			// full leap frog step in the velocity
-			candidate->current.setDirection(yOut.u);
-			candidate->current.setPosition(yOut.x);
-			candidate->setCurrentStep(step);
-			candidate->setNextStep(step);
-			return;
-		}
-
-		double step = clip(candidate->getNextStep(), minStep, maxStep);
-		double newStep = step;
-		double r = 42;  // arbitrary value > 1
-		Y yIn(current.getPosition(), current.getDirection());
-		Y yOut, yErr;
-
-		// try performing step until the target error (tolerance) or the minimum step size has been reached
-		while (true) {
-			tryStep(yIn, yOut, yErr, step, current, z, m, q);
-			r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
-			if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
-				if (step == minStep)  // already minimum step size
+			// try performing step until the target error (tolerance) or the minimum/maximum step size has been reached
+			while (true) {
+				tryStep(yIn, yOut, yErr, step, current, z, m, q);
+				r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
+				if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
+					if (step == minStep)  // already minimum step size
+						break;
+					else {
+						newStep = step * 0.95 * pow(r, -0.2);
+						newStep = std::max(newStep, 0.1 * step); // limit step size decrease
+						newStep = std::max(newStep, minStep); // limit step size to minStep
+						step = newStep;
+					}
+				} else {  // small direction error relative to tolerance, try to increase step size
+					if (step == maxStep)  // already maximum step size
+						break;
+					else {
+						newStep = step * 0.95 * pow(r, -0.2);
+						newStep = std::min(newStep, 5 * step); // limit step size increase
+						newStep = std::min(newStep, maxStep); // limit step size to maxStep
+						step = newStep;
+					}
 					break;
-				else {
-					newStep = step * 0.95 * pow(r, -0.2);
-					newStep = std::max(newStep, 0.1 * step); // limit step size decrease
-					newStep = std::max(newStep, minStep); // limit step size to minStep
-					step = newStep;
 				}
-			} else {  // small direction error relative to tolerance, try to increase step size
-				if (step == maxStep)  // already maximum step size
-					break;
-				else {
-					newStep = step * 0.95 * pow(r, -0.2);
-					newStep = std::min(newStep, 5 * step); // limit step size increase
-					newStep = std::min(newStep, maxStep); // limit step size to maxStep
-					step = newStep;
-				}
-				break;
 			}
 		}
 

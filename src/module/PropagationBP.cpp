@@ -125,6 +125,7 @@ namespace crpropa {
 					newStep = step * 0.95 * pow(r, -0.2);
 					newStep = std::min(newStep, 5 * step); // limit step size increase
 					newStep = std::min(newStep, maxStep); // limit step size to maxStep
+					step = newStep;
 				}
 				break;
 			}

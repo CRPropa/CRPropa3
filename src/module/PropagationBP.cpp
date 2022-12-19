@@ -64,38 +64,33 @@ namespace crpropa {
 		ParticleState &current = candidate->current;
 		candidate->previous = current;
 
+		Y yIn(current.getPosition(), current.getDirection());
+
 		// calculate charge of particle
 		double q = current.getCharge();
+		double step = maxStep;
 
 		// rectilinear propagation for neutral particles
 		if (q == 0) {
-			double step = clip(candidate->getNextStep(), minStep, maxStep);
-			Vector3d pos = current.getPosition();
-			Vector3d dir = current.getDirection();
-			current.setPosition(pos + dir * step);
+			current.setPosition(yIn.x + yIn.u * step);
 			candidate->setCurrentStep(step);
-			candidate->setNextStep(maxStep);
+			candidate->setNextStep(step);
 			return;
 		}
 
-		// further particle parameters
+		Y yOut, yErr;
+		double newStep = step;
 		double z = candidate->getRedshift();
 		double m = current.getEnergy()/(c_light * c_light);
-
-		Y yOut;
-		Y yIn(current.getPosition(), current.getDirection());
-		double step = minStep; 
-		double newStep = step;
 
 		// if minStep is the same as maxStep the adaptive algorithm with its error
 		// estimation is not needed and the computation time can be saved:
 		if (minStep == maxStep){
-			yOut = dY(yIn.x, yIn.u, step, z, q, m);
+			tryStep(yIn, yOut, yErr, step, current, z, m, q);
 		} else {
 			step = clip(candidate->getNextStep(), minStep, maxStep);
-			double newStep = step;
+			newStep = step;
 			double r = 42;  // arbitrary value
-			Y yErr;
 
 			// try performing step until the target error (tolerance) or the minimum/maximum step size has been reached
 			while (true) {

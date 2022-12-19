@@ -30,6 +30,7 @@ private:
 	bool havePhotons;
 	double limit;
 	double thinning;
+	std::string interactionTag = "EMIC";
 
 	// tabulated interaction rate 1/lambda(E)
 	std::vector<double> tabEnergy;  //!< electron energy in [J]
@@ -49,10 +50,27 @@ public:
 	 */
 	EMInverseComptonScattering(ref_ptr<PhotonField> photonField, bool havePhotons = false, double thinning = 0, double limit = 0.1);
 
+	// set the target photon field 
 	void setPhotonField(ref_ptr<PhotonField> photonField);
+
+	// decide if secondary photons are added to the simulation
 	void setHavePhotons(bool havePhotons);
+
+	/** limit the step to a fraction of the mean free path
+	 @param limit	fraction of the mean free path, should be between 0 and 1
+	*/
 	void setLimit(double limit);
+
+	/** Apply thinning with a given thinning factor
+	 * @param thinning factor of thinning (0: no thinning, 1: maximum thinning)
+	 */
 	void setThinning(double thinning);
+
+	/** set a custom interaction tag to trace back this interaction
+	 * @param tag string that will be added to the candidate and output
+	 */
+	void setInteractionTag(std::string tag);
+	std::string getInteractionTag() const;
 
 	void initRate(std::string filename);
 	void initCumulativeRate(std::string filename);

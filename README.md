@@ -50,9 +50,9 @@ a mail with subject: subscribe crpropa-user to sympa@desy.de from the address
 you wish to subscribe.
 
 ## How to cite CRPropa
-If you use CRPropa 3 for your research, please cite
+If you use CRPropa 3.2 for your research, please cite
 
-**JCAP 1605 (2016) no. 05, 038; [arXiv:1603.07142](https://arxiv.org/abs/1603.07142)**
+**JCAP (2022) no. 09, 035; [arXiv:2208.00107](https://arxiv.org/abs/2208.00107)**
 
 as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/howto_cite_crpropa.html) dependent on the components you are using.
 

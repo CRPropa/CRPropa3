@@ -1,5 +1,5 @@
 import crpropa
-import myPlugin
+import build.myPlugin as myPlugin
 
 print("My Simulation\n")
 

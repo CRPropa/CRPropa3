@@ -15,6 +15,8 @@
 #include "crpropa/magneticField/MagneticField.h"
 #include "crpropa/Vector3.h"
 
+#include "kiss/logger.h"
+
 #include "saga/LocalProperties.h"
 #include "saga/AMRgrid.h"
 #include "saga/MagneticField.h"
@@ -31,6 +33,11 @@ namespace crpropa {
 /**
  @class AMRMagneticField
  @brief Wrapper for saga::MagneticField
+ Can be found in github.com/rafaelab/saga
+
+ Deprecation Warning: 
+ As SAGA (SQLite AMR Grid Application) is no longer supported, the AMRMagenticField
+ class will be removed in the future.
  */
 class AMRMagneticField: public MagneticField {
 
@@ -41,12 +48,21 @@ private:
 	double cfMagneticField;
 
 public:
+	/** Constructor
+	@param field_	saga magnetic field 
+	@param convLength	rescaling length 
+	@param convDensity	rescaling density
+	@param convMagneticField rescaling magnetic field strength
+*/
 	AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
 	{
 		field = field_;
 		cfLength = convLength;
 		cfDensity = convDensity;
 		cfMagneticField = convMagneticField;
+
+		KISS_LOG_WARNING << "DEPRECATION WARNING: AMRMagneticField class will be removed in the future,"
+		<<"as the underlying library (saga) is no longer supported.";
 	}
 
 	Vector3d getField(const Vector3d &position) const {

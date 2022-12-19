@@ -1,4 +1,4 @@
-name: crpropa-testing
+name: crpropa-testing_ubuntu22
 on: [push, pull_request]
 
 jobs:
@@ -8,27 +8,20 @@ jobs:
       fail-fast: false
       matrix:
         config:
-         - name: "ubuntu-20"
-           os: ubuntu-20.04
-           cxx: "g++-9"
-           cc: "gcc-9"
-           fc: "gfortran-9"
-           swig_builtin: "Off" #uses swig 4.0.1
-           py: "/usr/bin/python3" #python 3.8
-         - name: "ubuntu-18_py2"
-           os: ubuntu-18.04
-           cxx: "g++-7"
-           cc: "gcc-7"
-           fc: "gfortran-7"
-           swig_builtin: "Off" #uses swig 3.x
-           py: "/usr/bin/python2"
+         - name: "ubuntu-22"
+           os: ubuntu-22.04
+           cxx: "g++-11"
+           cc: "gcc-11"
+           fc: "gfortran-11"
+           swig_builtin: "On" #uses swig 4.0.2
+           py: "/usr/bin/python3" #python 3.10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Preinstall
         run: |
           sudo apt-get update
-          sudo apt-get install libmuparser-dev python3-dev python-dev python3-numpy python-numpy python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          sudo apt-get install libmuparser-dev python3 python3-numpy python3-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}
@@ -52,3 +45,4 @@ jobs:
         with:
           name: "test-report_${{matrix.config.name}}"
           path: build/Testing/Temporary/LastTest.log
+  

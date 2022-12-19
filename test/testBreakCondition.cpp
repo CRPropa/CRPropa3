@@ -205,7 +205,7 @@ TEST(ObserverFeature, LargeSphere) {
 
 TEST(ObserverFeature, Point) {
 	Observer obs;
-	obs.add(new ObserverPoint());
+	obs.add(new Observer1D());
 	Candidate c;
 	c.setNextStep(10);
 

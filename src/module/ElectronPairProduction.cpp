@@ -130,13 +130,22 @@ void ElectronPairProduction::process(Candidate *c) const {
 			// create pair and repeat with remaining energy
 			dE -= Epair;
 			Vector3d pos = random.randomInterpolatedPosition(c->previous.getPosition(), c->current.getPosition());
-			c->addSecondary( 11, Ee, pos);
-			c->addSecondary(-11, Ee, pos);
+			c->addSecondary( 11, Ee, pos, 1., interactionTag);
+			c->addSecondary(-11, Ee, pos, 1., interactionTag);
 		}
 	}
 
 	c->current.setLorentzFactor(lf * (1 - loss));
 	c->limitNextStep(limit * losslen);
 }
+
+void ElectronPairProduction::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string ElectronPairProduction::getInteractionTag() const {
+	return interactionTag;
+}
+
 
 } // namespace crpropa

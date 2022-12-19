@@ -81,11 +81,11 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 	if (haveElectrons) {
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = 1. / pow(1 - f, thinning);
-			candidate->addSecondary( 11, Ee / (1 + z), pos, w);
+			candidate->addSecondary( 11, Ee / (1 + z), pos, w, interactionTag);
 		} 
 		if (random.rand() < pow(f, thinning)) {
 			double w = 1. / pow(f, thinning);
-			candidate->addSecondary(-11, Ee / (1 + z), pos, w);
+			candidate->addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);
 		}
 	}
 }
@@ -119,6 +119,14 @@ void EMDoublePairProduction::process(Candidate *candidate) const {
 		return;
 	}
 
+}
+
+void EMDoublePairProduction::setInteractionTag(std::string tag) {
+	interactionTag = tag;
+}
+
+std::string EMDoublePairProduction::getInteractionTag() const {
+	return interactionTag;
 }
 
 

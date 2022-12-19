@@ -5,6 +5,10 @@
 
 namespace crpropa {
 using namespace std;
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class TF17Field
@@ -192,7 +196,7 @@ public:
      */
 	double zscale(const double& z) const;
 };
-
+/**@}*/
 } // CRPROPA NAMESPACE
 
 #endif // CRPROPA_TF17FIELD_H

@@ -60,6 +60,7 @@
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/magneticField/JF12FieldSolenoidal.h"
 #include "crpropa/magneticField/MagneticField.h"
+#include "crpropa/magneticField/GalacticMagneticField.h"
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
 #include "crpropa/magneticField/PT11Field.h"

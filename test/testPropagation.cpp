@@ -57,6 +57,63 @@ TEST(testPropagationCK, zeroField) {
 }
 
 
+// Test if the step size is reduced correctly if the error is too large with respect to the tolerance: r > 1
+TEST(testPropagationCK, reduceStep) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 100 * nG)), 1 * kpc);
+
+	double minStep = 0.1 * kpc;
+	double maxStep = 1 * Gpc;
+	propa.setMinimumStep(minStep);
+	propa.setMaximumStep(maxStep);
+	// small tolerance leads to large values of r
+	propa.setTolerance(1e-15);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 1));
+	p.setEnergy(100 * TeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+	// large step leads to large errors and thus in combination with the low tolerance to high values of r
+	c.setNextStep(maxStep);
+
+	propa.process(&c);
+
+	// adaptive algorithm should propagate particle with minimum step size due to the low value for the tolerance
+	EXPECT_DOUBLE_EQ(minStep, c.getCurrentStep());  // perform minimum step because of large r due to small tolerance
+	EXPECT_DOUBLE_EQ(minStep, c.getNextStep());  // stay at minimum step because of large r due to small tolerance
+}
+
+
+// Test if the step size is increased correctly if the error is small with respect to the tolerance: r < 1
+TEST(testPropagationCK, increaseStep) {
+	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 1 * kpc);
+
+	double minStep = 0.001 * pc;
+	double maxStep = 3.125 * pc;
+	propa.setMinimumStep(minStep);
+	propa.setMaximumStep(maxStep);
+	// large tolerance leads to small values of r. Consequently, the step size can be increased.
+	propa.setTolerance(0.9);
+
+	ParticleState p;
+	p.setId(nucleusId(1, 1));
+	p.setEnergy(100 * EeV);
+	p.setPosition(Vector3d(0, 0, 0));
+	p.setDirection(Vector3d(0, 1, 0));
+	Candidate c(p);
+
+	// each step the step size can be increased by a factor of 5.
+	for (int i = 1; i < 6; i++){
+		propa.process(&c);
+		EXPECT_DOUBLE_EQ(minStep*pow(5, i) / pc, c.getNextStep()/pc);
+	}
+	// after 5 steps the maxStep is reached. The current step is, however, less.
+	EXPECT_DOUBLE_EQ(maxStep/pc/5., c.getCurrentStep()/pc);
+	EXPECT_DOUBLE_EQ(maxStep/pc, c.getNextStep()/pc);
+}
+
+
 TEST(testPropagationCK, proton) {
 	PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)));
 

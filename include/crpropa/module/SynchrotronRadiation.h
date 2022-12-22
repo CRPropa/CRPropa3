@@ -17,7 +17,7 @@ namespace crpropa {
  This module simulates the continuous energy loss of charged particles in magnetic fields, c.f. Jackson.
  The magnetic field is specified either by a MagneticField or by a RMS field strength value.
  The module limits the next step size to ensure a fractional energy loss dE/E < limit (default = 0.1).
- Optionally, synchrotron photons above a threshold (default E > 10^7 eV) are created as secondary particles.
+ Optionally, synchrotron photons above a threshold (default E > 10^6 eV) are created as secondary particles.
  Note that the large number of secondary photons per propagation can cause memory problems.
  To mitigate this, use thinning. However, this still does not solve the problem completely.
  For this reason, a break-condition stops tracking secondary photons and reweights the current ones. 

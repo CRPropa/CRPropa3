@@ -151,16 +151,16 @@ void JF12Field::setUseXField(bool use) {
 }
 
 void JF12Field::setUseStriatedField(bool use) {
-	if ((use) and (striatedGrid)) {
-		KISS_LOG_WARNING << "JF12Field: No striated field set: ignored.";
+	if ((use) and !(striatedGrid)) {
+		KISS_LOG_WARNING << "JF12Field: No striated field set: ignored. Run e.g. randomStriated().";
 		return;
 	}
 	useStriatedField = use;
 }
 
 void JF12Field::setUseTurbulentField(bool use) {
-	if ((use) and (turbulentGrid)) {
-		KISS_LOG_WARNING << "JF12Field: No turbulent field set: ignored.";
+	if ((use) and !(turbulentGrid)) {
+		KISS_LOG_WARNING << "JF12Field: No turbulent field set: ignored. Run e.g. randomTurbulent().";
 		return;
 	}
 	useTurbulentField = use;

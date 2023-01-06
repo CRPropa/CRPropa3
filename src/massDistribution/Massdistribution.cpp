@@ -1,5 +1,5 @@
 #include "crpropa/massDistribution/Massdistribution.h"
-
+#include <sstream>
 namespace crpropa {
 
 void DensityList::addDensity(ref_ptr<Density> dens) {
@@ -39,6 +39,16 @@ double DensityList::getNucleonDensity(const Vector3d &position) const {
 	for (int i = 0; i < DensityList.size(); i++)
 		n += DensityList[i]->getNucleonDensity(position);
 	return n;
+}
+
+std::string DensityList::getDescription() {
+	std::stringstream ss; 
+	ss << "DensityList with " << DensityList.size() << " modules: \n";
+	for(int i = 0; i < DensityList.size(); i++){
+		ss << "density " << i + 1 << ": " << DensityList[i] -> getDescription();
+	}
+	
+	return ss.str();
 }
 
 // ----------- DensityGrid -----------------------------------------------------------------
@@ -125,6 +135,12 @@ void DensityGrid::setIsForH2(bool b) {
 
 void DensityGrid::setGrid(ref_ptr<Grid1f> grid) {
 	this->grid = grid;
+}
+
+std::string DensityGrid::getDescription() {
+	std::stringstream ss;
+	ss << "Density in a given grid \n"; 
+	return ss.str();
 }
 
 } //namespace crpropa

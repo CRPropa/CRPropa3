@@ -53,6 +53,8 @@ public:
 	 @returns Density of nucleons at given position in parts/m^3, sum up all nucleon densities from added densities 
 	 */
 	double getNucleonDensity(const Vector3d &position) const;
+
+	std::string getDescription();
 };
 
 /**
@@ -125,6 +127,8 @@ public:
 	 @param grid (Grid1f) new grid for the density. 
 	*/
 	void setGrid(ref_ptr<Grid1f> grid);
+
+	std::string getDescription();
 };
 
 }  // namespace crpropa

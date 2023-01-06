@@ -47,6 +47,10 @@ public:
 	virtual bool getIsForH2() {
 		return false;
 	}
+
+	virtual std::string getDescription() {
+		return "Abstract Density Module\n";
+	}
 };
 
 }  // namespace crpropa

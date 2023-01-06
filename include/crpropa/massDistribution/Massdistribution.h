@@ -3,6 +3,7 @@
 
 #include "crpropa/massDistribution/Density.h"
 #include "crpropa/Vector3.h"
+#include "crpropa/Grid.h"
 
 #include "kiss/logger.h"
 
@@ -53,8 +54,32 @@ public:
 	double getNucleonDensity(const Vector3d &position) const;
 };
 
+class DensityGrid: public Density {
+private: 
+	ref_ptr<Grid1f> grid; //< Grid with data
+	bool isForHI, isForHII, isForH2; 
+	void checkAndWarn(); //< raise a warning if all density types are deactivated.
+
+public:
+	DensityGrid(ref_ptr<Grid1f> grid, bool isForHI = false, bool isForHII = false, bool isForH2 = false);
+
+	double getHIDensity(const Vector3d &position) const;
+	double getHIIDensity(const Vector3d &position) const;
+	double getH2Density(const Vector3d &position) const;
+	double getDensity(const Vector3d &position) const;
+	double getNucleonDensity(const Vector3d &position) const;
+
+	bool getIsForHI();
+	bool getIsForHII();
+	bool getIsForH2();
+
+	void setIsForHI(bool b);
+	void setIsForHII(bool b);
+	void setIsForH2(bool b);
+	
+	void setGrid(ref_ptr<Grid1f> grid);
+};
+
 }  // namespace crpropa
 
 #endif  // CRPROPA_MASSDISTRIBUTION_H
-
-

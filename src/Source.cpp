@@ -1116,4 +1116,69 @@ void SourceTag::setTag(std::string tag) {
 	setDescription();
 }
 
+// ----------------------------------------------------------------------------
+
+SourceMassDistribution::SourceMassDistribution(ref_ptr<Density> density, double max, double x, double y, double z) : 
+	density(density), maxDensity(max), xMin(-x), xMax(x), yMin(-y), yMax(y), zMin(-z), zMax(z) {}
+
+void SourceMassDistribution::setMaximalDensity(double maxDensity) {
+	if(maxDensity <= 0) {
+		KISS_LOG_WARNING << "SourceMassDistribution: maximal density must be larger than 0. Nothing changed.\n";
+		return;
+	}
+	this->maxDensity = maxDensity;
+}
+
+void SourceMassDistribution::setXrange(double xMin, double xMax) {
+	if(xMin > xMax){
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal x-value must be smaler than the maximal one\n";
+		return;
+	}
+	this -> xMin = xMin;
+	this -> xMax = xMax;
+}
+
+void SourceMassDistribution::setYrange(double yMin, double yMax) {
+	if(yMin > yMax){
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal y-value must be smaler than the maximal one\n";
+		return;
+	}
+	this -> yMin = yMin;
+	this -> yMax = yMax;
+}
+
+void SourceMassDistribution::setZrange(double zMin, double zMax) {
+	if(zMin > zMax){
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal z-value must be smaler than the maximal one\n";
+		return;
+	}
+	this -> zMin = zMin;
+	this -> zMax = zMax;
+}
+
+Vector3d SourceMassDistribution::samplePosition() const {
+	Vector3d pos; 
+	Random &rand = Random::instance();
+
+	for(int i = 0; i < 10000; i++) {
+		pos.x = rand.randUniform(xMin, xMax);
+		pos.y = rand.randUniform(yMin, yMax);
+		pos.z = rand.randUniform(zMin, zMax);
+
+		double n_density = density->getDensity(pos) / maxDensity;
+		double n_test = rand.rand();
+		if(n_test > n_density) {
+			return pos;
+		}
+	}
+	KISS_LOG_WARNING << "SourceMassDistribution: sampling a position was not possible within " 
+		<< maxTries << " tries. Please check the maximum density or increse the number of maximal tries. \n";
+	return Vector3d(0.);
+}	
+
+void SourceMassDistribution::prepareParticle(ParticleState &state) const {
+	Vector3d pos = samplePosition();
+	state.setPosition(pos);
+}
+
 } // namespace crpropa

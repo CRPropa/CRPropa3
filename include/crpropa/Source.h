@@ -4,6 +4,7 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Grid.h"
 #include "crpropa/EmissionMap.h"
+#include "crpropa/massDistribution/Density.h"
 
 
 #include <vector>
@@ -814,6 +815,29 @@ public:
 	void prepareCandidate(Candidate &candidate) const;
 	void setDescription();
 	void setTag(std::string tag);
+};
+
+
+class SourceMassDistribution: public SourceFeature {
+private: 
+	ref_ptr<Density> density;	//< density distribution
+	double maxDensity; 			//< maximal value of the density in the region of interest
+	double xMin, xMax;			//< x-range to sample positions
+	double yMin, yMax; 			//< y-range to sample positions
+	double zMin, zMax;			//< z-range to sample positions
+	int maxTries = 10000;		//< maximal number of tries to sample the position 
+
+public: 
+	SourceMassDistribution(ref_ptr<Density> density, double maxDensity = 0, double x = 20 * kpc, double y = 20 * kpc, double z = 4 * kpc);
+
+	void prepareParticle(ParticleState &particle) const;
+
+	void setMaximalDensity(double maxDensity);
+	void setXrange(double xMin, double xMax);
+	void setYrange(double yMin, double yMax);
+	void setZrange(double zMin, double zMax);
+
+	Vector3d samplePosition() const;
 };
 
 /**  @} */ // end of group SourceFeature

@@ -1181,4 +1181,22 @@ void SourceMassDistribution::prepareParticle(ParticleState &state) const {
 	state.setPosition(pos);
 }
 
+void SourceMassDistribution::setMaximalTries(int tries) {
+	this -> maxTries = tries;
+}
+
+std::string SourceMassDistribution::getDescription() {
+	std::stringstream ss;
+	ss << "SourceMassDistribuion: following the density distribution :\n";
+	ss << "\t" << density -> getDescription();
+	ss << "with a maximal density of " << maxDensity << " / m^3 \n";
+	ss << "using the sampling range: \n";
+	ss << "\t x in [" << xMin / kpc << " ; " << xMax / kpc << "] kpc \n";
+	ss << "\t y in [" << yMin / kpc << " ; " << yMax / kpc << "] kpc \n";
+	ss << "\t z in [" << zMin / kpc << " ; " << zMax / kpc << "] kpc \n";
+	ss << "with maximal number of tries for sampling of " << maxTries << "\n";
+
+	return ss.str();
+}
+
 } // namespace crpropa

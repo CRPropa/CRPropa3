@@ -13,9 +13,9 @@ namespace crpropa {
  @class MaximumTrajectoryLength
  @brief Deactivates the candidate beyond a maximum trajectory length
 
- This modules deactivates the candidate at a given maximum trajectory length.
+ This module deactivates the candidate at a given maximum trajectory length.
  In that case the property ("Deactivated", module::description) is set.
- It also limits the candidates next step size to ensure the maximum trajectory length is no exceeded.
+ It also limits the candidates next step size to ensure the maximum trajectory length is not exceeded.
  */
 class MaximumTrajectoryLength: public AbstractCondition {
 	double maxLength;
@@ -34,7 +34,7 @@ public:
  @class MinimumEnergy
  @brief Deactivates the candidate below a minimum energy
 
- This modules deactivates the candidate below a given minimum energy.
+ This module deactivates the candidate below a given minimum energy.
  In that case the property ("Deactivated", module::description) is set.
  */
 class MinimumEnergy: public AbstractCondition {
@@ -52,7 +52,7 @@ public:
  @class MinimumRigidity
  @brief Deactivates the candidate below a minimum rigidity
 
- This modules deactivates the candidate below a given minimum rigidity (E/Z in EeV).
+ This module deactivates the candidate below a given minimum rigidity (E/Z in EeV).
  In that case the property ("Deactivated", module::description) is set.
  */
 class MinimumRigidity: public AbstractCondition {
@@ -69,7 +69,7 @@ public:
  @class MinimumRedshift
  @brief Deactivates the candidate below a minimum redshift
 
- This modules deactivates the candidate below a given minimum redshift.
+ This module deactivates the candidate below a given minimum redshift.
  In that case the property ("Deactivated", module::description) is set.
  */
 class MinimumRedshift: public AbstractCondition {
@@ -86,7 +86,7 @@ public:
  @class MinimumChargeNumber
  @brief Deactivates the candidate below a minimum number
 
- This modules deactivates the candidate below a given minimum charge number.
+ This module deactivates the candidate below a given minimum charge number.
  A minimum charge number of 26 deactivates all (anti-) isotopes which 
  are ranked in the periodic table before iron (Fe). 
  In that case the property ("Deactivated", module::description) is set.
@@ -105,9 +105,9 @@ public:
  @class MinimumEnergyPerParticleId
  @brief Deactivates the candidate below a minimum energy for specific particle Ids.
 
- This modules deactivates the candidate below a given minimum energy for specific particle types.
+ This module deactivates the candidate below a given minimum energy for specific particle types.
  In that case the property ("Deactivated", module::description) is set.
- All particles whose minimum energies are not specified follow the more general minEnergyOthers condition.
+ All particles whose minimum energy is not specified follow the more general minEnergyOthers condition.
  */
 class MinimumEnergyPerParticleId: public AbstractCondition {
 	std::vector<double> minEnergies;
@@ -127,7 +127,7 @@ public:
  @class DetectionLength
  @brief Detects the candidate at a given trajectoryLength
  
- This break condition can be used for non-regular time observation of the particle density. See also TimeEvolutionObserver.
+ This break condition can be used for non-regular time observation of the particle density. See also ObserverTimeEvolution.
  */
 class DetectionLength: public AbstractCondition {
 	double detLength;

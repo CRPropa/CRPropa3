@@ -140,6 +140,7 @@ class Grid: public Referenced {
 	Vector3d origin; /**< Origin of the volume that is represented by the grid. */
 	Vector3d gridOrigin; /**< Grid origin */
 	Vector3d spacing; /**< Distance between grid points, determines the extension of the grid */
+	bool clipVolume; /**< If set to true, all values outside of the grid will be 0*/
 	bool reflective; /**< If set to true, the grid is repeated reflectively instead of periodically */
 	interpolationType ipolType; /**< Type of interpolation between the grid points */
 
@@ -154,6 +155,7 @@ public:
 		setGridSize(N, N, N);
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
+		setClipVolume(false);
 	}
 
 	/** Constructor for non-cubic grid
@@ -168,6 +170,7 @@ public:
 		setGridSize(Nx, Ny, Nz);
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
+		setClipVolume(false);
 	}
 
 	/** Constructor for non-cubic grid with spacing vector
@@ -182,6 +185,7 @@ public:
 		setGridSize(Nx, Ny, Nz);
 		setSpacing(spacing);
 		setReflective(false);
+		setClipVolume(false);
 	}
 
 	/** Constructor for GridProperties
@@ -213,6 +217,10 @@ public:
 
 	void setReflective(bool b) {
 		reflective = b;
+	}
+
+	void setClipVolume(bool b) {
+		clipVolume = b;
 	}
 
 	/** Change the interpolation type to the routine specified by the user. Check if this routine is
@@ -262,6 +270,16 @@ public:
 	  By default this it the trilinear interpolation. The user can change the
 	  routine with the setInterpolationType function.*/
 	T interpolate(const Vector3d &position) {
+	// check for volume
+	if(clipVolume) {
+		Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;
+		bool isInVolume = (position.x >= origin.x) && (position.x <= edge.x);
+		isInVolume &= (position.y >= origin.y) && (position.y <= edge.y);
+		isInVolume &= (position.z >= origin.z) && (position.z <= edge.z);
+		if(!isInVolume) 
+			return T(0.);
+	} 
+
 	if (ipolType == TRICUBIC)
 		return tricubicInterpolate(T(), position);
 	else if (ipolType == NEAREST_NEIGHBOUR)

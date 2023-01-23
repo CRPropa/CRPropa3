@@ -1167,7 +1167,7 @@ Vector3d SourceMassDistribution::samplePosition() const {
 
 		double n_density = density->getDensity(pos) / maxDensity;
 		double n_test = rand.rand();
-		if(n_test > n_density) {
+		if(n_test < n_density) {
 			return pos;
 		}
 	}

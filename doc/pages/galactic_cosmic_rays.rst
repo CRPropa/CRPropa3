@@ -33,3 +33,4 @@ target fields for hadron-hadron interation.
 .. toctree::
    example_notebooks/density/density_easy_example.ipynb
    example_notebooks/density/density_model_example.ipynb
+   example_notebooks/density/density_grid_sampling.ipynb

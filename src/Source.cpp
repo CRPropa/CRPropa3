@@ -1160,7 +1160,7 @@ Vector3d SourceMassDistribution::samplePosition() const {
 	Vector3d pos; 
 	Random &rand = Random::instance();
 
-	for(int i = 0; i < 10000; i++) {
+	for(int i = 0; i < maxTries; i++) {
 		pos.x = rand.randUniform(xMin, xMax);
 		pos.y = rand.randUniform(yMin, yMax);
 		pos.z = rand.randUniform(zMin, zMax);

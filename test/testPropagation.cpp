@@ -114,7 +114,6 @@ TEST(testPropagationCK, constructor) {
 
 	// The propagation should be initialized with the default constructor
 	PropagationCK propaCKField(bField);
-	EXPECT_EQ(propaCKField.getMaximumStep(), propaCKField.getMaximumStep());
 	EXPECT_EQ(propaCKField.getMaximumStep(), 1 * Gpc);
 }
 
@@ -220,11 +219,11 @@ TEST(testPropagationCK, gyration) {
 	double dirZ = c.current.getDirection().z;
 	double posZ = c.current.getPosition().z;
 
-	// Test if the analytical solution is achieved of the components of the momentum with the CK method as expected in
+	// Test if the analytical solution is achieved for the components of the momentum with the CK method as expected in
 	// the background magnetic field.
 	double precision = 1e-7;
 	double expected = 2 / 3.;
-	EXPECT_NEAR(expected, dirX * dirX + dirY * dirY, expected * precision);  // constant momentum in the perpendicular plane to background magnetic field field
+	EXPECT_NEAR(expected, dirX * dirX + dirY * dirY, expected * precision);  // constant momentum in the plane perpendicular to background magnetic field field
 	expected = 1 / 3.;
 	EXPECT_NEAR(expected, dirZ * dirZ, expected * precision);  // constant momentum parallel to the background magnetic field
 	expected = step * step / 3.;
@@ -242,7 +241,7 @@ TEST(testPropagationCK, gyration) {
 
 	// Compare the numerical solutions after ten steps with the analytical solution of the trajectories
 	expected = 2 / 3.;
-	EXPECT_NEAR(expected, dirX * dirX + dirY * dirY, expected * precision);  // constant momentum in the perpendicular plane to background magnetic field field
+	EXPECT_NEAR(expected, dirX * dirX + dirY * dirY, expected * precision);  // constant momentum in the plane perpendicular to background magnetic field field
 	expected = 1 / 3.;
 	EXPECT_NEAR(expected, dirZ * dirZ, expected * precision);  // constant momentum parallel to the background magnetic field
 	expected = 100 * step * step / 3.;
@@ -355,7 +354,6 @@ TEST(testPropagationBP, constructor) {
 
 	// The propagation should be initialized with the default constructor
 	PropagationBP propaBPField(bField);
-	EXPECT_EQ(propaBPField.getMaximumStep(), propaBPField.getMaximumStep());
 	EXPECT_EQ(propaBPField.getMaximumStep(), 1 * kpc);
 }
 
@@ -463,7 +461,7 @@ TEST(testPropagationBP, gyration) {
 	double dirZ = c.current.getDirection().z;
 	double posZ = c.current.getPosition().z;
 
-	// Test if the analytical solution is achieved of the components of the momentum with the Boris push as expected in
+	// Test if the analytical solution is achieved for the components of the momentum with the Boris push as expected in
 	// the background magnetic field.
 	EXPECT_DOUBLE_EQ(2 / 3., dirX * dirX + dirY * dirY);  // constant momentum in the perpendicular plane to background magnetic field field
 	EXPECT_DOUBLE_EQ(1 / 3., dirZ * dirZ);  // constant momentum parallel to the background magnetic field

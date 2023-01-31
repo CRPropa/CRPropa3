@@ -219,6 +219,7 @@ public:
 		reflective = b;
 	}
 
+	// If set to true, all values outside of the grid will be 0.
 	void setClipVolume(bool b) {
 		clipVolume = b;
 	}

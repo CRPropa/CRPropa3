@@ -821,8 +821,8 @@ public:
 	@class SourceMassDistribution
 	@brief	Source position follows a given mass distribution
 
-	The (source)position of the candidate is sampled from a give mass distribution. The distribution uses the getDensity function of the density module. 
-	If a weighting for different components is desired, the use of different densities in a densityList is recomended.
+	The (source)position of the candidate is sampled from a given mass distribution. The distribution uses the getDensity function of the density module. 
+	If a weighting for different components is desired, the use of different densities in a densityList is recommended.
 
 	The sampling range of the position can be restricted. Default is a sampling for x in [-20, 20] * kpc, y in [-20, 20] * kpc and z in [-4, 4] * kpc.
 */
@@ -837,17 +837,17 @@ private:
 
 public: 
 	/** Constructor
-	@param density: CRPropa mass distrubiton 
+	@param density: CRPropa mass distribution 
 	@param maxDensity:	maximal density in the region where the position should be sampled
-	@param x:	the position will be sampled in the range [-x, x]. Non symetric values can be set with setXrange.
-	@param y:	the position will be sampled in the range [-y, y]. Non symetric values can be set with setYrange.
-	@param z:	the position will be sampled in the range [-z, z]. Non symetric values can be set with setZrange.
+	@param x:	the position will be sampled in the range [-x, x]. Non symmetric values can be set with setXrange.
+	@param y:	the position will be sampled in the range [-y, y]. Non symmetric values can be set with setYrange.
+	@param z:	the position will be sampled in the range [-z, z]. Non symmetric values can be set with setZrange.
 	*/
 	SourceMassDistribution(ref_ptr<Density> density, double maxDensity = 0, double x = 20 * kpc, double y = 20 * kpc, double z = 4 * kpc);
 
 	void prepareParticle(ParticleState &particle) const;
 
-	/** Set the maximal density in the region of interesst. This parameter is necesarry for the sampling
+	/** Set the maximal density in the region of interest. This parameter is necessary for the sampling
 	@param maxDensity:	maximal density in [particle / m^3]
 	*/
 	void setMaximalDensity(double maxDensity);
@@ -858,7 +858,7 @@ public:
 	*/
 	void setXrange(double xMin, double xMax);
 
-	/** set yx-range in which the position of the candidate will be sampled. y in [yMin, yMax].
+	/** set y-range in which the position of the candidate will be sampled. y in [yMin, yMax].
 	@param yMin: minimal y value of the allowed sample range in [m]
 	@param yMax: maximal y value of the allowed sample range in [m]
 	*/

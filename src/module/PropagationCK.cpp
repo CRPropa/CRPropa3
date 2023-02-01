@@ -84,7 +84,7 @@ void PropagationCK::process(Candidate *candidate) const {
 
 	// rectilinear propagation for neutral particles
 	if (current.getCharge() == 0) {
-		step = std::max(minStep, candidate->getNextStep());
+		step = clip(candidate->getNextStep(), minStep, maxStep);
 		current.setPosition(yIn.x + yIn.u * step);
 		candidate->setCurrentStep(step);
 		candidate->setNextStep(maxStep);
@@ -101,7 +101,7 @@ void PropagationCK::process(Candidate *candidate) const {
 	if (minStep == maxStep){
 		tryStep(yIn, yOut, yErr, step / c_light, current, z);
 	} else {
-		step = std::max(minStep, candidate->getNextStep());
+		step = clip(candidate->getNextStep(), minStep, maxStep);
 		newStep = step;
 		double r = 42;  // arbitrary value
 

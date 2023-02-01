@@ -72,7 +72,7 @@ namespace crpropa {
 
 		// rectilinear propagation for neutral particles
 		if (q == 0) {
-			step = std::max(minStep, candidate->getNextStep());
+			step = clip(candidate->getNextStep(), minStep, maxStep);
 			current.setPosition(yIn.x + yIn.u * step);
 			candidate->setCurrentStep(step);
 			candidate->setNextStep(maxStep);
@@ -89,7 +89,7 @@ namespace crpropa {
 		if (minStep == maxStep){
 			tryStep(yIn, yOut, yErr, step, current, z, m, q);
 		} else {
-			step = std::max(minStep, candidate->getNextStep());
+			step = clip(candidate->getNextStep(), minStep, maxStep);
 			newStep = step;
 			double r = 42;  // arbitrary value
 

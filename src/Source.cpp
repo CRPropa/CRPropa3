@@ -380,7 +380,7 @@ SourceSNRDistribution::SourceSNRDistribution(double rEarth, double alpha, double
 void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
   	Random &random = Random::instance();
 	double RPos;
-	while (true){
+	while (true) {
 		RPos = random.rand() * rMax;
 		double fTest = random.rand() * frMax;
 		double fR = fr(RPos);
@@ -389,7 +389,7 @@ void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
 		}
 	}
 	double ZPos;
-	while (true){
+	while (true) {
 		ZPos = (random.rand() - 0.5) * 2 * zMax;
 		double fTest = random.rand() * fzMax;
 		double fZ=fz(ZPos);
@@ -457,13 +457,13 @@ double SourceSNRDistribution::getZMax() const {
 	return zMax;
 }
 
-void SourceSNRDistribution::setAlpha(double a){
+void SourceSNRDistribution::setAlpha(double a) {
 	alpha = a;
 	setRMax(rMax);
 	setFrMax();
 }
 
-void SourceSNRDistribution::setBeta(double b){
+void SourceSNRDistribution::setBeta(double b) {
 	beta = b;
 	setRMax(rMax);
 	setFrMax();
@@ -511,7 +511,7 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
 		}
 	}
 	double ZPos;
-	while (true){
+	while (true) {
 		ZPos = (random.rand() - 0.5) * 2 * zMax;
 		double fTest = random.rand() * fzMax;
 		double fZ = fz(ZPos);
@@ -1130,8 +1130,8 @@ void SourceMassDistribution::setMaximalDensity(double maxDensity) {
 }
 
 void SourceMassDistribution::setXrange(double xMin, double xMax) {
-	if(xMin > xMax){
-		KISS_LOG_WARNING << "SourceMassDistribution: minimal x-value must be smaler than the maximal one\n";
+	if(xMin > xMax) {
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal x-value must not exceed the maximal one\n";
 		return;
 	}
 	this -> xMin = xMin;
@@ -1139,8 +1139,8 @@ void SourceMassDistribution::setXrange(double xMin, double xMax) {
 }
 
 void SourceMassDistribution::setYrange(double yMin, double yMax) {
-	if(yMin > yMax){
-		KISS_LOG_WARNING << "SourceMassDistribution: minimal y-value must be smaler than the maximal one\n";
+	if(yMin > yMax) {
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal y-value must not exceed the maximal one\n";
 		return;
 	}
 	this -> yMin = yMin;
@@ -1148,8 +1148,8 @@ void SourceMassDistribution::setYrange(double yMin, double yMax) {
 }
 
 void SourceMassDistribution::setZrange(double zMin, double zMax) {
-	if(zMin > zMax){
-		KISS_LOG_WARNING << "SourceMassDistribution: minimal z-value must be smaler than the maximal one\n";
+	if(zMin > zMax) {
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal z-value must not exceed the maximal one\n";
 		return;
 	}
 	this -> zMin = zMin;
@@ -1160,7 +1160,7 @@ Vector3d SourceMassDistribution::samplePosition() const {
 	Vector3d pos; 
 	Random &rand = Random::instance();
 
-	for(int i = 0; i < maxTries; i++) {
+	for (int i = 0; i < maxTries; i++) {
 		pos.x = rand.randUniform(xMin, xMax);
 		pos.y = rand.randUniform(yMin, yMax);
 		pos.z = rand.randUniform(zMin, zMax);

@@ -44,7 +44,7 @@ double DensityList::getNucleonDensity(const Vector3d &position) const {
 std::string DensityList::getDescription() {
 	std::stringstream ss; 
 	ss << "DensityList with " << DensityList.size() << " modules: \n";
-	for(int i = 0; i < DensityList.size(); i++){
+	for (int i = 0; i < DensityList.size(); i++) {
 		ss << "density " << i + 1 << ": " << DensityList[i] -> getDescription();
 	}
 	
@@ -59,8 +59,8 @@ DensityGrid::DensityGrid(ref_ptr<Grid1f> grid, bool isForHI, bool isForHII, bool
 	}
 
 void DensityGrid::checkAndWarn() {
-	bool allDeactivated = (isForHI == false) & (isForHII == false) & (isForH2 == false);
-	if(allDeactivated) {
+	bool allDeactivated = (isForHI == false) && (isForHII == false) && (isForH2 == false);
+	if (allDeactivated) {
 		KISS_LOG_WARNING << "DensityGrid has all types deactivated."
 			<< "In this case all output will be n = 0. \n"
 		 	<< "Please activate the intended particle type. \n";
@@ -68,21 +68,21 @@ void DensityGrid::checkAndWarn() {
 }
 
 double DensityGrid::getHIDensity(const Vector3d &position) const {
-	if(isForHI)
+	if (isForHI)
 		return grid -> interpolate(position);
 	else 
 		return 0.;
 }
 
 double DensityGrid::getHIIDensity(const Vector3d &position) const {
-	if(isForHII) 
+	if (isForHII) 
 		return grid -> interpolate(position);
 	else
 		return 0.;
 }
 
 double DensityGrid::getH2Density(const Vector3d &position) const {
-	if(isForH2)
+	if (isForH2)
 		return grid -> interpolate(position);
 	else
 		return 0.;

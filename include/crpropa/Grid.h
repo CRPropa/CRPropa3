@@ -271,22 +271,22 @@ public:
 	  By default this it the trilinear interpolation. The user can change the
 	  routine with the setInterpolationType function.*/
 	T interpolate(const Vector3d &position) {
-	// check for volume
-	if(clipVolume) {
-		Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;
-		bool isInVolume = (position.x >= origin.x) && (position.x <= edge.x);
-		isInVolume &= (position.y >= origin.y) && (position.y <= edge.y);
-		isInVolume &= (position.z >= origin.z) && (position.z <= edge.z);
-		if(!isInVolume) 
-			return T(0.);
-	} 
+		// check for volume
+		if(clipVolume) {
+			Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;
+			bool isInVolume = (position.x >= origin.x) && (position.x <= edge.x);
+			isInVolume &&= (position.y >= origin.y) && (position.y <= edge.y);
+			isInVolume &&= (position.z >= origin.z) && (position.z <= edge.z);
+			if(!isInVolume) 
+				return T(0.);
+		} 
 
-	if (ipolType == TRICUBIC)
-		return tricubicInterpolate(T(), position);
-	else if (ipolType == NEAREST_NEIGHBOUR)
-		return closestValue(position);
-	else
-		return trilinearInterpolate(position);
+		if (ipolType == TRICUBIC)
+			return tricubicInterpolate(T(), position);
+		else if (ipolType == NEAREST_NEIGHBOUR)
+			return closestValue(position);
+		else
+			return trilinearInterpolate(position);
 	}
 
 	/** Inspector & Mutator */

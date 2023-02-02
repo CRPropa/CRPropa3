@@ -4,6 +4,7 @@
 #include "crpropa/massDistribution/Nakanishi.h"
 #include "crpropa/massDistribution/ConstantDensity.h"
 #include "crpropa/Units.h"
+#include "crpropa/Grid.h"
 
 #include "gtest/gtest.h"
 
@@ -237,4 +238,59 @@ TEST(testFerriere, checkValueAtCertainPoints) {
 	std::string captured = testing::internal::GetCapturedStderr();
 	EXPECT_NE(captured.find("WARNING"), std::string::npos);
 }
+
+TEST(testGridDensity, SimpleTest) {
+	ref_ptr<Grid1f> grid = new Grid1f(Vector3d(0.), 1, 1, 1, 1.);	
+	DensityGrid dens = DensityGrid(grid, true, false, false);
+
+	// check active types
+	EXPECT_TRUE(dens.getIsForHI()); 
+	EXPECT_FALSE(dens.getIsForHII());
+	EXPECT_FALSE(dens.getIsForH2());
+
+	// check set function
+	dens.setIsForH2(true);
+	EXPECT_TRUE(dens.getIsForH2());
+
+	dens.setIsForHII(true);
+	EXPECT_TRUE(dens.getIsForHII());
+
+	dens.setIsForHI(false);
+	EXPECT_FALSE(dens.getIsForHI());
+}
+
+TEST(testGridDensity, testRetrunValue) {
+	size_t Nx = 5;
+	size_t Ny = 8;
+	size_t Nz = 10;
+	double spacing = 2.0;
+	Vector3d origin(1., 2., 3.);
+
+	ref_ptr<Grid1f> grid = new Grid1f(origin, Nx, Ny, Nz, spacing);
+
+	// set some values for the grid
+	grid->get(3, 2, 4) = 5;
+	grid->get(3, 2, 5) = 12;
+	grid->get(2, 3, 4) = 6;
+
+	DensityGrid dens = DensityGrid(grid, true, false, false);
+
+	// a point in the region where values are defined for the grid.
+	Vector3d position = origin + Vector3d(2.2, 2.8, 4.1) * spacing; 
+	double valueFromGrid =  grid->interpolate(position);
+	double nHI = dens.getHIDensity(position);
+	double nHII = dens.getHIIDensity(position);
+	double nH2 = dens.getH2Density(position);
+	double nNucleon = dens.getNucleonDensity(position);
+	double nTotal = dens.getDensity(position);
+
+	// Check for values
+	EXPECT_DOUBLE_EQ(valueFromGrid, nHI);
+	EXPECT_DOUBLE_EQ(nHII, 0); 	// HII is set to false and should be 0
+	EXPECT_DOUBLE_EQ(nH2, 0); 	// H2 is set to false and should be 0
+	EXPECT_DOUBLE_EQ(nNucleon, valueFromGrid);
+	EXPECT_DOUBLE_EQ(nTotal, valueFromGrid);
+}
+
+
 } //namespace crpropa

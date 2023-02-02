@@ -275,8 +275,8 @@ public:
 		if (clipVolume) {
 			Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;
 			bool isInVolume = (position.x >= origin.x) && (position.x <= edge.x);
-			isInVolume &&= (position.y >= origin.y) && (position.y <= edge.y);
-			isInVolume &&= (position.z >= origin.z) && (position.z <= edge.z);
+			isInVolume &= (position.y >= origin.y) && (position.y <= edge.y);
+			isInVolume &= (position.z >= origin.z) && (position.z <= edge.z);
 			if (!isInVolume) 
 				return T(0.);
 		} 

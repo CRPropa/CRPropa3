@@ -119,7 +119,7 @@ public:
 
 	/** set the type of interpolation between grid points.
 	 * @param i: interpolationType (TRILINEAR, TRICUBIC, NEAREST_NEIGHBOUR) */
-	void setInterpolationType(interpolationType i){
+	void setInterpolationType(interpolationType i) {
 		ipol = i;
 	}
 };
@@ -229,7 +229,7 @@ public:
 	void setInterpolationType(interpolationType ipolType) {
 		if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {
 			this->ipolType = ipolType;
-			if ((ipolType == TRICUBIC) && (std::is_same<T, Vector3d>::value)){
+			if ((ipolType == TRICUBIC) && (std::is_same<T, Vector3d>::value)) {
 				KISS_LOG_WARNING << "Tricubic interpolation on Grid3d works only with float-precision, doubles will be downcasted";
 		}
 		} else {
@@ -272,12 +272,12 @@ public:
 	  routine with the setInterpolationType function.*/
 	T interpolate(const Vector3d &position) {
 		// check for volume
-		if(clipVolume) {
+		if (clipVolume) {
 			Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;
 			bool isInVolume = (position.x >= origin.x) && (position.x <= edge.x);
 			isInVolume &&= (position.y >= origin.y) && (position.y <= edge.y);
 			isInVolume &&= (position.z >= origin.z) && (position.z <= edge.z);
-			if(!isInVolume) 
+			if (!isInVolume) 
 				return T(0.);
 		} 
 

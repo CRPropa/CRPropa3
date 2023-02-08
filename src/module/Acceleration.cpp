@@ -141,10 +141,10 @@ double QuasiLinearTheory::modify(double steplength, Candidate* candidate)
 }
 
 
-ParticleSplitting::ParticleSplitting(Surface *surface, int numSplits,
-		int	crossingThreshold, double minWeight, std::string counterid)
+ParticleSplitting::ParticleSplitting(Surface *surface, int	crossingThreshold, 
+	int numberSplits, double minWeight, std::string counterid)
 	: surface(surface), crossingThreshold(crossingThreshold),
-	  numSplits(numSplits), minWeight(minWeight), counterid(counterid){};
+	  numberSplits(numberSplits), minWeight(minWeight), counterid(counterid){};
 
 void ParticleSplitting::process(Candidate *candidate) const {
 	const double currentDistance =
@@ -167,9 +167,9 @@ void ParticleSplitting::process(Candidate *candidate) const {
 	if (num_crossings % crossingThreshold != 0)
 		return;
 
-	candidate->updateWeight(1. / numSplits);
+	candidate->updateWeight(1. / numberSplits);
 
-	for (size_t i = 1; i < numSplits; i++) {
+	for (size_t i = 1; i < numberSplits; i++) {
 		// No recursive split as the weights of the secondaries created
 		// before the split are not affected
 		ref_ptr<Candidate> new_candidate = candidate->clone(false);

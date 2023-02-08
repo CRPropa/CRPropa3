@@ -144,7 +144,7 @@ class QuasiLinearTheory : public StepLengthModifier {
 /// Thanks to Matthew Weiss, Penn State University for the first work on this
 /// feature in 2017.
 class ParticleSplitting : public Module {
-	int numSplits;
+	int numberSplits;
 	int crossingThreshold;
 	double minWeight;
 	ref_ptr<Surface> surface;
@@ -152,15 +152,15 @@ class ParticleSplitting : public Module {
 
 	public:
 	/// @params surface               The surface to monitor
-	/// @params crossing_threshold    Number of crossings after which a particle is split
-	/// @params num_splits            Number of particles the candidate is split into
-	/// @params min_weight            Minimum weight to consider. Particles with
+	/// @params crossingThreshold    Number of crossings after which a particle is split
+	/// @params numberSplits            Number of particles the candidate is split into
+	/// @params minWeight            Minimum weight to consider. Particles with
 	///                               a lower weight are not split again.
 	/// @params counterid             An unique string to identify the particle
 	///                               property used for counting. Useful if
 	///                               multiple splitting modules are present.
 	ParticleSplitting(Surface *surface, int crossingThreshold = 50,
-	                  int numSplits = 5, double minWeight = 0.01,
+	                  int numberSplits = 5, double minWeight = 0.01,
 	                  std::string counterid = "ParticleSplittingCounter");
 
 	// update the candidate

@@ -1,16 +1,15 @@
 # CRPropa NEXT
 
 ### Bug fixes:
-
+* Synchronized signature of ParticleSplitting constructor
 
 ### New features:
 * new candidate property tagOrigin to trace back which source or which interaction created the candidate
 
 ### Interface changes:
-
+* Weight column in hdf-Output is now called "W", which is the same as for TextOutput.
 
 ### Features that are deprecated and will be removed after this release
-
 
 ### New plugins and resources linked on the webpages:
 

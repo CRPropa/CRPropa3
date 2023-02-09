@@ -2,6 +2,8 @@
 #include "crpropa/Units.h"
 #include "crpropa/Random.h"
 
+#include "kiss/logger.h"
+
 #include <fstream>
 #include <stdexcept>
 #include <limits>
@@ -25,9 +27,20 @@ TabularPhotonField::TabularPhotonField(std::string fieldName, bool isRedshiftDep
 }
 
 
-double TabularPhotonField::getPhotonDensity(double Ephoton, double z) const {
-	if (this->isRedshiftDependent) {
-		return interpolate2d(Ephoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
+double TabularPhotonField::getPhotonDensity(double Ephoton, double z) const {	
+	if ((this->isRedshiftDependent)) {
+		// fix behaviour for future redshift. See issue #414
+		// with redshift < 0 the photon density is set to 0 in interpolate2d. 
+		// Therefore it is assumed that the photon density does not change from values at z = 0. This is only valid for small changes in redshift.
+		double zMin = this->redshifts[0];
+		if(z < zMin){
+			if(z < -1) {
+				KISS_LOG_WARNING << "Photon Field " << fieldName << " uses FutureRedshift with z < -1. The photon density is set to n(Ephoton, z=0). \n";
+			}
+			return getPhotonDensity(Ephoton, zMin);
+		} else {
+			return interpolate2d(Ephoton, z, this->photonEnergies, this->redshifts, this->photonDensity);
+		}
 	} else {
 		return interpolate(Ephoton, this->photonEnergies, this->photonDensity);
 	}

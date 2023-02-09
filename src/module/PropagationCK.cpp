@@ -79,36 +79,54 @@ void PropagationCK::process(Candidate *candidate) const {
 	ParticleState &current = candidate->current;
 	candidate->previous = current;
 
-	double step = clip(candidate->getNextStep(), minStep, maxStep);
+	Y yIn(current.getPosition(), current.getDirection());
+	double step = maxStep;
 
 	// rectilinear propagation for neutral particles
 	if (current.getCharge() == 0) {
-		Vector3d pos = current.getPosition();
-		Vector3d dir = current.getDirection();
-		current.setPosition(pos + dir * step);
+		step = clip(candidate->getNextStep(), minStep, maxStep);
+		current.setPosition(yIn.x + yIn.u * step);
 		candidate->setCurrentStep(step);
 		candidate->setNextStep(maxStep);
 		return;
 	}
 
-	Y yIn(current.getPosition(), current.getDirection());
 	Y yOut, yErr;
 	double newStep = step;
-	double r = 42;  // arbitrary value > 1
 	double z = candidate->getRedshift();
 
-	// try performing step until the target error (tolerance) or the minimum step size has been reached
-	while (r > 1) {
-		step = newStep;
+
+	// if minStep is the same as maxStep the adaptive algorithm with its error
+	// estimation is not needed and the computation time can be saved:
+	if (minStep == maxStep){
 		tryStep(yIn, yOut, yErr, step / c_light, current, z);
+	} else {
+		step = clip(candidate->getNextStep(), minStep, maxStep);
+		newStep = step;
+		double r = 42;  // arbitrary value
 
-		r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
-		newStep = step * 0.95 * pow(r, -0.2);  // update step size to keep error close to tolerance
-		newStep = clip(newStep, 0.1 * step, 5 * step);  // limit the step size change
-		newStep = clip(newStep, minStep, maxStep);
-
-		if (step == minStep)
-			break;  // performed step already at the minimum
+		// try performing step until the target error (tolerance) or the minimum/maximum step size has been reached
+		while (true) {
+			tryStep(yIn, yOut, yErr, step / c_light, current, z);
+			r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
+			if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
+				if (step == minStep)  // already minimum step size
+					break;
+				else {
+					newStep = step * 0.95 * pow(r, -0.2);
+					newStep = std::max(newStep, 0.1 * step); // limit step size decrease
+					newStep = std::max(newStep, minStep); // limit step size to minStep
+					step = newStep;
+				}
+			} else {  // small direction error relative to tolerance, try to increase step size
+				if (step != maxStep) {  // only update once if maximum step size yet not reached
+					newStep = step * 0.95 * pow(r, -0.2);
+					newStep = std::min(newStep, 5 * step); // limit step size increase
+					newStep = std::min(newStep, maxStep); // limit step size to maxStep
+				}
+				break;
+			}
+		}
 	}
 
 	current.setPosition(yOut.x);

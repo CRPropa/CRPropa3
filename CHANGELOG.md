@@ -1,13 +1,14 @@
-# CRPropa 3.2.1
+# CRPropa vNext
 
 ### Bug fixes:
 * Re-added TorroidalHaloField and LogarithmicSpiralField models.
+* Synchronized signature of ParticleSplitting constructor
 
 ### New features:
 * new candidate property tagOrigin to trace back which source or which interaction created the candidate
 
 ### Interface changes:
-
+* Weight column in hdf-Output is now called "W", which is the same as for TextOutput.
 
 ### Features that are deprecated and will be removed after this release
 * ObserverPoint will be renamed into Observer1D.

@@ -466,6 +466,16 @@ double PhotoPionProduction::probEpsMax(bool onProton, double Ein, double z, doub
 	// the following factor corrects for only trying to find the maximum on nrIteration photon energies
 	// the factor should be determined in convergence tests
 	double pEpsMax = pEpsMaxTested * correctionFactor;
+
+	if(pEpsMax == 0) {
+		KISS_LOG_WARNING << "pEpsMax is 0 in the following configuration: \n"
+			<< "\t" << "onProton: " << onProton << "\n"
+			<< "\t" << "Ein: " << Ein << " [GeV] \n"
+			<< "\t" << "epsRange [eV] " << epsMin << "\t" << epsMax << "\n"
+			<< "\t" << "redshift: " << z << "\n"
+			<< "\t" << "sample Log " << sampleLog << " with step " << step << " [eV] \n";
+	}
+
 	return pEpsMax;
 }
 

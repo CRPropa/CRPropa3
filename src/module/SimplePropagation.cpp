@@ -14,13 +14,11 @@ SimplePropagation::SimplePropagation(double minStep, double maxStep) :
 void SimplePropagation::process(Candidate *c) const {
 	c->previous = c->current;
 
-	double step = std::max(minStep, c->getNextStep());
+	double step = clip(c->getNextStep(), minStep, maxStep);
 	c->setCurrentStep(step);
-
 	Vector3d pos = c->current.getPosition();
 	Vector3d dir = c->current.getDirection();
 	c->current.setPosition(pos + dir * step);
-
 	c->setNextStep(maxStep);
 }
 

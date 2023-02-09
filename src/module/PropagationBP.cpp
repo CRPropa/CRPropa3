@@ -64,67 +64,56 @@ namespace crpropa {
 		ParticleState &current = candidate->current;
 		candidate->previous = current;
 
+		Y yIn(current.getPosition(), current.getDirection());
+
 		// calculate charge of particle
 		double q = current.getCharge();
+		double step = maxStep;
 
 		// rectilinear propagation for neutral particles
 		if (q == 0) {
-			double step = clip(candidate->getNextStep(), minStep, maxStep);
-			Vector3d pos = current.getPosition();
-			Vector3d dir = current.getDirection();
-			current.setPosition(pos + dir * step);
+			step = clip(candidate->getNextStep(), minStep, maxStep);
+			current.setPosition(yIn.x + yIn.u * step);
 			candidate->setCurrentStep(step);
 			candidate->setNextStep(maxStep);
 			return;
 		}
 
-		// further particle parameters
+		Y yOut, yErr;
+		double newStep = step;
 		double z = candidate->getRedshift();
 		double m = current.getEnergy()/(c_light * c_light);
 
 		// if minStep is the same as maxStep the adaptive algorithm with its error
 		// estimation is not needed and the computation time can be saved:
 		if (minStep == maxStep){
-			double step = minStep;
-			Vector3d pos = current.getPosition();
-			Vector3d dir = current.getDirection();
-			// half leap frog step in the position
-			Y yOut = dY(pos, dir, step, z, q, m);
-
-			// full leap frog step in the velocity
-			candidate->current.setDirection(yOut.u);
-			candidate->current.setPosition(yOut.x);
-			candidate->setCurrentStep(step);
-			candidate->setNextStep(step);
-			return;
-		}
-
-		double step = clip(candidate->getNextStep(), minStep, maxStep);
-		double newStep = step;
-		double r = 42;  // arbitrary value > 1
-		Y yIn(current.getPosition(), current.getDirection());
-		Y yOut, yErr;
-
-		// try performing step until the target error (tolerance) or the minimum step size has been reached
-		while (true) {
 			tryStep(yIn, yOut, yErr, step, current, z, m, q);
-			r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
-			if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
-				if (step == minStep)  // already minimum step size
+		} else {
+			step = clip(candidate->getNextStep(), minStep, maxStep);
+			newStep = step;
+			double r = 42;  // arbitrary value
+
+			// try performing step until the target error (tolerance) or the minimum/maximum step size has been reached
+			while (true) {
+				tryStep(yIn, yOut, yErr, step, current, z, m, q);
+				r = yErr.u.getR() / tolerance;  // ratio of absolute direction error and tolerance
+				if (r > 1) {  // large direction error relative to tolerance, try to decrease step size
+					if (step == minStep)  // already minimum step size
+						break;
+					else {
+						newStep = step * 0.95 * pow(r, -0.2);
+						newStep = std::max(newStep, 0.1 * step); // limit step size decrease
+						newStep = std::max(newStep, minStep); // limit step size to minStep
+						step = newStep;
+					}
+				} else {  // small direction error relative to tolerance, try to increase step size
+					if (step != maxStep) {  // only update once if maximum step size yet not reached
+						newStep = step * 0.95 * pow(r, -0.2);
+						newStep = std::min(newStep, 5 * step); // limit step size increase
+						newStep = std::min(newStep, maxStep); // limit step size to maxStep
+					}
 					break;
-				else {
-					newStep = step * 0.95 * pow(r, -0.2);
-					newStep = std::max(newStep, 0.1 * step); // limit step size decrease
-					newStep = std::max(newStep, minStep); // limit step size to minStep
-					step = newStep;
 				}
-			} else {  // small direction error relative to tolerance, try to increase step size
-				if (step != maxStep) {  // already maximum step size
-					newStep = step * 0.95 * pow(r, -0.2);
-					newStep = std::min(newStep, 5 * step); // limit step size increase
-					newStep = std::min(newStep, maxStep); // limit step size to max Step
-				}
-				break;
 			}
 		}
 

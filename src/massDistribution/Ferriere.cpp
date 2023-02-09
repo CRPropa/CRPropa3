@@ -198,11 +198,11 @@ double Ferriere::getDensity(const Vector3d &position) const{
 	if(isforH2){
 		n+=getH2Density(position);
 	}
-	// check if all densities are active and raise warning if not
-	if((isforHI && isforHII && isforH2) == false){
+	// check if all densities are deactivated and raise warning if so
+	if((isforHI || isforHII || isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\nCalled getDensity on (partly) deactivated Ferriere \n"
-			<< "gas density model. Make sure this was intentional.";
+			<< "\nCalled getDensity on fully deactivated Ferriere \n"
+			<< "gas density model. The total density is set to 0.";
 	}
 
 	return n;
@@ -220,11 +220,11 @@ double Ferriere::getNucleonDensity(const Vector3d &position) const{
 		n+= 2*getH2Density(position);
 	}
 
-	// check if all densities is active and raise warning if not
-	if((isforHI && isforHII && isforH2) == false){
+	// check if all densities are deactivated and raise warning if so
+	if((isforHI || isforHII || isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\nCalled getNucleonDensity on (partly) deactivated Ferriere \n"
-			<< "gas density model. Make sure this was intentional.";
+			<< "\nCalled getNucleonDensity on fully deactivated Ferriere \n"
+			<< "gas density model. The total density is set to 0.";
 	}
 
 	return n;

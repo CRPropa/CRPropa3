@@ -27,10 +27,10 @@ double ConstantDensity::getDensity(const Vector3d &position) const {
 		n += H2densitynumber;
 
 	// check if all densities are active and raise warning if not
-	if((isHI & isHII & isH2) == false){
+	if((isHI || isHII || isH2) == false){
 		KISS_LOG_WARNING
-			<< "\nCalled getDensity on (partly) deactivated ConstantDensity \n"
-			<< "gas density model. Make sure this was intentional.";
+			<< "\nCalled getNucleonDensity on fully deactivated ConstantDensity "
+			<< "gas density model. In this case the density is allways set to 0. \n";
 	}
 
 	return n;
@@ -47,10 +47,10 @@ double ConstantDensity::getNucleonDensity(const Vector3d &position) const {
 		n += 2*H2densitynumber;
 
 	// check if all densities are active and raise warning if not
-	if((isHI & isHII & isH2) == false){
+	if((isHI || isHII || isH2) == false){
 		KISS_LOG_WARNING
-			<< "\nCalled getNucleonDensity on (partly) deactivated ConstantDensity \n"
-			<< "gas density model. Make sure this was intentional.";
+			<< "\nCalled getNucleonDensity on fully deactivated ConstantDensity "
+			<< "gas density model. In this case the density is allways set to 0. \n";
 	}
 	return n;
 }

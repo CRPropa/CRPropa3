@@ -56,14 +56,13 @@ double Nakanishi::getDensity(const Vector3d &position) const {
 		n += getHIDensity(position);
 	if(isforH2)
 		n += getH2Density(position);
-
-	// check if all densities are active and raise warning if not
-	if((isforHI & isforH2) == false){
+	
+	// check if all densities are deactivated and raise warning if so
+	if((isforHI || isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\nCalled getDensity on (partly) deactivated Nakanishi \n"
-			<< "gas density model. Make sure this was intentional.";
+			<< "\n"<<"Called getDensity on fully deactivated Nakanishi \n"
+			<< "gas density model. The total density is set to 0.";
 	}
-
 	return n;
 }
 
@@ -74,11 +73,11 @@ double Nakanishi::getNucleonDensity(const Vector3d &position) const {
 	if(isforH2)
 		n += 2*getH2Density(position);	// weight 2 for molecular hydrogen
 
-	// check if all densities are active and raise warning if not
-	if((isforHI & isforH2) == false){
+	// check if all densities are deactivated and raise warning if so
+	if((isforHI || isforH2) == false){
 		KISS_LOG_WARNING
-			<< "\n"<<"Called getNucleonDensity on (partly) deactivated Nakanishi \n"
-			<< "gas density model. Make sure this was intentional.";
+			<< "\n"<<"Called getNucleonDensity on fully deactivated Nakanishi \n"
+			<< "gas density model. The total density is set to 0.";
 	}
 
 	return n;

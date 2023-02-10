@@ -26,7 +26,7 @@ double ConstantDensity::getDensity(const Vector3d &position) const {
 	if(isH2)
 		n += H2densitynumber;
 
-	// check if all densities are active and raise warning if not
+	// check if all densities are deactivated and raise warning if so
 	if((isHI || isHII || isH2) == false){
 		KISS_LOG_WARNING
 			<< "\nCalled getNucleonDensity on fully deactivated ConstantDensity "
@@ -46,7 +46,7 @@ double ConstantDensity::getNucleonDensity(const Vector3d &position) const {
 	if(isH2)
 		n += 2*H2densitynumber;
 
-	// check if all densities are active and raise warning if not
+	// check if all densities are deactivated and raise warning if so
 	if((isHI || isHII || isH2) == false){
 		KISS_LOG_WARNING
 			<< "\nCalled getNucleonDensity on fully deactivated ConstantDensity "

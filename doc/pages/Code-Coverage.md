@@ -15,4 +15,4 @@ make test
 ```
 make coverage
 ```
-The final report is in ```coverageReport/index.html```
+The final report is in ```~/build/coverageReport/index.html```

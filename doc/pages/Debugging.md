@@ -98,7 +98,7 @@ Valgrind is run as follows:
 valgrind --tool=callgrind python steering_card.py
 ```
 ### References
-* [KCachegrind Manual](https://docs.kde.org/stable4/en/kdesdk/kcachegrind/kcachegrind.pdf)
+* [KCachegrind Manual](https://docs.kde.org/stable5/en/kcachegrind/kcachegrind/kcachegrind.pdf)
 * [Callgrind manual](http://valgrind.org/docs/manual/cl-manual.html)
 * [GCC debugging options](https://gcc.gnu.org/onlinedocs/gcc-3.4.5/gcc/Debugging-Options.html)
 * [Python profiling](http://www.blog.pythonlibrary.org/2014/03/20/python-102-how-to-profile-your-code/)

@@ -9,7 +9,7 @@ Propagation modules are responsible for proposing a step size, evaluating the bi
 * **SimplePropagation** - Simple rectlinear propagation
 * **PropagationBP** - Deflections of charged particles in magnetic fields using the Boris Push algorithm with dynamic step size control
 * **PropagationCK** - Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5) with dynamic step size control
-* **DiffusionSDE** - Solve the Fokker-Planck transport equation using stochastic differential equations (SDEs).
+* **DiffusionSDE** - Solves the Fokker-Planck transport equation using stochastic differential equations (SDEs).
 
 ### Interaction modules
 Interaction modules implement physical interactions which modify the particle and eventually produce secondary particles. Hadronic secondaries are always generated, non-hadronic secondaries are optionally generated.

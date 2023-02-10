@@ -11,8 +11,8 @@ a user-defined diffusion coefficient.
 
 .. toctree::
 
-   example_notebooks/Diffusion/DiffusionValidationI.v4.ipynb
-   example_notebooks/Diffusion/DiffusionValidationII.v4.ipynb
+   example_notebooks/Diffusion/DiffusionValidationI.ipynb
+   example_notebooks/Diffusion/DiffusionValidationII.ipynb
 
 Advection and Adiabatic Energy Changes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

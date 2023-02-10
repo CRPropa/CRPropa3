@@ -380,7 +380,7 @@ SourceSNRDistribution::SourceSNRDistribution(double rEarth, double alpha, double
 void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
   	Random &random = Random::instance();
 	double RPos;
-	while (true){
+	while (true) {
 		RPos = random.rand() * rMax;
 		double fTest = random.rand() * frMax;
 		double fR = fr(RPos);
@@ -389,7 +389,7 @@ void SourceSNRDistribution::prepareParticle(ParticleState& particle) const {
 		}
 	}
 	double ZPos;
-	while (true){
+	while (true) {
 		ZPos = (random.rand() - 0.5) * 2 * zMax;
 		double fTest = random.rand() * fzMax;
 		double fZ=fz(ZPos);
@@ -457,13 +457,13 @@ double SourceSNRDistribution::getZMax() const {
 	return zMax;
 }
 
-void SourceSNRDistribution::setAlpha(double a){
+void SourceSNRDistribution::setAlpha(double a) {
 	alpha = a;
 	setRMax(rMax);
 	setFrMax();
 }
 
-void SourceSNRDistribution::setBeta(double b){
+void SourceSNRDistribution::setBeta(double b) {
 	beta = b;
 	setRMax(rMax);
 	setFrMax();
@@ -511,7 +511,7 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
 		}
 	}
 	double ZPos;
-	while (true){
+	while (true) {
 		ZPos = (random.rand() - 0.5) * 2 * zMax;
 		double fTest = random.rand() * fzMax;
 		double fZ = fz(ZPos);
@@ -1114,6 +1114,89 @@ void SourceTag::setDescription() {
 void SourceTag::setTag(std::string tag) {
 	sourceTag = tag;
 	setDescription();
+}
+
+// ----------------------------------------------------------------------------
+
+SourceMassDistribution::SourceMassDistribution(ref_ptr<Density> density, double max, double x, double y, double z) : 
+	density(density), maxDensity(max), xMin(-x), xMax(x), yMin(-y), yMax(y), zMin(-z), zMax(z) {}
+
+void SourceMassDistribution::setMaximalDensity(double maxDensity) {
+	if (maxDensity <= 0) {
+		KISS_LOG_WARNING << "SourceMassDistribution: maximal density must be larger than 0. Nothing changed.\n";
+		return;
+	}
+	this->maxDensity = maxDensity;
+}
+
+void SourceMassDistribution::setXrange(double xMin, double xMax) {
+	if (xMin > xMax) {
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal x-value must not exceed the maximal one\n";
+		return;
+	}
+	this -> xMin = xMin;
+	this -> xMax = xMax;
+}
+
+void SourceMassDistribution::setYrange(double yMin, double yMax) {
+	if (yMin > yMax) {
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal y-value must not exceed the maximal one\n";
+		return;
+	}
+	this -> yMin = yMin;
+	this -> yMax = yMax;
+}
+
+void SourceMassDistribution::setZrange(double zMin, double zMax) {
+	if (zMin > zMax) {
+		KISS_LOG_WARNING << "SourceMassDistribution: minimal z-value must not exceed the maximal one\n";
+		return;
+	}
+	this -> zMin = zMin;
+	this -> zMax = zMax;
+}
+
+Vector3d SourceMassDistribution::samplePosition() const {
+	Vector3d pos; 
+	Random &rand = Random::instance();
+
+	for (int i = 0; i < maxTries; i++) {
+		pos.x = rand.randUniform(xMin, xMax);
+		pos.y = rand.randUniform(yMin, yMax);
+		pos.z = rand.randUniform(zMin, zMax);
+
+		double n_density = density->getDensity(pos) / maxDensity;
+		double n_test = rand.rand();
+		if (n_test < n_density) {
+			return pos;
+		}
+	}
+	KISS_LOG_WARNING << "SourceMassDistribution: sampling a position was not possible within " 
+		<< maxTries << " tries. Please check the maximum density or increse the number of maximal tries. \n";
+	return Vector3d(0.);
+}	
+
+void SourceMassDistribution::prepareParticle(ParticleState &state) const {
+	Vector3d pos = samplePosition();
+	state.setPosition(pos);
+}
+
+void SourceMassDistribution::setMaximalTries(int tries) {
+	this -> maxTries = tries;
+}
+
+std::string SourceMassDistribution::getDescription() {
+	std::stringstream ss;
+	ss << "SourceMassDistribuion: following the density distribution :\n";
+	ss << "\t" << density -> getDescription();
+	ss << "with a maximal density of " << maxDensity << " / m^3 \n";
+	ss << "using the sampling range: \n";
+	ss << "\t x in [" << xMin / kpc << " ; " << xMax / kpc << "] kpc \n";
+	ss << "\t y in [" << yMin / kpc << " ; " << yMax / kpc << "] kpc \n";
+	ss << "\t z in [" << zMin / kpc << " ; " << zMax / kpc << "] kpc \n";
+	ss << "with maximal number of tries for sampling of " << maxTries << "\n";
+
+	return ss.str();
 }
 
 } // namespace crpropa

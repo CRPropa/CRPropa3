@@ -4,6 +4,7 @@
 #include "crpropa/Candidate.h"
 #include "crpropa/Grid.h"
 #include "crpropa/EmissionMap.h"
+#include "crpropa/massDistribution/Density.h"
 
 
 #include <vector>
@@ -814,6 +815,73 @@ public:
 	void prepareCandidate(Candidate &candidate) const;
 	void setDescription();
 	void setTag(std::string tag);
+};
+
+/**
+	@class SourceMassDistribution
+	@brief	Source position follows a given mass distribution
+
+	The (source)position of the candidate is sampled from a given mass distribution. The distribution uses the getDensity function of the density module. 
+	If a weighting for different components is desired, the use of different densities in a densityList is recommended.
+
+	The sampling range of the position can be restricted. Default is a sampling for x in [-20, 20] * kpc, y in [-20, 20] * kpc and z in [-4, 4] * kpc.
+*/
+class SourceMassDistribution: public SourceFeature {
+private: 
+	ref_ptr<Density> density;	//< density distribution
+	double maxDensity; 			//< maximal value of the density in the region of interest
+	double xMin, xMax;			//< x-range to sample positions
+	double yMin, yMax; 			//< y-range to sample positions
+	double zMin, zMax;			//< z-range to sample positions
+	int maxTries = 10000;		//< maximal number of tries to sample the position 
+
+public: 
+	/** Constructor
+	@param density: CRPropa mass distribution 
+	@param maxDensity:	maximal density in the region where the position should be sampled
+	@param x:	the position will be sampled in the range [-x, x]. Non symmetric values can be set with setXrange.
+	@param y:	the position will be sampled in the range [-y, y]. Non symmetric values can be set with setYrange.
+	@param z:	the position will be sampled in the range [-z, z]. Non symmetric values can be set with setZrange.
+	*/
+	SourceMassDistribution(ref_ptr<Density> density, double maxDensity = 0, double x = 20 * kpc, double y = 20 * kpc, double z = 4 * kpc);
+
+	void prepareParticle(ParticleState &particle) const;
+
+	/** Set the maximal density in the region of interest. This parameter is necessary for the sampling
+	@param maxDensity:	maximal density in [particle / m^3]
+	*/
+	void setMaximalDensity(double maxDensity);
+
+	/** set x-range in which the position of the candidate will be sampled. x in [xMin, xMax].
+	@param xMin: minimal x value of the allowed sample range in [m]
+	@param xMax: maximal x value of the allowed sample range in [m]
+	*/
+	void setXrange(double xMin, double xMax);
+
+	/** set y-range in which the position of the candidate will be sampled. y in [yMin, yMax].
+	@param yMin: minimal y value of the allowed sample range in [m]
+	@param yMax: maximal y value of the allowed sample range in [m]
+	*/
+	void setYrange(double yMin, double yMax);
+
+	/** set z-range in which the position of the candidate will be sampled. z in [zMin, zMax].
+	@param zMin: minimal z value of the allowed sample range in [m]
+	@param zMax: maximal z value of the allowed sample range in [m]
+	*/
+	void setZrange(double zMin, double zMax);
+
+	/*	samples the position. Can be used for testing.
+		@return Vector3d with sampled position
+	*/
+	Vector3d samplePosition() const;
+
+
+	/** set the number of maximal tries until the sampling routine breaks.
+		@param tries: number of the maximal tries
+	*/
+	void setMaximalTries(int tries);
+
+	std::string getDescription();
 };
 
 /**  @} */ // end of group SourceFeature

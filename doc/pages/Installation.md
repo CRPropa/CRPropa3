@@ -207,18 +207,18 @@ In case of CentOS/RHEL 7, the SWIG version is too old and has to be built from s
 
 
 ### Mac OS X
-
-If CRPropa with the Python3 support is desired on Mac OS X (tested on 10.14.5)
-where Python3 is installed from Homebrew, one has to specify the exact paths of
-the python library (PYTHON_LIBRARY) and the python interpreter
-(PYTHON_EXECUTABLE) to CMake (otherwise, the system Python is found). For
-example:
+CRPropa on Mac OS X (tested on 12.5.1, M1 where command line developer tools are installed). 
+Install Python3, and llvm from Homebrew, and specify the following paths to the Python and llvm directories in the homebrew folder after step 3 of the above installation, e.g. (please your exact versions):
+  ```sh
+   export LLVM_DIR="/opt/homebrew/Cellar/llvm/15.0.7_1"
+   PYTHON_VERSION=3.10
+   LLVM_VERSION=15.0.7
+   PYTHON_DIR=/opt/homebrew/Cellar/python@3.10/3.10.9/Frameworks/Python.framework/Versions/3.10
   ```
- CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
- -DPYTHON_EXECUTABLE=/usr/local/Cellar/python/3.7.4/bin/python3 \
- -DPYTHON_LIBRARY=/usr/local/Cellar/python/3.7.4/Frameworks/Python.framework/Versions/3.7/lib/libpython3.7.dylib \
- ..
+and run 
+  ```sh
+   cmake .. -DCMAKE_INSTALL_PREFIX=$VIRTENV_DIR -DBUILD_DOC=False  -DSIMD_EXTENSIONS="none" -DFAST_WAVES=False -DPYTHON_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION -DPYTHON_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib -DPYTHON_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION  -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" -DOpenMP_C_FLAGS="-fopenmp =libomp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" -DOpenMP_libomp_LIBRARY=$LLVM_DIR/lib/libomp.dylib -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" -DOpenMP_C_LIB_NAMES=libomp -DOpenMP_CXX_LIB_NAMES=libomp -DNO_TCMALLOC=TRUE
   ```
-Note, that CRPropa can be installed under OS X with the settings listed above, but due to some issues with github actions the OS X installation is currently not checked automatically.
+in the build folder.
 
 

@@ -45,7 +45,7 @@ public:
 	 */
 	SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double thinning = 0, int nSamples = 0, double limit = 0.1);
 	/** Constructor
-	 @param field			RMS of the magnetic field (if magnetic-field object not provided)
+	 @param Brms			RMS of the magnetic field (if magnetic-field object not provided)
 	 @param havePhotons		if true, add secondary photons as candidates
 	 @param thinning		weighted sampling of secondaries (0: all particles are tracked; 1: maximum thinning)
 	 @param nSamples		number of synchrotron photons to be sampled and added as candidates

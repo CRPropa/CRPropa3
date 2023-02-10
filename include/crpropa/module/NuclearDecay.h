@@ -38,7 +38,7 @@ private:
 
 public:
 	/** Constructor.
-	 @param photonField		target photon field
+	 @param electrons		if true, add secondary photons as candidates
 	 @param photons			if true, add secondary photons as candidates
 	 @param neutrinos		if true, add secondary neutrinos as candidates
 	 @param limit			step size limit as fraction of mean free path

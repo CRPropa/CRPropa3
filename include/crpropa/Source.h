@@ -275,7 +275,7 @@ public:
 	 @param radius_outer	radius of the outer sphere
 	 */
 	SourceUniformHollowSphere(Vector3d center,
-			double radius_inner, double double_outer);
+			double radius_inner, double radius_outer);
 	void prepareParticle(ParticleState &particle) const;
 	void setDescription();
 };
@@ -834,7 +834,7 @@ public:
 	/** Add an individual particle id.
 	 @param A			atomic mass of the cosmic-ray nucleus
 	 @param Z			atomic number of the cosmic-ray nucleus
-	 @param weight		relative abundance of individual particle species
+	 @param abundance	relative abundance of individual particle species
 	 */
 	void add(int A, int Z, double abundance);
 	void prepareParticle(ParticleState &particle) const;

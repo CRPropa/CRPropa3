@@ -48,7 +48,7 @@ public:
 	 * Constructor
 	 * @param B_0 						Magnetic field strength in the direction of e_1 at r_0 (for flagAmplitudeRms = "amplitude"), or the RMS value of the magnetic field (for flagAmplitudeRms = "rms")	
 	 * @param wavelength				Wavelength of the single mode (corresponds to its coherence length)
-	 * @param double 					Polarization parameter
+	 * @param sigma 					Polarization parameter
 	 * @param r_0						Reference position
 	 * @param e_1						First vector spanning the polarization plane
 	 * @param e_2	 					Second vector spanning the polarization plane

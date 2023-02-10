@@ -263,7 +263,6 @@ public:
 	 @param min		minimum time
 	 @param dist	time interval for detection
 	 @param numb	number of time intervals
-	 @param
 	 */
 	ObserverTimeEvolution(double min, double dist, double numb);
 	/** Constructor
@@ -271,7 +270,6 @@ public:
 	 @param max	    maximum time
 	 @param numb	number of time intervals
 	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
-	 @param
 	 */
 	ObserverTimeEvolution(double min, double max, double numb, bool log);
 	// Add a new time step to the detection time list of the observer

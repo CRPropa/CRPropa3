@@ -61,7 +61,7 @@ public:
 	 * @param field magnetic field reference pointer
 	 * @param extends length, width, and height of the base cube
 	 * @param origin defines the reference position 
-	 * @param switch for periodic or reflective behavior  
+	 * @param reflective for periodic or reflective behavior  
 	*/
 	PeriodicMagneticField(ref_ptr<MagneticField> field, const Vector3d &extends,
 			const Vector3d &origin, bool reflective);

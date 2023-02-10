@@ -1,5 +1,18 @@
+Galactic Cosmic Rays
+--------------------
+
+Propagation of Galactic cosmic rays can be done with the single-particle 
+approach (solving the equation of motion) or with an ensemble averaged 
+ansatz (solving the transport equation for a particle distribution). The 
+latter one is explained in section "Diffusion of Cosmic Rays". The single-particle
+approach is demonstrated in the following example.
+
+.. toctree::
+   example_notebooks/galactic_trajectories/galactic_trajectories.ipynb
+
+
 Diffusion of Cosmic Rays
----------------------------------
+------------------------
 
 Diffusion of cosmic rays can be modeled in an ensemble averaged way
 using transport equations. In CRPropa this is done based on stochastic

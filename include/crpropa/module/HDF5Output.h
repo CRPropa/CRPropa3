@@ -109,7 +109,7 @@ public:
 	 */
 	HDF5Output(const std::string &filename);
 	/** Constructor
-	 	@param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
+	 	@param outputtype	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
 	 	@param filename	string containing name of output hdf5 file
 	 */
 	HDF5Output(const std::string &filename, OutputType outputtype);

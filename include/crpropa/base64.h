@@ -11,7 +11,7 @@ namespace crpropa
 	/// @class Base64
 	/// @brief base64 encodig and decoding.
 	///
-	/// @detail Based on the implementations by
+	/// Based on the implementations by
 	/// Jouni Malinen <j@w1.fi> and contributors from wpa_supplicant and hostapd in
 	///    http://web.mit.edu/freebsd/head/contrib/wpa/ and
 	///    http://web.mit.edu/freebsd/head/contrib/wpa/src/utils/base64.c and

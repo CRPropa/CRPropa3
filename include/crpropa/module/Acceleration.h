@@ -19,7 +19,7 @@ namespace crpropa {
 class StepLengthModifier : public Referenced {
   public:
 	/// Returns an update of the steplength
-	/// @param stepLength 	Modifies step length, e.g., based on scattering 
+	/// @param steplength 	Modifies step length, e.g., based on scattering 
 	///						model.	
 	/// @param candidate 	Additional candidate properties are usually 
 	///						included in the calculation of the updated
@@ -125,9 +125,9 @@ class DirectedFlowOfScatterCenters : public StepLengthModifier {
 /// path \f$\lambda\f$ of a
 ///  particle with energy \f$E\f$ and charge \f$Z\f$ in a field with turbulence
 ///  spectrum \f$\frac{k}{k_{\min}}^{-q}\f$ is
-///   \f[ \lambda = {\left(\frac{B}{\delta B}\right)}^2 {\left(R_G\;
+///   \f$ \lambda = {\left(\frac{B}{\delta B}\right)}^2 {\left(R_G\;
 ///   k_{\min}\right)}^{1-q} R_G \equiv \lambda_0 {\left( \frac{E}{1
-///   EeV}\frac{1}{Z} \right)}^{2-q} \f]
+///   EeV}\frac{1}{Z} \right)}^{2-q} \f$
 ///  where \f$R_G = \frac{E}{B Z}\f$ is the gyro-radius of the
 ///  particles.
 /// This class implements the rigidity dependent scaling factor used to modify
@@ -177,9 +177,9 @@ class ParticleSplitting : public Module {
 	public:
 	/** Constructor
 	@param surface              The surface to monitor
-	@param crossing_threshold   Number of crossings after which a particle is split
-	@param num_splits           Number of particles the candidate is split into
-	@param min_weight           Minimum weight to consider. Particles with
+	@param crossingThreshold   Number of crossings after which a particle is split
+	@param numberSplits           Number of particles the candidate is split into
+	@param minWeight           Minimum weight to consider. Particles with
 	                         	a lower weight are not split again.
 	@param counterid            An unique string to identify the particle
 	                            property used for counting. Useful if

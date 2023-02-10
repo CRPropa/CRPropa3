@@ -39,14 +39,12 @@ class TurbulenceSpectrum : public Referenced {
 
   public:
 	/**
-	   @param Brms         root mean square field strength for generated field
-	 @param lMin	 Minimum physical scale of the turbulence
-	 @param lMax	 Maximum physical scale of the turbulence
-	   @param lBendover	   the bend-over scale
-	 @param sindex	 Spectral index of the energy spectrum in the inertial
-	 range
-	 @param qindex	 Spectral index of the energy spectrum in the energy
-	 range
+	 * @param Brms         root mean square field strength for generated field
+	 * @param lMin	 Minimum physical scale of the turbulence
+	 * @param lMax	 Maximum physical scale of the turbulence
+	 * @param lBendover	   the bend-over scale
+	 * @param sIndex	 Spectral index of the energy spectrum in the inertial range
+	 * @param qIndex	 Spectral index of the energy spectrum in the energy range
 	*/
 	TurbulenceSpectrum(double Brms, double lMin, double lMax,
 	                   double lBendover = 1, double sIndex = (5. / 3.),
@@ -83,8 +81,7 @@ class TurbulenceSpectrum : public Referenced {
 
 	/**
   Computes the magnetic field coherence length
-	Obtained from the definition of \f$l_c = 1/B_{\rm rms}^2 \int_0^\infty dr
-  \langleB(0)B^*(r)\rangle$
+	Obtained from the definition of \f$l_c = 1/B_{\rm rms}^2 \int_0^\infty dr\langleB(0)B^*(r)\rangle \f$
 	Approximates the true value correctly as long as lBendover <= lMax/8 (~5%
   error) (for the true value the above integral should go from lMin to lMax)
 	*/

@@ -150,8 +150,6 @@ public:
 	@param r_0 	Position of the shock
 	@param v_0 	Constant velocity (r<<r_o)
 	@param lambda 	Transition width / width of the shock
-	@param r_rot 	Normalization radius for rotation speed
-	@param v_phi 	Rotation speed at r_rot
 */
 	SphericalAdvectionShock(const Vector3d origin, double r_0, double v_0, double lambda);
 
@@ -165,7 +163,13 @@ public:
 	void setR0(double r);
 	void setV0(double v);
 	void setLambda(double l);
+	/**
+	 * @param r Normalization radius for rotation speed
+	*/	
 	void setRRot(double r);
+	/**
+	 * @param vPhi 	Rotation speed at r_rot
+	*/	
 	void setAzimuthalSpeed(double vPhi);
 
 	Vector3d getOrigin() const;

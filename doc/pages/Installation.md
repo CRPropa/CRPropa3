@@ -221,7 +221,20 @@ and replace the command in step 4 of the installation routine
   ```
 with
   ```sh
-   cmake .. -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR -DBUILD_DOC=False  -DSIMD_EXTENSIONS="none" -DFAST_WAVES=False -DPYTHON_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION -DPYTHON_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib -DPYTHON_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION  -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" -DOpenMP_C_FLAGS="-fopenmp =libomp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" -DOpenMP_libomp_LIBRARY=$LLVM_DIR/lib/libomp.dylib -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" -DOpenMP_C_LIB_NAMES=libomp -DOpenMP_CXX_LIB_NAMES=libomp -DNO_TCMALLOC=TRUE
+   cmake .. \
+   -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
+   -DPYTHON_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION \
+   -DPYTHON_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib \
+   -DPYTHON_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
+   -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang \
+   -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
+   -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
+   -DOpenMP_C_FLAGS="-fopenmp =libomp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
+   -DOpenMP_libomp_LIBRARY=$LLVM_DIR/lib/libomp.dylib \
+   -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" \
+   -DOpenMP_C_LIB_NAMES=libomp \
+   -DOpenMP_CXX_LIB_NAMES=libomp \
+   -DNO_TCMALLOC=TRUE
   ```
 Check that all paths are set correctly with the following command in the build folder
   ```sh

@@ -225,7 +225,8 @@ with
   ```
 Check that all paths are set correctly with the following command in the build folder
   ```sh
-   cmake .. 
+   ccmake .. 
   ```
+and configure and generate again after changes.
 
 

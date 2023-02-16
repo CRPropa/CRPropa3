@@ -1,33 +1,34 @@
 # Plugin template
 
-To create own CRPropa modules in C++ the use of plugins is recomended. This plugins can be installed as a seperate module. 
-In this folder we provide a template to create such a plugin. 
+To create your own CRPropa modules in C++ we recommend using plugins. Plugins are small programs that can be installed as a separate modules. 
+Here, we provide a template to create such a plugin. 
 
-## general structure of the template
-The module class is defined in the header file `myPlugin.h` and the functions in the c++ file `myPlugin.cc`. The new modules are defined in this files. The file `myPlugin.i` defines the SWIG interface for the python usage. 
+## General structure of the template
+The module class is defined in the header file `myPlugin.h` and the functions in the C++ file `myPlugin.cc`. The file `myPlugin.i` defines the SWIG interface for python usage. 
 
-The python script `testPlugin.py` tests your installation (see below) of the example plugin as presented here.
+The python script `testPlugin.py` tests the installation (see below) of the example plugin as presented here.
 
-## adjusting custom module name
-To create your own module with a meaningfull modulename all files called `myPlugin.*` and the folder `python/myPlugin` have to be renamed to your plugin name. Also the content of the following files has to be adjusted: 
+## Adjusting custom module name
+To create your own module with a meaningful module name, all files called `myPlugin.*` and the folder `python/myPlugin` have to be renamed to your plugin name. Also the content of the following files has to be adjusted: 
 - `CMakeList.txt`:  The plugin name (see line 4) has to be changed.
-- `python/myPlugin/__init__.py`: The folder name has to be changed and change `.myModule` to `.<MyModuleName>`
-- `myPlugin.i`: at two positions the header file is included. The name has to be changed. 
+- `python/myPlugin/__init__.py`: The directory name and the content of the init-file have to be changed: `.myModule` to `.<MyModuleName>`
+- `myPlugin.i`: at two positions the header file is listed. The lines have to be adapted accordingly. 
 
-# installation of a plugin
+# Installation of a plugin
 For the installation of the plugin you need a running CRPropa version (see [installation documentation](https://crpropa.github.io/CRPropa3/pages/Installation.html)).
+This is done analogously to the installation of CRPropa. We recommend to activate the same virtual python environment that you use to run CRPropa.
 
-First create a build folder and enter it.
+First create a build folder within the plugin's directory and move there.
 
     mkdir build && cd build/
 
-Now you can run ccmake to configure your project:
+Now you can run cmake to configure your project:
 
     ccmake ..
 
-At this step you have to set the installation path and the path to your swig interface of the current crpropa installation (if it is not found by cmake).
+At this step you have to set the installation path and the path to your swig interface of the current CRPropa installation (if it is not found by cmake).
 
-After configuration (c) and generation (g) you can now build and install your plugin
+After configuration (press c) and generation (press g) you can now build and install your plugin
 
     make install
 
@@ -36,4 +37,3 @@ After configuration (c) and generation (g) you can now build and install your pl
 Now you can run the python test script. 
 
     python ../testPlugin.py
-

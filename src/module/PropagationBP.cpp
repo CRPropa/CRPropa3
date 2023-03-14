@@ -87,7 +87,7 @@ namespace crpropa {
 		// if minStep is the same as maxStep the adaptive algorithm with its error
 		// estimation is not needed and the computation time can be saved:
 		if (minStep == maxStep){
-			tryStep(yIn, yOut, yErr, step, current, z, m, q);
+			yOut = dY(yIn.x, yIn.u, step, z, q, m);
 		} else {
 			step = clip(candidate->getNextStep(), minStep, maxStep);
 			newStep = step;

@@ -495,7 +495,9 @@ TEST(testPropagationBP, gyration) {
 // Test the that the optimization for same step sizes works
 TEST(testPropagationBP, sameStepOptimization) {
 
-	PropagationBP propa1(new PlaneWaveTurbulence(TurbulenceSpectrum(gauss, pc, 100*pc), 10, 1), pc);
+	// particle 1 with fixed step sizes
+	double fixeded_step = pc;
+	PropagationBP propa1(new PlaneWaveTurbulence(TurbulenceSpectrum(gauss, pc, 100*pc), 10, 1), fixeded_step);
 	ParticleState p1;
 	p1.setId(nucleusId(1, 1));
 	p1.setEnergy(100 * EeV);
@@ -508,7 +510,10 @@ TEST(testPropagationBP, sameStepOptimization) {
 		propa1.process(&c1);
 	}
 
-	PropagationBP propa2(new PlaneWaveTurbulence(TurbulenceSpectrum(gauss, pc, 100*pc), 10, 1), 1, pc, 1.1*pc);
+	// particle 2 with different min and max steps. The tolerance is chosen such that particle 2 will be
+	// propagated with the same step as particle 1, however not using the optimization for fixed step sizes
+	double tolerance = 1;
+	PropagationBP propa2(new PlaneWaveTurbulence(TurbulenceSpectrum(gauss, pc, 100*pc), 10, 1), tolerance, fixeded_step, 1.1*fixeded_step);
 	ParticleState p2;
 	p2.setId(nucleusId(1, 1));
 	p2.setEnergy(100 * EeV);

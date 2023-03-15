@@ -3,14 +3,7 @@
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/PropagationBP.h"
 #include "crpropa/module/PropagationCK.h"
-#include "crpropa/Grid.h"
-#include "crpropa/Units.h"
-#include "crpropa/Common.h"
-#include "crpropa/GridTools.h"
-#include "crpropa/magneticField/turbulentField/TurbulentField.h"
-#include "crpropa/magneticField/turbulentField/GridTurbulence.h"
 #include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
-#include "crpropa/magneticField/turbulentField/SimpleGridTurbulence.h"
 
 #include "gtest/gtest.h"
 

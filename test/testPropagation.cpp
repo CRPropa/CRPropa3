@@ -3,6 +3,7 @@
 #include "crpropa/module/SimplePropagation.h"
 #include "crpropa/module/PropagationBP.h"
 #include "crpropa/module/PropagationCK.h"
+#include "crpropa/magneticField/turbulentField/PlaneWaveTurbulence.h"
 
 #include "gtest/gtest.h"
 
@@ -481,6 +482,48 @@ TEST(testPropagationBP, gyration) {
 	EXPECT_DOUBLE_EQ(2 / 3., dirX * dirX + dirY * dirY);  // constant momentum in the perpendicular plane to background magnetic field field
 	EXPECT_DOUBLE_EQ(1 / 3., dirZ * dirZ);  // constant momentum parallel to the background magnetic field
 	EXPECT_DOUBLE_EQ(100 * step * step / 3., posZ * posZ);  // constant velocity parallel to the background magnetic field
+}
+
+
+// Test the that the optimization for fixed step sizes works
+TEST(testPropagationBP, fixedStepOptimization) {
+	// particle 1 with fixed step sizes
+	double fixed_step = pc;
+	PropagationBP propa1(new PlaneWaveTurbulence(TurbulenceSpectrum(gauss, pc, 100*pc), 10, 1), fixed_step);
+	ParticleState p1;
+	p1.setId(nucleusId(1, 1));
+	p1.setEnergy(100 * EeV);
+	p1.setPosition(Vector3d(0, 0, 0));
+	p1.setDirection(Vector3d(1, 1, 1));
+	Candidate c1(p1);
+	c1.setNextStep(0);
+	// Nine new steps to have finally propagated the particle ten times
+	for (int i = 0; i < 9; i++){
+		propa1.process(&c1);
+	}
+
+	// particle 2 with different min and max steps. The tolerance is chosen such that particle 2 will be
+	// propagated with the same step as particle 1, however not using the optimization for fixed step sizes
+	double tolerance = 1;
+	PropagationBP propa2(new PlaneWaveTurbulence(TurbulenceSpectrum(gauss, pc, 100*pc), 10, 1), tolerance, fixed_step, 1.1*fixed_step);
+	ParticleState p2;
+	p2.setId(nucleusId(1, 1));
+	p2.setEnergy(100 * EeV);
+	p2.setPosition(Vector3d(0, 0, 0));
+	p2.setDirection(Vector3d(1, 1, 1));
+	Candidate c2(p2);
+	c1.setNextStep(0);
+	// Nine new steps to have finally propagated the particle ten times
+	for (int i = 0; i < 9; i++){
+		propa2.process(&c2);
+	}
+
+	EXPECT_DOUBLE_EQ(c1.current.getDirection().x, c2.current.getDirection().x);
+	EXPECT_DOUBLE_EQ(c1.current.getDirection().y, c2.current.getDirection().y);
+	EXPECT_DOUBLE_EQ(c1.current.getDirection().z, c2.current.getDirection().z);
+	EXPECT_DOUBLE_EQ(c1.current.getPosition().x, c2.current.getPosition().x);
+	EXPECT_DOUBLE_EQ(c1.current.getPosition().y, c2.current.getPosition().y);
+	EXPECT_DOUBLE_EQ(c1.current.getPosition().z, c2.current.getPosition().z);
 }
 
 

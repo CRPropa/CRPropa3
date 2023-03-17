@@ -110,10 +110,10 @@ public:
 	 * @param h		 current step size
 	 * @param p		 current particle state
 	 * @param z		 current red shift
-	 * @param m		 current mass of the candidate
 	 * @param q		 current charge of the candidate 
+	 * @param m		 current mass of the candidate
 	 */
-	void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double m, double q) const;
+	void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double q, double m) const;
 
 	/** Set functions for the parameters of the class PropagationBP */
 

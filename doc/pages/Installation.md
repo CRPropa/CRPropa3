@@ -44,7 +44,7 @@ The following packages are provided with the source code and do not need to be i
     cd build
     cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local
     make
-		make install
+    make install
     ```
 
 2. A set of unit tests can be run with ```make test```. If the tests are

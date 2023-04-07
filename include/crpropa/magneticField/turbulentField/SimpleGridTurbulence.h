@@ -23,7 +23,7 @@ class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
   public:
 	/**
 	 * The bend-over scale is set to 1000 times lMax to ensure to be in the inertial range. This should not be changed.
-	 @param Brms		root mean square field strength for generated field
+	 @param Brms		Root mean square field strength for generated field
 	 @param lMin	 	Minimum physical scale of the turbulence
 	 @param lMax	 	Maximum physical scale of the turbulence
 	 @param sIndex	 	Spectral index of the energy spectrum in the inertial range

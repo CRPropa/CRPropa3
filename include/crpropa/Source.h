@@ -319,7 +319,7 @@ public:
 
 /**
  @class SourceUniformCylinder
- @brief Uniform distribution of source positions inside the volume of a cylinder. 
+ @brief Uniform distribution of source positions inside the volume of a cylinder whose axis is along the z-axis. 
 
  The circle of the cylinder lays in the xy-plane and the height is along the z-axis.
  */

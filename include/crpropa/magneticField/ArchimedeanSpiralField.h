@@ -24,7 +24,7 @@ namespace crpropa {
 /**
 
 @class ArchimedeanSpiralField
-@brief Magnetic field model following a Archimedean spiral.
+@brief Magnetic field model following an Archimedean spiral.
 
 See e.g. Jokipii, Levy & Hubbard 1977
 */

@@ -166,7 +166,7 @@ public:
 
 /**
  @class SourceComposition
- @brief Multiple nuclei species with a rigidity-dependent power-law spectrum
+ @brief Multiple nuclear species with a rigidity-dependent power-law spectrum
 
  The power law is of the form: E^index, for energies in the interval [Emin, Z * Rmax].
  */

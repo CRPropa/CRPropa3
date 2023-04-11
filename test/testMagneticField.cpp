@@ -181,8 +181,8 @@ TEST(testCMZMagneticField, TestAzimutalComponent){
 	EXPECT_DOUBLE_EQ(bVec.z, 0);
 }
 
-TEST(testTorroidalHaloField, SimpleTest) {
-	ref_ptr<TorroidalHaloField> field = new TorroidalHaloField();
+TEST(testToroidalHaloField, SimpleTest) {
+	ref_ptr<ToroidalHaloField> field = new ToroidalHaloField();
 	Vector3d b = field->getField(Vector3d(0.));
 	EXPECT_DOUBLE_EQ(b.x, 0);
 	EXPECT_DOUBLE_EQ(b.y, 0);

@@ -56,7 +56,7 @@ public:
 	 * @param flagPolarizationHelicity	Flag to specify whether sigma denotes the standard polarization parameter ("polarization") or f_H, the fraction of maximal helicity ("helicity")
 	 * @param flagMode 					Flag to specify the polarization mode; possible choices are "elliptical", "circular" or "linear"
 	*/
-	PolarizedSingleModeMagneticField(const double &B_0, const double &wavelength, const double &sigma, const Vector3d &r_0, const Vector3d &e_1, const Vector3d &e_2, std::string flagAmplitudeRms, std::string flagPolarizationHelicity, std::string flagMode );
+	PolarizedSingleModeMagneticField(const double &B_0, const double &wavelength, const double &sigma, const Vector3d &r_0, const Vector3d &e_1, const Vector3d &e_2, std::string flagAmplitudeRms, std::string flagPolarizationHelicity, std::string flagMode);
 
 	Vector3d getField(const Vector3d &position) const;
 };

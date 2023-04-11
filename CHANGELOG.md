@@ -1,7 +1,7 @@
 # CRPropa vNext
 
 ### Bug fixes:
-* Re-added TorroidalHaloField and LogarithmicSpiralField models.
+* Re-added ToroidalHaloField and LogarithmicSpiralField models. Note, that the class name was also corrected in spelling: TorroidalHaloField --> ToroidalHaloField
 * Synchronized signature of ParticleSplitting constructor
 
 ### New features:

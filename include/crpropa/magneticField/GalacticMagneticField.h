@@ -11,10 +11,10 @@ namespace crpropa {
  */
 
 /**
- @class TorroidalHaloField
+ @class ToroidalHaloField
  @brief Galactic halo field model from Prouza & Smida 2003 and Sun et al. 2008
  */
-class TorroidalHaloField: public MagneticField {
+class ToroidalHaloField: public MagneticField {
 	double b0; // halo field strength
 	double z0; // vertical position
 	double z1; // vertical scale
@@ -28,7 +28,7 @@ public:
 	 * @param z1 vertical scale
 	 * @param r0 radial scale
 	*/
-	TorroidalHaloField(double b0=1., double z0=1., double z1=1., double r0=1.) {
+	ToroidalHaloField(double b0 = 1., double z0 = 1., double z1 = 1., double r0 = 1.) {
 		setParameters(b0, z0, z1, r0);
 	}
 
@@ -96,8 +96,8 @@ public:
 	 * @param d		distance to first field reversal
 	 * @param z0	vertical attenuation length
 	*/
-	LogarithmicSpiralField(bool isBSS=true, double b0=1., double pitch=M_1_PI/4.,
-		double rsol=8.5*kpc, double rc=3*kpc, double d=5*kpc, double z0=3*kpc) {
+	LogarithmicSpiralField(bool isBSS = true, double b0 = 1., double pitch = M_1_PI/4.,
+		double rsol = 8.5*kpc, double rc = 3*kpc, double d = 5*kpc, double z0 = 3*kpc) {
 		setParameters(isBSS, b0, pitch, rsol, rc, d, z0);
 	}
 

@@ -47,14 +47,14 @@ public:
     void setUseNTFField(bool use);
     void setUseRadioArc(bool use);
 
-    /** Magnetic field in the poloidal model. Used for inter-cloud(IC), non-thermal-filaments(NTF) and for the RadioArc.
+    /** Magnetic field in the poloidal model. Used for inter-cloud (IC), non-thermal-filaments (NTF) and for the radio arc.
     @param position position in galactic coordinates with Earth at (-8.5kpc, 0,0)
     @param mid  midpoint of the object
     @param B1   normalized magnetic field strength
     @param a    fitting parameter for the radial scale height
     @param L    fitting parameter for the z scale height
     @return     magnetic field vector */
-    Vector3d BPol(const Vector3d& position,const Vector3d& mid, double B1, double a, double L) const;
+    Vector3d BPol(const Vector3d& position, const Vector3d& mid, double B1, double a, double L) const;
     
     /** Magnetic field in the azimuthal model. Used for molecular clouds (MC)
     @param position position in galactic coordinates with Earth at (-8.5kpc, 0,0)

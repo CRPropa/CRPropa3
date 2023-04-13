@@ -237,7 +237,7 @@ public:
 		}
 	}
 
-	/** returns the positon of the lower left front corner of the volume */
+	/** returns the position of the lower left front corner of the volume */
 	Vector3d getOrigin() const {
 		return origin;
 	}
@@ -398,7 +398,7 @@ private:
 		__m128 pos2 = _mm_set1_ps (position*position);
 		__m128 pos3 = _mm_set1_ps (position*position*position);
 
-		/** SIMDY optimized routine to calculate 'res = ((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);'
+		/** SIMD optimized routine to calculate 'res = ((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);'
 			 where terms are used as:
 			term = (-0.5*p0+0.5*p2)*pos
 			term2 = (p0-5/2.*p1+p2*2-0.5*p3)*pos*pos;
@@ -446,7 +446,7 @@ private:
 		__m128 result = CubicInterpolate(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);
 		return convertSimdToVector3f(result);
 		#else // HAVE_SIMD
-		throw std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is neccesary for tricubic interpolation of vector grids.\n");
+		throw std::runtime_error( "Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is necessary for tricubic interpolation of vector grids.\n");
 		#endif // HAVE_SIMD	
 	}
 
@@ -538,48 +538,10 @@ private:
 
 }; // class Grid
 
+typedef Grid<double> Grid1d;
+typedef Grid<float> Grid1f;
 typedef Grid<Vector3f> Grid3f;
 typedef Grid<Vector3d> Grid3d;
-typedef Grid<float> Grid1f;
-typedef Grid<double> Grid1d;
-
-// DEPRECATED: Will be removed in CRPropa v3.2
-class VectorGrid: public Grid3f {
-	void printDeprecation() const {
-		KISS_LOG_WARNING << "VectorGrid is deprecated and will be removed in the future. Replace it with Grid3f (float) or Grid3d (double).";
-	}
-public:
-	VectorGrid(Vector3d origin, size_t N, double spacing) : Grid3f(origin, N, spacing) {
-		printDeprecation();
-	}
-
-	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-
-	VectorGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid3f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-};
-
-// DEPRECATED: Will be removed in CRPropa v3.2
-class ScalarGrid: public Grid1f {
-	void printDeprecation() const {
-		KISS_LOG_WARNING << "ScalarGrid is deprecated and will be removed in the future. Replace with Grid1f (float) or Grid1d (double).";
-	}
-public:
-	ScalarGrid(Vector3d origin, size_t N, double spacing) : Grid1f(origin, N, spacing) {
-		printDeprecation();
-	}
-
-	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-
-	ScalarGrid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) : Grid1f(origin, Nx, Ny, Nz, spacing) {
-		printDeprecation();
-	}
-};
 
 /** @}*/
 

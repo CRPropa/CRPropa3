@@ -38,17 +38,30 @@ private:
 
 public:
 	/** Constructor.
-	 @param photonField		target photon field
+	 @param electrons		if true, add secondary photons as candidates
 	 @param photons			if true, add secondary photons as candidates
 	 @param neutrinos		if true, add secondary neutrinos as candidates
 	 @param limit			step size limit as fraction of mean free path
 	 */
 	NuclearDecay(bool electrons = false, bool photons = false, bool neutrinos = false, double limit = 0.1);
+
+	/** Limit the propagation step to a fraction of the mean free path
+	 * @param limit fraction of the mean free path
+	 */
 	void setLimit(double limit);
+
+	// decide if secondary electrons are added to the simulation	
 	void setHaveElectrons(bool b);
+
+	// decide if secondary photons are added to the simulation	
 	void setHavePhotons(bool b);
+
+	// decide if secondary neutrinos are added to the simulation	
 	void setHaveNeutrinos(bool b);
 
+	/** set a custom interaction tag to trace back this interaction
+	 * @param tag string that will be added to the candidate and output
+	 */
 	void setInteractionTag(std::string tag);
 	std::string getInteractionTag() const;
 

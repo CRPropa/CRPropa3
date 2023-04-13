@@ -15,6 +15,10 @@
 #include "crpropa/Units.h"
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class PolarizedSingleModeMagneticField
@@ -40,10 +44,23 @@ private:
 	double B_max; // Maximal value of the magnetic field (i.e. the amplitude/semi-major value of the mode)
 
 public:
-	PolarizedSingleModeMagneticField(const double &B_0, const double &wavelength, const double &sigma, const Vector3d &r_0, const Vector3d &e_1, const Vector3d &e_2, std::string flagAmplitudeRms, std::string flagPolarizationHelicity, std::string flagMode );
+	/**
+	 * Constructor
+	 * @param B_0 						Magnetic field strength in the direction of e_1 at r_0 (for flagAmplitudeRms = "amplitude"), or the RMS value of the magnetic field (for flagAmplitudeRms = "rms")	
+	 * @param wavelength				Wavelength of the single mode (corresponds to its coherence length)
+	 * @param sigma 					Polarization parameter
+	 * @param r_0						Reference position
+	 * @param e_1						First vector spanning the polarization plane
+	 * @param e_2	 					Second vector spanning the polarization plane
+	 * @param flagAmplitudeRms			Flag to specify whether B_0 denotes the maximum ("amplitude") or the RMS ("rms") value of the magnetic field
+	 * @param flagPolarizationHelicity	Flag to specify whether sigma denotes the standard polarization parameter ("polarization") or f_H, the fraction of maximal helicity ("helicity")
+	 * @param flagMode 					Flag to specify the polarization mode; possible choices are "elliptical", "circular" or "linear"
+	*/
+	PolarizedSingleModeMagneticField(const double &B_0, const double &wavelength, const double &sigma, const Vector3d &r_0, const Vector3d &e_1, const Vector3d &e_2, std::string flagAmplitudeRms, std::string flagPolarizationHelicity, std::string flagMode);
 
 	Vector3d getField(const Vector3d &position) const;
 };
+/** @} */
 
 } // end namespace crpropa
 

@@ -42,7 +42,7 @@ class test1DChainWithSecondaries(unittest.TestCase):
 
         # observer
         obs = crp.Observer()
-        obs.add(crp.ObserverPoint())
+        obs.add(crp.Observer1D())
         sim.add(obs)
 
         # output

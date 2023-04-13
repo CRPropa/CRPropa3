@@ -43,8 +43,15 @@ class HelicalGridTurbulence : public SimpleGridTurbulence {
 // Compatibility with old functions from GridTurbulence:
 
 /**
- Same as the simple turbulent field but with helicity.
- @param H	Helicity
+ Create a random initialization of a turbulent field including helicity
+ @param grid	grid on which the turbulence is calculated
+ @param Brms	RMS field strength
+ @param lMin	Minimum wavelength of the turbulence
+ @param lMax	Maximum wavelength of the turbulence
+ @param alpha	Power law index of <B^2(k)> ~ k^alpha (alpha = -11/3 corresponds
+ to a Kolmogorov spectrum)
+ @param seed	Random seed
+ @param H		Helicity
 */
 void initHelicalTurbulence(ref_ptr<Grid3f> grid, double Brms, double lMin,
                            double lMax, double alpha = -11 / 3., int seed = 0,

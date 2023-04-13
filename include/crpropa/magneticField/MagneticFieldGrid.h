@@ -19,6 +19,10 @@ namespace crpropa {
 class MagneticFieldGrid: public MagneticField {
 	ref_ptr<Grid3f> grid;
 public:
+	/**
+	 *Constructor
+	 @param grid Grid3f storing the magnetic field vectors
+	*/
 	MagneticFieldGrid(ref_ptr<Grid3f> grid);
 	void setGrid(ref_ptr<Grid3f> grid);
 	ref_ptr<Grid3f> getGrid();
@@ -39,6 +43,12 @@ class ModulatedMagneticFieldGrid: public MagneticField {
 public:
 	ModulatedMagneticFieldGrid() {
 	}
+	/**
+	 *Constructor
+	 @param grid 	Grid3f storing the magnetic field vectors
+	 @param modGrid Grid1f used to scale the magnetic field strength
+	 				B^new_i = B^old_i * scale 
+	*/
 	ModulatedMagneticFieldGrid(ref_ptr<Grid3f> grid, ref_ptr<Grid1f> modGrid);
 	void setGrid(ref_ptr<Grid3f> grid);
 	void setModulationGrid(ref_ptr<Grid1f> modGrid);

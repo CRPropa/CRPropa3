@@ -176,13 +176,13 @@ TEST(testFerriere, checkValueAtCertainPoints) {
 
 	//test CMZ Trafo
 	Vector3d Trafo;
-	Trafo = n.CMZTrafo(p);
+	Trafo = n.CMZTransformation(p);
 	EXPECT_NEAR(Trafo.x,5.9767*pc,1e-4*pc);
 	EXPECT_NEAR(Trafo.y,12.8171*pc,1e-4*pc);
 	EXPECT_DOUBLE_EQ(Trafo.z,p.z);	//no transformation in z component
 
 	//test DISK Trafo
-	Trafo = n.DISKTrafo(p);
+	Trafo = n.DiskTransformation(p);
 	EXPECT_NEAR(Trafo.x,11.0660*pc,1e-4*pc);
 	EXPECT_NEAR(Trafo.y,82.5860*pc,1e-4*pc);
 	EXPECT_NEAR(Trafo.z,-25.6338*pc,1e-4*pc);

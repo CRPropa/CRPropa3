@@ -26,15 +26,16 @@ private:
 
 public:
 	/** Coordinate transformation for the CentralMolecularZone region. Rotation arround z-axis such that X is the major axis and Y is the minor axis
-	@param postion position in galactic coordinates with Earth at (-8.5kpc, 0, 0)
+	@param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0)
 	@return position in local coordinates for the CMZ region
 	*/
-	Vector3d CMZTrafo(const Vector3d &position) const;
+	Vector3d CMZTransformation(const Vector3d &position) const;
+	
 	/** Coordinate transformation for the galactic bulge disk region in galactic center. Rotation arround the x-axis, the y'-axis and the x''-axis. Difened with X along the major axis, Y along the minor axis and Z along the northern normal
-	@param postion position in galactic coordinates with Earth at (-8.5kpc, 0, 0)
+	@param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0)
 	@return position in local coordinates for the GB disk region
 	*/
-	Vector3d DISKTrafo(const Vector3d &position) const;
+	Vector3d DiskTransformation(const Vector3d &position) const;
 
 	/** @param position position in galactic coordinates with Earth at (-8.5kpc, 0, 0)
 	 @return density in parts/m^3, only acitvated parts are summed up */

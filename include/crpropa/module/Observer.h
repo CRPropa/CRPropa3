@@ -50,22 +50,22 @@ private:
 	bool clone;
 	bool makeInactive;
 public:
-	/** Default observer constructor.
+	/** Default observer constructor
 	 */
 	Observer();
-	/** Add a feature to the observer.
-	 @param feature		observer feature to be add to the Observer object
+	/** Add a feature to the observer
+	 @param feature		observer feature to be added to the Observer object
 	 */
 	void add(ObserverFeature *feature);
 	/** Perform some specific actions upon detection of candidate
 	 @param action		module that performs a given action when candidate is detected
-	 @param clone		if true, clone candidate 
+	 @param clone		if true, clone candidate
 	 */
 	void onDetection(Module *action, bool clone = false);
 	void process(Candidate *candidate) const;
 	std::string getDescription() const;
 	void setFlag(std::string key, std::string value);
-	/** Determine whether candidate should be deactivated on detection.
+	/** Determine whether candidate should be deactivated on detection
 	 @param deactivate	if true, deactivate detected particles; if false, continue tracking them
 	 */
 	void setDeactivateOnDetection(bool deactivate);
@@ -85,7 +85,7 @@ public:
 
 /**
  @class ObserverSurface
- @brief Detects particles crossing a given surface
+ @brief Detects particles crossing the boundaries of a defined surface (see, e.g., `Geometry` module)
  */
 class ObserverSurface: public ObserverFeature {
 private:
@@ -96,27 +96,6 @@ public:
 	*/
 	ObserverSurface(Surface* surface);
 	DetectionState checkDetection(Candidate *candidate) const;
-	std::string getDescription() const;
-};
-
-
-/**
- @class ObserverSmallSphere
- @brief Detects particles that enter a sphere from the outside to the inside
- */
-class ObserverSmallSphere: public ObserverFeature {
-private:
-	Vector3d center;
-	double radius;
-public:
-	/** Constructor
-	 @param center		vector containing the coordinates of the center of the sphere
-	 @param radius		radius of the sphere
-	 */
-	ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
-	DetectionState checkDetection(Candidate *candidate) const;
-	void setCenter(const Vector3d &center);
-	void setRadius(float radius);
 	std::string getDescription() const;
 };
 
@@ -143,32 +122,25 @@ public:
 
 
 /**
- @class ObserverLargeSphere
- @brief Detects particles that exit a sphere from the inside to the outside
+ @class ObserverPoint
+ @brief Detects particles when reaching x = 0
+
+Should be removed and replaced by Observer1D
  */
-class ObserverLargeSphere: public ObserverFeature {
-private:
-	Vector3d center;
-	double radius;
+class ObserverPoint: public ObserverFeature {
 public:
-	/** Constructor
-	 @param center		vector containing the coordinates of the center of the sphere
-	 @param radius		radius of the sphere
-	 */
-	ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
 };
 
 
 /**
- @class ObserverPoint
+ @class Observer1D
  @brief Detects particles when reaching x = 0
 
- This module limits the next step size to prevent candidates from overshooting.
- Should be renamed to Observer1D, once old observer-scheme is removed.
+ This module detects particles when reaching x = 0 and also limits the next step size to prevent candidates from overshooting.
  */
-class ObserverPoint: public ObserverFeature {
+class Observer1D: public ObserverFeature {
 public:
 	DetectionState checkDetection(Candidate *candidate) const;
 	std::string getDescription() const;
@@ -180,7 +152,7 @@ public:
  @brief Detects particles in a given redshift window
 
  When added to an observer, this feature generalizes it to four dimensions.
- The fourth dimension is the redshift, a proxy for time. This is particularly 
+ The fourth dimension is the redshift, a proxy for time. This is particularly
  useful in "4D" studies, including either time-dependence (e.g. flaring objects),
  or in 3D studies including cosmological evolution.
  Note that redshifts should be assigned to sources when using this feature.
@@ -258,7 +230,7 @@ public:
 
 /**
  @class ObserverParticleIdVeto
- @brief Custom veto for user-defined particle types.
+ @brief Custom veto for user-defined particle types
  Vetoes for more than one type of particle can be added by calling this
  feature multiple times.
  */
@@ -291,7 +263,6 @@ public:
 	 @param min		minimum time
 	 @param dist	time interval for detection
 	 @param numb	number of time intervals
-	 @param
 	 */
 	ObserverTimeEvolution(double min, double dist, double numb);
 	/** Constructor
@@ -299,12 +270,11 @@ public:
 	 @param max	    maximum time
 	 @param numb	number of time intervals
 	 @param log     log (input: true) or lin (input: false) scaling between min and max with numb steps
-	 @param 
 	 */
 	ObserverTimeEvolution(double min, double max, double numb, bool log);
-	// add a new time step to the detection time list of the observer
+	// Add a new time step to the detection time list of the observer
 	void addTime(const double &position);
-	// using log or lin spacing of times in the range between min and
+	// Using log or lin spacing of times in the range between min and
 	// max for observing particles
 	void addTimeRange(double min, double max, double numb, bool log = false);
 	const std::vector<double>& getTimes() const;

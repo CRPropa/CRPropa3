@@ -1,6 +1,7 @@
-# CRPropa NEXT
+# CRPropa vNext
 
 ### Bug fixes:
+* Re-added ToroidalHaloField and LogarithmicSpiralField models. Note, that the class name was also corrected in spelling: TorroidalHaloField --> ToroidalHaloField
 * Synchronized signature of ParticleSplitting constructor
 
 ### New features:
@@ -13,6 +14,8 @@
 * Weight column in hdf-Output is now called "W", which is the same as for TextOutput.
 
 ### Features that are deprecated and will be removed after this release
+* ObserverPoint will be renamed into Observer1D.
+* AMRMagenticField - underlying library (saga) is no longer supported.
 
 ### New plugins and resources linked on the webpages:
 

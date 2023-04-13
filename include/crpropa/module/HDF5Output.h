@@ -22,7 +22,7 @@ const size_t propertyBufferSize = 1024;
 /**
  @class HDF5Output
  @brief Output to HDF5 Format.
-
+The base class gives an overview of possible columns
 
 HDF5 structure:
 ```
@@ -97,8 +97,21 @@ class HDF5Output: public Output {
 	unsigned int flushLimit;
 	unsigned int candidatesSinceFlush;
 public:
+	/** Default constructor.
+	  	Does not run from scratch.
+	    At least open() has to be called in addition.
+		Units of energy and length are, by default, EeV and Mpc.
+	 	This can be changed with setEnergyScale and setLengthScale.
+	 */
 	HDF5Output();
+	/** Constructor with the default OutputType (everything).
+	 	@param filename	string containing name of output hdf5 file
+	 */
 	HDF5Output(const std::string &filename);
+	/** Constructor
+	 	@param outputtype	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
+	 	@param filename	string containing name of output hdf5 file
+	 */
 	HDF5Output(const std::string &filename, OutputType outputtype);
 	~HDF5Output();
 
@@ -112,6 +125,8 @@ public:
 	/// with frequent output this should be set to a high number (default)
 	void setFlushLimit(unsigned int N);
 
+	/** Create and prepare a file as HDF5-file.
+	 */
 	void open(const std::string &filename);
 	void close();
 	void flush() const;

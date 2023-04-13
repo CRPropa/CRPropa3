@@ -3,6 +3,7 @@
 #include "crpropa/magneticField/MagneticFieldGrid.h"
 #include "crpropa/magneticField/CMZField.h"
 #include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
+#include "crpropa/magneticField/GalacticMagneticField.h"
 #include "crpropa/Grid.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
@@ -178,6 +179,27 @@ TEST(testCMZMagneticField, TestAzimutalComponent){
 	EXPECT_NEAR(bVec.x, -8.339*muG, 1e-3*muG);
 	EXPECT_NEAR(bVec.y, -0.850*muG, 1e-3*muG);
 	EXPECT_DOUBLE_EQ(bVec.z, 0);
+}
+
+TEST(testToroidalHaloField, SimpleTest) {
+	ref_ptr<ToroidalHaloField> field = new ToroidalHaloField();
+	Vector3d b = field->getField(Vector3d(0.));
+	EXPECT_DOUBLE_EQ(b.x, 0);
+	EXPECT_DOUBLE_EQ(b.y, 0);
+	EXPECT_DOUBLE_EQ(b.z, 0);
+
+	b = field->getField(Vector3d(1,0,0));
+	EXPECT_DOUBLE_EQ(b.x, 0.5);
+	EXPECT_DOUBLE_EQ(b.y, 0);
+	EXPECT_DOUBLE_EQ(b.z, 0);
+}
+
+TEST(testLogarithmicSpiralField, SimpleTest) {
+	ref_ptr<LogarithmicSpiralField> field = new LogarithmicSpiralField();
+	Vector3d b = field->getField(Vector3d(8.5, 0, 0)*kpc);
+	EXPECT_NEAR(b.x, -1., 1E-2);
+	EXPECT_NEAR(b.y, 0, 1E-10);
+	EXPECT_NEAR(b.z, 0, 1E-10);
 }
 
 TEST(testPolarizedSingleModeMagneticField, SimpleTest) {

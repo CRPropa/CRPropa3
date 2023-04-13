@@ -5,6 +5,10 @@
 
 namespace crpropa {
 using namespace std;
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class TF17Field
@@ -161,8 +165,8 @@ public:
     /**@brief   Compute the azimuthal field component Bphi as define by equation 28 in TF17
      * @param r     radius in cylindrical coordinates
      * @param z     radius in cylindrical coordinates
-     * @param Br    radial component of the magnetic field at position (r,z)
-     * @param Bz    height component of the magnetic field at position (r,z)
+     * @param B_r    radial component of the magnetic field at position (r,z)
+     * @param B_z    height component of the magnetic field at position (r,z)
      * @return  the value of the azimuthal field component Bphi
      */
 	double azimuthalFieldComponent(const double& r, const double& z, const double& B_r, const double& B_z) const;
@@ -192,7 +196,7 @@ public:
      */
 	double zscale(const double& z) const;
 };
-
+/**@}*/
 } // CRPROPA NAMESPACE
 
 #endif // CRPROPA_TF17FIELD_H

@@ -124,10 +124,11 @@ class PlaneWaveTurbulence : public TurbulentField {
 	    Create a new instance of PlaneWaveTurbulence with the specified
 	   parameters. This generates all of the wavemodes according to the given
 	   parameters.
-	    @param Nm           number of wavemodes that will be used when computing
+	    @param spectrum TurbulenceSpectrum
+	    @param Nm	number of wavemodes that will be used when computing
 	   the field. A higher value will give a more accurate representation of the
 	   turbulence, but increase the runtime for getField.
-	    @param              seed can be used to seed the random number generator
+	    @param seed can be used to seed the random number generator
 	   used to generate the field. This works just like in initTurbulence: a
 	   seed of 0 will lead to a randomly initialized RNG.
 	*/

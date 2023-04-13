@@ -24,7 +24,7 @@ Contents
 
    pages/Basic-concepts.md
    pages/Simulation-Modules.md
-   pages/example_notebooks/basics/basics.v4.ipynb
+   pages/example_notebooks/basics/basics.ipynb
    pages/extragalactic-simulations.rst
    pages/galactic_lensing.rst
    pages/galactic_cosmic_rays.rst

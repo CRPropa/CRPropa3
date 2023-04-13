@@ -8,6 +8,11 @@
 namespace crpropa {
 
 /**
+ * \addtogroup MagneticFields
+ * @{
+ */
+
+/**
  @class JF12FieldSolenoidal
  @brief JF12FieldSolenoidal galactic magnetic field model
 
@@ -57,7 +62,7 @@ public:
 	void setUseTurbulentField(bool use);
 
 /** @brief Adjust the transition width of the disk field
-	@param d	The new transition width for the disk field with field strength transitions and flux redirection between r = 5 kpc and r = 5 kpc + delta as well as r = 20 kpc - delta and r = 20 kpc. Should be non-negative and smaller than 7.5 kpc.
+	@param delta	The new transition width for the disk field with field strength transitions and flux redirection between r = 5 kpc and r = 5 kpc + delta as well as r = 20 kpc - delta and r = 20 kpc. Should be non-negative and smaller than 7.5 kpc.
 	@return Void
 */
 	void setDiskTransitionWidth(double delta);
@@ -107,6 +112,7 @@ public:
 */
 	double getSpiralFieldStrengthConstant(const double& r, const double& phi) const;
 };
+/** @} */
 
 } // namespace crpropa
 

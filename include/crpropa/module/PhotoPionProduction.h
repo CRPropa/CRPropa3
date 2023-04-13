@@ -95,6 +95,17 @@ protected:
 	
 
 public:
+	/**
+	 * @brief pion production on a given target photon field
+	 * 
+	 * @param photonField 	target photon field
+	 * @param photons 		if true, secondary photons are added to the simulation
+	 * @param neutrinos 	if true, secondary neutrinos are added to the simulation
+	 * @param electrons 	if true, secondary electrons are added to the simulation
+	 * @param antiNucleons 	if true, secondary anti nucleons are added to the simulation
+	 * @param limit 		fraction of the mean free path, to which the propagation step will be limited
+	 * @param haveRedshiftDependence 	use redshift dependent tabulated loss rates; if false, the redshift scaling of the photon field will be used
+	 */
 	PhotoPionProduction(
 		ref_ptr<PhotonField> photonField,
 		bool photons = false,
@@ -103,16 +114,50 @@ public:
 		bool antiNucleons = false,
 		double limit = 0.1,
 		bool haveRedshiftDependence = false);
+
+	// set the target photon field
 	void setPhotonField(ref_ptr<PhotonField> photonField);
+
+	// decide if secondary photons are added to the simulation
 	void setHavePhotons(bool b);
+
+	// decide if secondary neutrinos are added to the simulation
 	void setHaveNeutrinos(bool b);
+
+	// decide if secondary electrons are added to the simulation
 	void setHaveElectrons(bool b);
+
+	// decide if secondary anti nucleons are added to the simulation
 	void setHaveAntiNucleons(bool b);
+
+	// decide if redshift dependent tabulated loss rates are used
 	void setHaveRedshiftDependence(bool b);
+
+	/** Limit the propagation step to a fraction of the mean free path
+	 * @param limit fraction of the mean free path
+	 */	
 	void setLimit(double limit);
+
+	/** set a custom interaction tag to trace back this interaction
+	 * @param tag string that will be added to the candidate and output
+	 */
 	void setInteractionTag(std::string tag);
+
 	void initRate(std::string filename);
+
+	/** get the mean free path (MFP) for a single nucleon. 
+	 *  To get the MFP for the full nucleus the nucleonMFP has to be divided by by the nucleiModification factor
+	 * @param gamma 	Lorentz factor of the nucleon
+	 * @param z 		redshift
+	 * @param onProton 	true for protons, false for neutrons
+	 */
 	double nucleonMFP(double gamma, double z, bool onProton) const;
+
+	/** scaling factor for mean free path of the nucleus (converting the MFP of a single nucleon)
+	 * 
+	 * @param A		mass number of the nucleus
+	 * @param X 	charge number of the nucleus
+	 */
 	double nucleiModification(int A, int X) const;
 	void process(Candidate *candidate) const;
 	void performInteraction(Candidate *candidate, bool onProton) const;

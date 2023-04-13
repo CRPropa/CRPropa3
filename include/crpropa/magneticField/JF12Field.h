@@ -6,6 +6,10 @@
 #include "kiss/logger.h"
 
 namespace crpropa {
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 
 /**
  @class JF12Field
@@ -133,8 +137,13 @@ public:
 	// All set field components
 	Vector3d getField(const Vector3d& pos) const;
 };
+/** @} */
 
 
+/**
+ * \addtogroup MagneticFields
+ * @{
+ */
 /**
  @class PlanckJF12bField
  @brief PlanckJF12bField: the JF12 galactic magnetic field model with corrections
@@ -150,6 +159,7 @@ class PlanckJF12bField: public JF12Field {
 	public:
 		PlanckJF12bField();
 };
+/** @} */
 
 } // namespace crpropa
 

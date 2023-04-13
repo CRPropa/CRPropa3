@@ -17,9 +17,14 @@
 namespace crpropa {
 
 /**
+ * \addtogroup MagneticFields
+ * @{
+ */
+
+/**
 
 @class ArchimedeanSpiralField
-@brief Magnetic field model following a Archimedean spiral
+@brief Magnetic field model following an Archimedean spiral.
 
 See e.g. Jokipii, Levy & Hubbard 1977
 */
@@ -52,7 +57,7 @@ public:
 	double getOmega() const;
 	double getVw() const;
 };
-
+/** @} */
 	 
 } // end namespace crpropa
 

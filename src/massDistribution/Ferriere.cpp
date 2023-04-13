@@ -7,7 +7,7 @@
 
 namespace crpropa {
 
-Vector3d Ferriere::CMZTrafo(const Vector3d &position) const {
+Vector3d Ferriere::CMZTransformation(const Vector3d &position) const {
 	// set galactocentric coordinate system with the Sun at (-8.5,0.,0.) instead of (8.5, 0, 0) to be consistand with JF12 implementation
 	double x = -position.x;
 	double y = -position.y;
@@ -25,7 +25,7 @@ Vector3d Ferriere::CMZTrafo(const Vector3d &position) const {
 	return pos;
 }
 
-Vector3d Ferriere::DISKTrafo(const Vector3d &position) const {
+Vector3d Ferriere::DiskTransformation(const Vector3d &position) const {
 	// set galactocentric coordinate system with the Sun at (-8.5,0.,0.) instead of (8.5, 0, 0) to be consistand with JF12 implementation
 	double x = -position.x;
 	double y = - position.y;
@@ -63,7 +63,7 @@ double Ferriere::getHIDensity(const Vector3d &position) const {
 	if(R<3*kpc)
 	{
 		// density at center
-		Vector3d pos = CMZTrafo(position);  // coordinate trafo
+		Vector3d pos = CMZTransformation(position);  // coordinate trafo
 		double x = pos.x/pc;  // all units in pc
 		double y = pos.y/pc;
 		double z = pos.z/pc;
@@ -72,7 +72,7 @@ double Ferriere::getHIDensity(const Vector3d &position) const {
 		double nCMZ = 8.8/ccm*exp(-pow_integer<4>((A-125.)/137))*exp(-pow_integer<2>(z/54.));
 
 		// density in disk
-		pos = DISKTrafo(position);  // Corrdinate Trafo
+		pos = DiskTransformation(position);  // Corrdinate Trafo
 		x = pos.x/pc;  // all units in pc
 		y = pos.y/pc;
 		z = pos.z/pc;
@@ -156,7 +156,7 @@ double Ferriere::getH2Density(const Vector3d &position) const{
 
 	if(R<3*kpc) {
 		// density at center
-		Vector3d pos =CMZTrafo(position);  // coord trafo for CMZ
+		Vector3d pos =CMZTransformation(position);  // coord trafo for CMZ
 		double x = pos.x/pc;  // all units in pc
 		double y = pos.y/pc;
 		double z = pos.z/pc;
@@ -166,7 +166,7 @@ double Ferriere::getH2Density(const Vector3d &position) const{
 		nCMZ *= 150/ccm;  // rescaling
 
 		// density in disk
-		pos = DISKTrafo(position);  // coord trafo for disk
+		pos = DiskTransformation(position);  // coord trafo for disk
 		x=pos.x/pc;
 		y=pos.y/pc;
 		z=pos.z/pc;

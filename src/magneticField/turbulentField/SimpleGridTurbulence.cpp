@@ -21,23 +21,7 @@ void SimpleGridTurbulence::initTurbulence(ref_ptr<Grid3f> grid, double Brms,
 	
 	Vector3d spacing = grid->getSpacing();
 
-	// TODO(adundovi): replace it with checkGridRequirements(grid, lMin, lMax) once
-	// the old interface is removed 
-       size_t Nx = grid->getNx();
-       size_t Ny = grid->getNy();
-       size_t Nz = grid->getNz();
-
-       if ((Nx != Ny) or (Ny != Nz))
-               throw std::runtime_error("turbulentField: only cubic grid supported");
-       if ((spacing.x != spacing.y) or (spacing.y != spacing.z))
-               throw std::runtime_error("turbulentField: only equal spacing suported");
-       if (lMin < 2 * spacing.x)
-               throw std::runtime_error("turbulentField: lMin < 2 * spacing");
-       if (lMin >= lMax)
-               throw std::runtime_error("turbulentField: lMin >= lMax");
-       if (lMax > Nx * spacing.x) // before was (lMax > Nx * spacing.x / 2)
-               throw std::runtime_error("turbulentField: lMax > size");
-	//--- end of check
+	checkGridRequirements(grid, lMin, lMax);
 
 	size_t n = grid->getNx(); // size of array
 	size_t n2 = (size_t)floor(n / 2) +

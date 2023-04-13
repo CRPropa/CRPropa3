@@ -168,7 +168,7 @@ public:
 
 /**
  @class CylindricalBoundary
- @brief Flags a particle when leaving the cylinder.
+ @brief Flags a particle when leaving the cylinder whose axis is along the z-axis.
  This module flags particles when outside of the cylinder, defined by a radius and a height.
  The particle is made inactive and by default is flagged "OutOfBounds".
  Optionally the module can ensure the candidate does not overshoot the boundary by more than a set margin.

@@ -9,7 +9,7 @@ Propagation modules are responsible for proposing a step size, evaluating the bi
 * **SimplePropagation** - Simple rectlinear propagation
 * **PropagationBP** - Deflections of charged particles in magnetic fields using the Boris Push algorithm with dynamic step size control
 * **PropagationCK** - Deflections of charged particles in magnetic fields using the Cash-Karp algorithm (Runge-Kutta of order 4/5) with dynamic step size control
-* **DiffusionSDE** - Solve the Fokker-Planck transport equation using stochastic differential equations (SDEs).
+* **DiffusionSDE** - Solves the Fokker-Planck transport equation using stochastic differential equations (SDEs).
 
 ### Interaction modules
 Interaction modules implement physical interactions which modify the particle and eventually produce secondary particles. Hadronic secondaries are always generated, non-hadronic secondaries are optionally generated.
@@ -53,24 +53,22 @@ Periodic- and ReflectiveBox implement boundary conditions for the particles. The
 * **CylindricalBoundary** - Cylindric simulation volume
 * **PeriodicBox** - Periodic boundary conditions for the particle: If a particle leaves the box it will enter from the opposite side and the initial position will be changed as if it had come from that side.
 * **ReflectiveBox** - Reflective boundary conditions for the particle: If a particle leaves the box it will be reflected (mirrored) and the initial position will be changed as if it had come from that side.
-* **DetectionLength** - Detects the candidate at a given trajectory length. 
+* **DetectionLength** - Detects the candidate at a given trajectory length.
 
 ### Observers
 Observers can be defined using a collection of ObserverFeatures.
 The names of ObserverFeatures all start with "Observer" so you can discover the available options from an interactive python session by typing "Observer" and pressing "tab". The list includes
-* **ObserverSurface** - Detects particles crossing the boundaries of a surface defined (see, e.g., `Geometry` module)
-* **ObserverSmallSphere** - Detects particle when they enter the sphere
-* **ObserverLargeSphere** - Detects particles when they leave the sphere
-* **ObserverTracking** - For recording the tracks of particles inside a small observer sphere
-* **ObserverPoint** - Observer for 1D simulations
+* **ObserverSurface** - Detects particles crossing the boundaries of a defined surface (see, e.g., `Geometry` module)
+* **ObserverTracking** - For recording the tracks of particles inside an observer sphere
+* **Observer1D** - Observer for 1D simulations that detects particles when reaching x = 0
 * **ObserverDetectAll** - Detects all particles
-* **ObserverRedshiftWindow** - Detect particles within a given redshift interval around z=0
+* **ObserverRedshiftWindow** - Detect particles within a given redshift interval
 * **ObserverInactiveVeto** - Veto for inactive particles
 * **ObserverPhotonVeto** - Veto for photons
 * **ObserverElectronVeto** - Veto for electrons/positrons
 * **ObserverNeutrinoVeto** - Veto for neutrinos
 * **ObserverNucleusVeto** - Veto for protons/neutrons and nuclei
-* **ObserverTimeEvolution** - Records all candidates at a series of equidistant trajectory length intervals.
+* **ObserverTimeEvolution** - Records all candidates along their trajectory using linear or logarithmic steps
 
 ### Output modules
 Main output modules

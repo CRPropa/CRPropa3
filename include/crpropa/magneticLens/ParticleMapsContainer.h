@@ -107,8 +107,8 @@ public:
 	/** Places a particle with given id and energy according to the  probability maps. 
 	 @param pid					id of the particle following the PDG numbering scheme
 	 @param energy				energy of interest [in eV]
-	 @param galacticLongitudes	longitude in the interval [-pi, pi] [in radians]
-	 @param galacticLatitudes	latitude in the interval [-pi/2, pi/2] [in radians]
+	 @param galacticLongitude	longitude in the interval [-pi, pi] [in radians]
+	 @param galacticLatitude	latitude in the interval [-pi/2, pi/2] [in radians]
 	 @returns Returns false if operation not possible; true otherwise.
 	 */
 	bool placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude);

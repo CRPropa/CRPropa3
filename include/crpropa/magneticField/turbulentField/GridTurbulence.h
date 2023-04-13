@@ -34,7 +34,7 @@ class GridTurbulence : public TurbulentField {
 	 @param gridProp	GridProperties instance to define the underlying grid
 	 @param seed	 Random seed
 	 */
-	GridTurbulence(const TurbulenceSpectrum &spectum,
+	GridTurbulence(const TurbulenceSpectrum &spectrum,
 	               const GridProperties &gridProp, unsigned int seed = 0);
 
 	Vector3d getField(const Vector3d &pos) const;

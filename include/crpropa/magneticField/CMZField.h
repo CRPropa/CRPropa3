@@ -9,6 +9,12 @@
 namespace crpropa {
 
 /**
+ * \addtogroup MagneticFields
+ * @{
+ */
+
+
+/**
  * @class CMZField
  * @brief Magnetic Field Model in the Galactic Center from M. Guenduez et al.
  * 
@@ -41,17 +47,17 @@ public:
     void setUseNTFField(bool use);
     void setUseRadioArc(bool use);
 
-    /** Magnetic field in the poloidal model. Used für inter-cloud(IC), non-thermal-filaments(NTF) and for the RadioArc.
-    @param position position in galactic coordinates with Eart at (-8.5kpc, 0,0)
+    /** Magnetic field in the poloidal model. Used for inter-cloud (IC), non-thermal-filaments (NTF) and for the radio arc.
+    @param position position in galactic coordinates with Earth at (-8.5kpc, 0,0)
     @param mid  midpoint of the object
     @param B1   normalized magnetic field strength
     @param a    fitting parameter for the radial scale height
     @param L    fitting parameter for the z scale height
     @return     magnetic field vector */
-    Vector3d BPol(const Vector3d& position,const Vector3d& mid, double B1, double a, double L) const;
+    Vector3d BPol(const Vector3d& position, const Vector3d& mid, double B1, double a, double L) const;
     
     /** Magnetic field in the azimuthal model. Used for molecular clouds (MC)
-    @param position position in galactic coordinates with Eart at (-8.5kpc, 0,0)
+    @param position position in galactic coordinates with Earth at (-8.5kpc, 0,0)
     @param mid  midpoint of the object
     @param B1   normalized magnetic field strength
     @param eta  ratio between radial and azimuthal component
@@ -66,6 +72,7 @@ public:
 
     Vector3d getField(const Vector3d& pos) const;
 };
+/** @} */
 
 } // namespace crpropa
 

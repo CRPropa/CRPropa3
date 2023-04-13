@@ -72,6 +72,9 @@ static const double h_planck = 6.62606957e-34 * joule * second;
 static const double k_boltzmann = 1.3806488e-23 * joule / kelvin;
 static const double mu0 = 4 * M_PI * 1e-7 * newton / ampere / ampere;
 static const double epsilon0 = 1.0 / mu0 / c_squared * ampere * second / volt / meter;
+static const double alpha_finestructure = eplus * eplus / 2. / epsilon0 / h_planck / c_light;
+static const double radius_electron = eplus * eplus / 4. / M_PI / epsilon0 / mass_electron / c_squared;
+static const double sigma_thomson = 8. * M_PI / 3. * radius_electron * radius_electron;
 
 // gauss
 static const double gauss = 1e-4 * tesla;

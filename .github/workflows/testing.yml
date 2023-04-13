@@ -15,13 +15,6 @@ jobs:
            fc: "gfortran-9"
            swig_builtin: "Off" #uses swig 4.0.1
            py: "/usr/bin/python3" #python 3.8
-         - name: "ubuntu-18_py2"
-           os: ubuntu-18.04
-           cxx: "g++-7"
-           cc: "gcc-7"
-           fc: "gfortran-7"
-           swig_builtin: "Off" #uses swig 3.x
-           py: "/usr/bin/python2"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

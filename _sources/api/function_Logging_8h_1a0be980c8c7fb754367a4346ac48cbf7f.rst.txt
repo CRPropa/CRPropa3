@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: setLogLevel(int)
+   :project: CRPropa3

@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::mass_electron
+   :project: CRPropa3

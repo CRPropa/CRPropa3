@@ -11,3 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: crpropa::ModelMatrixType
+   :project: CRPropa3

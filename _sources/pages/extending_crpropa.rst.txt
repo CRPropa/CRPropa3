@@ -5,7 +5,9 @@ CRPropa can be interfaced to user code, respectivily adapted to specialized
 needs in in several ways:
 
 .. toctree::
-   Extending-CRPropa.md
-   example_notebooks/advanced/CustomObserver.v4.ipynb
+   example_notebooks/extending-CRPropa/extending-CRPropa.ipynb
+   example_notebooks/advanced/CustomObserver.ipynb
+   example_notebooks/custom_photonfield/custom-photon-field.ipynb
    Cpp-projects.md
+   
 

@@ -106,7 +106,7 @@ Program Listing for File Boundary.h
            Vector3d origin;
            double height;
            double radius;
-   double margin;
+           double margin;
            bool limitStep;
    
    public:

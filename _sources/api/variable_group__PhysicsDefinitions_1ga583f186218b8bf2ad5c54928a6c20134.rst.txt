@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::minute
+   :project: CRPropa3

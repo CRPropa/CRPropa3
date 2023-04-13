@@ -23,7 +23,7 @@ Program Listing for File ConstantDensity.h
    
    /*
    @class ConstantDensity
-   @brief Density module for Constant densitys in HI, HII and H2 component.
+   @brief Density module for Constant densities in HI, HII and H2 component.
    */
    class ConstantDensity: public Density {
    private:
@@ -47,17 +47,17 @@ Program Listing for File ConstantDensity.h
            bool getIsForHII();
            bool getIsForH2();
    
-           void setHI(bool activate, double densitynumber);
+           void setHI(bool activate, double densityNumber);
            void setHI(bool activate);
-           void setHI(double densitynumber);
+           void setHI(double densityNumber);
    
-           void setHII(bool activate, double densitynumber);
+           void setHII(bool activate, double densityNumber);
            void setHII(bool activate);
-           void setHII(double densitynumber);
+           void setHII(double densityNumber);
    
-           void setH2(bool activate, double densitynumber);
+           void setH2(bool activate, double densityNumber);
            void setH2(bool activate);
-           void setH2(double densitynumber);
+           void setH2(double densityNumber);
    
            std::string getDescription();
    };

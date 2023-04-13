@@ -1,82 +1,44 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Comparison of Propagation Modules (BP - CK) &mdash; CRPropa3  documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparison of Propagation Modules (BP - CK) &mdash; CRPropa3 3.2.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/collapsible-lists/css/tree_view.css" type="text/css" />
     <link rel="canonical" href="https://crpropa.desy.de/pages/example_notebooks/propagation_comparison/Propagation_Comparison_CK_BP.html"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/javascript" src="../../../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script type="text/javascript" src="../../../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../../../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../../../_static/js/breathe_fold.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Additional Resources" href="../../AdditionalResources.html" />
     <link rel="prev" title="Using CRPropa from C++" href="../../Cpp-projects.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../../../index.html">
-          
-
-          
-            
             <img src="../../../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -84,18 +46,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Project Info</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../Installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../Installation.html#download">Download</a></li>
@@ -114,34 +66,40 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../Changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#crpropa-vnext">CRPropa vNEXT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#bug-fixes">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#new-features">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#interface-changes">Interface changes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Changelog.html#crpropa-vnext">CRPropa vNext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#bug-fixes">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#new-features">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#interface-changes">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#crpropa-3-2">CRPropa 3.2</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id1">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id2">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#interface-change">Interface change:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id3">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id1">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id2">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id3">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id4">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id5">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id4">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id5">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id6">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id7">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#interface-change">Interface change:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id6">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id7">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#id9">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id9">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id10">New features:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id11">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id12">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id13">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Changelog.html#id14">New plugins and resources linked on the webpages:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">FAQ</a><ul>
@@ -163,7 +121,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">USAGE</span></p>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../Basic-concepts.html">Basic Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../Basic-concepts.html#modular-design">Modular design</a></li>
@@ -182,70 +140,84 @@
 <li class="toctree-l2"><a class="reference internal" href="../../Simulation-Modules.html#other-modules">Other modules</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../basics/basics.v4.html">Introduction to Python Steering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#Propagating-a-single-particle">Propagating a single particle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#Defining-an-observer">Defining an observer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#Defining-the-output-file">Defining the output file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#Defining-the-source">Defining the source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../basics/basics.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/basics.html">Introduction to Python Steering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#Propagating-a-single-particle">Propagating a single particle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#Defining-an-observer">Defining an observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#Defining-the-output-file">Defining the output file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#Defining-the-source">Defining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basics/basics.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../extragalactic-simulations.html">Extragalactic Propagation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../sim1D/sim1D.v4.html">1D simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../sim1D/sim1D.v4.html#Simulation-Setup">Simulation Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sim1D/sim1D.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sim1D/sim1D.html">1D simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../sim1D/sim1D.html#Simulation-Setup">Simulation Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sim1D/sim1D.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../sim4D/sim4D.v4.html">4D Simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.v4.html#Periodic-boundaries">Periodic boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.v4.html#Source-positions">Source positions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.v4.html#Note:">Note:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sim4D/sim4D.html">4D Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.html#Periodic-boundaries">Periodic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.html#Source-positions">Source positions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sim4D/sim4D.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../trajectories/trajectories.v4.html">3D trajectories in a turbulent field</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectories.v4.html#Saving-and-loading-fields">Saving and loading fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectories.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectories.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trajectories/trajectories.html">3D trajectories in a turbulent field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectories.html#Saving-and-loading-fields">Saving and loading fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectories.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectories.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../extragalactic_fields/MHD_models.v4.html">3D MHD models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.v4.html#Supplied-data">Supplied data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.v4.html#Uniform-injection">Uniform injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.v4.html#Injection-following-density-field">Injection following density field</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.v4.html#Mass-Halo-injection">Mass Halo injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.v4.html#Observer">Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extragalactic_fields/MHD_models.html">3D MHD models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.html#Supplied-data">Supplied data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../extragalactic_fields/MHD_models.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../secondaries/photons.v4.html">Photon Propagation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.v4.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.html#Source-settings">Source settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.html#Observer">Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../extragalactic_fields/MHD_models.html#ModuleList">ModuleList</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../secondaries/photons.v4.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.v4.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.v4.html#Propagation-with-DINT">Propagation with DINT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.v4.html#Combined-Propagation">Combined Propagation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.v4.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../secondaries/secondary_photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/secondary_photons.html#Setting-up-the-simulation">Setting up the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/secondary_photons.html#Plotting-results-(optional)">Plotting results (optional)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../secondaries/neutrinos.v4.html">Example with secondary neutrinos</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../secondaries/neutrinos.v4.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../secondaries/photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../secondaries/photons.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.html#Propagation-with-DINT">Propagation with DINT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.html#Combined-Propagation">Combined Propagation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/photons.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../secondaries/neutrinos.html">Example with secondary neutrinos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../secondaries/neutrinos.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../photon_propagation/cascade_1d.html">Electromagnetic cascade example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../photon_propagation/cascade_1d.html#Plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../targeting/Targeting.html">The targeting algorithm of CRPropa</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../targeting/Targeting.html#A-simple-example-on-how-to-use-the-targeting-algorithm-of-CRPropa">A simple example on how to use the targeting algorithm of CRPropa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../targeting/Targeting.html#Plotting-of-the-results">Plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../targeting/Targeting.html#A-learning-algorithm-to-obtain-optimal-values-for-mu-and-kappa">A learning algorithm to obtain optimal values for mu and kappa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../targeting/Targeting.html#Testing-sampling-results">Testing sampling results</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../galactic_lensing.html">Propagation of Extragalactic CR in the Milky Way</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.v4.html">Galactic backtracking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.v4.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.v4.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.v4.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../galactic_trajectories/galactic_trajectories.v4.html">Galactic trajectories</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../galactic_trajectories/galactic_trajectories.v4.html#3D-trajectory-plot">3D trajectory plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.html">Galactic backtracking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../galactic_backtracking/galactic_backtracking.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../galactic_lensing/lensing_cr.v4.html">Galactic Lensing of Simulated Cosmic Rays</a><ul>
@@ -256,22 +228,29 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../galactic_lensing/lensing_maps.v4.html">Galactic Lensing of Maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../galactic_lensing/lensing_liouville.v4.html">Galactic Lensing - confirm Liouville</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../galactic_lensing/lensing_liouville.v4.html#Lambert's-distribution">Lambert’s distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../galactic_lensing/lensing_liouville.html">Galactic Lensing - confirm Liouville</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../galactic_lensing/lensing_liouville.html#Lambert’s-distribution">Lambert’s distribution</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../galactic_cosmic_rays.html">Diffusion of Cosmic Rays</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Diffusion/DiffusionValidationI.v4.html">Diffusion Validation I</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.v4.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.v4.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.v4.html#Use-the-absolute-distance-from-origin--and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.v4.html#Calculate-the-pValue-of-the--test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../galactic_cosmic_rays.html">Galactic Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../galactic_trajectories/galactic_trajectories.html">Galactic trajectories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../galactic_trajectories/galactic_trajectories.html#3D-trajectory-plot">3D trajectory plot</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Diffusion/DiffusionValidationII.v4.html">Diffusion Validation II</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationII.v4.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationII.v4.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationII.v4.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../galactic_cosmic_rays.html#diffusion-of-cosmic-rays">Diffusion of Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Diffusion/DiffusionValidationI.html">Diffusion Validation I</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.html#Use-the-absolute-distance-from-origin-|x|,-|y|,-|z|-and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationI.html#Calculate-the-pValue-of-the-\chi^2-test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Diffusion/DiffusionValidationII.html">Diffusion Validation II</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationII.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationII.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/DiffusionValidationII.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../galactic_cosmic_rays.html#advection-and-adiabatic-energy-changes">Advection and Adiabatic Energy Changes</a><ul>
@@ -281,17 +260,33 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../galactic_cosmic_rays.html#example-of-diffusion-in-the-milky-way">Example of diffusion in the Milky way</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Diffusion/GalacticDiffusion.html">Example for Galactic Propagation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../Diffusion/GalacticDiffusion.html#import-of-packages">import of packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Diffusion/GalacticDiffusion.html#Simulation">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Diffusion/GalacticDiffusion.html#Analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../galactic_cosmic_rays.html#gas-densities">Gas Densities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../density/densitys_easy_example.html">First example code for the use of densities</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../density/densitys_easy_example.html#All-densities-are-separated-in-atomic-hydrogen-(HI),-ionised-hydrogen-(HII)-and-molecular-hydrogen-(H2).">All densities are separated in atomic hydrogen (HI), ionised hydrogen (HII) and molecular hydrogen (H2).</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../density/densitys_easy_example.html#The-ConstantDensity-can-be-adjusted-to-new-values-and-the-usage-of-several-parts-can-be-chosen.">The ConstantDensity can be adjusted to new values and the usage of several parts can be chosen.</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../density/densitys_easy_example.html#The-output-of-the-getDensity-and-getNucleonDensity-depends-on-the-activity-of-the-types.-Only-activated-types-are-used-for-summing-up.">The output of the getDensity and getNucleonDensity depends on the activity of the types. Only activated types are used for summing up.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../density/density_easy_example.html">First example code for use of densities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_easy_example.html#Customize-a-density-with-different-density-models">Customize a density with different density models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../density/densitys_model_example.html">Example for the implemented gass density distributions of the Milky Way</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../density/densitys_model_example.html#The-following-example-shows-the-use-of-density-distribution-for-the-Milky-Way-and-gives-some-figures-of-the-distribution.">The following example shows the use of density distribution for the Milky Way and gives some figures of the distribution.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../density/density_model_example.html">Example for the implemented massdistributions of the Milky Way</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_model_example.html#Model-Ferrière">Model Ferrière</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_model_example.html#Model-Cordes">Model Cordes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_model_example.html#Model-Nakanishi">Model Nakanishi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_model_example.html#Advanced-use-of-DensityList">Advanced use of DensityList</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../density/density_grid_sampling.html">Example of grid based densities of the Milky Way and sampling source position</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_grid_sampling.html#load-grid">load grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../density/density_grid_sampling.html#convert-grid-into-a-CRPropa-mass-distribution">convert grid into a CRPropa mass distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../density/density_grid_sampling.html#use-a-massdistribution-as-indicator-for-the-spacial-source-distribution">use a massdistribution as indicator for the spacial source distribution</a></li>
 </ul>
 </li>
 </ul>
@@ -302,10 +297,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../extending_crpropa.html">Interfacing User Code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../Extending-CRPropa.html">Implementing additional Modules and Features using Python only</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../Extending-CRPropa.html#manual-simulation-processing">Manual Simulation Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../Extending-CRPropa.html#plugins-integrate-custom-c-code-to-crpropa-s-python-steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../advanced/CustomObserver.v4.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../extending-CRPropa/extending-CRPropa.html">Implementing additional Modules and Features using Python only</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../extending-CRPropa/extending-CRPropa.html#Manual-Simulation-Processing">Manual Simulation Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa’s-Python-Steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/CustomObserver.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html">Custom Photon Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#Introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#Downloading-CRPropa-data">Downloading CRPropa-data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#1.-Create-a-python-class-with-your-custom-photon-field-(CRPropa-data)">1. Create a python class with your custom photon field (CRPropa-data)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#Warning">Warning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#2.-Create-tables-for-all-photon-field-dependent-processes">2. Create tables for all photon field dependent processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#3.-Copy-files-to-the-share-folder">3. Copy files to the share folder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#4.-Implementing-custom-PhotonField-in-CRPropa">4. Implementing custom PhotonField in CRPropa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#5.-Check-implementation">5. Check implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../custom_photonfield/custom-photon-field.html#6.-Limitation">6. Limitation</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../Cpp-projects.html">Using CRPropa from C++</a></li>
 </ul>
 </li>
@@ -327,7 +338,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../AdditionalResources.html">Additional Resources</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../building_blocks.html">Building Blocks</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../buildingblocks/CoreClasses.html">Core Classes</a></li>
@@ -345,10 +356,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/library_root.html">Library API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/library_root.html#file-hierarchy">File Hierarchy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/library_root.html#full-api">Full API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/library_root.html#namespaces">Namespaces</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/namespace_crpropa.html">Namespace crpropa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/namespace_eleca.html">Namespace eleca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/namespace_std.html">Namespace std</a></li>
 </ul>
 </li>
@@ -378,6 +392,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Clock.html">Class Clock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1CMB.html">Class CMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ConstantSphericalAdvectionField.html">Class ConstantSphericalAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Cordes.html">Class Cordes</a></li>
@@ -386,6 +401,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1CylindricalBoundary.html">Class CylindricalBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1CylindricalProjectionMap.html">Class CylindricalProjectionMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Density.html">Class Density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1DensityGrid.html">Class DensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1DensityList.html">Class DensityList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1DetectionLength.html">Class DetectionLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1DiffusionSDE.html">Class DiffusionSDE</a></li>
@@ -440,18 +456,17 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Nakanishi.html">Class Nakanishi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1NuclearDecay.html">Class NuclearDecay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Observer.html">Class Observer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Observer1D.html">Class Observer1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverDetectAll.html">Class ObserverDetectAll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverElectronVeto.html">Class ObserverElectronVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverFeature.html">Class ObserverFeature</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverInactiveVeto.html">Class ObserverInactiveVeto</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverLargeSphere.html">Class ObserverLargeSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverNeutrinoVeto.html">Class ObserverNeutrinoVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverNucleusVeto.html">Class ObserverNucleusVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverParticleIdVeto.html">Class ObserverParticleIdVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverPhotonVeto.html">Class ObserverPhotonVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverPoint.html">Class ObserverPoint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverRedshiftWindow.html">Class ObserverRedshiftWindow</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverSmallSphere.html">Class ObserverSmallSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverSurface.html">Class ObserverSurface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverTimeEvolution.html">Class ObserverTimeEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ObserverTracking.html">Class ObserverTracking</a></li>
@@ -467,13 +482,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PhotoDisintegration.html">Class PhotoDisintegration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PhotonEleCa.html">Class PhotonEleCa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PhotonField.html">Class PhotonField</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PhotonFieldSampling.html">Class PhotonFieldSampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PhotonOutput1D.html">Class PhotonOutput1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PhotoPionProduction.html">Class PhotoPionProduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Pixelization.html">Class Pixelization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PlanckJF12bField.html">Class PlanckJF12bField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Plane.html">Class Plane</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PlaneWaveTurbulence.html">Class PlaneWaveTurbulence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PolarizedSingleModeMagneticField.html">Class PolarizedSingleModeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PPSecondariesEnergyDistribution.html">Class PPSecondariesEnergyDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PropagationBP.html">Class PropagationBP</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1PropagationBP_1_1Y.html">Class PropagationBP::Y</a></li>
@@ -489,7 +504,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ReflectiveBox.html">Class ReflectiveBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1RenormalizeMagneticField.html">Class RenormalizeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1RestrictToRegion.html">Class RestrictToRegion</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ScalarGrid.html">Class ScalarGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SecondOrderFermi.html">Class SecondOrderFermi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ShellOutput.html">Class ShellOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ShellOutput1D.html">Class ShellOutput1D</a></li>
@@ -501,6 +515,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceComposition.html">Class SourceComposition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceDensityGrid.html">Class SourceDensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceDensityGrid1D.html">Class SourceDensityGrid1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceDirectedEmission.html">Class SourceDirectedEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceDirection.html">Class SourceDirection</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceEmissionCone.html">Class SourceEmissionCone</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceEmissionMap.html">Class SourceEmissionMap</a></li>
@@ -511,6 +526,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceIsotropicEmission.html">Class SourceIsotropicEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceLambertDistributionOnSphere.html">Class SourceLambertDistributionOnSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceList.html">Class SourceList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceMassDistribution.html">Class SourceMassDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceMultipleParticleTypes.html">Class SourceMultipleParticleTypes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceMultiplePositions.html">Class SourceMultiplePositions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceParticleType.html">Class SourceParticleType</a></li>
@@ -521,6 +537,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceRedshift1D.html">Class SourceRedshift1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceRedshiftEvolution.html">Class SourceRedshiftEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceSNRDistribution.html">Class SourceSNRDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceTag.html">Class SourceTag</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceUniform1D.html">Class SourceUniform1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceUniformBox.html">Class SourceUniformBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1SourceUniformCylinder.html">Class SourceUniformCylinder</a></li>
@@ -538,7 +555,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1TabularPhotonField.html">Class TabularPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1TextOutput.html">Class TextOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1TF17Field.html">Class TF17Field</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1TorroidalHaloField.html">Class TorroidalHaloField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1ToroidalHaloField.html">Class ToroidalHaloField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
@@ -549,18 +566,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Variant.html">Class Variant</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Variant_1_1bad__conversion.html">Class Variant::bad_conversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1Vector3.html">Template Class Vector3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classcrpropa_1_1VectorGrid.html">Class VectorGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classParticleSplitting.html">Class ParticleSplitting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classQuasiLinearTheory.html">Class QuasiLinearTheory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classURB.html">Class URB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/classURB.html">Class URB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/classURB.html">Class URB</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/library_root.html#enums">Enums</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.html">Enum DetectionState</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.html">Enum interpolationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/enum_group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/enum_group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/library_root.html#functions">Functions</a><ul>
@@ -634,14 +649,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a28a4ba29d78d82959e2a62dfd5734ee4.html">Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Random&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__Core_1gaa41b3dba9522979f21064c9d34789c82.html">Template Function crpropa::operator&gt;&gt;(std::istream&amp;, Vector3&lt;T&gt;&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2.html">Function crpropa::operator&gt;&gt;(std::istream&amp;, Random&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.html">Function crpropa::periodicBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201.html">Function crpropa::periodicClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95.html">Template Function crpropa::pow_integer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Function crpropa::pow_integer&lt; 0 &gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Specialized Template Function crpropa::pow_integer&lt; 0 &gt;</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7.html">Function crpropa::prod_up</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4.html">Function crpropa::redshift2ComovingDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a.html">Function crpropa::redshift2LightTravelDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6.html">Function crpropa::redshift2LuminosityDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023.html">Function crpropa::reflectiveClamp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.html">Function crpropa::reflectiveBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.html">Function crpropa::reflectiveClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__Core_1gafbf4174c9a116aaf77904225c3639d24.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid1f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__Core_1gac6a806f908b2c0080767e36781d6ec12.html">Function crpropa::rmsFieldStrengthPerAxis</a></li>
@@ -654,7 +671,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.html">Template Function crpropa::swap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514.html">Function crpropa::turbulentCorrelationLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8.html">Function crpropa::VARIANT_TO_DECL(Bool, bool)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned char)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f.html">Function crpropa::VARIANT_TO_DECL(UInt16, uint16_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf.html">Function crpropa::VARIANT_TO_DECL(UInt32, uint32_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248.html">Function crpropa::VARIANT_TO_DECL(UInt64, uint64_t)</a></li>
@@ -677,6 +694,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.html">Variable crpropa::_nOrder_max</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.html">Variable crpropa::_nPix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164.html">Variable crpropa::_random</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga033bad5c8708f06659e7b5c0ff5d2483.html">Variable crpropa::alpha_finestructure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c.html">Variable crpropa::ampere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679.html">Variable crpropa::amu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d.html">Variable crpropa::atto</a></li>
@@ -766,8 +784,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8.html">Variable crpropa::pico</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_namespacecrpropa_1a086a644110575459436b82fc0959df1b.html">Variable crpropa::propertyBufferSize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.html">Variable crpropa::rad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1.html">Variable crpropa::radius_electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1.html">Variable crpropa::sec</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219.html">Variable crpropa::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b.html">Variable crpropa::sigma_thomson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce.html">Variable crpropa::tera</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81.html">Variable crpropa::teraelectronvolt</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a.html">Variable crpropa::tesla</a></li>
@@ -790,7 +810,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/library_root.html#typedefs">Typedefs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109.html">Typedef crpropa::_Secondary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5.html">Typedef crpropa::_Secondary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html">Typedef crpropa::const_LensPartIter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html">Typedef crpropa::Grid1d</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html">Typedef crpropa::Grid1f</a></li>
@@ -808,7 +828,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">DEVEL</span></p>
+<p class="caption" role="heading"><span class="caption-text">DEVEL</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../Debugging.html">GNU Debugger (GDB)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Debugging.html#profiling">Profiling</a><ul>
@@ -821,96 +841,73 @@
 <li class="toctree-l1"><a class="reference internal" href="../../Data-files.html">Verify the Data Files Integrity</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">CRPropa3</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Comparison of Propagation Modules (BP - CK)</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS for nbsphinx extension */
 
 /* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput div.prompt,
-div.nbinput div.input_area,
-div.nbinput div[class*=highlight],
-div.nbinput div[class*=highlight] pre,
-div.nboutput,
-div.nbinput div.prompt,
-div.nbinput div.output_area,
-div.nboutput div[class*=highlight],
-div.nboutput div[class*=highlight] pre {
-    background: none;
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
     border: none;
-    padding: 0 0;
+    padding: 0;
     margin: 0;
     box-shadow: none;
 }
 
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
 /* avoid gaps between output lines */
-div.nboutput div[class*=highlight] pre {
+div.nboutput.container div[class*=highlight] pre {
     line-height: normal;
 }
 
 /* input/output containers */
-div.nbinput,
-div.nboutput {
+div.nbinput.container,
+div.nboutput.container {
     display: -webkit-flex;
     display: flex;
     align-items: flex-start;
@@ -918,92 +915,104 @@ div.nboutput {
     width: 100%;
 }
 @media (max-width: 540px) {
-    div.nbinput,
-    div.nboutput {
+    div.nbinput.container,
+    div.nboutput.container {
         flex-direction: column;
     }
 }
 
 /* input container */
-div.nbinput {
+div.nbinput.container {
     padding-top: 5px;
 }
 
 /* last container */
-div.nblast {
+div.nblast.container {
     padding-bottom: 5px;
 }
 
 /* input prompt */
-div.nbinput div.prompt pre {
-    color: #303F9F;
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
 }
 
 /* output prompt */
-div.nboutput div.prompt pre {
-    color: #D84315;
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
 }
 
 /* all prompts */
-div.nbinput div.prompt,
-div.nboutput div.prompt {
-    min-width: 8ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
 }
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
 @media (max-width: 540px) {
-    div.nbinput div.prompt,
-    div.nboutput div.prompt {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
         text-align: left;
         padding: 0.4em;
     }
-    div.nboutput div.prompt.empty {
+    div.nboutput.container div.prompt.empty {
         padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
     }
 }
 
 /* disable scrollbars on prompts */
-div.nbinput div.prompt pre,
-div.nboutput div.prompt pre {
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
     overflow: hidden;
 }
 
 /* input/output area */
-div.nbinput div.input_area,
-div.nboutput div.output_area {
-    padding: 0.4em;
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
     -webkit-flex: 1;
     flex: 1;
     overflow: auto;
 }
 @media (max-width: 540px) {
-    div.nbinput div.input_area,
-    div.nboutput div.output_area {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
         width: 100%;
     }
 }
 
 /* input area */
-div.nbinput div.input_area {
-    border: 1px solid #cfcfcf;
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f7f7f7;
+    /*background: #f5f5f5;*/
 }
 
 /* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
+div.nboutput.container div[class*=MathJax] {
     text-align: left !important;
 }
 
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
     text-align: left;
 }
 
 /* standard error */
-div.nboutput div.output_area.stderr {
+div.nboutput.container div.output_area.stderr {
     background: #fdd;
 }
 
@@ -1047,61 +1056,107 @@ div.nboutput div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
-<div class="section" id="Comparison-of-Propagation-Modules-(BP---CK)">
-<h1>Comparison of Propagation Modules (BP - CK)<a class="headerlink" href="#Comparison-of-Propagation-Modules-(BP---CK)" title="Permalink to this headline">¶</a></h1>
-<p>Numerical simulations of the propagation of charged particles through
-magnetic fields, solving the equation of motion can be achieved in
-principle with many different algorithms. There are, however, an
-increasing number of studies that have found that there are two
-algorithms, which work in general best for propagating charged particles
-within a magnetic field [1,2,3]. These two algorithms are compared and
-evaluated.</p>
-<p>Both the Boris push [4] and the Cash-Karp [3] algorithms solve the
-Lorentz equation and thus enable the propagation of charged particles
-through magnetic fields. For the simplest case of a homogeneous
-background field, the particle trajectory can be derived analytically.
-This enables comparison with numerical integrators and provides
-information on the errors of the algorithms for the corresponding
-parameters being used. The aim is to find a relationship between the
-error and the parameters applied. The pitch angle and the step length
-are suitable parameters to determine the influence.</p>
-<p>Consequently, we want to understand which algorithm is suitable for each
-simulation setup.</p>
-<div class="section" id="Analytic-Solution">
-<h2>Analytic Solution<a class="headerlink" href="#Analytic-Solution" title="Permalink to this headline">¶</a></h2>
-<p>The trajectory of a charged particle in a homogeneous background field
-can be solved analytically. We assume that the particle starts off with
-non-zero component of the momentum (<span class="math notranslate nohighlight">\(p_z &gt; 0\)</span>) along the
-background magnetic field. The particle, then moves in a helix whose
-gyration radius is given by: <span class="math notranslate nohighlight">\(r_g = \frac{E}{B\cdot q \cdot c}\)</span></p>
-<p>The velocity component parallel to the background field remains
-constant. The analytical solution for the <em>direction = Vector3d(p_x,
-p_y, p_z)</em> with <span class="math notranslate nohighlight">\(p_x^2+p_y^2+p_z^2 = 1\)</span> and the <em>position =
-Vector3d(0, 0, 0)</em> yields:</p>
+<section id="Comparison-of-Propagation-Modules-(BP---CK)">
+<h1>Comparison of Propagation Modules (BP - CK)<a class="headerlink" href="#Comparison-of-Propagation-Modules-(BP---CK)" title="Permalink to this headline"></a></h1>
+<p>Numerical simulations of the propagation of charged particles through magnetic fields, solving the equation of motion can be achieved in principle with many different algorithms. There are, however, an increasing number of studies that have found that there are two algorithms, which work in general best for propagating charged particles within a magnetic field [1,2,3]. These two algorithms are compared and evaluated.</p>
+<p>Both the Boris push [4] and the Cash-Karp [3] algorithms solve the Lorentz equation and thus enable the propagation of charged particles through magnetic fields. For the simplest case of a homogeneous background field, the particle trajectory can be derived analytically. This enables comparison with numerical integrators and provides information on the errors of the algorithms for the corresponding parameters being used. The aim is to find a relationship between the error and the parameters
+applied. The pitch angle and the step length are suitable parameters to determine the influence.</p>
+<p>Consequently, we want to understand which algorithm is suitable for each simulation setup.</p>
+<section id="Analytic-Solution">
+<h2>Analytic Solution<a class="headerlink" href="#Analytic-Solution" title="Permalink to this headline"></a></h2>
+<p>The trajectory of a charged particle in a homogeneous background field can be solved analytically. We assume that the particle starts off with non-zero component of the momentum (<span class="math notranslate nohighlight">\(p_z &gt; 0\)</span>) along the background magnetic field. The particle, then moves in a helix whose gyration radius is given by: <span class="math notranslate nohighlight">\(r_g = \frac{E}{B\cdot q \cdot c}\)</span></p>
+<p>The velocity component parallel to the background field remains constant. The analytical solution for the <em>direction = Vector3d(p_x, p_y, p_z)</em> with <span class="math notranslate nohighlight">\(p_x^2+p_y^2+p_z^2 = 1\)</span> and the <em>position = Vector3d(0, 0, 0)</em> yields:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">analytical_solution</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_steps</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analytical_solution</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_steps</span><span class="p">):</span>
     <span class="c1"># calculate the time stamps similar to that used in the numerical simulation</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_trajectory</span><span class="o">/</span><span class="n">pc</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_steps</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
     <span class="c1"># shift the phase so that the analytical solution</span>
@@ -1119,21 +1174,15 @@ Vector3d(0, 0, 0)</em> yields:</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Helper-Functions">
-<h2>Helper Functions<a class="headerlink" href="#Helper-Functions" title="Permalink to this headline">¶</a></h2>
-<p>We define functions with which we can calculate the gyration radius and
-the circumference. In addition we only want to define how many steps we
-require per circumference and how many gyrations should be performed.
-The last helping function should then calculate the maximum trajectory
-length and the step size, so that our requirements are fulfilled.</p>
+</section>
+<section id="Helper-Functions">
+<h2>Helper Functions<a class="headerlink" href="#Helper-Functions" title="Permalink to this headline"></a></h2>
+<p>We define functions with which we can calculate the gyration radius and the circumference. In addition we only want to define how many steps we require per circumference and how many gyrations should be performed. The last helping function should then calculate the maximum trajectory length and the step size, so that our requirements are fulfilled.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">crpropa</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
@@ -1167,26 +1216,17 @@ length and the step size, so that our requirements are fulfilled.</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Run-Simulation">
-<h2>Run Simulation<a class="headerlink" href="#Run-Simulation" title="Permalink to this headline">¶</a></h2>
-<p>We can now compare the analytical solution with both particle
-integrators in CRPropa, namely the Boris push and the Cash-Karp.</p>
-<p>First we have to add our propagation module with the above specialized
-background magnetic field to our module list. Afterwards we can specify
-that the particle information is collected at each step along the
-particle trajectory. With the output module, we can specify where these
-information will be saved.</p>
-<p>Now that we have our module list ready we can fire up our simulation
-with both propagation algorithms and hope that something visually
-interesting is going to happen.</p>
+</section>
+<section id="Run-Simulation">
+<h2>Run Simulation<a class="headerlink" href="#Run-Simulation" title="Permalink to this headline"></a></h2>
+<p>We can now compare the analytical solution with both particle integrators in CRPropa, namely the Boris push and the Cash-Karp.</p>
+<p>First we have to add our propagation module with the above specialized background magnetic field to our module list. Afterwards we can specify that the particle information is collected at each step along the particle trajectory. With the output module, we can specify where these information will be saved.</p>
+<p>Now that we have our module list ready we can fire up our simulation with both propagation algorithms and hope that something visually interesting is going to happen.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">Time</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">Time</span>
 
 <span class="c1"># We use only a Background magnetic field in the z-direction.</span>
 <span class="c1"># We could add more complex magentic fields to our MagneticFieldList.</span>
@@ -1239,19 +1279,15 @@ interesting is going to happen.</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Load-Simulation-Data">
-<h2>Load Simulation Data<a class="headerlink" href="#Load-Simulation-Data" title="Permalink to this headline">¶</a></h2>
-<p>There are several ways to load the simulation data. Pandas is helpful to
-load files. To illustrate this, we will load and process the data with
-pandas.</p>
+</section>
+<section id="Load-Simulation-Data">
+<h2>Load Simulation Data<a class="headerlink" href="#Load-Simulation-Data" title="Permalink to this headline"></a></h2>
+<p>There are several ways to load the simulation data. Pandas is helpful to load files. To illustrate this, we will load and process the data with pandas.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">r_g</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">text</span><span class="p">,</span>
@@ -1272,24 +1308,16 @@ pandas.</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Compare-the-Propagation-in-the-Perpendicular-Plane">
-<h2>Compare the Propagation in the Perpendicular Plane<a class="headerlink" href="#Compare-the-Propagation-in-the-Perpendicular-Plane" title="Permalink to this headline">¶</a></h2>
-<p>Here, we can compare the numerical results of both modules with the
-analytical solution of the particle trajectory. First, we want to show
-the trajectories in the <span class="math notranslate nohighlight">\(xy\)</span>-plane (left plot). The black squares
-present the positions of the analytical solution for the chosen step
-size. In the middle plot, we can display the relative error of the gyro
-radius as a function of time. Finally, we can compute the distance of
-the numerical solutions to the analytical solution in the
-<span class="math notranslate nohighlight">\(xy\)</span>-plane (right plot).</p>
+</section>
+<section id="Compare-the-Propagation-in-the-Perpendicular-Plane">
+<h2>Compare the Propagation in the Perpendicular Plane<a class="headerlink" href="#Compare-the-Propagation-in-the-Perpendicular-Plane" title="Permalink to this headline"></a></h2>
+<p>Here, we can compare the numerical results of both modules with the analytical solution of the particle trajectory. First, we want to show the trajectories in the <span class="math notranslate nohighlight">\(xy\)</span>-plane (left plot). The black squares present the positions of the analytical solution for the chosen step size. In the middle plot, we can display the relative error of the gyro radius as a function of time. Finally, we can compute the distance of the numerical solutions to the analytical solution in the <span class="math notranslate nohighlight">\(xy\)</span>-plane
+(right plot).</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">steps_per_gyrations</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">number_gyrations</span> <span class="o">=</span> <span class="mi">40000</span>
@@ -1306,14 +1334,14 @@ the numerical solutions to the analytical solution in the
         <span class="c1"># for the legend</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_ana</span><span class="p">,</span> <span class="n">y_ana</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Analytical solution&#39;</span><span class="p">)</span>
 
-    <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="c1"># numerical solutions</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,(</span><span class="n">data</span><span class="o">.</span><span class="n">R</span><span class="o">-</span><span class="n">r_g</span><span class="p">)</span><span class="o">/</span><span class="n">r_g</span><span class="o">*</span><span class="mf">100.</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span> <span class="n">module</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,((</span><span class="n">x_ana</span><span class="o">-</span><span class="n">data</span><span class="o">.</span><span class="n">X</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">y_ana</span><span class="o">-</span><span class="n">data</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
  <span class="c1"># We use this function to plot the whole figure for the particle motion in the xy-plane</span>
 <span class="k">def</span> <span class="nf">plot_figure_perp</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
@@ -1351,16 +1379,12 @@ the numerical solutions to the analytical solution in the
 </pre></div>
 </div>
 </div>
-<p>We can study <strong>different pitch angles</strong> of the particle with respect to
-the background magnetic field and start with <span class="math notranslate nohighlight">\(p_z/p = 0.01\)</span> which
-represents a strong perpendicular component:</p>
+<p>We can study <strong>different pitch angles</strong> of the particle with respect to the background magnetic field and start with <span class="math notranslate nohighlight">\(p_z/p = 0.01\)</span> which represents a strong perpendicular component:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_perp</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
@@ -1372,35 +1396,23 @@ represents a strong perpendicular component:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.045074939727783s.
-Simulation time with module BP is 1.3592238426208496s.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/ipykernel_launcher.py:58: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/IPython/core/pylabtools.py:132: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
-  fig.canvas.print_figure(bytes_io, **kw)
+Simulation time with module CK is 0.6771326065063477s.
+Simulation time with module BP is 0.5768852233886719s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_18_2.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_18_2.png" />
+<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_18_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_18_1.png" />
 </div>
 </div>
 <p>We increase the component of the momentum along the parallel component:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_perp</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1412,32 +1424,22 @@ Simulation time with module BP is 1.3592238426208496s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 3.129796266555786s.
-Simulation time with module BP is 3.1616051197052s.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/ipykernel_launcher.py:58: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
+Simulation time with module CK is 1.3579211235046387s.
+Simulation time with module BP is 1.1294221878051758s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_20_2.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_20_2.png" />
+<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_20_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_20_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_perp</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1449,32 +1451,22 @@ Simulation time with module BP is 3.1616051197052s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.7734830379486084s.
-Simulation time with module BP is 2.4479715824127197s.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/ipykernel_launcher.py:58: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
+Simulation time with module CK is 1.2906782627105713s.
+Simulation time with module BP is 1.0119423866271973s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_21_2.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_21_2.png" />
+<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_21_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_21_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.9999</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.9999</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_perp</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1486,78 +1478,41 @@ Simulation time with module BP is 2.4479715824127197s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.7557637691497803s.
-Simulation time with module BP is 2.5037429332733154s.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/ipykernel_launcher.py:58: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
+Simulation time with module CK is 1.2719593048095703s.
+Simulation time with module BP is 1.1178076267242432s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_22_2.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_22_2.png" />
+<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_22_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_22_1.png" />
 </div>
 </div>
-<p><strong>Conclusions:</strong> - the <strong>Boris push</strong> propagates the particle in the
-perpendicular plane, as expected, on a cirlce with a radius that is in
-great agreement with the gyro radius. The problem is that the frequency
-deviates from the analytical solution. Consequently, even though we can
-see an agreement between the numerical and analytical gyro radius, the
-deviation in the <span class="math notranslate nohighlight">\(xy\)</span>-plane is between 0 and <span class="math notranslate nohighlight">\(2r_g\)</span>. The
-<strong>global error is constrained</strong>. - the <strong>Cash-Karp</strong> algorithm results
-in a relative <strong>small local error</strong> in the perpendicular plane for small
-components of the momentum along the parallel component of the magnetic
-field. The problem is that the small <strong>local error accumulates to a
-large global error</strong>. In addition, the <strong>error depends on the pitch
-angle</strong> (angle between particle direction and background magnetic field)
-of the particle and thus may artificially pollute the results if we use
-a background field in combination with an isotropic source of particles.</p>
+<p><strong>Conclusions:</strong> - the <strong>Boris push</strong> propagates the particle in the perpendicular plane, as expected, on a cirlce with a radius that is in great agreement with the gyro radius. The problem is that the frequency deviates from the analytical solution. Consequently, even though we can see an agreement between the numerical and analytical gyro radius, the deviation in the <span class="math notranslate nohighlight">\(xy\)</span>-plane is between 0 and <span class="math notranslate nohighlight">\(2r_g\)</span>. The <strong>global error is constrained</strong>. - the <strong>Cash-Karp</strong> algorithm results in a
+relative <strong>small local error</strong> in the perpendicular plane for small components of the momentum along the parallel component of the magnetic field. The problem is that the small <strong>local error accumulates to a large global error</strong>. In addition, the <strong>error depends on the pitch angle</strong> (angle between particle direction and background magnetic field) of the particle and thus may artificially pollute the results if we use a background field in combination with an isotropic source of particles.</p>
 <ul class="simple">
-<li>Note that other implementations of the CashKarp algorithm lead to
-different results, since CRPropa prevents the candidate from losing
-energy due to propagation alone. This is not true in general for
-other implementations.</li>
+<li><p>Note that other implementations of the CashKarp algorithm lead to different results, since CRPropa prevents the candidate from losing energy due to propagation alone. This is not true in general for other implementations.</p></li>
 </ul>
-</div>
-<div class="section" id="Compare-the-Propagation-in-the-Parallel-Direction">
-<h2>Compare the Propagation in the Parallel Direction<a class="headerlink" href="#Compare-the-Propagation-in-the-Parallel-Direction" title="Permalink to this headline">¶</a></h2>
-<p>We now turn to the parallel direction of the particle trajectory with
-respect to the background magnetic field. Along this direction a
-constant momentum is expected, resulting in a linear increase of the
-<span class="math notranslate nohighlight">\(z\)</span>-position. This time-behavior of the <span class="math notranslate nohighlight">\(z\)</span>-position is
-shown in the middle plots below. The left plot presents the movement in
-the <span class="math notranslate nohighlight">\(xz\)</span>-plane. An rectangle is expected (as it can be seen for
-the Boris push). In the right, the difference between the numerically
-calculated and theoretically expected time-behavior of the distance
-along the <span class="math notranslate nohighlight">\(z\)</span>-axis is plotted. Zero deviation in the right plot is
-preferable. While the Boris push has no deviation from the prediction,
-the Cash-Karp algorithm shows either a rapid increase in the
-<span class="math notranslate nohighlight">\(z\)</span>-direction or a decelerated movement which can result in a
-stagnation in the motion along the <span class="math notranslate nohighlight">\(z\)</span>-direction. The behavior
-depends on the ratio of <span class="math notranslate nohighlight">\(p_\mathrm{\parallel} / p\)</span>.</p>
+</section>
+<section id="Compare-the-Propagation-in-the-Parallel-Direction">
+<h2>Compare the Propagation in the Parallel Direction<a class="headerlink" href="#Compare-the-Propagation-in-the-Parallel-Direction" title="Permalink to this headline"></a></h2>
+<p>We now turn to the parallel direction of the particle trajectory with respect to the background magnetic field. Along this direction a constant momentum is expected, resulting in a linear increase of the <span class="math notranslate nohighlight">\(z\)</span>-position. This time-behavior of the <span class="math notranslate nohighlight">\(z\)</span>-position is shown in the middle plots below. The left plot presents the movement in the <span class="math notranslate nohighlight">\(xz\)</span>-plane. An rectangle is expected (as it can be seen for the Boris push). In the right, the difference between the numerically calculated and
+theoretically expected time-behavior of the distance along the <span class="math notranslate nohighlight">\(z\)</span>-axis is plotted. Zero deviation in the right plot is preferable. While the Boris push has no deviation from the prediction, the Cash-Karp algorithm shows either a rapid increase in the <span class="math notranslate nohighlight">\(z\)</span>-direction or a decelerated movement which can result in a stagnation in the motion along the <span class="math notranslate nohighlight">\(z\)</span>-direction. The behavior depends on the ratio of <span class="math notranslate nohighlight">\(p_\mathrm{\parallel} / p\)</span>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">plot_subplots_para</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">z_ana</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_subplots_para</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">z_ana</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">X</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="c1"># compare with analytical solution</span>
     <span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="o">-</span><span class="n">z_ana</span><span class="p">),</span><span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">plot_figure_para</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
@@ -1590,16 +1545,12 @@ depends on the ratio of <span class="math notranslate nohighlight">\(p_\mathrm{\
 </pre></div>
 </div>
 </div>
-<p>We can again study <strong>different pitch angles</strong> of the particle with
-respect to the background magnetic field and start with
-<span class="math notranslate nohighlight">\(p_z/p = 0.01\)</span> which represents a strong perpendicular component:</p>
+<p>We can again study <strong>different pitch angles</strong> of the particle with respect to the background magnetic field and start with <span class="math notranslate nohighlight">\(p_z/p = 0.01\)</span> which represents a strong perpendicular component:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_para</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1611,8 +1562,8 @@ respect to the background magnetic field and start with
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.907780170440674s.
-Simulation time with module BP is 2.5608789920806885s.
+Simulation time with module CK is 1.6537957191467285s.
+Simulation time with module BP is 1.4773030281066895s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1623,12 +1574,10 @@ Simulation time with module BP is 2.5608789920806885s.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_para</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1640,34 +1589,22 @@ Simulation time with module BP is 2.5608789920806885s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.9700050354003906s.
-Simulation time with module BP is 2.6082756519317627s.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/ipykernel_launcher.py:38: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/IPython/core/pylabtools.py:132: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
-  fig.canvas.print_figure(bytes_io, **kw)
+Simulation time with module CK is 1.6059746742248535s.
+Simulation time with module BP is 1.377190113067627s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_29_2.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_29_2.png" />
+<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_29_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_29_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_para</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1690,47 +1627,28 @@ Simulation time with module BP is 2.4518914222717285s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_30_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_30_1.png" />
 </div>
 </div>
-<p><strong>Conclusions:</strong> - the <strong>Boris push</strong> propagates the particle along the
-parallel component <strong>without any errors</strong> and is in great agreement with
-the analytical solution. - the behavior of the <strong>Cash-Karp</strong> on the
-other hand has again a <strong>small local error that accumulates to a large
-global error</strong>. Again, the <strong>error depends on the pitch angle</strong> of the
-particle and thus may artificially pollute the results if we use a
-background field in combination with a isotropic source (this source
-would emit particles with all possible pitch angles) of particles.</p>
-<p>If we are interested in the motion along the magnetic field lines, we
-should use the Boris push mehthod instead of the Cash-Karp method.</p>
-</div>
-<div class="section" id="Conservation-of-Momentum">
-<h2>Conservation of Momentum<a class="headerlink" href="#Conservation-of-Momentum" title="Permalink to this headline">¶</a></h2>
-<p>CRPropa conserves the total energy and momentum of each particle during
-the propagation. However, only the Boris push conserves energy by
-construction. Urging the Cash-Karp algorithm to preserve energy and
-momentum leads to a shift of the energy from the perpendicular to the
-parallel component (or the other way round) as observed in this example
-of a pure background magnetic field. We have seen that the particle
-accelerates or slows down in the parallel direction.</p>
-<p>We can study this effect also directly by plotting the components of the
-momentum as functions of the time (or distance which is equivilent for
-relativistic particles <span class="math notranslate nohighlight">\(v=c\)</span>).</p>
-<p>We expect to have a constant momentum in both the parallel
-(<span class="math notranslate nohighlight">\(p_z/p\)</span>) and the perpendicular (<span class="math notranslate nohighlight">\(\sqrt{p_x^2+p_y^2}/p\)</span>)
-direction.</p>
+<p><strong>Conclusions:</strong> - the <strong>Boris push</strong> propagates the particle along the parallel component <strong>without any errors</strong> and is in great agreement with the analytical solution. - the behavior of the <strong>Cash-Karp</strong> on the other hand has again a <strong>small local error that accumulates to a large global error</strong>. Again, the <strong>error depends on the pitch angle</strong> of the particle and thus may artificially pollute the results if we use a background field in combination with a isotropic source (this source would
+emit particles with all possible pitch angles) of particles.</p>
+<p>If we are interested in the motion along the magnetic field lines, we should use the Boris push mehthod instead of the Cash-Karp method.</p>
+</section>
+<section id="Conservation-of-Momentum">
+<h2>Conservation of Momentum<a class="headerlink" href="#Conservation-of-Momentum" title="Permalink to this headline"></a></h2>
+<p>CRPropa conserves the total energy and momentum of each particle during the propagation. However, only the Boris push conserves energy by construction. Urging the Cash-Karp algorithm to preserve energy and momentum leads to a shift of the energy from the perpendicular to the parallel component (or the other way round) as observed in this example of a pure background magnetic field. We have seen that the particle accelerates or slows down in the parallel direction.</p>
+<p>We can study this effect also directly by plotting the components of the momentum as functions of the time (or distance which is equivilent for relativistic particles <span class="math notranslate nohighlight">\(v=c\)</span>).</p>
+<p>We expect to have a constant momentum in both the parallel (<span class="math notranslate nohighlight">\(p_z/p\)</span>) and the perpendicular (<span class="math notranslate nohighlight">\(\sqrt{p_x^2+p_y^2}/p\)</span>) direction.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">plot_subplots_momentum</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_subplots_momentum</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
     <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,((</span><span class="n">data</span><span class="o">.</span><span class="n">Px</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">data</span><span class="o">.</span><span class="n">Py</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">),</span><span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,</span><span class="n">data</span><span class="o">.</span><span class="n">Pz</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
     <span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,(</span><span class="n">data</span><span class="o">.</span><span class="n">Pz</span><span class="o">-</span><span class="n">p_z</span><span class="p">)</span><span class="o">/</span><span class="n">p_z</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
@@ -1769,12 +1687,10 @@ direction.</p>
 </div>
 <p>We can start with small parallel component (<span class="math notranslate nohighlight">\(p_z\)</span> = 0.01)…</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1786,8 +1702,8 @@ direction.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.8336169719696045s.
-Simulation time with module BP is 2.5191328525543213s.
+Simulation time with module CK is 1.3243069648742676s.
+Simulation time with module BP is 1.2978119850158691s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1797,15 +1713,12 @@ Simulation time with module BP is 2.5191328525543213s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_36_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_36_1.png" />
 </div>
 </div>
-<p>…and increase it so that is already dominating
-<span class="math notranslate nohighlight">\(p_z/p = 0.5 &gt; p_x/p = p_y/p\)</span>…</p>
+<p>…and increase it so that is already dominating <span class="math notranslate nohighlight">\(p_z/p = 0.5 &gt; p_x/p = p_y/p\)</span>…</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1817,8 +1730,8 @@ Simulation time with module BP is 2.5191328525543213s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 3.4364242553710938s.
-Simulation time with module BP is 2.7046010494232178s.
+Simulation time with module CK is 1.471672773361206s.
+Simulation time with module BP is 1.2299976348876953s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1828,15 +1741,12 @@ Simulation time with module BP is 2.7046010494232178s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_38_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_38_1.png" />
 </div>
 </div>
-<p>…and finally study two cases of really strong parallel motion
-(<span class="math notranslate nohighlight">\(p_z/p = 0.99\)</span> and <span class="math notranslate nohighlight">\(p_z/p = 0.999)\)</span>):</p>
+<p>…and finally study two cases of really strong parallel motion (<span class="math notranslate nohighlight">\(p_z/p = 0.99\)</span> and <span class="math notranslate nohighlight">\(p_z/p = 0.999)\)</span>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1848,8 +1758,8 @@ Simulation time with module BP is 2.7046010494232178s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.9141812324523926s.
-Simulation time with module BP is 2.4687178134918213s.
+Simulation time with module CK is 1.3036754131317139s.
+Simulation time with module BP is 1.126857042312622s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1860,12 +1770,10 @@ Simulation time with module BP is 2.4687178134918213s.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.9999</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.9999</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -1877,8 +1785,8 @@ Simulation time with module BP is 2.4687178134918213s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 3.6175737380981445s.
-Simulation time with module BP is 2.5163893699645996s.
+Simulation time with module CK is 1.4070227146148682s.
+Simulation time with module BP is 1.089118242263794s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1888,23 +1796,13 @@ Simulation time with module BP is 2.5163893699645996s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_41_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_41_1.png" />
 </div>
 </div>
-<p><strong>Conclusions:</strong> - The <strong>Boris push</strong> conserves the components of the
-momentum because the algorithm already conserves energy by construction.
-- The <strong>Cash-Karp</strong> does not conserve energy by construction. CRPropa
-urges the propagation to conserve energy, resulting in a shift of the
-momentum between its components. This effect depends on the geometry of
-the magnetic field and the pitch angle (see above) of the particle as
-well as the step size (see below).</p>
-<p>In the following two plots we can investigate the influence of the step
-size. We can consider for example 2 steps per gyration instead of 10 in
-the first figure and 50 steps per gyration in the second figure.</p>
+<p><strong>Conclusions:</strong> - The <strong>Boris push</strong> conserves the components of the momentum because the algorithm already conserves energy by construction. - The <strong>Cash-Karp</strong> does not conserve energy by construction. CRPropa urges the propagation to conserve energy, resulting in a shift of the momentum between its components. This effect depends on the geometry of the magnetic field and the pitch angle (see above) of the particle as well as the step size (see below).</p>
+<p>In the following two plots we can investigate the influence of the step size. We can consider for example 2 steps per gyration instead of 10 in the first figure and 50 steps per gyration in the second figure.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span>
@@ -1916,8 +1814,8 @@ the first figure and 50 steps per gyration in the second figure.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 1.010209321975708s.
-Simulation time with module BP is 0.5810580253601074s.
+Simulation time with module CK is 0.4603853225708008s.
+Simulation time with module BP is 0.2764415740966797s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1927,15 +1825,12 @@ Simulation time with module BP is 0.5810580253601074s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_43_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_43_1.png" />
 </div>
 </div>
-<p>If we increase the number of steps per gyration, we expect to minimize
-the error of the Cash-Karp algorithm. 50 steps per gyration lead to:</p>
+<p>If we increase the number of steps per gyration, we expect to minimize the error of the Cash-Karp algorithm. 50 steps per gyration lead to:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_momentum</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
@@ -1947,8 +1842,8 @@ the error of the Cash-Karp algorithm. 50 steps per gyration lead to:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 16.289583444595337s.
-Simulation time with module BP is 12.5268075466156s.
+Simulation time with module CK is 6.701535701751709s.
+Simulation time with module BP is 5.282698392868042s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1958,34 +1853,19 @@ Simulation time with module BP is 12.5268075466156s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_45_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_45_1.png" />
 </div>
 </div>
-<p>The conservation of the momentum with the Boris push is independet of
-the number of steps per gyration and works always, while it strongly
-depend on this number for the Cash-Karp algorithm. As expected, only the
-Boris push preserves the components of the momentum correctly. 2 steps
-per gyrations lead imediately to a complete change of the momentum
-components. Instead of a parallel motion as expected from the initial
-condition (<span class="math notranslate nohighlight">\(p_z/p\)</span> = 0.99), the particle only moves in the
-perpendicular plane (<span class="math notranslate nohighlight">\(p_z/p\)</span> = 0) after a short distance. The
-behavior is much better for 50 steps per gyration (the simulation time
-is, however, high). The error is small at the investigated distances.
-Feel free to test different numbers of gyrations and different numbers
-of steps per gyration.</p>
-</div>
-<div class="section" id="Comparison-with-3D-Analytic-Solution">
-<h2>Comparison with 3D Analytic Solution<a class="headerlink" href="#Comparison-with-3D-Analytic-Solution" title="Permalink to this headline">¶</a></h2>
-<p>We can study the complete deviation of the numerical trajectories from
-the analytical solution. The following code calculates the distance
-between the positions calculated with both algorithms and the analytical
-particle position.</p>
+<p>The conservation of the momentum with the Boris push is independet of the number of steps per gyration and works always, while it strongly depend on this number for the Cash-Karp algorithm. As expected, only the Boris push preserves the components of the momentum correctly. 2 steps per gyrations lead imediately to a complete change of the momentum components. Instead of a parallel motion as expected from the initial condition (<span class="math notranslate nohighlight">\(p_z/p\)</span> = 0.99), the particle only moves in the perpendicular
+plane (<span class="math notranslate nohighlight">\(p_z/p\)</span> = 0) after a short distance. The behavior is much better for 50 steps per gyration (the simulation time is, however, high). The error is small at the investigated distances. Feel free to test different numbers of gyrations and different numbers of steps per gyration.</p>
+</section>
+<section id="Comparison-with-3D-Analytic-Solution">
+<h2>Comparison with 3D Analytic Solution<a class="headerlink" href="#Comparison-with-3D-Analytic-Solution" title="Permalink to this headline"></a></h2>
+<p>We can study the complete deviation of the numerical trajectories from the analytical solution. The following code calculates the distance between the positions calculated with both algorithms and the analytical particle position.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">plot_subplots_3d</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">x_ana</span><span class="p">,</span> <span class="n">y_ana</span><span class="p">,</span> <span class="n">z_ana</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_subplots_3d</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">x_ana</span><span class="p">,</span> <span class="n">y_ana</span><span class="p">,</span> <span class="n">z_ana</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">D</span><span class="p">,((</span><span class="n">x_ana</span><span class="o">-</span><span class="n">data</span><span class="o">.</span><span class="n">X</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">y_ana</span><span class="o">-</span><span class="n">data</span><span class="o">.</span><span class="n">Y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">z_ana</span><span class="o">-</span><span class="n">data</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">module</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">markerscale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">plot_figure_3d</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">):</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
@@ -2015,12 +1895,10 @@ particle position.</p>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_3d</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -2032,8 +1910,8 @@ particle position.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 3.250000476837158s.
-Simulation time with module BP is 2.8336546421051025s.
+Simulation time with module CK is 1.4413368701934814s.
+Simulation time with module BP is 1.2115199565887451s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2044,12 +1922,10 @@ Simulation time with module BP is 2.8336546421051025s.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_3d</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -2061,8 +1937,8 @@ Simulation time with module BP is 2.8336546421051025s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 3.026798725128174s.
-Simulation time with module BP is 2.7702648639678955s.
+Simulation time with module CK is 1.2834656238555908s.
+Simulation time with module BP is 1.1045174598693848s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2073,12 +1949,10 @@ Simulation time with module BP is 2.7702648639678955s.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.99</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_3d</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -2090,8 +1964,8 @@ Simulation time with module BP is 2.7702648639678955s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.8276591300964355s.
-Simulation time with module BP is 2.6629881858825684s.
+Simulation time with module CK is 1.246964693069458s.
+Simulation time with module BP is 1.052145004272461s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2102,12 +1976,10 @@ Simulation time with module BP is 2.6629881858825684s.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.9999</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.9999</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_3d</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -2119,8 +1991,8 @@ Simulation time with module BP is 2.6629881858825684s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.818937301635742s.
-Simulation time with module BP is 2.5782644748687744s.
+Simulation time with module CK is 1.2906627655029297s.
+Simulation time with module BP is 1.0843861103057861s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -2130,18 +2002,12 @@ Simulation time with module BP is 2.5782644748687744s.
 <img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_53_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_53_1.png" />
 </div>
 </div>
-<p>The Boris push is for long simulations for all presented cases better
-and faster than the Cash-Karp algorithm. If we are only interested in
-small distances and we don’t care about long simulation times, the
-Cash-Karp algorithm outperforms the Boris push as presented below (40
-steps per gyration and <span class="math notranslate nohighlight">\(p_z/p = 0.01\)</span>):</p>
+<p>The Boris push is for long simulations for all presented cases better and faster than the Cash-Karp algorithm. If we are only interested in small distances and we don’t care about long simulation times, the Cash-Karp algorithm outperforms the Boris push as presented below (40 steps per gyration and <span class="math notranslate nohighlight">\(p_z/p = 0.01\)</span>):</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_z</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">,</span> <span class="n">steps_per_gyrations</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">number_gyrations</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">p_z</span><span class="p">)</span>
 <span class="n">plot_figure_3d</span><span class="p">(</span><span class="n">max_trajectory</span><span class="p">,</span> <span class="n">p_z</span><span class="p">,</span> <span class="n">r_g_0</span><span class="p">,</span> <span class="n">number_of_steps</span><span class="p">)</span>
@@ -2153,90 +2019,52 @@ steps per gyration and <span class="math notranslate nohighlight">\(p_z/p = 0.01
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 2.885383367538452s.
-Simulation time with module BP is 2.626239061355591s.
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/ipykernel_launcher.py:27: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
-/home/lmerten/Software/matrix/lib/python3.6/site-packages/IPython/core/pylabtools.py:132: UserWarning: Creating legend with loc=&#34;best&#34; can be slow with large amounts of data.
-  fig.canvas.print_figure(bytes_io, **kw)
+Simulation time with module CK is 1.4664416313171387s.
+Simulation time with module BP is 1.1508221626281738s.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_55_2.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_55_2.png" />
+<img alt="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_55_1.png" src="../../../_images/pages_example_notebooks_propagation_comparison_Propagation_Comparison_CK_BP_55_1.png" />
 </div>
 </div>
-<p><strong>The main findings of this tutorial are highlighted:</strong> - The Cash-Karp
-algorithm has a small local error, which accumulates over time to a
-large global error. The components of the momentum are not conserved.
-Due to the small local error (for small step sizes), the module
-PropagationCK is, however, useful for short simulations, where the exact
-position is crucial. - The Boris push has a compareable large local
-error, which does not accumulate over time, resulting in a small global
-error. The accuracy doesn’t depend too much on the step size, especially
-not in the direction where the magnetic field should have no influence
-based on alaytical arguments (<span class="math notranslate nohighlight">\(z\)</span>-axis in this example).</p>
-<p>Therefore, for almost all simulation scenarios, <strong>the PropagationBP
-module outperforms the PropagationCK module in both simulation time and
-accuracy</strong>.</p>
-</div>
-<div class="section" id="Comparison-of-Simulation-Time">
-<h2>Comparison of Simulation Time<a class="headerlink" href="#Comparison-of-Simulation-Time" title="Permalink to this headline">¶</a></h2>
-<p>We have already compared the simulation times for a background magnetic
-field. Now we can compare the simulation time of both modules for a
-different magnetic field, namely the turbulent magnetic field. The Boris
-push calls the magnetic field only once per step, whereas the Cash-Karp
-algorithm needs the field at the current position six times per step.
-For analytical fields where the field is known at every location (for
-example the background magnetic field), the time difference is much
-smaller than for magnetic fields where the current magnetic field vector
-has to be interpolated first. The latter is especially relevant for the
-turbulent magnetic fields initialized on grids.</p>
-<div class="section" id="Turbulent-Magnetic-Field">
-<h3>Turbulent Magnetic Field<a class="headerlink" href="#Turbulent-Magnetic-Field" title="Permalink to this headline">¶</a></h3>
-<p>The inialisation of the turbulent magnetic field vectors on the grid
-points takes some time:</p>
+<p><strong>The main findings of this tutorial are highlighted:</strong> - The Cash-Karp algorithm has a small local error, which accumulates over time to a large global error. The components of the momentum are not conserved. Due to the small local error (for small step sizes), the module PropagationCK is, however, useful for short simulations, where the exact position is crucial. - The Boris push has a compareable large local error, which does not accumulate over time, resulting in a small global error. The
+accuracy doesn’t depend too much on the step size, especially not in the direction where the magnetic field should have no influence based on alaytical arguments (<span class="math notranslate nohighlight">\(z\)</span>-axis in this example).</p>
+<p>Therefore, for almost all simulation scenarios, <strong>the PropagationBP module outperforms the PropagationCK module in both simulation time and accuracy</strong>.</p>
+</section>
+<section id="Comparison-of-Simulation-Time">
+<h2>Comparison of Simulation Time<a class="headerlink" href="#Comparison-of-Simulation-Time" title="Permalink to this headline"></a></h2>
+<p>We have already compared the simulation times for a background magnetic field. Now we can compare the simulation time of both modules for a different magnetic field, namely the turbulent magnetic field. The Boris push calls the magnetic field only once per step, whereas the Cash-Karp algorithm needs the field at the current position six times per step. For analytical fields where the field is known at every location (for example the background magnetic field), the time difference is much smaller
+than for magnetic fields where the current magnetic field vector has to be interpolated first. The latter is especially relevant for the turbulent magnetic fields initialized on grids.</p>
+<section id="Turbulent-Magnetic-Field">
+<h3>Turbulent Magnetic Field<a class="headerlink" href="#Turbulent-Magnetic-Field" title="Permalink to this headline"></a></h3>
+<p>The inialisation of the turbulent magnetic field vectors on the grid points takes some time:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">### Setup turbulent magnetic field</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Setup turbulent magnetic field</span>
 <span class="n">randomSeed</span> <span class="o">=</span> <span class="mi">42</span>
 <span class="n">lMin</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">pc</span>
 <span class="n">lMax</span> <span class="o">=</span> <span class="mf">5.</span><span class="o">*</span><span class="n">pc</span>
 <span class="n">N_grid</span> <span class="o">=</span> <span class="mi">256</span>
 <span class="n">b</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">nG</span>
 <span class="n">spacing</span> <span class="o">=</span> <span class="n">lMin</span><span class="o">/</span><span class="mf">2.</span>
-<span class="c1">#spacing = R / 2 *pc  # lMin &gt; 2 * spacing</span>
-<span class="c1">#vgrid = Grid3f(Vector3d(0), N_grid, spacing)</span>
-<span class="c1">#initTurbulence(vgrid, b, lMin, lMax, -11./3., randomSeed)</span>
-<span class="c1">#turb_field = MagneticFieldGrid(vgrid)</span>
 
-<span class="n">turbSpectrum</span> <span class="o">=</span> <span class="n">SimpleTurbulenceSpectrum</span><span class="p">(</span><span class="n">Brms</span><span class="o">=</span><span class="n">b</span><span class="p">,</span> <span class="n">lMin</span><span class="o">=</span><span class="n">lMin</span><span class="p">,</span> <span class="n">lMax</span><span class="o">=</span><span class="n">lMax</span><span class="p">,</span> <span class="n">sIndex</span><span class="o">=</span><span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
+<span class="n">turbSpectrum</span> <span class="o">=</span> <span class="n">SimpleTurbulenceSpectrum</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">lMin</span><span class="p">,</span> <span class="n">lMax</span><span class="p">,</span> <span class="mf">5.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
 <span class="n">gridprops</span> <span class="o">=</span> <span class="n">GridProperties</span><span class="p">(</span><span class="n">Vector3d</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">N_grid</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
 <span class="n">turb_field</span> <span class="o">=</span> <span class="n">SimpleGridTurbulence</span><span class="p">(</span><span class="n">turbSpectrum</span><span class="p">,</span> <span class="n">gridprops</span><span class="p">,</span> <span class="n">randomSeed</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>Finally, we can run both propagation modules and compare their
-simulation times:</p>
+<p>Finally, we can run both propagation modules and compare their simulation times:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># ### Running the simulation with either CK or BP</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ### Running the simulation with either CK or BP</span>
 <span class="k">def</span> <span class="nf">runSimulation</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
     <span class="n">sim</span> <span class="o">=</span> <span class="n">ModuleList</span><span class="p">()</span>
     <span class="n">steplength</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">*</span><span class="n">pc</span>
@@ -2257,17 +2085,15 @@ simulation times:</p>
     <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
     <span class="n">t1</span> <span class="o">=</span> <span class="n">Time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Simulation time with module </span><span class="si">{}</span><span class="s1"> is </span><span class="si">{:4.4}</span><span class="s1"> s.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">))</span>
-    <span class="n">Time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">Time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">runSimulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">runSimulation</span><span class="p">(</span><span class="s1">&#39;BP&#39;</span><span class="p">)</span>
 <span class="n">runSimulation</span><span class="p">(</span><span class="s1">&#39;CK&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2277,27 +2103,23 @@ simulation times:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module BP is 5.822 s.
-Simulation time with module CK is 27.11 s.
+Simulation time with module BP is 3.936 s.
+Simulation time with module CK is 17.69 s.
 </pre></div></div>
 </div>
-<p>The simulation time difference is really high! <strong>PropagationBP is much
-faster than PropagationCK for the turbulent magnetic field</strong>.</p>
-</div>
-</div>
-<div class="section" id="Time-Comparison-for-Galactic-Trajectories">
-<h2>Time Comparison for Galactic Trajectories<a class="headerlink" href="#Time-Comparison-for-Galactic-Trajectories" title="Permalink to this headline">¶</a></h2>
-<p>Here, we test the time difference for the example of galactic
-trajectories presented in:</p>
-<p><a class="reference external" href="https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb">https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb</a>.</p>
+<p>The simulation time difference is really high! <strong>PropagationBP is much faster than PropagationCK for the turbulent magnetic field</strong>.</p>
+</section>
+</section>
+<section id="Time-Comparison-for-Galactic-Trajectories">
+<h2>Time Comparison for Galactic Trajectories<a class="headerlink" href="#Time-Comparison-for-Galactic-Trajectories" title="Permalink to this headline"></a></h2>
+<p>Here, we test the time difference for the example of galactic trajectories presented in:</p>
+<p>~/doc/pages/example_notebooks/galactic_trajectories/galactic_trajectories.ipynb.</p>
 <p>First, we want to compare both modules with a fixed step size:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">crpropa</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">crpropa</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">time</span> <span class="k">as</span> <span class="nn">Time</span>
 
 <span class="c1"># magnetic field setup</span>
@@ -2370,20 +2192,19 @@ trajectories presented in:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 86.28928446769714s.
-Simulation time with module BP is 44.579694986343384s.
+crpropa::ModuleList: Number of Threads: 8
+Simulation time with module CK is 13.88 s.
+crpropa::ModuleList: Number of Threads: 8
+Simulation time with module BP is 6.241 s.
 </pre></div></div>
 </div>
 <p>PropagationBP is faster than PropagationCK for the same step sizes.</p>
-<p>Finally we can test exactly the example presented in:
-<a class="reference external" href="https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb">https://github.com/CRPropa/CRPropa3-notebooks/blob/master/galactic_trajectories/galactic_trajectories.v4.ipynb</a>.</p>
+<p>Finally we can test exactly the example presented in: ~/doc/pages/example_notebooks/galactic_trajectories/galactic_trajectories.ipynb.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># magnetic field setup</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># magnetic field setup</span>
 <span class="n">B</span> <span class="o">=</span> <span class="n">JF12Field</span><span class="p">()</span>
 <span class="n">randomSeed</span> <span class="o">=</span> <span class="mi">691342</span>
 <span class="n">B</span><span class="o">.</span><span class="n">randomStriated</span><span class="p">(</span><span class="n">randomSeed</span><span class="p">)</span>
@@ -2455,82 +2276,52 @@ Simulation time with module BP is 44.579694986343384s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Simulation time with module CK is 0.4632 s.
-Simulation time with module BP is  0.6 s.
+crpropa::ModuleList: Number of Threads: 8
+Simulation time with module CK is 0.1547 s.
+crpropa::ModuleList: Number of Threads: 8
+Simulation time with module BP is 0.1476 s.
 </pre></div></div>
 </div>
-<p>The simulation time depends on the tolerance. For the same tolerance,
-the PropagationCK is much faster than PropagationBP.</p>
-<p>If the tolerance of the PropagationBP module is adjusted to 2e-3
-(instead of 1e-4), both simulation times are the same. The big
-differences can be explained by the different orders of the algorithms.
-Whereas the Cash-Karp is a higher order algorithm, the Boris push is
-only of order 2.</p>
-<p>[1] Hong Qin et al. “Why is Boris algorithm so good?” In: Physics of
-Plasmas 20.8 (2013), p. 084503. doi: 10.1063/1.4818428. url:
-<a class="reference external" href="https://doi.org/10.1063/1.4818428">https://doi.org/10.1063/1.4818428</a>.</p>
-<p>[2] Mathias Winkel, Robert Speck, and Daniel Ruprecht. “Does Boris-SDC
-conserve phase space volume?” In: PAMM 15.1 (2015), pp. 687–688. doi:
-10.1002/pamm.201510333. url: https:
-//onlinelibrary.wiley.com/doi/abs/10.1002/pamm.201510333.</p>
-<p>[3] J. R. Cash and Alan H. Karp. “A Variable Order Runge-Kutta Method
-for Initial Value Problems with Rapidly Varying Right-hand Sides”. In:
-ACM Trans. Math. Softw. 16.3 (Sept. 1990), pp. 201–222. issn: 0098-3500.
-doi: 10.1145/79505.79507. url: <a class="reference external" href="http://doi.acm.org/10">http://doi.acm.org/10</a>. 1145/79505.79507.</p>
-<p>[4] J. Boris, in Proc. of the 4th Conf. on Numerical Simulation of
-Plasmas (NRL, 1970), pp. 3-67.</p>
+<p>The simulation time depends on the tolerance. For the same tolerance, the PropagationCK is much faster than PropagationBP.</p>
+<p>If the tolerance of the PropagationBP module is adjusted to 2e-3 (instead of 1e-4), both simulation times are the same. The big differences can be explained by the different orders of the algorithms. Whereas the Cash-Karp is a higher order algorithm, the Boris push is only of order 2.</p>
+<p>[1] Hong Qin et al. “Why is Boris algorithm so good?” In: Physics of Plasmas 20.8 (2013), p. 084503. doi: 10.1063/1.4818428. url: <a class="reference external" href="https://doi.org/10.1063/1.4818428">https://doi.org/10.1063/1.4818428</a>.</p>
+<p>[2] Mathias Winkel, Robert Speck, and Daniel Ruprecht. “Does Boris-SDC conserve phase space volume?” In: PAMM 15.1 (2015), pp. 687–688. doi: 10.1002/pamm.201510333. url: https: //onlinelibrary.wiley.com/doi/abs/10.1002/pamm.201510333.</p>
+<p>[3] J. R. Cash and Alan H. Karp. “A Variable Order Runge-Kutta Method for Initial Value Problems with Rapidly Varying Right-hand Sides”. In: ACM Trans. Math. Softw. 16.3 (Sept. 1990), pp. 201–222. issn: 0098-3500. doi: 10.1145/79505.79507. url: <a class="reference external" href="http://doi.acm.org/10">http://doi.acm.org/10</a>. 1145/79505.79507.</p>
+<p>[4] J. Boris, in Proc. of the 4th Conf. on Numerical Simulation of Plasmas (NRL, 1970), pp. 3-67.</p>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
-</script></div>
-</div>
+</script></section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="../../AdditionalResources.html" class="btn btn-neutral float-right" title="Additional Resources" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="../../Cpp-projects.html" class="btn btn-neutral float-left" title="Using CRPropa from C++" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../Cpp-projects.html" class="btn btn-neutral float-left" title="Using CRPropa from C++" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../AdditionalResources.html" class="btn btn-neutral float-right" title="Additional Resources" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, The CRPropa Developers
-
-    </p>
+    <p>&#169; Copyright 2022, The CRPropa Developers.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

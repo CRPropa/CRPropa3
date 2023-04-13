@@ -19,7 +19,7 @@ Program Listing for File Nakanishi.h
    #include <string>
    
    namespace crpropa {
-   class Nakanishi: public Density{
+   class Nakanishi: public Density {
    private:
            bool isforHI = true;
            bool isforHII = false;

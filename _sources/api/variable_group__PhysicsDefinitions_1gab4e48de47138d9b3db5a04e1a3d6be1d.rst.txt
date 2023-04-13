@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::peta
+   :project: CRPropa3

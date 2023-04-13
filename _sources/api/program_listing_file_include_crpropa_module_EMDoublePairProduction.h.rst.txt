@@ -20,37 +20,38 @@ Program Listing for File EMDoublePairProduction.h
    #include "crpropa/PhotonBackground.h"
    
    namespace crpropa {
-   
    class EMDoublePairProduction: public Module {
    private:
            ref_ptr<PhotonField> photonField;
            bool haveElectrons;
            double limit;
            double thinning;
+           std::string interactionTag = "EMDP";
    
            // tabulated interaction rate 1/lambda(E)
            std::vector<double> tabEnergy;  
            std::vector<double> tabRate;  
    
    public:
-           EMDoublePairProduction(
-                   ref_ptr<PhotonField> photonField,          
-                   bool haveElectrons = false,    
-                   double thinning = 0,           
-                   double limit = 0.1             
-                   );
+           EMDoublePairProduction(ref_ptr<PhotonField> photonField, bool haveElectrons = false, double thinning = 0, double limit = 0.1);
    
+           // set the target photon field
            void setPhotonField(ref_ptr<PhotonField> photonField);
+   
+           // decide if secondary electrons are added to the simulation
            void setHaveElectrons(bool haveElectrons);
+           
            void setLimit(double limit);
+   
            void setThinning(double thinning);
+           
+           void setInteractionTag(std::string tag);
+           std::string getInteractionTag() const;
    
            void initRate(std::string filename);
            void process(Candidate *candidate) const;
            void performInteraction(Candidate *candidate) const;
-   
    };
-   
    } // namespace crpropa
    
    #endif // CRPROPA_EMDOUBLEPAIRPRODUCTION_H

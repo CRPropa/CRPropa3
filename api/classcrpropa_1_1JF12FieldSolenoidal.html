@@ -1,82 +1,42 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Class JF12FieldSolenoidal &mdash; CRPropa3  documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class JF12FieldSolenoidal &mdash; CRPropa3 3.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
     <link rel="canonical" href="https://crpropa.desy.de/api/classcrpropa_1_1JF12FieldSolenoidal.html"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script src="../_static/js/breathe_fold.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Class LensPart" href="classcrpropa_1_1LensPart.html" />
     <link rel="prev" title="Class JF12Field" href="classcrpropa_1_1JF12Field.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html">
-          
-
-          
-            
             <img src="../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -84,18 +44,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Project Info</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#download">Download</a></li>
@@ -114,34 +64,40 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNEXT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-2">CRPropa 3.2</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id3">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id3">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id4">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id5">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id4">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id5">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id9">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id9">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id10">New features:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id11">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id12">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id13">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id14">New plugins and resources linked on the webpages:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/FAQ.html">FAQ</a><ul>
@@ -163,7 +119,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">USAGE</span></p>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Basic-concepts.html">Basic Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#modular-design">Modular design</a></li>
@@ -182,70 +138,84 @@
 <li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#other-modules">Other modules</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html">Introduction to Python Steering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Propagating-a-single-particle">Propagating a single particle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-an-observer">Defining an observer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-output-file">Defining the output file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-source">Defining the source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html">Introduction to Python Steering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Propagating-a-single-particle">Propagating a single particle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-an-observer">Defining an observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-the-output-file">Defining the output file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-the-source">Defining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/extragalactic-simulations.html">Extragalactic Propagation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html">1D simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#Simulation-Setup">Simulation Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html">1D simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html#Simulation-Setup">Simulation Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html">4D Simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Periodic-boundaries">Periodic boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Source-positions">Source positions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Note:">Note:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html">4D Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Periodic-boundaries">Periodic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Source-positions">Source positions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html">3D trajectories in a turbulent field</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Saving-and-loading-fields">Saving and loading fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html">3D trajectories in a turbulent field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#Saving-and-loading-fields">Saving and loading fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html">3D MHD models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Supplied-data">Supplied data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Uniform-injection">Uniform injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Injection-following-density-field">Injection following density field</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Mass-Halo-injection">Mass Halo injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Observer">Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html">3D MHD models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Supplied-data">Supplied data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html">Photon Propagation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Source-settings">Source settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Observer">Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#ModuleList">ModuleList</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-DINT">Propagation with DINT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Combined-Propagation">Combined Propagation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html#Setting-up-the-simulation">Setting up the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html#Plotting-results-(optional)">Plotting results (optional)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html">Example with secondary neutrinos</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-DINT">Propagation with DINT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Combined-Propagation">Combined Propagation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html">Example with secondary neutrinos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html">Electromagnetic cascade example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html#Plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html">The targeting algorithm of CRPropa</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-simple-example-on-how-to-use-the-targeting-algorithm-of-CRPropa">A simple example on how to use the targeting algorithm of CRPropa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Plotting-of-the-results">Plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-learning-algorithm-to-obtain-optimal-values-for-mu-and-kappa">A learning algorithm to obtain optimal values for mu and kappa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Testing-sampling-results">Testing sampling results</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/galactic_lensing.html">Propagation of Extragalactic CR in the Milky Way</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html">Galactic backtracking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html">Galactic trajectories</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html#3D-trajectory-plot">3D trajectory plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html">Galactic backtracking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html">Galactic Lensing of Simulated Cosmic Rays</a><ul>
@@ -256,22 +226,29 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_maps.v4.html">Galactic Lensing of Maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html">Galactic Lensing - confirm Liouville</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html#Lambert's-distribution">Lambert’s distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html">Galactic Lensing - confirm Liouville</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html#Lambert’s-distribution">Lambert’s distribution</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Diffusion of Cosmic Rays</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html">Diffusion Validation I</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Use-the-absolute-distance-from-origin--and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Calculate-the-pValue-of-the--test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Galactic Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.html">Galactic trajectories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.html#3D-trajectory-plot">3D trajectory plot</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html">Diffusion Validation II</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#diffusion-of-cosmic-rays">Diffusion of Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html">Diffusion Validation I</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Use-the-absolute-distance-from-origin-|x|,-|y|,-|z|-and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Calculate-the-pValue-of-the-\chi^2-test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html">Diffusion Validation II</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#advection-and-adiabatic-energy-changes">Advection and Adiabatic Energy Changes</a><ul>
@@ -281,17 +258,33 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#example-of-diffusion-in-the-milky-way">Example of diffusion in the Milky way</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html">Example for Galactic Propagation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#import-of-packages">import of packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#Simulation">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#Analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#gas-densities">Gas Densities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html">First example code for the use of densities</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#All-densities-are-separated-in-atomic-hydrogen-(HI),-ionised-hydrogen-(HII)-and-molecular-hydrogen-(H2).">All densities are separated in atomic hydrogen (HI), ionised hydrogen (HII) and molecular hydrogen (H2).</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#The-ConstantDensity-can-be-adjusted-to-new-values-and-the-usage-of-several-parts-can-be-chosen.">The ConstantDensity can be adjusted to new values and the usage of several parts can be chosen.</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#The-output-of-the-getDensity-and-getNucleonDensity-depends-on-the-activity-of-the-types.-Only-activated-types-are-used-for-summing-up.">The output of the getDensity and getNucleonDensity depends on the activity of the types. Only activated types are used for summing up.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_easy_example.html">First example code for use of densities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_easy_example.html#Customize-a-density-with-different-density-models">Customize a density with different density models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/densitys_model_example.html">Example for the implemented gass density distributions of the Milky Way</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_model_example.html#The-following-example-shows-the-use-of-density-distribution-for-the-Milky-Way-and-gives-some-figures-of-the-distribution.">The following example shows the use of density distribution for the Milky Way and gives some figures of the distribution.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html">Example for the implemented massdistributions of the Milky Way</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Ferrière">Model Ferrière</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Cordes">Model Cordes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Nakanishi">Model Nakanishi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Advanced-use-of-DensityList">Advanced use of DensityList</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html">Example of grid based densities of the Milky Way and sampling source position</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#load-grid">load grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#convert-grid-into-a-CRPropa-mass-distribution">convert grid into a CRPropa mass distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#use-a-massdistribution-as-indicator-for-the-spacial-source-distribution">use a massdistribution as indicator for the spacial source distribution</a></li>
 </ul>
 </li>
 </ul>
@@ -302,10 +295,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/extending_crpropa.html">Interfacing User Code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html">Implementing additional Modules and Features using Python only</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#manual-simulation-processing">Manual Simulation Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#plugins-integrate-custom-c-code-to-crpropa-s-python-steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.v4.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html">Implementing additional Modules and Features using Python only</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Manual-Simulation-Processing">Manual Simulation Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa’s-Python-Steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html">Custom Photon Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Downloading-CRPropa-data">Downloading CRPropa-data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#1.-Create-a-python-class-with-your-custom-photon-field-(CRPropa-data)">1. Create a python class with your custom photon field (CRPropa-data)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Warning">Warning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#2.-Create-tables-for-all-photon-field-dependent-processes">2. Create tables for all photon field dependent processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#3.-Copy-files-to-the-share-folder">3. Copy files to the share folder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#4.-Implementing-custom-PhotonField-in-CRPropa">4. Implementing custom PhotonField in CRPropa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#5.-Check-implementation">5. Check implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#6.-Limitation">6. Limitation</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Cpp-projects.html">Using CRPropa from C++</a></li>
 </ul>
 </li>
@@ -327,7 +336,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/AdditionalResources.html">Additional Resources</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../building_blocks.html">Building Blocks</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../buildingblocks/CoreClasses.html">Core Classes</a></li>
@@ -345,10 +354,13 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="library_root.html">Library API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="namespace_crpropa.html">Namespace crpropa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="namespace_eleca.html">Namespace eleca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="namespace_std.html">Namespace std</a></li>
 </ul>
 </li>
@@ -378,6 +390,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock.html">Class Clock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMB.html">Class CMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantSphericalAdvectionField.html">Class ConstantSphericalAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Cordes.html">Class Cordes</a></li>
@@ -386,6 +399,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CylindricalBoundary.html">Class CylindricalBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CylindricalProjectionMap.html">Class CylindricalProjectionMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Density.html">Class Density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DensityGrid.html">Class DensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DensityList.html">Class DensityList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DetectionLength.html">Class DetectionLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1DiffusionSDE.html">Class DiffusionSDE</a></li>
@@ -440,18 +454,17 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Nakanishi.html">Class Nakanishi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1NuclearDecay.html">Class NuclearDecay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Observer.html">Class Observer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Observer1D.html">Class Observer1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverDetectAll.html">Class ObserverDetectAll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverElectronVeto.html">Class ObserverElectronVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverFeature.html">Class ObserverFeature</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverInactiveVeto.html">Class ObserverInactiveVeto</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverLargeSphere.html">Class ObserverLargeSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverNeutrinoVeto.html">Class ObserverNeutrinoVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverNucleusVeto.html">Class ObserverNucleusVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverParticleIdVeto.html">Class ObserverParticleIdVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverPhotonVeto.html">Class ObserverPhotonVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverPoint.html">Class ObserverPoint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverRedshiftWindow.html">Class ObserverRedshiftWindow</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverSmallSphere.html">Class ObserverSmallSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverSurface.html">Class ObserverSurface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverTimeEvolution.html">Class ObserverTimeEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverTracking.html">Class ObserverTracking</a></li>
@@ -467,13 +480,13 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotoDisintegration.html">Class PhotoDisintegration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonEleCa.html">Class PhotonEleCa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonField.html">Class PhotonField</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonFieldSampling.html">Class PhotonFieldSampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonOutput1D.html">Class PhotonOutput1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotoPionProduction.html">Class PhotoPionProduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Pixelization.html">Class Pixelization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PlanckJF12bField.html">Class PlanckJF12bField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Plane.html">Class Plane</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PlaneWaveTurbulence.html">Class PlaneWaveTurbulence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PolarizedSingleModeMagneticField.html">Class PolarizedSingleModeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PPSecondariesEnergyDistribution.html">Class PPSecondariesEnergyDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PropagationBP.html">Class PropagationBP</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PropagationBP_1_1Y.html">Class PropagationBP::Y</a></li>
@@ -489,7 +502,6 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ReflectiveBox.html">Class ReflectiveBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1RenormalizeMagneticField.html">Class RenormalizeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1RestrictToRegion.html">Class RestrictToRegion</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ScalarGrid.html">Class ScalarGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SecondOrderFermi.html">Class SecondOrderFermi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ShellOutput.html">Class ShellOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ShellOutput1D.html">Class ShellOutput1D</a></li>
@@ -501,6 +513,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceComposition.html">Class SourceComposition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDensityGrid.html">Class SourceDensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDensityGrid1D.html">Class SourceDensityGrid1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDirectedEmission.html">Class SourceDirectedEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceDirection.html">Class SourceDirection</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceEmissionCone.html">Class SourceEmissionCone</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceEmissionMap.html">Class SourceEmissionMap</a></li>
@@ -511,6 +524,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceIsotropicEmission.html">Class SourceIsotropicEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceLambertDistributionOnSphere.html">Class SourceLambertDistributionOnSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceList.html">Class SourceList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceMassDistribution.html">Class SourceMassDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceMultipleParticleTypes.html">Class SourceMultipleParticleTypes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceMultiplePositions.html">Class SourceMultiplePositions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceParticleType.html">Class SourceParticleType</a></li>
@@ -521,6 +535,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceRedshift1D.html">Class SourceRedshift1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceRedshiftEvolution.html">Class SourceRedshiftEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceSNRDistribution.html">Class SourceSNRDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceTag.html">Class SourceTag</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniform1D.html">Class SourceUniform1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformBox.html">Class SourceUniformBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1SourceUniformCylinder.html">Class SourceUniformCylinder</a></li>
@@ -538,7 +553,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TabularPhotonField.html">Class TabularPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TextOutput.html">Class TextOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TF17Field.html">Class TF17Field</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TorroidalHaloField.html">Class TorroidalHaloField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ToroidalHaloField.html">Class ToroidalHaloField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
@@ -549,18 +564,16 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Variant.html">Class Variant</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Variant_1_1bad__conversion.html">Class Variant::bad_conversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Vector3.html">Template Class Vector3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1VectorGrid.html">Class VectorGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classParticleSplitting.html">Class ParticleSplitting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classQuasiLinearTheory.html">Class QuasiLinearTheory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classURB.html">Class URB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classURB.html">Class URB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classURB.html">Class URB</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#enums">Enums</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.html">Enum DetectionState</a></li>
-<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.html">Enum interpolationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum_group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a><ul>
@@ -634,14 +647,16 @@
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a28a4ba29d78d82959e2a62dfd5734ee4.html">Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Random&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaa41b3dba9522979f21064c9d34789c82.html">Template Function crpropa::operator&gt;&gt;(std::istream&amp;, Vector3&lt;T&gt;&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2.html">Function crpropa::operator&gt;&gt;(std::istream&amp;, Random&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.html">Function crpropa::periodicBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201.html">Function crpropa::periodicClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95.html">Template Function crpropa::pow_integer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Function crpropa::pow_integer&lt; 0 &gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Specialized Template Function crpropa::pow_integer&lt; 0 &gt;</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7.html">Function crpropa::prod_up</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4.html">Function crpropa::redshift2ComovingDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a.html">Function crpropa::redshift2LightTravelDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6.html">Function crpropa::redshift2LuminosityDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023.html">Function crpropa::reflectiveClamp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.html">Function crpropa::reflectiveBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.html">Function crpropa::reflectiveClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gafbf4174c9a116aaf77904225c3639d24.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid1f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gac6a806f908b2c0080767e36781d6ec12.html">Function crpropa::rmsFieldStrengthPerAxis</a></li>
@@ -654,7 +669,7 @@
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.html">Template Function crpropa::swap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514.html">Function crpropa::turbulentCorrelationLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8.html">Function crpropa::VARIANT_TO_DECL(Bool, bool)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned char)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f.html">Function crpropa::VARIANT_TO_DECL(UInt16, uint16_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf.html">Function crpropa::VARIANT_TO_DECL(UInt32, uint32_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248.html">Function crpropa::VARIANT_TO_DECL(UInt64, uint64_t)</a></li>
@@ -677,6 +692,7 @@
 <li class="toctree-l4"><a class="reference internal" href="variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.html">Variable crpropa::_nOrder_max</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.html">Variable crpropa::_nPix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164.html">Variable crpropa::_random</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga033bad5c8708f06659e7b5c0ff5d2483.html">Variable crpropa::alpha_finestructure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c.html">Variable crpropa::ampere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679.html">Variable crpropa::amu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d.html">Variable crpropa::atto</a></li>
@@ -766,8 +782,10 @@
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8.html">Variable crpropa::pico</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_namespacecrpropa_1a086a644110575459436b82fc0959df1b.html">Variable crpropa::propertyBufferSize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.html">Variable crpropa::rad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1.html">Variable crpropa::radius_electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1.html">Variable crpropa::sec</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219.html">Variable crpropa::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b.html">Variable crpropa::sigma_thomson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce.html">Variable crpropa::tera</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81.html">Variable crpropa::teraelectronvolt</a></li>
 <li class="toctree-l4"><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a.html">Variable crpropa::tesla</a></li>
@@ -790,7 +808,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109.html">Typedef crpropa::_Secondary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5.html">Typedef crpropa::_Secondary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html">Typedef crpropa::const_LensPartIter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html">Typedef crpropa::Grid1d</a></li>
 <li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html">Typedef crpropa::Grid1f</a></li>
@@ -808,7 +826,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">DEVEL</span></p>
+<p class="caption" role="heading"><span class="caption-text">DEVEL</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html">GNU Debugger (GDB)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html#profiling">Profiling</a><ul>
@@ -821,682 +839,619 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/Data-files.html">Verify the Data Files Integrity</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">CRPropa3</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="library_root.html">Library API</a> &raquo;</li>
-        
       <li>Class JF12FieldSolenoidal</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
-<div class="section" id="class-jf12fieldsolenoidal">
-<span id="exhale-class-classcrpropa-1-1jf12fieldsolenoidal"></span><h1>Class JF12FieldSolenoidal<a class="headerlink" href="#class-jf12fieldsolenoidal" title="Permalink to this headline">¶</a></h1>
+<section id="class-jf12fieldsolenoidal">
+<span id="exhale-class-classcrpropa-1-1jf12fieldsolenoidal"></span><h1>Class JF12FieldSolenoidal<a class="headerlink" href="#class-jf12fieldsolenoidal" title="Permalink to this headline"></a></h1>
 <ul class="simple">
-<li>Defined in <a class="reference internal" href="file_include_crpropa_magneticField_JF12FieldSolenoidal.h.html#file-include-crpropa-magneticfield-jf12fieldsolenoidal-h"><span class="std std-ref">File JF12FieldSolenoidal.h</span></a></li>
+<li><p>Defined in <a class="reference internal" href="file_include_crpropa_magneticField_JF12FieldSolenoidal.h.html#file-include-crpropa-magneticfield-jf12fieldsolenoidal-h"><span class="std std-ref">File JF12FieldSolenoidal.h</span></a></p></li>
 </ul>
-<div class="section" id="inheritance-relationships">
-<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="base-type">
-<h3>Base Type<a class="headerlink" href="#base-type" title="Permalink to this headline">¶</a></h3>
+<section id="inheritance-relationships">
+<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Permalink to this headline"></a></h2>
+<section id="base-type">
+<h3>Base Type<a class="headerlink" href="#base-type" title="Permalink to this headline"></a></h3>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">JF12Field</span></code> (<a class="reference internal" href="classcrpropa_1_1JF12Field.html#exhale-class-classcrpropa-1-1jf12field"><span class="std std-ref">Class JF12Field</span></a>)</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">JF12Field</span></code> (<a class="reference internal" href="classcrpropa_1_1JF12Field.html#exhale-class-classcrpropa-1-1jf12field"><span class="std std-ref">Class JF12Field</span></a>)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="class-documentation">
-<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="_CPPv3N7crpropa19JF12FieldSolenoidalE">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal"></span><em class="property">class </em><code class="descname">JF12FieldSolenoidal</code> : <em class="property">public</em> <a class="reference internal" href="classcrpropa_1_1JF12Field.html#_CPPv3N7crpropa9JF12FieldE" title="crpropa::JF12Field">JF12Field</a><a class="headerlink" href="#_CPPv3N7crpropa19JF12FieldSolenoidalE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p><a class="reference internal" href="#classcrpropa_1_1JF12FieldSolenoidal"><span class="std std-ref">JF12FieldSolenoidal</span></a> galactic magnetic field model. </p>
-<p>Implements a modified JF2012 Galactic magnetic field model. This implementation inherits most methods from the initial <a class="reference internal" href="classcrpropa_1_1JF12Field.html#classcrpropa_1_1JF12Field"><span class="std std-ref">JF12Field</span></a>, just the regular disk field and the poloidal halo “X field” are altered.</p>
+</section>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this headline"></a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidalE">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">JF12FieldSolenoidal</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="classcrpropa_1_1JF12Field.html#_CPPv4N7crpropa9JF12FieldE" title="crpropa::JF12Field"><span class="n"><span class="pre">JF12Field</span></span></a><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidalE" title="Permalink to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="../buildingblocks/MagneticFields.html#classcrpropa_1_1JF12FieldSolenoidal"><span class="std std-ref">JF12FieldSolenoidal</span></a> galactic magnetic field model. </p>
+<p>Implements a modified JF2012 Galactic magnetic field model. This implementation inherits most methods from the initial <a class="reference internal" href="../buildingblocks/MagneticFields.html#classcrpropa_1_1JF12Field"><span class="std std-ref">JF12Field</span></a>, just the regular disk field and the poloidal halo “X field” are altered.</p>
 <p>A solenoidal transition for the disk field (which redirects the magnetic flux of the magnetic spiral field at the boundaries and lets the field strength tend to 0 in a continuous way) and an improved version of the JF12 X field (with parabolic field lines at z = 0 instead of sharp kinks) were added in order to smooth the field and avoid violations of magnetic flux conservation, see: Kleimann et al, 2018, arXiv:1809.07528, Solenoidal improvements for the JF12 Galactic magnetic field model.</p>
 <p>The turbulent field component is the exact same as in the initial JF12 implementation and should be used with care since the new regular and old turbulent field do not match in the transition regions of the spiral field. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Public Functions</p>
-<dl class="function">
-<dt id="_CPPv319JF12FieldSolenoidaldd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a3b32b78f720abb63da40654c0f2a52f4"></span><code class="descname">JF12FieldSolenoidal</code><span class="sig-paren">(</span>double <em>delta</em> = 3 * <a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184.html#_CPPv33kpc" title="kpc">kpc</a>, double <em>zs</em> = 0.5 * <a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184.html#_CPPv33kpc" title="kpc">kpc</a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv319JF12FieldSolenoidaldd" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Constructor <dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">delta</span></code>: Transition width for the disk field such that the magnetic flux of the spiral field lines is redirected between r = 5 kpc and r = 5 kpc + delta as well as r = 20 kpc - delta and r = 20 kpc. The input parameter delta should be non-negative and smaller than 7.5 kpc. The default value is 3 kpc. </li>
-<li><code class="docutils literal notranslate"><span class="pre">zs</span></code>: Scale height for the X-shaped poloidal halo field such that the straight field lines are replaced by parabolas for abs(z) &lt; zs. The input parameter zs should be non-negative. The default value is 500 pc. </li>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal19JF12FieldSolenoidalEdd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a3b32b78f720abb63da40654c0f2a52f4"></span><span class="sig-name descname"><span class="n"><span class="pre">JF12FieldSolenoidal</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delta</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="w"> </span><span class="o"><span class="pre">*</span></span><span class="w"> </span><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184.html#_CPPv4N7crpropa3kpcE" title="crpropa::kpc"><span class="n"><span class="pre">kpc</span></span></a>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">zs</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.5</span></span><span class="w"> </span><span class="o"><span class="pre">*</span></span><span class="w"> </span><a class="reference internal" href="variable_group__PhysicsDefinitions_1ga1ec6fd9219412d45c0565c29304d5184.html#_CPPv4N7crpropa3kpcE" title="crpropa::kpc"><span class="n"><span class="pre">kpc</span></span></a><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal19JF12FieldSolenoidalEdd" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Constructor </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delta</strong> – Transition width for the disk field such that the magnetic flux of the spiral field lines is redirected between r = 5 kpc and r = 5 kpc + delta as well as r = 20 kpc - delta and r = 20 kpc. The input parameter delta should be non-negative and smaller than 7.5 kpc. The default value is 3 kpc. </p></li>
+<li><p><strong>zs</strong> – Scale height for the X-shaped poloidal halo field such that the straight field lines are replaced by parabolas for abs(z) &lt; zs. The input parameter zs should be non-negative. The default value is 500 pc. </p></li>
 </ul>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv319setUseStriatedFieldb">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1afa03dc04ae480b9c822692c580c6249c"></span>void <code class="descname">setUseStriatedField</code><span class="sig-paren">(</span>bool <em>use</em><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal19setUseStriatedFieldEb">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1afa03dc04ae480b9c822692c580c6249c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUseStriatedField</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal19setUseStriatedFieldEb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv320setUseTurbulentFieldb">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1ab0e1f71aaf5767b6cbd8d1573fe2dc34"></span>void <code class="descname">setUseTurbulentField</code><span class="sig-paren">(</span>bool <em>use</em><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal20setUseTurbulentFieldEb">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1ab0e1f71aaf5767b6cbd8d1573fe2dc34"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUseTurbulentField</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal20setUseTurbulentFieldEb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv322setDiskTransitionWidthd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a8df94792f850c1390852805e1e3afdaa"></span>void <code class="descname">setDiskTransitionWidth</code><span class="sig-paren">(</span>double <em>delta</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv322setDiskTransitionWidthd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal22setDiskTransitionWidthEd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a8df94792f850c1390852805e1e3afdaa"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setDiskTransitionWidth</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">delta</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal22setDiskTransitionWidthEd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adjust the transition width of the disk field. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>Void </dd>
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: The new transition width for the disk field with field strength transitions and flux redirection between r = 5 kpc and r = 5 kpc + delta as well as r = 20 kpc - delta and r = 20 kpc. Should be non-negative and smaller than 7.5 kpc. </li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>delta</strong> – The new transition width for the disk field with field strength transitions and flux redirection between r = 5 kpc and r = 5 kpc + delta as well as r = 20 kpc - delta and r = 20 kpc. Should be non-negative and smaller than 7.5 kpc. </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Void </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK22getDiskTransitionWidthEv">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a3d58e76942281a15a9c11796bb5ebf2a"></span>double <code class="descname">getDiskTransitionWidth</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK22getDiskTransitionWidthEv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal22getDiskTransitionWidthEv">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a3d58e76942281a15a9c11796bb5ebf2a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDiskTransitionWidth</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal22getDiskTransitionWidthEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv315setXScaleHeightd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a68c63b7ecb31850d0d1c95963072fd8d"></span>void <code class="descname">setXScaleHeight</code><span class="sig-paren">(</span>double <em>zs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv315setXScaleHeightd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15setXScaleHeightEd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a68c63b7ecb31850d0d1c95963072fd8d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setXScaleHeight</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">zs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15setXScaleHeightEd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adjust the scale heigth of the X field. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>Void </dd>
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">zs</span></code>: The new scale height of the X field with parabolic field lines for abs(z) &lt; zs. Should be non-negative. </li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zs</strong> – The new scale height of the X field with parabolic field lines for abs(z) &lt; zs. Should be non-negative. </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Void </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK15getXScaleHeightEv">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a1125136ab7f34da778b380b2d34e427c"></span>double <code class="descname">getXScaleHeight</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK15getXScaleHeightEv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal15getXScaleHeightEv">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a1125136ab7f34da778b380b2d34e427c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getXScaleHeight</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal15getXScaleHeightEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK9getXFieldERKdRKdRKdRKd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a5d01ce3fd0a3e897dbfe22c3ef5ce41e"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getXField</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em>, <em class="property">const</em> double &amp;<em>z</em>, <em class="property">const</em> double &amp;<em>sinPhi</em>, <em class="property">const</em> double &amp;<em>cosPhi</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal9getXFieldERKdRKdRKdRKd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a5d01ce3fd0a3e897dbfe22c3ef5ce41e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getXField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sinPhi</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cosPhi</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal9getXFieldERKdRKdRKdRKd" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK12getDiskFieldERKdRKdRKdRKdRKd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a89e2ab1f78b81c71c37012156a11fb39"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getDiskField</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em>, <em class="property">const</em> double &amp;<em>z</em>, <em class="property">const</em> double &amp;<em>phi</em>, <em class="property">const</em> double &amp;<em>sinPhi</em>, <em class="property">const</em> double &amp;<em>cosPhi</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal12getDiskFieldERKdRKdRKdRKdRKd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a89e2ab1f78b81c71c37012156a11fb39"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDiskField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">phi</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sinPhi</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cosPhi</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal12getDiskFieldERKdRKdRKdRKdRKd" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv325deactivateOuterTransitionv">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1ae676ee9f1ce661e04afd3935b91daefb"></span>void <code class="descname">deactivateOuterTransition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv325deactivateOuterTransitionv" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal25deactivateOuterTransitionEv">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1ae676ee9f1ce661e04afd3935b91daefb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">deactivateOuterTransition</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal25deactivateOuterTransitionEv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Disable the transition of the spiral field strength to 0 at the outer boundary such that only the magnetic flux at the 5 kpc ring is redirected. Thus, the spiral field lines are continued to r = 20 kpc as in the initial JF12 field. You can reactivate the outer transition afterwards via setDiskTransitionWidth which sets both transition widths at the inner and outer boundary. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>Void </dd>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Void </p>
+</dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK27getDiskTransitionPolynomialERKd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a474768fcad3536c2f402e3925eec5e15"></span>double <code class="descname">getDiskTransitionPolynomial</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK27getDiskTransitionPolynomialERKd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal27getDiskTransitionPolynomialERKd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a474768fcad3536c2f402e3925eec5e15"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDiskTransitionPolynomial</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal27getDiskTransitionPolynomialERKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Evaluate the polynomial which provides the transition of the spiral field strength to zero in the transition regions. This transition is differentiable at the boundaries of the unaltered spiral field and contuinuous at the outer boundaries of the spiral field where the field strength goes to zero. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>The value of the transition polynomial at r if r is inside one of the transition regions. Otherwise, return (5 kpc)/r, i.e. the scaling of the spiral field, if r is inside the region where the spiral field remains unaltered. </dd>
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>r</strong> – Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the transition polynomial at r if r is inside one of the transition regions. Otherwise, return (5 kpc)/r, i.e. the scaling of the spiral field, if r is inside the region where the spiral field remains unaltered. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK37getDiskTransitionPolynomialDerivativeERKd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a2db63fef2469b5fd3100b8f8fd03c7f5"></span>double <code class="descname">getDiskTransitionPolynomialDerivative</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK37getDiskTransitionPolynomialDerivativeERKd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal37getDiskTransitionPolynomialDerivativeERKd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a2db63fef2469b5fd3100b8f8fd03c7f5"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getDiskTransitionPolynomialDerivative</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal37getDiskTransitionPolynomialDerivativeERKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Evaluate the derivative of the polynomial which provides the transition of the spiral field strength to zero in the transition regions. The derivative is needed to restore solenoidality in the transition region. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>The value of the transition polynomial derivative at r if r is inside one of the transition regions. Otherwise, return 0. </dd>
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </li>
-</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>r</strong> – Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the transition polynomial derivative at r if r is inside one of the transition regions. Otherwise, return 0. </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK15getHPhiIntegralERKdRKd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1ae5053c1cf86e9648d4c0b72671dfd965"></span>double <code class="descname">getHPhiIntegral</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em>, <em class="property">const</em> double &amp;<em>phi</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK15getHPhiIntegralERKdRKd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal15getHPhiIntegralERKdRKd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1ae5053c1cf86e9648d4c0b72671dfd965"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getHPhiIntegral</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">phi</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal15getHPhiIntegralERKdRKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Evaluate an angular azimuth integral over the piecewise constant spiral field strengths at r_1 = 5 kpc. This integral is needed to restore the solenoidality of the spiral field in the transition regions. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>The value of the azimuth integral over the spiral field strengths at r_1 = 5 kpc from at fixed phi0 to the current phi which is mapped back to r_1 = 5 kpc along the spiral field line passing through (r,phi). </dd>
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </li>
-<li><code class="docutils literal notranslate"><span class="pre">phi</span></code>: Azimuth angle of the current position in galactocentric cylindrical coordinates. Can be any double. </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> – Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </p></li>
+<li><p><strong>phi</strong> – Azimuth angle of the current position in galactocentric cylindrical coordinates. Can be any double. </p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the azimuth integral over the spiral field strengths at r_1 = 5 kpc from at fixed phi0 to the current phi which is mapped back to r_1 = 5 kpc along the spiral field line passing through (r,phi). </p>
+</dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK30getSpiralFieldStrengthConstantERKdRKd">
-<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a7f3a5fc09d90f399b78c8f6173cf4aae"></span>double <code class="descname">getSpiralFieldStrengthConstant</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em>, <em class="property">const</em> double &amp;<em>phi</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK30getSpiralFieldStrengthConstantERKdRKd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal30getSpiralFieldStrengthConstantERKdRKd">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal_1a7f3a5fc09d90f399b78c8f6173cf4aae"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getSpiralFieldStrengthConstant</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">phi</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal30getSpiralFieldStrengthConstantERKdRKd" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Find the correct magnetic spiral arm for the current position and return its field strength at r_1 = 5 kpc. </p>
-<p><dl class="docutils">
-<dt><strong>Return</strong></dt>
-<dd>The value of the spiral field strength b_j </dd>
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </li>
-<li><code class="docutils literal notranslate"><span class="pre">phi</span></code>: Azimuth angle of the current position in galactocentric cylindrical coordinates. Can be any double. </li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> – Distance of the current position to the z axis in the usual galactocentric cylindrical coordinates. Should be non-negative. </p></li>
+<li><p><strong>phi</strong> – Azimuth angle of the current position in galactocentric cylindrical coordinates. Can be any double. </p></li>
 </ul>
 </dd>
-</dl>
-</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="_CPPv314randomStriatedi">
-<span class="target" id="classcrpropa_1_1JF12Field_1a2d57377d7f105bce917f15132abf0ad7"></span>void <code class="descname">randomStriated</code><span class="sig-paren">(</span>int <em>seed</em> = 0<span class="sig-paren">)</span><br /></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="_CPPv315randomTurbulenti">
-<span class="target" id="classcrpropa_1_1JF12Field_1a8e5cd5b7537e4880f44db79547371e5a"></span>void <code class="descname">randomTurbulent</code><span class="sig-paren">(</span>int <em>seed</em> = 0<span class="sig-paren">)</span><br /></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="_CPPv315setStriatedGrid7ref_ptrI6Grid1fE">
-<span class="target" id="classcrpropa_1_1JF12Field_1a8cb275c1344647266e85a679d44abf24"></span>void <code class="descname">setStriatedGrid</code><span class="sig-paren">(</span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv37ref_ptrv" title="ref_ptr">ref_ptr</a>&lt;<a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#_CPPv36Grid1f" title="Grid1f">Grid1f</a>&gt; <em>grid</em><span class="sig-paren">)</span><br /></dt>
-<dd><p>Set a striated grid and activate the striated field component <dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">grid</span></code>: scalar grid containing random +1/-1 values, 100 parsec grid spacing </li>
-</ul>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the spiral field strength b_j </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv316setTurbulentGrid7ref_ptrI6Grid3fE">
-<span class="target" id="classcrpropa_1_1JF12Field_1abc09924adf731be01ce5e484e534e58d"></span>void <code class="descname">setTurbulentGrid</code><span class="sig-paren">(</span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv37ref_ptrv" title="ref_ptr">ref_ptr</a>&lt;<a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#_CPPv36Grid3f" title="Grid3f">Grid3f</a>&gt; <em>grid</em><span class="sig-paren">)</span><br /></dt>
-<dd><p>Set a turbulent grid and activate the turbulent field component <dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">grid</span></code>: vector grid containing a random field of Brms = 1 </li>
-</ul>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal14randomStriatedEi">
+<span class="target" id="classcrpropa_1_1JF12Field_1a2d57377d7f105bce917f15132abf0ad7"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">randomStriated</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal14randomStriatedEi" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15randomTurbulentEi">
+<span class="target" id="classcrpropa_1_1JF12Field_1a8e5cd5b7537e4880f44db79547371e5a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">randomTurbulent</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15randomTurbulentEi" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15setStriatedGridE7ref_ptrI6Grid1fE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a8cb275c1344647266e85a679d44abf24"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setStriatedGrid</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv4I0EN7crpropa7ref_ptrE" title="crpropa::ref_ptr"><span class="n"><span class="pre">ref_ptr</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#_CPPv4N7crpropa6Grid1fE" title="crpropa::Grid1f"><span class="n"><span class="pre">Grid1f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">grid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15setStriatedGridE7ref_ptrI6Grid1fE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Set a striated grid and activate the striated field component </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>grid</strong> – scalar grid containing random +1/-1 values, 100 parsec grid spacing </p>
 </dd>
 </dl>
-</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="_CPPv315getStriatedGridv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a74b7b87b78d25cfc714b649aed5b30df"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv37ref_ptrv" title="ref_ptr">ref_ptr</a>&lt;<a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#_CPPv36Grid1f" title="Grid1f">Grid1f</a>&gt; <code class="descname">getStriatedGrid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal16setTurbulentGridE7ref_ptrI6Grid3fE">
+<span class="target" id="classcrpropa_1_1JF12Field_1abc09924adf731be01ce5e484e534e58d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setTurbulentGrid</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv4I0EN7crpropa7ref_ptrE" title="crpropa::ref_ptr"><span class="n"><span class="pre">ref_ptr</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#_CPPv4N7crpropa6Grid3fE" title="crpropa::Grid3f"><span class="n"><span class="pre">Grid3f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">grid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal16setTurbulentGridE7ref_ptrI6Grid3fE" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Set a turbulent grid and activate the turbulent field component </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>grid</strong> – vector grid containing a random field of Brms = 1 </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15getStriatedGridEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a74b7b87b78d25cfc714b649aed5b30df"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv4I0EN7crpropa7ref_ptrE" title="crpropa::ref_ptr"><span class="n"><span class="pre">ref_ptr</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#_CPPv4N7crpropa6Grid1fE" title="crpropa::Grid1f"><span class="n"><span class="pre">Grid1f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStriatedGrid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15getStriatedGridEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv316getTurbulentGridv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a592be4b353afc6d12dec48de8e2f441a"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv37ref_ptrv" title="ref_ptr">ref_ptr</a>&lt;<a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#_CPPv36Grid3f" title="Grid3f">Grid3f</a>&gt; <code class="descname">getTurbulentGrid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal16getTurbulentGridEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a592be4b353afc6d12dec48de8e2f441a"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv4I0EN7crpropa7ref_ptrE" title="crpropa::ref_ptr"><span class="n"><span class="pre">ref_ptr</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#_CPPv4N7crpropa6Grid3fE" title="crpropa::Grid3f"><span class="n"><span class="pre">Grid3f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTurbulentGrid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal16getTurbulentGridEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv318setUseRegularFieldb">
-<span class="target" id="classcrpropa_1_1JF12Field_1ae0fee5decb3ed025b9960eace444a7f6"></span>void <code class="descname">setUseRegularField</code><span class="sig-paren">(</span>bool <em>use</em><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal18setUseRegularFieldEb">
+<span class="target" id="classcrpropa_1_1JF12Field_1ae0fee5decb3ed025b9960eace444a7f6"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUseRegularField</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal18setUseRegularFieldEb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv315setUseDiskFieldb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a3bce51e9a444d205eb1d1fee744604c3"></span>void <code class="descname">setUseDiskField</code><span class="sig-paren">(</span>bool <em>use</em><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15setUseDiskFieldEb">
+<span class="target" id="classcrpropa_1_1JF12Field_1a3bce51e9a444d205eb1d1fee744604c3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUseDiskField</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15setUseDiskFieldEb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv323setUseToroidalHaloFieldb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a8647f653dc81204bfc798c937bc07f86"></span>void <code class="descname">setUseToroidalHaloField</code><span class="sig-paren">(</span>bool <em>use</em><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal23setUseToroidalHaloFieldEb">
+<span class="target" id="classcrpropa_1_1JF12Field_1a8647f653dc81204bfc798c937bc07f86"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUseToroidalHaloField</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal23setUseToroidalHaloFieldEb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv312setUseXFieldb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a9e1d89282e3212200ff071926016f596"></span>void <code class="descname">setUseXField</code><span class="sig-paren">(</span>bool <em>use</em><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal12setUseXFieldEb">
+<span class="target" id="classcrpropa_1_1JF12Field_1a9e1d89282e3212200ff071926016f596"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setUseXField</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal12setUseXFieldEb" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv319isUsingRegularFieldv">
-<span class="target" id="classcrpropa_1_1JF12Field_1aaa172e99776155ef3059c18a524a8a37"></span>bool <code class="descname">isUsingRegularField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal19isUsingRegularFieldEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1aaa172e99776155ef3059c18a524a8a37"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isUsingRegularField</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal19isUsingRegularFieldEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv320isUsingStriatedFieldv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a8888cb06a29d2e014a70ba3340e5b275"></span>bool <code class="descname">isUsingStriatedField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal20isUsingStriatedFieldEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a8888cb06a29d2e014a70ba3340e5b275"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isUsingStriatedField</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal20isUsingStriatedFieldEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv321isUsingTurbulentFieldv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a0f3fe3fdbd9f165e6e56be85c62cf33f"></span>bool <code class="descname">isUsingTurbulentField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal21isUsingTurbulentFieldEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a0f3fe3fdbd9f165e6e56be85c62cf33f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isUsingTurbulentField</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal21isUsingTurbulentFieldEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv316isUsingDiskFieldv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a86f450bd05faf27153917f55ea022666"></span>bool <code class="descname">isUsingDiskField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal16isUsingDiskFieldEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a86f450bd05faf27153917f55ea022666"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isUsingDiskField</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal16isUsingDiskFieldEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv324isUsingToroidalHaloFieldv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a37150cddef3c7ceb305b7b9cd8538f0b"></span>bool <code class="descname">isUsingToroidalHaloField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal24isUsingToroidalHaloFieldEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a37150cddef3c7ceb305b7b9cd8538f0b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isUsingToroidalHaloField</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal24isUsingToroidalHaloFieldEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv313isUsingXFieldv">
-<span class="target" id="classcrpropa_1_1JF12Field_1a9fa18f762b3355c2591a9ee7eb1d5f25"></span>bool <code class="descname">isUsingXField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal13isUsingXFieldEv">
+<span class="target" id="classcrpropa_1_1JF12Field_1a9fa18f762b3355c2591a9ee7eb1d5f25"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">isUsingXField</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal13isUsingXFieldEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK16logisticFunctionERKdRKdRKd">
-<span class="target" id="classcrpropa_1_1JF12Field_1ae44c8702c3f2b1a1ce5373ca459a548a"></span>double <code class="descname">logisticFunction</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>x</em>, <em class="property">const</em> double &amp;<em>x0</em>, <em class="property">const</em> double &amp;<em>w</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal16logisticFunctionERKdRKdRKd">
+<span class="target" id="classcrpropa_1_1JF12Field_1ae44c8702c3f2b1a1ce5373ca459a548a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">logisticFunction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">x0</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">w</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal16logisticFunctionERKdRKdRKd" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK15getRegularFieldERK8Vector3d">
-<span class="target" id="classcrpropa_1_1JF12Field_1a05d4b30271068bd7f27c5c805f384519"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getRegularField</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal15getRegularFieldERK8Vector3d">
+<span class="target" id="classcrpropa_1_1JF12Field_1a05d4b30271068bd7f27c5c805f384519"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRegularField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal15getRegularFieldERK8Vector3d" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK20getToroidalHaloFieldERKdRKdRKdRKd">
-<span class="target" id="classcrpropa_1_1JF12Field_1a2d52ddb3ecc5641acb2d9422acb2ee31"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getToroidalHaloField</code><span class="sig-paren">(</span><em class="property">const</em> double &amp;<em>r</em>, <em class="property">const</em> double &amp;<em>z</em>, <em class="property">const</em> double &amp;<em>sinPhi</em>, <em class="property">const</em> double &amp;<em>cosPhi</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal20getToroidalHaloFieldERKdRKdRKdRKd">
+<span class="target" id="classcrpropa_1_1JF12Field_1a2d52ddb3ecc5641acb2d9422acb2ee31"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getToroidalHaloField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">r</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sinPhi</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cosPhi</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal20getToroidalHaloFieldERKdRKdRKdRKd" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK16getStriatedFieldERK8Vector3d">
-<span class="target" id="classcrpropa_1_1JF12Field_1ac5a5f59fdfa2eeb10aca68f86caf01fa"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getStriatedField</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal16getStriatedFieldERK8Vector3d">
+<span class="target" id="classcrpropa_1_1JF12Field_1ac5a5f59fdfa2eeb10aca68f86caf01fa"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getStriatedField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal16getStriatedFieldERK8Vector3d" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK20getTurbulentStrengthERK8Vector3d">
-<span class="target" id="classcrpropa_1_1JF12Field_1a4cbb62223e839f70d02a3f412f951b10"></span>double <code class="descname">getTurbulentStrength</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal20getTurbulentStrengthERK8Vector3d">
+<span class="target" id="classcrpropa_1_1JF12Field_1a4cbb62223e839f70d02a3f412f951b10"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTurbulentStrength</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal20getTurbulentStrengthERK8Vector3d" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK17getTurbulentFieldERK8Vector3d">
-<span class="target" id="classcrpropa_1_1JF12Field_1a2dc4428834e7395c8041b2000941f222"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getTurbulentField</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal17getTurbulentFieldERK8Vector3d">
+<span class="target" id="classcrpropa_1_1JF12Field_1a2dc4428834e7395c8041b2000941f222"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getTurbulentField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal17getTurbulentFieldERK8Vector3d" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK8getFieldERK8Vector3d">
-<span class="target" id="classcrpropa_1_1JF12Field_1a60b4a9f66e692a5d3620de910bae981e"></span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getField</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> &amp;<em>pos</em><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal8getFieldERK8Vector3d">
+<span class="target" id="classcrpropa_1_1JF12Field_1a60b4a9f66e692a5d3620de910bae981e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal8getFieldERK8Vector3d" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK8getFieldERK8Vector3dd">
-<span class="target" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf"></span><em class="property">virtual</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> <code class="descname">getField</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv38Vector3d" title="Vector3d">Vector3d</a> &amp;<em>position</em>, double <em>z</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv3NK8getFieldERK8Vector3dd" title="Permalink to this definition">¶</a><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal8getFieldERK8Vector3dd">
+<span class="target" id="classcrpropa_1_1MagneticField_1a3b26c25dd12606960327b3f186fae6cf"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getField</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="typedef_group__Core_1ga1f05093f5ee1a9ecdd54476792e4c206.html#_CPPv4N7crpropa8Vector3dE" title="crpropa::Vector3d"><span class="n"><span class="pre">Vector3d</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">position</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal8getFieldERK8Vector3dd" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK12addReferenceEv">
-<span class="target" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd"></span>size_t <code class="descname">addReference</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal12addReferenceEv">
+<span class="target" id="classcrpropa_1_1Referenced_1a6ef7442f4d857baf3d3a39fdeec4aadd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">addReference</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal12addReferenceEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK15removeReferenceEv">
-<span class="target" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2"></span>size_t <code class="descname">removeReference</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal15removeReferenceEv">
+<span class="target" id="classcrpropa_1_1Referenced_1ab9f5dbbba1431274016b3d74426953f2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeReference</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal15removeReferenceEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK23removeReferenceNoDeleteEv">
-<span class="target" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5"></span>int <code class="descname">removeReferenceNoDelete</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal23removeReferenceNoDeleteEv">
+<span class="target" id="classcrpropa_1_1Referenced_1adab41cca5664d4668930f93beefa39b5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">removeReferenceNoDelete</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal23removeReferenceNoDeleteEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="_CPPv3NK17getReferenceCountEv">
-<span class="target" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd"></span>size_t <code class="descname">getReferenceCount</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em><br /></dt>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7crpropa19JF12FieldSolenoidal17getReferenceCountEv">
+<span class="target" id="classcrpropa_1_1Referenced_1a74487fc4399bfa67c7251dae5d4247cd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getReferenceCount</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK7crpropa19JF12FieldSolenoidal17getReferenceCountEv" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Protected Attributes</p>
-<dl class="member">
-<dt id="_CPPv315useRegularField">
-<span class="target" id="classcrpropa_1_1JF12Field_1af3fadde8fdb54306416c812c9d056b8f"></span>bool <code class="descname">useRegularField</code><br /></dt>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15useRegularFieldE">
+<span class="target" id="classcrpropa_1_1JF12Field_1af3fadde8fdb54306416c812c9d056b8f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useRegularField</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15useRegularFieldE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv316useStriatedField">
-<span class="target" id="classcrpropa_1_1JF12Field_1a68a6448ad42f1dfc99731c859b6e757e"></span>bool <code class="descname">useStriatedField</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal16useStriatedFieldE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a68a6448ad42f1dfc99731c859b6e757e"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useStriatedField</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal16useStriatedFieldE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv317useTurbulentField">
-<span class="target" id="classcrpropa_1_1JF12Field_1a729516fc915d22dde3c1f15fd9c1cae6"></span>bool <code class="descname">useTurbulentField</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal17useTurbulentFieldE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a729516fc915d22dde3c1f15fd9c1cae6"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useTurbulentField</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal17useTurbulentFieldE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv312useDiskField">
-<span class="target" id="classcrpropa_1_1JF12Field_1adb7b161db4e56902c31571ddcf06024b"></span>bool <code class="descname">useDiskField</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal12useDiskFieldE">
+<span class="target" id="classcrpropa_1_1JF12Field_1adb7b161db4e56902c31571ddcf06024b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useDiskField</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal12useDiskFieldE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv320useToroidalHaloField">
-<span class="target" id="classcrpropa_1_1JF12Field_1a7d901f9e7fd2fdbaba87d541578797c7"></span>bool <code class="descname">useToroidalHaloField</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal20useToroidalHaloFieldE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a7d901f9e7fd2fdbaba87d541578797c7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useToroidalHaloField</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal20useToroidalHaloFieldE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv39useXField">
-<span class="target" id="classcrpropa_1_1JF12Field_1a81436aaf8b2542ab2cb569711e7f954d"></span>bool <code class="descname">useXField</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal9useXFieldE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a81436aaf8b2542ab2cb569711e7f954d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">useXField</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal9useXFieldE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35rArms">
-<span class="target" id="classcrpropa_1_1JF12Field_1acafad9ac3683f875019566dad258e57b"></span>double <code class="descname">rArms</code>[8]<br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5rArmsE">
+<span class="target" id="classcrpropa_1_1JF12Field_1acafad9ac3683f875019566dad258e57b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rArms</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">8</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5rArmsE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35pitch">
-<span class="target" id="classcrpropa_1_1JF12Field_1a34c057a0378030db67bd6a129f37d938"></span>double <code class="descname">pitch</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5pitchE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a34c057a0378030db67bd6a129f37d938"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pitch</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5pitchE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv38sinPitch">
-<span class="target" id="classcrpropa_1_1JF12Field_1a47f9c9cf9986ef2b98d9f92d1598835b"></span>double <code class="descname">sinPitch</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal8sinPitchE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a47f9c9cf9986ef2b98d9f92d1598835b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sinPitch</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal8sinPitchE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv38cosPitch">
-<span class="target" id="classcrpropa_1_1JF12Field_1a1eb6a82501901bf17b03e24daee14025"></span>double <code class="descname">cosPitch</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal8cosPitchE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a1eb6a82501901bf17b03e24daee14025"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cosPitch</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal8cosPitchE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv38tanPitch">
-<span class="target" id="classcrpropa_1_1JF12Field_1ac16e18833ae85265d50d8c9f56048924"></span>double <code class="descname">tanPitch</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal8tanPitchE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ac16e18833ae85265d50d8c9f56048924"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tanPitch</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal8tanPitchE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv38cotPitch">
-<span class="target" id="classcrpropa_1_1JF12Field_1a27e8afb5449ddbdaa77dc43720e84c90"></span>double <code class="descname">cotPitch</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal8cotPitchE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a27e8afb5449ddbdaa77dc43720e84c90"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cotPitch</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal8cotPitchE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv315tan90MinusPitch">
-<span class="target" id="classcrpropa_1_1JF12Field_1aef07f583f509e8751aa53ba4d8daaaec"></span>double <code class="descname">tan90MinusPitch</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15tan90MinusPitchE">
+<span class="target" id="classcrpropa_1_1JF12Field_1aef07f583f509e8751aa53ba4d8daaaec"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tan90MinusPitch</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15tan90MinusPitchE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35bDisk">
-<span class="target" id="classcrpropa_1_1JF12Field_1ad7b64bb2130c3af23205330cd7316169"></span>double <code class="descname">bDisk</code>[11]<br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5bDiskE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ad7b64bb2130c3af23205330cd7316169"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bDisk</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">11</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5bDiskE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35bRing">
-<span class="target" id="classcrpropa_1_1JF12Field_1aa9701aa0b745d4a38d563eb9e8d119e8"></span>double <code class="descname">bRing</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5bRingE">
+<span class="target" id="classcrpropa_1_1JF12Field_1aa9701aa0b745d4a38d563eb9e8d119e8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bRing</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5bRingE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35hDisk">
-<span class="target" id="classcrpropa_1_1JF12Field_1a9baee8931e40f0fa6013ee6d39fe48b3"></span>double <code class="descname">hDisk</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5hDiskE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a9baee8931e40f0fa6013ee6d39fe48b3"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hDisk</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5hDiskE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35wDisk">
-<span class="target" id="classcrpropa_1_1JF12Field_1ac0bd3cc9842b5946483b09490423ba34"></span>double <code class="descname">wDisk</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5wDiskE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ac0bd3cc9842b5946483b09490423ba34"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wDisk</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5wDiskE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv36bNorth">
-<span class="target" id="classcrpropa_1_1JF12Field_1acae39af400adbc57a22f958a1a00d79c"></span>double <code class="descname">bNorth</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal6bNorthE">
+<span class="target" id="classcrpropa_1_1JF12Field_1acae39af400adbc57a22f958a1a00d79c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bNorth</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal6bNorthE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv36bSouth">
-<span class="target" id="classcrpropa_1_1JF12Field_1ab15e9ea67e7763e6ec6989683f295eb7"></span>double <code class="descname">bSouth</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal6bSouthE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ab15e9ea67e7763e6ec6989683f295eb7"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bSouth</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal6bSouthE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv36rNorth">
-<span class="target" id="classcrpropa_1_1JF12Field_1a6d73a8d239599dcdda5a1db17aef0657"></span>double <code class="descname">rNorth</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal6rNorthE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a6d73a8d239599dcdda5a1db17aef0657"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rNorth</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal6rNorthE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv36rSouth">
-<span class="target" id="classcrpropa_1_1JF12Field_1a5288d5fd7eb92b3ff9ce93de2d57a41d"></span>double <code class="descname">rSouth</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal6rSouthE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a5288d5fd7eb92b3ff9ce93de2d57a41d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rSouth</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal6rSouthE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv35wHalo">
-<span class="target" id="classcrpropa_1_1JF12Field_1a091f4981648c0851bb08af335a914fa0"></span>double <code class="descname">wHalo</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal5wHaloE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a091f4981648c0851bb08af335a914fa0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wHalo</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal5wHaloE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv32z0">
-<span class="target" id="classcrpropa_1_1JF12Field_1a7126e2a81725dd5a1c850cb186894150"></span>double <code class="descname">z0</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal2z0E">
+<span class="target" id="classcrpropa_1_1JF12Field_1a7126e2a81725dd5a1c850cb186894150"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">z0</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal2z0E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv32bX">
-<span class="target" id="classcrpropa_1_1JF12Field_1a51b52fc4909f8d35b5848e0e71f39e60"></span>double <code class="descname">bX</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal2bXE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a51b52fc4909f8d35b5848e0e71f39e60"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bX</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal2bXE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv37thetaX0">
-<span class="target" id="classcrpropa_1_1JF12Field_1acc22641168fc59a1338722097061aa04"></span>double <code class="descname">thetaX0</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal7thetaX0E">
+<span class="target" id="classcrpropa_1_1JF12Field_1acc22641168fc59a1338722097061aa04"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">thetaX0</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal7thetaX0E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv310sinThetaX0">
-<span class="target" id="classcrpropa_1_1JF12Field_1a0230cf54d10385debc1f3c9358403810"></span>double <code class="descname">sinThetaX0</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal10sinThetaX0E">
+<span class="target" id="classcrpropa_1_1JF12Field_1a0230cf54d10385debc1f3c9358403810"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sinThetaX0</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal10sinThetaX0E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv310cosThetaX0">
-<span class="target" id="classcrpropa_1_1JF12Field_1afc5be2cbafe86b565a6d968d32df4888"></span>double <code class="descname">cosThetaX0</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal10cosThetaX0E">
+<span class="target" id="classcrpropa_1_1JF12Field_1afc5be2cbafe86b565a6d968d32df4888"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cosThetaX0</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal10cosThetaX0E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv310tanThetaX0">
-<span class="target" id="classcrpropa_1_1JF12Field_1a7b72d55b8cd2e3d3d6b5715b64003e1b"></span>double <code class="descname">tanThetaX0</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal10tanThetaX0E">
+<span class="target" id="classcrpropa_1_1JF12Field_1a7b72d55b8cd2e3d3d6b5715b64003e1b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tanThetaX0</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal10tanThetaX0E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv310cotThetaX0">
-<span class="target" id="classcrpropa_1_1JF12Field_1a70b2a0ca79b604ead1dda1f83c108717"></span>double <code class="descname">cotThetaX0</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal10cotThetaX0E">
+<span class="target" id="classcrpropa_1_1JF12Field_1a70b2a0ca79b604ead1dda1f83c108717"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cotThetaX0</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal10cotThetaX0E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv33rXc">
-<span class="target" id="classcrpropa_1_1JF12Field_1a88420591c1fdb87144f2e96e043ff8fa"></span>double <code class="descname">rXc</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal3rXcE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a88420591c1fdb87144f2e96e043ff8fa"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rXc</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal3rXcE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv32rX">
-<span class="target" id="classcrpropa_1_1JF12Field_1ae23d6e9e32934d35c8e4a2ae8f77d521"></span>double <code class="descname">rX</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal2rXE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ae23d6e9e32934d35c8e4a2ae8f77d521"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rX</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal2rXE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv38sqrtbeta">
-<span class="target" id="classcrpropa_1_1JF12Field_1ad36dda93d75f0ca0840c2295de47d198"></span>double <code class="descname">sqrtbeta</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal8sqrtbetaE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ad36dda93d75f0ca0840c2295de47d198"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sqrtbeta</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal8sqrtbetaE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv312striatedGrid">
-<span class="target" id="classcrpropa_1_1JF12Field_1ae9e0d62ad5a5e2d8ef0b2b4d8c7fe0af"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv37ref_ptrv" title="ref_ptr">ref_ptr</a>&lt;<a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#_CPPv36Grid1f" title="Grid1f">Grid1f</a>&gt; <code class="descname">striatedGrid</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal12striatedGridE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ae9e0d62ad5a5e2d8ef0b2b4d8c7fe0af"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv4I0EN7crpropa7ref_ptrE" title="crpropa::ref_ptr"><span class="n"><span class="pre">ref_ptr</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html#_CPPv4N7crpropa6Grid1fE" title="crpropa::Grid1f"><span class="n"><span class="pre">Grid1f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">striatedGrid</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal12striatedGridE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv313turbulentGrid">
-<span class="target" id="classcrpropa_1_1JF12Field_1ae11d4f2b0f9ebc866764bc878222685a"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv37ref_ptrv" title="ref_ptr">ref_ptr</a>&lt;<a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#_CPPv36Grid3f" title="Grid3f">Grid3f</a>&gt; <code class="descname">turbulentGrid</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal13turbulentGridE">
+<span class="target" id="classcrpropa_1_1JF12Field_1ae11d4f2b0f9ebc866764bc878222685a"></span><a class="reference internal" href="classcrpropa_1_1ref__ptr.html#_CPPv4I0EN7crpropa7ref_ptrE" title="crpropa::ref_ptr"><span class="n"><span class="pre">ref_ptr</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="typedef_group__Core_1gaa4f8aec71606a16ed58c4f16efaabb23.html#_CPPv4N7crpropa6Grid3fE" title="crpropa::Grid3f"><span class="n"><span class="pre">Grid3f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">turbulentGrid</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal13turbulentGridE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv39bDiskTurb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a308c947925393cf1b3977676de0251a1"></span>double <code class="descname">bDiskTurb</code>[8]<br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal9bDiskTurbE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a308c947925393cf1b3977676de0251a1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bDiskTurb</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">8</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal9bDiskTurbE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv310bDiskTurb5">
-<span class="target" id="classcrpropa_1_1JF12Field_1a24ae54bb9752b8042bd9f992fb068a62"></span>double <code class="descname">bDiskTurb5</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal10bDiskTurb5E">
+<span class="target" id="classcrpropa_1_1JF12Field_1a24ae54bb9752b8042bd9f992fb068a62"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bDiskTurb5</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal10bDiskTurb5E" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv39zDiskTurb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a689ed0d7077cafb1e1bdcf81ed5b53e6"></span>double <code class="descname">zDiskTurb</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal9zDiskTurbE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a689ed0d7077cafb1e1bdcf81ed5b53e6"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zDiskTurb</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal9zDiskTurbE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv39bHaloTurb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a0a7242858e18650bbace6d7aade770dd"></span>double <code class="descname">bHaloTurb</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal9bHaloTurbE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a0a7242858e18650bbace6d7aade770dd"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bHaloTurb</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal9bHaloTurbE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv39rHaloTurb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a692898049c0c5dd842b62bc517843749"></span>double <code class="descname">rHaloTurb</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal9rHaloTurbE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a692898049c0c5dd842b62bc517843749"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rHaloTurb</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal9rHaloTurbE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv39zHaloTurb">
-<span class="target" id="classcrpropa_1_1JF12Field_1a2002ba1049573822ceb87148e2f4305a"></span>double <code class="descname">zHaloTurb</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal9zHaloTurbE">
+<span class="target" id="classcrpropa_1_1JF12Field_1a2002ba1049573822ceb87148e2f4305a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zHaloTurb</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal9zHaloTurbE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt id="_CPPv315_referenceCount">
-<span class="target" id="classcrpropa_1_1Referenced_1a3f6027f5df5148d4053f5668676b14de"></span>size_t <code class="descname">_referenceCount</code><br /></dt>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidal15_referenceCountE">
+<span class="target" id="classcrpropa_1_1Referenced_1a3f6027f5df5148d4053f5668676b14de"></span><span class="k"><span class="pre">mutable</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">_referenceCount</span></span></span><a class="headerlink" href="#_CPPv4N7crpropa19JF12FieldSolenoidal15_referenceCountE" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </div>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="classcrpropa_1_1LensPart.html" class="btn btn-neutral float-right" title="Class LensPart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="classcrpropa_1_1JF12Field.html" class="btn btn-neutral float-left" title="Class JF12Field" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="classcrpropa_1_1JF12Field.html" class="btn btn-neutral float-left" title="Class JF12Field" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="classcrpropa_1_1LensPart.html" class="btn btn-neutral float-right" title="Class LensPart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, The CRPropa Developers
-
-    </p>
+    <p>&#169; Copyright 2022, The CRPropa Developers.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

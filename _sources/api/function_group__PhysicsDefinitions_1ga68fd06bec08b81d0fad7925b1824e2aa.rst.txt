@@ -3,7 +3,7 @@
 Function crpropa::nuclearMass(int)
 ==================================
 
-- Defined in :ref:`file_include_crpropa_ParticleMass.h`
+- Defined in :ref:`file_src_ParticleMass.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::nuclearMass(int)
+   :project: CRPropa3

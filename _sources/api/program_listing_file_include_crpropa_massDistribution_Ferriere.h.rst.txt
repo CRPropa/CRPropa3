@@ -25,11 +25,12 @@ Program Listing for File Ferriere.h
            bool isforHI = true;
            bool isforHII = true;
            bool isforH2 = true;
-           double Rsun = 8500*pc;  // distance sun-galactic center
+           double Rsun = 8.5 * kpc;  // distance sun-galactic center
    
    public:
-           Vector3d CMZTrafo(const Vector3d &position) const;
-           Vector3d DISKTrafo(const Vector3d &position) const;
+           Vector3d CMZTransformation(const Vector3d &position) const;
+           
+           Vector3d DiskTransformation(const Vector3d &position) const;
    
            double getDensity(const Vector3d &position) const;
            double getHIDensity(const Vector3d &position) const;

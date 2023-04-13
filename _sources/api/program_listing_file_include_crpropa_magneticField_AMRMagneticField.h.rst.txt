@@ -20,12 +20,14 @@ Program Listing for File AMRMagneticField.h
    #include <cstdio>
    
    #ifdef _OPENMP
-       #include "omp.h"
+           #include "omp.h"
    #endif
    
    #include "crpropa/Units.h"
    #include "crpropa/magneticField/MagneticField.h"
    #include "crpropa/Vector3.h"
+   
+   #include "kiss/logger.h"
    
    #include "saga/LocalProperties.h"
    #include "saga/AMRgrid.h"
@@ -39,32 +41,35 @@ Program Listing for File AMRMagneticField.h
    
    private:
            saga::ref_ptr<saga::MagneticField> field;
-       double cfLength;
-       double cfDensity;
-       double cfMagneticField;
+           double cfLength;
+           double cfDensity;
+           double cfMagneticField;
    
    public:
-       AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
-       {
-           field = field_;
-           cfLength = convLength;
-           cfDensity = convDensity;
-           cfMagneticField = convMagneticField;
-       }
+           AMRMagneticField(saga::ref_ptr<saga::MagneticField> field_, double convLength, double convDensity, double convMagneticField)
+           {
+                   field = field_;
+                   cfLength = convLength;
+                   cfDensity = convDensity;
+                   cfMagneticField = convMagneticField;
    
-       Vector3d getField(const Vector3d &position) const {
+                   KISS_LOG_WARNING << "DEPRECATION WARNING: AMRMagneticField class will be removed in the future,"
+                   <<"as the underlying library (saga) is no longer supported.";
+           }
    
-           double x = position.x / cfLength;
-           double y = position.y / cfLength;
-           double z = position.z / cfLength;
+           Vector3d getField(const Vector3d &position) const {
    
-           std::vector<double> b = field->getField(x, y, z);
-           Vector3d B;
-           B.setXYZ(b[0], b[1], b[2]);
-           B = B * cfMagneticField;
+                   double x = position.x / cfLength;
+                   double y = position.y / cfLength;
+                   double z = position.z / cfLength;
+   
+                   std::vector<double> b = field->getField(x, y, z);
+                   Vector3d B;
+                   B.setXYZ(b[0], b[1], b[2]);
+                   B = B * cfMagneticField;
    
                    return B;
-       }
+           }
    
    };
    } // namespace crpropa

@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: declare_version(const std::string)
+   :project: CRPropa3

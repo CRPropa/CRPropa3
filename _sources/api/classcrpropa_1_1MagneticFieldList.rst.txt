@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::MagneticFieldList
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

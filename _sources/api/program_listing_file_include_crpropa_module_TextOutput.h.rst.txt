@@ -25,22 +25,20 @@ Program Listing for File TextOutput.h
            std::ofstream outfile;
            std::string filename;
            bool storeRandomSeeds;
-   
+           
            void printHeader() const;
    
    public:
            TextOutput();
-           TextOutput(OutputType outputtype);
+           TextOutput(OutputType outputType);
            TextOutput(std::ostream &out);
-           TextOutput(std::ostream &out, OutputType outputtype);
+           TextOutput(std::ostream &out, OutputType outputType);
            TextOutput(const std::string &filename);
-           TextOutput(const std::string &filename, OutputType outputtype);
+           TextOutput(const std::string &filename, OutputType outputType);
            ~TextOutput();
-   
            void enableRandomSeeds() {storeRandomSeeds = true;};
            void close();
            void gzip();
-   
            void process(Candidate *candidate) const;
            static void load(const std::string &filename, ParticleCollector *collector);
            std::string getDescription() const;

@@ -21,7 +21,7 @@ Program Listing for File Cordes.h
    namespace crpropa {
    class Cordes: public Density {
    private:
-           // DO NOT CHANGE model typ!
+           // DO NOT CHANGE model type!
            bool isforHI = false;
            bool isforHII = true;
            bool isforH2 = false;

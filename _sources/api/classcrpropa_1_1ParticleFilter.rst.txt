@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::ParticleFilter
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

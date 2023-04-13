@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::MAX_THREAD
+   :project: CRPropa3

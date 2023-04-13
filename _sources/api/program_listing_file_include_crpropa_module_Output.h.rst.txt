@@ -10,8 +10,8 @@ Program Listing for File Output.h
 
 .. code-block:: cpp
 
-   #ifndef CRPROPA_ABSTRACT_OUTPUT_H
-   #define CRPROPA_ABSTRACT_OUTPUT_H
+   #ifndef CRPROPA_OUTPUT_H
+   #define CRPROPA_OUTPUT_H
    
    #include "crpropa/Module.h"
    #include "crpropa/Variant.h"
@@ -57,6 +57,7 @@ Program Listing for File Output.h
                    CreatedEnergyColumn,
                    CreatedPositionColumn,
                    CreatedDirectionColumn,
+                   CandidateTagColumn,
                    SerialNumberColumn,
                    WeightColumn
            };
@@ -72,12 +73,11 @@ Program Listing for File Output.h
            const std::string outputName;
            
            Output();
-           Output(OutputType outputtype);
+           Output(OutputType outputType);
    
            void setEnergyScale(double scale);
            void setLengthScale(double scale);
-   
-           void setOutputType(OutputType outputtype);
+           void setOutputType(OutputType outputType);
            void set(OutputColumn field, bool value);
            void enableProperty(const std::string &property, const Variant& defaultValue, const std::string &comment = "");
            void enable(OutputColumn field);
@@ -92,4 +92,4 @@ Program Listing for File Output.h
    
    } // namespace crpropa
    
-   #endif // CRPROPA_ABSTRACT_OUTPUT_H
+   #endif // CRPROPA_OUTPUT_H

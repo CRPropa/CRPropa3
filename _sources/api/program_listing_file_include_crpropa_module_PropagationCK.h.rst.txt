@@ -16,6 +16,7 @@ Program Listing for File PropagationCK.h
    #include "crpropa/Module.h"
    #include "crpropa/Units.h"
    #include "crpropa/magneticField/MagneticField.h"
+   #include "kiss/logger.h"
    
    namespace crpropa {
    class PropagationCK: public Module {
@@ -54,8 +55,9 @@ Program Listing for File PropagationCK.h
            double maxStep; /*< maximum step size of the propagation */
    
    public:
-           PropagationCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
+       PropagationCK(ref_ptr<MagneticField> field = NULL, double tolerance = 1e-4,
                            double minStep = (0.1 * kpc), double maxStep = (1 * Gpc));
+   
            void process(Candidate *candidate) const;
    
            // derivative of phase point, dY/dt = d/dt(x, u) = (v, du/dt)
@@ -69,6 +71,10 @@ Program Listing for File PropagationCK.h
            void setTolerance(double tolerance);
            void setMinimumStep(double minStep);
            void setMaximumStep(double maxStep);
+   
+           ref_ptr<MagneticField> getField() const;
+           
+           Vector3d getFieldAtPosition(Vector3d pos, double z) const;
    
            double getTolerance() const;
            double getMinimumStep() const;

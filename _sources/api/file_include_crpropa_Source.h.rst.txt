@@ -51,6 +51,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`
 
+- :ref:`exhale_class_classcrpropa_1_1SourceDirectedEmission`
+
 - :ref:`exhale_class_classcrpropa_1_1SourceDirection`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceEmissionCone`
@@ -71,6 +73,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1SourceList`
 
+- :ref:`exhale_class_classcrpropa_1_1SourceMassDistribution`
+
 - :ref:`exhale_class_classcrpropa_1_1SourceMultipleParticleTypes`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceMultiplePositions`
@@ -90,6 +94,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1SourceRedshiftEvolution`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceSNRDistribution`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceTag`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceUniform1D`
 

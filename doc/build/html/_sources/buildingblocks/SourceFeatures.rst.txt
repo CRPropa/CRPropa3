@@ -1,3 +1,0 @@
-Source Features
-===============
-.. doxygengroup:: SourceFeatures

@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::_nOrder_max
+   :project: CRPropa3

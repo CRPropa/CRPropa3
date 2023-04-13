@@ -43,5 +43,5 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1LogarithmicSpiralField`
 
-- :ref:`exhale_class_classcrpropa_1_1TorroidalHaloField`
+- :ref:`exhale_class_classcrpropa_1_1ToroidalHaloField`
 

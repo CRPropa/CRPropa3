@@ -1,0 +1,185 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# 4D Simulation\n",
+    "\n",
+    "The following is a simple 4D simulation where cosmic rays are emitted by a source at a specified spatial position at a specified time-point. A cosmic ray is detected if it arrives at the observer position within a specified time window.\n",
+    "\n",
+    "**Note:** In CRPropa, time is always expressed in terms of redshift $z$, whereas positions are always expressed in terms of comoving coordinates as Cartesian 3-vectors.\n",
+    "\n",
+    "### Simulation setup\n",
+    "The simulation setup is that of a 3D simulation with a few additions:\n",
+    "1. We add a source property for the redshift at emission. This can be either ```SourceRedshift```, ```SourceUniformRedshift``` or ```SourceRedshiftEvolution```.\n",
+    "2. The simulation module ```FutureRedshift``` implements adiabatic energy loss and updates the redshift. In contrast to ```Redshift``` it allows particles to be propagated into the future $z < 0$ which enables faster convergence for finite observation windows.\n",
+    "3. The observer feature ```ObserverRedshiftWindow``` specifies a time window $z_\\mathrm{min} < z < z_\\mathrm{max}$ in which particles are detected if they hit the observer. Note that this can also be done after the simulation by cutting on the redshifts at observation. For this we also output the current redshift at observation.\n",
+    "4. A minimum redshift is defined via MinimumRedshift which we set to the lower bound of the observer time window.\n",
+    "\n",
+    "### Periodic boundaries\n",
+    "Due to the additional time dimension, particles are detected much less often. In order to increase the otherwhise horrible simulation efficiency, a ```PeriodicBox``` is defined: Particles that leave this simulation volume, enter again from the opposite side and their source position is moved accordingly.\n",
+    "As a result the periodic boundaries keep the particles close to the observer and therefore increase the chance of detection. A careful setup is required however:\n",
+    "1. Sources should only be defined inside the volume as sources outside are filled up by the periodic conditions.\n",
+    "2. The magnetic field at the boundaries should be periodic as well. This is the case for ```initTurbulence``` as long as the simulation volume coincides with (multiples of) the magnetic field grid.\n",
+    "\n",
+    "### Source positions\n",
+    "In the example below, a single source is defined. For specifying multiple identical discrete sources ```SourceMultiplePositions``` can be used. Multiple non-identical sources can be added to a ```SourceList```. For continous source distributions ```SourceUniformSphere```, ```SourceUniformBox``` and ```SourceUniformCylinder``` can be used. ```SourceDensityGrid``` allows to specify a source distribution via a 3D grid."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Note: \n",
+    "This simulation may take **several** minutes."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "crpropa::ModuleList: Number of Threads: 8\n",
+      "Run ModuleList\n",
+      "  Started Thu Feb  2 14:33:15 2023 : [\u001b[1;32m Finished \u001b[0m] 100%    Needed: 00:04:17  - Finished at Thu Feb  2 14:37:32 2023\n",
+      "\r"
+     ]
+    }
+   ],
+   "source": [
+    "from crpropa import *\n",
+    "\n",
+    "\n",
+    "# set up random turbulent field\n",
+    "Brms = 1 * nG\n",
+    "lMin = 60 * kpc\n",
+    "lMax = 800 * kpc\n",
+    "sIndex = 5./3.\n",
+    "turbSpectrum = SimpleTurbulenceSpectrum(Brms, lMin, lMax, sIndex)\n",
+    "gridprops = GridProperties(Vector3d(0), 256, 30 * kpc)\n",
+    "Bfield = SimpleGridTurbulence(turbSpectrum, gridprops, 42)\n",
+    "\n",
+    "# simulation setup\n",
+    "sim = ModuleList()\n",
+    "sim.add(PropagationCK(Bfield))\n",
+    "sim.add(FutureRedshift())\n",
+    "#sim.add(FutureRedshift()) # Switch back to FutureRedshift when PR #416 is merged\n",
+    "sim.add(Redshift())\n",
+    "sim.add(PhotoPionProduction(CMB()))\n",
+    "sim.add(PhotoPionProduction(IRB_Kneiske04()))\n",
+    "sim.add(PhotoDisintegration(CMB()))\n",
+    "sim.add(PhotoDisintegration(IRB_Kneiske04()))\n",
+    "sim.add(ElectronPairProduction(CMB()))\n",
+    "sim.add(ElectronPairProduction(IRB_Kneiske04()))\n",
+    "sim.add(NuclearDecay())\n",
+    "sim.add(MinimumEnergy(1 * EeV))\n",
+    "#sim.add(MinimumRedshift(-0.1)) # Switch back to z_min=-0.1 when PR #416 is merged\n",
+    "sim.add(MinimumRedshift(0.))\n",
+    "\n",
+    "\n",
+    "# periodic boundaries\n",
+    "extent = 256 * 30 * kpc  # size of the magnetic field grid\n",
+    "sim.add(PeriodicBox(Vector3d(-extent), Vector3d(2 * extent)))\n",
+    "\n",
+    "# define the observer\n",
+    "obs = Observer()\n",
+    "obs.add(ObserverSurface( Sphere(Vector3d(0.), 0.5 * Mpc)))\n",
+    "obs.add(ObserverRedshiftWindow(-0.1, 0.1))\n",
+    "output = TextOutput('output.txt', Output.Event3D)\n",
+    "output.enable(output.RedshiftColumn)\n",
+    "obs.onDetection(output)\n",
+    "sim.add(obs)\n",
+    "\n",
+    "# define the source(s)\n",
+    "source = Source()\n",
+    "source.add(SourcePosition(Vector3d(10, 0, 0) * Mpc))\n",
+    "source.add(SourceIsotropicEmission())\n",
+    "source.add(SourceParticleType(nucleusId(1, 1)))\n",
+    "source.add(SourcePowerLawSpectrum(1 * EeV, 200 * EeV, -1))\n",
+    "source.add(SourceRedshiftEvolution(1.5, 0.001, 3))\n",
+    "\n",
+    "# run simulation\n",
+    "sim.setShowProgress(True)\n",
+    "sim.run(source, 10000)\n",
+    "output.close()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "columnnames=['D', 'z', 'ID', 'E', 'X', 'Y', 'Z', 'Px', 'Py', 'Pz','ID0', 'E0', 'X0', 'Y0', 'Z0', 'P0x', 'P0y', 'P0z', 'tag']\n",
+    "types = [float]*18 + [str]\n",
+    "import numpy as np\n",
+    "data = np.loadtxt('./output.txt', dtype={'names': columnnames, 'formats': types})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "image/png": "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",
+      "text/plain": [
+       "<Figure size 432x288 with 1 Axes>"
+      ]
+     },
+     "metadata": {
+      "needs_background": "light"
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "bins = np.linspace(-0.1,0.1, 10)\n",
+    "plt.hist(data['z'], bins=bins, histtype='step')\n",
+    "plt.xlabel(r'observed redshift $z$')\n",
+    "plt.show()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "crp_docu",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.2"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "c416687c884a42c367c2f4b19e8bea2627679ca3202fbf20d972b7cd00ee0b77"
+   }
+  },
+  "widgets": {
+   "application/vnd.jupyter.widget-state+json": {
+    "state": {},
+    "version_major": 2,
+    "version_minor": 0
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

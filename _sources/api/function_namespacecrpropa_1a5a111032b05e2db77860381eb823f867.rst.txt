@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::VARIANT_TO_DECL(String, std::string)
+   :project: CRPropa3

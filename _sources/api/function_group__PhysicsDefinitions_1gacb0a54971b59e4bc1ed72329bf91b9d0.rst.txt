@@ -3,7 +3,7 @@
 Function crpropa::nucleusId
 ===========================
 
-- Defined in :ref:`file_include_crpropa_ParticleID.h`
+- Defined in :ref:`file_src_ParticleID.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::nucleusId(int, int)
+   :project: CRPropa3

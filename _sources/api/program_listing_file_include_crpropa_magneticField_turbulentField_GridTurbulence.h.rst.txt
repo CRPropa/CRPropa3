@@ -30,7 +30,7 @@ Program Listing for File GridTurbulence.h
            void initTurbulence();
    
      public:
-           GridTurbulence(const TurbulenceSpectrum &spectum,
+           GridTurbulence(const TurbulenceSpectrum &spectrum,
                           const GridProperties &gridProp, unsigned int seed = 0);
    
            Vector3d getField(const Vector3d &pos) const;

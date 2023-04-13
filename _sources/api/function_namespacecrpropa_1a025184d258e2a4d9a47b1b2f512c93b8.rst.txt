@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::VARIANT_TO_DECL(Bool, bool)
+   :project: CRPropa3

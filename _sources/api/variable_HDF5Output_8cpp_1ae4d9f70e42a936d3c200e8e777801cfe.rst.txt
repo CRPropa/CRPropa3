@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: BUFFER_SIZE
+   :project: CRPropa3

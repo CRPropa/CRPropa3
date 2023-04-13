@@ -26,6 +26,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::SimpleGridTurbulence
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

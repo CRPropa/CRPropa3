@@ -43,6 +43,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1Observer`
 
+- :ref:`exhale_class_classcrpropa_1_1Observer1D`
+
 - :ref:`exhale_class_classcrpropa_1_1ObserverDetectAll`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverElectronVeto`
@@ -50,8 +52,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1ObserverFeature`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverInactiveVeto`
-
-- :ref:`exhale_class_classcrpropa_1_1ObserverLargeSphere`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverNeutrinoVeto`
 
@@ -64,8 +64,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1ObserverPoint`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`
-
-- :ref:`exhale_class_classcrpropa_1_1ObserverSmallSphere`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverSurface`
 

@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::const_pointer_cast(const ref_ptr<Y>&)
+   :project: CRPropa3

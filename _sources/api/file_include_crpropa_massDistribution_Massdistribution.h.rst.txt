@@ -41,5 +41,7 @@ Classes
 -------
 
 
+- :ref:`exhale_class_classcrpropa_1_1DensityGrid`
+
 - :ref:`exhale_class_classcrpropa_1_1DensityList`
 

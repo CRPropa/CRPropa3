@@ -16,6 +16,7 @@ Program Listing for File PropagationBP.h
    #include "crpropa/Module.h"
    #include "crpropa/Units.h"
    #include "crpropa/magneticField/MagneticField.h"
+   #include "kiss/logger.h"
    
    namespace crpropa {
    class PropagationBP: public Module {
@@ -53,9 +54,9 @@ Program Listing for File PropagationBP.h
            double minStep; 
            double maxStep; 
    public:
-           PropagationBP(ref_ptr<MagneticField> field = NULL, double fixedStep = (1. * kpc));
+           PropagationBP(ref_ptr<MagneticField> field = NULL, double fixedStep = 1. * kpc);
    
-           PropagationBP(ref_ptr<MagneticField> field, double tolerance, double minStep, double maxStep);
+       PropagationBP(ref_ptr<MagneticField> field, double tolerance, double minStep, double maxStep);
    
            void process(Candidate *candidate) const;
    
@@ -65,7 +66,7 @@ Program Listing for File PropagationBP.h
    
            Vector3d getFieldAtPosition(Vector3d pos, double z) const;
    
-           void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double m, double q) const;
+           void tryStep(const Y &y, Y &out, Y &error, double h, ParticleState &p, double z, double q, double m) const;
    
            void setField(ref_ptr<MagneticField> field);
            void setTolerance(double tolerance);

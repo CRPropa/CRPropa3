@@ -11,6 +11,7 @@ Struct Documentation
 
 
 .. doxygenstruct:: crpropa::NuclearMassTable
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

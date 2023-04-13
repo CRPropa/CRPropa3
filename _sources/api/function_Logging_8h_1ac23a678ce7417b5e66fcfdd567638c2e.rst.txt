@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: logInfo(const std::string&)
+   :project: CRPropa3

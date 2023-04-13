@@ -17,7 +17,6 @@ Program Listing for File TF17Field.h
    
    namespace crpropa {
    using namespace std;
-   
    enum class TF17DiskModel {Ad1, Bd1, Dd1};
    enum class TF17HaloModel {C0, C1};
    
@@ -97,7 +96,6 @@ Program Listing for File TF17Field.h
    
            double zscale(const double& z) const;
    };
-   
    } // CRPROPA NAMESPACE
    
    #endif // CRPROPA_TF17FIELD_H

@@ -18,7 +18,6 @@ Program Listing for File JF12Field.h
    #include "kiss/logger.h"
    
    namespace crpropa {
-   
    class JF12Field: public MagneticField {
    protected:
            bool useRegularField;
@@ -116,13 +115,10 @@ Program Listing for File JF12Field.h
            // All set field components
            Vector3d getField(const Vector3d& pos) const;
    };
-   
-   
    class PlanckJF12bField: public JF12Field {
            public:
                    PlanckJF12bField();
    };
-   
    } // namespace crpropa
    
    #endif // CRPROPA_JF12FIELD_H

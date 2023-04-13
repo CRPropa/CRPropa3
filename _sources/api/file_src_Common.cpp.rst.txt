@@ -36,3 +36,20 @@ Namespaces
 
 - :ref:`namespace_crpropa`
 
+
+Functions
+---------
+
+
+- :ref:`exhale_function_group__Core_1ga46b07c16f3bbe25d18074f192185d926`
+
+- :ref:`exhale_function_group__Core_1ga5ec1e6eee108f252067290d3f275cbad`
+
+- :ref:`exhale_function_group__Core_1ga0591bc9690afaadc6c5694bde7b170c7`
+
+- :ref:`exhale_function_group__Core_1ga706c67f657d8220459a8b5155c479c41`
+
+- :ref:`exhale_function_group__Core_1ga6428041c6b8b7f6ecd9f738073713e95`
+
+- :ref:`exhale_function_group__Core_1gaba6b559d8f4282b3c52afcf042e2c2ea`
+

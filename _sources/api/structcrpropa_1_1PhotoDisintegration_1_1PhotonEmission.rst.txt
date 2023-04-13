@@ -17,6 +17,7 @@ Struct Documentation
 
 
 .. doxygenstruct:: crpropa::PhotoDisintegration::PhotonEmission
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

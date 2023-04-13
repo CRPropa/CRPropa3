@@ -16,7 +16,6 @@ Program Listing for File PT11Field.h
    #include "crpropa/magneticField/MagneticField.h"
    
    namespace crpropa {
-   
    class PT11Field: public MagneticField {
    private:
            bool useASS;  // switch for axisymmetric spiral field (ASS)
@@ -54,7 +53,6 @@ Program Listing for File PT11Field.h
    
            Vector3d getField(const Vector3d& pos) const;
    };
-   
    } // namespace crpropa
    
    #endif // CRPROPA_PSHIRKOVFIELD_H

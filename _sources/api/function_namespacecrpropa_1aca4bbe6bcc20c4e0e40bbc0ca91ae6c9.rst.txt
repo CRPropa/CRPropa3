@@ -3,7 +3,7 @@
 Function crpropa::operator<<(std::ostream&, const Variant&)
 ===========================================================
 
-- Defined in :ref:`file_include_crpropa_Variant.h`
+- Defined in :ref:`file_src_Variant.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::operator<<(std::ostream&, const Variant&)
+   :project: CRPropa3

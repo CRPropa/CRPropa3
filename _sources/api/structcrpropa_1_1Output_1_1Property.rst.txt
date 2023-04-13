@@ -17,6 +17,7 @@ Struct Documentation
 
 
 .. doxygenstruct:: crpropa::Output::Property
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

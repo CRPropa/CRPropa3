@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::get_pointer(const ref_ptr<T>&)
+   :project: CRPropa3

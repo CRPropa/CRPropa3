@@ -28,6 +28,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::Surface
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

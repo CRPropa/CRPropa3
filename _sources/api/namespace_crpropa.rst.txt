@@ -6,7 +6,8 @@ Namespace crpropa
 
 
 CRPropa is a public astrophysical simulation framework for propagating extraterrestrial ultra-high energy particles. 
- 
+
+
 
 
 .. contents:: Contents
@@ -71,6 +72,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1CMB`
 
+- :ref:`exhale_class_classcrpropa_1_1CMZField`
+
 - :ref:`exhale_class_classcrpropa_1_1ConstantDensity`
 
 - :ref:`exhale_class_classcrpropa_1_1ConstantSphericalAdvectionField`
@@ -86,6 +89,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1CylindricalProjectionMap`
 
 - :ref:`exhale_class_classcrpropa_1_1Density`
+
+- :ref:`exhale_class_classcrpropa_1_1DensityGrid`
 
 - :ref:`exhale_class_classcrpropa_1_1DensityList`
 
@@ -195,6 +200,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1Observer`
 
+- :ref:`exhale_class_classcrpropa_1_1Observer1D`
+
 - :ref:`exhale_class_classcrpropa_1_1ObserverDetectAll`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverElectronVeto`
@@ -202,8 +209,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1ObserverFeature`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverInactiveVeto`
-
-- :ref:`exhale_class_classcrpropa_1_1ObserverLargeSphere`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverNeutrinoVeto`
 
@@ -216,8 +221,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1ObserverPoint`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`
-
-- :ref:`exhale_class_classcrpropa_1_1ObserverSmallSphere`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverSurface`
 
@@ -249,8 +252,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1PhotonField`
 
-- :ref:`exhale_class_classcrpropa_1_1PhotonFieldSampling`
-
 - :ref:`exhale_class_classcrpropa_1_1PhotonOutput1D`
 
 - :ref:`exhale_class_classcrpropa_1_1PhotoPionProduction`
@@ -262,6 +263,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1Plane`
 
 - :ref:`exhale_class_classcrpropa_1_1PlaneWaveTurbulence`
+
+- :ref:`exhale_class_classcrpropa_1_1PolarizedSingleModeMagneticField`
 
 - :ref:`exhale_class_classcrpropa_1_1PPSecondariesEnergyDistribution`
 
@@ -293,8 +296,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1RestrictToRegion`
 
-- :ref:`exhale_class_classcrpropa_1_1ScalarGrid`
-
 - :ref:`exhale_class_classcrpropa_1_1SecondOrderFermi`
 
 - :ref:`exhale_class_classcrpropa_1_1ShellOutput`
@@ -317,6 +318,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`
 
+- :ref:`exhale_class_classcrpropa_1_1SourceDirectedEmission`
+
 - :ref:`exhale_class_classcrpropa_1_1SourceDirection`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceEmissionCone`
@@ -337,6 +340,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1SourceList`
 
+- :ref:`exhale_class_classcrpropa_1_1SourceMassDistribution`
+
 - :ref:`exhale_class_classcrpropa_1_1SourceMultipleParticleTypes`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceMultiplePositions`
@@ -356,6 +361,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1SourceRedshiftEvolution`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceSNRDistribution`
+
+- :ref:`exhale_class_classcrpropa_1_1SourceTag`
 
 - :ref:`exhale_class_classcrpropa_1_1SourceUniform1D`
 
@@ -391,7 +398,7 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1TF17Field`
 
-- :ref:`exhale_class_classcrpropa_1_1TorroidalHaloField`
+- :ref:`exhale_class_classcrpropa_1_1ToroidalHaloField`
 
 - :ref:`exhale_class_classcrpropa_1_1TurbulenceSpectrum`
 
@@ -413,8 +420,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1Vector3`
 
-- :ref:`exhale_class_classcrpropa_1_1VectorGrid`
-
 
 Enums
 -----
@@ -422,9 +427,11 @@ Enums
 
 - :ref:`exhale_enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5`
 
-- :ref:`exhale_enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c`
+- :ref:`exhale_enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8`
 
-- :ref:`exhale_enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5`
+- :ref:`exhale_enum_group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c`
+
+- :ref:`exhale_enum_group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5`
 
 
 Functions
@@ -549,9 +556,9 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
-
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0`
 
@@ -571,6 +578,8 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2`
 
+- :ref:`exhale_function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa`
+
 - :ref:`exhale_function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201`
 
 - :ref:`exhale_function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95`
@@ -585,7 +594,9 @@ Functions
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6`
 
-- :ref:`exhale_function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023`
+- :ref:`exhale_function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f`
+
+- :ref:`exhale_function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13`
 
 - :ref:`exhale_function_group__Core_1gafbf4174c9a116aaf77904225c3639d24`
 
@@ -628,7 +639,7 @@ Typedefs
 --------
 
 
-- :ref:`exhale_typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109`
+- :ref:`exhale_typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5`
 
 - :ref:`exhale_typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293`
 
@@ -660,6 +671,8 @@ Variables
 - :ref:`exhale_variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437`
 
 - :ref:`exhale_variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga033bad5c8708f06659e7b5c0ff5d2483`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c`
 
@@ -839,9 +852,13 @@ Variables
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0`
 
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1`
+
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce`
 

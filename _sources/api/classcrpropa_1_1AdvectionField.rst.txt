@@ -30,6 +30,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::AdvectionField
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

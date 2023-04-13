@@ -22,10 +22,11 @@ Program Listing for File SimpleGridTurbulence.h
    
    namespace crpropa {
    class SimpleTurbulenceSpectrum : public TurbulenceSpectrum {
+           const int constScaleBendover = 1000;    // define the bandover scale as 1000 * lMax to ensure k * lBendover >> 1. The bendover scale is necessary for the implementation of PlaneWaveTurbulence. 
      public:
            SimpleTurbulenceSpectrum(double Brms, double lMin, double lMax,
                                     double sIndex = 5. / 3)
-               : TurbulenceSpectrum(Brms, lMin, lMax, 0, sIndex, 0) {}
+               : TurbulenceSpectrum(Brms, lMin, lMax, constScaleBendover * lMax, sIndex, 0) {}
            ~SimpleTurbulenceSpectrum() {}
    
            double energySpectrum(double k) const {

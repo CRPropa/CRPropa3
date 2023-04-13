@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::encode_alphabet
+   :project: CRPropa3

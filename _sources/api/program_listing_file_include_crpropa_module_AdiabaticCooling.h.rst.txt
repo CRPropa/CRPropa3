@@ -28,18 +28,18 @@ Program Listing for File AdiabaticCooling.h
    
    namespace crpropa {
    class AdiabaticCooling: public Module {
-           private:
-                   ref_ptr<AdvectionField> advectionField;
-                   double limit;
+   private:
+           ref_ptr<AdvectionField> advectionField;
+           double limit;
    
-           public:
-                   AdiabaticCooling(ref_ptr<AdvectionField> advectionField);
-                   AdiabaticCooling(ref_ptr<AdvectionField> advectionField, double limit);
-                   void process(Candidate *c) const;
+   public:
+           AdiabaticCooling(ref_ptr<AdvectionField> advectionField);
+           AdiabaticCooling(ref_ptr<AdvectionField> advectionField, double limit);
+           void process(Candidate *c) const;
    
-                   void setLimit(double l);
+           void setLimit(double l);
    
-                   double getLimit() const;
+           double getLimit() const;
    
    };
    }; // end namesspace crpropa

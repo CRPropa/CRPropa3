@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::_ParticlesAtGroundSortPredicate(const eleca::Particle&, const eleca::Particle&)
+   :project: CRPropa3

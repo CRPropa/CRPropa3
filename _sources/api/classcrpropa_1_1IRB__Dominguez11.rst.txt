@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::IRB_Dominguez11
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

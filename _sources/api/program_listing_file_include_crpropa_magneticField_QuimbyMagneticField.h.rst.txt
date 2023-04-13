@@ -45,7 +45,6 @@ Program Listing for File QuimbyMagneticField.h
            }
    };
    #if 1
-   
    class QuimbyMagneticFieldAdapter: public quimby::MagneticField {
            crpropa::ref_ptr<crpropa::MagneticField> field;
    public:

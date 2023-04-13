@@ -190,6 +190,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_magneticField_CMZField.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_CMZField.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_src_Common.cpp.rst
 
 .. toctree::
@@ -666,6 +676,16 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_magneticField_turbulentField_PlaneWaveTurbulence.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_magneticField_PolarizedSingleModeMagneticField.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_magneticField_PolarizedSingleModeMagneticField.h.rst
 
 .. toctree::
    :maxdepth: 5

@@ -10,7 +10,8 @@ File Units.h
 
 
 Definition of SI base units and constants. 
- 
+
+
 
 .. contents:: Contents
    :local:
@@ -33,7 +34,10 @@ Detailed Description
 Definition of SI base units and constants used elsewhere in the code Based on:
 
 - CODATA recommended values of the fundamental physical constants: 2006 doi:10.1103/RevModPhys.80.633
+
 - IAU 2012 Resolution B2, IAU 2015 Resolution B2 https://www.iau.org/administration/resolutions/ 
+
+
 
 
 
@@ -53,6 +57,8 @@ Namespaces
 Variables
 ---------
 
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga033bad5c8708f06659e7b5c0ff5d2483`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c`
 
@@ -206,9 +212,13 @@ Variables
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0`
 
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1`
+
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219`
+
+- :ref:`exhale_variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b`
 
 - :ref:`exhale_variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce`
 

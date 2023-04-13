@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::gaussInt(Integrand&&, double, double)
+   :project: CRPropa3

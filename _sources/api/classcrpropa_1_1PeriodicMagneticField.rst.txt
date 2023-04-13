@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::PeriodicMagneticField
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

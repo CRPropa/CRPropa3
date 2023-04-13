@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::IRB_Franceschini08
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

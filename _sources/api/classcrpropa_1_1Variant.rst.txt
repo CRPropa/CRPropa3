@@ -21,6 +21,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::Variant
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

@@ -20,6 +20,7 @@ Derived Types
 
 - ``public ConstantDensity`` (:ref:`exhale_class_classcrpropa_1_1ConstantDensity`)
 - ``public Cordes`` (:ref:`exhale_class_classcrpropa_1_1Cordes`)
+- ``public DensityGrid`` (:ref:`exhale_class_classcrpropa_1_1DensityGrid`)
 - ``public DensityList`` (:ref:`exhale_class_classcrpropa_1_1DensityList`)
 - ``public Ferriere`` (:ref:`exhale_class_classcrpropa_1_1Ferriere`)
 - ``public Nakanishi`` (:ref:`exhale_class_classcrpropa_1_1Nakanishi`)
@@ -30,6 +31,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::Density
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

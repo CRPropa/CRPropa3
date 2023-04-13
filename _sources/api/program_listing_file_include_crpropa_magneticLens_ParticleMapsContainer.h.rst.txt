@@ -10,8 +10,8 @@ Program Listing for File ParticleMapsContainer.h
 
 .. code-block:: cpp
 
-   #ifndef PARTICLEMAPSCONTAINER_HH
-   #define PARTICLEMAPSCONTAINER_HH
+   #ifndef CRPROPA_PARTICLEMAPSCONTAINER_HH
+   #define CRPROPA_PARTICLEMAPSCONTAINER_HH
    
    #include <map>
    #include <vector>
@@ -20,83 +20,67 @@ Program Listing for File ParticleMapsContainer.h
    
    #include "crpropa/Vector3.h"
    
-   namespace crpropa{
-   class ParticleMapsContainer
-   {
-           private:
-       std::map< int , std::map <int , double*> > _data;
-                   Pixelization _pixelization;
-       double _deltaLogE;
-       double _bin0lowerEdge;
+   namespace crpropa {
+   class ParticleMapsContainer {
+   private:
+           std::map<int, std::map <int, double*> > _data;
+           Pixelization _pixelization;
+           double _deltaLogE;
+           double _bin0lowerEdge;
    
-                   // get the bin number of the energy
-                   int energy2Idx(double energy) const;
-                   double idx2Energy(int idx) const;
+           // get the bin number of the energy
+           int energy2Idx(double energy) const;
+           double idx2Energy(int idx) const;
    
+           // weights of the particles
+           double _sumOfWeights;
+           std::map<int, double > _weightsPID;
+           std::map<int, map<int, double> > _weights_pidEnergy;
    
-                   // weights of the particles
-                   double _sumOfWeights;
-                   std::map< int , double > _weightsPID;
-                   std::map< int , map<int, double> > _weights_pidEnergy;
+           // lazy update of weights
+           bool _weightsUpToDate;
+           void _updateWeights();
    
-                   // lazy update of weights
-                   bool _weightsUpToDate;
-                   void _updateWeights();
-     public:
+   public:
+           ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6), _weightsUpToDate(false), _sumOfWeights(0) {
+           }
+           ~ParticleMapsContainer();
    
-                   ParticleMapsContainer(double deltaLogE = 0.02, double bin0lowerEdge = 17.99) : _deltaLogE(deltaLogE), _bin0lowerEdge(bin0lowerEdge), _pixelization(6), _weightsUpToDate(false), _sumOfWeights(0)
-                   {
-                   }
+           size_t getNumberOfPixels() {
+                   return _pixelization.getNumberOfPixels();
+           }
    
-       ~ParticleMapsContainer();
+           double *getMap(const int particleId, double energy);
    
-       size_t getNumberOfPixels()
-       {
-         return _pixelization.getNumberOfPixels();
-       }
+           void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight = 1);
+           void addParticle(const int particleId, double energy, const Vector3d &v, double weight = 1);
    
-                   double *getMap(const int particleId, double energy);
+           std::vector<int> getParticleIds();
    
-                   void addParticle(const int particleId, double energy, double galacticLongitude, double galacticLatitude, double weight = 1);
+           std::vector<double> getEnergies(int pid);
    
-                   void addParticle(const int particleId, double energy, const Vector3d &v, double weight = 1);
+           void applyLens(MagneticLens &lens);;
    
-                   // returns a vector of all particle ids in th
-                   std::vector<int> getParticleIds();
+           void getRandomParticles(size_t N, vector<int> &particleId,
+                   vector<double> &energy, vector<double> &galacticLongitudes,
+                   vector<double> &galacticLatitudes);
    
-                   // the energies are in eV
-                   std::vector<double> getEnergies(int pid);
+           bool placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude);
    
-                   void applyLens(MagneticLens &lens);;
+           void forceWeightUpdate();
    
-                   // energy in eV , galacticLongitude in rad [-pi ... pi], galacticLatitudes in rad [-pi/2 ... pi/2]
-                   void getRandomParticles(size_t N, vector<int> &particleId,
-                           vector<double> &energy, vector<double> &galacticLongitudes,
-                           vector<double> &galacticLatitudes);
+           double getSumOfWeights() {
+                   if (!_weightsUpToDate)
+                           _updateWeights();
+                   return _sumOfWeights;
+           }
    
-                   // places a cosmic ray with given PID and energy according to the
-                   // probability maps. Returns false if not possible.
-                   bool placeOnMap(int pid, double energy, double &galacticLongitude, double &galacticLatitude);
-   
-                   // force weight update prior to get random particles. Only necessary when
-                   // reusing pointer to maps after calculating weights
-                   void forceWeightUpdate();
-   
-                   double getSumOfWeights()
-                   {
-                           if (!_weightsUpToDate)
-                                   _updateWeights();
-                           return _sumOfWeights;
-                   }
-   
-                   double getWeight(int pid, double energy)
-                   {
-                           if (!_weightsUpToDate)
-                                   _updateWeights();
-                           return _weights_pidEnergy[pid][energy2Idx(energy)];
-                   }
+           double getWeight(int pid, double energy) {
+                   if (!_weightsUpToDate)
+                           _updateWeights();
+                   return _weights_pidEnergy[pid][energy2Idx(energy)];
+           }
    };
+   } // namespace crpropa
    
-   } // namespace parsec
-   
-   #endif // PARTICLEMAPSCONTAINER_HH
+   #endif // CRPROPA_PARTICLEMAPSCONTAINER_HH

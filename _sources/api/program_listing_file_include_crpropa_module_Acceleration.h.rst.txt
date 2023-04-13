@@ -97,7 +97,7 @@ Program Listing for File Acceleration.h
    
    
    class ParticleSplitting : public Module {
-           int numSplits;
+           int numberSplits;
            int crossingThreshold;
            double minWeight;
            ref_ptr<Surface> surface;
@@ -105,7 +105,7 @@ Program Listing for File Acceleration.h
    
            public:
            ParticleSplitting(Surface *surface, int crossingThreshold = 50,
-                             int numSplits = 5, double minWeight = 0.01,
+                             int numberSplits = 5, double minWeight = 0.01,
                              std::string counterid = "ParticleSplittingCounter");
    
            // update the candidate

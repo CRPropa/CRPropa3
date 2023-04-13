@@ -3,7 +3,7 @@
 Function crpropa::interpolate
 =============================
 
-- Defined in :ref:`file_include_crpropa_Common.h`
+- Defined in :ref:`file_src_Common.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::interpolate(double, const std::vector<double>&, const std::vector<double>&)
+   :project: CRPropa3

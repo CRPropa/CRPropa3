@@ -3,7 +3,7 @@
 Function crpropa::DintElecaPropagation
 ======================================
 
-- Defined in :ref:`file_include_crpropa_PhotonPropagation.h`
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::DintElecaPropagation(const std::string&, const std::string&, bool, double, double, double)
+   :project: CRPropa3

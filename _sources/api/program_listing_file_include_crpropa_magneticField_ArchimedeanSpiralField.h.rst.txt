@@ -50,8 +50,6 @@ Program Listing for File ArchimedeanSpiralField.h
            double getOmega() const;
            double getVw() const;
    };
-   
-            
    } // end namespace crpropa
    
    #endif // CRPROPA_ACHIMEDEANSPIRALFIELD_H

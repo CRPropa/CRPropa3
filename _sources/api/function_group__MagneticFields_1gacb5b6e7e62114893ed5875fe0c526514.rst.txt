@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::turbulentCorrelationLength(double, double, double)
+   :project: CRPropa3

@@ -64,7 +64,6 @@ Program Listing for File GridTools.h
                    double conversion = 1);
    
    #ifdef CRPROPA_HAVE_FFTW3F
-   
    std::vector<std::pair<int, float>> gridPowerSpectrum(ref_ptr<Grid3f> grid);
    #endif // CRPROPA_HAVE_FFTW3F
    

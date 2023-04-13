@@ -1,0 +1,14 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1:
+
+Variable crpropa::radius_electron
+=================================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::radius_electron
+   :project: CRPropa3

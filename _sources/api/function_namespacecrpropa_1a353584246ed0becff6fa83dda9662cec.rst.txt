@@ -3,7 +3,7 @@
 Function crpropa::DintPropagation
 =================================
 
-- Defined in :ref:`file_include_crpropa_PhotonPropagation.h`
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::DintPropagation(const std::string&, const std::string&, int, int, double, double)
+   :project: CRPropa3

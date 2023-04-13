@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::SphericalAdvectionField
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::_SecondarySortPredicate(const _Secondary&, const _Secondary&)
+   :project: CRPropa3

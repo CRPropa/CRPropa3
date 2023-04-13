@@ -29,6 +29,7 @@ Program Listing for File Observer.h
    enum DetectionState {
            DETECTED, VETO, NOTHING
    };
+   
    class ObserverFeature: public Referenced {
    protected:
            std::string description;
@@ -37,6 +38,7 @@ Program Listing for File Observer.h
            virtual void onDetection(Candidate *candidate) const;
            virtual std::string getDescription() const;
    };
+   
    
    class Observer: public Module {
            std::string flagKey;
@@ -57,7 +59,6 @@ Program Listing for File Observer.h
    };
    
    
-   
    class ObserverDetectAll: public ObserverFeature {
    public:
            DetectionState checkDetection(Candidate *candidate) const;
@@ -66,26 +67,14 @@ Program Listing for File Observer.h
    
    
    class ObserverSurface: public ObserverFeature {
-           private:
-                   ref_ptr<Surface> surface;
-   
-           public:
-                   ObserverSurface(Surface* _surface);
-                   DetectionState checkDetection(Candidate *candidate) const;
-                   std::string getDescription() const;
-   };
-   
-   class ObserverSmallSphere: public ObserverFeature {
    private:
-           Vector3d center;
-           double radius;
+           ref_ptr<Surface> surface;
    public:
-           ObserverSmallSphere(Vector3d center = Vector3d(0.), double radius = 0);
+           ObserverSurface(Surface* surface);
            DetectionState checkDetection(Candidate *candidate) const;
-           void setCenter(const Vector3d &center);
-           void setRadius(float radius);
            std::string getDescription() const;
    };
+   
    
    class ObserverTracking: public ObserverFeature {
    private:
@@ -98,21 +87,20 @@ Program Listing for File Observer.h
            std::string getDescription() const;
    };
    
-   class ObserverLargeSphere: public ObserverFeature {
-   private:
-           Vector3d center;
-           double radius;
-   public:
-           ObserverLargeSphere(Vector3d center = Vector3d(0.), double radius = 0);
-           DetectionState checkDetection(Candidate *candidate) const;
-           std::string getDescription() const;
-   };
    
    class ObserverPoint: public ObserverFeature {
    public:
            DetectionState checkDetection(Candidate *candidate) const;
            std::string getDescription() const;
    };
+   
+   
+   class Observer1D: public ObserverFeature {
+   public:
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
+   };
+   
    
    class ObserverRedshiftWindow: public ObserverFeature {
    private:
@@ -123,11 +111,13 @@ Program Listing for File Observer.h
            std::string getDescription() const;
    };
    
+   
    class ObserverInactiveVeto: public ObserverFeature {
    public:
            DetectionState checkDetection(Candidate *candidate) const;
            std::string getDescription() const;
    };
+   
    
    class ObserverNucleusVeto: public ObserverFeature {
    public:
@@ -135,11 +125,13 @@ Program Listing for File Observer.h
            std::string getDescription() const;
    };
    
+   
    class ObserverNeutrinoVeto: public ObserverFeature {
    public:
            DetectionState checkDetection(Candidate *candidate) const;
            std::string getDescription() const;
    };
+   
    
    class ObserverPhotonVeto: public ObserverFeature {
    public:
@@ -147,31 +139,39 @@ Program Listing for File Observer.h
            std::string getDescription() const;
    };
    
+   
    class ObserverElectronVeto: public ObserverFeature {
    public:
            DetectionState checkDetection(Candidate *candidate) const;
            std::string getDescription() const;
    };
    
+   
    class ObserverParticleIdVeto: public ObserverFeature {
    private:
            int vetoParticleId;
    public:
-           ObserverParticleIdVeto(int pId);
+           ObserverParticleIdVeto(int id);
            DetectionState checkDetection(Candidate *candidate) const;
            std::string getDescription() const;
    };
    
+   
    class ObserverTimeEvolution: public ObserverFeature {
    private:
-     std::vector<double> detList;
+           std::vector<double> detList;
    public:
-     ObserverTimeEvolution();
-     ObserverTimeEvolution(double min, double dist, double numb);
-     void addTime(const double &position);
-     const std::vector<double>& getTimes() const;
-     DetectionState checkDetection(Candidate *candidate) const;
-     std::string getDescription() const;
+           ObserverTimeEvolution();
+           ObserverTimeEvolution(double min, double dist, double numb);
+           ObserverTimeEvolution(double min, double max, double numb, bool log);
+           // Add a new time step to the detection time list of the observer
+           void addTime(const double &position);
+           // Using log or lin spacing of times in the range between min and
+           // max for observing particles
+           void addTimeRange(double min, double max, double numb, bool log = false);
+           const std::vector<double>& getTimes() const;
+           DetectionState checkDetection(Candidate *candidate) const;
+           std::string getDescription() const;
    };
    }
    

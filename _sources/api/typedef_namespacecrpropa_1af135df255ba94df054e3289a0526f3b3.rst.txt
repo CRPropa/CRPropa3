@@ -11,3 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: crpropa::LensPartIter
+   :project: CRPropa3

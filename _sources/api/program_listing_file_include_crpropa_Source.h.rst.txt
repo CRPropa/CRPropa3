@@ -16,6 +16,7 @@ Program Listing for File Source.h
    #include "crpropa/Candidate.h"
    #include "crpropa/Grid.h"
    #include "crpropa/EmissionMap.h"
+   #include "crpropa/massDistribution/Density.h"
    
    
    #include <vector>
@@ -37,6 +38,7 @@ Program Listing for File Source.h
            virtual std::string getDescription() const = 0;
    };
    
+   
    class Source: public SourceInterface {
            std::vector<ref_ptr<SourceFeature> > features;
    public:
@@ -44,6 +46,7 @@ Program Listing for File Source.h
            ref_ptr<Candidate> getCandidate() const;
            std::string getDescription() const;
    };
+   
    
    class SourceList: public SourceInterface {
            std::vector<ref_ptr<Source> > sources;
@@ -55,8 +58,6 @@ Program Listing for File Source.h
    };
    
    
-   
-   
    class SourceParticleType: public SourceFeature {
            int id;
    public:
@@ -64,6 +65,7 @@ Program Listing for File Source.h
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
+   
    
    class SourceMultipleParticleTypes: public SourceFeature {
            std::vector<int> particleTypes;
@@ -75,6 +77,7 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceEnergy: public SourceFeature {
            double E;
    public:
@@ -82,6 +85,7 @@ Program Listing for File Source.h
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
+   
    
    class SourcePowerLawSpectrum: public SourceFeature {
            double Emin;
@@ -92,6 +96,7 @@ Program Listing for File Source.h
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
+   
    
    class SourceComposition: public SourceFeature {
            double Emin;
@@ -107,6 +112,7 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourcePosition: public SourceFeature {
            Vector3d position; 
    public:
@@ -115,6 +121,7 @@ Program Listing for File Source.h
            void prepareParticle(ParticleState &state) const;
            void setDescription();
    };
+   
    
    class SourceMultiplePositions: public SourceFeature {
            std::vector<Vector3d> positions;
@@ -126,6 +133,7 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceUniformSphere: public SourceFeature {
            Vector3d center;
            double radius;
@@ -135,16 +143,18 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceUniformHollowSphere: public SourceFeature {
            Vector3d center;
            double radius_inner;
            double radius_outer;
    public:
            SourceUniformHollowSphere(Vector3d center,
-                           double radius_inner, double double_outer);
+                           double radius_inner, double radius_outer);
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
+   
    
    class SourceUniformShell: public SourceFeature {
            Vector3d center;
@@ -155,98 +165,114 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceUniformBox: public SourceFeature {
-           Vector3d origin;
-           Vector3d size;
+           Vector3d origin;        // lower box corner
+           Vector3d size;          // sizes along each coordinate axes.
    public:
            SourceUniformBox(Vector3d origin, Vector3d size);
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
    
+   
    class SourceUniformCylinder: public SourceFeature {
-           Vector3d origin;
-           double height;
-           double radius;
+           Vector3d origin;        // central point of cylinder 
+           double height;          // total height of the cylinder along z-axis. Half over/under the center.
+           double radius;          // radius of the cylinder in the xy-plane
    public:
            SourceUniformCylinder(Vector3d origin, double height, double radius);
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
    
+   
    class SourceSNRDistribution: public SourceFeature {
-           double R_earth; // parameter given by observation
+           double rEarth; // parameter given by observation
+           double alpha; // parameter to shift the maximum in R direction
            double beta; // parameter to shift the maximum in R direction
-           double Zg; // exponential cut parameter in z direction
+           double zg; // exponential cut parameter in z direction
            double frMax; // helper for efficient sampling
            double fzMax; // helper for efficient sampling
-           double R_max; // maximum radial distance - default 20 kpc 
+           double rMax; // maximum radial distance - default 20 kpc 
                          // (due to the extension of the JF12 field)
-           double Z_max; // maximum distance from galactic plane - default 5 kpc
+           double zMax; // maximum distance from galactic plane - default 5 kpc
+           void setFrMax(); // calculate frMax with the current parameter. 
    
    public:
-           SourceSNRDistribution();        
-           SourceSNRDistribution(double R_earth, double beta, double Zg);
+           SourceSNRDistribution();
+           SourceSNRDistribution(double rEarth,double alpha, double beta, double zg);
+   
            void prepareParticle(ParticleState &particle) const;
-           double f_r(double r) const;
-           double f_z(double z) const;
-           void set_frMax(double R, double b);
-           void set_fzMax(double Zg);
-           void set_RMax(double R_max);
-           void set_ZMax(double Z_max);
-           double get_frMax();
-           double get_fzMax();
-           double get_RMax();
-           double get_ZMax();
+           double fr(double r) const;
+           double fz(double z) const;
+   
+           void setFzMax(double Zg);
+   
+           void setRMax(double rMax);
+   
+           void setZMax(double zMax);
+   
+           // parameter for the raidal distribution
+           void setAlpha(double a);
+           // parameter for the exponential cut-off in the radial distribution
+           void setBeta(double b);
+           double getFrMax() const;
+           double getFzMax() const;
+           double getRMax() const;
+           double getZMax() const;
+           double getAlpha() const;
+           double getBeta() const;
            void setDescription();
    };
+   
+   
    class SourcePulsarDistribution: public SourceFeature {
-           double R_earth; // parameter given by observation
+           double rEarth; // parameter given by observation
            double beta; // parameter to shift the maximum in R direction
-           double Zg; // exponential cut parameter in z direction
+           double zg; // exponential cut parameter in z direction
            double frMax; // helper for efficient sampling
            double fzMax; // helper for efficient sampling
-           double R_max; // maximum radial distance - default 22 kpc 
-           double Z_max; // maximum distance from galactic plane - default 5 kpc
-           double r_blur; // relative smearing factor for the radius
-           double theta_blur; // smearing factor for the angle. Unit = [1/length]
-   
-   
-           
-   
+           double rMax; // maximum radial distance - default 22 kpc 
+           double zMax; // maximum distance from galactic plane - default 5 kpc
+           double rBlur; // relative smearing factor for the radius
+           double thetaBlur; // smearing factor for the angle. Unit = [1/length]
    public:
            SourcePulsarDistribution();     
-           SourcePulsarDistribution(double R_earth, double beta, double Zg, double r_blur, double theta_blur);
+           SourcePulsarDistribution(double rEarth, double beta, double zg, double rBlur, double thetaBlur);
            void prepareParticle(ParticleState &particle) const;
-           double f_r(double r) const;
-           double f_z(double z) const;
-           double f_theta(int i, double r) const;
-           double blur_r(double r_tilde) const;
-           double blur_theta(double theta_tilde, double r_tilde) const;
-           void set_frMax(double R, double b);
-           void set_fzMax(double Zg);
-           void set_RMax(double R_max);
-           void set_ZMax(double Z_max);
-           void set_rBlur(double r_blur);
-           void set_thetaBlur(double theta_blur);
-           double get_frMax();
-           double get_fzMax();
-           double get_RMax();
-           double get_ZMax();
-           double get_rBlur();
-           double get_thetaBlur();
+   
+           double fr(double r) const;
+           double fz(double z) const;
+           double ftheta(int i, double r) const;
+           double blurR(double r_tilde) const;
+           double blurTheta(double theta_tilde, double r_tilde) const;
+           void setFrMax(double R, double b);
+           void setFzMax(double zg);
+           void setRMax(double rMax);
+           void setZMax(double zMax);
+           void setRBlur(double rBlur);
+           void setThetaBlur(double thetaBlur);
+           double getFrMax();
+           double getFzMax();
+           double getRMax();
+           double getZMax();
+           double getRBlur();
+           double getThetaBlur();
            void setDescription();
    };
    
+   
    class SourceUniform1D: public SourceFeature {
-           double minD; // minimum light travel distance
-           double maxD; // maximum light travel distance
-           bool withCosmology;
+           double minD; // minimum light-travel distance
+           double maxD; // maximum light-travel distance
+           bool withCosmology;     // whether to account for cosmological effects (expansion of the Universe)
    public:
-           SourceUniform1D(double minD, double maxD, bool withCosmology=true);
+           SourceUniform1D(double minD, double maxD, bool withCosmology = true);
            void prepareParticle(ParticleState& particle) const;
            void setDescription();
    };
+   
    
    class SourceDensityGrid: public SourceFeature {
            ref_ptr<Grid1f> grid;
@@ -256,13 +282,15 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceDensityGrid1D: public SourceFeature {
-           ref_ptr<Grid1f> grid;
+           ref_ptr<Grid1f> grid;   // 1D grid with Ny = Nz = 1
    public:
            SourceDensityGrid1D(ref_ptr<Grid1f> densityGrid);
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
+   
    
    class SourceIsotropicEmission: public SourceFeature {
    public:
@@ -271,15 +299,38 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
+   class SourceDirectedEmission: public SourceFeature {
+           Vector3d mu; // Mean emission direction in the vMF distribution
+           double kappa; // Concentration parameter of the vMF distribution
+           double ca; // helpers for the efficient calculation of frame rotation
+           double sa;
+           double cd;
+           double sd;
+   public:
+           SourceDirectedEmission(Vector3d mu, double kappa);
+           void prepareCandidate(Candidate &candidate) const;
+           void setCa(double alpha);
+           void setSa(double alpha);
+           void setCd(double delta);
+           void setSd(double delta);
+           double getCa() const;
+           double getSa() const;
+           double getCd() const;
+           double getSd() const;
+           void setDescription();
+   };
+   
    class SourceLambertDistributionOnSphere: public SourceFeature {
-           Vector3d center;
-           double radius;
-           bool inward;
+           Vector3d center;        // center of the sphere
+           double radius;          // radius of the sphere
+           bool inward;            // if true, direction point inwards
    public:
            SourceLambertDistributionOnSphere(const Vector3d &center, double radius, bool inward);
-    void prepareParticle(ParticleState &particle) const;
-    void setDescription();
+           void prepareParticle(ParticleState &particle) const;
+           void setDescription();
    };
+   
    
    class SourceDirection: public SourceFeature {
            Vector3d direction;
@@ -288,6 +339,7 @@ Program Listing for File Source.h
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    };
+   
    
    class SourceEmissionMap: public SourceFeature {
            ref_ptr<EmissionMap> emissionMap;
@@ -298,15 +350,18 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceEmissionCone: public SourceFeature {
            Vector3d direction;
            double aperture;
    public:
            SourceEmissionCone(Vector3d direction, double aperture);
            void prepareParticle(ParticleState &particle) const;
+   
            void setDirection(Vector3d direction);
            void setDescription();
    };
+   
    
    class SourceRedshift: public SourceFeature {
            double z;
@@ -316,6 +371,7 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceUniformRedshift: public SourceFeature {
            double zmin, zmax;
    public:
@@ -324,12 +380,15 @@ Program Listing for File Source.h
            void setDescription();
    };
    
+   
    class SourceRedshiftEvolution: public SourceFeature {
-           double zmin, zmax, m;
+           double zmin, zmax;
+           double m;
    public:
            SourceRedshiftEvolution(double m, double zmin, double zmax);
            void prepareCandidate(Candidate &candidate) const;
    };
+   
    
    class SourceRedshift1D: public SourceFeature {
    public:
@@ -338,30 +397,29 @@ Program Listing for File Source.h
            void setDescription();
    };
    
-   #ifdef CRPROPA_HAVE_MUPARSER
    
+   #ifdef CRPROPA_HAVE_MUPARSER
    class SourceGenericComposition: public SourceFeature {
    public:
            struct Nucleus {
                    int id;
                    std::vector<double> cdf;
            };
-   
            SourceGenericComposition(double Emin, double Emax, std::string expression, size_t bins = 1024);
            void add(int id, double abundance);
            void add(int A, int Z, double abundance);
            void prepareParticle(ParticleState &particle) const;
            void setDescription();
    
-       const std::vector<double> *getNucleusCDF(int id) const {
-           for (size_t i = 0; i<nuclei.size(); i++)
-               if (nuclei[i].id == id)
-                   return &nuclei[i].cdf;
-           return 0;
-       }
+           const std::vector<double> *getNucleusCDF(int id) const {
+                   for (size_t i = 0; i < nuclei.size(); i++) {
+                           if (nuclei[i].id == id)
+                                   return &nuclei[i].cdf;
+                   }
+                   return 0;
+           }
    
    protected:
-   
            double Emin, Emax;
            size_t bins;
            std::string expression;
@@ -371,9 +429,53 @@ Program Listing for File Source.h
            std::vector<double> cdf;
    
    };
-    // end of group SourceFeature
    #endif
    
-   }// namespace crpropa
+   class SourceTag: public SourceFeature {
+   private:
+           std::string sourceTag;
+   
+   public:
+           SourceTag(std::string tag);
+           void prepareCandidate(Candidate &candidate) const;
+           void setDescription();
+           void setTag(std::string tag);
+   };
+   
+   class SourceMassDistribution: public SourceFeature {
+   private: 
+           ref_ptr<Density> density;       //< density distribution
+           double maxDensity;                      //< maximal value of the density in the region of interest
+           double xMin, xMax;                      //< x-range to sample positions
+           double yMin, yMax;                      //< y-range to sample positions
+           double zMin, zMax;                      //< z-range to sample positions
+           int maxTries = 10000;           //< maximal number of tries to sample the position 
+   
+   public: 
+           SourceMassDistribution(ref_ptr<Density> density, double maxDensity = 0, double x = 20 * kpc, double y = 20 * kpc, double z = 4 * kpc);
+   
+           void prepareParticle(ParticleState &particle) const;
+   
+           void setMaximalDensity(double maxDensity);
+   
+           void setXrange(double xMin, double xMax);
+   
+           void setYrange(double yMin, double yMax);
+   
+           void setZrange(double zMin, double zMax);
+   
+           /*      samples the position. Can be used for testing.
+                   @return Vector3d with sampled position
+           */
+           Vector3d samplePosition() const;
+   
+   
+           void setMaximalTries(int tries);
+   
+           std::string getDescription();
+   };
+    // end of group SourceFeature
+   
+   } // namespace crpropa
    
    #endif // CRPROPA_SOURCE_H

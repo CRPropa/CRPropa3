@@ -45,18 +45,25 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1GridProperties`
 
-- :ref:`exhale_class_classcrpropa_1_1ScalarGrid`
 
-- :ref:`exhale_class_classcrpropa_1_1VectorGrid`
+Enums
+-----
+
+
+- :ref:`exhale_enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8`
 
 
 Functions
 ---------
 
 
+- :ref:`exhale_function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa`
+
 - :ref:`exhale_function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201`
 
-- :ref:`exhale_function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023`
+- :ref:`exhale_function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f`
+
+- :ref:`exhale_function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13`
 
 - :ref:`exhale_function_namespacecrpropa_1afdfae60dd4680363c4a98a60d4b087b6`
 

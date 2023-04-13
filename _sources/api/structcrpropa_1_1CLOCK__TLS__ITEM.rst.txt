@@ -11,6 +11,7 @@ Struct Documentation
 
 
 .. doxygenstruct:: crpropa::CLOCK_TLS_ITEM
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

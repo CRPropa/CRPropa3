@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::teraelectronvolt
+   :project: CRPropa3

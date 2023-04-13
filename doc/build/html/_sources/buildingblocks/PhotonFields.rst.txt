@@ -1,3 +1,0 @@
-Photon Fields
-=============
-.. doxygengroup:: PhotonFields

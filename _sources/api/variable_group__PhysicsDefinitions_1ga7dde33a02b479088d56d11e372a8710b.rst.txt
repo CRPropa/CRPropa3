@@ -1,0 +1,14 @@
+.. _exhale_variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b:
+
+Variable crpropa::sigma_thomson
+===============================
+
+- Defined in :ref:`file_include_crpropa_Units.h`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: crpropa::sigma_thomson
+   :project: CRPropa3

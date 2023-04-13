@@ -11,3 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: crpropa::Vector3f
+   :project: CRPropa3

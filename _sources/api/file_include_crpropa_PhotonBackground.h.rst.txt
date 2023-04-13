@@ -63,8 +63,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1PhotonField`
 
-- :ref:`exhale_class_classcrpropa_1_1PhotonFieldSampling`
-
 - :ref:`exhale_class_classcrpropa_1_1TabularPhotonField`
 
 - :ref:`exhale_class_classcrpropa_1_1URB__Fixsen11`

@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1SourceMassDistribution:
+
+Class SourceMassDistribution
+============================
+
+- Defined in :ref:`file_include_crpropa_Source.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public SourceFeature`` (:ref:`exhale_class_classcrpropa_1_1SourceFeature`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::SourceMassDistribution
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

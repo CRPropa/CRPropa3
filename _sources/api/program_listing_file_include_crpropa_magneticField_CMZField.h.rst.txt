@@ -1,0 +1,59 @@
+
+.. _program_listing_file_include_crpropa_magneticField_CMZField.h:
+
+Program Listing for File CMZField.h
+===================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_magneticField_CMZField.h>` (``include/crpropa/magneticField/CMZField.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_CMZFIELD_H
+   #define CRPROPA_CMZFIELD_H
+   
+   #include "crpropa/magneticField/MagneticField.h"
+   #include "crpropa/Grid.h"
+   #include "kiss/logger.h"
+   #include "crpropa/Common.h"
+   
+   namespace crpropa {
+   
+   class CMZField: public MagneticField {
+   protected:
+       bool useMCField;
+       bool useICField;
+       bool useNTFField;
+       bool useRadioArc;
+   
+       double getA(double a1) const;
+       double getL(double a2) const;
+       
+   public:
+       CMZField();
+   
+       bool getUseMCField() const;
+       bool getUseICField() const;
+       bool getUseNTFField() const;
+       bool getUseRadioArc() const;
+   
+       void setUseMCField(bool use);
+       void setUseICField(bool use);
+       void setUseNTFField(bool use);
+       void setUseRadioArc(bool use);
+   
+       Vector3d BPol(const Vector3d& position, const Vector3d& mid, double B1, double a, double L) const;
+       
+       Vector3d BAz(const Vector3d& position, const Vector3d& mid, double B1, double eta, double R) const;
+        
+       Vector3d getMCField(const Vector3d& pos) const;
+       Vector3d getICField(const Vector3d& pos) const;
+       Vector3d getNTFField(const Vector3d& pos) const;
+       Vector3d getRadioArcField(const Vector3d& pos) const;
+   
+       Vector3d getField(const Vector3d& pos) const;
+   };
+   } // namespace crpropa
+   
+   #endif // CRPROPA_CMZFIELD_H

@@ -27,6 +27,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::PhotonField
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

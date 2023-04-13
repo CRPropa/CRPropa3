@@ -31,6 +31,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::PhotoDisintegration
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

@@ -11,3 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: crpropa::Grid3d
+   :project: CRPropa3

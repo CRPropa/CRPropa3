@@ -3,7 +3,7 @@
 Function crpropa::deserialize
 =============================
 
-- Defined in :ref:`file_include_crpropa_magneticLens_ModelMatrix.h`
+- Defined in :ref:`file_src_magneticLens_ModelMatrix.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::deserialize(const string&, ModelMatrixType&)
+   :project: CRPropa3

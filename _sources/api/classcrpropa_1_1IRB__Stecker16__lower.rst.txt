@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::IRB_Stecker16_lower
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

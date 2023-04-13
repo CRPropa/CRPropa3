@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: g_GIT_SHA1
+   :project: CRPropa3

@@ -66,7 +66,6 @@ Program Listing for File JF12FieldSolenoidal.h
    
            double getSpiralFieldStrengthConstant(const double& r, const double& phi) const;
    };
-   
    } // namespace crpropa
    
    #endif // CRPROPA_JF12FIELDSOLENOIDAL_H

@@ -21,18 +21,18 @@ Program Listing for File Output.cpp
            enableAll();
    }
    
-   Output::Output(OutputType outputtype) : outputName(OutputTypeName(outputtype)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
-           setOutputType(outputtype);
+   Output::Output(OutputType outputType) : outputName(OutputTypeName(outputType)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+           setOutputType(outputType);
    }
    
-   std::string Output::OutputTypeName(OutputType outputtype){
-           if (outputtype == Trajectory1D)
+   std::string Output::OutputTypeName(OutputType outputType) {
+           if (outputType == Trajectory1D)
                    return "Trajectory1D";
-           if (outputtype == Event1D)
+           if (outputType == Event1D)
                    return "Event1D";
-           if (outputtype == Trajectory3D)
+           if (outputType == Trajectory3D)
                    return "Trajectory3D";
-           if (outputtype == Event3D)
+           if (outputType == Event3D)
                    return "Event3D";
            return "Everything";
    }
@@ -55,12 +55,13 @@ Program Listing for File Output.cpp
                    set(CurrentEnergyColumn, true);
                    set1D(true);
            } else if (outputtype == Event1D) {
-                   // D, ID, E, ID0, E0
+                   // D, ID, E, ID0, E0, tag
                    set(TrajectoryLengthColumn, true);
                    set(CurrentIdColumn, true);
                    set(CurrentEnergyColumn, true);
                    set(SourceIdColumn, true);
                    set(SourceEnergyColumn, true);
+                   set(CandidateTagColumn, true);
                    set1D(true);
            } else if (outputtype == Trajectory3D) {
                    // D, ID, E, X, Y, Z, Px, Py, Pz
@@ -71,7 +72,7 @@ Program Listing for File Output.cpp
                    set(CurrentDirectionColumn, true);
                    set1D(false);
            } else if (outputtype == Event3D) {
-                   // D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z
+                   // D, ID, E, X, Y, Z, Px, Py, Pz, ID0, E0, X0, Y0, Z0, P0x, P0y, P0z, tag
                    set(TrajectoryLengthColumn, true);
                    set(CurrentIdColumn, true);
                    set(CurrentEnergyColumn, true);
@@ -81,13 +82,13 @@ Program Listing for File Output.cpp
                    set(SourceEnergyColumn, true);
                    set(SourcePositionColumn, true);
                    set(SourceDirectionColumn, true);
+                   set(CandidateTagColumn, true);
                    set1D(false);
            } else if (outputtype == Everything) {
                    enableAll();
                    set1D(false);
            } else {
-                   throw std::runtime_error(
-                                   "TextOutput: unknown output type");
+                   throw std::runtime_error("Output: unknown output type");
            }
    }
    
@@ -142,6 +143,6 @@ Program Listing for File Output.cpp
            prop.comment = comment;
            prop.defaultValue = defaultValue;
            properties.push_back(prop);
-   }
-   ;
+   };
+   
    } // namespace crpropa

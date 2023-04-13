@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::digit(const int&, const int&)
+   :project: CRPropa3

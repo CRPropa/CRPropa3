@@ -20,13 +20,13 @@ Program Listing for File EMInverseComptonScattering.h
    #include "crpropa/PhotonBackground.h"
    
    namespace crpropa {
-   
    class EMInverseComptonScattering: public Module {
    private:
            ref_ptr<PhotonField> photonField;
            bool havePhotons;
            double limit;
            double thinning;
+           std::string interactionTag = "EMIC";
    
            // tabulated interaction rate 1/lambda(E)
            std::vector<double> tabEnergy;  
@@ -38,17 +38,20 @@ Program Listing for File EMInverseComptonScattering.h
            std::vector< std::vector<double> > tabCDF;  
    
    public:
-           EMInverseComptonScattering(
-                   ref_ptr<PhotonField> photonField, 
-                   bool havePhotons = false,      
-                   double thinning = 0,           
-                   double limit = 0.1             
-                   );
+           EMInverseComptonScattering(ref_ptr<PhotonField> photonField, bool havePhotons = false, double thinning = 0, double limit = 0.1);
    
+           // set the target photon field 
            void setPhotonField(ref_ptr<PhotonField> photonField);
+   
+           // decide if secondary photons are added to the simulation
            void setHavePhotons(bool havePhotons);
+   
            void setLimit(double limit);
+   
            void setThinning(double thinning);
+   
+           void setInteractionTag(std::string tag);
+           std::string getInteractionTag() const;
    
            void initRate(std::string filename);
            void initCumulativeRate(std::string filename);
@@ -56,7 +59,6 @@ Program Listing for File EMInverseComptonScattering.h
            void process(Candidate *candidate) const;
            void performInteraction(Candidate *candidate) const;
    };
-   
    } // namespace crpropa
    
    #endif // CRPROPA_EMINVERSECOMPTONSCATTERING_H

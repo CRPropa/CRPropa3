@@ -11,6 +11,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::Pixelization
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

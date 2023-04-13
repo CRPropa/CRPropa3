@@ -90,7 +90,6 @@ Program Listing for File MagneticField.h
    };
    
    #ifdef CRPROPA_HAVE_MUPARSER
-   
    class RenormalizeMagneticField: public MagneticField {
            ref_ptr<MagneticField> field;
            std::string expression;

@@ -1,82 +1,42 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Magnetic Fields &mdash; CRPropa3  documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magnetic Fields &mdash; CRPropa3 3.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
     <link rel="canonical" href="https://crpropa.desy.de/buildingblocks/MagneticFields.html"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script src="../_static/js/breathe_fold.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Observer" href="Observers.html" />
     <link rel="prev" title="Energy Losses" href="EnergyLosses.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html">
-          
-
-          
-            
             <img src="../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -84,18 +44,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Project Info</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#download">Download</a></li>
@@ -114,34 +64,40 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNEXT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-2">CRPropa 3.2</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id3">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id3">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id4">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id5">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id4">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id5">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id9">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id9">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id10">New features:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id11">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id12">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id13">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id14">New plugins and resources linked on the webpages:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/FAQ.html">FAQ</a><ul>
@@ -163,7 +119,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">USAGE</span></p>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Basic-concepts.html">Basic Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#modular-design">Modular design</a></li>
@@ -182,70 +138,84 @@
 <li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#other-modules">Other modules</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html">Introduction to Python Steering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Propagating-a-single-particle">Propagating a single particle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-an-observer">Defining an observer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-output-file">Defining the output file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-source">Defining the source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html">Introduction to Python Steering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Propagating-a-single-particle">Propagating a single particle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-an-observer">Defining an observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-the-output-file">Defining the output file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-the-source">Defining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/extragalactic-simulations.html">Extragalactic Propagation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html">1D simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#Simulation-Setup">Simulation Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html">1D simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html#Simulation-Setup">Simulation Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html">4D Simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Periodic-boundaries">Periodic boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Source-positions">Source positions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Note:">Note:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html">4D Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Periodic-boundaries">Periodic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Source-positions">Source positions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html">3D trajectories in a turbulent field</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Saving-and-loading-fields">Saving and loading fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html">3D trajectories in a turbulent field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#Saving-and-loading-fields">Saving and loading fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html">3D MHD models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Supplied-data">Supplied data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Uniform-injection">Uniform injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Injection-following-density-field">Injection following density field</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Mass-Halo-injection">Mass Halo injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Observer">Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html">3D MHD models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Supplied-data">Supplied data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html">Photon Propagation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Source-settings">Source settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Observer">Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#ModuleList">ModuleList</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-DINT">Propagation with DINT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Combined-Propagation">Combined Propagation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html#Setting-up-the-simulation">Setting up the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html#Plotting-results-(optional)">Plotting results (optional)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html">Example with secondary neutrinos</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-DINT">Propagation with DINT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Combined-Propagation">Combined Propagation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html">Example with secondary neutrinos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html">Electromagnetic cascade example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html#Plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html">The targeting algorithm of CRPropa</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-simple-example-on-how-to-use-the-targeting-algorithm-of-CRPropa">A simple example on how to use the targeting algorithm of CRPropa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Plotting-of-the-results">Plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-learning-algorithm-to-obtain-optimal-values-for-mu-and-kappa">A learning algorithm to obtain optimal values for mu and kappa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Testing-sampling-results">Testing sampling results</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/galactic_lensing.html">Propagation of Extragalactic CR in the Milky Way</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html">Galactic backtracking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html">Galactic trajectories</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html#3D-trajectory-plot">3D trajectory plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html">Galactic backtracking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html">Galactic Lensing of Simulated Cosmic Rays</a><ul>
@@ -256,22 +226,29 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_maps.v4.html">Galactic Lensing of Maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html">Galactic Lensing - confirm Liouville</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html#Lambert's-distribution">Lambert’s distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html">Galactic Lensing - confirm Liouville</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html#Lambert’s-distribution">Lambert’s distribution</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Diffusion of Cosmic Rays</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html">Diffusion Validation I</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Use-the-absolute-distance-from-origin--and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Calculate-the-pValue-of-the--test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Galactic Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.html">Galactic trajectories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.html#3D-trajectory-plot">3D trajectory plot</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html">Diffusion Validation II</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#diffusion-of-cosmic-rays">Diffusion of Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html">Diffusion Validation I</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Use-the-absolute-distance-from-origin-|x|,-|y|,-|z|-and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Calculate-the-pValue-of-the-\chi^2-test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html">Diffusion Validation II</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#advection-and-adiabatic-energy-changes">Advection and Adiabatic Energy Changes</a><ul>
@@ -281,17 +258,33 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#example-of-diffusion-in-the-milky-way">Example of diffusion in the Milky way</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html">Example for Galactic Propagation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#import-of-packages">import of packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#Simulation">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#Analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#gas-densities">Gas Densities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html">First example code for the use of densities</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#All-densities-are-separated-in-atomic-hydrogen-(HI),-ionised-hydrogen-(HII)-and-molecular-hydrogen-(H2).">All densities are separated in atomic hydrogen (HI), ionised hydrogen (HII) and molecular hydrogen (H2).</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#The-ConstantDensity-can-be-adjusted-to-new-values-and-the-usage-of-several-parts-can-be-chosen.">The ConstantDensity can be adjusted to new values and the usage of several parts can be chosen.</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#The-output-of-the-getDensity-and-getNucleonDensity-depends-on-the-activity-of-the-types.-Only-activated-types-are-used-for-summing-up.">The output of the getDensity and getNucleonDensity depends on the activity of the types. Only activated types are used for summing up.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_easy_example.html">First example code for use of densities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_easy_example.html#Customize-a-density-with-different-density-models">Customize a density with different density models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/densitys_model_example.html">Example for the implemented gass density distributions of the Milky Way</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_model_example.html#The-following-example-shows-the-use-of-density-distribution-for-the-Milky-Way-and-gives-some-figures-of-the-distribution.">The following example shows the use of density distribution for the Milky Way and gives some figures of the distribution.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html">Example for the implemented massdistributions of the Milky Way</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Ferrière">Model Ferrière</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Cordes">Model Cordes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Nakanishi">Model Nakanishi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Advanced-use-of-DensityList">Advanced use of DensityList</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html">Example of grid based densities of the Milky Way and sampling source position</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#load-grid">load grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#convert-grid-into-a-CRPropa-mass-distribution">convert grid into a CRPropa mass distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#use-a-massdistribution-as-indicator-for-the-spacial-source-distribution">use a massdistribution as indicator for the spacial source distribution</a></li>
 </ul>
 </li>
 </ul>
@@ -302,10 +295,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/extending_crpropa.html">Interfacing User Code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html">Implementing additional Modules and Features using Python only</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#manual-simulation-processing">Manual Simulation Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#plugins-integrate-custom-c-code-to-crpropa-s-python-steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.v4.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html">Implementing additional Modules and Features using Python only</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Manual-Simulation-Processing">Manual Simulation Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa’s-Python-Steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html">Custom Photon Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Downloading-CRPropa-data">Downloading CRPropa-data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#1.-Create-a-python-class-with-your-custom-photon-field-(CRPropa-data)">1. Create a python class with your custom photon field (CRPropa-data)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Warning">Warning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#2.-Create-tables-for-all-photon-field-dependent-processes">2. Create tables for all photon field dependent processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#3.-Copy-files-to-the-share-folder">3. Copy files to the share folder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#4.-Implementing-custom-PhotonField-in-CRPropa">4. Implementing custom PhotonField in CRPropa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#5.-Check-implementation">5. Check implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#6.-Limitation">6. Limitation</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Cpp-projects.html">Using CRPropa from C++</a></li>
 </ul>
 </li>
@@ -327,7 +336,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/AdditionalResources.html">Additional Resources</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../building_blocks.html">Building Blocks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="CoreClasses.html">Core Classes</a></li>
@@ -345,10 +354,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/library_root.html">Library API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/library_root.html#file-hierarchy">File Hierarchy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/library_root.html#full-api">Full API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#namespaces">Namespaces</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/namespace_crpropa.html">Namespace crpropa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/namespace_eleca.html">Namespace eleca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/namespace_std.html">Namespace std</a></li>
 </ul>
 </li>
@@ -378,6 +390,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Clock.html">Class Clock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CMB.html">Class CMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ConstantSphericalAdvectionField.html">Class ConstantSphericalAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Cordes.html">Class Cordes</a></li>
@@ -386,6 +399,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CylindricalBoundary.html">Class CylindricalBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CylindricalProjectionMap.html">Class CylindricalProjectionMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Density.html">Class Density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DensityGrid.html">Class DensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DensityList.html">Class DensityList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DetectionLength.html">Class DetectionLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DiffusionSDE.html">Class DiffusionSDE</a></li>
@@ -440,18 +454,17 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Nakanishi.html">Class Nakanishi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1NuclearDecay.html">Class NuclearDecay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Observer.html">Class Observer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Observer1D.html">Class Observer1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverDetectAll.html">Class ObserverDetectAll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverElectronVeto.html">Class ObserverElectronVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverFeature.html">Class ObserverFeature</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverInactiveVeto.html">Class ObserverInactiveVeto</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverLargeSphere.html">Class ObserverLargeSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverNeutrinoVeto.html">Class ObserverNeutrinoVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverNucleusVeto.html">Class ObserverNucleusVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverParticleIdVeto.html">Class ObserverParticleIdVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverPhotonVeto.html">Class ObserverPhotonVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverPoint.html">Class ObserverPoint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverRedshiftWindow.html">Class ObserverRedshiftWindow</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverSmallSphere.html">Class ObserverSmallSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverSurface.html">Class ObserverSurface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverTimeEvolution.html">Class ObserverTimeEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverTracking.html">Class ObserverTracking</a></li>
@@ -467,13 +480,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotoDisintegration.html">Class PhotoDisintegration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonEleCa.html">Class PhotonEleCa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonField.html">Class PhotonField</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonFieldSampling.html">Class PhotonFieldSampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonOutput1D.html">Class PhotonOutput1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotoPionProduction.html">Class PhotoPionProduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Pixelization.html">Class Pixelization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PlanckJF12bField.html">Class PlanckJF12bField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Plane.html">Class Plane</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PlaneWaveTurbulence.html">Class PlaneWaveTurbulence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PolarizedSingleModeMagneticField.html">Class PolarizedSingleModeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PPSecondariesEnergyDistribution.html">Class PPSecondariesEnergyDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PropagationBP.html">Class PropagationBP</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PropagationBP_1_1Y.html">Class PropagationBP::Y</a></li>
@@ -489,7 +502,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ReflectiveBox.html">Class ReflectiveBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1RenormalizeMagneticField.html">Class RenormalizeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1RestrictToRegion.html">Class RestrictToRegion</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ScalarGrid.html">Class ScalarGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SecondOrderFermi.html">Class SecondOrderFermi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ShellOutput.html">Class ShellOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ShellOutput1D.html">Class ShellOutput1D</a></li>
@@ -501,6 +513,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceComposition.html">Class SourceComposition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDensityGrid.html">Class SourceDensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDensityGrid1D.html">Class SourceDensityGrid1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDirectedEmission.html">Class SourceDirectedEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDirection.html">Class SourceDirection</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceEmissionCone.html">Class SourceEmissionCone</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceEmissionMap.html">Class SourceEmissionMap</a></li>
@@ -511,6 +524,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceIsotropicEmission.html">Class SourceIsotropicEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceLambertDistributionOnSphere.html">Class SourceLambertDistributionOnSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceList.html">Class SourceList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceMassDistribution.html">Class SourceMassDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceMultipleParticleTypes.html">Class SourceMultipleParticleTypes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceMultiplePositions.html">Class SourceMultiplePositions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceParticleType.html">Class SourceParticleType</a></li>
@@ -521,6 +535,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceRedshift1D.html">Class SourceRedshift1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceRedshiftEvolution.html">Class SourceRedshiftEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceSNRDistribution.html">Class SourceSNRDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceTag.html">Class SourceTag</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceUniform1D.html">Class SourceUniform1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceUniformBox.html">Class SourceUniformBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceUniformCylinder.html">Class SourceUniformCylinder</a></li>
@@ -538,7 +553,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TabularPhotonField.html">Class TabularPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TextOutput.html">Class TextOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TF17Field.html">Class TF17Field</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TorroidalHaloField.html">Class TorroidalHaloField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ToroidalHaloField.html">Class ToroidalHaloField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
@@ -549,18 +564,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Variant.html">Class Variant</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Variant_1_1bad__conversion.html">Class Variant::bad_conversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Vector3.html">Template Class Vector3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1VectorGrid.html">Class VectorGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classParticleSplitting.html">Class ParticleSplitting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classQuasiLinearTheory.html">Class QuasiLinearTheory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classURB.html">Class URB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classURB.html">Class URB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classURB.html">Class URB</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#enums">Enums</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.html">Enum DetectionState</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.html">Enum interpolationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/enum_group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/enum_group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#functions">Functions</a><ul>
@@ -634,14 +647,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a28a4ba29d78d82959e2a62dfd5734ee4.html">Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Random&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gaa41b3dba9522979f21064c9d34789c82.html">Template Function crpropa::operator&gt;&gt;(std::istream&amp;, Vector3&lt;T&gt;&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2.html">Function crpropa::operator&gt;&gt;(std::istream&amp;, Random&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.html">Function crpropa::periodicBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201.html">Function crpropa::periodicClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95.html">Template Function crpropa::pow_integer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Function crpropa::pow_integer&lt; 0 &gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Specialized Template Function crpropa::pow_integer&lt; 0 &gt;</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7.html">Function crpropa::prod_up</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4.html">Function crpropa::redshift2ComovingDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a.html">Function crpropa::redshift2LightTravelDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6.html">Function crpropa::redshift2LuminosityDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023.html">Function crpropa::reflectiveClamp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.html">Function crpropa::reflectiveBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.html">Function crpropa::reflectiveClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gafbf4174c9a116aaf77904225c3639d24.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid1f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gac6a806f908b2c0080767e36781d6ec12.html">Function crpropa::rmsFieldStrengthPerAxis</a></li>
@@ -654,7 +669,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.html">Template Function crpropa::swap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514.html">Function crpropa::turbulentCorrelationLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8.html">Function crpropa::VARIANT_TO_DECL(Bool, bool)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned char)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f.html">Function crpropa::VARIANT_TO_DECL(UInt16, uint16_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf.html">Function crpropa::VARIANT_TO_DECL(UInt32, uint32_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248.html">Function crpropa::VARIANT_TO_DECL(UInt64, uint64_t)</a></li>
@@ -677,6 +692,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.html">Variable crpropa::_nOrder_max</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.html">Variable crpropa::_nPix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164.html">Variable crpropa::_random</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga033bad5c8708f06659e7b5c0ff5d2483.html">Variable crpropa::alpha_finestructure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c.html">Variable crpropa::ampere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679.html">Variable crpropa::amu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d.html">Variable crpropa::atto</a></li>
@@ -766,8 +782,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8.html">Variable crpropa::pico</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_namespacecrpropa_1a086a644110575459436b82fc0959df1b.html">Variable crpropa::propertyBufferSize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.html">Variable crpropa::rad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1.html">Variable crpropa::radius_electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1.html">Variable crpropa::sec</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219.html">Variable crpropa::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b.html">Variable crpropa::sigma_thomson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce.html">Variable crpropa::tera</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81.html">Variable crpropa::teraelectronvolt</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a.html">Variable crpropa::tesla</a></li>
@@ -790,7 +808,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#typedefs">Typedefs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109.html">Typedef crpropa::_Secondary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5.html">Typedef crpropa::_Secondary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html">Typedef crpropa::const_LensPartIter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html">Typedef crpropa::Grid1d</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html">Typedef crpropa::Grid1f</a></li>
@@ -808,7 +826,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">DEVEL</span></p>
+<p class="caption" role="heading"><span class="caption-text">DEVEL</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html">GNU Debugger (GDB)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html#profiling">Profiling</a><ul>
@@ -821,320 +839,450 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/Data-files.html">Verify the Data Files Integrity</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">CRPropa3</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../building_blocks.html">Building Blocks</a> &raquo;</li>
-        
       <li>Magnetic Fields</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
-<div class="section" id="magnetic-fields">
-<h1>Magnetic Fields<a class="headerlink" href="#magnetic-fields" title="Permalink to this headline">¶</a></h1>
-<dl class="group">
-<dt>
-<span class="target" id="group__MagneticFields"></span><em>group</em> <code class="descname">MagneticFields</code></dt>
+<section id="magnetic-fields">
+<h1>Magnetic Fields<a class="headerlink" href="#magnetic-fields" title="Permalink to this headline"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__MagneticFields"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">MagneticFields</span></span></dt>
 <dd><p>Magnetic field models. </p>
 <div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric">Functions</p>
-<dl class="function">
-<dt>
-<span class="target" id="group__MagneticFields_1ga395cc353f63d9b16412f33e522b1be5e"></span><code class="descname">void crpropa::initHelicalTurbulence(ref_ptr&lt; Grid3f &gt; grid, double Brms, double lMin, double lMax, double alpha = -11/3., int seed = 0, double H = 0)</code></dt>
-<dd><p>Same as the simple turbulent field but with helicity. <dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">H</span></code>: Helicity </li>
-</ul>
-</dd>
-</dl>
-</p>
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-enums">Enums</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv413TF17DiskModel">
+<span class="target" id="group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TF17DiskModel</span></span></span><a class="headerlink" href="#_CPPv413TF17DiskModel" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N13TF17DiskModel3Ad1E">
+<span class="target" id="group__MagneticFields_1ggaf7513ac77cc27dbf612a5e0690c82c4caf37f735445063e9f915c3cd97b0b9c43"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Ad1</span></span></span><a class="headerlink" href="#_CPPv4N13TF17DiskModel3Ad1E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N13TF17DiskModel3Bd1E">
+<span class="target" id="group__MagneticFields_1ggaf7513ac77cc27dbf612a5e0690c82c4cabfb76ad7e53fe7dbe2fa0c3158936883"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Bd1</span></span></span><a class="headerlink" href="#_CPPv4N13TF17DiskModel3Bd1E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N13TF17DiskModel3Dd1E">
+<span class="target" id="group__MagneticFields_1ggaf7513ac77cc27dbf612a5e0690c82c4ca3fe01f6080482b1437d70fb27f0a6f04"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Dd1</span></span></span><a class="headerlink" href="#_CPPv4N13TF17DiskModel3Dd1E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
-<dl class="function">
-<dt>
-<span class="target" id="group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514"></span><code class="descname">double crpropa::turbulentCorrelationLength(double lMin, double lMax, double alpha = -11/3.)</code></dt>
-<dd><p>Analytically calculate the correlation length of the simple model turbulent field </p>
-</dd></dl>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv413TF17HaloModel">
+<span class="target" id="group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TF17HaloModel</span></span></span><a class="headerlink" href="#_CPPv413TF17HaloModel" title="Permalink to this definition"></a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N13TF17HaloModel2C0E">
+<span class="target" id="group__MagneticFields_1ggaafad8b2c308adeb57af2612eed384fb5a9c5959e6f08f10d0edbadf5be1f33c53"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">C0</span></span></span><a class="headerlink" href="#_CPPv4N13TF17HaloModel2C0E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
 
-<dl class="function">
-<dt>
-<span class="target" id="group__MagneticFields_1ga72edae87b1e7c5f473488e4624598f38"></span><code class="descname">void crpropa::initTurbulence(ref_ptr&lt; Grid3f &gt; grid, double Brms, double lMin, double lMax, double alpha = -11/3., int seed = 0)</code></dt>
-<dd><p>Create a random initialization of a turbulent field. <dl class="docutils">
-<dt><strong>Parameters</strong></dt>
-<dd><ul class="breatheparameterlist first last simple">
-<li><code class="docutils literal notranslate"><span class="pre">lMin</span></code>: Minimum wavelength of the turbulence </li>
-<li><code class="docutils literal notranslate"><span class="pre">lMax</span></code>: Maximum wavelength of the turbulence </li>
-<li><code class="docutils literal notranslate"><span class="pre">alpha</span></code>: Power law index of &lt;B^2(k)&gt; ~ k^alpha (alpha = -11/3 corresponds to a Kolmogorov spectrum) </li>
-<li><code class="docutils literal notranslate"><span class="pre">Brms</span></code>: RMS field strength </li>
-<li><code class="docutils literal notranslate"><span class="pre">seed</span></code>: <a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> seed </li>
-</ul>
-</dd>
-</dl>
-</p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N13TF17HaloModel2C1E">
+<span class="target" id="group__MagneticFields_1ggaafad8b2c308adeb57af2612eed384fb5a1a2ddc2db4693cfd16d534cde5572cc1"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">C1</span></span></span><a class="headerlink" href="#_CPPv4N13TF17HaloModel2C1E" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
-<dl class="class">
-<dt id="_CPPv3N7crpropa16AMRMagneticFieldE">
-<span class="target" id="classcrpropa_1_1AMRMagneticField"></span><em class="property">class </em><code class="descname">AMRMagneticField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;AMRMagneticField.h&gt;</em><p>Wrapper for saga::MagneticField. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv421initHelicalTurbulence7ref_ptrI6Grid3fEddddid">
+<span class="target" id="group__MagneticFields_1ga395cc353f63d9b16412f33e522b1be5e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initHelicalTurbulence</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">ref_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="CoreClasses.html#_CPPv46Grid3f" title="Grid3f"><span class="n"><span class="pre">Grid3f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">grid</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">Brms</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lMin</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lMax</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">alpha</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">11</span></span><span class="w"> </span><span class="o"><span class="pre">/</span></span><span class="w"> </span><span class="m"><span class="pre">3.</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">H</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421initHelicalTurbulence7ref_ptrI6Grid3fEddddid" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Create a random initialization of a turbulent field including helicity </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> – grid on which the turbulence is calculated </p></li>
+<li><p><strong>Brms</strong> – RMS field strength </p></li>
+<li><p><strong>lMin</strong> – Minimum wavelength of the turbulence </p></li>
+<li><p><strong>lMax</strong> – Maximum wavelength of the turbulence </p></li>
+<li><p><strong>alpha</strong> – Power law index of &lt;B^2(k)&gt; ~ k^alpha (alpha = -11/3 corresponds to a Kolmogorov spectrum) </p></li>
+<li><p><strong>seed</strong> – <a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> seed </p></li>
+<li><p><strong>H</strong> – Helicity </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa13MagneticFieldE">
-<span class="target" id="classcrpropa_1_1MagneticField"></span><em class="property">class </em><code class="descname">MagneticField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv3N7crpropa10ReferencedE" title="crpropa::Referenced">Referenced</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Abstract base class for magnetic fields. </p>
-<p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1AMRMagneticField"><span class="std std-ref">AMRMagneticField</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1ArchimedeanSpiralField.html#classcrpropa_1_1ArchimedeanSpiralField"><span class="std std-ref">ArchimedeanSpiralField</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1JF12Field.html#classcrpropa_1_1JF12Field"><span class="std std-ref">JF12Field</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1LogarithmicSpiralField.html#classcrpropa_1_1LogarithmicSpiralField"><span class="std std-ref">LogarithmicSpiralField</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticDipoleField"><span class="std std-ref">MagneticDipoleField</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticFieldEvolution"><span class="std std-ref">MagneticFieldEvolution</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticFieldGrid"><span class="std std-ref">MagneticFieldGrid</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticFieldList"><span class="std std-ref">MagneticFieldList</span></a>, <a class="reference internal" href="#classcrpropa_1_1ModulatedMagneticFieldGrid"><span class="std std-ref">ModulatedMagneticFieldGrid</span></a>, <a class="reference internal" href="#classcrpropa_1_1PeriodicMagneticField"><span class="std std-ref">PeriodicMagneticField</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1PT11Field.html#classcrpropa_1_1PT11Field"><span class="std std-ref">PT11Field</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1QuimbyMagneticField.html#classcrpropa_1_1QuimbyMagneticField"><span class="std std-ref">QuimbyMagneticField</span></a>, <a class="reference internal" href="#classcrpropa_1_1RenormalizeMagneticField"><span class="std std-ref">RenormalizeMagneticField</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1TF17Field.html#classcrpropa_1_1TF17Field"><span class="std std-ref">TF17Field</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1TorroidalHaloField.html#classcrpropa_1_1TorroidalHaloField"><span class="std std-ref">TorroidalHaloField</span></a>, <a class="reference internal" href="#classcrpropa_1_1TurbulentField"><span class="std std-ref">TurbulentField</span></a>, <a class="reference internal" href="#classcrpropa_1_1UniformMagneticField"><span class="std std-ref">UniformMagneticField</span></a></p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv426turbulentCorrelationLengthddd">
+<span class="target" id="group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">turbulentCorrelationLength</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lMin</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lMax</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">alpha</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">11</span></span><span class="w"> </span><span class="o"><span class="pre">/</span></span><span class="w"> </span><span class="m"><span class="pre">3.</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426turbulentCorrelationLengthddd" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Analytically calculate the correlation length of the simple model turbulent field </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa21PeriodicMagneticFieldE">
-<span class="target" id="classcrpropa_1_1PeriodicMagneticField"></span><em class="property">class </em><code class="descname">PeriodicMagneticField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Magnetic field decorator implementing periodic fields. </p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv414initTurbulence7ref_ptrI6Grid3fEddddi">
+<span class="target" id="group__MagneticFields_1ga72edae87b1e7c5f473488e4624598f38"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initTurbulence</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">ref_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="CoreClasses.html#_CPPv46Grid3f" title="Grid3f"><span class="n"><span class="pre">Grid3f</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">grid</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">Brms</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lMin</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lMax</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">alpha</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">11</span></span><span class="w"> </span><span class="o"><span class="pre">/</span></span><span class="w"> </span><span class="m"><span class="pre">3.</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">seed</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414initTurbulence7ref_ptrI6Grid3fEddddi" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Create a random initialization of a turbulent field. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> – grid on which the turbulence is calculated </p></li>
+<li><p><strong>lMin</strong> – Minimum wavelength of the turbulence </p></li>
+<li><p><strong>lMax</strong> – Maximum wavelength of the turbulence </p></li>
+<li><p><strong>alpha</strong> – Power law index of &lt;B^2(k)&gt; ~ k^alpha (alpha = -11/3 corresponds to a Kolmogorov spectrum) </p></li>
+<li><p><strong>Brms</strong> – RMS field strength </p></li>
+<li><p><strong>seed</strong> – <a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> seed </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa17MagneticFieldListE">
-<span class="target" id="classcrpropa_1_1MagneticFieldList"></span><em class="property">class </em><code class="descname">MagneticFieldList</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Magnetic field decorator implementing a superposition of fields. </p>
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa16AMRMagneticFieldE">
+<span class="target" id="classcrpropa_1_1AMRMagneticField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AMRMagneticField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;AMRMagneticField.h&gt;</em></div>
+<p>Wrapper for saga::MagneticField Can be found in github.com/rafaelab/saga. </p>
+<p>Deprecation Warning: As SAGA (SQLite AMR <a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Grid"><span class="std std-ref">Grid</span></a> Application) is no longer supported, the AMRMagenticField class will be removed in the future. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa22MagneticFieldEvolutionE">
-<span class="target" id="classcrpropa_1_1MagneticFieldEvolution"></span><em class="property">class </em><code class="descname">MagneticFieldEvolution</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Magnetic field decorator implementing an evolution of type (1+z)^m. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa22ArchimedeanSpiralFieldE">
+<span class="target" id="classcrpropa_1_1ArchimedeanSpiralField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ArchimedeanSpiralField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;ArchimedeanSpiralField.h&gt;</em></div>
+<p>Magnetic field model following an Archimedean spiral. </p>
+<p>See e.g. Jokipii, Levy &amp; Hubbard 1977 </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa20UniformMagneticFieldE">
-<span class="target" id="classcrpropa_1_1UniformMagneticField"></span><em class="property">class </em><code class="descname">UniformMagneticField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Magnetic field with one B-field vector. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa8CMZFieldE">
+<span class="target" id="classcrpropa_1_1CMZField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CMZField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;CMZField.h&gt;</em></div>
+<p>Magnetic Field Model in the Galactic Center from M. Guenduez et al. </p>
+<p>Poloidal Model (Model C) is taken from Katia <a class="reference internal" href="../api/classcrpropa_1_1Ferriere.html#classcrpropa_1_1Ferriere"><span class="std std-ref">Ferriere</span></a> and Philippe Terral 2014 “Analytical models of X-shape magnetic fields in galactic halos” [arXiv:1312.1974] Azimuthal Model is taken from M.Guenduez, J.B. Tjus, K.Ferriere, R.-J. Dettmar (2019) [arXiv:1906.05211] </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa19MagneticDipoleFieldE">
-<span class="target" id="classcrpropa_1_1MagneticDipoleField"></span><em class="property">class </em><code class="descname">MagneticDipoleField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Magnetic dipole field defined by the magnetic moment and the ‘core’ radius. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa17ToroidalHaloFieldE">
+<span class="target" id="classcrpropa_1_1ToroidalHaloField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ToroidalHaloField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;GalacticMagneticField.h&gt;</em></div>
+<p>Galactic halo field model from Prouza &amp; Smida 2003 and Sun et al. 2008. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa24RenormalizeMagneticFieldE">
-<span class="target" id="classcrpropa_1_1RenormalizeMagneticField"></span><em class="property">class </em><code class="descname">RenormalizeMagneticField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticField.h&gt;</em><p>Renormalize strength of a given field by expression in which B is the strength variable. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa22LogarithmicSpiralFieldE">
+<span class="target" id="classcrpropa_1_1LogarithmicSpiralField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LogarithmicSpiralField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;GalacticMagneticField.h&gt;</em></div>
+<p>Galactic disk field model of axisymmetric (ASS) or bisymmetric (BSS) logarithmic spiral shape. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa17MagneticFieldGridE">
-<span class="target" id="classcrpropa_1_1MagneticFieldGrid"></span><em class="property">class </em><code class="descname">MagneticFieldGrid</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticFieldGrid.h&gt;</em><p>Magnetic field on a periodic (or reflective), cartesian grid with trilinear interpolation. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa9JF12FieldE">
+<span class="target" id="classcrpropa_1_1JF12Field"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">JF12Field</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;JF12Field.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1JF12Field"><span class="std std-ref">JF12Field</span></a> galactic magnetic field model. </p>
+<p>Implements the JF2012 magnetic field model, consisting of a large-scale regular and random (striated) field and a small-scale random (turbulent) field. See: Jansson 2012a, ApJ. 757, A New Model of the Galactic Magnetic Field Jansson 2012b, arXiv:1210.7820, The Galactic Magnetic Field</p>
+<p>All three components may individually turned on and off. Currently only best fit values of the field paramaters are implemented and cannot be changed.</p>
+<p>The field is defined in the usual galactocentric coordinate system with the Galactic center at the origin, the x-axis pointing in the opposite direction of the Sun, and the z-axis pointing towards Galactic north.</p>
+<p>The regular field components (disk, toroidal halo and polodial halo field) may be turned on and off individually. </p>
+<p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1JF12FieldSolenoidal"><span class="std std-ref">JF12FieldSolenoidal</span></a>, <a class="reference internal" href="#classcrpropa_1_1PlanckJF12bField"><span class="std std-ref">PlanckJF12bField</span></a></p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa16PlanckJF12bFieldE">
+<span class="target" id="classcrpropa_1_1PlanckJF12bField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PlanckJF12bField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1JF12Field.html#_CPPv4N7crpropa9JF12FieldE" title="crpropa::JF12Field"><span class="n"><span class="pre">JF12Field</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;JF12Field.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1PlanckJF12bField"><span class="std std-ref">PlanckJF12bField</span></a>: the JF12 galactic magnetic field model with corrections suggested by the Planck Collaboration. </p>
+<p><p>See: Planck Collaboration, “Planck intermediate results. XLII.</p>
+<p>Large-scale Galactic magnetic fields”, A&amp;A 596 (2016) A103; arXiv:1601.00546</p>
+</p>
+<p>This variant of the JF12 field uses only different parameters compared to the standard JF12 implementation. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19JF12FieldSolenoidalE">
+<span class="target" id="classcrpropa_1_1JF12FieldSolenoidal"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">JF12FieldSolenoidal</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1JF12Field.html#_CPPv4N7crpropa9JF12FieldE" title="crpropa::JF12Field"><span class="n"><span class="pre">JF12Field</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;JF12FieldSolenoidal.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1JF12FieldSolenoidal"><span class="std std-ref">JF12FieldSolenoidal</span></a> galactic magnetic field model. </p>
+<p>Implements a modified JF2012 Galactic magnetic field model. This implementation inherits most methods from the initial <a class="reference internal" href="#classcrpropa_1_1JF12Field"><span class="std std-ref">JF12Field</span></a>, just the regular disk field and the poloidal halo “X field” are altered.</p>
+<p>A solenoidal transition for the disk field (which redirects the magnetic flux of the magnetic spiral field at the boundaries and lets the field strength tend to 0 in a continuous way) and an improved version of the JF12 X field (with parabolic field lines at z = 0 instead of sharp kinks) were added in order to smooth the field and avoid violations of magnetic flux conservation, see: Kleimann et al, 2018, arXiv:1809.07528, Solenoidal improvements for the JF12 Galactic magnetic field model.</p>
+<p>The turbulent field component is the exact same as in the initial JF12 implementation and should be used with care since the new regular and old turbulent field do not match in the transition regions of the spiral field. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa13MagneticFieldE">
+<span class="target" id="classcrpropa_1_1MagneticField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MagneticField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv4N7crpropa10ReferencedE" title="crpropa::Referenced"><span class="n"><span class="pre">Referenced</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Abstract base class for magnetic fields. </p>
+<p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1AMRMagneticField"><span class="std std-ref">AMRMagneticField</span></a>, <a class="reference internal" href="#classcrpropa_1_1ArchimedeanSpiralField"><span class="std std-ref">ArchimedeanSpiralField</span></a>, <a class="reference internal" href="#classcrpropa_1_1CMZField"><span class="std std-ref">CMZField</span></a>, <a class="reference internal" href="#classcrpropa_1_1JF12Field"><span class="std std-ref">JF12Field</span></a>, <a class="reference internal" href="#classcrpropa_1_1LogarithmicSpiralField"><span class="std std-ref">LogarithmicSpiralField</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticDipoleField"><span class="std std-ref">MagneticDipoleField</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticFieldEvolution"><span class="std std-ref">MagneticFieldEvolution</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticFieldGrid"><span class="std std-ref">MagneticFieldGrid</span></a>, <a class="reference internal" href="#classcrpropa_1_1MagneticFieldList"><span class="std std-ref">MagneticFieldList</span></a>, <a class="reference internal" href="#classcrpropa_1_1ModulatedMagneticFieldGrid"><span class="std std-ref">ModulatedMagneticFieldGrid</span></a>, <a class="reference internal" href="#classcrpropa_1_1PT11Field"><span class="std std-ref">PT11Field</span></a>, <a class="reference internal" href="#classcrpropa_1_1PeriodicMagneticField"><span class="std std-ref">PeriodicMagneticField</span></a>, <a class="reference internal" href="#classcrpropa_1_1PolarizedSingleModeMagneticField"><span class="std std-ref">PolarizedSingleModeMagneticField</span></a>, <a class="reference internal" href="../api/classcrpropa_1_1QuimbyMagneticField.html#classcrpropa_1_1QuimbyMagneticField"><span class="std std-ref">QuimbyMagneticField</span></a>, <a class="reference internal" href="#classcrpropa_1_1RenormalizeMagneticField"><span class="std std-ref">RenormalizeMagneticField</span></a>, <a class="reference internal" href="#classcrpropa_1_1TF17Field"><span class="std std-ref">TF17Field</span></a>, <a class="reference internal" href="#classcrpropa_1_1ToroidalHaloField"><span class="std std-ref">ToroidalHaloField</span></a>, <a class="reference internal" href="#classcrpropa_1_1TurbulentField"><span class="std std-ref">TurbulentField</span></a>, <a class="reference internal" href="#classcrpropa_1_1UniformMagneticField"><span class="std std-ref">UniformMagneticField</span></a></p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa21PeriodicMagneticFieldE">
+<span class="target" id="classcrpropa_1_1PeriodicMagneticField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PeriodicMagneticField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Magnetic field decorator implementing periodic fields. </p>
+<p>The periodic cube is defined by its origin (Vector3d) and an extends parameter (Vector3d). All points x=(x_1, x_2, x_3) that are described by x_i = origin_i + epsilon * extend_i, with epsilon = 0…1 are within the base cube. Magnetic field strengths for all positions outside of this cube are calculated based on the values in the base cube. This can be done periodically or reflectively. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa17MagneticFieldListE">
+<span class="target" id="classcrpropa_1_1MagneticFieldList"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MagneticFieldList</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Magnetic field decorator implementing a superposition of fields. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa22MagneticFieldEvolutionE">
+<span class="target" id="classcrpropa_1_1MagneticFieldEvolution"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MagneticFieldEvolution</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Magnetic field decorator implementing an evolution of type (1+z)^m. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa20UniformMagneticFieldE">
+<span class="target" id="classcrpropa_1_1UniformMagneticField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">UniformMagneticField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Magnetic field with one B-field vector. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19MagneticDipoleFieldE">
+<span class="target" id="classcrpropa_1_1MagneticDipoleField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MagneticDipoleField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Magnetic dipole field defined by the magnetic moment and the ‘core’ radius. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa24RenormalizeMagneticFieldE">
+<span class="target" id="classcrpropa_1_1RenormalizeMagneticField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RenormalizeMagneticField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticField.h&gt;</em></div>
+<p>Renormalize strength of a given field by expression in which B is the strength variable. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa17MagneticFieldGridE">
+<span class="target" id="classcrpropa_1_1MagneticFieldGrid"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MagneticFieldGrid</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticFieldGrid.h&gt;</em></div>
+<p>Magnetic field on a periodic (or reflective), cartesian grid with trilinear interpolation. </p>
 <p>This class wraps a Grid3f to serve as a <a class="reference internal" href="#classcrpropa_1_1MagneticField"><span class="std std-ref">MagneticField</span></a>. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa26ModulatedMagneticFieldGridE">
-<span class="target" id="classcrpropa_1_1ModulatedMagneticFieldGrid"></span><em class="property">class </em><code class="descname">ModulatedMagneticFieldGrid</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;MagneticFieldGrid.h&gt;</em><p>Modulated magnetic field on a periodic grid. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa26ModulatedMagneticFieldGridE">
+<span class="target" id="classcrpropa_1_1ModulatedMagneticFieldGrid"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ModulatedMagneticFieldGrid</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;MagneticFieldGrid.h&gt;</em></div>
+<p>Modulated magnetic field on a periodic grid. </p>
 <p>This class wraps a Grid3f to serve as a <a class="reference internal" href="#classcrpropa_1_1MagneticField"><span class="std std-ref">MagneticField</span></a>. The field is modulated on-the-fly with a Grid1f. The Grid3f and Grid1f do not need to share the same origin, spacing or size. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa14GridTurbulenceE">
-<span class="target" id="classcrpropa_1_1GridTurbulence"></span><em class="property">class </em><code class="descname">GridTurbulence</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1TurbulentField.html#_CPPv3N7crpropa14TurbulentFieldE" title="crpropa::TurbulentField">TurbulentField</a><br /></dt>
-<dd><em>#include &lt;GridTurbulence.h&gt;</em><p>Turbulent grid-based magnetic field with a general energy spectrum. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa32PolarizedSingleModeMagneticFieldE">
+<span class="target" id="classcrpropa_1_1PolarizedSingleModeMagneticField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PolarizedSingleModeMagneticField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;PolarizedSingleModeMagneticField.h&gt;</em></div>
+<p>General polarized single mode magnetic field (including linear, circular and elliptic polarizations and the case of maximal helicity). </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa9PT11FieldE">
+<span class="target" id="classcrpropa_1_1PT11Field"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PT11Field</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;PT11Field.h&gt;</em></div>
+<p>Implements Pshirkov2011 galactic magnetic field model. </p>
+<p>Implements the Pshirkov2011 galactic magnetic field model, consisting of large-scale regular disk and halo fields. For the disk field an axisymmetric (ASS) and the bisymmetric (BSS, default) model can be chosen. For the halo field the BHM Halo field model (Sun et al. 2008) is considered.</p>
+<p>Currently only best fit values of the field parameters are implemented. The field is defined in the usual galactocentric coordinate system with the Galactic center at the origin, the x-axis pointing in the opposite direction of the Sun, and the z-axis pointing towards Galactic north.</p>
+<p>See: Pshirkov, Tinyakov, Kronberg Newton-McGee 2011 - Deriving global structure of the Galactic Magnetic Field from Faraday Rotation Measures of extragalactic sources, DOI: 10.1088/0004-637X/738/2/192, arXiv:1103.0814 </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa9TF17FieldE">
+<span class="target" id="classcrpropa_1_1TF17Field"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TF17Field</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;TF17Field.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1TF17Field"><span class="std std-ref">TF17Field</span></a> galactic magnetic field model. </p>
+<p>Implements the TF2017 galactic magnetic field model, consisting of large-scale regular disk and halo fields. The field is defined in the usual galactocentric coordinate system with the Galactic center at the origin, the x-axis pointing in the opposite direction of the Sun, and the z-axis pointing towards Galactic north. See: Terral, <a class="reference internal" href="../api/classcrpropa_1_1Ferriere.html#classcrpropa_1_1Ferriere"><span class="std std-ref">Ferriere</span></a> 2017 - Constraints from Faraday rotation on the magnetic field structure in the galactic halo, DOI: 10.1051/0004-6361/201629572, arXiv:1611.10222 </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa14GridTurbulenceE">
+<span class="target" id="classcrpropa_1_1GridTurbulence"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GridTurbulence</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1TurbulentField.html#_CPPv4N7crpropa14TurbulentFieldE" title="crpropa::TurbulentField"><span class="n"><span class="pre">TurbulentField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;GridTurbulence.h&gt;</em></div>
+<p>Turbulent grid-based magnetic field with a general energy spectrum. </p>
 <p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1SimpleGridTurbulence"><span class="std std-ref">SimpleGridTurbulence</span></a></p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa21HelicalGridTurbulenceE">
-<span class="target" id="classcrpropa_1_1HelicalGridTurbulence"></span><em class="property">class </em><code class="descname">HelicalGridTurbulence</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SimpleGridTurbulence.html#_CPPv3N7crpropa20SimpleGridTurbulenceE" title="crpropa::SimpleGridTurbulence">SimpleGridTurbulence</a><br /></dt>
-<dd><em>#include &lt;HelicalGridTurbulence.h&gt;</em><p>Turbulent grid-based magnetic field with a simple power-law spectrum. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa21HelicalGridTurbulenceE">
+<span class="target" id="classcrpropa_1_1HelicalGridTurbulence"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HelicalGridTurbulence</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SimpleGridTurbulence.html#_CPPv4N7crpropa20SimpleGridTurbulenceE" title="crpropa::SimpleGridTurbulence"><span class="n"><span class="pre">SimpleGridTurbulence</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;HelicalGridTurbulence.h&gt;</em></div>
+<p>Turbulent grid-based magnetic field with a simple power-law spectrum. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa19PlaneWaveTurbulenceE">
-<span class="target" id="classcrpropa_1_1PlaneWaveTurbulence"></span><em class="property">class </em><code class="descname">PlaneWaveTurbulence</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1TurbulentField.html#_CPPv3N7crpropa14TurbulentFieldE" title="crpropa::TurbulentField">TurbulentField</a><br /></dt>
-<dd><em>#include &lt;PlaneWaveTurbulence.h&gt;</em><p>Interpolation-free turbulent magnetic field based on the GJ99 and TD13 papers. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19PlaneWaveTurbulenceE">
+<span class="target" id="classcrpropa_1_1PlaneWaveTurbulence"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PlaneWaveTurbulence</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1TurbulentField.html#_CPPv4N7crpropa14TurbulentFieldE" title="crpropa::TurbulentField"><span class="n"><span class="pre">TurbulentField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;PlaneWaveTurbulence.h&gt;</em></div>
+<p>Interpolation-free turbulent magnetic field based on the GJ99 and TD13 papers. </p>
 <p><em>Overview</em></p>
-<p>This class provides a turbulent magnetic field that is generated as described by <a class="reference external" href="https://doi.org/10.1086/307452">(Giacalone and Jokipii, 1999)</a> and <a class="reference external" href="https://doi.org/10.1063/1.4789861">(Tautz and Dosch, 2013)</a>. Instead of using an inverse Fourier transform to generate the field on a grid  which then needs to be interpolated to obtain in-between values  this method only generates the wave modes making up the turbulent magnetic field ahead of time. At run time, when the field’s value at a particular position is required, these plane waves are then evaluated analytically at that position. This guarantees that the resulting field is completely free of divergence, reproduces the mean field strength accurately, and does not suffer from other interpolation-induced problems. The disadvantage is that the number of wave modes is drastically smaller when compared with initTurbulence, which might have physical ramifications on the particles propagating through the field. Furthermore, depending on the exact setting, the implementation is somewhat slower (see Schlegel et al. for details).</p>
+<p>This class provides a turbulent magnetic field that is generated as described by <a class="reference external" href="https://doi.org/10.1086/307452">(Giacalone and Jokipii, 1999)</a> and <a class="reference external" href="https://doi.org/10.1063/1.4789861">(Tautz and Dosch, 2013)</a>. Instead of using an inverse Fourier transform to generate the field on a grid &amp;#8212; which then needs to be interpolated to obtain in-between values &amp;#8212; this method only generates the wave modes making up the turbulent magnetic field ahead of time. At run time, when the field’s value at a particular position is required, these plane waves are then evaluated analytically at that position. This guarantees that the resulting field is completely free of divergence, reproduces the mean field strength accurately, and does not suffer from other interpolation-induced problems. The disadvantage is that the number of wave modes is drastically smaller when compared with initTurbulence, which might have physical ramifications on the particles propagating through the field. Furthermore, depending on the exact setting, the implementation is somewhat slower (see Schlegel et al. for details).</p>
 <p><em>Using the SIMD optimization</em></p>
 <p>In order to mitigate some of the performance impact that is inherent in this method of field generation, an optimized version is provided. According to our tests (see the paper above), this version runs 20-30x faster than the baseline implementation and matches the speed of trilinear interpolation on a grid at a bit less than 100 wavemodes. To do this, it uses special CPU instructions called AVX, which are unfortunately not supported by every CPU. On Linux, you can check whether your CPU supports AVX by using the <code class="docutils literal notranslate"><span class="pre">lscpu</span></code> command, and searching the flags section for the string “avx”. Alternatively, if you are building on the same CPU that CRPropa will run on, you can have the compiler detect this for you automatically (see below).</p>
 <p>An additional speedup of about 1.33 can be achieved if the CPU supports the FMA extension in addition to AVX. Again, you can either check for this manually, or have the compiler figure it out for you.</p>
 <p>Note** that the optimized and non-optimized implementations to not return the exact same results. In fact, since the effective wave numbers used by the optimized implementation are very slightly different from those used by the non-optimized version (a difference smaller than the precision of a double, but nevertheless relevant at some point), the wavemodes go out of phase for large distances from the origin, and the fields are no longer comparable at all.</p>
 <p><em>If you are building on the same machine that the code will run on:</em></p>
-<p><ol class="arabic simple">
-<li>In cmake: enable the FAST_WAVES flag.</li>
-<li>Also in cmake: set SIMD_EXTENSIONS to “native”. The compiler will automatically detect support for your CPU and run the build with the appropriate settings.</li>
-<li>Generate files and exit cmake, then build.</li>
+<p><ol class="loweralpha simple">
+<li><p>In cmake: enable the FAST_WAVES flag.</p></li>
+<li><p>Also in cmake: set SIMD_EXTENSIONS to “native”. The compiler will automatically detect support for your CPU and run the build with the appropriate settings.</p></li>
+<li><p>Generate files and exit cmake, then build.</p></li>
 </ol>
-<ol class="arabic simple">
-<li>If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won’t be able to use the optimization; go back into cmake, disable FAST_WAVES, and build again.</li>
-<li>If the build runs through without errors, the code is built with the optimization.</li>
+<ol class="loweralpha simple">
+<li><p>If your CPU does not support the necessary extensions, the build will fail with an error telling you so. In this case, you won’t be able to use the optimization; go back into cmake, disable FAST_WAVES, and build again.</p></li>
+<li><p>If the build runs through without errors, the code is built with the optimization.</p></li>
 </ol>
 </p>
 <p><em>If you are building on a different machine from the one where the code will run:</em></p>
-<p><ol class="arabic simple">
-<li>Figure out which extensions your target machine supports, using <code class="docutils literal notranslate"><span class="pre">lscpu</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">avx</span></code> for AVX, and <code class="docutils literal notranslate"><span class="pre">lscpu</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">fma</span></code> for FMA. Run these commands on your target machine, not on your build machine. If your target machine does not run Linux, you may have to use different commands.</li>
-<li>If the CPU does not support AVX, you can stop here, and build normally. The CPU does not support the necessary extensions, and will not run code that is compiled using them.</li>
-<li>If the CPU does support AVX, continue. In cmake, enable the FAST_WAVES flag.</li>
-<li>Also in cmake, set SIMD_EXTENSIONS to the appropriate value. If your target CPU supports only AVX, but not FMA, set it to “avx”. If it supports both, set it to “avx+fma”.</li>
-<li>Generate and exit cmake, then build.</li>
-<li>If you made a mistake and used the wrong flags, you should see an illegal instruction error when trying to import CRPropa, or (at the latest) when trying to call <code class="docutils literal notranslate"><span class="pre">getField</span></code>. </li>
+<p><ol class="loweralpha simple">
+<li><p>Figure out which extensions your target machine supports, using <code class="docutils literal notranslate"><span class="pre">lscpu</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">avx</span></code> for AVX, and <code class="docutils literal notranslate"><span class="pre">lscpu</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">fma</span></code> for FMA. Run these commands on your target machine, not on your build machine. If your target machine does not run Linux, you may have to use different commands.</p></li>
+<li><p>If the CPU does not support AVX, you can stop here, and build normally. The CPU does not support the necessary extensions, and will not run code that is compiled using them.</p></li>
+<li><p>If the CPU does support AVX, continue. In cmake, enable the FAST_WAVES flag.</p></li>
+<li><p>Also in cmake, set SIMD_EXTENSIONS to the appropriate value. If your target CPU supports only AVX, but not FMA, set it to “avx”. If it supports both, set it to “avx+fma”.</p></li>
+<li><p>Generate and exit cmake, then build.</p></li>
+<li><p>If you made a mistake and used the wrong flags, you should see an illegal instruction error when trying to import CRPropa, or (at the latest) when trying to call <code class="docutils literal notranslate"><span class="pre">getField</span></code>. </p></li>
 </ol>
 </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa24SimpleTurbulenceSpectrumE">
-<span class="target" id="classcrpropa_1_1SimpleTurbulenceSpectrum"></span><em class="property">class </em><code class="descname">SimpleTurbulenceSpectrum</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1TurbulenceSpectrum.html#_CPPv3N7crpropa18TurbulenceSpectrumE" title="crpropa::TurbulenceSpectrum">TurbulenceSpectrum</a><br /></dt>
-<dd><em>#include &lt;SimpleGridTurbulence.h&gt;</em><p>Defines the energy spectrum of simple power-law turbulence. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa24SimpleTurbulenceSpectrumE">
+<span class="target" id="classcrpropa_1_1SimpleTurbulenceSpectrum"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SimpleTurbulenceSpectrum</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1TurbulenceSpectrum.html#_CPPv4N7crpropa18TurbulenceSpectrumE" title="crpropa::TurbulenceSpectrum"><span class="n"><span class="pre">TurbulenceSpectrum</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;SimpleGridTurbulence.h&gt;</em></div>
+<p>Defines the energy spectrum of simple power-law turbulence. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa20SimpleGridTurbulenceE">
-<span class="target" id="classcrpropa_1_1SimpleGridTurbulence"></span><em class="property">class </em><code class="descname">SimpleGridTurbulence</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1GridTurbulence.html#_CPPv3N7crpropa14GridTurbulenceE" title="crpropa::GridTurbulence">GridTurbulence</a><br /></dt>
-<dd><em>#include &lt;SimpleGridTurbulence.h&gt;</em><p>Turbulent grid-based magnetic field with a simple power-law spectrum. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa20SimpleGridTurbulenceE">
+<span class="target" id="classcrpropa_1_1SimpleGridTurbulence"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SimpleGridTurbulence</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1GridTurbulence.html#_CPPv4N7crpropa14GridTurbulenceE" title="crpropa::GridTurbulence"><span class="n"><span class="pre">GridTurbulence</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;SimpleGridTurbulence.h&gt;</em></div>
+<p>Turbulent grid-based magnetic field with a simple power-law spectrum. </p>
 <p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1HelicalGridTurbulence"><span class="std std-ref">HelicalGridTurbulence</span></a></p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa18TurbulenceSpectrumE">
-<span class="target" id="classcrpropa_1_1TurbulenceSpectrum"></span><em class="property">class </em><code class="descname">TurbulenceSpectrum</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv3N7crpropa10ReferencedE" title="crpropa::Referenced">Referenced</a><br /></dt>
-<dd><em>#include &lt;TurbulentField.h&gt;</em><p>Defines the energy spectrum of turbulence. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa18TurbulenceSpectrumE">
+<span class="target" id="classcrpropa_1_1TurbulenceSpectrum"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TurbulenceSpectrum</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv4N7crpropa10ReferencedE" title="crpropa::Referenced"><span class="n"><span class="pre">Referenced</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;TurbulentField.h&gt;</em></div>
+<p>Defines the energy spectrum of turbulence parametrizied by A(k) ~ k^q /(1 + k^2)^{(s + q)/2 + 1}. </p>
 <p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1SimpleTurbulenceSpectrum"><span class="std std-ref">SimpleTurbulenceSpectrum</span></a></p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa14TurbulentFieldE">
-<span class="target" id="classcrpropa_1_1TurbulentField"></span><em class="property">class </em><code class="descname">TurbulentField</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv3N7crpropa13MagneticFieldE" title="crpropa::MagneticField">MagneticField</a><br /></dt>
-<dd><em>#include &lt;TurbulentField.h&gt;</em><p>An abstract base class for different models of turbulent magnetic fields. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa14TurbulentFieldE">
+<span class="target" id="classcrpropa_1_1TurbulentField"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TurbulentField</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1MagneticField.html#_CPPv4N7crpropa13MagneticFieldE" title="crpropa::MagneticField"><span class="n"><span class="pre">MagneticField</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;TurbulentField.h&gt;</em></div>
+<p>An abstract base class for different models of turbulent magnetic fields. </p>
 <p>This module provides common methods for all turbulent (synthetic) magnetic fields. Does not actually implement any turbulent field. </p>
 <p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1GridTurbulence"><span class="std std-ref">GridTurbulence</span></a>, <a class="reference internal" href="#classcrpropa_1_1PlaneWaveTurbulence"><span class="std std-ref">PlaneWaveTurbulence</span></a></p>
 </dd></dl>
 
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Observers.html" class="btn btn-neutral float-right" title="Observer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="EnergyLosses.html" class="btn btn-neutral float-left" title="Energy Losses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="EnergyLosses.html" class="btn btn-neutral float-left" title="Energy Losses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Observers.html" class="btn btn-neutral float-right" title="Observer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, The CRPropa Developers
-
-    </p>
+    <p>&#169; Copyright 2022, The CRPropa Developers.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

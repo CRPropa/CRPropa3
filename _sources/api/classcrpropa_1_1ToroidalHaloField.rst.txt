@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1ToroidalHaloField:
+
+Class ToroidalHaloField
+=======================
+
+- Defined in :ref:`file_include_crpropa_magneticField_GalacticMagneticField.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public MagneticField`` (:ref:`exhale_class_classcrpropa_1_1MagneticField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::ToroidalHaloField
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

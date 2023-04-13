@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: RANK
+   :project: CRPropa3

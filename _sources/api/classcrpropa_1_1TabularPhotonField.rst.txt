@@ -36,6 +36,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::TabularPhotonField
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

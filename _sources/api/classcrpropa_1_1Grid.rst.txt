@@ -15,18 +15,12 @@ Base Type
 - ``public Referenced`` (:ref:`exhale_class_classcrpropa_1_1Referenced`)
 
 
-Derived Types
-*************
-
-- ``public ScalarGrid`` (:ref:`exhale_class_classcrpropa_1_1ScalarGrid`)
-- ``public VectorGrid`` (:ref:`exhale_class_classcrpropa_1_1VectorGrid`)
-
-
 Class Documentation
 -------------------
 
 
 .. doxygenclass:: crpropa::Grid
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

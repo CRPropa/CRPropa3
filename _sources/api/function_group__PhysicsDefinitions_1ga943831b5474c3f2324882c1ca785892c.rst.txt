@@ -3,7 +3,7 @@
 Function crpropa::luminosityDistance2Redshift
 =============================================
 
-- Defined in :ref:`file_include_crpropa_Cosmology.h`
+- Defined in :ref:`file_src_Cosmology.cpp`
 
 
 Function Documentation
@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::luminosityDistance2Redshift(double)
+   :project: CRPropa3

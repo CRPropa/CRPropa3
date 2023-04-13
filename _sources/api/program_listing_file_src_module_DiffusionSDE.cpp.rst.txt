@@ -253,14 +253,7 @@ Program Listing for File DiffusionSDE.cpp
                      y_n += k[j] * a[i * 6 + j] * propStep;
    
                    // update k_i = direction of the regular magnetic mean field
-                   Vector3d BField(0.);
-                   try {
-                           BField = magneticField->getField(y_n, z);
-                   }
-                   catch (std::exception &e) {
-                           KISS_LOG_ERROR  << "DiffusionSDE: Exception in magneticField::getField.\n"
-                                           << e.what();
-                   }
+                   Vector3d BField = getMagneticFieldAtPosition(y_n, z);
    
                    k[i] = BField.getUnitVector() * c_light;
    
@@ -270,16 +263,9 @@ Program Listing for File DiffusionSDE.cpp
            }
    }
    
-   void DiffusionSDE::driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const {
-           Vector3d AdvField(0.);
-           try {
-                   AdvField = advectionField->getField(Pos);
-           }
-           catch (std::exception &e) {
-                   KISS_LOG_ERROR  << "DiffusionSDE: Exception in advectionField::getField.\n"
-                                   << e.what();
-           }
-           LinProp += AdvField * h;
+   void DiffusionSDE::driftStep(const Vector3d &pos, Vector3d &linProp, double h) const {
+           Vector3d advField = getAdvectionFieldAtPosition(pos);
+           linProp += advField * h;
            return;
    }
    
@@ -370,7 +356,43 @@ Program Listing for File DiffusionSDE.cpp
            return scale;
    }
    
+   ref_ptr<MagneticField> DiffusionSDE::getMagneticField() const {
+           return magneticField;
+   }
    
+   Vector3d DiffusionSDE::getMagneticFieldAtPosition(Vector3d pos, double z) const {
+           Vector3d B(0, 0, 0);
+           try {
+                   // check if field is valid and use the field vector at the
+                   // position pos with the redshift z
+                   if (magneticField.valid())
+                           B = magneticField->getField(pos, z);
+           }
+           catch (std::exception &e) {
+                   KISS_LOG_ERROR  << "DiffusionSDE: Exception in DiffusionSDE::getMagneticFieldAtPosition.\n"
+                                   << e.what();
+           }       
+           return B;
+   }
+   
+   ref_ptr<AdvectionField> DiffusionSDE::getAdvectionField() const {
+           return advectionField;
+   }
+   
+   Vector3d DiffusionSDE::getAdvectionFieldAtPosition(Vector3d pos) const {
+           Vector3d AdvField(0.);
+           try {
+                   // check if field is valid and use the field vector at the
+                   // position pos
+                   if (advectionField.valid())
+                           AdvField = advectionField->getField(pos);
+           }
+           catch (std::exception &e) {
+                   KISS_LOG_ERROR  << "DiffusionSDE: Exception in DiffusionSDE::getAdvectionFieldAtPosition.\n"
+                                   << e.what();
+           }
+           return AdvField;
+   }
    
    std::string DiffusionSDE::getDescription() const {
            std::stringstream s;

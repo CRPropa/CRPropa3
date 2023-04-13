@@ -18,8 +18,8 @@ Program Listing for File Candidate.cpp
    
    namespace crpropa {
    
-   Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight) :
-                   redshift(z), trajectoryLength(0), weight(1), currentStep(0), nextStep(0), active(true), parent(0) {
+   Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight, std::string tagOrigin) :
+     redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin(tagOrigin) {
            ParticleState state(id, E, pos, dir);
            source = state;
            created = state;
@@ -39,7 +39,7 @@ Program Listing for File Candidate.cpp
    }
    
    Candidate::Candidate(const ParticleState &state) :
-                   source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0) {
+                   source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin ("PRIM") {
    
    #if defined(OPENMP_3_1)
                    #pragma omp atomic capture
@@ -93,6 +93,10 @@ Program Listing for File Candidate.cpp
            weight = w;
    }
    
+   void Candidate::updateWeight(double w) {
+     weight *= w;
+   }
+   
    void Candidate::setCurrentStep(double lstep) {
            currentStep = lstep;
            trajectoryLength += lstep;
@@ -108,6 +112,14 @@ Program Listing for File Candidate.cpp
    
    void Candidate::setProperty(const std::string &name, const Variant &value) {
            properties[name] = value;
+   }
+   
+   void Candidate::setTagOrigin (std::string tagOrigin) {
+           this -> tagOrigin  = tagOrigin ;
+   }
+   
+   std::string Candidate::getTagOrigin () const {
+           return tagOrigin ;
    }
    
    const Variant &Candidate::getProperty(const std::string &name) const {
@@ -136,11 +148,11 @@ Program Listing for File Candidate.cpp
            secondaries.push_back(c);
    }
    
-   void Candidate::addSecondary(int id, double energy, double weight) {
+   void Candidate::addSecondary(int id, double energy, double w, std::string tagOrigin) {
            ref_ptr<Candidate> secondary = new Candidate;
            secondary->setRedshift(redshift);
            secondary->setTrajectoryLength(trajectoryLength);
-           secondary->setWeight(weight);
+           secondary->setWeight(weight * w);
            secondary->source = source;
            secondary->previous = previous;
            secondary->created = previous;
@@ -148,14 +160,15 @@ Program Listing for File Candidate.cpp
            secondary->current.setId(id);
            secondary->current.setEnergy(energy);
            secondary->parent = this;
+           secondary->setTagOrigin (tagOrigin);
            secondaries.push_back(secondary);
    }
    
-   void Candidate::addSecondary(int id, double energy, Vector3d position, double weight) {
+   void Candidate::addSecondary(int id, double energy, Vector3d position, double w, std::string tagOrigin) {
            ref_ptr<Candidate> secondary = new Candidate;
            secondary->setRedshift(redshift);
            secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR() );
-           secondary->setWeight(weight);
+           secondary->setWeight(weight * w);
            secondary->source = source;
            secondary->previous = previous;
            secondary->created = previous;
@@ -165,6 +178,7 @@ Program Listing for File Candidate.cpp
            secondary->current.setPosition(position);
            secondary->created.setPosition(position);
            secondary->parent = this;
+           secondary->setTagOrigin (tagOrigin);
            secondaries.push_back(secondary);
    }
    

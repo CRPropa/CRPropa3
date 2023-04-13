@@ -21,6 +21,7 @@ Derived Types
 - ``public SourceComposition`` (:ref:`exhale_class_classcrpropa_1_1SourceComposition`)
 - ``public SourceDensityGrid`` (:ref:`exhale_class_classcrpropa_1_1SourceDensityGrid`)
 - ``public SourceDensityGrid1D`` (:ref:`exhale_class_classcrpropa_1_1SourceDensityGrid1D`)
+- ``public SourceDirectedEmission`` (:ref:`exhale_class_classcrpropa_1_1SourceDirectedEmission`)
 - ``public SourceDirection`` (:ref:`exhale_class_classcrpropa_1_1SourceDirection`)
 - ``public SourceEmissionCone`` (:ref:`exhale_class_classcrpropa_1_1SourceEmissionCone`)
 - ``public SourceEmissionMap`` (:ref:`exhale_class_classcrpropa_1_1SourceEmissionMap`)
@@ -28,6 +29,7 @@ Derived Types
 - ``public SourceGenericComposition`` (:ref:`exhale_class_classcrpropa_1_1SourceGenericComposition`)
 - ``public SourceIsotropicEmission`` (:ref:`exhale_class_classcrpropa_1_1SourceIsotropicEmission`)
 - ``public SourceLambertDistributionOnSphere`` (:ref:`exhale_class_classcrpropa_1_1SourceLambertDistributionOnSphere`)
+- ``public SourceMassDistribution`` (:ref:`exhale_class_classcrpropa_1_1SourceMassDistribution`)
 - ``public SourceMultipleParticleTypes`` (:ref:`exhale_class_classcrpropa_1_1SourceMultipleParticleTypes`)
 - ``public SourceMultiplePositions`` (:ref:`exhale_class_classcrpropa_1_1SourceMultiplePositions`)
 - ``public SourceParticleType`` (:ref:`exhale_class_classcrpropa_1_1SourceParticleType`)
@@ -38,6 +40,7 @@ Derived Types
 - ``public SourceRedshift1D`` (:ref:`exhale_class_classcrpropa_1_1SourceRedshift1D`)
 - ``public SourceRedshiftEvolution`` (:ref:`exhale_class_classcrpropa_1_1SourceRedshiftEvolution`)
 - ``public SourceSNRDistribution`` (:ref:`exhale_class_classcrpropa_1_1SourceSNRDistribution`)
+- ``public SourceTag`` (:ref:`exhale_class_classcrpropa_1_1SourceTag`)
 - ``public SourceUniform1D`` (:ref:`exhale_class_classcrpropa_1_1SourceUniform1D`)
 - ``public SourceUniformBox`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformBox`)
 - ``public SourceUniformCylinder`` (:ref:`exhale_class_classcrpropa_1_1SourceUniformCylinder`)
@@ -52,6 +55,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::SourceFeature
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

@@ -1,82 +1,42 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Source Features &mdash; CRPropa3  documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  
-  
-  
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Source Features &mdash; CRPropa3 3.2.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
     <link rel="canonical" href="https://crpropa.desy.de/buildingblocks/SourceFeatures.html"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'None',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script src="../_static/js/breathe_fold.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Output" href="Output.html" />
     <link rel="prev" title="Condition" href="Condition.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="../index.html">
-          
-
-          
-            
             <img src="../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -84,18 +44,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Project Info</span></p>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Installation.html#download">Download</a></li>
@@ -114,34 +64,40 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNEXT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNext</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-2">CRPropa 3.2</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id3">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id3">Interface changes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id4">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id5">New plugins and resources linked on the webpages:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id4">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id5">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id9">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id9">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id10">New features:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id11">Bug fixes:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id12">New features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id13">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id14">New plugins and resources linked on the webpages:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/FAQ.html">FAQ</a><ul>
@@ -163,7 +119,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">USAGE</span></p>
+<p class="caption" role="heading"><span class="caption-text">USAGE</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Basic-concepts.html">Basic Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Basic-concepts.html#modular-design">Modular design</a></li>
@@ -182,70 +138,84 @@
 <li class="toctree-l2"><a class="reference internal" href="../pages/Simulation-Modules.html#other-modules">Other modules</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html">Introduction to Python Steering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Propagating-a-single-particle">Propagating a single particle</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-an-observer">Defining an observer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-output-file">Defining the output file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Defining-the-source">Defining the source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html">Introduction to Python Steering</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Propagating-a-single-particle">Propagating a single particle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-an-observer">Defining an observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-the-output-file">Defining the output file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Defining-the-source">Defining the source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/basics/basics.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/extragalactic-simulations.html">Extragalactic Propagation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html">1D simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#Simulation-Setup">Simulation Setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html">1D simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html#Simulation-Setup">Simulation Setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim1D/sim1D.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html">4D Simulation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Simulation-setup">Simulation setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Periodic-boundaries">Periodic boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Source-positions">Source positions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.v4.html#Note:">Note:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html">4D Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Simulation-setup">Simulation setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Periodic-boundaries">Periodic boundaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Source-positions">Source positions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/sim4D/sim4D.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html">3D trajectories in a turbulent field</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Saving-and-loading-fields">Saving and loading fields</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#Running-the-simulation">Running the simulation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html">3D trajectories in a turbulent field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#Saving-and-loading-fields">Saving and loading fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#Running-the-simulation">Running the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/trajectories/trajectories.html#(Optional)-Plotting">(Optional) Plotting</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html">3D MHD models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Supplied-data">Supplied data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Uniform-injection">Uniform injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Injection-following-density-field">Injection following density field</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Mass-Halo-injection">Mass Halo injection</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.v4.html#Observer">Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html">3D MHD models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Supplied-data">Supplied data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Note:">Note:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html">Photon Propagation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Source-settings">Source settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#Observer">Observer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extragalactic_fields/MHD_models.html#ModuleList">ModuleList</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Propagation-with-DINT">Propagation with DINT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#Combined-Propagation">Combined Propagation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.v4.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html#Setting-up-the-simulation">Setting up the simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/secondary_photons.html#Plotting-results-(optional)">Plotting results (optional)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html">Example with secondary neutrinos</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.v4.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html">Photon Propagation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-DINT">Propagation with DINT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Combined-Propagation">Combined Propagation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html">Example with secondary neutrinos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html">Electromagnetic cascade example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/photon_propagation/cascade_1d.html#Plotting">Plotting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html">The targeting algorithm of CRPropa</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-simple-example-on-how-to-use-the-targeting-algorithm-of-CRPropa">A simple example on how to use the targeting algorithm of CRPropa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Plotting-of-the-results">Plotting of the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#A-learning-algorithm-to-obtain-optimal-values-for-mu-and-kappa">A learning algorithm to obtain optimal values for mu and kappa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/targeting/Targeting.html#Testing-sampling-results">Testing sampling results</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/galactic_lensing.html">Propagation of Extragalactic CR in the Milky Way</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html">Galactic backtracking</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#(Optional)-Plotting">(Optional) Plotting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.v4.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html">Galactic trajectories</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.v4.html#3D-trajectory-plot">3D trajectory plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html">Galactic backtracking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-a-single-cosmic-ray">Backtracking a single cosmic ray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-including-uncertainties">Backtracking including uncertainties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#(Optional)-Plotting">(Optional) Plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_backtracking/galactic_backtracking.html#Backtracking-to-Generate-a-Lens">Backtracking to Generate a Lens</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_cr.v4.html">Galactic Lensing of Simulated Cosmic Rays</a><ul>
@@ -256,22 +226,29 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_maps.v4.html">Galactic Lensing of Maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html">Galactic Lensing - confirm Liouville</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.v4.html#Lambert's-distribution">Lambert’s distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html">Galactic Lensing - confirm Liouville</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html#Lambert’s-distribution">Lambert’s distribution</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Diffusion of Cosmic Rays</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html">Diffusion Validation I</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Use-the-absolute-distance-from-origin--and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.v4.html#Calculate-the-pValue-of-the--test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Galactic Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.html">Galactic trajectories</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/galactic_trajectories/galactic_trajectories.html#3D-trajectory-plot">3D trajectory plot</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html">Diffusion Validation II</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-().-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.v4.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#diffusion-of-cosmic-rays">Diffusion of Cosmic Rays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html">Diffusion Validation I</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#This-notebook-simulates-a-diffusion-process-in-a-homogeneous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).">This notebook simulates a diffusion process in a homogeneous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>).</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Distribution-in-x,-y-and-z">Distribution in x, y and z</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Use-the-absolute-distance-from-origin-|x|,-|y|,-|z|-and-compare-to-analytical-expectations.">Use the absolute distance from origin <span class="math notranslate nohighlight">\(|x|, |y|, |z|\)</span> and compare to analytical expectations.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationI.html#Calculate-the-pValue-of-the-\chi^2-test-to-prove-the-visual-statement-from-above.">Calculate the pValue of the <span class="math notranslate nohighlight">\(\chi^2\)</span>-test to prove the visual statement from above.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html">Diffusion Validation II</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#This-notebbok-simulates-a-diffusion-process-in-a-homogenous-background-magnetic-field.-The-diffusion-tensor-is-anisotropic,-meaning-the-parallel-component-is-larger-than-the-perpendicular-component-(\kappa_\parallel-=-10\cdot\kappa_\perp).-Additionally,-a-wind-in-a-perpendicular-direction-is-included.">This notebbok simulates a diffusion process in a homogenous background magnetic field. The diffusion tensor is anisotropic, meaning the parallel component is larger than the perpendicular component (<span class="math notranslate nohighlight">\(\kappa_\parallel = 10\cdot\kappa_\perp\)</span>). Additionally, a wind in a perpendicular direction is included.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#Anderson-Darling-Test">Anderson Darling Test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/DiffusionValidationII.html#Calculate-the-mean-and-variance">Calculate the mean and variance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#advection-and-adiabatic-energy-changes">Advection and Adiabatic Energy Changes</a><ul>
@@ -281,17 +258,33 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#example-of-diffusion-in-the-milky-way">Example of diffusion in the Milky way</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html">Example for Galactic Propagation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#import-of-packages">import of packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#Simulation">Simulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/GalacticDiffusion.html#Analysis">Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#gas-densities">Gas Densities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html">First example code for the use of densities</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#All-densities-are-separated-in-atomic-hydrogen-(HI),-ionised-hydrogen-(HII)-and-molecular-hydrogen-(H2).">All densities are separated in atomic hydrogen (HI), ionised hydrogen (HII) and molecular hydrogen (H2).</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#The-ConstantDensity-can-be-adjusted-to-new-values-and-the-usage-of-several-parts-can-be-chosen.">The ConstantDensity can be adjusted to new values and the usage of several parts can be chosen.</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_easy_example.html#The-output-of-the-getDensity-and-getNucleonDensity-depends-on-the-activity-of-the-types.-Only-activated-types-are-used-for-summing-up.">The output of the getDensity and getNucleonDensity depends on the activity of the types. Only activated types are used for summing up.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_easy_example.html">First example code for use of densities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_easy_example.html#Customize-a-density-with-different-density-models">Customize a density with different density models</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/densitys_model_example.html">Example for the implemented gass density distributions of the Milky Way</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/densitys_model_example.html#The-following-example-shows-the-use-of-density-distribution-for-the-Milky-Way-and-gives-some-figures-of-the-distribution.">The following example shows the use of density distribution for the Milky Way and gives some figures of the distribution.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html">Example for the implemented massdistributions of the Milky Way</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Ferrière">Model Ferrière</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Cordes">Model Cordes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Model-Nakanishi">Model Nakanishi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_model_example.html#Advanced-use-of-DensityList">Advanced use of DensityList</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html">Example of grid based densities of the Milky Way and sampling source position</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#load-grid">load grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#convert-grid-into-a-CRPropa-mass-distribution">convert grid into a CRPropa mass distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/density/density_grid_sampling.html#use-a-massdistribution-as-indicator-for-the-spacial-source-distribution">use a massdistribution as indicator for the spacial source distribution</a></li>
 </ul>
 </li>
 </ul>
@@ -302,10 +295,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/extending_crpropa.html">Interfacing User Code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html">Implementing additional Modules and Features using Python only</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#manual-simulation-processing">Manual Simulation Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/Extending-CRPropa.html#plugins-integrate-custom-c-code-to-crpropa-s-python-steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.v4.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html">Implementing additional Modules and Features using Python only</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Manual-Simulation-Processing">Manual Simulation Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa’s-Python-Steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.html">Custom Observer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html">Custom Photon Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Downloading-CRPropa-data">Downloading CRPropa-data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#1.-Create-a-python-class-with-your-custom-photon-field-(CRPropa-data)">1. Create a python class with your custom photon field (CRPropa-data)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#Warning">Warning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#2.-Create-tables-for-all-photon-field-dependent-processes">2. Create tables for all photon field dependent processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#3.-Copy-files-to-the-share-folder">3. Copy files to the share folder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#4.-Implementing-custom-PhotonField-in-CRPropa">4. Implementing custom PhotonField in CRPropa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#5.-Check-implementation">5. Check implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/custom_photonfield/custom-photon-field.html#6.-Limitation">6. Limitation</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/Cpp-projects.html">Using CRPropa from C++</a></li>
 </ul>
 </li>
@@ -327,7 +336,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/AdditionalResources.html">Additional Resources</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../building_blocks.html">Building Blocks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="CoreClasses.html">Core Classes</a></li>
@@ -345,10 +354,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api/library_root.html">Library API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/library_root.html#file-hierarchy">File Hierarchy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/library_root.html#full-api">Full API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#namespaces">Namespaces</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/namespace_crpropa.html">Namespace crpropa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/namespace_eleca.html">Namespace eleca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/namespace_std.html">Namespace std</a></li>
 </ul>
 </li>
@@ -378,6 +390,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Clock.html">Class Clock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CMB.html">Class CMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ConstantSphericalAdvectionField.html">Class ConstantSphericalAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Cordes.html">Class Cordes</a></li>
@@ -386,6 +399,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CylindricalBoundary.html">Class CylindricalBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1CylindricalProjectionMap.html">Class CylindricalProjectionMap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Density.html">Class Density</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DensityGrid.html">Class DensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DensityList.html">Class DensityList</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DetectionLength.html">Class DetectionLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1DiffusionSDE.html">Class DiffusionSDE</a></li>
@@ -440,18 +454,17 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Nakanishi.html">Class Nakanishi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1NuclearDecay.html">Class NuclearDecay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Observer.html">Class Observer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Observer1D.html">Class Observer1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverDetectAll.html">Class ObserverDetectAll</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverElectronVeto.html">Class ObserverElectronVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverFeature.html">Class ObserverFeature</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverInactiveVeto.html">Class ObserverInactiveVeto</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverLargeSphere.html">Class ObserverLargeSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverNeutrinoVeto.html">Class ObserverNeutrinoVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverNucleusVeto.html">Class ObserverNucleusVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverParticleIdVeto.html">Class ObserverParticleIdVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverPhotonVeto.html">Class ObserverPhotonVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverPoint.html">Class ObserverPoint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverRedshiftWindow.html">Class ObserverRedshiftWindow</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverSmallSphere.html">Class ObserverSmallSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverSurface.html">Class ObserverSurface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverTimeEvolution.html">Class ObserverTimeEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ObserverTracking.html">Class ObserverTracking</a></li>
@@ -467,13 +480,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotoDisintegration.html">Class PhotoDisintegration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonEleCa.html">Class PhotonEleCa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonField.html">Class PhotonField</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonFieldSampling.html">Class PhotonFieldSampling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotonOutput1D.html">Class PhotonOutput1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PhotoPionProduction.html">Class PhotoPionProduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Pixelization.html">Class Pixelization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PlanckJF12bField.html">Class PlanckJF12bField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Plane.html">Class Plane</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PlaneWaveTurbulence.html">Class PlaneWaveTurbulence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PolarizedSingleModeMagneticField.html">Class PolarizedSingleModeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PPSecondariesEnergyDistribution.html">Class PPSecondariesEnergyDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PropagationBP.html">Class PropagationBP</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1PropagationBP_1_1Y.html">Class PropagationBP::Y</a></li>
@@ -489,7 +502,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ReflectiveBox.html">Class ReflectiveBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1RenormalizeMagneticField.html">Class RenormalizeMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1RestrictToRegion.html">Class RestrictToRegion</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ScalarGrid.html">Class ScalarGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SecondOrderFermi.html">Class SecondOrderFermi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ShellOutput.html">Class ShellOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ShellOutput1D.html">Class ShellOutput1D</a></li>
@@ -501,6 +513,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceComposition.html">Class SourceComposition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDensityGrid.html">Class SourceDensityGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDensityGrid1D.html">Class SourceDensityGrid1D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDirectedEmission.html">Class SourceDirectedEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceDirection.html">Class SourceDirection</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceEmissionCone.html">Class SourceEmissionCone</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceEmissionMap.html">Class SourceEmissionMap</a></li>
@@ -511,6 +524,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceIsotropicEmission.html">Class SourceIsotropicEmission</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceLambertDistributionOnSphere.html">Class SourceLambertDistributionOnSphere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceList.html">Class SourceList</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceMassDistribution.html">Class SourceMassDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceMultipleParticleTypes.html">Class SourceMultipleParticleTypes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceMultiplePositions.html">Class SourceMultiplePositions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceParticleType.html">Class SourceParticleType</a></li>
@@ -521,6 +535,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceRedshift1D.html">Class SourceRedshift1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceRedshiftEvolution.html">Class SourceRedshiftEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceSNRDistribution.html">Class SourceSNRDistribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceTag.html">Class SourceTag</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceUniform1D.html">Class SourceUniform1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceUniformBox.html">Class SourceUniformBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1SourceUniformCylinder.html">Class SourceUniformCylinder</a></li>
@@ -538,7 +553,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TabularPhotonField.html">Class TabularPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TextOutput.html">Class TextOutput</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TF17Field.html">Class TF17Field</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TorroidalHaloField.html">Class TorroidalHaloField</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1ToroidalHaloField.html">Class ToroidalHaloField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TurbulenceSpectrum.html">Class TurbulenceSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1TurbulentField.html">Class TurbulentField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1UniformAdvectionField.html">Class UniformAdvectionField</a></li>
@@ -549,18 +564,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Variant.html">Class Variant</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Variant_1_1bad__conversion.html">Class Variant::bad_conversion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1Vector3.html">Template Class Vector3</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classcrpropa_1_1VectorGrid.html">Class VectorGrid</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classParticleSplitting.html">Class ParticleSplitting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classQuasiLinearTheory.html">Class QuasiLinearTheory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classURB.html">Class URB</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/classURB.html">Class URB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/classURB.html">Class URB</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#enums">Enums</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1a025791393b56feb9a61c13b1d7eeafd5.html">Enum DetectionState</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1af7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1aafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/enum_namespacecrpropa_1aa197adf50cede38157e51842d7a713f8.html">Enum interpolationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/enum_group__MagneticFields_1gaf7513ac77cc27dbf612a5e0690c82c4c.html">Enum TF17DiskModel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/enum_group__MagneticFields_1gaafad8b2c308adeb57af2612eed384fb5.html">Enum TF17HaloModel</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#functions">Functions</a><ul>
@@ -634,14 +647,16 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a28a4ba29d78d82959e2a62dfd5734ee4.html">Function crpropa::operator&lt;&lt;(std::ostream&amp;, const Random&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gaa41b3dba9522979f21064c9d34789c82.html">Template Function crpropa::operator&gt;&gt;(std::istream&amp;, Vector3&lt;T&gt;&amp;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a57ec005d2ff07a7b1f2d4a37aeba79a2.html">Function crpropa::operator&gt;&gt;(std::istream&amp;, Random&amp;)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1ae8add7f940570a0e49a13093314654aa.html">Function crpropa::periodicBoundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a40c64acf5922cfe05f6b5a82d008b201.html">Function crpropa::periodicClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a84149e2a416af8480e9d992cbd1eed95.html">Template Function crpropa::pow_integer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Function crpropa::pow_integer&lt; 0 &gt;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1af4fe3bfea48d26d7e167c0129dc277cf.html">Specialized Template Function crpropa::pow_integer&lt; 0 &gt;</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1ae59cb6a42e3a40cc87defebeacbb60b7.html">Function crpropa::prod_up</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__PhysicsDefinitions_1ga95cda5d976792a651f0c3ce9f205f3e4.html">Function crpropa::redshift2ComovingDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__PhysicsDefinitions_1gabda3cd9d3a87a0efe41d47667069bd9a.html">Function crpropa::redshift2LightTravelDistance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__PhysicsDefinitions_1ga653553a5104ba58d97ac3def4d0022e6.html">Function crpropa::redshift2LuminosityDistance</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1aedfa05d221aae75716a0ea6fb6a18023.html">Function crpropa::reflectiveClamp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a42f2bb65aca43e8defb9d7a922814c7f.html">Function crpropa::reflectiveBoundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1ace22026777085984c6892b1fe629ec13.html">Function crpropa::reflectiveClamp</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gafbf4174c9a116aaf77904225c3639d24.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid1f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gac6a806f908b2c0080767e36781d6ec12.html">Function crpropa::rmsFieldStrengthPerAxis</a></li>
@@ -654,7 +669,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__Core_1gaef75b9b7ae9d4b5d5258b8674259d715.html">Template Function crpropa::swap</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_group__MagneticFields_1gacb5b6e7e62114893ed5875fe0c526514.html">Function crpropa::turbulentCorrelationLength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a025184d258e2a4d9a47b1b2f512c93b8.html">Function crpropa::VARIANT_TO_DECL(Bool, bool)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a78c9ff6edbc680c8f2b8abc130a7a6d0.html">Function crpropa::VARIANT_TO_DECL(UChar, unsigned char)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f.html">Function crpropa::VARIANT_TO_DECL(UInt16, uint16_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf.html">Function crpropa::VARIANT_TO_DECL(UInt32, uint32_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248.html">Function crpropa::VARIANT_TO_DECL(UInt64, uint64_t)</a></li>
@@ -677,6 +692,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__MagneticLenses_1gae5e279b73f61763edc7d0651e38e481d.html">Variable crpropa::_nOrder_max</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__MagneticLenses_1ga3e6fb5fa38bb69d9a6852cf2e0d97437.html">Variable crpropa::_nPix</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_namespacecrpropa_1a660441872cddfe877ad1c1b4cef8d164.html">Variable crpropa::_random</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga033bad5c8708f06659e7b5c0ff5d2483.html">Variable crpropa::alpha_finestructure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gaa772c1c559fd8275f62df4628594c14c.html">Variable crpropa::ampere</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga0595e59a9bf296545e5ab563066df679.html">Variable crpropa::amu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga5014cfb8c7422235fb7a8e549e29284d.html">Variable crpropa::atto</a></li>
@@ -766,8 +782,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1gac6aff7a2b743abc2a58df8e7b34470d8.html">Variable crpropa::pico</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_namespacecrpropa_1a086a644110575459436b82fc0959df1b.html">Variable crpropa::propertyBufferSize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga509c941bf1649360f649fda481fa10f0.html">Variable crpropa::rad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga429374f9f5cb5fdab25a29991d2983e1.html">Variable crpropa::radius_electron</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga775a3e65279359fb2b464f0aedc383f1.html">Variable crpropa::sec</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga4e6001382c137dd906faab8f49a0a219.html">Variable crpropa::second</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga7dde33a02b479088d56d11e372a8710b.html">Variable crpropa::sigma_thomson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga601bd967274470accc5c479bf1a991ce.html">Variable crpropa::tera</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga6591214065a17f6977e05807be74db81.html">Variable crpropa::teraelectronvolt</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/variable_group__PhysicsDefinitions_1ga2ec29f0d0bb0bdf93d5e4d1663eebd9a.html">Variable crpropa::tesla</a></li>
@@ -790,7 +808,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../api/library_root.html#typedefs">Typedefs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/typedef_namespacecrpropa_1a601153e364afc53f0808c7759b7aa109.html">Typedef crpropa::_Secondary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5.html">Typedef crpropa::_Secondary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html">Typedef crpropa::const_LensPartIter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html">Typedef crpropa::Grid1d</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html">Typedef crpropa::Grid1f</a></li>
@@ -808,7 +826,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">DEVEL</span></p>
+<p class="caption" role="heading"><span class="caption-text">DEVEL</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html">GNU Debugger (GDB)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/Debugging.html#profiling">Profiling</a><ul>
@@ -821,340 +839,394 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/Data-files.html">Verify the Data Files Integrity</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">CRPropa3</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../building_blocks.html">Building Blocks</a> &raquo;</li>
-        
       <li>Source Features</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
+.nbinput.nblast.container,
+.nboutput.nblast.container {
     margin-bottom: 19px;  /* padding has already 5px */
 }
 
 /* ... except between code cells! */
-.nblast + .nbinput {
+.nblast.container + .nbinput.container {
     margin-top: -19px;
 }
 
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
-<div class="section" id="source-features">
-<h1>Source Features<a class="headerlink" href="#source-features" title="Permalink to this headline">¶</a></h1>
-<dl class="group">
-<dt>
-<span class="target" id="group__SourceFeatures"></span><em>group</em> <code class="descname">SourceFeatures</code></dt>
+<section id="source-features">
+<h1>Source Features<a class="headerlink" href="#source-features" title="Permalink to this headline"></a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__SourceFeatures"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">SourceFeatures</span></span></dt>
 <dd><p><a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a> and SourceFeatures, i.e. properties of the partcle injection. </p>
 <p>Sourcefeatures are added to sources and manipulate the properties of the emitted candidate. </p>
-<dl class="class">
-<dt id="_CPPv3N7crpropa13SourceFeatureE">
-<span class="target" id="classcrpropa_1_1SourceFeature"></span><em class="property">class </em><code class="descname">SourceFeature</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv3N7crpropa10ReferencedE" title="crpropa::Referenced">Referenced</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Abstract base class cosmic ray source features. </p>
-<p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1SourceComposition"><span class="std std-ref">SourceComposition</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDensityGrid"><span class="std std-ref">SourceDensityGrid</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDensityGrid1D"><span class="std std-ref">SourceDensityGrid1D</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDirection"><span class="std std-ref">SourceDirection</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceEmissionCone"><span class="std std-ref">SourceEmissionCone</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceEmissionMap"><span class="std std-ref">SourceEmissionMap</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceEnergy"><span class="std std-ref">SourceEnergy</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceGenericComposition"><span class="std std-ref">SourceGenericComposition</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceIsotropicEmission"><span class="std std-ref">SourceIsotropicEmission</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceLambertDistributionOnSphere"><span class="std std-ref">SourceLambertDistributionOnSphere</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceMultipleParticleTypes"><span class="std std-ref">SourceMultipleParticleTypes</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceMultiplePositions"><span class="std std-ref">SourceMultiplePositions</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceParticleType"><span class="std std-ref">SourceParticleType</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourcePosition"><span class="std std-ref">SourcePosition</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourcePowerLawSpectrum"><span class="std std-ref">SourcePowerLawSpectrum</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourcePulsarDistribution"><span class="std std-ref">SourcePulsarDistribution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceRedshift"><span class="std std-ref">SourceRedshift</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceRedshift1D"><span class="std std-ref">SourceRedshift1D</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceRedshiftEvolution"><span class="std std-ref">SourceRedshiftEvolution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceSNRDistribution"><span class="std std-ref">SourceSNRDistribution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniform1D"><span class="std std-ref">SourceUniform1D</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformBox"><span class="std std-ref">SourceUniformBox</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformCylinder"><span class="std std-ref">SourceUniformCylinder</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformHollowSphere"><span class="std std-ref">SourceUniformHollowSphere</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformRedshift"><span class="std std-ref">SourceUniformRedshift</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformShell"><span class="std std-ref">SourceUniformShell</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformSphere"><span class="std std-ref">SourceUniformSphere</span></a></p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa13SourceFeatureE">
+<span class="target" id="classcrpropa_1_1SourceFeature"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceFeature</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv4N7crpropa10ReferencedE" title="crpropa::Referenced"><span class="n"><span class="pre">Referenced</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Abstract base class for specific source features. </p>
+<p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1SourceComposition"><span class="std std-ref">SourceComposition</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDensityGrid"><span class="std std-ref">SourceDensityGrid</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDensityGrid1D"><span class="std std-ref">SourceDensityGrid1D</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDirectedEmission"><span class="std std-ref">SourceDirectedEmission</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceDirection"><span class="std std-ref">SourceDirection</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceEmissionCone"><span class="std std-ref">SourceEmissionCone</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceEmissionMap"><span class="std std-ref">SourceEmissionMap</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceEnergy"><span class="std std-ref">SourceEnergy</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceGenericComposition"><span class="std std-ref">SourceGenericComposition</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceIsotropicEmission"><span class="std std-ref">SourceIsotropicEmission</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceLambertDistributionOnSphere"><span class="std std-ref">SourceLambertDistributionOnSphere</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceMassDistribution"><span class="std std-ref">SourceMassDistribution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceMultipleParticleTypes"><span class="std std-ref">SourceMultipleParticleTypes</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceMultiplePositions"><span class="std std-ref">SourceMultiplePositions</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceParticleType"><span class="std std-ref">SourceParticleType</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourcePosition"><span class="std std-ref">SourcePosition</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourcePowerLawSpectrum"><span class="std std-ref">SourcePowerLawSpectrum</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourcePulsarDistribution"><span class="std std-ref">SourcePulsarDistribution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceRedshift"><span class="std std-ref">SourceRedshift</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceRedshift1D"><span class="std std-ref">SourceRedshift1D</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceRedshiftEvolution"><span class="std std-ref">SourceRedshiftEvolution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceSNRDistribution"><span class="std std-ref">SourceSNRDistribution</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceTag"><span class="std std-ref">SourceTag</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniform1D"><span class="std std-ref">SourceUniform1D</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformBox"><span class="std std-ref">SourceUniformBox</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformCylinder"><span class="std std-ref">SourceUniformCylinder</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformHollowSphere"><span class="std std-ref">SourceUniformHollowSphere</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformRedshift"><span class="std std-ref">SourceUniformRedshift</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformShell"><span class="std std-ref">SourceUniformShell</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceUniformSphere"><span class="std std-ref">SourceUniformSphere</span></a></p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa15SourceInterfaceE">
-<span class="target" id="classcrpropa_1_1SourceInterface"></span><em class="property">class </em><code class="descname">SourceInterface</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv3N7crpropa10ReferencedE" title="crpropa::Referenced">Referenced</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Abstract base class for cosmic ray sources. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa15SourceInterfaceE">
+<span class="target" id="classcrpropa_1_1SourceInterface"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceInterface</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1Referenced.html#_CPPv4N7crpropa10ReferencedE" title="crpropa::Referenced"><span class="n"><span class="pre">Referenced</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Abstract base class for sources. </p>
 <p>Subclassed by <a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a>, <a class="reference internal" href="#classcrpropa_1_1SourceList"><span class="std std-ref">SourceList</span></a></p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa6SourceE">
-<span class="target" id="classcrpropa_1_1Source"></span><em class="property">class </em><code class="descname">Source</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceInterface.html#_CPPv3N7crpropa15SourceInterfaceE" title="crpropa::SourceInterface">SourceInterface</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>General cosmic ray source. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa6SourceE">
+<span class="target" id="classcrpropa_1_1Source"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Source</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceInterface.html#_CPPv4N7crpropa15SourceInterfaceE" title="crpropa::SourceInterface"><span class="n"><span class="pre">SourceInterface</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>General source of particles. </p>
 <p>This class is a container for source features. The source prepares a new candidate by passing it to all its source features to be modified accordingly. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa10SourceListE">
-<span class="target" id="classcrpropa_1_1SourceList"></span><em class="property">class </em><code class="descname">SourceList</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceInterface.html#_CPPv3N7crpropa15SourceInterfaceE" title="crpropa::SourceInterface">SourceInterface</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>List of cosmic ray sources of individual lumosities. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa10SourceListE">
+<span class="target" id="classcrpropa_1_1SourceList"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceList</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceInterface.html#_CPPv4N7crpropa15SourceInterfaceE" title="crpropa::SourceInterface"><span class="n"><span class="pre">SourceInterface</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>List of particle sources of individual luminosities. </p>
 <p>The <a class="reference internal" href="#classcrpropa_1_1SourceList"><span class="std std-ref">SourceList</span></a> is a source itself. It can be used if several sources are needed in one simulation. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa18SourceParticleTypeE">
-<span class="target" id="classcrpropa_1_1SourceParticleType"></span><em class="property">class </em><code class="descname">SourceParticleType</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Particle type at the source. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa18SourceParticleTypeE">
+<span class="target" id="classcrpropa_1_1SourceParticleType"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceParticleType</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Particle type at the source. </p>
+<p>This feature assigns a single particle type to the source. For multiple types, use e.g. <a class="reference internal" href="#classcrpropa_1_1SourceMultipleParticleTypes"><span class="std std-ref">SourceMultipleParticleTypes</span></a>. Particles are identified following the PDG numbering scheme: <a class="reference external" href="https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf">https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf</a> </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa27SourceMultipleParticleTypesE">
-<span class="target" id="classcrpropa_1_1SourceMultipleParticleTypes"></span><em class="property">class </em><code class="descname">SourceMultipleParticleTypes</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Multiple particle types with individual relative abundances. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa27SourceMultipleParticleTypesE">
+<span class="target" id="classcrpropa_1_1SourceMultipleParticleTypes"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceMultipleParticleTypes</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Multiple particle types with individual relative abundances. </p>
+<p>This feature assigns particle types to the events emitted by the sources. It is possible to control the relative abundance of each particle species. Particles are identified following the PDG numbering scheme: <a class="reference external" href="https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf">https://pdg.lbl.gov/2019/reviews/rpp2019-rev-monte-carlo-numbering.pdf</a> </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa12SourceEnergyE">
-<span class="target" id="classcrpropa_1_1SourceEnergy"></span><em class="property">class </em><code class="descname">SourceEnergy</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Sets the initial energy to a given value. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa12SourceEnergyE">
+<span class="target" id="classcrpropa_1_1SourceEnergy"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceEnergy</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Sets the initial energy of the emitted particles to a specific value. </p>
+<p>This feature assigns a monochromatic spectrum, i.e., a single energy to all particles. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa22SourcePowerLawSpectrumE">
-<span class="target" id="classcrpropa_1_1SourcePowerLawSpectrum"></span><em class="property">class </em><code class="descname">SourcePowerLawSpectrum</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Particle energy following a power law spectrum. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa22SourcePowerLawSpectrumE">
+<span class="target" id="classcrpropa_1_1SourcePowerLawSpectrum"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourcePowerLawSpectrum</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Particle energy following a power-law spectrum. </p>
+<p>The power law is of the form: dN/dE ~ E^index, for energies in the interval [Emin, Emax]. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa17SourceCompositionE">
-<span class="target" id="classcrpropa_1_1SourceComposition"></span><em class="property">class </em><code class="descname">SourceComposition</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Multiple nuclei with power law spectrum between Emin and Z * Rmax. </p>
-<p>See Allard et al. 2006, DOI 10.1088/1475-7516/2006/09/005 </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa17SourceCompositionE">
+<span class="target" id="classcrpropa_1_1SourceComposition"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceComposition</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Multiple nuclear species with a rigidity-dependent power-law spectrum. </p>
+<p>The power law is of the form: E^index, for energies in the interval [Emin, Z * Rmax]. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa14SourcePositionE">
-<span class="target" id="classcrpropa_1_1SourcePosition"></span><em class="property">class </em><code class="descname">SourcePosition</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Position of a point source. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa14SourcePositionE">
+<span class="target" id="classcrpropa_1_1SourcePosition"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourcePosition</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Position of a point source. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa23SourceMultiplePositionsE">
-<span class="target" id="classcrpropa_1_1SourceMultiplePositions"></span><em class="property">class </em><code class="descname">SourceMultiplePositions</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Multiple point source positions with individual luminosities. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa23SourceMultiplePositionsE">
+<span class="target" id="classcrpropa_1_1SourceMultiplePositions"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceMultiplePositions</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Multiple point-source positions with individual luminosities. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa19SourceUniformSphereE">
-<span class="target" id="classcrpropa_1_1SourceUniformSphere"></span><em class="property">class </em><code class="descname">SourceUniformSphere</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random source positions inside a sphere. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19SourceUniformSphereE">
+<span class="target" id="classcrpropa_1_1SourceUniformSphere"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniformSphere</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform distribution of sources in a spherical volume. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa25SourceUniformHollowSphereE">
-<span class="target" id="classcrpropa_1_1SourceUniformHollowSphere"></span><em class="property">class </em><code class="descname">SourceUniformHollowSphere</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random source positions inside of a hollow sphere wall. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa25SourceUniformHollowSphereE">
+<span class="target" id="classcrpropa_1_1SourceUniformHollowSphere"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniformHollowSphere</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform distribution of sources between two spheres. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa18SourceUniformShellE">
-<span class="target" id="classcrpropa_1_1SourceUniformShell"></span><em class="property">class </em><code class="descname">SourceUniformShell</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random source positions on a sphere. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa18SourceUniformShellE">
+<span class="target" id="classcrpropa_1_1SourceUniformShell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniformShell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform distribution of source positions on the surface of a sphere. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa16SourceUniformBoxE">
-<span class="target" id="classcrpropa_1_1SourceUniformBox"></span><em class="property">class </em><code class="descname">SourceUniformBox</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random source positions inside a box. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa16SourceUniformBoxE">
+<span class="target" id="classcrpropa_1_1SourceUniformBox"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniformBox</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform random source positions inside a box. The box is aligned with the coordinate axes. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa21SourceUniformCylinderE">
-<span class="target" id="classcrpropa_1_1SourceUniformCylinder"></span><em class="property">class </em><code class="descname">SourceUniformCylinder</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random source positions inside a Cylinder. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa21SourceUniformCylinderE">
+<span class="target" id="classcrpropa_1_1SourceUniformCylinder"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniformCylinder</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform distribution of source positions inside the volume of a cylinder whose axis is along the z-axis. </p>
+<p>The circle of the cylinder lays in the xy-plane and the height is along the z-axis. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa21SourceSNRDistributionE">
-<span class="target" id="classcrpropa_1_1SourceSNRDistribution"></span><em class="property">class </em><code class="descname">SourceSNRDistribution</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a> distribution that follows the Galactic SNR distribution. </p>
-<p>The origin of the distribution is the Galactic center. The default maximum radius is set to R_max=20 kpc and the default maximum height is Z_max = 5 kpc. See G. Case and D. Bhattacharya (1996) for the details of the distribution. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa21SourceSNRDistributionE">
+<span class="target" id="classcrpropa_1_1SourceSNRDistribution"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceSNRDistribution</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a> distribution that follows the Galactic SNR distribution in 2D. </p>
+<p>The origin of the distribution is the Galactic center. The default maximum radius is set to rMax=20 kpc and the default maximum height is zMax = 5 kpc. See G. Case and D. Bhattacharya (1996) for the details of the distribution. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa24SourcePulsarDistributionE">
-<span class="target" id="classcrpropa_1_1SourcePulsarDistribution"></span><em class="property">class </em><code class="descname">SourcePulsarDistribution</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a> distribution following the Galactic pulsar distribution. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa24SourcePulsarDistributionE">
+<span class="target" id="classcrpropa_1_1SourcePulsarDistribution"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourcePulsarDistribution</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a> distribution following the Galactic pulsar distribution. </p>
 <p>A logarithmic spiral with four arms is used for the radial distribution. The z-distribution is a simple exponentially decaying distribution. The pulsar distribution is explained in detail in C.-A. Faucher-Giguere and V. M. Kaspi, ApJ 643 (May, 2006) 332. The radial distribution is parametrized as in Blasi and Amato, JCAP 1 (Jan., 2012) 10. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa15SourceUniform1DE">
-<span class="target" id="classcrpropa_1_1SourceUniform1D"></span><em class="property">class </em><code class="descname">SourceUniform1D</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>1D-Positions from a uniform source distribution in an expanding universe </p>
-<p>This source property sets random x-coordinates according to a uniform source distribution in a given comoving distance interval. This is done by drawing a light travel distance from a flat distribution and converting to a comoving distance. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa15SourceUniform1DE">
+<span class="target" id="classcrpropa_1_1SourceUniform1D"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniform1D</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform source distribution in 1D. </p>
+<p>This source property sets random x-coordinates according to a uniform source distribution in a given distance interval. If cosmological effects are included, this is done by drawing a light-travel distance from a flat distribution and converting to a comoving distance. In the absence of cosmological effects, the positions are drawn uniformly in the light-travel distance interval (as opposed to a comoving interval). The source positions are assigned to the x-coordinate (Vector3d(distance, 0, 0)) in this one-dimensional case. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa17SourceDensityGridE">
-<span class="target" id="classcrpropa_1_1SourceDensityGrid"></span><em class="property">class </em><code class="descname">SourceDensityGrid</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> source positions from a density grid. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa17SourceDensityGridE">
+<span class="target" id="classcrpropa_1_1SourceDensityGrid"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceDensityGrid</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> source positions from a density grid. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa19SourceDensityGrid1DE">
-<span class="target" id="classcrpropa_1_1SourceDensityGrid1D"></span><em class="property">class </em><code class="descname">SourceDensityGrid1D</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> source positions from a 1D density grid. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa19SourceDensityGrid1DE">
+<span class="target" id="classcrpropa_1_1SourceDensityGrid1D"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceDensityGrid1D</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> source positions from a 1D density grid. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa23SourceIsotropicEmissionE">
-<span class="target" id="classcrpropa_1_1SourceIsotropicEmission"></span><em class="property">class </em><code class="descname">SourceIsotropicEmission</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Isotropic emission from a source. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa23SourceIsotropicEmissionE">
+<span class="target" id="classcrpropa_1_1SourceIsotropicEmission"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceIsotropicEmission</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Isotropic emission from a source. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa33SourceLambertDistributionOnSphereE">
-<span class="target" id="classcrpropa_1_1SourceLambertDistributionOnSphere"></span><em class="property">class </em><code class="descname">SourceLambertDistributionOnSphere</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random position on a sphere with isotropic Lamberts distributed directions. This function should be used for crosschecking the arrival distribution for a Galactic propagation with an isotropic arrival distribution at the Edge of our Galaxy. Note, that for simulation speed you should rather use the backtracking technique: see e.g. <a class="reference external" href="http://physik.rwth-aachen.de/parsec">http://physik.rwth-aachen.de/parsec</a>. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa22SourceDirectedEmissionE">
+<span class="target" id="classcrpropa_1_1SourceDirectedEmission"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceDirectedEmission</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Directed emission from a source from the von-Mises-Fisher distribution. </p>
+<p>The emission from the source is generated following the von-Mises-Fisher distribution with mean direction mu and concentration parameter kappa. The sampling from the vMF distribution follows this document by Julian Straub: <a class="reference external" href="http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf">http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf</a> The emitted particles are assigned a weight so that the detected particles can be reweighted to an isotropic emission distribution instead of a vMF distribution. For details, see PoS (ICRC2019) 447. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa15SourceDirectionE">
-<span class="target" id="classcrpropa_1_1SourceDirection"></span><em class="property">class </em><code class="descname">SourceDirection</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Emission in a discrete direction. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa33SourceLambertDistributionOnSphereE">
+<span class="target" id="classcrpropa_1_1SourceLambertDistributionOnSphere"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceLambertDistributionOnSphere</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform random position on a sphere with isotropic Lamberts distributed directions. </p>
+<p>This function should be used for crosschecking the arrival distribution for a Galactic propagation with an isotropic arrival distribution at the Edge of our Galaxy. Note, that for simulation speed you should rather use the backtracking technique: see e.g. <a class="reference external" href="http://physik.rwth-aachen.de/parsec">http://physik.rwth-aachen.de/parsec</a> </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa17SourceEmissionMapE">
-<span class="target" id="classcrpropa_1_1SourceEmissionMap"></span><em class="property">class </em><code class="descname">SourceEmissionMap</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Deactivate <a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Candidate"><span class="std std-ref">Candidate</span></a> if it has zero probability in provided <a class="reference internal" href="../api/classcrpropa_1_1EmissionMap.html#classcrpropa_1_1EmissionMap"><span class="std std-ref">EmissionMap</span></a>. </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa15SourceDirectionE">
+<span class="target" id="classcrpropa_1_1SourceDirection"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceDirection</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Collimated emission along a specific direction. </p>
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv3N7crpropa18SourceEmissionConeE">
-<span class="target" id="classcrpropa_1_1SourceEmissionCone"></span><em class="property">class </em><code class="descname">SourceEmissionCone</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Uniform random emission inside a cone. </p>
-</dd></dl>
-
-<dl class="class">
-<dt id="_CPPv3N7crpropa14SourceRedshiftE">
-<span class="target" id="classcrpropa_1_1SourceRedshift"></span><em class="property">class </em><code class="descname">SourceRedshift</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Discrete redshift (time of emission) </p>
-</dd></dl>
-
-<dl class="class">
-<dt id="_CPPv3N7crpropa21SourceUniformRedshiftE">
-<span class="target" id="classcrpropa_1_1SourceUniformRedshift"></span><em class="property">class </em><code class="descname">SourceUniformRedshift</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> redshift (time of emission) from uniform distribution. </p>
-</dd></dl>
-
-<dl class="class">
-<dt id="_CPPv3N7crpropa23SourceRedshiftEvolutionE">
-<span class="target" id="classcrpropa_1_1SourceRedshiftEvolution"></span><em class="property">class </em><code class="descname">SourceRedshiftEvolution</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> redshift (time of emission) from (1+z)^m distribution. </p>
-</dd></dl>
-
-<dl class="class">
-<dt id="_CPPv3N7crpropa16SourceRedshift1DE">
-<span class="target" id="classcrpropa_1_1SourceRedshift1D"></span><em class="property">class </em><code class="descname">SourceRedshift1D</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p><a class="reference internal" href="EnergyLosses.html#classcrpropa_1_1Redshift"><span class="std std-ref">Redshift</span></a> according to the distance to 0. </p>
-<p>This source property sets the redshift according to the distance to 0. It must be added after a position setting source property. </p>
-</dd></dl>
-
-<dl class="class">
-<dt id="_CPPv3N7crpropa24SourceGenericCompositionE">
-<span class="target" id="classcrpropa_1_1SourceGenericComposition"></span><em class="property">class </em><code class="descname">SourceGenericComposition</code> : <em class="property">public</em> <a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv3N7crpropa13SourceFeatureE" title="crpropa::SourceFeature">SourceFeature</a><br /></dt>
-<dd><em>#include &lt;Source.h&gt;</em><p>Multiple nuclei with energies described by an expression string. </p>
-</dd></dl>
-
-</dd></dl>
-
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa17SourceEmissionMapE">
+<span class="target" id="classcrpropa_1_1SourceEmissionMap"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceEmissionMap</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Deactivate <a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Candidate"><span class="std std-ref">Candidate</span></a> if it has zero probability in provided <a class="reference internal" href="../api/classcrpropa_1_1EmissionMap.html#classcrpropa_1_1EmissionMap"><span class="std std-ref">EmissionMap</span></a>. </p>
+<p><div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="n">This</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="n">does</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">candidate</span><span class="p">.</span><span class="w"> </span><span class="n">Therefore</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">usefull</span><span class="w"> </span><span class="n">direction</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="p">(</span><span class="n">isotropic</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">directed</span><span class="w"> </span><span class="n">emission</span><span class="p">)</span><span class="w"></span>
+<span class="w">   </span><span class="n">must</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">added</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">sources</span><span class="w"> </span><span class="n">before</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">propability</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">emission</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">taken</span><span class="w"> </span><span class="n">into</span><span class="w"> </span><span class="n">account</span><span class="p">.</span><span class="w"></span>
+</pre></div>
 </div>
+ </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa18SourceEmissionConeE">
+<span class="target" id="classcrpropa_1_1SourceEmissionCone"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceEmissionCone</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Uniform emission within a cone. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa14SourceRedshiftE">
+<span class="target" id="classcrpropa_1_1SourceRedshift"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceRedshift</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Emission of particles at a specific redshift (or time) </p>
+<p>The redshift coordinate is used to treat cosmological effects and as a time coordinate. Consider, for instance, a source located at a distance corresponding to a redshift z. In the absence of processes that cause time delays (e.g., magnetic deflections), particles from this source could arrive after a time corresponding to the source redshift. Charged particles, on the other hand, can arrive at a time later than the corresponding straight- line travel duration. This treatment is also useful for time-dependent studies (e.g. transient sources). </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa21SourceUniformRedshiftE">
+<span class="target" id="classcrpropa_1_1SourceUniformRedshift"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceUniformRedshift</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> redshift (time of emission) from a uniform distribution. </p>
+<p>This function assigns random redshifts to the particles emitted by a given source. These values are drawn from a uniform redshift distribution in the interval [zmin, zmax]. The redshift coordinate is used to treat cosmological effects and as a time coordinate. Consider, for instance, a source located at a distance corresponding to a redshift z. In the absence of processes that cause time delays (e.g., magnetic deflections), particles from this source could arrive after a time corresponding to the source redshift. Charged particles, on the other hand, can arrive at a time later than the corresponding straight- line travel duration. This treatment is also useful for time-dependent studies (e.g. transient sources). </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa23SourceRedshiftEvolutionE">
+<span class="target" id="classcrpropa_1_1SourceRedshiftEvolution"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceRedshiftEvolution</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="CoreClasses.html#classcrpropa_1_1Random"><span class="std std-ref">Random</span></a> redshift (time of emission) from (1+z)^m distribution. </p>
+<p>This assigns redshifts to a given source according to a typical power-law distribution. The redshift coordinate is used to treat cosmological effects and as a time coordinate. Consider, for instance, a source located at a distance corresponding to a redshift z. In the absence of processes that cause time delays (e.g., magnetic deflections), particles from this source could arrive after a time corresponding to the source redshift. Charged particles, on the other hand, can arrive at a time later than the corresponding straight- line travel duration. This treatment is also useful for time-dependent studies (e.g. transient sources). </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa16SourceRedshift1DE">
+<span class="target" id="classcrpropa_1_1SourceRedshift1D"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceRedshift1D</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="EnergyLosses.html#classcrpropa_1_1Redshift"><span class="std std-ref">Redshift</span></a> according to the distance to 0. </p>
+<p>This source property sets the redshift according to the distance from the source to the origin (0, 0, 0). It must be added after the position of the source is set because it computes the redshifts based on the source distance. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa24SourceGenericCompositionE">
+<span class="target" id="classcrpropa_1_1SourceGenericComposition"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceGenericComposition</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>Add multiple cosmic rays with energies described by an expression string. </p>
+<p>This is particularly useful if an arbitrary combination of nuclei types with specific energy spectra. The strings parsed may contain ‘A’ (atomic mass), ‘Z’ (atomic number). The following units are recognized as part of the strings: GeV, TeV, PeV, EeV. The variable for energy is ‘E’, with limits ‘Emin’, ‘Emax’. This property only works if muparser is available. For details about the library see: <a class="reference external" href="https://beltoforion.de/en/muparser/">https://beltoforion.de/en/muparser/</a> </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa9SourceTagE">
+<span class="target" id="classcrpropa_1_1SourceTag"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceTag</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p>All candidates from this source get a given tag. This can be used to distinguish between different sources that follow the same spatial distribution. </p>
+<p>Sets the tag of the candidate. Can be used to trace back additional candidate properties, e.g. production interaction or source type. The interaction overwrites the candidate tag from the source for all secondaries. </p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N7crpropa22SourceMassDistributionE">
+<span class="target" id="classcrpropa_1_1SourceMassDistribution"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SourceMassDistribution</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="../api/classcrpropa_1_1SourceFeature.html#_CPPv4N7crpropa13SourceFeatureE" title="crpropa::SourceFeature"><span class="n"><span class="pre">SourceFeature</span></span></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Source.h&gt;</em></div>
+<p><a class="reference internal" href="#classcrpropa_1_1Source"><span class="std std-ref">Source</span></a> position follows a given mass distribution. </p>
+<p>The (source)position of the candidate is sampled from a given mass distribution. The distribution uses the getDensity function of the density module. If a weighting for different components is desired, the use of different densities in a densityList is recommended.</p>
+<p>The sampling range of the position can be restricted. Default is a sampling for x in [-20, 20] * kpc, y in [-20, 20] * kpc and z in [-4, 4] * kpc. </p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Output.html" class="btn btn-neutral float-right" title="Output" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Condition.html" class="btn btn-neutral float-left" title="Condition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Condition.html" class="btn btn-neutral float-left" title="Condition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Output.html" class="btn btn-neutral float-right" title="Output" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, The CRPropa Developers
-
-    </p>
+    <p>&#169; Copyright 2022, The CRPropa Developers.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

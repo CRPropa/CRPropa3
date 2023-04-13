@@ -20,6 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::ModuleList
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

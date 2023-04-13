@@ -28,25 +28,38 @@ Program Listing for File SynchrotronRadiation.h
            double secondaryThreshold; 
            std::vector<double> tabx; 
            std::vector<double> tabCDF; 
-   
+           std::string interactionTag = "SYN";
    
    public:
            SynchrotronRadiation(ref_ptr<MagneticField> field, bool havePhotons = false, double thinning = 0, int nSamples = 0, double limit = 0.1);
            SynchrotronRadiation(double Brms = 0, bool havePhotons = false, double thinning = 0, int nSamples = 0, double limit = 0.1);
+           
+           // set the target photon field
            void setField(ref_ptr<MagneticField> field);
+   
+           // set the root-mean square (rms) value of the magnetic field (no 3d field is used)
            void setBrms(double Brms);      
+   
+           // decide if secondary photons are added to the simulation
            void setHavePhotons(bool havePhotons);
+   
            void setThinning(double thinning);
+   
            void setLimit(double limit);
+   
            void setMaximumSamples(int nmax);
            void setSecondaryThreshold(double threshold);   
+           void setInteractionTag(std::string tag);
            ref_ptr<MagneticField> getField();
+   
            double getBrms();
            bool getHavePhotons();
            double getThinning();
            double getLimit();
            int getMaximumSamples();
            double getSecondaryThreshold() const;
+           std::string getInteractionTag() const;
+   
            void initSpectrum();
            void process(Candidate *candidate) const;
            std::string getDescription() const;

@@ -1,0 +1,14 @@
+.. _exhale_typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5:
+
+Typedef crpropa::_Secondary
+===========================
+
+- Defined in :ref:`file_src_PhotonPropagation.cpp`
+
+
+Typedef Documentation
+---------------------
+
+
+.. doxygentypedef:: crpropa::_Secondary
+   :project: CRPropa3

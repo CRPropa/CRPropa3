@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::__declspec(align(64))
+   :project: CRPropa3

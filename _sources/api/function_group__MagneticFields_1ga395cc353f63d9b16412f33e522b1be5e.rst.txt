@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::initHelicalTurbulence(ref_ptr<Grid3f>, double, double, double, double, int, double)
+   :project: CRPropa3

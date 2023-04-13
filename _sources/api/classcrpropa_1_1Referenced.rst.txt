@@ -35,6 +35,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::Referenced
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

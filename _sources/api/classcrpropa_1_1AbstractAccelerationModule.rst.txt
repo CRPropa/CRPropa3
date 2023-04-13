@@ -27,6 +27,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::AbstractAccelerationModule
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

@@ -41,34 +41,37 @@ Program Listing for File DiffusionSDE.h
                double alpha; // power law index of the energy dependent diffusion coefficient: D\propto E^alpha
                double scale; // scaling factor for the diffusion coefficient D = scale*D_0
    
-   
    public:
-               DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+           DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
+           DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep = 10 * pc, double maxStep = 1 * kpc, double epsilon = 0.1);
    
-               DiffusionSDE(ref_ptr<crpropa::MagneticField> magneticField, ref_ptr<crpropa::AdvectionField> advectionField, double tolerance = 1e-4, double minStep=(10*pc), double maxStep=(1*kpc), double epsilon=0.1);
+           void process(crpropa::Candidate *candidate) const;
    
-               void process(crpropa::Candidate *candidate) const;
+           void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
+           void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;
+           void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
    
-               void tryStep(const Vector3d &Pos, Vector3d &POut, Vector3d &PosErr, double z, double propStep ) const;
-               void driftStep(const Vector3d &Pos, Vector3d &LinProp, double h) const;
-               void calculateBTensor(double rig, double BTen[], Vector3d pos, Vector3d dir, double z) const;
+           void setMinimumStep(double minStep);
+           void setMaximumStep(double maxStep);
+           void setTolerance(double tolerance);
+           void setEpsilon(double kappa);
+           void setAlpha(double alpha);
+           void setScale(double Scale);
+           void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
+           void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
    
-               void setMinimumStep(double minStep);
-               void setMaximumStep(double maxStep);
-               void setTolerance(double tolerance);
-               void setEpsilon(double kappa);
-               void setAlpha(double alpha);
-               void setScale(double Scale);
-               void setMagneticField(ref_ptr<crpropa::MagneticField> magneticField);
-               void setAdvectionField(ref_ptr<crpropa::AdvectionField> advectionField);
-   
-               double getMinimumStep() const;
-               double getMaximumStep() const;
-               double getTolerance() const;
-               double getEpsilon() const;
-               double getAlpha() const;
-               double getScale() const;
-               std::string getDescription() const;
+           double getMinimumStep() const;
+           double getMaximumStep() const;
+           double getTolerance() const;
+           double getEpsilon() const;
+           double getAlpha() const;
+           double getScale() const;
+           std::string getDescription() const;
+     
+     ref_ptr<MagneticField> getMagneticField() const;
+           Vector3d getMagneticFieldAtPosition(Vector3d pos, double z) const;
+           ref_ptr<AdvectionField> getAdvectionField() const;
+           Vector3d getAdvectionFieldAtPosition(Vector3d pos) const;
    
    };
    } //namespace crpropa

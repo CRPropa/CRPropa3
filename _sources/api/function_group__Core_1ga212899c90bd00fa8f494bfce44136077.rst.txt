@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::operator<<(std::ostream&, const Vector3<T>&)
+   :project: CRPropa3

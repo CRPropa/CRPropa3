@@ -21,6 +21,7 @@ Class Documentation
 
 
 .. doxygenclass:: crpropa::Clock
+   :project: CRPropa3
    :members:
    :protected-members:
    :undoc-members:

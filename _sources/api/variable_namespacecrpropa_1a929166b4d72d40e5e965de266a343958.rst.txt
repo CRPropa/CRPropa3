@@ -11,3 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: crpropa::cash_karp_a
+   :project: CRPropa3

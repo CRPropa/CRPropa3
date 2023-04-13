@@ -11,3 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: crpropa::intrusive_ptr_add_ref(Referenced *)
+   :project: CRPropa3

@@ -7,16 +7,19 @@
 #ifndef CRPROPA_VARIANT_H
 #define CRPROPA_VARIANT_H
 
-
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <typeinfo>
-#include <sstream>
+#include <complex>
+#include <cstdint>
 #include <cstdlib>
-#include <stdexcept>
+#include <cstring>
+#include <iostream>
 #include <limits>
-#include <stdint.h>
+#include <string>
+#include <sstream>
+#include <stdexcept>
+#include <typeinfo>
+
+#include "crpropa/Vector3.h"
+
 
 // Helper to set POD type methods to variant
 #define VARIANT_ADD_TYPE_DECL_POD(NAME, TYPE, VALUE) \

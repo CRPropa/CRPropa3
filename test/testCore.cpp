@@ -5,6 +5,8 @@
 	Common functions
  */
 
+#include <complex>
+
 #include "crpropa/Candidate.h"
 #include "crpropa/base64.h"
 #include "crpropa/Common.h"
@@ -16,6 +18,7 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/Geometry.h"
 #include "crpropa/EmissionMap.h"
+#include "crpropa/Vector3.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include "gtest/gtest.h"

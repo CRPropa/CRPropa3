@@ -257,18 +257,14 @@ void TextOutput::process(Candidate *c) const {
 	}
 
 	for(std::vector<Output::Property>::const_iterator iter = properties.begin();
-			iter != properties.end(); ++iter)
-	{
+			iter != properties.end(); ++iter) {
 		  Variant v;
-			if (c->hasProperty((*iter).name))
-			{
+			if (c->hasProperty((*iter).name)) {
 				v = c->getProperty((*iter).name);
-			}
-			else
-			{
+			} else {
 				v = (*iter).defaultValue;
 			}
-			p += std::sprintf(buffer + p, "%s", v.toString().c_str());
+			p += std::sprintf(buffer + p, "%s", v.toString("\t").c_str());
 			p += std::sprintf(buffer + p, "\t");
 	}
 	buffer[p - 1] = '\n';

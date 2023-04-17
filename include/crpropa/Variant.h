@@ -4,8 +4,9 @@
 // Licensed under a LGPL-2 or later license                   -
 //-------------------------------------------------------------
 
-#ifndef VARIANT_HH
-#define VARIANT_HH
+#ifndef CRPROPA_VARIANT_H
+#define CRPROPA_VARIANT_H
+
 
 #include <iostream>
 #include <string>
@@ -228,4 +229,4 @@ std::ostream& operator <<(std::ostream& os, const Variant &v);
 
 } // namespace crpropa 
 
-#endif // VARIANT_HH
+#endif // CRPROPA_VARIANT

@@ -141,6 +141,10 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
 	secondary->setWeight(weight * w);
+	secondary->setTagOrigin(tagOrigin);
+	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {
+		secondary->setProperty(it->first, it->second);		
+	}
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;
@@ -148,7 +152,6 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 	secondary->current.setId(id);
 	secondary->current.setEnergy(energy);
 	secondary->parent = this;
-	secondary->setTagOrigin(tagOrigin);
 	secondaries.push_back(secondary);
 }
 
@@ -157,6 +160,10 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w,
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR());
 	secondary->setWeight(weight * w);
+	secondary->setTagOrigin(tagOrigin);
+	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {
+		secondary->setProperty(it->first, it->second);		
+	}
 	secondary->source = source;
 	secondary->previous = previous;
 	secondary->created = previous;
@@ -166,7 +173,6 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w,
 	secondary->current.setPosition(position);
 	secondary->created.setPosition(position);
 	secondary->parent = this;
-	secondary->setTagOrigin(tagOrigin);
 	secondaries.push_back(secondary);
 }
 

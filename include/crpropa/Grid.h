@@ -134,7 +134,7 @@ public:
 			<< "\t" << "Nx: " << Nx << " Ny: " << Ny << " Nz: " << Nz 
 			<< "\t" << "spacing: " << spacing / unit
 			<< "\t" << "refletive: " << reflective
-			<< "\t" << "interpolation: " << ipol 
+			<< "\t" << "interpolation: " << ipol
 			<< "\n";
 		return ss.str();
 	}
@@ -172,6 +172,7 @@ public:
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
 		setClipVolume(false);
+		setInterpolationType(TRILINEAR);
 	}
 
 	/** Constructor for non-cubic grid
@@ -187,6 +188,7 @@ public:
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
 		setClipVolume(false);
+		setInterpolationType(TRILINEAR);
 	}
 
 	/** Constructor for non-cubic grid with spacing vector
@@ -202,6 +204,7 @@ public:
 		setSpacing(spacing);
 		setReflective(false);
 		setClipVolume(false);
+		setInterpolationType(TRILINEAR);
 	}
 
 	/** Constructor for GridProperties
@@ -251,6 +254,21 @@ public:
 		} else {
 			throw std::runtime_error("InterpolationType: unknown interpolation type");
 		}
+	}
+
+	interpolationType getInterpolationType() {
+		return ipolType;
+	}
+
+	std::string getInterpolationTypeName() {
+		if (ipolType == TRILINEAR)
+			return "TRILINEAR";
+		if (ipolType == TRICUBIC)
+			return "TRICUBIC";
+		if (ipolType == NEAREST_NEIGHBOUR)
+			return "NEAREST_NEIGHBOUR";
+
+		return "NOT_UNDERSTOOD";	
 	}
 
 	/** returns the position of the lower left front corner of the volume */

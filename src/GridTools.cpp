@@ -267,8 +267,9 @@ void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
 		ss << "load Grid1f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
+	
 	// skip header lines
-	while (fin.peek() == '#')
+	while (fin.peek() == '#') 
 		fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 	for (int ix = 0; ix < grid->getNx(); ix++) {
@@ -285,13 +286,24 @@ void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	fin.close();
 }
 
-void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c) {
+void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c, bool saveProp) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {
 		std::stringstream ss;
 		ss << "dump Grid3f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
+
+	// store the properties in the file as header information
+	if (saveProp) {
+		fout << "# GridProperties: Type Grid3f" 
+			<< "\t" << "origin: " << grid -> getOrigin()
+			<< "\t" << "gridsize: " << grid -> getNx() << " " << grid -> getNy() << " " << grid -> getNz()
+			<< "\t" << "spacing: " << grid -> getSpacing ()
+			<< "\t" << "reflective: " << grid -> isReflective()
+			<< "\t" << "interpolation: " << grid -> getInterpolationTypeName() << "\n";
+	}
+
 	for (int ix = 0; ix < grid->getNx(); ix++) {
 		for (int iy = 0; iy < grid->getNy(); iy++) {
 			for (int iz = 0; iz < grid->getNz(); iz++) {
@@ -303,13 +315,24 @@ void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c) {
 	fout.close();
 }
 
-void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
+void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename, double c, bool saveProp) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {
 		std::stringstream ss;
 		ss << "dump Grid1f: " << filename << " not found";
 		throw std::runtime_error(ss.str());
 	}
+
+	// save properties as header information 
+	if (saveProp) {
+		fout << "# GridProperties: Type Grid1f" 
+			<< "\t" << "origin: " << grid -> getOrigin()
+			<< "\t" << "gridsize: " << grid -> getNx() << " " << grid -> getNy() << " " << grid -> getNz()
+			<< "\t" << "spacing: " << grid -> getSpacing ()
+			<< "\t" << "reflective: " << grid -> isReflective()
+			<< "\t" << "interpolation: " << grid -> getInterpolationTypeName() << "\n";
+	}
+
 	for (int ix = 0; ix < grid->getNx(); ix++) {
 		for (int iy = 0; iy < grid->getNy(); iy++) {
 			for (int iz = 0; iz < grid->getNz(); iz++) {

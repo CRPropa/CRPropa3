@@ -125,6 +125,12 @@ void dumpGrid(ref_ptr<Grid1f> grid, std::string filename,
 void loadGridFromTxt(ref_ptr<Grid3f> grid, std::string filename,
 		double conversion = 1);
 
+/** Load a Grid1f from a plain text file based on the gridproperties stored in the header
+ @param filename	name of the input file
+ @param conversion	multiply every point in a grid by a conversion factor
+*/
+ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double conversion = 1);
+
 /** Load a Grid1f from a plain text file
  @param grid		a scalar grid (Grid1f) to which the points will be loaded
  @param filename	name of input file

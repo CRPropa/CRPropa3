@@ -286,6 +286,68 @@ void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename, double c) {
 	fin.close();
 }
 
+ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double c) {
+	std::ifstream fin(filename.c_str());
+	if (!fin) {
+		std::stringstream ss;
+		ss << "load Grid1f: " << filename << " not found";
+		throw std::runtime_error(ss.str());
+	}
+
+	// search in header lines for GridProperties
+	while (fin.peek() == '#') {
+		std::string line;
+		std::getline(fin, line);
+
+		// find gridproperties in the header 
+		if (line.rfind("GridProperties:") == 2) {	
+			GridProperties gp(Vector3d(0.), 1, 1, 1, 1.); // simple grid properties for default
+			std::stringstream ss(line); 
+
+			// skip first names and check type 
+			std::string name, type;
+			ss >> name >> name >> name >> type;
+			if (type != "Grid1f") 
+				throw std::runtime_error("try to load Grid1f, but Gridproperties assume grid type " + type);
+
+			// grid origin
+			double x, y, z;
+			ss >> name >> x >> y >> z ; 
+			gp.origin = Vector3d(x, y, z);
+
+			// grid size
+			ss >> name >> gp.Nx >> gp.Ny >> gp.Nz;
+
+			// spacing
+			double dX, dY, dZ;
+			ss >> name >> dX >> dY >> dZ;
+			gp.spacing = Vector3d(dX, dY, dZ);
+
+			// reflective
+			ss >> name >> gp.reflective;
+
+			// interpolation type 
+			ss >> name >> type;
+			if (type == "TRICUBIC")
+				gp.setInterpolationType(TRICUBIC);
+			else if (type == "NEAREST_NEIGHBOUR")
+				gp.setInterpolationType(NEAREST_NEIGHBOUR);
+			else 
+				gp.setInterpolationType(TRILINEAR);
+
+			// create new grid
+			ref_ptr<Grid1f> grid = new Grid1f(gp);
+			fin.close();
+
+			// load data for grid
+			loadGridFromTxt(grid, filename, c); 
+
+			return grid;
+		}
+	}
+	std::runtime_error("could not find GridProperties in file " + filename);
+}
+
 void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c, bool saveProp) {
 	std::ofstream fout(filename.c_str());
 	if (!fout) {

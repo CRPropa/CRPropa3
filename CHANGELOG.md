@@ -1,8 +1,9 @@
-# CRPropa vNext
+## CRPropa vNext
 
 ### Bug fixes:
 * Re-added ToroidalHaloField and LogarithmicSpiralField models. Note, that the class name was also corrected in spelling: TorroidalHaloField --> ToroidalHaloField
 * Synchronized signature of ParticleSplitting constructor
+* Added default parameter for clipVolume in GridProperties. Could have lead to random clipping of grid values outside of the original grid volume.
 
 ### New features:
 * new candidate property tagOrigin to trace back which source or which interaction created the candidate

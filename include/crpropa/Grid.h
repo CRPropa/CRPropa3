@@ -162,6 +162,7 @@ public:
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
 		setClipVolume(false);
+		setInterpolationType(TRILINEAR);
 	}
 
 	/** Constructor for non-cubic grid
@@ -177,6 +178,7 @@ public:
 		setSpacing(Vector3d(spacing));
 		setReflective(false);
 		setClipVolume(false);
+		setInterpolationType(TRILINEAR);
 	}
 
 	/** Constructor for non-cubic grid with spacing vector
@@ -192,6 +194,7 @@ public:
 		setSpacing(spacing);
 		setReflective(false);
 		setClipVolume(false);
+		setInterpolationType(TRILINEAR);
 	}
 
 	/** Constructor for GridProperties

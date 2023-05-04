@@ -137,17 +137,19 @@ void loadGridFromTxt(ref_ptr<Grid1f> grid, std::string filename,
  @param grid		a vector grid (Grid3f)
  @param filename	name of output file
  @param conversion	multiply every point in grid by a conversion factor
+ @param storeProperties	if true the grid properties are stored as a comment
  */
 void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename,
-		double conversion = 1);
+		double conversion = 1, bool storeProperties = false);
 
 /** Dump a Grid1f to a plain text file. 
  @param grid		a scalar grid (Grid1f)
  @param filename	name of output file
  @param conversion	multiply every point in grid by a conversion factor
+ @param storeProperties	if true the grid properties are stored as a comment
  */
 void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename,
-		double conversion = 1);
+		double conversion = 1, bool storeProperties = false);
 
 #ifdef CRPROPA_HAVE_FFTW3F
 /**

@@ -9,6 +9,8 @@
 
 #include <vector>
 #include <type_traits>
+#include <string>
+#include <sstream>  
 #if HAVE_SIMD
 #include <immintrin.h>
 #include <smmintrin.h>
@@ -121,6 +123,20 @@ public:
 	 * @param i: interpolationType (TRILINEAR, TRICUBIC, NEAREST_NEIGHBOUR) */
 	void setInterpolationType(interpolationType i) {
 		ipol = i;
+	}
+
+	/** show all GridProperty parameters
+	 * @param unit unit for the lengthscale (origin, spacing). Default is 1 = SI units
+	 */
+	std::string getDescription(double unit = 1) const {
+		std::stringstream ss;
+		ss 	<< "GridProperties:\torigin: " << origin / unit
+			<< "\t" << "Nx: " << Nx << " Ny: " << Ny << " Nz: " << Nz 
+			<< "\t" << "spacing: " << spacing / unit
+			<< "\t" << "refletive: " << reflective
+			<< "\t" << "interpolation: " << ipol 
+			<< "\n";
+		return ss.str();
 	}
 };
 

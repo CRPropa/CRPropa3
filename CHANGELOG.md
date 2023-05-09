@@ -6,10 +6,9 @@
 
 ### New features:
 * New candidate property tagOrigin to trace back which source or which interaction created the candidate
-* New interace for massdistributions given on a Grid1f
-* Grids can be restricted to the volume without repetition
+* New interface for massdistributions given on a Grid1f
+* Grids can be restricted to the volume without repetition (clipVolume parameter)
 * SourceFeature to sample the source position from a given massdistribution
-* Added default parameter for clipVolume in GridProperties.
 
 ### Interface changes:
 * Weight column in hdf-Output is now called "W", which is the same as for TextOutput.

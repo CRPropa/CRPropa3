@@ -526,8 +526,6 @@ TEST(Grid1f, SimpleTest) {
 	//Test if grid is set to zero outside of volume for clipVolume=true
 	grid.setClipVolume(true);
 	EXPECT_EQ(0, grid.get(0, 0, 12));
-	EXPECT_EQ(0, grid.get(0, 0, 12));
-	EXPECT_EQ(0, grid.get(0, 0, 12));
 }
 
 TEST(Grid1f, GridPropertiesConstructor) {

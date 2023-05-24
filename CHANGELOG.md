@@ -1,14 +1,14 @@
-# CRPropa vNext
+## CRPropa vNext
 
 ### Bug fixes:
 * Re-added ToroidalHaloField and LogarithmicSpiralField models. Note, that the class name was also corrected in spelling: TorroidalHaloField --> ToroidalHaloField
 * Synchronized signature of ParticleSplitting constructor
 
 ### New features:
-* new candidate property tagOrigin to trace back which source or which interaction created the candidate
-* new interace for massdistributions given on a Grid1f
-* grids can be restricted to the volume without repetition
-* sourceFeature to sample the source position from a given massdistribution
+* New candidate property tagOrigin to trace back which source or which interaction created the candidate
+* New interface for massdistributions given on a Grid1f
+* Grids can be restricted to the volume without repetition (clipVolume parameter)
+* SourceFeature to sample the source position from a given massdistribution
 
 ### Interface changes:
 * Weight column in hdf-Output is now called "W", which is the same as for TextOutput.

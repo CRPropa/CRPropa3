@@ -522,6 +522,10 @@ TEST(Grid1f, SimpleTest) {
 	//nearest neighbour interpolated
 	grid.setInterpolationType(NEAREST_NEIGHBOUR);
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	grid.setClipVolume(true);
+	EXPECT_EQ(0, grid.get(0, 0, 12));
 }
 
 TEST(Grid1f, GridPropertiesConstructor) {
@@ -599,6 +603,35 @@ TEST(Grid1f, ClosestValue) {
 	EXPECT_FLOAT_EQ(2, grid.closestValue(Vector3d(0.2, 0.1, 1.3)));
 	EXPECT_FLOAT_EQ(3, grid.closestValue(Vector3d(0.3, 1.2, 0.2)));
 	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(1.7, 1.8, 0.4)));
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	EXPECT_NE(0, grid.get(0, 0, 12));
+	grid.setClipVolume(true);
+	double b = grid.interpolate(Vector3d(0, 0, 10));
+	EXPECT_EQ(0, b);
+}
+
+TEST(Grid1f, clipVolume) {
+	// Check volume clipping for gridproperties constructor
+	size_t N = 2;
+	Vector3d origin = Vector3d(0.);
+	double spacing = 2;
+	GridProperties properties(origin, N, spacing);
+	Grid1f grid(properties);
+	grid.get(0, 0, 0) = 1;
+	grid.get(0, 0, 1) = 2;
+	grid.get(0, 1, 0) = 3;
+	grid.get(0, 1, 1) = 4;
+	grid.get(1, 0, 0) = 5;
+	grid.get(1, 0, 1) = 6;
+	grid.get(1, 1, 0) = 7;
+	grid.get(1, 1, 1) = 8;
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	EXPECT_NE(0, grid.get(0, 0, 12));
+	grid.setClipVolume(true);
+	double b = grid.interpolate(Vector3d(0, 0, 10));
+	EXPECT_EQ(0, b);
 }
 
 TEST(Grid3f, Interpolation) {
@@ -731,6 +764,13 @@ TEST(Grid3f, Periodicity) {
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	grid.setClipVolume(true);
+	Vector3f b3 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(0., b3.x);
+	EXPECT_FLOAT_EQ(0., b3.y);
+	EXPECT_FLOAT_EQ(0., b3.z);
 }
 
 TEST(Grid3f, Reflectivity) {
@@ -807,6 +847,13 @@ TEST(Grid3f, Reflectivity) {
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	grid.setClipVolume(true);
+	Vector3f b3 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(0., b3.x);
+	EXPECT_FLOAT_EQ(0., b3.y);
+	EXPECT_FLOAT_EQ(0., b3.z);
 }
 
 TEST(Grid3f, DumpLoad) {

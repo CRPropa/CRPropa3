@@ -9,6 +9,7 @@
 * New interface for massdistributions given on a Grid1f
 * Grids can be restricted to the volume without repetition (clipVolume parameter)
 * SourceFeature to sample the source position from a given massdistribution
+* EBL model from Saldana-Lopez et al. 2021
 
 ### Interface changes:
 * Weight column in hdf-Output is now called "W", which is the same as for TextOutput.

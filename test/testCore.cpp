@@ -525,7 +525,7 @@ TEST(Grid1f, SimpleTest) {
 
 	//Test if grid is set to zero outside of volume for clipVolume=true
 	grid.setClipVolume(true);
-	EXPECT_EQ(0, grid.get(0, 0, 12));
+	EXPECT_FLOAT_EQ(0, grid.interpolate(Vector3d(100, 0, 12)));
 }
 
 TEST(Grid1f, GridPropertiesConstructor) {
@@ -605,10 +605,10 @@ TEST(Grid1f, ClosestValue) {
 	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(1.7, 1.8, 0.4)));
 
 	//Test if grid is set to zero outside of volume for clipVolume=true
-	EXPECT_NE(0, grid.get(0, 0, 12));
+	EXPECT_NE(0, grid.interpolate(Vector3d(0, 0, 12)));
 	grid.setClipVolume(true);
-	double b = grid.interpolate(Vector3d(0, 0, 10));
-	EXPECT_EQ(0, b);
+	double b = grid.interpolate(Vector3d(0, 0, 12));
+	EXPECT_FLOAT_EQ(0, b);
 }
 
 TEST(Grid1f, clipVolume) {
@@ -628,10 +628,10 @@ TEST(Grid1f, clipVolume) {
 	grid.get(1, 1, 1) = 8;
 
 	//Test if grid is set to zero outside of volume for clipVolume=true
-	EXPECT_NE(0, grid.get(0, 0, 12));
+	EXPECT_NE(0, grid.interpolate(Vector3d(0, 0, 12)));
 	grid.setClipVolume(true);
 	double b = grid.interpolate(Vector3d(0, 0, 10));
-	EXPECT_EQ(0, b);
+	EXPECT_FLOAT_EQ(0, b);
 }
 
 TEST(Grid3f, Interpolation) {

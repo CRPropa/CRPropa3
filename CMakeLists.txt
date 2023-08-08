@@ -225,6 +225,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/ModuleList.cpp.in" "${CMAKE_CURR
 list(APPEND CRPROPA_EXTRA_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/src/ModuleList.cpp")
 
 # Google Performance Tools (optional as possible performance tweak for OpenMP)
+if(APPLE)
+  find_package(PkgConfig)
+  pkg_check_modules(profiler REQUIRED)
+endif(APPLE)
 find_package(GooglePerfTools)
 set(TCMALLOC)
 if(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)

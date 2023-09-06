@@ -752,38 +752,14 @@ void SourceIsotropicEmission::setDescription() {
 SourceDirectedEmission::SourceDirectedEmission(Vector3d mu, double kappa): mu(mu), kappa(kappa) {
 	if (kappa <= 0)
 		throw std::runtime_error("The concentration parameter kappa should be larger than 0.");
-	double alpha = atan2(mu.y,mu.x);
-	double delta = asin(mu.z);
-	setCa(alpha);
-	setSa(alpha);
-	setCd(delta);
-	setSd(delta);
 	setDescription();
 }
 
 void SourceDirectedEmission::prepareCandidate(Candidate &candidate) const {
 	Random &random = Random::instance();
 
-	//generate sample from von Mises Fisher distribution following
-	// http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf
-	//sample normalized direction vector from unit Gaussian distribution
-	Vector3d v(random.randNorm(0., 1.),random.randNorm(0., 1.),0.);
-	v = v.getUnitVector();
-
-	//sample uniform random number
-	double xi = random.rand();
-
-	double u = 1. + 1. / kappa * log(xi + (1. - xi) * exp(-2. * kappa));
-
-	//sample vector from von-Mises distribution
-	Vector3d n = sqrt(1. - u * u) * v;
-	n.z += u;
-
-	//we are in the frame m = (0,0,1)
-	//so rotate to target frame
-	v = Vector3d(ca * sd * n.x - sa * n.y + ca * cd * n.z,
-		sa * sd * n.x + ca * n.y + sa * cd * n.z,
-		- cd * n.x + sd * n.z);
+	Vector3d muvec = mu / mu.getR();
+        Vector3d v = random.randFisherVector(muvec, kappa);
 
 	v = v.getUnitVector();
 	candidate.source.setDirection(v);
@@ -796,42 +772,6 @@ void SourceDirectedEmission::prepareCandidate(Candidate &candidate) const {
 	double weight = 1. / (4. * M_PI * pdfVonMises);
 	candidate.setWeight(weight);
 }
-
-void SourceDirectedEmission::setCa(double alpha) {
-	ca = cos(alpha);
-	return;
-}
-
-void SourceDirectedEmission::setSa(double alpha) {
-	sa = sin(alpha);
-	return;
-}
-
-void SourceDirectedEmission::setCd(double delta) {
-	cd = cos(delta);
-	return;
-}
-
-void SourceDirectedEmission::setSd(double delta) {
-	sd = sin(delta);
-	return;
-}
-
-double SourceDirectedEmission::getCa() const {
-	return ca;
-}    
-
-double SourceDirectedEmission::getSa() const {
-	return sa;
-} 
-
-double SourceDirectedEmission::getCd() const {
-	return cd;
-} 
-
-double SourceDirectedEmission::getSd() const {
-	return sd;
-} 
 
 void SourceDirectedEmission::setDescription() {
 	std::stringstream ss;

@@ -582,10 +582,6 @@ public:
 class SourceDirectedEmission: public SourceFeature {
 	Vector3d mu; // Mean emission direction in the vMF distribution
 	double kappa; // Concentration parameter of the vMF distribution
-	double ca; // helpers for the efficient calculation of frame rotation
-	double sa;
-	double cd;
-	double sd;
 public:
 	/** Constructor
 	 @param mu	mean direction of the emission, mu should be normelized
@@ -593,30 +589,6 @@ public:
 	*/
 	SourceDirectedEmission(Vector3d mu, double kappa);
 	void prepareCandidate(Candidate &candidate) const;
-	/**
-	 set sampling parameter Ca
-	 @param alpha	angle between x and y component of direction. alpha = arctan(mu.y / mu.x)
-	*/
-	void setCa(double alpha);
-	/**
-	 set sampling parameter Sa
-	 @param alpha	angle between x and y component of direction. alpha = arctan(mu.y / mu.x)
-	*/
-	void setSa(double alpha);
-	/**
-	 set sampling parameter Cd
-	 @param delta	angle between mu vector and z-axis. delta = arcsin(mu.z) 
-	*/
-	void setCd(double delta);
-	/**
-	 set sampling parameter Sd
-	 @param delta	angle between mu vector and z-axis. delta = arcsin(mu.z) 
-	*/
-	void setSd(double delta);
-	double getCa() const;
-	double getSa() const;
-	double getCd() const;
-	double getSd() const;
 	void setDescription();
 };
 

@@ -18,6 +18,8 @@
 * AMRMagenticField - underlying library (saga) is no longer supported.
 
 ### New plugins and resources linked on the webpages:
+* FieldlineIntegrator
+* grplinst
 
 
 

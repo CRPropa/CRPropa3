@@ -61,3 +61,11 @@ as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/ho
 An extensive list of publications using CRPropa can be found via
 [inSPIRE](https://inspirehep.net/search?ln=en&ln=en&p=refersto%3Arecid%3A1322902+or+refersto%3Arecid%3A1432676+or+refersto%3Arecid%3A1242078&of=hb&action_search=Search&sf=earliestdate&so=d&rm=&rg=25&sc=0).
 
+
+## Plugins
+Plugins are extensions of the core CRPropa framework, but they are not maintained by the CRPropa developer team. <\b>
+
+| Name | Purpose | Link |
+| ---- | ------- | ---- |
+| FieldlineIntegrator | Magnetic Field analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator/> |
+| grplinst | Plasma Instabilities | <https://github.com/rafaelab/grplinst> |

@@ -63,9 +63,11 @@ An extensive list of publications using CRPropa can be found via
 
 
 ## Plugins
-Plugins are extensions of the core CRPropa framework, but they are not maintained by the CRPropa developer team. <\b>
+Plugins are extensions of the core CRPropa framework, but they are not maintained by the CRPropa developer team. Instructions to install plugins can be found in the [documentation](https://crpropa.github.io/CRPropa3/pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa%E2%80%99s-Python-Steering).
+
+Make sure to correctly cite the plugins when using them.
 
 | Name | Purpose | Link |
 | ---- | ------- | ---- |
-| FieldlineIntegrator | Magnetic Field analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator/> |
+| FieldlineIntegrator | Magnetic Field analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator> |
 | grplinst | Plasma Instabilities | <https://github.com/rafaelab/grplinst> |

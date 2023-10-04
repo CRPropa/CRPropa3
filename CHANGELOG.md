@@ -21,6 +21,7 @@
 * FieldlineIntegrator
 * grplinst
 * monopole
+* ROOTOutputPlugin
 
 
 

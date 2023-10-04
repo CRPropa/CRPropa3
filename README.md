@@ -72,3 +72,4 @@ Make sure to correctly cite the plugins when using them.
 | FieldlineIntegrator | Magnetic Field Analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator> |
 | grplinst | Plasma Instabilities | <https://github.com/rafaelab/grplinst> |
 | monopole | Magnetic Monopole Studies | https://github.com/chchristie/monopole/tree/main |
+| ROOTOutputPlugin | Output into root file format | https://github.com/CRPropa/ROOTOutputPlugin |

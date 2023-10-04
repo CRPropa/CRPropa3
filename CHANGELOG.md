@@ -20,6 +20,7 @@
 ### New plugins and resources linked on the webpages:
 * FieldlineIntegrator
 * grplinst
+* monopole
 
 
 

@@ -69,5 +69,6 @@ Make sure to correctly cite the plugins when using them.
 
 | Name | Purpose | Link |
 | ---- | ------- | ---- |
-| FieldlineIntegrator | Magnetic Field analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator> |
+| FieldlineIntegrator | Magnetic Field Analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator> |
 | grplinst | Plasma Instabilities | <https://github.com/rafaelab/grplinst> |
+| monopole | Magnetic Monopole Studies | https://github.com/chchristie/monopole/tree/main |

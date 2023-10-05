@@ -20,6 +20,8 @@ Additional Resources
 -  Data for the strong extragalactic magnetic fields by `Alves Batista  et al. 
    <https://arxiv.org/abs/1704.05869>`__ can be downloaded
    `here <https://syncandshare.desy.de/index.php/s/Fo5xceXtwtk5Exo>`__.
+-  Data for the Galactic mass distribution by `Mertsch et al. (2020) <https://arxiv.org/abs/2012.15770>`__ can be found 
+   `here <https://syncandshare.desy.de/index.php/s/aR8wkqYYkDyfWgs>`__. 
 
 
 Note that these resources are completely external to CRPropa. We cannot supply any kind of additional information nor can we offer support on how to use them.

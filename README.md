@@ -61,3 +61,15 @@ as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/ho
 An extensive list of publications using CRPropa can be found via
 [inSPIRE](https://inspirehep.net/search?ln=en&ln=en&p=refersto%3Arecid%3A1322902+or+refersto%3Arecid%3A1432676+or+refersto%3Arecid%3A1242078&of=hb&action_search=Search&sf=earliestdate&so=d&rm=&rg=25&sc=0).
 
+
+## Plugins
+Plugins are extensions of the core CRPropa framework, but they are not maintained by the CRPropa developer team. Instructions to install plugins can be found in the [documentation](https://crpropa.github.io/CRPropa3/pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa%E2%80%99s-Python-Steering).
+
+Make sure to correctly cite the plugins when using them.
+
+| Name | Purpose | Link |
+| ---- | ------- | ---- |
+| FieldlineIntegrator | Magnetic Field Analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator> |
+| grplinst | Plasma Instabilities | <https://github.com/rafaelab/grplinst> |
+| monopole | Magnetic Monopole Studies | https://github.com/chchristie/monopole/tree/main |
+| ROOTOutputPlugin | Output into root file format | https://github.com/CRPropa/ROOTOutputPlugin |

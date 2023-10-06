@@ -40,44 +40,51 @@ TEST(testCandidateSplitting, SimpleTest) {
 TEST(testCandidateSplitting, CheckSplits) {
 	int nSplit = 2;
 	int nBins = 3;
-	double Emin = 1*GeV;
-	double Emax = 10*GeV;
+	double Emin = 1; // dimensionless for testing
+	double Emax = 10;
 	double minWeight = pow(1. / nSplit, 4);
 
 	CandidateSplitting splitting(nSplit, Emin, Emax, nBins, minWeight);
-	Candidate c(nucleusId(1,1),0.5*GeV);
+	Candidate c(nucleusId(1,1),0.5);
 	double weight = 1.0;
+	double serial = c.getSerialNumber();
 	
 	splitting.process(&c); // no split
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
+	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial);
 
-	c.current.setEnergy(2*GeV); 
+	c.current.setEnergy(2); 
 	splitting.process(&c); // 1. split
 	weight = weight/nSplit;
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
-	c.previous.setEnergy(2*GeV);
+	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 1);
+	c.previous.setEnergy(2);
 
-	c.current.setEnergy(6*GeV); 
+	c.current.setEnergy(6); 
 	splitting.process(&c); // 2. split
 	weight = weight/nSplit;
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
-	c.previous.setEnergy(6*GeV);
+	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 2);
+	c.previous.setEnergy(6);
 
-	c.current.setEnergy(0.5*GeV); 
+	c.current.setEnergy(0.5); 
 	splitting.process(&c); // no split, cooling
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
-	c.previous.setEnergy(0.5*GeV);
+	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 2);
+	c.previous.setEnergy(0.5);
 
-	c.current.setEnergy(6*GeV); 
+	c.current.setEnergy(6); 
 	splitting.process(&c); // 3. & 4. split, crosses two boundaries
 	weight = weight/nSplit/nSplit;
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
-	c.previous.setEnergy(6*GeV);
+	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 4);
+	c.previous.setEnergy(6);
 
-	c.current.setEnergy(8*GeV); 
+	c.current.setEnergy(8); 
 	splitting.process(&c); // no split, minimal weight reached
 	EXPECT_DOUBLE_EQ(c.getWeight(), weight);
-	c.previous.setEnergy(8*GeV);
+	EXPECT_DOUBLE_EQ(c.getNextSerialNumber(), serial + 4);
+	c.previous.setEnergy(8);
 }
 
 } //namespace crpropa

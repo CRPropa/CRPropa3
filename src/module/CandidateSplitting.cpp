@@ -64,13 +64,9 @@ void CandidateSplitting::process(Candidate *c) const {
 				for (int i = 1; i < nSplit; i++) {
 				
 					ref_ptr<Candidate> new_candidate = c->clone(false);
-					new_candidate->parent = c;
-					uint64_t snr = Candidate::getNextSerialNumber();
-					new_candidate->setSerialNumber(snr);
-					new_candidate->previous.setEnergy(currE); // so that new candidate is not split again in next step!
 					//InteractionTag is PRIM, physically no new particles are created
-					c->addSecondary(new_candidate);
-					Candidate::setNextSerialNumber(snr + 1);
+					new_candidate->parent = c;
+					new_candidate->previous.setEnergy(currE); // so that new candidate is not split again in next step!
 				}
 				if (j < Ebins.size()-1 && currE < Ebins[j+1]){
 					// candidate is in energy bin [j, j+1] -> no further splitting

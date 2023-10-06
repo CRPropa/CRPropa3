@@ -129,58 +129,69 @@ public:
 };
 
 /**
- @class 1DAdvectionShock
- @brief Advection field in x-direction with shock at x = 0 and width x_sh approximated by tanh() 
-		with variable compression ratio r_comp = v_up/v_down
+ @class OneDimensionalCartesianShock
+ @brief Advection field in x-direction with shock at x = 0 and width lShock approximated by tanh() 
+		with variable compression ratio vUp/vDown
  */
-class OneDimensionalAdvectionShock: public AdvectionField {
-	double r_comp; //compression ratio of shock
-	double v_up; //upstream velocity 
-	double x_sh; //shock width
-public:/** Constructor
-	@param r_comp //compression ratio of shock
-	@param v_up //upstream velocity 
-	@param x_sh //shock width
+class OneDimensionalCartesianShock: public AdvectionField {
+	double compressionRatio; //compression ratio of shock
+	double vUp; //upstream velocity 
+	double lShock; //shock width
+public:
+/** Constructor
+	@param compressionRatio //compression ratio of shock
+	@param vUpstream //upstream velocity 
+	@param lShock //shock width
 */
-	OneDimensionalAdvectionShock(double r_comp, double v_up, double x_sh);
+	OneDimensionalCartesianShock(double compressionRatio, double vUp, double lShock);
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
 
-	void setComp(double r_comp);
-	void setVup(double v_up);
-	void setShockwidth(double x_sh);
+	void setComp(double compressionRatio);
+	void setVup(double vUp);
+	void setShockwidth(double lShock);
 
+	double getComp() const;
+	double getVup() const; 
+	double getShockwidth() const;
 
 	std::string getDescription() const;
 };
 
 /**
- @class 1DSphericalShock
- @brief Advection field in r-direction with shock at r_sh and width l_sh approximated by tanh() 
-		with variable compression ratio r_comp = v_up/v_down
+ @class OneDimensionalSphericalShock
+ @brief Advection field in x-direction with shock at rShock and width lShock approximated by tanh() 
+		with variable compression ratio ratio vUp/vDown
  */
 class OneDimensionalSphericalShock: public AdvectionField {
-	double r_comp; 	//compression ratio of shock
-	double v_up; 	//upstream velocity 
-	double l_sh; 	//shock width
-	double r_sh; 	//shock radius
-	bool cool_ups; 	//flag for upstream cooling
-public:/** Constructor
-	@param r_comp 	//compression ratio of shock
-	@param v_up 	//upstream velocity 
-	@param l_sh 	//shock width
-	@param r_sh 	//shock radius
-	@param cool_ups //flag for upstream cooling
+	double compressionRatio; 	//compression ratio of shock
+	double vUp; 	//upstream velocity 
+	double lShock; 	//shock width
+	double rShock; 	//shock radius
+	bool coolUpstream; 	//flag for upstream cooling
+public:
+/** Constructor
+	@param compressionRatio	//compression ratio of shock
+	@param vUp 	//upstream velocity 
+	@param lShock 	//shock width
+	@param rShock 	//shock radius
+	@param coolUpstream //flag for upstream cooling
 */
-	OneDimensionalSphericalShock(double r_sh, double v_up, double q, double l_sh, bool cool_ups);
+	OneDimensionalSphericalShock(double rShock, double vUp, double compressionRatio, double lShock, bool coolUpstream);
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
 
-	void setComp(double q);
-	void setVup(double v_up);
-	void setShockwidth(double l_sh);
-	void setShockRadius(double r_sh);
-	void setCooling(bool cool_ups);
+	void setComp(double compressionRatio);
+	void setVup(double vUp);
+	void setShockwidth(double lShock);
+	void setShockRadius(double rShock);
+	void setCooling(bool coolUpstream);
+
+	double getComp() const; 
+	double getVup() const;
+	double getShockwidth() const;
+	double getShockRadius() const;
+	double getCooling() const;
 
 	std::string getDescription() const;
 };
@@ -192,28 +203,33 @@ public:/** Constructor
 		and remains constant. 
  */
 class ObliqueAdvectionShock: public AdvectionField {
-	double r_comp; //compression ratio of shock
-	double vx_up; //upstream velocity x-component
-	double vy; //constant velocity y-component
-	double x_sh; //shock width
+	double compressionRatio; //compression ratio of shock
+	double vXUp; //upstream velocity x-component
+	double vY; //constant velocity y-component
+	double lShock; //shock width
 	
-public:/** Constructor
-	@param r_comp //compression ratio of shock
-	@param vx_up //upstream velocity x-component
-	@param vy //constant velocity y-component
-	@param x_sh //shock width
+public:
+/** Constructor
+	@param compressionRatio //compression ratio of shock
+	@param vXUp //upstream velocity x-component
+	@param vY //constant velocity y-component
+	@param lShock //shock width
 	
 */
-	ObliqueAdvectionShock(double r_comp, double vx_up, double vy, double x_sh);
+	ObliqueAdvectionShock(double compressionRatio, double vXUp, double vY, double lShock);
 	Vector3d getField(const Vector3d &position) const;
 	double getDivergence(const Vector3d &position) const;
 
-	void setComp(double r_comp);
-	void setVup(double vx_up);
-	void setVy(double vy);
-	void setShockwidth(double x_sh);
+	void setComp(double compressionRatio);
+	void setVup(double vXUp);
+	void setVy(double vY);
+	void setShockwidth(double lShock);
 
-
+	double getComp() const; 
+	double getVup() const;
+	double getVy() const;
+	double getShockwidth() const;
+	
 	std::string getDescription() const;
 };
 
@@ -240,7 +256,6 @@ public:
 	@param r_0 	Position of the shock
 	@param v_0 	Constant velocity (r<<r_o)
 	@param lambda 	Transition width / width of the shock
-	@param r_rot 	Normalization radius for rotation speed
 	@param v_phi 	Rotation speed at r_rot
 */
 	SphericalAdvectionShock(const Vector3d origin, double r_0, double v_0, double lambda);
@@ -262,7 +277,13 @@ public:
 	double getR0() const;
 	double getV0() const;
 	double getLambda() const;
+	/**
+	 * @param r Normalization radius for rotation speed
+	*/	
 	double getRRot() const;
+	/**
+	 * @param vPhi 	Rotation speed at r_rot
+	*/	
 	double getAzimuthalSpeed() const;
 
 	std::string getDescription() const;

@@ -14,6 +14,9 @@
 
 
 namespace crpropa {
+/** @addtogroup Acceleration
+*  @{
+ */
 
 /**
 @class CandidateSplitting
@@ -42,7 +45,7 @@ public:
 	CandidateSplitting(int nSplit, double Emin, double Emax, double nBins, double minWeight, bool log = false);
 	
 	/** Constructor
-	 @param spectralIndex    Absolute value of expected spectral index determines splitting number 
+	 @param spectralIndex    Expected spectral index determines splitting numbe
 	 @param Emin 			 Minimal energy for splitting
 	 @param nBins            Number of bins in energy, with dE(spectralIndex) it determines Emax 
 	 */

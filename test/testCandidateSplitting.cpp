@@ -13,13 +13,13 @@ TEST(testCandidateSplitting, SimpleTest) {
 	int nSplit = 2;
 	int nBins = 4;
 	double minWeight = pow(1. / nSplit, 2);
-	double Emin = 1*GeV;
-	double Emax = 10*GeV; 	
+	double Emin = 1; // dimensionless for testing
+	double Emax = 10; 	
 
 	CandidateSplitting split_lin(nSplit, Emin, Emax, nBins, minWeight);
-	double dE = (Emax-Emin)/nBins;
+	double dE = (Emax - Emin) / nBins;
 	EXPECT_DOUBLE_EQ(split_lin.getEnergyBins()[0], Emin);
-	EXPECT_DOUBLE_EQ(split_lin.getEnergyBins()[1], Emin+dE);
+	EXPECT_DOUBLE_EQ(split_lin.getEnergyBins()[1], Emin + dE);
 
 	EXPECT_EQ(split_lin.getNsplit(), nSplit);
 	EXPECT_DOUBLE_EQ(split_lin.getMinimalWeight(), minWeight);
@@ -27,13 +27,13 @@ TEST(testCandidateSplitting, SimpleTest) {
 	CandidateSplitting split_log(nSplit, Emin, Emax, nBins, minWeight, true);
 	double dE_log = pow(Emax / Emin, 1. / (nBins - 1.0));
 	EXPECT_DOUBLE_EQ(split_log.getEnergyBins()[0], Emin);
-	EXPECT_DOUBLE_EQ(split_log.getEnergyBins()[1], Emin*dE_log);
+	EXPECT_DOUBLE_EQ(split_log.getEnergyBins()[1], Emin * dE_log);
 
-	double spectralIndex = 2.;
+	double spectralIndex = -2.;
 	CandidateSplitting split_dsa(spectralIndex, Emin, nBins);
-	double dE_dsa = pow(1. / 2, 1. / (-spectralIndex + 1));
-	EXPECT_DOUBLE_EQ(split_dsa.getEnergyBins()[0], Emin*dE_dsa);
-	EXPECT_DOUBLE_EQ(split_dsa.getEnergyBins()[nBins-1], Emin * pow(dE_dsa, nBins));
+	double dE_dsa = pow(1. / 2, 1. / (spectralIndex + 1));
+	EXPECT_DOUBLE_EQ(split_dsa.getEnergyBins()[0], Emin * dE_dsa);
+	EXPECT_DOUBLE_EQ(split_dsa.getEnergyBins()[nBins - 1], Emin * pow(dE_dsa, nBins));
 }
 
 

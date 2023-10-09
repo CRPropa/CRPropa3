@@ -35,20 +35,11 @@ public:
 	 @param nSplit 	Number of copies candidates are split 
 	 @param Emin 		Minimal energy for splitting
 	 @param Emax		Maximal energy for splitting
-	 @param minWeight   Mimimal Weight
-	 @param nBins		Number of energy bins 
-	 */
-	CandidateSplitting(int nSplit, double Emin, double Emax, double nBins, double minWeight);
-	
-	/** Constructor
-	 @param nSplit 	Number of copies candidates are split 
-	 @param Emin 		Minimal energy for splitting
-	 @param Emax		Maximal energy for splitting
 	 @param nBins		Number of energy bins 
 	 @param minWeight   Mimimal Weight
 	 @param log 		Energy bins in log
 	 */
-	CandidateSplitting(int nSplit, double Emin, double Emax, double nBins, double minWeight, bool log);
+	CandidateSplitting(int nSplit, double Emin, double Emax, double nBins, double minWeight, bool log = false);
 	
 	/** Constructor
 	 @param spectralIndex    Absolute value of expected spectral index determines splitting number 

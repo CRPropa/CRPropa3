@@ -8,13 +8,6 @@ CandidateSplitting::CandidateSplitting() {
 	setMinimalWeight(1.);
 }
 
-CandidateSplitting::CandidateSplitting(int nSplit, double Emin, double Emax, double nBins, double minWeight) {
-	// linear energy bins:
-	setNsplit(nSplit);
-	setEnergyBins(Emin, Emax, nBins, false);
-	setMinimalWeight(minWeight);
-}
-
 CandidateSplitting::CandidateSplitting(int nSplit, double Emin, double Emax,  double nBins, double minWeight, bool log) {
 	setNsplit(nSplit);
 	setEnergyBins(Emin, Emax, nBins, log);
@@ -23,13 +16,13 @@ CandidateSplitting::CandidateSplitting(int nSplit, double Emin, double Emax,  do
 
 CandidateSplitting::CandidateSplitting(double spectralIndex, double Emin, int nBins)  {
 	// to use with Diffusive Shock Acceleration
-	if (spectralIndex <= 0){
+	if (spectralIndex > 0){
 		throw std::runtime_error(
-				"CandidateSplitting: spectralIndex <= 0 !");
+				"CandidateSplitting: spectralIndex > 0 !"); 
 	}
 
 	setNsplit(2); // always split in 2, calculate bins in energy for given spectrum:
-	double dE = pow(1. / 2, 1. / (-spectralIndex + 1)); 
+	double dE = pow(1. / 2, 1. / (spectralIndex + 1)); 
 	setEnergyBinsDSA(Emin, dE, nBins);
 	setMinimalWeight(1. / pow(2, nBins));
 }

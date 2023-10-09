@@ -140,7 +140,7 @@ class OneDimensionalCartesianShock: public AdvectionField {
 public:
 /** Constructor
 	@param compressionRatio //compression ratio of shock
-	@param vUpstream //upstream velocity 
+	@param vUp //upstream velocity 
 	@param lShock //shock width
 */
 	OneDimensionalCartesianShock(double compressionRatio, double vUp, double lShock);
@@ -191,7 +191,7 @@ public:
 	double getVup() const;
 	double getShockwidth() const;
 	double getShockRadius() const;
-	double getCooling() const;
+	bool getCooling() const;
 
 	std::string getDescription() const;
 };
@@ -234,8 +234,6 @@ public:
 };
 
 /**
-
-/**
  @class SphericalAdvectionShock
  @brief Spherical advection with a constant velocity for r<r_0
 	at the the shock the velocity drops to v_0/4. followed by
@@ -256,7 +254,6 @@ public:
 	@param r_0 	Position of the shock
 	@param v_0 	Constant velocity (r<<r_o)
 	@param lambda 	Transition width / width of the shock
-	@param v_phi 	Rotation speed at r_rot
 */
 	SphericalAdvectionShock(const Vector3d origin, double r_0, double v_0, double lambda);
 

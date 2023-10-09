@@ -334,7 +334,7 @@ double OneDimensionalSphericalShock::getShockRadius() const {
 	return rShock;
 }
 
-double OneDimensionalSphericalShock::getCooling() const {
+bool OneDimensionalSphericalShock::getCooling() const {
 	return coolUpstream;
 }
 

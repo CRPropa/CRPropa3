@@ -564,6 +564,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/module/EMInverseComptonScattering.h"
 %include "crpropa/module/SynchrotronRadiation.h"
 %include "crpropa/module/AdiabaticCooling.h"
+%include "crpropa/module/CandidateSplitting.h"
 
 %template(IntSet) std::set<int>;
 %include "crpropa/module/Tools.h"

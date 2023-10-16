@@ -390,6 +390,7 @@ add_library(crpropa SHARED
   src/module/Acceleration.cpp
   src/module/Boundary.cpp
   src/module/BreakCondition.cpp
+  src/module/CandidateSplitting.cpp
   src/module/DiffusionSDE.cpp
   src/module/EMCascade.cpp
   src/module/EMDoublePairProduction.cpp
@@ -656,6 +657,9 @@ if(ENABLE_TESTING)
   target_link_libraries(testAdiabaticCooling crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testAdiabaticCooling testAdiabaticCooling)
 
+  add_executable(testCandidateSplitting test/testCandidateSplitting.cpp)
+  target_link_libraries(testCandidateSplitting crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
+  add_test(testCandidateSplitting testCandidateSplitting)
 
   if(WITH_GALACTIC_LENSES)
     add_executable(testGalacticMagneticLens test/testMagneticLens.cpp)

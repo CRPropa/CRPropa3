@@ -29,6 +29,7 @@
 #include "crpropa/module/Acceleration.h"
 #include "crpropa/module/Boundary.h"
 #include "crpropa/module/BreakCondition.h"
+#include "crpropa/module/CandidateSplitting.h"
 #include "crpropa/module/DiffusionSDE.h"
 #include "crpropa/module/EMCascade.h"
 #include "crpropa/module/EMDoublePairProduction.h"

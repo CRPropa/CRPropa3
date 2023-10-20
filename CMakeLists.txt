@@ -336,16 +336,18 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
-set(CRPROPA_DATAFILE_VER "2022-07-06")
+set(CRPROPA_DATAFILE_VER "2023-10-20")
 if(DOWNLOAD_DATA)
-  message("-- Downloading data file from crpropa.desy.de ~ 65 MB")
+  message("-- Downloading data file from crpropa.desy.de ~ 73 MB")
   file(DOWNLOAD
-    https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
-    ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM)
+  https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
+    ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM 
+    USERPWD "3juW9sntQX2IWBS")
   file(STRINGS ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM DATA_CHECKSUM LIMIT_COUNT 1 LENGTH_MINIMUM 32 LENGTH_MAXIMUM 32)
   file(DOWNLOAD
-    https://www.desy.de/~crpropa/data/interaction_data/data-${CRPROPA_DATAFILE_VER}.tar.gz
+  https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz
     ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz
+    USERPWD "3juW9sntQX2IWBS"
     EXPECTED_MD5 "${DATA_CHECKSUM}")
   message("-- Extracting data file")
 else()

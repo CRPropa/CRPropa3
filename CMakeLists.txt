@@ -400,6 +400,7 @@ add_library(crpropa SHARED
   src/module/ElasticScattering.cpp
   src/module/ElectronPairProduction.cpp
   src/module/HDF5Output.cpp
+  src/module/MomentumDiffusion.cpp
   src/module/NuclearDecay.cpp
   src/module/Observer.cpp
   src/module/Output.cpp
@@ -679,6 +680,9 @@ if(ENABLE_TESTING)
 
     CONFIGURE_FILE(test/testDiffusionSDE.py testDiffusionSDE.py COPYONLY)
     add_test(testDiffusionSDE ${PYTHON_EXECUTABLE} testDiffusionSDE.py)
+
+    CONFIGURE_FILE(test/testMomentumDiffusion.py testMomentumDiffusion.py COPYONLY)
+    add_test(testMomentumDiffusion ${PYTHON_EXECUTABLE} testMomentumDiffusion.py)
 
     CONFIGURE_FILE(test/testPythonExtension.py testPythonExtension.py COPYONLY)
     add_test(testPythonExtension ${PYTHON_EXECUTABLE} testPythonExtension.py)

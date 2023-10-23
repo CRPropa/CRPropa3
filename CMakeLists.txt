@@ -338,7 +338,7 @@ endif(APPLE)
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
 set(CRPROPA_DATAFILE_VER "2023-10-20")
 if(DOWNLOAD_DATA)
-  message("-- Downloading data file from crpropa.desy.de ~ 73 MB")
+  message("-- Downloading data files from sciebo ~ 73 MB")
   file(DOWNLOAD
   https://ruhr-uni-bochum.sciebo.de/public.php/webdav/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM
     ${CMAKE_BINARY_DIR}/data-${CRPROPA_DATAFILE_VER}.tar.gz-CHECKSUM 

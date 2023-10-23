@@ -39,6 +39,14 @@ class MomentumDiffusion(unittest.TestCase):
     def test_Simple(self):
         self.assertEqual(self.momDif.getDpp(), self.Dpp)
         self.assertEqual(self.momDif.getLimit(), self.limit)
+
+    def test_Limits(self):
+        Dpp2 = 10
+        limit2 = 0.4
+	
+        momDif = crpropa.ConstantMomentumDiffusion(Dpp2, limit2)
+        self.assertEqual(momDif.getDpp(), Dpp2)
+        self.assertEqual(momDif.getLimit(), limit2)
     
     def test_Helper(self):
         """Test to check the calculation of the helper functions

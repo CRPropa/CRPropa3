@@ -7,13 +7,18 @@ ConstantMomentumDiffusion::ConstantMomentumDiffusion(double Dpp) {
 	setDpp(Dpp);
 }
 
+ConstantMomentumDiffusion::ConstantMomentumDiffusion(double Dpp, double limit) {
+	setLimit(limit);
+	setDpp(Dpp);
+}
+
 void ConstantMomentumDiffusion::process(Candidate *c) const {
 	double rig = c->current.getRigidity();
 	if (std::isinf(rig)) {
 		return; // Only charged particles
 	}
 	
-	double p = c->current.getEnergy()/c_light; // Note we use E=p/c (relativistic limit)
+	double p = c->current.getEnergy() / c_light; // Note we use E=p/c (relativistic limit)
 	double dt = c->getCurrentStep() / c_light;
 	
 	double eta =  Random::instance().randNorm();
@@ -23,13 +28,13 @@ void ConstantMomentumDiffusion::process(Candidate *c) const {
 	double BScal = calculateBScalar();
 
 	double dp = AScal * dt + BScal * domega;
-	c->current.setEnergy((p + dp)*c_light);
+	c->current.setEnergy((p + dp) * c_light);
 	
 	c->limitNextStep(limit * p / AScal * c_light);
 }
 
 double ConstantMomentumDiffusion::calculateAScalar(double p) const {
-	double a = + 2./p * Dpp;
+	double a = + 2. / p * Dpp;
 	return a; 
 }
 
@@ -60,7 +65,7 @@ double ConstantMomentumDiffusion::getLimit() const {
 std::string ConstantMomentumDiffusion::getDescription() const {
 	std::stringstream s;
 	s << "limit: " << limit << "\n";
-	s << "Dpp: " << Dpp / (meter*meter/second) << " m^2/s";
+	s << "Dpp: " << Dpp / (meter * meter / second) << " m^2/s";
 
 	return s.str();
 }

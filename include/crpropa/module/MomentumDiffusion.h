@@ -36,8 +36,13 @@ public:
 	/** Constructor
 	@param Dpp 	momentum diffusion coefficient
 	*/
-
 	ConstantMomentumDiffusion(double Dpp);
+
+	/** Constructor
+	@param Dpp 		momentum diffusion coefficient
+	@param limit 	maximal fractional energy loss
+	*/
+	ConstantMomentumDiffusion(double Dpp, double limit);
 
 	void process(Candidate *candidate) const;
 	double calculateAScalar(double p) const;

@@ -5,6 +5,8 @@
 	Common functions
  */
 
+#include <complex>
+
 #include "crpropa/Candidate.h"
 #include "crpropa/base64.h"
 #include "crpropa/Common.h"
@@ -16,6 +18,7 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/Geometry.h"
 #include "crpropa/EmissionMap.h"
+#include "crpropa/Vector3.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include "gtest/gtest.h"
@@ -976,8 +979,7 @@ TEST(EmissionMap, merge) {
 }
 
 
-TEST(Variant, copyToBuffer)
-{
+TEST(Variant, copyToBuffer) {
 	double a = 23.42;
 	Variant v(a);
 	double b;
@@ -985,8 +987,7 @@ TEST(Variant, copyToBuffer)
 	EXPECT_EQ(a, b);
 }
 
-TEST(Variant, stringConversion)
-{
+TEST(Variant, stringConversion) {
 	Variant v, w;
 	{
 		int32_t a = 12;
@@ -1005,25 +1006,66 @@ TEST(Variant, stringConversion)
 		w = Variant::fromString(v.toString(), v.getType());
 		EXPECT_EQ(a, w.asInt64());
 	}
+
+	{
+		Vector3d a(1, 2, 3);
+		Variant v = Variant::fromVector3d(a);
+		Vector3d u = v.asVector3d();
+		EXPECT_EQ(a.getX(), u.getX());
+		EXPECT_EQ(a.getY(), u.getY());
+		EXPECT_EQ(a.getZ(), u.getZ());
+	}
+
+	{
+		std::complex<double> a1(1, 1);
+		std::complex<double> a2(2, 0);
+		Vector3<std::complex<double>> a(a1, a1, a2);
+		Variant v = Variant::fromVector3c(a);
+		Vector3<std::complex<double>> u = v.asVector3c();
+		EXPECT_EQ(a1, u.getX());
+		EXPECT_EQ(a1, u.getY());
+		EXPECT_EQ(a2, u.getZ());
+	}
+
+	{
+		std::complex<double> a(1, 2);
+		Variant v = Variant::fromComplexDouble(a);
+		std::complex<double> u = v.asComplexDouble();
+		EXPECT_EQ(u.real(), 1);
+		EXPECT_EQ(u.imag(), 2);
+	}
+
+	{
+		std::vector<Variant> a;
+		a.push_back(Variant::fromDouble(1));
+		a.push_back(Variant::fromDouble(2));
+		a.push_back(Variant::fromDouble(3));
+		a.push_back(Variant::fromDouble(4));
+		Variant v = Variant::fromVector(a);
+		std::vector<Variant> u = v.asVector();
+		EXPECT_EQ(a[0], Variant::fromDouble(u[0]));
+		EXPECT_EQ(a[1], Variant::fromDouble(u[1]));
+		EXPECT_EQ(a[2], Variant::fromDouble(u[2]));
+		EXPECT_EQ(a[3], Variant::fromDouble(u[3]));
+	}
+
+
 }
 
 
-TEST(Geometry, Plane)
-{
+TEST(Geometry, Plane) {
 	Plane p(Vector3d(0,0,1), Vector3d(0,0,1));
 	EXPECT_DOUBLE_EQ(-1., p.distance(Vector3d(0, 0, 0)));
 	EXPECT_DOUBLE_EQ(9., p.distance(Vector3d(1, 1, 10)));
 }
 
-TEST(Geometry, Sphere)
-{
+TEST(Geometry, Sphere) {
 	Sphere s(Vector3d(0,0,0), 1.);
 	EXPECT_DOUBLE_EQ(-1., s.distance(Vector3d(0, 0, 0)));
 	EXPECT_DOUBLE_EQ(9., s.distance(Vector3d(10, 0, 0)));
 }
 
-TEST(Geometry, ParaxialBox)
-{
+TEST(Geometry, ParaxialBox) {
 	ParaxialBox b(Vector3d(0,0,0), Vector3d(3,4,5));
 	EXPECT_NEAR(-.1, b.distance(Vector3d(0.1, 0.1, 0.1)), 1E-10);
 	EXPECT_NEAR(-.1, b.distance(Vector3d(0.1, 3.8, 0.1)), 1E-10);

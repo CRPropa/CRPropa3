@@ -31,7 +31,6 @@
 #include "crpropa/module/BreakCondition.h"
 #include "crpropa/module/CandidateSplitting.h"
 #include "crpropa/module/DiffusionSDE.h"
-#include "crpropa/module/EMCascade.h"
 #include "crpropa/module/EMDoublePairProduction.h"
 #include "crpropa/module/EMInverseComptonScattering.h"
 #include "crpropa/module/EMPairProduction.h"

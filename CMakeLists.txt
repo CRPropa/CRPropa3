@@ -164,11 +164,6 @@ add_subdirectory(libs/sophia)
 list(APPEND CRPROPA_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/sophia)
 
-# DINT (provided)
-add_subdirectory(libs/dint)
-list(APPEND CRPROPA_EXTRA_LIBRARIES dint)
-list(APPEND CRPROPA_EXTRA_INCLUDES libs/dint/include)
-
 # EleCa (provided)
 add_subdirectory(libs/EleCa)
 list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
@@ -381,7 +376,6 @@ add_library(crpropa SHARED
   src/ParticleMass.cpp
   src/ParticleState.cpp
   src/PhotonBackground.cpp
-  src/PhotonPropagation.cpp
   src/ProgressBar.cpp
   src/Random.cpp
   src/Source.cpp
@@ -392,7 +386,6 @@ add_library(crpropa SHARED
   src/module/BreakCondition.cpp
   src/module/CandidateSplitting.cpp
   src/module/DiffusionSDE.cpp
-  src/module/EMCascade.cpp
   src/module/EMDoublePairProduction.cpp
   src/module/EMInverseComptonScattering.cpp
   src/module/EMPairProduction.cpp
@@ -624,10 +617,6 @@ if(ENABLE_TESTING)
   add_executable(testDensity test/testDensity.cpp)
   target_link_libraries(testDensity crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
   add_test(testDensity testDensity)
-
-  add_executable(testDINT test/testDINT.cpp)
-  target_link_libraries(testDINT crpropa gtest gtest_main pthread ${COVERAGE_LIBS})
-  add_test(testDINT testDINT)
 
   add_executable(testPropagation test/testPropagation.cpp)
   target_link_libraries(testPropagation crpropa gtest gtest_main pthread ${COVERAGE_LIBS})

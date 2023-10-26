@@ -164,11 +164,6 @@ add_subdirectory(libs/sophia)
 list(APPEND CRPROPA_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/sophia)
 
-# EleCa (provided)
-add_subdirectory(libs/EleCa)
-list(APPEND CRPROPA_EXTRA_LIBRARIES eleca)
-list(APPEND CRPROPA_EXTRA_INCLUDES libs/EleCa/include)
-
 # GlacticMagneticLenses
 option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
 option(INSTALL_EIGEN "Install provided EIGEN headers" OFF)
@@ -400,7 +395,6 @@ add_library(crpropa SHARED
   src/module/ParticleCollector.cpp
   src/module/PhotoDisintegration.cpp
   src/module/PhotoPionProduction.cpp
-  src/module/PhotonEleCa.cpp
   src/module/PhotonOutput1D.cpp
   src/module/PropagationBP.cpp
   src/module/PropagationCK.cpp

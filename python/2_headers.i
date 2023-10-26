@@ -547,7 +547,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
-%include "crpropa/module/PhotonEleCa.h"
 %include "crpropa/module/PhotonOutput1D.h"
 %include "crpropa/module/NuclearDecay.h"
 %include "crpropa/module/ElectronPairProduction.h"

@@ -17,6 +17,11 @@
 * ObserverPoint will be renamed into Observer1D.
 * AMRMagenticField - underlying library (saga) is no longer supported.
 
+### removed features 
+* External extensions DINT and Eleca, which can be replaced with the 
+  EM*-modules combined with the thinning option for reasonable computation
+  times.
+
 ### New plugins and resources linked on the webpages:
 * FieldlineIntegrator
 * grplinst

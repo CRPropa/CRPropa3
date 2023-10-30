@@ -17,7 +17,7 @@
 * ObserverPoint will be renamed into Observer1D.
 * AMRMagenticField - underlying library (saga) is no longer supported.
 
-### removed features 
+### Removed features 
 * External extensions DINT and Eleca, which can be replaced with the 
   EM*-modules combined with the thinning option for reasonable computation
   times.
@@ -27,8 +27,7 @@
 * grplinst
 * monopole
 * ROOTOutputPlugin
-
-
+  
 
 ## CRPropa 3.2
 

@@ -60,6 +60,7 @@ void CandidateSplitting::process(Candidate *c) const {
 					//InteractionTag is PRIM, physically no new particles are created
 					new_candidate->parent = c;
 					new_candidate->previous.setEnergy(currE); // so that new candidate is not split again in next step!
+					c->addSecondary(new_candidate);
 				}
 				if (j < Ebins.size()-1 && currE < Ebins[j+1]){
 					// candidate is in energy bin [j, j+1] -> no further splitting

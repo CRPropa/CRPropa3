@@ -57,7 +57,6 @@ void CandidateSplitting::process(Candidate *c) const {
 				for (int i = 1; i < nSplit; i++) {
 				
 					ref_ptr<Candidate> new_candidate = c->clone(false);
-					//InteractionTag is PRIM, physically no new particles are created
 					new_candidate->parent = c;
 					new_candidate->previous.setEnergy(currE); // so that new candidate is not split again in next step!
 					c->addSecondary(new_candidate);

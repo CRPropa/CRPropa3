@@ -10,6 +10,8 @@
 * Grids can be restricted to the volume without repetition (clipVolume parameter)
 * SourceFeature to sample the source position from a given massdistribution
 * EBL model from Saldana-Lopez et al. 2021
+* New module CandidateSplitting for better statistics at high energies for e.g. diffusive shock acceleration
+* New advection fields for modeling diffusive shock acceleration at 1D planar, oblique and spherical shocks
 
 ### Interface changes:
 * Weight column in hdf-Output is now called "W", which is the same as for TextOutput.

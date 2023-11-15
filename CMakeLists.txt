@@ -232,7 +232,7 @@ if(FFTW3F_FOUND)
 endif(FFTW3F_FOUND)
 
 # Quimby (optional for SPH magnetic fields)
-option(ENABLE_QUIMBY "Quimby Support" ON)
+option(ENABLE_QUIMBY "Quimby Support" OFF)
 if(ENABLE_QUIMBY)
   find_package(Quimby)
   if(QUIMBY_FOUND)

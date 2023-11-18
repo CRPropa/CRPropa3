@@ -7,6 +7,7 @@ CRPropa3
 
 [![DOI:10.1088/1475-7516/2022/09/035](http://img.shields.io/badge/DOI-10.1088/1475-7516/2022/09/035.svg)](<https://doi.org/10.1088/1475-7516/2022/09/035>)
 [![arXiv](https://img.shields.io/badge/arXiv-2208.00107-b31b1b.svg)](https://arxiv.org/abs/2208.00107)
+[![ascl:2208.016](https://img.shields.io/badge/ascl-2208.016-blue.svg?colorB=262255)](https://ascl.net/2208.016)
 
 CRPropa is a publicly available simulation framework to study the propagation
 of ultra-high-energy nuclei up to iron on their voyage through an

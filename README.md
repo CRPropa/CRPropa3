@@ -5,6 +5,9 @@ CRPropa3
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
 
+[![DOI:10.1088/1475-7516/2022/09/035](http://img.shields.io/badge/DOI-10.1088/1475-7516/2022/09/035.svg)](<https://doi.org/10.1088/1475-7516/2022/09/035>)
+[![arXiv](https://img.shields.io/badge/arXiv-2208.00107-b31b1b.svg)](https://arxiv.org/abs/2208.00107)
+
 CRPropa is a publicly available simulation framework to study the propagation
 of ultra-high-energy nuclei up to iron on their voyage through an
 (extra)galactic environment. It takes into account: pion production,

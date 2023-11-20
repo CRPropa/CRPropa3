@@ -1,3 +1,18 @@
+## CRPropa vNext
+
+### Bug fixes:
+
+### New features:
+
+### Interface changes:
+
+### Features that are deprecated and will be removed after this release
+
+### Removed features 
+
+### New plugins and resources linked on the webpages
+
+
 ## CRPropa 3.2.1
 
 ### Bug fixes:
@@ -18,7 +33,7 @@
 
 ### Features that are deprecated and will be removed after this release
 * ObserverPoint will be renamed into Observer1D.
-* AMRMagenticField - underlying library (saga) is no longer supported.
+* AMRMagneticField - underlying library (saga) is no longer supported.
 
 ### Removed features 
 * External extensions DINT and Eleca, which can be replaced with the 

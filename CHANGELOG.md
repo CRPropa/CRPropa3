@@ -1,4 +1,4 @@
-## CRPropa vNext
+## CRPropa 3.2.1
 
 ### Bug fixes:
 * Re-added ToroidalHaloField and LogarithmicSpiralField models. Note, that the class name was also corrected in spelling: TorroidalHaloField --> ToroidalHaloField

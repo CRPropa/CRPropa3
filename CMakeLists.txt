@@ -219,7 +219,7 @@ find_package(GooglePerfTools)
 set(TCMALLOC)
 if(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
   set(TCMALLOC ${TCMALLOC_LIBRARY})
-  list(APPEND CRPROPA_EXTRA_LIBRARIES profiler)
+  list(APPEND CRPROPA_EXTRA_LIBRARIES ${GooglePerfTools_LIBRARIES})
 endif(GOOGLE_PERFTOOLS_FOUND AND NOT NO_TCMALLOC)
 
 # FFTW3F (optional for turbulent magnetic fields)

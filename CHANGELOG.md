@@ -2,6 +2,9 @@
 
 ### Bug fixes:
 
+* Bug fixes in python package finding related: deprecation of distutils, pkg_resources
+* Use CMake's Python finder for newer python versions (3.12+)
+
 ### New features:
 
 ### Interface changes:

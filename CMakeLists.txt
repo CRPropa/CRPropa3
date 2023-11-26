@@ -1,10 +1,10 @@
 if(APPLE)
   # rpath specific patches
-  cmake_minimum_required(VERSION 2.8.12)
+  cmake_minimum_required(VERSION 2.8.12...3.27)
 else(APPLE)
   # require > 2.8.8 for FILE DOWNLOAD fixes
   # allow < 2.8.12 for debian backports
-  cmake_minimum_required(VERSION 2.8.11)
+  cmake_minimum_required(VERSION 2.8.11...3.27)
 endif(APPLE)
 
 project(CRPropa Fortran C CXX)
@@ -462,13 +462,28 @@ endif(BUILD_DOC)
 # Python
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
-find_package(PythonInterp)
-find_package(PythonLibs)
 
-if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
+if(CMAKE_VERSION VERSION_LESS "3.12")
+  # deprecated since CMake 3.12
+  #   https://cmake.org/cmake/help/latest/module/FindPythonLibs.html
+  find_package(PythonInterp)
+  find_package(PythonLibs)
+  set(PYTHON_FOUND ${PYTHONLIBS_FOUND})
+else()
+  find_package(Python COMPONENTS Interpreter Development)
+endif()
 
+if(ENABLE_PYTHON AND PYTHON_FOUND)
   find_package(SWIG 3.0 REQUIRED)
-  include(python/Python.cmake)
+
+  if(CMAKE_VERSION VERSION_LESS "3.12")
+    # Use built-in Python finder; otherwise use CMake's
+    include(python/Python.cmake)
+    set(PYTHON_VERSION ${PYTHON_VERSION_STRING})
+  else()
+    set(PYTHON_INCLUDE_PATH ${PYTHON_INCLUDE_DIRS})
+    set(PYTHON_VERSION ${Python_VERSION})
+  endif()
   include_directories(${PYTHON_INCLUDE_PATH})
 
   if(SWIG_VERSION VERSION_GREATER 4.0)
@@ -496,9 +511,9 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
     set(PY3 "")
   endif(ENABLE_SWIG_BUILTIN)
 
-  if(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+  if(PYTHON_VERSION VERSION_GREATER 3.0)
     list(APPEND CRPROPA_SWIG_DEFINES -DSWIG_PYTHON3)
-  endif(PYTHON_VERSION_STRING VERSION_GREATER 3.0)
+  endif(PYTHON_VERSION VERSION_GREATER 3.0)
 
   # tries to import numpy
   execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
@@ -508,7 +523,7 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
     list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
     include_directories(${numpyIncludePath})
   else(numpyIncludePath)
-    MESSAGE(STATUS "Numpy not found.")
+    MESSAGE(STATUS "NumPy not found.")
   endif(numpyIncludePath)
 
   set(SWIG_INCLUDES)
@@ -531,14 +546,14 @@ if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
   # disable warnings on automatically generated interface code
   set_target_properties(crpropa-swig PROPERTIES COMPILE_FLAGS "-w")
   set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
-  target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES})
+  target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES} ${PYTHON_LIBRARY})
   add_dependencies(crpropa-swig crpropa-swig-wrapper)
 
   install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${PYTHON_SITE_PACKAGES}")
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
   install(TARGETS crpropa-swig LIBRARY DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
   install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
-endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
+endif(ENABLE_PYTHON AND PYTHON_FOUND)
 
 
 # ----------------------------------------------------------------------------

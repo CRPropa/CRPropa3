@@ -1,16 +1,10 @@
-if(APPLE)
-  # rpath specific patches
-  cmake_minimum_required(VERSION 2.8.12...3.27)
-else(APPLE)
-  # require > 2.8.8 for FILE DOWNLOAD fixes
-  # allow < 2.8.12 for debian backports
-  cmake_minimum_required(VERSION 2.8.11...3.27)
-endif(APPLE)
+cmake_minimum_required(VERSION 3.14...3.29)
 
 project(CRPropa Fortran C CXX)
 set(CRPROPA_RELEASE_VERSION 3.2.1+)  # Update for new release
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+set(CMAKE_CXX_STANDARD 11)
 
 set(CRPROPA_EXTRA_SOURCES)
 set(CRPROPA_EXTRA_INCLUDES)
@@ -18,16 +12,6 @@ set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
 set(CRPROPA_SWIG_INPUTS)
 
-macro(USE_CXX11)
-  if(CMAKE_VERSION VERSION_LESS "3.1")
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-    endif()
-  else()
-    set(CMAKE_CXX_STANDARD 11)
-  endif()
-endmacro(USE_CXX11)
-USE_CXX11()
 
 if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
@@ -463,35 +447,50 @@ endif(BUILD_DOC)
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
 
-if(CMAKE_VERSION VERSION_LESS "3.12")
-  # deprecated since CMake 3.12
-  #   https://cmake.org/cmake/help/latest/module/FindPythonLibs.html
-  find_package(PythonInterp)
-  find_package(PythonLibs)
-  set(PYTHON_FOUND ${PYTHONLIBS_FOUND})
-else()
-  find_package(Python COMPONENTS Interpreter Development)
-endif()
+# Python 2 is not supported
+find_package(Python 3.0
+  REQUIRED COMPONENTS Interpreter Development
+  OPTIONAL_COMPONENTS NumPy)
 
-if(ENABLE_PYTHON AND PYTHON_FOUND)
+if(NOT Python_FOUND)
+  message(STATUS "Python: NOT found!")
+endif(NOT Python_FOUND)
+
+if(ENABLE_PYTHON AND Python_FOUND)
   find_package(SWIG 3.0 REQUIRED)
+  include_directories(${Python_INCLUDE_DIRS})
 
-  if(CMAKE_VERSION VERSION_LESS "3.12")
-    # Use built-in Python finder; otherwise use CMake's
-    include(python/Python.cmake)
-    set(PYTHON_VERSION ${PYTHON_VERSION_STRING})
-  else()
-    set(PYTHON_INCLUDE_PATH ${Python_INCLUDE_DIRS})
-    set(PYTHON_VERSION ${Python_VERSION})
-  endif()
-  include_directories(${PYTHON_INCLUDE_PATH})
+  # print Python info in detail
+  message(STATUS "Python: Found!")
+  message(STATUS "  version ${Python_VERSION}")
+  message(STATUS "  executable: ${Python_EXECUTABLE}")
+  message(STATUS "  libraries: ${Python_LIBRARIES}")
+  message(STATUS "  headers: ${Python_INCLUDE_DIRS}")
+  message(STATUS "  site packages: ${Python_SITELIB}")
+  if(Python_Development_FOUND)
+    message(STATUS "  development libraries: Found!")
+  elseif(Python_Development_FOUND)
+    message(STATUS "  development libraries: NOT found!")
+  endif(Python_Development_FOUND)
+
+  # look for NumPy
+  if(Python_NumPy_FOUND)
+    set(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
+    list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
+    include_directories(${Python_NumPy_INCLUDE_DIRS})
+    message(STATUS "NumPy: Found!")
+    message(STATUS "  headers: ${Python_NumPy_INCLUDE_DIRS} (version ${Python_NumPy_VERSION})")
+  elseif(Python_NumPy_FOUND)
+    message(STATUS "NumPy: NOT found!")
+    message(STATUS "  CRPropa might work just fine with Python, but features like Galactic lenses will not be available.")
+  endif(Python_NumPy_FOUND)
 
   if(SWIG_VERSION VERSION_GREATER 4.0)
     # Use swig 4 builtin doxygen instead of external program
     list(APPEND CRPROPA_SWIG_DEFINES -doxygen)
   else()
     if(BUILD_DOC AND DOXYGEN_FOUND)
-      LIST(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
+      list(APPEND CRPROPA_SWIG_INPUTS ${CMAKE_BINARY_DIR}/docstrings_from_doxy.i)
       list(APPEND CRPROPA_SWIG_DEFINES -DWITH_DOXYGEN)
       list(APPEND SWIG_INCLUDE_DIRECTORIES ${CMAKE_BINARY_DIR})
     endif(BUILD_DOC AND DOXYGEN_FOUND)
@@ -511,20 +510,9 @@ if(ENABLE_PYTHON AND PYTHON_FOUND)
     set(PY3 "")
   endif(ENABLE_SWIG_BUILTIN)
 
-  if(PYTHON_VERSION VERSION_GREATER 3.0)
+  if(Python_VERSION VERSION_GREATER 3.0)
     list(APPEND CRPROPA_SWIG_DEFINES -DSWIG_PYTHON3)
-  endif(PYTHON_VERSION VERSION_GREATER 3.0)
-
-  # tries to import numpy
-  execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/python/checkNumpy.py" OUTPUT_VARIABLE numpyIncludePath)
-  if(numpyIncludePath)
-    MESSAGE(STATUS "Found numpy headers in " ${numpyIncludePath})
-    SET(CMAKE_SWIG_FLAGS -DWITHNUMPY ${CRP})
-    list(APPEND CRPROPA_SWIG_DEFINES -DWITHNUMPY)
-    include_directories(${numpyIncludePath})
-  else(numpyIncludePath)
-    MESSAGE(STATUS "NumPy not found.")
-  endif(numpyIncludePath)
+  endif(Python_VERSION VERSION_GREATER 3.0)
 
   set(SWIG_INCLUDES)
   foreach(p in ${SWIG_INCLUDE_DIRECTORIES})
@@ -546,14 +534,14 @@ if(ENABLE_PYTHON AND PYTHON_FOUND)
   # disable warnings on automatically generated interface code
   set_target_properties(crpropa-swig PROPERTIES COMPILE_FLAGS "-w")
   set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
-  target_link_libraries(crpropa-swig crpropa ${PYTHON_LIBRARIES} ${PYTHON_LIBRARY})
+  target_link_libraries(crpropa-swig crpropa ${Python_LIBRARIES} ${Python_LIBRARY})
   add_dependencies(crpropa-swig crpropa-swig-wrapper)
 
-  install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${PYTHON_SITE_PACKAGES}")
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
-  install(TARGETS crpropa-swig LIBRARY DESTINATION "${PYTHON_SITE_PACKAGES}/crpropa")
+  install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${Python_SITELIB}")
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${Python_SITELIB}/crpropa")
+  install(TARGETS crpropa-swig LIBRARY DESTINATION "${Python_SITELIB}/crpropa")
   install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
-endif(ENABLE_PYTHON AND PYTHON_FOUND)
+endif(ENABLE_PYTHON AND Python_FOUND)
 
 
 # ----------------------------------------------------------------------------
@@ -669,23 +657,23 @@ if(ENABLE_TESTING)
   endif(WITH_GALACTIC_LENSES)
 
   # python tests
-  if(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
-    CONFIGURE_FILE(test/testMagneticLensPythonInterface.py testMagneticLensPythonInterface.py COPYONLY)
-    if(numpyIncludePath AND WITH_GALACTIC_LENSES)
-      add_test(testMagneticLensPythonInterface ${PYTHON_EXECUTABLE} testMagneticLensPythonInterface.py)
-    endif(numpyIncludePath AND WITH_GALACTIC_LENSES)
+  if(ENABLE_PYTHON AND Python_Development_FOUND)
+    configure_file(test/testMagneticLensPythonInterface.py testMagneticLensPythonInterface.py COPYONLY)
+    if(Python_NumPy_FOUND AND WITH_GALACTIC_LENSES)
+      add_test(testMagneticLensPythonInterface ${Python_EXECUTABLE} testMagneticLensPythonInterface.py)
+    endif(Python_NumPy_FOUND AND WITH_GALACTIC_LENSES)
 
-    CONFIGURE_FILE(test/testSimulationExecution.py testSimulationExecution.py COPYONLY)
-    add_test(testSimulationExecution ${PYTHON_EXECUTABLE} testSimulationExecution.py)
+    configure_file(test/testSimulationExecution.py testSimulationExecution.py COPYONLY)
+    add_test(testSimulationExecution ${Python_EXECUTABLE} testSimulationExecution.py)
 
-    CONFIGURE_FILE(test/testDiffusionSDE.py testDiffusionSDE.py COPYONLY)
-    add_test(testDiffusionSDE ${PYTHON_EXECUTABLE} testDiffusionSDE.py)
+    configure_file(test/testDiffusionSDE.py testDiffusionSDE.py COPYONLY)
+    add_test(testDiffusionSDE ${Python_EXECUTABLE} testDiffusionSDE.py)
 
-    CONFIGURE_FILE(test/testMomentumDiffusion.py testMomentumDiffusion.py COPYONLY)
-    add_test(testMomentumDiffusion ${PYTHON_EXECUTABLE} testMomentumDiffusion.py)
+    configure_file(test/testMomentumDiffusion.py testMomentumDiffusion.py COPYONLY)
+    add_test(testMomentumDiffusion ${Python_EXECUTABLE} testMomentumDiffusion.py)
 
-    CONFIGURE_FILE(test/testPythonExtension.py testPythonExtension.py COPYONLY)
-    add_test(testPythonExtension ${PYTHON_EXECUTABLE} testPythonExtension.py)
-  endif(ENABLE_PYTHON AND PYTHONLIBS_FOUND)
+    configure_file(test/testPythonExtension.py testPythonExtension.py COPYONLY)
+    add_test(testPythonExtension ${Python_EXECUTABLE} testPythonExtension.py)
+  endif(ENABLE_PYTHON AND Python_Development_FOUND)
 
 endif(ENABLE_TESTING)

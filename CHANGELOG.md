@@ -1,9 +1,11 @@
 ## CRPropa vNext
 
-### Bug fixes:
+### Compatibility:
 
-* Bug fixes in python package finding related: deprecation of distutils, pkg_resources
-* Use CMake's Python finder for newer python versions (3.12+)
+* CMake versions < 3.14 are no longer compatible
+* Drop python2 support
+
+### Bug fixes:
 
 ### New features:
 

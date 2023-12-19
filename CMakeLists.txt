@@ -302,8 +302,10 @@ if(APPLE OR USE_ABSOLUTE_RPATH)
 endif()
 
 # Fix for linker error on mac, Issue: #147
+# Issue was solved for Intel Macs; now support  newer arm64 architectures
 if(APPLE)
-  add_definitions(-arch x86_64)
+  set(CMAKE_OSX_ARCHITECTURES ${CMAKE_SYSTEM_PROCESSOR})
+  add_definitions(-arch ${CMAKE_SYSTEM_PROCESSOR})
 endif(APPLE)
 
 # ----------------------------------------------------------------------------

@@ -446,7 +446,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/magneticField/GalacticMagneticField.h"
 %feature("notabstract") QuimbyMagneticFieldAdapter;
 %include "crpropa/magneticField/QuimbyMagneticField.h"
-%include "crpropa/magneticField/AMRMagneticField.h"
 %include "crpropa/magneticField/JF12Field.h"
 %include "crpropa/magneticField/JF12FieldSolenoidal.h"
 %include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"

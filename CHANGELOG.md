@@ -9,6 +9,7 @@
 ### Features that are deprecated and will be removed after this release
 
 ### Removed features 
+*  AMRMagneticField - underlying library (saga) is no longer supported.
 
 ### New plugins and resources linked on the webpages
 

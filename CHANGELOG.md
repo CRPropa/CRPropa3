@@ -1,6 +1,7 @@
 ## CRPropa vNext
 
 ### Bug fixes:
+ * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField 
 
 ### New features:
 
@@ -10,6 +11,7 @@
 
 ### Removed features 
 *  AMRMagneticField - underlying library (saga) is no longer supported.
+*  ObserverPoint: Use Observer1D instead.
 
 ### New plugins and resources linked on the webpages
 

@@ -54,7 +54,6 @@
 #include "crpropa/module/TextOutput.h"
 #include "crpropa/module/Tools.h"
 
-#include "crpropa/magneticField/AMRMagneticField.h"
 #include "crpropa/magneticField/ArchimedeanSpiralField.h"
 #include "crpropa/magneticField/JF12Field.h"
 #include "crpropa/magneticField/JF12FieldSolenoidal.h"

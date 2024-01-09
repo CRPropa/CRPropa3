@@ -1,7 +1,7 @@
 CRPropa
 ========
 
-![stable release](https://img.shields.io/badge/stable\_release-3.2.0-darkblue)
+![stable release](https://img.shields.io/badge/stable\_release-3.2.1-darkblue)
 [![Build status](https://github.com/crpropa/crpropa3/actions/workflows/testing.yml/badge.svg)](https://github.com/crpropa/crpropa3/actions/)
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)

@@ -22,16 +22,12 @@ Optionally CRPropa can be compiled with the following dependencies to enable cer
 
 The following packages are provided with the source code and do not need to be installed separately.
 + SOPHIA: photo-hadronic interactions
-+ EleCa and dint: electromagnetic cascades
 + googletest: unit-testing
 + HepPID: particle ID library
 + kiss: small tool collection
 + pugixml: for xml steering
 + eigen: Linear algebra
 + healpix_base: Equal area pixelization of the sphere
-
-
-
 
 
 ## Build and Installation Variants

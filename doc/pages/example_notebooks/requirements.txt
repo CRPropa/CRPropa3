@@ -1,0 +1,10 @@
+# collection of all packages used in the analyis of the example notebooks. This is used for the automatic test of the notebooks
+numpy
+matplotlib
+pandas
+healpy
+seaborn
+scipy
+tqdm
+h5py
+jupyter

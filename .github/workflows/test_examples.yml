@@ -1,0 +1,77 @@
+name: crpropa-example-test
+on: [push, pull_request]
+
+jobs:
+  linux:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+         - name: "ubuntu-20"
+           os: ubuntu-20.04
+           cxx: "g++-9"
+           cc: "gcc-9"
+           fc: "gfortran-9"
+           swig_builtin: "Off" #uses swig 4.0.1
+           py: "/usr/bin/python3" #python 3.8
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Preinstall
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmuparser-dev python3-dev python-dev python3-numpy python-numpy python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          pip3 install -r doc/pages/example_notebooks/requirements.txt # load requrements for notebooks
+          pip3 install --upgrade Pygments
+          pip3 install --upgrade numpy
+      - name: Set up the build
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+      - name: Build CRPropa
+        run: |
+          cd build
+          make install -j
+      - name: convert notebooks to python 
+        env: 
+          PYTHONPATH: "/home/runner/.local/lib/python3.8/site-packages/"
+          runfolder: "/home/runner/notebook_run"
+        run: |
+          mkdir "$runfolder"
+          cd doc/pages/example_notebooks/
+          for file in */*.ipynb; do
+            echo "$file"
+            if [ -f "$file" ]; then
+              f=(${file//// })
+              f=${f[1]}
+              f=(${f//./})
+              finalFile="$runfolder"/"$f".py
+              echo "convert notebook $file to script $finalFile"
+              jupyter nbconvert --to python "$file" --stdout | grep -v -e "^get_ipython" > "$runfolder"/"$f".py
+            fi
+          done
+      - name: run all python scripts
+        env: 
+          PYTHONPATH: "$/home/runner/.local/lib/python3.8/site-packages/"
+          runfolder: "/home/runner/notebook_run"
+        run: | 
+          cp doc/pages/example_notebooks/galactic_lensing/crpropa_output.txt "$runfolder"/
+          cd "$runfolder"
+          for file in *.py; do
+            if [ "$file" = "custom-photon-fieldipynb.py" ] || 
+                [ "$file" = "MHD_modelsipynb.py" ] || 
+                [ "$file" = "density_grid_samplingipynb.py" ] ||
+                [ "$file" = "lensing_crv4ipynb.py" ] ||
+                [ "$file" = "lensing_mapsv4ipynb.py" ]; then
+                echo "skip file $file"
+            else 
+              echo "run file $file"
+              python3 $file
+            fi
+          done

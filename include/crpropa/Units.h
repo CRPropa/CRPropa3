@@ -127,10 +127,16 @@ static const double microsecond = 1e-6 * second;
 static const double millisecond = 1e-3 * second;
 static const double minute = 60 * second;
 static const double hour = 3600 * second;
+static const double year = 365.25 * 24 * hour;
+static const double Kiloyear = 1e3 * year;
+static const double Megayear = 1e6 * year;
 static const double ns = nanosecond;
 static const double mus = microsecond;
 static const double ms = millisecond;
 static const double sec = second;
+static const double yr = year;
+static const double Kyr = Kiloyear;
+static const double Myr = Megayear;
 
 // volume
 static const double ccm = cm*cm*cm;

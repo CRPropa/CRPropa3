@@ -54,7 +54,7 @@ namespace crpropa {
  */
 class Output: public Module {
 protected:
-	double lengthScale, energyScale;
+	double lengthScale, timeScale, energyScale;
 	std::bitset<64> fields;
 
 	struct Property

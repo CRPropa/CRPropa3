@@ -109,8 +109,8 @@ void TextOutput::printHeader() const {
 		*out << "# D             Trajectory length [" << lengthScale / Mpc
 				<< " Mpc]\n";
 	if (fields.test(TimeColumn))
-		*out << "# time             Time [" << timeScale
-				<< " s]\n";
+		*out << "# time             Time [" << timeScale / Myr
+				<< " Myr]\n";
 	if (fields.test(RedshiftColumn))
 		*out << "# z             Redshift\n";
 	if (fields.test(SerialNumberColumn))
@@ -296,6 +296,7 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 	std::ifstream infile(filename.c_str());
 	
 	double lengthScale = Mpc; // default Mpc
+	double timeScale = Myr; // default Myr
 	double energyScale = EeV; // default EeV
 
 	if (!infile.good())
@@ -320,6 +321,8 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 		double x, y, z;
 		stream >> val_d;
 		c->setTrajectoryLength(val_d*lengthScale); // D
+		stream >> val_d;
+		c->setTime(val_d*timeScale); // time
 		stream >> val_d;
 		c->setRedshift(val_d); // z
 		stream >> val_i;

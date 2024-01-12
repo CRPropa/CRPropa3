@@ -27,7 +27,7 @@ Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, dou
 }
 
 Candidate::Candidate(const ParticleState &state) :
-		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin ("PRIM") {
+		source(state), created(state), current(state), previous(state), redshift(0), trajectoryLength(0), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin ("PRIM"), time(0) {
 
 #if defined(OPENMP_3_1)
 		#pragma omp atomic capture
@@ -149,6 +149,7 @@ void Candidate::addSecondary(int id, double energy, double w, std::string tagOri
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength);
+	secondary->setTime(time);
 	secondary->setWeight(weight * w);
 	secondary->setTagOrigin(tagOrigin);
 	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {
@@ -168,6 +169,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w,
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR());
+	secondary->setTime(time - (current.getPosition() - position).getR() / c_light);
 	secondary->setWeight(weight * w);
 	secondary->setTagOrigin(tagOrigin);
 	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {
@@ -209,6 +211,7 @@ ref_ptr<Candidate> Candidate::clone(bool recursive) const {
 	cloned->redshift = redshift;
 	cloned->weight = weight;
 	cloned->trajectoryLength = trajectoryLength;
+	cloned->time = time;
 	cloned->currentStep = currentStep;
 	cloned->nextStep = nextStep;
 	if (recursive) {
@@ -257,6 +260,7 @@ uint64_t Candidate::nextSerialNumber = 0;
 void Candidate::restart() {
 	setActive(true);
 	setTrajectoryLength(0);
+	setTime(0);
 	previous = source;
 	current = source;
 }

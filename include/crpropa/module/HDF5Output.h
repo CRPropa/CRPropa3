@@ -54,6 +54,7 @@ class HDF5Output: public Output {
 
 	typedef struct OutputRow {
 		double D;
+		double time;
 		double z;
 		uint64_t SN;
 		int32_t ID;
@@ -84,7 +85,6 @@ class HDF5Output: public Output {
 		double P1z;
 		double weight;
 		std::string tag;
-		double time;
 		unsigned char propertyBuffer[propertyBufferSize];
 	} OutputRow;
 

@@ -107,7 +107,7 @@ void HDF5Output::open(const std::string& filename) {
 	if (fields.test(TrajectoryLengthColumn))
 		H5Tinsert(sid, "D", HOFFSET(OutputRow, D), H5T_NATIVE_DOUBLE);
 	if (fields.test(TimeColumn))
-		H5Tinsert(sid, "time", HOFFSET(OutputRow, D), H5T_NATIVE_DOUBLE);
+		H5Tinsert(sid, "time", HOFFSET(OutputRow, time), H5T_NATIVE_DOUBLE);
 	if (fields.test(RedshiftColumn))
 		H5Tinsert(sid, "z", HOFFSET(OutputRow, z), H5T_NATIVE_DOUBLE);
 	if (fields.test(SerialNumberColumn))

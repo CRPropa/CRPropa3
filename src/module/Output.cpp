@@ -5,11 +5,11 @@
 
 namespace crpropa {
 
-Output::Output() : outputName(OutputTypeName(Everything)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+Output::Output() : outputName(OutputTypeName(Everything)), lengthScale(Mpc), timeScale(Myr), energyScale(EeV), oneDimensional(false), count(0) {
 	enableAll();
 }
 
-Output::Output(OutputType outputType) : outputName(OutputTypeName(outputType)), lengthScale(Mpc), energyScale(EeV), oneDimensional(false), count(0) {
+Output::Output(OutputType outputType) : outputName(OutputTypeName(outputType)), lengthScale(Mpc), timeScale(Myr), energyScale(EeV), oneDimensional(false), count(0) {
 	setOutputType(outputType);
 }
 

@@ -88,6 +88,11 @@ void Output::setLengthScale(double scale) {
 	lengthScale = scale;
 }
 
+void Output::setTimeScale(double scale) {
+	modify();
+	timeScale = scale;
+}
+
 void Output::set1D(bool value) {
 	modify();
 	oneDimensional = value;

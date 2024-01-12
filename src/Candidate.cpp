@@ -7,7 +7,7 @@
 namespace crpropa {
 
 Candidate::Candidate(int id, double E, Vector3d pos, Vector3d dir, double z, double weight, std::string tagOrigin) :
-  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin(tagOrigin) {
+  redshift(z), trajectoryLength(0), weight(weight), currentStep(0), nextStep(0), active(true), parent(0), tagOrigin(tagOrigin), time(0) {
 	ParticleState state(id, E, pos, dir);
 	source = state;
 	created = state;
@@ -88,6 +88,7 @@ void Candidate::updateWeight(double w) {
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
 	trajectoryLength += lstep;
+	time += lstep / c_light;
 }
 
 void Candidate::setNextStep(double step) {
@@ -108,6 +109,14 @@ void Candidate::setTagOrigin (std::string tagOrigin) {
 
 std::string Candidate::getTagOrigin () const {
 	return tagOrigin;
+}
+
+void Candidate::setTime(double t) {
+	time = t;
+}
+
+double Candidate::getTime() const {
+	return time;
 }
 
 const Variant &Candidate::getProperty(const std::string &name) const {

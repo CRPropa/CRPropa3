@@ -84,6 +84,7 @@ class HDF5Output: public Output {
 		double P1z;
 		double weight;
 		std::string tag;
+		double time;
 		unsigned char propertyBuffer[propertyBufferSize];
 	} OutputRow;
 

@@ -42,6 +42,7 @@ namespace crpropa {
  . z			 RedshiftColumn
  . tag			 CandidateTagColumn
  . weight		 WeightColumn
+ . time    		 TimeColumn
 
  Some output types are pre-defined: 
  . Trajectory1D
@@ -88,7 +89,8 @@ public:
 		CreatedDirectionColumn,
 		CandidateTagColumn,
 		SerialNumberColumn,
-		WeightColumn
+		WeightColumn,
+		TimeColumn
 	};
 	enum OutputType {
 		Trajectory1D,
@@ -121,6 +123,10 @@ public:
 	 @param scale	length scale (scale = 1 corresponds to 1 meter)
 	 */
 	void setLengthScale(double scale);
+	/** Set time scale.
+	 @param scale	time scale (scale = 1 corresponds to 1 second)
+	 */
+	void setTimeScale(double scale);
 	/** Set type of output.
 	 @param outputType	type of output: Trajectory1D, Trajectory3D, Event1D, Event3D, Everything
 	 */

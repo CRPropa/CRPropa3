@@ -100,13 +100,14 @@ TEST(TextOutput, printHeader_Custom) {
 	output.disable(Output::TrajectoryLengthColumn);
 	output.set(Output::RedshiftColumn, false);
 	output.enable(Output::CandidateTagColumn);
+	output.enable(Output::TimeColumn);
 
 	::testing::internal::CaptureStdout();
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
 	EXPECT_EQ(captured.substr(0, captured.find("\n")),
-	          "#\tSN\tID\tE\tSN0\tID0\tE0\tSN1\ttag");
+	          "#\ttime\tSN\tID\tE\tSN0\tID0\tE0\tSN1\ttag");
 }
 
 TEST(TextOutput, printProperty) {
@@ -193,6 +194,7 @@ TEST(ParticleCollector, dumpload) {
 	c->current.setDirection(Vector3d(-1, -1, -1));
 	c->setTrajectoryLength(1 * Mpc);
 	c->setRedshift(2);
+	c->setTime(3.14);
 
 	ParticleCollector input;
 	ParticleCollector output;
@@ -210,6 +212,7 @@ TEST(ParticleCollector, dumpload) {
 	EXPECT_EQ(output[1]->getTrajectoryLength(), c->getTrajectoryLength());
 	EXPECT_EQ(output[2]->current.getId(), c->current.getId());
 	EXPECT_EQ(output[3]->getRedshift(), c->getRedshift());
+	EXPECT_FLOAT_EQ(output[4]->getTime(), c->getTime());
 }
 
 // Just test if the trajectory is on a line for rectilinear propagation

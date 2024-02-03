@@ -9,10 +9,10 @@
 %template(DoubleVector) std::vector<double>;
 
 %{
-#include "crpropa/magneticLens/ModelMatrix.h"
-#include "crpropa/magneticLens/Pixelization.h"
-#include "crpropa/magneticLens/MagneticLens.h"
-#include "crpropa/magneticLens/ParticleMapsContainer.h"
+  #include "crpropa/magneticLens/ModelMatrix.h"
+  #include "crpropa/magneticLens/Pixelization.h"
+  #include "crpropa/magneticLens/MagneticLens.h"
+  #include "crpropa/magneticLens/ParticleMapsContainer.h"
 %}
 
 %include "crpropa/magneticLens/ModelMatrix.h"
@@ -39,19 +39,16 @@
 
 #ifdef WITHNUMPY
 %extend crpropa::MagneticLens{
-  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
-  {
+  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity) {
     PyArrayObject *arr = NULL;
     PyArray_Descr *dtype = NULL;
     int ndim = 0;
     npy_intp dims[NPY_MAXDIMS];
-    if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0)
-    {
+    if (PyArray_GetArrayParamsFromObject(input, NULL, 1, &dtype, &ndim, dims, &arr, NULL) < 0) {
       Py_RETURN_NONE;
     }
 
-    if (arr == NULL)
-    {
+    if (arr == NULL) {
       Py_RETURN_NONE;
     }
 
@@ -62,8 +59,7 @@
 };
 #else
 %extend crpropa::MagneticLens{
-  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity)
-  {
+  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity) {
     std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
     Py_RETURN_NONE;
   }
@@ -83,36 +79,30 @@
 #ifdef WITHNUMPY
 %extend crpropa::ParticleMapsContainer {
   PyObject *addParticles(PyObject *particleIds,
-                PyObject *energies,
-                PyObject *galacticLongitudes,
-                PyObject *galacticLatitudes,
-                PyObject *weights)
-  {
+                        PyObject *energies,
+                        PyObject *galacticLongitudes,
+                        PyObject *galacticLatitudes,
+                        PyObject *weights) {
     //ToDo: Handle strided arrays
 
     //ToDo: Check that input objects are arrays  PyArray_Check
-    if (!PyArray_Check(particleIds))
-    {
+    if (!PyArray_Check(particleIds)) {
       std::cerr << "ParticleMapsContainer::addParticles -  require array as input for particleIds\n";
       Py_RETURN_NONE;
     }
-    if (!PyArray_Check(energies))
-    {
+    if (!PyArray_Check(energies)) {
       std::cerr << "ParticleMapsContainer::addParticles -  require array as input for energy\n";
       Py_RETURN_NONE;
     }
-    if (!PyArray_Check(galacticLongitudes))
-    {
+    if (!PyArray_Check(galacticLongitudes)) {
       std::cerr << "ParticleMapsContainer::addParticles -  require array as input for galacticLongitudes\n";
       Py_RETURN_NONE;
     }
-    if (!PyArray_Check(galacticLatitudes))
-    {
+    if (!PyArray_Check(galacticLatitudes)) {
       std::cerr << "ParticleMapsContainer::addParticles -  require array as input for galacticLatitudes\n";
       Py_RETURN_NONE;
     }
-    if (!PyArray_Check(weights))
-    {
+    if (!PyArray_Check(weights)) {
       std::cerr << "ParticleMapsContainer::addParticles -  require array as input for weights\n";
       Py_RETURN_NONE;
     }
@@ -128,16 +118,11 @@
 
     int intSize = 0;
     // check integer type
-    if((PyArray_TYPE(particleIds_arr) == NPY_INT32) || (PyArray_TYPE(particleIds_arr) == NPY_UINT32))
-    {
+    if((PyArray_TYPE(particleIds_arr) == NPY_INT32) || (PyArray_TYPE(particleIds_arr) == NPY_UINT32)) {
       intSize = 32;
-    }
-    else if((PyArray_TYPE(particleIds_arr) == NPY_INT64) || (PyArray_TYPE(particleIds_arr) == NPY_UINT64))
-    {
+    } else if((PyArray_TYPE(particleIds_arr) == NPY_INT64) || (PyArray_TYPE(particleIds_arr) == NPY_UINT64)) {
       intSize = 64;
-    }
-    else
-    {
+    } else {
       std::cerr << "";
       throw std::runtime_error("ParticleMapsContainer::addParticles -  require array of type int as input for ids");
     }
@@ -152,20 +137,14 @@
     npy_intp *D = PyArray_DIMS(particleIds_arr);
     int arraySize = D[0];
 
-    for(size_t i = 0; i < arraySize; i++)
-    {
-      if (intSize == 32)
-      {
+    for(size_t i = 0; i < arraySize; i++) {
+      if (intSize == 32) {
         $self->addParticle(((int32_t*) particleIds_dp)[i], energies_dp[i],
             galacticLongitudes_dp[i], galacticLatitudes_dp[i], weights_dp[i]);
-      }
-      else if (intSize == 64)
-      {
+      } else if (intSize == 64) {
         $self->addParticle(((int64_t*) particleIds_dp)[i], energies_dp[i],
             galacticLongitudes_dp[i], galacticLatitudes_dp[i], weights_dp[i]);
-      }
-      else
-      {
+      } else {
         throw std::runtime_error("ParticleMapsContainer::addParticles - unknown int size");
       }
 
@@ -173,93 +152,80 @@
     Py_RETURN_TRUE;
   }
 
-  PyObject *getMap_numpyArray(const int particleId, double energy)
-  {
-      double* data = $self->getMap(particleId, energy);
-      npy_intp npix = $self->getNumberOfPixels();
-      npy_intp dims[1] = {npix};
-      return PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, (void*)data);
+  PyObject *getMap_numpyArray(const int particleId, double energy) {
+    double* data = $self->getMap(particleId, energy);
+    npy_intp npix = $self->getNumberOfPixels();
+    npy_intp dims[1] = {npix};
+    return PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, (void*)data);
   }
 
-  PyObject *getParticleIds_numpyArray()
-  {
-      std::vector<int> v = $self->getParticleIds();
-      npy_intp size = v.size();
-      PyObject *out = PyArray_SimpleNew(1, &size, NPY_INT);
-      memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(int));
-      return out;
+  PyObject *getParticleIds_numpyArray() {
+    std::vector<int> v = $self->getParticleIds();
+    npy_intp size = v.size();
+    PyObject *out = PyArray_SimpleNew(1, &size, NPY_INT);
+    memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(int));
+    return out;
   }
 
-  PyObject *getEnergies_numpyArray(const int pid)
-  {
-      std::vector<double> v = $self->getEnergies(pid);
-      npy_intp size = v.size();
-      PyObject *out = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
-      memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(double));
-      return out;
+  PyObject *getEnergies_numpyArray(const int pid) {
+    std::vector<double> v = $self->getEnergies(pid);
+    npy_intp size = v.size();
+    PyObject *out = PyArray_SimpleNew(1, &size, NPY_DOUBLE);
+    memcpy(PyArray_DATA((PyArrayObject *) out), &v[0], v.size() * sizeof(double));
+    return out;
   }
 
-  PyObject *getRandomParticles_numpyArray(size_t N)
-  {
-      vector<int> particleId;
-			vector<double> energy;
-      vector<double> galacticLongitudes;
-			vector<double> galacticLatitudes;
-      $self->getRandomParticles(N, particleId, energy, galacticLongitudes, 
-          galacticLatitudes);
+  PyObject *getRandomParticles_numpyArray(size_t N) {
+    vector<int> particleId;
+    vector<double> energy;
+    vector<double> galacticLongitudes;
+    vector<double> galacticLatitudes;
+    $self->getRandomParticles(N, particleId, energy, galacticLongitudes, galacticLatitudes);
 
-      npy_intp size = N;
-      PyArrayObject *oId = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_INT, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
-      PyArrayObject *oEnergy = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_DOUBLE, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
-      PyArrayObject *oLon = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_DOUBLE, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
-      PyArrayObject *oLat = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_DOUBLE, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
+    npy_intp size = N;
+    PyArrayObject *oId = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_INT, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
+    PyArrayObject *oEnergy = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_DOUBLE, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
+    PyArrayObject *oLon = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_DOUBLE, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
+    PyArrayObject *oLat = (PyArrayObject*)PyArray_New(&PyArray_Type, 1, &size, NPY_DOUBLE, NULL, NULL, 0, NPY_ARRAY_CARRAY, NULL);
 
-      memcpy(PyArray_DATA(oId), &particleId[0],
-          particleId.size() * sizeof(int));
-      memcpy(PyArray_DATA(oEnergy), &energy[0], energy.size()
-          * sizeof(double));
-      memcpy(PyArray_DATA(oLon), &galacticLongitudes[0],
-          galacticLongitudes.size() * sizeof(double));
-      memcpy(PyArray_DATA(oLat), &galacticLatitudes[0],
-          galacticLatitudes.size() * sizeof(double));
+    memcpy(PyArray_DATA(oId), &particleId[0], particleId.size() * sizeof(int));
+    memcpy(PyArray_DATA(oEnergy), &energy[0], energy.size() * sizeof(double));
+    memcpy(PyArray_DATA(oLon), &galacticLongitudes[0], galacticLongitudes.size() * sizeof(double));
+    memcpy(PyArray_DATA(oLat), &galacticLatitudes[0], galacticLatitudes.size() * sizeof(double));
 
-      PyObject *returnList = PyList_New(4);
-      PyList_SET_ITEM(returnList, 0, (PyObject*)oId);
-      PyList_SET_ITEM(returnList, 1, (PyObject*)oEnergy);
-      PyList_SET_ITEM(returnList, 2, (PyObject*)oLon);
-      PyList_SET_ITEM(returnList, 3, (PyObject*)oLat);
-      
-      return returnList;
+    PyObject *returnList = PyList_New(4);
+    PyList_SET_ITEM(returnList, 0, (PyObject*) oId);
+    PyList_SET_ITEM(returnList, 1, (PyObject*) oEnergy);
+    PyList_SET_ITEM(returnList, 2, (PyObject*) oLon);
+    PyList_SET_ITEM(returnList, 3, (PyObject*) oLat);
+    
+    return returnList;
   }
 
 };
 #else // with numpy
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getMap_numpyArray(const int particleId, double energy)
-  {
-      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-      Py_RETURN_NONE;
+  PyObject *getMap_numpyArray(const int particleId, double energy) {
+    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
+    Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getParticleIds_numpyArray()
-  {
-      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-      Py_RETURN_NONE;
+  PyObject *getParticleIds_numpyArray() {
+    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
+    Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getEnergies_numpyArray(const int pid)
-  {
-      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-      Py_RETURN_NONE;
+  PyObject *getEnergies_numpyArray(const int pid) {
+    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
+    Py_RETURN_NONE;
   }
 };
 %extend crpropa::ParticleMapsContainer{
-  PyObject *getRandomParticles_numpyArray(size_t N)
-  {
-      std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-      Py_RETURN_NONE;
+  PyObject *getRandomParticles_numpyArray(size_t N) {
+    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
+    Py_RETURN_NONE;
   }
 };
 #endif // with NumPy

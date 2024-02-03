@@ -1,15 +1,10 @@
-if(APPLE)
-  # rpath specific patches
-  cmake_minimum_required(VERSION 2.8.12)
-else(APPLE)
-  # require > 2.8.8 for FILE DOWNLOAD fixes
-  # allow < 2.8.12 for debian backports
-  cmake_minimum_required(VERSION 2.8.11)
-endif(APPLE)
+cmake_minimum_required(VERSION 3.14)
+
 
 project(CRPropa Fortran C CXX)
 set(CRPROPA_RELEASE_VERSION 3.2.1+)  # Update for new release
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 set(CRPROPA_EXTRA_SOURCES)
@@ -17,17 +12,6 @@ set(CRPROPA_EXTRA_INCLUDES)
 set(CRPROPA_EXTRA_LIBRARIES)
 set(CRPROPA_SWIG_DEFINES)
 set(CRPROPA_SWIG_INPUTS)
-
-macro(USE_CXX11)
-  if(CMAKE_VERSION VERSION_LESS "3.1")
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-    endif()
-  else()
-    set(CMAKE_CXX_STANDARD 11)
-  endif()
-endmacro(USE_CXX11)
-USE_CXX11()
 
 if(CMAKE_COMPILER_IS_GNUCXX AND NOT APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--as-needed")
@@ -110,6 +94,15 @@ if(ENABLE_TESTING)
   if(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGTEST_USE_OWN_TR1_TUPLE=1")
   endif(APPLE)
+
+  # temporary workaround for newer clang versions due to its handling of unwinding
+  #   see: https://github.com/google/googletest/issues/3062
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15)
+      add_definitions(-DCRPROPA_TESTS_SKIP_EXCEPTIONS)
+    endif (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15)
+  endif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+
 endif(ENABLE_TESTING)
 
 #
@@ -165,7 +158,7 @@ list(APPEND CRPROPA_EXTRA_LIBRARIES sophia gfortran)
 list(APPEND CRPROPA_EXTRA_INCLUDES libs/sophia)
 
 # GlacticMagneticLenses
-option(ENABLE_GALACTICMAGETICLENS "Galactic Magnetic Lens" ON)
+option(ENABLE_GALACTICMAGNETICLENS "Galactic Magnetic Lens" ON)
 option(INSTALL_EIGEN "Install provided EIGEN headers" OFF)
 SET(EIGEN_PATH  "" CACHE STRING "Use EIGEN from this path instead of the version shipped with CRPropa")
 SET(WITH_GALACTIC_LENSES FALSE)

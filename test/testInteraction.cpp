@@ -1111,10 +1111,8 @@ TEST(EMInverseComptonScattering, interactionTag) {
 	EXPECT_TRUE(m.getInteractionTag() == "myTag");
 }
 
-
 // SynchrotronRadiation -------------------------------------------------
-
-TEST(SynchrtronRadiation, interactionTag) {
+TEST(SynchrotronRadiation, interactionTag) {
 	SynchrotronRadiation s(1 * muG, true);
 
 	// test default interactionTag
@@ -1130,6 +1128,7 @@ TEST(SynchrtronRadiation, interactionTag) {
 	s.setInteractionTag("myTag");
 	EXPECT_TRUE(s.getInteractionTag() == "myTag");
 }
+
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);

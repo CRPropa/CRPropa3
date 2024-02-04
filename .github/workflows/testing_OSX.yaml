@@ -8,7 +8,7 @@ jobs:
       matrix:
         config:
           - name: "macos-14"
-            os: macos-14
+            os: macos-14 # OS X Sonoma
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"
@@ -29,7 +29,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=avx
+        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=avx
      - name: Build CRPropa
        run: |
          cd build

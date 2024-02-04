@@ -13,7 +13,7 @@ jobs:
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/local/Cellar/python/python3"
+            py: "/usr/bin/python3"
     steps:
      - name: Checkout repository 
        uses: actions/checkout@v3 
@@ -29,7 +29,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
+        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
      - name: Build CRPropa
        run: |
          cd build

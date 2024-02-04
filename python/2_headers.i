@@ -15,9 +15,6 @@
   //%import (module="quimby") quimby.i
 #endif
 
-#ifdef CRPROPA_HAVE_SAGA
-  %import (module="saga") saga.i
-#endif
 
 %{
 #include "CRPropa.h"

@@ -40,7 +40,7 @@ jobs:
           make install -j
       - name: convert notebooks to python 
         env: 
-          PYTHONPATH: ["/home/runner/.local/lib/python3.10/site-packages/", "/home/runner/.local/"]
+          PYTHONPATH: "/home/runner/.local/"
           runfolder: "/home/runner/notebook_run"
         run: |
           mkdir "$runfolder"
@@ -58,7 +58,7 @@ jobs:
           done
       - name: run all python scripts
         env: 
-          PYTHONPATH: ["/home/runner/.local/lib/python3.10/site-packages/", "/home/runner/.local/"]
+          PYTHONPATH: "/home/runner/.local/"
           runfolder: "/home/runner/notebook_run"
         run: | 
           cp doc/pages/example_notebooks/galactic_lensing/crpropa_output.txt "$runfolder"/

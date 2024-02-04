@@ -1,4 +1,4 @@
-name: crpropa-testing
+name: crpropa-testing_ubuntu20
 on: [push, pull_request]
 
 jobs:

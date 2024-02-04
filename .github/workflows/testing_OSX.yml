@@ -8,7 +8,7 @@ jobs:
       matrix:
         config:
           - name: "macos-14"
-            os: macos-latest 
+            os: macos-14 
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"

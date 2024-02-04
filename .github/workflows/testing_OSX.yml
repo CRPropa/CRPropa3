@@ -8,12 +8,12 @@ jobs:
       matrix:
         config:
           - name: "macos-14"
-            os: macos-14 # OS X Sonoma
+            os: macos-latest 
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python3"
+            py: "/usr/local/Cellar/python/python3"
     steps:
      - name: Checkout repository 
        uses: actions/checkout@v3 

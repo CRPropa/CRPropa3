@@ -124,7 +124,7 @@ class ICSSecondariesEnergyDistribution {
 			Ns = 1000;
 			Nrer = 1000;
 			s_min = mec2 * mec2;
-			s_max = 1e23 * eV * eV;
+			s_max = 2e23 * eV * eV;
 			dls = (log(s_max) - log(s_min)) / Ns;
 			data = std::vector< std::vector<double> >(1000, std::vector<double>(1000));
 			std::vector<double> data_i(1000);

@@ -92,25 +92,25 @@ TEST(testVectorFieldGrid, Turbulence_seed) {
 }
 
 #ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
-	TEST(testVectorFieldGrid, turbulence_Exceptions) {
-		// Test exceptions
-		size_t n = 64;
-		double spacing = 10 * Mpc / n;
-		double brms = 1;
-		ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0, 0, 0), n, spacing);
+TEST(testVectorFieldGrid, turbulence_Exceptions) {
+	// Test exceptions
+	size_t n = 64;
+	double spacing = 10 * Mpc / n;
+	double brms = 1;
+	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0, 0, 0), n, spacing);
 
-		// should be fine
-		EXPECT_NO_THROW(initTurbulence(grid, brms, 2 * spacing, 8 * spacing));
-		// lMin too small
-		EXPECT_THROW(initTurbulence(grid, brms, 1.5 * spacing, 8 * spacing),
-				std::runtime_error);
-		// lMin > lMax
-		EXPECT_THROW(initTurbulence(grid, brms, 8.1 * spacing, 8 * spacing),
-				std::runtime_error);
-		// lMax too large
-		EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 65 * spacing),
-				std::runtime_error);
-	}
+	// should be fine
+	EXPECT_NO_THROW(initTurbulence(grid, brms, 2 * spacing, 8 * spacing));
+	// lMin too small
+	EXPECT_THROW(initTurbulence(grid, brms, 1.5 * spacing, 8 * spacing),
+			std::runtime_error);
+	// lMin > lMax
+	EXPECT_THROW(initTurbulence(grid, brms, 8.1 * spacing, 8 * spacing),
+			std::runtime_error);
+	// lMax too large
+	EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 65 * spacing),
+			std::runtime_error);
+}
 #endif
 
 TEST(testGridTurbulence, Turbulence_seed) {

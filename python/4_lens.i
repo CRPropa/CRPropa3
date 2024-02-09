@@ -33,12 +33,12 @@
 %ignore crpropa::Pixelization::nPix( uint8_t order );
 
 %apply double &INOUT {double &phi, double &theta};
-%ignore MagneticLens::transformModelVector(double *,double) const;
+%ignore MagneticLens::transformModelVector(double *, double) const;
 %include "crpropa/magneticLens/MagneticLens.h"
-%template(LenspartVector) std::vector< crpropa::LensPart *>;
+%template(LenspartVector) std::vector<crpropa::LensPart*>;
 
-#ifdef WITHNUMPY
-%extend crpropa::MagneticLens{
+
+%extend crpropa::MagneticLens {
   PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity) {
     PyArrayObject *arr = NULL;
     PyArray_Descr *dtype = NULL;
@@ -57,14 +57,7 @@
     return input;
   }
 };
-#else
-%extend crpropa::MagneticLens{
-  PyObject * transformModelVector_numpyArray(PyObject *input, double rigidity) {
-    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-    Py_RETURN_NONE;
-  }
-};
-#endif
+
 
 
 
@@ -76,7 +69,7 @@
 %ignore ParticleMapsContainer::getRandomParticles;
 %include "crpropa/magneticLens/ParticleMapsContainer.h"
 
-#ifdef WITHNUMPY
+
 %extend crpropa::ParticleMapsContainer {
   PyObject *addParticles(PyObject *particleIds,
                         PyObject *energies,
@@ -203,32 +196,7 @@
   }
 
 };
-#else // with numpy
-%extend crpropa::ParticleMapsContainer{
-  PyObject *getMap_numpyArray(const int particleId, double energy) {
-    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-    Py_RETURN_NONE;
-  }
-};
-%extend crpropa::ParticleMapsContainer{
-  PyObject *getParticleIds_numpyArray() {
-    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-    Py_RETURN_NONE;
-  }
-};
-%extend crpropa::ParticleMapsContainer{
-  PyObject *getEnergies_numpyArray(const int pid) {
-    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-    Py_RETURN_NONE;
-  }
-};
-%extend crpropa::ParticleMapsContainer{
-  PyObject *getRandomParticles_numpyArray(size_t N) {
-    std::cerr << "ERROR: CRPropa was compiled without NumPy support!" << std::endl;
-    Py_RETURN_NONE;
-  }
-};
-#endif // with NumPy
+
 
 #endif // WITH_GALACTIC_LENSES
 

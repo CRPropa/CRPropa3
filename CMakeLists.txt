@@ -522,10 +522,21 @@ if(ENABLE_PYTHON AND Python_FOUND)
   target_link_libraries(crpropa-swig crpropa ${Python_LIBRARIES} ${Python_LIBRARY})
   add_dependencies(crpropa-swig crpropa-swig-wrapper)
 
-  install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION ${CMAKE_INSTALL_PREFIX})
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION ${CMAKE_INSTALL_PREFIX}/crpropa)
-  install(TARGETS crpropa-swig LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/crpropa)
+
+  #  install in CMAKE_INSTALL_PREFIX if it is provided, or in the globably Python_SITELIB otherwise
+  set(Python_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}")
+  if(CMAKE_INSTALL_PREFIX STREQUAL "" OR NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}")
+  elseif()
+    set(Python_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}")
+  endif()
+  message(STATUS "  package install directory: ${Python_INSTALL_PACKAGE_DIR}")
+
+  install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${Python_INSTALL_PACKAGE_DIR}")
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${Python_INSTALL_PACKAGE_DIR}/crpropa")
+  install(TARGETS crpropa-swig LIBRARY DESTINATION "${Python_INSTALL_PACKAGE_DIR}/crpropa")
   install(FILES ${CRPROPA_SWIG_INPUTS} DESTINATION share/crpropa/swig_interface)
+
 endif(ENABLE_PYTHON AND Python_FOUND)
 
 

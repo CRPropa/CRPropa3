@@ -516,7 +516,7 @@ if(ENABLE_PYTHON AND Python_FOUND)
   file(GLOB_RECURSE CRPROPA_SWIG_INPUTS python/*.i)
   set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx PROPERTIES GENERATED true)
   add_custom_target(crpropa-swig-wrapper
-    COMMAND swig ${BUILTIN} -c++ -python -py3 -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${SWIG_INCLUDES} ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
+    COMMAND swig ${BUILTIN} -c++ -python -I${CMAKE_SOURCE_DIR}/include -I${CMAKE_SOURCE_DIR}/libs/HepPID/include ${SWIG_INCLUDES} ${CRPROPA_SWIG_DEFINES} -dirprot -o ${CMAKE_CURRENT_BINARY_DIR}/crpropa_wrap.cxx -outdir ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR}/python/crpropa${BUILTIN}.i
     DEPENDS ${CRPROPA_SWIG_INPUTS} ${CRPROPA_INCLUDES} )
 
   if(BUILD_DOC AND DOXYGEN_FOUND)

@@ -737,8 +737,8 @@ TEST(EMPairProduction, limitNextStep) {
 TEST(EMPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> cmb = new CMB();
-	ref_ptr<PhotonField> irb = new IRB_Gilmore12();
-	ref_ptr<PhotonField> urb = new URB_Protheroe96();
+	ref_ptr<PhotonField> irb = new IRB_Saldana21();
+	ref_ptr<PhotonField> urb = new URB_Nitu21();
 	EMPairProduction m(cmb);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -840,8 +840,8 @@ TEST(EMDoublePairProduction, limitNextStep) {
 TEST(EMDoublePairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> cmb = new CMB();
-	ref_ptr<PhotonField> irb = new IRB_Gilmore12();
-	ref_ptr<PhotonField> urb = new URB_Protheroe96();
+	ref_ptr<PhotonField> irb = new IRB_Saldana21();
+	ref_ptr<PhotonField> urb = new URB_Nitu21();
 	EMPairProduction m(cmb);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -944,8 +944,8 @@ TEST(EMTripletPairProduction, limitNextStep) {
 TEST(EMTripletPairProduction, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> cmb = new CMB();
-	ref_ptr<PhotonField> irb = new IRB_Gilmore12();
-	ref_ptr<PhotonField> urb = new URB_Protheroe96();
+	ref_ptr<PhotonField> irb = new IRB_Saldana21();
+	ref_ptr<PhotonField> urb = new URB_Nitu21();
 	EMPairProduction m(cmb);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);
@@ -1049,8 +1049,8 @@ TEST(EMInverseComptonScattering, limitNextStep) {
 TEST(EMInverseComptonScattering, secondaries) {
 	// Test if secondaries are correctly produced.
 	ref_ptr<PhotonField> cmb = new CMB();
-	ref_ptr<PhotonField> irb = new IRB_Gilmore12();
-	ref_ptr<PhotonField> urb = new URB_Protheroe96();
+	ref_ptr<PhotonField> irb = new IRB_Saldana21();
+	ref_ptr<PhotonField> urb = new URB_Nitu21();
 	EMPairProduction m(cmb);
 	m.setHaveElectrons(true);
 	m.setThinning(0.);

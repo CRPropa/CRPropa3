@@ -33,14 +33,14 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+          cmake .. -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
       - name: Build CRPropa
         run: |
           cd build
           make install -j
       - name: convert notebooks to python 
         env: 
-          PYTHONPATH: "/home/runner/.local/"
+          PYTHONPATH: "/home/runner/.local/lib/python3.10/site-packages/"
           runfolder: "/home/runner/notebook_run"
         run: |
           mkdir "$runfolder"
@@ -58,7 +58,7 @@ jobs:
           done
       - name: run all python scripts
         env: 
-          PYTHONPATH: "/home/runner/.local/"
+          PYTHONPATH: "/home/runner/.local/lib/python3.10/site-packages/"
           runfolder: "/home/runner/notebook_run"
         run: | 
           cp doc/pages/example_notebooks/galactic_lensing/crpropa_output.txt "$runfolder"/

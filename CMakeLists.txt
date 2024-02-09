@@ -465,12 +465,12 @@ if(ENABLE_PYTHON AND Python_FOUND)
   endif(Python_Development_FOUND)
 
   #  install in CMAKE_INSTALL_PREFIX if it is provided, or in the globably Python_SITELIB otherwise
-  set(Python_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}")
-  if(CMAKE_INSTALL_PREFIX STREQUAL "" OR NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}")
-  elseif()
+  set(Python_INSTALL_PACKAGE_DIR "")
+  if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(Python_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}")
-  endif()
+  elseif()
+    set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}")
+  endif(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   message(STATUS "  package install directory: ${Python_INSTALL_PACKAGE_DIR}")
 
   # look for NumPy

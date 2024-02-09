@@ -445,9 +445,7 @@ endif(BUILD_DOC)
 # ----------------------------------------------------------------------------
 option(ENABLE_PYTHON "Create python library via SWIG" ON)
 
-find_package(Python 3.0
-  REQUIRED COMPONENTS Interpreter Development
-  OPTIONAL_COMPONENTS NumPy)
+find_package(Python 3.0 REQUIRED COMPONENTS Interpreter Development NumPy)
 
 if(ENABLE_PYTHON AND Python_FOUND)
   find_package(SWIG 3.0 REQUIRED)

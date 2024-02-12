@@ -261,7 +261,7 @@ void HDF5Output::process(Candidate* candidate) const {
 
 	OutputRow r;
 	r.D = candidate->getTrajectoryLength() / lengthScale;
-	r.time = candidate->getTime / timeScale;
+	r.time = candidate->getTime() / timeScale;
 	r.z = candidate->getRedshift();
 
 	r.SN = candidate->getSerialNumber();

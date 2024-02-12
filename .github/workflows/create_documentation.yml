@@ -1,0 +1,71 @@
+name: create-documentation
+on: [workflow_dispatch]
+
+jobs: 
+  create-documentation: 
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+         - name: "ubuntu-20"
+           os: ubuntu-20.04
+           cxx: "g++-9"
+           cc: "gcc-9"
+           fc: "gfortran-9"
+           swig_builtin: "Off" #uses swig 4.0.1
+    
+    # define steps to take
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Python install
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - name: Prerequirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install libmuparser-dev libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov doxygen graphviz
+          sudo apt-get install pandoc # do not only use pip to install pandoc, see https://stackoverflow.com/questions/62398231/building-docs-fails-due-to-missing-pandoc
+          pip install -r doc/pages/example_notebooks/requirements.txt # load requirements for notebooks
+          pip install sphinx sphinx_rtd_theme m2r2 nbsphinx breathe pandoc exhale # load requirements for documentation
+      - name: Set up the build
+        env:
+          CXX: ${{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          FC: ${{ matrix.config.fc }}
+        run: |
+          mkdir build
+          cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local \
+            -DENABLE_PYTHON=True -DENABLE_TESTING=ON -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
+            -DSIMD_EXTENSIONS=native -DBUILD_DOC=True -DENABLE_COVERAGE=True
+      - name: Build CRPropa
+        run: |
+          cd build
+          make -j
+      - name: run test
+        run: | 
+          cd build
+          make test
+        continue-on-error: true
+      - name: coverage report
+        run: |
+          cd build
+          make coverage
+          tar -zcvf coverage.tar.gz coverageReport
+      - name: build documentation
+        run: |
+          cd build
+          make doc
+          tar -zcvf documentation.tar.gz doc
+      - name: archive documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: "documentation"
+          path: | 
+            build/documentation.tar.gz
+            build/coverage.tar.gz

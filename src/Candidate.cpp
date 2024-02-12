@@ -57,6 +57,10 @@ double Candidate::getTrajectoryLength() const {
 	return trajectoryLength;
 }
 
+double Candidate::getVelocity() const {
+	return c_light;
+}
+
 double Candidate::getWeight() const {
 	return weight;
 }
@@ -88,7 +92,7 @@ void Candidate::updateWeight(double w) {
 void Candidate::setCurrentStep(double lstep) {
 	currentStep = lstep;
 	trajectoryLength += lstep;
-	time += lstep / c_light;
+	time += lstep / getVelocity();
 }
 
 void Candidate::setNextStep(double step) {
@@ -169,7 +173,7 @@ void Candidate::addSecondary(int id, double energy, Vector3d position, double w,
 	ref_ptr<Candidate> secondary = new Candidate;
 	secondary->setRedshift(redshift);
 	secondary->setTrajectoryLength(trajectoryLength - (current.getPosition() - position).getR());
-	secondary->setTime(time - (current.getPosition() - position).getR() / c_light);
+	secondary->setTime(time - (current.getPosition() - position).getR() / getVelocity());
 	secondary->setWeight(weight * w);
 	secondary->setTagOrigin(tagOrigin);
 	for (PropertyMap::const_iterator it = properties.begin(); it != properties.end(); ++it) {

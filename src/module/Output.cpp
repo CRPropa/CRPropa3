@@ -83,14 +83,26 @@ void Output::setEnergyScale(double scale) {
 	energyScale = scale;
 }
 
+double Output::getEnergyScale() const {
+	return energyScale;
+}
+
 void Output::setLengthScale(double scale) {
 	modify();
 	lengthScale = scale;
 }
 
+double Output::getLengthScale() const {
+	return lengthScale;
+}
+
 void Output::setTimeScale(double scale) {
 	modify();
 	timeScale = scale;
+}
+
+double Output::getTimeScale() const {
+	return timeScale;
 }
 
 void Output::set1D(bool value) {

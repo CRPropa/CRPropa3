@@ -295,9 +295,10 @@ void TextOutput::load(const std::string &filename, ParticleCollector *collector)
 	std::istream *in;
 	std::ifstream infile(filename.c_str());
 	
-	double lengthScale = Mpc; // default Mpc
-	double timeScale = Myr; // default Myr
-	double energyScale = EeV; // default EeV
+	Output output;
+	double lengthScale = output.getLengthScale();
+	double timeScale = output.getTimeScale();
+	double energyScale = output.getEnergyScale();
 
 	if (!infile.good())
 		throw std::runtime_error("crpropa::TextOutput: could not open file " + filename);

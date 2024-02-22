@@ -464,14 +464,13 @@ if(ENABLE_PYTHON AND Python_FOUND)
     message(STATUS "  development libraries: NOT found!")
   endif(Python_Development_FOUND)
 
-  #  install in CMAKE_INSTALL_PREFIX if it is provided, or in the globably Python_SITELIB otherwise
-  set(Python_INSTALL_PACKAGE_DIR "")
-  if(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(Python_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}")
-  elseif()
+
+  #  use Python_INSTALL_PACKAGE_DIR if provided; otherwise, install in Python_SITELIB 
+  if(NOT DEFINED Python_INSTALL_PACKAGE_DIR)
     set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}")
-  endif(NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  endif(NOT DEFINED Python_INSTALL_PACKAGE_DIR)
   message(STATUS "  package install directory: ${Python_INSTALL_PACKAGE_DIR}")
+
 
   # look for NumPy
   if(Python_NumPy_FOUND)
@@ -530,7 +529,6 @@ if(ENABLE_PYTHON AND Python_FOUND)
   set_target_properties(crpropa-swig PROPERTIES OUTPUT_NAME "_crpropa")
   target_link_libraries(crpropa-swig crpropa ${Python_LIBRARIES} ${Python_LIBRARY})
   add_dependencies(crpropa-swig crpropa-swig-wrapper)
-
 
   install(DIRECTORY "${CMAKE_SOURCE_DIR}/python/crpropa" DESTINATION "${Python_INSTALL_PACKAGE_DIR}")
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/crpropa.py" DESTINATION "${Python_INSTALL_PACKAGE_DIR}/crpropa")

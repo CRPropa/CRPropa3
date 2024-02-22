@@ -362,7 +362,8 @@ void SourceUniformCylinder::setDescription() {
 
 // ---------------------------------------------------------------------------
 SourceSNRDistribution::SourceSNRDistribution() :
-    rEarth(8.5 * kpc),alpha(2.), beta(3.53), zg(0.3 * kpc) {
+    rEarth(8.5 * kpc), beta(3.53), zg(0.3 * kpc) {
+	setAlpha(2.);
 	setFrMax();
 	setFzMax(0.3 * kpc);
 	setRMax(20 * kpc);
@@ -370,7 +371,8 @@ SourceSNRDistribution::SourceSNRDistribution() :
 }
 
 SourceSNRDistribution::SourceSNRDistribution(double rEarth, double alpha, double beta, double zg) :
-    rEarth(rEarth),alpha(alpha), beta(beta), zg(zg) {
+    rEarth(rEarth), beta(beta), zg(zg) {
+	setAlpha(alpha);
 	setFrMax();
 	setFzMax(zg);
 	setRMax(20 * kpc);
@@ -414,7 +416,7 @@ double SourceSNRDistribution::fz(double z) const{
 }
 
 double SourceSNRDistribution::getAlpha() const {
-	return alpha;
+	return alpha - 1; 
 }
 
 double SourceSNRDistribution::getBeta() const {
@@ -458,7 +460,7 @@ double SourceSNRDistribution::getZMax() const {
 }
 
 void SourceSNRDistribution::setAlpha(double a) {
-	alpha = a;
+	alpha = a + 1.; // add 1 for dV = r * dR * dphi * dz
 	setRMax(rMax);
 	setFrMax();
 }
@@ -504,7 +506,7 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
 	double Rtilde;
 	while (true) {
 		Rtilde = random.rand() * rMax;
-		double fTest = random.rand() * frMax;
+		double fTest = random.rand() * frMax * 1.1;
 		double fR = fr(Rtilde);
 		if (fTest <= fR) {
 			break;
@@ -530,10 +532,8 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
   }
 
 double SourcePulsarDistribution::fr(double r) const {
-	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(rEarth, 2.));
- 	double f = pow(r / rEarth, 2.) * exp(-beta * (r - rEarth) / rEarth);
-	double fr = Atilde * f;
-	return fr;
+ 	double f = r * pow(r / rEarth, 2.) * exp(-beta * (r - rEarth) / rEarth);
+	return f;
 }
 
 double SourcePulsarDistribution::fz(double z) const{
@@ -569,8 +569,8 @@ double SourcePulsarDistribution::blurTheta(double thetaTilde, double rTilde) con
 }
 
 void SourcePulsarDistribution::setFrMax(double R, double b) {
-	frMax = pow(b, 2.) / (3 * pow(R, 2.) * M_PI) * exp(-2.);
-	return;
+	double r = 3 * R / b;
+	frMax = fr(r);
 }
 
 void SourcePulsarDistribution::setFzMax(double zg) {

@@ -466,9 +466,7 @@ if(ENABLE_PYTHON AND Python_FOUND)
 
 
   #  use Python_INSTALL_PACKAGE_DIR if provided; otherwise, install in Python_SITELIB 
-  if(NOT DEFINED Python_INSTALL_PACKAGE_DIR)
-    set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}")
-  endif(NOT DEFINED Python_INSTALL_PACKAGE_DIR)
+  set(Python_INSTALL_PACKAGE_DIR "${Python_SITELIB}" CACHE PATH "folder in which the python package is installed")
   message(STATUS "  package install directory: ${Python_INSTALL_PACKAGE_DIR}")
 
 

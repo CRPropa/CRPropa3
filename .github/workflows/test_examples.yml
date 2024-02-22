@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native -DPython_INSTALL_PACKAGE_DIR=/home/runner/.local/
       - name: Build CRPropa
         run: |
           cd build

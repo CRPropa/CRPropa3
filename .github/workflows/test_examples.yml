@@ -8,20 +8,20 @@ jobs:
       fail-fast: false
       matrix:
         config:
-         - name: "ubuntu-20"
-           os: ubuntu-20.04
-           cxx: "g++-9"
-           cc: "gcc-9"
-           fc: "gfortran-9"
-           swig_builtin: "Off" #uses swig 4.0.1
-           py: "/usr/bin/python3" #python 3.8
+         - name: "ubuntu-22"
+           os: ubuntu-22.04
+           cxx: "g++-11"
+           cc: "gcc-11"
+           fc: "gfortran-11"
+           swig_builtin: "On" #uses swig 4.0.2
+           py: "/usr/bin/python3" #python 3.10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Preinstall
         run: |
           sudo apt-get update
-          sudo apt-get install libmuparser-dev python3-dev python-dev python3-numpy python-numpy python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
+          sudo apt-get install libmuparser-dev python3 python3-dev python3-numpy python3-setuptools python-setuptools libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov
           pip3 install -r doc/pages/example_notebooks/requirements.txt # load requrements for notebooks
           pip3 install --upgrade Pygments
           pip3 install --upgrade numpy
@@ -33,14 +33,14 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
+          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=Off -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native
       - name: Build CRPropa
         run: |
           cd build
           make install -j
       - name: convert notebooks to python 
         env: 
-          PYTHONPATH: "/home/runner/.local/lib/python3.8/site-packages/"
+          PYTHONPATH: "/home/runner/.local"
           runfolder: "/home/runner/notebook_run"
         run: |
           mkdir "$runfolder"
@@ -58,7 +58,7 @@ jobs:
           done
       - name: run all python scripts
         env: 
-          PYTHONPATH: "$/home/runner/.local/lib/python3.8/site-packages/"
+          PYTHONPATH: "/home/runner/.local"
           runfolder: "/home/runner/notebook_run"
         run: | 
           cp doc/pages/example_notebooks/galactic_lensing/crpropa_output.txt "$runfolder"/

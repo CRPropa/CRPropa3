@@ -151,6 +151,9 @@ class PPSecondariesEnergyDistribution {
 		double sample(double E0, double s) {
 			// get distribution for given s
 			size_t idx = std::lower_bound(tab_s.begin(), tab_s.end(), s) - tab_s.begin();
+			if (idx > data.size())
+				return NAN;
+				
 			std::vector<double> s0 = data[idx];
 
 			// draw random bin
@@ -173,9 +176,6 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	// scale particle energy instead of background photon energy
 	double z = candidate->getRedshift();
 	double E = candidate->current.getEnergy() * (1 + z);
-
-	// cosmic ray photon is lost after interacting
-	candidate->setActive(false);
 
 	// check if secondary electron pair needs to be produced
 	if (not haveElectrons)
@@ -202,6 +202,9 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	// for some backgrounds Ee=nan due to precision limitations.
 	if (not std::isfinite(Ee) || not std::isfinite(Ep))
 		return;
+
+	// photon is lost after interacting
+	candidate->setActive(false);
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());

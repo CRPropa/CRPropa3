@@ -3,13 +3,13 @@
 %module(directors="1", threads="1", allprotected="1") crpropa
 
 %feature("director:except") {
-    if( $error != NULL ) {
-        PyObject *ptype, *pvalue, *ptraceback;
-        PyErr_Fetch( &ptype, &pvalue, &ptraceback );
-        PyErr_Restore( ptype, pvalue, ptraceback );
-        PyErr_Print();
-        Py_Exit(1);
-    }
+  if( $error != NULL ) {
+    PyObject *ptype, *pvalue, *ptraceback;
+    PyErr_Fetch( &ptype, &pvalue, &ptraceback );
+    PyErr_Restore( ptype, pvalue, ptraceback );
+    PyErr_Print();
+    Py_Exit(1);
+  }
 }
 
 
@@ -22,7 +22,7 @@
 %{
 // workaround for SWIG < 2.0.5 with GCC >= 4.7
 #include <cstddef>
-using std::ptrdiff_t;
+  using std::ptrdiff_t;
 %}
 
 /* SWIG headers */
@@ -46,76 +46,57 @@ using std::ptrdiff_t;
 /* SWIG Exceptions */
 
 %inline %{
-class RangeError {};
-class StopIterator {};
+  class RangeError {};
+  class StopIterator {};
 %}
 
 %exception {
- try {
-   $action
- }  catch (Swig::DirectorException &e) {
-   SWIG_exception(SWIG_RuntimeError, e.getMessage());
- }  catch (const std::exception& e) {
-   SWIG_exception(SWIG_RuntimeError, e.what());
- }  catch (const char *e) {
-   SWIG_exception(SWIG_RuntimeError, e);
- }
+  try {
+    $action
+  } catch (Swig::DirectorException &e) {
+    SWIG_exception(SWIG_RuntimeError, e.getMessage());
+  } catch (const std::exception& e) {
+    SWIG_exception(SWIG_RuntimeError, e.what());
+  } catch (const char *e) {
+    SWIG_exception(SWIG_RuntimeError, e);
+  }
 }
 
 /* Exceptions for Python lists and iterators */
-
-#ifdef SWIG_PYTHON3
 %exception __next__ {
-#else
-%exception next {
-#endif
   try {
-        $action
-  }
-  catch (StopIterator) {
-        PyErr_SetString(PyExc_StopIteration, "End of iterator");
-        return NULL;
+    $action
+  } catch (StopIterator) {
+    PyErr_SetString(PyExc_StopIteration, "End of iterator");
+    return NULL;
   }
 }
 
 %exception __getitem__ {
   try {
-        $action
+    $action
+  } catch (RangeError) {
+    SWIG_exception(SWIG_IndexError, "Index out of bounds");
+    return NULL;
   }
-  catch (RangeError) {
-        SWIG_exception(SWIG_IndexError, "Index out of bounds");
-        return NULL;
-  }
-
 };
 
 
-#ifdef WITHNUMPY
-%{
 /* Include numpy array interface, if available */
+%{
   #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
   #include "numpy/arrayobject.h"
   #include "numpy/ufuncobject.h"
 %}
-#endif
 
-/* Initialize numpy array interface, if available */
-#ifdef WITHNUMPY
 %init %{
-import_array();
-import_ufunc();
+  import_array();
+  import_ufunc();
 %}
 
 %pythoncode %{
-import numpy
-__WITHNUMPY = True
+  import numpy
 %}
-
-#else
-%pythoncode %{
-__WITHNUMPY = False
-%}
-#endif
 
 
 /* Hide some known warnings */

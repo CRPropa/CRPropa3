@@ -12,7 +12,7 @@ git clone https://github.com/CRPropa/CRPropa3.git
 + Fortran Compiler: to compile SOPHIA
 
 Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
-+ Python, NumPy, and SWIG: to use CRPropa from python (tested for > Python 3.0 and > SWIG 3.0.4)
++ Python, NumPy, and SWIG: to use CRPropa from python (tested for > Python 3.0 and > SWIG 4.0.2)
 + FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
 + Gadget: magnetic fields for large scale structure data
 + OpenMP: for shared memory parallelization

@@ -181,8 +181,13 @@ cmake -DENABLE_PYTHON=ON ..
   -DPython_INCLUDE_DIRS=<path_to_folder_containing_Python.h>
   -DPython_LIBRARY=<path_to_file>/libpython<version_tag>.so
   ```
-  Note that in systems running OSX, the extension .so should be replaced by .dylib.
-  For further details, see [FindPython.cmake](https://cmake.org/cmake/help/latest/module/FindPython.html#module:FindPython).
+Note that in systems running OSX, the extension .so should be replaced by .dylib. 
+In addition, The path where the CRPropa python module is installed can be specified with the flag:
+```
+-DPython_INSTALL_PACKAGE_DIR=<path_to_folder>
+```
+For further details, see [FindPython.cmake](https://cmake.org/cmake/help/latest/module/FindPython.html#module:FindPython).
+
 
 
 ## Notes for Specific Operating Systems

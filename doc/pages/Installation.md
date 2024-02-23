@@ -217,3 +217,42 @@ Similarly, if you use MacPorts instead of Homebrew, download the corresponding p
    sudo port install hdf5 fftw cfitsio muparser libomp numpy swig
   ```
 Note that if you are using a Mac with Arm64 architecture (M1, M2, or M3 processors), `SIMD_EXTENSIONS` might not run straight away.
+
+
+Some combinations of versions of the Apple's clang compiler and python might lead to installation errors.
+In these cases, the user might want to consider the workaround below (tested on version 12.5.1 with M1 pro where command line developer tools are installed).
+
+Install Python3, and llvm from Homebrew, and specify the following paths to the Python and llvm directories in the Homebrew folder after step 3 of the above installation, e.g. (please use your exact versions):
+  ```sh
+   export LLVM_DIR="/opt/homebrew/Cellar/llvm/15.0.7_1"
+   PYTHON_VERSION=3.10
+   LLVM_VERSION=15.0.7
+   PYTHON_DIR=/opt/homebrew/Cellar/python@3.10/3.10.9/Frameworks/Python.framework/Versions/3.10
+  ```
+and replace the command in step 4 of the installation routine
+  ```sh
+  CMAKE_PREFIX_PATH=$CRPROPA_DIR cmake -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR ..
+  ```
+with
+  ```sh
+   cmake .. \
+   -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
+   -DPython_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION \
+   -DPython_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib \
+   -DPython_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
+   -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang \
+   -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
+   -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
+   -DOpenMP_C_FLAGS="-fopenmp =libomp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
+   -DOpenMP_libomp_LIBRARY=$LLVM_DIR/lib/libomp.dylib \
+   -DCMAKE_SHARED_LINKER_FLAGS="-L$LLVM_DIR/lib -lomp -Wl,-rpath,$LLVM_DIR/lib" \
+   -DOpenMP_C_LIB_NAMES=libomp \
+   -DOpenMP_CXX_LIB_NAMES=libomp \
+   -DNO_TCMALLOC=TRUE
+  ```
+Check that all paths are set correctly with the following command in the build folder
+  ```sh
+   ccmake .. 
+  ```
+and configure and generate again after changes.
+

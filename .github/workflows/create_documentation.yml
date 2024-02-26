@@ -20,7 +20,7 @@ jobs:
     # define steps to take
     steps: 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Prerequirements
         run: |
           sudo apt-get update
@@ -57,7 +57,7 @@ jobs:
           make doc
           tar -zcvf documentation.tar.gz doc
       - name: archive documentation
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "documentation"
           path: | 

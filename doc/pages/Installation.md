@@ -10,10 +10,9 @@ git clone https://github.com/CRPropa/CRPropa3.git
 ## Prerequisites
 + C++ Compiler with C++11 support (gcc, clang and icc are known to work)
 + Fortran Compiler: to compile SOPHIA
-+ numpy: for scientific computations
 
 Optionally CRPropa can be compiled with the following dependencies to enable certain functionality.
-+ Python and SWIG: to use CRPropa from python (tested for > Python 2.7 and > SWIG 3.0.4)
++ Python, NumPy, and SWIG: to use CRPropa from python (tested for >= Python 3.7 and > SWIG 4.0.2)
 + FFTW3: for turbulent magnetic field grids (FFTW3 with single precision is needed)
 + Gadget: magnetic fields for large scale structure data
 + OpenMP: for shared memory parallelization
@@ -46,12 +45,12 @@ The following packages are provided with the source code and do not need to be i
 2. A set of unit tests can be run with ```make test```. If the tests are
    successful continue with ```make install``` to install CRPropa at the
    specified path, or leave it in the build directory.  Make sure the
-   environment variables are set accordingly: E.g. for an installation under
-   $HOME/.local and using Python 2.7 set
+   environment variables are set accordingly: e.g. for an installation under
+   $HOME/.local and using Python 3 set
     ```sh
     export PATH=$HOME/.local/bin:$PATH
     export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
-    export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
+    export PYTHONPATH=$HOME/.local/lib/python3.9/site-packages:$PYTHONPATH
     export PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH
     ```
 
@@ -110,7 +109,7 @@ worthwhile effort afterwards.
 
     To install python dependencies and libraries use `pip`. Example: `pip install numpy`.
 
-4. Compile and install CRPropa (please note specific [insturctions for different operating systems](#notes-for-specific-operating-systems)).
+4. Compile and install CRPropa (please note specific [instructions for different operating systems](#notes-for-specific-operating-systems)).
     ```sh
     cd $CRPROPA_DIR
     git clone https://github.com/CRPropa/CRPropa3.git
@@ -144,7 +143,7 @@ cmake -DENABLE_PYTHON=ON ..
 ```
 
 + Set the install path ```-DCMAKE_INSTALL_PREFIX=/my/install/path```
-+ Enable Galactic magnetic lens ```-DENABLE_GALACTICMAGETICLENS=ON```
++ Enable Galactic magnetic lens ```-DENABLE_GALACTICMAGNETICLENS=ON```
 + Enable FFTW3 (turbulent magnetic fields) ```-DENABLE_FFTW3F=ON```
 + Enable OpenMP (multi-core parallel computing) ```-DENABLE_OPENMP=ON```
 + Enable Python (Python interface with SWIG) ```-DENABLE_PYTHON=ON```
@@ -178,11 +177,18 @@ cmake -DENABLE_PYTHON=ON ..
 
 + Quite often there are multiple Python versions installed in a system. This is likely the cause of many (if not most) of the installation problems related to Python. To prevent conflicts among them, one can explicitly refer to the Python version to be used. Example:
   ```
-  -DCMAKE_PYTHON_EXECUTABLE=/usr/bin/python
-  -DCMAKE_PYTHON_INCLUDE_DIR=<path_to_folder_containing_Python.h>
-  -DCMAKE_PYTHON_LIBRARY=<path_to_file>/libpython<version_tag>.so
+  -DPython_EXECUTABLE=/usr/bin/python
+  -DPython_INCLUDE_DIRS=<path_to_folder_containing_Python.h>
+  -DPython_LIBRARY=<path_to_file>/libpython<version_tag>.so
   ```
-  Note that in systems running OSX, the extension .so should be replaced by .dylib.
+Note that in systems running OSX, the extension .so should be replaced by .dylib. 
+In addition, The path where the CRPropa python module is installed can be specified with the flag:
+```
+-DPython_INSTALL_PACKAGE_DIR=<path_to_folder>
+```
+For further details, see [FindPython.cmake](https://cmake.org/cmake/help/latest/module/FindPython.html#module:FindPython).
+
+
 
 ## Notes for Specific Operating Systems
 
@@ -201,9 +207,21 @@ For Fedora/CentOS/RHEL the required packages to build CRPropa:
   ```
 In case of CentOS/RHEL 7, the SWIG version is too old and has to be built from source.
 
-
 ### Mac OS X
-Tested on version 12.5.1 with M1 pro where command line developer tools are installed. 
+For a clean OS X (Sonoma 14+) installation, if you use Homebrew, the main dependencies can be installed as follows:
+   ```sh
+   brew install hdf5 fftw cfitsio muparser libomp numpy swig
+  ```
+Similarly, if you use MacPorts instead of Homebrew, download the corresponding packages:
+   ```sh
+   sudo port install hdf5 fftw cfitsio muparser libomp numpy swig
+  ```
+Note that if you are using a Mac with Arm64 architecture (M1, M2, or M3 processors), `SIMD_EXTENSIONS` might not run straight away.
+
+
+Some combinations of versions of the Apple's clang compiler and python might lead to installation errors.
+In these cases, the user might want to consider the workaround below (tested on version 12.5.1 with M1 pro where command line developer tools are installed).
+
 Install Python3, and llvm from Homebrew, and specify the following paths to the Python and llvm directories in the Homebrew folder after step 3 of the above installation, e.g. (please use your exact versions):
   ```sh
    export LLVM_DIR="/opt/homebrew/Cellar/llvm/15.0.7_1"
@@ -219,9 +237,9 @@ with
   ```sh
    cmake .. \
    -DCMAKE_INSTALL_PREFIX=$CRPROPA_DIR \
-   -DPYTHON_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION \
-   -DPYTHON_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib \
-   -DPYTHON_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
+   -DPython_EXECUTABLE=$PYTHON_DIR/bin/python$PYTHON_VERSION \
+   -DPython_LIBRARY=$PYTHON_DIR/lib/libpython$PYTHON_VERSION.dylib \
+   -DPython_INCLUDE_PATH=$PYTHON_DIR/include/python$PYTHON_VERSION \
    -DCMAKE_C_COMPILER=$LLVM_DIR/bin/clang \
    -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ \
    -DOpenMP_CXX_FLAGS="-fopenmp -I$LLVM_DIR/lib/clang/$LLVM_VERSION/include" \
@@ -237,5 +255,4 @@ Check that all paths are set correctly with the following command in the build f
    ccmake .. 
   ```
 and configure and generate again after changes.
-
 

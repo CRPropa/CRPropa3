@@ -422,7 +422,11 @@ double PhotoPionProduction::sampleEps(bool onProton, double E, double z) const {
 
 	Random &random = Random::instance();
 	for (int i = 0; i < 1000000; i++) {
-		double eps = epsMin + random.rand() * (epsMax - epsMin);
+		double eps;
+		if (sampleLog){
+			eps = epsMin * pow(epsMax / epsMin, random.rand());
+		} else
+			eps = epsMin + random.rand() * (epsMax - epsMin);
 		double pEps = probEps(eps, onProton, Ein, z);
 		if (random.rand() * pEpsMax < pEps)
 			return eps * eV;

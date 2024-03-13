@@ -7,19 +7,19 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: "macos-11"
-            os: macos-11
+          - name: "macos-14"
+            os: macos-14 
             cxx: "clang++"
             cc: "clang"
             fc: "gfortran-11"
             swig_builtin: "On" #uses swig 4.0.2
-            py: "/usr/bin/python"
+            py: "/usr/bin/python3"
     steps:
      - name: Checkout repository 
-       uses: actions/checkout@v3 
+       uses: actions/checkout@v4 
      - name: Preinstall 
        run: | 
-         brew install hdf5 fftw cfitsio muparser libomp
+         brew install hdf5 fftw cfitsio muparser libomp numpy swig
      - name: Set up the build
        env:
          CXX: ${{ matrix.config.cxx }}
@@ -29,7 +29,7 @@ jobs:
        run: |
         mkdir build
         cd build
-        cmake .. -DENABLE_PYTHON=True -DPYTHON_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=avx
+        cmake .. -DENABLE_PYTHON=True  -DENABLE_TESTING=On  -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS="none"
      - name: Build CRPropa
        run: |
          cd build
@@ -42,7 +42,7 @@ jobs:
          make test
      - name: Archive test results
        if: always()
-       uses: actions/upload-artifact@v3
+       uses: actions/upload-artifact@v4
        with:
          name: "test-report_${{matrix.config.name}}"
          path: build/Testing/Temporary/LastTest.log

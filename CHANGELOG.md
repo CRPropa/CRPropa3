@@ -8,6 +8,7 @@
 ### Interface changes:
 
 ### Features that are deprecated and will be removed after this release
+ * EBL model from Finke et al. 2022
 
 ### Removed features 
 *  AMRMagneticField - underlying library (saga) is no longer supported.

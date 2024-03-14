@@ -2,6 +2,7 @@
 
 ### Bug fixes:
  * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField 
+ * Fixed r term in source distribution for SNR and Pulsar 
 
 ### New features:
 

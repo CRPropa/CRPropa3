@@ -416,7 +416,7 @@ double SourceSNRDistribution::fz(double z) const{
 }
 
 double SourceSNRDistribution::getAlpha() const {
-	return alpha - 1; 
+	return alpha - 1;  // -1 to account for the R-term in the volume element dV = R * dR * dphi * dz
 }
 
 double SourceSNRDistribution::getBeta() const {

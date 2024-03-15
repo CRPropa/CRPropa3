@@ -413,6 +413,16 @@ SophiaEventOutput PhotoPionProduction::sophiaEvent(bool onProton, double Ein, do
 	return output;
 }
 
+double PhotoPionProduction::proposal_pdf(double eps, double epsMin, double epsMax) const {
+	double prob = 1 / (eps * log(epsMax / epsMin));
+	return prob;
+}
+
+double PhotoPionProduction::proposal_inv_cdf(double prob, double epsMin, double epsMax) const {
+	double eps = epsMin * pow(epsMax / epsMin, prob);
+	return eps;
+}
+
 double PhotoPionProduction::sampleEps(bool onProton, double E, double z) const {
 	// sample eps between epsMin ... epsMax
 	double Ein = E / GeV;
@@ -423,13 +433,20 @@ double PhotoPionProduction::sampleEps(bool onProton, double E, double z) const {
 	Random &random = Random::instance();
 	for (int i = 0; i < 1000000; i++) {
 		double eps;
+		double pEps;
 		if (sampleLog){
-			eps = epsMin * pow(epsMax / epsMin, random.rand());
+			// convert uniformly-sampled probability to eps via inverse CDF
+			eps = proposal_inv_cdf(random.rand(), epsMin, epsMax);
+			// accept / reject based on ratio of pdfs
+			pEps = probEps(eps, onProton, Ein, z);
+			double pEps_proposal = proposal_pdf(eps, epsMin, epsMax);
+			if (pEps / pEps_proposal > random.rand() * pEpsMax)
+				return eps * eV;
 		} else
 			eps = epsMin + random.rand() * (epsMax - epsMin);
-		double pEps = probEps(eps, onProton, Ein, z);
-		if (random.rand() * pEpsMax < pEps)
-			return eps * eV;
+			pEps = probEps(eps, onProton, Ein, z);
+			if (random.rand() * pEpsMax < pEps)
+				return eps * eV;
 	}
 	throw std::runtime_error("error: no photon found in sampleEps, please make sure that photon field provides photons for the interaction by adapting the energy range of the tabulated photon field.");
 }

@@ -308,7 +308,7 @@ endif(APPLE)
 # Download data files (interaction data, masses, decay data ...)
 # ----------------------------------------------------------------------------
 OPTION(DOWNLOAD_DATA "Download CRPropa data files" ON)
-set(CRPROPA_DATAFILE_VER "2023-10-20")
+set(CRPROPA_DATAFILE_VER "2024-03-11")
 if(DOWNLOAD_DATA)
   message("-- Downloading data files from sciebo ~ 73 MB")
   file(DOWNLOAD

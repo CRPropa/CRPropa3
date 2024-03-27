@@ -91,6 +91,7 @@ TEST(testVectorFieldGrid, Turbulence_seed) {
 	EXPECT_FLOAT_EQ(tf1.getField(pos).x, tf2.getField(pos).x);
 }
 
+#ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
 TEST(testVectorFieldGrid, turbulence_Exceptions) {
 	// Test exceptions
 	size_t n = 64;
@@ -110,6 +111,7 @@ TEST(testVectorFieldGrid, turbulence_Exceptions) {
 	EXPECT_THROW(initTurbulence(grid, brms, 2 * spacing, 65 * spacing),
 			std::runtime_error);
 }
+#endif
 
 TEST(testGridTurbulence, Turbulence_seed) {
 	// Test if seeding produces 2 identical fields

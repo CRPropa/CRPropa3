@@ -22,9 +22,9 @@
 %feature("python:slot", "tp_repr", functype="reprfunc") classname::repr();
 
 %extend classname {
-        const std::string repr() {
-            return $self->getDescription();
-        }
+  const std::string repr() {
+    return $self->getDescription();
+  }
 }
 %enddef
 

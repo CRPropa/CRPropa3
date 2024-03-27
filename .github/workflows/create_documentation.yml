@@ -9,22 +9,18 @@ jobs:
       fail-fast: false
       matrix:
         config:
-         - name: "ubuntu-20"
-           os: ubuntu-20.04
-           cxx: "g++-9"
-           cc: "gcc-9"
-           fc: "gfortran-9"
-           swig_builtin: "Off" #uses swig 4.0.1
+          - name: "ubuntu-22"
+            os: ubuntu-22.04
+            cxx: "g++-11"
+            cc: "gcc-11"
+            fc: "gfortran-11"
+            swig_builtin: "On" #uses swig 4.0.2
+            py: "/usr/bin/python3" #python 3.10
     
     # define steps to take
     steps: 
       - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Python install
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-          cache: 'pip' # caching pip dependencies
+        uses: actions/checkout@v4
       - name: Prerequirements
         run: |
           sudo apt-get update
@@ -40,9 +36,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local \
-            -DENABLE_PYTHON=True -DENABLE_TESTING=ON -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} \
-            -DSIMD_EXTENSIONS=native -DBUILD_DOC=True -DENABLE_COVERAGE=True
+          cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native -DPython_INSTALL_PACKAGE_DIR=/home/runner/.local/ -DBUILD_DOC=On -DENABLE_COVERAGE=On
       - name: Build CRPropa
         run: |
           cd build
@@ -63,7 +57,7 @@ jobs:
           make doc
           tar -zcvf documentation.tar.gz doc
       - name: archive documentation
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "documentation"
           path: | 

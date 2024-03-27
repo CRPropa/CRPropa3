@@ -4,34 +4,27 @@
 %feature("python:slot", "sq_length", functype="lenfunc") __len__;
 %feature("python:slot", "mp_subscript", functype="binaryfunc") __getitem__;
 %feature("python:slot", "tp_iter", functype="unaryfunc") __iter__;
-#ifdef SWIG_PYTHON3
 %feature("python:slot", "tp_iternext", functype="iternextfunc") __next__;
-#else
-%feature("python:slot", "tp_iternext", functype="iternextfunc") next;
-#endif
 
 /* Include headers */
 
 #ifdef CRPROPA_HAVE_QUIMBY
-%import (module="quimby") "quimby/Referenced.h"
-%import (module="quimby") "quimby/Vector3.h"
-%import (module="quimby") "quimby/MagneticField.h"
-//%import (module="quimby") quimby.i
+  %import (module="quimby") "quimby/Referenced.h"
+  %import (module="quimby") "quimby/Vector3.h"
+  %import (module="quimby") "quimby/MagneticField.h"
+  //%import (module="quimby") quimby.i
 #endif
 
-#ifdef CRPROPA_HAVE_SAGA
-%import (module="saga") saga.i
-#endif
 
 %{
 #include "CRPropa.h"
-using namespace crpropa;   // for usage of namespace in header files, necessary
-                           // for keyword arguments with units
+  // for usage of namespace in header files, necessary for keyword arguments with units
+  using namespace crpropa;
 %}
 
 %{
-#include <iostream>
-#include <iomanip>
+  #include <iostream>
+  #include <iomanip>
 %}
 
 %ignore operator<<;
@@ -65,8 +58,7 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %include "crpropa/Logging.h"
 
-/* ignore public references and replace with attributes for Vector3d and
- * Vector3f*/
+/* ignore public references and replace with attributes for Vector3d and Vector3f*/
 %attribute(crpropa::Vector3<double>, double, x, getX, setX);
 %attribute(crpropa::Vector3<double>, double, y, getY, setY);
 %attribute(crpropa::Vector3<double>, double, z, getZ, setZ);
@@ -78,10 +70,9 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %feature("python:slot", "sq_length", functype="lenfunc") crpropa::Vector3::__len__;
 %feature("python:slot", "mp_subscript", functype="binaryfunc") crpropa::Vector3::__getitem__;
 %feature("python:slot", "mp_ass_subscript", functype="objobjargproc") crpropa::Vector3::__setitem__;
-%typemap(directorin,numinputs=1) (const double *v)
-{
-    npy_intp dim = 3;
-    $input = PyArray_SimpleNewFromData(1, &dim, NPY_DOUBLE, (void *)$1);
+%typemap(directorin,numinputs=1) (const double *v) {
+  npy_intp dim = 3;
+  $input = PyArray_SimpleNewFromData(1, &dim, NPY_DOUBLE, (void *)$1);
 }
 %ignore crpropa::Vector3::data;
 
@@ -89,73 +80,60 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %exception crpropa::Vector3::__getitem__ {
   try {
-        $action
-  }
-  catch (RangeError) {
-        SWIG_exception(SWIG_IndexError, "Index out of bounds");
-        return NULL;
+    $action
+  } catch (RangeError) {
+    SWIG_exception(SWIG_IndexError, "Index out of bounds");
+    return NULL;
   }
 }
 
 %exception crpropa::Vector3::__setitem__ {
   try {
-        $action
-  }
-  catch (RangeError) {
-        SWIG_exception(SWIG_IndexError, "Index out of bounds");
-        return NULL;
+    $action
+  } catch (RangeError) {
+    SWIG_exception(SWIG_IndexError, "Index out of bounds");
+    return NULL;
   }
 }
 
-%extend crpropa::Vector3
-{
-  size_t __len__()
-  {
+%extend crpropa::Vector3 {
+  size_t __len__() {
     return 3;
   }
 
-  PyObject* __array__()
-  {
+  PyObject* __array__() {
     npy_intp shape[1];
     shape[0] = 3;
     PyObject *ro;
-    if (sizeof($self->data[0]) == NPY_SIZEOF_FLOAT)
-    {
+    if (sizeof($self->data[0]) == NPY_SIZEOF_FLOAT) {
       ro = PyArray_SimpleNewFromData(1, shape, NPY_FLOAT, $self->data);
-    }
-    else if (sizeof($self->data[0]) == NPY_SIZEOF_DOUBLE)
-    {
+    } else if (sizeof($self->data[0]) == NPY_SIZEOF_DOUBLE) {
       ro = PyArray_SimpleNewFromData(1, shape, NPY_DOUBLE, $self->data);
-    }
-    else
-    {
+    } else {
       KISS_LOG_ERROR << "crpropa::Vector3 has fixed size of 3 elements!";
     }
 
     return ro;
   }
 
-  double __getitem__(size_t i)
-  {
+  double __getitem__(size_t i) {
     if(i > 2) {
         throw RangeError();
     }
-    
+
     return $self->data[i];
   }
 
-  int __setitem__(size_t i, T value)
-  {
+  int __setitem__(size_t i, T value) {
     if(i > 2) {
-        throw RangeError();
+      throw RangeError();
     }
 
     $self->data[i] = value;
     return 0;
   }
 
-  const std::string getDescription()
-  {
+  const std::string getDescription() {
     char buffer[256];
     sprintf( buffer, "Vector(%.6G, %.6G, %.6G)", $self->x, $self->y, $self->z );
     return buffer;
@@ -187,191 +165,102 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %nothread; /* disable threading for extend*/
 %extend crpropa::Candidate {
-    PyObject * getProperty(PyObject * name){
+  PyObject * getProperty(PyObject* name) {
 
-        std::string input;
+    std::string input;
 
-        if (PyUnicode_Check(name)){
-          #ifdef SWIG_PYTHON3
-          // test on PY_MAJOR_VERSION >= 3 wont work with swig
-              input = PyUnicode_AsUTF8(name);
-          #else
-              PyObject *s =  PyUnicode_AsUTF8String(name);
-              input = PyString_AsString(s);
-          #endif
-        }
-        #ifndef SWIG_PYTHON3
-        else if (PyString_Check(name)){
-            input = PyString_AsString(name);
-        }
-        #endif
-        else {
-            std::cerr << "ERROR: The argument of getProperty() must be a string/unicode object!" << std::endl;
-            return NULL;
-        }
-
-        crpropa::Variant value = $self->getProperty(input);
-
-        // implement this conversion here and not in the Variant as
-        // __asPythonObject, as extensions cannot be called from extension.
-        if (! value.isValid())
-        {
-          Py_INCREF(Py_None);
-          return Py_None;
-        }
-        else if (value.getTypeInfo() == typeid(bool))
-        {
-         if(value.toBool())
-         {
-          Py_RETURN_TRUE;
-         }
-         else
-         {
-          Py_RETURN_FALSE;
-         }
-        }
-        // convert all integer types to python long
-        else if (value.getTypeInfo() == typeid(char))
-        {
-          return PyInt_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(unsigned char))
-        {
-          return PyInt_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(int16_t))
-        {
-          return PyInt_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(uint16_t))
-        {
-          return PyInt_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(int32_t))
-        {
-          return PyInt_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(uint32_t))
-        {
-          return PyInt_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(int64_t))
-        {
-          return PyLong_FromLong(value.toInt64());
-        }
-        else if (value.getTypeInfo() == typeid(uint64_t))
-        {
-          return PyLong_FromUnsignedLong(value.toInt64());
-        }
-        // convert float and double to pyfloat which is double precision
-        else if (value.getTypeInfo() == typeid(float))
-        {
-          return PyFloat_FromDouble(value.toDouble());
-        }
-        else if (value.getTypeInfo() == typeid(double))
-        {
-          return PyFloat_FromDouble(value.toDouble());
-        }
-        else if (value.getTypeInfo() == typeid(std::string))
-        {
-        #ifdef SWIG_PYTHON3
-          return PyUnicode_FromString(value.toString().c_str());
-        #else
-          return PyString_FromString(value.toString().c_str());
-        #endif
-        }
-
-        std::cerr << "ERROR: Unknown Type" << std::endl;
-        return NULL;
+    if (PyUnicode_Check(name)) {
+      input = PyUnicode_AsUTF8(name);
+    } else if (PyString_Check(name)){
+      input = PyString_AsString(name);
+    } else {
+      std::cerr << "ERROR: The argument of getProperty() must be a string/unicode object!" << std::endl;
+      return NULL;
     }
 
+    crpropa::Variant value = $self->getProperty(input);
 
-    PyObject * setProperty(PyObject * name, PyObject * value){
-
-        std::string input;
-
-        if (PyUnicode_Check(name)){
-          #ifdef SWIG_PYTHON3
-              input = PyUnicode_AsUTF8(name);
-          #else
-              input = PyUnicode_AS_DATA(name);
-              PyObject *s =  PyUnicode_AsUTF8String(name);
-              input = PyString_AsString(s);
-          #endif
-        }
-        #ifndef SWIG_PYTHON3
-        else if (PyString_Check( name )){
-            input = PyString_AsString( name );
-        }
-        #endif
-        else {
-            std::cerr << "ERROR: The argument of setProperty() must be a string/unicode object!" << std::endl;
-            return NULL;
-        }
-
-
-        if (value == Py_None)
-        {
-          $self->setProperty(input, crpropa::Variant());
+    // implement this conversion here and not in the Variant as
+    // __asPythonObject, as extensions cannot be called from extension.
+    if (! value.isValid())  {
+      Py_INCREF(Py_None);
+      return Py_None;
+    } else if (value.getTypeInfo() == typeid(bool)) {
+      if(value.toBool()) {
         Py_RETURN_TRUE;
-        }
-        else if (PyBool_Check(value))
-        {
-         if(value == Py_True)
-         {
-          $self->setProperty(input, true);
-         }
-         else
-         {
-          $self->setProperty(input, false);
-         }
-          Py_RETURN_TRUE;
-        }
-        else if (PyInt_Check(value))
-        {
-          $self->setProperty(input, crpropa::Variant::fromInt32(PyInt_AsLong(value)));
-          Py_RETURN_TRUE;
-        }
-        else if (PyLong_Check(value))
-        {
-          $self->setProperty(input, crpropa::Variant::fromUInt64(PyLong_AsLong(value)));
-          Py_RETURN_TRUE;
-        }
-        else if (PyFloat_Check(value))
-        {
-          $self->setProperty(input, crpropa::Variant::fromDouble(PyFloat_AsDouble(value)));
-          Py_RETURN_TRUE;
-        }
-        else if (PyUnicode_Check(value)){
-        #ifdef SWIG_PYTHON3
-          $self->setProperty(input, PyUnicode_AsUTF8(value));
-        #else
-          PyObject *s =  PyUnicode_AsUTF8String(value);
-          $self->setProperty(input, PyString_AsString(s));
-        #endif
-          Py_RETURN_TRUE;
-        }
-        #ifndef SWIG_PYTHON3
-        else if (PyString_Check( value))
-        {
-          $self->setProperty(input, PyString_AsString(value));
-          Py_RETURN_TRUE;
-        }
-        #endif
-        else
-        {
-          PyObject *t = PyObject_Str(PyObject_Type(value));
-          std::string ot;
-
-          #ifdef SWIG_PYTHON3
-            ot = PyUnicode_AsUTF8(t);
-          #else
-            ot = PyString_AsString(t);
-          #endif
-          std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
-          return NULL;
-        }
+      } else {
+        Py_RETURN_FALSE;
+      }
+    } else if (value.getTypeInfo() == typeid(char)) {
+      // convert all integer types to python long
+      return PyInt_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(unsigned char)) {
+      return PyInt_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(int16_t)) {
+      return PyInt_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(uint16_t)) {
+      return PyInt_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(int32_t)) {
+      return PyInt_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(uint32_t)) {
+      return PyInt_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(int64_t)) {
+      return PyLong_FromLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(uint64_t)) {
+      return PyLong_FromUnsignedLong(value.toInt64());
+    } else if (value.getTypeInfo() == typeid(float)) {
+      // convert float and double to pyfloat which is double precision
+      return PyFloat_FromDouble(value.toDouble());
+    } else if (value.getTypeInfo() == typeid(double)) {
+      return PyFloat_FromDouble(value.toDouble());
+    } else if (value.getTypeInfo() == typeid(std::string)) {
+      return PyUnicode_FromString(value.toString().c_str());
     }
+
+    std::cerr << "ERROR: Unknown Type" << std::endl;
+    return NULL;
+  }
+
+  PyObject * setProperty(PyObject * name, PyObject * value) {
+
+    std::string input;
+
+    if (PyUnicode_Check(name)){
+      input = PyUnicode_AsUTF8(name);
+    } else {
+      std::cerr << "ERROR: The argument of setProperty() must be a string/unicode object!" << std::endl;
+      return NULL;
+    }
+
+    if (value == Py_None) {
+      $self->setProperty(input, crpropa::Variant());
+      Py_RETURN_TRUE;
+    } else if (PyBool_Check(value)) {
+      if(value == Py_True) {
+        $self->setProperty(input, true);
+      } else {
+        $self->setProperty(input, false);
+      }
+      Py_RETURN_TRUE;
+    } else if (PyInt_Check(value)) {
+      $self->setProperty(input, crpropa::Variant::fromInt32(PyInt_AsLong(value)));
+      Py_RETURN_TRUE;
+    } else if (PyLong_Check(value)) {
+      $self->setProperty(input, crpropa::Variant::fromUInt64(PyLong_AsLong(value)));
+      Py_RETURN_TRUE;
+    } else if (PyFloat_Check(value)) {
+      $self->setProperty(input, crpropa::Variant::fromDouble(PyFloat_AsDouble(value)));
+      Py_RETURN_TRUE;
+    } else if (PyUnicode_Check(value)){
+      $self->setProperty(input, PyUnicode_AsUTF8(value));
+      Py_RETURN_TRUE;
+    } else {
+      PyObject *t = PyObject_Str(PyObject_Type(value));
+      std::string ot = PyUnicode_AsUTF8(t);
+      std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
+      return NULL;
+    }
+  }
 };
 %thread; /* reenable threading */
 
@@ -470,71 +359,36 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 
 %ignore crpropa::Output::enableProperty(const std::string &property, const Variant& defaultValue, const std::string &comment = "");
 %extend crpropa::Output{
-  PyObject * enableProperty(const std::string &name, PyObject* defaultValue, const std::string &comment="")
-  {
+  PyObject* enableProperty(const std::string &name, PyObject* defaultValue, const std::string &comment="") {
 
-       if (defaultValue == Py_None)
-        {
-          Py_RETURN_TRUE;
-        }
-        else if (PyBool_Check(defaultValue))
-        {
-         if(defaultValue == Py_True)
-         {
-          $self->enableProperty(name, true, comment);
-         }
-         else
-         {
-          $self->enableProperty(name, false, comment);
-         }
-          Py_RETURN_TRUE;
-        }
-        else if (PyInt_Check(defaultValue))
-        {
-          $self->enableProperty(name, crpropa::Variant::fromInt32(PyInt_AsLong(defaultValue)), comment);
-          Py_RETURN_TRUE;
-        }
-        else if (PyLong_Check(defaultValue))
-        {
-          $self->enableProperty(name, crpropa::Variant::fromInt64(PyLong_AsLong(defaultValue)), comment);
-          Py_RETURN_TRUE;
-        }
-        else if (PyFloat_Check(defaultValue))
-        {
-          $self->enableProperty(name, crpropa::Variant::fromDouble(PyFloat_AsDouble(defaultValue)), comment);
-          Py_RETURN_TRUE;
-        }
-        else if (PyUnicode_Check(defaultValue)){
-        #ifdef SWIG_PYTHON3
-          std::string ss = PyUnicode_AsUTF8(defaultValue);
-        #else
-          PyObject *s =  PyUnicode_AsUTF8String(defaultValue);
-          std::string ss = PyString_AsString(s);
-        #endif
-          $self->enableProperty(name, ss, comment);
-          Py_RETURN_TRUE;
-        }
-        #ifndef SWIG_PYTHON3
-        else if (PyString_Check( defaultValue))
-        {
-          std::string ss = PyString_AsString(defaultValue);
-          $self->enableProperty(name, ss, comment);
-          Py_RETURN_TRUE;
-        }
-        #endif
-        else
-        {
-          PyObject *t = PyObject_Str(PyObject_Type(defaultValue));
-          std::string ot;
-
-          #ifdef SWIG_PYTHON3
-            ot = PyUnicode_AsUTF8(t);
-          #else
-            ot = PyString_AsString(t);
-          #endif
-          std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
-          return NULL;
-        }
+    if (defaultValue == Py_None) {
+      Py_RETURN_TRUE;
+    } else if (PyBool_Check(defaultValue)) {
+      if(defaultValue == Py_True) {
+        $self->enableProperty(name, true, comment);
+      } else {
+        $self->enableProperty(name, false, comment);
+      }
+      Py_RETURN_TRUE;
+    } else if (PyInt_Check(defaultValue)) {
+      $self->enableProperty(name, crpropa::Variant::fromInt32(PyInt_AsLong(defaultValue)), comment);
+      Py_RETURN_TRUE;
+    } else if (PyLong_Check(defaultValue)) {
+      $self->enableProperty(name, crpropa::Variant::fromInt64(PyLong_AsLong(defaultValue)), comment);
+      Py_RETURN_TRUE;
+    } else if (PyFloat_Check(defaultValue)) {
+      $self->enableProperty(name, crpropa::Variant::fromDouble(PyFloat_AsDouble(defaultValue)), comment);
+      Py_RETURN_TRUE;
+    } else if (PyUnicode_Check(defaultValue)){
+      std::string ss = PyUnicode_AsUTF8(defaultValue);
+      $self->enableProperty(name, ss, comment);
+      Py_RETURN_TRUE;
+    } else {
+      PyObject* t = PyObject_Str(PyObject_Type(defaultValue));
+      std::string ot = PyUnicode_AsUTF8(t);
+      std::cerr << "ERROR: Unknown Type: " << ot << std::endl;
+      return NULL;
+    }
 
   }
 }
@@ -543,7 +397,6 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/module/Output.h"
 %include "crpropa/module/DiffusionSDE.h"
 %include "crpropa/module/TextOutput.h"
-
 %include "crpropa/module/HDF5Output.h"
 %include "crpropa/module/OutputShell.h"
 %include "crpropa/module/PhotonOutput1D.h"
@@ -573,26 +426,25 @@ using namespace crpropa;   // for usage of namespace in header files, necessary
 %include "crpropa/Source.h"
 
 %inline %{
-class ModuleListIterator {
-  public:
-        ModuleListIterator(
-                crpropa::ModuleList::iterator _cur,
-                crpropa::ModuleList::iterator _end) :
-                        cur(_cur), end(_end) {}
-        ModuleListIterator* __iter__() { return this; }
-        crpropa::ModuleList::iterator cur;
-        crpropa::ModuleList::iterator end;
-  };
+  class ModuleListIterator {
+    public:
+      ModuleListIterator(
+        crpropa::ModuleList::iterator _cur,
+        crpropa::ModuleList::iterator _end) :
+          cur(_cur), end(_end) {
+          }
+      ModuleListIterator* __iter__() { 
+        return this;
+      }
+      crpropa::ModuleList::iterator cur;
+      crpropa::ModuleList::iterator end;
+    };
 %}
 
 %extend ModuleListIterator {
-#ifdef SWIG_PYTHON3
   crpropa::ref_ptr<crpropa::Module>& __next__() {
-#else
-  crpropa::ref_ptr<crpropa::Module>& next() {
-#endif
     if ($self->cur != $self->end) {
-        return *$self->cur++;
+      return *$self->cur++;
     }
     throw StopIterator();
   }
@@ -600,16 +452,18 @@ class ModuleListIterator {
 
 %extend crpropa::ModuleList {
   ModuleListIterator __iter__() {
-        return ModuleListIterator($self->begin(), $self->end());
+    return ModuleListIterator($self->begin(), $self->end());
   }
+  
   crpropa::ref_ptr<crpropa::Module> __getitem__(size_t i) {
-        if (i >= $self->size()) {
-                throw RangeError();
-        }
-        return (*($self))[i];
+    if (i >= $self->size()) {
+            throw RangeError();
+    }
+    return (*($self))[i];
   }
+
   size_t __len__() {
-        return $self->size();
+    return $self->size();
   }
 };
 
@@ -619,26 +473,25 @@ class ModuleListIterator {
 %template(ParticleCollectorRefPtr) crpropa::ref_ptr<crpropa::ParticleCollector>;
 
 %inline %{
-class ParticleCollectorIterator {
-  public:
-        ParticleCollectorIterator(
-                crpropa::ParticleCollector::iterator _cur,
-                crpropa::ParticleCollector::iterator _end) :
-                        cur(_cur), end(_end) {}
-        ParticleCollectorIterator* __iter__() { return this; }
-        crpropa::ParticleCollector::iterator cur;
-        crpropa::ParticleCollector::iterator end;
+  class ParticleCollectorIterator {
+    public:
+    ParticleCollectorIterator(
+      crpropa::ParticleCollector::iterator _cur,
+      crpropa::ParticleCollector::iterator _end) :
+        cur(_cur), end(_end) {
+        }
+    ParticleCollectorIterator* __iter__() { 
+      return this; 
+    }
+    crpropa::ParticleCollector::iterator cur;
+    crpropa::ParticleCollector::iterator end;
   };
 %}
 
 %extend ParticleCollectorIterator {
-#ifdef SWIG_PYTHON3
   crpropa::ref_ptr<crpropa::Candidate>& __next__() {
-#else
-  crpropa::ref_ptr<crpropa::Candidate>& next() {
-#endif
     if ($self->cur != $self->end) {
-        return *$self->cur++;
+      return *$self->cur++;
     }
     throw StopIterator();
   }
@@ -646,53 +499,50 @@ class ParticleCollectorIterator {
 
 %extend crpropa::ParticleCollector {
   ParticleCollectorIterator __iter__() {
-        return ParticleCollectorIterator($self->begin(), $self->end());
+    return ParticleCollectorIterator($self->begin(), $self->end());
   }
+
   crpropa::ref_ptr<crpropa::Candidate> __getitem__(size_t i) {
-        if (i >= $self->size()) {
-                throw RangeError();
-        }
-        return (*($self))[i];
+    if (i >= $self->size()) {
+      throw RangeError();
+    }
+    return (*($self))[i];
   }
-  std::vector< crpropa::ref_ptr<crpropa::Candidate> > __getitem__(PyObject *param) {
-        std::vector< crpropa::ref_ptr<crpropa::Candidate> > result;
 
-        if (PySlice_Check(param)) {
-                Py_ssize_t len = 0, start = 0, stop = 0, step = 0, slicelength = 0, i = 0;
-                len = $self->size();
+  std::vector<crpropa::ref_ptr<crpropa::Candidate>> __getitem__(PyObject *param) {
+    std::vector< crpropa::ref_ptr<crpropa::Candidate> > result;
 
-                #ifdef SWIG_PYTHON3
-                    PySlice_GetIndicesEx(param, len, &start, &stop, &step, &slicelength);
-                #else
-                    PySlice_GetIndicesEx((PySliceObject*)param, len, &start, &stop, &step, &slicelength);
-                #endif
+    if (PySlice_Check(param)) {
+      Py_ssize_t len = 0, start = 0, stop = 0, step = 0, slicelength = 0, i = 0;
+      len = $self->size();
 
-                for(crpropa::ParticleCollector::iterator itr = $self->begin(); itr != $self->end(); ++itr){
-                        if( i >= start && i < stop){
-                                result.push_back(itr->get());
-                        }
-                        ++i;
-                }
-                return result;
-        } else {
-                throw RangeError();
+      PySlice_GetIndicesEx(param, len, &start, &stop, &step, &slicelength);
+
+      for(crpropa::ParticleCollector::iterator itr = $self->begin(); itr != $self->end(); ++itr) {
+        if(i >= start && i < stop) {
+          result.push_back(itr->get());
         }
+        ++i;
+      }
+      return result;
+
+    } else {
+      throw RangeError();
+    }
   }
+
   size_t __len__() {
-        return $self->size();
+    return $self->size();
   }
 };
 
 %include "crpropa/module/ParticleCollector.h"
-
 %include "crpropa/massDistribution/Density.h"
 %include "crpropa/massDistribution/Nakanishi.h"
 %include "crpropa/massDistribution/Cordes.h"
 %include "crpropa/massDistribution/Ferriere.h"
 %include "crpropa/massDistribution/Massdistribution.h"
 %include "crpropa/massDistribution/ConstantDensity.h"
-
-
 
 
 %template(StepLengthModifierRefPtr) crpropa::ref_ptr<crpropa::StepLengthModifier>;

@@ -234,6 +234,19 @@ public:
 };
 
 /**
+ @class IRB_Finke22
+ @brief Extragalactic background light model from Finke et al. 2022
+
+ Source info:
+ DOI:10.3847/1538-4357/ac9843
+ https://iopscience.iop.org/article/10.3847/1538-4357/ac9843/pdf
+ */
+class IRB_Finke22: public TabularPhotonField {
+public:
+	IRB_Finke22() : TabularPhotonField("IRB_Finke22", true) {}
+};
+
+/**
  @class URB
  @brief Extragalactic background light model from Protheroe & Biermann 1996
 

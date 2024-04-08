@@ -2,9 +2,14 @@ CRPropa
 ========
 
 ![stable release](https://img.shields.io/badge/stable\_release-3.2.1-darkblue)
-[![Build status](https://github.com/crpropa/crpropa3/actions/workflows/testing.yml/badge.svg)](https://github.com/crpropa/crpropa3/actions/)
-[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
-[![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
+
+[![Build: ubuntu22](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml)
+[![Build: ubuntu20](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu20.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu20.yml)
+[![Build: macos14](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_OSX.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_OSX.yml)
+[![Examples](https://github.com/CRPropa/CRPropa3/actions/workflows/test_examples.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/test_examples.yml)
+
+![Issues](https://img.shields.io/github/issues/crpropa/CRPropa3)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/crpropa/CRPropa3)
 
 [![DOI:10.1088/1475-7516/2022/09/035](http://img.shields.io/badge/DOI-10.1088/1475-7516/2022/09/035.svg)](<https://doi.org/10.1088/1475-7516/2022/09/035>)
 [![arXiv](https://img.shields.io/badge/arXiv-2208.00107-b31b1b.svg)](https://arxiv.org/abs/2208.00107)

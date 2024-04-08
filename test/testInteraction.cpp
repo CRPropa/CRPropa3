@@ -40,6 +40,8 @@ TEST(ElectronPairProduction, allBackgrounds) {
 	epp.setPhotonField(irb);
 	irb = new IRB_Stecker16_lower();
 	epp.setPhotonField(irb);
+    irb = new IRB_Finke22();
+	epp.setPhotonField(irb);
 }
 
 TEST(ElectronPairProduction, energyDecreasing) {
@@ -342,6 +344,8 @@ TEST(PhotoDisintegration, allBackgrounds) {
 	pd.setPhotonField(irb);
 	irb = new IRB_Stecker16_lower();
 	pd.setPhotonField(irb);
+    irb = new IRB_Finke22();
+	pd.setPhotonField(irb);
 	urb = new URB_Nitu21();
 	pd.setPhotonField(urb);
 }
@@ -558,6 +562,8 @@ TEST(PhotoPionProduction, allBackgrounds) {
 	ppp.setPhotonField(irb);
 	irb = new IRB_Stecker16_lower();
 	ppp.setPhotonField(irb);
+    irb = new IRB_Finke22();
+	ppp.setPhotonField(irb);
 	ref_ptr<PhotonField> urb = new URB_Protheroe96();
 	ppp.setPhotonField(urb);
 	urb = new URB_Nitu21();
@@ -718,6 +724,8 @@ TEST(EMPairProduction, allBackgrounds) {
 	em.setPhotonField(ebl);
 	ebl = new IRB_Stecker16_lower();
 	em.setPhotonField(ebl);
+	ebl = new IRB_Finke22();
+	em.setPhotonField(ebl);
 	urb = new URB_Fixsen11();
 	em.setPhotonField(urb);
 	urb = new URB_Nitu21();
@@ -820,6 +828,8 @@ TEST(EMDoublePairProduction, allBackgrounds) {
 	ebl = new IRB_Stecker16_upper();
 	em.setPhotonField(ebl);
 	ebl = new IRB_Stecker16_lower();
+	em.setPhotonField(ebl);
+	ebl = new IRB_Finke22();
 	em.setPhotonField(ebl);
 	urb = new URB_Fixsen11();
 	em.setPhotonField(urb);
@@ -925,6 +935,8 @@ TEST(EMTripletPairProduction, allBackgrounds) {
 	em.setPhotonField(ebl);
 	ebl = new IRB_Stecker16_lower();
 	em.setPhotonField(ebl);
+	ebl = new IRB_Finke22();
+	em.setPhotonField(ebl);
 	urb = new URB_Fixsen11();
 	em.setPhotonField(urb);
 	urb = new URB_Nitu21();
@@ -1029,6 +1041,8 @@ TEST(EMInverseComptonScattering, allBackgrounds) {
 	ebl = new IRB_Stecker16_upper();
 	em.setPhotonField(ebl);
 	ebl = new IRB_Stecker16_lower();
+	em.setPhotonField(ebl);
+	ebl = new IRB_Finke22();
 	em.setPhotonField(ebl);
 	urb = new URB_Fixsen11();
 	em.setPhotonField(urb);

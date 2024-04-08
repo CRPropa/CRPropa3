@@ -8,6 +8,7 @@ File PhotonBackground.h
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 .. contents:: Contents
    :local:
    :backlinks: none
@@ -49,11 +50,19 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Finke10`
 
+- :ref:`exhale_class_classcrpropa_1_1IRB__Finke22`
+
 - :ref:`exhale_class_classcrpropa_1_1IRB__Franceschini08`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Gilmore12`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Kneiske04`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Saldana21`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Saldana21__lower`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Saldana21__upper`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Stecker05`
 

@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1CandidateSplitting:
+
+Class CandidateSplitting
+========================
+
+- Defined in :ref:`file_include_crpropa_module_CandidateSplitting.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public Module`` (:ref:`exhale_class_classcrpropa_1_1Module`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::CandidateSplitting
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

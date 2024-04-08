@@ -8,6 +8,7 @@ File AdvectionField.h
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 .. contents:: Contents
    :local:
    :backlinks: none
@@ -46,6 +47,12 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1AdvectionFieldList`
 
 - :ref:`exhale_class_classcrpropa_1_1ConstantSphericalAdvectionField`
+
+- :ref:`exhale_class_classcrpropa_1_1ObliqueAdvectionShock`
+
+- :ref:`exhale_class_classcrpropa_1_1OneDimensionalCartesianShock`
+
+- :ref:`exhale_class_classcrpropa_1_1OneDimensionalSphericalShock`
 
 - :ref:`exhale_class_classcrpropa_1_1SphericalAdvectionField`
 

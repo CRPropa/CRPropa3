@@ -8,6 +8,7 @@ File ParticleMass.cpp
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 .. contents:: Contents
    :local:
    :backlinks: none
@@ -48,9 +49,9 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
-
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
 
 
 Variables

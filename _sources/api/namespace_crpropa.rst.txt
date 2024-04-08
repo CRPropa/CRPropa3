@@ -22,8 +22,6 @@ Classes
 -------
 
 
-- :ref:`exhale_struct_structcrpropa_1_1__Secondary`
-
 - :ref:`exhale_struct_structcrpropa_1_1CLOCK__TLS__ITEM`
 
 - :ref:`exhale_struct_structcrpropa_1_1HDF5Output_1_1OutputRow`
@@ -56,8 +54,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1AdvectionFieldList`
 
-- :ref:`exhale_class_classcrpropa_1_1AMRMagneticField`
-
 - :ref:`exhale_class_classcrpropa_1_1ArchimedeanSpiralField`
 
 - :ref:`exhale_class_classcrpropa_1_1Base64`
@@ -65,6 +61,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1BlackbodyPhotonField`
 
 - :ref:`exhale_class_classcrpropa_1_1Candidate`
+
+- :ref:`exhale_class_classcrpropa_1_1CandidateSplitting`
 
 - :ref:`exhale_class_classcrpropa_1_1Clock`
 
@@ -75,6 +73,8 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1CMZField`
 
 - :ref:`exhale_class_classcrpropa_1_1ConstantDensity`
+
+- :ref:`exhale_class_classcrpropa_1_1ConstantMomentumDiffusion`
 
 - :ref:`exhale_class_classcrpropa_1_1ConstantSphericalAdvectionField`
 
@@ -108,8 +108,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1EllipsoidalBoundary`
 
-- :ref:`exhale_class_classcrpropa_1_1EMCascade`
-
 - :ref:`exhale_class_classcrpropa_1_1EMDoublePairProduction`
 
 - :ref:`exhale_class_classcrpropa_1_1EMInverseComptonScattering`
@@ -142,11 +140,19 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Finke10`
 
+- :ref:`exhale_class_classcrpropa_1_1IRB__Finke22`
+
 - :ref:`exhale_class_classcrpropa_1_1IRB__Franceschini08`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Gilmore12`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Kneiske04`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Saldana21`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Saldana21__lower`
+
+- :ref:`exhale_class_classcrpropa_1_1IRB__Saldana21__upper`
 
 - :ref:`exhale_class_classcrpropa_1_1IRB__Stecker05`
 
@@ -198,6 +204,8 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1NuclearDecay`
 
+- :ref:`exhale_class_classcrpropa_1_1ObliqueAdvectionShock`
+
 - :ref:`exhale_class_classcrpropa_1_1Observer`
 
 - :ref:`exhale_class_classcrpropa_1_1Observer1D`
@@ -218,8 +226,6 @@ Classes
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverPhotonVeto`
 
-- :ref:`exhale_class_classcrpropa_1_1ObserverPoint`
-
 - :ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverSurface`
@@ -227,6 +233,10 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1ObserverTimeEvolution`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverTracking`
+
+- :ref:`exhale_class_classcrpropa_1_1OneDimensionalCartesianShock`
+
+- :ref:`exhale_class_classcrpropa_1_1OneDimensionalSphericalShock`
 
 - :ref:`exhale_class_classcrpropa_1_1Output`
 
@@ -247,8 +257,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1PeriodicMagneticField`
 
 - :ref:`exhale_class_classcrpropa_1_1PhotoDisintegration`
-
-- :ref:`exhale_class_classcrpropa_1_1PhotonEleCa`
 
 - :ref:`exhale_class_classcrpropa_1_1PhotonField`
 
@@ -442,10 +450,6 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1a46e71379803136960b66bd212e3de422`
 
-- :ref:`exhale_function_namespacecrpropa_1a4447ed56e6ceb012151bcef3b81ff03e`
-
-- :ref:`exhale_function_namespacecrpropa_1a72de9e877f74616d8c63034e881cd8c2`
-
 - :ref:`exhale_function_group__PhysicsDefinitions_1gaeb9bf83157fb16f1b1f40f3520fb88f5`
 
 - :ref:`exhale_function_group__Core_1gaea966817d7679bb00bd12e22135184fc`
@@ -464,10 +468,6 @@ Functions
 
 - :ref:`exhale_function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2`
 
-- :ref:`exhale_function_namespacecrpropa_1ac9f895526ff16286d0aeb62e7e80459f`
-
-- :ref:`exhale_function_namespacecrpropa_1a353584246ed0becff6fa83dda9662cec`
-
 - :ref:`exhale_function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7`
 
 - :ref:`exhale_function_group__Core_1ga0238b64d66147e63750fd4bbc408161f`
@@ -477,10 +477,6 @@ Functions
 - :ref:`exhale_function_group__Core_1ga59fd9fe51d640a021e0221111cd9b699`
 
 - :ref:`exhale_function_group__Core_1ga2eb8ede3102a156db92af3b28e6f100a`
-
-- :ref:`exhale_function_namespacecrpropa_1a7869c8cd708945f25e1061f64c93ae6e`
-
-- :ref:`exhale_function_namespacecrpropa_1af379693cbe113b71573bcefd2e9041a0`
 
 - :ref:`exhale_function_group__Core_1gaf26c6f2f1091ba2802cc736c81ca3a7b`
 
@@ -556,9 +552,9 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1a04747ead57d95b84efd84086c8c82855`
 
-- :ref:`exhale_function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c`
-
 - :ref:`exhale_function_group__PhysicsDefinitions_1ga68fd06bec08b81d0fad7925b1824e2aa`
+
+- :ref:`exhale_function_group__PhysicsDefinitions_1ga6c372d42526e94c6d32ea1e22a0d390c`
 
 - :ref:`exhale_function_group__PhysicsDefinitions_1gacb0a54971b59e4bc1ed72329bf91b9d0`
 
@@ -606,6 +602,8 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1afdfae60dd4680363c4a98a60d4b087b6`
 
+- :ref:`exhale_function_namespacecrpropa_1a07e5532c8ba36240bdeff648eae167b0`
+
 - :ref:`exhale_function_group__Core_1gabd59e441d6fd5ca8c08d67e921653025`
 
 - :ref:`exhale_function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d`
@@ -630,7 +628,9 @@ Functions
 
 - :ref:`exhale_function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248`
 
-- :ref:`exhale_function_namespacecrpropa_1a5a111032b05e2db77860381eb823f867`
+- :ref:`exhale_function_namespacecrpropa_1adee079582037f71e775d50db63df49d1`
+
+- :ref:`exhale_function_namespacecrpropa_1a38ab989c1fe074738a5c4661abfe2fba`
 
 - :ref:`exhale_function_namespacecrpropa_1a8598f4bfc7ba56c2e95728f4425dfb14`
 
@@ -638,8 +638,6 @@ Functions
 Typedefs
 --------
 
-
-- :ref:`exhale_typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5`
 
 - :ref:`exhale_typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293`
 

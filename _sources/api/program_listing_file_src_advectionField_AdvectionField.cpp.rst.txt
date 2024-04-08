@@ -189,6 +189,255 @@ Program Listing for File AdvectionField.cpp
            return s.str();
    }
    
+   //----------------------------------------------------------------
+   
+   OneDimensionalCartesianShock::OneDimensionalCartesianShock(double compressionRatio, double vUp, double lShock){
+           setComp(compressionRatio);
+           setVup(vUp);
+           setShockwidth(lShock);
+           }
+   
+   Vector3d OneDimensionalCartesianShock::getField(const Vector3d &position) const {
+           double x = position.x;
+           double vDown = vUp / compressionRatio;
+   
+           double a = (vUp + vDown) * 0.5;
+           double b = (vUp - vDown) * 0.5;
+   
+           Vector3d v(0.);
+           v.x = a - b * tanh(x / lShock);
+           return v;
+   
+   }
+   
+   double OneDimensionalCartesianShock::getDivergence(const Vector3d &position) const {
+           double x = position.x;
+           double vDown = vUp / compressionRatio;
+   
+           double a = (vUp + vDown) * 0.5;
+           double b = (vUp - vDown) * 0.5;
+           return -b / lShock * (1 - tanh(x / lShock) * tanh(x / lShock));
+   }
+   
+   void OneDimensionalCartesianShock::setComp(double r) {
+           compressionRatio = r;
+           return;
+   }
+   
+   void OneDimensionalCartesianShock::setVup(double v) {
+           vUp = v;
+           return;
+   }
+   void OneDimensionalCartesianShock::setShockwidth(double w) {
+           lShock = w;
+           return;
+   }
+   
+   double OneDimensionalCartesianShock::getComp() const {
+           return compressionRatio;
+   }
+   
+   double OneDimensionalCartesianShock::getVup() const {
+           return vUp;
+   }
+   
+   double OneDimensionalCartesianShock::getShockwidth() const {
+           return lShock;
+   }
+   
+   std::string OneDimensionalCartesianShock::getDescription() const {
+           std::stringstream s;
+           s << "Shock width: " << lShock / km  << " km, ";
+           s << "Vup: " << vUp / km * sec << " km/s, ";
+           s << "Compression: " << compressionRatio;
+           return s.str();
+   }
+   
+   //----------------------------------------------------------------
+   
+   OneDimensionalSphericalShock::OneDimensionalSphericalShock(double rShock, double vUp, double compressionRatio, double lShock, bool coolUpstream ){
+           setComp(compressionRatio);
+           setVup(vUp);
+           setShockwidth(lShock);
+           setShockRadius(rShock);
+           setCooling(coolUpstream);
+           }
+   
+   Vector3d OneDimensionalSphericalShock::getField(const Vector3d &position) const {
+           double r = position.getR();
+           Vector3d e_r = position.getUnitVector();
+   
+           double vDown = vUp / compressionRatio;
+           double a = (vUp + vDown) * 0.5;
+           double b = (vUp - vDown) * 0.5;
+   
+           double v;
+           if (coolUpstream == true){
+           
+                   if (r <= rShock)
+                   v = a - b * tanh((r-rShock) / lShock);
+                   else
+                           v = (a - b * tanh((r-rShock) / lShock)) * (rShock / r) * (rShock / r);
+   
+           }
+           else
+                   v = (a - b * tanh((r-rShock) / lShock)) * (rShock / r) * (rShock / r);
+   
+           return v * e_r;
+           }
+   
+   double OneDimensionalSphericalShock::getDivergence(const Vector3d &position) const {
+           double r = position.getR();
+           
+           double vDown = vUp / compressionRatio;
+           double a = (vUp + vDown) * 0.5;
+           double b = (vUp - vDown) * 0.5;
+   
+           double c = tanh((r-rShock) / lShock);
+   
+           if (coolUpstream == true){
+                   if (r <= rShock)
+                           return 2 * a / r - 2 * b / r * c - b / lShock * (1 - c * c);
+                   else
+                           return -(rShock / r) * (rShock / r) * b / lShock * (1 - c * c);
+           }
+           else 
+                   return -(rShock / r) * (rShock / r) *  b / lShock * (1 - c * c);
+   
+   }
+   
+   void OneDimensionalSphericalShock::setComp(double r) {
+           compressionRatio = r;
+           return;
+   }
+   
+   void OneDimensionalSphericalShock::setVup(double v) {
+           vUp = v;
+           return;
+   }
+   void OneDimensionalSphericalShock::setShockwidth(double w) {
+           lShock = w;
+           return;
+   }
+   
+   void OneDimensionalSphericalShock::setShockRadius(double r) {
+           rShock = r;
+           return;
+   }
+   
+   void OneDimensionalSphericalShock::setCooling(bool c) {
+           coolUpstream = c;
+           return;
+   }
+   
+   double OneDimensionalSphericalShock::getComp() const {
+           return compressionRatio;
+   }
+   
+   double OneDimensionalSphericalShock::getVup() const {
+           return vUp;
+   }
+   
+   double OneDimensionalSphericalShock::getShockwidth() const {
+           return lShock;
+   }
+   
+   double OneDimensionalSphericalShock::getShockRadius() const {
+           return rShock;
+   }
+   
+   bool OneDimensionalSphericalShock::getCooling() const {
+           return coolUpstream;
+   }
+   
+   std::string OneDimensionalSphericalShock::getDescription() const {
+           std::stringstream s;
+           s << "Shock width: " << lShock / km  << " km, ";
+           s << "Shock radius: " << rShock / km  << " km, ";
+           s << "Vup: " << vUp / km * sec << " km/s, ";
+           s << "Comp: " << compressionRatio;
+   
+           return s.str();
+   }
+   
+   //----------------------------------------------------------------
+   
+   ObliqueAdvectionShock::ObliqueAdvectionShock(double compressionRatio, double vXUp, double vY, double lShock) {
+           setComp(compressionRatio);
+           setVup(vXUp);
+           setVy(vY);
+           setShockwidth(lShock);
+           }
+   
+   Vector3d ObliqueAdvectionShock::getField(const Vector3d &position) const {
+           double x = position.x;
+           double vXDown = vXUp / compressionRatio;
+   
+           double a = (vXUp + vXDown) * 0.5;
+           double b = (vXUp - vXDown) * 0.5;
+   
+           Vector3d v(0.);
+           v.x = a - b * tanh(x / lShock);
+           v.y = vY;
+   
+           return v;
+           }
+   
+   double ObliqueAdvectionShock::getDivergence(const Vector3d &position) const {
+           double x = position.x;
+           double vXDown = vXUp / compressionRatio;
+           // vy = const
+   
+           double a = (vXUp + vXDown) * 0.5;
+           double b = (vXUp - vXDown) * 0.5;
+   
+           return -b / lShock * (1 - tanh(x / lShock) * tanh(x / lShock));
+           }
+   
+   void ObliqueAdvectionShock::setComp(double r) {
+           compressionRatio = r;
+           return;
+   }
+   
+   void ObliqueAdvectionShock::setVup(double v) {
+           vXUp = v;
+           return;
+   } 
+   
+   void ObliqueAdvectionShock::setVy(double v) {
+           vY = v;
+           return;
+   } 
+   void ObliqueAdvectionShock::setShockwidth(double w) {
+           lShock = w;
+           return;
+   }
+   
+   double ObliqueAdvectionShock::getComp() const {
+           return compressionRatio;
+   }
+   
+   double ObliqueAdvectionShock::getVup() const {
+           return vXUp;
+   }
+   
+   double ObliqueAdvectionShock::getVy() const {
+           return vY;
+   }
+   
+   double ObliqueAdvectionShock::getShockwidth() const {
+           return lShock;
+   }
+   
+   std::string ObliqueAdvectionShock::getDescription() const {
+           std::stringstream s;
+           s << "Shock width: " << lShock / km  << " km, ";
+           s << "Vx_up: " << vXUp / km * sec << " km/s, ";
+           s << "Vy: " << vY / km * sec << " km/s, ";
+           s << "Comp: " << compressionRatio;
+           
+           return s.str();
+   }
    
    //-----------------------------------------------------------------
    

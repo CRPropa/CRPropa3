@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1IRB__Finke22:
+
+Class IRB_Finke22
+=================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TabularPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularPhotonField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::IRB_Finke22
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

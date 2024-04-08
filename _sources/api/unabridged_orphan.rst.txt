@@ -120,11 +120,6 @@ Files
 .. toctree::
    :maxdepth: 5
 
-   file_include_crpropa_magneticField_AMRMagneticField.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
    file_src_magneticField_ArchimedeanSpiralField.cpp.rst
 
 .. toctree::
@@ -176,6 +171,16 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_Candidate.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_src_module_CandidateSplitting.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_CandidateSplitting.h.rst
 
 .. toctree::
    :maxdepth: 5
@@ -276,16 +281,6 @@ Files
    :maxdepth: 5
 
    file_include_crpropa_module_ElectronPairProduction.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_src_module_EMCascade.cpp.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_include_crpropa_module_EMCascade.h.rst
 
 .. toctree::
    :maxdepth: 5
@@ -500,6 +495,16 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_src_module_MomentumDiffusion.cpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_crpropa_module_MomentumDiffusion.h.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_src_massDistribution_Nakanishi.cpp.rst
 
 .. toctree::
@@ -620,32 +625,12 @@ Files
 .. toctree::
    :maxdepth: 5
 
-   file_src_module_PhotonEleCa.cpp.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_include_crpropa_module_PhotonEleCa.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
    file_src_module_PhotonOutput1D.cpp.rst
 
 .. toctree::
    :maxdepth: 5
 
    file_include_crpropa_module_PhotonOutput1D.h.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_src_PhotonPropagation.cpp.rst
-
-.. toctree::
-   :maxdepth: 5
-
-   file_include_crpropa_PhotonPropagation.h.rst
 
 .. toctree::
    :maxdepth: 5

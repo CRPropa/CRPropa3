@@ -1,0 +1,58 @@
+
+.. _program_listing_file_include_crpropa_module_MomentumDiffusion.h:
+
+Program Listing for File MomentumDiffusion.h
+============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_MomentumDiffusion.h>` (``include/crpropa/module/MomentumDiffusion.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_MOMENTUMDIFFUSION_H
+   #define CRPROPA_MOMENTUMDIFFUSION_H
+   
+   #include <iostream>
+   #include <vector>
+   #include <cmath>
+   #include <string>
+   #include <cstdlib>
+   #include <stdexcept>
+   
+   #include <crpropa/Module.h>
+   #include <crpropa/Units.h>
+   #include <crpropa/Random.h>
+   
+   #include "kiss/logger.h"
+   
+   namespace crpropa {
+   
+   class ConstantMomentumDiffusion: public Module {
+   
+   private:
+           double Dpp; // Diffusion coefficient
+           double limit; // maximal fractional energy loss
+   
+   public:
+           ConstantMomentumDiffusion(double Dpp);
+   
+           ConstantMomentumDiffusion(double Dpp, double limit);
+   
+           void process(Candidate *candidate) const;
+           double calculateAScalar(double p) const;
+           double calculateBScalar() const;
+   
+           void setLimit(double l);
+           void setDpp(double Dpp);
+   
+           double getLimit() const;
+           double getDpp() const;
+   
+           std::string getDescription() const;
+   
+   };
+   
+   }; //end namespace crpropa
+   
+   #endif // CRPROPA_MOMENTUMDIFFUSION_H

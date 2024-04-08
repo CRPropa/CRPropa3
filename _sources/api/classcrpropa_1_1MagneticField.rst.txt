@@ -18,7 +18,6 @@ Base Type
 Derived Types
 *************
 
-- ``public AMRMagneticField`` (:ref:`exhale_class_classcrpropa_1_1AMRMagneticField`)
 - ``public ArchimedeanSpiralField`` (:ref:`exhale_class_classcrpropa_1_1ArchimedeanSpiralField`)
 - ``public CMZField`` (:ref:`exhale_class_classcrpropa_1_1CMZField`)
 - ``public JF12Field`` (:ref:`exhale_class_classcrpropa_1_1JF12Field`)

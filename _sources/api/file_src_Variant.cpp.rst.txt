@@ -8,6 +8,7 @@ File Variant.cpp
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 .. contents:: Contents
    :local:
    :backlinks: none
@@ -41,13 +42,13 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_namespacecrpropa_1a7db8bb059dffc37dc4ffff142169a090`
-
 - :ref:`exhale_function_namespacecrpropa_1ad63beadaef5583c2cc4d1d578c8d554d`
+
+- :ref:`exhale_function_namespacecrpropa_1a8676e1e10f07270f85a70588b058abc1`
 
 - :ref:`exhale_function_namespacecrpropa_1a448086ceaf529624e117a62fa60e10aa`
 
-- :ref:`exhale_function_namespacecrpropa_1a8676e1e10f07270f85a70588b058abc1`
+- :ref:`exhale_function_namespacecrpropa_1a7db8bb059dffc37dc4ffff142169a090`
 
 - :ref:`exhale_function_namespacecrpropa_1aca4bbe6bcc20c4e0e40bbc0ca91ae6c9`
 

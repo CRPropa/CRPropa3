@@ -72,17 +72,18 @@ Program Listing for File Grid.h
            Vector3d spacing;       // Spacing vector between gridpoints
            bool reflective;        // using reflective repetition of the grid instead of periodic
            interpolationType ipol; // Interpolation type used between grid points
+           bool clipVolume;        // Set grid values to 0 outside the volume if true
    
            GridProperties(Vector3d origin, size_t N, double spacing) :
-                   origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR) {
+                   origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR), clipVolume(false) {
            }
    
            GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
-                   origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR) {
+                   origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR), clipVolume(false) {
            }
    
            GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
-                   origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false), ipol(TRILINEAR) {
+                   origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false), ipol(TRILINEAR), clipVolume(false) {
            }
            
            virtual ~GridProperties() {
@@ -94,6 +95,10 @@ Program Listing for File Grid.h
    
            void setInterpolationType(interpolationType i) {
                    ipol = i;
+           }
+   
+           void setClipVolume(bool b) {
+                   clipVolume = b;
            }
    };
    
@@ -114,6 +119,7 @@ Program Listing for File Grid.h
                    setSpacing(Vector3d(spacing));
                    setReflective(false);
                    setClipVolume(false);
+                   setInterpolationType(TRILINEAR);
            }
    
            Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) {
@@ -122,6 +128,7 @@ Program Listing for File Grid.h
                    setSpacing(Vector3d(spacing));
                    setReflective(false);
                    setClipVolume(false);
+                   setInterpolationType(TRILINEAR);
            }
    
            Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {
@@ -130,11 +137,13 @@ Program Listing for File Grid.h
                    setSpacing(spacing);
                    setReflective(false);
                    setClipVolume(false);
+                   setInterpolationType(TRILINEAR);
            }
    
            Grid(const GridProperties &p) :
                    origin(p.origin), spacing(p.spacing), reflective(p.reflective), ipolType(p.ipol) {
                    setGridSize(p.Nx, p.Ny, p.Nz);
+                   setClipVolume(p.clipVolume);
            }
    
            void setOrigin(Vector3d origin) {
@@ -177,6 +186,10 @@ Program Listing for File Grid.h
    
            Vector3d getOrigin() const {
                    return origin;
+           }
+   
+           bool getClipVolume() const {
+                   return clipVolume;
            }
    
            size_t getNx() const {

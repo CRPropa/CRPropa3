@@ -88,13 +88,6 @@ Program Listing for File Observer.h
    };
    
    
-   class ObserverPoint: public ObserverFeature {
-   public:
-           DetectionState checkDetection(Candidate *candidate) const;
-           std::string getDescription() const;
-   };
-   
-   
    class Observer1D: public ObserverFeature {
    public:
            DetectionState checkDetection(Candidate *candidate) const;

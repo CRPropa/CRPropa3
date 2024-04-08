@@ -26,7 +26,6 @@ Derived Types
 - ``public ObserverNucleusVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverNucleusVeto`)
 - ``public ObserverParticleIdVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverParticleIdVeto`)
 - ``public ObserverPhotonVeto`` (:ref:`exhale_class_classcrpropa_1_1ObserverPhotonVeto`)
-- ``public ObserverPoint`` (:ref:`exhale_class_classcrpropa_1_1ObserverPoint`)
 - ``public ObserverRedshiftWindow`` (:ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`)
 - ``public ObserverSurface`` (:ref:`exhale_class_classcrpropa_1_1ObserverSurface`)
 - ``public ObserverTimeEvolution`` (:ref:`exhale_class_classcrpropa_1_1ObserverTimeEvolution`)

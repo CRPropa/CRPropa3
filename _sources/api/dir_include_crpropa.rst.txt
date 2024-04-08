@@ -9,6 +9,7 @@ Directory crpropa
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 *Directory path:* ``include/crpropa``
 
 Subdirectories
@@ -41,7 +42,6 @@ Files
 - :ref:`file_include_crpropa_ParticleMass.h`
 - :ref:`file_include_crpropa_ParticleState.h`
 - :ref:`file_include_crpropa_PhotonBackground.h`
-- :ref:`file_include_crpropa_PhotonPropagation.h`
 - :ref:`file_include_crpropa_Random.h`
 - :ref:`file_include_crpropa_Referenced.h`
 - :ref:`file_include_crpropa_Source.h`

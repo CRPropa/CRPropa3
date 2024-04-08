@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Program Listing for File Module.h &mdash; CRPropa3 3.2.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+  <title>Program Listing for File Module.h &mdash; CRPropa3 3.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
     <link rel="canonical" href="https://crpropa.desy.de/api/program_listing_file_include_crpropa_Module.h.html"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
-        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=eb155f5e"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+        <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script src="../_static/js/breathe_fold.js"></script>
@@ -32,12 +35,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html">
-            <img src="../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/crpropa-logo_white.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -62,40 +69,52 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNext</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages:</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-2">CRPropa 3.2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-vnext">CRPropa vNext</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#bug-fixes">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-features">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-changes">Interface changes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#features-that-are-deprecated-and-will-be-removed-after-this-release">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#removed-features">Removed features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#new-plugins-and-resources-linked-on-the-webpages">New plugins and resources linked on the webpages</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id3">Interface changes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id4">Features that are deprecated and will be removed after this release</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id5">New plugins and resources linked on the webpages:</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-2-1">CRPropa 3.2.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id1">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id2">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id3">Interface changes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id4">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id5">Removed features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id6">New plugins and resources linked on the webpages:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id6">Bug fixes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id7">New features:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id8">Features that are deprecated and will be removed after this release:</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-2">CRPropa 3.2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id7">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id8">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id9">Interface changes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id10">Features that are deprecated and will be removed after this release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id11">New plugins and resources linked on the webpages:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id9">Bug fixes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id10">New features:</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-3-1-7">CRPropa 3.1.7</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id12">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id13">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#interface-change">Interface change:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id14">Features that are deprecated and will be removed after this release:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id11">Bug fixes:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id12">New features:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id13">Features that are deprecated and will be removed after this release:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#id14">New plugins and resources linked on the webpages:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-6">CRPropa v3.1.6</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id15">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id16">New features:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Changelog.html#crpropa-v3-1-5">CRPropa v3.1.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id17">Bug fixes:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id18">New features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id19">Features that are deprecated and will be removed after this release:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Changelog.html#id20">New plugins and resources linked on the webpages:</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/FAQ.html">FAQ</a><ul>
@@ -184,13 +203,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-plotting-of-the-results">(Optional) plotting of the results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Photon-Propagation-outside-of-CRPropa-with-EleCa-and-DINT">Photon Propagation outside of CRPropa with EleCa and DINT</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-EleCa">Propagation with EleCa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Propagation-with-DINT">Propagation with DINT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#Combined-Propagation">Combined Propagation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/photons.html#(Optional)-Plotting-of-Results">(Optional) Plotting of Results</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html">Example with secondary neutrinos</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/secondaries/neutrinos.html#Plotting-the-neutrino-energy-distribution">Plotting the neutrino energy distribution</a></li>
 </ul>
@@ -225,7 +237,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_maps.v4.html">Galactic Lensing of Maps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html">Galactic Lensing - confirm Liouville</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html#Lambert’s-distribution">Lambert’s distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/galactic_lensing/lensing_liouville.html#Lambert's-distribution">Lambert’s distribution</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pages/galactic_cosmic_rays.html">Galactic Cosmic Rays</a><ul>
@@ -252,6 +264,24 @@
 <li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#advection-and-adiabatic-energy-changes">Advection and Adiabatic Energy Changes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/AdiabaticCooling.html">Adiabatic Cooling</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/AdiabaticCooling.html#Example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#diffusive-shock-acceleration">Diffusive Shock Acceleration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/acceleration/diffusive_shock_acceleration.html">Diffusive Shock Acceleration (DSA)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/acceleration/diffusive_shock_acceleration.html#Burst-like-Injection-at-the-Shock">Burst-like Injection at the Shock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/acceleration/diffusive_shock_acceleration.html#Approximating-the-Stationary-Solution">Approximating the Stationary Solution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/acceleration/diffusive_shock_acceleration.html#Increasing-the-Statistics-at-High-Energies:-Candidate-Splitting">Increasing the Statistics at High Energies: Candidate Splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/acceleration/diffusive_shock_acceleration.html#Energy-dependent-Diffusion-Coefficients">Energy-dependent Diffusion Coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/acceleration/diffusive_shock_acceleration.html#Acceleration-Time-Scale">Acceleration Time Scale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pages/galactic_cosmic_rays.html#momentum-diffusion">Momentum Diffusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/Diffusion/MomentumDiffusion.html">Momentum Diffusion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pages/example_notebooks/Diffusion/MomentumDiffusion.html#Functionality-to-run-the-simulation-and-analyse-the-data">Functionality to run the simulation and analyse the data</a></li>
 </ul>
 </li>
 </ul>
@@ -295,7 +325,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../pages/extending_crpropa.html">Interfacing User Code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html">Implementing additional Modules and Features using Python only</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Manual-Simulation-Processing">Manual Simulation Processing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa’s-Python-Steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa's-Python-Steering">Plugins: Integrate Custom C++ Code to CRPropa’s Python Steering</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pages/example_notebooks/advanced/CustomObserver.html">Custom Observer</a></li>
@@ -337,18 +367,404 @@
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../building_blocks.html">Building Blocks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/CoreClasses.html">Core Classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html">Physics Definitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PropagationModules.html">Propagation Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/EnergyLosses.html">Energy Losses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/MagneticFields.html">Magnetic Fields</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Observers.html">Observer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Condition.html">Condition</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/SourceFeatures.html">Source Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Output.html">Output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/MagneticLens.html">Magnetic Lenses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Tools.html">Tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PhotonFields.html">Photon Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/CoreClasses.html">Core Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv46Grid1d"><code class="docutils literal notranslate"><span class="pre">Grid1d</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv46Grid1f"><code class="docutils literal notranslate"><span class="pre">Grid1f</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv46Grid3f"><code class="docutils literal notranslate"><span class="pre">Grid3f</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv46Grid3d"><code class="docutils literal notranslate"><span class="pre">Grid3d</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48Vector3d"><code class="docutils literal notranslate"><span class="pre">Vector3d</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48Vector3f"><code class="docutils literal notranslate"><span class="pre">Vector3f</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv411getDataPathNSt6stringE"><code class="docutils literal notranslate"><span class="pre">getDataPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv416getInstallPrefixv"><code class="docutils literal notranslate"><span class="pre">getInstallPrefix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv45digitRKiRKi"><code class="docutils literal notranslate"><span class="pre">digit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0E4clip1TRK1TRK1TRK1T"><code class="docutils literal notranslate"><span class="pre">clip()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv411interpolatedRKNSt6vectorIdEERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">interpolate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv413interpolate2dddRKNSt6vectorIdEERKNSt6vectorIdEERKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">interpolate2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv422interpolateEquidistantdddRKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">interpolateEquidistant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv412closestIndexdRKNSt6vectorIdEE"><code class="docutils literal notranslate"><span class="pre">closestIndex()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv415meanFieldVector7ref_ptrI6Grid3fE"><code class="docutils literal notranslate"><span class="pre">meanFieldVector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv417meanFieldStrength7ref_ptrI6Grid1fE"><code class="docutils literal notranslate"><span class="pre">meanFieldStrength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv417meanFieldStrength7ref_ptrI6Grid3fE"><code class="docutils literal notranslate"><span class="pre">meanFieldStrength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv416rmsFieldStrength7ref_ptrI6Grid1fE"><code class="docutils literal notranslate"><span class="pre">rmsFieldStrength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv416rmsFieldStrength7ref_ptrI6Grid3fE"><code class="docutils literal notranslate"><span class="pre">rmsFieldStrength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv423rmsFieldStrengthPerAxis7ref_ptrI6Grid3fE"><code class="docutils literal notranslate"><span class="pre">rmsFieldStrengthPerAxis()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv49scaleGrid7ref_ptrI6Grid1fEd"><code class="docutils literal notranslate"><span class="pre">scaleGrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv49scaleGrid7ref_ptrI6Grid3fEd"><code class="docutils literal notranslate"><span class="pre">scaleGrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv417fromMagneticField7ref_ptrI6Grid3fE7ref_ptrI13MagneticFieldE"><code class="docutils literal notranslate"><span class="pre">fromMagneticField()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv425fromMagneticFieldStrength7ref_ptrI6Grid1fE7ref_ptrI13MagneticFieldE"><code class="docutils literal notranslate"><span class="pre">fromMagneticFieldStrength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48loadGrid7ref_ptrI6Grid3fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">loadGrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48loadGrid7ref_ptrI6Grid1fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">loadGrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48dumpGrid7ref_ptrI6Grid3fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">dumpGrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv48dumpGrid7ref_ptrI6Grid1fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">dumpGrid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv415loadGridFromTxt7ref_ptrI6Grid3fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">loadGridFromTxt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv415loadGridFromTxt7ref_ptrI6Grid1fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">loadGridFromTxt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv413dumpGridToTxt7ref_ptrI6Grid3fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">dumpGridToTxt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv413dumpGridToTxt7ref_ptrI6Grid1fENSt6stringEd"><code class="docutils literal notranslate"><span class="pre">dumpGridToTxt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv417gridPowerSpectrum7ref_ptrI6Grid3fE"><code class="docutils literal notranslate"><span class="pre">gridPowerSpectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv421intrusive_ptr_add_refP10Referenced"><code class="docutils literal notranslate"><span class="pre">intrusive_ptr_add_ref()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv421intrusive_ptr_releaseP10Referenced"><code class="docutils literal notranslate"><span class="pre">intrusive_ptr_release()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0E4swapvR7ref_ptrI1TER7ref_ptrI1TE"><code class="docutils literal notranslate"><span class="pre">swap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0E11get_pointerP1TRK7ref_ptrI1TE"><code class="docutils literal notranslate"><span class="pre">get_pointer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I00E19static_pointer_cast7ref_ptrI1TERK7ref_ptrI1YE"><code class="docutils literal notranslate"><span class="pre">static_pointer_cast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I00E20dynamic_pointer_cast7ref_ptrI1TERK7ref_ptrI1YE"><code class="docutils literal notranslate"><span class="pre">dynamic_pointer_cast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I00E18const_pointer_cast7ref_ptrI1TERK7ref_ptrI1YE"><code class="docutils literal notranslate"><span class="pre">const_pointer_cast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0ElsRNSt7ostreamERNSt7ostreamERK7Vector3I1TE"><code class="docutils literal notranslate"><span class="pre">operator&lt;&lt;()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0ErsRNSt7istreamERNSt7istreamER7Vector3I1TE"><code class="docutils literal notranslate"><span class="pre">operator&gt;&gt;()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0Eml7Vector3I1TE1TRK7Vector3I1TE"><code class="docutils literal notranslate"><span class="pre">operator*()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa9CandidateE"><code class="docutils literal notranslate"><span class="pre">Candidate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa7SurfaceE"><code class="docutils literal notranslate"><span class="pre">Surface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa5PlaneE"><code class="docutils literal notranslate"><span class="pre">Plane</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa6SphereE"><code class="docutils literal notranslate"><span class="pre">Sphere</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa11ParaxialBoxE"><code class="docutils literal notranslate"><span class="pre">ParaxialBox</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa14GridPropertiesE"><code class="docutils literal notranslate"><span class="pre">GridProperties</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0EN7crpropa4GridE"><code class="docutils literal notranslate"><span class="pre">Grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa13ParticleStateE"><code class="docutils literal notranslate"><span class="pre">ParticleState</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa6RandomE"><code class="docutils literal notranslate"><span class="pre">Random</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4N7crpropa10ReferencedE"><code class="docutils literal notranslate"><span class="pre">Referenced</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0EN7crpropa7ref_ptrE"><code class="docutils literal notranslate"><span class="pre">ref_ptr</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/CoreClasses.html#_CPPv4I0EN7crpropa7Vector3E"><code class="docutils literal notranslate"><span class="pre">Vector3</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html">Physics Definitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv422setCosmologyParametersdd"><code class="docutils literal notranslate"><span class="pre">setCosmologyParameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410hubbleRated"><code class="docutils literal notranslate"><span class="pre">hubbleRate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46omegaLv"><code class="docutils literal notranslate"><span class="pre">omegaL()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46omegaMv"><code class="docutils literal notranslate"><span class="pre">omegaM()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42H0v"><code class="docutils literal notranslate"><span class="pre">H0()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv425comovingDistance2Redshiftd"><code class="docutils literal notranslate"><span class="pre">comovingDistance2Redshift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv425redshift2ComovingDistanced"><code class="docutils literal notranslate"><span class="pre">redshift2ComovingDistance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv427luminosityDistance2Redshiftd"><code class="docutils literal notranslate"><span class="pre">luminosityDistance2Redshift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv427redshift2LuminosityDistanced"><code class="docutils literal notranslate"><span class="pre">redshift2LuminosityDistance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv428lightTravelDistance2Redshiftd"><code class="docutils literal notranslate"><span class="pre">lightTravelDistance2Redshift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv428redshift2LightTravelDistanced"><code class="docutils literal notranslate"><span class="pre">redshift2LightTravelDistance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv428comoving2LightTravelDistanced"><code class="docutils literal notranslate"><span class="pre">comoving2LightTravelDistance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv428lightTravel2ComovingDistanced"><code class="docutils literal notranslate"><span class="pre">lightTravel2ComovingDistance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv49nucleusIdii"><code class="docutils literal notranslate"><span class="pre">nucleusId()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv412chargeNumberi"><code class="docutils literal notranslate"><span class="pre">chargeNumber()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410massNumberi"><code class="docutils literal notranslate"><span class="pre">massNumber()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv49isNucleusi"><code class="docutils literal notranslate"><span class="pre">isNucleus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv415convertIdToNamei"><code class="docutils literal notranslate"><span class="pre">convertIdToName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv411nuclearMassi"><code class="docutils literal notranslate"><span class="pre">nuclearMass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv411nuclearMassii"><code class="docutils literal notranslate"><span class="pre">nuclearMass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45meter"><code class="docutils literal notranslate"><span class="pre">meter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46second"><code class="docutils literal notranslate"><span class="pre">second</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv48kilogram"><code class="docutils literal notranslate"><span class="pre">kilogram</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46ampere"><code class="docutils literal notranslate"><span class="pre">ampere</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43mol"><code class="docutils literal notranslate"><span class="pre">mol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46kelvin"><code class="docutils literal notranslate"><span class="pre">kelvin</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46newton"><code class="docutils literal notranslate"><span class="pre">newton</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46pascal"><code class="docutils literal notranslate"><span class="pre">pascal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45joule"><code class="docutils literal notranslate"><span class="pre">joule</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45tesla"><code class="docutils literal notranslate"><span class="pre">tesla</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44volt"><code class="docutils literal notranslate"><span class="pre">volt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv47coulomb"><code class="docutils literal notranslate"><span class="pre">coulomb</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45hertz"><code class="docutils literal notranslate"><span class="pre">hertz</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43rad"><code class="docutils literal notranslate"><span class="pre">rad</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43deg"><code class="docutils literal notranslate"><span class="pre">deg</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45yocto"><code class="docutils literal notranslate"><span class="pre">yocto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45zepto"><code class="docutils literal notranslate"><span class="pre">zepto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44atto"><code class="docutils literal notranslate"><span class="pre">atto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45femto"><code class="docutils literal notranslate"><span class="pre">femto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44pico"><code class="docutils literal notranslate"><span class="pre">pico</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44nano"><code class="docutils literal notranslate"><span class="pre">nano</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45micro"><code class="docutils literal notranslate"><span class="pre">micro</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45milli"><code class="docutils literal notranslate"><span class="pre">milli</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44kilo"><code class="docutils literal notranslate"><span class="pre">kilo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44mega"><code class="docutils literal notranslate"><span class="pre">mega</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44giga"><code class="docutils literal notranslate"><span class="pre">giga</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44tera"><code class="docutils literal notranslate"><span class="pre">tera</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44peta"><code class="docutils literal notranslate"><span class="pre">peta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43exa"><code class="docutils literal notranslate"><span class="pre">exa</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45zetta"><code class="docutils literal notranslate"><span class="pre">zetta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45yotta"><code class="docutils literal notranslate"><span class="pre">yotta</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45eplus"><code class="docutils literal notranslate"><span class="pre">eplus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv47c_light"><code class="docutils literal notranslate"><span class="pre">c_light</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv49c_squared"><code class="docutils literal notranslate"><span class="pre">c_squared</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43amu"><code class="docutils literal notranslate"><span class="pre">amu</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv411mass_proton"><code class="docutils literal notranslate"><span class="pre">mass_proton</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv412mass_neutron"><code class="docutils literal notranslate"><span class="pre">mass_neutron</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv413mass_electron"><code class="docutils literal notranslate"><span class="pre">mass_electron</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv48h_planck"><code class="docutils literal notranslate"><span class="pre">h_planck</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv411k_boltzmann"><code class="docutils literal notranslate"><span class="pre">k_boltzmann</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43mu0"><code class="docutils literal notranslate"><span class="pre">mu0</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv48epsilon0"><code class="docutils literal notranslate"><span class="pre">epsilon0</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv419alpha_finestructure"><code class="docutils literal notranslate"><span class="pre">alpha_finestructure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv415radius_electron"><code class="docutils literal notranslate"><span class="pre">radius_electron</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv413sigma_thomson"><code class="docutils literal notranslate"><span class="pre">sigma_thomson</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv45gauss"><code class="docutils literal notranslate"><span class="pre">gauss</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410microgauss"><code class="docutils literal notranslate"><span class="pre">microgauss</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv49nanogauss"><code class="docutils literal notranslate"><span class="pre">nanogauss</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43muG"><code class="docutils literal notranslate"><span class="pre">muG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42nG"><code class="docutils literal notranslate"><span class="pre">nG</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43erg"><code class="docutils literal notranslate"><span class="pre">erg</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv412electronvolt"><code class="docutils literal notranslate"><span class="pre">electronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv416kiloelectronvolt"><code class="docutils literal notranslate"><span class="pre">kiloelectronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv416megaelectronvolt"><code class="docutils literal notranslate"><span class="pre">megaelectronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv416gigaelectronvolt"><code class="docutils literal notranslate"><span class="pre">gigaelectronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv416teraelectronvolt"><code class="docutils literal notranslate"><span class="pre">teraelectronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv416petaelectronvolt"><code class="docutils literal notranslate"><span class="pre">petaelectronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv415exaelectronvolt"><code class="docutils literal notranslate"><span class="pre">exaelectronvolt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42eV"><code class="docutils literal notranslate"><span class="pre">eV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43keV"><code class="docutils literal notranslate"><span class="pre">keV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43MeV"><code class="docutils literal notranslate"><span class="pre">MeV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43GeV"><code class="docutils literal notranslate"><span class="pre">GeV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43TeV"><code class="docutils literal notranslate"><span class="pre">TeV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43PeV"><code class="docutils literal notranslate"><span class="pre">PeV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43EeV"><code class="docutils literal notranslate"><span class="pre">EeV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44barn"><code class="docutils literal notranslate"><span class="pre">barn</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42au"><code class="docutils literal notranslate"><span class="pre">au</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42ly"><code class="docutils literal notranslate"><span class="pre">ly</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46parsec"><code class="docutils literal notranslate"><span class="pre">parsec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410kiloparsec"><code class="docutils literal notranslate"><span class="pre">kiloparsec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410megaparsec"><code class="docutils literal notranslate"><span class="pre">megaparsec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410gigaparsec"><code class="docutils literal notranslate"><span class="pre">gigaparsec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42pc"><code class="docutils literal notranslate"><span class="pre">pc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43kpc"><code class="docutils literal notranslate"><span class="pre">kpc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43Mpc"><code class="docutils literal notranslate"><span class="pre">Mpc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43Gpc"><code class="docutils literal notranslate"><span class="pre">Gpc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv49kilometer"><code class="docutils literal notranslate"><span class="pre">kilometer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410centimeter"><code class="docutils literal notranslate"><span class="pre">centimeter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42km"><code class="docutils literal notranslate"><span class="pre">km</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42cm"><code class="docutils literal notranslate"><span class="pre">cm</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv410nanosecond"><code class="docutils literal notranslate"><span class="pre">nanosecond</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv411microsecond"><code class="docutils literal notranslate"><span class="pre">microsecond</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv411millisecond"><code class="docutils literal notranslate"><span class="pre">millisecond</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv46minute"><code class="docutils literal notranslate"><span class="pre">minute</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv44hour"><code class="docutils literal notranslate"><span class="pre">hour</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42ns"><code class="docutils literal notranslate"><span class="pre">ns</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43mus"><code class="docutils literal notranslate"><span class="pre">mus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv42ms"><code class="docutils literal notranslate"><span class="pre">ms</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43sec"><code class="docutils literal notranslate"><span class="pre">sec</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhysicsDefinitions.html#_CPPv43ccm"><code class="docutils literal notranslate"><span class="pre">ccm</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PropagationModules.html">Propagation Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PropagationModules.html#_CPPv4N7crpropa12DiffusionSDEE"><code class="docutils literal notranslate"><span class="pre">DiffusionSDE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PropagationModules.html#_CPPv4N7crpropa13PropagationBPE"><code class="docutils literal notranslate"><span class="pre">PropagationBP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PropagationModules.html#_CPPv4N7crpropa13PropagationCKE"><code class="docutils literal notranslate"><span class="pre">PropagationCK</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PropagationModules.html#_CPPv4N7crpropa17SimplePropagationE"><code class="docutils literal notranslate"><span class="pre">SimplePropagation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/EnergyLosses.html">Energy Losses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa16AdiabaticCoolingE"><code class="docutils literal notranslate"><span class="pre">AdiabaticCooling</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa22ElectronPairProductionE"><code class="docutils literal notranslate"><span class="pre">ElectronPairProduction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa22EMDoublePairProductionE"><code class="docutils literal notranslate"><span class="pre">EMDoublePairProduction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa26EMInverseComptonScatteringE"><code class="docutils literal notranslate"><span class="pre">EMInverseComptonScattering</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa16EMPairProductionE"><code class="docutils literal notranslate"><span class="pre">EMPairProduction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa23EMTripletPairProductionE"><code class="docutils literal notranslate"><span class="pre">EMTripletPairProduction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa25ConstantMomentumDiffusionE"><code class="docutils literal notranslate"><span class="pre">ConstantMomentumDiffusion</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa12NuclearDecayE"><code class="docutils literal notranslate"><span class="pre">NuclearDecay</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa19PhotoDisintegrationE"><code class="docutils literal notranslate"><span class="pre">PhotoDisintegration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa17SophiaEventOutputE"><code class="docutils literal notranslate"><span class="pre">SophiaEventOutput</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa19PhotoPionProductionE"><code class="docutils literal notranslate"><span class="pre">PhotoPionProduction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa8RedshiftE"><code class="docutils literal notranslate"><span class="pre">Redshift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa14FutureRedshiftE"><code class="docutils literal notranslate"><span class="pre">FutureRedshift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/EnergyLosses.html#_CPPv4N7crpropa20SynchrotronRadiationE"><code class="docutils literal notranslate"><span class="pre">SynchrotronRadiation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/MagneticFields.html">Magnetic Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv413TF17DiskModel"><code class="docutils literal notranslate"><span class="pre">TF17DiskModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N13TF17DiskModel3Ad1E"><code class="docutils literal notranslate"><span class="pre">TF17DiskModel::Ad1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N13TF17DiskModel3Bd1E"><code class="docutils literal notranslate"><span class="pre">TF17DiskModel::Bd1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N13TF17DiskModel3Dd1E"><code class="docutils literal notranslate"><span class="pre">TF17DiskModel::Dd1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv413TF17HaloModel"><code class="docutils literal notranslate"><span class="pre">TF17HaloModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N13TF17HaloModel2C0E"><code class="docutils literal notranslate"><span class="pre">TF17HaloModel::C0</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N13TF17HaloModel2C1E"><code class="docutils literal notranslate"><span class="pre">TF17HaloModel::C1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv421initHelicalTurbulence7ref_ptrI6Grid3fEddddid"><code class="docutils literal notranslate"><span class="pre">initHelicalTurbulence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv426turbulentCorrelationLengthddd"><code class="docutils literal notranslate"><span class="pre">turbulentCorrelationLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv414initTurbulence7ref_ptrI6Grid3fEddddi"><code class="docutils literal notranslate"><span class="pre">initTurbulence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa22ArchimedeanSpiralFieldE"><code class="docutils literal notranslate"><span class="pre">ArchimedeanSpiralField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa8CMZFieldE"><code class="docutils literal notranslate"><span class="pre">CMZField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa17ToroidalHaloFieldE"><code class="docutils literal notranslate"><span class="pre">ToroidalHaloField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa22LogarithmicSpiralFieldE"><code class="docutils literal notranslate"><span class="pre">LogarithmicSpiralField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa9JF12FieldE"><code class="docutils literal notranslate"><span class="pre">JF12Field</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa16PlanckJF12bFieldE"><code class="docutils literal notranslate"><span class="pre">PlanckJF12bField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa19JF12FieldSolenoidalE"><code class="docutils literal notranslate"><span class="pre">JF12FieldSolenoidal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa13MagneticFieldE"><code class="docutils literal notranslate"><span class="pre">MagneticField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa21PeriodicMagneticFieldE"><code class="docutils literal notranslate"><span class="pre">PeriodicMagneticField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa17MagneticFieldListE"><code class="docutils literal notranslate"><span class="pre">MagneticFieldList</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa22MagneticFieldEvolutionE"><code class="docutils literal notranslate"><span class="pre">MagneticFieldEvolution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa20UniformMagneticFieldE"><code class="docutils literal notranslate"><span class="pre">UniformMagneticField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa19MagneticDipoleFieldE"><code class="docutils literal notranslate"><span class="pre">MagneticDipoleField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa24RenormalizeMagneticFieldE"><code class="docutils literal notranslate"><span class="pre">RenormalizeMagneticField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa17MagneticFieldGridE"><code class="docutils literal notranslate"><span class="pre">MagneticFieldGrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa26ModulatedMagneticFieldGridE"><code class="docutils literal notranslate"><span class="pre">ModulatedMagneticFieldGrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa32PolarizedSingleModeMagneticFieldE"><code class="docutils literal notranslate"><span class="pre">PolarizedSingleModeMagneticField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa9PT11FieldE"><code class="docutils literal notranslate"><span class="pre">PT11Field</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa9TF17FieldE"><code class="docutils literal notranslate"><span class="pre">TF17Field</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa14GridTurbulenceE"><code class="docutils literal notranslate"><span class="pre">GridTurbulence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa21HelicalGridTurbulenceE"><code class="docutils literal notranslate"><span class="pre">HelicalGridTurbulence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa19PlaneWaveTurbulenceE"><code class="docutils literal notranslate"><span class="pre">PlaneWaveTurbulence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa24SimpleTurbulenceSpectrumE"><code class="docutils literal notranslate"><span class="pre">SimpleTurbulenceSpectrum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa20SimpleGridTurbulenceE"><code class="docutils literal notranslate"><span class="pre">SimpleGridTurbulence</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa18TurbulenceSpectrumE"><code class="docutils literal notranslate"><span class="pre">TurbulenceSpectrum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticFields.html#_CPPv4N7crpropa14TurbulentFieldE"><code class="docutils literal notranslate"><span class="pre">TurbulentField</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Observers.html">Observer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa15ObserverFeatureE"><code class="docutils literal notranslate"><span class="pre">ObserverFeature</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa8ObserverE"><code class="docutils literal notranslate"><span class="pre">Observer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa17ObserverDetectAllE"><code class="docutils literal notranslate"><span class="pre">ObserverDetectAll</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa15ObserverSurfaceE"><code class="docutils literal notranslate"><span class="pre">ObserverSurface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa16ObserverTrackingE"><code class="docutils literal notranslate"><span class="pre">ObserverTracking</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa10Observer1DE"><code class="docutils literal notranslate"><span class="pre">Observer1D</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa22ObserverRedshiftWindowE"><code class="docutils literal notranslate"><span class="pre">ObserverRedshiftWindow</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa20ObserverInactiveVetoE"><code class="docutils literal notranslate"><span class="pre">ObserverInactiveVeto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa19ObserverNucleusVetoE"><code class="docutils literal notranslate"><span class="pre">ObserverNucleusVeto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa20ObserverNeutrinoVetoE"><code class="docutils literal notranslate"><span class="pre">ObserverNeutrinoVeto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa18ObserverPhotonVetoE"><code class="docutils literal notranslate"><span class="pre">ObserverPhotonVeto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa20ObserverElectronVetoE"><code class="docutils literal notranslate"><span class="pre">ObserverElectronVeto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa22ObserverParticleIdVetoE"><code class="docutils literal notranslate"><span class="pre">ObserverParticleIdVeto</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Observers.html#_CPPv4N7crpropa21ObserverTimeEvolutionE"><code class="docutils literal notranslate"><span class="pre">ObserverTimeEvolution</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Condition.html">Condition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa11PeriodicBoxE"><code class="docutils literal notranslate"><span class="pre">PeriodicBox</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa13ReflectiveBoxE"><code class="docutils literal notranslate"><span class="pre">ReflectiveBox</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa13CubicBoundaryE"><code class="docutils literal notranslate"><span class="pre">CubicBoundary</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa17SphericalBoundaryE"><code class="docutils literal notranslate"><span class="pre">SphericalBoundary</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa19EllipsoidalBoundaryE"><code class="docutils literal notranslate"><span class="pre">EllipsoidalBoundary</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa19CylindricalBoundaryE"><code class="docutils literal notranslate"><span class="pre">CylindricalBoundary</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa23MaximumTrajectoryLengthE"><code class="docutils literal notranslate"><span class="pre">MaximumTrajectoryLength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa13MinimumEnergyE"><code class="docutils literal notranslate"><span class="pre">MinimumEnergy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa15MinimumRigidityE"><code class="docutils literal notranslate"><span class="pre">MinimumRigidity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa15MinimumRedshiftE"><code class="docutils literal notranslate"><span class="pre">MinimumRedshift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa19MinimumChargeNumberE"><code class="docutils literal notranslate"><span class="pre">MinimumChargeNumber</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa26MinimumEnergyPerParticleIdE"><code class="docutils literal notranslate"><span class="pre">MinimumEnergyPerParticleId</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa15DetectionLengthE"><code class="docutils literal notranslate"><span class="pre">DetectionLength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Condition.html#_CPPv4N7crpropa16RestrictToRegionE"><code class="docutils literal notranslate"><span class="pre">RestrictToRegion</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/SourceFeatures.html">Source Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa13SourceFeatureE"><code class="docutils literal notranslate"><span class="pre">SourceFeature</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa15SourceInterfaceE"><code class="docutils literal notranslate"><span class="pre">SourceInterface</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa6SourceE"><code class="docutils literal notranslate"><span class="pre">Source</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa10SourceListE"><code class="docutils literal notranslate"><span class="pre">SourceList</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa18SourceParticleTypeE"><code class="docutils literal notranslate"><span class="pre">SourceParticleType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa27SourceMultipleParticleTypesE"><code class="docutils literal notranslate"><span class="pre">SourceMultipleParticleTypes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa12SourceEnergyE"><code class="docutils literal notranslate"><span class="pre">SourceEnergy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa22SourcePowerLawSpectrumE"><code class="docutils literal notranslate"><span class="pre">SourcePowerLawSpectrum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa17SourceCompositionE"><code class="docutils literal notranslate"><span class="pre">SourceComposition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa14SourcePositionE"><code class="docutils literal notranslate"><span class="pre">SourcePosition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa23SourceMultiplePositionsE"><code class="docutils literal notranslate"><span class="pre">SourceMultiplePositions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa19SourceUniformSphereE"><code class="docutils literal notranslate"><span class="pre">SourceUniformSphere</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa25SourceUniformHollowSphereE"><code class="docutils literal notranslate"><span class="pre">SourceUniformHollowSphere</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa18SourceUniformShellE"><code class="docutils literal notranslate"><span class="pre">SourceUniformShell</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa16SourceUniformBoxE"><code class="docutils literal notranslate"><span class="pre">SourceUniformBox</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa21SourceUniformCylinderE"><code class="docutils literal notranslate"><span class="pre">SourceUniformCylinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa21SourceSNRDistributionE"><code class="docutils literal notranslate"><span class="pre">SourceSNRDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa24SourcePulsarDistributionE"><code class="docutils literal notranslate"><span class="pre">SourcePulsarDistribution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa15SourceUniform1DE"><code class="docutils literal notranslate"><span class="pre">SourceUniform1D</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa17SourceDensityGridE"><code class="docutils literal notranslate"><span class="pre">SourceDensityGrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa19SourceDensityGrid1DE"><code class="docutils literal notranslate"><span class="pre">SourceDensityGrid1D</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa23SourceIsotropicEmissionE"><code class="docutils literal notranslate"><span class="pre">SourceIsotropicEmission</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa22SourceDirectedEmissionE"><code class="docutils literal notranslate"><span class="pre">SourceDirectedEmission</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa33SourceLambertDistributionOnSphereE"><code class="docutils literal notranslate"><span class="pre">SourceLambertDistributionOnSphere</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa15SourceDirectionE"><code class="docutils literal notranslate"><span class="pre">SourceDirection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa17SourceEmissionMapE"><code class="docutils literal notranslate"><span class="pre">SourceEmissionMap</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa18SourceEmissionConeE"><code class="docutils literal notranslate"><span class="pre">SourceEmissionCone</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa14SourceRedshiftE"><code class="docutils literal notranslate"><span class="pre">SourceRedshift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa21SourceUniformRedshiftE"><code class="docutils literal notranslate"><span class="pre">SourceUniformRedshift</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa23SourceRedshiftEvolutionE"><code class="docutils literal notranslate"><span class="pre">SourceRedshiftEvolution</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa16SourceRedshift1DE"><code class="docutils literal notranslate"><span class="pre">SourceRedshift1D</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa24SourceGenericCompositionE"><code class="docutils literal notranslate"><span class="pre">SourceGenericComposition</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa9SourceTagE"><code class="docutils literal notranslate"><span class="pre">SourceTag</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/SourceFeatures.html#_CPPv4N7crpropa22SourceMassDistributionE"><code class="docutils literal notranslate"><span class="pre">SourceMassDistribution</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Output.html">Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa10HDF5OutputE"><code class="docutils literal notranslate"><span class="pre">HDF5Output</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa6OutputE"><code class="docutils literal notranslate"><span class="pre">Output</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa11ShellOutputE"><code class="docutils literal notranslate"><span class="pre">ShellOutput</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa13ShellOutput1DE"><code class="docutils literal notranslate"><span class="pre">ShellOutput1D</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa19ShellPropertyOutputE"><code class="docutils literal notranslate"><span class="pre">ShellPropertyOutput</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa17ParticleCollectorE"><code class="docutils literal notranslate"><span class="pre">ParticleCollector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa14PhotonOutput1DE"><code class="docutils literal notranslate"><span class="pre">PhotonOutput1D</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Output.html#_CPPv4N7crpropa10TextOutputE"><code class="docutils literal notranslate"><span class="pre">TextOutput</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/MagneticLens.html">Magnetic Lenses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticLens.html#_CPPv411_nOrder_max"><code class="docutils literal notranslate"><span class="pre">_nOrder_max</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticLens.html#_CPPv45_nPix"><code class="docutils literal notranslate"><span class="pre">_nPix</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticLens.html#_CPPv4N7crpropa12MagneticLensE"><code class="docutils literal notranslate"><span class="pre">MagneticLens</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticLens.html#_CPPv4N7crpropa21ParticleMapsContainerE"><code class="docutils literal notranslate"><span class="pre">ParticleMapsContainer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/MagneticLens.html#_CPPv4N7crpropa12PixelizationE"><code class="docutils literal notranslate"><span class="pre">Pixelization</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/Tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa5ClockE"><code class="docutils literal notranslate"><span class="pre">Clock</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa17PerformanceModuleE"><code class="docutils literal notranslate"><span class="pre">PerformanceModule</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa14ParticleFilterE"><code class="docutils literal notranslate"><span class="pre">ParticleFilter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/Tools.html#_CPPv4N7crpropa17EmissionMapFillerE"><code class="docutils literal notranslate"><span class="pre">EmissionMapFiller</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../buildingblocks/PhotonFields.html">Photon Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv411PhotonFieldv"><code class="docutils literal notranslate"><span class="pre">PhotonField()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK16getPhotonDensityEdd"><code class="docutils literal notranslate"><span class="pre">getPhotonDensity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK22getMinimumPhotonEnergyEd"><code class="docutils literal notranslate"><span class="pre">getMinimumPhotonEnergy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK22getMaximumPhotonEnergyEd"><code class="docutils literal notranslate"><span class="pre">getMaximumPhotonEnergy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK12getFieldNameEv"><code class="docutils literal notranslate"><span class="pre">getFieldName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK18getRedshiftScalingEd"><code class="docutils literal notranslate"><span class="pre">getRedshiftScaling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK21hasRedshiftDependenceEv"><code class="docutils literal notranslate"><span class="pre">hasRedshiftDependence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv412setFieldNameNSt6stringE"><code class="docutils literal notranslate"><span class="pre">setFieldName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv418TabularPhotonFieldKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">TabularPhotonField()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv416readPhotonEnergyNSt6stringE"><code class="docutils literal notranslate"><span class="pre">readPhotonEnergy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv417readPhotonDensityNSt6stringE"><code class="docutils literal notranslate"><span class="pre">readPhotonDensity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv412readRedshiftNSt6stringE"><code class="docutils literal notranslate"><span class="pre">readRedshift()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv419initRedshiftScalingv"><code class="docutils literal notranslate"><span class="pre">initRedshiftScaling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4NK14checkInputDataEv"><code class="docutils literal notranslate"><span class="pre">checkInputData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv413IRB_Kneiske04v"><code class="docutils literal notranslate"><span class="pre">IRB_Kneiske04()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv413IRB_Stecker05v"><code class="docutils literal notranslate"><span class="pre">IRB_Stecker05()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv418IRB_Franceschini08v"><code class="docutils literal notranslate"><span class="pre">IRB_Franceschini08()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv411IRB_Finke10v"><code class="docutils literal notranslate"><span class="pre">IRB_Finke10()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv415IRB_Dominguez11v"><code class="docutils literal notranslate"><span class="pre">IRB_Dominguez11()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv413IRB_Gilmore12v"><code class="docutils literal notranslate"><span class="pre">IRB_Gilmore12()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv419IRB_Stecker16_upperv"><code class="docutils literal notranslate"><span class="pre">IRB_Stecker16_upper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv419IRB_Stecker16_lowerv"><code class="docutils literal notranslate"><span class="pre">IRB_Stecker16_lower()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv413IRB_Saldana21v"><code class="docutils literal notranslate"><span class="pre">IRB_Saldana21()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv419IRB_Saldana21_upperv"><code class="docutils literal notranslate"><span class="pre">IRB_Saldana21_upper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv419IRB_Saldana21_lowerv"><code class="docutils literal notranslate"><span class="pre">IRB_Saldana21_lower()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv411IRB_Finke22v"><code class="docutils literal notranslate"><span class="pre">IRB_Finke22()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv415URB_Protheroe96v"><code class="docutils literal notranslate"><span class="pre">URB_Protheroe96()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv412URB_Fixsen11v"><code class="docutils literal notranslate"><span class="pre">URB_Fixsen11()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv410URB_Nitu21v"><code class="docutils literal notranslate"><span class="pre">URB_Nitu21()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv420BlackbodyPhotonFieldKNSt6stringEKd"><code class="docutils literal notranslate"><span class="pre">BlackbodyPhotonField()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv411setQuantiled"><code class="docutils literal notranslate"><span class="pre">setQuantile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv43CMBv"><code class="docutils literal notranslate"><span class="pre">CMB()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv49fieldName"><code class="docutils literal notranslate"><span class="pre">fieldName</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv419isRedshiftDependent"><code class="docutils literal notranslate"><span class="pre">isRedshiftDependent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv414photonEnergies"><code class="docutils literal notranslate"><span class="pre">photonEnergies</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv413photonDensity"><code class="docutils literal notranslate"><span class="pre">photonDensity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv49redshifts"><code class="docutils literal notranslate"><span class="pre">redshifts</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv416redshiftScalings"><code class="docutils literal notranslate"><span class="pre">redshiftScalings</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv420blackbodyTemperature"><code class="docutils literal notranslate"><span class="pre">blackbodyTemperature</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv48quantile"><code class="docutils literal notranslate"><span class="pre">quantile</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa11PhotonFieldE"><code class="docutils literal notranslate"><span class="pre">PhotonField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa18TabularPhotonFieldE"><code class="docutils literal notranslate"><span class="pre">TabularPhotonField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa13IRB_Kneiske04E"><code class="docutils literal notranslate"><span class="pre">IRB_Kneiske04</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa13IRB_Stecker05E"><code class="docutils literal notranslate"><span class="pre">IRB_Stecker05</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa18IRB_Franceschini08E"><code class="docutils literal notranslate"><span class="pre">IRB_Franceschini08</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa11IRB_Finke10E"><code class="docutils literal notranslate"><span class="pre">IRB_Finke10</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa15IRB_Dominguez11E"><code class="docutils literal notranslate"><span class="pre">IRB_Dominguez11</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa13IRB_Gilmore12E"><code class="docutils literal notranslate"><span class="pre">IRB_Gilmore12</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa19IRB_Stecker16_upperE"><code class="docutils literal notranslate"><span class="pre">IRB_Stecker16_upper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa19IRB_Stecker16_lowerE"><code class="docutils literal notranslate"><span class="pre">IRB_Stecker16_lower</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa13IRB_Saldana21E"><code class="docutils literal notranslate"><span class="pre">IRB_Saldana21</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa19IRB_Saldana21_upperE"><code class="docutils literal notranslate"><span class="pre">IRB_Saldana21_upper</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa19IRB_Saldana21_lowerE"><code class="docutils literal notranslate"><span class="pre">IRB_Saldana21_lower</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa11IRB_Finke22E"><code class="docutils literal notranslate"><span class="pre">IRB_Finke22</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa15URB_Protheroe96E"><code class="docutils literal notranslate"><span class="pre">URB_Protheroe96</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa12URB_Fixsen11E"><code class="docutils literal notranslate"><span class="pre">URB_Fixsen11</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa10URB_Nitu21E"><code class="docutils literal notranslate"><span class="pre">URB_Nitu21</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa20BlackbodyPhotonFieldE"><code class="docutils literal notranslate"><span class="pre">BlackbodyPhotonField</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv4N7crpropa3CMBE"><code class="docutils literal notranslate"><span class="pre">CMB</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../buildingblocks/PhotonFields.html#_CPPv43URB"><code class="docutils literal notranslate"><span class="pre">URB</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="library_root.html">Library API</a><ul>
@@ -357,13 +773,11 @@
 <li class="toctree-l2"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="namespace_crpropa.html">Namespace crpropa</a></li>
-<li class="toctree-l4"><a class="reference internal" href="namespace_eleca.html">Namespace eleca</a></li>
 <li class="toctree-l4"><a class="reference internal" href="namespace_quimby.html">Namespace quimby</a></li>
 <li class="toctree-l4"><a class="reference internal" href="namespace_std.html">Namespace std</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1__Secondary.html">Struct _Secondary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1CLOCK__TLS__ITEM.html">Struct CLOCK_TLS_ITEM</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1HDF5Output_1_1OutputRow.html">Struct HDF5Output::OutputRow</a></li>
 <li class="toctree-l4"><a class="reference internal" href="structcrpropa_1_1NuclearDecay_1_1DecayMode.html">Struct NuclearDecay::DecayMode</a></li>
@@ -380,16 +794,17 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AdiabaticCooling.html">Class AdiabaticCooling</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AdvectionField.html">Class AdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AdvectionFieldList.html">Class AdvectionFieldList</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1AMRMagneticField.html">Class AMRMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ArchimedeanSpiralField.html">Class ArchimedeanSpiralField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Base64.html">Class Base64</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1BlackbodyPhotonField.html">Class BlackbodyPhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Candidate.html">Class Candidate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CandidateSplitting.html">Class CandidateSplitting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock.html">Class Clock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Clock_1_1Impl.html">Class Clock::Impl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMB.html">Class CMB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1CMZField.html">Class CMZField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantDensity.html">Class ConstantDensity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantMomentumDiffusion.html">Class ConstantMomentumDiffusion</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ConstantSphericalAdvectionField.html">Class ConstantSphericalAdvectionField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Cordes.html">Class Cordes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="class_structcrpropa_1_1Cosmology.html">Class Cosmology</a></li>
@@ -406,7 +821,6 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ElasticScattering.html">Class ElasticScattering</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ElectronPairProduction.html">Class ElectronPairProduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EllipsoidalBoundary.html">Class EllipsoidalBoundary</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMCascade.html">Class EMCascade</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMDoublePairProduction.html">Class EMDoublePairProduction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EMInverseComptonScattering.html">Class EMInverseComptonScattering</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1EmissionMap.html">Class EmissionMap</a></li>
@@ -423,9 +837,13 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ICSSecondariesEnergyDistribution.html">Class ICSSecondariesEnergyDistribution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Dominguez11.html">Class IRB_Dominguez11</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Finke10.html">Class IRB_Finke10</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Finke22.html">Class IRB_Finke22</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Franceschini08.html">Class IRB_Franceschini08</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Gilmore12.html">Class IRB_Gilmore12</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Kneiske04.html">Class IRB_Kneiske04</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Saldana21.html">Class IRB_Saldana21</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Saldana21__lower.html">Class IRB_Saldana21_lower</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Saldana21__upper.html">Class IRB_Saldana21_upper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Stecker05.html">Class IRB_Stecker05</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Stecker16__lower.html">Class IRB_Stecker16_lower</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1IRB__Stecker16__upper.html">Class IRB_Stecker16_upper</a></li>
@@ -451,6 +869,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ModuleListRunner.html">Class ModuleListRunner</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Nakanishi.html">Class Nakanishi</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1NuclearDecay.html">Class NuclearDecay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObliqueAdvectionShock.html">Class ObliqueAdvectionShock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Observer.html">Class Observer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Observer1D.html">Class Observer1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverDetectAll.html">Class ObserverDetectAll</a></li>
@@ -461,11 +880,12 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverNucleusVeto.html">Class ObserverNucleusVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverParticleIdVeto.html">Class ObserverParticleIdVeto</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverPhotonVeto.html">Class ObserverPhotonVeto</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverPoint.html">Class ObserverPoint</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverRedshiftWindow.html">Class ObserverRedshiftWindow</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverSurface.html">Class ObserverSurface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverTimeEvolution.html">Class ObserverTimeEvolution</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ObserverTracking.html">Class ObserverTracking</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1OneDimensionalCartesianShock.html">Class OneDimensionalCartesianShock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1OneDimensionalSphericalShock.html">Class OneDimensionalSphericalShock</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1Output.html">Class Output</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParaxialBox.html">Class ParaxialBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1ParticleCollector.html">Class ParticleCollector</a></li>
@@ -476,7 +896,6 @@
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PeriodicBox.html">Class PeriodicBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PeriodicMagneticField.html">Class PeriodicMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotoDisintegration.html">Class PhotoDisintegration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonEleCa.html">Class PhotonEleCa</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonField.html">Class PhotonField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotonOutput1D.html">Class PhotonOutput1D</a></li>
 <li class="toctree-l4"><a class="reference internal" href="classcrpropa_1_1PhotoPionProduction.html">Class PhotoPionProduction</a></li>
@@ -577,8 +996,6 @@
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a3b7e50c415b95b5484c2c6fce38bdeb4.html">Function crpropa::__attribute__</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a46e71379803136960b66bd212e3de422.html">Function crpropa::__declspec</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a4447ed56e6ceb012151bcef3b81ff03e.html">Function crpropa::_ParticlesAtGroundSortPredicate</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a72de9e877f74616d8c63034e881cd8c2.html">Function crpropa::_SecondarySortPredicate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1gaeb9bf83157fb16f1b1f40f3520fb88f5.html">Function crpropa::chargeNumber</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaea966817d7679bb00bd12e22135184fc.html">Template Function crpropa::clip</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga46b07c16f3bbe25d18074f192185d926.html">Function crpropa::closestIndex</a></li>
@@ -588,15 +1005,11 @@
 <li class="toctree-l4"><a class="reference internal" href="function_group__PhysicsDefinitions_1ga7efb8f01b91e104a86d86a16c2f902d8.html">Function crpropa::convertIdToName</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a9701fd450f0629cea7498612f221a6a8.html">Function crpropa::deserialize</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0f0f1fbfd43cc9a796d65bf1beeaa6e2.html">Function crpropa::digit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ac9f895526ff16286d0aeb62e7e80459f.html">Function crpropa::DintElecaPropagation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a353584246ed0becff6fa83dda9662cec.html">Function crpropa::DintPropagation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga1f56d409db43db59d1c81881bb02a3e7.html">Function crpropa::dumpGrid(ref_ptr&lt;Grid3f&gt;, std::string, double)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0238b64d66147e63750fd4bbc408161f.html">Function crpropa::dumpGrid(ref_ptr&lt;Grid1f&gt;, std::string, double)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga3ccd4dd73f208f91880915a2ce08bdc0.html">Function crpropa::dumpGridToTxt(ref_ptr&lt;Grid3f&gt;, std::string, double)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga59fd9fe51d640a021e0221111cd9b699.html">Function crpropa::dumpGridToTxt(ref_ptr&lt;Grid1f&gt;, std::string, double)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga2eb8ede3102a156db92af3b28e6f100a.html">Template Function crpropa::dynamic_pointer_cast</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a7869c8cd708945f25e1061f64c93ae6e.html">Function crpropa::ElecaPropagation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1af379693cbe113b71573bcefd2e9041a0.html">Function crpropa::FillInSpectrum</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gaf26c6f2f1091ba2802cc736c81ca3a7b.html">Function crpropa::fromMagneticField</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga0980296e3a22831d7bdbf2661086d25a.html">Function crpropa::fromMagneticFieldStrength</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a7b2c3263f63a99e6ed493fb1848a8ff1.html">Template Function crpropa::gaussInt</a></li>
@@ -659,6 +1072,7 @@
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gac3390d0db70bf68f96d37434d0f74f08.html">Function crpropa::rmsFieldStrength(ref_ptr&lt;Grid3f&gt;)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gac6a806f908b2c0080767e36781d6ec12.html">Function crpropa::rmsFieldStrengthPerAxis</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1afdfae60dd4680363c4a98a60d4b087b6.html">Function crpropa::round</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a07e5532c8ba36240bdeff648eae167b0.html">Template Function crpropa::safeDelete</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1gabd59e441d6fd5ca8c08d67e921653025.html">Function crpropa::scaleGrid(ref_ptr&lt;Grid1f&gt;, double)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_group__Core_1ga26d02f208093d8c907b6a541975f9c9d.html">Function crpropa::scaleGrid(ref_ptr&lt;Grid3f&gt;, double)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1ade4f3509f8415d013b3a5805ed285213.html">Function crpropa::serialize</a></li>
@@ -671,7 +1085,8 @@
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1aa808693ef6c1124a03fdb4982cdff31f.html">Function crpropa::VARIANT_TO_DECL(UInt16, uint16_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a6ef8c8f4ad88e548be0d534733eb8aaf.html">Function crpropa::VARIANT_TO_DECL(UInt32, uint32_t)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a833bf9a77c86ee919231f95d3c782248.html">Function crpropa::VARIANT_TO_DECL(UInt64, uint64_t)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a5a111032b05e2db77860381eb823f867.html">Function crpropa::VARIANT_TO_DECL(String, std::string)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1adee079582037f71e775d50db63df49d1.html">Function crpropa::VARIANT_TO_DECL(Double, double)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a38ab989c1fe074738a5c4661abfe2fba.html">Function crpropa::VARIANT_TO_DECL(String, std::string)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacecrpropa_1a8598f4bfc7ba56c2e95728f4425dfb14.html">Function crpropa::variantTypeToH5T_NATIVE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_Version_8h_1ae07054153f2b6877a8acf6fbf1ee7090.html">Function declare_version</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_Logging_8h_1ab43ea5e6a41057a2928f96ec406f2a4b.html">Function logDebug</a></li>
@@ -806,7 +1221,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1a783ff14b96261de369c6227e38aad1d5.html">Typedef crpropa::_Secondary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="typedef_namespacecrpropa_1ad47ce08e957c3542cd0715bc2e933293.html">Typedef crpropa::const_LensPartIter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1gad761d09abe25f824acac027b04dd1507.html">Typedef crpropa::Grid1d</a></li>
 <li class="toctree-l4"><a class="reference internal" href="typedef_group__Core_1ga618737687b6e91f66fe1f4da1134e925.html">Typedef crpropa::Grid1f</a></li>
@@ -850,8 +1264,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Program Listing for File Module.h</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Program Listing for File Module.h</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -860,90 +1274,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="program-listing-for-file-module-h">
-<span id="program-listing-file-include-crpropa-module-h"></span><h1>Program Listing for File Module.h<a class="headerlink" href="#program-listing-for-file-module-h" title="Permalink to this headline"></a></h1>
+  <section id="program-listing-for-file-module-h">
+<span id="program-listing-file-include-crpropa-module-h"></span><h1>Program Listing for File Module.h<a class="headerlink" href="#program-listing-for-file-module-h" title="Link to this heading"></a></h1>
 <p>↰ <a class="reference internal" href="file_include_crpropa_Module.h.html#file-include-crpropa-module-h"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">include/crpropa/Module.h</span></code>)</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef CRPROPA_MODULE_H</span>
 <span class="cp">#define CRPROPA_MODULE_H</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Candidate.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Referenced.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Common.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Candidate.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Referenced.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;crpropa/Common.h&quot;</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
 
-<span class="k">namespace</span><span class="w"> </span><span class="nn">crpropa</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">crpropa</span><span class="w"> </span><span class="p">{</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Candidate</span><span class="p">;</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Candidate</span><span class="p">;</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">Module</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Referenced</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">description</span><span class="p">;</span><span class="w"></span>
-<span class="k">public</span><span class="o">:</span><span class="w"></span>
-<span class="w">        </span><span class="n">Module</span><span class="p">();</span><span class="w"></span>
-<span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">Module</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">getDescription</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setDescription</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">description</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Candidate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="n">process</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">get</span><span class="p">());</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Module</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Referenced</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">description</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">Module</span><span class="p">();</span>
+<span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">Module</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">getDescription</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setDescription</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">description</span><span class="p">);</span>
+<span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Candidate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">process</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="p">};</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">AbstractCondition</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="k">protected</span><span class="o">:</span><span class="w"></span>
-<span class="w">        </span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Module</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rejectAction</span><span class="p">,</span><span class="w"> </span><span class="n">acceptAction</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">makeRejectedInactive</span><span class="p">,</span><span class="w"> </span><span class="n">makeAcceptedInactive</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">rejectFlagKey</span><span class="p">,</span><span class="w"> </span><span class="n">rejectFlagValue</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">acceptFlagKey</span><span class="p">,</span><span class="w"> </span><span class="n">acceptFlagValue</span><span class="p">;</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AbstractCondition</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Module</span><span class="w"> </span><span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">        </span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Module</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rejectAction</span><span class="p">,</span><span class="w"> </span><span class="n">acceptAction</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">makeRejectedInactive</span><span class="p">,</span><span class="w"> </span><span class="n">makeAcceptedInactive</span><span class="p">;</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">rejectFlagKey</span><span class="p">,</span><span class="w"> </span><span class="n">rejectFlagValue</span><span class="p">;</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">acceptFlagKey</span><span class="p">,</span><span class="w"> </span><span class="n">acceptFlagValue</span><span class="p">;</span>
 
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">reject</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">reject</span><span class="p">(</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Candidate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="n">reject</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">get</span><span class="p">());</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">reject</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="w">        </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">reject</span><span class="p">(</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Candidate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">reject</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Candidate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="n">accept</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">get</span><span class="p">());</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="n">Candidate</span><span class="w"> </span><span class="o">*</span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="w">        </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">accept</span><span class="p">(</span><span class="n">ref_ptr</span><span class="o">&lt;</span><span class="n">Candidate</span><span class="o">&gt;</span><span class="w"> </span><span class="n">candidate</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">accept</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
 
-<span class="k">public</span><span class="o">:</span><span class="w"></span>
-<span class="w">        </span><span class="n">AbstractCondition</span><span class="p">();</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">onReject</span><span class="p">(</span><span class="n">Module</span><span class="w"> </span><span class="o">*</span><span class="n">rejectAction</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">onAccept</span><span class="p">(</span><span class="n">Module</span><span class="w"> </span><span class="o">*</span><span class="n">acceptAction</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setMakeRejectedInactive</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">makeInactive</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setMakeAcceptedInactive</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">makeInactive</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setRejectFlag</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setAcceptFlag</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
+<span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">AbstractCondition</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">onReject</span><span class="p">(</span><span class="n">Module</span><span class="w"> </span><span class="o">*</span><span class="n">rejectAction</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">onAccept</span><span class="p">(</span><span class="n">Module</span><span class="w"> </span><span class="o">*</span><span class="n">acceptAction</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setMakeRejectedInactive</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">makeInactive</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setMakeAcceptedInactive</span><span class="p">(</span><span class="kt">bool</span><span class="w"> </span><span class="n">makeInactive</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setRejectFlag</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">setAcceptFlag</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="p">};</span>
 <span class="p">}</span><span class="w"> </span><span class="c1">// namespace crpropa</span>
 
-<span class="cp">#endif </span><span class="cm">/* CRPROPA_MODULE_H */</span><span class="cp"></span>
+<span class="cp">#endif </span><span class="cm">/* CRPROPA_MODULE_H */</span>
 </pre></div>
 </div>
 </section>
@@ -956,7 +1346,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, The CRPropa Developers.</p>
+    <p>&#169; Copyright 2024, The CRPropa Developers.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

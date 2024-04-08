@@ -102,6 +102,75 @@ Program Listing for File AdvectionField.h
            std::string getDescription() const;
    };
    
+   class OneDimensionalCartesianShock: public AdvectionField {
+           double compressionRatio; //compression ratio of shock
+           double vUp; //upstream velocity 
+           double lShock; //shock width
+   public:
+           OneDimensionalCartesianShock(double compressionRatio, double vUp, double lShock);
+           Vector3d getField(const Vector3d &position) const;
+           double getDivergence(const Vector3d &position) const;
+   
+           void setComp(double compressionRatio);
+           void setVup(double vUp);
+           void setShockwidth(double lShock);
+   
+           double getComp() const;
+           double getVup() const; 
+           double getShockwidth() const;
+   
+           std::string getDescription() const;
+   };
+   
+   class OneDimensionalSphericalShock: public AdvectionField {
+           double compressionRatio;        //compression ratio of shock
+           double vUp;     //upstream velocity 
+           double lShock;  //shock width
+           double rShock;  //shock radius
+           bool coolUpstream;      //flag for upstream cooling
+   public:
+           OneDimensionalSphericalShock(double rShock, double vUp, double compressionRatio, double lShock, bool coolUpstream);
+           Vector3d getField(const Vector3d &position) const;
+           double getDivergence(const Vector3d &position) const;
+   
+           void setComp(double compressionRatio);
+           void setVup(double vUp);
+           void setShockwidth(double lShock);
+           void setShockRadius(double rShock);
+           void setCooling(bool coolUpstream);
+   
+           double getComp() const; 
+           double getVup() const;
+           double getShockwidth() const;
+           double getShockRadius() const;
+           bool getCooling() const;
+   
+           std::string getDescription() const;
+   };
+   
+   class ObliqueAdvectionShock: public AdvectionField {
+           double compressionRatio; //compression ratio of shock
+           double vXUp; //upstream velocity x-component
+           double vY; //constant velocity y-component
+           double lShock; //shock width
+           
+   public:
+           ObliqueAdvectionShock(double compressionRatio, double vXUp, double vY, double lShock);
+           Vector3d getField(const Vector3d &position) const;
+           double getDivergence(const Vector3d &position) const;
+   
+           void setComp(double compressionRatio);
+           void setVup(double vXUp);
+           void setVy(double vY);
+           void setShockwidth(double lShock);
+   
+           double getComp() const; 
+           double getVup() const;
+           double getVy() const;
+           double getShockwidth() const;
+           
+           std::string getDescription() const;
+   };
    
    class SphericalAdvectionShock: public AdvectionField {
            Vector3d origin; // origin of the advection sphere

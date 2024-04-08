@@ -54,7 +54,7 @@ Program Listing for File PhotonBackground.h
    class TabularPhotonField: public PhotonField {
    public:
            TabularPhotonField(const std::string fieldName, const bool isRedshiftDependent = true);
-           
+   
            double getPhotonDensity(double ePhoton, double z = 0.) const;
            double getRedshiftScaling(double z) const;
            double getMinimumPhotonEnergy(double z) const;
@@ -111,6 +111,26 @@ Program Listing for File PhotonBackground.h
    class IRB_Stecker16_lower: public TabularPhotonField {
    public:
            IRB_Stecker16_lower() : TabularPhotonField("IRB_Stecker16_lower", true) {}
+   };
+   
+   class IRB_Saldana21: public TabularPhotonField {
+   public:
+           IRB_Saldana21() : TabularPhotonField("IRB_Saldana21", true) {}
+   };
+   
+   class IRB_Saldana21_upper: public TabularPhotonField {
+   public:
+           IRB_Saldana21_upper() : TabularPhotonField("IRB_Saldana21_upper", true) {}
+   };
+   
+   class IRB_Saldana21_lower: public TabularPhotonField {
+   public:
+           IRB_Saldana21_lower() : TabularPhotonField("IRB_Saldana21_lower", true) {}
+   };
+   
+   class IRB_Finke22: public TabularPhotonField {
+   public:
+           IRB_Finke22() : TabularPhotonField("IRB_Finke22", true) {}
    };
    
    class URB_Protheroe96: public TabularPhotonField {

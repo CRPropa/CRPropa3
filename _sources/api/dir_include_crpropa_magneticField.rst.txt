@@ -9,6 +9,7 @@ Directory magneticField
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 *Directory path:* ``include/crpropa/magneticField``
 
 Subdirectories
@@ -20,7 +21,6 @@ Subdirectories
 Files
 -----
 
-- :ref:`file_include_crpropa_magneticField_AMRMagneticField.h`
 - :ref:`file_include_crpropa_magneticField_ArchimedeanSpiralField.h`
 - :ref:`file_include_crpropa_magneticField_CMZField.h`
 - :ref:`file_include_crpropa_magneticField_GalacticMagneticField.h`

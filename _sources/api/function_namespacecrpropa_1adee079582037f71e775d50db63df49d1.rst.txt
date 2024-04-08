@@ -1,0 +1,14 @@
+.. _exhale_function_namespacecrpropa_1adee079582037f71e775d50db63df49d1:
+
+Function crpropa::VARIANT_TO_DECL(Double, double)
+=================================================
+
+- Defined in :ref:`file_include_crpropa_Variant.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: crpropa::VARIANT_TO_DECL(Double, double)
+   :project: CRPropa3

@@ -8,6 +8,7 @@ File Observer.h
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 .. contents:: Contents
    :local:
    :backlinks: none
@@ -60,8 +61,6 @@ Classes
 - :ref:`exhale_class_classcrpropa_1_1ObserverParticleIdVeto`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverPhotonVeto`
-
-- :ref:`exhale_class_classcrpropa_1_1ObserverPoint`
 
 - :ref:`exhale_class_classcrpropa_1_1ObserverRedshiftWindow`
 

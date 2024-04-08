@@ -1,0 +1,61 @@
+
+.. _program_listing_file_include_crpropa_module_CandidateSplitting.h:
+
+Program Listing for File CandidateSplitting.h
+=============================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_crpropa_module_CandidateSplitting.h>` (``include/crpropa/module/CandidateSplitting.h``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   #ifndef CRPROPA_CANDIDATEPLITTING_H
+   #define CRPROPA_CANDIDATEPLITTING_H
+   
+   #include <string>
+   #include <iostream>
+   #include <cmath>
+   #include <cstdlib>
+   #include <sstream>
+   
+   #include "crpropa/Vector3.h"
+   #include "crpropa/Module.h"
+   #include "crpropa/Units.h"
+   #include "kiss/logger.h"
+   
+   
+   namespace crpropa {
+   class CandidateSplitting: public Module {
+   private:
+           double nSplit;
+           double minWeight;
+           std::vector<double> Ebins;
+   
+   public:
+   
+           CandidateSplitting();
+           
+           CandidateSplitting(int nSplit, double Emin, double Emax, double nBins, double minWeight, bool log = false);
+           
+           CandidateSplitting(double spectralIndex, double Emin, int nBins);
+   
+           void process(Candidate *c) const;
+   
+           void setEnergyBins(double Emin, double Emax, double nBins, bool log);
+   
+           void setEnergyBinsDSA(double Emin, double dE, int n);
+   
+           void setNsplit(int n);
+   
+           void setMinimalWeight(double w);
+   
+           int getNsplit() const;
+   
+           double getMinimalWeight() const;
+   
+           const std::vector<double>& getEnergyBins() const;
+   
+   };
+   } // namespace crpropa
+   #endif // CRPROPA_CANDIDATESPLITTING_H

@@ -20,6 +20,9 @@ Derived Types
 
 - ``public AdvectionFieldList`` (:ref:`exhale_class_classcrpropa_1_1AdvectionFieldList`)
 - ``public ConstantSphericalAdvectionField`` (:ref:`exhale_class_classcrpropa_1_1ConstantSphericalAdvectionField`)
+- ``public ObliqueAdvectionShock`` (:ref:`exhale_class_classcrpropa_1_1ObliqueAdvectionShock`)
+- ``public OneDimensionalCartesianShock`` (:ref:`exhale_class_classcrpropa_1_1OneDimensionalCartesianShock`)
+- ``public OneDimensionalSphericalShock`` (:ref:`exhale_class_classcrpropa_1_1OneDimensionalSphericalShock`)
 - ``public SphericalAdvectionField`` (:ref:`exhale_class_classcrpropa_1_1SphericalAdvectionField`)
 - ``public SphericalAdvectionShock`` (:ref:`exhale_class_classcrpropa_1_1SphericalAdvectionShock`)
 - ``public UniformAdvectionField`` (:ref:`exhale_class_classcrpropa_1_1UniformAdvectionField`)

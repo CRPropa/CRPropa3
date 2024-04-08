@@ -33,7 +33,6 @@ Files
 - :ref:`file_src_ParticleMass.cpp`
 - :ref:`file_src_ParticleState.cpp`
 - :ref:`file_src_PhotonBackground.cpp`
-- :ref:`file_src_PhotonPropagation.cpp`
 - :ref:`file_src_Random.cpp`
 - :ref:`file_src_Source.cpp`
 - :ref:`file_src_Variant.cpp`

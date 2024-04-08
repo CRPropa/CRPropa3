@@ -1,0 +1,26 @@
+.. _exhale_class_classcrpropa_1_1IRB__Saldana21__upper:
+
+Class IRB_Saldana21_upper
+=========================
+
+- Defined in :ref:`file_include_crpropa_PhotonBackground.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public TabularPhotonField`` (:ref:`exhale_class_classcrpropa_1_1TabularPhotonField`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: crpropa::IRB_Saldana21_upper
+   :project: CRPropa3
+   :members:
+   :protected-members:
+   :undoc-members:

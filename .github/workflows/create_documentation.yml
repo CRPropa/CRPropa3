@@ -27,7 +27,7 @@ jobs:
           sudo apt-get install libmuparser-dev libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov doxygen graphviz
           sudo apt-get install pandoc # do not only use pip to install pandoc, see https://stackoverflow.com/questions/62398231/building-docs-fails-due-to-missing-pandoc
           pip install -r doc/pages/example_notebooks/requirements.txt # load requirements for notebooks
-          pip install sphinx sphinx_rtd_theme m2r2 nbsphinx breathe pandoc exhale # load requirements for documentation
+          pip install sphinx sphinx_rtd_theme m2r2 nbsphinx lxml_html_clean breathe pandoc exhale # load requirements for documentation
       - name: Set up the build
         env:
           CXX: ${{ matrix.config.cxx }}

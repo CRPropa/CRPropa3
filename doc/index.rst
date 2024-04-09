@@ -43,10 +43,8 @@ Contents
 
 .. toctree::
    :caption: DEVEL
-   :maxdepth: 1
+   :maxdepth: 2
 
    pages/Debugging.md
    pages/Code-Coverage.md
    pages/Data-files.md
-
-

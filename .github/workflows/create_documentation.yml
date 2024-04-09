@@ -55,6 +55,7 @@ jobs:
         run: |
           cd build
           make doc
+          cp -r coverageReport doc/pages/coverageReport
           tar -zcvf documentation.tar.gz doc
       - name: archive documentation
         uses: actions/upload-artifact@v4

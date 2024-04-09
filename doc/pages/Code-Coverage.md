@@ -17,9 +17,5 @@ make coverage
 ```
 The final report is in ```~/build/coverageReport/index.html```
 
-
-### Code Coverage for the current master version
-The report for the current master branch version can be found here. 
-
-.. toctree::
-    conerageReport/index.html
+### coverage report of the current master branch
+The coverage report of the current master branch can be accesed `by clicking here <coverageReport/index.html>`_ now.

@@ -1,0 +1,640 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.info.cleaned - include/crpropa/Grid.h</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">include/crpropa</a> - Grid.h<span style="font-size: 80%;"> (source / <a href="Grid.h.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.info.cleaned</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">173</td>
+            <td class="headerCovTableEntry">195</td>
+            <td class="headerCovTableEntryMed">88.7 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2024-04-08 14:58:22</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">23</td>
+            <td class="headerCovTableEntry">56</td>
+            <td class="headerCovTableEntryLo">41.1 %</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #ifndef CRPROPA_GRID_H</a>
+<a name="2"><span class="lineNum">       2 </span>            : #define CRPROPA_GRID_H</a>
+<a name="3"><span class="lineNum">       3 </span>            : </a>
+<a name="4"><span class="lineNum">       4 </span>            : #include &quot;crpropa/Referenced.h&quot;</a>
+<a name="5"><span class="lineNum">       5 </span>            : #include &quot;crpropa/Vector3.h&quot;</a>
+<a name="6"><span class="lineNum">       6 </span>            : </a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &quot;kiss/string.h&quot;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &quot;kiss/logger.h&quot;</a>
+<a name="9"><span class="lineNum">       9 </span>            : </a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;vector&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;type_traits&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : #if HAVE_SIMD</a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;immintrin.h&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : #include &lt;smmintrin.h&gt;</a>
+<a name="15"><span class="lineNum">      15 </span>            : #endif // HAVE_SIMD</a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span>            : namespace crpropa {</a>
+<a name="18"><span class="lineNum">      18 </span>            : </a>
+<a name="19"><span class="lineNum">      19 </span>            : /** If set to TRILINEAR, use trilinear interpolation (standard)</a>
+<a name="20"><span class="lineNum">      20 </span>            : If set to TRICUBIC, use tricubic interpolation instead of trilinear interpolation</a>
+<a name="21"><span class="lineNum">      21 </span>            : If set to NEAREST_NEIGHBOUR , use nearest neighbour interpolation instead of trilinear interpolation */</a>
+<a name="22"><span class="lineNum">      22 </span>            : enum interpolationType {</a>
+<a name="23"><span class="lineNum">      23 </span>            :   TRILINEAR = 0,</a>
+<a name="24"><span class="lineNum">      24 </span>            :   TRICUBIC,</a>
+<a name="25"><span class="lineNum">      25 </span>            :   NEAREST_NEIGHBOUR</a>
+<a name="26"><span class="lineNum">      26 </span>            : };</a>
+<a name="27"><span class="lineNum">      27 </span>            : </a>
+<a name="28"><span class="lineNum">      28 </span>            : /** Lower and upper neighbour in a periodically continued unit grid */</a>
+<a name="29"><span class="lineNum">      29 </span>            : inline void periodicClamp(double x, int n, int &amp;lo, int &amp;hi) {</a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineCov">     100051 :         lo = ((int(floor(x)) % (n)) + (n)) % (n);</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">         10 :         hi = (lo + 1) % (n);</span></a>
+<a name="32"><span class="lineNum">      32 </span>            : }</a>
+<a name="33"><span class="lineNum">      33 </span>            : </a>
+<a name="34"><span class="lineNum">      34 </span>            : /** grid index in a reflective continued unit grid */</a>
+<a name="35"><span class="lineNum">      35 </span>            : inline int reflectiveBoundary(int index, int n) {</a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineCov">       1963 :         while ((index &lt; -0.5) or (index &gt; (n-0.5)))</span></a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineCov">        806 :                 index = 2 * n * (index &gt; (n-0.5)) - index-1;</span></a>
+<a name="38"><span class="lineNum">      38 </span>            :         return index;</a>
+<a name="39"><span class="lineNum">      39 </span>            : }</a>
+<a name="40"><span class="lineNum">      40 </span>            : </a>
+<a name="41"><span class="lineNum">      41 </span>            : /** grid index in a periodically continued unit grid */</a>
+<a name="42"><span class="lineNum">      42 </span>            : inline int periodicBoundary(int index, int n) {</a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">        768 :         return ((index % (n)) + (n)) % (n);</span></a>
+<a name="44"><span class="lineNum">      44 </span>            : }</a>
+<a name="45"><span class="lineNum">      45 </span>            : </a>
+<a name="46"><span class="lineNum">      46 </span>            : /** Lower and upper neighbour in a reflectively repeated unit grid */</a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">         20 : inline void reflectiveClamp(double x, int n, int &amp;lo, int &amp;hi, double &amp;res) {</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         36 :         while ((x &lt; -0.5) or (x &gt; (n-0.5)))</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">         16 :                 x = 2 * n * (x &gt; (n-0.5)) -x-1;</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">         20 :         res = x;</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">         20 :         lo = floor(x);</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">         20 :         hi = lo + (lo &lt; n-1);</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">         20 :         if (x&lt;0) {</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">         10 :                 lo=0; </span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">         10 :                 hi=0;</span></a>
+<a name="56"><span class="lineNum">      56 </span>            :         }</a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">         20 : }</span></a>
+<a name="58"><span class="lineNum">      58 </span>            : </a>
+<a name="59"><span class="lineNum">      59 </span>            : /** Symmetrical round */</a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">         51 : inline double round(double r) {</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">         51 :         return (r &gt; 0.0) ? floor(r + 0.5) : ceil(r - 0.5);</span></a>
+<a name="62"><span class="lineNum">      62 </span>            : }</a>
+<a name="63"><span class="lineNum">      63 </span>            : </a>
+<a name="64"><span class="lineNum">      64 </span>            : /**</a>
+<a name="65"><span class="lineNum">      65 </span>            :  * \addtogroup Core</a>
+<a name="66"><span class="lineNum">      66 </span>            :  * @{</a>
+<a name="67"><span class="lineNum">      67 </span>            :  */</a>
+<a name="68"><span class="lineNum">      68 </span>            : </a>
+<a name="69"><span class="lineNum">      69 </span>            : /**</a>
+<a name="70"><span class="lineNum">      70 </span>            :  @class GridProperties</a>
+<a name="71"><span class="lineNum">      71 </span>            :  @brief Combines parameters that uniquely define Grid class</a>
+<a name="72"><span class="lineNum">      72 </span>            :  */</a>
+<a name="73"><span class="lineNum">      73 </span>            : class GridProperties: public Referenced {</a>
+<a name="74"><span class="lineNum">      74 </span>            : public:</a>
+<a name="75"><span class="lineNum">      75 </span>            :         size_t Nx, Ny, Nz;      // Number of grid points</a>
+<a name="76"><span class="lineNum">      76 </span>            :         Vector3d origin;        // Position of the lower left front corner of the volume</a>
+<a name="77"><span class="lineNum">      77 </span>            :         Vector3d spacing;       // Spacing vector between gridpoints</a>
+<a name="78"><span class="lineNum">      78 </span>            :         bool reflective;        // using reflective repetition of the grid instead of periodic</a>
+<a name="79"><span class="lineNum">      79 </span>            :         interpolationType ipol; // Interpolation type used between grid points</a>
+<a name="80"><span class="lineNum">      80 </span>            :         bool clipVolume;        // Set grid values to 0 outside the volume if true</a>
+<a name="81"><span class="lineNum">      81 </span>            : </a>
+<a name="82"><span class="lineNum">      82 </span>            :         /** Constructor for cubic grid</a>
+<a name="83"><span class="lineNum">      83 </span>            :          @param origin  Position of the lower left front corner of the volume</a>
+<a name="84"><span class="lineNum">      84 </span>            :          @param N               Number of grid points in one direction</a>
+<a name="85"><span class="lineNum">      85 </span>            :          @param spacing Spacing between grid points</a>
+<a name="86"><span class="lineNum">      86 </span>            :          */</a>
+<a name="87"><span class="lineNum">      87 </span><span class="lineCov">          6 :         GridProperties(Vector3d origin, size_t N, double spacing) :</span></a>
+<a name="88"><span class="lineNum">      88 </span><span class="lineCov">          6 :                 origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR), clipVolume(false) {</span></a>
+<a name="89"><span class="lineNum">      89 </span>            :         }</a>
+<a name="90"><span class="lineNum">      90 </span>            : </a>
+<a name="91"><span class="lineNum">      91 </span>            :         /** Constructor for non-cubic grid</a>
+<a name="92"><span class="lineNum">      92 </span>            :          @param origin  Position of the lower left front corner of the volume</a>
+<a name="93"><span class="lineNum">      93 </span>            :          @param Nx              Number of grid points in x-direction</a>
+<a name="94"><span class="lineNum">      94 </span>            :          @param Ny              Number of grid points in y-direction</a>
+<a name="95"><span class="lineNum">      95 </span>            :          @param Nz              Number of grid points in z-direction</a>
+<a name="96"><span class="lineNum">      96 </span>            :          @param spacing Spacing between grid points</a>
+<a name="97"><span class="lineNum">      97 </span>            :          */</a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineNoCov">          0 :         GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :</span></a>
+<a name="99"><span class="lineNum">      99 </span><span class="lineNoCov">          0 :                 origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR), clipVolume(false) {</span></a>
+<a name="100"><span class="lineNum">     100 </span>            :         }</a>
+<a name="101"><span class="lineNum">     101 </span>            : </a>
+<a name="102"><span class="lineNum">     102 </span>            :         /** Constructor for non-cubic grid with spacing vector</a>
+<a name="103"><span class="lineNum">     103 </span>            :          @param origin  Position of the lower left front corner of the volume</a>
+<a name="104"><span class="lineNum">     104 </span>            :          @param Nx              Number of grid points in x-direction</a>
+<a name="105"><span class="lineNum">     105 </span>            :          @param Ny              Number of grid points in y-direction</a>
+<a name="106"><span class="lineNum">     106 </span>            :          @param Nz              Number of grid points in z-direction</a>
+<a name="107"><span class="lineNum">     107 </span>            :          @param spacing Spacing vector between grid points</a>
+<a name="108"><span class="lineNum">     108 </span>            :         */</a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          1 :         GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">          1 :                 origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false), ipol(TRILINEAR), clipVolume(false) {</span></a>
+<a name="111"><span class="lineNum">     111 </span>            :         }</a>
+<a name="112"><span class="lineNum">     112 </span>            :         </a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">          2 :         virtual ~GridProperties() {</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">          4 :         }</span></a>
+<a name="115"><span class="lineNum">     115 </span>            :         </a>
+<a name="116"><span class="lineNum">     116 </span>            :         /** If True, the repetition of the grid is refletive instead of periodic. */</a>
+<a name="117"><span class="lineNum">     117 </span>            :         void setReflective(bool b) {</a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineNoCov">          0 :                 reflective = b;</span></a>
+<a name="119"><span class="lineNum">     119 </span>            :         }</a>
+<a name="120"><span class="lineNum">     120 </span>            : </a>
+<a name="121"><span class="lineNum">     121 </span>            :         /** set the type of interpolation between grid points.</a>
+<a name="122"><span class="lineNum">     122 </span>            :          * @param i: interpolationType (TRILINEAR, TRICUBIC, NEAREST_NEIGHBOUR) */</a>
+<a name="123"><span class="lineNum">     123 </span>            :         void setInterpolationType(interpolationType i) {</a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineNoCov">          0 :                 ipol = i;</span></a>
+<a name="125"><span class="lineNum">     125 </span>            :         }</a>
+<a name="126"><span class="lineNum">     126 </span>            : </a>
+<a name="127"><span class="lineNum">     127 </span>            :         /** If True, the grid is set to zero outside of the volume. */</a>
+<a name="128"><span class="lineNum">     128 </span>            :         void setClipVolume(bool b) {</a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :                 clipVolume = b;</span></a>
+<a name="130"><span class="lineNum">     130 </span>            :         }</a>
+<a name="131"><span class="lineNum">     131 </span>            : };</a>
+<a name="132"><span class="lineNum">     132 </span>            : </a>
+<a name="133"><span class="lineNum">     133 </span>            : /**</a>
+<a name="134"><span class="lineNum">     134 </span>            :  @class Grid</a>
+<a name="135"><span class="lineNum">     135 </span>            :  @brief Template class for fields on a periodic grid with trilinear interpolation</a>
+<a name="136"><span class="lineNum">     136 </span>            : </a>
+<a name="137"><span class="lineNum">     137 </span>            :  The grid spacing is constant with diffrent resolution along all three axes.</a>
+<a name="138"><span class="lineNum">     138 </span>            :  Values are calculated by trilinear interpolation of the surrounding 8 grid points.</a>
+<a name="139"><span class="lineNum">     139 </span>            :  The grid is periodically (default) or reflectively extended.</a>
+<a name="140"><span class="lineNum">     140 </span>            :  The grid sample positions are at 1/2 * size/N, 3/2 * size/N ... (2N-1)/2 * size/N.</a>
+<a name="141"><span class="lineNum">     141 </span>            :  */</a>
+<a name="142"><span class="lineNum">     142 </span>            : template&lt;typename T&gt;</a>
+<a name="143"><span class="lineNum">     143 </span><span class="lineCov">         17 : class Grid: public Referenced {</span></a>
+<a name="144"><span class="lineNum">     144 </span>            :         std::vector&lt;T&gt; grid;</a>
+<a name="145"><span class="lineNum">     145 </span>            :         size_t Nx, Ny, Nz; /**&lt; Number of grid points */</a>
+<a name="146"><span class="lineNum">     146 </span>            :         Vector3d origin; /**&lt; Origin of the volume that is represented by the grid. */</a>
+<a name="147"><span class="lineNum">     147 </span>            :         Vector3d gridOrigin; /**&lt; Grid origin */</a>
+<a name="148"><span class="lineNum">     148 </span>            :         Vector3d spacing; /**&lt; Distance between grid points, determines the extension of the grid */</a>
+<a name="149"><span class="lineNum">     149 </span>            :         bool clipVolume; /**&lt; If set to true, all values outside of the grid will be 0*/</a>
+<a name="150"><span class="lineNum">     150 </span>            :         bool reflective; /**&lt; If set to true, the grid is repeated reflectively instead of periodically */</a>
+<a name="151"><span class="lineNum">     151 </span>            :         interpolationType ipolType; /**&lt; Type of interpolation between the grid points */</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span>            : public:</a>
+<a name="154"><span class="lineNum">     154 </span>            :         /** Constructor for cubic grid</a>
+<a name="155"><span class="lineNum">     155 </span>            :          @param origin  Position of the lower left front corner of the volume</a>
+<a name="156"><span class="lineNum">     156 </span>            :          @param N               Number of grid points in one direction</a>
+<a name="157"><span class="lineNum">     157 </span>            :          @param spacing Spacing between grid points</a>
+<a name="158"><span class="lineNum">     158 </span>            :          */</a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">         11 :         Grid(Vector3d origin, size_t N, double spacing) {</span></a>
+<a name="160"><span class="lineNum">     160 </span>            :                 setOrigin(origin);</a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">         11 :                 setGridSize(N, N, N);</span></a>
+<a name="162"><span class="lineNum">     162 </span>            :                 setSpacing(Vector3d(spacing));</a>
+<a name="163"><span class="lineNum">     163 </span>            :                 setReflective(false);</a>
+<a name="164"><span class="lineNum">     164 </span>            :                 setClipVolume(false);</a>
+<a name="165"><span class="lineNum">     165 </span>            :                 setInterpolationType(TRILINEAR);</a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">         11 :         }</span></a>
+<a name="167"><span class="lineNum">     167 </span>            : </a>
+<a name="168"><span class="lineNum">     168 </span>            :         /** Constructor for non-cubic grid</a>
+<a name="169"><span class="lineNum">     169 </span>            :          @param origin  Position of the lower left front corner of the volume</a>
+<a name="170"><span class="lineNum">     170 </span>            :          @param Nx              Number of grid points in x-direction</a>
+<a name="171"><span class="lineNum">     171 </span>            :          @param Ny              Number of grid points in y-direction</a>
+<a name="172"><span class="lineNum">     172 </span>            :          @param Nz              Number of grid points in z-direction</a>
+<a name="173"><span class="lineNum">     173 </span>            :          @param spacing Spacing between grid points</a>
+<a name="174"><span class="lineNum">     174 </span>            :          */</a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">          7 :         Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) {</span></a>
+<a name="176"><span class="lineNum">     176 </span>            :                 setOrigin(origin);</a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">          7 :                 setGridSize(Nx, Ny, Nz);</span></a>
+<a name="178"><span class="lineNum">     178 </span>            :                 setSpacing(Vector3d(spacing));</a>
+<a name="179"><span class="lineNum">     179 </span>            :                 setReflective(false);</a>
+<a name="180"><span class="lineNum">     180 </span>            :                 setClipVolume(false);</a>
+<a name="181"><span class="lineNum">     181 </span>            :                 setInterpolationType(TRILINEAR);</a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">          7 :         }</span></a>
+<a name="183"><span class="lineNum">     183 </span>            : </a>
+<a name="184"><span class="lineNum">     184 </span>            :         /** Constructor for non-cubic grid with spacing vector</a>
+<a name="185"><span class="lineNum">     185 </span>            :          @param origin  Position of the lower left front corner of the volume</a>
+<a name="186"><span class="lineNum">     186 </span>            :          @param Nx              Number of grid points in x-direction</a>
+<a name="187"><span class="lineNum">     187 </span>            :          @param Ny              Number of grid points in y-direction</a>
+<a name="188"><span class="lineNum">     188 </span>            :          @param Nz              Number of grid points in z-direction</a>
+<a name="189"><span class="lineNum">     189 </span>            :          @param spacing Spacing vector between grid points</a>
+<a name="190"><span class="lineNum">     190 </span>            :         */</a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          1 :         Grid(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) {</span></a>
+<a name="192"><span class="lineNum">     192 </span>            :                 setOrigin(origin);</a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineCov">          1 :                 setGridSize(Nx, Ny, Nz);</span></a>
+<a name="194"><span class="lineNum">     194 </span>            :                 setSpacing(spacing);</a>
+<a name="195"><span class="lineNum">     195 </span>            :                 setReflective(false);</a>
+<a name="196"><span class="lineNum">     196 </span>            :                 setClipVolume(false);</a>
+<a name="197"><span class="lineNum">     197 </span>            :                 setInterpolationType(TRILINEAR);</a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          1 :         }</span></a>
+<a name="199"><span class="lineNum">     199 </span>            : </a>
+<a name="200"><span class="lineNum">     200 </span>            :         /** Constructor for GridProperties</a>
+<a name="201"><span class="lineNum">     201 </span>            :          @param p       GridProperties instance</a>
+<a name="202"><span class="lineNum">     202 </span>            :      */</a>
+<a name="203"><span class="lineNum">     203 </span><span class="lineCov">          9 :         Grid(const GridProperties &amp;p) :</span></a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">          9 :                 origin(p.origin), spacing(p.spacing), reflective(p.reflective), ipolType(p.ipol) {</span></a>
+<a name="205"><span class="lineNum">     205 </span><span class="lineCov">          9 :                 setGridSize(p.Nx, p.Ny, p.Nz);</span></a>
+<a name="206"><span class="lineNum">     206 </span><span class="lineCov">          9 :                 setClipVolume(p.clipVolume);</span></a>
+<a name="207"><span class="lineNum">     207 </span><span class="lineCov">          9 :         }</span></a>
+<a name="208"><span class="lineNum">     208 </span>            : </a>
+<a name="209"><span class="lineNum">     209 </span>            :         void setOrigin(Vector3d origin) {</a>
+<a name="210"><span class="lineNum">     210 </span>            :                 this-&gt;origin = origin;</a>
+<a name="211"><span class="lineNum">     211 </span>            :                 this-&gt;gridOrigin = origin + spacing/2;</a>
+<a name="212"><span class="lineNum">     212 </span>            :         }</a>
+<a name="213"><span class="lineNum">     213 </span>            : </a>
+<a name="214"><span class="lineNum">     214 </span>            :         /** Resize grid, also enlarges the volume as the spacing stays constant */</a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">         28 :         void setGridSize(size_t Nx, size_t Ny, size_t Nz) {</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">         28 :                 this-&gt;Nx = Nx;</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">         28 :                 this-&gt;Ny = Ny;</span></a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">         28 :                 this-&gt;Nz = Nz;</span></a>
+<a name="219"><span class="lineNum">     219 </span><span class="lineCov">         28 :                 grid.resize(Nx * Ny * Nz);</span></a>
+<a name="220"><span class="lineNum">     220 </span>            :                 setOrigin(origin);</a>
+<a name="221"><span class="lineNum">     221 </span><span class="lineCov">         28 :         }</span></a>
+<a name="222"><span class="lineNum">     222 </span>            : </a>
+<a name="223"><span class="lineNum">     223 </span>            :         void setSpacing(Vector3d spacing) {</a>
+<a name="224"><span class="lineNum">     224 </span>            :                 this-&gt;spacing = spacing;</a>
+<a name="225"><span class="lineNum">     225 </span>            :                 setOrigin(origin);</a>
+<a name="226"><span class="lineNum">     226 </span>            :         }</a>
+<a name="227"><span class="lineNum">     227 </span>            : </a>
+<a name="228"><span class="lineNum">     228 </span>            :         void setReflective(bool b) {</a>
+<a name="229"><span class="lineNum">     229 </span><span class="lineCov">          8 :                 reflective = b;</span></a>
+<a name="230"><span class="lineNum">     230 </span>            :         }</a>
+<a name="231"><span class="lineNum">     231 </span>            : </a>
+<a name="232"><span class="lineNum">     232 </span>            :         // If set to true, all values outside of the grid will be 0.</a>
+<a name="233"><span class="lineNum">     233 </span>            :         void setClipVolume(bool b) {</a>
+<a name="234"><span class="lineNum">     234 </span><span class="lineCov">         21 :                 clipVolume = b;</span></a>
+<a name="235"><span class="lineNum">     235 </span>            :         }</a>
+<a name="236"><span class="lineNum">     236 </span>            : </a>
+<a name="237"><span class="lineNum">     237 </span>            :         /** Change the interpolation type to the routine specified by the user. Check if this routine is</a>
+<a name="238"><span class="lineNum">     238 </span>            :                 contained in the enum interpolationType and thus supported by CRPropa.*/</a>
+<a name="239"><span class="lineNum">     239 </span><span class="lineNoCov">          0 :         void setInterpolationType(interpolationType ipolType) {</span></a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineNoCov">          0 :                 if (ipolType == TRILINEAR || ipolType == TRICUBIC || ipolType == NEAREST_NEIGHBOUR) {</span></a>
+<a name="241"><span class="lineNum">     241 </span><span class="lineCov">         30 :                         this-&gt;ipolType = ipolType;</span></a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineNoCov">          0 :                         if ((ipolType == TRICUBIC) &amp;&amp; (std::is_same&lt;T, Vector3d&gt;::value)) {</span></a>
+<a name="243"><span class="lineNum">     243 </span><span class="lineNoCov">          0 :                                 KISS_LOG_WARNING &lt;&lt; &quot;Tricubic interpolation on Grid3d works only with float-precision, doubles will be downcasted&quot;;</span></a>
+<a name="244"><span class="lineNum">     244 </span>            :                 }</a>
+<a name="245"><span class="lineNum">     245 </span>            :                 } else {</a>
+<a name="246"><span class="lineNum">     246 </span><span class="lineNoCov">          0 :                         throw std::runtime_error(&quot;InterpolationType: unknown interpolation type&quot;);</span></a>
+<a name="247"><span class="lineNum">     247 </span>            :                 }</a>
+<a name="248"><span class="lineNum">     248 </span><span class="lineNoCov">          0 :         }</span></a>
+<a name="249"><span class="lineNum">     249 </span>            : </a>
+<a name="250"><span class="lineNum">     250 </span>            :         /** returns the position of the lower left front corner of the volume */</a>
+<a name="251"><span class="lineNum">     251 </span>            :         Vector3d getOrigin() const {</a>
+<a name="252"><span class="lineNum">     252 </span>            :                 return origin;</a>
+<a name="253"><span class="lineNum">     253 </span>            :         }</a>
+<a name="254"><span class="lineNum">     254 </span>            : </a>
+<a name="255"><span class="lineNum">     255 </span>            :         bool getClipVolume() const {</a>
+<a name="256"><span class="lineNum">     256 </span><span class="lineNoCov">          0 :                 return clipVolume;</span></a>
+<a name="257"><span class="lineNum">     257 </span>            :         }</a>
+<a name="258"><span class="lineNum">     258 </span>            : </a>
+<a name="259"><span class="lineNum">     259 </span>            :         size_t getNx() const {</a>
+<a name="260"><span class="lineNum">     260 </span><span class="lineCov">        728 :                 return Nx;</span></a>
+<a name="261"><span class="lineNum">     261 </span>            :         }</a>
+<a name="262"><span class="lineNum">     262 </span>            : </a>
+<a name="263"><span class="lineNum">     263 </span>            :         size_t getNy() const {</a>
+<a name="264"><span class="lineNum">     264 </span><span class="lineCov">      41792 :                 return Ny;</span></a>
+<a name="265"><span class="lineNum">     265 </span>            :         }</a>
+<a name="266"><span class="lineNum">     266 </span>            : </a>
+<a name="267"><span class="lineNum">     267 </span>            :         size_t getNz() const {</a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">    2663721 :                 return Nz;</span></a>
+<a name="269"><span class="lineNum">     269 </span>            :         }</a>
+<a name="270"><span class="lineNum">     270 </span>            : </a>
+<a name="271"><span class="lineNum">     271 </span>            :         /** Calculates the total size of the grid in bytes */</a>
+<a name="272"><span class="lineNum">     272 </span>            :         size_t getSizeOf() const {</a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineNoCov">          0 :                 return sizeof(grid) + (sizeof(grid[0]) * grid.size());</span></a>
+<a name="274"><span class="lineNum">     274 </span>            :         }</a>
+<a name="275"><span class="lineNum">     275 </span>            : </a>
+<a name="276"><span class="lineNum">     276 </span>            :         Vector3d getSpacing() const {</a>
+<a name="277"><span class="lineNum">     277 </span>            :                 return spacing;</a>
+<a name="278"><span class="lineNum">     278 </span>            :         }</a>
+<a name="279"><span class="lineNum">     279 </span>            : </a>
+<a name="280"><span class="lineNum">     280 </span>            :         bool isReflective() const {</a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineNoCov">          0 :                 return reflective;</span></a>
+<a name="282"><span class="lineNum">     282 </span>            :         }</a>
+<a name="283"><span class="lineNum">     283 </span>            : </a>
+<a name="284"><span class="lineNum">     284 </span>            :         /** Choose the interpolation algorithm based on the set interpolation type.</a>
+<a name="285"><span class="lineNum">     285 </span>            :           By default this it the trilinear interpolation. The user can change the</a>
+<a name="286"><span class="lineNum">     286 </span>            :           routine with the setInterpolationType function.*/</a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">     100091 :         T interpolate(const Vector3d &amp;position) {</span></a>
+<a name="288"><span class="lineNum">     288 </span>            :                 // check for volume</a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">     100091 :                 if (clipVolume) {</span></a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineCov">          5 :                         Vector3d edge = origin + Vector3d(Nx, Ny, Nz) * spacing;</span></a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineCov">          5 :                         bool isInVolume = (position.x &gt;= origin.x) &amp;&amp; (position.x &lt;= edge.x);</span></a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">          5 :                         isInVolume &amp;= (position.y &gt;= origin.y) &amp;&amp; (position.y &lt;= edge.y);</span></a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">          5 :                         isInVolume &amp;= (position.z &gt;= origin.z) &amp;&amp; (position.z &lt;= edge.z);</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          5 :                         if (!isInVolume) </span></a>
+<a name="295"><span class="lineNum">     295 </span>            :                                 return T(0.);</a>
+<a name="296"><span class="lineNum">     296 </span>            :                 } </a>
+<a name="297"><span class="lineNum">     297 </span>            : </a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">     100086 :                 if (ipolType == TRICUBIC)</span></a>
+<a name="299"><span class="lineNum">     299 </span><span class="lineCov">         18 :                         return tricubicInterpolate(T(), position);</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">     100068 :                 else if (ipolType == NEAREST_NEIGHBOUR)</span></a>
+<a name="301"><span class="lineNum">     301 </span><span class="lineCov">         13 :                         return closestValue(position);</span></a>
+<a name="302"><span class="lineNum">     302 </span>            :                 else</a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">     100055 :                         return trilinearInterpolate(position);</span></a>
+<a name="304"><span class="lineNum">     304 </span>            :         }</a>
+<a name="305"><span class="lineNum">     305 </span>            : </a>
+<a name="306"><span class="lineNum">     306 </span>            :         /** Inspector &amp; Mutator */</a>
+<a name="307"><span class="lineNum">     307 </span>            :         T &amp;get(size_t ix, size_t iy, size_t iz) {</a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">    8391022 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></a>
+<a name="309"><span class="lineNum">     309 </span>            :         }</a>
+<a name="310"><span class="lineNum">     310 </span>            : </a>
+<a name="311"><span class="lineNum">     311 </span>            :         /** Inspector */</a>
+<a name="312"><span class="lineNum">     312 </span>            :         const T &amp;get(size_t ix, size_t iy, size_t iz) const {</a>
+<a name="313"><span class="lineNum">     313 </span><span class="lineCov">     100072 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></a>
+<a name="314"><span class="lineNum">     314 </span>            :         }</a>
+<a name="315"><span class="lineNum">     315 </span>            : </a>
+<a name="316"><span class="lineNum">     316 </span>            :         const T &amp;periodicGet(size_t ix, size_t iy, size_t iz) const {</a>
+<a name="317"><span class="lineNum">     317 </span><span class="lineCov">        192 :                 ix = periodicBoundary(ix, Nx);</span></a>
+<a name="318"><span class="lineNum">     318 </span><span class="lineCov">        192 :                 iy = periodicBoundary(iy, Ny);</span></a>
+<a name="319"><span class="lineNum">     319 </span><span class="lineCov">        192 :                 iz = periodicBoundary(iz, Nz);</span></a>
+<a name="320"><span class="lineNum">     320 </span><span class="lineCov">        192 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></a>
+<a name="321"><span class="lineNum">     321 </span>            :         }</a>
+<a name="322"><span class="lineNum">     322 </span>            : </a>
+<a name="323"><span class="lineNum">     323 </span><span class="lineNoCov">          0 :         const T &amp;reflectiveGet(size_t ix, size_t iy, size_t iz) const {</span></a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineNoCov">          0 :                 ix = reflectiveBoundary(ix, Nx);</span></a>
+<a name="325"><span class="lineNum">     325 </span><span class="lineNoCov">          0 :                 iy = reflectiveBoundary(iy, Ny);</span></a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineNoCov">          0 :                 iz = reflectiveBoundary(iz, Nz);</span></a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineNoCov">          0 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></a>
+<a name="328"><span class="lineNum">     328 </span>            :         }</a>
+<a name="329"><span class="lineNum">     329 </span>            : </a>
+<a name="330"><span class="lineNum">     330 </span>            :         T getValue(size_t ix, size_t iy, size_t iz) {</a>
+<a name="331"><span class="lineNum">     331 </span><span class="lineNoCov">          0 :                 return grid[ix * Ny * Nz + iy * Nz + iz];</span></a>
+<a name="332"><span class="lineNum">     332 </span>            :         }</a>
+<a name="333"><span class="lineNum">     333 </span>            : </a>
+<a name="334"><span class="lineNum">     334 </span>            :         void setValue(size_t ix, size_t iy, size_t iz, T value) {</a>
+<a name="335"><span class="lineNum">     335 </span><span class="lineNoCov">          0 :                 grid[ix * Ny * Nz + iy * Nz + iz] = value;</span></a>
+<a name="336"><span class="lineNum">     336 </span>            :         }</a>
+<a name="337"><span class="lineNum">     337 </span>            : </a>
+<a name="338"><span class="lineNum">     338 </span>            :         /** Return a reference to the grid values */</a>
+<a name="339"><span class="lineNum">     339 </span>            :         std::vector&lt;T&gt; &amp;getGrid() {</a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">      10102 :                 return grid;</span></a>
+<a name="341"><span class="lineNum">     341 </span>            :         }</a>
+<a name="342"><span class="lineNum">     342 </span>            : </a>
+<a name="343"><span class="lineNum">     343 </span>            :         /** Position of the grid point of a given index */</a>
+<a name="344"><span class="lineNum">     344 </span><span class="lineCov">      10103 :         Vector3d positionFromIndex(int index) const {</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">      10103 :                 int ix = index / (Ny * Nz);</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">      10103 :                 int iy = (index / Nz) % Ny;</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">      10103 :                 int iz = index % Nz;</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">      10103 :                 return Vector3d(ix, iy, iz) * spacing + gridOrigin;</span></a>
+<a name="349"><span class="lineNum">     349 </span>            :         }</a>
+<a name="350"><span class="lineNum">     350 </span>            : </a>
+<a name="351"><span class="lineNum">     351 </span>            :         /** Value of a grid point that is closest to a given position / nearest neighbour interpolation */</a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">         17 :         T closestValue(const Vector3d &amp;position) const {</span></a>
+<a name="353"><span class="lineNum">     353 </span>            :                 Vector3d r = (position - gridOrigin) / spacing;</a>
+<a name="354"><span class="lineNum">     354 </span>            :                 int ix, iy, iz;</a>
+<a name="355"><span class="lineNum">     355 </span><span class="lineCov">         17 :                 if (reflective) {</span></a>
+<a name="356"><span class="lineNum">     356 </span><span class="lineCov">          6 :                         ix = round(r.x);</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">          6 :                         iy = round(r.y);</span></a>
+<a name="358"><span class="lineNum">     358 </span><span class="lineCov">          6 :                         iz = round(r.z);</span></a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineCov">          9 :                         while ((ix &lt; -0.5) or (ix &gt; (Nx-0.5)))</span></a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineCov">          3 :                                 ix = 2 * Nx * (ix &gt; (Nx-0.5)) - ix-1;</span></a>
+<a name="361"><span class="lineNum">     361 </span><span class="lineCov">         11 :                         while ((iy &lt; -0.5) or (iy &gt; (Ny-0.5)))</span></a>
+<a name="362"><span class="lineNum">     362 </span><span class="lineCov">          5 :                                 iy = 2 * Ny * (iy &gt; (Ny-0.5)) - iy-1;</span></a>
+<a name="363"><span class="lineNum">     363 </span><span class="lineCov">          9 :                         while ((iz &lt; -0.5) or (iz &gt; (Nz-0.5)))</span></a>
+<a name="364"><span class="lineNum">     364 </span><span class="lineCov">          3 :                                 iz = 2 * Nz * (iz &gt; (Nz-0.5)) - iz-1;</span></a>
+<a name="365"><span class="lineNum">     365 </span>            :                 } else {</a>
+<a name="366"><span class="lineNum">     366 </span><span class="lineCov">         11 :                         ix = round(fmod(r.x, Nx));</span></a>
+<a name="367"><span class="lineNum">     367 </span><span class="lineCov">         11 :                         iy = round(fmod(r.y, Ny));</span></a>
+<a name="368"><span class="lineNum">     368 </span><span class="lineCov">         11 :                         iz = round(fmod(r.z, Nz));</span></a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineCov">         11 :                         ix = (ix + Nx * (ix &lt; 0)) % Nx;</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineCov">         11 :                         iy = (iy + Ny * (iy &lt; 0)) % Ny;</span></a>
+<a name="371"><span class="lineNum">     371 </span><span class="lineCov">         11 :                         iz = (iz + Nz * (iz &lt; 0)) % Nz;</span></a>
+<a name="372"><span class="lineNum">     372 </span>            :                 }</a>
+<a name="373"><span class="lineNum">     373 </span><span class="lineCov">         17 :                 return get(ix, iy, iz);</span></a>
+<a name="374"><span class="lineNum">     374 </span>            :         }</a>
+<a name="375"><span class="lineNum">     375 </span>            : </a>
+<a name="376"><span class="lineNum">     376 </span>            : private:</a>
+<a name="377"><span class="lineNum">     377 </span>            :         #ifdef HAVE_SIMD</a>
+<a name="378"><span class="lineNum">     378 </span>            :         __m128 simdperiodicGet(size_t ix, size_t iy, size_t iz) const {</a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">        576 :                 ix = periodicBoundary(ix, Nx);</span></a>
+<a name="380"><span class="lineNum">     380 </span><span class="lineCov">        576 :                 iy = periodicBoundary(iy, Ny);</span></a>
+<a name="381"><span class="lineNum">     381 </span><span class="lineCov">        576 :                 iz = periodicBoundary(iz, Nz);</span></a>
+<a name="382"><span class="lineNum">     382 </span><span class="lineCov">        576 :                 return convertVector3fToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);</span></a>
+<a name="383"><span class="lineNum">     383 </span>            :         }</a>
+<a name="384"><span class="lineNum">     384 </span>            : </a>
+<a name="385"><span class="lineNum">     385 </span><span class="lineCov">        384 :         __m128 simdreflectiveGet(size_t ix, size_t iy, size_t iz) const {</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">        384 :                 ix = reflectiveBoundary(ix, Nx);</span></a>
+<a name="387"><span class="lineNum">     387 </span><span class="lineCov">        384 :                 iy = reflectiveBoundary(iy, Ny);</span></a>
+<a name="388"><span class="lineNum">     388 </span><span class="lineCov">        384 :                 iz = reflectiveBoundary(iz, Nz);</span></a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">        384 :                 return convertVector3fToSimd(grid[ix * Ny * Nz + iy * Nz + iz]);</span></a>
+<a name="390"><span class="lineNum">     390 </span>            :         }</a>
+<a name="391"><span class="lineNum">     391 </span>            : </a>
+<a name="392"><span class="lineNum">     392 </span>            :         __m128 convertVector3fToSimd(const Vector3f v) const {</a>
+<a name="393"><span class="lineNum">     393 </span>            :                 __m128 simdVar = _mm_set_ps(0,v.z,v.y,v.x);</a>
+<a name="394"><span class="lineNum">     394 </span>            :                 return simdVar;</a>
+<a name="395"><span class="lineNum">     395 </span>            :         }</a>
+<a name="396"><span class="lineNum">     396 </span>            :         </a>
+<a name="397"><span class="lineNum">     397 </span>            :         Vector3f convertSimdToVector3f(__m128 res) const {</a>
+<a name="398"><span class="lineNum">     398 </span>            :                 float vec[4];   </a>
+<a name="399"><span class="lineNum">     399 </span>            :                 _mm_store_ps(&amp;vec[0], res);</a>
+<a name="400"><span class="lineNum">     400 </span>            :                 Vector3f result = Vector3f(vec[0], vec[1], vec[2]);</a>
+<a name="401"><span class="lineNum">     401 </span>            :                 return result;</a>
+<a name="402"><span class="lineNum">     402 </span>            :         }</a>
+<a name="403"><span class="lineNum">     403 </span>            : </a>
+<a name="404"><span class="lineNum">     404 </span>            :         /** Vectorized cubic Interpolator in 1D */</a>
+<a name="405"><span class="lineNum">     405 </span>            :         __m128 CubicInterpolate(__m128 p0,__m128 p1,__m128 p2,__m128 p3,double position) const {</a>
+<a name="406"><span class="lineNum">     406 </span>            :                 __m128 c1 = _mm_set1_ps (1/2.);</a>
+<a name="407"><span class="lineNum">     407 </span>            :                 __m128 c2 = _mm_set1_ps (3/2.);</a>
+<a name="408"><span class="lineNum">     408 </span>            :                 __m128 c3 = _mm_set1_ps (2.);</a>
+<a name="409"><span class="lineNum">     409 </span>            :                 __m128 c4 = _mm_set1_ps (5/2.);</a>
+<a name="410"><span class="lineNum">     410 </span>            : </a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">        315 :                 __m128 pos  = _mm_set1_ps (position);</span></a>
+<a name="412"><span class="lineNum">     412 </span><span class="lineCov">        315 :                 __m128 pos2 = _mm_set1_ps (position*position);</span></a>
+<a name="413"><span class="lineNum">     413 </span><span class="lineCov">        300 :                 __m128 pos3 = _mm_set1_ps (position*position*position);</span></a>
+<a name="414"><span class="lineNum">     414 </span>            : </a>
+<a name="415"><span class="lineNum">     415 </span>            :                 /** SIMD optimized routine to calculate 'res = ((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);'</a>
+<a name="416"><span class="lineNum">     416 </span>            :                          where terms are used as:</a>
+<a name="417"><span class="lineNum">     417 </span>            :                         term = (-0.5*p0+0.5*p2)*pos</a>
+<a name="418"><span class="lineNum">     418 </span>            :                         term2 = (p0-5/2.*p1+p2*2-0.5*p3)*pos*pos;</a>
+<a name="419"><span class="lineNum">     419 </span>            :                         term3 = (-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos;  */</a>
+<a name="420"><span class="lineNum">     420 </span>            :                 __m128 term = _mm_mul_ps(_mm_sub_ps(_mm_mul_ps(c1,p2),_mm_mul_ps(c1,p0)),pos);</a>
+<a name="421"><span class="lineNum">     421 </span>            :                 __m128 term2 = _mm_mul_ps(_mm_sub_ps(_mm_add_ps(p0,_mm_mul_ps(c3,p2)),_mm_add_ps(_mm_mul_ps(c4,p1),_mm_mul_ps(c1,p3))),pos2);</a>
+<a name="422"><span class="lineNum">     422 </span>            :                 __m128 term3 = _mm_mul_ps(_mm_sub_ps(_mm_add_ps(_mm_mul_ps(c2,p1),_mm_mul_ps(c1,p3)),_mm_add_ps(_mm_mul_ps(c1,p0),_mm_mul_ps(c2,p2))),pos3);</a>
+<a name="423"><span class="lineNum">     423 </span>            :                 __m128 res = _mm_add_ps(_mm_add_ps(_mm_add_ps(term3,term2),term),p1);</a>
+<a name="424"><span class="lineNum">     424 </span>            :                 return res;</a>
+<a name="425"><span class="lineNum">     425 </span>            :         }</a>
+<a name="426"><span class="lineNum">     426 </span>            :         #endif // HAVE_SIMD</a>
+<a name="427"><span class="lineNum">     427 </span>            :         /** Interpolate the grid tricubic at a given position (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */</a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">         15 :         Vector3f tricubicInterpolate(Vector3f, const Vector3d &amp;position) const {</span></a>
+<a name="429"><span class="lineNum">     429 </span>            :                 #ifdef HAVE_SIMD</a>
+<a name="430"><span class="lineNum">     430 </span>            :                 // position on a unit grid</a>
+<a name="431"><span class="lineNum">     431 </span>            :                 Vector3d r = (position - gridOrigin) / spacing;</a>
+<a name="432"><span class="lineNum">     432 </span>            : </a>
+<a name="433"><span class="lineNum">     433 </span>            :                 int iX0, iY0, iZ0;</a>
+<a name="434"><span class="lineNum">     434 </span><span class="lineCov">         15 :                 iX0 = floor(r.x);</span></a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">         15 :                 iY0 = floor(r.y);</span></a>
+<a name="436"><span class="lineNum">     436 </span><span class="lineCov">         15 :                 iZ0 = floor(r.z);</span></a>
+<a name="437"><span class="lineNum">     437 </span>            : </a>
+<a name="438"><span class="lineNum">     438 </span>            :                 double fX, fY, fZ;</a>
+<a name="439"><span class="lineNum">     439 </span><span class="lineCov">         15 :                 fX = r.x - iX0;</span></a>
+<a name="440"><span class="lineNum">     440 </span><span class="lineCov">         15 :                 fY = r.y - iY0;</span></a>
+<a name="441"><span class="lineNum">     441 </span><span class="lineCov">         15 :                 fZ = r.z - iZ0;</span></a>
+<a name="442"><span class="lineNum">     442 </span>            : </a>
+<a name="443"><span class="lineNum">     443 </span>            :                 int nrCubicInterpolations = 4;</a>
+<a name="444"><span class="lineNum">     444 </span><span class="lineCov">         15 :                 __m128 interpolateVaryX[nrCubicInterpolations];</span></a>
+<a name="445"><span class="lineNum">     445 </span><span class="lineCov">         15 :                 __m128 interpolateVaryY[nrCubicInterpolations];</span></a>
+<a name="446"><span class="lineNum">     446 </span><span class="lineCov">         15 :                 __m128 interpolateVaryZ[nrCubicInterpolations];</span></a>
+<a name="447"><span class="lineNum">     447 </span>            :                 /** Perform 1D interpolations while iterating in each for loop over the index of another direction */</a>
+<a name="448"><span class="lineNum">     448 </span><span class="lineCov">         75 :                 for (int iLoopX = -1; iLoopX &lt; nrCubicInterpolations-1; iLoopX++) {</span></a>
+<a name="449"><span class="lineNum">     449 </span><span class="lineCov">        300 :                         for (int iLoopY = -1; iLoopY &lt; nrCubicInterpolations-1; iLoopY++) {</span></a>
+<a name="450"><span class="lineNum">     450 </span><span class="lineCov">       1200 :                                 for (int iLoopZ = -1; iLoopZ &lt; nrCubicInterpolations-1; iLoopZ++) {</span></a>
+<a name="451"><span class="lineNum">     451 </span><span class="lineCov">        960 :                                         if (reflective)</span></a>
+<a name="452"><span class="lineNum">     452 </span><span class="lineCov">        384 :                                                 interpolateVaryZ[iLoopZ+1] = simdreflectiveGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);</span></a>
+<a name="453"><span class="lineNum">     453 </span>            :                                         else </a>
+<a name="454"><span class="lineNum">     454 </span><span class="lineCov">        576 :                                                 interpolateVaryZ[iLoopZ+1] = simdperiodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);</span></a>
+<a name="455"><span class="lineNum">     455 </span>            :                                 }</a>
+<a name="456"><span class="lineNum">     456 </span><span class="lineCov">        240 :                                 interpolateVaryY[iLoopY+1] = CubicInterpolate(interpolateVaryZ[0], interpolateVaryZ[1], interpolateVaryZ[2], interpolateVaryZ[3], fZ);</span></a>
+<a name="457"><span class="lineNum">     457 </span>            :                         }</a>
+<a name="458"><span class="lineNum">     458 </span><span class="lineCov">         60 :                         interpolateVaryX[iLoopX+1] = CubicInterpolate(interpolateVaryY[0], interpolateVaryY[1], interpolateVaryY[2], interpolateVaryY[3], fY);</span></a>
+<a name="459"><span class="lineNum">     459 </span>            :                 }</a>
+<a name="460"><span class="lineNum">     460 </span><span class="lineCov">         15 :                 __m128 result = CubicInterpolate(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);</span></a>
+<a name="461"><span class="lineNum">     461 </span><span class="lineCov">         15 :                 return convertSimdToVector3f(result);</span></a>
+<a name="462"><span class="lineNum">     462 </span>            :                 #else // HAVE_SIMD</a>
+<a name="463"><span class="lineNum">     463 </span>            :                 throw std::runtime_error( &quot;Tried to use tricubic Interpolation without SIMD_EXTENSION. SIMD Optimization is necessary for tricubic interpolation of vector grids.\n&quot;);</a>
+<a name="464"><span class="lineNum">     464 </span>            :                 #endif // HAVE_SIMD     </a>
+<a name="465"><span class="lineNum">     465 </span><span class="lineCov">         15 :         }</span></a>
+<a name="466"><span class="lineNum">     466 </span>            : </a>
+<a name="467"><span class="lineNum">     467 </span>            :         /** Vectorized cubic Interpolator in 1D that returns a scalar (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */</a>
+<a name="468"><span class="lineNum">     468 </span><span class="lineCov">         63 :         double CubicInterpolateScalar(double p0,double p1,double p2,double p3,double pos) const {</span></a>
+<a name="469"><span class="lineNum">     469 </span><span class="lineCov">         63 :                 return((-0.5*p0+3/2.*p1-3/2.*p2+0.5*p3)*pos*pos*pos+(p0-5/2.*p1+p2*2-0.5*p3)*pos*pos+(-0.5*p0+0.5*p2)*pos+p1);</span></a>
+<a name="470"><span class="lineNum">     470 </span>            :         }</a>
+<a name="471"><span class="lineNum">     471 </span>            : </a>
+<a name="472"><span class="lineNum">     472 </span>            :   /** Interpolate the grid tricubic at a given position (see https://www.paulinternet.nl/?page=bicubic, http://graphics.cs.cmu.edu/nsp/course/15-462/Fall04/assts/catmullRom.pdf) */</a>
+<a name="473"><span class="lineNum">     473 </span><span class="lineCov">          3 :         double tricubicInterpolate(double, const Vector3d &amp;position) const {</span></a>
+<a name="474"><span class="lineNum">     474 </span>            :                 /** position on a unit grid */</a>
+<a name="475"><span class="lineNum">     475 </span>            :                 Vector3d r = (position - gridOrigin) / spacing;</a>
+<a name="476"><span class="lineNum">     476 </span>            : </a>
+<a name="477"><span class="lineNum">     477 </span>            :                 int iX0, iY0, iZ0;</a>
+<a name="478"><span class="lineNum">     478 </span><span class="lineCov">          3 :                 iX0 = floor(r.x);</span></a>
+<a name="479"><span class="lineNum">     479 </span><span class="lineCov">          3 :                 iY0 = floor(r.y);</span></a>
+<a name="480"><span class="lineNum">     480 </span><span class="lineCov">          3 :                 iZ0 = floor(r.z);</span></a>
+<a name="481"><span class="lineNum">     481 </span>            : </a>
+<a name="482"><span class="lineNum">     482 </span>            :                 double fX, fY, fZ;</a>
+<a name="483"><span class="lineNum">     483 </span><span class="lineCov">          3 :                 fX = r.x - iX0;</span></a>
+<a name="484"><span class="lineNum">     484 </span><span class="lineCov">          3 :                 fY = r.y - iY0;</span></a>
+<a name="485"><span class="lineNum">     485 </span><span class="lineCov">          3 :                 fZ = r.z - iZ0;</span></a>
+<a name="486"><span class="lineNum">     486 </span>            : </a>
+<a name="487"><span class="lineNum">     487 </span>            :                 int nrCubicInterpolations = 4;</a>
+<a name="488"><span class="lineNum">     488 </span><span class="lineCov">          3 :                 double interpolateVaryX[nrCubicInterpolations];</span></a>
+<a name="489"><span class="lineNum">     489 </span><span class="lineCov">          3 :                 double interpolateVaryY[nrCubicInterpolations];</span></a>
+<a name="490"><span class="lineNum">     490 </span><span class="lineCov">          3 :                 double interpolateVaryZ[nrCubicInterpolations];</span></a>
+<a name="491"><span class="lineNum">     491 </span>            :                 /** Perform 1D interpolations while iterating in each for loop over the index of another direction */</a>
+<a name="492"><span class="lineNum">     492 </span><span class="lineCov">         15 :                 for (int iLoopX = -1; iLoopX &lt; nrCubicInterpolations-1; iLoopX++) {</span></a>
+<a name="493"><span class="lineNum">     493 </span><span class="lineCov">         60 :                         for (int iLoopY = -1; iLoopY &lt; nrCubicInterpolations-1; iLoopY++) {</span></a>
+<a name="494"><span class="lineNum">     494 </span><span class="lineCov">        240 :                                 for (int iLoopZ = -1; iLoopZ &lt; nrCubicInterpolations-1; iLoopZ++) {</span></a>
+<a name="495"><span class="lineNum">     495 </span><span class="lineCov">        192 :                                         if (reflective)</span></a>
+<a name="496"><span class="lineNum">     496 </span><span class="lineNoCov">          0 :                                                 interpolateVaryZ[iLoopZ+1] = reflectiveGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);</span></a>
+<a name="497"><span class="lineNum">     497 </span>            :                                         else</a>
+<a name="498"><span class="lineNum">     498 </span><span class="lineCov">        192 :                                                 interpolateVaryZ[iLoopZ+1] = periodicGet(iX0+iLoopX, iY0+iLoopY, iZ0+iLoopZ);</span></a>
+<a name="499"><span class="lineNum">     499 </span>            :                                 }</a>
+<a name="500"><span class="lineNum">     500 </span><span class="lineCov">         48 :                                 interpolateVaryY[iLoopY+1] = CubicInterpolateScalar(interpolateVaryZ[0], interpolateVaryZ[1], interpolateVaryZ[2], interpolateVaryZ[3], fZ);</span></a>
+<a name="501"><span class="lineNum">     501 </span>            :                         }</a>
+<a name="502"><span class="lineNum">     502 </span><span class="lineCov">         12 :                         interpolateVaryX[iLoopX+1] = CubicInterpolateScalar(interpolateVaryY[0], interpolateVaryY[1], interpolateVaryY[2], interpolateVaryY[3], fY);</span></a>
+<a name="503"><span class="lineNum">     503 </span>            :                 }</a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">          3 :                 double result = CubicInterpolateScalar(interpolateVaryX[0], interpolateVaryX[1], interpolateVaryX[2], interpolateVaryX[3], fX);</span></a>
+<a name="505"><span class="lineNum">     505 </span><span class="lineCov">          3 :                 return result;</span></a>
+<a name="506"><span class="lineNum">     506 </span><span class="lineCov">          3 :         }</span></a>
+<a name="507"><span class="lineNum">     507 </span>            : </a>
+<a name="508"><span class="lineNum">     508 </span>            :         /** Interpolate the grid trilinear at a given position */</a>
+<a name="509"><span class="lineNum">     509 </span><span class="lineCov">     100055 :         T trilinearInterpolate(const Vector3d &amp;position) const {</span></a>
+<a name="510"><span class="lineNum">     510 </span>            :                 /** position on a unit grid */</a>
+<a name="511"><span class="lineNum">     511 </span>            :                 Vector3d r = (position - gridOrigin) / spacing;</a>
+<a name="512"><span class="lineNum">     512 </span>            : </a>
+<a name="513"><span class="lineNum">     513 </span>            :                 /** indices of lower (0) and upper (1) neighbours. The neighbours span a grid</a>
+<a name="514"><span class="lineNum">     514 </span>            :                   with the origin at [iX0, iY0, iZ0] and the most distant corner [iX1, iY1, iZ1]. */</a>
+<a name="515"><span class="lineNum">     515 </span>            :                 int iX0, iX1, iY0, iY1, iZ0, iZ1;</a>
+<a name="516"><span class="lineNum">     516 </span>            :                 double resX, resY, resZ, fX0, fY0, fZ0;</a>
+<a name="517"><span class="lineNum">     517 </span>            : </a>
+<a name="518"><span class="lineNum">     518 </span><span class="lineCov">     100055 :                 if (reflective) {</span></a>
+<a name="519"><span class="lineNum">     519 </span><span class="lineCov">          6 :                         reflectiveClamp(r.x, Nx, iX0, iX1, resX);</span></a>
+<a name="520"><span class="lineNum">     520 </span><span class="lineCov">          6 :                         reflectiveClamp(r.y, Ny, iY0, iY1, resY);</span></a>
+<a name="521"><span class="lineNum">     521 </span><span class="lineCov">          6 :                         reflectiveClamp(r.z, Nz, iZ0, iZ1, resZ);</span></a>
+<a name="522"><span class="lineNum">     522 </span><span class="lineCov">          6 :                         fX0 = resX - floor(resX);</span></a>
+<a name="523"><span class="lineNum">     523 </span><span class="lineCov">          6 :                         fY0 = resY - floor(resY);</span></a>
+<a name="524"><span class="lineNum">     524 </span><span class="lineCov">          6 :                         fZ0 = resZ - floor(resZ);</span></a>
+<a name="525"><span class="lineNum">     525 </span>            :                 } else {</a>
+<a name="526"><span class="lineNum">     526 </span><span class="lineCov">     100049 :                         periodicClamp(r.x, Nx, iX0, iX1);</span></a>
+<a name="527"><span class="lineNum">     527 </span><span class="lineCov">     100049 :                         periodicClamp(r.y, Ny, iY0, iY1);</span></a>
+<a name="528"><span class="lineNum">     528 </span><span class="lineCov">     100049 :                         periodicClamp(r.z, Nz, iZ0, iZ1);</span></a>
+<a name="529"><span class="lineNum">     529 </span><span class="lineCov">     100049 :                         fX0 = r.x - floor(r.x);</span></a>
+<a name="530"><span class="lineNum">     530 </span><span class="lineCov">     100049 :                         fY0 = r.y - floor(r.y);</span></a>
+<a name="531"><span class="lineNum">     531 </span><span class="lineCov">     100049 :                         fZ0 = r.z - floor(r.z);</span></a>
+<a name="532"><span class="lineNum">     532 </span>            :                 }</a>
+<a name="533"><span class="lineNum">     533 </span>            : </a>
+<a name="534"><span class="lineNum">     534 </span>            :                 /** linear fraction to upper neighbours based on lower neighbours calculated above */</a>
+<a name="535"><span class="lineNum">     535 </span><span class="lineCov">     100055 :                 double fX1 = 1 - fX0;</span></a>
+<a name="536"><span class="lineNum">     536 </span><span class="lineCov">     100055 :                 double fY1 = 1 - fY0;</span></a>
+<a name="537"><span class="lineNum">     537 </span><span class="lineCov">     100055 :                 double fZ1 = 1 - fZ0;</span></a>
+<a name="538"><span class="lineNum">     538 </span>            : </a>
+<a name="539"><span class="lineNum">     539 </span>            :                 /** trilinear interpolation (see http://paulbourke.net/miscellaneous/interpolation) */</a>
+<a name="540"><span class="lineNum">     540 </span>            :                 T b(0.);</a>
+<a name="541"><span class="lineNum">     541 </span><span class="lineCov">     100055 :                 b += get(iX0, iY0, iZ0) * fX1 * fY1 * fZ1;</span></a>
+<a name="542"><span class="lineNum">     542 </span><span class="lineCov">     100055 :                 b += get(iX1, iY0, iZ0) * fX0 * fY1 * fZ1;</span></a>
+<a name="543"><span class="lineNum">     543 </span><span class="lineCov">     100055 :                 b += get(iX0, iY1, iZ0) * fX1 * fY0 * fZ1;</span></a>
+<a name="544"><span class="lineNum">     544 </span><span class="lineCov">     100055 :                 b += get(iX0, iY0, iZ1) * fX1 * fY1 * fZ0;</span></a>
+<a name="545"><span class="lineNum">     545 </span><span class="lineCov">          9 :                 b += get(iX1, iY0, iZ1) * fX0 * fY1 * fZ0;</span></a>
+<a name="546"><span class="lineNum">     546 </span><span class="lineCov">          9 :                 b += get(iX0, iY1, iZ1) * fX1 * fY0 * fZ0;</span></a>
+<a name="547"><span class="lineNum">     547 </span><span class="lineCov">          9 :                 b += get(iX1, iY1, iZ0) * fX0 * fY0 * fZ1;</span></a>
+<a name="548"><span class="lineNum">     548 </span><span class="lineCov">          9 :                 b += get(iX1, iY1, iZ1) * fX0 * fY0 * fZ0;</span></a>
+<a name="549"><span class="lineNum">     549 </span>            : </a>
+<a name="550"><span class="lineNum">     550 </span><span class="lineCov">     100055 :                 return b;</span></a>
+<a name="551"><span class="lineNum">     551 </span>            :         }</a>
+<a name="552"><span class="lineNum">     552 </span>            : </a>
+<a name="553"><span class="lineNum">     553 </span>            : }; // class Grid</a>
+<a name="554"><span class="lineNum">     554 </span>            : </a>
+<a name="555"><span class="lineNum">     555 </span>            : typedef Grid&lt;double&gt; Grid1d;</a>
+<a name="556"><span class="lineNum">     556 </span>            : typedef Grid&lt;float&gt; Grid1f;</a>
+<a name="557"><span class="lineNum">     557 </span>            : typedef Grid&lt;Vector3f&gt; Grid3f;</a>
+<a name="558"><span class="lineNum">     558 </span>            : typedef Grid&lt;Vector3d&gt; Grid3d;</a>
+<a name="559"><span class="lineNum">     559 </span>            : </a>
+<a name="560"><span class="lineNum">     560 </span>            : /** @}*/</a>
+<a name="561"><span class="lineNum">     561 </span>            : </a>
+<a name="562"><span class="lineNum">     562 </span>            : } // namespace crpropa</a>
+<a name="563"><span class="lineNum">     563 </span>            : </a>
+<a name="564"><span class="lineNum">     564 </span>            : #endif // CRPROPA_GRID_H</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

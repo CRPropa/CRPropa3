@@ -13,6 +13,8 @@ lib/
 share/
 doc/api/
 
+!final_doc/ # needed for deployment of the documentation
+
 cmake/CMakeCache.txt
 cmake/CMakeFiles/
 

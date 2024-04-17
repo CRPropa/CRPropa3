@@ -1,0 +1,59 @@
+name: create-coverage-report
+on: [workflow_dispatch]
+
+jobs: 
+    create-coverage-report: 
+      runs-on: ubuntu-latest
+  
+      strategy:
+        fail-fast: false
+        matrix:
+          config:
+            - name: "ubuntu-22"
+              os: ubuntu-22.04
+              cxx: "g++-11"
+              cc: "gcc-11"
+              fc: "gfortran-11"
+              swig_builtin: "On" #uses swig 4.0.2
+              py: "/usr/bin/python3" #python 3.10
+      # define steps to take
+      steps: 
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Prerequirements
+          run: |
+            sudo apt-get update
+            sudo apt-get install libmuparser-dev libhdf5-serial-dev libomp5 libomp-dev libfftw3-dev libcfitsio-dev lcov doxygen graphviz
+            sudo apt-get install pandoc # do not only use pip to install pandoc, see https://stackoverflow.com/questions/62398231/building-docs-fails-due-to-missing-pandoc
+            pip install -r doc/pages/example_notebooks/requirements.txt # load requirements for notebooks
+            pip install sphinx==7.2.6 sphinx_rtd_theme m2r2 nbsphinx lxml_html_clean breathe pandoc exhale # load requirements for documentation
+        - name: Set up the build
+          env:
+            CXX: ${{ matrix.config.cxx }}
+            CC: ${{ matrix.config.cc }}
+            FC: ${{ matrix.config.fc }}
+          run: |
+            mkdir build
+            cd build
+            cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local -DENABLE_PYTHON=True -DPython_EXECUTABLE=${{ matrix.config.py }} -DENABLE_TESTING=On -DENABLE_SWIG_BUILTIN=${{ matrix.config.swig_builtin }} -DSIMD_EXTENSIONS=native -DPython_INSTALL_PACKAGE_DIR=/home/runner/.local/ -DBUILD_DOC=OFF -DENABLE_COVERAGE=On
+        - name: Build CRPropa
+          run: |
+            cd build
+            make -j
+        - name: run test
+          run: | 
+            cd build
+            make test
+          continue-on-error: true
+        - name: coverage report
+          run: |
+            cd build
+            make coverage
+            tar -zcvf coverage.tar.gz coverageReport
+        - name: archive documentation
+          uses: actions/upload-artifact@v4
+          with:
+            name: "coverage"
+            path: | 
+              build/coverage.tar.gz
+            

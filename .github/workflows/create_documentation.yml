@@ -50,17 +50,15 @@ jobs:
         run: |
           cd build
           make coverage
-          tar -zcvf coverage.tar.gz coverageReport
       - name: build documentation
         run: |
           cd build
           make doc
           cp -r coverageReport doc/pages/coverageReport
-          tar -zcvf documentation.tar.gz doc
+          tar -zcvf documentation.tar.gz doc  
       - name: archive documentation
         uses: actions/upload-artifact@v4
         with:
           name: "documentation"
           path: | 
             build/documentation.tar.gz
-            build/coverage.tar.gz

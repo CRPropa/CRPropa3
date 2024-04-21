@@ -55,8 +55,10 @@ void ParticleState::setId(int newId) {
 		if (id < 0)
 			charge *= -1; // anti-nucleus
 	} else {
-		if (abs(id) == 11)
+		if (abs(id) == 11) //electron or positron
 			pmass = mass_electron;
+		if (abs(id) == 22) //photon
+			pmass = 0.0;
 		charge = HepPID::charge(id) * eplus;
 	}
 }

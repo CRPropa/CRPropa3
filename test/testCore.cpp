@@ -903,6 +903,7 @@ TEST(Grid1f, DumpLoadTxtGridProperties) {
 	ref_ptr<Grid1f> grid = new Grid1f(Vector3d(0.5, 1.5, 2.5), 3, 2, 4, Vector3d(0.2, 1.2, 2.2)); 
 	grid -> setInterpolationType(TRICUBIC);
 	grid -> setReflective(true);
+	grid -> setClipVolume(true);
 
 	// set some values for the grid 
 	for (int ix = 0; ix < grid -> getNx(); ix++) {
@@ -922,6 +923,8 @@ TEST(Grid1f, DumpLoadTxtGridProperties) {
 	EXPECT_EQ(grid -> getNx(), loadedGrid -> getNx());
 	EXPECT_EQ(grid -> getNy(), loadedGrid -> getNy());
 	EXPECT_EQ(grid -> getNz(), loadedGrid -> getNz());
+
+	EXPECT_TRUE(loadedGrid -> getClipVolume());
 
 	Vector3d orig = grid -> getOrigin();
 	Vector3d loadedOrigin = loadedGrid -> getOrigin();
@@ -953,6 +956,7 @@ TEST(Grid3f, DumpLoadTxtGridProperties) {
 	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0.5, 1.5, 2.5), 3, 2, 4, Vector3d(0.2, 1.2, 2.2)); 
 	grid -> setInterpolationType(NEAREST_NEIGHBOUR);
 	grid -> setReflective(true);
+	grid -> setClipVolume(true);
 
 	// set some values for the grid 
 	for (int ix = 0; ix < grid -> getNx(); ix++) {
@@ -972,6 +976,8 @@ TEST(Grid3f, DumpLoadTxtGridProperties) {
 	EXPECT_EQ(grid -> getNx(), loadedGrid -> getNx());
 	EXPECT_EQ(grid -> getNy(), loadedGrid -> getNy());
 	EXPECT_EQ(grid -> getNz(), loadedGrid -> getNz());
+	
+	EXPECT_TRUE(loadedGrid -> getClipVolume());
 
 	Vector3d orig = grid -> getOrigin();
 	Vector3d loadedOrigin = loadedGrid -> getOrigin();

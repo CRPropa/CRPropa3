@@ -299,6 +299,11 @@ ref_ptr<Grid3f> loadGrid3fFromTxt(std::string filename, double c) {
 
 			// reflective
 			ss >> name >> gp.reflective;
+			
+			// clip volume
+			bool clip; 
+			ss >> name >> clip;
+			gp.setClipVolume(clip);
 
 			// interpolation type 
 			ss >> name >> type;
@@ -389,6 +394,11 @@ ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double c) {
 			// reflective
 			ss >> name >> gp.reflective;
 
+			// clip volume
+			bool clip; 
+			ss >> name >> clip;
+			gp.setClipVolume(clip);
+
 			// interpolation type 
 			ss >> name >> type;
 			if (type == "TRICUBIC")
@@ -426,6 +436,7 @@ void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c, bool sa
 			<< "\t" << "gridsize: " << grid -> getNx() << " " << grid -> getNy() << " " << grid -> getNz()
 			<< "\t" << "spacing: " << grid -> getSpacing ()
 			<< "\t" << "reflective: " << grid -> isReflective()
+			<< "\t" << "clipVolume: " << grid -> getClipVolume()
 			<< "\t" << "interpolation: " << grid -> getInterpolationTypeName() << "\n";
 	}
 
@@ -455,6 +466,7 @@ void dumpGridToTxt(ref_ptr<Grid1f> grid, std::string filename, double c, bool sa
 			<< "\t" << "gridsize: " << grid -> getNx() << " " << grid -> getNy() << " " << grid -> getNz()
 			<< "\t" << "spacing: " << grid -> getSpacing ()
 			<< "\t" << "reflective: " << grid -> isReflective()
+			<< "\t" << "clipVolume: " << grid -> getClipVolume()
 			<< "\t" << "interpolation: " << grid -> getInterpolationTypeName() << "\n";
 	}
 

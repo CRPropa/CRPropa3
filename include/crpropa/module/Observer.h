@@ -122,19 +122,6 @@ public:
 
 
 /**
- @class ObserverPoint
- @brief Detects particles when reaching x = 0
-
-Should be removed and replaced by Observer1D
- */
-class ObserverPoint: public ObserverFeature {
-public:
-	DetectionState checkDetection(Candidate *candidate) const;
-	std::string getDescription() const;
-};
-
-
-/**
  @class Observer1D
  @brief Detects particles when reaching x = 0
 

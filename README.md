@@ -1,9 +1,19 @@
-CRPropa3
+CRPropa
 ========
 
-[![Build status](https://github.com/crpropa/crpropa3/actions/workflows/testing.yml/badge.svg)](https://github.com/crpropa/crpropa3/actions/)
-[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
-[![Percentage of issues still open](https://isitmaintained.com/badge/open/CRPropa/CRPropa3.svg)](https://isitmaintained.com/project/CRPropa/CRPropa3)
+![stable release](https://img.shields.io/badge/stable\_release-3.2.1-darkblue)
+
+[![Build: ubuntu22](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu22.yml)
+[![Build: ubuntu20](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu20.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_ubuntu20.yml)
+[![Build: macos14](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_OSX.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/testing_OSX.yml)
+[![Examples](https://github.com/CRPropa/CRPropa3/actions/workflows/test_examples.yml/badge.svg)](https://github.com/CRPropa/CRPropa3/actions/workflows/test_examples.yml)
+
+![Issues](https://img.shields.io/github/issues/crpropa/CRPropa3)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/crpropa/CRPropa3)
+
+[![DOI:10.1088/1475-7516/2022/09/035](http://img.shields.io/badge/DOI-10.1088/1475-7516/2022/09/035.svg)](<https://doi.org/10.1088/1475-7516/2022/09/035>)
+[![arXiv](https://img.shields.io/badge/arXiv-2208.00107-b31b1b.svg)](https://arxiv.org/abs/2208.00107)
+[![ascl:2208.016](https://img.shields.io/badge/ascl-2208.016-blue.svg?colorB=262255)](https://ascl.net/2208.016)
 
 CRPropa is a publicly available simulation framework to study the propagation
 of ultra-high-energy nuclei up to iron on their voyage through an
@@ -61,3 +71,15 @@ as well as [additional publications](https://crpropa.github.io/CRPropa3/pages/ho
 An extensive list of publications using CRPropa can be found via
 [inSPIRE](https://inspirehep.net/search?ln=en&ln=en&p=refersto%3Arecid%3A1322902+or+refersto%3Arecid%3A1432676+or+refersto%3Arecid%3A1242078&of=hb&action_search=Search&sf=earliestdate&so=d&rm=&rg=25&sc=0).
 
+
+## Plugins
+Plugins are extensions of the core CRPropa framework, but they are not maintained by the CRPropa developer team. Instructions to install plugins can be found in the [documentation](https://crpropa.github.io/CRPropa3/pages/example_notebooks/extending-CRPropa/extending-CRPropa.html#Plugins:-Integrate-Custom-C++-Code-to-CRPropa%E2%80%99s-Python-Steering).
+
+Make sure to correctly cite the plugins when using them.
+
+| Name | Purpose | Link |
+| ---- | ------- | ---- |
+| FieldlineIntegrator | Magnetic Field Analysis | <https://github.com/lukasmerten/CRPropa_FieldLineIntegrator> |
+| grplinst | Plasma Instabilities | <https://github.com/rafaelab/grplinst> |
+| monopole | Magnetic Monopole Studies | https://github.com/chchristie/monopole/tree/main |
+| ROOTOutputPlugin | Output into root file format | https://github.com/CRPropa/ROOTOutputPlugin |

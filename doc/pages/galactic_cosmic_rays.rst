@@ -36,6 +36,25 @@ changes, which can be modeled following the next examples.
 .. toctree::
    example_notebooks/Diffusion/AdiabaticCooling.ipynb
 
+Diffusive Shock Acceleration
+^^^^^^^^^^^^^^^^^^
+
+Diffusive shock acceleration or first order Fermi acceleration can be modeled
+in the diffusive picture as an interplay between diffusion, advection and 
+adiabatic cooling. Simple shock configurations are shown in the following 
+example notebook.
+
+.. toctree::
+   example_notebooks/acceleration/diffusive_shock_acceleration.ipynb
+
+Momentum Diffusion 
+^^^^^^^^^^^^^^^^^^
+
+Momentum diffusion or second order Fermi acceleration is explained in the
+following example notebook.
+
+.. toctree::
+   example_notebooks/Diffusion/MomentumDiffusion.ipynb
 
 Example of diffusion in the Milky way
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

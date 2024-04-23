@@ -12,6 +12,6 @@ __REPR__( crpropa::Observer );
 __REPR__( crpropa::ObserverFeature );
 
 %pythoncode %{
-        __version__ = g_GIT_DESC
+  __version__ = g_GIT_DESC
 %}
 

@@ -122,7 +122,7 @@ public:
 		double c = cos(phi - log(r / rsol) / tanPitch + phase);
 		if (isBSS)
 			c = std::fabs(c);
-		b *= c * exp(std::fabs(pos.z) / z0);
+		b *= c * exp(-std::fabs(pos.z) / z0);
 
 		return Vector3d(cosPitch * cos(phi), sinPitch * sin(phi), 0) * b;
 	}

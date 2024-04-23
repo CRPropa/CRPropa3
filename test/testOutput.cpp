@@ -34,7 +34,6 @@ template <typename T, size_t size>
 namespace crpropa {
 
 //-- Output
-
 TEST(Output, size) {
 	Candidate c;
 	Output output;
@@ -44,7 +43,6 @@ TEST(Output, size) {
 }
 
 //-- TextOutput
-
 TEST(TextOutput, printHeader_Trajectory1D) {
 	Candidate c;
 	TextOutput output(Output::Trajectory1D);
@@ -64,7 +62,7 @@ TEST(TextOutput, printHeader_Event1D) {
 	output.process(&c);
 	std::string captured = testing::internal::GetCapturedStdout();
 
-	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tD\tID\tE\tID0\tE0\ttag");
+	EXPECT_EQ(captured.substr(0, captured.find("\n")), "#\tD\tID\tE\tID0\tE0");
 }
 
 TEST(TextOutput, printHeader_Trajectory3D) {
@@ -89,7 +87,7 @@ TEST(TextOutput, printHeader_Event3D) {
 
 	EXPECT_EQ(
 	    captured.substr(0, captured.find("\n")),
-	    "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z\ttag");
+	    "#\tD\tID\tE\tX\tY\tZ\tPx\tPy\tPz\tID0\tE0\tX0\tY0\tZ0\tP0x\tP0y\tP0z");
 }
 
 TEST(TextOutput, printHeader_Custom) {
@@ -99,6 +97,7 @@ TEST(TextOutput, printHeader_Custom) {
 	output.enable(Output::SerialNumberColumn);
 	output.disable(Output::TrajectoryLengthColumn);
 	output.set(Output::RedshiftColumn, false);
+	output.enable(Output::CandidateTagColumn);
 
 	::testing::internal::CaptureStdout();
 	output.process(&c);
@@ -138,13 +137,16 @@ TEST(TextOutput, printHeader_Version) {
 	          g_GIT_DESC);
 }
 
+#ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
 TEST(TextOutput, failOnIllegalOutputFile) {
 	EXPECT_THROW(
 	    TextOutput output("THIS_FOLDER_MUST_NOT_EXISTS_12345+/FILE.txt"),
 	    std::runtime_error);
 }
+#endif
 
 #ifdef CRPROPA_HAVE_HDF5
+#ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
 TEST(HDF5Output, failOnIllegalOutputFile) {
 	HDF5Output out;
 	// disable default error output of HDF5
@@ -153,9 +155,9 @@ TEST(HDF5Output, failOnIllegalOutputFile) {
 	             std::runtime_error);
 }
 #endif
+#endif
 
 //-- ParticleCollector
-
 TEST(ParticleCollector, size) {
 	ref_ptr<Candidate> c = new Candidate();
 	ParticleCollector output;

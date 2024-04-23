@@ -1,7 +1,7 @@
-CRPropa needs a number of data files to run. These include databases for nuclear mass and decay rates, interaction rates for photodisintegration, photo-pion production and electron-pair production, as well as the data files for DINT and EleCa.
+CRPropa needs a number of data files to run. These include databases for nuclear mass and decay rates, interaction rates for photodisintegration, photo-pion production and electron-pair production.
 The scripts and files that are used to prepare the data files are tracked by the [CRPropa3-data repository](https://github.com/CRPropa/CRPropa3-data).
 
-Since a git repository is not well suited to store these large files (and git-lfs is not free on GitHub), the data files are downloaded automatically during cmake configuration. In case you want to use a different photodisintegration model or want to download the default data file manually use the following [link](https://www.desy.de/~crpropa/data/interaction_data/) to the tarballs files and extract them to your install folder.
+Since a git repository is not well suited to store these large files (and git-lfs is not free on GitHub), the data files are downloaded automatically during cmake configuration. In case you want to use a different photodisintegration model or want to download the default data file manually use the following [link](https://ruhr-uni-bochum.sciebo.de/s/3juW9sntQX2IWBS) to the tarballs files and extract them to your install folder.
 
 **Default data files:** (data-YYYY-MM-DD.tar.gz where YYYY-MM-DD depends on the data files version)
 Contains interaction rates nuclei, electrons and photons and spectra of secondary particles from these interactions, as well as data on nuclear masses and decay rates.
@@ -21,7 +21,7 @@ $ ls data-YYYY-MM-DD.tar.gz | xargs -I{} sh -c 'md5sum "$1" > "$1-CHECKSUM"' -- 
 ```
 where **YYYY-MM-DD** can be obtained directly with `date +"%Y-%m-%d"`.
 
-To verify the integrity of the data files, a it is enough to download the checksum file in the same directory with the data file:
+To verify the integrity of the data files, it is enough to download the checksum file in the same directory with the data file:
 ```
 $ md5sum -c *-CHECKSUM
 ```

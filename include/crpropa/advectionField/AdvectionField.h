@@ -128,6 +128,110 @@ public:
 	std::string getDescription() const;
 };
 
+/**
+ @class OneDimensionalCartesianShock
+ @brief Advection field in x-direction with shock at x = 0 and width lShock approximated by tanh() 
+		with variable compression ratio vUp/vDown
+ */
+class OneDimensionalCartesianShock: public AdvectionField {
+	double compressionRatio; //compression ratio of shock
+	double vUp; //upstream velocity 
+	double lShock; //shock width
+public:
+/** Constructor
+	@param compressionRatio //compression ratio of shock
+	@param vUp //upstream velocity 
+	@param lShock //shock width
+*/
+	OneDimensionalCartesianShock(double compressionRatio, double vUp, double lShock);
+	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
+
+	void setComp(double compressionRatio);
+	void setVup(double vUp);
+	void setShockwidth(double lShock);
+
+	double getComp() const;
+	double getVup() const; 
+	double getShockwidth() const;
+
+	std::string getDescription() const;
+};
+
+/**
+ @class OneDimensionalSphericalShock
+ @brief Advection field in x-direction with shock at rShock and width lShock approximated by tanh() 
+		with variable compression ratio ratio vUp/vDown
+ */
+class OneDimensionalSphericalShock: public AdvectionField {
+	double compressionRatio; 	//compression ratio of shock
+	double vUp; 	//upstream velocity 
+	double lShock; 	//shock width
+	double rShock; 	//shock radius
+	bool coolUpstream; 	//flag for upstream cooling
+public:
+/** Constructor
+	@param compressionRatio	//compression ratio of shock
+	@param vUp 	//upstream velocity 
+	@param lShock 	//shock width
+	@param rShock 	//shock radius
+	@param coolUpstream //flag for upstream cooling
+*/
+	OneDimensionalSphericalShock(double rShock, double vUp, double compressionRatio, double lShock, bool coolUpstream);
+	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
+
+	void setComp(double compressionRatio);
+	void setVup(double vUp);
+	void setShockwidth(double lShock);
+	void setShockRadius(double rShock);
+	void setCooling(bool coolUpstream);
+
+	double getComp() const; 
+	double getVup() const;
+	double getShockwidth() const;
+	double getShockRadius() const;
+	bool getCooling() const;
+
+	std::string getDescription() const;
+};
+
+/**
+ @class ObliqueAdvectionShock
+ @brief Advection field in x-y-direction with shock at x = 0 and width x_sh approximated by tanh() 
+		with variable compression ratio r_comp = vx_up/vx_down. The y component vy is not shocked 
+		and remains constant. 
+ */
+class ObliqueAdvectionShock: public AdvectionField {
+	double compressionRatio; //compression ratio of shock
+	double vXUp; //upstream velocity x-component
+	double vY; //constant velocity y-component
+	double lShock; //shock width
+	
+public:
+/** Constructor
+	@param compressionRatio //compression ratio of shock
+	@param vXUp //upstream velocity x-component
+	@param vY //constant velocity y-component
+	@param lShock //shock width
+	
+*/
+	ObliqueAdvectionShock(double compressionRatio, double vXUp, double vY, double lShock);
+	Vector3d getField(const Vector3d &position) const;
+	double getDivergence(const Vector3d &position) const;
+
+	void setComp(double compressionRatio);
+	void setVup(double vXUp);
+	void setVy(double vY);
+	void setShockwidth(double lShock);
+
+	double getComp() const; 
+	double getVup() const;
+	double getVy() const;
+	double getShockwidth() const;
+	
+	std::string getDescription() const;
+};
 
 /**
  @class SphericalAdvectionShock
@@ -163,20 +267,20 @@ public:
 	void setR0(double r);
 	void setV0(double v);
 	void setLambda(double l);
-	/**
-	 * @param r Normalization radius for rotation speed
-	*/	
 	void setRRot(double r);
-	/**
-	 * @param vPhi 	Rotation speed at r_rot
-	*/	
 	void setAzimuthalSpeed(double vPhi);
 
 	Vector3d getOrigin() const;
 	double getR0() const;
 	double getV0() const;
 	double getLambda() const;
+	/**
+	 * @param r Normalization radius for rotation speed
+	*/	
 	double getRRot() const;
+	/**
+	 * @param vPhi 	Rotation speed at r_rot
+	*/	
 	double getAzimuthalSpeed() const;
 
 	std::string getDescription() const;

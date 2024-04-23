@@ -79,6 +79,7 @@ public:
 	Vector3d spacing; 	// Spacing vector between gridpoints
 	bool reflective;	// using reflective repetition of the grid instead of periodic
 	interpolationType ipol;	// Interpolation type used between grid points
+	bool clipVolume;	// Set grid values to 0 outside the volume if true
 
 	/** Constructor for cubic grid
 	 @param	origin	Position of the lower left front corner of the volume
@@ -86,7 +87,7 @@ public:
 	 @param spacing	Spacing between grid points
 	 */
 	GridProperties(Vector3d origin, size_t N, double spacing) :
-		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR) {
+		origin(origin), Nx(N), Ny(N), Nz(N), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR), clipVolume(false) {
 	}
 
 	/** Constructor for non-cubic grid
@@ -97,7 +98,7 @@ public:
 	 @param spacing	Spacing between grid points
 	 */
 	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, double spacing) :
-		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR) {
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(Vector3d(spacing)), reflective(false), ipol(TRILINEAR), clipVolume(false) {
 	}
 
 	/** Constructor for non-cubic grid with spacing vector
@@ -108,7 +109,7 @@ public:
 	 @param spacing	Spacing vector between grid points
 	*/
 	GridProperties(Vector3d origin, size_t Nx, size_t Ny, size_t Nz, Vector3d spacing) :
-		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false), ipol(TRILINEAR) {
+		origin(origin), Nx(Nx), Ny(Ny), Nz(Nz), spacing(spacing), reflective(false), ipol(TRILINEAR), clipVolume(false) {
 	}
 	
 	virtual ~GridProperties() {
@@ -123,6 +124,11 @@ public:
 	 * @param i: interpolationType (TRILINEAR, TRICUBIC, NEAREST_NEIGHBOUR) */
 	void setInterpolationType(interpolationType i) {
 		ipol = i;
+	}
+
+	/** If True, the grid is set to zero outside of the volume. */
+	void setClipVolume(bool b) {
+		clipVolume = b;
 	}
 
 	/** show all GridProperty parameters
@@ -213,6 +219,7 @@ public:
 	Grid(const GridProperties &p) :
 		origin(p.origin), spacing(p.spacing), reflective(p.reflective), ipolType(p.ipol) {
 		setGridSize(p.Nx, p.Ny, p.Nz);
+		setClipVolume(p.clipVolume);
 	}
 
 	void setOrigin(Vector3d origin) {
@@ -274,6 +281,10 @@ public:
 	/** returns the position of the lower left front corner of the volume */
 	Vector3d getOrigin() const {
 		return origin;
+	}
+
+	bool getClipVolume() const {
+		return clipVolume;
 	}
 
 	size_t getNx() const {

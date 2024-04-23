@@ -362,7 +362,8 @@ void SourceUniformCylinder::setDescription() {
 
 // ---------------------------------------------------------------------------
 SourceSNRDistribution::SourceSNRDistribution() :
-    rEarth(8.5 * kpc),alpha(2.), beta(3.53), zg(0.3 * kpc) {
+    rEarth(8.5 * kpc), beta(3.53), zg(0.3 * kpc) {
+	setAlpha(2.);
 	setFrMax();
 	setFzMax(0.3 * kpc);
 	setRMax(20 * kpc);
@@ -370,7 +371,8 @@ SourceSNRDistribution::SourceSNRDistribution() :
 }
 
 SourceSNRDistribution::SourceSNRDistribution(double rEarth, double alpha, double beta, double zg) :
-    rEarth(rEarth),alpha(alpha), beta(beta), zg(zg) {
+    rEarth(rEarth), beta(beta), zg(zg) {
+	setAlpha(alpha);
 	setFrMax();
 	setFzMax(zg);
 	setRMax(20 * kpc);
@@ -414,7 +416,7 @@ double SourceSNRDistribution::fz(double z) const{
 }
 
 double SourceSNRDistribution::getAlpha() const {
-	return alpha;
+	return alpha - 1;  // -1 to account for the R-term in the volume element dV = R * dR * dphi * dz
 }
 
 double SourceSNRDistribution::getBeta() const {
@@ -458,7 +460,7 @@ double SourceSNRDistribution::getZMax() const {
 }
 
 void SourceSNRDistribution::setAlpha(double a) {
-	alpha = a;
+	alpha = a + 1.; // add 1 for dV = r * dR * dphi * dz
 	setRMax(rMax);
 	setFrMax();
 }
@@ -504,7 +506,7 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
 	double Rtilde;
 	while (true) {
 		Rtilde = random.rand() * rMax;
-		double fTest = random.rand() * frMax;
+		double fTest = random.rand() * frMax * 1.1;
 		double fR = fr(Rtilde);
 		if (fTest <= fR) {
 			break;
@@ -530,10 +532,8 @@ void SourcePulsarDistribution::prepareParticle(ParticleState& particle) const {
   }
 
 double SourcePulsarDistribution::fr(double r) const {
-	double Atilde = (pow(beta, 4.) * exp(-beta)) / (12 * M_PI * pow(rEarth, 2.));
- 	double f = pow(r / rEarth, 2.) * exp(-beta * (r - rEarth) / rEarth);
-	double fr = Atilde * f;
-	return fr;
+ 	double f = r * pow(r / rEarth, 2.) * exp(-beta * (r - rEarth) / rEarth);
+	return f;
 }
 
 double SourcePulsarDistribution::fz(double z) const{
@@ -569,8 +569,8 @@ double SourcePulsarDistribution::blurTheta(double thetaTilde, double rTilde) con
 }
 
 void SourcePulsarDistribution::setFrMax(double R, double b) {
-	frMax = pow(b, 2.) / (3 * pow(R, 2.) * M_PI) * exp(-2.);
-	return;
+	double r = 3 * R / b;
+	frMax = fr(r);
 }
 
 void SourcePulsarDistribution::setFzMax(double zg) {
@@ -752,38 +752,14 @@ void SourceIsotropicEmission::setDescription() {
 SourceDirectedEmission::SourceDirectedEmission(Vector3d mu, double kappa): mu(mu), kappa(kappa) {
 	if (kappa <= 0)
 		throw std::runtime_error("The concentration parameter kappa should be larger than 0.");
-	double alpha = atan2(mu.y,mu.x);
-	double delta = asin(mu.z);
-	setCa(alpha);
-	setSa(alpha);
-	setCd(delta);
-	setSd(delta);
 	setDescription();
 }
 
 void SourceDirectedEmission::prepareCandidate(Candidate &candidate) const {
 	Random &random = Random::instance();
 
-	//generate sample from von Mises Fisher distribution following
-	// http://people.csail.mit.edu/jstraub/download/straub2017vonMisesFisherInference.pdf
-	//sample normalized direction vector from unit Gaussian distribution
-	Vector3d v(random.randNorm(0., 1.),random.randNorm(0., 1.),0.);
-	v = v.getUnitVector();
-
-	//sample uniform random number
-	double xi = random.rand();
-
-	double u = 1. + 1. / kappa * log(xi + (1. - xi) * exp(-2. * kappa));
-
-	//sample vector from von-Mises distribution
-	Vector3d n = sqrt(1. - u * u) * v;
-	n.z += u;
-
-	//we are in the frame m = (0,0,1)
-	//so rotate to target frame
-	v = Vector3d(ca * sd * n.x - sa * n.y + ca * cd * n.z,
-		sa * sd * n.x + ca * n.y + sa * cd * n.z,
-		- cd * n.x + sd * n.z);
+	Vector3d muvec = mu / mu.getR();
+        Vector3d v = random.randFisherVector(muvec, kappa);
 
 	v = v.getUnitVector();
 	candidate.source.setDirection(v);
@@ -796,42 +772,6 @@ void SourceDirectedEmission::prepareCandidate(Candidate &candidate) const {
 	double weight = 1. / (4. * M_PI * pdfVonMises);
 	candidate.setWeight(weight);
 }
-
-void SourceDirectedEmission::setCa(double alpha) {
-	ca = cos(alpha);
-	return;
-}
-
-void SourceDirectedEmission::setSa(double alpha) {
-	sa = sin(alpha);
-	return;
-}
-
-void SourceDirectedEmission::setCd(double delta) {
-	cd = cos(delta);
-	return;
-}
-
-void SourceDirectedEmission::setSd(double delta) {
-	sd = sin(delta);
-	return;
-}
-
-double SourceDirectedEmission::getCa() const {
-	return ca;
-}    
-
-double SourceDirectedEmission::getSa() const {
-	return sa;
-} 
-
-double SourceDirectedEmission::getCd() const {
-	return cd;
-} 
-
-double SourceDirectedEmission::getSd() const {
-	return sd;
-} 
 
 void SourceDirectedEmission::setDescription() {
 	std::stringstream ss;

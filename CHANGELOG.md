@@ -1,25 +1,56 @@
-# CRPropa vNext
+## CRPropa vNext
+
+### Bug fixes:
+ * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField 
+ * Fixed r term in source distribution for SNR and Pulsar 
+
+### New features:
+
+### Interface changes:
+
+### Features that are deprecated and will be removed after this release
+ * EBL model from Finke et al. 2022
+
+### Removed features 
+*  AMRMagneticField - underlying library (saga) is no longer supported.
+*  ObserverPoint: Use Observer1D instead.
+
+### New plugins and resources linked on the webpages
+
+
+## CRPropa 3.2.1
 
 ### Bug fixes:
 * Re-added ToroidalHaloField and LogarithmicSpiralField models. Note, that the class name was also corrected in spelling: TorroidalHaloField --> ToroidalHaloField
 * Synchronized signature of ParticleSplitting constructor
 
 ### New features:
-* new candidate property tagOrigin to trace back which source or which interaction created the candidate
-* new interace for massdistributions given on a Grid1f
-* grids can be restricted to the volume without repetition
-* sourceFeature to sample the source position from a given massdistribution
+* New candidate property tagOrigin to trace back which source or which interaction created the candidate
+* New interface for massdistributions given on a Grid1f
+* Grids can be restricted to the volume without repetition (clipVolume parameter)
+* SourceFeature to sample the source position from a given massdistribution
+* EBL model from Saldana-Lopez et al. 2021
+* New module CandidateSplitting for better statistics at high energies for e.g. diffusive shock acceleration
+* New advection fields for modeling diffusive shock acceleration at 1D planar, oblique and spherical shocks
 
 ### Interface changes:
 * Weight column in hdf-Output is now called "W", which is the same as for TextOutput.
 
 ### Features that are deprecated and will be removed after this release
 * ObserverPoint will be renamed into Observer1D.
-* AMRMagenticField - underlying library (saga) is no longer supported.
+* AMRMagneticField - underlying library (saga) is no longer supported.
+
+### Removed features 
+* External extensions DINT and Eleca, which can be replaced with the 
+  EM*-modules combined with the thinning option for reasonable computation
+  times.
 
 ### New plugins and resources linked on the webpages:
-
-
+* FieldlineIntegrator
+* grplinst
+* monopole
+* ROOTOutputPlugin
+  
 
 ## CRPropa 3.2
 

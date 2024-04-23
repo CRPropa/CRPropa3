@@ -57,9 +57,8 @@ TEST(testPropagationCK, zeroField) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
-
-TEST(testPropagationCK, exceptions)
-{
+#ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
+TEST(testPropagationCK, exceptions) {
 	// minStep should be smaller than maxStep
 	EXPECT_THROW(PropagationCK propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 0.42, 10 , 0), std::runtime_error);
 	// Too large tolerance: tolerance should be between 0 and 1
@@ -80,7 +79,7 @@ TEST(testPropagationCK, exceptions)
 
 	EXPECT_THROW(propa.setMaximumStep(0.1 * Mpc), std::runtime_error);
 }
-
+#endif
 
 TEST(testPropagationCK, constructor) {
 	// Test construction and parameters
@@ -292,9 +291,8 @@ TEST(testPropagationBP, zeroField) {
 	EXPECT_DOUBLE_EQ(5 * minStep, c.getNextStep());  // acceleration by factor 5
 }
 
-
-TEST(testPropagationBP, exceptions)
-{
+#ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
+TEST(testPropagationBP, exceptions) {
 	// minStep should be smaller than maxStep
 	EXPECT_THROW(PropagationBP propa(new UniformMagneticField(Vector3d(0, 0, 1 * nG)), 0.42, 10 , 0), std::runtime_error);
 	// Too large tolerance: tolerance should be between 0 and 1
@@ -315,6 +313,7 @@ TEST(testPropagationBP, exceptions)
 
 	EXPECT_THROW(propa.setMaximumStep(0.1 * Mpc), std::runtime_error);
 }
+#endif
 
 
 TEST(testPropagationBP, constructor) {

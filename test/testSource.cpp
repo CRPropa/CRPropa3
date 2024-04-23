@@ -110,7 +110,7 @@ TEST(SourceSNRDistribution, simpleTest) {
 	}
 	R2_mean/=100000.;
 	Z_mean/=100000.;
-	EXPECT_NEAR(64.4, R2_mean, 1.);
+	EXPECT_NEAR(100.306, R2_mean, 1);
 	EXPECT_NEAR(0., Z_mean, 0.1);
 }
 

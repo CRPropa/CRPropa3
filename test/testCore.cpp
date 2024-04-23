@@ -5,6 +5,8 @@
 	Common functions
  */
 
+#include <complex>
+
 #include "crpropa/Candidate.h"
 #include "crpropa/base64.h"
 #include "crpropa/Common.h"
@@ -16,6 +18,7 @@
 #include "crpropa/GridTools.h"
 #include "crpropa/Geometry.h"
 #include "crpropa/EmissionMap.h"
+#include "crpropa/Vector3.h"
 
 #include <HepPID/ParticleIDMethods.hh>
 #include "gtest/gtest.h"
@@ -63,9 +66,11 @@ TEST(ParticleState, id) {
 	EXPECT_EQ(particle.getId(), 1000060120);
 }
 
+#ifndef CRPROPA_TESTS_SKIP_EXCEPTIONS
 TEST(ParticleState, idException) {
 	EXPECT_THROW(nucleusId(5, 6), std::runtime_error);
 }
+#endif
 
 TEST(ParticleState, Charge) {
 	ParticleState particle;
@@ -126,33 +131,28 @@ TEST(ParticleState, lorentzFactor) {
 			1e12 * eV / mass_proton / c_squared);
 }
 
-TEST(ParticleID, nucleusId)
-{
-	EXPECT_EQ(nucleusId(3,2),1000020030 );
+TEST(ParticleID, nucleusId) {
+	EXPECT_EQ(nucleusId(3,2), 1000020030);
 }
 
-TEST(ParticleID, chargeNumber)
-{
+TEST(ParticleID, chargeNumber) {
 	EXPECT_EQ(chargeNumber(1000020030), 2);
 }
 
-TEST(ParticleID, massNumber)
-{
+TEST(ParticleID, massNumber) {
 	EXPECT_EQ(massNumber(2112), 1);
 	EXPECT_EQ(massNumber(1000020030), 3);
 }
 
-TEST(ParticleID, isNucleus)
-{
+TEST(ParticleID, isNucleus) {
 	EXPECT_TRUE(isNucleus(1000020030));
 	EXPECT_FALSE(isNucleus(11));
 }
 
-TEST(HepPID, consistencyWithReferenceImplementation){
+TEST(HepPID, consistencyWithReferenceImplementation) {
 	// Tests the performance improved version against the default one
 	unsigned long testPID = rand() % 1000000000 + 1000000000;
-	for(size_t i=1; i < 8; i++)
-	{
+	for(size_t i=1; i < 8; i++) {
 		HepPID::location loc = (HepPID::location) i;
 		unsigned short newResult = HepPID::digit(loc, testPID);
 		//original implementation
@@ -161,8 +161,7 @@ TEST(HepPID, consistencyWithReferenceImplementation){
 	}
 }
 
-TEST(HepPID, charge)
-{
+TEST(HepPID, charge) {
 	EXPECT_DOUBLE_EQ(HepPID::charge(11), -1.);
 }
 
@@ -314,16 +313,14 @@ TEST(common, interpolateEquidistant) {
 	EXPECT_EQ(9, interpolateEquidistant(3.1, 1, 3, yD));
 }
 
-TEST(common, pow_integer)
-{
+TEST(common, pow_integer) {
 	EXPECT_EQ(pow_integer<0>(1.23), 1);
 	EXPECT_FLOAT_EQ(pow_integer<1>(1.234), 1.234);
 	EXPECT_FLOAT_EQ(pow_integer<2>(1.234), pow(1.234, 2));
 	EXPECT_FLOAT_EQ(pow_integer<3>(1.234), pow(1.234, 3));
 }
 
-TEST(common, gaussInt)
-{
+TEST(common, gaussInt) {
 	EXPECT_NEAR(gaussInt(([](double x){ return x*x; }), 0, 10), 1000/3., 1e-4);
 	EXPECT_NEAR(gaussInt(([](double x){ return sin(x)*sin(x); }), 0, M_PI), M_PI/2., 1e-4);
 }
@@ -379,11 +376,9 @@ TEST(Random, bigSeedStorage) {
 
 }
 
-TEST(base64, de_en_coding)
-{
+TEST(base64, de_en_coding) {
 	Random a;
-	for (int N=1; N < 100; N++)
-	{
+	for (int N=1; N < 100; N++) {
 		std::vector<uint32_t> data;
 		data.reserve(N);
 		for (int i =0; i<N; i++)
@@ -393,8 +388,7 @@ TEST(base64, de_en_coding)
 
 		std::string decoded_data = Base64::decode(encoded_data);
 		size_t S = decoded_data.size() * sizeof(decoded_data[0]) / sizeof(uint32_t);
-		for (int i=0; i < S; i++)
-		{
+		for (int i=0; i < S; i++) {
 			EXPECT_EQ(((uint32_t*)decoded_data.c_str())[i], data[i]);
 		}
 	}
@@ -421,8 +415,6 @@ TEST(Random, base64Seed) {
 	}
 }
 
-
-
 TEST(Grid, PeriodicClamp) {
 	// Test correct determination of lower and upper neighbor
 	int lo, hi;
@@ -435,7 +427,6 @@ TEST(Grid, PeriodicClamp) {
 	EXPECT_EQ(0, lo);
 	EXPECT_EQ(1, hi);
 }
-
 
 TEST(Grid, PeriodicBoundary) {
 	// Test correct determination of periodic continuated index
@@ -451,7 +442,6 @@ TEST(Grid, PeriodicBoundary) {
 	index = periodicBoundary(9, 8);
 	EXPECT_EQ(1, index);
 }
-
 
 TEST(Grid, ReflectiveClamp) {
 	// Test correct determination of lower and upper neighbor
@@ -522,6 +512,10 @@ TEST(Grid1f, SimpleTest) {
 	//nearest neighbour interpolated
 	grid.setInterpolationType(NEAREST_NEIGHBOUR);
 	EXPECT_FLOAT_EQ(7., grid.interpolate(some_grid_point));
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	grid.setClipVolume(true);
+	EXPECT_FLOAT_EQ(0, grid.interpolate(Vector3d(100, 0, 12)));
 }
 
 TEST(Grid1f, GridPropertiesConstructor) {
@@ -599,6 +593,35 @@ TEST(Grid1f, ClosestValue) {
 	EXPECT_FLOAT_EQ(2, grid.closestValue(Vector3d(0.2, 0.1, 1.3)));
 	EXPECT_FLOAT_EQ(3, grid.closestValue(Vector3d(0.3, 1.2, 0.2)));
 	EXPECT_FLOAT_EQ(7, grid.closestValue(Vector3d(1.7, 1.8, 0.4)));
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	EXPECT_NE(0, grid.interpolate(Vector3d(0, 0, 12)));
+	grid.setClipVolume(true);
+	double b = grid.interpolate(Vector3d(0, 0, 12));
+	EXPECT_FLOAT_EQ(0, b);
+}
+
+TEST(Grid1f, clipVolume) {
+	// Check volume clipping for gridproperties constructor
+	size_t N = 2;
+	Vector3d origin = Vector3d(0.);
+	double spacing = 2;
+	GridProperties properties(origin, N, spacing);
+	Grid1f grid(properties);
+	grid.get(0, 0, 0) = 1;
+	grid.get(0, 0, 1) = 2;
+	grid.get(0, 1, 0) = 3;
+	grid.get(0, 1, 1) = 4;
+	grid.get(1, 0, 0) = 5;
+	grid.get(1, 0, 1) = 6;
+	grid.get(1, 1, 0) = 7;
+	grid.get(1, 1, 1) = 8;
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	EXPECT_NE(0, grid.interpolate(Vector3d(0, 0, 12)));
+	grid.setClipVolume(true);
+	double b = grid.interpolate(Vector3d(0, 0, 10));
+	EXPECT_FLOAT_EQ(0, b);
 }
 
 TEST(Grid3f, Interpolation) {
@@ -731,6 +754,13 @@ TEST(Grid3f, Periodicity) {
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	grid.setClipVolume(true);
+	Vector3f b3 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(0., b3.x);
+	EXPECT_FLOAT_EQ(0., b3.y);
+	EXPECT_FLOAT_EQ(0., b3.z);
 }
 
 TEST(Grid3f, Reflectivity) {
@@ -807,6 +837,13 @@ TEST(Grid3f, Reflectivity) {
 	EXPECT_FLOAT_EQ(b.x, b2.x);
 	EXPECT_FLOAT_EQ(b.y, b2.y);
 	EXPECT_FLOAT_EQ(b.z, b2.z);
+
+	//Test if grid is set to zero outside of volume for clipVolume=true
+	grid.setClipVolume(true);
+	Vector3f b3 = grid.interpolate(pos + Vector3d(0, 0, -2) * size);
+	EXPECT_FLOAT_EQ(0., b3.x);
+	EXPECT_FLOAT_EQ(0., b3.y);
+	EXPECT_FLOAT_EQ(0., b3.z);
 }
 
 TEST(Grid3f, DumpLoad) {
@@ -1030,9 +1067,7 @@ TEST(EmissionMap, merge) {
 	EXPECT_TRUE(cpm->getPdf()[bin] > 0);
 }
 
-
-TEST(Variant, copyToBuffer)
-{
+TEST(Variant, copyToBuffer) {
 	double a = 23.42;
 	Variant v(a);
 	double b;
@@ -1040,8 +1075,7 @@ TEST(Variant, copyToBuffer)
 	EXPECT_EQ(a, b);
 }
 
-TEST(Variant, stringConversion)
-{
+TEST(Variant, stringConversion) {
 	Variant v, w;
 	{
 		int32_t a = 12;
@@ -1060,25 +1094,65 @@ TEST(Variant, stringConversion)
 		w = Variant::fromString(v.toString(), v.getType());
 		EXPECT_EQ(a, w.asInt64());
 	}
+
+	{
+		Vector3d a(1, 2, 3);
+		Variant v = Variant::fromVector3d(a);
+		Vector3d u = v.asVector3d();
+		EXPECT_EQ(a.getX(), u.getX());
+		EXPECT_EQ(a.getY(), u.getY());
+		EXPECT_EQ(a.getZ(), u.getZ());
+	}
+
+	{
+		std::complex<double> a1(1, 1);
+		std::complex<double> a2(2, 0);
+		Vector3<std::complex<double>> a(a1, a1, a2);
+		Variant v = Variant::fromVector3c(a);
+		Vector3<std::complex<double>> u = v.asVector3c();
+		EXPECT_EQ(a1, u.getX());
+		EXPECT_EQ(a1, u.getY());
+		EXPECT_EQ(a2, u.getZ());
+	}
+
+	{
+		std::complex<double> a(1, 2);
+		Variant v = Variant::fromComplexDouble(a);
+		std::complex<double> u = v.asComplexDouble();
+		EXPECT_EQ(u.real(), 1);
+		EXPECT_EQ(u.imag(), 2);
+	}
+
+	{
+		std::vector<Variant> a;
+		a.push_back(Variant::fromDouble(1));
+		a.push_back(Variant::fromDouble(2));
+		a.push_back(Variant::fromDouble(3));
+		a.push_back(Variant::fromDouble(4));
+		Variant v = Variant::fromVector(a);
+		std::vector<Variant> u = v.asVector();
+		EXPECT_EQ(a[0], Variant::fromDouble(u[0]));
+		EXPECT_EQ(a[1], Variant::fromDouble(u[1]));
+		EXPECT_EQ(a[2], Variant::fromDouble(u[2]));
+		EXPECT_EQ(a[3], Variant::fromDouble(u[3]));
+	}
+
+
 }
 
-
-TEST(Geometry, Plane)
-{
+TEST(Geometry, Plane) {
 	Plane p(Vector3d(0,0,1), Vector3d(0,0,1));
 	EXPECT_DOUBLE_EQ(-1., p.distance(Vector3d(0, 0, 0)));
 	EXPECT_DOUBLE_EQ(9., p.distance(Vector3d(1, 1, 10)));
 }
 
-TEST(Geometry, Sphere)
-{
+TEST(Geometry, Sphere) {
 	Sphere s(Vector3d(0,0,0), 1.);
 	EXPECT_DOUBLE_EQ(-1., s.distance(Vector3d(0, 0, 0)));
 	EXPECT_DOUBLE_EQ(9., s.distance(Vector3d(10, 0, 0)));
 }
 
-TEST(Geometry, ParaxialBox)
-{
+TEST(Geometry, ParaxialBox) {
 	ParaxialBox b(Vector3d(0,0,0), Vector3d(3,4,5));
 	EXPECT_NEAR(-.1, b.distance(Vector3d(0.1, 0.1, 0.1)), 1E-10);
 	EXPECT_NEAR(-.1, b.distance(Vector3d(0.1, 3.8, 0.1)), 1E-10);

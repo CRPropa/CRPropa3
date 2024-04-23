@@ -324,7 +324,7 @@ ref_ptr<Grid3f> loadGrid3fFromTxt(std::string filename, double c) {
 			return grid;
 		}
 	}
-	std::runtime_error("could not find GridProperties in file " + filename);
+	throw std::runtime_error("could not find GridProperties in file " + filename);
 }
 
 
@@ -418,7 +418,7 @@ ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double c) {
 			return grid;
 		}
 	}
-	std::runtime_error("could not find GridProperties in file " + filename);
+	throw std::runtime_error("could not find GridProperties in file " + filename);
 }
 
 void dumpGridToTxt(ref_ptr<Grid3f> grid, std::string filename, double c, bool saveProp) {

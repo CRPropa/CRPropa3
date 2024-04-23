@@ -15,6 +15,7 @@ namespace crpropa {
  @returns The mass of a the particle
  */
  double particleMass(int id);
+ 
 /** Get the nucleus mass by lookup from a table.
  The masses are the atomic masses from the NIST database: 
    http://www.nist.gov/pml/data/comp.cfm
@@ -25,6 +26,7 @@ namespace crpropa {
  @returns The mass of a the nucleus
  */
 double nuclearMass(int id);
+
 /** Get the nucleus mass by lookup from a table.
  The masses are the atomic masses from the NIST database: 
    http://www.nist.gov/pml/data/comp.cfm

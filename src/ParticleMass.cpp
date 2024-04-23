@@ -54,14 +54,11 @@ struct NuclearMassTable {
 static NuclearMassTable nuclearMassTable;
 
 double particleMass(int id) {
-	double m;
 	if (isNucleus(id))
 		return nuclearMass(id);
 	if (abs(id) == 11)
-		m = mass_electron;
-	else
-		m = 0.0;
-	return m;
+		return mass_electron;
+	return 0.0;
 }
 
 double nuclearMass(int id) {

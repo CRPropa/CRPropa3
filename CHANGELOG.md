@@ -3,8 +3,10 @@
 ### Bug fixes:
  * Fixed sign for exponential decay of magn. field strength with Galactic height in LogarithmicSpiralField 
  * Fixed r term in source distribution for SNR and Pulsar 
+ * Fixed wrong mass inheritance for secondaries other than nuclei or electron/positron
 
 ### New features:
+ * Added new backwards-compatible function particleMass that returns particle mass also for non-nuclei 
 
 ### Interface changes:
 

@@ -149,6 +149,16 @@ TEST(ParticleID, isNucleus) {
 	EXPECT_FALSE(isNucleus(11));
 }
 
+TEST(ParticleMass, particleMass) {
+	//particleMass(int id) interfaces nuclearMass for nuclei
+	EXPECT_DOUBLE_EQ(nuclearMass(nucleusId(1,1)), particleMass(nucleusId(1,1)));
+	//particleMass(int id) for electron/positron, photon and neutrino
+	EXPECT_DOUBLE_EQ(mass_electron,particleMass(11));
+	EXPECT_DOUBLE_EQ(mass_electron,particleMass(-11));
+	EXPECT_DOUBLE_EQ(0.0,particleMass(22));
+	EXPECT_DOUBLE_EQ(0.0,particleMass(14));
+}
+
 TEST(HepPID, consistencyWithReferenceImplementation) {
 	// Tests the performance improved version against the default one
 	unsigned long testPID = rand() % 1000000000 + 1000000000;
@@ -219,8 +229,14 @@ TEST(Candidate, addSecondary) {
 
 	c.addSecondary(nucleusId(1,1), 200);
 	c.addSecondary(nucleusId(1,1), 200, 5.);
-	Candidate s1 = *c.secondaries[0];
-	Candidate s2 = *c.secondaries[1];
+	c.addSecondary(11, 200);
+	c.addSecondary(14, 200);
+	c.addSecondary(22, 200);
+	Candidate s1 = *c.secondaries[0]; //proton
+	Candidate s2 = *c.secondaries[1]; //proton
+	Candidate s3 = *c.secondaries[2]; //electron
+	Candidate s4 = *c.secondaries[3]; //neutrino
+	Candidate s5 = *c.secondaries[4]; //photon
 
 	EXPECT_EQ(nucleusId(1,1), s1.current.getId());
 	EXPECT_EQ(200, s1.current.getEnergy());
@@ -231,6 +247,9 @@ TEST(Candidate, addSecondary) {
 	EXPECT_TRUE(Vector3d(1,2,3) == s1.created.getPosition());
 	EXPECT_TRUE(Vector3d(0,0,1) == s1.created.getDirection());
 	EXPECT_TRUE(s1.getTagOrigin() == "SEC");
+	EXPECT_EQ(mass_electron,s3.current.getMass());
+	EXPECT_EQ(0.0,s4.current.getMass());
+	EXPECT_EQ(0.0,s5.current.getMass());
 
 	EXPECT_EQ(15., s2.getWeight());
 }

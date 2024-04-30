@@ -6,7 +6,16 @@ namespace crpropa {
  * \addtogroup PhysicsDefinitions
  * @{
  */
-
+ 
+ /** Get the particle mass by lookup from a table.
+ For nuclei, the function nuclearMass is called, for the case of
+ electrons or positrons the mass_electron is returned and for all
+ other cases like photons and also neutrinos, zero mass is returned.
+ @param id		id of the particle following the PDG numbering scheme
+ @returns The mass of a the particle
+ */
+ double particleMass(int id);
+ 
 /** Get the nucleus mass by lookup from a table.
  The masses are the atomic masses from the NIST database: 
    http://www.nist.gov/pml/data/comp.cfm
@@ -17,6 +26,7 @@ namespace crpropa {
  @returns The mass of a the nucleus
  */
 double nuclearMass(int id);
+
 /** Get the nucleus mass by lookup from a table.
  The masses are the atomic masses from the NIST database: 
    http://www.nist.gov/pml/data/comp.cfm

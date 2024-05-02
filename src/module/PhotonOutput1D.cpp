@@ -63,7 +63,7 @@ void PhotonOutput1D::process(Candidate *candidate) const {
 	p += std::sprintf(buffer + p, "%8.4f\t", candidate->source.getEnergy() / EeV);
 	p += std::sprintf(buffer + p, "%8.4f\n", candidate->source.getPosition().getR() / Mpc);
 
-#pragma omp critical
+#pragma omp critical(FileOutput)
 	{
 		out->write(buffer, p);
 	}

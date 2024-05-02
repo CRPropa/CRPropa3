@@ -6,7 +6,7 @@
 namespace crpropa {
 
 void ShellOutput::process(Candidate* c) const {
-#pragma omp critical
+#pragma omp critical(ShellOutput)
 	{
 		std::cout << std::fixed << std::showpoint << std::setprecision(3)
 				<< std::setw(6);
@@ -25,7 +25,7 @@ std::string ShellOutput::getDescription() const {
 }
 
 void ShellOutput1D::process(Candidate* c) const {
-#pragma omp critical
+#pragma omp critical(ShellOutput)
 	{
 		std::cout << std::fixed << std::showpoint << std::setprecision(3)
 				<< std::setw(6);
@@ -43,7 +43,7 @@ std::string ShellOutput1D::getDescription() const {
 
 void ShellPropertyOutput::process(Candidate* c) const {
 	Candidate::PropertyMap::const_iterator i = c->properties.begin();
-#pragma omp critical
+#pragma omp critical(ShellOutput)
 	{
 		for ( ; i != c->properties.end(); i++) {
 			std::cout << "  " << i->first << ", " << i->second << std::endl;

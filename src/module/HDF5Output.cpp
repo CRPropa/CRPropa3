@@ -251,7 +251,7 @@ void HDF5Output::close() {
 }
 
 void HDF5Output::process(Candidate* candidate) const {
-	#pragma omp critical(HDF5Output_access_file)
+	#pragma omp critical(HDFOutput)
 	{
 	if (file == -1)
 		// This is ugly, but necesary as otherwise the user has to manually open the
@@ -320,7 +320,7 @@ void HDF5Output::process(Candidate* candidate) const {
 			pos += v.copyToBuffer(&r.propertyBuffer[pos]);
 	}
 
-	#pragma omp critical(HDF5Output_access_file)
+	#pragma omp critical(HDFOutput)
 	{
 		const_cast<HDF5Output*>(this)->candidatesSinceFlush++;
 		Output::process(candidate);

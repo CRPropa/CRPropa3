@@ -173,13 +173,17 @@ class PPSecondariesEnergyDistribution {
 };
 
 void EMPairProduction::performInteraction(Candidate *candidate) const {
-	// scale particle energy instead of background photon energy
-	double z = candidate->getRedshift();
-	double E = candidate->current.getEnergy() * (1 + z);
+	
+	// photon is lost after interacting
+	candidate->setActive(false);
 
 	// check if secondary electron pair needs to be produced
 	if (not haveElectrons)
 		return;
+		
+	// scale particle energy instead of background photon energy
+	double z = candidate->getRedshift();
+	double E = candidate->current.getEnergy() * (1 + z);
 
 	// check if in tabulated energy range
 	if (E < tabE.front() or (E > tabE.back()))
@@ -202,9 +206,6 @@ void EMPairProduction::performInteraction(Candidate *candidate) const {
 	// for some backgrounds Ee=nan due to precision limitations.
 	if (not std::isfinite(Ee) || not std::isfinite(Ep))
 		return;
-
-	// photon is lost after interacting
-	candidate->setActive(false);
 
 	// sample random position along current step
 	Vector3d pos = random.randomInterpolatedPosition(candidate->previous.getPosition(), candidate->current.getPosition());

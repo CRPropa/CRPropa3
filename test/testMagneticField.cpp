@@ -4,6 +4,7 @@
 #include "crpropa/magneticField/CMZField.h"
 #include "crpropa/magneticField/PolarizedSingleModeMagneticField.h"
 #include "crpropa/magneticField/GalacticMagneticField.h"
+#include "crpropa/magneticField/UF23Field.h"
 #include "crpropa/Grid.h"
 #include "crpropa/Units.h"
 #include "crpropa/Common.h"
@@ -105,7 +106,7 @@ TEST(testPeriodicMagneticField, Exceptions) {
 
 TEST(testCMZMagneticField, SimpleTest) {
 	ref_ptr<CMZField> field = new CMZField();
-	
+
 	// check use-Values
 	EXPECT_FALSE(field->getUseMCField());
 	EXPECT_TRUE(field->getUseICField());
@@ -125,7 +126,7 @@ TEST(testCMZMagneticField, SimpleTest) {
 
 TEST(testCMZMagneticField, TestICComponent) {
 	ref_ptr<CMZField> field = new CMZField();
-	Vector3d pos(10*pc,15*pc,-5*pc);	
+	Vector3d pos(10*pc,15*pc,-5*pc);
 
 	// check IC field at given position
 	Vector3d bVec = field->getField(pos);
@@ -136,8 +137,8 @@ TEST(testCMZMagneticField, TestICComponent) {
 }
 TEST(testCMZMagneticField, TestNTFField){
 	ref_ptr<CMZField> field = new CMZField();
-	Vector3d pos(10*pc,15*pc,-5*pc);	
-	
+	Vector3d pos(10*pc,15*pc,-5*pc);
+
 	// check NFTField at given position
 	Vector3d bVec = field->getNTFField(pos);
 	EXPECT_NEAR(bVec.getR(),1.692*muG, 1e-3*muG);
@@ -147,7 +148,7 @@ TEST(testCMZMagneticField, TestNTFField){
 }
 TEST(testCMZMagneticField, TestRaidoArcField){
 	ref_ptr<CMZField> field = new CMZField();
-	Vector3d pos(10*pc,15*pc,-5*pc);	
+	Vector3d pos(10*pc,15*pc,-5*pc);
 
 	// check RadioArcField at given position
 	Vector3d bVec = field->getRadioArcField(pos);
@@ -160,7 +161,7 @@ TEST(testCMZMagneticField, TestRaidoArcField){
 TEST(testCMZMagneticField, TestAzimutalComponent){
 	ref_ptr<CMZField> field = new CMZField();
 	Vector3d mid(12*pc, 9*pc, 20*pc);
-	Vector3d pos(9*pc, 10*pc, 25*pc);	
+	Vector3d pos(9*pc, 10*pc, 25*pc);
 
 	// simple Test for inner part
 	Vector3d bVec = field->BAz(pos, mid, 100, 0.2, 60*pc);
@@ -196,6 +197,14 @@ TEST(testToroidalHaloField, SimpleTest) {
 
 TEST(testLogarithmicSpiralField, SimpleTest) {
 	ref_ptr<LogarithmicSpiralField> field = new LogarithmicSpiralField();
+	Vector3d b = field->getField(Vector3d(8.5, 0, 0)*kpc);
+	EXPECT_NEAR(b.x, -1., 1E-2);
+	EXPECT_NEAR(b.y, 0, 1E-10);
+	EXPECT_NEAR(b.z, 0, 1E-10);
+}
+
+TEST(testUF23Field, SimpleTest) {
+        ref_ptr<UF23Field> field = new UF23Field(UF23Field::base);
 	Vector3d b = field->getField(Vector3d(8.5, 0, 0)*kpc);
 	EXPECT_NEAR(b.x, -1., 1E-2);
 	EXPECT_NEAR(b.y, 0, 1E-10);

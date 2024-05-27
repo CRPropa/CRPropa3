@@ -267,7 +267,7 @@ Vector3d
 UF23Field::getField(const Vector3d &position)
   const
 {
-  Vector3d posInKpc = position / uf23::kpc;
+  Vector3d posInKpc = position / kpc;
   return (this->operator()(posInKpc)) / uf23::microgauss * microgauss;
 }
 

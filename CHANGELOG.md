@@ -8,11 +8,11 @@
 ### New features:
  * Added new backwards-compatible function particleMass that returns particle mass also for non-nuclei
  * Added the new Galactic magnetic field models from Unger&Farrar arXiv:2311.12120
+ * Added EBL model from Finke et al. 2022
 
 ### Interface changes:
 
 ### Features that are deprecated and will be removed after this release
- * EBL model from Finke et al. 2022
 
 ### Removed features
 *  AMRMagneticField - underlying library (saga) is no longer supported.

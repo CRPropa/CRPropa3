@@ -21,7 +21,7 @@ ParticleCollector::ParticleCollector(const std::size_t nBuffer, const bool clone
 }
 
 void ParticleCollector::process(Candidate *c) const {
-#pragma omp critical
+#pragma omp critical(ModifyContainer)
         {
 		if(clone)
 		       	container.push_back(c->clone(recursive));

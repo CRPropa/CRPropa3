@@ -47,7 +47,7 @@ public:
 #elif defined(__GNUC__)
 		newRef = __sync_add_and_fetch(&_referenceCount, 1);
 #else
-		#pragma omp critical
+		#pragma omp critical(newRef)
 		{newRef = _referenceCount++;}
 #endif
 		return newRef;
@@ -67,7 +67,7 @@ public:
 #elif defined(__GNUC__)
 		newRef = __sync_sub_and_fetch(&_referenceCount, 1);
 #else
-		#pragma omp critical
+		#pragma omp critical(newRef)
 		{newRef = _referenceCount--;}
 #endif
 

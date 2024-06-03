@@ -17,5 +17,5 @@ make coverage
 ```
 The final report is in ```~/build/coverageReport/index.html```
 
-### coverage report of the current master branch
+### Coverage report of the current master branch
 The coverage report of the current master branch can be accesed `by clicking here <coverageReport/index.html>`_ now.

@@ -40,7 +40,7 @@ void PerformanceModule::process(Candidate *candidate) const {
 		times[i] = end - start;
 	}
 
-#pragma omp critical
+#pragma omp critical(PerformanceModule)
 	{
 		for (size_t i = 0; i < modules.size(); i++) {
 			_module_info &m = modules[i];
@@ -109,7 +109,7 @@ void EmissionMapFiller::setEmissionMap(EmissionMap *emissionMap) {
 
 void EmissionMapFiller::process(Candidate* candidate) const {
 	if (emissionMap) {
-		#pragma omp critical
+		#pragma omp critical(EmissionMap)
 		{
 			emissionMap->fillMap(candidate->source);
 		}

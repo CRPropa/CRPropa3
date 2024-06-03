@@ -40,6 +40,10 @@ namespace uf23 {
     return acos(cos(phi1)*cos(phi0) + sin(phi1)*sin(phi0));
   }
 
+  // Interal units used in this code.
+  // Convert to crpropa with e.g. uf23::kpc / crpropa::kpc.
+  // The conversion is, however, only needed in the single non-private
+  // getField() method, all other functions use uf23 units.
   const double kPi = 3.1415926535897932384626;
   const double kTwoPi = 2*kPi;
   const double degree = kPi/180.;

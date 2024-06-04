@@ -1,8 +1,12 @@
-name: create-documentation
-on: [workflow_dispatch]
+name: deploy-documentation
+on: 
+  push:
+    branches:
+      - main
+      - 'releases/**'
 
 jobs: 
-  create-documentation: 
+  build-and-deploy: 
     runs-on: ubuntu-latest
 
     strategy:
@@ -54,11 +58,12 @@ jobs:
         run: |
           cd build
           make doc
-          cp -r coverageReport doc/pages/coverageReport
-          tar -zcvf documentation.tar.gz doc  
-      - name: archive documentation
-        uses: actions/upload-artifact@v4
+      - name: move final documentation # to avoid conflict with .gitignore
+        run: | 
+          mv build/doc ~/final_doc 
+          cp -r build/coverageReport ~/final_doc/pages/coverageReport
+      - name: deploy documentation #deploys the documentation to the gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          name: "documentation"
-          path: | 
-            build/documentation.tar.gz
+            folder: ~/final_doc
+            

@@ -78,7 +78,6 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 
 	double f = Ee / E;
 
-	if (haveElectrons) {
 		if (random.rand() < pow(1 - f, thinning)) {
 			double w = 1. / pow(1 - f, thinning);
 			candidate->addSecondary( 11, Ee / (1 + z), pos, w, interactionTag);
@@ -87,7 +86,6 @@ void EMDoublePairProduction::performInteraction(Candidate *candidate) const {
 			double w = 1. / pow(f, thinning);
 			candidate->addSecondary(-11, Ee / (1 + z), pos, w, interactionTag);
 		}
-	}
 }
 
 void EMDoublePairProduction::process(Candidate *candidate) const {

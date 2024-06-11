@@ -282,7 +282,7 @@ ref_ptr<Grid3f> loadGrid3fFromTxt(std::string filename, double c) {
 			std::string name, type;
 			ss >> name >> name >> name >> type;
 			if (type != "Grid3f") 
-				throw std::runtime_error("try to load Grid3f, but Gridproperties assume grid type " + type);
+				throw std::runtime_error("Tried to load Grid3f, but Gridproperties assume grid type " + type);
 
 			// grid origin
 			double x, y, z;
@@ -376,7 +376,7 @@ ref_ptr<Grid1f> loadGrid1fFromTxt(std::string filename, double c) {
 			std::string name, type;
 			ss >> name >> name >> name >> type;
 			if (type != "Grid1f") 
-				throw std::runtime_error("try to load Grid1f, but Gridproperties assume grid type " + type);
+				throw std::runtime_error("Tried to load Grid1f, but Gridproperties assume grid type " + type);
 
 			// grid origin
 			double x, y, z;

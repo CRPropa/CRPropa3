@@ -917,6 +917,117 @@ TEST(Grid3f, DumpLoadTxt) {
 	}
 }
 
+TEST(Grid1f, DumpLoadTxtGridProperties) {
+	// grid to dump 
+	ref_ptr<Grid1f> grid = new Grid1f(Vector3d(0.5, 1.5, 2.5), 3, 2, 4, Vector3d(0.2, 1.2, 2.2)); 
+	grid -> setInterpolationType(TRICUBIC);
+	grid -> setReflective(true);
+	grid -> setClipVolume(true);
+
+	// set some values for the grid 
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) 
+				grid -> get(ix, iy, iz) = ix + iy + iz;
+		}
+	}
+
+	// store with properties
+	dumpGridToTxt(grid, "testDump.txt", 1., true); 
+
+	// reload grid 
+	ref_ptr<Grid1f> loadedGrid = loadGrid1fFromTxt("testDump.txt"); 
+
+	// check grid properties 
+	EXPECT_EQ(grid -> getNx(), loadedGrid -> getNx());
+	EXPECT_EQ(grid -> getNy(), loadedGrid -> getNy());
+	EXPECT_EQ(grid -> getNz(), loadedGrid -> getNz());
+
+	EXPECT_TRUE(loadedGrid -> getClipVolume());
+
+	Vector3d orig = grid -> getOrigin();
+	Vector3d loadedOrigin = loadedGrid -> getOrigin();
+	EXPECT_EQ(orig.x, loadedOrigin.x);
+	EXPECT_EQ(orig.y, loadedOrigin.y);
+	EXPECT_EQ(orig.z, loadedOrigin.z);
+
+	Vector3d spacing = grid -> getSpacing();
+	Vector3d loadedSpacing = loadedGrid -> getSpacing();
+	EXPECT_EQ(spacing.x, loadedSpacing.x);
+	EXPECT_EQ(spacing.y, loadedSpacing.y);
+	EXPECT_EQ(spacing.z, loadedSpacing.z);
+	
+	EXPECT_EQ(grid -> getInterpolationType(), loadedGrid -> getInterpolationType());
+	
+	EXPECT_EQ(grid -> isReflective(), loadedGrid -> isReflective());
+
+	// compare loaded values
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) 
+				EXPECT_EQ(grid -> get(ix, iy, iz), loadedGrid -> get(ix, iy, iz));
+		}
+	}
+}
+
+TEST(Grid3f, DumpLoadTxtGridProperties) {
+	// grid to dump 
+	ref_ptr<Grid3f> grid = new Grid3f(Vector3d(0.5, 1.5, 2.5), 3, 2, 4, Vector3d(0.2, 1.2, 2.2)); 
+	grid -> setInterpolationType(NEAREST_NEIGHBOUR);
+	grid -> setReflective(true);
+	grid -> setClipVolume(true);
+
+	// set some values for the grid 
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) 
+				grid -> get(ix, iy, iz) = Vector3f(-iy, ix, 2 * iz);
+		}
+	}
+
+	// store with properties
+	dumpGridToTxt(grid, "testDump.txt", 1., true); 
+
+	// reload grid 
+	ref_ptr<Grid3f> loadedGrid = loadGrid3fFromTxt("testDump.txt"); 
+
+	// check grid properties 
+	EXPECT_EQ(grid -> getNx(), loadedGrid -> getNx());
+	EXPECT_EQ(grid -> getNy(), loadedGrid -> getNy());
+	EXPECT_EQ(grid -> getNz(), loadedGrid -> getNz());
+	
+	EXPECT_TRUE(loadedGrid -> getClipVolume());
+
+	Vector3d orig = grid -> getOrigin();
+	Vector3d loadedOrigin = loadedGrid -> getOrigin();
+	EXPECT_EQ(orig.x, loadedOrigin.x);
+	EXPECT_EQ(orig.y, loadedOrigin.y);
+	EXPECT_EQ(orig.z, loadedOrigin.z);
+
+	Vector3d spacing = grid -> getSpacing();
+	Vector3d loadedSpacing = loadedGrid -> getSpacing();
+	EXPECT_EQ(spacing.x, loadedSpacing.x);
+	EXPECT_EQ(spacing.y, loadedSpacing.y);
+	EXPECT_EQ(spacing.z, loadedSpacing.z);
+	
+	EXPECT_EQ(grid -> getInterpolationType(), loadedGrid -> getInterpolationType());
+	
+	EXPECT_EQ(grid -> isReflective(), loadedGrid -> isReflective());
+
+	// compare loaded values
+	for (int ix = 0; ix < grid -> getNx(); ix++) {
+		for (int iy = 0; iy < grid -> getNy(); iy++) {
+			for (int iz = 0; iz < grid -> getNz(); iz++) {
+				Vector3f gridValue = grid -> get(ix, iy, iz);
+				Vector3f loadedValue = loadedGrid -> get(ix, iy, iz);
+				EXPECT_EQ(gridValue.x, loadedValue.x);
+				EXPECT_EQ(gridValue.y, loadedValue.y);
+				EXPECT_EQ(gridValue.z, loadedValue.z);
+			}
+		}
+	}
+}
+
 TEST(Grid3f, Speed) {
 	// Dump and load a field grid
 	Grid3f grid(Vector3d(0.), 3, 3);
@@ -935,8 +1046,6 @@ TEST(CylindricalProjectionMap, functions) {
 	v.setRThetaPhi(1.0, 1.2, 2.4);
 	EXPECT_NEAR(v.getPhi(), 2.4, .00001);
 	EXPECT_NEAR(v.getTheta(), 1.2, .000001);
-
-
 
 	CylindricalProjectionMap cpm(24, 12);
 	size_t bin = 50;
@@ -966,7 +1075,6 @@ TEST(EmissionMap, functions) {
 
 	r = em.drawDirection(2, 50 * EeV, d2);
 	EXPECT_FALSE(r);
-
 }
 
 TEST(EmissionMap, merge) {

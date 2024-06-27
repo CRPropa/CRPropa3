@@ -9,6 +9,8 @@
 
 #include <vector>
 #include <type_traits>
+#include <string>
+#include <sstream>  
 #if HAVE_SIMD
 #include <immintrin.h>
 #include <smmintrin.h>
@@ -128,6 +130,20 @@ public:
 	void setClipVolume(bool b) {
 		clipVolume = b;
 	}
+
+	/** show all GridProperty parameters
+	 * @param unit unit for the lengthscale (origin, spacing). Default is 1 = SI units
+	 */
+	std::string getDescription(double unit = 1) const {
+		std::stringstream ss;
+		ss 	<< "GridProperties:\torigin: " << origin / unit
+			<< "\t" << "Nx: " << Nx << " Ny: " << Ny << " Nz: " << Nz 
+			<< "\t" << "spacing: " << spacing / unit
+			<< "\t" << "refletive: " << reflective
+			<< "\t" << "interpolation: " << ipol
+			<< "\n";
+		return ss.str();
+	}
 };
 
 /**
@@ -245,6 +261,21 @@ public:
 		} else {
 			throw std::runtime_error("InterpolationType: unknown interpolation type");
 		}
+	}
+
+	interpolationType getInterpolationType() {
+		return ipolType;
+	}
+
+	std::string getInterpolationTypeName() {
+		if (ipolType == TRILINEAR)
+			return "TRILINEAR";
+		if (ipolType == TRICUBIC)
+			return "TRICUBIC";
+		if (ipolType == NEAREST_NEIGHBOUR)
+			return "NEAREST_NEIGHBOUR";
+
+		return "NOT_UNDERSTOOD";	
 	}
 
 	/** returns the position of the lower left front corner of the volume */

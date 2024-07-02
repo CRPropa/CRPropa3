@@ -177,8 +177,14 @@ TEST(HepPID, charge) {
 
 TEST(Candidate, currentStep) {
 	Candidate candidate;
+	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 0);
+	EXPECT_DOUBLE_EQ(candidate.getTime(), 0);
+
 	candidate.setCurrentStep(1 * Mpc);
+
 	EXPECT_DOUBLE_EQ(candidate.getCurrentStep(), 1 * Mpc);
+	EXPECT_DOUBLE_EQ(candidate.getTrajectoryLength(), 1 * Mpc);
+	EXPECT_DOUBLE_EQ(candidate.getTime(), 1 * Mpc / c_light);
 }
 
 TEST(Candidate, limitNextStep) {
